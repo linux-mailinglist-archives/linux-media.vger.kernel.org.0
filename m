@@ -1,46 +1,78 @@
-Return-Path: <linux-media+bounces-50945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50946-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42484D38E45
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 12:38:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1B7D38E62
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 13:03:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DB61D301E907
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 11:38:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 19CC3301FC35
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 12:03:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7587C33710C;
-	Sat, 17 Jan 2026 11:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 305A8306B0A;
+	Sat, 17 Jan 2026 12:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsDmpo8d"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o/ZpaUs1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA6E271457;
-	Sat, 17 Jan 2026 11:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31D8281341
+	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 12:03:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768649906; cv=none; b=PLZSd2oJFBDrx0GHh/oqkuoTLwTYZHVUt55D1l82LgAjPnlmB0qyfBbZuz42pxeDy9/B4ulebh/qv0w4HnLFAPA6XUKT7TWCHniM6d6xrhtR/hHQqmmcc0/MfS3RAa8OrnA2/zsUndBy70tnBZPmx4D0LT4qTNN6Tnauv36H4lQ=
+	t=1768651389; cv=none; b=t5bwiNpj/Yh97ku0KPnwcu4HjmF6cZUSruswSuTjOK2+Xb2u8h4/L8YTETaNCUevM9QgH6zMEjwAjWcaqrgZRmgkgww3ltwmZIorOyOiNQtQdanhoRBW9kSr1Yj4RTMxtFfZd7eosj073iWxCrA+bckLfBZhscmIDg6qzz5OlQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768649906; c=relaxed/simple;
-	bh=CvsnoBom1x4rpA9MyWZRSdKvQFCipBxErv2giRLjzYw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Y/7knyeWHqh6Se422CD/2LCpHxYbZsJ58E2WyQFzqcJbg0mbnYLGviQjIdTri07hQHxKLZ5AlGdL5ithzYX76acgWnr9ouBYzD/wjyQ3TCtC4w3l+OobqaQgWgPkrGw1NRDkibz94sO5YQFFZ2eRVvb7TWjM/6KTbtBHbkW9ugk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsDmpo8d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 575C3C4CEF7;
-	Sat, 17 Jan 2026 11:38:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768649906;
-	bh=CvsnoBom1x4rpA9MyWZRSdKvQFCipBxErv2giRLjzYw=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=PsDmpo8dUmnj8lxig+97mKNUZh1tvUhUtWPT6De0CNBmxRKrIWBAVyDaP44H0aqV4
-	 PhzXBrfeFJSK/DcSSG/S4y1o5stRCfUHYesNPUuQbcklcBJdDIgDD9fppC3mlemxVt
-	 3wZP/id/2HPo3fnT2WFEm4NIh8b5vM/1pmAk+ADKmcnoNgjlWtJt/x6+uNQ6d3+EfK
-	 dixEbHkK7CiDW0Waz6g3AOriYrYabEgerBVylJlwMMFVA3XKwpPeBeDI03sokr+btZ
-	 LATiU54SuIO0qH3O3XH+gFKbhzjikac4Z3HfIJ8G6D2qFazf4DYIWuV3KvEs6pQAbr
-	 pzOdtuNENyo0w==
-Message-ID: <8881acaf-3233-44a3-aa55-bb1236a7cc91@kernel.org>
-Date: Sat, 17 Jan 2026 12:38:21 +0100
+	s=arc-20240116; t=1768651389; c=relaxed/simple;
+	bh=K00qxXVYAgjogp+eQMeRQVso+5GUgNP/gI8Eqd3+zsI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OIF1e2OUvMQslFTsglIN+YjlhfQFWZGO+vYEYedFbQNetIWyTeVr1otw3pDEwQmnNRWdMib8RvbxQaWPMah7CZv/iApFrP6qYn2/PlcVcYagiVpFYFxg9ALdK1x7hk+1XuRegk2NC6t5bvFpKvcYhs6IGNgTE/eQF9m/W0817NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o/ZpaUs1; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-382f6ca9fbcso1846991fa.3
+        for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 04:03:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768651386; x=1769256186; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JT/sW0/Fa74RHt1FJUosgK1BrqCKXUUAbI7KDecqiQ0=;
+        b=o/ZpaUs1k3f0tNfvj0iX/Q6yxSDZE/xWERNWo6S+AX0dTxbWHW+UNs53cmICBur7X1
+         THMJc923oQ+UjlQZDpWYb3n3YuWV7pguhzoEbAUORSRSFVUpAfqxKoYYBvqQs+wqzEHe
+         7ilIe2mixLKH2LUizQi4mSvGuW8xTHKYFw3WmOhk6Cv/O7oPv0boVKBI3+0ltgP2bCbu
+         ONx4b/7bBHKjn/lli4Ul1+qvPAuPQvo5xLQ6Mu5PmMYN+qlM6Nz8C8ROx42HpEPrr2vZ
+         W1Oj02En474rlYIQe2u5mdp/Pm+Yk09xuJrzGMmiZ74TYuDBrgTarE+RBEt4naietecC
+         Zmww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768651386; x=1769256186;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JT/sW0/Fa74RHt1FJUosgK1BrqCKXUUAbI7KDecqiQ0=;
+        b=ctB6PSAykJ/Bt2fvFxVQj2p3t31bM4N6Pkg0QMZ/Np5epSIv+L653HuxeoDHAINSHy
+         yX7rjx6xuwXVueqvg4KOwZuQ6RhDPFnMX08X0VVT9V9ZSadidZZIrju732UK+hT1rSJT
+         UPb08o5eyRVJH3lX188EN5H3+Q2+bkA8vDyJlLazeAhTnh24v1N296xKPyQ338ChJOyd
+         qpvlB3NPOOU6ArvmRmTz7oHrYPWUEbwfqK4ssqFRzcHckYyokuNKMi591nm1FNaytil9
+         KOxJJC3H9ZV2Pm9NG22QPLDndvleJMV7oDkETEJ8sHCH5BH4t1oWiSzahVOfjKAoQMVB
+         K04A==
+X-Forwarded-Encrypted: i=1; AJvYcCVV2V+gDVpLEMWEF3DrTGhNSQWW251ZAndnBnnbnU3ioQiWn9i2E4MXpCHMAA0MNez2JkudyMLCbfvciw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YytwQQdNIigOA6rJm6ZKiCx+mxkLHcCHDZbJgIJChkKlEBS81LX
+	Zaulnq+DVM8HrIi3fQCzWBp3dqLBqLG2e6oATmkRH4bO13V/fDCIaMMrnzAlaBCsQzE=
+X-Gm-Gg: AY/fxX4baBvOfaTx6pwnJCcfzSnOfJr+l+EiJhl3naaTVb0fzuvDrhW6iIeufItTs7G
+	ddencE6FRnX9qqR9FXqYKlPKHfeYDMfXY8SWouJwGXxfRtz5n6zzWC21rEMlbHEkt4hWunisBYO
+	tZ5E/Y5rvvOZyU5syj2x1GFMCwdvzHqYfrwyf1/GR0K/1dTQr5A1sZf81sgbWvrvQtlVDSoxll4
+	lVpj/34HWxf9Kvr7NLL3aFKd9W12IXgz2OZOuke+tlJBfHJv/cdv/ToR12cbVpQhP8iE8sTCDvr
+	WO+jpB2yw+SBETuYzKKR6UC6Wl5XVAr1TXOjuPZM965nDGcJuX5ZO7eTP2WJaHW+SZRDjBDIVrk
+	wF9ZkMywEoYFYAprdsqaVB/R1W1WLAys1vLa4kH8l5lRlVgk+wzihxga2J5adtXuXAW+Di+uAWn
+	9zLpJIa8l6POC5xlKVgj4wcpTh6OnwFXuMBR9k5RJAakQIOM0+QyUqruOT6tbW2cCusg==
+X-Received: by 2002:a05:651c:41c4:b0:37a:4fb0:69a6 with SMTP id 38308e7fff4ca-38384180b18mr13042911fa.2.1768651385968;
+        Sat, 17 Jan 2026 04:03:05 -0800 (PST)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38384e788d5sm16240881fa.31.2026.01.17.04.03.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 17 Jan 2026 04:03:04 -0800 (PST)
+Message-ID: <a29ff1e4-117c-4703-b0c7-73ad4e369201@linaro.org>
+Date: Sat, 17 Jan 2026 14:03:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,99 +80,245 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Drop starfive,jh7110-camss
- from staging
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Changhuang Liang <changhuang.liang@starfivetech.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rishikesh Donadkar <r-donadkar@ti.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20260116-drop-starfive-camss-v2-0-34df57025921@ideasonboard.com>
- <20260116-drop-starfive-camss-v2-1-34df57025921@ideasonboard.com>
- <20260117-bulky-speedy-kagu-faee94@quoll>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260117-bulky-speedy-kagu-faee94@quoll>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v7 2/5] media: i2c: imx355: Support devicetree and power
+ management
+To: Richard Acayan <mailingradian@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: Robert Mader <robert.mader@collabora.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ David Heidelberg <david@ixit.cz>, phone-devel@vger.kernel.org
+References: <20260117040657.27043-1-mailingradian@gmail.com>
+ <20260117040657.27043-3-mailingradian@gmail.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20260117040657.27043-3-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 17/01/2026 12:36, Krzysztof Kozlowski wrote:
-> On Fri, Jan 16, 2026 at 12:36:58PM +0530, Jai Luthra wrote:
->> The starfive-camss driver is no longer being worked upon for destaging,
->> and will be dropped in a subsequent commit, so drop the DT bindings.
+On 1/17/26 06:06, Richard Acayan wrote:
+> A device tree compatible makes it possible for this driver to be used on
+> Open Firmware devices. Initialization of power-managed resources such as
+> the reset GPIO and voltage regulators can be specified in the device
+> tree and handled by the driver. Add support for this so the Pixel 3a can
+> use the driver.
 > 
-> That's a moderately new SoC and commit was added ~2 years ago. Why is
-> this being dropped exactly?
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>   drivers/media/i2c/imx355.c | 116 ++++++++++++++++++++++++++++++++++---
+>   1 file changed, 108 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
+> index 776107efe386..5a8da035ba5f 100644
+> --- a/drivers/media/i2c/imx355.c
+> +++ b/drivers/media/i2c/imx355.c
+> @@ -3,9 +3,13 @@
+>   
+>   #include <linux/acpi.h>
+>   #include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+>   #include <linux/i2c.h>
+>   #include <linux/module.h>
+> +#include <linux/of.h>
+>   #include <linux/pm_runtime.h>
+> +#include <linux/regulator/consumer.h>
+>   #include <linux/unaligned.h>
+>   
+>   #include <media/v4l2-ctrls.h>
+> @@ -125,6 +129,15 @@ struct imx355 {
+>   	 * Protect access to sensor v4l2 controls.
+>   	 */
+>   	struct mutex mutex;
+> +
+> +	struct gpio_desc *reset_gpio;
+> +	struct regulator_bulk_data *supplies;
+> +};
+> +
+> +static const struct regulator_bulk_data imx355_supplies[] = {
+> +	{ .supply = "avdd" },
+> +	{ .supply = "dvdd" },
+> +	{ .supply = "dovdd" },
+>   };
+>   
+>   static const struct imx355_reg imx355_global_regs[] = {
+> @@ -1515,6 +1528,55 @@ static const struct v4l2_subdev_internal_ops imx355_internal_ops = {
+>   	.open = imx355_open,
+>   };
+>   
+> +static int imx355_power_off(struct device *dev)
+> +{
+> +	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct imx355 *imx355 = to_imx355(sd);
+> +
+> +	gpiod_set_value_cansleep(imx355->reset_gpio, 1);
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(imx355_supplies), imx355->supplies);
+> +	clk_disable_unprepare(imx355->clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx355_power_on(struct device *dev)
+> +{
+> +	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct imx355 *imx355 = to_imx355(sd);
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(imx355->clk);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable clocks: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(imx355_supplies),
+> +				    imx355->supplies);
+> +	if (ret) {
+> +		dev_err(dev, "failed to enable regulators: %d\n", ret);
+> +		goto error_disable_clocks;
+> +	}
+> +
+> +	gpiod_set_value_cansleep(imx355->reset_gpio, 1);
+> +	usleep_range(1000, 2000);
 
-OK, the link below gives some answer but isn't this better just to mark
-it orphan and keep for some time? Is the driver working/useful? Maybe
-someone will volunteer for it?
+The deassert above is not needed IMO, anyway.
 
-> 
->>
->> Link: https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
->> Acked-by: Changhuang Liang <changhuang.liang@starfivetech.com>
->> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> 
-> Reverting/dropping changes is always in reverse of introducing them, so
-> this must be second commit. Otherwise your change is non-bisectable and
-> you have now warnings of undocumented ABI.
-> 
-> Best regards,
-> Krzysztof
-> 
+> +	gpiod_set_value_cansleep(imx355->reset_gpio, 0);
+> +	usleep_range(10000, 11000);
+> +
+> +	return 0;
+> +
+> +error_disable_clocks:
+> +	clk_disable_unprepare(imx355->clk);
+> +	return ret;
+> +}
+> +
+> +static DEFINE_RUNTIME_DEV_PM_OPS(imx355_pm_ops, imx355_power_off,
+> +				 imx355_power_on, NULL);
+> +
+>   /* Initialize control handlers */
+>   static int imx355_init_controls(struct imx355 *imx355)
+>   {
+> @@ -1689,16 +1751,26 @@ static int imx355_probe(struct i2c_client *client)
+>   				     "external clock %lu is not supported\n",
+>   				     freq);
+>   
+> -	/* Initialize subdev */
+> -	v4l2_i2c_subdev_init(&imx355->sd, client, &imx355_subdev_ops);
+> -
+> -	/* Check module identity */
+> -	ret = imx355_identify_module(imx355);
+> +	ret = devm_regulator_bulk_get_const(imx355->dev,
+> +					    ARRAY_SIZE(imx355_supplies),
+> +					    imx355_supplies,
+> +					    &imx355->supplies);
+>   	if (ret) {
+> -		dev_err(imx355->dev, "failed to find sensor: %d", ret);
+> +		dev_err_probe(imx355->dev, ret, "could not get regulators");
+>   		goto error_probe;
+>   	}
+>   
+> +	imx355->reset_gpio = devm_gpiod_get_optional(imx355->dev, "reset",
+> +						     GPIOD_OUT_HIGH);
+> +	if (IS_ERR(imx355->reset_gpio)) {
+> +		ret = dev_err_probe(imx355->dev, PTR_ERR(imx355->reset_gpio),
+> +				    "failed to get gpios");
+> +		goto error_probe;
+> +	}
+> +
+> +	/* Initialize subdev */
+> +	v4l2_i2c_subdev_init(&imx355->sd, client, &imx355_subdev_ops);
+> +
+>   	imx355->hwcfg = imx355_get_hwcfg(imx355->dev);
+>   	if (!imx355->hwcfg) {
+>   		dev_err(imx355->dev, "failed to get hwcfg");
+> @@ -1706,13 +1778,26 @@ static int imx355_probe(struct i2c_client *client)
+>   		goto error_probe;
+>   	}
+>   
+> +	ret = imx355_power_on(imx355->dev);
+> +	if (ret) {
+> +		dev_err(imx355->dev, "failed to power on sensor: %d", ret);
 
+You do write a message to the kernel log buffer on error in imx355_power_on(),
+and here it can be removed.
 
-Best regards,
-Krzysztof
+Also you may start using dev_err_probe() on all new error paths.
+
+> +		goto error_probe;
+> +	}
+> +
+> +	/* Check module identity */
+> +	ret = imx355_identify_module(imx355);
+> +	if (ret) {
+> +		dev_err(imx355->dev, "failed to find sensor: %d", ret);
+> +		goto error_power_off;
+> +	}
+> +
+>   	/* Set default mode to max resolution */
+>   	imx355->cur_mode = &supported_modes[0];
+>   
+>   	ret = imx355_init_controls(imx355);
+>   	if (ret) {
+>   		dev_err(imx355->dev, "failed to init controls: %d", ret);
+> -		goto error_probe;
+> +		goto error_power_off;
+>   	}
+>   
+>   	/* Initialize subdev */
+> @@ -1752,6 +1837,9 @@ static int imx355_probe(struct i2c_client *client)
+>   error_handler_free:
+>   	v4l2_ctrl_handler_free(imx355->sd.ctrl_handler);
+>   
+> +error_power_off:
+> +	imx355_power_off(imx355->dev);
+> +
+>   error_probe:
+>   	mutex_destroy(&imx355->mutex);
+>   
+> @@ -1768,7 +1856,11 @@ static void imx355_remove(struct i2c_client *client)
+>   	v4l2_ctrl_handler_free(sd->ctrl_handler);
+>   
+>   	pm_runtime_disable(imx355->dev);
+> -	pm_runtime_set_suspended(imx355->dev);
+> +
+> +	if (!pm_runtime_status_suspended(imx355->dev)) {
+> +		imx355_power_off(imx355->dev);
+> +		pm_runtime_set_suspended(imx355->dev);
+> +	}
+>   
+>   	mutex_destroy(&imx355->mutex);
+>   }
+> @@ -1779,10 +1871,18 @@ static const struct acpi_device_id imx355_acpi_ids[] __maybe_unused = {
+>   };
+>   MODULE_DEVICE_TABLE(acpi, imx355_acpi_ids);
+>   
+> +static const struct of_device_id imx355_match_table[] = {
+> +	{ .compatible = "sony,imx355", },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, imx355_match_table);
+> +
+>   static struct i2c_driver imx355_i2c_driver = {
+>   	.driver = {
+>   		.name = "imx355",
+>   		.acpi_match_table = ACPI_PTR(imx355_acpi_ids),
+> +		.of_match_table = imx355_match_table,
+> +		.pm = &imx355_pm_ops,
+>   	},
+>   	.probe = imx355_probe,
+>   	.remove = imx355_remove,
+
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+
+-- 
+Best wishes,
+Vladimir
 
