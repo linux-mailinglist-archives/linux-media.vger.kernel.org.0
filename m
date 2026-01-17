@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-50930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77C2D38AAC
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 01:26:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD67D38AC0
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 01:31:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5A03430A32E9
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 00:25:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6AA813089A13
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 00:31:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED80719D07E;
-	Sat, 17 Jan 2026 00:25:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307471CEAA3;
+	Sat, 17 Jan 2026 00:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W7qGEHfn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3wNVdwy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E989155C97
-	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 00:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AA7770FE
+	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 00:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768609546; cv=none; b=GN0VoUwZT5lZ+/COIZl0LE+eW9B+4tbF75sDCWM1KaDkA35FCqQ2fMOFchJOxUNq0uGNeyNM9T+KdtMDO0yMiXrCB4cOtyWRiBofJoRTKTbcQrnX+gbvX8W7zwLyAf0ve3Mq7dvEtjctXGOgT9IuInCDzrpLbds3+M45oVgHEI0=
+	t=1768609903; cv=none; b=SzUMCfOsk8vFZfaZEjClUPaLQBXg1RWeSs7niCT/SAhvyQXx6mkD2A2nKI2J2Ea5iopvdncvCcxjB2r1atQ/pZ33+gytNvKaCcZvfQroCLGuHHyL4xKZRKDAFFMaPT0YSPGYekZIKZtsYIQ2RNsfI7MFcyhW9GlI68iY4384YNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768609546; c=relaxed/simple;
-	bh=zMWrCZMndADSkg4s8xix2EZGPZMfvSP6VQAt0nAFJNY=;
+	s=arc-20240116; t=1768609903; c=relaxed/simple;
+	bh=oYQI2hBpIRcvGtuZTojZuoMSi1NBy8aQgzTCzObvMzE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EkE2Kwdp6mvc72NnSOTAlBN4CMiNIYL0cqlkYGHBrwhB092F5boUUL1AHLA1t18QGQDtd4dZ2jg0pX+i7aROb8gZlraQu1o1TKTdqKvM8stjvhvUQgt+2iruz/P3EdlB4+ODrFnszDur+cMsH9OKwhxJAQgKFzi4ug6rqxF4iM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W7qGEHfn; arc=none smtp.client-ip=74.125.82.48
+	 MIME-Version:Content-Type; b=XEdRmMyiq1pjBxw6qxFEJnkpl6Mnpfj+vP8lA6+UPrj03bJPqqL3Erli14Di82gJB59Lhpo9wjH07ptXT7bLkLT/2akBVPfwCO72QNF2l+FCpyBGlqj5thpYXEk6o257mPOYIQbHXnbVIjKZgwyHB2t+2PxizTCorxaiIeZD/JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3wNVdwy; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12336c0a8b6so5392759c88.1
-        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 16:25:42 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4801c314c84so14068345e9.0
+        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 16:31:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768609541; x=1769214341; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1768609900; x=1769214700; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kXSzRKLdZZRDc+qd/B0ftBuEII5cSa+ihfuKd80sVQ8=;
-        b=W7qGEHfn7+KVbeYkEa5SCSSN7O7DsBveNX0/+eFiqXIqsdDBoVHKyT33qWCG7HLHdC
-         GgYAcvv9eNRD6QN74WoweNIEXlVd6u7Sg0kVlPPn5g8l5knsx+H2oTsxEAwUaY9qDT1M
-         w9C+9HXJfG1ukyC7FaPzxr3WzLXDgFcxREbc5hGrkTNofr1vqpoAQSPVS+MI6xksoFwx
-         p9FtRp0SLsYy22TdP0WeOhf0tfGWEH06mOEmldKFJUV8fO0ChV5TgirRZRd70QcISHdH
-         psA77TBYpVwhM0hTMbVdxljABk6rQwgSXYnSC0rx1OE9wh1BvaX8RffwqNvSVyW+6wM9
-         2aBQ==
+        bh=iFv214rAmnxy+ZWfqYzxoI4aXe7hA3FW0xG43u2wRxw=;
+        b=Z3wNVdwyvc69g3580tyf5fWfsc14h+xc/9Vg7PNDraGOG69INSVBA1CzQxPpB4YuJ3
+         PKbJ2HX869tVWnNxczVuxy5XUMmrKH6RCTC74NzjWEyITJ8wsFDhSwVO8qFXS3h0nF9l
+         zLlMXJJKycuP8R6ewUNsbElXbltaxzQP8B/ylWOmQA8B4ETt5tcgPQQS8iPBTAyRGshV
+         y6qj+5YBywUuBf+KdejltrIIANh5VXj9HpnpopRWsjGMjwmUrClqhnzR5GegrUfbYKUf
+         EH5Frf4yO93if/0XcU64VQiyErG2KMsxhElv0qzt8UDUcQ+yUMVwWYeaxNCTnnpLrYHq
+         Z9KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768609541; x=1769214341;
+        d=1e100.net; s=20230601; t=1768609900; x=1769214700;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kXSzRKLdZZRDc+qd/B0ftBuEII5cSa+ihfuKd80sVQ8=;
-        b=JMNlDxOgyod7WfewApGaxWgVQsCB2L5xrv8viRFgzeoxqe4yMNa+I643ul3WVvRa/r
-         eM2UUHnylWPF79XM4/jHpWWLx0/P3M3aEfzcMbDYLto3hqQiNUnE/8p+lYOgbfUpRqZB
-         +jEvlmg3NSqayov0uGqI9lDNdNNjhwV6/kfo8Tx4sO++DQRmWuDHqiUpevgarArU2LRY
-         i6R+y/gL6hbmrfosNMuvvUCJyyB4NwKrMS7W8Zsyae7AhVvtfEs5RxY0QwdJy3kBgAKE
-         9saKLrtw+Pi15vrI9Gd9zszr+rywr0nRkEpv5C+uFKHfVHH2CxENNKs32QEqoFKYg4dT
-         EKgw==
-X-Forwarded-Encrypted: i=1; AJvYcCXumeZkxEmX5XYlCSC8Pu/rDhzWz75MpX26SeYRWjDVeVDF+Vmd3ZLGfoviunq5ncwNkBgiF8mlUnONWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxageEEv8u9UjE6l9oRyhZNFsBDVpTfzzrMwxhWw6HYMLdc8kF+
-	bXz8A/KC4AroYoTzxlhYCiCe3LMuoeWgQH/QM3Lrv6oKEZUYdOjK/FoO
-X-Gm-Gg: AY/fxX6fiTnzVgBkfK0ecV0bbyjj4PG2bRD0DU4J/3mM6V/kVvZ941tsudJtd+puZOT
-	sbS/NUFXBgI7yJbo+xDgAVPy5XPC8Q9Ka21KxIGMPX66BvUX2mn8Xfr48B+yA6dYYpWA7uQXIAe
-	40d+fQvxJ/oJ4MUEtZHphjplZqnw3d5X6hLK4pN2523JUckUI6kBgsUhgmeujD9VmUSWYEfZiE+
-	jbsB7h8zZVXPIKxrrTKpBz/jN7zyN+IXCDaZRmS9DsyDRCaxvb1RhBu6adhfU1SD8AWW69A1qzL
-	glfSLXb/qlLH1x8wDcV7+t9q4ISVIIlkNizMFXrKo8qC/aC3cBOfl8xEEmCM3FAiOvi4pI88pHV
-	IqhTT4FVNNqJgoHmlanrT593Ujfwc0i8SYEbukf7mdfXBr36D8LZmpqnSHkOdeBQ8jgHyLNqvd7
-	My39zPW2hDOE8wqrRqzVprK0ct0wFsdmbAxwKQ49Fa4HwxjzoEpBL15x5BnRfTztu1xb+PWMSOW
-	UTl1c4=
-X-Received: by 2002:a05:7022:225:b0:11b:9386:a3cf with SMTP id a92af1059eb24-1244a782252mr4273827c88.48.1768609541196;
-        Fri, 16 Jan 2026 16:25:41 -0800 (PST)
+        bh=iFv214rAmnxy+ZWfqYzxoI4aXe7hA3FW0xG43u2wRxw=;
+        b=SoErEd7aHyQr0lUyfGFDhCf6mDMituuq3r61VvnKGcmVyaCtVDshHj98xX/tPGxP+V
+         8BPdIid2C426E3/AihZoSUkVJ+8E8BtObuOz1agwRPaVysEU87uznDZ67BEv/ecrz5n0
+         jkFQWRz3/UQUlqzGc9+p915UeitIiiDE3O4iGXR3YLMrtAOrVlA0zSELgBGzSv9MK2Xc
+         cfrCQlxe/1JZhTSW8v/UmivxkyAVAELwjfCHBTI/m8oAOi5YzpajZWmSl/hmTbpKH+YX
+         b29E4nloNzEu6E4ruBmNdEykwhMToCLM3AwsKtumzL2rpdCcTiJBqXQrD7F+9MpeR75r
+         EfEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWwDskTK+Bs/FJpIlmHF3Zu0WmSDd5F1VMPO9hRPgoxPNSH+pZuXmAcc5PJ/itIsdPynG5pKYYmEgwJBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9elC8KRj4aqaENtsVSDSfSKEL66Q9w6tmcb+NfYDseV953T4I
+	FM8ZlzcAILU3NbjZ5rePBPUut5z+aFipGBa2e5qxhxAcXQJ0SpDcTvuO
+X-Gm-Gg: AY/fxX5kA7UbPu13I5eFyluLiT6vyYHcfql2+3tV9mCPOiQunQN0hiC2tS1N3MwxGoK
+	LQQKfg4pNuwFQfmCuOL4TIFbDAAiZ5+tfgRkrN5tGI1/g8dbplkAC7zkFpbusbAewGhDn8YEK/+
+	QO8pbsZcqn/A2ZQSPHZJSPv/yvjLGFhZ27tKqkb5+64iv6qUOkQ/lxUPcOE6YZuLUIw5NIoqZGR
+	CC417j0MU21PZdc58UPP1c+rzI/hKxSy7NM/hii1FH+gTzb+/h9VNoGACSoEsCJXYN71IrKhWi7
+	fv7oOUfsyjBOga1Sx+4xZJsWIyfhNkwh21qnf+MV7SqWJIvCaWJBUfaWB5LMtez5gS+nH836bYV
+	tfeGOpnVvWPyYTEcJC3y64X83FTz1bqqO4Gz6/xoNuGtmvE74k6erQys5L+n+h3X8+u7LLSwWhj
+	TOsN+C62Nwq7VFcpnr1O6KWv5O/xAYI2Ud353fDMDef0BPlrFjsFgOY9S3M+6PlZBNUZajgeKC8
+	BVGjg0=
+X-Received: by 2002:a05:600c:3b9e:b0:477:9a28:b09a with SMTP id 5b1f17b1804b1-4801e2a5861mr63784045e9.0.1768609900200;
+        Fri, 16 Jan 2026 16:31:40 -0800 (PST)
 Received: from localhost (p200300e41f0ffa00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:fa00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ac585a9sm4287875c88.2.2026.01.16.16.25.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e9fb193sm27730315e9.6.2026.01.16.16.31.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 16:25:40 -0800 (PST)
+        Fri, 16 Jan 2026 16:31:38 -0800 (PST)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -106,8 +106,8 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-clk@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Subject: Re: (subset) [PATCH v5 00/23] tegra-video: add CSI support for Tegra20 and Tegra30
-Date: Sat, 17 Jan 2026 01:25:32 +0100
-Message-ID: <176860947674.1613073.11085159197676774675.b4-ty@nvidia.com>
+Date: Sat, 17 Jan 2026 01:31:35 +0100
+Message-ID: <176860988748.1688420.11717122647073678.b4-ty@nvidia.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
 References: <20251022142051.70400-1-clamor95@gmail.com>
@@ -130,8 +130,8 @@ On Wed, 22 Oct 2025 17:20:28 +0300, Svyatoslav Ryhel wrote:
 
 Applied, thanks!
 
-[10/23] dt-bindings: display: tegra: document Tegra132 MIPI calibration device
-        commit: d6e8b796d0d67699c74ee3cbc46601cf9ec925bb
+[04/23] dt-bindings: display: tegra: document Tegra30 VI and VIP
+        commit: d262d030baef287da33344a932639aab5f913c3a
 
 Best regards,
 -- 
