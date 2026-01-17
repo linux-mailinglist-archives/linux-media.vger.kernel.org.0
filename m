@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-50955-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50956-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3595D38F7B
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 16:37:52 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E3ED38F7E
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 16:38:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 66CE63017347
+	by tor.lore.kernel.org (Postfix) with ESMTP id 74AD4302D89D
 	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 15:36:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FBDA265CA6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90193265CA8;
 	Sat, 17 Jan 2026 15:36:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VCdXul9j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONwMfAek"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D921239E7D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FAA238166;
 	Sat, 17 Jan 2026 15:36:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768664182; cv=none; b=EmoY9sgZNwEWWXoqyKvlQaZ5xefWlw0QuWEn1cPZwNspcejJfXMuMRHTZf1Qg06XKYPPNhZS0zwtubXjRqhPXp5bsGHM+/1AqG4O5YkrPYYkVHAQhjjQrknvewTA7bm1Q64+HGzp1Jvqh0HGX95+X+stpgbJvYSvdeRVMF3XNDc=
+	t=1768664182; cv=none; b=Tfe/+mOjaWltTbPCg1NpR5gwSsMROV62Dq094VTT6/6ZAsDJVG+TsEX1CjQQ+yK/FRMtgCIgKj9VFOyUPKa01Ay6tQZB+nD/cisaeLYU5ovVxgs7acZzu/Z0yDvTa60Ec/VT1yvmbe5yIx9e7430xaLJdBTLF2Wb9fau93AP49U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768664182; c=relaxed/simple;
-	bh=swjP02ArFw1/TBbF8H+vZAaa3tb0Gg880fO6IddHcyE=;
+	bh=/BD78YXzOCcRS25O+L1zfxJJpZZr21mrmcTDTYb9IGs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QdWK3/ky3QiIFxqu07SYAv0Ld/7F1DCRTerH2BvnGpOD52L9nV5aYAjhKdkN5Yvp5+TJCAmcBrJECfVrK/cly+lm4T9ltQ/Uyj/pIMf7BxFHyqUD78enFr/4UboO/gJ8SP7FhGI/dxCPFaQQT48ljCCv2RL2daLU7Jp3E5H96mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VCdXul9j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F3093C2BCC4;
-	Sat, 17 Jan 2026 15:36:21 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=VhlLXriQEijSmYh1cvkGT9OqGgqNVKmc0/ORusgnRhcwPk5+G1pBtxSEFUxYDUpHYxahOUrQqujnHvk2mqlWGMEC9bhd5YCAaJjxoM7T58YVeMu+ADsnbxB9FFq9TG+ozh5Jot1JVVJTIpLHa6+DEYGkFsfHOIvlxC8DOQ/+/ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONwMfAek; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 12017C19421;
+	Sat, 17 Jan 2026 15:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1768664182;
-	bh=swjP02ArFw1/TBbF8H+vZAaa3tb0Gg880fO6IddHcyE=;
+	bh=/BD78YXzOCcRS25O+L1zfxJJpZZr21mrmcTDTYb9IGs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=VCdXul9jPMhu5DrXDkAmSIZ675riItHE84tIqI8jtiatAyWDfvzJ4Yw3GriCIIEFi
-	 lMZUO0LU4yePj5WN6ZqIHuZADG2vWnXjkef1jfS6uVlnqHslvPzEZ+iHd69QrZcDmN
-	 rHpfFrzJwUYVh7PoXxhgN2xssJrgLC1Yxpzm2YJXRMwyWSOxO0kk4SqA/Ri3OFf6Px
-	 q+egaXM7kfF7T4XXo+w71YiujWNRvQkoYkRmcPVA5EJISM1iHQnm91BGMbiRTTzcvk
-	 HDs7mHkmwZbC+fHQlntu02xKsgwn6U+xQKwc4NFUF8SatMglAkUvpt55ewCcIJJq2/
-	 z8OLYHsYnmtMg==
+	b=ONwMfAeknFZeKa2F2YI8Tz57lpQT8B9O4PWQZtFSAzVVR0RWen/89eOFd5bh+kWl5
+	 98H7E+/r4RBv3QRO95KQXHyk9pOfCQinozNVsKqHT4STf/w+ree6VD1as6scMGa+MB
+	 RajXlJht5SjCt048vYn5nPRcEOcq4TBV27nOFdtyI6NyMB1rLPk9gWtOFWUHZvQONS
+	 wJh9f0nTSfWTCQzfHZYaF4e9CA48ubTGvLxX7YzHGTUjHeAcQCJlMl7w15IUB6gPtX
+	 xVpzkdwX6xJMRnZjhpqKzOZoVnys1XjVXUbZQKx+AstDRnIi/i5LuHhPXGz5pILRj/
+	 jc/8oK9Mur9qw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4C6C98316;
-	Sat, 17 Jan 2026 15:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B0DC9832F;
+	Sat, 17 Jan 2026 15:36:22 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sat, 17 Jan 2026 16:36:22 +0100
-Subject: [PATCH v3 7/8] media: qcom: camss: csiphy-3ph: C-PHY needs own
- lane configuration
+Date: Sat, 17 Jan 2026 16:36:23 +0100
+Subject: [PATCH v3 8/8] media: qcom: camss: Account for C-PHY when
+ calculating link frequency
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260117-qcom-cphy-v3-7-8ce76a06f7db@ixit.cz>
+Message-Id: <20260117-qcom-cphy-v3-8-8ce76a06f7db@ixit.cz>
 References: <20260117-qcom-cphy-v3-0-8ce76a06f7db@ixit.cz>
 In-Reply-To: <20260117-qcom-cphy-v3-0-8ce76a06f7db@ixit.cz>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
@@ -69,21 +69,21 @@ Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1248; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5230; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=hi1draDMnwPdDs8jfyuKlJLJyRCchlejwfH5kHTkrC0=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpa6xzZuyGf/U/5S0suMcazfP+fy+n3xT4JQXGi
- wskuX13a+WJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaWuscwAKCRBgAj/E00kg
- crGDEACQZprBdLGE9LREwg8hMB/wq0tHg4YCWXxyzX33J01v1AJUB1i4khpdVVL3qAcidGggzU6
- +IveUeMakwoJNLE84/o4QYn2f02HgarO/jQj36QzSWr+Gb9cDuDP1MB65fhLqm4e0vqkyVwRwHw
- tfFFow8Y0HA0q2qJKUpPZfsi5xzbyyPOMhTGMGovppknucM/Jrpdpen6+/DsptVH2bPfcI8yhw4
- u47ouLfkeLlO+OY48mXuZv/8BD4X/r6unw2SHpvs1EePASC9BSKRqSkgAmHZ7PorGN60nTdIuvI
- O4tcvbEnTMkcL3HkWYmkLjAVKWavRA9BcvbawAS/TLjhiWqEhtAfTVVLf6mw+ytUR4OkCO5bEER
- 6+Jhca+WiZSnKqKJv6kW5xlItDaesvLqj6WH01OjLr+qqVLUB/B0rOTpdYOukdxz56jQ4YkT3D8
- ZxegJJA/PJGosiXAIySa8h5XMZr0tQPkPYjPw5AaSRpsczoAHDuXT8UzbNUT+zra3IBlY3zG+Cm
- ORxOrAOayzJz5gVw3OFczQhMGhRLhUzQxL32VsF7ne9J79GYkjWXlmBJWjeSCa1D+JMSFdXSYwq
- rKS/7M1qntBKcJqo856fDhvm9VWp8hcwCxcSJWbG/d9ZGa/pbf3XjqhdNNCpzbyi9+CfIltzhwV
- nhTeejkhGbVrJCQ==
+ bh=zf+1tmC7easbpv6t/sgEpQwulzF8Aub919Uos8tEoRE=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpa6xzgoNRTVAAaJfPCTH6vIbyFRNFO6sSOgG66
+ pcVCvsCTOKJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaWuscwAKCRBgAj/E00kg
+ coWID/9w6YaD2+O6F//ywNevpVhHnbznEzH2moI7FZhtYr4yOkh9G10xkK17UlPG271pOJbxzuO
+ 1+/0GJ9RAcRq/AMYL3FuCUnHtMiys0LeAPx/VNNzeUYfp6f1tDHYCl9bWV5rmPFhtENSqUTrWiD
+ hAWbMoEOM8RhsmK+8zkUnZbaMXmPZzzSsHSOvbOJSOPT+iQI66akmxI16lFlgQy4xO71xcF0AA5
+ gvhVoN5iuCg2hLoOFfRcOr+MKl+yhmS6VDPWEVYHbJUDvoh+5xCe9OlaV4JkOesVTz3pQCqSZyk
+ wVtz8N+NoFrSed7RdwL6+ZkvE/plwR7z826T/RIHW6PSYfnm2Zf749/wOHoBIsucIC+Jj3Ljawv
+ ihKPbGbAHjWUQznLnl5a/dcRX6UoKN3xRn7AoeDR5Lc5FIAdT3QQZcm7qaUyYpJEVD9zV6u0p95
+ 5sGMBX/2/rqJdT50s8KvoYyugFnGhGgotqC5PEb7Di00UrjWZxi3P/TezXGlIpVJlDKqqD9uLjx
+ B/cE9NUkubCA5WMm0r0IewbIF1Wq9fvIvYdexa6BH6oLwywCKo6bFVA9GXcZT7K86QSdL+If56w
+ TPEakLbmk1Jmg5YSHUR7fp8DIODhKCEltTyVEguut6Sz7hqmkBk1vY2Xdn4xAit4Q6Ga6IErH+n
+ D54IWlfbHi8Ty0A==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -92,43 +92,120 @@ Reply-To: david@ixit.cz
 
 From: David Heidelberg <david@ixit.cz>
 
-Catch when C-PHY configuration gets used on SoC with CAMSS missing C-PHY
-configuration lane registers.
+Ensure that the link frequency divider correctly accounts for C-PHY
+operation. The divider differs between D-PHY and C-PHY, as described
+in the MIPI CSI-2 specification.
 
-Hopefully this check will disappear as these lane regs gets populated.
+For more details, see:
+https://docs.kernel.org/driver-api/media/tx-rx.html#pixel-rate
 
+Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/media/platform/qcom/camss/camss-csid.c   |  2 +-
+ drivers/media/platform/qcom/camss/camss-csiphy.c |  6 ++++--
+ drivers/media/platform/qcom/camss/camss.c        | 16 +++++++++++++---
+ drivers/media/platform/qcom/camss/camss.h        |  2 +-
+ 4 files changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index d82a88dad74b5..89bfe3710fc3a 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -1217,6 +1217,22 @@ static int csiphy_lanes_enable(struct csiphy_device *csiphy,
- 	u8 val;
- 	int i;
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+index b50b0cfe280c1..24f244d2959c9 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.c
++++ b/drivers/media/platform/qcom/camss/camss-csid.c
+@@ -545,7 +545,7 @@ static int csid_set_clock_rates(struct csid_device *csid)
+ 	fmt = csid_get_fmt_entry(csid->res->formats->formats, csid->res->formats->nformats,
+ 				 csid->fmt[MSM_CSIPHY_PAD_SINK].code);
+ 	link_freq = camss_get_link_freq(&csid->subdev.entity, fmt->bpp,
+-					csid->phy.lane_cnt);
++					csid->phy.lane_cnt, csid->phy.cphy);
+ 	if (link_freq < 0)
+ 		link_freq = 0;
  
-+	if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
-+		switch (csiphy->camss->res->version) {
-+		case CAMSS_2290:
-+		case CAMSS_8280XP:
-+		case CAMSS_X1E80100:
-+		case CAMSS_8550:
-+		case CAMSS_8650:
-+		case CAMSS_8300:
-+		case CAMSS_8775P:
-+			dev_err(dev, "Missing lane_regs definition for C-PHY\n");
-+			return -EINVAL;
-+		default:
-+			break;
-+		}
-+	}
+diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
+index 08dd238e52799..1ea0d0ef354ff 100644
+--- a/drivers/media/platform/qcom/camss/camss-csiphy.c
++++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
+@@ -144,8 +144,9 @@ static int csiphy_set_clock_rates(struct csiphy_device *csiphy)
+ 	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
+ 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
+ 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
++	bool cphy = csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY;
+ 
+-	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
++	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
+ 	if (link_freq < 0)
+ 		link_freq  = 0;
+ 
+@@ -270,9 +271,10 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
+ 	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
+ 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
+ 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
++	bool cphy = csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY;
+ 	u8 val;
+ 
+-	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
++	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
+ 
+ 	if (link_freq < 0) {
+ 		dev_err(csiphy->camss->dev,
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index ea0c8cf3cd806..556fedd92e065 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -32,6 +32,14 @@
+ #define CAMSS_CLOCK_MARGIN_NUMERATOR 105
+ #define CAMSS_CLOCK_MARGIN_DENOMINATOR 100
+ 
++/*
++ * C-PHY encodes data by 16/7 ~ 2.28 bits/symbol
++ * D-PHY doesn't encode data, thus 16/16 = 1 b/s
++ */
++#define CAMSS_COMMON_PHY_DIVIDENT 16
++#define CAMSS_CPHY_DIVISOR 7
++#define CAMSS_DPHY_DIVISOR 16
 +
- 	switch (csiphy->camss->res->version) {
- 	case CAMSS_845:
- 		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
+ static const struct parent_dev_ops vfe_parent_dev_ops;
+ 
+ static const struct camss_subdev_resources csiphy_res_8x16[] = {
+@@ -4280,20 +4288,22 @@ struct media_pad *camss_find_sensor_pad(struct media_entity *entity)
+  * camss_get_link_freq - Get link frequency from sensor
+  * @entity: Media entity in the current pipeline
+  * @bpp: Number of bits per pixel for the current format
+- * @lanes: Number of lanes in the link to the sensor
++ * @nr_of_lanes: Number of lanes in the link to the sensor
+  *
+  * Return link frequency on success or a negative error code otherwise
+  */
+ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+-			unsigned int lanes)
++			unsigned int nr_of_lanes, bool cphy)
+ {
+ 	struct media_pad *sensor_pad;
++	unsigned int div = nr_of_lanes * 2 * (cphy ? CAMSS_CPHY_DIVISOR :
++						     CAMSS_DPHY_DIVISOR);
+ 
+ 	sensor_pad = camss_find_sensor_pad(entity);
+ 	if (!sensor_pad)
+ 		return -ENODEV;
+ 
+-	return v4l2_get_link_freq(sensor_pad, bpp, 2 * lanes);
++	return v4l2_get_link_freq(sensor_pad, CAMSS_COMMON_PHY_DIVIDENT * bpp, div);
+ }
+ 
+ /*
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index 6d048414c919e..6bf7738837b89 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -163,7 +163,7 @@ int camss_enable_clocks(int nclocks, struct camss_clock *clock,
+ void camss_disable_clocks(int nclocks, struct camss_clock *clock);
+ struct media_pad *camss_find_sensor_pad(struct media_entity *entity);
+ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+-			unsigned int lanes);
++			unsigned int lanes, bool cphy);
+ int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
+ int camss_pm_domain_on(struct camss *camss, int id);
+ void camss_pm_domain_off(struct camss *camss, int id);
 
 -- 
 2.51.0
