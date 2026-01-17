@@ -1,249 +1,241 @@
-Return-Path: <linux-media+bounces-50939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50940-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912A6D38C1E
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 05:07:49 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id C677CD38C59
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 05:44:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9E86B304DE03
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 04:06:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4365F300D802
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 04:44:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 751873093B2;
-	Sat, 17 Jan 2026 04:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59406326939;
+	Sat, 17 Jan 2026 04:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nGSdUHGh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W78oMkq+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FBF322B63
-	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 04:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2CC2E11C7
+	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 04:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768622813; cv=none; b=EXdhH1w1UI7mLQMPuuFO3pwjMR/AIr+LtpHBWVBm6jOOsWTxFUjwoizozXCePCjyvLX7noi3fD//FKXfyUhoIZ5F2rl6zy0CGI99x5jpmBxZnp+JuCK5FvklZddH7ZrQGD2rOOff2I6rX2Ehol06Vr4YeJS/53d5TN7FX8cutDk=
+	t=1768625081; cv=none; b=uAfmJxIuBJzwhiLPOLifujd8HMTkTI+VKVG9d56mz2NErm4MsQZHok+Q6nUeE1qALq6yS5V13ls6TEzcy2Ie3uLiZvWayjlVqzTS8uOkWvuA/LSkwdakFEZGL5RehaaU7kRHoL/6WiyLB8pSpAhyn8BVZQ8OH2AqhzHOdw6wI+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768622813; c=relaxed/simple;
-	bh=Lhwv6D/imJe/RU+nFcTCBbC6E5wPYje6u7F4ebVJzTw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M9Rh0DghbJQfXk0L6f1Zq6XZ4JLZ7/AJlNEbwwn9cH95J5r9WW5qtZCUrXrKEis4nzDqHbv00JOXvKW0bDsZ/acoN26tybBjrSoDn4J4xu2p2c1l6JJj7ZYnr40sy+t9Rq2m8HR52bKMVnBeZuyFrbG8PCP7Km0zKziUhjXkju8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nGSdUHGh; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8c532d8be8cso274697285a.2
-        for <linux-media@vger.kernel.org>; Fri, 16 Jan 2026 20:06:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768622810; x=1769227610; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PnjtImrdEjhPayN2qIroF2+jnyYbVa8YSS8vBZ23BfA=;
-        b=nGSdUHGh7+PMc1mO2BVUTFNv3uMXr31BbEQkdx5pLvbCU9Wgakc939sYKlM26WOCVU
-         FqjVKwkGSr2bEu6Ap/EHKzz+fLSeJULZdEMFtgR4g8cAC2Cu7vzrDMkFP6U0deTYHZRb
-         6D+kB/OS49xUE0Ry1JhRvBNsqEFKxYDcv45PLbsoLyGLzyH54VnNAehI4nIEo5TB3Gkl
-         t4KvlI4ERNiqKZFdOmC2O/YTB876ZCJNe+nmdnNlWM5+x+AXBCjwbGKqR0KhF4s6N0Jz
-         ij2ViR1Z5b+gQ2ZTUJl2g3heeMq+gz1xTwuuU/yGhAwERhCHwVIxrYCZcoCApcLZK0O7
-         GylA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768622810; x=1769227610;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PnjtImrdEjhPayN2qIroF2+jnyYbVa8YSS8vBZ23BfA=;
-        b=AxNwL3/DLt5v6P3OkKPZUUF/ketHYqvFK6CmaxNtUhacw3BIqNM15n1Kxi/YQVm+GZ
-         KfDLLvYDoFmvC1NvGg70Oas23Hhcuc5ohuP/ogecNQ8KeaKeIiCdB7IfhHIb8MhMIvzA
-         ZaIJJKtp2Q/4iaV8NrH32F+s//deYTfDq3kisU0/0ek1NTJ/49Q9YtQBGv3RgGgqLhCu
-         tsKYa4ITHDMszVuBtXOwRC+4aQy08mC5zzf0BAafYZLjzLe/59bmnBw6s6B9B8yrNadH
-         7MY1JtrTBNEQPVVQoWGvDimfB5uuIUEx+GIL2aTxEpxijxtnn+3suYfSdN2xTCmWCFq8
-         GbvA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVa+CiiWTg7qbY+hHgmlJJ4nY1vk98CoAFnHS/5Sjkm9GFRlxW5obUlmWiAn2D/p8gz41fZPMKMR9kRg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhTeDVlwNbOab+lcU8jc5gpmys41Zy5gqX/8lmGBP+vr517MIr
-	EgDcAy5XrnQdX5/VvK8pW04m9qhvX3UqMDbpo5UPZIXpT5NYG0zrcWyv
-X-Gm-Gg: AY/fxX7bShYGNfJOYAtxFHOnjH8+fZmTpVKuX2V1AkRB7YrRK4ojYyNuSPB+vks3hvD
-	qSgFyrbSLckRBap/Kx3HgC4+KSB5cQqx8RqQU3sI/5uvmQsQp2CuTtQjM4tna2LpcxjRJlMlVW5
-	D37MLDOF3qkI8vD2rln4CvDw2BIhFHokp6xtg39wfu2M34gItR+2lnysWSdY6IafLkOXEFG+e7r
-	jkqJa9xXxiwxONtHe/xEOmDum8oOK+xJ0DfXmBmfqaQuQ/0oB5SVj+DqSRsVTscH/Wl5KLryPux
-	qu3QF2lrLvfJu04eR82ExSwxJNjOI3xR5jbdVK755bap5+3As38EVIcwu3wyqVP1IVNGR7NBBAX
-	WqjWyoQqSctP6QgVbK4ZZKdXwf8Gh9ZO6+vYUe2vG8wKdF9YH9BBNUZi0dYDFVA7t6uRAXzw2Ck
-	GwlZgbY+YkY06IrgVYDbq+Uv2aS1MRBaX9CqI6uifUVj7KsQty3fQfnyxCa02X/US2gis1XVkgl
-	R0=
-X-Received: by 2002:a05:620a:1a8b:b0:8c5:2f89:6904 with SMTP id af79cd13be357-8c6a676dd6amr698697885a.45.1768622809943;
-        Fri, 16 Jan 2026 20:06:49 -0800 (PST)
-Received: from localhost (bras-base-toroon21-grc-75-184-144-58-243.dsl.bell.ca. [184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a71ab272sm383499585a.2.2026.01.16.20.06.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 20:06:49 -0800 (PST)
-From: Richard Acayan <mailingradian@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Cc: Robert Mader <robert.mader@collabora.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	David Heidelberg <david@ixit.cz>,
-	phone-devel@vger.kernel.org,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v7 5/5] arm64: dts: qcom: sdm670-google-sargo: add imx355 front camera
-Date: Fri, 16 Jan 2026 23:06:57 -0500
-Message-ID: <20260117040657.27043-6-mailingradian@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260117040657.27043-1-mailingradian@gmail.com>
-References: <20260117040657.27043-1-mailingradian@gmail.com>
+	s=arc-20240116; t=1768625081; c=relaxed/simple;
+	bh=/Wuoalou3aggWHgAQCEz4garPC5Alk/bJiLEKNrA5tk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nBh2PsRywDjVpE7f0/tjungdkVIGF42IkV7HGNIUqU9+/MllmqXkTHI1OyqOXddeLZpjvAonGwNuVf1PQ23yri2iwg8NmQj0ekUkX7YNiR1DK4PW2KMHRv3ZGzkr69cx+0aOaVL/IXkV+iCq6gMkHAFcnb3W34XMrZdT7z1cTV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=W78oMkq+; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 1BDBE492;
+	Sat, 17 Jan 2026 05:44:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768625047;
+	bh=/Wuoalou3aggWHgAQCEz4garPC5Alk/bJiLEKNrA5tk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=W78oMkq+O7OS4H8GjPYbD5DoYpsLLfKhJuk+JAJ2PzWx45V0DLftbx+u25H3SLCXX
+	 zULfdQddolOTHBAUhsGBfPxDmIcMXzdh+hYfBq4nCfhFYYBh+TCTAJjrpMEvLsmVAY
+	 V/eXGdoLfYcFp4kl6urZWw1Ec1JKVq57ihsIEQpc=
+Date: Sat, 17 Jan 2026 06:44:13 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Faizel K B <faizel.kb@gmail.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH 2/3] media: vimc: sensor: Add frame rate configuration
+ support
+Message-ID: <20260117044413.GB445@pendragon.ideasonboard.com>
+References: <20260115191050.1370387-1-faizel.kb@gmail.com>
+ <20260115191050.1370387-3-faizel.kb@gmail.com>
+ <176855718062.1693075.8294828651917203116@ping.linuxembedded.co.uk>
+ <cr7vrmkqxuriwici63khv4rv4fyeyp4aacejqe5mqfwuwbd2bs@xrjarfm6g4fv>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cr7vrmkqxuriwici63khv4rv4fyeyp4aacejqe5mqfwuwbd2bs@xrjarfm6g4fv>
 
-The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
-mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
-support for it.
+On Fri, Jan 16, 2026 at 12:35:47PM -0800, Faizel K B wrote:
+> On Fri, Jan 16, 2026 at 09:53:00AM +0000, Kieran Bingham wrote:
+> > Hi Faizel,
+> >
+> > Pullling in the libcamera-devel mailing list for relevant awareness too.
+> >
+> > Quoting faizel.kb@gmail.com (2026-01-15 19:10:49)
+> >> From: Faizel K B <faizel.kb@gmail.com>
+> >>
+> >> Implement set_frame_interval and get_frame_interval callbacks in
+> >> v4l2_subdev_pad_ops to enable frame rate configuration from 1-240 FPS.
+> >> The default frame rate is 60 FPS.
+> >>
+> >> The configured frame interval is pre-calculated into jiffies and
+> >> stored in the sensor's hw structure for efficient access by the
+> >> streamer thread.
+> >
+> > This is a really interesting and helpful bit of work - but I'm weary it
+> > might have taken one small mis-direction.
+> >
+> > VIMC aims to replicate the usage of camera sensors, and I don't think
+> > we're supposed to use frame interval interface for that.
+> >
+> > Instead following the camera sensor model, this should be implemented to
+> > mirror what the hardware in camera sensors actually does/needs which is
+> > to make the frame rate a function of the exposure time and blankings
+> > (both hblank and vblank).
+> >
+> > We have a bit of a write up about the calculation at the bottom of this
+> > page:
+> >
+> > - https://libcamera.org/camera-sensor-model.html
+> >
+> > Or perhaps the sensor requirements of libcamera might be what a virtual
+> > sensor should aim for:
+> >
+> > - https://libcamera.org/sensor_driver_requirements.html
+> 
+> Thanks for the review and links. It makes sense to implement the pixelrate, 
+> v/h blanking from a sensor point of view.The exposure value also
+> matters. Sensors even prioritize the exposure to the frame timings or the
+> other way. This parameters can be added inside using v4l2_ctrl_new_std(),
+> for pixel rate,blanking and exposure and calculate the sleep time for the
+> frame rate delay in the streamer thread. By this, a user need to do few
+> calculations to adjust the frame rate.
+> 
+> > There's probably more helpful documentation in the linux kernel too in
+> > the upcoming sensor model rework from Sakari.
+> >
+> > Aha - in fact I found this:
+> > - https://www.kernel.org/doc/html/latest/userspace-api/media/drivers/camera-sensor.html#raw-camera-sensors
+> >
+> > "2.2. Frame interval configuration
+> >
+> > There are two different methods for obtaining possibilities for
+> > different frame intervals as well as configuring the frame interval.
+> > Which one to implement depends on the type of the device."
+> >
+> > So perhaps the question we need to clarify is "what type of device is
+> > vimc-sensor".
+> >
+> > I'm likely biased to presume it's a virtual raw camera sensor ... But is
+> > it ?
+> 
+> Would like to hear more about this.
 
-Co-developed-by: Robert Mader <robert.mader@collabora.com>
-Signed-off-by: Robert Mader <robert.mader@collabora.com>
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../boot/dts/qcom/sdm670-google-sargo.dts     | 95 +++++++++++++++++++
- 1 file changed, 95 insertions(+)
+Given that the vimc driver exposes raw bayer formats, and that the
+sensor is connected to an entity called debayer, it's safe to say it
+should be considered as a raw sensor. This is how libcamera uses vimc,
+and I think it's the most important use case for the driver.
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-index ed55646ca419..e925cba0381f 100644
---- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-@@ -172,6 +172,34 @@ vreg_s2b_1p05: vreg-s2b-regulator {
- 		regulator-min-microvolt = <1050000>;
- 		regulator-max-microvolt = <1050000>;
- 	};
-+
-+	cam_front_ldo: cam-front-ldo-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "cam_front_ldo";
-+		regulator-min-microvolt = <1352000>;
-+		regulator-max-microvolt = <1352000>;
-+		regulator-enable-ramp-delay = <135>;
-+
-+		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&cam_front_ldo_pin>;
-+		pinctrl-names = "default";
-+	};
-+
-+	cam_vio_ldo: cam-vio-ldo-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "cam_vio_ldo";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-enable-ramp-delay = <233>;
-+
-+		gpios = <&pm660_gpios 13 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&cam_vio_pin>;
-+		pinctrl-names = "default";
-+	};
- };
- 
- &apps_rsc {
-@@ -392,6 +420,59 @@ vreg_bob: bob {
- 	};
- };
- 
-+&camss {
-+	vdda-phy-supply = <&vreg_l1a_1p225>;
-+	vdda-pll-supply = <&vreg_s6a_0p87>;
-+
-+	status = "okay";
-+};
-+
-+&camss_port1 {
-+	camss_endpoint1: endpoint {
-+		data-lanes = <0 1 2 3>;
-+		remote-endpoint = <&cam_front_endpoint>;
-+	};
-+};
-+
-+&cci {
-+	pinctrl-0 = <&cci1_default>;
-+	pinctrl-1 = <&cci1_sleep>;
-+	pinctrl-names = "default", "sleep";
-+
-+	status = "okay";
-+};
-+
-+&cci_i2c1 {
-+	camera@1a {
-+		compatible = "sony,imx355";
-+		reg = <0x1a>;
-+
-+		clocks = <&camcc CAM_CC_MCLK2_CLK>;
-+
-+		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
-+		assigned-clock-rates = <19200000>;
-+
-+		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
-+
-+		avdd-supply = <&cam_front_ldo>;
-+		dvdd-supply = <&cam_front_ldo>;
-+		dovdd-supply = <&cam_vio_ldo>;
-+
-+		pinctrl-0 = <&cam_mclk2_default>;
-+		pinctrl-names = "default";
-+
-+		rotation = <270>;
-+		orientation = <0>;
-+
-+		port {
-+			cam_front_endpoint: endpoint {
-+				link-frequencies = /bits/ 64 <360000000>;
-+				remote-endpoint = <&camss_endpoint1>;
-+			};
-+		};
-+	};
-+};
-+
- &gcc {
- 	protected-clocks = <GCC_QSPI_CORE_CLK>,
- 			   <GCC_QSPI_CORE_CLK_SRC>,
-@@ -490,6 +571,14 @@ &pm660_charger {
- 	status = "okay";
- };
- 
-+&pm660_gpios {
-+	cam_vio_pin: cam-vio-state {
-+		pins = "gpio13";
-+		function = "normal";
-+		power-source = <0>;
-+	};
-+};
-+
- &pm660_rradc {
- 	status = "okay";
- };
-@@ -508,6 +597,12 @@ led-0 {
- };
- 
- &pm660l_gpios {
-+	cam_front_ldo_pin: cam-front-state {
-+		pins = "gpio4";
-+		function = "normal";
-+		power-source = <0>;
-+	};
-+
- 	vol_up_pin: vol-up-state {
- 		pins = "gpio7";
- 		function = "normal";
+This being said, the media graph exposed by the vimc driver doesn't map
+exactly to how a raw sensor connected to an inline ISP would look like.
+It would be nice to improve this at some point.
+
+> >> Signed-off-by: Faizel K B <faizel.kb@gmail.com>
+> >> ---
+> >>  drivers/media/test-drivers/vimc/vimc-common.h |  2 +
+> >>  drivers/media/test-drivers/vimc/vimc-sensor.c | 45 +++++++++++++++++++
+> >>  2 files changed, 47 insertions(+)
+> >>
+> >> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+> >> index 7f5f008e407b..a71ef761fa77 100644
+> >> --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> >> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> >> @@ -173,6 +173,7 @@ struct vimc_sensor_device {
+> >>         struct tpg_data tpg;
+> >>         struct v4l2_ctrl_handler hdl;
+> >>         struct media_pad pad;
+> >> +       struct v4l2_fract frame_interval;
+> >>
+> >>         u8 *frame;
+> >>
+> >> @@ -184,6 +185,7 @@ struct vimc_sensor_device {
+> >>                 struct v4l2_area size;
+> >>                 enum vimc_sensor_osd_mode osd_value;
+> >>                 u64 start_stream_ts;
+> >> +               unsigned long fps_jiffies;
+> >>         } hw;
+> >>  };
+> >>
+> >> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> >> index 2b07dc1f1278..d54425ff28a1 100644
+> >> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
+> >> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> >> @@ -140,12 +140,53 @@ static int vimc_sensor_set_fmt(struct v4l2_subdev *sd,
+> >>
+> >>         return 0;
+> >>  }
+> >> +static int vimc_sensor_get_frame_interval(struct v4l2_subdev *sd,
+> >> +                                         struct v4l2_subdev_state *state,
+> >> +                                         struct v4l2_subdev_frame_interval *fi)
+> >> +{
+> >> +       struct vimc_sensor_device *vsensor = v4l2_get_subdevdata(sd);
+> >> +
+> >> +       fi->interval = vsensor->frame_interval;
+> >> +
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +static int vimc_sensor_set_frame_interval(struct v4l2_subdev *sd,
+> >> +                                         struct v4l2_subdev_state *state,
+> >> +                                         struct v4l2_subdev_frame_interval *fi)
+> >> +{
+> >> +       struct vimc_sensor_device *vsensor = v4l2_get_subdevdata(sd);
+> >> +       u32 fps;
+> >> +
+> >> +       /* Sanitize to default if invalid */
+> >> +       if (unlikely(!fi->interval.numerator || !fi->interval.denominator)) {
+> >> +               fi->interval.numerator = 1;
+> >> +               fi->interval.denominator = 60;
+> >> +       } else {
+> >> +               /* Clamp FPS to 1-240 range */
+> >> +               fps = fi->interval.denominator / fi->interval.numerator;
+> >> +               fps = clamp(fps, 1U, 240U);
+> >> +
+> >> +               fi->interval.numerator = 1;
+> >> +               fi->interval.denominator = fps;
+> >> +       }
+> >> +
+> >> +       vsensor->frame_interval = fi->interval;
+> >> +
+> >> +       /* Update hardware timing configuration */
+> >> +       vsensor->hw.fps_jiffies = (HZ * vsensor->frame_interval.numerator) /
+> >> +                                 vsensor->frame_interval.denominator;
+> >> +
+> >> +       return 0;
+> >> +}
+> >>
+> >>  static const struct v4l2_subdev_pad_ops vimc_sensor_pad_ops = {
+> >>         .enum_mbus_code         = vimc_sensor_enum_mbus_code,
+> >>         .enum_frame_size        = vimc_sensor_enum_frame_size,
+> >>         .get_fmt                = v4l2_subdev_get_fmt,
+> >>         .set_fmt                = vimc_sensor_set_fmt,
+> >> +       .get_frame_interval     = vimc_sensor_get_frame_interval,
+> >> +       .set_frame_interval     = vimc_sensor_set_frame_interval,
+> >>  };
+> >>
+> >>  static void *vimc_sensor_process_frame(struct vimc_ent_device *ved,
+> >> @@ -400,6 +441,10 @@ static struct vimc_ent_device *vimc_sensor_add(struct vimc_device *vimc,
+> >>
+> >>         vsensor->ved.process_frame = vimc_sensor_process_frame;
+> >>         vsensor->ved.dev = vimc->mdev.dev;
+> >> +       /* Initialize to 60 FPS */
+> >> +       vsensor->frame_interval.numerator = 1;
+> >> +       vsensor->frame_interval.denominator = 60;
+> >> +       vsensor->hw.fps_jiffies = HZ / 60;
+> >>
+> >>         return &vsensor->ved;
+> >>
+
 -- 
-2.52.0
+Regards,
 
+Laurent Pinchart
 
