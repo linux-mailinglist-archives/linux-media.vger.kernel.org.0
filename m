@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-50965-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50966-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA9DD39141
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 22:54:38 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F43D39144
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 22:57:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 32F8A3019BE7
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 21:54:29 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D9CBE3011EE2
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 21:56:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6B072DA75B;
-	Sat, 17 Jan 2026 21:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6DE2E0925;
+	Sat, 17 Jan 2026 21:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hXlNgR3b"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O6pRloz7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4C82DC331
-	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 21:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD162DAFD7
+	for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 21:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768686867; cv=none; b=S1ilF9PTWRo6pEaZyc4TNDdoF5Ky6PAvqgZdqTH+hZ2EV2vhSgG9ffCHZkqK3Ncp4PDGbCqXFGhv3+Cl0vu+nb1oILclxpgrkFPLyGbBqfXsXfnrfHmFKrH4mc8lvlt6lxorq5kCGIpxmxalHfghYHOsc7jyB3nxOcaFoJ9cFzk=
+	t=1768687016; cv=none; b=AR/hXatC0eVKMfwkC5o6huMOtUB8+Y2khQPrT/Z31x9+sAehf2O3fnbYVZeP93QumA6RloVM7qPeYBKad+74co8zJKCvVzwZVTeOr9f6CVfAHk3yN9ADOcbJW6U6jxDhlp8PsD/+gyVWNOgd2yqkuylytdJgaDEX2gUL3Ql2tTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768686867; c=relaxed/simple;
-	bh=61farPWAS3rdz5Y29Ms/plzBMDmfaogO+QU+97XcWXk=;
+	s=arc-20240116; t=1768687016; c=relaxed/simple;
+	bh=vF4TN1yu22+nztG/+fn/F8a92h6FiVLorTUIC6RyXGA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pwpjiZYXlSPZ768Za3g4tj6GpIe5br7B/oAKK/xNC4wq7eTLlXIqLdolzCfMXCTs8oB77NPYPzCn2O4YyyOER1MBg9mw9SnhEhYWkAcP4QSn6ESrWajcKCRsGESe5E4+woNnusyaQfrbJW0iGrCRLfH9AAH2GqUUpIONM/jd3tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hXlNgR3b; arc=none smtp.client-ip=209.85.128.43
+	 In-Reply-To:Content-Type; b=uBw+yshh1Bnz4FwbEpwEk0/4lZp148a1+L19q+gtQZ198pZrJ3EZLHOz8xUfshWjTcY+pEGOul/guKeA1DrMl1q9F4tY34EULy/5IkTzceAWCkDtd5JkqB8VB2XxGLZBpwgEgTnKwZ8ucdDGeMSZi+JaPEh3d6NlmhdA1K2qAAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O6pRloz7; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4801c314c84so17488745e9.0
-        for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 13:54:25 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ee0291921so20458495e9.3
+        for <linux-media@vger.kernel.org>; Sat, 17 Jan 2026 13:56:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768686864; x=1769291664; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1768687013; x=1769291813; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=VwPNYfeXiQuitQb++/nMJ12hS+N4b8LejrqLKmJ1Kx8=;
-        b=hXlNgR3barPPKa/aL5zVbt7XW8e/0iu5L6x7pnN9dGm7rinFAK0FBwMbD5K8+hWm+0
-         FC/iUTkndob1IZDmLNln/UeDyr3r5bBgVv4/iT0xRhdiUFrXyTwLLReSt9KpOm36mSLc
-         /GBD9oYMlVvg8MhS6qfGWb6KjcrHIEtbIwBXApmH0gzdeiV7zifF2I/VTXe92WUB6ch+
-         hLIiee6yOpNBcDflBG5rHejvF+rL9g98u2NcOSLCXw0dE8yaB8k+ycuz2y8hBvxB1VjQ
-         BEabnDHwCsWfFLRHs7WzIr9z7XkD3dFLQoQeENNUT2zsiuRvPtUHhvfw7IGOAaEKw9rn
-         3jxQ==
+        bh=okLeQShl2fqm0YxPatMOb07vCxHIVDXXSr6Cq83TEoo=;
+        b=O6pRloz7Xa9a2ROMub5Uygp0vjiES3ND/eE4d1qElydlgQJrlJRFZNUJZPn6PLy3Ko
+         N2SAtmJ7YzVUGq/ttiQOgRYs3T2Br4ep+ufQaq/+XN4c4YN7QpxlagloNQlbRiwu8ko9
+         Cn4PJ2o8NuCfXx5XiNtu52iZVMXCLRjoy9msgQjQh50pXcxd4KXZbJL5lE98Lm4GNlSg
+         cTjQOFyquWqy/5bkeD/+Zre8D1A8yi0WcaSWSMIto+220JOfyHLmOikPgLGOjvnVhK0h
+         XSqJs2IxzXiKJvPqIdSlczoUlPhpKoTT3vQtUF1rx8mtZ7zqXOo6Ju5V6vaya+a7Zuoj
+         K50w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768686864; x=1769291664;
+        d=1e100.net; s=20230601; t=1768687013; x=1769291813;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VwPNYfeXiQuitQb++/nMJ12hS+N4b8LejrqLKmJ1Kx8=;
-        b=TkwwAVQYlQHqEnWVAskFXeHByQVAc3k8T9TG+B+P/WzxG3YpkqcHmR8Pp9BzW74aw8
-         mXSMarUt2zwqMr6oDbMB3pmr5sBSjUcVs4/Zx/RTPxKZCmzsZm8yilzpNuduyQgZFeL7
-         j7bJ5Fdo0Bt/RVodsaEhSCzOs6tkhOy1cbK21cT0wY7j6Oooh8SPTBNfLj6ygcdGG+eT
-         Bi2nuYdqQkkIwmGGARvfvKDkdB66sSi0XGljbRGXRyz5XKVn8Rr6uzee2Ybsk3ia83MQ
-         4Ew/EKPnISIE7HljxZ/PYmi9MvhiuC5z5+VG9hgKVF4krkXWfuA9Kaln2Hp1sPbUGVeL
-         04Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCVrzn7MlXlO0G/wFobaUjxhGFXd+sniSrp7wlt2ik0+xRWjV6daXloKsEqO9eH7/+64KQhTro8bbVtpPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu2Rz6lZGCMb1Z38l4URvXrl1/uFrqwQ0Yg/04fF1HIpeKufCh
-	ULhWxVA6WebLWUvFVnLXvhh4Nn5QfhW8t1GzLDIWRkdtaMdEeWa8PBzY37xmQKllDfs=
-X-Gm-Gg: AY/fxX644QIm/L5U3m/B/pKZCLlQZVLkhbjyTFkxAlY5+qfzygNbvHZ/3vJRaBE8hyS
-	1c+Qfkp9kQI2VKOG7qwym/E0v2xLvCEcE5683HaaYoj2lm02IlbtLgOp5aG6Tlfq3hZEm36yVgc
-	YsRxnXj2sN5gMnwZhgOmrotVjz/CvuTizAt46V61NMH5/12GxhQ8Sbtoyxoax5SNcDhpEMcWiUP
-	Ae+MWw72Ha0ugYaEWqzzvMT89wV96S09fKc/W/IiCjoEU6h1QO6ryJKphby+xCHU79qJivsMZuQ
-	+TBQBK3USrU9CMfOf+xnTxalrCOTpqAGF4ia/YnvDqTh5msdCehbhrDv7JbY8AmU1W0tm3GTdGN
-	c73oXBnUNgJ3DEIf5IPSlrWLdO8AloRweGi12fIAdB/NjnPbEealy3h4AeqgSrZwbQaxyskmfcp
-	jqU8XkthDEhNtp9yrYv/Oh/n0f7xsgmBiiKz4Hb3+K3PR6hSYrLape
-X-Received: by 2002:a05:600d:6413:10b0:480:1e40:3d2 with SMTP id 5b1f17b1804b1-4801e400518mr65526585e9.29.1768686864184;
-        Sat, 17 Jan 2026 13:54:24 -0800 (PST)
+        bh=okLeQShl2fqm0YxPatMOb07vCxHIVDXXSr6Cq83TEoo=;
+        b=IEeqlnd9667Q+fG8bkZ74qoDgauD+0WrTFprUF4bJDdygaqQaXUCZ5n5y96SIuKfyx
+         xkobCJg3WYqLrkDPlJAW6KAr5QllCPPocOj3hbyVRSlnW2CY1YCuLUBSHqrTnklrlxwg
+         yEWjDz48WDSkKc8wXop1G/9x6oOyLCd1qqKN5/7WODtOEPJ4AqaQBj5eZPvWzTcMYRfD
+         6xaps2QLrF+DMYiOjDx7RE7nlccE0d4xrqpHFPCeg4frZZkDNP4jSU9szfUgsh62kzBs
+         G2XPInZ1HJUfgHsnr0VlQtXJpWHe0IOHy414Xxbfi3ujMsBWzE0bUQw7Ea/Yqp94EY4P
+         d7qA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9k/ptibGbvkRbI/BRGDtYRW3iJd8HRGeOQNvO2eqHRViR04koUFavhTnlljVVZWuWl+GW6qvRuROv2Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwawozjwuN8ex4/oeYWI+WK8+zOkVLGNauRxPTGeHAHufPzerae
+	NdKecSmI1KgtKyLetnq/spAoqnixgDEJTX2RD6SIeKteZgKp1/hbXfdaxsX0AA8USQU=
+X-Gm-Gg: AY/fxX6N2MHhRvA9cXjsqVSWy0Gi5izfr77KvsKiPcm4G1WLAOJ4Ap9v+fvx/boRPlo
+	Nv0eNHV/HU5jJfsMHatBs/wlnZSsyJbrShzyKC2HqClt2C3OAUOr6jCQFqo7QaQZYzsBS2JS3b2
+	WqZ3Q+18yN2spKC6aMFGyUFRxG6cx5EIL9a6E4ABbG5Qjy4jw6kLe3LAMLKmiR9lMFqne7bzZfI
+	OGbBOraK+ypSWXOqgRSSHC5xzBb5ZaPdFxZ+/mWyEEiLr8WdhLEN9O6qQnh7hwOfFRAG8LJMF+S
+	6PEZws/upvDTnPE+0Gj0i091edwNlIwXrjgBzX7M+ba15TvDdkQdBTlFnNQsX7Mv8uUUA6dQ7vg
+	dCGpZXJ+LyiR7VqJh3d1jiusoJEn+ZTt/uuZ1bwIV2HjMNCoePI8g/tzfJRM3c1DNEFJOHzjMoX
+	ni330lEIlHPgYUgHW/SrG8j4MuETB/PnN/YoyiKPAXT9I/nhcogzWR
+X-Received: by 2002:a05:600c:4e90:b0:47e:e20e:bba3 with SMTP id 5b1f17b1804b1-4801eab54ccmr80999525e9.7.1768687013504;
+        Sat, 17 Jan 2026 13:56:53 -0800 (PST)
 Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356997e6cdsm14234007f8f.31.2026.01.17.13.54.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm167386705e9.12.2026.01.17.13.56.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Jan 2026 13:54:23 -0800 (PST)
-Message-ID: <25313d70-2d7b-483a-b1cf-493f0697c6cd@linaro.org>
-Date: Sat, 17 Jan 2026 21:54:19 +0000
+        Sat, 17 Jan 2026 13:56:53 -0800 (PST)
+Message-ID: <6cdc17f7-0926-4230-8be8-ecf26cc26df4@linaro.org>
+Date: Sat, 17 Jan 2026 21:56:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,8 +81,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 7/8] media: qcom: camss: csiphy-3ph: C-PHY needs own
- lane configuration
+Subject: Re: [PATCH v3 8/8] media: qcom: camss: Account for C-PHY when
+ calculating link frequency
 To: david@ixit.cz, Robert Foss <rfoss@kernel.org>,
  Todor Tomov <todor.too@gmail.com>,
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
@@ -95,65 +95,135 @@ Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  phone-devel@vger.kernel.org
 References: <20260117-qcom-cphy-v3-0-8ce76a06f7db@ixit.cz>
- <20260117-qcom-cphy-v3-7-8ce76a06f7db@ixit.cz>
+ <20260117-qcom-cphy-v3-8-8ce76a06f7db@ixit.cz>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20260117-qcom-cphy-v3-7-8ce76a06f7db@ixit.cz>
+In-Reply-To: <20260117-qcom-cphy-v3-8-8ce76a06f7db@ixit.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 17/01/2026 15:36, David Heidelberg via B4 Relay wrote:
 > From: David Heidelberg <david@ixit.cz>
 > 
-> Catch when C-PHY configuration gets used on SoC with CAMSS missing C-PHY
-> configuration lane registers.
+> Ensure that the link frequency divider correctly accounts for C-PHY
+> operation. The divider differs between D-PHY and C-PHY, as described
+> in the MIPI CSI-2 specification.
 > 
-> Hopefully this check will disappear as these lane regs gets populated.
+> For more details, see:
+> https://docs.kernel.org/driver-api/media/tx-rx.html#pixel-rate
 > 
+> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > Signed-off-by: David Heidelberg <david@ixit.cz>
 > ---
->   drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
+>   drivers/media/platform/qcom/camss/camss-csid.c   |  2 +-
+>   drivers/media/platform/qcom/camss/camss-csiphy.c |  6 ++++--
+>   drivers/media/platform/qcom/camss/camss.c        | 16 +++++++++++++---
+>   drivers/media/platform/qcom/camss/camss.h        |  2 +-
+>   4 files changed, 19 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> index d82a88dad74b5..89bfe3710fc3a 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> @@ -1217,6 +1217,22 @@ static int csiphy_lanes_enable(struct csiphy_device *csiphy,
->   	u8 val;
->   	int i;
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+> index b50b0cfe280c1..24f244d2959c9 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
+> @@ -545,7 +545,7 @@ static int csid_set_clock_rates(struct csid_device *csid)
+>   	fmt = csid_get_fmt_entry(csid->res->formats->formats, csid->res->formats->nformats,
+>   				 csid->fmt[MSM_CSIPHY_PAD_SINK].code);
+>   	link_freq = camss_get_link_freq(&csid->subdev.entity, fmt->bpp,
+> -					csid->phy.lane_cnt);
+> +					csid->phy.lane_cnt, csid->phy.cphy);
+
+Just pass &csid->phy ..
+>   	if (link_freq < 0)
+>   		link_freq = 0;
 >   
-> +	if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
-> +		switch (csiphy->camss->res->version) {
-> +		case CAMSS_2290:
-> +		case CAMSS_8280XP:
-> +		case CAMSS_X1E80100:
-> +		case CAMSS_8550:
-> +		case CAMSS_8650:
-> +		case CAMSS_8300:
-> +		case CAMSS_8775P:
-> +			dev_err(dev, "Missing lane_regs definition for C-PHY\n");
-> +			return -EINVAL;
-> +		default:
-> +			break;
-> +		}
-> +	}
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
+> index 08dd238e52799..1ea0d0ef354ff 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
+> @@ -144,8 +144,9 @@ static int csiphy_set_clock_rates(struct csiphy_device *csiphy)
+>   	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
+>   				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
+>   	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
+> +	bool cphy = csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY;
+>   
+> -	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
+> +	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
+
+CPHY shouldn't be a boolean special case - you have a use-case for the 
+containing structure, so pass that instead.
+>   	if (link_freq < 0)
+>   		link_freq  = 0;
+>   
+> @@ -270,9 +271,10 @@ static int csiphy_stream_on(struct csiphy_device *csiphy)
+>   	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
+>   				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
+>   	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
+> +	bool cphy = csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY;
+>   	u8 val;
+>   
+> -	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
+> +	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
+>   
+>   	if (link_freq < 0) {
+>   		dev_err(csiphy->camss->dev,
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index ea0c8cf3cd806..556fedd92e065 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -32,6 +32,14 @@
+>   #define CAMSS_CLOCK_MARGIN_NUMERATOR 105
+>   #define CAMSS_CLOCK_MARGIN_DENOMINATOR 100
+>   
+> +/*
+> + * C-PHY encodes data by 16/7 ~ 2.28 bits/symbol
+> + * D-PHY doesn't encode data, thus 16/16 = 1 b/s
+> + */
+> +#define CAMSS_COMMON_PHY_DIVIDENT 16
+> +#define CAMSS_CPHY_DIVISOR 7
+> +#define CAMSS_DPHY_DIVISOR 16
 > +
->   	switch (csiphy->camss->res->version) {
->   	case CAMSS_845:
->   		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
+>   static const struct parent_dev_ops vfe_parent_dev_ops;
+>   
+>   static const struct camss_subdev_resources csiphy_res_8x16[] = {
+> @@ -4280,20 +4288,22 @@ struct media_pad *camss_find_sensor_pad(struct media_entity *entity)
+>    * camss_get_link_freq - Get link frequency from sensor
+>    * @entity: Media entity in the current pipeline
+>    * @bpp: Number of bits per pixel for the current format
+> - * @lanes: Number of lanes in the link to the sensor
+> + * @nr_of_lanes: Number of lanes in the link to the sensor
+>    *
+>    * Return link frequency on success or a negative error code otherwise
+>    */
+>   s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+> -			unsigned int lanes)
+> +			unsigned int nr_of_lanes, bool cphy)
+>   {
+>   	struct media_pad *sensor_pad;
+> +	unsigned int div = nr_of_lanes * 2 * (cphy ? CAMSS_CPHY_DIVISOR :
+> +						     CAMSS_DPHY_DIVISOR);
+>   
+>   	sensor_pad = camss_find_sensor_pad(entity);
+>   	if (!sensor_pad)
+>   		return -ENODEV;
+>   
+> -	return v4l2_get_link_freq(sensor_pad, bpp, 2 * lanes);
+> +	return v4l2_get_link_freq(sensor_pad, CAMSS_COMMON_PHY_DIVIDENT * bpp, div);
+>   }
+>   
+>   /*
+> diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+> index 6d048414c919e..6bf7738837b89 100644
+> --- a/drivers/media/platform/qcom/camss/camss.h
+> +++ b/drivers/media/platform/qcom/camss/camss.h
+> @@ -163,7 +163,7 @@ int camss_enable_clocks(int nclocks, struct camss_clock *clock,
+>   void camss_disable_clocks(int nclocks, struct camss_clock *clock);
+>   struct media_pad *camss_find_sensor_pad(struct media_entity *entity);
+>   s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+> -			unsigned int lanes);
+> +			unsigned int lanes, bool cphy);
+>   int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
+>   int camss_pm_domain_on(struct camss *camss, int id);
+>   void camss_pm_domain_off(struct camss *camss, int id);
 > 
 
-Proliferating special cases in switch statements on a per-SoC basis is 
-verboten.
-
-Please find another way to do this, you already have a bool to indicate 
-cphy in struct csid_phy_config {} so at some level CAMSS already has a 
-bool to indicate what to do.
-
-Please make that logic accessible to logical consumers throughout, in 
-this case the CPHY code.
-
----
-bod
 
