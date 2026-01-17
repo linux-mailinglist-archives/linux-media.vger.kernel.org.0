@@ -1,86 +1,146 @@
-Return-Path: <linux-media+bounces-50944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50945-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39E1D38E42
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 12:37:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42484D38E45
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 12:38:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A73B4301F01D
-	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 11:36:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DB61D301E907
+	for <lists+linux-media@lfdr.de>; Sat, 17 Jan 2026 11:38:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 490863370F2;
-	Sat, 17 Jan 2026 11:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7587C33710C;
+	Sat, 17 Jan 2026 11:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYiMndyq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsDmpo8d"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC402580E1;
-	Sat, 17 Jan 2026 11:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA6E271457;
+	Sat, 17 Jan 2026 11:38:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768649813; cv=none; b=C8eN0KlAIg2ssMArD4CNj+D3P9ENprqkw5Y4i+oztFwUAdJ4YtqZd4mxoFH8gFteWqH5ERBXVaJ4nwvAITpvWLb1jXY7fDjj8YoCjRyrevAYSV/OvjH1JIVjhli1eOQTkUjwzcv/TwRvqb9Yb2KTRkstTP2B/YyapPSG2+kbEjw=
+	t=1768649906; cv=none; b=PLZSd2oJFBDrx0GHh/oqkuoTLwTYZHVUt55D1l82LgAjPnlmB0qyfBbZuz42pxeDy9/B4ulebh/qv0w4HnLFAPA6XUKT7TWCHniM6d6xrhtR/hHQqmmcc0/MfS3RAa8OrnA2/zsUndBy70tnBZPmx4D0LT4qTNN6Tnauv36H4lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768649813; c=relaxed/simple;
-	bh=VjBbKNdlkHKK1MnHdgUeE1D0je5Fkp2iTmuGlL2vdLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rh7CSkcUIsqx/CnrAKn3J/6NpFgrcL7kV0fb554gMelXyQn4X+6aMGXoEemk+AAer899WSMXZExKa62yxopWNJTrNJa7a2IZ5tGvfi8QeRnbmqJ09dpjd1xz8UTh4skFTwcay7Tu4U+BUeWyvcWSU5e7nfc45KE5uizXutsIxJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYiMndyq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5CF3C4CEF7;
-	Sat, 17 Jan 2026 11:36:52 +0000 (UTC)
+	s=arc-20240116; t=1768649906; c=relaxed/simple;
+	bh=CvsnoBom1x4rpA9MyWZRSdKvQFCipBxErv2giRLjzYw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Y/7knyeWHqh6Se422CD/2LCpHxYbZsJ58E2WyQFzqcJbg0mbnYLGviQjIdTri07hQHxKLZ5AlGdL5ithzYX76acgWnr9ouBYzD/wjyQ3TCtC4w3l+OobqaQgWgPkrGw1NRDkibz94sO5YQFFZ2eRVvb7TWjM/6KTbtBHbkW9ugk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsDmpo8d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 575C3C4CEF7;
+	Sat, 17 Jan 2026 11:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768649813;
-	bh=VjBbKNdlkHKK1MnHdgUeE1D0je5Fkp2iTmuGlL2vdLA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SYiMndyqIfA/OktJ1PPVNuhwTFOhCW8rSIm8U+lav+C4kxhnDEiD9AwXIdWAPK3/N
-	 lh/H6tbEHrQ4Szq5AIonVaRzgZ2uJF0gilurEF4Uy++dCdKASdCngPMUpiHoBlWChn
-	 ZNZZZiIoL8vjZwI4bA0+NARIc1wrMYkEmTG4BUcCCwXUPEgzxkvMkczaJVK2LxQgPu
-	 j4ZMnyfTGsQKk/tDNpkM4hZ1Nk7ynwV0JaXbIE5OyyoG1QVzX2GiY36kfIzm8ZtzNa
-	 /Uwej7sBnsposL86z35WWxlVpYpmlp7lHbZobnykyTHvoa7ucMUOGZJuNk8ryRKYGF
-	 mjbPOPtuETWEg==
-Date: Sat, 17 Jan 2026 12:36:50 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Changhuang Liang <changhuang.liang@starfivetech.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rishikesh Donadkar <r-donadkar@ti.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Drop starfive,jh7110-camss
- from staging
-Message-ID: <20260117-bulky-speedy-kagu-faee94@quoll>
-References: <20260116-drop-starfive-camss-v2-0-34df57025921@ideasonboard.com>
- <20260116-drop-starfive-camss-v2-1-34df57025921@ideasonboard.com>
+	s=k20201202; t=1768649906;
+	bh=CvsnoBom1x4rpA9MyWZRSdKvQFCipBxErv2giRLjzYw=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=PsDmpo8dUmnj8lxig+97mKNUZh1tvUhUtWPT6De0CNBmxRKrIWBAVyDaP44H0aqV4
+	 PhzXBrfeFJSK/DcSSG/S4y1o5stRCfUHYesNPUuQbcklcBJdDIgDD9fppC3mlemxVt
+	 3wZP/id/2HPo3fnT2WFEm4NIh8b5vM/1pmAk+ADKmcnoNgjlWtJt/x6+uNQ6d3+EfK
+	 dixEbHkK7CiDW0Waz6g3AOriYrYabEgerBVylJlwMMFVA3XKwpPeBeDI03sokr+btZ
+	 LATiU54SuIO0qH3O3XH+gFKbhzjikac4Z3HfIJ8G6D2qFazf4DYIWuV3KvEs6pQAbr
+	 pzOdtuNENyo0w==
+Message-ID: <8881acaf-3233-44a3-aa55-bb1236a7cc91@kernel.org>
+Date: Sat, 17 Jan 2026 12:38:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260116-drop-starfive-camss-v2-1-34df57025921@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: Drop starfive,jh7110-camss
+ from staging
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Changhuang Liang <changhuang.liang@starfivetech.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rishikesh Donadkar <r-donadkar@ti.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20260116-drop-starfive-camss-v2-0-34df57025921@ideasonboard.com>
+ <20260116-drop-starfive-camss-v2-1-34df57025921@ideasonboard.com>
+ <20260117-bulky-speedy-kagu-faee94@quoll>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260117-bulky-speedy-kagu-faee94@quoll>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 16, 2026 at 12:36:58PM +0530, Jai Luthra wrote:
-> The starfive-camss driver is no longer being worked upon for destaging,
-> and will be dropped in a subsequent commit, so drop the DT bindings.
+On 17/01/2026 12:36, Krzysztof Kozlowski wrote:
+> On Fri, Jan 16, 2026 at 12:36:58PM +0530, Jai Luthra wrote:
+>> The starfive-camss driver is no longer being worked upon for destaging,
+>> and will be dropped in a subsequent commit, so drop the DT bindings.
+> 
+> That's a moderately new SoC and commit was added ~2 years ago. Why is
+> this being dropped exactly?
 
-That's a moderately new SoC and commit was added ~2 years ago. Why is
-this being dropped exactly?
+OK, the link below gives some answer but isn't this better just to mark
+it orphan and keep for some time? Is the driver working/useful? Maybe
+someone will volunteer for it?
 
 > 
-> Link: https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
-> Acked-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+>>
+>> Link: https://lore.kernel.org/all/ZQ0PR01MB13024A92926C415C187D2C18F29F2@ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn/
+>> Acked-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+>> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> 
+> Reverting/dropping changes is always in reverse of introducing them, so
+> this must be second commit. Otherwise your change is non-bisectable and
+> you have now warnings of undocumented ABI.
+> 
+> Best regards,
+> Krzysztof
+> 
 
-Reverting/dropping changes is always in reverse of introducing them, so
-this must be second commit. Otherwise your change is non-bisectable and
-you have now warnings of undocumented ABI.
 
 Best regards,
 Krzysztof
-
 
