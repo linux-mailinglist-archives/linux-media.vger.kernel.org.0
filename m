@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-50995-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50996-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F30AD39A64
-	for <lists+linux-media@lfdr.de>; Sun, 18 Jan 2026 23:10:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A38EBD39A67
+	for <lists+linux-media@lfdr.de>; Sun, 18 Jan 2026 23:12:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8D40B3009113
-	for <lists+linux-media@lfdr.de>; Sun, 18 Jan 2026 22:10:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 81E33300C5D5
+	for <lists+linux-media@lfdr.de>; Sun, 18 Jan 2026 22:12:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DC6430C378;
-	Sun, 18 Jan 2026 22:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 263E430C601;
+	Sun, 18 Jan 2026 22:12:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ggzl6WAM"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="at35WDEG"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35775309F1F;
-	Sun, 18 Jan 2026 22:10:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3969E29D29F;
+	Sun, 18 Jan 2026 22:12:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768774211; cv=none; b=S5iWThvRKE5ehmf6Sn1G/m4q8xAcLljH7lRzXuO693Gewx2ZdTrApsOI440Y0LL6c493Su7FsIsU8it7TNxtfLQ3lHuBNXFZANonadJIivTweH2aTjsy/XXenitTjduFURx5RrxJpd9SZs05jCfRyaE2tdRNBhvc3PDrHM8tiN0=
+	t=1768774365; cv=none; b=KchDKYrNyW3yQMx5rWuUq/j1MIuWW//TuLYnV1jP3htDlZ5IlgADZJV+cTlvpHRozBzQeh4KTN8YXu2L2sbjjz7PwdUbLjaONVUBxJpIj4BC/cS+PXwhmv4M7Fn4eawhJrwFR1MeSe4KdoSYs43lZADNU5i9xv2Qfm/JXKk64Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768774211; c=relaxed/simple;
-	bh=aNTnALIqn9gylktszv6Nhaa3ozx4VeFWCAfnVBwwD7w=;
+	s=arc-20240116; t=1768774365; c=relaxed/simple;
+	bh=yiv/l79VtpVG1KuLhly6us+bTKcuRvQGzcXTOVwGiYs=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UmMDNUu8d1MPQB3PJIoNun/nEgsuoGaxAD/6MtRnLagrsbNmiwQjoyB2GpRMcxhOZ1JTIHd1mzI/wnkdrZeKUD+ErZeCg3xT+Ebo/NKUr//DTHlRZJzVtP5hH+WReNoGyJjb+rIAb5QwlXgD4ZhFltecADPl0eDxBa/zJsvEEIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ggzl6WAM; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=IGxp3knEEkrqcCvRw5fTn4R4nPUkb8YTVYe9y7w2jj42K0zctoqeGGqs7NLQ2/lbMPm8FWfuiFnhwEVi0MmI1Noftd8LPnMsfXW0FGV9Fmxt/4xyLY9cUrJgMna0tXMD8POW7Z9CoUfANKAA4UFCVnFdWP7gny9v2gZGwU7C3TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=at35WDEG; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768774208;
-	bh=aNTnALIqn9gylktszv6Nhaa3ozx4VeFWCAfnVBwwD7w=;
+	s=mail; t=1768774362;
+	bh=yiv/l79VtpVG1KuLhly6us+bTKcuRvQGzcXTOVwGiYs=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ggzl6WAMLCoE7jp9/FcpGdGp9grrDkPtUgrk00OcuH+2Wnif0wbeyssjfVLio+ZNy
-	 4RLDbyz918ustQJu3C6AaSdk9Tmd4Ep0ovUbJXXkSBWQ+gcXRnBHuoeuwLO4XcPQtq
-	 lbaWsFAeHvB79ik8gy3YeqY6HouwbQRoxvM+8a7K0yFl7hPBU5fgDmhW259NBEHpuV
-	 HFEL45+XVnHwwav7C/KL1Gp6l6UPUX+mFhGjBP0LlnE9c0zcXP/FlY+5H8emZ9VtQ/
-	 r9z1ZZqFCHNSKE04fIZxW0VixkQY5K3ehNJEFszLyuG3M8pLD8uZx8DqssrQ2JcmBd
-	 HeEzy3RtFy04w==
+	b=at35WDEGRf57JCsN6kjQsOTWP1a7GCRPbt3ACQ/qAgF5HzeC2CNDB0uZU7fIukXSm
+	 ictqXPJuhP8oBsRO+EtrvugEZ1tWlyP1g06j53aNzmIEZ+xrJWTmpT8GKLzGf9RJsf
+	 R84zDjjbNBXUpu3JE1yX4hRrRKZV6i4zRxJY/R34WRatRUspFcs+0ftbgfm7wExWW6
+	 km6mg8RkiSxRnX7lMqsP92TRXa8jiMRN3TQFzaHm+LpkeEhcHAd+zTBlsjyY45RTlX
+	 zdWHy7KhJxrCzS4R9rfxVLDCDLzZD1Q/YpQxvEo7fVcO/JJMajxVEzciCqS3I+y44H
+	 ZsuU0DQXywIqQ==
 Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4D12B17E10E0;
-	Sun, 18 Jan 2026 23:10:06 +0100 (CET)
-Message-ID: <a6b50b9799bcb63a692e1ac6f3f1df3611e50f11.camel@collabora.com>
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6004017E0222;
+	Sun, 18 Jan 2026 23:12:40 +0100 (CET)
+Message-ID: <abb909f0c3e435f2c97748c7edd8d555d61a8240.camel@collabora.com>
 Subject: Re: [PATCH v8 11/17] media: rkvdec: Support per-variant interrupt
  handler
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
@@ -62,7 +62,7 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia
  linux-rockchip@lists.infradead.org, 	linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, Jonas Karlman	 <jonas@kwiboo.se>, Diederik de Haas
  <didi.debian@cknow.org>
-Date: Sun, 18 Jan 2026 17:10:05 -0500
+Date: Sun, 18 Jan 2026 17:12:38 -0500
 In-Reply-To: <20260109161538.1294449-12-detlev.casanova@collabora.com>
 References: <20260109161538.1294449-1-detlev.casanova@collabora.com>
 	 <20260109161538.1294449-12-detlev.casanova@collabora.com>
@@ -81,7 +81,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-D6Niumx4QoSluEWIbZt1"
+	protocol="application/pgp-signature"; boundary="=-3F7AL5T1m7dsOWBeuMMz"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -91,7 +91,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-D6Niumx4QoSluEWIbZt1
+--=-3F7AL5T1m7dsOWBeuMMz
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -115,13 +115,13 @@ Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ++++
 > =C2=A02 files changed, 23 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/me=
+dia/platform/rockchip/rkvdec/rkvdec.c
 > index ff6a09e45462..174536ebdcc7 100644
 > --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
 > +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> @@ -1222,10 +1222,9 @@ static void rkvdec_iommu_restore(struct rkvdec_dev
-> *rkvdec)
+> @@ -1222,10 +1222,9 @@ static void rkvdec_iommu_restore(struct rkvdec_dev=
+ *rkvdec)
 > =C2=A0	}
 > =C2=A0}
 > =C2=A0
@@ -135,8 +135,7 @@ Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > =C2=A0	u32 status;
 > =C2=A0
 > @@ -1246,6 +1245,15 @@ static irqreturn_t rkvdec_irq_handler(int irq, voi=
-d
-> *priv)
+d *priv)
 > =C2=A0	return IRQ_HANDLED;
 > =C2=A0}
 > =C2=A0
@@ -153,8 +152,7 @@ d
 > =C2=A0{
 > =C2=A0	struct rkvdec_dev *rkvdec;
 > @@ -1261,16 +1269,22 @@ static void rkvdec_watchdog_func(struct work_stru=
-ct
-> *work)
+ct *work)
 > =C2=A0	}
 > =C2=A0}
 > =C2=A0
@@ -178,8 +176,7 @@ ct
 > =C2=A0};
 > =C2=A0
 > @@ -1278,6 +1292,7 @@ static const struct rkvdec_variant rk3399_rkvdec_va=
-riant
-> =3D {
+riant =3D {
 > =C2=A0	.num_regs =3D 78,
 > =C2=A0	.coded_fmts =3D rkvdec_coded_fmts,
 > =C2=A0	.num_coded_fmts =3D ARRAY_SIZE(rkvdec_coded_fmts),
@@ -187,8 +184,8 @@ riant
 > =C2=A0};
 > =C2=A0
 > =C2=A0static const struct of_device_id of_rkvdec_match[] =3D {
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-> b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/me=
+dia/platform/rockchip/rkvdec/rkvdec.h
 > index 751f39afe7e2..faabedd2b9d8 100644
 > --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
 > +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
@@ -211,18 +208,18 @@ riant
 > =C2=A0};
 > =C2=A0
 
---=-D6Niumx4QoSluEWIbZt1
+--=-3F7AL5T1m7dsOWBeuMMz
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaW1aPQAKCRDZQZRRKWBy
-9D0GAPkBVhTizNxdmAGR1kM/MYiJ1yQBZh2PYoA/zlR6Nu2JywEA9QX8UD8rv0eT
-zt1tQouvBaO0eWjcn2CBMIU2MOavegk=
-=Cic7
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaW1a1wAKCRDZQZRRKWBy
+9OsBAP96ASIfjY1JZu/MyVbRKn9Xo1lCrjCpE1aBQc0ully+qAEApr36RA7o31Kp
+yQPN1Gsx+hY+nRFLDxc8URd6vUjtzQc=
+=Nehe
 -----END PGP SIGNATURE-----
 
---=-D6Niumx4QoSluEWIbZt1--
+--=-3F7AL5T1m7dsOWBeuMMz--
 
