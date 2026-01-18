@@ -1,53 +1,54 @@
-Return-Path: <linux-media+bounces-50994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-50995-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15719D39A49
-	for <lists+linux-media@lfdr.de>; Sun, 18 Jan 2026 23:08:55 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F30AD39A64
+	for <lists+linux-media@lfdr.de>; Sun, 18 Jan 2026 23:10:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2EADE300C6C0
-	for <lists+linux-media@lfdr.de>; Sun, 18 Jan 2026 22:08:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8D40B3009113
+	for <lists+linux-media@lfdr.de>; Sun, 18 Jan 2026 22:10:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E66E306486;
-	Sun, 18 Jan 2026 22:08:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DC6430C378;
+	Sun, 18 Jan 2026 22:10:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TSUWcn4x"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ggzl6WAM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CF21A83F9;
-	Sun, 18 Jan 2026 22:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35775309F1F;
+	Sun, 18 Jan 2026 22:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768774098; cv=none; b=ZBiv/a5f41nueQfYJctQb9aTHpQgC/vBf5nOq3ioxqb/E8tydGf8URGonC8JilD9CdnMzZmRNMElsz6i/qRKkgrBBI6hanKeWAIkgmDE9A/5ijgfQte2niydsJXbof/PoK8Le2mUvjeP1lLwrQpCzu//RkXyppMHQQO9LEHymSY=
+	t=1768774211; cv=none; b=S5iWThvRKE5ehmf6Sn1G/m4q8xAcLljH7lRzXuO693Gewx2ZdTrApsOI440Y0LL6c493Su7FsIsU8it7TNxtfLQ3lHuBNXFZANonadJIivTweH2aTjsy/XXenitTjduFURx5RrxJpd9SZs05jCfRyaE2tdRNBhvc3PDrHM8tiN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768774098; c=relaxed/simple;
-	bh=cM4/IlG3SWGdqY/J5D5lwrDkCOUmIorChLzb7VL5ZQ4=;
+	s=arc-20240116; t=1768774211; c=relaxed/simple;
+	bh=aNTnALIqn9gylktszv6Nhaa3ozx4VeFWCAfnVBwwD7w=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oQRWxctNo4l86h1dDLxStdCaq8fBXNKAd3GDJbbgS1hhDc1slyQBB+dsyNi30+V82WSXFdUju6rGWPyspivQajKGG5CdcU9YedIteIP/gMLSkLXDtZhqgks9EXk1TEe7pizTWijsMJgp3r0NQ1/HhSiqK4qHIhH0tM3gp8AovNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TSUWcn4x; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=UmMDNUu8d1MPQB3PJIoNun/nEgsuoGaxAD/6MtRnLagrsbNmiwQjoyB2GpRMcxhOZ1JTIHd1mzI/wnkdrZeKUD+ErZeCg3xT+Ebo/NKUr//DTHlRZJzVtP5hH+WReNoGyJjb+rIAb5QwlXgD4ZhFltecADPl0eDxBa/zJsvEEIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ggzl6WAM; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768774095;
-	bh=cM4/IlG3SWGdqY/J5D5lwrDkCOUmIorChLzb7VL5ZQ4=;
+	s=mail; t=1768774208;
+	bh=aNTnALIqn9gylktszv6Nhaa3ozx4VeFWCAfnVBwwD7w=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=TSUWcn4xOymBpc5KIUf8rMAvdX4sICUG1FUXupFwjYX4jLXyU7Hp0oHYQ1h0hB+cb
-	 5kSfoCa7ZU4SK1g8uEYv2garV1B/j4/mmsJHTwwq/9CbCV8NjNoUdNA26JgVY25bx0
-	 MDkTR7lY8tIbyMIFyTjzphkONaUGoUT3Mt/UHp4OBmYqTYELEtDkXEyoxhn4EYDloE
-	 NoqQcbmC9U43XsofpPQikLO3b1xieagZiHn9GKFY6C9qzvP5oluexO2OUB10FTBOqZ
-	 ADppM96q2rdfledtvAyA/SGth0+dHG/P0cdEgzRhN5XqE1iL22ER4FL5shXGbo54E6
-	 3q8LrdUrQqbcA==
+	b=ggzl6WAMLCoE7jp9/FcpGdGp9grrDkPtUgrk00OcuH+2Wnif0wbeyssjfVLio+ZNy
+	 4RLDbyz918ustQJu3C6AaSdk9Tmd4Ep0ovUbJXXkSBWQ+gcXRnBHuoeuwLO4XcPQtq
+	 lbaWsFAeHvB79ik8gy3YeqY6HouwbQRoxvM+8a7K0yFl7hPBU5fgDmhW259NBEHpuV
+	 HFEL45+XVnHwwav7C/KL1Gp6l6UPUX+mFhGjBP0LlnE9c0zcXP/FlY+5H8emZ9VtQ/
+	 r9z1ZZqFCHNSKE04fIZxW0VixkQY5K3ehNJEFszLyuG3M8pLD8uZx8DqssrQ2JcmBd
+	 HeEzy3RtFy04w==
 Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0758217E0222;
-	Sun, 18 Jan 2026 23:08:12 +0100 (CET)
-Message-ID: <50211f049bee9ebcb6eb40dec40b7143cd744824.camel@collabora.com>
-Subject: Re: [PATCH v8 10/17] media: rkvdec: Add RCB and SRAM support
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4D12B17E10E0;
+	Sun, 18 Jan 2026 23:10:06 +0100 (CET)
+Message-ID: <a6b50b9799bcb63a692e1ac6f3f1df3611e50f11.camel@collabora.com>
+Subject: Re: [PATCH v8 11/17] media: rkvdec: Support per-variant interrupt
+ handler
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Detlev Casanova <detlev.casanova@collabora.com>, 
 	linux-kernel@vger.kernel.org
@@ -61,10 +62,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia
  linux-rockchip@lists.infradead.org, 	linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, Jonas Karlman	 <jonas@kwiboo.se>, Diederik de Haas
  <didi.debian@cknow.org>
-Date: Sun, 18 Jan 2026 17:08:11 -0500
-In-Reply-To: <20260109161538.1294449-11-detlev.casanova@collabora.com>
+Date: Sun, 18 Jan 2026 17:10:05 -0500
+In-Reply-To: <20260109161538.1294449-12-detlev.casanova@collabora.com>
 References: <20260109161538.1294449-1-detlev.casanova@collabora.com>
-	 <20260109161538.1294449-11-detlev.casanova@collabora.com>
+	 <20260109161538.1294449-12-detlev.casanova@collabora.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -80,7 +81,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-EvBy3aenDrtPe6GOSFVB"
+	protocol="application/pgp-signature"; boundary="=-D6Niumx4QoSluEWIbZt1"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -90,29 +91,17 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-EvBy3aenDrtPe6GOSFVB
+--=-D6Niumx4QoSluEWIbZt1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le vendredi 09 janvier 2026 =C3=A0 11:15 -0500, Detlev Casanova a =C3=A9cri=
 t=C2=A0:
-> The RCB (Rows and Cols Buffers) are a set of buffers used by other
-> variations of the decoder to store temporary data.
+> Prepare for supporting different variants with different interrupt
+> managers.
 >=20
-> Those variation come with a dedicated SRAM area used to store those
-> buffers for better performances.
->=20
-> The buffer sizes are either the width or height of the frame being
-> decoded multiplied by a documented factor and can be stored either
-> in SRAM or RAM.
-> A fallback to RAM is provided if the SRAM is full (e.g.: multiple
-> streams are being decoded at the same time).
->=20
-> To manage the different kind of allocation, an enum is added to the
-> rkvdec_aux_buf struct to specify how the buffer was allocated, and
-> so, how to free it.
->=20
-> This commit is in preparation of other variants support.
+> To support other variants specific function type later, introduce the
+> rkvdec_variant_ops struct.
 >=20
 > Tested-by: Diederik de Haas <didi.debian@cknow.org>=C2=A0 # Rock 5B
 > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
@@ -120,438 +109,120 @@ t=C2=A0:
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
-> =C2=A0.../media/platform/rockchip/rkvdec/Makefile=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 1 +
-> =C2=A0.../platform/rockchip/rkvdec/rkvdec-rcb.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 179 ++++++++++++++++++
-> =C2=A0.../platform/rockchip/rkvdec/rkvdec-rcb.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 29 +++
-> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.c=C2=A0=C2=A0 |=C2=A0 27 =
-++-
-> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.h=C2=A0=C2=A0 |=C2=A0 13 =
-++
-> =C2=A05 files changed, 247 insertions(+), 2 deletions(-)
-> =C2=A0create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rc=
-b.c
-> =C2=A0create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rc=
-b.h
+> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.c=C2=A0=C2=A0 | 21 ++++++=
+++++++++++---
+> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.h=C2=A0=C2=A0 |=C2=A0 5 +=
+++++
+> =C2=A02 files changed, 23 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/drivers/media/platform/rockchip/rkvdec/Makefile b/drivers/me=
-dia/platform/rockchip/rkvdec/Makefile
-> index 1b4bc44be23e..3d75103e536d 100644
-> --- a/drivers/media/platform/rockchip/rkvdec/Makefile
-> +++ b/drivers/media/platform/rockchip/rkvdec/Makefile
-> @@ -7,4 +7,5 @@ rockchip-vdec-y +=3D \
-> =C2=A0		=C2=A0=C2=A0 rkvdec-h264-common.o \
-> =C2=A0		=C2=A0=C2=A0 rkvdec-hevc.o \
-> =C2=A0		=C2=A0=C2=A0 rkvdec-hevc-common.o \
-> +		=C2=A0=C2=A0 rkvdec-rcb.o \
-> =C2=A0		=C2=A0=C2=A0 rkvdec-vp9.o
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c b/driver=
-s/media/platform/rockchip/rkvdec/rkvdec-rcb.c
-> new file mode 100644
-> index 000000000000..fdcf1f177379
-> --- /dev/null
-> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
-> @@ -0,0 +1,179 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Rockchip video decoder Rows and Cols Buffers manager
-> + *
-> + * Copyright (C) 2025 Collabora, Ltd.
-> + *=C2=A0 Detlev Casanova <detlev.casanova@collabora.com>
-> + */
-> +
-> +#include "rkvdec.h"
-> +#include "rkvdec-rcb.h"
-> +
-> +#include <linux/iommu.h>
-> +#include <linux/genalloc.h>
-> +#include <linux/sizes.h>
-> +#include <linux/types.h>
-> +
-> +struct rkvdec_rcb_config {
-> +	struct rkvdec_aux_buf *rcb_bufs;
-> +	size_t rcb_count;
-> +};
-> +
-> +static size_t rkvdec_rcb_size(const struct rcb_size_info *size_info,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int width, unsigned int heigh=
-t)
-> +{
-> +	return size_info->multiplier * (size_info->axis =3D=3D PIC_HEIGHT ? hei=
-ght : width);
-> +}
-> +
-> +dma_addr_t rkvdec_rcb_buf_dma_addr(struct rkvdec_ctx *ctx, int id)
-> +{
-> +	return ctx->rcb_config->rcb_bufs[id].dma;
-> +}
-> +
-> +size_t rkvdec_rcb_buf_size(struct rkvdec_ctx *ctx, int id)
-> +{
-> +	return ctx->rcb_config->rcb_bufs[id].size;
-> +}
-> +
-> +int rkvdec_rcb_buf_count(struct rkvdec_ctx *ctx)
-> +{
-> +	return ctx->rcb_config->rcb_count;
-> +}
-> +
-> +void rkvdec_free_rcb(struct rkvdec_ctx *ctx)
-> +{
-> +	struct rkvdec_dev *dev =3D ctx->dev;
-> +	struct rkvdec_rcb_config *cfg =3D ctx->rcb_config;
-> +	unsigned long virt_addr;
-> +	int i;
-> +
-> +	if (!cfg)
-> +		return;
-> +
-> +	for (i =3D 0; i < cfg->rcb_count; i++) {
-> +		size_t rcb_size =3D cfg->rcb_bufs[i].size;
-> +
-> +		if (!cfg->rcb_bufs[i].cpu)
-> +			continue;
-> +
-> +		switch (cfg->rcb_bufs[i].type) {
-> +		case RKVDEC_ALLOC_SRAM:
-> +			virt_addr =3D (unsigned long)cfg->rcb_bufs[i].cpu;
-> +
-> +			if (dev->iommu_domain)
-> +				iommu_unmap(dev->iommu_domain, virt_addr, rcb_size);
-> +			gen_pool_free(dev->sram_pool, virt_addr, rcb_size);
-> +			break;
-> +		case RKVDEC_ALLOC_DMA:
-> +			dma_free_coherent(dev->dev,
-> +					=C2=A0 rcb_size,
-> +					=C2=A0 cfg->rcb_bufs[i].cpu,
-> +					=C2=A0 cfg->rcb_bufs[i].dma);
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (cfg->rcb_bufs)
-> +		devm_kfree(dev->dev, cfg->rcb_bufs);
-> +
-> +	devm_kfree(dev->dev, cfg);
-> +}
-> +
-> +int rkvdec_allocate_rcb(struct rkvdec_ctx *ctx,
-> +			const struct rcb_size_info *size_info,
-> +			size_t rcb_count)
-> +{
-> +	int ret, i;
-> +	u32 width, height;
-> +	struct rkvdec_dev *rkvdec =3D ctx->dev;
-> +	struct rkvdec_rcb_config *cfg;
-> +
-> +	if (!size_info || !rcb_count) {
-> +		ctx->rcb_config =3D NULL;
-> +		return 0;
-> +	}
-> +
-> +	ctx->rcb_config =3D devm_kzalloc(rkvdec->dev, sizeof(*ctx->rcb_config),=
- GFP_KERNEL);
-> +	if (!ctx->rcb_config)
-> +		return -ENOMEM;
-> +
-> +	cfg =3D ctx->rcb_config;
-> +
-> +	cfg->rcb_bufs =3D devm_kzalloc(rkvdec->dev, sizeof(*cfg->rcb_bufs) * rc=
-b_count, GFP_KERNEL);
-> +	if (!cfg->rcb_bufs) {
-> +		ret =3D -ENOMEM;
-> +		goto err_alloc;
-> +	}
-> +
-> +	width =3D ctx->decoded_fmt.fmt.pix_mp.width;
-> +	height =3D ctx->decoded_fmt.fmt.pix_mp.height;
-> +
-> +	for (i =3D 0; i < rcb_count; i++) {
-> +		void *cpu =3D NULL;
-> +		dma_addr_t dma;
-> +		size_t rcb_size =3D rkvdec_rcb_size(&size_info[i], width, height);
-> +		enum rkvdec_alloc_type alloc_type =3D RKVDEC_ALLOC_SRAM;
-> +
-> +		/* Try allocating an SRAM buffer */
-> +		if (ctx->dev->sram_pool) {
-> +			if (rkvdec->iommu_domain)
-> +				rcb_size =3D ALIGN(rcb_size, SZ_4K);
-> +
-> +			cpu =3D gen_pool_dma_zalloc_align(ctx->dev->sram_pool,
-> +							rcb_size,
-> +							&dma,
-> +							SZ_4K);
-> +		}
-> +
-> +		/* If an IOMMU is used, map the SRAM address through it */
-> +		if (cpu && rkvdec->iommu_domain) {
-> +			unsigned long virt_addr =3D (unsigned long)cpu;
-> +			phys_addr_t phys_addr =3D dma;
-> +
-> +			ret =3D iommu_map(rkvdec->iommu_domain, virt_addr, phys_addr,
-> +					rcb_size, IOMMU_READ | IOMMU_WRITE, 0);
-> +			if (ret) {
-> +				gen_pool_free(ctx->dev->sram_pool,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (unsigned long)cpu,
-> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rcb_size);
-> +				cpu =3D NULL;
-> +				goto ram_fallback;
-> +			}
-> +
-> +			/*
-> +			 * The registers will be configured with the virtual
-> +			 * address so that it goes through the IOMMU
-> +			 */
-> +			dma =3D virt_addr;
-> +		}
-> +
-> +ram_fallback:
-> +		/* Fallback to RAM */
-> +		if (!cpu) {
-> +			cpu =3D dma_alloc_coherent(ctx->dev->dev,
-> +						 rcb_size,
-> +						 &dma,
-> +						 GFP_KERNEL);
-> +			alloc_type =3D RKVDEC_ALLOC_DMA;
-> +		}
-> +
-> +		if (!cpu) {
-> +			ret =3D -ENOMEM;
-> +			goto err_alloc;
-> +		}
-> +
-> +		cfg->rcb_bufs[i].cpu =3D cpu;
-> +		cfg->rcb_bufs[i].dma =3D dma;
-> +		cfg->rcb_bufs[i].size =3D rcb_size;
-> +		cfg->rcb_bufs[i].type =3D alloc_type;
-> +
-> +		cfg->rcb_count +=3D 1;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_alloc:
-> +	rkvdec_free_rcb(ctx);
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h b/driver=
-s/media/platform/rockchip/rkvdec/rkvdec-rcb.h
-> new file mode 100644
-> index 000000000000..30e8002555c8
-> --- /dev/null
-> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Rockchip video decoder Rows and Cols Buffers manager
-> + *
-> + * Copyright (C) 2025 Collabora, Ltd.
-> + *=C2=A0 Detlev Casanova <detlev.casanova@collabora.com>
-> + */
-> +
-> +#include <linux/types.h>
-> +
-> +struct rkvdec_ctx;
-> +
-> +enum rcb_axis {
-> +	PIC_WIDTH =3D 0,
-> +	PIC_HEIGHT =3D 1
-> +};
-> +
-> +struct rcb_size_info {
-> +	u8 multiplier;
-> +	enum rcb_axis axis;
-> +};
-> +
-> +int rkvdec_allocate_rcb(struct rkvdec_ctx *ctx,
-> +			const struct rcb_size_info *size_info,
-> +			size_t rcb_count);
-> +dma_addr_t rkvdec_rcb_buf_dma_addr(struct rkvdec_ctx *ctx, int id);
-> +size_t rkvdec_rcb_buf_size(struct rkvdec_ctx *ctx, int id);
-> +int rkvdec_rcb_buf_count(struct rkvdec_ctx *ctx);
-> +void rkvdec_free_rcb(struct rkvdec_ctx *ctx);
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/me=
-dia/platform/rockchip/rkvdec/rkvdec.c
-> index 92b1c7b62bd2..ff6a09e45462 100644
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> index ff6a09e45462..174536ebdcc7 100644
 > --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
 > +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> @@ -10,6 +10,7 @@
-> =C2=A0 */
+> @@ -1222,10 +1222,9 @@ static void rkvdec_iommu_restore(struct rkvdec_dev
+> *rkvdec)
+> =C2=A0	}
+> =C2=A0}
 > =C2=A0
-> =C2=A0#include <linux/clk.h>
-> +#include <linux/genalloc.h>
-> =C2=A0#include <linux/interrupt.h>
-> =C2=A0#include <linux/iommu.h>
-> =C2=A0#include <linux/module.h>
-> @@ -28,6 +29,7 @@
-> =C2=A0
-> =C2=A0#include "rkvdec.h"
-> =C2=A0#include "rkvdec-regs.h"
-> +#include "rkvdec-rcb.h"
-> =C2=A0
-> =C2=A0static bool rkvdec_image_fmt_match(enum rkvdec_image_fmt fmt1,
-> =C2=A0				=C2=A0=C2=A0 enum rkvdec_image_fmt fmt2)
-> @@ -778,6 +780,7 @@ static int rkvdec_start_streaming(struct vb2_queue *q=
-, unsigned int count)
+> -static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+> +static irqreturn_t rk3399_irq_handler(struct rkvdec_ctx *ctx)
 > =C2=A0{
-> =C2=A0	struct rkvdec_ctx *ctx =3D vb2_get_drv_priv(q);
-> =C2=A0	const struct rkvdec_coded_fmt_desc *desc;
-> +	const struct rkvdec_variant *variant =3D ctx->dev->variant;
-> =C2=A0	int ret;
+> -	struct rkvdec_dev *rkvdec =3D priv;
+> -	struct rkvdec_ctx *ctx =3D v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+> +	struct rkvdec_dev *rkvdec =3D ctx->dev;
+> =C2=A0	enum vb2_buffer_state state;
+> =C2=A0	u32 status;
 > =C2=A0
-> =C2=A0	if (V4L2_TYPE_IS_CAPTURE(q->type))
-> @@ -787,13 +790,22 @@ static int rkvdec_start_streaming(struct vb2_queue =
-*q, unsigned int count)
-> =C2=A0	if (WARN_ON(!desc))
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> +	ret =3D rkvdec_allocate_rcb(ctx, variant->rcb_sizes, variant->num_rcb_s=
-izes);
-> +	if (ret)
-> +		return ret;
-> +
-> =C2=A0	if (desc->ops->start) {
-> =C2=A0		ret =3D desc->ops->start(ctx);
-> =C2=A0		if (ret)
-> -			return ret;
-> +			goto err_ops_start;
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	return 0;
-> +
-> +err_ops_start:
-> +	rkvdec_free_rcb(ctx);
-> +
-> +	return ret;
+> @@ -1246,6 +1245,15 @@ static irqreturn_t rkvdec_irq_handler(int irq, voi=
+d
+> *priv)
+> =C2=A0	return IRQ_HANDLED;
 > =C2=A0}
 > =C2=A0
-> =C2=A0static void rkvdec_queue_cleanup(struct vb2_queue *vq, u32 state)
-> @@ -829,6 +841,8 @@ static void rkvdec_stop_streaming(struct vb2_queue *q=
-)
-> =C2=A0
-> =C2=A0		if (desc->ops->stop)
-> =C2=A0			desc->ops->stop(ctx);
+> +static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+> +{
+> +	struct rkvdec_dev *rkvdec =3D priv;
+> +	struct rkvdec_ctx *ctx =3D v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+> +	const struct rkvdec_variant *variant =3D rkvdec->variant;
 > +
-> +		rkvdec_free_rcb(ctx);
+> +	return variant->ops->irq_handler(ctx);
+> +}
+> +
+> =C2=A0static void rkvdec_watchdog_func(struct work_struct *work)
+> =C2=A0{
+> =C2=A0	struct rkvdec_dev *rkvdec;
+> @@ -1261,16 +1269,22 @@ static void rkvdec_watchdog_func(struct work_stru=
+ct
+> *work)
 > =C2=A0	}
-> =C2=A0
-> =C2=A0	rkvdec_queue_cleanup(q, VB2_BUF_STATE_ERROR);
-> @@ -1345,6 +1359,10 @@ static int rkvdec_probe(struct platform_device *pd=
-ev)
-> =C2=A0		return ret;
-> =C2=A0	}
-> =C2=A0
-> +	rkvdec->sram_pool =3D of_gen_pool_get(pdev->dev.of_node, "sram", 0);
-> +	if (!rkvdec->sram_pool && rkvdec->variant->num_rcb_sizes > 0)
-> +		dev_info(&pdev->dev, "No sram node, RCB will be stored in RAM\n");
-> +
-> =C2=A0	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
-> =C2=A0	pm_runtime_use_autosuspend(&pdev->dev);
-> =C2=A0	pm_runtime_enable(&pdev->dev);
-> @@ -1353,7 +1371,8 @@ static int rkvdec_probe(struct platform_device *pde=
-v)
-> =C2=A0	if (ret)
-> =C2=A0		goto err_disable_runtime_pm;
-> =C2=A0
-> -	if (iommu_get_domain_for_dev(&pdev->dev)) {
-> +	rkvdec->iommu_domain =3D iommu_get_domain_for_dev(&pdev->dev);
-> +	if (rkvdec->iommu_domain) {
-> =C2=A0		rkvdec->empty_domain =3D iommu_paging_domain_alloc(rkvdec->dev);
-> =C2=A0
-> =C2=A0		if (IS_ERR(rkvdec->empty_domain)) {
-> @@ -1367,6 +1386,10 @@ static int rkvdec_probe(struct platform_device *pd=
-ev)
-> =C2=A0err_disable_runtime_pm:
-> =C2=A0	pm_runtime_dont_use_autosuspend(&pdev->dev);
-> =C2=A0	pm_runtime_disable(&pdev->dev);
-> +
-> +	if (rkvdec->sram_pool)
-> +		gen_pool_destroy(rkvdec->sram_pool);
-> +
-> =C2=A0	return ret;
 > =C2=A0}
 > =C2=A0
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/me=
-dia/platform/rockchip/rkvdec/rkvdec.h
-> index 8c4f96ba5cde..751f39afe7e2 100644
+> +static const struct rkvdec_variant_ops rk3399_variant_ops =3D {
+> +	.irq_handler =3D rk3399_irq_handler,
+> +};
+> +
+> =C2=A0static const struct rkvdec_variant rk3288_rkvdec_variant =3D {
+> =C2=A0	.num_regs =3D 68,
+> =C2=A0	.coded_fmts =3D rk3288_coded_fmts,
+> =C2=A0	.num_coded_fmts =3D ARRAY_SIZE(rk3288_coded_fmts),
+> +	.ops =3D &rk3399_variant_ops,
+> =C2=A0};
+> =C2=A0
+> =C2=A0static const struct rkvdec_variant rk3328_rkvdec_variant =3D {
+> =C2=A0	.num_regs =3D 109,
+> =C2=A0	.coded_fmts =3D rkvdec_coded_fmts,
+> =C2=A0	.num_coded_fmts =3D ARRAY_SIZE(rkvdec_coded_fmts),
+> +	.ops =3D &rk3399_variant_ops,
+> =C2=A0	.quirks =3D RKVDEC_QUIRK_DISABLE_QOS,
+> =C2=A0};
+> =C2=A0
+> @@ -1278,6 +1292,7 @@ static const struct rkvdec_variant rk3399_rkvdec_va=
+riant
+> =3D {
+> =C2=A0	.num_regs =3D 78,
+> =C2=A0	.coded_fmts =3D rkvdec_coded_fmts,
+> =C2=A0	.num_coded_fmts =3D ARRAY_SIZE(rkvdec_coded_fmts),
+> +	.ops =3D &rk3399_variant_ops,
+> =C2=A0};
+> =C2=A0
+> =C2=A0static const struct of_device_id of_rkvdec_match[] =3D {
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> index 751f39afe7e2..faabedd2b9d8 100644
 > --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
 > +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-> @@ -19,12 +19,14 @@
-> =C2=A0#include <media/v4l2-ctrls.h>
-> =C2=A0#include <media/v4l2-device.h>
-> =C2=A0#include <media/v4l2-ioctl.h>
-> +#include <media/v4l2-mem2mem.h>
-> =C2=A0#include <media/videobuf2-core.h>
-> =C2=A0#include <media/videobuf2-dma-contig.h>
+> @@ -67,12 +67,17 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
+> =C2=A0			=C2=A0=C2=A0=C2=A0 base.vb.vb2_buf);
+> =C2=A0}
 > =C2=A0
-> =C2=A0#define RKVDEC_QUIRK_DISABLE_QOS	BIT(0)
-> =C2=A0
-> =C2=A0struct rkvdec_ctx;
-> +struct rkvdec_rcb_config;
-> =C2=A0
-> =C2=A0struct rkvdec_ctrl_desc {
-> =C2=A0	struct v4l2_ctrl_config cfg;
-> @@ -69,6 +71,8 @@ struct rkvdec_variant {
+> +struct rkvdec_variant_ops {
+> +	irqreturn_t (*irq_handler)(struct rkvdec_ctx *ctx);
+> +};
+> +
+> =C2=A0struct rkvdec_variant {
 > =C2=A0	unsigned int num_regs;
 > =C2=A0	const struct rkvdec_coded_fmt_desc *coded_fmts;
 > =C2=A0	size_t num_coded_fmts;
-> +	const struct rcb_size_info *rcb_sizes;
-> +	size_t num_rcb_sizes;
+> =C2=A0	const struct rcb_size_info *rcb_sizes;
+> =C2=A0	size_t num_rcb_sizes;
+> +	const struct rkvdec_variant_ops *ops;
 > =C2=A0	unsigned int quirks;
 > =C2=A0};
 > =C2=A0
-> @@ -119,6 +123,8 @@ struct rkvdec_dev {
-> =C2=A0	void __iomem *regs;
-> =C2=A0	struct mutex vdev_lock; /* serializes ioctls */
-> =C2=A0	struct delayed_work watchdog_work;
-> +	struct gen_pool *sram_pool;
-> +	struct iommu_domain *iommu_domain;
-> =C2=A0	struct iommu_domain *empty_domain;
-> =C2=A0	const struct rkvdec_variant *variant;
-> =C2=A0};
-> @@ -131,6 +137,7 @@ struct rkvdec_ctx {
-> =C2=A0	struct v4l2_ctrl_handler ctrl_hdl;
-> =C2=A0	struct rkvdec_dev *dev;
-> =C2=A0	enum rkvdec_image_fmt image_fmt;
-> +	struct rkvdec_rcb_config *rcb_config;
-> =C2=A0	void *priv;
-> =C2=A0};
-> =C2=A0
-> @@ -139,10 +146,16 @@ static inline struct rkvdec_ctx *file_to_rkvdec_ctx=
-(struct file *filp)
-> =C2=A0	return container_of(file_to_v4l2_fh(filp), struct rkvdec_ctx, fh);
-> =C2=A0}
-> =C2=A0
-> +enum rkvdec_alloc_type {
-> +	RKVDEC_ALLOC_DMA=C2=A0 =3D 0,
-> +	RKVDEC_ALLOC_SRAM =3D 1,
-> +};
-> +
-> =C2=A0struct rkvdec_aux_buf {
-> =C2=A0	void *cpu;
-> =C2=A0	dma_addr_t dma;
-> =C2=A0	size_t size;
-> +	enum rkvdec_alloc_type type;
-> =C2=A0};
-> =C2=A0
-> =C2=A0void rkvdec_run_preamble(struct rkvdec_ctx *ctx, struct rkvdec_run =
-*run);
 
---=-EvBy3aenDrtPe6GOSFVB
+--=-D6Niumx4QoSluEWIbZt1
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaW1ZywAKCRDZQZRRKWBy
-9Pf6AP9epXFBLWM4g92LqDT8/z6IW7Y5Hufyrog7kNmiGNQtCgD9Hu5ijJssyX+C
-5SzetvR2pSR6MNbaJq6eZ9bMy2RdAQo=
-=i+Sj
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaW1aPQAKCRDZQZRRKWBy
+9D0GAPkBVhTizNxdmAGR1kM/MYiJ1yQBZh2PYoA/zlR6Nu2JywEA9QX8UD8rv0eT
+zt1tQouvBaO0eWjcn2CBMIU2MOavegk=
+=Cic7
 -----END PGP SIGNATURE-----
 
---=-EvBy3aenDrtPe6GOSFVB--
+--=-D6Niumx4QoSluEWIbZt1--
 
