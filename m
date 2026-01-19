@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-51060-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51061-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F062D3AAAA
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 14:48:00 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AD5D3AAAB
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 14:48:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4F9BC3011008
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 13:47:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 31E033006E2E
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 13:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9391D22258C;
-	Mon, 19 Jan 2026 13:47:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B086436D503;
+	Mon, 19 Jan 2026 13:48:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FX+5dyer"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jFtIjB7a"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF8533D6E2
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 13:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B679136CE0C
+	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 13:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768830474; cv=none; b=ptCIuJiBPjWPuHsPJRpXQhObXOdv7WS5+g26N02oQ9W+a56o8sFuUR+dNZTz+6MA77VoexU+6xF/knWDBaT4GTI04+He7ABiv/Tc90Fpq1sLBG8pXsAp2mql8oR9dbegh28C1cldRO4B87Tq8le2vSd9i42IhBytp8NOI78VKsk=
+	t=1768830502; cv=none; b=YHRDoetlsa6GoyhHLOmtBxudPYrsqN2aP4oLGJ08Um1wQU1C1nlrx6NwsbQ9rSQy509VUOdCOpoDdotLqGgYzsyCW7US6moU4a0Oq7I/1A+fllBMVWNYPu6IhHcapXbdA1RdDIFug0uH0iH4WyJr5a2JdarvuOHQxL2qbc50iTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768830474; c=relaxed/simple;
-	bh=GFCY9etWfPcT1I6QZ09JkdCQVN2PzBPiJvf4GzW28ag=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=s4wiRBMfuV6NXN/Q1oipDN0suEj8JT+NLZzlGyuwNRNvobOGESE8H3t+5jfzSoVwu2mAMpRfkla9qc6QwuUTpPquWW0vmCXJKTwTs3DudmmN/Vadimn6vK234+rThCaIMR221zFUL/q+zM4+2ZfzMTByXmrPYkWPCZ74Qgf1Ofc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FX+5dyer; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1768830502; c=relaxed/simple;
+	bh=6XdOTm21eKKhliAVK4Rq0uvd7fO/U4/wyjM29rkdfB8=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=TfdQiBtym3LAdyjdW6FeevYcjODaKZcaIlVtjdxCQm3gG5y3BS4lj3JozBiVaSKZOYKn1sOibdKg0PwS/pOiX4mqiDejYoaOF8Jf4BmfTkOoVFSgkX/AoFhOcnHOvX1e+n2CQYW+1aiAybFzK4ZT+Qdnpox5sGqDAKKoJGycWnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jFtIjB7a; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768830470;
-	bh=GFCY9etWfPcT1I6QZ09JkdCQVN2PzBPiJvf4GzW28ag=;
+	s=mail; t=1768830497;
+	bh=6XdOTm21eKKhliAVK4Rq0uvd7fO/U4/wyjM29rkdfB8=;
 	h=Subject:From:To:Date:From;
-	b=FX+5dyerLRGgkAk3z7CRm4wezAlWrYk4t/X1h1bLTk9ibZyuzmYGW+OwYuKNgUHza
-	 TAELepJL4vL8R42AZGFp/3taAJHW/8JhKXVsGHzEt7qAmWZBOG6ZEE1xG5tgicnU6y
-	 IJbK3MW1FE5FV4vdXlmp2+NTqeY6L99a+BwlR3Dxi6xP2HRRYL1BXt/0Xm7IO3qcAb
-	 LIqwMXCFU3F+gn098h2FE6eNMKbpSuE35XEWy/5TpYE6qvnuca3RV2vkoj9RxKzz9g
-	 T/dVyLsHfzy2td5gTuNLEak/iyqOX7y8+sG6bnTU5zxpwNl18vDGdVTnaM2HoLbamE
-	 8xhcFCao8aG3w==
+	b=jFtIjB7aMP405nYBGjYTNF2M+h4yBfe10tgnpIPzYwV3QQNeWwiOqFWAfJoaMpJmO
+	 V+is2to/H6bYo6e9gkWnzosHp781FiPNBx21f3rDtONnn9HSeAfb6sW/+RgZOzHL2T
+	 2M8dzmNIVlbdcwBquOu+q4OjVLNh5cghioLV0rzzRasEWm/mHW8ozAOsKU8/9di7jF
+	 5tQyb2RXtDvlt6IwMICWV2sYGtnZaw2PTVNFii8jNpL42DEAcfMK8klBalBRJqSuhO
+	 LrlLeprPjz0AteHo5LrbjjkygfDfhrhcvkUxNl9WQHeLf+DdO+Qe+Ftxss75UMIEfn
+	 rW+/lS4clGq6A==
 Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7097B17E07FA
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 14:47:50 +0100 (CET)
-Message-ID: <3582f3e8c9acd88ecdece91bb216715c7f17a78e.camel@collabora.com>
-Subject: [GIT PULL FOR 6.20] Media codec 2026-01-09
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3966A17E07FA
+	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 14:48:17 +0100 (CET)
+Message-ID: <78bfd01051ef84ef7e6ccbd0a72301a939869476.camel@collabora.com>
+Subject: [GIT PULL FOR 6.20] Media codec 2026-01-18
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: linux-media@vger.kernel.org
-Date: Mon, 19 Jan 2026 08:47:47 -0500
+Date: Mon, 19 Jan 2026 08:48:15 -0500
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -65,7 +65,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-h/DBCJjFIWQIae/PHxBJ"
+	protocol="application/pgp-signature"; boundary="=-GZuRNevx6Zlu+8j1+htr"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -75,7 +75,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-h/DBCJjFIWQIae/PHxBJ
+--=-GZuRNevx6Zlu+8j1+htr
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -245,18 +245,18 @@ egs.h
 Nicolas Dufresne
 Principal Engineer at Collabora
 
---=-h/DBCJjFIWQIae/PHxBJ
+--=-GZuRNevx6Zlu+8j1+htr
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaW42AwAKCRDZQZRRKWBy
-9G19AQCdqwPn/hDmQmtKv49FFpHbTROpGyDBoSRmkZ7tE618dwEAh39BO9KxWx/S
-J8mJ9NZAXZAULSK+vxDbJ+Qaj2qOyAk=
-=OR2f
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaW42HwAKCRDZQZRRKWBy
+9J6AAP9/qUR61d2G1rPoWhBvEDIHzTFAgT7KcEk9Za3aZhPhNAEA1dHZeUFJgStr
+fUI2z9UNG32bH0GRkTdtvbz65k/mrQ4=
+=N5Kl
 -----END PGP SIGNATURE-----
 
---=-h/DBCJjFIWQIae/PHxBJ--
+--=-GZuRNevx6Zlu+8j1+htr--
 
