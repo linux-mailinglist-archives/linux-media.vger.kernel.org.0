@@ -1,240 +1,120 @@
-Return-Path: <linux-media+bounces-51067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51068-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE92D3AF55
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 16:41:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAF5D3B041
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 17:18:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7CF5E300BD9F
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 15:41:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 333D730194D3
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 16:18:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5826738B9B5;
-	Mon, 19 Jan 2026 15:41:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 766E22DC78D;
+	Mon, 19 Jan 2026 16:18:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FmCyE4Es"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mz/hCNh4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB62F35CBDA;
-	Mon, 19 Jan 2026 15:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0120E1F3BA2
+	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 16:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768837264; cv=none; b=TcF0UzNAzFrqlHCzK4bWE3UiFnZFl05LGgSzLU3Y5IJcH4TesE+8UnZ84RznBTiL5MQxImsWYP/6H4D0ZS+rlgOpjZ37pdFXf7MneRx7Ogc6B+/s+3OXnbuDvv7BlY6miriPIkycE1dUkNgsZlYew/tXaJubwUgxZR0nMjzA4MU=
+	t=1768839480; cv=none; b=uAhVH2uOvb9Q8DsmsIg7FAG5su+uPXiER/iB+C8KGe473d/y4xwigMok3b6ZnDqFa6+XifTVsjTlcLyB3XvSGRj1W2MJSn52u07HYDIO5wwO2IhlTsg6sythpwE4lPXBShn9FTK16N8onVJP3d3lNNx4DtnBXnWbvDhKGmoMFGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768837264; c=relaxed/simple;
-	bh=WGje4+ey1jXaVxohpYLHfCxVK7LiezHtVRN34MEwaUQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Iwcg0NRSvSklslTPnuzn0RkxEM3vDbHNHBOGAaudtQ/2ErhVPAIpBdsoab6MI+EU4sjU/UXYSkMUneRVPbqTriMeM4iBxiura05XzUQfaEEQT78skWF3oyZPlSX/ZXYFrLwLxPlM3ukv+92R/7Fm7hgLIA6IRbrkuDHOetkLgbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FmCyE4Es; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768837261;
-	bh=WGje4+ey1jXaVxohpYLHfCxVK7LiezHtVRN34MEwaUQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FmCyE4EsGHuEGsVCgS3ZHCNmr1HZ0JgHB/6ULTjwJ4rtZ/iB2vMXCTTsmDK9leCcc
-	 xxfkjlbe9cBdTp/mN+roDs4MyBW9Yok/DOrprw+6g8XsvoI/6YaMrxs+2vlMr+uyel
-	 tCks0ibnW/FqNOtlPF7KITC+elSm3taLy9cuMJ5vI+zIk2zRUtZy0MmPTB7f1ID48g
-	 TZ0u9BEknq+EOVXxIcw6BKjiSrTtfOkCrlhRD9KYG4zkhvivuCug9nTK7U8UqEuLHS
-	 UbaM831YPK/V0dK5TWIc+KWwTYN548YcDrs1KMPeQcLcuaL/W1gPVKbI1yNhkrqE/L
-	 udOQRo9lCLG4g==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2340F17E0FFA;
-	Mon, 19 Jan 2026 16:41:00 +0100 (CET)
-Message-ID: <37c83a9a-088a-4a96-b6f6-343fa6cdddc6@collabora.com>
-Date: Mon, 19 Jan 2026 16:40:59 +0100
+	s=arc-20240116; t=1768839480; c=relaxed/simple;
+	bh=ZyyCSvAHsQZEnq3v70lc44LdXO7guHq1mCT0tNZVoTw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RW+MPsXi6AUdGzQQlfMlyx+XFdV7iu4IGllr5M/Q6bEwK9hOZK7I5gIDpigJg9AQE5568DhNtjlquEq22f7iftaKbY1lCUYlWHqSbweDHmb16HZWJgEc/+EQdbywEsnxdzgiaSvRCekr/5ADbODJ8l6iiynAPBGcM9vBiS1q0As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mz/hCNh4; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768839478; x=1800375478;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZyyCSvAHsQZEnq3v70lc44LdXO7guHq1mCT0tNZVoTw=;
+  b=Mz/hCNh4XkqdD46s+yGlfh1caIV+fRKjIYRF0BnUU0iwq+TXFnBoXjEE
+   aRg2smysjsGqXmIyZOJUlEs7RccvJe8DqRJHAgfCo3vR57Md7FunonexM
+   gM71qxDueZUujw8FWjmOUnIlvu4Rt36NcsOeQOhC0gkY44by2Q1AygFfY
+   m5fBmVo4sXnX96L7f2TOxxkz6uaA+7LkJUh+JefpvCtaYIRfGW1tyJb08
+   oA03AkrrkFcPx9TttcXK9lxvZpZAoTYFbJ03/iF5RV3tnoLMKRLLMUXYD
+   Ds7bems3BRpdyuIyveQbN/HJNwM9aiU6xsN/6udRdAwl0SQBkqPmqgzMW
+   w==;
+X-CSE-ConnectionGUID: tIvPjlZiTQ6B4Hb98VgmLw==
+X-CSE-MsgGUID: vWaNg3ARR8G7hD2EpV58og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="69253696"
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="69253696"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 08:17:58 -0800
+X-CSE-ConnectionGUID: pYus70LYSfe3NfvzXXWH/Q==
+X-CSE-MsgGUID: FhsUkY/BSzOvp+cPOs481Q==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 19 Jan 2026 08:17:56 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhrwv-00000000O1p-0QU5;
+	Mon, 19 Jan 2026 16:17:53 +0000
+Date: Tue, 20 Jan 2026 00:17:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 90/113]
+ drivers/media/v4l2-core/v4l2-subdev.c:2675:55: warning: overlapping
+ comparisons always evaluate to true
+Message-ID: <202601200019.peMSxK0X-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] media: synopsys: add driver for the designware
- mipi csi-2 receiver
-To: Frank Li <Frank.li@nxp.com>
-Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Kever Yang <kever.yang@rock-chips.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20251114-rockchip-mipi-receiver-v5-0-45aa117f190a@collabora.com>
- <20251114-rockchip-mipi-receiver-v5-2-45aa117f190a@collabora.com>
- <aWpil6jI1Ad0DcEI@lizhi-Precision-Tower-5810>
- <db2f0c20-ca7e-41c9-be08-67fd1f92c2af@collabora.com>
- <aW5PLIv2w+OY7xJD@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <aW5PLIv2w+OY7xJD@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Frank,
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   55ba38aaeb6e07cbbbe550578fa4737b05de1d00
+commit: 50fcff1c16cac7152a1b5b56a71656e97d276857 [90/113] media: v4l2-subdev: Introduce v4l2_subdev_get_frame_desc()
+config: sparc64-randconfig-r071-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200019.peMSxK0X-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200019.peMSxK0X-lkp@intel.com/reproduce)
 
-On 1/19/26 16:35, Frank Li wrote:
-> On Mon, Jan 19, 2026 at 10:49:20AM +0100, Michael Riesch wrote:
->> Hi Frank,
->>
->> Thanks for your review.
->>
->> On 1/16/26 17:08, Frank Li wrote:
->>> On Fri, Jan 16, 2026 at 02:02:47PM +0100, Michael Riesch wrote:
->>>> The Synopsys DesignWare MIPI CSI-2 Receiver is a CSI-2 bridge with
->>>> one input port and one output port. It receives the data with the
->>>> help of an external MIPI PHY (C-PHY or D-PHY) and passes it to e.g.,
->>>> the Rockchip Video Capture (VICAP) block on recent Rockchip SoCs.
->>>>
->>>> Add a V4L2 subdevice driver for this unit.
->>>>
->>>> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
->>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
->>>> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
->>>> ---
->>> ...
->>>> +
->>>> +static inline struct dw_mipi_csi2_device *to_csi2(struct v4l2_subdev *sd)
->>>> +{
->>>> +	return container_of(sd, struct dw_mipi_csi2_device, sd);
->>>> +}
->>>> +
->>>> +static inline __maybe_unused void
->>>
->>> why need '__maybe_unused', needn't inline. compiler can auto decide and
->>> report unused function if no 'inline'.
->>
->> The __maybe_unused was helpful during development and is not really
->> required now. It doesn't hurt either, so I left it in. I can remove it
->> if you wish.
->>
->>>
->>>> +
->>>> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
->>>
->>> use  struct fwnode_handle *ep __free(fwnode_handle) can simplify err
->>> handler.
->>
->> Sorry, I don't see the benefit of that.
->>
-> 
-> I remember reduce one goto
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200019.peMSxK0X-lkp@intel.com/
 
-Since Sakari requested this variant as well, I changed it to as you
-suggested in v7.
+All warnings (new ones prefixed by >>):
 
-> 
->>>
->>>> +	if (!ep)
->>>> +		return dev_err_probe(dev, -ENODEV, "failed to get endpoint\n");
->>>> +
->>> ...
->>>> +{
->>>> +	struct media_pad *pads = csi2->pads;
->>>> +	struct v4l2_subdev *sd = &csi2->sd;
->>>> +	int ret;
->>>> +
->>>> +	ret = dw_mipi_csi2_register_notifier(csi2);
->>>> +	if (ret)
->>>> +		goto err;
->>>> +
->>>> +	v4l2_subdev_init(sd, &dw_mipi_csi2_ops);
->>>> +	sd->dev = csi2->dev;
->>>> +	sd->entity.ops = &dw_mipi_csi2_media_ops;
->>>> +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
->>>> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
->>>> +
->>>> +static int dw_mipi_csi2_runtime_resume(struct device *dev)
->>>> +{
->>>> +	struct dw_mipi_csi2_device *csi2 = dev_get_drvdata(dev);
->>>> +	int ret;
->>>> +
->>>> +	reset_control_assert(csi2->reset);
->>>> +	udelay(5);
->>>
->>> Now prefer use fsleep(), which auto choose difference sleep function
->>> according to delay number.
->>
->> I'll keep that in mind, but here the first thing that fsleep does is to
->> check whether the parameter is <= 10 and (since this is true) call
->> udelay. So here I don't see the point really.
-> 
-> Thank.
-> 
->>
->>>
->>>> +	reset_control_deassert(csi2->reset);
->>>> +
->>>> +	ret = clk_bulk_prepare_enable(csi2->clks_num, csi2->clks);
->>>> +	if (ret) {
->>>> +		dev_err(dev, "failed to enable clocks\n");
->>>> +		return ret;
->>>> +	}
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static DEFINE_RUNTIME_DEV_PM_OPS(dw_mipi_csi2_pm_ops,
->>>> +				 dw_mipi_csi2_runtime_suspend,
->>>> +				 dw_mipi_csi2_runtime_resume, NULL);
->>>> +
->>>> +static struct platform_driver dw_mipi_csi2_drv = {
->>>> +	.driver = {
->>>> +		.name = "dw-mipi-csi2",
->>>> +		.of_match_table = dw_mipi_csi2_of_match,
->>>> +		.pm = &dw_mipi_csi2_pm_ops,
->>>
->>> pm_ptr( &dw_mipi_csi2_pm_ops)
->>
->> Shouldn't make a difference here since this driver depends on CONFIG_PM.
->>
-> 
-> Avoid some static scan tools to report the problem, no harmful to add
-> pm_ptr().
+>> drivers/media/v4l2-core/v4l2-subdev.c:2675:55: warning: overlapping comparisons always evaluate to true [-Wtautological-overlap-compare]
+    2675 |         if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ||
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+    2676 |             desc->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-Interesting. Which tools to you use?
 
-I hope v7 is accepted as sent earlier today, and this should not be a
-blocker. We can add pm_ptr() easily in a follow-up patch.
+vim +2675 drivers/media/v4l2-core/v4l2-subdev.c
 
-Thanks and regards,
-Michael
+  2659	
+  2660	int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+  2661				       struct v4l2_mbus_frame_desc *desc)
+  2662	{
+  2663		if (v4l2_subdev_has_op(sd, pad, get_frame_desc)) {
+  2664			unsigned int type = desc->type;
+  2665			int ret;
+  2666	
+  2667			ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, desc);
+  2668	
+  2669			if (desc->type != type)
+  2670				return -EINVAL;
+  2671	
+  2672			return ret;
+  2673		}
+  2674	
+> 2675		if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ||
 
-> 
-> Frank
-> 
->> Best regards,
->> Michael
->>
->>>
->>> Frank
->>>> +	},
->>>> +	.probe = dw_mipi_csi2_probe,
->>>> +	.remove = dw_mipi_csi2_remove,
->>>> +};
->>>> +module_platform_driver(dw_mipi_csi2_drv);
->>>> +
->>>> +MODULE_DESCRIPTION("Synopsys DesignWare MIPI CSI-2 Receiver platform driver");
->>>> +MODULE_LICENSE("GPL");
->>>>
->>>> --
->>>> 2.39.5
->>>>
->>
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
