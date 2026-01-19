@@ -1,430 +1,315 @@
-Return-Path: <linux-media+bounces-51049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB061D3A7A7
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 13:00:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35E9D3A7C0
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 13:04:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 27BF73024253
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 12:00:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 62D0A3090CA7
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 12:02:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5613E329E40;
-	Mon, 19 Jan 2026 12:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B00A3590DB;
+	Mon, 19 Jan 2026 12:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="R+ptTWj5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CvsnKgGO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013003.outbound.protection.outlook.com [40.107.201.3])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0631219E8D;
-	Mon, 19 Jan 2026 12:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768824037; cv=fail; b=VV/2y3DVNxDbnTTT8xvo4mhX5OeCwLZp+4G13il/4L6mWDP45kfcW8aYIZbD8DmPrKdqbpWrF+V+g2AMxR3/HI67urR3riXed+8vjBA98ieFdwlfHhkB823APv65JRxyrvBJWnW2r2DF0mxlego7/NrXoZloG2IIx1843DexjrA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768824037; c=relaxed/simple;
-	bh=2X0TCw35kjLOm0hXSEEL6dyb+8t05fbHduy+900mkS8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RmEsli51NhX1T01c+EO8URXUV8NBgVVbGOppzNUbIaduoP0ke8t37xSC2Hmms88RtQ7UUXiWz5I5h8WgZ9FN3ryQHbINBlYOiBJc9NJe2XM1SSIl6y0uS87KoD1VlGWWZnjoPGmS56Zt9wfIZVcIwnTDrXDqhdSPOheB3rLin8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=R+ptTWj5; arc=fail smtp.client-ip=40.107.201.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w0fWz2YfkskrGX20ZtdLnmWcrIh5j80FI9TuEsh+BZGITArp4dm/3a+Yzlg0ZvVG6MWwDx+Fzp+OSmFvpEGGRNatgDmxSUsQSvz7GnbEn9aJLH+4pulS8KtdagED4qymx01uNKtwSPBATyArEZGpJ8geMMgvaedS0Iwxnj0TCkVSjkpr0xK9m2G0uNGsu3QyvrVIg5e6/fWA0cBwmPvJKLZZKwBC3GOGzNf9z8EGVC2jjMOaV6hs272CF5zgZmvV1dSvWcWl79mMhDeP63L7paBsFOiYuoqmogn6Bi1Z2+wxqDl+mZ5f7tpw77xJUCUSIHfmrS8+yS/iUE0TSVVtCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5rfPvKdeeK9HEq4Dyv+PlsBML6DyBWf0kelS2/V7CBI=;
- b=TFlcHpvhxDIfAywVQyBjappOzH3Lr+oaHcuWzCdyTC1bRFRT8zbZN0xTQYQdZpTZfuSHgf3A9sRTLr2I8/9kF1WXha7nxNSveUseUmZBwsf0RRnQ//pOZGZgm/XT7baUn/ABiMugTyYk0kDVIi5L07DhWxoVdAsky3WAPk0CV42b013CX1zN9LsUOV2PYVbwCV3/5TYKJpMXyiPIEzMXSmPFkrzln9R70OixlzwBaheeAPRLSL5HPPXttnCl2OhNiz46oVd11hISBQl9GszpWRiFCz7aUz+hOFqwMojRocGwGCl2Pg7UzmV+/fBp5wVuco5Nv5SuCFEt+CkQsiXITA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5rfPvKdeeK9HEq4Dyv+PlsBML6DyBWf0kelS2/V7CBI=;
- b=R+ptTWj5LcePumySFTEKXqSq1HkF+ZySWIAfgZSbA/kFb4aha5MuPEQ8oUARLKI6AtSGV0eVdx+Jgm5VC/zbpM5TPTWUQYmZPFFpzC1UgnXSaO7JwrgSW+xv4fVmxipyJE+RosNgAoKxEFwEIDJL48JN+Zk8gWpoa6/dTRKbipw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB7845.namprd12.prod.outlook.com (2603:10b6:a03:4ce::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Mon, 19 Jan
- 2026 12:00:31 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9520.011; Mon, 19 Jan 2026
- 12:00:31 +0000
-Message-ID: <871628d8-14b6-4d38-b05e-a33822f8d71b@amd.com>
-Date: Mon, 19 Jan 2026 13:00:18 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dma-buf: Rename .move_notify() callback to a
- clearer identifier
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
- <20260118-dmabuf-revoke-v2-1-a03bb27c0875@nvidia.com>
- <345b8dcb-5015-4801-b263-0dca4d1b3fca@amd.com>
- <20260119113809.GK13201@unreal>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260119113809.GK13201@unreal>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0116.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:bb::16) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4BFA2D060E;
+	Mon, 19 Jan 2026 12:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768824147; cv=none; b=Xw+U6RJDR0Iaz06rEwgl9lg5qJ1seymF2nLyxuawtvMmeYJEPwfUsU/WPz+piPNcaBC6cHR4WpfEXddda5/B98iOCzEPqoiFbFfCs5Jjb+BQ0FIRY49ESKhdmm26+QO8EANBnUuxGIRLetgCJNwfxfa3EBUJbqmIafn890HxSIQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768824147; c=relaxed/simple;
+	bh=rDWLbsxDX6g5bOU5oPzY9EefxAeD2i3+I8GJn8jVGaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kY0UctCNBJdT8/xMudq2lew8yMwGAgYOe14f4yJkcdfEkGAeVEjfIL9domFtc/D4PengMskcdV6jRmUE/yR849al/kOMZFFU4FNjY5pwmN0AavNMHViHfy+E9roeuXxo/CVbE5eQ6nrAzHOFLH4G/ZRYAImhmfRjjSCr2phjnCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CvsnKgGO; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 144992D9;
+	Mon, 19 Jan 2026 13:01:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768824111;
+	bh=rDWLbsxDX6g5bOU5oPzY9EefxAeD2i3+I8GJn8jVGaE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CvsnKgGOy94zAGGGaXQv125gqcw6WHrWMi+sJ+IFJ11GxXHGQ/NG5RxyGbEec/Xl4
+	 TE4Mure2ZNHiscRA41CYTkCQnKfgQRvulxggdLyx01K5XDMNVY0vC/mosWAmOWHd7D
+	 fyjBaxiNXWpmmYWzBEjA9+H0kuJ0G0ewC+WgKItE=
+Date: Mon, 19 Jan 2026 14:01:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Michael Riesch <michael.riesch@collabora.com>
+Cc: Frank Li <Frank.li@nxp.com>, Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Collabora Kernel Team <kernel@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/3] media: synopsys: add driver for the designware
+ mipi csi-2 receiver
+Message-ID: <20260119120159.GA26642@pendragon.ideasonboard.com>
+References: <20251114-rockchip-mipi-receiver-v5-0-45aa117f190a@collabora.com>
+ <20251114-rockchip-mipi-receiver-v5-2-45aa117f190a@collabora.com>
+ <aWpil6jI1Ad0DcEI@lizhi-Precision-Tower-5810>
+ <db2f0c20-ca7e-41c9-be08-67fd1f92c2af@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7845:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62855fee-56a3-4df1-282d-08de57525806
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Z0E4b2duY2dBOTdFbzhpOVZDc1lwVUZZQVh3TWFQeVI3QXpQMVQ5a3RCeVht?=
- =?utf-8?B?anhRdUJjcXZaeDNTcU5Td3JyOXhEM3JiL1JDallhc002T2dKK0t4L3BqZXBD?=
- =?utf-8?B?c0d6ak9CL2M0MXdHMVhvMk5iT1N5bE5URzd1UXh3ZjJENnR3aDFwQ0ZOUnhZ?=
- =?utf-8?B?WUwyUlViUWRBYzhnSE5ISjlucGxEeWVkcnkvMzJxTmtGeDFTUm5JN0dzSW1L?=
- =?utf-8?B?eXltUDJXOEFJUzFFemFxTjhxcFo1WCs3bklJQ3l2OFM2cVVDeFVSVkxPd08v?=
- =?utf-8?B?N29UVXhFdElqL1lXbG9hREp1Uzg3RGpYbzF0WU1abEgreGJvTi9ZRXVWMlVR?=
- =?utf-8?B?NjdoVmZWdjdicHduUnpLSXFDQ2UzS2d3M20yMFBVaU9GakVsVTlmV011bVNY?=
- =?utf-8?B?aWF3WXcrblo2N1lvRXNuZXA3RHIrRG0zK0ptYmR6MVlEcmo1L2lJT2F5UXNQ?=
- =?utf-8?B?cGI2S2ZZdUc2cFBMWGVlWnQ2c0djM0twRHFEUmt2NnVhL3RRRWxkMWMrUUpr?=
- =?utf-8?B?NUYrWDlXMTN6Q2UwRU5qeHU1RktLWXpEUWRKVzh1QThlZXh2dGoxU21uR2RT?=
- =?utf-8?B?ZjdiY3REMXdxYTM5Sk56MkRZaHFtNUlicDlDOEdWY2s2Y3d3WTE5MU9tRzhW?=
- =?utf-8?B?cUJISjd2QzUrTGIwODlYbjA1bDhLb096MktBUnhGdHRQV05sRWg3dXVUb1dm?=
- =?utf-8?B?OGQ1VlZLZjRWUVpiSElPeUtCNDhvV2svUmYzMEhsaWF0WERVWUcrdHRYZ2M5?=
- =?utf-8?B?bWVqcFV4SitqMGNzVzlmSFBXeXBNUElERWp3bFkrV1FSZStobTNPSzN5cHlM?=
- =?utf-8?B?alVtQytyVjB2dWE5TEZvQW9DUXR0OGhPbWVQNWNTMXNMMVptKzlPSGVNdkNU?=
- =?utf-8?B?NzgrVmtQVHVTZHNGbUYzUlpSSmtPY1BwWVJrekdJaDFyeWozQWZIblROUkli?=
- =?utf-8?B?SlhlMGt2OXFmb0YrWWtqWDVJbVVpMmdOUkJtRnYwbTJ2YmFBT0VwZFFIb1Jz?=
- =?utf-8?B?eHRISk1FbWMyNHFEZWxhSTVFQm01SFFWNjE4RkJQUllvQU04STZCZ0Y4L0dK?=
- =?utf-8?B?TU5NZ21FQjNOeENHZHZoVVQ3bXFVRXpVbmpBSlM0VzFVUGJuWURpNHRzTnZ0?=
- =?utf-8?B?bVNCeklab3I1WW8yMzIwL21pN1lUZzFuc1haTXVHZ1ozZ3NzN0E1Yml3T1BI?=
- =?utf-8?B?bTduRDNxd1diaWtacHh1M2VPV0JOT3owZysvaFI1ZEN3Wm1FYlErcXJvaDlU?=
- =?utf-8?B?cGdselEyS0tBOVNFeVIrbVpqRjZTRWxVc0ovVmxnU0xMczBpMCtDaG1Ib0JB?=
- =?utf-8?B?a0FJMk5mSFhIWitFUlg3ckRRbjFlMVlXSGlzL2pCYk9FSHEvcTVnbjZkSHF4?=
- =?utf-8?B?V0hqcG1Pek9vemZES2ZRT2thWnFVVmc3d0ZuUk5qN0hLZWh3RlhJS255Z1lY?=
- =?utf-8?B?UDMyOWJBSCtiS0lvYjMyZ2tUQmdXd0xjd2VnT1BpNTVabzJDZlNLcHk2M1M1?=
- =?utf-8?B?blFMRFF1RjFqTlFYWm9Ic21kUGxIcUtQTkJHV05aY2NKV0lNU3c2NzZaM2Y1?=
- =?utf-8?B?V09QcTBZSmduaTNHenRaWWdmN3dZM0dRRDdtS1FHYlNCWWo3UHRiK010Z2Mx?=
- =?utf-8?B?dk95cjVBUWlJekJnNyt1c0dDSWcydXN2SVlxaG93L21IZWZScFlPUXdweG1G?=
- =?utf-8?B?VWU2RnI3MmpWaDhNVzkzM29JVmx4WXdWdW8zUDRyaHVybU9NNkZreTNILzdm?=
- =?utf-8?B?YjdLL2NoZGtma01zRVZGL052clFESVorYWQraUxiaEhGSnFIK1ZObnBmNHYz?=
- =?utf-8?B?aFE2RVhqdWZPL2pCTEhtVXVlbmwwZ1AwdmhBUFFnUHVWUVlUcmRVM3o5ZDRT?=
- =?utf-8?B?UGNFYkpiS1VWemFpZWIwMExuSjlkRmJoN1gveWZwd0kzL1BDMll6Q0liRmYy?=
- =?utf-8?B?N1MwOVFGbDBzVXBDQVdNeUVxeWFDTXZaQXZuNzI1Wm5mNEswc0sxWXl3RWtZ?=
- =?utf-8?B?eHRabnRmSzVKNWlJVm0wOUVUOTZBeGxQcGxqT2tyazE2WktjT0NJa2NrNHFq?=
- =?utf-8?B?NGhvR01lUEFDSTlGZFcrVlVYNDdyR0dqRVZMS0hoN2E0UFdFZTNSeU9TVmRx?=
- =?utf-8?Q?BKH4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?M25lNWJVYUdFYWZNWmRSMHI1c1Q0UWdET3NmVkNKSHpackxjWmc1OHBpZ1By?=
- =?utf-8?B?ZytVS3JoTVk0Snh6L1M2Uk5zYjlESjFWblJOUVdwL0dDZVJJQ0lXenVUeEVN?=
- =?utf-8?B?TUpHMFZhKzBBNGxxLzY1ZXY3RUQ5aXg2b1lGT2F5K1paSUZKWjVZelphUS81?=
- =?utf-8?B?NWdCUjFUVHZpdWk1YlQxSzdDMmUyZ3JlNWo0TU9XRDd0OGQxM0FRNE1zTTZM?=
- =?utf-8?B?cWo1b2IxVlB6djFQdVJKSXNNQll2NTV4YlpLT2dDejhQZFhnQzRSbmhxSkU3?=
- =?utf-8?B?allSNnM1alFHQUo4QTRoTFp6VWhSQmZFbEhEZ29UdmJGQlJ6V3RXTUxVbk9u?=
- =?utf-8?B?WENSL3l5TzhSQmR5ak1kNCtVOHFXa29Tb1BLSm1lNEMvdlBLN1U2WU5ISmVo?=
- =?utf-8?B?RHQ5cysvM1FybStzV3BjU3VYaDl1ZVNSZkpleElva1NnZk9HNll1L3JwT1Js?=
- =?utf-8?B?aEFYellVU09XWkw2dE5US3AxRGFHSlVuVklOalNmVG1hK0wyOUYySjFYL1hQ?=
- =?utf-8?B?SmlWTmRSazdZQk1kOXZWenJhSmVNVktZTE1XVXFSaWNIVjN0TXlKZ3gvTDhO?=
- =?utf-8?B?czF2ajEyRHc1aHFBS3dKZmpGb2dYbmxacmE0VmErN052K0R6ZDVwYUIvbmUr?=
- =?utf-8?B?K0srZnhEdWorbCtRZFVPVUxvWFJkczRwRkdDbE9pY2NTaTBBaEJTdncva21L?=
- =?utf-8?B?cG9kUnJ6YzFLZnMwMDFSbWVDdnFJVlhTcUpFd0M0YmJHWm1KNXZSMHRpQTNm?=
- =?utf-8?B?UmFRR1V4aVJtdEZ1c3A4bnovbmxKL3FNNjlWNmhxaEk1QWR4L3g0Z3VSMytO?=
- =?utf-8?B?SWxpVkF2UHBWdGFmSkhabm9BU3RjME5JZXNVY1hZSFVFQkdyaDdtK2FtdzZT?=
- =?utf-8?B?QnJKaGFZVmdrWkd1ckZEbzZHYis2Q1E2UlBKNGowWVZycFJ1bmsrY2J4dzJh?=
- =?utf-8?B?NDhXVlBrZnYxdTQ0TGlMOUVUVWJRY2puWnA4TDd3TjgwSkYraC93OGFKdmlZ?=
- =?utf-8?B?bUM2bmJNT2JhSWRhTDJydjc5c2w3aW5xaXh6c1Y4SG1FYWdpY3cwMVNraWdV?=
- =?utf-8?B?L3h1a0lhd2c3YXMxL2Z2M0UvZVVYaEFMQ0NMdlVWcFNTNkd6dm9MSDZvZGNm?=
- =?utf-8?B?bThqV1VaTkd6Yjkxb3FyaXVmWFVGZGdTZjBLSFdYczFueEc1R2dLYms3Qk9P?=
- =?utf-8?B?ZlpDRS90UWdSOEZ4TSt1REE3RVJzRHhNQUVlNmNVdnkxUVZLamp1d0JXZHp1?=
- =?utf-8?B?Vy91bUFXUWtnWkhTL09qN1Rwb01xbzBrcGlHdEh0R0NpUUEwS3VDVHF5cCtk?=
- =?utf-8?B?cWhVdTBXazdRbWtDVkVSclRlWEhITGJnc3oyakZqdzRxaG02aDlzYW9uSGU3?=
- =?utf-8?B?YjRqTURicWluZTd1QkNoMFdES3UxWGxSYWdacFNWTGlncVF0Z0daYXFrOTlB?=
- =?utf-8?B?RXlzQW1Cei9WaHpqVjdVS2MzMytFVURVVGlrQXkyKzhHREhOWkxEQ000QzZR?=
- =?utf-8?B?UnBYaWZsc1ZvcXErNUR6Q2ZDS0QvakEwNkhad29pcitoZTJpNDczR3pMTDNl?=
- =?utf-8?B?LzIrTk9TWXdDZ3hVazBySnVpY3Q4U2wwR1BnbnhwcTRwSFZqaTJ6dGQyY0Na?=
- =?utf-8?B?MVcwZFlDNi9SekhscDBmSVBNTkg2Q3MwRkdyMzNUMzNBTFRFNDJyVEQwZmln?=
- =?utf-8?B?S0dLaWFsa3V0WXpMZXNCRk8zclNBcG5Yc21QKzFqYlRIOTdKMjdiOU9xNTVK?=
- =?utf-8?B?dVp4VkNHTWVNMW9zZDZQL0lEQ3RKcU1nODVWM1A2K1l3QzcyVjRObW9xMkJQ?=
- =?utf-8?B?ZVRRYUgyVHVkZkxqN3JWeFk1NzduYjErVHl3Y1AydzZaU2tDWlZIZDZNdXUv?=
- =?utf-8?B?aXRWRmlyQ2ZwNzZSVHhCSUhhcGF5cTNRVmFPVFl1di9jcTBPY3dFOUJqcFdG?=
- =?utf-8?B?M0NMNjF6T2lqa2RpNmlySmZydk5wcXUyTktOanMxV2c0aWxCa2FFQ2RLOEJL?=
- =?utf-8?B?N2EvUGVoRXJDbWRaL3NwT3E5eDBiaC91QStjVHBPWDN6M2NKWlAwcDd6MGE4?=
- =?utf-8?B?REJFcUhLQUlLWC92dmNVaEVXLzZaZU9BQVZubG5pYlZyZGw4MXFWbFUvRU5Y?=
- =?utf-8?B?TGYzZ2tQSVRYUnU0L2lUWDhiWitpTitVdXE5RHNmaUp2SEpJVTFVY0RNcGdD?=
- =?utf-8?B?UnIwSzAwMG9qeTNiQXNkaEIyM3Jwbkp5NGZxbG94dTZwMitlZEI0cklHVHVo?=
- =?utf-8?B?M3AwRXN2M0duMVFPeWxXOWhEdTNmUW95QStkajBOak5wNU5wbk5Eayt4RzV4?=
- =?utf-8?Q?8x174mCkvz3PMzlSE5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62855fee-56a3-4df1-282d-08de57525806
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 12:00:31.1423
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CO7pfaIHX5QpStNnnGCYXeTrkOTgsuZyWSSJPYCXP88UlhR7R2xwQYUM9pgikRWO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7845
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <db2f0c20-ca7e-41c9-be08-67fd1f92c2af@collabora.com>
 
-On 1/19/26 12:38, Leon Romanovsky wrote:
-> On Mon, Jan 19, 2026 at 11:22:27AM +0100, Christian König wrote:
->> On 1/18/26 13:08, Leon Romanovsky wrote:
->>> From: Leon Romanovsky <leonro@nvidia.com>
->>>
->>> Rename the .move_notify() callback to .invalidate_mappings() to make its
->>> purpose explicit and highlight that it is responsible for invalidating
->>> existing mappings.
->>>
->>> Suggested-by: Christian König <christian.koenig@amd.com>
->>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
->>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
+On Mon, Jan 19, 2026 at 10:49:20AM +0100, Michael Riesch wrote:
+> Hi Frank,
 > 
-> Thanks,
+> Thanks for your review.
 > 
-> BTW, I didn't update the various xxx_move_notify() functions to use
-> xxx_invalidate_mappings() names. Should those be converted as well?
+> On 1/16/26 17:08, Frank Li wrote:
+> > On Fri, Jan 16, 2026 at 02:02:47PM +0100, Michael Riesch wrote:
+> >> The Synopsys DesignWare MIPI CSI-2 Receiver is a CSI-2 bridge with
+> >> one input port and one output port. It receives the data with the
+> >> help of an external MIPI PHY (C-PHY or D-PHY) and passes it to e.g.,
+> >> the Rockchip Video Capture (VICAP) block on recent Rockchip SoCs.
+> >>
+> >> Add a V4L2 subdevice driver for this unit.
+> >>
+> >> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> >> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> >> Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> >> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+> >> ---
+> > ...
+> >> +
+> >> +static inline struct dw_mipi_csi2_device *to_csi2(struct v4l2_subdev *sd)
+> >> +{
+> >> +	return container_of(sd, struct dw_mipi_csi2_device, sd);
+> >> +}
+> >> +
+> >> +static inline __maybe_unused void
+> > 
+> > why need '__maybe_unused', needn't inline. compiler can auto decide and
+> > report unused function if no 'inline'.
+> 
+> The __maybe_unused was helpful during development and is not really
+> required now. It doesn't hurt either, so I left it in. I can remove it
+> if you wish.
+> 
+> >> +dw_mipi_csi2_write(struct dw_mipi_csi2_device *csi2, unsigned int addr, u32 val)
+> >> +{
+> >> +	writel(val, csi2->base_addr + addr);
+> >> +}
+> >> +
+> >> +static inline __maybe_unused u32
+> >> +dw_mipi_csi2_read(struct dw_mipi_csi2_device *csi2, unsigned int addr)
+> >> +{
+> >> +	return readl(csi2->base_addr + addr);
+> >> +}
+> >> +
+> >> +static const struct dw_mipi_csi2_format *
+> >> +dw_mipi_csi2_find_format(struct dw_mipi_csi2_device *csi2, u32 mbus_code)
+> >> +{
+> >> +	WARN_ON(csi2->formats_num == 0);
+> >> +
+> >> +	for (unsigned int i = 0; i < csi2->formats_num; i++) {
+> >> +		const struct dw_mipi_csi2_format *format = &csi2->formats[i];
+> >> +
+> >> +		if (format->code == mbus_code)
+> >> +			return format;
+> >> +	}
+> >> +
+> >> +	return NULL;
+> >> +}
+> >> +
+> >> +static int dw_mipi_csi2_start(struct dw_mipi_csi2_device *csi2)
+> >> +{
+> >> +	struct media_pad *source_pad;
+> >> +	union phy_configure_opts opts;
+> >> +	s64 link_freq;
+> >> +	u32 control = 0;
+> >> +	u32 lanes = csi2->lanes_num;
+> >> +	int ret;
+> > 
+> > try keep reverise christmas tree order.
+> 
+> Ack.
+> 
+> >> +
+> >> +	if (lanes < 1 || lanes > 4)
+> >> +		return -EINVAL;
+> >> +
+> > ...
+> >> +
+> >> +static int dw_mipi_csi2_register_notifier(struct dw_mipi_csi2_device *csi2)
+> >> +{
+> >> +	struct v4l2_async_connection *asd;
+> >> +	struct v4l2_async_notifier *ntf = &csi2->notifier;
+> >> +	struct v4l2_fwnode_endpoint vep;
+> >> +	struct v4l2_subdev *sd = &csi2->sd;
+> >> +	struct device *dev = csi2->dev;
+> >> +	struct fwnode_handle *ep;
+> >> +	int ret;
+> >> +
+> >> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
+> > 
+> > use  struct fwnode_handle *ep __free(fwnode_handle) can simplify err
+> > handler.
+> 
+> Sorry, I don't see the benefit of that.
+> 
+> >> +	if (!ep)
+> >> +		return dev_err_probe(dev, -ENODEV, "failed to get endpoint\n");
+> >> +
+> > ...
+> >> +{
+> >> +	struct media_pad *pads = csi2->pads;
+> >> +	struct v4l2_subdev *sd = &csi2->sd;
+> >> +	int ret;
+> >> +
+> >> +	ret = dw_mipi_csi2_register_notifier(csi2);
+> >> +	if (ret)
+> >> +		goto err;
+> >> +
+> >> +	v4l2_subdev_init(sd, &dw_mipi_csi2_ops);
+> >> +	sd->dev = csi2->dev;
+> >> +	sd->entity.ops = &dw_mipi_csi2_media_ops;
+> >> +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> >> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
+> >> +	sd->internal_ops = &dw_mipi_csi2_internal_ops;
+> >> +	sd->owner = THIS_MODULE;
+> > 
+> > I remeber needn't set owner, v4l2_async_register_subdev() do it for you.
+> 
+> Indeed, nice catch.
+> 
+> >> +	snprintf(sd->name, sizeof(sd->name), "dw-mipi-csi2 %s",
+> >> +		 dev_name(csi2->dev));
+> >> +
+> > ...
+> >> +
+> >> +static int dw_mipi_csi2_probe(struct platform_device *pdev)
+> >> +{
+> >> +	struct device *dev = &pdev->dev;
+> >> +	struct dw_mipi_csi2_device *csi2;
+> >> +	int ret;
+> >> +
+> >> +	csi2 = devm_kzalloc(dev, sizeof(*csi2), GFP_KERNEL);
+> >> +	if (!csi2)
+> >> +		return -ENOMEM;
+> >> +	csi2->dev = dev;
+> >> +	dev_set_drvdata(dev, csi2);
+> >> +
+> >> +	csi2->base_addr = devm_platform_ioremap_resource(pdev, 0);
+> >> +	if (IS_ERR(csi2->base_addr))
+> >> +		return PTR_ERR(csi2->base_addr);
+> >> +
+> >> +	ret = devm_clk_bulk_get_all(dev, &csi2->clks);
+> >> +	if (ret != DW_MIPI_CSI2_CLKS_MAX)
+> >> +		return dev_err_probe(dev, -ENODEV, "failed to get clocks\n");
+> >> +	csi2->clks_num = ret;
+> >> +
+> >> +	csi2->phy = devm_phy_get(dev, NULL);
+> >> +	if (IS_ERR(csi2->phy))
+> >> +		return dev_err_probe(dev, PTR_ERR(csi2->phy),
+> >> +				     "failed to get MIPI CSI-2 PHY\n");
+> >> +
+> >> +	csi2->reset = devm_reset_control_get_exclusive(dev, NULL);
+> >> +	if (IS_ERR(csi2->reset))
+> >> +		return dev_err_probe(dev, PTR_ERR(csi2->reset),
+> >> +				     "failed to get reset\n");
+> >> +
+> >> +	csi2->formats = formats;
+> >> +	csi2->formats_num = ARRAY_SIZE(formats);
+> >> +
+> >> +	pm_runtime_enable(dev);
+> > 
+> > devm_pm_runtime_enable() will simple error handle.
+> 
+> Ack.
+> 
+> >> +
+> >> +	ret = phy_init(csi2->phy);
+> >> +	if (ret) {
+> >> +		ret = dev_err_probe(dev, ret,
+> >> +				    "failed to initialize MIPI CSI-2 PHY\n");
+> >> +		goto err_pm_runtime_disable;
+> >> +	}
+> >> +
+> > ...
+> >> +
+> >> +static int dw_mipi_csi2_runtime_resume(struct device *dev)
+> >> +{
+> >> +	struct dw_mipi_csi2_device *csi2 = dev_get_drvdata(dev);
+> >> +	int ret;
+> >> +
+> >> +	reset_control_assert(csi2->reset);
+> >> +	udelay(5);
+> > 
+> > Now prefer use fsleep(), which auto choose difference sleep function
+> > according to delay number.
+> 
+> I'll keep that in mind, but here the first thing that fsleep does is to
+> check whether the parameter is <= 10 and (since this is true) call
+> udelay. So here I don't see the point really.
 
-No, those importer specific functions can keep their name.
+Using fsleep() by default, unless there's a specific need to use
+udelay() or msleep(), is usually preferred. It "does the right thing"
+(TM) automatically, freeing developers and reviewers from having to
+think about it.
 
-More important is the config option. Haven't thought about that one.
+> >> +	reset_control_deassert(csi2->reset);
+> >> +
+> >> +	ret = clk_bulk_prepare_enable(csi2->clks_num, csi2->clks);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "failed to enable clocks\n");
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static DEFINE_RUNTIME_DEV_PM_OPS(dw_mipi_csi2_pm_ops,
+> >> +				 dw_mipi_csi2_runtime_suspend,
+> >> +				 dw_mipi_csi2_runtime_resume, NULL);
+> >> +
+> >> +static struct platform_driver dw_mipi_csi2_drv = {
+> >> +	.driver = {
+> >> +		.name = "dw-mipi-csi2",
+> >> +		.of_match_table = dw_mipi_csi2_of_match,
+> >> +		.pm = &dw_mipi_csi2_pm_ops,
+> > 
+> > pm_ptr( &dw_mipi_csi2_pm_ops)
+> 
+> Shouldn't make a difference here since this driver depends on CONFIG_PM.
+> 
+> >> +	},
+> >> +	.probe = dw_mipi_csi2_probe,
+> >> +	.remove = dw_mipi_csi2_remove,
+> >> +};
+> >> +module_platform_driver(dw_mipi_csi2_drv);
+> >> +
+> >> +MODULE_DESCRIPTION("Synopsys DesignWare MIPI CSI-2 Receiver platform driver");
+> >> +MODULE_LICENSE("GPL");
 
-Probably best if we either rename or completely remove that one, it was to keep the MOVE_NOTIFY functionality separate for initial testing but we have clearly supassed this long time ago.
-
+-- 
 Regards,
-Christian.
 
-> 
->>
->>> ---
->>>  drivers/dma-buf/dma-buf.c                   | 6 +++---
->>>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 4 ++--
->>>  drivers/gpu/drm/virtio/virtgpu_prime.c      | 2 +-
->>>  drivers/gpu/drm/xe/tests/xe_dma_buf.c       | 6 +++---
->>>  drivers/gpu/drm/xe/xe_dma_buf.c             | 2 +-
->>>  drivers/infiniband/core/umem_dmabuf.c       | 4 ++--
->>>  drivers/infiniband/hw/mlx5/mr.c             | 2 +-
->>>  drivers/iommu/iommufd/pages.c               | 2 +-
->>>  include/linux/dma-buf.h                     | 6 +++---
->>>  9 files changed, 17 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>> index edaa9e4ee4ae..59cc647bf40e 100644
->>> --- a/drivers/dma-buf/dma-buf.c
->>> +++ b/drivers/dma-buf/dma-buf.c
->>> @@ -948,7 +948,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->>>  	if (WARN_ON(!dmabuf || !dev))
->>>  		return ERR_PTR(-EINVAL);
->>>  
->>> -	if (WARN_ON(importer_ops && !importer_ops->move_notify))
->>> +	if (WARN_ON(importer_ops && !importer_ops->invalidate_mappings))
->>>  		return ERR_PTR(-EINVAL);
->>>  
->>>  	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
->>> @@ -1055,7 +1055,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_pin, "DMA_BUF");
->>>   *
->>>   * This unpins a buffer pinned by dma_buf_pin() and allows the exporter to move
->>>   * any mapping of @attach again and inform the importer through
->>> - * &dma_buf_attach_ops.move_notify.
->>> + * &dma_buf_attach_ops.invalidate_mappings.
->>>   */
->>>  void dma_buf_unpin(struct dma_buf_attachment *attach)
->>>  {
->>> @@ -1262,7 +1262,7 @@ void dma_buf_move_notify(struct dma_buf *dmabuf)
->>>  
->>>  	list_for_each_entry(attach, &dmabuf->attachments, node)
->>>  		if (attach->importer_ops)
->>> -			attach->importer_ops->move_notify(attach);
->>> +			attach->importer_ops->invalidate_mappings(attach);
->>>  }
->>>  EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, "DMA_BUF");
->>>  
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
->>> index e22cfa7c6d32..863454148b28 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
->>> @@ -450,7 +450,7 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
->>>  }
->>>  
->>>  /**
->>> - * amdgpu_dma_buf_move_notify - &attach.move_notify implementation
->>> + * amdgpu_dma_buf_move_notify - &attach.invalidate_mappings implementation
->>>   *
->>>   * @attach: the DMA-buf attachment
->>>   *
->>> @@ -521,7 +521,7 @@ amdgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
->>>  
->>>  static const struct dma_buf_attach_ops amdgpu_dma_buf_attach_ops = {
->>>  	.allow_peer2peer = true,
->>> -	.move_notify = amdgpu_dma_buf_move_notify
->>> +	.invalidate_mappings = amdgpu_dma_buf_move_notify
->>>  };
->>>  
->>>  /**
->>> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> index ce49282198cb..19c78dd2ca77 100644
->>> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> @@ -288,7 +288,7 @@ static void virtgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
->>>  
->>>  static const struct dma_buf_attach_ops virtgpu_dma_buf_attach_ops = {
->>>  	.allow_peer2peer = true,
->>> -	.move_notify = virtgpu_dma_buf_move_notify
->>> +	.invalidate_mappings = virtgpu_dma_buf_move_notify
->>>  };
->>>  
->>>  struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
->>> diff --git a/drivers/gpu/drm/xe/tests/xe_dma_buf.c b/drivers/gpu/drm/xe/tests/xe_dma_buf.c
->>> index 5df98de5ba3c..1f2cca5c2f81 100644
->>> --- a/drivers/gpu/drm/xe/tests/xe_dma_buf.c
->>> +++ b/drivers/gpu/drm/xe/tests/xe_dma_buf.c
->>> @@ -23,7 +23,7 @@ static bool p2p_enabled(struct dma_buf_test_params *params)
->>>  static bool is_dynamic(struct dma_buf_test_params *params)
->>>  {
->>>  	return IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY) && params->attach_ops &&
->>> -		params->attach_ops->move_notify;
->>> +		params->attach_ops->invalidate_mappings;
->>>  }
->>>  
->>>  static void check_residency(struct kunit *test, struct xe_bo *exported,
->>> @@ -60,7 +60,7 @@ static void check_residency(struct kunit *test, struct xe_bo *exported,
->>>  
->>>  	/*
->>>  	 * Evict exporter. Evicting the exported bo will
->>> -	 * evict also the imported bo through the move_notify() functionality if
->>> +	 * evict also the imported bo through the invalidate_mappings() functionality if
->>>  	 * importer is on a different device. If they're on the same device,
->>>  	 * the exporter and the importer should be the same bo.
->>>  	 */
->>> @@ -198,7 +198,7 @@ static void xe_test_dmabuf_import_same_driver(struct xe_device *xe)
->>>  
->>>  static const struct dma_buf_attach_ops nop2p_attach_ops = {
->>>  	.allow_peer2peer = false,
->>> -	.move_notify = xe_dma_buf_move_notify
->>> +	.invalidate_mappings = xe_dma_buf_move_notify
->>>  };
->>>  
->>>  /*
->>> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
->>> index 7c74a31d4486..1b9cd043e517 100644
->>> --- a/drivers/gpu/drm/xe/xe_dma_buf.c
->>> +++ b/drivers/gpu/drm/xe/xe_dma_buf.c
->>> @@ -287,7 +287,7 @@ static void xe_dma_buf_move_notify(struct dma_buf_attachment *attach)
->>>  
->>>  static const struct dma_buf_attach_ops xe_dma_buf_attach_ops = {
->>>  	.allow_peer2peer = true,
->>> -	.move_notify = xe_dma_buf_move_notify
->>> +	.invalidate_mappings = xe_dma_buf_move_notify
->>>  };
->>>  
->>>  #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
->>> diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
->>> index 0ec2e4120cc9..d77a739cfe7a 100644
->>> --- a/drivers/infiniband/core/umem_dmabuf.c
->>> +++ b/drivers/infiniband/core/umem_dmabuf.c
->>> @@ -129,7 +129,7 @@ ib_umem_dmabuf_get_with_dma_device(struct ib_device *device,
->>>  	if (check_add_overflow(offset, (unsigned long)size, &end))
->>>  		return ret;
->>>  
->>> -	if (unlikely(!ops || !ops->move_notify))
->>> +	if (unlikely(!ops || !ops->invalidate_mappings))
->>>  		return ret;
->>>  
->>>  	dmabuf = dma_buf_get(fd);
->>> @@ -195,7 +195,7 @@ ib_umem_dmabuf_unsupported_move_notify(struct dma_buf_attachment *attach)
->>>  
->>>  static struct dma_buf_attach_ops ib_umem_dmabuf_attach_pinned_ops = {
->>>  	.allow_peer2peer = true,
->>> -	.move_notify = ib_umem_dmabuf_unsupported_move_notify,
->>> +	.invalidate_mappings = ib_umem_dmabuf_unsupported_move_notify,
->>>  };
->>>  
->>>  struct ib_umem_dmabuf *
->>> diff --git a/drivers/infiniband/hw/mlx5/mr.c b/drivers/infiniband/hw/mlx5/mr.c
->>> index 325fa04cbe8a..97099d3b1688 100644
->>> --- a/drivers/infiniband/hw/mlx5/mr.c
->>> +++ b/drivers/infiniband/hw/mlx5/mr.c
->>> @@ -1620,7 +1620,7 @@ static void mlx5_ib_dmabuf_invalidate_cb(struct dma_buf_attachment *attach)
->>>  
->>>  static struct dma_buf_attach_ops mlx5_ib_dmabuf_attach_ops = {
->>>  	.allow_peer2peer = 1,
->>> -	.move_notify = mlx5_ib_dmabuf_invalidate_cb,
->>> +	.invalidate_mappings = mlx5_ib_dmabuf_invalidate_cb,
->>>  };
->>>  
->>>  static struct ib_mr *
->>> diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
->>> index dbe51ecb9a20..76f900fa1687 100644
->>> --- a/drivers/iommu/iommufd/pages.c
->>> +++ b/drivers/iommu/iommufd/pages.c
->>> @@ -1451,7 +1451,7 @@ static void iopt_revoke_notify(struct dma_buf_attachment *attach)
->>>  
->>>  static struct dma_buf_attach_ops iopt_dmabuf_attach_revoke_ops = {
->>>  	.allow_peer2peer = true,
->>> -	.move_notify = iopt_revoke_notify,
->>> +	.invalidate_mappings = iopt_revoke_notify,
->>>  };
->>>  
->>>  /*
->>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->>> index 0bc492090237..1b397635c793 100644
->>> --- a/include/linux/dma-buf.h
->>> +++ b/include/linux/dma-buf.h
->>> @@ -407,7 +407,7 @@ struct dma_buf {
->>>  	 *   through the device.
->>>  	 *
->>>  	 * - Dynamic importers should set fences for any access that they can't
->>> -	 *   disable immediately from their &dma_buf_attach_ops.move_notify
->>> +	 *   disable immediately from their &dma_buf_attach_ops.invalidate_mappings
->>>  	 *   callback.
->>>  	 *
->>>  	 * IMPORTANT:
->>> @@ -458,7 +458,7 @@ struct dma_buf_attach_ops {
->>>  	bool allow_peer2peer;
->>>  
->>>  	/**
->>> -	 * @move_notify: [optional] notification that the DMA-buf is moving
->>> +	 * @invalidate_mappings: [optional] notification that the DMA-buf is moving
->>>  	 *
->>>  	 * If this callback is provided the framework can avoid pinning the
->>>  	 * backing store while mappings exists.
->>> @@ -475,7 +475,7 @@ struct dma_buf_attach_ops {
->>>  	 * New mappings can be created after this callback returns, and will
->>>  	 * point to the new location of the DMA-buf.
->>>  	 */
->>> -	void (*move_notify)(struct dma_buf_attachment *attach);
->>> +	void (*invalidate_mappings)(struct dma_buf_attachment *attach);
->>>  };
->>>  
->>>  /**
->>>
->>
-
+Laurent Pinchart
 
