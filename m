@@ -1,105 +1,213 @@
-Return-Path: <linux-media+bounces-51012-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51013-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02DA2D3A0B1
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 08:54:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE90D3A0B9
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 08:55:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E3AF6305331F
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 07:52:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ADA97309C26A
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 07:52:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FF6B33890B;
-	Mon, 19 Jan 2026 07:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67C753396E0;
+	Mon, 19 Jan 2026 07:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="LZ53M/g2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VL41eV1F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5F8296BA8;
-	Mon, 19 Jan 2026 07:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768809152; cv=pass; b=g5jlCmIAbce56WIJPCci4yxtJlj3CfnSpSqhIFis9Y89HTvj4b9cMfwkZ+/ZceO2SyaGXccAPrDfpqAyhnesxHk7r/MfovO8MLJWBkVHAYS7MuHHVmjRa0H9GlCbbNpxuCd78jqPwRIfKkmcFR7W4rNJbUAySm7gfUy1zBLcMyU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768809152; c=relaxed/simple;
-	bh=sRVp7dUbSthmOrlglJ6TGdqGPUk+uDvjIluK+KIJt6U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qewbWcdDKcVOludAwmesp6DLFWpWGVXH2XGAQEohsYQ9PcHbhp0RjBhtSEbvLET6l6jwJ+w6uSnxNYHn+4sEg2gRPUveZv5Pgqk6ShuvlptPG0eBVixPg+prExzaNyhajQOQGWvPyiMwLgVmM8ptJI/PIqo+ogvpyLzIHKKFqH8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=LZ53M/g2; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1768809116; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=mzO0Shua/4atpUZeelS+ZQgvhxd/sOj/CdGT2JvtNeMdrVbhkDqiCS9/tV7FnuOgtAzsXgyTW6M+6SNLwsDsYzWs40xNLw32yj/UTaxF4oZ1vAkndP2vw1tPY7HYFoRntFpdk+Dc1ozUeSOyAbUUqDa14TNU1nR+g4DTDNJSJRQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1768809116; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=sRVp7dUbSthmOrlglJ6TGdqGPUk+uDvjIluK+KIJt6U=; 
-	b=Hg/H46awInmh+1qx1wTLEihLOvryH7prxxthG9krTpP3W0tQSKdVc7E6BYEUNGCMzGkQghlgShPPLUzjz1/Ne+k8E+x32Yeev159MNkb8bGycTxgxCrfIHr7IF4AnoFDVKeJCKubc+sPePuqGbupQKROO4PorFB52mtssMAiJgo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768809116;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=sRVp7dUbSthmOrlglJ6TGdqGPUk+uDvjIluK+KIJt6U=;
-	b=LZ53M/g2B/lEi3Cw4XEq9FXGeHNwxs2mhesW0QOopdjdonaDtdoNwyxYVDQyoI0b
-	6BP6qBItIYHg9DTgr4WdGf/GFsAmbWXc7txbco0MHXDt7+DZQ95SrCATlZE4vgGrA01
-	CUZRUw3KPoT6CERFiPBpj2qltx4GApoQblEaUIRU=
-Received: by mx.zohomail.com with SMTPS id 1768809113865738.6117525224621;
-	Sun, 18 Jan 2026 23:51:53 -0800 (PST)
-Message-ID: <1030ddab-6124-414d-958f-c461c19bdbb0@collabora.com>
-Date: Mon, 19 Jan 2026 08:51:46 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D93296BA8;
+	Mon, 19 Jan 2026 07:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768809158; cv=none; b=SPi7bAKknuu1nceDyEafNuCqH3rnMWzB7yUGV7ynP2w6TqP76BTAIpVKmdq5GPvaSVWTysZX8LqJl6nGcSVzJUNU45mgtOwtB4ssJqAVrLs//xyGEMaQpaTGM2z5+B3K+dzJJoB9AyxzMF2NR7bMRjkNEdcEkEy3xPftnvd6VjE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768809158; c=relaxed/simple;
+	bh=FgccbxSW4ALrowfCLmsRR/Zu7j7Ob42C2Xqwm3A13m4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YjM/93KNg6pZo5V3OMFV61D2Z2ZvCSUfz6cNtPeMwM/Qb92l4zCV48mR807KWFxjp9vz6W43sRle67FBoR7YmnnBohT9xr08kU6of5Af12/TAru7jPuHJni7axtn3R1AzXVxcbPqZ04ho/gG+XqvsPd1eNqJsofgZVGmI40Nr0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VL41eV1F; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94EE5C19424;
+	Mon, 19 Jan 2026 07:52:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768809154;
+	bh=FgccbxSW4ALrowfCLmsRR/Zu7j7Ob42C2Xqwm3A13m4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VL41eV1F4pT4aqEBXrqmgMj8ay967tZwnXgdE3sr95zj66Szyt/gEQZ9ZHC1/ZCoI
+	 zHdHVoh19kPdrpptXHDlZLHPfMWdCRNwsBdwJ7VBIbjsDDrXymv7wyQjLraR/owc8z
+	 evQ3EyRQBsTDbPFCBP+u0no9EvPNSeIC1y3//MY6sa/XWAJj/UJTznEsT5zeykc+UM
+	 MOLIbXeG3taFetfPJqqhIWgSSkBbREOAi0MKLUbM9986sLho/+clz8Gf3zrknd4884
+	 dnnSFY+E5761ocKkG9RiPkmSgCPvhyyXYSXwcxbhpYQalj7/p76ack/evO/E3Y0LdM
+	 pnmfKlRF+LN7g==
+Date: Mon, 19 Jan 2026 09:52:29 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
+ shared buffers
+Message-ID: <20260119075229.GE13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 3/7] iommu: Add verisilicon IOMMU driver
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>,
- Will Deacon <will@kernel.org>
-Cc: robin.murphy@arm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, heiko@sntech.de, nicolas.dufresne@collabora.com,
- p.zabel@pengutronix.de, mchehab@kernel.org, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-media@vger.kernel.org, kernel@collabora.com
-References: <20260107101005.84039-1-benjamin.gaignard@collabora.com>
- <20260107101005.84039-4-benjamin.gaignard@collabora.com>
- <aWZui-rn5RDPwpEO@willie-the-truck>
- <eqv7yfdagt2axkj5xbtmrtkaakhq63ywf2q5tjo33exumhfrc5@7ghelrz6yt2d>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <eqv7yfdagt2axkj5xbtmrtkaakhq63ywf2q5tjo33exumhfrc5@7ghelrz6yt2d>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
 
+On Sun, Jan 18, 2026 at 03:16:25PM +0100, Thomas Hellström wrote:
+> Hi, Leon,
+> 
+> On Sun, 2026-01-18 at 14:08 +0200, Leon Romanovsky wrote:
+> > Changelog:
+> > v2:
+> >  * Changed series to document the revoke semantics instead of
+> >    implementing it.
+> > v1:
+> > https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com
+> > 
+> > ---------------------------------------------------------------------
+> > ----
+> > This series documents a dma-buf “revoke” mechanism: to allow a dma-
+> > buf
+> > exporter to explicitly invalidate (“kill”) a shared buffer after it
+> > has
+> > been distributed to importers, so that further CPU and device access
+> > is
+> > prevented and importers reliably observe failure.
+> > 
+> > The change in this series is to properly document and use existing
+> > core
+> > “revoked” state on the dma-buf object and a corresponding exporter-
+> > triggered
+> > revoke operation. Once a dma-buf is revoked, new access paths are
+> > blocked so
+> > that attempts to DMA-map, vmap, or mmap the buffer fail in a
+> > consistent way.
+> 
+> This sounds like it does not match how many GPU-drivers use the
+> move_notify() callback.
 
-Le 18/01/2026 à 10:41, Jörg Rödel a écrit :
-> Benjamin,
->
-> On Tue, Jan 13, 2026 at 04:10:51PM +0000, Will Deacon wrote:
->> I took another look at this to see whether it had changed significantly
->> from v6 when compared to the rockchip driver. Sadly, they still look
->> very similar to me and I continue to suspect that the hardware is a
->> derivative. I really don't understand why having a shared implementation
->> of the default domain ops is difficult or controversial. Have you tried
->> to write it?
-> When updating for v12, can you please put an explanatory comment at the top of
-> the file explaining the relationship of the IP this driver is for to the
-> RockChip IOMMU and the rationale for having it as a separate driver? I want
-> this part of the discussion documented in the code in case it comes up again.
+No change for them.
 
-I have already send v12 where I have removed the useless function.
+> 
+> move_notify() would typically invalidate any device maps and any
+> asynchronous part of that invalidation would be complete when the dma-
+> buf's reservation object becomes idle WRT DMA_RESV_USAGE_BOOKKEEP
+> fences.
 
-Regards,
-Benjamin
+This part has not changed and remains the same for the revocation flow as well.
 
->
->
-> -Joerg
->
+> 
+> However, the importer could, after obtaining the resv lock, obtain a
+> new map using dma_buf_map_attachment(), and I'd assume the CPU maps
+> work in the same way, I.E. move_notify() does not *permanently* revoke
+> importer access.
+
+This part diverges by design and is documented to match revoke semantics.  
+It defines what must occur after the exporter requests that the buffer be  
+"killed". An importer that follows revoke semantics will not attempt to call  
+dma_buf_map_attachment(), and the exporter will block any remapping attempts  
+regardless. See the priv->revoked flag in the VFIO exporter.
+
+In addition, in this email thread, Christian explains that revoke
+semantics already exists, with the combination of dma_buf_pin and
+dma_buf_move_notify, just not documented:
+https://lore.kernel.org/all/f7f1856a-44fa-44af-b496-eb1267a05d11@amd.com/
+
+Thanks
+
+> 
+> /Thomas
+> 
+> 
+> > 
+> > Thanks
+> > 
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: virtualization@lists.linux.dev
+> > Cc: intel-xe@lists.freedesktop.org
+> > Cc: linux-rdma@vger.kernel.org
+> > Cc: iommu@lists.linux.dev
+> > Cc: kvm@vger.kernel.org
+> > To: Sumit Semwal <sumit.semwal@linaro.org>
+> > To: Christian König <christian.koenig@amd.com>
+> > To: Alex Deucher <alexander.deucher@amd.com>
+> > To: David Airlie <airlied@gmail.com>
+> > To: Simona Vetter <simona@ffwll.ch>
+> > To: Gerd Hoffmann <kraxel@redhat.com>
+> > To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > To: Gurchetan Singh <gurchetansingh@chromium.org>
+> > To: Chia-I Wu <olvaffe@gmail.com>
+> > To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > To: Maxime Ripard <mripard@kernel.org>
+> > To: Thomas Zimmermann <tzimmermann@suse.de>
+> > To: Lucas De Marchi <lucas.demarchi@intel.com>
+> > To: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> > To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > To: Jason Gunthorpe <jgg@ziepe.ca>
+> > To: Leon Romanovsky <leon@kernel.org>
+> > To: Kevin Tian <kevin.tian@intel.com>
+> > To: Joerg Roedel <joro@8bytes.org>
+> > To: Will Deacon <will@kernel.org>
+> > To: Robin Murphy <robin.murphy@arm.com>
+> > To: Alex Williamson <alex@shazbot.org>
+> > 
+> > ---
+> > Leon Romanovsky (4):
+> >       dma-buf: Rename .move_notify() callback to a clearer identifier
+> >       dma-buf: Document revoke semantics
+> >       iommufd: Require DMABUF revoke semantics
+> >       vfio: Add pinned interface to perform revoke semantics
+> > 
+> >  drivers/dma-buf/dma-buf.c                   |  6 +++---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  4 ++--
+> >  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+> >  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  6 +++---
+> >  drivers/gpu/drm/xe/xe_dma_buf.c             |  2 +-
+> >  drivers/infiniband/core/umem_dmabuf.c       |  4 ++--
+> >  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+> >  drivers/iommu/iommufd/pages.c               | 11 +++++++++--
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c          | 16 ++++++++++++++++
+> >  include/linux/dma-buf.h                     | 25
+> > ++++++++++++++++++++++---
+> >  10 files changed, 60 insertions(+), 18 deletions(-)
+> > ---
+> > base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> > change-id: 20251221-dmabuf-revoke-b90ef16e4236
+> > 
+> > Best regards,
+> > --  
+> > Leon Romanovsky <leonro@nvidia.com>
+> > 
+> 
 
