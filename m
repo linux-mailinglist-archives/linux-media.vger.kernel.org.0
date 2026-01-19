@@ -1,82 +1,81 @@
-Return-Path: <linux-media+bounces-51069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73DBD3B06E
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 17:22:18 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id E44E2D3B115
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 17:31:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 00069302A79B
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 16:20:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B0555304C8DE
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 16:26:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102A92E0418;
-	Mon, 19 Jan 2026 16:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D073191BA;
+	Mon, 19 Jan 2026 16:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="m6EoWVWn"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="k0MwFnzh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0ACE285060
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 16:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB17331197E
+	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 16:24:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768839631; cv=none; b=ibfljCLzcR6vXaXkPUG5iyaiaeDopegW+pdmrguj4RN5Vxe6JcxwcsUi4CjMCj3ku+5Lz+EWtVTr008todoMhiBlb+S9COr/oRRtC4Vw11/WPbjMXeOJ8Z4Gl85JDe6Jf5wlmNNkA5Luxf0pK1PY87ji9QCswiEQ+X168VkYDgk=
+	t=1768839868; cv=none; b=phF+4BAx1heLY9frrzBdER3iDyQ7MlnDfCPHcJFZ4wDrLwbSbo9MyUzCWpQgkNrsAVJviiPdceATNxdAaPvewo9rtqa2mch6DP3xfwOU3cT0rNcAF7X0F07WwC7qJgpsRljXbvngmQ0qQNxpYz+AcLVk5LJq2bD1XeWWtnfdsXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768839631; c=relaxed/simple;
-	bh=lLsaw5dNuTdwtV9+A4M72uMo0bYM3iY+i5XXMuIoHPA=;
+	s=arc-20240116; t=1768839868; c=relaxed/simple;
+	bh=y4swwYbPI6raB2hvkPRsghll5RR/RHHzFup3OVrjU1M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y82OcIbeNWbduMWVt7jxbhVL5w04cC/BGzM0Bfaez70mJxdxAhefe+T9pVY2aOPbErU48IQgnrzUaXf9zwfVjFHXmOzk6vt/amnIKOjSe3r7+dzPwKd6QA3E4fj6J45IFQDZSCTy4Y4Y1LGA+CFgkdlVxEx1AwmzlWPT4E8Ej3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=m6EoWVWn; arc=none smtp.client-ip=209.85.222.194
+	 Content-Type:Content-Disposition:In-Reply-To; b=tFnL5xfCr7MY4xdRV/xyLsmzxzG0B4nDkdCkwH538LWo7R4Tv6eAgdpfJ56lr6ufjtGkpZ6pk6Qo0BRJMTLWPZXU7/SrgRvpaGQ1rKgKL+0Sd/9ffmJWvBWNVGlXGp42tsDAP9ucn5076nwIONQlasn+8PAkBAnxcecJxWKIJqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=k0MwFnzh; arc=none smtp.client-ip=209.85.222.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-8c53198a65fso443721485a.3
-        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 08:20:29 -0800 (PST)
+Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-8c52e25e636so671477785a.2
+        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 08:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1768839629; x=1769444429; darn=vger.kernel.org;
+        d=ziepe.ca; s=google; t=1768839866; x=1769444666; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=8e3LOQmDLtNbqPr2ZRZYrAEb0+eSE57gTBol5BlL7sE=;
-        b=m6EoWVWnIVusJQRbMHxn9aEAeSSb390h7gBoTRonBl6NZ/MkAC/rFCgzdXlNJ4XME7
-         9dZzu/OoNI3lxr13d1wWJkDhcf/LD/YI15fPMmp5zpzlLERICp/DLmz8s4FXlBjtSOgf
-         RdxNNLdTL1QPH10d9qhOfwHLTwj3v1a68164c4TpRD4n9GAaMoLfVx5kX6Hn1caX3p4y
-         ye0uJ1IUkkNojEb0wm3XZt+KWwJoz9bq+YReA3uBye/V18EnZL1lSB+cChEuAMEPhN6+
-         VZ/GkzhmUyHlcQBcDVVgq3rQiPPdTiAWntlzk5eAEeZZuzn+F9EjaJx1JgAf45zMO8tm
-         XZcw==
+        bh=zCRrpohPCspJo8o5qWVDG1aTKo63AMTSXJRpwyKl02I=;
+        b=k0MwFnzhJYQ0FsSCLpzstcTbAPrdHFDOT6N9tTcMow05R5wGoAlhaAT+qQ/XnhKfVn
+         +s7cNsxfcUJSJFOrOQByvL8gkjK2pLC88AE3eofHjhr+p490ONx1UjwTz8XFYQeUpvQI
+         vkQvbBBEDeQBKcKJue1qLYssmqPS9RO7UhjbaV5WGJfuQrTdviABGjrt++VXzLkWBDsm
+         TKofxL6f/hmoYRC8NXavZreJjPGd8PHi/HePCtBfYNQC6EnFmmPqcsLsK46YRJfxIT6f
+         4t2JMXUziCtW/6m/+CukzJZ+lc5/HkrMW6LCcpAqDvA/fG+u0q4RWZK2ri43fEoNnknD
+         jtzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768839629; x=1769444429;
+        d=1e100.net; s=20230601; t=1768839866; x=1769444666;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8e3LOQmDLtNbqPr2ZRZYrAEb0+eSE57gTBol5BlL7sE=;
-        b=gsByi2knDGm4YeHMxaAd4UTLDnEXgfYM3nuJy9caaEWmGGuv8YP7lwGYZbfTahBmyu
-         zVJvkOwRCE7GaLiKZ7zHn/PYglQqkQxv2yuzeZWmx3LyqNy8dbYd/lUb5do8S2XyFSjy
-         aT5bFWin9oqrwqOE0xf8nybyl/Af7HmzclT+8VJTfn1WaDfeGpo4xtqBJ7ncD4S+20+D
-         5iISC9JyOJQ+ui4xbxjOT6J/RSNmP2kTN+cxzK0hZFxq1gYZzsTEl6GDI0IqnyrKyWZR
-         YCKwLYdc0odyfnjttR8gySrCbaIiEfbhzSynWXbK+aW6/iD4FB9i3BTjAvmU3Pz87OtG
-         jpJw==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ19RUVJhrvCIJL99hoznLGGUZ1UAItNmiGeyp64iN88hSjj4nYOE1zMsgXBmkhJEvbfAbHGoHyD6cgA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzygurv7h6JPHOzZd8+rzpjgdbUDrMsemMVRpAwFHfImiFCLUPH
-	H2AuRRzQ59Wdq6fQUh1IlhqpB9gqWF5uwVc6zX1xvC5ylyLd/nGqLls6vdnrIgIAfmI=
-X-Gm-Gg: AY/fxX7qdwPK8zRUW0CAbHQw0rVxh2V75qcUVMddBpqA9a6DZvv+QjVDXQyeCItrGOQ
-	bKi6JF3Yvrsynya9QYyz8hFZIp6r1o6c//xE8PVrb+2EZNT+HNe7yd0Y14kWaDWsnxPN+xbQDGq
-	DgQ1Rt7xa61NYsclTDZ8vI1sy+hdJ2KfkuZdaWzP5KYt2gHt3QMqgOnJA8/IM9uGMWu+MJC/fhX
-	Um9EmaCX+F+ePNo31MAsQ73fdDB/RHeZ7rUMZclsXK+jm37kwPREW2OnD4pcdNj9pIpqKMbF6CL
-	IkHbj0bSoYoo3Mcc5FLJsnOTad8mnw3nchWVVFJD6FoayPYTHw2Qjj6dvcszN0UPXvoLu/HOcDj
-	4IRLd957LlbiTcoE7YMvhi0ExTkjFE+SvE+nDygsd7RvPmNayQrDiZz367XhKUCv/hUFAbz9D0M
-	0XmdAslLhsvyvKN2xXs5JThdT9MwV4Cyn41CS+UrquI3dkZnuO2O3EAW/yz0S7YHhlFite8JBsf
-	Df76Q==
-X-Received: by 2002:a05:620a:7102:b0:8b2:7679:4d2d with SMTP id af79cd13be357-8c6a6948169mr1559881085a.63.1768839628533;
-        Mon, 19 Jan 2026 08:20:28 -0800 (PST)
+        bh=zCRrpohPCspJo8o5qWVDG1aTKo63AMTSXJRpwyKl02I=;
+        b=mXQsqzpKxVaMlPxn81MWIig3WoYbYNdoWGH5cYvHna5KHMjYwdsm1JF7MaH0qa8VHl
+         hJe+7QC624t5so9NjNliUgIPM8CcjbdwQaNH5VCSp+IfDYkmVSCfQSKYe2eK8iNJhx15
+         TiHcZZQYN0ddvkxdrkjzPqeqD+UTn9y8R2hRux8HrkngWpv010ZSCPyb2a/w2LWItvv0
+         oaQCEQ08ckKLBvGiokQ32cjB/GmspJnw8miLSjg4su1Aab7MUGdoB3uf7IXFLsE+TjLX
+         YVdhMz+Q/X1kF0VkJS4AnwOo2C4fEviTGWIXgghhdY2ZjqkCAboJ1/3xKdCwoYQoLeOB
+         w2Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNbhMBmzXpp5cD5aTR9HQKeyPK0hf+iH+WGmo58aRNWHk8jf7TYIKMIQnape33BzQLoY0F8+2CHON97g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoJt1CJbKxZhvUXiUvah745cWWf19LLb8CSZB3cSbJpzbTKB6C
+	Lf3gYxMQj4FQYH+ADNIDyLYG30na42VaFn4i+m1uxafAhbH/7Gk37hX7ZFQaj+s1tio=
+X-Gm-Gg: AY/fxX7LoyfSHTfsBsjWW2qIosU88gywXUEyEsL6+d5Mk0wR7byB2VH+uj/sefwKpB/
+	wGFssHFJLfrJhDtdfqAipU62Xg/5aKVipO88yqstEqLWKF3Z4VWOL7eqebpYkghzFjm4GTe1NC/
+	xkP3VHaOWRU3KIVwM/dAyh6gPXxE1O8ot8p46pIoNsqlAsyS4c8hta5cqPGpVhtiT6wsNanQrZx
+	0HTl9pqmur8z2W+YB+MVmdZjiRLZmzuuabBw+xShxzEAVa9Q3lBGexDqVP80kM8YbsGbnPX+lDd
+	pjg2Cx5hOZA9WOdziJA0IA7fgUerX2aOGzpVMHqI8lJ9Fp6Lz7wd3XdgAFCBbgPwy6Nu79rCcPU
+	2p/ZBTwImeY64OA/SHiJnAzwW39xUl94Kq12JmnTcWaaiGnzPgw9YL5iE4bVfqIwFhdDyjawrh/
+	/lJr48bwJD7SwuvYl7x2UHemu653PY6eaKcgePDEMwUUVtUUQeZYHT9mF2IFuICcKSVLM=
+X-Received: by 2002:a05:620a:2a02:b0:8c5:33bf:5252 with SMTP id af79cd13be357-8c6a6963403mr1445548485a.70.1768839865634;
+        Mon, 19 Jan 2026 08:24:25 -0800 (PST)
 Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6af506829sm597447585a.37.2026.01.19.08.20.27
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a724a484sm800372485a.33.2026.01.19.08.24.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 08:20:27 -0800 (PST)
+        Mon, 19 Jan 2026 08:24:25 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1vhrzP-00000005HvQ-0mnE;
-	Mon, 19 Jan 2026 12:20:27 -0400
-Date: Mon, 19 Jan 2026 12:20:27 -0400
+	id 1vhs3E-00000005I0S-2Krj;
+	Mon, 19 Jan 2026 12:24:24 -0400
+Date: Mon, 19 Jan 2026 12:24:24 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 Cc: Leon Romanovsky <leon@kernel.org>,
@@ -103,9 +102,11 @@ Cc: Leon Romanovsky <leon@kernel.org>,
 	kvm@vger.kernel.org
 Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
  shared buffers
-Message-ID: <20260119162027.GD961572@ziepe.ca>
+Message-ID: <20260119162424.GE961572@ziepe.ca>
 References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
  <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
+ <20260119075229.GE13201@unreal>
+ <9112a605d2ee382e83b84b50c052dd9e4a79a364.camel@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -115,51 +116,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
+In-Reply-To: <9112a605d2ee382e83b84b50c052dd9e4a79a364.camel@linux.intel.com>
 
-On Sun, Jan 18, 2026 at 03:16:25PM +0100, Thomas Hellström wrote:
-> > core
-> > “revoked” state on the dma-buf object and a corresponding exporter-
-> > triggered
-> > revoke operation. Once a dma-buf is revoked, new access paths are
-> > blocked so
-> > that attempts to DMA-map, vmap, or mmap the buffer fail in a
-> > consistent way.
-> 
-> This sounds like it does not match how many GPU-drivers use the
-> move_notify() callback.
-> 
-> move_notify() would typically invalidate any device maps and any
-> asynchronous part of that invalidation would be complete when the dma-
-> buf's reservation object becomes idle WRT DMA_RESV_USAGE_BOOKKEEP
-> fences.
-> 
-> However, the importer could, after obtaining the resv lock, obtain a
-> new map using dma_buf_map_attachment(), and I'd assume the CPU maps
-> work in the same way, I.E. move_notify() does not *permanently* revoke
-> importer access.
+On Mon, Jan 19, 2026 at 10:27:00AM +0100, Thomas Hellström wrote:
+> this sounds like it's not just undocumented but also in some cases
+> unimplemented. The xe driver for one doesn't expect move_notify() to be
+> called on pinned buffers, so if that is indeed going to be part of the
+> dma-buf protocol,  wouldn't support for that need to be advertised by
+> the importer?
 
-I think this was explained a bit in this thread, but I wanted to
-repeat the explanation to be really clear..
+Can you clarify this?
 
-If the attachment is not pinned than calling move_notify() is as you
-say. The importer should expect multiple move_notify() calls and
-handle all of them. The exporter can move the location around and make
-it revoked/unrevoked at will. If it is revoked then
-dma_buf_map_attachment() fails, the importer could cache this and fail
-DMAs until the next move_notify().
+I don't see xe's importer calling dma_buf_pin() or dma_buf_attach()
+outside of tests? It's importer implements a fully functional looking
+dynamic attach with move_notify()?
 
-If the attachment is *pinned* then we propose to allow the importer to
-revoke only and not require restoration. IOW a later move_notify()
-that signals a previously failing dma_buf_map_attachment() is no
-longer failing can be igmored by a pinned importer.
+I see the exporer is checking for pinned and then not calling
+move_notify - is that what you mean?
 
-This at least matches what iommufd is able to do right now.
-
-IOW, calling move_notify() on a pinned DMABUF is a special operationg
-we are calling "revoke" and means that the exporter accepts that the
-mapping is potentially gone from pinned importers forever. ie don't
-use it lightly.
+When I looked through all the importers only RDMA obviously didn't
+support move_notify on pinned buffers.
 
 Jason
 
