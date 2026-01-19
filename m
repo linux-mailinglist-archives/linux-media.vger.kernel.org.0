@@ -1,168 +1,464 @@
-Return-Path: <linux-media+bounces-51083-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51084-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34A0D3B7C1
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 20:55:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A63CD3B8AB
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 21:40:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 19A0F301F7D0
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 19:54:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2FE27304A8D9
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 20:39:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27BCA27A107;
-	Mon, 19 Jan 2026 19:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 765D42F6183;
+	Mon, 19 Jan 2026 20:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Y8xzswM1"
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="P1XnC/36";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ub2M62RE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA19F2DEA6F
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 19:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF2E27E05F;
+	Mon, 19 Jan 2026 20:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768852489; cv=none; b=uJLEx/RN925dhURnxm1VO/0QwywR9iO2G8oHx7BCZEG0TV2DkwhMAkw/ovZaGZEsZIKDHeALbR9+K42zpveDAhIZzvzSv3eMPjF2rCnIhZBqShjl7gMbglhRx0ry1wteCXK0LLAEJvAiBp15OEiGswJffkgs3Wg/PyhR33IdmRU=
+	t=1768855184; cv=none; b=EXEtU4Rwh0UQW7Y+nDuaKDb1EFM0IV+fLgzsI66J8vNWFI1SND7Jky9hsgdvV+Zr3+SYGa+LT6sTO9wLSfSJrBYosM8p6fd7OzFKPGvSecpXMbNUq8WlijP8JOBLjCbjpzobeLFUpBmlkN8uFsrpn3LiKQgmot49YWZ/ZAFlz9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768852489; c=relaxed/simple;
-	bh=EgdbrvHnoBh/zDpp9ewcIGQxrvWxBBXiNgVYU0RjdCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pv+xdsIxg9TrZCTR6SXjKmjFaCva0l3MvNXPoRtjHBVYzfwi6yuXOJF8WyIPylccsXV154IXvqUGVdMKkgpN7KQtDkDqczjzsTbXYFrK7FwP6z7eYPN5QWXs8wFnbBJM2vfiSJcY6b6RVydO+tDwebRHSMqAB7EuGTwRksU/PcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Y8xzswM1; arc=none smtp.client-ip=209.85.222.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-8c537b9fcbfso472547685a.1
-        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 11:54:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1768852487; x=1769457287; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=zwZ9o3ha19w1BUlcGeJzNZvsy/mlKSz+FRMjn04+Z/c=;
-        b=Y8xzswM1blPsOkAhqH9fGcG5IadYE5sQt0vvRXgZTPwAqYIsRh7nfXeu6jNChZ9hKz
-         pxh03Sf81TJGk6WYR/8QTTKv0398gWd3wYINx05q1DLlmDzVVk/NEVNNQwO+bPsjiEM+
-         DwUUbkbk10s6Fp3bgZ57bQyIFL/QYcj3I6o6+LDJWtvZc2pKLOJKUzT1qPnWdD8nfsB8
-         0yCZUa/cLOmqCmhtbTBryPRqR8QJa6sP4qKlGepQD5Upo2SfzMS2mOKHpFphA7+f7C5J
-         BP85MmGwAh5gJ4jJ++0ltmFsTXWDGrIdPIsFj8/s8hh9WLBQHyZMI9O4mkorRJ3DA1nv
-         FZyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768852487; x=1769457287;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zwZ9o3ha19w1BUlcGeJzNZvsy/mlKSz+FRMjn04+Z/c=;
-        b=p6VbpWywxWG/HlGZiKg+sn61HsbEwqlCLLOOV7BpGZNW1D7E+79zNrw1Gg4J3WrfAD
-         ACCK+kVBMLPGjXa4vGEyrwBliOBzsNLm/vNJi4vlI7wG0A2jLvk/4B/Qn/Ytiw+z7VEN
-         XG+Ww5R3Aij+9D0+27PnfZf9IjNYnwDwahzdrFfq7QLuTF7lQt109rfO1H6We33Bk3j5
-         SuCVXY/93GL9YxnnDjdXL79Ot4X1R34vXtLBb1Wu2DN/kp7e1opolUMsd62zh2jBIqCC
-         /E5dh/W5BaHavo3otWp6eRWbm0JBLr+af9YFIiMw5Q4g3uGot17BEotbE/WzWbVYQgzp
-         ffqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW1LdALUdO7OAFhcS/c6mYhr14lxtaONDMdEpL9XceTKvXo7F2oJxHY84aDKWaKe3lw9utPr0qttN+yyQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS6O8BSpZcf+sMlt0b+9pfyLRu6BbP0e60yuGrSBU3xmNy6Pk/
-	TQDerjYrMpTP4TWPSbKuPhmiXHKEvH/TbIIHwvdG78VGHgKQzkTB7AwVkm3/Wrv7Q04=
-X-Gm-Gg: AY/fxX4+JmFcz79pMsge8elDKTdV3aTv82r9ZrhYcV4XCHXFzcep/+kfzADuv97Xaco
-	YnwXlR05PP/ZL+64jOrvLw1U8FyzNvPvjxHBqDYSGH3/trPdDJC+yahVdqxyBnXBPY43ExcdcIS
-	FRTViPZqoMUS+yiwILMo1gw6x34tztySFVkNONjit3kAHdStzOSlRcyITdZ30jBLExK0joj68nK
-	VXJdwgwdxzyLkt21Si0lE7/vtymJqcZYiIVzg43vq+XBZQiGRcu5oVZ4V9+nGrvP6IiCiEf9Lwk
-	WW2N3UMO+DWVrFu2GFpx+nauFIVWlQStcCFFD8A0F+1PwZngnustaZbGEoQubsIPb4C8yWMOub6
-	tg7YMY/ArpwQp8SAS65e+5uYeiYDI9S84Ig6oG1xi9xVVslm+WP8sosDAXwosY1IOg1Ygm0Ahce
-	rkLJ0JGu8ebp7syy9A2hZPZUmwTRPQ6J6gzIO4E9ods8wC+tIfPW5en1xTjLPIzDXKOFM=
-X-Received: by 2002:a05:620a:4606:b0:8a3:a42e:6e14 with SMTP id af79cd13be357-8c589b9706emr2117693085a.10.1768852486747;
-        Mon, 19 Jan 2026 11:54:46 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6ad75asm86947906d6.31.2026.01.19.11.54.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 11:54:44 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vhvKm-00000005JRT-0mKA;
-	Mon, 19 Jan 2026 15:54:44 -0400
-Date: Mon, 19 Jan 2026 15:54:44 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
+	s=arc-20240116; t=1768855184; c=relaxed/simple;
+	bh=2ZHQG5QysP8GWCkJkDWOynJhD7gEi5uzjEoljrqGN1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dJomM2pcrBruARS/Rfaq8jVSWOkFL/bhxKax9OEKEAkwPSC2cPyrLm0XDIUfLlYhaLCd2FmL0Ts3Udy0CXN5xRdvFQu2thDfXUjyVdN9cfzFcGoz+xCOedNcxQHVrDhwwOsP5SeerZYCVSOnmxCSnjylWX4VrDXWcFC7r/BFvzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=P1XnC/36; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ub2M62RE; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 0641114003D8;
+	Mon, 19 Jan 2026 15:39:41 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Mon, 19 Jan 2026 15:39:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1768855181;
+	 x=1768941581; bh=FBdWTk6CLd7WzHVr+BniKWIMiLwjgEIx9h33mejtkC4=; b=
+	P1XnC/36fYykJJ9hnqqSF7UNj0QHCjJgtc8y3GJ6ukEpTAJqf56qB0vn4rQdanq/
+	ofjcBtKyivy1Km7zJZYqh9Zp5VXsG1knNw2ILGRIiuKRz4AeO0+i/yIsTJER3fWp
+	CjeX4jMzosIIICpTRnolIew+Ew/06hKDsFVgcazeS6/Dl4+bTBfa2hmJyU5Mf9hs
+	4THLLOq5lg+WVCwHIdvFK45O+I12DJ4OuSu6kW1nflmCl2ilYHwM7EbQXTYW4gR4
+	7p8tefrcMbcrc0YnW8JstgfX9dScl/jwqyi+gKdmsO3L6rnL+A2lgBz0zzG68F4K
+	9YcRVwhbBNq76aXa5M6Vkw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768855181; x=
+	1768941581; bh=FBdWTk6CLd7WzHVr+BniKWIMiLwjgEIx9h33mejtkC4=; b=U
+	b2M62REKHprj2NiRN7bNn/j7uYcseRMwk/iE7FqETvSL8QPL8fWor1aqIiZfT0vi
+	pkHbIm0ydLrQdMkr7ECyMdeWa/3dNWYklYMAufrzZUzb7w/yxw8AbmN6vu6sGwJ3
+	v2eS7eXk+YH8FtTQezbtgvmtwLZzmmZdYN9YbZnME2P0BMa+eo0qTzeEj3ewf9uA
+	knfSQtuGOm7SdAK8q70kAmlBcXUE7qyDwgGl1kkGGKb3k3kfZh2VWYZOHHYTLhX3
+	d5qUCEmTc3S/Q1Ea8jg1X9nPe4kUuXeBfxUVOm6I0xrHtlLHup9cJOs6QyiVx/7o
+	iUphbhdNvvNSmKwmLs75w==
+X-ME-Sender: <xms:i5ZuafTUgcayBDnaDZ8yDTipSw_jpQebmpIGZZLmXkFXWppyWBZgdA>
+    <xme:i5ZuaVq7XJDTnZZ7v2BbwMlv4oBszoWhusrocVsnkZEFnlg0fdlvesIaiT8mx4lHe
+    LsTaqweB6LSC2T2-8GJZzbdpVEhq81yFAlta-SXK4knx-F-gE-MHA>
+X-ME-Received: <xmr:i5ZuadbpEr4MLpr4RVFVKR8cig5phbMu9010vXXUbNhDA7uXnG3ujsX4It0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufeekheegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkjghfofggtgfgsehtqhertdertdejnecuhfhrohhmpeetlhgvgicu
+    hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
+    htthgvrhhnpeetuefgleefhfdvueegffdtffevhfffgfffiedutdetgffhheejtdekfeek
+    ieehgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghlvgigsehshhgriigsohhtrdhorhhg
+    pdhnsggprhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplh
+    gvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhish
+    htshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehlihhnrghrohdqmhhm
+    qdhsihhgsehlihhsthhsrdhlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuhigqd
+    hkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehiohhmmhhu
+    sehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepkhhvmhesvhhgvghrrdhkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopehsuhhmihhtrdhsvghmfigrlheslhhinhgrrhho
+    rdhorhhgpdhrtghpthhtoheptghhrhhishhtihgrnhdrkhhovghnihhgsegrmhgurdgtoh
+    hm
+X-ME-Proxy: <xmx:i5ZuaQQjb-1iZXZxx1XoHH3oBltF_1jZw1Uy74MVDv4Tx3SNVeQk2A>
+    <xmx:i5Zuabdni7r3rs7uS6cXUPkdvZDTtpYo7_QmJaG6qi9KXhEi6ZOZ2g>
+    <xmx:i5Zuafl8sE7RC1vxkqw9TpG6v9zgIXmZQydq7x8z2MeThz34ntXLeA>
+    <xmx:i5ZuaQilZLD1rPx47evUb8GhlOIopeOC1mJTBX-cqbxpd3WFlZEkkA>
+    <xmx:jZZuaYE6MQFViaKOq8g2Z3Bl3liKI28dVxcFL6GsTsdDSO9ji5U-6dwm>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Jan 2026 15:39:38 -0500 (EST)
+Date: Mon, 19 Jan 2026 13:38:38 -0700
+From: Alex Williamson <alex@shazbot.org>
 To: Leon Romanovsky <leon@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] iommufd: Require DMABUF revoke semantics
-Message-ID: <20260119195444.GL961572@ziepe.ca>
-References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
- <20260118-dmabuf-revoke-v2-3-a03bb27c0875@nvidia.com>
- <20260119165951.GI961572@ziepe.ca>
- <20260119182300.GO13201@unreal>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian
+ <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+ <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Yishai Hadas
+ <yishaih@nvidia.com>, Shameer Kolothum <skolothumtho@nvidia.com>, Ankit
+ Agrawal <ankita@nvidia.com>, Matthew Wilcox <willy@infradead.org>, Jens
+ Axboe <axboe@kernel.dk>
+Subject: Re: types: reuse common phys_vec type instead of DMABUF
+ =?UTF-8?B?b3BlbuKAkWNvZGVk?= variant
+Message-ID: <20260119133838.66203b01@shazbot.org>
+In-Reply-To: <20260107-convert-to-pvec-v1-1-6e3ab8079708@nvidia.com>
+References: <20260107-convert-to-pvec-v1-1-6e3ab8079708@nvidia.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260119182300.GO13201@unreal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 19, 2026 at 08:23:00PM +0200, Leon Romanovsky wrote:
-> On Mon, Jan 19, 2026 at 12:59:51PM -0400, Jason Gunthorpe wrote:
-> > On Sun, Jan 18, 2026 at 02:08:47PM +0200, Leon Romanovsky wrote:
-> > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > 
-> > > IOMMUFD does not support page fault handling, and after a call to
-> > > .invalidate_mappings() all mappings become invalid. Ensure that
-> > > the IOMMUFD DMABUF importer is bound to a revoke‑aware DMABUF exporter
-> > > (for example, VFIO).
-> > > 
-> > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > ---
-> > >  drivers/iommu/iommufd/pages.c | 9 ++++++++-
-> > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
-> > > index 76f900fa1687..a5eb2bc4ef48 100644
-> > > --- a/drivers/iommu/iommufd/pages.c
-> > > +++ b/drivers/iommu/iommufd/pages.c
-> > > @@ -1501,16 +1501,22 @@ static int iopt_map_dmabuf(struct iommufd_ctx *ictx, struct iopt_pages *pages,
-> > >  		mutex_unlock(&pages->mutex);
-> > >  	}
-> > >  
-> > > -	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
-> > > +	rc = dma_buf_pin(attach);
-> > >  	if (rc)
-> > >  		goto err_detach;
-> > >  
-> > > +	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
-> > > +	if (rc)
-> > > +		goto err_unpin;
-> > > +
-> > >  	dma_resv_unlock(dmabuf->resv);
-> > >  
-> > >  	/* On success iopt_release_pages() will detach and put the dmabuf. */
-> > >  	pages->dmabuf.attach = attach;
-> > >  	return 0;
-> > 
-> > Don't we need an explicit unpin after unmapping?
-> 
-> Yes, but this patch is going to be dropped in v3 because of this
-> suggestion.
-> https://lore.kernel.org/all/a397ff1e-615f-4873-98a9-940f9c16f85c@amd.com
+On Wed,  7 Jan 2026 11:14:14 +0200
+Leon Romanovsky <leon@kernel.org> wrote:
 
-That's not right, that suggestion is about changing VFIO. iommufd must
-still act as a pinning importer!
+> From: Leon Romanovsky <leonro@nvidia.com>
+>=20
+> After commit fcf463b92a08 ("types: move phys_vec definition to common hea=
+der"),
+> we can use the shared phys_vec type instead of the DMABUF=E2=80=91specific
+> dma_buf_phys_vec, which duplicated the same structure and semantics.
+>=20
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+> Alex,
+>=20
+> According to diffstat, VFIO is the subsystem with the largest set of chan=
+ges,
+> so it would be great if you could take it through your tree.
+>=20
+> The series is based on the for-7.0/blk-pvec shared branch from Jens:
+> https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git/log/?h=3D=
+for-7.0/blk-pvec
 
-Jason
+Applied to vfio next branch for v6.20/7.0 and pushed tag
+common_phys_vec_via_vfio including this commit and dependency.
+Thanks,
+
+Alex
+
+
+> ---
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: iommu@lists.linux.dev
+> Cc: kvm@vger.kernel.org
+> To: Sumit Semwal <sumit.semwal@linaro.org>
+> To: Christian K=C3=B6nig <christian.koenig@amd.com>
+> To: Jason Gunthorpe <jgg@ziepe.ca>
+> To: Kevin Tian <kevin.tian@intel.com>
+> To: Joerg Roedel <joro@8bytes.org>
+> To: Will Deacon <will@kernel.org>
+> To: Robin Murphy <robin.murphy@arm.com>
+> To: Yishai Hadas <yishaih@nvidia.com>
+> To: Shameer Kolothum <skolothumtho@nvidia.com>
+> To: Ankit Agrawal <ankita@nvidia.com>
+> To: Alex Williamson <alex@shazbot.org>
+> Cc: Matthew Wilcox <willy@infradead.org>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> ---
+>  drivers/dma-buf/dma-buf-mapping.c       |  6 +++---
+>  drivers/iommu/iommufd/io_pagetable.h    |  2 +-
+>  drivers/iommu/iommufd/iommufd_private.h |  5 ++---
+>  drivers/iommu/iommufd/pages.c           |  4 ++--
+>  drivers/iommu/iommufd/selftest.c        |  2 +-
+>  drivers/vfio/pci/nvgrace-gpu/main.c     |  2 +-
+>  drivers/vfio/pci/vfio_pci_dmabuf.c      |  8 ++++----
+>  include/linux/dma-buf-mapping.h         |  2 +-
+>  include/linux/dma-buf.h                 | 10 ----------
+>  include/linux/vfio_pci_core.h           | 13 ++++++-------
+>  10 files changed, 21 insertions(+), 33 deletions(-)
+>=20
+> diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-=
+mapping.c
+> index b7352e609fbd..174677faa577 100644
+> --- a/drivers/dma-buf/dma-buf-mapping.c
+> +++ b/drivers/dma-buf/dma-buf-mapping.c
+> @@ -33,8 +33,8 @@ static struct scatterlist *fill_sg_entry(struct scatter=
+list *sgl, size_t length,
+>  }
+> =20
+>  static unsigned int calc_sg_nents(struct dma_iova_state *state,
+> -				  struct dma_buf_phys_vec *phys_vec,
+> -				  size_t nr_ranges, size_t size)
+> +				  struct phys_vec *phys_vec, size_t nr_ranges,
+> +				  size_t size)
+>  {
+>  	unsigned int nents =3D 0;
+>  	size_t i;
+> @@ -91,7 +91,7 @@ struct dma_buf_dma {
+>   */
+>  struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *atta=
+ch,
+>  					 struct p2pdma_provider *provider,
+> -					 struct dma_buf_phys_vec *phys_vec,
+> +					 struct phys_vec *phys_vec,
+>  					 size_t nr_ranges, size_t size,
+>  					 enum dma_data_direction dir)
+>  {
+> diff --git a/drivers/iommu/iommufd/io_pagetable.h b/drivers/iommu/iommufd=
+/io_pagetable.h
+> index 14cd052fd320..27e3e311d395 100644
+> --- a/drivers/iommu/iommufd/io_pagetable.h
+> +++ b/drivers/iommu/iommufd/io_pagetable.h
+> @@ -202,7 +202,7 @@ struct iopt_pages_dmabuf_track {
+> =20
+>  struct iopt_pages_dmabuf {
+>  	struct dma_buf_attachment *attach;
+> -	struct dma_buf_phys_vec phys;
+> +	struct phys_vec phys;
+>  	/* Always PAGE_SIZE aligned */
+>  	unsigned long start;
+>  	struct list_head tracker;
+> diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iomm=
+ufd/iommufd_private.h
+> index eb6d1a70f673..6ac1965199e9 100644
+> --- a/drivers/iommu/iommufd/iommufd_private.h
+> +++ b/drivers/iommu/iommufd/iommufd_private.h
+> @@ -20,7 +20,6 @@ struct iommu_group;
+>  struct iommu_option;
+>  struct iommufd_device;
+>  struct dma_buf_attachment;
+> -struct dma_buf_phys_vec;
+> =20
+>  struct iommufd_sw_msi_map {
+>  	struct list_head sw_msi_item;
+> @@ -718,7 +717,7 @@ int __init iommufd_test_init(void);
+>  void iommufd_test_exit(void);
+>  bool iommufd_selftest_is_mock_dev(struct device *dev);
+>  int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachme=
+nt,
+> -				     struct dma_buf_phys_vec *phys);
+> +				     struct phys_vec *phys);
+>  #else
+>  static inline void iommufd_test_syz_conv_iova_id(struct iommufd_ucmd *uc=
+md,
+>  						 unsigned int ioas_id,
+> @@ -742,7 +741,7 @@ static inline bool iommufd_selftest_is_mock_dev(struc=
+t device *dev)
+>  }
+>  static inline int
+>  iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+> -				 struct dma_buf_phys_vec *phys)
+> +				 struct phys_vec *phys)
+>  {
+>  	return -EOPNOTSUPP;
+>  }
+> diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
+> index dbe51ecb9a20..bababd564cf9 100644
+> --- a/drivers/iommu/iommufd/pages.c
+> +++ b/drivers/iommu/iommufd/pages.c
+> @@ -1077,7 +1077,7 @@ static int pfn_reader_user_update_pinned(struct pfn=
+_reader_user *user,
+>  }
+> =20
+>  struct pfn_reader_dmabuf {
+> -	struct dma_buf_phys_vec phys;
+> +	struct phys_vec phys;
+>  	unsigned long start_offset;
+>  };
+> =20
+> @@ -1460,7 +1460,7 @@ static struct dma_buf_attach_ops iopt_dmabuf_attach=
+_revoke_ops =3D {
+>   */
+>  static int
+>  sym_vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+> -				 struct dma_buf_phys_vec *phys)
+> +				 struct phys_vec *phys)
+>  {
+>  	typeof(&vfio_pci_dma_buf_iommufd_map) fn;
+>  	int rc;
+> diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/sel=
+ftest.c
+> index 550ff36dec3a..989d8c4c60a7 100644
+> --- a/drivers/iommu/iommufd/selftest.c
+> +++ b/drivers/iommu/iommufd/selftest.c
+> @@ -2002,7 +2002,7 @@ static const struct dma_buf_ops iommufd_test_dmabuf=
+_ops =3D {
+>  };
+> =20
+>  int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachme=
+nt,
+> -				     struct dma_buf_phys_vec *phys)
+> +				     struct phys_vec *phys)
+>  {
+>  	struct iommufd_test_dma_buf *priv =3D attachment->dmabuf->priv;
+> =20
+> diff --git a/drivers/vfio/pci/nvgrace-gpu/main.c b/drivers/vfio/pci/nvgra=
+ce-gpu/main.c
+> index 84d142a47ec6..a0f4edd6a30b 100644
+> --- a/drivers/vfio/pci/nvgrace-gpu/main.c
+> +++ b/drivers/vfio/pci/nvgrace-gpu/main.c
+> @@ -784,7 +784,7 @@ nvgrace_gpu_write(struct vfio_device *core_vdev,
+>  static int nvgrace_get_dmabuf_phys(struct vfio_pci_core_device *core_vde=
+v,
+>  				   struct p2pdma_provider **provider,
+>  				   unsigned int region_index,
+> -				   struct dma_buf_phys_vec *phys_vec,
+> +				   struct phys_vec *phys_vec,
+>  				   struct vfio_region_dma_range *dma_ranges,
+>  				   size_t nr_ranges)
+>  {
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_p=
+ci_dmabuf.c
+> index d4d0f7d08c53..9a84c238c013 100644
+> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> @@ -14,7 +14,7 @@ struct vfio_pci_dma_buf {
+>  	struct vfio_pci_core_device *vdev;
+>  	struct list_head dmabufs_elm;
+>  	size_t size;
+> -	struct dma_buf_phys_vec *phys_vec;
+> +	struct phys_vec *phys_vec;
+>  	struct p2pdma_provider *provider;
+>  	u32 nr_ranges;
+>  	u8 revoked : 1;
+> @@ -94,7 +94,7 @@ static const struct dma_buf_ops vfio_pci_dmabuf_ops =3D=
+ {
+>   *    will fail if it is currently revoked
+>   */
+>  int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+> -				 struct dma_buf_phys_vec *phys)
+> +				 struct phys_vec *phys)
+>  {
+>  	struct vfio_pci_dma_buf *priv;
+> =20
+> @@ -116,7 +116,7 @@ int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attac=
+hment *attachment,
+>  }
+>  EXPORT_SYMBOL_FOR_MODULES(vfio_pci_dma_buf_iommufd_map, "iommufd");
+> =20
+> -int vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,
+> +int vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,
+>  				struct vfio_region_dma_range *dma_ranges,
+>  				size_t nr_ranges, phys_addr_t start,
+>  				phys_addr_t len)
+> @@ -148,7 +148,7 @@ EXPORT_SYMBOL_GPL(vfio_pci_core_fill_phys_vec);
+>  int vfio_pci_core_get_dmabuf_phys(struct vfio_pci_core_device *vdev,
+>  				  struct p2pdma_provider **provider,
+>  				  unsigned int region_index,
+> -				  struct dma_buf_phys_vec *phys_vec,
+> +				  struct phys_vec *phys_vec,
+>  				  struct vfio_region_dma_range *dma_ranges,
+>  				  size_t nr_ranges)
+>  {
+> diff --git a/include/linux/dma-buf-mapping.h b/include/linux/dma-buf-mapp=
+ing.h
+> index a3c0ce2d3a42..09bde3f748e4 100644
+> --- a/include/linux/dma-buf-mapping.h
+> +++ b/include/linux/dma-buf-mapping.h
+> @@ -9,7 +9,7 @@
+> =20
+>  struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *atta=
+ch,
+>  					 struct p2pdma_provider *provider,
+> -					 struct dma_buf_phys_vec *phys_vec,
+> +					 struct phys_vec *phys_vec,
+>  					 size_t nr_ranges, size_t size,
+>  					 enum dma_data_direction dir);
+>  void dma_buf_free_sgt(struct dma_buf_attachment *attach, struct sg_table=
+ *sgt,
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 0bc492090237..400a5311368e 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -531,16 +531,6 @@ struct dma_buf_export_info {
+>  	void *priv;
+>  };
+> =20
+> -/**
+> - * struct dma_buf_phys_vec - describe continuous chunk of memory
+> - * @paddr:   physical address of that chunk
+> - * @len:     Length of this chunk
+> - */
+> -struct dma_buf_phys_vec {
+> -	phys_addr_t paddr;
+> -	size_t len;
+> -};
+> -
+>  /**
+>   * DEFINE_DMA_BUF_EXPORT_INFO - helper macro for exporters
+>   * @name: export-info name
+> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
+> index 706877f998ff..2ac288bb2c60 100644
+> --- a/include/linux/vfio_pci_core.h
+> +++ b/include/linux/vfio_pci_core.h
+> @@ -28,7 +28,6 @@
+>  struct vfio_pci_core_device;
+>  struct vfio_pci_region;
+>  struct p2pdma_provider;
+> -struct dma_buf_phys_vec;
+>  struct dma_buf_attachment;
+> =20
+>  struct vfio_pci_eventfd {
+> @@ -62,25 +61,25 @@ struct vfio_pci_device_ops {
+>  	int (*get_dmabuf_phys)(struct vfio_pci_core_device *vdev,
+>  			       struct p2pdma_provider **provider,
+>  			       unsigned int region_index,
+> -			       struct dma_buf_phys_vec *phys_vec,
+> +			       struct phys_vec *phys_vec,
+>  			       struct vfio_region_dma_range *dma_ranges,
+>  			       size_t nr_ranges);
+>  };
+> =20
+>  #if IS_ENABLED(CONFIG_VFIO_PCI_DMABUF)
+> -int vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,
+> +int vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,
+>  				struct vfio_region_dma_range *dma_ranges,
+>  				size_t nr_ranges, phys_addr_t start,
+>  				phys_addr_t len);
+>  int vfio_pci_core_get_dmabuf_phys(struct vfio_pci_core_device *vdev,
+>  				  struct p2pdma_provider **provider,
+>  				  unsigned int region_index,
+> -				  struct dma_buf_phys_vec *phys_vec,
+> +				  struct phys_vec *phys_vec,
+>  				  struct vfio_region_dma_range *dma_ranges,
+>  				  size_t nr_ranges);
+>  #else
+>  static inline int
+> -vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,
+> +vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,
+>  			    struct vfio_region_dma_range *dma_ranges,
+>  			    size_t nr_ranges, phys_addr_t start,
+>  			    phys_addr_t len)
+> @@ -89,7 +88,7 @@ vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *ph=
+ys_vec,
+>  }
+>  static inline int vfio_pci_core_get_dmabuf_phys(
+>  	struct vfio_pci_core_device *vdev, struct p2pdma_provider **provider,
+> -	unsigned int region_index, struct dma_buf_phys_vec *phys_vec,
+> +	unsigned int region_index, struct phys_vec *phys_vec,
+>  	struct vfio_region_dma_range *dma_ranges, size_t nr_ranges)
+>  {
+>  	return -EOPNOTSUPP;
+> @@ -228,6 +227,6 @@ static inline bool is_aligned_for_order(struct vm_are=
+a_struct *vma,
+>  }
+> =20
+>  int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
+> -				 struct dma_buf_phys_vec *phys);
+> +				 struct phys_vec *phys);
+> =20
+>  #endif /* VFIO_PCI_CORE_H */
+>=20
+> ---
+> base-commit: fcf463b92a08686d1aeb1e66674a72eb7a8bfb9b
+> change-id: 20260107-convert-to-pvec-bf04dfcf3d12
+>=20
+> Best regards,
+> -- =20
+> Leon Romanovsky <leonro@nvidia.com>
+>=20
+>=20
+
 
