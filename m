@@ -1,119 +1,286 @@
-Return-Path: <linux-media+bounces-51039-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51043-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7635ED3A599
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 11:48:03 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A1BD3A5E5
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 11:53:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 579593115047
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 10:43:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4CF44302FBD9
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 10:53:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93CFC357A58;
-	Mon, 19 Jan 2026 10:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B89CB358D38;
+	Mon, 19 Jan 2026 10:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RkuyDe+E"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OpdkTsQs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82483FEF;
-	Mon, 19 Jan 2026 10:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09853559F9;
+	Mon, 19 Jan 2026 10:53:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768819417; cv=none; b=MhiEY3WPu9bIvWz2/oM+nm0fK3yDIH1iMJ8zjz1NMv48CqAdCy/OJ+sF3KWhUvLEVc/4aist8p5zLYP38QiHbto7SVOzRY4hdfBi7vdKpup/LQojWkRi6u3AiqwtGTG55myjKy0u7luZXGyZb+a+bLBx/hf7kbO3DkLkrB2XXGk=
+	t=1768819997; cv=none; b=i8yaU4iWvh8XTrznHmPPiICPJ6910PyPMvzeetYdDgc45MtK+7gC2UIjFCvBhlWcKPULqWyxxwq8ZF8OR+Ner271TV6QgZKfhq4I8j8lq5QB+GidxWHpBCPkhI/Y79d8k1iZ1z3qztXDxNk4baqEPsESI3FKAWgF6Yuxs5pq8Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768819417; c=relaxed/simple;
-	bh=SBMojAQMLBEsq97VBBgUN3ogr+3rX2KzJ0Dl48KhAsI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hruurKvupK8H57uVy51ofdeLA4bO4TSSlwGdjxqB6a+HxPjno47KRof2+dd37tuPbh2TFGVRo6GMZ250P6b5jWiOWBKUd1Neo1v8Hp3mNm18vht372aGHH2W1PC3NobQkMTSjjQcHWOqLUGvtfE03ot73SgyMh/l8RiQkCE+D44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RkuyDe+E; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A8245C2BC9E;
-	Mon, 19 Jan 2026 10:43:37 +0000 (UTC)
+	s=arc-20240116; t=1768819997; c=relaxed/simple;
+	bh=1q27yzMVmLBdhU4D/EWhJZCqgMjxahH/mYESJWghn8I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i8i0n+tuiWEkXMpUW4bv49h8NmP0FjNhMoqEfRuSyzeA5+belopAfQTDLCXW9VRqzQAlcbFiU5XK4cJdZOSRpwnePscanI8eMI3mmmdL4YwM6X2qPro4SnkDjps1+Jz50HNDjeOXCiLxKgE3paExfnUU9MvvS+5b4I1UY/HyyTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OpdkTsQs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06F1C19422;
+	Mon, 19 Jan 2026 10:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768819417;
-	bh=SBMojAQMLBEsq97VBBgUN3ogr+3rX2KzJ0Dl48KhAsI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=RkuyDe+ExkcPHo/mrgpS+JMdSXGp91d8Du4ZHMVJGbCGqay86qPqlP/ZKFc0IZCRD
-	 IH9+C3t2gMz5fp6z2aL98Lyu6TAjzvBEj5Cz22phalaehF1LoPSJMES7SOkRlT4+kq
-	 KYnhH17rdfcTCxsOWsz1SyH2MhQYX5s+K809n8SQXtrfUlczNohFCJH6I32PFgiyBC
-	 XRGdlLbaIs9zoADDEEvj5+bscA5MeshsPUDhJ0II4RRX1j039jphmyY5OoTt1UkNV6
-	 dVeEiEUTE7t2Mg4aHJUpGqXziji66OPsW0iIWErMDv63yss07CkR9BiZg1K82LzhOG
-	 tkw2mrBYxhywg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B8BCCA5FF6;
-	Mon, 19 Jan 2026 10:43:37 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Mon, 19 Jan 2026 11:43:37 +0100
-Subject: [PATCH v7 3/3] arm64: defconfig: enable designware mipi csi-2
- receiver
+	s=k20201202; t=1768819996;
+	bh=1q27yzMVmLBdhU4D/EWhJZCqgMjxahH/mYESJWghn8I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OpdkTsQsAByKSZOuH5DOP1PFuu7t9GqCW2+xZDZ4wPjOB+LfhqU7I4kx0h1PA0bVc
+	 sQvjJt+cbJxzgGXazSGQxw2vNNz8u6+MDRTkjAl+F8eDoa90tjt3DxdRlTHpFH+4zO
+	 ZhXJddMFtauS+Vg79rL4DHBp9AMLJlHZruQvY18G1yiREFBVPlLHGmr7NvBXAnUd73
+	 0vUmDNy0Mp6GiPsvlWsUc2E3oXtx+u42qwjhNDIoRwpVDZ9O0Rmx9/vH5xWi+bI7+z
+	 g9p6a9Mxgo7Dy5L8zJD5xKf0dNxrUJMFJDSMRzhdhw02wJpTluutGC5JS1BwSXoJXC
+	 PHUVE3zE5n0vg==
+Date: Mon, 19 Jan 2026 12:53:12 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
+ shared buffers
+Message-ID: <20260119105312.GJ13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <f115c91bbc9c6087d8b32917b9e24e3363a91f33.camel@linux.intel.com>
+ <20260119075229.GE13201@unreal>
+ <9112a605d2ee382e83b84b50c052dd9e4a79a364.camel@linux.intel.com>
+ <78035892-758d-4104-9dd5-aed9a045d481@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251114-rockchip-mipi-receiver-v7-3-42ff419f9b51@collabora.com>
-References: <20251114-rockchip-mipi-receiver-v7-0-42ff419f9b51@collabora.com>
-In-Reply-To: <20251114-rockchip-mipi-receiver-v7-0-42ff419f9b51@collabora.com>
-To: Michael Riesch <michael.riesch@collabora.com>, 
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
- Kever Yang <kever.yang@rock-chips.com>, Frank Li <Frank.li@nxp.com>, 
- Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768819415; l=786;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=4/e4J7LessS5jdywMTVpeb4iDs9BMTFRupZRi4shvqg=;
- b=fuGnvx3Vg9ehc+99lHBmiG8z4gaPPI9KQ+QqmK2PHxxH+v1HPVBSwsN83ExbpsaCD9ptw5QzB
- odV6ClhYdtZBqgLPzIFCd0lnGgK/5hOXYJJE7/EdvDWwJ1GIzK3zTV5
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <78035892-758d-4104-9dd5-aed9a045d481@amd.com>
 
-From: Michael Riesch <michael.riesch@collabora.com>
+On Mon, Jan 19, 2026 at 11:20:46AM +0100, Christian König wrote:
+> On 1/19/26 10:27, Thomas Hellström wrote:
+> > On Mon, 2026-01-19 at 09:52 +0200, Leon Romanovsky wrote:
+> >> On Sun, Jan 18, 2026 at 03:16:25PM +0100, Thomas Hellström wrote:
+> >>> Hi, Leon,
+> >>>
+> >>> On Sun, 2026-01-18 at 14:08 +0200, Leon Romanovsky wrote:
+> >>>> Changelog:
+> >>>> v2:
+> >>>>  * Changed series to document the revoke semantics instead of
+> >>>>    implementing it.
+> >>>> v1:
+> >>>> https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com
+> >>>>
+> >>>> -----------------------------------------------------------------
+> >>>> ----
+> >>>> ----
+> >>>> This series documents a dma-buf “revoke” mechanism: to allow a
+> >>>> dma-
+> >>>> buf
+> >>>> exporter to explicitly invalidate (“kill”) a shared buffer after
+> >>>> it
+> >>>> has
+> >>>> been distributed to importers, so that further CPU and device
+> >>>> access
+> >>>> is
+> >>>> prevented and importers reliably observe failure.
+> >>>>
+> >>>> The change in this series is to properly document and use
+> >>>> existing
+> >>>> core
+> >>>> “revoked” state on the dma-buf object and a corresponding
+> >>>> exporter-
+> >>>> triggered
+> >>>> revoke operation. Once a dma-buf is revoked, new access paths are
+> >>>> blocked so
+> >>>> that attempts to DMA-map, vmap, or mmap the buffer fail in a
+> >>>> consistent way.
+> >>>
+> >>> This sounds like it does not match how many GPU-drivers use the
+> >>> move_notify() callback.
+> >>
+> >> No change for them.
+> >>
+> >>>
+> >>> move_notify() would typically invalidate any device maps and any
+> >>> asynchronous part of that invalidation would be complete when the
+> >>> dma-
+> >>> buf's reservation object becomes idle WRT DMA_RESV_USAGE_BOOKKEEP
+> >>> fences.
+> >>
+> >> This part has not changed and remains the same for the revocation
+> >> flow as well.
+> >>
+> >>>
+> >>> However, the importer could, after obtaining the resv lock, obtain
+> >>> a
+> >>> new map using dma_buf_map_attachment(), and I'd assume the CPU maps
+> >>> work in the same way, I.E. move_notify() does not *permanently*
+> >>> revoke
+> >>> importer access.
+> >>
+> >> This part diverges by design and is documented to match revoke
+> >> semantics.  
+> 
+> Please don't document that. This is specific exporter behavior and doesn't belong into DMA-buf at all.
+> 
+> >> It defines what must occur after the exporter requests that the
+> >> buffer be  
+> >> "killed". An importer that follows revoke semantics will not attempt
+> >> to call  
+> >> dma_buf_map_attachment(), and the exporter will block any remapping
+> >> attempts  
+> >> regardless. See the priv->revoked flag in the VFIO exporter.
+> 
+> I have to clearly reject that.
+> 
+> It's the job of the exporter to reject such calls with an appropriate error and not the importer to not make them.
 
-The Synopsys DesignWare MIPI CSI-2 Receiver is integrated into
-recent Rockchip SoCs, such as the RK3568 and the RK3588.
-Enable the driver for it in the default configuration.
+Current code behaves as expected: the exporter rejects mapping attempts after
+.invalidate_mapping is called, and handles the logic internally.
 
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+However, it is not clear what exactly you are proposing. In v1 — which you
+objected to — I suggested negotiating revoke support along with the logic for
+rejecting mappings in the dma-buf core. In this version, you object to placing
+the rejection logic in the exporter.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 45288ec9eaf7..58bda738819a 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -873,6 +873,7 @@ CONFIG_SDR_PLATFORM_DRIVERS=y
- CONFIG_V4L_MEM2MEM_DRIVERS=y
- CONFIG_VIDEO_AMPHION_VPU=m
- CONFIG_VIDEO_CADENCE_CSI2RX=m
-+CONFIG_VIDEO_DW_MIPI_CSI2RX=m
- CONFIG_VIDEO_MEDIATEK_JPEG=m
- CONFIG_VIDEO_MEDIATEK_VCODEC=m
- CONFIG_VIDEO_WAVE_VPU=m
-
--- 
-2.39.5
-
-
+> 
+> >> In addition, in this email thread, Christian explains that revoke
+> >> semantics already exists, with the combination of dma_buf_pin and
+> >> dma_buf_move_notify, just not documented:
+> >> https://lore.kernel.org/all/f7f1856a-44fa-44af-b496-eb1267a05d11@amd.com/
+> > 
+> > 
+> > Hmm,
+> > 
+> > Considering 
+> > 
+> > https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/infiniband/core/umem_dmabuf.c#L192
+> 
+> Yes, that case is well known.
+> 
+> > this sounds like it's not just undocumented but also in some cases
+> > unimplemented. The xe driver for one doesn't expect move_notify() to be
+> > called on pinned buffers,
+> 
+> And that is what we need to change. See move_notify can happen on pinned buffers currently as well.
+> 
+> For example in the case of PCI hot unplug. After pinning we just don't call it for memory management needs any more.
+> 
+> We just haven't documented that properly.
+> 
+> > so if that is indeed going to be part of the
+> > dma-buf protocol,  wouldn't support for that need to be advertised by
+> > the importer?
+> 
+> That's what this patch set here should do, yes.
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Thanks,
+> > Thomas
+> > 
+> >>
+> >> Thanks
+> >>
+> >>>
+> >>> /Thomas
+> >>>
+> >>>
+> >>>>
+> >>>> Thanks
+> >>>>
+> >>>> Cc: linux-media@vger.kernel.org
+> >>>> Cc: dri-devel@lists.freedesktop.org
+> >>>> Cc: linaro-mm-sig@lists.linaro.org
+> >>>> Cc: linux-kernel@vger.kernel.org
+> >>>> Cc: amd-gfx@lists.freedesktop.org
+> >>>> Cc: virtualization@lists.linux.dev
+> >>>> Cc: intel-xe@lists.freedesktop.org
+> >>>> Cc: linux-rdma@vger.kernel.org
+> >>>> Cc: iommu@lists.linux.dev
+> >>>> Cc: kvm@vger.kernel.org
+> >>>> To: Sumit Semwal <sumit.semwal@linaro.org>
+> >>>> To: Christian König <christian.koenig@amd.com>
+> >>>> To: Alex Deucher <alexander.deucher@amd.com>
+> >>>> To: David Airlie <airlied@gmail.com>
+> >>>> To: Simona Vetter <simona@ffwll.ch>
+> >>>> To: Gerd Hoffmann <kraxel@redhat.com>
+> >>>> To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >>>> To: Gurchetan Singh <gurchetansingh@chromium.org>
+> >>>> To: Chia-I Wu <olvaffe@gmail.com>
+> >>>> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >>>> To: Maxime Ripard <mripard@kernel.org>
+> >>>> To: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>> To: Lucas De Marchi <lucas.demarchi@intel.com>
+> >>>> To: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> >>>> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> >>>> To: Jason Gunthorpe <jgg@ziepe.ca>
+> >>>> To: Leon Romanovsky <leon@kernel.org>
+> >>>> To: Kevin Tian <kevin.tian@intel.com>
+> >>>> To: Joerg Roedel <joro@8bytes.org>
+> >>>> To: Will Deacon <will@kernel.org>
+> >>>> To: Robin Murphy <robin.murphy@arm.com>
+> >>>> To: Alex Williamson <alex@shazbot.org>
+> >>>>
+> >>>> ---
+> >>>> Leon Romanovsky (4):
+> >>>>       dma-buf: Rename .move_notify() callback to a clearer
+> >>>> identifier
+> >>>>       dma-buf: Document revoke semantics
+> >>>>       iommufd: Require DMABUF revoke semantics
+> >>>>       vfio: Add pinned interface to perform revoke semantics
+> >>>>
+> >>>>  drivers/dma-buf/dma-buf.c                   |  6 +++---
+> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  4 ++--
+> >>>>  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+> >>>>  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  6 +++---
+> >>>>  drivers/gpu/drm/xe/xe_dma_buf.c             |  2 +-
+> >>>>  drivers/infiniband/core/umem_dmabuf.c       |  4 ++--
+> >>>>  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+> >>>>  drivers/iommu/iommufd/pages.c               | 11 +++++++++--
+> >>>>  drivers/vfio/pci/vfio_pci_dmabuf.c          | 16
+> >>>> ++++++++++++++++
+> >>>>  include/linux/dma-buf.h                     | 25
+> >>>> ++++++++++++++++++++++---
+> >>>>  10 files changed, 60 insertions(+), 18 deletions(-)
+> >>>> ---
+> >>>> base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+> >>>> change-id: 20251221-dmabuf-revoke-b90ef16e4236
+> >>>>
+> >>>> Best regards,
+> >>>> --  
+> >>>> Leon Romanovsky <leonro@nvidia.com>
+> >>>>
+> >>>
+> > 
+> 
 
