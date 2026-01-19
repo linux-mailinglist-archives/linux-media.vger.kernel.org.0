@@ -1,86 +1,84 @@
-Return-Path: <linux-media+bounces-51074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51076-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFB1D3B3FC
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 18:22:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D674D3B34B
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 18:08:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 57D713074516
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 16:58:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E2BBC30895D5
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 17:03:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A7C3309F1F;
-	Mon, 19 Jan 2026 16:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A03D931B114;
+	Mon, 19 Jan 2026 17:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="LA4MQ6LH"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="njIjwbMY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C756A217F2E
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 16:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2DA24BBF4
+	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 17:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768841927; cv=none; b=pnVFbsbuAOgkXQLGtThUtMVz7wH+GmvMc0xVbD4+GOHcIF+ZANGIKEqvIkx85Oego3Qrp3dH/kpekwcMNFFsbqgm2W4PrVZStO/6l0xuYvtkNiaQCpHnQ1FGZJqw5o+3x0MJA8Al15AKSiO1i3qrpaPF/jeUnlKkRmB3l5ZDyP0=
+	t=1768842216; cv=none; b=VhONC0fkAlNMzwwWJO+xNXtqdFGMbN7rLLZ2xTvHQTdH+y1oiwbefIeDUueThuSvPUjY5D5xzxfND7rxocDuDi+KLrg/pphCnnZuiYO9C9qIekg96COnEk8YI3N91h83v9IVamr9I5FUpT0M99srAIXsHzSEO+oK+gs/YNtgzQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768841927; c=relaxed/simple;
-	bh=nsqjKuZBX2xVAZ9wDedc6M6Km3uKRKGPzdUMml50yUo=;
+	s=arc-20240116; t=1768842216; c=relaxed/simple;
+	bh=rf6zLo4HMSx3jjTOpNOmyUHF2Og5rRAkebiZTxcDcUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NEZ740WU52A04hPtdRYekZNX7olBhc163OG2+uoAedvxv/jvf1ozWYUn4elJLBxNVJcGyMS0V+svDYVem397DayhrWC4wRaklyTy4BdY0Wm8GOoUSwUUqOJLoN4X7ErnjhW9UOyK+TdVpls7Xrza2RyxnvmAq7TmxMuQFUF1iCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=LA4MQ6LH; arc=none smtp.client-ip=209.85.219.68
+	 Content-Type:Content-Disposition:In-Reply-To; b=EHC8cEyOj1S8hwziAEQGFwd6cUSpR+O69kScrBBp3++5QTXrIitgFPigHYdBT9hsNoRXBz2OjnVhTInLM3lL3mPxBsEHIAtjMdk+C3oNLdANoljqc4bb45fEaa77FDex5VT9ttW7EwgHiDnQFhWdwtoofe3RIF/SAaB+RoL7HPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=njIjwbMY; arc=none smtp.client-ip=209.85.222.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-88a2d21427dso33403856d6.3
-        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 08:58:45 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-93f5761e09aso2732389241.1
+        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 09:03:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1768841925; x=1769446725; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ljxKTxaVdu8I0ces4FnKFMKgo+H8JcchtOlXOe2X8IE=;
-        b=LA4MQ6LHmA3jMregg3JwmBDrlNIC6TKyIIRoqsj/MeU1Dsh3Q71mCDdmTdHoGQtVsN
-         ZRrHL9mWWJsxeN2FDE1Hjtj6PvZ0arDGUT1e9HZIsSvIjnYe2SpfFRD5sasqcKL3JyXl
-         aXI23p8ZI+7yyjhTbA4fRhrjxEC6exVDsBNDz+P/kmEtSJV/CknvREmwrZDJHWYUyb2E
-         mNm2hs1qb8JDJ2XVCs7DEo3chAG5VztyMJLYH9BsfjRnrxw4x2H9PKSoWLzxnrG26WNg
-         OrhsagYWLmM4Ktp7WrpWShtGcDuHTGATcf0yOQitnpMXIYgJTMfX9eYKKquGpVpl2F4D
-         tA4w==
+        d=ziepe.ca; s=google; t=1768842214; x=1769447014; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xPF37M4OZRPT3BtJHYXM5EEOm0b3fHdtNnzMGWb7xcQ=;
+        b=njIjwbMYYxpN/nZjTfqw0ZlvGqNzdiD7cVaRqtfNiIwzowDBE111KsGg/eJ979Nj1E
+         cBb6K0t6GSbh/cKrI78GNEE+cil+xIFTz6Bogo42/gfzuuiNyCHyIcCmrjadpmPZAWIm
+         kwDUJwv5qC0xfLWc6zjCmoumBSj/GAsFWJkJ3nFyyPXbmM7lRx8U1iLnxC1vOn5pBruQ
+         5o4ghFmRoZHj9vmtufocfIY6JuWdIKBlDW8L/DdizF/Jtand/HzZprHoECeqnzmfxd+Q
+         zP0eMBCvnqeeSZZcx2prjHK3OoqUDn4pDSL4rj1kPkbUcteYON83SDaBxaqLpwWkzxUD
+         Qqig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768841925; x=1769446725;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ljxKTxaVdu8I0ces4FnKFMKgo+H8JcchtOlXOe2X8IE=;
-        b=TyDF2yFrkXgEFPCFwdWOiQOGIM0ZDphQPDoUYXmsWCTxK25VtG1YYsWQ+WtnOvpagQ
-         +pyeMGd+AgJC68y039ec57tUPwogv8q6V3PUITaE3ecf6o+6GZfWqeIRjnI1x4fF5NDL
-         1zgRrnkvl7RDG3ZQ395SraUnyuK6D65Kl0CwLdTlD3sWlkITwQbnMP2pEcg6ppbkRABn
-         oDFYD5Jj8S80TQ3mxmDMALIaWqePV1aC0d0sVniWOExkeS2FfxDwT3l7MCWzXf+On6j5
-         vnKANVmn6WUc/UEX4xpXCDjiEKRpkfF1WoGBKWazPZIyy59Da1nSAJF+JC6ohJyRnSSd
-         Mniw==
-X-Forwarded-Encrypted: i=1; AJvYcCW15Z8ieJ57zD5+WkBMsmal6kXR7xrLkie7tl00gurgOyt/2dsyHfnTpRNPoplmda/U2KPsfsjuYQd3/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzy1TaQn04keadRG4YrotjGT3ix+tiDhReDg6nJ4il18eAJUWV7
-	Eg307iRTqK5LU5nvh/qzQoYEuevXoXaNJJkifdJ4ro/IvYd8fUQBVNu7YVL1wk2Pg0E=
-X-Gm-Gg: AZuq6aLoOteSbWamwixglzuDw/Ih/BTPM8ejsaequcT2+9WemAZdWfaShlvZOc8x/Kp
-	0S4SYHdx5G4FCc7J/COZUAiO55GFb6E8tiq4pN94sYqXPN5V3VpD44GWkgWgkdN6CVyqBrLSFRA
-	SP8RWokm44PVDYe+SXt5vSYk+ZssxFhBf7/QN+CgD0TV/a6tGiyA97za/QApX2KO5Zetm5s3iAM
-	isSqKqxsJGvFEgDGP7WunzVjVY4er3enN6u7h3S2ANwZE/71jGnDLP1xRs9uyJ2Vge3WMKrD3fX
-	anUf2hEHSZEZSDKPndtbfkhAXpgln+eKy0ApGLuteom6g90cYtkELUwHbXAR0YnOvI8HIBghlEW
-	5m8nxx2bSdre0HbVKdAUKSw8NiyDDhj5I37G0oHZNd6mj4OtVmto5AFwmaPBvGz5UCTepBJv3eE
-	WVFe6tPZh1tB1ZRD3fq6nltnhMe7KFBezy0bpYc4Y5qcGkp6gS2WA91xyaQNrol16tDBKSQk8XU
-	SxWnw==
-X-Received: by 2002:a05:6214:2523:b0:88a:2e39:957e with SMTP id 6a1803df08f44-8942dd9e90fmr129930286d6.57.1768841924690;
-        Mon, 19 Jan 2026 08:58:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768842214; x=1769447014;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xPF37M4OZRPT3BtJHYXM5EEOm0b3fHdtNnzMGWb7xcQ=;
+        b=ni7kdOa0D5Eu1G2+sTtgv1+0Ps1VKwp1CJiXH3P7hcw6o1zJIIOYZx7VLD7JM9EDi1
+         2ko2t9AC8Az5MIxIyNfD8EqYC+ZnrvsgjDvi9vUFVLZw8MvX4K9WK1+gdb6llVYy6p7j
+         12SdgK7k/vnw3ZQsgElQ3TDGoXg5SRtdu1YUAFlDEP9x8R3x9gXdpIAI1FPsybMqM4ZC
+         VGMoms46U0ZrI8vKgAVJXvpMwv4Z6Ah1RopH4wLO+YFY1K5YM6SI4cyLtY7ZOYrmtrMW
+         +Gs6M91Elr5XF5F6xHpsAsWmcjCOVA/NSfWRgeaq5yuBJNL5X074iMk/NvEk4o2//6I9
+         xZDg==
+X-Forwarded-Encrypted: i=1; AJvYcCVNHLWFrc0JvPc9XGjzVufx+MGN6Z6fqBzK9TMpAVLIzHyaOPWfRQhHnMrBnC+AW5mbAJBzutK6KR49Jg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUgmx4lFz93ES/1Lf25yaJmKKf5tvcjHsU9XbuuPbI29z3h4tZ
+	IhFXuJLBtmuh2OS6/u9VTGrxOeJpz9+9C8NC9uKWXGtBSqtLdyENipG2iRKiyr4L3nw=
+X-Gm-Gg: AY/fxX7hL4a8EHfR7U0vFSEi41tOuifgMOQsHMmOCWDPx0YLUc0sgq3XDzLGHDGB8nC
+	I/RQvuILPJ2GudM7ZEZCDwchqp41BAeinJSqzdSe+oSCALM7IXIjGxkuD3DyYZwdqhtx90tR1pW
+	ZBQPjrx3lk9ByHh7Ez5NTMvV6EYveUMnaU7Qm0bKwQmV4AEVtWzvQ2k2EmdoJB+7ecDJPiFxarW
+	TM4PkA94sahqN8U+IRwEb4CFQyRV2ZbrnPBrIjh/4JqMkTh2Uu5CJskCj+W6629SnX6dduIZ1pO
+	+3G2U+a94xdvFVb8+X35CpVmZCFQqgzlvM1324lPtoWv1iOzV3f2qZC/KE0GXDAdyg2njEp/MT1
+	AyVWQKC4OViSps/fPCXsr4EegW5JdGiiKXBl6WZdJ4OT1pE0kT+x9HnH3jDgBxbxmiDX0hhz9UB
+	xJ4yVxZE8K0xzYjqc9AHJEvkG7zdz55K4w0mn+UqQK4bKvvJtjc8Kvo1OP2JPeC2Nnvu8=
+X-Received: by 2002:a05:6102:2ac9:b0:5db:d07c:218f with SMTP id ada2fe7eead31-5f1a55dacc2mr3505780137.40.1768842212920;
+        Mon, 19 Jan 2026 09:03:32 -0800 (PST)
 Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e5e526dsm87021366d6.12.2026.01.19.08.58.44
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6027c9sm90833946d6.13.2026.01.19.09.03.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 08:58:44 -0800 (PST)
+        Mon, 19 Jan 2026 09:03:32 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1vhsaR-00000005IQb-2Wqn;
-	Mon, 19 Jan 2026 12:58:43 -0400
-Date: Mon, 19 Jan 2026 12:58:43 -0400
+	id 1vhsf5-00000005ITl-3vB3;
+	Mon, 19 Jan 2026 13:03:31 -0400
+Date: Mon, 19 Jan 2026 13:03:31 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Leon Romanovsky <leon@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
 	Alex Deucher <alexander.deucher@amd.com>,
 	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
 	Gerd Hoffmann <kraxel@redhat.com>,
@@ -101,78 +99,31 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
 	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
 	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
 	kvm@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] dma-buf: document revoke mechanism to invalidate
- shared buffers
-Message-ID: <20260119165843.GH961572@ziepe.ca>
+Subject: Re: [PATCH v2 4/4] vfio: Add pinned interface to perform revoke
+ semantics
+Message-ID: <20260119170331.GJ961572@ziepe.ca>
 References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <20260118-dmabuf-revoke-v2-4-a03bb27c0875@nvidia.com>
+ <bd37adf0-afd0-49c4-b608-7f9aa5994f7b@amd.com>
+ <20260119130244.GN13201@unreal>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+In-Reply-To: <20260119130244.GN13201@unreal>
 
-On Sun, Jan 18, 2026 at 02:08:44PM +0200, Leon Romanovsky wrote:
-> Changelog:
-> v2:
->  * Changed series to document the revoke semantics instead of
->    implementing it.
-> v1: https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com
-> 
-> -------------------------------------------------------------------------
-> This series documents a dma-buf “revoke” mechanism: to allow a dma-buf
-> exporter to explicitly invalidate (“kill”) a shared buffer after it has
-> been distributed to importers, so that further CPU and device access is
-> prevented and importers reliably observe failure.
-> 
-> The change in this series is to properly document and use existing core
-> “revoked” state on the dma-buf object and a corresponding exporter-triggered
-> revoke operation. Once a dma-buf is revoked, new access paths are blocked so
-> that attempts to DMA-map, vmap, or mmap the buffer fail in a consistent way.
+On Mon, Jan 19, 2026 at 03:02:44PM +0200, Leon Romanovsky wrote:
 
-I think it would help to explain the bigger picture in the cover letter:
+> We (VFIO and IOMMUFD) followed the same pattern used in  
+> amdgpu_bo_move_notify(), which also does not wait.
 
-
-DMABUF has quietly allowed calling move_notify on pinned DMABUFs, even
-though legacy importers using dma_buf_attach() would simply ignore
-these calls.
-
-RDMA saw this and needed to use allow_peer2peer=true, so implemented a
-new-style pinned importer with an explicitly non-working move_notify()
-callback.
-
-This has been tolerable because the existing exporters are thought to
-only call move_notify() on a pinned DMABUF under RAS events and we
-have been willing to tolerate the UAF that results by allowing the
-importer to continue to use the mapping in this rare case.
-
-VFIO wants to implement a pin supporting exporter that will issue a
-revoking move_notify() around FLRs and a few other user triggerable
-operations. Since this is much more common we are not willing to
-tolerate the security UAF caused by interworking with
-non-move_notify() supporting drivers. Thus till now VFIO has required
-dynamic importers, even though it never actually moves the buffer
-location.
-
-To allow VFIO to work with pinned importers, according to how DMABUF
-was intended, we need to allow VFIO to detect if an importer is legacy
-or RDMA and does not actually implement move_notify().
-
-Introduce a new function that exporters can call to detect these less
-capable importers. VFIO can then refuse to accept them during attach.
-
-In theory all exporters that call move_notify() on pinned DMABUF's
-should call this function, however that would break a number of widely
-used NIC/GPU flows. Thus for now do not spread this further than VFIO
-until we can understand how much of RDMA can implement the full
-semantic.
-
-In the process clarify how move_notify is intended to be used with
-pinned DMABUFs.
+You have to be really careful copying anything from the GPU drivers as
+they have these waits hidden and batched in other parts of their
+operations..
 
 Jason
 
