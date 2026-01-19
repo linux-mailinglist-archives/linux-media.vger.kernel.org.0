@@ -1,262 +1,207 @@
-Return-Path: <linux-media+bounces-51061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AD5D3AAAB
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 14:48:28 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E83D3AB34
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 15:07:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 31E033006E2E
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 13:48:25 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6354830128C3
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 14:04:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B086436D503;
-	Mon, 19 Jan 2026 13:48:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09742368294;
+	Mon, 19 Jan 2026 14:04:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jFtIjB7a"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="gh5Q6yQs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B679136CE0C
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 13:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768830502; cv=none; b=YHRDoetlsa6GoyhHLOmtBxudPYrsqN2aP4oLGJ08Um1wQU1C1nlrx6NwsbQ9rSQy509VUOdCOpoDdotLqGgYzsyCW7US6moU4a0Oq7I/1A+fllBMVWNYPu6IhHcapXbdA1RdDIFug0uH0iH4WyJr5a2JdarvuOHQxL2qbc50iTQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768830502; c=relaxed/simple;
-	bh=6XdOTm21eKKhliAVK4Rq0uvd7fO/U4/wyjM29rkdfB8=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=TfdQiBtym3LAdyjdW6FeevYcjODaKZcaIlVtjdxCQm3gG5y3BS4lj3JozBiVaSKZOYKn1sOibdKg0PwS/pOiX4mqiDejYoaOF8Jf4BmfTkOoVFSgkX/AoFhOcnHOvX1e+n2CQYW+1aiAybFzK4ZT+Qdnpox5sGqDAKKoJGycWnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jFtIjB7a; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01824374186;
+	Mon, 19 Jan 2026 14:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768831456; cv=pass; b=WrmGRAH6kcoVIxxLljta3SLQBqOlvHnjxTYCE7PjXqqpphEzXBSC9XmczQs4zFe9Yt70Al9GLoUukerIlrCCgEeHOB2KPIFb5iitBVmMD7huQQEcbcCsVVdD5g21gC8l6lkQw5qi7jxWUjPdb8uhvEqzoqSORo0FIk2sFoEHzTY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768831456; c=relaxed/simple;
+	bh=hc8cddGBd+8xBygWKrfl4ivDTlIyapPN8Xk1e8Cr47Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fdme0chQ07X+YX4j8zKIWZeS6HiASeugTy/yvVQwKA0tceSsYfntcNynyY/fChViKfnvgrgV76qV/jXHhpQrcjRoZgmBODLythOBGh2EJhXa2R393RpTbIiT0m6+sZiU9VURCJuzaWnYwLkfdzkrfCMXW2Vj8PZp53wiCLlWUOE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=gh5Q6yQs; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1768830497;
-	bh=6XdOTm21eKKhliAVK4Rq0uvd7fO/U4/wyjM29rkdfB8=;
-	h=Subject:From:To:Date:From;
-	b=jFtIjB7aMP405nYBGjYTNF2M+h4yBfe10tgnpIPzYwV3QQNeWwiOqFWAfJoaMpJmO
-	 V+is2to/H6bYo6e9gkWnzosHp781FiPNBx21f3rDtONnn9HSeAfb6sW/+RgZOzHL2T
-	 2M8dzmNIVlbdcwBquOu+q4OjVLNh5cghioLV0rzzRasEWm/mHW8ozAOsKU8/9di7jF
-	 5tQyb2RXtDvlt6IwMICWV2sYGtnZaw2PTVNFii8jNpL42DEAcfMK8klBalBRJqSuhO
-	 LrlLeprPjz0AteHo5LrbjjkygfDfhrhcvkUxNl9WQHeLf+DdO+Qe+Ftxss75UMIEfn
-	 rW+/lS4clGq6A==
-Received: from [IPv6:2606:6d00:17:7b4b::c41] (unknown [IPv6:2606:6d00:17:7b4b::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3966A17E07FA
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 14:48:17 +0100 (CET)
-Message-ID: <78bfd01051ef84ef7e6ccbd0a72301a939869476.camel@collabora.com>
-Subject: [GIT PULL FOR 6.20] Media codec 2026-01-18
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: linux-media@vger.kernel.org
-Date: Mon, 19 Jan 2026 08:48:15 -0500
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-GZuRNevx6Zlu+8j1+htr"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+ARC-Seal: i=1; a=rsa-sha256; t=1768831430; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=OtWYQut6leSWPEL7MijwgiwtnBCxJ1c6iM9L4KAFpH8/HU16Hirz7V7wVjgQqm8Mi1j0hpX/vEu2QEQJrCpjkSIDzGwpXYEd7yT+P3zcj3P4B3OFFnL5HIwOsp1ltkVHZ3MtLg7cxbCzG1faZ6j+Tom/sX2PfiDmlkrbZKqLiE4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1768831430; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=q62aMHmAxbn1lufZfZAjq5qpqwqeRKoV0pt8VHtML4U=; 
+	b=VodykyzYLP8iNG4jjO6iCA5x48oeK+d//LgOhvHxgg4A9NadNsC2pxoHcsSPHjaiYSk0bhEn/sSVKHg9UzjTDq7vtBCGGfRwy0wdIsMD0R9oyLAR7uqMr2cM7I6p3aTIlDx9LjGy0MCJFdptYB38QM3uC9W6Yam4m7v1Xpnih9g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
+	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1768831430;
+	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=q62aMHmAxbn1lufZfZAjq5qpqwqeRKoV0pt8VHtML4U=;
+	b=gh5Q6yQsaf2If7qeHRFmZm12lFFILlQp0LA9EDdG/bj2FvfqEKmIr1T2dBRqxkUc
+	fXH18IRmY4pSWVLU/FrKZzEH1n6ZxyZ/I9IxCwJ3Y0BkZBKGkxOzKrJm6Y3/BAYabHJ
+	O0QfYmGv8Le3T1BuLfigtAEQeLYJP3ByA7YMmyfQ=
+Received: by mx.zohomail.com with SMTPS id 1768831429842878.6665974799806;
+	Mon, 19 Jan 2026 06:03:49 -0800 (PST)
+Message-ID: <b8f43fe8-3e07-4d98-a50d-817c31370710@collabora.com>
+Date: Mon, 19 Jan 2026 15:03:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 3/7] iommu: Add verisilicon IOMMU driver
+To: Will Deacon <will@kernel.org>
+Cc: joro@8bytes.org, robin.murphy@arm.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+ nicolas.dufresne@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20260107101005.84039-1-benjamin.gaignard@collabora.com>
+ <20260107101005.84039-4-benjamin.gaignard@collabora.com>
+ <aWZui-rn5RDPwpEO@willie-the-truck>
+ <68a49f8b-178c-4fa2-b4a9-315ad602271d@collabora.com>
+ <aWeTQ50DOtntcniN@willie-the-truck>
+ <db0950f1-b357-47c2-9829-e33262ab456d@collabora.com>
+ <aW4kb5EbxbrhTOxK@willie-the-truck>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <aW4kb5EbxbrhTOxK@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---=-GZuRNevx6Zlu+8j1+htr
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Le 19/01/2026 à 13:32, Will Deacon a écrit :
+> On Wed, Jan 14, 2026 at 02:10:48PM +0100, Benjamin Gaignard wrote:
+>> Le 14/01/2026 à 13:59, Will Deacon a écrit :
+>>> On Tue, Jan 13, 2026 at 05:25:38PM +0100, Benjamin Gaignard wrote:
+>>>> Le 13/01/2026 à 17:10, Will Deacon a écrit :
+>>>>> Hi Benjamin,
+>>>>>
+>>>>> Thanks for posting a v11.
+>>>>>
+>>>>> On Wed, Jan 07, 2026 at 11:09:53AM +0100, Benjamin Gaignard wrote:
+>>>>>> The Verisilicon IOMMU hardware block can be found in combination
+>>>>>> with Verisilicon hardware video codecs (encoders or decoders) on
+>>>>>> different SoCs.
+>>>>>> Enable it will allow us to use non contiguous memory allocators
+>>>>>> for Verisilicon video codecs.
+>>>>>> If both decoder and this iommu driver are compiled has modules
+>>>>>> there is undefined symboles issues so this iommu driver could
+>>>>>> only be compiled has built-in.
+>>>>>>
+>>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>>>>> ---
+>>>>>> changes in version 11:
+>>>>>> - Fix dependency issue when decoder driver is build as module.
+>>>>>>
+>>>>>>     drivers/iommu/Kconfig     |  11 +
+>>>>>>     drivers/iommu/Makefile    |   1 +
+>>>>>>     drivers/iommu/vsi-iommu.c | 808 ++++++++++++++++++++++++++++++++++++++
+>>>>>>     include/linux/vsi-iommu.h |  21 +
+>>>>>>     4 files changed, 841 insertions(+)
+>>>>>>     create mode 100644 drivers/iommu/vsi-iommu.c
+>>>>>>     create mode 100644 include/linux/vsi-iommu.h
+>>>>> Based on your reply to v9:
+>>>>>
+>>>>> https://lore.kernel.org/all/0eff8b1a-c45f-47b1-a871-59f4a0101f0f@collabora.com/
+>>>>>
+>>>>> I took another look at this to see whether it had changed significantly
+>>>>> from v6 when compared to the rockchip driver. Sadly, they still look
+>>>>> very similar to me and I continue to suspect that the hardware is a
+>>>>> derivative. I really don't understand why having a shared implementation
+>>>>> of the default domain ops is difficult or controversial. Have you tried
+>>>>> to write it?
+>>>>>
+>>>>> However, given that nobody from the Rockchip side has contributed to the
+>>>>> discussion and you claim that this is a distinct piece of IP, I don't
+>>>>> want to block the merging of the driver by leaving the conversation
+>>>>> hanging.
+>>>>>
+>>>>> There is still one thing I don't understand (which, amusingly, the
+>>>>> rockchip driver doesn't seem to suffer from):
+>>>>>
+>>>>>> +static void vsi_iommu_flush_tlb_all(struct iommu_domain *domain)
+>>>>>> +{
+>>>>>> +	struct vsi_iommu_domain *vsi_domain = to_vsi_domain(domain);
+>>>>>> +	struct list_head *pos;
+>>>>>> +	unsigned long flags;
+>>>>>> +
+>>>>>> +	spin_lock_irqsave(&vsi_domain->lock, flags);
+>>>>>> +
+>>>>>> +	list_for_each(pos, &vsi_domain->iommus) {
+>>>>>> +		struct vsi_iommu *iommu;
+>>>>>> +		int ret;
+>>>>>> +
+>>>>>> +		iommu = list_entry(pos, struct vsi_iommu, node);
+>>>>>> +		ret = pm_runtime_resume_and_get(iommu->dev);
+>>>>>> +		if (ret < 0)
+>>>>>> +			continue;
+>>>>>> +
+>>>>>> +		spin_lock(&iommu->lock);
+>>>>>> +
+>>>>>> +		writel(VSI_MMU_BIT_FLUSH, iommu->regs + VSI_MMU_FLUSH_BASE);
+>>>>>> +		writel(0, iommu->regs + VSI_MMU_FLUSH_BASE);
+>>>>>> +
+>>>>>> +		spin_unlock(&iommu->lock);
+>>>>>> +		pm_runtime_put_autosuspend(iommu->dev);
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	spin_unlock_irqrestore(&vsi_domain->lock, flags);
+>>>>>> +}
+>>>>> [...]
+>>>>>
+>>>>>> +static const struct iommu_ops vsi_iommu_ops = {
+>>>>>> +	.identity_domain = &vsi_identity_domain,
+>>>>>> +	.release_domain = &vsi_identity_domain,
+>>>>>> +	.domain_alloc_paging = vsi_iommu_domain_alloc_paging,
+>>>>>> +	.of_xlate = vsi_iommu_of_xlate,
+>>>>>> +	.probe_device = vsi_iommu_probe_device,
+>>>>>> +	.release_device = vsi_iommu_release_device,
+>>>>>> +	.device_group = generic_single_device_group,
+>>>>>> +	.owner = THIS_MODULE,
+>>>>>> +	.default_domain_ops = &(const struct iommu_domain_ops) {
+>>>>>> +		.attach_dev		= vsi_iommu_attach_device,
+>>>>>> +		.map_pages		= vsi_iommu_map,
+>>>>>> +		.unmap_pages		= vsi_iommu_unmap,
+>>>>>> +		.flush_iotlb_all	= vsi_iommu_flush_tlb_all,
+>>>>> This has no callers and so your unmap routine appears to be broken.
+>>>> It is a leftover of previous attempt to allow video decoder to clean/flush
+>>>> the iommu by using a function from the API.
+>>>> Now it is using vsi_iommu_restore_ctx().
+>>>> I while remove it in version 12.
+>>> Don't you still need some invalidation on the unmap path?
+>> In vsi_iommu_unmap_iova() page is invalided by calling vsi_mk_pte_invalid().
+> But that just writes an invalid descriptor and doesn't appear to invalidate
+> the TLB at all.
+>
+>> That clear BIT(0) so the hardware knows the page is invalid.
+>> Do I have miss something here ?
+> Yes, the TLB structure needs to be invalidated so that the page-table
+> walker sees the new value that you have written in memory.
+>
+> The rockchip driver gets this correct...
 
-Hi Mauro, Hans,
+Rockchip hardware have a ZAP_ONE_LINE register which didn't exist on Verisilicon
+hardware.
+I have tried to use VSI_MMU_BIT_FLUSH on VSI driver after unmapping iova
+but it doesn't work.
+So far calling dma_sync_single_for_device() seems to be enough to make iommu
+and video decoder work together.
 
-This PR introduce support for H.264 and HEVC decoding on Rockchip RK3588 an=
-d
-RK3576 SoC. Unlike other HEVC drivers, the hardware implements complete sli=
-ce
-header parsing instead of using skip parameters. Two new compound controls =
-are
-added to extend the SPS control with the missing information. Additionally,
-buffer size calculation is added for Hantro AV1 decoder, fixing support for
-decoding more then 8 tiles.
+Regards,
+Benjamin
 
-You will notice few checkpatch warning, I've looked through them, some are
-complaining about already in the tree, but moved, or asking to make the cod=
-e
-unreadable, so I decided to ignore. The sparse check complains about
-rkvdec_h26{4,5}_cabac_table missing declaration. Both are declared, but I a=
-gree
-with the code author that including the header that declares it is not usef=
-ul in
-this specific case, making this a false positive. Let me know if you prefer=
- to
-workaround any of these, I can respin quickly.
-
-cheers,
-Nicolas
-
----
-
-The following changes since commit eb4ee870747c3a77a9c3c84d84efb64bd481013a=
-:
-
-  Documentation: admin-guide: media: mgb4: Add GMSL1 & GMSL3-coax modules i=
-nfo (2026-01-17 09:08:02 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6=
-.20-media-codecs-2026-01-18
-
-for you to fetch changes up to 9a92af47becc137d9dab290fd70b5e38f345a3a6:
-
-  media: verisilicon: AV1: Fix tile info buffer size (2026-01-18 19:38:01 -=
-0500)
-
-----------------------------------------------------------------
-Media Codec Fixes
-
-----------------------------------------------------------------
-Benjamin Gaignard (1):
-      media: verisilicon: AV1: Fix tile info buffer size
-
-Detlev Casanova (17):
-      media: uapi: HEVC: Add v4l2_ctrl_hevc_ext_sps_[ls]t_rps controls
-      media: v4l2-ctrls: Add hevc_ext_sps_[ls]t_rps controls
-      media: visl: Add HEVC short and long term RPS sets
-      media: rkvdec: Switch to using structs instead of writel
-      media: rkvdec: Move cabac tables to their own source file
-      media: rkvdec: Use structs to represent the HW RPS
-      media: rkvdec: Move h264 functions to common file
-      media: rkvdec: Move hevc functions to common file
-      media: rkvdec: Add variant specific coded formats list
-      media: rkvdec: Add RCB and SRAM support
-      media: rkvdec: Support per-variant interrupt handler
-      media: rkvdec: Enable all clocks without naming them
-      media: rkvdec: Disable multicore support
-      media: rkvdec: Add H264 support for the VDPU381 variant
-      media: rkvdec: Add H264 support for the VDPU383 variant
-      media: rkvdec: Add HEVC support for the VDPU381 variant
-      media: rkvdec: Add HEVC support for the VDPU383 variant
-
- Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst       =
-    | 120 +++++++++++++
- Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions          =
-    |   2 +
- Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst                =
-    |  12 ++
- drivers/media/platform/rockchip/rkvdec/Makefile                           =
-    |  14 +-
- drivers/media/platform/rockchip/rkvdec/{rkvdec-hevc-data.c =3D> rkvdec-cab=
-ac.c} | 506 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.c               =
-    | 258 ++++++++++++++++++++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.h               =
-    |  89 ++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c                      =
-    | 892 ++++++++---------------------------------------------------------=
-------------------------------
- drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c               =
-    | 511 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h               =
-    | 109 ++++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c                      =
-    | 281 ++++--------------------------
- drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c                       =
-    | 179 +++++++++++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h                       =
-    |  29 ++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-regs.h                      =
-    | 586 +++++++++++++++++++++++++++++++++++++++++---------------------
- drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-h264.c              =
-    | 468 ++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c              =
-    | 638 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+++
- drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-regs.h              =
-    | 430 ++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c              =
-    | 572 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c              =
-    | 710 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-regs.h              =
-    | 281 ++++++++++++++++++++++++++++++
- drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c                       =
-    | 232 +++++++++++--------------
- drivers/media/platform/rockchip/rkvdec/rkvdec.c                           =
-    | 586 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-------
- drivers/media/platform/rockchip/rkvdec/rkvdec.h                           =
-    |  50 +++++-
- drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c           =
-    |   4 +-
- drivers/media/test-drivers/visl/visl-dec.c                                =
-    |   7 +
- drivers/media/test-drivers/visl/visl-dec.h                                =
-    |   3 +
- drivers/media/test-drivers/visl/visl-trace-hevc.h                         =
-    |  59 +++++++
- drivers/media/v4l2-core/v4l2-ctrls-core.c                                 =
-    |  28 +++
- drivers/media/v4l2-core/v4l2-ctrls-defs.c                                 =
-    |  10 ++
- include/uapi/linux/v4l2-controls.h                                        =
-    |  61 +++++++
- include/uapi/linux/videodev2.h                                            =
-    |   2 +
- 31 files changed, 6264 insertions(+), 1465 deletions(-)
- rename drivers/media/platform/rockchip/rkvdec/{rkvdec-hevc-data.c =3D> rkv=
-dec-cabac.c} (86%)
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-h264-comm=
-on.c
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-h264-comm=
-on.h
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-comm=
-on.c
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-comm=
-on.h
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-h=
-264.c
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-h=
-evc.c
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-r=
-egs.h
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h=
-264.c
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h=
-evc.c
- create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-r=
-egs.h
-
---=20
-Nicolas Dufresne
-Principal Engineer at Collabora
-
---=-GZuRNevx6Zlu+8j1+htr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaW42HwAKCRDZQZRRKWBy
-9J6AAP9/qUR61d2G1rPoWhBvEDIHzTFAgT7KcEk9Za3aZhPhNAEA1dHZeUFJgStr
-fUI2z9UNG32bH0GRkTdtvbz65k/mrQ4=
-=N5Kl
------END PGP SIGNATURE-----
-
---=-GZuRNevx6Zlu+8j1+htr--
+> Will
+>
 
