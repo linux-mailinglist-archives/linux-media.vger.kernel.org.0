@@ -1,99 +1,86 @@
-Return-Path: <linux-media+bounces-51002-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51003-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DF5D39CE6
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 04:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CBFD39D94
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 06:04:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 57B5A300EE7F
-	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 03:29:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6A27E3008F94
+	for <lists+linux-media@lfdr.de>; Mon, 19 Jan 2026 05:04:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 658C4274B55;
-	Mon, 19 Jan 2026 03:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBE6832F766;
+	Mon, 19 Jan 2026 05:04:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WV6UOlup";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AtbJ7VnS"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rC2cEw2e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010056.outbound.protection.outlook.com [52.101.201.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF93B26A1A4
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 03:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768793386; cv=none; b=ObAKR7McGgXpHQAS4WGuKuB7TTEQMVCpKNq7GCN4QpFBMnrQFfuw5YCPhVTFvrljE5ihkBIULSzi7nMYUwhpq0+NRkFx/Qq+CjMJqQldubXwHstImVLeMW8Z/ryJfLQXh6fqGSpk/5cLR2DpDT2qF1TJgiYYQlU//dbR7xNMEzA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768793386; c=relaxed/simple;
-	bh=XKokGV6nJBeV8Ykvrref9NB0aDhf6y/i+zKihICRNu0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p7WYGL40Qmzq1dvBx0koTI3aqzw4dKoD8N1Tj2Q9O2WG8EwkXIOS9Xq1ck0m3tFj6jocYFA3LQvGQKMKFTAnB/3V/5nPIAiP//V0lMhkeuMiHYb2afbNM1i3iHkp7Usc5p5fh4vI0UJ15RlEkRV02v7P6wbFRJKd19fdBP5pmIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WV6UOlup; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AtbJ7VnS; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60ILPXRD095176
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 03:29:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IedOsx2UwBWPqokFudsvttOoQ3/XzPZmQL+wVeyzb38=; b=WV6UOlupRrzIsXIu
-	cpBG2i6rhc+ZnfU7tDntt2JSa6ix3lmmdjZmZa7S6bzNeYjB0e3JjAmnxLBpszQX
-	BLvjfOvEsHTqLq/2wAgK5n+wJBI8VHZuotZF4OZRxoehgKxdt7KxNJC2Urpnh0uq
-	4vNC+nNXTQjLcMJWEYaY6DAVEzhCcSPW/nbmeitUIl/ZcT0xesAHXFG7fVO2EWaQ
-	2xBOvo2LNtS7HAgKz0BE0Mm9A8xNcSpBWb04JjjcFIMFMGPWbXiPLC8cHFtcgwlT
-	opfjY5EhqETVltMo09lyb7iUXgK+6hyeP71lPUIG6MmT61UoSuVdzKzvqQ2me42E
-	VoAkbg==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4br36dbfcw-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 03:29:43 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-890587d4e87so114198106d6.0
-        for <linux-media@vger.kernel.org>; Sun, 18 Jan 2026 19:29:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1768793383; x=1769398183; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IedOsx2UwBWPqokFudsvttOoQ3/XzPZmQL+wVeyzb38=;
-        b=AtbJ7VnSEzrOf/AUtPCvJrP5xfumz7bZaXz3FHYe8OhvA5yNgu+IL+q4OrLSkjpdux
-         GhC/w5Ap0l48w/PtW/myDts8C3G2yXgYNs7aoVXUt6nrcMW9YLk536Dko8wTh4/iT2VS
-         KMyetjDYmKOulkHLu+JECtguH9aNE2TZ1HIVNRL6bVS0uRevnnhhSL4ah9lyu8nzvmZ0
-         cauK2/HEI1Vb+BAhlmbSmcMf1hkXXpp0yg6AzQGQr6Z/rCJC3NlfeHV5mm9JXO8u8UeM
-         RzoNIF7aQt+YNc8HZLxOAmZWBsNK5lVYmtISiirR7TBp5qCTmVmuRTGrsscpLr4yLfde
-         UCng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768793383; x=1769398183;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IedOsx2UwBWPqokFudsvttOoQ3/XzPZmQL+wVeyzb38=;
-        b=QBak6rvszTz/38xZ4wRu4fUbuGRcVsaPJCPSGJNrQ81Aiq4dj3s/OSY5OWYThFENJx
-         PQerGgom4R0IAKzfVXhrLe3rvbDy+EYOAzU+PJxyObbfPmGBy2xSgdeNs9VVuduzseaV
-         gtZm3Y4N36bMiXtKKGWr+3ONmsN7NI+jeIyU6w2ub4OkyPMsTKifU2DL+LTGPXBzn44Y
-         wq1yZuo6B/o2KFouWt5vDvxD27JevRK2+5TUZR6KEkXNBiZzjIdvP5g5FdEmsB/LeJPC
-         +o8E5apWD1kY4cjuE4/VOaK4kiItzOMUYkaigXF2fxFd7XNqJHJf9wwfwdjptJRKKPRS
-         3big==
-X-Forwarded-Encrypted: i=1; AJvYcCX537C7UaKYKHwlZ+yDvC/FvRa1m6sNt82rPmn1dmMYlnlfnsAtAycgMYMHYLXeWZZxVpNK2jOdkGo3MQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoFWYm3uKhX7pGK2MZ2/qAoxUP2CrpBV7IQ/hFwcnGHxGNw/eB
-	w+e/HHgpKNdf1SsT0f+76m5JnZdUJJl969E1QpUSLDXV6EYI2V/tlOUaCM4d1tnQ5/sVDgCNgiE
-	8ia/sdg56K5PHN0WhDluMmNYrffAk92aZClf3xwfRe+PvGN2k2O52HRJ3RQnaFW5M9w==
-X-Gm-Gg: AY/fxX6SjFoaKE3qPnglTV0TTBA1P58zYDOW310S+XlNqGw0MdRcTqxfUTq8SVIju9t
-	uKhDIud90pUKEHObeOd4MCmx00C3c6lwNSO4uDW6fQdvIHKvgU50aK4nguYvD6ors6a6iwj2561
-	KhQqnuU4T0R0sjAaD4O89/5d6pLJ/fZC14MRO+L3CUHGVoc55OLlXua7PomW223S55fCRpClB4e
-	dQ0Pi/FK/9FwaquRlQYF8CIWyDX339pj5Y9sjfy9tfiUnv/PPlGU3g7jcNc1dIzJAFAWlzMNaKx
-	5kp0GFD7WyUbOjIxVlL9v99Gjw9BGGyfH9eANieQTs8BTFFyPO1sjkTOF0K2CtpUgZTHp1leoQZ
-	z0rPz6mD+Fv4ufxpXtN8mKlcOemw0HJpOa9vzm5MQMu6lznd6sMXVqL9NUfUXe0dmlCtVBMea
-X-Received: by 2002:a05:6214:3018:b0:77b:2925:a85b with SMTP id 6a1803df08f44-8942dd87f14mr144860826d6.44.1768793382657;
-        Sun, 18 Jan 2026 19:29:42 -0800 (PST)
-X-Received: by 2002:a05:6214:3018:b0:77b:2925:a85b with SMTP id 6a1803df08f44-8942dd87f14mr144860586d6.44.1768793382075;
-        Sun, 18 Jan 2026 19:29:42 -0800 (PST)
-Received: from [10.38.246.226] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6ad0eesm72002416d6.32.2026.01.18.19.29.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Jan 2026 19:29:41 -0800 (PST)
-Message-ID: <0353c460-dc47-4171-a434-d52b58b50859@oss.qualcomm.com>
-Date: Mon, 19 Jan 2026 11:29:34 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F6B1C3F36;
+	Mon, 19 Jan 2026 05:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768799089; cv=fail; b=S77hX5fpfm50W8ZL9pKjoI1411Mgt86kmFt7QKzIGV4WtS1HPJvqlHHfc6WpuYv5dRBZRY6QfdjyUdJ+b7Epl1+RT+EYts0xx6TlHYYmQy80ceO3Yg71TywtolFAgWfmdhuuUAL5bWS7C6nzTssnxOSNfzxhNMScLstYDtXaFhk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768799089; c=relaxed/simple;
+	bh=UVvSmjGV6A50qjtwBcej6geafMEFwqKPZUDv2C7Nb6A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kpBcjrxnWiJKsD++BUdh6yuK2EX7+XCCY0LtiHGEPgqAKoRwrKweBg+xoFRHXRreramQcIqAX4JNUJqr59XiMlDHSGEjXgn96SHSYdAdLJ+MNS3KlcbmCw/6RebrJ/gVvInA7d0GY26c8saXgEw6MTlXn3wYUwq+DKfUDP6Is2k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=rC2cEw2e; arc=fail smtp.client-ip=52.101.201.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SisgKRAvzoACqcuwO+jgj8f9t4sIGZ0pq/U+JbuWUz7u7Rle5pcacNbyrwKfpc9U6O01ilO2IlbYadCVRBsaCaz1oST/+W7ZHqV1tQv2qK1UFc3NCvxRDGGOkOYRcoqGkZjjrUA8/iadrLFJLMTQBJWUdOMxzqlMjzRVi4f5T/dl8B2KHP+RbPbZfGW9vj7s3hSUchu+H0MKf52hCExM9QGUoKkM00j8q4rbLKNXoEfXWHPk/OjMwL9q/aA7AZcbnNhKsR6tzY5mokfiZVQhevPvRhm97efvEtLu8h3BsTFNEGPdPGUd0mCLp6ODSV3ALcEBih5Fgvnhvf87AoyJWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zZquQXrBumI5aCYOZEljPxhYdo/GvZAEgPYREaXI5IA=;
+ b=phnxWjSyIU/RUwiI9+lgKvRMLwzOFcjqCBtDalCQvG5XSpghZv2Yy+62neEiD17u8yeTiJQTG9/tjNV61P57kkCEE8JcJBiccXeyn0Bk7EHLMdHx1uJSEr/7oze5G93brUtHAcUOTzulbkqB69HXd7dTviHnit4kk9E5Oq/xuZ7jCd9KCMrlGj7hD0M4Ay7Hmp/Tl2c3g/4d9BFOBjq3brlqaoCniM56ll3kzA1TiV9LZk17rp8d5kqjAapo+2VI2AuiIomdAMj4Qz19vtVimoMrSDGK6L0aEeB2r3emc98Nz2eiQ9RcPN5toOutRHCkrsS6aJNiyLFQazJ0SoR0vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zZquQXrBumI5aCYOZEljPxhYdo/GvZAEgPYREaXI5IA=;
+ b=rC2cEw2ecfwdKzko1VnwLtCB7pFTTKYsbus+gKuKTQmzlZauRov6UeCnelyyaf1V3aqWNv2X9Yvkx+vtugp6BYimb9RtYwyq/qncDaJKrZK8UY1CpkPO+UwFNp7AzUskAED2ZPLn6UWjygSyojzBfbgZbNo5ZUdmWgR5hq00zeY=
+Received: from CH2PR08CA0014.namprd08.prod.outlook.com (2603:10b6:610:5a::24)
+ by BLAPR10MB5202.namprd10.prod.outlook.com (2603:10b6:208:306::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Mon, 19 Jan
+ 2026 05:04:43 +0000
+Received: from CH1PEPF0000AD7D.namprd04.prod.outlook.com
+ (2603:10b6:610:5a:cafe::47) by CH2PR08CA0014.outlook.office365.com
+ (2603:10b6:610:5a::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.11 via Frontend Transport; Mon,
+ 19 Jan 2026 05:04:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ CH1PEPF0000AD7D.mail.protection.outlook.com (10.167.244.86) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Mon, 19 Jan 2026 05:04:43 +0000
+Received: from DLEE202.ent.ti.com (157.170.170.77) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 18 Jan
+ 2026 23:04:42 -0600
+Received: from DLEE214.ent.ti.com (157.170.170.117) by DLEE202.ent.ti.com
+ (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 18 Jan
+ 2026 23:04:42 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE214.ent.ti.com
+ (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Sun, 18 Jan 2026 23:04:42 -0600
+Received: from [172.24.233.149] (ws.dhcp.ti.com [172.24.233.149])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60J54YSX3097518;
+	Sun, 18 Jan 2026 23:04:34 -0600
+Message-ID: <25cdbefb-b1cb-4da1-b0bd-577c287a57ac@ti.com>
+Date: Mon, 19 Jan 2026 10:34:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,694 +88,365 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/3] media: qcom: camss: tpg: Add TPG support for
- multiple targets
-To: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
-        Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20260113-camss_tpg-v8-0-fa2cb186a018@oss.qualcomm.com>
- <20260113-camss_tpg-v8-3-fa2cb186a018@oss.qualcomm.com>
- <fb402d00-ee2a-4437-af09-200ef7203420@oss.qualcomm.com>
+Subject: Re: [PATCH v9 15/19] media: ti: j721e-csi2rx: Change the drain
+ architecture for multistream
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <y-abhilashchandra@ti.com>, <devarsht@ti.com>, <s-jain1@ti.com>,
+	<vigneshr@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <p.zabel@pengutronix.de>, <conor+dt@kernel.org>,
+	<sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
+	<jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
+	<jack.zhu@starfivetech.com>, <sjoerd@collabora.com>,
+	<dan.carpenter@linaro.org>, <hverkuil+cisco@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <jai.luthra@linux.dev>,
+	<laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>
+References: <20251230083220.2405247-1-r-donadkar@ti.com>
+ <20251230083220.2405247-16-r-donadkar@ti.com>
+ <fbae9c01-6a2c-46ee-963a-8e5230b860b4@ideasonboard.com>
 Content-Language: en-US
-From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-In-Reply-To: <fb402d00-ee2a-4437-af09-200ef7203420@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE5MDAyNiBTYWx0ZWRfXyWKv6WYu95Yp
- g9QSbVx1ugEoAIjCpSWIRSLDyIy8WWiMsGRGNlcjENaDOcMbseexiRHAH/ty3K35vlcjs8t14S7
- zGZTQ/NcmVIbHThta9AUXqxACd92A1+CzQS19DHAdye66/BhPUehnfAmLh5ZeZWHckZT1L9CXXO
- icIr0M0Bc2tEO/6xuVOPppu+EXe+7e0vptoMczis0q7vveTza/usd5dROp3CLayxSALSJj53PLV
- wi8kKpByAgvL8CNIzq3QPNmogoc7QGs5eY5taFI8g5ANppuWbf5DUS9fi0k9mlJlMaIAjMI+Iit
- UbqFT8guNBAqABdWTEpbBAZ5LxZo8gTfREj5HilEt2PFlJ0TcdQId2SZbSyjEeHaJBIl+uYveZr
- D9r10oUtaLvIjU+CKTmcyR3VQ8Gfhg5YqpbYHvMOMdNcDIrOrqfQjQ2PATOedkG+tSi2w0upq4q
- pNDoyMB7IhwugDyCBaA==
-X-Proofpoint-GUID: -IJsKydYq6HpvsnH9IjxcJ7Uoj9vEhxU
-X-Authority-Analysis: v=2.4 cv=GJ0F0+NK c=1 sm=1 tr=0 ts=696da528 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=9V-N8hGnjtQyMxvEodkA:9
- a=ux8SKSwu-4WW2TTj:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=OIgjcC2v60KrkQgK7BGD:22
-X-Proofpoint-ORIG-GUID: -IJsKydYq6HpvsnH9IjxcJ7Uoj9vEhxU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-17_03,2026-01-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 lowpriorityscore=0
- clxscore=1015 phishscore=0 bulkscore=0 adultscore=0 impostorscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601190026
+From: Rishikesh Donadkar <r-donadkar@ti.com>
+In-Reply-To: <fbae9c01-6a2c-46ee-963a-8e5230b860b4@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD7D:EE_|BLAPR10MB5202:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d0e993e-da16-407d-e4b8-08de57184231
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RzhHR2JLVkhtLy8vVFB1MUZZNm1lVExmME9ZeHBLSTVJTklwSE9zMXY5Z1VE?=
+ =?utf-8?B?WG9KWTRCYkwwT09ZVGp6SlBCeTNUL2JKeUZLRFRWdW9QZGVKeFc0RzIya0dy?=
+ =?utf-8?B?aVJxV3dUUVFTZ2toZ1NwU0oyYzI1S3NqdUVIOUdtSDJzRkZoU1J3NmZoWXlh?=
+ =?utf-8?B?Si81cjJ6eVU1akI1cEpCSEJQSFNKTHBlM3JMcWR6UUlEeTlQb0ErSFU3aHlo?=
+ =?utf-8?B?d1dmWCtMMVhDTUFueFdoWk04eEtLcDg4alZGZDRFcjR5WHhXUkwydWtYK25m?=
+ =?utf-8?B?SEkybFJXaWxwNTA0Q3dBTEhYL1RlVjV6N1orY09WUlNXa1dIZlBjRFgwRnkz?=
+ =?utf-8?B?cGYycTNhZWVPMmxnWllqckZQMVlIWXF3dXpLZnIvUGt3STgrUTlFSk1Weklv?=
+ =?utf-8?B?VE1sWGZ5SDVQc1pXcVpDZ2hxakdsRlo2Q21SenR5MmtlTnpwb000RlR1N0c1?=
+ =?utf-8?B?SWw3TkJMbFl5dnVyRzJETHM4d25EdmpDTlQwejArOHNyODMwLzAyTGpmc0xw?=
+ =?utf-8?B?UlZoVVhzakZ6bWo0YWxBc2kzei9PYnVLcmE0TklKMy9yb2lKOG0vajdPVVFN?=
+ =?utf-8?B?a1h5Q3plVUpCbDMvc0JUNGxzQTI3cmZZb2UrV0gyRW1Jd3hiTi9OaTRQYWFx?=
+ =?utf-8?B?Z2duQlErdS9EMWZSY1Z3ZXhOOHd1UUZMOGdWWFlXeklLcGlOamJHWStRckJn?=
+ =?utf-8?B?ZDVjRmpRZE5xUjliMU5sU0tBbEh1enNsaWQ1ZUd2aTlPMHNON0o0ZnI3Y0xl?=
+ =?utf-8?B?OHhzL1VSSHR4RWxIb09EUDh2MFhMbHl2eVJQUHV0NEdLNG5DOG8rOUdmRUQz?=
+ =?utf-8?B?Y1BWOHB0TVU2aTUxdldsR0poOXFuSW1CK0hHQitMdmVlYXE0TFBMRTZKbTln?=
+ =?utf-8?B?SHJJYjFhVGxYSkZQQktuMEpoaHp2U29OeC8rb3AyMTNIMFhtODc3YmhBNGha?=
+ =?utf-8?B?V1hQOFlva3dSWUxLejl1Q2JJc0lTNEd2dEh4NzRkLzdHS3JEM0oxTE5vNXNt?=
+ =?utf-8?B?NlhvYlk2eFBpdDhrTHQzVms0SS9mMVdaQ1h3ZWFabWNqb1h2Y3VjVjRRL2pH?=
+ =?utf-8?B?Z2dNdThWa2ZIa2lqZXBvRHlUUzhpVjNtVmRTSTdpcWQzZGlsaE5ENjNVUDRM?=
+ =?utf-8?B?YmFqb3RTS3JxWEUvRmFiMDZpWVBqVFBxNnRmblJjc214RHdONmJRQ0RkNjNr?=
+ =?utf-8?B?M3gyNHVqdGlDWHVnZ01hcW1WSFBJcTRVVU1zWUhFNk9pci8raGlOUkZ5TVRD?=
+ =?utf-8?B?NEJDK013a0FDZHpoTTNQcjFYSStEY3F3UDBaVU5VZGJsRnVoc1Zxd1BBTmMy?=
+ =?utf-8?B?NXRNeWJVSis3MnQxKy9FMGJmdDZXRkgyK0xUTk1LLzQrZ3FYUkFaQmJ0Y2xs?=
+ =?utf-8?B?SzBWalcxOTZLc0JoeTRNZnJVbm85ZlhKbmJWMDQvWENIbUJhNlpaaWxEWVFS?=
+ =?utf-8?B?Vm5vRDUrM3orQUJXTVB1VHhxM2o1SE9oSlFrM1k1UWpFMVIwTHc5Nkw0NEJh?=
+ =?utf-8?B?Q0t3VTVaWmg5UEs1TngxM2FKM0RWSWJUcndVQXhqVDdhNW9uOVNIYUg1QmJn?=
+ =?utf-8?B?NTc4T09ZOUU4WUUwcjZYbGd6RjVVL3ZMUSsyaFpua2lZMW9CTHdBOVRuczZr?=
+ =?utf-8?B?YUJjN3dZZzlOc0VQb3N5V0VVenFVam9Uc0JGK0Q3WTVHZHlrMjAvWXd4a1Iv?=
+ =?utf-8?B?YmJCeGZWVnRsM2ZsemRnZkFVWFRZYUZDR2lNWkVaeW50cG5uNGk1VDVpeWtJ?=
+ =?utf-8?B?WXY3RWJrQzdrRWMzaDZsVURjQjVaTlA2K1FwbThPdUFGQTJHV0pSVnM0N3dN?=
+ =?utf-8?B?VlY5OXRGT3hwZHJTSFM4V3dNUzFRTnJBQUordlJXbVpuNTRPWnhDUzNPMUl6?=
+ =?utf-8?B?Ni9lRWRuNmp1WXQ0aVpGQnp0d0FGWVRlZDFDbjRzYXZwc2JoTHNnVWdqdU5M?=
+ =?utf-8?B?bkxscGFwOGdDQ2tBZWoxWWtlU2FqakVFRlNSNVB5ajVzRm9WL2ZqU1pYM2Qx?=
+ =?utf-8?B?Z0xiVGNWS3g4M2ZCSFNBZ29YWExSKzkvS0ZyNTNBaGdFMmx0UkthTk9WT2w0?=
+ =?utf-8?B?ZUhrTFkwS0tXdVNIY0xoazE4WTduaFdRT2xXVktqRFVvZUNtRUtiVmZQeG5t?=
+ =?utf-8?B?VGcrbGE4NVY3aHV3ZDcyWGV0SkVvRVlYMllZRDh3Qmd0UDFEV2puWVNmblRs?=
+ =?utf-8?B?R3VoT0U3dThPdEVkWG5vL2tYNE9GRHB1d3ViWXhlY0xWaDZtazZNeVRvaXlX?=
+ =?utf-8?B?d09tdjhMdFFrbDROMEpwbHdFcDVnPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 05:04:43.3601
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d0e993e-da16-407d-e4b8-08de57184231
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000AD7D.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5202
 
 
-Hi Vijay,
+On 15/01/26 18:07, Tomi Valkeinen wrote:
+> Hi,
 
-On 1/17/2026 3:32 AM, Vijay Kumar Tumati wrote:
-> Hi Wenmeng,
-> 
-> On 1/13/2026 1:03 AM, Wenmeng Liu wrote:
->> Add support for TPG found on LeMans, Monaco, Hamoa.
+
+Hi Tomi,
+
+Thank you for the review !
+
+>
+> On 30/12/2025 10:32, Rishikesh Donadkar wrote:
+>> On buffer starvation the DMA is marked IDLE, and the stale data in the
+>> internal FIFOs gets drained only on the next VIDIOC_QBUF call from the
+>> userspace. This approach works fine for a single stream case.
 >>
->> Signed-off-by: Wenmeng Liu<wenmeng.liu@oss.qualcomm.com>
+>> But in multistream scenarios, buffer starvation for one stream i.e. one
+>> virtual channel, can block the shared HW FIFO of the CSI2RX IP. This can
+>> stall the pipeline for all other virtual channels, even if buffers are
+>> available for them.
+> One stream is filtered based on VC & DT, but the above only mentions VC.
+> And then later uses VC when referring to the stream. I think you can
+> drop the VC parts, and just talk about streams.
+
+
+Okay, will do !
+
+>
+>> This patch introduces a new architecture, that continuously drains data
+>> from the shared HW FIFO into a small (32KiB) buffer if no buffers are made
+>> available to the driver from the userspace. This ensures independence
+>> between different streams, where a slower downstream element for one
+>> camera does not block streaming for other cameras.
+>>
+>> Additionally, after a drain is done for a VC, the next frame will be a
+>> partial frame, as a portion of its data will have already been drained
+>> before a valid buffer is queued by user space to the driver.
+> This makes it sounds we drain a single 32KB piece. But won't we continue
+> draining that stream until the stream is stopped or the user provides a
+> buffer?
+
+
+Thanks for pointing out, I will change it to talk about continuous draining.
+
+Rishikesh
+
+>
+> Also, does the DMA not offer us ways to drain a full frame? There's no
+> way to e.g. set the DMA TX increment to 0, so that it would just write
+> to a single location in memory? Or just set the target to void.
+>
+>   Tomi
+>
+>> Use wait for completion barrier to make sure the shared hardware FIFO
+>> is cleared of the data at the end of stream after the source has stopped
+>> sending data.
+>>
+>> Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
+>> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+>> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 >> ---
->>   drivers/media/platform/qcom/camss/Makefile         |   1 +
->>   drivers/media/platform/qcom/camss/camss-csid-680.c |  14 ++
->>   .../media/platform/qcom/camss/camss-csid-gen3.c    |  14 ++
->>   drivers/media/platform/qcom/camss/camss-tpg-gen1.c | 257 +++++++++++ 
->> ++++++++++
->>   drivers/media/platform/qcom/camss/camss.c          | 128 ++++++++++
->>   5 files changed, 414 insertions(+)
+>>   .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 112 ++++++++----------
+>>   1 file changed, 50 insertions(+), 62 deletions(-)
 >>
->> diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/ 
->> media/platform/qcom/camss/Makefile
->> index 
->> d355e67c25700ac061b878543c32ed8defc03ad0..e8996dacf1771d13ec1936c9bebc0e71566898ef 100644
->> --- a/drivers/media/platform/qcom/camss/Makefile
->> +++ b/drivers/media/platform/qcom/camss/Makefile
->> @@ -28,5 +28,6 @@ qcom-camss-objs += \
->>           camss-video.o \
->>           camss-format.o \
->>           camss-tpg.o \
->> +        camss-tpg-gen1.o \
->>   obj-$(CONFIG_VIDEO_QCOM_CAMSS) += qcom-camss.o
->> diff --git a/drivers/media/platform/qcom/camss/camss-csid-680.c b/ 
->> drivers/media/platform/qcom/camss/camss-csid-680.c
->> index 
->> 3ad3a174bcfb8c0d319930d0010df92308cb5ae4..a5da35cae2eb9acf642795c0a91db58d845f211c 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csid-680.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csid-680.c
->> @@ -103,6 +103,8 @@
->>   #define        CSI2_RX_CFG0_PHY_NUM_SEL            20
->>   #define        CSI2_RX_CFG0_PHY_SEL_BASE_IDX            1
->>   #define        CSI2_RX_CFG0_PHY_TYPE_SEL            24
->> +#define        CSI2_RX_CFG0_TPG_NUM_EN                BIT(27)
->> +#define        CSI2_RX_CFG0_TPG_NUM_SEL            GENMASK(29, 28)
->>   #define CSID_CSI2_RX_CFG1                    0x204
->>   #define        CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN        BIT(0)
->> @@ -185,11 +187,23 @@ static void __csid_configure_rx(struct 
->> csid_device *csid,
->>                   struct csid_phy_config *phy, int vc)
->>   {
->>       u32 val;
->> +    struct camss *camss;
->> +    struct tpg_device *tpg;
->> +    camss = csid->camss;
->>       val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
->>       val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
->>       val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << 
->> CSI2_RX_CFG0_PHY_NUM_SEL;
-> "phy_num_sel" and "tpg_num_sel" can be in if-else. They both are not 
-> required at once.
-
-ACK
-
->> +    if (camss->tpg) {
->> +        tpg = &camss->tpg[phy->csiphy_id];
+>> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> index fa6152464d4b6..e713293696eb1 100644
+>> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> @@ -82,7 +82,6 @@ struct ti_csi2rx_buffer {
+>>   
+>>   enum ti_csi2rx_dma_state {
+>>   	TI_CSI2RX_DMA_STOPPED,	/* Streaming not started yet. */
+>> -	TI_CSI2RX_DMA_IDLE,	/* Streaming but no pending DMA operation. */
+>>   	TI_CSI2RX_DMA_ACTIVE,	/* Streaming and pending DMA operation. */
+>>   };
+>>   
+>> @@ -109,6 +108,7 @@ struct ti_csi2rx_ctx {
+>>   	struct v4l2_format		v_fmt;
+>>   	struct ti_csi2rx_dma		dma;
+>>   	struct media_pad		pad;
+>> +	struct completion		drain_complete;
+>>   	u32				sequence;
+>>   	u32				idx;
+>>   	u32				vc;
+>> @@ -251,6 +251,10 @@ static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
+>>   static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
+>>   			       struct ti_csi2rx_buffer *buf);
+>>   
+>> +/* Forward declarations needed by ti_csi2rx_drain_callback. */
+>> +static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx);
+>> +static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx);
 >> +
->> +        if (csid->tpg_linked && tpg->testgen.mode > 0) {
-> If the tpg is linked and the mode is not valid, shouldn't you be 
-> throwing error?
-
-ACK
->> +            val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy- 
->> >csiphy_id + 1);
->> +            val |= CSI2_RX_CFG0_TPG_NUM_EN;
-> Can we rename this to CSI2_RX_CFG0_TPG_MUX_EN?
-
-ACK
-
->> +        }
->> +    }
+>>   static const struct ti_csi2rx_fmt *find_format_by_fourcc(u32 pixelformat)
+>>   {
+>>   	unsigned int i;
+>> @@ -617,9 +621,32 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>>   
+>>   static void ti_csi2rx_drain_callback(void *param)
+>>   {
+>> -	struct completion *drain_complete = param;
+>> +	struct ti_csi2rx_ctx *ctx = param;
+>> +	struct ti_csi2rx_dma *dma = &ctx->dma;
+>> +	unsigned long flags;
 >> +
->>       writel(val, csid->base + CSID_CSI2_RX_CFG0);
->>       val = CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
->> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/ 
->> drivers/media/platform/qcom/camss/camss-csid-gen3.c
->> index 
->> 664245cf6eb0cac662b02f8b920cd1c72db0aeb2..5f9eb533723f2864df64fd6c63e2682fed4a12ae 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
->> @@ -66,6 +66,8 @@
->>   #define        CSI2_RX_CFG0_VC_MODE        3
->>   #define        CSI2_RX_CFG0_DL0_INPUT_SEL    4
->>   #define        CSI2_RX_CFG0_PHY_NUM_SEL    20
->> +#define        CSI2_RX_CFG0_TPG_NUM_EN        BIT(27)
->> +#define        CSI2_RX_CFG0_TPG_NUM_SEL    GENMASK(29, 28)
->>   #define CSID_CSI2_RX_CFG1        0x204
->>   #define        CSI2_RX_CFG1_ECC_CORRECTION_EN    BIT(0)
->> @@ -109,11 +111,23 @@ static void __csid_configure_rx(struct 
->> csid_device *csid,
->>                   struct csid_phy_config *phy, int vc)
-> Same as above.
-
-ACK
-
->>   {
->>       int val;
->> +    struct camss *camss;
->> +    struct tpg_device *tpg;
->> +    camss = csid->camss;
->>       val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
->>       val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
->>       val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << 
->> CSI2_RX_CFG0_PHY_NUM_SEL;
->> +    if (camss->tpg) {
->> +        tpg = &camss->tpg[phy->csiphy_id];
+>> +	spin_lock_irqsave(&dma->lock, flags);
 >> +
->> +        if (csid->tpg_linked && tpg->testgen.mode > 0) {
->> +            val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy- 
->> >csiphy_id + 1);
->> +            val |= CSI2_RX_CFG0_TPG_NUM_EN;
->> +        }
->> +    }
+>> +	if (dma->state == TI_CSI2RX_DMA_STOPPED) {
+>> +		complete(&ctx->drain_complete);
+>> +		spin_unlock_irqrestore(&dma->lock, flags);
+>> +		return;
+>> +	}
+>>   
+>> -	complete(drain_complete);
+>> +	/*
+>> +	 * If dma->queue is empty, it indicates that no buffer has been
+>> +	 * provided by user space. In this case, initiate a transactions
+>> +	 * to drain the DMA. Since one drain of size DRAIN_BUFFER_SIZE
+>> +	 * will be done here, the subsequent frame will be a
+>> +	 * partial frame, with a size of frame_size - DRAIN_BUFFER_SIZE
+>> +	 */
+>> +	if (list_empty(&dma->queue)) {
+>> +		if (ti_csi2rx_drain_dma(ctx))
+>> +			dev_warn(ctx->csi->dev, "DMA drain failed\n");
+>> +	} else {
+>> +		ti_csi2rx_dma_submit_pending(ctx);
+>> +	}
+>> +	spin_unlock_irqrestore(&dma->lock, flags);
+>>   }
+>>   
+>>   /*
+>> @@ -637,12 +664,9 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
+>>   {
+>>   	struct ti_csi2rx_dev *csi = ctx->csi;
+>>   	struct dma_async_tx_descriptor *desc;
+>> -	struct completion drain_complete;
+>>   	dma_cookie_t cookie;
+>>   	int ret;
+>>   
+>> -	init_completion(&drain_complete);
+>> -
+>>   	desc = dmaengine_prep_slave_single(ctx->dma.chan, csi->drain.paddr,
+>>   					   csi->drain.len, DMA_DEV_TO_MEM,
+>>   					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+>> @@ -652,7 +676,7 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
+>>   	}
+>>   
+>>   	desc->callback = ti_csi2rx_drain_callback;
+>> -	desc->callback_param = &drain_complete;
+>> +	desc->callback_param = ctx;
+>>   
+>>   	cookie = dmaengine_submit(desc);
+>>   	ret = dma_submit_error(cookie);
+>> @@ -661,13 +685,6 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
+>>   
+>>   	dma_async_issue_pending(ctx->dma.chan);
+>>   
+>> -	if (!wait_for_completion_timeout(&drain_complete,
+>> -					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
+>> -		dmaengine_terminate_sync(ctx->dma.chan);
+>> -		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
+>> -		ret = -ETIMEDOUT;
+>> -		goto out;
+>> -	}
+>>   out:
+>>   	return ret;
+>>   }
+>> @@ -716,9 +733,11 @@ static void ti_csi2rx_dma_callback(void *param)
+>>   
+>>   	ti_csi2rx_dma_submit_pending(ctx);
+>>   
+>> -	if (list_empty(&dma->submitted))
+>> -		dma->state = TI_CSI2RX_DMA_IDLE;
+>> -
+>> +	if (list_empty(&dma->submitted)) {
+>> +		if (ti_csi2rx_drain_dma(ctx))
+>> +			dev_warn(ctx->csi->dev,
+>> +				 "DMA drain failed on one of the transactions\n");
+>> +	}
+>>   	spin_unlock_irqrestore(&dma->lock, flags);
+>>   }
+>>   
+>> @@ -754,6 +773,7 @@ static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
+>>   static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+>>   {
+>>   	struct ti_csi2rx_dma *dma = &ctx->dma;
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>>   	enum ti_csi2rx_dma_state state;
+>>   	unsigned long flags;
+>>   	int ret;
+>> @@ -763,6 +783,8 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+>>   	dma->state = TI_CSI2RX_DMA_STOPPED;
+>>   	spin_unlock_irqrestore(&dma->lock, flags);
+>>   
+>> +	init_completion(&ctx->drain_complete);
 >> +
->>       writel(val, csid->base + CSID_CSI2_RX_CFG0);
->>       val = CSI2_RX_CFG1_ECC_CORRECTION_EN;
->> diff --git a/drivers/media/platform/qcom/camss/camss-tpg-gen1.c b/ 
->> drivers/media/platform/qcom/camss/camss-tpg-gen1.c
->> new file mode 100644
->> index 
->> 0000000000000000000000000000000000000000..d7ef7a1709648406dc59c210d355851397980769
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/camss/camss-tpg-gen1.c
->> @@ -0,0 +1,257 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + *
->> + * Qualcomm MSM Camera Subsystem - TPG (Test Patter Generator) Module
->> + *
->> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->> + */
->> +#include <linux/bitfield.h>
->> +#include <linux/completion.h>
->> +#include <linux/io.h>
->> +#include <linux/kernel.h>
->> +#include <linux/of.h>
+>>   	if (state != TI_CSI2RX_DMA_STOPPED) {
+>>   		/*
+>>   		 * Normal DMA termination does not clean up pending data on
+>> @@ -771,11 +793,20 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+>>   		 * enforced before terminating DMA.
+>>   		 */
+>>   		ret = ti_csi2rx_drain_dma(ctx);
+>> -		if (ret && ret != -ETIMEDOUT)
+>> +		if (ret)
+>>   			dev_warn(ctx->csi->dev,
+>>   				 "Failed to drain DMA. Next frame might be bogus\n");
+>>   	}
+>>   
+>> +	/* We wait for the drain to complete so that the stream stops
+>> +	 * cleanly, making sure the shared hardware FIFO is cleared of
+>> +	 * data from the current stream. No more data will be coming from
+>> +	 * the source after this.
+>> +	 */
+>> +	if (!wait_for_completion_timeout(&ctx->drain_complete,
+>> +					 msecs_to_jiffies(DRAIN_TIMEOUT_MS)))
+>> +		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
 >> +
->> +#include "camss-tpg.h"
->> +#include "camss.h"
->> +
->> +#define TPG_HW_VERSION        0x0
->> +# define HW_VERSION_STEPPING        GENMASK(15, 0)
->> +# define HW_VERSION_REVISION        GENMASK(27, 16)
->> +# define HW_VERSION_GENERATION        GENMASK(31, 28)
->> +
->> +#define TPG_HW_VER(gen, rev, step) \
->> +    (((u32)(gen) << 28) | ((u32)(rev) << 16) | (u32)(step))
->> +
->> +#define TPG_HW_VER_2_0_0                TPG_HW_VER(2, 0, 0)
->> +#define TPG_HW_VER_2_1_0                TPG_HW_VER(2, 1, 0)
->> +
->> +#define TPG_HW_STATUS        0x4
->> +
->> +#define TPG_VC_n_GAIN_CFG(n)        (0x60 + (n) * 0x60)
-> I know why this is here but it may be is better to group this with VC 
-> based registers. In fact, can you please segregate these macros into sub 
-> sections with headings like "TPG global registers", "TPG VC based 
-> registers", "TPG DT based registers" etc. Just for better readability.
-
-ACK, registers are arranged according to their addresses, and I will 
-mark the global registers.
-
->> +
->> +#define TPG_CTRL        0x64
->> +# define TPG_CTRL_TEST_EN        BIT(0)
->> +# define TPG_CTRL_PHY_SEL        BIT(3)
->> +# define TPG_CTRL_NUM_ACTIVE_LANES    GENMASK(5, 4)
->> +# define TPG_CTRL_VC_DT_PATTERN_ID    GENMASK(8, 6)
->> +# define TPG_CTRL_OVERLAP_SHDR_EN    BIT(10)
->> +# define TPG_CTRL_NUM_ACTIVE_VC        GENMASK(31, 30)
->> +#  define NUM_ACTIVE_VC_0_ENABLED        0
->> +#  define NUM_ACTIVE_VC_0_1_ENABLED        1
->> +#  define NUM_ACTIVE_VC_0_1_2_ENABLED        2
->> +#  define NUM_ACTIVE_VC_0_1_3_ENABLED        3
->> +
->> +#define TPG_VC_n_CFG0(n)    (0x68 + (n) * 0x60)
->> +# define TPG_VC_n_CFG0_VC_NUM            GENMASK(4, 0)
->> +# define TPG_VC_n_CFG0_NUM_ACTIVE_DT        GENMASK(9, 8)
->> +#  define NUM_ACTIVE_SLOTS_0_ENABLED            0
->> +#  define NUM_ACTIVE_SLOTS_0_1_ENABLED            1
->> +#  define NUM_ACTIVE_SLOTS_0_1_2_ENABLED        2
->> +#  define NUM_ACTIVE_SLOTS_0_1_3_ENABLED        3
-> s/NUM_ACTIVE_SLOTS/DT/?, if you really need these macros. Similarly for 
-> VCs enabled.
-
-ACK
-
->> +# define TPG_VC_n_CFG0_NUM_BATCH        GENMASK(15, 12)
->> +# define TPG_VC_n_CFG0_NUM_FRAMES        GENMASK(31, 16)
->> +
->> +#define TPG_VC_n_LSFR_SEED(n)    (0x6C + (n) * 0x60)
->> +
->> +#define TPG_VC_n_HBI_CFG(n)    (0x70 + (n) * 0x60)
->> +
->> +#define TPG_VC_n_VBI_CFG(n)    (0x74 + (n) * 0x60)
->> +
->> +#define TPG_VC_n_COLOR_BARS_CFG(n)        (0x78 + (n) * 0x60)
->> +# define TPG_VC_n_COLOR_BARS_CFG_PIX_PATTERN        GENMASK(2, 0)
->> +# define TPG_VC_n_COLOR_BARS_CFG_QCFA_EN        BIT(3)
->> +# define TPG_VC_n_COLOR_BARS_CFG_SPLIT_EN        BIT(4)
->> +# define TPG_VC_n_COLOR_BARS_CFG_NOISE_EN        BIT(5)
->> +# define TPG_VC_n_COLOR_BARS_CFG_ROTATE_PERIOD        GENMASK(13, 8)
->> +# define TPG_VC_n_COLOR_BARS_CFG_XCFA_EN        BIT(16)
->> +# define TPG_VC_n_COLOR_BARS_CFG_SIZE_X            GENMASK(26, 24)
->> +# define TPG_VC_n_COLOR_BARS_CFG_SIZE_Y            GENMASK(30, 28)
->> +
->> +#define TPG_VC_m_DT_n_CFG_0(m, n)        (0x7C + (m) * 0x60 + (n) * 0xC)
->> +# define TPG_VC_m_DT_n_CFG_0_FRAME_HEIGHT    GENMASK(15, 0)
->> +# define TPG_VC_m_DT_n_CFG_0_FRAME_WIDTH    GENMASK(31, 16)
->> +
->> +#define TPG_VC_m_DT_n_CFG_1(m, n)        (0x80 + (m) * 0x60 + (n) * 0xC)
->> +# define TPG_VC_m_DT_n_CFG_1_DATA_TYPE        GENMASK(5, 0)
->> +# define TPG_VC_m_DT_n_CFG_1_ECC_XOR_MASK    GENMASK(13, 8)
->> +# define TPG_VC_m_DT_n_CFG_1_CRC_XOR_MASK    GENMASK(31, 16)
->> +
->> +#define TPG_VC_m_DT_n_CFG_2(m, n)        (0x84 + (m) * 0x60 + (n) * 0xC)
->> +# define TPG_VC_m_DT_n_CFG_2_PAYLOAD_MODE        GENMASK(3, 0)
->> +/* v2.0.0: USER[19:4], ENC[23:20] */
->> +# define TPG_V2_VC_m_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD        
->> GENMASK(19, 4)
->> +# define TPG_V2_VC_m_DT_n_CFG_2_ENCODE_FORMAT            GENMASK(23, 20)
-> For better readability, can you make these TPG_V2_0_*?
->> +/* v2.1.0: USER[27:4], ENC[31:28] */
->> +# define TPG_V2_1_VC_m_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD    
->> GENMASK(27, 4)
->> +# define TPG_V2_1_VC_m_DT_n_CFG_2_ENCODE_FORMAT            
->> GENMASK(31, 28)
->> +
->> +#define TPG_VC_n_COLOR_BAR_CFA_COLOR0(n)    (0xB0 + (n) * 0x60)
->> +#define TPG_VC_n_COLOR_BAR_CFA_COLOR1(n)    (0xB4 + (n) * 0x60)
->> +#define TPG_VC_n_COLOR_BAR_CFA_COLOR2(n)    (0xB8 + (n) * 0x60)
->> +#define TPG_VC_n_COLOR_BAR_CFA_COLOR3(n)    (0xBC + (n) * 0x60)
->> +
->> +/* Line offset between VC(n) and VC(n-1), n form 1 to 3 */
->> +#define TPG_VC_n_SHDR_CFG    (0x84 + (n) * 0x60)
->> +
->> +#define TPG_CLEAR        0x1F4
->> +
->> +#define TPG_HBI_PCT_DEFAULT            545    /* 545% */
->> +#define TPG_VBI_PCT_DEFAULT            10    /* 10% */
->> +#define PERCENT_BASE                100
->> +#define BITS_PER_BYTE                8
->> +
->> +/* Default user-specified payload for TPG test generator.
->> + * Keep consistent with CSID TPG default: 0xBE.
->> + */
->> +#define TPG_USER_SPECIFIED_PAYLOAD_DEFAULT    0xBE
->> +#define TPG_LFSR_SEED_DEFAULT            0x12345678
->> +#define TPG_COLOR_BARS_CFG_STANDARD \
->> +    FIELD_PREP(TPG_VC_n_COLOR_BARS_CFG_ROTATE_PERIOD, 0xA)
->> +
->> +static int tpg_stream_on(struct tpg_device *tpg)
-> Add function headers? For this  and a few other below.
-
-I received a comment asking me to remove the comments,
-if a function is not called in multiple places or its purpose cannot be 
-directly understood, adding extra documentation is useless.
-
->> +{
->> +    struct tpg_testgen_config *tg = &tpg->testgen;
->> +    struct v4l2_mbus_framefmt *input_format;
->> +    const struct tpg_format_info *format;
->> +    u8 lane_cnt = tpg->res->lane_cnt;
->> +    u8 dt_cnt = 0;
->> +    u8 i;
->> +    u32 val;
->> +
->> +    /* Loop through all enabled VCs and configure stream for each */
->> +    for (i = 0; i < tpg->res->vc_cnt; i++) {
-> Here as well, can we segregate the code to global, VC based and DT based 
-> configs with some comments?
-
-This loop all contains configurations related to VC/DT.
-Will add some comments for this.
-
->> +        input_format = &tpg->fmt[MSM_TPG_PAD_SRC + i];
->> +        format = tpg_get_fmt_entry(tpg,
->> +                       tpg->res->formats->formats,
->> +                       tpg->res->formats->nformats,
->> +                       input_format->code);
->> +        if (IS_ERR(format))
->> +            return -EINVAL;
->> +
->> +        val = FIELD_PREP(TPG_VC_m_DT_n_CFG_0_FRAME_HEIGHT, 
->> input_format->height & 0xffff) |
->> +              FIELD_PREP(TPG_VC_m_DT_n_CFG_0_FRAME_WIDTH, 
->> input_format->width & 0xffff);
->> +        writel(val, tpg->base + TPG_VC_m_DT_n_CFG_0(i, dt_cnt));
->> +
->> +        val = FIELD_PREP(TPG_VC_m_DT_n_CFG_1_DATA_TYPE, format- 
->> >data_type);
->> +        writel(val, tpg->base + TPG_VC_m_DT_n_CFG_1(i, dt_cnt));
->> +
->> +        if (tpg->hw_version == TPG_HW_VER_2_0_0) {
->> +            val = FIELD_PREP(TPG_VC_m_DT_n_CFG_2_PAYLOAD_MODE, tg- 
->> >mode - 1) |
->> +                
->> FIELD_PREP(TPG_V2_VC_m_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD,
->> +                       TPG_USER_SPECIFIED_PAYLOAD_DEFAULT) |
->> +                FIELD_PREP(TPG_V2_VC_m_DT_n_CFG_2_ENCODE_FORMAT,
->> +                       format->encode_format);
->> +        } else if (tpg->hw_version >= TPG_HW_VER_2_1_0) {
->> +            val = FIELD_PREP(TPG_VC_m_DT_n_CFG_2_PAYLOAD_MODE, tg- 
->> >mode - 1) |
->> +                
->> FIELD_PREP(TPG_V2_1_VC_m_DT_n_CFG_2_USER_SPECIFIED_PAYLOAD,
->> +                       TPG_USER_SPECIFIED_PAYLOAD_DEFAULT) |
->> +                FIELD_PREP(TPG_V2_1_VC_m_DT_n_CFG_2_ENCODE_FORMAT,
->> +                       format->encode_format);
->> +        }
->> +        writel(val, tpg->base + TPG_VC_m_DT_n_CFG_2(i, dt_cnt));
->> +
->> +        writel(TPG_COLOR_BARS_CFG_STANDARD, tpg->base + 
->> TPG_VC_n_COLOR_BARS_CFG(i));
->> +
->> +        val = DIV_ROUND_UP(input_format->width * format->bpp * 
->> TPG_HBI_PCT_DEFAULT,
->> +                   BITS_PER_BYTE * lane_cnt * PERCENT_BASE);
->> +        writel(val, tpg->base + TPG_VC_n_HBI_CFG(i));
->> +        val = input_format->height * TPG_VBI_PCT_DEFAULT / PERCENT_BASE;
->> +        writel(val, tpg->base + TPG_VC_n_VBI_CFG(i));
->> +
->> +        writel(TPG_LFSR_SEED_DEFAULT, tpg->base + 
->> TPG_VC_n_LSFR_SEED(i));
->> +
->> +        /* configure one DT, infinite frames */
-> Although this driver is not supporting more than one DT in a VC right 
-> now, is there a way we can make the API generic enough to receive #DTs 
-> in each VS and their dimensions?
-
-ACK
-
->> +        val = FIELD_PREP(TPG_VC_n_CFG0_VC_NUM, i) |
->> +              FIELD_PREP(TPG_VC_n_CFG0_NUM_FRAMES, 0);
->> +        writel(val, tpg->base + TPG_VC_n_CFG0(i));
->> +    }
->> +
->> +    val = FIELD_PREP(TPG_CTRL_TEST_EN, 1) |
->> +          FIELD_PREP(TPG_CTRL_PHY_SEL, 0) |
-> Same here, is there a way to make the API generic to receive CPHY / DPHY 
-> mode required?
-
-ACK
-
->> +          FIELD_PREP(TPG_CTRL_NUM_ACTIVE_LANES, lane_cnt - 1) |
->> +          FIELD_PREP(TPG_CTRL_VC_DT_PATTERN_ID, 0) |
-> You are assuming frame interleaved mode always. It may be is a good 
-> start but a bunch of functionality is missing here. Just please think of 
-> the scalability of the API even though the driver support is limited at 
-> this point.
-
-ACK
-
->> +          FIELD_PREP(TPG_CTRL_NUM_ACTIVE_VC, tpg->res->vc_cnt - 1);
->> +    writel(val, tpg->base + TPG_CTRL);
->> +
->> +    return 0;
->> +}
->> +
->> +static void tpg_stream_off(struct tpg_device *tpg)
->> +{
->> +    writel(0, tpg->base + TPG_CTRL);
->> +    writel(1, tpg->base + TPG_CLEAR);
-> Why not just reuse the reset function?
-
-ACK
-
->> +}
->> +
->> +static int tpg_configure_stream(struct tpg_device *tpg, u8 enable)
->> +{
->> +    int ret = 0;
->> +
->> +    if (enable)
->> +        ret = tpg_stream_on(tpg);
->> +    else
->> +        tpg_stream_off(tpg);
->> +
->> +    return ret;
->> +}
->> +
->> +static int tpg_configure_testgen_pattern(struct tpg_device *tpg, s32 
->> val)
->> +{
->> +    if (val >= 0 && val <= TPG_PAYLOAD_MODE_COLOR_BARS)
->> +        tpg->testgen.mode = val;
->> +
->> +    return 0;
->> +}
->> +
->> +/*
->> + * tpg_hw_version - tpg hardware version query
->> + * @tpg: tpg device
->> + *
->> + * Return HW version or error
->> + */
->> +static u32 tpg_hw_version(struct tpg_device *tpg)
->> +{
->> +    u32 hw_version;
->> +    u32 hw_gen;
->> +    u32 hw_rev;
->> +    u32 hw_step;
->> +
->> +    hw_version = readl(tpg->base + TPG_HW_VERSION);
->> +    hw_gen = FIELD_GET(HW_VERSION_GENERATION, hw_version);
->> +    hw_rev = FIELD_GET(HW_VERSION_REVISION, hw_version);
->> +    hw_step = FIELD_GET(HW_VERSION_STEPPING, hw_version);
->> +
->> +    tpg->hw_version = hw_version;
->> +
->> +    dev_dbg_once(tpg->camss->dev, "tpg HW Version = %u.%u.%u\n",
->> +             hw_gen, hw_rev, hw_step);
->> +
->> +    return hw_version;
->> +}
->> +
->> +/*
->> + * tpg_reset - Trigger reset on tpg module and wait to complete
-> Doesn't seem like there is any wait here, right?
-
-Do you have any suggestions on this? I noticed that there is no delay 
-downstream either.
-
-> Also, do you want to 
-> clear the IRQs in reset?
-
-Following the maintainer's suggestion, I removed IRQ support, but we do 
-need to add IRQ clearing.
-
->> + * @tpg: tpg device
->> + *
->> + * Return 0 on success or a negative error code otherwise
->> + */
->> +static int tpg_reset(struct tpg_device *tpg)
->> +{
->> +    writel(0, tpg->base + TPG_CTRL);
->> +    writel(1, tpg->base + TPG_CLEAR);
->> +
->> +    return 0;
->> +}
->> +
->> +static void tpg_subdev_init(struct tpg_device *tpg)
->> +{
->> +    tpg->testgen.modes = testgen_payload_modes;
->> +    tpg->testgen.nmodes = TPG_PAYLOAD_MODE_NUM_SUPPORTED_GEN1;
->> +}
->> +
->> +const struct tpg_hw_ops tpg_ops_gen1 = {
->> +    .configure_stream = tpg_configure_stream,
->> +    .configure_testgen_pattern = tpg_configure_testgen_pattern,
->> +    .hw_version = tpg_hw_version,
->> +    .reset = tpg_reset,
->> +    .subdev_init = tpg_subdev_init,
->> +};
->> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/ 
->> media/platform/qcom/camss/camss.c
->> index 
->> 43fdcb9af101ef34b118035ca9c68757b66118df..5cddf1bc09f97c2c61f907939bb54663d8eab3d4 100644
->> --- a/drivers/media/platform/qcom/camss/camss.c
->> +++ b/drivers/media/platform/qcom/camss/camss.c
->> @@ -3199,6 +3199,65 @@ static const struct camss_subdev_resources 
->> csiphy_res_8775p[] = {
->>       },
->>   };
->> +static const struct camss_subdev_resources tpg_res_8775p[] = {
->> +    /* TPG0 */
->> +    {
->> +        .regulators = {  },
->> +        .clock = { "camnoc_rt_axi", "cpas_ahb", "csiphy_rx" },
-> Why should TPG need camnoc_rt_axi clk?
-
-As tested ,TPG can`t streaming without camnoc_rt_axi clk.
-For Pixel path, some platform can stream without camnoc_rt_axi clk but 
-TPG not.
-
->> +        .clock_rate = {
->> +            { 400000000 },
->> +            { 0 },
->> +            { 400000000 },
->> +        },
->> +        .reg = { "tpg0" },
->> +        .interrupt = { "tpg0" },
->> +        .tpg = {
->> +            .lane_cnt = 4,
->> +            .vc_cnt = 1,
->> +            .formats = &tpg_formats_gen1,
->> +            .hw_ops = &tpg_ops_gen1
->> +        }
->> +    },
->> +
->> +    /* TPG1 */
->> +    {
->> +        .regulators = {  },
->> +        .clock = { "camnoc_rt_axi", "cpas_ahb", "csiphy_rx" },
->> +        .clock_rate = {
->> +            { 400000000 },
->> +            { 0 },
->> +            { 400000000 },
->> +        },
->> +        .reg = { "tpg1" },
->> +        .interrupt = { "tpg1" },
->> +        .tpg = {
->> +            .lane_cnt = 4,
->> +            .vc_cnt = 1,
->> +            .formats = &tpg_formats_gen1,
->> +            .hw_ops = &tpg_ops_gen1
->> +        }
->> +    },
->> +
->> +    /* TPG2 */
->> +    {
->> +        .regulators = {  },
->> +        .clock = { "camnoc_rt_axi", "cpas_ahb", "csiphy_rx" },
->> +        .clock_rate = {
->> +            { 400000000 },
->> +            { 0 },
->> +            { 400000000 },
->> +        },
->> +        .reg = { "tpg2" },
->> +        .interrupt = { "tpg2" }, + .tpg = { + .lane_cnt = 4, 
->> + .vc_cnt = 1, + .formats = &tpg_formats_gen1, + .hw_ops = 
->> &tpg_ops_gen1 + } + }, +}; + static const struct 
->> camss_subdev_resources csid_res_8775p[] = { /* CSID0 */ { @@ -3595,6 
->> +3654,62 @@ static const struct camss_subdev_resources 
->> csiphy_res_x1e80100[] = { }, }; +static const struct 
->> camss_subdev_resources tpg_res_x1e80100[] = { + /* TPG0 */ + 
->> { + .regulators = { }, + .clock = { "camnoc_rt_axi", "cpas_ahb", 
->> "csid_csiphy_rx" },
->> +        .clock_rate = {
->> +            { 400000000 },
->> +            { 0 },
->> +            { 400000000 },
->> +        },
->> +        .reg = { "csitpg0" },
->> +        .tpg = {
->> +            .lane_cnt = 4,
->> +            .vc_cnt = 1,
->> +            .formats = &tpg_formats_gen1,
->> +            .hw_ops = &tpg_ops_gen1
->> +        }
->> +    },
->> +
->> +    /* TPG1 */
->> +    {
->> +        .regulators = {  },
->> +        .clock = { "camnoc_rt_axi", "cpas_ahb", "csid_csiphy_rx" },
->> +        .clock_rate = {
->> +            { 400000000 },
->> +            { 0 },
->> +            { 400000000 },
->> +        },
->> +        .reg = { "csitpg1" },
->> +        .tpg = {
->> +            .lane_cnt = 4,
->> +            .vc_cnt = 1,
->> +            .formats = &tpg_formats_gen1,
->> +            .hw_ops = &tpg_ops_gen1
->> +        }
->> +    },
->> +
->> +    /* TPG2 */
->> +    {
->> +        .regulators = {  },
->> +        .clock = { "camnoc_rt_axi", "cpas_ahb", "csid_csiphy_rx" },
->> +        .clock_rate = {
->> +            { 400000000 },
->> +            { 0 },
->> +            { 400000000 },
->> +        },
->> +        .reg = { "csitpg2" },
->> +        .tpg = {
->> +            .lane_cnt = 4,
->> +            .vc_cnt = 1,
->> +            .formats = &tpg_formats_gen1,
->> +            .hw_ops = &tpg_ops_gen1
->> +        }
->> +    },
->> +};
->> +
->>   static const struct camss_subdev_resources csid_res_x1e80100[] = {
->>       /* CSID0 */
->>       {
->> @@ -4674,6 +4789,13 @@ static int camss_probe(struct platform_device 
->> *pdev)
->>       if (!camss->csiphy)
->>           return -ENOMEM;
->> +    if (camss->res->tpg_num > 0) {
->> +        camss->tpg = devm_kcalloc(dev, camss->res->tpg_num,
->> +                      sizeof(*camss->tpg), GFP_KERNEL);
->> +        if (!camss->tpg)
->> +            return -ENOMEM;
->> +    }
->> +
->>       camss->csid = devm_kcalloc(dev, camss->res->csid_num, 
->> sizeof(*camss->csid),
->>                      GFP_KERNEL);
->>       if (!camss->csid)
->> @@ -4863,11 +4985,13 @@ static const struct camss_resources 
->> qcs8300_resources = {
->>       .version = CAMSS_8300,
->>       .pd_name = "top", .csiphy_res = csiphy_res_8300, + .tpg_res = 
->> tpg_res_8775p, .csid_res = csid_res_8775p, .csid_wrapper_res = 
->> &csid_wrapper_res_sm8550, .vfe_res = vfe_res_8775p, .icc_res = 
->> icc_res_qcs8300, .csiphy_num = ARRAY_SIZE(csiphy_res_8300), + .tpg_num 
->> = ARRAY_SIZE(tpg_res_8775p), .csid_num = 
->> ARRAY_SIZE(csid_res_8775p), .vfe_num = 
->> ARRAY_SIZE(vfe_res_8775p), .icc_path_num = 
->> ARRAY_SIZE(icc_res_qcs8300), @@ -4877,11 +5001,13 @@ static const 
->> struct camss_resources sa8775p_resources = { .version = 
->> CAMSS_8775P, .pd_name = "top", .csiphy_res = csiphy_res_8775p, 
->> + .tpg_res = tpg_res_8775p, .csid_res = 
->> csid_res_8775p, .csid_wrapper_res = &csid_wrapper_res_sm8550, .vfe_res 
->> = vfe_res_8775p, .icc_res = icc_res_sa8775p, .csiphy_num = 
->> ARRAY_SIZE(csiphy_res_8775p), + .tpg_num = 
->> ARRAY_SIZE(tpg_res_8775p), .csid_num = 
->> ARRAY_SIZE(csid_res_8775p), .vfe_num = 
->> ARRAY_SIZE(vfe_res_8775p), .icc_path_num = 
->> ARRAY_SIZE(icc_res_sa8775p), @@ -4992,11 +5118,13 @@ static const 
->> struct camss_resources x1e80100_resources = { .pd_name = "top",
->>       .csiphy_res = csiphy_res_x1e80100,
->>       .csid_res = csid_res_x1e80100,
->> +    .tpg_res = tpg_res_x1e80100,
->>       .vfe_res = vfe_res_x1e80100,
->>       .csid_wrapper_res = &csid_wrapper_res_x1e80100,
->>       .icc_res = icc_res_x1e80100,
->>       .icc_path_num = ARRAY_SIZE(icc_res_x1e80100),
->>       .csiphy_num = ARRAY_SIZE(csiphy_res_x1e80100),
->> +    .tpg_num = ARRAY_SIZE(tpg_res_x1e80100),
->>       .csid_num = ARRAY_SIZE(csid_res_x1e80100),
->>       .vfe_num = ARRAY_SIZE(vfe_res_x1e80100),
->>   };
-> 
-> Thanks,
-> 
-> Vijay.
-> 
-
-Thanks,
-Wenmeng
+>>   	ret = dmaengine_terminate_sync(ctx->dma.chan);
+>>   	if (ret)
+>>   		dev_err(ctx->csi->dev, "Failed to stop DMA: %d\n", ret);
+>> @@ -838,57 +869,14 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>>   	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+>>   	struct ti_csi2rx_buffer *buf;
+>>   	struct ti_csi2rx_dma *dma = &ctx->dma;
+>> -	bool restart_dma = false;
+>>   	unsigned long flags = 0;
+>> -	int ret;
+>>   
+>>   	buf = container_of(vb, struct ti_csi2rx_buffer, vb.vb2_buf);
+>>   	buf->ctx = ctx;
+>>   
+>>   	spin_lock_irqsave(&dma->lock, flags);
+>> -	/*
+>> -	 * Usually the DMA callback takes care of queueing the pending buffers.
+>> -	 * But if DMA has stalled due to lack of buffers, restart it now.
+>> -	 */
+>> -	if (dma->state == TI_CSI2RX_DMA_IDLE) {
+>> -		/*
+>> -		 * Do not restart DMA with the lock held because
+>> -		 * ti_csi2rx_drain_dma() might block for completion.
+>> -		 * There won't be a race on queueing DMA anyway since the
+>> -		 * callback is not being fired.
+>> -		 */
+>> -		restart_dma = true;
+>> -		dma->state = TI_CSI2RX_DMA_ACTIVE;
+>> -	} else {
+>> -		list_add_tail(&buf->list, &dma->queue);
+>> -	}
+>> +	list_add_tail(&buf->list, &dma->queue);
+>>   	spin_unlock_irqrestore(&dma->lock, flags);
+>> -
+>> -	if (restart_dma) {
+>> -		/*
+>> -		 * Once frames start dropping, some data gets stuck in the DMA
+>> -		 * pipeline somewhere. So the first DMA transfer after frame
+>> -		 * drops gives a partial frame. This is obviously not useful to
+>> -		 * the application and will only confuse it. Issue a DMA
+>> -		 * transaction to drain that up.
+>> -		 */
+>> -		ret = ti_csi2rx_drain_dma(ctx);
+>> -		if (ret && ret != -ETIMEDOUT)
+>> -			dev_warn(ctx->csi->dev,
+>> -				 "Failed to drain DMA. Next frame might be bogus\n");
+>> -
+>> -		spin_lock_irqsave(&dma->lock, flags);
+>> -		ret = ti_csi2rx_start_dma(ctx, buf);
+>> -		if (ret) {
+>> -			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>> -			dma->state = TI_CSI2RX_DMA_IDLE;
+>> -			spin_unlock_irqrestore(&dma->lock, flags);
+>> -			dev_err(ctx->csi->dev, "Failed to start DMA: %d\n", ret);
+>> -		} else {
+>> -			list_add_tail(&buf->list, &dma->submitted);
+>> -			spin_unlock_irqrestore(&dma->lock, flags);
+>> -		}
+>> -	}
+>>   }
+>>   
+>>   static int ti_csi2rx_get_stream(struct ti_csi2rx_ctx *ctx)
 
