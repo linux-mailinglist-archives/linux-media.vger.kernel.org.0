@@ -1,291 +1,319 @@
-Return-Path: <linux-media+bounces-51148-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51149-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qLXrFSL8b2mUUgAAu9opvQ
-	(envelope-from <linux-media+bounces-51148-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 23:05:22 +0100
+	id 6JW9FD3xb2m+UQAAu9opvQ
+	(envelope-from <linux-media+bounces-51149-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 22:18:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED05B4CB3E
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 23:05:21 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B77B04C1FC
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 22:18:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A9D18824F97
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 20:38:11 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2AAB8A2EA63
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 20:54:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D5023B8D62;
-	Tue, 20 Jan 2026 20:36:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32C5535CBDA;
+	Tue, 20 Jan 2026 20:45:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azHCZRWM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WCBx0AAr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2333B5311
-	for <linux-media@vger.kernel.org>; Tue, 20 Jan 2026 20:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768941415; cv=none; b=XdhhJznkl08kpuslR8b/+GPul0EutthZXWpU2dTZZ/A+VE7bd2jHFj3KSNJow2x66BYyjabiej3H/BMPzFQWbrUfTWc9Hvi29nZIvhaYpvdbjwCf8i5JxwrpM0t3Dqe25ydEi67DYZOAlUkg9sDOmlkp5T7JPjIzKBiyhazY46U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768941415; c=relaxed/simple;
-	bh=EXTBXIRIC6sg9KddItGI515kgWbLiLzTEjP/PHBAUks=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NGKDjnETtJcBYX3VGPVBGRhaWq/xdJFtyzZDi7xnfNU4Wfx/2oXH8IQLz2xYHfXx6IhuZUxdyNugCtpPdWFlbMVn5m9DBcJnZ/ZDI5V7ZldQJdWohlvS11lij01muiApe8uD+6dQBbZbF4RUCfuFUzMsQ9QVsZUNSzOzv2tDAlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azHCZRWM; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBDC47CC70;
+	Tue, 20 Jan 2026 20:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768941907; cv=fail; b=i1PqxqXYQk6kYCpBY4tYRo7mHWP081QVGPAv7qXD25CsDCsPCN4L+zcP5VLlf0Pgh1KgdkvsIJ6lNW5qngKDGhUlm9KvpyHyDyQq+6qabCqxZQeEXC6iExeSk9DlnzSQOWP7MyJkFRAbAPNWdh80U0Xp7I0w7HuTVyNmiq8AFtQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768941907; c=relaxed/simple;
+	bh=Kc4liheu6Njnr241Fd1UiR4b26GUKb23sUtoQQGl79U=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=dXiS68FftBjIoNjqfe9MMkNJYYU8Nttu1BEy6mALz2avKzBG+vVen+E+4WTg+cL1SDsXBVfPN8A9UqaGEGLaVBEGu1jnntjtV79FtnUwhifi00Hh7ebXMg0BEPK50szQJ28+tQ/uMWBegjRNY4PCSHZ5TEL3hnyKI3W8mndlBJY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WCBx0AAr; arc=fail smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768941414; x=1800477414;
-  h=date:from:to:cc:subject:message-id;
-  bh=EXTBXIRIC6sg9KddItGI515kgWbLiLzTEjP/PHBAUks=;
-  b=azHCZRWMuHW5iqEvPmDdZ2609HAsmfHbtBmZOh/pV0/BlqJPyJHf0Vvp
-   YN1/KWyvP1pRmlVXWVN3usIQRiu1Q+Rr1cc0iAPS0mDfpQ2wv8/W0hNsl
-   M8pilhyGuoVgzs+ppnE2+sQENvIyvFEOnyzKXsUwYaSS632tHj3I64udm
-   juUDvoHEwdx9sxWbE0xemDsRx/fjo6qTR22dsL51Ju0Wv427lvoqUTO0y
-   AUwnMVXglWNj5BU4VR8YPn9uO+wTaNc4tR6u6YTAB56JqQphdr+bA8Oy5
-   gb9ogLcuaObyoB7Y53f+hGrwHezb4qV5T5f5wIBu/1Je28kpd+Iw7/I7t
-   w==;
-X-CSE-ConnectionGUID: hY9ScxV2S7qqkSwonZcQcQ==
-X-CSE-MsgGUID: odIBlr0VRSykyKuyRgsXKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70328337"
+  t=1768941903; x=1800477903;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=Kc4liheu6Njnr241Fd1UiR4b26GUKb23sUtoQQGl79U=;
+  b=WCBx0AArAntuCWcUagnaj99qL9tZCEA7+OYBrd2YqFC6pP1cUTuKfrst
+   IwTySxcERE93YzmdPETF47nRzzihE+gX4wdqLFlSfgWyuWHDrHnaXtyaM
+   06F2yE+Mv8+GWPJh6d37Scqa7ewp7nUTk53CVJ9iIBfD2eR89+YyEjgO4
+   pvSk6IYi2BoHasVtnbyhanmRtb/10Xe6ARgg+vv80cHoG0nfsBnt7k1D+
+   wqFvmy4+o1p1ljGk8AK+pcmoy2tqOxr9WaRfeX+USmWPrNuvJuYKOH7eU
+   u7QEQPAYXQf6WMCzdpyBx/Mj4VTp0qvV4M2I0/hSN1/s7FSlDjepZJZ/4
+   Q==;
+X-CSE-ConnectionGUID: 6A9S7AvpQamlGy2uv+j3SQ==
+X-CSE-MsgGUID: 2CQ2TFw4Qj+bHUKcbHhvdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="81538644"
 X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="70328337"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 12:36:53 -0800
-X-CSE-ConnectionGUID: z5HT/AKdS5+9D/f6KFiZ0Q==
-X-CSE-MsgGUID: xa6ZhmudThWZT6MAUVHt+w==
+   d="scan'208";a="81538644"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 12:44:59 -0800
+X-CSE-ConnectionGUID: 0vp2fGysToa5lme9xQsjWA==
+X-CSE-MsgGUID: dcHRdWRCQ0qYK1TOGvh8jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="205359378"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Jan 2026 12:36:51 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1viIT2-00000000PVF-0uvy;
-	Tue, 20 Jan 2026 20:36:48 +0000
-Date: Wed, 21 Jan 2026 04:36:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 111/113]
- drivers/media/pci/intel/ipu6/ipu6-isys.c:1181:3: error: cannot jump from this
- goto statement to its label
-Message-ID: <202601210431.Je4aJ8yP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+   d="scan'208";a="211239871"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 12:44:59 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 20 Jan 2026 12:44:58 -0800
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Tue, 20 Jan 2026 12:44:58 -0800
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.30) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 20 Jan 2026 12:44:57 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ORt1494PpdUuo/xUv9pWnGhkLBuBDOIFml+Xsoaqbt6OW6gi05fJWjo/6GXBpfCMrL8rncCBq9xGCJZe9mRIuxQvp7BIDuGsPbp8M/lqJN5ZxIhz9g8sEUvNKXiW0KfZLE/3bH41VobL721GXuoTa73WwRdn0ncnzVnrEd4RxyzKYVY38zZSEyc1tOPKukU2ntlMKfzA1sZVDQjt1aREVeVkfr1f/oiGJ+4xZKeYcU4aQIzk36fa0co5c2qP9FVxNbab8nyBrB+N4y3eMNuFbJ9GWKJuizyVtuPBwLWVYqqFHJl4viF5FEkiHpAdGWh0I4kEf34C2995JFmMOUD1JQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4b1hKylSeqVM3xSgKLuexEMCxLkw5B+mxP/e+Y/PZ4E=;
+ b=CmQTLENI0TyqdBzptvAjhumqOZjpk+XTeJVvm+DVMAmdKLgv+WxVWlupPF2+LNRoFrHNkEhlU4E8KkKoXZM7jR6/NmiQ7UuvGD7r55tuYBDgaJzvg7fCxJoPwNZWzN44JzFobnny4X6FVlkUS/N82Hxs1tXii/GkNK3KDNqrAtOS6SuDWcBb2nAooA+dR5GRBl9RhpzTz4YXMVOq9JEUuks1Q3F5bZjMGotKkAH2mI5f+WPc7tbQpsPovuzbOX01Kzow2mapgT9PPYk+LB79I+cJHhoULGtuUfcQxoXxh1npnePzPtHVAok2oXeE+UGcdzA/3hBRPEurk+Koy6kfLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH7PR11MB7662.namprd11.prod.outlook.com (2603:10b6:510:27d::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Tue, 20 Jan
+ 2026 20:44:54 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9456.015; Tue, 20 Jan 2026
+ 20:44:54 +0000
+Date: Tue, 20 Jan 2026 12:44:50 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Leon Romanovsky <leon@kernel.org>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+	<christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, "David
+ Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann
+	<kraxel@redhat.com>, Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Lucas De
+ Marchi" <lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+	<thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, "Joerg
+ Roedel" <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy
+	<robin.murphy@arm.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Alex
+ Williamson" <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>, "Vivek
+ Kasireddy" <vivek.kasireddy@intel.com>, <linux-media@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+	<linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+	<virtualization@lists.linux.dev>, <intel-xe@lists.freedesktop.org>,
+	<linux-rdma@vger.kernel.org>, <iommu@lists.linux.dev>, <kvm@vger.kernel.org>
+Subject: Re: [PATCH v3 6/7] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <aW/pQmOO8komCgOK@lstrano-desk.jf.intel.com>
+References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
+ <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+X-ClientProxiedBy: MW4PR03CA0043.namprd03.prod.outlook.com
+ (2603:10b6:303:8e::18) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.46 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH7PR11MB7662:EE_
+X-MS-Office365-Filtering-Correlation-Id: f359e98e-6b2f-4798-3a57-08de5864c3fe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NTV3d3FUMzNyOUJtNWUvYUdyUlNlRzVNTDk2a1o2S1FzeXg1VTJOR0FOYXNR?=
+ =?utf-8?B?aUp3MFBvcEo5UWc1SGRwK0RrbG1rMVA4M3dtd3JtbVZEVTkzSk5DL2JYSm5U?=
+ =?utf-8?B?dVUrY0dHdkhObXRaRXRaS2ZOSHpPL2twMkl1SzBZaGlBYnQwMmdMd1ZBMEc3?=
+ =?utf-8?B?NWkrMWFlQ2hwaVpZenc0QU9zRkVZMXNMWml5dlhJcGRCM0ZOSnBDd0dMYTlo?=
+ =?utf-8?B?THlNZDJaUmVQTktYWG42Q2g1OFIvSWZwWk8rc2VJWDFZRXFzK2FydDBaWXNx?=
+ =?utf-8?B?M3A3Y0pIZGs2MUJuODdITVFyZ2dKSFJGd0J1S3IvZi9OL0prQnBUY0FLYWYw?=
+ =?utf-8?B?V1owVlM4eHZSZzQycTFKWmlaaVBDemtkS2lQN2wxdEptSEZBRythcFNTSCt4?=
+ =?utf-8?B?NzVDVTZRTUZWNEZMN1p4d3h6MWsxTU8zNzZmYzcxQjZrV05JMEdYczhrRDRJ?=
+ =?utf-8?B?ZWptVGNUTWxBZndaZ2FQOFNiVkJPY2RjY0k5T21mWm4wQ2RmMnhKbnRpN0dC?=
+ =?utf-8?B?R1pLYXFGOXh0dy9oRE80QnZzTG5vZXlreUZUbFlyQWhRZ1phUFdOclhsR2dr?=
+ =?utf-8?B?VEhsTnU0R2NsSzZZNUpsVGs1SWdLZ3ZQaUZya1FablZONUVWaS9KandRU3Vm?=
+ =?utf-8?B?VkQxS1ZXMCtwaGloZmoyaDVmRnVnS2YwTzFkYUFWZGNrMklrOWltcExLRlZI?=
+ =?utf-8?B?TVB0RURzVk1HZUZUTFc0NTFmTUhydVpKN0V3NC9mYW9uVTFXRTdTQ1VWY1Na?=
+ =?utf-8?B?ZDBab0wxWHJzVFd4aFNaME15ZFV2Vll4MHIrU2xkSk95cFovWjIyUnlGeGda?=
+ =?utf-8?B?OEhOd3RwaW5HeTdhOEpVNUs0VGlhNkd3cWxoQ0lUUEptYTF5TGRlWGhBV3kx?=
+ =?utf-8?B?REc1L0pHOFBmZjAxZUxFeUgyRHJiQWNXb0ZMRVloZmR5RGF5NG8xNURPWC91?=
+ =?utf-8?B?aUlIK0wzbkNCVC9mcGp6eElYRlVITmhocUVpelJNNnV1d3lTMnJ3RVlvMTYz?=
+ =?utf-8?B?Q2pJSlpZaEZhWVdieGllUHNkSjA1R3Jiak96bFZmYnNrdklrTVEyMTFlMmhX?=
+ =?utf-8?B?dWppVVRkclBrYjQ3VTE0eVNFN252dlA4QjA5WCt1Z1JiaENjR2JhZUQzNDZF?=
+ =?utf-8?B?ZFhhbTZpS1hwY211OGltazErMnhhbEdIMlR3em5vNDlaRW9QWnZLZnRidk5Y?=
+ =?utf-8?B?cXZmbUNRTC9vWXRUczFuUk1TTW1Tb3BNbUdTQzdFNW1aWW9FaW9raDRxeVNz?=
+ =?utf-8?B?a3I4cDE0bU5NcGVaOG94cXlwYUdnZ0V0ejlSNXJyNjYvRkRYVDQzcGZoR3Fr?=
+ =?utf-8?B?bzYvYUhncEd0a241MTJud252RWpIRnMra2JiYWtUM3o0N3FzeUhlejVuNUlz?=
+ =?utf-8?B?UUF1aTZXd05wS1BTWnR4WEphL3IyUk1sM2F6akRvcmhmSUcrd2YySE5jZU9a?=
+ =?utf-8?B?V0V6Tlg2T0N3S01XNkdLNUpvQm9TblFReHppREpDN1ZvSWR4Tkp6cGt4U01V?=
+ =?utf-8?B?TVdVYnlLdVlVUE55VU81ejJzaWVNY0dMeTZYL25jUFBiNnZoYUo4cmIrVHNY?=
+ =?utf-8?B?OG81NjE0SG1iTll2ekRvSEZXOGZ0VmVVdGlEczdUdzdrbFlZaU1iTG9IY1BU?=
+ =?utf-8?B?ZDE2N2YyYXR5SEI4V01qSWRZV1dRQnZkZnlpK0Vrc1FlaWZjZU0vcFpiSGtl?=
+ =?utf-8?B?dVI0Y2wycE1ldWYza042SzdOMFZQa2l5S1IvNXFIV0Nob0RIWDlYTWNNRXBR?=
+ =?utf-8?B?MkNQVW4wcW9pOENtaVNjcnhXWTZrY2ZJZmoxK3o4U29hY3RJUHFmMUpNU1cz?=
+ =?utf-8?B?ZUVVYTRhRngxTHMzSVoxU1pjKzZHSWYxTkZTK2hVNEJLVjRYYVphcFUzbSsw?=
+ =?utf-8?B?TmVWREhuM0ZwTzBrMFg4WWRUZU9hTjFyYWxsTWNUd1JFSzYvbk5GYVkwZ3Nw?=
+ =?utf-8?B?YmdIK09hanZFYnlVNXpPOUtCVjRuWXVoa256TEQzSUxxcjFKR2Z4dTdyWFFx?=
+ =?utf-8?B?SDUwKzhyS2tHT1pqY0hJNFRPZ3VHUFRkUVloaTZnbnB1VndUZjRNMWFGd1ZY?=
+ =?utf-8?B?SHhxRG1xZWIyMmdYczFRWjdVTzA5V3NsL0dBMVN0bTZOVitnN1d2WGFmdGUw?=
+ =?utf-8?Q?/wmg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T2ZORjZHbnZ4ODZub1pmZ3lUWk1aQUo2VmhxZGdaMGlKRXlyZnR5MHZMN3gx?=
+ =?utf-8?B?QW9FZk9TNUM5am9PM3dnRUI0ZUg2YkFBcjNNTXBYeUd3WUFPV1F2c0U4QzlE?=
+ =?utf-8?B?U2VKV1dLUEh4UlZJeHhHOGlyRXlINDlrMzUzLytEaGc5SlRQN000b1hjR2l6?=
+ =?utf-8?B?RktQNEEvc29EUC96QVdrVWx0Q3hLYVFHSzhSM3Y1OEN4M3FyRDdKWlovb0hJ?=
+ =?utf-8?B?MjhyU1FTL0tCZHdYL21ZRUZ4bk4rNXZEMGwwMUh0eE9KV1ZEbkVsRnNuNEdu?=
+ =?utf-8?B?RUlKTUN2M3AxUng3c0dtME4rbmIrREkyUjVKV21WYWJTbjh4YSsxMkM2UDBQ?=
+ =?utf-8?B?WmV0dzNGWnlVOThVREhPbTFOMlBNMWt0VGN0bHMyd1doWTdoS2FNbmYvalhi?=
+ =?utf-8?B?UTRzek1GTHpMa20vK3NRSzhCaExUNkZiSjZ2SG1NaldwaGdIT2ZMWWhpNk1F?=
+ =?utf-8?B?akVRUmFxOWZNeW90Q2x4V2lHV2I1aGdKcHJKT3F0ajZWdE5CYU0zU2VXcTdH?=
+ =?utf-8?B?WmQwNEt2YWtmK0MrZjJNUVBRMWM0LzRSQVFQZWkwbmVKaUhlTmxzMnUzTXZE?=
+ =?utf-8?B?dVhsdHk3MnlycmpkWXYzSHVmdmJhRER1SzBFRjB6aDJSMHFmRFo0bmNKUWRm?=
+ =?utf-8?B?NWV0YjBtQ3FhUjUyYXlvMVZqVGMwc216OHk1bDhwUEx3Q1RzQkp4SXR4azBQ?=
+ =?utf-8?B?bXd5TnBwNzlZYkRpYURJUXlKY2ZENzVwN1BXYkp5RjBNWXZPSWJ4Nm42ays5?=
+ =?utf-8?B?a1BlcEQ3R2x4eWM2SDViZlpBMDNDZXFWWkRjZ0RZb1pKOFJaMEVRaGFpNDgr?=
+ =?utf-8?B?aWQyeVNVQzBLMmRJb2xOZ0I1VEREWUhGVjA5VWZtVGZuRkd3Szh1bnBLV05N?=
+ =?utf-8?B?YUx4ODVRSVBNOW9iZEtQSHFiUVFBOGVlYW9pRisyWjllMkhUUllOU0szaGNO?=
+ =?utf-8?B?NUFqYm1TY0t2ZGpna01Ea0x5SGdIaWx4Rlk2UmRXb1RrQW1WZVg5alh1RGw3?=
+ =?utf-8?B?b291bEt5cnIycFZZcGdPOFJseVQvcDh4WWtwd1RrLzcyeGE1MGpGcWZzZDc0?=
+ =?utf-8?B?ekN1OFQ5ZmF6S2E0RE5EN00vdEJRTVdHNW5RVzhtMUpac0FRWERiWWtGTGJF?=
+ =?utf-8?B?K1lYNVR4cVNtdkh2NVN0NFhMNGtkV2JYQmxKU1VtRmlLTGVSYkQwUTBvUDh3?=
+ =?utf-8?B?VDNPUEZrcWFocUloVERlMnlUeC96MXpJa1lNRDBSLzlSNE5xaGZEVlVUd3o1?=
+ =?utf-8?B?bThDKzhPdWI1WlBNZm5TSW8wWkp6SXBldEFtbldqUGlZTVhJTUQxb3JLSE5Q?=
+ =?utf-8?B?NDh2cGp5Z3ZIb3YrSmVmSDZpM3BVbUJyMTRubmRUNDRTMVBlZGpyM2RuTXFP?=
+ =?utf-8?B?eEl3L3p5YmhIdnNrM3ZpeEdmdUgyUCtGc3Y4QUFVdE5CQzF5ZTRoL1VEUHhJ?=
+ =?utf-8?B?WGUyenU3M2pZUlRkT3g3czJQRmp4TDFPY3JMOGFqRElKWVVTWW1Lb1ZKa2kw?=
+ =?utf-8?B?eVdFcFRFbUV4Y24yM1l6WFQ5a2V2TDBSaU1QcmFIWS9TVTArcmRLdTJmcFBm?=
+ =?utf-8?B?dmZQVzQ5ZzlNZGpBd0dMNCs1aUdKRXVBNWczZW13aEdMYTdFdm1BMDhKUU9p?=
+ =?utf-8?B?UzJFSU9DRTdXbXZZTEx5amltRWp1YlpKZktleW1USW1ZbXY0VkYwREJLbmdm?=
+ =?utf-8?B?amRyeEVpd0hJS0k5NWxuYXVPTmtYamhybytYZ05RSHVGeXo4U01JUzhlLzFW?=
+ =?utf-8?B?TFNsRk5TYktGN1lBUU82bGVmazVGVjBaS0xqUFVndkwrdnJZSGZ2aXZiYWcy?=
+ =?utf-8?B?cFBDSC9NTEZvMmE0Wk1wSGRpOFYrbnBSWm9CQy9vRW8xSmZ6TFBqRWp6WEFO?=
+ =?utf-8?B?dW5tRi93UDExNU9hY0xkRVJQZmZjcTBCbUYveTdSMmJxRVJzWlhJbVNZTGpX?=
+ =?utf-8?B?SWlNdUZFaEYyVkpOOWdnVTN6d1BDeWVSV3NzcnlOZFpOd2JIbGpvSG9jRFRv?=
+ =?utf-8?B?U09ZY3FPUGVZQkFqdE5TK0gyZlVOTzJ3dHRmSUxPY09rdFdZTndsa3E4dHpX?=
+ =?utf-8?B?YitSeEpsaGcyR0h3ck82ditVVTRIdUpib1pJWm4yNkVULzh6STVNZHZWRFB2?=
+ =?utf-8?B?MGJOWk5zUndJKzVBb2ZoUWhScVZKbUVKVzlqOW80aVFoY1lrK21hMjUzdVVw?=
+ =?utf-8?B?dnYwSG1pVUpYUThhcHl2SWd5VUlqRlNoQjBhQlRXY3FxdTB3U2RadTZxNW5U?=
+ =?utf-8?B?dTlYVzBndSt4OWtiTFdwL3JYOHpHUW9tV1JvTVhnRWUrUnJSYjQ0c24xK1VC?=
+ =?utf-8?B?NWNUOFdWMkpOcnd1azR0QVJaYlVWeWFxWVBKZW96SDh3R1IrNHJmY245TGI4?=
+ =?utf-8?Q?5BaeixfDs8DZ99rI=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f359e98e-6b2f-4798-3a57-08de5864c3fe
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 20:44:54.2548
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X+BexZPCozMroN+pvZSbETMG0njgTfqm5BNxDds78vRf92t+PrG9Fzy1FgeGvFkR5xI03ptIx9Clc4K0n5YGtA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7662
+X-OriginatorOrg: intel.com
+X-Spamd-Result: default: False [0.04 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51148-lists,linux-media=lfdr.de];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51149-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
 	DKIM_TRACE(0.00)[intel.com:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,intel.com:dkim,lstrano-desk.jf.intel.com:mid];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,01.org:url,xs4all.nl:email]
-X-Rspamd-Queue-Id: ED05B4CB3E
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matthew.brost@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	RCVD_COUNT_SEVEN(0.00)[10]
+X-Rspamd-Queue-Id: B77B04C1FC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   55ba38aaeb6e07cbbbe550578fa4737b05de1d00
-commit: afa135d9336f38ce80db9a03551b15b9522c3f06 [111/113] media: ipu6: Serialise access to stream pointers by isys stream_lock
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260121/202601210431.Je4aJ8yP-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210431.Je4aJ8yP-lkp@intel.com/reproduce)
+On Tue, Jan 20, 2026 at 04:07:06PM +0200, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> dma-buf invalidation is performed asynchronously by hardware, so VFIO must
+> wait until all affected objects have been fully invalidated.
+> 
+> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/vfio/pci/vfio_pci_dmabuf.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> index d4d0f7d08c53..33bc6a1909dd 100644
+> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> @@ -321,6 +321,9 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+>  			dma_resv_lock(priv->dmabuf->resv, NULL);
+>  			priv->revoked = revoked;
+>  			dma_buf_move_notify(priv->dmabuf);
+> +			dma_resv_wait_timeout(priv->dmabuf->resv,
+> +					      DMA_RESV_USAGE_KERNEL, false,
+> +					      MAX_SCHEDULE_TIMEOUT);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601210431.Je4aJ8yP-lkp@intel.com/
+Should we explicitly call out in the dma_buf_move_notify() /
+invalidate_mappings kernel-doc that KERNEL slots are the mechanism
+for communicating asynchronous dma_buf_move_notify /
+invalidate_mappings events via fences?
 
-All errors (new ones prefixed by >>):
+Yes, this is probably implied, but it wouldn’t hurt to state this
+explicitly as part of the cross-driver contract.
 
->> drivers/media/pci/intel/ipu6/ipu6-isys.c:1181:3: error: cannot jump from this goto statement to its label
-    1181 |                 goto leave;
-         |                 ^
-   drivers/media/pci/intel/ipu6/ipu6-isys.c:1184:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1184 |         guard(spinlock_irqsave)(&isys->streams_lock);
-         |         ^
-   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
-     414 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:96:1: note: expanded from here
-      96 | __UNIQUE_ID_guard_1414
-         | ^
-   1 error generated.
+Here is what we have now:
 
+ 	 * - Dynamic importers should set fences for any access that they can't
+	 *   disable immediately from their &dma_buf_attach_ops.invalidate_mappings
+ 	 *   callback.
 
-vim +1181 drivers/media/pci/intel/ipu6/ipu6-isys.c
+Matt
 
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1143  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1144  static int isys_isr_one(struct ipu6_bus_device *adev)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1145  {
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1146  	struct ipu6_isys *isys = ipu6_bus_get_drvdata(adev);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1147  	struct ipu6_fw_isys_resp_info_abi *resp;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1148  	struct ipu6_isys_stream *stream;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1149  	struct ipu6_isys_csi2 *csi2 = NULL;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1150  	u32 index;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1151  	u64 ts;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1152  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1153  	if (!isys->fwcom)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1154  		return 1;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1155  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1156  	resp = ipu6_fw_isys_get_resp(isys->fwcom, IPU6_BASE_MSG_RECV_QUEUES);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1157  	if (!resp)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1158  		return 1;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1159  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1160  	ts = (u64)resp->timestamp[1] << 32 | resp->timestamp[0];
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1161  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1162  	index = resp_type_to_index(resp->type);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1163  	dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1164  		"FW resp %02d %s, stream %u, ts 0x%16.16llx, pin %d\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1165  		resp->type, fw_msg[index].msg, resp->stream_handle,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1166  		fw_msg[index].valid_ts ? ts : 0, resp->pin_id);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1167  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1168  	if (resp->error_info.error == IPU6_FW_ISYS_ERROR_STREAM_IN_SUSPENSION)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1169  		/* Suspension is kind of special case: not enough buffers */
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1170  		dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1171  			"FW error resp SUSPENSION, details %d\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1172  			resp->error_info.error_details);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1173  	else if (resp->error_info.error)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1174  		dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1175  			"FW error resp error %d, details %d\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1176  			resp->error_info.error, resp->error_info.error_details);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1177  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1178  	if (resp->stream_handle >= IPU6_ISYS_MAX_STREAMS) {
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1179  		dev_err(&adev->auxdev.dev, "bad stream handle %u\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1180  			resp->stream_handle);
-f50c4ca0a82003b Bingbu Cao        2024-01-31 @1181  		goto leave;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1182  	}
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1183  
-afa135d9336f38c Sakari Ailus      2025-12-18  1184  	guard(spinlock_irqsave)(&isys->streams_lock);
-afa135d9336f38c Sakari Ailus      2025-12-18  1185  
-45316ce8af169db Sakari Ailus      2025-12-01  1186  	stream = resp->stream_handle < IPU6_ISYS_MAX_STREAMS ?
-45316ce8af169db Sakari Ailus      2025-12-01  1187  		isys->streams_by_handle[resp->stream_handle] : NULL;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1188  	if (!stream) {
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1189  		dev_err(&adev->auxdev.dev, "stream of stream_handle %u is unused\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1190  			resp->stream_handle);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1191  		goto leave;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1192  	}
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1193  	stream->error = resp->error_info.error;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1194  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1195  	csi2 = ipu6_isys_subdev_to_csi2(stream->asd);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1196  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1197  	switch (resp->type) {
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1198  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_OPEN_DONE:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1199  		complete(&stream->stream_open_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1200  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1201  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CLOSE_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1202  		complete(&stream->stream_close_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1203  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1204  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1205  		complete(&stream->stream_start_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1206  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1207  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_AND_CAPTURE_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1208  		complete(&stream->stream_start_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1209  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1210  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_STOP_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1211  		complete(&stream->stream_stop_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1212  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1213  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_FLUSH_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1214  		complete(&stream->stream_stop_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1215  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1216  	case IPU6_FW_ISYS_RESP_TYPE_PIN_DATA_READY:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1217  		/*
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1218  		 * firmware only release the capture msg until software
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1219  		 * get pin_data_ready event
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1220  		 */
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1221  		ipu6_put_fw_msg_buf(ipu6_bus_get_drvdata(adev), resp->buf_id);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1222  		if (resp->pin_id < IPU6_ISYS_OUTPUT_PINS &&
-c139c1ac06bea6e Stanislaw Gruszka 2025-05-02  1223  		    stream->output_pins_queue[resp->pin_id])
-c139c1ac06bea6e Stanislaw Gruszka 2025-05-02  1224  			ipu6_isys_queue_buf_ready(stream, resp);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1225  		else
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1226  			dev_warn(&adev->auxdev.dev,
-c139c1ac06bea6e Stanislaw Gruszka 2025-05-02  1227  				 "%d:No queue for pin id %d\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1228  				 resp->stream_handle, resp->pin_id);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1229  		if (csi2)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1230  			ipu6_isys_csi2_error(csi2);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1231  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1232  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1233  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1234  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1235  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_AND_CAPTURE_DONE:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1236  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_DONE:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1237  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1238  	case IPU6_FW_ISYS_RESP_TYPE_FRAME_SOF:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1239  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1240  		ipu6_isys_csi2_sof_event_by_stream(stream);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1241  		stream->seq[stream->seq_index].sequence =
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1242  			atomic_read(&stream->sequence) - 1;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1243  		stream->seq[stream->seq_index].timestamp = ts;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1244  		dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1245  			"sof: handle %d: (index %u), timestamp 0x%16.16llx\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1246  			resp->stream_handle,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1247  			stream->seq[stream->seq_index].sequence, ts);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1248  		stream->seq_index = (stream->seq_index + 1)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1249  			% IPU6_ISYS_MAX_PARALLEL_SOF;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1250  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1251  	case IPU6_FW_ISYS_RESP_TYPE_FRAME_EOF:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1252  		ipu6_isys_csi2_eof_event_by_stream(stream);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1253  		dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1254  			"eof: handle %d: (index %u), timestamp 0x%16.16llx\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1255  			resp->stream_handle,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1256  			stream->seq[stream->seq_index].sequence, ts);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1257  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1258  	case IPU6_FW_ISYS_RESP_TYPE_STATS_DATA_READY:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1259  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1260  	default:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1261  		dev_err(&adev->auxdev.dev, "%d:unknown response type %u\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1262  			resp->stream_handle, resp->type);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1263  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1264  	}
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1265  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1266  leave:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1267  	ipu6_fw_isys_put_resp(isys->fwcom, IPU6_BASE_MSG_RECV_QUEUES);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1268  	return 0;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1269  }
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1270  
-
-:::::: The code at line 1181 was first introduced by commit
-:::::: f50c4ca0a82003b8a542c3332fd292cf1bc355a2 media: intel/ipu6: add the main input system driver
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>  			dma_resv_unlock(priv->dmabuf->resv);
+>  		}
+>  		fput(priv->dmabuf->file);
+> @@ -342,6 +345,8 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
+>  		priv->vdev = NULL;
+>  		priv->revoked = true;
+>  		dma_buf_move_notify(priv->dmabuf);
+> +		dma_resv_wait_timeout(priv->dmabuf->resv, DMA_RESV_USAGE_KERNEL,
+> +				      false, MAX_SCHEDULE_TIMEOUT);
+>  		dma_resv_unlock(priv->dmabuf->resv);
+>  		vfio_device_put_registration(&vdev->vdev);
+>  		fput(priv->dmabuf->file);
+> 
+> -- 
+> 2.52.0
+> 
 
