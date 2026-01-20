@@ -1,183 +1,199 @@
-Return-Path: <linux-media+bounces-51108-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51109-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21D8D3C575
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 11:36:44 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B04D3C4BA
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 11:12:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AD8AB7036E8
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 09:47:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B476970495E
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 09:48:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FCF4389E1D;
-	Tue, 20 Jan 2026 09:44:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93D1C3D6477;
+	Tue, 20 Jan 2026 09:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dv7muocU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLp9ReyQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5308A3BF2E9
-	for <linux-media@vger.kernel.org>; Tue, 20 Jan 2026 09:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8DA1DF736;
+	Tue, 20 Jan 2026 09:46:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768902294; cv=none; b=K/iUu60Y9uu3FHtaqazNbCj9v17qinEcBpyjloZaPxUN72Fa97UmWOXCbfGpKKeBoU31+5An3U80COYS+tGkmDSG1HYyWuADZ0d7mTCbKMjwQ8c2sVPGzhFmz4Rnk5nbnv44MlonwO4pDv5Prn7+HlYP3ZYeq53STrPL7JwgbXQ=
+	t=1768902365; cv=none; b=Os9wYKzHfRYTuiE1aP5Yp3GgBe6gRfJw7U8qeP1p48DvEfSXNlCED4SAjWMUhJhaqT6mgh9yO32lyZE1yssJRqgOymqqYvevaMPMB+xlcgqd84I6AdjO4sQW2P0RPHIFS7jA/0gRuOQHkgHMTIiAjeD96tzs2WFdUIwkcOrHUgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768902294; c=relaxed/simple;
-	bh=gbEALkGK6dxaWqdURo48K+3T1+2noP1607QDX/LyaC0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
-	 In-Reply-To:Content-Type; b=B4JdV7uBMVWi87Q0OL+QXYAAHmagifdtPubGKLLVsXZaKy+Ipg3+DmDckxlL6DbqnpVnfN3He7CFyeTuZ8Y/ufR6s6BmDvLQBi01wP2bMf3lMYyhvEsDIJ9vWzEPchpJ0KjIHLy7cY/LMjm5n3djVHobcM0wdeF6LnCmvEkYFoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dv7muocU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B349C16AAE;
-	Tue, 20 Jan 2026 09:44:53 +0000 (UTC)
+	s=arc-20240116; t=1768902365; c=relaxed/simple;
+	bh=xwqfvmhHmuW9plUqJwJFOo0A9JPdncx7ymGaNl95+yo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nroogO/3HRp/VoyM6bgFdytpivsnGKdcxq8MANBBr4bGVUHuRZ37UzyVehhMOZoM4LNItHR12e3l1RuLiEaS2YoZtL9CPx3R1dJMyu4peRxjjrRg7u80fHjtUKai21lnUpnXJ2u9jQ/uJkFSVDoh6d+FCygKdEny8/0hV7DiDG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLp9ReyQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B94BC16AAE;
+	Tue, 20 Jan 2026 09:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768902294;
-	bh=gbEALkGK6dxaWqdURo48K+3T1+2noP1607QDX/LyaC0=;
-	h=Date:From:Subject:To:References:In-Reply-To:From;
-	b=Dv7muocU4PAK7jfFTxTNZQqvd53AxR/hMLSpERj6iclCPNIei8/F/6RkTTcwc0K/V
-	 oteb5WScxv+zDoLPx8TH7mpghMx3H3yY2LqxvNqdxhzt1mRxjALf5wHlZSzExQTS0g
-	 z9Y6zd1I/aExCmxP3q03R1OiGVf1jyZ/++XS+v2VyfcwyY6D0u4nTqiKbrnFELyD9s
-	 32t9acivtOIW+JDhqqs0c9KIpOBxjuAD0hv/4PAgBltO38rERVjgDC/aGIR1o/dokL
-	 VJUrbEqF/5HDCG32R+aQLRPCZb5/HpFdstaFOfQbyKGP9UDls9cmpW3zE12DdmNcry
-	 kaDBjKGkhjDGw==
-Message-ID: <e467278f-4b2a-46dc-9397-08088224a50f@kernel.org>
-Date: Tue, 20 Jan 2026 10:44:51 +0100
+	s=k20201202; t=1768902365;
+	bh=xwqfvmhHmuW9plUqJwJFOo0A9JPdncx7ymGaNl95+yo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dLp9ReyQRpZBQ1HsP4UfwVvklS8InFrF5hZROHOsUQf2ANERezVMKk+6yLg6Ao4g3
+	 bLcG3imT0sMt+H8fCaljcj6H6q3C49oKM5UFuq9mCGfKKoc58e7IfUyEjHp9yyDWly
+	 YIKTxAK65ASJJqdGUsUzRrjLdUxxrZkSb5a45Yin99EzC3KcC/KU54U44uAJoCTHCk
+	 /GXbSQK/AWWMtHtI6tfkHgvO0RI0YfUByVjh5FRuPknr3l7QRpVrbBG7WUGy8+TysZ
+	 sOw9jD1XrRQTSSUqXvrM/yMlG1kzWM8fP+8vKPFCkbcyIu4rYCttJvTje8CuUxTa6t
+	 RL0gf/JISbozw==
+Date: Tue, 20 Jan 2026 11:45:59 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] dma-buf: Document revoke semantics
+Message-ID: <20260120094559.GR13201@unreal>
+References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
+ <20260118-dmabuf-revoke-v2-2-a03bb27c0875@nvidia.com>
+ <20260119164421.GF961572@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [GIT PULL FOR 6.20] Media codec 2026-01-18
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media@vger.kernel.org
-References: <78bfd01051ef84ef7e6ccbd0a72301a939869476.camel@collabora.com>
-Content-Language: en-US, nl
-In-Reply-To: <78bfd01051ef84ef7e6ccbd0a72301a939869476.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260119164421.GF961572@ziepe.ca>
 
-Hi Nicolas,
+On Mon, Jan 19, 2026 at 12:44:21PM -0400, Jason Gunthorpe wrote:
+> On Sun, Jan 18, 2026 at 02:08:46PM +0200, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Document a DMA-buf revoke mechanism that allows an exporter to explicitly
+> > invalidate ("kill") a shared buffer after it has been handed out to
+> > importers. Once revoked, all further CPU and device access is blocked, and
+> > importers consistently observe failure.
+> > 
+> > This requires both importers and exporters to honor the revoke contract.
+> > 
+> > For importers, this means implementing .invalidate_mappings() and calling
+> > dma_buf_pin() after the DMA‑buf is attached to verify the exporter’s support
+> > for revocation.
+> > 
+> > For exporters, this means implementing the .pin() callback, which checks
+> > the DMA‑buf attachment for a valid revoke implementation.
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  include/linux/dma-buf.h | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> > 
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 1b397635c793..e0bc0b7119f5 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -579,6 +579,25 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
+> >  	return !!dmabuf->ops->pin;
+> >  }
+> >  
+> > +/**
+> > + * dma_buf_attachment_is_revoke - check if a DMA-buf importer implements
+> > + * revoke semantics.
+> > + * @attach: the DMA-buf attachment to check
+> > + *
+> > + * Returns true if DMA-buf importer honors revoke semantics, which is
+> > + * negotiated with the exporter, by making sure that importer implements
+> > + * .invalidate_mappings() callback and calls to dma_buf_pin() after
+> > + * DMA-buf attach.
+> > + */
+> 
+> I think this clarification should also have comment to
+> dma_buf_move_notify(). Maybe like this:
+> 
+> @@ -1324,7 +1324,18 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_sgt_unmap_attachment_unlocked, "DMA_BUF");
+>   * @dmabuf:    [in]    buffer which is moving
+>   *
+>   * Informs all attachments that they need to destroy and recreate all their
+> - * mappings.
+> + * mappings. If the attachment is dynamic then the dynamic importer is expected
+> + * to invalidate any caches it has of the mapping result and perform a new
+> + * mapping request before allowing HW to do any further DMA.
+> + *
+> + * If the attachment is pinned then this informs the pinned importer that
+> + * the underlying mapping is no longer available. Pinned importers may take
+> + * this is as a permanent revocation so exporters should not trigger it
+> + * lightly.
+> + *
+> + * For legacy pinned importers that cannot support invalidation this is a NOP.
+> + * Drivers can call dma_buf_attachment_is_revoke() to determine if the
+> + * importer supports this.
+>   */
+> 
+> Also it would be nice to document what Christian pointed out regarding
+> fences after move_notify.
 
-I'm getting stackframe warnings when I run it through CI:
+I added this comment too:
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 6dd70f7b992d..478127dc63e9 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1253,6 +1253,10 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment_unlocked, "DMA_BUF");
+  * For legacy pinned importers that cannot support invalidation this is a NOP.
+  * Drivers can call dma_buf_attach_revocable() to determine if the importer
+  * supports this.
++ *
++ * NOTE: The invalidation triggers asynchronous HW operation and the callers
++ * need to wait for this operation to complete by calling
++ * to dma_resv_wait_timeout().
+  */
+ void dma_buf_move_notify(struct dma_buf *dmabuf)
+ {
 
-https://linux-media.pages.freedesktop.org/-/users/hverkuil/-/jobs/91427048/artifacts/report.htm
+> 
+> > +static inline bool
+> > +dma_buf_attachment_is_revoke(struct dma_buf_attachment *attach)
+> > +{
+> > +	return IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY) &&
+> > +	       dma_buf_is_dynamic(attach->dmabuf) &&
+> > +	       (attach->importer_ops &&
+> > +		attach->importer_ops->invalidate_mappings);
+> > +}
+> 
+> And I don't think we should use a NULL invalidate_mappings function
+> pointer to signal this.
+> 
+> It sounds like the direction is to require importers to support
+> move_notify, so we should not make it easy to just drop a NULL in the
+> ops struct to get out of the desired configuration.
+> 
+> I suggest defining a function
+> "dma_buf_unsupported_invalidate_mappings" and use
+> EXPORT_SYMBOL_FOR_MODULES so only RDMA can use it. Then check for that
+> along with NULL importer_ops to cover the two cases where it is not
+> allowed.
+> 
+> The only reason RDMA has to use dma_buf_dynamic_attach() is to set the
+> allow_p2p=true ..
 
-Can you take a look?
+Will do.
 
-Regards,
-
-	Hans
-
-On 19/01/2026 14:48, Nicolas Dufresne wrote:
-> Hi Mauro, Hans,
 > 
-> This PR introduce support for H.264 and HEVC decoding on Rockchip RK3588 and
-> RK3576 SoC. Unlike other HEVC drivers, the hardware implements complete slice
-> header parsing instead of using skip parameters. Two new compound controls are
-> added to extend the SPS control with the missing information. Additionally,
-> buffer size calculation is added for Hantro AV1 decoder, fixing support for
-> decoding more then 8 tiles.
-> 
-> You will notice few checkpatch warning, I've looked through them, some are
-> complaining about already in the tree, but moved, or asking to make the code
-> unreadable, so I decided to ignore. The sparse check complains about
-> rkvdec_h26{4,5}_cabac_table missing declaration. Both are declared, but I agree
-> with the code author that including the header that declares it is not useful in
-> this specific case, making this a false positive. Let me know if you prefer to
-> workaround any of these, I can respin quickly.
-> 
-> cheers,
-> Nicolas
-> 
-> ---
-> 
-> The following changes since commit eb4ee870747c3a77a9c3c84d84efb64bd481013a:
-> 
->   Documentation: admin-guide: media: mgb4: Add GMSL1 & GMSL3-coax modules info (2026-01-17 09:08:02 +0100)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.20-media-codecs-2026-01-18
-> 
-> for you to fetch changes up to 9a92af47becc137d9dab290fd70b5e38f345a3a6:
-> 
->   media: verisilicon: AV1: Fix tile info buffer size (2026-01-18 19:38:01 -0500)
-> 
-> ----------------------------------------------------------------
-> Media Codec Fixes
-> 
-> ----------------------------------------------------------------
-> Benjamin Gaignard (1):
->       media: verisilicon: AV1: Fix tile info buffer size
-> 
-> Detlev Casanova (17):
->       media: uapi: HEVC: Add v4l2_ctrl_hevc_ext_sps_[ls]t_rps controls
->       media: v4l2-ctrls: Add hevc_ext_sps_[ls]t_rps controls
->       media: visl: Add HEVC short and long term RPS sets
->       media: rkvdec: Switch to using structs instead of writel
->       media: rkvdec: Move cabac tables to their own source file
->       media: rkvdec: Use structs to represent the HW RPS
->       media: rkvdec: Move h264 functions to common file
->       media: rkvdec: Move hevc functions to common file
->       media: rkvdec: Add variant specific coded formats list
->       media: rkvdec: Add RCB and SRAM support
->       media: rkvdec: Support per-variant interrupt handler
->       media: rkvdec: Enable all clocks without naming them
->       media: rkvdec: Disable multicore support
->       media: rkvdec: Add H264 support for the VDPU381 variant
->       media: rkvdec: Add H264 support for the VDPU383 variant
->       media: rkvdec: Add HEVC support for the VDPU381 variant
->       media: rkvdec: Add HEVC support for the VDPU383 variant
-> 
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst           | 120 +++++++++++++
->  Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions              |   2 +
->  Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst                    |  12 ++
->  drivers/media/platform/rockchip/rkvdec/Makefile                               |  14 +-
->  drivers/media/platform/rockchip/rkvdec/{rkvdec-hevc-data.c => rkvdec-cabac.c} | 506 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.c                   | 258 ++++++++++++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.h                   |  89 ++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-h264.c                          | 892 ++++++++---------------------------------------------------------------------------------------
->  drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c                   | 511 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h                   | 109 ++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c                          | 281 ++++--------------------------
->  drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c                           | 179 +++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h                           |  29 ++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-regs.h                          | 586 +++++++++++++++++++++++++++++++++++++++++---------------------
->  drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-h264.c                  | 468 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c                  | 638 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-regs.h                  | 430 ++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c                  | 572 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c                  | 710 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-regs.h                  | 281 ++++++++++++++++++++++++++++++
->  drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c                           | 232 +++++++++++--------------
->  drivers/media/platform/rockchip/rkvdec/rkvdec.c                               | 586 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-------
->  drivers/media/platform/rockchip/rkvdec/rkvdec.h                               |  50 +++++-
->  drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c               |   4 +-
->  drivers/media/test-drivers/visl/visl-dec.c                                    |   7 +
->  drivers/media/test-drivers/visl/visl-dec.h                                    |   3 +
->  drivers/media/test-drivers/visl/visl-trace-hevc.h                             |  59 +++++++
->  drivers/media/v4l2-core/v4l2-ctrls-core.c                                     |  28 +++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c                                     |  10 ++
->  include/uapi/linux/v4l2-controls.h                                            |  61 +++++++
->  include/uapi/linux/videodev2.h                                                |   2 +
->  31 files changed, 6264 insertions(+), 1465 deletions(-)
->  rename drivers/media/platform/rockchip/rkvdec/{rkvdec-hevc-data.c => rkvdec-cabac.c} (86%)
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.c
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-h264-common.h
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.h
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-h264.c
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-regs.h
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-hevc.c
->  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-regs.h
-> 
-
+> Jason
 
