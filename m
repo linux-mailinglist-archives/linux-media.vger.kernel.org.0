@@ -1,233 +1,234 @@
-Return-Path: <linux-media+bounces-51090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2279D3BF3A
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 07:32:52 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AADED3BF72
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 07:45:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9A9F34F2C3D
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 06:26:59 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 875893A2C65
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 06:43:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4ED936C5A3;
-	Tue, 20 Jan 2026 06:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BE8E3803F7;
+	Tue, 20 Jan 2026 06:43:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U6JunMv9"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WjbvOy6a";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HFBmFVWi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E565350D4D
-	for <linux-media@vger.kernel.org>; Tue, 20 Jan 2026 06:26:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E99A36CE1E
+	for <linux-media@vger.kernel.org>; Tue, 20 Jan 2026 06:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768890414; cv=none; b=idGbMdc6KXtXMYBMMhTzwdGzqOj+qOTMpSnL3BQ76gF724ELmfQab9pAUkLTbZIs0n20wj/0WQpgum9z1+X4ztElK+jyyqv2S+C5VRuyWeaZ1XEfl05t6iepEYJz7zEIQQ+wGvmBWkgaE1hOQZf2EfJuFAN7m/zgdKFofns9MT8=
+	t=1768891393; cv=none; b=Wcs7jDfL2lDxyl2my7wODGRonLsj3pcmnwPWOnC6/LauNaB2k6X5VneRJ5m9S3ldvr4y3c4+/4RUmZtUIToc3lsBq7V4/bPOPFaJ7wQeT67JQEDoPTPkQ8//12tUhZnooBeBI4OKzxFKNIVHRGBNwHtHlZJXEVdkjEIHV2IjVBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768890414; c=relaxed/simple;
-	bh=M2+epky3SCcKG7Uh4ZhhekY7jWxAlk8pOjMvj6bO0U8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nvr84CgnHpIyn7IuZN7P6TN9kc+kd2YWXZAxyB7B1aAlUn+13q9GZ0hSR0bgghWBiF3rre9bViyVvdNV7eg6dAmdraSyFNlDoCYQnWOkvSpB2xVY7dqcuKXCA3oV1XC7YRNePX/40RjBi6/SnzwFnrhqPJBD5MHCYoIQS/Mmh5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U6JunMv9; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47d6a1f08bbso17163095e9.2
-        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 22:26:50 -0800 (PST)
+	s=arc-20240116; t=1768891393; c=relaxed/simple;
+	bh=hfoAzXLqTI0yuJFaKhOjgbfjuP6BlxPjmFABx3KYJhk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ea+tx6N4YFQFSxOmixtej6WfadX2pCDgw3hJPkMwB/NFdroObK8anMUFq6Iw0g6ruvqAMYcXCRaFEk8mbr/Bf00lgPv6HmACsZY59mFkVeI/AMHct2VmFRUjAw8fXaAN9Qj+fojLDA1Svz0QLFQYJI0j175+WiUgySyIGnUwepY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WjbvOy6a; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HFBmFVWi; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60JMBvWl2098580
+	for <linux-media@vger.kernel.org>; Tue, 20 Jan 2026 06:43:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=rKbpxgXZo3AMg7pqeE0a16
+	yE8K6ApJHO+VrUYMiH+O8=; b=WjbvOy6aNshECftZ0Sghqh59lsvtO42VrPcfoj
+	BDw3251MSRbX708q8AiPR40RTStKoq9wAhTlj8R22w0YRFWR5MYy9Wu40Qm1XjhC
+	o4mbZEWb0R9Q3NvTCTZ0voy+bK6wJje9MbRZadtNEYmUWtaCEoSKb7b3IGPtx1BO
+	yL1nL7lqmxMiF3ffXw3Kk6+MWuSw9OE2HscA9wUO46/LrrS3SokXr7XtCAfwfNTC
+	x0I8nqC4ZwgPRFSZdQB6frMfGb6NtW0DH58SpPXulDfTRoTHkOuFU4kio2s7pybj
+	VHxIhs/Cn3zykyWDib5JIuZImn579uK4swb28zoSI5Yi8zlA==
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bsjk7ju1r-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 20 Jan 2026 06:43:03 +0000 (GMT)
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-12339eea50bso6472115c88.1
+        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 22:43:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768890409; x=1769495209; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=exJxoP7zFCz/hmkwpZpelGDTG6raORe92bixilLY+WE=;
-        b=U6JunMv9Q53W2bI7nbCTIsMB/htf0w4phXzr4hoajnm/6KpWzky56CneRC/kXO49RU
-         AC7Ril8rTzfrBDraai7831gKPu9XNFqk8GVID78seUtyk4ugLRx+ip/um5msLXs0bU69
-         Q5v39t4XhV69QKKs1ymjXRthADRD/LECMKdMBwWmFbfQa48gDVeQjTZD6Y5VJq1Tg3aK
-         8QRU69rLckBmyzRzus474HTFM2oqguL1vhNVlVaUdHiJqj+0QCX74lNmIee218AZaxA8
-         lH8wxiKnqQlOL/g2VLx5DlZkqNBuidnGJ4IXKn1yDcchQkCg9A+U9G3D6U1GLwkM0SKg
-         iW/Q==
+        d=oss.qualcomm.com; s=google; t=1768891383; x=1769496183; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rKbpxgXZo3AMg7pqeE0a16yE8K6ApJHO+VrUYMiH+O8=;
+        b=HFBmFVWi4ys1W7TLfxRtVJ3DdErWnhcY1CDzP5O71TU6GxiqEV+o3PjZsUp1g/pulY
+         XT5Z3owrAes+vdkKhArXQbJZxuaXPUVUDbul+sq8i5xnVucG2g/7jhWQncvAJBljx3fX
+         bftlNUgM5+1CyocY2kZ4VMfwNX+TbAOXyfq43bP8YUN1FMXzN3KJAK7RBwnnimzVY1b9
+         uRo3BfC3cQgls68dMk4qnjIZzHuimG2ikrhL2WWCirXSMXCmJI4rZtTqvAb96LrnbDEa
+         Pr+vkWXEOCyp7lTy4xeUaNG6cLT20+lzN3q6DDN3/hQ0qvUbpDUV4U+rCwJ/DxsbrM2c
+         yrDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768890409; x=1769495209;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=exJxoP7zFCz/hmkwpZpelGDTG6raORe92bixilLY+WE=;
-        b=OYaSEbDzs2ARBzFaobHGvDUjw3yN1uam5YqeFXeBCN1BfK48JY5D1sU+IvB8gUMLLV
-         gbcX9Vbx63H/qkqga1/ZL33Sq8lQ8NBZluVR7heSL8cwZ6ERixmNv7MCvFDXT3wnNno2
-         BLc30t3bFxbmDPu1baU07CczJydbfdW+/mAyw4lOHGSrSXeRecO5tKOHVC35FC55dm5X
-         UqUBcz6hFuvPKpqnubxFBO6knFZS0WNaOENZeGXaWQqQQdccObYaUeGGrHnCUDIl7ECX
-         7R5+1jz4x7EcqsfutylHTWizeMHttCQYPOkF7rLXkPIDv/lELy+DMGDhI2Lsjj/JmTVy
-         iofA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJJR37BKtFtrU4uwItE5jQuP7ZzAI7q4ZX/S5QMx04K8pj4nXhyC1VW+vzve7nr1KP/1p1CQ58MDbu4g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLfdGeKDJr/sgRxzNLD3CF0CVneeD2lKjvR+9gcTMmtFYfWOID
-	KV+hm8OutJtyHaGr6KenXXG/KHlWSXMk5d5DgyaW9LA7FVQcrAuvzFLQi8xZlTgy8E0=
-X-Gm-Gg: AY/fxX72vfEHgoimV2rz1hkwlcaXeK7ckshMBO+5jdgF1vJAi8Y6r6QqHAQPzDk1kg/
-	XHDdjRgmyqd6Ft2Wj1Ab9DSXofCODul/xqPPDTbKi02uNU9tM171exl4BunHZS3esobReN7yVrp
-	Exx7Ct0HU2XRLXau/mnlQhnZZQ2XvYmXo3EAr1H2uLNL9JAYlc7j5lFZkrKxRhncaZIzG9hFpIC
-	SPvKMjrmogcCYL/mhJ3JZl/5b/6KLu3UXgVlq51PopRXa+xmwC70jyk6stF/BZGl2wcqHOH049W
-	UxNiH9NAtDv1tq8+Rjk49DUKS1/VdAa/N2/6wzr3vi/VR8qTNBEqg7IFi2wOmXzzJjf3mt/flZb
-	GIPP6AB3sKMEbkj8BAkLF0oKhIChIhmd8/13h8sJAVxu8d7uAiigcUlVgJRpRmh7DRkjz+MDSMH
-	zMRBG6CP7//YHOTMcr
-X-Received: by 2002:a05:600c:35c3:b0:47a:81b7:9a20 with SMTP id 5b1f17b1804b1-4801eac0617mr174645185e9.9.1768890409197;
-        Mon, 19 Jan 2026 22:26:49 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e8d77besm235669065e9.14.2026.01.19.22.26.48
+        d=1e100.net; s=20230601; t=1768891383; x=1769496183;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rKbpxgXZo3AMg7pqeE0a16yE8K6ApJHO+VrUYMiH+O8=;
+        b=FtHqspBpjn2bL2GZd6KgWVA8vQkgPVXv5bVXwu3+lSlsZNl/um1venAK3q2Dl8VNMf
+         RbMhDGvFeCV/WMIquUUwS3+784I0vJialoeVGV9/lR1tB4Jx+ZVM2GUgSqioQvgreJG3
+         scoO6TzIWYryssiBB937SI9K3G7Iq26mclRpIy1czK5M9U3ygCKlen8hUNMEqvasvJ5O
+         aIRT85ggCpvxRd/W3rsJhWVwIehsn3T1apqzMi10eBPcRPzno080KrhfMpibdm9iO6Ew
+         hlyWzFGNjY9/apUbqxDQ7GIMkbXdmBOzrNi+HH3mx5QhOf6uln6sB1eDTBojCKLoRmyk
+         kwbA==
+X-Forwarded-Encrypted: i=1; AJvYcCWwoa1ng/iJhWhSLhaw9vzGR2TtQIPC3FvPBjQ1no0lhThz0k5RSAJa3JGf7MIei4yivarqIXNWvbdyTg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAP5p0Sq5UZFRIlwkU2oQiuyU3dovX1k9Mfe9Gz4F+7QXYIX9B
+	qzCTnZEECUMJmSTEmOoesHjdZHoGzZh+MiZGGfKeqwEgGFKt6Qg61Kuce1nfp3YB8+GC0rhGdTF
+	wbVMMHpmWy5UfLPH6G/S+CL290h4MOl2AuzjEMKC31RHmcEefTZJIadno9bTIAea41w==
+X-Gm-Gg: AY/fxX7cSTXpG14hIwrrpFQp8mSLuqz9S/bCS94M2KLAn3g5C6bn3HHC2TEfXCYiufp
+	YVAFrMfe8h4TbnYR4KRm2nZ0zMvPuu9qZskrhhVV+W3YH+ypEJYnpFhqSGGVVq/y+XMKNhEWSlE
+	VVo292tnUp/jEPtDUgiWzbv7U2Ekk7ZSVHsao+UPdF8J8Nqo84iFhFfoLgIHEK9GXgtN+m9gkaZ
+	Cw1PiYFtHz14t0viAnzuwIq/mv4lhgd0UqSg296jZyqcig94DicFPNVENyexvg+ZeRRx9HWe6SD
+	4hvG8ZV0mCWjDqdd41gGrWg3R2IZn0UkBXTAzMzWtd9WqyMUzwwijbBGINcWrjguNmcm+fmin4Q
+	2vfi6tA5richAVLWYEd56BTyM19utkQFeWrQcYk8aGjF2i+kxjUFH6I18fVq+/tEb
+X-Received: by 2002:a05:7022:4184:b0:11d:e40f:ee69 with SMTP id a92af1059eb24-1244b380f9dmr11966060c88.36.1768891382749;
+        Mon, 19 Jan 2026 22:43:02 -0800 (PST)
+X-Received: by 2002:a05:7022:4184:b0:11d:e40f:ee69 with SMTP id a92af1059eb24-1244b380f9dmr11965983c88.36.1768891380662;
+        Mon, 19 Jan 2026 22:43:00 -0800 (PST)
+Received: from hu-hangxian-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1244ad7201fsm19128658c88.7.2026.01.19.22.43.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 22:26:48 -0800 (PST)
-Date: Tue, 20 Jan 2026 09:26:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 91/113] drivers/media/mc/mc-entity.c:893
- __media_pipeline_start() warn: missing unwind goto?
-Message-ID: <202601200249.VHkXezfb-lkp@intel.com>
+        Mon, 19 Jan 2026 22:43:00 -0800 (PST)
+From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+Subject: [PATCH RESEND v2 0/5] media: qcom: camss: Add SM8750 support
+Date: Mon, 19 Jan 2026 22:42:50 -0800
+Message-Id: <20260119-add-support-for-camss-on-sm8750-v2-0-3e06583a0a81@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOsjb2kC/42QsW6DMBCGXyXy3IvsA2zC1KFZO7Rj1cHgo7ESM
+ LHBShXl3esA6dShy0l31n3f+b+yQN5SYNXmyjxFG6zrU4NPG9YcdP9FYE3qGXIshEAJ2hgI0zA
+ 4P0LrPDS6CwFcD6ErVcGh4LLJDWXSlCVLlMFTay+z4YO97d/3ry/sM80PNozOf8/iKObXfzuiA
+ A4yly0RUq2QP7sQtudJnxrXddtUZkXEB1ZyIbLH9kKLmBhU5KWqdyVpo/9g3Jb7PZ2nFMy4fuI
+ 3lxTTgkY4at3rQZ/sSleZUmjynNpWVVHgPYlaB4I73I7VpqfLCOv6LpluP/J0MYKKAQAA
+X-Change-ID: 20251126-add-support-for-camss-on-sm8750-506c4de36d88
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jeyaprakash.soundrapandian@oss.qualcomm.com,
+        Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
+        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIwMDA1NCBTYWx0ZWRfX8uCm8YsUfrBQ
+ brOO1NrFB2UnVgzNyIP/y5HQDy4+cG5782mb0Y2/35fLTArErUSpiEMUcWzbW3j6uPy1sYboMfh
+ iLReCzNTCZvZduiZ7gmt7uQh42iH7xScYPB3GY4cxZKjlAuCZnltC6m58I823fdXewd/PQrMaZU
+ NtaQgnRVgOMTTOuz7bvOg4aKt11vE7uj8DqN4WG2Gg9OVdtNjN+ecyXHO/7GNM3B04n1/Ii9nIM
+ EYkLUUd6ovgses63mNxrTebDhf8pEXb85g/jIQuUIWfX8JaJvVxu+A13H4038irITgLzR09wpkH
+ w7VWVCCJmbDw0NsXO3DbYyGYxiWXyOsz0V0BVt/Ta9+eBM7a+08uP86PKMg4I/6nE5DJUeTnYM8
+ nLdLpVQJrPN5Q2nzSF3X78duVWJDKp+SQRFwzEw5y1Rr4HeW7UehkXT+CDql/R6T1gK3a+cJHoG
+ 4wXb9d3lBmwuaB9GKyQ==
+X-Proofpoint-ORIG-GUID: dxTX8QVJa82MFFPLi-VuyXcCrruc0JmR
+X-Authority-Analysis: v=2.4 cv=WoAm8Nfv c=1 sm=1 tr=0 ts=696f23f7 cx=c_pps
+ a=kVLUcbK0zfr7ocalXnG1qA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=yK2hPAVbfSE63nI4_cYA:9 a=QEXdDO2ut3YA:10 a=vr4QvYf-bLy2KjpDp97w:22
+X-Proofpoint-GUID: dxTX8QVJa82MFFPLi-VuyXcCrruc0JmR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-20_01,2026-01-19_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 impostorscore=0 phishscore=0
+ clxscore=1015 bulkscore=0 priorityscore=1501 adultscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601200054
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   55ba38aaeb6e07cbbbe550578fa4737b05de1d00
-commit: 1ca6e7fbe27c6587da496d4288217661a788731f [91/113] media: mc: Separate single link validation into a new function
-config: x86_64-randconfig-161-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200249.VHkXezfb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8985-g2614ff1a
+Add support for the RDI only CAMSS camera driver on SM8750. Enabling
+RDI path involves adding the support for a set of CSIPHY, CSID and TFE
+modules, with each TFE having multiple RDI ports. This hardware
+architecture requires 'qdss_debug_xo' clock for CAMNOC to be functional.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601200249.VHkXezfb-lkp@intel.com/
+SM8750 camera subsystem provides
 
-smatch warnings:
-drivers/media/mc/mc-entity.c:893 __media_pipeline_start() warn: missing unwind goto?
+- 3 x VFE (Video Front End), 5 RDI per VFE
+- 2 x VFE Lite, 4 RDI per VFE Lite
+- 3 x CSID (CSI Decoder)
+- 2 x CSID Lite
+- 6 x CSIPHY (CSI Physical Layer)
+- 2 x ICP (Image Control Processor)
+- 1 x IPE (Image Processing Engine)
+- 2 x JPEG DMA & Downscaler
+- 2 x JPEG Encoder
+- 1 x OFE (Offline Front End)
+- 5 x RT CDM (Camera Data Mover)
+- 3 x TPG (Test Pattern Generator)
 
-vim +893 drivers/media/mc/mc-entity.c
+This series has been tested using the following commands with a
+downstream driver for S5KJN5 sensor.
 
-ff0f0353826d19d drivers/media/mc/mc-entity.c Sakari Ailus              2024-10-19  819  __must_check int __media_pipeline_start(struct media_pad *origin,
-e02188c90f6ef61 drivers/media/media-entity.c Laurent Pinchart          2010-08-25  820  					struct media_pipeline *pipe)
-e02188c90f6ef61 drivers/media/media-entity.c Laurent Pinchart          2010-08-25  821  {
-ff0f0353826d19d drivers/media/mc/mc-entity.c Sakari Ailus              2024-10-19  822  	struct media_device *mdev = origin->graph_obj.mdev;
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  823  	struct media_pipeline_pad *err_ppad;
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  824  	struct media_pipeline_pad *ppad;
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  825  	int ret;
-e02188c90f6ef61 drivers/media/media-entity.c Laurent Pinchart          2010-08-25  826  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  827  	lockdep_assert_held(&mdev->graph_mutex);
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  828  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  829  	/*
-b516354542b7163 drivers/media/mc/mc-entity.c Laurent Pinchart          2022-12-12  830  	 * If the pad is already part of a pipeline, that pipeline must be the
-b516354542b7163 drivers/media/mc/mc-entity.c Laurent Pinchart          2022-12-12  831  	 * same as the pipe given to media_pipeline_start().
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  832  	 */
-ff0f0353826d19d drivers/media/mc/mc-entity.c Sakari Ailus              2024-10-19  833  	if (WARN_ON(origin->pipe && origin->pipe != pipe))
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  834  		return -EINVAL;
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  835  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  836  	/*
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  837  	 * If the pipeline has already been started, it is guaranteed to be
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  838  	 * valid, so just increase the start count.
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  839  	 */
-b7319e2bd7bd774 drivers/media/mc/mc-entity.c Tomi Valkeinen            2022-08-31  840  	if (pipe->start_count) {
-b7319e2bd7bd774 drivers/media/mc/mc-entity.c Tomi Valkeinen            2022-08-31  841  		pipe->start_count++;
-3056a8e936bb090 drivers/media/mc/mc-entity.c Laurent Pinchart          2022-01-13  842  		return 0;
-3056a8e936bb090 drivers/media/mc/mc-entity.c Laurent Pinchart          2022-01-13  843  	}
-3056a8e936bb090 drivers/media/mc/mc-entity.c Laurent Pinchart          2022-01-13  844  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  845  	/*
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  846  	 * Populate the pipeline. This populates the media_pipeline pads list
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  847  	 * with media_pipeline_pad instances for each pad found during graph
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  848  	 * walk.
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  849  	 */
-ff0f0353826d19d drivers/media/mc/mc-entity.c Sakari Ailus              2024-10-19  850  	ret = media_pipeline_populate(pipe, origin);
-74a4133079f739e drivers/media/media-entity.c Sakari Ailus              2015-12-16  851  	if (ret)
-3056a8e936bb090 drivers/media/mc/mc-entity.c Laurent Pinchart          2022-01-13  852  		return ret;
-106b9907c368e32 drivers/media/media-entity.c Sakari Ailus              2015-12-16  853  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  854  	/*
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  855  	 * Now that all the pads in the pipeline have been gathered, perform
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  856  	 * the validation steps.
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  857  	 */
-e02188c90f6ef61 drivers/media/media-entity.c Laurent Pinchart          2010-08-25  858  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  859  	list_for_each_entry(ppad, &pipe->pads, list) {
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  860  		struct media_pad *pad = ppad->pad;
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  861  		struct media_entity *entity = pad->entity;
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  862  		bool has_enabled_link = false;
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  863  		struct media_link *link;
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  864  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  865  		dev_dbg(mdev->dev, "Validating pad '%s':%u\n", pad->entity->name,
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  866  			pad->index);
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  867  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  868  		/*
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  869  		 * 1. Ensure that the pad doesn't already belong to a different
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  870  		 * pipeline.
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  871  		 */
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  872  		if (pad->pipe) {
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  873  			dev_dbg(mdev->dev, "Failed to start pipeline: pad '%s':%u busy\n",
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  874  				pad->entity->name, pad->index);
-8aaf62b5b9bef73 drivers/media/media-entity.c Sakari Ailus              2015-11-29  875  			ret = -EBUSY;
-8aaf62b5b9bef73 drivers/media/media-entity.c Sakari Ailus              2015-11-29  876  			goto error;
-8aaf62b5b9bef73 drivers/media/media-entity.c Sakari Ailus              2015-11-29  877  		}
-8aaf62b5b9bef73 drivers/media/media-entity.c Sakari Ailus              2015-11-29  878  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  879  		/*
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  880  		 * 2. Validate all active links whose sink is the current pad.
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  881  		 * Validation of the source pads is performed in the context of
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  882  		 * the connected sink pad to avoid duplicating checks.
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  883  		 */
-549e622b22ad35d drivers/media/mc/mc-entity.c Daniel Scally             2022-07-07  884  		for_each_media_entity_data_link(entity, link) {
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  885  			/* Skip links unrelated to the current pad. */
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  886  			if (link->sink != pad && link->source != pad)
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  887  				continue;
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  888  
-1ca6e7fbe27c658 drivers/media/mc/mc-entity.c Sakari Ailus              2025-12-08  889  			ret = __media_pipeline_validate_one(origin, pipe,
-1ca6e7fbe27c658 drivers/media/mc/mc-entity.c Sakari Ailus              2025-12-08  890  							    origin, link,
-1ca6e7fbe27c658 drivers/media/mc/mc-entity.c Sakari Ailus              2025-12-08  891  							    &has_enabled_link);
-1ca6e7fbe27c658 drivers/media/mc/mc-entity.c Sakari Ailus              2025-12-08  892  			if (ret)
-1ca6e7fbe27c658 drivers/media/mc/mc-entity.c Sakari Ailus              2025-12-08 @893  				return ret;
+- media-ctl --reset
+- media-ctl -V '"msm_csiphy2":0[fmt:SGBRG10/4096x3072]'
+- media-ctl -V '"msm_csid0":0[fmt:SGBRG10/4096x3072]'
+- media-ctl -V '"msm_vfe0_rdi0":0[fmt:SGBRG10/4096x3072]'
+- media-ctl -l '"msm_csiphy2":1->"msm_csid0":0[1]'
+- media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+- yavta  --capture=20 -I -n 5 -f SGBRG10P -s 4096x3072 -F  /dev/video0
 
-goto error?
+Dependencies:
+- https://lore.kernel.org/all/20260112-kaanapali-camss-v12-0-15b7af73401e@oss.qualcomm.com/
 
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  894  		}
-de49c285a360495 drivers/media/media-entity.c Sakari Ailus              2013-10-13  895  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  896  		/*
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  897  		 * 3. If the pad has the MEDIA_PAD_FL_MUST_CONNECT flag set,
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  898  		 * ensure that it has either no link or an enabled link.
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  899  		 */
-b3decc5ce7d7782 drivers/media/mc/mc-entity.c Laurent Pinchart          2024-01-15  900  		if ((pad->flags & MEDIA_PAD_FL_MUST_CONNECT) &&
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  901  		    !has_enabled_link) {
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  902  			dev_dbg(mdev->dev,
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  903  				"Pad '%s':%u must be connected by an enabled link\n",
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  904  				pad->entity->name, pad->index);
-47dfdb3a888733a drivers/media/media-entity.c Helen Mae Koike Fornazier 2015-06-28  905  			ret = -ENOLINK;
-de49c285a360495 drivers/media/media-entity.c Sakari Ailus              2013-10-13  906  			goto error;
-de49c285a360495 drivers/media/media-entity.c Sakari Ailus              2013-10-13  907  		}
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  908  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  909  		/* Validation passed, store the pipe pointer in the pad. */
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  910  		pad->pipe = pipe;
-e02188c90f6ef61 drivers/media/media-entity.c Laurent Pinchart          2010-08-25  911  	}
-e02188c90f6ef61 drivers/media/media-entity.c Laurent Pinchart          2010-08-25  912  
-b7319e2bd7bd774 drivers/media/mc/mc-entity.c Tomi Valkeinen            2022-08-31  913  	pipe->start_count++;
-3056a8e936bb090 drivers/media/mc/mc-entity.c Laurent Pinchart          2022-01-13  914  
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  915  	return 0;
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  916  
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  917  error:
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  918  	/*
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  919  	 * Link validation on graph failed. We revert what we did and
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  920  	 * return the error.
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  921  	 */
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  922  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  923  	list_for_each_entry(err_ppad, &pipe->pads, list) {
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  924  		if (err_ppad == ppad)
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  925  			break;
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  926  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  927  		err_ppad->pad->pipe = NULL;
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  928  	}
-af88be3887c1a0b drivers/media/media-entity.c Sakari Ailus              2012-01-11  929  
-ae219872834a32d drivers/media/mc/mc-entity.c Laurent Pinchart          2022-08-31  930  	media_pipeline_cleanup(pipe);
-106b9907c368e32 drivers/media/media-entity.c Sakari Ailus              2015-12-16  931  
-fb49f20438f361a drivers/media/media-entity.c Shuah Khan                2016-02-11  932  	return ret;
-fb49f20438f361a drivers/media/media-entity.c Shuah Khan                2016-02-11  933  }
+Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+---
+Changes in v2:
+- Rebase this series due to conflict - bod
+- Add module descriptions in binding commit message and cover letter
+- Update property names to align with previous generations - Krzysztof
+- Update the vdd supply names with 0p88 to 0p9 in binding to keep such name
+  style consistency - Krzysztof/Vladimir
+- Add missing Kaanapali dependency - Krzysztof
+- Add regulator current in csiphy resource due to interface changed - bod
+- Make csid board level code style consistent and add comments to explain
+  the differences between csid full and lite configurations - bod
+- Remove reduandant initialization for empty set in csid and vfe - bod
+- Remove DTS patch due to conflict with camcc dependency. Will post it
+  as an individual series.
+- Update vfe commit message as renaming work done in Kaanapali series
+- Revert change-id to v1 to avoid increasing reviewers' workload
+- Link to v1: https://lore.kernel.org/r/20251126-add-support-for-camss-on-sm8750-v1-0-646fee2eb720@oss.qualcomm.com
 
+---
+Hangxiang Ma (5):
+      media: dt-bindings: Add CAMSS device for SM8750
+      media: qcom: camss: Add SM8750 compatible camss driver
+      media: qcom: camss: csiphy: Add support for v2.3.0 two-phase CSIPHY
+      media: qcom: camss: csid: Add support for CSID 980
+      media: qcom: camss: vfe: Add support for VFE 980
+
+ .../bindings/media/qcom,sm8750-camss.yaml          | 663 +++++++++++++++++++++
+ drivers/media/platform/qcom/camss/Makefile         |   1 +
+ drivers/media/platform/qcom/camss/camss-csid-980.c | 442 ++++++++++++++
+ drivers/media/platform/qcom/camss/camss-csid.h     |   1 +
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     |   5 +-
+ drivers/media/platform/qcom/camss/camss-vfe-gen4.c |  10 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
+ drivers/media/platform/qcom/camss/camss.c          | 357 +++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 9 files changed, 1478 insertions(+), 4 deletions(-)
+---
+base-commit: 6ada99659c6d6a0cde83e6c0f4ed0ef0ba1867e1
+change-id: 20251126-add-support-for-camss-on-sm8750-506c4de36d88
+prerequisite-change-id: 20260112-kaanapali-camss-73772d44eff7:v12
+prerequisite-patch-id: c3758c408ebf6ab407b1977ccd51cd7179316c73
+prerequisite-patch-id: 7bb9332e44b93bb9f063bfa0626dd38ff450aaa8
+prerequisite-patch-id: eb308d8bf8e0f942d5a0dd1826cf3e1963b05378
+prerequisite-patch-id: 8c62245a3b0a2527d4ddf47438926d3b1fe3ff41
+prerequisite-patch-id: 36bed25998858225c8e1d6beeb977236cc1b76d6
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
 
 
