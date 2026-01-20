@@ -1,98 +1,86 @@
-Return-Path: <linux-media+bounces-51088-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51089-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE41CD3BE08
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 04:50:33 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D979D3BF38
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 07:32:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 42D634E6291
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 03:50:31 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9B7924F4CB3
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 06:26:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09794335072;
-	Tue, 20 Jan 2026 03:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDF5B36C59F;
+	Tue, 20 Jan 2026 06:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZmqhouTb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AvlFZRvO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC9D335073
-	for <linux-media@vger.kernel.org>; Tue, 20 Jan 2026 03:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1E5134CF
+	for <linux-media@vger.kernel.org>; Tue, 20 Jan 2026 06:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768881022; cv=none; b=F54ok9n6mJn9gL7ZJ2wmERwcy/FV8PCT+P1yBsQ4VGhH1ASuArrLJqR82DUTGILVOItELZavPP9fMc0vkiZINfI/+L6VvTdmk9Uh84IgCCxn1NbwWqV3EY85Ld+PmT0/JmVfXkeDSfbpW8PgH0+KgxXA0MTyir6ckcurG5EkMTA=
+	t=1768890357; cv=none; b=NKbPJd9XJDDYQIvNW6ksIQ3ptKyMcVYpMnp6iG8V67SUGZ/3p8I6AWn7X/6ks6fdxAJ2bivbxRZSUPTplC5mvkQfQHn9d3SV7bhyOW2dOkNizepfHAuWiGjVL+TSkzAoi2zg6GzYSbMeRjK72Gk9T0GrCkj9nrPKunCrIK/ymHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768881022; c=relaxed/simple;
-	bh=YouqfwVWzYXpcikOlfu9sTS3gDOn1ZFujhD3ULTm95g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cER+Zpa/5E9KCJ/qgwVhxpfMISOXFc02R+1i9K9pK+HORyCGo9vUQZggydmna4WW5PjATSQJbdEGzx3TXGGrjxAjEXus9stnaES9cLbjr+rOznIAWF9wt6ZNDnWMeJil3TVE0V6WoTPVWg7rCw4As9YrRS1vPbiz4Cm+GxlfKIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZmqhouTb; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8c6a001e3bfso302333885a.1
-        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 19:50:20 -0800 (PST)
+	s=arc-20240116; t=1768890357; c=relaxed/simple;
+	bh=bFzV/JRvO0mVh/8Oau60Wo/dwox3USMdJ0+kXgJrLDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YGov2HqzbZj60raSVKN2IXRKstN9Rp4MNuRZr6hrWKGqp0itOKhL/5P/UGYJe3PZPYpI183TfXU5Pq8K8aibPbZsFV6FOkQmhf2qJlxO/IK3zkZw6AwP6ABoSX3dS3Hd/OaBj9Vz1d4iJw4/V6R9qiz0QsqJZmZO+bMCpT0fIKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AvlFZRvO; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47edffe5540so43101015e9.0
+        for <linux-media@vger.kernel.org>; Mon, 19 Jan 2026 22:25:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768881020; x=1769485820; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J0ylyK0Iu22RJ/xkcdGlRObGYO0FeHTfl507VqBaAx4=;
-        b=ZmqhouTbwST4ddALMVWqWYXrD6SOgQJIASZXcp1vBD6BF+Zo55rXjoSNVULPX/aRUW
-         ur9RsyoFLFnJ6IMDWoqqNtsRoLyCqppfLbCN8/CR4nkAyXRqFlfP9OHMcxp9pm8FaKRI
-         NYcwVFQ4jagrD5FgIYl/XzZKnbl3Wic0TpoI1ow0pjv9PA04fsQ8uuiePnWSlvfeGx+m
-         r3apki+c9emFM70Q++iVoS2lyRHcMo4Wji42O7/5C3eyQ9mdC7TDLksftz4wFGgcqauk
-         Ceczqnr/IlqyLmvKDN8Hj7H1NnXphNcPnq5zRf4rkbHVZOPqwDlgD7bhijGExMXJhnbd
-         oqUA==
+        d=linaro.org; s=google; t=1768890354; x=1769495154; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8MEH4a9dbSSC7KzSuEGK0I5t0sNTWBFQtBe43QofgiU=;
+        b=AvlFZRvOWMBkF7cyW3XnE+WjOtzmwQWVvZDBsnXDyX5XQd3DgmOq5Jv60mTG0vJ9sj
+         wCgs5LwVyYF4gli8WDpNWZDtboE+n0eqFztFhlV5glRZSPGUoqbYh5nSUZLSwlk/1JRr
+         VWaahk4+A2X0DeENZHBJWPsNbmVfQJi3d+qqITkioOltz4ESHBST2xA967/E0Vm2S5lq
+         fcecciPa82fQ8E2h7HCeTCa6IUK1NDd3q4xLq9LQVLh4JZSbuOokLz06j9hPu/s624gW
+         NlITgRsf49C6lHrvCYxIbsXNYTKG3buoio26iX3eforumdYDKzB5zdgeUIW8sH3VXs6A
+         D0lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768881020; x=1769485820;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J0ylyK0Iu22RJ/xkcdGlRObGYO0FeHTfl507VqBaAx4=;
-        b=HJ6uplTzFAYXKpRCrGv3pMBOiT2/41P3I/HQIc26wtnVCs2VihdZiyKHxlc9QIHmX2
-         8IyHkjAEm6XXPOQr4ODSc6SvnZkX7JvXWOF+cVo33J5L0U3WQr313XZ6eqUOAXyg0aFV
-         gi7hOSIrgmuwwx0MA8oQBjIZP7dna4L1sRdLegdUQNvhGxPbemOwTqwqhujQkoA9IYlB
-         PQFwxQW/iog+KvoXiaHIP538kr9bOdenAEXTFjjOhD0Q0UPII5ddu+/hPGoZkUwQgHiU
-         5ZIMflUkSmFxfXlcRd4KLhYJWI3GzOptOLHpTLzdtCBP16eyQQWhvuDotNAkzLxEnqaQ
-         NyoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrithli2+yzusFCcmR/Ny3J3o37uZB3upKuUB/Iw0JNOwMNNvy/a0MX4c5qLnfpNZk6eA+YW7VuXCu/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyekvHFlrqd7B1KZEg0m+V4FQUFZ7zJSiac+kPttvsbT/eUoUK6
-	jP/gla2wBQ5VvIAcNAxBZ8Ax2P7syY8tsQjVgs2SzVy/3oXC4+nHWpbs
-X-Gm-Gg: AY/fxX5ta3CbY2d4fo+sDdyAHB8DiVfxi3ZYk6sAYqZmpiNjkE3yNl//vXwbAIENsts
-	ef73QDLpfBC28a8RKnOUJVnz+BidT0ezxqTixxg4qXERt/G8rqqQ+xOLuebofZ7mCNr/aD1wzvv
-	3PSuxUST0c53piNtvR7klwiYugq7Nw9G1/byi3rrLLxaLzrti13/FDS4Ysl/+k8dMZI+zJLdiOx
-	aZfDRNlpR7lphKNyu6AaPT/+XgZtBl9h1KBbJsxRXiZJHEQK873WTv9YYt/uqiTaapsCM2QaU0Z
-	Eq0D/7HDYt0NDFvw6T///1ei8HXc+zJ3cPuDLiQz01207QAN9ULSOj677riedAwKpdXO1vm1p5S
-	CofV+Zw+zvBF1F3dlrx9Q9OyWag9W6nsBT03Qu9pKT03fjgOULScWVlltJQuXcUoL5gBss+ASpt
-	s+QrV4ylcqM+e5Fh6k6VH5vqaK
-X-Received: by 2002:a05:620a:3f97:b0:8b2:2607:83d5 with SMTP id af79cd13be357-8c6ccf2381fmr56720685a.75.1768881019642;
-        Mon, 19 Jan 2026 19:50:19 -0800 (PST)
-Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a7250a60sm936184085a.31.2026.01.19.19.50.18
+        d=1e100.net; s=20230601; t=1768890354; x=1769495154;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8MEH4a9dbSSC7KzSuEGK0I5t0sNTWBFQtBe43QofgiU=;
+        b=Iao56g2KOIeOIBVPPA/6sjLVKNQm3qcFAdmuizuTySWSyjQSbauBBTswN2I18Xq6nz
+         Eqtr9PZlktqZTyZO2KxjHe+8T6y9aAum7g80Bw/2iAHCr4YUuVM8Ayl/g/aFoU7Kq6Ww
+         Auy/gytUqCtHyVJ0U80ZmilpD0naRH2Uw1jha0QCubTB8UY5eI9sFMCliioTMmIx4KDm
+         GUTKhzQDXiaC3mNpMC9NM2h8sByqsZnLFFAd79iHXXHSOKYRqt3wb80X8d330uo2izgX
+         +91qzKIi0jX44Kf57nAEbn+oHnAxEr0qzfLNQoCxq2DsgwitYIzS6ao4nN4DVJEwkHgD
+         /Zmw==
+X-Forwarded-Encrypted: i=1; AJvYcCWwCGw1WXwFav9FJip4k4jmtZf6flD158t87EmHvRiODND9gi2Xn+QSrEqzYzakgAKzdtXv5l8hb1fL9w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXH/sscHAGE3aWRUJjGJ1YlnNMn7VjGnoP8FlhNLgdKrSIkjCf
+	sLHvebnmMmpFARPWCLPOBIyyPsQDbjzUuKNDtGdL2zTIww/cnKBhhXVcMka5JdS4RR4=
+X-Gm-Gg: AY/fxX7CGo0Cek5T3B9ZtsnIb9iQaasHbW2ETrtIPE3BL+H2bZ7py/faWbPPRj8txei
+	to4wUdeXDpbFptM/iwdgAFW+8Ge8Zl1uCNGpq2Irtk0w4W+lnqP1iKJGUDWCCCAS19K1qhksSMg
+	tQ6iuISQjJzCwRMSGvjp9PZCyWPfS8w/Ra1qVf4MkEOYnbuDFUngiOmxZJ0zmuyYVDd7MbmCVbI
+	J1Cj/LZuni0boI3DNBR2WIMhfv7cLnDCyucwRpaqjsfyPIlywMEt0awvj3b0ctELOm9z3CE9qBN
+	BtQTcwkVhWXw0FyFl6uU3U7qhRMB/BUUo/X6MwJ9sP4xCDNabchqG1w9q9EnufGP/qmeCbHG8d5
+	LbzxkeVoOfSOe2GJe4hgfTSHt8JEECg5muw1fnZw8pAKXOL0IaRNv00jWQ1yc9AmSV/Tkp5OZ56
+	0bkHQ54L+O4eWNMBc4
+X-Received: by 2002:a05:600c:1c17:b0:46e:761b:e7ff with SMTP id 5b1f17b1804b1-4803e7f18famr9364815e9.28.1768890353941;
+        Mon, 19 Jan 2026 22:25:53 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356996cf33sm28222970f8f.25.2026.01.19.22.25.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 19:50:19 -0800 (PST)
-Date: Mon, 19 Jan 2026 22:50:41 -0500
-From: Richard Acayan <mailingradian@gmail.com>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Robert Mader <robert.mader@collabora.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	David Heidelberg <david@ixit.cz>, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v7 2/5] media: i2c: imx355: Support devicetree and power
- management
-Message-ID: <aW77kXzBjAlIMG1C@rdacayan>
-References: <20260117040657.27043-1-mailingradian@gmail.com>
- <20260117040657.27043-3-mailingradian@gmail.com>
- <a29ff1e4-117c-4703-b0c7-73ad4e369201@linaro.org>
+        Mon, 19 Jan 2026 22:25:53 -0800 (PST)
+Date: Tue, 20 Jan 2026 09:25:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 90/113]
+ drivers/media/v4l2-core/v4l2-subdev.c:2675 v4l2_subdev_get_frame_desc()
+ warn: was && intended here instead of ||?
+Message-ID: <202601200147.SRFr3GE9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,36 +89,46 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a29ff1e4-117c-4703-b0c7-73ad4e369201@linaro.org>
 
-On Sat, Jan 17, 2026 at 02:03:02PM +0200, Vladimir Zapolskiy wrote:
-> On 1/17/26 06:06, Richard Acayan wrote:
-(snip)
-> > +static int imx355_power_on(struct device *dev)
-> > +{
-> > +	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
-> > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > +	struct imx355 *imx355 = to_imx355(sd);
-> > +	int ret;
-> > +
-> > +	ret = clk_prepare_enable(imx355->clk);
-> > +	if (ret) {
-> > +		dev_err(dev, "failed to enable clocks: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret = regulator_bulk_enable(ARRAY_SIZE(imx355_supplies),
-> > +				    imx355->supplies);
-> > +	if (ret) {
-> > +		dev_err(dev, "failed to enable regulators: %d\n", ret);
-> > +		goto error_disable_clocks;
-> > +	}
-> > +
-> > +	gpiod_set_value_cansleep(imx355->reset_gpio, 1);
-> > +	usleep_range(1000, 2000);
-> 
-> The deassert above is not needed IMO, anyway.
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   55ba38aaeb6e07cbbbe550578fa4737b05de1d00
+commit: 50fcff1c16cac7152a1b5b56a71656e97d276857 [90/113] media: v4l2-subdev: Introduce v4l2_subdev_get_frame_desc()
+config: x86_64-randconfig-161-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200147.SRFr3GE9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+smatch version: v0.5.0-8985-g2614ff1a
 
-This assert is for clarity, otherwise it isn't obvious that the GPIO is
-asserted low when the function is called. It should stay.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601200147.SRFr3GE9-lkp@intel.com/
+
+smatch warnings:
+drivers/media/v4l2-core/v4l2-subdev.c:2675 v4l2_subdev_get_frame_desc() warn: was && intended here instead of ||?
+
+vim +2675 drivers/media/v4l2-core/v4l2-subdev.c
+
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2660  int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2661  			       struct v4l2_mbus_frame_desc *desc)
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2662  {
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2663  	if (v4l2_subdev_has_op(sd, pad, get_frame_desc)) {
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2664  		unsigned int type = desc->type;
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2665  		int ret;
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2666  
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2667  		ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, desc);
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2668  
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2669  		if (desc->type != type)
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2670  			return -EINVAL;
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2671  
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2672  		return ret;
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2673  	}
+50fcff1c16cac7 Sakari Ailus 2025-12-04  2674  
+50fcff1c16cac7 Sakari Ailus 2025-12-04 @2675  	if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ||
+
+The zero day bot chopped the other side of the or statement off.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
