@@ -1,85 +1,87 @@
-Return-Path: <linux-media+bounces-51104-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51105-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B66BD3C457
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 10:58:14 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C62D3C4DE
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 11:17:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A808A668F4C
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 09:27:18 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A39056C4734
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 09:36:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1FD3D6696;
-	Tue, 20 Jan 2026 09:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B6F23ECBEB;
+	Tue, 20 Jan 2026 09:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="I2AGfngB"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RDsasM+H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012070.outbound.protection.outlook.com [40.107.209.70])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010014.outbound.protection.outlook.com [52.101.193.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9C93D6671;
-	Tue, 20 Jan 2026 09:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97853E8C6B;
+	Tue, 20 Jan 2026 09:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768900976; cv=fail; b=rdZDaPqXgclgrgL34OTtbMUXusfOFzcdTlUixOBleqHlH2bE+4IdfOJGbW4heG1f6X1F9KcU4kB2DrbS2kG95dd8uKBkSfo/tjgnUpXRpAn5H7U/ZpRgxF5nAuzdh4zLSG5of3/HDIarxq9Nc0MlJsdljhh0jK2Y51fhR37rrbU=
+	t=1768901409; cv=fail; b=Jt5WyHQQ0T3lo/ER4ml/W68OwMTbvEA3Li4umRd5k/zQr8oAEvmqFxQ08DTI6QfFDDB2FbIMtvYlYoHHsBj/zQnug/B2lijIsheObKDavNRw894HcweDXExxXjE8OBFExX24Xnj0VeKV4KarMGb/pCmXsYinYySrgne3W5zVcNs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768900976; c=relaxed/simple;
-	bh=XFtZWWK1lObl1Kb3xSz1in38qwEvWA+MnwTKZS2QojQ=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RnWiAfP5mfh79gT7w9wsnsHzKtZ/HdoxJkG10auFaAXvXnLqgSO6pL/+7GGLg4xSKtPIrXfBsgTqSq5zaP4HFItMhpLHrY+jXXEd6jjj27/pY1SUC7ubFNiZG0JlMueEkctQ/FXU1scHFvs4MyMGdFJPXNdKqNCLMcKITU2te/I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=I2AGfngB; arc=fail smtp.client-ip=40.107.209.70
+	s=arc-20240116; t=1768901409; c=relaxed/simple;
+	bh=lGHoCgPm1bl+SSm4y72jk8T52Wrnpzzy81n5fSdW2Gc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XLSzrVhFD4YTlZylJemcb13Lr+lvU0lzmaHmVoUcFwwkHda1kn9utL1H9RLJIjEyBbmaB0+bfAzL7DMuh1cuPi8jC+tEnxYNC1q8m+GAhXWI7q+F/WdUcY7yBF/Wrg7W/K7TwxC0yjFwTXw+b8AIzBlS8ahBAqA7SCHY7DJ3Vxk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=RDsasM+H; arc=fail smtp.client-ip=52.101.193.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ue28w4StEivIyRb6OqTkZ/6ZhHNSTlvAf6Y7x9POtcOO3ah7UnlpbFgkK8MECYgL9lMmtrDI0T5XbEDJrAm8FGlQvilbYXvr8qjRAPFix9h/mIDtVL7ZVFeYr5LRdbsoVgc1Ck5MvJla7Cowp2VnLl9xx634QFPfEr5CG6b7c8u+jIKHJ+75eE7MTu+xbkOFMIBdpvakCDV3IKGPOCAHpY0Oj3d1NcQknlEDI4qg1Q4IWz6dVd+L4zBcZgvpO4UkkV9cK8Fm2b2wITWI6QGyZGJIuqhq1DKMdM6jEd5lYOBB2LbfrbF1ADErHVEaEw40JtPqgH+ME0Dj+7hUqiaxnw==
+ b=pNE8m5Fhm4H2WKJ4VE2dvOVIpxulWj2jIO4SPDy3ospwesTDKWGF+OCIFX1i2gFfUlLxwvywi80ROg6fMbK4xiOBTd77hPqZj1p2rsYM7wyctEIAFxFO/LBySn2AbfykG4Z4+tffrbicqjB0cuGzPk33DCsjKIqCj1ooG2dFHoNgdoAf3mAp65Xckbz8mBMW2uxyOTyeK2eBdC6eV9YtSGupXGg1AMRyEYsJCw8dGKYTyXh3Bq5F5k0pqKcHFUHj/jWSHRimHgnvkttEDrAJ+VqshbzhiKzzjrKxSf3f+M6pe27vidt5wceQDOCoiLhgJ24J8jfmGwvObzp4TD54cg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tIldFF4jnP2BRciLYUdwmDirYqqjFo1qS+aClLuqoak=;
- b=NFzJ8msaEQRDfoUJV4UATRuMAgU0AVPvaCmcbbWB/bIfR7lUq6t1j3+DSOIH3taQdCqO/0zFGg27lU6NDE8JasT9WJwHnplZamepQGfe0dVLluJ3NSrMWe3HDptDCILLasgtOdC5gI7Yh3phaUOtXNQcKyeeJh6mBQr0qlh7aKwPSjPX0zlVw/W+qhcVKCjwPkvJil+0XvuovrXBnXyMgnnyWwsjkreE0MgZhG5wX20UPESrSSEVV8GFKj39lAVTfZmyKD25BQN8mJOpnRxd1pIHFejZSvoyMt+zxc8Ch+/o+URpeC5Q5TLw3rh1zQLB3zFT+m3FwXGZOCOzM+N1Og==
+ bh=RuLicLl8PgJ9SaXenFbl/bhjLwxlKaRM1Sap8SLvLiE=;
+ b=TyKLo99ZuAKHAzU4qHaFf+aok4pJeOWQRJfgg8VE0EObKRTB9hX8cVxmBBkdrh8ci5d+99KDtigb/ogsRT3cWm89QIu0MtKv/PbPIJopRrLHx4hEuyBi3J4OJvoCd9yi4nqIe4R/MoTRCSYrs/0hVDFV8OaFR8rlXFiflOTV8oVfUtcQfgmAu3NREICGcJJ2m57Vg06HgIJSMzfi1cPmQUuTQC/Qf7QP9i9nxeaSR7S2mdY9kVQdOwNzD2RtWfkCHS0kSYkcljwFM4rxm9Hn1U4SAwQSIKoe5CxY5QJ4jGk0G1uO9mwKIe/ERb+VwQcHvCpK+8aTsaqCYPXTmpHh5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tIldFF4jnP2BRciLYUdwmDirYqqjFo1qS+aClLuqoak=;
- b=I2AGfngBaPqiL5mxxh1fJ2GdR1QqJZclH+GicQV83bKwS+ZrUF1vF46M1Zyhtjx/TxkFWt3otwBQTc6AQZkbXoWTeQve9DeKskHF4jTGvPqOv0UM/pxUK2vXUjHyBQy6St33kF7TmHDRXfvKjmhYbaLzOsrr5Kaii2wVYElXsAs=
+ bh=RuLicLl8PgJ9SaXenFbl/bhjLwxlKaRM1Sap8SLvLiE=;
+ b=RDsasM+HgYyOIL2KiS8hbX3omasedpfpxDcxpJH7kFPex3lTZMg5vssmyFEFFioaW89SeJHKa7mSVs3OdIgCJxgUqGtMe25wL8iJkH10hGt11pdtbxZko8vAoaNKqGfJG6uSRv7Fmhyq/pmQqYqNiZhtP1slX/rjQY2Oc4Kpk40=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
  by CH8PR12MB9789.namprd12.prod.outlook.com (2603:10b6:610:260::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Tue, 20 Jan
- 2026 09:22:52 +0000
+ 2026 09:30:05 +0000
 Received: from LV9PR12MB9829.namprd12.prod.outlook.com
  ([fe80::2bc0:451f:661a:ac32]) by LV9PR12MB9829.namprd12.prod.outlook.com
  ([fe80::2bc0:451f:661a:ac32%7]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
- 09:22:52 +0000
-Message-ID: <b95118d9-7186-4ec8-8760-ecf6345ce875@amd.com>
-Date: Tue, 20 Jan 2026 17:22:41 +0800
+ 09:30:05 +0000
+Message-ID: <24c3bcfb-5338-4cf7-a0f3-a32428e91144@amd.com>
+Date: Tue, 20 Jan 2026 17:29:55 +0800
 User-Agent: Mozilla Thunderbird
-From: "Du, Bin" <bin.du@amd.com>
-Subject: Re: [PATCH v7 3/7] media: platform: amd: Add isp4 fw and hw interface
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v7 4/7] media: platform: amd: isp4 subdev and firmware
+ loading handling added
+To: Sultan Alsawaf <sultan@kerneltoast.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
  laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
  prabhakar.mahadev-lad.rj@bp.renesas.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, sultan@kerneltoast.com,
- pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
- gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
- mario.limonciello@amd.com, richard.gong@amd.com, anson.tsao@amd.com,
+ linux-kernel@vger.kernel.org, pratap.nirujogi@amd.com,
+ benjamin.chan@amd.com, king.li@amd.com, gjorgji.rosikopulos@amd.com,
+ Phil.Jawich@amd.com, Dominic.Antony@amd.com, mario.limonciello@amd.com,
+ richard.gong@amd.com, anson.tsao@amd.com,
  Alexey Zagorodnikov <xglooom@gmail.com>
 References: <20251216091326.111977-1-Bin.Du@amd.com>
- <20251216091326.111977-4-Bin.Du@amd.com>
- <aUkRQEeAWDeQknP6@kekkonen.localdomain>
- <92ccb38a-5c62-4730-8a41-fa80d2f523a7@amd.com>
+ <20251216091326.111977-5-Bin.Du@amd.com>
+ <aUkZP8i90uWaFliY@kekkonen.localdomain> <aV4MYcgdOviulN3E@sultan-box>
+ <aWgEtfp1MWioqKox@kekkonen.localdomain> <aWiVfyz49P7oWTsn@sultan-box>
 Content-Language: en-US
-In-Reply-To: <92ccb38a-5c62-4730-8a41-fa80d2f523a7@amd.com>
+From: "Du, Bin" <bin.du@amd.com>
+In-Reply-To: <aWiVfyz49P7oWTsn@sultan-box>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0051.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::6) To LV9PR12MB9829.namprd12.prod.outlook.com
+X-ClientProxiedBy: SI1PR02CA0052.apcprd02.prod.outlook.com
+ (2603:1096:4:1f5::20) To LV9PR12MB9829.namprd12.prod.outlook.com
  (2603:10b6:408:2eb::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -89,137 +91,401 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|CH8PR12MB9789:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c776a3f-af57-4d77-6f83-08de58057c55
+X-MS-Office365-Filtering-Correlation-Id: 5b70e7fe-68a0-45ac-047b-08de58067ea9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?a2V3UktDL0Q2OFpwajRiN3ZzTUN4OUVzdHFYeHNEVUhPbU9sOUYvQ3MzNVh2?=
- =?utf-8?B?dFpzc3pWeFA0dzRoTmxFY3c4Q0ZEOWZHRkpSMWVkby9QZHNkVzYyUzBLTE4v?=
- =?utf-8?B?Y3hacjJuYkx6b2ZERUR0UWFhSzZMYjBiUVBOM3A0SytTK3dNbHhuUWNBZUd0?=
- =?utf-8?B?elg0SEZvZ2JOTS82WHNMZGFBMk9WSlhFUHgwZURRNHVmSUxzRzQxVVRpTm9W?=
- =?utf-8?B?NnJJRjJueWVMT0I1SmZBaHJyMFlCNDBNbnF0L29VVTFVWjU4Zm91SkdhdGJL?=
- =?utf-8?B?UDVwNUVlZGNNTFBqT2U1MGc5R0s2TndLQTNhV2ltQ2FZNFgyMW1USDk4UW5D?=
- =?utf-8?B?d0txekxQTmNaYmRnOHRpSG12UVpudDVjVWlYL29tQThWd3VpYU0zOE0wdHIz?=
- =?utf-8?B?Zmh4TUxPbkVlV2JGM0M4QUtWM1lCeXg1M01wbUtIaVJTNEJuSnhuTmEzSGRa?=
- =?utf-8?B?Ni9YME45cW1lYnhKUXJFMzNhK1oxRHpLK2hKQ05QaDlaUkMxUFo2akZ3eGtr?=
- =?utf-8?B?NVB0ZTNWUmdYMzlRSjY0UmxWNVZxNkk4S0o2b0FkWGg3eGdNRHJRR0w4NFRF?=
- =?utf-8?B?UmYvZjE2NmlvSlhVajNqNlQ5NXkrek4yRklPdmFxQVhOZTVxbTlFaDBlMkRP?=
- =?utf-8?B?QnYzVUZ1a2NWeHp2SENWQVZKWTQ3aytVeUE2OTZrSkxnbFh2c0FtZWhGUXBv?=
- =?utf-8?B?ODFZVXM0THJtNmNZRWZEODNWY1k5cURHakdNRXVSNUJZM3BhbTgrMldxckkv?=
- =?utf-8?B?QXowYS9BbUdzdEMzUWVjQzVHdkhjVks5MVB4SGlrazdwaGlxMWZRWkg2RGow?=
- =?utf-8?B?ZTV2YW41VWI5b0g3RnE1Y1pSSmNheTBKZzhsSlozRFJFbTZTUlRkUituajAw?=
- =?utf-8?B?ditrQW96dXFOWXl2dWR1dStmaVVMYlVsSkVmR1dQc29IZ1ZUVkV3M2xoWmVG?=
- =?utf-8?B?Tm1Vak1rRXpnSE1rb1k2bHUxa0dUeVJZeDVFTEJBVTcwZjBkZkdtdGJuelNz?=
- =?utf-8?B?UEY3Sy9MajNoY3QyVTl6Sm1NSFovZS9LYWxYVWwrMS9RZFQ2eFFyZzZzS2Ew?=
- =?utf-8?B?VDJ5OWdqcWNzRFJRMC92NUdqZHBEWXVXQWp1dzFNbzduUmFGcVNWdGw5cWxJ?=
- =?utf-8?B?NTQwVmlSaDVHcUJnVUdkdjNES1d0YUp3bi84Q1RXRGdiQUNtR3o2aGdRRXJT?=
- =?utf-8?B?QnJnNEtBT2x3LzAvMG1mRmpRSlFVNGRzUDA4aWxZd0xGYmR2bWJucU5idWZq?=
- =?utf-8?B?RHdiaFBoNlhOV2xpYzVCaUx5Qk9zMUxxMUdHK1NkUmFNVVlVenZiMFp1RUZV?=
- =?utf-8?B?TSt6cm8ySFVoTFdEY2E0aGlUTWZtUzE3L29Mak1VVklabmJrTE9aY0E1NWxY?=
- =?utf-8?B?YkgzTDJtb0RoK2kvQUJyK1V6R0dyOExkTTBoRXN1enlWSnVEMGxGR0RoZW9z?=
- =?utf-8?B?VFBsNmhueGlkLy8wdUlJV1hXVlZJZ2Zwb3JMWHhYV2YvTDh0V0d2L0ErYXpM?=
- =?utf-8?B?RzhDcE5xZ1ZXTUpJSjg4akFDSkFycUl5MnZBUGVJTStKWEJVTFhtL3JFckVi?=
- =?utf-8?B?NzBKSWg3eXYwcmYrcHlRSVBmaHl2Z1BUaTNQQ3BqeXBZNW00ZWtnQnh6NFp4?=
- =?utf-8?B?UnBFclVsU3Y5d25vU1gwS1V5Y2oyZmpNcmk3OU04SHVNOGtZU2ZmUjlRaklT?=
- =?utf-8?B?d2NQRUZ5Z0VHVnVFWFJleFdtNlVWdDZLRDJra2hVajAvVlVCTTY4YldldG5Y?=
- =?utf-8?B?UmdpMXNSc0I1ZmkzZ2ZJK3RENDRkMkg3eE11OG56WVNlWk9uWmZJSWxMYVZH?=
- =?utf-8?B?eUEvbzZhV1haekhHeEVNRzIwdGJrREV2M2hobFFVVGVoTktpRUw5a0FTTHBZ?=
- =?utf-8?B?bkxGTjZOMm5xanFVaUpOZDlVUGdRVjZVdmpuV1ljZktVZ1EwT2RiYjlqdFdp?=
- =?utf-8?B?czg3ZWFmcmdmUnAxdVQwdG1HVXcxaXh5RHVJWjZLMVdnTVBnaW16OVE1TG8r?=
- =?utf-8?B?VGpsWGNPSncrbmc2eGZhV0ZmZUk2YUZqM3ArN3R5SzRaTVZTRUkxTisxWTJ2?=
- =?utf-8?B?T0NMV2MxdFh3WDNJcmZaZzJvTXRDYndSNEpnaEhvbEVXc3poRHJMSmZEMnp5?=
- =?utf-8?Q?EjhQ=3D?=
+	=?utf-8?B?cVJ3Y0RHUVJPTFFHRk1PdFdwNmFDK3lRZmJXQXJ3OTJsbit6VWJ1TmNBUEQ1?=
+ =?utf-8?B?cit5cU1aa0V3OEVlYTFjOVpUZEEvTEpXbldPMkVlSVlxdS9Md1FDdm9KNWJY?=
+ =?utf-8?B?SHFCd0pzK3B2NzhNdTBGNWZBdzNCMkl4WGhOaGp1cDUwd0FZUEIxeU4xbHFK?=
+ =?utf-8?B?Y0RValFjaEl5RjY5KzQzQU5GL0FnNlVGb3FvTFpESUZHR0hTekIwaUM1bzBK?=
+ =?utf-8?B?dCswbTJCU2RielIya1dTbUVYK2l2QlRaSTZLazJZRkFzVjB5MTAydmQybHlk?=
+ =?utf-8?B?YmRjclp0VDRaQklyc0JUMzVsUStZQ1UzVVljSDlVZFVxd2JrcGxVQUN5ZDVo?=
+ =?utf-8?B?cGtuWW1NNS9rVVlSK0hiTXpoa1BlY1hnQ2RTWUF6MEpBZGxOdUFzdW1rZFlx?=
+ =?utf-8?B?ZXVSMC82TjduQXZMVXgzRWVFSUtwMngxdjBmUU9SS0Z0dmRFS0g4RWRjQ2I1?=
+ =?utf-8?B?NjdkTFZybjg4aVd3RWhFTnVmNnQ5dVhVVlRKeURuaXhyQWhlSTd3WXpNZEVs?=
+ =?utf-8?B?alh5c0tvMjNNNk96UlpIRUVsdko4c1NnMVBmdVh1RkR6ZTZ6dW9SSldCZHcr?=
+ =?utf-8?B?TkJmUzRWUHZteXllRWFDSlhYcU91VGI1QVZSc2krVStGTjVaME94NS9uS3Fr?=
+ =?utf-8?B?NzY4Z1dRNThOUTRsNjh2TzRkUzA2UEszQlhEdUlNbk9BUHR3TnhLOGtBOXFI?=
+ =?utf-8?B?a2VWa3JIUHpaRkkwUWpZK3hUbFEvdldNd3pIOUZSOWk0NE5NYWlzTzVRVys1?=
+ =?utf-8?B?QWRIRDBlQm0xMzZaVk0xQzN4MWt0cjBsSHhnbTFRb25xQ0xjVmdBVWJMeFFm?=
+ =?utf-8?B?VW5OTStqR0V4U3RuM0hYK3lnaUk2T2ZxeVlXeVFWYTVoRmhBNWFNaHNvNUpU?=
+ =?utf-8?B?YUNJUlZrYVdzekFNVXZIVmNQYTBOM1JNZXVHVUw1TVFLWHZVRHNkMHpjSzh1?=
+ =?utf-8?B?RVZzZm5OaC9sb1B3YTZmbFZBWFU5MXpJV3pqdjA0M0JZRkNWTGovQ2JFeitm?=
+ =?utf-8?B?QThEUTkvcVRUcWRYWTNNUnBtTUVxOFJQbEd2R2I4T1ZxK3VZSFdZdWgySjNu?=
+ =?utf-8?B?dHBwYmdMNndVRUdEbmlYdUtrVnRBV1plaU1VaTM1OGFDS2VmNmF1MlVhVkxq?=
+ =?utf-8?B?RUFsc3UvVVlaY3RzVVhoVFV3eGNHakovcmtxeFcwU2VscGRuK1lEZVd5enRH?=
+ =?utf-8?B?SjQySGUxOWt5QW1yWjJVWDFnT09yd0NnRkdZNUdURzhzY3VJU29JSTA1SzFU?=
+ =?utf-8?B?V3lBRmFoVXhUNmJnTE8xdXo2c3hldjcwc3pwaVc4bXl2SnhVM3gwZ0x2OVVQ?=
+ =?utf-8?B?T0YzdzkxZUtnV0hqS3dUWWx5SlhWcy9mS1QwYk8zUEswNTgxTlNZWVc4QVlq?=
+ =?utf-8?B?clJINW5OTS9BUkpOS0NhVFh5ZHlmQlhpZXNZNUpwek9RUHdzcVVSSHJOYnd5?=
+ =?utf-8?B?UG5jRi81VWpIQVZRcC9TOE5hZjBwSTVCL0g1SnlRNHhrQmNUL2ZzTFFoandy?=
+ =?utf-8?B?ZGRvTkREbGl4UUpBd2U0RVZmaFhOWnBsaUtNVlVBdEJFbUh4b05qNXBCdC9Y?=
+ =?utf-8?B?a3MrTjhPMmlZWmNJVTJvSXVtMEFYbCsyTWcrdXRVNFVrTzdDQmEvU1VEVVFE?=
+ =?utf-8?B?T0REU0FIUlNEVy9NVGJxMjFyT0RQNmJRakNKRmMyVFV5NUY1c01sYW0rZWZm?=
+ =?utf-8?B?a2NjU09QRDhVQUs2UDRCQ3BSTS9ERzlSenErdk0vNEUySHNPUmYxOVl4ZUtl?=
+ =?utf-8?B?bUlxWHpXY2hKa2FPNFRHS05LMDlRTzh4dDZwR2tOYWhteVlhY0p6b1Z2T0VD?=
+ =?utf-8?B?SnBrQktyZTY3bW9tY0ZNdjV5QXYvQ1gwbEZwOGxMUE1YRDhlSGFqaDFsdFh0?=
+ =?utf-8?B?eVFsNVpJREhSamdDaGFxR3ZxMnpOS3AzblVENGlyL3M1OWxyaUllODBrWUdl?=
+ =?utf-8?B?YktjMUpZL082VEJzUGU2VjhJTjZMMERQM25lQ1JOOGgrY2VFcTVlN0N6R2g0?=
+ =?utf-8?B?QitLT0NLSVc3UTBTOHZ2Q2RTYlpxQ29LUjVaSFplNHJsS0REMUw3c0J0VGFS?=
+ =?utf-8?B?d1dvY25qcnhFZDc5MVNvMHFDSDBka25Cemk1SlhFRjlnMkJTUTFRM1lSRmdV?=
+ =?utf-8?Q?DHj4=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UjdiWUdZdTRZVEdBdHU0ZjdVZk1jLytuejgxa3N5aVpKSk1CcUZETWFJTWYy?=
- =?utf-8?B?SzJDVGJmQU5Wb1hFSUdMcmZmSHhOWW5DVFNzbXNCam93TzZjQlRXOTRzd0hx?=
- =?utf-8?B?RlpkeVRmdkJuYURxd1NOMWJvOC9CcG9XM1hwNFBWTktwa1NYTWVpenQyUVJG?=
- =?utf-8?B?Zis3UVJQMDNhU210MWkxSTgxVG5VcWFRRWNyV0ZLL2p3ak96Y0hlckhNRVor?=
- =?utf-8?B?VzZaL1ZlckhSbkNLZU13QTZEaVUrMzRTeVQ2elR5NWdGTjBEMCtNS281aUt0?=
- =?utf-8?B?dU53MjhPbzFtVVoyR3NobG45bW0ybGx3T29GTUxmc3ZwQjZ5ZGdJMUh5SUJI?=
- =?utf-8?B?QTRSRlJobEl3Y0l1M3diVFFqOUJGNnJzU1pKSXg4b1BRWTlWNVRQaTI0dmxY?=
- =?utf-8?B?b0U5MjNjSVpnUVc4MzNmV1ZlVTVTR3BxaE50MjJHWUc4THNHRkJXNWJGRGMr?=
- =?utf-8?B?eldVd3pNeUtYeEI5ZXQ4b290aXFQRTdMb2I0bE1rNVQzeEV5eE1DTmNLM0V3?=
- =?utf-8?B?RGlrN0JSTDdxRW9ScjNBckJMN3JYTVhFaU5TTXNaUUh2RHpXTGdDejV2M1lj?=
- =?utf-8?B?TTNZWHI2Y1JqZ09lT0FHQWg3NzBadEE0OWROU3A4Q3JneVBjSEd2SkdLdGM3?=
- =?utf-8?B?ZHJ2eTE3QjEyeDJUd3EwRHdsMFNDVzB2aHhXL2h6RWR1T3dZaXY4YVY2dVVN?=
- =?utf-8?B?TmtOY1g0a3NQOURjM2p2R0V3UnBxTHNrTU5kYWNEQUthekNaSytxZUp6NGt5?=
- =?utf-8?B?MXlyWjJsN0FLV1pXYVh5L3Bad0tvL0t4WXJjbnlFQnhnNFJzZ0FsVFk4OEJ3?=
- =?utf-8?B?clkyYm9UTThrR3IvUk12MmFYWnM5ZzJzS2s1amFzSzJJV0Jsb1A3Y0MzcGdU?=
- =?utf-8?B?bVJMYTM5NmRZVnpzZy9wVW1LYUxFci9jcmRuUmZKMGRHb0lkcVhrSlluTSt1?=
- =?utf-8?B?T1BNWUF6MXJ3aVk0bVBLUVhQT0FZc3hsMjZiWGVLVVBkY1ZGdlZOYXQ0d21E?=
- =?utf-8?B?QksyY3JXcXhQUTlCNURHVHVabktxZjNGdi9UNFhUdkE5Lzc4Vi9yV21ldnhJ?=
- =?utf-8?B?SkcvU2dZNERaLzBDajJqUVJtbGhpdUdMQnhydWZ3aSt2VE1PdWNGVFRDSmdl?=
- =?utf-8?B?ZHVBa0VsQ0MvYThGQldUdGQ0RGxRMDZjdUU4bHVQUVlvdEg2OUlONStiTHcr?=
- =?utf-8?B?dzVoUTRzZ3kwOVlzbS9JcW5kelRYVHR3Uk1LRG8ySFdOVDJWOVhnYUNvU1hI?=
- =?utf-8?B?YnVsK1RPRUQ0eEozaFpWTWxYd3hQMjh2ZVo1aFo0c2R0bDc2M25DOE44bjJt?=
- =?utf-8?B?dmRyQzdIRGhVSi9IeDR3N3dzcHBZVUc4YnRHTGRaaldCbmFvbE9YeHAvei93?=
- =?utf-8?B?U01RUWkyRS9xVS9ybUlXay9hUXBhVXdEbkpndjZrcjZUYkxmVWVKT1ZlYTda?=
- =?utf-8?B?dXVoenczcWQrUGE5bTFqeW5NUVVIeitBSmw0Tllnb0wranRXSFlyeURjU3hW?=
- =?utf-8?B?U0ZLa2dJRmxTZFRIc2lUWWVFYmdURE5jdkxKcDdxUENudk0yczY1RlAxL0l4?=
- =?utf-8?B?cStCSkl2WjY5RVQ1SVprKzlrVUI4dDFaUFNOcTRGby9jNDJRZ3NYcUw4bEFh?=
- =?utf-8?B?M0FhR2JUckNEeE1kd2E0M0cwV0dlN3FndW14SDhhZThPOWkybG5scENac2Ju?=
- =?utf-8?B?dDlPS2hrb0c4MHRseGp5MXlERGQrZ3JxUW9lUUVhN3lBbU9ONHdPbW9xQ2hp?=
- =?utf-8?B?T2NpVjlkczEyZ1M5Z21LMVJuRk15OFg3WnpXZnVIRjBRN1FZNXZvam8zb3NG?=
- =?utf-8?B?cFdGY2VTRnBJMEVvZXFXVjI0NVhLRFMvL0FQWlFVdVR1K216dDNTZWQ0eGs2?=
- =?utf-8?B?NzN3Wjg1N0J1NEZ5NFVLNEd0dXZCQ0FFdW84TnZ1QzhnSE1kRHU1VnZzOVox?=
- =?utf-8?B?d3NabjJIYUZ0RWQxM1hicDkxQ2xOUGRPaE1YSGxLMXNzWEhWNnVwYm1tSzZF?=
- =?utf-8?B?a1N0QW12bnVFRFVGVnJhMk8rbFpXNW9zbXVNU0RhZlBOdW9wQVdxR1V4QURL?=
- =?utf-8?B?YTZjTjZDZ0dKYkN4OC96elI0MlZNbm11ajd5NmtqOG1KMG1DNVUxOVJ1SCt6?=
- =?utf-8?B?d1JQYkFjUGlhRVpja0VUb1VsUlc0RGo3a2p6czhCcFNqaUVlZFQ0eXhqTlVO?=
- =?utf-8?B?TTZqSVFkRkxLaVZMblBYN0xYOGNTdEJFSThrdmNZY2pHTm0rdmtWYUlscnRz?=
- =?utf-8?B?TVEvcXY3cHBaTG55SHozcjg4OVVHNGJYR0dEYk9Ib2swb2ZianV5TzJsbExl?=
- =?utf-8?Q?MIaD0P+JpJ7qTEKZcn?=
+	=?utf-8?B?bFZSa2JuM3NHRTNjTFQ5bWx0MCt5eml0TXJZOVJsMENUYWNHNTg3bDQ0d2dK?=
+ =?utf-8?B?Q3dZdERweTRTMnBhakJtKzVrMkcvbzdLVzUvMnU4Z0FKSURZeVlSbDF5akp3?=
+ =?utf-8?B?ZWJtaW9oUFpIaW1QWXBuVVFhSWJqMnNTN3NtbjdOd2lsaFhBU0FuMTcrZ0Yy?=
+ =?utf-8?B?RGV4WVRmU2FoUHcyZnlxUmc5aEFWb2xuazdwT0hLaHZaYVNHU0NKWC9COUhV?=
+ =?utf-8?B?TXJxNDZ2LzZOdzJrM3d1bTIxQzF3c1BZV09ZUGNSWUlMdlNucG00T1lOT05V?=
+ =?utf-8?B?dlo5RlNoRkErbTlobFcycXkwOFBGYzN5Z1ZZU25KTGlydFIzSURKR1FSRzlO?=
+ =?utf-8?B?b0x4OE5qY2NMWXNMT3JwdWIvZ2NmTUx0SmpzdkUvNDg3RExjZmhONWMybVN0?=
+ =?utf-8?B?eDB0NGZxdHBDMHo3czdBUmlFQjBmRUgrcmpYOTZwbFF0aWF0Y3BHMWVPL01p?=
+ =?utf-8?B?eW9aMFRsZDNuVzh6UG1CZStwVVN6a0t1em1oWG1udHphSHVHSTlVdWd5UFRj?=
+ =?utf-8?B?RHFnY0FZb0lJVTZKR0hxRDhmaVYzVkFnNk5BL1VlemtzMzJzV2t1VUl0YXR2?=
+ =?utf-8?B?a3lDakYvaHlnUWJ5K2pUS3NzMkZGWG1DSHdtNnlDay9WeUZPeGR4MU5Ua29W?=
+ =?utf-8?B?OGthUkpMMURPRXJZVFY1bDhEVCtuamwzMWZYZjlLUVFBdjU2R0V4VkF2Z3NI?=
+ =?utf-8?B?NGpZQ0o5MFIzSnYxWTAweXVZUVhtV24vOFNDVlkrbHVjN2swRk9LajR2S0p4?=
+ =?utf-8?B?ZW1YTjBoaURMN1JGc0ZHRTdCQm5JcHcyYWZubHZhK2kvYy9GVUJDYlloOXkz?=
+ =?utf-8?B?R054NnVFclI4eUdGQ3VHSHg0S2hRUnZEYm1PZlpUZEljMmtiMCtoUFFzQk9D?=
+ =?utf-8?B?eDd1emFHWm9aaXhGZGpxSnVickRXQkJKQTJKNmJENENwVXVReXdqQXUvcUZq?=
+ =?utf-8?B?dkRwSEh0aHk2ZDlGdlNFK29vQ1d0TmZSNGo1cWdDbFJYUE9Cd0RCYzUzMDlK?=
+ =?utf-8?B?d1pkUDdvZUJrL0dxbnBLQjJnNnlVQWdRcU9MVW4xMnhMak5FNm9mMXhiWjYv?=
+ =?utf-8?B?eTJqN3pudU5MZmJqWWNsRElMbCsxNFVlTWQzakFiSWxNakdadStNWUhucHhy?=
+ =?utf-8?B?TUxUam10by92WU5BM3lKVDFjbm9XM0RFQkwzNnVWTDJVQ2FyaW9nMnhBTU91?=
+ =?utf-8?B?bVNXdlN2MVBwUWxvcFpaeE55cHIrS1M1cGJ3UGVBMXA5VWpML3FyNnQ4VW5p?=
+ =?utf-8?B?d3ZFVEZ1bC9aQ2NiWDBnc1FrcnduS3pUVFJmeDB0cjhwQkVRUFVMbVNDODFo?=
+ =?utf-8?B?STNTTlJETkNzWDVpazB1bEZEdEREUEV5aDE2N2FqanJTeGNOdVJmM3g0Mm9B?=
+ =?utf-8?B?TFdvQ0tlK3N5eUtyRCt2VjdxRXFpVVREbGdLdjdHNlJJT2huTG9hNGhaUkNh?=
+ =?utf-8?B?WTNpMXBvRzUzaUlWajlmV1dRd3ZwK3o0N0p4Ny9lRnhMVnZiYXVHUzV0SCtn?=
+ =?utf-8?B?L1hHd29Va0JzWTJPa2ljNkpRY1BDWG5MRzhkWmk5K00vbGQyd3VkVE9GRURO?=
+ =?utf-8?B?MmN1b1FROU5uMDUwOU1XL0x4VkRwMitDWjRCVWZrYmY1K0RwV3dSRUxIcUdS?=
+ =?utf-8?B?UTZhbDB2SDJXR2QrK2hpREZBTlBDTU1mRm1WVGxQQk1DSHI3N2g1UEs1Wm1u?=
+ =?utf-8?B?Wnc2NUF2elZKbVFya0l3blhEZ0RieFpXQ0VQYy9CbElYem9BaFRKZEpLVDVD?=
+ =?utf-8?B?cEtQUGc0R3Naa1NRM3ZtcnZwdzhSc3JSS3FDdzNlcEhGZ3hDU2ZObkVtQk83?=
+ =?utf-8?B?SHBibFdqUUViZlBKTnlvbmZTZ0RQZkh2dWtMOFFBSDk0Z0laTXJHUzRXSGxp?=
+ =?utf-8?B?RXdIOTF0Z2VsN01kMnNIQSs3UVRLVjdYYkpMbGUxUHJpZlNaSmpWbkNtYStK?=
+ =?utf-8?B?VkFJaFlkc2pVV1FKemFBNVpKa2VUQ0R1VmVuUzhxbjR0eUU4MGQ5QkkvNFJV?=
+ =?utf-8?B?cmtQK0tPOFZKVjhpQVZkZG0xWlBzWUU5ZU8vQnVKZGNNcXc5U3RqWFozTFA0?=
+ =?utf-8?B?Uy9rVll2SFVTdWpHemVRZDBtSzh0WTY0U29qT0Y4SzhVM0lWd3JBbkxSYlky?=
+ =?utf-8?B?ZU95eUw4bHpLQ1NORExIUFc3K2Z6dzRaZFlmczkrd2c1d2tvcDVtaDNBamNF?=
+ =?utf-8?B?RFhqVEQyTGJRV0NtTVJMc2RYUENGZ3UxcU1LWHg0T01PdGZqaWlOaVRpN2Qr?=
+ =?utf-8?B?YTJwa3J2VTFMS2FTQUlTNlBUR1VLODZ4UGVnbHlMRWFDZkRxQXQ3dXc0Tm4r?=
+ =?utf-8?Q?znn/0GdNflltFWBzUb?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c776a3f-af57-4d77-6f83-08de58057c55
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b70e7fe-68a0-45ac-047b-08de58067ea9
 X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 09:22:52.0623
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 09:30:05.4489
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SoXkWT38zR8oi2I6YGOJSy1nLdqICnKMHyOJqeopGjqTodGyU1pO/gpDHlls3Meg
+X-MS-Exchange-CrossTenant-UserPrincipalName: f72wAcloiksnAu6g4fjJutVTZSkOTKPirnFwrhoX+a8TaJY7zbiLTpWUihAuGUXY
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9789
 
-Hi Sakari, there's still one left. Could you please help check it?
+Hi Skari, since this is a mature product, the ISP driver/FW interface is 
+fixed and should not change. The only remaining question is how to 
+initialize them—by declaration or with memset. Would you please share 
+your preference?
 
-On 1/7/2026 4:44 PM, Du, Bin wrote:
-> Thank you, Sakari for the feedback.
-> 
-> On 12/22/2025 5:37 PM, Sakari Ailus wrote:
->> Hi Bin,
+On 1/15/2026 3:21 PM, Sultan Alsawaf wrote:
+> On Wed, Jan 14, 2026 at 11:03:49PM +0200, Sakari Ailus wrote:
+>> Hi Sultan,
 >>
->> On Tue, Dec 16, 2025 at 05:13:22PM +0800, Bin Du wrote:
-
-[snip]
-
->>> +enum isp4fw_buffer_source {
->>> +    /* The buffer is from the stream buffer queue */
->>> +    BUFFER_SOURCE_STREAM,
->>> +};
+>> On Tue, Jan 06, 2026 at 11:33:53PM -0800, Sultan Alsawaf wrote:
+>>> Hi Sakari,
+>>>
+>>> On Mon, Dec 22, 2025 at 12:11:11PM +0200, Sakari Ailus wrote:
+>>>> Hi Bin,
+>>>>
+>>>> On Tue, Dec 16, 2025 at 05:13:23PM +0800, Bin Du wrote:
+>>>>> +static int isp4sd_set_stream_path(struct isp4_subdev *isp_subdev)
+>>>>> +{
+>>>>> +	struct isp4_interface *ispif = &isp_subdev->ispif;
+>>>>> +	struct isp4fw_cmd_set_stream_cfg cmd;
+>>>>> +	struct device *dev = isp_subdev->dev;
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
+>>>>> +	 * zeroed, since this is not guaranteed on all compilers.
+>>>>> +	 */
+>>>>> +	memset(&cmd, 0, sizeof(cmd));
+>>>>
+>>>> You could assign assign all these in the declaration and avoid zeroing the
+>>>> memory explicitly at the same time. I presume possibly leaking some
+>>>> information from memory to the firmware in case there are holes in the
+>>>> struct isn't an issue.
+>>>
+>>> Leaking kernel memory is bad. Also, there is no guarantee that the firmware will
+>>> behave as expected with varying values for the padding bytes.
+>>>
+>>> Please see my arguments from v4 on why these structs should be memset [1].
 >>
->> Could you also use the ISP4 (or ISP4IF) prefix for these, please? Many 
->> look
->> rather generic.
+>> There should be no host CPU related ABI introduced padding in structs defining
+>> firmware interfaces. Just use reserved fields in that case instead. In
+>> other words, the above memset() is equivalent to zeroing the memory using
+>> an assignment.
+> 
+> I understand that, but I don't work for AMD and don't have firmware source. :)
+> 
+> My personal preference is to pack firmware interface structs since relying on
+> reserved fields is subject to human error, especially for future changes to the
+> firmware interface.
+> 
+> That being said, please see what Bin said about the firmware interface [1]:
+> "Quoted below is Sultan's reply regarding this, does that make sense? On
+> the other hand,  these definitions are shared between the ISP driver and
+> firmware and have been verified. I prefer not to add extra padding
+> fields to the driver as it would affect consistency. Is it acceptable to
+> leave the definitions as they are?"
+> 
+>>>
+>>>>> +	cmd.stream_cfg.mipi_pipe_path_cfg.isp4fw_sensor_id = SENSOR_ID_ON_MIPI0;
+>>>>> +	cmd.stream_cfg.mipi_pipe_path_cfg.b_enable = true;
+>>>>> +	cmd.stream_cfg.isp_pipe_path_cfg.isp_pipe_id = MIPI0_ISP_PIPELINE_ID;
+>>>>> +
+>>>>> +	cmd.stream_cfg.b_enable_tnr = true;
+>>>>> +	dev_dbg(dev, "isp4fw_sensor_id %d, pipeId 0x%x EnableTnr %u\n",
+>>>>> +		cmd.stream_cfg.mipi_pipe_path_cfg.isp4fw_sensor_id,
+>>>>> +		cmd.stream_cfg.isp_pipe_path_cfg.isp_pipe_id,
+>>>>> +		cmd.stream_cfg.b_enable_tnr);
+>>>>> +
+>>>>> +	return isp4if_send_command(ispif, CMD_ID_SET_STREAM_CONFIG,
+>>>>> +				   &cmd, sizeof(cmd));
+>>>>> +}
+>>>>> +
+>>>>> +static int isp4sd_send_meta_buf(struct isp4_subdev *isp_subdev)
+>>>>> +{
+>>>>> +	struct isp4_interface *ispif = &isp_subdev->ispif;
+>>>>> +	struct isp4fw_cmd_send_buffer buf_type;
+>>>>> +	struct device *dev = isp_subdev->dev;
+>>>>> +	int i;
+>>>>
+>>>> unsigned int, please. You can also declare this within the loop as you do
+>>>> elsewhere. Consistency is nice.
+>>>
+>>> Why does this need to be unsigned?
 >>
+>> Do you need negative numbers there?
 > 
-> Thank you for highlighting this matter, since these definitions are 
-> located in isp4_fw_cmd_resp.h, ISP4_FW may be a more appropriate prefix. 
-> Just to confirm: are you suggesting that we should add this prefix to 
-> all macros and enums? For example, changing CMD_ID_SET_STREAM_CONFIG to 
-> ISP4_FW_CMD_ID_SET_STREAM_CONFIG, and BUFFER_SOURCE_STREAM to ISP4_FW 
-> _BUFFER_SOURCE_STREAM? Our initial thought was that these would only be 
-> used within ISP and shouldn't lead to any confusion.
+> No, but we don't need to make the variable explicitly unsigned either. It's more
+> common to see `int i;` than `unsigned int i;` too:
 > 
-
-Hi Sakari, would you please help to confirm so we can decide if further 
-modification is needed.
-
-[snip]
+> $ rg 'unsigned int i;' drivers/media/ | wc -l
+> 904
+> $ rg 'int i;' drivers/media/ | rg -v unsigned | wc -l
+> 1208
+> 
+> Making trivial loop iterators unsigned without reason inflates the code and adds
+> some confusion to future readers trying to understand if the 'unsigned' was
+> added because it was *required*, IMO.
+> 
+>>>
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
+>>>>> +	 * zeroed, since this is not guaranteed on all compilers.
+>>>>> +	 */
+>>>>> +	memset(&buf_type, 0, sizeof(buf_type));
+>>>>> +	for (i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++) {
+>>>>> +		struct isp4if_gpu_mem_info *meta_info_buf =
+>>>>> +				isp_subdev->ispif.meta_info_buf[i];
+>>>>> +		int ret;
+>>>>> +
+>>>>> +		if (!meta_info_buf) {
+>>>>> +			dev_err(dev, "fail for no meta info buf(%u)\n", i);
+>>>>> +			return -ENOMEM;
+>>>>> +		}
+>>>>> +
+>>>>> +		buf_type.buffer_type = BUFFER_TYPE_META_INFO;
+>>>>> +		buf_type.buffer.vmid_space.bit.space = ADDR_SPACE_TYPE_GPU_VA;
+>>>>> +		isp4if_split_addr64(meta_info_buf->gpu_mc_addr,
+>>>>> +				    &buf_type.buffer.buf_base_a_lo,
+>>>>> +				    &buf_type.buffer.buf_base_a_hi);
+>>>>> +		buf_type.buffer.buf_size_a = meta_info_buf->mem_size;
+>>>>> +		ret = isp4if_send_command(ispif, CMD_ID_SEND_BUFFER,
+>>>>> +					  &buf_type, sizeof(buf_type));
+>>>>> +		if (ret) {
+>>>>> +			dev_err(dev, "send meta info(%u) fail\n", i);
+>>>>> +			return ret;
+>>>>> +		}
+>>>>> +	}
+>>>>> +
+>>>>> +	dev_dbg(dev, "send meta info suc\n");
+>>>>> +	return 0;
+>>>>> +}
+>>>>> +
+>>>>> +static bool isp4sd_get_str_out_prop(struct isp4_subdev *isp_subdev,
+>>>>> +				    struct isp4fw_image_prop *out_prop,
+>>>>> +				    struct v4l2_subdev_state *state, u32 pad)
+>>>>> +{
+>>>>> +	struct device *dev = isp_subdev->dev;
+>>>>> +	struct v4l2_mbus_framefmt *format;
+>>>>> +
+>>>>> +	format = v4l2_subdev_state_get_format(state, pad, 0);
+>>>>> +	if (!format) {
+>>>>> +		dev_err(dev, "fail get subdev state format\n");
+>>>>> +		return false;
+>>>>> +	}
+>>>>> +
+>>>>> +	switch (format->code) {
+>>>>> +	case MEDIA_BUS_FMT_YUYV8_1_5X8:
+>>>>> +		out_prop->image_format = IMAGE_FORMAT_NV12;
+>>>>> +		out_prop->width = format->width;
+>>>>> +		out_prop->height = format->height;
+>>>>> +		out_prop->luma_pitch = format->width;
+>>>>> +		out_prop->chroma_pitch = out_prop->width;
+>>>>> +		break;
+>>>>> +	case MEDIA_BUS_FMT_YUYV8_1X16:
+>>>>> +		out_prop->image_format = IMAGE_FORMAT_YUV422INTERLEAVED;
+>>>>> +		out_prop->width = format->width;
+>>>>> +		out_prop->height = format->height;
+>>>>> +		out_prop->luma_pitch = format->width * 2;
+>>>>> +		out_prop->chroma_pitch = 0;
+>>>>> +		break;
+>>>>> +	default:
+>>>>> +		dev_err(dev, "fail for bad image format:0x%x\n",
+>>>>> +			format->code);
+>>>>> +		return false;
+>>>>> +	}
+>>>>> +
+>>>>> +	if (!out_prop->width || !out_prop->height)
+>>>>> +		return false;
+>>>>> +
+>>>>> +	return true;
+>>>>> +}
+>>>>> +
+>>>>> +static int isp4sd_kickoff_stream(struct isp4_subdev *isp_subdev, u32 w, u32 h)
+>>>>> +{
+>>>>> +	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
+>>>>> +	struct isp4_interface *ispif = &isp_subdev->ispif;
+>>>>> +	struct device *dev = isp_subdev->dev;
+>>>>> +
+>>>>> +	if (sensor_info->status == ISP4SD_START_STATUS_STARTED)
+>>>>> +		return 0;
+>>>>> +
+>>>>> +	if (sensor_info->status == ISP4SD_START_STATUS_START_FAIL) {
+>>>>> +		dev_err(dev, "fail for previous start fail\n");
+>>>>> +		return -EINVAL;
+>>>>> +	}
+>>>>> +
+>>>>> +	dev_dbg(dev, "w:%u,h:%u\n", w, h);
+>>>>> +
+>>>>> +	if (isp4sd_send_meta_buf(isp_subdev)) {
+>>>>> +		dev_err(dev, "fail to send meta buf\n");
+>>>>> +		sensor_info->status = ISP4SD_START_STATUS_START_FAIL;
+>>>>> +		return -EINVAL;
+>>>>> +	}
+>>>>> +
+>>>>> +	sensor_info->status = ISP4SD_START_STATUS_OFF;
+>>>>> +
+>>>>> +	if (!sensor_info->start_stream_cmd_sent &&
+>>>>> +	    sensor_info->buf_sent_cnt >= ISP4SD_MIN_BUF_CNT_BEF_START_STREAM) {
+>>>>> +		int ret = isp4if_send_command(ispif, CMD_ID_START_STREAM,
+>>>>> +					      NULL, 0);
+>>>>> +		if (ret) {
+>>>>> +			dev_err(dev, "fail to start stream\n");
+>>>>> +			return ret;
+>>>>> +		}
+>>>>> +
+>>>>> +		sensor_info->start_stream_cmd_sent = true;
+>>>>> +	} else {
+>>>>> +		dev_dbg(dev,
+>>>>> +			"no send START_STREAM, start_sent %u, buf_sent %u\n",
+>>>>> +			sensor_info->start_stream_cmd_sent,
+>>>>> +			sensor_info->buf_sent_cnt);
+>>>>> +	}
+>>>>> +
+>>>>> +	return 0;
+>>>>> +}
+>>>>> +
+>>>>> +static int isp4sd_setup_output(struct isp4_subdev *isp_subdev,
+>>>>> +			       struct v4l2_subdev_state *state, u32 pad)
+>>>>> +{
+>>>>> +	struct isp4sd_output_info *output_info = &isp_subdev->sensor_info.output_info;
+>>>>> +	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
+>>>>> +	struct isp4_interface *ispif = &isp_subdev->ispif;
+>>>>> +	struct isp4fw_cmd_set_out_ch_prop cmd_ch_prop;
+>>>>> +	struct isp4fw_cmd_enable_out_ch cmd_ch_en;
+>>>>> +	struct device *dev = isp_subdev->dev;
+>>>>> +	int ret;
+>>>>> +
+>>>>> +	if (output_info->start_status == ISP4SD_START_STATUS_STARTED)
+>>>>> +		return 0;
+>>>>> +
+>>>>> +	if (output_info->start_status == ISP4SD_START_STATUS_START_FAIL) {
+>>>>> +		dev_err(dev, "fail for previous start fail\n");
+>>>>> +		return -EINVAL;
+>>>>> +	}
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
+>>>>> +	 * zeroed, since this is not guaranteed on all compilers.
+>>>>> +	 */
+>>>>> +	memset(&cmd_ch_prop, 0, sizeof(cmd_ch_prop));
+>>>>> +	cmd_ch_prop.ch = ISP_PIPE_OUT_CH_PREVIEW;
+>>>>> +
+>>>>> +	if (!isp4sd_get_str_out_prop(isp_subdev, &cmd_ch_prop.image_prop, state, pad)) {
+>>>>> +		dev_err(dev, "fail to get out prop\n");
+>>>>> +		return -EINVAL;
+>>>>> +	}
+>>>>> +
+>>>>> +	dev_dbg(dev, "channel:%d,fmt %d,w:h=%u:%u,lp:%u,cp%u\n",
+>>>>> +		cmd_ch_prop.ch,
+>>>>> +		cmd_ch_prop.image_prop.image_format,
+>>>>> +		cmd_ch_prop.image_prop.width, cmd_ch_prop.image_prop.height,
+>>>>> +		cmd_ch_prop.image_prop.luma_pitch,
+>>>>> +		cmd_ch_prop.image_prop.chroma_pitch);
+>>>>> +
+>>>>> +	ret = isp4if_send_command(ispif, CMD_ID_SET_OUT_CHAN_PROP,
+>>>>> +				  &cmd_ch_prop, sizeof(cmd_ch_prop));
+>>>>> +	if (ret) {
+>>>>> +		output_info->start_status = ISP4SD_START_STATUS_START_FAIL;
+>>>>> +		dev_err(dev, "fail to set out prop\n");
+>>>>> +		return ret;
+>>>>> +	}
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * The struct will be shared with ISP FW, use memset() to guarantee padding bits are
+>>>>> +	 * zeroed, since this is not guaranteed on all compilers.
+>>>>
+>>>> You should have explicit padding fields in any case and not rely on ABI in
+>>>> this case.
+>>>
+>>> It is error-prone for a human to make sure that all padding bytes have
+>>> explicit struct members. And what about future changes to the firmware
+>>> API where explicit padding might be forgotten?
+>>
+>> Just don't do that. Use pahole to verify the result when making changes to
+>> the structs.
+> 
+> Humans are fallible. Someone will undoubtedly make this mistake in the future
+> without some way in place to either automatically run pahole and scrape the
+> output for holes in firmware API structs or memset the whole struct at runtime
+> so it never matters. OR slap __packed onto all those structs.
+> 
+>>>
+>>> Unless the firmware API structs are all __packed in a future firmware update, I
+>>> think the memsets should remain.
+>>
+>> If you want to be certain of the size of the structs, use BUILD_BUG_ON().
+> 
+> This won't help for the addition of new structs and still requires a human to
+> "do the right thing" and make sure there aren't any holes when they hardcode the
+> struct size into a compile-time assert.
+> 
+>> -- 
+>> Kind regards,
+>>
+>> Sakari Ailus
+> 
+> [1] https://lore.kernel.org/all/62bd8248-dd8a-4d51-8a85-ad13d3a03180@amd.com/
+> 
+> Sultan
 
 -- 
 Regards,
