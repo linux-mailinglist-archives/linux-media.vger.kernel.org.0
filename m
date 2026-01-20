@@ -1,186 +1,158 @@
-Return-Path: <linux-media+bounces-51128-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51129-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8CdlKBI1cGlzXAAAu9opvQ
-	(envelope-from <linux-media+bounces-51128-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 03:08:18 +0100
+	id gHFSJR9gcGkVXwAAu9opvQ
+	(envelope-from <linux-media+bounces-51129-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 06:11:59 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B85A4F82F
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 03:08:18 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6516515E5
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 06:11:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A165770A450
-	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 13:38:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 22A8290449E
+	for <lists+linux-media@lfdr.de>; Tue, 20 Jan 2026 13:38:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF45A43D513;
-	Tue, 20 Jan 2026 13:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D9442EEB0;
+	Tue, 20 Jan 2026 13:34:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpEG1sP9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwxmAxpa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E7842E01A;
-	Tue, 20 Jan 2026 13:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B1D42E01A;
+	Tue, 20 Jan 2026 13:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768916044; cv=none; b=pNi/R5QC6HpBG/eadw11+UbzQDKRAQHN8cz3ccXPurhM9T5o7HqQIzxmZku8rw5anoJ0n4gARV7i/gRw8rO7ehZS2okSzE8BkKCuxSqhNibVe9/pqImafiUjQ3RMTMFHY4blpBBEagrOv4D8bX91cKV2QsfN+6TZf/Ot4lx6Ie8=
+	t=1768916067; cv=none; b=Tzwh0g3mu6aIkXfJO2gFT4iC8lOilkw0NO4s3dSoruP3009417Tl2we7tZHMsO26FgJzmA8aIB1GHdoLyGYRyxvH1C6MRSJL8veDFu8yif1pYxyoIkCRkRbbvbUN0eumWiIfCdlCQ5Q5bDDz1STyvgkjDTcxVUDGVG6d3i+zBjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768916044; c=relaxed/simple;
-	bh=oLJ2iu9KlHT5QrDdejkQxW6aJLgiN+DqMd8h51OdTRU=;
+	s=arc-20240116; t=1768916067; c=relaxed/simple;
+	bh=rMm4UHaLXFoH4cVAkzgLPS5cSIcGJqOv+NSAE8Ow6qg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kPYLmd6BBFuH7rrM74o8RIyL90PSdttM3jGJLc9oXhJNNejkrNfEw+9ajbxbVCwOvoxBq9h4n5jboDrWWzuPuTVSuzWO0OTgm3ubc+FS5nOtMLbT0Y+6RxKnKB5sGA30mR1Tu/wMlvr2Ax6utJuhVNA4ukINgHWGMPwBHYkxg7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpEG1sP9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC30AC16AAE;
-	Tue, 20 Jan 2026 13:34:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768916043;
-	bh=oLJ2iu9KlHT5QrDdejkQxW6aJLgiN+DqMd8h51OdTRU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JpEG1sP9sdoE2iRilDGuE2cq1/H2M6cDuai69Nw+oSU99dcdoZdWBvI1Ukv0pmCi9
-	 TsEw1r+DamQwCel7MoQtDe43k96uNEN2EIGYyUqy+LKVNlFKvNVQdDnF9gRgkw6+oE
-	 Iyr3Ih5rCshWR5ndygaol8Ath9Rlm/yA6Sguxq2x2tSUxefkc1flchRkXEHVN8GCfi
-	 tJskCUcB7JdPmjSewrBWCzbAo1v7780XPg1+FKbkQX6nJPso+uCdLPziwkOu29i/jw
-	 mD8HoF6GofHxxX6dhDDXQOlk4BrG8fNLd2RXpMxN3Qn9LCRK7nBxumFh6AjnzbEM7k
-	 ZfnVnW6TNMaYg==
-Date: Tue, 20 Jan 2026 15:33:57 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] iommufd: Require DMABUF revoke semantics
-Message-ID: <20260120133357.GT13201@unreal>
-References: <20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com>
- <20260118-dmabuf-revoke-v2-3-a03bb27c0875@nvidia.com>
- <20260119165951.GI961572@ziepe.ca>
- <20260119182300.GO13201@unreal>
- <20260119195444.GL961572@ziepe.ca>
- <20260120131046.GS13201@unreal>
- <20260120131530.GN961572@ziepe.ca>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qPYZm62O6hhPurNUZnYdPus1W5cJFmIG100DbdSpoEB8oL/3lRkJv5+QfEm4/gmzHQnicMkyIVvzSzpe46kpprkbuExLkxSN2ehyJhlqtjszV5vnJZ/NX0YzYwjs4INyvbNShDsyivxaODjSsYnlPe8K1MV8vXZyRDHO31ivxxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwxmAxpa; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768916066; x=1800452066;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rMm4UHaLXFoH4cVAkzgLPS5cSIcGJqOv+NSAE8Ow6qg=;
+  b=kwxmAxpaAHxkdoV3cXqgSnjV6hSwpMYg+CW5H1VkXusdJiEelCB/MEH4
+   PR2l6Pxk6zZsMq3IYZIJfgTWqkebXJOTwXA7R5R3mQ/9itnYqOtUFkU6d
+   CD1kz3o7N3OdVf1LoegGVijmTNMvickWUf7NEtywynTVSg3E2b2bVIyRY
+   SkBn6QdP3tvSeUjYLqDWt245RT/CYnutfzcPLc+7I17CvZxxKWIJb32/7
+   hlHmgSZ1rKci2fDvijYicSy6bXs+c6GBUJH6vYVu0yc7kKrFR4XJAovxF
+   vVGSa/HH/oE1FucupzyQm5J/hG6x8Hg1QFS3sawAU7PyD9K7hPGSOvueD
+   g==;
+X-CSE-ConnectionGUID: MTJFQ97pQxyb6hLLT5Gwqw==
+X-CSE-MsgGUID: vtUUu6w3QoqOjWQNHncabQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70095074"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="70095074"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 05:34:24 -0800
+X-CSE-ConnectionGUID: 6GIDVvhdQSSEjq2lvh9rxQ==
+X-CSE-MsgGUID: xUWG6DKgSIWvPTLzQKWmgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="236806666"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.188])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 05:34:19 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E421011F82F;
+	Tue, 20 Jan 2026 15:34:22 +0200 (EET)
+Date: Tue, 20 Jan 2026 15:34:22 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: dumitru.ceclan@analog.com
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-staging@lists.linux.dev, mitrutzceclan@gmail.com,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: Re: [PATCH RESEND v8 17/21] media: i2c: maxim-serdes: add MAX9296A
+ driver
+Message-ID: <aW-EXiiKFLrXQeJG@kekkonen.localdomain>
+References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
+ <20251208-gmsl2-3_serdes-v8-17-7b8d457e2e04@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260120131530.GN961572@ziepe.ca>
-X-Spamd-Result: default: False [-1.46 / 15.00];
+In-Reply-To: <20251208-gmsl2-3_serdes-v8-17-7b8d457e2e04@analog.com>
+X-Spamd-Result: default: False [-0.46 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51128-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,collabora.com,ragnatech.se,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[31];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51129-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,nvidia.com:email]
-X-Rspamd-Queue-Id: 4B85A4F82F
+	RCPT_COUNT_TWELVE(0.00)[15];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	RCVD_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: E6516515E5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Jan 20, 2026 at 09:15:30AM -0400, Jason Gunthorpe wrote:
-> On Tue, Jan 20, 2026 at 03:10:46PM +0200, Leon Romanovsky wrote:
-> > On Mon, Jan 19, 2026 at 03:54:44PM -0400, Jason Gunthorpe wrote:
-> > > On Mon, Jan 19, 2026 at 08:23:00PM +0200, Leon Romanovsky wrote:
-> > > > On Mon, Jan 19, 2026 at 12:59:51PM -0400, Jason Gunthorpe wrote:
-> > > > > On Sun, Jan 18, 2026 at 02:08:47PM +0200, Leon Romanovsky wrote:
-> > > > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > > > > 
-> > > > > > IOMMUFD does not support page fault handling, and after a call to
-> > > > > > .invalidate_mappings() all mappings become invalid. Ensure that
-> > > > > > the IOMMUFD DMABUF importer is bound to a revoke‑aware DMABUF exporter
-> > > > > > (for example, VFIO).
-> > > > > > 
-> > > > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > > > > ---
-> > > > > >  drivers/iommu/iommufd/pages.c | 9 ++++++++-
-> > > > > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
-> > > > > > index 76f900fa1687..a5eb2bc4ef48 100644
-> > > > > > --- a/drivers/iommu/iommufd/pages.c
-> > > > > > +++ b/drivers/iommu/iommufd/pages.c
-> > > > > > @@ -1501,16 +1501,22 @@ static int iopt_map_dmabuf(struct iommufd_ctx *ictx, struct iopt_pages *pages,
-> > > > > >  		mutex_unlock(&pages->mutex);
-> > > > > >  	}
-> > > > > >  
-> > > > > > -	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
-> > > > > > +	rc = dma_buf_pin(attach);
-> > > > > >  	if (rc)
-> > > > > >  		goto err_detach;
-> > > > > >  
-> > > > > > +	rc = sym_vfio_pci_dma_buf_iommufd_map(attach, &pages->dmabuf.phys);
-> > > > > > +	if (rc)
-> > > > > > +		goto err_unpin;
-> > > > > > +
-> > > > > >  	dma_resv_unlock(dmabuf->resv);
-> > > > > >  
-> > > > > >  	/* On success iopt_release_pages() will detach and put the dmabuf. */
-> > > > > >  	pages->dmabuf.attach = attach;
-> > > > > >  	return 0;
-> > > > > 
-> > > > > Don't we need an explicit unpin after unmapping?
-> > > > 
-> > > > Yes, but this patch is going to be dropped in v3 because of this
-> > > > suggestion.
-> > > > https://lore.kernel.org/all/a397ff1e-615f-4873-98a9-940f9c16f85c@amd.com
-> > > 
-> > > That's not right, that suggestion is about changing VFIO. iommufd must
-> > > still act as a pinning importer!
-> > 
-> > There is no change in iommufd, as it invokes dma_buf_dynamic_attach()
-> > with a valid &iopt_dmabuf_attach_revoke_ops. The check determining whether
-> > iommufd can perform a revoke is handled there.
-> 
-> iommufd is a pining importer. I did not add a call to pin because it
-> only worked with VFIO that would not support it. Now that this series
-> fixes it the pin must be added. Don't drop this patch.
+Hi Dumitru,
 
-No problem, let's keep it.
+On Mon, Dec 08, 2025 at 04:13:09PM +0200, Dumitru Ceclan via B4 Relay wrote:
+> +	*ops = max9296a_common_ops;
+> +
+> +	ops->versions = priv->info->ops->versions;
+> +	ops->modes = priv->info->ops->modes;
+> +	ops->needs_single_link_version = priv->info->ops->needs_single_link_version;
+> +	ops->needs_unique_stream_id = priv->info->ops->needs_unique_stream_id;
+> +	ops->fix_tx_ids = priv->info->ops->fix_tx_ids;
+> +	ops->num_phys = priv->info->ops->num_phys;
+> +	ops->num_pipes = priv->info->ops->num_pipes;
+> +	ops->num_links = priv->info->ops->num_links;
+> +	ops->phys_configs = priv->info->ops->phys_configs;
+> +	ops->set_pipe_enable = priv->info->ops->set_pipe_enable;
+> +	ops->set_pipe_stream_id = priv->info->ops->set_pipe_stream_id;
+> +	ops->set_pipe_tunnel_phy = priv->info->ops->set_pipe_tunnel_phy;
+> +	ops->set_pipe_tunnel_enable = priv->info->ops->set_pipe_tunnel_enable;
+> +	ops->use_atr = priv->info->ops->use_atr;
+> +	ops->tpg_mode = priv->info->ops->tpg_mode;
 
-Thanks
+What's the reason for doing these assignments and a copy of the memory? Why
+not to just keep a pointer to the struct memory instead? I think there's
+another case of the same.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
