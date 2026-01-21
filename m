@@ -1,66 +1,66 @@
-Return-Path: <linux-media+bounces-51265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51267-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AHMGIlbgcGnCaQAAu9opvQ
-	(envelope-from <linux-media+bounces-51265-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:19:02 +0100
+	id IDU1JbnmcGk+awAAu9opvQ
+	(envelope-from <linux-media+bounces-51267-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:46:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B472584E1
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:19:02 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F66F58A06
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:46:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id B7C3170CA08
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 14:06:47 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4E2F15CEE78
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 14:07:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E677C4A5B10;
-	Wed, 21 Jan 2026 13:56:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62EE04ADDBB;
+	Wed, 21 Jan 2026 13:56:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="C5Dn2t3b"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="t+4qdiQG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013036.outbound.protection.outlook.com [40.107.201.36])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011024.outbound.protection.outlook.com [52.101.52.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D85B4A5AF6;
-	Wed, 21 Jan 2026 13:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAED481FC0;
+	Wed, 21 Jan 2026 13:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.24
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769003799; cv=fail; b=jPm/m95wIFI/F5AIDXhgvZ9aI2tatDySM4B7qbFMiUF6xa3j0gjNzPPwb1ryV/K0eawunj3OBVPq+sZwc7O8ls7ZD2A6OMNqlUE1zCiR8exjhxriK1MLKaFbt3LskrA9/7aN2gRYsAM/yLYZdFfh+HEhP/0ZihS9udlsOS9bjcY=
+	t=1769003808; cv=fail; b=q8uCyBYQLNs8uesN7MCAlWim5TCnk9PEljLJvYTsT4e7vMP0/hX2/71R5dN888HPI1x0C3ghoibNytLP1e3V2kq1q46j42mmlK7wEJxt0DICv1Fxo7DT3YiyvOc5Iapucxjde0T78AOiFYuJXi4Ub4irh3MSwR5Mkazsg//L+uQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769003799; c=relaxed/simple;
-	bh=ctgakOB8M3/wpyJzPeVWUjr0zi9SqROwsYpILl0av78=;
+	s=arc-20240116; t=1769003808; c=relaxed/simple;
+	bh=IqBC618vVkrvMWOgTqTWroI/kDeYrreU4ezTqXAsh7E=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LfVxyYfyGmt18SNq1nuxEl0EF+7tHMi/uqv4nqXeP3/G94rJgCilGz4d0WG1g7s/ZkMbGXEC9+r2pVSOobQPVLPgboXv1KoFg47+Cn/++gxJddqXMW3G7PFGYrjLmPaqXxSK4UkCz5/sSdDJEfm0EWf6bWvDHGtgF6EC42AkDyo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=C5Dn2t3b; arc=fail smtp.client-ip=40.107.201.36
+	 MIME-Version:Content-Type; b=jmQOxpAEDB5LP/a0vocJEYFa1Eu1rUDC7IdpP7yDG72JGtQYM4BgpP5AWpy+1Pe3HKz0Eld1MUMPYEHpVhVQ6ezblFVXxefbqEDxS4bqDPYMTxRYx6RqGJCFq4Ao3UOMPXhCefc6W+EhOv+q0AFdQqYB8EitlkBl2FQf7B149Rk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=t+4qdiQG; arc=fail smtp.client-ip=52.101.52.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RZL6d1j3aSBLAKbCFACz6XQvkWXAeq+sBbuYnqN/2+KhTX5vEAtpLzVmla32qBB9afjKRyD/u4ENVYEhJ2D2aSVTfoAaeaYyKvF12H0x768FATHk1mZRzvrN9mQ/6m/KV02PsCWNdMgdmvFOSj+mu3x9S4RNgiZHPmq2f3MwKRtQrNWrg+s8TcWY8aqpqwzcBhTtyYIa1CNSQAFJCuTtDhjOsvb+FePdyc42GM7/5ohHUsjvHb+xCZUBcwV31DTIMPjQOXt700WSYbxPDz0QVClI65oiQbtK4FGpQwbZyUIfqWB1xN2VKk5tE7EdGxGKmZyiCUBpcahgd/XTY5SaoQ==
+ b=ha9Kqb9aUI5YvmaOPPp/Omo7cHfLBcvUASnH5LGGlR4Ma9JtDfDEaiUHdOg+7Asu39jvc+gCFpa7Sve0glrsTdrcyjEPtD8ryWYubfRYothI2Rjmk6TNPari/1aXdjPRxeAxsYCFUFKPIGdFLaTIexh1QID15tMcU6IvEKF5Qs+LbH2t1QByafoRy24cpjd6PKQ3hp8Qf+OH4KfZdVf7aE/l3plMg6Yuc+p9W+sjKNk5nOha2AEWwtrt7QRi+La8xnZ166SH+gEeSskNpT4wQRXFgjYcaWfAsrhVmKzcm/CkddX55QjwMz0IgJ686ldo5yEMMetK+cJErYA/ej7pEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NuWynR4xJE7UMn65qZaTYrCo7ciVYjb70ApZ2KjgbiY=;
- b=AfNr/10z+q5R2JH5dayUjuVq4ZNHwfIWF6IdpOQwMkypa2krPKzT+HQF55SYRATPFYbJn1JFgiz6Z/ncRTU2VeN7tlvktSZ1iXtV3IMdwcq4o+c2vu+tbfAkZXBJpxNI5+AC12bGRu5UhPkifwkOMXN+++wLSYm63PDyIsfDlFf2I3SNjK1ngBJZBKQwZ49UUWi6WXol6XSxIgj2gP4cdcWod4Ly2dER4POtS0/SolHvT6pPJ8dWf67lX9JX1nJXiSzdZNz3e1UmcExBWw4QPKzJvu4K7lYPk0hWBeaJ2m82PgB12bZoOjj+sYJLF3DWLVGERxIlWVGIbdyx2qgkaA==
+ bh=xM2TtWtGehoZ9NoQFehU6+3Qsu1JqP66eqeb04iisnA=;
+ b=ci7tbpOfwTKRQNNW1uQDSpc/9hBBEUpgG+JuDyoGDrQXgpTo5RbuuLz7dKUe+rkx3qYdHRd/iNI/BHxRjrfSJjFcK3HcYbovTHFQ8Czt1P9ou/BzAd5sGcdTIT1IPOiQY1aia4pRspA9ql3q074C1C/d29wX6KB+HPQ1MsoPmgITWiZ/4lFEc7PZeisFO4hJ4NTSdGPSgQbfbgHBlRuFtxMhRMHJWqlFSZuxTtDYHhGo9DAjP88srZz7YjQOpzPl43EjBNVP9puLYE6bjQBFsk1mklNzFj8PDVPoGc5BXbmwvi8xXHJXYHxUANf8T1OOD07b+2duBeKbvINu6mD13w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NuWynR4xJE7UMn65qZaTYrCo7ciVYjb70ApZ2KjgbiY=;
- b=C5Dn2t3bhVVzdMomn0wWGa2RdSKum0dgA68941ek9OxZ7JakFxcY++SCAKvQi1WrsR/VNmb/10wM6Nk5Y6tGp/D472Eq0zFvWkipQIAcix8Kx6aZUFUlIIPShuqu5e011q+9eb1ge7NgzGSAwCrQ98gEwWi7F+YtVXc8eR5BeOo=
-Received: from PH2PEPF00003847.namprd17.prod.outlook.com (2603:10b6:518:1::64)
- by CO6PR10MB5554.namprd10.prod.outlook.com (2603:10b6:303:141::13) with
+ bh=xM2TtWtGehoZ9NoQFehU6+3Qsu1JqP66eqeb04iisnA=;
+ b=t+4qdiQGHy+SV/J8zscFrncmcyUq9Vto0RPnoBcg7a4q2N9lZK1esZSYusHnfsSEkONrDR6SB2Yh/ugnyGK/YFwMDTaGvqKeoiehUpbdv4Em/OpJd0Op7U0A5P8Wv+Z0YSk0/45LH7JPOF4gDyXVrbwS6c4L1Il+bFezGQeiwNQ=
+Received: from PH2PEPF0000385D.namprd17.prod.outlook.com (2603:10b6:518:1::6b)
+ by BN0PR10MB5128.namprd10.prod.outlook.com (2603:10b6:408:117::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
- 2026 13:56:34 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.11; Wed, 21 Jan
+ 2026 13:56:42 +0000
 Received: from CO1PEPF000044F9.namprd21.prod.outlook.com
- (2a01:111:f403:c91d::4) by PH2PEPF00003847.outlook.office365.com
+ (2a01:111:f403:c91d::4) by PH2PEPF0000385D.outlook.office365.com
  (2603:1036:903:48::3) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.10 via Frontend Transport; Wed,
- 21 Jan 2026 13:56:34 +0000
+ 21 Jan 2026 13:56:42 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
@@ -70,22 +70,22 @@ Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
 Received: from lewvzet200.ext.ti.com (198.47.23.194) by
  CO1PEPF000044F9.mail.protection.outlook.com (10.167.241.199) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.0 via Frontend Transport; Wed, 21 Jan 2026 13:56:34 +0000
-Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet200.ext.ti.com
+ 15.20.9564.0 via Frontend Transport; Wed, 21 Jan 2026 13:56:42 +0000
+Received: from DLEE214.ent.ti.com (157.170.170.117) by lewvzet200.ext.ti.com
  (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 21 Jan
- 2026 07:56:33 -0600
-Received: from DLEE215.ent.ti.com (157.170.170.118) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 07:56:40 -0600
+Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE214.ent.ti.com
+ (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 21 Jan
- 2026 07:56:32 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE215.ent.ti.com
- (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 07:56:39 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE210.ent.ti.com
+ (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 21 Jan 2026 07:56:32 -0600
+ Transport; Wed, 21 Jan 2026 07:56:39 -0600
 Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60LDsPIN3104105;
-	Wed, 21 Jan 2026 07:56:26 -0600
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 60LDsPIO3104105;
+	Wed, 21 Jan 2026 07:56:33 -0600
 From: Rishikesh Donadkar <r-donadkar@ti.com>
 To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
 	<mripard@kernel.org>
@@ -98,9 +98,9 @@ CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
 	<sjoerd@collabora.com>, <dan.carpenter@linaro.org>,
 	<hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v10 17/18] media: ti: j721e-csi2rx: Support runtime suspend
-Date: Wed, 21 Jan 2026 19:24:23 +0530
-Message-ID: <20260121135424.1185710-18-r-donadkar@ti.com>
+Subject: [PATCH v10 18/18] media: ti: j721e-csi2rx: Support system suspend using pm_notifier
+Date: Wed, 21 Jan 2026 19:24:24 +0530
+Message-ID: <20260121135424.1185710-19-r-donadkar@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260121135424.1185710-1-r-donadkar@ti.com>
 References: <20260121135424.1185710-1-r-donadkar@ti.com>
@@ -115,55 +115,55 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F9:EE_|CO6PR10MB5554:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8bb6a1bd-8f68-427b-6363-08de58f4e347
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F9:EE_|BN0PR10MB5128:EE_
+X-MS-Office365-Filtering-Correlation-Id: b39ce0fe-f8eb-45bc-ae97-08de58f4e845
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026|7416014;
+	BCL:0;ARA:13230040|7416014|82310400026|376014|36860700013|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?664p/7Dtj4x/K97A7wS/+hLQN7yl6IGf22U4XglsryQRnfJdY3pjASVtkRRD?=
- =?us-ascii?Q?qVAna7JgXB/VZ2nWhm5FutdT9WDodrONE//oJKHYf7FnboQs/ZMI6WlKh8+8?=
- =?us-ascii?Q?hMeWrKFTOZcIwRoBH+dJr/X5bq9QfKby6tn0pyAtFklB/xCI0k9c3nQunccQ?=
- =?us-ascii?Q?/uvFP6rARPZG5bgwIPjxvtfhuL0Js83Pa0F1/n2XEoRw++N75WJliuH0KEZP?=
- =?us-ascii?Q?RM0yYNxhkQNZs+eDotVQ3kL0cvAv+446AITo2TvK32WqKe8P4FSEXY0dekTK?=
- =?us-ascii?Q?GUEwHevK9YxRSbUsZhTZl0gqxWI87gdd/HfRud2zGEd2xV9HRfMB8PLjL31J?=
- =?us-ascii?Q?UYv0Sx4cFdVEshnDRBSbIGdEX4rQC1Kn2OTGpu77OqRNjUUimOiOQeOl0/OM?=
- =?us-ascii?Q?W9UE2DJFY/OcOZO0RCNLKgHEnhYQyMuyFgSiomuZ0kIAYpr3w0Uq7iroHFRW?=
- =?us-ascii?Q?fnw2T3bMkBjMhaP4s7+3Eb9EfWu1Tb3iZp34m4/km4h2LxZLc40OsM6FqHqf?=
- =?us-ascii?Q?mcAoF3DqpPZFBOnqq5c7GyFQaEWlw9lcOUzZ/Nt1p2qcdvA5E6Rfcyys7clI?=
- =?us-ascii?Q?g+n0RPtRHCUW7q5+BOsQ+XFhlutk1Kpe8MDcAie/lSvbmVz2WwiI01208luT?=
- =?us-ascii?Q?prsZR6F3kuAnh8bqgo9mvVG9PMIIuZo2nBBY4YfwWVo9OqB8n+v+E/EYZYGX?=
- =?us-ascii?Q?YhDaVKLyd/lOy+0hq9iG6gDMkVZY2sQf3N4cR1Q82GiSUD+51FAcATA10FuU?=
- =?us-ascii?Q?A/c4MWP+7/7F+/qWLvO5Qp3F2VnTXWEe9ToaLIQbTNvOIi4Yd1bZL2wlzl8s?=
- =?us-ascii?Q?VuFBZFiDRZszbv/U2YeQeJyNBJV+cugf1vXvaes0BLDGj/NyRkg4y/c/ZGbp?=
- =?us-ascii?Q?r/4WIHbPBTR2kVVI3/caB2pIOyPuG8udus4UYjSMPVoebMqCML36roPBdRTK?=
- =?us-ascii?Q?l4JKwomKH56YWygmQwEPRV45qGFqpY2MFQrMX9KChMUamoPo8xsbwk+R+KiL?=
- =?us-ascii?Q?LyUevWW4lvFTITa/0fRpyWrZrFUuaf4a3Ijpg2QzdqoL8SIr8gDodpWERCdb?=
- =?us-ascii?Q?3PXs57pFgWyuog4cY38K1GKTwYkue7RSqkY1NBa0frWQsw5ZxkGeUzxd34Ag?=
- =?us-ascii?Q?4NMZzN3KH89gMyN8whIXc8CpQvrTQt48UTKPqIo0usk7AVc/0pTjgxMcClMA?=
- =?us-ascii?Q?j9vei0sey33DzQKlSyy+BEEM8ySjt0yix2hnpF+oJQxE317SkDEScFcexH9g?=
- =?us-ascii?Q?IapFd2h3CbIau8CuJ4YRzrv63d7Wk0s4froq/VwcK67KcYLAJkB8XBNSgWQ6?=
- =?us-ascii?Q?64wH5+BztIHfPJ1tx2xLf9TzId0HVFP5Er7LXPDJQvp2wxa8bKos996x7i2n?=
- =?us-ascii?Q?pBHgoNNDFLgHLjYFJ9fqVsHqug6neoComKvpOUUknJKN4h4ULgL3nwpt8nGR?=
- =?us-ascii?Q?rboUPSXm4tE8eY4gjYQVvjHSrn20IsF5rd5JVXa8MhhpLhl9Yvh1uOOXq3IK?=
- =?us-ascii?Q?J78o8TABxEhaLxSupmmG7TxdtO3FUkn5+z0C3gBig7JSlzWaa5a/DPS8W9Zk?=
- =?us-ascii?Q?YoNkf6yvJUXFPUNQ46/8rTv4R7d4XuheeDgT/C/FJYaKX1Lb4eKYTDHJe1du?=
- =?us-ascii?Q?sNYB5LN3QtXKcovUefuBPPJuCrwThA3NfNZf7hp5um61K/pke1OLZopmLxT6?=
- =?us-ascii?Q?0QGznw=3D=3D?=
+	=?us-ascii?Q?j8HYG2MLYkfdtnEsyvTyIo4EPTC9IJ3iq+zt6hcaY+oXf+ojl4TvD5+Ph/g5?=
+ =?us-ascii?Q?hUBdg69GK0hcI/PcQflqWEjM8zQvsNBRtkdmoqCNYR1IY2wjiOGeAxsrl8EN?=
+ =?us-ascii?Q?LJX1HfaHFcNOrOknMvAEKznROKHakmPIvu/8Odar4lYf2ow0zZRS+/VHVksr?=
+ =?us-ascii?Q?kulBCyxrn/MscUZ3K6RmoWbCFMQPFXhr9/fAtmPImpqu/fgI7uOfaMS2ovZk?=
+ =?us-ascii?Q?KVpuB7EhYp/maA8Grpo9ZZao4f+yAtkOaDKQVJ7Ue0FACXqzOzSTga+2lTzz?=
+ =?us-ascii?Q?dV1KjcsEqJ365gkY0U5VTZYZpIk256WnpJBbC+ffhN5NERAyjOS54c3cgY7w?=
+ =?us-ascii?Q?cA5yFGG9UDf2PsGhfOC0VrFnPtLHRCayPvOXEWQNUkQ/kwL5uGXXkTns07Kk?=
+ =?us-ascii?Q?GSzRVeGOqT9WaqJuHpFsJKg9/JKPfiCKLj4MuggqYywWj+suvNazVwx4e059?=
+ =?us-ascii?Q?i8oTNdHRfLlKF8XWvm9yMu1gEFUhJ+cHP9SB9sWD3DT95b9n2ikoXVK96E7N?=
+ =?us-ascii?Q?My3MTDEJwj86POen10HZHRc9WBP2seBKJzXwa+kBIEh31QfWqCwB7NTopvSl?=
+ =?us-ascii?Q?c8IUyk7u5laGbDmGAI8NR4LCDbsjG8axhy1ro1lYB8+0qYlbBpBC9rIAMAPN?=
+ =?us-ascii?Q?Lyz3N0AjLSQD46I+pcpQuvF/TnXXk9ItQKPFZy5j4CW2kGGkII2mq27ZGw34?=
+ =?us-ascii?Q?+Bjr8079Zf+bxBUm0VdbTY6YMUDVNqX1RPVJDbq89QJOsifkfZaw+d4d8Xdx?=
+ =?us-ascii?Q?dBjjc7P2LAvS5vYoN7ma5kWVgqHUBdP9Kv7kmH8xAk0uCGjTXCArfM0VFaLj?=
+ =?us-ascii?Q?2io5AGQNaU0pmRk4eaNP8/szzdydtEgFWzghNMW4yxDht0yqU7DhGdHwqu6m?=
+ =?us-ascii?Q?i83rJHyhl454uEG3ZDPzE/8+eKc5Dozr9aTivIfd9KbXtT3/VafdPVTCUIj7?=
+ =?us-ascii?Q?ktrdZAvjcSWlX0dwLxDQdJQ4y5jUrKd7oqwntG732qk5biJzLgdlTKdbSv+R?=
+ =?us-ascii?Q?tNd8yNyVjQT+3cZRnbSKlfv59wtlNmIFbSCDi7IWe/jC10LAC8C+scYE4PeL?=
+ =?us-ascii?Q?SK38FYaGDcEccpoI+l9HaLcMUYyU3RrfSn5m2vGex6/deBqWNawNnbqK7Miu?=
+ =?us-ascii?Q?ooUSkzArUnw7cZBzMH8ZVLbgOuFoBaquVLQxiOGsmlDTW0+QQzdlD2JSMXrH?=
+ =?us-ascii?Q?ghcrsRrh/E1GIXoJACDO9pR3iB4dxbFkJpwj6k4Pb0/EhiVXip7fa5Q/ijEd?=
+ =?us-ascii?Q?lQXnetJqySq0K2sZ1Ho7hDhuSFVJZhxgNtQ3gRkwpg6JjFyRxt4X95LiWUkK?=
+ =?us-ascii?Q?vt+NOFQB9vuVmlQ/BOw4EZOK/kDmFSPv1nEIxS2JEuer4vbclsjS2jthlWWi?=
+ =?us-ascii?Q?BL/wORFqCqN974RuJzGF6lEhvUG6q5vCbX6rRmX0hii8TkO9nftCG6isH7qU?=
+ =?us-ascii?Q?SB9Rd4MaSI9KArz3t5yWOiK3GwQJ0QqD+62zXM+0k6iqGo5qt01ImEB2b2Qe?=
+ =?us-ascii?Q?BtkTLbwfgfMXkPuQHB50Q6PhxJVv+yDIqnyHAcnH4BgVFcaVXTz17v6FndAI?=
+ =?us-ascii?Q?3BydizMZjYTUJwRtOaUlb2XHI0mhwJz5xTMGPNwai5UeZa8wL+fZVFM1ghlt?=
+ =?us-ascii?Q?jL4FxCzZe80H3Fg6lK2fSj90UXjCpggkWlf8QOaQU7BGnEnNPytgSpaDip8A?=
+ =?us-ascii?Q?iqrlDQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026)(7416014);DIR:OUT;SFP:1101;
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 13:56:34.0236
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 13:56:42.4017
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb6a1bd-8f68-427b-6363-08de58f4e347
+X-MS-Exchange-CrossTenant-Network-Message-Id: b39ce0fe-f8eb-45bc-ae97-08de58f4e845
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	CO1PEPF000044F9.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5554
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5128
 X-Spamd-Result: default: False [3.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
@@ -176,7 +176,7 @@ X-Spamd-Result: default: False [3.04 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[ti.com,kernel.org,pengutronix.de,linux.intel.com,xs4all.nl,ideasonboard.com,starfivetech.com,collabora.com,linaro.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-51265-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51267-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DMARC_POLICY_ALLOW(0.00)[ti.com,quarantine];
@@ -187,201 +187,214 @@ X-Spamd-Result: default: False [3.04 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[ti.com:+];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,ideasonboard.com:email,ti.com:email,ti.com:dkim,ti.com:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,ideasonboard.com:email,ti.com:email,ti.com:dkim,ti.com:mid];
 	TO_DN_NONE(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
 	RCVD_COUNT_SEVEN(0.00)[10]
-X-Rspamd-Queue-Id: 5B472584E1
+X-Rspamd-Queue-Id: 1F66F58A06
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Jai Luthra <jai.luthra@ideasonboard.com>
 
-Add support for runtime power-management to enable powering off the
-shared power domain between Cadence CSI2RX and TI CSI2RX wrapper when
-the device(s) are not in use.
+As this device is the "orchestrator" for the rest of the media
+pipeline, we need to stop all on-going streams before system suspend and
+enable them back when the system wakes up from sleep.
 
-When powering off the IP, the PSI-L endpoint loses the paired DMA
-channels. Thus we have to release the DMA channels at runtime suspend
-and request them again at resume.
+Using .suspend/.resume callbacks does not work, as the order of those
+callbacks amongst various devices in the camera pipeline like the sensor,
+FPD serdes, CSI bridge etc. is impossible to enforce, even with
+device links. For example, the Cadence CSI bridge is a child device of
+this device, thus we cannot create a device link with the CSI bridge as
+a provider and this device as consumer. This can lead to situations
+where all the dependencies for the bridge have not yet resumed when we
+request the subdev to start streaming again through the .resume callback
+defined in this device.
+
+Instead here we register a notifier callback with the PM framework
+which is triggered when the system is fully functional. At this point we
+can cleanly stop or start the streams, because we know all other devices
+and their dependencies are functional. A downside of this approach is
+that the userspace is also alive (not frozen yet, or just thawed), so
+the suspend notifier might complete before the userspace has completed
+all ioctls, like QBUF/DQBUF/STREAMON/STREAMOFF.
 
 Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
 Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
 Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 ---
- drivers/media/platform/ti/Kconfig             |  1 +
- .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 59 +++++++++++++++----
- 2 files changed, 50 insertions(+), 10 deletions(-)
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 135 ++++++++++++++++++
+ 1 file changed, 135 insertions(+)
 
-diff --git a/drivers/media/platform/ti/Kconfig b/drivers/media/platform/ti/Kconfig
-index da33facf44678..d0cb05481bd85 100644
---- a/drivers/media/platform/ti/Kconfig
-+++ b/drivers/media/platform/ti/Kconfig
-@@ -83,6 +83,7 @@ config VIDEO_TI_J721E_CSI2RX
- 	depends on VIDEO_CADENCE_CSI2RX
- 	depends on PHY_CADENCE_DPHY_RX || COMPILE_TEST
- 	depends on ARCH_K3 || COMPILE_TEST
-+	depends on PM
- 	select VIDEOBUF2_DMA_CONTIG
- 	select V4L2_FWNODE
- 	help
 diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index 42ef8c553883f..c01905680e108 100644
+index c01905680e108..335aa89bcd959 100644
 --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
 +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -13,6 +13,7 @@
- #include <linux/module.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/property.h>
- 
- #include <media/cadence/cdns-csi2rx.h>
-@@ -962,12 +963,16 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	unsigned long flags;
- 	int ret = 0;
- 
-+	ret = pm_runtime_resume_and_get(csi->dev);
-+	if (ret)
-+		return ret;
-+
- 	spin_lock_irqsave(&dma->lock, flags);
- 	if (list_empty(&dma->queue))
- 		ret = -EIO;
- 	spin_unlock_irqrestore(&dma->lock, flags);
- 	if (ret)
--		return ret;
-+		goto err;
- 
- 	ret = video_device_pipeline_start(&ctx->vdev, &csi->pipe);
- 	if (ret)
-@@ -989,6 +994,8 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
- err:
- 	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_QUEUED);
-+	pm_runtime_put(csi->dev);
-+
- 	return ret;
- }
- 
-@@ -1008,6 +1015,7 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
- 
- 	ti_csi2rx_stop_dma(ctx);
- 	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_ERROR);
-+	pm_runtime_put(csi->dev);
- }
- 
- static const struct vb2_ops csi_vb2_qops = {
-@@ -1259,7 +1267,6 @@ static void ti_csi2rx_cleanup_notifier(struct ti_csi2rx_dev *csi)
- 
- static void ti_csi2rx_cleanup_ctx(struct ti_csi2rx_ctx *ctx)
- {
--	dma_release_channel(ctx->dma.chan);
- 	vb2_queue_release(&ctx->vidq);
- 
- 	video_unregister_device(&ctx->vdev);
-@@ -1279,7 +1286,7 @@ static int ti_csi2rx_init_vb2q(struct ti_csi2rx_ctx *ctx)
- 	q->ops = &csi_vb2_qops;
- 	q->mem_ops = &vb2_dma_contig_memops;
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	q->dev = dmaengine_get_dma_device(ctx->dma.chan);
-+	q->dev = ctx->csi->dev;
- 	q->lock = &ctx->mutex;
- 	q->min_queued_buffers = 1;
- 	q->allow_cache_hints = 1;
-@@ -1493,21 +1500,46 @@ static int ti_csi2rx_init_ctx(struct ti_csi2rx_ctx *ctx)
- 	spin_lock_init(&ctx->dma.lock);
- 	ctx->dma.state = TI_CSI2RX_DMA_STOPPED;
- 
--	ret = ti_csi2rx_init_dma(ctx);
-+	ret = ti_csi2rx_init_vb2q(ctx);
- 	if (ret)
- 		return ret;
- 
--	ret = ti_csi2rx_init_vb2q(ctx);
--	if (ret)
--		goto cleanup_dma;
-+	return 0;
-+}
-+
-+static int ti_csi2rx_runtime_suspend(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	int i;
-+
-+	if (csi->enable_count != 0)
-+		return -EBUSY;
-+
-+	for (i = 0; i < csi->num_ctx; i++)
-+		dma_release_channel(csi->ctx[i].dma.chan);
- 
+@@ -131,6 +131,7 @@ struct ti_csi2rx_dev {
+ 	struct v4l2_subdev		*source;
+ 	struct v4l2_subdev		subdev;
+ 	struct ti_csi2rx_ctx		ctx[TI_CSI2RX_MAX_CTX];
++	struct notifier_block		pm_notifier;
+ 	u8				pix_per_clk;
+ 	/* Buffer to drain stale data from PSI-L endpoint */
+ 	struct {
+@@ -1535,6 +1536,124 @@ static int ti_csi2rx_runtime_resume(struct device *dev)
  	return 0;
-+}
+ }
  
--cleanup_dma:
--	dma_release_channel(ctx->dma.chan);
--	return ret;
-+static int ti_csi2rx_runtime_resume(struct device *dev)
++static int ti_csi2rx_suspend(struct device *dev)
 +{
 +	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	unsigned int ret, i;
++	enum ti_csi2rx_dma_state state;
++	struct ti_csi2rx_ctx *ctx;
++	struct ti_csi2rx_dma *dma;
++	unsigned long flags = 0;
++	int i, ret = 0;
++
++	/* If device was not in use we can simply suspend */
++	if (pm_runtime_status_suspended(dev))
++		return 0;
++
++	/*
++	 * If device is running, assert the pixel reset to cleanly stop any
++	 * on-going streams before we suspend.
++	 */
++	writel(0, csi->shim + SHIM_CNTL);
 +
 +	for (i = 0; i < csi->num_ctx; i++) {
-+		ret = ti_csi2rx_init_dma(&csi->ctx[i]);
++		ctx = &csi->ctx[i];
++		dma = &ctx->dma;
++
++		spin_lock_irqsave(&dma->lock, flags);
++		state = dma->state;
++		spin_unlock_irqrestore(&dma->lock, flags);
++
++		if (state != TI_CSI2RX_DMA_STOPPED) {
++			/* Disable source */
++			ret = v4l2_subdev_disable_streams(&csi->subdev,
++							  TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
++							  BIT(0));
++			if (ret)
++				dev_err(csi->dev, "Failed to stop subdev stream\n");
++		}
++
++		/* Stop any on-going streams */
++		writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
++
++		/* Drain DMA */
++		ti_csi2rx_drain_dma(ctx);
++
++		/* Terminate DMA */
++		ret = dmaengine_terminate_sync(ctx->dma.chan);
 +		if (ret)
-+			return ret;
++			dev_err(csi->dev, "Failed to stop DMA\n");
 +	}
 +
-+	return 0;
- }
- 
-+static const struct dev_pm_ops ti_csi2rx_pm_ops = {
-+	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
-+		       NULL)
-+};
++	return ret;
++}
 +
- static int ti_csi2rx_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
-@@ -1563,6 +1595,8 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
- 			goto err_ctx;
++static int ti_csi2rx_resume(struct device *dev)
++{
++	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
++	struct ti_csi2rx_ctx *ctx;
++	struct ti_csi2rx_dma *dma;
++	struct ti_csi2rx_buffer *buf;
++	unsigned long flags = 0;
++	unsigned int reg;
++	int i, ret = 0;
++
++	/* If device was not in use, we can simply wakeup */
++	if (pm_runtime_status_suspended(dev))
++		return 0;
++
++	/* If device was in use before, restore all the running streams */
++	reg = SHIM_CNTL_PIX_RST;
++	writel(reg, csi->shim + SHIM_CNTL);
++
++	for (i = 0; i < csi->num_ctx; i++) {
++		ctx = &csi->ctx[i];
++		dma = &ctx->dma;
++		spin_lock_irqsave(&dma->lock, flags);
++		if (dma->state != TI_CSI2RX_DMA_STOPPED) {
++			/* Re-submit all previously submitted buffers to DMA */
++			list_for_each_entry(buf, &ctx->dma.submitted, list) {
++				ti_csi2rx_start_dma(ctx, buf);
++			}
++			spin_unlock_irqrestore(&dma->lock, flags);
++
++			/* Restore stream config */
++			ti_csi2rx_setup_shim(ctx);
++
++			ret = v4l2_subdev_enable_streams(&csi->subdev,
++							 TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
++							 BIT(0));
++			if (ret)
++				dev_err(ctx->csi->dev, "Failed to start subdev\n");
++		} else {
++			spin_unlock_irqrestore(&dma->lock, flags);
++		}
++	}
++
++	return ret;
++}
++
++static int ti_csi2rx_pm_notifier(struct notifier_block *nb,
++				 unsigned long action, void *data)
++{
++	struct ti_csi2rx_dev *csi =
++		container_of(nb, struct ti_csi2rx_dev, pm_notifier);
++
++	switch (action) {
++	case PM_HIBERNATION_PREPARE:
++	case PM_SUSPEND_PREPARE:
++	case PM_RESTORE_PREPARE:
++		ti_csi2rx_suspend(csi->dev);
++		break;
++	case PM_POST_SUSPEND:
++	case PM_POST_HIBERNATION:
++	case PM_POST_RESTORE:
++		ti_csi2rx_resume(csi->dev);
++		break;
++	}
++
++	return NOTIFY_DONE;
++}
++
+ static const struct dev_pm_ops ti_csi2rx_pm_ops = {
+ 	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
+ 		       NULL)
+@@ -1607,6 +1726,20 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
+ 		goto err_notifier;
  	}
  
-+	pm_runtime_enable(csi->dev);
++	/*
++	 * Use PM notifier instead of .suspend/.resume callbacks because the
++	 * ordering of callbacks among camera pipeline devices (sensor, serdes,
++	 * CSI bridge) cannot be enforced even with device links. The notifier
++	 * is called when the system is fully functional, ensuring all
++	 * dependencies are available when stopping/starting streams.
++	 */
++	csi->pm_notifier.notifier_call = ti_csi2rx_pm_notifier;
++	ret = register_pm_notifier(&csi->pm_notifier);
++	if (ret) {
++		dev_err(csi->dev, "Failed to create PM notifier: %d\n", ret);
++		goto err_notifier;
++	}
 +
- 	ret = ti_csi2rx_notifier_register(csi);
- 	if (ret)
- 		goto err_ctx;
-@@ -1593,6 +1627,9 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
- 	struct ti_csi2rx_dev *csi = platform_get_drvdata(pdev);
- 	unsigned int i;
+ 	return 0;
  
-+	if (!pm_runtime_status_suspended(&pdev->dev))
-+		pm_runtime_set_suspended(&pdev->dev);
-+
- 	for (i = 0; i < csi->num_ctx; i++)
+ err_notifier:
+@@ -1634,6 +1767,8 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
  		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
  
-@@ -1600,6 +1637,7 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
+ 	ti_csi2rx_cleanup_notifier(csi);
++	unregister_pm_notifier(&csi->pm_notifier);
++
  	ti_csi2rx_cleanup_v4l2(csi);
  	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
  			  csi->drain.paddr);
-+	pm_runtime_disable(&pdev->dev);
- }
- 
- static const struct of_device_id ti_csi2rx_of_match[] = {
-@@ -1614,6 +1652,7 @@ static struct platform_driver ti_csi2rx_pdrv = {
- 	.driver = {
- 		.name = TI_CSI2RX_MODULE_NAME,
- 		.of_match_table = ti_csi2rx_of_match,
-+		.pm		= &ti_csi2rx_pm_ops,
- 	},
- };
- 
 -- 
 2.34.1
 
