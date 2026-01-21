@@ -1,190 +1,185 @@
-Return-Path: <linux-media+bounces-51242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51243-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aOwAHhndcGnCaQAAu9opvQ
-	(envelope-from <linux-media+bounces-51242-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:05:13 +0100
+	id WLNuIWTgcGnCaQAAu9opvQ
+	(envelope-from <linux-media+bounces-51243-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:19:16 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9BE581EE
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:05:13 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED314584F7
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:19:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 248C66C44E7
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 13:49:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BFEA680D968
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 13:56:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBBA748BD28;
-	Wed, 21 Jan 2026 13:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D97C3DA7E5;
+	Wed, 21 Jan 2026 13:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="f2ykpi5x"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="FgHTyAym"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B563F47A0A4
-	for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 13:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769003237; cv=none; b=vEW1QyEHoPRjgbPb+NWpyHj+tSd5GCw9UpmSd/q4rUrclyR4H6W1iNt+OmWc7a9o1ro2XoMI4S1iyUnGpaKZZN2o0WWek++xIzJXItd+dImCFZ+wZtl6l6BHahauysFf6atgc+GExRIXPmObBdlflrBpRFUMdW1N1aq+GRA/Bbc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769003237; c=relaxed/simple;
-	bh=fn6QDJCmTOKiiaWIAjab6bH+PZ+yr8u3rj/vi81/cYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tpSc6w0pqoWgSDgdzfRI9r/+axHnyZKETDjxt23ox9i4q/v90KpP93ocv1FS6cIZjJCwe49XtDOqEJ7E/NaVLMo6hzN2KDrCddYxvwz6assaUwsNDo/0qTwwbhj2O3GGzQ13NHVb9W20/1U+ymjVXvdAQCEXQpjUvK4YGUPdmQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=f2ykpi5x; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8c5320536bfso700167185a.1
-        for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 05:47:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1769003233; x=1769608033; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yPFd5kAX+x+JPapHwkry8xE9pec/AtWEm0UrVlklyxQ=;
-        b=f2ykpi5xV4AqsGPe+t+9MtvUDmlEc1u0/PQj3lUfq4aU/Hwo77wnVtB1eJvqw+N7FN
-         xzw4bLrstDOy/0REMCSD0ORUqKGqxYQKiKStbNKYxQNp2WZZQkyzz0itbawmRWbgL2H1
-         skBwVkp2ffpngECJUXLObAycSsyoKYUXeuUlgvqOQ1kg+zZsoWSmce3o9BISVyx04BtZ
-         AgQZ9HkSHxdLKj+2xGZJkeR2PiUR2+ajp8gLKlIvaoCY6LIqMmkKw5ciDOnVgL0oTANR
-         9ooarnFP/DPmR+r04BE9llj8PqxyLSQ2rKlR55DLPAonR+3okKBsSxwo0aSyKEbn36/H
-         Me+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769003233; x=1769608033;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yPFd5kAX+x+JPapHwkry8xE9pec/AtWEm0UrVlklyxQ=;
-        b=nM48LtzPwuQPsLmFqSwsKDYB1fuZd31xSyE4zV4NGbZHAgZCyTDLKt53pwwBZnOgye
-         EfZ6gXxaNNFL3fAOrkf/DJX8w3vLQpM0N/Rdq0LP9eUhIfKK8508MyZmxSU903/Mq7jr
-         DKndWAvdGJqPc4sOsIDv0SBv/pvfZqopALSSy6HwyHOy//xq6MKkK/dWjFhha7ezD7Yo
-         1yQ40FfuOXSl2/n5mpzG//kV8PbiBsZfyn9BYNHgPB8ANkwu2M9U1Q5AbeW8rr1btjGF
-         aCRFQ3mDNUWoA9BsD/2i9PpUuAhBOLR1EucqsTOkZ9Z96TqxSjMsVc/Nkmqoa9qEXUP5
-         VMQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUjYryl3RZwpu6MbdCvD6X0zndtEQhtarzamRx4NoxY74C6EDCe41BhW0Inj/x7IsTtamcep1mHYPk0dA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdhSqwh3kJIwJvmA01iIlAJKzOmjnCt5YgxGRPq2NQT+CH8aQH
-	VaVWna5W/Hazr6eUvSyKdbeROfwuoNkaXZAtgxrkMRSRoTpx1EVjf0soc7SC9FSM/g4=
-X-Gm-Gg: AZuq6aJuWiKRKjCxBVPjKFUDum1ZMDpEmdJjAw0buCRRnN4FlYZB7MMMB5QPOKWdUNM
-	TBQ5xhrnXpLwUgMvtth5bSPV5I/Nah9yRUOtGqBtsX0SJY/C2cmLgqg21iDRm83h740itekCsrb
-	R8R3u9pe8REeEf8+gqgc/cpsAzne/El0RtqO/DLqXyOJd4XUFZws2YJmBE2nBu8uemAF0ARx6p+
-	2WxSu2JrqQqVRq3q7E/yqkIhJ7H1VthjfVbIkiPoiqsjIut3/tbHbdwQKWv/zR/h98YHNiG7RYz
-	zssM/SQM28z2JX8g5xNPaOrn825C3c3SEb7yvtzkErhQVE7oGIJyvm4cJf6BtjWj/QwFLXfxfRT
-	aJwPWe14S0X5cG2PnWZtPRgO/KIQJo6Z5rG6xfg1SUo76SCahR5z38i6qjgerh0e6GKTWg92ica
-	uHg+MtkMcWiL8QEeXMKw0YggljA2rE9d1tOxjafF2WtFEz+tJjoplIm8IHuDlM2AqQaqyWSXmpc
-	Ahzww==
-X-Received: by 2002:a05:620a:4003:b0:8b2:f090:b167 with SMTP id af79cd13be357-8c6ccdbf81fmr639187685a.24.1769003233554;
-        Wed, 21 Jan 2026 05:47:13 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a71ab288sm1307247385a.6.2026.01.21.05.47.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 05:47:12 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1viYYC-00000006Dum-1GTZ;
-	Wed, 21 Jan 2026 09:47:12 -0400
-Date: Wed, 21 Jan 2026 09:47:12 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v4 8/8] vfio: Validate dma-buf revocation semantics
-Message-ID: <20260121134712.GZ961572@ziepe.ca>
-References: <20260121-dmabuf-revoke-v4-0-d311cbc8633d@nvidia.com>
- <20260121-dmabuf-revoke-v4-8-d311cbc8633d@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9293382D3;
+	Wed, 21 Jan 2026 13:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769003449; cv=pass; b=eaX2QBc11n9U5uK9tK613pei2EyKNvki1CYXLQ2eY5FPP6S3FhvM1zoCGv6YFeYKQ3InWO+ctU0dJKK4vdSE+uSFJhfp62kwzo6Qym1Mb1R/mLJcQy1O0CwdWq6TJSXCkHKFsLFmTJtsclkEiH/p9uFNLMHhD2ZQ7cfyjF1mg4U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769003449; c=relaxed/simple;
+	bh=8KNoVv3pnxVsTo8YM0cJ0lrpeTXSxWfU7j81uJZx/D4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KVwX/irp8upLGIo/jBY1Xi6Sjp4Rm/+eNKbwBqdiL9LOmNnSsHIOIzETYH5O45l7vstKtnIn3xJRECD43atXDDVH3hqqhz/IhLJtmiRtL4XbYgYs3y9+3GnSOclSoZN7lMjrysTm5dwMHcMqvj1ussRjXjD9llkuB8cthoGd2vg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=FgHTyAym; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1769003425; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=oMD3DvxuLuEzLSKEQ+n7wJ4m/xJbJL42ySs6VOCov2+etqD4CgyPmKR8dkzx4g41ouAyqQO62NoJmbCaOtROJc7sd0f6R40oSBIx78qL6ybgkLBuv2rDFMaO/5EhdG55m8UuI97tr7tzCiQJSiJ39lWOQviRPlrDP3vbU1zyLJM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1769003425; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=9j0aEnPsFf4ht23DVuEjYMMqdJpKWzWkgwC3q2GqT3A=; 
+	b=AbgOsVL6Ef6WBq9f5iily7oU2CPu1sGMgiO0qjOsCI5xkur+8tRusuPAKEHZUEZ3V2aO1UJnSxkwDDRRNxoSiDYCwg7T835rgSWb67ZqHx9iJM1AxWy6Cv+DWVpo8cmOYYzFz3NM0AiKfr7u4ZoWj6luSFuJlyp8HjLuMnUGV10=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
+	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769003425;
+	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=9j0aEnPsFf4ht23DVuEjYMMqdJpKWzWkgwC3q2GqT3A=;
+	b=FgHTyAymulI5Ru9lYKyZMIbtyQLW1up5yzp5g/XMCPX5Snig5KqTiaTFvUb2GMG7
+	AWA2tt6krbxfxurKZ0M2qTryuy+IwA/fgwMmdmw+uDE94mfzKFW4cGkVOfXbRGgfVsh
+	qlJrHcSEgf5HEUGrk7+QkMbz0DL7z037nqsloBQM=
+Received: by mx.zohomail.com with SMTPS id 1769003423843237.2758502026851;
+	Wed, 21 Jan 2026 05:50:23 -0800 (PST)
+Message-ID: <4b33b50f-f0c3-4db8-b394-dd2d4d6e3a55@collabora.com>
+Date: Wed, 21 Jan 2026 14:50:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260121-dmabuf-revoke-v4-8-d311cbc8633d@nvidia.com>
-X-Spamd-Result: default: False [-1.46 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 3/7] iommu: Add verisilicon IOMMU driver
+To: Will Deacon <will@kernel.org>
+Cc: joro@8bytes.org, robin.murphy@arm.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+ nicolas.dufresne@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
+ kernel@collabora.com
+References: <20260107101005.84039-1-benjamin.gaignard@collabora.com>
+ <20260107101005.84039-4-benjamin.gaignard@collabora.com>
+ <aWZui-rn5RDPwpEO@willie-the-truck>
+ <68a49f8b-178c-4fa2-b4a9-315ad602271d@collabora.com>
+ <aWeTQ50DOtntcniN@willie-the-truck>
+ <db0950f1-b357-47c2-9829-e33262ab456d@collabora.com>
+ <aW4kb5EbxbrhTOxK@willie-the-truck>
+ <b8f43fe8-3e07-4d98-a50d-817c31370710@collabora.com>
+ <aXDL2JH_4RCDmAJv@willie-the-truck>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <aXDL2JH_4RCDmAJv@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.46 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-51243-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51242-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[ziepe.ca];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	DMARC_POLICY_ALLOW(0.00)[collabora.com,none];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[benjamin.gaignard@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,ziepe.ca:mid,ziepe.ca:dkim,nvidia.com:email]
-X-Rspamd-Queue-Id: 2E9BE581EE
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: ED314584F7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Jan 21, 2026 at 02:59:16PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Use the new dma_buf_attach_revocable() helper to restrict attachments to
-> importers that support mapping invalidation.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/vfio/pci/vfio_pci_dmabuf.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> index 5fceefc40e27..85056a5a3faf 100644
-> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> @@ -31,6 +31,9 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
->  	if (priv->revoked)
->  		return -ENODEV;
->  
-> +	if (!dma_buf_attach_revocable(attachment))
-> +		return -EOPNOTSUPP;
-> +
->  	return 0;
->  }
 
-We need to push an urgent -rc fix to implement a pin function here
-that always fails. That was missed and it means things like rdma can
-import vfio when the intention was to block that. It would be bad for
-that uAPI mistake to reach a released kernel.
+Le 21/01/2026 à 13:51, Will Deacon a écrit :
+> On Mon, Jan 19, 2026 at 03:03:44PM +0100, Benjamin Gaignard wrote:
+>>>>>>>> +static const struct iommu_ops vsi_iommu_ops = {
+>>>>>>>> +	.identity_domain = &vsi_identity_domain,
+>>>>>>>> +	.release_domain = &vsi_identity_domain,
+>>>>>>>> +	.domain_alloc_paging = vsi_iommu_domain_alloc_paging,
+>>>>>>>> +	.of_xlate = vsi_iommu_of_xlate,
+>>>>>>>> +	.probe_device = vsi_iommu_probe_device,
+>>>>>>>> +	.release_device = vsi_iommu_release_device,
+>>>>>>>> +	.device_group = generic_single_device_group,
+>>>>>>>> +	.owner = THIS_MODULE,
+>>>>>>>> +	.default_domain_ops = &(const struct iommu_domain_ops) {
+>>>>>>>> +		.attach_dev		= vsi_iommu_attach_device,
+>>>>>>>> +		.map_pages		= vsi_iommu_map,
+>>>>>>>> +		.unmap_pages		= vsi_iommu_unmap,
+>>>>>>>> +		.flush_iotlb_all	= vsi_iommu_flush_tlb_all,
+>>>>>>> This has no callers and so your unmap routine appears to be broken.
+>>>>>> It is a leftover of previous attempt to allow video decoder to clean/flush
+>>>>>> the iommu by using a function from the API.
+>>>>>> Now it is using vsi_iommu_restore_ctx().
+>>>>>> I while remove it in version 12.
+>>>>> Don't you still need some invalidation on the unmap path?
+>>>> In vsi_iommu_unmap_iova() page is invalided by calling vsi_mk_pte_invalid().
+>>> But that just writes an invalid descriptor and doesn't appear to invalidate
+>>> the TLB at all.
+>>>
+>>>> That clear BIT(0) so the hardware knows the page is invalid.
+>>>> Do I have miss something here ?
+>>> Yes, the TLB structure needs to be invalidated so that the page-table
+>>> walker sees the new value that you have written in memory.
+>>>
+>>> The rockchip driver gets this correct...
+>> Rockchip hardware have a ZAP_ONE_LINE register which didn't exist on Verisilicon
+>> hardware.
+> Presumably you have some sort of Verisilicon datasheet or downstream driver
+> from which you can infer the TLB invalidation runes?
 
-It's tricky that NULL pin ops means "I support pin" :|
+I have only this downstream driver:
+https://github.com/rockchip-linux/kernel/blob/develop-6.1/drivers/iommu/rockchip-iommu-av1d.c
+No datasheet...
 
-Jason
+>
+>> I have tried to use VSI_MMU_BIT_FLUSH on VSI driver after unmapping iova
+>> but it doesn't work.
+> What do you mean by "doesn't work"? If it works without doing any
+> invalidation at all, then it's very peculiar that adding the invalidation
+> would introduce issues.
+
+I mean VSI_MMU_BIT_FLUSH register can't be used to invalid the TLB.
+I think the hardware iterates over the pages tables in memory and
+check the valid/invalid bit.
+
+Benjamin
+
+>
+>> So far calling dma_sync_single_for_device() seems to be enough to make iommu
+>> and video decoder work together.
+> I don't think we should settle for "seems to enough"! If we can reason
+> about the operation of the hardware then the driver will be undebuggable
+> when it eventually goes wrong.
+>
+> Will
+>
 
