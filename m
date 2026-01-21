@@ -1,214 +1,190 @@
-Return-Path: <linux-media+bounces-51274-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51275-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0MWRKKjscGk+awAAu9opvQ
-	(envelope-from <linux-media+bounces-51274-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 16:11:36 +0100
+	id MIw4OP30cGmgbAAAu9opvQ
+	(envelope-from <linux-media+bounces-51275-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 16:47:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A9458FAD
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 16:11:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6350596E5
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 16:47:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 816B868AB43
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 14:34:48 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 211E8725695
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 14:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B40023AE71B;
-	Wed, 21 Jan 2026 14:27:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 887EC494A12;
+	Wed, 21 Jan 2026 14:31:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZspDEtbY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqhQkB0H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C654930E0F9;
-	Wed, 21 Jan 2026 14:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE504949E8;
+	Wed, 21 Jan 2026 14:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769005668; cv=none; b=S5qKMxfsKXyeg38uegk06g/2jLrx5oW7rlmyBcQNnVNQWrmiUhq9RqAhTZmHk31PBwe6vyQYY2UtardesqUkzk1aaxJKEp3Kay/HBRqeQifroNLLYJ/OUyFBKWNHMaLo1vSHutZ4WeaoC8rghyz69AJjEdvorGR8/tzgbSoTmrU=
+	t=1769005914; cv=none; b=p9qyc78i0CtCIOusEQTzUg87wRaS+IAir1SXxjRRdcHmFJhR85xEWqJm9mKaCezs5zpL4x0TjsNgDiidDJ/TGlHPhet0dKknF+PXtpcBxXIfCiUIxKDIzsfpsITs0GDdATM4X2EqLIN67IKQOBuCFFxDc+ZfTYMBWvB4Pj4XfwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769005668; c=relaxed/simple;
-	bh=5ZRWs9xXfr5MhLjyldecu1D79f6ZK8VE+HPThNMbI60=;
+	s=arc-20240116; t=1769005914; c=relaxed/simple;
+	bh=PeR5g4KP8x/lJhIeGe2dDKX2Op8R7HIZRzZ9ayHsJco=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZcmCn1lInBSaOaCeYIdQz/htwSNh8y+TMV6gKHTLMnlZYUV2yVAxvve1MmI2S1XpPonM4r5Za4G0gOCfx0cfNwOz0yy5BY5InU3ake5hVqT1IbkOtY+U4cSd6DFYUsm5IRN9obX1JLr+4cfks8GeQ4xfOQtFw+KXMz7fOuANcYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZspDEtbY; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769005667; x=1800541667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5ZRWs9xXfr5MhLjyldecu1D79f6ZK8VE+HPThNMbI60=;
-  b=ZspDEtbYAddkjEK/UlzBhl4QhS7Lul+D4uhOrZEdc3p0Ep30DO417oMp
-   zKWpzheTMAL83uZQaL2A1to8K7XI/I7546yfI8zqPQr+MDHG6dnupi3qb
-   gfwsgpgzSVEZ/FkEI3p8uI9JflkAXjrIClCAtawSH7iM5P3s88CNhlqLh
-   TNVzUcdb8igKARGhrKQy0qD1eFK9xoV1wOYBCMp58r2p6rtvS2buPHV8L
-   /5tK5ey0Hw10fj4mhFKcoyZoycmbF23D/Mw0yPhHHTEMFuuxxSOVR5Rdl
-   X5KBAIAV/0xvifXoD1sbXKBmgcCG1fv3KGC/3h0GIViAzRHyElmv+eZil
-   A==;
-X-CSE-ConnectionGUID: +UKqyQvoRa+VW56iMJ4vCw==
-X-CSE-MsgGUID: xgnb83ERQJW/yIbyrx0svQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="69250460"
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="69250460"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 06:27:46 -0800
-X-CSE-ConnectionGUID: dJMZTeArSL6jW6aZnJH4tw==
-X-CSE-MsgGUID: hTxK/I4iQfqddwbWYKkhgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
-   d="scan'208";a="206888102"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Jan 2026 06:27:41 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1viZBJ-00000000RIj-2tQ5;
-	Wed, 21 Jan 2026 14:27:37 +0000
-Date: Wed, 21 Jan 2026 22:27:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@google.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Pavan Bobba <opensource206@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	James Cowgill <james.cowgill@blaize.com>,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH v9 15/17] media: rkvdec: Add H264 support for the VDPU383
- variant
-Message-ID: <202601211924.rqKS2Ihm-lkp@intel.com>
-References: <20260120222018.404741-16-detlev.casanova@collabora.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AslVuI0aRbLVvFM9DRUeEnTvhQrw03T6UfGosytyPJjlGJJHUPfeMvJLOLsS5ChyAlD6ypgSPyEZ5BanW+jlilpZjPVLmVe1dIdEraMEst6Qk+ArM7E/BVH5QHezpJCL6RLva21cm0HHhdik+lxhNd2+NF14ma7syZFzYSTyFFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqhQkB0H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2629C4CEF1;
+	Wed, 21 Jan 2026 14:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769005914;
+	bh=PeR5g4KP8x/lJhIeGe2dDKX2Op8R7HIZRzZ9ayHsJco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KqhQkB0HZ1m+DKmEb4iOkwxeDGvAPNkuGn61XTxaCqhuL9qVbUQfxtrTwPujoAdVb
+	 VrWiUmPtEeUvE9nGyKANKxMoUIMS0e5nHQ31T+VEQXUu37yer/5Hzj5XuurNOilyo2
+	 +YYGfaIa3Dbj0S4Qd6g3VaXA17/1wzg6rpzqnlrG4nsV8pQRcJ1G7Oj+N6BLxO/rpy
+	 nVcDdV+4eAHtYRPFNU2TGJOODjbr6a9NoxnTowpmmzFAyZbPWVMuabJ0YV3hjf1iNz
+	 8aDY8IqPHmmGAsQTtHkqpxZzOBU4w+H2paxEDwGUBatWmmBD4eAn1X2NjKOH85/uBz
+	 eYXBSWhDgDLeQ==
+Date: Wed, 21 Jan 2026 16:31:50 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v3 3/7] dma-buf: Document RDMA non-ODP
+ invalidate_mapping() special case
+Message-ID: <20260121143150.GD13201@unreal>
+References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
+ <20260120-dmabuf-revoke-v3-3-b7e0b07b8214@nvidia.com>
+ <4fe42e7e-846c-4aae-8274-3e9a5e7f9a6d@amd.com>
+ <20260121091423.GY13201@unreal>
+ <7cfe0495-f654-4f9d-8194-fa5717eeafff@amd.com>
+ <20260121131852.GX961572@ziepe.ca>
+ <8a8ba092-6cfa-41d2-8137-e5e9d917e914@amd.com>
+ <20260121135948.GB961572@ziepe.ca>
+ <8689345b-241a-47f4-8e9a-61cde285bf8b@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260120222018.404741-16-detlev.casanova@collabora.com>
-X-Spamd-Result: default: False [-0.96 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8689345b-241a-47f4-8e9a-61cde285bf8b@amd.com>
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.linux.dev,kernel.org,vger.kernel.org,collabora.com,vanguardiasur.com.ar,sntech.de,lwn.net,chromium.org,xs4all.nl,google.com,ideasonboard.com,gmail.com,linux.intel.com,blaize.com,lists.infradead.org,kwiboo.se,cknow.org];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	TAGGED_FROM(0.00)[bounces-51274-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-51275-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
-	DKIM_TRACE(0.00)[intel.com:+];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[ziepe.ca,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,01.org:url,git-scm.com:url]
-X-Rspamd-Queue-Id: 44A9458FAD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: C6350596E5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Detlev,
+On Wed, Jan 21, 2026 at 03:15:46PM +0100, Christian König wrote:
+> On 1/21/26 14:59, Jason Gunthorpe wrote:
+> > On Wed, Jan 21, 2026 at 02:52:53PM +0100, Christian König wrote:
+> >> On 1/21/26 14:18, Jason Gunthorpe wrote:
+> >>> On Wed, Jan 21, 2026 at 10:17:16AM +0100, Christian König wrote:
+> >>>> The whole idea is to make invalidate_mappings truly optional.
+> >>>
+> >>> But it's not really optional! It's absence means we are ignoring UAF
+> >>> security issues when the exporters do their move_notify() and nothing
+> >>> happens.
+> >>
+> >> No that is unproblematic.
+> >>
+> >> See the invalidate_mappings callback just tells the importer that
+> >> the mapping in question can't be relied on any more.
+> >>
+> >> But the mapping is truly freed only by the importer calling
+> >> dma_buf_unmap_attachment().
+> >>
+> >> In other words the invalidate_mappings give the signal to the
+> >> importer to disable all operations and the
+> >> dma_buf_unmap_attachment() is the signal from the importer that the
+> >> housekeeping structures can be freed and the underlying address
+> >> space or backing object re-used.
+> > 
+> > I see
+> > 
+> > Can we document this please, I haven't seen this scheme described
+> > anyhwere.
+> > 
+> > And let's clarify what I said in my other email that this new revoke
+> > semantic is not just a signal to maybe someday unmap but a hard
+> > barrier that it must be done once the fences complete, similar to
+> > non-pinned importers.
+> 
+> Well, I would avoid that semantics.
+> 
+> Even when the exporter requests the mapping to be invalidated it does not mean that the mapping can go away immediately.
+> 
+> It's fine when accesses initiated after an invalidation and then waiting for fences go into nirvana and have undefined results, but they should not trigger PCI AER, warnings from the IOMMU or even worse end up in some MMIO BAR of a newly attached devices.
+> 
+> So if the exporter wants to be 100% sure that nobody is using the mapping any more then it needs to wait for the importer to call dma_buf_unmap_attachment().
+> 
+> > The cover letter should be clarified with this understanding too.
+> 
+> Yeah, completely agree. We really need to flash out that semantics in the documentation.
 
-kernel test robot noticed the following build warnings:
+Someone knowledgeable needs to document this properly, either in the code  
+or in the official documentation. A cover letter is not the right place for  
+subtle design decisions.
 
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on linuxtv-media-pending/master media-tree/master linus/master v6.19-rc6 next-20260120]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-uapi-HEVC-Add-v4l2_ctrl_hevc_ext_sps_-ls-t_rps-controls/20260121-071026
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20260120222018.404741-16-detlev.casanova%40collabora.com
-patch subject: [PATCH v9 15/17] media: rkvdec: Add H264 support for the VDPU383 variant
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260121/202601211924.rqKS2Ihm-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601211924.rqKS2Ihm-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601211924.rqKS2Ihm-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c:485:12: warning: stack frame size (2064) exceeds limit (2048) in 'rkvdec_h264_run' [-Wframe-larger-than]
-     485 | static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
-         |            ^
-   1 warning generated.
-
-
-vim +/rkvdec_h264_run +485 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu383-h264.c
-
-   484	
- > 485	static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
-   486	{
-   487		struct v4l2_h264_reflist_builder reflist_builder;
-   488		struct rkvdec_dev *rkvdec = ctx->dev;
-   489		struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
-   490		struct rkvdec_h264_run run;
-   491		struct rkvdec_h264_priv_tbl *tbl = h264_ctx->priv_tbl.cpu;
-   492		u32 timeout_threshold;
-   493	
-   494		rkvdec_h264_run_preamble(ctx, &run);
-   495	
-   496		/* Build the P/B{0,1} ref lists. */
-   497		v4l2_h264_init_reflist_builder(&reflist_builder, run.decode_params,
-   498					       run.sps, run.decode_params->dpb);
-   499		v4l2_h264_build_p_ref_list(&reflist_builder, h264_ctx->reflists.p);
-   500		v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
-   501					    h264_ctx->reflists.b1);
-   502	
-   503		assemble_hw_scaling_list(&run, &tbl->scaling_list);
-   504		assemble_hw_pps(ctx, &run);
-   505		lookup_ref_buf_idx(ctx, &run);
-   506		assemble_hw_rps(&reflist_builder, &run, &h264_ctx->reflists, &tbl->rps);
-   507	
-   508		config_registers(ctx, &run);
-   509	
-   510		rkvdec_run_postamble(ctx, &run.base);
-   511	
-   512		timeout_threshold = h264_ctx->regs.common.reg013_core_timeout_threshold;
-   513		rkvdec_schedule_watchdog(rkvdec, timeout_threshold);
-   514	
-   515		/* Start decoding! */
-   516		writel(timeout_threshold, rkvdec->link + VDPU383_LINK_TIMEOUT_THRESHOLD);
-   517		writel(0, rkvdec->link + VDPU383_LINK_IP_ENABLE);
-   518		writel(VDPU383_DEC_E_BIT, rkvdec->link + VDPU383_LINK_DEC_ENABLE);
-   519	
-   520		return 0;
-   521	}
-   522	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Jason
+> 
 
