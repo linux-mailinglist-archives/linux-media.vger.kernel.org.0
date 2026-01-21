@@ -1,225 +1,313 @@
-Return-Path: <linux-media+bounces-51224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51225-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MMFjHqC1cGndZAAAu9opvQ
-	(envelope-from <linux-media+bounces-51224-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 12:16:48 +0100
+	id qI8OLc60cGndZAAAu9opvQ
+	(envelope-from <linux-media+bounces-51225-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 12:13:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61C855DCD
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 12:16:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472A155C9D
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 12:13:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id ED032904041
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 10:52:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9CD845EB510
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 10:56:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9038344CF53;
-	Wed, 21 Jan 2026 10:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8494644CF31;
+	Wed, 21 Jan 2026 10:56:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vMyCOHUh"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eyVf66sd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012007.outbound.protection.outlook.com [40.93.195.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8468C427A1D;
-	Wed, 21 Jan 2026 10:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768992760; cv=none; b=TCkX678+OJywNoscMqBoK1nNVY1eZ5nAG4+rJLBerT+Mkt1dvfZTdJmi7by19WFukF/EY7QMWDiTN3j8yBg8v8/6XlP+Mt+B7kbZA1o8IUsmXxNqOfGTCi3Y0vP67tleZOLd+BpIVwV90aBtvzCmV5COITNuwzgHoLH9wbmCQo8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768992760; c=relaxed/simple;
-	bh=yTO8jiWPy0JTRMih9wPEYaDnyW0tT35H1Sui+h1SpLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LPltSpVGng7CJYyfKvwe8QoH1w814aY9y4rAc6+mXOw2wWhPzJgzGlwruRVOrZ1JJmDCNYyEO584x7cSOf8yk9ChQPet9idFarwi5/WaX+c7twUMvSVsXDU2ct1E5iJB+H4SSaF+8EiWGkr3kiEHKtk8+jWVtyt0G77iv0/Csv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vMyCOHUh; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EB55DA06;
-	Wed, 21 Jan 2026 11:52:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768992722;
-	bh=yTO8jiWPy0JTRMih9wPEYaDnyW0tT35H1Sui+h1SpLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vMyCOHUhMl+WSRUGjb4Evlo+u50imJRCgUhz4X7o8suJaM0l/+gCs+GP/d26zUa84
-	 2iRrgZluwDObB7SHpdKHJW+5PXqQ6PTz1OFvKCXgbv/zUtUyzWrT+ZkdwPQ/Z1huCO
-	 5byU5NaBbxzSSzZs4YgYK/D3sfK2CWPO+jOZ4bCc=
-Date: Wed, 21 Jan 2026 12:52:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
-	vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, p.zabel@pengutronix.de, conor+dt@kernel.org,
-	hverkuil-cisco@xs4all.nl, changhuang.liang@starfivetech.com,
-	jack.zhu@starfivetech.com, sjoerd@collabora.com,
-	dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, jai.luthra@linux.dev,
-	mripard@kernel.org, Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v9 06/19] media: ti: j721e-csi2rx: add a subdev for the
- core device
-Message-ID: <20260121105232.GD382676@killaraus>
-References: <20251230083220.2405247-1-r-donadkar@ti.com>
- <20251230083220.2405247-7-r-donadkar@ti.com>
- <ee8152c0-daf5-48dd-a2d1-2fafcfeca797@ideasonboard.com>
- <176845899846.9154.18009615769864845946@freya>
- <d9f3335a-d8f4-40cc-b4c4-a93b797a89fd@ideasonboard.com>
- <20260120232521.GE173080@killaraus>
- <8b8e603f-5d04-44ce-91ab-85df8fe0ae94@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0201333A9F3;
+	Wed, 21 Jan 2026 10:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768992971; cv=fail; b=D8oJcKF83kXcEs2RLv6n8aQOCgUmGWRt+GpfEHzhU5kqjmb9NbHuf6vQDn6fF+SVsEAiro8yD6B00uilbaoI2d87kbjKmVs5hvEbaPf9LCB0RGipfpgjT23fjSZABGguhN1Qsk+4sqY7HT7vhu58CqoCgKskMkp3Slkurjc/Gcw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768992971; c=relaxed/simple;
+	bh=/3hVT8up7l4LWDvX8GFIPeGKghrwhdhdQx6m3RKWhUA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=NHfXackzio9Uos/aF2RBjBZwSQlluPFgOu5FQhdUMOwY/RW1KliXl9Eoxs0tWsShLg2/o6e0L+UyqW8DqiVFx2UnWbJWZVHpDsffkPPGrtdO8XNwANvRofH40eVm6ICVOgh04uhoXYFESLqxyranzrM8+PshkpuI0qB9ny5uXBY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eyVf66sd; arc=fail smtp.client-ip=40.93.195.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rbCgdjg3TrjxzzjMR9dLSFuDzC7Lz0oy1vTvup0iigkBWH3eN4QO9EY+4gMpCQttXKgIaVy6CeeBUdRSzYNAaXNkMYsmwo9MaiuNIGnudUSp4bbCFGY2OZy9s/bij8acFpafj37mo9siLKM/EwoOhEbFX3fbQPesSbIuz9Lnzf57SjkOdD1X0N0Iqf/ysk1l8tWkUNMWKQ3L2aa5vgftgOuXxotVUvr7nAhuZRsISYvlcmMMfww9PiWwZ2RXpRaGfnFnfoxKiwr0EQNVV/nH/9hirbDQYboYBXOouJDbgs1Xs1OIlRmFF2HzoezUqv+84oe2BDTTZDwoPrVGw3lwdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aEnz8/ze/UdUk/2Tw8vdu/RVtx3fezY8F3DIGsBauV0=;
+ b=nfTeUjEcQPXKh3OxOQM6o9hmPMUMH2cYnRGsR8lKN83bU1LMPlDKCyYeGieLNaYpBbZi/hAJqHUz92IUekda3MY0kiKrI52+ohMkDR+cKLq1DhbQXJqjfCkkGTHUxaMqjSI3OQy2S/Lzy5T+hEGM0GUnSwKxcbJAelMCgj13KCtUlGtNgM1a7oqpluuvhQ+iXnZFmsbMPWfpk264gEWPhlA6gUpBkVlyAh4PrfCnJgy5jwwrYoqMEPXd4fHdrZxTEfELJodhIolqNx0sKx36TXBsKzOeQX4DQ+tMUjsJ+n5UNc6E7TN900MzVgs8+225B+a6xC3kr/MIQz51yJWC/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aEnz8/ze/UdUk/2Tw8vdu/RVtx3fezY8F3DIGsBauV0=;
+ b=eyVf66sdlrMSRkXZ2b8CA/2MpRgq7DaBEUeeVmSi8pFY8B9pBBwhisD15EFMEACGDgjpvWlimlnUvp/7tkAL2EdrDwVl3ddTqsGuuIhpjvahqFGFU7cs/hrZqt/JGL4H05TJr2dfAkddKHA4QOXgB1/bO1mo7qzMAQekVDpkpMY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB5736.namprd12.prod.outlook.com (2603:10b6:510:1e3::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
+ 2026 10:56:04 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
+ 10:56:04 +0000
+Message-ID: <09d2f623-18e7-4fcb-bae4-823c77cc0d5e@amd.com>
+Date: Wed, 21 Jan 2026 11:55:46 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 6/7] vfio: Wait for dma-buf invalidation to complete
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Leon Romanovsky <leon@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Alex Williamson <alex@shazbot.org>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
+ <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+ <b129f0c1-b61e-4efb-9e25-d8cdadaca1b3@amd.com>
+ <107464758df9444a465a3a9e387f5a42827aff51.camel@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <107464758df9444a465a3a9e387f5a42827aff51.camel@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0258.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e8::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8b8e603f-5d04-44ce-91ab-85df8fe0ae94@ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB5736:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58050f0f-192d-4ed7-4865-08de58dbac3c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aDBoMERRT1FUMS9xcjVtc1FzMkRzUk85SE9FTkNGRVpYZjlvZmpqR09zTTk1?=
+ =?utf-8?B?dGVYdmVxWmZER3Vua0JvM01NWSs3NnFFWWFYc1kzMXc5dDIvbEIyNlgwN2Fj?=
+ =?utf-8?B?bkFWcVlWWnJySllJOGwwa2hVQklpOS92MTVBbDRRcEhuT1h2emttZnNleGZZ?=
+ =?utf-8?B?cHNDOWYvcS9WcW93YWxTZWNONUpJak0yb1pHdTdBRnVrMlN0N2p0clltTk5L?=
+ =?utf-8?B?dGkvbHJHUlVqYkFjeVF2Wm90Q0lhNVpIWHhscnN1VGovQlJJWXBQOHVnMXQr?=
+ =?utf-8?B?Nklud01LaWY5T1JZMEpQZmJYMFVRd3Izd0V0Tk9mVEY3ZU5zR1JGU2xQUzNj?=
+ =?utf-8?B?MlJBUnJDYmQvT2RsTGppalVKL1B4WXpkcGVYdnBoQ0JFWWRQQmsrUlNCVFpx?=
+ =?utf-8?B?eElmeW5nd2lRVFp3SlBaMU9hb2xlNGlzVmFqT2dubW1neVI2U1lraEJXYWZO?=
+ =?utf-8?B?ODBQRndxVTNXc0tOK2tReXhNbjdHWTFKeVg3NVllaERPWWsyTmtITWFSMWJy?=
+ =?utf-8?B?azQ0Ry95Q3AreTlzQkg1bTk5ZnBWT1BqSit5dVM1a3RDVk54bFMwSUtyejVC?=
+ =?utf-8?B?NDlzTHFYNzJ5VHBwV011VG5SeCtNeFhXd3FmVkxtT1I1Q3R1Ynpud2lZQ2V3?=
+ =?utf-8?B?UThEcUNJYXZlWFFwZE5HYnNlMjlrR2VEd1NWRWdQTW85TmFaTnZPL0tleTJ6?=
+ =?utf-8?B?Y2lWOUVyeDZMN0loRWVBeVVkWERVRVRWWXhvcThFMU5WUXdiUUhoUlRrMWRx?=
+ =?utf-8?B?N1lFb3J3SndrNnE2RE8zdUduTFB4dXRIRS9yNnkxZHhxS0NQV29ORHZ5OWVp?=
+ =?utf-8?B?a1ZoUmdHdmF4aTNybWhPalRjQ0RFZlBzNGE3Nmp2Z1RBdi81b2hBRmFPcDFZ?=
+ =?utf-8?B?SDN2QWcxMWVIVUZ0bStnM05NUEloY003RDg4M2htVS9BSjRMMmlIZUF1K2ZP?=
+ =?utf-8?B?Mmt4OFQzUW8velplbmZhSFVFRDFZYnV1ZmRjTlh2M0dOeWtjUmNzcEs4ckt6?=
+ =?utf-8?B?S0FvOERieWlZVFZLMHJnNWptRTlFV05rZ0dWMlkyS0FJRHpXMWkyYUJLV250?=
+ =?utf-8?B?ZnBIVXVNK2haS2E3Mlh6ZXlUeVl5NmEvSTdqclVPRUV2SjFacWkwTThHcDJr?=
+ =?utf-8?B?RnU1QXlSczYyQXZibjB6Nk1zTG9SdU1XSXJLSE5vUS85RmRxZ3ZBRStvMHhz?=
+ =?utf-8?B?UHpaakViSlJFL0RUR04wR2wvNk9CdFBOMUJiZVJPTXBPNVhSNDZVeGp3UHNl?=
+ =?utf-8?B?ckx5NDRZSCtuUjJoMSs4c3lzbzNWeUxiY2Y1NlNMYVplWDVPNkg5b1JwM0xM?=
+ =?utf-8?B?QW1kdHp2RGVvMWtuaTRvcjdPOGVHSjE3UnhiQWNJQ1Z3UTBQbFN4TlRTK3Yr?=
+ =?utf-8?B?dnVsYVViaFBvUWo3a0hIU3VhdVNvd2haYUJIT0xGMGR2dGh1NzBBcTd6cENx?=
+ =?utf-8?B?MVpPZXorWlJEeG1DS1A3aURwVzF2YVlCdHE2djZrRUxnSkNOeno5YUZ4RlpD?=
+ =?utf-8?B?dDcvMnh6d25pU3ZkOTZFWWJBcUlITGNmWjR5anc5VTdvTm9TNm9NempTL3l3?=
+ =?utf-8?B?MHgvOEJDTkxKaGhrVG9zWno0aDBIeXUxR1E5Wk56K28zVTkzUUZTTnlZbVM0?=
+ =?utf-8?B?eHMvUXhCZStJQjJMZng3M2xHVGI3SUF3cnJSS3dGcUhxcEd5OHdJVXY0U1FD?=
+ =?utf-8?B?TGhZUGlaUkwzcUxNQXJVcFJhdXJPMUtLL1V0V09EK1BMdFpzanZ0MCtjaUIv?=
+ =?utf-8?B?V3hoeTZqeUdwa2tuUUdiVWI1YmU1bGtkRFFvWUtka1VZWDhoRFNpZkljUUVt?=
+ =?utf-8?B?b2xHM1hiYk1aZTg0cHdHcHNKQnIxM2xmOU9MVWlPcmV0dmV1WmhjczVxRTJJ?=
+ =?utf-8?B?by8xSWg3bTY0dldTc0RJNWxXdXpVNDV2V2tIL3lwa1JTS0xUOXBjRU93TzJC?=
+ =?utf-8?B?cnMrTTNjeTNVQVRQWFZIclc5WGE0NU5lT3NqRGlaZ3EzWk5ua1dRSXc1M1JS?=
+ =?utf-8?B?RlpsZWlNN3hiL2gyaHJYdFBxL2lnYThWb1JRUE5FVE90aTUvL1M1eFpOMXJ6?=
+ =?utf-8?B?a0REcmZ6aFNvWWpCZy9pRlpNVmRlMllhOUExY0g3Q0tuRmlHVHlYTmNZeTBP?=
+ =?utf-8?B?MC92aWYzcHQ1cmd4MlBWRHp5akMvbUk2WElRWERmZ1FWUW0yUHRTdkFSencw?=
+ =?utf-8?B?UUE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T0ZveDFwMU44V0lHVlYvUDFVSDFpQURtOVpmNDE4a3Y1UWhaYktpdXJsVXJC?=
+ =?utf-8?B?cWRGZjEzZDNzOU9ZNGxKVlkwYmFKb21rV3FOZDVOYzRXTmpaZm1vbjRySVVh?=
+ =?utf-8?B?MCtwQkliZC81TVVTZElNK3FlbXZyZ056U3BIOUJwY0c1MHQyNW12MDdvcnJk?=
+ =?utf-8?B?cWVTcWRVSGkyQ2Zvd3A4SzEzMGVVQ1ZBRUN2OUdpckNmUkZRQWNVay9pZ3U5?=
+ =?utf-8?B?end2d1MxQTVtN3BxSkNmQTlMdWdiYURpeVdNRzFrMG93REFvRVk1Ymx1RG1v?=
+ =?utf-8?B?NjVJMjdlK2R1TDBLd2t3eDJvZmV5MFFwbDhQSmFaSWZNdS9JdXIrUjlLTFdw?=
+ =?utf-8?B?SG93S1doMFc5cVkydnJFUC9kaXVqTXFqVVNBRk1lM3o1c1Z5WkVJNjl2SnZE?=
+ =?utf-8?B?R1VUUnI4bXNuUVNYNzJXSDh6eENhdlBuV21pb3BzZlc4OEhMTmJJQjNtd0Yy?=
+ =?utf-8?B?RUxWcUxXY1E4aDMxM2JGaW4zTVAzTWpwTHBRc0RZNkt4aXNoRnVKM04ya2Fl?=
+ =?utf-8?B?RU5WdE4xaTZaWnM1Ky9sVHVSbHJJSk4zcVZaV1FIU084Yk9VRmdTMnl2SHZh?=
+ =?utf-8?B?L0N6MEJRN0lIWTh1Uk1Qa2NGSUt2c0g2OEJmMlpFOSt5R2dmbkpqWU9MWk1M?=
+ =?utf-8?B?MHBqaUNLYUl0S2lISkh3ekp1YXpDeUtkbm1iYVpCK1IyeVlRSXYzbHBSMUxI?=
+ =?utf-8?B?Y2dNNVRLSTVhbXB0Q3VtbWUraUt0Y1ZFYUpGWk9tTDNmK1hLSUlXZU1ySi91?=
+ =?utf-8?B?STU4cXJrR0xUdDd5OXhsbnF0SFB1b0t3ZWQzV0dHMkkyVytNdy9UNk44YnQy?=
+ =?utf-8?B?NHgwd1FiVWZSalhnQWllaGNrSEhqQ2lhR2FBSERyM1hibU5jOVZzU0NSZTNr?=
+ =?utf-8?B?VGxGTSs4WCtZVUZjaUVuSS9MMU5MVlUxZ3lkbnFmcEdLazhvRlZEZEVoZGFj?=
+ =?utf-8?B?eEhWVUF5b3dOTUdyM0dlc3kyNVJUQTVFR01oTHpRYmk5WnVmVlVrdEx0VHQw?=
+ =?utf-8?B?TU54dDJTemJ3Z2tvajNXYzNuODdraWp3VFhoajBWaUkyd1prU3NRUlR2NDVs?=
+ =?utf-8?B?a2JCUWFIcGtoR3BVUWxZVVYwRXNSQTNNOStMYnRUUHBkY2xwd1dSczgxcHFY?=
+ =?utf-8?B?emt6ZHdJS1FJR1N5dUFmK1BZdjJqOEFWL1BETjNGbStDcnRBRnpQb1NtWUxh?=
+ =?utf-8?B?QmpvTW9wZGpEUDg5cGZyRmtqNko4eW91NlorOXlWeXh3TytIcHFSbVhmNXZK?=
+ =?utf-8?B?b2s1bGVXZ1IyVldUR1lQbmQzeVRydWFvanhJY241WFplUjRackdJdmF2SG43?=
+ =?utf-8?B?OVFxQy9EZEx2M3dhS01pYXZCODF6MEg2Q3RwaWRNZityM1NRZ2NleGNGQ1Zr?=
+ =?utf-8?B?eWl6ZFJCb1FETjlnN0c2YUYvem43cU1JU1FyZVZhSGNUdm5TUG1MRDNGc1ZN?=
+ =?utf-8?B?Rk5tR1k2Um1meXVzK1BOMFVoTTM2eGgzTU5EUFZkWlQ4aDJnOUpqS21vYVVT?=
+ =?utf-8?B?citWNjhkMzV3THhrNENlY2drMDJscmNuY01iMDE2V0VwL0I5WVNBY1o5SmJV?=
+ =?utf-8?B?dEZKU0ZEbTRDcUxnVUVwTmJDTDNHSmFiTU9ia2tKQ21SMjE3d0UwbVFkWFFu?=
+ =?utf-8?B?NlRaNUs0SUFSell0MzZTcVBLeXgrK0ZvSm00ZjE0dFN6eDBSMWl6YXl4NGJ1?=
+ =?utf-8?B?R2ZWaHc0YldxU0lvRVdML1RPdkZ3Y0JJZXFQbDR5dWYvSy9mUlhSY0FZVmNu?=
+ =?utf-8?B?eTlMY0lkN0cyWnBEanoyWUdzTm16WmtnMnM3bnNqN2Y1c0lYRW8zNnhxbGE2?=
+ =?utf-8?B?MjNDampOUzBQbkxlelIzS0VpVVdOWXJsQ2tTcGNtSnl6SWZXQWNrT1h5QWRF?=
+ =?utf-8?B?YTVocXlkNHNOdk9kQTdvMThpbTBGc05nNlQzVVdrY0xSWVhyZi9sSU5ySmN0?=
+ =?utf-8?B?dFh6VUNpUW9qVGdqQ0VoVGRTTk1MYmpZSHlMR1lyRHp1b3NPdmM3N1NrWmx3?=
+ =?utf-8?B?eGZhQytzYkN4ZmxZNlZBUUhrdzBmRWJIYi9mMUtsVDJVWXlJRk5kRGhOSTFp?=
+ =?utf-8?B?ditmdllUazJ4a2tXbDc1eWFtbGgraElkTjNsbmlEbCtCOW9aamhLMVl2emth?=
+ =?utf-8?B?Ri8zRjhzZCtQUCtBUlU2Q2dmaTA2bDFiSXNTVmhML2VtblJRU3BQQzE5SWht?=
+ =?utf-8?B?aWFCN0NWdFJORys0RDlTR0N3SEJGa3JRME9LMUpYZGpNUXFtampsMG85bjg1?=
+ =?utf-8?B?dXZWcmR3MG12bGJMVXIxNERuVDNzM3BVMUVLSWk0aHNnNkNDZWtXTkFQVzZK?=
+ =?utf-8?Q?dhnxv5CeyPw1CXjPPH?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58050f0f-192d-4ed7-4865-08de58dbac3c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2026 10:56:04.5579
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: na44b0LLc2ibn4ZTZiVPxI3CNA+JkkFdqXk8Bfxn7Jw234il+mCW7pO4ESuKyfzS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5736
 X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-51225-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51224-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FREEMAIL_CC(0.00)[ideasonboard.com,linux.intel.com,ti.com,kernel.org,pengutronix.de,xs4all.nl,starfivetech.com,collabora.com,linaro.org,vger.kernel.org,linux.dev];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[amd.com,quarantine];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DMARC_POLICY_ALLOW(0.00)[ideasonboard.com,none];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,ideasonboard.com:dkim,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: D61C855DCD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid,nvidia.com:email,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: 472A155C9D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Jan 21, 2026 at 09:38:29AM +0200, Tomi Valkeinen wrote:
-> On 21/01/2026 01:25, Laurent Pinchart wrote:
-> > On Thu, Jan 15, 2026 at 02:56:21PM +0200, Tomi Valkeinen wrote:
-> >> On 15/01/2026 08:36, Jai Luthra wrote:
-> >>> Quoting Tomi Valkeinen (2026-01-14 20:51:49)
-> >>>> On 30/12/2025 10:32, Rishikesh Donadkar wrote:
-> >>>>> From: Jai Luthra <j-luthra@ti.com>
-> >>>>>
-> >>>>> With single stream capture, it was simpler to use the video device as
-> >>>>> the media entity representing the main TI CSI2RX device. Now with multi
-> >>>>> stream capture coming into the picture, the model has shifted to each
-> >>>>> video device having a link to the main device's subdev. The routing
-> >>>>> would then be set on this subdev.
-> >>>>>
-> >>>>> Add this subdev, link each context to this subdev's entity and link the
-> >>>>> subdev's entity to the source. Also add an array of media pads. It will
-> >>>>> have one sink pad and source pads equal to the number of contexts.
-> >>>>>
-> >>>>> Support the new enable_stream()/disable_stream() APIs in the subdev
-> >>>>> instead of s_stream() hook.
-> >>>>>
-> >>>>> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> >>>>> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
-> >>>>> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> >>>>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> >>>>> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> >>>>> ---
-> >>>
-> >>> [...]
-> >>>
-> >>>>> @@ -981,48 +1138,52 @@ static int ti_csi2rx_link_validate(struct media_link *link)
-> >>>>>       struct ti_csi2rx_ctx *ctx = container_of(vdev, struct ti_csi2rx_ctx, vdev);
-> >>>>>       struct ti_csi2rx_dev *csi = ctx->csi;
-> >>>>>       struct v4l2_pix_format *csi_fmt = &ctx->v_fmt.fmt.pix;
-> >>>>> -     struct v4l2_subdev_format source_fmt = {
-> >>>>> -             .which  = V4L2_SUBDEV_FORMAT_ACTIVE,
-> >>>>> -             .pad    = link->source->index,
-> >>>>> -     };
-> >>>>> +     struct v4l2_mbus_framefmt *format;
-> >>>>> +     struct v4l2_subdev_state *state;
-> >>>>>       const struct ti_csi2rx_fmt *ti_fmt;
-> >>>>> -     int ret;
-> >>>>>  
-> >>>>> -     ret = v4l2_subdev_call_state_active(csi->source, pad,
-> >>>>> -                                         get_fmt, &source_fmt);
-> >>>>> -     if (ret)
-> >>>>> -             return ret;
-> >>>>> +     state = v4l2_subdev_lock_and_get_active_state(&csi->subdev);
-> >>>>> +     format = v4l2_subdev_state_get_format(state, link->source->index, 0);
-> >>>>> +     v4l2_subdev_unlock_state(state);
-> >>>>>  
-> >>>>> -     if (source_fmt.format.width != csi_fmt->width) {
-> >>>>> +     if (!format) {
-> >>>>> +             dev_dbg(csi->dev,
-> >>>>> +                     "Skipping validation as no format present on \"%s\":%u:0\n",
-> >>>>> +                     link->source->entity->name, link->source->index);
-> >>>>> +             return 0;
-> >>>>
-> >>>> Isn't this an error?
-> >>>
-> >>> Well, the j7 shim subdev introduced here has immutable and active links to
-> >>> all the video nodes, for each DMA channel (taken from DT), many of which
-> >>> may be unused for certain setups, and thus there might not be any valid
-> >>> format on the subdev source pad corresponding to an unused video node.
-> >>>
-> >>> Jacopo had a similar comment on v2, see this discussion (grep for Mali):
-> >>> https://lore.kernel.org/linux-media/4mnlnsj4co3agvln4qsasmgvgwiyoo7yu2h5wyh4rmzzafhm5u@avhnbw7iknms/
-> >>>
-> >>> I know other drivers use a different approach with mutable links, so it
-> >>> would be good if you/Laurent/Sakari can give your opinions on if only one
-> >>> of these two approaches should be taken for multi-stream pipelines.
-> >>
-> >> I see.
-> >>
-> >> Well, I don't have a definite answer. With some thinking both options
-> >> make certain sense. It makes sense to keep the links immutable and
-> >> always enabled, as there's no configuration that can be done. On the
-> >> other hand, it makes sense to require the unused links to be disabled,
-> >> as, well, they are not used.
-> > 
-> > I'm not familiar with the implications this would have on this driver,
-> > but generally speaking, if a stream is added to the media pipeline by
-> > the pipeline build algorithm, then it is expected that applications
-> > would have configured it correctly. Streams that are not used are
-> > expected to be disabled if they would otherwise be added to the
-> > pipeline.
+On 1/21/26 10:36, Thomas Hellström wrote:
+> Hi, Christian,
 > 
-> I think the thing here is that the driver creates immutable
-> always-enabled media links between the videodevs and the first subdev.
-> Then, say, if only one stream is being used, only one of those links is
-> actually used, and for every other link the above check fails as there's
-> no stream, so no format.
+> On Wed, 2026-01-21 at 10:20 +0100, Christian König wrote:
+>> On 1/20/26 15:07, Leon Romanovsky wrote:
+>>> From: Leon Romanovsky <leonro@nvidia.com>
+>>>
+>>> dma-buf invalidation is performed asynchronously by hardware, so
+>>> VFIO must
+>>> wait until all affected objects have been fully invalidated.
+>>>
+>>> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO
+>>> regions")
+>>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+>>
+>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>
+>> Please also keep in mind that the while this wait for all fences for
+>> correctness you also need to keep the mapping valid until
+>> dma_buf_unmap_attachment() was called.
 > 
-> In TI CAL driver the links were mutable, and unused links had to be
-> disabled. There it made sense as the links had to be configurable (there
-> were two PHYs). Here, there's no configuration needed, so immutable
-> links make sense, but then they're enabled even when actually not used.
+> I'm wondering shouldn't we require DMA_RESV_USAGE_BOOKKEEP here, as
+> *any* unsignaled fence could indicate access through the map?
 
-If the routing table in the subdev does not contain any route that goes
-towards a video node, then that video node should not be added to the
-pipeline by the validation code, and no validation will be attempted. At
-least that's the theory.
+Yes, exactly that. I totally missed this detail.
 
-I see that this driver implements .link_validate() as a
-media_entity_operations, not a subdev operation. I wonder if that could
-explain the issue.
+Thanks a lot to Matthew and you to pointing this out.
 
--- 
 Regards,
+Christian.
 
-Laurent Pinchart
+> 
+> /Thomas
+> 
+>>
+>> In other words you can only redirect the DMA-addresses previously
+>> given out into nirvana (or a dummy memory or similar), but you still
+>> need to avoid re-using them for something else.
+>>
+>> Regards,
+>> Christian.
+>>
+>>> ---
+>>>  drivers/vfio/pci/vfio_pci_dmabuf.c | 5 +++++
+>>>  1 file changed, 5 insertions(+)
+>>>
+>>> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c
+>>> b/drivers/vfio/pci/vfio_pci_dmabuf.c
+>>> index d4d0f7d08c53..33bc6a1909dd 100644
+>>> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+>>> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+>>> @@ -321,6 +321,9 @@ void vfio_pci_dma_buf_move(struct
+>>> vfio_pci_core_device *vdev, bool revoked)
+>>>  			dma_resv_lock(priv->dmabuf->resv, NULL);
+>>>  			priv->revoked = revoked;
+>>>  			dma_buf_move_notify(priv->dmabuf);
+>>> +			dma_resv_wait_timeout(priv->dmabuf->resv,
+>>> +					     
+>>> DMA_RESV_USAGE_KERNEL, false,
+>>> +					     
+>>> MAX_SCHEDULE_TIMEOUT);
+>>>  			dma_resv_unlock(priv->dmabuf->resv);
+>>>  		}
+>>>  		fput(priv->dmabuf->file);
+>>> @@ -342,6 +345,8 @@ void vfio_pci_dma_buf_cleanup(struct
+>>> vfio_pci_core_device *vdev)
+>>>  		priv->vdev = NULL;
+>>>  		priv->revoked = true;
+>>>  		dma_buf_move_notify(priv->dmabuf);
+>>> +		dma_resv_wait_timeout(priv->dmabuf->resv,
+>>> DMA_RESV_USAGE_KERNEL,
+>>> +				      false,
+>>> MAX_SCHEDULE_TIMEOUT);
+>>>  		dma_resv_unlock(priv->dmabuf->resv);
+>>>  		vfio_device_put_registration(&vdev->vdev);
+>>>  		fput(priv->dmabuf->file);
+>>>
+
 
