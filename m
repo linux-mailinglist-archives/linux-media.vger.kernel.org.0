@@ -1,172 +1,266 @@
-Return-Path: <linux-media+bounces-51195-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51196-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kBCALwOScGkaYgAAu9opvQ
-	(envelope-from <linux-media+bounces-51195-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 09:44:51 +0100
+	id ICY0MEaTcGlyYgAAu9opvQ
+	(envelope-from <linux-media+bounces-51196-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 09:50:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6611553C7C
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 09:44:51 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4574B53DB0
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 09:50:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 775DB486BC2
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 08:42:26 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9889E4E299F
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 08:47:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA07E46AF21;
-	Wed, 21 Jan 2026 08:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72FAE47799C;
+	Wed, 21 Jan 2026 08:47:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N/jftV8W"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="iMgJEFrc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020081.outbound.protection.outlook.com [52.101.225.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB3B441045;
-	Wed, 21 Jan 2026 08:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768984910; cv=none; b=ur/4jZ9mvr5jtAwXJX4gLOXPeO5dvV1DbnG1xzBGUc8bgnmGnrNWsyS+gCI7QdLSGsK03PbeJAAYTcz5PjCsyGVelDPfhdEx9SYN1/tVihUnWaHfp7+UNWb6eQ4ppgmhIWIu1POZuqlFzm5xWPiZKSlJJrR8tjAlUD+d3FjD19A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768984910; c=relaxed/simple;
-	bh=vX9ez30UqQH8Ea7faskYAe/RcTUI4WeiZy+2L8FsrmA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uXjIsOuIyf9AmDrfY9jyKLDuBQdqQwr3BJwlz/Vewj2gHzUBnTAj5iyE5W+7KvizTC+3/xikJ+DxfzubSttPZQVDO06eT2h6j6kQJaaE4OfnnOGnvzV2UCJQ2s2NTGGZP4MK/M17PzI9T60XmHUxDsg3wyoSeTckTgF8kpd03F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N/jftV8W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7174C116D0;
-	Wed, 21 Jan 2026 08:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768984909;
-	bh=vX9ez30UqQH8Ea7faskYAe/RcTUI4WeiZy+2L8FsrmA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N/jftV8WqKnsm2maFReUTyS1FKZrVxHQAluTkW3EpHJ4ervet/wKOmSASptNsqcn8
-	 YCUzQehY130BGt6cUU9BFs3H9AF/0B02h/cwqe1DJtbIVQn1O0baHcQoVTQ4ECkrKj
-	 2eY60EIQdA2ElUlO9F+1P5ikr5b7v9ZGk6mmC2XusS1ZE2PrwNWovFFzfgQo56DnSf
-	 RBQuuCWVT7WPdSGkQQLmpBx1Aohcb+mdN3pnRJHuhScYqnsOPK8OkZ0n/Q7YnxOFCo
-	 mWv0ZGyr+NyMttlGy80VgLqW+5iigg0WaDm1Zt85kap7Vth+hi3cX+K4uvuAZIXBk1
-	 /elzGAkYMChww==
-Date: Wed, 21 Jan 2026 10:41:43 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v3 1/7] dma-buf: Rename .move_notify() callback to a
- clearer identifier
-Message-ID: <20260121084143.GW13201@unreal>
-References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
- <20260120-dmabuf-revoke-v3-1-b7e0b07b8214@nvidia.com>
- <59762c7e-f00b-49c6-bfab-ff647d3fe05d@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CE4359FA0;
+	Wed, 21 Jan 2026 08:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.81
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768985254; cv=fail; b=raaRqcUZAECdYmdhiirb+sE39tQGbpzYvT/Z5yeiKUsC3+V/ddecBJLtgTnC9v5/WEFsAAeBit7YL3K5JbUQUBFWD0uS/PBFMngqf+HVjQvAlBqDMajuivzRLBrZ32e48pL2pbWYmZCTQan+lUx/zReyB2yYRHLUj3ITnMD5+2k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768985254; c=relaxed/simple;
+	bh=8Wvp5agmfqZW2l0msxc1Y1/Q4HsXTwofjWFK+qhvgM8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YwDHVz1Zc8+wUe1ddWRzIwzjzN+Mj54UdcxrKTxJCagyCUgNXDZi1uPGmTwA7P71PnPAB1nMqBUR/zBOV/yUt4glSHhF5o2oO1Cp8tW0h3SyuwYaNB7oURPHM8h7+2dFd8C/YXIyiq48MZjcbSJ/XThvjLpFQ64eFagBmZ8a/gU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=iMgJEFrc; arc=fail smtp.client-ip=52.101.225.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W+3EXdwsO36KiOGqwWcqX6fJT4NZdl6x/OSgBLDpy1JaisdOL/UnLfzZ8MdIBIcO7Ldn+wruZ3DZ6RXl3pD2dma+gHB28d23fhDmIMl16IFx4a6nMOcJP22pYKRK8YCe/cxiEkFoKBww6U6t8N4WQqyBH/H09P3Wv/aDHot/BsbJV9aKIBhlXN+IV3BcIrSGPs14f+wJone2GLnDjYgm764ooW6F3N5vDa9MjsV1U5yRMEHjJJdxUniylrUvH/JiUXIhKejkik8/xOsj94M7J8z/Gr52gx8BuHLbX3NTKizM3cc5LKWcn201hMT74dPVUtLFhWwU4jhPoe3iSNlROQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8Wvp5agmfqZW2l0msxc1Y1/Q4HsXTwofjWFK+qhvgM8=;
+ b=hV09w7gMBR+AajjaOfYAtab/ugbnIn8SdzpjgKzu9wAXW61I7SQpoy6li8BHlnC3dZmm0x/KgKB2J9EqZd+S97Gjx2KoGhEx1qN+Tl9ZDYnmGXoAqnGp2koa1qpiDsRr44gJYcBWaxJgxg4zZZgt53qemmeZwRuIexou27aV4HNKoKF8kz7OOQaJxlLkUvxIdB06SgNex8ohmrg3U4KfhG9mB7eluuLBwAugEhQUwi8t7gA9ES6vq2I4WezFR2qne8pG6EXmXuwY4ki9gq+SvyoZIuNFhSpQhRJytoU3/rYGX9i7TiWeu1tUaSEkBQJMtCe/BO6aYPzRLquVjms7Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Wvp5agmfqZW2l0msxc1Y1/Q4HsXTwofjWFK+qhvgM8=;
+ b=iMgJEFrcpGVx9gp+He91k4NoC8eJUc3+tRh6kq/vt3KxTroj0jjLDquk2wept2FuSWKD7DIbEUrgKNIMM988HbnHROvc9iwvmloMNT1rCaz7I+Cvz24/1m3QcljJ17yLU9hnnBwC+Osm18XyizDnQgOOgK+BoVOxJ5iVmQL8X+ZtveFUZSm3VO430UgXajEtk2kVheXMcEyUW/o7RJLcLaIt1jpBL/7AeZ+vZoivpW1d4OON52M6OSasgts8FTqCt0JBABnbowonCl67KVVlnG3JwHzoiFdzM/YZc+HLqisSx00qHGo2z053KEnJewtw9n2AmX2ArWLrrCcraa7hUA==
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by MA0P287MB1402.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:f6::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Wed, 21 Jan
+ 2026 08:47:27 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.20.9542.008; Wed, 21 Jan 2026
+ 08:47:27 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v4 1/2] media: i2c: imx412: fix sensor power-on timing
+Thread-Topic: [PATCH v4 1/2] media: i2c: imx412: fix sensor power-on timing
+Thread-Index: AQHciq1b+QTJpATAPU+ZTs6oRz7wRbVcTPfJ
+Date: Wed, 21 Jan 2026 08:47:27 +0000
+Message-ID:
+ <PN3P287MB1829EDDB642D6CFE9FD7EDBC8B96A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20260121-imx412-v4-0-f6bdf83f116b@oss.qualcomm.com>
+ <20260121-imx412-v4-1-f6bdf83f116b@oss.qualcomm.com>
+In-Reply-To: <20260121-imx412-v4-1-f6bdf83f116b@oss.qualcomm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|MA0P287MB1402:EE_
+x-ms-office365-filtering-correlation-id: c90f0613-42b3-4da0-f6c8-08de58c9b494
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700021;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?0jnht4ZcMG9wD3dBZZjs5UQ/wf/QjZYdl85FuqzG+UzV5J9BxLmUf9SEew?=
+ =?iso-8859-1?Q?nGuONYCGLWnlYNqwtXRYoQHMKGlNNbTvi5RypEUsoyYlRk296Odcy0YX20?=
+ =?iso-8859-1?Q?f2EaWwDL79GjCF+hhB2yijYHkncGejsfJraAwZJ/hdzi5VdF5WF7kuALol?=
+ =?iso-8859-1?Q?LasMvaikT3RSV/kiEzGyy/SQfdEh4jRSE6r64s/jSbvbSCHEu9XSRYH080?=
+ =?iso-8859-1?Q?DG+FW3BcB27+zVr+U0n4d6xKJzKwwhlkx/RYxOiRYQ3+QNycALesnHlUOH?=
+ =?iso-8859-1?Q?tJGtYjzcDS8n02tjBYKXEyXzSH0xVZ2+AK2+U7mN7noP30cNZ5AeMxlPyN?=
+ =?iso-8859-1?Q?7uUidYr2V9HsL1tU6A5hNqNL1mFNLfny0ESdtYWpJHNHtHAwSGxJD/TQwv?=
+ =?iso-8859-1?Q?NFUSp8s3cBH2NUJgLKkQlIyalIE1XuUiAZ6eirnnG9d0c5s/jrp0izQ2bS?=
+ =?iso-8859-1?Q?0yXd3jZj7yUz5oO4WEEox6T4QAGrPGSqBTvYYoDO17fq+QUFiWDE09R864?=
+ =?iso-8859-1?Q?d4wi4rUQTT9g1d895cmyU/3cTJ4+sfhpGJ8Q/Jc+N1mhJYqEGoXrV2LfYm?=
+ =?iso-8859-1?Q?kTurnhcJB+rE1dD36ogjbWEvyBbaLruQ0TBPaJN7iHUyqYQXoUdPxzlmmz?=
+ =?iso-8859-1?Q?TcduxCmZze6qh6aaNtZ8k/yox5WA6uo1pcOfhyjq9PVnNu1iPOwkDxiP55?=
+ =?iso-8859-1?Q?aqDhtq/BPT4pp6Ewzp8y0cnAYpQlP7zZ9D22M6DijpgRdQezVKpr/51UYJ?=
+ =?iso-8859-1?Q?7tDM5RXu1gjz2oVSoz9bi5S0H3yDBeMWFbX/LCm3cBVaynm9wtYP+SZt5a?=
+ =?iso-8859-1?Q?kp3lgVsZXh6k/cwqcWF6JqIYdmWzmdb93llKAEMzVLvGIoiboDZ3psEHKN?=
+ =?iso-8859-1?Q?Ve3C1jcSY/o/ijP5vj5t9MQNMgteQUkaxOHa7TIPtWUMfvz2f8EySiTUlA?=
+ =?iso-8859-1?Q?GRpBbi0EUc3bsn68myZhmWlXZ1uZ9AsSc6IqwMOw54vMhLllPHZy5odkDr?=
+ =?iso-8859-1?Q?zWtJ+0xCVIeiTjAfSw4aTQSDHg6xYbJ7bgfewczoggHw6R7NcNh2Dx5/Vb?=
+ =?iso-8859-1?Q?EuWWkeC0dh/HQ4VGAh1U6Jshmci/AWAVM1jcSNn0YUxUzh9Fl/8sbAboNy?=
+ =?iso-8859-1?Q?bsYaOwIVcswrij2ITlOx1t3jkMqJHwWgy7SCC4kfZVORyBs0W1W3ggD1/b?=
+ =?iso-8859-1?Q?+SR3o20GgfIIdSMkMT83VdWanBa4zBg8XrWv0EALN2RdtRLyWXDR6bAqmq?=
+ =?iso-8859-1?Q?T1y1h5+ScBp1pSP+G+IstSIrXhtkGpl0aV8VEJ5bOSNoaBp9pwJEpnHhnN?=
+ =?iso-8859-1?Q?JMiTZxI5Nhu7PyobT98KbqcqMEksIHLWNy/SSHMHVyB4ggEWYehdYS9M//?=
+ =?iso-8859-1?Q?Ki3sp+9umzGez4w+VnyvnBD7HvS8TL16ebPXtJ1Vbps/ULDANYSASTnKm6?=
+ =?iso-8859-1?Q?uPZAb7YpO2/Te0T/WhXBFSDGIL7N5WBxI7yHTkqtSCj7FyoSZCqDlcxgqf?=
+ =?iso-8859-1?Q?EBwdM0Lp56y2BTf4dpqKQlmmIfQWgpDpDADZy8a2+oWolT+sHm2DuDS6ad?=
+ =?iso-8859-1?Q?BUS/4w+JAJkTUQC8wKm5nFIieja1xzBGdEMXc3i0jrYK6Alo0cm8uY+jH4?=
+ =?iso-8859-1?Q?yfvs9qdh1m8PNmB/MSbKleTY5zuQhiKcLCrHrmtKWaptXE9exjiUy/KJiC?=
+ =?iso-8859-1?Q?G+Lsm7pvYswOitRswdU=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?JNIIbP4J//RPmFuOWs6gWrc+aJwZQVn76vHrv/xbm0whTgfjVS+wjiidM6?=
+ =?iso-8859-1?Q?qh3tZfS4/uJszTub+hRnl0dru0yMN1VDIyE7GZUk1jhgy4UjBJHbtgceB4?=
+ =?iso-8859-1?Q?CV880JmPstzXkrnzMPebKrVVOzywqpG2xaMcwyq8cRXmj77Cew3cRuc55r?=
+ =?iso-8859-1?Q?6BTL+4xt4hjBQSqVETXtWQocjVJ5sSsbap1CtafwAFvcV+kZQ6zqexXV8l?=
+ =?iso-8859-1?Q?n36j9f1/4cCdXWpOCWWjmTukH4jqVL/5JS0Qf0WilMBVl5rBQIZxt5edoj?=
+ =?iso-8859-1?Q?HxJ8s86EMQscZdN+G9x7n5wZBXelSAMf6ThDD0nszaXutRFYIOjbmhK0uN?=
+ =?iso-8859-1?Q?JN5sqQhGQR4TWRu8LNIIK/vD5AnvuqY6TT4/HwHBRsclGtFmxgThQSt8KI?=
+ =?iso-8859-1?Q?31Q/+XB+5dLlUEXfEB/Vz8z13LIG5Sc0X46lqwvwJrHrdbNQpsncvZWS3a?=
+ =?iso-8859-1?Q?IqHSWoZow+NiktDQkwF/3HPYH1J9DRiXYK+m6mFAf9MTp40xmcF3A2L8nq?=
+ =?iso-8859-1?Q?nyO5uB38lbmz4wiJyHdDTnilG8PHz9/AmDz3y1ZB3awk9x4lm1wb8+8XbB?=
+ =?iso-8859-1?Q?9tuk4rJXJ1gyNrvZeZT0E+buOTb4CirnLw8MkP+Kjb+3iqQi3lHmaHrCWq?=
+ =?iso-8859-1?Q?LpdwMnNq2ewfDEP3TWn8crUiMvVbtPDthH8GYndSck56nJzK5ueRhlDJDe?=
+ =?iso-8859-1?Q?8QZPryGyNTlKaqinEJqKVjgOxsJe/vE/C0m8mo78+Boa6J8m8P28QW83bb?=
+ =?iso-8859-1?Q?5KBnC3XQJq6ghFN31t8MYGxyFic/qqiikw8BAlY2dka5E1uVWCbXWlB6+l?=
+ =?iso-8859-1?Q?4ORiOvBpFAQ8ePhSuNk2pHnElSNAojAMcTKuor0BsX7WivE5fw0DmBzac5?=
+ =?iso-8859-1?Q?3mRXHJJutVDXQlhDYoFY5OEYLvjO6N+89je1mj3xEpAdjNNXU0D+uV3WLc?=
+ =?iso-8859-1?Q?DnpJ5EEVVYk8Ttkyc7uDU+XwyVpqDpugfzUorSlATO8w8IbATSIScg/KOQ?=
+ =?iso-8859-1?Q?UwLOl+N7cah/B+rtnIF0QPwyT9oXJpl3Vo9UA11u6tk4xTFNqOZAAFZ7xV?=
+ =?iso-8859-1?Q?HKV/rbadZbrgGF9Jh5ntbJOpjBOh4yEmRy+bTsJCBt/F6+ilMHC+U0WKPS?=
+ =?iso-8859-1?Q?PEbLRKZSxei9ZDeB3NAFM5lySbvwIWEMeEZrNffvh06hNHpWcWJerc+LB4?=
+ =?iso-8859-1?Q?gZJ+ha3fqEBJvxmdd8dH3chh1ruz1RMGcNaONAQGrV4MWMt+gfgeXsWUki?=
+ =?iso-8859-1?Q?tw+loQPBD3rC4yqnJ/DdeJP7BQsFfhXiMziwnzQfc/7FE8bDnbmknW4wsk?=
+ =?iso-8859-1?Q?kMLoAl59iIgrmzdr/N3VoHGRY3ijHQhQGUui42q4Q/ic9P6fhp1BZVm/Al?=
+ =?iso-8859-1?Q?hjk6TdmgeSyzuOIMkgGU2RBd79OfOgebJsqMTrQyNo1hyyMsCh6JNXizRC?=
+ =?iso-8859-1?Q?Fovi7adW37SP7hry1oDW3rtZC88FztXczctzphsdJfY/3Fxd8J/g73gtq2?=
+ =?iso-8859-1?Q?A9BnLqAvrOiG7WV+6JznCzgHL8K5FG0/o5KEs8ucxrXTwH/C/BHgVGH3+J?=
+ =?iso-8859-1?Q?+3RPiGZZjitU4O9LBE7+F8VewlygiYCERrx0h/RGCPQv3wTcZqB+It10r9?=
+ =?iso-8859-1?Q?7fuy36Wor8zRZw8yXIHVzzo7QQDHEn1r5+vMnS8YK2MXajbwOua8oQJfiS?=
+ =?iso-8859-1?Q?SCTURj/D/1nTHhHDDImJVzhH7HNk5aICZ2hb9H/8VFMSvLKhy4TGGtPsuS?=
+ =?iso-8859-1?Q?JTQx/VyZDaMIREhBZ2T/ruqYJJuyaYOUPz/hJBu90rEqgRYy1Cgj4d0hIy?=
+ =?iso-8859-1?Q?1M82LJAG0Q=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <59762c7e-f00b-49c6-bfab-ff647d3fe05d@amd.com>
-X-Spamd-Result: default: False [-1.46 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: c90f0613-42b3-4da0-f6c8-08de58c9b494
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2026 08:47:27.4457
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5O7QeqLxNQ26UJNkW3jX3JRDXzEvKGKhOKRLD7cqFsRGyp9Y1LSWW1IlczB8YMx4HMx499pkb0Dvv+/NaCxP3Bowzg5uowMn+B/e737z8kA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB1402
+X-Spamd-Result: default: False [0.04 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51195-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51196-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[34];
 	MIME_TRACE(0.00)[0:+];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[siliconsignals.io,quarantine];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[siliconsignals.io:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,amd.com:email]
-X-Rspamd-Queue-Id: 6611553C7C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,siliconsignals.io:dkim,PN3P287MB1829.INDP287.PROD.OUTLOOK.COM:mid]
+X-Rspamd-Queue-Id: 4574B53DB0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Jan 21, 2026 at 09:33:27AM +0100, Christian König wrote:
-> On 1/20/26 15:07, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Rename the .move_notify() callback to .invalidate_mappings() to make its
-> > purpose explicit and highlight that it is responsible for invalidating
-> > existing mappings.
-> > 
-> > Suggested-by: Christian König <christian.koenig@amd.com>
-> > Reviewed-by: Christian König <christian.koenig@amd.com>
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  drivers/dma-buf/dma-buf.c                   | 6 +++---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 4 ++--
-> >  drivers/gpu/drm/virtio/virtgpu_prime.c      | 2 +-
-> >  drivers/gpu/drm/xe/tests/xe_dma_buf.c       | 6 +++---
-> >  drivers/gpu/drm/xe/xe_dma_buf.c             | 2 +-
-> >  drivers/infiniband/core/umem_dmabuf.c       | 4 ++--
-> >  drivers/infiniband/hw/mlx5/mr.c             | 2 +-
-> >  drivers/iommu/iommufd/pages.c               | 2 +-
-> >  include/linux/dma-buf.h                     | 6 +++---
-> >  9 files changed, 17 insertions(+), 17 deletions(-)
-
-<...>
-
-> >  	attach = kzalloc(sizeof(*attach), GFP_KERNEL);
-> > @@ -1055,7 +1055,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_pin, "DMA_BUF");
-> >   *
-> >   * This unpins a buffer pinned by dma_buf_pin() and allows the exporter to move
-> >   * any mapping of @attach again and inform the importer through
-> > - * &dma_buf_attach_ops.move_notify.
-> > + * &dma_buf_attach_ops.invalidate_mappings.
-> >   */
-> >  void dma_buf_unpin(struct dma_buf_attachment *attach)
-> >  {
-> > @@ -1262,7 +1262,7 @@ void dma_buf_move_notify(struct dma_buf *dmabuf)
-> 
-> Thinking more about it we can keep the function names as they are in the importers, but renaming renaming this framework function as well would be really nice to have.
-
-Let me prepare an additional patch on top of this series. I'd prefer to
-avoid unnecessary resubmissions caused solely by renaming.
-
-Thanks
-
-> 
-> Regards,
-> Christian.
+Hi Wenmeng,=0A=
+=0A=
+> Assert the reset GPIO before first power up. This avoids a mismatch where=
+ =A0 =A0=A0=0A=
+> the first power up (when the reset GPIO defaults deasserted) differs from=
+ =A0 =A0=A0=0A=
+> subsequent cycles. =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0=A0=0A=
+> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com> =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0=A0=0A=
+> --- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0=A0=0A=
+> =A0drivers/media/i2c/imx412.c | 2 ++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
+> =A01 file changed, 2 insertions(+) =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0=A0=0A=
+> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c =A0 =
+=A0 =A0 =A0 =A0=0A=
+> index b3826f80354703b17b416dc233854da3f5736e38..5cb55deb125edb218779b0764=
+29f9fff93e11a08 100644=0A=
+> --- a/drivers/media/i2c/imx412.c =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
+> +++ b/drivers/media/i2c/imx412.c =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
+> @@ -1188,6 +1188,8 @@ static int imx412_probe(struct i2c_client *client) =
+=A0 =A0 =A0=0A=
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0=A0=0A=
+> =A0=A0=A0=A0=A0=A0=A0 mutex_init(&imx412->mutex); =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=A0=0A=
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0=A0=0A=
+> +=A0=A0=A0=A0=A0=A0 gpiod_set_value_cansleep(imx412->reset_gpio, 1); =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=0A=
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0=A0=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0=A0=0A=
+Just logic needs to be set to high when requesting this GPIO in =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0=A0=0A=
+imx412_parse_hw_config. =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=A0=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0=A0=0A=
+Best regards, =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=A0=
+=0A=
+Tarang =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0=
 
