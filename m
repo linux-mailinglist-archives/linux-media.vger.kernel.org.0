@@ -1,276 +1,307 @@
-Return-Path: <linux-media+bounces-51296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51297-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0DrnIaExcWlQfQAAu9opvQ
-	(envelope-from <linux-media+bounces-51296-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 21:05:53 +0100
+	id EGVOFMQrcWl1fAAAu9opvQ
+	(envelope-from <linux-media+bounces-51297-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 20:40:52 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80635CCD2
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 21:05:52 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C325C5E9
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 20:40:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E6A37B29062
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 18:35:46 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 793C5A50277
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 18:44:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A19A3D524A;
-	Wed, 21 Jan 2026 18:32:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF2983B8D51;
+	Wed, 21 Jan 2026 18:36:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YTD+/Xj8"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="VCF+aaxx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337FF3D3CFC;
-	Wed, 21 Jan 2026 18:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828C93B8BA8
+	for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 18:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769020371; cv=none; b=AsraXHMXV/NzwfzU1DLW0nZNtYZJI9Oejnlf5LwH29VVuKOt0QuktaZ9Z7YSHIljq0PoDE8fDFrghNfFwLqAxydrd1HBW9Jvh6HA4XpmY5T3sV1xDXmNOeyHwCqWGd/ZUJbdevfjW6P+CcdaEgtC90VYEBavk3B2vy/6WgcZ0Uo=
+	t=1769020617; cv=none; b=ZVAJixMo2LDBpjJiL/NXoBlLuMQW1MNHpyb7BV5O1TfLPtpCNrxOJkTFhHn5k2sOYd/cS76gir4z8DcKRKpGm7SC9jftNxEfXhB+QBSAt+xHu4tXKEVwkpMhC7xdT1TTBKBHJg4sAxI7iRyxGD8zChz3UvgrpAl2rNmmdEsLFQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769020371; c=relaxed/simple;
-	bh=LHwqKkEFDVUCvSw9dOnbiEcOg8QfMIFiv0RVw2eYQHs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uqZ+isYQcb7gTRdXkr2Vgag3Kz7YSzlpCsXNimOi1O2+7sDSyX66Y8+KzJqh+virUHRbNa+FGl0dfkSzjWzKePlp1mvLn4BuFhC9FEVHbdoWxw9K+ORON3I2Q5Nn2CCIHsXzH99ALQw5QLTT77JcFHPlbps8FwCTZ4MoBXqWDoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YTD+/Xj8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60LDxsPf3463169;
-	Wed, 21 Jan 2026 18:32:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TsaVO+4IZs45KHQgls85KIFpCUQYiaBnRHLHiMjao38=; b=YTD+/Xj8F1MUcNia
-	iRCvSoCuUntQ7EHlDSYbFydH3iHCnYS7g/HX3hg9rX19ewyHc7oqUAHZWrHK0e4Z
-	2ii3nzkV3g4SgPW/a6DAu8RARLeN5aav2XN6vK00H2rNmlw64gXze4EcR3fBzPXQ
-	pDEf2xdtHlN/NYeP5i0cTdfjc8NPXs4to8Rztt/LMtg5rGporkcrt4n2FDiQBiO1
-	j0FJNLSIt4f3Fa4VPoNrqd/M26Hf38uRs9TI/fAlCtfXOB7GHk0kbWkUC+HZZIo/
-	13eeFTvjGufEzjW5kkCql9kn/uGTMCiKuqHLENDondy3Fl6RIn5c6nnjT326Vnv0
-	hhL71Q==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bu0650y4e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jan 2026 18:32:46 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 60LIWjF0018325
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jan 2026 18:32:45 GMT
-Received: from hu-nihalkum-hyd.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Wed, 21 Jan 2026 10:32:38 -0800
-From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
-To: <bryan.odonoghue@linaro.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <andersson@kernel.org>,
-        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <loic.poulain@oss.qualcomm.com>, <rfoss@kernel.org>,
-        <andi.shyti@kernel.org>, <linux-i2c@vger.kernel.org>,
-        <cros-qcom-dts-watchers@chromium.org>
-CC: <quic_svankada@quicinc.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Ravi Shankar <quic_rshankar@quicinc.com>,
-        Vishal Verma <quic_vishverm@quicinc.com>,
-        Vladimir Zapolskiy
-	<vladimir.zapolskiy@linaro.org>,
-        Konrad Dybcio
-	<konrad.dybcio@oss.qualcomm.com>
-Subject: [PATCH v9 5/5] arm64: dts: qcom: monaco-evk-camera: Add DT overlay
-Date: Thu, 22 Jan 2026 00:01:42 +0530
-Message-ID: <20260121183142.1867199-6-quic_nihalkum@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260121183142.1867199-1-quic_nihalkum@quicinc.com>
-References: <20260121183142.1867199-1-quic_nihalkum@quicinc.com>
+	s=arc-20240116; t=1769020617; c=relaxed/simple;
+	bh=eJKCMso7036sO/V6dysrI+W2C9tgo22EVaLwnBNlYww=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gBb8hZXWnn9GapXb2xVZ2HH0l3Xn6Vps+F8UBmnL9mgn8z9rbLmQZG757TxmiiyUFsm8ArxunCsYQeq9vDntmmUSVm8NhokoVO1Zf7KpVQNEYPzoZ+I/YwFjd7xK06Kztph7hT2GFUlqTKYmp6+C2WsSTye5z80MF5hsgO9wKHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=VCF+aaxx; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1769020587; x=1769625387; i=wahrenst@gmx.net;
+	bh=UEctFUPx+pfHRkGgS09badurwmS6YIhme6eYbuhNrpo=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=VCF+aaxxv3VqP/FPwLYh5v8lQtzsWkbJOhep6gmwi1mVWvDsLA6S3I0bcbofoIGC
+	 M3/OA/3HKa7QgyeReKCSnt3wyIxQQ1Iq+rSmjm8QkijnJYNFznm4lQ7QVlqaRyw0F
+	 Jbf94XlX/wwO1NkR1TYOybm370b6i0cL9GPGu8aTG4w3vEObZU38kTmMW1B6VbcXS
+	 6sA8Jd1c9/RgSyJkRm5/UycvmPX4bOErEtt5ADmaNDv9VhQMrnsyB1Er5LWkxfqdz
+	 RX0E6llvq4vA/QHdTBm15i9WrFiiIfsIGgB03tXErF3zoxzcFTm17AC6raX/LnJn5
+	 j1h0KefzsnANatwV1g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.156] ([91.41.209.202]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MnakR-1wA1K22iKj-00lrEn; Wed, 21
+ Jan 2026 19:36:27 +0100
+Message-ID: <4dec6316-0ae3-44bf-b23d-8b05f3c2c607@gmx.net>
+Date: Wed, 21 Jan 2026 19:36:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=HOHO14tv c=1 sm=1 tr=0 ts=69711bce cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=8jGGn9Z0z0XTtIQmd1MA:9
- a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: 9rtZlNLA0HDHH8jFnAbZmOseYvTuCGgt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIxMDE1NCBTYWx0ZWRfXwpbVtEev6I9Q
- US12IG5vJGJTRvOXxq099OTRlVdbpQYa932ik47jpuU52RceRe+s/1bZWB42Rcv95HO8oeB+UyQ
- x88VU3bjT6hdY6oPrQSvrB6HIneAs06eobBxdmzRmntvfWQK2cJJ7XXBR68Ic78lk5KuyyPUMpe
- 0B/wMUe5wEXc9sYH7ag3kKer3ZEmKSS7l5qQK/xrVQKeenFEPWe8f8v+Q83pBc9lBJNjyMbxmnX
- Un4eeEY1/6Uhn6gemgSCPcxUZeaNdcp1+JH5SZVuv7ITsgEuUkxIDHdn9lxRYg9whGHLho0Ji3H
- /GcjD4SZC7Yeyqvgj2PlhXW8xe4+yFwQvLD88XTt+joylNX0jXPBiBwLwQpTQWyZT9FjVKbOpiB
- 4daA3bSYQfXANNlkC5dEQhIZLOBmCmudFRdHGbKttVj6GMJziOh4OQeYXugZmVA5xnmv+7aSoh/
- ++vDLTDBCb2k5VLJRew==
-X-Proofpoint-GUID: 9rtZlNLA0HDHH8jFnAbZmOseYvTuCGgt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-21_03,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 adultscore=0 impostorscore=0 malwarescore=0
- spamscore=0 bulkscore=0 suspectscore=0 clxscore=1011 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601210154
-X-Spamd-Result: default: False [1.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/10] media: Add support for Raspberry Pi 4 ISP
+To: Jai Luthra <jai.luthra@ideasonboard.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Tomasz Figa <tfiga@chromium.org>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Naushir Patuck <naush@raspberrypi.com>,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, Dave Stevenson
+ <dave.stevenson@raspberrypi.org>, Umang Jain <uajain@igalia.com>
+References: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+Autocrypt: addr=wahrenst@gmx.net; keydata=
+ xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
+ IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
+ NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
+ JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
+ TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
+ f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
+ V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
+ aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
+In-Reply-To: <20260113-b4-vchiq-isp-v1-0-ea0b300bffc8@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:FfoZvqDQll0v1VBEutAb7Jb28xj7SCdtNDvVgnn/+E/ux76bEU2
+ ZpBB44x1hbFJBxu0ubJD5SxeIRkU5ASvHS1Oa4R3GZwEpfv9Re9Mp1wZ4slFxsdam3JlDJ1
+ TyCG0ikijxLUTJS+Qc8aGI3Yd0vbGW4K3/Pbfu7f2h4S5p0n85miJ8srSiX3kwqJ+GKFoC5
+ eQn3tKMdQ5Z6nVWmp/TEg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:H/0OPAD27sI=;Gnt2/y0wtf8iErt1AsOLBRaAbf2
+ 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
+X-Spamd-Result: default: False [-1.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[quicinc.com:s=qcppdkim1];
+	R_DKIM_ALLOW(-0.20)[gmx.net:s=s31663417];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FREEMAIL_TO(0.00)[linaro.org,kernel.org,xs4all.nl,oss.qualcomm.com,vger.kernel.org,chromium.org];
-	TAGGED_FROM(0.00)[bounces-51296-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51297-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[quicinc.com,none];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[quic_nihalkum@quicinc.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[gmx.net,quarantine];
+	FREEMAIL_FROM(0.00)[gmx.net];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	DKIM_TRACE(0.00)[gmx.net:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[quicinc.com:+];
+	TO_DN_SOME(0.00)[];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,1a:email,qualcomm.com:email,linaro.org:email,quicinc.com:email,quicinc.com:dkim,quicinc.com:mid,0.0.0.1:email];
-	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E80635CCD2
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wahrenst@gmx.net,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
+X-Rspamd-Queue-Id: C4C325C5E9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Monaco EVK board does not include a camera sensor in its default hardware
-configuration. Introducing a device tree overlay to support optional
-integration of the IMX577 sensor via CSIPHY1.
+Hi Jai,
 
-Camera reset is handled through an I2C expander, and power is enabled
-via TLMM GPIO74.
+Am 13.01.26 um 10:05 schrieb Jai Luthra:
+> Hi,
+>
+> This series adds support for the ISP used in Raspberry Pi 4 (and earlier
+> variants) by adding the bcm2835-isp V4L2 driver.
+could you please point me to the upstream patch, which enables VCHIQ=20
+support for Raspberry Pi 4?
 
-An example media-ctl pipeline for the imx577 is:
+AFAIR only Raspberry Pi 0 - 3 were officially supported.
 
-media-ctl --reset
-media-ctl -V '"imx577 3-001a":0[fmt:SRGGB10/4056x3040 field:none]'
-media-ctl -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -l '"msm_csiphy1":1->"msm_csid0":0[1]'
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video1
-
-Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
-Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
-Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
-Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
-Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
-Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/Makefile             |  4 ++
- .../dts/qcom/monaco-evk-camera-imx577.dtso    | 66 +++++++++++++++++++
- 2 files changed, 70 insertions(+)
- create mode 100644 arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
-
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index f80b5d9cf1e8..4c348cf62d59 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -45,6 +45,10 @@ lemans-evk-el2-dtbs := lemans-evk.dtb lemans-el2.dtbo
- dtb-$(CONFIG_ARCH_QCOM)	+= lemans-evk-el2.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= milos-fairphone-fp6.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= monaco-evk.dtb
-+
-+monaco-evk-camera-imx577-dtbs	:= monaco-evk.dtb monaco-evk-camera-imx577.dtbo
-+dtb-$(CONFIG_ARCH_QCOM)	+= monaco-evk-camera-imx577.dtb
-+
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8216-samsung-fortuna3g.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-acer-a1-724.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-alcatel-idol347.dtb
-diff --git a/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso b/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
-new file mode 100644
-index 000000000000..0d5ccd020e6e
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
-@@ -0,0 +1,66 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/clock/qcom,sa8775p-camcc.h>
-+#include <dt-bindings/gpio/gpio.h>
-+
-+&camss {
-+	vdda-phy-supply = <&vreg_l4a>;
-+	vdda-pll-supply = <&vreg_l5a>;
-+
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			csiphy1_ep: endpoint {
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&imx577_ep1>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci1 {
-+	pinctrl-0 = <&cci1_0_default>;
-+	pinctrl-1 = <&cci1_0_sleep>;
-+
-+	status = "okay";
-+};
-+
-+&cci1_i2c0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	camera@1a {
-+		compatible = "sony,imx577";
-+		reg = <0x1a>;
-+
-+		reset-gpios = <&expander2 1 GPIO_ACTIVE_LOW>;
-+		pinctrl-0 = <&cam1_default>;
-+		pinctrl-names = "default";
-+
-+		clocks = <&camcc CAM_CC_MCLK1_CLK>;
-+		assigned-clocks = <&camcc CAM_CC_MCLK1_CLK>;
-+		assigned-clock-rates = <24000000>;
-+
-+		avdd-supply = <&vreg_cam1_2p8>;
-+
-+		port {
-+			imx577_ep1: endpoint {
-+				link-frequencies = /bits/ 64 <600000000>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&csiphy1_ep>;
-+			};
-+		};
-+	};
-+};
--- 
-2.34.1
+Best regards
+>
+> The underlying hardware for the ISP is accessed through the VideoCore
+> VPU, via the VCHIQ/MMAL interface that was recently destaged under
+> platform/raspberrypi. The ISP driver, and thus this series depends on
+> VCSM CMA driver for shared memory support (for lens shading buffers):
+>
+> https://lore.kernel.org/all/20260105-b4-vc-sm-cma-v2-0-4daea749ced9@idea=
+sonboard.com/
+>
+> The ISP driver introduced in this series has been taken from the one
+> present in the downstream raspberrypi 6.12 tree, squashing together
+> various commits, along with minor cleanups and renaming directories. For
+> testing it with libcamera, please use this branch that supports upstream
+> unicam and the correct base ID for ISP controls:
+>
+> https://github.com/jailuthra/libcamera/tree/pi4-upstream
+>
+> Thanks,
+> Jai
+>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> ---
+> Dave Stevenson (1):
+>        media: videobuf2: Allow exporting of a struct dmabuf
+>
+> Jai Luthra (5):
+>        platform/raspberrypi: vchiq-mmal: Move headers to include/linux
+>        platform/raspberrypi: vchiq-mmal: Support ISP parameters and stat=
+s
+>        platform/raspberrypi: vchiq-mmal: Support bayer and gray formats
+>        platform/raspberrypi: vchiq: Add helpers for vchiq driver data
+>        media: platform: broadcom: Move unicam driver to subdir
+>
+> Naushir Patuck (4):
+>        media: uapi: v4l-ctrls: Add CID base for the bcm2835-isp driver
+>        media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc typ=
+e
+>        media: platform: broadcom: Add bcm2835-isp driver
+>        platform/raspberrypi: vchiq: Load bcm2835_isp driver from vchiq
+>
+>   Documentation/admin-guide/media/bcm2835-isp.rst    |  127 ++
+>   .../userspace-api/media/drivers/index.rst          |    1 +
+>   .../userspace-api/media/v4l/meta-formats.rst       |    1 +
+>   .../media/v4l/pixfmt-meta-bcm2835-isp-stats.rst    |   35 +
+>   MAINTAINERS                                        |   12 +-
+>   drivers/media/common/videobuf2/videobuf2-core.c    |   21 +-
+>   drivers/media/platform/broadcom/Kconfig            |   23 +-
+>   drivers/media/platform/broadcom/Makefile           |    3 +-
+>   .../media/platform/broadcom/bcm2835-isp/Kconfig    |   14 +
+>   .../media/platform/broadcom/bcm2835-isp/Makefile   |    4 +
+>   .../broadcom/bcm2835-isp/bcm2835-isp-ctrls.h       |   73 +
+>   .../broadcom/bcm2835-isp/bcm2835-isp-fmts.h        |  558 ++++++
+>   .../broadcom/bcm2835-isp/bcm2835-v4l2-isp.c        | 1836 ++++++++++++=
+++++++++
+>   .../media/platform/broadcom/bcm2835-unicam/Kconfig |   23 +
+>   .../platform/broadcom/bcm2835-unicam/Makefile      |    3 +
+>   .../{ =3D> bcm2835-unicam}/bcm2835-unicam-regs.h     |    0
+>   .../broadcom/{ =3D> bcm2835-unicam}/bcm2835-unicam.c |    0
+>   drivers/media/v4l2-core/v4l2-ioctl.c               |    1 +
+>   .../raspberrypi/vchiq-interface/vchiq_arm.c        |    2 +
+>   .../platform/raspberrypi/vchiq-mmal/mmal-vchiq.c   |    9 +-
+>   .../linux/raspberrypi}/mmal-common.h               |    2 +
+>   .../linux/raspberrypi}/mmal-encodings.h            |   68 +
+>   .../linux/raspberrypi}/mmal-msg-common.h           |    0
+>   .../linux/raspberrypi}/mmal-msg-format.h           |    0
+>   .../linux/raspberrypi}/mmal-msg-port.h             |    0
+>   .../linux/raspberrypi}/mmal-msg.h                  |    0
+>   .../linux/raspberrypi}/mmal-parameters.h           |   86 +
+>   .../linux/raspberrypi}/mmal-vchiq.h                |    0
+>   include/linux/raspberrypi/vchiq_arm.h              |    1 +
+>   include/linux/raspberrypi/vchiq_bus.h              |   10 +
+>   include/media/videobuf2-core.h                     |   15 +
+>   include/uapi/linux/bcm2835-isp.h                   |  347 ++++
+>   include/uapi/linux/v4l2-controls.h                 |    6 +
+>   include/uapi/linux/videodev2.h                     |    1 +
+>   34 files changed, 3252 insertions(+), 30 deletions(-)
+> ---
+> base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> change-id: 20250923-b4-vchiq-isp-7e8c22c2860c
+> prerequisite-message-id: 20260105-b4-vc-sm-cma-v2-0-4daea749ced9@ideason=
+board.com
+> prerequisite-patch-id: 07e50207cc947f44e1d626b31d0ace7e12a8f3a1
+> prerequisite-patch-id: 3d82a2605799686668729fdc2677c3f6b7c2aa0d
+> prerequisite-patch-id: f65e3f6e8db823fcfc37421da10a76f92cf56d9d
+> prerequisite-patch-id: dbfc2fc4237c738e499e802be972dd8f2736a714
+> prerequisite-patch-id: 1898d91213e9bd75be3109180527fb0caf6d7174
+> prerequisite-patch-id: d0cfc49c673c8c4a4c13d44a547104c24f57cb49
+>
+> Best regards,
 
 
