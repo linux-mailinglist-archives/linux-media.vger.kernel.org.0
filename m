@@ -1,92 +1,92 @@
-Return-Path: <linux-media+bounces-51283-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51284-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yNwTBmoKcWmPcQAAu9opvQ
-	(envelope-from <linux-media+bounces-51283-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 18:18:34 +0100
+	id 6GZQJMcBcWmgbAAAu9opvQ
+	(envelope-from <linux-media+bounces-51284-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 17:41:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843555A6CC
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 18:18:33 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 388CC5A0D1
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 17:41:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id EF2BEAEE3C0
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:48:15 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A895D54C825
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:49:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EEB24949E2;
-	Wed, 21 Jan 2026 15:40:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6D51481658;
+	Wed, 21 Jan 2026 15:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Q5t28WBa"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="d8ipf+KU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B164D492501
-	for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 15:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8D44218BE
+	for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 15:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769010001; cv=none; b=l+vUzNOB/mhceFPPF1XWwBkqHrT+T2gWthZIS2BucmhexXQkX/7mBvsC3qtVxhlJw4tqDOqmflz4sFAdMxkZZloS79TEUjf+G5yHps/T+iABvJhW8DkCObRpZPtOVUsKwZj1Za1XdxI5GcMsresaou8UOlo1HtyWlz+JFPtbBu4=
+	t=1769010102; cv=none; b=pwXvONuNKslHgT1LffF+7uUfZW7/IJ7lZ2I5D3HZzBifan4RNsBJd6nuU819GJutNDT9yMNUG59c+9aKfgEstKgPe+Nea93NFh0tGz502g2qGnilNxuz89FbF5UrttUT728Nvh0DqIbYyyCYNGmdxhL2Eu5X7OmKmv2m6VcdhTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769010001; c=relaxed/simple;
-	bh=6/tSgLR7J3UgafXRAX+XBEPxIV3H81+kUIgU8b8gh7Y=;
+	s=arc-20240116; t=1769010102; c=relaxed/simple;
+	bh=MtzfM60Cs9mbb/vDYLGt1i8sN5P/nhUKDazT3BzO028=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ilw6g4EdszQBGp5W1u3OQfkCbdr+I9nnekfSLtE54KsL1OHQ/R+9Zn2Rjbw7FVgDJW1yZswhlg5IXO7dsEha04/5ZKzeLQeaM4b2d92aH8atgPWI9XO5QlHtfedwqaBJDTDT7JnYor6CKzjpTu3GSrtM/r4zil7WI/hyR3Q+gq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Q5t28WBa; arc=none smtp.client-ip=209.85.219.67
+	 Content-Type:Content-Disposition:In-Reply-To; b=F5i4i2wHKnP6SmbhyFk6CLaDTjbWJMdh+OUylwIe6ly8CblatNvV3fM1MB0FEfoYnpoCV6TL/xH4leqzSFw3sivnDmGkv5GzKxiG1dANoUuGIh9owwihKQcj3wA59twb0ISYcEPSp4bR0KVq8BDyR58sQ2ZV/V+dMf8xzE4H/1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=d8ipf+KU; arc=none smtp.client-ip=209.85.219.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qv1-f67.google.com with SMTP id 6a1803df08f44-88a35a00506so117106d6.2
-        for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 07:39:59 -0800 (PST)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-894724bc5cbso8451506d6.1
+        for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 07:41:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1769009999; x=1769614799; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Q/gIihsafKtPWuGmVrtzbFv3/1+tW3nx1RJPQscpuso=;
-        b=Q5t28WBauqxSIFFO+z3pNwgQL0CteOzJh7gunoIJsoVQL41CI5Ms5EFVC12yVCJIki
-         wUj4Nf7GaOCTspAuxB2YbS8hnkgpPKC5/HIV2zEDfzxeku3sNbmfi88lUA3HzkbGpHhi
-         G2KC9gggYU9TXLUTfA9o8XhIfXHTWJaFKKm4LpUnJ4ZPgQUogL2NXyRC+LFrIK6j5Hdh
-         dyYtaQKro+wGKQmTci2PvDRdnBG3XSmfEdjMxCvk2zH27NanfqifB1XEdGDKSLkB37TB
-         HcDKtZ0OHi6B41p6oD7ox4hhwtHtoc6LH1caz/H885T9uQT1KBKth1/+MJngzdbDuIRl
-         1RDQ==
+        d=ziepe.ca; s=google; t=1769010099; x=1769614899; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ou8wYJVgke38aZatOGIOXXNbnvyF2AuO4MiXOCQfuAM=;
+        b=d8ipf+KU++d9oWZgIR6lkxHBb8zf4MCRmoRwF7J76jVX9G5OiIyG0n6WJtb9AzNyCW
+         jOjZq8LRWOOMO+Er2zSfMqVdcWQ5lDt4hZIILiz99LspfnYKq6Vm96pR1HOSOWuJs1ZG
+         32i4aWr/fTBs/O3a8mldRbft0k6Baj9NWL2EeQdEiMYBskC4B9Yc5557kORXLi+3GJG7
+         Pb8f/UNhY3khb4fQObQ8ddLiXbUAdCup/sKMLFCrWUMLzi9q2BqKM2Vaqyonmzp/1hPw
+         25xyxonm5frcsDVntEjX1kH31oHyKXlWqJew8afiw3qggmbb8YPqg0OOTeGFqoKjzyCd
+         pF9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769009999; x=1769614799;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/gIihsafKtPWuGmVrtzbFv3/1+tW3nx1RJPQscpuso=;
-        b=em5EWst+7GrdxQQDeWY9HIk2Ed4OkFHfuzxmRPRBi7reQ+CzjiF7bxO6gECvWUSHMm
-         2pO9fN596+OT0VOfdxjejuQ8qYCbEBxd37D6YqnL/rDMY3Cc9dTtMDz+qmGL5AbVckjd
-         o+e2Ni2NYGuQyF3kQQVBJFuu9ZqrC24f6Bge2Ns+0Kv3H+EC9p9j1Y1XB4ZIVDEL6hl3
-         Uu9XS+Bp7VgHATO8eg0VVww5b8iuGMlfN7GN1wMdR2edIMMNsRdrMLIiWxnd2YF2WfKj
-         sezR6snCHw4ul9tqdtMhiEFd0ensjyaFDSMr/JQ2ldbaA9BawajmzFa2N9Afi+fp2w4B
-         UQ0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWRzbodsUAgGuhKxzfUhC4j4WhP1XdWlJ+ya56ROEX0QiQKvyG39JvgftPKD1aAbr+03GAvPMNrR68pDQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfsSK/MDdcmNQ5ZBl6G8IZ7P2MbS+DoR/uNKk5hcl/qNemE5fp
-	ef+WZp52xZh+48h5kU6X1hBG/q+Iszr6lxlOZMk3kzm+XXbhNXI+s2hdjG+RKzrrIt0=
-X-Gm-Gg: AZuq6aIELiw5m4G+DSxZbNqDD1TZUuAqop3POqLv6NmMXtu+PqhaZpbptMhKyAglb/i
-	BfvHKGMhE3FuZb/fKjJSnbCQL4QMQ3hDdGdVzXr3FTgSQJdbIx5yom2AvayVKVZ8ercFJFSmgk+
-	etQlXGMpAgrMkjW+/JYJIGuRVH3cFyAmHLNBCJHaM2XskwE8GQyzM7yCnD+n0MZbRfAWnpu3o+0
-	jV2bd+2VRICGQNQ4N7uKqIAbVKfuM2QyQSHheZ4vpuYZH6OzUl8LmY134GalMlMs7nzs8ZuAKc1
-	GdydqX0cYxsDf0llm/65zRWYMAiWjTrDI9h57GCd2mmd8EtS6Wg4AHArrd6GRZgPRZ4RNv4OV8Z
-	tRCEPhAOe7xaD6bd9LWI8wqWxbDRz7qNaDOJiDKX9zkO49IBPPdAoVcHDVIiwQAYrXr2XO802PL
-	Pl0lQC0EmJHT8sBT5/3dUWvGYfpXYlDtBeDwNrW8la2OHwqz3fg+HOHTIcywwdPn4CiTg=
-X-Received: by 2002:a05:6214:469b:b0:894:3cde:f81e with SMTP id 6a1803df08f44-8943cdef85amr237172426d6.41.1769009998640;
-        Wed, 21 Jan 2026 07:39:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769010099; x=1769614899;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ou8wYJVgke38aZatOGIOXXNbnvyF2AuO4MiXOCQfuAM=;
+        b=oZOsBQo5kO+UJQqZaf6WqbJQMJHsgs8loHeBQZRmznWliKBZuZWpZwPZ08VuGvVl4W
+         cpu0k8hVyA38ENqT20TKF/LYyE4x/Trm5yuhJKMBfrMcxUb7Y5V+yPeZEtitCczAeS6A
+         YStXxflFTEZXECcvyezXskVbE22H2SF7umztFz8rNu4O6TaKTHSI1rrb4mqKhUJBKBr2
+         kQ2Ujvn+kUyOtb/z3pUnxz8TEH1awXLeo1xX1/NETLwWqdMZGJAy/DO8k9gO2aOIpnwe
+         jya3KxhpjmuJ4Gu3GLuEnSrPJK2I4D7x5BnQ8VG3fwOQGncf/ihOACcPoLifcniAcKLq
+         OnkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbh5frIWtKb0wNohdyVqKMZEhJ6XSSDizUH27dThmdJRpfEig4gHz1MIbe27wKFC2T/I1FLEFGaIsSTQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEpwXJhyw/20hpruKVXjhU0qf80E2I7P2hmtmBMa8RMWMVBY/T
+	GF0wVf5+Tx2x26sJACPSNZPdCfmlIxjEQqvRX7xuLJby+vF/ixdk8pnxHINktXs53hQ=
+X-Gm-Gg: AZuq6aJkS9eqW7B9KSXC4mjIFoz2PkRxH03ly5GNVTySttHBDEXxLJ+9Pcf4uOU9uBk
+	1QNf81gYHt+PHNkzxBSSryKXw/Xu7Z7aGSi+y1RRYcHEOk7e7C+Wy2tu6GYV0wxcthkPmDf9iDm
+	wk+DjchleOQZTCmYLs2TfITTbB3V3yXvsxyT1KZdTL6e1pDRkxrOUUJQU8zoWB2x0YIYi/WUpIH
+	w2Z+2RJhUO4In7Ac4rZShHdERVXOIzg55gtCxCauOZBYjmZ+hCM6hmP4hd/EhcIov+Fq7ap3clN
+	ep7WBn8CwortXItqmn1bUIYmrDBQ9Z/Jwwigkdts93PiMpQKlwsP1PbNRMgdVaktky1xWb0kK41
+	Apo/S0F7hu0x2umoe9R8Tzqj9sFcoOWRljtvZ8BKv1ODW/kgZA+IFsSgGaTaeosjYXl5SuV27r0
+	MH9LutRYGErVnb9Llp00rpA28FD75MW07ZaG3xOJCctr0m2yugTiOoJrvU3WWUoMCQGk8tpLjjX
+	U1gmg==
+X-Received: by 2002:a05:6214:212b:b0:888:6fde:7b72 with SMTP id 6a1803df08f44-8942d7e0460mr262093776d6.32.1769010098574;
+        Wed, 21 Jan 2026 07:41:38 -0800 (PST)
 Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894592ba642sm58791866d6.57.2026.01.21.07.39.57
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8946a1e3d28sm30951806d6.7.2026.01.21.07.41.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jan 2026 07:39:57 -0800 (PST)
+        Wed, 21 Jan 2026 07:41:37 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1viaJJ-00000006EiI-13u3;
-	Wed, 21 Jan 2026 11:39:57 -0400
-Date: Wed, 21 Jan 2026 11:39:57 -0400
+	id 1viaKv-00000006EjK-1pDz;
+	Wed, 21 Jan 2026 11:41:37 -0400
+Date: Wed, 21 Jan 2026 11:41:37 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
 	Alex Deucher <alexander.deucher@amd.com>,
 	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
 	Gerd Hoffmann <kraxel@redhat.com>,
@@ -110,37 +110,30 @@ Cc: Leon Romanovsky <leon@kernel.org>,
 	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
 	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
 	iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v3 3/7] dma-buf: Document RDMA non-ODP
- invalidate_mapping() special case
-Message-ID: <20260121153957.GC961572@ziepe.ca>
-References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
- <20260120-dmabuf-revoke-v3-3-b7e0b07b8214@nvidia.com>
- <4fe42e7e-846c-4aae-8274-3e9a5e7f9a6d@amd.com>
- <20260121091423.GY13201@unreal>
- <7cfe0495-f654-4f9d-8194-fa5717eeafff@amd.com>
- <20260121131852.GX961572@ziepe.ca>
- <8a8ba092-6cfa-41d2-8137-e5e9d917e914@amd.com>
- <20260121135948.GB961572@ziepe.ca>
- <8689345b-241a-47f4-8e9a-61cde285bf8b@amd.com>
+Subject: Re: [PATCH v4 8/8] vfio: Validate dma-buf revocation semantics
+Message-ID: <20260121154137.GD961572@ziepe.ca>
+References: <20260121-dmabuf-revoke-v4-0-d311cbc8633d@nvidia.com>
+ <20260121-dmabuf-revoke-v4-8-d311cbc8633d@nvidia.com>
+ <20260121134712.GZ961572@ziepe.ca>
+ <20260121144701.GF13201@unreal>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8689345b-241a-47f4-8e9a-61cde285bf8b@amd.com>
+In-Reply-To: <20260121144701.GF13201@unreal>
 X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51283-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51284-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	DMARC_NA(0.00)[ziepe.ca];
 	RCPT_COUNT_TWELVE(0.00)[34];
@@ -148,9 +141,9 @@ X-Spamd-Result: default: False [-1.46 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
+	R_SPF_SOFTFAIL(0.00)[~all];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
@@ -158,64 +151,30 @@ X-Spamd-Result: default: False [-1.46 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: 843555A6CC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,ziepe.ca:mid,ziepe.ca:dkim]
+X-Rspamd-Queue-Id: 388CC5A0D1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, Jan 21, 2026 at 03:15:46PM +0100, Christian König wrote:
-> > And let's clarify what I said in my other email that this new revoke
-> > semantic is not just a signal to maybe someday unmap but a hard
-> > barrier that it must be done once the fences complete, similar to
-> > non-pinned importers.
+On Wed, Jan 21, 2026 at 04:47:01PM +0200, Leon Romanovsky wrote:
+> > We need to push an urgent -rc fix to implement a pin function here
+> > that always fails. That was missed and it means things like rdma can
+> > import vfio when the intention was to block that. It would be bad for
+> > that uAPI mistake to reach a released kernel.
 > 
-> Well, I would avoid that semantics.
->
-> Even when the exporter requests the mapping to be invalidated it
-> does not mean that the mapping can go away immediately.
-> 
-> It's fine when accesses initiated after an invalidation and then
-> waiting for fences go into nirvana and have undefined results, but
-> they should not trigger PCI AER, warnings from the IOMMU or even
-> worse end up in some MMIO BAR of a newly attached devices.
+> I don't see any urgency here. In the current kernel, the RDMA importer
+> prints a warning to indicate it was attached to the wrong exporter.
+> VFIO also invokes dma_buf_move_notify().
 
-So what's the purpose of the fence if accesses can continue after
-waiting for fences?
+The design of vfio was always that it must not work with RDMA because
+we cannot tolerate the errors that happen due to ignoring the
+move_notify.
 
-If we always have to wait for the unmap call, is the importer allowed
-to call unmap while its own fences are outstanding?
+The entire purpose of this series could be stated as continuing to
+block RDMA while opening up other pining users.
 
-> So if the exporter wants to be 100% sure that nobody is using the
-> mapping any more then it needs to wait for the importer to call
-> dma_buf_unmap_attachment().
+So it must be addressed urgently before someone builds an application
+relying on this connection.
 
-We are trying to introduce this new idea called "revoke".
-
-Revoke means the exporter does some defined sequence and after the end
-of that sequence it knows there are no further DMA or CPU accesses to
-its memory at all.
-
-It has to happen in bounded time, so it can't get entangled with
-waiting for userspace to do something (eg importer unmap via an ioctl)
-
-It has to be an absolute statement because the VFIO and RDMA exporter
-use cases can trigger UAFs and AERs if importers keep accessing.
-
-So, what exactly should the export sequence be? We were proposing to
-call invalidate_mapping() and when it returns there is no access.
-
-The fence is missing, so now the sequences includes wait for the
-fences.
-
-And now you are saying we have to wait for all unmaps? Not only wait
-for the unmaps, but the importers now also must call unmap as part of
-their invalidate_mapping() callback.. Is that OK? Do existing
-importers do that?
-
-If all the above are yes, then lets document explicitly this is the
-required sequence and we can try to make it work. Please say, because
-we just don't know and keep getting surprised :)
-
-Thanks,
 Jason
 
