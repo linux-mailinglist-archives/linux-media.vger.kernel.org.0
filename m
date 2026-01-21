@@ -1,72 +1,60 @@
-Return-Path: <linux-media+bounces-51181-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51182-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2GVXBlA7cGmgXAAAu9opvQ
-	(envelope-from <linux-media+bounces-51181-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 03:34:56 +0100
+	id OEeEM5xEcGnXXAAAu9opvQ
+	(envelope-from <linux-media+bounces-51182-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 04:14:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F5B4FD53
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 03:34:55 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 767C4504A7
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 04:14:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A3F34B6F011
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 02:34:36 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BAF00482364
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 03:14:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D88D3469FC;
-	Wed, 21 Jan 2026 02:34:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F33D5356A1C;
+	Wed, 21 Jan 2026 03:14:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EIyCBy58"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nt/yE4Ik"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4C633D6EC;
-	Wed, 21 Jan 2026 02:34:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648B2246797
+	for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 03:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768962849; cv=none; b=UFeS7xHOvuAgh2fQoJS5M2unbp5w4fvcc7ETGV+ShyEL2S5OrOcu2BYqZSOPRjJ5RylPUwhTFw8a3RpgCukbSHNFEla2HHy0aFpdRzDq+bOekyhzjfjjv3E/G23sX2KnUKf3xaJcT8JoBtOvMKf7V4lOkkGS6tfbNamxKhosHko=
+	t=1768965268; cv=none; b=gudinw2D5Q+lwfz6otfJSWuJEqWyarcLG4Z/x8YXHvNTIHG59AlSue4SWOzOw2nJuZ7EfPghQwnjPgW/tXeCra6ajz1kqc0TXbM9ZbU0wD5QdDHnPEOlh6+Y/B/ZqGzXWw+KUsVWdORRwWoebwVmhI1WJkH/yMjYMWJyiBx61gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768962849; c=relaxed/simple;
-	bh=QBNQ/I1r8NovuausWue8wwoPJ7os3wHapXP8evct0vs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iwJfTGSTcfH4hpWfhwNq9Wkftb4wqpk3LFFSavTRd9Psv6cC630NA7HV4LOA88ieGM6bCkGvxgxNw4JT7bo88zyIU/18He1BwguIXhmo4aFqBC17PBNX9MnDIatflXjcoTAk8Kn0VWdJj6VQBPNrPjuIXHWJ9zfJhVbM39Cb5Gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EIyCBy58; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1768965268; c=relaxed/simple;
+	bh=ZkRErDQKkDzm4pY6pXa53KV1oHliSJ6eJ85GcBi6B1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EuQ5cBZ4Ot1zG4jA5RNb3eoL4RCxHm16MgtaZrIizkOLYkpFNKhKo+72rS7pb72M9Yvf3FcSy69lPvLbi4mZx+2G/TXA5PXpNnAIs1RW8fMgOaKXqzh2MEhjaOj4dMQVf3/2FNIo7wFvPRrx1GNM3/WVI/kFVacwW96GwieY0r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nt/yE4Ik; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 50D492D7;
-	Wed, 21 Jan 2026 03:33:32 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CEF96593;
+	Wed, 21 Jan 2026 04:13:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1768962812;
-	bh=QBNQ/I1r8NovuausWue8wwoPJ7os3wHapXP8evct0vs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EIyCBy582wdwDT/LJgOB1qeQZ8wZqWbjw0jPIerrtHoeF8wOSiQK8c+0WhJRqzlLG
-	 GSlzonrPYZiIitU7uTop3HBzIG5gp9UiY1kYE9E/lGnk7vtrnXKXvSP4c2SezWRVad
-	 kkI07Skm3d7uLdw03lAnWhsIXGhmid6ouBRHnHHw=
-Date: Wed, 21 Jan 2026 04:34:02 +0200
+	s=mail; t=1768965233;
+	bh=ZkRErDQKkDzm4pY6pXa53KV1oHliSJ6eJ85GcBi6B1M=;
+	h=Date:From:To:Cc:Subject:From;
+	b=nt/yE4Ik/G+27XYjXD+uCm2Mgu/Nb+gvmM9zlsCTPG9h5kR0QXycB7RwFN+HermaU
+	 pu3M1k0+643chTaleVmXGN8fKZohBTZZEGwKS0NBBtawcWMaN2dh6VL4hlpmPnrS5L
+	 nH5vRouZ1U34Cbe9oaywNT1rY3na9Opg+VkEA1/E=
+Date: Wed, 21 Jan 2026 05:14:23 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] media: dt-bindings: media: renesas,fcp: Allow three
- clocks for RZ/V2N SoC
-Message-ID: <20260121023402.GA409142@killaraus>
-References: <20251103194554.54313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20251104120141.GC27255@pendragon.ideasonboard.com>
- <CA+V-a8sP6o2GUju2ub0q1exiV87zHrkTddvkv8GKR_7wBF+vSA@mail.gmail.com>
+To: Hans Verkuil <hans@jjverkuil.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Frank Li <Frank.Li@nxp.com>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Rui Wang <rui.wang@ideasonboard.com>, linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v6.20] NXP media drivers changes
+Message-ID: <20260121031423.GB409142@killaraus>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,8 +63,6 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8sP6o2GUju2ub0q1exiV87zHrkTddvkv8GKR_7wBF+vSA@mail.gmail.com>
 X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
@@ -85,68 +71,76 @@ X-Spamd-Result: default: False [-1.46 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51181-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[glider.be,kernel.org,gmail.com,ideasonboard.com,vger.kernel.org,bp.renesas.com,renesas.com];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_FROM(0.00)[bounces-51182-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[ideasonboard.com,none];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DMARC_POLICY_ALLOW(0.00)[ideasonboard.com,none];
-	TAGGED_RCPT(0.00)[linux-media,renesas,dt];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: B7F5B4FD53
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo,ideasonboard.com:dkim,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 767C4504A7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Jan 12, 2026 at 04:44:07PM +0000, Lad, Prabhakar wrote:
-> On Tue, Nov 4, 2025 at 12:01 PM Laurent Pinchart wrote:
-> > On Mon, Nov 03, 2025 at 07:45:54PM +0000, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Update the FCP DT schema to permit three clock inputs for the RZ/V2N SoC.
-> > > The FCP block on this SoC requires three separate clocks, unlike other
-> > > variants which use only one.
-> > >
-> > > Fixes: f42eddf44fbf ("media: dt-bindings: media: renesas,fcp: Document RZ/V2N SoC")
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >
-> > > ---
-> > > Note, there are no current users of the RZ/V2N FCP compatible string in
-> > > the kernel tree.
-> > > ---
-> > >  Documentation/devicetree/bindings/media/renesas,fcp.yaml | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
->
-> Can you please pick this patch.
+Hi Hans, Mauro,
 
-Done. I'll send a pull request as soon as CI finishes.
+The following changes since commit dde659d37036c6edf5eeef81274b43fe12dfad53:
 
-> > > diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-> > > index cf92dfe69637..b5eff6fec8a9 100644
-> > > --- a/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
-> > > @@ -77,6 +77,7 @@ allOf:
-> > >                - renesas,r9a07g043u-fcpvd
-> > >                - renesas,r9a07g044-fcpvd
-> > >                - renesas,r9a07g054-fcpvd
-> > > +              - renesas,r9a09g056-fcpvd
-> > >                - renesas,r9a09g057-fcpvd
-> > >      then:
-> > >        properties:
+  media: iris: Introduce vpu ops for vpu4 with necessary hooks (2026-01-20 16:22:24 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/next-media-nxp-20260120
+
+for you to fetch changes up to a26a438dc814fdffb6f53add5296dde3f4d3b3a6:
+
+  media: staging: media: imx6-mipi-csi2: use devm_platform_ioremap_resource() simplify code (2026-01-21 04:16:50 +0200)
+
+----------------------------------------------------------------
+Improvements to NXP media drivers:
+
+- Fix filter configuration in rkisp1
+- Discard pm_runtime_put() return value
+- Simplify code in various drivers
+
+----------------------------------------------------------------
+Frank Li (6):
+      media: nxp: use dev_err_probe() to simplify code
+      media: nxp: imx8-isi: use devm_pm_runtime_enable() to simplify code
+      media: nxp: use cleanup __free(fwnode_handle) simplify code
+      media: staging: media: imx6-mipi-csi2: replace spaces with tabs for alignment
+      media: staging: media: imx6-mipi-csi2: use devm_mutex_init() to simplify code
+      media: staging: media: imx6-mipi-csi2: use devm_platform_ioremap_resource() simplify code
+
+Laurent Pinchart (1):
+      media: imx8-isi: Drop unneeded module alias
+
+Rafael J. Wysocki (1):
+      media: rkisp1: Discard pm_runtime_put() return value
+
+Rui Wang (1):
+      media: rkisp1: Fix filter mode register configuration
+
+ drivers/media/platform/nxp/imx-mipi-csis.c         |  31 ++----
+ drivers/media/platform/nxp/imx7-media-csi.c        |  14 +--
+ .../media/platform/nxp/imx8-isi/imx8-isi-core.c    |  17 ++--
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c      |  58 +++++------
+ .../platform/rockchip/rkisp1/rkisp1-capture.c      |   5 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-params.c |   6 --
+ drivers/staging/media/imx/imx6-mipi-csi2.c         | 106 ++++++++++-----------
+ 7 files changed, 94 insertions(+), 143 deletions(-)
+
 
 -- 
 Regards,
