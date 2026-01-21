@@ -1,435 +1,898 @@
-Return-Path: <linux-media+bounces-51276-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51277-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uLd3GLv2cGmgbAAAu9opvQ
-	(envelope-from <linux-media+bounces-51276-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 16:54:35 +0100
+	id aO9KHHLqcGk+awAAu9opvQ
+	(envelope-from <linux-media+bounces-51277-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 16:02:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB17159824
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 16:54:34 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B07FE58E07
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 16:02:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4D3C94EC3E3
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 14:48:23 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 94CD7AA4BFA
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 14:52:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F334C041B;
-	Wed, 21 Jan 2026 14:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pw88pD3p"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F17849253C;
+	Wed, 21 Jan 2026 14:40:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFCC37E308;
-	Wed, 21 Jan 2026 14:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C785212548
+	for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 14:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769006098; cv=none; b=JmsA7VqPOlPjUOFPbxofY+GBQRqoRFe1kQXxDP0IflblIehNeGzmfOTve7N3+xfYYhoPp3X7mQ8igyNndnBzAR9r06DQtVqifrXe6nn9xBAfRyetzaWP90OL9iAU8ZLtnA8IpQIP82/yGKtUNpvDQg8zfbCJCvWTCWRP8bQ8aCk=
+	t=1769006452; cv=none; b=o191ZznOp/LC8hXNAnV1eh93DWgH4KoNjB1cMgP0o2meQIF8TbhxabHhjxon1W3mXTZ91FjTIb2aqypQcbkd88F5omGRabzvx06zCvyjxlNrBh8bElvAHCaz1Eb0o1C1GbQd15jwrQ2u9SRZHHeYVbt5JZDl4dYFjt1hDiljEGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769006098; c=relaxed/simple;
-	bh=pfdn826aBJq6GoZoRK28hnebrIu93FmJ21pxnWcB+To=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X/PK98kWc5/uOlq9xU/RdJ2/0ABzhIdY4XkOk8cxuRQKjYAWevdXTtxS5NDLBPk8izpBNqSM1oQa/2fJbdDuM4EDABkL5T8py4ymvxlq8AQe3oAs2vPPJn51yBxl82CJGSFOFqHCpPYQO1tYkiGrNjtGNgvpWf8QCVpVro9YukA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pw88pD3p; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8C6BC2BC87;
-	Wed, 21 Jan 2026 14:34:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769006097;
-	bh=pfdn826aBJq6GoZoRK28hnebrIu93FmJ21pxnWcB+To=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pw88pD3pIj599kubQk/R1YasM00a+HA7s73AGDXN9olP+sN2rJvb44/7XUUsHpVOI
-	 jBdGCrlXiD5XbFGpGQJ9KnQsOyhuUkRnsZazZ3b9tC1DI2cpXlR+PirNlL61SLfckO
-	 9vhRYU0k0jaUvjJUh07Um8hcEtIyEkMzaw5JazY3np8Vm0jw94T7eDAzENQFbiAuVm
-	 76Oi993Luf/31zPP8cQNOOvDvWKG9bPD5+ZOlKaDpeVT5SSz3F6mSRGlbkPqVUL37v
-	 +J/ciUqL/3vrW5C4adcoqbLgfvlY31YBOeYjsQr0qZ9T+LUt2mMkohMQ1SnvbYI1/R
-	 nkL+DxxUJyfGQ==
-Date: Wed, 21 Jan 2026 16:34:53 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Alex Williamson <alex@shazbot.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <skolothumtho@nvidia.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>
-Subject: Re: types: reuse common =?utf-8?Q?phys=5Fv?=
- =?utf-8?Q?ec_type_instead_of_DMABUF_open=E2=80=91coded?= variant
-Message-ID: <20260121143453.GE13201@unreal>
-References: <20260107-convert-to-pvec-v1-1-6e3ab8079708@nvidia.com>
- <20260119133838.66203b01@shazbot.org>
+	s=arc-20240116; t=1769006452; c=relaxed/simple;
+	bh=3XvrI5be0eByWLbr6UGOWO4q71Ij2/OCvVRrlBePjoo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jZ53URNGm87G4xofojTkKlDPvlHeU/+P4VS+vDh2NVe87gzBeojUJc8jQh/4MW5bWMgE7NJ8w8/XfmM8I0FHmyZRtrj5HYui4ITMjuCVKW+pmzbJPC39Qeczmlb5N8PGsrNQ4AiIVz1nD7MVEJkZE3pPBhWM7ON7w8LsoO48yWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <s.pueschel@pengutronix.de>)
+	id 1viZNu-0003b7-FM; Wed, 21 Jan 2026 15:40:38 +0100
+Message-ID: <9369a9c0-9020-4686-9b57-a487bfb5fd15@pengutronix.de>
+Date: Wed, 21 Jan 2026 15:40:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 21/22] media: rockchip: rga: add rga3 support
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Jacob Chen <jacob-chen@iotwrt.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kernel@pengutronix.de
+References: <20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de>
+ <20251203-spu-rga3-v2-21-989a67947f71@pengutronix.de>
+ <e85f35648ce5d4b969d7305c8cde0a21488a2340.camel@ndufresne.ca>
+Content-Language: en-US
+From: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
+In-Reply-To: <e85f35648ce5d4b969d7305c8cde0a21488a2340.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260119133838.66203b01@shazbot.org>
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spamd-Result: default: False [0.24 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51276-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_THREE(0.00)[4];
+	R_DKIM_NA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:rdns,ams.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: AB17159824
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51277-lists,linux-media=lfdr.de];
+	DMARC_NA(0.00)[pengutronix.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:email,pengutronix.de:mid,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: B07FE58E07
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Jan 19, 2026 at 01:38:38PM -0700, Alex Williamson wrote:
-> On Wed,  7 Jan 2026 11:14:14 +0200
-> Leon Romanovsky <leon@kernel.org> wrote:
-> 
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > After commit fcf463b92a08 ("types: move phys_vec definition to common header"),
-> > we can use the shared phys_vec type instead of the DMABUF‑specific
-> > dma_buf_phys_vec, which duplicated the same structure and semantics.
-> > 
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> > Alex,
-> > 
-> > According to diffstat, VFIO is the subsystem with the largest set of changes,
-> > so it would be great if you could take it through your tree.
-> > 
-> > The series is based on the for-7.0/blk-pvec shared branch from Jens:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git/log/?h=for-7.0/blk-pvec
-> 
-> Applied to vfio next branch for v6.20/7.0 and pushed tag
-> common_phys_vec_via_vfio including this commit and dependency.
+Hi Nicolas,
 
-Thanks. I will pull it right before the RDMA dma-buf exporter patches are
-ready to be merged.
+On 12/24/25 5:34 PM, Nicolas Dufresne wrote:
+> Hi,
+>
+> Le mercredi 03 décembre 2025 à 16:52 +0100, Sven Püschel a écrit :
+>> Add support for the RGA3 unit contained in the RK3588.
+>>
+>> Only a basic feature set consisting of scaling and color conversion is
+>> implemented. Also the BT601F color space conversion is currently hard
+>> coded. Currently unimplemented features include:
+>> - Advanced formats like 10bit YUV, FBCE mode and Tile8x8 mode
+>> - Colorspace conversions functions BT601L, BT709, BT2020
+> This one I already raised in v1 as problematic omission. I applied the changes
+> locally and just ran few conversions that I saved to PNG, and I could
+> immediately see that range handling and colors are all over the place. Comparing
+> reference against conversion very often show difference in brighness or small
+> discoloration. On top of which, the compliance is failing.
+>
+> More investigation needed, but I suspect the implementation is a little too
+> loose. Not handling any of it while accepting to do YCbCr to RGB (or vis-versa)
+> incorrect and should be fixed.
 
-Thanks again.
+While I don't know how you tested this, I've reproduced your findings 
+with the following gstreamer 1.26 pipeline:
 
-> Thanks,
-> 
-> Alex
-> 
-> 
-> > ---
-> > Cc: linux-media@vger.kernel.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: iommu@lists.linux.dev
-> > Cc: kvm@vger.kernel.org
-> > To: Sumit Semwal <sumit.semwal@linaro.org>
-> > To: Christian König <christian.koenig@amd.com>
-> > To: Jason Gunthorpe <jgg@ziepe.ca>
-> > To: Kevin Tian <kevin.tian@intel.com>
-> > To: Joerg Roedel <joro@8bytes.org>
-> > To: Will Deacon <will@kernel.org>
-> > To: Robin Murphy <robin.murphy@arm.com>
-> > To: Yishai Hadas <yishaih@nvidia.com>
-> > To: Shameer Kolothum <skolothumtho@nvidia.com>
-> > To: Ankit Agrawal <ankita@nvidia.com>
-> > To: Alex Williamson <alex@shazbot.org>
-> > Cc: Matthew Wilcox <willy@infradead.org>
-> > Cc: Jens Axboe <axboe@kernel.dk>
-> > ---
-> >  drivers/dma-buf/dma-buf-mapping.c       |  6 +++---
-> >  drivers/iommu/iommufd/io_pagetable.h    |  2 +-
-> >  drivers/iommu/iommufd/iommufd_private.h |  5 ++---
-> >  drivers/iommu/iommufd/pages.c           |  4 ++--
-> >  drivers/iommu/iommufd/selftest.c        |  2 +-
-> >  drivers/vfio/pci/nvgrace-gpu/main.c     |  2 +-
-> >  drivers/vfio/pci/vfio_pci_dmabuf.c      |  8 ++++----
-> >  include/linux/dma-buf-mapping.h         |  2 +-
-> >  include/linux/dma-buf.h                 | 10 ----------
-> >  include/linux/vfio_pci_core.h           | 13 ++++++-------
-> >  10 files changed, 21 insertions(+), 33 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
-> > index b7352e609fbd..174677faa577 100644
-> > --- a/drivers/dma-buf/dma-buf-mapping.c
-> > +++ b/drivers/dma-buf/dma-buf-mapping.c
-> > @@ -33,8 +33,8 @@ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
-> >  }
-> >  
-> >  static unsigned int calc_sg_nents(struct dma_iova_state *state,
-> > -				  struct dma_buf_phys_vec *phys_vec,
-> > -				  size_t nr_ranges, size_t size)
-> > +				  struct phys_vec *phys_vec, size_t nr_ranges,
-> > +				  size_t size)
-> >  {
-> >  	unsigned int nents = 0;
-> >  	size_t i;
-> > @@ -91,7 +91,7 @@ struct dma_buf_dma {
-> >   */
-> >  struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach,
-> >  					 struct p2pdma_provider *provider,
-> > -					 struct dma_buf_phys_vec *phys_vec,
-> > +					 struct phys_vec *phys_vec,
-> >  					 size_t nr_ranges, size_t size,
-> >  					 enum dma_data_direction dir)
-> >  {
-> > diff --git a/drivers/iommu/iommufd/io_pagetable.h b/drivers/iommu/iommufd/io_pagetable.h
-> > index 14cd052fd320..27e3e311d395 100644
-> > --- a/drivers/iommu/iommufd/io_pagetable.h
-> > +++ b/drivers/iommu/iommufd/io_pagetable.h
-> > @@ -202,7 +202,7 @@ struct iopt_pages_dmabuf_track {
-> >  
-> >  struct iopt_pages_dmabuf {
-> >  	struct dma_buf_attachment *attach;
-> > -	struct dma_buf_phys_vec phys;
-> > +	struct phys_vec phys;
-> >  	/* Always PAGE_SIZE aligned */
-> >  	unsigned long start;
-> >  	struct list_head tracker;
-> > diff --git a/drivers/iommu/iommufd/iommufd_private.h b/drivers/iommu/iommufd/iommufd_private.h
-> > index eb6d1a70f673..6ac1965199e9 100644
-> > --- a/drivers/iommu/iommufd/iommufd_private.h
-> > +++ b/drivers/iommu/iommufd/iommufd_private.h
-> > @@ -20,7 +20,6 @@ struct iommu_group;
-> >  struct iommu_option;
-> >  struct iommufd_device;
-> >  struct dma_buf_attachment;
-> > -struct dma_buf_phys_vec;
-> >  
-> >  struct iommufd_sw_msi_map {
-> >  	struct list_head sw_msi_item;
-> > @@ -718,7 +717,7 @@ int __init iommufd_test_init(void);
-> >  void iommufd_test_exit(void);
-> >  bool iommufd_selftest_is_mock_dev(struct device *dev);
-> >  int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
-> > -				     struct dma_buf_phys_vec *phys);
-> > +				     struct phys_vec *phys);
-> >  #else
-> >  static inline void iommufd_test_syz_conv_iova_id(struct iommufd_ucmd *ucmd,
-> >  						 unsigned int ioas_id,
-> > @@ -742,7 +741,7 @@ static inline bool iommufd_selftest_is_mock_dev(struct device *dev)
-> >  }
-> >  static inline int
-> >  iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
-> > -				 struct dma_buf_phys_vec *phys)
-> > +				 struct phys_vec *phys)
-> >  {
-> >  	return -EOPNOTSUPP;
-> >  }
-> > diff --git a/drivers/iommu/iommufd/pages.c b/drivers/iommu/iommufd/pages.c
-> > index dbe51ecb9a20..bababd564cf9 100644
-> > --- a/drivers/iommu/iommufd/pages.c
-> > +++ b/drivers/iommu/iommufd/pages.c
-> > @@ -1077,7 +1077,7 @@ static int pfn_reader_user_update_pinned(struct pfn_reader_user *user,
-> >  }
-> >  
-> >  struct pfn_reader_dmabuf {
-> > -	struct dma_buf_phys_vec phys;
-> > +	struct phys_vec phys;
-> >  	unsigned long start_offset;
-> >  };
-> >  
-> > @@ -1460,7 +1460,7 @@ static struct dma_buf_attach_ops iopt_dmabuf_attach_revoke_ops = {
-> >   */
-> >  static int
-> >  sym_vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
-> > -				 struct dma_buf_phys_vec *phys)
-> > +				 struct phys_vec *phys)
-> >  {
-> >  	typeof(&vfio_pci_dma_buf_iommufd_map) fn;
-> >  	int rc;
-> > diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selftest.c
-> > index 550ff36dec3a..989d8c4c60a7 100644
-> > --- a/drivers/iommu/iommufd/selftest.c
-> > +++ b/drivers/iommu/iommufd/selftest.c
-> > @@ -2002,7 +2002,7 @@ static const struct dma_buf_ops iommufd_test_dmabuf_ops = {
-> >  };
-> >  
-> >  int iommufd_test_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
-> > -				     struct dma_buf_phys_vec *phys)
-> > +				     struct phys_vec *phys)
-> >  {
-> >  	struct iommufd_test_dma_buf *priv = attachment->dmabuf->priv;
-> >  
-> > diff --git a/drivers/vfio/pci/nvgrace-gpu/main.c b/drivers/vfio/pci/nvgrace-gpu/main.c
-> > index 84d142a47ec6..a0f4edd6a30b 100644
-> > --- a/drivers/vfio/pci/nvgrace-gpu/main.c
-> > +++ b/drivers/vfio/pci/nvgrace-gpu/main.c
-> > @@ -784,7 +784,7 @@ nvgrace_gpu_write(struct vfio_device *core_vdev,
-> >  static int nvgrace_get_dmabuf_phys(struct vfio_pci_core_device *core_vdev,
-> >  				   struct p2pdma_provider **provider,
-> >  				   unsigned int region_index,
-> > -				   struct dma_buf_phys_vec *phys_vec,
-> > +				   struct phys_vec *phys_vec,
-> >  				   struct vfio_region_dma_range *dma_ranges,
-> >  				   size_t nr_ranges)
-> >  {
-> > diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > index d4d0f7d08c53..9a84c238c013 100644
-> > --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> > @@ -14,7 +14,7 @@ struct vfio_pci_dma_buf {
-> >  	struct vfio_pci_core_device *vdev;
-> >  	struct list_head dmabufs_elm;
-> >  	size_t size;
-> > -	struct dma_buf_phys_vec *phys_vec;
-> > +	struct phys_vec *phys_vec;
-> >  	struct p2pdma_provider *provider;
-> >  	u32 nr_ranges;
-> >  	u8 revoked : 1;
-> > @@ -94,7 +94,7 @@ static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
-> >   *    will fail if it is currently revoked
-> >   */
-> >  int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
-> > -				 struct dma_buf_phys_vec *phys)
-> > +				 struct phys_vec *phys)
-> >  {
-> >  	struct vfio_pci_dma_buf *priv;
-> >  
-> > @@ -116,7 +116,7 @@ int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
-> >  }
-> >  EXPORT_SYMBOL_FOR_MODULES(vfio_pci_dma_buf_iommufd_map, "iommufd");
-> >  
-> > -int vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,
-> > +int vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,
-> >  				struct vfio_region_dma_range *dma_ranges,
-> >  				size_t nr_ranges, phys_addr_t start,
-> >  				phys_addr_t len)
-> > @@ -148,7 +148,7 @@ EXPORT_SYMBOL_GPL(vfio_pci_core_fill_phys_vec);
-> >  int vfio_pci_core_get_dmabuf_phys(struct vfio_pci_core_device *vdev,
-> >  				  struct p2pdma_provider **provider,
-> >  				  unsigned int region_index,
-> > -				  struct dma_buf_phys_vec *phys_vec,
-> > +				  struct phys_vec *phys_vec,
-> >  				  struct vfio_region_dma_range *dma_ranges,
-> >  				  size_t nr_ranges)
-> >  {
-> > diff --git a/include/linux/dma-buf-mapping.h b/include/linux/dma-buf-mapping.h
-> > index a3c0ce2d3a42..09bde3f748e4 100644
-> > --- a/include/linux/dma-buf-mapping.h
-> > +++ b/include/linux/dma-buf-mapping.h
-> > @@ -9,7 +9,7 @@
-> >  
-> >  struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach,
-> >  					 struct p2pdma_provider *provider,
-> > -					 struct dma_buf_phys_vec *phys_vec,
-> > +					 struct phys_vec *phys_vec,
-> >  					 size_t nr_ranges, size_t size,
-> >  					 enum dma_data_direction dir);
-> >  void dma_buf_free_sgt(struct dma_buf_attachment *attach, struct sg_table *sgt,
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 0bc492090237..400a5311368e 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -531,16 +531,6 @@ struct dma_buf_export_info {
-> >  	void *priv;
-> >  };
-> >  
-> > -/**
-> > - * struct dma_buf_phys_vec - describe continuous chunk of memory
-> > - * @paddr:   physical address of that chunk
-> > - * @len:     Length of this chunk
-> > - */
-> > -struct dma_buf_phys_vec {
-> > -	phys_addr_t paddr;
-> > -	size_t len;
-> > -};
-> > -
-> >  /**
-> >   * DEFINE_DMA_BUF_EXPORT_INFO - helper macro for exporters
-> >   * @name: export-info name
-> > diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-> > index 706877f998ff..2ac288bb2c60 100644
-> > --- a/include/linux/vfio_pci_core.h
-> > +++ b/include/linux/vfio_pci_core.h
-> > @@ -28,7 +28,6 @@
-> >  struct vfio_pci_core_device;
-> >  struct vfio_pci_region;
-> >  struct p2pdma_provider;
-> > -struct dma_buf_phys_vec;
-> >  struct dma_buf_attachment;
-> >  
-> >  struct vfio_pci_eventfd {
-> > @@ -62,25 +61,25 @@ struct vfio_pci_device_ops {
-> >  	int (*get_dmabuf_phys)(struct vfio_pci_core_device *vdev,
-> >  			       struct p2pdma_provider **provider,
-> >  			       unsigned int region_index,
-> > -			       struct dma_buf_phys_vec *phys_vec,
-> > +			       struct phys_vec *phys_vec,
-> >  			       struct vfio_region_dma_range *dma_ranges,
-> >  			       size_t nr_ranges);
-> >  };
-> >  
-> >  #if IS_ENABLED(CONFIG_VFIO_PCI_DMABUF)
-> > -int vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,
-> > +int vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,
-> >  				struct vfio_region_dma_range *dma_ranges,
-> >  				size_t nr_ranges, phys_addr_t start,
-> >  				phys_addr_t len);
-> >  int vfio_pci_core_get_dmabuf_phys(struct vfio_pci_core_device *vdev,
-> >  				  struct p2pdma_provider **provider,
-> >  				  unsigned int region_index,
-> > -				  struct dma_buf_phys_vec *phys_vec,
-> > +				  struct phys_vec *phys_vec,
-> >  				  struct vfio_region_dma_range *dma_ranges,
-> >  				  size_t nr_ranges);
-> >  #else
-> >  static inline int
-> > -vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,
-> > +vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,
-> >  			    struct vfio_region_dma_range *dma_ranges,
-> >  			    size_t nr_ranges, phys_addr_t start,
-> >  			    phys_addr_t len)
-> > @@ -89,7 +88,7 @@ vfio_pci_core_fill_phys_vec(struct dma_buf_phys_vec *phys_vec,
-> >  }
-> >  static inline int vfio_pci_core_get_dmabuf_phys(
-> >  	struct vfio_pci_core_device *vdev, struct p2pdma_provider **provider,
-> > -	unsigned int region_index, struct dma_buf_phys_vec *phys_vec,
-> > +	unsigned int region_index, struct phys_vec *phys_vec,
-> >  	struct vfio_region_dma_range *dma_ranges, size_t nr_ranges)
-> >  {
-> >  	return -EOPNOTSUPP;
-> > @@ -228,6 +227,6 @@ static inline bool is_aligned_for_order(struct vm_area_struct *vma,
-> >  }
-> >  
-> >  int vfio_pci_dma_buf_iommufd_map(struct dma_buf_attachment *attachment,
-> > -				 struct dma_buf_phys_vec *phys);
-> > +				 struct phys_vec *phys);
-> >  
-> >  #endif /* VFIO_PCI_CORE_H */
-> > 
-> > ---
-> > base-commit: fcf463b92a08686d1aeb1e66674a72eb7a8bfb9b
-> > change-id: 20260107-convert-to-pvec-bf04dfcf3d12
-> > 
-> > Best regards,
-> > --  
-> > Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > 
-> 
+gst-launch-1.0 videotestsrc num-buffers=1 ! 
+video/x-raw,format=RGBA,width=128,height=128 ! v4l2convert ! 
+video/x-raw,format=YUY2 ! videoconvert ! video/x-raw,format=RGBA ! 
+pngenc ! filesink location=/tmp/test.png
+
+After debugging the GStreamer pipeline, I've found that it didn't 
+consider the colorspace from the driver on it's src pad. Therefore it 
+didn't properly add it to the YUY2 caps, which caused the RGA3 driver to 
+do BT601 full range and videoconvert the default colorspace (i think 
+BT601 limited range). See [1], which fixes the problem.
+
+I'd be interested if this also fixes the issue(s) you've noticed.
+
+
+Sincerely
+     Sven
+
+[1] 
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/10582
+
+>> - Background color (V4L2_CID_BG_COLOR)
+>> - Configurable alpha value (V4L2_CID_ALPHA_COMPONENT)
+>> - Image flipping (V4L2_CID_HFLIP and V4L2_CID_VFLIP)
+>> - Image rotation (V4L2_CID_ROTATE)
+>> - Image cropping/composing (VIDIOC_S_SELECTION)
+>>
+>> The register address defines were copied from the
+>> vendor Rockchip kernel sources and slightly adjusted to not start at 0
+>> again for the cmd registers.
+>>
+>> Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
+>> ---
+>>   drivers/media/platform/rockchip/rga/Makefile  |   2 +-
+>>   drivers/media/platform/rockchip/rga/rga.c     |   4 +
+>>   drivers/media/platform/rockchip/rga/rga.h     |   2 +-
+>>   drivers/media/platform/rockchip/rga/rga3-hw.c | 471 ++++++++++++++++++++++++++
+>>   drivers/media/platform/rockchip/rga/rga3-hw.h | 190 +++++++++++
+>>   5 files changed, 667 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/rockchip/rga/Makefile b/drivers/media/platform/rockchip/rga/Makefile
+>> index 1bbecdc3d8df2..7326a548f3dc7 100644
+>> --- a/drivers/media/platform/rockchip/rga/Makefile
+>> +++ b/drivers/media/platform/rockchip/rga/Makefile
+>> @@ -1,4 +1,4 @@
+>>   # SPDX-License-Identifier: GPL-2.0-only
+>> -rockchip-rga-objs := rga.o rga-hw.o rga-buf.o
+>> +rockchip-rga-objs := rga.o rga-hw.o rga3-hw.o rga-buf.o
+>>   
+>>   obj-$(CONFIG_VIDEO_ROCKCHIP_RGA) += rockchip-rga.o
+>> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+>> index 65686228b7300..313d875c789bf 100644
+>> --- a/drivers/media/platform/rockchip/rga/rga.c
+>> +++ b/drivers/media/platform/rockchip/rga/rga.c
+>> @@ -843,6 +843,10 @@ static const struct of_device_id rockchip_rga_match[] = {
+>>   		.compatible = "rockchip,rk3399-rga",
+>>   		.data = &rga2_hw,
+>>   	},
+>> +	{
+>> +		.compatible = "rockchip,rk3588-rga3",
+>> +		.data = &rga3_hw,
+>> +	},
+>>   	{},
+>>   };
+>>   
+>> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
+>> index b9c75b5fda4dc..2c5f0330879fa 100644
+>> --- a/drivers/media/platform/rockchip/rga/rga.h
+>> +++ b/drivers/media/platform/rockchip/rga/rga.h
+>> @@ -163,6 +163,6 @@ static inline bool rga_has_internal_iommu(const struct rockchip_rga *rga)
+>>   	return rga->hw->has_internal_iommu;
+>>   }
+>>   
+>> -extern const struct rga_hw rga2_hw;
+>> +extern const struct rga_hw rga2_hw, rga3_hw;
+> nit: Add a line instead.
+>
+>>   
+>>   #endif
+>> diff --git a/drivers/media/platform/rockchip/rga/rga3-hw.c b/drivers/media/platform/rockchip/rga/rga3-hw.c
+>> new file mode 100644
+>> index 0000000000000..2b8cd639da39b
+>> --- /dev/null
+>> +++ b/drivers/media/platform/rockchip/rga/rga3-hw.c
+>> @@ -0,0 +1,471 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (C) Pengutronix e.K.
+> No year ?
+>
+>> + * Author: Sven Püschel <s.pueschel@pengutronix.de>
+>> + */
+>> +
+>> +#include <linux/pm_runtime.h>
+>> +#include <linux/bitfield.h>
+>> +#include <linux/delay.h>
+>> +#include <linux/printk.h>
+>> +
+>> +#include <media/v4l2-common.h>
+>> +
+>> +#include "rga3-hw.h"
+>> +#include "rga.h"
+>> +
+>> +static unsigned int rga3_get_scaling(unsigned int src, unsigned int dst)
+>> +{
+>> +	/*
+>> +	 * RGA3 scaling factor calculation as described in chapter 5.4.7 Resize
+>> +	 * of the TRM Part 2. The resulting scaling factor is a 16-bit value
+>> +	 * and therefore normalized with 2^16.
+>> +	 *
+>> +	 * While the TRM also mentions (dst-1)/(src-1) for the up-scaling case,
+>> +	 * it didn't work as the value always exceeds 16 bit. Flipping the
+>> +	 * factors results in a correct up-scaling. This is possible as the
+>> +	 * RGA3 has the RGA3_WIN_SCALE_XXX_UP bit to determine if it does
+>> +	 * an up or downscale.
+>> +	 *
+>> +	 * With a scaling factor of 1.0 the calculation technically also
+>> +	 * overflows 16 bit. This isn't relevant, as in this case the
+>> +	 * RGA3_WIN_SCALE_XXX_BYPASS bit completely skips the scaling operation.
+>> +	 */
+>> +	if (dst > src) {
+>> +		if (((src - 1) << 16) % (dst - 1) == 0)
+>> +			return ((src - 1) << 16) / (dst - 1) - 1;
+>> +		else
+>> +			return ((src - 1) << 16) / (dst - 1);
+>> +	} else {
+>> +		return ((dst - 1) << 16) / (src - 1) + 1;
+>> +	}
+>> +}
+>> +
+>> +/*
+>> + * Check if the given format can be captured, as the RGA3 doesn't support all
+>> + * input formats also on it's output.
+>> + */
+>> +static bool rga3_can_capture(const struct rga3_fmt *fmt)
+>> +{
+>> +	return fmt->hw_format <= RGA3_COLOR_FMT_LAST_OUTPUT;
+>> +}
+>> +
+>> +/*
+>> + * Map the transformations to the RGA3 command buffer.
+>> + * Currently this is just the scaling settings and a fixed alpha value.
+>> + */
+>> +static void rga3_cmd_set_trans_info(struct rga_ctx *ctx)
+>> +{
+>> +	u32 *cmd = ctx->cmdbuf_virt;
+>> +	unsigned int src_h, src_w, dst_h, dst_w;
+>> +	unsigned int reg;
+>> +	u16 hor_scl_fac, ver_scl_fac;
+>> +	const struct rga3_fmt *in = ctx->in.fmt;
+>> +
+>> +	src_h = ctx->in.pix.height;
+>> +	src_w = ctx->in.pix.width;
+>> +	dst_h = ctx->out.pix.height;
+>> +	dst_w = ctx->out.pix.width;
+> These are padded dimensions, I think there should be code here that go pick from
+> the selection rectangles. Can't skip that, its way too common to have 1088 src_h
+> as an example. Otherwise, its not clear what will be result of using a scaling
+> factor while doing 1088 -> 1080, where the 8 lines are actually padding.
+>
+>> +
+>> +	reg = RGA3_WIN0_RD_CTRL - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] |= FIELD_PREP(RGA3_WIN_SCALE_HOR_UP, dst_w > src_w)
+>> +		      |  FIELD_PREP(RGA3_WIN_SCALE_HOR_BYPASS, dst_w == src_w)
+>> +		      |  FIELD_PREP(RGA3_WIN_SCALE_VER_UP, dst_h > src_h)
+>> +		      |  FIELD_PREP(RGA3_WIN_SCALE_VER_BYPASS, dst_h == src_h);
+>> +
+>> +	hor_scl_fac = rga3_get_scaling(src_w, dst_w);
+>> +	ver_scl_fac = rga3_get_scaling(src_h, dst_h);
+>> +	reg = RGA3_WIN0_SCL_FAC - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] = FIELD_PREP(RGA3_SCALE_HOR_FAC, hor_scl_fac)
+>> +		      | FIELD_PREP(RGA3_SCALE_VER_FAC, ver_scl_fac);
+>> +
+>> +	if (v4l2_format_info(in->fourcc)->has_alpha) {
+>> +		/* copy alpha from input */
+>> +		reg = RGA3_OVLP_TOP_ALPHA - RGA3_FIRST_CMD_REG;
+>> +		cmd[reg >> 2] = FIELD_PREP(RGA3_ALPHA_SELECT_MODE, 1)
+>> +			      | FIELD_PREP(RGA3_ALPHA_BLEND_MODE, 1);
+>> +		reg = RGA3_OVLP_BOT_ALPHA - RGA3_FIRST_CMD_REG;
+>> +		cmd[reg >> 2] = FIELD_PREP(RGA3_ALPHA_SELECT_MODE, 1)
+>> +			      | FIELD_PREP(RGA3_ALPHA_BLEND_MODE, 1);
+>> +	} else {
+>> +		/* just use a 255 alpha value */
+>> +		reg = RGA3_OVLP_TOP_CTRL - RGA3_FIRST_CMD_REG;
+>> +		cmd[reg >> 2] = FIELD_PREP(RGA3_OVLP_GLOBAL_ALPHA, 0xff)
+>> +			      | FIELD_PREP(RGA3_OVLP_COLOR_MODE, 1);
+>> +		reg = RGA3_OVLP_BOT_CTRL - RGA3_FIRST_CMD_REG;
+>> +		cmd[reg >> 2] = FIELD_PREP(RGA3_OVLP_GLOBAL_ALPHA, 0xff)
+>> +			      | FIELD_PREP(RGA3_OVLP_COLOR_MODE, 1);
+>> +	}
+>> +}
+>> +
+>> +static void rga3_cmd_set_win0_addr(struct rga_ctx *ctx,
+>> +				   const struct rga_addrs *addrs)
+>> +{
+>> +	u32 *cmd = ctx->cmdbuf_virt;
+>> +	unsigned int reg;
+>> +
+>> +	reg = RGA3_WIN0_Y_BASE - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] = addrs->y_addr;
+>> +	reg = RGA3_WIN0_U_BASE - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] = addrs->u_addr;
+>> +}
+>> +
+>> +static void rga3_cmd_set_wr_addr(struct rga_ctx *ctx,
+>> +				 const struct rga_addrs *addrs)
+>> +{
+>> +	u32 *cmd = ctx->cmdbuf_virt;
+>> +	unsigned int reg;
+>> +
+>> +	reg = RGA3_WR_Y_BASE - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] = addrs->y_addr;
+>> +	reg = RGA3_WR_U_BASE - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] = addrs->u_addr;
+>> +}
+>> +
+>> +/* Map the input pixel format to win0 of the comamnd buffer. */
+>> +static void rga3_cmd_set_win0_format(struct rga_ctx *ctx)
+>> +{
+>> +	u32 *cmd = ctx->cmdbuf_virt;
+>> +	const struct rga3_fmt *in = ctx->in.fmt;
+>> +	const struct rga3_fmt *out = ctx->out.fmt;
+>> +	const struct v4l2_format_info *in_fmt, *out_fmt;
+>> +	unsigned int src_h, src_w;
+>> +	bool r2y, y2r;
+>> +	u8 rd_format;
+>> +	unsigned int reg;
+>> +
+>> +	src_h = ctx->in.pix.height;
+>> +	src_w = ctx->in.pix.width;
+>> +
+>> +	in_fmt = v4l2_format_info(in->fourcc);
+>> +	out_fmt = v4l2_format_info(out->fourcc);
+>> +	r2y = v4l2_is_format_rgb(in_fmt) && v4l2_is_format_yuv(out_fmt);
+>> +	y2r = v4l2_is_format_yuv(in_fmt) && v4l2_is_format_rgb(out_fmt);
+>> +
+>> +	if (in->semi_planar)
+>> +		rd_format = RGA3_RDWR_FORMAT_SEMI_PLANAR;
+>> +	else
+>> +		rd_format = RGA3_RDWR_FORMAT_INTERLEAVED;
+>> +
+>> +	/* set pixel format and CSC */
+>> +	reg = RGA3_WIN0_RD_CTRL - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] |= FIELD_PREP(RGA3_WIN_PIC_FORMAT, in->hw_format)
+>> +		      |  FIELD_PREP(RGA3_WIN_YC_SWAP, in->yc_swap)
+>> +		      |  FIELD_PREP(RGA3_WIN_RBUV_SWAP, in->rbuv_swap)
+>> +		      |  FIELD_PREP(RGA3_WIN_RD_FORMAT, rd_format)
+>> +		      |  FIELD_PREP(RGA3_WIN_R2Y, r2y)
+>> +		      |  FIELD_PREP(RGA3_WIN_Y2R, y2r)
+>> +		      |  FIELD_PREP(RGA3_WIN_CSC_MODE, RGA3_WIN_CSC_MODE_BT601_F);
+> I'd say don't hardcode BT601 Full-Range. This in fact explains a lot of the
+> weird stuff I've seen so far.
+>
+> This IP is extremely limited in CSC, it would be good to limite the choice in
+> try_fmt. Basically BT601 is the only thing that support full range, where the
+> more common BT709 and 2020 coeffiicent are most commonly used. Fortunatly,
+> limited range is more common, I can only guess, but RGB is likely always full
+> range.
+>
+> I'm guessing when doing YCbCr to YCbCr the CSC is untouched. Make sure the
+> capture and output format reflects that.
+>
+> Nicolas
+>
+>> +
+>> +	/* set stride */
+>> +	reg = RGA3_WIN0_VIR_STRIDE - RGA3_FIRST_CMD_REG;
+>> +	/* stride needs to be in words */
+>> +	cmd[reg >> 2] = ctx->in.pix.plane_fmt[0].bytesperline >> 2;
+>> +	reg = RGA3_WIN0_UV_VIR_STRIDE - RGA3_FIRST_CMD_REG;
+>> +	/* The Hardware only supports formats with 1/2 planes */
+>> +	if (ctx->in.pix.num_planes == 2)
+>> +		cmd[reg >> 2] = ctx->in.pix.plane_fmt[1].bytesperline >> 2;
+>> +	else
+>> +		cmd[reg >> 2] = ctx->in.pix.plane_fmt[0].bytesperline >> 2;
+>> +
+>> +	/* set size */
+>> +	reg = RGA3_WIN0_ACT_SIZE - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] = FIELD_PREP(RGA3_WIDTH, src_w)
+>> +		      | FIELD_PREP(RGA3_HEIGHT, src_h);
+>> +	/* no cropping support. Use same value as ACT_SIZE */
+>> +	reg = RGA3_WIN0_SRC_SIZE - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] = FIELD_PREP(RGA3_WIDTH, src_w)
+>> +		      | FIELD_PREP(RGA3_HEIGHT, src_h);
+>> +}
+>> +
+>> +static void rga3_cmd_enable_win0(struct rga_ctx *ctx)
+>> +{
+>> +	u32 *cmd = ctx->cmdbuf_virt;
+>> +	unsigned int reg;
+>> +
+>> +	reg = RGA3_WIN0_RD_CTRL - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] |= FIELD_PREP(RGA3_WIN_ENABLE, 1);
+>> +}
+>> +
+>> +/* Map the output pixel format to the command buffer */
+>> +static void rga3_cmd_set_wr_format(struct rga_ctx *ctx)
+>> +{
+>> +	u32 *cmd = ctx->cmdbuf_virt;
+>> +	const struct rga3_fmt *out = ctx->out.fmt;
+>> +	unsigned int dst_h, dst_w;
+>> +	u8 wr_format;
+>> +	unsigned int reg;
+>> +
+>> +	dst_h = ctx->out.pix.height;
+>> +	dst_w = ctx->out.pix.width;
+>> +
+>> +	if (out->semi_planar)
+>> +		wr_format = RGA3_RDWR_FORMAT_SEMI_PLANAR;
+>> +	else
+>> +		wr_format = RGA3_RDWR_FORMAT_INTERLEAVED;
+>> +
+>> +	/* set pixel format */
+>> +	reg = RGA3_WR_CTRL - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] |= FIELD_PREP(RGA3_WR_PIC_FORMAT, out->hw_format)
+>> +		      |  FIELD_PREP(RGA3_WR_YC_SWAP, out->yc_swap)
+>> +		      |  FIELD_PREP(RGA3_WR_RBUV_SWAP, out->rbuv_swap)
+>> +		      |  FIELD_PREP(RGA3_WR_FORMAT, wr_format);
+>> +
+>> +	/* set stride */
+>> +	reg = RGA3_WR_VIR_STRIDE - RGA3_FIRST_CMD_REG;
+>> +	/* stride needs to be in words */
+>> +	cmd[reg >> 2] = ctx->out.pix.plane_fmt[0].bytesperline >> 2;
+>> +	reg = RGA3_WR_PL_VIR_STRIDE - RGA3_FIRST_CMD_REG;
+>> +	/* The Hardware only supports formats with 1/2 planes */
+>> +	if (ctx->out.pix.num_planes == 2)
+>> +		cmd[reg >> 2] = ctx->out.pix.plane_fmt[1].bytesperline >> 2;
+>> +	else
+>> +		cmd[reg >> 2] = ctx->out.pix.plane_fmt[0].bytesperline >> 2;
+>> +
+>> +	/* Set size.
+>> +	 * As two inputs are not supported, we don't use win1.
+>> +	 * Therefore only set the size for win0.
+>> +	 */
+>> +	reg = RGA3_WIN0_DST_SIZE - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] = FIELD_PREP(RGA3_WIDTH, dst_w)
+>> +		      | FIELD_PREP(RGA3_HEIGHT, dst_h);
+>> +}
+>> +
+>> +static void rga3_cmd_disable_wr_limitation(struct rga_ctx *ctx)
+>> +{
+>> +	u32 *cmd = ctx->cmdbuf_virt;
+>> +	unsigned int reg;
+>> +
+>> +	/* Use the max value to avoid limiting the write speed */
+>> +	reg = RGA3_WR_CTRL - RGA3_FIRST_CMD_REG;
+>> +	cmd[reg >> 2] |= FIELD_PREP(RGA3_WR_SW_OUTSTANDING_MAX, 63);
+>> +}
+>> +
+>> +static void rga3_hw_setup_cmdbuf(struct rga_ctx *ctx)
+>> +{
+>> +	memset(ctx->cmdbuf_virt, 0, RGA3_CMDBUF_SIZE * 4);
+>> +
+>> +	rga3_cmd_set_win0_format(ctx);
+>> +	rga3_cmd_enable_win0(ctx);
+>> +	rga3_cmd_set_trans_info(ctx);
+>> +	rga3_cmd_set_wr_format(ctx);
+>> +	rga3_cmd_disable_wr_limitation(ctx);
+>> +}
+>> +
+>> +static void rga3_hw_start(struct rockchip_rga *rga,
+>> +			  struct rga_vb_buffer *src, struct rga_vb_buffer *dst)
+>> +{
+>> +	struct rga_ctx *ctx = rga->curr;
+>> +
+>> +	rga3_cmd_set_win0_addr(ctx, &src->dma_addrs);
+>> +	rga3_cmd_set_wr_addr(ctx, &dst->dma_addrs);
+>> +
+>> +	rga_write(rga, RGA3_CMD_ADDR, ctx->cmdbuf_phy);
+>> +
+>> +	/* sync CMD buf for RGA */
+>> +	dma_sync_single_for_device(rga->dev, ctx->cmdbuf_phy,
+>> +				   PAGE_SIZE, DMA_BIDIRECTIONAL);
+>> +
+>> +	/* set to master mode and start the conversion */
+>> +	rga_write(rga, RGA3_SYS_CTRL,
+>> +		  FIELD_PREP(RGA3_CMD_MODE, RGA3_CMD_MODE_MASTER));
+>> +	rga_write(rga, RGA3_INT_EN, FIELD_PREP(RGA3_INT_FRM_DONE, 1));
+>> +	rga_write(rga, RGA3_CMD_CTRL,
+>> +		  FIELD_PREP(RGA3_CMD_LINE_START_PULSE, 1));
+>> +}
+>> +
+>> +static bool rga3_handle_irq(struct rockchip_rga *rga)
+>> +{
+>> +	u32 intr;
+>> +
+>> +	intr = rga_read(rga, RGA3_INT_RAW);
+>> +	/* clear all interrupts */
+>> +	rga_write(rga, RGA3_INT_CLR, intr);
+>> +
+>> +	return FIELD_GET(RGA3_INT_FRM_DONE, intr);
+>> +}
+>> +
+>> +static void rga3_get_version(struct rockchip_rga *rga)
+>> +{
+>> +	u32 version = rga_read(rga, RGA3_VERSION_NUM);
+>> +
+>> +	rga->version.major = FIELD_GET(RGA3_VERSION_NUM_MAJOR, version);
+>> +	rga->version.minor = FIELD_GET(RGA3_VERSION_NUM_MINOR, version);
+>> +}
+>> +
+>> +static struct rga3_fmt rga3_formats[] = {
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_RGB24,
+>> +		.hw_format = RGA3_COLOR_FMT_BGR888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_BGR24,
+>> +		.hw_format = RGA3_COLOR_FMT_BGR888,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_ABGR32,
+>> +		.hw_format = RGA3_COLOR_FMT_BGRA8888,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_RGBA32,
+>> +		.hw_format = RGA3_COLOR_FMT_BGRA8888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_XBGR32,
+>> +		.hw_format = RGA3_COLOR_FMT_BGRA8888,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_RGBX32,
+>> +		.hw_format = RGA3_COLOR_FMT_BGRA8888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_RGB565,
+>> +		.hw_format = RGA3_COLOR_FMT_BGR565,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV12M,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV420,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV12,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV420,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV21M,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV420,
+>> +		.rbuv_swap = 1,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV21,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV420,
+>> +		.rbuv_swap = 1,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV16M,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV16,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV61M,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.rbuv_swap = 1,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV61,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.rbuv_swap = 1,
+>> +		.semi_planar = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_YUYV,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.yc_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_YVYU,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.yc_swap = 1,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_UYVY,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_VYUY,
+>> +		.hw_format = RGA3_COLOR_FMT_YUV422,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	/* Input only formats last to keep rga3_enum_format simple */
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_ARGB32,
+>> +		.hw_format = RGA3_COLOR_FMT_ABGR8888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_BGRA32,
+>> +		.hw_format = RGA3_COLOR_FMT_ABGR8888,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_XRGB32,
+>> +		.hw_format = RGA3_COLOR_FMT_ABGR8888,
+>> +		.rbuv_swap = 1,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_BGRX32,
+>> +		.hw_format = RGA3_COLOR_FMT_ABGR8888,
+>> +	},
+>> +};
+>> +
+>> +static int rga3_enum_format(struct v4l2_fmtdesc *f)
+>> +{
+>> +	struct rga3_fmt *fmt;
+>> +
+>> +	if (f->index >= ARRAY_SIZE(rga3_formats))
+>> +		return -EINVAL;
+>> +
+>> +	fmt = &rga3_formats[f->index];
+>> +	if (V4L2_TYPE_IS_CAPTURE(f->type) && !rga3_can_capture(fmt))
+>> +		return -EINVAL;
+>> +
+>> +	f->pixelformat = fmt->fourcc;
+>> +	return 0;
+>> +}
+>> +
+>> +static void *rga3_adjust_and_map_format(struct v4l2_pix_format_mplane *format,
+>> +					bool is_output)
+>> +{
+>> +	unsigned int i;
+>> +
+>> +	if (!format)
+>> +		return &rga3_formats[0];
+>> +
+>> +	format->ycbcr_enc = V4L2_YCBCR_ENC_601;
+>> +	format->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(rga3_formats); i++) {
+>> +		if (!is_output && !rga3_can_capture(&rga3_formats[i]))
+>> +			continue;
+>> +
+>> +		if (rga3_formats[i].fourcc == format->pixelformat)
+>> +			return &rga3_formats[i];
+>> +	}
+>> +
+>> +	format->pixelformat = rga3_formats[0].fourcc;
+>> +	return &rga3_formats[0];
+>> +}
+>> +
+>> +const struct rga_hw rga3_hw = {
+>> +	.card_type = "rga3",
+>> +	.has_internal_iommu = false,
+>> +	.cmdbuf_size = RGA3_CMDBUF_SIZE,
+>> +	.min_width = RGA3_MIN_WIDTH,
+>> +	.min_height = RGA3_MIN_HEIGHT,
+>> +	/* use output size, as it's a bit smaller than the input size */
+>> +	.max_width = RGA3_MAX_OUTPUT_WIDTH,
+>> +	.max_height = RGA3_MAX_OUTPUT_HEIGHT,
+>> +	.max_scaling_factor = RGA3_MAX_SCALING_FACTOR,
+>> +	.stride_alignment = 16,
+>> +	.features = 0,
+>> +
+>> +	.setup_cmdbuf = rga3_hw_setup_cmdbuf,
+>> +	.start = rga3_hw_start,
+>> +	.handle_irq = rga3_handle_irq,
+>> +	.get_version = rga3_get_version,
+>> +	.enum_format = rga3_enum_format,
+>> +	.adjust_and_map_format = rga3_adjust_and_map_format,
+>> +};
+>> diff --git a/drivers/media/platform/rockchip/rga/rga3-hw.h b/drivers/media/platform/rockchip/rga/rga3-hw.h
+>> new file mode 100644
+>> index 0000000000000..fa16b95fb43ba
+>> --- /dev/null
+>> +++ b/drivers/media/platform/rockchip/rga/rga3-hw.h
+>> @@ -0,0 +1,190 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (C) Pengutronix e.K.
+>> + * Author: Sven Püschel <s.pueschel@pengutronix.de>
+>> + */
+>> +#ifndef __RGA3_HW_H__
+>> +#define __RGA3_HW_H__
+>> +
+>> +#include <linux/bits.h>
+>> +#include <linux/types.h>
+>> +
+>> +#define RGA3_CMDBUF_SIZE 0x2e
+>> +
+>> +#define RGA3_MIN_WIDTH 128
+>> +#define RGA3_MIN_HEIGHT 128
+>> +#define RGA3_MAX_INPUT_WIDTH (8192 - 16)
+>> +#define RGA3_MAX_INPUT_HEIGHT (8192 - 16)
+>> +#define RGA3_MAX_OUTPUT_WIDTH (8192 - 64)
+>> +#define RGA3_MAX_OUTPUT_HEIGHT (8192 - 64)
+>> +#define RGA3_MAX_SCALING_FACTOR 8
+>> +#define RGA3_RESET_TIMEOUT 1000
+>> +
+>> +/* Registers address */
+>> +/* sys reg */
+>> +#define RGA3_SYS_CTRL				0x000
+>> +#define RGA3_CMD_CTRL				0x004
+>> +#define RGA3_CMD_ADDR				0x008
+>> +#define RGA3_MI_GROUP_CTRL			0x00c
+>> +#define RGA3_ARQOS_CTRL				0x010
+>> +#define RGA3_VERSION_NUM			0x018
+>> +#define RGA3_VERSION_TIM			0x01c
+>> +#define RGA3_INT_EN				0x020
+>> +#define RGA3_INT_RAW				0x024
+>> +#define RGA3_INT_MSK				0x028
+>> +#define RGA3_INT_CLR				0x02c
+>> +#define RGA3_RO_SRST				0x030
+>> +#define RGA3_STATUS0				0x034
+>> +#define RGA3_SCAN_CNT				0x038
+>> +#define RGA3_CMD_STATE				0x040
+>> +
+>> +/* cmd reg */
+>> +#define RGA3_WIN0_RD_CTRL			0x100
+>> +#define RGA3_FIRST_CMD_REG			RGA3_WIN0_RD_CTRL
+>> +#define RGA3_WIN0_Y_BASE			0x110
+>> +#define RGA3_WIN0_U_BASE			0x114
+>> +#define RGA3_WIN0_V_BASE			0x118
+>> +#define RGA3_WIN0_VIR_STRIDE			0x11c
+>> +#define RGA3_WIN0_FBC_OFF			0x120
+>> +#define RGA3_WIN0_SRC_SIZE			0x124
+>> +#define RGA3_WIN0_ACT_OFF			0x128
+>> +#define RGA3_WIN0_ACT_SIZE			0x12c
+>> +#define RGA3_WIN0_DST_SIZE			0x130
+>> +#define RGA3_WIN0_SCL_FAC			0x134
+>> +#define RGA3_WIN0_UV_VIR_STRIDE			0x138
+>> +#define RGA3_WIN1_RD_CTRL			0x140
+>> +#define RGA3_WIN1_Y_BASE			0x150
+>> +#define RGA3_WIN1_U_BASE			0x154
+>> +#define RGA3_WIN1_V_BASE			0x158
+>> +#define RGA3_WIN1_VIR_STRIDE			0x15c
+>> +#define RGA3_WIN1_FBC_OFF			0x160
+>> +#define RGA3_WIN1_SRC_SIZE			0x164
+>> +#define RGA3_WIN1_ACT_OFF			0x168
+>> +#define RGA3_WIN1_ACT_SIZE			0x16c
+>> +#define RGA3_WIN1_DST_SIZE			0x170
+>> +#define RGA3_WIN1_SCL_FAC			0x174
+>> +#define RGA3_WIN1_UV_VIR_STRIDE			0x178
+>> +#define RGA3_OVLP_CTRL				0x180
+>> +#define RGA3_OVLP_OFF				0x184
+>> +#define RGA3_OVLP_TOP_KEY_MIN			0x188
+>> +#define RGA3_OVLP_TOP_KEY_MAX			0x18c
+>> +#define RGA3_OVLP_TOP_CTRL			0x190
+>> +#define RGA3_OVLP_BOT_CTRL			0x194
+>> +#define RGA3_OVLP_TOP_ALPHA			0x198
+>> +#define RGA3_OVLP_BOT_ALPHA			0x19c
+>> +#define RGA3_WR_CTRL				0x1a0
+>> +#define RGA3_WR_FBCE_CTRL			0x1a4
+>> +#define RGA3_WR_VIR_STRIDE			0x1a8
+>> +#define RGA3_WR_PL_VIR_STRIDE			0x1ac
+>> +#define RGA3_WR_Y_BASE				0x1b0
+>> +#define RGA3_WR_U_BASE				0x1b4
+>> +#define RGA3_WR_V_BASE				0x1b8
+>> +
+>> +/* Registers value */
+>> +#define RGA3_COLOR_FMT_YUV420		0x0
+>> +#define RGA3_COLOR_FMT_YUV422		0x1
+>> +#define RGA3_COLOR_FMT_YUV420_10B	0x2
+>> +#define RGA3_COLOR_FMT_YUV422_10B	0x3
+>> +/*
+>> + * Use memory ordering names
+>> + * instead of the datasheet naming RGB formats in big endian order
+>> + */
+>> +#define RGA3_COLOR_FMT_BGR565		0x4
+>> +#define RGA3_COLOR_FMT_BGR888		0x5
+>> +#define RGA3_COLOR_FMT_FIRST_HAS_ALPHA	RGA3_COLOR_FMT_BGRA8888
+>> +#define RGA3_COLOR_FMT_BGRA8888		0x6
+>> +#define RGA3_COLOR_FMT_LAST_OUTPUT	RGA3_COLOR_FMT_BGRA8888
+>> +/* the following are only supported as inputs */
+>> +#define RGA3_COLOR_FMT_ABGR8888		0x7
+>> +/*
+>> + * the following seem to be unnecessary,
+>> + * as they can be achieved with RB swaps
+>> + */
+>> +#define RGA3_COLOR_FMT_RGBA8888		0x8
+>> +#define RGA3_COLOR_FMT_ARGB8888		0x9
+>> +
+>> +#define RGA3_RDWR_FORMAT_SEMI_PLANAR	0x1
+>> +#define RGA3_RDWR_FORMAT_INTERLEAVED	0x2
+>> +
+>> +#define RGA3_CMD_MODE_MASTER 0x1
+>> +
+>> +#define RGA3_WIN_CSC_MODE_BT601_F 0x2
+>> +
+>> +/* RGA masks */
+>> +/* SYS_CTRL */
+>> +#define RGA3_CCLK_SRESET BIT(4)
+>> +#define RGA3_ACLK_SRESET BIT(3)
+>> +#define RGA3_CMD_MODE BIT(1)
+>> +
+>> +/* CMD_CTRL */
+>> +#define RGA3_CMD_LINE_START_PULSE BIT(0)
+>> +
+>> +/* VERSION_NUM */
+>> +#define RGA3_VERSION_NUM_MAJOR GENMASK(31, 28)
+>> +#define RGA3_VERSION_NUM_MINOR GENMASK(27, 20)
+>> +
+>> +/* INT_* */
+>> +#define RGA3_INT_FRM_DONE BIT(0)
+>> +#define RGA3_INT_DMA_READ_BUS_ERR BIT(2)
+>> +#define RGA3_INT_WIN0_FBC_DEC_ERR BIT(5)
+>> +#define RGA3_INT_WIN0_HOR_ERR BIT(6)
+>> +#define RGA3_INT_WIN0_VER_ERR BIT(7)
+>> +#define RGA3_INT_WR_VER_ERR BIT(13)
+>> +#define RGA3_INT_WR_HOR_ERR BIT(14)
+>> +#define RGA3_INT_WR_BUS_ERR BIT(15)
+>> +#define RGA3_INT_WIN0_IN_FIFO_WR_ERR BIT(16)
+>> +#define RGA3_INT_WIN0_IN_FIFO_RD_ERR BIT(17)
+>> +#define RGA3_INT_WIN0_HOR_FIFO_WR_ERR BIT(18)
+>> +#define RGA3_INT_WIN0_HOR_FIFO_RD_ERR BIT(19)
+>> +#define RGA3_INT_WIN0_VER_FIFO_WR_ERR BIT(20)
+>> +#define RGA3_INT_WIN0_VER_FIFO_RD_ERR BIT(21)
+>> +
+>> +/* RO_SRST */
+>> +#define RGA3_RO_SRST_DONE GENMASK(5, 0)
+>> +
+>> +/* *_SIZE */
+>> +#define RGA3_HEIGHT GENMASK(28, 16)
+>> +#define RGA3_WIDTH GENMASK(12, 0)
+>> +
+>> +/* SCL_FAC */
+>> +#define RGA3_SCALE_VER_FAC GENMASK(31, 16)
+>> +#define RGA3_SCALE_HOR_FAC GENMASK(15, 0)
+>> +
+>> +/* WINx_CTRL */
+>> +#define RGA3_WIN_CSC_MODE GENMASK(27, 26)
+>> +#define RGA3_WIN_R2Y BIT(25)
+>> +#define RGA3_WIN_Y2R BIT(24)
+>> +#define RGA3_WIN_SCALE_VER_UP BIT(23)
+>> +#define RGA3_WIN_SCALE_VER_BYPASS BIT(22)
+>> +#define RGA3_WIN_SCALE_HOR_UP BIT(21)
+>> +#define RGA3_WIN_SCALE_HOR_BYPASS BIT(20)
+>> +#define RGA3_WIN_YC_SWAP BIT(13)
+>> +#define RGA3_WIN_RBUV_SWAP BIT(12)
+>> +#define RGA3_WIN_RD_FORMAT GENMASK(9, 8)
+>> +#define RGA3_WIN_PIC_FORMAT GENMASK(7, 4)
+>> +#define RGA3_WIN_ENABLE BIT(0)
+>> +
+>> +/* COLOR_CTRL */
+>> +#define RGA3_OVLP_GLOBAL_ALPHA GENMASK(23, 16)
+>> +#define RGA3_OVLP_COLOR_MODE BIT(0)
+>> +
+>> +/* ALPHA_CTRL */
+>> +#define RGA3_ALPHA_SELECT_MODE BIT(4)
+>> +#define RGA3_ALPHA_BLEND_MODE GENMASK(3, 2)
+>> +
+>> +/* WR_CTRL */
+>> +#define RGA3_WR_YC_SWAP BIT(20)
+>> +#define RGA3_WR_SW_OUTSTANDING_MAX GENMASK(18, 13)
+>> +#define RGA3_WR_RBUV_SWAP BIT(12)
+>> +#define RGA3_WR_FORMAT GENMASK(9, 8)
+>> +#define RGA3_WR_PIC_FORMAT GENMASK(7, 4)
+>> +
+>> +struct rga3_fmt {
+>> +	u32 fourcc;
+>> +	u8 hw_format;
+>> +	bool rbuv_swap;
+>> +	bool yc_swap;
+>> +	bool semi_planar;
+>> +};
+>> +
+>> +#endif
 
