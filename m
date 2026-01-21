@@ -1,185 +1,276 @@
-Return-Path: <linux-media+bounces-51243-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51244-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLNuIWTgcGnCaQAAu9opvQ
-	(envelope-from <linux-media+bounces-51243-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:19:16 +0100
+	id GNBXOH7icGkhawAAu9opvQ
+	(envelope-from <linux-media+bounces-51244-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:28:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED314584F7
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:19:15 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 595A6586B9
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 15:28:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BFEA680D968
-	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 13:56:04 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E096788E3A2
+	for <lists+linux-media@lfdr.de>; Wed, 21 Jan 2026 13:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D97C3DA7E5;
-	Wed, 21 Jan 2026 13:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70F3846AED6;
+	Wed, 21 Jan 2026 13:51:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="FgHTyAym"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dC0CCPda"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A9293382D3;
-	Wed, 21 Jan 2026 13:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769003449; cv=pass; b=eaX2QBc11n9U5uK9tK613pei2EyKNvki1CYXLQ2eY5FPP6S3FhvM1zoCGv6YFeYKQ3InWO+ctU0dJKK4vdSE+uSFJhfp62kwzo6Qym1Mb1R/mLJcQy1O0CwdWq6TJSXCkHKFsLFmTJtsclkEiH/p9uFNLMHhD2ZQ7cfyjF1mg4U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769003449; c=relaxed/simple;
-	bh=8KNoVv3pnxVsTo8YM0cJ0lrpeTXSxWfU7j81uJZx/D4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KVwX/irp8upLGIo/jBY1Xi6Sjp4Rm/+eNKbwBqdiL9LOmNnSsHIOIzETYH5O45l7vstKtnIn3xJRECD43atXDDVH3hqqhz/IhLJtmiRtL4XbYgYs3y9+3GnSOclSoZN7lMjrysTm5dwMHcMqvj1ussRjXjD9llkuB8cthoGd2vg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=FgHTyAym; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1769003425; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=oMD3DvxuLuEzLSKEQ+n7wJ4m/xJbJL42ySs6VOCov2+etqD4CgyPmKR8dkzx4g41ouAyqQO62NoJmbCaOtROJc7sd0f6R40oSBIx78qL6ybgkLBuv2rDFMaO/5EhdG55m8UuI97tr7tzCiQJSiJ39lWOQviRPlrDP3vbU1zyLJM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1769003425; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=9j0aEnPsFf4ht23DVuEjYMMqdJpKWzWkgwC3q2GqT3A=; 
-	b=AbgOsVL6Ef6WBq9f5iily7oU2CPu1sGMgiO0qjOsCI5xkur+8tRusuPAKEHZUEZ3V2aO1UJnSxkwDDRRNxoSiDYCwg7T835rgSWb67ZqHx9iJM1AxWy6Cv+DWVpo8cmOYYzFz3NM0AiKfr7u4ZoWj6luSFuJlyp8HjLuMnUGV10=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769003425;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=9j0aEnPsFf4ht23DVuEjYMMqdJpKWzWkgwC3q2GqT3A=;
-	b=FgHTyAymulI5Ru9lYKyZMIbtyQLW1up5yzp5g/XMCPX5Snig5KqTiaTFvUb2GMG7
-	AWA2tt6krbxfxurKZ0M2qTryuy+IwA/fgwMmdmw+uDE94mfzKFW4cGkVOfXbRGgfVsh
-	qlJrHcSEgf5HEUGrk7+QkMbz0DL7z037nqsloBQM=
-Received: by mx.zohomail.com with SMTPS id 1769003423843237.2758502026851;
-	Wed, 21 Jan 2026 05:50:23 -0800 (PST)
-Message-ID: <4b33b50f-f0c3-4db8-b394-dd2d4d6e3a55@collabora.com>
-Date: Wed, 21 Jan 2026 14:50:18 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A612BEC5A
+	for <linux-media@vger.kernel.org>; Wed, 21 Jan 2026 13:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769003502; cv=none; b=L8bhZrA/oLjdEgBIKgHLsFroGTpw/M+FxhMqmvQrDjeAJU5ymxFAr3p4fw+ZzXgr7359jBrvQIYBKWycv/MThnhxPXnlI0lBWiuW0iJSUxIu+Fs3uaPScPkI+kl3j5J73pc2wYmohYZQVnoQyW/lFTsSRuLNZhDS7hLW4m44Xfo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769003502; c=relaxed/simple;
+	bh=mtCMiLxG/zVfFRL2uBsfFhwhC07yKurcB1NshUYMYEE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tBYXLkCwK2WY5JZAumlyD50WuLBfaTJZogR1MA2QJjbRW1TUXhtIdT49JSGcbk5xnbBvnNr0PPQI/DxB3scgSs2LEIxL/1C68FRY7F66iYMXXHNc76MV6oZDOv8isXyGWTcj4jYC1xdI+a08oljaaFn0CKmJrycU+IKWtooaLBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dC0CCPda; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769003501; x=1800539501;
+  h=date:from:to:cc:subject:message-id;
+  bh=mtCMiLxG/zVfFRL2uBsfFhwhC07yKurcB1NshUYMYEE=;
+  b=dC0CCPdaVChDGSlIavr3PzCjgTPoxlQLro2WsCEq+TbafX1ngoC0md4U
+   sczhWDbgUIrnV5UUdcjWUIGVUlGcFmWJu7jOac88eFpLJIfWr+LiknvRN
+   7Lg0RVyS4JzHcjNeXn4bUNiyvY5oajUJvhgxWbsinygHNcrXd2gBcUWv7
+   CNmrFFyhy/OdraURitr5XLPZUt2Qv4wsxwKGBn04SxJRkbn0mVTTDEb86
+   yb09cE8bUccxUakKPAxldW7ehF5OQhBjUVc0XXc8kQw7Uu6T+IzavZFBh
+   vfwYvkoNdQ9zYoOlkHaKxd3dfG6tD/YLCuq1Ubd6TNsRa85uLxxu3EtJZ
+   Q==;
+X-CSE-ConnectionGUID: U57TlAueT42/zjlHb0ip3A==
+X-CSE-MsgGUID: qkwapFo0SLC0YCGMMNGf8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="87807412"
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="87807412"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2026 05:51:40 -0800
+X-CSE-ConnectionGUID: nGq8+svjS4iO+yfJk/3kqA==
+X-CSE-MsgGUID: ylb2QaFsT92xPRpkDlcGZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,242,1763452800"; 
+   d="scan'208";a="210617557"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 21 Jan 2026 05:51:39 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viYcS-00000000RH3-2vmF;
+	Wed, 21 Jan 2026 13:51:36 +0000
+Date: Wed, 21 Jan 2026 21:51:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:devel] BUILD SUCCESS
+ 063befb259f3efeb0119f3853efad3b17d3e3f3d
+Message-ID: <202601212123.pq6Y5Cdw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 3/7] iommu: Add verisilicon IOMMU driver
-To: Will Deacon <will@kernel.org>
-Cc: joro@8bytes.org, robin.murphy@arm.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
- nicolas.dufresne@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <20260107101005.84039-1-benjamin.gaignard@collabora.com>
- <20260107101005.84039-4-benjamin.gaignard@collabora.com>
- <aWZui-rn5RDPwpEO@willie-the-truck>
- <68a49f8b-178c-4fa2-b4a9-315ad602271d@collabora.com>
- <aWeTQ50DOtntcniN@willie-the-truck>
- <db0950f1-b357-47c2-9829-e33262ab456d@collabora.com>
- <aW4kb5EbxbrhTOxK@willie-the-truck>
- <b8f43fe8-3e07-4d98-a50d-817c31370710@collabora.com>
- <aXDL2JH_4RCDmAJv@willie-the-truck>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <aXDL2JH_4RCDmAJv@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.46 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51243-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	DMARC_POLICY_ALLOW(0.00)[collabora.com,none];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[benjamin.gaignard@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	TAGGED_FROM(0.00)[bounces-51244-lists,linux-media=lfdr.de];
 	R_SPF_SOFTFAIL(0.00)[~all:c];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo]
-X-Rspamd-Queue-Id: ED314584F7
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:rdns,dfw.mirrors.kernel.org:helo,intel.com:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: 595A6586B9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+tree/branch: git://linuxtv.org/sailus/media_tree.git devel
+branch HEAD: 063befb259f3efeb0119f3853efad3b17d3e3f3d  media: synopsys: add driver for the designware mipi csi-2 receiver
 
-Le 21/01/2026 à 13:51, Will Deacon a écrit :
-> On Mon, Jan 19, 2026 at 03:03:44PM +0100, Benjamin Gaignard wrote:
->>>>>>>> +static const struct iommu_ops vsi_iommu_ops = {
->>>>>>>> +	.identity_domain = &vsi_identity_domain,
->>>>>>>> +	.release_domain = &vsi_identity_domain,
->>>>>>>> +	.domain_alloc_paging = vsi_iommu_domain_alloc_paging,
->>>>>>>> +	.of_xlate = vsi_iommu_of_xlate,
->>>>>>>> +	.probe_device = vsi_iommu_probe_device,
->>>>>>>> +	.release_device = vsi_iommu_release_device,
->>>>>>>> +	.device_group = generic_single_device_group,
->>>>>>>> +	.owner = THIS_MODULE,
->>>>>>>> +	.default_domain_ops = &(const struct iommu_domain_ops) {
->>>>>>>> +		.attach_dev		= vsi_iommu_attach_device,
->>>>>>>> +		.map_pages		= vsi_iommu_map,
->>>>>>>> +		.unmap_pages		= vsi_iommu_unmap,
->>>>>>>> +		.flush_iotlb_all	= vsi_iommu_flush_tlb_all,
->>>>>>> This has no callers and so your unmap routine appears to be broken.
->>>>>> It is a leftover of previous attempt to allow video decoder to clean/flush
->>>>>> the iommu by using a function from the API.
->>>>>> Now it is using vsi_iommu_restore_ctx().
->>>>>> I while remove it in version 12.
->>>>> Don't you still need some invalidation on the unmap path?
->>>> In vsi_iommu_unmap_iova() page is invalided by calling vsi_mk_pte_invalid().
->>> But that just writes an invalid descriptor and doesn't appear to invalidate
->>> the TLB at all.
->>>
->>>> That clear BIT(0) so the hardware knows the page is invalid.
->>>> Do I have miss something here ?
->>> Yes, the TLB structure needs to be invalidated so that the page-table
->>> walker sees the new value that you have written in memory.
->>>
->>> The rockchip driver gets this correct...
->> Rockchip hardware have a ZAP_ONE_LINE register which didn't exist on Verisilicon
->> hardware.
-> Presumably you have some sort of Verisilicon datasheet or downstream driver
-> from which you can infer the TLB invalidation runes?
+elapsed time: 869m
 
-I have only this downstream driver:
-https://github.com/rockchip-linux/kernel/blob/develop-6.1/drivers/iommu/rockchip-iommu-av1d.c
-No datasheet...
+configs tested: 149
+configs skipped: 3
 
->
->> I have tried to use VSI_MMU_BIT_FLUSH on VSI driver after unmapping iova
->> but it doesn't work.
-> What do you mean by "doesn't work"? If it works without doing any
-> invalidation at all, then it's very peculiar that adding the invalidation
-> would introduce issues.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I mean VSI_MMU_BIT_FLUSH register can't be used to invalid the TLB.
-I think the hardware iterates over the pages tables in memory and
-check the valid/invalid bit.
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+arc                              allmodconfig    gcc-15.2.0
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    gcc-15.2.0
+arc                            hsdk_defconfig    gcc-15.2.0
+arc                   randconfig-001-20260121    gcc-8.5.0
+arc                   randconfig-002-20260121    gcc-10.5.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.2.0
+arm                   randconfig-001-20260121    clang-20
+arm                   randconfig-002-20260121    gcc-15.2.0
+arm                   randconfig-003-20260121    clang-18
+arm                   randconfig-004-20260121    clang-22
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.2.0
+arm64                 randconfig-001-20260121    gcc-15.2.0
+arm64                 randconfig-002-20260121    clang-22
+arm64                 randconfig-003-20260121    clang-22
+arm64                 randconfig-004-20260121    gcc-12.5.0
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                  randconfig-001-20260121    gcc-9.5.0
+csky                  randconfig-002-20260121    gcc-15.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon               randconfig-001-20260121    clang-19
+hexagon               randconfig-002-20260121    clang-22
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20260121    clang-20
+i386        buildonly-randconfig-002-20260121    gcc-14
+i386        buildonly-randconfig-003-20260121    gcc-13
+i386        buildonly-randconfig-004-20260121    clang-20
+i386        buildonly-randconfig-005-20260121    clang-20
+i386        buildonly-randconfig-006-20260121    clang-20
+i386                  randconfig-001-20260121    gcc-14
+i386                  randconfig-011-20260121    gcc-14
+i386                  randconfig-012-20260121    gcc-14
+i386                  randconfig-013-20260121    clang-20
+i386                  randconfig-014-20260121    gcc-12
+i386                  randconfig-015-20260121    gcc-14
+i386                  randconfig-016-20260121    gcc-14
+i386                  randconfig-017-20260121    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20260121    gcc-15.2.0
+loongarch             randconfig-002-20260121    gcc-15.2.0
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    gcc-15.2.0
+m68k                                defconfig    gcc-15.2.0
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    gcc-15.2.0
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+mips                          ath79_defconfig    gcc-15.2.0
+mips                      bmips_stb_defconfig    clang-22
+mips                           ip32_defconfig    clang-22
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    clang-22
+nios2                             allnoconfig    gcc-11.5.0
+nios2                 randconfig-001-20260121    gcc-11.5.0
+nios2                 randconfig-002-20260121    gcc-10.5.0
+openrisc                         allmodconfig    gcc-15.2.0
+openrisc                          allnoconfig    clang-22
+openrisc                          allnoconfig    gcc-15.2.0
+openrisc                            defconfig    gcc-15.2.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    clang-22
+parisc                            allnoconfig    gcc-15.2.0
+parisc                           allyesconfig    gcc-15.2.0
+parisc                              defconfig    gcc-15.2.0
+parisc                randconfig-001-20260121    gcc-9.5.0
+parisc                randconfig-002-20260121    gcc-13.4.0
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    clang-22
+powerpc                           allnoconfig    gcc-15.2.0
+powerpc                      katmai_defconfig    clang-22
+powerpc                      mgcoge_defconfig    clang-22
+powerpc               randconfig-001-20260121    clang-22
+powerpc               randconfig-002-20260121    clang-22
+powerpc64             randconfig-001-20260121    clang-22
+powerpc64             randconfig-002-20260121    clang-22
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    clang-22
+riscv                             allnoconfig    gcc-15.2.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20260121    clang-16
+riscv                 randconfig-002-20260121    gcc-8.5.0
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.2.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20260121    gcc-9.5.0
+s390                  randconfig-002-20260121    clang-22
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    clang-22
+sh                                allnoconfig    gcc-15.2.0
+sh                               allyesconfig    gcc-15.2.0
+sh                        apsh4ad0a_defconfig    gcc-15.2.0
+sh                    randconfig-001-20260121    gcc-14.3.0
+sh                    randconfig-002-20260121    gcc-9.5.0
+sh                      rts7751r2d1_defconfig    gcc-15.2.0
+sparc                             allnoconfig    clang-22
+sparc                             allnoconfig    gcc-15.2.0
+sparc                               defconfig    gcc-15.2.0
+sparc                 randconfig-001-20260121    gcc-8.5.0
+sparc                 randconfig-002-20260121    gcc-8.5.0
+sparc64                          allmodconfig    clang-22
+sparc64               randconfig-001-20260121    gcc-13.4.0
+sparc64               randconfig-002-20260121    gcc-15.2.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                    randconfig-001-20260121    gcc-14
+um                    randconfig-002-20260121    gcc-14
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-20
+x86_64                            allnoconfig    clang-22
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-002-20260121    gcc-14
+x86_64                randconfig-001-20260121    clang-20
+x86_64                randconfig-002-20260121    gcc-14
+x86_64                randconfig-003-20260121    gcc-14
+x86_64                randconfig-004-20260121    gcc-14
+x86_64                randconfig-005-20260121    clang-20
+x86_64                randconfig-006-20260121    clang-20
+x86_64                randconfig-011-20260121    gcc-14
+x86_64                randconfig-012-20260121    clang-20
+x86_64                randconfig-013-20260121    gcc-14
+x86_64                randconfig-014-20260121    gcc-14
+x86_64                randconfig-015-20260121    clang-20
+x86_64                randconfig-016-20260121    gcc-14
+x86_64                randconfig-071-20260121    clang-20
+x86_64                randconfig-072-20260121    clang-20
+x86_64                randconfig-073-20260121    clang-20
+x86_64                randconfig-074-20260121    clang-20
+x86_64                randconfig-075-20260121    clang-20
+x86_64                randconfig-076-20260121    gcc-13
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    clang-22
+xtensa                            allnoconfig    gcc-15.2.0
+xtensa                randconfig-001-20260121    gcc-14.3.0
+xtensa                randconfig-002-20260121    gcc-8.5.0
 
-Benjamin
-
->
->> So far calling dma_sync_single_for_device() seems to be enough to make iommu
->> and video decoder work together.
-> I don't think we should settle for "seems to enough"! If we can reason
-> about the operation of the hardware then the driver will be undebuggable
-> when it eventually goes wrong.
->
-> Will
->
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
