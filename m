@@ -1,198 +1,168 @@
-Return-Path: <linux-media+bounces-51365-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51366-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cNRAOa14cmlSlQAAu9opvQ
-	(envelope-from <linux-media+bounces-51365-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 20:21:17 +0100
+	id MAQDFHmtcmmAogAAu9opvQ
+	(envelope-from <linux-media+bounces-51366-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 00:06:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52E06CF5F
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 20:21:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559556E657
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 00:06:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 074413006084
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 19:21:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 18BB8300118B
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 23:06:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8608E38FF1A;
-	Thu, 22 Jan 2026 19:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E47C3A730D;
+	Thu, 22 Jan 2026 23:06:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=loescher@gmx.de header.b="q44yAeji"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mvwSe7Bb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61D538E5E4
-	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 19:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0445136681B
+	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 23:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769109666; cv=none; b=sR/VULnKlEbYKjCZOTYwDZBw9DhSTCVMdHmjkvQMi0BUgmgx9YYYvBaIBGO1MBzohVLTEjRZDZcJnLMvGWAZQ+TtamxD2puoZtC+pPrGF336j6l/DEaAdedZXuFZ+dPyZg9Ed31IEXGvqcCqaVaWY2axnCI61XibYH8hLbeJGSg=
+	t=1769123177; cv=none; b=ac/yBgXKFfK/eoeX/RdB8LVFqQULzVQrDwA/47NGl54gow25tHhbfQBpS+5TgD1cJdiKl3950lkTS8aiSBHRJQDNt16PRHTVD8Kll1vbCCKV4MZ/HgXU7I/2c8cgwjMgNvrF12y0eY0GBIXQR3fzF8W3Eg9E1zbC9cvsLS933jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769109666; c=relaxed/simple;
-	bh=TWg0/Az5c5zjgUaHLYJggYuJcqquoO3ex5mcnG+QxI4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=rRXQofxqUGUGJQ4+ZWr0qFoX8sy/GdztbSpIpMIL+N6/HUFRZ1k1ozWQU2p4/hpK5sWQc1HZ6CTSrkh6rOfKmo1fxrXyqSh52mlzcHy8+v2MqXCkYJMbQk1siLGNqpuIWPUOBYxSui02VRFzngr9EESre+38h6rWpcG8deVzzWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=loescher@gmx.de header.b=q44yAeji; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1769109656; x=1769714456; i=loescher@gmx.de;
-	bh=1wIGJS50qYYBL4v/s22T5z/b1QhCYzXh033CcPjVip8=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=q44yAejiMgVdqF7XUN8csb2YeLqIkM//yO/sAxxTwq9B4vlgrbDjoBrFgTgxlfie
-	 b1mR07GFWG6DyOWBG5LiEseky3Jr8MLXioh/itTB5o6kNVaYZIyOnPE6cggbH4iX9
-	 uCRjOEjm1qHGphQ928uOcaJyYwLy7QX6kjxdWo/QY2LFrZSIJWyMMmTkmAGDr3AWZ
-	 Y2HoImBZMOtYT5rvQt0ZKwLxI3NdKCu1QVfccgSC2NiJq4Q6yDfRgWMUBaOmw8BKS
-	 C6VufReDfc3FG3SuGiZpFi9ryrSKglZ1/I+9/sHXn4DwmhsLpNdNK0SCMbiY2g44W
-	 ArR8lkWSgoBiNTmh9A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.178.212] ([87.122.210.133]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N6KYl-1vpt2n1FBR-015b1f for
- <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 20:20:56 +0100
-Message-ID: <f153443d-a8c4-4871-8a35-de40d4efc3f7@gmx.de>
-Date: Thu, 22 Jan 2026 20:20:55 +0100
+	s=arc-20240116; t=1769123177; c=relaxed/simple;
+	bh=mA5A6Mk+gz8WMRX9DYmZtQj8FDxDiSE/5B04IO9M8o0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=O6FQpfPiYsvXUvA7EviFJi0JjOKjAM9KHNo/BiuvchT0aNJXlL0tE954RKFsuz+v8OzJHt/ZJQtu6vLH0pZ2mxvdXf7OLHDI6OXbT/gY1QF68GjhPbClSOB/QZFK0ANYyXCPOKOwRHWEKffriE6VE84ixRBLWO7nC48JMJalnQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mvwSe7Bb; arc=none smtp.client-ip=209.85.210.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-81f5381d168so1631377b3a.2
+        for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 15:06:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1769123168; x=1769727968; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mA5A6Mk+gz8WMRX9DYmZtQj8FDxDiSE/5B04IO9M8o0=;
+        b=mvwSe7Bbvm1DuhmrdFUiGI/y647SF8nJeO6dAH6WytubqNS9wMn5LDXQJV1bQiZw4y
+         Opx5v4FGhfzByoyjvZS3RG/1gCbPiHHT9esohFv9eKb8eLowr0FwWsob5gLBdcoHDxaG
+         HkkWCCRNy7D82y/C9Ng+D+cgOZySnRHltZwotsIxPqIvvE4l/S2B5u6ZdGbUUG77PQZJ
+         dGtZE2nEsGL9ohsBrFKbuKrMTdINJ75rrDxaou57fsGRGRTn70p6vwSGureNgWw82HqA
+         h/Bw0JhaCzZvQvfDGEqIeLGgoVg4o7okbMm4QGT/Ne6jshR5k5AYPD9yfk1rXNSyLpZO
+         RiAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769123168; x=1769727968;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mA5A6Mk+gz8WMRX9DYmZtQj8FDxDiSE/5B04IO9M8o0=;
+        b=Q4eajp1UUmgpOHDB+tkAxNr+L3gpIW+e6cT9Hv05bGZ+xCw+S+fhMRWLEjyE9ZZBbo
+         a8Jr7/Mmep3B9T7ItGDlOpr0Fpj9KQ515TTIo9g7tmPhgsIkTdNASwsQ4DWw3qPUMJI/
+         qbbMNfNW9R79IozbsUiGGaYtTVk1J/Ap7ccuNtPkytuBV0CXzeaUsKYY2HBlddJrxkds
+         HEj8+oWZAvDKp7I1EZByo70fxeDGq8Mgv0T4mM4qPatRLt3jvqpDDnpyBSspRiTyWM5G
+         p8Yxs+5TTsxeZN4vg/3vTt/OlRnSIrkDu2D9QZHWErEJpRQ2T9CuKJuxsjh13iZ4nctN
+         sSLg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1WJxnPqkvzqiIg+WLFHLK3Vt6UQQvjmUzfzpn39EEVg3vqlA9sXNm9zvzgSNkRI5CkX+HyJzOAfvmKQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6D2mwFxdypajSSEPCP9Ur+GAzQOc+qOQudpso1ZkXVvy5oHmw
+	SlcxWJejnhTKMcbQcOGX7G8zqAgRCJGlmhZIhtlL272d7nxgsTpk0P7ixZXVM4aVHR8=
+X-Gm-Gg: AZuq6aK1Ib79LAw6hek98kHcVeJTLRfReuYOURFexkx+FDo98mDpQ/waiBL/QZYJJIC
+	RcctWng0XM4cX41fmlCj9a8o8yxIyYYQAfIvFV+5YYGPpNIkTrx3k7bD4/EuVp7aBBRGDOgvA3z
+	NnWtWQ7Pd+pmMJiEiL2yLYWwgSWqXtBwYfN9yPXUyEAD0tgVMRgezVJsHB3pO5Kjcqb2FcuBbqS
+	B0Bk4+dJXPDC6h8sArYNmF2omKSGfsZHW2h9jwOCwUGhlKSSCwBQ7hHu0DORx1H5WRoxpQSMk+Q
+	RxHYPKz2XupmgpHF9395XYF4rtppAUoO/OhtD5P2W6rgQ0d5PwAearYsfi7cErOitkaf2YUokTz
+	6Iw/ApFerG+XjKd7YAgzSb90x12m1w3SIFrvxP9cUBdD0Ef7u/qAKh2xtp/4FqI+cAlDE2TQCN4
+	ctLLybhDKf
+X-Received: by 2002:a05:6a00:894:b0:81c:4a92:25a2 with SMTP id d2e1a72fcca58-82317e5bb29mr764095b3a.46.1769123168092;
+        Thu, 22 Jan 2026 15:06:08 -0800 (PST)
+Received: from localhost ([71.212.200.220])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8231873e4bdsm367936b3a.50.2026.01.22.15.06.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jan 2026 15:06:07 -0800 (PST)
+From: Kevin Hilman <khilman@baylibre.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Sakari
+ Ailus <sakari.ailus@linux.intel.com>, Ricardo Ribalda
+ <ribalda@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Niklas =?utf-8?Q?S=C3=B6der?=
+ =?utf-8?Q?lund?=
+ <niklas.soderlund@ragnatech.se>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Michael Tretter
+ <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry
+ W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, Kieran
+ Bingham <kieran.bingham@ideasonboard.com>, Paul Kocialkowski
+ <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Hans
+ de Goede <hansg@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [ANN] Media Summit on May 26th in Nice, France
+In-Reply-To: <92e24f36-d189-4ba8-ad0b-43277bc1aabd@kernel.org>
+References: <92e24f36-d189-4ba8-ad0b-43277bc1aabd@kernel.org>
+Date: Thu, 22 Jan 2026 15:06:06 -0800
+Message-ID: <7hqzrh5jtt.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Fix remote key stroke hang in cinergyT2-core.c
-To: linux-media@vger.kernel.org
-References: <74e3b0c9-02da-4f1f-8d6a-d2a63550b710@gmx.de>
- <696e85da.050a0220.1bec0f.4fd8@mx.google.com>
-Content-Language: en-US, de-DE
-From: Stephan Loescher <loescher@gmx.de>
-In-Reply-To: <696e85da.050a0220.1bec0f.4fd8@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:2ox85Rhi5uPxh4u+Hfzsa4ishPQrY5wvFY5npCmAj04CGnPwyZ/
- rsoisFPQg1RlBE78LQd9LOQQ8c0l5pmcgcER4lvFtZUtSoQYJaakn5ff5JT8wyvfvK6Tt69
- 154mSCu/tnTy6bDmsVjUmK8drs1QGnG97jnyXC7H8XWmd2Gr2at1YFuZSMzJvRiLtbSJrBj
- EctZyEbJUL3AXK2VOhimg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:A/mUha1kwAs=;65rGeS2L50FlBSRXzgFGxOTOj3L
- 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
- Nxz+Zj4+2O6b3FEuA=
+Content-Type: text/plain
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmx.de,quarantine];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmx.de:s=s31663417];
+	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51365-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_ONE(0.00)[1];
-	DKIM_TRACE(0.00)[gmx.de:+];
-	FREEMAIL_FROM(0.00)[gmx.de];
+	TAGGED_FROM(0.00)[bounces-51366-lists,linux-media=lfdr.de];
+	TO_DN_ALL(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[loescher@gmx.de,linux-media@vger.kernel.org];
+	DMARC_NA(0.00)[baylibre.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[khilman@baylibre.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,gmx.de:mid,gmx.de:dkim]
-X-Rspamd-Queue-Id: E52E06CF5F
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 559556E657
 X-Rspamd-Action: no action
 
-=2D-- orig/drivers/media/usb/dvb-usb/cinergyT2-core.c	2026-01-22=20
-13:40:04.647739827 +0100
-+++ fixed/drivers/media/usb/dvb-usb/cinergyT2-core.c	2026-01-22=20
-13:40:31.296007776 +0100
-@@ -129,10 +129,6 @@
-  #define RC_REPEAT_DELAY 3
+Hans Verkuil <hverkuil+cisco@kernel.org> writes:
 
-  static int repeatable_keys[] =3D {
--	KEY_UP,
--	KEY_DOWN,
--	KEY_LEFT,
--	KEY_RIGHT,
-  	KEY_VOLUMEUP,
-  	KEY_VOLUMEDOWN,
-  	KEY_CHANNELUP,
+> (Please pass this on to anyone you think might be interested in this!)
+>
+> Hi all,
+>
+> This year's Media Summit will be held on Tuesday May 26th the day before the
+> Embedded Recipes Conference in Nice, France:
+>
+> https://embedded-recipes.org/2026/
+>
+> The Media Summit will be held at Hotel Campanile and in the same meeting room
+> as last year (Nikaia):
+>
+> https://nice-aeroport.campanile.com/en-us/
+>
+> It is close to the Airport and to the Embedded Recipes venue.
 
+And speaking of Embedded Recipes[1], if you want to submit a talk there,
+the CFP is now open[2].
+
+Kevin
+
+[1] https://embedded-recipes.org/
+[2] https://cfp.embedded-recipes.org/er2026/cfp
 
