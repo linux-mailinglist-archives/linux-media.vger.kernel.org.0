@@ -1,168 +1,196 @@
-Return-Path: <linux-media+bounces-51366-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51367-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MAQDFHmtcmmAogAAu9opvQ
-	(envelope-from <linux-media+bounces-51366-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 00:06:33 +0100
+	id MHLXOnG2cmk4owAAu9opvQ
+	(envelope-from <linux-media+bounces-51367-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 00:44:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559556E657
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 00:06:32 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 566FF6E92F
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 00:44:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 18BB8300118B
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 23:06:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 60B673022966
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 23:44:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E47C3A730D;
-	Thu, 22 Jan 2026 23:06:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0707E3DC5A9;
+	Thu, 22 Jan 2026 23:44:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mvwSe7Bb"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="ZDfKOZYl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0445136681B
-	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 23:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4813733509A
+	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 23:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769123177; cv=none; b=ac/yBgXKFfK/eoeX/RdB8LVFqQULzVQrDwA/47NGl54gow25tHhbfQBpS+5TgD1cJdiKl3950lkTS8aiSBHRJQDNt16PRHTVD8Kll1vbCCKV4MZ/HgXU7I/2c8cgwjMgNvrF12y0eY0GBIXQR3fzF8W3Eg9E1zbC9cvsLS933jY=
+	t=1769125459; cv=none; b=mJp57ZnAZL5RoFSpH3f+ZY2HZv44XiWfrL8uN09TzuBr9VOkmxj/9fHtUWtKF8AJiH/+F4FrDo4SXoxi3h99HumwqV9rfuskqZhEGilQhvH/7h2eLYz59xhNWP1VubSXue6hy7Qc2jTwKdAls9tRMjDE1hv+krHVSPByY8y3uMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769123177; c=relaxed/simple;
-	bh=mA5A6Mk+gz8WMRX9DYmZtQj8FDxDiSE/5B04IO9M8o0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=O6FQpfPiYsvXUvA7EviFJi0JjOKjAM9KHNo/BiuvchT0aNJXlL0tE954RKFsuz+v8OzJHt/ZJQtu6vLH0pZ2mxvdXf7OLHDI6OXbT/gY1QF68GjhPbClSOB/QZFK0ANYyXCPOKOwRHWEKffriE6VE84ixRBLWO7nC48JMJalnQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mvwSe7Bb; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-81f5381d168so1631377b3a.2
-        for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 15:06:10 -0800 (PST)
+	s=arc-20240116; t=1769125459; c=relaxed/simple;
+	bh=tD5f+h84ofqnK09ZH5j1acZDqC2EpodfEzB0D4Jj1p0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K+g20i/R7Bs2Br3oehK/hl3zJEglNBXcK7334O2khPTxsQBH22pNyVP4sPEK7XBectrAgoBfHYpX60rij+jH8jcoh15KVMuV22ObaqQnZmfo0ikhulkCE4Qhyyti7uo8HOuOuXc7yzfnzHIuo9gblNJQdLmDurQ6b2fJ8AzjgJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=ZDfKOZYl; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-89461ccc46eso31061496d6.2
+        for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 15:44:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1769123168; x=1769727968; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mA5A6Mk+gz8WMRX9DYmZtQj8FDxDiSE/5B04IO9M8o0=;
-        b=mvwSe7Bbvm1DuhmrdFUiGI/y647SF8nJeO6dAH6WytubqNS9wMn5LDXQJV1bQiZw4y
-         Opx5v4FGhfzByoyjvZS3RG/1gCbPiHHT9esohFv9eKb8eLowr0FwWsob5gLBdcoHDxaG
-         HkkWCCRNy7D82y/C9Ng+D+cgOZySnRHltZwotsIxPqIvvE4l/S2B5u6ZdGbUUG77PQZJ
-         dGtZE2nEsGL9ohsBrFKbuKrMTdINJ75rrDxaou57fsGRGRTn70p6vwSGureNgWw82HqA
-         h/Bw0JhaCzZvQvfDGEqIeLGgoVg4o7okbMm4QGT/Ne6jshR5k5AYPD9yfk1rXNSyLpZO
-         RiAA==
+        d=ziepe.ca; s=google; t=1769125446; x=1769730246; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Udk1T2MTSGRhmMtQ3jtc9BpxDT02wAcqHYT9NWJE+U4=;
+        b=ZDfKOZYlbtc9e45Oa3sa1G7jUMTTapbJ6M5R1c9Wv5Hr9dhqqOYNk3GWFL6qT5RooY
+         QECtTwO60TgTg8cxbTwE3Er6g+0bPKh5ablKSUxfxlDm6QFthJT11cFz/iG273fyZjaf
+         avZMMJOmsZDjP0WBBupWp4wYZsoXAoE51jUmQqcbkOrGT2uh1AcXLxyyZ7b6qWxCoJwO
+         TgtuYU7L0seUT4rOWSC4kTkRxn8HxNt2DhlCdQU3pIxt7/9nGJksqSV+hZYpxmDaNj4C
+         Re3vmbgh+CxxPpwIC2hokIpOoeoGrOXLCeAfSW11mktw/rGGXhYkfYoePkh7oz1JInot
+         O1LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769123168; x=1769727968;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mA5A6Mk+gz8WMRX9DYmZtQj8FDxDiSE/5B04IO9M8o0=;
-        b=Q4eajp1UUmgpOHDB+tkAxNr+L3gpIW+e6cT9Hv05bGZ+xCw+S+fhMRWLEjyE9ZZBbo
-         a8Jr7/Mmep3B9T7ItGDlOpr0Fpj9KQ515TTIo9g7tmPhgsIkTdNASwsQ4DWw3qPUMJI/
-         qbbMNfNW9R79IozbsUiGGaYtTVk1J/Ap7ccuNtPkytuBV0CXzeaUsKYY2HBlddJrxkds
-         HEj8+oWZAvDKp7I1EZByo70fxeDGq8Mgv0T4mM4qPatRLt3jvqpDDnpyBSspRiTyWM5G
-         p8Yxs+5TTsxeZN4vg/3vTt/OlRnSIrkDu2D9QZHWErEJpRQ2T9CuKJuxsjh13iZ4nctN
-         sSLg==
-X-Forwarded-Encrypted: i=1; AJvYcCX1WJxnPqkvzqiIg+WLFHLK3Vt6UQQvjmUzfzpn39EEVg3vqlA9sXNm9zvzgSNkRI5CkX+HyJzOAfvmKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6D2mwFxdypajSSEPCP9Ur+GAzQOc+qOQudpso1ZkXVvy5oHmw
-	SlcxWJejnhTKMcbQcOGX7G8zqAgRCJGlmhZIhtlL272d7nxgsTpk0P7ixZXVM4aVHR8=
-X-Gm-Gg: AZuq6aK1Ib79LAw6hek98kHcVeJTLRfReuYOURFexkx+FDo98mDpQ/waiBL/QZYJJIC
-	RcctWng0XM4cX41fmlCj9a8o8yxIyYYQAfIvFV+5YYGPpNIkTrx3k7bD4/EuVp7aBBRGDOgvA3z
-	NnWtWQ7Pd+pmMJiEiL2yLYWwgSWqXtBwYfN9yPXUyEAD0tgVMRgezVJsHB3pO5Kjcqb2FcuBbqS
-	B0Bk4+dJXPDC6h8sArYNmF2omKSGfsZHW2h9jwOCwUGhlKSSCwBQ7hHu0DORx1H5WRoxpQSMk+Q
-	RxHYPKz2XupmgpHF9395XYF4rtppAUoO/OhtD5P2W6rgQ0d5PwAearYsfi7cErOitkaf2YUokTz
-	6Iw/ApFerG+XjKd7YAgzSb90x12m1w3SIFrvxP9cUBdD0Ef7u/qAKh2xtp/4FqI+cAlDE2TQCN4
-	ctLLybhDKf
-X-Received: by 2002:a05:6a00:894:b0:81c:4a92:25a2 with SMTP id d2e1a72fcca58-82317e5bb29mr764095b3a.46.1769123168092;
-        Thu, 22 Jan 2026 15:06:08 -0800 (PST)
-Received: from localhost ([71.212.200.220])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8231873e4bdsm367936b3a.50.2026.01.22.15.06.07
+        d=1e100.net; s=20230601; t=1769125446; x=1769730246;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Udk1T2MTSGRhmMtQ3jtc9BpxDT02wAcqHYT9NWJE+U4=;
+        b=i7JelmKqTeEpccZaJMSWLwaU/U6nrmG3rmmpqK2EjVRiGHcaq6aL2acbmXRjUp9B9a
+         M/K7WYUCs6et7FzIWPrUfxwlt+QMIeXFkg7ea2X8TTntz+Y1IqlQfGOM03SYJ1ZEXdQt
+         qEd0PyN3vqdQvnFuwWekZXl/IVn5TV9QP8a9ziGwCYM/lt1w4Ila7+S1g3cIzrSXhBIW
+         34aRZSjX+WfloPT+kRA93f5onS1pxxNQfWnqxqXuggD5Bs9WIUbU+f8IP18lksg681I2
+         XKs31rpmLK73gMEaQ0IAXWexTniZKL4Gxs21pTRNsysp7wySOzgCzf6eryhbvVB3wrNj
+         ARaA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8BXl1xJU/EGHE+4E1BnVVvveiknkqZT9YhBRf7QqgklmjXg88ijQqwi8YjOrp0LMpzDczh7tHGmcRgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2HuXakqOO8sRrZY25bNp9VPSOxjIp6lGb+2jxddeiQ8X83/dA
+	o9Blwu+axSQp0ItW4ejjO+1vlgaGDrzlNo1pmNA1H8FLOA/24Psva7yrFE2426J0wgg=
+X-Gm-Gg: AZuq6aIpd8W2KHffY3SxGl40onKWtaacdDa/cjSrAgZpNtwzaLyBCp6pXRksmPDslqf
+	JoJCB8dIxwEdX+4ulQfxcSMW8AAys8QBazzVK7XnJdZoebOXJZioTwMJzS9K9cZVTJ3qrap0D+i
+	7h79BM5aCw+j1eEn+Pd2ztnRC722MCP1396WuFdhRSFZ0axtbVyBMnTIc17BRY2g7C4xBD4pLjf
+	Ja86q3DJqqQu7NJzGsL/wwNRLFkdA939JPLWPR8Yc7mSsCHL+L7c3yQ3l+UuFtZEpQyuiOyUvb0
+	jD9jHTepFt5pprHri7CRyedxZhvBra2lEJiH5fUZWGjVwx+gn20wo/DFdO6JHGiN9V70+EPi6ZN
+	5Dl6urGW3Ar4Hk0QGqegkzOwT1EhDztmbAYJJgr3O8MfP9oUYc22HBKHxQAMNKVbUYnvaG6VQKL
+	B8g08yXvc6IW8DTWAX9Bk/KcMCkQJSI4tYakyCQIcMRU+qekAGbIV90zky5aB3BolL3nU=
+X-Received: by 2002:a05:6214:2269:b0:894:6530:efd1 with SMTP id 6a1803df08f44-894901ac85dmr20677696d6.19.1769125446269;
+        Thu, 22 Jan 2026 15:44:06 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6e3854a6csm44128885a.41.2026.01.22.15.44.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 15:06:07 -0800 (PST)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>, Linux Media Mailing List
- <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Sakari
- Ailus <sakari.ailus@linux.intel.com>, Ricardo Ribalda
- <ribalda@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Niklas =?utf-8?Q?S=C3=B6der?=
- =?utf-8?Q?lund?=
- <niklas.soderlund@ragnatech.se>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Michael Tretter
- <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry
- W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, Kieran
- Bingham <kieran.bingham@ideasonboard.com>, Paul Kocialkowski
- <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Hans
- de Goede <hansg@kernel.org>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [ANN] Media Summit on May 26th in Nice, France
-In-Reply-To: <92e24f36-d189-4ba8-ad0b-43277bc1aabd@kernel.org>
-References: <92e24f36-d189-4ba8-ad0b-43277bc1aabd@kernel.org>
-Date: Thu, 22 Jan 2026 15:06:06 -0800
-Message-ID: <7hqzrh5jtt.fsf@baylibre.com>
+        Thu, 22 Jan 2026 15:44:05 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vj4LM-00000006gRo-0Lke;
+	Thu, 22 Jan 2026 19:44:04 -0400
+Date: Thu, 22 Jan 2026 19:44:04 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v3 6/7] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260122234404.GB1589888@ziepe.ca>
+References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
+ <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+ <b129f0c1-b61e-4efb-9e25-d8cdadaca1b3@amd.com>
+ <20260121133146.GY961572@ziepe.ca>
+ <b88b500c-bacc-483d-9d1a-725d4158302a@amd.com>
+ <20260121160140.GF961572@ziepe.ca>
+ <a1c55bd8-9891-4064-83fe-ac56141e586f@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a1c55bd8-9891-4064-83fe-ac56141e586f@amd.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51366-lists,linux-media=lfdr.de];
-	TO_DN_ALL(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[khilman@baylibre.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-51367-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[ziepe.ca];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.977];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre-com.20230601.gappssmtp.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 559556E657
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ziepe.ca:mid,ziepe.ca:dkim]
+X-Rspamd-Queue-Id: 566FF6E92F
 X-Rspamd-Action: no action
 
-Hans Verkuil <hverkuil+cisco@kernel.org> writes:
+On Thu, Jan 22, 2026 at 12:32:03PM +0100, Christian König wrote:
+> >> What roughly happens is that each DMA-buf mapping through a couple
+> >> of hoops keeps a reference on the device, so even after a hotplug
+> >> event the device can only fully go away after all housekeeping
+> >> structures are destroyed and buffers freed.
+> > 
+> > A simple reference on the device means nothing for these kinds of
+> > questions. It does not stop unloading and reloading a driver.
+> 
+> Well as far as I know it stops the PCIe address space from being re-used.
+> 
+> So when you do an "echo 1 > remove" and then an re-scan on the
+> upstream bridge that works, but you get different addresses for your
+> MMIO BARs!
 
-> (Please pass this on to anyone you think might be interested in this!)
->
-> Hi all,
->
-> This year's Media Summit will be held on Tuesday May 26th the day before the
-> Embedded Recipes Conference in Nice, France:
->
-> https://embedded-recipes.org/2026/
->
-> The Media Summit will be held at Hotel Campanile and in the same meeting room
-> as last year (Nikaia):
->
-> https://nice-aeroport.campanile.com/en-us/
->
-> It is close to the Airport and to the Embedded Recipes venue.
+That's pretty a niche scenario.. Most people don't rescan their PCI
+bus. If you just do rmmod/insmod then it will be re-used, there is no
+rescan to move the MMIO around on that case.
 
-And speaking of Embedded Recipes[1], if you want to submit a talk there,
-the CFP is now open[2].
+> Oh, well I never looked to deeply into that.
+> 
+> As far as I know it doesn't block, but rather the last drm_dev_put()
+> just cleans things up.
+> 
+> And we have a CI test system which exercises that stuff over and
+> over again because we have a big customer depending on that.
 
-Kevin
+I doubt a CI would detect a UAF like we are discussing here..
 
-[1] https://embedded-recipes.org/
-[2] https://cfp.embedded-recipes.org/er2026/cfp
+Connect a RDMA pinned importer. Do rmmod. If rmmod doesn't hang the
+driver has a UAF on some RAS cases. Not great, but is unlikely to
+actually trouble any real user.
+
+Jason
 
