@@ -1,82 +1,80 @@
-Return-Path: <linux-media+bounces-51350-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51351-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WENuMlomcmkVdwAAu9opvQ
-	(envelope-from <linux-media+bounces-51350-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 14:30:02 +0100
+	id kHUNLpAdcmmPdQAAu9opvQ
+	(envelope-from <linux-media+bounces-51351-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 13:52:32 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAAE674B0
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 14:30:02 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 070DF66E1C
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 13:52:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 1CBC376A712
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 12:36:32 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id B24A38CC557
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 12:37:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE53E37B402;
-	Thu, 22 Jan 2026 12:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8266B387587;
+	Thu, 22 Jan 2026 12:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWaD91bJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIDZ9UeV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C98359701
-	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 12:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2684B2749D2;
+	Thu, 22 Jan 2026 12:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769085384; cv=none; b=YxgPhoSO/Y/J7kWr5vJl3SedXxxoPwYmgIs4bHWQgwVDL6QmmNBq+J54vLz8S0ICfh2OFUfA/vMZVIwCs3d/nXWOMsEUB4zjRcd47uYuGU020J8vnNG6XkoZWXYnX16zzzJ4fmAfJGZIhJnjZJ5ifHq5hHAqGSt+ni2qO1M71iU=
+	t=1769085439; cv=none; b=fRnEKNxRtQmrkkZd4FcElxifza/OQbPlH+HVMa2IAGHXBf1aCdOUKUIv7bXceKenR2EaKpC35tqlRN1zjArFqF3XeN/khbopBClicMcCPO+G4WBOgvTye7HcPUr3QCk9+lnQ1eoenltAMvfDND+oJyAjkbBlvqqyO4ZVaGqrGoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769085384; c=relaxed/simple;
-	bh=ryTF3WRcP24UHat034lLFn5dXog2SMwZZDZhjOrYWm8=;
+	s=arc-20240116; t=1769085439; c=relaxed/simple;
+	bh=h5ACdgj/nrYu+Mfqs2gWLJaiU+uPJKsNEOROf11gocE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I17DyZ+jkNbjhghNdRrYHhh+AaF3vqpJug+0ekKA32iZ/XJ6Xe8TwA+d4jSwcH0Uny3Gb3gQeIu7bQF3lhIrBAcsVkP1510TAY5dG6hwya42LkL0T0xLRl0dlQD4f+tuqhPZgNP/KiUT72mw1EfPoytbuMAyVZYMOenESnEUs9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWaD91bJ; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=O//Jcsa/7IZW5Fx1Lzo8+MqulfdO7NJw2bX4zsMaI3qH3sa/AfIYLw7/R8mvxZ0BnS7jqGNW8Khju6jIGfFxmUY3XX8B0jjSZ7HNl2mJAEW+Fdc7DcYZg6QceJkPOHTIYDH6PlT2AXwVsffPnCQifxWGxg9igCqIBVzEQqgE6FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIDZ9UeV; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769085383; x=1800621383;
+  t=1769085437; x=1800621437;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=ryTF3WRcP24UHat034lLFn5dXog2SMwZZDZhjOrYWm8=;
-  b=BWaD91bJY9uKEsmU/Ru6pp0z4JcgH4Sswl9XH+qIxIIEoDGZ4U2obnkz
-   tb6rIGzuOMjSQq4Wc/orjJ+0cKPP3/wxygJtEvBe9JWQH+tRWwU8Ib0fu
-   GxkoI1bVBryRg8YOar6axsbeUjL9YT0K7P+uGu92aDrNkmH6UHFLQbwOJ
-   HFJvCpVE2psVmlzfTOeHtSY9DdBcHnM7tMAv9OaVeUQl+OOxvlQZfmGRJ
-   vWsPg0DT4lXnbdKvFn4Qg/sqf0uyE9p6CdwUoQOd+0r+HF3eh26QxFgdR
-   svYJvNRFZYzOsvUi6yxLA11Vs29ZkQrHBetqu026NfhlyZXKocNnc2Lo7
-   A==;
-X-CSE-ConnectionGUID: F+Msa5yJTjSTzgUB7FBvEg==
-X-CSE-MsgGUID: epA3+97nS7S0OIVi0hDzQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70045937"
+  bh=h5ACdgj/nrYu+Mfqs2gWLJaiU+uPJKsNEOROf11gocE=;
+  b=UIDZ9UeVEJrQsnj7kZn9c+WSM9EGBgyOc1AjoIXPEGS/PMrejJDr3Czc
+   QXnLspTl3MFp2Z0Azo6IB5zXKz2BeLInsrs9cKL54DOmcci7r4Tfm7U24
+   m4+no666Pvpk/i2jqI2ZpFbjsXCwV89e1UxqLRY8AsvFrPdqVol+tt5B1
+   1oY/Kz5DEcD+vBdGnRbvioyHFqs73V6WnMbFGVsNKI5OvrIHEO70vD+f/
+   TNXjVVGmUfLvbA72dfHWrV64gs2ZqBwGm6JkIyFswNv3CmPOLYEirSaiB
+   m2TXQCMLiO9Y6x9Z4ekK6gduCXT9FWiUuw3hBcfnEDQx/oC4N8wk7kM6m
+   Q==;
+X-CSE-ConnectionGUID: D0iqJnMySNqpZtbtjqtzyQ==
+X-CSE-MsgGUID: druDQSQ+TLeqA9skATfPqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11678"; a="70233178"
 X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="70045937"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 04:36:22 -0800
-X-CSE-ConnectionGUID: rFBjAsx+SluCgfirqOMSPA==
-X-CSE-MsgGUID: trgQozQbRpGmBZNV5LFJQA==
+   d="scan'208";a="70233178"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 04:37:16 -0800
+X-CSE-ConnectionGUID: fOfCe2huQjSvdRnNZEkgCA==
+X-CSE-MsgGUID: qD87YsnxSsWaWfQaX2KRMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="205974205"
 Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.231])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 04:36:22 -0800
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 04:37:15 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9C702121D5F;
-	Thu, 22 Jan 2026 14:36:23 +0200 (EET)
-Date: Thu, 22 Jan 2026 14:36:23 +0200
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1675C121D5F;
+	Thu, 22 Jan 2026 14:37:18 +0200 (EET)
+Date: Thu, 22 Jan 2026 14:37:18 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [raw2rgbpnm,PATCH] Add support for all RAW memory layouts
-Message-ID: <aXIZx1S7Q0f77VCB@kekkonen.localdomain>
-References: <20250511154659.778725-1-niklas.soderlund@ragnatech.se>
- <20260122092004.GA239742@killaraus>
- <20260122092834.GC2316109@ragnatech.se>
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] media: i2c: imx412: Extend the power-on waiting
+ time
+Message-ID: <aXIZ_lxi1OeuXbV7@kekkonen.localdomain>
+References: <20260122-imx412-v6-0-2c0b54594c2a@oss.qualcomm.com>
+ <20260122-imx412-v6-2-2c0b54594c2a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,7 +84,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260122092834.GC2316109@ragnatech.se>
+In-Reply-To: <20260122-imx412-v6-2-2c0b54594c2a@oss.qualcomm.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.96 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -95,55 +93,64 @@ X-Spamd-Result: default: False [-1.96 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-51351-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[intel.com:+];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	DMARC_POLICY_ALLOW(0.00)[intel.com,none];
-	TAGGED_FROM(0.00)[bounces-51350-lists,linux-media=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
-	TAGGED_RCPT(0.00)[linux-media];
 	RCVD_COUNT_FIVE(0.00)[6];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 6AAAE674B0
+	ASN(0.00)[asn:7979, ipnet:2605:f480::/32, country:US];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,intel.com:dkim,qualcomm.com:email,kekkonen.localdomain:mid]
+X-Rspamd-Queue-Id: 070DF66E1C
 X-Rspamd-Action: no action
 
-Hej Niklas,
+Hi Wenmeng,
 
-On Thu, Jan 22, 2026 at 10:28:34AM +0100, Niklas Söderlund wrote:
-> Hi Laurent,
+On Thu, Jan 22, 2026 at 05:31:19PM +0800, Wenmeng Liu wrote:
+> The Arducam IMX577 module requires a longer reset time than the 1000µs
+> configured in the current driver. Increase the wait time after power-on
+> to ensure proper initialization.
 > 
-> On 2026-01-22 11:20:04 +0200, Laurent Pinchart wrote:
-> > Hi Niklas,
-> > 
-> > I know this has been merged already, but it only came to my attention
-> > now.
-> > 
-> > On Sun, May 11, 2025 at 05:46:59PM +0200, Niklas Söderlund wrote:
-> > > Convert all supported RAW input images to GRBG memory layout before
-> > > feeding it to the RAW to RGB conversion algorithms. This way all layouts
-> > > can produced good colors in the output image.
-> > 
-> > I don't think the result will be accurate. It does produce better
-> > colours, but all liens and columns in the output image end up being
-> > swapped in groups of two. I would have kept printing a warning message.
+> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+> ---
+>  drivers/media/i2c/imx412.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> Thinking about it now, yes having kept or updated the warning message to 
-> make the user aware of the result not being pixel perfect would likely 
-> have been a good idea.
+> diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
+> index aa63dfc349181bf9c180ffd566b0317d05b410c1..9154c238949e4308755e757bd9c71f0b44f433ee 100644
+> --- a/drivers/media/i2c/imx412.c
+> +++ b/drivers/media/i2c/imx412.c
+> @@ -1037,7 +1037,11 @@ static int imx412_power_on(struct device *dev)
+>  		goto error_reset;
+>  	}
+>  
+> -	usleep_range(1000, 1200);
+> +	/*
+> +	 * Some IMX577 modules require a longer reset settle time.
+> +	 * Increasing the delay from 1ms to 10ms ensures reliable startup.
+> +	 */
 
-Kunde du skicka en lappa för detta? :-)
+This still doesn't mention the Arducam module. :-(
+
+> +	usleep_range(10000, 12000);
+>  
+>  	return 0;
+>  
+> 
 
 -- 
-Med trevliga hälsningar,
+Regards,
 
 Sakari Ailus
 
