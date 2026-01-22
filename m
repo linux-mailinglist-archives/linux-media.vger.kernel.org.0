@@ -1,338 +1,342 @@
-Return-Path: <linux-media+bounces-51346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51347-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ID8DNCELcmmOagAAu9opvQ
-	(envelope-from <linux-media+bounces-51346-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 12:33:53 +0100
+	id qGb1GW4ScmksawAAu9opvQ
+	(envelope-from <linux-media+bounces-51347-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 13:05:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AE466108
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 12:33:53 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB296661D
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 13:05:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C2ADD704ABF
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 11:09:47 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D10EE72066D
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 11:34:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7AE4418F9;
-	Thu, 22 Jan 2026 11:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 446CE43C077;
+	Thu, 22 Jan 2026 11:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="atDu5xow";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hGC+U0Vf"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cYwCXeM+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011064.outbound.protection.outlook.com [52.101.52.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F010643E4A9
-	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 11:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769079879; cv=none; b=pMXFi0tnPdDvve69IbM1KrfGK+zkLaFm9U1Jxv6tw9jWa+a8YgqmNS0ZUjP881XKO9kunS3Dr4eu1Su2A7GIHN4uxbLSigSiTHOoEbXgale/IRogefjhR2mVva+dKuQPv3K3GBrqUQ6fqB0jcYm3kkJ+QNYyVKBmA+uUAkAzkfA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769079879; c=relaxed/simple;
-	bh=fkAYeCgBvo99N2Nt9+mGGBZC9j2ppYQ5lmM3o52fWq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TJMejYycwF0NBOs5m91OQX6r/fFNfofFi1jJHTgQXOPY7JM7SVEfMGxbyFe2DVxt1qFKJbkUstvuhB4Lx1o3McNbxWGUvePvY8BpCQGxbA7cen++B1yZG4rck9Vipw0fC19HqjEoIMPzB7Tq7Y419CivY/UNe8gePFUqVCbOFe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=atDu5xow; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hGC+U0Vf; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60M7rAdE2275478
-	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 11:04:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=; b=atDu5xowozGMAuUZ
-	GzTtRyhJQ2wqIsuDLs7r9ve+/Ed1V5cy9CzphuYN01LXzxL/RVZWp4hu/nDoNk+3
-	TCwhJUsz/ORIjI16HRuDW8xFabYsz0DgkWTdvrmUoG3JvWhiPOnKAqDNHq2IyyuJ
-	xaSQh2qgg2FJDegmMLs37HqsKzmJSPCHkS7JrjolG/zBbpOUXKFvUch7uQr6m02/
-	NAVlITpNvBiNOW8BZKxFktIr8KWt1xipbBpL493HGz7UoLElGipusI/zFLkMACmP
-	Ae3W/XJWF+f4gCBe8MKE130TmCtczKSyeknY1copj2+dgEa5R1cdbTkVqLPULtkE
-	gG3xgw==
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com [209.85.221.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bu7fat22c-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 11:04:34 +0000 (GMT)
-Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-5662fd7773aso599024e0c.2
-        for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 03:04:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1769079874; x=1769684674; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=;
-        b=hGC+U0Vf6oCO9fnzGn9zKWz87GvDtZO2zi/4iFMB1RJPoY56FlNjpa8hFi9z2p4NRT
-         rMcJXPUWO1UiFVHJ87+vIPDaRsE5HizMd1XfKSrL0IXqd43jpL/v48ur11mlXbY7oA6P
-         bUex8CkyNPPF9W7gtDXRAGHlgtG2eNf31cruxuRX8uOSIkR+mAF7aKsH4Gbh09w4ewq2
-         qAW13B0ffDKXhyWMYIWg5ZtZGqS3y6GxHJybtUDDqn9sSDFF7fGqn0ZYjbmgN4709ZoQ
-         eSmZXentqwdgT5TAw0LpzEaxwtAT7ElsmYYX5ChjczhdlFu3LLpyoovNHJXOLKWKxUlp
-         c3Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769079874; x=1769684674;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t0KlvkM5KQlhi9X1NhLsO3/hA2b2nzw1RRo2lI06OH4=;
-        b=cz7Q5CIQ+h8DxD0gRKaFg/3b/dzkeGhGVyiEvVnFC6ceZEApgB9GkV2kAR1t4Gi1Ad
-         egc0dRuC3LxRWxKvd8No1vB+OVO45b++cmb/vAYMbfL+NQzsEaL0PNrKDk1N4CCjNxp0
-         C8MLxDHynkUeSX4cyaWQ+sezZ11+5bx/JG6tUCUcRz6eWOmOthwhCVsgo5RRZY0r8VJQ
-         FL67mFw8FcSYzGMUCi+y1ZwjVykMzRVdjGeYY26pgpbdqoacpgS6tdLv/6ksN1567sU4
-         6uptwA+8+hyRWgJijKLq1zXRTWl4tbWMJKcIQzsLPsnXLSLySojN1rNK35drVW0P3Hwa
-         LywA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/44BDm7WBUOzjTqm+WH5LKSF5MnSDfQcYtDjfVdx6/dAnyQz4v6yMJcGv3K0B0ZELh+eMuuoRLebhlA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi641+0sFO+kzLFljqMNLp0kb+B31uLF0UOIfpnF5sAy+LdEXV
-	gML0tKCd+h010XH9z7PLVSHysI4/PgkQjh6/BKaEAnnvAhInCo9QZv0M77wFciZk17mazWKX3+S
-	hvl0yWLpHFkr6QKkwIDBqpDKlZE8YDql0zy/XqbnKDRP8DpY8LTZ05mvgwjaFdy3c6w==
-X-Gm-Gg: AZuq6aIFrOMomEI+e3zhiUAAierONOvS+IvRrzKj1s/IEtS8KC28oblRV4d6gkG99OG
-	Vr8lNfHbpYwtwiyy8sgLkDaFjte/jFoC/k3gtFJPiLuKSt/vMJxSmPccb23HYdH2V2Ez60AkU9l
-	zcGzr/Um62zKVSzgh7vpdBeiYzIZzZC6L+9qfnBSqCzd0O4O5cKX941GBpe+kGQ2g109S2MQRsr
-	PPWOQGibJCd9lVz28zatsIiNB/01VB63DZ0JYPeANeXP+viSvH6QLFopHKOvS3zgstm+0e6V7Cb
-	iZBSr3P92xZdGJV5pWw7x4GHV+lcy6bug1Ulqt3Csz9vfM4F0kybtOsDg8RAil2ygJ+LtbFFzu5
-	jQrRjTdNqbTD8AvZjeSxMIxUSKrSxzHmEnZOqi118+kJqeI3sdNXjbwhPdrOERgiIpgrhfPE4GF
-	gqAjtd8Gf2DKL+5e1qCH7zgeE=
-X-Received: by 2002:a05:6102:6cf:b0:5ee:a2a8:2e73 with SMTP id ada2fe7eead31-5f1a551ef9amr6077507137.26.1769079873657;
-        Thu, 22 Jan 2026 03:04:33 -0800 (PST)
-X-Received: by 2002:a05:6102:6cf:b0:5ee:a2a8:2e73 with SMTP id ada2fe7eead31-5f1a551ef9amr6077487137.26.1769079873108;
-        Thu, 22 Jan 2026 03:04:33 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59baf3543d2sm5368629e87.43.2026.01.22.03.04.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jan 2026 03:04:32 -0800 (PST)
-Date: Thu, 22 Jan 2026 13:04:30 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
-        Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-        Jessica Zhang <jesszhan0024@gmail.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 0/3] Add support for QC08C format in iris driver
-Message-ID: <sa6y3vjstutglftts3ucoouj6js53p6an4wjcvqhbjsazmmxrf@v35pf2dqvfdh>
-References: <20251008-video-iris-ubwc-enable-v2-0-478ba2d96427@oss.qualcomm.com>
- <s2qjimx4tq2jdnir7b5dljf4onsbcmvb5prxcvc22q76l5cgnz@wrgcqdrl26sb>
- <50137983757d754609d8164dbdfc429b32e3d6b5.camel@ndufresne.ca>
- <qkkjsjvhwovbh7stjc53htkt3wucd34nzcvnkilnbxv4ukbozj@e4ierwjhs7wp>
- <0841b98d-32b3-4e7d-940b-9be204fad7af@oss.qualcomm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5351E426EC5;
+	Thu, 22 Jan 2026 11:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769081544; cv=fail; b=ZyW5ZEu0t36RCLwb4ploZdCBCQdcPCEWSXij+f3wX84jRq4FXcWrABhzGofI0pIcH31htLAmA7EF61VN1osm8YyqhDguq60xXAMqSmWfZQQ0QMRd/+SzZ7aWXyoFr8nlLkZ4Jt3VRd9VoTgJ8kh3MFIHUsY6zAMIvn2qCywjwn8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769081544; c=relaxed/simple;
+	bh=u0qEXiK4lct5+sUyF5t55C1uyXQWdQ3e4ahIzRfTdfw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=t72ssF/nXPKV+kcZg9Ps0rKfiUtemAFe9edN517Rd9ojC2iZ3OY405+5Nvj30K8JYCzBqu1IZgDRrQ0bNcYaQPj62tR28FBITWr6QZdCcOXIGn54Sfz8U60fY7SPYb9cLrH7jylxqRQtmJpyHu4l1+05kD+C0BDcWB/uZAk+8BA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cYwCXeM+; arc=fail smtp.client-ip=52.101.52.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YU6CJ03/TIrc5O4mI/qdGMv4z1G1X+FqyY0Av7RAmETbdApiIWelpDD1YsZalN3Pp/Q5AEpHLE6VcvNZTV3aM6kCLNnn3ZrcavLVemmQLevIhHA8AmvV7M5nmdWqfbwdHs2hREen+K0Gyil0FhUiBu23muqaAO+SbZUM2LaQEKfYjqzeQwapYpTXt6mRjRQgZ1ozRsccdoVwaN5Eh1TOKTwr6kcjWd9X8Pw+9ubo89hH2cc5o68pjrrD0UHoKBRhMCeE5J8mzX1VdCdAYVYahgy4df/odzH6efi683P00WHvYRDooa+2IuWJRWT2tGIzjmNeaJMRXWi9f1BP/ofciA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NaO84MlMGfc6mc/rZyA5SsotjF3Am9RhVWbgtVvDeLY=;
+ b=omjiR1B9CltHjlvKU79/A05oALRSbb0f6iZZ7IvVg6y+tQnWLqwN+AoFfyHazF/CBq0LBHy0bm9ZGJinnauy4qxepEG6X3yR7Quk6CA9Gm4MrqU5e4FG1h4M7NJvmqQGSe8vIT3FeiMr34+nLQWwYjZZKIXokiOx6OKt0YXbhCcj80HpyFwnsdL8WTMk+CMaJk+p4tgFAmOj5kLHW19N1bIPU6rzyBYxPUG4jDA0MWf9Ouh2r5bX0tjSY34JxrWDLgBS9NOGbPghBY8HUX+PO7jlOdSFLXEhhtzGLI/1K3opuJdu9c3JcJGty36udKYMfe9ysjmqg8zR0pQOqvgSDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NaO84MlMGfc6mc/rZyA5SsotjF3Am9RhVWbgtVvDeLY=;
+ b=cYwCXeM+2u+nSEVr+xyMEKZwY+2CaJOpm827GFDGLQVwut8rlg48UYWWWUj0wpbcar8uicMOeyKkUNaNndxjo6mxGqxfzB5P8vibowFkVPrEjxIYbfZF1hT/fRD9mbxO/Lrd+N03bUUhrs3gElBhgNTgridVLiGlO+8vNzwhJUA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB5772.namprd12.prod.outlook.com (2603:10b6:8:63::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Thu, 22 Jan
+ 2026 11:32:18 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.009; Thu, 22 Jan 2026
+ 11:32:18 +0000
+Message-ID: <a1c55bd8-9891-4064-83fe-ac56141e586f@amd.com>
+Date: Thu, 22 Jan 2026 12:32:03 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 6/7] vfio: Wait for dma-buf invalidation to complete
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Felix Kuehling
+ <Felix.Kuehling@amd.com>, Alex Williamson <alex@shazbot.org>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
+ <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+ <b129f0c1-b61e-4efb-9e25-d8cdadaca1b3@amd.com>
+ <20260121133146.GY961572@ziepe.ca>
+ <b88b500c-bacc-483d-9d1a-725d4158302a@amd.com>
+ <20260121160140.GF961572@ziepe.ca>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260121160140.GF961572@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN9PR03CA0372.namprd03.prod.outlook.com
+ (2603:10b6:408:f7::17) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0841b98d-32b3-4e7d-940b-9be204fad7af@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=Hrx72kTS c=1 sm=1 tr=0 ts=69720443 cx=c_pps
- a=+D9SDfe9YZWTjADjLiQY5g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=e5mUnYsNAAAA:8 a=nY9ItIvBOz0YvIiU8-8A:9
- a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 a=vmgOmaN-Xu0dpDh8OwbV:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDA3OSBTYWx0ZWRfXw5ZQ3BDXnI89
- za86Y8WVRaY3REyCWzDZNhXcMJ0wZEEqN+EjZEx98Mqh08KaTMldG76d0WNXiNz4x1VbwNz1aPx
- Gjnj6hr8PgGwzCEj1TZG36wyKe9XuyV/WDzBZqPtzvcEU+Ue82g9EwZit5N+efIvRujxNZMPWsC
- ZW/uLJpkohnoDnb8se92V+IEDsBVhVrPs8qYMJNhFl3T2Rkdklkb9CH5c9/JyteycAOFlhh+rlK
- kfD9Rqrw0fvkXzE2VGEl8tjqNBHC/ZkDRRMAGf7klNp+4enP4Da3u5WFoFmGvvqfYjeLStY9RHZ
- Kw0a8avA8nNvA8PlxeGUs6obsAMdkNVif/Ji8r+a3p5IC8ZpDRLpN8He039My/84+fXUfmjqc6Q
- v0YolvmpAAubDKfFzqJt3Wo8PGK3Rghme+9IqJP0lqW6/TuhumPeVPAx4xbKZ/GwwlWFDDnOkG2
- aLEbaHPYKK+0iBhyFuw==
-X-Proofpoint-ORIG-GUID: _gB7wzTPFm6jbmypo2uc3kIeeIyk73ko
-X-Proofpoint-GUID: _gB7wzTPFm6jbmypo2uc3kIeeIyk73ko
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-22_01,2026-01-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 clxscore=1015
- impostorscore=0 bulkscore=0 suspectscore=0 adultscore=0 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2601220079
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB5772:EE_
+X-MS-Office365-Filtering-Correlation-Id: 36a484d5-837e-49f1-dc37-08de59a9e61f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?c1dRcmtaRzh6Y0UzOWRtUFFKcVVYQVNEVFBqTU9aZU5tdkpiTGRXVlBvVTds?=
+ =?utf-8?B?cnN2VFFVYVZSTUxsYlF4TlF0eDFWYUZGdUtlSzNWN05BQzdHRW1oM0dFYkdH?=
+ =?utf-8?B?Z0VFN0RyblU1RHl0UVpPZmVpZG5taFlXVHNDYzBla0RUM2dVZjBBQVRXUUF6?=
+ =?utf-8?B?WVFtNnprZFhSUWVhZzE2NTRrSk1EaERYTGtud0FYZVh0aVpBVEc1dmxXcXVB?=
+ =?utf-8?B?Ym5FY05yWHB1Ynh5SlFuc3Fud21UbWE0L3pVQ3FycDRpRmFOS2JZb3A3R1NV?=
+ =?utf-8?B?cG9aNlVqT3JSYWYwQ01aQjhGd3oxYmlZS3FTTWtTcUI1N1h3TE1mWWhtTHQ3?=
+ =?utf-8?B?TXVUMUNXa2NDZFZzOWg0V1VoczNuQU01T3M2ZlZLcUMwbHdDRUpoRVd3a2Fa?=
+ =?utf-8?B?SEF5T1g5TUY0am96SGJlSXM1WUJQU1ZWY2w1eStzem51WENnejJYd0JkRE1U?=
+ =?utf-8?B?bHNOeVVyTGJGaE9IcmJiWjdGVCtMSDQxRmVyNW1jemQvSVFiVU9BNlBzVjNm?=
+ =?utf-8?B?VmFKdnZETS9JcWdMYU5HcW93N0xqQWVwNy9nSTBkL3ZZR2Q3SkdERzZ2empq?=
+ =?utf-8?B?U1lvcnI2YjVpNjFDeEtJVVQ5dnM4Q2d2YVY5UmtOWGJNcXlQRXA1dXR1YWhv?=
+ =?utf-8?B?dnljd0QzVWU5cElhMC9WK21pMmJYWGxpYnNCLzljQitzRzIvV2VxMmFtbUpu?=
+ =?utf-8?B?K3dFS2hxRHMwK0oxRHJRVEJVWDM0OU1qUWFLNm91WUYrNUxITU1zdDg0M3di?=
+ =?utf-8?B?aFRJNVY5MDhoTURVVVE2azNOMmdlRTBpQjVsNUlFRkpxRGl6bkFzTXdLVUZD?=
+ =?utf-8?B?R1FENnhob0VGbHlNWWlac3BJSDZDbGZPUDg3OEhqYmUzUlBHQ1E4UStPOCts?=
+ =?utf-8?B?eFE1aWVERktHRGdYZG5ka1ZlR2hUWTd0S2pneVdvZjR5elA5d1lHTFBVN0R5?=
+ =?utf-8?B?VHdlRm1vZDY3NlJ5M3FRbTBTN0JxdE16dVVveG5iRk9OMi9JQmhqWVViVzcz?=
+ =?utf-8?B?UjA4d1ZrRU9GRDYyTFV2cjFxL3FFakQrR1g0aFlMWllqb2t0Snd5eXAxU0J4?=
+ =?utf-8?B?b2VMenJnb3NTVmsxZ0tZdUwrQjFEWmhVQiszYkhyM1UxZWVBYVF6RjExclNu?=
+ =?utf-8?B?M215cGkzR1RlUnFrcU9hVUFlSlhLTDFock1qUG9IRUd6amNBR241dEMrWklT?=
+ =?utf-8?B?ZFNhZlI0QWZURk4zZVJCL284UEgvWTFBV29ObEQxa21NWVE0RnhiWWdablhu?=
+ =?utf-8?B?aERRems1V1dTVFVGeGVOOU9MSm8xRjZuNk1zN2tKNlhLMElsTGNkdkgvUURm?=
+ =?utf-8?B?bmczNWJ1YXRIeGI0eHU1QVNBKzVYZEpldVB1V2FFY25KWWxoejRCbmtZSzNy?=
+ =?utf-8?B?UXdDWk5OL0s0VXZNWWNGT2JuVjc0ME5xNGN5WWhXd1RwNkNaL2xGRzBKUm4z?=
+ =?utf-8?B?cmI0M3lrVk5zeVBMWUdRN0U4bTg2STZ6MjVIbnE4U09ZQlQ5UXlNeGZ2MHBn?=
+ =?utf-8?B?SG4vKzJETlJPOGpySkdXb0JXbERrOVl3RmZpUjc4VnNrelV6cVd3ZGFDazA1?=
+ =?utf-8?B?NktHZDRYbzRURjc2VkJ6bmxzRWpCK21qaXArRVhsUis0NERaVlhOdUZQSjQv?=
+ =?utf-8?B?cHFkaG5nNDlMUVBiSmwvZ1Z2WmtXeFYva3VzSllIR0sycGh5cHlLc21NNk12?=
+ =?utf-8?B?MVR3RFlSY0VmYXVFT2hBdG9NQ0RhV0wxbHMyREE5WjlJQzZjYVF5VzRNdDc2?=
+ =?utf-8?B?cVFLK0NxekQvNVU5MWVMREg1SE9xdGN4V09WaktOUXY1RlZUQlNjNnBiUGpv?=
+ =?utf-8?B?U3pQRk1aTFlBanNJdzlrZUJsbWs3VHUzNm15aHFjUXdDSUxzeE5YNm5nUGh2?=
+ =?utf-8?B?a1VMV3RMV3VhVGliWFN3UE40VWhSRW5Hb2RXdFlJOHROK0dWR1BpVjU3Slky?=
+ =?utf-8?B?M1l0STFMUjZOS2VVL0tsMmo3MWc3N3ZHeU41azh6THlyWDNPZVdMZ0k5RHJo?=
+ =?utf-8?B?bmVxdzZkN0dnSkUxeVhza25pZUk5UFJZNklFZnRBNU1NV1JBUDhzNTVPT2ox?=
+ =?utf-8?B?Zi9uRXdZeEhyQllXUVRWcENBRDNmNzlHZFBxNkRFWm5pVU5SakFEMmpoOFNh?=
+ =?utf-8?Q?agDU=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NHdrN0ZsY01mdkNRU2FuZEFTd05LRm9wYzF4WExUOFBOQmZhOXdHLzFRS2pl?=
+ =?utf-8?B?L3NPUWE5Sm4yVXVmQ1IwTU1yU0h4bHRLRjE2N1h2ZDR6QktURXpXbTV3cVJo?=
+ =?utf-8?B?U0JWVTAxT1RGemE2SjRYRS9hNCtjR2VkYXZ4ajRoeFBtS1IzZ3lKYkZicWZP?=
+ =?utf-8?B?L0tQY28yR1gwOTV3NUYzWms2MXcxSkpWZC9RU3Naeng3M0dsMDlMUVV5LzdF?=
+ =?utf-8?B?U2dDWmJpSU1rcHJKZm5mUFl5OVVxa1grWDh3TktQTjNtZTVFWVlsdkNMbENo?=
+ =?utf-8?B?T2RQK1ZiT1lmZFRjWHArRWdNRVlsN0NzV3FoV3cydVhvcy9tMENZOGE5L1Nt?=
+ =?utf-8?B?SjZKYjVxTzBNMWhQa1VLTnR2SnR0ejdmc0sxU0F6aU5PR0hkeC8rY3ZKaTFq?=
+ =?utf-8?B?MHBYZkRoSnU3VXdIa1BRUFBPc2srMGUzU2ZBODFOTDg1V0x4NGpNRmU3ZGtI?=
+ =?utf-8?B?NmxRcjcveEpSVEFnM2FsZG54cGRkOHliNzBiUWN3QytTS2wrTXZtdG91VmFD?=
+ =?utf-8?B?djByNUdEUzB0MjJpd3dvWk12bG5Ya2lLOG9Xc0JOVElTbTBDcXRVOUtuVXhG?=
+ =?utf-8?B?NWM2aGZIOUJud1llS252T0hNSGljUnRTWjhzaFBjaFd1dnpWUHErL29MTHdO?=
+ =?utf-8?B?SkZ6aHRRaHZHVUQ3eUxFSkREQVRrSlJ0NldKVDRGbDFhVGozTTViRkp6WjZs?=
+ =?utf-8?B?NnkySUlXeWw3OWFwOE82cnYwc2pUREVwcGsxT2VMeUxkcGNCRzZ6OC9QdnpQ?=
+ =?utf-8?B?NVdpYmY5UWl4YXRUSWJoTVdXQ05MMTU4endEcjRKamMzMUhSRmg3b2NDVEtX?=
+ =?utf-8?B?ZFFITzJ4VkJzT01mQUw5bnhsTkJWeWMyZHRjRFVUNHFaOW92M293bEdFNlJK?=
+ =?utf-8?B?cUFOcmh0c1JpQWNUb1RyR0wxbkdEcS9KQVZUNFpuRm1Xbk5ZbEE0bHhtaEh0?=
+ =?utf-8?B?Q1NtaFNEdmVxK0hEYjgxYkZMcTNIaTUwdS96YTJxeXB6K1RadHFpUURybnNj?=
+ =?utf-8?B?VjdtZFRPUVZxc0lacUhVVkxUN01KeUtHbE0vdFVwZ3lOeGI0OFNBeVFIOXJL?=
+ =?utf-8?B?RWd3WXdQMXVZc0R2Ulg3QUVHeG5Cbm1LaFU0R2cxVnI1L3NHaW1UTFJxS2pU?=
+ =?utf-8?B?bjB3OGQyQkRlUmNlbWJTaTJscE5xak5SUzBESFhtS2tic2JTR3ZqUWNBSFFL?=
+ =?utf-8?B?TmpVcjg0SElpb0hmTDJUd0pPY0hVQVhZdjdLOFhXa0xLMW10THNOaFN1ckVH?=
+ =?utf-8?B?eTEyR0NGOXNlMGNOUElwTGxUZXNMajNHdjJNSnQ0MG43V09SMUYySnFsZ1F6?=
+ =?utf-8?B?a283S01LanhHSldUazBMcVMraEh6aWw2eTFLMFRjdndCYmwyL3dKMXd0ZGI2?=
+ =?utf-8?B?ZUZjdWdvSitRUWg2b0xHM3p2d2JlRHEwYnFIcW5pRy9sb2NzOXhHWUR0K0pr?=
+ =?utf-8?B?OC9mQjNKZ0J2MzZFdnhsMTY5NXZkcmdTV2pzUTZJai9rUmc2ZlA0REdQUVVW?=
+ =?utf-8?B?WjBjWVhIei8xNWoybjlHT2dIYkRrajlBc3QrQ1I0RWNvT3RqTnR3N0d2Ym9k?=
+ =?utf-8?B?VExMT3ZJUk14cDRKb0IvV0lGaVFHSDVKRk1IYnhkWTJ4NlZZTWxVZ2dJTmxj?=
+ =?utf-8?B?ZW1pN2NPUUwwaG5CbEY0aGhlM3JGUjVCbTBaTmEzdE5FWStPRlprN2FwWjhB?=
+ =?utf-8?B?V2p5dFZWQWxmekl0bnJWUXZpRHQyc2Z3Rzd3ckxWcXpqYzlTVDN1RStxZmtE?=
+ =?utf-8?B?cm5Lcm9IbzVOUFlucEhtSHNVc2R0bTJWVnpnZE9rNkdWcG5OWGVDQTluOGRC?=
+ =?utf-8?B?aXBXbDk4Yzgwcmd0RlBpci80TEJkL1kzNW9FK2xzTnlRazFQWjVNVUpCK2Yy?=
+ =?utf-8?B?Tkl6UGJXckRiaEJHaE1YVThMZGNaWmpnSk9aRlNpZmllRG1ISlVkVElGOGhO?=
+ =?utf-8?B?T3FjRmxZQWNrcEVxL0xoUmpDTTcyVXpJTmlSQkFjLy9NczlOTkI0RitITHpv?=
+ =?utf-8?B?dFpjeXF6MlVmanF1R2NmdjJZaUdKRE82K0F2Vi9TckZoMVpIRUZKNEtUMU9E?=
+ =?utf-8?B?YmVwVkNXZnkxN2RmN2o5UjlSZHR0UkdIbXpKSHorUVlHQVB5TE5SVXM1Rk5D?=
+ =?utf-8?B?a0pUL1g4UnZoREJ0ekEyT2FVOWhGOXBOMVIyRWZuYWM5TFMrT1lFTnIyQ3Z1?=
+ =?utf-8?B?YitVSzZidFc3Zm96cVAwVHlHRDZQc3dxd2hyN1gxQWRPREM3djdzU0lNQkEx?=
+ =?utf-8?B?TmU5ZGVleW9CMDhHNWtXSGxvT1lLT0ZNanpMaXp1cVR1NGpNVWtDdEsxK2oy?=
+ =?utf-8?Q?3wnynFD1uymlv1TEak?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36a484d5-837e-49f1-dc37-08de59a9e61f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 11:32:18.0549
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GzFQ0U10xjIM8kgJX9Fi53NQ0ZHBqw8aCaNhn6jOzqmEBhJtoMZM3ioMteuVDOaH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5772
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.46 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
+X-Spamd-Result: default: False [0.04 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51346-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[ndufresne.ca,oss.qualcomm.com,poorly.run,gmail.com,linux.dev,kernel.org,vger.kernel.org,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[qualcomm.com,reject];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,gitlab.freedesktop.org:url,ams.mirrors.kernel.org:helo,ams.mirrors.kernel.org:rdns];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-51347-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[amd.com,quarantine];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:213.196.21.0/24, country:US];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 78AE466108
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:2a01:60a::/32, country:US];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ams.mirrors.kernel.org:helo,ams.mirrors.kernel.org:rdns,nvidia.com:email,amd.com:email,amd.com:dkim,amd.com:mid]
+X-Rspamd-Queue-Id: 9DB296661D
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 11:29:32AM +0530, Vikash Garodia wrote:
+On 1/21/26 17:01, Jason Gunthorpe wrote:
+> On Wed, Jan 21, 2026 at 04:28:17PM +0100, Christian KÃ¶nig wrote:
+>> On 1/21/26 14:31, Jason Gunthorpe wrote:
+>>> On Wed, Jan 21, 2026 at 10:20:51AM +0100, Christian KÃ¶nig wrote:
+>>>> On 1/20/26 15:07, Leon Romanovsky wrote:
+>>>>> From: Leon Romanovsky <leonro@nvidia.com>
+>>>>>
+>>>>> dma-buf invalidation is performed asynchronously by hardware, so VFIO must
+>>>>> wait until all affected objects have been fully invalidated.
+>>>>>
+>>>>> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
+>>>>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+>>>>
+>>>> Reviewed-by: Christian KÃ¶nig <christian.koenig@amd.com>
+>>>>
+>>>> Please also keep in mind that the while this wait for all fences for
+>>>> correctness you also need to keep the mapping valid until
+>>>> dma_buf_unmap_attachment() was called.
+>>>
+>>> Can you elaborate on this more?
+>>>
+>>> I think what we want for dma_buf_attach_revocable() is the strong
+>>> guarentee that the importer stops doing all access to the memory once
+>>> this sequence is completed and the exporter can rely on it. I don't
+>>> think this works any other way.
+>>>
+>>> This is already true for dynamic move capable importers, right?
+>>
+>> Not quite, no.
 > 
-> On 1/16/2026 1:16 AM, Dmitry Baryshkov wrote:
-> > I should have added GPU maintainers and ML beforehand. Fixing it now.
-> > 
-> > On Thu, Jan 15, 2026 at 09:02:07AM -0500, Nicolas Dufresne wrote:
-> > > Le jeudi 15 janvier 2026 à 10:08 +0200, Dmitry Baryshkov a écrit :
-> > > > On Wed, Oct 08, 2025 at 03:22:24PM +0530, Dikshita Agarwal wrote:
-> > > > > Add support for the QC08C color format in both the encoder and decoder
-> > > > > paths of the iris driver. The changes include:
-> > > > > 
-> > > > > - Adding QC08C format handling in the driver for both encoding and
-> > > > > decoding.
-> > > > > - Updating format enumeration to properly return supported formats.
-> > > > > - Ensuring the correct HFI format is set for firmware communication.
-> > > > > -Making all related changes required for seamless integration of QC08C
-> > > > > support.
-> > > > > 
-> > > > > The changes have been validated using v4l2-ctl, compliance, and GStreamer
-> > > > > (GST) tests.
-> > > > > Both GST and v4l2-ctl tests were performed using the NV12 format, as
-> > > > > these clients do not support the QCOM-specific QC08C format, and all
-> > > > > tests passed successfully.
-> > > > > 
-> > > > > During v4l2-ctl testing, a regression was observed when using the NV12
-> > > > > color format after adding QC08C support. A fix for this regression has
-> > > > > also been posted [1].
-> > > > > 
-> > > > > [1]:
-> > > > > https://lore.kernel.org/linux-media/20250918103235.4066441-1-dikshita.agarwal@oss.qualcomm.com/T/#u
-> > > > > 
-> > > > > Changes in v2:
-> > > > > - Added separate patch to add support for HFI_PROP_OPB_ENABLE (Bryan)
-> > > > > - Updated commit text to indicate QC08C is NV12 with UBWC compression
-> > > > > (Bryan, Dmitry)
-> > > > > - Renamed IRIS_FMT_UBWC to IRIS_FMT_QC08C (Dmitry)
-> > > > > - Link to v1:
-> > > > > https://lore.kernel.org/r/20250919-video-iris-ubwc-enable-v1-0-000d11edafd8@oss.qualcomm.com
-> > > > > 
-> > > > > Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-> > > > > ---
-> > > > > Dikshita Agarwal (3):
-> > > > >        media: iris: Add support for HFI_PROP_OPB_ENABLE to control split mode
-> > > > >        media: iris: Add support for QC08C format for decoder
-> > > > >        media: iris: Add support for QC08C format for encoder
-> > > > > 
-> > > > 
-> > > > Looking at the series again... What is the definition of V4L formats?
-> > > > Are they expected to be self-compatible? Transferable between machines?
-> > > > In DRM world we made a mistake, making use of a single non-parametrized
-> > > > UBWC modifier, and then later we had to introduce OOB values to
-> > > > represent different params of UBWC compressed images.
-> > > > 
-> > > > So, I wanted to ask, is single "UBWC-compressed NV12" enough for V4L2 or
-> > > > should we have different format values (at least for different swizzle
-> > > > and macrotile modes)?
-> > > 
-> > > Our expectation is that the decoder will produce the same format regardless the
-> > > resolution. And that format should be shareable, so that same format coming from
-> > > two drivers means the same thing without out of band data, except that
-> > > resolution and strides are needed oob anyway and can obviously be used as an
-> > > acceptable workaround the issue you describe. It should also have a single
-> > > translation to DRM fourcc + modifier, and hopefully the other way around is
-> > > possible too, otherwise its a bit broken and unusable.
-> > 
-> > Well... As I wrote, we made a certain decision several years go: there
-> > is only one DRM modifier. At that point the decision was made by
-> > open-source people which had a very limited information about hardware
-> > internals. We can probably try deprecating it and shifting towards
-> > multiple entries. On the other side, most of the blocks would only be
-> > able to support only one of very few possible configurations.
-> > 
-> > > 
-> > > So bottom line, since V4L2 does not have modifiers, you have to treat one V4L2
-> > > format as a pair of DRM fourcc + modifier. Decoders typically only support a
-> > > subset, or hardware engineers can generally pick a handful of performant
-> > > configurations that works for all cases (its all 2D with similarly sized
-> > > macroblocks).
-> > 
-> > This is not quite applicable: even if we try to fix all other settings,
-> > the format differs from platform to platform because of the memory
-> > organisation (highest_bank_bit in drivers/soc/qcom/ubwc_config.c).
-> > 
-> > There is a description of swizzling in Mesa ([1])
-> > 
-> > [1] https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/freedreno/fdl/fd6_tiled_memcpy.cc
-> > 
-> > > Since these formats are only usable when consumed by GPU or
-> > > display controllers, its important that all party uses the same convention for
-> > > the limited information available.
+> :(
 > 
-> Would there be a need for any client, other than GPU/display, to peek into
-> the data OR to validate it, it need to decompress it. For that as well, it
-> would need all the associated info to decompress it.
+> It is kind of shocking to hear these APIs work like this with such a
+> loose lifetime definition. Leon can you include some of these detail
+> in the new comments?
 
-It doesn't really matter. This is uAPI. There might be no such client
-now, but there might be one later. Also, with the tiling format being
-defined, userspace apps can start poking into the meta / color buffers
-(e.g. for the sake of clipping / blitting the part of the image).
+Yeah, when the API was designed we intentionally said that by waiting for the fences means waiting for all operations to finish.
 
-> Again in same SOC, camera can produce compressed YUV with different
-> parameter while VPU different, it would again need the associated info
-> alongwith single "UBWC-compressed NV12" to decompress it.
+But then came reality and there HW just do stuff like speculatively read ahead... and with that all the nice design goes to the trash-bin.
 
-Yes. It's actually a good point, it clearly shows a need to describe the
-stream rather than stating that it is "just UBWC".
-
+>>>> In other words you can only redirect the DMA-addresses previously
+>>>> given out into nirvana (or a dummy memory or similar), but you still
+>>>> need to avoid re-using them for something else.
+>>>
+>>> Does any driver do this? If you unload/reload a GPU driver it is
+>>> going to re-use the addresses handed out?
+>>
+>> I never fully read through all the source code, but if I'm not
+>> completely mistaken that is enforced for all GPU drivers through the
+>> DMA-buf and DRM layer lifetime handling and I think even in other in
+>> kernel frameworks like V4L, alsa etc...
 > 
-> > 
-> > Yes, we added UBWC config database in order to have a single source of
-> > information for the kernel.
-> > 
-> > So... On the practical side there can be:
-> >   - UBWC 1.0, 2.0, 3.0, 4.0, etc.
-> > 
-> >   - swizzle 1-2-3, 2-3 and 3, partially depends on UBWC version.
-> > 
-> >   - HBB or 13, 14, 15, 16
-> > 
-> >   - bank spreading (true or false)
-> > 
-> >  From the practical point of view, drivers/soc/qcom/ubwc.c defines the
-> > following formats (currently, I'd like to cross-check some of them):
-> > 
-> > - linear
-> > - 1.0_123_14
-> > - 1.0_123_14_spread
-> > - 1.0_123_15
-> > - 2.0_23_14
-> > - 2.0_23_14_spread
-> > - 2.0_23_15
-> > - 3.0_23_13_spread
-> > - 3.0_23_14_spread
-> > - 3.0_23_15
-> > - 3.0_23_16
-> > - 4.0_23_15_spread
-> > - 4.0_23_16_spread
-> > - 4.0_3_13_spread
-> > - 5.0_23_15_spread
-> > - 5.0_23_16_spread
-> > - 6.0_23_16_spread
-> > 
-> > Would it be benefitable to define separate DRM modifiers (and NV12
-> > compressed variant for V4L2) for each of them?
+>> What roughly happens is that each DMA-buf mapping through a couple
+>> of hoops keeps a reference on the device, so even after a hotplug
+>> event the device can only fully go away after all housekeeping
+>> structures are destroyed and buffers freed.
+> 
+> A simple reference on the device means nothing for these kinds of
+> questions. It does not stop unloading and reloading a driver.
 
--- 
-With best wishes
-Dmitry
+Well as far as I know it stops the PCIe address space from being re-used.
+
+So when you do an "echo 1 > remove" and then an re-scan on the upstream bridge that works, but you get different addresses for your MMIO BARs!
+
+> Obviously if the driver is loaded fresh it will reallocate.
+> 
+> To do what you are saying the DRM drivers would have to block during
+> driver remove until all unmaps happen.
+
+Oh, well I never looked to deeply into that.
+
+As far as I know it doesn't block, but rather the last drm_dev_put() just cleans things up.
+
+And we have a CI test system which exercises that stuff over and over again because we have a big customer depending on that.
+
+>> Background is that a lot of device still make reads even after you
+>> have invalidated a mapping, but then discard the result.
+> 
+> And they also don't insert fences to conclude that?
+
+Nope, that is just speculatively read ahead from other operations which actually doesn't have anything TODO with our buffer.
+
+>> So when you don't have same grace period you end up with PCI AER,
+>> warnings from IOMMU, random accesses to PCI BARs which just happen
+>> to be in the old location of something etc...
+> 
+> Yes, definitely. It is very important to have a definitive point in
+> the API where all accesses stop. While "read but discard" seems
+> harmless on the surface, there are corner cases where it is not OK.
+> 
+> Am I understanding right that these devices must finish their reads
+> before doing unmap?
+
+Yes, and that is a big one. Otherwise we basically loose any chance of sanely handling this.
+
+>> I would rather like to keep that semantics even for forcefully
+>> shootdowns since it proved to be rather reliable.
+> 
+> We can investigate making unmap the barrier point if this is the case.
+
+I mean when you absolutely just can't do it otherwise just make sure that a speculative read doesn't result in any form of error message or triggering actions or similar. That approach works as well.
+
+And yes we absolutely have to document all those findings and behavior in the DMA-buf API.
+
+Regards,
+Christian.
 
