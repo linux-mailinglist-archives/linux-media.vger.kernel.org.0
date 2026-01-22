@@ -1,269 +1,265 @@
-Return-Path: <linux-media+bounces-51332-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51333-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBLnFeX1cWmvZwAAu9opvQ
-	(envelope-from <linux-media+bounces-51332-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 11:03:17 +0100
+	id mN8+OtECcmmvZwAAu9opvQ
+	(envelope-from <linux-media+bounces-51333-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 11:58:25 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D475D64F5D
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 11:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59349659A2
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 11:58:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 756B6860A6C
-	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 09:57:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 900408A4070
+	for <lists+linux-media@lfdr.de>; Thu, 22 Jan 2026 10:42:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF2943382FE;
-	Thu, 22 Jan 2026 09:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F32253E9F77;
+	Thu, 22 Jan 2026 10:41:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iDcvUCn1"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eIC1eHgP";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MKLrc+eo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5D533B6CC;
-	Thu, 22 Jan 2026 09:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E23F3EFD0C
+	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 10:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769075596; cv=none; b=Vy+jQmc5bzalpM+lVrSx8o9b82YgVZvhSdTI4HIll0eV/3iyvoayTScw5/0OWpU2jypAch4t0lh/eoZvxAFexNLEFFoEPG60ZNZvLrmP/vfkrwAQflBqGabiyBcTB18CxwEmXrQ7puIhqaiyruSV6KjfcSaOQ5CzhLPiv29RULQ=
+	t=1769078466; cv=none; b=DV9kpG4crbFrSyITom9uM4KmMBAgtClAJDnf9hmoRCbkXGdcQnmL5l3+SE1PTG1+uVuXO0GM63IvIoSSVB347tLvV06nkgjk2wtJzZGcdV4Y7kD8E6camGxOQav8NcFL7ZFDV1omnRIRuj3xcOrwGipGbClUwyotmUIyjduu+C0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769075596; c=relaxed/simple;
-	bh=bIh5r7cS8MUO8tOFBdIzTReCFDh2J0N4fGlfDUfmc0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+Rj6ozOPlu6S+EGStDiE+5mMFV+BlEGBAhM/KC6peM+BRi/XkAPW8Zb7SMdmJrg5bFI5tDPOD4PtzhsvHqOHPlcTNGoS2SL8zvOmb8bEf2Cs0EFbYj70EAQvTGrsa/MeGrpxAmXAsp6/YPKuNvNdMuyI1WshLu7gyVzpeMqNtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iDcvUCn1; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 53B182DD;
-	Thu, 22 Jan 2026 10:52:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769075557;
-	bh=bIh5r7cS8MUO8tOFBdIzTReCFDh2J0N4fGlfDUfmc0k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iDcvUCn1b5fXqF6eTitb1SIrAu6NroX/jmsSVpBw8qio66Bu55RnOqrm2ZjJMXEBw
-	 01PMuQn/mHpCRTSvKTz2Tq/jTqcp+XhYFi+N1aPpPOb49ZSCF7Myi39CrCeJo1evub
-	 TSZmahiXyuYQxEDPbu/0g0IK1h3qwJEI+vz4jfbs=
-Date: Thu, 22 Jan 2026 11:53:08 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
-	vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, p.zabel@pengutronix.de, conor+dt@kernel.org,
-	hverkuil-cisco@xs4all.nl, changhuang.liang@starfivetech.com,
-	jack.zhu@starfivetech.com, sjoerd@collabora.com,
-	dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, jai.luthra@linux.dev,
-	mripard@kernel.org, Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v9 06/19] media: ti: j721e-csi2rx: add a subdev for the
- core device
-Message-ID: <20260122095308.GF209830@killaraus>
-References: <20251230083220.2405247-1-r-donadkar@ti.com>
- <20251230083220.2405247-7-r-donadkar@ti.com>
- <ee8152c0-daf5-48dd-a2d1-2fafcfeca797@ideasonboard.com>
- <176845899846.9154.18009615769864845946@freya>
- <d9f3335a-d8f4-40cc-b4c4-a93b797a89fd@ideasonboard.com>
- <20260120232521.GE173080@killaraus>
- <8b8e603f-5d04-44ce-91ab-85df8fe0ae94@ideasonboard.com>
- <20260121105232.GD382676@killaraus>
- <176906483058.9154.2619844247504630480@freya>
+	s=arc-20240116; t=1769078466; c=relaxed/simple;
+	bh=J9VHQJQwue+LfT3z9SbqGo6EQB54j2aREQ5dCXhFV5I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pg2ZV1fdXXQ+aTkxxVImvFFuL2tNNf03Qfpz2C11MnY8d2V7McNpOo9He72eRB6wF4Z4da5AJyMoUTWAJ669AOBhBJGtEEDpM1KxmJ/3hg+3l/QRRLjzPiPhK80oM6s0XeaiJ0D5QL5TmjEsQU8SRsb6GbuEHee/cU3Ex2YVlIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eIC1eHgP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MKLrc+eo; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60M8KNrJ647198
+	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 10:41:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=LeFsxXU0vTUz3SkVxXpLyI
+	coHY7U5CxMyBBnaUCUBTc=; b=eIC1eHgPYwDnnyccfnpKoNoemffF9htQcvn/qN
+	+7GSaGkCk9YtwIX4TSv0Fng35FCeRg0QzecjMwQD+2PX6WuupzLTeECVy84E7f//
+	nEq5JAo8VPDoW5IK49XO+BTM+HWV3jTAt4H7JUMmrrDaZ88b/oeL7JrgvgHCfbzj
+	6JD1m52r0gSCjXpogCEwHqIJ3uwtGfBb9jgpas6TeUROnWR5BXV6dq4szMX56MAY
+	BPd0rOACTBs4Fq2kaLJxD2VFYYZNwezhj2idwkAIe3v2SjsyvfA6aG/kMKcMcYbw
+	7Ymh3A3nn5SS1BKugLtUhvrVpVLlC8FCphfErXe1xEiei8ug==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bu8j9ssk6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 10:41:03 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c1cffa1f2dso526274985a.1
+        for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 02:41:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1769078462; x=1769683262; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LeFsxXU0vTUz3SkVxXpLyIcoHY7U5CxMyBBnaUCUBTc=;
+        b=MKLrc+eo2XJbgyyvPV0Zror3O9yxHWreRhmXZhfCYezVwp8YL3YTQA7JMpGThTUcPd
+         D0cVHkV0z/QA2JRYBPmwmVoSxMjj5fgxjBs98ZjUI+Ad88/sP6RJzgyR2DatY0Xu9RHN
+         OFASaZ07TqR6wmICcT5/G0P8GLD/lvX3sGVUqauJoUQQrZM5ZDXGDPJ6E1nDBoA2GW1h
+         RZzeEU7fKpBmcShBuesEhmgShB2viiZ4V4fnXn+037RvJkfYwbbtigaNeqAhX/i0m+7Y
+         EdUzdVZUmksHeDDAH0dN3k/AamVwr7yRHGOj5yP7f3Bkfl1RZLw4CqGhZvpwl5fZVBhZ
+         3EzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769078462; x=1769683262;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LeFsxXU0vTUz3SkVxXpLyIcoHY7U5CxMyBBnaUCUBTc=;
+        b=q9UitFgC73r3S1ap4QfF7xuMaoN7YICPKk+4C2B4ArqqLkuMLdONt0sqHEYe8VK+N6
+         OcnIW8Zwe4mKshj68xvl9D7zBZG75Qc/eItlM0zN8rOu/pv4/Pskoejrdy61wJDf4JMH
+         H5HTcr1HV3eqeHxLfeSGj/T2uydCJ5o/GOxNw93Bkgt3/CaCVvNXYqaOz9GkzXG+4xr4
+         Q6l8tELORlhrL8CNAVZ2uassn+7KPGLM6oK0vnIkcrtskwuYl5TpIkKgOGN8DA5hLojh
+         EO6fUAbOwF9fYZkxAKTSe5NR9UgciFf2cS9WX9Ik/cHE9N8qUU3SluPq+NWK603eB3eo
+         3vhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVM5yBx4fPT4coAJbT/tKKmR17eTfqGz2rc+V8DARzkzy216ZFe+mLjNbhDC1imbkU4S/fpchhQcOK0wg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3ZJ35TJglsZUTyvrDCUDNyP12T/IiOG0Dq7sZKVD4AUtJrlvA
+	KlCeDtOTM+hTqyrTAn28YaGKEmZcZH287UdZB/E8EZx5MR1SouVimcZrzkGr2EgKETB3/aONUzC
+	RjEbn3GDwpYARQLWY6GIb7eYetW3C7tZ/o79JfjaZmYf6E6Oo7nv+JnyZis3fVO5F4w==
+X-Gm-Gg: AZuq6aJ1H/7lcugfEJaQbnT1urKu5hOORnJ40J6yPYPLohNo9GdyJoPLzL6VSBCuMMR
+	vyubJI/MlczSckvqWFH6bbesGTLnz5EO1zcGrB+VRnhA6YGOVDbtW/MAaEAFSvM2zRb0RfOGNk6
+	2cl11Kd8GieQ6AijanMoZXKL1suMxty7hofE7O0k8MzV5Fb8rQKvipM3cw7vYgYVfD5iEJGogt+
+	IcIH1ZY8702lgQN4G4oFjMkzZRZOK6QPdXKd2Cxaziq9fYJ07CVVV9n2Gv5i4tnA7+yL92tVEX7
+	GBYNhG/3h6fzLzv5dJ4vbnKSmi2UrD7+0PTA/KXfguvaAMFK3ZzYdIDQBo5AWyYNv63O4Ccgj+w
+	NKq+Z0jp6TWlKhkFh3Zgl7c1B3ZsPN2q9zWZ/TxI7n85WQZXe5UkKvEb+gNH1+bz1MMfXtCRKUH
+	ol
+X-Received: by 2002:a05:620a:2954:b0:883:647b:6dec with SMTP id af79cd13be357-8c6da87eed6mr313574585a.3.1769078462447;
+        Thu, 22 Jan 2026 02:41:02 -0800 (PST)
+X-Received: by 2002:a05:620a:2954:b0:883:647b:6dec with SMTP id af79cd13be357-8c6da87eed6mr313572685a.3.1769078462005;
+        Thu, 22 Jan 2026 02:41:02 -0800 (PST)
+Received: from WENMLIU-LAB01.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6a7260229sm1387868685a.42.2026.01.22.02.40.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jan 2026 02:41:01 -0800 (PST)
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+Subject: [PATCH v4 0/5] Add CCI and imx577 sensor support for Talos evk
+Date: Thu, 22 Jan 2026 18:40:45 +0800
+Message-Id: <20260122-sm6150_evk-v4-0-a908d49892e7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <176906483058.9154.2619844247504630480@freya>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK7+cWkC/23PzWrDMAwH8FcJPs/B8teSnPoeYxQ7UVuzuGmtx
+ HSUvvucdIcOdhH8hf2TdGeEKSCxrrqzhDlQmM4l6LeK9Sd3PiIPQ8lMCmlASskpWjBij/mLN+h
+ xaLE9KN+z8uGS8BBuG/bxWfIp0Dyl783Ocu2ujBUg7CuTJRfcewDZ+0YN73o3EdXXxY39FGNdC
+ lu1rF4EMH8EVYQGjLTDAMZo9Y/weC6Y8LqUI+fnliwikduO7H5hDUIIrWpQIMBqDry8pWnMuFx
+ oTuji7hhdGDe1mN4R8nVMmLsq2xpannpb5j1+APYBlOBcAQAA
+X-Change-ID: 20251222-sm6150_evk-8ebed9e9f3bc
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, imx@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769078453; l=2958;
+ i=wenmeng.liu@oss.qualcomm.com; s=20250925; h=from:subject:message-id;
+ bh=J9VHQJQwue+LfT3z9SbqGo6EQB54j2aREQ5dCXhFV5I=;
+ b=eOeg/peQAM3pR8Iz3aQql6aI9gbuvkoWl2HlGTz9wHB+2MJbTxOUur1dxebKnEFVznbSaQgYf
+ DsSvKxOc7FiAS+aYFIkakwwgthxepnDDxquYQqApf3fe+ATJq1KQ1vp
+X-Developer-Key: i=wenmeng.liu@oss.qualcomm.com; a=ed25519;
+ pk=fQJjf9C3jGDjE1zj2kO3NQLTbQEaZObVcXAzx5WLPX0=
+X-Proofpoint-ORIG-GUID: 6gScp8Fsq1EBEV-aZZX3dnEDJ-VkJUCK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDA3NiBTYWx0ZWRfX7tEGCT0uBsHF
+ Opo7rcbDddHf3PifhKjk0JOCKPmkCXBpilJzkkThdp+cdyqA+LIgFweUxG5lHZ3bYOgH4gs32nV
+ OS1Aq3bg2sOPH+ZVuwiYAgyEaEe2i78e4IMd8NdJuyFnmDYTDd0+Nhg+r6tc/CnZwC/Vb4qfNBu
+ EmJfuSDd+r7s8N774rHwBpbCY/UbZR8z9e7IUkCSeo8jxseoyjt3X/LCDxwwZ0NXK3lCnXacNJl
+ Qn+Ccu35R25bmsffIOMNisXmdZcZMgbozkfX0BfhGVyT+NLzp3UMB4wtl9FRPEJo+uLrKadUfd9
+ xCHFp4qI6E+Q7WUqdjq4nobq3zgCifiQviiPHMphnF51hwOSF1vYI8IwKALJh8TCZB+MEUgYuGd
+ o0ygRsVUOAEe+Z9/usCmzEZPJ2hSXzDRLQnfcaqZSd5E2Zv98aDwscrHVben0+mAx9O/4EHY9lG
+ xD6XhXKiTIVoHmnUGLQ==
+X-Authority-Analysis: v=2.4 cv=U4CfzOru c=1 sm=1 tr=0 ts=6971febf cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8
+ a=EncVXgJB8TypbGqEiwsA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: 6gScp8Fsq1EBEV-aZZX3dnEDJ-VkJUCK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-22_01,2026-01-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0
+ suspectscore=0 bulkscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601220076
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.46 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51332-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	TAGGED_FROM(0.00)[bounces-51333-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FREEMAIL_CC(0.00)[ideasonboard.com,linux.intel.com,ti.com,kernel.org,pengutronix.de,xs4all.nl,starfivetech.com,collabora.com,linaro.org,vger.kernel.org,linux.dev];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com,linaro.org,pengutronix.de];
+	DMARC_POLICY_ALLOW(0.00)[qualcomm.com,reject];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim];
 	TO_DN_SOME(0.00)[];
-	R_SPF_SOFTFAIL(0.00)[~all:c];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DMARC_POLICY_ALLOW(0.00)[ideasonboard.com,none];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	FROM_NEQ_ENVFROM(0.00)[wenmeng.liu@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[dfw.mirrors.kernel.org:helo,dfw.mirrors.kernel.org:rdns,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: D475D64F5D
+	R_SPF_SOFTFAIL(0.00)[~all:c];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:7979, ipnet:142.0.200.0/24, country:US];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 59349659A2
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 12:23:50PM +0530, Jai Luthra wrote:
-> Quoting Laurent Pinchart (2026-01-21 16:22:32)
-> > On Wed, Jan 21, 2026 at 09:38:29AM +0200, Tomi Valkeinen wrote:
-> > > On 21/01/2026 01:25, Laurent Pinchart wrote:
-> > > > On Thu, Jan 15, 2026 at 02:56:21PM +0200, Tomi Valkeinen wrote:
-> > > >> On 15/01/2026 08:36, Jai Luthra wrote:
-> > > >>> Quoting Tomi Valkeinen (2026-01-14 20:51:49)
-> > > >>>> On 30/12/2025 10:32, Rishikesh Donadkar wrote:
-> > > >>>>> From: Jai Luthra <j-luthra@ti.com>
-> > > >>>>>
-> > > >>>>> With single stream capture, it was simpler to use the video device as
-> > > >>>>> the media entity representing the main TI CSI2RX device. Now with multi
-> > > >>>>> stream capture coming into the picture, the model has shifted to each
-> > > >>>>> video device having a link to the main device's subdev. The routing
-> > > >>>>> would then be set on this subdev.
-> > > >>>>>
-> > > >>>>> Add this subdev, link each context to this subdev's entity and link the
-> > > >>>>> subdev's entity to the source. Also add an array of media pads. It will
-> > > >>>>> have one sink pad and source pads equal to the number of contexts.
-> > > >>>>>
-> > > >>>>> Support the new enable_stream()/disable_stream() APIs in the subdev
-> > > >>>>> instead of s_stream() hook.
-> > > >>>>>
-> > > >>>>> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> > > >>>>> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
-> > > >>>>> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> > > >>>>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> > > >>>>> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> > > >>>>> ---
-> > > >>>
-> > > >>> [...]
-> > > >>>
-> > > >>>>> @@ -981,48 +1138,52 @@ static int ti_csi2rx_link_validate(struct media_link *link)
-> > > >>>>>       struct ti_csi2rx_ctx *ctx = container_of(vdev, struct ti_csi2rx_ctx, vdev);
-> > > >>>>>       struct ti_csi2rx_dev *csi = ctx->csi;
-> > > >>>>>       struct v4l2_pix_format *csi_fmt = &ctx->v_fmt.fmt.pix;
-> > > >>>>> -     struct v4l2_subdev_format source_fmt = {
-> > > >>>>> -             .which  = V4L2_SUBDEV_FORMAT_ACTIVE,
-> > > >>>>> -             .pad    = link->source->index,
-> > > >>>>> -     };
-> > > >>>>> +     struct v4l2_mbus_framefmt *format;
-> > > >>>>> +     struct v4l2_subdev_state *state;
-> > > >>>>>       const struct ti_csi2rx_fmt *ti_fmt;
-> > > >>>>> -     int ret;
-> > > >>>>>  
-> > > >>>>> -     ret = v4l2_subdev_call_state_active(csi->source, pad,
-> > > >>>>> -                                         get_fmt, &source_fmt);
-> > > >>>>> -     if (ret)
-> > > >>>>> -             return ret;
-> > > >>>>> +     state = v4l2_subdev_lock_and_get_active_state(&csi->subdev);
-> > > >>>>> +     format = v4l2_subdev_state_get_format(state, link->source->index, 0);
-> > > >>>>> +     v4l2_subdev_unlock_state(state);
-> > > >>>>>  
-> > > >>>>> -     if (source_fmt.format.width != csi_fmt->width) {
-> > > >>>>> +     if (!format) {
-> > > >>>>> +             dev_dbg(csi->dev,
-> > > >>>>> +                     "Skipping validation as no format present on \"%s\":%u:0\n",
-> > > >>>>> +                     link->source->entity->name, link->source->index);
-> > > >>>>> +             return 0;
-> > > >>>>
-> > > >>>> Isn't this an error?
-> > > >>>
-> > > >>> Well, the j7 shim subdev introduced here has immutable and active links to
-> > > >>> all the video nodes, for each DMA channel (taken from DT), many of which
-> > > >>> may be unused for certain setups, and thus there might not be any valid
-> > > >>> format on the subdev source pad corresponding to an unused video node.
-> > > >>>
-> > > >>> Jacopo had a similar comment on v2, see this discussion (grep for Mali):
-> > > >>> https://lore.kernel.org/linux-media/4mnlnsj4co3agvln4qsasmgvgwiyoo7yu2h5wyh4rmzzafhm5u@avhnbw7iknms/
-> > > >>>
-> > > >>> I know other drivers use a different approach with mutable links, so it
-> > > >>> would be good if you/Laurent/Sakari can give your opinions on if only one
-> > > >>> of these two approaches should be taken for multi-stream pipelines.
-> > > >>
-> > > >> I see.
-> > > >>
-> > > >> Well, I don't have a definite answer. With some thinking both options
-> > > >> make certain sense. It makes sense to keep the links immutable and
-> > > >> always enabled, as there's no configuration that can be done. On the
-> > > >> other hand, it makes sense to require the unused links to be disabled,
-> > > >> as, well, they are not used.
-> > > > 
-> > > > I'm not familiar with the implications this would have on this driver,
-> > > > but generally speaking, if a stream is added to the media pipeline by
-> > > > the pipeline build algorithm, then it is expected that applications
-> > > > would have configured it correctly. Streams that are not used are
-> > > > expected to be disabled if they would otherwise be added to the
-> > > > pipeline.
-> > > 
-> > > I think the thing here is that the driver creates immutable
-> > > always-enabled media links between the videodevs and the first subdev.
-> > > Then, say, if only one stream is being used, only one of those links is
-> > > actually used, and for every other link the above check fails as there's
-> > > no stream, so no format.
-> > > 
-> > > In TI CAL driver the links were mutable, and unused links had to be
-> > > disabled. There it made sense as the links had to be configurable (there
-> > > were two PHYs). Here, there's no configuration needed, so immutable
-> > > links make sense, but then they're enabled even when actually not used.
-> > 
-> > If the routing table in the subdev does not contain any route that goes
-> > towards a video node, then that video node should not be added to the
-> > pipeline by the validation code, and no validation will be attempted. At
-> > least that's the theory.
-> 
-> Okay that sounds reasonable. I can take a look into the media pipeline
-> validation code next week. @Rishikesh, given you already have a working
-> setup, feel free to test if the link_validate callback is triggered on
-> video nodes that don't have any streams/routes pointing to them.
-> 
-> > I see that this driver implements .link_validate() as a
-> > media_entity_operations, not a subdev operation. I wonder if that could
-> > explain the issue.
-> 
-> Well earlier I was partially confused, now I'm fully confused :-)
-> 
-> How is v4l2_subdev_pad_ops.link_validate different from
-> media_entity_operations.link_validate?
+Talos EVK is  based on the Qualcomm SM6150 SoC.
+It lacks a camera sensor in its default configuration.
+This series adds CCI support and enables the IMX577 sensor via CSIPHY1
+through device tree overlay.
 
-media_entity_operations.link_validate() is the entry point, called by
-the media pipeline validation code that is agnostic to entity types. It
-is called on the sink entity of each link.
+We have tested IMX577 Sensor on CCI1 with following commands:
+- media-ctl -d /dev/media0 --reset
+- media-ctl -d /dev/media0 -V '"imx577 1-001a":0[fmt:SRGGB10/4056x3040 field:none]'
+- media-ctl -d /dev/media0 -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
+- media-ctl -d /dev/media0 -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+- media-ctl -d /dev/media0 -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+- media-ctl -d /dev/media0 -l '"msm_csiphy1":1->"msm_csid0":0[1]'
+- media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+- yavta -B capture-mplane -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0 --capture=5
 
-When the sink is a subdev, the common practice is to implement
-media_entity_operations.link_validate() using
-v4l2_subdev_link_validate(), which iterates over streams and validate
-them individually with v4l2_subdev_pad_ops.link_validate(). That
-operation can be left out if the default implementation
-v4l2_subdev_link_validate_default() is enough, or a custom
-.link_validate() operation can be provided that calls
-v4l2_subdev_link_validate_default() and performs additional checks (or
-implements all checks manually without calling
-v4l2_subdev_link_validate_default() for very uncommon cases).
+This patch series depends on patch series:
+https://lore.kernel.org/lkml/20260114100043.1310164-1-tessolveupstream@gmail.com/
 
-In this case, though, the sink is a video device, so
-v4l2_subdev_link_validate() can't be used. I overlooked that in my
-previous reply, sorry about it. As a link to a video node can only carry
-a single stream, it seems that the issue here is caused by the link
-being included in the media pipeline in the first place.
-drivers/media/mc/mc-entity.c contains detailed debug messages that
-explain how a pipeline is constructed, I would start by enabling them
-and investigating what happens.
+Changes in v4:
+- Add CCI properties to the existing portfolio. -- Loic, Krzysztof
+- Modify the incorrect dtb install configuration. -- Vladimir
+- Link to v3: https://lore.kernel.org/r/20260115-sm6150_evk-v3-0-81526dd15543@oss.qualcomm.com
 
-> I see mc-core.rst and v4l2-subdev.rst both talk about their own variant,
-> without making it clear which should be used for a subdev.
-> 
-> Anyway, I'll try to dig through the framework code to understand what's
-> going wrong.
+Changes in v3:
+- Add generic names for the CCI clock. -- Loic, Krzysztof
+- Split cci node, removed double space. -- Dmitry
+- Rename camera dtso name, add detailed description. -- Dmitry,
+  Vladimir, Bryan
+- Add dtbo-y for dtso. -- Rob
+- Interrupts cell change adaptation.
+- Delete cci sleep pinctrl state.
+- Link to v2: https://lore.kernel.org/r/20260106-sm6150_evk-v2-0-bb112cb83d74@oss.qualcomm.com
 
+Changes in v2:
+- Modify the CCI dts style and commit msg. - Konrad
+- Split mclk change as a separate patch. - Vladimir
+- Remove clock-lanes. - Vladimir
+- Add mclk3(GPIO31). - Vladimir
+- Link to v1:
+  https://lore.kernel.org/all/20251222-sm6150_evk-v1-0-4d260a31c00d@oss.qualcomm.com/
+
+---
+Wenmeng Liu (5):
+      arm64: dts: qcom: talos: Add camss node
+      dt-bindings: i2c: qcom-cci: Document sm6150 compatible
+      arm64: dts: qcom: talos: Add CCI definitions
+      arm64: dts: qcom: talos: Add camera MCLK pinctrl
+      arm64: dts: qcom: talos-evk-camera: Add DT overlay
+
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |   2 +
+ arch/arm64/boot/dts/qcom/Makefile                  |   3 +
+ .../boot/dts/qcom/talos-evk-camera-imx577.dtso     |  63 +++++
+ arch/arm64/boot/dts/qcom/talos.dtsi                | 279 +++++++++++++++++++++
+ 4 files changed, 347 insertions(+)
+---
+base-commit: c8a4a774a9b0d2c86593492625874e27e9cbc9a9
+change-id: 20251222-sm6150_evk-8ebed9e9f3bc
+prerequisite-message-id:20260114100043.1310164-1-tessolveupstream@gmail.com
+prerequisite-patch-id: 065fda916d7faca61113e1230fcc0ce3916442fe
+prerequisite-patch-id: eddd1b1714715707d386608e4f9b24396f51cd44
+prerequisite-patch-id: ae777d7e17e32afc36fd1f741bb57ff0d3556841
+
+Best regards,
 -- 
-Regards,
+Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
 
-Laurent Pinchart
 
