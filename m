@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-51409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51410-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gEcqGOZAc2mWtwAAu9opvQ
-	(envelope-from <linux-media+bounces-51409-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 10:35:34 +0100
+	id CHyMJrhBc2mWtwAAu9opvQ
+	(envelope-from <linux-media+bounces-51410-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 10:39:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D1873722
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 10:35:33 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D8473803
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 10:39:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7314C31212AF
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 09:30:21 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BD4E7306DFC8
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 09:34:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FF72372B5F;
-	Fri, 23 Jan 2026 09:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 513DE372B58;
+	Fri, 23 Jan 2026 09:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sJbWYLjE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WF/g4zYc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7096C2E54DE;
-	Fri, 23 Jan 2026 09:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46AD36BCDA;
+	Fri, 23 Jan 2026 09:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769160591; cv=none; b=l0Gstrde9ApqEPcVpxk3i2+rBBCbHaFq0tD0x/lDxqAdrMTgHYwl3hvImq8NyrmKxodselSATi7sEgWxWVssGLyPmZfq3tiANwrk8qxwklY2UopMGGe0bjotzyOsmN5TlBAWRjrt5pgHyHzWxm9jQHLcmVZfzo+g3tMYV8zDQuY=
+	t=1769160850; cv=none; b=VVbZt1QdTpy1TlxiAcCIi60eAIJgLYVGqCoS8IqF1AhTk1J0iaaLJ8+wWVpzbR4ThdgwVBx7pLDgAikvwDJjqBc1i7Z23tkJI3OvVtRRiLJIA3AOPRIiDxMkk8N8t2UnQ/7xHR8d649awpB9dIn0boYGQ0A1ke5x6O0KBfdlUIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769160591; c=relaxed/simple;
-	bh=+fizITse9wckHDqQB9yBp+EcEOSVwqQ1geFX0U5lj3o=;
+	s=arc-20240116; t=1769160850; c=relaxed/simple;
+	bh=w4CLZ939NBe2IUeqrOuN7fUe4joQqwDwTGXWZt5WXIs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rXF70N3pNNTtWUKic4VjF9BSTY0QlIK4z+aWNTseag1VRTpSZ2S3TjcyTpREQMcTtDmcsuxhm1LLDjTD9JFrag2waKUed66A3oyQDmKGgxyQJSA9mi3E/5BjE2DKEykxrTVfZHvHYP+/h17DJVv84Ut11MmilAuWYBblCgHm5aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sJbWYLjE; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=G8NKcibKdEe86sA57g8RK8jJx5KWqNq7wDOB08psgr65azRFMI5y/C5kCCNj8O16wSAmgKiurWwkF6BEojH9CUoJKZdmjohe5mawOHhd5I/PLxdsNHrRmzCQl6WqQ/aiglMNDaw+roFOJKTVAwk7nlXYtsStMVNXZPdnvhgG93Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WF/g4zYc; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CD7B71FE4;
-	Fri, 23 Jan 2026 10:29:01 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F3AA8FA;
+	Fri, 23 Jan 2026 10:33:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769160543;
-	bh=+fizITse9wckHDqQB9yBp+EcEOSVwqQ1geFX0U5lj3o=;
+	s=mail; t=1769160804;
+	bh=w4CLZ939NBe2IUeqrOuN7fUe4joQqwDwTGXWZt5WXIs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sJbWYLjEiNQiOJAReRR9GHGkzDzexOYP97UQ6tbskd7+va0H160pwxPY5q46oznX0
-	 p8W2xgHOIalTtKJtK4zQuVU89TthYO4tpMmVUYkLRIjasncvQFAcmkSNcaCavywSpM
-	 mG+qlK0hE3rLjIl/NNhOLvjmLEZ4fCUyq3OTn7PE=
-Message-ID: <18ead528-5e24-419b-b7b3-9b1018124c93@ideasonboard.com>
-Date: Fri, 23 Jan 2026 11:29:32 +0200
+	b=WF/g4zYcg3IyBku4ZfG8Yr4b3c0B3jz6Trn/w9n2etFiZnA4W7Hj6fC0LgjJF058v
+	 4hce3AACL/47mAgNwZYnbMs/LNSJcWR2QjzwNXESEnogHn8ioRzd08/jobgJdCLA8P
+	 vkJNFXnV0dgVeXyjvJzUpDdQ7p1fg8zWEMXYPWhc=
+Message-ID: <7bf8031e-e8f3-4157-b972-901f0ae9e778@ideasonboard.com>
+Date: Fri, 23 Jan 2026 11:33:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,8 +53,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 15/18] media: ti: j721e-csi2rx: Change the drain
- architecture for multistream
+Subject: Re: [PATCH v10 18/18] media: ti: j721e-csi2rx: Support system suspend
+ using pm_notifier
 To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev,
  laurent.pinchart@ideasonboard.com, mripard@kernel.org
 Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
@@ -66,7 +66,7 @@ Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org
 References: <20260121135424.1185710-1-r-donadkar@ti.com>
- <20260121135424.1185710-16-r-donadkar@ti.com>
+ <20260121135424.1185710-19-r-donadkar@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -112,7 +112,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20260121135424.1185710-16-r-donadkar@ti.com>
+In-Reply-To: <20260121135424.1185710-19-r-donadkar@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -121,11 +121,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51409-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51410-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -142,279 +142,217 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid,ti.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B1D1873722
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 96D8473803
 X-Rspamd-Action: no action
 
 Hi,
 
 On 21/01/2026 15:54, Rishikesh Donadkar wrote:
-> On buffer starvation the DMA is marked IDLE, and the stale data in the
-> internal FIFOs gets drained only on the next VIDIOC_QBUF call from the
-> userspace. This approach works fine for a single stream case.
+> From: Jai Luthra <jai.luthra@ideasonboard.com>
 > 
-> But in multistream scenarios, buffer starvation for one stream can
-> block the shared HW FIFO of the CSI2RX IP. This can stall the pipeline
-> for all other streams, even if buffers are available for  them.
+> As this device is the "orchestrator" for the rest of the media
+> pipeline, we need to stop all on-going streams before system suspend and
+> enable them back when the system wakes up from sleep.
 > 
-> This patch introduces a new architecture, that continuously drains data
-> from the shared HW FIFO into a small (32KiB) buffer if no buffers are made
-> available to the driver from the userspace. This ensures independence
-> between different streams, where a slower downstream element for one
-> camera does not block streaming for other cameras.
+> Using .suspend/.resume callbacks does not work, as the order of those
+> callbacks amongst various devices in the camera pipeline like the sensor,
+> FPD serdes, CSI bridge etc. is impossible to enforce, even with
+> device links. For example, the Cadence CSI bridge is a child device of
+> this device, thus we cannot create a device link with the CSI bridge as
+> a provider and this device as consumer. This can lead to situations
+> where all the dependencies for the bridge have not yet resumed when we
+> request the subdev to start streaming again through the .resume callback
+> defined in this device.
 > 
-> Additionally, after we drain for a stream, the next frame will be a
-> partial frame, as a portion of its data will have already been drained
-> before a valid buffer is queued by user space to the driver.
-> Return the partial frame to user space with VB2_BUF_STATE_ERROR.
+> Instead here we register a notifier callback with the PM framework
+> which is triggered when the system is fully functional. At this point we
+> can cleanly stop or start the streams, because we know all other devices
+> and their dependencies are functional. A downside of this approach is
+> that the userspace is also alive (not frozen yet, or just thawed), so
+> the suspend notifier might complete before the userspace has completed
+> all ioctls, like QBUF/DQBUF/STREAMON/STREAMOFF.
 > 
-> Use wait for completion barrier to make sure the shared hardware FIFO
-> is cleared of the data at the end of stream after the source has stopped
-> sending data.
-> 
-> Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 > Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 > ---
+>  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 135 ++++++++++++++++++
+>  1 file changed, 135 insertions(+)
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
 
->  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 123 +++++++++---------
->  1 file changed, 60 insertions(+), 63 deletions(-)
 > 
 > diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index 5bb726f7d4f44..42ef8c553883f 100644
+> index c01905680e108..335aa89bcd959 100644
 > --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
 > +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -82,8 +82,8 @@ struct ti_csi2rx_buffer {
+> @@ -131,6 +131,7 @@ struct ti_csi2rx_dev {
+>  	struct v4l2_subdev		*source;
+>  	struct v4l2_subdev		subdev;
+>  	struct ti_csi2rx_ctx		ctx[TI_CSI2RX_MAX_CTX];
+> +	struct notifier_block		pm_notifier;
+>  	u8				pix_per_clk;
+>  	/* Buffer to drain stale data from PSI-L endpoint */
+>  	struct {
+> @@ -1535,6 +1536,124 @@ static int ti_csi2rx_runtime_resume(struct device *dev)
+>  	return 0;
+>  }
 >  
->  enum ti_csi2rx_dma_state {
->  	TI_CSI2RX_DMA_STOPPED,	/* Streaming not started yet. */
-> -	TI_CSI2RX_DMA_IDLE,	/* Streaming but no pending DMA operation. */
->  	TI_CSI2RX_DMA_ACTIVE,	/* Streaming and pending DMA operation. */
-> +	TI_CSI2RX_DMA_DRAINING, /* Dumping all the data in drain buffer */
->  };
->  
->  struct ti_csi2rx_dma {
-> @@ -109,6 +109,7 @@ struct ti_csi2rx_ctx {
->  	struct v4l2_format		v_fmt;
->  	struct ti_csi2rx_dma		dma;
->  	struct media_pad		pad;
-> +	struct completion		drain_complete;
->  	u32				sequence;
->  	u32				idx;
->  	u32				vc;
-> @@ -249,6 +250,10 @@ static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
->  static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
->  			       struct ti_csi2rx_buffer *buf);
->  
-> +/* Forward declarations needed by ti_csi2rx_drain_callback. */
-> +static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx);
-> +static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx);
+> +static int ti_csi2rx_suspend(struct device *dev)
+> +{
+> +	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
+> +	enum ti_csi2rx_dma_state state;
+> +	struct ti_csi2rx_ctx *ctx;
+> +	struct ti_csi2rx_dma *dma;
+> +	unsigned long flags = 0;
+> +	int i, ret = 0;
 > +
->  static const struct ti_csi2rx_fmt *find_format_by_fourcc(u32 pixelformat)
->  {
->  	unsigned int i;
-> @@ -609,9 +614,32 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
->  
->  static void ti_csi2rx_drain_callback(void *param)
->  {
-> -	struct completion *drain_complete = param;
-> +	struct ti_csi2rx_ctx *ctx = param;
-> +	struct ti_csi2rx_dma *dma = &ctx->dma;
-> +	unsigned long flags;
+> +	/* If device was not in use we can simply suspend */
+> +	if (pm_runtime_status_suspended(dev))
+> +		return 0;
 > +
-> +	spin_lock_irqsave(&dma->lock, flags);
-> +
-> +	if (dma->state == TI_CSI2RX_DMA_STOPPED) {
-> +		complete(&ctx->drain_complete);
-> +		spin_unlock_irqrestore(&dma->lock, flags);
-> +		return;
-> +	}
->  
-> -	complete(drain_complete);
 > +	/*
-> +	 * If dma->queue is empty, it indicates that no buffer has been
-> +	 * provided by user space. In this case, initiate a transactions
-> +	 * to drain the DMA. Since one drain of size DRAIN_BUFFER_SIZE
-> +	 * will be done here, the subsequent frame will be a
-> +	 * partial frame, with a size of frame_size - DRAIN_BUFFER_SIZE
+> +	 * If device is running, assert the pixel reset to cleanly stop any
+> +	 * on-going streams before we suspend.
 > +	 */
-> +	if (list_empty(&dma->queue)) {
-> +		if (ti_csi2rx_drain_dma(ctx))
-> +			dev_warn(ctx->csi->dev, "DMA drain failed\n");
-> +	} else {
-> +		ti_csi2rx_dma_submit_pending(ctx);
-> +	}
-> +	spin_unlock_irqrestore(&dma->lock, flags);
->  }
->  
->  /*
-> @@ -629,12 +657,9 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
->  {
->  	struct ti_csi2rx_dev *csi = ctx->csi;
->  	struct dma_async_tx_descriptor *desc;
-> -	struct completion drain_complete;
->  	dma_cookie_t cookie;
->  	int ret;
->  
-> -	init_completion(&drain_complete);
-> -
->  	desc = dmaengine_prep_slave_single(ctx->dma.chan, csi->drain.paddr,
->  					   csi->drain.len, DMA_DEV_TO_MEM,
->  					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-> @@ -644,7 +669,7 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
->  	}
->  
->  	desc->callback = ti_csi2rx_drain_callback;
-> -	desc->callback_param = &drain_complete;
-> +	desc->callback_param = ctx;
->  
->  	cookie = dmaengine_submit(desc);
->  	ret = dma_submit_error(cookie);
-> @@ -653,13 +678,6 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
->  
->  	dma_async_issue_pending(ctx->dma.chan);
->  
-> -	if (!wait_for_completion_timeout(&drain_complete,
-> -					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
-> -		dmaengine_terminate_sync(ctx->dma.chan);
-> -		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
-> -		ret = -ETIMEDOUT;
-> -		goto out;
-> -	}
->  out:
->  	return ret;
->  }
-> @@ -703,14 +721,24 @@ static void ti_csi2rx_dma_callback(void *param)
->  	spin_lock_irqsave(&dma->lock, flags);
->  
->  	WARN_ON(!list_is_first(&buf->list, &dma->submitted));
-> -	vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> +	writel(0, csi->shim + SHIM_CNTL);
 > +
-> +	if (dma->state == TI_CSI2RX_DMA_DRAINING) {
-> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> +		dma->state = TI_CSI2RX_DMA_ACTIVE;
-> +	} else {
-> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-> +	}
+> +	for (i = 0; i < csi->num_ctx; i++) {
+> +		ctx = &csi->ctx[i];
+> +		dma = &ctx->dma;
 > +
->  	list_del(&buf->list);
->  
->  	ti_csi2rx_dma_submit_pending(ctx);
->  
-> -	if (list_empty(&dma->submitted))
-> -		dma->state = TI_CSI2RX_DMA_IDLE;
-> -
-> +	if (list_empty(&dma->submitted)) {
-> +		dma->state = TI_CSI2RX_DMA_DRAINING;
-> +		if (ti_csi2rx_drain_dma(ctx))
-> +			dev_warn(ctx->csi->dev,
-> +				 "DMA drain failed on one of the transactions\n");
-> +	}
->  	spin_unlock_irqrestore(&dma->lock, flags);
->  }
->  
-> @@ -746,6 +774,7 @@ static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
->  static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
->  {
->  	struct ti_csi2rx_dma *dma = &ctx->dma;
-> +	struct ti_csi2rx_dev *csi = ctx->csi;
->  	enum ti_csi2rx_dma_state state;
->  	unsigned long flags;
->  	int ret;
-> @@ -755,6 +784,8 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
->  	dma->state = TI_CSI2RX_DMA_STOPPED;
->  	spin_unlock_irqrestore(&dma->lock, flags);
->  
-> +	init_completion(&ctx->drain_complete);
+> +		spin_lock_irqsave(&dma->lock, flags);
+> +		state = dma->state;
+> +		spin_unlock_irqrestore(&dma->lock, flags);
 > +
->  	if (state != TI_CSI2RX_DMA_STOPPED) {
->  		/*
->  		 * Normal DMA termination does not clean up pending data on
-> @@ -763,11 +794,20 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
->  		 * enforced before terminating DMA.
->  		 */
->  		ret = ti_csi2rx_drain_dma(ctx);
-> -		if (ret && ret != -ETIMEDOUT)
+> +		if (state != TI_CSI2RX_DMA_STOPPED) {
+> +			/* Disable source */
+> +			ret = v4l2_subdev_disable_streams(&csi->subdev,
+> +							  TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
+> +							  BIT(0));
+> +			if (ret)
+> +				dev_err(csi->dev, "Failed to stop subdev stream\n");
+> +		}
+> +
+> +		/* Stop any on-going streams */
+> +		writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
+> +
+> +		/* Drain DMA */
+> +		ti_csi2rx_drain_dma(ctx);
+> +
+> +		/* Terminate DMA */
+> +		ret = dmaengine_terminate_sync(ctx->dma.chan);
 > +		if (ret)
->  			dev_warn(ctx->csi->dev,
->  				 "Failed to drain DMA. Next frame might be bogus\n");
+> +			dev_err(csi->dev, "Failed to stop DMA\n");
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int ti_csi2rx_resume(struct device *dev)
+> +{
+> +	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
+> +	struct ti_csi2rx_ctx *ctx;
+> +	struct ti_csi2rx_dma *dma;
+> +	struct ti_csi2rx_buffer *buf;
+> +	unsigned long flags = 0;
+> +	unsigned int reg;
+> +	int i, ret = 0;
+> +
+> +	/* If device was not in use, we can simply wakeup */
+> +	if (pm_runtime_status_suspended(dev))
+> +		return 0;
+> +
+> +	/* If device was in use before, restore all the running streams */
+> +	reg = SHIM_CNTL_PIX_RST;
+> +	writel(reg, csi->shim + SHIM_CNTL);
+> +
+> +	for (i = 0; i < csi->num_ctx; i++) {
+> +		ctx = &csi->ctx[i];
+> +		dma = &ctx->dma;
+> +		spin_lock_irqsave(&dma->lock, flags);
+> +		if (dma->state != TI_CSI2RX_DMA_STOPPED) {
+> +			/* Re-submit all previously submitted buffers to DMA */
+> +			list_for_each_entry(buf, &ctx->dma.submitted, list) {
+> +				ti_csi2rx_start_dma(ctx, buf);
+> +			}
+> +			spin_unlock_irqrestore(&dma->lock, flags);
+> +
+> +			/* Restore stream config */
+> +			ti_csi2rx_setup_shim(ctx);
+> +
+> +			ret = v4l2_subdev_enable_streams(&csi->subdev,
+> +							 TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
+> +							 BIT(0));
+> +			if (ret)
+> +				dev_err(ctx->csi->dev, "Failed to start subdev\n");
+> +		} else {
+> +			spin_unlock_irqrestore(&dma->lock, flags);
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int ti_csi2rx_pm_notifier(struct notifier_block *nb,
+> +				 unsigned long action, void *data)
+> +{
+> +	struct ti_csi2rx_dev *csi =
+> +		container_of(nb, struct ti_csi2rx_dev, pm_notifier);
+> +
+> +	switch (action) {
+> +	case PM_HIBERNATION_PREPARE:
+> +	case PM_SUSPEND_PREPARE:
+> +	case PM_RESTORE_PREPARE:
+> +		ti_csi2rx_suspend(csi->dev);
+> +		break;
+> +	case PM_POST_SUSPEND:
+> +	case PM_POST_HIBERNATION:
+> +	case PM_POST_RESTORE:
+> +		ti_csi2rx_resume(csi->dev);
+> +		break;
+> +	}
+> +
+> +	return NOTIFY_DONE;
+> +}
+> +
+>  static const struct dev_pm_ops ti_csi2rx_pm_ops = {
+>  	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
+>  		       NULL)
+> @@ -1607,6 +1726,20 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
+>  		goto err_notifier;
 >  	}
 >  
-> +	/* We wait for the drain to complete so that the stream stops
-> +	 * cleanly, making sure the shared hardware FIFO is cleared of
-> +	 * data from the current stream. No more data will be coming from
-> +	 * the source after this.
+> +	/*
+> +	 * Use PM notifier instead of .suspend/.resume callbacks because the
+> +	 * ordering of callbacks among camera pipeline devices (sensor, serdes,
+> +	 * CSI bridge) cannot be enforced even with device links. The notifier
+> +	 * is called when the system is fully functional, ensuring all
+> +	 * dependencies are available when stopping/starting streams.
 > +	 */
-> +	if (!wait_for_completion_timeout(&ctx->drain_complete,
-> +					 msecs_to_jiffies(DRAIN_TIMEOUT_MS)))
-> +		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
+> +	csi->pm_notifier.notifier_call = ti_csi2rx_pm_notifier;
+> +	ret = register_pm_notifier(&csi->pm_notifier);
+> +	if (ret) {
+> +		dev_err(csi->dev, "Failed to create PM notifier: %d\n", ret);
+> +		goto err_notifier;
+> +	}
 > +
->  	ret = dmaengine_terminate_sync(ctx->dma.chan);
->  	if (ret)
->  		dev_err(ctx->csi->dev, "Failed to stop DMA: %d\n", ret);
-> @@ -830,57 +870,14 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
->  	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->  	struct ti_csi2rx_buffer *buf;
->  	struct ti_csi2rx_dma *dma = &ctx->dma;
-> -	bool restart_dma = false;
->  	unsigned long flags = 0;
-> -	int ret;
+>  	return 0;
 >  
->  	buf = container_of(vb, struct ti_csi2rx_buffer, vb.vb2_buf);
->  	buf->ctx = ctx;
+>  err_notifier:
+> @@ -1634,6 +1767,8 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
+>  		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
 >  
->  	spin_lock_irqsave(&dma->lock, flags);
-> -	/*
-> -	 * Usually the DMA callback takes care of queueing the pending buffers.
-> -	 * But if DMA has stalled due to lack of buffers, restart it now.
-> -	 */
-> -	if (dma->state == TI_CSI2RX_DMA_IDLE) {
-> -		/*
-> -		 * Do not restart DMA with the lock held because
-> -		 * ti_csi2rx_drain_dma() might block for completion.
-> -		 * There won't be a race on queueing DMA anyway since the
-> -		 * callback is not being fired.
-> -		 */
-> -		restart_dma = true;
-> -		dma->state = TI_CSI2RX_DMA_ACTIVE;
-> -	} else {
-> -		list_add_tail(&buf->list, &dma->queue);
-> -	}
-> +	list_add_tail(&buf->list, &dma->queue);
->  	spin_unlock_irqrestore(&dma->lock, flags);
-> -
-> -	if (restart_dma) {
-> -		/*
-> -		 * Once frames start dropping, some data gets stuck in the DMA
-> -		 * pipeline somewhere. So the first DMA transfer after frame
-> -		 * drops gives a partial frame. This is obviously not useful to
-> -		 * the application and will only confuse it. Issue a DMA
-> -		 * transaction to drain that up.
-> -		 */
-> -		ret = ti_csi2rx_drain_dma(ctx);
-> -		if (ret && ret != -ETIMEDOUT)
-> -			dev_warn(ctx->csi->dev,
-> -				 "Failed to drain DMA. Next frame might be bogus\n");
-> -
-> -		spin_lock_irqsave(&dma->lock, flags);
-> -		ret = ti_csi2rx_start_dma(ctx, buf);
-> -		if (ret) {
-> -			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> -			dma->state = TI_CSI2RX_DMA_IDLE;
-> -			spin_unlock_irqrestore(&dma->lock, flags);
-> -			dev_err(ctx->csi->dev, "Failed to start DMA: %d\n", ret);
-> -		} else {
-> -			list_add_tail(&buf->list, &dma->submitted);
-> -			spin_unlock_irqrestore(&dma->lock, flags);
-> -		}
-> -	}
->  }
->  
->  static int ti_csi2rx_get_stream(struct ti_csi2rx_ctx *ctx)
+>  	ti_csi2rx_cleanup_notifier(csi);
+> +	unregister_pm_notifier(&csi->pm_notifier);
+> +
+>  	ti_csi2rx_cleanup_v4l2(csi);
+>  	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
+>  			  csi->drain.paddr);
 
 
