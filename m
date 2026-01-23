@@ -1,162 +1,197 @@
-Return-Path: <linux-media+bounces-51419-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51420-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eDaNHlh/c2mQwwAAu9opvQ
-	(envelope-from <linux-media+bounces-51419-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 15:02:00 +0100
+	id uDSoEEuCc2kDxAAAu9opvQ
+	(envelope-from <linux-media+bounces-51420-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 15:14:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6DC476959
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 15:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48F876D2C
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 15:14:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B74BF30541F0
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 13:59:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7219E3065E62
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 14:11:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C5FB2D1914;
-	Fri, 23 Jan 2026 13:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CEAB320CCD;
+	Fri, 23 Jan 2026 14:11:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZR9JCXd6"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="C0Uqq+VZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4652F361A
-	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 13:59:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288EC25228C
+	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 14:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769176791; cv=none; b=ViUHD4n9ckdRoi+ww5Bp04NsV20U9fg8Z1ILq5UP2Gw9iHv6z1CT9fHvJPKv744G3T2aGkIBcusJ79u/pDnuHq9nKHz7dvofJDBPgoAzBdaN3j7MXbYokEIfFlyTOKjSUWJakLGe8CKEkW/Tn/Mt4v3yi+lKLf0lYYeXlYs6SUI=
+	t=1769177504; cv=none; b=kMZH22+X2nJ35cibytis3bygmn95GTWLdgAO77/gSZ4pEgo86GHL2LwLQwiI9fQuXrOOF+o7UhbXgsbV/SGKL8mkoUq8iYafyU9TeQQvd6mw91T1QEuV5NqB8TkaTqoxrBqx8j8iNKQk7LloaHJ0uQ4Pg35r8j4rREH3jNrib3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769176791; c=relaxed/simple;
-	bh=bOwB+6jFlQ7iSC8wkTv30Rdr61wfqkVfXuMyGTo45zQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BBSrugZiXfiO1x91NFACyKAOQ4EQiYkwjEjP2RTwwu85oBZohHAq/El57oRpuRkmWEJ/+ODQVyc3vV8QKt7HVEUaeU3PrI3H/NxOGq1/428XWZnVowWr6fe2f+7DcXBK39tO6EeVnKV+ZU8Jo1do7PhZkEEIY34aNTVjFIH4lNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZR9JCXd6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC29C4CEF1;
-	Fri, 23 Jan 2026 13:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769176791;
-	bh=bOwB+6jFlQ7iSC8wkTv30Rdr61wfqkVfXuMyGTo45zQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZR9JCXd6xZyxgzb7BalO7sgSdeQXuQ/yJ5xAj0Qyk6vLmNPa6JmFmhPPtEg0aSMWn
-	 EVPwlM4DIV0+XUV7JgtBLX8AIFOsq/qJYAwDsTA7RY/Z1h1lZbAkcHfweccLSQsBFX
-	 63FQBo0w3ajplA7z1tIN3mxU3javlWOIcg0hDT5Fyc39CEfK7QEkHXjA16L94p0iC7
-	 tsuedUCMpy/6/WvYj/erJ633pPrd3AkFueLWWqEBvlBgr5Zv+r6gCMjvcVq4RVjUI9
-	 l98FD3InLlGa833oEeSTNt5PEqdoszws16eUb/MV/0TkJZEYUMpQa+Ie2zK9ng7+dj
-	 kOXmoqLsAE6jA==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vjHhV-000000063zU-2Gzn;
-	Fri, 23 Jan 2026 14:59:49 +0100
-Date: Fri, 23 Jan 2026 14:59:10 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Nicolas
- Dufresne <nicolas.dufresne@collabora.com>, Bryan O'Donoghue
- <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCHv6 1/3] docs: media: update maintainer-entry-profile for
- multi-committers
-Message-ID: <20260123145910.7b9fb258@localhost>
-In-Reply-To: <f5e7f0fc-c259-4552-8513-a3862bee5c29@kernel.org>
-References: <cover.1761571713.git.hverkuil+cisco@kernel.org>
-	<1495ec4ccdcdfab788fa9d02e11a6028a455e31b.1761571713.git.hverkuil+cisco@kernel.org>
-	<CANiDSCsJwYht4_v8B_1n2u+MxuHSo+nD5xsZ85VLujgAEEMqOw@mail.gmail.com>
-	<f5e7f0fc-c259-4552-8513-a3862bee5c29@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1769177504; c=relaxed/simple;
+	bh=58had73B0AHtHiPbJGrC4Y2rRw/02IpIYPrJvcRhLO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WCuGHbCUFhNELy9r/IEJxHa/eBprXci0fQPhRiic/PgDZdYZuGMI6sa5l/tQjPlG87BrVDAjAZVDam4knU9JSAvGghSnZAFV+upsQpMD+hIbx+BA2VwT+e+pjKZaPv6TMkEIWbMblVyK2Pd9kEcwSCmwGq4nwssmpsI49LFrQxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=C0Uqq+VZ; arc=none smtp.client-ip=209.85.219.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-8946e32e534so30682436d6.3
+        for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 06:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1769177502; x=1769782302; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=A5PKpJ/4T6+3Viu0suTKGZFl50yyl7xVfieAULiIAgY=;
+        b=C0Uqq+VZawmT5EaGo/9vHmRPXawiuY2+AI85l4+cD0a6Su5zkhTpoX/FlMcYZ04mkw
+         aOmEYGoPZ1/HuCxAZjn+g9KW1gvYWd6zyvF6o+Rr2qiVVWAuYp1OVdKZcERI3Cu7U156
+         m0SlyUp3PhQ3tugG/fIti/LjSJE6EiDAum3E72JYVdkX8YTsgPnxOwDemTaLr3+ORJIj
+         6ai8JjK3Rlw0dFWlZmSZH97cuFECxaKdmJKxc7ZtxpxebYi1QUZj4SftTrsTiK3RPdaY
+         ZX5wMvoPN1024KOc4foiHXMoTFMdqwXI2bLdsD62NBepnhQ0Lf4QVTvyUe34U8NgESMI
+         ysNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769177502; x=1769782302;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A5PKpJ/4T6+3Viu0suTKGZFl50yyl7xVfieAULiIAgY=;
+        b=NYk6TDHH9fmOcYb3GQByXCRmEMn4pTgiI8J10h3d27UYwhVTdD7FvM2/yfZFqelCdF
+         xAigXhZhJFu2Co6BaYjOiRLmkgSsBbIbkERvkxSnY+aibVsaDMfpSi4islyuQDJqVhT1
+         mbIGSGZDKfXgfqs0EznIDghNWt7/EJ5Sj7tPryBPOTIZXKXrYmJS8l3i6fszAimJcATk
+         3GqQeUcIOOBlEEqcoecIaIrVBXarjCl7QiAQDbSnW51XL+78qiCSwHf34x0PttrI8qia
+         2XHGoK3wn0/TT/PQelIKmIj3Ovcb4H2TPE4gwWlvyfg8AWIXOEbXNLi68vWWNlby/Apg
+         5bng==
+X-Forwarded-Encrypted: i=1; AJvYcCWhxTjwwyuePN6m+MZNtDWgH7sBnZkyGagZevKgCLyaJlmhiIrkkRXp60+QPuy2wkH4GVoDQ/57uHtxOQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpJO80pudW7g86dLR48+jX7R5EBu61HUVR/B54dMNIgnLc4Uea
+	R43PXrFUmK4QEq0RxjJzOYjxbk0wdf74WsEhQd9Y1+AnzVyxkGHPmnOjv8ARmEToPOQ=
+X-Gm-Gg: AZuq6aK3PUcZziLsoua3F4q24AXpb5pANknB/ZqDcguqs0C66upsolid9ouU8i6Jabn
+	BNGrl/JsaqIVLXz2kKy52eyU0K2DNsb6bKNv1OQkDDGzBZqMAF08DE2liNCYtWF+sID/fFYq7/k
+	7SbcShTDp4GeFKFutCCWLkVHRA4R20VShjaygye4gITcqi+ixbLetwVE6FBQZ0OYZJXST4JFMFX
+	Rau+4W4HhQUirXGytolCpsuicbHvjJ45UiWxOjqDXraYqCoN/sseQI8/rW4wk0GaJ0K2E6pQWqv
+	awlU0Hm3qodMB1LVqorz6eTeCImzlXo8FJUsgU4n82sbrMo3CEswgk2TVitHLzDzFbF3NVPVgJo
+	TW86ancUryAvgJh/yjhR9wTyp/2Frh2fTKNHbHzqijdb4ok4g3e6JQyhJOOfzCQymcCqyHCNQ7q
+	se2C0sgNooFadWte9oxfnxOtEgt82WZH1WFUhnSzPlBNiFPH7hKJwrf954nRj13Q3AJYxnOi7S8
+	yNFFA==
+X-Received: by 2002:ad4:5c46:0:b0:88a:589b:5db5 with SMTP id 6a1803df08f44-894900d6bccmr42275406d6.0.1769177502022;
+        Fri, 23 Jan 2026 06:11:42 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c6e37c8fa6sm187731585a.4.2026.01.23.06.11.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jan 2026 06:11:41 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vjHsy-00000006stw-3Bfb;
+	Fri, 23 Jan 2026 10:11:40 -0400
+Date: Fri, 23 Jan 2026 10:11:40 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v3 6/7] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260123141140.GC1589888@ziepe.ca>
+References: <20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com>
+ <20260120-dmabuf-revoke-v3-6-b7e0b07b8214@nvidia.com>
+ <b129f0c1-b61e-4efb-9e25-d8cdadaca1b3@amd.com>
+ <20260121133146.GY961572@ziepe.ca>
+ <b88b500c-bacc-483d-9d1a-725d4158302a@amd.com>
+ <20260121160140.GF961572@ziepe.ca>
+ <a1c55bd8-9891-4064-83fe-ac56141e586f@amd.com>
+ <20260122234404.GB1589888@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260122234404.GB1589888@ziepe.ca>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51419-lists,linux-media=lfdr.de,huawei];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-51420-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[ziepe.ca];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.988];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E6DC476959
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:mid,ziepe.ca:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A48F876D2C
 X-Rspamd-Action: no action
 
-On Fri, 23 Jan 2026 14:42:30 +0100
-Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
-
-> On 03/12/2025 13:27, Ricardo Ribalda wrote:
-> > Hi Hans
+On Thu, Jan 22, 2026 at 07:44:04PM -0400, Jason Gunthorpe wrote:
+> On Thu, Jan 22, 2026 at 12:32:03PM +0100, Christian König wrote:
+> > >> What roughly happens is that each DMA-buf mapping through a couple
+> > >> of hoops keeps a reference on the device, so even after a hotplug
+> > >> event the device can only fully go away after all housekeeping
+> > >> structures are destroyed and buffers freed.
+> > > 
+> > > A simple reference on the device means nothing for these kinds of
+> > > questions. It does not stop unloading and reloading a driver.
 > > 
-> > Thanks for the new version
+> > Well as far as I know it stops the PCIe address space from being re-used.
 > > 
-> > On Mon, 27 Oct 2025 at 14:51, Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
-> >>
-> > 
-> > I also prefer the original nomenclature for the roles:
-> > 
-> > Contributor: Anyone that posts a patch to the ML
-> > Committer: Contributors that can commit (List provided by you)
-> > Core Committer:  Laurent, Sakari, Sean and Sebastian  (Names in the
-> > original presentation, should be updated)
-> > Subsystem Maintainer: Mauro and Hans
-> > 
-> > In my head, a maintainer is someone that pushes to the upper tree,
-> > rebases and merges. In the media-committer tree that is only you and
-> > Mauro.
+> > So when you do an "echo 1 > remove" and then an re-scan on the
+> > upstream bridge that works, but you get different addresses for your
+> > MMIO BARs!
 > 
-> No, a maintainer is someone who decides when patches are ready for
-> mainline inclusion and posts PRs. A committer is a maintainer who
-> can directly push patches to the git tree and can skip the PR step.
-> 
-> Previous versions of this series mixed those concepts, which was very confusing.
+> That's pretty a niche scenario.. Most people don't rescan their PCI
+> bus. If you just do rmmod/insmod then it will be re-used, there is no
+> rescan to move the MMIO around on that case.
 
-The problem with this version is that it is also mixing/overriding
-nomenclatures. Basically:
+Ah I just remembered there is another important detail here.
 
-- a maintainer is anyone with his name at MAINTAINERS file;
-- subsystem maintainer is also a clear concept.
+It is illegal to call the DMA API after your driver is unprobed. The
+kernel can oops. So if a driver is allowing remove() to complete
+before all the dma_buf_unmaps have been called it is buggy and risks
+an oops.
 
-We need to avoid more mess to the "maintainer" here. This was
-clearer at the previous version, as "committer" and "core committer"
-are clear concepts and won't conflict with existing nomenclature,
-but now that we're splitting committer function as an orthogonal
-attribute (nothing against that), we need better names for the
-maintainers that are described on this profile. maybe:
+https://lore.kernel.org/lkml/8067f204-1380-4d37-8ffd-007fc6f26738@kernel.org/T/#m0c7dda0fb5981240879c5ca489176987d688844c
 
-- media core maintainer: for people responsible to maintain part of
-  the media framework;
-- media driver maintainer: for everyone else that is listed
-  at MAINTAINERS with stuff under drivers/media and/or
-  drivers/staging/media(*) and it is not a media core maintainer.
+As calling a dma_buf_unmap() -> dma_unma_sg() after remove() returns
+is not allowed..
 
-(*) Should the ones with drivers only at staging be placed on
-    a different group like "staging media driver maintainer"?
-
-Regards,
-Mauro
+Jason
 
