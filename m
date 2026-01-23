@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-51378-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51384-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sC4SGZzocmmvrAAAu9opvQ
-	(envelope-from <linux-media+bounces-51378-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 04:18:52 +0100
+	id 2GIAH1XpcmmvrAAAu9opvQ
+	(envelope-from <linux-media+bounces-51384-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 04:21:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AFD6FF93
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 04:18:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC2B70032
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 04:21:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A37FC301F7AE
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 03:18:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 80A7630417B3
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 03:19:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5202038A2B9;
-	Fri, 23 Jan 2026 03:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 351AA38F243;
+	Fri, 23 Jan 2026 03:18:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="l+AYoylF"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="s65CGEQY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066C93491C7;
-	Fri, 23 Jan 2026 03:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA17363C4D;
+	Fri, 23 Jan 2026 03:17:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769138273; cv=none; b=k5r7I3kRkHUT66qgIYGR7QpuNmfscAlAIVsJgkFv+md9JjIfXdKO7cCLzULgG3w9DQ8o4CEwd7D8zQjHmClTGImWUb8W5OqwSyHYro237ypI3ZhBucWuEhEnkg0taOlIU/NiNLvYYOdkEAl818KRIsbjTOqrGkkDa7NRU98FpOI=
+	t=1769138294; cv=none; b=sDE+VlTDzJIX8Yb4HzQdvm+As7NDzHajzPYps9vwkyEk5i87xGVAlv8/MF4fNB2fO4chz8qAOpkoZXPDvVcUjYYXEK09zPIJgPDEwpc2/gy3tnx1yPyTQLQlio2AjguKmR6WDuuBKGJUgZ/x4lRnyvSxHnv7GaTBXs9xBDGtBxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769138273; c=relaxed/simple;
-	bh=zfD2PX1b8W8KFBfMWZ4TCGVXtMMD2EceMlQo0LKvUmg=;
+	s=arc-20240116; t=1769138294; c=relaxed/simple;
+	bh=pR9/PyAzlyAm+/bl4qd/wADSEkghY/mIaSW9oVRK3SA=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l6R3FXBXdNLhB5AzF0GnRWgmcoFeOYy5N1//A0IFkm3EYIeiPxW1tYGOH+IZ6lrVVQ/D8dB27aE8Ci1BscecwkkzJRO+jHV6DFpMrD3k9VOBzSfL6b9TXUHyaGYlbqNko+rynl2sgG5EgViZ7rknJj7seNQOBYjquJzL5PZ9INo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=l+AYoylF; arc=none smtp.client-ip=60.244.123.138
+	 MIME-Version:Content-Type; b=GRkkH4JhGH7Oqml8KALd+zLK/ah/r9XMnlpBozr2zJoaKerFHNPR+TWqWFkRSGUqAJ3mGxQCdTqaPPe9HsXicyfaSi5vPk9GX9E8khJWJKz14J6CvaQMJXRrPTrkdn+reijRkzlUUFKTVkawjUXP1ts2F3AF8+rd2sOzQbSIZ9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=s65CGEQY; arc=none smtp.client-ip=210.61.82.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 092d2686f80a11f085319dbc3099e8fb-20260123
+X-UUID: 09b225b6f80a11f0b7fc4fdb8733b2bc-20260123
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From; bh=fsTns3WQ4nSeIeb/7kUbwa4+ZRn9tqQuE2VsPj7ffRQ=;
-	b=l+AYoylFlxqJ1HOrtFV2g8AcGaUomSfag3qfkk3uDD94itwxpPo+1vmSeDvVSPsfp+BBE3HUpIAbrTgpLbf84AYACn8TJ9jUt/OnWLxblSQkHSz+juk7dMy89mT2gpeLrWmGO/6wTV4eZpnHgP5r+B91+mHdvu45DsQL4pFQz6U=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From; bh=FepdDh9vRh4E0zlEohhItv+3SrQS8EdEifvH1doRcQk=;
+	b=s65CGEQY+fc32xLvT1bxZN3SwuotBA0R3JKjNIAHMLE0IJUfo2Ek8CQ2WpG4uU/tYzkeprCQtBsVux7tYPGYWHRGGX2tzckcT67rrlmrit6cNNeHxaqOO4/BQAShS8O7fMY/k6KjEJ4yjaP3V17OJeAYXerAnqKOjMFmCBV3nCg=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.11,REQID:b2727820-f94a-4249-b44b-8a7cd69861af,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:89c9d04,CLOUDID:ff09755a-a957-4259-bcca-d3af718d7034,B
+X-CID-O-INFO: VERSION:1.3.11,REQID:7eddb441-e7cf-437a-a899-90130653cde3,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:89c9d04,CLOUDID:120a755a-a957-4259-bcca-d3af718d7034,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|888|898,TC:-5,Content:
 	0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0,OSI
 	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
@@ -50,18 +50,18 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 092d2686f80a11f085319dbc3099e8fb-20260123
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+X-UUID: 09b225b6f80a11f0b7fc4fdb8733b2bc-20260123
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
 	(envelope-from <kyrie.wu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 496935944; Fri, 23 Jan 2026 11:17:23 +0800
+	with ESMTP id 1269233568; Fri, 23 Jan 2026 11:17:24 +0800
 Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 23 Jan 2026 11:17:22 +0800
+ 15.2.2562.29; Fri, 23 Jan 2026 11:17:23 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.2562.29 via Frontend Transport; Fri, 23 Jan 2026 11:17:21 +0800
+ 15.2.2562.29 via Frontend Transport; Fri, 23 Jan 2026 11:17:22 +0800
 From: Kyrie Wu <kyrie.wu@mediatek.com>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
 	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
@@ -72,9 +72,9 @@ To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
 	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
 	<linux-mediatek@lists.infradead.org>
-Subject: [PATCH v12 03/12] media: mediatek: jpeg: fix buffer structure size and layout
-Date: Fri, 23 Jan 2026 11:17:04 +0800
-Message-ID: <20260123031713.14621-4-kyrie.wu@mediatek.com>
+Subject: [PATCH v12 04/12] media: mediatek: jpeg: Fix buffer completion on multi-core streaming stop
+Date: Fri, 23 Jan 2026 11:17:05 +0800
+Message-ID: <20260123031713.14621-5-kyrie.wu@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20260123031713.14621-1-kyrie.wu@mediatek.com>
 References: <20260123031713.14621-1-kyrie.wu@mediatek.com>
@@ -102,7 +102,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_TO(0.00)[xs4all.nl,kernel.org,collabora.com,gmail.com,mediatek.com,vger.kernel.org,lists.infradead.org];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51378-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51384-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -115,57 +115,62 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	NEURAL_HAM(-0.00)[-0.998];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mediatek.com:email,mediatek.com:dkim,mediatek.com:mid]
-X-Rspamd-Queue-Id: 03AFD6FF93
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mediatek.com:email,mediatek.com:dkim,mediatek.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1AC2B70032
 X-Rspamd-Action: no action
 
-Updates the `buf_struct_size` in the JPEG driver to use the correct
-structure `mtk_jpeg_src_buf` instead of `v4l2_m2m_buffer`, ensuring
-proper handling of source buffers. The previous buffer size led to
-mismatches and potential issues during video buffer handling.
+Enhances the Mediatek JPEG driver's stability and reliability by ensuring
+that all queued buffers are processed before stopping the streaming in
+multi-core environments. It introduces a call to
+`vb2_wait_for_all_buffers()` in the `mtk_jpeg_enc_stop_streaming()` and
+`mtk_jpeg_dec_stop_streaming()` functions when the `multi_core` variant
+is enabled. This change ensures that no buffers are left unprocessed,
+preventing potential data loss or corruption during multi-core flow.
 
-Moves `frame_num` in the `mtk_jpeg_src_buf` structure to align with
-other members appropriately. The first field of the driver-specific
-buffer structure must be the subsystem-specificstruct
-(vb2_v4l2_buffer in the case of V4L2).
-
+Fixes: 0fa49df4222f ("media: mtk-jpegdec: support jpegdec multi-hardware")
+Fixes: dedc21500334 ("media: mtk-jpegdec: add jpeg decode worker interface")
+Fixes: 934e8bccac95 ("mtk-jpegenc: support jpegenc multi-hardware")
 Fixes: 5fb1c2361e56 ("mtk-jpegenc: add jpeg encode worker interface")
 Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 2 +-
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 504b3d40b137..d2ed8a5dadd7 100644
+index d2ed8a5dadd7..a283ca914ccc 100644
 --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
 +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1092,7 +1092,7 @@ static int mtk_jpeg_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
- 	dst_vq->io_modes = VB2_DMABUF | VB2_MMAP;
- 	dst_vq->drv_priv = ctx;
--	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
-+	dst_vq->buf_struct_size = sizeof(struct mtk_jpeg_src_buf);
- 	dst_vq->ops = jpeg->variant->qops;
- 	dst_vq->mem_ops = &vb2_dma_contig_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-index 6be5cf30dea1..148fd41759b7 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-@@ -85,10 +85,10 @@ struct mtk_jpeg_variant {
- };
+@@ -850,8 +850,12 @@ static struct vb2_v4l2_buffer *mtk_jpeg_buf_remove(struct mtk_jpeg_ctx *ctx,
+ static void mtk_jpeg_enc_stop_streaming(struct vb2_queue *q)
+ {
+ 	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(q);
++	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
+ 	struct vb2_v4l2_buffer *vb;
  
- struct mtk_jpeg_src_buf {
--	u32 frame_num;
- 	struct vb2_v4l2_buffer b;
- 	struct list_head list;
- 	u32 bs_size;
-+	u32 frame_num;
- 	struct mtk_jpeg_dec_param dec_param;
++	if (jpeg->variant->multi_core)
++		vb2_wait_for_all_buffers(q);
++
+ 	while ((vb = mtk_jpeg_buf_remove(ctx, q->type)))
+ 		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_ERROR);
+ }
+@@ -859,6 +863,7 @@ static void mtk_jpeg_enc_stop_streaming(struct vb2_queue *q)
+ static void mtk_jpeg_dec_stop_streaming(struct vb2_queue *q)
+ {
+ 	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(q);
++	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
+ 	struct vb2_v4l2_buffer *vb;
  
- 	struct mtk_jpeg_ctx *curr_ctx;
+ 	/*
+@@ -866,6 +871,9 @@ static void mtk_jpeg_dec_stop_streaming(struct vb2_queue *q)
+ 	 * Before STREAMOFF, we still have to return the old resolution and
+ 	 * subsampling. Update capture queue when the stream is off.
+ 	 */
++	if (jpeg->variant->multi_core)
++		vb2_wait_for_all_buffers(q);
++
+ 	if (ctx->state == MTK_JPEG_SOURCE_CHANGE &&
+ 	    V4L2_TYPE_IS_CAPTURE(q->type)) {
+ 		struct mtk_jpeg_src_buf *src_buf;
 -- 
 2.45.2
 
