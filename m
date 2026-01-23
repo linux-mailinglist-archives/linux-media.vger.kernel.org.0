@@ -1,177 +1,588 @@
-Return-Path: <linux-media+bounces-51427-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51428-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cIksNHWQc2l0xAAAu9opvQ
-	(envelope-from <linux-media+bounces-51427-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 16:15:01 +0100
+	id sIw+FseRc2ntxAAAu9opvQ
+	(envelope-from <linux-media+bounces-51428-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 16:20:39 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B24779CB
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 16:15:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B43D177B8A
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 16:20:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8F7703048BDF
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 15:08:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 10C5F3040192
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 15:20:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DEF01ADC83;
-	Fri, 23 Jan 2026 15:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B07CE2FDC55;
+	Fri, 23 Jan 2026 15:20:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NZmHXfsb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RwyNNQb2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21DC265CA8
-	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 15:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C625725B1D2
+	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 15:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769180929; cv=none; b=XmV0SUy5ORlqqB560O3zqcEL6ha/bSbMuEh3PadLf48tQWdWAW+JWDG2B0JybZfbifaDsLuc5kqgPdLpIZuRXM7khi+MQw+A1keyxd6mtSUp5UFG5BODtZDkz0dB94RwcjBPjngqrsb6+iC43mn0KB7yBAMb0t10BOGzBtLKVcE=
+	t=1769181601; cv=none; b=d/rKKjDVDfa+dBngd7CGpBe/7RU+fmjtrYOaPSHjQXVL7lkiXPFcklNmJrLcp7Nrl8wxtt1Qvt5wNCe3fSkT5NrrELrYPlPebRSx2UocJ890XHAogawZsUF+TRkLZyJa4KNgrfAAVLxI1q3/AnArqTS8AHINq/6X3gHf6d/5Mtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769180929; c=relaxed/simple;
-	bh=09QbHNmS/T4BzfyfvRfb26gCgbYR5VjH0MG/VK7w17Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mAndBMQvOOnFhjrb2jbRDMXLbqcJ6cf0fSKYe7nGqWS2q6dWVJcGB9H422FFk+xeRiV/ZQa9pBTPv8ZJo7Ol6wxuh1jUN0l3VdMQftMJSC/AYZ0a0NV+G9go/U3K6rHx65DwpDPMn9BshXM5MTzvL51WvpDcn4CtMgW8MRV0zng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NZmHXfsb; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-81dbc0a99d2so1198601b3a.1
-        for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 07:08:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769180926; x=1769785726; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YyeOR5cSDI1vn1EJE7YZ4jqQKxKnIqaBmIJqtxqHi+k=;
-        b=NZmHXfsbX3ixjbv+88oOqeSWekgsnebIz/dccILeiYrAbTJ3wtZTnZB/cHOR2/HTT3
-         F9iDNR+BEQ6bsRgziwc+1a3CXwQmDWrbGs/1JpsIE6PRHmNsmUAWg0pNj6DaV5nTmgqP
-         KuG+MAqt0t8Tvo8Eq5EbJKQw9mQYxu+Dp57d3ARQU3E+0CYPoGkPd9WagM+tHfl7ljJi
-         TFPv7bifol5grK26e2jGmIZY0l/JuKM73UTaK4rYD2jDCcV3TlkkvDNaFl+4JDWwWr7B
-         1P6SuKXJ5xW+kHxA+J0GAoJfpXb6GLFNw/PxlkeUsVtAS3pMRercr6lip8APUiXz1XTp
-         DTHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769180926; x=1769785726;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YyeOR5cSDI1vn1EJE7YZ4jqQKxKnIqaBmIJqtxqHi+k=;
-        b=ucFaWdqHB1paymnAPB9KBOaw0/40Xoy9atyAok1LEbGhZsi/wtSYVzPMbiVPQUEM8V
-         45o8yS/MMQY4Bwn5gi4yo7dDAdFQNutC3d8oV+t6MZFhfHQklSOviMwGpNqridZuQrl7
-         mtoUDIe3bCT4Q0Ry6aghofYTSnwwCp2RLgsBHy9mqdqglayfWTjGVm1jdOqbZ/KEXNP0
-         e6ORyO/RFwwA/2z0BbdGQnhU/tg370OxevTRoudkC3LkTTy6dot8hF7HGpaVqI1TbvGg
-         rq0NcA4QwGONemDD/E9RTtrJoh2Iuqe/jmalvu78z7yWYsL+CFqYI3/m00ay3wWuwppq
-         uCjA==
-X-Gm-Message-State: AOJu0YzFYOMJR08XjgYzKxrkhdmK3uJYr9LpfafSmnWDymxpQBPXnrxP
-	VbWr6rxp3y9Rcq0KL9PcAVVy2uYh+Yo2aPFNgHA/E0r74or8Dz29HoG9
-X-Gm-Gg: AZuq6aKBe56yj+38IqtG0txsIB/qxRZEsDgJPVhlVn9vLjLIxE18H6j85RsLBd3eRGt
-	aWxsekDrdzVih9qSgCrJFYleJvQfjOOzNotRaDdMMKr74R9OEWelWmJgpNr4zNKuQThkyejhHmn
-	iuv4xbCDxEvUFr1+dUH4IcDdeKYHgLZ0gqviiDYq+wkIhufMAz7uwVK9H6TnVv5fIYYEuda5kQO
-	n02lOIWFh1SoJ+u0WaELM4nJA1IU5bEVL5NoX/FxTFflCE8AbnQGziIyLcwT/2xNvW0i8OlgAau
-	pF5PLQVF8pQDRtUc552W5Nd45gaeQp3A7QDOcnTMEO5Go858uIjehmiNLCmUT77AwqRDfuZWTZJ
-	fWvP0oyxZxSloy/qxbdWgVbCXxkQboHaFzT/2HbHeBLNW88113lZDgMzYj+/7PLcKZwMT42vocC
-	YZ9MLIja4j0gd2CWft9X1nsw5kEbpE7qwEXkGXhtSU5ns4FzEAxB1E6/ajCfK96dIKctog8DIPf
-	8ydab8pNshC
-X-Received: by 2002:a05:6a20:6a06:b0:37e:8eab:c05f with SMTP id adf61e73a8af0-38e6f7f56bcmr3719090637.59.1769180925480;
-        Fri, 23 Jan 2026 07:08:45 -0800 (PST)
-Received: from johnson-VirtualBox.. (211-22-107-155.hinet-ip.hinet.net. [211.22.107.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c635a157a4asm2301490a12.13.2026.01.23.07.08.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Jan 2026 07:08:45 -0800 (PST)
-From: Johnson Huang <kusogame68@gmail.com>
-To: mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zilin@seu.edu.cn,
-	sef1548@gmail.com,
-	Johnson Huang <kusogame68@gmail.com>
-Subject: [PATCH] media: drx39xyj: fix typos in comments
-Date: Fri, 23 Jan 2026 23:08:39 +0800
-Message-ID: <20260123150839.23840-1-kusogame68@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1769181601; c=relaxed/simple;
+	bh=eYvD2/xdiqSdPEzngZUG7g0CNjWBRrztnZlc3ogjPYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C63WaSaC8AHa0sVCqjDq4ljgUySTF/lYb3Iuz4h/zYg7NCiZPAonj1cKnuUhiSBRgPL50FTfvmNXRudhzXsttVRWSpFlS8dhWa7dIiCPe03z3Ip0zdcmB7hJomQQyrp0Aiw0HiP4lEA55O8oDGW/4aEOC0N3xJZEinXGnA0w81w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RwyNNQb2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBB3FC4CEF1;
+	Fri, 23 Jan 2026 15:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769181601;
+	bh=eYvD2/xdiqSdPEzngZUG7g0CNjWBRrztnZlc3ogjPYw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RwyNNQb268Q+wBsGRi53L5y7Sl5Cmc5GRBhS+R0krOJcpYiam4KTt8ip8llrQyfxw
+	 uS76Jca4MVbm5j/21jCeaetfyFiG+7fESdhzEJ9/hVwnZYE+aRlR4Skyp5mbem8n5k
+	 HlrwYi8deW/iDf/2vKXNQfgV4ooq5rssogG4mFSooR5tDK3fhEgHGlEdUwcwVTo1FA
+	 8MIQwmWrKeTVO8vMzVSHCC2piPeClZPsty/iF5ggqsdmURvjqd3rFVsFFyouBL1+w9
+	 HlzzaVihEDaIk76nanM0QBcEtSUFoJU0H3GGEHhuKRCgJs32YNSbsjTxXdb0rqWOSB
+	 9qgaF/bIOvrVg==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vjIx2-000000065vq-3T4O;
+	Fri, 23 Jan 2026 16:19:58 +0100
+Date: Fri, 23 Jan 2026 16:19:55 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Nicolas
+ Dufresne <nicolas.dufresne@collabora.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCHv6 1/3] docs: media: update maintainer-entry-profile for
+ multi-committers
+Message-ID: <20260123161955.79761c82@localhost>
+In-Reply-To: <e1e2fe4d-46db-49c7-b555-c7afac1bbfca@kernel.org>
+References: <cover.1761571713.git.hverkuil+cisco@kernel.org>
+	<1495ec4ccdcdfab788fa9d02e11a6028a455e31b.1761571713.git.hverkuil+cisco@kernel.org>
+	<20251203104328.23d3139c@foz.lan>
+	<e1e2fe4d-46db-49c7-b555-c7afac1bbfca@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[vger.kernel.org,seu.edu.cn,gmail.com];
-	TAGGED_FROM(0.00)[bounces-51427-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51428-lists,linux-media=lfdr.de,huawei];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kusogame68@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 47B24779CB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B43D177B8A
 X-Rspamd-Action: no action
 
-Fix several spelling and grammar issues in comments,
-including coderate descriptions and Doxygen annotations.
-No functional changes.
+On Fri, 23 Jan 2026 15:16:37 +0100
+Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
 
-Signed-off-by: Johnson Huang <kusogame68@gmail.com>
----
- drivers/media/dvb-frontends/drx39xyj/drx_driver.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> On 03/12/2025 10:43, Mauro Carvalho Chehab wrote:
+> > Em Mon, 27 Oct 2025 14:28:31 +0100
+> > Hans Verkuil <hverkuil+cisco@kernel.org> escreveu:
+> >   
+> >> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >>
+> >> As the media subsystem will experiment with a multi-committers model,
+> >> update the Maintainer's entry profile to the new rules.
+> >>
+> >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> >> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> >> ---
+> >>  .../media/maintainer-entry-profile.rst        | 368 +++++++++++++++---
+> >>  1 file changed, 308 insertions(+), 60 deletions(-)
+> >>
+> >> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> >> index 2127e5b15e8f..af499e79b23e 100644
+> >> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> >> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> >> @@ -4,19 +4,25 @@ Media Subsystem Profile
+> >>  Overview
+> >>  --------
+> >>  
+> >> -The media subsystem covers support for a variety of devices: stream
+> >> -capture, analog and digital TV streams, cameras, remote controllers, HDMI CEC
+> >> -and media pipeline control.
+> >> +The Linux Media Community (aka: the LinuxTV Community) is formed of
+> >> +developers working on Linux Kernel Media Subsystem, together with users
+> >> +who also play an important role in testing the code.
+> >>  
+> >> -It covers, mainly, the contents of those directories:
+> >> +The Media Subsystem has code to support a wide variety of media-related
+> >> +devices: stream capture, analog and digital TV streams, cameras,
+> >> +video codecs, video processing (resizers, etc.), radio, remote controllers,
+> >> +HDMI CEC and media pipeline control.
+> >> +
+> >> +The Media Subsystem consists of the following directories in the kernel
+> >> +tree:
+> >>  
+> >>    - drivers/media
+> >>    - drivers/staging/media
+> >> +  - include/media
+> >> +  - Documentation/devicetree/bindings/media/\ [1]_
+> >>    - Documentation/admin-guide/media
+> >>    - Documentation/driver-api/media
+> >>    - Documentation/userspace-api/media
+> >> -  - Documentation/devicetree/bindings/media/\ [1]_
+> >> -  - include/media
+> >>  
+> >>  .. [1] Device tree bindings are maintained by the
+> >>         OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS maintainers
+> >> @@ -27,19 +33,264 @@ It covers, mainly, the contents of those directories:
+> >>  Both media userspace and Kernel APIs are documented and the documentation
+> >>  must be kept in sync with the API changes. It means that all patches that
+> >>  add new features to the subsystem must also bring changes to the
+> >> -corresponding API files.
+> >> +corresponding API documentation.
+> >>  
+> >> -Due to the size and wide scope of the media subsystem, media's
+> >> -maintainership model is to have sub-maintainers that have a broad
+> >> -knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+> >> -task to review the patches, providing feedback to users if the patches are
+> >> -following the subsystem rules and are properly using the media kernel and
+> >> -userspace APIs.
+> >> +A small subsystem will typically consist of driver maintainers (as listed
+> >> +in the MAINTAINERS file) and one or two subsystem maintainers who merge
+> >> +the patches when ready, maintain the subsystem core code and make the pull
+> >> +requests to Linus. Due to the size and wide scope of the Media Subsystem
+> >> +this does not scale and more maintainance layers are needed.  
+> > 
+> > I didn't like this paragraph. media maintainer's profile is not the right
+> > place to tell how a small subsystem would be maintained or not. Dropping
+> > that out-of-scope part, we have only:
+> > 
+> > 	Due to the size and wide scope of the Media Subsystem
+> > 	this does not scale and more maintainance layers are needed.
+> > 
+> > Which doesn't say much. Also, it defeats the goal of this paragraph: to
+> > describe the maintainership model we're adopting, and what a media 
+> > contributor should know about it. On version 5, we had:
+> > 
+> > 	Due to the size and wide scope of the media subsystem, the media's
+> > 	maintainance model recognizes committers that have a broad knowledge of
+> > 	a specific aspect of the subsystem. It is the committers' task to
+> > 	review the patches, providing feedback to users if the patches are
+> > 	following the subsystem rules and are properly using the media kernel and
+> > 	userspace APIs.
+> > 
+> > On my view, v5 text is more aligned to what it is needed here.  
+> 
+> Alternative:
+> 
+> Due to the size and wide scope of the media subsystem, multiple layers of
+> maintainers are required, each with their own areas of expertise.
 
-diff --git a/drivers/media/dvb-frontends/drx39xyj/drx_driver.h b/drivers/media/dvb-frontends/drx39xyj/drx_driver.h
-index 2c2fd4bf7..873a6bcf8 100644
---- a/drivers/media/dvb-frontends/drx39xyj/drx_driver.h
-+++ b/drivers/media/dvb-frontends/drx39xyj/drx_driver.h
-@@ -588,10 +588,10 @@ enum drx_priority {
- */
- enum drx_coderate {
- 		DRX_CODERATE_1DIV2 = 0,	/*< Code rate 1/2nd.      */
--		DRX_CODERATE_2DIV3,	/*< Code rate 2/3nd.      */
--		DRX_CODERATE_3DIV4,	/*< Code rate 3/4nd.      */
--		DRX_CODERATE_5DIV6,	/*< Code rate 5/6nd.      */
--		DRX_CODERATE_7DIV8,	/*< Code rate 7/8nd.      */
-+		DRX_CODERATE_2DIV3,	/*< Code rate 2/3rd.      */
-+		DRX_CODERATE_3DIV4,	/*< Code rate 3/4th.      */
-+		DRX_CODERATE_5DIV6,	/*< Code rate 5/6th.      */
-+		DRX_CODERATE_7DIV8,	/*< Code rate 7/8th.      */
- 		DRX_CODERATE_UNKNOWN = DRX_UNKNOWN,
- 					/*< Code rate unknown.    */
- 		DRX_CODERATE_AUTO = DRX_AUTO
-@@ -924,7 +924,7 @@ STRUCTS
- /*============================================================================*/
- 
- /*
-- * struct drxu_code_info	Parameters for microcode upload and verfiy.
-+ * struct drxu_code_info	Parameters for microcode upload and verify.
-  *
-  * @mc_file:	microcode file name
-  *
-@@ -1220,7 +1220,7 @@ struct drx_version_list {
- /*========================================*/
- 
- /*
--* \brief Parameters needed to confiugure a UIO.
-+* \brief Parameters needed to configure a UIO.
- *
- * Used by DRX_CTRL_UIO_CFG.
- */
--- 
-2.43.0
+That's OK. what I didn't like was:
 
+	A small subsystem will typically consist of driver maintainers (as listed
+	in the MAINTAINERS file) and one or two subsystem maintainers who merge
+	the patches when ready, maintain the subsystem core code and make the pull
+	requests to Linus. Due to the size and wide scope of the Media Subsystem
+	this does not scale and more maintainance layers are needed.  
+
+What a "small subsystem" does (or does not) is not something that should be
+documented at the media subsystem profile.
+
+> >> -Patches for the media subsystem must be sent to the media mailing list
+> >> -at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> >> -HTML will be automatically rejected by the mail server. It could be wise
+> >> -to also copy the sub-maintainer(s).  
+> >   
+> >> +Media Maintainers
+> >> +-----------------  
+> > 
+> > While it is fine to keep this name here, there's a lack of consistency
+> > after your rename:
+> > 
+> > 	Media committers -> Media maintainers (all 3 committers group below)
+> > 
+> > 	1. committers -> Media maintainers
+> > 	2. core committers -> Media core maintainers
+> > 	3. subsystem maintainers -> Media subsystem maintainers
+> > 
+> > This is very confusing, as "Media maintainers" refer to the group of
+> > people that aren't core committers/subsystem maintainers and to the
+> > entire group.
+> > 
+> > Also, everybody listed in MAINTAINERS is a maintainer. Any maintainer
+> > for something under drivers/media would be referred as
+> > "a media maintainer" by other kernel developers.
+> > 
+> > More importantly, being listed as a media maintainer at MAINTAINERS
+> > doesn't imply receiving commit rights at the media.git tree.
+> > 
+> > So, in the lack of a better terminology, better to stick with 
+> > nomenclature we already agreed up to v5.  
+> 
+> A major problem with v5 is that it mixed 'maintainer' with 'committer'.
+> A committer is a maintainer with commit rights. But the maintainer duties
+> remain the same, whether you have commit rights or not. It's one of the
+> reasons why previous versions were hard to understand.
+
+This is a concept change from the original idea, but I'm OK with that.
+
+> But I agree that "Media Maintainer" needs a better name. I think "Media Core
+> Maintainer" and "Media Subsystem Maintainer" are clear, but for "Media
+> Maintainer" we need something better.
+> 
+> Today "Media Maintainers" in the sense of this document are Nicolas (codec
+> drivers) and Bryan (Qualcomm drivers). So developers with the responsibility
+> for certain classes of drivers.
+
+Well, in that sense, "Qualcomm drivers" is not different from any other
+"<vendor> drivers". for me, it is at the "Media Driver Maintainer" group.
+
+Up to some point, the same applies to Nicolas: he is responsible for a set
+of drivers, but, his case is IMO a little bit different.
+
+> 
+> "Media Specialist Maintainer"? Maintainers specializing in a certain type of
+> driver.
+> 
+> Basically the hierarchy is:
+> 
+> Media Contributor
+> Media Driver Maintainer
+> Media Specialist (?) Maintainer
+
+I don't like "Specialist". Maybe
+ "Media <type> Reviewer" or "Media <type> Maintainer". See below.
+
+> Media Core Maintainer
+> Media Subsystem Maintainer
+
+IMO, we should define clearly the scope. Something like:
+
+- Media Driver Maintainer: Maintains a set of media drivers. Could be
+  driver-specific or even  all drivers from a given vendor;
+
+- Media <type> reviewer: Reviews all drivers of the same type,
+  independently of the author/vendor;
+
+  IMO, Nicolas, while working on codec drivers from someone else is
+  acting as "Media Codec Reviewer" (I don't mind calling it as:
+  "Media Codec Maintainer").
+
+- Media Core Maintainer: Maintains parts of the media framework itself;
+
+> The last three can post media PRs or have media commit rights.
+
+I don't mind much with the concept that some random driver maintainers
+would be sending PRs. Shuah, for instance, have been sending us PRs
+instead of patch series for quite a while. We might grant in the
+future commit rights to Media Driver Maintainers and even to Media
+Contributors that we trust enough, have been involved with the 
+community for a long time and have a long history of good
+contributions.
+
+> As mentioned in my reply to Ricardo, a Media Driver Maintainer can also get
+> commit rights, but I prefer to postpone that until we have a candidate for that.
+> 
+> >   
+> >> +
+> >> +The media subsystem has three layers of media maintainers:  
+> > 
+> > "three layers" seems to imply that a patch need to pass to 3
+> > different levels of committers. I would write it as:
+> > 
+> > 	The media subsystem maintainership consists of:
+> > 
+> > And then, add a new type there to remind people about the
+> > MAINTAINERS file entries:
+> > 
+> > 	1. Media maintainers and reviewers  
+> 
+> I'd call that "Media Driver Maintainer"
+
+Ok.
+
+> > 
+> > 	Everyone that has an entry at MAINTAINERS file for a component
+> >  	inside the media tree. They're typically authors and senior  
+> 
+> I'd drop 'senior', that doesn't add anything.
+
+Works for me.
+
+> > 	developers responsible for maintaining one or more components at
+> > 	the media subsystem.
+> > 
+> > 	Patches affecting such components should be copied to their
+> > 	corresponding media maintainers and reviewers when submitted to
+> > 	the linux-media@vger.kernel.org mailing list.
+> >   
+> >> +
+> >> +- Media Maintainer:  
+> > 
+> > 
+> >     2. Media Committers:  
+> 
+> "Media Specialist Maintainer" or something along those lines.
+> 
+> Definitely not 'committer'.
+
+Ok, but see above.
+
+> >   
+> >> +    Responsible for a group of drivers within the Media Subsystem. Typically
+> >> +    these are all drivers that have something in common, e.g. codec drivers
+> >> +    or drivers from the same vendor.   
+> > 
+> > OK
+> >   
+> >> +    Media Maintainers provide feedback if the
+> >> +    patches are not following the subsystem rules, or are not using the
+> >> +    media kernel or userspace APIs correctly, or have poor code quality. They
+> >> +    also keep patchwork up to date, decide when patches are ready for merging,
+> >> +    and create Pull Requests for the Media Subsystem Maintainers to merge.
+> >> +
+> >> +    A Media Maintainer is not just someone who is capable of creating code, but
+> >> +    someone who has demonstrated their ability to collaborate with the team, get
+> >> +    the most knowledgeable people to review code, contribute high-quality code,
+> >> +    and follow through to fix issues (in code or tests).  
+> > 
+> > Those duties also apply to all types of committers. Better place at the
+> > end.
+> >   
+> >> +
+> >> +- Media Core Maintainer:  
+> > 
+> > 3. Media Core Committers:
+> >   
+> >> +    Media Maintainers who are also responsible for one or more media core
+> >> +    frameworks.  
+> 
+> With this I tried to indicate that the Media Core Maintainer duties are in
+> addition to those of the Media Specialist Maintainer.
+> 
+> >> +
+> >> +    Core framework changes are done via consensus between the relevant Media
+> >> +    Core Maintainers. Media Maintainers may include core framework changes in
+> >> +    their Pull Requests if they are signed off by the relevant Media Core
+> >> +    Maintainers.  
+> > 
+> > Nomenclature needs update at the above paragraph.
+> >   
+> >> +
+> >> +- Media Subsystem Maintainers:  
+> > 
+> > 4. Media Subsystem Maintainers:
+> >   
+> 
+> Here it should clearly state that these duties are in addition to those
+> of a Media Core Maintainer.
+> 
+> >> +    Responsible for the subsystem as a whole, with access to the
+> >> +    entire subsystem. Responsible for merging Pull Requests from other
+> >> +    Media Maintainers.
+> >> +
+> >> +    Userspace API/ABI changes are done via consensus between Media Subsystem
+> >> +    Maintainers\ [2]_. Media (Core) Maintainers may include API/ABI changes in
+> >> +    their Pull Requests if they are signed off by the all Media Subsystem
+> >> +    Maintainers.  
+> > 
+> > Nomenclature needs update at the above paragraphs.
+> > 
+> > After listing the 4 types of roles, we can place here:
+> > 
+> > 	Media Maintainers provide feedback if the patches are not following the 
+> > 	subsystem rules, or are not using the media kernel or userspace APIs
+> > 	correctly, or have poor code quality.
+> > 
+> > 	Media Committers, core Committers and Media Subsystem Maintainers have
+> > 	commit rights at the media development tree. We refer to all of
+> > 	them as "Committers" inside the media documentation.
+> > 
+> > 	Committers keep patchwork up to date, decide when patches are ready for merging
+> > 	and create Pull	Requests when patches are ready to merge.
+> > 
+> > 	A Committer is not just someone who is capable of creating code, but 
+> > 	someone who has demonstrated their ability to collaborate with the team,
+> > 	get the most knowledgeable people to review code, contribute high-quality
+> > 	code and follow through to fix issues (in code or tests).
+> >   
+> >> +All Media Maintainers shall explicitly agree with the Kernel development process
+> >> +as described at Documentation/process/index.rst and to the Kernel
+> >> +development rules inside the Kernel documentation, including its code of
+> >> +conduct.  
+> > 
+> > All Media Maintainers -> Committers   
+> 
+> No, no, no! A committer is a maintainer with commit rights. But the maintainer
+> may be too inexperienced, not yet trusted enough, or just not interested in getting
+> commit rights.
+
+Ok.
+
+> The next patch describes the extra responsibilities a committer has, but that makes
+> no difference to their responsibilities as maintainer.
+
+Once we have a new version for patch 1, I'll review the next ones.
+
+> The word 'committer' shouldn't occur in this section, other than as a reference to
+> the committer documentation.
+
+Ok.
+
+> I think the maintainer job is far more important than being able to commit to a tree.
+> Just posting a PR and letting someone else do the commit is a lot easier.
+> 
+> It's fairly time consuming for me to check a PR and ensure it is fine to commit.
+> Which is of course why we want a multi-committer model. But that also pushes the
+> time that I now spend to the maintainer with the commit rights. So other than
+> prestige it is just more work compared to posting a PR.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> >   
+> >> +
+> >> +All Media Maintainers shall ensure that patchwork will reflect the current
+> >> +status, e.g. patches shall be delegated to the Media Maintainer who is
+> >> +handling them and the patch status shall be updated according to these rules:  
+> > 
+> > All Media Maintainers -> Committers 
+> >   
+> >> +
+> >> +- ``Under Review``: Used if the patch requires a second opinion
+> >> +  or when it is part of a pull request;
+> >> +- ``Accepted``: Once a patch is merged in the multi-committer tree.
+> >> +- ``Superseded``: There is a newer version of the patch posted to the
+> >> +  mailing list.
+> >> +- ``Duplicated``: There was another patch doing the same thing from someone
+> >> +  else that was accepted.
+> >> +- ``Not Applicable``: Use for patch series that are not merged at media.git
+> >> +  tree (e.g. drm, dmabuf, upstream merge, etc.) but were cross-posted to the
+> >> +  linux-media mailing list.
+> >> +
+> >> +If the Media Maintainer decides not to accept a patch, then reply by email to
+> >> +the patch authors, explaining why it is not accepted, and patchwork shall be
+> >> +updated accordingly with either:  
+> > 
+> > the Media Maintainer -> the Committer
+> > 
+> > (same change everywhere inside this doc)
+> >   
+> >> +
+> >> +- ``Changes Requested``: if a new revision was requested;
+> >> +- ``Rejected``: if the proposed change is not acceptable at all.
+> >> +
+> >> +.. Note::
+> >> +
+> >> +   Patchwork supports a couple of clients to help semi-automating
+> >> +   status updates via its REST interface:
+> >> +
+> >> +   https://patchwork.readthedocs.io/en/latest/usage/clients/
+> >> +
+> >> +Media Maintainers are reachable via the #linux-media IRC channel at OFTC.
+> >> +
+> >> +.. [2] Everything that would break backward compatibility with existing
+> >> +       non-kernel code are API/ABI changes. This includes ioctl and sysfs
+> >> +       interfaces, v4l2 controls, and their behaviors.
+> >> +
+> >> +Becoming a Media Maintainer
+> >> +---------------------------
+> >> +
+> >> +The most important aspect of volunteering to be a Media Maintainer is that you
+> >> +have demonstrated the ability to give good code reviews. So we are looking for
+> >> +whether or not we think you will be good at doing that.
+> >> +
+> >> +As such, potential maintainers must earn enough credibility and trust from the
+> >> +Linux Media Community. To do that, developers shall be familiar with the open
+> >> +source model and have been active in the Linux Kernel community for some time,
+> >> +and, in particular, in the media subsystem.
+> >> +
+> >> +In addition to actually making the code changes, you are basically
+> >> +demonstrating your:
+> >> +
+> >> +- commitment to the project;
+> >> +- ability to collaborate with the team and communicate well;
+> >> +- understand of how upstream and the Linux Media Community work
+> >> +  (policies, processes for testing, code review, ...)
+> >> +- reasonable knowledge about:
+> >> +
+> >> +  - the Kernel development process:
+> >> +    Documentation/process/index.rst
+> >> +
+> >> +  - the Media development profile:
+> >> +    Documentation/driver-api/media/maintainer-entry-profile.rst
+> >> +
+> >> +- understanding of the projects' code base and coding style;
+> >> +- ability to provide feedback to the patch authors;
+> >> +- ability to judge when a patch might be ready for review and to submit;
+> >> +- ability to write good code (last but certainly not least).
+> >> +
+> >> +Developers that desire to become maintainers are encouraged to participate
+> >> +at the yearly Linux Media Summit, typically co-located with a Linux related
+> >> +conference. These summits will be announced at the linux-media mailing list.
+> >> +
+> >> +If you are doing such tasks and have become a valued developer, an
+> >> +existing Media Maintainer can nominate you to the Media Subsystem Maintainers.
+> >> +
+> >> +The ultimate responsibility for accepting a nominated maintainer is up to
+> >> +the subsystem's maintainers. The nominated maintainer must have earned a trust
+> >> +relationship with all Media Subsystem Maintainers, as, by becoming Media
+> >> +Maintainer, you will take over part of their maintenance tasks.
+> >> +  
+> >   
+> >> +Media Committers
+> >> +----------------
+> >> +
+> >> +Experienced and trusted Media (Core) Maintainers may be granted commit rights
+> >> +which allow them to directly push patches to the media development tree instead
+> >> +of posting a Pull Request for the Media Subsystem Maintainers. This helps
+> >> +offloading some of the work of the Media Subsystem Maintainers.  
+> > 
+> > This one sounds confusing.
+> > 
+> > On your version, there are 6 types of maintainers related to media
+> > subsytem, plus the ones on MAINTAINERS, as one could potentially be
+> > a "media maintainer", a "core maintainer" or even a "subsystem maintainer",
+> > being responsible to update patchwork but still not having commit rights.
+> > 
+> > I don't think we want that.
+> > 
+> > ---
+> > 
+> > I'll stop the review here, as IMHO we need first to address the 
+> > nomenclature. Then check if the terms are properly used along the
+> > docs in a consistent way.
+> > 
+> > Thanks,
+> > Mauro
+>   
 
