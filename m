@@ -1,246 +1,256 @@
-Return-Path: <linux-media+bounces-51386-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51387-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6OrVH4Qbc2mwsAAAu9opvQ
-	(envelope-from <linux-media+bounces-51386-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 07:56:04 +0100
+	id YA5BHggpc2kAswAAu9opvQ
+	(envelope-from <linux-media+bounces-51387-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 08:53:44 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25595713E5
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 07:56:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D49B8720A7
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 08:53:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A5B52300C0CF
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 06:54:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 40BCC301C8A1
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 07:53:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FB5634D901;
-	Fri, 23 Jan 2026 06:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EEA533EB09;
+	Fri, 23 Jan 2026 07:53:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="b2/i92SU";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SI1H/5CU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZxmbYKUi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D5533F8D9
-	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 06:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769151241; cv=pass; b=Eq9qMTs4RAiwNvcMPBOOnyrRnD5tdaYUBreZjecDZVzX/A19tWHKx0uwjRk+i4xLtwjGgPVwHXGJdTh5W+oEBLYi3wde38DPXh1+T6YrPBh9zabCPVfxcZ1sFRrdPKGXBPic6LE5kRm0p8Ey1na1b3PXTYuSLmF+FMf9Jda6c9I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769151241; c=relaxed/simple;
-	bh=s/FYJs2yh0Mn9e9zJI3uFU6aHvmEISj88LdCakLhM38=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fhmDde3fanyBx7STbj4UzRTfPCjbAJzWJ+FyPbSWOBMJKxJtZz7TVjskqat0FaWJ6V4l42r9KUwQ2BUHNg5BBotN+rSYJsPj4bA08UEhwB7HbU1Mf0jl6sQNuo4FZQmowkLsKgfWaIaQv7455I7phljsCeWJfWFhMxaWi0w4jhQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=b2/i92SU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SI1H/5CU; arc=pass smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60N4BbVD3503792
-	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 06:53:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	s0VLzkj7kBAIvIeyO4Yw8QzJDHtyD3yHiv4q5/eKWxs=; b=b2/i92SUYiaESdwo
-	VjpgHSfUiI9ApnLF4g+bN9LAW7zupMgnhCP4F9o8tLoJO7gv+VIdRuAgKrfweDLy
-	YiZLR7ffNcNbVFBysSa3ZrZ0kOuzbK4SK/MykF6F/4rmfOTJy/xFloC7XR/3Cm7a
-	00MPHEI8J1dbYMJ/4d2KB+bpBTZ6ZWt5ay5qh5w2ArRGpwyGy5wTEDUuU88a9ISf
-	RJZcc39lq2fkNIq04SmCjD7HPi4JCp8INMfsq8smh0uOtBljMhR81ImMqt7kjgJH
-	onVApRORNsJUohMQArtR0lksWoi4QJHICWbMkiMzJi91TVVjajjnQ/R5efOFfgxb
-	Ijc6AQ==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bus98224a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 06:53:55 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-89493622b50so4352886d6.1
-        for <linux-media@vger.kernel.org>; Thu, 22 Jan 2026 22:53:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769151234; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SiVxjG2M89VUz/hCI77X0wNTEFjHkZLOjtI4bPK3hia2KUW8Z7oIR8+w1jNWN3zzA4
-         oGMXcqVOl7mpTxbvESBoCUs3Ya7hR4ExT36vVTFwC998byxwilYRdDHWSUqE+wjZt/6d
-         0lRC8+9yLXsQa9aN5NySYWVv08KmxSUk7NtuGTDFHKWAgsoMdKS0M0DXZ+U19c9cbrf4
-         JKrvTApPoGR4aqno315JVZngysyTacjgJU6cU7G+SDTrgKm/I54LvD3o/ObIRKscf66+
-         qYqg3TL4ccVBIjN0wv5aS+CFbjnq9QP7dEg0YGq4jItV3JEn2/XxYGqlRGDOWvrxWGz9
-         +zcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=s0VLzkj7kBAIvIeyO4Yw8QzJDHtyD3yHiv4q5/eKWxs=;
-        fh=pRtyRg/QWB5T4CsyHwu6aB3VzFhSwDvdGI0mVJW2nCs=;
-        b=NPx5FfyoJKqngwqPWvXqmPjj5mVTryOSTnMGVkuqXEddP/DPGxLbMyYQ8TKdUKEajV
-         +run67ec5CsA3mCxPwIvJSZ0/Oz65PLFFuDJRsePEYv1Tae+ZSHk+OfAwaSX+UwVyMBf
-         x3pzuQHJZLJcsfNda6W8BYvg5QKWFRCy3nQK+1XdOTo7Z7z9mWrm0GbTNvNTQDOTIvhz
-         JL3SEDM5jD4DJjUQm/8LQ6JIweDlnuCdmB22Fjx3XNMhOPXkPodas9Rse6yaolIXqLDT
-         fifIQJ/FD4ymlCJNHtbiuXvhLaHTn7ey0Ulbkt3H5nD6NR7VvzeX1ENN5IPjy9s9EFHk
-         a3IA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1769151234; x=1769756034; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s0VLzkj7kBAIvIeyO4Yw8QzJDHtyD3yHiv4q5/eKWxs=;
-        b=SI1H/5CUAJRE1zhwCvHuQLPfVZgs/wh3gq7q9ChkLU3k98AkGnZz8JO8LKHb1ctwTC
-         YMSNtqRA5+CHuZpMUZl1u3tldyBmyGpReolZJH3D8MF1YnCTt4EZoUGvbdJf0hNjgM3k
-         j746wtmAlsrEeNwFvUydIESCsvEcx7mNzKloNywvaW/hwJlzNIrtofEtQ2S9umPu7X+B
-         ZXE7+bN87a1aMBddyG9Z/ysEaSmCI2aJ18QJGKfa2oWQoTveVhXXjNuX1FIAa1oTvIE/
-         HnwdNJTPbJ+kqLRdIgQnaKTB+8BiKp5Spr53QFlVwTk588CWALBzze2CMlGaPXB0zBM+
-         1JtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769151234; x=1769756034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=s0VLzkj7kBAIvIeyO4Yw8QzJDHtyD3yHiv4q5/eKWxs=;
-        b=diEsEilZ69OSQpFkoAamAWitPtw6aJVksV8/XLG0A1ZqOH3aQVUFCL8RmNFdGVn4wC
-         OF3+MSFHCi9XlUJCuSOocB1UC6qd/T3rJXZs9heGk05aeZ0cGO+ipVd6x9WUd7Cye0ug
-         9zO9l2OmQv/kGsEuIvt8y4iHdqh7Dt0+Oa7McQLE0ZB+uUBGwCuYOTGw8oXoeJyhOLmR
-         mmnGSDBvWHMlGhdywQIMHwwZ5dnJ1FMuYJd1QEHb11O6EyqJstzLDX7O53t3Z9bFXv3s
-         l+Wn0BYIr83SAq2Poy2Ey+ngF64F1sTsKD/YzL1oSLwrCsdw0bC+raa8T9jl83uGh5++
-         HCng==
-X-Forwarded-Encrypted: i=1; AJvYcCXyL852YhJ2q2kS+7nQBoWjHjGOWMtkSuGClXppTIcnOa7spySoj/LKMjcagZiNw23LDlkVnOeVQTwKXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywe+qYR4NPZvSgUSbcnRh5I9Aizpv+mRUKbLSkWMNiP4kXttQ/z
-	zP02+v2io7HhZ7f+7Gc8v/Dw+q2xGPOIiMBcsZy55uPhkzeQFRUfvdyM7vFP9pVq1OjwjBtYrOu
-	MvnSSe6LvPiyyy8XoDy7EVqPYlfAOxxCApM5NeTw8/pLKAw/Y9Na3PRZ7dnE6v7w35p/a/anTCd
-	XQHhG7uVeAsizAMQNN5lL1ARUj9Yqt0bnDX5kR0VaA
-X-Gm-Gg: AZuq6aKBZleICYh9gpKfcgVF2gtO4AKYNjWhRAQinR7WvyOkMMRZT8mB8n2BQqxMNmg
-	7WohTr1nzru7X1pnxxP2yWBB7c8bf9BWydaHYDT8tC9EOz5cxelQ8jl3HSx19HBuW4ulUHt+h3l
-	aR/fDNKcg2R53ol1plbO58wdYJPYDfyzhzizw/RGx5n5mVcJnP30ktvIW7lotNfOaBEmgZogLGQ
-	30LkpG8HVbfLfTB2NEqsGmc
-X-Received: by 2002:ad4:5def:0:b0:880:63b1:3f57 with SMTP id 6a1803df08f44-8949020d656mr29225156d6.38.1769151233723;
-        Thu, 22 Jan 2026 22:53:53 -0800 (PST)
-X-Received: by 2002:ad4:5def:0:b0:880:63b1:3f57 with SMTP id
- 6a1803df08f44-8949020d656mr29224416d6.38.1769151232692; Thu, 22 Jan 2026
- 22:53:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92849288C86;
+	Fri, 23 Jan 2026 07:53:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769154812; cv=none; b=iRY1bcsJj0k8FkHHK4xIHpq97mRUpxabbIBJaEx1EkhRhqcOVVDPiyM9sM3UYTQP79KBeOz03OZdZppWQo4bzwoDjtL+zyNF15SL5TjhV8RFRgoz4NC31eihfUI2x6/d6CXgWAHcHzLw8wUqlHJL5FbLjc32S80j1cpVAJ9R2SA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769154812; c=relaxed/simple;
+	bh=CydP1SI/itOoSge0Z+MIOsw27/FtcA5npRVrCB4FyMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lpRe5I6owRySBTRS96tJqyqBsBKemk1TYvSHPmOhlzxPPoESOcb0Ls+6jJOjXiML4SIQb38rFBqrGKTpZELgpM+Pof8VqA8CiJbW62Wjvcf5fw0Q7RoD0cOor0FDqsjsut2aT22Yx3y78oditlS/XoYZLUZWrXsYMkpBxLg1zzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZxmbYKUi; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF15D103D;
+	Fri, 23 Jan 2026 08:52:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769154768;
+	bh=CydP1SI/itOoSge0Z+MIOsw27/FtcA5npRVrCB4FyMc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZxmbYKUiKw9C4M1tvfYuuqeyI+/ASJy97cM0Mt5L8nwLLc19j7i1AfvLYPHT9ZK90
+	 zf3GdHQNKTSlHr6WkrKq/g7LQXsEsXOEvCZaHRwAR4P+0R9JLBzpdsv9RPHEjGbQMs
+	 mTz83N1m6HHk8BRZJPknuId767AjTK2EjlNgT/IM=
+Message-ID: <55b08e0e-1921-4d37-a716-ff60852ec51b@ideasonboard.com>
+Date: Fri, 23 Jan 2026 09:53:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260122-sm6150_evk-v4-0-a908d49892e7@oss.qualcomm.com> <20260122-sm6150_evk-v4-2-a908d49892e7@oss.qualcomm.com>
-In-Reply-To: <20260122-sm6150_evk-v4-2-a908d49892e7@oss.qualcomm.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Fri, 23 Jan 2026 07:53:41 +0100
-X-Gm-Features: AZwV_QgW9xaHk1V60VCFg-RSltJOSQPj7qJ8VK_VnWofnB4yGozL2VT2va8zIr4
-Message-ID: <CAFEp6-3qrfnn5EdLXX1+1qGtAZa=L4QS1nyCs23JnKq+oy=pqg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] dt-bindings: i2c: qcom-cci: Document sm6150 compatible
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, linux-i2c@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDA1MSBTYWx0ZWRfX62yTnmUlUD7f
- 4KRE6iRmw7JGy4Fu19L7TB4RY7DLsU/V2jy/UdaErb5fuuSxh2hlsV8maojIbOp9TTcK4XIy5/q
- 6cW0NiRnl0Ve8v1NX1Bvr2ZMYuyPAFucGBWud3KJEGOr4EGgC1qcmZC5/7OImaxE5verVNJMDn0
- 9pqfel33jgXrf7wkX3UwMu0y8x2QpPT5TS4wxAclftTRrEVcQgJ0wph30dsm8H2tK0yjND/vudO
- eh0H05E5Fh7sJJu4glf5aL/sdjI837VQqNP2bACW7bvpEpJ1YgMsTTyi1iImpNhDayYdvvagzeF
- QWjILB7q9MHmjE2o2bFDkgBJztdkI6LNKHrm8sJ1u/Eot2wT+TxuOG0JhwRU2uKpzhRS5GhCYOl
- 716HBVTzElICEkvBpSO/IBiiAarBPa3+LpbDMxTJY+JfMYFxZ9M2TqOBbu5WBzVidHzaKACBGjD
- Oz7RKLLz3ocNCMqEDUA==
-X-Authority-Analysis: v=2.4 cv=JuX8bc4C c=1 sm=1 tr=0 ts=69731b03 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=AGkvFC_LJttw-4NvuOEA:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: tTVWosKCBiMpJ7HUypK8v2fA0-JOKJv9
-X-Proofpoint-ORIG-GUID: tTVWosKCBiMpJ7HUypK8v2fA0-JOKJv9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-22_06,2026-01-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 spamscore=0 bulkscore=0 lowpriorityscore=0
- phishscore=0 suspectscore=0 clxscore=1015 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601230051
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 12/18] media: cadence: csi2rx: Use the stream from
+ route to get format
+To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev,
+ laurent.pinchart@ideasonboard.com, mripard@kernel.org
+Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
+ vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
+ hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com,
+ changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
+ sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20260121135424.1185710-1-r-donadkar@ti.com>
+ <20260121135424.1185710-13-r-donadkar@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20260121135424.1185710-13-r-donadkar@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51386-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,pengutronix.de,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-51387-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[ti.com,kernel.org,pengutronix.de,linux.intel.com,xs4all.nl,ideasonboard.com,starfivetech.com,collabora.com,linaro.org,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	NEURAL_HAM(-0.00)[-0.992];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linaro.org:email,mail.gmail.com:mid,qualcomm.com:email,qualcomm.com:dkim]
-X-Rspamd-Queue-Id: 25595713E5
+	NEURAL_HAM(-0.00)[-0.991];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ti.com:email,ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid]
+X-Rspamd-Queue-Id: D49B8720A7
 X-Rspamd-Action: no action
 
-On Thu, Jan 22, 2026 at 11:41=E2=80=AFAM Wenmeng Liu
-<wenmeng.liu@oss.qualcomm.com> wrote:
->
-> Add the sm6150 CCI device string compatible.
->
-> SM6150 include three clock:
-> bus: Bus clock responsible for data transfer.
-> iface: Interface clock responsible for register read and write.
-> cci: Clock for CCI core operations.
->
-> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+Hi,
 
-Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-
-
+On 21/01/2026 15:54, Rishikesh Donadkar wrote:
+> In multistream configurations, different streams can have different
+> formats. Update the driver to use the stream number from the routing
+> configuration when retrieving formats instead of hardcoding stream 0
+> or ignoring streams.
+> 
+> In csi2rx_configure_ext_dphy(), use the sink_stream from the first
+> route instead of always using stream 0.
+> 
+> In cdns_csi2rx_negotiate_ppc(), iterate through all active routes
+> for the requested pad and retrieve the format using both pad and
+> stream information.
+> 
+> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 > ---
->  Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml b/Do=
-cumentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
-> index a3fe1eea6aece9685674feaa5ec53765c1ce23d8..d3f87da54fcc14a8f808f34c9=
-4551583d8deaabc 100644
-> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
-> @@ -33,6 +33,7 @@ properties:
->                - qcom,sc8280xp-cci
->                - qcom,sdm670-cci
->                - qcom,sdm845-cci
-> +              - qcom,sm6150-cci
->                - qcom,sm6350-cci
->                - qcom,sm8250-cci
->                - qcom,sm8450-cci
-> @@ -249,6 +250,7 @@ allOf:
->            contains:
->              enum:
->                - qcom,sa8775p-cci
-> +              - qcom,sm6150-cci
->                - qcom,sm8550-cci
->                - qcom,sm8650-cci
->                - qcom,x1e80100-cci
->
-> --
-> 2.34.1
->
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 34 ++++++++++++++++----
+>  1 file changed, 28 insertions(+), 6 deletions(-)
+
+So if I understand this right, v9 was working by luck, as it was always
+using stream 0 format (and expected stream 0 to be there)?
+
+Two thoughts here:
+- This should be merged to the previous patch, shouldn't it?
+- Are you now testing with different resolutions, fps, etc on the
+fpd-link ports?
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+ Tomi
+
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> index 175366f889115..db9871fdbe3a4 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -279,6 +279,7 @@ static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
+>  	struct v4l2_mbus_framefmt *framefmt;
+>  	struct v4l2_subdev_state *state;
+>  	const struct csi2rx_fmt *fmt;
+> +	struct v4l2_subdev_route *route;
+>  	int source_pad = csi2rx->source_pad;
+>  	struct media_pad *pad = &csi2rx->source_subdev->entity.pads[source_pad];
+>  	s64 link_freq;
+> @@ -296,7 +297,9 @@ static int csi2rx_configure_ext_dphy(struct csi2rx_priv *csi2rx)
+>  	if (state->routing.num_routes > 1) {
+>  		bpp = 0;
+>  	} else {
+> -		framefmt = v4l2_subdev_state_get_format(state, CSI2RX_PAD_SINK, 0);
+> +		route = &state->routing.routes[0];
+> +		framefmt = v4l2_subdev_state_get_format(state, CSI2RX_PAD_SINK,
+> +							route->sink_stream);
+>  		if (!framefmt) {
+>  			dev_err(csi2rx->dev, "Did not find active sink format\n");
+>  			return -EINVAL;
+> @@ -706,25 +709,44 @@ int cdns_csi2rx_negotiate_ppc(struct v4l2_subdev *subdev, unsigned int pad,
+>  {
+>  	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
+>  	const struct csi2rx_fmt *csi_fmt;
+> +	struct v4l2_subdev_route *route;
+>  	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *fmt;
+> +	int ret = 0;
+>  
+>  	if (!ppc || pad < CSI2RX_PAD_SOURCE_STREAM0 || pad >= CSI2RX_PAD_MAX)
+>  		return -EINVAL;
+>  
+>  	state = v4l2_subdev_lock_and_get_active_state(subdev);
+> -	fmt = v4l2_subdev_state_get_format(state, pad);
+> -	csi_fmt = csi2rx_get_fmt_by_code(fmt->code);
+> +	/* Check all streams on requested pad */
+> +	for_each_active_route(&state->routing, route) {
+> +		if (route->source_pad != pad)
+> +			continue;
+> +
+> +		fmt = v4l2_subdev_state_get_format(state, route->source_pad,
+> +						   route->source_stream);
+> +		if (!fmt) {
+> +			ret = -EPIPE;
+> +			*ppc = 1;
+> +			break;
+> +		}
+>  
+> -	/* Reduce requested PPC if it is too high */
+> -	*ppc = min(*ppc, csi_fmt->max_pixels);
+> +		csi_fmt = csi2rx_get_fmt_by_code(fmt->code);
+> +		if (!csi_fmt) {
+> +			ret = -EINVAL;
+> +			*ppc = 1;
+> +			break;
+> +		}
+>  
+> +		/* Reduce requested PPC if it is too high for this stream */
+> +		*ppc = min(*ppc, csi_fmt->max_pixels);
+> +	}
+>  	v4l2_subdev_unlock_state(state);
+>  
+>  	csi2rx->num_pixels[pad - CSI2RX_PAD_SOURCE_STREAM0] =
+>  		CSI2RX_STREAM_CFG_NUM_PIXELS(*ppc);
+>  
+> -	return 0;
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL_FOR_MODULES(cdns_csi2rx_negotiate_ppc, "j721e-csi2rx");
+>  
+
 
