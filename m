@@ -1,280 +1,231 @@
-Return-Path: <linux-media+bounces-51404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51405-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKuaEVo2c2lItAAAu9opvQ
-	(envelope-from <linux-media+bounces-51404-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 09:50:34 +0100
+	id sK+lMU09c2kztgAAu9opvQ
+	(envelope-from <linux-media+bounces-51405-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 10:20:13 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D6672B99
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 09:50:33 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F4373268
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 10:20:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D8133301BCDA
-	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 08:50:24 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E65AB30095EB
+	for <lists+linux-media@lfdr.de>; Fri, 23 Jan 2026 09:20:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3C4C31076A;
-	Fri, 23 Jan 2026 08:50:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 232C930BB80;
+	Fri, 23 Jan 2026 09:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c9yleko3"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kxDLo8uH";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EsiJZHZG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E079A22156F;
-	Fri, 23 Jan 2026 08:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF390337692
+	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 09:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769158223; cv=none; b=mxvJJasWPBJYh6+QEgjt4A3jueUL8rhv0IN4vndt0375RIN0IDXISlXbWDPhtnhB52d5FO2ye8UsX2f7CryZLdq9uDPFz/N669nxoGKM0BDH+E1r1DpkICym8r15H+CkxG8NR27S+bGd8HLbutvLdtuy1xI4VGWnc7hkFCZ7uwE=
+	t=1769160005; cv=none; b=CnwwYt3CqjUYe4WPAMaCjScUQVfmVhhzC9p0fV9rPYL70pdHDcuLkbg9HvJoef7yeeag1D1r6mxnOuZPvuqVIfDQTee3CHWvf6PlBFXY6FlQ1Q94GpgNzeXLdwsDBmejAEO6PKv8LVbv/0hl5VE8R1XVqQqJxoaILKAvimzLMKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769158223; c=relaxed/simple;
-	bh=/B3wK3ZIEw2U5p8SYg5mHzEDGMzxVywXRaWsek2orm0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tz5Wfbtd9CKakncUH5N/8dJY+I5bDunMcaAtSFqFLv07YSH61ZbVCYx9wEHft4B5GjwCKneqRHKAIaQkhqDlt1XgH5b6xOrKs4n6y+2uZUf+PgFC0SR6SxNDI+w8uEV4g9OEr8THOxwSJim6lh2H4aocTBOmpoWdknzmKnuPrXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c9yleko3; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52C7E8FA;
-	Fri, 23 Jan 2026 09:49:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769158186;
-	bh=/B3wK3ZIEw2U5p8SYg5mHzEDGMzxVywXRaWsek2orm0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=c9yleko3fZiQZUmVAQeh9I/8eCzkEWH/YFu/R7L5fScdbw2DbhOZj6tr2f+1B0XaI
-	 II7gEO4W7Eqte/msOmGZx3PKAkukPS+jhZERx3qpKktN/HHDqKfPum0gBpDjyPtoj5
-	 aQl5mALzxQD+it2Jygzz/jukXcXC7QQsB1Nhd61w=
-Message-ID: <e2455ae7-8841-4ae8-b750-faa6eb509d18@ideasonboard.com>
-Date: Fri, 23 Jan 2026 10:50:15 +0200
+	s=arc-20240116; t=1769160005; c=relaxed/simple;
+	bh=YZL1RmD/cleXPDkx2bGKb/HrQU12l4ZoC+NLYNQ6QIw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NoHb/gj7aUWdeXC+g5ymJKWHPZ4Gd4bJHq5L6jFlR2fhLcdvaN/iLRD6gyETk6HtORRA6mAOjgnudgXW67HuBGHR/StXxrAATpg6+DnK3VraWBoowcHxBolzNBQlZxq9einJb8liXuZjjGgcZ1YefejqeB3KCq4gkvZqKWxsnzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kxDLo8uH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EsiJZHZG; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60N56R8L3656648
+	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 09:20:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=chNUffUQgL+rPjre2EEwcK
+	IBO/kVK93yHNti3Djn5Wg=; b=kxDLo8uHEbXreS+kh28FYK2u9UwiUChkWfk/iE
+	Q38iV/rou2Of2X2f5Ln+TBTwGbBJcyTSuwpljjLx2kEprSw1ND8GAwxcwFzbxegy
+	633ivhPiOxdH+5u3NwF4iTg1CXuIVdOf8bkn9KsTuHhyTsfSsRHMoBd2aoHSRBc1
+	ZLXRJpkxrCxxx+deJlo4l+8q96EE/vtR6a0YyjKehjs7JEnhv1v9t5z6Q/w2+CwQ
+	X11VLpZ/XKIYlqEG5a3s3MneW9ZpIj3Ob9dZfClwaixabuga2oY4WsJ3qSKl3hPc
+	78iD+XdeI3ZHoKv7LjHyDRtjKplpWCwWueTItjYb7Qi3b9Dg==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bv2hw8tqb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 09:20:02 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-8887c0d3074so70372156d6.2
+        for <linux-media@vger.kernel.org>; Fri, 23 Jan 2026 01:20:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1769160002; x=1769764802; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=chNUffUQgL+rPjre2EEwcKIBO/kVK93yHNti3Djn5Wg=;
+        b=EsiJZHZGCItvJkLA9ZIqruFJrpQbF+sTpbtsR2hCcOuYDQFvyXvXHAbnu0saAdifZY
+         zI2MlcDAzo83y/ZeXO/mCUzA3wByWwlP0eg7Y9dTTiYtDYO3Qdo1zYhEyxpjEOc9Ntww
+         grA7BfQH0a2+0N/yUvhq7LU4XB2rPHnVsE8X5s/LC86xm9foOQwefPAZtIsCF3NPMKkX
+         /J9LdcIPlfyYycY7xxBi5GfVO45m48+Z4nQ2tsRvmrlD+0obunAFGmOoFh01QkmYa/p9
+         791b/Y6ySS556xjfJvN/1VVT9j7naoG6bjXyI/bcUjmPwiON8Gvg8vF4+XhHUvnD9agg
+         Yq0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769160002; x=1769764802;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=chNUffUQgL+rPjre2EEwcKIBO/kVK93yHNti3Djn5Wg=;
+        b=Z3xhiu/503ov0e/LYiZpevxv21XXFKEvWK962fn27nHY48BcSkguQyW+zkIknO4FzN
+         qNmryln5RNLjN/Y8PC0azjO/m0IbZbqJlYMATWT4HH9pAtd+8+LDkjW/vlWVn0P+UHEu
+         rxYbEuwspMgjBG8tq8432uoR1pgi/Wn0hPcbt2Gki7WRceUXYKmutl4E79LN3LmF6d/v
+         K0bG2GfuaQIiY/TcXFqQVdCNV16zulcAWNxjEuxPxe4qo/Z4HqnPuwN9xGCB64+7Uw85
+         OyJwSjR6NUx/1iAafdqz4yiEqch9JEqEQOLE/aYzPymw+eEyMYEWAZfKNdzPez2yDYrz
+         1v2w==
+X-Gm-Message-State: AOJu0YzHbZ4NyaQsVNEAIJEFr+9JUPWhR0vPrh5aVXqPdxpn+18485wa
+	COjzEechejRRFEdLxn8MU2tWNj2WYHLXISnl90F6JY5xDLy5CD+lHlURvy/OCmiCTWjPA0/vG1z
+	W29/TN+Kif5ydVFicQAt5wOfGKENkZgl6+weCBEGPItArmZaNYKeUEu2aT8imQ4hul8ke8zaXKc
+	ag
+X-Gm-Gg: AZuq6aJQjjMLu4WLd8cfzekwaMLB9A1lLrPKCprVqWZ6uEQJyBMyIHYta3LYtVOE2uM
+	Q94k5WN3/rp88A7xs7qe9Cj/ZR9ewF8UPAcNACashMee5Hi+2xH9vUwSQfmsREbHBwHMnHD1j7s
+	6dNaXvaD85lRb0mK4Tw+E3Xuu5G1JucYc8Kif3rLjdjSt6NLGiHtaVr9/gwPvspehKVlz3WvpOJ
+	9hXDmh4Iv8Sgjy3eqnh6pS6gKlCjQXWytW3zYLIGq38pkHz9Vo/IKuTXzc6iwTpsRgqdsT6l6SE
+	p6dtS04BV4FiEwWGu4wMVY9lFAXn7Spr7DW1aeNfl7O9t6PwZnrWsRFDpYqs6MsVC760vw7vr8f
+	QhR6OQt6FIvqyC/hSBKvG88laERek9pp5uXuTe8efyyYLsGFvdGcep+tF1nCbh1zgHst4UPm0KQ
+	4e
+X-Received: by 2002:ad4:5ae9:0:b0:894:2d0c:5de4 with SMTP id 6a1803df08f44-894901eaca8mr31974726d6.34.1769160001847;
+        Fri, 23 Jan 2026 01:20:01 -0800 (PST)
+X-Received: by 2002:ad4:5ae9:0:b0:894:2d0c:5de4 with SMTP id 6a1803df08f44-894901eaca8mr31974516d6.34.1769160001427;
+        Fri, 23 Jan 2026 01:20:01 -0800 (PST)
+Received: from WENMLIU-LAB01.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8949182443esm13111066d6.11.2026.01.23.01.19.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Jan 2026 01:20:00 -0800 (PST)
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+Subject: [PATCH v7 0/2] media: i2c: imx412: power on timing adjust
+Date: Fri, 23 Jan 2026 17:19:54 +0800
+Message-Id: <20260123-imx412-v7-0-e58303f2b76b@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 10/18] media: ti: j721e-csi2rx: add support for
- processing virtual channels
-To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev,
- laurent.pinchart@ideasonboard.com, mripard@kernel.org
-Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
- vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com,
- changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
- sjoerd@collabora.com, dan.carpenter@linaro.org, hverkuil+cisco@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20260121135424.1185710-1-r-donadkar@ti.com>
- <20260121135424.1185710-11-r-donadkar@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20260121135424.1185710-11-r-donadkar@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADo9c2kC/3XOwW7DIAwG4FepOI8IgzFlp71H1QMQaJGapAtr1
+ qnKu49WU5dDc7H0W/5++cZKHHMs7H1zY2OccslDX4N527BwdP0h8tzWzKSQJAAsz90VQfKWDAh
+ vU6sCsXp8HmPK10fRbl/zMZevYfx59E5w3/5VCCsQLahGKRAc+Hfsu9gfmlO+fAylNJ8XdwpD1
+ zV1sHvTpBb6/4FJccG3HslK65IxakXjQkt4aqw6kW/TViUA8itav9a6ah/JkEaHLsUVTUstn5q
+ qlkF4jdpikO6Fnuf5F/L+QuibAQAA
+X-Change-ID: 20260119-imx412-d6710b9fd3c6
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769159998; l=1989;
+ i=wenmeng.liu@oss.qualcomm.com; s=20250925; h=from:subject:message-id;
+ bh=YZL1RmD/cleXPDkx2bGKb/HrQU12l4ZoC+NLYNQ6QIw=;
+ b=wW26TFZNCqQpaIwjkmuJDHAODzDkaWeiokULWLvTsdL/ZR4gjeqGSwe3TK8qC1eIQi7iH7Zud
+ MAnMQXDTJb5A2GuY6UyXO4mg+l1RkQNPU4bEuDFydlOAIwRWRVpHCy2
+X-Developer-Key: i=wenmeng.liu@oss.qualcomm.com; a=ed25519;
+ pk=fQJjf9C3jGDjE1zj2kO3NQLTbQEaZObVcXAzx5WLPX0=
+X-Proofpoint-GUID: Brmzalyju3kOkiIypL1k8F07PulXJS36
+X-Proofpoint-ORIG-GUID: Brmzalyju3kOkiIypL1k8F07PulXJS36
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDA3MyBTYWx0ZWRfX08NEIOFVB7SI
+ N9Rc7M/1tNlAvF6Mo0fr38tlpvT1ks7VQhsSEYvKbopBoUP0sawLMTf5iN/74lXlCi53sML0//l
+ Gc9WZezIKQqq4sxhhalEDkmBVQ+aCvOMHgvG7gCez92geTo73i+J6GPhmhLeZ47ksuBS+GyWerE
+ WkSQxbW9zTUiJhOip8kKlJku0UzNua8rpCGMvhGsM3L2PNTeTMss15O+GsaqwugUwL+8weDv4lH
+ u3Y6IBUUfQe21DJNmrQTTkks3ZxsrPcPAkoRbS0fZ5CqDgJPFPJg/REFw7CdZ5jfbHHah8wY+iJ
+ d1Xrm/1/mwVm2cJTFxJSYWJyXQYum3S/kAehhghbYCpSFEpN7qVNk0qjpswsR1vyFN3ZqluI4rK
+ qCwSo8y4WpA3u+eahQ6kyLdtF0n7MV3k4dDqwo6Hd4KzfZaHqEU6oh3fnmlVUrmtyaLMQoIv+MU
+ v3tmQ0Ltjz+3bwfXHzQ==
+X-Authority-Analysis: v=2.4 cv=A4Rh/qWG c=1 sm=1 tr=0 ts=69733d42 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=Rz3T_L-m2ZCUWiLNYVcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-23_01,2026-01-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0 phishscore=0
+ priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601230073
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51404-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[ti.com,kernel.org,pengutronix.de,linux.intel.com,xs4all.nl,ideasonboard.com,starfivetech.com,collabora.com,linaro.org,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.992];
+	TAGGED_FROM(0.00)[bounces-51405-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FROM_NEQ_ENVFROM(0.00)[wenmeng.liu@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ti.com:email]
-X-Rspamd-Queue-Id: D7D6672B99
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: C8F4373268
 X-Rspamd-Action: no action
 
-Hi,
+This series of patches mainly addresses two issues:
+1. Fix potential timing issues that may occur during the first and second power on.
+If the reset GPIO happens to default to the deasserted state at the very
+first power-up, the previous sequence could let the sensor run before
+supplies/clock are fully stable, while subsequent power cycles would
+differ because the driver explicitly toggles reset. This results in
+inconsistent power on sequences between the first and later power on.
 
-On 21/01/2026 15:54, Rishikesh Donadkar wrote:
-> From: Jai Luthra <j-luthra@ti.com>
-> 
-> Use get_frame_desc() to get the frame desc from the connected source,
-> and use the provided virtual channel instead of VC 0.
+2. The Arducam IMX577 sensor requires a longer reset time.
 
-Not only VC, but also DT is handled here.
+Changes in v7:
+- Add vendor details to the comments. -- Sakari
+- Link to v6: https://lore.kernel.org/r/20260122-imx412-v6-0-2c0b54594c2a@oss.qualcomm.com
 
-> As we don't support multiple streams yet, we will just always use
-> stream 0. If the source doesn't support get_frame_desc(), fall back
-> to the previous method of always capturing virtual channel 0.
-> 
-> Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> ---
->  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 50 ++++++++++++++++++-
->  1 file changed, 49 insertions(+), 1 deletion(-)
+Changes in v6:
+- Added comments for the modifications. -- Sakari
+- Link to v5: https://lore.kernel.org/r/20260121-imx412-v5-0-be67654a4afe@oss.qualcomm.com
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Changes in v5:
+- Assert reset GPIO in imx412_parse_hw_config. -- Tarang
+- Link to v4: https://lore.kernel.org/r/20260121-imx412-v4-0-f6bdf83f116b@oss.qualcomm.com
 
- Tomi
+Changes in v4:
+- Add assert reset in probe. -- Sakari
+- Link to v3: https://lore.kernel.org/r/20260119-imx412-v3-0-8b46929af773@oss.qualcomm.com
 
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index aa038d1badc07..81c86e2cc4a50 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -32,6 +32,7 @@
->  #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
->  #define SHIM_DMACNTX_DUAL_PCK_CFG	BIT(24)
->  #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
-> +#define SHIM_DMACNTX_VC			GENMASK(9, 6)
->  #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
->  #define SHIM_DMACNTX_YUV422_MODE_11	3
->  #define SHIM_DMACNTX_SIZE_8		0
-> @@ -110,6 +111,9 @@ struct ti_csi2rx_ctx {
->  	struct media_pad		pad;
->  	u32				sequence;
->  	u32				idx;
-> +	u32				vc;
-> +	u32				dt;
-> +	u32				stream;
->  };
->  
->  struct ti_csi2rx_dev {
-> @@ -569,7 +573,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
->  	ti_csi2rx_request_max_ppc(csi);
->  
->  	reg = SHIM_DMACNTX_EN;
-> -	reg |= FIELD_PREP(SHIM_DMACNTX_FMT, fmt->csi_dt);
-> +	reg |= FIELD_PREP(SHIM_DMACNTX_FMT, ctx->dt);
->  
->  	/*
->  	 * The hardware assumes incoming YUV422 8-bit data on MIPI CSI2 bus
-> @@ -609,6 +613,7 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
->  	}
->  
->  	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
-> +	reg |= FIELD_PREP(SHIM_DMACNTX_VC, ctx->vc);
->  
->  	writel(reg, csi->shim + SHIM_DMACNTX(ctx->idx));
->  
-> @@ -883,12 +888,46 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
->  	}
->  }
->  
-> +static int ti_csi2rx_get_vc_and_dt(struct ti_csi2rx_ctx *ctx)
-> +{
-> +	struct ti_csi2rx_dev *csi = ctx->csi;
-> +	struct v4l2_mbus_frame_desc fd;
-> +	struct media_pad *pad;
-> +	int ret, i;
-> +
-> +	pad = media_entity_remote_pad_unique(&csi->subdev.entity, MEDIA_PAD_FL_SOURCE);
-> +	if (!pad)
-> +		return -ENODEV;
-> +
-> +	ret = v4l2_subdev_call(csi->source, pad, get_frame_desc, pad->index, &fd);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < fd.num_entries; i++) {
-> +		if (ctx->stream == fd.entry[i].stream) {
-> +			ctx->vc = fd.entry[i].bus.csi2.vc;
-> +			ctx->dt = fd.entry[i].bus.csi2.dt;
-> +			break;
-> +		}
-> +
-> +		/* Return error if no matching stream found */
-> +		if (i == fd.num_entries)
-> +			return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->  {
->  	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
->  	struct ti_csi2rx_dev *csi = ctx->csi;
->  	struct ti_csi2rx_dma *dma = &ctx->dma;
->  	struct ti_csi2rx_buffer *buf;
-> +	const struct ti_csi2rx_fmt *fmt;
->  	unsigned long flags;
->  	int ret = 0;
->  
-> @@ -903,6 +942,15 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	if (ret)
->  		goto err;
->  
-> +	ret = ti_csi2rx_get_vc_and_dt(ctx);
-> +	if (ret == -ENOIOCTLCMD) {
-> +		ctx->vc = 0;
-> +		fmt = find_format_by_fourcc(ctx->v_fmt.fmt.pix.pixelformat);
-> +		ctx->dt = fmt->csi_dt;
-> +	} else if (ret < 0) {
-> +		goto err;
-> +	}
-> +
->  	ti_csi2rx_setup_shim(ctx);
->  
->  	ctx->sequence = 0;
+Changes in v3:
+- Fix power on timing. -- Bryan.
+- Add reset delay time for Arducam Imx577.
+- Link to v2: https://lore.kernel.org/all/20260109044913.3310-1-wenmeng.liu@oss.qualcomm.com/
+
+Changes in v2:
+- Move the 7.4–8 ms delay before mode-register programming to satisfy T7 (NVM read).
+- Link to v1: https://lore.kernel.org/all/20251222-imx412-v1-1-51c7e724b376@oss.qualcomm.com/
+
+---
+Wenmeng Liu (2):
+      media: i2c: imx412: Assert reset GPIO during probe
+      media: i2c: imx412: Extend the power-on waiting time
+
+ drivers/media/i2c/imx412.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+---
+base-commit: e3b32dcb9f23e3c3927ef3eec6a5842a988fb574
+change-id: 20260119-imx412-d6710b9fd3c6
+
+Best regards,
+-- 
+Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
 
 
