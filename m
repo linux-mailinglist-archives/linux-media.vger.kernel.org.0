@@ -1,222 +1,205 @@
-Return-Path: <linux-media+bounces-51463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51464-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id NE52KXQfdWlHBAEAu9opvQ
-	(envelope-from <linux-media+bounces-51463-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 20:37:24 +0100
+	id 6CdqFx8idWmYBAEAu9opvQ
+	(envelope-from <linux-media+bounces-51464-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 20:48:47 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF07B7EBC9
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 20:37:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1D67EC1F
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 20:48:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 583FB300EF8D
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 19:37:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F2F373012C51
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 19:48:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98A0926D4DF;
-	Sat, 24 Jan 2026 19:37:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A180A244186;
+	Sat, 24 Jan 2026 19:48:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcvpgCno"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ei/22MAe";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WLvRo9AP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE16A21D3D2
-	for <linux-media@vger.kernel.org>; Sat, 24 Jan 2026 19:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67191400C;
+	Sat, 24 Jan 2026 19:48:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769283437; cv=none; b=oZOqmSQhmZxprrJXVP0sUUfNj/Nkvy5UQh3+jczd+uLfsLMolQSkncOUyVJYrOhpAAtfh8Map54UEocAo76xnv/vqibUQoKzxqbwW4W9vscGDKgrrGLyjkHMM+meNxk+iu8AML0Wid+rK9+YH8ojbCCMDtYAWugdmngHfShLifE=
+	t=1769284113; cv=none; b=NE33/BypuPWuFN49fdKS0LddZBabguLWf/varoMyrAaG+X92v2VEsUaz6oU0za3zZZbh/9H4AsqgUvQBumZzo+oatIDfSkXi0npsWHlArjcoIg7b3jiQxF007/056btrASi87tQtXv1K/sRGll/+qUK/KGNZXNRRii8lCnsXOnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769283437; c=relaxed/simple;
-	bh=PIHVlr0ExMRTdUHzlhxtxW48qafDUlqdVWacP7ORtjY=;
+	s=arc-20240116; t=1769284113; c=relaxed/simple;
+	bh=4SUkpAZUG81QwT6ygsF9A+r4K1zrCy8hBU/DzGVJfVw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H1cy80Nn/1e5vTgroxJa00fjLnyuxhD7hM2XqG3Z6eL/T1LRgz/HdE0rBzBAZi+STPJ8ofeUzwYUbD2GMm6FYMihGr8g9GyGTlGm8jHi3ZkFrY5da/4ZOnKTiVlljx2DspMA61F0dHb0QG65kSJ6DNFHuGCxFjpRIczXDTtHAhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hcvpgCno; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-81e931923b5so498285b3a.1
-        for <linux-media@vger.kernel.org>; Sat, 24 Jan 2026 11:37:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769283435; x=1769888235; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HAS0cPw8fXjZAbIoG1ucL4LgU1rDDylqMMqGTyMgdOE=;
-        b=hcvpgCnoGZvx/tgVvmuTVupLshYLxvzjxeDQxIJLd+dWE2OcNo6kV7NAMqQ6Lh/m9U
-         6OISGKE63xkFkd6tph+DexQolYzmxcm9L3lQHENLJEo5Gp4E+SP0yLOOLnVtIeMRbu2B
-         2C8qwHhurKoLaw+vvYHX33T7pMTIC8Ipfz09dfXgrBiEcfVcOMPaILnMHfiZGmVSrgvN
-         P78fCfu/qSK2DTJsU+cncDyPyDcF+4hWjyQ8W6IC7Lav52g0/E16iiomUixHvdkVXsrC
-         Dg7myKdEmfOqB8dzKr9pbXjnARiC9/H6919VcF0Ssgut3pFlg2Z/TucX6FtIwyNHOLxT
-         DRTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769283435; x=1769888235;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HAS0cPw8fXjZAbIoG1ucL4LgU1rDDylqMMqGTyMgdOE=;
-        b=R5EAvq+MgfMC3amB/CFVn5FaDd5D+LvLKuHT6tYjNp9OIE1/FTO9scnm8gxeYp6rrd
-         qswUEsWg8WlCux8dlboDc/XuTTl1PI9w4fH6zWbqogmVFYYZmMioC5ZI/lDDrVnhPkDJ
-         fdyp6a9LrM+LXnUROE8MQgGxy/PTlSeUl3Bc8kaFVsAJ3HqGpGuwJVfFNcabPHQzstQO
-         fZcNjKFK1c6G80nXSP4xPj4F0kYqGmNb/ZWq+CsdWlGBshZ2BjDZBfICxQaAQ+wZ54zv
-         dUvjPaHlkrMWSWiNzddWZ2/dft4/rO7kKEi9IiRJE24DaAzxMJo6hoG//I/IpG77HN8x
-         aovw==
-X-Forwarded-Encrypted: i=1; AJvYcCXyYz/izReThvcm0JhfpxhLI2u7MW1+O71n4Wu4j4UDyxYX+D/V0Ct6LpmUkDzTfRU3SO1+4yYdeb/jAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrhN/ljnk0KNpW0r6NbAJzs8JZRC9hhFCmrvkMFyyFTgz1/tlm
-	W1Xg7U10CU6iPqswS6EuwRYJgRJkL0aitWqxZOy5dKW7UPHWvIJCqapT
-X-Gm-Gg: AZuq6aID03IKz2Pno5/3+zaOxY4/bdEmvoFisZ0AdJksRVjD3dZRIU6N2DY9ShwB0lt
-	oqgR58fRqZY0NPeXL1PT7ke7/1kR8c+fpgyWSMluwd3/hSuHPOdd2CJvrGcpyxnVPvtpu5HUkFs
-	XSm7kCJMOOErZdwKK2hwza1j6V4vUtvzW4C4bXGBmA7Mz0PdT6Wv8KRuDkP+OSV5z61ke+2G72N
-	FqRXeAee/c51OMM9FNJAC39KOeMU9uvLDxqKMgJLV1DrONMk6VPZJPRf1qKWL9Lz+UmlTKVS9yd
-	oCwE2UnBrkbR4JqEz6CHy1JRkoc+Tmr6nj35O+I4S4F65NPyhkOvz8DrcgF/h/GKnxlz3JBSSQ7
-	mwRCyp0MOen3I/4/p2g/cd8ZSYXrW9HUw9wsKxXyjbXabI0uBceVdIkUHHUdJdk3d0Sm1jOQZ2i
-	cpNCUD32/elLTQA6MksVQjw4x/XEIwNG6yPqJuCgKHog==
-X-Received: by 2002:a05:6a00:c8a:b0:821:84c3:845b with SMTP id d2e1a72fcca58-8232ad4db99mr2141966b3a.7.1769283435141;
-        Sat, 24 Jan 2026 11:37:15 -0800 (PST)
-Received: from FAIZEL-KB ([2001:569:5999:dc00:1a03:eb4d:cd5c:c2e3])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82318671e1csm5392073b3a.27.2026.01.24.11.37.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Jan 2026 11:37:13 -0800 (PST)
-Date: Sat, 24 Jan 2026 11:37:12 -0800
-From: Faizel K B <faizel.kb@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 2/3] media: vimc: sensor: Add frame rate configuration
- support
-Message-ID: <cr4tjjlq53ezux7lzrusy4wb7ji26trwkipfkjl33kwv6z4ut7@r6hvuzki66bj>
-References: <20260115191050.1370387-1-faizel.kb@gmail.com>
- <20260115191050.1370387-3-faizel.kb@gmail.com>
- <176855718062.1693075.8294828651917203116@ping.linuxembedded.co.uk>
- <cr7vrmkqxuriwici63khv4rv4fyeyp4aacejqe5mqfwuwbd2bs@xrjarfm6g4fv>
- <20260117044413.GB445@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GTGe7YM0+CJNKpLF3SYEd6Nz/2LpSK2U28yN8fWI1rqcGoPtKj4yofGFUvrVdEQLwY/QHardqdaWSC7xDWfxtN1bFLjmIsxFKmMCYxHi3G7L59SjeiMQzYSGhKnD25vq3LRPBXw57Qwy0WwyQsWobS2dVRaFQr7C/ME9TJvk5oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ei/22MAe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WLvRo9AP; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id BAB391D0015C;
+	Sat, 24 Jan 2026 14:48:29 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Sat, 24 Jan 2026 14:48:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1769284109;
+	 x=1769370509; bh=6Z9KZekhcIHngRJZiRo7Pl0gc3lR9dx/2JP7RuL4efc=; b=
+	ei/22MAecVvlJUyeA1rQN1l+2PdknZhantHJlsjNYYOB+aZ0tTEghyapOMHzALmk
+	4KKcw4IzkZqBBq9inb0FciMj70v9RcJ/84A01oFTm/FvXvFk/KJtgZnsqK7+o7iD
+	LtENDrL3KxT/tVIEo7sm7w2FoUMhGv5Yt6GQcz8WVoKCrByS0juqjMNfDHGaosQV
+	nS1EBYx34Nfj5r0169tsFdjm35SeS61sBODavmw+Mnphdra8UbUAVx30M9+TRYyJ
+	DQmuKsX8RxJDK7073q8lD/X7J1TcidQ7G5FzS9NcQz6kZDrAcHsvIddFT6eRX+qB
+	g+P+7rg8J25yJ/vQ8PQOfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769284109; x=
+	1769370509; bh=6Z9KZekhcIHngRJZiRo7Pl0gc3lR9dx/2JP7RuL4efc=; b=W
+	LvRo9APO5CJLFdyMJPYtUGe5qVRZfROXd+JyFspipFVInKseTSXylUCLXFtlWKsW
+	pkI6ZwWDX5bnayM1N4hABWvKtAiU41934+f/1pSrviJueb/zwMQlFI4/WEBi0LK1
+	bI/G0VnB3mqYPk+fWX1WLx1IvFQBfHckl4Ofc8V1hiDJYkToMbX8LwQctxZZKJ/7
+	5x+MTc41PsH5iGZq9zAZAteLkgvobfedNFc+gzjrKWcY12FCMr2baNnEV382bY+0
+	rcyhkl6qouixGgb09J65rVj+is2M3a16KT2auPPHQy0p9I1nYszKB4NY5lVP7Bo5
+	p6lEG1YfHL9ki3AB4/cGQ==
+X-ME-Sender: <xms:DSJ1aXzsYKOoaaVtfSgzoWa0unmRdVy0iIJ9KbZetdX4IqtIkdBDPg>
+    <xme:DSJ1afvOrUDVb30D8S23bAWNR4VX2uNMJ7IG4VR2Pow_VhYfzzh2QvIGzGL-m39Ux
+    7oDo3cCL0HfNR9ZscyIrqJDmFEeJ5sqv8n5tc1SqgT4KlyJAreK8A>
+X-ME-Received: <xmr:DSJ1aSCfYfSFQQE4xmPZAT7Cn9M23o9CShxHNCoghvzWU0DwLqqsFMjRN40FYyb0cGfji_Qe3WvpTVn6MxdZxr4_KH7q2vs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduhedvkedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshho
+    nhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgt
+    phhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplh
+    gruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgt
+    phhtthhopehkihgvrhgrnhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonh
+    gsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghl
+    sehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:DSJ1aZFn06tCR_UDHEr0sONbUTJOYVT0U3cD8cntKIVCsecedsTBHA>
+    <xmx:DSJ1aaCXYcMotriuV0hH4j1QW4kaLGWLONuPS1JqJZl7KfgJlu9dyQ>
+    <xmx:DSJ1aXlQvJa1vakPgHRWbGcLkke9ljqibMRuDGSjkpeVIZ4i1-sYrg>
+    <xmx:DSJ1aYPRJNjzAqI2SdF9yZY4g4ngP1iV-HB9R3kjaFj9g_cRqFr3qQ>
+    <xmx:DSJ1ac8ENaTqpNG8VmTWim28aKOksiW1ItA7vd92IHlnJVVtTdEhbPnJ>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 24 Jan 2026 14:48:28 -0500 (EST)
+Date: Sat, 24 Jan 2026 20:48:27 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] media: rcar-csi2: Improve FLD_FLD_EN macros
+Message-ID: <20260124194827.GA3395783@ragnatech.se>
+References: <20260115-rcar-streams-prep-1-v1-0-f87700926c11@ideasonboard.com>
+ <20260115-rcar-streams-prep-1-v1-2-f87700926c11@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260117044413.GB445@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260115-rcar-streams-prep-1-v1-2-f87700926c11@ideasonboard.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm1,messagingengine.com:s=fm2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,ideasonboard.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51463-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[faizelkb@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51464-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,libcamera.org:url]
-X-Rspamd-Queue-Id: BF07B7EBC9
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BF1D67EC1F
 X-Rspamd-Action: no action
 
-On Sat, Jan 17, 2026 at 06:44:13AM +0200, Laurent Pinchart wrote:
->On Fri, Jan 16, 2026 at 12:35:47PM -0800, Faizel K B wrote:
->> On Fri, Jan 16, 2026 at 09:53:00AM +0000, Kieran Bingham wrote:
->> > Hi Faizel,
->> >
->> > Pullling in the libcamera-devel mailing list for relevant awareness too.
->> >
->> > Quoting faizel.kb@gmail.com (2026-01-15 19:10:49)
->> >> From: Faizel K B <faizel.kb@gmail.com>
->> >>
->> >> Implement set_frame_interval and get_frame_interval callbacks in
->> >> v4l2_subdev_pad_ops to enable frame rate configuration from 1-240 FPS.
->> >> The default frame rate is 60 FPS.
->> >>
->> >> The configured frame interval is pre-calculated into jiffies and
->> >> stored in the sensor's hw structure for efficient access by the
->> >> streamer thread.
->> >
->> > This is a really interesting and helpful bit of work - but I'm weary it
->> > might have taken one small mis-direction.
->> >
->> > VIMC aims to replicate the usage of camera sensors, and I don't think
->> > we're supposed to use frame interval interface for that.
->> >
->> > Instead following the camera sensor model, this should be implemented to
->> > mirror what the hardware in camera sensors actually does/needs which is
->> > to make the frame rate a function of the exposure time and blankings
->> > (both hblank and vblank).
->> >
->> > We have a bit of a write up about the calculation at the bottom of this
->> > page:
->> >
->> > - https://libcamera.org/camera-sensor-model.html
->> >
->> > Or perhaps the sensor requirements of libcamera might be what a virtual
->> > sensor should aim for:
->> >
->> > - https://libcamera.org/sensor_driver_requirements.html
->>
->> Thanks for the review and links. It makes sense to implement the pixelrate,
->> v/h blanking from a sensor point of view.The exposure value also
->> matters. Sensors even prioritize the exposure to the frame timings or the
->> other way. This parameters can be added inside using v4l2_ctrl_new_std(),
->> for pixel rate,blanking and exposure and calculate the sleep time for the
->> frame rate delay in the streamer thread. By this, a user need to do few
->> calculations to adjust the frame rate.
->>
->> > There's probably more helpful documentation in the linux kernel too in
->> > the upcoming sensor model rework from Sakari.
->> >
->> > Aha - in fact I found this:
->> > - https://www.kernel.org/doc/html/latest/userspace-api/media/drivers/camera-sensor.html#raw-camera-sensors
->> >
->> > "2.2. Frame interval configuration
->> >
->> > There are two different methods for obtaining possibilities for
->> > different frame intervals as well as configuring the frame interval.
->> > Which one to implement depends on the type of the device."
->> >
->> > So perhaps the question we need to clarify is "what type of device is
->> > vimc-sensor".
->> >
->> > I'm likely biased to presume it's a virtual raw camera sensor ... But is
->> > it ?
->>
->> Would like to hear more about this.
->
->Given that the vimc driver exposes raw bayer formats, and that the
->sensor is connected to an entity called debayer, it's safe to say it
->should be considered as a raw sensor. This is how libcamera uses vimc,
->and I think it's the most important use case for the driver.
->
->This being said, the media graph exposed by the vimc driver doesn't map
->exactly to how a raw sensor connected to an inline ISP would look like.
->It would be nice to improve this at some point.
->
+Hi Tomi,
 
-Ok. Thanks. I will send a new patch with frame rate controlled from 
+Thanks for your work.
 
-V4L2_CID_PIXEL_RATE
-V4L2_CID_HBLANK 
+On 2026-01-15 12:06:58 +0200, Tomi Valkeinen wrote:
+> Instead of having four macros for FLD_FLD_EN for different channels,
+> have just one FLD_FLD_EN(ch).
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-instead of frame interval.Both the above as read only as to closely
-match the hardware
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-V4L2_CID_VBLANK - As read/write, to control the actual frame rate
+> ---
+>  drivers/media/platform/renesas/rcar-csi2.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+> index d1b31ab8b8c4..3cd35adb6803 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -71,10 +71,7 @@ struct rcar_csi2;
+>  #define FLD_REG				0x1c
+>  #define FLD_FLD_NUM(n)			(((n) & 0xff) << 16)
+>  #define FLD_DET_SEL(n)			(((n) & 0x3) << 4)
+> -#define FLD_FLD_EN4			BIT(3)
+> -#define FLD_FLD_EN3			BIT(2)
+> -#define FLD_FLD_EN2			BIT(1)
+> -#define FLD_FLD_EN			BIT(0)
+> +#define FLD_FLD_EN(ch)			BIT(ch)
+>  
+>  /* Automatic Standby Control */
+>  #define ASTBY_REG			0x20
+> @@ -1082,8 +1079,8 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
+>  	}
+>  
+>  	if (fmt->field == V4L2_FIELD_ALTERNATE)
+> -		fld = FLD_DET_SEL(1) | FLD_FLD_EN4 | FLD_FLD_EN3 | FLD_FLD_EN2
+> -			| FLD_FLD_EN;
+> +		fld = FLD_DET_SEL(1) | FLD_FLD_EN(3) | FLD_FLD_EN(2) |
+> +		      FLD_FLD_EN(1) | FLD_FLD_EN(0);
+>  
+>  	/*
+>  	 * Get the number of active data lanes inspecting the remote mbus
+> 
+> -- 
+> 2.43.0
+> 
 
-fps = pixel_rate / ((width+hblank) * (height+vblank)) 
-
+-- 
+Kind Regards,
+Niklas Söderlund
 
