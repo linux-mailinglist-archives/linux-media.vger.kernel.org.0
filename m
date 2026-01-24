@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-51464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51465-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6CdqFx8idWmYBAEAu9opvQ
-	(envelope-from <linux-media+bounces-51464-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 20:48:47 +0100
+	id kMx4OUEidWmYBAEAu9opvQ
+	(envelope-from <linux-media+bounces-51465-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 20:49:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1D67EC1F
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 20:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9F67EC2F
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 20:49:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F2F373012C51
-	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 19:48:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D3FD73010DA9
+	for <lists+linux-media@lfdr.de>; Sat, 24 Jan 2026 19:49:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A180A244186;
-	Sat, 24 Jan 2026 19:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DDEB244186;
+	Sat, 24 Jan 2026 19:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ei/22MAe";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WLvRo9AP"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="GVDgexQY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KEwkVLO8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67191400C;
-	Sat, 24 Jan 2026 19:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5761136358;
+	Sat, 24 Jan 2026 19:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769284113; cv=none; b=NE33/BypuPWuFN49fdKS0LddZBabguLWf/varoMyrAaG+X92v2VEsUaz6oU0za3zZZbh/9H4AsqgUvQBumZzo+oatIDfSkXi0npsWHlArjcoIg7b3jiQxF007/056btrASi87tQtXv1K/sRGll/+qUK/KGNZXNRRii8lCnsXOnw=
+	t=1769284151; cv=none; b=iPMFJUg0Xa1e9h0h1U0HbaozXpnsVXOKVX8oph2c805mwIcj3hsrOSykmQTdMJO6Rtx8ir6LvUX8GF0f/y7tgvlrYPg8R7mR+lu8KM7YMmCaTlM7fS7R+ELR4idMzfmOpElyMm/kB/zq4ioeRkdebjO5NEnRryQG9l/Tv32pxiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769284113; c=relaxed/simple;
-	bh=4SUkpAZUG81QwT6ygsF9A+r4K1zrCy8hBU/DzGVJfVw=;
+	s=arc-20240116; t=1769284151; c=relaxed/simple;
+	bh=x7WwG/3ihx7PoxOksOo07gcSxI/NTsXjHNigFVN8r6o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GTGe7YM0+CJNKpLF3SYEd6Nz/2LpSK2U28yN8fWI1rqcGoPtKj4yofGFUvrVdEQLwY/QHardqdaWSC7xDWfxtN1bFLjmIsxFKmMCYxHi3G7L59SjeiMQzYSGhKnD25vq3LRPBXw57Qwy0WwyQsWobS2dVRaFQr7C/ME9TJvk5oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ei/22MAe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WLvRo9AP; arc=none smtp.client-ip=202.12.124.146
+	 Content-Type:Content-Disposition:In-Reply-To; b=gXLEe+7ZV1nyCkm3HleMAISBCPw1ge2DZ44ZJpIdI8S6hDjubOGgxEy39IiUP7BYg4KR15xYVC+5PVpEdK3i6zwU86DIytlpMTIHaWXhF337e3fgDC3XgHqVNXq9w6RPh6osloH+bLuQV8p8pKH1lapLfIF02B0eUyQ0zwMYFQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=GVDgexQY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KEwkVLO8; arc=none smtp.client-ip=202.12.124.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id BAB391D0015C;
-	Sat, 24 Jan 2026 14:48:29 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sat, 24 Jan 2026 14:48:30 -0500
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 853CC7A012D;
+	Sat, 24 Jan 2026 14:49:08 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Sat, 24 Jan 2026 14:49:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1769284109;
-	 x=1769370509; bh=6Z9KZekhcIHngRJZiRo7Pl0gc3lR9dx/2JP7RuL4efc=; b=
-	ei/22MAecVvlJUyeA1rQN1l+2PdknZhantHJlsjNYYOB+aZ0tTEghyapOMHzALmk
-	4KKcw4IzkZqBBq9inb0FciMj70v9RcJ/84A01oFTm/FvXvFk/KJtgZnsqK7+o7iD
-	LtENDrL3KxT/tVIEo7sm7w2FoUMhGv5Yt6GQcz8WVoKCrByS0juqjMNfDHGaosQV
-	nS1EBYx34Nfj5r0169tsFdjm35SeS61sBODavmw+Mnphdra8UbUAVx30M9+TRYyJ
-	DQmuKsX8RxJDK7073q8lD/X7J1TcidQ7G5FzS9NcQz6kZDrAcHsvIddFT6eRX+qB
-	g+P+7rg8J25yJ/vQ8PQOfQ==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1769284148;
+	 x=1769370548; bh=Pru4e3WpxHeIlzGDEztAKa+9WVlRcoBazAmjcqbvjTA=; b=
+	GVDgexQY77Ijfue5pzDI1dr8dkAfdi3GnEmsjrv2C9fieA6SEjpX1+ruvC+mlWYZ
+	UB52fAuf4ZlhkrTsvOrvnjseDJtMa0DxeJ1NoAkz+juvZdd+y14haKURUZNeJ8U4
+	k1km7GpikF15vB9o98x9vkG37taXUIBUOXCdYBlzkz9it7CINSOtk7OZ55wV11cS
+	y3o/CdXhxLQTpsy+v0p+Pl2tVE74A+TH4QLvP7EPja5naJiPTiko0OG3z3ItQf9h
+	oyTKu3jjxLYai2t28rFQ8E/0Itxx1kHQhLvJx1tybJQmpj96jRsDDgYtE7bv0WEi
+	SImmUVVjDD5BIie9cGxhQg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769284109; x=
-	1769370509; bh=6Z9KZekhcIHngRJZiRo7Pl0gc3lR9dx/2JP7RuL4efc=; b=W
-	LvRo9APO5CJLFdyMJPYtUGe5qVRZfROXd+JyFspipFVInKseTSXylUCLXFtlWKsW
-	pkI6ZwWDX5bnayM1N4hABWvKtAiU41934+f/1pSrviJueb/zwMQlFI4/WEBi0LK1
-	bI/G0VnB3mqYPk+fWX1WLx1IvFQBfHckl4Ofc8V1hiDJYkToMbX8LwQctxZZKJ/7
-	5x+MTc41PsH5iGZq9zAZAteLkgvobfedNFc+gzjrKWcY12FCMr2baNnEV382bY+0
-	rcyhkl6qouixGgb09J65rVj+is2M3a16KT2auPPHQy0p9I1nYszKB4NY5lVP7Bo5
-	p6lEG1YfHL9ki3AB4/cGQ==
-X-ME-Sender: <xms:DSJ1aXzsYKOoaaVtfSgzoWa0unmRdVy0iIJ9KbZetdX4IqtIkdBDPg>
-    <xme:DSJ1afvOrUDVb30D8S23bAWNR4VX2uNMJ7IG4VR2Pow_VhYfzzh2QvIGzGL-m39Ux
-    7oDo3cCL0HfNR9ZscyIrqJDmFEeJ5sqv8n5tc1SqgT4KlyJAreK8A>
-X-ME-Received: <xmr:DSJ1aSCfYfSFQQE4xmPZAT7Cn9M23o9CShxHNCoghvzWU0DwLqqsFMjRN40FYyb0cGfji_Qe3WvpTVn6MxdZxr4_KH7q2vs>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1769284148; x=
+	1769370548; bh=Pru4e3WpxHeIlzGDEztAKa+9WVlRcoBazAmjcqbvjTA=; b=K
+	EwkVLO8bchgI060T7ZBGFy2Fo3mSBFFYTdndTRqNMaR1oKKQGAw21OnVPXgI71PN
+	dUTbSOC+3b0RX/JBrcy7BRHWcoge6rdAb9UNp9uSoaY3zcVKrGREFC/RI16mw07T
+	DG8wWpo481vOVsOXa6gdWp7vuIey8jWh63Hs3BiajrUxzv2mDzNerEsktNLTpQtV
+	Myxz4oxZhs9WIpSD6C0DpWJgNMXxnzvrkZTXLzCZjKkmmp0QZ6VINXdtojTtzX2R
+	WHg6kjUADqvk3dZZH+K9rZGjn4qdxNS3euLPYgLa2BOzRaJ/j5zHcoDhshycVkVF
+	WmqSWTp3dcAri8aQ/G/tQ==
+X-ME-Sender: <xms:NCJ1ad16jHpELdlTQU2jtOmTz1ybZhKz-Bw2GWKBEXvA_JNtZQ92wg>
+    <xme:NCJ1aaFV8Sb6l48dfMMwLMXmzgH37BMhJb6W6vIagAN0GbmuyVMXIiWa1u_j3dbZa
+    zCKqHLVPcmNky-_8mVirtL_cJ3KaUWfxMqq9cvc0KLFpI2q6NGUng>
+X-ME-Received: <xmr:NCJ1aYuE3ImZLbU3UEVneM3T0_Dq-WIlKmXzHGt8KJYwGWr3OIVmHk0v3IJs1A0EId3Avgv7gvTcy5xkfSrPLFiSNaBghVI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduhedvkedtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
@@ -76,26 +76,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduhedvkedtucetufdote
     htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
     heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
     grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshho
-    nhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgt
-    phhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplh
-    gruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgt
-    phhtthhopehkihgvrhgrnhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonh
-    gsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhk
-    vghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtse
-    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghl
-    sehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:DSJ1aZFn06tCR_UDHEr0sONbUTJOYVT0U3cD8cntKIVCsecedsTBHA>
-    <xmx:DSJ1aaCXYcMotriuV0hH4j1QW4kaLGWLONuPS1JqJZl7KfgJlu9dyQ>
-    <xmx:DSJ1aXlQvJa1vakPgHRWbGcLkke9ljqibMRuDGSjkpeVIZ4i1-sYrg>
-    <xmx:DSJ1aYPRJNjzAqI2SdF9yZY4g4ngP1iV-HB9R3kjaFj9g_cRqFr3qQ>
-    <xmx:DSJ1ac8ENaTqpNG8VmTWim28aKOksiW1ItA7vd92IHlnJVVtTdEhbPnJ>
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepthhomhhirdhvrghlkhgvihhnvghnodhrvghnvghsrghssehiuggvrghs
+    ohhnsghorghrugdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhr
+    tghpthhtohepmhgrghhnuhhsrdgurghmmhesghhmrghilhdrtghomhdprhgtphhtthhope
+    hlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhr
+    tghpthhtohepkhhivghrrghnrdgsihhnghhhrghmodhrvghnvghsrghssehiuggvrghsoh
+    hnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdr
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotg
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:NCJ1adphj052dZ-d9DiO4FV1Y0uyjxfKyQucYKWROfues4-Kh0l_iQ>
+    <xmx:NCJ1afVHaQ9TmOKTqjcoP-o2_3RfUfN54yl_qsSsqDR-6wEC_60dyw>
+    <xmx:NCJ1aV1HzlTfltR39Ry59BOFXKO1oACNB50GFPo4hGSEIApnsOveqw>
+    <xmx:NCJ1aUs0_Nb_-TA3IH71m17v9g5noJ9W4ZCOhp_4Z-VdlfBfGUPBfQ>
+    <xmx:NCJ1aYylmg4xrlkSsRS0IL__kFNI7QZ5saF1EGsKhrqYAwkRwuSY8U8p>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 24 Jan 2026 14:48:28 -0500 (EST)
-Date: Sat, 24 Jan 2026 20:48:27 +0100
+ 24 Jan 2026 14:49:07 -0500 (EST)
+Date: Sat, 24 Jan 2026 20:49:05 +0100
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -104,11 +104,12 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] media: rcar-csi2: Improve FLD_FLD_EN macros
-Message-ID: <20260124194827.GA3395783@ragnatech.se>
+	linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH 5/5] media: rcar-csi2: Optimize rcsi2_calc_mbps()
+Message-ID: <20260124194905.GB3395783@ragnatech.se>
 References: <20260115-rcar-streams-prep-1-v1-0-f87700926c11@ideasonboard.com>
- <20260115-rcar-streams-prep-1-v1-2-f87700926c11@ideasonboard.com>
+ <20260115-rcar-streams-prep-1-v1-5-f87700926c11@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -118,7 +119,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260115-rcar-streams-prep-1-v1-2-f87700926c11@ideasonboard.com>
+In-Reply-To: <20260115-rcar-streams-prep-1-v1-5-f87700926c11@ideasonboard.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -132,7 +133,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,ideasonboard.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51464-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51465-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
@@ -143,57 +144,114 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BF1D67EC1F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:dkim,ragnatech.se:mid]
+X-Rspamd-Queue-Id: 4E9F67EC2F
 X-Rspamd-Action: no action
 
-Hi Tomi,
+Hello Tomi,
 
-Thanks for your work.
+Thanks for your patch.
 
-On 2026-01-15 12:06:58 +0200, Tomi Valkeinen wrote:
-> Instead of having four macros for FLD_FLD_EN for different channels,
-> have just one FLD_FLD_EN(ch).
+On 2026-01-15 12:07:01 +0200, Tomi Valkeinen wrote:
+> With modern drivers supporting link-freq, we don't need to do any
+> calculations based on the bpp and number of lanes when figuring out the
+> link frequency. However, the code currently always runs code to get the
+> bpp and number of lanes.
+> 
+> Optimize the rcsi2_calc_mbps() so that we only do that when needed, i.e.
+> when querying the link-freq is not supported by the upstream subdevice.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  drivers/media/platform/renesas/rcar-csi2.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+>  drivers/media/platform/renesas/rcar-csi2.c | 50 +++++++++++++++++-------------
+>  1 file changed, 29 insertions(+), 21 deletions(-)
 > 
 > diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-> index d1b31ab8b8c4..3cd35adb6803 100644
+> index a2a87c5bfd7c..7305cc4a04cb 100644
 > --- a/drivers/media/platform/renesas/rcar-csi2.c
 > +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> @@ -71,10 +71,7 @@ struct rcar_csi2;
->  #define FLD_REG				0x1c
->  #define FLD_FLD_NUM(n)			(((n) & 0xff) << 16)
->  #define FLD_DET_SEL(n)			(((n) & 0x3) << 4)
-> -#define FLD_FLD_EN4			BIT(3)
-> -#define FLD_FLD_EN3			BIT(2)
-> -#define FLD_FLD_EN2			BIT(1)
-> -#define FLD_FLD_EN			BIT(0)
-> +#define FLD_FLD_EN(ch)			BIT(ch)
+> @@ -1006,15 +1006,10 @@ static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
+>  static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
+>  			   struct v4l2_subdev_state *state)
+>  {
+> -	const struct rcar_csi2_format *format;
+> -	struct v4l2_mbus_framefmt *fmt;
+>  	struct media_pad *remote_pad;
+>  	struct v4l2_subdev *source;
+> -	unsigned int lanes;
+> -	unsigned int bpp;
+>  	s64 freq;
+>  	u64 mbps;
+> -	int ret;
 >  
->  /* Automatic Standby Control */
->  #define ASTBY_REG			0x20
-> @@ -1082,8 +1079,8 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
+>  	if (!priv->remote)
+>  		return -ENODEV;
+> @@ -1022,28 +1017,41 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
+>  	source = priv->remote;
+>  	remote_pad = &source->entity.pads[priv->remote_pad];
+>  
+> -	ret = rcsi2_get_active_lanes(priv, &lanes);
+> -	if (ret)
+> -		return ret;
+> +	/*
+> +	 * First try to get the real link freq. If that fails, try the heuristic
+> +	 * method with bpp and lanes (but that only works for one route).
+> +	 */
+> +	freq = v4l2_get_link_freq(remote_pad, 0, 0);
+> +	if (freq < 0) {
+> +		const struct rcar_csi2_format *format;
+> +		const struct v4l2_mbus_framefmt *fmt;
+> +		unsigned int lanes;
+> +		unsigned int bpp;
+> +		int ret;
+>  
+> -	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
+> -	if (!fmt)
+> -		return -EINVAL;
+> +		ret = rcsi2_get_active_lanes(priv, &lanes);
+> +		if (ret)
+> +			return ret;
+>  
+> -	format = rcsi2_code_to_fmt(fmt->code);
+> -	if (!format)
+> -		return -EINVAL;
+> +		fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
+> +		if (!fmt)
+> +			return -EINVAL;
+>  
+> -	bpp = format->bpp;
+> +		format = rcsi2_code_to_fmt(fmt->code);
+> +		if (!format)
+> +			return -EINVAL;
+>  
+> -	freq = v4l2_get_link_freq(remote_pad, bpp, 2 * lanes);
+> -	if (freq < 0) {
+> -		int ret = (int)freq;
+> +		bpp = format->bpp;
+>  
+> -		dev_err(priv->dev, "failed to get link freq for %s: %d\n",
+> -			source->name, ret);
+> +		freq = v4l2_get_link_freq(remote_pad, bpp, 2 * lanes);
+> +		if (freq < 0) {
+> +			int ret = (int)freq;
+>  
+> -		return ret;
+> +			dev_err(priv->dev, "failed to get link freq for %s: %d\n",
+> +				source->name, ret);
+> +
+> +			return ret;
+> +		}
 >  	}
 >  
->  	if (fmt->field == V4L2_FIELD_ALTERNATE)
-> -		fld = FLD_DET_SEL(1) | FLD_FLD_EN4 | FLD_FLD_EN3 | FLD_FLD_EN2
-> -			| FLD_FLD_EN;
-> +		fld = FLD_DET_SEL(1) | FLD_FLD_EN(3) | FLD_FLD_EN(2) |
-> +		      FLD_FLD_EN(1) | FLD_FLD_EN(0);
->  
->  	/*
->  	 * Get the number of active data lanes inspecting the remote mbus
+>  	mbps = div_u64(freq * 2, MEGA);
 > 
 > -- 
 > 2.43.0
