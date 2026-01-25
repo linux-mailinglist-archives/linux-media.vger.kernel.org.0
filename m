@@ -1,389 +1,152 @@
-Return-Path: <linux-media+bounces-51489-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51490-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YKjJChAadmnXLgEAu9opvQ
-	(envelope-from <linux-media+bounces-51489-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 14:26:40 +0100
+	id GOybHmMfdmlaMAEAu9opvQ
+	(envelope-from <linux-media+bounces-51490-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 14:49:23 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC41480B66
-	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 14:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E44C80D67
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 14:49:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D3C7B3005748
-	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 13:21:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8026C300617B
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 13:49:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D18B931D387;
-	Sun, 25 Jan 2026 13:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FDCA31BC9E;
+	Sun, 25 Jan 2026 13:49:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NVR9As79"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOTZ0/Jh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760E22264C9
-	for <linux-media@vger.kernel.org>; Sun, 25 Jan 2026 13:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC381632DD
+	for <linux-media@vger.kernel.org>; Sun, 25 Jan 2026 13:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769347294; cv=none; b=eTPQh6VjhQ366gl7Vw0Co+RaM/AfjHnCb99QWypsRNZfvYQQ/RPIwqforNJLqwPabDqivftfxBPu4xdcuY3sRQLyf8o+DonvcO7KFvtDrVVOzGzq1M0Hc3k5TubrtfNmrghrhuGEEhysDjNNdVfMu1h6e+fzvOYjg2/uttmLXiI=
+	t=1769348953; cv=none; b=fY5+McUFoxLn6kUu3CLul+S0gHtgvpgA020fCgFvDwFbOIBqwov45mw272KfWPi3plDPsVsXtOWZmLJsfZI9GsoDGFr+UbqlC+pjsHNVq2onpV5E7G9hfTdvu1r4JzI+7/tijOppHSfPJRAbnQeTE00+ex+qH2sy8h44dnxM588=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769347294; c=relaxed/simple;
-	bh=t2Vnth4pLXmngaQz4oz8DOhdfKRlEIrLXEvo5xHEthY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SDAB08z3RR4Bva5Y166Z/hz4Dqomnvgv5mTcTCrITTMkASqPe1S08CAOc0skvpmcjC+9qJ5EIPza8xgwvToErpofX/x71eZRfsmx/+3gQXAZPs+ck0sKif0HX/PCowDSzEc/2ABASOVNpWAjVkuuY2u4lSxQ49HU3p+Xj87/QDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NVR9As79; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47ee4539adfso40162005e9.3
-        for <linux-media@vger.kernel.org>; Sun, 25 Jan 2026 05:21:32 -0800 (PST)
+	s=arc-20240116; t=1769348953; c=relaxed/simple;
+	bh=h6M+KLjiVFypP8v/V3hgi/xRXMPMzHyblkAsadDGc/w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZquIPKXZJUW4SsdKmoAhboNv/Pik7rSjX4cuk8qYAPhOd7nKbSgbT58F3Rr/Xinroq8FwakLHRIuZJuhfyuh1IiVbpOvg+XrQ4tlA25yW56STyYGTHJRnkUTwfLONFRharmGFuzIXsmGXZk7QnVylm0XcBJpvuE0cli+eeTl/nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOTZ0/Jh; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-435903c4040so2222639f8f.3
+        for <linux-media@vger.kernel.org>; Sun, 25 Jan 2026 05:49:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769347291; x=1769952091; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+XYIwuBOf+rKUtpJWTb5kSlSAnO99KDliXLsbnLZ79U=;
-        b=NVR9As79yB4H+Wlk2GLc/MvVN5IzM9/za5pESMc/Fm6NoWbvG/zjKkV7IzjTvxogcX
-         LVOyHa0hXeXGC0SNf8spCqynDzEyRBhO6iXx+PfJwjE7GQppX5aWFESBeD7jkBpz7mto
-         rmmD1h0RgbguEbTgoF5kRQkx6F9e09Wub2U1BzO9g98iFiLEOxn0L4hw0oPROJfBIxLl
-         HhlYGQJZQ08AHbMdFzKvwB7n9o95MNmnjCA85C7j2nVgBexFxMsoKAEx4ZIjB37cqP4E
-         OM0yfaTIdzNdHYsAlvehEhJ6laCFeG4WQcY2Po4GGlFMiUG5aH6gNJxNwUTMEOjiAEjx
-         FwCA==
+        d=gmail.com; s=20230601; t=1769348950; x=1769953750; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=okJxgcNxyT0t1LmxmVSD+6wad8n7jcqCMxTOL8WlsjQ=;
+        b=LOTZ0/JhfgyTRPSHctrdrcToQRn7+d8mU7VMsOC+FqeHNFM+qsj+DZXwAeX3QBBVaR
+         JEVg7O6imvgLfrJCKNgnC8E/8oL7lndaY6+hrLqjxCocHjnDvbF6s9FcaU8dhvCm1rS0
+         2Uv4b+uE/cloDVcuIObfzSdkHgmpaHihsPHq0nb+NPzKewh837CaVSiml73yKM4xMzaj
+         IeTrlJiYiO7UOBsiy/7PgBaFqiKNxMs+q86zddiIBIQdPTmkHSIu0LOlrNLsr6chbFfH
+         XQMI7ixKtjM0RG6eS6uiE+KTR+RQTmCEkA0G0HwSZpMio1XdzNYvdNCdzAKnIGHdVW+q
+         /oFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769347291; x=1769952091;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+XYIwuBOf+rKUtpJWTb5kSlSAnO99KDliXLsbnLZ79U=;
-        b=RK1umZl4tx0thALFLCdNzDOUQ3ZRzzeZx2LJ1WDJCPAV2u5s0Fh4Llh053bm1cIivC
-         mZm1whos+OeweBeb5CM/bhKuw+ROkFFZvn+C25RhQptFLqj0VjB3JGH6hp0vLfKoqUh2
-         nDSU9Ix33i83R6Sj4XUsKn6tcEcVrfZh0M/E4Bl7k4le7PSfBo1Vem0BIbu6VLrQgk4y
-         6aA6AQ791QCt3wvX9XXJJJTgCYy7qA+SKC+oM1WQ3aCfKl6bRQfAHm3lblTHDERZVcdI
-         Wz/FASgWWEvFJL7V+N5ImFqqzp5mRP58691qOBOV8Pja4l1JiqMurERMHD/BRW32/rQD
-         aUSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGEZGyV/DDlviPyFcVzOyJ+nWVUYGONvPXgEbrmpu6zRlUKK7d0ffSd8I3l26xiuSIflwjtrf9rN89Xw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywn+lhvXbL86bx8eBz+wUUEg/k1Bbn/xWu9PlUCHk6Cd0Bk+C1g
-	hP8Fi0bYsnvWpyA+iGHVWIYF3zc0BLCRRbFT6/OO+oq6ThiSvO5TN2Ajjcy6QjAdPH0sBDOyg0R
-	KTiSa
-X-Gm-Gg: AZuq6aJUpYfQwDrFaxo50ev0ryf+j74yK1H5z1RKk+QdfoRhpEx8NrMvfZP6l5MObjP
-	wFzDVrt36xHMwd0MdKrATkUyvYmHpIv7tafaLknEHpiDmezEdvF/uJZ+fYmAM6TWUBPBX+YZ7gL
-	TvY5nQwudJOgIjw4JvVsm5j1UR1oli1WUX3BusxgTWVdhvZj8dH1yqxo8p8yW5sP92owODmfTwX
-	4VzJKnQs3RcGQDuBcZFmbfB9/lAcb1Dm7ZGyn9nY4cn3JlLZ6uF54aDDXGBOyxOmbHmsRJfaF7N
-	eU/5snQ6hQzrXwsaCLVKWK6RT5Hbuy/6LjzKpzrnvbsEs54foHG8IAgiu4+myHiULBIizXLSi4G
-	Horu4T2MKvRDu4/Gx7Xrt5oPn2EO+I55hljDTLjGICutmVeP4CVfywwB11Xh7rQtSTNW+4Glqgc
-	qgGmqklGUpFQ68nXxauiN5BG4s4ee6gCOBv12QHZxHW2vSNGwONNdw
-X-Received: by 2002:a05:600c:3b93:b0:477:af8d:203a with SMTP id 5b1f17b1804b1-4805d064549mr26288675e9.27.1769347290741;
-        Sun, 25 Jan 2026 05:21:30 -0800 (PST)
-Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4804f5ad4c1sm70848225e9.12.2026.01.25.05.21.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Jan 2026 05:21:30 -0800 (PST)
-Message-ID: <52133fc4-9b4e-4ef4-8e04-a392d9c71da8@linaro.org>
-Date: Sun, 25 Jan 2026 13:21:28 +0000
+        d=1e100.net; s=20230601; t=1769348950; x=1769953750;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=okJxgcNxyT0t1LmxmVSD+6wad8n7jcqCMxTOL8WlsjQ=;
+        b=Vvae+YN1Hn9w+rv8tHutAEX444nW6+SabzDXxxn5PcN3CZC7tKoDdpsaeV4EPHiNWU
+         9uc79tfpnqAE+J8rAL9NQj/A90jBj9eEO1Qk5YVwzSt6TxmzIsHQqXM6Fl6evWNZDQ3U
+         x+1VcUDoSi/dgTEV9hvgS0tgodsOrljxY8KT/RKHn4Lx5BRhNnnPjmrfzO2gViNwl7HP
+         rHAplI8UjjP0bHYJNpNYdnyAU7gELsvSAHCkDrbMsPyRU9DH/MqPPKlNYymzNFbiFsg3
+         cg3+dzX7nV/EUSXUyHovH+rel4FSFeJKa3JzJXTMd7F+6jHFDBCeRAhH/H3YGVeArVlO
+         6r3g==
+X-Gm-Message-State: AOJu0YyEHvaYmw//+RaYxgs8IpmFaegcBUosfr1rRjAVaR0z7iQSFb3Y
+	mc4usdCuPLEXt9+6OYjY9sTe74Rer3n2R61BFqEAuOrf3lXrnxcu60ST3d6tvg==
+X-Gm-Gg: AZuq6aLmdtRqXlDovlFQBIY88PnvN3wHQpSPcSDMK5prZlDEQTVGY09Ruxv75bVjMb5
+	xheOPPt4l6hLbUVnmOcaZHMqMXacra28/z9RKptz0QdT69pvEICx7i5o1uIBaOXtIx4WV7t5i+S
+	ijIg1wPwp1eS19XJoYUR6Ay8FrSLMbu5JuHjwYh13vNmgtc320DKZGY7SRq8c95KN2Z9EZ2dpdh
+	RYG+xMP+er+m/B+9NjiBzss4P/0M6VSxuQfn7hrloimkcg9iNwpdez5PQSK+921cG+ueFRFIKDh
+	yVLETOeTrwG5q8XFeO4O2+bNFkbP8URON6nyBz+pGjZvrHAmN5q6k9vL7rLfm6GdMKw6ZTTv4bP
+	vgGnWOgf8SHoKHgMaYAuvlPqvnmto6xYtWgdfINiIBPwpE2TH7QJhmH3mx1Ut0q7CbIeojfnBma
+	T/Nn6TGJ/h
+X-Received: by 2002:a05:6000:288d:b0:435:9801:d393 with SMTP id ffacd0b85a97d-435ca19f4edmr2899870f8f.37.1769348949934;
+        Sun, 25 Jan 2026 05:49:09 -0800 (PST)
+Received: from TTPP ([31.176.173.245])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1e715d3sm22743402f8f.28.2026.01.25.05.49.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jan 2026 05:49:09 -0800 (PST)
+From: Omer El Idrissi <omer.e.idrissi@gmail.com>
+To: sakari.ailus@linux.intel.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoudnation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Omer El Idrissi <omer.e.idrissi@gmail.com>
+Subject: [PATCH] staging: media: ipu3: fix function argument alignment
+Date: Sun, 25 Jan 2026 14:49:00 +0100
+Message-ID: <20260125134900.9964-1-omer.e.idrissi@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: ov02c10: Enforce cool-down period to prevent
- brownout
-To: Saikiran <bjsaikiran@gmail.com>, linux-media@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org, rfoss@kernel.org, todor.too@gmail.com,
- bod@kernel.org, vladimir.zapolskiy@linaro.org, hansg@kernel.org,
- sakari.ailus@linux.intel.com, mchehab@kernel.org
-References: <20260124071751.5885-1-bjsaikiran@gmail.com>
- <20260124071751.5885-4-bjsaikiran@gmail.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20260124071751.5885-4-bjsaikiran@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51489-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-51490-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[omereidrissi@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AC41480B66
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0E44C80D67
 X-Rspamd-Action: no action
 
-On 24/01/2026 07:17, Saikiran wrote:
-> The OV02C10 sensor is susceptible to brownout/latch-up states when
-> power-cycled rapidly (e.g., within 50-100ms). This often occurs during
-> userspace interactions like browser WebRTC permissions checks, where
-> the device is opened, closed, and reopened in quick succession.
-> 
-> When this happens, the regulator discharge is incomplete, and the
-> sensor fails to perform a clean Power-On Reset (POR). The internal
-> microcontroller locks up, resulting in I2C timeouts ("failed to set
-> mode") and necessitating a full system reboot to recover the camera.
-> 
-> To prevent this, implement a mandatory cool-down period. The driver
-> now tracks the timestamp of the last power-off. If a power-on attempt
-> occurs within 3 seconds of the last power-off, the driver sleeps for
-> the remaining duration to ensure physical power rails have fully
-> discharged and the sensor has completely reset before voltage is
-> re-applied.
+Fix alignment of function arguments to match kernel coding
+style as reported by checkpatch.pl
 
-3 seconds ????????????
+Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+---
+ drivers/staging/media/ipu3/ipu3.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This seems completely wrong.
-
-I think we should look at - again - improving/fixing the power_on() 
-logic to ensure we
-
-- Put the reset pin into a known state
-- Carefully apply clock and power as per chip stipulations
-- Try to capture the T timings either with documentation or
-   trial and error
-
-That is to say getting the power-on function right should fix this. 
-Likely we are going through power_on() incorrectly for one of the 
-timings to correctly bring the chip into the right state - or not 
-respecting the gap between power-on and first CCI or first stream.
-
-Since this code has mostly been developed used on x86/ACPI systems it is 
-entirely plausible that the OSPM agent on x86 does stuff around 
-reset/power-on that we don't have in !ACPI world.
-
-Lets take a quick look.
-
-Minimum XVCLK freq is 6 MHz.
-
-t1: XSHUTDN min 5 unit milliseconds
-t2: first CCI min 8192 XVCLK cycles
-     @ 6MHz this is 1365361 nanoseconds
-     1.37 milliseconds
-t3: MIPI CLK start time max 8192 XVCLK cycles
-t4: First data on MIPI bus - variable
-t5: infinite nanoseconds
-
-power_on() {
-	- XSHUTDOWN is assumed be be asserted
-	- XVCLK is assumed to be freerunning i.e. already started and
-	  stable prior to the next step
-	- T5: DOVDD, AVDD, DVDD power on = potentially infinite
-	  Hardware standby period
-	- T2: First CCI
-}
-
-stream_on() {
-	- T3: Time it take for MIPI MCP/MCN clock to start = 8192 XVCLKs
-	- T4: First time to data is variable but, this is irrelevant
-}
-
-T3: T3: the time from XSHUTOWN/VDD off to power_off unspecified.
-
-power_off() {
-	- XSHUTDOWN
-	- T3: hardware standby period
-	- VDD shutdown
-}
-
-In the code, we don't assert reset in power_on() - so we are reliant on 
-power_off(); to have run and completed and that XSHUTDOWN is in the 
-logical state we expect.
-
-Try something like:
-
-diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
-index cf93d36032e14..ab68fc3a971f8 100644
---- a/drivers/media/i2c/ov02c10.c
-+++ b/drivers/media/i2c/ov02c10.c
-@@ -661,6 +661,7 @@ static int ov02c10_power_off(struct device *dev)
-         struct ov02c10 *ov02c10 = to_ov02c10(sd);
-
-         gpiod_set_value_cansleep(ov02c10->reset, 1);
-+       usleep_range(2000, 2200);
-
-         regulator_bulk_disable(ARRAY_SIZE(ov02c10_supply_names),
-                                ov02c10->supplies);
-@@ -676,12 +677,21 @@ static int ov02c10_power_on(struct device *dev)
-         struct ov02c10 *ov02c10 = to_ov02c10(sd);
-         int ret;
-
-+       if (ov02c10->reset) {
-+               /* Ensure reset is asserted before trying to power_on */
-+               gpiod_set_value_cansleep(ov02c10->reset, 1);
-+               usleep_range(2000, 2200);
-+       }
-+
-         ret = clk_prepare_enable(ov02c10->img_clk);
-         if (ret < 0) {
-                 dev_err(dev, "failed to enable imaging clock: %d", ret);
-                 return ret;
-         }
-
-+       /* Let the clock stabilise */
-+       usleep_range(2000, 2200);
-+
-         ret = regulator_bulk_enable(ARRAY_SIZE(ov02c10_supply_names),
-                                     ov02c10->supplies);
-         if (ret < 0) {
-@@ -694,6 +704,7 @@ static int ov02c10_power_on(struct device *dev)
-                 /* Assert reset for at least 2ms on back to back off-on */
-                 usleep_range(2000, 2200);
-                 gpiod_set_value_cansleep(ov02c10->reset, 0);
-+               /* This is where we need to capture power_on() T2 */
-                 usleep_range(5000, 5100);
-         }
-
-> Additionally, standard Power-On-Reset logic is refined:
-> 1. Ensure MCLK is disabled BEFORE regulators during power-off to
->     prevent phantom power injection.
-> 2. Assert the reset line (hold low) throughout the regulator ramp-up
->     phase to prevent indeterminate states.
-> 
-> Testing Results (10 rapid cycles each):
-> 1. 900ms minimum gap:  Failed (brownout/timeout errors)
-> 2. 1500ms minimum gap: Failed (intermittent failures)
-> 3. 2000ms minimum gap: Reliable (0 failures in 50+ test cycles)
-> 4. 3000ms minimum gap: Reliable (excessive, 2s is sufficient)
-> 
-> The 3-second check window with 2-second minimum enforcement provides
-> the optimal balance between reliability and responsiveness.
-> 
-> Signed-off-by: Saikiran <bjsaikiran@gmail.com>
-> ---
->   drivers/media/i2c/ov02c10.c | 63 +++++++++++++++++++++++++++++++------
->   1 file changed, 54 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
-> index db191dccff75..7e9454e8540c 100644
-> --- a/drivers/media/i2c/ov02c10.c
-> +++ b/drivers/media/i2c/ov02c10.c
-> @@ -389,6 +389,9 @@ struct ov02c10 {
->   	/* MIPI lane info */
->   	u32 link_freq_index;
->   	u8 mipi_lanes;
-> +
-> +	/* Power cycling rate limit */
-> +	ktime_t last_power_off;
->   };
->   
->   static inline struct ov02c10 *to_ov02c10(struct v4l2_subdev *subdev)
-> @@ -616,6 +619,13 @@ static int ov02c10_enable_streams(struct v4l2_subdev *sd,
->   	if (ret)
->   		goto out;
->   
-> +	/*
-> +	 * Delay before streaming:
-> +	 * Give the sensor time to process all the register writes and internal
-> +	 * calibration before we assert the STREAM_ON bit.
-> +	 */
-> +	usleep_range(2000, 2500);
-> +
->   	ret = cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 1, NULL);
->   out:
->   	if (ret)
-> @@ -670,12 +680,25 @@ static int ov02c10_power_off(struct device *dev)
->   	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->   	struct ov02c10 *ov02c10 = to_ov02c10(sd);
->   
-> +	/* 1. Assert Reset */
->   	gpiod_set_value_cansleep(ov02c10->reset, 1);
->   
-> +	/* 2. Disable Clock (Stop sensor state machine) */
-> +	clk_disable_unprepare(ov02c10->img_clk);
-> +	usleep_range(1000, 1500);
-> +
-> +	/* 3. Disable Power */
->   	regulator_bulk_disable(ARRAY_SIZE(ov02c10_supply_names),
->   			       ov02c10->supplies);
->   
-> -	clk_disable_unprepare(ov02c10->img_clk);
-> +	/*
-> +	 * 4. Discharge Wait
-> +	 * Wait for regulators to fully discharge before returning.
-> +	 * This delay ensures clean power cycling.
-> +	 */
-> +	usleep_range(50000, 55000);
-> +
-> +	ov02c10->last_power_off = ktime_get();
->   
->   	return 0;
->   }
-> @@ -685,26 +708,48 @@ static int ov02c10_power_on(struct device *dev)
->   	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->   	struct ov02c10 *ov02c10 = to_ov02c10(sd);
->   	int ret;
-> +	s64 delta_us;
->   
-> -	ret = clk_prepare_enable(ov02c10->img_clk);
-> -	if (ret < 0) {
-> -		dev_err(dev, "failed to enable imaging clock: %d", ret);
-> -		return ret;
-> +	/*
-> +	 * Mandatory Cool-Down:
-> +	 * If the camera was powered off within the last 3 seconds, ensure at least
-> +	 * 2 seconds have elapsed to allow full regulator discharge and sensor reset.
-> +	 * This prevents brownouts during rapid open/close/open sequences.
-> +	 */
-> +	delta_us = ktime_us_delta(ktime_get(), ov02c10->last_power_off);
-> +	if (delta_us < 3000000) {
-> +		dev_dbg(dev, "Enforcing %lld us cool-down period\n", 2000000 - delta_us);
-> +		fsleep(2000000 - delta_us);
->   	}
->   
-> +	/*
-> +	 * Standard Power-Up Sequence:
-> +	 * 1. Enable Regulators
-> +	 * 2. Enable Clock
-> +	 * 3. Release Reset (with ample boot time)
-> +	 */
-> +
->   	ret = regulator_bulk_enable(ARRAY_SIZE(ov02c10_supply_names),
->   				    ov02c10->supplies);
->   	if (ret < 0) {
->   		dev_err(dev, "failed to enable regulators: %d", ret);
-> -		clk_disable_unprepare(ov02c10->img_clk);
->   		return ret;
->   	}
->   
-> +	ret = clk_prepare_enable(ov02c10->img_clk);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to enable imaging clock: %d", ret);
-> +		regulator_bulk_disable(ARRAY_SIZE(ov02c10_supply_names),
-> +				       ov02c10->supplies);
-> +		return ret;
-> +	}
-> +
-> +	/* Wait for power/clock to stabilize */
-> +	usleep_range(5000, 5500);
-> +
->   	if (ov02c10->reset) {
-> -		/* Assert reset for at least 2ms on back to back off-on */
-> -		usleep_range(5000, 5500);
->   		gpiod_set_value_cansleep(ov02c10->reset, 0);
-> -		usleep_range(20000, 21000);
-> +		usleep_range(80000, 85000);
->   	}
->   
->   	return 0;
+diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+index bdf5a457752b..c34ff01484e1 100644
+--- a/drivers/staging/media/ipu3/ipu3.c
++++ b/drivers/staging/media/ipu3/ipu3.c
+@@ -151,7 +151,7 @@ static int imgu_dummybufs_init(struct imgu_device *imgu, unsigned int pipe)
+ 
+ /* May be called from atomic context */
+ static struct imgu_css_buffer *imgu_dummybufs_get(struct imgu_device *imgu,
+-						   int queue, unsigned int pipe)
++						 int queue, unsigned int pipe)
+ {
+ 	unsigned int i;
+ 	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
+-- 
+2.51.0
 
 
