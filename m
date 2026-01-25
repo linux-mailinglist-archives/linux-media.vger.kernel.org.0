@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-51479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51480-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6M1ZMTULdmkNLAEAu9opvQ
-	(envelope-from <linux-media+bounces-51479-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 13:23:17 +0100
+	id sJWvNw0MdmkNLAEAu9opvQ
+	(envelope-from <linux-media+bounces-51480-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 13:26:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561C880827
-	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 13:23:17 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB67E8087C
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 13:26:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1707E3009500
-	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 12:23:10 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 153533001CE2
+	for <lists+linux-media@lfdr.de>; Sun, 25 Jan 2026 12:26:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BE7631A7FD;
-	Sun, 25 Jan 2026 12:23:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7AB031AA87;
+	Sun, 25 Jan 2026 12:26:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ANXpQ52X"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BdBlZTYn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077143191A9
-	for <linux-media@vger.kernel.org>; Sun, 25 Jan 2026 12:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8DF20B80B
+	for <linux-media@vger.kernel.org>; Sun, 25 Jan 2026 12:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769343788; cv=none; b=BU1ObM8TuV/YoWrsIcF9gwTmKKgwcpLTxFKAIyZWaxrBw9EPkVcO+N0y64V0/UsUg30vTtdz12kVbMtvcVtgnjGwVAGbhC7iqt6bj9hBRejT0nu4w7B/zWyVFETXk2H1kFE1J0JPBnODlM1SAeakLkt6Xw8+byHhoTfwBqLTFJQ=
+	t=1769344002; cv=none; b=LLaUxVgC6+8ZSULHbAr/2DHcovKK0jX1Pl1glzgsdSxJECFQJGsQgkf8EBOMX6wlclNqrQR7f8YH5cOfNZpWbsb5Zhgcr4qbvqfkMoLq/5VSp7Pk/nHFRvBwRiVI9j3acB0CPvKqZeQc82JL1ty2l51UH/YLi6GTIVUz5SRD1eA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769343788; c=relaxed/simple;
-	bh=MjODaE3Lldnik6r+EEQtGnJOY4MTKCdK023v8j6gmIY=;
+	s=arc-20240116; t=1769344002; c=relaxed/simple;
+	bh=i8XuVZ1AesJV/+dU5wloujfDPbMZDtyqrw1twBejzHY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vm5gYP2PSAxOLpAmWyJN+KkO5B5Ovt7o4ce2vx3RTaVTOyE9ne0U2b7d2T+PmkwlYhr9bMwebUNAITQT7MzR+Rj+XKOMwgysw+ZcvLhRB1MEzImGIKzayjYH0FCwIoqblOLHKm13Ib7I5dQETFrx/mTzoguTMjcaI0Wir1SvLxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ANXpQ52X; arc=none smtp.client-ip=209.85.128.45
+	 In-Reply-To:Content-Type; b=ZyO3IsF8H50FQL8WIxktyRNGkY6D8PVSNQh0j5n20CgEdrdXBxS6OI4nbyxdm3QjjEb9zfsO3iKnOLmXdLZuPjVhCQpWtTkXWgyUcIrIHeWf60ug0Vd1ap/eT8FqIwlOKOqB5JKHSwMzwjDOYj5lhtqk2sYnKxFxxlH77oEGZqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BdBlZTYn; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47fedb7c68dso36233175e9.2
-        for <linux-media@vger.kernel.org>; Sun, 25 Jan 2026 04:23:06 -0800 (PST)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48049955f7fso30014795e9.0
+        for <linux-media@vger.kernel.org>; Sun, 25 Jan 2026 04:26:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769343785; x=1769948585; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1769343999; x=1769948799; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xVKNG3fLvRMwGik/QcexO/mF/X2rpGl4bwfxbl4mRR0=;
-        b=ANXpQ52X0iG+F5phJ5j3IL23rEtWDC2swd8237SdvF4EtGQieokhr0zSGqolaCTRWU
-         8fKx9FSDPK97Ii4G43DMlKyKXvxa5sk5N//gqCPWccoe48ntr7tS2c72DRoXwDoxfrWY
-         bFdc1n5PjzQ81PL57noeJr5YvWu52d9Ns4tcDkJ8Q3esbh+5Inv1JfevnQDoUtoF349f
-         ZWfjsh4ZV2f7FTfJjgOylyXfg9/cchtUj0FVrwl5C8Th5/WpHaPJTDHZU8FPnJ4VVqrz
-         RxUYpZ3ixUkpnwUzYkA/3lgorcT1WHhvoeGjnacq5/sCmrxkla3duPMS3EUglf8jGGxD
-         uw6g==
+        bh=FDCitePNW8DbwRGvTAjOr4gcKw/9/Pa6j9Q+g0gBad4=;
+        b=BdBlZTYnXL5YZwPMRYQ+9BdlitrGeA+JCvNCsWggTpmzTBFeTVCdJW0hs/3CV+Udml
+         +33Ap0mtByN8q0TR82SfjMutJqjSjIhXhjDxIKhR6a38agJtBXY6L0VoozT9a7XDyG8H
+         RoqA5krFtupEjpvRGx8BMA+edj9CvkW8Ceb4uF4jlzLaEiA+L+EnKHrDDItrcDqx1/G9
+         jZYeO3qN/sIylTzjPkVY11R9mTjkUJpI9187ks4kQM7Tv/KCIveI0fdj85m4uksYdT2O
+         GfqLFgqOIh1Lx4auaIwxb5OeKEz6fGfM/JZLx+K9CirfP9FUvD0gbJJkEuV45DwtqlMx
+         YavQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769343785; x=1769948585;
+        d=1e100.net; s=20230601; t=1769343999; x=1769948799;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xVKNG3fLvRMwGik/QcexO/mF/X2rpGl4bwfxbl4mRR0=;
-        b=AhH9XIXAYLZ3/hXFDjBZe0NY9Ox8Tr887GiFOUlpOWJvGLhp60cjzIj0mcf+epY7b0
-         QqTC93VOP33SR8rJklcX4eNqaydTM5jxKb2WGo/WKXAMrY8+IPRr1f7iKWUtLBr2A9P0
-         +nhEEMCtBX0OwS72s1cxhLc69MW4lNvUS1sclO39+sA6CuQ9d71WC4jTsrI0jkv7vPPY
-         Il7I6NPONLWiDe/5MXoXoOPiw0Ytzkhvh9oW0HW16UDHhOZwzwR6lNrOXwjQP0aRza0y
-         g+tjvZ84PnnL7u91g0YEbM7VuQv8gh+f4xYgfs280qyf10ENDRwNzvKrR7DKLmoLsMqR
-         2I8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUzQBpBaasHv7zZM6eAaktTTnXryCcUrPYUxLEX5LQffwh7G7ddBJEb/2oyG8oCmVGpDweLevYZSQS5Vw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHazEhDXHDI9U4Ka2iniFIUIlfvXuCTKUyPT743aDrBT8LGEsP
-	/yfBs264lLmivkdpYl3ygtwLuDr4lyRwbOh7Rh1sXs8rUfKpDtMfS5xkrzTuPb/olNI=
-X-Gm-Gg: AZuq6aLm79/CLhgXg5xdYgcTP4ZD56WObyRHwlO16UV/YI1A1EQBcmGij7mavpanPb0
-	/m0WV16/09qSPJJ9BwPR9wHDAz8xcvq5+1P80vb5TImz6Gwdw6VQxVNoyTy8Tg4LF53l8tHgL2W
-	VAiAjgb/KifRbJkUHFwWHslYeRb48NEgw+bFRdGGtr7DDHRfp5Jins+ef/6t+A1jIN4LtJeHKXr
-	Fyo6rZQE2PyAwtxsyEmarN1i5KdOC/O6rTT0OrZnTZUVEr6XcOTCI/8EJ521g5xpywirJXVkFcT
-	RPvrM8HmAF6gJfhxO8fjHfS3gs9fQDegZLN6jyt7Hoo83DVJat+b5z4QXuWOBqNd0UBDYb/g8vR
-	wf02yV0TUDCCpDbONLhjUwV3u3S0IpCXIPDd1AVN8Ai45KLE2H2eBWL21xJqpt2zuJZpQhaz+a1
-	Q7H09EhHovBzLZyX+VCgcXcFQaDOzj4YXkB8E/wYw02fyaNJa2qCoT
-X-Received: by 2002:a05:600c:3b12:b0:47e:e2eb:bc22 with SMTP id 5b1f17b1804b1-4805cd45b9fmr25115925e9.5.1769343785290;
-        Sun, 25 Jan 2026 04:23:05 -0800 (PST)
+        bh=FDCitePNW8DbwRGvTAjOr4gcKw/9/Pa6j9Q+g0gBad4=;
+        b=dcimo9ACveFQS0q0e/614Y/D05IPKsAiPGTzG1FSe4un8h3EiN/i814eMSYHwWYZ2e
+         QnGTzZt+hZF6Mm7Riooj4/G3hwz6Z99pd9a4MGLK2rN/6g0rFodsqr3dG5xtoQx/KHrG
+         LSorXEmOGJz6cl7kwf+fx0M0rx2OiYLl5vkADL1OXjCIzUNSzlzprc67oIiUAdWpQJzr
+         kfUa7gG+NLvB76h+vOlXPnQtWfQoaX/N4BXplfT2KfsTdSxF1zuCKFKqadEkuWgYZxdN
+         Ui7sSSzpafMUJjMgDKSW01g2bzDv1Xe8ONp6pbhTa0vpmwoYPdeLTMnF3/f6ZaANwwb1
+         e+pA==
+X-Forwarded-Encrypted: i=1; AJvYcCU96nMFD9EL+jVL+BcmDBseRNzzawIMkJlHifaqu5D6y3kvBDud4KcPBsyStPkYegRXIecpH46VCvn1qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZySyX0GyRtZkuxeFuXHZKhoXLtI4A1a/yE83NT0MRgtT/NIFr
+	ddxp/HCio4j8UBJ7fj8oyKAaWuWi/uAxKaU/huk2hZM9lCHNWkXASAFblbsDq6DFVfk=
+X-Gm-Gg: AZuq6aJg6rNzPCKDdckJQHODGLreyyi9uXUUtyp/CbgrgE3shF/eJAtrjxBlPjwPp//
+	CEcQZQBoXIz/wyu8y1AyLMQkgS/yxpoNJEF0zFDKk3i9n4LivFqwRQUk2t+WSiXsT+7DhwfW936
+	hEibUvREGA7CYV/KDb4pPS812phKJ1MVHpTnCWGZW5nNgHmQk1N88kwbWnaug+qs75yzsWJVdm9
+	Rn1LiyT5s0fIOpm0ycPDTjUqqX0PhBDVvIJjXcZxQBLBNp76CfmoaxuSy7JLezZnQi1iOdPQfK5
+	jIa2NC3F/cdamPiNCVeMLtOQSBngSAnfVQa0vyYicwrOshHCpveSFWiL9HPdiqEQuQFiMEU2ssD
+	E4+RjvjLM/ki/hLZbU3pPJWgiEejcHMp1DmmSGPxRcCKZp/n1Sr0tO+ly8OAjUMxy5OWmKQIuBZ
+	8LcFCsqgPlzMc/LhAefREPMv0pz6UP5eUDrMv55DvcBmlo4KTgpFrj
+X-Received: by 2002:a05:6000:2306:b0:435:97b4:b699 with SMTP id ffacd0b85a97d-435ca39bf18mr2232170f8f.51.1769343998806;
+        Sun, 25 Jan 2026 04:26:38 -0800 (PST)
 Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-480470474cbsm274962825e9.8.2026.01.25.04.23.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1e715bfsm22908159f8f.22.2026.01.25.04.26.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Jan 2026 04:23:04 -0800 (PST)
-Message-ID: <689df9e2-da26-440c-aed3-21c8afdc9ae8@linaro.org>
-Date: Sun, 25 Jan 2026 12:23:02 +0000
+        Sun, 25 Jan 2026 04:26:38 -0800 (PST)
+Message-ID: <388c246c-3e7f-4297-a9a1-3895c3312533@linaro.org>
+Date: Sun, 25 Jan 2026 12:26:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,25 +86,24 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: Fix pipeline lock leak in
- stop_streaming
+Subject: Re: [PATCH] media: i2c: ov02c10: Check for errors in disable_streams
 To: Saikiran <bjsaikiran@gmail.com>, linux-media@vger.kernel.org
 Cc: linux-arm-msm@vger.kernel.org, rfoss@kernel.org, todor.too@gmail.com,
  bod@kernel.org, vladimir.zapolskiy@linaro.org, hansg@kernel.org,
  sakari.ailus@linux.intel.com, mchehab@kernel.org
 References: <20260124071751.5885-1-bjsaikiran@gmail.com>
- <20260124071751.5885-2-bjsaikiran@gmail.com>
+ <20260124071751.5885-3-bjsaikiran@gmail.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20260124071751.5885-2-bjsaikiran@gmail.com>
+In-Reply-To: <20260124071751.5885-3-bjsaikiran@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -112,7 +111,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51479-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51480-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[linaro.org:+];
@@ -127,93 +126,76 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 561C880827
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim]
+X-Rspamd-Queue-Id: CB67E8087C
 X-Rspamd-Action: no action
 
 On 24/01/2026 07:17, Saikiran wrote:
-> When a browser or application closes the camera, if any subdevice fails
-> to stop streaming, the video_stop_streaming() function returns early
-> without calling video_device_pipeline_stop(). This leaves the media
-> pipeline permanently locked, preventing any other application from
-> accessing the camera until reboot.
+> The ov02c10_disable_streams() function ignores the return value from
+> cci_write() when stopping the sensor. If the I2C write fails (e.g.,
+> due to CCI timeout, power management race, or device removal), the
+> error is silently lost.
 > 
-> Symptom:
-> --------
-> 1. Open camera in browser (via pipewire/libcamera)
-> 2. Close browser
-> 3. Try to open camera in another app (e.g., qcam)
-> 4. Error: "Pipeline handler in use by another process"
-> 5. Camera remains locked until reboot
-> 
-> Root Cause:
-> -----------
-> In video_stop_streaming() at line 315-318:
-> 
->    ret = v4l2_subdev_call(subdev, video, s_stream, 0);
->    if (ret) {
->        dev_err(...);
->        return;  // ❌ Early return without pipeline_stop()
->    }
-> 
-> This skips the critical cleanup at line 321:
->    video_device_pipeline_stop(vdev);
-> 
-> Solution:
-> ---------
-> Continue stopping all subdevices even if one fails, and ALWAYS call
-> video_device_pipeline_stop() to release the pipeline lock. This
-> ensures proper cleanup even in error cases.
-> 
-> The pipeline MUST be released when streaming stops, regardless of
-> whether individual subdevices report errors. Failing to do so creates
-> a permanent resource leak that can only be fixed by rebooting.
-> 
-> Fixes: Camera permanently locked after browser closes
+> While we still need to return 0 and call pm_runtime_put() regardless
+> of hardware state (to prevent PM reference leaks and pipeline lock
+> issues), we should at least log when the hardware stop fails.
 
-You need to fix your Fixes: tag
+Should we return 0 when disable_streams fails ?
 
-Something like:
-
-Fixes: 89013969e232 ("media: camss: sm8250: Pipeline starting and 
-stopping for multiple virtual channels")
-
-> Tested-on: Lenovo Yoga Slim 7x (Snapdragon X Elite, ov02c10 camera)
+I think the argument for the pm_runtime_put makes some sense.
+> 
+> This change:
+> 1. Captures the cci_write() return value
+> 2. Logs an error if the write fails
+> 3. Still returns 0 to ensure proper cleanup
+> 
+> Returning an error from disable_streams would cause the camss driver's
+> video_stop_streaming() to exit early without releasing the pipeline
+> lock, permanently locking the camera (see commit 044f54e7c).
+> 
+> Related-to: commit 7673f757858c ("media: i2c: ov02c10: Fix race condition in remove and relax reset timings")
 > Signed-off-by: Saikiran <bjsaikiran@gmail.com>
+
+Needs.
+
+- Fixes:
+- Cc: stable@vger.kernel.org
+
+See: Documentation/process/submitting-patches.rst
+
 > ---
->   drivers/media/platform/qcom/camss/camss-video.c | 13 +++++++++----
->   1 file changed, 9 insertions(+), 4 deletions(-)
+>   drivers/media/i2c/ov02c10.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index 831486e14754..578c0ae3d997 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -312,10 +312,15 @@ static void video_stop_streaming(struct vb2_queue *q)
+> diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
+> index b86cae3d2b74..db191dccff75 100644
+> --- a/drivers/media/i2c/ov02c10.c
+> +++ b/drivers/media/i2c/ov02c10.c
+> @@ -629,10 +629,20 @@ static int ov02c10_disable_streams(struct v4l2_subdev *sd,
+>   				   u32 pad, u64 streams_mask)
+>   {
+>   	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+> +	int ret;
+> +
+> +	ret = cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 0, NULL);
+> +	if (ret)
+> +		dev_err(ov02c10->dev, "failed to stop streaming: %d\n", ret);
 >   
->   		ret = v4l2_subdev_call(subdev, video, s_stream, 0);
+> -	cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 0, NULL);
+>   	pm_runtime_put(ov02c10->dev);
 >   
-> -		if (ret) {
-> -			dev_err(video->camss->dev, "Video pipeline stop failed: %d\n", ret);
-> -			return;
-> -		}
-> +		/*
-> +		 * Don't return early on error - we must continue to stop
-> +		 * remaining subdevices and release the pipeline lock to
-> +		 * prevent the camera from being permanently locked.
-> +		 */
-> +		if (ret)
-> +			dev_err(video->camss->dev,
-> +				"Failed to stop subdev '%s': %d\n",
-> +				subdev->name, ret);
+> +	/*
+> +	 * Return 0 even if cci_write failed. The stream is being stopped,
+> +	 * so we must release the PM runtime reference regardless of hardware
+> +	 * state. Returning an error here would cause pipeline lock leaks in
+> +	 * the camss driver.
+> +	 */
 
-if (ret) {
-	// do stuff here
-}
+I don't think the comment is necessary - your commit log will document 
+all the detail you need.
 
->   	}
+>   	return 0;
+>   }
 >   
->   	video_device_pipeline_stop(vdev);
 
----
-bod
 
