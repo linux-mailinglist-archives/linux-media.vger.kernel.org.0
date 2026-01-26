@@ -1,78 +1,80 @@
-Return-Path: <linux-media+bounces-51584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51585-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KAIYMcald2lrjwEAu9opvQ
-	(envelope-from <linux-media+bounces-51584-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 18:35:02 +0100
+	id wGEdAtKld2lrjwEAu9opvQ
+	(envelope-from <linux-media+bounces-51585-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 18:35:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171048B885
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 18:35:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9943B8B8A9
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 18:35:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EA884302E78D
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 17:34:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CF49F303716A
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 17:35:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC96D34D4D6;
-	Mon, 26 Jan 2026 17:34:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74C7F34A3D0;
+	Mon, 26 Jan 2026 17:34:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jHXpl30Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gSqsKrRu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1123C34C124
-	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 17:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCB434C124
+	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 17:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769448893; cv=none; b=GEk3YoBx90P9fXRL/jYB0lt0A5im/quki28HrVbmK587F+sqJ3F7evtpHwjOOf6N+MBXdjZwkJ9BJGv+mrbGoBdWLyeoAZKkMFqexwjAyiA7JqgTu/bkARS1+w422OFGTk6RHK0UM3Ag5HCWQ5SL+4Dbn0/HWA0oQdrvDh7wERE=
+	t=1769448898; cv=none; b=lb1RSGSwNCP8wGpjkv1svz4G9n9pO3Vfm4ozSV8ApwIkVMdE1nKvqOvqa1mCYkjkesT65IRFK51gM7qNLUYhxywcf1XsETWmTDYLtieYIwnJx6IThNO3YXM7Gt1+RDVbyUqmiv0roRLtqepQkjM/9nWRGumVPHs/y3SQtePiqxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769448893; c=relaxed/simple;
-	bh=h0/ub/2a0CH0c01bv1YE6IT1oluBRPkEI00u7f+PX50=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q4R5+ECo72kb2jcz2Bcrjf8nmSMlB/wRIu69fh7tfx6QpY5TRvlT6YxofY+TPG51NKFjlZk698A6B0I9otbg0+vFnuVoAwMuwgRXgMKN38n5MP/xQ8az5qLW4gkcDxuW5f+38aVT8KOWuQ6uY+EPGHW2i6MW3EBo/ziTw9BW86w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jHXpl30Q; arc=none smtp.client-ip=209.85.215.171
+	s=arc-20240116; t=1769448898; c=relaxed/simple;
+	bh=PNor2469iVyJ9E5GzWNKwYiSKbnwSOWVXKoUrfRLdA4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IWa0aaWinkFNgMkAQAX8nuxF8/bFEdNO8uRstIRe4ktn/MlbyIto+PmmON9QvOUeTgdZOa7FqbXnHHtxc3++gfekUO9exW4V5MRzDAX3CiIytdLgdYSfgdetE4qMhHHkfl5sfaH1/HJNidSNFqTaVMF+xWR9WMW7YutaEDw4qxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gSqsKrRu; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-bde0f62464cso1401668a12.2
-        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 09:34:51 -0800 (PST)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c5513f598c0so1664736a12.0
+        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 09:34:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769448891; x=1770053691; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cjv9fu28bLwysGYF55oXTU3CWsx7n76bAr9kUcIOrhg=;
-        b=jHXpl30QutwixtbLbABlv+tUAZiY+krcW8bp3F1VDwy5zyH3t07w1xTt+yg6HvAuG9
-         s3VZZdsD0qs0DWhHjpETeqRHjaDV3gLcMtAICBmcUM6x01bIEXWe+Yok3pKjsxO3+8+r
-         TXwUdMh8u8FzBI+PaKN3q/aGGkiSbq0g5nZ+6ljBYdhwdNBCPh2wyPYHLaC+EV2w9/V7
-         LZGYza7ykHIH1lXl5dEQ/T+WrLc9Pr7h97fvOEx2+y9WoqtonpymuvF78zrltPO5K6n7
-         KGcikTUDnrtYpR68XKm9Oz9Obm9/ePInqf8POm4Q9vlXJR/OKZwehqzhrE8mMEziXoqN
-         H22w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769448891; x=1770053691;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1769448897; x=1770053697; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cjv9fu28bLwysGYF55oXTU3CWsx7n76bAr9kUcIOrhg=;
-        b=P/apr9vwV785/GbwKJOw51tpahqVAaLiOsfu2tBAeQZM6uQPPU6OQ5pEXcLw2wENYC
-         Hb+/6x27Tt7ro+EYTg5ZH0lwjT9g4ozAsD372PlqWOzjJWlj6ggXR5J78ZA7dqCqHFpD
-         48AOAsfWaVE0B6eW/W7/3FPFK8otqTXrrhHD8FyHZoHxPCzkIstdmuRHjdfD64oidvKr
-         3MH7Fyf4oG436O+BR3kXm8kL4RUtKirSb9qSqrfkjacrSJovmNvPRrTh4eww6DmOxHLf
-         5K5v7ZT2NDnxmbrRK7Y3N7s4shS2/W7C6DFrPhlL0y0VJxbMOPTsa7crM8mWIxJjjhQb
-         eDsw==
-X-Gm-Message-State: AOJu0YzFhTKREaIg0FDnP4cHX3YzjNGJ8WSGySh6XQYuaeHge7kexuEr
-	Nze21cZ2qJ2vvSdOhXqJhG9Wc6xJOx9CiqVA8oS1BRHf5C/zMyscZy0UjUJ4s7y/
-X-Gm-Gg: AZuq6aICn0n3sAinWB3jYNLq2MjdIaVXAfe9RGuIU1f4xKuITUdYhBKAfYM4yhRYFwv
-	Q7na4b0WHPFGT7yzJ07GlrePT65A9WQJldchFgR8BJ8InRAxYgsGuCF06g6zv6cCSlN0T1e/rv8
-	71kdNu9PCPZ+kn1Bt/1stvesY5bfLrFPKi4sdfDp1OBFX4v6qtS4naTouw7EruBwFxITVQysMVp
-	1iQdUWEPpxsdfjHT4viCu/N6au72lHajR2+gLW3/htVXpHVC5UhOWxCO6i84nD8IVkgDJgmgceW
-	kyxWKjwLGeHPcrQ67ThhOgUyJCprkGbvk3iI9TmPp/7/bofeYI6iq0DKhSyHNA8MLDJt3/rvMY8
-	J1XPVUKX6ub6sVSCpXEoRmAIE7W1Lp+kOYhcn1twQoarqjc9MTpH98xpLGTBMq8yyGlKzkON+uF
-	y+u3m8o8vjQuImtTa44lw86M0pPtyNRTEzN1G1
-X-Received: by 2002:a17:903:3bcc:b0:2a0:d5b0:dd82 with SMTP id d9443c01a7336-2a845323587mr42365825ad.61.1769448891061;
-        Mon, 26 Jan 2026 09:34:51 -0800 (PST)
+        bh=b4fUE/bC1heMXrAjT4WoTxQp9kyXS3H0Fld9NNdSCyI=;
+        b=gSqsKrRu9/mQ4Zn2QsF55wMgHIuEFeSL3xgYx7T1wbyCiux8Eybb6HILJsy2RiB8kI
+         5PCfHXeWcSLVVEtwNXqDjjJEVF/zJQ+YrV3lgIRIs8jwif/kh5HC7qXOny+RUrdhQbru
+         d8CA6DwngzrV4ArdLfritbEF2w81CFxuxkOuNp5f0aWoJEdGRfRpR8JYCVtJb8nW3eSt
+         gGs/8bx/EyEWbrGIUWths+cA5x8jOIT6+hzm7l0GahyUFq1a2K5SGb69QBY1roG263pq
+         F05zxL7Pqi6bQ9k3s1SoGdmATgP+n72acE6/KXUUPWVbZ5ru4E0YuJRQyZB3y8MrF/bL
+         NkAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769448897; x=1770053697;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=b4fUE/bC1heMXrAjT4WoTxQp9kyXS3H0Fld9NNdSCyI=;
+        b=jDs8nC1Szapixt1Ug9TWYYjUNbUKe99cub12dzjYRsekLhXthRPM8uRGnBcKzuvUG9
+         Z2RjfaVliEuRat9uw03jx57lPyrlE/K49yshXS4XBCLSiOxiJ+rpHer8hjdSIT0lCBoF
+         W9L/LoaVCCxeixRkh1MrTcJSrkxivSawXsJIIrPP0lVpY/7ThYidnDf8I7WCW8mOu04G
+         n7Axu4mGdBX8hcNTRyUKY/+VzVlmHUF80v68FDHh+i/pZneauynFHvR51VJ8/Z/+2rzS
+         aPOj6hJVhv4SmmVpMwS211PdGLIIsohVICvUGrrvf/bHM/ROhhZPgR9j4y29ex4LozgK
+         MhhA==
+X-Gm-Message-State: AOJu0YyrFrq05KSA1ZpPGLTFfc1BFVYj5eLApTMlb1ojSinsVmlvKVCt
+	VtuQWpGhCTmOVQRNyf50N42yJx3uVLU6j7Ty9/HHRtUQQJxo5RFHLPwHDAzFkpJ5
+X-Gm-Gg: AZuq6aJ20TYXQkCEOxNKiYdZlU/erlepCb7Jq4juNTeJ+iXaxy3l1Oa6286K2QNmdyG
+	Z4POkk8nILLThQT6VcttsMXhuzdHhWqpFIRNl8xFXGZomsJewCfXOLLBZ25OZa3SM0AewcgSpPH
+	1d/5V93F0ZLuA1X55jiVLzY9/WWJIr3W1weJcEE+tUlmWD4GZ+TricqISL52N+UU0d9E0RJeADV
+	OkDzZZ1GMkEE+tXuJ6JON6dl45FZ6XFMWnEPqX1MkOHH5B+Qln+qSLpardcWheFzXAiFLMMtemh
+	8Z7y84QS66zCbHJjfsldGVTeX9ASeT9fU+rU/3SlNgXT1c+EOSzQh5Nu1qMPcAPL1n0G5wgBqHh
+	L7tp4QwxD2p0KO4bSauFk7HwzzBX3WCT8DEjR5hRe7UaVAUX9XKATdN48gM2++oP3oXltan2eYE
+	xesUk3MU4EmJ4Eowva0elQZD77Pq+Y0fzcnri8
+X-Received: by 2002:a17:90b:4f8c:b0:352:e27e:79c5 with SMTP id 98e67ed59e1d1-353c4182e4cmr3920580a91.31.1769448896787;
+        Mon, 26 Jan 2026 09:34:56 -0800 (PST)
 Received: from saikiran-Yoga-Slim-7-14Q8X9 ([2402:e280:3d17:646:e23f:af76:8280:9d84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-353f61292bdsm86787a91.6.2026.01.26.09.34.47
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-353f61292bdsm86787a91.6.2026.01.26.09.34.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 09:34:50 -0800 (PST)
+        Mon, 26 Jan 2026 09:34:56 -0800 (PST)
 From: Saikiran <bjsaikiran@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: linux-arm-msm@vger.kernel.org,
@@ -84,11 +86,14 @@ Cc: linux-arm-msm@vger.kernel.org,
 	hansg@kernel.org,
 	sakari.ailus@linux.intel.com,
 	mchehab@kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v3 0/3] media: i2c: ov02c10: Fix brownouts and power sequence
-Date: Mon, 26 Jan 2026 23:04:41 +0530
-Message-ID: <20260126173444.10228-1-bjsaikiran@gmail.com>
+	stable@vger.kernel.org,
+	Saikiran <bjsaikiran@gmail.com>
+Subject: [PATCH v3 1/3] media: i2c: ov02c10: Fix use-after-free in remove function
+Date: Mon, 26 Jan 2026 23:04:42 +0530
+Message-ID: <20260126173444.10228-2-bjsaikiran@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260126173444.10228-1-bjsaikiran@gmail.com>
+References: <20260126173444.10228-1-bjsaikiran@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -98,80 +103,92 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-51584-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
+	TAGGED_FROM(0.00)[bounces-51585-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bjsaikiran@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 171048B885
+X-Rspamd-Queue-Id: 9943B8B8A9
 X-Rspamd-Action: no action
 
-This series addresses stability issues with the OV02C10 sensor on Qualcomm
-Snapdragon X Elite (X1E80100) platforms, specifically the Lenovo Yoga Slim 7x.
+The ov02c10_remove() function has a race condition where v4l2_ctrl_handler
+and media_entity resources are freed before the device is powered off.
+If userspace (e.g., PipeWire/WirePlumber) accesses the device during
+removal, this causes a use-after-free leading to kernel oops with
+"Execute from non-executable memory" errors.
 
-Note: This series supersedes all previous patch sets submitted by me regarding
-OV02C10 / media stability and cleanup on X1E80100 (including the 'pipeline
-lock' and 'brownout' series). Please disregard prior versions.
+The issue occurs because:
+1. v4l2_ctrl_handler_free() is called first
+2. Userspace may still have the device open
+3. Control access triggers use-after-free
+4. Device is powered off afterwards (too late)
 
-Problem 1: Brownouts during rapid cycling
-On this platform, the RPMh-controlled regulators lack active discharge, taking
-~2.3s to passively discharge. Rapid close/open cycles (e.g., WebRTC checks)
-re-enable regulators while the rails are floating, causing the sensor to hang.
-Previous attempts to manage this via open-loop delays in power_on were deemed
-incorrect.
+Fix by reordering cleanup to disable runtime PM and power off the device
+BEFORE freeing v4l2_ctrl_handler and media_entity resources. This ensures
+the device is in a safe state before any resources are freed.
 
-Problem 2: Incorrect Power Sequence
-The driver was not strictly following the datasheet power-up timing (T1/T2),
-potentially leading to race conditions between the reset pin and power rails.
+Call sequence after fix:
+1. v4l2_async_unregister_subdev() - unregister from V4L2
+2. pm_runtime_disable() - disable runtime PM
+3. ov02c10_power_off() - power off device if needed
+4. v4l2_subdev_cleanup() - clean up subdev
+5. media_entity_cleanup() - clean up media entity
+6. v4l2_ctrl_handler_free() - free control handler (safe now)
 
-Problem 3: Race condition on removal
-The remove() function freed resources before powering off the device, causing
-use-after-free errors if userspace (PipeWire) accessed controls during removal.
+Tested-on: Lenovo Yoga Slim 7x (Snapdragon X Elite)
+Fixes: 44f8901 ("media: i2c: add OmniVision OV02C10 sensor driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Saikiran <bjsaikiran@gmail.com>
+---
+ drivers/media/i2c/ov02c10.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Solution in v3:
-1. Implement Runtime PM Autosuspend (1000ms). This prevents the driver from
-   cutting power during rapid user interactions, sidestepping the slow
-   regulator discharge window entirely. (Patch 3)
-2. Enforce strict datasheet power-on sequencing with ample delays to satisfy
-   maintainer requirements for clean boot. (Patch 2)
-3. Fix the remove() race condition by reordering cleanup. (Patch 1)
+diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
+index cf93d36032e1..fa7cc48b769a 100644
+--- a/drivers/media/i2c/ov02c10.c
++++ b/drivers/media/i2c/ov02c10.c
+@@ -864,14 +864,14 @@ static void ov02c10_remove(struct i2c_client *client)
+ 	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+ 
+ 	v4l2_async_unregister_subdev(sd);
+-	v4l2_subdev_cleanup(sd);
+-	media_entity_cleanup(&sd->entity);
+-	v4l2_ctrl_handler_free(sd->ctrl_handler);
+ 	pm_runtime_disable(ov02c10->dev);
+ 	if (!pm_runtime_status_suspended(ov02c10->dev)) {
+ 		ov02c10_power_off(ov02c10->dev);
+ 		pm_runtime_set_suspended(ov02c10->dev);
+ 	}
++	v4l2_subdev_cleanup(sd);
++	media_entity_cleanup(&sd->entity);
++	v4l2_ctrl_handler_free(sd->ctrl_handler);
+ }
+ 
+ static int ov02c10_probe(struct i2c_client *client)
+-- 
+2.51.0
 
-Changes in v3:
-- Dropped the "always-on" regulator patch from v2.
-- Added Runtime PM Autosuspend support (Patch 3).
-- Added strict power-on sequencing with 10ms/20ms delays (Patch 2).
-- Added fix for use-after-free in remove() (Patch 1).
-
-Link: https://lore.kernel.org/linux-media/20260125171745.484806-1-bjsaikiran@gmail.com/T/#t [1]
-
-Saikiran (3):
-  media: i2c: ov02c10: Fix use-after-free in remove function
-  media: i2c: ov02c10: Correct power-on sequence and timing
-  media: i2c: ov02c10: Use runtime PM autosuspend to avoid brownouts
-
- drivers/media/i2c/ov02c10.c | 70 ++++++++++++++++++++++++++++++-------
- 1 file changed, 58 insertions(+), 12 deletions(-)
 
