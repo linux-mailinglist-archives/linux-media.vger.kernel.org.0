@@ -1,168 +1,188 @@
-Return-Path: <linux-media+bounces-51568-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51569-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uBHTMBhid2n8eQEAu9opvQ
-	(envelope-from <linux-media+bounces-51568-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 13:46:16 +0100
+	id qFuVEbhid2n8eQEAu9opvQ
+	(envelope-from <linux-media+bounces-51569-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 13:48:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AABBB886E6
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 13:46:14 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D29688775
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 13:48:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 01A733048B09
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 12:41:42 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7EB8B30089BF
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 12:48:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE5CF78F2E;
-	Mon, 26 Jan 2026 12:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB71336EFD;
+	Mon, 26 Jan 2026 12:48:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SlZJipkJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KYpWi8RU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C303321DE
-	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 12:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769431299; cv=none; b=WKsJqFhoX3OBoUhpP5Kl68LLQsYCJnKzZ49NGV/q+f3M5xTht5Zwmv2+xFHZZU2nJaYtkCXsASor0v4JRGSmOxnLiwTmYf8cXVXKlL/Yx8UeaBdjX+iIrhrPSY3lRLKMECc1sKdn30rBcuEOB9ABVjELtdqYtVb03ErZk8YCkPY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769431299; c=relaxed/simple;
-	bh=TtDt5bqLhmfPeg66JCoa1PxY2VKZg9bpDjYbry2EG2Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ureZZQ4L3dolIoOk7K3HpB1BRCzmpEtKzMSA22Yf6AlalHv7YWzQqV0nF0m8AtB3WYkcz3oMzoM9+4Tv18Bf59lI92q/3wfQ/YHj+MrxTNZ6KCaMVAKa+G0NcoIK01k6+NGHmMz9qVMZRsa4ICesbYOFCPAkrH95w9+3eYkp+C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SlZJipkJ; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-432d256c2e6so4310900f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 04:41:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551B03376A5
+	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 12:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769431726; cv=pass; b=P6cMMMlYG7NR0WOP9kT7tTj6oThIAkfPldvlTiOlrECd/PnsYHXFRYj70WKEJrSe5zX0ykq7jev28fhNWmpeKJveVhEBaoTczgY+lP5908o1rmFUHlkCyHATGGUTktMd5tSMGyuSIT3oR3Mhz/xSrN7/tKxuykrwIkBWQQ6mZ0Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769431726; c=relaxed/simple;
+	bh=4wbUefewEyt+Bxa1epr+p529X5zn/t+qG9ZDeOzVm8Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y56jWBJOLPiEvHLOUHUlcg2aHoq6JO2liVm+StocA0LGtWDFbhlZMn+41+hHE5esr8cJuyKRypiuIWYinPoDjesSf1YZ9LzK2BPC2PsIVZrqWQPXhK0w5rDeoWKm/hDCBTjU8hgyyTi/g8q9xbAHERz9mq46pFImSqPb1w2FOBk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KYpWi8RU; arc=pass smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-34f634dbfd6so3640475a91.2
+        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 04:48:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769431725; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eombtEuA+XHzmA/F/ShFYL1H6I3q7cTDcmG5/jYAhOvgHUKZM1RULLV2lYIUgjWF98
+         v0ZecVfAlNDEySpVnJuNCxWTBZhWMk2cBwm9qDMOll03celpQJ6AG8POGE+rrnceh3nH
+         VOA1WBZNiv/I33/nbI/XwlILEhJjuD46zq85ygtBh9+Tdj8sAnoa6INKBU3SSHbhHn+B
+         sAYSf9FjDGj5U21XWw+m3pU0daULLR7/h9j7QNW3MYM8sXS36uQZ/Vvu1sykFD4UTgY7
+         0OhrfRaoWR6966T/Cx09HUZKHNb9yjFtEOooQ7F63Q+k48anEz4iifKhIeZgA0DhEkib
+         X9DA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4wbUefewEyt+Bxa1epr+p529X5zn/t+qG9ZDeOzVm8Q=;
+        fh=4/FCFxqEmMTU74LJA0L+SsIByUNrhwGQgrBbX9j1RRo=;
+        b=TspkLyHTEAl4Y2AEwUN56qfIbOFBs8441VDS4cJ4ytNENDJb0VlHcy0XMlxIB0Rl6L
+         XHRW88Tp5CysFJySbB/xmczImDeUHemkHjsEFRHKh4mnLJS32y2g1+xWhkFW3WNrmfgj
+         k8NDYib5Xv6rCKQa9dUu1kWTHm1GnAjDCP1M/Cp7bPf2Ws3aGjRGFnpZsUKaeCDpd0Px
+         dHgqtlm4s/K6oOnxlRVzi8zf+sQLdeT+3JCIqCLYVBbBpPBCXBYeyOssDuCQ8U2nmHPO
+         FDHBKpgGrppGmaKa90NPK41HTudXUUZEuTHd/m2aqMfoHGtLQT9kVaP0lf+Crw/t9yd0
+         vhkg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769431296; x=1770036096; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GGkVRtj39ec/cXScWV7OP3CGW3GGq8UKBj+5Z3odKBc=;
-        b=SlZJipkJOIN7WVWSGD5fHuWFZAifuaOysuN5g773D6hG1DU0cya6ZfxrgcMLAdEOdR
-         OGDR04S7AcXVMtInN52FwLQCOYC5Q3Fd//qb94eMQqhuM1MFm+hsKP1t5FhYbS61dnp0
-         onsEkNyK3GXBsg8RyD5gK18856sKU5OCqctTVFb4hX0gyVAU6na8F6tERNgN93+Q96vc
-         T0UNWBAs5ZozIa/9dkuewGDyGtPXRjg/b82zsaNLeaA3Ilnuhb3qtnsp4F8hl3lTr2Ut
-         hcbm2dCPh1OHMgFhhK71WdJhNHFadMAxL2Yv5fyjlWrCXySRRC7jeWv13rz8Zn7dD+u8
-         BtLA==
+        d=gmail.com; s=20230601; t=1769431725; x=1770036525; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4wbUefewEyt+Bxa1epr+p529X5zn/t+qG9ZDeOzVm8Q=;
+        b=KYpWi8RUg787QneWLKwB4NlSNNt9xJ/iiwz1p+mhJKvGzpGPQWZv0ZK9Y+2INa7Em4
+         c5TD3qBEAEmPVbKHPMqHX1/O4Yye8fU/7W5T0VyC6MsrV3Qx5Q1aMF7wJrVWbqAotDXR
+         bVdNMhVnp9sF3al4cN16ilESVGEHeD/ARzo/NqtWEftzaUoN9TWKkSdVbTeSO7eyfJ0u
+         pIPVRVC3rPg16vhRs9oFBqWZHs+EdnOOfJQx4gg2QQF5xR6YGmN3Jzv4ICp50kpgJaYc
+         AH2rlhJLtL3Pxaqyo65rSHzIGRabdgNnmL222SBTHl/sFkydYPrs3HHL7A1BNZvAYskw
+         Mp4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769431296; x=1770036096;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GGkVRtj39ec/cXScWV7OP3CGW3GGq8UKBj+5Z3odKBc=;
-        b=U9src71ZJKuu3KMxo1nCnvVbQynpnOD04SozM9Lf3yCSBNUJEoXIQCe5BJcpO9rLzM
-         GKT/P7Vgcpv1dlDqc+HHoza3jmXnGbSU7fmhTccp8xfbH9zVIBLt9Z+OVaQ3zsKRF3Kd
-         nQ0z3NgGBQ4RTljH69wMEkRmJINDOFk6pXvqdD8VdVe5Zf4/EKJFvl3Owr+6wFrDWtEP
-         ELDNKoBH7euxKpRSZfo/hk3s9hGEwDVsVQYQXXftTsuwCUz37+3laq/8747OQxbY18M9
-         s3R3oEMDxeuooXUnc4WTwD4cEj+FXb0o8s6jiwZ/d6GOYOFv8bDcUla9OIggZFW0YHja
-         CijA==
-X-Gm-Message-State: AOJu0YyIje502nO6Sk7cjML3Wo9o7OGYEK1qevePng5oubz1Fy2k6PWM
-	x+2KAVHkrSrverVDFYJKY8EcafZ3/EXvxWgNT0G4Bpnk1WUQg066zp/8RoZCESJryl8=
-X-Gm-Gg: AZuq6aI66snRd8PGg9ys9sHS5RHqY1ubtWG/X9FodgjPCOXCsytjH2ax7OswsjJMMSJ
-	65Rv22YQq8LhhIkVOpzW8NHklzTd+nClaj+LL2kFwU19FtcFJzTps+gx1oGMbEfNqjxTb3d02Iu
-	nSPPN1K8XUvkzQvEpYIz5HHOBgNp06rIr8H78cWIEElZc1YoPkh0kLSCIeLk1dusw9fCQaJV833
-	bG2kDSaU7VCzXf0Cal6z/s1GoKUfONlUmXM9X8J0bS3V06u8Ea4izWkXrZpXveiuRvkJca327gD
-	wHg6HOO1hedgVn5/OdBTUUuPHRdyBk8zuq1OyFVtoYbIPN4VPj85PATw+lWLBYGLdMqAiOrRs47
-	ui6r4sSSdashjbmk5Kc4EFn8WNNyWZvznxzQD7AN0/Q3AP8dva8Khdwb+djrGx/AyDXI6ARFwt7
-	oPW064Oqq1Jpa9kzOCC5EsrUNTKdw7K58ZPZ2CO5yS5Q/BcB543K7q
-X-Received: by 2002:a5d:5349:0:b0:435:a600:2601 with SMTP id ffacd0b85a97d-435ca1201f2mr5525322f8f.16.1769431296323;
-        Mon, 26 Jan 2026 04:41:36 -0800 (PST)
-Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435b1c02dd4sm29593878f8f.5.2026.01.26.04.41.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jan 2026 04:41:35 -0800 (PST)
-Message-ID: <eaf30b60-c0fb-4cf5-bc37-274faa187734@linaro.org>
-Date: Mon, 26 Jan 2026 12:41:34 +0000
+        d=1e100.net; s=20230601; t=1769431725; x=1770036525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4wbUefewEyt+Bxa1epr+p529X5zn/t+qG9ZDeOzVm8Q=;
+        b=HbHkEAGPGFsTXIjgm5p9oP5luT158UFvgN2QTt+BG6C2BlwftYGTlSOD0lg7b3qruZ
+         pwQ8nAypdLQfcnsaZy1w9m9rMjqHLQYcccWJKTTk3iBIx1AzLBbhMd+sIdLeKPXsBJLZ
+         PUgtSSd88m3ZY1VrkiztDkgwAqsdXSpbIE6803K6McWmvKaJWISbS9Lj9MF+My4ovoKa
+         RvZYO7J2qYRJXSxCyIU7b9lPmIARaWUfTxuypaR6RFDCdeHREPsVEsvKHzz7TWFL/jg/
+         MMPxtjMiwD4CjrTIpFmZubMxJsOO0sj5Zs5KyyGXALIfI3t8aO6mjM7ACEnYJWC0R1E0
+         gVyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVrzmV0zxfSfr6khged7euhyaqoNq8/IwGEQjqjSIDTyQqU251FD1Rmld4nGRqXg15C15B3vtqVI6qXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywz1EZ7KJEX1XdwAsRuKUdZAr7ToBuLHnboxpPAkJ512o9dokl2
+	mExcOpyitGJMrMrcMzVv6knfaXFNSUppvbQ6QDW5sHR54DDszdSHrKaDhRz+0nP4cZPw3M2gfjH
+	g7nVf85GcP09IdbhWsAfe2yXvo7HvNKk=
+X-Gm-Gg: AZuq6aKDqX+OlrG4cdg7kCuGXs4RXcw01PPSlGb4lOHrK3P+7R4Tp0WTW7Ozk4IrdNW
+	wOsNVvMss/Q6EVkL6vQMoeCu+8wGZrwzlTYwgVkGBnscDBvxRuUhjAipb7LpKTS6NbvjbK3ev7F
+	+cpWJ7iEnWewUFjVj/wXM1GuTCROWWoMFU9x2MdQJNsWNVkoda23k2L+gz2RuIAnmQXTbGew0TI
+	/a0QvZndov0POPEil1bp7tIGb69HVVdQaIKS1kzFN6T6RudMimF70NSP38Bi/FaVLcGaHHlcJHY
+	KCHW4JyFIgDikAQOzo8Hp+q5yPNZ
+X-Received: by 2002:a17:90b:558e:b0:34e:808c:95eb with SMTP id
+ 98e67ed59e1d1-353c41bc40emr3364991a91.32.1769431724676; Mon, 26 Jan 2026
+ 04:48:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20260125171745.484806-1-bjsaikiran@gmail.com> <20260126061528.63785-1-bjsaikiran@gmail.com>
+ <20260126061528.63785-2-bjsaikiran@gmail.com> <ef6cf6c5-3b5d-45f2-af67-0567262a4561@linaro.org>
+ <CAAFDt1spRkj7kySCa8P=jehQHbYVT2j+nxLira1vwYkiCJ7LDw@mail.gmail.com>
+ <b699fcf5-5cb0-41eb-b9de-e5c6e98aefaa@linaro.org> <IlpLwcSSsQ89AZYFUkWtRcUkztg6PClgkVOyWG0StiDOUCE93t7KlF9q18JPi3GutJ1OQWj_2igjYq1OD8FLZg==@protonmail.internalid>
+ <CAAFDt1tjiEXbuChcY73+NYxPW=rB83P4Bks1TPGsHTTqoSzOuw@mail.gmail.com>
+ <ed1421d9-f094-4306-ae6d-e07b3a72f82b@kernel.org> <CAAFDt1ukAdXwADuFVoZrs6Ay2fB_sq6LMW5FCnsjqUL7V62mfg@mail.gmail.com>
+ <eaf30b60-c0fb-4cf5-bc37-274faa187734@linaro.org>
+In-Reply-To: <eaf30b60-c0fb-4cf5-bc37-274faa187734@linaro.org>
+From: Saikiran B <bjsaikiran@gmail.com>
+Date: Mon, 26 Jan 2026 18:18:33 +0530
+X-Gm-Features: AZwV_QiImwHoTrhadZXSVk9XMUduYaFg4Doi8X11Lf0vWvPz9vytxnHCfMsQkoM
+Message-ID: <CAAFDt1tgFf5MQcHm3s5DJEDHDtbTfj56_0-=fTz0ekDjSqY3CA@mail.gmail.com>
 Subject: Re: [PATCH v2 1/1] media: i2c: ov02c10: Keep power on and use reset
  for power management
-To: Saikiran B <bjsaikiran@gmail.com>, Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- rfoss@kernel.org, todor.too@gmail.com, vladimir.zapolskiy@linaro.org,
- hansg@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org,
- stable@vger.kernel.org
-References: <20260125171745.484806-1-bjsaikiran@gmail.com>
- <20260126061528.63785-1-bjsaikiran@gmail.com>
- <20260126061528.63785-2-bjsaikiran@gmail.com>
- <ef6cf6c5-3b5d-45f2-af67-0567262a4561@linaro.org>
- <CAAFDt1spRkj7kySCa8P=jehQHbYVT2j+nxLira1vwYkiCJ7LDw@mail.gmail.com>
- <b699fcf5-5cb0-41eb-b9de-e5c6e98aefaa@linaro.org>
- <IlpLwcSSsQ89AZYFUkWtRcUkztg6PClgkVOyWG0StiDOUCE93t7KlF9q18JPi3GutJ1OQWj_2igjYq1OD8FLZg==@protonmail.internalid>
- <CAAFDt1tjiEXbuChcY73+NYxPW=rB83P4Bks1TPGsHTTqoSzOuw@mail.gmail.com>
- <ed1421d9-f094-4306-ae6d-e07b3a72f82b@kernel.org>
- <CAAFDt1ukAdXwADuFVoZrs6Ay2fB_sq6LMW5FCnsjqUL7V62mfg@mail.gmail.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <CAAFDt1ukAdXwADuFVoZrs6Ay2fB_sq6LMW5FCnsjqUL7V62mfg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc: "Bryan O'Donoghue" <bod@kernel.org>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, rfoss@kernel.org, todor.too@gmail.com, 
+	vladimir.zapolskiy@linaro.org, hansg@kernel.org, sakari.ailus@linux.intel.com, 
+	mchehab@kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51568-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51569-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com,linaro.org,linux.intel.com];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bjsaikiran@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim]
-X-Rspamd-Queue-Id: AABBB886E6
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 2D29688775
 X-Rspamd-Action: no action
 
-On 26/01/2026 12:24, Saikiran B wrote:
-> Yes, I implemented your suggested sequence in power_on():
-> 
-> Assert XSHUTDOWN (Reset GPIO = 1)
+I used a 2ms delay for the initial reset assertion.
 
-+5 milliseconds
+Thanks & Regards,
+Saikiran
 
-> Enable Regulators
-> Enable Clock
-> Wait 2ms+
-> Release XSHUTDOWN (Reset GPIO = 0)
-> 
-> Even with this sequence, the brownout prevents detection if the
-> off-time was ~2.3s (I got this 2.3s number by conducting extensive
-> stress tests on the platform starting from 50ms to 3s. At 2.3s the
-> success rate was 100%. Anything below 2.3s, the sensor entered a
-> brownout state atleast once.)
-> 
-> Thanks & Regards,
-> Saikiran
-
-?
-
----
-bod
+On Mon, Jan 26, 2026 at 6:11=E2=80=AFPM Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> On 26/01/2026 12:24, Saikiran B wrote:
+> > Yes, I implemented your suggested sequence in power_on():
+> >
+> > Assert XSHUTDOWN (Reset GPIO =3D 1)
+>
+> +5 milliseconds
+>
+> > Enable Regulators
+> > Enable Clock
+> > Wait 2ms+
+> > Release XSHUTDOWN (Reset GPIO =3D 0)
+> >
+> > Even with this sequence, the brownout prevents detection if the
+> > off-time was ~2.3s (I got this 2.3s number by conducting extensive
+> > stress tests on the platform starting from 50ms to 3s. At 2.3s the
+> > success rate was 100%. Anything below 2.3s, the sensor entered a
+> > brownout state atleast once.)
+> >
+> > Thanks & Regards,
+> > Saikiran
+>
+> ?
+>
+> ---
+> bod
 
