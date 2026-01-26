@@ -1,270 +1,283 @@
-Return-Path: <linux-media+bounces-51556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51557-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yAHaHwxVd2nMeAEAu9opvQ
-	(envelope-from <linux-media+bounces-51556-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 12:50:36 +0100
+	id mFCcFiNXd2nMeAEAu9opvQ
+	(envelope-from <linux-media+bounces-51557-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 12:59:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966A287D68
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 12:50:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA84E87EBC
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 12:59:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D28AD3006816
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 11:50:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7B345301E219
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 11:59:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6A3333373D;
-	Mon, 26 Jan 2026 11:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F4B233372D;
+	Mon, 26 Jan 2026 11:59:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mY9Sx1HX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GNnqwP/o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907C5332EBE
-	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 11:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B562433123D
+	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 11:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769428228; cv=pass; b=PhwMlO9WnoajMy+T/QHWxgvzJa1jYXjUpsqK1nPj6Xd0/eiME6rPXQ2zMeodtMNvoDDbAihiWWIRB2GBKc6gGJmdYqPIrdFPYGQk9HW7MIdv18KE99rP2uKJwnMqydyoEkuQ25Z2UTmllb5aBLZgmphTC4ctAHAxZHMe6LXaVJA=
+	t=1769428747; cv=pass; b=Miv94bNN3PgeVOov/G4jk/2MlPYDwIwXdb70iRsZj9JOv6JC+vK8pjhMjPcYoOgtMDgXPO2P8U/P2/cNt8NW8C3umtqRUsj2Mv8gK26jWnkWa8PqeuunqOoHVLvAXBufiRx+TSjvDmO3bfurWrXrbJ8Wm7weZ52Zpbis2jqMz7o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769428228; c=relaxed/simple;
-	bh=XQkQbhBqa04ILqL6Liptn0tVNAS9js7mMWPpmUZmZgE=;
+	s=arc-20240116; t=1769428747; c=relaxed/simple;
+	bh=ueDbZxfaJaRJBPNnQTV7LcSD+ot8kxI/8ecV5AaE3VI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HP5QfzJHFBnCimCJpnzLmpQupoGscPZFFc+PtMT7lD9oTglnOKawi99NerVQfHlhq/4NUfijj7xzPbN116WAilCErvieIZmCJ0/MH6pFWHoWOUAmRoqWxZ5XlIxdY8Dk7WlJnelxoFfQdqhddJTtqrk4nBdLdkUDl8dAhGYH5z0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mY9Sx1HX; arc=pass smtp.client-ip=209.85.221.49
+	 To:Cc:Content-Type; b=IrMDMSv/OUlVgKjE/9aviYijWpP3791gxUz/AiDc1CPudcY2/5kdmBcCeJwM+hWulNKL9SiOdFIbrHkzZt1XDScUUmbWYZOpMNI1tc+lnBnJBDuOmQLnqTF88PO7DGN241moxRSMNqt/IRkRaYbxirGZb/i1p2ABEopdNTnNOTo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GNnqwP/o; arc=pass smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43284ed32a0so2634849f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 03:50:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769428225; cv=none;
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-34be2be4b7cso2274419a91.3
+        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 03:59:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769428745; cv=none;
         d=google.com; s=arc-20240605;
-        b=Y7CgPYJcyiqbCnulxbDmgcm2G0aU7joH20Qcy0dJnhSr+nWrXwE+4JOW83/d5GrrNS
-         jFFDt6X7xsMnC7tBDxt8jeaxY4qRurhFpJ/yXAmjQqhOOtwPN3CAqlFJYzxvCcMW+9yq
-         P1JXE/0lSQhgQHWpb74XigjL1TgGZ8GL/WPl1UxK5W4ln1gk5LqhBXJXy150aDwg/NjC
-         MUH3yAA3TJspfKLKjQpwICKN/VTXPX0npWR+b6sKKJMuF1MZyQNneS9XfdTu3SpeOg+1
-         mrRpPLpS9WL6/CkFxJjc4X0ZYMpi8E7AJYORRQ8UzS8w1Y5SQfhUVBdtUWlhyieyRx7N
-         JLXA==
+        b=VFWVldhtNfceUzA4xXPOeo9/3NlTKTuMyRIfObAXThT6TBWZisiXT8QkDFQUKzVt3e
+         LpIt2h2nfL5kxY/DsV0n3PIV3yW0H9k3dpZiXsD3MpQjo+slZwa4ZDCaoYxe7iyVbidv
+         otr5oTSE26MjAj7Bq/EiLUb8tOv57Oataekp98kA1+rqw5Sd1wJ/LoIROHT+ZEiezPV6
+         a2RMFzGT5zGe00g6TKytZ8+hIf46bDBEhKs2HMVHKWrW2wDMvSnEqVfMPTgYd0hz5iiw
+         I/NcH2stwmWqox1LvdHa4UngecRhaqO3T/DlaSE2xLfpmA2+f0lj9D0VEaKLsCz7XU89
+         sLbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ra0VzQyXqvqMiUXnGG93m4Na2kxsj2UXiL65l4S1Qy0=;
-        fh=0QESK5X2XQgO/pXc42xJ3a+UzrzusEGzBFYZpZHzG7E=;
-        b=Cb/ZZUiDYmukF+Lxfd4EJ84sc6ky/GrFecxAik7O/GLpBX2D9CwDXOiIu0qzvTwsE2
-         thpxCqnVtz6wJw7Iu+VtH6yvt6WEfgfppkOChJ6kjIKoYbgZdfQ/ZtxAhXs4n/s1B83z
-         VKrhRLIIao0FJQTtrJwYYneNbSgk8O5g93QR6yXCkCFEO1fEfhUWjdf7oOr1S18hMmmO
-         2bOCj0yH5tR7P2k18qYuALMZb3+U10LWBjqh1MZKzu4p7Fi0p2MFKO5t558AER6kof81
-         6+qqm8elCbp3XfyLnydxXgwmvn+c+DD60nBDhnrYF3Xbo9F8vT1vk0nUw65KpPqZhvt4
-         kOyg==;
+        bh=lxU49EsEPtxJDyA2uj8GOndna+YV7i2iNMjekZIsTLQ=;
+        fh=bvRaeGdlb84b+8B2R5SKV6w6WfkPCRlSXg7YnipXzgo=;
+        b=ezrXLD2N4tERrLdYYeouPh2MS3CDWk6fEzJubt4hGyjV1CuMSggM5tpEF6FiAjXMNN
+         96VS7SdgGbby8RCMonvRMvb9EzivUtdN9QkhUQM0HAzStdI/eMVwR8DQSSDGcVngBDSm
+         XZcOeSBo/MJzjQMCo7OeUji/Gn/rwegHdSIR7hvm1++FiqdHZGfdBIAbrffNLTszTpDh
+         6jdVcqX4T2IJ5F0c1rwfPLaruGNBszm82THYEXhe/iMI+1YlTyd0+P0XyJJN2NFX7BX5
+         f/aJ5vVU/DJQ48rmR7sB8I2AXNHbMHCyh3zLFwd2jF8NSqWftqeK8Ou85IePMOhkG6TI
+         I4xg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769428225; x=1770033025; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769428745; x=1770033545; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ra0VzQyXqvqMiUXnGG93m4Na2kxsj2UXiL65l4S1Qy0=;
-        b=mY9Sx1HXy6L2cQboQvCEqlhjnZwI39ax9M3yLRcHhmM+OFTfmCjzvF17GFgRZsGufs
-         qh8YvqJzDkV0P9kzczBV3HyzSM3jqIB/rPuL5isXgDJO0V7ANy3czdoGeVyGdQMGc0Pa
-         Zn8Ch4etKT+gM0G/+oSpcXsKaFdPZrzURBxZWHutIxzXyhNl99s628areIc3xlTIBLFM
-         Le3/I1XFMKPiX27GlDRHiVGN8FgvY8xLoJ7CvfKE+J5WHLQiUr5QTdDRyGGOiACosgq+
-         vxZ1Pi79azzyc8dAIQDQN7dNGGbP9H/7BCMMuH59uBodwuxSLPjwJwWjXF0Z6c0cQ4E1
-         v4nw==
+        bh=lxU49EsEPtxJDyA2uj8GOndna+YV7i2iNMjekZIsTLQ=;
+        b=GNnqwP/o3de3k+xzZsEBRPGU/J3QAslnMXgPHrKAgDC+4Y1slMotI6LqZHou0gO/s7
+         7k0iHOsah8VReR/v7tqraP0kHjcNMYXkr8TPlZW8Ef60mIkZh0lfd3TL6iwwnwgo9m9K
+         YRn1A7meFFaojlgQZofHbkags79+NFYAhfeia0BDj3vc9f3pcwfSrwzVYoApjgkPNVX2
+         GcuLd7W38FExWcjaUPfe0YdZOXr1XXYgXkCNRR890ePj3n5Zc2DVV2+L487mjiMyrs35
+         5VrTL/F99X+zlScU0jUMJtvPxK2kMpg73MVKooLOTdGlT4Orwcm0USGNucWe31WkNYAc
+         5vhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769428225; x=1770033025;
+        d=1e100.net; s=20230601; t=1769428745; x=1770033545;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Ra0VzQyXqvqMiUXnGG93m4Na2kxsj2UXiL65l4S1Qy0=;
-        b=njDJo75JNhrV8gNzuiflaviaWlo1VY3T1bGMLggKt15lDNMFIMEHf0K819KLUghlBX
-         vCl+olJkPfQRNIidSBLE2ociya66T2j0wyN/jByJH4gP/SQd+LIBt3WghS0Z1kIv3DAw
-         /TEKPPlKm3WihxJrZ87gtoZZ8/j9r5tr9bjSHtGzO8V8/GOvk8it0gbDwa4TJxD4aYWE
-         /mRezEv5vHCxTslRiQchJXp0lpVr79EE8sy5D3vsXi2q3AixQ862svgjAMTh7tPS3C+P
-         SgQ9sdNAYojlWAn30hHpbW/76ZmH0SajC5GAZI9TW1Q0hsFkipkljHZTRt7IQNAqzWg4
-         vImA==
-X-Forwarded-Encrypted: i=1; AJvYcCVJUppYjKQt0LHJtdMqYbqUM53Bilktwi3ZC496dzciTE6rpchI3wM2FGkTD8IJ1461S9vE05wqhEgAMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0rS38jNgga3bOxFbTbGimm+tvJ5N2ruS6U+CRCODNn9Ow4et3
-	uTteZKXf0ejUAyoxtpjVtahVyxvRn6Hk92krpnCkTmqgnRvhEVWT4VSPwxkcNsvoulynkjgTo5l
-	I0/cWBISQ7N5ijYDdu+9HZhdpeZsLc3U=
-X-Gm-Gg: AZuq6aJhwDmIynYn4+185v6lN05yBVW2cMPk/i8Kg/Yo2O0pYFkSsDsd3zQlG1Gonb7
-	Wi7fSsuH9SBkq1e4F26E/B1Sdu86b4MM5UCc6xGGoDjHhi6NrO8nqG3ukK0QjLgHBUfqO0Q+69q
-	oO9rOiAQe8NW5d360dVqkqf0bEYnKB6nXer3jtkDGsIXqK2XW4TW2aDBgvQGKp98PpSguDdUqgN
-	m6XJdooTYFCtsJ0Vj3wc1jfzVeu/exZfdp97PyLMNlw0k7Zgbpn1s/EvpjiDvxSW7D+IgpZ
-X-Received: by 2002:a5d:64e8:0:b0:431:752:672b with SMTP id
- ffacd0b85a97d-435ca0f9681mr6948265f8f.14.1769428224669; Mon, 26 Jan 2026
- 03:50:24 -0800 (PST)
+        bh=lxU49EsEPtxJDyA2uj8GOndna+YV7i2iNMjekZIsTLQ=;
+        b=OLd66X1M0WdTrRuijMtVyC/d6AiNA2VL1MwBFJmeB+SzVOmvIH6Qlj9Q2PRTwjsdUj
+         GG8X22n1LTUSHrXtdQAoqKYGT/fQFtL3/9e+dnVuOy8JZsIha42gWH+IRrFYR3OiduWx
+         XpQXg/qG9s9Vu8nVmQRSvSvwy3ISSWkCwfYk1rdabDjRXE9RSOr4z8yL8K+nWt8xBsnv
+         u0OS7gURqcL6Ba9oR8w4VrfzAe4Itegz9d2t6d5J+TnZDMkeV3+heLfcFMJqh6IUlf6B
+         oYXLVtgb2N5EzcGDRQIjQF4zbWJ89AopIAPY+rtT1IuMeBMu0cfrxS5XrYDnEorRUe9J
+         KbFg==
+X-Gm-Message-State: AOJu0Yw+RNIbvHHsOIOlG0PQFIzbVDhLqhHdvKKoswLPjl7vMoC3oLA9
+	1qiTj0anCHMjZhtuegzE5tuw9voZQ64JnzEGRS1fsmvFMyL+STYFm4kjLh9vaIDloibHJocHs2q
+	TezIc0zFR668w8KZ606F4bHAqGfhADHs=
+X-Gm-Gg: AZuq6aIF1sI/ap3oSAJ4M8oEzJtMrM5l5nECRkDwNd+ZP88KroAPL3YqcETZUiQj2md
+	nI+FnMrx5LeFjlGndSDpJy9TS2zgBby6iGUhwAJbzXsZV3dexGAjDjO169+FW+P2+C+6sHcZJCi
+	zT3UZZTR4tk5FGCrOWlKnRJ1417ExRPeDL03CU3OE9n7Pum/Bc7NP2vu17Z2zoMGGCT9e+f7dz1
+	RiDEfXGnTl9Cs++uF8K4JAAzA275iDLK6l2dRlRpRkzqvRu3Zd1KhPkrcsyOr1Tm73ZchgbJ+7M
+	6Jx0GU85/5UDOCA+nTed5lpmupeS
+X-Received: by 2002:a17:90b:1c11:b0:34c:7182:cf9d with SMTP id
+ 98e67ed59e1d1-353c41787efmr3269458a91.25.1769428744818; Mon, 26 Jan 2026
+ 03:59:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260126083430.8247-1-clamor95@gmail.com> <20260126083430.8247-3-clamor95@gmail.com>
- <aXc1XwD8Wo2yu4dv@kekkonen.localdomain> <CAPVz0n3=JPyjm3RypcSec=FZ66W2cq4Mwu2yodR03Ng2jDbxEw@mail.gmail.com>
- <20260126100554.GC593812@killaraus>
-In-Reply-To: <20260126100554.GC593812@killaraus>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 26 Jan 2026 13:50:13 +0200
-X-Gm-Features: AZwV_QikIH-K_ZHtoTJx5zKrCVrTz_96DtWBJqFXct-_mHRTnQZF6ysbPymscmo
-Message-ID: <CAPVz0n3mG79Q0E=F5a3iSdd9TcVXFXuLj9vFkX3if2zVzpR=eg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] media: i2c: mt9m114: add support for Aptina MI1040
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260125171745.484806-1-bjsaikiran@gmail.com> <20260126061528.63785-1-bjsaikiran@gmail.com>
+ <20260126061528.63785-2-bjsaikiran@gmail.com> <ef6cf6c5-3b5d-45f2-af67-0567262a4561@linaro.org>
+ <CAAFDt1spRkj7kySCa8P=jehQHbYVT2j+nxLira1vwYkiCJ7LDw@mail.gmail.com> <b699fcf5-5cb0-41eb-b9de-e5c6e98aefaa@linaro.org>
+In-Reply-To: <b699fcf5-5cb0-41eb-b9de-e5c6e98aefaa@linaro.org>
+From: Saikiran B <bjsaikiran@gmail.com>
+Date: Mon, 26 Jan 2026 17:28:52 +0530
+X-Gm-Features: AZwV_QjRJQN9oQY4Bm_wvDz9C94tR-dF8CReD0RZ4DAvRDLQ6uVsM3VvLqo3HCI
+Message-ID: <CAAFDt1tjiEXbuChcY73+NYxPW=rB83P4Bks1TPGsHTTqoSzOuw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] media: i2c: ov02c10: Keep power on and use reset
+ for power management
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, bod@kernel.org, 
+	rfoss@kernel.org, todor.too@gmail.com, vladimir.zapolskiy@linaro.org, 
+	hansg@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51556-lists,linux-media=lfdr.de];
-	URIBL_MULTI_FAIL(0.00)[ideasonboard.com:server fail,intel.com:server fail,sin.lore.kernel.org:server fail,mail.gmail.com:server fail];
+	TAGGED_FROM(0.00)[bounces-51557-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[bjsaikiran@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,intel.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 966A287D68
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,0.0.0.36:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email]
+X-Rspamd-Queue-Id: BA84E87EBC
 X-Rspamd-Action: no action
 
-=D0=BF=D0=BD, 26 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 12:05 Laur=
-ent Pinchart
-<laurent.pinchart@ideasonboard.com> =D0=BF=D0=B8=D1=88=D0=B5:
+"I don't think we've established the regulator is at fault. That's the
+feedback I'm giving you here. ... vreg_cam_1p8: regulator-cam-1p8 {
+compatible =3D "regulator-fixed";"
+
+Just to clarify on the regulators: on the Slim 7x, the camera supplies
+(avdd, dvdd, dovdd) are all RPMh-controlled LDOs (pm8010 and pm8550),
+not generic fixed regulators.
+
+As I've confirmed that the qcom-rpmh-regulator driver doesn't natively
+support active discharge or parsing off-on-delay-us (generic
+property), which explains why the physical discharge constraint wasn't
+being respected.
+
+I'm taking your advice to fix this properly at the platform level in
+my local tree (patching the RPMh driver and DTS to enforce the
+discharge delay).
+
+For the media driver patch (v3): I will follow Hans's suggestion to
+use Runtime PM Autosuspend. This handles the rapid open/close UX
+problem gracefully by keeping the regulators on during quick toggles,
+avoiding the need for the driver to "know" about the platform
+regulator constraints.
+
+I will proceed with my testing and will let you know of the results.
+
+Thanks for the feedback.
+
+Thanks,
+Saikiran
+
+
+On Mon, Jan 26, 2026 at 5:11=E2=80=AFPM Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
 >
-> On Mon, Jan 26, 2026 at 11:50:05AM +0200, Svyatoslav Ryhel wrote:
-> > =D0=BF=D0=BD, 26 =D1=81=D1=96=D1=87. 2026=E2=80=AF=D1=80. =D0=BE 11:35 =
-Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > On Mon, Jan 26, 2026 at 10:34:30AM +0200, Svyatoslav Ryhel wrote:
-> > > > Slightly different version of MT9M114 camera module is used in a se=
-veral
-> > > > devices like ASUS Nexus 7 (2012) or ASUS Transformer Prime TF201 an=
-d is
-> > > > called Aptina MI1040. Only difference found so far is lacking abili=
-ty to
-> > >
-> > > s/Only/The only/
-> > >
-> > > > poll STATUS and COMMAND registers during power on sequence, which c=
-auses
-> > > > driver to fail with time out error. Add polling flag to diverge mod=
-els and
-> > > > address quirk found in MI1040.
-> > > >
-> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > ---
-> > > >  drivers/media/i2c/mt9m114.c | 35 ++++++++++++++++++++++++++++-----=
---
-> > > >  1 file changed, 28 insertions(+), 7 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m11=
-4.c
-> > > > index 4ec033c0ee84..d96a57ebcad4 100644
-> > > > --- a/drivers/media/i2c/mt9m114.c
-> > > > +++ b/drivers/media/i2c/mt9m114.c
-> > > > @@ -368,6 +368,10 @@ enum {
-> > > >   * Data Structures
-> > > >   */
-> > > >
-> > > > +struct mt9m114_model_info {
-> > > > +     bool polling;
-> > > > +};
-> > > > +
-> > > >  enum mt9m114_format_flag {
-> > > >       MT9M114_FMT_FLAG_PARALLEL =3D BIT(0),
-> > > >       MT9M114_FMT_FLAG_CSI2 =3D BIT(1),
-> > > > @@ -421,6 +425,8 @@ struct mt9m114 {
-> > > >
-> > > >               struct v4l2_ctrl *tpg[4];
-> > > >       } ifp;
-> > > > +
-> > > > +     const struct mt9m114_model_info *info;
-> > > >  };
-> > > >
-> > > >  /* ---------------------------------------------------------------=
---------------
-> > > > @@ -2186,9 +2192,11 @@ static int mt9m114_power_on(struct mt9m114 *=
-sensor)
-> > > >        */
-> > > >       usleep_range(44500, 50000);
-> > > >
-> > > > -     ret =3D mt9m114_poll_command(sensor, MT9M114_COMMAND_REGISTER=
-_SET_STATE);
-> > > > -     if (ret < 0)
-> > > > -             goto error_clock;
-> > > > +     if (sensor->info->polling) {
-> > > > +             ret =3D mt9m114_poll_command(sensor, MT9M114_COMMAND_=
-REGISTER_SET_STATE);
-> > > > +             if (ret < 0)
-> > > > +                     goto error_clock;
-> > > > +     }
-> > >
-> > > What does the datasheet say, is there a need to do something else ins=
-tead?
-> > > As the polling is there to ensure firmware has done its job, the need
-> > > appears to still be there.
+> On 26/01/2026 11:23, Saikiran B wrote:
+> > "Where do you get this conclusion from ? Are you inferring it from
+> > what you see on the platform or can you point to some known
+> > data-source for this ?"
 > >
-> > MI1040 has no datasheet available and downstream code does not do this
-> > polling. I have tested on Nexus 7 which has this camera and it seems
-> > to be fully operational without this poling, but as soon it is enabled
-> > camera fails will timeout. I suspect that this camera version has some
-> > quirk regarding early access, but I cannot back it up by any
-> > documentation or additional data.
+> > This is determined on the Lenovo Yoga Slim 7x (X1E80100). I tested
+> > extensively and found that if I attempt to power-on the sensor less
+> > than ~2.3 seconds after power-off, it fails to identify or times out
+> > on I2C (brownout behavior). If we wait >2.3s, it works reliably 100%
+> > of the time.
+>
+> I don't think we've established the regulator is at fault. That's the
+> feedback I'm giving you here.
+>
+> I think it is far, far, far more likely the power-on sequence of the
+> sensor needs tweaking.
+>
 > >
-> > I have a device with proper version of mt9m114 too and it works with
-> > his driver without any major issues.
+> > "2 seconds to discharge ? These regulators are PM8010 anyway - so
+> > you're saying the PMIC takes two seconds to discharge ?"
+> >
+> > Yes. I checked the regulator driver
+> > (drivers/regulator/qcom-rpmh-regulator.c) and found that unlike other
+> > Qualcomm regulator drivers (e.g., spmi/glink), it currently lacks
+> > active_discharge / pull-down support. Without active discharge, the
+> > voltage rails float and decay very slowly via leakage current when the
+> > load (sensor) is in reset/high-Z.
 >
-> Does the device reply to reads of the MT9M114_COMMAND_REGISTER register
-> but never shows the MT9M114_COMMAND_REGISTER_SET_STATE bit being set, or
-> does it not reply to reads at all (timeouts on the I2C bus) ?
 >
-
-I have re-run check on Nexus 7 and TF201 which both have mi1040 cam.
-
-From data I have got:
-
-"mt9m114_poll_command(sensor, MT9M114_COMMAND_REGISTER_SET_STATE);"
-
-passes fine, which is good. Previous time if failed with Timeout
-waiting for state and -ETIMEDOUT. But
-
-"mt9m114_poll_state(sensor, MT9M114_SYS_STATE_STANDBY);"
-
-still gives:
-
-[    2.921791] mt9m114 2-0048: Timeout waiting for state 0x52
-[    2.922777] mt9m114 2-0048: error -ETIMEDOUT: Could not power on the dev=
-ice
-
-commenting mt9m114_poll_state made camera work, I was able to take pictures=
-.
-
-If you have any suggestions for testing, let me know.
-
-
-Additionally, not related to this patch but to mt9m114 device tree
-reflection. The MT9M114 driver exposes the IFP device's sink pad
-first, which causes issues for external devices that rely on the OF
-graph to get the correct pad information. Laurent, may you consider
-swapping sink and source pads of IFP so that source pad is set first
-and correspond to device tree port or at least if you and media
-subsystem maintainers are fine with such change?
+> Right so looking at the power for this part we have:
+>
+> &cci1_i2c1 {
+>         camera@36 {
+>                 compatible =3D "ovti,ov02c10";
+>                 reg =3D <0x36>;
+>
+>                 reset-gpios =3D <&tlmm 237 GPIO_ACTIVE_LOW>;
+>                 pinctrl-names =3D "default";
+>                 pinctrl-0 =3D <&cam_rgb_default>;
+>
+>                 clocks =3D <&camcc CAM_CC_MCLK4_CLK>;
+>                 assigned-clocks =3D <&camcc CAM_CC_MCLK4_CLK>;
+>                 assigned-clock-rates =3D <19200000>;
+>
+>                 orientation =3D <0>; /* front facing */
+>
+>                 avdd-supply =3D <&vreg_l7b_2p8>;
+>                 dvdd-supply =3D <&vreg_l7b_2p8>;
+>                 dovdd-supply =3D <&vreg_cam_1p8>;
+>
+>                 port {
+>                         ov02e10_ep: endpoint {
+>                                 data-lanes =3D <1 2>;
+>                                 link-frequencies =3D /bits/ 64 <400000000=
+>;
+>                                 remote-endpoint =3D <&csiphy4_ep>;
+>                         };
+>                 };
+>         };
+> };
+>
+> // qcom standard RPMh -> PMIC LDO regulators
+> // these are not the droids you are looking for
+> vreg_l7b_2p8: ldo7 {
+>         regulator-name =3D "vreg_l7b_2p8";
+>         regulator-min-microvolt =3D <2800000>;
+>         regulator-max-microvolt =3D <2800000>;
+>         regulator-initial-mode =3D <RPMH_REGULATOR_MODE_HPM>;
+> };
+>
+> // this OTOH
+> vreg_cam_1p8: regulator-cam-1p8 {
+>         compatible =3D "regulator-fixed";
+>
+>         regulator-name =3D "VREG_CAM_1P8";
+>         regulator-min-microvolt =3D <1800000>;
+>         regulator-max-microvolt =3D <1800000>;
+>
+>         gpio =3D <&tlmm 91 GPIO_ACTIVE_HIGH>;
+>         enable-active-high;
+>
+>         pinctrl-0 =3D <&cam_ldo_en>;
+>         pinctrl-names =3D "default";
+> };
+>
+> Dell has used - likely reused - part of the x86 design in the qcom
+> implementation - and toggles 1v8 via a GPIO directly.
+>
+> If your theory about brown-out is correct then
+>
+> vreg_cam_1p8: regulator-cam-1p8 {
+>         // add this
+>         off-on-delay-us =3D <20000>;
+> };
+>
+> Then please let us know how she goes.
+>
+> ---
+> bod
 
