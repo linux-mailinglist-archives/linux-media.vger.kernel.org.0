@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-51540-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51541-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LDFEy8/d2mMdQEAu9opvQ
-	(envelope-from <linux-media+bounces-51540-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 11:17:19 +0100
+	id mFPBL74/d2mMdQEAu9opvQ
+	(envelope-from <linux-media+bounces-51541-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 11:19:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80CE86A48
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 11:17:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F35686B15
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 11:19:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 89C92302B819
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 10:15:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 60BB93020E99
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 10:16:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE5F330332;
-	Mon, 26 Jan 2026 10:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 323AD329E70;
+	Mon, 26 Jan 2026 10:16:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4+VFlbS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DoU/pTIq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F2D330668
-	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 10:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0FF30E0DF
+	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 10:16:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769422515; cv=none; b=m4ElmwhmDyYr3LeygTWUFi0qpCS4FBD392v9Td498N0b4F4vtc35ZuiZ+uhUbtHcvqdAbYT5yZAgeF6nNs5+81bKJ0uzIQ/4H74pNVB+6YixxdUkUXaQHzfRa+zcnnH6b2FhWMTMWDKVmfUnKjBSEW9VrDZqcIY5cuk1xbC60ss=
+	t=1769422579; cv=none; b=XHeZwk6o9r4gQqD42j5zX1o9h0TpL8OIWcJW5sDZp5EDg+V8AgSjUAtn2bLe9K8yBJRus5LtMy+x05KNuML7PU3N8Ktks3P4n4jgc0p/Rz6qyJhR69sHgdovkoqu5IcCHvy/SPNrjd+SDg73G+5+miY6v/8BNFYxCtiEGJNJ+cE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769422515; c=relaxed/simple;
-	bh=bBJhTzDwzp3zSoMlB5XuYAiq4s4YxDLv1WYsJ1qrCLc=;
+	s=arc-20240116; t=1769422579; c=relaxed/simple;
+	bh=xXXCLO57slMmFIDBYcmnTbw1lsmtgVkPj7qgdWoqSLE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n4Eouz4sSY1k7XlrgIwrroFMHHKtEMFNYa5Zc0toIrwUHdUJLpbU3JqoMM99OkUAW0vlIT+lpU1Q9QqvxM2+fZkt7fOeaJRlTo9AjwQ4rsI4lvA0yvrHey5eryYavdoiJj/Jf0oLGc8jQnHrJyaK8tFBe9Sa0Y/ez20wqd6ue6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4+VFlbS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4889AC2BC9E;
-	Mon, 26 Jan 2026 10:15:13 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=HX5dycT/mIfaMAOschYOWRYISVXTyLb8LxcUA5kPtOXfSqargFLxwRkG1zEis3ZIa+u8aCJph95uzOB7WAZ+hhs89lkV4inYWB9QTaDloP7G/oVp7yW9C2+vL2/GpMt/v7eGtBKWRpykyLW9SlX0cd6Gb36WoY0pf1lWLjjorfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DoU/pTIq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D51C116C6;
+	Mon, 26 Jan 2026 10:16:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769422514;
-	bh=bBJhTzDwzp3zSoMlB5XuYAiq4s4YxDLv1WYsJ1qrCLc=;
+	s=k20201202; t=1769422579;
+	bh=xXXCLO57slMmFIDBYcmnTbw1lsmtgVkPj7qgdWoqSLE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W4+VFlbSA35IvP6aHJkaZeJQHxB0mMp3+Di9LWhnDD6hKzpI5v70h56Em9jlAiJqm
-	 S13HUuMN0YDgLdkqr0PPzdgzW8mVKzW6RegN4UqA+NXbrh5CEmri9GM3vd26SHITqt
-	 RsTiJrab4hUZx+9STWf/4rTpCx2hojiFsWgQr3NQDFHvY1oWOtGbbZFAvLgb8hmDO3
-	 0x/s09odr3hF9ik9EwjRx6lmlE9WFy36IiSuxeMrhkdD3nBWi/oUItfsfRVEeUcffG
-	 FIy63s4rrPg1JSSbCFdg6wLDH3t4y/lX57tBiz7gHSflI9yLzEGOM8A+4J59asJ3re
-	 ut/98rSGisTmA==
-Message-ID: <9d05c8bb-c411-4b26-98cf-5622c7c13d0e@kernel.org>
-Date: Mon, 26 Jan 2026 11:15:11 +0100
+	b=DoU/pTIqqoZR3fNOcLmPbHW0MmW0LQA/0rDiFGhCFMzFCPJP4fm2pvv5e3FORx2/2
+	 kuIiM7/pKB9aBhYf3ASAChPObV0SjVl3L157g7LcpKEzUy48KvPnVEPvGDwUqlkKOG
+	 RKpFm+wif8Doq5MIwxV01E/NR/0DM5PFmwugFVN4S0uY+bf3ABNDj4xqRTFhHwKDWL
+	 TkDWzPaMInaB0/GQYhR9USDChD9zyzcDr0JuDq/CY8uk24sQOlPHKtM461wlwrsEZz
+	 MUqsxl7p0sUdfmmBV9uyuxn7opdAswMU6OZ8LdUCMG2hxIQfl3KhUuYnGEF868kdJb
+	 JSFGvAFywkPCA==
+Message-ID: <dd65a573-182e-4517-a264-e2be4b508ac2@kernel.org>
+Date: Mon, 26 Jan 2026 11:16:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,17 +53,17 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: ov02c10: Fix incorrect Bayer pattern to
- SGRBG10
+Subject: Re: [PATCH] media: i2c: ov02c10: Fix race condition in remove and
+ relax reset timings
 To: Saikiran <bjsaikiran@gmail.com>, linux-media@vger.kernel.org
 Cc: bod@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org
 References: <20260124074402.7165-1-bjsaikiran@gmail.com>
- <20260124074402.7165-2-bjsaikiran@gmail.com>
+ <20260124074402.7165-3-bjsaikiran@gmail.com>
 From: Hans de Goede <hansg@kernel.org>
 Content-Language: en-US, nl
-In-Reply-To: <20260124074402.7165-2-bjsaikiran@gmail.com>
+In-Reply-To: <20260124074402.7165-3-bjsaikiran@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -77,7 +77,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51540-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51541-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -92,32 +92,36 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_FIVE(0.00)[5];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B80CE86A48
+X-Rspamd-Queue-Id: 5F35686B15
 X-Rspamd-Action: no action
 
 Hi,
 
 On 24-Jan-26 08:43, Saikiran wrote:
-> The OV02C10 driver incorrectly reports SBGGR10 Bayer pattern, but
-> the actual sensor hardware outputs SGRBG10 (Green-Red-Blue-Green).
-> This mismatch causes severe green color tint in all captured images.
+> The ov02c10_remove() function has a race condition where v4l2_ctrl_handler
+> and media_entity resources are freed before the device is powered off.
+> If userspace (e.g., PipeWire/WirePlumber) accesses the device during
+> removal, this causes a Use-After-Free leading to kernel oops with
+> "Execute from non-executable memory" errors.
 > 
-> The correct pattern was determined through:
-> 1. Testing on Lenovo Yoga Slim 7x (Snapdragon X Elite)
-> 2. Comparison of all four Bayer patterns (SBGGR10, SGBRG10, SGRBG10, SRGGB10)
-> 3. Visual verification with libcamera/qcam showing natural colors with SGRBG10
+> Fix by reordering cleanup: disable runtime PM and power off the device
+> BEFORE freeing v4l2_ctrl_handler and media_entity resources.
 > 
-> Without this fix, the camera produces unusable images with overwhelming
-> green tint regardless of lighting conditions or camera application used.
+> Additionally, relax reset timings to prevent CCI I2C timeout errors.
+> The sensor microcontroller occasionally fails to boot within the
+> original timing windows, causing "master 1 queue 0 timeout" errors:
+> - Assert reset delay: 2ms → 5ms
+> - Post-reset boot delay: 5ms → 20ms
+> 
+> These two fixes address different but related stability issues that
+> manifest during camera initialization and removal.
 > 
 > Tested-on: Lenovo Yoga Slim 7x (Snapdragon X Elite)
 > Signed-off-by: Saikiran <bjsaikiran@gmail.com>
 
-this is already fixed, see:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/i2c/ov02c10.c?id=905120d7470e5ed79d59b61ef6aa13344ffca229
-
-NACK (to avoid this regressing again)
+Please split this into 2 separate patches, 1 for the reset
+timing change and one for moving the cleanup to after
+the poweroff.
 
 Regards,
 
@@ -125,41 +129,43 @@ Hans
 
 
 
-
 > ---
->  drivers/media/i2c/ov02c10.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/media/i2c/ov02c10.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
-> index f156f647081f..cf93d36032e1 100644
+> index cf93d36032e1..b86cae3d2b74 100644
 > --- a/drivers/media/i2c/ov02c10.c
 > +++ b/drivers/media/i2c/ov02c10.c
-> @@ -577,7 +577,7 @@ static void ov02c10_update_pad_format(const struct ov02c10_mode *mode,
->  {
->  	fmt->width = mode->width;
->  	fmt->height = mode->height;
-> -	fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
->  	fmt->field = V4L2_FIELD_NONE;
->  }
+> @@ -692,9 +692,9 @@ static int ov02c10_power_on(struct device *dev)
 >  
-> @@ -732,7 +732,7 @@ static int ov02c10_enum_mbus_code(struct v4l2_subdev *sd,
->  	if (code->index > 0)
->  		return -EINVAL;
->  
-> -	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+>  	if (ov02c10->reset) {
+>  		/* Assert reset for at least 2ms on back to back off-on */
+> -		usleep_range(2000, 2200);
+> +		usleep_range(5000, 5500);
+>  		gpiod_set_value_cansleep(ov02c10->reset, 0);
+> -		usleep_range(5000, 5100);
+> +		usleep_range(20000, 21000);
+>  	}
 >  
 >  	return 0;
+> @@ -864,14 +864,14 @@ static void ov02c10_remove(struct i2c_client *client)
+>  	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+>  
+>  	v4l2_async_unregister_subdev(sd);
+> -	v4l2_subdev_cleanup(sd);
+> -	media_entity_cleanup(&sd->entity);
+> -	v4l2_ctrl_handler_free(sd->ctrl_handler);
+>  	pm_runtime_disable(ov02c10->dev);
+>  	if (!pm_runtime_status_suspended(ov02c10->dev)) {
+>  		ov02c10_power_off(ov02c10->dev);
+>  		pm_runtime_set_suspended(ov02c10->dev);
+>  	}
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +	v4l2_ctrl_handler_free(sd->ctrl_handler);
 >  }
-> @@ -744,7 +744,7 @@ static int ov02c10_enum_frame_size(struct v4l2_subdev *sd,
->  	if (fse->index >= ARRAY_SIZE(supported_modes))
->  		return -EINVAL;
 >  
-> -	if (fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
-> +	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
->  		return -EINVAL;
->  
->  	fse->min_width = supported_modes[fse->index].width;
+>  static int ov02c10_probe(struct i2c_client *client)
 
 
