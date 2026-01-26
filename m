@@ -1,162 +1,142 @@
-Return-Path: <linux-media+bounces-51574-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51575-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sDtNNURwd2m8gAEAu9opvQ
-	(envelope-from <linux-media+bounces-51574-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 14:46:44 +0100
+	id CHetMtNzd2n7ggEAu9opvQ
+	(envelope-from <linux-media+bounces-51575-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 15:01:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FB7890EE
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 14:46:44 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37299893EA
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 15:01:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6774F3006121
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 13:46:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 664473020FDE
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 14:01:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A0A32F6565;
-	Mon, 26 Jan 2026 13:46:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1758333B6EE;
+	Mon, 26 Jan 2026 14:01:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aX173eYY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PKvpJ32S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B0D33A70D;
-	Mon, 26 Jan 2026 13:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B431EA7F4;
+	Mon, 26 Jan 2026 14:01:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769435188; cv=none; b=u1FOAvzTHwrodWZabBvUL0EtSgHWUKdioAnuDrD+QMMCTFxJNhyFtepUM2OGZa/eE6UOWRQ7yezaHMe0MHoDIiV+4QFBhBoxHItSm8Fl7RurfoQdA0j4oB0MAICKB9qCjhPSkRypsYu2O9/id2Wg3cC4rVFypdkGHNiym0FXo+E=
+	t=1769436104; cv=none; b=Ogp0GpgwG+Wm44dU59Aggp6Hu3MJ8h24I7P0rie87dah5fWnJ5DNqwkg1voyA/7Di7VWt9KwmC9jsca5V/zgec5ldsQMG0qqYBGM5G2xAbs1eQt2n9JgZYcQdC5/tJhQPxNF/Mbn6pM+CdNHG2z+0RGVyINcEELHnr8/CLyg+Uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769435188; c=relaxed/simple;
-	bh=6mSL/I/UrTqJREyXIxPZztaQ6z+SxMufwe/f4oVzBjg=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=MlQezDTw/CJNeev734GIpPOJYxeQcev0gN3tjSRceAJK2g+uoGbGo1IRq/eFfqDB+NBS89LQGVk01pPdtA/MQzmH4tCk+h4qgRjg8O4muKo7H2OQ71x+Fo+JsrP39G9lVf7GWlqT4YGf1cjwLiEj9NbUYavpCJtpi5I7JYUkeYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aX173eYY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D726CC116C6;
-	Mon, 26 Jan 2026 13:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769435188;
-	bh=6mSL/I/UrTqJREyXIxPZztaQ6z+SxMufwe/f4oVzBjg=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=aX173eYYFbUexgKDvWCA6f0iMAR+pe9wwWWiryRqIvwLiEORYLryG3IVPC0idBojW
-	 7cx3FSwgBulq+RNRnwz9qAsEMFK3SfdHuF0xtMsbNJ2RDLm6uyxLvX+Yk89jWeJqpa
-	 p/YvSLXQB7LeBwPRAJKVKsfoV+H9Bukv39DKZePVdYkdwtJb4jDB5Sm0pbJe/VRN0f
-	 xoHOeDHnwHbiIJXUd4/cLD7DakZLkmq3yniJf2IAIOWkirlHBOTgu6nzlJbW7d5Czj
-	 row8I0I/zPfDl0OzSiYR/3lnN9lSB6GMB6M4jP5k99SIpNQnOJWhZ4S7VoiNEpjb54
-	 BRxYRSAFMCJkQ==
-Date: Mon, 26 Jan 2026 07:46:26 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1769436104; c=relaxed/simple;
+	bh=22RF8237uvCNNw+Vgrfmq8nxaV0B4xiccDu6+ja3EMU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CA3hhLQ6Ka69IKwQQIomWXm/zf+ZO6ANFlaaY56S3kLguS5BHseNm1RYdLN1hOnktHGTDLAv3yYWG5fnFj9/Cq0C84HLMNPgBkvm6z61bqcYVkKNJPA3GY9Fi7HmJy3Xgkk7tuEwVEf5Svh6fK/q8AGMkRQpi+rn0dKIODHd6qA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PKvpJ32S; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E15AD12D6;
+	Mon, 26 Jan 2026 15:01:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769436064;
+	bh=22RF8237uvCNNw+Vgrfmq8nxaV0B4xiccDu6+ja3EMU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PKvpJ32SqLnDxx3bV4ke8kVNCr61d4QsFJ3Qbn7QAShdWr0NcdNidFp6HWOTqWG12
+	 lqpJc/yc02/ityoxK+bl9Zj36LueUCCX5MC4rYaRH/pJWNeF64My3FRartTPmyqzRh
+	 OPvvzOPl0VNyekGwSwf5UoIwUnOtRZ7yVUUVK/cM=
+Message-ID: <9878845f-c403-492c-a673-90c91472ecc2@ideasonboard.com>
+Date: Mon, 26 Jan 2026 16:01:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Conor Dooley <conor+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, linux-arm-msm@vger.kernel.org, 
- Saravana Kannan <saravanak@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
- Stefan Schmidt <stefan.schmidt@linaro.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>, 
- Vishnu Reddy <busanna.reddy@oss.qualcomm.com>, linux-kernel@vger.kernel.org, 
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, iommu@lists.linux.dev, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Bryan O'Donoghue <bod@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <20260126-kaanapali-iris-v1-1-e2646246bfc1@oss.qualcomm.com>
-References: <20260126-kaanapali-iris-v1-0-e2646246bfc1@oss.qualcomm.com>
- <20260126-kaanapali-iris-v1-1-e2646246bfc1@oss.qualcomm.com>
-Message-Id: <176943518688.2039372.7415236577494171468.robh@kernel.org>
-Subject: Re: [PATCH 1/7] media: dt-bindings: qcom-kaanapali-iris: Add
- kaanapali video codec binding
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
+ <20251231095739.GA3091492@ragnatech.se>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20251231095739.GA3091492@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51574-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51575-lists,linux-media=lfdr.de,renesas];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_PROHIBIT(0.00)[0.30.132.128:email];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,devicetree.org:url,qualcomm.com:email]
-X-Rspamd-Queue-Id: 77FB7890EE
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,huawei,renesas];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 37299893EA
 X-Rspamd-Action: no action
 
+Hi,
 
-On Mon, 26 Jan 2026 17:55:44 +0530, Vikash Garodia wrote:
-> Kaanapali SOC brings in the new generation of video IP i.e iris4. When
-> compared to previous generation, iris3x, it has,
-> - separate power domains for stream and pixel processing hardware blocks
->   (bse and vpp).
-> - additional power domain for apv codec.
-> - power domains for individual pipes (VPPx).
-> - different clocks and reset lines.
+On 31/12/2025 11:57, Niklas Söderlund wrote:
+> Hi Tomi,
 > 
-> iommu-map include all the different stream-ids which can be possibly
-> generated by vpu4 hardware.
+> Thanks for your persistent work on this series!
 > 
-> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> ---
->  .../bindings/media/qcom,kaanapali-iris.yaml        | 234 +++++++++++++++++++++
->  1 file changed, 234 insertions(+)
+> On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
+>> Add streams support to Renesas rcar platform driver.
+>>
+>> The series keaps compatibility with the current upstream for a single
+>> stream use case. However, in upstream there's a limited custom
+>> multi-stream support implemented to the rcar driver, which will be
+>> replaced with the upstream's Streams API.
+>>
+>> I have tested this series on Sparrow-Hawk board, with a few different
+>> setups:
+>>
+>> IMX219 connected to the CSI0 connector
+>> - The following patches applied to my test branch in addition to this
+>>   series:
+>>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
+>>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
+>>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
+>>      breaks RAW8
 > 
+> That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
+> you see RAW8 breaking?
+I think I found it. It's broken for all formats and resolutions, based
+on luck:
 
-My bot found errors running 'make dt_binding_check' on your patch:
+VNIS_REG has the lowest 4 bits always 0. From the doc: "These bits
+specify the width of the transfer destination memory in 16-pixel
+unit."
 
-yamllint warnings/errors:
+We do nothing to comply with that.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:2:3: 4294967295 is greater than the maximum of 65536
-	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:4:0: 4294967295 is greater than the maximum of 65535
-	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:7:3: 4294967295 is greater than the maximum of 65536
-	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:9:0: 4294967295 is greater than the maximum of 65535
-	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:11: [1] is too short
-	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260126-kaanapali-iris-v1-1-e2646246bfc1@oss.qualcomm.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+ Tomi
 
 
