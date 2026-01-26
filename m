@@ -1,127 +1,249 @@
-Return-Path: <linux-media+bounces-51590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51591-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id rOWGBLbKd2kelQEAu9opvQ
-	(envelope-from <linux-media+bounces-51590-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 21:12:38 +0100
+	id oJ05OBLRd2mxlQEAu9opvQ
+	(envelope-from <linux-media+bounces-51591-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 21:39:46 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9E58CEFA
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 21:12:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6E08D272
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 21:39:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3B4A23025C59
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 20:12:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 13041303660F
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 20:38:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8A62C11C9;
-	Mon, 26 Jan 2026 20:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E3FD2D7802;
+	Mon, 26 Jan 2026 20:38:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYQatx95"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ENqilvO3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188AC2C0F7A;
-	Mon, 26 Jan 2026 20:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721B827979A
+	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 20:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769458348; cv=none; b=P32ljwYhh56rbS9N7s6YAKVfzXA4iuldyXpycVQzunXt4/MgpPYBZ7f+Qg+GGH0OgB/SjMRsKcPjAjBGCAJoSuBSC4DdZvfAbNAdKIIm2Zp//lGWC8GZbu8OP/ta3Fu0nkaiuD3+EAZETNoWPgxcn6kRc7C5p8CWtm+Eln7EyRs=
+	t=1769459936; cv=none; b=fbYbHOLTJiBzAbtYi+zLRY8a10Sa81ogXns1B+R0NnqSZeXiqTphNfmc5R2wgjhVPeHpTyZQY1HJH8Q7oJmAMwQ8mYrTyX85gQ+YMyNq2sqezQOw4hH66ixvdPyJoMSaJaiPtKwkPptm1TNoJza4TIuT4cS4bH/r70IUF8i1TR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769458348; c=relaxed/simple;
-	bh=0MZV5SHpXgj6efswXu26trmZTETx0ryITD+Xi5KLVRI=;
+	s=arc-20240116; t=1769459936; c=relaxed/simple;
+	bh=ReePk5ebIABc/04zyOJasPQOtiwxWbIgDXrD19pnIPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o1TU2vFdGOlDpJnDhfUJkthui/AUD/feeLAmxeH4UumshLLaAtrFURJpCuyuNoE3arpQrew+2q+RQlARFLJyne4nqIJdZApfh7nGZLmyOphwRQTBnTufTP+WKsQKzzvDoFR7pCfy8V1Zxn/y5tQmnxV0i4nT2ZpNnOFRK7LLiQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYQatx95; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02776C116C6;
-	Mon, 26 Jan 2026 20:12:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769458348;
-	bh=0MZV5SHpXgj6efswXu26trmZTETx0ryITD+Xi5KLVRI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IYQatx95c50mfrwwpQ3Cc58z6xeEu6S0TK0ysj81kiNsRRbPatYhtQ7BqyvrE5rxI
-	 hm1agJNNj3E9xD4T8jGw4oxWUyar+tcmg8PtJt6sH0MFps4K/BTL7yad5/+lmzbkul
-	 dR5l2IO1420bv3ca6zug4CZhcVR91UmgID6cEDPcph97ohdB3WZlSFMqXUhh3W35bF
-	 xqtJ2w0VmQNRiyEyN498TcgihbjVybLfQTVk7/757sDfZjPfmOr7q57wm/LEOK/ROt
-	 UsGAEdxMt6heelw7nBUmlvNdXhuzk6WIBxz1w9kIstfRW2RqqJEeENZNcuRbEov6yl
-	 CquEebUcTzLLg==
-Date: Mon, 26 Jan 2026 20:12:23 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] dt-bindings: media: mt9m114: document MI1040
- sensor
-Message-ID: <20260126-scholar-trolling-187f708aa0b8@spud>
-References: <20260126083430.8247-1-clamor95@gmail.com>
- <20260126083430.8247-2-clamor95@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=QaEMmPtzZYEQn7bS+C3HwuHYQolK6xzSIR6Pcu+gqB8PpVqv6lEGFnkISlaKYyaf1Qfhx2KfiD1ODwjs6XLME9g6GYnfdy9So3x6d24BLSGwSYiSf92AyXiraWEqK/djQZk+kFdKqLY1ylP4iyBi5wlfYsupM2rnlJziALxZnwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ENqilvO3; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a76b39587aso2675ad.0
+        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 12:38:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769459934; x=1770064734; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=heQW4XXGxVNpbsMWtr+Uf/Qjg2mRHLgzAq6EBq5z5Gc=;
+        b=ENqilvO3yHNYxJOrBt3JSHu/J1ym8/v63iMpFaPstmn1DAgs606o/DB+mBzpFxEeO4
+         mohiD/SGVtJmpSrM1Um3Uz5WFoMGhwv8VYIvdp9vHnqkLUAiCSwOzDJMdpFvLlQwEawE
+         NyW9CXTGGNWOEbu4Xic/wTW/zxHCU/rTDwazPY8QzsPhaZzwAsSF5cFhP+j2tyetkWG+
+         IFRScGqMdHZgIk2wdOipjZt8NNqMkKn5+PlhwWoLAmiyDVFtyiHJD4r91ODEuEHKnuZy
+         f/uat5iPozNN1IMlQWUW+KioXuNyTZG/tPWXb7hCNRp4oiEKLBlrW/l/9Pe+iVJCD7Nc
+         WtXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769459934; x=1770064734;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=heQW4XXGxVNpbsMWtr+Uf/Qjg2mRHLgzAq6EBq5z5Gc=;
+        b=tF8PiEISoKpyi5Qg65we351uwrj6Jd134LtaNWCLdAyeUJctdKG/ljirCgoLQ4uzge
+         KdplwziuKbZJTr764BA/IiDXP0ZImuSIdio9pJBgBOwFkvFnnEwzWJwvCG1bxNaIW9GL
+         FIxVGKJPo2Lads6hF7Te0M+oqOTSHB40Nn6f47bqHDdwFksnuH+2GIxFhN6JBOWfIqCB
+         id4r7ELXJlAEO0CFWKGMowa9TtdRFw0MX4fVFrPpK3X+41+HnzoFw4j74RvR+CkJn1aP
+         6yRzvikAfgGjJkNQNeX8lpQIfMDQW1Xgdxc2/rMx9r+fe7i3vxn8MNNr4Kjq69TBiuew
+         nsow==
+X-Forwarded-Encrypted: i=1; AJvYcCWDp9GKBAf+027s4X4YtoUkeSiFpOw1J8b1rFCcNmHewuHh8rVYgC98gqq63rGr0O/GmUCKOzIiQHN5ww==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAJn+yGgQQSRgJ8tJLc6oMIgy1VtY2UQvg8EPuexgef/c427CD
+	lOBVtGj9bn3jAYMg9tF05cKIEc4JGBBFnYDYn1uxDRv8x1alqtpzUh8FlDdV7oRVHg==
+X-Gm-Gg: AZuq6aKgTZj0gLKH3HirNzr9RxTPzN97MoXA/j8UN22bGNGADku+6/e9obOTH0WSN3q
+	RLOChfnawiI8j63rlmcKaBGIixxqhUa6OekNbT25sRFV3fPa/xJAo1S5YddBMiYgryJ6wyT6LGx
+	+MmQBxO1skAYC2+9YQVUxCaL3UwM+a6SEDjpa2mttUdAaMZuD2kvbAQQe1MPk7zXmUmXORjiT9e
+	DGEI3Km8kgXv+rn7WNdKFprR01CmGikri2Ej4ave1WrVLtCvZel6HKWasY2HfHJ4+C4osKUOqdr
+	EY9165GAsp/SumBPpYghGoRWau+qzXDRa5x6Rcr3gstGw4IQAjAXj0hbkLsjowo3OWtIdTyikOS
+	ZJlVCH/RRNjjwbgAmsDK+CoFxu7un5ZAUMhBTrWgn/AFFRTE5YJP/301iNX9nx/8sIWsFQbf9Hm
+	zz8svJsuNJDCTMdmPvKME2p3vNiHCoH7fdsWpxJluF52+bULmN
+X-Received: by 2002:a17:903:32d2:b0:2a7:7f07:340e with SMTP id d9443c01a7336-2a844901809mr3288195ad.4.1769459933510;
+        Mon, 26 Jan 2026 12:38:53 -0800 (PST)
+Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802fdce1fsm94536115ad.101.2026.01.26.12.38.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 12:38:53 -0800 (PST)
+Date: Mon, 26 Jan 2026 20:38:44 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v5 6/8] dma-buf: Add dma_buf_attach_revocable()
+Message-ID: <aXfQ1LFNDUrfeuHf@google.com>
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-6-f98fca917e96@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mo8s9FnlqzFwYsoS"
-Content-Disposition: inline
-In-Reply-To: <20260126083430.8247-2-clamor95@gmail.com>
-X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	MAILLIST(-0.15)[generic];
-	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51590-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AB9E58CEFA
-X-Rspamd-Action: no action
-
-
---mo8s9FnlqzFwYsoS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260124-dmabuf-revoke-v5-6-f98fca917e96@nvidia.com>
+X-Rspamd-Server: lfdr
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
+	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-51591-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[praan@google.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6B6E08D272
+X-Rspamd-Action: no action
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+Hi Leon,
 
---mo8s9FnlqzFwYsoS
-Content-Type: application/pgp-signature; name="signature.asc"
+On Sat, Jan 24, 2026 at 09:14:18PM +0200, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Some exporters need a flow to synchronously revoke access to the DMA-buf
+> by importers. Once revoke is completed the importer is not permitted to
+> touch the memory otherwise they may get IOMMU faults, AERs, or worse.
+> 
+> DMA-buf today defines a revoke flow, for both pinned and dynamic
+> importers, which is broadly:
+> 
+> 	dma_resv_lock(dmabuf->resv, NULL);
+> 	// Prevent new mappings from being established
+> 	priv->revoked = true;
+> 
+> 	// Tell all importers to eventually unmap
+> 	dma_buf_invalidate_mappings(dmabuf);
+> 
+> 	// Wait for any inprogress fences on the old mapping
+> 	dma_resv_wait_timeout(dmabuf->resv,
+> 			      DMA_RESV_USAGE_BOOKKEEP, false,
+> 			      MAX_SCHEDULE_TIMEOUT);
+> 	dma_resv_unlock(dmabuf->resv, NULL);
+> 
+> 	// Wait for all importers to complete unmap
+> 	wait_for_completion(&priv->unmapped_comp);
+> 
+> This works well, and an importer that continues to access the DMA-buf
+> after unmapping it is very buggy.
+> 
+> However, the final wait for unmap is effectively unbounded. Several
+> importers do not support invalidate_mappings() at all and won't unmap
+> until userspace triggers it.
+> 
+> This unbounded wait is not suitable for exporters like VFIO and RDMA tha
+> need to issue revoke as part of their normal operations.
+> 
+> Add dma_buf_attach_revocable() to allow exporters to determine the
+> difference between importers that can complete the above in bounded time,
+> and those that can't. It can be called inside the exporter's attach op to
+> reject incompatible importers.
+> 
+> Document these details about how dma_buf_invalidate_mappings() works and
+> what the required sequence is to achieve a full revocation.
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++-
+>  include/linux/dma-buf.h   |  9 +++------
+>  2 files changed, 50 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 1629312d364a..f0e05227bda8 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1242,13 +1242,59 @@ void dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
+>  }
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment_unlocked, "DMA_BUF");
+>  
+> +/**
+> + * dma_buf_attach_revocable - check if a DMA-buf importer implements
+> + * revoke semantics.
+> + * @attach: the DMA-buf attachment to check
+> + *
+> + * Returns true if the DMA-buf importer can support the revoke sequence
+> + * explained in dma_buf_invalidate_mappings() within bounded time. Meaning the
+> + * importer implements invalidate_mappings() and ensures that unmap is called as
+> + * a result.
+> + */
+> +bool dma_buf_attach_revocable(struct dma_buf_attachment *attach)
+> +{
+> +	return attach->importer_ops &&
+> +	       attach->importer_ops->invalidate_mappings;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_attach_revocable, "DMA_BUF");
+> +
 
------BEGIN PGP SIGNATURE-----
+I noticed that Patch 5 removes the invalidate_mappings stub from 
+umem_dmabuf.c, effectively making the callback NULL for an RDMA 
+importer. Consequently, dma_buf_attach_revocable() (introduced here)
+will return false for these importers.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaXfKpwAKCRB4tDGHoIJi
-0mP3AP9dngbCGsrtFo1mk2d2A5CHMLyEHaWMxcrVrei+O46KOgEA+M8sS03N8Hz7
-dka8PGOvWAJs7WiojuDl6eGAxxZHew0=
-=Y/sv
------END PGP SIGNATURE-----
+Since the cover letter mentions that VFIO will use
+dma_buf_attach_revocable() to prevent unbounded waits, this appears to
+effectively block paths like the VFIO-export -> RDMA-import path..
 
---mo8s9FnlqzFwYsoS--
+Given that RDMA is a significant consumer of dma-bufs, are there plans
+to implement proper revocation support in the IB/RDMA core (umem_dmabuf)? 
+
+It would be good to know if there's a plan for bringing such importers
+into compliance with the new revocation semantics so they can interop
+with VFIO OR are we completely ruling out users like RDMA / IB importing
+any DMABUFs exported by VFIO?
+
+Thanks,
+Praan
 
