@@ -1,263 +1,177 @@
-Return-Path: <linux-media+bounces-51588-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51584-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wBv3LBC9d2l8kgEAu9opvQ
-	(envelope-from <linux-media+bounces-51588-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 20:14:24 +0100
+	id KAIYMcald2lrjwEAu9opvQ
+	(envelope-from <linux-media+bounces-51584-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 18:35:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CA88C6E4
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 20:14:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 171048B885
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 18:35:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0B6963024A7E
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 19:14:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EA884302E78D
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 17:34:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B8F427979A;
-	Mon, 26 Jan 2026 19:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC96D34D4D6;
+	Mon, 26 Jan 2026 17:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GvSgN8Y4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jHXpl30Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75765248886
-	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 19:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1123C34C124
+	for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 17:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769454859; cv=none; b=EKFCKdQqsu2YFHl/fdvPzlLP66xFCCnHNkWtnCTs/vCHIR75Jvb8B9MXRTVKKGU6nYPWmFvBrPAEDy51Z1jmw/g4yLF37wATeSKBtY2aR8nr1b2d3EZjLudwTD2zFRv5swINHWU3lCuMYNHXNoCVZOHFQ/tpU5+bQPPKioEJ9a0=
+	t=1769448893; cv=none; b=GEk3YoBx90P9fXRL/jYB0lt0A5im/quki28HrVbmK587F+sqJ3F7evtpHwjOOf6N+MBXdjZwkJ9BJGv+mrbGoBdWLyeoAZKkMFqexwjAyiA7JqgTu/bkARS1+w422OFGTk6RHK0UM3Ag5HCWQ5SL+4Dbn0/HWA0oQdrvDh7wERE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769454859; c=relaxed/simple;
-	bh=rJcfznlwUl0dvda3bi94q6+F4JYjZny7SKPX+GghNnw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mR02B/A1bEsSJCG1xy9HFrQUtMN+iwbsoTIUEP9789qx1XHC4NfhWOoKOwfKtQo5qRGyZuvZdNmf3B7cHDGvJXTRfYgoIBFWCugRJSZwsipdhU3I4dOPkhv8l1CtgqgFKF2T/IpT0YMds082RZp62oIiBdKJJoQ50pjx0ebYlHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GvSgN8Y4; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1769448893; c=relaxed/simple;
+	bh=h0/ub/2a0CH0c01bv1YE6IT1oluBRPkEI00u7f+PX50=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q4R5+ECo72kb2jcz2Bcrjf8nmSMlB/wRIu69fh7tfx6QpY5TRvlT6YxofY+TPG51NKFjlZk698A6B0I9otbg0+vFnuVoAwMuwgRXgMKN38n5MP/xQ8az5qLW4gkcDxuW5f+38aVT8KOWuQ6uY+EPGHW2i6MW3EBo/ziTw9BW86w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jHXpl30Q; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c6a7638f42so709669585a.2
-        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 11:14:17 -0800 (PST)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-bde0f62464cso1401668a12.2
+        for <linux-media@vger.kernel.org>; Mon, 26 Jan 2026 09:34:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769454856; x=1770059656; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=OLbmqCfusVEOdH7Z7byMAhR5EgQmc/WQb/FESRAfspo=;
-        b=GvSgN8Y49fo7fMfV9ZfTh3gM80vF6wql2gHBzXAjKLxEwTQsgxlrcybIamjAlYi75F
-         5FTbRGPfIriwdJZcryCj9CVPQOzmUbqnUP+h6Q7ex4cT6DW82hshOTUrUiM1mDMFxNar
-         Jsa5KrbjkQeIHkdgAH0cXUySoBxRdPPocU+HPNrNgHLtHv+NuTMX7bHIXeM5HjaJ5Yoe
-         VMIew61qaS2Uo2Vc+3VS2SjJYenK9EQ4M1oJGoVnPQga8jFVM9MjCczrpa3XDFlaPp/N
-         1OqJGzccoOmwY+F3jPNwQm2wE0EgpO2YnsfCNC9078zZ6ykiMzyqyK5ahoST0urv80cr
-         MjsQ==
+        d=gmail.com; s=20230601; t=1769448891; x=1770053691; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cjv9fu28bLwysGYF55oXTU3CWsx7n76bAr9kUcIOrhg=;
+        b=jHXpl30QutwixtbLbABlv+tUAZiY+krcW8bp3F1VDwy5zyH3t07w1xTt+yg6HvAuG9
+         s3VZZdsD0qs0DWhHjpETeqRHjaDV3gLcMtAICBmcUM6x01bIEXWe+Yok3pKjsxO3+8+r
+         TXwUdMh8u8FzBI+PaKN3q/aGGkiSbq0g5nZ+6ljBYdhwdNBCPh2wyPYHLaC+EV2w9/V7
+         LZGYza7ykHIH1lXl5dEQ/T+WrLc9Pr7h97fvOEx2+y9WoqtonpymuvF78zrltPO5K6n7
+         KGcikTUDnrtYpR68XKm9Oz9Obm9/ePInqf8POm4Q9vlXJR/OKZwehqzhrE8mMEziXoqN
+         H22w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769454856; x=1770059656;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OLbmqCfusVEOdH7Z7byMAhR5EgQmc/WQb/FESRAfspo=;
-        b=orru46/DAgEc+YDWcpzkb9ufTvHIY0Ms/JTzngqBOWovQj1Od6tkICafg0EQDh4i1A
-         v001FaXJuMtwmAoR/QFaE8Pfq5HQYBCCXJ9pk1Ti2s0HVjctKs8gBKHhn4dtGhWP90IO
-         sSjEs2bpPeA6aNugFJnCUxbcBFYqKz0Mou4rJuzdnQrgpdxHKGu6KOce9G84ZW1aECiB
-         OFrsa+5Q1Yp78tCCTq+QU2efCPOgybQ8kuwqsFps2VVfLUAQRTpiTxLUqb3z3eLr6e6d
-         pqr4WdaPUl50A3/j4HuPuWK7E6XxxgsJ1tq4bondeeEhkcxX1jSShr9wujWCgSHQpEtb
-         m0Fw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQqpI6yIxO++Dx0Jcdyj3iRBbUct+50Hk6/jOHIcZBNDAqlNxWkv1Gp5c8Pabg9fGDr2EeW/GputkMsQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNTUoHfiPGyDtmGHftiQ2/ByQQBn1rGR1vf2V7s1ObuXM8AB+F
-	Ngl/3FOYepaPZjIzpaBO5ncGq250OYKSOl5qIscXeDzh04wPKFar+un3
-X-Gm-Gg: AZuq6aLZDYemd8GfnZ+b65VNP3JQpRudaNu9LqlnVWZbJiPTetxlE7nnzcqJOLETrWr
-	Rs3dPMGi8oxAbAtdyO5fng69KlS0pIjAHB15wnAe48SqQkeDUqU5MDGbXY2mxsJliT25KIMNUK/
-	ckDhGWCWAvTsQ4jUianbYnc6Ju0cXBUoRJUuGrxdIZz86XGusMKE/6QA8Ps5Kou8NYHSw8X38tW
-	26tCv6Ptkzm6T6OjuW5uyGEPiJnleQbTI+ZYlZCKHq0e8tGa0pH/bC06Ege7jm3Bi8QwbVJQLTk
-	BRHbfuV8FhQ1bZ0XwKuM6fBU2Rl96d21v183DMsMakZQ8nT4maYKa5U1ei56XYvJP5IjfUc/PAi
-	y25IqY08VdI9OTbC9rEl17if3JuavrNuGFc7OK0BpAza7tVvOLE+9SvA7afqoRVheqyySv3qlba
-	3Zdxx80x7Ub13hw3fIX0Ioz9NZL6NmX14sxBykL3xi74+PqxiGzE55yd8KCVGw
-X-Received: by 2002:a17:902:e84f:b0:2a2:f0cb:df9e with SMTP id d9443c01a7336-2a84523fb39mr48636325ad.1.1769448078463;
-        Mon, 26 Jan 2026 09:21:18 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802fd929asm94552325ad.90.2026.01.26.09.21.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jan 2026 09:21:17 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <9a3d4ae8-b57e-450e-971b-d09fc923eee1@roeck-us.net>
-Date: Mon, 26 Jan 2026 09:21:15 -0800
+        d=1e100.net; s=20230601; t=1769448891; x=1770053691;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cjv9fu28bLwysGYF55oXTU3CWsx7n76bAr9kUcIOrhg=;
+        b=P/apr9vwV785/GbwKJOw51tpahqVAaLiOsfu2tBAeQZM6uQPPU6OQ5pEXcLw2wENYC
+         Hb+/6x27Tt7ro+EYTg5ZH0lwjT9g4ozAsD372PlqWOzjJWlj6ggXR5J78ZA7dqCqHFpD
+         48AOAsfWaVE0B6eW/W7/3FPFK8otqTXrrhHD8FyHZoHxPCzkIstdmuRHjdfD64oidvKr
+         3MH7Fyf4oG436O+BR3kXm8kL4RUtKirSb9qSqrfkjacrSJovmNvPRrTh4eww6DmOxHLf
+         5K5v7ZT2NDnxmbrRK7Y3N7s4shS2/W7C6DFrPhlL0y0VJxbMOPTsa7crM8mWIxJjjhQb
+         eDsw==
+X-Gm-Message-State: AOJu0YzFhTKREaIg0FDnP4cHX3YzjNGJ8WSGySh6XQYuaeHge7kexuEr
+	Nze21cZ2qJ2vvSdOhXqJhG9Wc6xJOx9CiqVA8oS1BRHf5C/zMyscZy0UjUJ4s7y/
+X-Gm-Gg: AZuq6aICn0n3sAinWB3jYNLq2MjdIaVXAfe9RGuIU1f4xKuITUdYhBKAfYM4yhRYFwv
+	Q7na4b0WHPFGT7yzJ07GlrePT65A9WQJldchFgR8BJ8InRAxYgsGuCF06g6zv6cCSlN0T1e/rv8
+	71kdNu9PCPZ+kn1Bt/1stvesY5bfLrFPKi4sdfDp1OBFX4v6qtS4naTouw7EruBwFxITVQysMVp
+	1iQdUWEPpxsdfjHT4viCu/N6au72lHajR2+gLW3/htVXpHVC5UhOWxCO6i84nD8IVkgDJgmgceW
+	kyxWKjwLGeHPcrQ67ThhOgUyJCprkGbvk3iI9TmPp/7/bofeYI6iq0DKhSyHNA8MLDJt3/rvMY8
+	J1XPVUKX6ub6sVSCpXEoRmAIE7W1Lp+kOYhcn1twQoarqjc9MTpH98xpLGTBMq8yyGlKzkON+uF
+	y+u3m8o8vjQuImtTa44lw86M0pPtyNRTEzN1G1
+X-Received: by 2002:a17:903:3bcc:b0:2a0:d5b0:dd82 with SMTP id d9443c01a7336-2a845323587mr42365825ad.61.1769448891061;
+        Mon, 26 Jan 2026 09:34:51 -0800 (PST)
+Received: from saikiran-Yoga-Slim-7-14Q8X9 ([2402:e280:3d17:646:e23f:af76:8280:9d84])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-353f61292bdsm86787a91.6.2026.01.26.09.34.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 09:34:50 -0800 (PST)
+From: Saikiran <bjsaikiran@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org,
+	rfoss@kernel.org,
+	todor.too@gmail.com,
+	bryan.odonoghue@linaro.org,
+	bod@kernel.org,
+	vladimir.zapolskiy@linaro.org,
+	hansg@kernel.org,
+	sakari.ailus@linux.intel.com,
+	mchehab@kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v3 0/3] media: i2c: ov02c10: Fix brownouts and power sequence
+Date: Mon, 26 Jan 2026 23:04:41 +0530
+Message-ID: <20260126173444.10228-1-bjsaikiran@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: Fix emails with spaces or missing brackets
-To: "Rob Herring (Arm)" <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Christopher Ruehl <chris.ruehl@gtsys.com.hk>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
- Vincent Huang <vincent.huang@tw.synaptics.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Frank Li <Frank.Li@nxp.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-pci@vger.kernel.org
-References: <20260126164724.2832009-1-robh@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260126164724.2832009-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51588-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,samsung.com,mobiveil.co.in,nxp.com,google.com,gtsys.com.hk,zx2c4.com,ew.tq-group.com,tw.synaptics.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[roeck-us.net];
-	RCPT_COUNT_TWELVE(0.00)[28];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linux@roeck-us.net,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-51584-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[synaptics.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,devicetree.org:url,samsung.com:email,tq-group.com:email,zx2c4.com:email,nxp.com:email,roeck-us.net:mid,roeck-us.net:email]
-X-Rspamd-Queue-Id: E8CA88C6E4
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bjsaikiran@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 171048B885
 X-Rspamd-Action: no action
 
-On 1/26/26 08:47, Rob Herring (Arm) wrote:
-> Fix email addresses with spaces or missing brackets. A pending
-> dtschema meta-schema change will check for these.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+This series addresses stability issues with the OV02C10 sensor on Qualcomm
+Snapdragon X Elite (X1E80100) platforms, specifically the Lenovo Yoga Slim 7x.
 
-For hwmon:
+Note: This series supersedes all previous patch sets submitted by me regarding
+OV02C10 / media stability and cleanup on X1E80100 (including the 'pipeline
+lock' and 'brownout' series). Please disregard prior versions.
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Problem 1: Brownouts during rapid cycling
+On this platform, the RPMh-controlled regulators lack active discharge, taking
+~2.3s to passively discharge. Rapid close/open cycles (e.g., WebRTC checks)
+re-enable regulators while the rails are floating, causing the sensor to hang.
+Previous attempts to manage this via open-loop delays in power_on were deemed
+incorrect.
 
-> ---
->   Documentation/devicetree/bindings/hwmon/sensirion,shtc1.yaml    | 2 +-
->   Documentation/devicetree/bindings/input/syna,rmi4.yaml          | 2 +-
->   .../devicetree/bindings/media/samsung,exynos5250-gsc.yaml       | 2 +-
->   Documentation/devicetree/bindings/pci/mbvl,gpex40-pcie.yaml     | 2 +-
->   4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/hwmon/sensirion,shtc1.yaml b/Documentation/devicetree/bindings/hwmon/sensirion,shtc1.yaml
-> index 3d14d5fc96c5..7b38f2182ffa 100644
-> --- a/Documentation/devicetree/bindings/hwmon/sensirion,shtc1.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/sensirion,shtc1.yaml
-> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->   title: Sensirion SHTC1 Humidity and Temperature Sensor IC
->   
->   maintainers:
-> -  - Christopher Ruehl chris.ruehl@gtsys.com.hk
-> +  - Christopher Ruehl <chris.ruehl@gtsys.com.hk>
->   
->   description: |
->     The SHTC1, SHTW1 and SHTC3 are digital humidity and temperature sensors
-> diff --git a/Documentation/devicetree/bindings/input/syna,rmi4.yaml b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
-> index f369385ffaf0..8685ef4481f4 100644
-> --- a/Documentation/devicetree/bindings/input/syna,rmi4.yaml
-> +++ b/Documentation/devicetree/bindings/input/syna,rmi4.yaml
-> @@ -8,7 +8,7 @@ title: Synaptics RMI4 compliant devices
->   
->   maintainers:
->     - Jason A. Donenfeld <Jason@zx2c4.com>
-> -  - Matthias Schiffer <matthias.schiffer@ew.tq-group.com
-> +  - Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
->     - Vincent Huang <vincent.huang@tw.synaptics.com>
->   
->   description: |
-> diff --git a/Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml b/Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml
-> index 878397830a4d..9196cf5dac0f 100644
-> --- a/Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml
-> +++ b/Documentation/devicetree/bindings/media/samsung,exynos5250-gsc.yaml
-> @@ -9,7 +9,7 @@ title: Samsung Exynos SoC G-Scaler
->   maintainers:
->     - Inki Dae <inki.dae@samsung.com>
->     - Krzysztof Kozlowski <krzk@kernel.org>
-> -  - Seung-Woo Kim <sw0312.kim@samsung.com
-> +  - Seung-Woo Kim <sw0312.kim@samsung.com>
->   
->   description:
->     G-Scaler is used for scaling and color space conversion on Samsung Exynos
-> diff --git a/Documentation/devicetree/bindings/pci/mbvl,gpex40-pcie.yaml b/Documentation/devicetree/bindings/pci/mbvl,gpex40-pcie.yaml
-> index d286b77921e0..8f5d33050348 100644
-> --- a/Documentation/devicetree/bindings/pci/mbvl,gpex40-pcie.yaml
-> +++ b/Documentation/devicetree/bindings/pci/mbvl,gpex40-pcie.yaml
-> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->   title: Mobiveil AXI PCIe Host Bridge
->   
->   maintainers:
-> -  - Frank Li <Frank Li@nxp.com>
-> +  - Frank Li <Frank.Li@nxp.com>
->   
->   description:
->     Mobiveil's GPEX 4.0 is a PCIe Gen4 host bridge IP. This configurable IP
+Problem 2: Incorrect Power Sequence
+The driver was not strictly following the datasheet power-up timing (T1/T2),
+potentially leading to race conditions between the reset pin and power rails.
 
+Problem 3: Race condition on removal
+The remove() function freed resources before powering off the device, causing
+use-after-free errors if userspace (PipeWire) accessed controls during removal.
+
+Solution in v3:
+1. Implement Runtime PM Autosuspend (1000ms). This prevents the driver from
+   cutting power during rapid user interactions, sidestepping the slow
+   regulator discharge window entirely. (Patch 3)
+2. Enforce strict datasheet power-on sequencing with ample delays to satisfy
+   maintainer requirements for clean boot. (Patch 2)
+3. Fix the remove() race condition by reordering cleanup. (Patch 1)
+
+Changes in v3:
+- Dropped the "always-on" regulator patch from v2.
+- Added Runtime PM Autosuspend support (Patch 3).
+- Added strict power-on sequencing with 10ms/20ms delays (Patch 2).
+- Added fix for use-after-free in remove() (Patch 1).
+
+Link: https://lore.kernel.org/linux-media/20260125171745.484806-1-bjsaikiran@gmail.com/T/#t [1]
+
+Saikiran (3):
+  media: i2c: ov02c10: Fix use-after-free in remove function
+  media: i2c: ov02c10: Correct power-on sequence and timing
+  media: i2c: ov02c10: Use runtime PM autosuspend to avoid brownouts
+
+ drivers/media/i2c/ov02c10.c | 70 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 58 insertions(+), 12 deletions(-)
 
