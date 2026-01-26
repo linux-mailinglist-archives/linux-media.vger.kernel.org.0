@@ -1,61 +1,51 @@
-Return-Path: <linux-media+bounces-51577-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51578-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cB6VIo5+d2m9hgEAu9opvQ
-	(envelope-from <linux-media+bounces-51577-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 15:47:42 +0100
+	id aC61E8CCd2m9hgEAu9opvQ
+	(envelope-from <linux-media+bounces-51578-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 16:05:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3289189B4D
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 15:47:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A32E389E8A
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 16:05:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DF18E301705D
-	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 14:47:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0289B303D734
+	for <lists+linux-media@lfdr.de>; Mon, 26 Jan 2026 15:04:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34BEF2FF151;
-	Mon, 26 Jan 2026 14:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1034733A038;
+	Mon, 26 Jan 2026 15:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="IvusYAoC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NYolDgiO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6077B155757;
-	Mon, 26 Jan 2026 14:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769438845; cv=pass; b=tjeJgcrY/zMY610u/SN/IkGGXM/4YBUrSd/ULq2GzafedJW9Rvyyqviip+gNFYr7sAxYq4BKvwxsWsVaHnpNNi1KEMIJIpXewaprmMcHpZY34MGVSGuOhWNc0OfIeYysFPE12+6egUz7pgA5NSeg8kokxoo0mBdxweQFoo55IX4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769438845; c=relaxed/simple;
-	bh=ud1/yhum8fSasYKC+1JF/nMd2KhAyqTk3cYwbNVA2M4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E79155757;
+	Mon, 26 Jan 2026 15:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769439857; cv=none; b=dOb1yaEVqToSvaFp3T2z0MN+YP51LBMtLEPvlsIMDsH2cOy4eogEHuiGadaYwwbyUb/yRVpZpsozpRGxxoAc+A5SstbMNoj6MNzDpmZt1b17Lh/h/Y6D8XSLOWrVif6xwz2RWPxrJC2EfthT7Gle5ycFtYp2JsEZah5kxCnj9oQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769439857; c=relaxed/simple;
+	bh=90wXXQLghKcVYE4mkja/yflNq8gl5ZORNyekyzBhurA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=axkqmxGbCV5jy5NXQ36GMxsVqNwLWLSYyDNMcnrKHhib66eyNgQ2Ahb6Eju0A9PriOrbBIy55ssVjKjsrgTlZYUoKIBwKqFMB171shZ8up3WQ8k/zrdekJysDm75+rpy/QCmscLJhy6ESmx+D+oxGdWbLSiogBXspyik+KNph0c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=IvusYAoC; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1769438821; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=g7QZPLCFJG4diwhCtqex30R/0irfBRYPcfcikzCMvM5y+qBwyhb+JayIBxqGW7JvwAYrweeMfHk/G5Ibg7SEBUOVS6obQ0fKM0f0m2unudjrI+lgbSWaUFNCxxYK8MtngNpONm+yeI4QamIGBoYF7DvlTWH+QneTCrJVEgLD1tU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1769438821; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=3ssbdTUHNW+Tvz0qqW64nDulngnRtrkUBEpIXz/HKr8=; 
-	b=E7q2ZLT6DX7svkaJf5hOSioRIS1KZ1HEBBDZEl7E0oQciCVRnvxb6NR2xX2su5posSyc1l9ab7qmJy8rByyRMJhWL4vEUkuT+RQcTTaoH6j9TLnCYsyYrIPZ1J/MCx5bFM96uxBxlRzm6TlFedmZ157hBfdOoNYUk0yJu/kmzOo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769438821;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=3ssbdTUHNW+Tvz0qqW64nDulngnRtrkUBEpIXz/HKr8=;
-	b=IvusYAoCZolGFd1MCeYIUo9SgrSLUSraYPZ1Ar5Ng5TYTHxH822JgqW6UooSAP5H
-	8AsMs1ug4g22pPboNBT9+o+63xfFDZ1PEZos7kPOMlcOKjbHx1xPVO89/lWKuXdOR4W
-	dDXmu8vNI6yIEGRDlgW8WUReRXMVEGHR1ah1kEtk=
-Received: by mx.zohomail.com with SMTPS id 1769438819623670.7730935133327;
-	Mon, 26 Jan 2026 06:46:59 -0800 (PST)
-Message-ID: <ad70a610-f5a8-4091-8f32-e5c2caee9685@collabora.com>
-Date: Mon, 26 Jan 2026 15:46:54 +0100
+	 In-Reply-To:Content-Type; b=EAQfgDI4Ig76WgzB7bN0jF77UG25DsEyj7ZtuTXHNRDlm2YH3rPXznoOpK/rzeGKNtbdEOrUw4ie1EWmrywtprmsnj4VEi5dg2ZC+PuY7/rWqB07/MC3TCneem0zplod67hS41tspzS77dr2mySNIAzZvFuTisDBHhgKFt8G3dI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NYolDgiO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E27BC116C6;
+	Mon, 26 Jan 2026 15:04:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769439856;
+	bh=90wXXQLghKcVYE4mkja/yflNq8gl5ZORNyekyzBhurA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NYolDgiOir0gLmB1iXukU+T5Yx8o9+UfkV9lJp9m2+/PAg7D5a6oJEh7p1H8mtRfe
+	 z42HzPqTBvYF2zHGcq4nbZI0ihdqiPnBfJ+nMNr0oaJhlBgO7PbElnEWf8XsjNV74O
+	 jf0oBfve2VEX82AsXj8qrRyMP24XMDa0f1PuL9KKqWsEQdaL73fEbZOtAil4vzccyX
+	 kVq4jAfNw7MaZe4Pl3X94NvIaK5+OQ6cDbbmCVaAZPYZeaMByVWZX5nh+QHoFusaeo
+	 C5fW+NidaJuaYZNqWUJz+aZhPqaHU8m4xcJrW+lXBRot7le5e+GVaNhcgl+WA5ZlU2
+	 N3P8jhtvPnGJw==
+Message-ID: <371b38d5-9322-4629-b378-ec62e0924fd4@kernel.org>
+Date: Mon, 26 Jan 2026 15:04:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,139 +53,172 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 3/7] iommu: Add verisilicon IOMMU driver
-To: Will Deacon <will@kernel.org>
-Cc: joro@8bytes.org, robin.murphy@arm.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
- nicolas.dufresne@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-References: <aWZui-rn5RDPwpEO@willie-the-truck>
- <68a49f8b-178c-4fa2-b4a9-315ad602271d@collabora.com>
- <aWeTQ50DOtntcniN@willie-the-truck>
- <db0950f1-b357-47c2-9829-e33262ab456d@collabora.com>
- <aW4kb5EbxbrhTOxK@willie-the-truck>
- <b8f43fe8-3e07-4d98-a50d-817c31370710@collabora.com>
- <aXDL2JH_4RCDmAJv@willie-the-truck>
- <4b33b50f-f0c3-4db8-b394-dd2d4d6e3a55@collabora.com>
- <aXOsdlGMVzhHOrUr@willie-the-truck>
- <8fd2c508-cbe9-4050-ba02-85b22fcff10d@collabora.com>
- <aXd4CXE0fqWiKJXl@willie-the-truck>
+Subject: Re: [PATCH v2 1/1] media: i2c: ov02c10: Keep power on and use reset
+ for power management
+To: Saikiran B <bjsaikiran@gmail.com>, Hans de Goede <hansg@kernel.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ rfoss@kernel.org, todor.too@gmail.com, vladimir.zapolskiy@linaro.org,
+ sakari.ailus@linux.intel.com, mchehab@kernel.org, stable@vger.kernel.org
+References: <20260125171745.484806-1-bjsaikiran@gmail.com>
+ <20260126061528.63785-1-bjsaikiran@gmail.com>
+ <20260126061528.63785-2-bjsaikiran@gmail.com>
+ <ef6cf6c5-3b5d-45f2-af67-0567262a4561@linaro.org>
+ <CAAFDt1spRkj7kySCa8P=jehQHbYVT2j+nxLira1vwYkiCJ7LDw@mail.gmail.com>
+ <b699fcf5-5cb0-41eb-b9de-e5c6e98aefaa@linaro.org>
+ <IlpLwcSSsQ89AZYFUkWtRcUkztg6PClgkVOyWG0StiDOUCE93t7KlF9q18JPi3GutJ1OQWj_2igjYq1OD8FLZg==@protonmail.internalid>
+ <CAAFDt1tjiEXbuChcY73+NYxPW=rB83P4Bks1TPGsHTTqoSzOuw@mail.gmail.com>
+ <ed1421d9-f094-4306-ae6d-e07b3a72f82b@kernel.org>
+ <CAAFDt1ukAdXwADuFVoZrs6Ay2fB_sq6LMW5FCnsjqUL7V62mfg@mail.gmail.com>
+ <eaf30b60-c0fb-4cf5-bc37-274faa187734@linaro.org>
+ <CAAFDt1tgFf5MQcHm3s5DJEDHDtbTfj56_0-=fTz0ekDjSqY3CA@mail.gmail.com>
+ <2084a247-053b-41c0-84ef-c56af640aa74@kernel.org>
+ <I-1OPz69QKXF-LDqvufQARvv_3TIYaLyZIETdiGvSj_JSYhnJNeqiLERDUH2R0kclFyo6MqMRsaiZaS3RKmdZA==@protonmail.internalid>
+ <CAAFDt1ufYyM4_xTy+AZTdXBB0cGNk+nFQHD5+5U7tUMQqZ+o=g@mail.gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <aXd4CXE0fqWiKJXl@willie-the-truck>
+In-Reply-To: <CAAFDt1ufYyM4_xTy+AZTdXBB0cGNk+nFQHD5+5U7tUMQqZ+o=g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51577-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51578-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[linaro.org,vger.kernel.org,kernel.org,gmail.com,linux.intel.com];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	DBL_PROHIBIT(0.00)[0.0.0.36:email];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[benjamin.gaignard@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	BLOCKLISTDE_FAIL(0.00)[136.143.188.112:query timed out];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3289189B4D
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A32E389E8A
 X-Rspamd-Action: no action
 
+On 26/01/2026 14:08, Saikiran B wrote:
+> The exact issue is:
+> 1. Open Camera -> Close -> Wait 3s -> Open: WORKS.
+> 2. Open Camera -> Close -> Wait 1.5s -> Open: FAILS (I2C Timeout / 
+> Device Busy).
+> 
+> If the VDD rail is floating in the brownout region (~1.0V) during that 
+> 1.5s window, does the sensor's internal Reset Logic Gate even have 
+> enough bias voltage to function?
 
-Le 26/01/2026 à 15:19, Will Deacon a écrit :
-> On Mon, Jan 26, 2026 at 10:03:19AM +0100, Benjamin Gaignard wrote:
->> Le 23/01/2026 à 18:14, Will Deacon a écrit :
->>> On Wed, Jan 21, 2026 at 02:50:18PM +0100, Benjamin Gaignard wrote:
->>>> Le 21/01/2026 à 13:51, Will Deacon a écrit :
->>>>> On Mon, Jan 19, 2026 at 03:03:44PM +0100, Benjamin Gaignard wrote:
->>>>>>>>>>>> +static const struct iommu_ops vsi_iommu_ops = {
->>>>>>>>>>>> +	.identity_domain = &vsi_identity_domain,
->>>>>>>>>>>> +	.release_domain = &vsi_identity_domain,
->>>>>>>>>>>> +	.domain_alloc_paging = vsi_iommu_domain_alloc_paging,
->>>>>>>>>>>> +	.of_xlate = vsi_iommu_of_xlate,
->>>>>>>>>>>> +	.probe_device = vsi_iommu_probe_device,
->>>>>>>>>>>> +	.release_device = vsi_iommu_release_device,
->>>>>>>>>>>> +	.device_group = generic_single_device_group,
->>>>>>>>>>>> +	.owner = THIS_MODULE,
->>>>>>>>>>>> +	.default_domain_ops = &(const struct iommu_domain_ops) {
->>>>>>>>>>>> +		.attach_dev		= vsi_iommu_attach_device,
->>>>>>>>>>>> +		.map_pages		= vsi_iommu_map,
->>>>>>>>>>>> +		.unmap_pages		= vsi_iommu_unmap,
->>>>>>>>>>>> +		.flush_iotlb_all	= vsi_iommu_flush_tlb_all,
->>>>>>>>>>> This has no callers and so your unmap routine appears to be broken.
->>>>>>>>>> It is a leftover of previous attempt to allow video decoder to clean/flush
->>>>>>>>>> the iommu by using a function from the API.
->>>>>>>>>> Now it is using vsi_iommu_restore_ctx().
->>>>>>>>>> I while remove it in version 12.
->>>>>>>>> Don't you still need some invalidation on the unmap path?
->>>>>>>> In vsi_iommu_unmap_iova() page is invalided by calling vsi_mk_pte_invalid().
->>>>>>> But that just writes an invalid descriptor and doesn't appear to invalidate
->>>>>>> the TLB at all.
->>>>>>>
->>>>>>>> That clear BIT(0) so the hardware knows the page is invalid.
->>>>>>>> Do I have miss something here ?
->>>>>>> Yes, the TLB structure needs to be invalidated so that the page-table
->>>>>>> walker sees the new value that you have written in memory.
->>>>>>>
->>>>>>> The rockchip driver gets this correct...
->>>>>> Rockchip hardware have a ZAP_ONE_LINE register which didn't exist on Verisilicon
->>>>>> hardware.
->>>>> Presumably you have some sort of Verisilicon datasheet or downstream driver
->>>>> from which you can infer the TLB invalidation runes?
->>>> I have only this downstream driver:
->>>> https://github.com/rockchip-linux/kernel/blob/develop-6.1/drivers/iommu/rockchip-iommu-av1d.c
->>>> No datasheet...
->>>>
->>>>>> I have tried to use VSI_MMU_BIT_FLUSH on VSI driver after unmapping iova
->>>>>> but it doesn't work.
->>>>> What do you mean by "doesn't work"? If it works without doing any
->>>>> invalidation at all, then it's very peculiar that adding the invalidation
->>>>> would introduce issues.
->>>> I mean VSI_MMU_BIT_FLUSH register can't be used to invalid the TLB.
->>>> I think the hardware iterates over the pages tables in memory and
->>>> check the valid/invalid bit.
->>> I bet it doesn't: that would be horrible for performance.
->>>
->>> The hardware clearly has TLB invalidation support, as the downstream driver
->>> that you linked above implements av1_iommu_flush_tlb_all() to poke it.
->>> If the hardware has a TLB, then unmapping a page-table means you need to:
->>>
->>> 1. Clear the valid bit from the descriptor in memory
->>> 2. Have some sort of memory barrier
->>> 3. Invalidate the TLB
->>> 4. Wait for the invalidation to complete
->> That exactly what I had tried to do by calling vsi_iommu_flush_tlb_all() (minux the lock)
->> after calling vsi_iommu_unmap_iova() in vsi_iommu_unmap() but that doesn't work
->> and even make the system crash sometimes.
-> Then it sounds like you have some debugging to do...
->
-> I don't think we should elide the TLB invalidation just because you
-> couldn't get it to work.
+I think the VDD rail floating is unlikely, this would require the 
+description of the LDO configured by XBL to be incorrect - possible but, 
+then you'd expect to see an update for Windows to fix it.
 
-It is working but not in the order you expect.
-TLB invalidation occurs before each decoding frames by calling vsi_iommu_restore_ctx().
-After that decoder map all the needed buffer and perform decoding.
+Have you gotten the latest firmware for the board from Lenovo ? A 
+misconfigured LDO - without active discharge set, should receive a 
+firmware update to address.
 
-Benjamin
+Another possibility is CCI is powering the chip in sleep.
 
->
-> Will
->
+Lets have a look at the CCI pins.
+
+         cam_rgb_default: cam-rgb-default-state {
+                 mclk-pins {
+                         pins = "gpio100";
+                         function = "cam_aon";
+                         drive-strength = <16>;
+                         bias-disable;
+                 };
+
+                 reset-n-pins {
+                         pins = "gpio237";
+                         function = "gpio";
+                         drive-strength = <2>;
+                         bias-disable;
+                 };
+         };
+
+add
+	cam_rgb_sleep: cam-rgb-sleep-state {
+                 mclk-pins {
+                         pins = "gpio100";
+                         function = "cam_aon";
+                         drive-strength = <2>;
+                         bias-pull-down; // Force to Ground
+                 };
+
+                 reset-n-pins {
+                         pins = "gpio237";
+                         function = "gpio";
+                         drive-strength = <2>;
+                         bias-pull-down; // Force to Ground
+                 };
+         };
+
+
+&cci1_i2c1 {
+         camera@36 {
+                 compatible = "ovti,ov02c10";
+                 reg = <0x36>;
+
+                 reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
+                 pinctrl-names = "default", "sleep";
+                 pinctrl-0 = <&cam_rgb_default>;
+                 pinctrl-1 = <&cam_rgb_sleep>;
+
+Failing that we should try a more liberal power_on()
+
+power_on():
+
+     Assert Reset (GPIO Low).
+     Wait 10ms.
+     Enable all regulators (RPMh votes).
+     Wait 20ms (Allow PM8010 to ramp and stabilize).
+     Start the Clock (MCLK).
+     Wait 10ms.
+     De-assert Reset (GPIO High).
+     Wait 5ms.
+
+If that doesn't work, we will have to go and look at the LDO 
+configuration via SPMI directly.
+
+During the 2.3 second window can you run
+
+Getting the kernel's view:
+cat /sys/kernel/debug/regulator/regulator_summary
+
+We are looking for use_count > 0 and open_count
+
+We could also look at the SPMI LDO config register
+
+Getting the firmware's view:
+cat /sys/kernel/debug/regmap/spmi0-0x08/registers
+
+It should be possible to interrogate the configruation of all of the 
+relevant LDOs and ascertain if active-discharge is set, which TBH it 
+should be.
+
+> ​My testing suggests the sensor is physically incapable of processing 
+> the Reset signal until the rail fully discharges (~2.3s), which is why 
+> the 5ms delay has no effect.
+
+Yes accepted but, a 2.3 second delay is avoidable if we root-cause.
+P.S.
+Please bottom post !
+
+---
+bod
 
