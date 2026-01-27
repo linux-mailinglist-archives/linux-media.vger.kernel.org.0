@@ -1,379 +1,305 @@
-Return-Path: <linux-media+bounces-51633-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51628-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qHyrAnyfeGn4rQEAu9opvQ
-	(envelope-from <linux-media+bounces-51633-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:20:28 +0100
+	id MGp7Ek2ceGlurQEAu9opvQ
+	(envelope-from <linux-media+bounces-51628-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:06:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E3B9381B
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:20:27 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B829A935A8
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:06:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DF6E130185F6
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 11:18:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C66E9301486C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 11:06:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E6C1346A06;
-	Tue, 27 Jan 2026 11:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EEAC30B53B;
+	Tue, 27 Jan 2026 11:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O3ezMe8q"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sPuCnQYO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0193451C6
-	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 11:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC1330BB81
+	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 11:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769512728; cv=none; b=gD8Y4f0C5oIZJQ4RPT8DEW+G0pnrwXiWt61qHOU2vOkNMTw2moxpbLmuKbqYG80mgiGY52kCRjN8DKs3vIWmhk86Ndyhc0CEMtm7mOB9LOiBCRZROVk6twnoOcxoEOlbOG+8XgqnkAkejsPWzagVgn9DA9DQChuQsLb+UILL97I=
+	t=1769512008; cv=none; b=Twz7Ige3bzmKUTNrdK0Jnt2gkOPLw0layF4PksN/yxtlLqsl5JDBg8thoIM41pYhmmqAS4DvzoPoLBI86rjxC73I4E+F12wFavFSk2/cJBm+mr1qgeFNtKr558keBzfqcvmO4dI5K8lspMEXOs/i8kOfq/SP+UL4TV8Tw8gotwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769512728; c=relaxed/simple;
-	bh=EgE57i57g7NLF39Zg4fElZTzm3wVgipFdOTj+VySwDg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OteZNFUlxliF7VAMuaF1lkt+kzAPp2BYmHnn6Xrv287Pe1q7ETSO9fIT8MrCfXojwSZl0VvtxDegqwyPkb/Wqsei8RNsuOx0OVOO63I13cXPf1AjYacJXibkDcBfwhlCkGKxWe8RsbRbc2mQtpjsVFKjpddGcSr9S1zdaqnEzjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O3ezMe8q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE529C116C6;
-	Tue, 27 Jan 2026 11:18:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769512728;
-	bh=EgE57i57g7NLF39Zg4fElZTzm3wVgipFdOTj+VySwDg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O3ezMe8qf9I77yWBymvBOTQkzMyZZ6jjvwlas3f7zsbnGkb5XIEi+hvx5UU/cm43S
-	 i5tA3zAERIAfEbMwmti5bji95uoT22p4tlYWtZtJHWdTNCvHZ8LPW2OyqbKFAtf4Ii
-	 Si/BVURbK+uI+5XOYhg2ONN+folP/4N5+SMlHHlKuysvBy3clw27zbfvvDIAeSCJ50
-	 tuccgbSyqGwyVJ+O1/Iq0ZNfbhHa8xyOIG2etYh2dRwDx2Exw24X497Sr5S8HGUXVY
-	 +/i0FrLdT077lxTvLqA8nVMLXT25W5uXCBDWAhaQj3o031/DmIJnukA0gfTsk76ESQ
-	 vl5wOM0vzrV8A==
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-To: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sean Young <sean@mess.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCHv7 3/3] docs: media: document media multi-committers rules and process
-Date: Tue, 27 Jan 2026 11:53:27 +0100
-Message-ID: <68f26ff012020f37a5ad72a85f4a12ff879441ee.1769511207.git.hverkuil+cisco@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1769511207.git.hverkuil+cisco@kernel.org>
-References: <cover.1769511207.git.hverkuil+cisco@kernel.org>
+	s=arc-20240116; t=1769512008; c=relaxed/simple;
+	bh=TKpr/sL01QV4MWic2GIiunVHM6RKFKhy1PpakKBSvHQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XDJUw3qy0DX0l85WiCYRUnipcv3Z3z9ClDCoRq4qSjccgLTBmiJIM2rkrZIHxbyHvroLlXiK892eq/z6Wb8TEM9NEF0KljegJUp/Mk0JSqIQ656GrNjz7g3sHLVWmG4gkTNtRjebD0A6Itfr80qrDAXckWsG7XGZDOHAI9yzyBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sPuCnQYO; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b8845cb5862so850307166b.3
+        for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 03:06:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769512005; x=1770116805; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OK79rAshTBf/lhnK/AaHjJiqei5HOsVGt3FVnyetfLg=;
+        b=sPuCnQYOJ89lNDtAfy9jY/fZqBY/O8NNYfNH/GQhO7bg6h0k3EO69OzCaRPChxjV1N
+         J8bMqhsFQftGPD1e0purUxzasELm7wmydM2BJkpJdY6JSk9tcLzHXDNB6Uw3Q9A8PEcr
+         AqXOfqhyYLLrMmAbocTVtNV5gA6oxTPUElDYrcMsfHdqxU/A5b8WIKY79QKVd3jcqotV
+         NfkP0LQccITwR+TTpt2gYV0TzN2fhtYkq4WL4RmdGYzX3xzksXYYvAmMM3JSLmZFJSCx
+         yMjBRl4g741fl2k92fQQ6BFGcBfaXOXbmly9QOorZ87a1kbTJtMJNZZhYpjNK86E0Zwm
+         94Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769512005; x=1770116805;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OK79rAshTBf/lhnK/AaHjJiqei5HOsVGt3FVnyetfLg=;
+        b=Mh3Fz1MW+a5ey/U/hUANkRvR266JYC2P5qiLLphyk9Oc4PoO68TgyMk4cF9x6NyRJC
+         Ilglzl3rKnAR5A9LAlKjnQ7w+OrRJk59M5nP/qCKh0cuutWqdHpBQJJLuvALrJHigp5G
+         Xqy/TB/ai8/w72c7bxOx4T1gZoY8dkxtjJbA8lDZDyZMC8wQfw6JY5bRDrvjK+FvQmT5
+         1GVuaxz7CYz3McVJFsGdo/ZazX1MtxCzaXLxX0XEDcGAIw/6n3ob6Ox7b59qlmrto9+h
+         qjJtHYS/iV816+7Lg7xVsHN9YSHvsAYFgPkPj1evia7Z1Lfav7Ry8e6sweF0uouXIT+A
+         ///Q==
+X-Gm-Message-State: AOJu0YznPZoqnowe1mffaHEs20vQn4FpfNf0eJzND8hDrf+D7olphu2f
+	wKhRfbcsf6i3g1Mt91j6CXewxdCgP7T/EK06Dfa3ytODUNXzzGJ3dQ1Jw9sOy4UCsPo=
+X-Gm-Gg: AZuq6aJ+sKUNVTyiohW1QAtPb4fSgvKhM0PYAEHS/CxDVWM1F4GYXcP6YG8O9VZtAVf
+	YoN1IZenYANi56CqYpmVH1hvwhLSRn8HzNeOCKs2whTxvPvkKZIlnfm1Dv5zCAHf0UBd29YPMuS
+	ujis2HKlvlgZrj65MmdF2SOK097e319961gPILUq0KaLhO6L/s2hy/ctezmTKqMF+tATUQYwzUJ
+	OWFrzSjXySgw4I1N6nOcYvCt6A8Gi5f37qWY0LzxFicza5p60YIZHvxCAdjkcN9ipin94tvZuxN
+	ySAdWsxcyfWlMx2M7BfOxqFBr1Ayz3fo5pai5TQ3eBv5JCry2Juj8XV/TIUzTp6IXR1OYOxuNeJ
+	qwZIFFTwV8Y4xWCD+euqxMBzr2cNBva9xmXVw98Ncmbeav1BpsbNGNlRNoQxD7yzAHy5tGNhRDg
+	Vacnjry1nxIqYV7YpuLFbezuRZRCCTwT16SmmJdaDAWQrP3iTZC/aL
+X-Received: by 2002:a17:907:72ca:b0:b86:f558:ecad with SMTP id a640c23a62f3a-b8dab10d265mr117226666b.7.1769512004630;
+        Tue, 27 Jan 2026 03:06:44 -0800 (PST)
+Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b885b4160f4sm786300466b.17.2026.01.27.03.06.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Jan 2026 03:06:44 -0800 (PST)
+Message-ID: <571cd869-847f-4697-ace3-503f123e8486@linaro.org>
+Date: Tue, 27 Jan 2026 11:06:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] media: i2c: ov02c10: Use runtime PM autosuspend to
+ avoid brownouts
+To: Saikiran B <bjsaikiran@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ rfoss@kernel.org, todor.too@gmail.com, Bryan O'Donoghue <bod@kernel.org>,
+ vladimir.zapolskiy@linaro.org, Hans de Goede <hansg@kernel.org>,
+ sakari.ailus@linux.intel.com, mchehab@kernel.org, stable@vger.kernel.org
+References: <20260126173444.10228-1-bjsaikiran@gmail.com>
+ <20260126173444.10228-4-bjsaikiran@gmail.com>
+ <900cc5dd-c39d-42f6-9531-016f62da81e8@linaro.org>
+ <CAAFDt1tsyvtAa84bFK2Hq5yG_F15SUUseBd5Xi-DB8GnUj7+7A@mail.gmail.com>
+ <aaab1d32-9375-47d2-8524-e80e076b864e@linaro.org>
+ <CAAFDt1vKn5ssoTQZduGKb5eOeN74P=FVk9f01go1d-JS71Zt0A@mail.gmail.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <CAAFDt1vKn5ssoTQZduGKb5eOeN74P=FVk9f01go1d-JS71Zt0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-51633-lists,linux-media=lfdr.de,cisco];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51628-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,huawei,cisco];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mozilla.org:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,gitlab.freedesktop.org:url,webkit.org:url]
-X-Rspamd-Queue-Id: 25E3B9381B
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email,linaro.org:dkim,linaro.org:mid]
+X-Rspamd-Queue-Id: B829A935A8
 X-Rspamd-Action: no action
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+On 27/01/2026 10:56, Saikiran B wrote:
+> Hi Bryan,
+> 
+> I understand your suspicion regarding the LDO behavior, but I lack the
+> hardware documentation (PMIC register maps) and tooling to interrogate
+> the SPMI registers to the depth you are requesting.
+> 
 
-As the media subsystem will experiment with a multi-committers model,
-update the Maintainer's entry profile to the new rules, and add a file
-documenting the process to become a committer and to maintain such
-rights.
+So, SPMI is not exported in /sys/kernel/debug/regmap - however
 
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
----
- Documentation/driver-api/media/index.rst      |   1 +
- .../media/maintainer-entry-profile.rst        |  21 ++
- .../driver-api/media/media-committer.rst      | 197 ++++++++++++++++++
- 3 files changed, 219 insertions(+)
- create mode 100644 Documentation/driver-api/media/media-committer.rst
+drivers/regulator/qcom-rpmh-regulator.c
 
-diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-index d5593182a3f9..d0c725fcbc67 100644
---- a/Documentation/driver-api/media/index.rst
-+++ b/Documentation/driver-api/media/index.rst
-@@ -26,6 +26,7 @@ Documentation/userspace-api/media/index.rst
-     :numbered:
- 
-     maintainer-entry-profile
-+    media-committer
- 
-     v4l2-core
-     dtv-core
-diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-index 4f73ee073860..0024f85101b7 100644
---- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-+++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-@@ -173,6 +173,17 @@ the subsystem's maintainers. The nominated maintainer must have earned a trust
- relationship with all Media Subsystem Maintainers, as, by being granted patchwork
- access, you will take over part of their maintenance tasks.
- 
-+Media Committers
-+----------------
-+
-+Experienced and trusted Media Maintainers may be granted commit rights
-+which allow them to directly push patches to the media development tree instead
-+of posting a Pull Request for the Media Subsystem Maintainers. This helps
-+offloading some of the work of the Media Subsystem Maintainers.
-+
-+More details about Media Committers' roles and responsibilities can be
-+found here: :ref:`Media Committers`.
-+
- Media development tree
- ----------------------
- 
-@@ -343,9 +354,19 @@ See: :ref:`kernel_org_trust_repository`.
- 
- With the pull request workflow, pull requests shall use PGP-signed tags.
- 
-+With the committers' workflow, this is ensured at the time merge request
-+rights will be granted to the gitlab instance used by the media-committers.git
-+tree, after receiving the e-mail documented in
-+:ref:`media-committer-agreement`.
-+
- For more details about PGP signing, please read
- Documentation/process/maintainer-pgp-guide.rst.
- 
-+Maintaining media maintainer status
-+-----------------------------------
-+
-+See :ref:`Maintain Media Status`.
-+
- List of Media Maintainers
- -------------------------
- 
-diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-new file mode 100644
-index 000000000000..18cce6e06a2b
---- /dev/null
-+++ b/Documentation/driver-api/media/media-committer.rst
-@@ -0,0 +1,197 @@
-+.. _Media Committers:
-+
-+Media Committers
-+================
-+
-+Who is a Media Committer?
-+-------------------------
-+
-+A Media Committer is a Media Maintainer with patchwork access who has been
-+granted commit access to push patches from other developers and their own
-+patches to the
-+`media-committers <https://gitlab.freedesktop.org/linux-media/media-committers>`_
-+tree.
-+
-+These commit rights are granted with expectation of responsibility:
-+committers are people who care about the Linux Kernel as a whole and
-+about the Linux media subsystem and want to advance its development. It
-+is also based on a trust relationship among other committers, maintainers
-+and the Linux Media community.
-+
-+.. Note::
-+
-+   1. Patches you authored must have a Signed-off-by, Reviewed-by or Acked-by
-+      of another Media Maintainer;
-+   2. If a patch introduces a regression, then it is the Media Committer's
-+      responsibility to correct that as soon as possible. Typically the
-+      patch is either reverted, or an additional patch is committed to
-+      fix the regression;
-+   3. If patches are fixing bugs against already released Kernels, including
-+      the reverts above mentioned, the Media Committer shall add the needed
-+      tags. Please see :ref:`Media development workflow` for more details.
-+
-+Becoming a Media Committer
-+--------------------------
-+
-+Existing Media Committers can nominate a Media Maintainer to be granted
-+commit rights. The Media Maintainer must already have patchwork access and
-+have been in that role for some time, and has demonstrated a good
-+understanding of the maintainer's duties and processes.
-+
-+The ultimate responsibility for accepting a nominated committer is up to
-+the Media Subsystem Maintainers. The nominated committer must have earned a
-+trust relationship with all Media Subsystem Maintainers, as, by granting you
-+commit rights, part of their responsibilities are handed over to you.
-+
-+Due to that, to become a Media Committer, a consensus between all Media
-+Subsystem Maintainers is required.
-+
-+.. Note::
-+
-+   In order to preserve/protect the developers that could have their commit
-+   rights granted, denied or removed as well as the subsystem maintainers who
-+   have the task to accept or deny commit rights, all communication related to
-+   changing commit rights should happen in private as much as possible.
-+
-+.. _media-committer-agreement:
-+
-+Media Committer's agreement
-+---------------------------
-+
-+Once a nominated committer is accepted by all Media Subsystem Maintainers,
-+they will ask if the developer is interested in the nomination and discuss
-+what area(s) of the media subsystem the committer will be responsible for.
-+Those areas will typically be the same as the areas that are already
-+maintained by the nominated committer.
-+
-+When the developer accepts being a committer, the new committer shall
-+explicitly accept the Kernel development policies described under its
-+Documentation/, and in particular to the rules in this document, by writing
-+an e-mail to media-committers@linuxtv.org, with a declaration of intent
-+following the model below::
-+
-+   I, John Doe, would like to change my status to: Committer
-+
-+   As Media Maintainer I accept commit rights for the following areas of
-+   the media subsystem:
-+
-+   ...
-+
-+   For the purpose of committing patches to the media-committer's tree,
-+   I'll be using my user https://gitlab.freedesktop.org/users/<username>.
-+
-+Followed by a formal declaration of agreement with the Kernel development
-+rules::
-+
-+   I agree to follow the Kernel development rules described at:
-+
-+   https://www.kernel.org/doc/html/latest/driver-api/media/media-committer.rst
-+
-+   and to the Linux Kernel development process rules.
-+
-+   I agree to abide by the Code of Conduct as documented in:
-+   https://www.kernel.org/doc/html/latest/process/code-of-conduct.rst
-+
-+   I am aware that I can, at any point of time, retire. In that case, I will
-+   send an e-mail to notify the Media Subsystem Maintainers for them to revoke
-+   my commit rights.
-+
-+   I am aware that the Kernel development rules change over time.
-+   By doing a new push to media-committer tree, I understand that I agree
-+   to follow the rules in effect at the time of the commit.
-+
-+That e-mail shall be signed with a PGP key cross signed by other Kernel and
-+media developers. As described at :ref:`media-developers-gpg`, the PGP
-+signature, together with the gitlab user security are fundamental components
-+that ensure the authenticity of the merge requests that will happen at the
-+media-committer.git tree.
-+
-+In case the kernel development process changes, by merging new commits
-+to the
-+`media-committer tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
-+the Media Committer implicitly declares their agreement with the latest
-+version of the documented process including the contents of this file.
-+
-+If a Media Committer decides to retire, it is the committer's duty to
-+notify the Media Subsystem Maintainers about that decision.
-+
-+.. note::
-+
-+   1. Changes to the kernel media development process shall be announced in
-+      the media-committers mailinglist with a reasonable review period. All
-+      committers are automatically subscribed to that mailinglist;
-+   2. Due to the distributed nature of the Kernel development, it is
-+      possible that kernel development process changes may end being
-+      reviewed/merged at the linux-docs mailing list, specially for the
-+      contents under Documentation/process and for trivial typo fixes.
-+
-+Media Core Committers
-+---------------------
-+
-+As described in Documentation/driver-api/media/maintainer-entry-profile.rst
-+a Media Core Maintainer maintains media core frameworks as well, besides
-+just drivers, and so is able to change core files and the media subsystem's
-+Kernel API. A Media Core Committer is a Media Core Maintainer with commit
-+rights. The extent of the core committer's grants will be detailed by the
-+Media Subsystem Maintainers when they nominate a Media Core Committer.
-+
-+Existing Media Committers may become Media Core Committers and vice versa.
-+Such decisions will be taken in consensus between the Media Subsystem
-+Maintainers.
-+
-+Media committers rules
-+----------------------
-+
-+Media committers shall do their best efforts to avoid merging patches that
-+would break any existing drivers. If it breaks, fixup or revert patches
-+shall be merged as soon as possible, aiming to be merged at the same Kernel
-+cycle the bug is reported.
-+
-+Media committers shall behave accordingly to the rights granted by
-+the Media Subsystem Maintainers, specially with regards of the scope of changes
-+they may apply directly at the media-committers tree. That scope can
-+change over time on a mutual agreement between media committers and
-+maintainers.
-+
-+The Media Committer workflow is described at :ref:`Media development workflow`.
-+
-+.. _Maintain Media Status:
-+
-+Maintaining media maintainer or committer status
-+------------------------------------------------
-+
-+A community of maintainers working together to move the Linux Kernel
-+forward is essential to creating successful projects that are rewarding
-+to work on. If there are problems or disagreements within the community,
-+they can usually be solved through healthy discussion and debate.
-+
-+In the unhappy event that a media maintainer or committer continues to
-+disregard good citizenship (or actively disrupts the project), we may need
-+to revoke that person's status. In such cases, if someone suggests the
-+revocation with a good reason, then after discussing this among the media
-+maintainers, the final decision is taken by the Media Subsystem Maintainers.
-+As the decision to become a media maintainer or committer comes from a
-+consensus between Media Subsystem Maintainers, a single subsystem maintainer
-+not trusting the media maintainer or committer anymore is enough to revoke
-+the maintenance/patchwork or commit rights.
-+
-+A previous committer that had their commit rights revoked can keep
-+contributing to the subsystem via the pull request workflow as documented
-+at the :ref:`Media development workflow`, unless they were also removed as
-+Media Maintainer.
-+
-+If a maintainer is inactive for more than a couple of Kernel cycles,
-+maintainers will try to reach you via e-mail. If not possible, they may
-+revoke your maintainer/patchwork and committer rights and update MAINTAINERS file
-+entries accordingly. If you wish to resume contributing later on, then contact
-+the Media Subsystem Maintainers to ask if your maintenance/patchwork and
-+commit rights can be restored.
-+
-+References
-+----------
-+
-+Much of this was inspired by/copied from the committer policies of:
-+
-+- `Chromium <https://chromium.googlesource.com/chromium/src/+/main/docs/contributing.md>`_;
-+- `WebKit <https://webkit.org/commit-and-review-policy/>`_;
-+- `Mozilla <https://www.mozilla.org/hacking/committer/>`_.
--- 
-2.51.0
+Lets add this to probe
+
+unsigned int val, i;
+     u16 bases[] = {0x4000, 0x4300, 0x4600}; // LDO1, LDO4, LDO7
+     const char *names[] = {"LDO1(1.2V)", "LDO4(1.8V)", "LDO7(2.8V)"};
+     struct regmap *p_regmap = dev_get_regmap(dev->parent, NULL);
+
+     if (p_regmap) {
+         pr_info("--- OV02C10 PMIC RAIL DUMP START ---\n");
+         for (i = 0; i < 3; i++) {
+             // Check Config (Active Discharge)
+             regmap_read(p_regmap, bases[i] + 0x41, &val);
+             pr_info("!!! %s SEC_CTRL (0x%04x) = 0x%02x (Bit7: Active 
+Discharge)\n",
+                     names[i], bases[i] + 0x41, val);
+
+             // Check Status (Is it actually on?)
+             regmap_read(p_regmap, bases[i] + 0x08, &val);
+             pr_info("!!! %s STATUS   (0x%04x) = 0x%02x (Bit7: VREG_OK, 
+Bit0: VREG_ON)\n",
+                     names[i], bases[i] + 0x08, val);
+
+             // Check Pull-down config (Secondary check)
+             regmap_read(p_regmap, bases[i] + 0x42, &val);
+             pr_info("!!! %s PD_CTRL   (0x%04x) = 0x%02x\n",
+                     names[i], bases[i] + 0x42, val);
+         }
+         pr_info("--- OV02C10 PMIC RAIL DUMP END ---\n");
+     }
+
+>  From my end, the empirical reality on my machine is that the sensor 
+> fails if power-cycled
+> faster than 2.3s, and enforcing that delay (via software or regulator core)
+> fixes the issue reliably.
+> 
+> Since we cannot agree on the root cause and I cannot perform the hardware
+> debugging required, I will stop submitting patches for this issue.
+> I'll maintain the regulator workaround in my local tree.
+> 
+> I kindly thank you and Hans for your time reviewing the previous versions.
+> 
+> Thanks & Regards,
+> Saikiran
+> 
+> On Tue, 27 Jan 2026, 16:21 Bryan O'Donoghue, <bryan.odonoghue@linaro.org 
+> <mailto:bryan.odonoghue@linaro.org>> wrote:
+> 
+>     On 27/01/2026 10:40, Saikiran B wrote:
+>      > Hi Bryan,
+>      >
+>      > Regarding the 1.1s race condition:
+>      >
+>      > I have implemented support for the generic regulator-off-on-delay-us
+>      > property
+>      > in the qcom-rpmh-regulator driver and set the constraint to 2.3s
+>     in the
+>      > device tree for the Yoga Slim 7x.
+> 
+>     Yes but please listen to me. That is an extraordinary delay being
+>     introduced.
+> 
+>     It is indicative of a serious problem we have not root caused. These
+>     LDOs are used in mobile phones which are aggressively designed to save
+>     power all the time.
+> 
+>     In fact the whole idea of voting for clocks and bandwidth is it
+>     mitigate
+>     the default assumption in these class of devices - switch off the power
+>     first.
+> 
+>     What is that 2.3 seconds, why is it needed. "Brownout" but why ? I
+>     don't
+>     think we have really established.
+> 
+>      > I tested the 1.1s scenario you mentioned, and it is working fine.
+>     The
+>      > regulator
+>      > core now correctly blocks the enable call until the physical
+>     discharge delay
+>      > has passed, preventing the brownout without needing logic in the
+>     camera
+>      > driver.
+> 
+>     The physical discharge delay we have _not_ established IMO. Have you
+>     checked the CCI pins ?
+> 
+>     I think we should stop pushing patches until a root-cause has been
+>     identified.
+> 
+>     For example - we can interrogate the LDO settings via SPMI registers to
+>     see if the LDO is really switched off.
+> 
+>     Similarly we can interrogate the LDOs to see if they are set for active
+>     discharge.
+> 
+>     A fix might be to make a platform driver to set those bits for the
+>     relevant LDOs absent a firmware fix for the same.
+> 
+>     I'm not comfortable pushing changes predicated on papering over an
+>     issue
+>     that hasn't been root-caused.
+> 
+>      >
+>      > I am going to drop the Autosuspend patch entirely and verify the
+>     clean
+>      > driver one last time.
+>      >
+>      > Plan for v4:
+>      > 1. Submit the Regulator/DT fixes separately to linux-arm-msm.
+>      > 2. Submit v4 of this series containing only the cleanup and power-
+>      > sequence fixes.
+>      >
+>      > Thanks for pushing for the correct fix, the regulator approach is
+>     indeed
+>      > much cleaner.
+>      >
+>      > Thanks & Regards,
+>      > Saikiran
+>      >
+>      >
+>      > On Tue, 27 Jan 2026, 15:16 Bryan O'Donoghue,
+>     <bryan.odonoghue@linaro.org <mailto:bryan.odonoghue@linaro.org>
+>      > <mailto:bryan.odonoghue@linaro.org
+>     <mailto:bryan.odonoghue@linaro.org>>> wrote:
+>      >
+>      >     On 26/01/2026 17:34, Saikiran wrote:
+>      >      > On Qualcomm X1E80100 platforms, the OV02C10 sensor experiences
+>      >     brownouts
+>      >      > if power-cycled too quickly (< 2.3s) due to slow passive
+>     discharge of
+>      >      > regulator rails.
+>      >      >
+>      >      > Implement Runtime PM Autosuspend with a delay of 1000ms. This
+>      >     keeps the
+>      >      > regulators enabled for a short duration after the device
+>     is closed,
+>      >      > preventing costly power-off/power-on cycles during rapid user
+>      >      > interactions (e.g., browser permission checks).
+>      >
+>      >     But if you try to power the sensor 1.1 seconds later what
+>     happens ?
+>      >
+>      >     With this commit log this submission is a NAK, for example
+>     why do I
+>      >     want
+>      >     this change on an x86 machine ?
+>      >
+>      >     We need to root-cause the failure not paper over it.
+>      >
+>      >     ---
+>      >     bod
+>      >
+> 
 
 
