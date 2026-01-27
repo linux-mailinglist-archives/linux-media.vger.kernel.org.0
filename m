@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-51648-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51649-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EMX1NCmreGl9rwEAu9opvQ
-	(envelope-from <linux-media+bounces-51648-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 13:10:17 +0100
+	id oINpDk2reGl9rwEAu9opvQ
+	(envelope-from <linux-media+bounces-51649-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 13:10:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9E9940F4
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 13:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8553A94119
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 13:10:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6B41D307FC3F
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:07:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D8B5B309164E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:07:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6473D34DB4C;
-	Tue, 27 Jan 2026 12:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52B8B34DCD2;
+	Tue, 27 Jan 2026 12:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qLVmcoEF"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fIGJ2gq5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520C7238178;
-	Tue, 27 Jan 2026 12:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B1434D4E6;
+	Tue, 27 Jan 2026 12:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769515654; cv=none; b=XToMk0j6dGBYlvvAJyL1sGarMLyAErY+5LkcH0Ap3/kj78iKumeANf3tQVqUH2Eg/jlqePlwDZRqs8bQx09YmrmEs7BRRGhQXXJkv/UESXCVhHf0B4cKCW0R1KsOaL+HsKPPNuuAFnFE4vpAQTHqI2obIAJM2lus0u+LURohUI4=
+	t=1769515655; cv=none; b=k8bFbm6LehUTa7uOrsDV40XkPT9e5hHgTiwdABDVwzVDYwbzU7dxUkgO8X2vYfOENEmX8nGsDjdaFW/IxCpxo0HKC97y0RsmnG/tjAdWmBlw8HmM/6eCljE4i0Hv6rDqnuCjGlbb6pYi9KxiWZIr1HBc9n9quiXi1J5RM2zWsbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769515654; c=relaxed/simple;
-	bh=70+/DNYrFggN9eDfMpR3kzVs+VVxrYy4X0zpC3rdZ6s=;
+	s=arc-20240116; t=1769515655; c=relaxed/simple;
+	bh=JTD/7Yg90m3Li7TqsJFzrcj2fP7zcyHgyM48gbUTF/Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V3Bi/X0Eq8bflpsm5emEL+D+MP0r495I2LE9jN1iJW772Ju14WoROZZxFmbuQTSNo+WpOeU57eopSUSRV/pZbImc59BUUL3FAbvZ+IWKNxAH3LbJc6jSgQQw+d2tG+v3z3Cwd1FE9ALnVG7q5nxGsnSycPVM8rVXIZmfjDcGRIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qLVmcoEF; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=SS8cKxYA9vexytS7bE4U/Q+nH/kwhpMs7Ny2/OeDC9gnq6TLBfrHSegV0bjes9Lt7R1GwsaaXPxQSeUXGRW0A4H7fwLg8GIBct7TGvOBFKGo8tc58JNzqzRnrg/SNv+EBhZOkwmRbvoXAk397oVFRkeyoFf+DcnzOkn04FU4brs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fIGJ2gq5; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1769515649;
-	bh=70+/DNYrFggN9eDfMpR3kzVs+VVxrYy4X0zpC3rdZ6s=;
+	s=mail; t=1769515651;
+	bh=JTD/7Yg90m3Li7TqsJFzrcj2fP7zcyHgyM48gbUTF/Y=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qLVmcoEF9ontFd7As8dWp2/kIT1cZWICwvigRIgKmDifiJcaBhxa6usfq7tK6rS9R
-	 UPz3DbYlgs5/hekWcJhJC2MAftQdp8ZWNoxbYsFMDUSqowgOqSNTEZkMhXd/HEOMAt
-	 JdbzaBBlMQjhKQKTxv+M0up+XkjLOAvlARBq0x6+iUMzrgpRIf9Lp/YfQ2R+W4bW9G
-	 AV4H84TC2KwJqCYr7PEQvi+qKtsFw7yClDNemDAE9k9pU78pkbUtfUSOUVuuVxO1qo
-	 /YZHOME7Sz6rAZm2p4he3nP2h8UL9lrxslINiy4O5wgY3Pz8SFhpHmOFcIPiBAOAJW
-	 nQScDpmIyFHxw==
+	b=fIGJ2gq5hTPlD5Yy8m1c0/VRYozpUwbfzfZCYfmx0klSjez2uW5K+X19oulprqGkY
+	 XzI1CdYFwB5TAYQkuLCOYmbEU7JlKgazjOBDLvrMLxMmnaNA+qDca1jA5ExUUb972E
+	 /sf0XN07k7y9vP0dCx6e/fUUESFifjyvEcDGu1xQ4a2Mw+/iJGur0Ut0os2IlrX50c
+	 bmRYKCM7JyGX4imq9AuUwaHbOkkyx8LEigahDrcJhNFo1UAjoLt5GIOxxuXdDmI1ol
+	 CUVPzAryBoGf7tBS6yH3FYVTr954ih6DNorO9fqFh7H8vFtpkiS7DIabvoV8HHH7rn
+	 8e9CoGEvZ1YIQ==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2517217E13C4;
-	Tue, 27 Jan 2026 13:07:29 +0100 (CET)
-Message-ID: <069a1c90-9592-41f2-8f45-707231f782f6@collabora.com>
-Date: Tue, 27 Jan 2026 13:07:29 +0100
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DA6CF17E1418;
+	Tue, 27 Jan 2026 13:07:30 +0100 (CET)
+Message-ID: <4a4d87dd-0b85-42dd-8398-7580989a16c7@collabora.com>
+Date: Tue, 27 Jan 2026 13:07:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,8 +60,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/10] media: mediatek: vcodec: add decoder compatible
- to support MT8189
+Subject: Re: [PATCH v7 02/10] media: mediatek: decoder: Add a new platform
+ data member
 To: Kyrie Wu <kyrie.wu@mediatek.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
  Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
  Yunfei Dong <yunfei.dong@mediatek.com>,
@@ -79,10 +79,10 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
  Yilong Zhou <yilong.zhou@mediatek.com>
 References: <20260127024248.18406-1-kyrie.wu@mediatek.com>
- <20260127024248.18406-4-kyrie.wu@mediatek.com>
+ <20260127024248.18406-3-kyrie.wu@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20260127024248.18406-4-kyrie.wu@mediatek.com>
+In-Reply-To: <20260127024248.18406-3-kyrie.wu@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -96,7 +96,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51648-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51649-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -114,81 +114,79 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,collabora.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mediatek.com:email]
-X-Rspamd-Queue-Id: 2F9E9940F4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mediatek.com:email,collabora.com:email,collabora.com:dkim,collabora.com:mid]
+X-Rspamd-Queue-Id: 8553A94119
 X-Rspamd-Action: no action
 
 Il 27/01/26 03:42, Kyrie Wu ha scritto:
-> MT8189 is pure single core architecture. Add its compatible to
-> initialize platform data.
+> Add a new platform data member to indicate each decoder IC
+> to avoid the chip name definition keep growing.
 > 
 > Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->   .../mediatek/vcodec/decoder/mtk_vcodec_dec.h   |  1 +
->   .../vcodec/decoder/mtk_vcodec_dec_drv.c        |  4 ++++
->   .../vcodec/decoder/mtk_vcodec_dec_stateless.c  | 18 ++++++++++++++++++
->   3 files changed, 23 insertions(+)
+>   .../mediatek/vcodec/decoder/mtk_vcodec_dec.h  |  5 +
+>   .../vcodec/decoder/mtk_vcodec_dec_drv.c       | 35 ++-----
+>   .../vcodec/decoder/mtk_vcodec_dec_drv.h       | 15 +--
+>   .../vcodec/decoder/mtk_vcodec_dec_hw.c        |  2 +-
+>   .../vcodec/decoder/mtk_vcodec_dec_stateful.c  |  1 +
+>   .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 92 ++++++++++++++-----
+>   6 files changed, 86 insertions(+), 64 deletions(-)
 > 
 > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h
-> index 80cb46f1cded..2bde871c0224 100644
+> index 1af075fc0194..80cb46f1cded 100644
 > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h
 > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.h
-> @@ -71,6 +71,7 @@ extern const struct mtk_vcodec_dec_pdata mtk_vdec_8173_pdata;
+> @@ -69,6 +69,11 @@ extern const struct v4l2_m2m_ops mtk_vdec_m2m_ops;
+>   extern const struct media_device_ops mtk_vcodec_media_ops;
+>   extern const struct mtk_vcodec_dec_pdata mtk_vdec_8173_pdata;
 >   extern const struct mtk_vcodec_dec_pdata mtk_vdec_8183_pdata;
->   extern const struct mtk_vcodec_dec_pdata mtk_vdec_8186_pdata;
->   extern const struct mtk_vcodec_dec_pdata mtk_vdec_8188_pdata;
-> +extern const struct mtk_vcodec_dec_pdata mtk_vdec_8189_pdata;
->   extern const struct mtk_vcodec_dec_pdata mtk_vdec_8192_pdata;
->   extern const struct mtk_vcodec_dec_pdata mtk_vdec_8195_pdata;
->   extern const struct mtk_vcodec_dec_pdata mtk_vdec_8196_pdata;
+> +extern const struct mtk_vcodec_dec_pdata mtk_vdec_8186_pdata;
+> +extern const struct mtk_vcodec_dec_pdata mtk_vdec_8188_pdata;
+> +extern const struct mtk_vcodec_dec_pdata mtk_vdec_8192_pdata;
+> +extern const struct mtk_vcodec_dec_pdata mtk_vdec_8195_pdata;
+> +extern const struct mtk_vcodec_dec_pdata mtk_vdec_8196_pdata;
+>   extern const struct mtk_vcodec_dec_pdata mtk_lat_sig_core_pdata;
+>   extern const struct mtk_vcodec_dec_pdata mtk_vdec_single_core_pdata;
+>   
 > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-> index c7af48f684c5..8f52e002a51e 100644
+> index 7ed40936a0e8..c7af48f684c5 100644
 > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
 > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-> @@ -555,6 +555,10 @@ static const struct of_device_id mtk_vcodec_match[] = {
->   		.compatible = "mediatek,mt8196-vcodec-dec",
->   		.data = &mtk_vdec_8196_pdata,
->   	},
-> +	{
-> +		.compatible = "mediatek,mt8189-vcodec-dec",
-> +		.data = &mtk_vdec_8189_pdata,
-> +	},
->   	{},
->   };
+> @@ -333,24 +333,7 @@ static const struct v4l2_file_operations mtk_vcodec_fops = {
 >   
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> index 0745bc3ee490..aba28d276bdf 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-> @@ -968,3 +968,21 @@ const struct mtk_vcodec_dec_pdata mtk_vdec_8186_pdata = {
->   	.hw_arch = MTK_VDEC_PURE_SINGLE_CORE,
->   	.chip_name = 8186,
->   };
-> +
-> +const struct mtk_vcodec_dec_pdata mtk_vdec_8189_pdata = {
-> +	.init_vdec_params = mtk_init_vdec_params,
-> +	.ctrls_setup = mtk_vcodec_dec_ctrls_setup,
-> +	.vdec_vb2_ops = &mtk_vdec_request_vb2_ops,
-> +	.vdec_formats = mtk_video_formats,
-> +	.num_formats = &num_formats,
-> +	.default_out_fmt = &default_out_format,
-> +	.default_cap_fmt = &default_cap_format,
-> +	.uses_stateless_api = true,
-> +	.worker = mtk_vdec_worker,
-> +	.flush_decoder = mtk_vdec_flush_decoder,
-> +	.cap_to_disp = mtk_vdec_stateless_cap_to_disp,
-> +	.get_cap_buffer = vdec_get_cap_buffer,
-> +	.is_subdev_supported = true,
+>   static void mtk_vcodec_dec_get_chip_name(struct mtk_vcodec_dec_dev *vdec_dev)
+>   {
+> -	struct device *dev = &vdec_dev->plat_dev->dev;
+> -
+> -	if (of_device_is_compatible(dev->of_node, "mediatek,mt8173-vcodec-dec"))
+> -		vdec_dev->chip_name = MTK_VDEC_MT8173;
+> -	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8183-vcodec-dec"))
+> -		vdec_dev->chip_name = MTK_VDEC_MT8183;
+> -	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8192-vcodec-dec"))
+> -		vdec_dev->chip_name = MTK_VDEC_MT8192;
+> -	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8195-vcodec-dec"))
+> -		vdec_dev->chip_name = MTK_VDEC_MT8195;
+> -	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8186-vcodec-dec"))
+> -		vdec_dev->chip_name = MTK_VDEC_MT8186;
+> -	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8188-vcodec-dec"))
+> -		vdec_dev->chip_name = MTK_VDEC_MT8188;
+> -	else if (of_device_is_compatible(dev->of_node, "mediatek,mt8196-vcodec-dec"))
+> -		vdec_dev->chip_name = MTK_VDEC_MT8196;
+> -	else
+> -		vdec_dev->chip_name = MTK_VDEC_INVAL;
+> +	vdec_dev->chip_name = vdec_dev->vdec_pdata->chip_name;
 
-You introduced `MTK_STATELESS_DEC_DATA` in the previous patch... and you should
-use it here too.
+While at it, can you please rename `chip_name` to `chip_model`?
+
+"name" makes me (if it's just me, nevermind) always think about a string, not about
+an (unsigned) integer number.
+
+In any case, you can already get my
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+...because that was just a nitpick, anyway.
 
 Cheers,
 Angelo
-
-> +	.hw_arch = MTK_VDEC_PURE_SINGLE_CORE,
-> +	.chip_name = 8189,
-> +};
-
 
