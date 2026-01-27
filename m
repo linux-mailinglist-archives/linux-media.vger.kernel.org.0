@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-51623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51624-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8BW1MEyXeGkWrQEAu9opvQ
-	(envelope-from <linux-media+bounces-51623-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 11:45:32 +0100
+	id WLeYDE+YeGkWrQEAu9opvQ
+	(envelope-from <linux-media+bounces-51624-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 11:49:51 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332B293166
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 11:45:32 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E2293261
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 11:49:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7330F305D0DC
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 10:43:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EBBAB307C978
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 10:44:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64938343D76;
-	Tue, 27 Jan 2026 10:43:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7164334405E;
+	Tue, 27 Jan 2026 10:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LzpujCWt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqJ0cCW3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C387734106A;
-	Tue, 27 Jan 2026 10:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C459C33CE9B;
+	Tue, 27 Jan 2026 10:44:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769510596; cv=none; b=pY2lUdhNQ+X6l5dyKoOtcU8+j+nFvUq05r3dCD2ph1+KQrK+kF9sOANGWBSXV0EoE9cE9CUarHw8Ns9hlsGUYhZ38j7SgdIEkw0O3yZTXZnMWX/1iXwjkZCkML+V0ahEXChIhrRcfDAeS3cfLD60Nn0/wi7ZqqjFpxdm+K8TwRE=
+	t=1769510663; cv=none; b=KajwtUm4JBhTClru6y246Z/mLC79Af61YZhW4RxpxH/zETXziFqvlJ4yAo1iEgD9XP6KgeftHa+RG0zUKArz3mn+ML9HMrd8JJ9Khf40+tZia/v8CsCXPmZ4XoSDp2GstNtCI6o3FS1JlFMP0cai46l2tf3Um77c9KJDpr1yem0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769510596; c=relaxed/simple;
-	bh=jyobfJ96OlW3K4tTEPQRzR6fuXN3a0yGmEi2N6tUdq0=;
+	s=arc-20240116; t=1769510663; c=relaxed/simple;
+	bh=fe6jsoP6wiwv9sD2TLG8dlXjbtoFP2vey4oFqzHNg+c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ncpUH6P8qYSf2fKyT+r1oWcj+jGSDCYuim1ZOajHFjmJZ0DkyTWwHXIWSpTmW24tIHBJpDD7xmxXlc2/1b0TW7vmu6EucwY3n8smHwpw2itz+t/MYysMZ1XBcm2CED9EFFNuCYV0fXqeku49QVXjOXdxL9QrUF2Ck5PPDaLcdPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LzpujCWt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 475F6C16AAE;
-	Tue, 27 Jan 2026 10:43:14 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=NoKiwDea2D9rUEwAU8d1G9oLfo2aPQyIAlELyQqtDkkMEWEg2LDwdkOSCsMhtmh+N4CTsMEgSVNTSJBc3xOp/piuY3bNaSS89b/isEswuj6aEu83KvGSXXy7rEgU0hwzesbSrA2LKOhRDTgpSzbqMYIuMetOhI2il5w7qHfSexI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqJ0cCW3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741BEC116C6;
+	Tue, 27 Jan 2026 10:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769510596;
-	bh=jyobfJ96OlW3K4tTEPQRzR6fuXN3a0yGmEi2N6tUdq0=;
+	s=k20201202; t=1769510663;
+	bh=fe6jsoP6wiwv9sD2TLG8dlXjbtoFP2vey4oFqzHNg+c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LzpujCWtRfwnE1AK1SESY8tr7XywPhiA0ZixYwF55yoG9RiBkg0vj35Yu73nAbpFj
-	 iH3NUk2CnLG/g3Ot5+P4aYKTiFyiBvcjacIWnIXWSvEc+lETjeeznIgyjsGYHTTlv9
-	 gIV7i/oQt3fcpigu8p057W6PshSnrMdh2Ew1rjO3g6DdvBLBrwiu1Ch0xg0N+qxgw5
-	 thofwu+CYHx6pA7bVksUZsEaZyFAKF2wYBXuS6WlwbbdHQroCRqxb3NvMav0bxrZD4
-	 6b2qrkcllsNEf4gZhgKgpJAtOryAGowu3MCHq/dNCUtKiQPIMmIbZ+QqVMvS6R+cF2
-	 AW+yTt+lqdy9g==
-Message-ID: <2ecfd6ff-8599-442e-aa9b-9e3d1e6c509f@kernel.org>
-Date: Tue, 27 Jan 2026 11:43:12 +0100
+	b=mqJ0cCW38jdZM+ndfpp01/k4OxkE03o7a5iaTSCnipPIjbevKLI033Ga4KlUrjse6
+	 bIA5OVsYYgusLaIVu1t47AWk11DCaG7sy2j4D2bq+vyLm1l75HAY2OKa4qp6f4/8ff
+	 GbMx09moY4XDnlDZB60eXfz2/3uP0J2pt0YTmTJU16RTK+qBsyZMQh83Rw2Yjrk8xF
+	 tZxjLIV1zP7H+nCxdBOGmhuf8xy3/aY/Nhh7p0FL1ZFsMqmykRPKa+l+owutKDeT1z
+	 QuZuNhB+H83vpfI7ZhL8MCgFyvOuJMgs/oBoKyODEhqPJMVtyXF3um/sJnbBJTupZx
+	 t/fYrTrztywgA==
+Message-ID: <a51dd748-ae3d-4790-abe9-ec99a35a3152@kernel.org>
+Date: Tue, 27 Jan 2026 11:44:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,12 +72,12 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51623-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51624-lists,linux-media=lfdr.de];
 	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linaro.org,linux.intel.com];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -86,7 +86,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
@@ -96,11 +96,9 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 332B293166
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 87E2293261
 X-Rspamd-Action: no action
-
-Hi,
 
 On 27-Jan-26 10:46, Bryan O'Donoghue wrote:
 > On 26/01/2026 17:34, Saikiran wrote:
@@ -119,20 +117,15 @@ On 27-Jan-26 10:46, Bryan O'Donoghue wrote:
 > 
 > We need to root-cause the failure not paper over it.
 
-I agree the commit message needs work.
+p.s.
 
-This is overall a useful change to have though. Even on x86_64
-it is better to keep the sensor enabled when userspace
-does a stop + start stream in quick succession rather then
-needlessly powercycle it.
-
-But the commit message needs to explain that this is generally
-a good thing to have to avoid unnecessary delays related to
-power-sequencing when userspace does a stop + start stream in quick
-succession.
+I also agree that the actual problem with stop + start stream in
+calls quickly after each other still needs to be properly figured
+out and fixed.
 
 Regards,
 
 Hans
+
 
 
