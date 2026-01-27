@@ -1,724 +1,244 @@
-Return-Path: <linux-media+bounces-51698-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51699-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kNzhLrjleGl1twEAu9opvQ
-	(envelope-from <linux-media+bounces-51698-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 17:20:08 +0100
+	id oPsYLePleGlwtwEAu9opvQ
+	(envelope-from <linux-media+bounces-51699-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 17:20:51 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7A197A57
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 17:20:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFB397A9B
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 17:20:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 68C6230309AE
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 16:17:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5641430214FA
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 16:20:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F87D35D608;
-	Tue, 27 Jan 2026 16:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ACFA3033D7;
+	Tue, 27 Jan 2026 16:20:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFgPq69H"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eFblznla"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3B82C031B
-	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 16:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769530625; cv=none; b=F5keJtlFQ7jTZn4jwBlCS+ToMhM0ZSaBtKBihJ2xtkEeQOEWnhemLohEJ6gihCQFnRnveEp6SW7jAQRc+ZTou1qrGrnAdisdRsZkIy5Vz/b8IglxjQvPAP2BOW+h2lxB64ILHnk7g5mTxKK4OQ+i7VV8rIlQyj2VxiRsp36OsfQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769530625; c=relaxed/simple;
-	bh=ZOQpbs7qVVduvs7VJpFtGkDqX9RbpBip3VWMhFI9UbA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VGLdnLOafzlBoTX30qpvtlcYtPn7kNY0ioV3E7uGwyatgMq1eQa8Eh83C7DRjELrm9jhdFXePAX/gBBvt1650bS9ZsFtoBLgUaUbXO9RrPLbbivlPe3uBqp68DGuB0KXOaCKnZPY/pkhR8FWV5iTyJJyAJzkE6DrJe0LOFsBWoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFgPq69H; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A9E35DD0C
+	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 16:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769530841; cv=pass; b=YZJIWBY4q59M8OiWomOyRqWNx+Hk/OxRo7ZfYRoFxpQ9p4BIRh5F8OazIQakIoTV4gKEQyYhgeGO7bq4SDGy5ADsS7fVJbvWz/XOUTFhOdev85BQ8K0W9KfedVuqjzXV9/wXgrn3aK70Lpty4CvsYBs12Q0awZIRmFXus8jtsUQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769530841; c=relaxed/simple;
+	bh=p/BPlz45ZsnUOOv45A1fjPgdnS9vrperPPIkgwQyvPU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q3gwxXwkuUCCqdjEZBHlcyhhTe4bvT3Lh0M4ybqIBReiM5bW89Vu4jBSkXVCt/J5IL/J/WK5t3MYaK6KMfYOX9dtXIMc8VTU8AbMHiR0zcblT4XsB6dtsevOvmXasxUvCe73/oagJaHoT6/x23KS8HkX+GsWB5wnDX2X65yGHlI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eFblznla; arc=pass smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ee0291921so50694055e9.3
-        for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 08:17:03 -0800 (PST)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-bde0f62464cso1823853a12.2
+        for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 08:20:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769530840; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Y9/KrsX7Fqo574wEyX6epC6eCjcIArwmJ3aNBfQ11sPo5ni4Yhdfay0xmAtqPhtBJu
+         dbN3F/t8gaGeWeqR08olS0iDFdfDSHMMbfasZat+36br1QqHu2EQO9oY745ofB6bh/1X
+         /OtCxZFARp1NvnN77dgYZmwZ8I0KWSdjxfOEpA4oMFGSUO6nYOVO0VgAia5zcHQNhyUV
+         QSbM2FNaDBuGchDVr1csw4jVXu55dTQN1Oft1+vPNl++e2ZAE16MRoehOZ5w+NN8RaN/
+         C/gSGSL1js2oq+C+gwcTSGkiwdAewDoaNkRtehzhxOBO+Ehm6kF/ROHWskVJ3RQKOrWA
+         S+FQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=d65yytJ1MW2JgMvRS0O1lQIMly3lo2OKXfhreY51uFQ=;
+        fh=khnm9D+aw/nLxOswpUleIP4t583IdOaRJf4F+uqZXH8=;
+        b=hJW5dSQEaf53a9DGsgB60LtFF8ExTKNgm8pqZV6trAfkBRhkRegWCnTzuwolELLENB
+         9S8rpeCBhr6+R+ZiQZoiBXCYYf/T2BRanlbNruzm3ca+1+YS7ziWuHRJxxv7cUS79kBy
+         MZmvGT5BIfDlfh5U0GQDd6eZHWqe2kqLoXuXIk3tN6uD4kLq0dPtecr2NnmvL5MCb3Db
+         NXFlut1TKzBtKvKlb2vebLu1E5DrCeejqCJfm5k9vIOiKf9lyDjoLBeXo4lXoIqSt/92
+         wE0AsjkCquxc8dHJMXFt90pyQEyW3pWNIHz8u7eZZnLyGttgYQeBW7BuuUANFTMYpzj4
+         AlOA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769530622; x=1770135422; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6FOF4nwSFskUOMvGdMDgU1MkuRSOV4mIFCarvK31iGg=;
-        b=HFgPq69HVoIkAYXI+heB+GtjUoNt8n/YXYxDJaZdysqK2eyhrHbYhx8yfJOdF2hWlN
-         PVShch6jzsMHp1thLeZ8WngmvCLiocnUsvU7Io4aWZvol0zOI5+wR+147lci0WaaN05g
-         AJdF9R08ALNfIwKVoT0LbgUzJORHjfs0mjMGDpFZgKfEj4AdxbPc2KlS6yHZBjxrLG3i
-         fnFurp1nLl0yNskx9826M5PtV88N/Pius1ZAvDVrgUxHj0e/1N6EZz8Y595/PeQ8/cOi
-         euqgFOa6z3yZMecH/pEUQOqryxir/6FA5H4jZp7VvVaH0Hea6MLMGePTTluzoe7tI/0T
-         86Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769530622; x=1770135422;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1769530840; x=1770135640; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6FOF4nwSFskUOMvGdMDgU1MkuRSOV4mIFCarvK31iGg=;
-        b=DnKPpR0x/ok3BxprXzd9VUbto6GBiYEQJLaNQ82LIp4blxlcz0Y/DzuEzqkkH+SsCa
-         SxJpaaEbpZ9UU0UyD9kn7s+9cvAt+0y5oMU6RNo/TzZ1bnMdHt7Ii8BK44KGzJ6PdJ6L
-         +kOqot5HG2XbSryH7xZwVQEO+n9groccicRqL4QVlQw5HJdEedll3iGc0FyhZE3me0rr
-         IsvOdBE5gFUxR6Qp5MHur4zBq6fQ+uNJBDgi3m8aq0MeoLD8eAgIu0TfIy/l9NpwgYpK
-         hLOKGBX/PtHafUSiwKkzIq4kf524cIrHtoe1eUh7ziNcShGgL04nnRNzLkOfTL3ZaXw2
-         EbRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUGUBx3zNNli0YHk5xLSpkaNkcPRHeHNDFWhzzz9xptTVPgsToDaWQuko1SF1RYxgD5YN9F2coQC1kpaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzttfA824ckmWjxWjFs/AL+j7iL/sYjqtDrAjosNvRHFo4eUNTC
-	YbWnIbgx74cMXs8QW+PY176ju5ecy71+yQOd+yo3RaGeKgg7tG7zcC5s1Sv7mA==
-X-Gm-Gg: AZuq6aJgBIlLCLdkBFxtm/i4MC2i6+S3u5eHmci+kBbylIUbFJyNFEENBQT9S+Am1gz
-	Z25fCHC7wMRv3vUMoM2T/1If1aXlHpGJLp7aexRJnx/aj3WJgw6xXWUxVIDtTvemFVgohW/O8SG
-	kWbpZ4Nz8SMIuqh9qVfKLyZBrs0awBjMQ/n34qBzDOJysPdr4QcRAq7W+Tk8WCzeO+ybpWT1Q65
-	26T6wb2ju53Eabv6faWpKeVOf0jGvt1rs3UJKhPtZTFcn7h6e1Km+VZnx5m8iewM6eNQ40X1Rd3
-	G7KYaCtOiX6bqfVlFoyglLPSuuaGaDSftsx0KNX7UaYYbDfRXLP2gFIAyB5lgptVa9tKdi67xPk
-	LxodrCA/lI6gK9AupfCU/TK69t+XGWgNIyQpUcQFVr1a5CXfBDm400tgMlffD9AXcKOk5oMxUFl
-	bZj2GoMjnEHPPL
-X-Received: by 2002:a05:600c:314a:b0:47e:e949:37e8 with SMTP id 5b1f17b1804b1-48069ca1640mr31009565e9.30.1769530621234;
-        Tue, 27 Jan 2026 08:17:01 -0800 (PST)
-Received: from hamdan-pc.. ([39.34.132.74])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066aaf235sm67949335e9.0.2026.01.27.08.16.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 08:17:00 -0800 (PST)
-From: Hamdan Khan <hamdankhan212@gmail.com>
-To: gregkh@linuxfoundation.org,
-	andy@kernel.org
-Cc: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	dave.hansen@linux.intel.com,
-	tony.luck@intel.com,
-	hamdankhan212@gmail.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5] staging: media: atomisp: Fix typos and formatting in headers
-Date: Tue, 27 Jan 2026 21:16:52 +0500
-Message-ID: <20260127161653.15163-1-hamdankhan212@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=d65yytJ1MW2JgMvRS0O1lQIMly3lo2OKXfhreY51uFQ=;
+        b=eFblznlaAM8ejSVhSXhmavjFxMQf00lhD/5n/xkQ4GZm9pQ9y1SYBtDMtnud7+Dbkv
+         u1QkDeZDOczq1g5INH2DQXrf7lQJU3S7i0RLju03z9IWWbocTHFTO19bvby53/FexhXb
+         s5NsuQaQyfCfc1Rzi2zaPsDXBQceAk/dqcbeQW0bwQIZTS8g30i8LjwYM0Q8M+XzlDdb
+         ZnkkjChz9+kUrs984zjVkddMi9x9xacicZ/YYuaPGxwZkFHoJPhV6aTSkl+vSPqXKbq4
+         r8D6g5iKPLjRDkw7EXlPCfzdUyUE89pgk5kxigqOzn/6P4e5FegThzzkVvA7X+8SCbHq
+         sc2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769530840; x=1770135640;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=d65yytJ1MW2JgMvRS0O1lQIMly3lo2OKXfhreY51uFQ=;
+        b=iqr38S+XRJZOjkzNIMWj01koNe7Un6RcAohSG6aQkdEJkkcBZO/MB4LHTTOnExnQE7
+         wdCzZIwoxduXEd326y4yWf/UrQzU2Ld5DK26Hj8h6v5Y/1729e86lc/gME3T8UZFD385
+         Wgob8Afo1dZsEKgknUBArZDqyLtwT5/zRaIhBLmLDk5WZlPXF+cIf7HN37YfJDX6M2HX
+         7tnq6BWXQrPVwFsh/r82Ul3VJFSscYW7ZbT1usCUUIXdeuzJuh0iOjoK2/JwB/w9zhd8
+         Oq6MULxD4K+gqyur+7+etgdjg3+h/mLXk3NQAvvw+mNlVdkJz2KtKYjMzKxyPQTgIE0B
+         htxg==
+X-Forwarded-Encrypted: i=1; AJvYcCUtwdDarg1GnmrM3ueBDntZWPxBEQqFJEDLwrFro19N7oa0gRb1MCd8RqF38a/BT46sswiju17gpBndGQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfFGK1/BOtP9uni7KK0H8DQxXrktbNfqzQSqOvG7bxwj52fNC5
+	HrUTH602nNOlZ7KCR6egKPp9tuCUA/tvQxOf1ESJuQhQ/8ZeiQuifKpI0aTFP960oIxp6DHkRik
+	3pfTDBmhAB6woN0ChwfqdUIZKyi/gTO4=
+X-Gm-Gg: AZuq6aKIsssnNNNz6hVLa6DgDDAfcUtAg9MDqMSy0ontUbGbAl76dnGZD6jv9afCapH
+	aa9pByPHv9Iz1GDlkFOlzEpmDRHawwdQNsge7xIBk9RP22+ZdVZF8oJU0+Hx6i4uyrKiwe0Gb1o
+	MbuLG73NhefKQpV1aholwBfX3Mj8ahdVrKVsguAe64+iC+R+5pDu0d4GM9fxUVmxivZ5ww5UkUf
+	RTFK1GfJ4hMpHHVkz4xKIuHoPtvBd+Bvk9fEo7t5ZItJ8yxm5nMdmVrII+HO4u3QE10YgZcW1AA
+	l9MTjInVp6bcoIsnVmfDhG9KSr0=
+X-Received: by 2002:a17:90b:3b85:b0:340:2a3a:71b7 with SMTP id
+ 98e67ed59e1d1-353fecd6236mr2343805a91.12.1769530839689; Tue, 27 Jan 2026
+ 08:20:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260126173444.10228-1-bjsaikiran@gmail.com> <20260126173444.10228-4-bjsaikiran@gmail.com>
+ <900cc5dd-c39d-42f6-9531-016f62da81e8@linaro.org> <CAAFDt1tsyvtAa84bFK2Hq5yG_F15SUUseBd5Xi-DB8GnUj7+7A@mail.gmail.com>
+ <aaab1d32-9375-47d2-8524-e80e076b864e@linaro.org> <CAAFDt1vKn5ssoTQZduGKb5eOeN74P=FVk9f01go1d-JS71Zt0A@mail.gmail.com>
+ <clmeor0Z59Dd_ymBj-m2zE0orMOFgVsPFXUBpBx39ZehM4t_GrlZV8y8f-lZbH6p9N-W7FLs7PqYhfG6VzwmBw==@protonmail.internalid>
+ <571cd869-847f-4697-ace3-503f123e8486@linaro.org> <cb902c4e-f7b9-4d70-a997-1e84c90ea18b@kernel.org>
+In-Reply-To: <cb902c4e-f7b9-4d70-a997-1e84c90ea18b@kernel.org>
+From: Saikiran B <bjsaikiran@gmail.com>
+Date: Tue, 27 Jan 2026 21:50:28 +0530
+X-Gm-Features: AZwV_Qj_vb1x1lu6XXMunkVpxeZcvcZBHMOYFjYNAf2rHeYoii8GYdmNqCxCgXM
+Message-ID: <CAAFDt1s+RUpUEUEERCuXqDHijxHXW=PemVaWk=to7WtQ9cYKEg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] media: i2c: ov02c10: Use runtime PM autosuspend to
+ avoid brownouts
+To: "Bryan O'Donoghue" <bod@kernel.org>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, rfoss@kernel.org, todor.too@gmail.com, 
+	vladimir.zapolskiy@linaro.org, Hans de Goede <hansg@kernel.org>, 
+	sakari.ailus@linux.intel.com, mchehab@kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-51699-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[linaro.org,vger.kernel.org,kernel.org,gmail.com,linux.intel.com];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-51698-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,intel.com,gmail.com,vger.kernel.org,lists.linux.dev];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hamdankhan212@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bjsaikiran@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4B7A197A57
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 2CFB397A9B
 X-Rspamd-Action: no action
 
-Update block and inline comments to follow kernel
-commenting conventions, fix typos and wording, remove
-redundant comments and reformat long comments for clarity
-and line length consistency.
+Hi Bryan and Hans,
 
-Although some comments used the /** ... */ style, they are not
-kernel-doc comments and are converted to normal comment style.
+I implemented your suggested debug probe in qcom-rpmh-regulator.c to inspec=
+t
+the registers directly. Unfortunately, on this platform (X1E80100), it retu=
+rns:
 
-No functional changes are intended.
-
-Signed-off-by: Hamdan Khan <hamdankhan212@gmail.com>
+  rpmh_regulator_probe: --- OV02C10 PMIC DUMP: Failed to get parent regmap =
 ---
-Changes in v5:
-- removed redundant comments (i.e. same as the variable name)
----
- .../media/atomisp/include/linux/atomisp.h     | 182 +++++++++---------
- .../include/linux/atomisp_gmin_platform.h     |   7 +-
- .../atomisp/include/linux/atomisp_platform.h  |  42 ++--
- 3 files changed, 120 insertions(+), 111 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index 3c8fa3f5808d..7d7f57c2d67c 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -22,7 +22,7 @@
- #define ATOMISP_HW_STEPPING_A0		0x00
- #define ATOMISP_HW_STEPPING_B0		0x10
- 
--/*ISP binary running mode*/
-+/* ISP binary running mode */
- #define CI_MODE_PREVIEW		0x8000
- #define CI_MODE_VIDEO		0x4000
- #define CI_MODE_STILL_CAPTURE	0x2000
-@@ -59,9 +59,9 @@
- 
- /* Configuration used by Bayer noise reduction and YCC noise reduction */
- struct atomisp_nr_config {
--	/* [gain] Strength of noise reduction for Bayer NR (Used by Bayer NR) */
-+	/* [gain] Strength of noise reduction for Bayer NR */
- 	unsigned int bnr_gain;
--	/* [gain] Strength of noise reduction for YCC NR (Used by YCC NR) */
-+	/* [gain] Strength of noise reduction for YCC NR */
- 	unsigned int ynr_gain;
- 	/* [intensity] Sensitivity of Edge (Used by Bayer NR) */
- 	unsigned int direction;
-@@ -78,7 +78,8 @@ struct atomisp_tnr_config {
- 	unsigned int threshold_uv;/* [intensity] Motion sensitivity for U/V */
- };
- 
--/* Histogram. This contains num_elements values of type unsigned int.
-+/*
-+ * Contains num_elements values of type unsigned int.
-  * The data pointer is a DDR pointer (virtual address).
-  */
- struct atomisp_histogram {
-@@ -94,7 +95,7 @@ enum atomisp_ob_mode {
- 
- /* Optical black level configuration */
- struct atomisp_ob_config {
--	/* Obtical black level mode (Fixed / Raster) */
-+	/* Optical black level mode (Fixed / Raster) */
- 	enum atomisp_ob_mode mode;
- 	/* [intensity] optical black level for GR (relevant for fixed mode) */
- 	unsigned int level_gr;
-@@ -146,8 +147,7 @@ struct atomisp_3a_config {
- 	unsigned int ae_y_coef_r;	/* [gain] Weight of R for Y */
- 	unsigned int ae_y_coef_g;	/* [gain] Weight of G for Y */
- 	unsigned int ae_y_coef_b;	/* [gain] Weight of B for Y */
--	unsigned int awb_lg_high_raw;	/* [intensity]
--					   AWB level gate high for raw */
-+	unsigned int awb_lg_high_raw;	/* [intensity] AWB level gate high for raw */
- 	unsigned int awb_lg_low;	/* [intensity] AWB level gate low */
- 	unsigned int awb_lg_high;	/* [intensity] AWB level gate high */
- 	int af_fir1_coef[7];	/* [factor] AF FIR coefficients of fir1 */
-@@ -188,14 +188,15 @@ struct atomisp_dis_vector {
- 	int y;
- };
- 
--/* DVS 2.0 Coefficient types. This structure contains 4 pointers to
-- *  arrays that contain the coefficients for each type.
-+/*
-+ * DVS 2.0 Coefficient types. This structure contains 4 pointers to
-+ * arrays that contain the coefficients for each type.
-  */
- struct atomisp_dvs2_coef_types {
--	short __user *odd_real; /** real part of the odd coefficients*/
--	short __user *odd_imag; /** imaginary part of the odd coefficients*/
--	short __user *even_real;/** real part of the even coefficients*/
--	short __user *even_imag;/** imaginary part of the even coefficients*/
-+	short __user *odd_real; /* Real part of the odd coefficients */
-+	short __user *odd_imag; /* Imaginary part of the odd coefficients */
-+	short __user *even_real;/* Real part of the even coefficients */
-+	short __user *even_imag;/* Imaginary part of the even coefficients */
- };
- 
- /*
-@@ -203,10 +204,10 @@ struct atomisp_dvs2_coef_types {
-  * arrays that contain the statistics for each type.
-  */
- struct atomisp_dvs2_stat_types {
--	int __user *odd_real; /** real part of the odd statistics*/
--	int __user *odd_imag; /** imaginary part of the odd statistics*/
--	int __user *even_real;/** real part of the even statistics*/
--	int __user *even_imag;/** imaginary part of the even statistics*/
-+	int __user *odd_real; /* Real part of the odd statistics */
-+	int __user *odd_imag; /* Imaginary part of the odd statistics */
-+	int __user *even_real;/* Real part of the even statistics */
-+	int __user *even_imag;/* Imaginary part of the even statistics */
- };
- 
- struct atomisp_dis_coefficients {
-@@ -234,12 +235,12 @@ struct atomisp_3a_rgby_output {
- };
- 
- /*
-- * Because we have 2 pipes at max to output metadata, therefore driver will use
-- * ATOMISP_MAIN_METADATA to specify the metadata from the pipe which keeps
-- * streaming always and use ATOMISP_SEC_METADATA to specify the metadata from
-- * the pipe which is streaming by request like capture pipe of ZSL or SDV mode
-- * as secondary metadata. And for the use case which has only one pipe
-- * streaming like online capture, ATOMISP_MAIN_METADATA will be used.
-+ * As the driver can output metadata on two pipes at max,
-+ * ATOMISP_MAIN_METADATA is used for the pipe that streams continuously.
-+ * ATOMISP_SEC_METADATA is used for the pipe that streams on demand, e.g.,
-+ * the capture pipe in ZSL or SDV modes.
-+ * In use cases with a single streaming pipe (like online capture),
-+ * only ATOMISP_MAIN_METADATA is used.
-  */
- enum atomisp_metadata_type {
- 	ATOMISP_MAIN_METADATA = 0,
-@@ -257,7 +258,7 @@ struct atomisp_3a_statistics {
- 	struct atomisp_3a_output __user *data;
- 	struct atomisp_3a_rgby_output __user *rgby_data;
- 	u32 exp_id; /* exposure ID */
--	u32 isp_config_id; /* isp config ID */
-+	u32 isp_config_id;
- };
- 
- /* White Balance (Gain Adjust) */
-@@ -272,8 +273,8 @@ struct atomisp_wb_config {
- /* Color Space Conversion settings */
- struct atomisp_cc_config {
- 	unsigned int fraction_bits;
--	int matrix[3 * 3];	/* RGB2YUV Color matrix, signed
--				   <13-fraction_bits>.<fraction_bits> */
-+	/* RGB2YUV Color matrix, signed <13-fraction_bits>.<fraction_bits> */
-+	int matrix[3 * 3];
- };
- 
- /* De pixel noise configuration */
-@@ -291,13 +292,15 @@ struct atomisp_ce_config {
- 
- /* Defect pixel correction configuration */
- struct atomisp_dp_config {
--	/* [intensity] The threshold of defect Pixel Correction, representing
-+	/*
-+	 * [intensity] The threshold of defect Pixel Correction, representing
- 	 * the permissible difference of intensity between one pixel and its
- 	 * surrounding pixels. Smaller values result in more frequent pixel
- 	 * corrections. u0_16
- 	 */
- 	unsigned int threshold;
--	/* [gain] The sensitivity of mis-correction. ISP will miss a lot of
-+	/*
-+	 * [gain] The sensitivity of mis-correction. ISP will miss a lot of
- 	 * defects if the value is set too large. u8_8
- 	 */
- 	unsigned int gain;
-@@ -312,7 +315,7 @@ struct atomisp_xnr_config {
- 	__u16 threshold;
- };
- 
--/* metadata config */
-+/* Metadata config */
- struct atomisp_metadata_config {
- 	u32 metadata_height;
- 	u32 metadata_stride;
-@@ -322,31 +325,30 @@ struct atomisp_metadata_config {
-  * Generic resolution structure.
-  */
- struct atomisp_resolution {
--	u32 width;  /** Width */
--	u32 height; /** Height */
-+	u32 width;
-+	u32 height;
- };
- 
- /*
-- * This specifies the coordinates (x,y)
-+ * Specifies the zoom point coordinates (x,y)
-  */
- struct atomisp_zoom_point {
--	s32 x; /** x coordinate */
--	s32 y; /** y coordinate */
-+	s32 x;
-+	s32 y;
- };
- 
- /*
-- * This specifies the region
-+ * Specifies the zoom region
-  */
- struct atomisp_zoom_region {
--	struct atomisp_zoom_point
--		origin; /* Starting point coordinates for the region */
-+	struct atomisp_zoom_point origin; /* Starting point coordinates for the region */
- 	struct atomisp_resolution resolution; /* Region resolution */
- };
- 
- struct atomisp_dz_config {
--	u32 dx; /** Horizontal zoom factor */
--	u32 dy; /** Vertical zoom factor */
--	struct atomisp_zoom_region zoom_region; /** region for zoom */
-+	u32 dx; /* Horizontal zoom factor */
-+	u32 dy; /* Vertical zoom factor */
-+	struct atomisp_zoom_region zoom_region;
- };
- 
- struct atomisp_parm {
-@@ -367,8 +369,8 @@ struct atomisp_parm {
- };
- 
- struct dvs2_bq_resolution {
--	int width_bq;         /* width [BQ] */
--	int height_bq;        /* height [BQ] */
-+	int width_bq;
-+	int height_bq;
- };
- 
- struct atomisp_dvs2_bq_resolutions {
-@@ -378,9 +380,9 @@ struct atomisp_dvs2_bq_resolutions {
- 	struct dvs2_bq_resolution output_bq;
- 	/* GDC effective envelope size [BQ] */
- 	struct dvs2_bq_resolution envelope_bq;
--	/* isp pipe filter size [BQ] */
-+	/* ISP pipe filter size [BQ] */
- 	struct dvs2_bq_resolution ispfilter_bq;
--	/* GDC shit size [BQ] */
-+	/* GDC shift size [BQ] */
- 	struct dvs2_bq_resolution gdc_shift_bq;
- };
- 
-@@ -411,8 +413,8 @@ struct atomisp_parameters {
- 	struct atomisp_cnr_config  *cnr_config; /* Chroma Noise Reduction */
- 	struct atomisp_macc_config *macc_config;  /* MACC */
- 	struct atomisp_ctc_config  *ctc_config; /* Chroma Tone Control */
--	struct atomisp_aa_config   *aa_config;  /* Anti-Aliasing */
--	struct atomisp_aa_config   *baa_config;  /* Anti-Aliasing */
-+	struct atomisp_aa_config   *aa_config;	/* Anti-Aliasing */
-+	struct atomisp_aa_config   *baa_config;	/* Anti-Aliasing */
- 	struct atomisp_ce_config   *ce_config;
- 	struct atomisp_dvs_6axis_config *dvs_6axis_config;
- 	struct atomisp_ob_config   *ob_config;  /* Objective Black config */
-@@ -425,10 +427,8 @@ struct atomisp_parameters {
- 	struct atomisp_3a_config   *a3a_config; /* 3A Statistics config */
- 	struct atomisp_xnr_config  *xnr_config; /* eXtra Noise Reduction */
- 	struct atomisp_dz_config   *dz_config;  /* Digital Zoom */
--	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color
--							Correction config */
--	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color
--							Correction config */
-+	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color Correction config */
-+	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color Correction config */
- 	struct atomisp_macc_table  *macc_table;
- 	struct atomisp_gamma_table *gamma_table;
- 	struct atomisp_ctc_table   *ctc_table;
-@@ -466,8 +466,8 @@ struct atomisp_parameters {
- 	void	*res_mgr_2500_config;
- 
- 	/*
--	 * Output frame pointer the config is to be applied to (optional),
--	 * set to NULL to make this config is applied as global.
-+	 * Output frame pointer to which the config will be applied to (optional),
-+	 * Set to NULL to make this config be applied as global.
- 	 */
- 	void	*output_frame;
- 	/*
-@@ -490,9 +490,9 @@ struct atomisp_gamma_table {
- 	unsigned short data[ATOMISP_GAMMA_TABLE_SIZE];
- };
- 
--/* Morphing table for advanced ISP.
-- * Each line of width elements takes up COORD_TABLE_EXT_WIDTH elements
-- * in memory.
-+/*
-+ * Morphing table for advanced ISP.
-+ * Each line of width elements takes up COORD_TABLE_EXT_WIDTH elements in memory.
-  */
- #define ATOMISP_MORPH_TABLE_NUM_PLANES  6
- struct atomisp_morph_table {
-@@ -519,7 +519,7 @@ struct atomisp_shading_table {
- 	__u16 *data[ATOMISP_NUM_SC_COLORS];
- };
- 
--/* parameter for MACC */
-+/* Parameter for MACC */
- #define ATOMISP_NUM_MACC_AXES           16
- struct atomisp_macc_table {
- 	short data[4 * ATOMISP_NUM_MACC_AXES];
-@@ -530,7 +530,7 @@ struct atomisp_macc_config {
- 	struct atomisp_macc_table table;
- };
- 
--/* Parameter for ctc parameter control */
-+/* CTC parameter control */
- #define ATOMISP_CTC_TABLE_SIZE          1024
- struct atomisp_ctc_table {
- 	unsigned short data[ATOMISP_CTC_TABLE_SIZE];
-@@ -538,9 +538,10 @@ struct atomisp_ctc_table {
- 
- /* Parameter for overlay image loading */
- struct atomisp_overlay {
--	/* the frame containing the overlay data The overlay frame width should
--	 * be the multiples of 2*ISP_VEC_NELEMS. The overlay frame height
--	 * should be the multiples of 2.
-+	/*
-+	 * The frame containing the overlay data. The overlay frame width should
-+	 * be a multiple of 2 * ISP_VEC_NELEMS. The overlay frame height
-+	 * should be a multiple of 2.
- 	 */
- 	struct v4l2_framebuffer *frame;
- 	/* Y value of overlay background */
-@@ -549,23 +550,27 @@ struct atomisp_overlay {
- 	char bg_u;
- 	/* V value of overlay background */
- 	char bg_v;
--	/* the blending percent of input data for Y subpixels */
-+	/* The blending percentage of input data for Y subpixels */
- 	unsigned char blend_input_perc_y;
--	/* the blending percent of input data for U subpixels */
-+	/* The blending percentage of input data for U subpixels */
- 	unsigned char blend_input_perc_u;
--	/* the blending percent of input data for V subpixels */
-+	/* The blending percentage of input data for V subpixels */
- 	unsigned char blend_input_perc_v;
--	/* the blending percent of overlay data for Y subpixels */
-+	/* The blending percentage of overlay data for Y subpixels */
- 	unsigned char blend_overlay_perc_y;
--	/* the blending percent of overlay data for U subpixels */
-+	/* The blending percentage of overlay data for U subpixels */
- 	unsigned char blend_overlay_perc_u;
--	/* the blending percent of overlay data for V subpixels */
-+	/* The blending percentage of overlay data for V subpixels */
- 	unsigned char blend_overlay_perc_v;
--	/* the overlay start x pixel position on output frame It should be the
--	   multiples of 2*ISP_VEC_NELEMS. */
-+	/*
-+	 * The overlay "start x" pixel position on the output frame. It should be a
-+	 * multiple of 2 * ISP_VEC_NELEMS.
-+	 */
- 	unsigned int overlay_start_x;
--	/* the overlay start y pixel position on output frame It should be the
--	   multiples of 2. */
-+	/*
-+	 * The overlay "start y" pixel position on the output frame. It should be a
-+	 * multiple of 2.
-+	 */
- 	unsigned int overlay_start_y;
- };
- 
-@@ -659,7 +664,7 @@ enum atomisp_burst_capture_options {
- #define EXT_ISP_SHOT_MODE_ANIMATED_PHOTO	10
- #define EXT_ISP_SHOT_MODE_SPORTS	11
- 
--/*Private IOCTLs for ISP */
-+/* Private IOCTLs for ISP */
- #define ATOMISP_IOC_G_XNR \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 0, int)
- #define ATOMISP_IOC_S_XNR \
-@@ -684,7 +689,8 @@ enum atomisp_burst_capture_options {
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 5, struct atomisp_ee_config)
- #define ATOMISP_IOC_S_EE \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 5, struct atomisp_ee_config)
--/* Digital Image Stabilization:
-+/*
-+ * Digital Image Stabilization:
-  * 1. get dis statistics: reads DIS statistics from ISP (every frame)
-  * 2. set dis coefficients: set DIS filter coefficients (one time)
-  * 3. set dis motion vector: set motion vector (result of DIS, every frame)
-@@ -716,54 +722,54 @@ enum atomisp_burst_capture_options {
- #define ATOMISP_IOC_S_ISP_GDC_TAB \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 10, struct atomisp_morph_table)
- 
--/* macc parameter control*/
-+/* MACC parameter control */
- #define ATOMISP_IOC_G_ISP_MACC \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 12, struct atomisp_macc_config)
- #define ATOMISP_IOC_S_ISP_MACC \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 12, struct atomisp_macc_config)
- 
--/* Defect pixel detection & Correction */
-+/* Defect pixel detection & correction */
- #define ATOMISP_IOC_G_ISP_BAD_PIXEL_DETECTION \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 13, struct atomisp_dp_config)
- #define ATOMISP_IOC_S_ISP_BAD_PIXEL_DETECTION \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 13, struct atomisp_dp_config)
- 
--/* False Color Correction */
-+/* False color correction */
- #define ATOMISP_IOC_G_ISP_FALSE_COLOR_CORRECTION \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 14, struct atomisp_de_config)
- #define ATOMISP_IOC_S_ISP_FALSE_COLOR_CORRECTION \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 14, struct atomisp_de_config)
- 
--/* ctc parameter control */
-+/* CTC parameter control */
- #define ATOMISP_IOC_G_ISP_CTC \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
- #define ATOMISP_IOC_S_ISP_CTC \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
- 
--/* white balance Correction */
-+/* White balance correction */
- #define ATOMISP_IOC_G_ISP_WHITE_BALANCE \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
- #define ATOMISP_IOC_S_ISP_WHITE_BALANCE \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
- 
--/* fpn table loading */
-+/* FPN table loading */
- #define ATOMISP_IOC_S_ISP_FPN_TABLE \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 17, struct v4l2_framebuffer)
- 
--/* overlay image loading */
-+/* Overlay image loading */
- #define ATOMISP_IOC_G_ISP_OVERLAY \
- 	_IOWR('v', BASE_VIDIOC_PRIVATE + 18, struct atomisp_overlay)
- #define ATOMISP_IOC_S_ISP_OVERLAY \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 18, struct atomisp_overlay)
- 
--/* bcd driver bridge */
-+/* BCD driver bridge */
- #define ATOMISP_IOC_CAMERA_BRIDGE \
- 	_IOWR('v', BASE_VIDIOC_PRIVATE + 19, struct atomisp_bc_video_package)
- 
- #define ATOMISP_IOC_S_EXPOSURE \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 21, struct atomisp_exposure)
- 
--/* white balance Correction */
-+/* White balance correction */
- #define ATOMISP_IOC_G_3A_CONFIG \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 23, struct atomisp_3a_config)
- #define ATOMISP_IOC_S_3A_CONFIG \
-@@ -773,7 +779,7 @@ enum atomisp_burst_capture_options {
- #define ATOMISP_IOC_S_ISP_SHD_TAB \
- 	_IOWR('v', BASE_VIDIOC_PRIVATE + 27, struct atomisp_shading_table)
- 
--/* Gamma Correction */
-+/* Gamma correction */
- #define ATOMISP_IOC_G_ISP_GAMMA_CORRECTION \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 28, struct atomisp_gc_config)
- 
-@@ -804,7 +810,7 @@ enum atomisp_burst_capture_options {
- #define ATOMISP_IOC_S_ARRAY_RESOLUTION \
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 45, struct atomisp_resolution)
- 
--/* for depth mode sensor frame sync compensation */
-+/* For depth mode sensor frame sync compensation */
- #define ATOMISP_IOC_G_DEPTH_SYNC_COMP \
- 	_IOR('v', BASE_VIDIOC_PRIVATE + 46, unsigned int)
- 
-@@ -822,7 +828,7 @@ enum atomisp_burst_capture_options {
-  *	_IOW('v', BASE_VIDIOC_PRIVATE + 56, struct atomisp_sensor_regs)
-  */
- 
--/*  ISP Private control IDs */
-+/* ISP Private control IDs */
- #define V4L2_CID_ATOMISP_BAD_PIXEL_DETECTION \
- 	(V4L2_CID_PRIVATE_BASE + 0)
- #define V4L2_CID_ATOMISP_POSTPROCESS_GDC_CAC \
-@@ -836,8 +842,10 @@ enum atomisp_burst_capture_options {
- #define V4L2_CID_ATOMISP_LOW_LIGHT \
- 	(V4L2_CID_PRIVATE_BASE + 5)
- 
--/* Camera class:
-- * Exposure, Flash and privacy (indicator) light controls, to be upstreamed */
-+/*
-+ * Camera class:
-+ * Exposure, Flash and privacy (indicator) light controls, to be upstreamed
-+ */
- #define V4L2_CID_CAMERA_LASTP1             (V4L2_CID_CAMERA_CLASS_BASE + 1024)
- 
- #define V4L2_CID_RUN_MODE			(V4L2_CID_CAMERA_LASTP1 + 20)
-@@ -879,7 +887,7 @@ enum atomisp_burst_capture_options {
- #define V4L2_EVENT_ATOMISP_ACC_COMPLETE     (V4L2_EVENT_PRIVATE_START + 4)
- #define V4L2_EVENT_ATOMISP_PAUSE_BUFFER	    (V4L2_EVENT_PRIVATE_START + 5)
- #define V4L2_EVENT_ATOMISP_CSS_RESET	    (V4L2_EVENT_PRIVATE_START + 6)
--/* Nonstandard color effects for V4L2_CID_COLORFX */
-+/* Non-standard color effects for V4L2_CID_COLORFX */
- enum {
- 	V4L2_COLORFX_SKIN_WHITEN_LOW = 1001,
- 	V4L2_COLORFX_SKIN_WHITEN_HIGH = 1002,
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-index 426c5ee4ec18..74092af1c659 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-@@ -15,8 +15,7 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd);
- int gmin_get_var_int(struct device *dev, bool is_gmin,
- 		     const char *var, int def);
- struct camera_sensor_platform_data *
--gmin_camera_platform_data(
--    struct v4l2_subdev *subdev,
--    enum atomisp_input_format csi_format,
--    enum atomisp_bayer_order csi_bayer);
-+	gmin_camera_platform_data(struct v4l2_subdev *subdev,
-+				  enum atomisp_input_format csi_format,
-+				  enum atomisp_bayer_order csi_bayer);
- #endif
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-index 6146555fe9cf..0d6f2a4039f1 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-@@ -57,7 +57,8 @@ enum atomisp_input_format {
- 	ATOMISP_INPUT_FORMAT_RAW_16,   /* RAW data, 16 bits per pixel */
- 	ATOMISP_INPUT_FORMAT_BINARY_8, /* Binary byte stream. */
- 
--	/* CSI2-MIPI specific format: Generic short packet data. It is used to
-+	/*
-+	 * CSI2-MIPI specific format: Generic short packet data. It is used to
- 	 * keep the timing information for the opening/closing of shutters,
- 	 * triggering of flashes and etc.
- 	 */
-@@ -70,18 +71,18 @@ enum atomisp_input_format {
- 	ATOMISP_INPUT_FORMAT_GENERIC_SHORT7,  /* Generic Short Packet Code 7 */
- 	ATOMISP_INPUT_FORMAT_GENERIC_SHORT8,  /* Generic Short Packet Code 8 */
- 
--	/* CSI2-MIPI specific format: YUV data.
--	 */
--	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
--						 Pixel Sampling) */
--	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
--						 Pixel Sampling) */
-+	/* YUV data */
-+	/* YUV420 8-bit (Chroma Shifted Pixel Sampling) */
-+	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,
-+	/* YUV420 10-bit (Chroma Shifted Pixel Sampling) */
-+	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,
- 
--	/* CSI2-MIPI specific format: Generic long packet data
--	 */
--	ATOMISP_INPUT_FORMAT_EMBEDDED, /* Embedded 8-bit non Image Data */
-+	/* CSI2-MIPI specific format: Generic long packet data */
-+	/* Embedded 8-bit non Image Data */
-+	ATOMISP_INPUT_FORMAT_EMBEDDED,
- 
--	/* CSI2-MIPI specific format: User defined byte-based data. For example,
-+	/*
-+	 * User defined byte-based data. For example,
- 	 * the data transmitter (e.g. the SoC sensor) can keep the JPEG data as
- 	 * the User Defined Data Type 4 and the MPEG data as the
- 	 * User Defined Data Type 7.
-@@ -105,9 +106,9 @@ struct intel_v4l2_subdev_table {
- };
- 
- /*
-- *  Sensor of external ISP can send multiple streams with different mipi data
-+ * Sensor of external ISP can send multiple streams with different MIPI data
-  * type in the same virtual channel. This information needs to come from the
-- * sensor or external ISP
-+ * sensor or external ISP.
-  */
- struct atomisp_isys_config_info {
- 	u8 input_format;
-@@ -118,16 +119,17 @@ struct atomisp_isys_config_info {
- struct atomisp_input_stream_info {
- 	enum atomisp_input_stream_id stream;
- 	u8 enable;
--	/* Sensor driver fills ch_id with the id
--	   of the virtual channel. */
-+	/* Sensor driver fills ch_id with the id of the virtual channel. */
- 	u8 ch_id;
--	/* Tells how many streams in this virtual channel. If 0 ignore rest
--	 * and the input format will be from mipi_info */
-+	/*
-+	 * Tells the number of streams in this virtual channel. If 0, ignore the
-+	 * rest and the input format will be from mipi_info.
-+	 */
- 	u8 isys_configs;
- 	/*
--	 * if more isys_configs is more than 0, sensor needs to configure the
--	 * input format differently. width and height can be 0. If width and
--	 * height is not zero, then the corresponding data needs to be set
-+	 * If isys_configs is greater than 0, sensor needs to configure the
-+	 * input format differently. Width and height can be 0. If width and
-+	 * height are not zero, then the corresponding data needs to be set.
- 	 */
- 	struct atomisp_isys_config_info isys_info[MAX_STREAMS_PER_CHANNEL];
- };
--- 
-2.43.0
+This confirms that the AP does not have direct access to the PMIC configura=
+tion
+registers (likely blocked by the RPMh firewall/access control).
 
+However, I have confirmed definitively that the root cause is the 2.3s pass=
+ive
+discharge requiring a mandatory off-time.
+
+When I apply the `regulator-off-on-delay-us =3D <2300000>;` property to the
+camera regulators in the device tree (and patch the regulator driver to sup=
+port
+it), the camera operates flawlessly without needing any workarounds (like
+autosuspend / Software reset / additional delays) in the sensor driver.
+The regulator core correctly blocks the
+re-enable until the discharge constraint is met.
+
+The regulator delay and figuring the 2.3s out is another issue which I
+will keep digging at from now.
+
+Plan for v4:
+
+1. For this ov02c10 series (v4), I will drop the "Autosuspend" patch as it =
+is
+   no longer needed with the correct platform fix.
+
+3. I will keep the "Race Fix" (Patch 1) and a cleaned-up "Power Sequence"
+   (Patch 2) which addresses Hans's feedback (5ms reset assertion, no
+software reset) to ensure
+   the driver is compliant with the datasheet.
+
+Please let me know if you have any questions.
+
+Regards,
+Saikiran
+
+On Tue, Jan 27, 2026 at 4:41=E2=80=AFPM Bryan O'Donoghue <bod@kernel.org> w=
+rote:
+>
+> On 27/01/2026 11:06, Bryan O'Donoghue wrote:
+> > So, SPMI is not exported in /sys/kernel/debug/regmap - however
+> >
+> > drivers/regulator/qcom-rpmh-regulator.c
+> >
+> > Lets add this to probe
+> >
+> > unsigned int val, i;
+> >       u16 bases[] =3D {0x4000, 0x4300, 0x4600}; // LDO1, LDO4, LDO7
+> >       const char *names[] =3D {"LDO1(1.2V)", "LDO4(1.8V)", "LDO7(2.8V)"=
+};
+> >       struct regmap *p_regmap =3D dev_get_regmap(dev->parent, NULL);
+> >
+> >       if (p_regmap) {
+> >           pr_info("--- OV02C10 PMIC RAIL DUMP START ---\n");
+> >           for (i =3D 0; i < 3; i++) {
+> >               // Check Config (Active Discharge)
+> >               regmap_read(p_regmap, bases[i] + 0x41, &val);
+> >               pr_info("!!! %s SEC_CTRL (0x%04x) =3D 0x%02x (Bit7: Activ=
+e
+> > Discharge)\n",
+> >                       names[i], bases[i] + 0x41, val);
+> >
+> >               // Check Status (Is it actually on?)
+> >               regmap_read(p_regmap, bases[i] + 0x08, &val);
+> >               pr_info("!!! %s STATUS   (0x%04x) =3D 0x%02x (Bit7: VREG_=
+OK,
+> > Bit0: VREG_ON)\n",
+> >                       names[i], bases[i] + 0x08, val);
+> >
+> >               // Check Pull-down config (Secondary check)
+> >               regmap_read(p_regmap, bases[i] + 0x42, &val);
+> >               pr_info("!!! %s PD_CTRL   (0x%04x) =3D 0x%02x\n",
+> >                       names[i], bases[i] + 0x42, val);
+> >           }
+> >           pr_info("--- OV02C10 PMIC RAIL DUMP END ---\n");
+> >       }
+>
+> Obviously only do this for PM8010 for the other RPMh which may not have
+> this offset.
+>
+> ---
+> bod
 
