@@ -1,45 +1,44 @@
-Return-Path: <linux-media+bounces-51668-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51670-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +ET7DQfPeGmNtQEAu9opvQ
-	(envelope-from <linux-media+bounces-51668-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 15:43:19 +0100
+	id KHDiL8XPeGmNtQEAu9opvQ
+	(envelope-from <linux-media+bounces-51670-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 15:46:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E02D95E77
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 15:43:18 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 473B295F52
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 15:46:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A8398301C249
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 14:40:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 23D8D30EBF7D
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 14:40:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E165B35E554;
-	Tue, 27 Jan 2026 14:40:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8759735E533;
+	Tue, 27 Jan 2026 14:40:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5617A35DCF6
-	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 14:40:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A7C35E534
+	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 14:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769524812; cv=none; b=ssWll83SOiEjoi+hUZxbYtMpxnRhe6002wU2XjRk22R0tsfwVxjDYD8iIde60Y1qBJIAxB5FxMS63MWXYLfuEGDbSTi30//aKLmujFtY8Pz7eZUmJ/ImQ0BE8dNwytLPt7FTQ32qCV7FCvPMfdYweTFynRJu4zCAIple4yktZtM=
+	t=1769524815; cv=none; b=Nx0DH5ZdoYPL7MQkdNsbyEfd/DNTB9qjGQReuCAvQUDF2YqK/ofFj4gFX2tX9jMl8aoiXbR5ZTL8cbho3aLqsZZTFnzbNKbpPAXdGpcL93bsmpvhM7ZqsUEOUHkOkne0v/zH0ZTr7Kqtv/1WNGrNiYBJQfbVsKOyNpCscw7PzuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769524812; c=relaxed/simple;
-	bh=FE0q+9IWB9cdSzVXcVcA+rfDcDAvz7Z0AHtTsxTB21s=;
+	s=arc-20240116; t=1769524815; c=relaxed/simple;
+	bh=nPr/yFMr7sD7yVKE0J0oTZ5E/lqngZX18lzQlxnrkhA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jFvgiMzQuSuEmroaRLYZWCJbVpYtUbk8Fgw6JxpK1kBHewsb09ULebAgIWSKAz+m/G+bKm+KECaNkwcTOu8NFI16YB1TN7PiTbZY4h/+Hf+nSLf1J1bwQ7OxOaA37E2A7oyuJdYsURLoQJPz/aE12lB8dM5ofrvSD8SCr/XrinU=
+	 In-Reply-To:To:Cc; b=e6O7ZHEYOsRf3CnJRG0JACN8HnUeTHsMIwdUhIwFgTDzM2yEh4ouggJVVRxr7cnrHDnahIJ8yj3Q3BN4nMvgeZXC7nUAZrq0/Psa/FEIVohrfK1tovYI5P1wqgnGI6rIHX1/lPcVUfpO+2pNxis+xhDrAqA1Sxv+3cugQnLqMzo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=peter.mobile.pengutronix.de)
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1vkkEe-0007YT-6Z; Tue, 27 Jan 2026 15:40:04 +0100
+	id 1vkkEg-0007YT-BX; Tue, 27 Jan 2026 15:40:06 +0100
 From: =?utf-8?q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-Date: Tue, 27 Jan 2026 15:39:14 +0100
-Subject: [PATCH v3 05/27] media: v4l2-common: add
- v4l2_fill_pixfmt_mp_aligned helper
+Date: Tue, 27 Jan 2026 15:39:15 +0100
+Subject: [PATCH v3 06/27] media: rockchip: rga: use clk_bulk api
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,7 +47,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260127-spu-rga3-v3-5-77b273067beb@pengutronix.de>
+Message-Id: <20260127-spu-rga3-v3-6-77b273067beb@pengutronix.de>
 References: <20260127-spu-rga3-v3-0-77b273067beb@pengutronix.de>
 In-Reply-To: <20260127-spu-rga3-v3-0-77b273067beb@pengutronix.de>
 To: Jacob Chen <jacob-chen@iotwrt.com>, 
@@ -70,12 +69,12 @@ X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51668-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51670-lists,linux-media=lfdr.de];
 	DMARC_NA(0.00)[pengutronix.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -86,149 +85,149 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	MID_RHS_MATCH_FROM(0.00)[];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9E02D95E77
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 473B295F52
 X-Rspamd-Action: no action
 
-Add a v4l2_fill_pixfmt_mp_aligned helper which allows the user to
-specify a custom stride alignment in bytes. This is necessary for
-hardware like the Rockchip RGA3, which requires the stride value to be
-aligned to a 16 bytes boundary.
+Use the clk_bulk API to avoid code duplication for each of the three
+clocks.
 
 Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
 ---
- drivers/media/v4l2-core/v4l2-common.c | 45 +++++++++++++++++++++++++----------
- include/media/v4l2-common.h           |  4 ++++
- 2 files changed, 37 insertions(+), 12 deletions(-)
+ drivers/media/platform/rockchip/rga/rga.c | 65 ++++---------------------------
+ drivers/media/platform/rockchip/rga/rga.h |  6 +--
+ 2 files changed, 11 insertions(+), 60 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 2b5ccedeb6841..e61506ead9150 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -431,14 +431,15 @@ static inline unsigned int v4l2_format_block_height(const struct v4l2_format_inf
- }
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index 43f6a8d993811..338c7796490bc 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -698,48 +698,10 @@ static const struct video_device rga_videodev = {
+ 	.device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING,
+ };
  
- static inline unsigned int v4l2_format_plane_stride(const struct v4l2_format_info *info, int plane,
--						    unsigned int width)
-+						    unsigned int width, u8 byte_alignment)
+-static int rga_enable_clocks(struct rockchip_rga *rga)
+-{
+-	int ret;
+-
+-	ret = clk_prepare_enable(rga->sclk);
+-	if (ret) {
+-		dev_err(rga->dev, "Cannot enable rga sclk: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = clk_prepare_enable(rga->aclk);
+-	if (ret) {
+-		dev_err(rga->dev, "Cannot enable rga aclk: %d\n", ret);
+-		goto err_disable_sclk;
+-	}
+-
+-	ret = clk_prepare_enable(rga->hclk);
+-	if (ret) {
+-		dev_err(rga->dev, "Cannot enable rga hclk: %d\n", ret);
+-		goto err_disable_aclk;
+-	}
+-
+-	return 0;
+-
+-err_disable_aclk:
+-	clk_disable_unprepare(rga->aclk);
+-err_disable_sclk:
+-	clk_disable_unprepare(rga->sclk);
+-
+-	return ret;
+-}
+-
+-static void rga_disable_clocks(struct rockchip_rga *rga)
+-{
+-	clk_disable_unprepare(rga->sclk);
+-	clk_disable_unprepare(rga->hclk);
+-	clk_disable_unprepare(rga->aclk);
+-}
+-
+ static int rga_parse_dt(struct rockchip_rga *rga)
  {
- 	unsigned int hdiv = plane ? info->hdiv : 1;
- 	unsigned int aligned_width =
- 		ALIGN(width, v4l2_format_block_width(info, plane));
+ 	struct reset_control *core_rst, *axi_rst, *ahb_rst;
++	int ret;
  
--	return DIV_ROUND_UP(aligned_width, hdiv) *
--	       info->bpp[plane] / info->bpp_div[plane];
-+	return ALIGN(DIV_ROUND_UP(aligned_width, hdiv) * info->bpp[plane] /
-+			     info->bpp_div[plane],
-+		     byte_alignment);
- }
+ 	core_rst = devm_reset_control_get(rga->dev, "core");
+ 	if (IS_ERR(core_rst)) {
+@@ -771,23 +733,12 @@ static int rga_parse_dt(struct rockchip_rga *rga)
+ 	udelay(1);
+ 	reset_control_deassert(ahb_rst);
  
- static inline unsigned int v4l2_format_plane_height(const struct v4l2_format_info *info, int plane,
-@@ -452,9 +453,10 @@ static inline unsigned int v4l2_format_plane_height(const struct v4l2_format_inf
- }
- 
- static inline unsigned int v4l2_format_plane_size(const struct v4l2_format_info *info, int plane,
--						  unsigned int width, unsigned int height)
-+						  unsigned int width, unsigned int height,
-+						  u8 stride_alignment)
- {
--	return v4l2_format_plane_stride(info, plane, width) *
-+	return v4l2_format_plane_stride(info, plane, width, stride_alignment) *
- 	       v4l2_format_plane_height(info, plane, height);
- }
- 
-@@ -475,8 +477,9 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
- }
- EXPORT_SYMBOL_GPL(v4l2_apply_frmsize_constraints);
- 
--int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
--			u32 pixelformat, u32 width, u32 height)
-+int v4l2_fill_pixfmt_mp_aligned(struct v4l2_pix_format_mplane *pixfmt,
-+				u32 pixelformat, u32 width, u32 height,
-+				u8 stride_alignment)
- {
- 	const struct v4l2_format_info *info;
- 	struct v4l2_plane_pix_format *plane;
-@@ -493,23 +496,41 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
- 
- 	if (info->mem_planes == 1) {
- 		plane = &pixfmt->plane_fmt[0];
--		plane->bytesperline = v4l2_format_plane_stride(info, 0, width);
-+		/*
-+		 * In case of multiple planes the stride of the other planes
-+		 * is derived from the y stride. To avoid breaking the stride
-+		 * alignment for the non y plane, multiply it by 2.
-+		 */
-+		if (info->comp_planes > 1)
-+			stride_alignment *= 2;
-+		plane->bytesperline = v4l2_format_plane_stride(info, 0, width,
-+							       stride_alignment);
- 		plane->sizeimage = 0;
- 
- 		for (i = 0; i < info->comp_planes; i++)
- 			plane->sizeimage +=
--				v4l2_format_plane_size(info, i, width, height);
-+				v4l2_format_plane_size(info, i, width, height,
-+						       stride_alignment);
- 	} else {
- 		for (i = 0; i < info->comp_planes; i++) {
- 			plane = &pixfmt->plane_fmt[i];
- 			plane->bytesperline =
--				v4l2_format_plane_stride(info, i, width);
-+				v4l2_format_plane_stride(info, i, width,
-+							 stride_alignment);
- 			plane->sizeimage = plane->bytesperline *
- 				v4l2_format_plane_height(info, i, height);
- 		}
+-	rga->sclk = devm_clk_get(rga->dev, "sclk");
+-	if (IS_ERR(rga->sclk)) {
+-		dev_err(rga->dev, "failed to get sclk clock\n");
+-		return PTR_ERR(rga->sclk);
+-	}
+-
+-	rga->aclk = devm_clk_get(rga->dev, "aclk");
+-	if (IS_ERR(rga->aclk)) {
+-		dev_err(rga->dev, "failed to get aclk clock\n");
+-		return PTR_ERR(rga->aclk);
+-	}
+-
+-	rga->hclk = devm_clk_get(rga->dev, "hclk");
+-	if (IS_ERR(rga->hclk)) {
+-		dev_err(rga->dev, "failed to get hclk clock\n");
+-		return PTR_ERR(rga->hclk);
++	ret = devm_clk_bulk_get_all(rga->dev, &rga->clks);
++	if (ret < 0) {
++		dev_err(rga->dev, "failed to get clocks\n");
++		return ret;
  	}
++	rga->num_clks = ret;
+ 
  	return 0;
  }
-+EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp_aligned);
-+
-+int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-+			u32 pixelformat, u32 width, u32 height)
-+{
-+	return v4l2_fill_pixfmt_mp_aligned(pixfmt, pixelformat,
-+					   width, height, 1);
-+}
- EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp);
+@@ -935,7 +886,7 @@ static int __maybe_unused rga_runtime_suspend(struct device *dev)
+ {
+ 	struct rockchip_rga *rga = dev_get_drvdata(dev);
  
- int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-@@ -529,12 +550,12 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
- 	pixfmt->width = width;
- 	pixfmt->height = height;
- 	pixfmt->pixelformat = pixelformat;
--	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width);
-+	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width, 1);
- 	pixfmt->sizeimage = 0;
+-	rga_disable_clocks(rga);
++	clk_bulk_disable_unprepare(rga->num_clks, rga->clks);
  
- 	for (i = 0; i < info->comp_planes; i++)
- 		pixfmt->sizeimage +=
--			v4l2_format_plane_size(info, i, width, height);
-+			v4l2_format_plane_size(info, i, width, height, 1);
  	return 0;
  }
- EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
-diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-index 401d8506c24b5..edd416178c333 100644
---- a/include/media/v4l2-common.h
-+++ b/include/media/v4l2-common.h
-@@ -558,6 +558,10 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
- 		     u32 width, u32 height);
- int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
- 			u32 width, u32 height);
-+/* @stride_alignment is a power of 2 value in bytes */
-+int v4l2_fill_pixfmt_mp_aligned(struct v4l2_pix_format_mplane *pixfmt,
-+				u32 pixelformat, u32 width, u32 height,
-+				u8 stride_alignment);
+@@ -944,7 +895,7 @@ static int __maybe_unused rga_runtime_resume(struct device *dev)
+ {
+ 	struct rockchip_rga *rga = dev_get_drvdata(dev);
  
- /**
-  * v4l2_get_link_freq - Get link rate from transmitter
+-	return rga_enable_clocks(rga);
++	return clk_bulk_prepare_enable(rga->num_clks, rga->clks);
+ }
+ 
+ static const struct dev_pm_ops rga_pm = {
+diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
+index 72a28b120fabf..2db10acecb405 100644
+--- a/drivers/media/platform/rockchip/rga/rga.h
++++ b/drivers/media/platform/rockchip/rga/rga.h
+@@ -6,6 +6,7 @@
+ #ifndef __RGA_H__
+ #define __RGA_H__
+ 
++#include <linux/clk.h>
+ #include <linux/platform_device.h>
+ #include <media/videobuf2-v4l2.h>
+ #include <media/v4l2-ctrls.h>
+@@ -81,9 +82,8 @@ struct rockchip_rga {
+ 	struct device *dev;
+ 	struct regmap *grf;
+ 	void __iomem *regs;
+-	struct clk *sclk;
+-	struct clk *aclk;
+-	struct clk *hclk;
++	struct clk_bulk_data *clks;
++	int num_clks;
+ 	struct rockchip_rga_version version;
+ 
+ 	/* vfd lock */
 
 -- 
 2.52.0
