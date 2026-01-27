@@ -1,244 +1,221 @@
-Return-Path: <linux-media+bounces-51699-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51700-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oPsYLePleGlwtwEAu9opvQ
-	(envelope-from <linux-media+bounces-51699-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 17:20:51 +0100
+	id sJxqKqXteGkCuAEAu9opvQ
+	(envelope-from <linux-media+bounces-51700-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 17:53:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFB397A9B
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 17:20:51 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA98198037
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 17:53:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5641430214FA
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 16:20:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C84E03009827
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 16:28:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ACFA3033D7;
-	Tue, 27 Jan 2026 16:20:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A1B5361DBC;
+	Tue, 27 Jan 2026 16:27:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eFblznla"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="KlTE7ocJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A9E35DD0C
-	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 16:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769530841; cv=pass; b=YZJIWBY4q59M8OiWomOyRqWNx+Hk/OxRo7ZfYRoFxpQ9p4BIRh5F8OazIQakIoTV4gKEQyYhgeGO7bq4SDGy5ADsS7fVJbvWz/XOUTFhOdev85BQ8K0W9KfedVuqjzXV9/wXgrn3aK70Lpty4CvsYBs12Q0awZIRmFXus8jtsUQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769530841; c=relaxed/simple;
-	bh=p/BPlz45ZsnUOOv45A1fjPgdnS9vrperPPIkgwQyvPU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q3gwxXwkuUCCqdjEZBHlcyhhTe4bvT3Lh0M4ybqIBReiM5bW89Vu4jBSkXVCt/J5IL/J/WK5t3MYaK6KMfYOX9dtXIMc8VTU8AbMHiR0zcblT4XsB6dtsevOvmXasxUvCe73/oagJaHoT6/x23KS8HkX+GsWB5wnDX2X65yGHlI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eFblznla; arc=pass smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-bde0f62464cso1823853a12.2
-        for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 08:20:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769530840; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Y9/KrsX7Fqo574wEyX6epC6eCjcIArwmJ3aNBfQ11sPo5ni4Yhdfay0xmAtqPhtBJu
-         dbN3F/t8gaGeWeqR08olS0iDFdfDSHMMbfasZat+36br1QqHu2EQO9oY745ofB6bh/1X
-         /OtCxZFARp1NvnN77dgYZmwZ8I0KWSdjxfOEpA4oMFGSUO6nYOVO0VgAia5zcHQNhyUV
-         QSbM2FNaDBuGchDVr1csw4jVXu55dTQN1Oft1+vPNl++e2ZAE16MRoehOZ5w+NN8RaN/
-         C/gSGSL1js2oq+C+gwcTSGkiwdAewDoaNkRtehzhxOBO+Ehm6kF/ROHWskVJ3RQKOrWA
-         S+FQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=d65yytJ1MW2JgMvRS0O1lQIMly3lo2OKXfhreY51uFQ=;
-        fh=khnm9D+aw/nLxOswpUleIP4t583IdOaRJf4F+uqZXH8=;
-        b=hJW5dSQEaf53a9DGsgB60LtFF8ExTKNgm8pqZV6trAfkBRhkRegWCnTzuwolELLENB
-         9S8rpeCBhr6+R+ZiQZoiBXCYYf/T2BRanlbNruzm3ca+1+YS7ziWuHRJxxv7cUS79kBy
-         MZmvGT5BIfDlfh5U0GQDd6eZHWqe2kqLoXuXIk3tN6uD4kLq0dPtecr2NnmvL5MCb3Db
-         NXFlut1TKzBtKvKlb2vebLu1E5DrCeejqCJfm5k9vIOiKf9lyDjoLBeXo4lXoIqSt/92
-         wE0AsjkCquxc8dHJMXFt90pyQEyW3pWNIHz8u7eZZnLyGttgYQeBW7BuuUANFTMYpzj4
-         AlOA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF55435CBA5
+	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 16:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769531278; cv=none; b=jJN5CPtHNHbf4COd0Wpktw3cS7qiFiV9UOlvT8B2nsoJjOHr+cNzd8eqqP041Yrmt44k9JDIyZbsA16ALjoghheracETTPWcIRDqqkPVyi7kcrSMsben7M0netnxqFosRzOaCALr50gD9foxsg6y62+5TE38NQVJQ+ewdiQtNr8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769531278; c=relaxed/simple;
+	bh=EzvzbPpROKuqvVQCoJHluXwjW5pJqoCNcXzstaHV6s4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bCUnNIxo9FgoNAhhiFGIbxWAKP3ps0tJMYenfbJVju3TTPB7HAV9xq0UBJhnoiuJ48d/vS1X07Eqc17MdOTXrnoxOml6z98yFMsaRrudS72gqyRCtREpjFTEIwJjSW3DRJYBWm/gh8LWgsAitWkvTpnJv4Kb+mrBgsHYcdgVkK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=KlTE7ocJ; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5013d163e2fso65737561cf.0
+        for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 08:27:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769530840; x=1770135640; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d65yytJ1MW2JgMvRS0O1lQIMly3lo2OKXfhreY51uFQ=;
-        b=eFblznlaAM8ejSVhSXhmavjFxMQf00lhD/5n/xkQ4GZm9pQ9y1SYBtDMtnud7+Dbkv
-         u1QkDeZDOczq1g5INH2DQXrf7lQJU3S7i0RLju03z9IWWbocTHFTO19bvby53/FexhXb
-         s5NsuQaQyfCfc1Rzi2zaPsDXBQceAk/dqcbeQW0bwQIZTS8g30i8LjwYM0Q8M+XzlDdb
-         ZnkkjChz9+kUrs984zjVkddMi9x9xacicZ/YYuaPGxwZkFHoJPhV6aTSkl+vSPqXKbq4
-         r8D6g5iKPLjRDkw7EXlPCfzdUyUE89pgk5kxigqOzn/6P4e5FegThzzkVvA7X+8SCbHq
-         sc2Q==
+        d=ziepe.ca; s=google; t=1769531276; x=1770136076; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3Kat2TyZxDqTgTm8MMhUVYtoZ/z4BzE2I09fTuJqEpw=;
+        b=KlTE7ocJAtXhGsD/ZpW2fgoxgrYuaHqmg4qYKFaH4AXvMmVwIXr2XDqLtaHCHYsBVs
+         3x9kX3XNrOnS0sERj5ESgrOvOgAVZeWTt5suRDq+z2e1SFDjUB9rYGpHfiuklViAPQrc
+         phlR/hBmICpevDQXsuIWf24zo+0lqSC31hlFBRxrF2TZPyjfx1oJKPyfV82E7wkMKpdH
+         2dSIj92u+OTq5VNGOBvsOvBr+lc4pYFiAAHD9tNGfTbwO5J0KEI38nKkkt+Ex+fzPY4O
+         fRdqZXrfnSawNSosTfCjM1qcm003ArXEnRXTHsLhZikFi/xGsVMfpCWwHf/IG6cMhY64
+         MWyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769530840; x=1770135640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=d65yytJ1MW2JgMvRS0O1lQIMly3lo2OKXfhreY51uFQ=;
-        b=iqr38S+XRJZOjkzNIMWj01koNe7Un6RcAohSG6aQkdEJkkcBZO/MB4LHTTOnExnQE7
-         wdCzZIwoxduXEd326y4yWf/UrQzU2Ld5DK26Hj8h6v5Y/1729e86lc/gME3T8UZFD385
-         Wgob8Afo1dZsEKgknUBArZDqyLtwT5/zRaIhBLmLDk5WZlPXF+cIf7HN37YfJDX6M2HX
-         7tnq6BWXQrPVwFsh/r82Ul3VJFSscYW7ZbT1usCUUIXdeuzJuh0iOjoK2/JwB/w9zhd8
-         Oq6MULxD4K+gqyur+7+etgdjg3+h/mLXk3NQAvvw+mNlVdkJz2KtKYjMzKxyPQTgIE0B
-         htxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUtwdDarg1GnmrM3ueBDntZWPxBEQqFJEDLwrFro19N7oa0gRb1MCd8RqF38a/BT46sswiju17gpBndGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfFGK1/BOtP9uni7KK0H8DQxXrktbNfqzQSqOvG7bxwj52fNC5
-	HrUTH602nNOlZ7KCR6egKPp9tuCUA/tvQxOf1ESJuQhQ/8ZeiQuifKpI0aTFP960oIxp6DHkRik
-	3pfTDBmhAB6woN0ChwfqdUIZKyi/gTO4=
-X-Gm-Gg: AZuq6aKIsssnNNNz6hVLa6DgDDAfcUtAg9MDqMSy0ontUbGbAl76dnGZD6jv9afCapH
-	aa9pByPHv9Iz1GDlkFOlzEpmDRHawwdQNsge7xIBk9RP22+ZdVZF8oJU0+Hx6i4uyrKiwe0Gb1o
-	MbuLG73NhefKQpV1aholwBfX3Mj8ahdVrKVsguAe64+iC+R+5pDu0d4GM9fxUVmxivZ5ww5UkUf
-	RTFK1GfJ4hMpHHVkz4xKIuHoPtvBd+Bvk9fEo7t5ZItJ8yxm5nMdmVrII+HO4u3QE10YgZcW1AA
-	l9MTjInVp6bcoIsnVmfDhG9KSr0=
-X-Received: by 2002:a17:90b:3b85:b0:340:2a3a:71b7 with SMTP id
- 98e67ed59e1d1-353fecd6236mr2343805a91.12.1769530839689; Tue, 27 Jan 2026
- 08:20:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769531276; x=1770136076;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Kat2TyZxDqTgTm8MMhUVYtoZ/z4BzE2I09fTuJqEpw=;
+        b=OlYD1p2WY58OePJ5pHJL3v5Yh2I6YJmjWokBDkLVIS7Y3ftStYl9WA0+yGD8XnviR0
+         rO/2zANRjL4I7114H1LU2SIy+hf5jlKrObXcR1imcyFl9JE9qyAXLbyZfy1tAmAuBhJl
+         UxdIYOYRmBbE8edHaXt1aS97CvV0GjISpmIsFhVRRxPb1ziOjx1gX8+Tp/HFYPLS3Q5J
+         kQSGpmASMhS654uGwXR3EwlxoiQjjUAc0HcI9y/vwZ0MlK4vjDw3NX2s1J19nVoxB32P
+         Qh/YVOODg+0jxnoDs7nPpDdEIDTzRuUDINmJR3sOADtx2NNsvtJke8BibNgikyELMhaY
+         jkhg==
+X-Forwarded-Encrypted: i=1; AJvYcCUl4jaWWvuJ8yBCKmrPaklwQrs5OzK07CyzUCKaDNNuz64TJVPYnC5wxowL+FL9sclIA6DrNc9Jga0bcw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMCF437sNHshUCam3E1cokTIeGdTSUU/Ni0FSUqxRMGfrDbvOV
+	dUF4/JuPazVclYaHvWF1OJWrJ/3qaEvTHqKpm9drMch4bfumAN0oFW1YJr8gAcPirRw=
+X-Gm-Gg: AZuq6aIMPsNms8c4kmYayhs1ZRmtvYlZoZVe9HvBZ0h6Ez8NwUC3ZZMgUizt5+eM87c
+	nULuPHhII5HlpSmbHmka2UWc9+NfbdNyhx2vA6sAwnlM+iWsuNrZFpOvISPlriyffQ4xWZZTMpI
+	B5LO2G1fYAdnpNiHbOvPF3oljvtiPrJyYvLBAF91KiK2XcK5xVUwcLz+GHXRZbS1Fim6n17Vaco
+	p2nfbDm3kfmnarEJeQ4hKIlvCmEtA3lSR3DFi/CrVi0W5fJMuZP1NcoH81SF+808I6oSMwYFLZ6
+	QymY90AWfm/Lv6YLmFBa35JYqWIg+wPEAcKZZPGW97Aczybb2cdDSGlIRx+XsFsCruibjF7Ygr8
+	IAwKNBZ1rFqLFr3WNN5rX/7sK6zIodRW7esY0wv2qlVVAPiw+DQtrQy/4DVyzdHyYd1FH4Zw5Gz
+	Tl/R7pTjM4aQagctOqOVL25AjC9wu/urrYrZkct+0c+tUN7xooUcPJZap0i29VxKS2tE430Q82i
+	47IRw==
+X-Received: by 2002:a05:622a:612:b0:4f1:ba00:4cc6 with SMTP id d75a77b69052e-5032fc167d4mr25702421cf.79.1769531275530;
+        Tue, 27 Jan 2026 08:27:55 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-502fb8e74ebsm102277581cf.0.2026.01.27.08.27.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jan 2026 08:27:55 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vklv0-000000095Ys-1TUe;
+	Tue, 27 Jan 2026 12:27:54 -0400
+Date: Tue, 27 Jan 2026 12:27:54 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Pranjal Shrivastava <praan@google.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260127162754.GH1641016@ziepe.ca>
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
+ <aXfUZcSEr9N18o6w@google.com>
+ <20260127085835.GQ13967@unreal>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260126173444.10228-1-bjsaikiran@gmail.com> <20260126173444.10228-4-bjsaikiran@gmail.com>
- <900cc5dd-c39d-42f6-9531-016f62da81e8@linaro.org> <CAAFDt1tsyvtAa84bFK2Hq5yG_F15SUUseBd5Xi-DB8GnUj7+7A@mail.gmail.com>
- <aaab1d32-9375-47d2-8524-e80e076b864e@linaro.org> <CAAFDt1vKn5ssoTQZduGKb5eOeN74P=FVk9f01go1d-JS71Zt0A@mail.gmail.com>
- <clmeor0Z59Dd_ymBj-m2zE0orMOFgVsPFXUBpBx39ZehM4t_GrlZV8y8f-lZbH6p9N-W7FLs7PqYhfG6VzwmBw==@protonmail.internalid>
- <571cd869-847f-4697-ace3-503f123e8486@linaro.org> <cb902c4e-f7b9-4d70-a997-1e84c90ea18b@kernel.org>
-In-Reply-To: <cb902c4e-f7b9-4d70-a997-1e84c90ea18b@kernel.org>
-From: Saikiran B <bjsaikiran@gmail.com>
-Date: Tue, 27 Jan 2026 21:50:28 +0530
-X-Gm-Features: AZwV_Qj_vb1x1lu6XXMunkVpxeZcvcZBHMOYFjYNAf2rHeYoii8GYdmNqCxCgXM
-Message-ID: <CAAFDt1s+RUpUEUEERCuXqDHijxHXW=PemVaWk=to7WtQ9cYKEg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] media: i2c: ov02c10: Use runtime PM autosuspend to
- avoid brownouts
-To: "Bryan O'Donoghue" <bod@kernel.org>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, rfoss@kernel.org, todor.too@gmail.com, 
-	vladimir.zapolskiy@linaro.org, Hans de Goede <hansg@kernel.org>, 
-	sakari.ailus@linux.intel.com, mchehab@kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260127085835.GQ13967@unreal>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51699-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[linaro.org,vger.kernel.org,kernel.org,gmail.com,linux.intel.com];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-51700-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DMARC_NA(0.00)[ziepe.ca];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	RCPT_COUNT_TWELVE(0.00)[35];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bjsaikiran@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 2CFB397A9B
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ziepe.ca:mid,ziepe.ca:dkim]
+X-Rspamd-Queue-Id: DA98198037
 X-Rspamd-Action: no action
 
-Hi Bryan and Hans,
+On Tue, Jan 27, 2026 at 10:58:35AM +0200, Leon Romanovsky wrote:
+> > > @@ -333,7 +359,37 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+> > >  			dma_resv_lock(priv->dmabuf->resv, NULL);
+> > >  			priv->revoked = revoked;
+> > >  			dma_buf_invalidate_mappings(priv->dmabuf);
+> > > +			dma_resv_wait_timeout(priv->dmabuf->resv,
+> > > +					      DMA_RESV_USAGE_BOOKKEEP, false,
+> > > +					      MAX_SCHEDULE_TIMEOUT);
+> > >  			dma_resv_unlock(priv->dmabuf->resv);
+> > > +			if (revoked) {
+> > > +				kref_put(&priv->kref, vfio_pci_dma_buf_done);
+> > > +				/* Let's wait till all DMA unmap are completed. */
+> > > +				wait = wait_for_completion_timeout(
+> > > +					&priv->comp, secs_to_jiffies(1));
+> > 
+> > Is the 1-second constant sufficient for all hardware, or should the 
+> > invalidate_mappings() contract require the callback to block until 
+> > speculative reads are strictly fenced? I'm wondering about a case where
+> > a device's firmware has a high response latency, perhaps due to internal
+> > management tasks like error recovery or thermal and it exceeds the 1s 
+> > timeout. 
+> > 
+> > If the device is in the middle of a large DMA burst and the firmware is
+> > slow to flush the internal pipelines to a fully "quiesced"
+> > read-and-discard state, reclaiming the memory at exactly 1.001 seconds
+> > risks triggering platform-level faults..
+> > 
+> > Since the wen explicitly permit these speculative reads until unmap is
+> > complete, relying on a hardcoded timeout in the exporter seems to 
+> > introduce a hardware-dependent race condition that could compromise
+> > system stability via IOMMU errors or AER faults. 
+> > 
+> > Should the importer instead be required to guarantee that all 
+> > speculative access has ceased before the invalidation call returns?
+> 
+> It is guaranteed by the dma_resv_wait_timeout() call above. That call ensures
+> that the hardware has completed all pending operations. The 1‑second delay is
+> meant to catch cases where an in-kernel DMA unmap call is missing, which should
+> not trigger any DMA activity at that point.
 
-I implemented your suggested debug probe in qcom-rpmh-regulator.c to inspec=
-t
-the registers directly. Unfortunately, on this platform (X1E80100), it retu=
-rns:
+Christian may know actual examples, but my general feeling is he was
+worrying about drivers that have pushed the DMABUF to visibility on
+the GPU and the move notify & fences only shoot down some access. So
+it has to wait until the DMABUF is finally unmapped.
 
-  rpmh_regulator_probe: --- OV02C10 PMIC DUMP: Failed to get parent regmap =
----
+Pranjal's example should be covered by the driver adding a fence and
+then the unbounded fence wait will complete it.
 
-This confirms that the AP does not have direct access to the PMIC configura=
-tion
-registers (likely blocked by the RPMh firewall/access control).
+I think the open question here is if drivers that can't rely on their
+fences should return dma_buf_attach_revocable() = false ? It depends
+on how long they will leave the buffers mapped, and if it is "bounded
+time".
 
-However, I have confirmed definitively that the root cause is the 2.3s pass=
-ive
-discharge requiring a mandatory off-time.
+The converse is we want to detect bugs where drivers have wrongly set
+dma_buf_attach_revocable() = true and this turns into an infinite
+sleep, so the logging is necessary, IMHO.
 
-When I apply the `regulator-off-on-delay-us =3D <2300000>;` property to the
-camera regulators in the device tree (and patch the regulator driver to sup=
-port
-it), the camera operates flawlessly without needing any workarounds (like
-autosuspend / Software reset / additional delays) in the sensor driver.
-The regulator core correctly blocks the
-re-enable until the discharge constraint is met.
+At worst the code should sleep 1s, print, then keep sleeping..
 
-The regulator delay and figuring the 2.3s out is another issue which I
-will keep digging at from now.
-
-Plan for v4:
-
-1. For this ov02c10 series (v4), I will drop the "Autosuspend" patch as it =
-is
-   no longer needed with the correct platform fix.
-
-3. I will keep the "Race Fix" (Patch 1) and a cleaned-up "Power Sequence"
-   (Patch 2) which addresses Hans's feedback (5ms reset assertion, no
-software reset) to ensure
-   the driver is compliant with the datasheet.
-
-Please let me know if you have any questions.
-
-Regards,
-Saikiran
-
-On Tue, Jan 27, 2026 at 4:41=E2=80=AFPM Bryan O'Donoghue <bod@kernel.org> w=
-rote:
->
-> On 27/01/2026 11:06, Bryan O'Donoghue wrote:
-> > So, SPMI is not exported in /sys/kernel/debug/regmap - however
-> >
-> > drivers/regulator/qcom-rpmh-regulator.c
-> >
-> > Lets add this to probe
-> >
-> > unsigned int val, i;
-> >       u16 bases[] =3D {0x4000, 0x4300, 0x4600}; // LDO1, LDO4, LDO7
-> >       const char *names[] =3D {"LDO1(1.2V)", "LDO4(1.8V)", "LDO7(2.8V)"=
-};
-> >       struct regmap *p_regmap =3D dev_get_regmap(dev->parent, NULL);
-> >
-> >       if (p_regmap) {
-> >           pr_info("--- OV02C10 PMIC RAIL DUMP START ---\n");
-> >           for (i =3D 0; i < 3; i++) {
-> >               // Check Config (Active Discharge)
-> >               regmap_read(p_regmap, bases[i] + 0x41, &val);
-> >               pr_info("!!! %s SEC_CTRL (0x%04x) =3D 0x%02x (Bit7: Activ=
-e
-> > Discharge)\n",
-> >                       names[i], bases[i] + 0x41, val);
-> >
-> >               // Check Status (Is it actually on?)
-> >               regmap_read(p_regmap, bases[i] + 0x08, &val);
-> >               pr_info("!!! %s STATUS   (0x%04x) =3D 0x%02x (Bit7: VREG_=
-OK,
-> > Bit0: VREG_ON)\n",
-> >                       names[i], bases[i] + 0x08, val);
-> >
-> >               // Check Pull-down config (Secondary check)
-> >               regmap_read(p_regmap, bases[i] + 0x42, &val);
-> >               pr_info("!!! %s PD_CTRL   (0x%04x) =3D 0x%02x\n",
-> >                       names[i], bases[i] + 0x42, val);
-> >           }
-> >           pr_info("--- OV02C10 PMIC RAIL DUMP END ---\n");
-> >       }
->
-> Obviously only do this for PM8010 for the other RPMh which may not have
-> this offset.
->
-> ---
-> bod
+Jason
 
