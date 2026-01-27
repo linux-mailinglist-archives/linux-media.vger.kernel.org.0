@@ -1,66 +1,67 @@
-Return-Path: <linux-media+bounces-51596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51599-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AC9GNU0meGl7oQEAu9opvQ
-	(envelope-from <linux-media+bounces-51596-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 03:43:25 +0100
+	id wJYvAbMmeGl7oQEAu9opvQ
+	(envelope-from <linux-media+bounces-51599-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 03:45:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5061C8F1A6
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 03:43:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8918F24F
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 03:45:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6579D301E942
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 02:43:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2A5BC3053B8E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 02:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7155B2DB7B2;
-	Tue, 27 Jan 2026 02:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 390702EC09F;
+	Tue, 27 Jan 2026 02:43:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="mzZTzeJ5"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="eXSxX0e+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB982D7BF;
-	Tue, 27 Jan 2026 02:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A680E2E7BB4;
+	Tue, 27 Jan 2026 02:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769481789; cv=none; b=sXVvQigGRpMQ7ia4AsNsD+GtS4AYcZBy6/hh/2kNQ7Cj+EhbISqUrUBcyDVibHQyhgQt5GUCHtA2XddTze9PJVdRldaG6Ty6U49q/Q7Vvuwy8+mFEpQlvFAOCRCz4E1vtvkrGKxJ6KET7M4MPJZzROrcevB8K6OEneC54nfonLM=
+	t=1769481794; cv=none; b=M0KpEkNTNiv0ZtOZdc2UHEVp3wYM4OqGWcZhqx+zgQ67sB9l7GzWVImIRH/AV8DQ7MKyZAN0FPAMUIY14/WqcPs8JpcimcLq5gh3HVpJ3EXBxYa6pETxgDSjjJlZGRYa3MBh2YCQDwOLpHE40KnYG7Cemk6QAuPbtuFbWxX4zL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769481789; c=relaxed/simple;
-	bh=b37d1/C0Ls6eN0N+ASzSK8CJw0sfOAqMvrqtQLCCSeY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gizzTmbJyhHdkZ4qi1WWRqVJw2LfkAvYRekW8Q4uldb0SlNFa1jOZUL4MWk5kS3qpL7ksRxKhY7UvehstJKdXqIghL5bp0xFKGmw9YJ7CjhxY5RKyCXVXxJdbG1DF09yqZY+xvYnnf91E3n3350M2ZdFPouhE9yZqKT7sh//QFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=mzZTzeJ5; arc=none smtp.client-ip=210.61.82.184
+	s=arc-20240116; t=1769481794; c=relaxed/simple;
+	bh=s+fYGnA08QTeIzgiSM2+Kw5/k+uUaAOCCoUBmKF+exg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZyYBAW+e90BVfWuIF+TUT3LwIlFu7MisCI1GsDrFT3q5s+L/QIqCJHcPw3I3J5VR7Dd0G3MJQGQ52IHX4XjzkNV7VYJ0UzD3Y47+ir47W0wgdpDsrM3HRYvL4Dlo/fzKlTEzeU1KDAMmBVjXoZKKOC13tBsJGkoHG15KQntnS4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=eXSxX0e+; arc=none smtp.client-ip=60.244.123.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: e633f52efb2911f0b7fc4fdb8733b2bc-20260127
+X-UUID: e6f62504fb2911f085319dbc3099e8fb-20260127
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=6PBVDfDmY0sQUXiIsLsBjL/r8yVY5YCylH5TFAYY8HY=;
-	b=mzZTzeJ5uCbxtj8+Wndx65IeOjIznRgMIkTvXH6nVm5X1E5YaviU1hhsoaC7Ai3ELhjI6/6GFNSkzsS+KP/RacW772UndYrg2OTcHxnAy99cbLLgHvdb9K7W7kaIE2otWNXRRd9ELEObcamciWf3OR8nW9a6Gzaz1Sx8khXZr+Y=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=mDYeX9hnxM609HsQNMFBzZYeMea5lku9+jD+ltF6O3E=;
+	b=eXSxX0e+u4y6AJ3K3pmKn3j+p/JBSwgQA7Bj1MLGP37espcHC45hmMlGCuJEvBNWtXFJgmDjPH80hqroftrumhmCY29SaQnFFHoZppcwWfbaqvINT9LG8nsizqf6zKLzYCktO8DmuightphDCUimwvvTtxQ6Xl0n9v84Ir+W66I=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.11,REQID:bf51e171-1aaa-4084-ad29-6f458fe02cbf,IP:0,U
+X-CID-O-INFO: VERSION:1.3.11,REQID:eaaea2d2-adb0-4686-aa34-5c10a1e03856,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:89c9d04,CLOUDID:7d0c985a-a957-4259-bcca-d3af718d7034,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|836|888|898,TC:-5,Content:0|15|5
-	0,EDM:-3,IP:nil,URL:99|1,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0,OSI:0,
-	OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-META: VersionHash:89c9d04,CLOUDID:950c985a-a957-4259-bcca-d3af718d7034,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|888|898,TC:-5,Content:
+	0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0,OSI
+	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: e633f52efb2911f0b7fc4fdb8733b2bc-20260127
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+X-UUID: e6f62504fb2911f085319dbc3099e8fb-20260127
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw01.mediatek.com
 	(envelope-from <kyrie.wu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1110007247; Tue, 27 Jan 2026 10:43:02 +0800
+	with ESMTP id 1999083699; Tue, 27 Jan 2026 10:43:03 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
  MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 27 Jan 2026 10:43:00 +0800
+ 15.2.2562.29; Tue, 27 Jan 2026 10:43:02 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.2562.29 via Frontend Transport; Tue, 27 Jan 2026 10:42:59 +0800
+ 15.2.2562.29 via Frontend Transport; Tue, 27 Jan 2026 10:43:01 +0800
 From: Kyrie Wu <kyrie.wu@mediatek.com>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
 	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, Mauro
@@ -76,10 +77,12 @@ To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
 	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
 CC: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
 	<andrzejtp2010@gmail.com>, Yilong Zhou <yilong.zhou@mediatek.com>
-Subject: [PATCH v7 00/10] Enable video decoder & encoder for MT8189
-Date: Tue, 27 Jan 2026 10:42:37 +0800
-Message-ID: <20260127024248.18406-1-kyrie.wu@mediatek.com>
+Subject: [PATCH v7 01/10] dt-bindings: media: mediatek: decoder: Add MT8189 mediatek,vcodec-decoder
+Date: Tue, 27 Jan 2026 10:42:38 +0800
+Message-ID: <20260127024248.18406-2-kyrie.wu@mediatek.com>
 X-Mailer: git-send-email 2.46.0
+In-Reply-To: <20260127024248.18406-1-kyrie.wu@mediatek.com>
+References: <20260127024248.18406-1-kyrie.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -106,7 +109,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[24];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51596-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51599-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -118,104 +121,48 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	NEURAL_HAM(-0.00)[-1.000];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxtv.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mediatek.com:mid,mediatek.com:dkim]
-X-Rspamd-Queue-Id: 5061C8F1A6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mediatek.com:email,mediatek.com:dkim,mediatek.com:mid]
+X-Rspamd-Queue-Id: 4D8918F24F
 X-Rspamd-Action: no action
 
-This series have the follow changing:
-Firstly add mt8189 video decoder compatible, profile and level to support
-MT8189 kernel driver.
-Secondly fix some bugs, including vp 4K profile2 and media device node
-number bug.
-Lastly, add mt8189 video encoder compatible.
+Add compatible for video decoder on MT8189 platform. Compared with
+former ICs, the MT8189 decoder use iommu to instead of smmu, and
+use scp architecture, the frequency is only 406MHZ, and cannot reach
+more than 700MHZ. It used only one clock. At the same time, the decoder
+supports the vp9 decoding protocol for the first time in single IC.
 
-This series has been tested with MT8189 tast test.
-Encoding and decoding worked for this chip.
-
-Patches 1-3 Add decoder compatible.
-Patches 4-5 Add profile and level supporting.
-Patches 6 Add VP9 4K probability size supporting.
-Patches 7-8 fix some bugs.
-Patches 9-10 Adds encoder compatible.
-
+Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
-H264 test results:
-./fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -j2 -t 90
-    JVT-AVC_V1	Ran 96/135 tests successfully
+ .../bindings/media/mediatek,vcodec-subdev-decoder.yaml       | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-VP9 test results:
-./fluster.py run -d GStreamer-VP9-V4L2SL-Gst1.0 -j2 -t 90
-	VP9-TEST-VECTORS	Ran 276/305 tests successfully
-
-v4l2-compliance test results:
-Compliance test for mtk-vcodec-enc device /dev/video2:
-Total for mtk-vcodec-enc device /dev/video2: 47, Succeeded: 46, Failed: 1, Warnings: 0
-Compliance test for mtk-vcodec-dec device /dev/video3:
-Total for mtk-vcodec-dec device /dev/video3: 48, Succeeded: 48, Failed: 0, Warnings: 0
-
-scp upstream link:
-https://patchwork.kernel.org/project/linux-mediatek/patch/20250811015922.32680-1-huayu.zong@mediatek.com/
-dtsi upstream link:
-https://lore.kernel.org/linux-mediatek/20251030134541.784011-12-jh.hsu@mediatek.com/T/#m847e35de0a5b18fac0ca0624a8559d84964ad5c7
-
-Changes compared with v6:
---refactor the patches of set compatible data, profile and level
---add reviewer to commit messages
---fix commit message errors
-
-Changes compared with v5:
---move default decoder parameters to compatible data structure
---add reviewer to commit messages
---Rebased on top of the latest media tree
-
-Changes compared with v4:
---update H264 & vp9 fluster test results
---update vp9 single core decoder prob size setting and commit messages
-
-Changes compared with v3:
---add reviewer to commit messages
---Rebased on top of the latest media tree
-
-Changes compared with v2:
---add H264 fluster test results
---reorder compatible string for dt-bindings
-
-Changes compared with v1:
---add v4l2-compliance test results
---add scp upstream link
---add HW difference discriptions for dt-bindings commit messages
-
-This series patches dependent on:
-[1]
-https://patchwork.linuxtv.org/project/linux-media/cover/20250510075357.11761-1-yunfei.dong@mediatek.com/
-[2]
-https://patchwork.linuxtv.org/project/linux-media/cover/20250814085642.17343-1-kyrie.wu@mediatek.com/
-
-Kyrie Wu (10):
-  dt-bindings: media: mediatek: decoder: Add MT8189
-    mediatek,vcodec-decoder
-  media: mediatek: decoder: Add a new platform data member
-  media: mediatek: vcodec: add decoder compatible to support MT8189
-  media: mediatek: vcodec: Refactor Decoder profile & level Handling
-  media: mediatek: vcodec: Add Decoder profile & level Initialization
-  media: mediatek: vcodec: Add VP9 Probability Size Configuration
-  media: mediatek: vcodec: Fix vp9 4096x2176 fail for profile2
-  media: mediatek: vcodec: Fix media device node number
-  dt-bindings: media: Add MT8189 mediatek,vcodec-encoder
-  media: mediatek: encoder: Add MT8189 encoder compatible data
-
- .../media/mediatek,vcodec-encoder.yaml        |   2 +
- .../media/mediatek,vcodec-subdev-decoder.yaml |   5 +-
- .../mediatek/vcodec/decoder/mtk_vcodec_dec.h  |   6 +
- .../vcodec/decoder/mtk_vcodec_dec_drv.c       |  42 +--
- .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  33 ++-
- .../vcodec/decoder/mtk_vcodec_dec_hw.c        |   2 +-
- .../vcodec/decoder/mtk_vcodec_dec_stateful.c  |  14 +
- .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 251 ++++++++++++------
- .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |  14 +-
- .../vcodec/encoder/mtk_vcodec_enc_drv.c       |  14 +
- 10 files changed, 261 insertions(+), 122 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+index 74e1d88d3056..ee2bbbdb2d50 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+@@ -75,6 +75,7 @@ properties:
+       - mediatek,mt8192-vcodec-dec
+       - mediatek,mt8186-vcodec-dec
+       - mediatek,mt8188-vcodec-dec
++      - mediatek,mt8189-vcodec-dec
+       - mediatek,mt8195-vcodec-dec
+       - mediatek,mt8196-vcodec-dec
+ 
+@@ -132,11 +133,11 @@ patternProperties:
+           Refer to bindings/iommu/mediatek,iommu.yaml.
+ 
+       clocks:
+-        minItems: 4
++        minItems: 1
+         maxItems: 5
+ 
+       clock-names:
+-        minItems: 4
++        minItems: 1
+         maxItems: 5
+ 
+       assigned-clocks:
 -- 
 2.45.2
 
