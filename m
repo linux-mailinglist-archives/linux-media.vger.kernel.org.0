@@ -1,243 +1,181 @@
-Return-Path: <linux-media+bounces-51613-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51614-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yH9tBFB+eGkFqQEAu9opvQ
-	(envelope-from <linux-media+bounces-51613-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 09:58:56 +0100
+	id MK1KALV/eGkFqQEAu9opvQ
+	(envelope-from <linux-media+bounces-51614-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 10:04:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DFF91625
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 09:58:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86E209177C
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 10:04:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 008B83043460
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 08:58:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 48D333063B7B
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 08:59:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C5E63328E1;
-	Tue, 27 Jan 2026 08:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54492331222;
+	Tue, 27 Jan 2026 08:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bAB6hl7o"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qWjB13lq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3709331221;
-	Tue, 27 Jan 2026 08:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133FD32BF47;
+	Tue, 27 Jan 2026 08:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769504321; cv=none; b=PewUkhFIrME6ykPpcZIcxTsOwc4vBohFKswSrMw/1hl+7BdwUhiGWR37gfkRH2mq8wpma/cEKhYO0/TNTRibjxiu9Jc1Y51wL7AzqQl/cEwAMqRObXLALhK6W8H3UN1gDJRif1exhX+zT4P01S++pQ/AnzvoHjb8pzGBvbfcBsM=
+	t=1769504368; cv=none; b=G8EB4vY7INVaI+l4e8uJX/eOFo/ZVQFTUVQx4bsRLWHYPZUcD+jEQQNIp+BYE6jUU22ARLIt3kJgiDcyNieEKlx6OYCDN1yzvJKA9a61qkRoCxayU25jXcdevIyaRl2JCoTvacrOSPbNPVLGT9TLuZAUrzWFugHrKGHV5VJfJOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769504321; c=relaxed/simple;
-	bh=m9sbIqU1XdlQnXm2tN68nmeagKR1Wrmm8XlTuHQ4gaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Km63gA1du7LhyUvZ3KJyJbX72du2dNB7Is/Gp1IoBhk//AOWkPRA1MCsnmf1uwUNqU9DZ4bb+DdibQUjpLSdUzsHVNjv+42zLVQvJu8gEhcTJ5smyrxcGt4P02+Vg7QwNEfsuz8YpvTab9VzEoRao3sam1TF0ySDBwzWgYgNXHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bAB6hl7o; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78ED1C16AAE;
-	Tue, 27 Jan 2026 08:58:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769504321;
-	bh=m9sbIqU1XdlQnXm2tN68nmeagKR1Wrmm8XlTuHQ4gaQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bAB6hl7oG53Z5NaRzppvV3aOmPWOsOx1U7WgjZAo/MByByWmhGqS4/O2kekR1OMyx
-	 mQTdVm9JsHILgUhUwCbN+yCY9zG/a3nAgGHREqz1o1Pu9NxUGN+qD4JhJvYQSHJ2h7
-	 DV0HRAarEmmVN4jkgeMBb2Li/CSIYgQAKa9BuAwLgoIuh6wIe8Ni0EAOjTUz2TSSgV
-	 IoN120Zlz1QJqEpCVMMH0v6BbyexGT8q2SrPZ/0x/7ClhwrYYGyc62I432RUDP+jZB
-	 H67MwBVZ42sQtwFhWN9msXincpCyPWj5NNsEcIwurDVEKKOJDyyuPND7LvAPGvSJuT
-	 T2lnuSKLEB1pQ==
-Date: Tue, 27 Jan 2026 10:58:35 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Pranjal Shrivastava <praan@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
-Message-ID: <20260127085835.GQ13967@unreal>
-References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
- <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
- <aXfUZcSEr9N18o6w@google.com>
+	s=arc-20240116; t=1769504368; c=relaxed/simple;
+	bh=NKkZ3zm8NODoT/x6DlsGB1ENcssuKfeQJk25tEeiOv0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YXnrmaDimQxyIXxvNSm+G8CFh8KPbBdA5UEYqNes/ElQMhrXI+S7Z6xqmUmstsZeSmtwD/7uxiI4dpZmGFGQNCnyZf4ioTtlgrvFxFfXn1t7O5IltFa5FT+DkIKtvZoTgNp/C3PGRDc5nNXfP18OL/gkt0t3zqpAhFQa5DWS4a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qWjB13lq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56DED186F;
+	Tue, 27 Jan 2026 09:58:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769504328;
+	bh=NKkZ3zm8NODoT/x6DlsGB1ENcssuKfeQJk25tEeiOv0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qWjB13lqSG17+n4OVX9/jZPQkdJnP5jdPzRkujSyPm64PyE7Fq6Incdv+zJWOo3tb
+	 AOKxwfhyFk6g/Nm6F8nSki9KvQ6ABheZTA85E9kDJa7ZJP8cFUvGNRQ3D3ZQ9ibwao
+	 SULeGXr3+StomlE4vxolvgEqiCEKichU7ir4vmIk=
+Message-ID: <4d1556bc-7a57-407a-a124-a83accc7afc8@ideasonboard.com>
+Date: Tue, 27 Jan 2026 10:59:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
+ <20251231095739.GA3091492@ragnatech.se>
+ <9878845f-c403-492c-a673-90c91472ecc2@ideasonboard.com>
+ <20260126193929.GB3751370@ragnatech.se>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20260126193929.GB3751370@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aXfUZcSEr9N18o6w@google.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51613-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[35];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51614-lists,linux-media=lfdr.de,renesas];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,huawei,renesas];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 79DFF91625
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:mid,ideasonboard.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 86E209177C
 X-Rspamd-Action: no action
 
-On Mon, Jan 26, 2026 at 08:53:57PM +0000, Pranjal Shrivastava wrote:
-> On Sat, Jan 24, 2026 at 09:14:16PM +0200, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > dma-buf invalidation is handled asynchronously by the hardware, so VFIO
-> > must wait until all affected objects have been fully invalidated.
-> > 
-> > In addition, the dma-buf exporter is expecting that all importers unmap any
-> > buffers they previously mapped.
-> > 
-> > Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > ---
-> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 71 ++++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 68 insertions(+), 3 deletions(-)
+Hi,
 
-<...>
+On 26/01/2026 21:39, Niklas Söderlund wrote:
+> Hi Tomi,
+> 
+> Thanks for digging in this.
+> 
+> On 2026-01-26 16:01:36 +0200, Tomi Valkeinen wrote:
+>> Hi,
+>>
+>> On 31/12/2025 11:57, Niklas Söderlund wrote:
+>>> Hi Tomi,
+>>>
+>>> Thanks for your persistent work on this series!
+>>>
+>>> On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
+>>>> Add streams support to Renesas rcar platform driver.
+>>>>
+>>>> The series keaps compatibility with the current upstream for a single
+>>>> stream use case. However, in upstream there's a limited custom
+>>>> multi-stream support implemented to the rcar driver, which will be
+>>>> replaced with the upstream's Streams API.
+>>>>
+>>>> I have tested this series on Sparrow-Hawk board, with a few different
+>>>> setups:
+>>>>
+>>>> IMX219 connected to the CSI0 connector
+>>>> - The following patches applied to my test branch in addition to this
+>>>>   series:
+>>>>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
+>>>>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
+>>>>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
+>>>>      breaks RAW8
+>>>
+>>> That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
+>>> you see RAW8 breaking?
+>> I think I found it. It's broken for all formats and resolutions, based
+>> on luck:
+>>
+>> VNIS_REG has the lowest 4 bits always 0. From the doc: "These bits
+>> specify the width of the transfer destination memory in 16-pixel
+>> unit."
+>>
+>> We do nothing to comply with that.
+> 
+> Yes we do, but maybe not enough?
+> 
+> In rvin_format_bytesperline() we align for this, we even consider the 
+> special cases for NV12 and NV16.
+> 
+> The value written to VNIS_REG is vin->format.bytesperline / fmt->bpp, 
+> and the value writen to vin->format.bytesperline is ALIGN(pix->width, 
+> align) * fmt->bpp. And for all formats (not NV12 or NV16) is 0x10, so we 
+> do align it to the 16-pixel unit no?
+> 
+> Maybe their is a corner case I have missed or maybe I'm missing some 
+> other angle? And I agree adding and removing the fmt->bpp multiplier is 
+> not the best here. As we have finally moved this driver to media graph 
+> only there are lots of areas things can be cleaned up and improved as we 
+> no longer need to consider all that Gen2 special cases. I bet this can 
+> likely be cleaned up.
+Right, but if we have the stride / 2 code in, we will get strides not
+aligned to 16 bytes unless the bytesperline happened to be aligned to 32
+bytes.
 
-> > @@ -333,7 +359,37 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
-> >  			dma_resv_lock(priv->dmabuf->resv, NULL);
-> >  			priv->revoked = revoked;
-> >  			dma_buf_invalidate_mappings(priv->dmabuf);
-> > +			dma_resv_wait_timeout(priv->dmabuf->resv,
-> > +					      DMA_RESV_USAGE_BOOKKEEP, false,
-> > +					      MAX_SCHEDULE_TIMEOUT);
-> >  			dma_resv_unlock(priv->dmabuf->resv);
-> > +			if (revoked) {
-> > +				kref_put(&priv->kref, vfio_pci_dma_buf_done);
-> > +				/* Let's wait till all DMA unmap are completed. */
-> > +				wait = wait_for_completion_timeout(
-> > +					&priv->comp, secs_to_jiffies(1));
-> 
-> Is the 1-second constant sufficient for all hardware, or should the 
-> invalidate_mappings() contract require the callback to block until 
-> speculative reads are strictly fenced? I'm wondering about a case where
-> a device's firmware has a high response latency, perhaps due to internal
-> management tasks like error recovery or thermal and it exceeds the 1s 
-> timeout. 
-> 
-> If the device is in the middle of a large DMA burst and the firmware is
-> slow to flush the internal pipelines to a fully "quiesced"
-> read-and-discard state, reclaiming the memory at exactly 1.001 seconds
-> risks triggering platform-level faults..
-> 
-> Since the wen explicitly permit these speculative reads until unmap is
-> complete, relying on a hardcoded timeout in the exporter seems to 
-> introduce a hardware-dependent race condition that could compromise
-> system stability via IOMMU errors or AER faults. 
-> 
-> Should the importer instead be required to guarantee that all 
-> speculative access has ceased before the invalidation call returns?
+I sent "[PATCH] media: renesas: vin: Fix RAW8 (again)". I still don't
+understand exactly how the RAW8 processing goes in the hardware, but
+afaics the stride / 2 is required, I cannot get any proper images
+without that. The documentation doesn't really describe it so I'm not
+totally content with all this.
 
-It is guaranteed by the dma_resv_wait_timeout() call above. That call ensures
-that the hardware has completed all pending operations. The 1‑second delay is
-meant to catch cases where an in-kernel DMA unmap call is missing, which should
-not trigger any DMA activity at that point.
+Anyway, please test the new patch on your end, perhaps we'll finally
+have a conclusion on the RAW8 =).
 
-So yes, one second is more than sufficient.
+ Tomi
 
-Thanks
-
-> 
-> Thanks
-> Praan
-> 
-> > +				/*
-> > +				 * If you see this WARN_ON, it means that
-> > +				 * importer didn't call unmap in response to
-> > +				 * dma_buf_invalidate_mappings() which is not
-> > +				 * allowed.
-> > +				 */
-> > +				WARN(!wait,
-> > +				     "Timed out waiting for DMABUF unmap, importer has a broken invalidate_mapping()");
-> > +			} else {
-> > +				/*
-> > +				 * Kref is initialize again, because when revoke
-> > +				 * was performed the reference counter was decreased
-> > +				 * to zero to trigger completion.
-> > +				 */
-> > +				kref_init(&priv->kref);
-> > +				/*
-> > +				 * There is no need to wait as no mapping was
-> > +				 * performed when the previous status was
-> > +				 * priv->revoked == true.
-> > +				 */
-> > +				reinit_completion(&priv->comp);
-> > +			}
-> >  		}
-> >  		fput(priv->dmabuf->file);
-> >  	}
-> > @@ -346,6 +402,8 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
-> >  
-> >  	down_write(&vdev->memory_lock);
-> >  	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
-> > +		unsigned long wait;
-> > +
-> >  		if (!get_file_active(&priv->dmabuf->file))
-> >  			continue;
-> >  
-> > @@ -354,7 +412,14 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
-> >  		priv->vdev = NULL;
-> >  		priv->revoked = true;
-> >  		dma_buf_invalidate_mappings(priv->dmabuf);
-> > +		dma_resv_wait_timeout(priv->dmabuf->resv,
-> > +				      DMA_RESV_USAGE_BOOKKEEP, false,
-> > +				      MAX_SCHEDULE_TIMEOUT);
-> >  		dma_resv_unlock(priv->dmabuf->resv);
-> > +		kref_put(&priv->kref, vfio_pci_dma_buf_done);
-> > +		wait = wait_for_completion_timeout(&priv->comp,
-> > +						   secs_to_jiffies(1));
-> > +		WARN_ON(!wait);
-> >  		vfio_device_put_registration(&vdev->vdev);
-> >  		fput(priv->dmabuf->file);
-> >  	}
-> > 
-> > -- 
-> > 2.52.0
-> > 
-> > 
-> 
 
