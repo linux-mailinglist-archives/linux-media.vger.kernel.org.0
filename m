@@ -1,181 +1,368 @@
-Return-Path: <linux-media+bounces-51614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51615-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MK1KALV/eGkFqQEAu9opvQ
-	(envelope-from <linux-media+bounces-51614-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 10:04:53 +0100
+	id 2NRAJjKEeGmqqgEAu9opvQ
+	(envelope-from <linux-media+bounces-51615-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 10:24:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E209177C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 10:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 238B491A52
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 10:24:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 48D333063B7B
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 08:59:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 524CD3044BAE
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 09:22:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54492331222;
-	Tue, 27 Jan 2026 08:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EF062DAFB9;
+	Tue, 27 Jan 2026 09:22:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qWjB13lq"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="N90pwt/O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010003.outbound.protection.outlook.com [40.93.198.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133FD32BF47;
-	Tue, 27 Jan 2026 08:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769504368; cv=none; b=G8EB4vY7INVaI+l4e8uJX/eOFo/ZVQFTUVQx4bsRLWHYPZUcD+jEQQNIp+BYE6jUU22ARLIt3kJgiDcyNieEKlx6OYCDN1yzvJKA9a61qkRoCxayU25jXcdevIyaRl2JCoTvacrOSPbNPVLGT9TLuZAUrzWFugHrKGHV5VJfJOw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769504368; c=relaxed/simple;
-	bh=NKkZ3zm8NODoT/x6DlsGB1ENcssuKfeQJk25tEeiOv0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YXnrmaDimQxyIXxvNSm+G8CFh8KPbBdA5UEYqNes/ElQMhrXI+S7Z6xqmUmstsZeSmtwD/7uxiI4dpZmGFGQNCnyZf4ioTtlgrvFxFfXn1t7O5IltFa5FT+DkIKtvZoTgNp/C3PGRDc5nNXfP18OL/gkt0t3zqpAhFQa5DWS4a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qWjB13lq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56DED186F;
-	Tue, 27 Jan 2026 09:58:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769504328;
-	bh=NKkZ3zm8NODoT/x6DlsGB1ENcssuKfeQJk25tEeiOv0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qWjB13lqSG17+n4OVX9/jZPQkdJnP5jdPzRkujSyPm64PyE7Fq6Incdv+zJWOo3tb
-	 AOKxwfhyFk6g/Nm6F8nSki9KvQ6ABheZTA85E9kDJa7ZJP8cFUvGNRQ3D3ZQ9ibwao
-	 SULeGXr3+StomlE4vxolvgEqiCEKichU7ir4vmIk=
-Message-ID: <4d1556bc-7a57-407a-a124-a83accc7afc8@ideasonboard.com>
-Date: Tue, 27 Jan 2026 10:59:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAAC24E4A8;
+	Tue, 27 Jan 2026 09:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769505727; cv=fail; b=sDk1y86d3pFssRiGhRK0jlyy0w3F2MWTU9P4jOZr4ZrAIwflOhmydZ1XPKdvfusS53e7LlLd1RXoBGCAveXgBsMYfP0CKdcSsFO9qm7s0zzdi7oe5QNtxcTpd1cK3X/9aLSAgjq9wr26SLRpk6DeU9cS6TO2NsfgcVYJTgVG14Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769505727; c=relaxed/simple;
+	bh=NxQ9XO43P/Z6jmjEXgk90xlmoZur0fXwRvTFV6QH7wM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=mxo8CpcNb/LNmdyw347C/e0iz1Hm6bnUSOG4vf2d6KA6mMPFLT8DXEP16C7f02TNTxHhVHw7YEVTmVsTgE0pVZIXsIYHcZzU6DFz9fc0SyctgTA8zypVtOqZFvdrjWhvzWzVea7nFcCKXI9zJnDhamrQMpLqYZRjaKFzb1gmyck=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=N90pwt/O; arc=fail smtp.client-ip=40.93.198.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BQxuoBSwM3D0zC/62PMzHeBKz7hO5J4okJjWO5Y3T8BRi3MEJklBYGS2fkHF0lu/qQMqgdzEJrMt+vfbRXQBXo/5GqqUSpz1T0RDwr2ejxch0a5qcWKDhWNKqS0kdEgvshHHk9iKc18aY8QMl1t0SE55tnKfBuKznxq9BE+yqskwLBUSnfdypCmTGU9O3Oove1n3HV3n4SFIar+8b5SpVY+E2oQsEPF9KZ3zG1KrzN4L8u2rcsJbyJSF1t3O06MrpaDUlp89/xMNKVN0GKu+8TfM8Yy4xhFliI98mzV8nmSPJLVRofT/MGWQ+eBkZii9GD7lfO1TgMJcPKDnevhWiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wz6ALxbQVViw9XnmRCZW/ECMb+KNVFdEF44yOh0Xr40=;
+ b=Juhof26wQVucpxXjRklYykz3Fdt7CwYp7kAaVnqtgMVE5rCLq5dAtTw/GAeUqhpnvcEhELhsJxlwgSKRdDy6dLT4Mq+7iKIIS5Nc1+3RKfX7PvCz/oT8bAJaggx7VwlvpMBC5x0ytdcp/WxTTuUfq5HFOjpgM+29YbuknXWVLL1F50acs/aLDNaKIGtz6+WA+eHnwf1X0y3Vy8EysRwKeCrkxYYw+pTJO6FhuU+EArbQsOrcjaTbPNTQRIK4gbVLJkDzHYqSCEV3SZSnUu6z83UxPY4OTQiT/GQtLjgkuo1148PbnJmHztMhyCDL7exSB7ZSbjl592D7Hk2g1c6dvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wz6ALxbQVViw9XnmRCZW/ECMb+KNVFdEF44yOh0Xr40=;
+ b=N90pwt/O7omQZrGyjLTaDxFmJ62q324hLsqJmOB3bk6ku9j0nL6jqkxa+xF0XmTUMCRPPOKqmuCT0sNPNXgem3ht6oBZzS4VbphxQnk6ZsVCFNrdRMh03gg+orpefmH+534GVfNeUVwy/f5C7ofHGZNGY7Oj+kVx/BzIktQTEJ0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB6749.namprd12.prod.outlook.com (2603:10b6:806:255::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
+ 2026 09:22:02 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9542.009; Tue, 27 Jan 2026
+ 09:22:02 +0000
+Message-ID: <8e51a794-2c34-4863-b6d2-7af11b205f79@amd.com>
+Date: Tue, 27 Jan 2026 10:21:52 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/8] dma-buf: Rename dma_buf_move_notify() to
+ dma_buf_invalidate_mappings()
+To: Leon Romanovsky <leon@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Alex Williamson <alex@shazbot.org>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-2-f98fca917e96@nvidia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260124-dmabuf-revoke-v5-2-f98fca917e96@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0173.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9f::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/15] media: rcar: Streams support
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com>
- <20251231095739.GA3091492@ragnatech.se>
- <9878845f-c403-492c-a673-90c91472ecc2@ideasonboard.com>
- <20260126193929.GB3751370@ragnatech.se>
-From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20260126193929.GB3751370@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB6749:EE_
+X-MS-Office365-Filtering-Correlation-Id: 323bac59-9d64-455c-43cc-08de5d858789
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?d01aZmRIM3RxNUJ3ZjJURFJNMUN0cWR3Z0xpaGc4NDRzTjdYWnFtL2JvSWxO?=
+ =?utf-8?B?SUwrNjJOOEh3KzhMYUw5NVJUVkNQS05HaEdWQ0d5Y0RDdDZveUJQdFJETFg0?=
+ =?utf-8?B?MDBSekZvRENremh3ekluejZVdmt3bDBDL294WjFFb202QVZkRFUrSi83SkVR?=
+ =?utf-8?B?Um84UXpwd3FPZS81ZGJ6SkZrczV0L0ljeU0rMnlWd0Fsb3VmQkMvd1N1VGdl?=
+ =?utf-8?B?QUxJbENWSWFuTWxodnNYNTlQK3hTVnZKdjVBY1RHOEcyT1ROWGRvN1FXaGNG?=
+ =?utf-8?B?STFQSFJkQ05jU3YrUTFEYXJ2NUFRcUs0ODdiY2Y0UzNIS2tzaEdoKzNjR25k?=
+ =?utf-8?B?SzkxQkRVWHA4cVVWcUZBVW9zZkdXN2FRa3dIMDE3akJ5TXZybkg3akRma2Na?=
+ =?utf-8?B?UXVaRDZFa3lQWjJqZCtZb21OaUZIME42UE90ellFb0JJWFBVbkZnWndFak5Q?=
+ =?utf-8?B?QnRBaHN2NTBHV1JYSkZvMGErZ1VUcG5GVWJDakNYcU9hUXZIVUw4THg3Z1Z3?=
+ =?utf-8?B?OHlyaktYVW5JVSsyZ0labXJic0hpVUpSMEZiV2x5U0J5SEw5SERjZjZweHRo?=
+ =?utf-8?B?VGc1cURQOWJta1c2Mlc2RzdXVlBGRk1tSzFiTElzamNpY3FzcFRkN2g4bG16?=
+ =?utf-8?B?ZHNud0pEVWpQK2YxbkUwa0xLbUJaRWZyK1EyYTBoVWVibldoSzRPM0t2MkFI?=
+ =?utf-8?B?d2ZVbmtiWlpHeTZJdGlnMVhMaFlBTjk0MjY1NW9wT1VsVXNSVHdWZFVacENx?=
+ =?utf-8?B?S2RObnVjRU93R25xL1R4Z2pDdWRjNkZYNUJHWFRaWnRtbHpsWUdMdTIxeTgr?=
+ =?utf-8?B?RjdVMzlnRnFwS0tmN3R3clplVWwxUUNCVHViZWUzaXZscGhML2NjejdUazhJ?=
+ =?utf-8?B?ZjdnWC9CQThHaUJtMTg2Y0FnR2xUYlBqUlVDU0NmMXZTZEJyTmd1REIraW9T?=
+ =?utf-8?B?OTJXRjBqNHFmam04bEpuZHNmL2kvVDRhZXBuQXRaM3BKZ01oSVRPZ3MwMWtk?=
+ =?utf-8?B?dFVGQVZPeC9LekprWlp6OHR5SFNPcGM3a2xSUzFKT0ZkWUx0WXhCMnJRNGxx?=
+ =?utf-8?B?MEhKdGcxVXVGWFl4VktJWVBKTXI3QlpKdWFlbWtzWUk5RXN2OEk3UERYcTBj?=
+ =?utf-8?B?T1kwcWZXS2RkT2N4bE92emNpMVg5SUlCMWlMUHZ1aHFicnFoV3g4MWVyWStI?=
+ =?utf-8?B?U0FGUEJ2eFJpbXBnRnFnUGZ2cUdhY3c3cWNqeEhGTmp3Mm5KS3ZWd2xVSVhv?=
+ =?utf-8?B?MHdBUHhMOHhCT1gvTks5enNvajZZQThxQUVremVpWGxrU29MeldLaFpjaHMx?=
+ =?utf-8?B?Q21qRm8wQTFnTXRxSkF2Q3M4TlMwSWs2eUQzK2dWTlczTGFUck9aN29OS0Z0?=
+ =?utf-8?B?QXBPR1k2YVU0QTFxMzAwODRNVGtoUVliTUl6S0pCV3hvd25vY0M0Sm04Mks2?=
+ =?utf-8?B?RGtmWEtaSzZsblhrMWhmVzFrVnRoYnJlN2pCRHB2OXpKZ3Uvc2ZHWHVTdCs5?=
+ =?utf-8?B?c0xhaUdtNXRadDVFSUpiRUozVWFtcGFLR3FOTTdCK1JLQkpuZjhCYTdnblFK?=
+ =?utf-8?B?eVFQWUU3dlFNZzNwdjBDZDVta2lsU3ZmZGl5Rkt1WHN5SmhqOXAwc090Y002?=
+ =?utf-8?B?TjZqbXNETGhVT21OcnFQV0p0aGRzLy9HbG5uWU0rSEw5QUxJeUlobWt3VVBy?=
+ =?utf-8?B?U2toY2YwTjJxdFZ4Yk1kOEFocHpWUmtXSFBhTFFNWmdhUWRFTzkvcHNMbnN2?=
+ =?utf-8?B?ekdLcE5JUTh5OWUxY0lLdnBCMnRvcjlxM0J1ZGNGeGNkeFJtL0w2ZG95ZFFm?=
+ =?utf-8?B?d2lwdDdhNGcySWIwQXRSRGR2dXFFMmdES09hVlZ6Rm1oN3IzRHN4R3NXRHov?=
+ =?utf-8?B?U2xMZVV3VWNubUlvMlAyNzhha3BmWjdTUVRwTTE1R3Qzbkt2L1pLTUw3VmRr?=
+ =?utf-8?B?aURvVng2d1N6VkcwZDhPdlFDWThMNFI1V0tJR3ByZUhiVWxtNXZzUkpRaHJD?=
+ =?utf-8?B?K0s5QmxLMjNJUEIwaVBEd3pXbUl3VzNwMFE2cXJleGxTZzNhRkNkVWljMHlY?=
+ =?utf-8?B?amVUVWg1ZWtzQ0ozZGoyYkZKNHJkbW0yUkp0a25NOERGU3BUV21VUmVRcGxi?=
+ =?utf-8?B?RzRVVXBEK2h4U2d0WWtROERDS2pyQUpzck9BMEJUaXJySlI4THVHWHkybllt?=
+ =?utf-8?B?aEE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VXFsanpQZmtvZkVnZ3RUYTNiYzVVUHYwbkhENmtWQXRnN3Bnb2UzZ21SYm41?=
+ =?utf-8?B?Umxyb25LRW1aRE44WEo1bC9rNEsxNWk1OEdBTmVqUzVkSjNTVlNFK0c2Vzh0?=
+ =?utf-8?B?cDJVK2lVTDZsSjJ3SFloNXNxeStDWjBXTGhIK21xbmVWK2c4Nld5emRGMzBU?=
+ =?utf-8?B?dytDNzZQYTVxQlc1VjA5QmdJZEVJaXFPcEtDU3kzZlBvanZEYkxSMVNQazhs?=
+ =?utf-8?B?OFhJaWd5TFM0MnUxR2krcmpxR1I0L0NOei9CY2RwT1Zsa1lmWlVINUYzM1FT?=
+ =?utf-8?B?ZDAyNG1jNEl2cFAyTkU1MFhkSDJ6TUZSTHRLVnBFUXA1TmVQREE5RU94ZUNu?=
+ =?utf-8?B?OVp2d0RhMUp2d1FBb1F4aW9MY1duZ0tVcG9ncW1EdFl5MW5mcDRWanFNOFVy?=
+ =?utf-8?B?L0VrSE9kOHkvb28yQkpXT0grdmtWcS82anNKL0V1WElxOERSMXU2Mzd2U0Vz?=
+ =?utf-8?B?Y0FGaXlPT0FiRFJvMUlKRms3U3prK2w0RjhQUlZ0U0RNcXJHVjdteWNrTGxh?=
+ =?utf-8?B?OFB0SStzdXdEaU1nc0R2RVkwVk5JR1BhYTBrMUl4SWxRWHBlYzJySlJWMmpF?=
+ =?utf-8?B?RTUvZEk1SjYvcTdKcXVDVjFldCtVbndYUUFTRWF0eklVcTNncTBOdFJPcUVm?=
+ =?utf-8?B?cTBzVGtlY1pJMGpFeUxPbmVkc0w2VEpNTTBjWllQem8vZm9kUTluUmZ5bVRR?=
+ =?utf-8?B?M2VvOVU0K1AyVU1US3IyMVdYb0I4cVNpUUR3TEZpb3hyQ29YaTdKQnlEeTdx?=
+ =?utf-8?B?NjR4Z3k0WFBwbzhON25ZaDcvaWtKemFDeXExcW5GN0ZxWWpmZ2N5eGNoeDdH?=
+ =?utf-8?B?ZnpkbkNKUVgvVTFFYmZTUExPdFNYcHNHUTREdXM5bEdWaEp3Yk14ZE1CbVlh?=
+ =?utf-8?B?aTZPejVoWnZ3QkdBTVhwajFpM2VBa0RsYVh5WjJvYkxuWGpGTFhpQkFaWCtl?=
+ =?utf-8?B?NEF0eU1ZNW5tcjNHQ1FvVUJnaUo1MEFtSWE3RUlJM2ZOaXZPdmpBTWlWbDBv?=
+ =?utf-8?B?RmdTSlN5WEpHVEJtR3BOWFFPV3I2MGVGV2lROHk4N2dNbkZGdkh4bXNTSzF3?=
+ =?utf-8?B?SGpjdFJpamtJVlRVMFlHdWVrSTJQVFE0Y2NuRGZQS1N1bGFneG5PVVhkdzYz?=
+ =?utf-8?B?TmVFMXB6TjVNenZXTkVmVlpaR05XNEhBZ1dFY1dQS2xaWGNtSGhvTnlpMXhL?=
+ =?utf-8?B?V1E2S3ZiNnVZUVduUkkvNytneGJpakZVU2tCbjVNb09wdDFidzRnaUhYNFpW?=
+ =?utf-8?B?dGgvK2lBQzZiWmdrak1TTng0WW1STG5uRWJuYUYxejRrZDJKdkg3cVd4SnVJ?=
+ =?utf-8?B?V21NRXlaejVSdkxMMk13MXkrWkJXbmI3VjNxY1doRVJIc01QdGlpYW11RTFw?=
+ =?utf-8?B?WkpNVXBYdFlkNmdMNWtDeWZBRmJHc29BSjdWeDY2NmNNMVVkRDdkMWdKM1cr?=
+ =?utf-8?B?VkhuNlI3TzhmM1lnMkVaZXFYQ0pnRlZwb2lsd0RuOVFsWXVnT1Jjd0E0SUVy?=
+ =?utf-8?B?TWZESEZtQ3VqNTRybWMyWHJKNFR4UFVjb01Da3NTeStaS2ZqTURIR2NZUlNw?=
+ =?utf-8?B?SnFOYmtjaWhpNE41ZC9Na1h5b05WQzhoU0toZ1kwVVFXZkJMZmRXTHA2a1N2?=
+ =?utf-8?B?Y1lzcExFTENUbWwwdUhtU2VCMjZ0MGxSL1FObWhlS0ZPbjZuc3IzTXRVOElS?=
+ =?utf-8?B?NFVzUzcxUnBSYXRTWWFycHViNkwxOHN5TFI1U1R5T2xsRUxDNGxnUUhySEFp?=
+ =?utf-8?B?Qm8vY3ZwUHh6dmJKcmp1MGJTY1pvQUUvZjVnTFpCK09XbXA0VE1WNmRrT3RF?=
+ =?utf-8?B?TTJ2OXpSekwyV2M1b0pRb3cxamFHRC92eVV1cGJ1TDZIVUdXeFJLdHBLZEFO?=
+ =?utf-8?B?ekJ4OVlocHd1b25Md0V3b3NZcUZTeGhWaEs5eUswdG80RlNKK0ZtbHBkdDFF?=
+ =?utf-8?B?UE9YaFpidWx6dEwvZUxyTnNBaDh6bHVPWmw5MWx3WU9LOC9BYWViQ281MDVx?=
+ =?utf-8?B?cmZKK3lRNjVHaC9lUnY0QUR2RmJ6c0g2Sk9Tc1dSU25VN1dxSFFneWtQNGVN?=
+ =?utf-8?B?bC85K3p3TzRwRGp1bGdxRHRvRkpMWDF2dk5mdDlNUkIyeTFLdHQxeDQzUnJO?=
+ =?utf-8?B?bnY1WDVaYmdzYjVrR2FMOVI2RVp1dlU3SjhkTTQwUyt2MXJMa2FUOFNiVXBl?=
+ =?utf-8?B?UWJOZHgxOC9rcmVzTFN6UEdYcFplaVZRNFVncE9tYzd3cmpkeENHdzl1WXZq?=
+ =?utf-8?B?M2dSNGovVFhTOXBLanJuVkIxZEVQcU5qRzg3ZDJKbVkzTzFNS2EyM0pHQUl1?=
+ =?utf-8?Q?panDN1MGX8cfjgzv+D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 323bac59-9d64-455c-43cc-08de5d858789
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 09:22:02.3127
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NT0P76g8/EP1t+qxV93/CKryw5uHWoYKAOC7D0y9A++sIFRKnWyniGpqdc9Y8iJG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6749
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	TAGGED_FROM(0.00)[bounces-51615-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51614-lists,linux-media=lfdr.de,renesas];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,huawei,renesas];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:mid,ideasonboard.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 86E209177C
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:dkim,amd.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: 238B491A52
 X-Rspamd-Action: no action
 
-Hi,
+On 1/24/26 20:14, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> Along with renaming the .move_notify() callback, rename the corresponding
+> dma-buf core function. This makes the expected behavior clear to exporters
+> calling this function.
+> 
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 
-On 26/01/2026 21:39, Niklas Söderlund wrote:
-> Hi Tomi,
-> 
-> Thanks for digging in this.
-> 
-> On 2026-01-26 16:01:36 +0200, Tomi Valkeinen wrote:
->> Hi,
->>
->> On 31/12/2025 11:57, Niklas Söderlund wrote:
->>> Hi Tomi,
->>>
->>> Thanks for your persistent work on this series!
->>>
->>> On 2025-12-16 17:18:17 +0200, Tomi Valkeinen wrote:
->>>> Add streams support to Renesas rcar platform driver.
->>>>
->>>> The series keaps compatibility with the current upstream for a single
->>>> stream use case. However, in upstream there's a limited custom
->>>> multi-stream support implemented to the rcar driver, which will be
->>>> replaced with the upstream's Streams API.
->>>>
->>>> I have tested this series on Sparrow-Hawk board, with a few different
->>>> setups:
->>>>
->>>> IMX219 connected to the CSI0 connector
->>>> - The following patches applied to my test branch in addition to this
->>>>   series:
->>>>   1) The v4l2_subdev_get_frame_desc_passthrough dependency
->>>>   2) Revert of commit e7376745ad5c8548e31d9ea58adfb5a847e017a4 ("media:
->>>>      rcar-vin: Fix stride setting for RAW8 formats"), as that commit
->>>>      breaks RAW8
->>>
->>> That is so odd, I do grab RAW8 on V4H with a IMX219. In what way is do 
->>> you see RAW8 breaking?
->> I think I found it. It's broken for all formats and resolutions, based
->> on luck:
->>
->> VNIS_REG has the lowest 4 bits always 0. From the doc: "These bits
->> specify the width of the transfer destination memory in 16-pixel
->> unit."
->>
->> We do nothing to comply with that.
-> 
-> Yes we do, but maybe not enough?
-> 
-> In rvin_format_bytesperline() we align for this, we even consider the 
-> special cases for NV12 and NV16.
-> 
-> The value written to VNIS_REG is vin->format.bytesperline / fmt->bpp, 
-> and the value writen to vin->format.bytesperline is ALIGN(pix->width, 
-> align) * fmt->bpp. And for all formats (not NV12 or NV16) is 0x10, so we 
-> do align it to the 16-pixel unit no?
-> 
-> Maybe their is a corner case I have missed or maybe I'm missing some 
-> other angle? And I agree adding and removing the fmt->bpp multiplier is 
-> not the best here. As we have finally moved this driver to media graph 
-> only there are lots of areas things can be cleaned up and improved as we 
-> no longer need to consider all that Gen2 special cases. I bet this can 
-> likely be cleaned up.
-Right, but if we have the stride / 2 code in, we will get strides not
-aligned to 16 bytes unless the bytesperline happened to be aligned to 32
-bytes.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-I sent "[PATCH] media: renesas: vin: Fix RAW8 (again)". I still don't
-understand exactly how the RAW8 processing goes in the hardware, but
-afaics the stride / 2 is required, I cannot get any proper images
-without that. The documentation doesn't really describe it so I'm not
-totally content with all this.
-
-Anyway, please test the new patch on your end, perhaps we'll finally
-have a conclusion on the RAW8 =).
-
- Tomi
+> ---
+>  drivers/dma-buf/dma-buf.c                  | 8 ++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 +-
+>  drivers/gpu/drm/xe/xe_bo.c                 | 2 +-
+>  drivers/iommu/iommufd/selftest.c           | 2 +-
+>  drivers/vfio/pci/vfio_pci_dmabuf.c         | 4 ++--
+>  include/linux/dma-buf.h                    | 2 +-
+>  6 files changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 59cc647bf40e..e12db540c413 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -912,7 +912,7 @@ dma_buf_pin_on_map(struct dma_buf_attachment *attach)
+>   * 3. Exporters must hold the dma-buf reservation lock when calling these
+>   *    functions:
+>   *
+> - *     - dma_buf_move_notify()
+> + *     - dma_buf_invalidate_mappings()
+>   */
+>  
+>  /**
+> @@ -1247,14 +1247,14 @@ void dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
+>  EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment_unlocked, "DMA_BUF");
+>  
+>  /**
+> - * dma_buf_move_notify - notify attachments that DMA-buf is moving
+> + * dma_buf_invalidate_mappings - notify attachments that DMA-buf is moving
+>   *
+>   * @dmabuf:	[in]	buffer which is moving
+>   *
+>   * Informs all attachments that they need to destroy and recreate all their
+>   * mappings.
+>   */
+> -void dma_buf_move_notify(struct dma_buf *dmabuf)
+> +void dma_buf_invalidate_mappings(struct dma_buf *dmabuf)
+>  {
+>  	struct dma_buf_attachment *attach;
+>  
+> @@ -1264,7 +1264,7 @@ void dma_buf_move_notify(struct dma_buf *dmabuf)
+>  		if (attach->importer_ops)
+>  			attach->importer_ops->invalidate_mappings(attach);
+>  }
+> -EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, "DMA_BUF");
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_invalidate_mappings, "DMA_BUF");
+>  
+>  /**
+>   * DOC: cpu access
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index e08f58de4b17..f73dc99d1887 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -1270,7 +1270,7 @@ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
+>  
+>  	if (abo->tbo.base.dma_buf && !drm_gem_is_imported(&abo->tbo.base) &&
+>  	    old_mem && old_mem->mem_type != TTM_PL_SYSTEM)
+> -		dma_buf_move_notify(abo->tbo.base.dma_buf);
+> +		dma_buf_invalidate_mappings(abo->tbo.base.dma_buf);
+>  
+>  	/* move_notify is called before move happens */
+>  	trace_amdgpu_bo_move(abo, new_mem ? new_mem->mem_type : -1,
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index bf4ee976b680..7d02cd9a8501 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -819,7 +819,7 @@ static int xe_bo_move_notify(struct xe_bo *bo,
+>  
+>  	/* Don't call move_notify() for imported dma-bufs. */
+>  	if (ttm_bo->base.dma_buf && !ttm_bo->base.import_attach)
+> -		dma_buf_move_notify(ttm_bo->base.dma_buf);
+> +		dma_buf_invalidate_mappings(ttm_bo->base.dma_buf);
+>  
+>  	/*
+>  	 * TTM has already nuked the mmap for us (see ttm_bo_unmap_virtual),
+> diff --git a/drivers/iommu/iommufd/selftest.c b/drivers/iommu/iommufd/selftest.c
+> index 550ff36dec3a..f60cbd5328cc 100644
+> --- a/drivers/iommu/iommufd/selftest.c
+> +++ b/drivers/iommu/iommufd/selftest.c
+> @@ -2081,7 +2081,7 @@ static int iommufd_test_dmabuf_revoke(struct iommufd_ucmd *ucmd, int fd,
+>  	priv = dmabuf->priv;
+>  	dma_resv_lock(dmabuf->resv, NULL);
+>  	priv->revoked = revoked;
+> -	dma_buf_move_notify(dmabuf);
+> +	dma_buf_invalidate_mappings(dmabuf);
+>  	dma_resv_unlock(dmabuf->resv);
+>  
+>  err_put:
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> index 4be4a85005cb..d8ceafabef48 100644
+> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> @@ -332,7 +332,7 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+>  		if (priv->revoked != revoked) {
+>  			dma_resv_lock(priv->dmabuf->resv, NULL);
+>  			priv->revoked = revoked;
+> -			dma_buf_move_notify(priv->dmabuf);
+> +			dma_buf_invalidate_mappings(priv->dmabuf);
+>  			dma_resv_unlock(priv->dmabuf->resv);
+>  		}
+>  		fput(priv->dmabuf->file);
+> @@ -353,7 +353,7 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
+>  		list_del_init(&priv->dmabufs_elm);
+>  		priv->vdev = NULL;
+>  		priv->revoked = true;
+> -		dma_buf_move_notify(priv->dmabuf);
+> +		dma_buf_invalidate_mappings(priv->dmabuf);
+>  		dma_resv_unlock(priv->dmabuf->resv);
+>  		vfio_device_put_registration(&vdev->vdev);
+>  		fput(priv->dmabuf->file);
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 1b397635c793..d5c3ce2b3aa4 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -600,7 +600,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *,
+>  					enum dma_data_direction);
+>  void dma_buf_unmap_attachment(struct dma_buf_attachment *, struct sg_table *,
+>  				enum dma_data_direction);
+> -void dma_buf_move_notify(struct dma_buf *dma_buf);
+> +void dma_buf_invalidate_mappings(struct dma_buf *dma_buf);
+>  int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+>  			     enum dma_data_direction dir);
+>  int dma_buf_end_cpu_access(struct dma_buf *dma_buf,
+> 
 
 
