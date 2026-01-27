@@ -1,101 +1,101 @@
-Return-Path: <linux-media+bounces-51641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51642-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GGCDGOuleGnVrgEAu9opvQ
-	(envelope-from <linux-media+bounces-51641-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:47:55 +0100
+	id +Bd9BB2neGnVrgEAu9opvQ
+	(envelope-from <linux-media+bounces-51642-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:53:01 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA57B93DBE
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645D793E51
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 12:53:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 30C103031327
-	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 11:45:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 83EBD302E434
+	for <lists+linux-media@lfdr.de>; Tue, 27 Jan 2026 11:52:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B8C834B197;
-	Tue, 27 Jan 2026 11:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A477134B1B6;
+	Tue, 27 Jan 2026 11:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KQP1Q1sT";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Mv6EO279"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TPJ/IBsB";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fKVfg7mm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72F9337BA1
-	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 11:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2402346760
+	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 11:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769514339; cv=none; b=g0So2nMwe2QcZWjzqTi8LN+2WtfPZuFSsSxTOaFSB1JdqBqJPWfJGc7MHf/2cwnyl4AHLeX80xJYHuJk8zdKqvCNJ22dO9achhS64dQ3s0cG5cZWsV1rDgZVLqGydFlQOggfW7kU6pJDKEq48MP5ZnN4oIghAkSZi8SEKmW4SQY=
+	t=1769514766; cv=none; b=g3gu4D30hB3vLHxySUDaNprh+ixkpW8fi7V6BrwJMvGwrmb8u79SkRfuOA0eZihAmRxkSVJiLhJmJxn8qLJjjUKeWxtza9mmK2IFunCzZKQLwhN4bPASxBSX2XDDXfL0wxcBvkNORhv0ulnAJMWo8L9v83KIIfbrGOXBOFLqc1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769514339; c=relaxed/simple;
-	bh=vC5aMIheQI/i5LOb8ieNJ8xBdQ2Nd6mfRPdPEfitCBo=;
+	s=arc-20240116; t=1769514766; c=relaxed/simple;
+	bh=6JAzVZsU4KubP9IgDxyR6AZcv2GMmZ6+OF1QDY+5G9Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ny6nuc8z2oXUaGBud4ugtaj54243FvzmkY7PQvy9Xrlph0mga9rU2iQcjNc+CwD3BSSUdTX3C7bZ/soMgqLboKfPxqOxRPAx9LhJW/jp0ZRy2kOIQmZ+lRMRJa/WGKBC9K7uuP52U+j1drCw0ArH9VkKYn/5MD0ezTajPlccnGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KQP1Q1sT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Mv6EO279; arc=none smtp.client-ip=205.220.180.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=mrF/u/D/cpuXwIpCNdPTF8HoZGB6HzKsP6/Kp+6VAEzyy0NoBs8qV0CA8CFM7CE9peVevF/ddHt9B9GtHntSf5DRYSSjmFzeBHgLyEHKq4TnpT2rTxESQjpWcipQwraMamyk6/K42GAkCUl2xFB3ybtwd/pzA10Nnx3ehs3RO58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TPJ/IBsB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fKVfg7mm; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60RA2oH93857584
-	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 11:45:36 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60RAOodA171359
+	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 11:52:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=jYN++O5MHPni7REvt15Xxqk3
-	I7fUUxuK7gifc+cEAcM=; b=KQP1Q1sT3GHkqJK8U5+VNCDjkwh1x/829RDJTiAi
-	7lXjJjnkl5iKBx/Rvm5lXfjr7KkJV+Mt4dJY4za+jE4K17/u6sr9hqiTLb1Yn47F
-	5WdNvpKiYG7582PCf6qcm3Xe2bPEHtV6tIj62H69/EHTkxtRtp5wdvZmFAGw4aIi
-	lu6XvYS2mFxrJ+nLV2pyu/slymXqSojJPtIhVFNVj0PI6Lv5oAoNb4t5WPrh6Y8W
-	iAYTWLj7NHf5vUs7L833Ohz4dAtM6bUhlfV0iBGQGf3co6tbBUSt+vcAw3+43G56
-	KTh66S32T6L0rN4RZGGLc9wWMHoDXHAxGXzcVWtKJ6/9tA==
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bxffs2hqd-1
+	:references:subject:to; s=qcppdkim1; bh=IdKihRKTuK8o6lDlHKbGDjAG
+	XAhwUnc+3Y9rbly4WSo=; b=TPJ/IBsBxG1S9yuDyy5ey4JJRo5GkUrvhw52MFOD
+	qXejSeLKkEKKcqLpbSTETpqBscszsuhhzSjxd8PV1Wl6txIIlFOW90x7X+Eeq3Jw
+	WpaHCsNojN3UKCFFQfHphWUtG2sFt1bWwk6mCER7SQITFF9EPmW9F/C28i2PSdnl
+	utlkyjOHYZVQMLCxtNKRhuN9OTvaLp1rwLZcKSwH0NNvyjkugVuErE8XVZmEe4Ye
+	/Yx6NopRAnuNwJ/eknWaQCDZZuF2uzwbrZrpKtAGAJ8rZoZ7DcAEOhS/EzcTfgY0
+	rCehaEJgsq7nyagfXblCj0b0ZJ0MdxtCMn+aIylXAjMUbQ==
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4bxf3a2nue-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 11:45:36 +0000 (GMT)
-Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-93f59bf206dso7312559241.0
-        for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 03:45:36 -0800 (PST)
+	for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 11:52:44 +0000 (GMT)
+Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-5f53b7f1341so5195909137.0
+        for <linux-media@vger.kernel.org>; Tue, 27 Jan 2026 03:52:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1769514331; x=1770119131; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1769514763; x=1770119563; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jYN++O5MHPni7REvt15Xxqk3I7fUUxuK7gifc+cEAcM=;
-        b=Mv6EO279kHGyQHNxHMDuBZHZ2FS3+JEC9ZLEGZP8MHin94CKv2735wG4//gn1jDUTS
-         5kKYDvTFa5rFluyVe9LixrNU+lW1TFV1l2f2lzr/4mj3uOikpzM2KQOc33RUxa/cRYCj
-         cPBvz4xcUjxWIPFTKjuXiFi05wHt3rvv5SMmX1l76fCdk1QMCdkGqWfyj2UT4cOtV4it
-         6gvidpuCqdJCpq8cWqf3nWrq32NEjO1lIeBgZFbSma7Kv2OXANkuEz+as7qPsNrZRZe0
-         nUeqOS7mt809ewqQWxsA1VJzDxIAagYjP3o451zkz0yESClEicdvqBK5xQ+jdGTfxv7o
-         hs2A==
+        bh=IdKihRKTuK8o6lDlHKbGDjAGXAhwUnc+3Y9rbly4WSo=;
+        b=fKVfg7mmfuMITxDlIAgpLllPYUwklFhmWsPqEqNjvGmpbiG24PPqCqzcrp1cKA1QCn
+         AfbwXHhgxv90UzTnmU8zxoRNCxtkaUoA2uvyB5cOEl7Q+Kc0tL0HZJXCXJ9sYPbaKrZf
+         N5cr6C7aD+FK83FFzWOQlmdLyRNb0fcJCBWF9/+AWIW0jaIIEmAd5FRqFkAxWk2SegP8
+         fLDqYlzXpRc+LSROp1oLXRzXLLA5hK5AuuzJabKF+e8gPI8DjGVlH73Ugg1Qy46hIbn3
+         PY03kqepMSqsPFDCcR+JU9WB4+i0W65zZYfzlDffWOvYQyxQzmbF/Clx97WtwRRkwkJm
+         oU3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769514331; x=1770119131;
+        d=1e100.net; s=20230601; t=1769514763; x=1770119563;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jYN++O5MHPni7REvt15Xxqk3I7fUUxuK7gifc+cEAcM=;
-        b=BtxJOzkXolkx2QNMoVoxuH4kg1jClo4/y97lUW6rB/W4vT+NmKuumGjUiELCW38G9H
-         4BsNkFhJjIvggwLj9Hn+5S8E75wP4gSlEZSwWrxv/JH/Ykb6SwStw4hV3xui3U/7oUqd
-         QC4a5t85kSwBxNvbxtAEH+O/vWmvkmoWsRWAR9IAEaQee6OCndLEPdtWsbbuVGUDLAoh
-         sHoepWjZbAKkILwyX3EjdgXR4+k7Yh1yuONh4Dw+vyiOZ9qnCEgR6kpLkt/FR7Pful6K
-         f0n3r+t/gicqaJVn0y22H+Yv88K/k3bededRI4amHXHCpGY1sFRgDlL3uTjPu5oULkC2
-         GbEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVz0QjJtYB9BXUAOU4b5FiRHvxD5PXBYA0tBnbmpzT0FBQUstKljB0iAZjv5iJaCQfLDsS+c+1SfNQHqA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqDNvKUWjhD2nPygdYm+rr2JubqyW4Sl23n9Cx/YMiFND8Epti
-	F0UQ9acvFGdhIjrHpo/PnCkekq+ZsXqDuc+Hn8NA8JCBSrdWkIvQsJkJfjyJypGk+jaiWUy//BL
-	eVIo1pDXhRkgg21A1PjNu0f/rDHbT59S7kvSdWUvj+f8m54b6SuEBeVuiYHQqH9kEaw==
-X-Gm-Gg: AZuq6aIfWlk7m9fFvIkwd+pXrBxXrXI0bCvKuHb4wk4vBhzew0FQUwBSzCAk3h3Ddpc
-	ypAYERw772CRxyvhMqOGHtJ0jQzSNmU+asQKpBXHH8Eb41mN+9RnsYFTDLxpoWkrskg3KJ4ugXj
-	nzKPUsU4/2OrBLd4fKCEpSZzpsEsWtM2qQFk4rK6FRgwNL3xiHUXrSFZ4urExuKJOKWUyGLdegI
-	YQnXyeoMk45FWq75GBrFvVmXHiMjuigcDXAXN01PvPwBjpiTCQ35zy2KVhSyXHVCldiKXWgS4Xo
-	1QtgGmCuGCyf0Wdo7K5zBw79jo/sExzjTKemHl6T6myV+OuziaQZjpZ46+zleUQLY47Z9pb1mDo
-	zvAFZSsy8lsGcHU0BOjpxQCLY8F13fotRMr5B5tKq0IkmB78YpUzKo++kG3qYlEefMVmR6/PnUR
-	4W47EdhxDQFncjWAISquUSAJg=
-X-Received: by 2002:a05:6102:4405:b0:5dd:b5a2:b590 with SMTP id ada2fe7eead31-5f72366e745mr585672137.16.1769514331064;
-        Tue, 27 Jan 2026 03:45:31 -0800 (PST)
-X-Received: by 2002:a05:6102:4405:b0:5dd:b5a2:b590 with SMTP id ada2fe7eead31-5f72366e745mr585642137.16.1769514330447;
-        Tue, 27 Jan 2026 03:45:30 -0800 (PST)
+        bh=IdKihRKTuK8o6lDlHKbGDjAGXAhwUnc+3Y9rbly4WSo=;
+        b=hecnR6B5ThVwDO/G66dscopn6K/ariCQYePO9cxdeoDR83IbPSKhz8+FAYpAIxBsV2
+         /jPVS6xBMgb9IC/KwVJ7XEq08qcqwv9+3NB0bWDMndDGgK1Vytoed9GCMWMsnfpK+O0W
+         AP1IH0XYnym/7UjnGc8bwcAg4D5ildm+1H+ZyIzDodYBZZ841cdFttQCI5ZDGUP6XYI0
+         8mL0FkNaMI/fjrisqKXcd0or62QuS8HzwDW0MqRmeWtN5iuLKXpr6gcc+BOOXCpFA9Lg
+         unwNNG+5+G+Btb2kFf7cD0vHk8PD6QfYr5trUkwIOR65WbPE65YJMOp8AFF7gk7fyrwH
+         gYSA==
+X-Forwarded-Encrypted: i=1; AJvYcCWEqgukYHHQucXcA6nEEdoz3yJSUKKXz60u2QXwZNratIURTf20hYf/G5Ef4leRmUQN9qcPlrWne1I1Tg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEvTsC4qIQ0N7H1FIddN8+2QG6ziTmTFqUY4f8VOdg7EryGvVX
+	G6lslT/4QbYsn6LOH9ueCTAD4M/jbbKHGfjIWsDQHrHfhryq/GD66/tk6oXO5zVqo05wG+dzlwm
+	GfhgcIzhWKKl6wS5CgbxxbQbN5JYztZ846WWZ4YQGbzvPmYsFoow6J0ZWtZe/gDyo5Q==
+X-Gm-Gg: AZuq6aLn85nrPjaZoFMXQMDCvuX9vG/NiWEa451xSO5OZjEOqLJC8scMsEWEBPvefFJ
+	heHrgcKHSgseS+bkK2ArkNSx7Jxk0g7FEgTvik2s0zcmhjpicvP+lYpurZT7+wFwK/6djQQziKi
+	sojHLdiSldWYJ1iEOzkoLIdkE0TWhwLCQO9fezUWZGvpDW8Mg8ugbQyskGN4aOWfMpeNdxBuBNZ
+	jC02emt4E3x6jcAJbK3GAce5qrBQUxHlTq0I14uvNNlorUzCZsfb3GTkhk6onNQVhiASKGttbL5
+	aZ7y545e/nnDZz96urYHTpIIBkGgHy6feGKSIihxNcFyfuc7wF+K7efCqiZqw5Brc07BMGcH6tJ
+	0cYpDS4qlodfWYKQpJ4llLtnRa1r9rtbHWJGDh2O0hT3jQwFqczFmJpStQQXd4vGSJbv8S4M61x
+	uqu8HMGXmINzuOhA2QLcjdf30=
+X-Received: by 2002:a05:6102:3ed6:b0:5dd:84f1:b51a with SMTP id ada2fe7eead31-5f723841222mr634356137.43.1769514762537;
+        Tue, 27 Jan 2026 03:52:42 -0800 (PST)
+X-Received: by 2002:a05:6102:3ed6:b0:5dd:84f1:b51a with SMTP id ada2fe7eead31-5f723841222mr634345137.43.1769514761958;
+        Tue, 27 Jan 2026 03:52:41 -0800 (PST)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59de48df7f6sm3450910e87.10.2026.01.27.03.45.29
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59de4918a16sm3564116e87.59.2026.01.27.03.52.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 03:45:29 -0800 (PST)
-Date: Tue, 27 Jan 2026 13:45:27 +0200
+        Tue, 27 Jan 2026 03:52:41 -0800 (PST)
+Date: Tue, 27 Jan 2026 13:52:39 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
@@ -117,10 +117,11 @@ Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
         iommu@lists.linux.dev, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
         Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
-Subject: Re: [PATCH 3/7] of/iommu: add multi-map support
-Message-ID: <hunwsdkmeo6efpv3yt3izkgmarelnubd74dywj3scryxrreq6p@njijwtoyjh46>
+Subject: Re: [PATCH 0/7] media: iris: add support for kaanapali platform
+Message-ID: <vv4stkmrrwdqmbnpv7pg5nd4immtqo5iplwbcia3oykycfmg2m@dsithotfy5ls>
 References: <20260126-kaanapali-iris-v1-0-e2646246bfc1@oss.qualcomm.com>
- <20260126-kaanapali-iris-v1-3-e2646246bfc1@oss.qualcomm.com>
+ <lpgw6eodclsvfwgvtljfiorvjkpd5vd27yhxs7i3ijfibaqzuk@bak2lwbyh77f>
+ <2d4632b2-916a-4eda-ad08-44af68461dc8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -129,28 +130,28 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260126-kaanapali-iris-v1-3-e2646246bfc1@oss.qualcomm.com>
-X-Proofpoint-GUID: PH2MixjmZ7NdGiDzgT643ZqneaC4K8k6
-X-Authority-Analysis: v=2.4 cv=YpcChoYX c=1 sm=1 tr=0 ts=6978a560 cx=c_pps
- a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <2d4632b2-916a-4eda-ad08-44af68461dc8@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI3MDA5NiBTYWx0ZWRfXx99WiJf0ZOGJ
+ QG9eufARQ98BWbjQNKRb5RLBbi3oE3Oi6Xz6adZ/F5pjBeZmNlGfcb7wjaZUjp053LgoLCU7Z6c
+ yFSbuMaAENFk51fjhJ6ZR9C6gtZ9maXHjBmPK33yBE6tSKA8A9skksTGM/zPFZRpOx2dHzJ5QfC
+ VRES60OH+5UNKS1XecRpLn+LTCDnkerythKhmtLWMVXXg8/cyHvnxFm/RJ/gZyTYrh8O6SJaDaU
+ Bq29lufsoLXXTcYRMe5JN0xgAljgb9JtM1leAxnoa63djqxs8qZW56hSQU1UfDJGfKpTxSKm2aA
+ 8hBe0o2ao4TdcXYsx8PCdfpeGjhQBdwcH2KX/QrD3rdo1nqnRlicecA7KOKKLygl1hcd5KhfsQT
+ UyYAqpmRJYAtkTjkk01g5lhPPgi76dmR6si9XdpZGFN0CN6hKN3sxB4SiYeeIzoW0QczEYrbd+O
+ 1vGdedM49ZwN3qFLUCA==
+X-Proofpoint-ORIG-GUID: yHnv3jF17mF0qKqcUF5YuBf-Tl2C7PlC
+X-Proofpoint-GUID: yHnv3jF17mF0qKqcUF5YuBf-Tl2C7PlC
+X-Authority-Analysis: v=2.4 cv=a6k9NESF c=1 sm=1 tr=0 ts=6978a70c cx=c_pps
+ a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=5JH2DIL-x3vr5n02JuwA:9
- a=CjuIK1q_8ugA:10 a=o1xkdb1NAhiiM49bd1HK:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: PH2MixjmZ7NdGiDzgT643ZqneaC4K8k6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI3MDA5NiBTYWx0ZWRfX8wpDZ7fPTw3P
- uNjcjFLboQWjML5KSXPB759P01Zh6KZLrwRq5lk7v/D118KmYJ+vIngSmKU+v9VF0XWhH1PO5ds
- cQfInuNNN++/4S8YR6j3VHps1TnRXObp8HuyL+1DOytPtEU3PpLq/qUtiYrwh9iq6idxdXHKoej
- L2i6+tgNoUyxuDbF1WDbpis/kVm83RW49hDswcG1nHil7DuGVsPRMe/yAfNx56gQWjEUOLPK8MA
- kOLDTXw0mJwacUIALk99nVFrdty1okuQXTVjWOhwCLS53tsEfp1Op6TvUsA5PcRQmzvdAGtGeIX
- sFzI1p+xEjuAQ+wH2FAAJFa+HXCIL5j5vJO7UlWr/FnEwEA+X75LkH6A5ba2MHu8lou562iYPMN
- W2BNQufi8cwVZ3r7GM8KGJ12l/fcjOGXeQTXMwclR8ZXPuVO1QxZA3SR38zy9YJiB6R/vibSOIY
- 1fCa/dvsqMsaLx0SF8A==
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=wY_k35-0G0TR-rtl6zUA:9 a=CjuIK1q_8ugA:10
+ a=-aSRE8QhW-JAV6biHavz:22
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-27_02,2026-01-26_01,2025-10-01_01
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-27_02,2026-01-27_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 impostorscore=0 suspectscore=0
- spamscore=0 malwarescore=0 bulkscore=0 adultscore=0 priorityscore=1501
+ malwarescore=0 spamscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 clxscore=1015 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601270096
 X-Rspamd-Server: lfdr
@@ -164,9 +165,9 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51641-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51642-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,arg.map_args.np:url,oss.qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[25];
@@ -182,222 +183,139 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: DA57B93DBE
+X-Rspamd-Queue-Id: 645D793E51
 X-Rspamd-Action: no action
 
-On Mon, Jan 26, 2026 at 05:55:46PM +0530, Vikash Garodia wrote:
-> From: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
+On Tue, Jan 27, 2026 at 04:56:34PM +0530, Vikash Garodia wrote:
 > 
-> When multiple mappings are present for an input id, linux matches just
-> the first one. There is a usecase[1] where all the mappings are to be
-> maintained in parallel for an iommu-map entry of a same input id.
+> On 1/26/2026 7:08 PM, Dmitry Baryshkov wrote:
+> > On Mon, Jan 26, 2026 at 05:55:43PM +0530, Vikash Garodia wrote:
+> > > Qualcomm kaanapali platform have a newer generation of video IP iris4.
+> > > The hardware have evolved mostly with respect to higher number of power
+> > > domains as well as multiple clock sources.
+> > > 
+> > > The series extends support for multiple iommu-map entries for the same
+> > > input id. Considering iris as a client driver, it adds the handling for
+> > > multiple stream ids from VPU via iommu-map.
+> > > 
+> > > This series is depend on the below series:
+> > > Link: https://lore.kernel.org/all/20260121055400.937856-1-vijayanand.jitta@oss.qualcomm.com/
+> > > 
+> > > Following are the compliance and functional validation reports.
+> > 
+> > Please validate with fluster too. Having a "knowingly good" command line
+> > is not a validation. It can't be reproduced by anybody else.
+> > 
+> 
+> Below is the fluster result on kaanapali (will add in cover letter in next
+> revision)
 
-This contradicts the IOMMU idealogy (at least as far as I understood it
-fom the maintainers): the device (driver) doesn't control which IOMMUs
-are getting used. Instead _all_ defined entries should get used. For
-iommu-map it means that if the map defines several entries for a single
-function, then all entries should always get mapped.
+Nice, thanks!
 
 > 
-> Whether multi-map is needed is reported by the callers through the
-> callback function passed, which is called for every input id match.
-> 
-> Since the requirement in the usecase[1] is for platform devices, not
-> sure if it is really clean to maintain this decision on the bus type at
-> the of_iommu layer or further to be from the respective
-> iommu_driver->impl_ops().
+> H264:
+> 77/135 while testing JVT-AVC_V1 with GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1.
 
-This doesn't tell us, why do you want to control, which entries of the
-map get used.
+What about the extension testsuites? Even if they are not supported,
+they should not crash or cause the timeouts.
+
+> - 52 test vectors failed due to interlaced clips - not supported
+
+Yet or completely? Does "failed" mean "returned an error" or something
+else?
+
+> - 3 test vectors failed due to unsupported bitstream.
+> - 2 test vectors failed because SP_SLICE type - not supported by the
+>   hardware.
+> - 1 test vector failed due to unsupported profile
+> 
+> H265:
+>  129/147 testcases passed while testing JCT-VC-HEVC_V1 with
+>  GStreamer-H.265-V4L2-Gst1.0.
+>  The failing test case:
+>  - 10 testcases failed due to unsupported 10 bit format.
+
+MAIN10? I was actually surprised, Venus driver supported them for the
+Iris2 hardware. Is it somethething to be fixed in future?
+
+>  - 4 testcase failed due to unsupported resolution
+
+Can it be fixed?
+
+>  - 2 testcase failed due to CRC mismatch
+
+Which means an error in the testsuite or somewhere on our side?
+
+>  - 2 test fails due to session error (under debug)
+>    - PICSIZE_C_Bossen_1
+>    - WPP_E_ericsson_MAIN_2
+> 
+> VP9:
+> 235/305 testcases passed while testing VP9-TEST-VECTORS with
+>  GStreamer-VP9-V4L2-Gst1.0.
+>  The failing test case:
+>  - 64 testcases failed due to unsupported resolution
+
+Can it be fixed?
+
+>  - 2 testcases failed due to unsupported format
+
+Hmm?
+
+>  - 1 testcase failed with CRC mismatch (fails with ref decoder as well)
+
+Could you please raise an issue against fluster?
+
+>  - 2 testcase failed due to unsupported resolution after sequence change
+
+Can it be fixed?
+
+>  - 1 testcase failed due to unsupported stream
+
+?
 
 > 
-> [1] https://lore.kernel.org/all/20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com/
+> > > gstreamer test:
+> > > Decoders validated with below commands, codec specific:
+> > > gst-launch-1.0 multifilesrc location=<input_file.h264> stop-index=0 !
+> > > parsebin ! v4l2h264dec ! video/x-raw ! videoconvert dither=none !
+> > > video/x-raw,format=I420 ! filesink location=<output_file.yuv>
+> > 
+> > Neither of these commands specify, what exactly was validated. They
+> > specify that you've validated _some_ videos. It's impossible to even
+> > reproduce your results, because you don't specify which files you've
+> > used.
+> > 
 > 
-> Signed-off-by: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
-> Signed-off-by: Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
-> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> ---
->  drivers/iommu/of_iommu.c | 36 ++++++++++++++++++++++++++++--------
->  drivers/of/base.c        | 38 ++++++++++++++++++++++++++++----------
->  include/linux/of.h       |  6 ++++++
->  3 files changed, 62 insertions(+), 18 deletions(-)
+> commands are shared indicating the pipeline used for validation for
+> different codec plugins. These are some basic encode and decode commands,
+> and shared for reference for anyone to pick input test files of their own.
+
+Thanks, but it would also be helpful if you stated, which filesets were
+used for validation. There are enough public filesets for testing video
+decoders.
+
 > 
-> diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-> index 768eaddf927b0700b2497b08ea21611b1a1b5688..067bb2298973671e1eaf01bb2ea52df3d2a52a44 100644
-> --- a/drivers/iommu/of_iommu.c
-> +++ b/drivers/iommu/of_iommu.c
-> @@ -16,6 +16,7 @@
->  #include <linux/pci.h>
->  #include <linux/slab.h>
->  #include <linux/fsl/mc.h>
-> +#include <linux/platform_device.h>
->  
->  #include "iommu-priv.h"
->  
-> @@ -41,22 +42,41 @@ static int of_iommu_xlate(struct device *dev,
->  	return ret;
->  }
->  
-> +/*
-> + * Callback to be called from of_map_id(), that tells if
-> + * all the mappings for an input id to be maintained in
-> + * parallel. Should this decission be from further layers,
-> + * iommu_driver->impl_ops?
-> + */
-> +static int of_iommu_configure_cb(struct of_map_id_arg *arg)
-> +{
-> +	struct of_phandle_args *iommu_spec = &arg->map_args;
-> +	struct device *dev = arg->dev;
-> +	int err;
-> +
-> +	err = of_iommu_xlate(dev, iommu_spec);
-> +	of_node_put(iommu_spec->np);
-> +
-> +	/* !iommu_spec->np may be from the bypassed translations */
-> +	if (!err)
-> +		err = (!arg->multi_map || !iommu_spec->np) ? 0 : -EAGAIN;
-> +
-> +	return err;
-> +}
-> +
->  static int of_iommu_configure_dev_id(struct device_node *master_np,
->  				     struct device *dev,
->  				     const u32 *id)
->  {
->  	struct of_map_id_arg arg = {
->  		.map_args = {},
-> +		.cb = of_iommu_configure_cb,
-> +		.dev = dev,
-> +		/* Should this be pushed to iommu_driver->impl_ops? */
-> +		.multi_map = dev_is_platform(dev),
->  	};
-> -	int err;
-> -
-> -	err = of_map_iommu_id(master_np, *id, &arg);
-> -	if (err)
-> -		return err;
->  
-> -	err = of_iommu_xlate(dev, &arg.map_args);
-> -	of_node_put(arg.map_args.np);
-> -	return err;
-> +	return of_map_iommu_id(master_np, *id, &arg);
->  }
->  
->  static int of_iommu_configure_dev(struct device_node *master_np,
-> diff --git a/drivers/of/base.c b/drivers/of/base.c
-> index 606bef4f90e7d13bae4f7b0c45acd1755ad89826..a1c3c5954ec7e8eb3753c8fd782a1570f9eb9c17 100644
-> --- a/drivers/of/base.c
-> +++ b/drivers/of/base.c
-> @@ -2122,14 +2122,21 @@ static bool of_check_bad_map(const __be32 *map, int len)
->  	return true;
->  }
->  
-> -static int of_map_id_fill_output(struct of_map_id_arg *arg,
-> -				 struct device_node *phandle_node, u32 id_or_offset,
-> -				 const __be32 *out_base, u32 cells,
-> -				 bool bypass)
-> +/*
-> + * Fill the id_out and target for the of_map_id() caller. Also
-> + * call the callback passed to the of_map_id() as part of the arg
-> + * that decides if to continue further search.
-> + */
-> +static int of_map_id_fill_arg(struct of_map_id_arg *arg,
-> +			      struct device_node *phandle_node, u32 id_or_offset,
-> +			      const __be32 *out_base, u32 cells,
-> +			      bool bypass, bool *multi_id_map)
->  {
-> +	int ret;
-> +
->  	if (bypass) {
->  		arg->map_args.args[0] = id_or_offset;
-> -		return 0;
-> +		goto output;
->  	}
->  
->  	if (arg->map_args.np)
-> @@ -2145,7 +2152,14 @@ static int of_map_id_fill_output(struct of_map_id_arg *arg,
->  
->  	arg->map_args.args_count = cells;
->  
-> -	return 0;
-> +output:
-> +	/* pass the output for the callback, callers may further decide */
-> +	ret =  arg->cb ? arg->cb(arg) : 0;
-> +
-> +	if (multi_id_map && ret == -EAGAIN)
-> +		*multi_id_map = true;
-> +
-> +	return ret;
->  }
->  
->  /**
-> @@ -2179,6 +2193,7 @@ int of_map_id(const struct device_node *np, u32 id, const char *map_name,
->  	int map_bytes, map_len, offset = 0;
->  	bool bad_map = false;
->  	const __be32 *map = NULL;
-> +	bool multi_id_map = false;
->  
->  	if (!np || !map_name || !arg)
->  		return -EINVAL;
-> @@ -2264,23 +2279,26 @@ int of_map_id(const struct device_node *np, u32 id, const char *map_name,
->  		if (masked_id < id_base || id_off >= id_len)
->  			continue;
->  
-> -		ret = of_map_id_fill_output(arg, phandle_node, id_off, out_base, cells, false);
-> +		ret = of_map_id_fill_arg(arg, phandle_node, id_off, out_base,
-> +					 cells, false, &multi_id_map);
->  		if (ret == -EAGAIN)
->  			continue;
->  
->  		pr_debug("%pOF: %s, using mask %08x, id-base: %08x, out-base: %08x, length: %08x, id: %08x -> %08x\n",
->  			np, map_name, map_mask, id_base, be32_to_cpup(out_base),
->  			id_len, id, id_off + be32_to_cpup(out_base));
-> -		return 0;
-> +		return ret;
->  	}
->  
-> +	if (multi_id_map)
-> +		return 0;
-> +
->  	pr_info("%pOF: no %s translation for id 0x%x on %pOF\n", np, map_name,
->  		id, arg->map_args.np  ? arg->map_args.np : NULL);
->  
->  bypass_translation:
->  	/* Bypasses translation */
-> -	return of_map_id_fill_output(arg, NULL, id, 0, 0, true);
-> -
-> +	return of_map_id_fill_arg(arg, NULL, id, 0, 0, true, NULL);
->  err_map_len:
->  	pr_err("%pOF: Error: Bad %s length: %d\n", np, map_name, map_bytes);
->  	return -EINVAL;
-> diff --git a/include/linux/of.h b/include/linux/of.h
-> index 9efa6f93712c6024f05476f9fd39f3294f942ec1..abab73a76682351f5635c1127a6c899917525050 100644
-> --- a/include/linux/of.h
-> +++ b/include/linux/of.h
-> @@ -25,6 +25,9 @@
->  typedef u32 phandle;
->  typedef u32 ihandle;
->  
-> +struct of_map_id_arg;
-> +typedef int (*of_map_id_cb)(struct of_map_id_arg *arg);
-> +
->  struct property {
->  	char	*name;
->  	int	length;
-> @@ -76,6 +79,9 @@ struct of_phandle_args {
->  
->  struct of_map_id_arg {
->  	struct of_phandle_args map_args;
-> +	of_map_id_cb cb;
-> +	struct device *dev;
-> +	bool multi_map;
->  };
->  
->  struct of_phandle_iterator {
+> > > 
+> > > gst-launch-1.0 multifilesrc location=<input_file.hevc> stop-index=0 !
+> > > parsebin ! v4l2h265dec ! video/x-raw ! videoconvert dither=none !
+> > > video/x-raw,format=I420 ! filesink location=<output_file.yuv>
+> > > 
+> > > gst-launch-1.0 filesrc location=<input_file.webm> stop-index=0 !
+> > > parsebin ! vp9dec ! video/x-raw ! videoconvert dither=none !
+> > > video/x-raw,format=I420 ! filesink location=<output_file.yuv>
+> > > 
+> > > Encoders validated with below commands:
+> > > gst-launch-1.0 -v filesrc location=<input_file.yuv> ! rawvideoparse
+> > > format=nv12 width=<width> height=<height> framerate=30/1 ! v4l2h264enc
+> > > capture-io-mode=4 output-io-mode=4 ! filesink sync=true
+> > > location=<output_file.h264>
+> > 
+> > At least these should use test sinks in order to be reproducible.
 > 
-> -- 
-> 2.34.1
-> 
+> it is using filesink in the pipeline to generate the encoded bitstream
+
+I should have been more explicit: test sinks to generate the image.
 
 -- 
 With best wishes
