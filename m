@@ -1,381 +1,284 @@
-Return-Path: <linux-media+bounces-51726-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51727-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sI0dGMnteWkF1AEAu9opvQ
-	(envelope-from <linux-media+bounces-51726-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 12:06:49 +0100
+	id 6Le2MN/teWkF1AEAu9opvQ
+	(envelope-from <linux-media+bounces-51727-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 12:07:11 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68969FEF2
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 12:06:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A47D9FF11
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 12:07:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 886BE30038C0
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 11:06:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B5E3D300E5D1
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 11:06:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E22342EB5A1;
-	Wed, 28 Jan 2026 11:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7CFD33DEF0;
+	Wed, 28 Jan 2026 11:06:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=epitech.eu header.i=@epitech.eu header.b="r86RWcke"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tn9UA/5Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11020085.outbound.protection.outlook.com [52.101.84.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E7016DC28;
-	Wed, 28 Jan 2026 11:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB9F3346AF
+	for <linux-media@vger.kernel.org>; Wed, 28 Jan 2026 11:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769598401; cv=fail; b=g+YIXR/ZwVLB5n2W1tXA3nw52Tkhjnu+bhR+pi/3jzipKev1Fg6wCFIoMArW3qK0/n9/0UihHx6Ra877A603COC1qeGfno9klFiPW1o9BDdOZMpqV6Sqc9a0wffm9jElpBBY99kU6mVtG24czan568zsvhMedtPfd7pujK+bca8=
+	t=1769598404; cv=pass; b=Ws62bnV0Z7VjmFphK62kwBmYpmDaWHC6NrYa+TykO34RpDiZ2PwpXHONgHZbSU4esjmOqODGuY9wpdvxGwFW7bX+0tNpfhtSB9wN0qw68DEmwn+bjsQhJOdYwRV6MNO/1X39albeAfvvLkvS+YacgAgtCUO8d/3TxL27yJAVs+w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769598401; c=relaxed/simple;
-	bh=sOXKhnntty6JCyU2F/H0bzyxjA8ohLVmjZbJGBYTN4M=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=B9c5apSNwz30n4v9MToaVEqV8CgxEJVMeYXsmpSHf7gS/Dmh0DL3Ix1RaSb1/ZsfbNtWCbXQZrdJ+7jfLNJ36iJMb4VAmLF2rqt5xsCNtl5mbA9CJds1MDTxPxERA8AV9P/A1QEs4f7UCETMvpXjF/NNbfK01JTBorB6jy9tcVE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epitech.eu; spf=pass smtp.mailfrom=epitech.eu; dkim=pass (2048-bit key) header.d=epitech.eu header.i=@epitech.eu header.b=r86RWcke; arc=fail smtp.client-ip=52.101.84.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=epitech.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=epitech.eu
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vGlln/Ts4gIIHbuwVP+5hZR6t9RqhHvtNhSROfseIwi4XCEepV/r9MG1uT26xFGcizKfuslnzPf7YAAskvazVtNyvZDtUCueesE7mDnvpYMXAdInzMKY+iv206MxMthEMUNGS/QyV0u6Ui7uuqyYiJ0KPs7ge0Z+HVu1MBP3ismkoSzkNLrbU43M1Sxs7LMtBtuclSZ/r4C7MqRkhHTI8p4LGhd56NO9PTgVAy2NQGn4XUNgTdnwOzY43gXXPJmdqoEsrwnSaL3OVdclL5IsMIKGJjD5OrAxEddjK6R/Ho7iYDuhxrp+ML2aaftnuHF6k+TXGHV/1uYUh4wRF6FKzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iuqRGLyyRLlKQwx0IN6URuxZUYuXy7nq5f1S2ca+L9k=;
- b=mC2gNEOUWn3YZnnbUazTbes2hkCQLprMd/O0vJHhtmWfzLS0lLXZMTU5W+v/Js/JRen+CTQGsJ6X5/otHjkEv58Mac5VSXSPAuZETtUB9XduIagCYcOdRnzV/8q4+h+42Uw8G4BF/YzH4uLupJ81QtG7k7lbubDnNlITnDk5ssNH6s5xNXGZMNpBO7AP2WmqJ1JTQxzIRQ4ZwR53gGz7Cc3VLCHZWQrhskDCyjjHJ/+NRDsDcK11GzSRxEZDv9iGi1QJOT+a1oJl4FERdhDuXGW1WomQ4wf7tkNVqWU6VUZVq2YhzaHoRc3PfP1dt5m2gTFeGfdd4iV0rsL9hQ6ogw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=epitech.eu; dmarc=pass action=none header.from=epitech.eu;
- dkim=pass header.d=epitech.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=epitech.eu;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iuqRGLyyRLlKQwx0IN6URuxZUYuXy7nq5f1S2ca+L9k=;
- b=r86RWcke4kIjA/Pq4EI2mM9VPfD7n9TnSb8KizctoUTBpFOJ++AQY5zqMm7fGSmwoGW11+eXSejCJf3Zz8zUo+1qBJldolm9XJD4vG0F6XWUlhsWAdbvKg2shcn754lq9QAObRfZJR0nvUKLcgEAjSWXIwSHmcOuNuImkJ9Ke9UJ4UcTbKZlBs28pyc4QkbH2CpjlG9oRWedZFUH/8wHy2BC3bxA6XZgxclTDNM2ZuZd30IYNC7RJbjs8gcSbxYiG47g8HdB53RH/52EngQEDYMdEbJAoyBtHa47rWuPSnn13wzMCGNnEHdmZ34PM6VHFJHt1pNM1GypN90FHxLJAg==
-Received: from GV2PR02MB11640.eurprd02.prod.outlook.com
- (2603:10a6:150:30c::17) by AS8PR02MB8319.eurprd02.prod.outlook.com
- (2603:10a6:20b:524::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Wed, 28 Jan
- 2026 11:06:32 +0000
-Received: from GV2PR02MB11640.eurprd02.prod.outlook.com
- ([fe80::e704:a38b:6af6:68ee]) by GV2PR02MB11640.eurprd02.prod.outlook.com
- ([fe80::e704:a38b:6af6:68ee%5]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
- 11:06:32 +0000
-From: =?iso-8859-1?Q?Timoth=E9e_Kremer?= <timothee.kremer@epitech.eu>
-To: "mchehab@kernel.org" <mchehab@kernel.org>, "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH] staging: media: av7110: cleanup sleep   timers and dead code
-Thread-Topic: [PATCH] staging: media: av7110: cleanup sleep   timers and dead
- code
-Thread-Index: AQHckEPCP9kXgwenFkeMmqUUzBprow==
-Date: Wed, 28 Jan 2026 11:06:32 +0000
-Message-ID:
- <GV2PR02MB11640C6AA4BEEE7A1B584411C8991A@GV2PR02MB11640.eurprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=epitech.eu;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV2PR02MB11640:EE_|AS8PR02MB8319:EE_
-x-ms-office365-filtering-correlation-id: 480f70e5-0071-4e3b-44ff-08de5e5d4b79
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|786006|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?KNthRpAmLT2ug/nBm3LTpvgtHWbIqBMoNzxAYMDJHatZnqJy6DoFoGqygd?=
- =?iso-8859-1?Q?36BqDpVkUNovWZUzleHhRtFaXBmg5+T4mR26e1oRbXPd5R0pyi3otc5Yai?=
- =?iso-8859-1?Q?zzKV6iZMagWpDpyN8DxjqrN4BDS+GyXR/YV3ub4y32wuVMveHrtjG1c1s7?=
- =?iso-8859-1?Q?DE7fs5F/v1r+K6o5oku2Rc36PddLj0EGNOBxA4J8MCEPih1oSDZEPuysnw?=
- =?iso-8859-1?Q?7LGw8G3iksd+gWIziwoJUaFjiHjCfSuDqN82sZl7YGUsiz+oK6bwJS6GxH?=
- =?iso-8859-1?Q?JOKe08fapDgscp6MFFekF1Q00RnJXSrISfj7TsiYJFtZ3/QvihVgCKyOU2?=
- =?iso-8859-1?Q?C64ikNnl1RHwxoFPvGEG0FHyYFVQMJRrC0XvP/faaRLA+8938mvy3SrfjV?=
- =?iso-8859-1?Q?bNaW5ueF+Ce4DXz0u3hB2qVqcRRo5qfp0sFaffI45jEgkv4Muq3lhCoYI7?=
- =?iso-8859-1?Q?mr/Ae4gV3G2tL/5CUhQaeR3Y8v03+67nL2Y3CkbwoJjbWqM7/u6z+SNo1B?=
- =?iso-8859-1?Q?6owjMZUyjJPnxxPpsWgHJ7rKYsrNYQJStUFPRJ1QjddouuR7Mz0ZnrMpEn?=
- =?iso-8859-1?Q?9wnbCg2XPIxeJ+x9qEza7Cexw3B7ZQ6WZ4tMRTUGMAbwbUyyfoiMzu6C5U?=
- =?iso-8859-1?Q?BW6HgV1PfgaKw8yU2zYhLv+vgFCcMYMHiecD/BvF3X4qJmmOV4g7V5nkmi?=
- =?iso-8859-1?Q?tXh+Q498qmDaXiahcU1oJp4Wm0xQ6OIAlU339X/Z5ZXpvlHNTyBJW4d27Z?=
- =?iso-8859-1?Q?ctSvHXR2d33dX/R3jp83/g3nVfH7XyPujt0vUP4mKANjIr5mx03uziOhg7?=
- =?iso-8859-1?Q?fUTRQ7SN+HuOgxd8a9Z1Kn+wwEY3p6BirNgZ38GKxf02U/CkhKuDbPq7ZA?=
- =?iso-8859-1?Q?ItNPcOzMbGt2fBzud+ifvovfkoUB1lymmXTlNeE+bTICmyySnagRk05Kgb?=
- =?iso-8859-1?Q?aOo8tE9GGvAXHHVBGDaVCE0uD87TNdqJ/3kfA/KGXfePhuZmjP7bqTSViM?=
- =?iso-8859-1?Q?m7kbf2rFVwinBD1/bJe+c8EGshD7sJdYHUzghufuFgMQ7exbQBkUMx9Tve?=
- =?iso-8859-1?Q?u5nmIZoQHb7a8ATiTqV+1KUiTZSU+aWwpq8P3BUrW5E3dR+uq9grLmP5kp?=
- =?iso-8859-1?Q?C2LT5xulM/EPJfS6IzoJLXBBXcG/QhulK1ZXEpjp/QmVV2TBt0ws+hwrm1?=
- =?iso-8859-1?Q?k7qOvBXNNptTI1cSwRLpdXmw4rLUGzv/PplovPTx6IQSqTzA3HofWTGREP?=
- =?iso-8859-1?Q?hvz0+Syi66Lw8HlXbuSalOlmgc5mYfuLaw+1fjcvSN2kHFIohbkyGM+yZU?=
- =?iso-8859-1?Q?pohYYhnPR6UsmaS0ii0gsFynRwqnsOBTh1HNTIXakzM+lpbUj/RhNOyIqa?=
- =?iso-8859-1?Q?+Wfg3YZEblU6ckjGh7TnXAkBB88lZ8WnnB0REYSZDk2fhNFXhonhA9LZyY?=
- =?iso-8859-1?Q?UDNkumn9m/Z+vNcJme8s2p6aV6yev7ptxrS08vVH76LkuDPV1JFmP0YZji?=
- =?iso-8859-1?Q?nt8J6d407t8+6p1tzaq7gsklrENN3DnbkRTY+9dlNaNWWfRPAU2wdXt+Bl?=
- =?iso-8859-1?Q?7APjzoKiA3jntZSOYqquCrN/WB08+BeO8FwVpcAp+1uYkGiYfdWLf7ImPH?=
- =?iso-8859-1?Q?wZRCxR2sx3pkXsUTBlX+VT6XNxuQBijqOEfz0UQf0gZruGiQ4498cWQKI3?=
- =?iso-8859-1?Q?I07GfAtt7HtN2SNEMj4=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR02MB11640.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(786006)(1800799024)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?4j5GKyl2lODXMink6LDCQLL0KxfWQMz6jMcacIAI+rY0sCDax3CP/eeDmB?=
- =?iso-8859-1?Q?KDSMeKO/BA7ZZsiKviFnyT1T/lx3D4rMgVIZDjpUARtgubgpnVuK7WaEOU?=
- =?iso-8859-1?Q?JLncNj/cLcZgk/QhpH+MrfB/2+w8AbM+QqSLMnQyCmesY1tW4DPBZcOZIo?=
- =?iso-8859-1?Q?eJdoeQswytS317bjHOAtqO48Q7Qd6OCZhpTqU5an1KUfLtaE2yL3Nx/3Xf?=
- =?iso-8859-1?Q?3C+JwEebYUhyAvKndncjl2UJu3e0twwpLAIlmm8NsYMRF+zzfvBU3zW3Zw?=
- =?iso-8859-1?Q?UeJpL6//SsD6TNc/WzGZ/8fOUCEO2pp4/fXDiRnCzLOTrA+839v0SQ9kRe?=
- =?iso-8859-1?Q?ipYYDuHssKoJJMvXFN/PvxCr34qFWyRE8n7Ff85A1kIaflAV/IghS/+s9d?=
- =?iso-8859-1?Q?+yLjz/SKAyYQEaGxrf+mb1OeLKj+5x0F28dID/T3/pDrgYMjkAf7eEfiKg?=
- =?iso-8859-1?Q?3QVDi6eUhbwlQBWWrDQUJk2WfXVzq7FWiGClhrxp9R6cRNq0aTjhgfqIeJ?=
- =?iso-8859-1?Q?oVxac6fpX3BrVlg1NUWV5/XXQZJobgdFWx+/dUwLyC/daJr86c92QFqO+N?=
- =?iso-8859-1?Q?WG7CeC6hVCBweXSOmSnRoNmvlBglfKuDJRL3e1ikoLYATHtz8WTyQYE9GA?=
- =?iso-8859-1?Q?hjEJeBfz+iwREf8IcL8o3pyxZ5WAv8G6Lku6ZH+CKZaalToPinXNJBDgBn?=
- =?iso-8859-1?Q?0WHdcwVikzo9dhh1QnoocSJC9Jyo8gmzaniK6145fzf/oF1q12ZBN0Hkjk?=
- =?iso-8859-1?Q?bI1p28c8hH0vyH3eBhqm7pzaVUX5sC93sIoeKzYT65tMjFWhF2qlwkE9ZZ?=
- =?iso-8859-1?Q?1Oth6oEvqqZ6D/3Xfx21O4Gjrtg+kX8+WC4H6NqRsuNTtPUR5xWkOEbgUZ?=
- =?iso-8859-1?Q?dg9x+I3u2n6m7cSffqSfvloBSqoJo3G0aMBMWxLRs3RsA0aFvca+jqIo4M?=
- =?iso-8859-1?Q?PygrROVrMJ0RtveHy8mR8pvLr1phix5Gfq3T+nb/EcSjVn8B2zEqlJqZNs?=
- =?iso-8859-1?Q?wgC7/DojErEFDrvd7/1gkuiAeFFZ1BX99v225ljOM5+tyWX02E4yX6mINt?=
- =?iso-8859-1?Q?AIHMHaGAqMbi1m+97TGK39ghyYO+ODgiM/qjUYCaT9nMIdmonxWKMbQnA/?=
- =?iso-8859-1?Q?vwyBPDakODRLdOBSJguoz7gYU0Mco9KNNqCoXESVlVAFXmkxSoPuXwiylU?=
- =?iso-8859-1?Q?Bp+Pml7AsiqxvGzu6wDfozoE2eRARuzjt0qhCpVX/enqyaKaRyLpJAEv2v?=
- =?iso-8859-1?Q?kJbVyEM0x2hjp1KJlZyq3tAuZbTEdzOgV4F33nyUKIjcymBzBFVWUP683A?=
- =?iso-8859-1?Q?y4GzXextgokzZQardNW84865pnEpjNxUm1LT47a56ylSmxoltEzNXcs2+n?=
- =?iso-8859-1?Q?raOyg3iYCS9Bl1Kvq2FBDW6g70ToL0UAu+xn2YyaBdhzYLKW34t4cNGmcR?=
- =?iso-8859-1?Q?qA1G0ZBNojicbmQNrmdqw5q51tYlZVm7OguGcLS452I9l/CWDNi4zHV9p+?=
- =?iso-8859-1?Q?WwmDT6P1IgZQCT87IhlnPYjEDhfslwn3Qw14M84CjKOwKfhU5ed3pQetY/?=
- =?iso-8859-1?Q?hOV1+oGT6qs/fB0TMfZdU3SE90jBHP3VOK313VukzWbvZkdV1DR6YuShk2?=
- =?iso-8859-1?Q?+CsGK3HI92jrWuUCEM8+TuC2jIGZPT5IWwZkchNAO+wkItfd8Efxf9iWRV?=
- =?iso-8859-1?Q?fd3L6iY8YXxuAZggwUssi8eMge9nhMzwvWesdQ3/t5Y3xY9uupMOEC40UO?=
- =?iso-8859-1?Q?0naxlcKnW8UwX2qwFC3F5hluMNgX5ZDQXvU/zppeiExwKfUKX3uGYgMhiR?=
- =?iso-8859-1?Q?gc2GWCKbqw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1769598404; c=relaxed/simple;
+	bh=tlZJZJQSKkXNiO3oRmcJll4fZrpIYlUyn8nDv7x6yCc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ENepwK6j6ocL9Xz+maS3cVzlpHMzbFLd6U+gvgIb/LLDdtCcmpmg5aOU9B1Jbkc9aAKWff9BGcb1u0FDheksKHP5aZeEUJxsmCYsuYqm/5Cv0reznD22elOWx8YeVDrYdp/vTG6kW2AlfORP/uaVMv1/kusBOSNoUItAFLnCWgE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tn9UA/5Y; arc=pass smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c626bd75628so2362962a12.3
+        for <linux-media@vger.kernel.org>; Wed, 28 Jan 2026 03:06:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769598402; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EWAmNZvmF0pzAxtcVw/4ImIU9+78huVVsq6RH83FVNj2XQjVFMquS+vwrY/elM3g3S
+         WbmFiowv8YcnJjiFrU92mQAyE3dIhHm4PPSGd9U0M26Hav+sXJeRZ8APiJhDxFaW4ISO
+         02ex6ewm5aOOmqukSN4sY0M7C/RXwqjnmb84tsiqjGAda5NPfbIEfVXV9hj/ZF51TrVR
+         rZTOnwSKlD1SU7W2r6BU5xs94bk3urx/pS4vAUMPmmYheRZDx/0kGWYv7neHOLo7EHuC
+         DB4F0o4Tx39FoUQiAuyJUIx/kRndaS+I7Z7+CkX5MUIEd9P3iFqbYk//vXEUW5vJGF3N
+         mouQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6iehbJd+UIDp8Q1SlQdBUTNiTOO6DfX7pubCoSt3jyY=;
+        fh=brycjQZuzqmm5ESHtO+wLdxhVEzTk9rZKRfr6Elq3cA=;
+        b=jckJ8skj4GPXu/BSZuJmHYK6VfKonp1ZUiDvRfiqcfE90rR0qfIOmFLg1EUP4E4Th0
+         KYP4cY2LcHvnMg3R0Ni4G5a+3+nXNOZlNG/mNpbOkvDcyocqLwSO0JiEwCRP4Fi9uFdK
+         5M9/LZ1fpRfbXhMsUXlQM4eX5uUWiC05gSU6rcMA5iedFm6oZpcjT4GXCbfwUkQY4P/A
+         nJxgz4319EqstfO8a7U2dCpiJHkEt7GhOA/Mge7+7qUy5e6y84CrRD8e1rVH+ra38nOe
+         UhooBxSRmAAOOErgSn8RXPA5QZ716Z+H/xzSMxP+VYpKyQer9lKzi0T1+EvWklGFlSWP
+         Thug==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769598402; x=1770203202; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6iehbJd+UIDp8Q1SlQdBUTNiTOO6DfX7pubCoSt3jyY=;
+        b=Tn9UA/5YPyCSpQ0OSVlsaaUimKJ2DToGxNz7wmSnIIV3mXFT/6BZVyMQE41RnuHIqC
+         GXjX8I2NqeTuS3tLoITl3PGbGdplNSGoPNMc70UeAH6zHyeoINh9cf4q5oXJzv1NRjLC
+         wS6oIIJJKkTIcOasn0C7L37MOYTkCCb4NBhiEg46RYAMtONocQ3DU11Pagx7ocLnKyP5
+         +X3G5zcvcabGtAQl1bhk0MCQYfQYsO1AI53kVf3L/7LrfaZ7ciodKxvb7gkRXcniKcBY
+         Gd3P92C4NNPdkGWGYzrrLJ/fN/Ev46nQ2GDa3688xGKaPtjIZHGAvmQOLJqirjZOMaPK
+         1Jtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769598402; x=1770203202;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6iehbJd+UIDp8Q1SlQdBUTNiTOO6DfX7pubCoSt3jyY=;
+        b=gEDKD2RUq0xJ65JQ52L+nKceCq2oEft7zZoHEdYoW4lVD2FyPKteyfaeaooyOBAMyk
+         pOyRu/GypWY3kMLU4zVR1kBYpbeG/KFwiau3TTS6GwsGGuhNMPIt1J2dsILOBhwU7fai
+         XnsFLKLtGcGZTTyhxd0Ow1+v/6QEIHkT79oodqIWUp3Gzi1uxhfW4j7HKvP/1PtDAP7l
+         dI5O5oszil5x/I6DscadRfHAstw+LXof5/JkC5tCW7KuDySj3wAk/kUeRYkpT1vy4Heg
+         sjAY6imLzpABUmnoc+zAFfoavysOy862sxS27rk6cqeSyOdY9/dy9Vu4mnBcYeRrHGQD
+         DkqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHqZZs56+T4K9/MRDsc62u2YSrouiAVzH5gsVuU66KT3/c+KEIEjEq8VyfjOxh2TrEta9h4e50EFB1jg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiZdr+9FkAtl4MaTLUjdgw5d9HbMEvcYBhXGBSr+cI04a24T/b
+	UVICBaX7MponInmxT8QYA7T8LzLsW4keCD7pEfXRv1gHUNAhhWeKPcHqicHr78037WAT6Yuevw5
+	HyIKcLF8ZRdLWW4slbdn8tXiUtiQTdjs=
+X-Gm-Gg: AZuq6aJfeA5Y40cykvwwF3fVlnD0QaHTVXCuW9XETjzGGAUqhxWESzzTsbUB5msoehd
+	A7U+cUiEmbGcOWlCiwFlyx+je2h2yv6zLwEatOjoF1HN9L/hG6ntPgDH1HzhcnzNl9on8hh8nTn
+	Y4VSeLrysATD1GvQbMNXLR9dZswG7Xh+BxAemqMow8e1p+WrUwjv+8LATlcZsfZmX18oE4BvY4c
+	sRy7cfcABFbmwn054YY7BPcormlzacS/4iNT2dBX5nj+7jzVNruavCq1m+LXP20GEz0hdVcGhIx
+	mpBFQ4oi3E5TB5eqzOMGlROUiSnCYg==
+X-Received: by 2002:a17:90b:1fce:b0:33b:bed8:891c with SMTP id
+ 98e67ed59e1d1-353fed7583dmr4882896a91.23.1769598402141; Wed, 28 Jan 2026
+ 03:06:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: epitech.eu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR02MB11640.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 480f70e5-0071-4e3b-44ff-08de5e5d4b79
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2026 11:06:32.4210
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 901cb4ca-b862-4029-9306-e5cd0f6d9f86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: t9L7rhM+NENghgewok3LglHYSVwbGUtPhaRUnMq1bQXmau5k5ByXCGh5HhuK/eJkMOI8FI0elucs8QMO3gz9wH2ijPgJG19roJRwEYihEB0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB8319
+References: <20260127165024.46156-1-bjsaikiran@gmail.com> <20260127165024.46156-3-bjsaikiran@gmail.com>
+ <aXjwtBey0MRP0c7f@kekkonen.localdomain> <hAXW76sxpszN3JpApVO_ntI28dSyCTiDXIE-S1AJDCa7Mbp8-pHbGqhFhTh2FGPdj3TxO9AowyRRan2u8TTO6Q==@protonmail.internalid>
+ <CAAFDt1vJtJc+C_J9Gv3SYjs_2zWFXsWqwq29=ig1o2_kSkjwLg@mail.gmail.com>
+ <dbf73780-a33a-4fbf-8569-321b4f4e0a88@kernel.org> <MZajBkG4hU2kIZFDZbpq0WZOF_tJmASpmGr-7IH_qheO0We0Z45KNZPrQY4UmoqsWKOX3lSx1W_hnLtfKocXPw==@protonmail.internalid>
+ <CAAFDt1vmXg9L6axsDN6kpCQKZifOCRxtQeDpmRpHyejS1ORR+Q@mail.gmail.com>
+ <92131a67-471e-41e8-83d6-4f802103db7b@kernel.org> <CAAFDt1sqh=O-CpxbdcWueyqbiq4qyCrJHVH-_SS+KjEC9CyRhg@mail.gmail.com>
+ <6692ca5f-216f-428c-96b2-511fdd769f04@linaro.org>
+In-Reply-To: <6692ca5f-216f-428c-96b2-511fdd769f04@linaro.org>
+From: Saikiran B <bjsaikiran@gmail.com>
+Date: Wed, 28 Jan 2026 16:36:32 +0530
+X-Gm-Features: AZwV_QjGj33Oe0Ps4oMG4QaXGMTLWPDmeXkw3rvX735y6bmXITlBkYGCSsX6YCw
+Message-ID: <CAAFDt1u0uV+KpPxrhtwbvWgAYQET3HLg1nu4u7JgaNPFAKNLWg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] media: i2c: ov02c10: Correct power-on sequence and timing
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc: "Bryan O'Donoghue" <bod@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, rfoss@kernel.org, 
+	todor.too@gmail.com, vladimir.zapolskiy@linaro.org, 
+	Hans de Goede <hansg@kernel.org>, mchehab@kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[epitech.eu,none];
-	R_DKIM_ALLOW(-0.20)[epitech.eu:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51727-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,gmail.com,linaro.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
-	RCPT_COUNT_FIVE(0.00)[5];
-	TAGGED_FROM(0.00)[bounces-51726-lists,linux-media=lfdr.de];
-	TO_DN_EQ_ADDR_ALL(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[timothee.kremer@epitech.eu,linux-media@vger.kernel.org];
-	RCVD_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[epitech.eu:+]
-X-Rspamd-Queue-Id: B68969FEF2
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bjsaikiran@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 7A47D9FF11
 X-Rspamd-Action: no action
 
-Refactor sleep timers to use usleep_range() for short delays (<20ms)=0A=
-while retaining msleep() for longer delays to maintain hardware stability.=
-=0A=
-=0A=
-Also remove dead code blocks wrapped in #if 0 to clean up the driver.=0A=
-=0A=
-Signed-off-by: Timoth=E9e KREMER <timothee.kremer@epitech.eu>=0A=
----=0A=
- drivers/staging/media/av7110/av7110_hw.c | 64 ++++--------------------=0A=
- 1 file changed, 10 insertions(+), 54 deletions(-)=0A=
-=0A=
-diff --git a/drivers/staging/media/av7110/av7110_hw.c b/drivers/staging/med=
-ia/av7110/av7110_hw.c=0A=
-index bf8e6dca40e5..202d2383556f 100644=0A=
---- a/drivers/staging/media/av7110/av7110_hw.c=0A=
-+++ b/drivers/staging/media/av7110/av7110_hw.c=0A=
-@@ -95,28 +95,7 @@ u32 av7110_debiread(struct av7110 *av7110, u32 config, i=
-nt addr, unsigned int co=0A=
-        return result;=0A=
- }=0A=
- =0A=
--/* av7110 ARM core boot stuff */=0A=
--#if 0=0A=
--void av7110_reset_arm(struct av7110 *av7110)=0A=
--{ =0A=
--       saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTLO);=0A=
--=0A=
--       /* Disable DEBI and GPIO irq */=0A=
--       SAA7146_IER_DISABLE(av7110->dev, MASK_19 | MASK_03);=0A=
--       SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);=0A=
--=0A=
--       saa7146_setgpio(av7110->dev, RESET_LINE, SAA7146_GPIO_OUTHI);=0A=
--       msleep(30);     /* the firmware needs some time to initialize */=0A=
--=0A=
--       ARM_ResetMailBox(av7110);=0A=
--=0A=
--       SAA7146_ISR_CLEAR(av7110->dev, MASK_19 | MASK_03);=0A=
--       SAA7146_IER_ENABLE(av7110->dev, MASK_03);=0A=
--=0A=
--       av7110->arm_ready =3D 1;=0A=
--       dprintk(1, "reset ARM\n");=0A=
--}=0A=
--#endif  /*  0  */=0A=
--=0A=
- static int waitdebi(struct av7110 *av7110, int adr, int state)=0A=
- {=0A=
-@@ -312,7 +291,7 @@ int av7110_wait_msgstate(struct av7110 *av7110, u16 fla=
-gs)=0A=
-                        pr_err("%s(): timeout waiting for MSGSTATE %04x\n",=
- __func__, stat & flags);=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
-        }=0A=
-        return 0;=0A=
- }=0A=
-@@ -343,7 +322,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
-u16 *buf, int length)=0A=
-                        av7110->arm_errors++;=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
-        }=0A=
- =0A=
-        if (FW_VERSION(av7110->arm_app) <=3D 0x261f)=0A=
-@@ -359,7 +338,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
-u16 *buf, int length)=0A=
-                        pr_err("%s(): timeout waiting for HANDSHAKE_REG\n",=
- __func__);=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
-        }=0A=
- #endif=0A=
- =0A=
-@@ -405,7 +384,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
-u16 *buf, int length)=0A=
-                                av7110->arm_errors++;=0A=
-                                return -ETIMEDOUT;=0A=
-                        }=0A=
--                       msleep(1)=0A=
-+                       usleep_range(1000, 2000);=0A=
-                }=0A=
-        }=0A=
- =0A=
-@@ -433,7 +412,7 @@ static int __av7110_send_fw_cmd(struct av7110 *av7110, =
-u16 *buf, int length)=0A=
-                               __func__, (buf[0] >> 8) & 0xff);=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
-        }=0A=
- =0A=
-        stat =3D rdebi(av7110, DEBINOSWAP, MSGSTATE, 0, 2);=0A=
-@@ -498,29 +477,6 @@ int av7110_fw_cmd(struct av7110 *av7110, int type, int=
- com, int num, ...)=0A=
-        return ret;=0A=
- }=0A=
- =0A=
--#if 0=0A=
--int av7110_send_ci_cmd(struct av7110 *av7110, u8 subcom, u8 *buf, u8 len)=
-=0A=
--{ =0A=
--       int i, ret;=0A=
--       u16 cmd[18] =3D { ((COMTYPE_COMMON_IF << 8) + subcom), =0A=
--               16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };=0A=
--=0A=
--       dprintk(4, "%p\n", av7110);=0A=
--=0A=
--       for (i =3D 0; i < len && i < 32; i++) {=0A=
--               if (i % 2 =3D=3D 0)=0A=
--                       cmd[(i / 2) + 2] =3D (u16)(buf[i]) << 8;=0A=
--               else=0A=
--                       cmd[(i / 2) + 2] |=3D buf[i];=0A=
--       }=0A=
--=0A=
--       ret =3D av7110_send_fw_cmd(av7110, cmd, 18);=0A=
--       if (ret && ret !=3D -ERESTARTSYS)=0A=
--               pr_err("%s(): error %d\n", __func__, ret);=0A=
--       return ret;=0A=
--}=0A=
--#endif  /*  0  */=0A=
--=0A=
- int av7110_fw_request(struct av7110 *av7110, u16 *request_buf,=0A=
-                      int request_buf_len, u16 *reply_buf, int reply_buf_le=
-n)=0A=
- {=0A=
-@@ -559,7 +515,7 @@ int av7110_fw_request(struct av7110 *av7110, u16 *reque=
-st_buf,=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
- #ifdef _NOHANDSHAKE=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
- #endif=0A=
-        }=0A=
- =0A=
-@@ -574,7 +530,7 @@ int av7110_fw_request(struct av7110 *av7110, u16 *reque=
-st_buf,=0A=
-                        mutex_unlock(&av7110->dcomlock);=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
-        }=0A=
- #endif=0A=
- =0A=
-@@ -719,7 +675,7 @@ static int FlushText(struct av7110 *av7110)=0A=
-                        mutex_unlock(&av7110->dcomlock);=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
-        }=0A=
-        mutex_unlock(&av7110->dcomlock);=0A=
-        return 0;=0A=
-@@ -745,7 +701,7 @@ static int WriteText(struct av7110 *av7110, u8 win, u16=
- x, u16 y, char *buf)=0A=
-                        mutex_unlock(&av7110->dcomlock);=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
-        }=0A=
- #ifndef _NOHANDSHAKE=0A=
-        start =3D jiffies;=0A=
-@@ -758,7 +714,7 @@ static int WriteText(struct av7110 *av7110, u8 win, u16=
- x, u16 y, char *buf)=0A=
-                        mutex_unlock(&av7110->dcomlock);=0A=
-                        return -ETIMEDOUT;=0A=
-                }=0A=
--               msleep(1)=0A=
-+               usleep_range(1000, 2000);=0A=
-        }=0A=
- #endif=0A=
-        for (i =3D 0; i < length / 2; i++)=0A=
--- =0A=
-2.52.0=
+On Wed, Jan 28, 2026 at 4:11=E2=80=AFPM Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> On 28/01/2026 10:19, Saikiran B wrote:
+> >  > Just to be difficult - I'm specifically asking to test never switchi=
+ng
+> >  > the regulator off - not having a long delay.
+> >
+> > To be absolutely clear:
+> >
+> > ***I have tested exactly this.***
+> >
+> > In my local v2 testing, I modified the driver to keep the regulators
+> > permanently ENABLED and only toggled the software standby/reset lines.
+> >
+> > Result: The camera was 100% stable over hundreds of cycles.
+> >
+> > This isolates the issue:
+> > 1. CCI Leaking? No. If CCI were leaking, the "Always On" test would
+> > eventually
+> >     fail or show instability. It did not.
+>
+> I have to say, I'm not an electrical engineer by profession but, I don't
+> believe you can make this blanket statement.
+>
+> What is the problem with testing the hypothesis ?
+>
+> > 2. XSHUTDOWN Floating? No. The "Always On" test relies on XSHUTDOWN wor=
+king
+> >     correctly to wake the sensor. It worked perfectly.
+>
+> Yes I agree there, if always-on shows no failure then XSHUTDOWN isnt'
+> floating.
+>
+> In which case this patch can be dropped, its not helping.
+>
+> > The instability ***only*** appears when we physically toggle the PMIC r=
+ail.
+> >
+> >  > Do not believe we have root caused a regulator brown out
+> >  > Believe we should interrogate the LDO settings
+> >
+> > I cannot easily dump raw SPMI registers on my personal machine, but
+> > we can derive the LDO state physically from the discharge curve (RC Tim=
+e
+> > Constant).
+>
+> ?
+>
+> I gave you code to do just that. If you can iterate sensor and DTS
+> changes - you can use that code to dump out the requested LDO states.
+>
+> > We know the physics of the PM8550 PMIC:
+> > - Active Discharge Resistor (R_active): ~1 k=CE=A9 (Typical)
+> > - Bulk Capacitance (C_bulk): ~10 =C2=B5F (Estimated for this rail)
+> >
+> > Scenario A: If Active Discharge IS set:
+> >     Time Constant (T) =3D R * C =3D 1000 * 10e-6 =3D 0.01s (10ms)
+> >     Complete discharge (5T) would happen in ~50ms.
+> >
+> > Scenario B: If Active Discharge is NOT set (Passive Leakage):
+> >     The rail discharges through the high-impedance sensor (~200k=CE=A9+=
+).
+> >     Time Constant (T) =3D 200,000 * 10e-6 =3D 2.0s.
+> >
+> > My measurements show the rail takes ~2.0s to reach the Brownout Thresho=
+ld
+> > (failure point) and ~2.3s to reach a clean 0V (success point).
+> >
+> > This 2.3s duration is physically impossible if the Active Discharge bit
+> > was set.
+> > It mathematically proves the LDO is in High-Z mode (Passive Discharge).
+> >
+> > Here are the specific logs capturing the failure at exactly the 2.0s ma=
+rk.
+> That's great. We should be able to interrogate the PMIC regs and see the
+> state of the LDO configuration - code I've shared with you.
+>
+> If they show active-state isn't set on one or more of our LDOs then we
+> can write some platform quirk code to set them.
+>
+> A 2.3 second delay on every start/stop stream is not an acceptable
+> upstream fix.
+>
+> And please stop top posting !
+>
+> ---
+> bod
+
+Regarding the register dump code you shared:
+
+I have already attempted to use it. It fails to read the registers on this
+device. This is a consumer laptop secured by the Gunyah hypervisor
+and TrustZone, not an open development board. The SPMI transactions to raw
+PMIC addresses are firewalled by the firmware; the Linux HLOS is physically
+blocked from reading them.
+
+You mentioned in your previous reply that you are not an electrical enginee=
+r.
+
+I am an Electronics Engineer.
+
+The assertion that a 2.3s discharge time proves the absence of Active
+Discharge is not a "blanket statement" - it is a fundamental calculation ba=
+sed
+on the RC time constant. A 1k=CE=A9 active discharge path cannot physically=
+ sustain
+voltage for 2.3 seconds against a 10=C2=B5F load; it would drain in millise=
+conds.
+Rejecting this derived data because it relies on physics rather than a
+register bit (which the hardware prevents us from reading) is scientificall=
+y
+unsound.
+
+I have a full-time job and have spent significant personal time debugging t=
+his
+to the millisecond.
+
+Since we have reached an impasse where the physical
+evidence is rejected in favor of impossible diagnostics, I am stopping here=
+.
+
+I will keep my patches in my local tree as now my laptop is usable to me.
+
+I am withdrawing this patchset from upstream consideration.
+
+Thank you.
+
+Regards,
+Saikiran
 
