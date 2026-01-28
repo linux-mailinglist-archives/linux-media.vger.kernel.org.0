@@ -1,296 +1,417 @@
-Return-Path: <linux-media+bounces-51740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51741-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OFg9LdUMemlo2AEAu9opvQ
-	(envelope-from <linux-media+bounces-51740-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 14:19:17 +0100
+	id 2PMrOnkQemnH2AEAu9opvQ
+	(envelope-from <linux-media+bounces-51741-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 14:34:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BAE8A2033
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 14:19:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED99A2357
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 14:34:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 72A83300D313
-	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 13:19:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 155883029E61
+	for <lists+linux-media@lfdr.de>; Wed, 28 Jan 2026 13:34:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65FAB352C44;
-	Wed, 28 Jan 2026 13:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8463635B15A;
+	Wed, 28 Jan 2026 13:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d/m8QOQ2"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gofiouF7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290222DCF6C;
-	Wed, 28 Jan 2026 13:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010BF35A933;
+	Wed, 28 Jan 2026 13:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769606347; cv=none; b=Nar8QtWB/UzHaPKKoXdSobv7xDsaspW+UmyBNR9fF/W4fKs1XJCRHFsp8MpL4GUMYorg7YpcpLilmYIRbUstBrJ51xrwH1AFLcGhH5xoX3MEvB96l+sqeZf75MlMeHSJ8fEMVmChWy0In8YqAJl3au2L8qrJ8CblnHfN9fuV1EA=
+	t=1769607265; cv=none; b=oDwXs0Eg0vWHmB+ZSPgK5beUtY5QdiVc5ZhhJBp/NzNEHnyUwdVFYXPsok1Ge0pd4XrVCRt6dT/v5PaTQeya49zCTZskyN/X5Ns4knTvbPxxFMB6EYGMeu6eol0x+4wFguiVuchmFZvATriNBk65ThLP+AmfBIVW0PRdQ+W1jOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769606347; c=relaxed/simple;
-	bh=m/dyxru0qzW3pS0x/eidydDnUx7HN0lYHCAIdlyV4xk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SypJ3WdJol7MM1nBCk4ybEbmGOjXdcgQpPqXunP4gu3qbllR6tjAuNpMtF9bYU2iRcEiNGJW7UIoUJ4SrhvKwXC3zZUFqx8B+CaFClvu/wfoFQkGkAvHU1uGc1I8lFA6CjUuaR3f19Ns6UIvcMEOJZVHGJxb28VRVmcLosZZ9h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d/m8QOQ2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7CB373A2;
-	Wed, 28 Jan 2026 14:18:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769606307;
-	bh=m/dyxru0qzW3pS0x/eidydDnUx7HN0lYHCAIdlyV4xk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d/m8QOQ2f63hHPP5IaoSpwOX6suTKGpFEjhmJOVhx5phsIVkPyRl/baHcLiLHH7HN
-	 qEFvI6CfppAqgpmjiNKW1N2kLNctQwU6gz7B8jhySVjx70TfLf+lX2DU04qL/r5nKm
-	 dd13KjlhWIQRRCqjksxItYi8AznUpLPbTkk7XwYM=
-Date: Wed, 28 Jan 2026 15:19:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mats Randgaard <matrandg@cisco.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v4 2/4] media: uapi: Introduce MEDIA_BUS_FMT_BGR565_1X16
-Message-ID: <20260128131903.GC3210848@killaraus>
-References: <20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org>
- <20251013-csi-bgr-rgb-v4-2-55eab2caa69f@kernel.org>
- <20251026231553.GB9719@pendragon.ideasonboard.com>
- <20251026233308.GC9719@pendragon.ideasonboard.com>
- <20251208-powerful-penguin-of-reputation-ffdc5c@houat>
- <20260123153432.GA415966@killaraus>
- <20260128-neon-lyrical-pheasant-6cbdf2@houat>
+	s=arc-20240116; t=1769607265; c=relaxed/simple;
+	bh=1L8+cvPFAK/AEvCUscuKOHEOR6RJuiCSEiAsXVI1H90=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=OQLTdNH2YxmJahAc1xg+0vHQkc3xt5Q9wTYV65c8QbnEgouKuTfTDjx75RmdyK0c4aIAEXX7qic6sI/oEDnyrXU4h8ZkjvyQ+nQzxotGzPPPvw1DFnptaxTIbHXiE67Cw3LL8/Z0IJc41laR6KOd36rPRZ8QSeL2EPZr4R2uTZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gofiouF7; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1769607254;
+	bh=1L8+cvPFAK/AEvCUscuKOHEOR6RJuiCSEiAsXVI1H90=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=gofiouF7rsOgVmjUjqsXH9V1DNDGf725nLNSthN1euiqd5cBZLhy47w3dSFDP7a1/
+	 Ju4RjRcGJBCcodRGwoffxMbEliSBLTrltOhMzAyXz/1ucrwZ71Zx+cnPqZPjdiL664
+	 rLjwst7JuayceZI/34RSFqmVOyfGb8/HM6t6pA5ogdYQA8y1jf+WxxfrgNOH1c2Q5T
+	 197bVLhka1pmk8oxJVBzIJT3siG47zVgtG0tLIlCQ9sqCpWieeTdTEHusURwON9fNL
+	 gksLXTw2bqvtooGRRUhMAO/yBf+dMHEVrJcWDuxHLXnr6eCqsJumnCPYLUTI4v/G7b
+	 B8WNYHTW3Qrxg==
+Received: from [IPv6:2606:6d00:17:7b4b::5ac] (unknown [IPv6:2606:6d00:17:7b4b::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D24F517E01E7;
+	Wed, 28 Jan 2026 14:34:11 +0100 (CET)
+Message-ID: <e87868a6209d18595bf90bc20633ea300330ba28.camel@collabora.com>
+Subject: Re: [PATCH v7 05/10] media: mediatek: vcodec: Add Decoder profile &
+ level Initialization
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Kyrie Wu =?UTF-8?Q?=28=E5=90=B4=E6=99=97=29?= <Kyrie.Wu@mediatek.com>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org"	 <linux-mediatek@lists.infradead.org>,
+ George Sun =?UTF-8?Q?=28=E5=AD=99=E6=9E=97=29?=	 <George.Sun@mediatek.com>,
+ Tiffany Lin =?UTF-8?Q?=28=E6=9E=97=E6=85=A7=E7=8F=8A=29?=	
+ <tiffany.lin@mediatek.com>, "nhebert@chromium.org" <nhebert@chromium.org>, 
+ "linux-media@vger.kernel.org"	 <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org"	 <devicetree@vger.kernel.org>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,  "hverkuil@xs4all.nl"	
+ <hverkuil@xs4all.nl>, Yunfei Dong
+ =?UTF-8?Q?=28=E8=91=A3=E4=BA=91=E9=A3=9E=29?=	 <Yunfei.Dong@mediatek.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,  Irui Wang
+ =?UTF-8?Q?=28=E7=8E=8B=E7=91=9E=29?=	 <Irui.Wang@mediatek.com>,
+ "robh@kernel.org" <robh@kernel.org>, 
+ "linux-arm-kernel@lists.infradead.org"	
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"	
+ <matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
+ "arnd@arndb.de"	 <arnd@arndb.de>, Andrew-CT Chen
+ =?UTF-8?Q?=28=E9=99=B3=E6=99=BA=E8=BF=AA=29?=	
+ <Andrew-CT.Chen@mediatek.com>, AngeloGioacchino Del Regno	
+ <angelogioacchino.delregno@collabora.com>
+Cc: "andrzejtp2010@gmail.com" <andrzejtp2010@gmail.com>, 
+ "neil.armstrong@linaro.org"
+	 <neil.armstrong@linaro.org>, Yilong Zhou
+ =?UTF-8?Q?=28=E5=91=A8=E6=98=93=E9=BE=99=29?=
+	 <Yilong.Zhou@mediatek.com>
+Date: Wed, 28 Jan 2026 08:34:09 -0500
+In-Reply-To: <54689bc16875b979147c021123c2546aacb7541e.camel@mediatek.com>
+References: <20260127024248.18406-1-kyrie.wu@mediatek.com>
+		 <20260127024248.18406-6-kyrie.wu@mediatek.com>
+		 <4a6e111d-49ef-449d-af9d-b0bd4fb468a5@collabora.com>
+	 <54689bc16875b979147c021123c2546aacb7541e.camel@mediatek.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-FOrviNbeQ1Mf1Othbhwt"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260128-neon-lyrical-pheasant-6cbdf2@houat>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-51741-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51740-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[mediatek.com,vger.kernel.org,lists.infradead.org,chromium.org,kernel.org,xs4all.nl,gmail.com,arndb.de,collabora.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,linaro.org,mediatek.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 3BAE8A2033
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mediatek.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:mid,collabora.com:dkim,linuxtv.org:url]
+X-Rspamd-Queue-Id: 4ED99A2357
 X-Rspamd-Action: no action
 
-On Wed, Jan 28, 2026 at 01:32:15PM +0100, Maxime Ripard wrote:
-> On Fri, Jan 23, 2026 at 05:34:32PM +0200, Laurent Pinchart wrote:
-> > On Mon, Dec 08, 2025 at 04:32:33PM +0100, Maxime Ripard wrote:
-> > > On Mon, Oct 27, 2025 at 01:33:08AM +0200, Laurent Pinchart wrote:
-> > > > On Mon, Oct 27, 2025 at 01:15:54AM +0200, Laurent Pinchart wrote:
-> > > > > On Mon, Oct 13, 2025 at 01:01:34PM +0200, Maxime Ripard wrote:
-> > > > > > MIPI-CSI2 sends its RGB format on the wire with the blue component
-> > > > > > first, then green, then red. MIPI calls that format "RGB", but by v4l2
-> > > > > > conventions it would be BGR.
-> > > > > > 
-> > > > > > MIPI-CSI2 supports three RGB variants: 444, 555, 565, 666 and 888.
-> > > > > > 
-> > > > > > We already have BGR666 and BGR888 media bus formats, we don't have any
-> > > > > > CSI transceivers using the 444 and 555 variants, but some transceivers
-> > > > > > use the CSI RGB565 format, while using the RGB565 media bus code.
-> > > > > > 
-> > > > > > That's a mistake, but since we don't have a BGR565 media bus code we
-> > > > > > need to introduce one before fixing it.
-> > > > > > 
-> > > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > > > ---
-> > > > > >  .../userspace-api/media/v4l/subdev-formats.rst     | 37 ++++++++++++++++++++++
-> > > > > >  include/uapi/linux/media-bus-format.h              |  3 +-
-> > > > > >  2 files changed, 39 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > > > index 8e92f784abd8123f9ea950f954a60af56ee76dbe..def0d24ef6cdb1a2ec9395af1468f56adf31a8de 100644
-> > > > > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > > > @@ -625,10 +625,47 @@ The following tables list existing packed RGB formats.
-> > > > > >        - b\ :sub:`4`
-> > > > > >        - b\ :sub:`3`
-> > > > > >        - b\ :sub:`2`
-> > > > > >        - b\ :sub:`1`
-> > > > > >        - b\ :sub:`0`
-> > > > > > +    * .. _MEDIA-BUS-FMT-BGR565-1X16:
-> > > > > > +
-> > > > > > +      - MEDIA_BUS_FMT_BGR565_1X16
-> > > > > > +      - 0x1028
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      -
-> > > > > > +      - b\ :sub:`4`
-> > > > > > +      - b\ :sub:`3`
-> > > > > > +      - b\ :sub:`2`
-> > > > > > +      - b\ :sub:`1`
-> > > > > > +      - b\ :sub:`0`
-> > > > > > +      - g\ :sub:`5`
-> > > > > > +      - g\ :sub:`4`
-> > > > > > +      - g\ :sub:`3`
-> > > > > > +      - g\ :sub:`2`
-> > > > > > +      - g\ :sub:`1`
-> > > > > > +      - g\ :sub:`0`
-> > > > > > +      - r\ :sub:`4`
-> > > > > > +      - r\ :sub:`3`
-> > > > > > +      - r\ :sub:`2`
-> > > > > > +      - r\ :sub:`1`
-> > > > > > +      - r\ :sub:`0`
-> > > > > 
-> > > > > We're definitely in convention territory, because this is not how 16-bit
-> > > > > RGB data is transmitted over CSI-2. CSI-2 transmits blue first, but
-> > > > > starts with bit 0, not bit 4.
-> > > > > 
-> > > > > Have you explored the alternative of picking the parallel bus code that
-> > > > > matches the serial order when transmitted with the least significant bit
-> > > > > first ? That would be MEDIA_BUS_FMT_RGB565_1X16 here, and
-> > > > > MEDIA_BUS_FMT_RGB888_1X24 for 24-bit RGB.
-> > > > 
-> > > > To be clear, media bus codes are a matter of conventions. Some
-> > > > conventions would be easier to explain that others, and can also be more
-> > > > consistent with pixel format namings, but at the end of the day they're
-> > > > all conventions. While saying "pick the media bus code that transmits a
-> > > > pixel in one clock sample, with the bit order matching LSB-first
-> > > > transmission" could be the simplest to document, there will be a
-> > > > mismatch in component orders between the media bus code and the pixel
-> > > > format in some cases. There may also be more drivers implementing other
-> > > > conventions, making the transition more difficult.
-> > > > 
-> > > > I'll be very busy the upcoming week and will likely not be able to
-> > > > participate in this discussion in the near future.
-> > > 
-> > > For the record, we've discussed it on IRC recently.
-> > > 
-> > > The suggestion to have all CSI Data Formats as MEDIA_BUS_FMT_RGB*_1X*
-> > > variants make sense to me. And we can easily document it, because we
-> > > could match the first bit transmitted with the least significant bit
-> > > of a media bus code indeed.
-> > 
-> > That's one of the things I like about it, it's consistent and easy to
-> > document. Glad we agree :-)
-> > 
-> > > Thus a sensor using RGB888 would register MEDIA_BUS_FMT_RGB888_1X24.
-> > > That's indeed the case right now with tc358743:
-> > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/i2c/tc358743.c#L1775
-> > > 
-> > > Unicam however hardcodes (and validates) that the v4l2 format codes
-> > > matches the media bus code of the other end:
-> > > 
-> > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/platform/broadcom/bcm2835-unicam.c#L1333
-> > > 
-> > > That alone makes total sense, but it has an association between
-> > > V4l2_PIX_FMT_RGB24 and MEDIA_BUS_FMT_RGB888_1X24, and between
-> > > V4L2_PIX_FMT_BGR24 and MEDIA_BUS_FMT_BGR888_1X24
-> > > 
-> > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/platform/broadcom/bcm2835-unicam.c#L343
-> > > 
-> > > Using the convention you suggested, this association is wrong, and
-> > > V4L2_PIX_FMT_BGR24 should be associated MEDIA_BUS_FMT_RGB888_1X24. Thus,
-> > > the red and blue color components are mixed up.
-> > 
-> > Correct.
-> > 
-> > > I initially tried to fix it in my v1 by removing the RGB24 support
-> > > https://lore.kernel.org/all/20250606-rpi-unicam-rgb-bgr-fix-v1-1-9930b963f3eb@kernel.org/
-> > > 
-> > > This was shot down (rightfully) because it would still be broken.
-> > > 
-> > > The second version changed the media bus tc358743 reported:
-> > > https://lore.kernel.org/all/20250612-csi-bgr-rgb-v1-0-dc8a309118f8@kernel.org/
-> > > 
-> > > Dave was against it because it would potentially break userspace, citing
-> > > Linus that we shouldn't break userspace ever. I understand and somewhat
-> > > agree with his point, but having two drivers reporting the same data
-> > > format but with a different meaning is also a way of breaking userspace.
-> > 
-> > Yes, I would find that pretty bad, possibly even worse.
-> > 
-> > > Anyway. It was then suggested to support both in the tc358743. That's
-> > > what the second, third and fourth that you commented on worked towards.
-> > > 
-> > > https://lore.kernel.org/all/20250911-csi-bgr-rgb-v2-0-e6c6b10c1040@kernel.org/
-> > > https://lore.kernel.org/all/20250917-csi-bgr-rgb-v3-0-0145571b3aa4@kernel.org/
-> > > https://lore.kernel.org/all/20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org/
-> > > 
-> > > In order to implement your suggestion, I wouldn't to modify tc358743,
-> > > but would need to modify the association between the v4l2 format and
-> > > media bus code that unicam has. In a way, it's very similar to my first
-> > > version that got shot down, and suffers from the same flaws: we could
-> > > have a userspace application out there hardcoding formats and codes that
-> > > will get an error.
-> > > 
-> > > So I'm not sure your suggestion really works, unless we reevaluate what
-> > > we mean by breaking userspace. Either way, I don't care, I just want to
-> > > get pixels in the expected (and documented!) order when using unicam.
-> > 
-> > I've lost track of the status of this series and what your current
-> > suggestion is. Can we standardize on
-> > 
-> > - Using MEDIA_BUS_FMT_RGB*
-> 
-> I guess we can do that.
-> 
-> > - Produce V4L2_PIX_FMT_BGR24 from MEDIA_BUS_FMT_RGB888_1X24 in unicam
-> 
-> You called "pretty bad, possibly even worse" to do the exact opposite
-> (ie, change the bridge media bus to match unicam) because it would break
-> userspace. Changing the unicam media bus to match the bridge creates the
-> exact same situation.
-> 
-> The alternative would still be to report both for the bridge, and invert
-> the current assocation for the v4l2 formats and mbus codes.
-> 
-> > - Possibly implement backward compatibility somewhere (where ?) to avoid
-> >   regressions, but with a big warning
-> 
-> What would you improve there exactly? It's very clearly in the patches
-> already, so unless you have some specific comments I'm not really sure
-> what you want me to do.
 
-If we standardize on MEDIA_BUS_FMT_RGB*, then the issue is in the unicam
-driver, not in the tc358743 driver. Is it possible to implement the
-backward compatibility (with a warning) in unicam instead of tc358743 ?
+--=-FOrviNbeQ1Mf1Othbhwt
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Regards,
+Hi,
 
-Laurent Pinchart
+Le mercredi 28 janvier 2026 =C3=A0 07:45 +0000, Kyrie Wu (=E5=90=B4=E6=99=
+=97) a =C3=A9crit=C2=A0:
+> On Tue, 2026-01-27 at 13:07 +0100, AngeloGioacchino Del Regno wrote:
+> > Il 27/01/26 03:42, Kyrie Wu ha scritto:
+> > > This commit initializes codec profile & level for VDEC. It sets
+> > > default values for H264, H265, and VP9 codecs across multiple
+> > > chipset configurations.
+> > >=20
+> >=20
+> > The previous patch "Refactor decoder profile and level handling" will
+> > break the
+> > driver if this patch is not also applied at the same time.
+> >=20
+> > The change looks good, but you should squash 05/10 in 04/10, and
+> > assign the params
+> > that you're adding here along with the refactoring, so that you get
+> > one single
+> > patch that, if applied, doesn't break anything as it doesn't depend
+> > on additional
+> > (future, as this is number 5) patch.
+> >=20
+> > Please squash
+> >=20
+> > Cheers,
+> > Angelo
+>=20
+> Dear Angelo,
+>=20
+> The 04/10 and 05/10 were designed in one patch in v6,
+> but Nicolas thought that refactor patch and configuration
+> were two different changes, should separate them in this
+> comments:=20
+> https://patchwork.linuxtv.org/project/linux-media/patch/20251202074038.31=
+73-5-kyrie.wu@mediatek.com/
+>=20
+> In my mind, refactor profile and level setting and assign
+> former ICs' parameters could merge into same patch. The
+> configuration of MT8189 should split to another one, because
+> it is a new setting.
+
+I had assumed you'd be able to refactor without breaking it. Give me enough=
+ time
+to read again the patches since I don't remember all the details.
+
+Nicolas
+
+>=20
+> Do you agree with my opinion? I look forward to your further reply.
+>=20
+> Thanks.
+>=20
+> Regards,
+> Kyrie.
+>=20
+>=20
+> >=20
+> > > Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+> > > ---
+> > > =C2=A0 .../vcodec/decoder/mtk_vcodec_dec_stateful.c=C2=A0 | 12 +++
+> > > =C2=A0 .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 84
+> > > +++++++++++++++++++
+> > > =C2=A0 2 files changed, 96 insertions(+)
+> > >=20
+> > > diff --git
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teful.c
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teful.c
+> > > index 8ddb61670dc6..a47906b9d717 100644
+> > > ---
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teful.c
+> > > +++
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teful.c
+> > > @@ -619,4 +619,16 @@ const struct mtk_vcodec_dec_pdata
+> > > mtk_vdec_8173_pdata =3D {
+> > > =C2=A0=C2=A0	.is_subdev_supported =3D false,
+> > > =C2=A0=C2=A0	.hw_arch =3D MTK_VDEC_PURE_SINGLE_CORE,
+> > > =C2=A0=C2=A0	.chip_name =3D 8173,
+> > > +	.h264_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_H264_LEVEL_4_1,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> > > +	},
+> > > +	.h265_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_4,
+> > > +		.profile =3D
+> > > V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
+> > > +	},
+> > > +	.vp9_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_VP9_LEVEL_4_0,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_VP9_PROFILE_1,
+> > > +	},
+> > > =C2=A0 };
+> > > diff --git
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teless.c
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teless.c
+> > > index a1f419202a24..b571c4ed3f79 100644
+> > > ---
+> > > a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teless.c
+> > > +++
+> > > b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_sta
+> > > teless.c
+> > > @@ -830,6 +830,18 @@ const struct mtk_vcodec_dec_pdata
+> > > mtk_vdec_8183_pdata =3D {
+> > > =C2=A0=C2=A0	.is_subdev_supported =3D false,
+> > > =C2=A0=C2=A0	.hw_arch =3D MTK_VDEC_PURE_SINGLE_CORE,
+> > > =C2=A0=C2=A0	.chip_name =3D 8183,
+> > > +	.h264_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_H264_LEVEL_4_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> > > +	},
+> > > +	.h265_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_4,
+> > > +		.profile =3D
+> > > V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
+> > > +	},
+> > > +	.vp9_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_VP9_LEVEL_4_0,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_VP9_PROFILE_1,
+> > > +	},
+> > > =C2=A0 };
+> > > =C2=A0=20
+> > > =C2=A0 /* This platform data is used for one lat and one core
+> > > architecture. */
+> > > @@ -869,24 +881,72 @@ const struct mtk_vcodec_dec_pdata
+> > > mtk_vdec_8188_pdata =3D {
+> > > =C2=A0=C2=A0	MTK_STATELESS_DEC_DATA,
+> > > =C2=A0=C2=A0	.hw_arch =3D MTK_VDEC_LAT_SINGLE_CORE,
+> > > =C2=A0=C2=A0	.chip_name =3D 8188,
+> > > +	.h264_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_H264_LEVEL_5_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_10,
+> > > +	},
+> > > +	.h265_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
+> > > +	},
+> > > +	.vp9_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_1,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_VP9_PROFILE_2,
+> > > +	},
+> > > =C2=A0 };
+> > > =C2=A0=20
+> > > =C2=A0 const struct mtk_vcodec_dec_pdata mtk_vdec_8192_pdata =3D {
+> > > =C2=A0=C2=A0	MTK_STATELESS_DEC_DATA,
+> > > =C2=A0=C2=A0	.hw_arch =3D MTK_VDEC_LAT_SINGLE_CORE,
+> > > =C2=A0=C2=A0	.chip_name =3D 8192,
+> > > +	.h264_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_H264_LEVEL_5_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> > > +	},
+> > > +	.h265_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_4,
+> > > +		.profile =3D
+> > > V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
+> > > +	},
+> > > +	.vp9_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_1,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_VP9_PROFILE_1,
+> > > +	},
+> > > =C2=A0 };
+> > > =C2=A0=20
+> > > =C2=A0 const struct mtk_vcodec_dec_pdata mtk_vdec_8195_pdata =3D {
+> > > =C2=A0=C2=A0	MTK_STATELESS_DEC_DATA,
+> > > =C2=A0=C2=A0	.hw_arch =3D MTK_VDEC_LAT_SINGLE_CORE,
+> > > =C2=A0=C2=A0	.chip_name =3D 8195,
+> > > +	.h264_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_H264_LEVEL_6_0,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_10,
+> > > +	},
+> > > +	.h265_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
+> > > +	},
+> > > +	.vp9_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_VP9_PROFILE_2,
+> > > +	},
+> > > =C2=A0 };
+> > > =C2=A0=20
+> > > =C2=A0 const struct mtk_vcodec_dec_pdata mtk_vdec_8196_pdata =3D {
+> > > =C2=A0=C2=A0	MTK_STATELESS_DEC_DATA,
+> > > =C2=A0=C2=A0	.hw_arch =3D MTK_VDEC_LAT_SINGLE_CORE,
+> > > =C2=A0=C2=A0	.chip_name =3D 8196,
+> > > +	.h264_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_H264_LEVEL_6_0,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_10,
+> > > +	},
+> > > +	.h265_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_5_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
+> > > +	},
+> > > +	.vp9_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_VP9_PROFILE_2,
+> > > +	},
+> > > =C2=A0 };
+> > > =C2=A0=20
+> > > =C2=A0 const struct mtk_vcodec_dec_pdata mtk_vdec_single_core_pdata =
+=3D {
+> > > @@ -910,6 +970,18 @@ const struct mtk_vcodec_dec_pdata
+> > > mtk_vdec_8186_pdata =3D {
+> > > =C2=A0=C2=A0	MTK_STATELESS_DEC_DATA,
+> > > =C2=A0=C2=A0	.hw_arch =3D MTK_VDEC_PURE_SINGLE_CORE,
+> > > =C2=A0=C2=A0	.chip_name =3D 8186,
+> > > +	.h264_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_H264_LEVEL_4_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> > > +	},
+> > > +	.h265_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_4,
+> > > +		.profile =3D
+> > > V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
+> > > +	},
+> > > +	.vp9_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_VP9_LEVEL_4_1,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_VP9_PROFILE_1,
+> > > +	},
+> > > =C2=A0 };
+> > > =C2=A0=20
+> > > =C2=A0 const struct mtk_vcodec_dec_pdata mtk_vdec_8189_pdata =3D {
+> > > @@ -928,4 +1000,16 @@ const struct mtk_vcodec_dec_pdata
+> > > mtk_vdec_8189_pdata =3D {
+> > > =C2=A0=C2=A0	.is_subdev_supported =3D true,
+> > > =C2=A0=C2=A0	.hw_arch =3D MTK_VDEC_PURE_SINGLE_CORE,
+> > > =C2=A0=C2=A0	.chip_name =3D 8189,
+> > > +	.h264_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_H264_LEVEL_5_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_10,
+> > > +	},
+> > > +	.h265_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_HEVC_LEVEL_4,
+> > > +		.profile =3D
+> > > V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
+> > > +	},
+> > > +	.vp9_params =3D {
+> > > +		.level =3D V4L2_MPEG_VIDEO_VP9_LEVEL_5_2,
+> > > +		.profile =3D V4L2_MPEG_VIDEO_VP9_PROFILE_2,
+> > > +	},
+> > > =C2=A0 };
+> >=20
+> >=20
+
+--=-FOrviNbeQ1Mf1Othbhwt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaXoQUQAKCRDZQZRRKWBy
+9LcnAP4up5SULcFsY+6zYREYvzrK+KAbnNX5JtmUVqMTj4R/1AEAlqI+PRyEBoxB
+KIF5bgVcbw5kaSZ/+UkJe169HlU7xAo=
+=q5Vk
+-----END PGP SIGNATURE-----
+
+--=-FOrviNbeQ1Mf1Othbhwt--
 
