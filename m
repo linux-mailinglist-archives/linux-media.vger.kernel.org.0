@@ -1,205 +1,122 @@
-Return-Path: <linux-media+bounces-51789-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51790-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aIHBJ+aYe2nOGAIAu9opvQ
-	(envelope-from <linux-media+bounces-51789-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 18:29:10 +0100
+	id SF+pDpSie2kVHgIAu9opvQ
+	(envelope-from <linux-media+bounces-51790-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 19:10:28 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28871B2E70
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 18:29:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F63B368E
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 19:10:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC1CD304A64B
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 17:24:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 386A0301DE3A
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 18:10:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56D8634BA42;
-	Thu, 29 Jan 2026 17:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rw6tQ/1j"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24014356A3E;
+	Thu, 29 Jan 2026 18:10:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97F82C21F6;
-	Thu, 29 Jan 2026 17:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C598633A030;
+	Thu, 29 Jan 2026 18:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769707453; cv=none; b=pI1c3+ENjpRU9krG7XmU76sURnlJGVVwg1NWhZfunlljKX9x0TjrPQWRNM42KPLKqqhpSckmjTuLOKOURaXcMEwGHlYWgSxu9MM5bA0UVM6libOwqxOyEM7QnaUk09APFkNaoOBnkrBiQgi/hrMTYbGZ+sC1VZv/Pbuk/XqRcZM=
+	t=1769710216; cv=none; b=qDWHtlpR4K7BcBfYQRXare0VEYCLGcEmHqgLnxrOxmqxj95NhADOMKTF5nZq8MyFSsZv8EbHysfbDU7YDReGUiN828O4sITylkZqgBXx+TIF2BAPoltD4MNnXrkc0Tzc4Q4rTp2+3cm91jg9VVMYGX2l6T3g7T5skg9I67bX9oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769707453; c=relaxed/simple;
-	bh=GwpyZ1XhwGvTuaJx2R/noCmHcGV2NRys+b4dwGgPMRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DfNL28a5EVE16ljs54w3kPaosuGYlJA53S8Ow0jR5XPqYEqBrldhUmTecimJdhf6hXEZqLkuAMf89NIyIPqPmvPLCTuyYIJkTeiesImctUWPZS+sx1/YjVnn1l/3kWikc1BVOxN9xuxUmYFZFsSMWTvWQwfK/iPJ3QzPp5AuWhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rw6tQ/1j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12733C4CEF7;
-	Thu, 29 Jan 2026 17:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769707453;
-	bh=GwpyZ1XhwGvTuaJx2R/noCmHcGV2NRys+b4dwGgPMRw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rw6tQ/1jebbzeNxeUd/uwC8v3wG9O5tVLwF2euGaO17C7SgFAnEj0LQIUhH7DjSwM
-	 7Dm2ej3g9X3WBu8/fBJkC/jCb6p1/XbKyqe5M6nMCYZff2P2o6xOLy6+z/UxW0cZ9w
-	 +WzjA8j3cjKOeAspg8ScQzaVSE7OZO/HeKgwADO8fBDm1LW6m4j7IE9azNZSNRIRtb
-	 F1xZUup+O5edsuyRuAF5V8hRA82pe4SWffHrvfCJa7jfxRyXHQRYcGQ6Sb59MP0JDk
-	 gUtjzxm4+UjaAHdZcKjgHj40Rj294kcwhOeToQDL5QIadAAfMBR6+yxE6gkjCM3HWg
-	 djTkIYBYJpZdQ==
-Date: Thu, 29 Jan 2026 11:24:12 -0600
-From: Rob Herring <robh@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bjorn Andersson <andersson@kernel.org>,
-	David Heidelberg <david@ixit.cz>, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH v3 1/7] media: dt-bindings: Document SC8280XP/SM8350 Venus
-Message-ID: <20260129172412.GA1303752-robh@kernel.org>
-References: <20260125-iris-sc8280xp-v3-0-d21861a9ea33@oss.qualcomm.com>
- <20260125-iris-sc8280xp-v3-1-d21861a9ea33@oss.qualcomm.com>
+	s=arc-20240116; t=1769710216; c=relaxed/simple;
+	bh=UQLG6sfZItLnr3UHKZWagBVTZ4bEr1vCN1ddIrdGN6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HdUa/ffL9zS8CoBECrCi6f2JT/vkKgbDl0Du0gzB6ek6XqDo3Kgzm0QEGmyhess+agUIEN0ugnp5NFN8RqkQEEVjGGbron7EK23+WJxUMkGp579kjcbnAtaT40GNgCTA76mo8pKmMrl+cZv1dqZI56GPfTKK6kyRl82OhoYWVTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id D15A51B05DA;
+	Thu, 29 Jan 2026 18:10:12 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf06.hostedemail.com (Postfix) with ESMTPA id C96662000E;
+	Thu, 29 Jan 2026 18:10:09 +0000 (UTC)
+Date: Thu, 29 Jan 2026 13:10:22 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Xiang Gao <gxxa03070307@gmail.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
+ dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
+ akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org, gaoxiang17
+ <gaoxiang17@xiaomi.com>
+Subject: Re: [PATCH v13] dma-buf: add some tracepoints to debug.
+Message-ID: <20260129131022.302e0a6c@gandalf.local.home>
+In-Reply-To: <20260109115411.115270-1-gxxa03070307@gmail.com>
+References: <7e126504-1966-4c63-8db5-dfe57e206169@amd.com/>
+	<20260109115411.115270-1-gxxa03070307@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260125-iris-sc8280xp-v3-1-d21861a9ea33@oss.qualcomm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 7zxw1f8qpegmfp89wafbiq7cbue3tx3c
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/Bq6Shjs13wZTE8qaBJ3dI8UFmbrVZV+Q=
+X-HE-Tag: 1769710209-415785
+X-HE-Meta: U2FsdGVkX19na61YaDkoNKEtYADwBcTU22ie7xg0+6jtjYMWTEj+0HfSETh5E6FW7V/dUnoQr6B2GoQ27355AalL21SUT5I4KyVrEeq0aCFN3DUsniKBxg+ZYoXqX5n+D1yY+u+J1X2qayRCMTZ3nzwQ2+c4gcpn/dSquzu4kMwtamm41DZpB0vAFmE6rmgsMqoN5Azo045IzRzhr7kJBxJ9QF4efvA+Nl94T8N22cKL5MHkQrDIKMq3wEG/Q3FQdbM4aln03CI8d9JjUXsjHKqgCxmNsMyoyx/gRhb2aWiazHibIca3gJzpFfOpqVH7nDfXPCmkb2K6W+WLZJkKX2zhsliT9wCOd8ms9Kw55ZSCueM3qhV3MfrZrv7RbKg6Sm7XviNnT4grRqRPN1bsmKGis+wDRK0RUgGeIypsQ2k=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[goodmis.org : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-51790-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51789-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt,linaro];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 28871B2E70
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rostedt@goodmis.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[xiaomi.com:email,goodmis.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gandalf.local.home:mid]
+X-Rspamd-Queue-Id: D7F63B368E
 X-Rspamd-Action: no action
 
-On Sun, Jan 25, 2026 at 05:32:58PM +0200, Dmitry Baryshkov wrote:
-> From: Konrad Dybcio <konradybcio@kernel.org>
+On Fri,  9 Jan 2026 19:54:11 +0800
+Xiang Gao <gxxa03070307@gmail.com> wrote:
+
+> From: gaoxiang17 <gaoxiang17@xiaomi.com>
 > 
-> Both of these SoCs implement an IRIS2 block, with SC8280XP being able
-> to clock it a bit higher and  with SM8350 having 4 VPP pipes, while
-> SC8280XP having just 2.
+> Since we can only inspect dmabuf by iterating over process FDs or the
+> dmabuf_list, we need to add our own tracepoints to track its status in
+> real time in production.
 > 
-> Document Iris2 cores found on these SoCs.
+> For example:
+>    binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
+>    binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
+>    binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
+>      kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
+>     RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
+>     RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+>     RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
 > 
-> Signed-off-by: Konrad Dybcio <konradybcio@kernel.org>
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> [ bod: dropped dts video-encoder/video-decoder ]
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> [db: dropped status, dropped extra LLCC interconnect]
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  .../bindings/media/qcom,sm8350-venus.yaml          | 113 +++++++++++++++++++++
->  1 file changed, 113 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8350-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8350-venus.yaml
-> new file mode 100644
-> index 000000000000..d78bdc08d830
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8350-venus.yaml
-> @@ -0,0 +1,113 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/qcom,sm8350-venus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm SM8350 Venus video encode and decode accelerators
-> +
-> +maintainers:
-> +  - Konrad Dybcio <konradybcio@kernel.org>
-> +
-> +description: |
+> Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
 
-Don't need '|'
+This may already been accepted but just for the record. For the tracing POV:
 
-> +  The Venus Iris2 IP is a video encode and decode accelerator present
-> +  on Qualcomm platforms
-> +
-> +allOf:
-> +  - $ref: qcom,venus-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - qcom,sc8280xp-venus
-> +      - qcom,sm8350-venus
-> +
-> +  clocks:
-> +    maxItems: 3
-> +
-> +  clock-names:
-> +    items:
-> +      - const: iface
-> +      - const: core
-> +      - const: vcodec0_core
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    items:
-> +      - const: core
-> +
-> +  power-domains:
-> +    maxItems: 3
-> +
-> +  power-domain-names:
-> +    items:
-> +      - const: venus
-> +      - const: vcodec0
-> +      - const: mx
-> +
-> +  interconnects:
-> +    maxItems: 2
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: cpu-cfg
-> +      - const: video-mem
-> +
-> +  operating-points-v2: true
+Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-blank line
-
-With that,
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
-> +  opp-table:
-> +    type: object
+-- Steve
 
