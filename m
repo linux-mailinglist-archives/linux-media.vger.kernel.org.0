@@ -1,327 +1,287 @@
-Return-Path: <linux-media+bounces-51785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51786-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UFOaIWt3e2mMEgIAu9opvQ
-	(envelope-from <linux-media+bounces-51785-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 16:06:19 +0100
+	id EIOFCn+Je2mlFQIAu9opvQ
+	(envelope-from <linux-media+bounces-51786-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 17:23:27 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E812DB14A6
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 16:06:18 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 927A8B21F7
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 17:23:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 11DCD301ECF5
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 15:05:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C7B3A301F780
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 16:23:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8316A2737F8;
-	Thu, 29 Jan 2026 15:05:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590C4341046;
+	Thu, 29 Jan 2026 16:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="il6dcJyd";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hjtp8iRB"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="UgmJpP4k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011033.outbound.protection.outlook.com [40.107.130.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53801285C88
-	for <linux-media@vger.kernel.org>; Thu, 29 Jan 2026 15:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769699121; cv=none; b=ahcEgjFcwkcH3q/47o6gJafDNcmxG9zDDyW99D7g6tNtlCn7hl+jjvRJRSqesOIq0Th3wRYPvV3X3WWLpQsn1ZGSEAYn928cE4M4bo0ZEJwRfRi1zvtr6SE/qWjI26evwEbCfH6+tCDIIh2N435yf0P9LPC2XTWUVk/kZNh58RE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769699121; c=relaxed/simple;
-	bh=sUdoQKuITD6AiZJ3dc9S+dNSXPTTT8L0qAJRfFVjOhc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lvloErS3o6BfBAeNuju3oZzFjkrP9GpKFWQ72SQ2FEkAllLxHUgHw4H+OKrCf5MNLD0vsLJIYsp4/zi4ifdaOKIfGMSwd4McSbpfKHvaKxxoIvVOOVNg9v0jGbnRkivt/K3tuXMRkHWUki+KxTGrYvIrmf2Jccx7U8/h2B1BBRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=il6dcJyd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hjtp8iRB; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60TAmC8d2953934
-	for <linux-media@vger.kernel.org>; Thu, 29 Jan 2026 15:05:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	1jujTeAzI9H5NsIDYheZqvKmgSMIu72C0nmLn2Vk+rw=; b=il6dcJydU4EmQSit
-	nzWPKj9xK9ACJKae6+1pMib8f23w8g4bZByTiQu57bH9AIOeOtjC78MPHP07U8BE
-	xLq3xOKmF3o0dRiQvteU71coIQXB9fZ0PR67vty41hyUSpQdsIZz6NR0bjotddo+
-	fIHZFXBfAmi1o53/qliHlhuVpbc7QVv9m8yS/WwENcs+sCeHs6FxYJ2YU6PfJLFy
-	6va3PZw4qmZPTnVsaZr6q794kDwnrinfso8CGeYkvaRE+Hox63nI1AGSpzfIAZjb
-	wDQAchSxZj3ZeS3il1/hjIMLga7vd34Nz/qtHDgRzVYTbxnAq8GODOE7scvWPGtM
-	QZZw2A==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c06420rmu-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 29 Jan 2026 15:05:19 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2a7701b6353so10465845ad.3
-        for <linux-media@vger.kernel.org>; Thu, 29 Jan 2026 07:05:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1769699119; x=1770303919; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1jujTeAzI9H5NsIDYheZqvKmgSMIu72C0nmLn2Vk+rw=;
-        b=hjtp8iRBPbEY5dm7RWya/D8IfaozKiNWn4D6+wXN+oOqCgOnW+7WEhSAqcoW3fbA7o
-         2TZs90kpJaFCtnURPpggzg0Ii7wr60KfRI1pqWlt6aevjweiKOBAnmzWDyREDO6OppWD
-         FUuw/4w2wnfbyE6Uar/mrgboG0xFKnlbAH1yBNzrd9CnQNm6oYeFGd8YbAuSmB0ifoh7
-         7QbLCT4Gk2Jgq2QcLD/yoTIWRu6vqX7VeHdlWZ3dtizYYr3U3tha8fDMjBYUZxPeW+cY
-         TBlLzN/F50mg/v3wqYXzAKDKKnJvGtMemgFAKr6JLw9UK3j0gU50NfgMYweFrSZ8mu1t
-         Pwqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769699119; x=1770303919;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1jujTeAzI9H5NsIDYheZqvKmgSMIu72C0nmLn2Vk+rw=;
-        b=pNe452xDvYzws6sWYAbJCBGTXUvecIvbahEzQjx9pW2TVgSrEnGnIXOQBFoOuGVMkm
-         gEoOzxJFOxhMlGyh4HAhDb7BXrhO6A5dIZqKDrB5rx8FU7+ZwGOpJmi4m9Zu0i6vfsAr
-         L10i9UpxalWFe8iUk9U3OFjqJg0Rg44mEPqIElqFgDXYx+Fq9TZmgq57FIMfdNRJrqzC
-         0xrGLTplst7baVikWsdYHTAaxXC/Tn5dbzrKM1kOe6w7G564VvEjK36sp1uJXYqgsSIy
-         i/KuR25VEis6gG/CJrQpGGPzrsqU/JgB+eeS0/5i5UmxmRBh0Bb/55VW09TwPGz1ap2l
-         rENw==
-X-Forwarded-Encrypted: i=1; AJvYcCUx2J+d/TtbPiNf5xCHT8Rr85rYL0ZvTefKnN2pdDZ1rqZjJUc+yFd0BCQqy9r4X9vmQ7LBWGWBk/RZxg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOkfZT7cmbhKARjmm+MC6J+o84TLKkP+Z6K/6lk3tH4x8XB5Zz
-	MGfUejCGNhjP9BAh1CTyBTjmhru35iWH1kGBCJ7Z+Nyu07j5Lg2bN7uOGU3uuHjK9xe31m5TAmd
-	P2Ql/qEh8sXkgWPBN80/Ow3d/xvBJ07yDYf1Ke1dxCGK4/dt2MKTaBKhD4Q5BIVPqgw==
-X-Gm-Gg: AZuq6aIwRmRSf2bMdVniS3zZC/fzdO2ugKoADd02oV2NB0CroRD0sXoJNHIhF6h3iDV
-	GBxA6guItsioUmxIPMPJrSZRHLWpRmusE+Ht8HSSIAwZj5yeN3SPsG8O2wACFEQOO3/miGsh56o
-	TOr2ZFtXm99K3Ql6CgJ17h3NT+UqpZx627DVo1JwE61/v0CdJc80BdERkyxAqsJm6YFNI8QN0Q+
-	Jakj2gWKTG6ybOZ4cbkKvqEEpjuCheGA4nDvSPJ8a6q6Guck+1F8ntLrPi1vfjnFxWOrM4YSxvX
-	xAOb1zW/w/SxcPs4CVl1rZZCMq4UrnOD2jceg+DM+Q8wnp48WqxD9oV2GJzKRxeOlbsrjADoe3W
-	MXqkKQEu1BFXwYiCgCOAq+NAFJ1+am3jsKiDddY2sSw==
-X-Received: by 2002:a17:902:f54b:b0:2a0:e223:f6e6 with SMTP id d9443c01a7336-2a870e74030mr87760295ad.46.1769699118620;
-        Thu, 29 Jan 2026 07:05:18 -0800 (PST)
-X-Received: by 2002:a17:902:f54b:b0:2a0:e223:f6e6 with SMTP id d9443c01a7336-2a870e74030mr87759815ad.46.1769699117875;
-        Thu, 29 Jan 2026 07:05:17 -0800 (PST)
-Received: from [10.204.100.98] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a8c3a23e40sm21406195ad.90.2026.01.29.07.05.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jan 2026 07:05:17 -0800 (PST)
-Message-ID: <025b5070-676c-4284-9c30-1fd195d8a549@oss.qualcomm.com>
-Date: Thu, 29 Jan 2026 20:35:10 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DEC33985A;
+	Thu, 29 Jan 2026 16:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769703786; cv=fail; b=fIVU/kebdDYG2GUly4IGeSzgunbN+u1vPMaqu8aAYGJzIP6PUjr4VCJgcnkN+OfiuCiUysrs8kFklKPGqKBPSpXDfNY6WLpNZ5Qvx2I4YVUZomHbUPLYhZqmCTAeQNP23vmkA4OtMk8Xo/IGQniP/7xvn64ZWKqp3ONQhfk8hoE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769703786; c=relaxed/simple;
+	bh=4MhXby6QyYgnCM9P9TW27oBaWiajZnsI8wZgB4KGM5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Yl1ViP2iNEsje+EA0/6HSemqGe1Z9UAtaSySjgA3aiDHn4Oer3m8s9Btn+YUNaa3kr9DXY7LKwFFaBlc/Unnd83lDIwp9pDCKhJoEKnb3Bm9YBlk+KrYnir1jHwUvCZvHbHqFENtAgO4UhbXeZ7jvQcdIHYr7Ds6nuMzDdf4XqI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=UgmJpP4k; arc=fail smtp.client-ip=40.107.130.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iC0GKRCI8wrcnN1+1WrH5ZPGLVOvenqrweqoabi6vGS3adATVeKLDnCBEIvqGFFc/jDRsH6l7uRAIx6Ju3SeQkMsnrlZCr60T+X9acaJazelFeSJqrHXkRRhaehdkjX6YAgJ23D9NzVCuC55qlJb97Ces4UcBfqLuFAtynKjMI8se8wSHbotiTjSkSh+mIfPgmC0+Oq50/HOaIIhAejrYuIdlsisUXYDzizLYLOERiru4MiEs/p48J+OrCNCLHCIO1kf1UsNSerHsA4xXqS+AuyoGp+2ny3BI4tFtshzCMreTjiM2mhNGz1C1NK5etK1zq+BAw6A+M80Trshc8A1BQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wT+N5KYtNQTUalZvqaWpXD0UIwQ9cQbWIhbxDPBUNs0=;
+ b=YrETx8LB3NtGOgOAwVHt7CS/OYzXQ4n3akFQAZTu/dcuRr0UE2S36HjXzLmpxLF5FzOfOjXtLehgGeMj2oVrnzwN4+nIzzWWX6R5dNdihWslJ+MbRu7kn5xqhTYbo5/2k1MHJwEajP77vLW9ggBNbpseXq3GrR2Ss2Boy85b7nLFrOoJB0ko2/GEn/xIERJOHc6oQXJWstN2mtLQ4OJUjVM03bYUroBV0AeVURzNcUcF4iJSmI1SApPfGYqsEuEM/RC2o2XBbveuadQBxGHNaAWciOLW+isitarHHkgPXs5p4/PEePlm09yJuxKxIhklnY9rOIfVM3OOTi5O4kcJ4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wT+N5KYtNQTUalZvqaWpXD0UIwQ9cQbWIhbxDPBUNs0=;
+ b=UgmJpP4k+UqnxM3vqOCWZc7bmtdU0Moml+LObvuT2blMCcSJ84ozDcYUZK9iktKMNUgZ1XWRD+xI/dYxqbVFDB+zS2HfJjF5MD0U2G60k3XYWhfBFZI+KmhFaYtYJWu5KD3MaxPBLfJhOpF+MVWgmhU3qHhgY/wP18dnuEHGOOYSvsrbzMtHRsrWoDb0XKDnCnaRbScBQlU63IgW3xb6BrgKhOWYBqiSQzpfHb/cH1+QV14cIRJqV3xaGoc6Op0v+YCW8WttN3xQxpl4mtgt5tT6GMrW5Ysybj7YH1xuYUMhsvbGWNeNrroPUCPwHH7/LbfE+yi2JcynOkR0hA0gxg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by VI0PR04MB11048.eurprd04.prod.outlook.com (2603:10a6:800:25d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Thu, 29 Jan
+ 2026 16:22:55 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9520.005; Thu, 29 Jan 2026
+ 16:22:55 +0000
+Date: Thu, 29 Jan 2026 11:22:42 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	mirela.rabulea@oss.nxp.com, nicolas@ndufresne.ca,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
+	linux-imx@nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] media: imx-jpeg: Add encoder V1 support for i.MX952
+Message-ID: <aXuJUhFEmhjBbulb@lizhi-Precision-Tower-5810>
+References: <20260127073702.1782-1-ming.qian@oss.nxp.com>
+ <aXp2CHEX+YCHogjW@lizhi-Precision-Tower-5810>
+ <69a3d328-748c-445d-bcbd-823b5b314543@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <69a3d328-748c-445d-bcbd-823b5b314543@oss.nxp.com>
+X-ClientProxiedBy: BYAPR02CA0066.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::43) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] media: qcom: flip the switch between Venus and
- Iris drivers
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        cros-qcom-dts-watchers@chromium.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Stephan Gerhold <stephan.gerhold@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20260127-venus-iris-flip-switch-v3-0-7f37689f4b39@oss.qualcomm.com>
- <22583dde-caaa-4d64-bcb6-ac7f09916a8d@oss.qualcomm.com>
- <xyhl36bcpmjhav73ujlvbtwqixngr5vko75t335mlcebxrs7lc@t43mxhknuqtj>
- <5df59084-d19b-414e-a43d-8c5d26cb07e9@oss.qualcomm.com>
- <i37aqxqtb4dovx3lpjm3xmkbcwlpiyfe7blzz4kirme7tegbb5@hgztyetld6lf>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <i37aqxqtb4dovx3lpjm3xmkbcwlpiyfe7blzz4kirme7tegbb5@hgztyetld6lf>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI5MDEwNCBTYWx0ZWRfX33E/Dvbh9h1U
- D+EOMdAHb1CKyZ4C6tpAKkmhxSnRsc1I1CHB5SWTrBmM+YVBiAu4fvuwazfqi6x9AaBtPvmk1/v
- nijLKsOczAponABF+EUKNOfZeBr5HjRjdRvwfSDPwNcz6ViJKUWtLrwHqh/+J2UDWRyweszGW6f
- VBtKFg1gd3WOYUlQLk7H5MCRTvCZnw4rpubD5plEX2xCe4E0nTNWYMH5eA0lUwq9lA3EdPMSADQ
- BnE3wwVHhTTuv/eYtoZP5fZceda1AN8QxnzfZjnFBF6RxAwvu7XUBNrPuLYPbRNuCkN/zYOLi40
- uih7rJcQNm8YBC79LL+U+xRE+bTzfRMbUlUN4WAGj5b6hJVJw3MmESwLOzGpqDt0TuvY7AsgsQb
- EBKKiaE31NSKXXKf0jmsKQwoR3DhHj6ThXtz5uQS2x3ru6Tcw1hn35yOwyGqgEHHb6xhiL7uxDJ
- Q+ic0EBmoLAFvAkl79g==
-X-Proofpoint-GUID: NvJi5fWgQXkmyS9K26Jwb4y9H-OuhqGU
-X-Proofpoint-ORIG-GUID: NvJi5fWgQXkmyS9K26Jwb4y9H-OuhqGU
-X-Authority-Analysis: v=2.4 cv=dpTWylg4 c=1 sm=1 tr=0 ts=697b772f cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=P-IC7800AAAA:8 a=pM9kW0q8fP39S2ihOX0A:9
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-29_02,2026-01-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 malwarescore=0 bulkscore=0 clxscore=1015
- spamscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601290104
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|VI0PR04MB11048:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58cf9f5c-d886-413b-35c1-08de5f52a862
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|19092799006|7416014|376014|52116014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?sFB0b/yfwo7L3mIdxb2fQ54pNYBIV9VXdby479EQ9FiTFt8qRBJJdIbQzlbQ?=
+ =?us-ascii?Q?qWnLAoP/2CWr7oSIiRPvYlkV/lwJ5Uq++OCmfEV7ZSz7Out/1B4NwUyJxLax?=
+ =?us-ascii?Q?Zdck8XGLiSrTv2sdjpvo8lr/HsOTc5WpTvDbHB+GxjiVj/ul8xMezaWmGkU5?=
+ =?us-ascii?Q?FfrSlp2FW0Lq3dOh1AXebmS/mv1uyMT08i1czxYJ4SWtk1ODUrAsrQWGCgaB?=
+ =?us-ascii?Q?eWw6jisyMueEspN4mi0Ipj/3S6tmHijbMC9mvRsGg3s+Kn/zdS4HRxt/891I?=
+ =?us-ascii?Q?K0DrUqkQRifG1AaBg9vjcZkd/cd8wB59V4KpyWTtxm72nwDxUXdWps81WRFc?=
+ =?us-ascii?Q?kRLb8vjkCWQradaMxnL/2z8l20gaA4u+WbXJEQ/T9S32zfS8yJfHCzOwCy/Y?=
+ =?us-ascii?Q?00r5nhAjQMiKdA2cSzxYK8aMfr0w3dq5XxNa4b/iw6VDMoiMxy/GcOT2naiR?=
+ =?us-ascii?Q?jGPqKSoS0tFlMNS/i7vECWJuSrsAVElBtxE56ZysMccWJAzUmo08PYxzXYgC?=
+ =?us-ascii?Q?QIjd0fbq+XFLhpgCMQaKtmUueCgbe0JSbCRe5t2WW3MfLCeJJvQLSwzXCScW?=
+ =?us-ascii?Q?vEmBoNowR59uvfflCn/mYkSJ+PnJ+nqY5Q0vqPVSDrNRkwqjjQK0LLgqua14?=
+ =?us-ascii?Q?v+b8kALTWXdu3IHaoUHi3Dt3ZC7b/Cb3Nd2EvDlgvtfiv4INie0xz1YsXy48?=
+ =?us-ascii?Q?SYO7BNO7dXjX4aqvLUYzWetOUmrTneMwWKicQ5ln40reK9HxJnCrb9645HhP?=
+ =?us-ascii?Q?t4XybbnEksbHscpb2PSzoL+41vMbnolE954oHTsPDTJUT7iEIHqzkoWfmdnX?=
+ =?us-ascii?Q?Wf7NwJVDeQxHW88aQCNzTalw2HgskEWs5KzQeokQUAABxPyh7CuUo7kgc231?=
+ =?us-ascii?Q?3/Kbx30M9GRzvqnL4vkzXP7C/sf7lxx9whtkxl1aKdkV3cZ69c9H+QiFxphV?=
+ =?us-ascii?Q?NQze8DD46brbfDNXuGhh0npNQ5aOiKDLBMNVVsqJ0blbB5n1bf9uvq6TVNa/?=
+ =?us-ascii?Q?DvWzO9qfAHPRMB9RuyWOOxY6IVBtYjCV4mhPgw+3aZfcJF/cmSb78zH8OC0U?=
+ =?us-ascii?Q?CQ+PfGO9J32s6KZXt0kKWwpij8llVa50j/lKDHRxOvrwNXPMXzckvP2hgcbX?=
+ =?us-ascii?Q?7p1FswBNiPIDrL/ZY09AD0cbhkuwXUnIWoA9k8Kf8WteyD9wQ3PFLcwXMOCA?=
+ =?us-ascii?Q?RtmPe5WE1xkrZphBfV7uWV4yNkP8wHHXVxwJEqsPvehXChUyzqctcjlsL6lp?=
+ =?us-ascii?Q?SGQjSVhtMeqkdWHfnaDao9yy/8WT+nG0/ETlARZsmRCNRLWypKkJ2gE2Rhmh?=
+ =?us-ascii?Q?+KJjSJIBrdSPD+TMBciRGVX/bvKNgpAXu75RGmpBwxxF3GSFtkeFMl2vHlsZ?=
+ =?us-ascii?Q?ll2SPoMJdDZVjjF/H8GJ/FnVh3AEPVKpmrVGSq5XNBN3WW3yHJYpqP/Y2FQm?=
+ =?us-ascii?Q?nrYVR7NwNQNxxoq7Ooa3IASTUUpRVAVUWX69wTzo+nedb9H4aHlbJdcwUjfO?=
+ =?us-ascii?Q?U6b7VprZvDbGHYpAW7MRVCpUzpm3tm0PLQp3IKHyEJKJGhe/lnfK1FdqEEi1?=
+ =?us-ascii?Q?n0Jo7ea5de2oUK/SN+fL5POA+zk2IjDGyWbd6FJWaTLn8zlW1HwI8wGu8omD?=
+ =?us-ascii?Q?Cve+uYNc1zIZ3jBTI7FazFQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(7416014)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?cmNaes4hBGG74J8cFBotGL1Ok1aNHVd6x32kpb0EgngeWPUm9GdvhqZb4Qsh?=
+ =?us-ascii?Q?5VVMNTGdnh+RrUYKMzGOdDXJNCq8PicdiWD0lSjnYzVXC8e8IwBbdlyUvdRo?=
+ =?us-ascii?Q?fV8Gwjvx/W7vGzt6+ELXNIXuSOea35SNx8uvTlg6EY3AswohoJnsWkWNoZRY?=
+ =?us-ascii?Q?xx5Z/Wj2mY77LoVhqOvLFs1fB8t9Who0TcNTOXedkdSkrOkVkEZKKDwgNgQI?=
+ =?us-ascii?Q?3eCaDR9lIh1yxAnMst6N26zwIoLDHf9s2nq6A09BMnJXo5KjJc/dLwvxJ+FI?=
+ =?us-ascii?Q?YnnkXF449X4T3rdPvVd2bpbXKtk/AT8GK7e6sMZtJblObaY1AM2RphYvgyVX?=
+ =?us-ascii?Q?AN0OgqnzoiZ3roPqmNZfM9/a+T6yUeQ+KD15mHsQjbZSV3xhqSOYAiTnHE8l?=
+ =?us-ascii?Q?DglY/+esiD95UEqHBAjbIdIEJ36RnMP+4UMTBHTFp6zvrwPQ3iOrLFd3c85s?=
+ =?us-ascii?Q?u6lW03xbpZAic63u4vhmTAhjXKa4Z22nM1SY7LsctHGgdstUQoWNZ1DSSXsZ?=
+ =?us-ascii?Q?mtUg6OQjqUCquH0/lezhKh8ZIsRPZJxVofpib7v5n4cD1eaeej5A2QF06Q+f?=
+ =?us-ascii?Q?MVBl2RxddDIfBmmWSTIt7tz0MQSszOMg+hc2O10ihgMtYf5WH5xpXjZ7GRX4?=
+ =?us-ascii?Q?iUBYSAnbZbnQFZdcRoC3dKl5Coq/KzVX4dyaLvxZkh6sChma2h1GtD+tuASY?=
+ =?us-ascii?Q?APlG+Lv50jCse11qJEE6vIJbpw1ckMFCLxxCzarX8lK3BklLeZ+eUpCHprBC?=
+ =?us-ascii?Q?f4oUoVfwfzQOJclMcA1Q7uG4NiHJTrjXHc4FQzbbcmEsL9HepKWtlBwhK3zC?=
+ =?us-ascii?Q?lNm+llnynYTx7xwhbGRAZ6j7yVnhVOt4Lgy4kit6T7CmaHchpaRRIjqeoLa9?=
+ =?us-ascii?Q?FRNwU2UJ4BkaV9v3VbfQleym7M75+yqYachibIwALaw+PZiurNwcurqeqnL6?=
+ =?us-ascii?Q?zUtvsyvWou1fA/54/xDNV82C7ghP0VmGVaF+Sgo+r2MwMHJ3ljtxNmm2eARr?=
+ =?us-ascii?Q?rNYxpLPGamI+4f3OU/b0UH4N5wl+SxvCI9NKaZOxBY0OY5+axrEQ9yTDLUg2?=
+ =?us-ascii?Q?n/26AzXI+l345Dt9k/cTAg2EZfe34sjn1CRgw/q+Kl8FK/2eq6zLoBF3soxc?=
+ =?us-ascii?Q?Xr0xsM+TNKYQniHimyGZah26i1P1eO+yHK27Ee5XK3LfshSVOtlNzBPFywWD?=
+ =?us-ascii?Q?1o4F+4vs8As3FYt6GeaPU/T3IyISdqyJ318JD17JyUye+8fRImY8embVYUh8?=
+ =?us-ascii?Q?OCrMunLU4p8I6x8NLbHU/1Z6Wc1be/hxr9tHaO8/i1YMomKhASqvShJSFOtF?=
+ =?us-ascii?Q?kRnwUTw5lTw7/Fgd4FwIRCUpbRtbO+08kdRlNXOBhDw1wLlkBRX16gkRnxho?=
+ =?us-ascii?Q?a6KbY3vttiEXoSNkbFVWuFPqm4HC3eKx00SLNzvMpzdG8+P1ur/EFjLo2IhY?=
+ =?us-ascii?Q?09iadkO5ljLTdkYapU1anMMVB1FNVubli2L8dBJdae/MGc5oZoERKGszr+Zs?=
+ =?us-ascii?Q?dsjhFtygd+UE11A35qowRYPIz0ctZpvNQPmeQpYVPtrR37ZIAVaqGE4WoHJN?=
+ =?us-ascii?Q?/JckmM7DfGJP1WX9LGFjtxOhOsNaqrq2Fi1bR1yp4ku6Xz/2OI9UrEO7ITdT?=
+ =?us-ascii?Q?/r7nthN9De3B0038q2SdfW+TyM11No/16ZmNelxzqRKN9pwCpO8RzO2QEHGn?=
+ =?us-ascii?Q?mD4FgYa8NwyyNL8BqppiGR35SrXE80/Ag48RUg5ycHG8vQgQ?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58cf9f5c-d886-413b-35c1-08de5f52a862
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 16:22:55.1474
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oGa7G8KHo67Idmcf53UtLikrCekfuVI81C6xo30msKfKOX/UlAoReaJazayDoJq2H/zqbCrF6p8NZIxOLr17cg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11048
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	TAGGED_FROM(0.00)[bounces-51785-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51786-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,bootlin.com:url,oss.qualcomm.com:mid,oss.qualcomm.com:dkim];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,xs4all.nl,oss.nxp.com,ndufresne.ca,pengutronix.de,gmail.com,nxp.com,lists.linux.dev,vger.kernel.org,lists.infradead.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E812DB14A6
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email,nxp.com:dkim]
+X-Rspamd-Queue-Id: 927A8B21F7
 X-Rspamd-Action: no action
 
-
-On 1/29/2026 8:02 PM, Dmitry Baryshkov wrote:
-> On Thu, Jan 29, 2026 at 03:32:28PM +0530, Vikash Garodia wrote:
->>
->> On 1/29/2026 5:51 AM, Dmitry Baryshkov wrote:
->>> On Wed, Jan 28, 2026 at 06:35:01PM +0530, Vikash Garodia wrote:
->>>>
->>>> On 1/27/2026 5:52 PM, Dmitry Baryshkov wrote:
->>>>> As the Venus and Iris drivers are close to the "feature parity" for the
->>>>> common platforms (SC7280, SM8250), in order to get more attention to
->>>>> squashing bugs from the Iris driver, flip the switch and default to the
->>>>> Iris driver if both are enabled. The Iris driver has several
->>>>> regressions, but hopefully they can be fixed through the development
->>>>> cycle by the respective team. Also it is better to fail the test than
->>>>> crash the device (which Venus driver does a lot).
->>>>>
->>>>> Note: then intention is to land this in 6.21, which might let us to
->>>>> drop those platforms from the Venus driver in 6.22+.
->>>>>
->>>>> Testing methodology: fluster test-suite, single-threaded mode, SM8250
->>>>> device (RB5).
->>>>
->>>> Could you run fluster on SC7280 as well ? Also please share the v4l2
->>>> compliance results.
->>>
->>> Okay, the SC7280 is a bit more interesting. For H.264 and VP9 the
->>> results are the same. For H.265 Iris errors out for all tests except for
->>> the one, WPP_E_ericsson_MAIN_2.
->>>
->>> The kernel prints the following message:
->>>
->>> [   82.573112] qcom-iris aa00000.video-codec: session error for command: d0000000, event id:1009, session id:52ef2000
->>>
->>
->> 0x1009 corresponds to HFI_ERR_SESSION_INSUFFICIENT_RESOURCES
->>
->> Below patch would enable firmware logs and make it print in kernel logs, you
->> can apply and share to know more about insufficient resource error.
-> 
-> Added it. BTW: would it make sense to land it in some way (I saw that
-> earlier you posted the same one for gen2). Would it make sense to land
-> it in some way upstram?
-
-yes, for sure. It was pending, before we enable, to check firmware do 
-not emit any default message which are type "err | warn" and those gets 
-emitted in kernel logs everytime, even in success cases.
-
-> 
-> Anyway:
-> 
-> $ gst-launch-1.0 --no-fault filesrc location=/home/debian/fluster/fluster/../resources/JCT-VC-HEVC_V1/AMP_A_Samsung_7/AMP_A_Samsung_7.bin ! parsebin ! v4l2h265dec ! video/x-raw ! videoconvert dither=none ! video/x-raw,format=I420 ! videocodectestsink -m
-> Setting pipeline to PAUSED ...
-> Pipeline is PREROLLING ...
-> Got message #19 from element "videocodectestsink0" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #20 from element "capsfilter1" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #21 from element "videoconvert0" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #22 from element "capsfilter0" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #23 from element "v4l2h265dec0" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #24 from element "typefind" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #25 from element "parsebin0" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #26 from element "filesrc0" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #27 from element "pipeline0" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)paused;
-> Got message #29 from element "capsfilter1" (state-changed): GstMessageStateChanged, old-state=(GstState)ready, new-state=(GstState)paused, pending-state=(GstState)void-pending;
-> Got message #30 from element "videoconvert0" (state-changed): GstMessageStateChanged, old-state=(GstState)ready, new-state=(GstState)paused, pending-state=(GstState)void-pending;
-> Got message #31 from element "capsfilter0" (state-changed): GstMessageStateChanged, old-state=(GstState)ready, new-state=(GstState)paused, pending-state=(GstState)void-pending;
-> Got message #32 from element "v4l2h265dec0" (state-changed): GstMessageStateChanged, old-state=(GstState)ready, new-state=(GstState)paused, pending-state=(GstState)void-pending;
-> Got message #35 from pad "typefind:sink" (stream-status): GstMessageStreamStatus, type=(GstStreamStatusType)create, owner=(GstElement)"\(GstTypeFindElement\)\ typefind", object=(GstTask)"\(GstTask\)\ typefind:sink";
-> Got message #36 from element "typefind" (state-changed): GstMessageStateChanged, old-state=(GstState)ready, new-state=(GstState)paused, pending-state=(GstState)void-pending;
-> Got message #37 from element "parsebin0" (state-changed): GstMessageStateChanged, old-state=(GstState)ready, new-state=(GstState)paused, pending-state=(GstState)void-pending;
-> Got message #38 from element "filesrc0" (state-changed): GstMessageStateChanged, old-state=(GstState)ready, new-state=(GstState)paused, pending-state=(GstState)void-pending;
-> Got message #39 from pad "typefind:sink" (stream-status): GstMessageStreamStatus, type=(GstStreamStatusType)enter, owner=(GstElement)"\(GstTypeFindElement\)\ typefind", object=(GstTask)"\(GstTask\)\ typefind:sink";
-> Got message #51 from element "h265parse0" (state-changed): GstMessageStateChanged, old-state=(GstState)null, new-state=(GstState)ready, pending-state=(GstState)void-pending;
-> Got message #67 from pad "h265parse0:sink" (stream-status): GstMessageStreamStatus, type=(GstStreamStatusType)create, owner=(GstElement)"\(GstH265Parse\)\ h265parse0", object=(GstTask)"\(GstTask\)\ task1";
-> Got message #68 from element "h265parse0" (state-changed): GstMessageStateChanged, old-state=(GstState)ready, new-state=(GstState)paused, pending-state=(GstState)void-pending;
-> Got message #69 from pad "h265parse0:sink" (stream-status): GstMessageStreamStatus, type=(GstStreamStatusType)enter, owner=(GstElement)"\(GstH265Parse\)\ h265parse0", object=(GstTask)"\(GstTask\)\ h265parse0:sink";
-> Got message #74 from element "parsebin0" (stream-collection): GstMessageStreamCollection, collection=(GstStreamCollection)"\(GstStreamCollection\)\ unparented";
-> Got message #70 from element "pipeline0" (stream-start): GstMessageStreamStart, group-id=(uint)2;
-> Got message #83 from pad "v4l2h265dec0:src" (stream-status): GstMessageStreamStatus, type=(GstStreamStatusType)create, owner=(GstElement)"\(v4l2h265dec\)\ v4l2h265dec0", object=(GstTask)"\(GstTask\)\ task2";
-> ERROR: from element /GstPipeline:pipeline0/GstParseBin:parsebin0/GstH265Parse:h265parse0: Internal data stream error.
-> Additional debug info:
-> ../libs/gst/base/gstbaseparse.c(3703): gst_base_parse_loop (): /GstPipeline:pipeline0/GstParseBin:parsebin0/GstH265Parse:h265parse0:
-> streaming stopped, reason error (-5)
-> ERROR: pipeline doesn't want to preroll.
-> Got message #85 from pad "v4l2h265dec0:src" (stream-status): GstMessageStreamStatus, type=(GstStreamStatusType)enter, owner=(GstElement)"\(v4l2h265dec\)\ v4l2h265dec0", object=(GstTask)"\(GstTask\)\ v4l2h265dec0:src";
-> Setting pipeline to NULL ...
-> ERROR: from element /GstPipeline:pipeline0/v4l2h265dec:v4l2h265dec0: Could not read from resource.
-> Additional debug info:
-> ../sys/v4l2/gstv4l2object.c(6253): gst_v4l2_object_poll (): /GstPipeline:pipeline0/v4l2h265dec:v4l2h265dec0:
-> poll error 1: Success (0)
-> ERROR: pipeline doesn't want to preroll.
-> Freeing pipeline ...
-> 
-> 
-<snip>
-
-> [   68.592482] qcom-iris aa00000.video-codec:
-> [   68.592482] <VFW_M:HostDr:265d:6eea4000:00000000> Set buffer type 0x7 addr 0xd0000000 num 1 size 135967744
-> [   68.605612] qcom-iris aa00000.video-codec:
-> [   68.605612] <VFW_H:HostDr:265d:6eea4000:00000000> HFI_BUFFER_COMMON_INTERNAL_SCRATCH_1, Driver macro size = 135967744 vs FW HFI macro size = 136623360 vs FW golden buffer size = 13640960
-> [   68.616954] qcom-iris aa00000.video-codec:
-> [   68.616954] <VFW_E:HostDr:265d:6eea4000:00000000> vDec_SetBuffers(2017): Dec_SetBuffers, Insufficient 7 buffer
-
-One of the internal buffer size (135967744 bytes) fails to meet the size 
-desired by firmware (136623360 bytes) to decode this specific test 
-vector, hence resource insufficient.
-
-We need to compare if iris is calculating any les size for scratch_1.
-
-scratch_1 venus - 
-https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/media/platform/qcom/venus/hfi_plat_bufs_v6.c#L647
-
-scratch_1 iris - 
-https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/media/platform/qcom/iris/iris_vpu_buffer.c#L552
-
-> [   68.628259] qcom-iris aa00000.video-codec:
-> [   68.628259] <VFW_L:HostDr:unkn:--------:-> Host cmd: HFI_CMD_SESSION_LOAD_RESOURCES
-> [   68.640602] qcom-iris aa00000.video-codec:
-> [   68.640602] <VFW_L:HostDr:265d:6eea4000:00000000> Output2 Dimensions 1:1 : NO_SCALING
-> [   68.653195] qcom-iris aa00000.video-codec:
-> [   68.653195] <VFW_E:HostDr:265d:6eea4000:00000000> vDec_LoadResources(1392): Load Resources Command received without complete buffer set 16/14
-> [   68.665510] qcom-iris aa00000.video-codec:
-> [   68.665510] <VFW_L:HostDr:265d:6eea4000:00000000> Load Resource with core id: 0
-> [   68.678699] qcom-iris aa00000.video-codec:
-> [   68.678699] <VFW_M:HostDr:265d:6eea4000:00000000> cabac_direct_mode = 0
-> [   68.692300] qcom-iris aa00000.video-codec:
-> [   68.692300] <VFW_E:HostDr:265d:6eea4000:00000000> vDec_AttachInternalBuffers(1760): mem->vsp_buf: pty->size_vsp:461056,total_size:0
-> [   68.704271] qcom-iris aa00000.video-codec:
-> [   68.704271] <VFW_E:HostDr:265d:6eea4000:00000000> vDec_LoadResources(1486): Load Resources failed with error code: 4105 due to internal buffer attachment
-> [   68.722196] qcom-iris aa00000.video-codec:
-
+On Thu, Jan 29, 2026 at 09:42:39AM +0800, Ming Qian(OSS) wrote:
+>
+> Hi Frank,
+>
+> On 1/29/2026 4:48 AM, Frank Li wrote:
+> > On Tue, Jan 27, 2026 at 03:37:00PM +0800, ming.qian@oss.nxp.com wrote:
+> > > From: Ming Qian <ming.qian@oss.nxp.com>
+> > >
+> > > The i.MX952 SoC features an upgraded JPEG encoder (version 1) with
+> > > enhanced descriptor-based configuration capabilities.
+> > >
+> > > The hardware version can be determined by reading the
+> > > version register.
+> > >
+> > > The v1 encoder uses an expanded descriptor format that allows
+> > > configuring all encoding parameters, including JPEG quality,
+> > > directly in the descriptor. This eliminates the manual
+> > > configuration phase required by v0 and reduces the interrupt
+> > > count from two to one per frame.
+> > >
+> > > V0 encoding flow:
+> > >    1. Write quality to registers -> trigger config interrupt
+> > >    2. Start encoding -> trigger completion interrupt
+> > >
+> > > V1 encoding flow:
+> > >    1. Configure descriptor with all parameters including quality
+> > >    2. Start encoding -> trigger completion interrupt
+> >
 ...
-> [   68.892229] qcom-iris aa00000.video-codec: session error for command: d0000000, event id:1009, session id:6eea4000
+> > > +	/* Manual configuration (v0 hardware) - two-phase process */
+> > > +	void (*enter_config_mode)(struct mxc_jpeg_ctx *ctx);
+> > > +	void (*exit_config_mode)(struct mxc_jpeg_ctx *ctx);
+> > > +
+> > > +	/* Descriptor-based configuration (v1 hardware) - single-phase */
+> > > +	void (*setup_desc)(struct mxc_jpeg_ctx *ctx);
+> >
+> > You use callback, suppose callback name should be the same for v0 and v1.
+> >
+> > for example:
+> >
+> > 	void (*setup_config)()
+> > 	void (*clean_config)()
+> >
+> > v0	enter_config_mode() -> .setup_config
+> > 	exit_config_mode() -> .clean_config
+> >
+> > v1
+> > 	setup_desc -> .setup_config
+> > 	NULL -> .clean_config.
+> >
+> > Frank
+> >
+>
+> However, the flow for calling the callback in v0 and v1 are different.
+> If use the same callback name, then additional checks will be required
+> during the call.
+> Therefore, I prefer to use different names to handle the different flow.
 
-Regards,
-Vikash
+Okay, you use hidden null pointer check.  Generanlly, if no reuse for
+callback, simple direct call to function.
 
+But it is not big deal.  This ways is also okay.
+
+Frank
+
+>
+> Regards,
+> Ming
+>
+> > > +};
+> > > +
+> > >   struct mxc_jpeg_dev {
+> > >   	spinlock_t			hw_lock; /* hardware access lock */
+> > >   	unsigned int			mode;
+> > > @@ -142,6 +163,7 @@ struct mxc_jpeg_dev {
+> > >   	struct device			**pd_dev;
+> > >   	struct device_link		**pd_link;
+> > >   	struct gen_pool			*sram_pool;
+> > > +	const struct mxc_jpeg_enc_ops	*enc_cfg_ops;
+> > >   };
+> > >
+> > >   /**
+> > >
+> > > base-commit: c824345288d11e269ce41b36c105715bc2286050
+> > > prerequisite-patch-id: 0000000000000000000000000000000000000000
+> > > --
+> > > 2.52.0
+> > >
 
