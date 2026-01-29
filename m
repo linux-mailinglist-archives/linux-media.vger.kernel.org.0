@@ -1,182 +1,222 @@
-Return-Path: <linux-media+bounces-51763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51764-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0A6iC9oLe2k6AwIAu9opvQ
-	(envelope-from <linux-media+bounces-51763-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 08:27:22 +0100
+	id wEMWBOYOe2nqAwIAu9opvQ
+	(envelope-from <linux-media+bounces-51764-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 08:40:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC6BAC957
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 08:27:21 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6A7ACD67
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 08:40:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6D608301D338
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 07:26:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7BBFD30727C5
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 07:33:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21CE937AA6A;
-	Thu, 29 Jan 2026 07:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 703A237AA87;
+	Thu, 29 Jan 2026 07:33:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="a0GblCtH";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="hsDGf2TP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nd7XKBpW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2B0379994;
-	Thu, 29 Jan 2026 07:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED13374170;
+	Thu, 29 Jan 2026 07:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769671615; cv=none; b=Hxg6169gR6q+tNzhsugAoogsIjT7a+b6zLGtXmh0kqDZj1+9SKN9s8YIFY6Zze2JuiOqbTf83nc/sSy3kUkDxMrV8MFt6ryGRQjR8hLSaCLXn3SH6SuiaYd6L6xwGfTfVG1PrmF3JIyBQJTrMOD6u8FxpY4ens/XeLZpwIj7/Uk=
+	t=1769672016; cv=none; b=HeXZJzUp9JBT6RhFVTw4Yx/nA98yUJErs6p9y87tSnrCCG7AgDmjFytts+BmVEuwnQmSa6PMcrVlq1zmQbZXQq06EhaMPQE+uyNJqNv1AVNBjdcPUfRYqHP1DkHV6GLM4rxtqw+57TYL5M03l5vZZrulsTc0FwWjHSemrhS6PJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769671615; c=relaxed/simple;
-	bh=zwuni1NIWLOUNldNum/29rw5wXcipncI+6TVU+dBqWE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=io80jjqgF0BPziWTIuhm0UZBGYeDCDKSYURhIKRwh3RS8wuhLjEwm7T58tS6BXV1jgE6a9YaeeCf9lqNPUZ1L2+dtUe/fTGXNrlNuJB3AG9HqCTLJjDWOz73YaHlQ7nKEYcBzYlqy3RriHT/MQxu8pHs/h+/3WjldDYya11IjHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=a0GblCtH; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=hsDGf2TP; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=To:Message-Id:Subject:Date:From; t=1769671447; bh=Y8BIl+9hJvYS8GnIBuao9nC
-	fnKSCoshmBlhJepfvE88=; b=a0GblCtH7y5x5Lu/BN3mDIkC/XKNh6+Q0V0oLRiK34jBcoBfs9
-	O917E64yn0SX0QhcnxJ5Mk/w32IC4TZmWmPH9Y3VRnIcN027yyt52DZvFJHD+1z6ecsfH7+3ClB
-	L/GYAPaEi0wzExVftOzg24jzllTvL9Od5fAkDUccxYcw1dMBfxePTz/uLXX1GOq3mYmK6y7fl1y
-	yz14YtkRBkLzozBMmj+i8FDqr1A8BPQHzJmfKWE4HoC5+JxZXv1d0mKv74Keqtcb35IMHJP/eDz
-	qVxDM/RQjhDT81qeA9IjC5HSOuF2yy0Z9tzc1aJYxPSG6ZASI7Gb3zxaZWaAajZf+eA==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=To:Message-Id:Subject:Date:From; t=1769671447; bh=Y8BIl+9hJvYS8GnIBuao9nC
-	fnKSCoshmBlhJepfvE88=; b=hsDGf2TPwVtVsSdDadxMDpJXWljSAbjl9KvzP4fHHviEuodXbG
-	0YXuV/bkOyGKxsfTP6L5nhk0wQVZi+oQu8BA==;
-From: Dang Huynh <dang.huynh@mainlining.org>
-Date: Thu, 29 Jan 2026 14:24:02 +0700
-Subject: [PATCH] media: rockchip: rkcif: Add missing MUST_CONNECT flag to
- pads
+	s=arc-20240116; t=1769672016; c=relaxed/simple;
+	bh=QBIwpAtD3x2QlngJHpmtfy+I0xZag8/IoNN2nefvD44=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ap6ZPucrVd8bYEJOz3V8Ac1frBzcgzzhZLhplUdqIAhGeGiDAh2QRxoNS20oykH/4qHAURyIzUWWYFcdwR0Ys+sBZ3OsI0D2uJDEH74wUcCk1EZVGQNmpehnm7e0w1CTWL+mg6YPMJOGXOhfJy/xkJOMBAhEetzgwBodAmvo4fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nd7XKBpW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81028C4CEF7;
+	Thu, 29 Jan 2026 07:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769672016;
+	bh=QBIwpAtD3x2QlngJHpmtfy+I0xZag8/IoNN2nefvD44=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nd7XKBpWVASqj2PQ5+O26lNzR2owwrjZ+UFhzwzV5C7rfonAJCymlbkRGjNsekjom
+	 he9rYeseZjNSy/0uUsYtu2rE0V9B2obwvYr84gMEMsIXfMHbRpIOLQG8VKcUj1EDWG
+	 RCL32sfCprWk7ujIe52D/CGmaJLCftvBy9NNCh9toQxOiXhsAaRnM3ffpkajAH1ZpM
+	 fXNq2C3mRiG9ylqGldO5M8PS6KozilVEFN97LtMCnv+QZPbZmSb3kvTLNumwZq3+2a
+	 cXHUw1JolJPAOY7ZZE4cbJzciDN3W68iIBcC3s0kcCkl9sD9ehst1O+sHirdqoPJBu
+	 OQUMpJRWtxn7A==
+Date: Thu, 29 Jan 2026 09:33:31 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Pranjal Shrivastava <praan@google.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	"Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	"Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Subject: Re: [PATCH v5 4/8] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260129073331.GB10992@unreal>
+References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
+ <20260124-dmabuf-revoke-v5-4-f98fca917e96@nvidia.com>
+ <aXfUZcSEr9N18o6w@google.com>
+ <20260127085835.GQ13967@unreal>
+ <20260127162754.GH1641016@ziepe.ca>
+ <BN9PR11MB5276B99D4E8C6496B0C447888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260129-rkcif-null-v1-1-90788ec347f5@mainlining.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDQyNL3aLs5Mw03bzSnBzdtKRkg6RUE8M0C8NEJaCGgqLUtMwKsGHRsbW
- 1ANmOIxxcAAAA
-X-Change-ID: 20260129-rkcif-null-fbc0be41f81a
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Dang Huynh <dang.huynh@mainlining.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1769671444; l=2767;
- i=dang.huynh@mainlining.org; s=20250917; h=from:subject:message-id;
- bh=zwuni1NIWLOUNldNum/29rw5wXcipncI+6TVU+dBqWE=;
- b=wIYtmlfqWWg2ZFw0aeA6yi4Nwjk2B1O9WhYjf/CXk8eUng2Drp7i2s187kErrM01VmJ5gVnz9
- 6oeeruMSQDpCIkM7O2k1A3nI+nAQs3f90h+rjygQO56JG64RmvqZnnX
-X-Developer-Key: i=dang.huynh@mainlining.org; a=ed25519;
- pk=RyzH4CL4YU/ItXYUurA51EVBidfx4lIy8/E4EKRJCUk=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BN9PR11MB5276B99D4E8C6496B0C447888C9EA@BN9PR11MB5276.namprd11.prod.outlook.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mainlining.org,reject];
-	R_DKIM_ALLOW(-0.20)[mainlining.org:s=202507r,mainlining.org:s=202507e];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51763-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-51764-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[ziepe.ca,google.com,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[35];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dang.huynh@mainlining.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[mainlining.org:+];
+	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mainlining.org:email,mainlining.org:dkim,mainlining.org:mid]
-X-Rspamd-Queue-Id: 8FC6BAC957
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9B6A7ACD67
 X-Rspamd-Action: no action
 
-The pads missed checks for connected devices which may a null dereference
-when the stream is enabled.
+On Thu, Jan 29, 2026 at 07:06:37AM +0000, Tian, Kevin wrote:
+> > From: Jason Gunthorpe <jgg@ziepe.ca>
+> > Sent: Wednesday, January 28, 2026 12:28 AM
+> > 
+> > On Tue, Jan 27, 2026 at 10:58:35AM +0200, Leon Romanovsky wrote:
+> > > > > @@ -333,7 +359,37 @@ void vfio_pci_dma_buf_move(struct
+> > vfio_pci_core_device *vdev, bool revoked)
+> > > > >  			dma_resv_lock(priv->dmabuf->resv, NULL);
+> > > > >  			priv->revoked = revoked;
+> > > > >  			dma_buf_invalidate_mappings(priv->dmabuf);
+> > > > > +			dma_resv_wait_timeout(priv->dmabuf->resv,
+> > > > > +					      DMA_RESV_USAGE_BOOKKEEP,
+> > false,
+> > > > > +					      MAX_SCHEDULE_TIMEOUT);
+> > > > >  			dma_resv_unlock(priv->dmabuf->resv);
+> > > > > +			if (revoked) {
+> > > > > +				kref_put(&priv->kref,
+> > vfio_pci_dma_buf_done);
+> > > > > +				/* Let's wait till all DMA unmap are
+> > completed. */
+> > > > > +				wait = wait_for_completion_timeout(
+> > > > > +					&priv->comp, secs_to_jiffies(1));
+> > > >
+> > > > Is the 1-second constant sufficient for all hardware, or should the
+> > > > invalidate_mappings() contract require the callback to block until
+> > > > speculative reads are strictly fenced? I'm wondering about a case where
+> > > > a device's firmware has a high response latency, perhaps due to internal
+> > > > management tasks like error recovery or thermal and it exceeds the 1s
+> > > > timeout.
+> > > >
+> > > > If the device is in the middle of a large DMA burst and the firmware is
+> > > > slow to flush the internal pipelines to a fully "quiesced"
+> > > > read-and-discard state, reclaiming the memory at exactly 1.001 seconds
+> > > > risks triggering platform-level faults..
+> > > >
+> > > > Since the wen explicitly permit these speculative reads until unmap is
+> > > > complete, relying on a hardcoded timeout in the exporter seems to
+> > > > introduce a hardware-dependent race condition that could compromise
+> > > > system stability via IOMMU errors or AER faults.
+> > > >
+> > > > Should the importer instead be required to guarantee that all
+> > > > speculative access has ceased before the invalidation call returns?
+> > >
+> > > It is guaranteed by the dma_resv_wait_timeout() call above. That call
+> > ensures
+> > > that the hardware has completed all pending operations. The 1‑second
+> > delay is
+> > > meant to catch cases where an in-kernel DMA unmap call is missing, which
+> > should
+> > > not trigger any DMA activity at that point.
+> > 
+> > Christian may know actual examples, but my general feeling is he was
+> > worrying about drivers that have pushed the DMABUF to visibility on
+> > the GPU and the move notify & fences only shoot down some access. So
+> > it has to wait until the DMABUF is finally unmapped.
+> > 
+> > Pranjal's example should be covered by the driver adding a fence and
+> > then the unbounded fence wait will complete it.
+> > 
+> 
+> Bear me if it's an ignorant question.
+> 
+> The commit msg of patch6 says that VFIO doesn't tolerate unbounded
+> wait, which is the reason behind the 2nd timeout wait here.
 
-Unable to handle kernel NULL pointer dereference at virtual address
-0000000000000020
-pc : rkcif_interface_enable_streams+0x48/0xf0
-lr : rkcif_interface_enable_streams+0x44/0xf0
-Call trace:
- rkcif_interface_enable_streams+0x48/0xf0
- v4l2_subdev_enable_streams+0x26c/0x3f0
- rkcif_stream_start_streaming+0x140/0x278
- vb2_start_streaming+0x74/0x188
- vb2_core_streamon+0xe0/0x1d8
- vb2_ioctl_streamon+0x60/0xa8
- v4l_streamon+0x2c/0x40
- __video_do_ioctl+0x34c/0x400
- video_usercopy+0x2d0/0x800
- video_ioctl2+0x20/0x60
- v4l2_ioctl+0x48/0x78
+It is not accurate. A second timeout is present both in the
+description of patch 6 and in VFIO implementation. The difference is
+that the timeout is enforced within VFIO.
 
-Fixes: 501802e2ad51 ("media: rockchip: rkcif: add abstraction for dma blocks")
-Fixes: 85411d17bee9 ("media: rockchip: rkcif: add abstraction for interface and crop blocks")
-Signed-off-by: Dang Huynh <dang.huynh@mainlining.org>
----
-The RKCIF driver missed MEDIA_PAD_FL_MUST_CONNECT, which causes a null
-dereference when the stream starts if the links are misconfigured.
----
- drivers/media/platform/rockchip/rkcif/rkcif-interface.c | 3 ++-
- drivers/media/platform/rockchip/rkcif/rkcif-stream.c    | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> Then why is "the unbounded fence wait" not a problem in the same
+> code path? the use of MAX_SCHEDULE_TIMEOUT imply a worst-case
+> timeout in hundreds of years...
 
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-index 523103872b7a..414a9980cf2e 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-@@ -378,7 +378,8 @@ int rkcif_interface_register(struct rkcif_device *rkcif,
- 		snprintf(sd->name, sizeof(sd->name), "rkcif-mipi%d",
- 			 interface->index - RKCIF_MIPI_BASE);
- 
--	pads[RKCIF_IF_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-+	pads[RKCIF_IF_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
-+					MEDIA_PAD_FL_MUST_CONNECT;
- 	pads[RKCIF_IF_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE;
- 	ret = media_entity_pads_init(&sd->entity, RKCIF_IF_PAD_MAX, pads);
- 	if (ret)
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-index e00010a91e8b..201542b55f00 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-@@ -555,7 +555,7 @@ int rkcif_stream_register(struct rkcif_device *rkcif,
- 	vdev->vfl_dir = VFL_DIR_RX;
- 	video_set_drvdata(vdev, stream);
- 
--	stream->pad.flags = MEDIA_PAD_FL_SINK;
-+	stream->pad.flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT;
- 
- 	stream->pix.height = CIF_MIN_HEIGHT;
- 	stream->pix.width = CIF_MIN_WIDTH;
+"An unbounded fence wait" is a different class of wait. It indicates broken
+hardware that continues to issue DMA transactions even after it has been told to
+stop.
 
----
-base-commit: 3f24e4edcd1b8981c6b448ea2680726dedd87279
-change-id: 20260129-rkcif-null-fbc0be41f81a
+The second wait exists to catch software bugs or misuse, where the dma-buf
+importer has misrepresented its capabilities.
 
-Best regards,
--- 
-Dang Huynh <dang.huynh@mainlining.org>
+> 
+> and it'd be helpful to put some words in the code based on what's
+> discussed here.
 
+We've documented as much as we can in dma_buf_attach_revocable() and
+dma_buf_invalidate_mappings(). Do you have any suggestions on what else
+should be added here?
+
+Thanks
 
