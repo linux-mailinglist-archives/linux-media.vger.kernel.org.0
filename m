@@ -1,237 +1,257 @@
-Return-Path: <linux-media+bounces-51793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51794-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YDbEDprLe2lHIgIAu9opvQ
-	(envelope-from <linux-media+bounces-51793-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 22:05:30 +0100
+	id sLaoGGfSe2nrIgIAu9opvQ
+	(envelope-from <linux-media+bounces-51794-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 22:34:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE104B4749
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 22:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96FEB4D1F
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 22:34:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8775D304302C
-	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 21:04:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4EF7D30AEDEB
+	for <lists+linux-media@lfdr.de>; Thu, 29 Jan 2026 21:27:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F21F35CB64;
-	Thu, 29 Jan 2026 21:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10E9735C1B4;
+	Thu, 29 Jan 2026 21:26:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="fPt2W388";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="pos/8NoQ"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="UREoisG9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C873382C6;
-	Thu, 29 Jan 2026 21:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769720665; cv=none; b=GmgVHKMp4itlFXB/CvjjHRTUapZCpJCAQcslcNbf+LE8DB/t9AzFLIh0pvUsQpdg92bwrEIkhI1dgpERb3QEQV4kwEEqBz7My45qaiOO310viaW1D6G608Fer9q2n6TaHRdf6elmtOZDTLEij0bRTDLCSOvN7a98kkP/JQlHGlQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769720665; c=relaxed/simple;
-	bh=rJ/i9/uN2EK0cjzdE2r4ByzgxVlbvnIvR/OYT+0JQVk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hxL4lQ8Q3sDFGQmJdYmNca6UyRjysnbDSoIqGEvH8dY0CRHp17qeA4zc0KNim7Is48BIxLfY5rzcpCbsqM6s6Dgnl/PJKAI/+va3OyDk1K/uUmUbr2dxEWS0Si8gCzm6+WMFrFlynTbMnkRilM5X00bEEnnINu8bPbkKg9Kz8c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=fPt2W388; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=pos/8NoQ; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id C92D214000FC;
-	Thu, 29 Jan 2026 16:04:23 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 29 Jan 2026 16:04:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1769720663;
-	 x=1769807063; bh=vDz61CCGqyTd2ueQYq7Ind9S5sxFgNDCq0qSE3tAvzU=; b=
-	fPt2W388vtRo7ayaKEoqhFs1nFhGLnySqwnRo6OoM/EEZd/fl8ntd/4evCdZC1aI
-	f6/TjJRJ2BpbC2LOH6WQWR52LbYQ1HY3aVm2/vEOPpZwv3dWwOtk51isBBsT2RKx
-	LNvvohjp5uxKSbmqpICRwoShObSm+bg/aVCqYTw4RM6byBHq++20r40LXEt/Vyc1
-	t6CNexdpAoKqr8n1hNmIkLBopi48tUlAlFEzriEB22fppAN5DeB1KHIPQZgpcgSE
-	x5dTm8jF4zM1HXQbh63LT3ZUa7g1vvLXYUUIBAgzMiMgwyRng8Dbmdj5Mwba2nYU
-	L5u8fibgfsKWjpATTDISKA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1769720663; x=
-	1769807063; bh=vDz61CCGqyTd2ueQYq7Ind9S5sxFgNDCq0qSE3tAvzU=; b=p
-	os/8NoQ6cPF2X2PCWiTS5qhdLSdDy6W//1sP/QPIkuUhISM9SdW2winhh11n92IK
-	AhSgjdQyRnFh1doClqeddUGgei1ZPKj1uUkksibZFHh+q7QzMtdqkRwS818hkpWj
-	M2zrufzlyEsq6E8uRCfvWtlN1ftReS/Ipey7UQKKqQ7ZxRnYL73mwZ64G2q/KBDi
-	2r4q69QzY+Mk37qsPd53G0l9Okn/wIj2K/StQUos2qWsBEroLcWuStpngJH3vl6c
-	9Pwm3+Ri19Pv1AefbuK3pg0bZg/A17zQwvw/6n3h/i3i+IjiirKBWCoYkp2KVIq8
-	BomabllBv20xQNMH4zADw==
-X-ME-Sender: <xms:V8t7adYljAD27sU-OoX_zz4fif5AVpRrPitXg9r2Us5heKk0T2BKPQ>
-    <xme:V8t7aWTI4P0hgV5dTW5NTniY7OJGE9HarZNkv_x_doxnjdkWADM7pgKWiFeuKqLCo
-    jsM4XN4xBbz4jwgNeKdROr40GlMY8IipuT3JZtphZ0zyTkacaqo5g>
-X-ME-Received: <xmr:V8t7aUlnr4vVo5Z4KDsEA062hnNDmX7Yu8j0wBWpd8SGL3gBK5XD67zziB4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduieejvddvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpeetlhgvgicu
-    hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
-    htthgvrhhnpedvkeefjeekvdduhfduhfetkedugfduieettedvueekvdehtedvkefgudeg
-    veeuueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grlhgvgiesshhhrgiisghothdrohhrghdpnhgspghrtghpthhtohepfeegpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehlvghonheskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepshhumhhithdrshgvmhifrghlsehlihhnrghrohdrohhrghdprhgtphhtthhopegt
-    hhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrlhgvgi
-    grnhguvghrrdguvghutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheprghirhhlihgv
-    ugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpd
-    hrtghpthhtohepkhhrrgigvghlsehrvgguhhgrthdrtghomhdprhgtphhtthhopegumhhi
-    thhrhidrohhsihhpvghnkhhosegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepgh
-    hurhgthhgvthgrnhhsihhnghhhsegthhhrohhmihhumhdrohhrgh
-X-ME-Proxy: <xmx:V8t7aaLYLymEhWlbSeuIaPww935SeNPDVlZPXlInmQIdXBSdBAcwDg>
-    <xmx:V8t7aYo-5ahqoh-lBEhkgQXbAqDJUCbjG7hXS33mHpSjqoZrgBVudA>
-    <xmx:V8t7ad49AJLRPkYRKjdo-LZ7okMymbdSAv2VWRVBrvFAi0n38v_8UQ>
-    <xmx:V8t7aZZguCwrj-QEN9K87drbl4RRtIgZi6SL_KI98ZeXYNQgWh7Fsg>
-    <xmx:V8t7adw0DThKq4gLvaOf3PhP-CEQkYvUwrSMajwQtP6A6ztnNhBE8DKN>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Jan 2026 16:04:20 -0500 (EST)
-Date: Thu, 29 Jan 2026 14:04:20 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Ankit Agrawal <ankita@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v5 7/8] vfio: Permit VFIO to work with pinned importers
-Message-ID: <20260129140420.50d323a3@shazbot.org>
-In-Reply-To: <20260124-dmabuf-revoke-v5-7-f98fca917e96@nvidia.com>
-References: <20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com>
-	<20260124-dmabuf-revoke-v5-7-f98fca917e96@nvidia.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A1C2F5A28;
+	Thu, 29 Jan 2026 21:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769721966; cv=pass; b=hqpvggXoij3SN7tMvyCC2zQSwXeoafDvnaXAyYAZ4VS53iYNr2kreRl32ixO1eciBVvEcmOEOks7vLrTpJenPiGr8ot0Y5MW3pYIB141bOVTFufHoQHKxQF0WMKqz3xdzGqOjg827uuQ35qLvYgmKSBaYhRmB8l3XKrwY9uFDPQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769721966; c=relaxed/simple;
+	bh=BHYn+DrKdS8gMpqMTd9IBvd43kuZUvW+2jj3ckgrS/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cNDHrwv3ooW4O8E9FOVB3MRJq2s3TXnuFM7aiRtnkjF6t8pmeKNjHCe75V87InGkLhAHodz8XCUYIOBOJokFmIshYAx8JGzuj2s4SxZbI1iM5OzCXt5NZlA8Zs3Ubf9vARVl9HTFv9IHqbTvP6NKHzAQoxkjXTf+gEY9Rsss8OE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=UREoisG9; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4f2BnB5CVfz49Q4q;
+	Thu, 29 Jan 2026 23:17:50 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1769721471;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Px9ArMU72eS2DZM6sPnYMvj/HAEcdGN5InvjqFpwDC8=;
+	b=UREoisG9DpMBG+PQYXlzQPjNIXY2btn6SjY22IznoxI+9xIMp4+MmP+IS7zw6/XoCmEnuM
+	rbWgmoDuh3SQAx2I9gT5r127Laz/69ZpDBQe9GPPGuXGoW+ltM1hnOkHZsG3zLnJXW41rx
+	4JG4OkFPJPNUxO66SXzAEmMeliLVOiY3hhK4FsYCRbkXNxJUoBVOelapr6NX0shDFaJSJ1
+	P+5hB8SVdN7MGJguxxPm6CeshSmuvb7hdIrPMTtZMAJEJDI+fgOjCbd339gJTPRH8lQYvz
+	56ukeE7ZTfkG8polAoY5OwLayiS2cVhe3+bp6n2q9r0ffwziQ+o9nNYOON7jWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1769721471;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Px9ArMU72eS2DZM6sPnYMvj/HAEcdGN5InvjqFpwDC8=;
+	b=Ivo+uxOo3Dl46yW2BZfurDMcUOTkMD24FoAjn9+WExPKg3tgPVMwVsCtlgusmyxIlrdTI/
+	5CNygxcRhlb16kVU44AhxJo8Ky9Qdqkd2yUMDbBp3oCFBH+/24YMbXYZsy1AzzbjNIC3Pc
+	a4BGJl0tfsoCtyAx/Qj/WoWV0/jlIfcUPGkhIShjX6hVVaM6xTIIuA4HS6eswMV8pis415
+	DUHI8oXVAOHXv4ANRUYkAQjGsGJY/fpQO/XwXeyrfr49J7UYh369FSGcXz4n6RwuCqc4qv
+	wO/lceCSytSf7ccxVm+KMPmaELDtk2GZ50MdPMmimE8rkPY5LKXodah51bFrrA==
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1769721471;
+	b=l5dlvQvb4vAtUz52veLN04B6lPIrR5dYNrkywxy/BRmYxxjZkC5aA7oQix8SrGpyPY6F8E
+	4AazpdttwFZTgr+vWWRcefKiLRRsKRicE6nE8fJ8SD0kyBDOiSI7Jp5FGrx1Mlae9dmCWo
+	D21teKh9HOwY8PzTnfmgS9GAnfBWCLxoAhQMl0ojNfmOkW6aKsCcKZpllAaJ+lY2lllCQQ
+	gR1GBoU0YSK+JyZzirOtJibJ9cO/Etozja/Y4lQZl/VBT81YUYe7ObmOsHJ1Xa1/xge1YR
+	0X0AXVyRSNO0BXd/vgXdnqDb5J5U+eEjClCEh/dRPzuxfk5sHH1DnCbNjYJfOg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2793B634C50;
+	Thu, 29 Jan 2026 23:17:50 +0200 (EET)
+Date: Thu, 29 Jan 2026 23:17:49 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: "Du, Bin" <bin.du@amd.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+	"laurent.pinchart+renesas@ideasonboard.com" <laurent.pinchart+renesas@ideasonboard.com>,
+	"bryan.odonoghue@linaro.org" <bryan.odonoghue@linaro.org>,
+	"prabhakar.mahadev-lad.rj@bp.renesas.com" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"sultan@kerneltoast.com" <sultan@kerneltoast.com>,
+	"Nirujogi, Pratap" <Pratap.Nirujogi@amd.com>,
+	"Chan, Benjamin (Koon Pan)" <Benjamin.Chan@amd.com>,
+	"Li, King" <King.Li@amd.com>,
+	"Rosikopulos, Gjorgji" <Gjorgji.Rosikopulos@amd.com>,
+	"Jawich, Phil" <Phil.Jawich@amd.com>,
+	"Antony, Dominic" <Dominic.Antony@amd.com>,
+	"Limonciello, Mario" <Mario.Limonciello@amd.com>,
+	"Gong, Richard" <Richard.Gong@amd.com>,
+	"Tsao, Anson" <anson.tsao@amd.com>,
+	Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>,
+	Alexey Zagorodnikov <xglooom@gmail.com>
+Subject: Re: [PATCH v7 5/7] media: platform: amd: isp4 video node and buffers
+ handling added
+Message-ID: <aXvOfXNn2gGsmkfg@valkosipuli.retiisi.eu>
+References: <20251216091326.111977-1-Bin.Du@amd.com>
+ <20251216091326.111977-6-Bin.Du@amd.com>
+ <aUl61d5mQq2ep8qE@kekkonen.localdomain>
+ <f62729ba-a271-4f3f-a929-4f07ae3368b2@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f62729ba-a271-4f3f-a929-4f07ae3368b2@amd.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_DKIM_ALLOW(-0.20)[iki.fi:s=lahtoruutu];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-51793-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-51794-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[shazbot.org:+,messagingengine.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,linux-media@vger.kernel.org];
+	DMARC_NA(0.00)[iki.fi];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,xs4all.nl,ideasonboard.com,linaro.org,bp.renesas.com,vger.kernel.org,kerneltoast.com,amd.com,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_TRACE(0.00)[iki.fi:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[shazbot.org:email,shazbot.org:dkim,shazbot.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email,messagingengine.com:dkim]
-X-Rspamd-Queue-Id: AE104B4749
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iki.fi:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,valkosipuli.retiisi.eu:mid]
+X-Rspamd-Queue-Id: B96FEB4D1F
 X-Rspamd-Action: no action
 
-On Sat, 24 Jan 2026 21:14:19 +0200
-Leon Romanovsky <leon@kernel.org> wrote:
+Hi Bin,
 
-> From: Leon Romanovsky <leonro@nvidia.com>
+On Fri, Jan 09, 2026 at 06:08:00PM +0800, Du, Bin wrote:
+> > > +static const struct vb2_mem_ops isp4vid_vb2_memops = {
+> > > +	.alloc		= isp4vid_vb2_alloc,
+> > > +	.put		= isp4vid_vb2_put,
+> > > +#ifdef CONFIG_HAS_DMA
+> > > +	.get_dmabuf	= isp4vid_vb2_get_dmabuf,
+> > > +#endif
+> > > +	.map_dmabuf	= isp4vid_vb2_map_dmabuf,
+> > > +	.unmap_dmabuf	= isp4vid_vb2_unmap_dmabuf,
+> > > +	.attach_dmabuf	= isp4vid_vb2_attach_dmabuf,
+> > > +	.detach_dmabuf	= isp4vid_vb2_detach_dmabuf,
+> > > +	.vaddr		= isp4vid_vb2_vaddr,
+> > > +	.mmap		= isp4vid_vb2_mmap,
+> > > +	.num_users	= isp4vid_vb2_num_users,
+> > > +};
+> > 
+> > Could you elaborate a bit why do you need your own videobuf mem ops?
+> > 
 > 
-> Till now VFIO has rejected pinned importers, largely to avoid being used
-> with the RDMA pinned importer that cannot handle a move_notify() to revoke
-> access.
-> 
-> Using dma_buf_attach_revocable() it can tell the difference between pinned
-> importers that support the flow described in dma_buf_invalidate_mappings()
-> and those that don't.
-> 
-> Thus permit compatible pinned importers.
-> 
-> This is one of two items IOMMUFD requires to remove its private interface
-> to VFIO's dma-buf.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/vfio/pci/vfio_pci_dmabuf.c | 15 +++------------
->  1 file changed, 3 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> index 485515629fe4..3c8dc56e2238 100644
-> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> @@ -22,16 +22,6 @@ struct vfio_pci_dma_buf {
->  	u8 revoked : 1;
->  };
->  
-> -static int vfio_pci_dma_buf_pin(struct dma_buf_attachment *attachment)
-> -{
-> -	return -EOPNOTSUPP;
-> -}
-> -
-> -static void vfio_pci_dma_buf_unpin(struct dma_buf_attachment *attachment)
-> -{
-> -	/* Do nothing */
-> -}
-> -
->  static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
->  				   struct dma_buf_attachment *attachment)
->  {
-> @@ -43,6 +33,9 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
->  	if (priv->revoked)
->  		return -ENODEV;
->  
-> +	if (!dma_buf_attach_revocable(attachment))
-> +		return -EOPNOTSUPP;
-> +
->  	return 0;
->  }
->  
-> @@ -107,8 +100,6 @@ static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
->  }
->  
->  static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
-> -	.pin = vfio_pci_dma_buf_pin,
-> -	.unpin = vfio_pci_dma_buf_unpin,
->  	.attach = vfio_pci_dma_buf_attach,
->  	.map_dma_buf = vfio_pci_dma_buf_map,
->  	.unmap_dma_buf = vfio_pci_dma_buf_unmap,
-> 
+> Sure, ISP FW/HW can access system memory only via GPU VA, not system VA, so
+> vb2_vmalloc_memops can't be used directly, we need to base on it to
+> implement our own videobuf mem ops to support both GPU VA and system VA.
 
-I'm not sure what the merge plan is for the remaining patches, but I'll
-toss my ack in so that it can all go through Christian's tree if he
-prefers.  Thanks
+It's fine to use other virtual addresses than system ones (a lot of other
+drivers do in fact, e.g. IPU6), you generally don't need to add new memory
+types for this.
 
-Reviewed-by: Alex Williamson <alex@shazbot.org>
+...
 
+> > > +struct isp4vid_capture_buffer {
+> > > +	/*
+> > > +	 * struct vb2_v4l2_buffer must be the first element
+> > > +	 * the videobuf2 framework will allocate this struct based on
+> > > +	 * buf_struct_size and use the first sizeof(struct vb2_buffer) bytes of
+> > > +	 * memory as a vb2_buffer
+> > > +	 */
+> > > +	struct vb2_v4l2_buffer vb2;
+> > > +	struct isp4if_img_buf_info img_buf;
+> > > +	struct list_head list;
+> > > +};
+> > > +
+> > > +struct isp4vid_ops {
+> > > +	int (*send_buffer)(struct v4l2_subdev *sd,
+> > > +			   struct isp4if_img_buf_info *img_buf);
+> > 
+> > Is there a reason why isp4sd_ioc_send_img_buf() isn't called directly?
+> > 
+> 
+> In our design, isp4sd serves as the upper layer of video. Therefore, isp4sd
+> can directly call functions within video, but not vice versa, This callback
+> mechanism is implemented to support the call from video to isp4sd by
+> indirect way.
+
+You still have a single module, don't you? Thus you can make a direct
+function call. Only use a callback pointer when you actually need one.
+
+> 
+> > > +};
+> > > +
+> > > +struct isp4vid_dev {
+> > > +	struct video_device vdev;
+> > > +	struct media_pad vdev_pad;
+> > > +	struct v4l2_pix_format format;
+> > > +
+> > > +	/* mutex that protects vbq */
+> > > +	struct mutex vbq_lock;
+> > > +	struct vb2_queue vbq;
+> > > +
+> > > +	/* mutex that protects buf_list */
+> > > +	struct mutex buf_list_lock;
+> > > +	struct list_head buf_list;
+> > > +
+> > > +	u32 sequence;
+> > > +	bool stream_started;
+> > > +
+> > > +	struct media_pipeline pipe;
+
+You might not need this for the time being at least.
+
+> > > +	struct device *dev;
+> > > +	struct v4l2_subdev *isp_sdev;
+> > > +	struct v4l2_fract timeperframe;
+> > > +
+> > > +	/* Callback operations */
+> > > +	const struct isp4vid_ops *ops;
+> > > +};
+> > > +
+> > > +int isp4vid_dev_init(struct isp4vid_dev *isp_vdev,
+> > > +		     struct v4l2_subdev *isp_sdev,
+> > > +		     const struct isp4vid_ops *ops);
+> > > +
+> > > +void isp4vid_dev_deinit(struct isp4vid_dev *isp_vdev);
+> > > +
+> > > +void isp4vid_handle_frame_done(struct isp4vid_dev *isp_vdev,
+> > > +			       const struct isp4if_img_buf_info *img_buf);
+> > > +
+> > > +#endif /* _ISP4_VIDEO_H_ */
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
