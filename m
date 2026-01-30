@@ -1,163 +1,179 @@
-Return-Path: <linux-media+bounces-51867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51868-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SK5oKGkZfWkhQQIAu9opvQ
-	(envelope-from <linux-media+bounces-51867-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 21:49:45 +0100
+	id eMy1KF00fWntQgIAu9opvQ
+	(envelope-from <linux-media+bounces-51868-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 23:44:45 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF889BE8A8
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 21:49:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD04BF355
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 23:44:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 46EA13008C96
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 20:49:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3DD7630416DE
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 22:43:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42D5D352C2C;
-	Fri, 30 Jan 2026 20:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3103A38A9D4;
+	Fri, 30 Jan 2026 22:43:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yblp5FWj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fU6RJGSP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3F930BF7D
-	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 20:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D5038A9BF;
+	Fri, 30 Jan 2026 22:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769806176; cv=none; b=OoaBM//XnaIVYw12icoNRdSGbFS87pWglz5wRG5wPv784z6DPtC2PoDEN63oqupXjvFw/dpv8rgKrt+gSUaBP09mxfvFp91rA21on8IRCsh64cWDBXhZnVMk2qJk6Ft0CU2JeQDAxZoHvM2coG7g7HH5smVK5s2ZYdnOBJhceqk=
+	t=1769812992; cv=none; b=a2V6Y0gR1Wr/C3kCyqBY2VrRPO1JD6Ph9F+OWbsLI4n1hm3n32h9tnN2JujAVrlLbtDntopakMvOFzVoc30C98GpIrP6RqFyyTGUsg2lUTFhppkaV5en3u+FK0j7POlzkafK849pjMpn1kfNcIvcCumW6Kwf7KV0UxFDP+sbjm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769806176; c=relaxed/simple;
-	bh=p2zMY3aPCZIvVq+H6srT704qSlr77gldmtNczAYXxi8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ldv0l2ssAf5FqMu+sf0c3mW8GX5GTHbCkVFaR1ERrObXK5W3lVZTdrXY/k6gKbxH18YrLxVlJfY5aapDqHJnFG8GONnZ44FOaFjVtH5Gy7spGTIGaFxnakUjgFMuHItZS+SUBFGU55QnXllU4KKQWXmpi1KljrNHV+aIpL79TQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yblp5FWj; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2b703e04984so141323eec.3
-        for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 12:49:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769806175; x=1770410975; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e6CpvZFNYPfcLlyPGQOHHlGwc6V5tahEaj7nU7bw5qc=;
-        b=Yblp5FWjAZuvGIwzq2IVYby/bYWWw+kaebq7Nw09hjphFIpH4KdgzQyiETP7bSXAwn
-         fRE0yscRBorX38B2NKqr0mSFZMfvPcfKqloMtYYwEaOwP2sC/6NOxZOJd6+9qFPm6w+8
-         jSN/MgpzMWuomE07tiVr/RKJtq6nq+o6vTvxOPHRRE8otJL23cFBR/Q3KqJmXEKVaGrV
-         +2NkTy6F1xZMOXaTDusAjfvzwzMmCmIFYtNKR3YLGqiSM/LACqqTU3fUXWV7pwZ+5X1P
-         47AQhve7HE+UeXRZqvUfnQI0eXGmbnzqewLFAM45j36aVUS6qWElzv8NaldEy5lvPEcb
-         QQvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769806175; x=1770410975;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e6CpvZFNYPfcLlyPGQOHHlGwc6V5tahEaj7nU7bw5qc=;
-        b=IlS8qJB5vP0TFNka18WCAGFCH92E3pJiPuK+UpxxXOkcB5cdVmFTNPvTlU+FN1I51n
-         T+dHEWfCbdcwAnCl0qTp2iabJd438jFWyN6IjnmleLVedIbX4jPjYP8kcsooM4hUxhhi
-         C0qBrqZb9aZrsN//xIbgg6n1voXf+vs6FV26+97uUl9jSsHxctiqk63wfyV+vx5fIVWp
-         obGP5ZHNIWkw9Of3JXi8LjVHkpJ+hJChGTkZk03l4oN8T8kKq7vmGpfWV+qTGQS4syTg
-         OP+y+oXe7WD6KRgmjpMX7FXERzpeTt+2EL0jvPfOvBJCqi2ewCQhpAGnnO4+oBP2iiEz
-         D6fA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2Xyw8RJ/oLtMUHhqCceyPEeiud/FszZiQS4RADR6y6JyRqOzVfNMF143IRdRSBbDtylt5k9LGXbvnZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUrmjeF/VTAI0ywrP+H3FGKci1HqDi9i2ya/qA0nKNDgHD3jUG
-	VUcCNdiPHwFKSvqfqKhlO6Id5VFClYh41Wv/oVk71IxwtDnxw/7jmBXY
-X-Gm-Gg: AZuq6aLMzIRnO8TyDDAa3ubY536VGcC18UEuqTXhbZ4m4HnG8W/zHiK1pPejytmFWIa
-	KtRAcSbdvRsF28DeoHoyWk1D4wlXKi67jKzEY8BhU9akkKjI0eVvYgbBZmkGXt+3TitvxtkbdEG
-	EYO+U23NsRA96dSxTq5bcQgBXI43yOkL7XmFr7fbM8Vh48EqfsznjmI2BXnb7LtXagO7C8Y+DWb
-	wOto4eAx2+lNv/uhSOApFOhFaBb92yQz4ZRfNhWn/29TigSbcWyT/4trwdywKK8mqJgHrZQMKM6
-	avmDLBCPaZOL1YT4kpNxg8pWDwNoz04jPh9E4mXCXwiASJbpHmN2cVB88Q3/H/EM0Cmqomu3cpP
-	+2OTxxY9ZWLL7rRReV+aCnLW2g7cZESKO8PNYh8Gc/JQiIx3rrXWozYQ4Ef07tKa1u5ecmxNoQA
-	pVUMSM
-X-Received: by 2002:a05:7022:41e:b0:11b:ad6a:6e39 with SMTP id a92af1059eb24-125c100d211mr1072667c88.5.1769806174567;
-        Fri, 30 Jan 2026 12:49:34 -0800 (PST)
-Received: from localhost ([2802:8012:29:1100:899:eb0:bfbe:884f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-124a9de948esm12981470c88.9.2026.01.30.12.49.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 12:49:34 -0800 (PST)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: kernel-list@raspberrypi.com,
-	mchehab@kernel.org,
-	florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	rjui@broadcom.com,
-	sbranden@broadcom.com,
-	linux-media@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: gascoar@gmail.com
-Subject: [PATCH 2/2] media: bcm2835-unicam: remove reference to dropped driver in Kconfig
-Date: Fri, 30 Jan 2026 17:45:43 -0300
-Message-ID: <20260130204628.312246-5-gascoar@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260130204628.312246-1-gascoar@gmail.com>
-References: <20260130204628.312246-1-gascoar@gmail.com>
+	s=arc-20240116; t=1769812992; c=relaxed/simple;
+	bh=9vt/KWf0ClAcghSMvVKAo3o70Sm0WkeC1kfJnzEifBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HFGnLg3sP/gFJ5AOy6kNsjSHMqGTUdqQ/3aPPFKPPypECUmLdCwQTgmQdjHiYEQM1xF3RPy9Ap9gd6zr4Pbp5mo6zFhT73Ml1jCyUL4mzTjdrhrdtsiVNfqprR+wO28gwQfI1Cc11VSfLpuacnzgIQsm+7wKrp2wKYPNjdtzsFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fU6RJGSP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 13E5F22F;
+	Fri, 30 Jan 2026 23:42:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769812944;
+	bh=9vt/KWf0ClAcghSMvVKAo3o70Sm0WkeC1kfJnzEifBs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fU6RJGSPKIlbpF/tLhXT5lSMw2jEyLRVAx3JYazvkzQVZTjjn2nnLhtg9pPH303Po
+	 CxdhqM9FawM8SJrtFHLdJKycX2jkGo2Fvr/DmWGqkVwiFP5bQh31do4Z3KpQQmDgB/
+	 10n4n3cwuri0Wftc//KNpfdQzX63yw8c6YgLANII=
+Date: Sat, 31 Jan 2026 00:43:01 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dang Huynh <dang.huynh@mainlining.org>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Michael Riesch <michael.riesch@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rockchip: rkcif: Add missing MUST_CONNECT flag to
+ pads
+Message-ID: <20260130224301.GS3374091@killaraus>
+References: <20260129-rkcif-null-v1-1-90788ec347f5@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260129-rkcif-null-v1-1-90788ec347f5@mainlining.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-51867-lists,linux-media=lfdr.de];
-	TO_DN_NONE(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gascoar@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-51868-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: CF889BE8A8
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0AD04BF355
 X-Rspamd-Action: no action
 
-The bcm2835-camera driver was dropped in commit <90204a38a760>.
-Remove the paragraph in Kconfig making reference to it.
+On Thu, Jan 29, 2026 at 02:24:02PM +0700, Dang Huynh wrote:
+> The pads missed checks for connected devices which may a null dereference
+> when the stream is enabled.
+> 
+> Unable to handle kernel NULL pointer dereference at virtual address
+> 0000000000000020
+> pc : rkcif_interface_enable_streams+0x48/0xf0
+> lr : rkcif_interface_enable_streams+0x44/0xf0
+> Call trace:
+>  rkcif_interface_enable_streams+0x48/0xf0
+>  v4l2_subdev_enable_streams+0x26c/0x3f0
+>  rkcif_stream_start_streaming+0x140/0x278
+>  vb2_start_streaming+0x74/0x188
+>  vb2_core_streamon+0xe0/0x1d8
+>  vb2_ioctl_streamon+0x60/0xa8
+>  v4l_streamon+0x2c/0x40
+>  __video_do_ioctl+0x34c/0x400
+>  video_usercopy+0x2d0/0x800
+>  video_ioctl2+0x20/0x60
+>  v4l2_ioctl+0x48/0x78
+> 
+> Fixes: 501802e2ad51 ("media: rockchip: rkcif: add abstraction for dma blocks")
+> Fixes: 85411d17bee9 ("media: rockchip: rkcif: add abstraction for interface and crop blocks")
+> Signed-off-by: Dang Huynh <dang.huynh@mainlining.org>
+> ---
+> The RKCIF driver missed MEDIA_PAD_FL_MUST_CONNECT, which causes a null
+> dereference when the stream starts if the links are misconfigured.
 
-Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
----
- drivers/media/platform/broadcom/Kconfig | 5 -----
- 1 file changed, 5 deletions(-)
+The change looks fine,
 
-diff --git a/drivers/media/platform/broadcom/Kconfig b/drivers/media/platform/broadcom/Kconfig
-index 32b76ebfcd9a..93ba565d9a02 100644
---- a/drivers/media/platform/broadcom/Kconfig
-+++ b/drivers/media/platform/broadcom/Kconfig
-@@ -14,10 +14,5 @@ config VIDEO_BCM2835_UNICAM
- 	  This is a V4L2 driver that controls the CSI-2 receiver directly,
- 	  independently from the VC4 firmware.
- 
--	  This driver is mutually exclusive with the use of bcm2835-camera. The
--	  firmware will disable all access to the peripheral from within the
--	  firmware if it finds a DT node using it, and bcm2835-camera will
--	  therefore fail to probe.
--
- 	  To compile this driver as a module, choose M here. The module will be
- 	  called bcm2835-unicam.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I'd like a review from Michael though.
+
+> ---
+>  drivers/media/platform/rockchip/rkcif/rkcif-interface.c | 3 ++-
+>  drivers/media/platform/rockchip/rkcif/rkcif-stream.c    | 2 +-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
+> index 523103872b7a..414a9980cf2e 100644
+> --- a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
+> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
+> @@ -378,7 +378,8 @@ int rkcif_interface_register(struct rkcif_device *rkcif,
+>  		snprintf(sd->name, sizeof(sd->name), "rkcif-mipi%d",
+>  			 interface->index - RKCIF_MIPI_BASE);
+>  
+> -	pads[RKCIF_IF_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
+> +	pads[RKCIF_IF_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
+> +					MEDIA_PAD_FL_MUST_CONNECT;
+>  	pads[RKCIF_IF_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE;
+>  	ret = media_entity_pads_init(&sd->entity, RKCIF_IF_PAD_MAX, pads);
+>  	if (ret)
+> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
+> index e00010a91e8b..201542b55f00 100644
+> --- a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
+> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
+> @@ -555,7 +555,7 @@ int rkcif_stream_register(struct rkcif_device *rkcif,
+>  	vdev->vfl_dir = VFL_DIR_RX;
+>  	video_set_drvdata(vdev, stream);
+>  
+> -	stream->pad.flags = MEDIA_PAD_FL_SINK;
+> +	stream->pad.flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT;
+>  
+>  	stream->pix.height = CIF_MIN_HEIGHT;
+>  	stream->pix.width = CIF_MIN_WIDTH;
+> 
+> ---
+> base-commit: 3f24e4edcd1b8981c6b448ea2680726dedd87279
+> change-id: 20260129-rkcif-null-fbc0be41f81a
+
 -- 
-2.52.0
+Regards,
 
+Laurent Pinchart
 
