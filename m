@@ -1,203 +1,243 @@
-Return-Path: <linux-media+bounces-51824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51825-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KI5hGnqpfGnuOAIAu9opvQ
-	(envelope-from <linux-media+bounces-51824-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 13:52:10 +0100
+	id SKAqEMCpfGkaOQIAu9opvQ
+	(envelope-from <linux-media+bounces-51825-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 13:53:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74B6BAB90
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 13:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98DC5BABCD
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 13:53:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 39E88304CA7E
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 12:49:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0161F30740D2
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 12:50:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9679037F0F1;
-	Fri, 30 Jan 2026 12:49:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F34CA37F102;
+	Fri, 30 Jan 2026 12:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hgh/ySsu";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B/D3TUrz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHEGwcVk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE96537F0F3
-	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 12:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72347376BF8
+	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 12:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769777366; cv=none; b=H0XgEXx8Tubl1ZDHekwOd2Wk80x7woEqXVmyKO4+WZ+Okp25jql5yUgmFbvL91QWDTxiTdBsrtzg/LvEitbthhErkLWv4oXKQDiyJeOUGu5X4rhztLx0MSE5QqLSVVBLExdr/ptKuQ2yczhfWtewf18x3wg0jWgQMiYjygcDjR4=
+	t=1769777398; cv=none; b=CcTcrZY1OWHtqXRHT5icLsbwm8W0OpEmEk/5eVpwsgYfOqRVpYXjExhs7kPKdO1XuzmNMsnZpo+IwVodGvA62SJgygKNcXaTuubjnOptuj/TBNaj4RrxMQbQlZ9M8RUmN9IemDKH3pSwxrO8g4epnHzV8B2kAE3C/cpCmHhdT4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769777366; c=relaxed/simple;
-	bh=K+iBHGVfK1+Z96SDFvc/aRLaNcnv+Zzn7na8mPRopKU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TAH2ZHzreph1GQCu+v2vRhEab7pFJ6qkf9jirvXpCfqCSExk4Vz1AfpVManDJYRVH4PNubxLfvysmDCSoMJkOu4Bh87HUPhjH48pC/rCUa+VJ28Fb3+d+DRG/+oChKdBskTMIq9EEI0RCOox/URS/PY9bRcaCStLCH/iptbUqGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hgh/ySsu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=B/D3TUrz; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60UAwA3v1488294
-	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 12:49:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	yoR9Gqm/yFZjJ8eRAFItY0g4nyGdiEiUyHMrr9c4s8Q=; b=hgh/ySsuSv/wARBY
-	5BjEzvP7KChP33QndGEej+gDSH33SLEKMfuWI5EftQQUFIRwFuAENV9wdfCn4+ZL
-	ZNGHzDlH0WlOAiQLKhQvlzPHR2+2VCv25J2/SJ3Tt2+WEaJdNGThAN3IhRIba01Z
-	3Ersb1iVg1tORqhfFuhgl3TqBPl906b9UAj3kt3pbCCw5sOf9RCOmbCbscpMKdIJ
-	4HCcFSZmmGkt843ZFndD/hlbqCgCuDgOvI30VEm2FHRi4uquiECLjIVrkEIh76vE
-	AkwrO/1iPOcTEUAL+E/IHENSrZZdFKFAEymJ6FCmkQrGGzMWU8lxVbzeGnreT2fD
-	V7siUA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c0bp3u74a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 12:49:24 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2a863be8508so29289985ad.2
-        for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 04:49:24 -0800 (PST)
+	s=arc-20240116; t=1769777398; c=relaxed/simple;
+	bh=HoHrBtYNXY/SaE9OzlXfq5/j1Mx321YZxOI1YdRsAkA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RXCj1ouRq3YJ6k4KDBGU+MEgJ6WlNEWAQ32yxRfasC96dWke/tHpce3+czrqXsysyX7RsDHljhXr9/Ci9T2dTqYBmgJs/gnCPKH8rCUFGFhP4lIYb2U7b1v3B9xhWqFQBkHJ7bQ0NXYX95ceRHJmLpUs7JfV283E2P14Ji0Q6YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHEGwcVk; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43590777e22so1320379f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 04:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1769777363; x=1770382163; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yoR9Gqm/yFZjJ8eRAFItY0g4nyGdiEiUyHMrr9c4s8Q=;
-        b=B/D3TUrz3OjrhIMPAKeJJ89SrMoVLeozIqKccFYjDBUQw8eh/cVi+rlUBkHNSLs6N4
-         jZRNCaO8kP2F8AjEVVhnwCDTYGODFSl4+x0ok31VPz8Jv8M70Z4c23+q7FozfPgELrQ9
-         7WeBjS5EeFILr17eSR4O1HmbE/QGBgJ043nHsF406BjhuF0diQz19VamMKNA8YawK/S3
-         9SI3xzjgYKt9FeZDI68nxNTYQdKJVo5Pfn7i4E/0oS/pcg5+L3bg1x1feehO6z98q4hq
-         L6OQSABOI//bJc5aMdVMT0Oxo86VqQtiQy6aoI6aHeE5iZp63SIks6odHHkC1vws7nfH
-         0abw==
+        d=gmail.com; s=20230601; t=1769777395; x=1770382195; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j5acCy6OTSjM6pJSucEyPYN85YsF77rdFjU9Wvmbua0=;
+        b=RHEGwcVkxtDpG6TYt6FoPFUjzn28eJE8NYOtHvo2cResc+ujOxXeloni3SGqcd+W6F
+         MEn3jrDFGxDtluO1XaUGnpq8QZoXYH7QXQlSh61QJSVsiy7rLT3PvdaZ0okLLB7lmpxt
+         dEM90+LehMWguZJP5+FVaQhbZF43J0jpzNEg0WUnd5u41Ebja1SxcapGHdJFOBDLgC5Z
+         VuYoDIlvicfkeRuVj95Zikj5kE47Pzhc+xIKHE7a/SgbOSplCu7VegAMr0nrC7pSknl/
+         vf11QhClv1TfRxWtgEmZnSXli42cViUR+ORL5zqvM+Bur6752uppQkdnPQWfz86Z28zj
+         x0ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769777363; x=1770382163;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yoR9Gqm/yFZjJ8eRAFItY0g4nyGdiEiUyHMrr9c4s8Q=;
-        b=HIau5pcsCyPzJrXWXIliTtTcfiDmFzTaYhBdO6l5uB0/IziHJ8SD8yMtp1nk37gj3L
-         buvK586uDvfhNxpc6H1WBTxL95A3P9bdQYc2iVxzKWcr0Q/kaI+HdCINi/iIVmTrX5dz
-         jfO8Ox2fNUqxRLbYOb9KgzvAKp8IJ+Hbo5BtmuP3YJVGsNGHz5dY5VOEthYnCkfIEwyE
-         T1XJHbTCvP5fmN+F2URkNWcKKPzyvLkfa4+/hmy2w4abBqBo7kIzuPujqv70dm7Ucqq0
-         VDd3ehPly8q7Fb6r2NK2cXSSeTFsWG7I7wixjOD4dy7VCQsei1723ByVuU6BLRky4XgD
-         5uYg==
-X-Gm-Message-State: AOJu0YzCkLl73tyrhajFeTOIvAZ+falCdVd0AYz/7vH7QaMWIMACDmfX
-	DKa5VW39Vz3rAOcf4hzR37wZKOpNiIAxs4P/8vHmhPaCjGiqb7jFtQT72MrMmXRZhoro2Fm6Eso
-	NlDnIXzmTyDzG6TbKVSGOuTnCp4OFUCjGfxj+HMvM64oYEmokBupf8zItxsvAxXfedzzHdluo8A
-	==
-X-Gm-Gg: AZuq6aK+qeQj7O66j0C5jv4/N1gxPAxT29mgSOTprB2MIHbJ6ijInDW/TR6QleKXtdT
-	Jkcf0uC3yYF34ypcLw4R3Ss1h17i6ltVMSaI1ZfXmjtey+LauRZRLUkFA7kOqByIcrjIqD9VZd3
-	QvJG58N4TRt5MsLCLHW6ZlNvdiBrF6RBC03iuGHDfs5UgWcu4ewtoqnXAiYn+LheleNpLuiN6z4
-	yfSwjPAADae6+3FlOUUyLb2vmFrJwROZRVNbnQjmGaM2/myRRPILuagXuk3mOuqj8f7ySZQYWTJ
-	S2alR9JY4v+0dxcxHffQVL8N+Z0YdybBHnc5C7esHDszX5QxfbqubBdwieIoqFxljnHkzipQCHM
-	B7gMk/iK68M2U/M+5Nxr/5NMKCvtx0kaZJ9nHSG4=
-X-Received: by 2002:a17:903:984:b0:2a1:3cd9:a739 with SMTP id d9443c01a7336-2a8d81667f8mr32460015ad.43.1769777363358;
-        Fri, 30 Jan 2026 04:49:23 -0800 (PST)
-X-Received: by 2002:a17:903:984:b0:2a1:3cd9:a739 with SMTP id d9443c01a7336-2a8d81667f8mr32459595ad.43.1769777362791;
-        Fri, 30 Jan 2026 04:49:22 -0800 (PST)
-Received: from [10.0.0.3] ([106.222.235.0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b4c3b1esm73225085ad.63.2026.01.30.04.49.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jan 2026 04:49:22 -0800 (PST)
-Message-ID: <906e19fa-28cd-acc2-dec0-7833f672602b@oss.qualcomm.com>
-Date: Fri, 30 Jan 2026 18:19:15 +0530
+        d=1e100.net; s=20230601; t=1769777395; x=1770382195;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j5acCy6OTSjM6pJSucEyPYN85YsF77rdFjU9Wvmbua0=;
+        b=jZDG3KJ92xpn5NSghqjRip6DGkQ2bVquuPog/zRVOki6WPv8qHan4M01ag0x0XGzhE
+         RYxuMt3I+MAamabtHT7yqcCuDELV9X4u2FeEHkl+pskT0uisVFrZ6BVsz4AgD4gL18dW
+         KPhuFv1pWdCIMBQ4OC2YkxnP9fo1mTDenhSke+0lle9ciLv/v4slpHf5OZWGJism+Occ
+         tYKzsbn+4iLdTxplKcfe/evRxRtvSQUh7i2iQ4KiYrib/JKPY41qVwrcaH0t6mXzpTRq
+         oa7yykZPTuGQJgl/I6otPCpJ5dZzftBLq1+yafl0fvl+sUo5YCQMwVqP/H9ZgElY3/RC
+         SmdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWBs+odPt9Clj7Zjo83MqdjSKJFp0d8dCiD0lQneN2RO4Y8ovabskwn89rQeBKTqV9f2seZOBt+44d8xQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW3Ct5PJVOGAg2BSxTdd+j4a6K+nzh8JN7oFASTWvarg5WajHq
+	/oG9hDp0wWGaFIZp2Qu5nCtb60r5S+5AUmipNMGx4H8gEDxTxvnTTWBp
+X-Gm-Gg: AZuq6aLO6+CZgpjXIba/Lf2IgpEHMzownqLrGepWcNdA/FdpAGCHG1EguiBLA/6l9vY
+	/DSipmKO+mRG5YZyXkfpocRi+9VZPTJ+sfW0AfopWokbCKY6KqXqyF4TBwuufqWjTG6/oTf8dcb
+	HcsqyUTlDk3leUatqlSEE+AzpNqJPAkl7PfEZZrDBqSB9boiTZT5faKc5uC1V8u+BJzzuQ756Qh
+	um7AmpB5vXb/pH0ErW6EB86J6h4zMHpUT69DKT+ZJJyBO0cHv/9b1td/a+y2/U8ry41FUYDOZKU
+	Dugf/IgAv7FUSWHXW+u5liX2tAPknJ5KzC7h1MgnsqlSkcUHqxao+HXsbx701q6F0M0TIyEAXpJ
+	cIy7TFwdaeTnsLTKjs5BfcNKsP0cob9xDY/EVerC00AVudnRsZLKIWJq8JhgUTmJ9ODm2NKbMUg
+	Q+
+X-Received: by 2002:a05:6000:2404:b0:430:8583:d189 with SMTP id ffacd0b85a97d-435f3aa928amr4307852f8f.39.1769777394637;
+        Fri, 30 Jan 2026 04:49:54 -0800 (PST)
+Received: from xeon ([188.163.112.49])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e4757sm22738783f8f.5.2026.01.30.04.49.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jan 2026 04:49:54 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-tegra@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v6 00/15] tegra-video: add CSI support for Tegra20 and Tegra30
+Date: Fri, 30 Jan 2026 14:49:17 +0200
+Message-ID: <20260130124932.351328-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 1/7] media: dt-bindings: Document SC8280XP/SM8350 Venus
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab
- <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bjorn Andersson <andersson@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20260125-iris-sc8280xp-v3-0-d21861a9ea33@oss.qualcomm.com>
- <20260125-iris-sc8280xp-v3-1-d21861a9ea33@oss.qualcomm.com>
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20260125-iris-sc8280xp-v3-1-d21861a9ea33@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: ZYaNlU9nLc6avsCQdC35l2eGOlfTMFiX
-X-Proofpoint-ORIG-GUID: ZYaNlU9nLc6avsCQdC35l2eGOlfTMFiX
-X-Authority-Analysis: v=2.4 cv=d6T4CBjE c=1 sm=1 tr=0 ts=697ca8d4 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=6cH4IgXjao/mkWo6W7aGpA==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=UFr-MfHxuXdlQTEX4dIA:9
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTMwMDEwNCBTYWx0ZWRfXxV670uGxTm5B
- fR38jvgvdRVbRh/AcmO8QNk9ebnLj7niHoq15EtPmDrKJ3YSILuF6BWOGD2/uw9UknGYXVfYS8A
- +cci1zsm1HIMkOWn63maA60uS2sZntT+wInatzv5LuMfAZc52k/LBLhN0Rh6oXHlj2xEWoTkm5c
- xCcV71+ekgyD9r7TTt1XcKK8cjMU+enRm6ZCBDG0lL01IXaaJhcWMgrim6beoWkFGjDb5AJNcN0
- 0kh/mvjgx5ypB6LdAxroqf7halY3qyyF2ZeE7hKA9jPh3/s0d922xo+RBKU9sXZxwSpq9BudRJ8
- BSCMxr5og7sYhmd7qPK6+EWblL7NWI62BAcETeeX43prWVPGeboivoA/yi+q4qM0wzqZJ6Q5uTT
- ooCxgHw0InnZvAytVOTHUGE8JQv+wnrgU5vd9oboEZenLoiRgLpC/J66AuxrK3TEJGfhdo51QCn
- FN1jluACWNNd6xqsiVg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-30_01,2026-01-29_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0 adultscore=0
- bulkscore=0 malwarescore=0 clxscore=1015 phishscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601300104
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51824-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dikshita.agarwal@oss.qualcomm.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-51825-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,bootlin.com,kernel.org,linuxfoundation.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt,linaro];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: C74B6BAB90
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 98DC5BABCD
 X-Rspamd-Action: no action
 
+Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
+with a set of changes required for that.
 
+---
+Changes in v2:
+- vi_sensor gated through csus
+- TEGRA30_CLK_CLK_MAX moved to clk-tegra30
+- adjusted commit titles and messages
+- clk_register_clkdev dropped from pad clock registration
+- removed tegra30-vi/vip and used tegra20 fallback
+- added separate csi schema for tegra20-csi and tegra30-csi
+- fixet number of VI channels
+- adjusted tegra_vi_out naming
+- fixed yuv_input_format to main_input_format
+- MIPI calibration refsctored for Tegra114+ and added support for
+  pre-Tegra114 to use CSI as a MIPI calibration device
+- switched ENOMEM to EBUSY
+- added check into tegra_channel_get_remote_csi_subdev
+- moved avdd-dsi-csi-supply into CSI
+- next_fs_sp_idx > next_fs_sp_value
+- removed host1x_syncpt_incr from framecounted syncpoint
+- csi subdev request moved before frame cycle
 
-On 1/25/2026 9:02 PM, Dmitry Baryshkov wrote:
-> From: Konrad Dybcio <konradybcio@kernel.org>
-> 
-> Both of these SoCs implement an IRIS2 block, with SC8280XP being able
-> to clock it a bit higher and  with SM8350 having 4 VPP pipes, while
-> SC8280XP having just 2.
+Changes in v3:
+- tegra20 and tegra30 csi schema merged
+- removed unneeded properties and requirements from schema
+- improved vendor specific properties description
+- added tegra20 csus parent mux
+- improved commit descriptions
+- redesigned MIPI-calibration to expose less SoC related data into header
+- commit "staging: media: tegra-video: csi: add support for SoCs with integrated
+  MIPI calibration" dropped as unneeded
+- improved tegra_channel_get_remote_device_subdev logic
+- avdd-dsi-csi-supply moved from vi to csi for p2597 and p3450-0000
+- software syncpoint counters switched to direct reading
+- adjusted planar formats offset calculation
 
-SC8280XP is also 4 Pipe.
+Changes in v4:
+- removed ifdefs from tegra_mipi_driver
+- document Tegra132 MIPI calibration device
+- switched to use BIT macro in tegra114-mipi
+- pinctrl changes moved to a separate patch
+- ERESTARTSYS workaround preserved for now
+- tegra_mipi_add_provider replaced with devm_tegra_mipi_add_provider
+- reworked bytesperline and sizeimage calculaion
 
-Thanks,
-Dikshita
+Changes in v5:
+- dropped patch 1/24 of v4 since it was picked to pinctrl tree
+- added reasoning for tegra132 comaptible into commit desctiption
+- moved clocks into common section in tegra20-csi schema
+- added note regarding ERESTARTSYS
+
+Changes in v6:
+- dropped patches 1, 2, 3, 4, 10, 13, 21, 22 of v5 since they were picked
+- rebased on top of linux next/master
+- improved description of commit
+  "staging: media: tegra-video: vi: adjust get_selection operation check"
+---
+
+Svyatoslav Ryhel (15):
+  staging: media: tegra-video: expand VI and VIP support to Tegra30
+  staging: media: tegra-video: vi: adjust get_selection operation check
+  staging: media: tegra-video: vi: add flip controls only if no source
+    controls are provided
+  staging: media: tegra-video: csi: move CSI helpers to header
+  gpu: host1x: convert MIPI to use operation function pointers
+  staging: media: tegra-video: vi: improve logic of source requesting
+  staging: media: tegra-video: csi: move avdd-dsi-csi-supply from VI to
+    CSI
+  staging: media: tegra-video: tegra20: set correct maximum width and
+    height
+  staging: media: tegra-video: tegra20: add support for second output of
+    VI
+  staging: media: tegra-video: tegra20: adjust format align calculations
+  staging: media: tegra-video: tegra20: set VI HW revision
+  staging: media: tegra-video: tegra20: increase maximum VI clock
+    frequency
+  staging: media: tegra-video: tegra20: expand format support with
+    RAW8/10 and YUV422/YUV420p 1X16
+  staging: media: tegra-video: tegra20: adjust luma buffer stride
+  staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
+
+ drivers/gpu/drm/tegra/dsi.c                 |   1 +
+ drivers/gpu/host1x/Makefile                 |   1 +
+ drivers/gpu/host1x/mipi.c                   | 525 ++-----------
+ drivers/gpu/host1x/tegra114-mipi.c          | 483 ++++++++++++
+ drivers/staging/media/tegra-video/Makefile  |   1 +
+ drivers/staging/media/tegra-video/csi.c     |  64 +-
+ drivers/staging/media/tegra-video/csi.h     |  22 +
+ drivers/staging/media/tegra-video/tegra20.c | 820 +++++++++++++++++---
+ drivers/staging/media/tegra-video/vi.c      |  58 +-
+ drivers/staging/media/tegra-video/vi.h      |   6 +-
+ drivers/staging/media/tegra-video/video.c   |   8 +-
+ drivers/staging/media/tegra-video/vip.c     |   2 +-
+ drivers/staging/media/tegra-video/vip.h     |   2 +-
+ include/linux/host1x.h                      |  10 -
+ include/linux/tegra-mipi-cal.h              |  57 ++
+ 15 files changed, 1415 insertions(+), 645 deletions(-)
+ create mode 100644 drivers/gpu/host1x/tegra114-mipi.c
+ create mode 100644 include/linux/tegra-mipi-cal.h
+
+-- 
+2.51.0
+
 
