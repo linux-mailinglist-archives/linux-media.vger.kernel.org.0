@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-51827-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51828-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cA2sMAqpfGnuOAIAu9opvQ
-	(envelope-from <linux-media+bounces-51827-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 13:50:18 +0100
+	id mPcFLgyqfGkaOQIAu9opvQ
+	(envelope-from <linux-media+bounces-51828-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 13:54:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9269BAAB2
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 13:50:17 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17FC2BAC17
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 13:54:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D0C15300681E
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 12:50:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 853C53088C82
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 12:50:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E40737F0F2;
-	Fri, 30 Jan 2026 12:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9682837F751;
+	Fri, 30 Jan 2026 12:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QIf2q0LT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+ELSBeD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D92A37F0FD
-	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 12:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85A1E37F118
+	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 12:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769777400; cv=none; b=jwakJp5DRCnBD7hrRWoF0kwJINEu0OA8RD4MDEjwUQivFZBcVwY5YBQUevmE9aGTcR8iIQ2XVJymSaAzbl6KO8kVQRsUGw1b23IYHxcnvAp2JnALs8mnTDc++SlT0gFR7DbfO4g/fo5xFLlVvtai7oTKmGTWbuPgZ+FXjxjqj8g=
+	t=1769777401; cv=none; b=DCZU6hdcPjlJqHqT/wNeyQhkVtV/nJDLnChHY/pWhoKkIn8okYNbVHmiXHnh2xjRlRSziqGB/aQ4syAoUv7Fma/Kaek09ZHPp/9Qe7SbSSRpYEjsAuMI1iscScZpHtIoYxXpIIkH9/YMl2Im9p65IGL0je7aWlmlgz1TGL2kXb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769777400; c=relaxed/simple;
-	bh=/SlcgcoXh6qESEbxV+NcpVqvXpkWkqApdJg+bzGWNTg=;
+	s=arc-20240116; t=1769777401; c=relaxed/simple;
+	bh=W/c+p5OzSzMCPsuxSreuM0YQnwu6gX3JEtOSgZZKgMM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OxvKMBzFpJ78Sk8Pz9eL3J88Rnjh4+FGVhUrYiySvwjgCkh6aoV411QxFpdjkF/psxMLX+z2sMvXcO61sTNDG5gAPYGnq6yyK2bGHh1TdvR9bOCXYt4yXrbiNzs2q7PvjJ7NJ+tRM9q4e5FZKZe3P0/zZ3xfp40+Y03Q1hpPFDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QIf2q0LT; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version; b=WlSA9RLv/dnp99+XN2DjUC6nkCpTXqHZZKuYHKLHOc1U8qfDZWpMPKHB9Q2rlF1tWX7cftnoCE1xLJD8BZX0oBn9LnvYv7VIk5Lxh/fqLeL9xxsMDDf6h9XuamhLZTXex2qLMk6zDQxg9fY+7QBpk+uW4ATpIYOXCT6MTGHHBH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f+ELSBeD; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4801bc32725so15787485e9.0
-        for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 04:49:58 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4806d23e9f1so23432655e9.2
+        for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 04:49:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769777397; x=1770382197; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1769777398; x=1770382198; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FDyuTxJQ2wPWDIlHnScBHP39ldpO6z/HRmLWZsSUiWM=;
-        b=QIf2q0LTJikh21uLKDT1MMoq0ewo3Fi0t2yjMv+M1Yj/t+pNu7VGQK61Bfd2GH1+s9
-         bHKEF0NzMYHX7kmjWnWHy62tYfBEFvbVofvRS+9mgkI+0kY2JoLslZf9TgrXwGfI9szY
-         w+bxkBWihfkTUtrYqAtchcCEdA78cbi+05fLyPYkxYTDcWA47uBWmXuGg5TgXeNaxxGz
-         Lbih4T8X9fDIm+dSkFHKhvo0G1/04KOeusmcF2kPoZcVnd+hd3F2ratVsuOV7AyD9Z51
-         OoEZLClTc3KOr9d/LOCEYOi57k0MWfRAt8XWc1FVUPTJQm6T/uSnM4d4vx8FxIhc/l5H
-         C4zw==
+        bh=vuLhv0mNsbTmk14Cy+1I+agalhgb8cQohYYZvZhzur0=;
+        b=f+ELSBeDc4COMI7t9a5iP6snIRDOyJWzJB/Lo6Rcnq1TyPpQfURO1wd2w+/30qhEt/
+         Vd4gk98DH+f+bo16GH45cbKD09hhjGUgeyLxoEEmHpUCSgRlB9FV76/TdPkGFeI0SjL9
+         LHbt9sJE5au/UbFjm0db5kbMzgDw3UmDIfm4NZq4SfBr1E9ggBReJoK907gE83BZbl6E
+         QxUsdoLtMj53/m1qYqgiM/1ixS+PZBy4z47qN8lShDwFEeTEKRPjR76ydp3DZgHxzbCc
+         YJqE6wShwcfmDa4eJaoYncgJczoG6HEd0XVdnLKdf7gBrgJICmVXYhCs10Ur6GlgTl++
+         /59g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769777397; x=1770382197;
+        d=1e100.net; s=20230601; t=1769777398; x=1770382198;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FDyuTxJQ2wPWDIlHnScBHP39ldpO6z/HRmLWZsSUiWM=;
-        b=N+X12h9AxuGrzjUs5TKdiEzW+peqTVtUYxJrhkdm2ftrbCPzzo0FryuTxi+mf+E1f4
-         S79XVzmNaKSeUpeUlIlJnI6tBskYWNMYNRM2iaAz/5Ob8DjALhLYabaQ/eBd0JDG9r65
-         VMELBAcAgS8d2X1YCReO5xaCnqMERIWsDg+MJXiVhYnYLAFZ9eqQ1uLd7vR83Um3q+Nb
-         Qtyew6kOM3oiXN7D5bqpQPtrdXAgK/VlixrTEwUlsO38kzfUgiHjSpE3czv6QVU+MvE5
-         wR151hpIqT266GHbP5VGtvWsNHy9eCCWEYXfhV7R+GpOPnogwMHl/Dtwss3hxpHFaJMy
-         myww==
-X-Forwarded-Encrypted: i=1; AJvYcCVUZvHMWPfIV3zJrzyGdfgGQWEnWZkXVqfK8p2jUgplBQFGSWeDdVSBZtqNCHHwhCGC72C4dc8E5VK7og==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6mhVXpvcL7C61KK/NHDd5/MBL7OzuVPYDu5oThWI1pSU5f11o
-	LrwBN5HbXIvWG75o/5NxMtBQSvNNmT1j81wRFcYXsbI29SHh0oKwIEpn
-X-Gm-Gg: AZuq6aJYafxHHtOyg5C6HL3r0q+XNIilFL5q2KUM+VfYg2EcF1pAz+87V/dkBZz1PS8
-	ZAdfyLytuSl140omG7i4yeEf6Pip8ef/QvY/5fuJV9/asATpfQ55vRtSoyQDn5h8M3nSfuUWKcs
-	0DnYh5jnbznnG7uT1Ch4hEC0qIKBAcTBzgiFRtbIoKYMntGn2pa8CSFAyrm/EBAtSXb3ZhPXOaV
-	GP+tNB9k9mKTCK42z6bZ0udQ81Pfx1OR3tARG1T0Ru4OFfCGbJnQOythnmSLOQMB7FX+1R77p8B
-	+Y0BJ09Yx2FTnAQLSkseHpWCYmaX35w0JmFPre6sNqhn6QRujx254t1lh42n//Dr2JLOK2QAG2g
-	RoVyviuk5SZtPZSL7O1P7VSvXMRu7RClTvWeA3hrktBrYAfkwmh6K4rvCRIwudk9LV3xrOTBNy0
-	LSPDAKVl2qCl0=
-X-Received: by 2002:a05:600c:a00e:b0:477:63db:c718 with SMTP id 5b1f17b1804b1-482db4bda8dmr37743845e9.16.1769777396741;
-        Fri, 30 Jan 2026 04:49:56 -0800 (PST)
+        bh=vuLhv0mNsbTmk14Cy+1I+agalhgb8cQohYYZvZhzur0=;
+        b=lArI/vjP1LYUwrwU5fLRidbWE52+SeDktnW0wjQjmiby02BSzp9W7dxmvLFfMsAbaD
+         cwUQZ1EHqTY/HudaM13SDIZZD+oMUB3pl4tUto2xie3lVYCZbQ2eaxI2lsDVbOXbTkCU
+         U/i3t2SjB7Oac5YjivKv0Ny7lYX+h2L5XhaN3gDPCyHa/59luIyj65e3WQP2cFesvWst
+         h3tLjicdz/d2ys8ZSxpyHJNnJf5xSqyRqfYaK99+aHv7SHPBPyHHuqOrBMe2ZTFkFrXU
+         uveSO7xKjD4qwAwiVXxu4YW/1nUNisYfJnjyWoIXyj0JeHZzkV4noahFsUuEzKxfl5QI
+         EyFA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSuLlb9p6Stzb4SMW4+0hy4ouQNaMu6J7rteTwkPEl2ujn9xoiCQcLkW/ztD/J85LxmFyBiN/Uj7oF7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCOWX0DXUc8zDSNWblE3qdVwRO5msrdtzxvU1qZ0MEAV3+RMet
+	K2cS+6TFi9TFITClNhncGqf03yj0a6WS62tJI/0QbAcHFIohobEjAEwa
+X-Gm-Gg: AZuq6aI2hsnErC4alLcQx6VdxYVz9m8eS8Q83xhH724gJT9sHZsBrfUyayiEcEYYUuF
+	/hWQnVOawGCdUM4P9jEJE5qIJZbC5ZvX+lgrKUqnnuFpE4i/RCz5RmgVo/rSj1co60bxVzCKpqh
+	B2AhodAPRLsK3moUZn+yr0uOax5CZE2dS33g8oPhUnjjTlkP7c28v0qYmQCyuJr+CdoKik5z42f
+	rLgryk8AFDm/yF+1j5H4uh8QHTdhu49ckzkeNj7GPcUJUNAo94Q5MAaf0MhQ8+tKP853a6N2CAA
+	rigx/aayETsR8Ud/UUw+xzH5tTZMWYkWPyFmp6Kxfd8j/AI8uXwisK5Pk0zcZkNeI2sc5BToOFA
+	eA9efn669qTDu95TP5gnDb2/PKqh1J1IXXL8uef7YcEWxyvSAqlpD1i0CDha/80pClBqZnYFyc3
+	RG
+X-Received: by 2002:a05:600c:4f48:b0:47a:935f:61a0 with SMTP id 5b1f17b1804b1-482db013b90mr42921685e9.0.1769777397748;
+        Fri, 30 Jan 2026 04:49:57 -0800 (PST)
 Received: from xeon ([188.163.112.49])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e4757sm22738783f8f.5.2026.01.30.04.49.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e4757sm22738783f8f.5.2026.01.30.04.49.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 04:49:56 -0800 (PST)
+        Fri, 30 Jan 2026 04:49:57 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Mikko Perttunen <mperttunen@nvidia.com>,
@@ -93,9 +93,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v6 02/15] staging: media: tegra-video: vi: adjust get_selection operation check
-Date: Fri, 30 Jan 2026 14:49:19 +0200
-Message-ID: <20260130124932.351328-3-clamor95@gmail.com>
+Subject: [PATCH v6 03/15] staging: media: tegra-video: vi: add flip controls only if no source controls are provided
+Date: Fri, 30 Jan 2026 14:49:20 +0200
+Message-ID: <20260130124932.351328-4-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260130124932.351328-1-clamor95@gmail.com>
 References: <20260130124932.351328-1-clamor95@gmail.com>
@@ -105,86 +105,82 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51827-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,bootlin.com,kernel.org,linuxfoundation.org];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-51828-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[16];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,bootlin.com,kernel.org,linuxfoundation.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email]
-X-Rspamd-Queue-Id: C9269BAAB2
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bootlin.com:email]
+X-Rspamd-Queue-Id: 17FC2BAC17
 X-Rspamd-Action: no action
 
-During __tegra_channel_try_format, the VI (Video Input) checks if the
-camera sensor driver provides a get_selection operation. If this operation
-is unavailable, the crop is set to 0. However, if the operation is
-available but returns an error, the VI currently fails.
-
-While this works for simple cameras with a single pad, it creates a corner
-case for sensors like the mt9m114. This sensor provides the same operation
-set for both IFP pads, but returns an error when get_selection is called
-on an unsupported pad (such as the source pad), causing the aforementioned
-behavior.
-
-To resolve this, if get_selection is implemented but returns an error,
-try_crop is now set to 0 — treating it as if the operation was not
-implemented — instead of returning a failure.
+Because the current Tegra video driver is video-centric, it exposes all
+controls via /dev/video. If both the camera sensor and the VI provide
+hflip and vflip, the driver will fail because only one control is allowed.
+To address this, hflip and vflip should be added from the SoC only if the
+camera sensor doesn't provide those controls.
 
 Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel camera
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/staging/media/tegra-video/vi.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 4b80086f8c05..70a84158b589 100644
+index 70a84158b589..0f98157a7e91 100644
 --- a/drivers/staging/media/tegra-video/vi.c
 +++ b/drivers/staging/media/tegra-video/vi.c
-@@ -476,17 +476,11 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 	fse.code = fmtinfo->code;
- 	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
- 	if (ret) {
--		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
-+		if (!v4l2_subdev_has_op(subdev, pad, get_selection) ||
-+		    v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel)) {
- 			try_crop->width = 0;
- 			try_crop->height = 0;
- 		} else {
--			ret = v4l2_subdev_call(subdev, pad, get_selection,
--					       NULL, &sdsel);
--			if (ret) {
--				ret = -EINVAL;
--				goto out_free;
--			}
--
- 			try_crop->width = sdsel.r.width;
- 			try_crop->height = sdsel.r.height;
- 		}
+@@ -962,6 +962,7 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+ 	}
+ #else
+ 	struct v4l2_subdev *subdev;
++	struct v4l2_ctrl *hflip, *vflip;
+ 
+ 	/* custom control */
+ 	v4l2_ctrl_new_custom(&chan->ctrl_handler, &syncpt_timeout_ctrl, NULL);
+@@ -987,11 +988,13 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+ 		return ret;
+ 	}
+ 
+-	if (chan->vi->soc->has_h_v_flip) {
++	hflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_HFLIP);
++	if (chan->vi->soc->has_h_v_flip && !hflip)
+ 		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
+-		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
+-	}
+ 
++	vflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_VFLIP);
++	if (chan->vi->soc->has_h_v_flip && !vflip)
++		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
+ #endif
+ 
+ 	/* setup the controls */
 -- 
 2.51.0
 
