@@ -1,215 +1,317 @@
-Return-Path: <linux-media+bounces-51816-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51817-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOKzGO11fGmWNAIAu9opvQ
-	(envelope-from <linux-media+bounces-51816-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 10:12:13 +0100
+	id YJj5Ojh5fGmpNQIAu9opvQ
+	(envelope-from <linux-media+bounces-51817-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 10:26:16 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A58DB8C24
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 10:12:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53798B8E62
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 10:26:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id AE2F13012C91
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 09:12:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id ABE4F3047055
+	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 09:24:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04A17350A0E;
-	Fri, 30 Jan 2026 09:12:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFBC6353ED3;
+	Fri, 30 Jan 2026 09:24:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="fX8ub/RK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKh/H/S1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx-relay36-hz2.antispameurope.com (mx-relay36-hz2.antispameurope.com [94.100.136.236])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB7934DCE3
-	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 09:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=94.100.136.236
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769764329; cv=pass; b=KLCIRzKwG1xIgiWaAQBZ7cFcOXYV3AHLw1GDvSQ97VgK8Rc/ldV1lXz/hFv3u9ZQOSOdNHhnHPJLf6hE/m/wPI5pwdz3datdYtaPJw+pU6gcrRnsG89wWm7RPYuA+OVdNMQXVSAm+bntSkjjKVTpEZ0rkJxD/owzDwuwNgUWTvQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769764329; c=relaxed/simple;
-	bh=JJ6ZgfjzIHBLd6Y+kOxT96PhgvFLGLY3oKWCw1HaN/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S9EIBq85dMQ/YJELa7NZTm2KapNdgdvo47l7NnMl0raUb6E0amR/VM9TkoShlH+7Oe6taJTgnp+8bN4B9Nn2vh4oTCxkDYkvd1n5hRHNRrzcxnioJHG09MFn9pVmWRoiNPF4y7S9QsZY19X0Axv2Ym2wwQIwV+4H2MQoruDq5uY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=fX8ub/RK; arc=pass smtp.client-ip=94.100.136.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-ARC-Authentication-Results: i=1; mx-gate36-hz2.hornetsecurity.com 1; spf=pass
- reason=mailfrom (ip=94.100.132.6, headerfrom=ew.tq-group.com)
- smtp.mailfrom=ew.tq-group.com smtp.helo=smtp-out01-hz1.hornetsecurity.com;
- dmarc=pass header.from=ew.tq-group.com orig.disposition=pass
-ARC-Message-Signature: a=rsa-sha256;
- bh=OlaaAEdyH/nGPP2TYnuTAVW6ys1F2ggjuG22tntgfjs=; c=relaxed/relaxed;
- d=hornetsecurity.com; h=from:to:date:subject:mime-version:; i=1; s=hse1;
- t=1769764253;
- b=DYKZeZwBOAeyDpCBKy/9WeeIg+DcJuQtbtXEUPI+Knsvr946jnN6MJrOTU8OBBC/6J/77/k1
- hqHX1IVjQR7/Bwu5sfVErdxwBIP3HEhlrQC7vn26ofBGZez/zmDnVJxk67VivREpKLAO4GhV5o/
- yUA/Ffk6dQqsD5igigvAjaQVdOAzdG/5MV/jnoCHGrVYjX/DqyvLcZGfWKLUi2dw3pm+cPlcHdd
- eYfMiV7AeAgA9u6Kjtd/FSDcuXIo8Q4HfvC+V6JGHOExWE0lsoiz3RwzjTONYxGmxSGqS8QLNqg
- ftdTTp9Q2guvwZR1ZWHvmzcH5BQx6VCq4eYSEcQqv02qg==
-ARC-Seal: a=rsa-sha256; cv=none; d=hornetsecurity.com; i=1; s=hse1;
- t=1769764253;
- b=XJlKCVGBQMz3ilSenYeEhhjFmHd+sSYe+Kepn9qpA6K6ayRojG6YcVavptp3xx1habSu++DO
- tq7acMHHzW8JuNZyvxn7yELkmeoi2+/exTsUMBS2wGlCWtSIEgRCbYTtEsUihY1ynWJZRVdLfGI
- iPp+KELTqPA3k+oteUAJPIyHe4XXAtMJloM+gjY2NfLl58FVRaWDZsT30Yh6B1jYOImoSkaOZbY
- o/DqcM1OjbdZnZlkdLOdbUGVFyGB5M/B4zC8TsDhAluYhtB1nAFkn/LdRL6BFJ8Nojn7DCixqjM
- /25MsSeHtI1FxhnfYkZ7c0a0bYw8dLcgAOrP3RsgqCorQ==
-Received: from he-nlb01-hz1.hornetsecurity.com ([94.100.132.6]) by mx-relay36-hz2.antispameurope.com;
- Fri, 30 Jan 2026 10:10:53 +0100
-Received: from steina-w.localnet (host-82-135-125-110.customer.m-online.net [82.135.125.110])
-	(Authenticated sender: alexander.stein@ew.tq-group.com)
-	by smtp-out01-hz1.hornetsecurity.com (Postfix) with ESMTPSA id DEE09A40EF0;
-	Fri, 30 Jan 2026 10:10:22 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
- benjamin.gaignard@collabora.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, sebastian.fricke@collabora.com,
- shawnguo@kernel.org, ulf.hansson@linaro.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- l.stach@pengutronix.de, Frank.li@nxp.com, peng.fan@nxp.com,
- eagle.zhou@nxp.com, devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, ming.qian@oss.nxp.com
-Subject:
- Re: [PATCH] arm64: dts: imx8mq: Restore VPU G2 clock to 600MHz for 4K60fps
- decoding
-Date: Fri, 30 Jan 2026 10:09:46 +0100
-Message-ID: <5476502.mvXUDI8C0e@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20260130084133.2159-1-ming.qian@oss.nxp.com>
-References: <20260130084133.2159-1-ming.qian@oss.nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506BE352C47;
+	Fri, 30 Jan 2026 09:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769765078; cv=none; b=u3RRK1qKI0nAcklrQsigfZJzPFMD6vFH+2h4SEtrSv0Tr5BEGwScFxFKwxQQggxcFuIopXWc70UcdLD5jgEnGy1ZvfL1NoHir3NjvEoMCgf8MbsbOJ62tCTtkr6keTOQPU3BGC367JvE1mp1reWbgHel2Gx1oqlcacQmM3c2fQM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769765078; c=relaxed/simple;
+	bh=UftC8e+p4muw5gJimlpCkYYq2o4STFfO1G55HmnmeJw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i1xnqQ7i4E5bibuE320pM5UzxX7IokOrApcKYkNxRaNMnC0KANsNSLj0yQZIiANYYFvjM7s/W1HcKEJIHXDQy28ktFEF9fzDIyG2vnJqWbU726FzuqFqT2JdlX0oQt/s8zcYHbgsnK2KE3PUAAYDR5ACanul5I2UF13PcUOyEQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKh/H/S1; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769765076; x=1801301076;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UftC8e+p4muw5gJimlpCkYYq2o4STFfO1G55HmnmeJw=;
+  b=KKh/H/S17rSnc7v0umB8qPnTnRzx1Tda8Dy/lh0MiWAO4epIrf9cOKTs
+   /Pq9iX7PiYxMczfDU96GxPSZIMTs0Dr6A3G97VDT8Tp0VqpvNialdsmQi
+   9F4dQBP7tU2UbJN11SDhcLRTPQoEaJUeRx//x46ypDJok3l1opgUjBGG0
+   kkV8w4wdAvkjiV+r5NCOg3aAv2nPwcItyyUgOGkt+Y+l6YMPyBQSkU+9j
+   UH0YW9FlSKmA9/SM5JEfDzAj6SY+aTEdfnzmLMi5hyU3Wg5Fm7i//GsHO
+   gV9X/kmI5dbtXQosryuoFGHP8rSzC/sRwV9wXBEh5ff8/Tx70h9fA8wyc
+   Q==;
+X-CSE-ConnectionGUID: qOlk3BuPQzaYeiQzcTtyOw==
+X-CSE-MsgGUID: md10Y+WJQ1mnsLNf6S8Jvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="58593662"
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="58593662"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 01:24:35 -0800
+X-CSE-ConnectionGUID: U/5YkaWrR9u2SxjneOumYA==
+X-CSE-MsgGUID: XlhalWGKQ46nvZBEk12TNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="239534600"
+Received: from intel-nuc8i7beh.iind.intel.com ([10.223.163.35])
+  by orviesa002.jf.intel.com with ESMTP; 30 Jan 2026 01:24:34 -0800
+From: Arun T <arun.t@intel.com>
+To: arun.t@intel.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] platform/x86: int3472: Add board data for Intel nvl
+Date: Fri, 30 Jan 2026 14:49:53 +0530
+Message-ID: <20260130091953.2333433-1-arun.t@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-cloud-security-sender:alexander.stein@ew.tq-group.com
-X-cloud-security-recipient:linux-media@vger.kernel.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-Mailarchiv: E-Mail archived for: alexander.stein@ew.tq-group.com
-X-cloud-security-Mailarchivtype:outbound
-X-cloud-security-Virusscan:CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay36-hz2.antispameurope.com with 4f2VbN1GXyz1S63D
-X-cloud-security-connect: he-nlb01-hz1.hornetsecurity.com[94.100.132.6], TLS=1, IP=94.100.132.6
-X-cloud-security-Digest:f72694e440bb7dafe036a5498634db5d
-X-cloud-security:scantime:2.180
-DKIM-Signature: a=rsa-sha256;
- bh=OlaaAEdyH/nGPP2TYnuTAVW6ys1F2ggjuG22tntgfjs=; c=relaxed/relaxed;
- d=ew.tq-group.com;
- h=content-type:mime-version:subject:from:to:message-id:date; s=hse1;
- t=1769764252; v=1;
- b=fX8ub/RKcZudyuWbLECbVsp6eCrJmuz0hXwzL4rahHzUzhrAwy3pn05J0+dRMZrpuq5Us0aD
- wTICB3aBhSgwbcYKcn10BjPlRmkPsaeAbxzOt/Z/otvuLt/tcUAHCyYxFxRCSE74RHXocExUcXz
- iBlYtElQyC+Au50jm4f4Ny3w5h//Pso7oDw6wSZlO+vMwEg2Vc1ZZVahZ99d51LyJ4QQhKyYY1G
- zSTsCAYRFNnCqMrW0JjBuYYzQGym0FLlc9J3k6KCA51xeUD6TfzsIQRhrfHoHfZdu7S4MK7pmlj
- RLL3JRd4dR3uHYGML4Wts3VSWM5Hf/Zai4WvgQGAt3LKA==
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	CTE_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,reject];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=hse1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,xs4all.nl,ndufresne.ca,collabora.com,pengutronix.de,linaro.org,gmail.com,nxp.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,oss.nxp.com];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	TAGGED_FROM(0.00)[bounces-51816-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ew.tq-group.com:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51817-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TO_DN_NONE(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.6:email,ew.tq-group.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,60fps:email]
-X-Rspamd-Queue-Id: 1A58DB8C24
+	FROM_NEQ_ENVFROM(0.00)[arun.t@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,intel.com:mid]
+X-Rspamd-Queue-Id: 53798B8E62
 X-Rspamd-Action: no action
 
-Am Freitag, 30. Januar 2026, 09:41:31 CET schrieb ming.qian@oss.nxp.com:
-> From: Ming Qian <ming.qian@oss.nxp.com>
-> 
-> The VPU G2 clock was reduced from 600MHz to 300MHz in commit
-> b27bfc5103c7 ("arm64: dts: freescale: Fix VPU G2 clock") to address
-> pixel errors with high-resolution HEVC postprocessor output.
-> 
-> However, testing shows the 300MHz clock rate is insufficient for
-> 4K60fps decoding and the original pixel errors no longer occur at
-> 600MHz with current drivers.
-> 
-> Test results with 3840x2160@60fps HEVC stream decoded to NV12
-> (the same scenario that exhibited pixel errors previously):
-> 
-> 300MHz performance:
-> - Severe frame dropping throughout playback
-> - Only 336 frames rendered in 11:53 (0.471 fps)
-> - Continuous "A lot of buffers are being dropped" warnings
-> - Completely unusable for 4K video
-> 
-> 600MHz performance:
-> - Smooth playback with only 1 frame dropped at startup
-> - 37981 frames rendered in 10:34 (59.857 fps)
-> - Achieves target 60fps performance
-> - No pixel errors or artifacts observed
-> 
-> Restore the clock to 600MHz to enable proper 4K60fps decoding
-> capability while maintaining stability.
-> 
-> Test pipeline:
->   gst-launch-1.0 filesrc location=<4K60_HEVC.mkv> ! \
->     video/x-matroska ! aiurdemux ! h265parse ! \
->     v4l2slh265dec ! video/x-raw,format=NV12 ! \
->     queue ! waylandsink
-> 
-> Fixes: b27bfc5103c7 ("arm64: dts: freescale: Fix VPU G2 clock")
-> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mq.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> index 607962f807be..731142176625 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> @@ -960,7 +960,7 @@ pgc_vpu: power-domain@6 {
->  									 <&clk IMX8MQ_SYS1_PLL_800M>,
->  									 <&clk IMX8MQ_VPU_PLL>;
->  						assigned-clock-rates = <600000000>,
-> -								       <300000000>,
-> +								       <600000000>,
+The Intel Nvl O13b10 sensor with the Intel IPU8 ISP.
+The sensor is powered by a TPS68470 PMIC, and so we
+need some board data to describe how to configure the GPIOs and
+regulators to run the sensor.
 
-If I read the Datasheet correctly 600 MHz is only supported by overdrive
-mode (also depending on the VDD_VPU).
-Is this frequency really correct?
+Signed-off-by: Arun T <arun.t@intel.com>
+---
+ .../x86/intel/int3472/tps68470_board_data.c   | 150 ++++++++++++++++++
+ 1 file changed, 150 insertions(+)
 
-Best regards,
-Alexander
-
->  								       <800000000>,
->  								       <0>;
->  					};
-> 
-> base-commit: c824345288d11e269ce41b36c105715bc2286050
-> prerequisite-patch-id: 0000000000000000000000000000000000000000
-> 
-
-
-
+diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+index 71357a036292..7820ff811df8 100644
+--- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
++++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+@@ -143,6 +143,34 @@ static struct regulator_consumer_supply int3479_aux2_consumer_supplies[] = {
+ 	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
+ };
+ 
++/* Settings for Intel NVL platform */
++
++static struct regulator_consumer_supply int347_ov13b_core_consumer_supplies[] = {
++	REGULATOR_SUPPLY("dvdd", "i2c-OVTI13B1:00"),
++};
++
++static struct regulator_consumer_supply int347_ov13b_ana_consumer_supplies[] = {
++	REGULATOR_SUPPLY("ana", "i2c-OVTI13B1:00"),
++};
++
++static struct regulator_consumer_supply int347_ov13b_vcm_consumer_supplies[] = {
++	REGULATOR_SUPPLY("vdd", "i2c-OVTI13B1:00"),
++};
++
++static struct regulator_consumer_supply int347_ov13b_vsio_consumer_supplies[] = {
++	REGULATOR_SUPPLY("dovdd", "i2c-OVTI13B1:00"),
++	REGULATOR_SUPPLY("vsio", "i2c-OVTI13B1:00"),
++	REGULATOR_SUPPLY("vddd", "i2c-OVTI13B1:00"),
++};
++
++static struct regulator_consumer_supply int347_ov13b_aux1_consumer_supplies[] = {
++	REGULATOR_SUPPLY("vdda", "i2c-OVTI13B1:00"),
++};
++
++static struct regulator_consumer_supply int347_ov13b_aux2_consumer_supplies[] = {
++	REGULATOR_SUPPLY("vdddo", "i2c-OVTI13B1:00"),
++};
++
+ static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data = {
+ 	.constraints = {
+ 		.min_uV = 1200000,
+@@ -220,6 +248,82 @@ static const struct regulator_init_data dell_7212_tps68470_aux2_reg_init_data =
+ 	.consumer_supplies = int3479_aux2_consumer_supplies,
+ };
+ 
++static const struct regulator_init_data intel_nvl_tps68470_core_reg_init_data = {
++	.constraints = {
++		.min_uV = 1200000,
++		.max_uV = 1200000,
++		.apply_uV = true,
++		.always_on = true,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(int347_ov13b_core_consumer_supplies),
++	.consumer_supplies = int347_ov13b_core_consumer_supplies,
++};
++
++static const struct regulator_init_data intel_nvl_tps68470_ana_reg_init_data = {
++	.constraints = {
++		.min_uV = 2815200,
++		.max_uV = 2815200,
++		.apply_uV = true,
++		.always_on = true,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(int347_ov13b_ana_consumer_supplies),
++	.consumer_supplies = int347_ov13b_ana_consumer_supplies,
++};
++static const struct regulator_init_data intel_nvl_tps68470_vcm_reg_init_data = {
++	.constraints = {
++		.min_uV = 2815200,
++		.max_uV = 2815200,
++		.apply_uV = true,
++		.always_on = true,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(int347_ov13b_vcm_consumer_supplies),
++	.consumer_supplies = int347_ov13b_vcm_consumer_supplies,
++};
++
++/* Ensure the always-on VIO regulator has the same voltage as VSIO */
++static const struct regulator_init_data intel_nvl_tps68470_vio_reg_init_data = {
++	.constraints = {
++		.min_uV = 1800600,
++		.max_uV = 1800600,
++		.apply_uV = true,
++		.always_on = true,
++	},
++};
++
++static const struct regulator_init_data intel_nvl_tps68470_vsio_reg_init_data = {
++	.constraints = {
++		.min_uV = 1800600,
++		.max_uV = 1800600,
++		.apply_uV = true,
++		.always_on = true,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(int347_ov13b_vsio_consumer_supplies),
++	.consumer_supplies = int347_ov13b_vsio_consumer_supplies,
++};
++
++static const struct regulator_init_data intel_nvl_tps68470_aux1_reg_init_data = {
++	.constraints = {
++		.min_uV = 2815200,
++		.max_uV = 2815200,
++		.apply_uV = 1,
++		.always_on = true,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(int347_ov13b_aux1_consumer_supplies),
++	.consumer_supplies = int347_ov13b_aux1_consumer_supplies,
++};
++
++static const struct regulator_init_data intel_nvl_tps68470_aux2_reg_init_data = {
++	.constraints = {
++		.min_uV = 1800600,
++		.max_uV = 1800600,
++		.apply_uV = 1,
++		.always_on = true,
++	},
++	.num_consumer_supplies = ARRAY_SIZE(int347_ov13b_aux2_consumer_supplies),
++	.consumer_supplies = int347_ov13b_aux2_consumer_supplies,
++};
++
++
+ static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata = {
+ 	.reg_init_data = {
+ 		[TPS68470_CORE] = &dell_7212_tps68470_core_reg_init_data,
+@@ -232,6 +336,18 @@ static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata =
+ 	},
+ };
+ 
++static const struct tps68470_regulator_platform_data intel_nvl_tps68470_pdata = {
++	.reg_init_data = {
++		[TPS68470_CORE] = &intel_nvl_tps68470_core_reg_init_data,
++		[TPS68470_ANA]  = &intel_nvl_tps68470_ana_reg_init_data,
++		[TPS68470_VCM]  = &intel_nvl_tps68470_vcm_reg_init_data,
++		[TPS68470_VIO] = &intel_nvl_tps68470_vio_reg_init_data,
++		[TPS68470_VSIO] = &intel_nvl_tps68470_vsio_reg_init_data,
++		[TPS68470_AUX1] = &intel_nvl_tps68470_aux1_reg_init_data,
++		[TPS68470_AUX2] = &intel_nvl_tps68470_aux2_reg_init_data,
++	},
++};
++
+ static struct gpiod_lookup_table surface_go_int347a_gpios = {
+ 	.dev_id = "i2c-INT347A:00",
+ 	.table = {
+@@ -258,6 +374,23 @@ static struct gpiod_lookup_table dell_7212_int3479_gpios = {
+ 	}
+ };
+ 
++static struct gpiod_lookup_table intel_nvl_int347a_gpios = {
++	.dev_id = "i2c-OVTI13B1:01",
++	.table = {
++		GPIO_LOOKUP("tps68470-gpio", 9, "s_resetn", GPIO_ACTIVE_LOW),
++		GPIO_LOOKUP("tps68470-gpio", 8, "s_idle", GPIO_ACTIVE_LOW),
++		{ }
++	}
++};
++
++static struct gpiod_lookup_table intel_nvl_int347e_gpios = {
++	.dev_id = "i2c-OVTI13B1:01",
++	.table = {
++	GPIO_LOOKUP("tps68470-gpio", 7, "s_enable", GPIO_ACTIVE_LOW),
++		{ }
++	}
++};
++
+ static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
+ 	.dev_name = "i2c-INT3472:05",
+ 	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
+@@ -287,6 +420,16 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
+ 	},
+ };
+ 
++static const struct int3472_tps68470_board_data intel_nvl_tps68470_board_data = {
++	.dev_name = "i2c-INT3472:07",
++	.tps68470_regulator_pdata = &intel_nvl_tps68470_pdata,
++	.n_gpiod_lookups = 2,
++	.tps68470_gpio_lookup_tables = {
++		&intel_nvl_int347a_gpios,
++		&intel_nvl_int347e_gpios,
++	},
++};
++
+ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+ 	{
+ 		.matches = {
+@@ -316,6 +459,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+ 		},
+ 		.driver_data = (void *)&dell_7212_tps68470_board_data,
+ 	},
++	{
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Nova Lake Client Platform"),
++		},
++	       .driver_data = (void *)&intel_nvl_tps68470_board_data,
++	},
+ 	{ }
+ };
+ 
+-- 
+2.43.0
 
 
