@@ -1,318 +1,219 @@
-Return-Path: <linux-media+bounces-51869-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51870-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EOxTBRA4fWlMQwIAu9opvQ
-	(envelope-from <linux-media+bounces-51869-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 00:00:32 +0100
+	id kFOvDYVifWkrRwIAu9opvQ
+	(envelope-from <linux-media+bounces-51870-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 03:01:41 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A53BF468
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 00:00:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D827C02F2
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 03:01:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 76C30300E5FE
-	for <lists+linux-media@lfdr.de>; Fri, 30 Jan 2026 23:00:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E0F5F30247DF
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 02:01:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE483659F5;
-	Fri, 30 Jan 2026 23:00:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E79B2EAB83;
+	Sat, 31 Jan 2026 02:01:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aw5nmqXX";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kEMZLIGH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mjXsVduB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C44364E9D
-	for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 23:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A7D2DB787
+	for <linux-media@vger.kernel.org>; Sat, 31 Jan 2026 02:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769814026; cv=none; b=OM2bI7yBFm9okv2I4IPuvhTfiM0cgpDNAWCbK4q2PPdrvSfbwu6ZKLm3eMDPLu/CmcWoEuoFGkeIaef4ayNNmKfSbV7F93Mz8PwyXWwFoSS9s6Qo79YdcI6dSNT8zLhyK+ibM6LOd53VEdFtVWupSUes5CMV3n/eykLnmaOKY2U=
+	t=1769824870; cv=none; b=bV/8+5xrg20nctScsnRgd2klOnCCyHsTwImocvKnz1w/f5F2cMB3Qrs6ubYGTaLSN5DiHiIQNajUwSYR2AFzGFtFvqk3sfI7BgF+8M7gmtvNFgjEWe/sntHeZv+78P+PYcL9kpz++91Kz1yOrH08U9zE7JH9Lv2tiS7pqt8bor0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769814026; c=relaxed/simple;
-	bh=7IQzayO5L/U28ibpezLBMSzU5XVotlajkYPYqQBbwxg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Whqw2kCbh5OLI/AqL4JkzEKQeUVIEMqvQkpm9K07DKTWhgyNsXHCpsQPe4TCaqK8Yrp7lTUodQLexgmbyGucSNsvn8eteFhSSjWVYsqWxSckYvNbGuzj/xpfIEaur5/SN8dMFTllG9BGUpMX/p4zXRNWvJIGLnlvxlu+dDElHFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aw5nmqXX; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kEMZLIGH; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769814024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=xpVWSYOjmpUvjd6bPS5vI/Dt/+7lbqD30OTCkZ3YauU=;
-	b=aw5nmqXX3TAE49fXuG0Kp5WirzB5Alv28QmNKii/juzo6JDI/GvQr9E8A3lH4FcI5SRbxr
-	37AV5wmxQ5yxsw69QSgUicqk6EV50qDxS1DF6GOefMrorHMNqcGKwL1nqbE5gUJDIB7RyX
-	tLUrbQ6kc9R7i7cg9MvDownOmfhAc+Y=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-65-YjzDP9WlPte_F--NsTmstw-1; Fri, 30 Jan 2026 18:00:21 -0500
-X-MC-Unique: YjzDP9WlPte_F--NsTmstw-1
-X-Mimecast-MFC-AGG-ID: YjzDP9WlPte_F--NsTmstw_1769814021
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5019f8a18cdso80203621cf.2
-        for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 15:00:21 -0800 (PST)
+	s=arc-20240116; t=1769824870; c=relaxed/simple;
+	bh=J2cucYUpSwkFxhZZHTc2VNySs+b/F5L3SrE4e5t5Z0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h+zWvZAnP1Xk3rDSgdCPK9CFThCeSZWgRa0djPbReSnHNKJPQ87RCLKQWZgVa+H2YRDPlJbfuJWiVCz0HmSuw6oqkn0xemIwEcBMhwkFbFkwpf8WObVHoLU4fJ3J3wHrc7MrEZS5vcuqJKnpsXt2ZkMyrP5gZrKGpni8vtUjuxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mjXsVduB; arc=none smtp.client-ip=74.125.82.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-124899ee9d3so2030292c88.0
+        for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 18:01:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1769814021; x=1770418821; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xpVWSYOjmpUvjd6bPS5vI/Dt/+7lbqD30OTCkZ3YauU=;
-        b=kEMZLIGH09Z3pPkZPQ1yePCrJEjoBO2bzglyxZB0EzA5yag0VmBZnI7OVklCp7Gn5J
-         wad7RK9tCXBk1JxURhhfDTgPZjsDkoNKPvsCKJjMzR4Do4/izQW+eIXXyzFQwlKvuJIF
-         //977AlpdqVCvX5vQeNafAZ3LjOGRspsk3Wf29ABy9pPmowSWPsqmBv8tDo8CkVFhVKg
-         iw4flRqLXanG0UwfcTX027cDm3Ft0ayN1jOhtMBoCpP2WqDOwUCtqA+AUqumPnYsbbnx
-         O32f6presKhOU3+EQJ/6Jr312hJbtJhSIh1LUH+VlCLkySBvIX5kaaOpOKJuumj9kENB
-         v15A==
+        d=gmail.com; s=20230601; t=1769824868; x=1770429668; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dF4n5IF6I/vDZ01cqKrK/H1loj2asnvt61WDpBLXHOI=;
+        b=mjXsVduBxvLVU/ZObkRBuXwuHTOWU198M6sGcbxbKN8ycE289BftM1H/Q7Qqd3RNsK
+         u6zt54vZyEp1iHhFSZlZhVJF4T81VFGAokk9sFnryD9ultr9s+l/Ja0f5fVsPR4jhcus
+         k45FwzB0utQyFtCuQpwyJp2rDohbQrqtn6/bDZ45i5USF2MhKT6KPnH0/6F45L1ine2v
+         Y2KOL0ONeMsCJctaTcEVp6/imgXIPh5wPSN6ohbWeaVas6pDooosNotBjiksbViiqR9N
+         SvwNL1/SOTkk2xV4LsPvEO0ZCLKwJTtLKbCQde+zF7EUEi0tWfu3sVVlbnmoTFAzz6G4
+         oSfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769814021; x=1770418821;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1769824868; x=1770429668;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xpVWSYOjmpUvjd6bPS5vI/Dt/+7lbqD30OTCkZ3YauU=;
-        b=okXqis43LKFkCWl1WcuN6/PHsxdy4HVBPggu6/LFR56QfHm1YeuUSAsUDouaLMUcy0
-         qWvq4UzJQxMDliun8ndYPWf2fv1xdjCaKX3x+gTXXUxwbPybyKvGyTgqbhZlzbiGtuWh
-         BwdCYAk/Raji9FdmI7rdjFeiyrleBm7q1uQJH/xxxgzG1vXUkvKYdTu+NEFhn/swm+ZT
-         id5nPOulDFZR9gkWz0Z5Cdn68h2X+FBXEe4adQHFQxk1+qbbiY+ZT4MgU7EFZ5Js3gdW
-         CgVEz33s6bkDRQOswXB8BKpEbEGU8WViP1bEAlp5KZbgmCqqNGWebHzk7e3XWFAjuTQS
-         MSXA==
-X-Gm-Message-State: AOJu0YxRTv4h4SxXITpStIyuWPofvwfPiSBxC9ZdMcmRf81dBi52ogC2
-	VexI49YOpJv3xowBpPynLaIX4kYYXUBl1PLxVgh5gJvanDV2hhZp5Abx2mVQyNs0K7cmfcHGq95
-	4FrlW83+DnsiKpl1MfyJsAqpz1e4ajBPDMycvYzt7qwZFTKhxLGhxjPsFecZOmIhK
-X-Gm-Gg: AZuq6aLgfHAlRQ0cPvhS8rjKxXjcvhm33b91wTzgjbO5a+te1kc1VpX7OdeUwlMk+Wb
-	HIEFO2WlZ1attFMDKRHrUFN7GdXxDhIsopFeaBKPFyt6ivrSDQ6RVPcEJNYGuH134zKY9g4DJ6J
-	1ZuCfZe2jkeJhDSkBlMBasHaJ0cK4nPxonL1MAUBkkW+3KiKi8y2Eh2d6VvKKMTYAY0gQOd1tQ7
-	o1U/7oA0N59eBfyNAqBlkAmHT1dtaZ/O5UtCVEaRGmKTjfxkUsDnHs3JDK7QDHYyH7RRODZISyz
-	G6LzAmVpeZ+jtsTY1BBDCAbBIDfqh9aYBKNm7XvFcam9i2WkCpmkOB92cHqZ+YfVf/1/cB0ZN01
-	jLGfg1g7IVXHCP3+xYLEhsvAejtzIN7WNrOM/kGiO9hfLDcUk9u0=
-X-Received: by 2002:ac8:5ac7:0:b0:4f1:ca4f:d480 with SMTP id d75a77b69052e-505d2263fddmr58996101cf.45.1769814020753;
-        Fri, 30 Jan 2026 15:00:20 -0800 (PST)
-X-Received: by 2002:ac8:5ac7:0:b0:4f1:ca4f:d480 with SMTP id d75a77b69052e-505d2263fddmr58995451cf.45.1769814020240;
-        Fri, 30 Jan 2026 15:00:20 -0800 (PST)
-Received: from localhost (pool-100-17-18-12.bstnma.fios.verizon.net. [100.17.18.12])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894d375e1c8sm70249956d6.48.2026.01.30.15.00.19
+        bh=dF4n5IF6I/vDZ01cqKrK/H1loj2asnvt61WDpBLXHOI=;
+        b=ik17rTtbQs1tthTRCRJYwmTfRLxIsJJyfZNpGc3IDqqJIAHiHqU8LwtykfeXhkTasO
+         GgMpagcHz7YmjuEVPrrakz5OdhiZOr7s38zMwauexd9j0p1O/j5OAZ8TAowTyw5YtLpF
+         UCqrK4fZheB53N3n6VnX45ckmmq8z80ru67cdS3aNVkLVUuw6Qply1HG4aCG1ZcRYOTs
+         RjQm691sKEYwLs3Y3cikXso+/he4zy3PHM5MJALsUdneqj8UrGewzrzwxsQXMBXPYVZJ
+         GtpyiBnBC0d7OHwycozq8VtJwHTWAoqjvyskXuS8wzqr0MGG/LZLMihW/98xfrVfihh+
+         Eklg==
+X-Gm-Message-State: AOJu0Ywj3viD+TiNTDirbpGHmi8mKeiOZWHYtPVoUImad26g1wRPzZG3
+	yLY39Ev0GafEz8SWUFBPjyChN0vaxi4n4LLOw0igavkhC1xO097yK+nlPbRxJ4EB
+X-Gm-Gg: AZuq6aLqJWjFVbE7UmWpPSwl57U380k+gUpuXjCSKtYVnLMNrtyDXZnAkCCr+DquiE4
+	VdJ2fsXI7w5TT0fI07PdDcDkHStLWHxdS/LMWX6QampB71qi2A1AO5dg1f68OZfIsLqDQk6NAZB
+	qFtcakPMZRclwJZudwe3/AGcf8XHoyMLi5AuNVeGipBRfoFJneRQRNSvsAIhJG5/xyuiH1QGIUn
+	H9eS+eEIpWGVfP5A3LoMDSzpLdwgQKQMFR8bSD8XSqW07v/um9LzYXicgWNwBab/lcYF1g7DYyp
+	p1rq1dn65qnj/xvalWJIbUYkCUSl8iqpGtN2ch5jESqFQXNJaIZVtZSsUhsax+v0ZzNHzEGBLqj
+	BVtciKbf2XkIBQvVpjAq1SVURRYTBW8H/5z2/OZ8owe9lWxDmJSOACQuDtm5DttFmDAAK00UM2K
+	LXreGQNAgTq3KnY9WV/y0EFMnVRFjv/qaEwzJZIaSnFE/NRTH7Q9Pz64aY6R/o8pGyHgMQPgx+N
+	BoDcm2oOcPzSrt/Fz7rrky6Pxd3OrwD/1LAOhS0vDnT/qRq/PwQb8JZccpfqxDt4nFJyJgxtc3m
+	n+zP7svccOC+5DU=
+X-Received: by 2002:a05:7022:6985:b0:122:3df:fccb with SMTP id a92af1059eb24-124b1028575mr4183085c88.10.1769824868206;
+        Fri, 30 Jan 2026 18:01:08 -0800 (PST)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-124a9d7f95asm12172447c88.7.2026.01.30.18.01.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 15:00:19 -0800 (PST)
-From: Eric Chanudet <echanude@redhat.com>
-Date: Fri, 30 Jan 2026 17:55:30 -0500
-Subject: [PATCH] dma-buf: heaps: cma: register a dmem region for each cma
- heap
+        Fri, 30 Jan 2026 18:01:07 -0800 (PST)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Darshan Rathod <darshanrathod475@gmail.com>,
+	Jai Luthra <jai.luthra@linux.dev>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH] media: remove unnecessary module_init/exit functions
+Date: Fri, 30 Jan 2026 18:00:47 -0800
+Message-ID: <20260131020057.46029-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MMQqAMAxA0atIZgNtEBGvIg7RpjZDq7Qognh3i
- +Mb/n+gSFYpMDYPZLm06J4qbNvAGjhtguqqgQz1xtKALvJyegzCB66RqyWi7ywZJuc7HqCmRxa
- v97+d5vf9AHWa3QpmAAAA
-X-Change-ID: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, 
- Eric Chanudet <echanude@redhat.com>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-51869-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.dev,ideasonboard.com];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51870-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[echanude@redhat.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[enelsonmoore@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 40A53BF468
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mihu.de:email]
+X-Rspamd-Queue-Id: 8D827C02F2
 X-Rspamd-Action: no action
 
-The cma dma-buf heaps let userspace allocate buffers in CMA regions
-without enforcing limits. Register a dmem region per cma heap and charge
-against it when allocating a buffer in a cma heap.
+Three media drivers have unnecessary module_init and module_exit
+functions that are empty or just print a message. Remove them. Note
+that if a module_init function exists, a module_exit function must also
+exist; otherwise, the module cannot be unloaded.
 
-For the default cma region, two heaps may be created for the same cma
-range:
-commit 854acbe75ff4 ("dma-buf: heaps: Give default CMA heap a fixed name")
-  Introduced /dev/dma_heap/default_cma_region
-commit 4f5f8baf7341 ("dma-buf: heaps: cma: Create CMA heap for each CMA
-                      reserved region")
-  Created a CMA heap for each CMA region, which might create a duplicate
-  heap to the default one, e.g:
-    /dev/dma_heap/default_cma_region
-    /dev/dma_heap/reserved
-
-Removing the legacy heap would break user API. So handle the special
-case by using one dmem between the two heaps to account charges
-correctly.
-
-Signed-off-by: Eric Chanudet <echanude@redhat.com>
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 ---
-In continuation with introducing cgroup for the system heap[1], this
-behavior is enabled based on dma_heap.mem_accounting, disabled by
-default.
+ drivers/media/common/b2c2/flexcop.c         | 14 --------------
+ drivers/media/common/saa7146/saa7146_fops.c | 13 -------------
+ drivers/media/usb/gspca/gspca.c             | 13 -------------
+ 3 files changed, 40 deletions(-)
 
-dmem is chosen for CMA heaps as it allows limits to be set for each
-region backing each heap. There is one caveat for the default cma range
-that may accessible through two different cma heaps, which is treated as
-a special case.
-
-[1] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ecc6b62cc446@redhat.com/
----
- drivers/dma-buf/heaps/cma_heap.c | 51 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 46 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..608af8ad6bce7fe0321da6d8f1b65a69f5d8d950 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -27,6 +27,7 @@
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
-+#include <linux/cgroup_dmem.h>
- 
- #define DEFAULT_CMA_NAME "default_cma_region"
- 
-@@ -46,7 +47,9 @@ int __init dma_heap_cma_register_heap(struct cma *cma)
- struct cma_heap {
- 	struct dma_heap *heap;
- 	struct cma *cma;
-+	struct dmem_cgroup_region *cg;
- };
-+static struct dmem_cgroup_region *default_cma_cg;
- 
- struct cma_heap_buffer {
- 	struct cma_heap *heap;
-@@ -58,6 +61,7 @@ struct cma_heap_buffer {
- 	pgoff_t pagecount;
- 	int vmap_cnt;
- 	void *vaddr;
-+	struct dmem_cgroup_pool_state *pool;
- };
- 
- struct dma_heap_attachment {
-@@ -276,6 +280,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *dmabuf)
- 	kfree(buffer->pages);
- 	/* release memory */
- 	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
-+	dmem_cgroup_uncharge(buffer->pool, buffer->len);
- 	kfree(buffer);
+diff --git a/drivers/media/common/b2c2/flexcop.c b/drivers/media/common/b2c2/flexcop.c
+index 8506de48ba45..1572831be5b8 100644
+--- a/drivers/media/common/b2c2/flexcop.c
++++ b/drivers/media/common/b2c2/flexcop.c
+@@ -292,20 +292,6 @@ void flexcop_device_exit(struct flexcop_device *fc)
  }
+ EXPORT_SYMBOL(flexcop_device_exit);
  
-@@ -319,9 +324,16 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
- 	if (align > CONFIG_CMA_ALIGNMENT)
- 		align = CONFIG_CMA_ALIGNMENT;
- 
-+	if (mem_accounting) {
-+		ret = dmem_cgroup_try_charge(cma_heap->cg, size,
-+					     &buffer->pool, NULL);
-+		if (ret)
-+			goto free_buffer;
-+	}
-+
- 	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
- 	if (!cma_pages)
--		goto free_buffer;
-+		goto uncharge_cgroup;
- 
- 	/* Clear the cma pages */
- 	if (PageHighMem(cma_pages)) {
-@@ -376,6 +388,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
- 	kfree(buffer->pages);
- free_cma:
- 	cma_release(cma_heap->cma, cma_pages, pagecount);
-+uncharge_cgroup:
-+	dmem_cgroup_uncharge(buffer->pool, size);
- free_buffer:
- 	kfree(buffer);
- 
-@@ -390,25 +404,52 @@ static int __init __add_cma_heap(struct cma *cma, const char *name)
- {
- 	struct dma_heap_export_info exp_info;
- 	struct cma_heap *cma_heap;
-+	struct dmem_cgroup_region *region;
-+	int ret;
- 
- 	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
- 	if (!cma_heap)
- 		return -ENOMEM;
- 	cma_heap->cma = cma;
- 
-+	/*
-+	 * If two heaps are created for the default cma region, use the same
-+	 * dmem for them. They both use the same memory pool.
-+	 */
-+	if (dev_get_cma_area(NULL) == cma && default_cma_cg)
-+		region = default_cma_cg;
-+	else {
-+		region = dmem_cgroup_register_region(cma_get_size(cma), "cma/%s", name);
-+		if (IS_ERR(region)) {
-+			ret = PTR_ERR(region);
-+			goto free_cma_heap;
-+		}
-+	}
-+	cma_heap->cg = region;
-+
- 	exp_info.name = name;
- 	exp_info.ops = &cma_heap_ops;
- 	exp_info.priv = cma_heap;
- 
- 	cma_heap->heap = dma_heap_add(&exp_info);
- 	if (IS_ERR(cma_heap->heap)) {
--		int ret = PTR_ERR(cma_heap->heap);
+-static int flexcop_module_init(void)
+-{
+-	info(DRIVER_NAME " loaded successfully");
+-	return 0;
+-}
 -
--		kfree(cma_heap);
--		return ret;
-+		ret = PTR_ERR(cma_heap->heap);
-+		goto cg_unregister;
- 	}
- 
-+	if (dev_get_cma_area(NULL) == cma && !default_cma_cg)
-+		default_cma_cg = region;
-+
- 	return 0;
-+
-+cg_unregister:
-+	/* default_cma_cg == cma_heap->cg only for the duplicate heap. */
-+	if (default_cma_cg != cma_heap->cg)
-+		dmem_cgroup_unregister_region(cma_heap->cg);
-+free_cma_heap:
-+	kfree(cma_heap);
-+
-+	return ret;
+-static void flexcop_module_cleanup(void)
+-{
+-	info(DRIVER_NAME " unloaded successfully");
+-}
+-
+-module_init(flexcop_module_init);
+-module_exit(flexcop_module_cleanup);
+-
+ MODULE_AUTHOR(DRIVER_AUTHOR);
+ MODULE_DESCRIPTION(DRIVER_NAME);
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/media/common/saa7146/saa7146_fops.c b/drivers/media/common/saa7146/saa7146_fops.c
+index a9e3bad76d54..c0166684eff8 100644
+--- a/drivers/media/common/saa7146/saa7146_fops.c
++++ b/drivers/media/common/saa7146/saa7146_fops.c
+@@ -417,19 +417,6 @@ int saa7146_unregister_device(struct video_device *vfd, struct saa7146_dev *dev)
  }
+ EXPORT_SYMBOL_GPL(saa7146_unregister_device);
  
- static int __init add_cma_heaps(void)
-
----
-base-commit: 3d65e4c276b32c03450261d114e495fda03c8e97
-change-id: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
-
-Best regards,
+-static int __init saa7146_vv_init_module(void)
+-{
+-	return 0;
+-}
+-
+-
+-static void __exit saa7146_vv_cleanup_module(void)
+-{
+-}
+-
+-module_init(saa7146_vv_init_module);
+-module_exit(saa7146_vv_cleanup_module);
+-
+ MODULE_AUTHOR("Michael Hunold <michael@mihu.de>");
+ MODULE_DESCRIPTION("video4linux driver for saa7146-based hardware");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/media/usb/gspca/gspca.c b/drivers/media/usb/gspca/gspca.c
+index 3fc15d16df8e..f3d3f441c851 100644
+--- a/drivers/media/usb/gspca/gspca.c
++++ b/drivers/media/usb/gspca/gspca.c
+@@ -1701,19 +1701,6 @@ int gspca_resume(struct usb_interface *intf)
+ EXPORT_SYMBOL(gspca_resume);
+ #endif
+ 
+-/* -- module insert / remove -- */
+-static int __init gspca_init(void)
+-{
+-	pr_info("v" GSPCA_VERSION " registered\n");
+-	return 0;
+-}
+-static void __exit gspca_exit(void)
+-{
+-}
+-
+-module_init(gspca_init);
+-module_exit(gspca_exit);
+-
+ module_param_named(debug, gspca_debug, int, 0644);
+ MODULE_PARM_DESC(debug,
+ 		"1:probe 2:config 3:stream 4:frame 5:packet 6:usbi 7:usbo");
 -- 
-Eric Chanudet <echanude@redhat.com>
+2.43.0
 
 
