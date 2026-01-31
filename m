@@ -1,219 +1,271 @@
-Return-Path: <linux-media+bounces-51870-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51871-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kFOvDYVifWkrRwIAu9opvQ
-	(envelope-from <linux-media+bounces-51870-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 03:01:41 +0100
+	id sGBGCMmUfWnQSgIAu9opvQ
+	(envelope-from <linux-media+bounces-51871-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 06:36:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D827C02F2
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 03:01:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF3AC0D56
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 06:36:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E0F5F30247DF
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 02:01:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 62D43301905B
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 05:34:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E79B2EAB83;
-	Sat, 31 Jan 2026 02:01:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D19E033B97B;
+	Sat, 31 Jan 2026 05:34:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mjXsVduB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o13LoX0p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A7D2DB787
-	for <linux-media@vger.kernel.org>; Sat, 31 Jan 2026 02:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F90A329C70;
+	Sat, 31 Jan 2026 05:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769824870; cv=none; b=bV/8+5xrg20nctScsnRgd2klOnCCyHsTwImocvKnz1w/f5F2cMB3Qrs6ubYGTaLSN5DiHiIQNajUwSYR2AFzGFtFvqk3sfI7BgF+8M7gmtvNFgjEWe/sntHeZv+78P+PYcL9kpz++91Kz1yOrH08U9zE7JH9Lv2tiS7pqt8bor0=
+	t=1769837672; cv=none; b=CMfA37vVBhcHPhN3qzmN0cx4f3Eex0JNDrm+AfqapZG0a0WEjx1UqWWqBQXQINNGIzZKUnsOCQNoDLyidbQ21qNYhlh46hhUEONW78nOPB9X0LN5RIBeyPPviXnUebsa6maM3lHYuITIJbPZvxcgO6+0vTO07Dbg3shlxK1EMmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769824870; c=relaxed/simple;
-	bh=J2cucYUpSwkFxhZZHTc2VNySs+b/F5L3SrE4e5t5Z0U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h+zWvZAnP1Xk3rDSgdCPK9CFThCeSZWgRa0djPbReSnHNKJPQ87RCLKQWZgVa+H2YRDPlJbfuJWiVCz0HmSuw6oqkn0xemIwEcBMhwkFbFkwpf8WObVHoLU4fJ3J3wHrc7MrEZS5vcuqJKnpsXt2ZkMyrP5gZrKGpni8vtUjuxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mjXsVduB; arc=none smtp.client-ip=74.125.82.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-124899ee9d3so2030292c88.0
-        for <linux-media@vger.kernel.org>; Fri, 30 Jan 2026 18:01:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769824868; x=1770429668; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dF4n5IF6I/vDZ01cqKrK/H1loj2asnvt61WDpBLXHOI=;
-        b=mjXsVduBxvLVU/ZObkRBuXwuHTOWU198M6sGcbxbKN8ycE289BftM1H/Q7Qqd3RNsK
-         u6zt54vZyEp1iHhFSZlZhVJF4T81VFGAokk9sFnryD9ultr9s+l/Ja0f5fVsPR4jhcus
-         k45FwzB0utQyFtCuQpwyJp2rDohbQrqtn6/bDZ45i5USF2MhKT6KPnH0/6F45L1ine2v
-         Y2KOL0ONeMsCJctaTcEVp6/imgXIPh5wPSN6ohbWeaVas6pDooosNotBjiksbViiqR9N
-         SvwNL1/SOTkk2xV4LsPvEO0ZCLKwJTtLKbCQde+zF7EUEi0tWfu3sVVlbnmoTFAzz6G4
-         oSfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769824868; x=1770429668;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dF4n5IF6I/vDZ01cqKrK/H1loj2asnvt61WDpBLXHOI=;
-        b=ik17rTtbQs1tthTRCRJYwmTfRLxIsJJyfZNpGc3IDqqJIAHiHqU8LwtykfeXhkTasO
-         GgMpagcHz7YmjuEVPrrakz5OdhiZOr7s38zMwauexd9j0p1O/j5OAZ8TAowTyw5YtLpF
-         UCqrK4fZheB53N3n6VnX45ckmmq8z80ru67cdS3aNVkLVUuw6Qply1HG4aCG1ZcRYOTs
-         RjQm691sKEYwLs3Y3cikXso+/he4zy3PHM5MJALsUdneqj8UrGewzrzwxsQXMBXPYVZJ
-         GtpyiBnBC0d7OHwycozq8VtJwHTWAoqjvyskXuS8wzqr0MGG/LZLMihW/98xfrVfihh+
-         Eklg==
-X-Gm-Message-State: AOJu0Ywj3viD+TiNTDirbpGHmi8mKeiOZWHYtPVoUImad26g1wRPzZG3
-	yLY39Ev0GafEz8SWUFBPjyChN0vaxi4n4LLOw0igavkhC1xO097yK+nlPbRxJ4EB
-X-Gm-Gg: AZuq6aLqJWjFVbE7UmWpPSwl57U380k+gUpuXjCSKtYVnLMNrtyDXZnAkCCr+DquiE4
-	VdJ2fsXI7w5TT0fI07PdDcDkHStLWHxdS/LMWX6QampB71qi2A1AO5dg1f68OZfIsLqDQk6NAZB
-	qFtcakPMZRclwJZudwe3/AGcf8XHoyMLi5AuNVeGipBRfoFJneRQRNSvsAIhJG5/xyuiH1QGIUn
-	H9eS+eEIpWGVfP5A3LoMDSzpLdwgQKQMFR8bSD8XSqW07v/um9LzYXicgWNwBab/lcYF1g7DYyp
-	p1rq1dn65qnj/xvalWJIbUYkCUSl8iqpGtN2ch5jESqFQXNJaIZVtZSsUhsax+v0ZzNHzEGBLqj
-	BVtciKbf2XkIBQvVpjAq1SVURRYTBW8H/5z2/OZ8owe9lWxDmJSOACQuDtm5DttFmDAAK00UM2K
-	LXreGQNAgTq3KnY9WV/y0EFMnVRFjv/qaEwzJZIaSnFE/NRTH7Q9Pz64aY6R/o8pGyHgMQPgx+N
-	BoDcm2oOcPzSrt/Fz7rrky6Pxd3OrwD/1LAOhS0vDnT/qRq/PwQb8JZccpfqxDt4nFJyJgxtc3m
-	n+zP7svccOC+5DU=
-X-Received: by 2002:a05:7022:6985:b0:122:3df:fccb with SMTP id a92af1059eb24-124b1028575mr4183085c88.10.1769824868206;
-        Fri, 30 Jan 2026 18:01:08 -0800 (PST)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-124a9d7f95asm12172447c88.7.2026.01.30.18.01.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Jan 2026 18:01:07 -0800 (PST)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Darshan Rathod <darshanrathod475@gmail.com>,
-	Jai Luthra <jai.luthra@linux.dev>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH] media: remove unnecessary module_init/exit functions
-Date: Fri, 30 Jan 2026 18:00:47 -0800
-Message-ID: <20260131020057.46029-1-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1769837672; c=relaxed/simple;
+	bh=msfuCI1mY6PBsAwy2WktEJP8SjPAURCVBqQLlK4s1IY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DGukIj0yA4WgqCvTQ40lwfhe6zKNZJRZ6q3p/vfrsJC8z3Z1KGE6uocSJwjCzw1yAP7FxOOS9MdKMBlmkDUHFaZ4sjLDZjUFXWRkBKxadVripkFiCA0F+OvDDn06DeL3SG68jw+qqTXrUbuCtWgUJtLB8q2N9qOeqqRperE3byQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o13LoX0p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8EEAC4CEF1;
+	Sat, 31 Jan 2026 05:34:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769837672;
+	bh=msfuCI1mY6PBsAwy2WktEJP8SjPAURCVBqQLlK4s1IY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=o13LoX0plOpo0vBJc9mVNoSBiGBPjuXeBgly0DF0Y6Z9fvbMwCRJB1jfjOuteo9w0
+	 lCjGeWn3p6XnYBj1WoLQx0fmynI6SKOv7YqDl9BzJuJ1NkrNKYt9s1m3qouZ/1PJmq
+	 bALF6cFB9fMEt8ehH4stMaT3mazp09t6JOVZXKZPAlCNNad7J94+S076j8c8CKUqDc
+	 ITyG6MY5i3pVd9wBz16yqyH4jGtq5bYnqJNuwE3xGMQkKRkGJ/u77HJaQf03jhm99W
+	 nBk4Tr7sOJLDNGqwiGAXmZ7+M4BoVWyEHos8gEt7sqPGrfOY59guoZBeYQ+PXUtlPS
+	 vB0NCkW6SG7Ag==
+From: Leon Romanovsky <leon@kernel.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	kvm@vger.kernel.org
+Subject: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate shared buffers
+Date: Sat, 31 Jan 2026 07:34:10 +0200
+Message-ID: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20251221-dmabuf-revoke-b90ef16e4236
+X-Mailer: b4 0.15-dev-47773
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linux.dev,ideasonboard.com];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51870-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51871-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[35];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[enelsonmoore@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mihu.de:email]
-X-Rspamd-Queue-Id: 8D827C02F2
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[msgid.link:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:mid,nvidia.com:email]
+X-Rspamd-Queue-Id: 5DF3AC0D56
 X-Rspamd-Action: no action
 
-Three media drivers have unnecessary module_init and module_exit
-functions that are empty or just print a message. Remove them. Note
-that if a module_init function exists, a module_exit function must also
-exist; otherwise, the module cannot be unloaded.
+Changelog:
+v7:
+ * Fixed messed VFIO patch due to rebase.
+v6: https://patch.msgid.link/20260130-dmabuf-revoke-v6-0-06278f9b7bf0@nvidia.com
+ * Added Reviewed-by tags.
+ * Changed for blocking wait_for_completion() in VFIO
+ * Fixed race between ->attach and move_notify, where priv->revoked is
+   flipped and lock is released.
+v5: https://patch.msgid.link/20260124-dmabuf-revoke-v5-0-f98fca917e96@nvidia.com
+ * Documented the DMA-BUF expectations around DMA unmap.
+ * Added wait support in VFIO for DMA unmap.
+ * Reordered patches.
+ * Improved commit messages to document even more.
+v4: https://lore.kernel.org/all/20260121-dmabuf-revoke-v4-0-d311cbc8633d@nvidia.com
+ * Changed DMA_RESV_USAGE_KERNEL to DMA_RESV_USAGE_BOOKKEEP.
+ * Made .invalidate_mapping() truly optional.
+ * Added patch which renames dma_buf_move_notify() to be
+   dma_buf_invalidate_mappings().
+ * Restored dma_buf_attachment_is_dynamic() function.
+v3: https://lore.kernel.org/all/20260120-dmabuf-revoke-v3-0-b7e0b07b8214@nvidia.com/
+ * Used Jason's wordings for commits and cover letter.
+ * Removed IOMMUFD patch.
+ * Renamed dma_buf_attachment_is_revoke() to be dma_buf_attach_revocable().
+ * Added patch to remove CONFIG_DMABUF_MOVE_NOTIFY.
+ * Added Reviewed-by tags.
+ * Called to dma_resv_wait_timeout() after dma_buf_move_notify() in VFIO.
+ * Added dma_buf_attach_revocable() check to VFIO DMABUF attach function.
+ * Slightly changed commit messages.
+v2: https://patch.msgid.link/20260118-dmabuf-revoke-v2-0-a03bb27c0875@nvidia.com
+ * Changed series to document the revoke semantics instead of
+   implementing it.
+v1: https://patch.msgid.link/20260111-dmabuf-revoke-v1-0-fb4bcc8c259b@nvidia.com
 
-Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+-------------------------------------------------------------------------
+This series is based on latest VFIO fix, which will be sent to Linus
+very soon.
+
+https://lore.kernel.org/all/20260121-vfio-add-pin-v1-1-4e04916b17f1@nvidia.com/
+
+Thanks
+-------------------------------------------------------------------------
+This series documents a dma-buf “revoke” mechanism: to allow a dma-buf
+exporter to explicitly invalidate (“kill”) a shared buffer after it has
+been distributed to importers, so that further CPU and device access is
+prevented and importers reliably observe failure.
+
+The change in this series is to properly document and use existing core
+“revoked” state on the dma-buf object and a corresponding exporter-triggered
+revoke operation.
+
+dma-buf has quietly allowed calling move_notify on pinned dma-bufs, even
+though legacy importers using dma_buf_attach() would simply ignore
+these calls.
+
+The intention was that move_notify() would tell the importer to expedite
+it's unmapping process and once the importer is fully finished with DMA it
+would unmap the dma-buf which finally signals that the importer is no
+longer ever going to touch the memory again. Importers that touch past
+their unmap() call can trigger IOMMU errors, AER and beyond, however
+read-and-discard access between move_notify() and unmap is allowed.
+
+Thus, we can define the exporter's revoke sequence for pinned dma-buf as:
+
+	dma_resv_lock(dmabuf->resv, NULL);
+	// Prevent new mappings from being established
+	priv->revoked = true;
+
+	// Tell all importers to eventually unmap
+	dma_buf_invalidate_mappings(dmabuf);
+
+	// Wait for any inprogress fences on the old mapping
+	dma_resv_wait_timeout(dmabuf->resv,
+			      DMA_RESV_USAGE_BOOKKEEP, false,
+			      MAX_SCHEDULE_TIMEOUT);
+	dma_resv_unlock(dmabuf->resv, NULL);
+
+	// Wait for all importers to complete unmap
+	wait_for_completion(&priv->unmapp_comp);
+
+However, dma-buf also supports importers that don't do anything on
+move_notify(), and will not unmap the buffer in bounded time.
+
+Since such importers would cause the above sequence to hang, a new
+mechanism is needed to detect incompatible importers.
+
+Introduce dma_buf_attach_revocable() which if true indicates the above
+sequence is safe to use and will complete in kernel-only bounded time for
+this attachment.
+
+Unfortunately dma_buf_attach_revocable() is going to fail for the popular
+RDMA pinned importer, which means we cannot introduce it to existing
+places using pinned move_notify() without potentially breaking existing
+userspace flows.
+
+Existing exporters that only trigger this flow for RAS errors should not
+call dma_buf_attach_revocable() and will suffer an unbounded block on the
+final completion, hoping that the userspace will notice the RAS and clean
+things up. Without revoke support on the RDMA pinned importers it doesn't
+seem like any other non-breaking option is currently possible.
+
+For new exporters, like VFIO and RDMA, that have userspace triggered
+revoke events, the unbouned sleep would not be acceptable. They can call
+dma_buf_attach_revocable() and will not work with the RDMA pinned importer
+from day 0, preventing regressions.
+
+In the process add documentation explaining the above details.
+
+Thanks
+
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/media/common/b2c2/flexcop.c         | 14 --------------
- drivers/media/common/saa7146/saa7146_fops.c | 13 -------------
- drivers/media/usb/gspca/gspca.c             | 13 -------------
- 3 files changed, 40 deletions(-)
+Leon Romanovsky (8):
+      dma-buf: Rename .move_notify() callback to a clearer identifier
+      dma-buf: Rename dma_buf_move_notify() to dma_buf_invalidate_mappings()
+      dma-buf: Always build with DMABUF_MOVE_NOTIFY
+      vfio: Wait for dma-buf invalidation to complete
+      dma-buf: Make .invalidate_mapping() truly optional
+      dma-buf: Add dma_buf_attach_revocable()
+      vfio: Permit VFIO to work with pinned importers
+      iommufd: Add dma_buf_pin()
 
-diff --git a/drivers/media/common/b2c2/flexcop.c b/drivers/media/common/b2c2/flexcop.c
-index 8506de48ba45..1572831be5b8 100644
---- a/drivers/media/common/b2c2/flexcop.c
-+++ b/drivers/media/common/b2c2/flexcop.c
-@@ -292,20 +292,6 @@ void flexcop_device_exit(struct flexcop_device *fc)
- }
- EXPORT_SYMBOL(flexcop_device_exit);
- 
--static int flexcop_module_init(void)
--{
--	info(DRIVER_NAME " loaded successfully");
--	return 0;
--}
--
--static void flexcop_module_cleanup(void)
--{
--	info(DRIVER_NAME " unloaded successfully");
--}
--
--module_init(flexcop_module_init);
--module_exit(flexcop_module_cleanup);
--
- MODULE_AUTHOR(DRIVER_AUTHOR);
- MODULE_DESCRIPTION(DRIVER_NAME);
- MODULE_LICENSE("GPL");
-diff --git a/drivers/media/common/saa7146/saa7146_fops.c b/drivers/media/common/saa7146/saa7146_fops.c
-index a9e3bad76d54..c0166684eff8 100644
---- a/drivers/media/common/saa7146/saa7146_fops.c
-+++ b/drivers/media/common/saa7146/saa7146_fops.c
-@@ -417,19 +417,6 @@ int saa7146_unregister_device(struct video_device *vfd, struct saa7146_dev *dev)
- }
- EXPORT_SYMBOL_GPL(saa7146_unregister_device);
- 
--static int __init saa7146_vv_init_module(void)
--{
--	return 0;
--}
--
--
--static void __exit saa7146_vv_cleanup_module(void)
--{
--}
--
--module_init(saa7146_vv_init_module);
--module_exit(saa7146_vv_cleanup_module);
--
- MODULE_AUTHOR("Michael Hunold <michael@mihu.de>");
- MODULE_DESCRIPTION("video4linux driver for saa7146-based hardware");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/media/usb/gspca/gspca.c b/drivers/media/usb/gspca/gspca.c
-index 3fc15d16df8e..f3d3f441c851 100644
---- a/drivers/media/usb/gspca/gspca.c
-+++ b/drivers/media/usb/gspca/gspca.c
-@@ -1701,19 +1701,6 @@ int gspca_resume(struct usb_interface *intf)
- EXPORT_SYMBOL(gspca_resume);
- #endif
- 
--/* -- module insert / remove -- */
--static int __init gspca_init(void)
--{
--	pr_info("v" GSPCA_VERSION " registered\n");
--	return 0;
--}
--static void __exit gspca_exit(void)
--{
--}
--
--module_init(gspca_init);
--module_exit(gspca_exit);
--
- module_param_named(debug, gspca_debug, int, 0644);
- MODULE_PARM_DESC(debug,
- 		"1:probe 2:config 3:stream 4:frame 5:packet 6:usbi 7:usbo");
--- 
-2.43.0
+ drivers/dma-buf/Kconfig                     | 12 -----
+ drivers/dma-buf/dma-buf.c                   | 69 ++++++++++++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
+ drivers/gpu/drm/amd/amdkfd/Kconfig          |  2 +-
+ drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+ drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  7 ++-
+ drivers/gpu/drm/xe/xe_bo.c                  |  2 +-
+ drivers/gpu/drm/xe/xe_dma_buf.c             | 14 ++---
+ drivers/infiniband/core/umem_dmabuf.c       | 13 -----
+ drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+ drivers/iommu/iommufd/pages.c               | 11 +++-
+ drivers/iommu/iommufd/selftest.c            |  2 +-
+ drivers/vfio/pci/vfio_pci_dmabuf.c          | 80 ++++++++++++++++++++++-------
+ include/linux/dma-buf.h                     | 17 +++---
+ 15 files changed, 153 insertions(+), 96 deletions(-)
+---
+base-commit: 61ceaf236115f20f4fdd7cf60f883ada1063349a
+change-id: 20251221-dmabuf-revoke-b90ef16e4236
+
+Best regards,
+--  
+Leon Romanovsky <leonro@nvidia.com>
 
 
