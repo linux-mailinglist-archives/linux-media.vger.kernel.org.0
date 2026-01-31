@@ -1,206 +1,160 @@
-Return-Path: <linux-media+bounces-51903-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51904-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EN0DMnVEfmnbWgIAu9opvQ
-	(envelope-from <linux-media+bounces-51903-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 19:05:41 +0100
+	id QLWqHkJLfmmqWwIAu9opvQ
+	(envelope-from <linux-media+bounces-51904-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 19:34:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01308C3791
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 19:05:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 195D7C3866
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 19:34:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EC32F301840C
-	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 18:05:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 380A3304046F
+	for <lists+linux-media@lfdr.de>; Sat, 31 Jan 2026 18:34:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26FDC366041;
-	Sat, 31 Jan 2026 18:05:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 754B0366DB8;
+	Sat, 31 Jan 2026 18:34:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d6nBI8Oe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQC2dZAa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6952472A5
-	for <linux-media@vger.kernel.org>; Sat, 31 Jan 2026 18:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2ADA340DB1;
+	Sat, 31 Jan 2026 18:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769882737; cv=none; b=uYmzPIKMhzQbE7QDLXKUdN3Jh1PFniFJXxR+IsUftjarUu6Y82sPCvKiy/iC5Z++ljRRfhGPkRoHYdVa+oWQYEfnw1pNdNac/Y211HTELmxtgJfXjZYp1Oh+WObeK8I6wA1sVP8IUI0lMsak3ni463VyKIcLlgxoqB4MKYwVz3s=
+	t=1769884460; cv=none; b=tTXyK/jmBTIxqEx4HKAsJGjBHANoD7hjdYdELnMdxgCzq1kkGDPone2oQHcv2Fvr1qw4epuItpfdqmBW/ZUDpKzaD9DLVBI2LRpXyOtIlkE4t0noyCveZvyGupMhVjpVmVSF4EAO404ypr7QtDO5FB0P7AtWeXecUao586DSzEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769882737; c=relaxed/simple;
-	bh=51ZB6k7L3Ne4LO71UbbPI07n68oUTiM+MZ/SD5usLXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cd9KpkZpNUIzdWj6kKVzi3WiWLHKdpUHVQybuv5+CXtpAiX2OheJDg9Gclun6QwaS2d0vr5WaPjL+FJbVPuRmcMztx7ji28TsX6kFh9KM1t1chiKYqDfc8rQcY5Q+ylmEaqnVzntROAgKbH9kX+JWrgx6oa6e4QBfE0Rda/ILvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d6nBI8Oe; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A754356D;
-	Sat, 31 Jan 2026 19:04:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769882692;
-	bh=51ZB6k7L3Ne4LO71UbbPI07n68oUTiM+MZ/SD5usLXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d6nBI8Oe8O1noPUyi1VBGcQRxXfOr3oQckVG3niEjFnUvrmM9DK7ZPpYvJcpJVTp4
-	 HPcJyjHprxJPxNeePnJUv8XPg2k7qYFwCxSj6Zp7PIFrjuk4s+stVhCrfIc91p5lri
-	 DefasP0lYD+dkQTTeslo9jlaPhu34Fh47bGTF57c=
-Date: Sat, 31 Jan 2026 20:05:29 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Darshan Rathod <darshanrathod475@gmail.com>,
-	Jai Luthra <jai.luthra@linux.dev>
-Subject: Re: [PATCH] media: remove unnecessary module_init/exit functions
-Message-ID: <20260131180529.GT3374091@killaraus>
-References: <20260131020057.46029-1-enelsonmoore@gmail.com>
+	s=arc-20240116; t=1769884460; c=relaxed/simple;
+	bh=aaE7fKEwlpHt4wn74V9tbscqWqdbeDceUSgbkf29J3Y=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=tb7lxkC1MS8J3LBtBNYlJLw8X2OPIT5ozUahZuRbfyAzId7RPPmwYcaJSTVmyKlZq/cZu9MCSJcwnPVrZTjOnL98pYU9kuafULco5Vr3LbfEvEYcbe2m5+OBK4q9hdKqwDdphLIDeDL/FUdnSYBlrkNm2LzyUBMPkEAuzGRppVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQC2dZAa; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84035C4CEF1;
+	Sat, 31 Jan 2026 18:34:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769884460;
+	bh=aaE7fKEwlpHt4wn74V9tbscqWqdbeDceUSgbkf29J3Y=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=YQC2dZAaz6ouQyaaU7Z+wFs6TTiYA+yKw8t6OwJjvBghr+V6TwdAFyh8WNHBkwvR/
+	 ZoPGUyXVEw5NXaUyWHBiOrv+g8M1Z5ShTW3ud41iTO8/sw5RneF7ni10xq+nIhnKWN
+	 Hy9mLtn+Jt2HkDYBz1LiqR0rddpZmYEmJMFXyXviPxcOxg0hiZldBR80N0hvEakOhn
+	 w6mbPePNlUck8B0rvlIRzE0x5HtVG6qF7ioLEsQfV+BPk68IEmBrBY7xr8ahuUbyHa
+	 eHp7XpOv4jGulvJimI7k7g7eoFHGCVn0K6tMxuWMNQdMH0+L4NkBykdr84dSOGPizH
+	 x9Aow3hHbKxnA==
+Date: Sat, 31 Jan 2026 12:34:19 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260131020057.46029-1-enelsonmoore@gmail.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, 
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Taniya Das <quic_tdas@quicinc.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Dikshita Agarwal <dikshita@qti.qualcomm.com>, 
+ Jonathan Marek <jonathan@marek.ca>, 
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Hans Verkuil <hverkuil@kernel.org>, 
+ Stefan Schmidt <stefan.schmidt@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ linux-clk@vger.kernel.org, Bryan O'Donoghue <bod@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-pm@vger.kernel.org, 
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <20260131-iris-venus-fix-sm8250-v1-1-b635ee66284c@oss.qualcomm.com>
+References: <20260131-iris-venus-fix-sm8250-v1-0-b635ee66284c@oss.qualcomm.com>
+ <20260131-iris-venus-fix-sm8250-v1-1-b635ee66284c@oss.qualcomm.com>
+Message-Id: <176988445972.2807015.8710676873473596056.robh@kernel.org>
+Subject: Re: [PATCH 1/8] dt-bindings: clock: qcom,sm8250-videocc: account
+ for the MX domain
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51904-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51903-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_FIVE(0.00)[6];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,linux.dev];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,huawei,dt];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 01308C3791
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: 195D7C3866
 X-Rspamd-Action: no action
 
-Hi Ethan,
 
-Thank you for the patch.
-
-On Fri, Jan 30, 2026 at 06:00:47PM -0800, Ethan Nelson-Moore wrote:
-> Three media drivers have unnecessary module_init and module_exit
-> functions that are empty or just print a message. Remove them. Note
-> that if a module_init function exists, a module_exit function must also
-> exist; otherwise, the module cannot be unloaded.
-
-How did you identify those, was it scripted or manual ? 
-
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-
-The patch looks good,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I would also be nice to replace the module init/exit functions that
-register/unregister PCI or USB drivers with the corresponding helper
-macros (module_pci_driver, module_usb_driver, module_platform_driver,
-...), as we have quite a few drivers that still open-code that. In a
-separate patch of course.
-
-> ---
->  drivers/media/common/b2c2/flexcop.c         | 14 --------------
->  drivers/media/common/saa7146/saa7146_fops.c | 13 -------------
->  drivers/media/usb/gspca/gspca.c             | 13 -------------
->  3 files changed, 40 deletions(-)
+On Sat, 31 Jan 2026 19:33:43 +0200, Dmitry Baryshkov wrote:
+> To configure the video PLLs and enable the video GDSCs on SM8250,
+> platform, the MX rail must be ON along with MMCX. Split the bindings
+> file in order to provide separate file utilizing MMCX and MX power
+> domains.
 > 
-> diff --git a/drivers/media/common/b2c2/flexcop.c b/drivers/media/common/b2c2/flexcop.c
-> index 8506de48ba45..1572831be5b8 100644
-> --- a/drivers/media/common/b2c2/flexcop.c
-> +++ b/drivers/media/common/b2c2/flexcop.c
-> @@ -292,20 +292,6 @@ void flexcop_device_exit(struct flexcop_device *fc)
->  }
->  EXPORT_SYMBOL(flexcop_device_exit);
->  
-> -static int flexcop_module_init(void)
-> -{
-> -	info(DRIVER_NAME " loaded successfully");
-> -	return 0;
-> -}
-> -
-> -static void flexcop_module_cleanup(void)
-> -{
-> -	info(DRIVER_NAME " unloaded successfully");
-> -}
-> -
-> -module_init(flexcop_module_init);
-> -module_exit(flexcop_module_cleanup);
-> -
->  MODULE_AUTHOR(DRIVER_AUTHOR);
->  MODULE_DESCRIPTION(DRIVER_NAME);
->  MODULE_LICENSE("GPL");
-> diff --git a/drivers/media/common/saa7146/saa7146_fops.c b/drivers/media/common/saa7146/saa7146_fops.c
-> index a9e3bad76d54..c0166684eff8 100644
-> --- a/drivers/media/common/saa7146/saa7146_fops.c
-> +++ b/drivers/media/common/saa7146/saa7146_fops.c
-> @@ -417,19 +417,6 @@ int saa7146_unregister_device(struct video_device *vfd, struct saa7146_dev *dev)
->  }
->  EXPORT_SYMBOL_GPL(saa7146_unregister_device);
->  
-> -static int __init saa7146_vv_init_module(void)
-> -{
-> -	return 0;
-> -}
-> -
-> -
-> -static void __exit saa7146_vv_cleanup_module(void)
-> -{
-> -}
-> -
-> -module_init(saa7146_vv_init_module);
-> -module_exit(saa7146_vv_cleanup_module);
-> -
->  MODULE_AUTHOR("Michael Hunold <michael@mihu.de>");
->  MODULE_DESCRIPTION("video4linux driver for saa7146-based hardware");
->  MODULE_LICENSE("GPL");
-> diff --git a/drivers/media/usb/gspca/gspca.c b/drivers/media/usb/gspca/gspca.c
-> index 3fc15d16df8e..f3d3f441c851 100644
-> --- a/drivers/media/usb/gspca/gspca.c
-> +++ b/drivers/media/usb/gspca/gspca.c
-> @@ -1701,19 +1701,6 @@ int gspca_resume(struct usb_interface *intf)
->  EXPORT_SYMBOL(gspca_resume);
->  #endif
->  
-> -/* -- module insert / remove -- */
-> -static int __init gspca_init(void)
-> -{
-> -	pr_info("v" GSPCA_VERSION " registered\n");
-> -	return 0;
-> -}
-> -static void __exit gspca_exit(void)
-> -{
-> -}
-> -
-> -module_init(gspca_init);
-> -module_exit(gspca_exit);
-> -
->  module_param_named(debug, gspca_debug, int, 0644);
->  MODULE_PARM_DESC(debug,
->  		"1:probe 2:config 3:stream 4:frame 5:packet 6:usbi 7:usbo");
+> Fixes: dafb992a95e1 ("dt-bindings: clock: add SM8250 QCOM video clock bindings")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  .../bindings/clock/qcom,sm8250-videocc.yaml        | 80 ++++++++++++++++++++++
+>  .../devicetree/bindings/clock/qcom,videocc.yaml    | 20 ------
+>  2 files changed, 80 insertions(+), 20 deletions(-)
+> 
 
--- 
-Regards,
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Laurent Pinchart
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/clock/qcom,sm8250-videocc.example.dtb: clock-controller@ab00000 (qcom,sm8250-videocc): clock-names:0: 'iface' was expected
+	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8250-videocc.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/clock/qcom,sm8250-videocc.example.dtb: clock-controller@ab00000 (qcom,sm8250-videocc): clock-names: ['bi_tcxo'] is too short
+	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8250-videocc.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/clock/qcom,sm8250-videocc.example.dtb: clock-controller@ab00000 (qcom,sm8250-videocc): clocks: [[4294967295, 0]] is too short
+	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8250-videocc.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260131-iris-venus-fix-sm8250-v1-1-b635ee66284c@oss.qualcomm.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
