@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-51939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51940-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IP2bBZy9f2knxAIAu9opvQ
-	(envelope-from <linux-media+bounces-51939-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 21:54:52 +0100
+	id qCHNLEa/f2l9xAIAu9opvQ
+	(envelope-from <linux-media+bounces-51940-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 22:01:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CF8C738B
-	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 21:54:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1203CC73C7
+	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 22:01:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0424630063A2
-	for <lists+linux-media@lfdr.de>; Sun,  1 Feb 2026 20:54:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E59BB3008A7F
+	for <lists+linux-media@lfdr.de>; Sun,  1 Feb 2026 21:01:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E2882D4806;
-	Sun,  1 Feb 2026 20:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F34222D97A2;
+	Sun,  1 Feb 2026 21:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSIcCCjh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HhFat/aj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971732D3A77;
-	Sun,  1 Feb 2026 20:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006F928314B;
+	Sun,  1 Feb 2026 21:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769979278; cv=none; b=cWmR5autt0GuBlzBMJJokGKosKgams4gok1FwO5X1Rj/wA/VM7wL//GF6lyqRkUs2Z5tz1ucrBoQgDSwuxcAyah+Oc2F3GOdFDOeXkIsYECf/kILntqUaGSG1vcfD/+Hf07PJA7aqc6gxPJMy5Osl4mfVyAHMC/jwxIvKp2M7i8=
+	t=1769979709; cv=none; b=DHPC54/iupXTb2aXAAOz6cyWEDAsWHcj5TXOyFKatBTaAIzLm2V5ej4vXRXgQY00hj2DFvVEjpK+Cpg5XYEP/PZ3Qm1iHMh/35N9UOIIaEfuGLLLPHsJ1XFD71wITk33yYrBjW4prqCpXdTwnBNbdcIPIF6zRTWpMLudM+wPZqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769979278; c=relaxed/simple;
-	bh=j6QE67pZtCUtAgCmImfR+xJthfVY1NSml30h4KLqPRk=;
+	s=arc-20240116; t=1769979709; c=relaxed/simple;
+	bh=vjhiCNXVEl4JwTm9FOMfP9G8iIONK7YsIk6rcyN+OQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=du0bYma5A3ObB2bAHiSzTKiTbEZLiPMV5pEQDQdBU9QG2prsbS/40TmSFuzManxfR1pyXYHZeBgIlE17YYdkqzMTpGb/wH6zqoDMDs26dXfLbaP8J6uSX7j3sg4T9YUoz64nWeUzurEEnq5jPXem7mniJy6t5icPPY1gPCSd+Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSIcCCjh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE51AC4CEF7;
-	Sun,  1 Feb 2026 20:54:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769979278;
-	bh=j6QE67pZtCUtAgCmImfR+xJthfVY1NSml30h4KLqPRk=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=LasZECmhaVx6ikm4zpUfpbNCljgB4LABYRhWoBTyqnDI7Dn6ARSZ152hs7oL60M77iCmK1xQqK8BmoWtIQDIrT2DFXLBReANrbvIyoLayc10Inb+mceR+rSfFFUn2GaazseVkqu8Hqv1Pt6xEJhzoWj/yT71rSEmZLZIRnA5rwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HhFat/aj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AE9244E1;
+	Sun,  1 Feb 2026 22:01:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769979665;
+	bh=vjhiCNXVEl4JwTm9FOMfP9G8iIONK7YsIk6rcyN+OQQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hSIcCCjh9UYFqpzFvO1eSv/YC2cSzLN0lCK8c2saoPShK7dZtUJWZ0dZpVtJhfHf+
-	 EJIq+bdlECmp9DnqhWjuVmP65wrDjSFaXJoWwlBg2DqywVyEx5M8hWV1/BouAA+o9a
-	 58d9Kv30irDhWbLvuwq5O2GBHF5JzDcXRhSVIzOP9FCdzp0cPaw+/6C9RYKMNCf6ES
-	 OFCibDh5UR/hXUYhcdX2r+YFwlUcS3n79wMaD8GK4yDhaNlc61HAsAz1Dqb08wXxtN
-	 4pXU17DjdddMquyFRCGThiT5tz8suFdYYNsVats2uYlwiswV/ORS8yGH+vU2dyP9OJ
-	 4JMKIMs5KlQzQ==
-Date: Sun, 1 Feb 2026 22:54:34 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	b=HhFat/ajvZxz+CrymkcVyhI0lTtklLAo5Zbge4n4Tquh5Pycb+vSglK0rPJLTtSou
+	 kvm+Rpzp954bGsYGYcVmywLr4+FXbPTgle82J9J9te4MKKOgZvPzqWupYCOHOV+ZPG
+	 UIfVj0XBe7sueWDejBiToEWgsTmbPzCvPTXtxV/o=
+Date: Sun, 1 Feb 2026 23:01:44 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
 Cc: linux-media@vger.kernel.org, jani.nikula@linux.intel.com,
 	anisse@astier.eu, oleksandr@natalenko.name,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -56,7 +56,7 @@ Cc: linux-media@vger.kernel.org, jani.nikula@linux.intel.com,
 	Ricardo Ribalda <ribalda@chromium.org>,
 	open list <linux-kernel@vger.kernel.org>
 Subject: Re: [RFC PATCH] media: Virtual camera driver
-Message-ID: <aX-9iq8r-3SM00qF@kernel.org>
+Message-ID: <20260201210144.GZ3374091@killaraus>
 References: <20260201133342.335680-1-jarkko@kernel.org>
  <20260201182011.GV3374091@killaraus>
  <aX-joEDl_BJai8wY@kernel.org>
@@ -68,40 +68,40 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <aX-4-gTM9vf03iCp@kernel.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-51939-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51940-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jarkko@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 53CF8C738B
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: 1203CC73C7
 X-Rspamd-Action: no action
 
-On Sun, Feb 01, 2026 at 10:35:12PM +0200, Jarkko Sakkinen wrote:
+On Sun, Feb 01, 2026 at 10:35:06PM +0200, Jarkko Sakkinen wrote:
 > On Sun, Feb 01, 2026 at 10:06:49PM +0200, Laurent Pinchart wrote:
 > > On Sun, Feb 01, 2026 at 09:04:00PM +0200, Jarkko Sakkinen wrote:
 > > > On Sun, Feb 01, 2026 at 08:20:11PM +0200, Laurent Pinchart wrote:
@@ -137,14 +137,33 @@ On Sun, Feb 01, 2026 at 10:35:12PM +0200, Jarkko Sakkinen wrote:
 > 
 > That might have some weight as a pro but the unarguable con is that at
 > the same time this policy retains a base of tainted kernels in the wild.
-> 
+
+Do you mean tainted by the out-of-tree v4l2loopback module ? Won't those
+systems be equally tainted by out-of-tree camera drivers then ? With
+libcamera and the soft ISP you can run a 100% mainline stack.
+
 > Not saying that this weight more but it is important to remark this
 > fact.
+> 
+> > > The motivation here is to provide a service optimized for that use and
+> > > purpose. It's virtual but non-generic i.e. not aimed for testing/emulation.
+> > > 
+> > > > >  .../driver-api/media/drivers/index.rst        |    1 +
+> > > > >  .../driver-api/media/drivers/vcam.rst         |   16 +
+> > > > >  MAINTAINERS                                   |    8 +
+> > > > >  drivers/media/Kconfig                         |   13 +
+> > > > >  drivers/media/Makefile                        |    1 +
+> > > > >  drivers/media/vcam.c                          | 1700 +++++++++++++++++
+> > > > >  include/uapi/linux/vcam.h                     |  124 ++
+> > > > >  7 files changed, 1863 insertions(+)
+> > > > >  create mode 100644 Documentation/driver-api/media/drivers/vcam.rst
+> > > > >  create mode 100644 drivers/media/vcam.c
+> > > > >  create mode 100644 include/uapi/linux/vcam.h
+> > 
+> > [snip]
 
-It's widely packaged for different distributions and even embedded build
-systems forming across the board tained ecosystem. And this has been
-ongoing for years. Suggesting PipeWire as "a fix" for all possible
-situations is not "a solution".
+-- 
+Regards,
 
-BR, Jarkko
+Laurent Pinchart
 
