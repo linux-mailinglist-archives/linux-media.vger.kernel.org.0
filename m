@@ -1,263 +1,290 @@
-Return-Path: <linux-media+bounces-51922-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51924-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id dsg1FiFif2mUpQIAu9opvQ
-	(envelope-from <linux-media+bounces-51922-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 15:24:33 +0100
+	id mMl0AbRkf2lNpgIAu9opvQ
+	(envelope-from <linux-media+bounces-51924-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 15:35:32 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FF9C621A
-	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 15:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44183C62DD
+	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 15:35:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2706C300903D
-	for <lists+linux-media@lfdr.de>; Sun,  1 Feb 2026 14:24:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BBFCF300B3ED
+	for <lists+linux-media@lfdr.de>; Sun,  1 Feb 2026 14:35:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F275350A23;
-	Sun,  1 Feb 2026 14:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 448CF352938;
+	Sun,  1 Feb 2026 14:35:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EePPljYF"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nXr2bkhH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010011.outbound.protection.outlook.com [40.93.198.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7547A33D4F8
-	for <linux-media@vger.kernel.org>; Sun,  1 Feb 2026 14:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769955868; cv=none; b=nCC0Z1i/J6NYJFmW+Vb1vIyihuKuAwf0Cm2qvt5hSPU1mTVwS4Kst5lMbHPE3eb0NbzyrcRGGPSKCH/rWE9qdpEActoIamwBYWly4nPPt+Kq8N0NsNg0aWPmb8cHKhCekYy3vXtQbck/MTqncb4aJ96iSuBY/kVY3bqSHwIhldU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769955868; c=relaxed/simple;
-	bh=13AkoiTdNyAz1YeVgxEBNel/QyLHuky5VNXheaXheHg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KN7ZPOL8/epgoeecsj4Jye2N+QlsXiZE+IdfvmiqPJnPAzXU6RqVStr8PlBdhA7TNZILuXe9n7qtiaHdTg9Vq476+mtaKLRPyZhnU7PJWvz4UTdT5y2A1c9HBGRP9JZ5LW3hj5RkpW6oUe+fKdzXzSBC1j51+kfEj6eNVi6fJIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EePPljYF; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-81f5381d168so3473392b3a.2
-        for <linux-media@vger.kernel.org>; Sun, 01 Feb 2026 06:24:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769955867; x=1770560667; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=D+9zUqm+raFHNUIjJ3frlwGtuvelVytXrMAJu8jxiT8=;
-        b=EePPljYFIQl+t71CEy+0nOWxAULenhVBDfYJKuYwEOuBBod+LExlN3LpcMt55wD7JA
-         y7lLTkjsCUT16q92n8Jwb5JYCRVXqEj62MD5vDDRwl1RJjNPncPH5Iauyv0MljkG8u3W
-         JcvSC+yMSMVM+HZoiF9pJMdTl+83GEG8lozaD511qtoWJ1WGoEsnuzHDyDiCGXy6/Hgt
-         fWiPBUTdAVKPnqzMgb/ev8DwCMPQ1msmCm5ffyRHJt3c5uCjqsqpAmbTRiUotJMeWPut
-         qa0XU4RHkCIxTgQLyxgbr5wLsPV3pihu4KjGXcCzx3C1auQHOTaJpseAxMa9OG+rFwrj
-         xY7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769955867; x=1770560667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D+9zUqm+raFHNUIjJ3frlwGtuvelVytXrMAJu8jxiT8=;
-        b=AaUpC2gF7V73scYoTVkv5vB8nzI5fKm6LlrX/Q4UIi4u9+qpEVoSf7LZbY85apkgnx
-         LsEApJnDjLLzaZDXy0vaBlwqQj+LTnKjXnSHum3GAhzPh1CK1mowJCiFGhmZFrEBFu5N
-         +RuGLQU5BHQLzodQmU1rnTFc6xN4ZBJ9c06buk4TivtA4Q8x6yIe/+QN3inzRlLG/Jkn
-         vPZRdBSnPhlErvJEkfRlqJJSlwCBHfJhTMIfNAtUzYLfJgKNytWjjz6mTv2HpG444mh/
-         TNeF9AXI1e2CgCyDTvZ/5TAbgM7UTXS6W05ub4vddtplibx5O31D89D1nvRE5hO8eSlW
-         MW+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVsaMeEWQp3ZvYdtSqRF12pRzY9tA+CA3VId6mm0FVgGeEzHGFKSLoBKOmvbHXmCxZkKiN7ntl48Bareg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGyNUGBpHbfW3/mU1RQgwphAKFdzXuiylgFyBmvMEnauCycLxe
-	8iKV4kueRCPi4cDHbPySbnkSHFtulWD825mM4q337bGIL30Tn09mZ2z8
-X-Gm-Gg: AZuq6aJB9zLPmmTgmy7m3xbRQKFSkdNySHEVmLLjxh46dTLQPaJom6yYdDwjBi6WCyB
-	GfL7WUsrnyTNSaPayW4kmzMmcscLjNIx2mTJJPZHjo4lHPQ/X3Qm3xBGVc4+Ylx3meNftFTgjUc
-	Sb1vBz6Lo8Y3UCCN6Xv+qMEBBn9hU+2ilfzumMo41mv/iOr63SXIcuKGRBIPa875q9qwlpCladJ
-	LOaf0aNj2fOSghiEV60s1lUPdEbVMgmSsGFr+w+Na67Zl6s8YJ50Vf7RHpxYoR4nL8+UfzpTeFD
-	VB8uNJGSnvdlMESfLKaVmnhBfAhLrkCeRRgDtG3nIkR11Yp1gJK/mZsZQnEXzcpbIVZgLMrxKt+
-	j9WdaXqCzc8jHW2jhV9G6N7//+2yL3wCxKK8qL0uZkrglPizLBmnxSe4NpprGbXcVnP9jMMHIGu
-	LyI0MNJ6G6mRBoiA==
-X-Received: by 2002:a05:6a00:94f6:b0:820:2f9b:fe37 with SMTP id d2e1a72fcca58-823ab748f60mr8019230b3a.35.1769955866748;
-        Sun, 01 Feb 2026 06:24:26 -0800 (PST)
-Received: from archlinux ([2402:e280:411b:ec:aa93:b1ec:5a6b:5fce])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379b6b277sm16452661b3a.29.2026.02.01.06.24.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 06:24:26 -0800 (PST)
-From: Adarsh Das <adarshdas950@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Adarsh Das <adarshdas950@gmail.com>
-Subject: [PATCH] staging: media: atomisp: remove functions doing ftrace like logging
-Date: Sun,  1 Feb 2026 19:54:15 +0530
-Message-ID: <20260201142415.83595-1-adarshdas950@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454E71DF985;
+	Sun,  1 Feb 2026 14:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769956521; cv=fail; b=g0C2IWDQOpQHozCIL1PGhqKoH6fb+iYVPjVkRgruoqohKaRHplyEGDxS6fsm5GQe+HC9eTgR1G6qpOiuC+oLe/IXHwvdMG6PiyZYIP3ydS1f2QSceaG9rHs15uYf2X8Z9+AEfqko1NYwSzzBHkVY341tsFlx/R0mckKLnefk+yU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769956521; c=relaxed/simple;
+	bh=fa3FoI6ozulVLFuIZLH6OJmyvh41t1jxQpwgpx5gjf8=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=UVIo1h3rm0sUjcrNeizNrIWbq1pQaMnYcM/FSLxBYChLOLDSHV6V0bC1nifpFTLmxfgL7n8ZDLrxp+1XmJ6ZxuYZlNGvlHXz5gVHGrlaCQDxA1G26Vk8rY92F6akSWgsvI5aBDKPcIeBZ+7hq5h61kEohgUzK8EcYIhbt69vmts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nXr2bkhH; arc=fail smtp.client-ip=40.93.198.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k/nNBUzpPFv0u7tRVK//sStMzy+3CN0MrqwuVyQkffaC1Fhx/2BMmv1gN3zGB+5SzkE/Q1eJBKc6oItZLj5r8ZUMvapV9w1eRUG2vyK42BtKSOBaPDcTdjYZHvoieED/UjqEr+pSWK4rxwp8hY/EUbAmreRQ5BokCIhrL/7v7lW8WpQa/nIhpIeW0wlcs4OrJVPJEmzwSFvk2C2hpnvbaTr18YxwK07r5wxpOi4yCknCOGJMzwshuOXe6i9MKEZFyVUCzudthUhYohj0d+Y/RLQEslk3xXWIenNPKWob11IOJ6QRsQ0lRQQ54Z6rJBXB3/0cEhso9pcPKVD4BqlqyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z0J1+5GnHz5hxiQYAV9NW/fcGEDb3qMf5AolhgVWvcM=;
+ b=awqsxqJz1AiuI5XBuNrAWntqDAuI/vQAeknmr93s1uSkVX545yeb6bNflgpEEDk78euL0l+IcoXcMFulJn9nNsh518YW0Cu2jYv86mMSB72ZzAEbTDmJ4RfJM7WKPKbm5dw4S/r5boPol3CT3dbgOuXg9l7vlWIoYxcGzwSXvcT2QEaDWWmfuHd5oQ1Y/YRpfwTTNk7dHozJS78eR7iiNBcAkkb7lOPQ3hiOEXAFbfeoCu7oZu7EWBxDWJzyLqQYiT6Uz2ybnBZwgkYiawofBbHoaA3eyry8Y745HK6kc9qdUJSIVglqi274CtNhDwsA8Lqgns7nAsJvYZnS+s4a+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=ziepe.ca smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z0J1+5GnHz5hxiQYAV9NW/fcGEDb3qMf5AolhgVWvcM=;
+ b=nXr2bkhHip9y1CmSr/bzOsjhBskXxJUOJVjx6C/UaJKoLTlWpjMSTrFzlF7ErG5/A8gAzpGCLjfrG8QPmuUf9yNrJVq4aSW2jsyK0ge2zc93QbCL+bor3+jHcMiydUYGCzD6m9TDUkCQB0CvLL+zKhqLiTWW3k+uhByoKv3W4QK0la2febTg+U3PXp2SQUDBlg1ul6cAARao92PLmAsBhrvSn/3zS56v0oY0XjOtQVEyVnImr6FCv+qYmb7QC+nEGkFmr7pp1dSy37D3iQqSxG+nO8x1Vw6iAf5skLVIimvLcXtRezYxpXBydGzA+gfoaShxMlTT1lnu7YEZCpHUxw==
+Received: from BL1PR13CA0253.namprd13.prod.outlook.com (2603:10b6:208:2ba::18)
+ by DM6PR12MB4234.namprd12.prod.outlook.com (2603:10b6:5:213::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Sun, 1 Feb
+ 2026 14:35:11 +0000
+Received: from BN3PEPF0000B06C.namprd21.prod.outlook.com
+ (2603:10b6:208:2ba:cafe::4b) by BL1PR13CA0253.outlook.office365.com
+ (2603:10b6:208:2ba::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.9 via Frontend Transport; Sun, 1
+ Feb 2026 14:34:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN3PEPF0000B06C.mail.protection.outlook.com (10.167.243.71) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.0 via Frontend Transport; Sun, 1 Feb 2026 14:35:11 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 1 Feb
+ 2026 06:34:56 -0800
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 1 Feb
+ 2026 06:34:55 -0800
+Received: from c-237-169-180-181.mtl.labs.mlnx (10.127.8.12) by
+ mail.nvidia.com (10.129.68.6) with Microsoft SMTP Server id 15.2.2562.20 via
+ Frontend Transport; Sun, 1 Feb 2026 06:34:52 -0800
+From: Edward Srouji <edwards@nvidia.com>
+Subject: [PATCH rdma-next v3 0/3] RDMA: Add support for exporting dma-buf
+ file descriptors
+Date: Sun, 1 Feb 2026 16:34:03 +0200
+Message-ID: <20260201-dmabuf-export-v3-0-da238b614fe3@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFtkf2kC/3WNyw6CMBREf8XctTV9AFZX/odxAb1F7oKWtNhgC
+ P9u7UpNXE5mzpkVog1kI5x3KwSbKJJ3Oaj9DszQurtlhDmD5LLhgmuGY9s9emaXyYeZcaxPmtc
+ aUVjIzBRsT0vxXSHkLXN2meGWq4Hi7MOzPCVRBn+kSTDOGqyOWDW15qguLhFSezB+LKokP3Apf
+ nH5xpUWQqvOGIVf+LZtLzvnndr1AAAA
+X-Change-ID: 20260108-dmabuf-export-0d598058dd1e
+To: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>, =?utf-8?q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, Yishai Hadas <yishaih@nvidia.com>, "Edward
+ Srouji" <edwards@nvidia.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1769956492; l=3699;
+ i=edwards@nvidia.com; s=20251029; h=from:subject:message-id;
+ bh=fa3FoI6ozulVLFuIZLH6OJmyvh41t1jxQpwgpx5gjf8=;
+ b=YW1CVDoU/FpD4SC5Lh+MWYPpKDGEOUoklWpqxfOudC8GES15XIPhXEidTr7r7gxxH0b+os/Iz
+ wjy24zSE/UJAEC2ICcTwZ/R5VfNVgDaUHN7w/2tGJfpZMzFF0PW23dm
+X-Developer-Key: i=edwards@nvidia.com; a=ed25519;
+ pk=VME+d2WbMZT5AY+AolKh2XIdrnXWUwwzz/XLQ3jXgDM=
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06C:EE_|DM6PR12MB4234:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4552810c-2882-43b1-0ee5-08de619f1b41
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700013|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?djZHdFhzNkhTVk5ubVBqaG9OUVB4MGdtOEhQMkhtT0hjMlVyZlVOQXFyYnZ1?=
+ =?utf-8?B?eGc3M2psek1aVitnZ0lmbDE5RTkvTkloMkRTL1kzSFhTR3R6dWpDUXdIUjZ6?=
+ =?utf-8?B?Znp5NXNnR01aL3lpSk1ZQSsvZFBIT2NOemdSVDNxSS9aMEx6WjNjaG5JTGxu?=
+ =?utf-8?B?VWFpUXVVSFZHQTEwczJ6WnNtQVFxdFdTMXgxWmJWQnJpWk9McnZVcm14d05Y?=
+ =?utf-8?B?cC82QWNadG9vNWR1dWlXWm1CeldRdE1KVm5MbVRqaEJUbE1QT2ZOak02ZW1r?=
+ =?utf-8?B?b3hSTDJaR1hDWHNtV21TaEtSV3BtTWJYb2dsQU1HVWlpMngyRDE3ZlJ3RGRI?=
+ =?utf-8?B?RDFpa0hGd2hjV2tKTEJ4RzJIdXNKck85eEJwNnFhdnoySzNFZ1Bsc09GZEp3?=
+ =?utf-8?B?eElMRGI5YUU4NklxbHFXUmJxMWdiQXc4WThwQVp4am9UZk5UVStwTVhqWmxq?=
+ =?utf-8?B?c2R1czBpNFgwMGR4SmVaUFlJZnVxeFVCQ2c0dG81eUVycWdodTF6MWN2UXQr?=
+ =?utf-8?B?ZmFtUkEwTGlJa1lVSkI0c3FDdUFqWVcybUREMjVHMml1cHhvVnlrbXZaamtN?=
+ =?utf-8?B?TjBSc295cjEzSnBuTk5HMmg0ZjBWeW1lS1J1TlRkNEJpc2poSTMzMDZJVmQz?=
+ =?utf-8?B?UFRCWUFhbVd2RXFnLzh3d3A1U3h4L3F3MEZNQzJSSk1uVllTMmRKM1JYZHJK?=
+ =?utf-8?B?VWI2OTNweDdqU1dReGQ0ZCtTblk3OHk2Q3FaOExyMk5BbThGdXZyYVA1ZW5I?=
+ =?utf-8?B?Z1dKTG9BazQ5VUUvTVdIelhFQ2grMFJCeVB0YVZmYmoydC8yZ0prWDE3MVVu?=
+ =?utf-8?B?YlZGZHNRN09NQU1wbTM2SjIzMVlJaHlPaC9seGthcHI0NWF3VXpyUWwrR0dW?=
+ =?utf-8?B?SW9tNzM2TWsyM1RDV1B5UlM3Zy95YlFwbS9EcGFESW5yWXJPVWxmRk5lZUl4?=
+ =?utf-8?B?Q0pOVlBMQnZic0tndCtRMzJPKzlBeFhsdWEzcnNod3FaQlNxREFvVWJRWEky?=
+ =?utf-8?B?dzVxTk91WXE3Y1BIVUhVNzhyNGN0QnN1ZW9nRE43bkprMkx5azVIM2EzRUw2?=
+ =?utf-8?B?SVFJWGpiSjZHaWh1K3JPMHFna3N5TTNPVTNQQTY2Y1ZWRXF5VXQ0UGhuSE1a?=
+ =?utf-8?B?VGR4VW1VK0hKeERBdStwS0liY0tZNkJEdUpOMjNxY01pc0dSU3JTU0ZHSHRN?=
+ =?utf-8?B?Mmwzd2d3ZjJ4aVhFcXo4eWdya053RHRLQjZWaitIbW84TFNSeUhWaDVEVCti?=
+ =?utf-8?B?Q21waldpMkVJVUhPZWZxUE85TCtZdnI5cmRlamZEUlNyaTdyYXFVQ2VYQW1I?=
+ =?utf-8?B?UFpERzM2YWVYRHo0UFJ1T0VQTUs3b1R2T0FoUG1MUWJzWTBZeUFMMVgweDI0?=
+ =?utf-8?B?QTk0dmdsZythdE5oM2p5RG9MNUprOWJwNkNWc2JtSlR5TUNhZEVLNDBvZFN4?=
+ =?utf-8?B?RVhpYWh0U2NLVVNRa1ZDNUw4cktmOTFNb3ZiV20vMTlJZmJXSTZOOHJYNUxK?=
+ =?utf-8?B?Vno2SjZobXBCV1U0c3VvUmZYUys2ejNDYjZsU3c5Z2lqdWFlUkRiK2xtMWEv?=
+ =?utf-8?B?RGVsQ0hKekRCTzlnMjQ0UmkxUjJKaU93ajFEWHI2L3dmNnc0NThmclhkUnpp?=
+ =?utf-8?B?b2k0c2l4MmFTQ1N5U3hHbjZJQ3Z6NEgwSG9iODVsdkxZeXZ5Z0l0b29sK2U4?=
+ =?utf-8?B?aE9nMW9ONytiTmVNWkVPWWg1QkFLZlRmeTBSV2pMRllnUzRlbks5VFIzSUhQ?=
+ =?utf-8?B?dkRSVG9RYlRmWWptdWY0Z1AyVnlneWVJZGF4RjBpU2lNRGlibG5IMVZYRlZ0?=
+ =?utf-8?B?aWlZRDF1QVNLNU9IOGU2cllZRGxpSDUxLzRYUUJRM2E4VXNjak5MK0QrZGJX?=
+ =?utf-8?B?K2FKNVVORW1RNnh1RnhtaVdrbXdMUUxvYjBuQlhEaFJpZ3lweHBySVhLSGpj?=
+ =?utf-8?B?THBpRFVrU09mOE9hRmdhdEtXQkxJUlNycXRscUZqMkFtdkI4cmwrQ0FPTGxP?=
+ =?utf-8?B?VzZjNklnRzBsL29pZS90bDNON1ZjWUJkUGZWdUpYelUyS3hHQ20rZjlON1BT?=
+ =?utf-8?B?SGpQSWpLTUZvOFRTUC9DTVMzZHV4N29udVVMRmQxajVTcnNIMnRFRm5zS1BV?=
+ =?utf-8?B?aFhKZFIwVFlwVDg3QnpBWGFwcEtLMFFETlNyREZWNXgreUJnSGVOSFBIY1N0?=
+ =?utf-8?B?QVlJS1FRUXJOZHZQRDRHaHFFbHlPSEd2azlXaVlRWEw5Q1hCRnJWZ1g1dTRP?=
+ =?utf-8?B?eWE4enA2eEM2M0syVGJGVUtjMGlnPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ESXffWIPa8QE0xPhn/8Ocpnh3W4sB+2SHLrb1npZ/fZA5PAi2kJc9O1kkw64XM+QCKucMlm1xKZSE1Wnvxc8AfhKzM5eDVdXrKKunaUchlUJjGcmImxhKXMQDXHEbiZxnb/0A+91F3kIJYbJZ2ntWpG6iM+K+GLDNGtoFZpIbs8wqCxmhQMNXK4BEbRr4HZWPvnjshgKdXd9PyfOn3xz1+OZDovEqbFzjywtLH8X+9/ySpoiR8wHADEPXgdSh6LCli0/curWxFJAoP6aOXnULp95Le4caQJa8yvXryM0ea5T3wyI/ddipbPxSPMWf/Noo54mKrNH7x3cTlz4TRk2/spmkQKmu2JqERA4FzZ1atnsjXHZt/iz2wqnT+jq/GAzOvF4sja3yvEbDUagQxmD6ii/+JwBkCjcR6o6O6m+FQRCMvme0i5gAry+3nfF1Jve
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2026 14:35:11.6325
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4552810c-2882-43b1-0ee5-08de619f1b41
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B06C.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4234
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
-	TAGGED_FROM(0.00)[bounces-51922-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[adarshdas950@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B5FF9C621A
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[edwards@nvidia.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	PRECEDENCE_BULK(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-51924-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[Nvidia.com:+]
+X-Rspamd-Queue-Id: 44183C62DD
 X-Rspamd-Action: no action
 
-Remove ia_css_debug_dtrace() calls which only log function entry.
-ftrace should be used instead.
+This patch series introduces dma-buf export support for RDMA/InfiniBand
+devices, enabling userspace applications to export RDMA PCI-backed
+memory regions (such as device memory or mlx5 UAR pages) as dma-buf file
+descriptors.
 
-Signed-off-by: Adarsh Das <adarshdas950@gmail.com>
+This allows PCI device memory to be shared with other kernel subsystems
+(e.g., graphics or media) or between userspace processes, via the 
+standard dma-buf interface, avoiding unnecessary copies and enabling
+efficient peer-to-peer (P2P) DMA transfers. See [1] for background on
+dma-buf.
+
+As part of this series, we introduce a new uverbs object of type FD for 
+dma-buf export, along with the corresponding APIs for allocation and 
+teardown. This object encapsulates all attributes required to export a
+dma-buf.
+
+The implementation enforces P2P-only mappings and properly manages
+resource lifecycle, including:
+- Cleanup during driver removal or RDMA context destruction.
+- Revocation via dma_buf_move_notify() when the underlying mmap entries
+  are removed.
+- Refactors common cleanup logic for reuse across FD uobject types.
+
+The infrastructure is generic within uverbs, allowing individual drivers
+to easily integrate and supply their vendor-specific implementation.
+
+The mlx5 driver is the first consumer of this new API, providing:
+- Initialization of PCI peer-to-peer DMA support.
+- mlx5-specific implementations of the mmap_get_pfns and 
+  pgoff_to_mmap_entry device operations required for dma-buf export.
+
+[1] https://docs.kernel.org/driver-api/dma-buf.html
+
+Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
+Signed-off-by: Edward Srouji <edwards@nvidia.com>
 ---
- .../media/atomisp/pci/ia_css_isp_configs.c    | 26 -------------------
- 1 file changed, 26 deletions(-)
+Changes in v3:
+- Wait for importers to complete their unmap() calls after
+  dma_buf_move_notify(), ensuring all mappings are properly cleaned up
+  before revocation
+- Add unpin callback to pair with pin (both are required by dma-buf ops)
+- Link to v2: https://lore.kernel.org/r/20260121-dmabuf-export-v2-0-6381183bcc3d@nvidia.com
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-index 38c9c62366d6..1dce9fa926ab 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-+++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-@@ -18,8 +18,6 @@ int ia_css_configure_iterator(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -41,8 +39,6 @@ int ia_css_configure_copy_output(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -66,8 +62,6 @@ int ia_css_configure_crop(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -89,8 +83,6 @@ int ia_css_configure_fpn(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -111,8 +103,6 @@ int ia_css_configure_dvs(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -133,8 +123,6 @@ int ia_css_configure_qplane(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -156,8 +144,6 @@ int ia_css_configure_output0(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -179,8 +165,6 @@ int ia_css_configure_output1(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -202,8 +186,6 @@ int ia_css_configure_output(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -225,8 +207,6 @@ int ia_css_configure_raw(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -248,8 +228,6 @@ int ia_css_configure_tnr(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -271,8 +249,6 @@ int ia_css_configure_ref(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
-@@ -294,8 +270,6 @@ int ia_css_configure_vf(const struct ia_css_binary *binary,
- 	unsigned int offset = 0;
- 	unsigned int size   = 0;
- 
--	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
--
- 	if (!binary->info->mem_offsets.offsets.config)
- 		return 0;
- 
+Changes in v2:
+- Split the FD uobject refactoring into a separate patch
+  ("RDMA: Add support for exporting dma-buf file descriptors")
+- Remove redundant revoked check from attach callback. It is checked
+  during map
+- Add pin callback that returns -EOPNOTSUPP to explicitly refuse pinned
+  importers
+- Wait for pending fences after dma_buf_move_notify() using
+  dma_resv_wait_timeout() to ensure hardware has completed all in-flight
+  operations before proceeding
+- Link to v1: https://lore.kernel.org/r/20260108-dmabuf-export-v1-0-6d47d46580d3@nvidia.com
+
+---
+Yishai Hadas (3):
+      RDMA/uverbs: Support external FD uobjects
+      RDMA/uverbs: Add DMABUF object type and operations
+      RDMA/mlx5: Implement DMABUF export ops
+
+ drivers/infiniband/core/Makefile                  |   1 +
+ drivers/infiniband/core/device.c                  |   2 +
+ drivers/infiniband/core/ib_core_uverbs.c          |  24 +++
+ drivers/infiniband/core/rdma_core.c               |  63 ++++---
+ drivers/infiniband/core/rdma_core.h               |   1 +
+ drivers/infiniband/core/uverbs.h                  |  21 +++
+ drivers/infiniband/core/uverbs_std_types_dmabuf.c | 200 ++++++++++++++++++++++
+ drivers/infiniband/core/uverbs_uapi.c             |   1 +
+ drivers/infiniband/hw/mlx5/main.c                 |  72 ++++++++
+ include/rdma/ib_verbs.h                           |   9 +
+ include/rdma/uverbs_types.h                       |   1 +
+ include/uapi/rdma/ib_user_ioctl_cmds.h            |  10 ++
+ 12 files changed, 379 insertions(+), 26 deletions(-)
+---
+base-commit: 325e3b5431ddd27c5f93156b36838a351e3b2f72
+change-id: 20260108-dmabuf-export-0d598058dd1e
+
+Best regards,
 -- 
-2.52.0
+Edward Srouji <edwards@nvidia.com>
 
 
