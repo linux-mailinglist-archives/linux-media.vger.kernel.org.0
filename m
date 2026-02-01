@@ -1,253 +1,263 @@
-Return-Path: <linux-media+bounces-51921-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51922-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4PdvHO9cf2m0owIAu9opvQ
-	(envelope-from <linux-media+bounces-51921-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 15:02:23 +0100
+	id dsg1FiFif2mUpQIAu9opvQ
+	(envelope-from <linux-media+bounces-51922-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 15:24:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1EAC6175
-	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 15:02:23 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5FF9C621A
+	for <lists+linux-media@lfdr.de>; Sun, 01 Feb 2026 15:24:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3EA86300335C
-	for <lists+linux-media@lfdr.de>; Sun,  1 Feb 2026 14:02:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2706C300903D
+	for <lists+linux-media@lfdr.de>; Sun,  1 Feb 2026 14:24:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1AF53469FA;
-	Sun,  1 Feb 2026 14:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F275350A23;
+	Sun,  1 Feb 2026 14:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QrUjaVLG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="wy0ADGn8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EePPljYF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E831212550;
-	Sun,  1 Feb 2026 14:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7547A33D4F8
+	for <linux-media@vger.kernel.org>; Sun,  1 Feb 2026 14:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769954536; cv=none; b=PDTJ8LK639ZdwjBeVG4XDAncuahg3EqqsxCxChVfZuch4mNp+7jna8ANbDWvRHq3+21HwYCsGomGM0qDQWmRi8sYSNgy0MChTD86JQOIG9drcdwAUnUq3GnRS187H5UFn6l1jpUV7UDh2vboTIO6kO1ltXUSynaQ+6r5R4zeuFg=
+	t=1769955868; cv=none; b=nCC0Z1i/J6NYJFmW+Vb1vIyihuKuAwf0Cm2qvt5hSPU1mTVwS4Kst5lMbHPE3eb0NbzyrcRGGPSKCH/rWE9qdpEActoIamwBYWly4nPPt+Kq8N0NsNg0aWPmb8cHKhCekYy3vXtQbck/MTqncb4aJ96iSuBY/kVY3bqSHwIhldU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769954536; c=relaxed/simple;
-	bh=/aSD5aGePbT3jN3MMddfP1oapsmych/W+T6mYT7R6Eg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aGCmOtrAAYVto53R0lMsyuIv+PX+fxt/TPpAt3KUE/hAQ9hui9vSxCZ/bJ9Uco4FITO4Q8rm06sR3UNiijoDQyhdq67CBm+TEwHuit1yLUdS3JEtykR36XP5JG41R7lEffv2s4+E+yySmMnbbO/oz6nKiPamXGV9dF0qn6y9ong=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QrUjaVLG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=wy0ADGn8; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 4D89B140001A;
-	Sun,  1 Feb 2026 09:02:13 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sun, 01 Feb 2026 09:02:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1769954533;
-	 x=1770040933; bh=HRZ9VEbvyR2vBkjhqcOgyYPSk648YO7Db05Swru5oA4=; b=
-	QrUjaVLG5+hDyiHnyWdGdh9PfQYiLGkuBes9NytOM8lCnu9o8Xref7wlEByWq5Ei
-	YOTEQk+7QwrjGME8mCoF7/t7v/xgVZkGoEvZmn6Wr0bcpMZw+s0kz3oFxcVQyLWG
-	Bu3ewdfSkbrvDnXADmsBcptwYLgY5HrshBqqRFAJi+66mmWqf0czX05dTkkznlps
-	wS4Hdkd4zdGsXhyfrjGSaIVR8J4XaTdLXdTYHZo8rOf0tU/OP0DeVM4yY7+RluhA
-	guwU/887xii5FTJrcrbZSBXodhPAOFOewUH+ijpfYRMOUNIYg1fMM950PFUFiSeW
-	DhBrdOOQkuE9vRzh8rGL3w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1769954533; x=
-	1770040933; bh=HRZ9VEbvyR2vBkjhqcOgyYPSk648YO7Db05Swru5oA4=; b=w
-	y0ADGn8yCYV2u+CPJ1MGHp2OvZ2AxHrtAzAsRWZCk0W6FJCGNq7s+G3pOejaVf6l
-	J7HKGPqWpA5PhvjF02LT1tZrlUO16ZYOq6O112//Wz18un8Bx9cd5ebmsWQDCYom
-	SUiAfAs+F234l7Us3ROepHaAUm0IzWIteHngcQl2VYMTdalUGBIEi3L0KFy4auWF
-	N1Zt3RJJ7iDO8+y0gmZZ7RId+dOlLVDSEp87ffPSVBqOSoj8syba3AzegyOOT8Wd
-	2437M4GZ2UftfemY/XYaqxDgzlcns6mchsttIfAr4vV27VazV5fPL68Xj/GhddP+
-	CkEL89aTQ57gYlrxGo6yg==
-X-ME-Sender: <xms:5Vx_aZJhAxCsmgn-pRU0qkgkoBk9WqQnj3OTFgXIOW1dnZ4_RLjZLg>
-    <xme:5Vx_aVltU3v2qL6C26ylACduxmjp3fYhtjinr1vL-Abrsu7sRuPsP6S4fqRL8XbhE
-    mv1NZoaHcP0XoDco6M6H5Cb2CFx6GzYv1tfxR_FxTGYbs5k3BggxOY>
-X-ME-Received: <xmr:5Vx_aSaB1jsKxLmw-hZWSH9sGZwOiv1Ce4xw2qZcIcC1DjriiaDrctQ5WJsaqg0fCAcJZyxMImsR7BHmxn2jvEKE0bqb63A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddujeegleejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
-    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
-    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
-    rghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprh
-    gtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshho
-    nhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgt
-    phhtthhopehmrghgnhhushdruggrmhhmsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplh
-    gruhhrvghnthdrphhinhgthhgrrhhtodhrvghnvghsrghssehiuggvrghsohhnsghorghr
-    ugdrtghomhdprhgtphhtthhopehhvhgvrhhkuhhilheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhg
-X-ME-Proxy: <xmx:5Vx_aR8IMa3dtwSS9y2y4BAFLch_yEa39EaX3CmVhZXV00RW9EZ-vA>
-    <xmx:5Vx_aRaIZp25kagqQg_JHOKHpH9rtmaOug0TqOgy-b_rAUyK1x_uwg>
-    <xmx:5Vx_abe2qNsoz3GSvMg2JZWUeEeUBmnTFTsZ0FbB8AErDEcuyI0Yjg>
-    <xmx:5Vx_aekN0JnO_roat8bMcO8iTdwAfO3SEQ3mI0CxHhnn24oqJkLQ7w>
-    <xmx:5Vx_ad3B-7DsbrWoyHagl0xE3qrxKlvz1iT5YOpQ-iqvOYIIJZTvRjYw>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 1 Feb 2026 09:02:12 -0500 (EST)
-Date: Sun, 1 Feb 2026 15:02:11 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: renesas: vin: Fix RAW8 (again)
-Message-ID: <20260201140211.GC1964634@ragnatech.se>
-References: <20260127-rcar-fix-raw8-again-v1-1-642283bc0fa4@ideasonboard.com>
+	s=arc-20240116; t=1769955868; c=relaxed/simple;
+	bh=13AkoiTdNyAz1YeVgxEBNel/QyLHuky5VNXheaXheHg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KN7ZPOL8/epgoeecsj4Jye2N+QlsXiZE+IdfvmiqPJnPAzXU6RqVStr8PlBdhA7TNZILuXe9n7qtiaHdTg9Vq476+mtaKLRPyZhnU7PJWvz4UTdT5y2A1c9HBGRP9JZ5LW3hj5RkpW6oUe+fKdzXzSBC1j51+kfEj6eNVi6fJIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EePPljYF; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-81f5381d168so3473392b3a.2
+        for <linux-media@vger.kernel.org>; Sun, 01 Feb 2026 06:24:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769955867; x=1770560667; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D+9zUqm+raFHNUIjJ3frlwGtuvelVytXrMAJu8jxiT8=;
+        b=EePPljYFIQl+t71CEy+0nOWxAULenhVBDfYJKuYwEOuBBod+LExlN3LpcMt55wD7JA
+         y7lLTkjsCUT16q92n8Jwb5JYCRVXqEj62MD5vDDRwl1RJjNPncPH5Iauyv0MljkG8u3W
+         JcvSC+yMSMVM+HZoiF9pJMdTl+83GEG8lozaD511qtoWJ1WGoEsnuzHDyDiCGXy6/Hgt
+         fWiPBUTdAVKPnqzMgb/ev8DwCMPQ1msmCm5ffyRHJt3c5uCjqsqpAmbTRiUotJMeWPut
+         qa0XU4RHkCIxTgQLyxgbr5wLsPV3pihu4KjGXcCzx3C1auQHOTaJpseAxMa9OG+rFwrj
+         xY7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769955867; x=1770560667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D+9zUqm+raFHNUIjJ3frlwGtuvelVytXrMAJu8jxiT8=;
+        b=AaUpC2gF7V73scYoTVkv5vB8nzI5fKm6LlrX/Q4UIi4u9+qpEVoSf7LZbY85apkgnx
+         LsEApJnDjLLzaZDXy0vaBlwqQj+LTnKjXnSHum3GAhzPh1CK1mowJCiFGhmZFrEBFu5N
+         +RuGLQU5BHQLzodQmU1rnTFc6xN4ZBJ9c06buk4TivtA4Q8x6yIe/+QN3inzRlLG/Jkn
+         vPZRdBSnPhlErvJEkfRlqJJSlwCBHfJhTMIfNAtUzYLfJgKNytWjjz6mTv2HpG444mh/
+         TNeF9AXI1e2CgCyDTvZ/5TAbgM7UTXS6W05ub4vddtplibx5O31D89D1nvRE5hO8eSlW
+         MW+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVsaMeEWQp3ZvYdtSqRF12pRzY9tA+CA3VId6mm0FVgGeEzHGFKSLoBKOmvbHXmCxZkKiN7ntl48Bareg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGyNUGBpHbfW3/mU1RQgwphAKFdzXuiylgFyBmvMEnauCycLxe
+	8iKV4kueRCPi4cDHbPySbnkSHFtulWD825mM4q337bGIL30Tn09mZ2z8
+X-Gm-Gg: AZuq6aJB9zLPmmTgmy7m3xbRQKFSkdNySHEVmLLjxh46dTLQPaJom6yYdDwjBi6WCyB
+	GfL7WUsrnyTNSaPayW4kmzMmcscLjNIx2mTJJPZHjo4lHPQ/X3Qm3xBGVc4+Ylx3meNftFTgjUc
+	Sb1vBz6Lo8Y3UCCN6Xv+qMEBBn9hU+2ilfzumMo41mv/iOr63SXIcuKGRBIPa875q9qwlpCladJ
+	LOaf0aNj2fOSghiEV60s1lUPdEbVMgmSsGFr+w+Na67Zl6s8YJ50Vf7RHpxYoR4nL8+UfzpTeFD
+	VB8uNJGSnvdlMESfLKaVmnhBfAhLrkCeRRgDtG3nIkR11Yp1gJK/mZsZQnEXzcpbIVZgLMrxKt+
+	j9WdaXqCzc8jHW2jhV9G6N7//+2yL3wCxKK8qL0uZkrglPizLBmnxSe4NpprGbXcVnP9jMMHIGu
+	LyI0MNJ6G6mRBoiA==
+X-Received: by 2002:a05:6a00:94f6:b0:820:2f9b:fe37 with SMTP id d2e1a72fcca58-823ab748f60mr8019230b3a.35.1769955866748;
+        Sun, 01 Feb 2026 06:24:26 -0800 (PST)
+Received: from archlinux ([2402:e280:411b:ec:aa93:b1ec:5a6b:5fce])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379b6b277sm16452661b3a.29.2026.02.01.06.24.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Feb 2026 06:24:26 -0800 (PST)
+From: Adarsh Das <adarshdas950@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Adarsh Das <adarshdas950@gmail.com>
+Subject: [PATCH] staging: media: atomisp: remove functions doing ftrace like logging
+Date: Sun,  1 Feb 2026 19:54:15 +0530
+Message-ID: <20260201142415.83595-1-adarshdas950@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260127-rcar-fix-raw8-again-v1-1-642283bc0fa4@ideasonboard.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	FREEMAIL_CC(0.00)[kernel.org,glider.be,gmail.com,ideasonboard.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51921-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-51922-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[adarshdas950@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,messagingengine.com:dkim]
-X-Rspamd-Queue-Id: 1A1EAC6175
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B5FF9C621A
 X-Rspamd-Action: no action
 
-Hi Tomi,
+Remove ia_css_debug_dtrace() calls which only log function entry.
+ftrace should be used instead.
 
-Thanks for really gorking this and making sens of the datasheet, nice 
-work!
+Signed-off-by: Adarsh Das <adarshdas950@gmail.com>
+---
+ .../media/atomisp/pci/ia_css_isp_configs.c    | 26 -------------------
+ 1 file changed, 26 deletions(-)
 
-On 2026-01-27 10:56:12 +0200, Tomi Valkeinen wrote:
-> Commit e7376745ad5c ("media: rcar-vin: Fix stride setting for RAW8
-> formats") removed dividing the stride by two for RAW8 formats. It is
-> unclear how this was tested, but in any of the recent tests this does
-> not seem to work and produces quite distorted images.
-> 
-> However, reverting the patch fixes the issues only partially. VNIS_REG
-> requires alignment to 16 bytes, and when dividing the stride by 2, in
-> some cases we end up with a non-aligned stride, producing a tilted
-> image. This issue has to be fixed in rvin_format_bytesperline() where we
-> do the alignment for bytesperline.
-> 
-> Adding back the stride division and increasing the alignment for RAW8
-> formats to 0x20 fixes the problems related to RAW8.
-> 
-> Fixes: e7376745ad5c ("media: rcar-vin: Fix stride setting for RAW8 formats")
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
->  drivers/media/platform/renesas/rcar-vin/rcar-dma.c | 22 ++++++++++++++++++++++
->  .../media/platform/renesas/rcar-vin/rcar-v4l2.c    | 12 ++++++++++++
->  2 files changed, 34 insertions(+)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> index b619d1436a41..f9af9177e02f 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-> @@ -676,8 +676,30 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
->  	if (vin->scaler)
->  		vin->scaler(vin);
->  
-> +	/*
-> +	 * VNIS_REG has four lowest bits always 0, i.e. the stride has to be
-> +	 * aligned to 16 bytes. This is done in rvin_format_bytesperline().
-> +	 */
-> +
->  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
->  	stride = vin->format.bytesperline / fmt->bpp;
-> +
-> +	/*
-> +	 * RAW8 format bpp is 1, but the hardware process RAW8 format in 2 pixel
-> +	 * units, so we need to divide the stride by 2.
-> +	 */
-> +	switch (vin->format.pixelformat) {
-> +	case V4L2_PIX_FMT_SBGGR8:
-> +	case V4L2_PIX_FMT_SGBRG8:
-> +	case V4L2_PIX_FMT_SGRBG8:
-> +	case V4L2_PIX_FMT_SRGGB8:
-> +	case V4L2_PIX_FMT_GREY:
-> +		stride /= 2;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
->  	rvin_write(vin, stride, VNIS_REG);
->  }
->  
-> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> index 079dbaf016c2..9d45e11898c1 100644
-> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-> @@ -155,6 +155,18 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
->  	case V4L2_PIX_FMT_NV16:
->  		align = 0x20;
->  		break;
-> +	case V4L2_PIX_FMT_SBGGR8:
-> +	case V4L2_PIX_FMT_SGBRG8:
-> +	case V4L2_PIX_FMT_SGRBG8:
-> +	case V4L2_PIX_FMT_SRGGB8:
-> +	case V4L2_PIX_FMT_GREY:
-> +		/*
-> +		 * RAW8 format bpp is 1, but the hardware process RAW8 format in
-> +		 * 2 pixel units, and we need to align to 32 bytes. See
-> +		 * rvin_crop_scale_comp().
-> +		 */
-> +		align = 0x20;
-> +		break;
->  	default:
->  		align = 0x10;
->  		break;
-> 
-> ---
-> base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-> change-id: 20260127-rcar-fix-raw8-again-9dacab87ad33
-> 
-> Best regards,
-> -- 
-> Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> 
-
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+index 38c9c62366d6..1dce9fa926ab 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+@@ -18,8 +18,6 @@ int ia_css_configure_iterator(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -41,8 +39,6 @@ int ia_css_configure_copy_output(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -66,8 +62,6 @@ int ia_css_configure_crop(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -89,8 +83,6 @@ int ia_css_configure_fpn(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -111,8 +103,6 @@ int ia_css_configure_dvs(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -133,8 +123,6 @@ int ia_css_configure_qplane(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -156,8 +144,6 @@ int ia_css_configure_output0(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -179,8 +165,6 @@ int ia_css_configure_output1(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -202,8 +186,6 @@ int ia_css_configure_output(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -225,8 +207,6 @@ int ia_css_configure_raw(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -248,8 +228,6 @@ int ia_css_configure_tnr(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -271,8 +249,6 @@ int ia_css_configure_ref(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
+@@ -294,8 +270,6 @@ int ia_css_configure_vf(const struct ia_css_binary *binary,
+ 	unsigned int offset = 0;
+ 	unsigned int size   = 0;
+ 
+-	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE, "%s:\n", __func__);
+-
+ 	if (!binary->info->mem_offsets.offsets.config)
+ 		return 0;
+ 
 -- 
-Kind Regards,
-Niklas Söderlund
+2.52.0
+
 
