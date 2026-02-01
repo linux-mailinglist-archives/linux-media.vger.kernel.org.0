@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-51943-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51944-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oFgIDgXff2mOzAIAu9opvQ
-	(envelope-from <linux-media+bounces-51943-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 00:17:25 +0100
+	id UJsRITvff2mOzAIAu9opvQ
+	(envelope-from <linux-media+bounces-51944-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 00:18:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92945C77EC
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 00:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012A7C7804
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 00:18:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6428F3004229
-	for <lists+linux-media@lfdr.de>; Sun,  1 Feb 2026 23:17:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 61A3D30125DD
+	for <lists+linux-media@lfdr.de>; Sun,  1 Feb 2026 23:17:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9622DC35A;
-	Sun,  1 Feb 2026 23:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E95492857CD;
+	Sun,  1 Feb 2026 23:17:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EUtyyCqC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="allW24Pc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0319481DD;
-	Sun,  1 Feb 2026 23:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542882D8DDD;
+	Sun,  1 Feb 2026 23:17:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769987830; cv=none; b=iX0ij2r+F8Bvi+9qwsnCvRgi+r5JGTWaZalavYCK7/LZ1/ybCF52TaoCZWPHRcS4BQn2Th9v1UlPeM6UIdAtyUxEfj4aLqRfqwgO2jT2XLvSi4BRtxPu+TTXfMyiDzqfat+1g9LLbvGsUmJ6zuPmdWJiCiG53J4PGV2T6HBwH/M=
+	t=1769987847; cv=none; b=k/x2j+9SM+BIzmQwKAyFLzjxxiFzvAoNuPbzXQCYwzlHmWosHTKUu8AAFhbYz+5Oshqhkky6ZmXJ3NOOxFWzLt920o2yGQuz2bgGz8cQ1/3QtT8HNTOsHIE41lAXl9ySLMboCaC/ycLY/Ga6UEW4xb+RwveL8jLQqpQJ7C20cKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769987830; c=relaxed/simple;
-	bh=RdOT8+Y+yiwtt66D2dg3A7FAu7IL2cpBnVTher2Wu1Q=;
+	s=arc-20240116; t=1769987847; c=relaxed/simple;
+	bh=wgw8AoOY0i0p+4ce6cgfsbCbwuuC+MkOqtN27UYaR3w=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k5UCmtGY/5gEdtS6MC1rk7DdEvetLqPDPNyKCvoa7p722ogxMpr1ctue9HsVIT/3uv202jDqOGKfLy/oXBD+RuWLNcgv28lAgv2KqAS0Srt6OkjOOqAB+ECLHDKr4zXs+ByuVdhkzAbx3qyO9+B3VoDVqO/Nqn6Q5CZgZTnZq9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EUtyyCqC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD847C4CEF7;
-	Sun,  1 Feb 2026 23:17:07 +0000 (UTC)
+	 MIME-Version:Content-Type; b=CXgDL/gdSamNIWx1r8QPePKsNl4T71e5lhiRR16YPH99Sd8/IEAPZoqGCubScJAm8yo6kUrn+646QEq+ueG3Mz8nAyVjRDCSkFjwVfyHwQ499PiQBUdEzZAz2i+LB+GhZnZj+X8i1PQ7C4UyKkhRd3Oqr5im700OS+NJey4dgsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=allW24Pc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B6FC4CEF7;
+	Sun,  1 Feb 2026 23:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769987830;
-	bh=RdOT8+Y+yiwtt66D2dg3A7FAu7IL2cpBnVTher2Wu1Q=;
+	s=k20201202; t=1769987847;
+	bh=wgw8AoOY0i0p+4ce6cgfsbCbwuuC+MkOqtN27UYaR3w=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=EUtyyCqCXhdc9ubZtXMYY017HNTDCvJ/q12oadvWcwK2COYclzciPAIGKXssFk6uL
-	 KT1/XTR21vc35ckYgVOVMspNzSFyqDYZSnzcvekmIPzFtVPkZiI0B583+SXDLdQDg8
-	 9xxlD2YUCoqYeIJfFkDlXVTluvH0E6OApjNPoD6o8uq884z0fntt+vsZjBLnpquTnd
-	 J+fgLaXfisGZVPTJyRhBHiMR6zCao7zrcJHgNNyNdwQrkH0AZSEJbAzmVJ3koOLxcK
-	 IBuJxPa9g5mAyOikH/IaWNyiBaOaChKJB3vQhzajl0U5j31/+ZyyzeSmJV8CXrgYQL
-	 O13ULAmjhg+Rw==
-Date: Mon, 2 Feb 2026 00:17:04 +0100
+	b=allW24PcwwlIyoK+hZ1gFo7K4p6yeepCJm5CAMPsSAkRGOQJbKayNOk4LGqu1/3DZ
+	 tgrW2F5HwotTpt6uvs8pck9XrKhyNGuZUB9kmeNmjhx07SM4RXtuHFCO4R3pzMN+Yx
+	 R0JtcQ/n+L7skUUSMLv/477iccKkcOVXa56icAdupuQLahAdYuRbTiAWgYZf19K6DI
+	 6M4eopu+eL6+ZHH9tNwRurXxOZoG8cyA4l5kZkd6q7k+l57qCzEeFZalNgiy3CQZsr
+	 iLt5Faq4AZ92cS8wsaQ9XzQ5FQHPNilEirXKb5EVHhHDg9O2yM6wnhX3Omad0F+JQJ
+	 DQw6F0MFR84Zg==
+Date: Mon, 2 Feb 2026 00:17:20 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Oleksandr Natalenko <oleksandr@natalenko.name>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jarkko Sakkinen
@@ -81,7 +81,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51943-lists,linux-media=lfdr.de,huawei];
+	TAGGED_FROM(0.00)[bounces-51944-lists,linux-media=lfdr.de,huawei];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
@@ -95,8 +95,8 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 92945C77EC
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,foz.lan:mid]
+X-Rspamd-Queue-Id: 012A7C7804
 X-Rspamd-Action: no action
 
 On Sun, 01 Feb 2026 21:26:24 +0100
@@ -120,7 +120,7 @@ n v4l2loopback now? =20
 ecific task, the OBS solution still uses v4l2loopback under the hood. Could=
  you please tell me what do I miss in this regard?
 
-No. At the machine with the camera, obs can read from a V4L input,
+No. At the machine with the camera, obs can read from a V4L2 input,
 generate a mpeg TS stream, and listen to a UDP port (for instance).=20
 
 At the remote machine, you can just pass the URL to ffmpeg.
