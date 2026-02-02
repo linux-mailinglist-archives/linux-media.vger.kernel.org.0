@@ -1,94 +1,94 @@
-Return-Path: <linux-media+bounces-52012-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52017-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mDl+LYWtgGnQAQMAu9opvQ
-	(envelope-from <linux-media+bounces-52012-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 14:58:29 +0100
+	id KKfiKlqvgGn6AQMAu9opvQ
+	(envelope-from <linux-media+bounces-52017-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 15:06:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3CECD04F
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 14:58:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2B1CD1EE
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 15:06:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5ECCF300D0F3
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 13:58:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 40BA8308FEB0
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 13:58:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23D4A36BCCB;
-	Mon,  2 Feb 2026 13:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 501CE36C5A1;
+	Mon,  2 Feb 2026 13:58:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="UFuliDeC"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="BSDejgXy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01A136654D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A011735EDC9;
 	Mon,  2 Feb 2026 13:58:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.93
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770040693; cv=fail; b=fLEg9D8Xe1m+a7PuwO+sPXstmYBIQtEkpr5i8wimPY/uqCUsIq8y3dq6yjfcwhRUJTLgqO6Qlq1fZwkqlGcZK4MMcxb4PFXETYgGfLKohZaXQ1Dp31CiBzKQ8B4gGMwGG31qZY6ZSH0t4YUlxhROY4vRACNCh+YjaD3aVCkN2rw=
+	t=1770040695; cv=fail; b=R5L8iu5g5qG3emSc+1pkM75WRqcReX0PvJQnoE+YPzkXLM3hRFIOrQlzKV42fxDcpG71qn0Xl2syKPhLweceUUImsWzDwuV01Cb4mjXKP6NaovsbLFSSIrXTps5WvUG3/Yd/9NdCcXLI3/3XH9or74/k3PlOHAwyAPqTs38DGR0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770040693; c=relaxed/simple;
-	bh=ET85D+hiXdUnTwqKoaI/1CXu2d//FwGTocH+1cUK9Zs=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=JWo6gIx8IaoLn1+moR5IIJP983EnPJhM+K5z2XpKiAFSaU0rLW5FgL9AmgRKqlQcywfRgm/r5rTTQuuGVvTk5GKTsDxkGKUMm15gYPUbSrcatuUtG3htvDLuojF0ZqpsIVe5ash7wBBLUxYUo388GriO0GIqgz3DCmSSV+hg3KU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=UFuliDeC; arc=fail smtp.client-ip=91.207.212.93
+	s=arc-20240116; t=1770040695; c=relaxed/simple;
+	bh=XMjBq3XDV8IYExk+69WdbPVyJRHmzhCZnevx+KDQ8gA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=mtkC2OIIzq7Fnq69fTurbPecT+XLm+OdH5RHd7iGB6A9NLN+c1BlEe5+R4KhfqhtLc0EdU8v4Q2lAQRqajpjacmqjMPQnevuekss3VZmtFxdH5gKYrFy1hR2t1oigMLfkgMecQWSv8EXRbPNjezq8oSJCH+k4Q3YaFfF+pc05cw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=BSDejgXy; arc=fail smtp.client-ip=91.207.212.93
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 612DiKKR2954519;
-	Mon, 2 Feb 2026 14:57:50 +0100
-Received: from db3pr0202cu003.outbound.protection.outlook.com (mail-northeuropeazon11010024.outbound.protection.outlook.com [52.101.84.24])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4c1wjq45nk-1
+	by mx07-00178001.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 612DpBRI2968032;
+	Mon, 2 Feb 2026 14:57:49 +0100
+Received: from duzpr83cu001.outbound.protection.outlook.com (mail-northeuropeazon11012054.outbound.protection.outlook.com [52.101.66.54])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4c1wjq45nh-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Mon, 02 Feb 2026 14:57:49 +0100 (CET)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N8C/eifeIHpOfVD3O0SpsetIDwO1kIEdDNmbsbBXSjfcpT1tSW1Ccxf0rQ1MSautvyXLZsPTNylvmgPSEPlu6nQvwl1JHCRalG9/6RRmSM6K4t4I8Iaod3OfMvd/ei5Y8c2o3ryCPWUdiBQ7YDevPc8EsZYJ9K8YoUzrRk2O3g+AhQ5hKnIAJFiy9YEnJCEptpn5QvpX5IeKxxCUZYwA62o/BZJIRW8+ZU/joVu7LK3+iFuXkI5MvnN1mQ7rxX7Khc8bQWce6/ADsnnCaLhoJ6pbgpJI3qB2+9M1VwiV5i3Ka2dq/b4nD+wKk4pjr+6+HCBUWUoMw3hzqCVn0cBUQQ==
+ b=mrmOjZmUCOCyzafGR2EvBNdJP0d4tRiVh4dQ+kfAjXxtyGhQpUyRsA67VTy2TPjE8SfLyZG4Cf3uPR8jUgGaBPLZnIyE/IhyybUWyU4FRe6Oe1xlqKDIFFH5vqyEI8C3RdisLaOtLsI4IA2lmGVIL92OII4KwAvibpgYf8NFgWeQX3ZPlgaaSziICgaIHre1wbi0DZuom67oYaEZGNLchGxwmX3IRQ8kOxXyBLmDFkdjYwEJUGieIjHtXs7d5Zjb5WydsMbkk7HKiy1SuBfjBqnVly7l7mp4RB/7aaHLSFzze3V7dfkIXx+qU7YhBIZTGVfetrESPcnlqhMI9bGtaw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0nquEdnx7ZNsf6MO+Ia3G+ewISVt277KG3740cofrnw=;
- b=aQXoQBejKR43fYWhKJvlGQohBYqjlmmiCqLCNHuI6ongkDNDKnu5t4UxmYc8yhXiK3nigqxOpkQeidq12Zm90j+6Ai2/CmaJ7NCvaeQs9BHPcMOsqilrgvA8f+NDJ7IiJ7SK4F8IAssh2xTK35NCxM7DUG7t8uBZ7ixyIvyPwA9LXdqfc1Gtqq1QlwAznYijphH6g0aWZN+/8rimstlYFo2/qgUNuvzXLm8NtqWvOCSgA+SFvpnvCFTP65OKd+X9rPPdc9egJsbFzEJ6DoRtq3aniPGiseV81Nr/XT9PfQlrFExzcgDEqM/qfqvEtMdlmBvepgVt7EqY/Yxfv+KeAA==
+ bh=hEeG4jqNYprpJnAWtY7nnrgl69+/I2mb998PNhBVy0I=;
+ b=EleugOEsSqaPaoj7qB54wt9/ylGFR/2Olf9VB5JNmS7sJnd5cyLeRATbFSGIoknYo67Tu6c0RMxQVFLKOoJgdxp9JJiuq3EDT7/hsdvZQSaUokUdmhiNshojnIt/LQMBW2k9SrfGABdS84XIIqZmSEi/kT4D64ZwDBwWiKWBU3xAtXkiGrwZ1S+WDqw02Zd9ptPYZqiUdgDeXdFqxU3whDyyq3auvcOODpQkioPQfn6cqi1ByHHvPePDxLnkEvj4aNMX6Zhua+Efw9gTklxs0q7kxnjCAiagZPgvsZR3GVBR+nBn8eaAJ55UE+gtTt3/ys0zJ2DUsWSAzlDy1FHE9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.60) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
+ 164.130.1.59) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=foss.st.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0nquEdnx7ZNsf6MO+Ia3G+ewISVt277KG3740cofrnw=;
- b=UFuliDeCMNmDbpQX7CvpgVhEEpH+KvI6+O1ZtosyZLaNX/7hwkrsA+BaI68VQFtjBdDjPHGGfPxarAEtMOqA/mPsFTslsKs0NWBvJESBTEZ0nA0nGkA3pjLGjH8pMlqfNVLp5wubrkuSDZu/ASp/nLGA/UeJ3771LAL5q1pWqkyLBjdGRl2vy3uOk4oXJWG79faItL3q0dSgj6y4OktHCtROJR2//rOpmkdisdg7lNgDzMRmTl5NDANUPqgMC7jxRX7nYiQ3wUMYg6Kf/mLsqf72/+Vqq9z00p252uPW3wRSyg4dzwT6mF4eP/l6f0oOZ5cjjFwTjTT1Jx1HdN0kHw==
-Received: from AS4P251CA0012.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:5d2::13)
- by DU4PR10MB8467.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:55b::9) with
+ bh=hEeG4jqNYprpJnAWtY7nnrgl69+/I2mb998PNhBVy0I=;
+ b=BSDejgXyjgBfPU2CKJnmIASQoE3/Ez1/XElGFwbzRxHiPMDK/MQzBBMIqYw6M0Q2qAhiRTXZJao0J8oUWRjCGleaz3fTetnDUedjfN3jWkIxda6ehB71IkPOTje8lalHTx7h+HME+USMDPHkeyCCN5cUvP/l9flxKGWKySyc7v0n3LHtfaASKTBX7EvBhXBN+dkJu4Q4xVW0TfL2ArbNO4lfoy6rM0X8eKXvMy9L34NWf0+/o/RYWkG7sd6GWqVDrMxxQxXZ7sLkyEKiss09tgSraWJFzefwrz6XmFFNS8e8NVVPORj+YNU+KJi7s1qpdV3Wu2dUadeZUGAxgC6KhQ==
+Received: from AS4PR10CA0012.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5dc::15)
+ by PAWPR10MB7697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:35f::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.13; Mon, 2 Feb
  2026 13:57:43 +0000
-Received: from AM2PEPF0001C714.eurprd05.prod.outlook.com
- (2603:10a6:20b:5d2:cafe::f5) by AS4P251CA0012.outlook.office365.com
- (2603:10a6:20b:5d2::13) with Microsoft SMTP Server (version=TLS1_3,
+Received: from AMS0EPF0000019A.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5dc:cafe::e) by AS4PR10CA0012.outlook.office365.com
+ (2603:10a6:20b:5dc::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.16 via Frontend Transport; Mon,
- 2 Feb 2026 13:57:42 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.60)
+ 2 Feb 2026 13:57:39 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
  smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
 Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.60; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.60) by
- AM2PEPF0001C714.mail.protection.outlook.com (10.167.16.184) with Microsoft
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ AMS0EPF0000019A.mail.protection.outlook.com (10.167.16.246) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Mon, 2 Feb 2026 13:57:41 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
- (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9587.10 via Frontend Transport; Mon, 2 Feb 2026 13:57:42 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 2 Feb
- 2026 14:59:19 +0100
+ 2026 14:59:27 +0100
 Received: from localhost (10.252.7.227) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 2 Feb
- 2026 14:57:40 +0100
+ 2026 14:57:41 +0100
 From: Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH 00/13] media: stm32: dcmipp: add support for MP2x pixel
- pipes
-Date: Mon, 2 Feb 2026 14:57:25 +0100
-Message-ID: <20260202-stm32-dcmipp-pixel-pipes-support-v1-0-8d8d51f5e014@foss.st.com>
+Date: Mon, 2 Feb 2026 14:57:26 +0100
+Subject: [PATCH 01/13] media: stm32: dcmipp: share struct dcmipp_device
+ among subdevs
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -97,10 +97,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEWtgGkC/y2NwQqDQAxEf0VybsBN14P9ldJDXWMbqJpuVimI/
- 25Kexl4wzBvA+MsbHCpNsi8isk8OYRTBel5nx6M0jsD1dQECi1aGc+EfRpFFVU+/PJUNrRFdc4
- Fu0gtxVR3kRvwG808+OyruN5+nPm9uKn8y30/ADD3fGmHAAAA
-X-Change-ID: 20251219-stm32-dcmipp-pixel-pipes-support-b42924c0b4e5
+Message-ID: <20260202-stm32-dcmipp-pixel-pipes-support-v1-1-8d8d51f5e014@foss.st.com>
+References: <20260202-stm32-dcmipp-pixel-pipes-support-v1-0-8d8d51f5e014@foss.st.com>
+In-Reply-To: <20260202-stm32-dcmipp-pixel-pipes-support-v1-0-8d8d51f5e014@foss.st.com>
 To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
         Mauro Carvalho Chehab
 	<mchehab@kernel.org>,
@@ -118,82 +117,82 @@ X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C714:EE_|DU4PR10MB8467:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7dbb1e23-39d7-4a09-2f44-08de6263087c
+X-MS-TrafficTypeDiagnostic: AMS0EPF0000019A:EE_|PAWPR10MB7697:EE_
+X-MS-Office365-Filtering-Correlation-Id: 216e5a34-6a70-4c71-70c7-08de626308ca
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024|30052699003;
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|7416014|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZDJKdFh1Vk1sUTFuQUREOGZJRy9Za1drVnp6UkdEZ0Fta3RYbVhINzV6TGpG?=
- =?utf-8?B?amVNYkYzdWRtbHVQK0VhbXhtZWp1OHFYS2oxWVhZU2ZHR3phdURRanFFb1Rv?=
- =?utf-8?B?MGoxVHdBbSt6WXh2RGJFL3oxZHl0UXRqQmZJVFFVWTZsN1dsQmUrRURWWUZB?=
- =?utf-8?B?UHRpelJ2dzhlU2k1WmNNaWlYYkpEbmxwanFrbjFlUHdrM01ablM4cW9NVzZr?=
- =?utf-8?B?bFJMQ2NjNExTajRjdmQ0aW9ORHYzVk04WUtpR2E4ZndEK0t1Z0wvbmNuVE8r?=
- =?utf-8?B?cnZhSkVFc01MbmpsOFU5eEU0dm10aGk3VDBqYUhYN2VJOFhQZXVTRkFXWlhJ?=
- =?utf-8?B?YTk4b0Q5Nm4xOExhZ2JkQ2QrZ3ByeTFzTHh0T1lYNGVRV0xVeGlTRVVKL3pw?=
- =?utf-8?B?MW1WS284RDQ5Njc1Y0ZQeUhZOStBNmNqNnVNUDIxa2FEcTdRNXJWeXlIWkIy?=
- =?utf-8?B?YjdURGVNMXhrc0JocGZIVnRYNitFNXNQKzM2aHowQzlWM0pESU1JRi9iZmJw?=
- =?utf-8?B?QVlYaUJmR0tEQ243UWlMS3ZMWnVWWTZPVU9sM2dVaWRHdk9HYzlGcU5JM2dP?=
- =?utf-8?B?dE9PTExNc2sxME1VVE9qTmhRU0VHTVB1Tno4WkNTa2dFZmlWbzhzM09nakls?=
- =?utf-8?B?VmFPZG1pTU5nVjNSWmc5Qm44dkZuYUg3dklJalA0ME92cnNPTlZydzV1YVZm?=
- =?utf-8?B?Z01uY0FrWDNwTE5iK1hPdjNIeWhubGRLVWFDVE9NYm5heXdKam5FU0tjbjRy?=
- =?utf-8?B?YnliUm5zcEY5ZDlQQVVjNVVtMzBuOVF1Nlg4Q0RQMkZCRDIwdHo4cEFGd1ZV?=
- =?utf-8?B?SFlyU011K01FRXF3S05wa2ZUOFBxZlhrQTl2cnd6ejJQN2hkYkxZSGQ2dWVj?=
- =?utf-8?B?OWdPZGttdW9OZFhKeVBod3pmMVBNc21iaWIyRjkxc3Z6SHUxV0lCby9FSU5v?=
- =?utf-8?B?dXFWaHd0Rm1CdXZNaEVuQ082ZGVnM2dwTjhmbUFUWktUbGVGKzlGNFcyT0pk?=
- =?utf-8?B?SDN4Z1cvb09Gc0c4djNRMkV4QjFac3NLRTM2TThBTVB2NkJRamN2VUhkVitr?=
- =?utf-8?B?eGJWYU1GVS94YlhmTW5rL1QwcktTelRaVzJVYTNvRjFPV0dUVlVyQmlrNWNm?=
- =?utf-8?B?NXpKSC84alNoVG1JTWRuTmJoSlpmS1FESmhpa1RXQ21HOVFtajU0ODMyeCtH?=
- =?utf-8?B?bUltSVZJTjJuRW4wT0JHZUZxKzdSUnpQYzkxWTg3c2gyNmJTYnBaNXZiVVJl?=
- =?utf-8?B?bjl4YWQ5cmVnbVlIb1FCR2p3YzBiUFRwOGZKYlVTeU1DSVFWOEZvN0d2amth?=
- =?utf-8?B?aTRZdlR1RGh5ekRsazlQMUhpakR4MGtQcWNNb0VPYkRZck5UZkE1VUtFOXZW?=
- =?utf-8?B?WWZodlZYeml0aGpyd1pHYTVZQmhPMDluakRMeXpsMnIvNkNjS1BlQjNaTEhP?=
- =?utf-8?B?L1hmeWZ2eTh4VTZYcWVZNERwLzUveXd0RWpyZ1BMZnowdUNUbmdRazhxRjZY?=
- =?utf-8?B?eG9QcTQ2aGxPeEtIbFJRUU10b1lCN2p1NEdLU1NRWGwwM3JlVGlXSFMvSGxh?=
- =?utf-8?B?N0NMTHpjbUxXTkMzaEQ1c1RBbnlqdUNaOGxyRThrTTNGZVNDaHJPZXQ3SDRX?=
- =?utf-8?B?VWxJaGNsQXovcmoxWjliR3E5YnI4SDhJM3QxaFRsVk1vaXVFSUhXWVprQVps?=
- =?utf-8?B?bkhlNEFUbDlNYUNaeE5XaFBWTjFvRHZnTXNOazM4SmZxSG9VcWFNQXY4aUhm?=
- =?utf-8?B?cW1TVEVpK05TQUx3ZjQzRHNmRFg1SDF1NkIyelp1akhpeGhDSUFNWU9TcnVt?=
- =?utf-8?B?bzhsV2tJd0NTTTk4TGo5RFlKRmRyeFN4Z0hsVVdVN0RxUEQxZWFNQjdaZVkx?=
- =?utf-8?B?aVRUeVFXREE1YkJaZEw4akgxWVFZSFRmQ1hML1hIZzRUTUMyMUpiMWZtUHlP?=
- =?utf-8?B?WFJOMXpnU0NSZmpGUVQwOW5qc2p2akFXMml3bGNaRFVBZE1rbWpnM3RLYlhs?=
- =?utf-8?B?OTA4cmY2Z0ZmRUNiRmJ3SVZjQ3FEakEwL0NvbmcraEMvSEdVbStMR2x6bGcv?=
- =?utf-8?B?cFNpTVM1TDl3UytWOEE5TjlsTm43RmVMeHlVbThaQXlGZU1ETk8yZ3hKMHNY?=
- =?utf-8?B?bVFQTEJsNlB1aGNuaHdyWVU3Vk5IaDVuUi9WSzExY3ZGcnkyRGdCa1JOVWtr?=
- =?utf-8?B?VGZkSjFyOVZwYW1KYThPUDdKVklrcnJVeGYrUnczQXRZczJmNFIyL0ZlNlBK?=
- =?utf-8?B?Y0JmeGpFWEdzWFVsalZ0eWtDSVZ3PT0=?=
+	=?utf-8?B?engvM2tIZmg2WXdrcElPbkIvQzFwSU1aKy9uSzRHQjJxUTh4QVg1Smd1TzVK?=
+ =?utf-8?B?NWdKeWQ2TEpoQjY4L1RPdVcxRmJaT3V3dXVSWlNaaUlzTzBQQzNzUG9kSzdO?=
+ =?utf-8?B?TDhOUGI5UVhZV0RnSEFPSEx2Z05XK2RGajZiWGZTcWI4MFhFMjhZcDh1RmZl?=
+ =?utf-8?B?K2dYUTFkYjdBRTh4UjJtVEpVRzJQd3Rub1ZTc1M3eGE0alJoUG5aNldobm84?=
+ =?utf-8?B?RnNjWHY5WFlDek1hRXBNOTVEQVhDQjBaRXFpZ0FKemJMaHJSSXVMV0pVNkxW?=
+ =?utf-8?B?eHdiNy94VWs3RmtrZ1NxMUhLOHhZbFZ6L3NoNVBxY21FVE9KR3pxa1liZDdx?=
+ =?utf-8?B?cFNwS3dqSnNYTi9NamVIWlhrVW96UGhsdk5XWElxOExqekNvZjhGd1MyejBT?=
+ =?utf-8?B?TTMzbWU5NjRXRFNneUVJT1c4Qk9JbFJpQ1o1WXJTMGpQKys5MmJlTUticW0v?=
+ =?utf-8?B?cWtEZUNwN29DQXRibUxzZGgzTWk2NkJRUlA1NTVsL01OUE1TeXhxbElmOHF3?=
+ =?utf-8?B?UGZVbkpYMm1hTklVa2RGcngwNWtIQ0NFaFdjUDkyMlVBT2NVMFdWWVZ3bGsx?=
+ =?utf-8?B?UzB1M3MrclJBdDVvNS84Z3dOTkhSclEzbnQ2YjRlNmJtMFE0S0RtQkFZbzJK?=
+ =?utf-8?B?ZWNLQ3dXcWtIVU9BcE8rRFFXdjZzeU1aWXRvRFVTT2tOUWdBKzM1MytOMENv?=
+ =?utf-8?B?WEF2NnJXckM3d0w5YTRrUGFoU1BTUlhzWmhXKzVJTC9TMGIyeVRNODdOa1Uv?=
+ =?utf-8?B?eStBZWR0RFlBTU95V2o3cTVLMlM0eEdJV29mN0VHc1VKY1hCVThzcDFVaDQ2?=
+ =?utf-8?B?RUZPVUF1VHRQeXpxVE1rUkpmZ0JPM01qTkhReU91TGl2a083NysrelBjbG9Y?=
+ =?utf-8?B?S3ZFL0JoTjBUYmlNc1R1bHBRcHdTR2N6dnNTRkNGWExGaEZ3UndrVVFvZEFE?=
+ =?utf-8?B?bE9idHJyUHlrc1pIbHRtRlVkNnhRSEtZM05mdTlWbjk0eXF3ejh1ZFNSa3pw?=
+ =?utf-8?B?MUpENlZyZzdyczdENWZHdmgyb3ZkZklTNGVqR1JMWksrMTYwZEptRWtnZVRh?=
+ =?utf-8?B?aGpaRjZ5VGQweUUxUnQzenVVNXNveVlMWkw5aWkvR09sUzQvMkVWOGZwV3kw?=
+ =?utf-8?B?SlQ1TWtwOFZJRnJRS2IrK3JFZEZyNU8rU3JYL2Zjc3ErRXQrSVFhVlBDYXFX?=
+ =?utf-8?B?ZzlCazlVcDlzam5KUGUxR1hrWjg1aWFiMTBUL2MyamFLVml1RWtBYTZCQVBZ?=
+ =?utf-8?B?RWJpdnZpZk9xVUlCbDlCdFUvY01hWjNBMjRNSkdNQWZPOGNaNVZWbEVUb1JQ?=
+ =?utf-8?B?R1BiMWRsZkx5NTZZT01wNkl6L0VFYXI2bFFBVm9aMUdXT2MzWCtyZUcwak95?=
+ =?utf-8?B?bnBBRW0yanFKRVFHRVNCbjJpSUlFR00zVlo3U1NEMU1TS3VvSHBkNG4waDJt?=
+ =?utf-8?B?WXZCZDJSSU91TEJzclQrWEZ0eWdYaW5ickdwV2hXTENlV3EvUWhUVDFoQ3BJ?=
+ =?utf-8?B?clFWdWt6ajlLMXJYc0Z1S1Q2dVRlNVFqSjBNVmNWSE5tMXY5U0FMS0VIUUlx?=
+ =?utf-8?B?MjFqNzE1Vm5zeEp2QjNreGxBR05LSmN3TjBUcHRjbkdLK1ZhUjh4SDNuNDkz?=
+ =?utf-8?B?V0dnNUNnYkpsUjRJMDI1c2lMY3FjcHFCbklFRzN3YlF0R0NScGpOb1h1N25w?=
+ =?utf-8?B?WXdYVi9hT1pMTlJISWhKWWFHWTRrdlVEV0ZJRjZPdjJPWGtwbjlNZ2RtQnFX?=
+ =?utf-8?B?ZkZoRjBWSUdTSW9HNjQ5RU9vTXFtVEdrbFF3RExESlRaSWJNa05JN2NkTk9O?=
+ =?utf-8?B?TlBWemoxWGF4ZlpyTDFCNXE0amxBSXgyU2lpV0wzT0dRZWkyK2VBK0M3elZO?=
+ =?utf-8?B?c2wvcVBoRFU4VlBxdno0bTM5c1JXRGt6WW4rcjZCeWRucXNkdm5KZ0h2STk2?=
+ =?utf-8?B?dHpnTTMxdk5zaDJyNno5OG9TdW5VY3JSRW5wMmZNUWlsN2NDdFFxM2JyK3k1?=
+ =?utf-8?B?dWhqY2wyZzN1MXkrQzRlbEdaUk1VNGtVWU84OWd4K1hHbkdIQUd3NnQ4VHVr?=
+ =?utf-8?B?VVRBdGN1RVFQUFZGTkVDRG9HT0pTLzl3T3lpcWkxWElGZ0w5b2VJOGFTUmFK?=
+ =?utf-8?B?YmptOUZzc0hGbVJpanZGYU51V2ltSDVQSXkzNGZIbTRBYXU2NDFHaUFBaHFK?=
+ =?utf-8?B?WlJHVDV4Y2hZZjcyVUJSU3Z4akdJbVYvQ0pSUlg0THFRN0ZXSzhMaDA2T0gz?=
+ =?utf-8?B?akpnTUxCSFdqVGJNRjhrRVAybktRPT0=?=
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024)(30052699003);DIR:OUT;SFP:1101;
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(7416014)(36860700013);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	AbHG6ROt2Jm764oTPeriWM+6w/KfzWL9aVNQ7ZL6UsD/JxXiI1FWz33Y6RscZn3Z/PsA1wcl+aQ+xHtP+BkJMFrIaWefcrFiSizkGt8Zm9+I1/wYpy14lv5BKGMN2rJHP5AEACelsBU+bvpDug6YMW9P3N66NU77tD2mwUQm+hGGpwFlvQwhj99R3Tqx4XbXYBXsfn0WPht4ltBcrTl/BXbNZo7UACoQyXhcqxMcEeB1Z2z6VRW7wG1J21U1lef/Kn+VJN5guvPEUHAUCBJ4kzawDgWnNiQ1QxyumxyOvvm5ZG5X2N1+2AiyXBu5P7kFhg89nGvtMFNGP9msYB69b7HiUBgPxIMh5H08C4KOIU0mZnMz0QbF6ZodQR85riscjp/R945BxKQa5a1Vcvr8voQBFQtwms6BaVwecL7w4jsC+RNVGEBsTjmHTq0lxJmO
+	NBPDMKh5hZDoVw4a/anE2uNUorK7S4Z40jBgmOYQ5pYM6cWjiWhxjUbI0xt/ESLz2G8hEOGo7ol1N7Yz9xRdPfzdtJym8x9clqrDIFjJ4Qttd6iefW74NXDVkSR3/E+QaXrBL3vhhUtR8Auz0QINeI5kWhftQw/7kr2WIlROkM7bJS0PKtBq6eOCM4+qbmPkLW3OvCuViYdpiQcN8gYBViRy8bZl9tKdN/qr2fPeAALafr7m09ku2l8ZrE4lXdiWOxRf8fa9VdG1g5wDumIDGP6fkK1dZ6caJFvMSQhY75r+y/KEzADXKmMt1/orwa4AL1DjXQTmy0ayq2gg7BtQOo4SO3hcl375Vnow1TPCtdmm133fxuSeHYsM/oCIqTSafUtGcrTlJ1gzxN1ObpCRcT6rUzQqUZLpaarvWIa7D8Jr9+oKCmzjqCjZaHrk2fvV
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 13:57:41.6000
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 13:57:42.1014
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7dbb1e23-39d7-4a09-2f44-08de6263087c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 216e5a34-6a70-4c71-70c7-08de626308ca
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	AM2PEPF0001C714.eurprd05.prod.outlook.com
+	AMS0EPF0000019A.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR10MB8467
-X-Proofpoint-GUID: jpCE8dhtujhecsY7bGmV9vyHzp8mg-ro
-X-Proofpoint-ORIG-GUID: jpCE8dhtujhecsY7bGmV9vyHzp8mg-ro
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDEwOSBTYWx0ZWRfXzbRCyquA0t9N
- EqH6MyV0OS8611wR2WreZ8MtI0R1Olvr0JOLIOXr+ByT6tu9mfJirQVfknlb+TxvtRTCHufefSJ
- a3+eADfgLE6NurdMS15GlJM0DVssk/RuLXXpCKcel3+Aj/1dcBRxOMzL15J7/G18+eel7hcG3SB
- Z5/wAIRdQSFcDkCHsMpMoOT5GjSq3aFBuk3HVdu/tnO+lLpsjTsu9Hwab4EcqWY0L0Qdm11uYEa
- SL7xE1nFGkO3a9vaiwE2c/s1KbrONH030OlgJXfodhwYfKnaiwLnKAQj2Fj5bgU/YDAAv6ehzwS
- ohrlHdXaudyCxCq8Uh9/Sf22GEvJ0cU7dc/3urzFz+WRrZDwGfVIO17l8V82WDlfjCRTjGGiJwB
- KjflZY2FuJjejnT6G/46yequEyLgU8Nza6s8AZ+geiIGwXKzpO4LWIShwqeVXC/4mGQj+b/+W64
- 2uAsQg31ImUdDgkia5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7697
+X-Proofpoint-GUID: 7QerdSwG0JufuuTC50767wMde6DwL1cl
+X-Proofpoint-ORIG-GUID: 7QerdSwG0JufuuTC50767wMde6DwL1cl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDEwOSBTYWx0ZWRfX5rkx5S1rzAnB
+ fvnPaibokISEBxFggJ00c7YEQaJjyPdw/nzvYgHh5lY2DGbMYb+uqnEY6i+5lLnn0znVcKnuz86
+ WUJ9jM8tv94oRAvgLFCko2Pb2O6l3UhV+A87P8unNrPVK+Ykwanr5cDfD9S6mYY5eJZV1I9FUiT
+ xRCvxbTcDpEmYx4HEjAQUbLDW+2fDsuJUWxYMi9yI9BDMdQRiztmuFmyINt6zQKxvaAM1qXA/mt
+ HZTEmkr8MOCUR4Y5Jpxewtd1NS5eU4bRIzT6T0o4rLpG4BZJFZr95FV3jLYJFb6PNRhLKQwpNyg
+ WpS6AQcFNaJsl2ftTPXXgSq8qy363rlCgOirwuxWWuNwBK+bAxGfNI2oxFKNIGpTOlHOT0AAkOt
+ tgAXyyy94xmMWecTewDDMNA2ejNNEBFw/JUAmYNJ60ADUVO51XSoOlv1lfqMmMXaSkD4ckPbSt+
+ /NB2gqXDIPsQNe3FL6w==
 X-Authority-Analysis: v=2.4 cv=HuZ72kTS c=1 sm=1 tr=0 ts=6980ad5d cx=c_pps
- a=cOaRrpwSYXeplg7wOblQjQ==:117 a=uCuRqK4WZKO1kjFMGfU4lQ==:17
+ a=TPI4aLKDjCd1EbHbt8/hbw==:117 a=d6reE3nDawwanmLcZTMRXA==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=Xa52oM6mtQYA:10 a=IkcTkHD0fZMA:10
  a=HzLeVaNsDn8A:10 a=s63m1ICgrNkA:10 a=KrXZwBdWH7kA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=8b9GpE9nAAAA:8 a=7Eqx6uhyqE0oTEYzcX4A:9
+ a=VkNPw1HP01LnGYTKEx00:22 a=8b9GpE9nAAAA:8 a=KeAM96LYraSxUco4NP0A:9
  a=QEXdDO2ut3YA:10 a=T3LWEMljR5ZiDmsYVIUa:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
@@ -208,19 +207,19 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[foss.st.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[foss.st.com:s=selector2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52012-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52017-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[foss.st.com,kernel.org,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[st.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[foss.st.com:mid,foss.st.com:dkim,st.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
 	DKIM_TRACE(0.00)[foss.st.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -230,60 +229,290 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[10]
-X-Rspamd-Queue-Id: 5D3CECD04F
+X-Rspamd-Queue-Id: 0D2B1CD1EE
 X-Rspamd-Action: no action
 
-This series add support for the main & aux pixel pipes
-available on the MP2x. In addition to the byte pipe
-already available, the DCMIPP is able to process two
-other streams in parallel, including ISP operations
-such as demosaicing, exposure etc, post-processing operations
-such as cropping, downscaling and various pixel formats
-output.
-
-This series introduces the whole DCMIPP pipelines including
-static configuration of the ISP part (such as demosaicing).
-Dynamic control of the ISP as well as statistic extraction
-part will be added on top of this serie via usage of 2 other
-video devices (input & output) for statistics extraction and
-dynamic ISP parameter injection.
+In preparation of need for sharing of data between subdevices,
+make the struct dcmipp_device structure part of dcmipp_common.h
+and share it with subdevs at init time. This allows for simplifying
+parameters of each subdev init function as well.
 
 Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
 ---
-Alain Volmat (13):
-      media: stm32: dcmipp: share struct dcmipp_device among subdevs
-      media: stm32: dcmipp: make dcmipp_state & cmsr2 read common
-      media: stm32: dcmipp: bytecap: protect CMIER register access
-      media: stm32: dcmipp: move common structures in dcmipp-common.h
-      media: stm32: dcmipp: correct swap in YUYV data with parallel input
-      media: stm32: dcmipp: configure csi input of all pipes on stm32mp25
-      media: stm32: dcmipp: introduce a dcmipp global media_pipeline
-      media: stm32: dcmipp: add pixel pipes helper functions
-      media: stm32: dcmipp: addition of a dcmipp-isp subdev
-      media: stm32: dcmipp: pixelproc: addition of dcmipp-pixelproc subdev
-      media: stm32: dcmipp: add pixel-pipe support in bytecap
-      media: stm32: dcmipp: rename bytecap into capture
-      media: stm32: dcmipp: instantiate & link stm32mp25 subdevs
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c         | 13 ++++---
+ .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c        | 11 +++---
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-common.h | 43 +++++++++++++++++-----
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   | 33 ++---------------
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-input.c  | 12 +++---
+ 5 files changed, 55 insertions(+), 57 deletions(-)
 
- .../media/platform/st/stm32/stm32-dcmipp/Makefile  |   3 +-
- .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c        |  27 +-
- .../{dcmipp-bytecap.c => dcmipp-capture.c}         | 593 +++++++++----
- .../platform/st/stm32/stm32-dcmipp/dcmipp-common.h |  98 ++-
- .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   | 124 ++-
- .../platform/st/stm32/stm32-dcmipp/dcmipp-input.c  | 113 ++-
- .../platform/st/stm32/stm32-dcmipp/dcmipp-isp.c    | 482 +++++++++++
- .../st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c     | 180 ++++
- .../st/stm32/stm32-dcmipp/dcmipp-pixelcommon.h     |  41 +
- .../st/stm32/stm32-dcmipp/dcmipp-pixelproc.c       | 937 +++++++++++++++++++++
- 10 files changed, 2322 insertions(+), 276 deletions(-)
----
-base-commit: eb4ee870747c3a77a9c3c84d84efb64bd481013a
-change-id: 20251219-stm32-dcmipp-pixel-pipes-support-b42924c0b4e5
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
+index 19e6b187be22..f4b962867dc2 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
+@@ -855,12 +855,11 @@ static const struct media_entity_operations dcmipp_bytecap_entity_ops = {
+ 	.link_validate = dcmipp_bytecap_link_validate,
+ };
+ 
+-struct dcmipp_ent_device *dcmipp_bytecap_ent_init(struct device *dev,
+-						  const char *entity_name,
+-						  struct v4l2_device *v4l2_dev,
+-						  void __iomem *regs)
++struct dcmipp_ent_device *dcmipp_bytecap_ent_init(const char *entity_name,
++						  struct dcmipp_device *dcmipp)
+ {
+ 	struct dcmipp_bytecap_device *vcap;
++	struct device *dev = dcmipp->dev;
+ 	struct video_device *vdev;
+ 	struct vb2_queue *q;
+ 	const unsigned long pad_flag = MEDIA_PAD_FL_SINK;
+@@ -878,6 +877,8 @@ struct dcmipp_ent_device *dcmipp_bytecap_ent_init(struct device *dev,
+ 		goto err_free_vcap;
+ 	}
+ 
++	vcap->ved.dcmipp = dcmipp;
++
+ 	/* Initialize the media entity */
+ 	vcap->vdev.entity.name = entity_name;
+ 	vcap->vdev.entity.function = MEDIA_ENT_F_IO_V4L;
+@@ -928,7 +929,7 @@ struct dcmipp_ent_device *dcmipp_bytecap_ent_init(struct device *dev,
+ 	vcap->ved.handler = dcmipp_bytecap_irq_callback;
+ 	vcap->ved.thread_fn = dcmipp_bytecap_irq_thread;
+ 	vcap->dev = dev;
+-	vcap->regs = regs;
++	vcap->regs = dcmipp->regs;
+ 
+ 	/* Initialize the video_device struct */
+ 	vdev = &vcap->vdev;
+@@ -939,7 +940,7 @@ struct dcmipp_ent_device *dcmipp_bytecap_ent_init(struct device *dev,
+ 	vdev->ioctl_ops = &dcmipp_bytecap_ioctl_ops;
+ 	vdev->lock = &vcap->lock;
+ 	vdev->queue = q;
+-	vdev->v4l2_dev = v4l2_dev;
++	vdev->v4l2_dev = &dcmipp->v4l2_dev;
+ 	strscpy(vdev->name, entity_name, sizeof(vdev->name));
+ 	video_set_drvdata(vdev, &vcap->ved);
+ 
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
+index f9e4a3a9ef3f..aa0561957b80 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
+@@ -571,8 +571,8 @@ void dcmipp_byteproc_ent_release(struct dcmipp_ent_device *ved)
+ }
+ 
+ struct dcmipp_ent_device *
+-dcmipp_byteproc_ent_init(struct device *dev, const char *entity_name,
+-			 struct v4l2_device *v4l2_dev, void __iomem *regs)
++dcmipp_byteproc_ent_init(const char *entity_name,
++			 struct dcmipp_device *dcmipp)
+ {
+ 	struct dcmipp_byteproc_device *byteproc;
+ 	const unsigned long pads_flag[] = {
+@@ -585,11 +585,11 @@ dcmipp_byteproc_ent_init(struct device *dev, const char *entity_name,
+ 	if (!byteproc)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	byteproc->regs = regs;
++	byteproc->regs = dcmipp->regs;
+ 
+ 	/* Initialize ved and sd */
+ 	ret = dcmipp_ent_sd_register(&byteproc->ved, &byteproc->sd,
+-				     v4l2_dev, entity_name,
++				     &dcmipp->v4l2_dev, entity_name,
+ 				     MEDIA_ENT_F_PROC_VIDEO_SCALER,
+ 				     ARRAY_SIZE(pads_flag), pads_flag,
+ 				     &dcmipp_byteproc_int_ops,
+@@ -600,7 +600,8 @@ dcmipp_byteproc_ent_init(struct device *dev, const char *entity_name,
+ 		return ERR_PTR(ret);
+ 	}
+ 
+-	byteproc->dev = dev;
++	byteproc->ved.dcmipp = dcmipp;
++	byteproc->dev = dcmipp->dev;
+ 
+ 	return &byteproc->ved;
+ }
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.h b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.h
+index fe5f97233f5e..e5c0eda8b18a 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.h
++++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.h
+@@ -58,10 +58,36 @@ do {									\
+ 		(fmt)->xfer_func = DCMIPP_XFER_FUNC_DEFAULT;		\
+ } while (0)
+ 
++struct dcmipp_device {
++	/* The platform device */
++	struct platform_device		pdev;
++	struct device			*dev;
++
++	/* Hardware resources */
++	void __iomem			*regs;
++	struct clk			*mclk;
++	struct clk			*kclk;
++
++	/* The pipeline configuration */
++	const struct dcmipp_pipeline_config	*pipe_cfg;
++
++	/* The Associated media_device parent */
++	struct media_device		mdev;
++
++	/* Internal v4l2 parent device*/
++	struct v4l2_device		v4l2_dev;
++
++	/* Entities */
++	struct dcmipp_ent_device	**entity;
++
++	struct v4l2_async_notifier	notifier;
++};
++
+ /**
+  * struct dcmipp_ent_device - core struct that represents a node in the topology
+  *
+  * @ent:		the pointer to struct media_entity for the node
++ * @dcmipp:		the pointer to the parent dcmipp_device
+  * @pads:		the list of pads of the node
+  * @bus:		struct v4l2_mbus_config_parallel describing input bus
+  * @bus_type:		type of input bus (parallel or BT656)
+@@ -84,6 +110,7 @@ do {									\
+  */
+ struct dcmipp_ent_device {
+ 	struct media_entity *ent;
++	struct dcmipp_device *dcmipp;
+ 	struct media_pad *pads;
+ 
+ 	/* Parallel input device */
+@@ -199,19 +226,15 @@ static inline void __reg_clear(struct device *dev, void __iomem *base, u32 reg,
+ }
+ 
+ /* DCMIPP subdev init / release entry points */
+-struct dcmipp_ent_device *dcmipp_inp_ent_init(struct device *dev,
+-					      const char *entity_name,
+-					      struct v4l2_device *v4l2_dev,
+-					      void __iomem *regs);
++struct dcmipp_ent_device *dcmipp_inp_ent_init(const char *entity_name,
++					      struct dcmipp_device *dcmipp);
+ void dcmipp_inp_ent_release(struct dcmipp_ent_device *ved);
+ struct dcmipp_ent_device *
+-dcmipp_byteproc_ent_init(struct device *dev, const char *entity_name,
+-			 struct v4l2_device *v4l2_dev, void __iomem *regs);
++dcmipp_byteproc_ent_init(const char *entity_name,
++			 struct dcmipp_device *dcmipp);
+ void dcmipp_byteproc_ent_release(struct dcmipp_ent_device *ved);
+-struct dcmipp_ent_device *dcmipp_bytecap_ent_init(struct device *dev,
+-						  const char *entity_name,
+-						  struct v4l2_device *v4l2_dev,
+-						  void __iomem *regs);
++struct dcmipp_ent_device *dcmipp_bytecap_ent_init(const char *entity_name,
++						  struct dcmipp_device *dcmipp);
+ void dcmipp_bytecap_ent_release(struct dcmipp_ent_device *ved);
+ 
+ #endif
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+index 49398d077764..dd784cfcaac8 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+@@ -33,31 +33,6 @@
+ 	.flags = link_flags,					\
+ }
+ 
+-struct dcmipp_device {
+-	/* The platform device */
+-	struct platform_device		pdev;
+-	struct device			*dev;
+-
+-	/* Hardware resources */
+-	void __iomem			*regs;
+-	struct clk			*mclk;
+-	struct clk			*kclk;
+-
+-	/* The pipeline configuration */
+-	const struct dcmipp_pipeline_config	*pipe_cfg;
+-
+-	/* The Associated media_device parent */
+-	struct media_device		mdev;
+-
+-	/* Internal v4l2 parent device*/
+-	struct v4l2_device		v4l2_dev;
+-
+-	/* Entities */
+-	struct dcmipp_ent_device	**entity;
+-
+-	struct v4l2_async_notifier	notifier;
+-};
+-
+ static inline struct dcmipp_device *
+ notifier_to_dcmipp(struct v4l2_async_notifier *n)
+ {
+@@ -68,8 +43,8 @@ notifier_to_dcmipp(struct v4l2_async_notifier *n)
+ struct dcmipp_ent_config {
+ 	const char *name;
+ 	struct dcmipp_ent_device *(*init)
+-		(struct device *dev, const char *entity_name,
+-		 struct v4l2_device *v4l2_dev, void __iomem *regs);
++		(const char *entity_name,
++		 struct dcmipp_device *dcmipp);
+ 	void (*release)(struct dcmipp_ent_device *ved);
+ };
+ 
+@@ -221,9 +196,7 @@ static int dcmipp_create_subdevs(struct dcmipp_device *dcmipp)
+ 
+ 		dev_dbg(dcmipp->dev, "add subdev %s\n", name);
+ 		dcmipp->entity[i] =
+-			dcmipp->pipe_cfg->ents[i].init(dcmipp->dev, name,
+-						       &dcmipp->v4l2_dev,
+-						       dcmipp->regs);
++			dcmipp->pipe_cfg->ents[i].init(name, dcmipp);
+ 		if (IS_ERR(dcmipp->entity[i])) {
+ 			dev_err(dcmipp->dev, "failed to init subdev %s\n",
+ 				name);
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-input.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-input.c
+index c4bc76909b1c..597f88ac7915 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-input.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-input.c
+@@ -515,15 +515,14 @@ void dcmipp_inp_ent_release(struct dcmipp_ent_device *ved)
+ 	dcmipp_ent_sd_unregister(ved, &inp->sd);
+ }
+ 
+-struct dcmipp_ent_device *dcmipp_inp_ent_init(struct device *dev,
+-					      const char *entity_name,
+-					      struct v4l2_device *v4l2_dev,
+-					      void __iomem *regs)
++struct dcmipp_ent_device *dcmipp_inp_ent_init(const char *entity_name,
++					      struct dcmipp_device *dcmipp)
+ {
+ 	struct dcmipp_inp_device *inp;
+ 	const unsigned long pads_flag[] = {
+ 		MEDIA_PAD_FL_SINK, MEDIA_PAD_FL_SOURCE,
+ 	};
++	struct device *dev = dcmipp->dev;
+ 	int ret;
+ 
+ 	/* Allocate the inp struct */
+@@ -531,10 +530,10 @@ struct dcmipp_ent_device *dcmipp_inp_ent_init(struct device *dev,
+ 	if (!inp)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	inp->regs = regs;
++	inp->regs = dcmipp->regs;
+ 
+ 	/* Initialize ved and sd */
+-	ret = dcmipp_ent_sd_register(&inp->ved, &inp->sd, v4l2_dev,
++	ret = dcmipp_ent_sd_register(&inp->ved, &inp->sd, &dcmipp->v4l2_dev,
+ 				     entity_name, MEDIA_ENT_F_VID_IF_BRIDGE,
+ 				     ARRAY_SIZE(pads_flag), pads_flag,
+ 				     &dcmipp_inp_int_ops, &dcmipp_inp_ops,
+@@ -543,6 +542,7 @@ struct dcmipp_ent_device *dcmipp_inp_ent_init(struct device *dev,
+ 		kfree(inp);
+ 		return ERR_PTR(ret);
+ 	}
++	inp->ved.dcmipp = dcmipp;
+ 
+ 	inp->dev = dev;
+ 
 
-Best regards,
 -- 
-Alain Volmat <alain.volmat@foss.st.com>
+2.34.1
 
 
