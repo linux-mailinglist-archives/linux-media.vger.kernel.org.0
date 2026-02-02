@@ -1,338 +1,258 @@
-Return-Path: <linux-media+bounces-51989-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-51990-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6JlSA215gGne8gIAu9opvQ
-	(envelope-from <linux-media+bounces-51989-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 11:16:13 +0100
+	id +LhfCJN5gGne8gIAu9opvQ
+	(envelope-from <linux-media+bounces-51990-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 11:16:51 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A150DCAB55
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 11:16:12 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C10C5CAB91
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 11:16:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 05D0930414FE
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 10:13:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E2F0E3016881
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 10:13:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ACDD357A3D;
-	Mon,  2 Feb 2026 10:12:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E761A356A05;
+	Mon,  2 Feb 2026 10:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="grHdKIRC";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="oqH09scm"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aotjcpyM";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KBQsV3oT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CA03563F9
-	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 10:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E017C3563FE
+	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 10:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770027165; cv=none; b=DFSyVsJ9sXn6OHJmlQmve0oLB53NrflefFxcbb+78pf31YniGWHwfDiFatcGEn3xUgp/kRmhZbhG9+b/tYkNRiM+Qw3YaZwjhblCIGN7RX2YlgVyI6IvTeQoSDbIJuRAivc94EQS5Bzexewg9odVNp+eNUH2fEAclTUjWyWQvNQ=
+	t=1770027182; cv=none; b=HNi+/Pz8r25ENsDIuiwG/WzZ7vCCSfQ3vDVoUwcHfTe+yyp6Y8TCgzp+MMuc053jkLACsSlIQ39l8PKfBEumLRUUYxto2XMQ7kKog1oF8ujdeBwgYuIPPlg43PA9KUBVmVAfpoBSvB/E4q7BXuQ+H4x3AkODaWmzTda38Npykxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770027165; c=relaxed/simple;
-	bh=+54t9JXO7n+eXPdANWOp0RpcdZIaJgMYBRBapxAnQOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=INEPiif9bufn5pVgOZE9hVLYzYcIpjXCoAQC/5Nvq9nXQc/IPG3tnIP6zaNMr4Vtq2iKq5DaxzV0r/jEi65fHT+3Y7FeX8+oNlHhuL5R4nnojSHy1KcWBLTID4xNt9rnJ0ijGuKlIY/HiAehrRcqpOKkFCrXE30ISuuSMSD9oeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=grHdKIRC; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=oqH09scm; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770027161;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T8trzVS4ZUCHrBPpOVXGPFbB+m6G0A2WMMBaMJLn58s=;
-	b=grHdKIRCq2qMDqKOTtkKRekxMw+/5A+wPdTHrVOUpHHAUKnIUuK5YB9fd4BV5YOBocjBkY
-	Wcwm2N3YLJjzoqGW0wQK9HSFswcQK2op/GUfFaD+7i46kitoAtbPJnOA8YIZoFWdQL4f4I
-	yyvQjtdqO04xDxbPjuoTyWO03Jxzfus=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-484-CLEbeAeONYWY4JLNaj-waA-1; Mon, 02 Feb 2026 05:12:40 -0500
-X-MC-Unique: CLEbeAeONYWY4JLNaj-waA-1
-X-Mimecast-MFC-AGG-ID: CLEbeAeONYWY4JLNaj-waA_1770027159
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4801c1056c7so22666565e9.2
-        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 02:12:40 -0800 (PST)
+	s=arc-20240116; t=1770027182; c=relaxed/simple;
+	bh=1jmLK14LqxG8z+7yjYgdbBHNfz60JYyrT36cz58Vb6U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zjln//KTsUM1pMfuWY0a+4+/LQLCg/4DGb6XH3LngUvkqQBhd61TZajlCTu7GmhhPLft9/VYPqHWJ2AxAezFHhmBWgNrB/I3PaOsGx2RUS4u5T2J2S+gK8W6tu0q20dI3bHCJcgb1Aw1azIEqmjEdyDRoHQWycrk82VPFd2aMYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aotjcpyM; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KBQsV3oT; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6127KANt2028246
+	for <linux-media@vger.kernel.org>; Mon, 2 Feb 2026 10:13:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	/pT6iNPUZ5rIRZHrVV5FEzyGpeE2uo+c8pdtnOAtf5M=; b=aotjcpyM4a8MpgJ+
+	cycnt1eKnB+tpLvrWvhhqGTOK2grvTyzbagbBbmBfvStkuvNviWy9O07DrjoPfNn
+	lKGxVEE0uJvJXTAZxTdqHL4cvKsX6UpHclbmD4MSEDVTG9Aqg8GUmBsaqIx5z5fT
+	pX0wxcMstjQXRnePOtLX0rVHPrXL1ptKY1z7geyELgRelpjcz9pPDMlLl7ZIElCk
+	7TcFafuRpVw2Ckp+xPqjLpILYAnI9XXbOJwyR79G8RoYOoVkJLtUALTBLsqIPA1e
+	fbu4jVTD5caGJayRSPCYY+hqr7f2U7V/rYqdYhAr/UO+gpJA+5VcbA3UxVCMFue4
+	b+iJ6Q==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c1awdd0d7-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 10:13:00 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5015175bbb0so145887541cf.0
+        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 02:12:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1770027159; x=1770631959; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T8trzVS4ZUCHrBPpOVXGPFbB+m6G0A2WMMBaMJLn58s=;
-        b=oqH09scm8tZr9T2nN1Cfq7lQQOa+2HDrxsRmxmOcosPLG7fxwLO+4Y26QJU3o50nG9
-         auJ5MZwIQEZWU+oD/Jc468TGwa9IqZPpahX4JPsIL6oXLv+M900QbTngNePhRWWWu1Cx
-         F3i5up0c1iIN0iI0NuyuP2W4HZ+0v0Y/f/NWaUtTCgTkvYC6gUcnonwqUCdOWoOxTtLX
-         sGUIW/lHrkbjRvn8tgz7GIf3PLDJkb5FWPALj5D7S1QCZyyPzzeGKuz+htxPoYl27pNs
-         Ng3bF+wMPdEp/wc/pGAiJEcJ9ZlbHLcTHDwNrNo6B5yD8oJhSFPZFQQvVaHwW+dvtopf
-         xKgA==
+        d=oss.qualcomm.com; s=google; t=1770027179; x=1770631979; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/pT6iNPUZ5rIRZHrVV5FEzyGpeE2uo+c8pdtnOAtf5M=;
+        b=KBQsV3oTSi6xU0o3O5q1TXbWnCyhwh86wFYINz4tPEIHBL9J8QvsM2Zlnfa+wq7ukV
+         4hmSmFwkoUzcoVuvsny0psZdSvCfy1mvKh1elewMgLrvPchszIBQqq8N14MWs7+MRDaP
+         j0HpliMAHq5s2jf2VRGEGncVAMFNQdQuQeVftb+cBQbvzPNw31Np2rNVoMKZOFGUdIL9
+         iZt02kxfKXPMhCAHBGJkMEvHaYbAS3rfbXgjTBKIeP1tCXFBITT4HdOozf/PUaMUtWE/
+         7+R2EXfjr2C8pyJK2OtfYm2Lzxnqh0aBdgkFjWHkona/tu5coAxzj+h1fwZUZkvQo54J
+         huRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770027159; x=1770631959;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T8trzVS4ZUCHrBPpOVXGPFbB+m6G0A2WMMBaMJLn58s=;
-        b=gt0Ld1DFfP3/rYOolrBJozMOD4Le+961BtUDrDL/od9DX/yEnPfRyRoLSPSnWa5n73
-         L7jI0bCqvjcWpV8uUrNv4HfLVGq6V10LakU2yydzgWZwX4s9UZxBc0wukQ0NX4JhnS9s
-         orahTX59wlpbksDE68CcWmiqCuzl0/HtCciBZSsDYHzd+oN8zmo1oNA0a9LgPbSbrt1x
-         hMCG8DNAnkQLoYjMKUDENmS/KDrh5MDmG5iHlhB6+9yMayWVMAbC0eeBEAhsZ1oLOx84
-         Yck0IjUxY5Ro3i38oya2sBZbwHUSVwRZDaxFtMbARzLDs6smnr9eg0Lp7bTYuUApzbWv
-         EMHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUW1Eo1vXON62zufE/7IcPDQdR5L3H1s6MyS7NS1HeKn2nPknejH1WfGY/gmVt88tIQHsJS8a75EBIMhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytTYDgYE2VDXb9G00D9PitLOUrFoKTy6I+nX1inj0mXcpE2R+v
-	JCuut9Z7FO45dEs3wk4K3OAxq3iObmd8Wr/TmtS46WEp6O4XHfCwCwKrU6XVU9DApu6yJkubwII
-	f1Aj70Bkr4SIlP1uLnHLqiJcfFRjGtLhi143MwXcB3hrINjphnkGsvRLANLS1SCdE
-X-Gm-Gg: AZuq6aIuNtBk9vkwumZ1qk0H/tOXwFvCT6I1MWAOAC95ikY5PHtF32rFz3wG3svANtk
-	uCnkFPBYtjtmsZWCXSRbOU2+mb7anMDpwPhomTROZ5Q6Nardf52//amGQd4eBEbVDwgvgHjopq4
-	lgDyxKnT9o3k0bGr1COs66d25oXm7FFJA7CBU2WJ59io5wtIMVwwh59IYMFilX/WniZvwp6/TGv
-	U0GObQWrAaT7VXtEaCrB4nl60XmzsyvVMS2sLU3GWLTCqzK4ahtf4gB8HgBLK4EjR1EydzVhrly
-	0GGeiYMXDLzVyimoQwNZn0AxOJBlLRhhGGC4P7VVajZ1EgO3anE7IDRtFHcSXQ==
-X-Received: by 2002:a05:600c:6092:b0:47a:7fdd:2906 with SMTP id 5b1f17b1804b1-482db45441fmr144478625e9.12.1770027158988;
-        Mon, 02 Feb 2026 02:12:38 -0800 (PST)
-X-Received: by 2002:a05:600c:6092:b0:47a:7fdd:2906 with SMTP id 5b1f17b1804b1-482db45441fmr144478255e9.12.1770027158488;
-        Mon, 02 Feb 2026 02:12:38 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cddffe9sm555222985e9.4.2026.02.02.02.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 02:12:37 -0800 (PST)
-Date: Mon, 2 Feb 2026 11:12:37 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Eric Chanudet <echanude@redhat.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, Albert Esteve <aesteve@redhat.com>
-Subject: Re: [PATCH] dma-buf: heaps: cma: register a dmem region for each cma
- heap
-Message-ID: <20260202-wealthy-quick-cow-8c5421@houat>
-References: <20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com>
+        d=1e100.net; s=20230601; t=1770027179; x=1770631979;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/pT6iNPUZ5rIRZHrVV5FEzyGpeE2uo+c8pdtnOAtf5M=;
+        b=NX/rsCuWW0qTSt1ToAahZuYe/177Uj2TAxXiF+nLQzONWzb5mdalb6PIMXMLInKS7w
+         gPTikckfoQQuPoIdyTeSNrps+ss6aZmRyoQf3t+rcOwTVDnE0ePPMwRVAqgDdZgv3tF/
+         UqJ7ODmG9THC3YhnNOOOS75BLG6j4K7pV3/YL2FrmW7YAAMea2YLO6CS07sCTqxev3m3
+         PtHK1D3kxHK8PnDltxwh5EUfbVXSioFjkrCcwXq3eJY4tPDh4/uUIibj28vPeHC+94MF
+         U6nC/BiZ0bnXaav0Pp1TrpAk6WpZAOwuLYBPRfQZTv30dBa6JM4ivHfNvwxHwMCJIE1j
+         7kng==
+X-Forwarded-Encrypted: i=1; AJvYcCUs+2WUVHKYu//OsKQIseNB5wr6Ks9z42GJMySHes1jpYDWs8jW0cxDTSqvZMvqXDU7T8Rcp7TpW/gjCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwQj+q3HupTvYcfMgaZC+vkvziOhbO6hewlwqxffqDIcFULvu5
+	a4OYP1ekuKx4sGWzgQmXcI+Yf7aH5XL2m6JzelIsOVMGuz0H01Tg65E0YIsmFeS91nFw7ElxMlz
+	eFA+z3qk0+w7tQdsRnOPQjP8aMjsqCO/xrxl1DRCjUTfbQYoOh5W7UHQbJpap6aLp3w==
+X-Gm-Gg: AZuq6aItL7NUo3fZaNQBk3QjgHzouf7kx9ogC1A1G8Y94ZS+2mmzPbNko4FN03CvOJT
+	pWVGafIbT5ViHI6VWMyDE/8/R/WL+As65IaL4GmlSkBgi8kD71/lNVrZQAEKOE4Cq2700/byWMT
+	ir2nXkToMxawlpTN5Hke7trk69WsH7bAnobGbAzoLECag4iZkWeq2aoxx9QfL9M/iJaBJDHoCTn
+	QdEZNC4W1eS2PgWRJVBcxAPT1b3uFxWcpd1GF+Uao0REe4uAXuIuI8A2YDrq6/+dCYlUmYScJWG
+	7snFavO3zD/xVnjbeHn2GyO2JBwISVETFo0p8s3HrTJ9NM0VaPEGWLViYXV+6/VWG2ZuO0OV3oP
+	Vc1wDo9W++VFGaSCRWfCCx2fndC+kCgETT+k0fSDM2Slv0DpzQGpC2Ykdbygb0o7tdrmB18TTAK
+	K5VLe4pDbA0VeqVxgcvboQRE4zxE1DADkp1h18IBeZQW6+obHusr/TBUzFuaPOedQ=
+X-Received: by 2002:a05:620a:9489:b0:8c7:3ff0:d472 with SMTP id af79cd13be357-8c73ff0d649mr1145393985a.15.1770027179096;
+        Mon, 02 Feb 2026 02:12:59 -0800 (PST)
+X-Received: by 2002:a05:620a:9489:b0:8c7:3ff0:d472 with SMTP id af79cd13be357-8c73ff0d649mr1145390285a.15.1770027178630;
+        Mon, 02 Feb 2026 02:12:58 -0800 (PST)
+Received: from ?IPV6:2001:14bb:15b:d5bd:79ce:863:9a22:aae2? (2001-14bb-15b-d5bd-79ce-863-9a22-aae2.rev.dnainternet.fi. [2001:14bb:15b:d5bd:79ce:863:9a22:aae2])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38625c44cbcsm29528431fa.7.2026.02.02.02.12.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Feb 2026 02:12:57 -0800 (PST)
+Message-ID: <ace931f9-822b-4756-8c23-f69963ffac02@oss.qualcomm.com>
+Date: Mon, 2 Feb 2026 11:12:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ourfsz72devil6zd"
-Content-Disposition: inline
-In-Reply-To: <20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/8] media: iris: scale MMCX power domain on SM8250
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Taniya Das <quic_tdas@quicinc.com>, Jonathan Marek <jonathan@marek.ca>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20260201-iris-venus-fix-sm8250-v2-0-6f40d2605c89@oss.qualcomm.com>
+ <20260201-iris-venus-fix-sm8250-v2-4-6f40d2605c89@oss.qualcomm.com>
+ <95977a30-616c-44af-ac93-90bae2bed298@oss.qualcomm.com>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <95977a30-616c-44af-ac93-90bae2bed298@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: b-kfeRehOlwoTh5BfVcl4nGHWorZj6Dy
+X-Proofpoint-ORIG-GUID: b-kfeRehOlwoTh5BfVcl4nGHWorZj6Dy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDA4NSBTYWx0ZWRfXzxoSqGmgijoe
+ LiF7dVbbKUL30BGNoiMe8/32lzORr/vA0JaeU6KTRKWwFhN3V69V8JYCOHiMooTG+0Nak0pASxF
+ 7ir5yPCUVemLmke+qc8OltJDPWzt+54t1IkzPhx2TTF4C2zuZLn3vmXMUKZyhapOLkhfT1tM67X
+ MjRJcT17hzpG5WZoAEIWkkq6wW+Fg+n7dOqcsWUdGeGigaGit1b/MSCxF2J9yzDz3aSIXFLse53
+ W5NLu8Htz3oEoJOymEEWsaUDyHL5CzPeQZBuufTpts6Kjhy6mIH6PrBpy47XYD7un/JbQ4DD96C
+ 4QeVEx6eeh1FytFp5m+xPPJ3GB8UJc0jo0gMeH74kQfdFtTBzCSQn9gcErBkBhTwInN1ROakRTn
+ SxQmFsVYXsngcBGLo4ELDnW6Wtv3ZKvJLZ3dVVYtMdZ+G88gAY4lcLDq04eymvkWwdfXkTwspTa
+ utUWOy/9rNKXxAEN2gg==
+X-Authority-Analysis: v=2.4 cv=T8OBjvKQ c=1 sm=1 tr=0 ts=698078ac cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=dCPk7noOixveXNiBySQA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-02_03,2026-01-30_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 clxscore=1015 suspectscore=0 impostorscore=0
+ bulkscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602020085
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-51989-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[29];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@redhat.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-51990-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A150DCAB55
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt,huawei];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: C10C5CAB91
 X-Rspamd-Action: no action
 
+On 02/02/2026 12:07, Konrad Dybcio wrote:
+> On 2/1/26 11:49 AM, Dmitry Baryshkov wrote:
+>> On SM8250 most of the video clocks are powered by the MMCX domain, while
+>> the PLL it powered on by the MX domain. Extend the driver to support
+>> scaling both power domains, while keeping compatibitility with the
+>> existing DTs, which define only the MX domain.
+>>
+>> Fixes: 79865252acb6 ("media: iris: enable video driver probe of SM8250 SoC")
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>> ---
+>>   drivers/media/platform/qcom/iris/iris_platform_gen1.c | 2 +-
+>>   drivers/media/platform/qcom/iris/iris_probe.c         | 7 +++++++
+>>   2 files changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen1.c b/drivers/media/platform/qcom/iris/iris_platform_gen1.c
+>> index df8e6bf9430e..aa71f7f53ee3 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_gen1.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen1.c
+>> @@ -281,7 +281,7 @@ static const struct bw_info sm8250_bw_table_dec[] = {
+>>   
+>>   static const char * const sm8250_pmdomain_table[] = { "venus", "vcodec0" };
+>>   
+>> -static const char * const sm8250_opp_pd_table[] = { "mx" };
+>> +static const char * const sm8250_opp_pd_table[] = { "mx", "mmcx" };
+>>   
+>>   static const struct platform_clk_data sm8250_clk_table[] = {
+>>   	{IRIS_AXI_CLK,  "iface"        },
+>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+>> index 7b612ad37e4f..74ec81e3d622 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+>> @@ -64,6 +64,13 @@ static int iris_init_power_domains(struct iris_core *core)
+>>   		return ret;
+>>   
+>>   	ret =  devm_pm_domain_attach_list(core->dev, &iris_opp_pd_data, &core->opp_pmdomain_tbl);
+>> +	/* backwards compatibility for incomplete ABI SM8250 */
+>> +	if (ret == -ENODEV &&
+>> +	    of_device_is_compatible(core->dev->of_node, "qcom,sm8250-venus")) {
+>> +		iris_opp_pd_data.num_pd_names--;
+> 
+> You're decrementing 1 to 0 @ this point in the series
 
---ourfsz72devil6zd
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] dma-buf: heaps: cma: register a dmem region for each cma
- heap
-MIME-Version: 1.0
+Why?
 
-Hi,
+  .opp_pd_tbl_size = ARRAY_SIZE(sm8250_opp_pd_table),
 
-On Fri, Jan 30, 2026 at 05:55:30PM -0500, Eric Chanudet wrote:
-> The cma dma-buf heaps let userspace allocate buffers in CMA regions
-> without enforcing limits. Register a dmem region per cma heap and charge
-> against it when allocating a buffer in a cma heap.
->=20
-> For the default cma region, two heaps may be created for the same cma
-> range:
-> commit 854acbe75ff4 ("dma-buf: heaps: Give default CMA heap a fixed name")
->   Introduced /dev/dma_heap/default_cma_region
-> commit 4f5f8baf7341 ("dma-buf: heaps: cma: Create CMA heap for each CMA
->                       reserved region")
->   Created a CMA heap for each CMA region, which might create a duplicate
->   heap to the default one, e.g:
->     /dev/dma_heap/default_cma_region
->     /dev/dma_heap/reserved
->=20
-> Removing the legacy heap would break user API. So handle the special
-> case by using one dmem between the two heaps to account charges
-> correctly.
->=20
-> Signed-off-by: Eric Chanudet <echanude@redhat.com>
-> ---
-> In continuation with introducing cgroup for the system heap[1], this
-> behavior is enabled based on dma_heap.mem_accounting, disabled by
-> default.
->=20
-> dmem is chosen for CMA heaps as it allows limits to be set for each
-> region backing each heap. There is one caveat for the default cma range
-> that may accessible through two different cma heaps, which is treated as
-> a special case.
->=20
-> [1] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ec=
-c6b62cc446@redhat.com/
-> ---
->  drivers/dma-buf/heaps/cma_heap.c | 51 ++++++++++++++++++++++++++++++++++=
-++----
->  1 file changed, 46 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
-_heap.c
-> index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..608af8ad6bce7fe0321da6d8f=
-1b65a69f5d8d950 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -27,6 +27,7 @@
->  #include <linux/scatterlist.h>
->  #include <linux/slab.h>
->  #include <linux/vmalloc.h>
-> +#include <linux/cgroup_dmem.h>
-> =20
->  #define DEFAULT_CMA_NAME "default_cma_region"
-> =20
-> @@ -46,7 +47,9 @@ int __init dma_heap_cma_register_heap(struct cma *cma)
->  struct cma_heap {
->  	struct dma_heap *heap;
->  	struct cma *cma;
-> +	struct dmem_cgroup_region *cg;
->  };
-> +static struct dmem_cgroup_region *default_cma_cg;
-> =20
->  struct cma_heap_buffer {
->  	struct cma_heap *heap;
-> @@ -58,6 +61,7 @@ struct cma_heap_buffer {
->  	pgoff_t pagecount;
->  	int vmap_cnt;
->  	void *vaddr;
-> +	struct dmem_cgroup_pool_state *pool;
->  };
-> =20
->  struct dma_heap_attachment {
-> @@ -276,6 +280,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *=
-dmabuf)
->  	kfree(buffer->pages);
->  	/* release memory */
->  	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
-> +	dmem_cgroup_uncharge(buffer->pool, buffer->len);
->  	kfree(buffer);
->  }
-> =20
-> @@ -319,9 +324,16 @@ static struct dma_buf *cma_heap_allocate(struct dma_=
-heap *heap,
->  	if (align > CONFIG_CMA_ALIGNMENT)
->  		align =3D CONFIG_CMA_ALIGNMENT;
-> =20
-> +	if (mem_accounting) {
-> +		ret =3D dmem_cgroup_try_charge(cma_heap->cg, size,
-> +					     &buffer->pool, NULL);
-> +		if (ret)
-> +			goto free_buffer;
-> +	}
->
->  	cma_pages =3D cma_alloc(cma_heap->cma, pagecount, align, false);
->  	if (!cma_pages)
-> -		goto free_buffer;
-> +		goto uncharge_cgroup;
-> =20
->  	/* Clear the cma pages */
->  	if (PageHighMem(cma_pages)) {
-> @@ -376,6 +388,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_h=
-eap *heap,
->  	kfree(buffer->pages);
->  free_cma:
->  	cma_release(cma_heap->cma, cma_pages, pagecount);
-> +uncharge_cgroup:
-> +	dmem_cgroup_uncharge(buffer->pool, size);
+  .num_pd_names = core->iris_platform_data->opp_pd_tbl_size,
 
-Should we make that conditional on mem_accounting =3D=3D true ?
+So here the nom_pd_names is decremented from 2 to 1
 
->  free_buffer:
->  	kfree(buffer);
-> =20
-> @@ -390,25 +404,52 @@ static int __init __add_cma_heap(struct cma *cma, c=
-onst char *name)
->  {
->  	struct dma_heap_export_info exp_info;
->  	struct cma_heap *cma_heap;
-> +	struct dmem_cgroup_region *region;
-> +	int ret;
-> =20
->  	cma_heap =3D kzalloc(sizeof(*cma_heap), GFP_KERNEL);
->  	if (!cma_heap)
->  		return -ENOMEM;
->  	cma_heap->cma =3D cma;
-> =20
-> +	/*
-> +	 * If two heaps are created for the default cma region, use the same
-> +	 * dmem for them. They both use the same memory pool.
-> +	 */
-> +	if (dev_get_cma_area(NULL) =3D=3D cma && default_cma_cg)
-> +		region =3D default_cma_cg;
-> +	else {
-> +		region =3D dmem_cgroup_register_region(cma_get_size(cma), "cma/%s", na=
-me);
-> +		if (IS_ERR(region)) {
-> +			ret =3D PTR_ERR(region);
-> +			goto free_cma_heap;
-> +		}
-> +	}
-> +	cma_heap->cg =3D region;
-> +
 
-I'm not sure it's the best way to go with this. We want to track all
-relevant CMA allocations going forward, in the heaps and elsewhere.
 
-If we were to do what you suggest, an allocation in, say, DRM or v4l2
-wouldn't be tracked in the same region than one in the heaps, while we
-want to have it cumulated.
+> 
+> Konrad
 
-I think we'd be better off if we created a dmem region for each CMA
-region in the system, but we would charge from the heap so we don't
-account for every allocation.
 
-I don't think we can register the dmem region when the CMA area is
-initialized though, since it will probably be too early in the kernel
-boot and SLAB isn't around yet.
-
-But since we would need an accessor to get a dmem region from a cma
-region, we could do something like check if a dmem eregion already
-exists for that cma region, and allocate one otherwise. Or have a
-secondary initcall to allocate all dmem regions.
-
-Maxime
-
---ourfsz72devil6zd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYB4kAAKCRAnX84Zoj2+
-dqPBAX9oydlm9YZRNx1uUYcnGj8czxCI9/nwwv3lTG3vB/96CaCaciG72JRvyD2+
-YtcMBPEBf2UZP8KVV1tDJ+oujyCdJZXIsjWxMc55iL7AcfydJqlROACsQSaGrLgZ
-L+gEjF3czQ==
-=dD0c
------END PGP SIGNATURE-----
-
---ourfsz72devil6zd--
-
+-- 
+With best wishes
+Dmitry
 
