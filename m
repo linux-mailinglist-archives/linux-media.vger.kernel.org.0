@@ -1,173 +1,179 @@
-Return-Path: <linux-media+bounces-52065-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52066-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4PYmAvgrgWlgEgMAu9opvQ
-	(envelope-from <linux-media+bounces-52065-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 23:58:00 +0100
+	id uBucKyoqgWkwEgMAu9opvQ
+	(envelope-from <linux-media+bounces-52066-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 23:50:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1508BD28BC
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 23:57:56 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2860DD2778
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 23:50:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0C753300BC5D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 22:45:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CBA80301C975
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 22:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9652D8760;
-	Mon,  2 Feb 2026 22:45:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0729B344DB4;
+	Mon,  2 Feb 2026 22:50:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YI8KWJqU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4Tni2bo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 864DA2E1F06
-	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 22:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14ADD335555;
+	Mon,  2 Feb 2026 22:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770072342; cv=none; b=iXngY4tGtenVPdMCmF1FHh+Rexw/submiqavsdiIUYAMchX4gdEbeUQLbw1H82ugUohL28JdtAw96sNKY5ZwqJkFHW/egFQdWC5COpUkc934LT0+RXDoa3cjff/S+haceCDJ9qp0AeR9/kludhaDHv8M93TUWhc1yFqAakId7io=
+	t=1770072602; cv=none; b=HfX7cDeg0IILMlpFAmu/stDZ3YqCDMm7HbDsvwHL1NShPViMDNGA9+lvIh8ImY3visa+bc+lNbDKf8Cy8c7ODSPtB6AqWTsXQPX2rcdqFiTmr9CfaM8DxH2rBUHuEcd/oK0rmfKpTLRdXvMY0YdcmNOmr0+6uuLHD2QnX6FdgKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770072342; c=relaxed/simple;
-	bh=5Kb5krIsfIdKzbY4UbV0w0i93VHuDl4UPIOiaxALKbg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uW8bYGMwwq1w+QYrMi6Du0bCm6K/HtagqhEWifQut74jaZRZFAxeJnly68LHygjlIJdIcJcSG6jneEpRJ/BCjZ5NgMg7xAW0I12WF5ku4tE4FyiQ4RzUmTWokKFfurP3bmugwIdKWTp2nXYpQwd0TtT4FbBNaZDRbYrgD4iM0Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YI8KWJqU; arc=none smtp.client-ip=209.85.128.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-482f454be5bso1656975e9.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 14:45:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770072339; x=1770677139; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JGqAdrVHnFu6PnnaHfHKQoFDoCwgyHq7ziHIdTjOCQs=;
-        b=YI8KWJqUC0UQfYhst3EmtYqnqMbtMocelTGoFCn5ICZaG1YrEV/4+ldRx5gQP2aTe3
-         +jsKB2nrkgLIgvETdfjQM8fn7115QlK4jj+YzLKYw+a+TGqjeZ7NHqqxrcTSDhX2RyiV
-         FVG4bdZR1NJRpmGXiRg3yXfjHBzeEnwtYCb9tywXndb56SQ16DUbqwY2XEpn9i98nslg
-         h2vsWy7E5/vTrQOiYeXnHuhK26CD23pJJt42dAFR+pSOJzgEescMsEorT7hAN6nICu6u
-         j99WD+/C2Qotx+ZPXxI+AfzgoOjZxRNMvA75Hi3rZVS/LRPI7vNaBUa0lFVndkldXVZe
-         L5vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770072339; x=1770677139;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JGqAdrVHnFu6PnnaHfHKQoFDoCwgyHq7ziHIdTjOCQs=;
-        b=gcO+0j0rkup3P+L/Okr0pXQ4CG8yctq6U/T83lEF5VPxA7GyEPzStiLmUaF/kQHwYk
-         x9rTtsTfnxTDLWnXCW15oor0M6WHD+5MHjxx+Wq/tGJvjRnRWN7JrES97wuLWLJZ2QZV
-         +G20vEBseWkEtCuXCOJssNhiad7fKhf7Ty523UkIckhMgSf/f/iMJRF8UK7+QF2z1ggF
-         71jZlarYwo7Z5VzuLru5EQANmLvvxbmud97BLnqfWQIjMKsLBIiVR3goMft2SkVglXt3
-         OJ+GNtmYVb/27/SGgbHcLI2BIgweIxuuL8jdXAALb/Tu2TuL52YAkXL2tZ3l70HW0+r8
-         dAhg==
-X-Forwarded-Encrypted: i=1; AJvYcCXL/QfFN6MzAQZjC68ORhqdhaxbEhW96uXKqtB5lyFVmSB0bJ45ZdH9L2g4r4rMm7nsKwD/SKaPgwiY2A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1sBn/MhT0vjpX8LG+KxO1burIuihvpWN/x1bC8jswVZcWADVy
-	npOIZYjZ9xMvC6fd21XKmpIN1GDbTZbBZ7bo8MzmSKqAKFoaa+p0Bg3j
-X-Gm-Gg: AZuq6aLSReIpcDxhrfPGo2/GgRgmakk8VdLzMy4Rnh9C9w30Advo2+iqzowCCCODTxa
-	FOcGmT9IlHOR18WCQLsvnkyLsvkGIqpwGCoBbHQmi8dPhBIEUjV7TMAl7ur0zAgffP4FnS0eMMV
-	u1clW2hQi/DBz6QHmJHcZmygSBtizeJ4jQ8hHJtTisZTgNQCXrI4vBiRfLCDD9OuS9YY50bjHxR
-	iEIW3GpWfjzY8oAu0U01chM1gBdEC+urBJ5mvRWXKSJ/npabfQ6ALbNWXF3Ki5xW9yfSsuU08qc
-	L12VIMx80mk9aZpx4MoBx5Dtjicr1DDKV+lCa/DYJe/8dm8zBGOjQpRSOnH6+w9yN4HfBWwFs/k
-	5VsPQKOr6fxJyu/h+Gp2ApfQirc19k/YJRut9Xp5dtPl85lsyQHOOV2NQQ0/vOJ/V7kDAGpeHyt
-	EptFa9IrroN2ECU5sE4oRz/b+mYfoFs5Zp0Hka+mZ+dW0/usBdtvuN
-X-Received: by 2002:a05:600c:6303:b0:47e:e59c:67c5 with SMTP id 5b1f17b1804b1-4830513aed8mr18382505e9.8.1770072338747;
-        Mon, 02 Feb 2026 14:45:38 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482e2973d57sm100080575e9.18.2026.02.02.14.45.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 14:45:38 -0800 (PST)
-Date: Mon, 2 Feb 2026 22:45:37 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: "Arnd Bergmann" <arnd@arndb.de>
-Cc: "Nicolas Dufresne" <nicolas.dufresne@collabora.com>, "Arnd Bergmann"
- <arnd@kernel.org>, "Detlev Casanova" <detlev.casanova@collabora.com>,
- "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>, Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- "Nathan Chancellor" <nathan@kernel.org>, "Hans Verkuil"
- <hverkuil+cisco@kernel.org>, "Nick Desaulniers"
- <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 1/2] media: rkvdec: reduce excessive stack usage in
- assemble_hw_pps()
-Message-ID: <20260202224537.16c16e13@pumpkin>
-In-Reply-To: <070cebc8-3cab-4f32-a203-9456506dfcc5@app.fastmail.com>
-References: <20260202094804.1231706-1-arnd@kernel.org>
-	<16baade123f563ea92e6117bf78c56e8617daf14.camel@collabora.com>
-	<3b89635f-1c1c-4e4e-b0a9-2bbd0f21bc90@app.fastmail.com>
-	<da9f044152383cacd50989b025fdce08a654bbe3.camel@collabora.com>
-	<070cebc8-3cab-4f32-a203-9456506dfcc5@app.fastmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1770072602; c=relaxed/simple;
+	bh=HsWm+12mW3e1n9FSM8CsNFFIUnSPpNgvtbF9w57Md8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=muM5DPAeCslTz/+E4cfOurB2rJI3RXHvAb54ENTiNWqmcbvvpOtqZCnq6CbzSZsWoa4Iktd6O0BVuRT0uNocwVTdDWTLrCyiXpnMK6mnOEZw++uqftvItO4/uEgjgxsyiEczB/SVGik1NBdN71t/UqFwlx152BjY+5v08XFOI5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b4Tni2bo; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770072600; x=1801608600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HsWm+12mW3e1n9FSM8CsNFFIUnSPpNgvtbF9w57Md8U=;
+  b=b4Tni2bovNekz6MvF21XR0OrPxOcQKO2uHwNvVxzY8ZLKielJtpSSZw0
+   DvOhAutjX6X4tqkKKwNg5FHb5PX/6GRXfgdf/c4v3A5um8buSW31BgXOZ
+   tI+OSThJ8+skn3NgGmexf3IzcrRa1YscFj6vcJfVxqsBPSvJZmJOpPdfu
+   o40leV7myNeMyCfTJeURSEN0KZUC7Qy3sKQ3f/wJEszFXIuXLHbEjI9ae
+   XeyWfmsTy0Z4Vqyc1y7mz8wzSj6KGDNtxjEMtAzh+GcVg0Y12WYCdRxyT
+   XRgEOaJ9cW69AO/249PdqojLJkOf4KHgJaYFD5+JBkU3xAx5+PXX/QfZQ
+   w==;
+X-CSE-ConnectionGUID: siOdhaVsR86bUGGZ7dDnIA==
+X-CSE-MsgGUID: 2tnzbkwrR4m7e363dGO46A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="96695495"
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="96695495"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 14:49:59 -0800
+X-CSE-ConnectionGUID: vkznrARIQyOjo/AMg2TrGQ==
+X-CSE-MsgGUID: K3IkIOVRQZS6NPGobYvU7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="209434905"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.16])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 14:49:56 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 26440121D8F;
+	Tue, 03 Feb 2026 00:50:06 +0200 (EET)
+Date: Tue, 3 Feb 2026 00:50:06 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: linux-media@vger.kernel.org, jani.nikula@linux.intel.com,
+	anisse@astier.eu, oleksandr@natalenko.name,
+	linux-integrity@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v2] media: Virtual camera driver
+Message-ID: <aYEqHogDBqR1qGw3@kekkonen.localdomain>
+References: <20260202204425.2614054-1-jarkko@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202204425.2614054-1-jarkko@kernel.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-52066-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52065-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[collabora.com,kernel.org,vanguardiasur.com.ar,sntech.de,gmail.com,google.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,lkml];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[arndb.de:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1508BD28BC
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,kekkonen.localdomain:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2860DD2778
 X-Rspamd-Action: no action
 
-On Mon, 02 Feb 2026 16:59:05 +0100
-"Arnd Bergmann" <arnd@arndb.de> wrote:
+Hi Jarkko,
 
-...
->  - Since most of the fields are exactly 6 bits offset from a word
->    boundary, you can try assembling all the  *_field_order_cnt*
->    fields in an array first that has all the bits in the correct
->    order, but then shift the entire array six bits.
+On Mon, Feb 02, 2026 at 10:44:21PM +0200, Jarkko Sakkinen wrote:
+> Already a quick Google survey backs strongly that OOT drivers (e.g.,
+> v4l2loopback) are the defacto solution for streaming phone cameras in
+> video conference calls, which puts confidential discussions at risk.
 
-How are they being written to the hardware?
-It would be very unusual for hardware not to have things 'reasonably aligned'.
-This makes me think that the data buffer is actually being 'bit-bashed'
-down some serial data interface.
-In which case the simple solution is to give the function that writes
-the data a 'bit offset' for the first word.
+As I think it was pointed out in review comments for v1, the reason behind
+using v4l2loopback is the use of a downstream driver, which itself is a
+source of a security risk. If I understand correctly, supporting this
+(proprietary/downstream vendor drivers) would be the main use case this
+driver serves? Should this downstream driver be upstreamed to alleviate the
+security risks, the need for v4l2loopback or similar drivers presumably
+disappears.
 
-And to re-iterate C bit-fields are completely non portable and entirely
-inappropriate for mapping onto device registers.
-You can use C structures (arranged with everything on its natural
-boundary so there are no holes) with members declared with the correct
-endianness.
-Indeed that is actually preferable to using numeric constants as the
-offsets are tied to the correct structure.
+Another of the downsides of such proprietary/downstream solutions is they
+can never be properly integrated into the Linux ecosystem so functionality
+will remain spotty (limited to specific systems and specific releases of
+specific distributions) at best.
 
-	David
+In other words, this driver appears to be orthogonal to solving either of
+the above two problems the proprietary/downstream solutions have.
+
+From the Open Source libcamera based camera software stack point of view
+there doesn't seem to be a need for v4l2loopback or another similar driver.
+The two main reasons for this is that (1) there's no need for glueing
+something separate together like this and (2) V4L2 isn't a great
+application interface for cameras -- use libcamera or Pipewire instead.
 
 > 
->       Arnd
+> It can be also claimed that there's enough OOT usage in the wild that
+> possible security bugs could be considered as potential zerodays for the
+> benefit of malicious actors.
 > 
+> The situation has been stagnated for however many years, which is
+> unsastainable situation, and it further factors potential security
+> risks. Therefore, a driver is needed to address the popular use case.
+> 
+> vcam is a DMA-BUF backed virtual camera driver capable of creating video
+> capture devices to which data can be streamed through /dev/vcam after
+> calling VCAM_IOC_CREATE. Frames are pushed with VCAM_IOC_QUEUE and recycled
+> with VCAM_IOC_DEQUEUE. Zero-copy semantics are supported for shared DMA-BUF
+> between capture and output.
+> 
+> This enables efficient implementation of software, which can manage network
+> video streams from phone cameras, and map those streams to video devices.
 
+I'd really try to avoid involving V4L2 in-kernel implementation when the
+source of the video is network. V4L2 is meant to be used (when it comes to
+video) for interfacing video related hardware such as cameras, ISPs and
+codecs. There are limited number of video output related devices, too, but
+network is something quite different from these.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
