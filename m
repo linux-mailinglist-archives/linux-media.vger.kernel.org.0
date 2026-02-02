@@ -1,143 +1,189 @@
-Return-Path: <linux-media+bounces-52007-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52008-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eGu8Ld+NgGkl+wIAu9opvQ
-	(envelope-from <linux-media+bounces-52007-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:43:27 +0100
+	id 8PCgI5SOgGkl+wIAu9opvQ
+	(envelope-from <linux-media+bounces-52008-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:46:28 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEEECBDCC
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:43:27 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2068FCBE37
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:46:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id AEBF13004D25
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 11:43:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AF1B730154B2
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 11:45:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23827363C56;
-	Mon,  2 Feb 2026 11:43:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82985364055;
+	Mon,  2 Feb 2026 11:45:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D+xMuwC6"
+	dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b="pOWb1qlf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF0835B65F;
-	Mon,  2 Feb 2026 11:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B00827F163;
+	Mon,  2 Feb 2026 11:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.247.17.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770032601; cv=none; b=eEqIfDJn2iAZJxWQ8Hn3p8Q0wOsd5qSOTzznzsBJd7Pz9pYLjlfwFRe9oLDKtmeoULsN/cN+lrjM3MK4LybiElvcwYI1sP53XvQa9sQDd3jimZfvN7lPSdTp2RDcputMHoGivCfDFZY1PPLDNVYIV63VoAYmbsN9GCvTugI3nrE=
+	t=1770032734; cv=none; b=GROdM8Z29HfxegomkAqe1LBcM2PjCbL4lekLb3CzUJ/FAfGS2guwbZ7Kl4yLTtWB7jv4qGXxl4ZViLKHg3f03saaE6XCwX9jyt0cVbxLRf3Kj/AzCW9z9es/5XaeKrNzB6l22KCP/5d+B8Vj7OsKXYjc/lclckgkkZ2Dqk4hAJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770032601; c=relaxed/simple;
-	bh=53IqFtmY5k6XcBZAWO6IXfkg/Zh/qfv2Y+ngXI7iML0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FQV8644KAMEfO5h/sfB1k/ld4GSZpH6bKBAOgFmDUzCDcRw72AQ6Z8lMPAsRYbsmGET3ZRPB7jUf1fXSc2KpU83B0+1V7r7Bsp7b3RdNjieNEJatfUYd9UAheEHtBAm0btokFFPC8SzDxDyM1amMLt3dg2m0pm9d4bvSt9pEhhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D+xMuwC6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E8578492;
-	Mon,  2 Feb 2026 12:42:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770032558;
-	bh=53IqFtmY5k6XcBZAWO6IXfkg/Zh/qfv2Y+ngXI7iML0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D+xMuwC68fdhryheH0mYSTqUq2R779LLpSrwlgONwfPMADRNVD1+Oa3juu7UBz+2/
-	 5r94tTK1SgtiGuKkwoHQFjqgrQRg2SVftCH7k1DW3qD+d/p4u2MmDHa+384FEmPmx2
-	 +XombrNKVICX0fSwoZ7CYscQ4p/HBf2H+lz9uPFg=
-Date: Mon, 2 Feb 2026 13:43:17 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
+	s=arc-20240116; t=1770032734; c=relaxed/simple;
+	bh=45kZMTj5AnKDV6qoLepYo77H/w8eGSLzxv0O9Ma1vYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QaRVcX+sd0+x1m2eImSaqwA2/+fThZefg/KJTEkORs7I0DHHLrVBBcGpWkon25RDaistdpsxb4S1JZOTAYZsa6Nod9QchT6OIGPMyKRnOpV/Doz3EWWhHMSjPp0jeLkwGUwTTRgtCcTfSMbnGF1CkUx5u4KiHknlZTT4SEpmMKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name; spf=pass smtp.mailfrom=natalenko.name; dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b=pOWb1qlf; arc=none smtp.client-ip=199.247.17.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=natalenko.name
+Received: from spock.localnet (unknown [212.20.115.26])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by prime.voidband.net (Postfix) with ESMTPSA id ABE9D635B040;
+	Mon, 02 Feb 2026 12:45:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+	s=dkim-20170712; t=1770032729;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QYqSsMVSmVeX98GgboTEstQmryntM/vuwJJOdTYGVm0=;
+	b=pOWb1qlfHgWGVY4qSkKWWY88n1VOL97T57anUdEwLCVk4rJ0kwN4t0dv/XJa+5zVAMur46
+	2Hy3irfj33RvuvkC7l+OHyvxypaqvhCHi8lQZzAjIobYSuPSAAcBlVZ2hau6cieeANYRgw
+	X2zgDH0NC3VA/356nwg6TDxjtW9dDgQ=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Gergo Koteles <soyer@irl.hu>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Oleksandr Natalenko <oleksandr@natalenko.name>,
-	linux-media@vger.kernel.org, jani.nikula@linux.intel.com,
-	anisse@astier.eu, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	open list <linux-kernel@vger.kernel.org>
+ Jarkko Sakkinen <jarkko@kernel.org>, linux-media@vger.kernel.org,
+ jani.nikula@linux.intel.com, anisse@astier.eu,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>
 Subject: Re: [RFC PATCH] media: Virtual camera driver
-Message-ID: <20260202114317.GB4173464@killaraus>
-References: <20260201133342.335680-1-jarkko@kernel.org>
- <5073898.31r3eYUQgx@natalenko.name>
- <20260202001704.2419778a@foz.lan>
- <13939245.uLZWGnKmhe@natalenko.name>
- <20260202020214.2243acec@foz.lan>
- <aYBo69zrMnRdWs32@kernel.org>
- <aYBsBw2j6pkwAssn@kernel.org>
+Date: Mon, 02 Feb 2026 12:45:15 +0100
+Message-ID: <22989766.EfDdHjke4D@natalenko.name>
+In-Reply-To: <20260202114012.GA4173464@killaraus>
+References:
+ <20260201133342.335680-1-jarkko@kernel.org>
+ <0fc43020620f211a7962a819c617056fbb499d86.camel@irl.hu>
+ <20260202114012.GA4173464@killaraus>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aYBsBw2j6pkwAssn@kernel.org>
+Content-Type: multipart/signed; boundary="nextPart7904260.EvYhyI6sBW";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+x-ms-reactions: disallow
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[natalenko.name,reject];
+	R_DKIM_ALLOW(-0.20)[natalenko.name:s=dkim-20170712];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52007-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,huawei];
+	TAGGED_FROM(0.00)[bounces-52008-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DKIM_TRACE(0.00)[natalenko.name:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 7EEEECBDCC
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[oleksandr@natalenko.name,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[natalenko.name:mid,natalenko.name:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2068FCBE37
 X-Rspamd-Action: no action
 
-On Mon, Feb 02, 2026 at 11:19:03AM +0200, Jarkko Sakkinen wrote:
-> On Mon, Feb 02, 2026 at 11:05:52AM +0200, Jarkko Sakkinen wrote:
-> > On Mon, Feb 02, 2026 at 02:02:14AM +0100, Mauro Carvalho Chehab wrote:
-> > > On Mon, 02 Feb 2026 00:25:37 +0100 Oleksandr Natalenko wrote:
-> > > > On pondělí 2. února 2026 0:17:20, středoevropský standardní čas Mauro Carvalho Chehab wrote:
-> > > > > No. At the machine with the camera, obs can read from a V4L2 input,
-> > > > > generate a mpeg TS stream, and listen to a UDP port (for instance). 
-> > > > > 
-> > > > > At the remote machine, you can just pass the URL to ffmpeg.  
-> > > > 
-> > > > I can't, I have to feed the stream into Firefox somehow for it to see the stream as a virtual webcam.
-> > > 
-> > > Motioneye could be used on such scenario. It has a proper web
-> > > interface, allows multiple users to watch, has login control accepts
-> > > multiple cameras.
-> > 
-> > When proposed workarounds move in the area of motion detection systems
-> > it feels like there was a competion who invents the most impractical
-> > solution for a practical real-world problem out in the wild.
+--nextPart7904260.EvYhyI6sBW
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+Subject: Re: [RFC PATCH] media: Virtual camera driver
+Date: Mon, 02 Feb 2026 12:45:15 +0100
+Message-ID: <22989766.EfDdHjke4D@natalenko.name>
+In-Reply-To: <20260202114012.GA4173464@killaraus>
+MIME-Version: 1.0
 
-I'm also not quite sure how motioneye would be related. Please see my
-reply to Gergo in this mail thread for a proposed solution that is (in
-my opinion) not a workaround.
+On pond=C4=9Bl=C3=AD 2. =C3=BAnora 2026 12:40:12, st=C5=99edoevropsk=C3=BD =
+standardn=C3=AD =C4=8Das Laurent Pinchart wrote:
+> > If I understand correctly, it would be more forward-thinking to develop
+> > virtual camera support in PipeWire rather than in the kernel.
+>=20
+> I don't think there's even a need for development in PipeWire
+>=20
+> $ gst-launch-1.0 \
+> 	videotestsrc ! \
+> 	video/x-raw,format=3DYUY2 ! \
+> 	pipewiresink mode=3Dprovide stream-properties=3D"properties,media.class=
+=3DVideo/Source,media.role=3DCamera"
+>=20
+> This gives me a virtual camera in Firefox. Extending the GStreamer
+> pipeline to get the video stream from the network should be quite
+> trivial.
 
-> A trivial Google search shows that the scope of the issue, which is
-> also (on emphasis) a security issue, and net effect that is caused
-> of not addressing it properly.
+So far, I came up with this:
 
-How is it a security issue ?
+* sender:
 
--- 
-Regards,
+$ gst-launch-1.0 pipewiresrc path=3D<webcam_id> ! image/jpeg, width=3D1280,=
+ height=3D720, framerate=3D24/1 ! rndbuffersize max=3D1400 ! udpsink host=
+=3D<receiver_host> port=3D<receiver_port>
 
-Laurent Pinchart
+* receiver:
+
+$ gst-launch-1.0 udpsrc address=3D<receiver_host> port=3D<receiver_port> ! =
+queue ! image/jpeg, width=3D1280, height=3D720, framerate=3D24/1 ! jpegpars=
+e ! jpegdec ! pipewiresink mode=3Dprovide stream-properties=3D"properties,m=
+edia.class=3DVideo/Source,media.role=3DCamera" client-name=3DVirtualCam
+
+Please let me know if I do something dumb here. Trial and error to make thi=
+s work took a couple of hours for me, but it seems to provide what I need.
+
+Thank you.
+
+=2D-=20
+Oleksandr Natalenko, MSE
+--nextPart7904260.EvYhyI6sBW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmmAjksACgkQil/iNcg8
+M0smLQ/+Pd85tqx4yUhqYPMT6nj8QVPRf+CK8Z+SwiN/pBKdX5bidURso5u4jPJw
+PNQ9LGVfFEGEYchfnj4BN5w8I2AezScW1E5Cr4NYEgUGM/gef1thFBhNrfxZOAR9
+EriDeL++tfRGGcmSR4dHhTF9GH2eAaXfeO17z9tgkf1R9ebgVhkdzBctEReRuRyk
+sE9TvDfO2x+NnqfKpqmU2+OSQP6QB9GqkP0di1H6XpKnmq1FOdZslYt7p6T86NGI
+0cYwU1xZ3bylPRde32RV9V4z16oFJSc4pz0Cdjj2rHC5Uda4HQkYeJEo6MY+yy21
+jiyqfKMfJ3n3yodWxjYvT3nDu2sD+YQ/CSJBfcGabb+tXligBi5xxgloVjZlx6cg
+9ZettGPa+sEGD15EOFMoQ97WsGyW53ewjTC1svuRFG4uxFehnOCIIQjkVYZ8DqhC
+c6VRjIihECfDSwtkmdjYWUyAJHHSz131YUTfCIRW/e5uCM4smzy0EP1/T5MqZAj2
+bVCCBTQkez0dFIeHq5IbXuFAs3wfz3VAAZEcC30GZwrpsWURvrUP0r3dmHJfnH07
+Q01TXRbzLLRQ89FMFALYJpcJmiUmATZyQbqEvTFQbTM3GVIKBnKI8B4qsuDy3kqr
+PsZKvM0aJ0axRaRiZ71xFgWK3JlG4gddI2+MfE4nUycFtbITYrs=
+=E1tQ
+-----END PGP SIGNATURE-----
+
+--nextPart7904260.EvYhyI6sBW--
+
+
+
 
