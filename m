@@ -1,218 +1,177 @@
-Return-Path: <linux-media+bounces-52061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52062-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kDNmIQkBgWlyDgMAu9opvQ
-	(envelope-from <linux-media+bounces-52061-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 20:54:49 +0100
+	id uCBAFFUEgWnZDgMAu9opvQ
+	(envelope-from <linux-media+bounces-52062-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 21:08:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED5DD0D88
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 20:54:48 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A678D0F29
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 21:08:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BE1253069A5D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 19:47:39 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id CEDE53012852
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 20:08:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C360F385531;
-	Mon,  2 Feb 2026 19:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B3F730F804;
+	Mon,  2 Feb 2026 20:08:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SfSrN6o7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JBfHIbC2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78B230C35E
-	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 19:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499063090C2
+	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 20:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770061633; cv=none; b=A7lqSn87Aigk3x20quz0rYp2xjfcB5C/qbTYmbHrWEyoX9hR6StNse/NMociah/O3Bi2MnNJaC/WTTHth+gaGccDzZEM1913Mm6PmS2r1d+yvyGQyRNoBBddGf7xdWNn8C0jEWy9sw/tnhPc3nv1DkOgcUM0Vj6XF7czccv+OxE=
+	t=1770062917; cv=none; b=T1jsofge6XQax9ollcjBYqP2BiH8mVesYjp/BEyBsQuoaam68tsrJcOyJ8eR3W7G7sXJIWwlThCr58nwNfVvqHuVSCHTNAMGW6ApsAIbMSXDzqNDzwDh0kSe2AgLKhv4wzy2caNIyg072Fmy4+a3LDkg405NujqsAhBhME1Krwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770061633; c=relaxed/simple;
-	bh=zM2jjtHMPs4+8aplZN0ABHRV7dP8Eiz5rvTqssZiL54=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eArJYBlKbuFKPHHmAXOstWTl8XCK3yu8YhPpTFzB3izTI0qKOE3/w9QkBEPYAdV9OI/NOfSI8X05ZIavHasS1HUjY27lLMjbZTrWtHuYquOR2jogrK+3Qe7v5GtFZMniv2hVaxi50WQ3Sl6+KRYp1teE4TxoqDnJCU5g7A75YBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SfSrN6o7; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8230c8aac41so279215b3a.2
-        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 11:47:11 -0800 (PST)
+	s=arc-20240116; t=1770062917; c=relaxed/simple;
+	bh=z5ezqF8xkEHg+o9+YAyPSvw5wr+U/Be3CmkY2XvRh5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bgUFj+YW2Mehva/FOYYgMu1zzKRud9GKtufIxe0loXz08hT8oeHmupPbELXT5ty1UjTd0LCK5BBaMzwoUuMVVwKQau9rNo0IOAJQXpglfHM+3h2eoLzmaYqqoJGjZLFcAxvrKuZogppBKGllGXmh7+Ig4eKQ8B/cQFMQaIL61a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JBfHIbC2; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806fbc6bf3so52114585e9.2
+        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 12:08:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770061631; x=1770666431; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PvVwdLZlh8MPfXBeT9fb7vVP3darfYnE88ZGrjLridM=;
-        b=SfSrN6o7qbuTYD1ZkcgjNb2EGLgrf4EPLq9BhWIYSESqrEBTdHKl5hlgJFxBtwXYYc
-         Da7SmSkRbcqcXdHzGj6Lq4PHIlsepjSVpbkuMRDRRWanOLGzc93rJ/uCxmvxKDQEQFTf
-         fEmYBzZg1gk13AlC/rih7aC8tiwQmRB1CLFTaloi8LSehGtP8aS374NfK/Dc2hCgpxyg
-         4TKamaYXYr3Gcu+aAbfNlAqYZVjKIxonawDrTQYuLZcKpVAnt9JaXnL3FaPdjO/KFNf4
-         KOduVW993T7sbjn+7uEgC4nef1yhGajiOnFHJMzRgGbMvqzoRhQbKFUgwKsvasoigaLa
-         2lvg==
+        d=linaro.org; s=google; t=1770062915; x=1770667715; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qVWit5gEYvimCyPQVV7/Ca5DAiIkOlL8U62ipYN06HA=;
+        b=JBfHIbC2RpATrchF9IYLlad83vMxnhG25aAt7mKSq04XxB0WJ9+yiAo7VSuqGmucoJ
+         xp0r61ia7SMIglKB45Tw4xmAohAhlutireagpR0zQOXKJOJDpcKcMwRdzY/wFYxf7cAx
+         +UKzssMrNuW4I/5uXqC24gn1ocb5oy3dOpKMxEJivxQSMhVo8iIhgszgsbGjgEu2Qk1I
+         MSHkfKgj7gkGcDqvSyRX01SVePckkGg8LhGHuSaJWF33+9INCOqZuv8lAvSM402d/0EF
+         JloiGO/ARyHOgYiSVcjW9v0OM5UBo7Us7Y7kdovc8BbrGP3wivbpXUVzyDpjuYkvODuy
+         REsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770061631; x=1770666431;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PvVwdLZlh8MPfXBeT9fb7vVP3darfYnE88ZGrjLridM=;
-        b=twaZTFgE3Y8YNO0cD9a2pexSXwsvF2PtEIKIBZGJOwW8pb5xlRisNKax8pclmfT34t
-         xcBPJOV2/aKEgRfXZR/NBM9ifwpTk8QQYFlsGDTl3eV6SBT73bLXcTZ/85/x+B6PTDlA
-         64RGpBcuHjznJYeeHF64n0HMQNu3u/nJRNPf132kh6vRXFuT9ysYD+VOd/+J3/1culs/
-         9hCS2uJqzEfTny1VI2xtye6QRf8wo4VFEHuluVp1qjlAVtRgtjdn6PTmPAO5WXhyhUdZ
-         MaJBt2m3P5T6ANuo3CmxJmWlA59T2Js0ylthvrsg3gj4U7n/znZUflcyv2gkyiALnLrt
-         zK2w==
-X-Forwarded-Encrypted: i=1; AJvYcCVffonZgexHbU7TGzBeYPfzyRzQ5yMnOhV3YZ46ViX5hVymE118E6r8DGbZQJka+4APUIL2St67roM4Dw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUmuDZq2HdhO+pNvTFS2W4T4xHOUL2UBX30Cws67Of5aSdJo0r
-	DzTlLQk6IfpVhDGUfePDeb6coPzYzalJ4aNI1UZdHOszpC+6rUoPzLtc
-X-Gm-Gg: AZuq6aKgHjnt5awkEnKOaWzmvVc8JcdGLoRVluJ8sOxYWr4YK940HPhNGqCbQciExLl
-	4J9Vq2ZYBzfSZEIK3QKSA4TQwhImT9R9+v1aqvkiRh8z5z9/b2f+90UOOqnxuIR/rHrW5IyeN+i
-	1KYTR47SRgaidQJhEJhbaRBesM379XWt6VqHb2HOZA0f/ffo3HA4fR5mu8X9cJPzQCE8PQgIjZl
-	oWKr+sLUt3jZnbBi2aFQTaJn4Vin2KFfsQaQ8gOZ2xAaQvoil5ESrMSO5G2J2T3QYyoJgx7RCRX
-	it9IpOpDQbptbmbHo2mFxxhWmEYWvjcPWsRoJ+bJhwKwxrDJDUc114YRKirbNJS7LsildbOZ3eq
-	gi9a5c+Aq3HecXpOja+tEcglDhgrbwgDtK7W+SBCsEhPhxyy80aCZrQIuAV1SCPgJWQaFFFwndE
-	ThGWEgqJ2xt8uryYMsxZ1RSPrjbKoTJEh6kGnCq9A2gD4=
-X-Received: by 2002:a05:6a00:12d0:b0:81e:74a6:542d with SMTP id d2e1a72fcca58-823ab74b844mr7612034b3a.5.1770061631287;
-        Mon, 02 Feb 2026 11:47:11 -0800 (PST)
-Received: from FAIZEL-KB.. ([2001:569:5999:dc00:af0:4465:b482:1e01])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-82379b1bc68sm16667416b3a.2.2026.02.02.11.47.10
+        d=1e100.net; s=20230601; t=1770062915; x=1770667715;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qVWit5gEYvimCyPQVV7/Ca5DAiIkOlL8U62ipYN06HA=;
+        b=f0Kw504uFT7MesM0QoSMXYuGFzmhulejAFF1Uo22TMc2249dlfIuracR1VWFh2mC2C
+         8i9LKbFC5ir9b+/lutu1trV84P/AloQl67cjX61ejfnkWKwL4TLFBrO4IJ0IntcYKP5u
+         xpQof8InGa2Vpoa+xLVIbvxFtu+0PmoGNVLKPlAlwIA3YHf76CKl3VDb7PQK/o0YCA1O
+         cUl6Zhl0sQOAzW7I0pjdRv+TONjwhHscfXqZKHHeObRaiuGyiRR3Z41UcULpCtH7PN/J
+         crBIGnz7HZKOM5FRampUgw6sKdvTfZ/gA20FJ+/XuAw8kLNB+oX00hZeBuOfQ2Z2+XnD
+         YGZA==
+X-Forwarded-Encrypted: i=1; AJvYcCXDIAtcwj15TNGqL/Q4q2Q5rrjgHTDP+yuKHLDK7A8eAb1iOHANxZXokgPMj+rOCtAJqefPZbetkoJvyw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbiGhq3yaacYxuFJGfrg1NYxg5vEFxIVg/QrhFSp6KxlnClKgq
+	jB7sU1pKk69BrqR2QfvdTrsUAHJSlcgmMC/KkaagIzs5kUxHPptN+VLVC4PZ/UqmN7o=
+X-Gm-Gg: AZuq6aLgRtXshEZFk7k7sa/cevbG7djtab+ocHnVfCKTBmtyHKc5TwgEaYhxkzhOH2O
+	yxtdUD9i83zmErCAkieWfD/l2krk0hLFdO6iNZJviDds8m8/AxuZoU1XFfAylR4BV0V/4PUmUz2
+	3C8GnsELKAxZJwdO1LjeAzG8yHQEhenfFT+IUaEYi6DEDzNkdN9m5ocqYlzjPF7lezwUX9jI5Pu
+	PwXUR1hMohHq6cjv5wk6nr64QmSNrOTMOxq27lwt4EOx4bJax1jVMsBLsqQPASiP/K6RfHwa/cE
+	TzO+y7muqjxuyWTvwPFJjmbprbR9Kw1M47fXILPK8Y2ULzIAPjbedFXTsrFmphCR1+Vorr5Twnz
+	EF4zvHZ4oJGPhS7xJElP73q3iC5NcNgkGHZpqJN05zV63EYEy5DssH4xPvVu+18h0OC1yNAkKVe
+	7a4rnDVBECgpzJzNvE
+X-Received: by 2002:a05:600c:a08c:b0:47a:975b:e3e6 with SMTP id 5b1f17b1804b1-482db493a7cmr155741285e9.18.1770062914672;
+        Mon, 02 Feb 2026 12:08:34 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47807259f8f.27.2026.02.02.12.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 11:47:10 -0800 (PST)
-From: Faizel K B <faizel.kb@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	libcamera-devel@lists.libcamera.org,
-	Faizel K B <faizel.kb@gmail.com>
-Subject: [PATCH v2 3/3] media: vimc: streamer: Apply sensor frame rate in streamer thread
-Date: Mon,  2 Feb 2026 11:46:45 -0800
-Message-ID: <20260202194645.1287757-4-faizel.kb@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260202194645.1287757-1-faizel.kb@gmail.com>
-References: <20260202194645.1287757-1-faizel.kb@gmail.com>
+        Mon, 02 Feb 2026 12:08:34 -0800 (PST)
+Date: Mon, 2 Feb 2026 23:08:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, tian.shu.qiu@intel.com
+Subject: Re: [PATCH v2 4/4] media: ipu3: use BIT()
+Message-ID: <aYEEP0m-1_xAXZZV@stanley.mountain>
+References: <2026020258-very-numbly-b36b@gregkh>
+ <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
+ <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-52062-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52061-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[kernel.org,lists.libcamera.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[faizelkb@gmail.com,linux-media@vger.kernel.org];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9ED5DD0D88
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,stanley.mountain:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0A678D0F29
 X-Rspamd-Action: no action
 
-Use the sensor's pre-calculated jiffies value to add appropriate
-delay between frames according to the configured timing value.
-The actual frame rate  will vary depending on processing delays in
-other media pipeline components.
+On Mon, Feb 02, 2026 at 07:50:33PM +0200, Bogdan Sandu wrote:
+> Prefer BIT() macro over manual bitshift.
+> 
+> Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+> ---
+>  drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
+>  drivers/staging/media/ipu3/ipu3-mmu.h | 4 +++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+> index cb9bf5fb2..95ce34ad8 100644
+> --- a/drivers/staging/media/ipu3/ipu3-mmu.c
+> +++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+> @@ -21,7 +21,7 @@
+>  #include "ipu3-mmu.h"
+>  
+>  #define IPU3_PT_BITS		10
+> -#define IPU3_PT_PTES		(1UL << IPU3_PT_BITS)
+> +#define IPU3_PT_PTES		(BIT(IPU3_PT_BITS))
 
-Tested using yavta frame rate display with QCIF resolution:
-yavta <video-node> --capture=<no_of_frames>
+IPU3_PT_PTES isn't a bit, it's the number of PTEs.  It's just shifting
+because it's a power of two and that's how you calculate power of two.
 
-Signed-off-by: Faizel K B <faizel.kb@gmail.com>
----
- .../media/test-drivers/vimc/vimc-streamer.c   | 33 +++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
-index 15d863f97cbf..3ebf5798fa3d 100644
---- a/drivers/media/test-drivers/vimc/vimc-streamer.c
-+++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
-@@ -139,6 +139,29 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
- 	return -EINVAL;
- }
- 
-+/**
-+ * vimc_streamer_get_sensor() - Get sensor from pipeline
-+ * @stream: the pipeline
-+ *
-+ * Helper function to find the sensor device in the pipeline.
-+ * Returns pointer to sensor device or NULL if not found.
-+ */
-+static struct vimc_sensor_device *vimc_streamer_get_sensor(struct vimc_stream *stream)
-+{
-+	int i;
-+
-+	for (i = 0; i < stream->pipe_size; i++) {
-+		struct vimc_ent_device *ved = stream->ved_pipeline[i];
-+
-+		if (ved && ved->ent &&
-+		    ved->ent->function == MEDIA_ENT_F_CAM_SENSOR) {
-+			return container_of(ved, struct vimc_sensor_device, ved);
-+		}
-+	}
-+
-+	return NULL;
-+}
-+
- /**
-  * vimc_streamer_thread - Process frames through the pipeline
-  *
-@@ -154,25 +177,31 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
- static int vimc_streamer_thread(void *data)
- {
- 	struct vimc_stream *stream = data;
-+	struct vimc_sensor_device *vsensor;
- 	u8 *frame = NULL;
- 	int i;
-+	unsigned long fps_jiffies;
-+	const unsigned long default_jiffies = HZ / 30;
- 
- 	set_freezable();
-+	vsensor = vimc_streamer_get_sensor(stream);
- 
- 	for (;;) {
- 		try_to_freeze();
- 		if (kthread_should_stop())
- 			break;
- 
-+		/* Read from hardware configuration */
-+		fps_jiffies = vsensor ? vsensor->hw.fps_jiffies : default_jiffies;
-+
- 		for (i = stream->pipe_size - 1; i >= 0; i--) {
- 			frame = stream->ved_pipeline[i]->process_frame(
- 					stream->ved_pipeline[i], frame);
- 			if (!frame || IS_ERR(frame))
- 				break;
- 		}
--		//wait for 60hz
- 		set_current_state(TASK_UNINTERRUPTIBLE);
--		schedule_timeout(HZ / 60);
-+		schedule_timeout(fps_jiffies);
- 	}
- 
- 	return 0;
--- 
-2.43.0
+>  #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
+>  #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
+>  
+> diff --git a/drivers/staging/media/ipu3/ipu3-mmu.h b/drivers/staging/media/ipu3/ipu3-mmu.h
+> index a5f0bca7e..990482f10 100644
+> --- a/drivers/staging/media/ipu3/ipu3-mmu.h
+> +++ b/drivers/staging/media/ipu3/ipu3-mmu.h
+> @@ -5,8 +5,10 @@
+>  #ifndef __IPU3_MMU_H
+>  #define __IPU3_MMU_H
+>  
+> +#include <linux/bitops.h>
+> +
+>  #define IPU3_PAGE_SHIFT		12
+> -#define IPU3_PAGE_SIZE		(1UL << IPU3_PAGE_SHIFT)
+> +#define IPU3_PAGE_SIZE		(BIT(IPU3_PAGE_SHIFT))
+
+Same.  This is a size, not a bit.
+
+regards,
+dan carpenter
 
 
