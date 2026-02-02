@@ -1,79 +1,81 @@
-Return-Path: <linux-media+bounces-52058-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52059-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6MiyCsUAgWlyDgMAu9opvQ
-	(envelope-from <linux-media+bounces-52058-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 20:53:41 +0100
+	id QB9GHmkAgWlyDgMAu9opvQ
+	(envelope-from <linux-media+bounces-52059-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 20:52:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A25D0D1B
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 20:53:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B119DD0C68
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 20:52:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 13E75301933D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 19:47:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 512543077B92
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 19:47:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D3BE72627;
-	Mon,  2 Feb 2026 19:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B091930C35C;
+	Mon,  2 Feb 2026 19:47:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Im/8LxxK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FpqV9rqg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7963A3093B6
-	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 19:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4684336AB76
+	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 19:47:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770061623; cv=none; b=BkmfZEUkF7jMKsRTDEAO/kX7QcyVWmi6eh6qKBJNfdjb9431gcRxMClVehC0LJldoUKApDotL40zT6MFLhmE3wxixVE9TH4MceGCpT/LzjYNfcw0rqGIamHhjByZMhCkR/gkAFivJIK/T09nAUYvZlavr7WqTAcePw/BLQV+0bY=
+	t=1770061628; cv=none; b=bHdp53dZZutZ7mYi5PK9vT32tvHh49PNq3H0bffofC9JDsXhpSXDVzgVIftB4oALswhs1BQGKkmoKmX/I7H1mDhFD9U/DGkyNkAHtev3lH9QcbzuyjEC4cPqUNdkeOigjzWXPZ8BXT3HvQOOk9Y3xvNp37fALzRJzBiyppp2tr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770061623; c=relaxed/simple;
-	bh=g4IJQ9Z6Sv9I1/lw/CXPaNQz0s6n4tZGaDjLsPG8OMg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fG21t7ZibjqSM+3rzHkpASbbFMSGpPnxubHIrV6O57cAWTtwYX/rNyvXDm3SyMyOzrS3v2ehWyR+LBwXgvZCNnRAIYOfIo1WEeUKSpwkvY0NQk0SAGRmT9fw4DZD8pQpaP8SDvcajgtn3FJpOJNm6E+d9cF/npU/DkwPGV6vBnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Im/8LxxK; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1770061628; c=relaxed/simple;
+	bh=A4QX7qpdZ4pw6/6kLNBSFEv85l8O5Qi78oGZ32/sVuw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oEtSWgoJIKkAJ73xwHwvQV2XZPqSsEw6ZmYGeuDyURuNS3DskL1IpuCuB41L5tL3p0J2HlVVsn2KtI0Ft1SmfMtnnicGuEcHbMc8+F2IbjKRjyd4a649ZLs2raHYtOb+BaGI96c4udI5K1MWlKb3cZ7pazJM8jwMcH6PwESehio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FpqV9rqg; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-81f38d974e0so291316b3a.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 11:47:02 -0800 (PST)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-81e9dd8fe25so117613b3a.0
+        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 11:47:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770061621; x=1770666421; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gKBywhbyvsHsK4xxnZ8wMlQDheLCuBl8QbDKL7rhuJ4=;
-        b=Im/8LxxKl2DnkIiinAeRk7JmIKEnnakkGRFytC3Kb0fOWaoMh2yz6di7Y5JYk7dBtq
-         GEIb1xsjJhtIHLAzDNGTs0tJ3OXLcYiQSWfJxI3qz5uSqqPv85/bWE7FXUSEdaX7rLe2
-         dTkqfC5bD+UaFpM/wKaHNLx2kmjHhh/xp49MQs1lAmt33m6pozFLt/k0pH8lcOOh8iYT
-         6EAlH5y2GTqd0lvs5ZJcf6+xxM11aqGxmEsd78qxIYm2Hpp+c4M+p/0pN+WNUoicZHE8
-         iuUFJtFyjGVjgoWItk5CFj7CbM5RDsxhKK3YZOlkMvUFE6mYVrI0AjquG09PiMWg7pAC
-         pkqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770061621; x=1770666421;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1770061624; x=1770666424; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gKBywhbyvsHsK4xxnZ8wMlQDheLCuBl8QbDKL7rhuJ4=;
-        b=e4SKNPcoKrz34CqYCZWtnJ09CZ/wW57WEKT0ZAertYUpvr1KiM1DrsdTU696EV6n9m
-         +Xqg35wdycBRCPqyh7ieqcltxprqxj1skUCup7jqfehMsVGz2aOlxfgxNaWJ9joXufa2
-         UB1y9c0rdLRwL0ITydBzfe4NZIZ5VEQ+kPyxdjGovLxEh83awjPkehFdjbgrDPoDlqti
-         sReXY96YdiogvoQCWdGhZmiZDQWFtLua+hZxUblmk8BJ/8qrj+dmzBaohW5ZIc7QXRrK
-         tgZMY5Dv6RcHFvQY0dpbUNZp6sgxzKlC8n4LYs4jiEMPT9YuumoOsLkfPoNFIzoRS9JL
-         ni/A==
-X-Forwarded-Encrypted: i=1; AJvYcCUKqgmkCYK7a1CRWgcoX52tI1yJXpi18hYGkRZBIEMk29x+9d5zuX5t9TyeVtDHbvm7Iyh7rR1fVIgiTA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDzw1ROm0TaAJ89PkZMP/gtb1gqq3sdIqcEUayYf48gigTC0zz
-	TMMxOVjyuu+sbC/Vj8j+6yVaSxqEJnTWK7L9DF6fV+cWEYeK6+EUAWkA
-X-Gm-Gg: AZuq6aL/efoHrsGztUFpsApWTOx3Zzy9dRA9yJmcmD5/ZQuw7uF/Uy6HBnm2Z+Cpfw0
-	udoaqsHYBa4Qoraz6G0xrqof/bkZ3ysIIhNNMOjafnsAUKJ4EVlnHCS6TsZTwuyKZj/sMdjpEL8
-	6q0XZpcenVPEa9+2uNHJ5sZnslEXXWtxfBn9XnJvAI9+Yad6VzmUJ8R+DY6qP7zZ2reZoaG6kd8
-	P0OHZLdWPpr5HIoKsFWMKMy1ZVgxl2+INU+0L95Gb/FGO7/1Ke9Uvpnu6VnuvfzvOH0K9J7JkY/
-	mY0RQs2mTuWu8pH5lBB5r2EROBEjzwKBxSPApXfsVw+i6VvUC6r0tKCh+N1dBZ6nZvFOqK1uEIq
-	8Vo1g2JnoMMCY9bK2BRUn9BOfog0dtHyhU0zW8s9BuPs1cGCcSBp+ml4M4Ka7usgd5kEX6X5MPV
-	9dBEaDdpGMZ00WnPdyCATVGYz9IVN1fGQ0h2bJ0iJzJCY=
-X-Received: by 2002:a05:6a00:bd13:b0:823:f55:b061 with SMTP id d2e1a72fcca58-823ab726087mr9422719b3a.3.1770061621542;
-        Mon, 02 Feb 2026 11:47:01 -0800 (PST)
+        bh=4RAohPMInpYRdZFPRVpri9RKwD42GbQUWynv/gE4tBc=;
+        b=FpqV9rqgksDmwxNG8k9/xBp0CKWNvNHBvmGAj7pW4cLj8kVzD6NqTFjpVNBOZC9/NX
+         445OhRXj706kUfDCpXKOGRf9e07e2+B/Qz4jp2QgD9R6L3Dluz5m+affosnANOaED+Nt
+         vp8E5eoMBi1KfEsnPNfw0rKTgJKMSdRqZY5SAtfQCUyDRxwkoVeTjdaMDcynZSVMJ9ta
+         k1JSwb+G+MdHRzpRvJoWPR2XuFxUvjRLJORk9aT7BS1iL2/YY9cFEUzlpIlH9DDOeh8w
+         lm/FPa7J+v4s3dDDcUZZmKIl6z/3iO4sL0huG4C8DDvomwr/sgyJ/Zfhc6gw/Ehy37Mv
+         bZfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770061624; x=1770666424;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4RAohPMInpYRdZFPRVpri9RKwD42GbQUWynv/gE4tBc=;
+        b=RlxO3WtS4vsBR4oBYhtaAMlwVK1xsq4JhizqhGmqS6raHNz83ZPbMSQQjsDRtZltUp
+         /idE5UIt/xCYqtqAv5kcuzSHyf+nwhvnOgzu0Zqo/3ZZaNtL+RdUx9XsL0LQ4UU16QUL
+         php/XDgc7O3coBZOmmjsZr7awe7gKTB3NGNb1oLla4zEjuJ63qp6/jDG3IRAsWTdmmXN
+         4tOvStdG+iJ3F1tEcSBPHJDMDrZRcXrvxLlNycK39W82bnvj/JXHebaLNp2vPcDcs8kf
+         wX93Cb55ldecEyJSate45TnsmbTEgy6meR3P+obyYBQMghrl+WA8RA2Kw8T0PzodNnhb
+         3SMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWsTkACCk1D4Sm5DBv78k4QiEqvLbkyY1wqaVrNpARxBs7kE1Q8d5LgzIosh+BxOQZ0uPZB8+ympHgLTg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8epLvo+J/wdN0YVOuI+JSgtwl0kxlRjAKcU+CZ5VyvgvgkkC/
+	ZXLaGTywJpK1xfRFCpY7un7uHQPxWZwGqaf4u7Gm8I2Gg/PmjetMZU6j
+X-Gm-Gg: AZuq6aJZ3Qc/3EIKlYp3OAG3hcb7S/xZ1XdBMp2pi9sNK1jl6yvKceu8M32J51xG+oQ
+	pk4zYbsPI5OTz4pOR0OlAUNCuaYrSiR1MqV5CZDD6YIZugKVmcDR8CYLP1cx+TRSh5Zs2bwAnXn
+	8kQPthyz8XkuomiVPcARARrVM7yuPD5sVyGdd2owJe/LNMyX/cY+mxqi1vK9v0DJFcyHcRt9pvO
+	mFQmN5aeA+X5CXOiJ2O296Fz+dgS8+gtCckvpJY9VEFdV+v4clY1RJKTnpHfyhw77ZCTTfZj1gQ
+	P0teGD6vYc6uSoFv++ImZgwCP94oVKHcBkAsc+FoGECinkoZkVLKCbsZGfujlBVrtWsTE8cy9K9
+	9Op76lH6WQJ4DtnFaOpsDufkj2kkQYqcacrFN3b2TMPVo8+6gQLfuhcW3J5EcxaRQtfuMJadpVh
+	OQENXYeYQX/cPwPjfZ1oRuRl30i6DDBdOBniozADlk3aY=
+X-Received: by 2002:a05:6a00:3d4e:b0:808:434f:ba80 with SMTP id d2e1a72fcca58-823aa6ef828mr10305790b3a.3.1770061624631;
+        Mon, 02 Feb 2026 11:47:04 -0800 (PST)
 Received: from FAIZEL-KB.. ([2001:569:5999:dc00:af0:4465:b482:1e01])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-82379b1bc68sm16667416b3a.2.2026.02.02.11.47.00
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-82379b1bc68sm16667416b3a.2.2026.02.02.11.47.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 11:47:00 -0800 (PST)
+        Mon, 02 Feb 2026 11:47:04 -0800 (PST)
 From: Faizel K B <faizel.kb@gmail.com>
 To: Shuah Khan <skhan@linuxfoundation.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -82,10 +84,12 @@ To: Shuah Khan <skhan@linuxfoundation.org>,
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	libcamera-devel@lists.libcamera.org,
 	Faizel K B <faizel.kb@gmail.com>
-Subject: [PATCH v2 0/3] media: vimc: Add timing controls for fps config
-Date: Mon,  2 Feb 2026 11:46:42 -0800
-Message-ID: <20260202194645.1287757-1-faizel.kb@gmail.com>
+Subject: [PATCH v2 1/3] media: vimc: sensor: Move vimc_sensor_device to common header
+Date: Mon,  2 Feb 2026 11:46:43 -0800
+Message-ID: <20260202194645.1287757-2-faizel.kb@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260202194645.1287757-1-faizel.kb@gmail.com>
+References: <20260202194645.1287757-1-faizel.kb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,14 +103,14 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52058-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52059-lists,linux-media=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -122,53 +126,103 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 42A25D0D1B
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B119DD0C68
 X-Rspamd-Action: no action
 
-Control frame timing of vimc sensor by adding support for V4L2 timing
-controls (VBLANK, HBLANK, PIXEL_RATE). PIXEL_RATE and HBLANK are fixed as
-readonly with default values. VBLANK is configurable.
+Move the vimc_sensor_device structure from vimc-sensor.c to
+vimc-common.h to make it accessible to the vimc-streamer component.
 
-First version patch attempted to implement direct frame rate control as
-fraction. vimc sensor should have controls like real sensor to control the
-framerate.
+Signed-off-by: Faizel K B <faizel.kb@gmail.com>
+---
+ drivers/media/test-drivers/vimc/vimc-common.h | 28 +++++++++++++++++++
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 26 -----------------
+ 2 files changed, 28 insertions(+), 26 deletions(-)
 
-- Link to v1: https://lore.kernel.org/linux-media/cr4tjjlq53ezux7lzrusy4wb7ji26trwkipfkjl33kwv6z4ut7@r6hvuzki66bj/
-
-Changes in v2:
-- Changed the patch subject to indicate timing control.
-- Removed 'v4l2_fract' element from sensor struct
-- Removed frameinterval functions for vimc_sensor_pad_ops
-- Added PIXEL_RATE,HBLANK,VBLANK V4L2 Controls
-- Added fps delay calculation based on timing controls
-- Default PIXEL_RATE as 160 MHz. HBLANK as 800
-- Default fps 30 for resolution up to 1920 * 1080 (2,073,600 pixels)
-  above which the fps is 10 (PIXEL_RATE must be changed to support
-  higher resolutions).
-
-Example usage:
-  # Set vblank as 1000
-  v4l2-ctl -d /dev/v4l-subdev0 --set-ctrl=vertical_blanking=1000
-
-  # Capture and verify frame rate.
-  # Real framerate depends on the CPU performance
-
-  yavta /dev/video2 --capture=100
-
-Faizel K B (3):
-  media: vimc: sensor: Move vimc_sensor_device to common header
-  media: vimc: sensor: Add pixel_rate,vblank and hblank configuration
-  media: vimc: streamer: Apply sensor frame rate in streamer thread
-
- drivers/media/test-drivers/vimc/vimc-common.h |  41 +++++++
- drivers/media/test-drivers/vimc/vimc-sensor.c | 108 +++++++++++++-----
- .../media/test-drivers/vimc/vimc-streamer.c   |  33 +++++-
- 3 files changed, 154 insertions(+), 28 deletions(-)
-
-
-base-commit: c824345288d11e269ce41b36c105715bc2286050
+diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+index 7a45a2117748..35789add6b4a 100644
+--- a/drivers/media/test-drivers/vimc/vimc-common.h
++++ b/drivers/media/test-drivers/vimc/vimc-common.h
+@@ -12,6 +12,8 @@
+ #include <linux/slab.h>
+ #include <media/media-device.h>
+ #include <media/v4l2-device.h>
++#include <media/tpg/v4l2-tpg.h>
++#include <media/v4l2-ctrls.h>
+ 
+ #define VIMC_PDEV_NAME "vimc"
+ 
+@@ -159,6 +161,32 @@ struct vimc_ent_config {
+ 	const struct vimc_ent_type *type;
+ };
+ 
++enum vimc_sensor_osd_mode {
++	VIMC_SENSOR_OSD_SHOW_ALL = 0,
++	VIMC_SENSOR_OSD_SHOW_COUNTERS = 1,
++	VIMC_SENSOR_OSD_SHOW_NONE = 2
++};
++
++struct vimc_sensor_device {
++	struct vimc_ent_device ved;
++	struct v4l2_subdev sd;
++	struct tpg_data tpg;
++	struct v4l2_ctrl_handler hdl;
++	struct media_pad pad;
++
++	u8 *frame;
++
++	/*
++	 * Virtual "hardware" configuration, filled when the stream starts or
++	 * when controls are set.
++	 */
++	struct {
++		struct v4l2_area size;
++		enum vimc_sensor_osd_mode osd_value;
++		u64 start_stream_ts;
++	} hw;
++};
++
+ /**
+  * vimc_is_source - returns true if the entity has only source pads
+  *
+diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+index 027767777763..2b07dc1f1278 100644
+--- a/drivers/media/test-drivers/vimc/vimc-sensor.c
++++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+@@ -14,32 +14,6 @@
+ 
+ #include "vimc-common.h"
+ 
+-enum vimc_sensor_osd_mode {
+-	VIMC_SENSOR_OSD_SHOW_ALL = 0,
+-	VIMC_SENSOR_OSD_SHOW_COUNTERS = 1,
+-	VIMC_SENSOR_OSD_SHOW_NONE = 2
+-};
+-
+-struct vimc_sensor_device {
+-	struct vimc_ent_device ved;
+-	struct v4l2_subdev sd;
+-	struct tpg_data tpg;
+-	struct v4l2_ctrl_handler hdl;
+-	struct media_pad pad;
+-
+-	u8 *frame;
+-
+-	/*
+-	 * Virtual "hardware" configuration, filled when the stream starts or
+-	 * when controls are set.
+-	 */
+-	struct {
+-		struct v4l2_area size;
+-		enum vimc_sensor_osd_mode osd_value;
+-		u64 start_stream_ts;
+-	} hw;
+-};
+-
+ static const struct v4l2_mbus_framefmt fmt_default = {
+ 	.width = 640,
+ 	.height = 480,
 -- 
 2.43.0
 
