@@ -1,67 +1,70 @@
-Return-Path: <linux-media+bounces-52005-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52007-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +J3LFtGNgGkl+wIAu9opvQ
-	(envelope-from <linux-media+bounces-52005-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:43:13 +0100
+	id eGu8Ld+NgGkl+wIAu9opvQ
+	(envelope-from <linux-media+bounces-52007-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:43:27 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11681CBDB6
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:43:12 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEEECBDCC
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:43:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B296B302C75E
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 11:41:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id AEBF13004D25
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 11:43:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 135A0363C45;
-	Mon,  2 Feb 2026 11:41:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23827363C56;
+	Mon,  2 Feb 2026 11:43:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="R88vGR1S"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D+xMuwC6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4B33590C3;
-	Mon,  2 Feb 2026 11:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF0835B65F;
+	Mon,  2 Feb 2026 11:43:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770032474; cv=none; b=FGAQztwb7nNcL5lh5b+vx7BINqSW6dBEvoe65CaMflquwknff48HD1QDlw6mMxvsH1WGLzqMix2ZJe1P+7pl6U2LW37fIvrpN/T1ub8cJwCUG6Orh/8UJuEwCv46tZGOMEMalkVToMauwDYc57lSdqR0oUtnktARZggX6YVpKkw=
+	t=1770032601; cv=none; b=eEqIfDJn2iAZJxWQ8Hn3p8Q0wOsd5qSOTzznzsBJd7Pz9pYLjlfwFRe9oLDKtmeoULsN/cN+lrjM3MK4LybiElvcwYI1sP53XvQa9sQDd3jimZfvN7lPSdTp2RDcputMHoGivCfDFZY1PPLDNVYIV63VoAYmbsN9GCvTugI3nrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770032474; c=relaxed/simple;
-	bh=MrjzcWn00//g9RHO/pScfMTyKrxPM72MZTQiOj3fNX4=;
+	s=arc-20240116; t=1770032601; c=relaxed/simple;
+	bh=53IqFtmY5k6XcBZAWO6IXfkg/Zh/qfv2Y+ngXI7iML0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T1q4eKZFApTghTeORXHXwswMUxvocFd4g358r0AI4xLX413ax7+wJ/uoExZUodxtF1HyHlabIhUBoA93XtO7pm8HTjRsRcWhZFxEp1rIP/HtNhXbkoxBPACyk9ACIPbC3gr8omVltTWZOl2litfrVAvNVIejlKuQMWQdaP4E4dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R88vGR1S; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=FQV8644KAMEfO5h/sfB1k/ld4GSZpH6bKBAOgFmDUzCDcRw72AQ6Z8lMPAsRYbsmGET3ZRPB7jUf1fXSc2KpU83B0+1V7r7Bsp7b3RdNjieNEJatfUYd9UAheEHtBAm0btokFFPC8SzDxDyM1amMLt3dg2m0pm9d4bvSt9pEhhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=D+xMuwC6; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4435A492;
-	Mon,  2 Feb 2026 12:40:31 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E8578492;
+	Mon,  2 Feb 2026 12:42:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770032431;
-	bh=MrjzcWn00//g9RHO/pScfMTyKrxPM72MZTQiOj3fNX4=;
+	s=mail; t=1770032558;
+	bh=53IqFtmY5k6XcBZAWO6IXfkg/Zh/qfv2Y+ngXI7iML0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R88vGR1S8VGe86LRQlRg/kszqE/KM0B/ZuCydAEtCT5Jv3b9YK6Y3CYohPjwARMzZ
-	 zpxcM73zFBcJX05RPHQpRI1Gbwd6F8cMxA430Xjc0UblRwABEYUPMs/YbGgUVfjs+2
-	 ynfy7ePmTGT1MW/DK1uYH+Zt8nVuWyds8SaA/rhY=
-Date: Mon, 2 Feb 2026 13:41:10 +0200
+	b=D+xMuwC68fdhryheH0mYSTqUq2R779LLpSrwlgONwfPMADRNVD1+Oa3juu7UBz+2/
+	 5r94tTK1SgtiGuKkwoHQFjqgrQRg2SVftCH7k1DW3qD+d/p4u2MmDHa+384FEmPmx2
+	 +XombrNKVICX0fSwoZ7CYscQ4p/HBf2H+lz9uPFg=
+Date: Mon, 2 Feb 2026 13:43:17 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Jarkko Sakkinen <jarkko@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jarkko Sakkinen <jarkko@kernel.org>, linux-media@vger.kernel.org,
-	jani.nikula@linux.intel.com, anisse@astier.eu,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Oleksandr Natalenko <oleksandr@natalenko.name>,
+	linux-media@vger.kernel.org, jani.nikula@linux.intel.com,
+	anisse@astier.eu, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Ricardo Ribalda <ribalda@chromium.org>,
 	open list <linux-kernel@vger.kernel.org>
 Subject: Re: [RFC PATCH] media: Virtual camera driver
-Message-ID: <20260202114110.GD3374091@killaraus>
+Message-ID: <20260202114317.GB4173464@killaraus>
 References: <20260201133342.335680-1-jarkko@kernel.org>
+ <5073898.31r3eYUQgx@natalenko.name>
+ <20260202001704.2419778a@foz.lan>
  <13939245.uLZWGnKmhe@natalenko.name>
  <20260202020214.2243acec@foz.lan>
- <3399673.44csPzL39Z@natalenko.name>
+ <aYBo69zrMnRdWs32@kernel.org>
+ <aYBsBw2j6pkwAssn@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,20 +74,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3399673.44csPzL39Z@natalenko.name>
+In-Reply-To: <aYBsBw2j6pkwAssn@kernel.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52005-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52007-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -96,35 +99,42 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,huawei];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 11681CBDB6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: 7EEEECBDCC
 X-Rspamd-Action: no action
 
-On Mon, Feb 02, 2026 at 08:16:36AM +0100, Oleksandr Natalenko wrote:
-> On pondělí 2. února 2026 2:02:14, středoevropský standardní čas Mauro Carvalho Chehab wrote:
-> > > On pondělí 2. února 2026 0:17:20, středoevropský standardní čas Mauro Carvalho Chehab wrote:
-> > > > No. At the machine with the camera, obs can read from a V4L2 input,
-> > > > generate a mpeg TS stream, and listen to a UDP port (for instance). 
+On Mon, Feb 02, 2026 at 11:19:03AM +0200, Jarkko Sakkinen wrote:
+> On Mon, Feb 02, 2026 at 11:05:52AM +0200, Jarkko Sakkinen wrote:
+> > On Mon, Feb 02, 2026 at 02:02:14AM +0100, Mauro Carvalho Chehab wrote:
+> > > On Mon, 02 Feb 2026 00:25:37 +0100 Oleksandr Natalenko wrote:
+> > > > On pondělí 2. února 2026 0:17:20, středoevropský standardní čas Mauro Carvalho Chehab wrote:
+> > > > > No. At the machine with the camera, obs can read from a V4L2 input,
+> > > > > generate a mpeg TS stream, and listen to a UDP port (for instance). 
+> > > > > 
+> > > > > At the remote machine, you can just pass the URL to ffmpeg.  
 > > > > 
-> > > > At the remote machine, you can just pass the URL to ffmpeg.  
+> > > > I can't, I have to feed the stream into Firefox somehow for it to see the stream as a virtual webcam.
 > > > 
-> > > I can't, I have to feed the stream into Firefox somehow for it to
-> > > see the stream as a virtual webcam.
+> > > Motioneye could be used on such scenario. It has a proper web
+> > > interface, allows multiple users to watch, has login control accepts
+> > > multiple cameras.
 > > 
-> > Motioneye could be used on such scenario. It has a proper web
-> > interface, allows multiple users to watch, has login control accepts
-> > multiple cameras.
-> 
-> I still don't get it how this will help with using a webcam from one
-> machine in google meet on another machine, sorry.
+> > When proposed workarounds move in the area of motion detection systems
+> > it feels like there was a competion who invents the most impractical
+> > solution for a practical real-world problem out in the wild.
 
-I don't get it either :-)
+I'm also not quite sure how motioneye would be related. Please see my
+reply to Gergo in this mail thread for a proposed solution that is (in
+my opinion) not a workaround.
 
-Please see my reply to Gergo in this mail thread for an example of how
-to create a virtual video source for PipeWire using GStreamer.
+> A trivial Google search shows that the scope of the issue, which is
+> also (on emphasis) a security issue, and net effect that is caused
+> of not addressing it properly.
+
+How is it a security issue ?
 
 -- 
 Regards,
