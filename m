@@ -1,176 +1,370 @@
-Return-Path: <linux-media+bounces-52053-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52054-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QBeIL4LkgGleCAMAu9opvQ
-	(envelope-from <linux-media+bounces-52053-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 18:53:06 +0100
+	id +FwIIL3wgGkgDQMAu9opvQ
+	(envelope-from <linux-media+bounces-52054-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 19:45:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06FDCFCAF
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 18:53:05 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9550CD044F
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 19:45:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9C59F3013DEE
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 17:51:21 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C59FA300846F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 18:44:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7076A38B99A;
-	Mon,  2 Feb 2026 17:50:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C9AC2FF66A;
+	Mon,  2 Feb 2026 18:44:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HMWEJk1I"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Nfk/Cd0d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4672138A702
-	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 17:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900EE2EBDD9
+	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 18:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770054646; cv=none; b=dOnjubWTJybLbwdAHPGX/QxbjFOM5beBLh9cT7W2qZMMLcEokB74jPIgokG7zgR0O9u/CnNvlbeXZPXqjXfCrWYhxIuMEePVE6pNnRymQR3H7iszR5k1cbNu2iHdlFuEjs9vsGy6OZkXohYjpmLyc2s6yHotK11efkiuufKVCtY=
+	t=1770057875; cv=none; b=GXAGngmoM+JuuQmAIqMl1bAZUK2pU4qfc2tDFCPWRZnwtIPxeCbAgTroC/chDWwUSHwMxA9IhtQXIVSt1aJPXg+gUaS08479kWnZnJfJdUchcD9ofyp4875akLRP+6PXlzKiSNP1bi30et+r2wE0Dcm8KKGABholtLaJYq7o3y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770054646; c=relaxed/simple;
-	bh=n2buX5VudVRgU7PL7UJfJORunqQ2AVjMcYcWLb2KfbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GJi6SmJuXE9+3Ze4gVTqvjR/0p/4pKkIkZxNM7g3kFBYKT1FKrC+hglvJ0O1thyIeIhGI11RWPjzv1MmGroQPe6uqifMTW8RUws+ScVvTNS0DuIEgyIlEFwXhT6ZhNmIokUEzjgtZucI5nTOKvTehuJhcp8N8Avdy0ZDWccO2Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HMWEJk1I; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47fedb7c68dso49167085e9.2
-        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 09:50:45 -0800 (PST)
+	s=arc-20240116; t=1770057875; c=relaxed/simple;
+	bh=WYQiIExxKDX0cCt2DTvo3Yevcg7P9+CnoNuVKvWhxaw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=U9g56GCl+jaHQ87TIXbIrDC5tfTdxTFPM6RgtpRfz7021k+elp63Y+pNA+wZh6t7jYlgByrSuulJJlKudycjwEsALyqGVNVGMA3Gan6u6yZex6xh6VQToAQCqfXRPUcJ0pMwFZIPIG4jMA053/thBw2JtddDiwrkWLqw1vaHCS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Nfk/Cd0d; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8947e6ffd20so62989996d6.1
+        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 10:44:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770054644; x=1770659444; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4rCAwVYKU83hcXqCu+Y7xeDCP8XJjgg0MwhJ+CwyuNk=;
-        b=HMWEJk1IJ2OzDdTGeKhcFnV0Hw8K0Lb/OBd7PsnwF3FmNbcH+T7BlM8FRxIbH68mtq
-         hn8C0OI06WCUAMDQmzLY3eCP79x9dMTRrxaw32s7etAIDNCjXpwYu42Y0sGXenEoQBqq
-         /41JiWOPo4AxLlwjz8UTOIYnTxfJ4cwxTFUZGF0sR8HuXmajxbV58euENt5761FL7+Ic
-         /skjHXl9dQRe8Kt6+WU7mAoXYeBfE14opWIwSDvrt7EH7Wtoi8YyXMattY8jRUZRL+kH
-         yBKtleZA5DUpMRDO1XnnjgB3ZP6IBmqyJW9ZMgzspJbbwtIYeifqXKO4FENdaA00J6Vm
-         cjZQ==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1770057871; x=1770662671; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=fXE7ald5tcjEzZ48f0b2jZkl5LlJhCx6n0+to2+iB3E=;
+        b=Nfk/Cd0dbdg4xT2MrpmJU/ayp/sIu8FQAxyVl4r4zDYYIb50KIPEFyvJ1ukyIh+QPh
+         z/Wo+X4OxLEzJcb57t+8ql30bSz0bKwHdv40ZFx227PPM2MyY/gzVPp/8jyDe3z6JGKY
+         jUFcSUSvZPuiOHDZ8l6RoVvJJ2FR1TI+phC7tDZGRmq2W6zmVXsyNeXNXNBXyxf5rIZq
+         Zv/OfPo0GGLPd+pT3GQt5G6naN3OIa/D6oX1pSPOLQuMu6053FQrMXii5ZSNLZFhZ24H
+         EQ8pKwDBorf+FKWmxmnuLzPk/DfntPT+SxigR5UDK7uFima7LUVAhRZDjWf7Be5USe+I
+         ON3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770054644; x=1770659444;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4rCAwVYKU83hcXqCu+Y7xeDCP8XJjgg0MwhJ+CwyuNk=;
-        b=KXDFQX9VzQ2gr+OY5todDioo3TgqG+6I5L69ofAOfit7IiZrBSz0FH7NqHkwNvpxtR
-         XrwaRf4q2H7ohV4+o7831zYbBhYijD343uKfDqEOHyZKSZJ+/RLkUUfCViTADmAIHmWX
-         iJtDvNXE5mkJuRLOlwYPjXtKuhrLqVV9oamkog2NhYBGWi6V+9TTKHVzUv35c2TtSR66
-         FQzUyF2h3Hwtj8dJdqXoxmvOE0sBaJgGR/syF/2XUQ6KhcWo546OsoM71ai/VXAU6I5r
-         dUztkKHy+GHvVATVJi0lghirZnDyv4jjna9WXOfKP3h7WJHDh1VDormLTULuYLlr4r1u
-         yhFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUwdYk09NXh1n2InXZjcLjxRSGdad363yF42Q5uDFMsyNNTiPqUTcWKQ3g/IQBfZrZy/dNW/lVZp7eo4A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjsLBRNrw7Fjy2vftLC+Ab6WwoCl8xNFDDgU+RS/WpmNIEjCB6
-	1euksd2n2DwRO2v/8hf46fI8frj+wTPu+59iWdsgfS8Nb1UVGZdvYI6E9lAnKw==
-X-Gm-Gg: AZuq6aIGD91gkCpU8+SH9Nip1Zg1ZsAUaIPwF5C0urq4GUnUQYZde3ox5NwiEuRd6Dd
-	vydYWefTtkVasmfXtGRp0cNje7UkLSV2d0UYMaYfo2OyownhliyaLfE9W1b28SYXMmyL1Kxv8wd
-	GMm99Ambe3FSu4InEgu8YF/brgQeahBobHPD8pedxHDmoUitiBEXFv0rATvEuFxPFP+h4zMqmpw
-	hz3JHeaxddicT/26mDcC8vNM5AsQi0ZZQ9xeIfoUrnHMv2AX6T/oWEjPllxPRSpfFlxYgvBCKv0
-	ZGy/QG9OkEnxl5CtFGGEK0jwdCMc7nqP7LrVYDtJ3JPjGadGZphjtHcR+fBXoOBFZ+DuJdSdWww
-	Toz95xSJFNYXudJXHufvh3ZEIC4qGTjM+MDNjbNazX+Wf5cI6e3k/ZgpWOBttHTzkEkTm3Yg0iY
-	HCn8ubbPuxRpybZUilTekgWL3fP0OfuXwcvTc7Pg==
-X-Received: by 2002:a05:600c:1548:b0:47e:e2eb:bc22 with SMTP id 5b1f17b1804b1-482db45e124mr148875905e9.5.1770054643324;
-        Mon, 02 Feb 2026 09:50:43 -0800 (PST)
-Received: from DESKTOP-VOVUFNJ.localdomain ([5.14.81.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce70sm47011359f8f.27.2026.02.02.09.50.42
+        d=1e100.net; s=20230601; t=1770057871; x=1770662671;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fXE7ald5tcjEzZ48f0b2jZkl5LlJhCx6n0+to2+iB3E=;
+        b=bSOkDOqAMtwF29xFILkUbN6P8/sXRebvh9amXvdFkuEWLR/IUPfK+wCoBjI/FLAyHG
+         YT3T5ZpC7LpIFSEy0C58E0DSctgl5tXwZ80YvPJuAjcpzbRgYuhfxtoc2XdlRDROLY+o
+         ByCtJppznjjjcsMhvG1uigfYvRar94U+kzxwpUPCYRRLmC0OovgFlBPYdLmXmBIOhdk0
+         dOLQEeGa52Tj0iZHUc/7dknhtyq01txqqGrlgNCBlPU4Bm2EwnoalrE7JrQX2Uw6Go40
+         EnGyO1jFq2TXyiLACQyMZCuioWZS7tlG2v0TilK10t1cJ9rQ99MG42yOYaj1OtR1UeX7
+         c3fg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdgxnlGPIloinhAX8ba3fTMOK3ZoQ0dQgUZSHJYC3bBSzzkOA+kAjfm0+BFtfkC2FhL576CxOFL5/QkA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXOlDei3zoxFwWMojpfXruBqMY6p4Acoch9yWCEVKbJtkPng8a
+	sP80UzfV4AQis8pcOCTsv6J1c/SL4+UL/JjcjxDCFj59bzdJR1EyCvmvACb2alLe4VYJ5KQLn29
+	BSpMc
+X-Gm-Gg: AZuq6aINi1Pb3vRNwvTgNN5JoWzj/Vx0xwFSctYaMQnvQeUdDaEPIcYuzGuCF99Es/v
+	OboXaX2E70YH8nuVd623kvKc5GWFwaNtEJJt9wrU+WN6zIr50Cw5qvWaXsTkw1mwSQF6R5C9z5r
+	SGuHcoS6IjTpaVgzW4QT/tbIqx+an9UZygjFn/p0onTAhfsJi+yKWehVjlaXIbqkevNtia7BBjl
+	koqYgZPXukBEp2+FYy+vzmS1NOYyYbgj056IDW7a3kEMBncjcaZs4xL8pvlVRkL+cS8S5rnotDw
+	A3ekmtDzlvu6il01ydmm4sBorKDjWk7/wNLrZ2ZTvoOFggQ+MTsVNZcMkbeoXzDJQ79NjJKsRSG
+	9Mv2676xO+gNN+rrivqjlzV/N6XyPcPjPkSsZU4+QOkSVYw6p8nXbBxabcMPsVQU+4Vyiz+6fdO
+	YCfCyjcCfmN7ztNjto
+X-Received: by 2002:a05:6214:c42:b0:894:46d9:53f7 with SMTP id 6a1803df08f44-894e9f27762mr178804396d6.12.1770057871331;
+        Mon, 02 Feb 2026 10:44:31 -0800 (PST)
+Received: from ?IPv6:2606:6d00:15:210e::5ac? ([2606:6d00:15:210e::5ac])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894d3740e62sm119882596d6.26.2026.02.02.10.44.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 09:50:43 -0800 (PST)
-From: Bogdan Sandu <bogdanelsandu2011@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: bingbu.cao@intel.com,
-	bogdanelsandu2011@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	tian.shu.qiu@intel.com
-Subject: [PATCH v2 4/4] media: ipu3: use BIT()
-Date: Mon,  2 Feb 2026 19:50:33 +0200
-Message-ID: <20260202175033.8640-5-bogdanelsandu2011@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
-References: <2026020258-very-numbly-b36b@gregkh>
- <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
+        Mon, 02 Feb 2026 10:44:30 -0800 (PST)
+Message-ID: <169eba79e8e1f906b1a0b59e22a531dfc7e57a1f.camel@ndufresne.ca>
+Subject: Re: [PATCH] arm64: dts: imx8mq: Restore VPU G2 clock to 600MHz for
+ 4K60fps decoding
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>, linux-media@vger.kernel.org
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
+	benjamin.gaignard@collabora.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, p.zabel@pengutronix.de,
+ sebastian.fricke@collabora.com, 	shawnguo@kernel.org,
+ ulf.hansson@linaro.org, s.hauer@pengutronix.de, 	kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, 	l.stach@pengutronix.de,
+ Frank.li@nxp.com, peng.fan@nxp.com, eagle.zhou@nxp.com, 
+	devicetree@vger.kernel.org, imx@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Date: Mon, 02 Feb 2026 13:44:28 -0500
+In-Reply-To: <0b24716b-438c-4185-8a93-3a3879147c24@oss.nxp.com>
+References: <20260130084133.2159-1-ming.qian@oss.nxp.com>
+	 <df8d5d5f28870752e77ec74f34fea7ceb6e97286.camel@ndufresne.ca>
+	 <0b24716b-438c-4185-8a93-3a3879147c24@oss.nxp.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-VlA8ZcxnzX2eUS2/dkES"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-52053-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[kernel.org,xs4all.nl,collabora.com,pengutronix.de,linaro.org,gmail.com,nxp.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	TAGGED_FROM(0.00)[bounces-52054-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,gmail.com,vger.kernel.org,lists.linux.dev,kernel.org,linux.intel.com];
 	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[ndufresne-ca.20230601.gappssmtp.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bogdanelsandu2011@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_PROHIBIT(0.00)[0.0.0.6:email];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E06FDCFCAF
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[60fps:email,ndufresne-ca.20230601.gappssmtp.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nxp.com:email,ndufresne.ca:mid]
+X-Rspamd-Queue-Id: 9550CD044F
 X-Rspamd-Action: no action
 
-Prefer BIT() macro over manual bitshift.
 
-Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
----
- drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
- drivers/staging/media/ipu3/ipu3-mmu.h | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+--=-VlA8ZcxnzX2eUS2/dkES
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-index cb9bf5fb2..95ce34ad8 100644
---- a/drivers/staging/media/ipu3/ipu3-mmu.c
-+++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-@@ -21,7 +21,7 @@
- #include "ipu3-mmu.h"
- 
- #define IPU3_PT_BITS		10
--#define IPU3_PT_PTES		(1UL << IPU3_PT_BITS)
-+#define IPU3_PT_PTES		(BIT(IPU3_PT_BITS))
- #define IPU3_PT_SIZE		(IPU3_PT_PTES << 2)
- #define IPU3_PT_ORDER		(IPU3_PT_SIZE >> PAGE_SHIFT)
- 
-diff --git a/drivers/staging/media/ipu3/ipu3-mmu.h b/drivers/staging/media/ipu3/ipu3-mmu.h
-index a5f0bca7e..990482f10 100644
---- a/drivers/staging/media/ipu3/ipu3-mmu.h
-+++ b/drivers/staging/media/ipu3/ipu3-mmu.h
-@@ -5,8 +5,10 @@
- #ifndef __IPU3_MMU_H
- #define __IPU3_MMU_H
- 
-+#include <linux/bitops.h>
-+
- #define IPU3_PAGE_SHIFT		12
--#define IPU3_PAGE_SIZE		(1UL << IPU3_PAGE_SHIFT)
-+#define IPU3_PAGE_SIZE		(BIT(IPU3_PAGE_SHIFT))
- 
- /**
-  * struct imgu_mmu_info - Describes mmu geometry
--- 
-2.51.0
+Le lundi 02 f=C3=A9vrier 2026 =C3=A0 15:44 +0800, Ming Qian(OSS) a =C3=A9cr=
+it=C2=A0:
+> Hi Nicolas,
+>=20
+> On 1/30/2026 10:47 PM, Nicolas Dufresne wrote:
+> > Hi,
+> >=20
+> > Le vendredi 30 janvier 2026 =C3=A0 16:41 +0800, ming.qian@oss.nxp.com=
+=C2=A0a =C3=A9crit :
+> > > From: Ming Qian <ming.qian@oss.nxp.com>
+> > >=20
+> > > The VPU G2 clock was reduced from 600MHz to 300MHz in commit
+> > > b27bfc5103c7 ("arm64: dts: freescale: Fix VPU G2 clock") to address
+> > > pixel errors with high-resolution HEVC postprocessor output.
+> > >=20
+> > > However, testing shows the 300MHz clock rate is insufficient for
+> > > 4K60fps decoding and the original pixel errors no longer occur at
+> > > 600MHz with current drivers.
+> >=20
+> > Tested on EVK, with the downstream DCSS driver, and this change trigger=
+s DCSS
+> > underrun (which is related to the DRAM QoS erratas on this SoC). It als=
+o
+> > sometimes trigger the "not all macroblock decoded" warning I added rece=
+ntly, and
+> > we can empty IRQs, but these are handled now.
+> >=20
+>=20
+> This doesn't sound like just a VPU issue; it's related to the display or=
+=20
+> DDR.
+> If not displayed, do the fluster test cases yield different results at=
+=20
+> 600MHz and 300MHz?
 
+Didn't you run these tests before sending ? I can try again, but in my inte=
+rnal
+notes, I wrote:
+
+  > Tested that, and everything becomes unstable
+
+That was before I figure-out the IRQ handler didn't handle exception bits t=
+hat
+didn't stop the decoder (or dry IRQ, which strangely is common from the G2)=
+.
+
+>=20
+> > >=20
+> > > Test results with 3840x2160@60fps HEVC stream decoded to NV12
+> > > (the same scenario that exhibited pixel errors previously):
+> > >=20
+> > > 300MHz performance:
+> > > - Severe frame dropping throughout playback
+> > > - Only 336 frames rendered in 11:53 (0.471 fps)
+> > > - Continuous "A lot of buffers are being dropped" warnings
+> > > - Completely unusable for 4K video
+> > >=20
+> > > 600MHz performance:
+> > > - Smooth playback with only 1 frame dropped at startup
+> > > - 37981 frames rendered in 10:34 (59.857 fps)
+> > > - Achieves target 60fps performance
+> > > - No pixel errors or artifacts observed
+> >=20
+> > That probably only true with the upstream DCSS + a small resolution emb=
+edded
+> > panel ? Can you clarify this setup, because the display drivers mainlin=
+e are
+> > very minimal. Would be nice to show you average DDR read/write bandwidt=
+h
+> > utilization during this run for comparision.
+>=20
+> My display is hdmi, I'll try the DCSS.
+> And the DDR bandwidth results measured by perf are as follows:
+>=20
+> =C2=A0 Performance counter stats for 'system wide':
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 113303664278=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 imx8_ddr0/read-cycles/
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 82457075530=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 imx8_ddr0/write-cycles/
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 634.892101865 seconds time elapsed
+>=20
+> >=20
+> > Another information that bugs me, in the BSP code, the G2 voltage is in=
+creased
+> > too, which you didn't do here. They also use the thermal 2 zone to kick=
+ it down
+> > to 300 until it cools down.
+> >=20
+>=20
+> In our internal code, whenever the frequency of either g1 or g2 reaches
+> 600MHz, the voltage is adjusted to 1.0V. Since g1 is already set to 600
+> MHz in the upstream DTS, I believe the default version is already 1.0v.
+>=20
+> And do you mean vpu-thermal? But it doesn't define the cooling-map, I'm
+> not sure how it works.
+>=20
+> 		vpu-thermal {
+> 			polling-delay-passive =3D <250>;
+> 			polling-delay =3D <2000>;
+> 			thermal-sensors =3D <&tmu 2>;
+>=20
+> 			trips {
+> 				vpu-crit {
+> 					temperature =3D <90000>;
+> 					hysteresis =3D <2000>;
+> 					type =3D "critical";
+> 				};
+> 			};
+> 		};
+
+Its not:
+
+ $> cat /sys/kernel/debug/regulator/regulator_summary | grep SW1C
+ SW1C                             1    1      0 unknown   900mV     0mA   8=
+25mV  1100
+
+
+Before I gave up on 60Hz on this SoC, I did test raising it to 1v with this
+patch (hopefully there is a way to do that in DT, would be more elegant):
+
+
+diff --git a/drivers/pmdomain/imx/gpcv2.c b/drivers/pmdomain/imx/gpcv2.c
+index 4b828d74a606..2f2b85ca6fd2 100644
+--- a/drivers/pmdomain/imx/gpcv2.c
++++ b/drivers/pmdomain/imx/gpcv2.c
+@@ -639,6 +639,7 @@ static const struct imx_pgc_domain imx8m_pgc_domains[] =
+=3D {
+ 		},
+ 		.pgc   =3D BIT(IMX8M_PGC_VPU),
+ 		.keep_clocks =3D true,
++		.voltage   =3D 1000000,
+ 	},
+=20
+ 	[IMX8M_POWER_DOMAIN_DISP] =3D {
+
+I would also like to remind you your own erratas, in the errata document yo=
+u
+state that DRAM QoS is broken, and all transactions are treated with the sa=
+me
+priority. If you overload the bandwidth, it becomes fatal for the display
+controller. We tried to workaround with changing the NoC configuration, but=
+ it
+did not work. It feels like that NoC granularity is not enough to prevent
+underrun of the display controller (where the QoS would work, since its don=
+e at
+transaction level, not by measuring bandwidth).
+
+Nicolas
+
+>=20
+> Regards,
+> Ming
+>=20
+> > Nicolas
+> >=20
+> > >=20
+> > > Restore the clock to 600MHz to enable proper 4K60fps decoding
+> > > capability while maintaining stability.
+> > >=20
+> > > Test pipeline:
+> > > =C2=A0=C2=A0 gst-launch-1.0 filesrc location=3D<4K60_HEVC.mkv> ! \
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 video/x-matroska ! aiurdemux ! h265parse ! \
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 v4l2slh265dec ! video/x-raw,format=3DNV12 ! =
+\
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 queue ! waylandsink
+> > >=20
+> > > Fixes: b27bfc5103c7 ("arm64: dts: freescale: Fix VPU G2 clock")
+> > > Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> > > ---
+> > > =C2=A0 arch/arm64/boot/dts/freescale/imx8mq.dtsi | 2 +-
+> > > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > index 607962f807be..731142176625 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
+> > > @@ -960,7 +960,7 @@ pgc_vpu: power-domain@6 {
+> > > =C2=A0=C2=A0								=09
+> > > <&clk IMX8MQ_SYS1_PLL_800M>,
+> > > =C2=A0=C2=A0								=09
+> > > <&clk IMX8MQ_VPU_PLL>;
+> > > =C2=A0=C2=A0						assigned-clock-rates =3D
+> > > <600000000>,
+> > > -							=09
+> > > <300000000>,
+> > > +							=09
+> > > <600000000>,
+> > > =C2=A0=C2=A0							=09
+> > > <800000000>,
+> > > =C2=A0=C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <0>;
+> > > =C2=A0=C2=A0					};
+> > >=20
+> > > base-commit: c824345288d11e269ce41b36c105715bc2286050
+> > > prerequisite-patch-id: 0000000000000000000000000000000000000000
+
+--=-VlA8ZcxnzX2eUS2/dkES
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaYDwjAAKCRDZQZRRKWBy
+9M0iAQCQ+75+dFwxPBtQI6SItaSuQV1acKtDid/mlGDfjCw4EQD/Xw6NrgBGFWtL
+nBi1uvDvRI2awNqQROZ2r40kipfvpwc=
+=PVw+
+-----END PGP SIGNATURE-----
+
+--=-VlA8ZcxnzX2eUS2/dkES--
 
