@@ -1,184 +1,471 @@
-Return-Path: <linux-media+bounces-52009-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52010-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id DG6TBeiQgGkj/gIAu9opvQ
-	(envelope-from <linux-media+bounces-52009-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:56:24 +0100
+	id KA8JBp2SgGkj/gIAu9opvQ
+	(envelope-from <linux-media+bounces-52010-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 13:03:41 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F21CBF41
-	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 12:56:23 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A5ACC154
+	for <lists+linux-media@lfdr.de>; Mon, 02 Feb 2026 13:03:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 373FA3046BAC
-	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 11:52:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EA0143002917
+	for <lists+linux-media@lfdr.de>; Mon,  2 Feb 2026 12:01:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F36E36402F;
-	Mon,  2 Feb 2026 11:52:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B54DF3659EC;
+	Mon,  2 Feb 2026 12:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="CPQaZJKT"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YjDvOiRu";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AlfU0hZn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4BD3587D5
-	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 11:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770033159; cv=pass; b=I1z5IEZR2Sn6I45anA6tAFq62tLgzJTHNh7mtxpcM6dlxBxEBot6VdYSskr+AVsQqudfjzpbBwK2l8wvq6qhTAULSaA9HYtu4mM+dFTSV/6b4j5vLrRMNsUySroZQaVvqkbeN8lXJEpvH3AWzU12WGVg7hFzx4oCq7TigKhTsa0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770033159; c=relaxed/simple;
-	bh=bYO5n3kZQyfvDEXwM6OFYs1MAfC3rh/vVjm662kJ2eg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U8xTQDj5TMNJBbjt0KImv9twsLqUGw90BV4U3WuHFF/fVSmP+2NBh0oVJj9qADf8JHNSmtEebLeaG6B2ETa7TxJI3USAhjhBLWcxDtMQNARole7pu7gJM1RYRYd42pmLOhTNlTfUyb63/UrRY33CJE1TyY0pXMinwaTfKB6QOuc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=CPQaZJKT; arc=pass smtp.client-ip=74.125.224.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-64931bbf70cso3698575d50.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 03:52:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770033157; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PtSyMJhYGFUn4icPsISwS8JStlCx3ohDnE8KRJ0D7RUbJZz+UhKJ3T5PSYUJrLK42u
-         MHewKxoHvEJNxUtw8xNZi09AbFcLvMi5mxfeAyZcpAs6eWCmiPdTJ0MJzqAbRPkq9+BN
-         iiwdL/ULIEYr5ZzEWzFXNUlb8Aq1pQoJ5VAfbBJ5zifma8oqw+/7VdKL6OMbYVItP7PW
-         ByUCZrzIDf9nDaU+JZ8SE2FhWvYrYe43Ts1sqYLTJ4iJOmQkSH2j61ljgORjvuVxwVqS
-         lZi/6JaJI7d/e6iW4IxXUmhSXl0BBtGLXktE+swasUmDqn2763aarUgZkbL4kGi4d2nO
-         YNjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=RKJBDzgX/JrOYme6MxuxI7W3qT/HqfAcSTAp4ZI6AvY=;
-        fh=IOrQf867fBZh4cHxGy3rqfDmQlhkoZu17qC5PnSoGfc=;
-        b=RtmlCVScBmHX+9SdAGrdOQyW/8toUvvcat9wQaZLSQPbsOwSHMKMF+hM121i9AAPRz
-         NZLjWTQf32ypx3N4OdGKi1oA3CS0N68EFKohymsQsxZU12JJaiufjlxbdUKEud1NnN0J
-         Zytm6nOErWNSFqDE+uTfpUzIKs2jDR1FIcvN6FkP6xyWYj25p1RAMyJABGlO0aNh9CVz
-         IhQjzfddfTjP9f63KeNxZ55x06fTRygxeLCTh3J5uXRBVu1Rp1UdEG4L6L+9sto1+mw2
-         Eegll1sAwmZ2BcARUB5wznutm9xrzmurfz+G1cA1ILcvi09wF5MoI9SVUmTAUdjxPtW3
-         wOyw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E118365A0C
+	for <linux-media@vger.kernel.org>; Mon,  2 Feb 2026 12:00:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770033657; cv=none; b=kmgWbbFby2LJDVH+yr1EZfsgfK71hziOOBGBDx8m5CvOXdKS0fNkvzbkIeORvTPefU7H0tjiU7Wp/jybkwXPKoUuHLjXS84OvGaB3zvubaqY9sA+T8BIA2J6hy43ySIjSAAlH/ZyhKzmoEOxRqDFP5S1SfdCZMHxr6BDGeqJaR0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770033657; c=relaxed/simple;
+	bh=qA+QitnzbLE/kSSBV3KG8t7nRKD750eX4GqJ/cBqYGs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eX/3e/EUvKyZMqyZ3zlOC6hZ1KHtEpHJGbueGz9u/AaUS4NX5yY9PI8+9qZPP7NyIuFzp2XfW9nHS7fWJJEvihxtes7IRABzWzExaBeeBXR3B6NY/bpHeoB2yFBKp5aeI3wt+BZb/18kISun4JlL2NoA1c4GW3K9sO7rsbMZoG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YjDvOiRu; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AlfU0hZn; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61285b6t582712
+	for <linux-media@vger.kernel.org>; Mon, 2 Feb 2026 12:00:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	s5bjwTruAGT4usAWtLVsTQrDjs5AyqKQr8KVA8EJfRI=; b=YjDvOiRu4X38E5XJ
+	q/k3vxN8oA9LwMiQeoNepcuulBK2lx9I+r7P7A086KCEtm7aIT5xA+9QQ2zI78UE
+	fXeQ4XhXM6ZckWTrcb0YPSgqtGtXJxOzRjUJF6WhjOkAUGjXAX5H4o7G8irJE6vN
+	YcxI3YKjKH4NpEsHe0RQn7J6q77LHiiPzfRkZlPfQ/AmzwrAFlmiwiH1Qufv29B4
+	+Q4oV+3Xtxyz0eefnuxFf6NWe8oA7R+htapfEimiP42ihmbfeLZ6J+ObJ/rENXIr
+	q0xud4fetn699bGN+jXzaV9k0anlD8WlQVEwkVKBh0UePmusr0N3aCM6CVn/XlHc
+	Ebm8HA==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c1ared7xk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 12:00:54 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-354601967f6so967725a91.1
+        for <linux-media@vger.kernel.org>; Mon, 02 Feb 2026 04:00:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1770033157; x=1770637957; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RKJBDzgX/JrOYme6MxuxI7W3qT/HqfAcSTAp4ZI6AvY=;
-        b=CPQaZJKTq6TeCJK+SMNe6TWvKsu5Gld12M7Ckvp8DSvQuAMfBjwTRDar/kR5CIiRS8
-         W9pWzleDfg7bO6LU2+azpb/F+aX27ePwGslJ6EIyATOHl3GOQZHPkqtExzeyMLwPBN3Z
-         TVta0SIQ2r9MgTDibm+ycFkXNNgpgAqTNel03rC1GJC2OYLvuKVMUJD0p0Egdb0ugYTa
-         gGv48iqQKT020eq7HHQgqNyhpw3i58rKYMTfGMJR9cpx46CfjsRZyzmhBWakKvO/or4Y
-         PRnoLaj9QlzjAsqAj87UDPmddvxInBGU65cUnhw45p9JMH3Q5quS6ENl5Lw1iD7ABP5G
-         zEXw==
+        d=oss.qualcomm.com; s=google; t=1770033653; x=1770638453; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s5bjwTruAGT4usAWtLVsTQrDjs5AyqKQr8KVA8EJfRI=;
+        b=AlfU0hZn0FG3ecJntq6Ix63Bif0OwF6rVBv6eiy3KFksqeYJz0mAivuLXJDRiuzZud
+         C7eyAD1MfGPyAdCEmnqSNVgUdzVWqY+Wmy16hhHFC+mx8Fgs107uYoTPXlh1UI4CUOYj
+         2RXQLytZN+TAu3NXYeTiLDqCK5Yih0fVLJGTJzPS1WbeJjIY+LJiOYv0o4uaHv5kf8kP
+         SM8YUZhgnnY4CafZDXzpITQMRrdiYabjHdml0qu4vXTUb5OQeDiTS0WiU8VPe8qV6oSd
+         GBw9kTO3xmlQyz/SQtBrXZIE3ym3GM2HJie4CmOYR0h43+acebDRQ9CfrluWzer07hqs
+         5loQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770033157; x=1770637957;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RKJBDzgX/JrOYme6MxuxI7W3qT/HqfAcSTAp4ZI6AvY=;
-        b=IYUjFQHjoK8n7MxujATfm8gBHHAPbej2zME19QwqaNjcz0uKcgR+N6ru3gwwmSBlgK
-         2yuQl3p7n+6yFx1Z6x7nPZl6lYoBPWJ/h2/SuQQZh+6D22FK7fjFfavJri0BwKANtPbA
-         8KLLrbWnV9XhRVHhNdPLVoNWAON97DA1pnBigTdm1aytumGwMgpEr/B3LcW5MF+RQ59o
-         HAlzdpX3iDNW2O1iXP2SiarBGBee01qfzIYUQxdOQatqdZ3MxbBVjIVuAB+Xvf72e4L9
-         1+5ZN2/kr90TIKVWkVaim8CiUwago1ItINo/dfE8bxeyhehv4NaskqS7qu5IPJ4cN33f
-         o/MQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXrrLt3FuvkYhFPf9QTxgtpvyBMaaNRDZhg+4fT4Moz2WLGA7+pDeBAsofSHvAWASxJTAol+UyXCd2QGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyxhplw5+wGfrh/eT6G1sZDxvrY03PSKYE7a2E5M0TaZd+ktubP
-	c34AYA0DBoNttjT8MRlctA9bdC8QaDkTZF7fNZZGwQMAGuQv7bbBFH2Vwiy3/FGdZV/WAeVw1Ol
-	RbcAqOWAn3V0C3SAwRW8bJr2/uMNM+FAJ8tGWr5GmlQZhwcsnHSk6
-X-Gm-Gg: AZuq6aL8n2mzBnyndsRitQibPyOM7Nek29ax5cgycYR46Nyj5f4MBj413igkYbaOrAP
-	HWFONYqVYnsgnPQuIb/xBLlnSPO+UmSZfISmhZNluaLiSJwnphLHGZ8oGBvbIUoOSOpKwEV6OJV
-	d1N2lec2BRSrcK4xKkiNewO7p85c9FMHQbXc449w/X2q7cpGE0hgQQZo6BENH+eQSmm6Pjehl1X
-	ByicIZN/dWk9gmF2ev56JctEja6dEj4ID3KTqwJ0OZLX4nt6vKDY/iN2QaiMg7nwU/3H+i/6HlG
-	mVGGjNRFy85yNsuNSEdaCXVK1kI=
-X-Received: by 2002:a05:690c:f91:b0:794:747b:b6bb with SMTP id
- 00721157ae682-7949df20bf5mr217367617b3.23.1770033157315; Mon, 02 Feb 2026
- 03:52:37 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770033653; x=1770638453;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s5bjwTruAGT4usAWtLVsTQrDjs5AyqKQr8KVA8EJfRI=;
+        b=ULEB7O91GRZ83A57k7suvdHgn5QaAmpaw8W9bp3t0EOWX4DB+XCruP9jKxXo0IMY+w
+         Vs3BIaP9G2CbdXxxJn8K4jXI+5L/1aymkSQ1IjzniKmnNw5+EWsXakNp17Pd3JpZ+mQW
+         fI4aibfjAdOLoALFNfqEF/jMwSdbbScsc/zT+bmpTm9R0Luan9Kac+McE8xZBqsbIZWb
+         VKVBuW/zRwk292wxPD9CX0GoFFWTLpqFF4Qod/m1CnY4gtR87lmWJUzYy+64FTmJdh9h
+         vKEmIXLjx24o6hpFQVg3kCWcEB/lBCmDJM5N5uAAFCMI5ueFgf7T72kvhBR+5Irg9ANr
+         1hxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2JSbjlQlPrt3XfK1ccebCWzSxWfrWATdv05DdWO7Er+KQj9JZJqndFrgf1qLmkpNDqVwUzEr1WyOifA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxl3HzCRSHEM3BM3+YXXuQh6sDNY1DRhdlj38uOMp6KVoDoqimg
+	ENSqXl+nz94jff/Ss4QWbWB8Brtg9Ac9/r8NKYfsnpSleEHrpIg8hsjr1LvsbpDg0DA1y+oy4zy
+	j1wRVc3HKoHg6HIdOwGol9kXYNYUUf/TH3iVZlRV/Vus53yzQ+F+CAxH/c8AaFvbx9Q==
+X-Gm-Gg: AZuq6aJF9d/WNVG0gTrJNTUyx28EV290pvcDFIGS2mFsg6VGG01+Sqt2C+VlkTr72Cw
+	tJwtuF5hfQQY+AAKDSPw55tfrHbK1LmNnAeBt4ByD3ffZlA8azTjP2Z/aML8LObQCW7820MG0b7
+	CEVJ40B9JXx7tevlwJp94+3BDGSWxVwConxQYXZ/8b0jhh5xIFmlO0/GzmqM0c3maUbwIH8jpAL
+	n2n1wRQpAnCyvUUVLX+S1Ka9ywKJxCVGWrqRUB53C2q5ZgNzMlTHkOzVlh5hZkDvzgqx8NvcXzm
+	jZJJSQo1+5C9NyXF37Wte9vTSPesJNXetFECW5ZC1uVK9HEkUDLiNawvFOLJxI2fe7fZUbL6mEa
+	3ywsufGRU0dfrCOEfYFXdAEqEjVCzu8sKTMuHe3C44Q==
+X-Received: by 2002:a17:90b:268b:b0:34a:8e4b:5b52 with SMTP id 98e67ed59e1d1-3543b2e003fmr9436109a91.8.1770033652504;
+        Mon, 02 Feb 2026 04:00:52 -0800 (PST)
+X-Received: by 2002:a17:90b:268b:b0:34a:8e4b:5b52 with SMTP id 98e67ed59e1d1-3543b2e003fmr9436072a91.8.1770033651918;
+        Mon, 02 Feb 2026 04:00:51 -0800 (PST)
+Received: from [10.204.100.98] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3540f2f24ccsm20194527a91.8.2026.02.02.04.00.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Feb 2026 04:00:51 -0800 (PST)
+Message-ID: <74150529-9ace-443a-aa00-2490b0897574@oss.qualcomm.com>
+Date: Mon, 2 Feb 2026 17:30:43 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260202024024.3911367-1-nichen@iscas.ac.cn>
-In-Reply-To: <20260202024024.3911367-1-nichen@iscas.ac.cn>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 2 Feb 2026 11:52:20 +0000
-X-Gm-Features: AZwV_QjURaC25hnlzzTAdmM6uxVrIr_kSMhVT-ED5WpUb77qNcisx5Uei7Ve59Y
-Message-ID: <CAPY8ntCMX0kY223uW1vzh4xs9xcdJ41j6pPJ8k=13V5Kvw=WzA@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: imx219: Check return value of
- devm_gpiod_get_optional() in imx219_probe()
-To: Chen Ni <nichen@iscas.ac.cn>
-Cc: sakari.ailus@linux.intel.com, mchehab@kernel.org, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] media: iris: add context bank devices using iommu-map
+To: Robin Murphy <robin.murphy@arm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+References: <20260126-kaanapali-iris-v1-0-e2646246bfc1@oss.qualcomm.com>
+ <20260126-kaanapali-iris-v1-5-e2646246bfc1@oss.qualcomm.com>
+ <02b3d0f5-f94c-43cd-93af-97cfcf7751b1@arm.com>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <02b3d0f5-f94c-43cd-93af-97cfcf7751b1@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=NNfYOk6g c=1 sm=1 tr=0 ts=698091f6 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=8ZOrhM5FIgLh972jGGIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 1BLtgXUlePRK1f9Qc27_ju2dj9clGIvN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDA5MyBTYWx0ZWRfX/D7bcaFzWmFU
+ tF5rlr/eGwPxRxZ/xMDNkxmZY33z0aew6PaRi8wnaZfkTDSfD9WEe+/jQcB6FXVTpMeVebB/3Wq
+ j2ed68gVLAdTRYzGGccUAgpzutppRHTHajbcg8JghDu+/BBA5DEQoXZYu1/AYMCAwRTgq5ZljH3
+ IU4I7fY/VEYak1A/yD8XRss9Cxrk5p5nW70PLtEFcg2pKeV235q1yZ7cShtwbgZdXHvHGvMeKyu
+ uAzaPM+lBf62mjy4kmdLUTi2E2ZIN5XjFIkjItRpEdxjf7L8+54fHrF+lVJlhZpxUwH3YQvi5gw
+ E9L787iB3gv5FQofVS/8PcZSiGimq+ZfIHf6p5zkRxc053ItWI5eZP4FBMc37FsuIhntRjwDX2n
+ weRuvQXn73lkBFwnLIiFJ23mP38WxC3SgzkPh4lkmB9kyk741diTGi0J+HL7OAFWid0lxBJCh+L
+ 8suqz9EkpwwtAdJ15+w==
+X-Proofpoint-ORIG-GUID: 1BLtgXUlePRK1f9Qc27_ju2dj9clGIvN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-02_04,2026-01-30_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 adultscore=0 priorityscore=1501
+ clxscore=1015 suspectscore=0 spamscore=0 phishscore=0 bulkscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602020093
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
-	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52009-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52010-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[raspberrypi.com:email,raspberrypi.com:dkim,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 63F21CBF41
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 41A5ACC154
 X-Rspamd-Action: no action
 
-On Mon, 2 Feb 2026 at 02:41, Chen Ni <nichen@iscas.ac.cn> wrote:
->
-> The devm_gpiod_get_optional() function may return an error pointer
-> (ERR_PTR) in case of a genuine failure during GPIO acquisition,
-> not just NULL which indicates the legitimate absence of an optional
-> GPIO.
->
-> Add an IS_ERR() check after the function call to catch such errors and
-> propagate them to the probe function, ensuring the driver fails to load
-> safely rather than proceeding with an invalid pointer.
->
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 
-Thanks for the patch
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On 1/27/2026 8:19 PM, Robin Murphy wrote:
+> On 2026-01-26 12:25 pm, Vikash Garodia wrote:
+>> Introduce different context banks(CB) and the associated buffer region.
+>> Different stream IDs from VPU would be associated to one of these CB.
+>> The patch ensures to handle CBs which are described as iommu-map in DT.
+>> Multiple CBs are needed to increase the IOVA for the video usecases like
+>> higher concurrent sessions.
+>>
+>> Co-developed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+>> ---
+>>   .../platform/qcom/iris/iris_platform_common.h      | 29 ++++++++++++
+>>   drivers/media/platform/qcom/iris/iris_probe.c      | 55 ++++++++++++ 
+>> ++++++++--
+>>   drivers/media/platform/qcom/iris/iris_resources.c  | 35 ++++++++++++++
+>>   drivers/media/platform/qcom/iris/iris_resources.h  |  1 +
+>>   4 files changed, 116 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h 
+>> b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> index 
+>> 5a489917580eb10022fdcb52f7321a915e8b239d..d2d7c898fc8ef0de1b16aebd72681ea3c5b736ae 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> @@ -204,6 +204,33 @@ struct icc_vote_data {
+>>       u32 fps;
+>>   };
+>> +enum iris_iommu_map_function_id {
+>> +    IRIS_CB_NON_SECURE_NON_PIXEL    = 0x100,
+>> +    IRIS_CB_NON_SECURE_PIXEL    = 0x101,
+>> +    IRIS_CB_NON_SECURE_BITSTREAM    = 0x102,
+>> +    IRIS_CB_SECURE_NON_PIXEL    = 0x200,
+>> +    IRIS_CB_SECURE_PIXEL        = 0x201,
+>> +    IRIS_CB_SECURE_BITSTREAM    = 0x202,
+>> +    IRIS_CB_FIRMWARE        = 0x300,
+>> +};
+>> +
+>> +enum iris_buffer_region {
+>> +    IRIS_NON_SECURE_NON_PIXEL    = BIT(0),
+>> +    IRIS_NON_SECURE_PIXEL        = BIT(1),
+>> +    IRIS_NON_SECURE_BITSTREAM    = BIT(2),
+>> +    IRIS_SECURE_NON_PIXEL        = BIT(3),
+>> +    IRIS_SECURE_PIXEL        = BIT(4),
+>> +    IRIS_SECURE_BITSTREAM        = BIT(5),
+>> +};
+>> +
+>> +struct iris_context_bank {
+>> +    struct device *dev;
+>> +    const char *name;
+>> +    const enum iris_iommu_map_function_id f_id;
+>> +    const enum iris_buffer_region region;
+>> +    const u64 dma_mask;
+>> +};
+>> +
+>>   enum platform_pm_domain_type {
+>>       IRIS_CTRL_POWER_DOMAIN,
+>>       IRIS_HW_POWER_DOMAIN,
+>> @@ -246,6 +273,8 @@ struct iris_platform_data {
+>>       u32 inst_fw_caps_enc_size;
+>>       const struct tz_cp_config *tz_cp_config_data;
+>>       u32 tz_cp_config_data_size;
+>> +    struct iris_context_bank *cb_data;
+>> +    u32 cb_data_size;
+>>       u32 core_arch;
+>>       u32 hw_response_timeout;
+>>       struct ubwc_config_data *ubwc_config;
+>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/ 
+>> media/platform/qcom/iris/iris_probe.c
+>> index 
+>> ddaacda523ecb9990af0dd0640196223fbcc2cab..c1a6aac5a3d65d980c5a34ba5fa1c1dbcf790ec5 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+>> @@ -123,6 +123,37 @@ static int iris_init_resets(struct iris_core *core)
+>>                        core->iris_platform_data- 
+>> >controller_rst_tbl_size);
+>>   }
+>> +static int iris_init_context_bank_devices(struct iris_core *core)
+>> +{
+>> +    struct iris_context_bank *cb;
+>> +    const __be32 *map_data;
+>> +    int tupple_size = 5;
+>> +    int i, j, ret, len;
+>> +    u32 fid;
+>> +
+>> +    map_data = of_get_property(core->dev->of_node, "iommu-map", &len);
+> 
+> If despite proposing all this hackery in the common OF code you're then 
+> _still_ going to open-code your own parsing of the property, with hard- 
+> coded assumptions to boot, then clearly this is not the appropriate 
+> approach at all...
+> 
 
-(Apologies to those directly on the cc for the earlier HTML version of
-this R-b. Google appears to have updated the composition settings for
-me, and I hadn't noticed)
+Ack, we should avoid parsing this in video driver.
 
-> ---
->  drivers/media/i2c/imx219.c | 3 +++
->  1 file changed, 3 insertions(+)
+
+>> +    if (!map_data)
+>> +        return 0;
+>> +
+>> +    len /= sizeof(__be32);
+>> +
+>> +    for (i = 0; i < len; i += tupple_size) {
+>> +        fid = be32_to_cpu(map_data[i]);
+>> +
+>> +        for (j = 0; j < core->iris_platform_data->cb_data_size; j++) {
+>> +            cb = &core->iris_platform_data->cb_data[j];
+>> +
+>> +            if (fid == cb->f_id && !cb->dev) {
+>> +                ret = iris_create_child_device_and_map(core, cb);
+>> +                if (ret)
+>> +                    return ret;
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static int iris_init_resources(struct iris_core *core)
+>>   {
+>>       int ret;
+>> @@ -139,7 +170,11 @@ static int iris_init_resources(struct iris_core 
+>> *core)
+>>       if (ret)
+>>           return ret;
+>> -    return iris_init_resets(core);
+>> +    ret = iris_init_resets(core);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    return iris_init_context_bank_devices(core);
+>>   }
+>>   static int iris_register_video_device(struct iris_core *core, enum 
+>> domain_type type)
+>> @@ -187,6 +222,8 @@ static int iris_register_video_device(struct 
+>> iris_core *core, enum domain_type t
+>>   static void iris_remove(struct platform_device *pdev)
+>>   {
+>>       struct iris_core *core;
+>> +    struct device *dev;
+>> +    int i;
+>>       core = platform_get_drvdata(pdev);
+>>       if (!core)
+>> @@ -194,6 +231,14 @@ static void iris_remove(struct platform_device 
+>> *pdev)
+>>       iris_core_deinit(core);
+>> +    for (i = 0; i < core->iris_platform_data->cb_data_size; i++) {
+>> +        dev = core->iris_platform_data->cb_data[i].dev;
+>> +        if (dev) {
+>> +            platform_device_unregister(to_platform_device(dev));
+>> +            core->iris_platform_data->cb_data[i].dev = NULL;
+>> +        }
+>> +    }
+>> +
+>>       video_unregister_device(core->vdev_dec);
+>>       video_unregister_device(core->vdev_enc);
+>> @@ -277,9 +322,11 @@ static int iris_probe(struct platform_device *pdev)
+>>       dma_mask = core->iris_platform_data->dma_mask;
+>> -    ret = dma_set_mask_and_coherent(dev, dma_mask);
+>> -    if (ret)
+>> -        goto err_vdev_unreg_enc;
+>> +    if (device_iommu_mapped(core->dev)) {
+>> +        ret = dma_set_mask_and_coherent(core->dev, dma_mask);
+> 
+> Huh? Why would this be conditional? If it's a DMA device then it's a DMA 
+> device, regardless of whether an IOMMU driver happens to be present or not.
+
+added to support existing DTS which have iommus property. For parent 
+node, not having the iommus property and dma_set_mask_and_coherent is 
+called for parent device, it errors.
+
+> 
+>> +        if (ret)
+>> +            goto err_vdev_unreg_enc;
+>> +    }
+>>       dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+>>       dma_set_seg_boundary(&pdev->dev, DMA_BIT_MASK(32));
+>> diff --git a/drivers/media/platform/qcom/iris/iris_resources.c b/ 
+>> drivers/media/platform/qcom/iris/iris_resources.c
+>> index 
+>> 773f6548370a257b8ae7332242544266cbbd61a9..647f6760f2b7a6bab8a585a13eb03cf60a9c047e 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_resources.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_resources.c
+>> @@ -6,6 +6,7 @@
+>>   #include <linux/clk.h>
+>>   #include <linux/devfreq.h>
+>>   #include <linux/interconnect.h>
+>> +#include <linux/of_device.h>
+>>   #include <linux/pm_domain.h>
+>>   #include <linux/pm_opp.h>
+>>   #include <linux/pm_runtime.h>
+>> @@ -141,3 +142,37 @@ int iris_disable_unprepare_clock(struct iris_core 
+>> *core, enum platform_clk_type
+>>       return 0;
+>>   }
+>> +
+>> +int iris_create_child_device_and_map(struct iris_core *core, struct 
+>> iris_context_bank *cb)
+>> +{
+>> +    struct platform_device *pdev;
+>> +    int ret;
+>> +
+>> +    pdev = platform_device_alloc(cb->name, 0);
+>> +    if (!pdev)
+>> +        return -ENOMEM;
+>> +
+>> +    ret = platform_device_add(pdev);
+>> +    if (ret) {
+>> +        platform_device_put(pdev);
+>> +        return ret;
+>> +    }
+>> +
+>> +    ret = of_dma_configure_id(&pdev->dev, core->dev->of_node, true,
+>> +                  (const u32 *)&cb->f_id);
+> 
+> No. As I already said before, of_dma_configure() is for bus drivers; if 
+> you want to act like a bus, implement a proper bus_type with 
+> a .dma_configure callback. If you don't want to do that then describe 
+> the individual functional blocks of the codec appropriately as distinct 
+> devices with distinct hardware properties so the platform bus code can 
+> handle them correctly. It is not reasonable to advertise physical 
+> hardware to Linux as a single monolithic device, but then have a driver 
+> try to pull a "well actually..." by abusing all the internal 
+> abstractions. The fact that you might happen to avoid the warning from 
+> iommu_probe_device() because you're not binding drivers to these fake 
+> platform devices doesn't make this design any less wrong.
 >
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index fee63bc106d9..7da02ce5da15 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -1218,6 +1218,9 @@ static int imx219_probe(struct i2c_client *client)
->         /* Request optional enable pin */
->         imx219->reset_gpio = devm_gpiod_get_optional(dev, "reset",
->                                                      GPIOD_OUT_HIGH);
-> +       if (IS_ERR(imx219->reset_gpio))
-> +               return dev_err_probe(dev, PTR_ERR(imx219->reset_gpio),
-> +                                    "failed to get reset gpio\n");
->
->         /*
->          * The sensor must be powered for imx219_identify_module()
-> --
-> 2.25.1
->
+
+VPU would have _only_ distinct stream-ids for distinct hardware sub 
+blocks, would that classify them as distinct devices with distinct 
+hardware properties so as to use platform bus ?
+
+Here is what i posted earlier with "iris_non_pixel" as one of sub-block,
+
+https://lore.kernel.org/linux-media/20250627-video_cb-v3-1-51e18c0ffbce@quicinc.com/
+
+Regards,
+Vikash
+
+> Thanks,
+> Robin.
+> 
+>> +    if (ret)
+>> +        goto error_unregister;
+>> +
+>> +    ret = dma_set_mask_and_coherent(&pdev->dev, cb->dma_mask);
+>> +    if (ret)
+>> +        goto error_unregister;
+>> +
+>> +    cb->dev = &pdev->dev;
+>> +
+>> +    return 0;
+>> +
+>> +error_unregister:
+>> +    platform_device_unregister(to_platform_device(&pdev->dev));
+>> +
+>> +    return ret;
+>> +}
+>> diff --git a/drivers/media/platform/qcom/iris/iris_resources.h b/ 
+>> drivers/media/platform/qcom/iris/iris_resources.h
+>> index 
+>> 6bfbd2dc6db095ec05e53c894e048285f82446c6..b7efe15facb203eea9ae13d5f0abdcc2ea718b4d 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_resources.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_resources.h
+>> @@ -15,5 +15,6 @@ int iris_unset_icc_bw(struct iris_core *core);
+>>   int iris_set_icc_bw(struct iris_core *core, unsigned long icc_bw);
+>>   int iris_disable_unprepare_clock(struct iris_core *core, enum 
+>> platform_clk_type clk_type);
+>>   int iris_prepare_enable_clock(struct iris_core *core, enum 
+>> platform_clk_type clk_type);
+>> +int iris_create_child_device_and_map(struct iris_core *core, struct 
+>> iris_context_bank *cb);
+>>   #endif
+>>
+> 
+
 
