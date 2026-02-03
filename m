@@ -1,323 +1,2471 @@
-Return-Path: <linux-media+bounces-52101-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52099-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8OweHRHPgWl1JwMAu9opvQ
-	(envelope-from <linux-media+bounces-52101-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 11:33:53 +0100
+	id GGc2NsHNgWl1JwMAu9opvQ
+	(envelope-from <linux-media+bounces-52099-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 11:28:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DCCD7BFB
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 11:33:52 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B16B9D7A19
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 11:28:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 154BE3131D77
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 10:28:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 747E33004620
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 10:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93B4E318ED6;
-	Tue,  3 Feb 2026 10:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E499E31B823;
+	Tue,  3 Feb 2026 10:27:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5pktEoRP"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LKt7WRDP";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="U268SWG5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012039.outbound.protection.outlook.com [40.107.200.39])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A506A2F872;
-	Tue,  3 Feb 2026 10:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770114498; cv=fail; b=QHCetoY5XZ9CiTkVF5054mIyfbbJdDxLUJjFBTe9448PR0eI4E8WYrZ7E2/70Xx8LAHe2xmQuCIyrUxEmKxT/eil6c5Os/BkJBMuoNcZrlepCNNs2/apDSnYR8TQTZYuCF79MBbqIv9dgawjr0RUVK35cz9HEycTNRXI6TRSAt4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770114498; c=relaxed/simple;
-	bh=nn9AClTJRb11yNyZO/10gWKoSVuH+i/2Q6Ke29N88IA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m4lvtMnxKBvli9ZlpWvTnGrO/YI/dqJYwxgGHxb0+/jYnnQ3ziWPj55wzbeRySYryRXb7crOxO6JH/h8i69Cvjr+NHuTcITGXM48FV5feF6VGbOsamiD+bjBcEVTVfJafsaDeFN0geJl8jgDvoWo8cNpa0e3OJxjZUjfL7IB7FQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5pktEoRP; arc=fail smtp.client-ip=40.107.200.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n8IakOa4ophdAW3xs4/ocpYRpycKy11binzIJD+rO1YlgoIjv/f5x1aYfP3W2AZGgTMVwv4bOpnuRfGA6Z0jDN/an0xV3Q3YXI5W1m69EZ/iilD9L64qhV4TuEew9ZOSppCgf7DSdZHW1N/gvZrMp0UjxfNQ250LeOCy4stqusQ6pqGf+BqrO6MtvO7A8C1qJT1YSyG6+enE0qyUMbiLXAJtLQzmPUlzLP0hcle/wjEhJxWKkdyIBs/m03wrYcIpR4VGsmLylmN/oq5UU9dgo2kTcdp9BiP6phiScjb/EbUImqmDZLv6s2pHhPkKAeJGhnUFrf3Qqcm3Ma/LP/GW9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xboBfU4k403mlrk8kaFfJ1D6MYgw8nbBFKHpiR8qp04=;
- b=KVlbCxu7rtsNVyTL06+EDVep91vXUHUCio7A4cuDq3/7iy8h0L0oCUHK57qGbdJtsGNlSv1b99VuglIqpV2LvcNH5Ln9ZS1BmtblV9M0A6J2P/ergLfqGI0s+Vrl1lxk862Qpbn1Q2LxqPTg3Sb3r3xCl3vXnicAQLUHMAlRBUZGQ0lvb9+YzC1l9470Hrg2k+TbipSLNpITZ7dzVowiCnf+bVyjCLQ9JlfocLsfDrVkAuQW4suhHNAUjJMOBw/MWvzfB73qieaSAEEnvidOhO+ygfu4p1L4glL244wl/MxrpsSQMhOYuu321YT5/xCu3pZQ+izVO97mAPZyWcGa/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xboBfU4k403mlrk8kaFfJ1D6MYgw8nbBFKHpiR8qp04=;
- b=5pktEoRPF5fPE/QQIp5qohktg0hR08pxDxAT3pojEWfByL5nyGmpg6Id6UfYde070pLoRRzplYml39SUsa/JhNc/xEVfXfch9T8DNciQkXA0z5ZvXdGfgACS570W1dDfwDdXL5Vd4xAaDBTZETPYTsOhVLCEpxxh92HGieOnHUU=
-Received: from MN2PR20CA0044.namprd20.prod.outlook.com (2603:10b6:208:235::13)
- by SJ5PPF816B88375.namprd12.prod.outlook.com (2603:10b6:a0f:fc02::99b) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Tue, 3 Feb
- 2026 10:28:10 +0000
-Received: from BL6PEPF00020E5F.namprd04.prod.outlook.com
- (2603:10b6:208:235:cafe::8c) by MN2PR20CA0044.outlook.office365.com
- (2603:10b6:208:235::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.12 via Frontend Transport; Tue,
- 3 Feb 2026 10:28:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF00020E5F.mail.protection.outlook.com (10.167.249.20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Tue, 3 Feb 2026 10:28:10 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 3 Feb 2026 04:28:01 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
-	<sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v4 11/12] drm/amdgpu: rename amdgpu_fill_buffer as amdgpu_ttm_clear_buffer
-Date: Tue, 3 Feb 2026 11:22:18 +0100
-Message-ID: <20260203102236.3456-12-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260203102236.3456-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20260203102236.3456-1-pierre-eric.pelloux-prayer@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D152D97A5
+	for <linux-media@vger.kernel.org>; Tue,  3 Feb 2026 10:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770114440; cv=none; b=VKQ6JBxpMt+otGQHFYBpLZ6l1GHPTnCvAR4gmJrvtec10XvPFZh4x1Vq+hF6Nx6jXi3iweCZ2kaOMdx9/D7Ni9zniRCYp+t5O9cewOJaau6r5SVNVxvepm146iHGUqfgZFnGeEG0WlIxZklvF3gRsDegbPE6G8I94+zDTo2AFew=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770114440; c=relaxed/simple;
+	bh=RN7saYJFHPz3hLuw+02uX5v0h2HBugdWFHu9MqZrqT8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=s43qU6K5uzod/nv44AFIuVinkubQzVzfL9tGhjMQwC+3MYJ4HJMgFfFv3V1JOeXEzHh9eCUKagrBm4aYNbt/1V9bAGoSPplYFV9M9h5nQqbc/Ly8AlXCZJBF39SD11aeXZoyz1AZuOrVqlcxYcHoQ9dYT1tmnt/M9unReRThCQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LKt7WRDP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=U268SWG5; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6136V2OB277541
+	for <linux-media@vger.kernel.org>; Tue, 3 Feb 2026 10:27:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DOiKkAryeR4cVh5NaMfAP3GNMqr+vgUopJTYbKrHBq0=; b=LKt7WRDPYyS0Vyeb
+	qgBMvh9HJIg2FoBHQcPWWCOdBJX+M0UWNwH4C/ynC0h9B+O8wJzoBrfiejDNAoz/
+	SPXMqlJYXXVmi+oJ51qEQBsjHwnKv/J0b8P8cX5/lrYj+XKNhkj+7UmF1dcaepoE
+	qYwQaLEnR+47vgJS9VwCD03KAclC2bUKF6bzkwMJByjYoJhyvQD33+g6k7ZPc0e/
+	uUzS8X3cj3Yl0dkQBT64KTZ8GWo/kbYnLhd3RMbnvs72zJxAPVC387sxU+GV88In
+	BX6cf7atNunTeskK3UdWkfcT/51vGK9CiIcpfbWPajVnFB4cReMRSwxWgcAGBAEZ
+	UePMaA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c32s3a8sg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 03 Feb 2026 10:27:15 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8c52c921886so634695785a.2
+        for <linux-media@vger.kernel.org>; Tue, 03 Feb 2026 02:27:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1770114434; x=1770719234; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DOiKkAryeR4cVh5NaMfAP3GNMqr+vgUopJTYbKrHBq0=;
+        b=U268SWG55rzj1Ct3EYFWPp8u92n3urg/We6V0IBWo2p70NP+K7wum/oPyMvFxBNdL6
+         4k72ODzTLoAWTt1EvyrmU/BjNo71f+zxXRM1uITGRYdEiOEm6+bB0hteryA07C1WdSPD
+         YkEUktu/0cSHWLFzE9HPzeauxA2VaUn8gdZxQ1Rnja7l9aIBtzA1463v5ZpzrvlPko50
+         yT+0secl5Hvo4nkZ+6cxtV97IWI/eOP4u/hnVQbGCGwYfq+p17+7qCCHG9mzGn+TsKOc
+         Tddr9Zso8jJYAmX0sTf+FskHqmZwJNiJqnbosPUN+LjlXK9dpiQU3PhZDUQ4ScG2xQS5
+         TyPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770114434; x=1770719234;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DOiKkAryeR4cVh5NaMfAP3GNMqr+vgUopJTYbKrHBq0=;
+        b=jdYV8m/yz4C6rkdu1AeRicIiGsjCO1EHEnGqtsu3OVcq390NZIw9tLMax80OheawN+
+         NbWXSKLFimC7kigQfA4/J586bGZSRnGOUTVew4RCPZXpn8nE0768UJCFWM2EggLvhJ2n
+         VZJBs63XA7XD96oBPde1E6y3q8tZZGeaJq5D5qbtjazFmAis28y5lFN9VH768IOiScp3
+         m59TELbfER+PmQg9Al05q463itCmjRreNYdgGxPG8j9NyIb5tIr3nZdxpOmaUC/TmIQF
+         WV4/7QokUSApjj21rCejSypqeleXLzBh2zEWpB+/bQN4jVbAihnH3xwnNLP/StnXwj/b
+         J98w==
+X-Forwarded-Encrypted: i=1; AJvYcCW0moSW0mkFlH6MY2MgVW/S/IcVXuj2+ynIYuUnMtsQAOPYN1Yn0RmR95nUXlWJ/iEZX/tNWyLNv46l3g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMXVij5Ax52JQcTQ1UNp7d1xmeyZcjq+nK4Ho4WGMs0/c11QJI
+	kTSrZMk90JH3SvDHxn1cd8gzIpM5ZRdqO50tx7Dvr3D4k9E9sV50NtFCsDRiRIkTBjU/WJ3H+uQ
+	MRC5GvSEIbQvuXv9w6T0zGtPVhQqyT6Jsz/pJg1nNrR/ek+B8TUGeTkcBjAQs7xpqTQ==
+X-Gm-Gg: AZuq6aJV2J/CPoXpLb9GKMwK/wsN8rwz8+1lkzJuy/rwslpsbBuCn7ngPrMMFidbow0
+	HkQTRc6nk1fzVqRkYYIGZEPQjGpLszzMiRoqYDLTEzbh04RjGXwzB+zphkNzE3xSOpjAF215xFS
+	W8ouGzXmNeZjOEcelUGmgEnU8DJVZdST0ZZgUtJ73hIWRpppcMvCKioRzGOYzC9tlES1qR7aTAX
+	d+0xA6nUhPGBew0peykqWuiI2C3UHcZ0eFfQMsdX+uGXrZisynL8d6XXrRZGhBEY0Bs+V1A0c+B
+	FdUF67FUm5czJ1H8ryiR63jjUq6+Wwgk2WbHqhFmVLkY1oBotAtEpE/8tMZeF5Cj+Jr8NYJENjp
+	idiS/L4255d+EX3UyXbIzjECdn4qus0eIwU1Z4yZfEsWP1iklJ4qP/fjJrIpNfiGwKmjsYRRPF7
+	onCEqKsuoREjFKler4r8laPOLrRvSOSEpBFAWb4We9ccYXaLM+rMh9DQHNA8Yxc1A6/mrWswIz3
+	2X9
+X-Received: by 2002:a05:620a:1a9b:b0:8c6:db05:8eb5 with SMTP id af79cd13be357-8c9eb32b091mr1810204085a.67.1770114433316;
+        Tue, 03 Feb 2026 02:27:13 -0800 (PST)
+X-Received: by 2002:a05:620a:1a9b:b0:8c6:db05:8eb5 with SMTP id af79cd13be357-8c9eb32b091mr1810200085a.67.1770114432472;
+        Tue, 03 Feb 2026 02:27:12 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-658b4256a92sm9030831a12.5.2026.02.03.02.27.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Feb 2026 02:27:11 -0800 (PST)
+Message-ID: <6b192c71-c389-4a6e-b7c3-ddcd5cc4aa34@oss.qualcomm.com>
+Date: Tue, 3 Feb 2026 11:27:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E5F:EE_|SJ5PPF816B88375:EE_
-X-MS-Office365-Filtering-Correlation-Id: f824f133-aa63-41c0-20d9-08de630eed9f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YXM3QjJrN1YxR1NSemdOM3ZjSFNvOUlyKzVXcmxQSTJFcEFkWWFsU1dVVVFM?=
- =?utf-8?B?blcvWVBzNEVJT3h1VHJGVlNtVVplNzFQekI5OWcrMCtoaTRncVJzVm1rL1lu?=
- =?utf-8?B?NFFtbUVlTGxWdWNyV1pPTW9JQjVDUk1SeVowNk50RHhObktsNGcyQU1lbVBv?=
- =?utf-8?B?WmhQNUhhWlZMM1JXd2FQZU1Mc29jalNyUDluMTJvcnIreWJuYVNObWViWHp0?=
- =?utf-8?B?RzhxQkdjbWhzRnE5ODFKd0VJcVduTHJNL3BvWElOMGYyeTA0dHNuZjRZVEVh?=
- =?utf-8?B?dkNQZ29tKzlPbG05NjBqSmx4b3Z0dDFLWUtYUHlGTkhvbFNiek1tSC9TTndy?=
- =?utf-8?B?NzUxMDBEeUtwTU9EY2YzRiswYjI2S0VQbk5HbnFKVm1xZDVjYzB4VEpTcXdQ?=
- =?utf-8?B?U2N5UHhKOUc5bHFwZisrMnZ4amlxT2NTR1NsQWcwaS9iVFhyNDhVZlhvdDZl?=
- =?utf-8?B?U0xsbzhDYkRnMTgvRmk5WmxjOVhTSXdwUnNIaS85SDJVZTFlcFQ4N3JCdnk1?=
- =?utf-8?B?UGNBWk5TSVBzaHhhejF6aHhPNWVMeDI2S0RPc2R3OTcrbEdybVpGOTdSWWlZ?=
- =?utf-8?B?ODRsRXA1VnFDd0I5ckxuMVBOWVQrSTQxOGtYVFpVSVJiUS9GT2J4V2ZKK2NE?=
- =?utf-8?B?UHlpUGZ6ekMrVU5SbDdueEFzZjBCMFN0ZnZ0ckVZY0txOVlCblA0dDZlL3Z4?=
- =?utf-8?B?ZkxoaVhPWGh6N2l4NmJKejZNcU9XM0ZVUU9hR2psUFJDUkhRdjlVVW9hQ2JH?=
- =?utf-8?B?NWlmVXk2Mkh3SjRPSWxBMTBBN1g3U0lQWmZ3K0J2Z1oySUNPcnF0eWw4RjVL?=
- =?utf-8?B?SUdtbUZpN2xWNEpFc3QyaEQySjZJZ09JZXZuK09tQTF4b2plZHdhSS9zKzhv?=
- =?utf-8?B?U2N0ZFJVRU9tWnlzaVZtbnhoK1ZxNU9CckZROXBHUWllWW9sWUcwbU1GZ3p2?=
- =?utf-8?B?N1JWVEhLUGJYMGxxWEtUbVRYOWZUU2NycWZPTU5aRWkzSUJ2NklIbjlFQkQv?=
- =?utf-8?B?d2hqYW5LUUtSbTdQOVl3b2JGRW01cDR0TExNb1BjK0RHR2p5d05xM05sZ2x5?=
- =?utf-8?B?a0tnT1czdU9pSlR6SEVwdXBLS2NZdVFJSEw1NzBncDB5WlplVjFBaVF5TmZ5?=
- =?utf-8?B?WklBZFVlWHc1YjRZbjkvT3gxOStGa1o3bXVYUzY4OTU1bFNaR0NDVysyVmRw?=
- =?utf-8?B?cFVLK0NFM0xLTnl4ZEw3UkFZckFvNkF2cGxyNjBxMTZBVGo4L282TWI0QjNq?=
- =?utf-8?B?OWc5N3cyRnFFY1MxNVUvZDBlOVFzTUpiaTlSNm8ySnhtK2VsSmpTQXFKdzNm?=
- =?utf-8?B?YUovRDVUc1R5dTNGa2x3aFdjdlFFRGVIb2NqUlFBQzZhYldHczFRbjdBMEdv?=
- =?utf-8?B?K0x5QnRSSTk5ME1UVHA3cXpsbzdpc0VMSlNyaGJnajZDZkJFaXdvcG1BVE5E?=
- =?utf-8?B?MnhzY0Q5SUlTS0EwRHRtQzNFM1RjcVF2WWo1M2J1c2c4blEvTjZuWkg5VXIy?=
- =?utf-8?B?NVJJSFlmMnp0MEtzMVVqVXYyOVZPeHMxK3B5eXNYSDlhQzNVSng4OEw2VDVC?=
- =?utf-8?B?Y0lwYldPVXA3L3RINXZtQmtPYS9SNGJqUE5oRkYyVEd6NFNSOHNBNmZVNitQ?=
- =?utf-8?B?bDM3Tlgzb0EvRC9CTE9LY0oxTnBRR0tLZDBsWkhVV3V3dkdqRXR2YWNQcy9G?=
- =?utf-8?B?cmxpaGNiV2xiS1JqeDZWTi95NWFFczVnTEtDbWZ2b1g5a3ZNOHg4SnY2eGJ4?=
- =?utf-8?B?NlpUTDFHK0phMkgxRjZuR2U2U0RxdnZrNlRaaTJuUTd6SFNNbzhvVWZVWWJN?=
- =?utf-8?B?MFh1K3dGRmlmeWhYYi84MnRvNjF2QTk3cFNTVllNVW4zaVdneVBPUnlSemtr?=
- =?utf-8?B?S25Yd0VsTnFrUUE1ZkVBdlNkd2t3VDExNDhBclZrTFEyeEVDMU1Pb1pWbUc1?=
- =?utf-8?B?NUFBS1AzdVd4dUNYWFphZTE0SDRweVVRcmFOcmNEZEo2YWRydVg5SFBHUFBy?=
- =?utf-8?B?SEpmZWRHeXN0REJ0cHhHanNrSlM0NG9SVzRZTEZpUW55QnRnTVJoeTBXYnRZ?=
- =?utf-8?B?a0pNaHdzWFlOeEN6TVBCZ1lRdFN0TG5yb2tvN0Q1cmI2d3B2L3NJMXZNYVpk?=
- =?utf-8?B?dVNObEJNaFVOTVlQSE15eVN4T0loZWw5RW1JREtpc0o5OTg1cm8wTk5aZzhI?=
- =?utf-8?B?dEhaSEkwWGlFMktaM2FCR3RhODRVK2ZjRUlOU1NFQSsrU2xDWWpOaUFyMFRy?=
- =?utf-8?B?RHJReGZsTlZGeFA5L2pLUlBKUkF3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	NPt7nOa1TKqSRmN9wQt5DCUtZMtFwNCXNtPTRRfXC0CxJNPq+iVYBPtLuN45fNihmrXqv5OKPJl+EpfY/lv4sEDdAeDwoZbK8HS2B1EIOJU04xcJrvcYjr/6rmbV+x6efhUmzwGgwj8mBaTP3LoFb0MC63/xWt7ZyooY3KpY4ZRboWqHB0to6ZIv5cSbyX+WjAon1m9bh7kL387BsXZVe0LrY1VzuzMJBmV8K3VjJvDpEGDX15NQWKLz25zjjXSSFS+CUqDbuqHOYShF/HUxakfxUGKcdVUavholVKD4/ijlBfFBS9cnNG6HKGfNXvNkQ3NkuRa81y2+85dDRukDwzWIOzO2s1pA2wvWYjEf5Vw72H7y9CgXJermnBL5mYb9IjfRfvBm7h2KZe1hApQgUx9ognWbsK8rBdZmy2GxdJBuHIyd2+aSnqHclAbW5lKF
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 10:28:10.0077
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f824f133-aa63-41c0-20d9-08de630eed9f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF00020E5F.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF816B88375
+User-Agent: Mozilla Thunderbird
+From: johannes.goede@oss.qualcomm.com
+Subject: Re: [RFC PATCH v2] media: Virtual camera driver
+To: Jarkko Sakkinen <jarkko@kernel.org>, linux-media@vger.kernel.org
+Cc: jani.nikula@linux.intel.com, anisse@astier.eu, oleksandr@natalenko.name,
+        linux-integrity@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20260202204425.2614054-1-jarkko@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260202204425.2614054-1-jarkko@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Zc4Q98VA c=1 sm=1 tr=0 ts=6981cd83 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=0-pGC9Iswqwzjx7--dgA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: 5qZypKOiGUAZkIH5j0rbyMsFMxv9yVul
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDA4MyBTYWx0ZWRfX9UU5eoUSIedm
+ 8IK4FjILDfS1GGNYaZE6EXS5Lqyx+FD+DK89nBRkaeyaBs3mvmcqPX5ZCmfZMROMjeNGO86GEIE
+ QLtd3sDMiuAnM5BSmo+794b9CuQKHzAvilGkhJbHiZHqLGDITKMMgE998MZ4NOOVkn6cnuokI4m
+ 70EMY+/JwBeDMlOMpwXNugOTCbbM1w4FWKJ4QwA47NSYPu72pvm/QlJrZNjWzbnEna0BT6C5qGc
+ RdhLK+UUCWEFFBYtnXfC8a4Cc/Smz73y7pAGa61ORLjvFLehK7jalFu05gFZCm09zPw3Ef5gFpz
+ 37RIWH/gs0vK5wuTlojaUjWs5cL7U5xFjMjJxjccvUE0N7WMUdCiOtg+bxxTfRTeumpmGH7J/GQ
+ H1p/koNJ1kRKwpQTKvMtRnY64NDc9ib7ux25koZc6aCaJzrzzvcvtluZuNJzKf19045hxGXGPU8
+ SEhSyt4MiDTJXM97Qjg==
+X-Proofpoint-GUID: 5qZypKOiGUAZkIH5j0rbyMsFMxv9yVul
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-03_03,2026-02-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0
+ phishscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602030083
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-52101-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch,linaro.org];
+	TAGGED_FROM(0.00)[bounces-52099-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amd.com:email,amd.com:dkim,amd.com:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pierre-eric.pelloux-prayer@amd.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
+	FROM_NEQ_ENVFROM(0.00)[johannes.goede@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NO_DN(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E4DCCD7BFB
+X-Rspamd-Queue-Id: B16B9D7A19
 X-Rspamd-Action: no action
 
-This is the only use case for this function.
+Hi Jarkko,
 
----
-v2: amdgpu_ttm_clear_buffer instead of amdgpu_clear_buffer
----
+On 2-Feb-26 21:44, Jarkko Sakkinen wrote:
+> Already a quick Google survey backs strongly that OOT drivers (e.g.,
+> v4l2loopback) are the defacto solution for streaming phone cameras in
+> video conference calls, which puts confidential discussions at risk.
+> 
+> It can be also claimed that there's enough OOT usage in the wild that
+> possible security bugs could be considered as potential zerodays for the
+> benefit of malicious actors.
+> 
+> The situation has been stagnated for however many years, which is
+> unsastainable situation, and it further factors potential security
+> risks. Therefore, a driver is needed to address the popular use case.
+> 
+> vcam is a DMA-BUF backed virtual camera driver capable of creating video
+> capture devices to which data can be streamed through /dev/vcam after
+> calling VCAM_IOC_CREATE. Frames are pushed with VCAM_IOC_QUEUE and recycled
+> with VCAM_IOC_DEQUEUE. Zero-copy semantics are supported for shared DMA-BUF
+> between capture and output.
+> 
+> This enables efficient implementation of software, which can manage network
+> video streams from phone cameras, and map those streams to video devices.
+> 
+> PipeWire or any other specific pick of userspace software cannot really
+> address the issue at scale, as e.g., the use of v4l2loopback is both wide
+> and scattered.
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 12 +++++------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 23 ++++++++++------------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    | 13 ++++++------
- 3 files changed, 22 insertions(+), 26 deletions(-)
+I appreciate your efforts here and if I understand things correctly
+your main goal is to allow people to use the camera of there mobile
+phone for e.g. video-conferencing on a standard linux distro
+(Debian/Fedora/Arch) laptop/desktop right ?
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index d0884bbffa75..195cb1c814d1 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -717,9 +717,9 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
- 	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
- 		struct dma_fence *fence;
- 
--		r = amdgpu_fill_buffer(amdgpu_ttm_next_clear_entity(adev),
--				       bo, 0, NULL, &fence,
--				       true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
-+		r = amdgpu_ttm_clear_buffer(amdgpu_ttm_next_clear_entity(adev),
-+					    bo, NULL, &fence,
-+					    true, AMDGPU_KERNEL_JOB_ID_TTM_CLEAR_BUFFER);
- 		if (unlikely(r))
- 			goto fail_unreserve;
- 
-@@ -1329,9 +1329,9 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (r)
- 		goto out;
- 
--	r = amdgpu_fill_buffer(amdgpu_ttm_next_clear_entity(adev),
--			       abo, 0, &bo->base._resv, &fence,
--			       false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
-+	r = amdgpu_ttm_clear_buffer(amdgpu_ttm_next_clear_entity(adev),
-+				    abo, &bo->base._resv, &fence,
-+				    false, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
- 	if (WARN_ON(r))
- 		goto out;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index b7124356dd26..3b369b3fbce8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -417,8 +417,8 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
- 	if (old_mem->mem_type == TTM_PL_VRAM &&
- 	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
- 		struct dma_fence *wipe_fence = NULL;
--		r = amdgpu_fill_buffer(entity, abo, 0, NULL, &wipe_fence,
--				       false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
-+		r = amdgpu_ttm_clear_buffer(entity, abo, NULL, &wipe_fence,
-+					    false, AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
- 		if (r) {
- 			goto error;
- 		} else if (wipe_fence) {
-@@ -2582,26 +2582,23 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_device *adev,
- }
- 
- /**
-- * amdgpu_fill_buffer - fill a buffer with a given value
-+ * amdgpu_ttm_clear_buffer - fill a buffer with 0
-  * @entity: entity to use
-  * @bo: the bo to fill
-- * @src_data: the value to set
-  * @resv: fences contained in this reservation will be used as dependencies.
-  * @out_fence: the fence from the last clear will be stored here. It might be
-  *             NULL if no job was run.
-- * @dependency: optional input dependency fence.
-  * @consider_clear_status: true if region reported as cleared by amdgpu_res_cleared()
-  *                         are skipped.
-  * @k_job_id: trace id
-  *
-  */
--int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
--		       struct amdgpu_bo *bo,
--		       uint32_t src_data,
--		       struct dma_resv *resv,
--		       struct dma_fence **out_fence,
--		       bool consider_clear_status,
--		       u64 k_job_id)
-+int amdgpu_ttm_clear_buffer(struct amdgpu_ttm_buffer_entity *entity,
-+			    struct amdgpu_bo *bo,
-+			    struct dma_resv *resv,
-+			    struct dma_fence **out_fence,
-+			    bool consider_clear_status,
-+			    u64 k_job_id)
- {
- 	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
- 	struct dma_fence *fence = NULL;
-@@ -2632,7 +2629,7 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
- 			goto error;
- 
- 		r = amdgpu_ttm_fill_mem(adev, entity,
--					src_data, to, cur_size, resv,
-+					0, to, cur_size, resv,
- 					&next, true, k_job_id);
- 		if (r)
- 			goto error;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index 436a3e09a178..d7b14d5cac77 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -187,13 +187,12 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev,
- 		       struct dma_resv *resv,
- 		       struct dma_fence **fence,
- 		       bool vm_needs_flush, uint32_t copy_flags);
--int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
--		       struct amdgpu_bo *bo,
--		       uint32_t src_data,
--		       struct dma_resv *resv,
--		       struct dma_fence **out_fence,
--		       bool consider_clear_status,
--		       u64 k_job_id);
-+int amdgpu_ttm_clear_buffer(struct amdgpu_ttm_buffer_entity *entity,
-+			    struct amdgpu_bo *bo,
-+			    struct dma_resv *resv,
-+			    struct dma_fence **out_fence,
-+			    bool consider_clear_status,
-+			    u64 k_job_id);
- struct amdgpu_ttm_buffer_entity *amdgpu_ttm_next_clear_entity(struct amdgpu_device *adev);
- 
- int amdgpu_ttm_alloc_gart(struct ttm_buffer_object *bo);
--- 
-2.43.0
+The problem is that what you're suggesting is basically a much
+improved (using dma-buf is way better) v4l2-loopback driver and
+v4l2-loopback has been blocked from getting merged into the kernel
+because besides the mobile-phone camera use, the other main use-case
+is to allow running proprietary camera stacks like Intel's proprietary
+camerastack and then presenting that to userspace as a standard v4l2
+cam so that userspace apps will just work.
+
+Personally I think that there are enough valid use-cases for something
+like your proposed vcam driver, also for e.g. CI purposes that I think
+that maybe the V4L2 maintainers should reconsider. But this is not my
+call to make and with both Laurent (in the v1 thread) and Sakari pretty
+much having NACK-ed this, I do not think this is going to go very far
+if you want a mainline solution.
+
+As Sakari mentioned in this day and age raw V4L2 access is really not
+the best API to acccess cameras. Especially modern smartphone like
+CSI2 MIPI cameras which consist of quite a complex graph of building
+blocks which need to be configured to work together to get a picture.
+
+So now even when running directly on the hardware (vs the network case)
+apps can no longer directly access v4l2 devices because of the complexity.
+
+This is already the case on newer x86_64 laptops with MIPI cameras
+instead of USB UVC cams and also on phones running postmarketos.
+
+The community concensus is that the solution here is for apps to
+access cameras through pipewire. Together with the shift of laptops
+cameras from UVC to "raw" MIPI cameras there also is a shift to
+running applications sandboxed as flatpacks because of the changing
+"cyber" security landscape. This is why pipewire was chosen because
+it also solves the accessing cameras from a sandbox issue.
+
+Both Firefox and chrome(ium) already support pipewire for cameras
+OOTB. In chrome it requires setting a config setting and maybe for
+upstream Firefox too (it is enabled in Fedora's Firefox by default).
+
+Given that pipewire is seen as the way to access all cameras in
+the future and that we are already moving in that direction (e.g.
+Fedora has been shipping this OOTB since Fedora 42) IMHO your time
+would be better spend helping out there.
+
+E.g. add support to popular software for sharing smartphone cameras
+to represent the frames received over the network as a video sources
+in pipewire and check if this works in Firefox + Chrome and write
+patches or file issues for other apps to also add pipewire camera
+access support.
+
+As was mentioned in the earlier thread for making the camera show
+up as a source in pipewire you could try using the pipewire sink
+element in gstreamer, assuming you can make the phone-cam available
+as a gstreamer src element, you may be able to prototype things
+then using just a gst-launch cmd from the shell.
+
+Regards,
+
+Hans
+
+
+
+
+> 
+> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+> ---
+> v2:
+> - Added motivation based on feedback to v1.
+> - Provide a list of allowed modes for /dev/videoX in VCAM_IOC_CREATE.
+> - Merged VCAM_IOC_WAIT and VCAM_IOC_STATUS.
+> - Return state with operation flags in VCAM_IOC_WAIT.
+> - Test program: https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/vcam-test.git
+> ---
+>  .../driver-api/media/drivers/index.rst        |    1 +
+>  .../driver-api/media/drivers/vcam.rst         |   16 +
+>  MAINTAINERS                                   |    8 +
+>  drivers/media/Kconfig                         |   13 +
+>  drivers/media/Makefile                        |    1 +
+>  drivers/media/vcam.c                          | 1935 +++++++++++++++++
+>  include/uapi/linux/vcam.h                     |  141 ++
+>  7 files changed, 2115 insertions(+)
+>  create mode 100644 Documentation/driver-api/media/drivers/vcam.rst
+>  create mode 100644 drivers/media/vcam.c
+>  create mode 100644 include/uapi/linux/vcam.h
+> 
+> diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
+> index 7f6f3dcd5c90..211cafc9c070 100644
+> --- a/Documentation/driver-api/media/drivers/index.rst
+> +++ b/Documentation/driver-api/media/drivers/index.rst
+> @@ -27,6 +27,7 @@ Video4Linux (V4L) drivers
+>  	zoran
+>  	ccs/ccs
+>  	ipu6
+> +	vcam
+>  
+>  
+>  Digital TV drivers
+> diff --git a/Documentation/driver-api/media/drivers/vcam.rst b/Documentation/driver-api/media/drivers/vcam.rst
+> new file mode 100644
+> index 000000000000..b5a23144ebee
+> --- /dev/null
+> +++ b/Documentation/driver-api/media/drivers/vcam.rst
+> @@ -0,0 +1,16 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +===========================
+> +vcam: Virtual Camera Driver
+> +===========================
+> +
+> +Theory of Operation
+> +-------------------
+> +
+> +.. kernel-doc:: drivers/media/vcam.c
+> +   :doc: Theory of Operation
+> +
+> +Driver uAPI
+> +-----------
+> +
+> +.. kernel-doc:: include/uapi/linux/vcam.h
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6863d5fa07a1..b8444ff48716 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -27504,6 +27504,14 @@ S:	Maintained
+>  F:	drivers/media/common/videobuf2/*
+>  F:	include/media/videobuf2-*
+>  
+> +VCAM V4L2 DRIVER
+> +M:	Jarkko Sakkinen <jarkko@kernel.org>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
+> +F:	drivers/media/vcam.c
+> +F:	include/uapi/linux/vcam.h
+> +
+>  VIDTV VIRTUAL DIGITAL TV DRIVER
+>  M:	Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+>  L:	linux-media@vger.kernel.org
+> diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
+> index 6abc9302cd84..f2f4b2ec9135 100644
+> --- a/drivers/media/Kconfig
+> +++ b/drivers/media/Kconfig
+> @@ -239,6 +239,19 @@ source "drivers/media/firewire/Kconfig"
+>  # Common driver options
+>  source "drivers/media/common/Kconfig"
+>  
+> +config VCAM
+> +	tristate "V4L2 virtual camera"
+> +	depends on VIDEO_DEV
+> +	default m
+> +	select VIDEOBUF2_VMALLOC
+> +	help
+> +	  Say Y here to enable a DMA-BUF backed virtual camera driver capable
+> +	  of creating video capture devices to which data can be streamed
+> +	  through /dev/vcam after calling VCAM_IOC_CREATE. Frames are pushed
+> +	  with VCAM_IOC_QUEUE and recycled with VCAM_IOC_DEQUEUE.
+> +
+> +	  When in doubt, say N.
+> +
+>  endmenu
+>  
+>  #
+> diff --git a/drivers/media/Makefile b/drivers/media/Makefile
+> index 20fac24e4f0f..d539fecbe498 100644
+> --- a/drivers/media/Makefile
+> +++ b/drivers/media/Makefile
+> @@ -32,3 +32,4 @@ obj-$(CONFIG_CEC_CORE) += cec/
+>  obj-y += common/ platform/ pci/ usb/ mmc/ firewire/ spi/ test-drivers/
+>  obj-$(CONFIG_VIDEO_DEV) += radio/
+>  
+> +obj-$(CONFIG_VCAM) += vcam.o
+> diff --git a/drivers/media/vcam.c b/drivers/media/vcam.c
+> new file mode 100644
+> index 000000000000..787e2585e12c
+> --- /dev/null
+> +++ b/drivers/media/vcam.c
+> @@ -0,0 +1,1935 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) Jarkko Sakkinen 2025-2026
+> + *
+> + * Derived originally from v4l2loopback driver but is essentially a rewrite.
+> + */
+> +
+> +/**
+> + * DOC: Theory of Operation
+> + *
+> + * The driver exposes /dev/vcam for creating virtual capture devices via
+> + * %VCAM_IOC_CREATE. The ioctl registers a video capture node, stores the
+> + * allowed capture modes provided by the caller, and associates output buffers
+> + * described by &struct vcam_frame with DMA-BUF file descriptors supplied by
+> + * the caller. This also keeps output buffers owned by the caller, and
+> + * accounted from the calling process.
+> + *
+> + * Frames are pushed to the capture device by queueing output buffers using
+> + * %VCAM_IOC_QUEUE, and recycling them with %VCAM_IOC_DEQUEUE. Queueing without
+> + * dequeuing eventually exhausts the output queue and stalls the producer.
+> + *
+> + * If both buffers reference the same DMA-BUF, the driver performs a zero-copy
+> + * transfer by propagating metadata. Otherwise, if both buffers are mappable,
+> + * the payload is copied into the capture buffer. When neither zero-copy nor a
+> + * CPU mapping is possible, the capture buffer completes with an error.
+> + */
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/bitops.h>
+> +#include <linux/atomic.h>
+> +#include <linux/ctype.h>
+> +#include <linux/file.h>
+> +#include <linux/fs.h>
+> +#include <linux/limits.h>
+> +#include <linux/device.h>
+> +#include <linux/mm.h>
+> +#include <linux/module.h>
+> +#include <linux/miscdevice.h>
+> +#include <linux/poll.h>
+> +#include <linux/sched.h>
+> +#include <linux/time.h>
+> +#include <linux/math64.h>
+> +#include <linux/minmax.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
+> +#include <linux/sort.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/sysfs.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/wait.h>
+> +#include <media/v4l2-common.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/videobuf2-v4l2.h>
+> +#include <media/videobuf2-vmalloc.h>
+> +#include <uapi/linux/vcam.h>
+> +
+> +#undef pr_fmt
+> +#define pr_fmt(fmt) "vcam: " fmt
+> +
+> +MODULE_DESCRIPTION("V4L2 virtual camera driver");
+> +MODULE_LICENSE("GPL");
+> +
+> +#define VCAM_CARD_LABEL_MAX sizeof_field(struct video_device, name)
+> +#define VCAM_FPS_MIN 1
+> +#define VCAM_FPS_MAX 1000
+> +
+> +#define VCAM_MIN_WIDTH 2
+> +#define VCAM_MIN_HEIGHT 2
+> +#define VCAM_MAX_WIDTH 8192
+> +#define VCAM_MAX_HEIGHT 8192
+> +#define VCAM_DEFAULT_WIDTH 640
+> +#define VCAM_DEFAULT_HEIGHT 480
+> +
+> +#define VCAM_MAX_FORMATS 16
+> +#define VCAM_MAX_MODES 64
+> +#define VCAM_MIN_FRAMES 2
+> +#define VCAM_MAX_FRAMES 32
+> +
+> +#define VCAM_STATUS_MASK (VCAM_STATUS_IDLE | VCAM_STATUS_STREAMING)
+> +
+> +enum vcam_flags {
+> +	VCAM_FLAG_IS_OPEN = 0x01,
+> +	VCAM_FLAG_CREATING = 0x02,
+> +	VCAM_FLAG_READY = 0x04,
+> +};
+> +
+> +struct vcam_buf {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct list_head list;
+> +	unsigned long flags;
+> +};
+> +
+> +enum vcam_buf_flags {
+> +	VCAM_BUF_FLAG_MAPPABLE = BIT(0),
+> +};
+> +
+> +struct vcam {
+> +	unsigned long flags;
+> +	int device_nr;
+> +	struct v4l2_device v4l2_dev;
+> +	struct video_device *vdev;
+> +	struct vb2_queue capture_queue;
+> +	struct vb2_queue output_queue;
+> +	struct v4l2_pix_format pix_format;
+> +	struct vcam_mode *modes;
+> +	u32 nr_modes;
+> +	struct v4l2_captureparm capture;
+> +	atomic_t sequence;
+> +	struct list_head capture_list;
+> +	struct list_head output_list;
+> +	u64 status;
+> +	wait_queue_head_t status_waitq;
+> +	enum vb2_memory output_memory;
+> +
+> +	/* Protects status flags and wait queue updates. */
+> +	spinlock_t status_lock;
+> +
+> +	/* Shared lock for vdev and VB2 queues. */
+> +	struct mutex lock;
+> +
+> +	/* Protects capture_list and output_list. */
+> +	spinlock_t frame_lock;
+> +
+> +	/*
+> +	 * Maintains a shared reference between processes having either
+> +	 * /dev/vcam or /dev/videoX open.
+> +	 */
+> +	struct kref ref;
+> +};
+> +
+> +enum vcam_format_flags {
+> +	VCAM_PLANAR = BIT(0),
+> +	VCAM_COMPRESSED = BIT(1),
+> +};
+> +
+> +struct vcam_format {
+> +	int fourcc;
+> +	int depth;
+> +	int flags;
+> +};
+> +
+> +const struct vcam_format vcam_formats[] = {
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_YUYV,
+> +		.depth = 16,
+> +		.flags = 0,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_NV12,
+> +		.depth = 12,
+> +		.flags = VCAM_PLANAR,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_MJPEG,
+> +		.depth = 32,
+> +		.flags = VCAM_COMPRESSED,
+> +	},
+> +};
+> +
+> +#define VCAM_NR_FORMATS ARRAY_SIZE(vcam_formats)
+> +
+> +static const struct vcam_format *vcam_find_format(int fourcc)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < VCAM_NR_FORMATS; i++) {
+> +		if (vcam_formats[i].fourcc == fourcc)
+> +			return vcam_formats + i;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static void vcam_fmt_descr(char *dst, size_t dst_len, u32 format)
+> +{
+> +	snprintf(dst, dst_len, "[%c%c%c%c]", (format >> 0) & 0xFF,
+> +		 (format >> 8) & 0xFF, (format >> 16) & 0xFF,
+> +		 (format >> 24) & 0xFF);
+> +}
+> +
+> +static void vcam_fourcc_str(char *dst, u32 format)
+> +{
+> +	dst[0] = (format >> 0) & 0xFF;
+> +	dst[1] = (format >> 8) & 0xFF;
+> +	dst[2] = (format >> 16) & 0xFF;
+> +	dst[3] = (format >> 24) & 0xFF;
+> +	dst[4] = '\0';
+> +}
+> +
+> +static inline bool vcam_is_streaming(struct vcam *data)
+> +{
+> +	return vb2_is_streaming(&data->output_queue) ||
+> +	       vb2_is_streaming(&data->capture_queue);
+> +}
+> +
+> +static bool vcam_status_mask_ready(struct vcam *dev, u64 mask)
+> +{
+> +	unsigned long flags;
+> +	bool ready;
+> +
+> +	spin_lock_irqsave(&dev->status_lock, flags);
+> +	ready = (dev->status & mask) == mask;
+> +	spin_unlock_irqrestore(&dev->status_lock, flags);
+> +
+> +	return ready;
+> +}
+> +
+> +static void vcam_status_update_stream(struct vcam *dev, bool on)
+> +{
+> +	unsigned long flags;
+> +	u64 old_flags;
+> +	u64 new_flags;
+> +
+> +	spin_lock_irqsave(&dev->status_lock, flags);
+> +	old_flags = dev->status;
+> +	if (on) {
+> +		dev->status &= ~VCAM_STATUS_IDLE;
+> +		dev->status |= VCAM_STATUS_STREAMING;
+> +	} else {
+> +		dev->status &= ~VCAM_STATUS_STREAMING;
+> +		dev->status |= VCAM_STATUS_IDLE;
+> +	}
+> +	new_flags = dev->status;
+> +	spin_unlock_irqrestore(&dev->status_lock, flags);
+> +
+> +	if (new_flags != old_flags)
+> +		wake_up_interruptible(&dev->status_waitq);
+> +}
+> +
+> +static u64 vcam_status_read(struct vcam *dev)
+> +{
+> +	unsigned long flags;
+> +	u64 flags_snapshot;
+> +
+> +	spin_lock_irqsave(&dev->status_lock, flags);
+> +	flags_snapshot = dev->status;
+> +	spin_unlock_irqrestore(&dev->status_lock, flags);
+> +
+> +	return flags_snapshot;
+> +}
+> +
+> +static bool vcam_tpf_valid(const struct v4l2_fract *tpf)
+> +{
+> +	u64 min_den = (u64)tpf->numerator * VCAM_FPS_MIN;
+> +	u64 max_den = (u64)tpf->numerator * VCAM_FPS_MAX;
+> +
+> +	if (!tpf->numerator || !tpf->denominator)
+> +		return false;
+> +	if ((u64)tpf->denominator < min_den)
+> +		return false;
+> +	if ((u64)tpf->denominator > max_den)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +static bool vcam_pix_format_eq(const struct v4l2_pix_format *src,
+> +			       const struct v4l2_pix_format *dest)
+> +{
+> +	return src->width == dest->width && src->height == dest->height &&
+> +	       src->pixelformat == dest->pixelformat;
+> +}
+> +
+> +static bool vcam_mode_has_pixelformat(const struct vcam *dev, u32 pixelformat)
+> +{
+> +	u32 i;
+> +
+> +	for (i = 0; i < dev->nr_modes; i++) {
+> +		if (dev->modes[i].pixelformat == pixelformat)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static bool vcam_mode_pixelformat_seen(const struct vcam *dev, u32 index,
+> +				       u32 pixelformat)
+> +{
+> +	u32 i;
+> +
+> +	for (i = 0; i < index; i++) {
+> +		if (dev->modes[i].pixelformat == pixelformat)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static bool vcam_mode_framesize_seen(const struct vcam *dev, u32 index,
+> +				     u32 pixelformat, u32 width, u32 height)
+> +{
+> +	u32 i;
+> +
+> +	for (i = 0; i < index; i++) {
+> +		const struct vcam_mode *mode = &dev->modes[i];
+> +
+> +		if (mode->pixelformat == pixelformat && mode->width == width &&
+> +		    mode->height == height)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static int vcam_mode_enum_format(const struct vcam *dev, u32 index,
+> +				 u32 *pixelformat)
+> +{
+> +	u32 i;
+> +	u32 match = 0;
+> +
+> +	for (i = 0; i < dev->nr_modes; i++) {
+> +		u32 fmt = dev->modes[i].pixelformat;
+> +
+> +		if (vcam_mode_pixelformat_seen(dev, i, fmt))
+> +			continue;
+> +
+> +		if (match++ == index) {
+> +			*pixelformat = fmt;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int vcam_mode_enum_framesize(const struct vcam *dev, u32 pixelformat,
+> +				    u32 index, u32 *width, u32 *height)
+> +{
+> +	u32 i;
+> +	u32 match = 0;
+> +
+> +	for (i = 0; i < dev->nr_modes; i++) {
+> +		const struct vcam_mode *mode = &dev->modes[i];
+> +
+> +		if (mode->pixelformat != pixelformat)
+> +			continue;
+> +		if (vcam_mode_framesize_seen(dev, i, pixelformat, mode->width,
+> +					     mode->height))
+> +			continue;
+> +		if (match++ == index) {
+> +			*width = mode->width;
+> +			*height = mode->height;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static bool vcam_mode_has_framesize(const struct vcam *dev, u32 pixelformat,
+> +				    u32 width, u32 height)
+> +{
+> +	u32 i;
+> +
+> +	for (i = 0; i < dev->nr_modes; i++) {
+> +		const struct vcam_mode *mode = &dev->modes[i];
+> +
+> +		if (mode->pixelformat == pixelformat && mode->width == width &&
+> +		    mode->height == height)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static bool vcam_mode_matches_pix(const struct vcam_mode *mode,
+> +				  const struct v4l2_pix_format *pix)
+> +{
+> +	return mode->width == pix->width && mode->height == pix->height &&
+> +	       mode->pixelformat == pix->pixelformat &&
+> +	       mode->colorspace == pix->colorspace &&
+> +	       mode->stride == pix->bytesperline;
+> +}
+> +
+> +static int vcam_mode_cmp(const void *lhs, const void *rhs)
+> +{
+> +	const struct vcam_mode *a = lhs;
+> +	const struct vcam_mode *b = rhs;
+> +
+> +	if (a->pixelformat != b->pixelformat)
+> +		return (a->pixelformat > b->pixelformat) -
+> +		       (a->pixelformat < b->pixelformat);
+> +	if (a->width != b->width)
+> +		return (a->width > b->width) - (a->width < b->width);
+> +	if (a->height != b->height)
+> +		return (a->height > b->height) - (a->height < b->height);
+> +	if (a->colorspace != b->colorspace)
+> +		return (a->colorspace > b->colorspace) -
+> +		       (a->colorspace < b->colorspace);
+> +	return (a->stride > b->stride) - (a->stride < b->stride);
+> +}
+> +
+> +static bool vcam_mode_equal(const struct vcam_mode *a,
+> +			    const struct vcam_mode *b)
+> +{
+> +	return a->width == b->width && a->height == b->height &&
+> +	       a->pixelformat == b->pixelformat &&
+> +	       a->colorspace == b->colorspace && a->stride == b->stride;
+> +}
+> +
+> +static bool vcam_mode_allowed(const struct vcam *dev,
+> +			      const struct v4l2_pix_format *pix)
+> +{
+> +	u32 i;
+> +
+> +	for (i = 0; i < dev->nr_modes; i++) {
+> +		if (vcam_mode_matches_pix(&dev->modes[i], pix))
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static int vcam_set_format(struct v4l2_format *fmt)
+> +{
+> +	struct v4l2_pix_format *pix = &fmt->fmt.pix;
+> +	const struct vcam_format *format;
+> +	u64 bytesperline;
+> +	u64 sizeimage;
+> +
+> +	if (V4L2_TYPE_IS_MULTIPLANAR(fmt->type))
+> +		return -EINVAL;
+> +
+> +	if (!pix->width)
+> +		pix->width = VCAM_DEFAULT_WIDTH;
+> +	if (!pix->height)
+> +		pix->height = VCAM_DEFAULT_HEIGHT;
+> +
+> +	pix->width = clamp(pix->width, VCAM_MIN_WIDTH, VCAM_MAX_WIDTH);
+> +	pix->height = clamp(pix->height, VCAM_MIN_HEIGHT, VCAM_MAX_HEIGHT);
+> +
+> +	format = vcam_find_format(pix->pixelformat);
+> +	if (!format) {
+> +		format = &vcam_formats[0];
+> +		pix->pixelformat = format->fourcc;
+> +	}
+> +
+> +	if (format->flags & VCAM_PLANAR) {
+> +		pix->bytesperline = pix->width;
+> +		sizeimage = ((u64)pix->width * pix->height * format->depth) >>
+> +			    3;
+> +	} else if (format->flags & VCAM_COMPRESSED) {
+> +		pix->bytesperline = 0;
+> +		sizeimage = ((u64)pix->width * pix->height * format->depth) >>
+> +			    3;
+> +	} else {
+> +		bytesperline = ((u64)pix->width * format->depth) >> 3;
+> +		if (bytesperline > U32_MAX)
+> +			return -EOVERFLOW;
+> +
+> +		pix->bytesperline = bytesperline;
+> +		sizeimage = (u64)pix->height * bytesperline;
+> +	}
+> +
+> +	if (sizeimage > U32_MAX)
+> +		return -EOVERFLOW;
+> +
+> +	pix->sizeimage = sizeimage;
+> +
+> +	if (pix->colorspace == V4L2_COLORSPACE_DEFAULT ||
+> +	    pix->colorspace > V4L2_COLORSPACE_DCI_P3)
+> +		pix->colorspace = V4L2_COLORSPACE_SRGB;
+> +	if (pix->field == V4L2_FIELD_ANY)
+> +		pix->field = V4L2_FIELD_NONE;
+> +
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_querycap(struct file *file, void *priv,
+> +				struct v4l2_capability *cap)
+> +{
+> +	__u32 capabilities = V4L2_CAP_STREAMING | V4L2_CAP_VIDEO_CAPTURE;
+> +	struct vcam *dev = video_drvdata(file);
+> +
+> +	cap->device_caps = capabilities;
+> +	cap->capabilities = capabilities | V4L2_CAP_DEVICE_CAPS;
+> +
+> +	strscpy(cap->driver, "vcam", sizeof(cap->driver));
+> +	strscpy(cap->card, dev->vdev->name, sizeof(cap->card));
+> +	snprintf(cap->bus_info, sizeof(cap->bus_info), "vcam:%d",
+> +		 dev->device_nr);
+> +
+> +	return 0;
+> +}
+> +
+> +static int vcam_enum_framesizes(struct vcam *dev, struct v4l2_frmsizeenum *argp)
+> +{
+> +	if (vcam_is_streaming(dev)) {
+> +		if (argp->index)
+> +			return -EINVAL;
+> +		if (argp->pixel_format != dev->pix_format.pixelformat)
+> +			return -EINVAL;
+> +
+> +		argp->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+> +
+> +		argp->discrete.width = dev->pix_format.width;
+> +		argp->discrete.height = dev->pix_format.height;
+> +	} else {
+> +		u32 width;
+> +		u32 height;
+> +
+> +		if (!vcam_find_format(argp->pixel_format) ||
+> +		    !vcam_mode_has_pixelformat(dev, argp->pixel_format))
+> +			return -EINVAL;
+> +
+> +		if (vcam_mode_enum_framesize(dev, argp->pixel_format,
+> +					     argp->index, &width, &height))
+> +			return -EINVAL;
+> +
+> +		argp->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+> +		argp->discrete.width = width;
+> +		argp->discrete.height = height;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vcam_enum_frameintervals(struct vcam *dev,
+> +				    struct v4l2_frmivalenum *argp)
+> +{
+> +	if (vcam_is_streaming(dev)) {
+> +		if (argp->index)
+> +			return -EINVAL;
+> +		if (argp->width != dev->pix_format.width ||
+> +		    argp->height != dev->pix_format.height ||
+> +		    argp->pixel_format != dev->pix_format.pixelformat)
+> +			return -EINVAL;
+> +
+> +		argp->type = V4L2_FRMIVAL_TYPE_DISCRETE;
+> +		argp->discrete = dev->capture.timeperframe;
+> +	} else {
+> +		if (!vcam_find_format(argp->pixel_format) ||
+> +		    !vcam_mode_has_framesize(dev, argp->pixel_format,
+> +					     argp->width, argp->height))
+> +			return -EINVAL;
+> +
+> +		if (argp->index)
+> +			return -EINVAL;
+> +
+> +		argp->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
+> +		argp->stepwise.min.numerator = 1;
+> +		argp->stepwise.min.denominator = VCAM_FPS_MAX;
+> +		argp->stepwise.max.numerator = 1;
+> +		argp->stepwise.max.denominator = VCAM_FPS_MIN;
+> +		argp->stepwise.step.numerator = 1;
+> +		argp->stepwise.step.denominator = 1;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_enum_framesizes(struct file *file, void *fh,
+> +				       struct v4l2_frmsizeenum *argp)
+> +{
+> +	struct vcam *dev = video_drvdata(file);
+> +
+> +	return vcam_enum_framesizes(dev, argp);
+> +}
+> +
+> +static int vcam_vidioc_enum_frameintervals(struct file *file, void *fh,
+> +					   struct v4l2_frmivalenum *argp)
+> +{
+> +	struct vcam *dev = video_drvdata(file);
+> +
+> +	return vcam_enum_frameintervals(dev, argp);
+> +}
+> +
+> +static int vcam_vidioc_enum_fmt_cap(struct file *file, void *fh,
+> +				    struct v4l2_fmtdesc *f)
+> +{
+> +	struct vcam *dev;
+> +
+> +	dev = video_drvdata(file);
+> +
+> +	if (vcam_is_streaming(dev)) {
+> +		const __u32 format = dev->pix_format.pixelformat;
+> +
+> +		if (f->index)
+> +			return -EINVAL;
+> +
+> +		f->pixelformat = dev->pix_format.pixelformat;
+> +		vcam_fmt_descr(f->description, sizeof(f->description), format);
+> +	} else {
+> +		u32 pixelformat;
+> +
+> +		if (vcam_mode_enum_format(dev, f->index, &pixelformat))
+> +			return -EINVAL;
+> +
+> +		f->pixelformat = pixelformat;
+> +		vcam_fmt_descr(f->description, sizeof(f->description),
+> +			       pixelformat);
+> +	}
+> +	f->flags = 0;
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_g_fmt_vid_cap(struct file *file, void *priv,
+> +				     struct v4l2_format *fmt)
+> +{
+> +	struct vcam *dev;
+> +
+> +	dev = video_drvdata(file);
+> +
+> +	fmt->fmt.pix = dev->pix_format;
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_try_fmt_vid_cap(struct file *file, void *priv,
+> +				       struct v4l2_format *fmt)
+> +{
+> +	struct vcam *dev = video_drvdata(file);
+> +	struct v4l2_format try_fmt;
+> +	int ret;
+> +
+> +	if (!V4L2_TYPE_IS_CAPTURE(fmt->type))
+> +		return -EINVAL;
+> +
+> +	if (vcam_is_streaming(dev)) {
+> +		if (!vcam_pix_format_eq(&dev->pix_format, &fmt->fmt.pix))
+> +			return -EBUSY;
+> +
+> +		fmt->fmt.pix = dev->pix_format;
+> +	}
+> +
+> +	try_fmt = *fmt;
+> +	ret = vcam_set_format(&try_fmt);
+> +	if (ret)
+> +		return ret;
+> +	if (!vcam_mode_allowed(dev, &try_fmt.fmt.pix))
+> +		return -EINVAL;
+> +	*fmt = try_fmt;
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_s_fmt_vid_cap(struct file *file, void *priv,
+> +				     struct v4l2_format *fmt)
+> +{
+> +	struct vcam *dev = video_drvdata(file);
+> +	struct v4l2_format try_fmt = *fmt;
+> +	int ret;
+> +
+> +	if (!V4L2_TYPE_IS_CAPTURE(fmt->type))
+> +		return -EINVAL;
+> +
+> +	if (vcam_is_streaming(dev)) {
+> +		if (!vcam_pix_format_eq(&dev->pix_format, &fmt->fmt.pix))
+> +			return -EBUSY;
+> +
+> +		fmt->fmt.pix = dev->pix_format;
+> +	}
+> +
+> +	ret = vcam_set_format(&try_fmt);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!vcam_mode_allowed(dev, &try_fmt.fmt.pix))
+> +		return -EINVAL;
+> +
+> +	if (vb2_is_busy(&dev->output_queue) &&
+> +	    !vcam_pix_format_eq(&dev->pix_format, &try_fmt.fmt.pix))
+> +		return -EBUSY;
+> +
+> +	dev->pix_format = try_fmt.fmt.pix;
+> +	*fmt = try_fmt;
+> +	return 0;
+> +}
+> +
+> +static int vcam_ioc_reqbufs(struct file *file, struct vcam *dev,
+> +			    struct v4l2_requestbuffers *req)
+> +{
+> +	int ret = 0;
+> +
+> +	if (req->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> +		return -EINVAL;
+> +
+> +	scoped_guard(mutex, &dev->lock)
+> +	{
+> +		if (vb2_queue_is_busy(&dev->output_queue, file)) {
+> +			ret = -EBUSY;
+> +			break;
+> +		}
+> +
+> +		ret = vb2_reqbufs(&dev->output_queue, req);
+> +		if (!ret)
+> +			dev->output_queue.owner =
+> +				req->count ? file->private_data : NULL;
+> +	}
+> +	return ret;
+> +}
+> +
+> +static int vcam_ioc_querybuf(struct file *file, struct vcam *dev,
+> +			     struct v4l2_buffer *buf)
+> +{
+> +	int ret = 0;
+> +
+> +	if (buf->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> +		return -EINVAL;
+> +
+> +	scoped_guard(mutex, &dev->lock)
+> +		ret = vb2_querybuf(&dev->output_queue, buf);
+> +
+> +	return ret;
+> +}
+> +
+> +static ssize_t formats_show(struct device *dev, struct device_attribute *attr,
+> +			    char *buf)
+> +{
+> +	struct vcam_format_entry {
+> +		u32 fourcc;
+> +		char name[5];
+> +	};
+> +	struct vcam_format_entry formats[VCAM_MAX_FORMATS];
+> +	struct vcam_format_entry tmp;
+> +	unsigned int count =
+> +		min_t(unsigned int, VCAM_NR_FORMATS, VCAM_MAX_FORMATS);
+> +	size_t len = 0;
+> +	unsigned int i, j;
+> +
+> +	for (i = 0; i < count; i++) {
+> +		formats[i].fourcc = vcam_formats[i].fourcc;
+> +		vcam_fourcc_str(formats[i].name, formats[i].fourcc);
+> +	}
+> +
+> +	for (i = 1; i < count; i++) {
+> +		for (j = i; j > 0; j--) {
+> +			if (strcmp(formats[j - 1].name, formats[j].name) <= 0)
+> +				break;
+> +			tmp = formats[j - 1];
+> +			formats[j - 1] = formats[j];
+> +			formats[j] = tmp;
+> +		}
+> +	}
+> +
+> +	for (i = 0; i < count; i++)
+> +		len += sysfs_emit_at(buf, len, "%s%s", i ? " " : "",
+> +				     formats[i].name);
+> +
+> +	len += sysfs_emit_at(buf, len, "\n");
+> +	return len;
+> +}
+> +
+> +static ssize_t max_width_show(struct device *dev, struct device_attribute *attr,
+> +			      char *buf)
+> +{
+> +	return sysfs_emit(buf, "%u\n", VCAM_MAX_WIDTH);
+> +}
+> +
+> +static ssize_t max_height_show(struct device *dev,
+> +			       struct device_attribute *attr, char *buf)
+> +{
+> +	return sysfs_emit(buf, "%u\n", VCAM_MAX_HEIGHT);
+> +}
+> +
+> +static ssize_t max_frames_show(struct device *dev,
+> +			       struct device_attribute *attr, char *buf)
+> +{
+> +	return sysfs_emit(buf, "%u\n", VCAM_MAX_FRAMES);
+> +}
+> +
+> +static DEVICE_ATTR_RO(formats);
+> +static DEVICE_ATTR_RO(max_frames);
+> +static DEVICE_ATTR_RO(max_height);
+> +static DEVICE_ATTR_RO(max_width);
+> +
+> +static struct attribute *vcam_attrs[] = {
+> +	&dev_attr_formats.attr,
+> +	&dev_attr_max_frames.attr,
+> +	&dev_attr_max_height.attr,
+> +	&dev_attr_max_width.attr,
+> +	NULL,
+> +};
+> +
+> +static const struct attribute_group vcam_attr_group = {
+> +	.attrs = vcam_attrs,
+> +};
+> +
+> +static const struct attribute_group *vcam_attr_groups[] = {
+> +	&vcam_attr_group,
+> +	NULL,
+> +};
+> +
+> +static int vcam_ioc_alloc(struct file *file, struct vcam *dev, u32 nr_frames,
+> +			  void __user *frames_user, enum vb2_memory memory)
+> +{
+> +	struct v4l2_requestbuffers req = {
+> +		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+> +		.memory = memory,
+> +	};
+> +	struct v4l2_buffer buf;
+> +	struct vcam_frame *frames = NULL;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	if (memory == VB2_MEMORY_DMABUF &&
+> +	    !dev->output_queue.mem_ops->attach_dmabuf)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (!frames_user)
+> +		return -EINVAL;
+> +
+> +	if (nr_frames) {
+> +		frames = kcalloc(nr_frames, sizeof(*frames), GFP_KERNEL);
+> +		if (!frames)
+> +			return -ENOMEM;
+> +	}
+> +
+> +	if (copy_from_user(frames, frames_user, nr_frames * sizeof(*frames))) {
+> +		ret = -EFAULT;
+> +		goto out_free;
+> +	}
+> +
+> +	req.count = nr_frames;
+> +	ret = vcam_ioc_reqbufs(file, dev, &req);
+> +	if (ret)
+> +		goto out_free;
+> +
+> +	if (req.count != nr_frames) {
+> +		struct v4l2_requestbuffers req_free = {
+> +			.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+> +			.memory = memory,
+> +			.count = 0,
+> +		};
+> +
+> +		vcam_ioc_reqbufs(file, dev, &req_free);
+> +		ret = -ENOMEM;
+> +		goto out_free;
+> +	}
+> +
+> +	dev->output_memory = memory;
+> +
+> +	for (i = 0; i < nr_frames; i++) {
+> +		memset(&buf, 0, sizeof(buf));
+> +		buf.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +		buf.memory = memory;
+> +		buf.index = i;
+> +
+> +		ret = vcam_ioc_querybuf(file, dev, &buf);
+> +		if (ret)
+> +			goto out_free_reqbufs;
+> +
+> +		frames[i].index = i;
+> +		frames[i].length = buf.length;
+> +	}
+> +
+> +	if (copy_to_user(frames_user, frames, nr_frames * sizeof(*frames)))
+> +		ret = -EFAULT;
+> +
+> +out_free_reqbufs:
+> +	if (ret) {
+> +		struct v4l2_requestbuffers req_free = {
+> +			.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+> +			.memory = memory,
+> +			.count = 0,
+> +		};
+> +
+> +		vcam_ioc_reqbufs(file, dev, &req_free);
+> +		dev->output_memory = VB2_MEMORY_DMABUF;
+> +	}
+> +out_free:
+> +	kfree(frames);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int vcam_ioc_queue(struct file *file, struct vcam *dev,
+> +			  struct vcam_ioc_queue *queue)
+> +{
+> +	struct v4l2_buffer buf = {
+> +		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+> +		.memory = dev->output_memory,
+> +		.index = queue->index,
+> +		.bytesused = queue->length,
+> +	};
+> +	u32 remainder;
+> +	int ret;
+> +
+> +	if (queue->reserved)
+> +		return -EINVAL;
+> +
+> +	if (dev->output_memory == VB2_MEMORY_DMABUF) {
+> +		buf.m.fd = queue->fd;
+> +		buf.length = dev->pix_format.sizeimage;
+> +	}
+> +
+> +	buf.timestamp.tv_sec =
+> +		div_u64_rem(queue->timestamp, NSEC_PER_SEC, &remainder);
+> +	buf.timestamp.tv_usec = remainder / NSEC_PER_USEC;
+> +
+> +	scoped_guard(mutex, &dev->lock)
+> +	{
+> +		if (vb2_queue_is_busy(&dev->output_queue, file)) {
+> +			ret = -EBUSY;
+> +			break;
+> +		}
+> +
+> +		if (vb2_is_streaming(&dev->capture_queue) &&
+> +		    !vb2_is_streaming(&dev->output_queue)) {
+> +			ret = vb2_streamon(&dev->output_queue, buf.type);
+> +			if (ret)
+> +				break;
+> +		}
+> +
+> +		ret = vb2_qbuf(&dev->output_queue, NULL, &buf);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int vcam_ioc_dequeue(struct file *file, struct vcam *dev,
+> +			    struct vcam_ioc_dequeue *queue)
+> +{
+> +	struct v4l2_buffer buf = {
+> +		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+> +		.memory = dev->output_memory,
+> +	};
+> +	int ret;
+> +
+> +	scoped_guard(mutex, &dev->lock)
+> +	{
+> +		if (vb2_queue_is_busy(&dev->output_queue, file)) {
+> +			ret = -EBUSY;
+> +			break;
+> +		}
+> +
+> +		ret = vb2_dqbuf(&dev->output_queue, &buf,
+> +				file->f_flags & O_NONBLOCK);
+> +	}
+> +	if (ret)
+> +		return ret;
+> +
+> +	queue->index = buf.index;
+> +	queue->length = buf.bytesused;
+> +	queue->timestamp = (u64)buf.timestamp.tv_sec * NSEC_PER_SEC +
+> +			   (u64)buf.timestamp.tv_usec * NSEC_PER_USEC;
+> +	return 0;
+> +}
+> +
+> +static int vcam_ioc_wait(struct vcam *dev, struct vcam_ioc_wait *wait)
+> +{
+> +	const struct v4l2_pix_format *pix = &dev->pix_format;
+> +	struct vcam_mode mode;
+> +	int ret;
+> +
+> +	if (wait->reserved)
+> +		return -EINVAL;
+> +
+> +	if (wait->mask & ~VCAM_STATUS_MASK)
+> +		return -EINVAL;
+> +
+> +	if (!wait->mode)
+> +		return -EINVAL;
+> +
+> +	if (wait->mask) {
+> +		ret = wait_event_interruptible(dev->status_waitq,
+> +					       vcam_status_mask_ready(dev,
+> +								      wait->mask));
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	wait->status = vcam_status_read(dev);
+> +	mode = (struct vcam_mode){
+> +		.width = pix->width,
+> +		.height = pix->height,
+> +		.pixelformat = pix->pixelformat,
+> +		.colorspace = pix->colorspace,
+> +		.stride = pix->bytesperline,
+> +	};
+> +
+> +	if (copy_to_user(u64_to_user_ptr(wait->mode), &mode, sizeof(mode)))
+> +		return -EFAULT;
+> +	return 0;
+> +}
+> +
+> +static long vcam_output_ioctl_core(struct file *file, unsigned int cmd,
+> +				   void *arg)
+> +{
+> +	struct vcam *dev = file->private_data;
+> +	long ret = 0;
+> +
+> +	switch (cmd) {
+> +	case VCAM_IOC_QUEUE:
+> +		ret = vcam_ioc_queue(file, dev, arg);
+> +		break;
+> +	case VCAM_IOC_DEQUEUE:
+> +		ret = vcam_ioc_dequeue(file, dev, arg);
+> +		break;
+> +	case VCAM_IOC_WAIT:
+> +		ret = vcam_ioc_wait(dev, arg);
+> +		break;
+> +	default:
+> +		ret = -EOPNOTSUPP;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static long vcam_ioctl_common(struct file *file, unsigned int cmd,
+> +			      unsigned long arg)
+> +{
+> +	void __user *argp = (void __user *)arg;
+> +	void *karg;
+> +	size_t size;
+> +	long ret;
+> +
+> +	switch (cmd) {
+> +	case VCAM_IOC_QUEUE:
+> +		size = sizeof(struct vcam_ioc_queue);
+> +		break;
+> +	case VCAM_IOC_DEQUEUE:
+> +		size = sizeof(struct vcam_ioc_dequeue);
+> +		break;
+> +	case VCAM_IOC_WAIT:
+> +		size = sizeof(struct vcam_ioc_wait);
+> +		break;
+> +	default:
+> +		return -ENOTTY;
+> +	}
+> +
+> +	if (size > SZ_4K)
+> +		return -ENOTTY;
+> +
+> +	karg = kzalloc(size, GFP_KERNEL);
+> +	if (!karg)
+> +		return -ENOMEM;
+> +
+> +	if (copy_from_user(karg, argp, size)) {
+> +		ret = -EFAULT;
+> +		goto out_free;
+> +	}
+> +
+> +	ret = vcam_output_ioctl_core(file, cmd, karg);
+> +	if (ret)
+> +		goto out_free;
+> +
+> +	if (copy_to_user(argp, karg, size)) {
+> +		ret = -EFAULT;
+> +		goto out_free;
+> +	}
+> +
+> +	ret = 0;
+> +out_free:
+> +	kfree(karg);
+> +	return ret;
+> +}
+> +
+> +static void __vcam_release(struct vcam *dev)
+> +{
+> +	if (!dev->vdev)
+> +		return;
+> +
+> +	vb2_queue_release(&dev->output_queue);
+> +	vb2_queue_release(&dev->capture_queue);
+> +	kfree(dev->modes);
+> +	dev->modes = NULL;
+> +	dev->nr_modes = 0;
+> +
+> +	if (video_is_registered(dev->vdev))
+> +		video_unregister_device(dev->vdev);
+> +	else
+> +		video_device_release(dev->vdev);
+> +
+> +	v4l2_device_unregister(&dev->v4l2_dev);
+> +
+> +	dev->vdev = NULL;
+> +	dev->device_nr = -1;
+> +}
+> +
+> +static void vcam_release(struct kref *ref)
+> +{
+> +	struct vcam *dev;
+> +
+> +	dev = container_of(ref, struct vcam, ref);
+> +
+> +	if (!test_bit(VCAM_FLAG_CREATING, &dev->flags) || dev->device_nr < 0) {
+> +		kfree(dev);
+> +		return;
+> +	}
+> +
+> +	__vcam_release(dev);
+> +	kfree(dev);
+> +}
+> +
+> +static int __vcam_close(struct inode *inode, struct file *file)
+> +{
+> +	struct vcam *dev = file->private_data;
+> +
+> +	if (dev->vdev && video_is_registered(dev->vdev))
+> +		video_unregister_device(dev->vdev);
+> +
+> +	vb2_queue_release(&dev->output_queue);
+> +
+> +	dev->output_memory = VB2_MEMORY_DMABUF;
+> +	kfree(dev->modes);
+> +	dev->modes = NULL;
+> +	dev->nr_modes = 0;
+> +
+> +	kref_put(&dev->ref, vcam_release);
+> +	return 0;
+> +}
+> +
+> +static int vcam_open(struct inode *inode, struct file *file)
+> +{
+> +	struct vcam *dev;
+> +	int ret = nonseekable_open(inode, file);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+> +	if (!dev)
+> +		return -ENOMEM;
+> +
+> +	kref_init(&dev->ref);
+> +	dev->device_nr = -1;
+> +	file->private_data = dev;
+> +	return 0;
+> +}
+> +
+> +static int vcam_close(struct inode *inode, struct file *file)
+> +{
+> +	struct vcam *dev = file->private_data;
+> +	int ret = 0;
+> +
+> +	if (!dev)
+> +		return 0;
+> +
+> +	if (test_bit(VCAM_FLAG_CREATING, &dev->flags) && dev->device_nr >= 0)
+> +		ret = __vcam_close(inode, file);
+> +	else
+> +		kref_put(&dev->ref, vcam_release);
+> +
+> +	file->private_data = NULL;
+> +	return ret;
+> +}
+> +
+> +static __poll_t vcam_poll(struct file *file, struct poll_table_struct *pts)
+> +{
+> +	struct vcam *dev = file->private_data;
+> +
+> +	if (!dev || !test_bit(VCAM_FLAG_CREATING, &dev->flags) ||
+> +	    !test_bit(VCAM_FLAG_READY, &dev->flags) || dev->device_nr < 0)
+> +		return POLLERR;
+> +
+> +	return vb2_core_poll(&dev->output_queue, file, pts);
+> +}
+> +
+> +static int vcam_mmap(struct file *file, struct vm_area_struct *vma)
+> +{
+> +	struct vcam *dev = file->private_data;
+> +
+> +	if (!dev || !test_bit(VCAM_FLAG_CREATING, &dev->flags) ||
+> +	    !test_bit(VCAM_FLAG_READY, &dev->flags) || dev->device_nr < 0)
+> +		return -ENOTTY;
+> +
+> +	return vb2_mmap(&dev->output_queue, vma);
+> +}
+> +
+> +static int vcam_vidioc_g_parm(struct file *file, void *priv,
+> +			      struct v4l2_streamparm *parm)
+> +{
+> +	struct vcam *dev;
+> +
+> +	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		return -EINVAL;
+> +
+> +	dev = video_drvdata(file);
+> +	parm->parm.capture = dev->capture;
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_s_parm(struct file *file, void *priv,
+> +			      struct v4l2_streamparm *parm)
+> +{
+> +	struct v4l2_fract *tpf = &parm->parm.capture.timeperframe;
+> +	struct vcam *dev = video_drvdata(file);
+> +
+> +	if (!vcam_tpf_valid(tpf))
+> +		return -EINVAL;
+> +
+> +	if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		return -EINVAL;
+> +
+> +	dev->capture.timeperframe = *tpf;
+> +	parm->parm.capture = dev->capture;
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_enum_input(struct file *file, void *fh,
+> +				  struct v4l2_input *inp)
+> +{
+> +	struct vcam *dev;
+> +	__u32 index = inp->index;
+> +
+> +	if (index != 0)
+> +		return -EINVAL;
+> +
+> +	memset(inp, 0, sizeof(*inp));
+> +
+> +	inp->index = index;
+> +	strscpy(inp->name, "vcam", sizeof(inp->name));
+> +	inp->type = V4L2_INPUT_TYPE_CAMERA;
+> +	inp->audioset = 0;
+> +	inp->tuner = 0;
+> +	inp->status = 0;
+> +
+> +	dev = video_drvdata(file);
+> +	if (!vb2_is_streaming(&dev->output_queue))
+> +		inp->status |= V4L2_IN_ST_NO_SIGNAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_g_input(struct file *file, void *fh, unsigned int *i)
+> +{
+> +	*i = 0;
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_s_input(struct file *file, void *fh, unsigned int i)
+> +{
+> +	if (i == 0)
+> +		return 0;
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int vcam_vidioc_streamon(struct file *file, void *fh,
+> +				enum v4l2_buf_type type)
+> +{
+> +	struct vcam *dev = video_drvdata(file);
+> +	int ret;
+> +
+> +	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		return -EINVAL;
+> +
+> +	if (vb2_queue_is_busy(&dev->capture_queue, file))
+> +		return -EBUSY;
+> +
+> +	ret = vb2_streamon(&dev->capture_queue, type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (vb2_get_num_buffers(&dev->output_queue)) {
+> +		ret = vb2_streamon(&dev->output_queue,
+> +				   V4L2_BUF_TYPE_VIDEO_OUTPUT);
+> +		if (ret) {
+> +			vb2_streamoff(&dev->capture_queue, type);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vcam_vidioc_streamoff(struct file *file, void *fh,
+> +				 enum v4l2_buf_type type)
+> +{
+> +	struct vcam *dev = video_drvdata(file);
+> +	int ret;
+> +
+> +	if (type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +		return -EINVAL;
+> +
+> +	if (vb2_queue_is_busy(&dev->capture_queue, file))
+> +		return -EBUSY;
+> +
+> +	ret = vb2_streamoff(&dev->capture_queue, type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (vb2_get_num_buffers(&dev->output_queue))
+> +		vb2_streamoff(&dev->output_queue, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ioctl_ops vcam_ioctl_ops = {
+> +	.vidioc_querycap = &vcam_vidioc_querycap,
+> +	.vidioc_enum_framesizes = &vcam_vidioc_enum_framesizes,
+> +	.vidioc_enum_frameintervals = &vcam_vidioc_enum_frameintervals,
+> +	.vidioc_enum_input = &vcam_vidioc_enum_input,
+> +	.vidioc_g_input = &vcam_vidioc_g_input,
+> +	.vidioc_s_input = &vcam_vidioc_s_input,
+> +	.vidioc_enum_fmt_vid_cap = &vcam_vidioc_enum_fmt_cap,
+> +	.vidioc_g_fmt_vid_cap = &vcam_vidioc_g_fmt_vid_cap,
+> +	.vidioc_s_fmt_vid_cap = &vcam_vidioc_s_fmt_vid_cap,
+> +	.vidioc_try_fmt_vid_cap = &vcam_vidioc_try_fmt_vid_cap,
+> +	.vidioc_g_parm = &vcam_vidioc_g_parm,
+> +	.vidioc_s_parm = &vcam_vidioc_s_parm,
+> +
+> +	.vidioc_reqbufs = &vb2_ioctl_reqbufs,
+> +	.vidioc_create_bufs = &vb2_ioctl_create_bufs,
+> +	.vidioc_prepare_buf = &vb2_ioctl_prepare_buf,
+> +	.vidioc_querybuf = &vb2_ioctl_querybuf,
+> +	.vidioc_qbuf = &vb2_ioctl_qbuf,
+> +	.vidioc_dqbuf = &vb2_ioctl_dqbuf,
+> +	.vidioc_expbuf = &vb2_ioctl_expbuf,
+> +	.vidioc_streamon = &vcam_vidioc_streamon,
+> +	.vidioc_streamoff = &vcam_vidioc_streamoff,
+> +};
+> +
+> +static enum vb2_buffer_state vcam_buf_fill(struct vcam *dev,
+> +					   struct vcam_buf *buf,
+> +					   const void *src, u32 src_len,
+> +					   u64 timestamp)
+> +{
+> +	struct vb2_buffer *vb = &buf->vb.vb2_buf;
+> +	u32 sequence;
+> +	void *dst;
+> +
+> +	dst = vb2_plane_vaddr(vb, 0);
+> +	if (!dst)
+> +		return VB2_BUF_STATE_ERROR;
+> +
+> +	if (!src_len || src_len > dev->pix_format.sizeimage)
+> +		src_len = dev->pix_format.sizeimage;
+> +
+> +	if (!src)
+> +		return VB2_BUF_STATE_ERROR;
+> +
+> +	memcpy(dst, src, src_len);
+> +
+> +	sequence = (u32)(atomic_inc_return(&dev->sequence) - 1);
+> +
+> +	vb->timestamp = timestamp ? timestamp : ktime_get_ns();
+> +	buf->vb.sequence = sequence;
+> +	buf->vb.field = dev->pix_format.field;
+> +	vb2_set_plane_payload(vb, 0, src_len);
+> +
+> +	return VB2_BUF_STATE_DONE;
+> +}
+> +
+> +static bool vcam_buf_flip(struct vcam *dev, struct vb2_buffer *out_vb,
+> +			  struct vcam_buf *cap_buf, u32 bytesused)
+> +{
+> +	struct vb2_buffer *cap_vb = &cap_buf->vb.vb2_buf;
+> +	u32 sequence;
+> +
+> +	if (!out_vb->planes[0].dbuf || !cap_vb->planes[0].dbuf)
+> +		return false;
+> +
+> +	if (out_vb->planes[0].dbuf != cap_vb->planes[0].dbuf)
+> +		return false;
+> +
+> +	if (!bytesused)
+> +		bytesused = dev->pix_format.sizeimage;
+> +	if (bytesused > vb2_plane_size(cap_vb, 0))
+> +		bytesused = vb2_plane_size(cap_vb, 0);
+> +
+> +	sequence = (u32)(atomic_inc_return(&dev->sequence) - 1);
+> +
+> +	cap_vb->timestamp = out_vb->timestamp ? out_vb->timestamp :
+> +						ktime_get_ns();
+> +	cap_buf->vb.sequence = sequence;
+> +	cap_buf->vb.field = dev->pix_format.field;
+> +	vb2_set_plane_payload(cap_vb, 0, bytesused);
+> +
+> +	return true;
+> +}
+> +
+> +static bool vcam_buf_pair_dequeue(struct vcam *dev, struct vcam_buf **out_buf,
+> +				  struct vcam_buf **cap_buf)
+> +{
+> +	unsigned long flags;
+> +	bool dequeued = false;
+> +
+> +	spin_lock_irqsave(&dev->frame_lock, flags);
+> +	if (!list_empty(&dev->output_list) && !list_empty(&dev->capture_list)) {
+> +		*out_buf = list_first_entry(&dev->output_list, struct vcam_buf,
+> +					    list);
+> +		list_del(&(*out_buf)->list);
+> +		*cap_buf = list_first_entry(&dev->capture_list, struct vcam_buf,
+> +					    list);
+> +		list_del(&(*cap_buf)->list);
+> +		dequeued = true;
+> +	}
+> +	spin_unlock_irqrestore(&dev->frame_lock, flags);
+> +	return dequeued;
+> +}
+> +
+> +static void vcam_dequeue_frames(struct vcam *data)
+> +{
+> +	const struct vcam_format *format;
+> +	enum vb2_buffer_state cap_state;
+> +	struct vcam_buf *cap_buf;
+> +	struct vcam_buf *out_buf;
+> +	struct vb2_buffer *vb;
+> +	bool zero_copy;
+> +	u32 bytesused;
+> +	void *src;
+> +
+> +	if (!vcam_is_streaming(data))
+> +		return;
+> +
+> +	format = vcam_find_format(data->pix_format.pixelformat);
+> +	while (vcam_buf_pair_dequeue(data, &out_buf, &cap_buf)) {
+> +		cap_state = VB2_BUF_STATE_DONE;
+> +		vb = &out_buf->vb.vb2_buf;
+> +		bytesused = vb2_get_plane_payload(vb, 0);
+> +		if (!bytesused || bytesused > data->pix_format.sizeimage)
+> +			bytesused = data->pix_format.sizeimage;
+> +
+> +		if (bytesused < data->pix_format.sizeimage &&
+> +		    (!format || !(format->flags & VCAM_COMPRESSED))) {
+> +			cap_state = VB2_BUF_STATE_ERROR;
+> +			goto out_done;
+> +		}
+> +
+> +		zero_copy = vcam_buf_flip(data, vb, cap_buf, bytesused);
+> +		if (!zero_copy &&
+> +		    (!(out_buf->flags & VCAM_BUF_FLAG_MAPPABLE) ||
+> +		     !(cap_buf->flags & VCAM_BUF_FLAG_MAPPABLE))) {
+> +			dev_dbg(&data->vdev->dev,
+> +				"unshared unmappable capture and output");
+> +			cap_state = VB2_BUF_STATE_ERROR;
+> +			goto out_done;
+> +		}
+> +		if (!zero_copy) {
+> +			src = vb2_plane_vaddr(vb, 0);
+> +			if (!src) {
+> +				cap_state = VB2_BUF_STATE_ERROR;
+> +				goto out_done;
+> +			}
+> +
+> +			cap_state = vcam_buf_fill(data, cap_buf, src, bytesused,
+> +						  vb->timestamp);
+> +		}
+> +out_done:
+> +		vb2_buffer_done(&cap_buf->vb.vb2_buf, cap_state);
+> +
+> +		if (cap_state == VB2_BUF_STATE_ERROR)
+> +			vb2_buffer_done(vb, VB2_BUF_STATE_ERROR);
+> +		else
+> +			vb2_buffer_done(vb, VB2_BUF_STATE_DONE);
+> +	}
+> +}
+> +
+> +static int vcam_vdev_open(struct file *file)
+> +{
+> +	struct vcam *dev;
+> +	int ret;
+> +
+> +	dev = video_drvdata(file);
+> +	if (test_and_set_bit(VCAM_FLAG_IS_OPEN, &dev->flags))
+> +		return -EBUSY;
+> +	if (dev->device_nr < 0 || !test_bit(VCAM_FLAG_READY, &dev->flags)) {
+> +		clear_bit(VCAM_FLAG_IS_OPEN, &dev->flags);
+> +		return -ENODEV;
+> +	}
+> +
+> +	ret = v4l2_fh_open(file);
+> +	if (ret) {
+> +		clear_bit(VCAM_FLAG_IS_OPEN, &dev->flags);
+> +		return ret;
+> +	}
+> +
+> +	kref_get(&dev->ref);
+> +	return 0;
+> +}
+> +
+> +static int vcam_vdev_close(struct file *file)
+> +{
+> +	struct vcam *dev;
+> +	int ret;
+> +
+> +	dev = video_drvdata(file);
+> +	ret = _vb2_fop_release(file, NULL);
+> +	clear_bit(VCAM_FLAG_IS_OPEN, &dev->flags);
+> +
+> +	kref_put(&dev->ref, vcam_release);
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_file_operations vcam_vdev_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = vcam_vdev_open,
+> +	.release = vcam_vdev_close,
+> +	.poll = vb2_fop_poll,
+> +	.mmap = vb2_fop_mmap,
+> +	.unlocked_ioctl = video_ioctl2,
+> +};
+> +
+> +static int vcam_ioc_create_validate(struct vcam_ioc_create *config,
+> +				    char *card_label)
+> +{
+> +	long len, i;
+> +
+> +	if (config->device_nr != 0)
+> +		return -EINVAL;
+> +	if (config->reserved)
+> +		return -EINVAL;
+> +	if (!config->nr_modes || config->nr_modes > VCAM_MAX_MODES)
+> +		return -EINVAL;
+> +	if (!config->modes)
+> +		return -EINVAL;
+> +	if (config->nr_frames > VCAM_MAX_FRAMES)
+> +		return -E2BIG;
+> +	if (config->nr_frames < VCAM_MIN_FRAMES)
+> +		return -EINVAL;
+> +	if (!config->frames)
+> +		return -EINVAL;
+> +
+> +	memset(card_label, 0, VCAM_CARD_LABEL_MAX);
+> +	len = strncpy_from_user(card_label,
+> +				u64_to_user_ptr(config->device_name),
+> +				VCAM_CARD_LABEL_MAX);
+> +	if (len < 0)
+> +		return -EFAULT;
+> +	if (len >= VCAM_CARD_LABEL_MAX)
+> +		return -E2BIG;
+> +	if (!len)
+> +		return -EINVAL;
+> +	if (!isalnum((unsigned char)card_label[0]))
+> +		return -EINVAL;
+> +	for (i = 0; i < len; i++) {
+> +		if (!isalnum((unsigned char)card_label[i]) &&
+> +		    !isspace((unsigned char)card_label[i]))
+> +			return -EINVAL;
+> +	}
+> +	if (!isalnum((unsigned char)card_label[len - 1]))
+> +		return -EINVAL;
+> +
+> +	return len;
+> +}
+> +
+> +static int vcam_vb2_queue_setup(struct vb2_queue *queue,
+> +				unsigned int *nr_buffers,
+> +				unsigned int *nr_planes, unsigned int sizes[],
+> +				struct device *alloc_devs[])
+> +{
+> +	struct vcam *data = vb2_get_drv_priv(queue);
+> +	unsigned int sizeimage = data->pix_format.sizeimage;
+> +
+> +	if (!sizeimage)
+> +		return -EINVAL;
+> +
+> +	if (*nr_buffers < VCAM_MIN_FRAMES)
+> +		*nr_buffers = VCAM_MIN_FRAMES;
+> +	if (*nr_buffers > VCAM_MAX_FRAMES)
+> +		*nr_buffers = VCAM_MAX_FRAMES;
+> +
+> +	if (*nr_planes)
+> +		return sizes[0] < sizeimage ? -EINVAL : 0;
+> +
+> +	*nr_planes = 1;
+> +	sizes[0] = sizeimage;
+> +	return 0;
+> +}
+> +
+> +static int vcam_vb2_buf_prepare(struct vb2_buffer *vb)
+> +{
+> +	struct vcam *data = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct vcam_buf *buf = container_of(vbuf, struct vcam_buf, vb);
+> +	unsigned int sizeimage = data->pix_format.sizeimage;
+> +	unsigned int bytesused;
+> +	void *vaddr;
+> +
+> +	if (vb2_plane_size(vb, 0) < sizeimage)
+> +		return -EINVAL;
+> +
+> +	vbuf->field = data->pix_format.field;
+> +	bytesused = vb2_get_plane_payload(vb, 0);
+> +	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type) && !bytesused)
+> +		vb2_set_plane_payload(vb, 0, sizeimage);
+> +
+> +	buf->flags = VCAM_BUF_FLAG_MAPPABLE;
+> +	if (vb->planes[0].dbuf) {
+> +		vaddr = vb2_plane_vaddr(vb, 0);
+> +		if (!vaddr)
+> +			buf->flags &= ~VCAM_BUF_FLAG_MAPPABLE;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static void vcam_vb2_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct vcam *data = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct vcam_buf *buf;
+> +	unsigned long flags;
+> +
+> +	buf = container_of(vbuf, struct vcam_buf, vb);
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type)) {
+> +		spin_lock_irqsave(&data->frame_lock, flags);
+> +		list_add_tail(&buf->list, &data->output_list);
+> +		spin_unlock_irqrestore(&data->frame_lock, flags);
+> +	} else {
+> +		spin_lock_irqsave(&data->frame_lock, flags);
+> +		list_add_tail(&buf->list, &data->capture_list);
+> +		spin_unlock_irqrestore(&data->frame_lock, flags);
+> +	}
+> +
+> +	vcam_dequeue_frames(data);
+> +}
+> +
+> +static int vcam_vb2_prepare_streaming(struct vb2_queue *vq)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int vcam_vb2_start_streaming(struct vb2_queue *vq, unsigned int count)
+> +{
+> +	struct vcam *data = vb2_get_drv_priv(vq);
+> +
+> +	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
+> +		atomic_set(&data->sequence, 0);
+> +		vcam_status_update_stream(data, true);
+> +	}
+> +
+> +	vcam_dequeue_frames(data);
+> +	return 0;
+> +}
+> +
+> +static void vcam_vb2_stop_streaming(struct vb2_queue *vq)
+> +{
+> +	struct vcam *data = vb2_get_drv_priv(vq);
+> +	struct vcam_buf *buf, *tmp;
+> +	unsigned long flags;
+> +	LIST_HEAD(done_list);
+> +
+> +	if (V4L2_TYPE_IS_CAPTURE(vq->type))
+> +		vcam_status_update_stream(data, false);
+> +
+> +	spin_lock_irqsave(&data->frame_lock, flags);
+> +	list_splice_init(&data->output_list, &done_list);
+> +	list_splice_init(&data->capture_list, &done_list);
+> +	spin_unlock_irqrestore(&data->frame_lock, flags);
+> +
+> +	list_for_each_entry_safe(buf, tmp, &done_list, list)
+> +		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+> +}
+> +
+> +static const struct vb2_ops vcam_vb2_ops = {
+> +	.queue_setup = vcam_vb2_queue_setup,
+> +	.buf_queue = vcam_vb2_buf_queue,
+> +	.buf_prepare = vcam_vb2_buf_prepare,
+> +	.prepare_streaming = vcam_vb2_prepare_streaming,
+> +	.start_streaming = vcam_vb2_start_streaming,
+> +	.stop_streaming = vcam_vb2_stop_streaming,
+> +};
+> +
+> +static int vcam_ioc_create(struct file *file, struct vcam *dev,
+> +			   struct vcam_ioc_create *config, char *card_label,
+> +			   unsigned int len)
+> +{
+> +	struct vcam_mode *modes = NULL;
+> +	struct v4l2_format try_fmt;
+> +	struct video_device *vdev;
+> +	struct vb2_queue *queue;
+> +	struct v4l2_format fmt;
+> +	long ret;
+> +	u32 i;
+> +
+> +	strscpy(dev->v4l2_dev.name, "vcam", sizeof(dev->v4l2_dev.name));
+> +
+> +	ret = v4l2_device_register(NULL, &dev->v4l2_dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	vdev = video_device_alloc();
+> +	if (!vdev) {
+> +		ret = -ENOMEM;
+> +		goto err_unregister;
+> +	}
+> +
+> +	dev->vdev = vdev;
+> +	video_set_drvdata(vdev, dev);
+> +	memcpy(vdev->name, card_label, len);
+> +	vdev->name[len] = '\0';
+> +	vdev->vfl_type = VFL_TYPE_VIDEO;
+> +	vdev->fops = &vcam_vdev_fops;
+> +	vdev->ioctl_ops = &vcam_ioctl_ops;
+> +	vdev->release = &video_device_release;
+> +	vdev->minor = -1;
+> +	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	vdev->vfl_dir = VFL_DIR_RX;
+> +
+> +	mutex_init(&dev->lock);
+> +	spin_lock_init(&dev->frame_lock);
+> +	spin_lock_init(&dev->status_lock);
+> +	INIT_LIST_HEAD(&dev->capture_list);
+> +	INIT_LIST_HEAD(&dev->output_list);
+> +	dev->status = VCAM_STATUS_IDLE;
+> +	dev->output_memory = VB2_MEMORY_DMABUF;
+> +	init_waitqueue_head(&dev->status_waitq);
+> +
+> +	dev->vdev->v4l2_dev = &dev->v4l2_dev;
+> +	dev->vdev->queue = &dev->capture_queue;
+> +	dev->vdev->lock = &dev->lock;
+> +	dev->capture.capability = 0;
+> +	dev->capture.capturemode = 0;
+> +	dev->capture.extendedmode = 0;
+> +	dev->capture.readbuffers = VCAM_MIN_FRAMES;
+> +	dev->capture.timeperframe.numerator = 1;
+> +	dev->capture.timeperframe.denominator = 30;
+> +
+> +	if (!IS_ENABLED(CONFIG_DMA_SHARED_BUFFER) ||
+> +	    !vb2_vmalloc_memops.attach_dmabuf) {
+> +		ret = -EOPNOTSUPP;
+> +		goto err_unregister;
+> +	}
+> +
+> +	modes = kcalloc(config->nr_modes, sizeof(*modes), GFP_KERNEL);
+> +	if (!modes) {
+> +		ret = -ENOMEM;
+> +		goto err_unregister;
+> +	}
+> +
+> +	if (copy_from_user(modes, u64_to_user_ptr(config->modes),
+> +			   config->nr_modes * sizeof(*modes))) {
+> +		ret = -EFAULT;
+> +		goto err_modes;
+> +	}
+> +
+> +	for (i = 0; i < config->nr_modes; i++) {
+> +		struct vcam_mode *mode = &modes[i];
+> +
+> +		if (!mode->width || !mode->height || !mode->pixelformat) {
+> +			ret = -EINVAL;
+> +			goto err_modes;
+> +		}
+> +
+> +		if (memchr_inv(mode->reserved, 0, sizeof(mode->reserved))) {
+> +			ret = -EINVAL;
+> +			goto err_modes;
+> +		}
+> +
+> +		fmt = (struct v4l2_format){
+> +			.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+> +			.fmt.pix = { .width = mode->width,
+> +				     .height = mode->height,
+> +				     .pixelformat = mode->pixelformat,
+> +				     .colorspace = mode->colorspace,
+> +				     .bytesperline = mode->stride,
+> +				     .field = V4L2_FIELD_NONE }
+> +		};
+> +
+> +		try_fmt = fmt;
+> +		ret = vcam_set_format(&try_fmt);
+> +		if (ret)
+> +			goto err_modes;
+> +
+> +		if (try_fmt.fmt.pix.width != mode->width ||
+> +		    try_fmt.fmt.pix.height != mode->height ||
+> +		    try_fmt.fmt.pix.pixelformat != mode->pixelformat ||
+> +		    (mode->colorspace != V4L2_COLORSPACE_DEFAULT &&
+> +		     try_fmt.fmt.pix.colorspace != mode->colorspace) ||
+> +		    (mode->stride &&
+> +		     try_fmt.fmt.pix.bytesperline != mode->stride)) {
+> +			ret = -EINVAL;
+> +			goto err_modes;
+> +		}
+> +
+> +		mode->colorspace = try_fmt.fmt.pix.colorspace;
+> +		mode->stride = try_fmt.fmt.pix.bytesperline;
+> +	}
+> +
+> +	sort(modes, config->nr_modes, sizeof(*modes), vcam_mode_cmp, NULL);
+> +	for (i = 1; i < config->nr_modes; i++) {
+> +		if (vcam_mode_equal(&modes[i - 1], &modes[i])) {
+> +			ret = -EINVAL;
+> +			goto err_modes;
+> +		}
+> +	}
+> +
+> +	dev->modes = modes;
+> +	dev->nr_modes = config->nr_modes;
+> +	modes = NULL;
+> +	dev->pix_format = (struct v4l2_pix_format){
+> +		.width = dev->modes[0].width,
+> +		.height = dev->modes[0].height,
+> +		.pixelformat = dev->modes[0].pixelformat,
+> +		.colorspace = dev->modes[0].colorspace,
+> +		.bytesperline = dev->modes[0].stride,
+> +		.field = V4L2_FIELD_NONE,
+> +	};
+> +
+> +	fmt = (struct v4l2_format){
+> +		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT,
+> +		.fmt.pix = dev->pix_format,
+> +	};
+> +
+> +	ret = vcam_set_format(&fmt);
+> +	if (ret)
+> +		goto err_unregister;
+> +
+> +	dev->pix_format = fmt.fmt.pix;
+> +
+> +	queue = &dev->capture_queue;
+> +	queue->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +	queue->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+> +	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +	queue->drv_priv = dev;
+> +	queue->buf_struct_size = sizeof(struct vcam_buf);
+> +	queue->ops = &vcam_vb2_ops;
+> +	queue->mem_ops = &vb2_vmalloc_memops;
+> +	queue->lock = &dev->lock;
+> +	queue->dev = &dev->vdev->dev;
+> +	ret = vb2_queue_init(queue);
+> +	if (ret)
+> +		goto err_unregister;
+> +
+> +	queue = &dev->output_queue;
+> +	queue->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +	queue->io_modes = VB2_DMABUF;
+> +	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> +	queue->drv_priv = dev;
+> +	queue->buf_struct_size = sizeof(struct vcam_buf);
+> +	queue->ops = &vcam_vb2_ops;
+> +	queue->mem_ops = &vb2_vmalloc_memops;
+> +	queue->lock = &dev->lock;
+> +	queue->dev = &dev->vdev->dev;
+> +	ret = vb2_queue_init(queue);
+> +	if (ret)
+> +		goto err_capture_queue;
+> +
+> +	ret = vcam_ioc_alloc(file, dev, config->nr_frames,
+> +			     u64_to_user_ptr(config->frames),
+> +			     VB2_MEMORY_DMABUF);
+> +	if (ret)
+> +		goto err_output_queue;
+> +
+> +	ret = video_register_device(dev->vdev, VFL_TYPE_VIDEO, -1);
+> +	if (ret < 0)
+> +		goto err_output_queue;
+> +
+> +	config->device_nr = dev->vdev->num;
+> +	return 0;
+> +
+> +err_output_queue:
+> +	vb2_queue_release(&dev->output_queue);
+> +
+> +err_capture_queue:
+> +	vb2_queue_release(&dev->capture_queue);
+> +
+> +err_unregister:
+> +	if (dev->vdev)
+> +		video_device_release(dev->vdev);
+> +	v4l2_device_unregister(&dev->v4l2_dev);
+> +err_modes:
+> +	kfree(dev->modes);
+> +	dev->modes = NULL;
+> +	dev->nr_modes = 0;
+> +	kfree(modes);
+> +	return ret;
+> +}
+> +
+> +static long vcam_ioctl(struct file *file, unsigned int cmd, unsigned long parm)
+> +{
+> +	struct vcam *dev = file->private_data;
+> +	char card_label[VCAM_CARD_LABEL_MAX];
+> +	struct vcam_ioc_create config;
+> +	long ret, len;
+> +
+> +	if (cmd != VCAM_IOC_CREATE) {
+> +		if (!dev || !test_bit(VCAM_FLAG_CREATING, &dev->flags) ||
+> +		    !test_bit(VCAM_FLAG_READY, &dev->flags) ||
+> +		    dev->device_nr < 0)
+> +			return -ENOTTY;
+> +		return vcam_ioctl_common(file, cmd, parm);
+> +	}
+> +
+> +	if (!dev)
+> +		return -ENOTTY;
+> +
+> +	if (test_and_set_bit(VCAM_FLAG_CREATING, &dev->flags))
+> +		return -EBUSY;
+> +
+> +	if (!parm) {
+> +		ret = -EINVAL;
+> +		goto err_clear;
+> +	}
+> +
+> +	if (copy_from_user(&config, (void *)parm, sizeof(config))) {
+> +		ret = -EFAULT;
+> +		goto err_clear;
+> +	}
+> +
+> +	len = vcam_ioc_create_validate(&config, card_label);
+> +	if (len < 0) {
+> +		ret = len;
+> +		goto err_clear;
+> +	}
+> +
+> +	ret = vcam_ioc_create(file, dev, &config, card_label, len);
+> +	if (ret)
+> +		goto err_clear;
+> +
+> +	if (copy_to_user((void *)parm, &config, sizeof(config))) {
+> +		ret = -EFAULT;
+> +		goto err_release;
+> +	}
+> +
+> +	dev->device_nr = dev->vdev->num;
+> +	snprintf(dev->v4l2_dev.name, sizeof(dev->v4l2_dev.name), "vcam-%d",
+> +		 dev->device_nr);
+> +	set_bit(VCAM_FLAG_READY, &dev->flags);
+> +	return 0;
+> +
+> +err_release:
+> +	__vcam_release(dev);
+> +
+> +err_clear:
+> +	clear_bit(VCAM_FLAG_CREATING, &dev->flags);
+> +	return ret;
+> +}
+> +
+> +static const struct file_operations vcam_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = vcam_open,
+> +	.unlocked_ioctl = vcam_ioctl,
+> +#ifdef CONFIG_COMPAT
+> +	.compat_ioctl = vcam_ioctl,
+> +#endif
+> +	.poll = vcam_poll,
+> +	.mmap = vcam_mmap,
+> +	.release = vcam_close,
+> +	.llseek = noop_llseek,
+> +};
+> +
+> +static struct miscdevice vcam_misc = {
+> +	.minor = MISC_DYNAMIC_MINOR,
+> +	.name = "vcam",
+> +	.fops = &vcam_fops,
+> +	.groups = vcam_attr_groups,
+> +};
+> +
+> +module_misc_device(vcam_misc);
+> diff --git a/include/uapi/linux/vcam.h b/include/uapi/linux/vcam.h
+> new file mode 100644
+> index 000000000000..a4b4d611ac58
+> --- /dev/null
+> +++ b/include/uapi/linux/vcam.h
+> @@ -0,0 +1,141 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
+> +/*
+> + * Copyright (c) Jarkko Sakkinen 2025-2026
+> + */
+> +
+> +#ifndef _UAPI_LINUX_VCAM_H
+> +#define _UAPI_LINUX_VCAM_H
+> +
+> +#include <linux/types.h>
+> +#include <linux/ioctl.h>
+> +
+> +#define VCAM_IOC_BASE 'v'
+> +
+> +/**
+> + * DOC: vcam uAPI
+> + *
+> + * The ioctl API of /dev/vcam provides ioctls for creating DMA-BUF backed
+> + * virtual capture devices, and pushing image frames for consumption.
+> + *
+> + * Frames are queued with %VCAM_IOC_QUEUE and recycled with %VCAM_IOC_DEQUEUE.
+> + * Queueing without dequeuing eventually exhausts the output queue.
+> + */
+> +
+> +/**
+> + * enum vcam_status - Status bits
+> + * @VCAM_STATUS_IDLE: Capture queue is not streaming.
+> + * @VCAM_STATUS_STREAMING: Capture queue is streaming.
+> + */
+> +enum vcam_status {
+> +	VCAM_STATUS_IDLE = 1U << 0,
+> +	VCAM_STATUS_STREAMING = 1U << 1,
+> +};
+> +
+> +/**
+> + * struct vcam_mode - Supported capture mode
+> + * @width: Frame width in pixels.
+> + * @height: Frame height in pixels.
+> + * @pixelformat: Four CC format code.
+> + * @colorspace: V4L2 colorspace value.
+> + * @stride: Bytes per line in the output format.
+> + * @reserved: Reserved for future use. Must be set to zero.
+> + */
+> +struct vcam_mode {
+> +	__u32 width;
+> +	__u32 height;
+> +	__u32 pixelformat;
+> +	__u32 colorspace;
+> +	__u32 stride;
+> +	__u8 reserved[12];
+> +};
+> +
+> +/**
+> + * struct vcam_ioc_create - Create a virtual camera device
+> + * @device_name: (input) User pointer to device name string.
+> + * @device_nr: (output) Device number (must be 0 on input).
+> + * @nr_modes: (input) Number of entries in @modes.
+> + * @modes: (input) User pointer to an array of &struct vcam_mode.
+> + * @reserved: Reserved for future use. Must be set to zero.
+> + * @nr_frames: (input) Number of entries in @frames.
+> + * @frames: (input/output) User pointer to an array of &struct vcam_frame.
+> + */
+> +struct vcam_ioc_create {
+> +	__u64 device_name;
+> +	__u32 device_nr;
+> +	__u32 nr_modes;
+> +	__u64 modes;
+> +	__u32 reserved;
+> +	__u32 nr_frames;
+> +	__u64 frames;
+> +};
+> +
+> +/**
+> + * struct vcam_frame - a frame descriptor
+> + * @index: Frame index assigned by the driver.
+> + * @length: Frame size in bytes.
+> + */
+> +struct vcam_frame {
+> +	__u32 index;
+> +	__u32 length;
+> +};
+> +
+> +/**
+> + * struct vcam_ioc_queue - Produce an output buffer
+> + * @fd: (input) DMA-BUF file descriptor.
+> + * @index: (input) Buffer index for %VCAM_IOC_QUEUE.
+> + * @length: (input) Payload length in bytes for %VCAM_IOC_QUEUE.
+> + * @reserved: Reserved for future use. Must be set to zero.
+> + * @timestamp: (input) Timestamp in nanoseconds for %VCAM_IOC_QUEUE.
+> + */
+> +struct vcam_ioc_queue {
+> +	__u32 fd;
+> +	__u32 index;
+> +	__u32 length;
+> +	__u32 reserved;
+> +	__u64 timestamp;
+> +};
+> +
+> +/**
+> + * struct vcam_ioc_dequeue - Dequeue an output buffer
+> + * @index: (output) Buffer index for %VCAM_IOC_DEQUEUE.
+> + * @length: (output) Payload length in bytes for %VCAM_IOC_DEQUEUE.
+> + * @timestamp: (output) Timestamp in nanoseconds for %VCAM_IOC_DEQUEUE.
+> + */
+> +struct vcam_ioc_dequeue {
+> +	__u32 index;
+> +	__u32 length;
+> +	__u64 timestamp;
+> +};
+> +
+> +/**
+> + * struct vcam_ioc_wait - Wait for capture status
+> + * @mask: (input) Mask of status bits to wait for. Set to zero to return
+> + *         immediately.
+> + * @status: (output) Current status bit mask.
+> + * @mode: (output) User pointer to &struct vcam_mode.
+> + * @reserved: Reserved for future use. Must be set to zero.
+> + */
+> +struct vcam_ioc_wait {
+> +	__u64 mask;
+> +	__u64 status;
+> +	__u64 mode;
+> +	__u64 reserved;
+> +};
+> +
+> +/**
+> + * DOC: vcam ioctls
+> + *
+> + * %VCAM_IOC_CREATE: Creates a virtual camera device, stores the allowed capture
+> + * modes, and associates output buffers described by &struct vcam_frame with
+> + * DMA-BUF file descriptors.
+> + * %VCAM_IOC_QUEUE: Enqueues an output buffer for capture.
+> + * %VCAM_IOC_DEQUEUE: Dequeues a consumed output buffer for reuse.
+> + * %VCAM_IOC_WAIT: Waits for the subset of status bits to activate and returns
+> + * the current status and capture mode.
+> + */
+> +#define VCAM_IOC_CREATE _IOWR(VCAM_IOC_BASE, 0x00, struct vcam_ioc_create)
+> +#define VCAM_IOC_QUEUE _IOW(VCAM_IOC_BASE, 0x01, struct vcam_ioc_queue)
+> +#define VCAM_IOC_DEQUEUE _IOR(VCAM_IOC_BASE, 0x02, struct vcam_ioc_dequeue)
+> +#define VCAM_IOC_WAIT _IOWR(VCAM_IOC_BASE, 0x04, struct vcam_ioc_wait)
+> +
+> +#endif /* _UAPI_LINUX_VCAM_H */
 
 
