@@ -1,84 +1,84 @@
-Return-Path: <linux-media+bounces-52140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52141-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qPyyIN2CgmneVgMAu9opvQ
-	(envelope-from <linux-media+bounces-52140-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 00:21:01 +0100
+	id 4AmMAkiDgmneVgMAu9opvQ
+	(envelope-from <linux-media+bounces-52141-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 00:22:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744E3DFB03
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 00:21:00 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C362DFB8B
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 00:22:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C34A5302D8AA
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 23:20:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0A65F30B82EB
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 23:22:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5237C311952;
-	Tue,  3 Feb 2026 23:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DA7C32571B;
+	Tue,  3 Feb 2026 23:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eNMZfLj9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lA7Z6LXz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B53F7E792
-	for <linux-media@vger.kernel.org>; Tue,  3 Feb 2026 23:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE0C31812C
+	for <linux-media@vger.kernel.org>; Tue,  3 Feb 2026 23:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770160857; cv=none; b=HwesQKYOyIQdXYzH+HZf1OOcJ3U06lKe7x97cfdKYtme1SrqpixmENQR+Da0J8fcLZllMGiVmqYx9gohsQhnKywiifsi1wej1VGvGHkly/0aenfwr8UVgndmXYKyxghEwmjXhD1IS5A2KPKCrA1cM7aNkoUS9T6f9g4ZqZGi+Jg=
+	t=1770160940; cv=none; b=MEATRFbl7m5WRb7KKU32s8ZPMgVK80iJ9fWUs2UBH2bDBR/w2CEgpV9VdXJwJz1mcCaPyODegfLxRyPtGKF9CoCDylzrYWMjQJ7oL21K+y8yNj53h91/XS1sc8B60yDe5Sg7a4HST59/Gye2BlnBdgAVpsa/DIkHTo+h63n08G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770160857; c=relaxed/simple;
-	bh=DBlsEnCNWOdgU65s3UGQhrlX8AWLWkEiqvqbN717n08=;
+	s=arc-20240116; t=1770160940; c=relaxed/simple;
+	bh=vmGDTvEh0kB/nA8sp+H/PED+RYlPTGDJvMgu8OOxZgU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pOCiJIbZ+mVmjoO84GSh7sk4IO0D8qxeV5OFv9VIFAfvDpZfi0lsnIuH53bGAe1LAmxwZFs7U2BYvk0xS/TOX+a2+ZMcEuWpFBiiUu6NY+t5TFF6qKwuN/m8nvZkz8t2gCPJIs+7sBTNQZEUCG1OtduEq/O+kj20SCzUIaNF85E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eNMZfLj9; arc=none smtp.client-ip=209.85.128.47
+	 In-Reply-To:Content-Type; b=AhnT0X1YgC1EEjO/nlkrzrLPI95hm/0PEQ3H5iDzRUD0O9NL1ftZ7teFogINUUYfRjGSzYZY2fSr9uAAy5bCE7sOYiTuL0DcABGPfn/+S78BXBbJ6M2QNBJt8FweathUT9WDylarkenYukTCDMyN89q+QqzCFLe7g8t10d+o8EQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lA7Z6LXz; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47edd6111b4so65220615e9.1
-        for <linux-media@vger.kernel.org>; Tue, 03 Feb 2026 15:20:55 -0800 (PST)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-432d28870ddso61354f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 03 Feb 2026 15:22:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770160854; x=1770765654; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1770160935; x=1770765735; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kP3cETuc1CkrPsq53s7PbxZQOsGNVLDKkivfucBoVDY=;
-        b=eNMZfLj9tkKmMOs7kikYt2+qc5gx6WoZ55jn8TNRRC1cjpDOasTzJW4rUI/5wNRWXq
-         SrUNGKbwjHVJaBK8MvjKvfPOqTXD+6NmgLuNSZDtt1+g5LlL9yC3hN7vCoX2zFOgAjpp
-         22GvTZLF/qw5MTX8mUbdvMDfxgvkiKU8sHhvdNk0VM+mBPFdmgb5ySpZXtQuiSwf3+QR
-         JrW390zUgThE72BN26Quk/LbSP0iU9l9SsxBvkKXkyc1Xt76uFILq18uUQjDaYicR+Ay
-         YryAXBbzSUvq1vjS/HnkG/1uQRRETkKfaDj54bMCoszy1nxEkbudE7q4C7KfVf+E0+is
-         ct7w==
+        bh=zHQSzgLVAjnFP4dBv05KnkyuxPSQFJ3wmRvAOwsqKgI=;
+        b=lA7Z6LXzT+vaJ1rbVAfhg+7GjJkYrIgBM/ims6zHGMCYrIxKjmE+WPTRfIzvcSdrA6
+         jXpZ5dLPLw5gwb75RVqmPp3+pgUFoRZ18CYP6U/dgkpcDx5LKNMhAzamnfaku1LiRPh8
+         iWyVmJ6+6IgFiVkuGUW9opeO49Fd8zt+lH/PrmgYDzflPy3JCaXnRt+0aUWfmwnQV0yO
+         hqHG96AxXgFcKXIVNuUyYO5q3x5j7gF13SCMf+QIewodnXqcPRV8yxRjS72a4wNk0LTn
+         aeTtg0nxCbrFvDYRBkoawUU+gbtm1DkOTxo5zGzc8INEo5nDZ2hWxOZ/LTBVglaKaAeZ
+         iuEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770160854; x=1770765654;
+        d=1e100.net; s=20230601; t=1770160935; x=1770765735;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kP3cETuc1CkrPsq53s7PbxZQOsGNVLDKkivfucBoVDY=;
-        b=T84Zpuu95kRXawS6j48FRkYCCc+cVA7YUGK7y4ywPxl9H2tJPd7QF/ydlzh/7LxviE
-         dsQsnaP7AYl+hCUhPnnpNfrguhjsn+e98E0ixkMuezOhLmgKPUhatWMPc7UDjqQH3bHy
-         4QbdvMGRZH7U3rsJLfRGQS/D6nDurlzcxBfdzeQiA2rqwvszLNasTlhJ1FtlNjw4ddGJ
-         RjlQJJZGaDq3nbFA4Wx95x5MDNZzG7TAPxAhgZFVSO/CsqJovH8n73MAD2QnmKx/LIbI
-         cq5fEB1LBLObNL4GGnlJJdOHT9KBkVY55xIAT2vbG9lnkpIGrHc7F5uZuBFA+euRGAua
-         142w==
-X-Forwarded-Encrypted: i=1; AJvYcCUXge3hZ69sjhywaJg8pYew8FKfnkG5oVTq+4wYQB1mJhg/4OLRCm7EXpCMlw2UjC9G9NxOOrcPiLEIjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpALNH8YqC5PyVc5yb5OXNMP8HLmPLIWG1N/BLeOItCRJoA+t5
-	gM4IpZ225r7dVE6m35NQoc2zgLlkJ2XmwAsLt1lFqZoOjMZRyx+7IQzdguNWIH656zU=
-X-Gm-Gg: AZuq6aLq+qYma3ds3XWe8hOjjWc6vzt8fZqWoZrJ0g4q0uZuDSlR//mQdtwtzooWOI/
-	EBBokJvMEH39b9ZUTvKYUGRA7g759/1WNp2wEanYi4VYR4wrr2/2hKzCvEHz7F+ebCipeVBE5xh
-	Oj9pF16/VdurTUmwqMACFwdDK4FFEemtDlBumr843cYjN1u4AuONcz57jGlFOqzNGjzRacmiBbL
-	DQcsEGBF18I/mHSfSRAHCPsN8pLLHfHzkhF6aF6MM3U9jQsdu7F4NMpIsPsoUrnkUSfYgPslTV7
-	X3i7yliIKfdovP4gxrI5CERbJOV2eoP85DG5kkbqWfQoXWwXLBSbMuEfZDT9lMlkeerzRf3p9fB
-	o0Al4b3vT1zNrjMoxtkEf4cZdidGLsixRawxXse9cYmk43T5PpynZ6wb6P58YVoCC3NDcpa5hip
-	JeB9Chl508tR7ayHJXu9tf1/BUn8gDFCCPgkshLjhQj+PXBTg5XNMVaZqbbT8t1mQ=
-X-Received: by 2002:a05:600c:5491:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-4830e935736mr15228825e9.4.1770160854462;
-        Tue, 03 Feb 2026 15:20:54 -0800 (PST)
+        bh=zHQSzgLVAjnFP4dBv05KnkyuxPSQFJ3wmRvAOwsqKgI=;
+        b=I/c0FLGEHNt1TAm456kEDSSqY3Uu6WQJRrfmOoJ54zYT9O/xL5xNQRcD559M1P585o
+         umZZVG15RxswsChbG6Dcr7vMfS3QSCDiuVmK9zV603OM30vP4SDt28iRVEi42L9hmaHU
+         RZZ3WnLaDwKgs1YQHJG2vIZ3unpsHsvGYn8SNyv7WKA7kAePjifG5VnQ/tKfL9Dr86mx
+         WsRcFG3g8qlngvim9UzmugwIPsmXsYu9Zb7bdqwB+YO68SXnrU8W/Zn0afw9+cypELr4
+         vBxQqxX8cuMm93w7taJfscVdg6VoBtE+4MctQrDufVKBpKipzgIaP5X6WTk0O36/eHj4
+         WCCA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFx/jwApSVz4V/lcJg8GbiOzRYytYDJNoSLSuD81Y7F3A2HSul+OBqkBNSRo2c4q3awjGaTMHILNu8vA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpHX3MMFpK8xaeiorQ88eZBB7TUDmB53OG4XZ1vumB1Wf/L7ZV
+	ZS6R/0cm+Hl4XO1mKVp0WBxcEIdDuPLGVhJJraf/CQUb6uscfBd5TTH1kTT8KzXOQX8=
+X-Gm-Gg: AZuq6aIViujtkWjf7Jmoso0VF8arAdcTUAe6TwizIabfrZGsyr2d9g2VOX9C+PgplFh
+	Q2FVLqb8jWznqSX6w8FQIx7d8P3bwiPJzuutpKoqZ8nRyvnruf/loqVib3FAlkTygafaqJytVs9
+	ZNkIeS4/TsoChn4mU1uo1Mc4OgaVkTLp6XMV2nWj81ZQa7uMKLPNceiVplQIVCOBGpauztDpNBq
+	EE+eUABrAHqvWxxfNaIOXIUVuQ6iTtIm9yM/S/bmnssiaQruXTW0RY4MQEkOXbpmNILyh9cPTq4
+	RuDjXLiGT4KxOkf534AwIoAFla2yOHcN3D6R7hQI3XYSCHnbDX8FeRypjGx53BofYa4/LKmKMxG
+	cctO64YaC+5aQMGNwzpVBYhtYFvHjixM6+CAvehsqQNSZbyUmoJrGKR9G0wWxoimDob8YTIzcLT
+	Ob/KrN9d+2c16ug/9FDFL3PWujaoUCBot/ZFtcrNQjCMBN9LQtT4Q0a2h6lXeBXSU=
+X-Received: by 2002:a05:6000:603:b0:436:143c:c000 with SMTP id ffacd0b85a97d-436180593b3mr1240527f8f.45.1770160935331;
+        Tue, 03 Feb 2026 15:22:15 -0800 (PST)
 Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830fe86a7bsm4055075e9.8.2026.02.03.15.20.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43618057f7csm2010133f8f.23.2026.02.03.15.22.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Feb 2026 15:20:53 -0800 (PST)
-Message-ID: <e31d9865-5002-49fa-b6f0-06328d3d6a12@linaro.org>
-Date: Tue, 3 Feb 2026 23:20:51 +0000
+        Tue, 03 Feb 2026 15:22:14 -0800 (PST)
+Message-ID: <e29f4014-a8f5-479c-8043-e0d9f3de06d7@linaro.org>
+Date: Tue, 3 Feb 2026 23:22:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,8 +86,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] pmdomain: de-constify fields struct
- dev_pm_domain_attach_data
+Subject: Re: [PATCH v2 3/8] media: dt-bindings: qcom,sm8250-venus: sort out
+ power domains
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -110,11 +110,11 @@ Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
  Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 References: <20260201-iris-venus-fix-sm8250-v2-0-6f40d2605c89@oss.qualcomm.com>
- <3gNulq9mtM9Uxcj8IfIzusuPDhOGNCEcCGQrxhCBiYbh2DCGhUpRYpLgY-KfrSj746f6RWqzl90Fge-7U_CsUA==@protonmail.internalid>
- <20260201-iris-venus-fix-sm8250-v2-2-6f40d2605c89@oss.qualcomm.com>
+ <26272oeYIcfP__dNdKT_lizJQ9hvr9jKE2zsy_3aiWVlymjbtHB5vToDV_2DL3N8gIxnqB_YminHDztbUanmwg==@protonmail.internalid>
+ <20260201-iris-venus-fix-sm8250-v2-3-6f40d2605c89@oss.qualcomm.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20260201-iris-venus-fix-sm8250-v2-2-6f40d2605c89@oss.qualcomm.com>
+In-Reply-To: <20260201-iris-venus-fix-sm8250-v2-3-6f40d2605c89@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -122,7 +122,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -130,7 +130,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_TWELVE(0.00)[28];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52140-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52141-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[linaro.org:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -139,51 +139,68 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media,dt,huawei];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linaro.org:email,linaro.org:dkim,linaro.org:mid,qualcomm.com:email]
-X-Rspamd-Queue-Id: 744E3DFB03
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,linaro.org:dkim,linaro.org:mid,qualcomm.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7C362DFB8B
 X-Rspamd-Action: no action
 
-On 01/02/2026 10:48, Dmitry Baryshkov wrote:
-> It doesn't really make sense to keep u32 fields to be marked as const.
-> Having the const fields prevents their modification in the driver.
-> Instead the whole struct can be defined as const (if it is constant).
+On 01/02/2026 10:49, Dmitry Baryshkov wrote:
+> First of all, on SM8250 Iris (ex-Venus) core needs to scale clocks which
+> are powered by the MMCX domain. Add MMCX domain to the list of the power
+> domain to be used on this platform.
 > 
-> Fixes: 161e16a5e50a ("PM: domains: Add helper functions to attach/detach multiple PM domains")
-
-This doesn't really fix a bug though.
-
+> While we are at it, drop minItems from both power-domains and
+> power-domains-names, it doesn't make sense from the hardware point of
+> view. There are always 2 GDSCs and two power rails wired to the video
+> clock controller and Venus. Disallow passing just two.
+> 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->   include/linux/pm_domain.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/linux/pm_domain.h b/include/linux/pm_domain.h
-> index f6f6d494f728..b299dc0128d6 100644
-> --- a/include/linux/pm_domain.h
-> +++ b/include/linux/pm_domain.h
-> @@ -49,8 +49,8 @@
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+> index da54493220c9..04cbacc251d7 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
+> @@ -21,15 +21,14 @@ properties:
+>       const: qcom,sm8250-venus
 > 
->   struct dev_pm_domain_attach_data {
->   	const char * const *pd_names;
-> -	const u32 num_pd_names;
-> -	const u32 pd_flags;
-> +	u32 num_pd_names;
-> +	u32 pd_flags;
->   };
+>     power-domains:
+> -    minItems: 2
+> -    maxItems: 3
+> +    maxItems: 4
 > 
->   struct dev_pm_domain_list {
+>     power-domain-names:
+> -    minItems: 2
+>       items:
+>         - const: venus
+>         - const: vcodec0
+>         - const: mx
+> +      - const: mmcx
+> 
+>     clocks:
+>       maxItems: 3
+> @@ -114,8 +113,9 @@ examples:
+>           interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+>           power-domains = <&videocc MVS0C_GDSC>,
+>                           <&videocc MVS0_GDSC>,
+> -                        <&rpmhpd RPMHPD_MX>;
+> -        power-domain-names = "venus", "vcodec0", "mx";
+> +                        <&rpmhpd RPMHPD_MX>,
+> +                        <&rpmhpd RPMHPD_MMCX>;
+> +        power-domain-names = "venus", "vcodec0", "mx", "mmcx";
+> 
+>           clocks = <&gcc GCC_VIDEO_AXI0_CLK>,
+>                    <&videocc VIDEO_CC_MVS0C_CLK>,
 > 
 > --
 > 2.47.3
 > 
 > 
-
-Other than that.
-
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
