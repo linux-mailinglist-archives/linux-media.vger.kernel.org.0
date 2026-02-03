@@ -1,169 +1,219 @@
-Return-Path: <linux-media+bounces-52137-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52138-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QH3SCxx1gmm+UwMAu9opvQ
-	(envelope-from <linux-media+bounces-52137-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 23:22:20 +0100
+	id eMYiFyN9gmnAVQMAu9opvQ
+	(envelope-from <linux-media+bounces-52138-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 23:56:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3D0DF2F5
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 23:22:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E87DF735
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 23:56:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0711331280F7
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 21:52:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 73FE8304995F
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 22:56:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5394372B3C;
-	Tue,  3 Feb 2026 21:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E379C374188;
+	Tue,  3 Feb 2026 22:56:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XN+KRGGy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3vbZbXC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076342248A8;
-	Tue,  3 Feb 2026 21:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B1932471B;
+	Tue,  3 Feb 2026 22:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770155392; cv=none; b=Nw9eSl27NxeGuMvQBwD9VQEe9Zng1zRJK+A7ZoxJBGVwpTPCcqqhiLgn8RNj6PUvvhgbwkrA2D6V/4TEqSD2Ke9zvR/nMqyL2TtQhNxMHT/C/Q0PGW3j3XlhDTUd6Ljvz99e0IJtZOjLlkCPa/NGaMraTdYZQ7BMJEaOJcJF1KM=
+	t=1770159361; cv=none; b=HRscY5FV3JdiqZb/P6sAWKPsL8J2vDGg9p9Cq0rNChtWchG58LMohusGceYgk17XUa8FKnc8x5CZbZWFMfjMcOVfvrKgliVu/TD/zUIH7Qv0OKDkctRAod5+Opp7n2EkX3uN8ezqcauxpEwyNx42GLWnJeBy49o8KGjGyNPlV8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770155392; c=relaxed/simple;
-	bh=vD1zxLgAabWQHbeuPBzsULAz9TNwxWyZwXi+eq9QzW4=;
+	s=arc-20240116; t=1770159361; c=relaxed/simple;
+	bh=EpGvoxDrKuv7hIK1fCK6uHMFVNI2vX0KggMpEgCxAwY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GIJt4zVGPtEfXuPVSm6wYhYMc0k3C06eGCB+6PbkFHg65cTRU+YmsX4BLWJsUWUERSozRzBhl6gXLQHxPaTJirqr4moLc4A815FuQBNAzqwH7bKsDsAGcMfmc9XNOWmlj2CJWDP1vPPaznc8HzLmvBxHtSnourYI+vNVeYbReJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XN+KRGGy; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 98286673;
-	Tue,  3 Feb 2026 22:49:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770155347;
-	bh=vD1zxLgAabWQHbeuPBzsULAz9TNwxWyZwXi+eq9QzW4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XN+KRGGyHqGPLexS58AFbgipNPkpOBPM2Rwm3u5GaL/NLPbJV+z0NI203To47JTG1
-	 QPSIFINn8rZtR5YX2xniFh1pM0aANzBNV2jGVyGvE3SGqzlLKCnRTACi1EDbRVvu+L
-	 mttpVJqqwzLAnL5CAEMcZAqKuIwuyejHiCLr7LP8=
-Date: Tue, 3 Feb 2026 23:49:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Oleksandr Natalenko <oleksandr@natalenko.name>
-Cc: Gergo Koteles <soyer@irl.hu>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jarkko Sakkinen <jarkko@kernel.org>, linux-media@vger.kernel.org,
-	jani.nikula@linux.intel.com, anisse@astier.eu,
+	 Content-Type:Content-Disposition:In-Reply-To; b=MZK1d8j81G2LKBDmcVgjSUeahV8pK+YuY5oQaQt+3oGrlWYDKgcb00VBcDSUODO6QXjeFfSG5YLANUZNLDTm+LYqO3evsQ+LdO7jiPD/xVdfHJHF+M12ZI50EFKWpOBZe6YWOInkiGgC7Y+kE0fuSSw+5MtUfMgCoe9VNFcnauc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3vbZbXC; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770159360; x=1801695360;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EpGvoxDrKuv7hIK1fCK6uHMFVNI2vX0KggMpEgCxAwY=;
+  b=I3vbZbXCd86/reSBcjIBcOa3Qv8FT8V8+5pL8PRaKD3mJG8f0oroEdyM
+   r3DiyTHK08sW3p29RJTwk4D7y9YDUY12flwczh8qfBS3VWVHAKLcttBTs
+   BK5ZzfXaICiKgtJiJ2LB6g0RTWdEs39/kkq/cObgD6PkXVBqZP8+tfNC+
+   WNlZ/7d33Fkh1zItGUt3ETyDkZLWVE9rmaiJV346i3vFigjpvUBqDkBeA
+   538ffg1EB4DsgMO/Q6OxPygp3y0XmRENv8WuHGCERFDGHZCDfOYV3ainQ
+   JsM9/8WfLacKaAET97RfNR+hyb1YgSfGCdUifDYsO4Rd9hPkk25IvD/vv
+   Q==;
+X-CSE-ConnectionGUID: IxArffcwRJiUUIQodsHAQw==
+X-CSE-MsgGUID: yJRQcNgUSOqZA4oB+8L4Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71402300"
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
+   d="scan'208";a="71402300"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 14:55:59 -0800
+X-CSE-ConnectionGUID: GQiDoYA+Qam4UgwOSktzIQ==
+X-CSE-MsgGUID: C6nqfGIRQr21qCll8mjDRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
+   d="scan'208";a="214138905"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2026 14:55:56 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vnPJJ-00000000hFi-1tvB;
+	Tue, 03 Feb 2026 22:55:53 +0000
+Date: Wed, 4 Feb 2026 06:55:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alain Volmat <alain.volmat@foss.st.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: Re: [RFC PATCH] media: Virtual camera driver
-Message-ID: <20260203214947.GA133801@killaraus>
-References: <20260201133342.335680-1-jarkko@kernel.org>
- <20260203145341.GB33304@killaraus>
- <20260203203648.GA56480@killaraus>
- <6235268.lOV4Wx5bFT@natalenko.name>
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH 08/13] media: stm32: dcmipp: add pixel pipes helper
+ functions
+Message-ID: <202602040608.vLI553iq-lkp@intel.com>
+References: <20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6235268.lOV4Wx5bFT@natalenko.name>
+In-Reply-To: <20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014@foss.st.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52137-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-52138-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[foss.st.com,kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,huawei];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8E3D0DF2F5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url]
+X-Rspamd-Queue-Id: A6E87DF735
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 10:39:41PM +0100, Oleksandr Natalenko wrote:
-> On úterý 3. února 2026 21:36:48, středoevropský standardní čas Laurent Pinchart wrote:
-> > On Tue, Feb 03, 2026 at 04:53:41PM +0200, Laurent Pinchart wrote:
-> > > On Tue, Feb 03, 2026 at 03:38:06PM +0100, Oleksandr Natalenko wrote:
-> > > > 
-> > > > Just to share my current state of affairs:
-> > > > 
-> > > > * sender:
-> > > > 
-> > > > $ gst-launch-1.0 pipewiresrc path=<webcam_id> ! video/x-h264, width=1280, height=720, framerate=24/1 ! rtph264pay ! rtpstreampay ! udpsink host=<receiver_host> port=<receiver_port>
-> > > > 
-> > > > * receiver:
-> > > > 
-> > > > $ gst-launch-1.0 udpsrc address=<receiver_host> port=<receiver_port> ! queue ! application/x-rtp-stream,encoding-name=H264 ! rtpstreamdepay ! application/x-rtp,encoding-name=H264 ! rtph264depay ! h264parse ! openh264dec ! pipewiresink mode=provide stream-properties="properties,media.class=Video/Source,media.role=Camera" client-name=VirtualCam
-> > > > 
-> > > > I chose H.264 because of much lower (tenfold) traffic comparing to
-> > > > MJPEG, wrapped this into RTP, opted in for OpenH264 decoder because I
-> > > > read it was handling low latency streams better than avdec_h264, and
-> > > > tested this setup with both Firefox and Chromium, and it actually
-> > > > worked pretty reliably, so I'm impressed now.
-> > > 
-> > > Thank you for the update. I'll give this a try.
-> > 
-> > I've tried those, but as soon as Firefox is connecting, I get
-> > 
-> > 0:00:03.569028999 131465 0x7f85cc002030 DEBUG           pipewiresink gstpipewiresink.c:692:on_state_changed:<pipewiresink0> got stream state "error" (-1)
-> > 0:00:03.569060959 131465 0x7f85cc002030 DEBUG           pipewiresink gstpipewiresink.c:692:on_state_changed:<pipewiresink0> got stream state "error" (-1)
-> > 0:00:03.569070767 131465 0x7f85cc002030 WARN            pipewiresink gstpipewiresink.c:710:on_state_changed:<pipewiresink0> error: stream error: no more input formats
-> > ERROR: from element /GstPipeline:pipeline0/GstPipeWireSink:pipewiresink0: stream error: no more input formats
-> > Additional debug info:
-> > ../pipewire-1.4.9/src/gst/gstpipewiresink.c(710): on_state_changed (): /GstPipeline:pipeline0/GstPipeWireSink:pipewiresink0
-> > 
-> > Maybe I should try the pipewire master branch.
-> 
-> I'd be glad to help, but my understanding of this "stream error: no
-> more input formats" boils down only to the absence of caps identifiers
-> (like those "application/x-rtp-stream"blahblah), which is not the case
-> here. Also, Firefox behaves differently from Chrome when using sites
-> like webcamtests, and also when using google meet. I may speculate
-> Firefox more eagerly closes link to a pipewire node, but I have no
-> knowledge of this at all.
+Hi Alain,
 
-No worries. I'll try to find time to investigate.
+kernel test robot noticed the following build warnings:
 
-> That said, "pretty reliably" doesn't mean without issues whatsoever,
-> and I manage to crash both Chrome and Firefox from time to time while
-> experimenting with pipelines. Probably because I occasionally
-> unintentionally feed some crap into the pipewire sink.
+[auto build test WARNING on eb4ee870747c3a77a9c3c84d84efb64bd481013a]
 
-I wouldn't dare claiming it's perfect :-) But the projects are actively
-developed, so I have good hopes issues will be fixed quickly (as long as
-they're reported of course).
+url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/media-stm32-dcmipp-share-struct-dcmipp_device-among-subdevs/20260202-220852
+base:   eb4ee870747c3a77a9c3c84d84efb64bd481013a
+patch link:    https://lore.kernel.org/r/20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014%40foss.st.com
+patch subject: [PATCH 08/13] media: stm32: dcmipp: add pixel pipes helper functions
+config: riscv-randconfig-r122-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040608.vLI553iq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040608.vLI553iq-lkp@intel.com/reproduce)
 
-> FWIW, I'm using 1:1.4.10-2 pipewire packages from Arch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602040608.vLI553iq-lkp@intel.com/
 
-I'm running 1.4.9 from Gentoo, I think I should upgrade.
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c:41:1: sparse: sparse: symbol 'dcmipp_pixel_formats_list' was not declared. Should it be static?
+
+vim +/dcmipp_pixel_formats_list +41 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c
+
+    17	
+    18	#define DCMIPP_ENT(id, pad) (1 << (2 * (id) + (pad)))
+    19	#define DCMIPP_ISP_SINK			(DCMIPP_ENT(DCMIPP_ISP, 0))
+    20	#define DCMIPP_ISP_SRC			(DCMIPP_ENT(DCMIPP_ISP, 1))
+    21	#define DCMIPP_ISP_INOUT		(DCMIPP_ISP_SINK | DCMIPP_ISP_SRC)
+    22	#define DCMIPP_MAIN_POSTPROC_SINK	(DCMIPP_ENT(DCMIPP_MAIN, 0))
+    23	#define DCMIPP_MAIN_POSTPROC_SRC	(DCMIPP_ENT(DCMIPP_MAIN, 1))
+    24	#define DCMIPP_MAIN_POSTPROC_INOUT					\
+    25		(DCMIPP_MAIN_POSTPROC_SINK | DCMIPP_MAIN_POSTPROC_SRC)
+    26	#define DCMIPP_AUX_POSTPROC_SINK	(DCMIPP_ENT(DCMIPP_AUX, 0))
+    27	#define DCMIPP_AUX_POSTPROC_SRC	(DCMIPP_ENT(DCMIPP_AUX, 1))
+    28	#define DCMIPP_AUX_POSTPROC_INOUT					\
+    29		(DCMIPP_AUX_POSTPROC_SINK | DCMIPP_AUX_POSTPROC_SRC)
+    30	#define DCMIPP_ALL_POSTPROC_SINK					\
+    31		(DCMIPP_MAIN_POSTPROC_SINK | DCMIPP_AUX_POSTPROC_SINK)
+    32	#define DCMIPP_ALL_POSTPROC_INOUT					\
+    33		(DCMIPP_MAIN_POSTPROC_INOUT | DCMIPP_AUX_POSTPROC_INOUT)
+    34	
+    35	#define PIXMAP_MBUS(mbus, applicable_pipes)		\
+    36		{						\
+    37			.code = MEDIA_BUS_FMT_##mbus,		\
+    38			.pipes = applicable_pipes,		\
+    39		}
+    40	const struct dcmipp_pixelpipe_pix_map
+  > 41	dcmipp_pixel_formats_list[] = {
+    42		/* RGB formats */
+    43		/* RGB565 / RGB888 */
+    44		PIXMAP_MBUS(RGB565_2X8_LE, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    45		PIXMAP_MBUS(RGB565_1X16, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    46		PIXMAP_MBUS(RGB888_3X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    47		PIXMAP_MBUS(RGB888_1X24, DCMIPP_ALL_POSTPROC_INOUT | DCMIPP_ISP_INOUT),
+    48		/* YUV formats */
+    49		PIXMAP_MBUS(YUYV8_2X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    50		PIXMAP_MBUS(UYVY8_1X16, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    51		PIXMAP_MBUS(YUV8_1X24, DCMIPP_ALL_POSTPROC_INOUT | DCMIPP_ISP_SRC),
+    52		/* GREY */
+    53		PIXMAP_MBUS(Y8_1X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    54		PIXMAP_MBUS(Y10_1X10, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    55		PIXMAP_MBUS(Y12_1X12, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    56		PIXMAP_MBUS(Y14_1X14, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
+    57		/* Raw Bayer */
+    58		/* Raw 8 */
+    59		PIXMAP_MBUS(SBGGR8_1X8, DCMIPP_ISP_SINK),
+    60		PIXMAP_MBUS(SGBRG8_1X8, DCMIPP_ISP_SINK),
+    61		PIXMAP_MBUS(SGRBG8_1X8, DCMIPP_ISP_SINK),
+    62		PIXMAP_MBUS(SRGGB8_1X8, DCMIPP_ISP_SINK),
+    63		/* Raw 10 */
+    64		PIXMAP_MBUS(SBGGR10_1X10, DCMIPP_ISP_SINK),
+    65		PIXMAP_MBUS(SGBRG10_1X10, DCMIPP_ISP_SINK),
+    66		PIXMAP_MBUS(SGRBG10_1X10, DCMIPP_ISP_SINK),
+    67		PIXMAP_MBUS(SRGGB10_1X10, DCMIPP_ISP_SINK),
+    68		/* Raw 12 */
+    69		PIXMAP_MBUS(SBGGR12_1X12, DCMIPP_ISP_SINK),
+    70		PIXMAP_MBUS(SGBRG12_1X12, DCMIPP_ISP_SINK),
+    71		PIXMAP_MBUS(SGRBG12_1X12, DCMIPP_ISP_SINK),
+    72		PIXMAP_MBUS(SRGGB12_1X12, DCMIPP_ISP_SINK),
+    73		/* Raw 14 */
+    74		PIXMAP_MBUS(SBGGR14_1X14, DCMIPP_ISP_SINK),
+    75		PIXMAP_MBUS(SGBRG14_1X14, DCMIPP_ISP_SINK),
+    76		PIXMAP_MBUS(SGRBG14_1X14, DCMIPP_ISP_SINK),
+    77		PIXMAP_MBUS(SRGGB14_1X14, DCMIPP_ISP_SINK),
+    78	};
+    79	
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
