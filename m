@@ -1,233 +1,273 @@
-Return-Path: <linux-media+bounces-52109-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52110-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2GtWBqgEgmmYNgMAu9opvQ
-	(envelope-from <linux-media+bounces-52109-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 15:22:32 +0100
+	id yJz/GF4JgmmCOQMAu9opvQ
+	(envelope-from <linux-media+bounces-52110-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 15:42:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93C0DA818
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 15:22:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id BECE3DABAD
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 15:42:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 311C130909F5
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 14:19:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BF0BD30A15B8
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 14:38:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE493A8FF4;
-	Tue,  3 Feb 2026 14:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A4FB3AA1A9;
+	Tue,  3 Feb 2026 14:38:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BjSf/ZFF";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EN+P8f0t"
+	dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b="i8Da/IAq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from prime.voidband.net (prime.voidband.net [199.247.17.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB733A8FEC
-	for <linux-media@vger.kernel.org>; Tue,  3 Feb 2026 14:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B0D3A0B18;
+	Tue,  3 Feb 2026 14:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.247.17.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770128363; cv=none; b=mJVnf82UQ7JcmLiEJbcQrT1CVYLsiHDTly6bCehJiXFn4xd8KyVSUo0YRVyZPWjDLmkxDdzVSSZU/Z4kS63t3EDHEveAwkn27FOF9SarR+PH+U8PPKk9XyvDt5/jhT0l7p0lgVxZWcqzseEfJyscP7xyWKQubcTgTgF/uw4xFks=
+	t=1770129515; cv=none; b=ONgxVjDJZERMJEaiHaWgeEhSLgQRFJWf2CiWbxD4NK1SHIK1M1RjOQdkvVMl48P6BfViw1ikiMITKXGkEnDS9oevmBdA/4ArgX0JQgvPlNXZTJ2bIkqF7O7RCDptskGKE8Af4DseEqnTh9+oebgysOsxXr8COS4DLew4qN55kN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770128363; c=relaxed/simple;
-	bh=rAaF3IJyKMtMVHi4hbNf4T+7dOMjju3GOZeNCYpnCZo=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=VtR8vggAOryscQIrP7m5EyUgs01vXzbS8zq7qhn5jvYoRO1Oe6gzcvjMo1F39ZT9xwTwiSy6iopwcjIOTcdrr6RG7SZa4+7Qh+ZxmpsnF+1/ywab9NGMaJwMsHgFfUvDTUyjOi9BqlC185j6DtBjnO40tpiNywUZaJKK7Nq34UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BjSf/ZFF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EN+P8f0t; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 613DpQP9277353
-	for <linux-media@vger.kernel.org>; Tue, 3 Feb 2026 14:19:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4rfFv6kfMbhro4k4r2I8vRYN/RWIM5KJYEpa411uDzw=; b=BjSf/ZFFaQoN/MaL
-	rkMc3PW7aZa26VNkzmqPIqpcLLUqRSeSkd/3haNJG5KrxPq35WCki20FR3odWoNe
-	L//mTObl9Rk5U6ImSSrlgiH97pVGBmGbhNH8rIsAPgJqXvhfRe8NgRkarRLjI/7f
-	jn6Cp0T/Jlm7n3NkeZoxgBJ6y6KhSmQyJefZy9fitnadddwAw6rqWBzhXOG41anl
-	qzvZ5ZeLlbPP9/xQ4W+Tx1BWoHCXIFhuvoOExb9zfxriJ/r8+4P5M70h9JUoRPTt
-	RBCQ+jVh4WVXR7Lgp/KiRSTh3ZhRym+a0suk3sggLQvWHyb3LZ0se+8AvsXMN5ND
-	Qfdv3w==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c32s3aw1b-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 03 Feb 2026 14:19:17 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c52d3be24cso894488285a.0
-        for <linux-media@vger.kernel.org>; Tue, 03 Feb 2026 06:19:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770128356; x=1770733156; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4rfFv6kfMbhro4k4r2I8vRYN/RWIM5KJYEpa411uDzw=;
-        b=EN+P8f0tTI+bZH8vkRBQYonu0Jig1CFyNqtnCN6A8vcDwNeKzTcKpB40w7fJtyyfVy
-         SziHocqsHncSocE118r3vdUokKRx/ITHY0pTrofnkb6W+hrmf1h5nkMnlo2+rfh3nMej
-         IDST+wuW1jtAH8KdZWttfKDO2Wd6SUNVAnF01rI7MCaTx1hu+8LeOJMFTYgNl/1PFRMz
-         5j4T/aT8hTSw/4yBn+otB95d2pdTyDwFPydiESMBk6VuIp5MIuUnYxx9xKjsdt8aV43x
-         UUoSdyy/XYj+IJN3Ky09qWOc0jvUK5Vo/0FBpbqkY76S3gP22pcjamCdWDsEKr0u8cGQ
-         9rbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770128356; x=1770733156;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4rfFv6kfMbhro4k4r2I8vRYN/RWIM5KJYEpa411uDzw=;
-        b=LOIxlxTzZTg+t7rLBuH9S0kwoOGJ19lP82J+NClnwMBtXbKYa02oxsRTmBqv0QRNzT
-         RC8uh7qF/ZRyn9hXtkyy5hlO5UpePg9sdWEAJSpDPz3LIBahSLYkCTq+pRQjT6loHiW2
-         OnujdVJD9DES1oeJXT8GY2UvCtc6JbTAXaI14BZsGa7jZXc6tx7ZHnYfHubla2OwTcip
-         MdADPWkhy0VASpRYxIGNwtcnnLVAsH5sw8Tv86gGpLgpirKCaM7u3Vh6pFlpAIK+Kf3E
-         yvBa2qNszc2TuBIzwDUi7Ddr0FiryYTUYECTTKDc9+mwgyBSqjvXbJFoB0FFph28bh1N
-         /Sag==
-X-Forwarded-Encrypted: i=1; AJvYcCXeqjzJF5P200EpAnghJB5yMZ13XLMLnFpCFE1aVROoAINu/eLqgMHkDv441GbnH8tlS7Tm8IOVPPt3rw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk/3fMAbS+e6LtbGxhQm+ciyX/zLobZ1aui3usOKk8TAkRvF3Q
-	mdHQ5M4vlwD5m/hJC/ZK3cIeI7MJFTIBnXfZIwZT0FF54rlxd84Jq69pMwfCNEMxpzE6v5nA547
-	eC6g91LUhBGPpySVR0brIz1KeHyjG7BpcsQ6JV9XrwkKsmGBLvsBq8mnaThtL0wf4eg==
-X-Gm-Gg: AZuq6aKoTjh4f0J3PGwIKB35gVqOQalIp+Qoa+nSbpIxOWidwKWbldlGV0rZ8hIkz6j
-	k75/c22NaF4s9RFUOZl1NY1/sQdg/wnQF2eqS5VxyPJSiq1IrzspNKxFGrpM7RJD0tgzP50jRXC
-	pg8Av8okRjsXcZT0lBakYhzCtFkDlDSeJGUHAXy4R9HGNp9SB72ytKYiWvkY/W7uE/w4LUhkHFp
-	LZDLnoOPcIHmOfhgJyZUg2peG9fFTiCtw6irkpCNjLEZIIkLf11g3w3lM6BVJspl4y7cxb79jEZ
-	9qXTuL1IIiW45LXm1vwXNVNcLtbKHdq0qiQYtd9EGsxf3tTu9GfN1dBLtOA7ZwXw5h3rzxlirn6
-	Vww9KfpaS1vAoyU/T47MZX0k/xI1xTH1XHCjafH0C7QcXLVrnnsS1FkSL05nqmqYYbhINfQBsjr
-	79eJgHvho0rlkr/U0ouHfKh6oEmcwNNMhoGRsRIGjfvBkkgxUZaNqwH9Byow/0DNPEA4XlyK29+
-	TWN
-X-Received: by 2002:a05:620a:bd5:b0:8c5:1fd2:e9ef with SMTP id af79cd13be357-8c9eb27018amr1905935985a.28.1770128355934;
-        Tue, 03 Feb 2026 06:19:15 -0800 (PST)
-X-Received: by 2002:a05:620a:bd5:b0:8c5:1fd2:e9ef with SMTP id af79cd13be357-8c9eb27018amr1905930185a.28.1770128355359;
-        Tue, 03 Feb 2026 06:19:15 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8dbf1847f9sm1064954166b.42.2026.02.03.06.19.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Feb 2026 06:19:14 -0800 (PST)
-Message-ID: <c6b5832f-d7b3-4bc2-834e-4ce7b0c0b4cd@oss.qualcomm.com>
-Date: Tue, 3 Feb 2026 15:19:13 +0100
+	s=arc-20240116; t=1770129515; c=relaxed/simple;
+	bh=hn1cVF23Ff5SZkYLR8WdfUUOV8CdjlBmo89TF0alEfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rlHNrMcgiKgMr5WorgPRHOPIRQYm8vlNMiIOoKSCN1GF7UicbCte/415q7oklopTFJuAcIlxj8RUvG2AGX/s5X/NjdoKMbGPYoeLNoVyd1FiKFjejrN4tg96kk2Afaiqv82A0jLKzlO9xEfhVtOv6Qsd9fIWIib+OW5Kpz2ltDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name; spf=pass smtp.mailfrom=natalenko.name; dkim=pass (1024-bit key) header.d=natalenko.name header.i=@natalenko.name header.b=i8Da/IAq; arc=none smtp.client-ip=199.247.17.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=natalenko.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=natalenko.name
+Received: from spock.localnet (unknown [212.20.115.26])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by prime.voidband.net (Postfix) with ESMTPSA id 5810B635B044;
+	Tue, 03 Feb 2026 15:38:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=natalenko.name;
+	s=dkim-20170712; t=1770129505;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ThTSMXVi2lSUsiDsHxZg8ggmVtOHN7ZmIvOnMyXKvNY=;
+	b=i8Da/IAqweZPg5YYmtNd1AH8CvK7X3WYy1grdh3m2uJBPhiOHKHmcG4kfd/r8w1kMYwWGC
+	+9Le4i3fzU04o3NiyVex4wuemy1vKQAg1+87OGw8l+G9GB0Q8gXTEL+ifDaHCVJJjcU4/j
+	+qDFJKBwy44nQaBo3Qil4rcimh6kjmI=
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Gergo Koteles <soyer@irl.hu>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Jarkko Sakkinen <jarkko@kernel.org>, linux-media@vger.kernel.org,
+ jani.nikula@linux.intel.com, anisse@astier.eu,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>
+Subject: Re: [RFC PATCH] media: Virtual camera driver
+Date: Tue, 03 Feb 2026 15:38:06 +0100
+Message-ID: <5069963.GXAFRqVoOG@natalenko.name>
+In-Reply-To: <20260203012313.GA280953@killaraus>
+References:
+ <20260201133342.335680-1-jarkko@kernel.org>
+ <22989766.EfDdHjke4D@natalenko.name> <20260203012313.GA280953@killaraus>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: johannes.goede@oss.qualcomm.com
-Subject: Re: [RFC PATCH v2] media: Virtual camera driver
-To: Jani Nikula <jani.nikula@linux.intel.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>, linux-media@vger.kernel.org
-Cc: anisse@astier.eu, oleksandr@natalenko.name,
-        linux-integrity@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20260202204425.2614054-1-jarkko@kernel.org>
- <6b192c71-c389-4a6e-b7c3-ddcd5cc4aa34@oss.qualcomm.com>
- <37a0d91c2e78c97f3d956444c4f7a2a2fca9ae06@intel.com>
-Content-Language: en-US, nl
-In-Reply-To: <37a0d91c2e78c97f3d956444c4f7a2a2fca9ae06@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Zc4Q98VA c=1 sm=1 tr=0 ts=698203e5 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=E8RJ7uGaLTfD5B8v_isA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: Y91Bw_MApAzN57lawsfxbQT4YpkOTSzc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDExNCBTYWx0ZWRfX9B8s0eo08BRO
- 7x+diCvuavxwinAMas7OSIO+bc2R7gmcSM+aQ/LwEerGXtQGm3wF4O6cVSe8p7yXH+oAX13kM0U
- 1LndBLEgWwhqh+/djds3ksbBiLJu8nR/Axa8iAiu9SHFt92fGrk9UYmN57/DAeAdktgDAScHcwY
- +XWU+vRcpfL7paMWaUw6PpG21eMZ4fsfocd2hfSc9gPd7PzSQKAZ2U2iSgSd7s4fl3B453ziIbh
- pGPhieUoO5kE5WjQ0lXNL2dhwat79dO4X18Zh5hKPZ+xxTjm71qRHuy6xAyAJuc7rXIsdXC+kHN
- Wavv+5NEmaPR/ltWHtAHd3s6sbh6lw8NHZihs1s5vLGFfQCfo+VlJ/2HeVVj50chaRUO3KzK/WR
- dDgbsLtKWQXs4HDM/d2qCD2iPN+l+MZDvK5YRrZWtHNTbquON92HAHCcKw3+NNnaFrtgbMaVyNk
- RpsFNCHbQzfSj/nUjhg==
-X-Proofpoint-GUID: Y91Bw_MApAzN57lawsfxbQT4YpkOTSzc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-03_04,2026-02-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0
- phishscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602030114
+Content-Type: multipart/signed; boundary="nextPart1969922.tdWV9SEqCh";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+x-ms-reactions: disallow
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[natalenko.name,reject];
+	R_DKIM_ALLOW(-0.20)[natalenko.name:s=dkim-20170712];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52109-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52110-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:dkim];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[johannes.goede@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_NO_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_TRACE(0.00)[natalenko.name:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[oleksandr@natalenko.name,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: A93C0DA818
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,natalenko.name:mid,natalenko.name:dkim]
+X-Rspamd-Queue-Id: BECE3DABAD
 X-Rspamd-Action: no action
 
-Hi Jani,
+--nextPart1969922.tdWV9SEqCh
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Oleksandr Natalenko <oleksandr@natalenko.name>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [RFC PATCH] media: Virtual camera driver
+Date: Tue, 03 Feb 2026 15:38:06 +0100
+Message-ID: <5069963.GXAFRqVoOG@natalenko.name>
+In-Reply-To: <20260203012313.GA280953@killaraus>
+MIME-Version: 1.0
 
-On 3-Feb-26 14:20, Jani Nikula wrote:
-> On Tue, 03 Feb 2026, johannes.goede@oss.qualcomm.com wrote:
->> The problem is that what you're suggesting is basically a much
->> improved (using dma-buf is way better) v4l2-loopback driver and
->> v4l2-loopback has been blocked from getting merged into the kernel
->> because besides the mobile-phone camera use, the other main use-case
->> is to allow running proprietary camera stacks like Intel's proprietary
->> camerastack and then presenting that to userspace as a standard v4l2
->> cam so that userspace apps will just work.
-> 
-> ...
-> 
->> The community concensus is that the solution here is for apps to
->> access cameras through pipewire. Together with the shift of laptops
->> cameras from UVC to "raw" MIPI cameras there also is a shift to
->> running applications sandboxed as flatpacks because of the changing
->> "cyber" security landscape. This is why pipewire was chosen because
->> it also solves the accessing cameras from a sandbox issue.
-> 
-> Why is v4l2-loopback problematic from the perspective of facilitating
-> running proprietary camera stacks, but pipewire isn't?
+On =C3=BAter=C3=BD 3. =C3=BAnora 2026 2:23:13, st=C5=99edoevropsk=C3=BD sta=
+ndardn=C3=AD =C4=8Das Laurent Pinchart wrote:
+> Hi Oleksandr,
+>=20
+> (Cc'ing Nicolas Dufresne)
+>=20
+> On Mon, Feb 02, 2026 at 12:45:15PM +0100, Oleksandr Natalenko wrote:
+> > On pond=C4=9Bl=C3=AD 2. =C3=BAnora 2026 12:40:12, st=C5=99edoevropsk=C3=
+=BD standardn=C3=AD =C4=8Das Laurent Pinchart wrote:
+> > > > If I understand correctly, it would be more forward-thinking to dev=
+elop
+> > > > virtual camera support in PipeWire rather than in the kernel.
+> > >=20
+> > > I don't think there's even a need for development in PipeWire
+> > >=20
+> > > $ gst-launch-1.0 \
+> > > 	videotestsrc ! \
+> > > 	video/x-raw,format=3DYUY2 ! \
+> > > 	pipewiresink mode=3Dprovide stream-properties=3D"properties,media.cl=
+ass=3DVideo/Source,media.role=3DCamera"
+> > >=20
+> > > This gives me a virtual camera in Firefox. Extending the GStreamer
+> > > pipeline to get the video stream from the network should be quite
+> > > trivial.
+> >=20
+> > So far, I came up with this:
+> >=20
+> > * sender:
+> >=20
+> > $ gst-launch-1.0 pipewiresrc path=3D<webcam_id> ! image/jpeg, width=3D1=
+280, height=3D720, framerate=3D24/1 ! rndbuffersize max=3D1400 ! udpsink ho=
+st=3D<receiver_host> port=3D<receiver_port>
+> >
+> > * receiver:
+> >=20
+> > $ gst-launch-1.0 udpsrc address=3D<receiver_host> port=3D<receiver_port=
+> ! queue ! image/jpeg, width=3D1280, height=3D720, framerate=3D24/1 ! jpeg=
+parse ! jpegdec ! pipewiresink mode=3Dprovide stream-properties=3D"properti=
+es,media.class=3DVideo/Source,media.role=3DCamera" client-name=3DVirtualCam
+> >
+> > Please let me know if I do something dumb here. Trial and error to
+> > make this work took a couple of hours for me, but it seems to provide
+> > what I need.
+>=20
+> There's nothing dumb at all, especially given that it works :-) I have
+> been able to reproduce it locally (using a different pipeline on the
+> sender side).
+>=20
+> I compared your pipelines with another JPEG-over-UDP setup I used a
+> while ago, which used an rtpjpegpay element before udpsink on the sender
+> side to encapsulate the payload in RTP packets, and an rtpjpegdepay
+> element on the receiver side after udpsrc. This helps the receiver
+> synchronize with the sender if the sender is started first. The full
+> pipelines are
+>=20
+> * Sender:
+>=20
+> gst-launch-1.0 \
+> 	v4l2src ! \
+> 	video/x-raw,pixelformat=3DYUYV,size=3D640x480 ! \
+> 	jpegenc ! \
+> 	rtpjpegpay ! \
+> 	udpsink host=3D192.168.10.200 port=3D8000
+>=20
+> * Receiver:
+>=20
+> gst-launch-1.0 \
+> 	udpsrc port=3D8000 ! \
+> 	application/x-rtp,encoding-name=3DJPEG,payload=3D26 ! \
+> 	rtpjpegdepay ! \
+> 	jpegdec ! \
+> 	video/x-raw,pixelformat=3DYUYV,size=3D640x480 ! \
+> 	queue ! \
+> 	pipewiresink mode=3Dprovide \
+> 	       stream-properties=3D"properties,media.class=3DVideo/Source,media.=
+role=3DCamera" \
+> 	       client-name=3D"Remote Camera"
+>=20
+> Unfortunatley this doesn't work, when the pipewire client connects to
+> the stream on the receiver side I get
+>=20
+> ERROR: from element /GstPipeline:pipeline0/GstPipeWireSink:pipewiresink0:=
+ stream error: no more input formats
+>=20
+> Nicolas, would you have any wisdom to share about this and tell me if I
+> did something dumb ? :-) There's no hurry.
 
-Once pipewire mostly works everywhere for camera access then indeed
-this will allow proprietary stacks to present themselves as a pipewire src.
-For now though most proprietary stacks seem to prefer v4l2loopback because
-pipewire is not supported as camera source yet by a lot of apps.
+Just to share my current state of affairs:
 
-As I indicated in my original email personally I'm a bit divided on
-whether a virtual camera driver should be kept out of the kernel
-to not promote proprietary userspace stacks, but this is not my call.
+* sender:
 
-OTHO evdi: https://github.com/DisplayLink/evdi has been kept out
-of the kernel for pretty much the same reasons by the drm/kms folks.
+$ gst-launch-1.0 pipewiresrc path=3D<webcam_id> ! video/x-h264, width=3D128=
+0, height=3D720, framerate=3D24/1 ! rtph264pay ! rtpstreampay ! udpsink hos=
+t=3D<receiver_host> port=3D<receiver_port>
 
-At least AFAIK there still is no way to present virtual kms capable
-display outputs backed by userspace in the kernel.
+* receiver:
 
-I completely understand where you're coming from wrt v4l2-loopback
-support (or something equivalent) but asking for this really is
-the same as asking for the evdi driver to get merged, which AFAIK
-has been blocked for the reason of avoiding proprietary userspace
-display output drivers (I guess there might be technical reasons too).
+$ gst-launch-1.0 udpsrc address=3D<receiver_host> port=3D<receiver_port> ! =
+queue ! application/x-rtp-stream,encoding-name=3DH264 ! rtpstreamdepay ! ap=
+plication/x-rtp,encoding-name=3DH264 ! rtph264depay ! h264parse ! openh264d=
+ec ! pipewiresink mode=3Dprovide stream-properties=3D"properties,media.clas=
+s=3DVideo/Source,media.role=3DCamera" client-name=3DVirtualCam
 
-Regards,
+I chose H.264 because of much lower (tenfold) traffic comparing to MJPEG, w=
+rapped this into RTP, opted in for OpenH264 decoder because I read it was h=
+andling low latency streams better than avdec_h264, and tested this setup w=
+ith both Firefox and Chromium, and it actually worked pretty reliably, so I=
+'m impressed now.
 
-Hans
+The only issue I have with this thing is that once a tab with meeting in th=
+e browser is closed, the whole receiver pipeline stops gracefully because "=
+PipeWire link to remote node was destroyed". I didn't find a way to tell th=
+e pipeline to just restart, so in fact I had to wrap it into a Python scrip=
+t with Gst.parse_launch() and friends, and add error message parsing to res=
+tart the pipeline inside the script.
+
+Leaving this in public, because it's a straightforward and potentially wide=
+ly used setup, yet there's little to no info on how to do it properly, and =
+the knowledge is scattered across random posts of varying age.
+
+=2D-=20
+Oleksandr Natalenko, MSE
+--nextPart1969922.tdWV9SEqCh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEZUOOw5ESFLHZZtOKil/iNcg8M0sFAmmCCE4ACgkQil/iNcg8
+M0ttcA/+KM0iHjQcId2qpZDyop0R4PU9k+yu3qGyNWBsXM4QO349FIRpKu0V7epn
+9hIuYMS48xmWvNa5+UWaiJWK/1xrXY1TcmgT0bxir6ijYvP+oI5PqiYidMhw4RMm
+dJmcryxEUDHNy5PbN/vXjE7i6asnFOCleJpur1MRV8HpzoMPuSBUkgbHEbhIcJcs
+XHicg1dodH91J2lk8wRoSQ7FxWtjIanLc9vGAa32KYwyKg6UOeGMl3MjRWQn7g2y
+TggeqJx3HdEvbf5lFbye80S3eeCtWPU/KyPsPGcQsmQCpsrHmoX+r/1WtrJtQHfU
+liPyG7o5GOT7EHZnmwcpgbvecsLi6FggJqc7Yufrk7ZnoyotCSMcmjoOv8O3hNFT
+WAUmAhJ0awnX/oH/NS+a38DOBn5yRh5qtrc834h7Z2e0yELT9UdzvX5r2FreiWKW
+ALir4fc+yJBFY9ewXL4bNApjurnAe+XKoNh6BwX1Kx7dg/bXlhVFFhisbWHZKDXW
+wH0oiPj52rjg2zd5bxKOBgQb+Yq7rFVcQiX2Ag6k7LBrX03BB9bYWEBPLCu3175w
+reNU5rGksJbHMd8X2H2OYwBhiVuAtfE1ZrLQ/HgY9hec79czsmoIJbrWjPQbTt0Z
+otkD9w2Qyc4MlyS+PxCwmWM2QIc4Rq1MXV/sPNS0eEoLPSw/HLs=
+=1npZ
+-----END PGP SIGNATURE-----
+
+--nextPart1969922.tdWV9SEqCh--
+
 
 
 
