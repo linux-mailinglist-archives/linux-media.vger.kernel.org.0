@@ -1,219 +1,306 @@
-Return-Path: <linux-media+bounces-52138-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52139-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eMYiFyN9gmnAVQMAu9opvQ
-	(envelope-from <linux-media+bounces-52138-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 23:56:35 +0100
+	id SDXfG8yCgmneVgMAu9opvQ
+	(envelope-from <linux-media+bounces-52139-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 00:20:44 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E87DF735
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 23:56:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9669CDFAEB
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 00:20:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 73FE8304995F
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 22:56:03 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 16072300BE90
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 23:19:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E379C374188;
-	Tue,  3 Feb 2026 22:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34CF431812C;
+	Tue,  3 Feb 2026 23:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3vbZbXC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BZ+bG4DI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B1932471B;
-	Tue,  3 Feb 2026 22:55:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6EE27AC45
+	for <linux-media@vger.kernel.org>; Tue,  3 Feb 2026 23:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770159361; cv=none; b=HRscY5FV3JdiqZb/P6sAWKPsL8J2vDGg9p9Cq0rNChtWchG58LMohusGceYgk17XUa8FKnc8x5CZbZWFMfjMcOVfvrKgliVu/TD/zUIH7Qv0OKDkctRAod5+Opp7n2EkX3uN8ezqcauxpEwyNx42GLWnJeBy49o8KGjGyNPlV8Q=
+	t=1770160786; cv=none; b=tYJjlov0qqAjyTaauRg3z2zX86upczrGVJpuvdO7oS/EWI2CvD3Tth615YlKN5q49Bv2R7fx4JG0ZvGC3nQxhcm1/tJWaqyvqfXCLUT2UT9OCpD+vybYwvvkJoXYX+wRVRrbkMCd4A9WXjgo7gpGmxb+xFsIYtIK7ehWuBfWQ3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770159361; c=relaxed/simple;
-	bh=EpGvoxDrKuv7hIK1fCK6uHMFVNI2vX0KggMpEgCxAwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MZK1d8j81G2LKBDmcVgjSUeahV8pK+YuY5oQaQt+3oGrlWYDKgcb00VBcDSUODO6QXjeFfSG5YLANUZNLDTm+LYqO3evsQ+LdO7jiPD/xVdfHJHF+M12ZI50EFKWpOBZe6YWOInkiGgC7Y+kE0fuSSw+5MtUfMgCoe9VNFcnauc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3vbZbXC; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770159360; x=1801695360;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EpGvoxDrKuv7hIK1fCK6uHMFVNI2vX0KggMpEgCxAwY=;
-  b=I3vbZbXCd86/reSBcjIBcOa3Qv8FT8V8+5pL8PRaKD3mJG8f0oroEdyM
-   r3DiyTHK08sW3p29RJTwk4D7y9YDUY12flwczh8qfBS3VWVHAKLcttBTs
-   BK5ZzfXaICiKgtJiJ2LB6g0RTWdEs39/kkq/cObgD6PkXVBqZP8+tfNC+
-   WNlZ/7d33Fkh1zItGUt3ETyDkZLWVE9rmaiJV346i3vFigjpvUBqDkBeA
-   538ffg1EB4DsgMO/Q6OxPygp3y0XmRENv8WuHGCERFDGHZCDfOYV3ainQ
-   JsM9/8WfLacKaAET97RfNR+hyb1YgSfGCdUifDYsO4Rd9hPkk25IvD/vv
-   Q==;
-X-CSE-ConnectionGUID: IxArffcwRJiUUIQodsHAQw==
-X-CSE-MsgGUID: yJRQcNgUSOqZA4oB+8L4Rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="71402300"
-X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="71402300"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 14:55:59 -0800
-X-CSE-ConnectionGUID: GQiDoYA+Qam4UgwOSktzIQ==
-X-CSE-MsgGUID: C6nqfGIRQr21qCll8mjDRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="214138905"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 03 Feb 2026 14:55:56 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vnPJJ-00000000hFi-1tvB;
-	Tue, 03 Feb 2026 22:55:53 +0000
-Date: Wed, 4 Feb 2026 06:55:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alain Volmat <alain.volmat@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH 08/13] media: stm32: dcmipp: add pixel pipes helper
- functions
-Message-ID: <202602040608.vLI553iq-lkp@intel.com>
-References: <20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014@foss.st.com>
+	s=arc-20240116; t=1770160786; c=relaxed/simple;
+	bh=QmJIRkoJvSC1+X5XmHnKi501SEuHKyJrim2KrRQ9zFg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SurMOzOXFU9E2qtbBWWOuqji2B7OZ0lSw+e/cCQXBbolGyqu4GMOi6u5Shweh/3hGMFDZlLfqY+FMuo5dCOb+MEUIp7ja9grWRd86jxpoEGyJ9p/zUwZtVsJL2CGcHXlwXhmKNHyiWi22wKMBjArvdslP93WfLgKD0ImP40/vZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BZ+bG4DI; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4806dffc64cso1151955e9.1
+        for <linux-media@vger.kernel.org>; Tue, 03 Feb 2026 15:19:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770160783; x=1770765583; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nUf/+8BbxtoTRhkrLvjqMjX8iWnPM8A43bKR4Om6EwE=;
+        b=BZ+bG4DIorv3Ms/VAg1NzEFZ9dK0XKKnWYUFIoEjjsTpLTi6DGrMlEw3ptbVClWDKS
+         6ueTSgQgEvee72itnYjh6LkSB2u0NBM07EpK+KKlDkbwUf73M3R2nSPR/5l/C4xycTh/
+         WKofmE121djfiy+TaVV4UXI/GAhV9SvobJOPdmO6fIDNxBFyIN0c64tOD5zxHt0xPNrU
+         LymDtom+q9w3cgKhYHTewqGxqTtrwy1Fk2wGqkCwVlFqtjy+g1/5niKy5KqRFp/2zt/h
+         4ilr/Y8BFT4RAXnmDyHWgQ/Jxoancq4ShpxKcOl1p74XU9ecVnFJ43f+HxokvG26fmCV
+         VLqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770160783; x=1770765583;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nUf/+8BbxtoTRhkrLvjqMjX8iWnPM8A43bKR4Om6EwE=;
+        b=EAe2c96/kFtTKFTGx7XlDFGQRs2maSIizyXXYao+jO3hZOQw+iiSvVRZ2TDkkfABPo
+         BbaqFsX1AQJpRvhJfImOldr8yGI+SkTtRkCiMZ1d0D6viB2gOgeYZ8lR38j9Fq3maQHc
+         jSsKtJK0bRb5t93YtPLQ8AB5cgd0I6XAYWqlJ7oR8gqCxP84cAS7vES3pqIXtPQbJjG4
+         DeWS8RTls/tcSfUYKxSe2GfrruVvMaVLhqJaOElI7/4tXuCU3OYoXgrXfSD4mgcyHFLq
+         U1RCXECxpnBLEhMRKmH/H+AykIvZ2XdC2+k0LpUUrs399iq9n79e1sEymWAVUAE4tFvg
+         MKCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX02OhYk8Gd2hiwMzw7FJw0ECT9QJJ40w5wu/2e0snu5zPjYDPrNGlu5GG9f9gno2skeXjYf4n8lBJ81g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVO/PyNiUx4/4tfTkHpyZwIXcTCp4eu/Lcpi+0AowRP+FDy1n6
+	vtkxCvNX7YUrZ4vRaqR9+y9ZU9T9iDv0NPqFkbc8dnEv5+ko+6zjxN2zsukMy4B7BTI=
+X-Gm-Gg: AZuq6aK7C3+hU6SupDFVjniQJPhUydxxWfQPIAAR+e5N+zJ1zWXAQk1esEG00woDEUN
+	MweXEHcTJwyxOaeX1eqwiD2TbEO929d2n4P8FklX5XHV25Ns7Q0nJK3csi1d85mkteLXPIRbmum
+	Bwnxy1Z7Uf3fuLe7S5+nCtmUJD1aIUL6NMNAYAPG4bTpj2u+gMqfJMKl1/kykyZjsYfKKlC+cKa
+	Do5l8Xr/5zpPRhRNSOeV1WQxwYFSjrWFk5S9FC+ScBsljfzAPf4V1VMRTAThe8uQh5/hmohBsT9
+	U4KLw9eoxzBzRMyLZL4Dp9ukp2mrLd3mNg3mV23DLKXHEWHw1m2njcTTERbFFVYM9+s5K10GOdJ
+	IZU30tf8pjf/KuGlIolAz8F3XTB8d9Q/Q+93bV59DM+9s7yEAn4QJkfUzxRuLokslBaZyC5sYLU
+	SckQ3Jmq4grnPQs5ZtHdHPpORmtk7iR5MUtBSrYjn/SMP91qTopodh
+X-Received: by 2002:a05:600c:1c17:b0:480:5951:fc1e with SMTP id 5b1f17b1804b1-4830e930f73mr17628865e9.11.1770160783238;
+        Tue, 03 Feb 2026 15:19:43 -0800 (PST)
+Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483108ec315sm2221095e9.8.2026.02.03.15.19.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Feb 2026 15:19:42 -0800 (PST)
+Message-ID: <0c3acd1c-5860-4819-9b36-6935137deea8@linaro.org>
+Date: Tue, 3 Feb 2026 23:19:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014@foss.st.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/8] dt-bindings: clock: qcom,sm8250-videocc: account
+ for the MX domain
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Hans Verkuil <hverkuil@kernel.org>,
+ Stefan Schmidt <stefan.schmidt@linaro.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dikshita Agarwal <dikshita@qti.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20260201-iris-venus-fix-sm8250-v2-0-6f40d2605c89@oss.qualcomm.com>
+ <gfDLl0QXQ6wHp-p_Lm8sRAgCea7hCkOH5OWeF2Rj3rLMllCVIut5Je7AqhSNCTptN0w13hXwkQvP9rjH9hNUHw==@protonmail.internalid>
+ <20260201-iris-venus-fix-sm8250-v2-1-6f40d2605c89@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20260201-iris-venus-fix-sm8250-v2-1-6f40d2605c89@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52138-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[foss.st.com,kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52139-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url]
-X-Rspamd-Queue-Id: A6E87DF735
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt,huawei];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ab00000:email,quicinc.com:email,qualcomm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:email,linaro.org:dkim,linaro.org:mid]
+X-Rspamd-Queue-Id: 9669CDFAEB
 X-Rspamd-Action: no action
 
-Hi Alain,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on eb4ee870747c3a77a9c3c84d84efb64bd481013a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/media-stm32-dcmipp-share-struct-dcmipp_device-among-subdevs/20260202-220852
-base:   eb4ee870747c3a77a9c3c84d84efb64bd481013a
-patch link:    https://lore.kernel.org/r/20260202-stm32-dcmipp-pixel-pipes-support-v1-8-8d8d51f5e014%40foss.st.com
-patch subject: [PATCH 08/13] media: stm32: dcmipp: add pixel pipes helper functions
-config: riscv-randconfig-r122-20260204 (https://download.01.org/0day-ci/archive/20260204/202602040608.vLI553iq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260204/202602040608.vLI553iq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602040608.vLI553iq-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c:41:1: sparse: sparse: symbol 'dcmipp_pixel_formats_list' was not declared. Should it be static?
-
-vim +/dcmipp_pixel_formats_list +41 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-pixelcommon.c
-
-    17	
-    18	#define DCMIPP_ENT(id, pad) (1 << (2 * (id) + (pad)))
-    19	#define DCMIPP_ISP_SINK			(DCMIPP_ENT(DCMIPP_ISP, 0))
-    20	#define DCMIPP_ISP_SRC			(DCMIPP_ENT(DCMIPP_ISP, 1))
-    21	#define DCMIPP_ISP_INOUT		(DCMIPP_ISP_SINK | DCMIPP_ISP_SRC)
-    22	#define DCMIPP_MAIN_POSTPROC_SINK	(DCMIPP_ENT(DCMIPP_MAIN, 0))
-    23	#define DCMIPP_MAIN_POSTPROC_SRC	(DCMIPP_ENT(DCMIPP_MAIN, 1))
-    24	#define DCMIPP_MAIN_POSTPROC_INOUT					\
-    25		(DCMIPP_MAIN_POSTPROC_SINK | DCMIPP_MAIN_POSTPROC_SRC)
-    26	#define DCMIPP_AUX_POSTPROC_SINK	(DCMIPP_ENT(DCMIPP_AUX, 0))
-    27	#define DCMIPP_AUX_POSTPROC_SRC	(DCMIPP_ENT(DCMIPP_AUX, 1))
-    28	#define DCMIPP_AUX_POSTPROC_INOUT					\
-    29		(DCMIPP_AUX_POSTPROC_SINK | DCMIPP_AUX_POSTPROC_SRC)
-    30	#define DCMIPP_ALL_POSTPROC_SINK					\
-    31		(DCMIPP_MAIN_POSTPROC_SINK | DCMIPP_AUX_POSTPROC_SINK)
-    32	#define DCMIPP_ALL_POSTPROC_INOUT					\
-    33		(DCMIPP_MAIN_POSTPROC_INOUT | DCMIPP_AUX_POSTPROC_INOUT)
-    34	
-    35	#define PIXMAP_MBUS(mbus, applicable_pipes)		\
-    36		{						\
-    37			.code = MEDIA_BUS_FMT_##mbus,		\
-    38			.pipes = applicable_pipes,		\
-    39		}
-    40	const struct dcmipp_pixelpipe_pix_map
-  > 41	dcmipp_pixel_formats_list[] = {
-    42		/* RGB formats */
-    43		/* RGB565 / RGB888 */
-    44		PIXMAP_MBUS(RGB565_2X8_LE, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    45		PIXMAP_MBUS(RGB565_1X16, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    46		PIXMAP_MBUS(RGB888_3X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    47		PIXMAP_MBUS(RGB888_1X24, DCMIPP_ALL_POSTPROC_INOUT | DCMIPP_ISP_INOUT),
-    48		/* YUV formats */
-    49		PIXMAP_MBUS(YUYV8_2X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    50		PIXMAP_MBUS(UYVY8_1X16, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    51		PIXMAP_MBUS(YUV8_1X24, DCMIPP_ALL_POSTPROC_INOUT | DCMIPP_ISP_SRC),
-    52		/* GREY */
-    53		PIXMAP_MBUS(Y8_1X8, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    54		PIXMAP_MBUS(Y10_1X10, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    55		PIXMAP_MBUS(Y12_1X12, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    56		PIXMAP_MBUS(Y14_1X14, DCMIPP_AUX_POSTPROC_SINK | DCMIPP_ISP_SINK),
-    57		/* Raw Bayer */
-    58		/* Raw 8 */
-    59		PIXMAP_MBUS(SBGGR8_1X8, DCMIPP_ISP_SINK),
-    60		PIXMAP_MBUS(SGBRG8_1X8, DCMIPP_ISP_SINK),
-    61		PIXMAP_MBUS(SGRBG8_1X8, DCMIPP_ISP_SINK),
-    62		PIXMAP_MBUS(SRGGB8_1X8, DCMIPP_ISP_SINK),
-    63		/* Raw 10 */
-    64		PIXMAP_MBUS(SBGGR10_1X10, DCMIPP_ISP_SINK),
-    65		PIXMAP_MBUS(SGBRG10_1X10, DCMIPP_ISP_SINK),
-    66		PIXMAP_MBUS(SGRBG10_1X10, DCMIPP_ISP_SINK),
-    67		PIXMAP_MBUS(SRGGB10_1X10, DCMIPP_ISP_SINK),
-    68		/* Raw 12 */
-    69		PIXMAP_MBUS(SBGGR12_1X12, DCMIPP_ISP_SINK),
-    70		PIXMAP_MBUS(SGBRG12_1X12, DCMIPP_ISP_SINK),
-    71		PIXMAP_MBUS(SGRBG12_1X12, DCMIPP_ISP_SINK),
-    72		PIXMAP_MBUS(SRGGB12_1X12, DCMIPP_ISP_SINK),
-    73		/* Raw 14 */
-    74		PIXMAP_MBUS(SBGGR14_1X14, DCMIPP_ISP_SINK),
-    75		PIXMAP_MBUS(SGBRG14_1X14, DCMIPP_ISP_SINK),
-    76		PIXMAP_MBUS(SGRBG14_1X14, DCMIPP_ISP_SINK),
-    77		PIXMAP_MBUS(SRGGB14_1X14, DCMIPP_ISP_SINK),
-    78	};
-    79	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 01/02/2026 10:48, Dmitry Baryshkov wrote:
+> To configure the video PLLs and enable the video GDSCs on SM8250,
+> platform, the MX rail must be ON along with MMCX. Split the bindings
+> file in order to provide separate file utilizing MMCX and MX power
+> domains.
+> 
+> Fixes: dafb992a95e1 ("dt-bindings: clock: add SM8250 QCOM video clock bindings")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>   .../bindings/clock/qcom,sm8250-videocc.yaml        | 85 ++++++++++++++++++++++
+>   .../devicetree/bindings/clock/qcom,videocc.yaml    | 20 -----
+>   2 files changed, 85 insertions(+), 20 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/clock/qcom,sm8250-videocc.yaml b/Documentation/devicetree/bindings/clock/qcom,sm8250-videocc.yaml
+> new file mode 100644
+> index 000000000000..341d3cbb7cbb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/clock/qcom,sm8250-videocc.yaml
+> @@ -0,0 +1,85 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/clock/qcom,sm8250-videocc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Video Clock & Reset Controller
+> +
+> +maintainers:
+> +  - Taniya Das <quic_tdas@quicinc.com>
+> +
+> +description: |
+> +  Qualcomm video clock control module provides the clocks, resets and power
+> +  domains on Qualcomm SoCs.
+> +
+> +  See also::
+> +    include/dt-bindings/clock/qcom,videocc-sm8250.h
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - qcom,sm8250-videocc
+> +
+> +  clocks:
+> +    items:
+> +      - description: AHB
+> +      - description: Board XO source
+> +      - description: Board active XO source
+> +
+> +  clock-names:
+> +    items:
+> +      - const: iface
+> +      - const: bi_tcxo
+> +      - const: bi_tcxo_ao
+> +
+> +  power-domains:
+> +    items:
+> +      - description:
+> +          A phandle and PM domain specifier for the MMCX power domain.
+> +      - description:
+> +          A phandle and PM domain specifier for the MX power domain.
+> +
+> +  required-opps:
+> +    items:
+> +      - description:
+> +          A phandle to an OPP node describing required MMCX performance point.
+> +      - description:
+> +          A phandle to an OPP node describing required MX performance point.
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - clock-names
+> +  - '#power-domain-cells'
+> +  - power-domains
+> +  - required-opps
+> +
+> +allOf:
+> +  - $ref: qcom,gcc.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,rpmh.h>
+> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+> +    clock-controller@ab00000 {
+> +      compatible = "qcom,sm8250-videocc";
+> +      reg = <0x0ab00000 0x10000>;
+> +      clocks = <&gcc_gcc_video_ahb_clk>,
+> +               <&rpmhcc RPMH_CXO_CLK>,
+> +               <&rpmhcc RPMH_CXO_CLK_A>;
+> +      clock-names = "iface",
+> +                    "bi_tcxo",
+> +                    "bi_tcxo_ao";
+> +      #clock-cells = <1>;
+> +      #reset-cells = <1>;
+> +      #power-domain-cells = <1>;
+> +      power-domains = <&rpmhpd RPMHPD_MMCX>,
+> +                      <&rpmhpd RPMHPD_MX>;
+> +      required-opps = <&rpmhpd_opp_low_svs>,
+> +                      <&rpmhpd_opp_low_svs>;
+> +    };
+> +...
+> diff --git a/Documentation/devicetree/bindings/clock/qcom,videocc.yaml b/Documentation/devicetree/bindings/clock/qcom,videocc.yaml
+> index f4ff9acef9d5..8676c7e22b4c 100644
+> --- a/Documentation/devicetree/bindings/clock/qcom,videocc.yaml
+> +++ b/Documentation/devicetree/bindings/clock/qcom,videocc.yaml
+> @@ -19,7 +19,6 @@ description: |
+>       include/dt-bindings/clock/qcom,videocc-sc7280.h
+>       include/dt-bindings/clock/qcom,videocc-sdm845.h
+>       include/dt-bindings/clock/qcom,videocc-sm8150.h
+> -    include/dt-bindings/clock/qcom,videocc-sm8250.h
+> 
+>   properties:
+>     compatible:
+> @@ -30,7 +29,6 @@ properties:
+>             - qcom,sdm845-videocc
+>             - qcom,sm6350-videocc
+>             - qcom,sm8150-videocc
+> -          - qcom,sm8250-videocc
+>         - items:
+>             - const: qcom,sc8180x-videocc
+>             - const: qcom,sm8150-videocc
+> @@ -128,24 +126,6 @@ allOf:
+>               - const: iface
+>               - const: bi_tcxo
+> 
+> -  - if:
+> -      properties:
+> -        compatible:
+> -          enum:
+> -            - qcom,sm8250-videocc
+> -    then:
+> -      properties:
+> -        clocks:
+> -          items:
+> -            - description: AHB
+> -            - description: Board XO source
+> -            - description: Board active XO source
+> -        clock-names:
+> -          items:
+> -            - const: iface
+> -            - const: bi_tcxo
+> -            - const: bi_tcxo_ao
+> -
+>   unevaluatedProperties: false
+> 
+>   examples:
+> 
+> --
+> 2.47.3
+> 
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
