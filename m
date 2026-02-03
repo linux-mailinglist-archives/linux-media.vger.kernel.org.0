@@ -1,184 +1,187 @@
-Return-Path: <linux-media+bounces-52067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52068-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YGfPMRs9gWk8FAMAu9opvQ
-	(envelope-from <linux-media+bounces-52067-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 01:11:07 +0100
+	id CAE5GBFOgWlMFgMAu9opvQ
+	(envelope-from <linux-media+bounces-52068-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 02:23:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186B1D2DA9
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 01:11:07 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2364FD357E
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 02:23:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F04533039CAA
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 00:10:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 89B813006B64
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 01:23:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2926E43AA6;
-	Tue,  3 Feb 2026 00:10:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A963622756A;
+	Tue,  3 Feb 2026 01:23:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r9jwU9c1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lFj5aetJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7067B286A7;
-	Tue,  3 Feb 2026 00:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251AE1B4223;
+	Tue,  3 Feb 2026 01:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770077415; cv=none; b=e1A4Iwximrdxg8wgKc4pI5qNznOQiI9Br24HkQM7M6u3DshfYLY2aJ5DdnI8pxBmm9gF41zBf8+uWbZUFN7IipjbYMBXZFzz0QFRUCA97ldIa6nGFV7dK5LMo64VMmlH9y03aTxbpK32Jf/O2kkRll8KR6HZ0tow2SSrVkmknAk=
+	t=1770081806; cv=none; b=jPNgvMWgdc7RlsAw9Y6QsjeZX6E/3PQzKx8hjMMduKE1VMqtNkstcuHeiCnzH2PeDJ/gstE0OenA0oOMUxJiNGFzOlrYi5zzFk0HqRXotcHBh6888u/+v8dPsWPiWwcyhrnWZHHK8AcuNeBdopU4R30UAdeF4HD3RP+CqPHpkI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770077415; c=relaxed/simple;
-	bh=pQbDcmtewWa2yjdxKfKtqWzgPlFPxdEm3ir44Cdhu88=;
+	s=arc-20240116; t=1770081806; c=relaxed/simple;
+	bh=snmkZ4pdFxYdnJXNT9MHeZJO2RIqEBPh8p6PZnHxaz0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h297lGvtmBS6fXZnfhPWO6Z2+0WubiCGX75zTVItLypEPtdczhee5PfLQARdD3fz17ktDWnhB0GDV7iAwpwEA4hFjxjl9nz7YTAe/tJS9ddcmHIFB1al2MzriLmiIpRfjzYk1Ortcz5Ff501HdnW0ZMsunYkDpls9XhihvXkyoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r9jwU9c1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E125C116C6;
-	Tue,  3 Feb 2026 00:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770077415;
-	bh=pQbDcmtewWa2yjdxKfKtqWzgPlFPxdEm3ir44Cdhu88=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=svEqeq+vxwg2cqmGgiknLVgeYgez3vIMijHrhBUKquZwNtJ96QnB+0w/OD5DA9l0VHGazhDaYuktDHZrO42DumI9J5pOrT3pNW7LXJvNTCOrQoE/lxmlzQP9jGZG616d2u4ULIZ+Q/c4Zq3sPv8sOde6mBZUhys+s/Qsadx6vOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lFj5aetJ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A6930492;
+	Tue,  3 Feb 2026 02:22:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1770081753;
+	bh=snmkZ4pdFxYdnJXNT9MHeZJO2RIqEBPh8p6PZnHxaz0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r9jwU9c1z3oMvPX+hp/h4oxyPvJw2t3r93uJdCT+3VrY5u2gTp6MvAb18xH1v2ytQ
-	 tOIjnqfpt4GMVyH6BEnDxPGemLkgFuSQJebrHeaVHVWzBB8sl1wf8GRrpvfEkCZpm4
-	 fHdzU9+rvZx6YmFgpQq0dQGVqlwnCAcxZKPndu4RQ9oPXctzazudnUCda47w/b78su
-	 G/rZq9m8+z87BLtZcq1WWpP9QhPh/1WXcWRi8Qm8yyBVDD67YoKorGtybUwFSyBYXN
-	 duCnqrfxnWHUd0+jBeDFKkgiFWUGuCJh7bGOpK947wLRptoK4v0NvzEzNgmQFRY1a+
-	 /+sVBLX6OA1zA==
-Date: Tue, 3 Feb 2026 02:10:10 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, jani.nikula@linux.intel.com,
-	anisse@astier.eu, oleksandr@natalenko.name,
-	linux-integrity@vger.kernel.org,
+	b=lFj5aetJTD3tJGYQo43jNdfMqGJT07rdI7UAp544o5WiPIRWingwOu1jILClgayFA
+	 UVIt/jSTkVsWCuqaaE0ZTzSXKF5Pp6z0++GDBVrU58jZ4MJ8y+twZijy9acYPvPgT1
+	 M5FFVUsBgmTJpdFPQS57wZldp76jmwJUtZq5A6to=
+Date: Tue, 3 Feb 2026 03:23:13 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Oleksandr Natalenko <oleksandr@natalenko.name>
+Cc: Gergo Koteles <soyer@irl.hu>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jarkko Sakkinen <jarkko@kernel.org>, linux-media@vger.kernel.org,
+	jani.nikula@linux.intel.com, anisse@astier.eu,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Ricardo Ribalda <ribalda@chromium.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH v2] media: Virtual camera driver
-Message-ID: <aYE84i2GT5ntqZsO@kernel.org>
-References: <20260202204425.2614054-1-jarkko@kernel.org>
- <aYEqHogDBqR1qGw3@kekkonen.localdomain>
+	open list <linux-kernel@vger.kernel.org>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>
+Subject: Re: [RFC PATCH] media: Virtual camera driver
+Message-ID: <20260203012313.GA280953@killaraus>
+References: <20260201133342.335680-1-jarkko@kernel.org>
+ <0fc43020620f211a7962a819c617056fbb499d86.camel@irl.hu>
+ <20260202114012.GA4173464@killaraus>
+ <22989766.EfDdHjke4D@natalenko.name>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aYEqHogDBqR1qGw3@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <22989766.EfDdHjke4D@natalenko.name>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52067-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52068-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jarkko@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 186B1D2DA9
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: 2364FD357E
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 12:50:06AM +0200, Sakari Ailus wrote:
-> Hi Jarkko,
-> 
-> On Mon, Feb 02, 2026 at 10:44:21PM +0200, Jarkko Sakkinen wrote:
-> > Already a quick Google survey backs strongly that OOT drivers (e.g.,
-> > v4l2loopback) are the defacto solution for streaming phone cameras in
-> > video conference calls, which puts confidential discussions at risk.
-> 
-> As I think it was pointed out in review comments for v1, the reason behind
-> using v4l2loopback is the use of a downstream driver, which itself is a
-> source of a security risk. If I understand correctly, supporting this
-> (proprietary/downstream vendor drivers) would be the main use case this
-> driver serves? Should this downstream driver be upstreamed to alleviate the
-> security risks, the need for v4l2loopback or similar drivers presumably
-> disappears.
+Hi Oleksandr,
 
-My goal is not to proactively support proprietary drivers, and I don't
-know how to measure such incentive or risk, when it comes to video
-drivers.
+(Cc'ing Nicolas Dufresne)
 
-And besides there is e.g. FUSE.
-
-> 
-> Another of the downsides of such proprietary/downstream solutions is they
-> can never be properly integrated into the Linux ecosystem so functionality
-> will remain spotty (limited to specific systems and specific releases of
-> specific distributions) at best.
-> 
-> In other words, this driver appears to be orthogonal to solving either of
-> the above two problems the proprietary/downstream solutions have.
-> 
-> From the Open Source libcamera based camera software stack point of view
-> there doesn't seem to be a need for v4l2loopback or another similar driver.
-> The two main reasons for this is that (1) there's no need for glueing
-> something separate together like this and (2) V4L2 isn't a great
-> application interface for cameras -- use libcamera or Pipewire instead.
-
-While I get this argument isolated, it does not match the observed
-reality, and does not provide tools to address the core issue. I
-will be in my grave before I've fixed the world like you are
-suggesting :-)
-
-Like, first off, where would I use libcamera or Pipewire? There's
-no well-defined target other than kernel in this problem.
-
-> 
+On Mon, Feb 02, 2026 at 12:45:15PM +0100, Oleksandr Natalenko wrote:
+> On pondělí 2. února 2026 12:40:12, středoevropský standardní čas Laurent Pinchart wrote:
+> > > If I understand correctly, it would be more forward-thinking to develop
+> > > virtual camera support in PipeWire rather than in the kernel.
 > > 
-> > It can be also claimed that there's enough OOT usage in the wild that
-> > possible security bugs could be considered as potential zerodays for the
-> > benefit of malicious actors.
+> > I don't think there's even a need for development in PipeWire
 > > 
-> > The situation has been stagnated for however many years, which is
-> > unsastainable situation, and it further factors potential security
-> > risks. Therefore, a driver is needed to address the popular use case.
+> > $ gst-launch-1.0 \
+> > 	videotestsrc ! \
+> > 	video/x-raw,format=YUY2 ! \
+> > 	pipewiresink mode=provide stream-properties="properties,media.class=Video/Source,media.role=Camera"
 > > 
-> > vcam is a DMA-BUF backed virtual camera driver capable of creating video
-> > capture devices to which data can be streamed through /dev/vcam after
-> > calling VCAM_IOC_CREATE. Frames are pushed with VCAM_IOC_QUEUE and recycled
-> > with VCAM_IOC_DEQUEUE. Zero-copy semantics are supported for shared DMA-BUF
-> > between capture and output.
-> > 
-> > This enables efficient implementation of software, which can manage network
-> > video streams from phone cameras, and map those streams to video devices.
+> > This gives me a virtual camera in Firefox. Extending the GStreamer
+> > pipeline to get the video stream from the network should be quite
+> > trivial.
 > 
-> I'd really try to avoid involving V4L2 in-kernel implementation when the
-> source of the video is network. V4L2 is meant to be used (when it comes to
-> video) for interfacing video related hardware such as cameras, ISPs and
-> codecs. There are limited number of video output related devices, too, but
-> network is something quite different from these.
-
-I'd look at the usage patterns in the field too. It is pretty obvious
-that there is a significant gap what users want and expect when it
-comes to this debate.
-
+> So far, I came up with this:
 > 
-> -- 
-> Kind regards,
+> * sender:
 > 
-> Sakari Ailus
+> $ gst-launch-1.0 pipewiresrc path=<webcam_id> ! image/jpeg, width=1280, height=720, framerate=24/1 ! rndbuffersize max=1400 ! udpsink host=<receiver_host> port=<receiver_port>
+>
+> * receiver:
+> 
+> $ gst-launch-1.0 udpsrc address=<receiver_host> port=<receiver_port> ! queue ! image/jpeg, width=1280, height=720, framerate=24/1 ! jpegparse ! jpegdec ! pipewiresink mode=provide stream-properties="properties,media.class=Video/Source,media.role=Camera" client-name=VirtualCam
+>
+> Please let me know if I do something dumb here. Trial and error to
+> make this work took a couple of hours for me, but it seems to provide
+> what I need.
 
-BR, Jarkko
+There's nothing dumb at all, especially given that it works :-) I have
+been able to reproduce it locally (using a different pipeline on the
+sender side).
+
+I compared your pipelines with another JPEG-over-UDP setup I used a
+while ago, which used an rtpjpegpay element before udpsink on the sender
+side to encapsulate the payload in RTP packets, and an rtpjpegdepay
+element on the receiver side after udpsrc. This helps the receiver
+synchronize with the sender if the sender is started first. The full
+pipelines are
+
+* Sender:
+
+gst-launch-1.0 \
+	v4l2src ! \
+	video/x-raw,pixelformat=YUYV,size=640x480 ! \
+	jpegenc ! \
+	rtpjpegpay ! \
+	udpsink host=192.168.10.200 port=8000
+
+* Receiver:
+
+gst-launch-1.0 \
+	udpsrc port=8000 ! \
+	application/x-rtp,encoding-name=JPEG,payload=26 ! \
+	rtpjpegdepay ! \
+	jpegdec ! \
+	video/x-raw,pixelformat=YUYV,size=640x480 ! \
+	queue ! \
+	pipewiresink mode=provide \
+	       stream-properties="properties,media.class=Video/Source,media.role=Camera" \
+	       client-name="Remote Camera"
+
+Unfortunatley this doesn't work, when the pipewire client connects to
+the stream on the receiver side I get
+
+ERROR: from element /GstPipeline:pipeline0/GstPipeWireSink:pipewiresink0: stream error: no more input formats
+
+Nicolas, would you have any wisdom to share about this and tell me if I
+did something dumb ? :-) There's no hurry.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
