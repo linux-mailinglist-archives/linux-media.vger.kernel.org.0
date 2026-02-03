@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-52127-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52128-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AMsEEmxcgmk2TAMAu9opvQ
-	(envelope-from <linux-media+bounces-52127-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 21:37:00 +0100
+	id gFV1GVhfgmnTTAMAu9opvQ
+	(envelope-from <linux-media+bounces-52128-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 21:49:28 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019ABDE8DA
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 21:36:59 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D72ADDEA40
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 21:49:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7A60D300616A
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 20:36:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 92D1F30584AB
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 20:49:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AD5F3314C8;
-	Tue,  3 Feb 2026 20:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 716072FF646;
+	Tue,  3 Feb 2026 20:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="thsh/6n7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Qdvdjl0E"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141992FB0B3;
-	Tue,  3 Feb 2026 20:36:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3610823EA8B;
+	Tue,  3 Feb 2026 20:49:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770151014; cv=none; b=tToHLuzuB/9iu9sP4ADJ3TvVktMPrEGubJO7wPPpBhBzC5w94CupwYDq/7qcj/mQO2NJra3Y2VcUcr5gVbvgLMrHtexVhBMzGHkF9jI9o9Mbih7UynLJK82YnjpEpfP2raNOBxXvF5hYCnpiEeK7DJE+o/oWmDdVpfIw5gXvpAQ=
+	t=1770151756; cv=none; b=sXCMLp44+oI9ghxX1dusvv/p5NKojNI65k04mAh8/297dtl/l7fsRjHF8m3u5CjEf5J7TTpL5siQSEDO5T2YlVCdrNaibaNQqhwaCsRrTjLK/8cYKxZkVAN9VcDnTjvDyqoZNpFGcLeuFC4LKBXzM4obJkIDfy2fLV4jABD47c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770151014; c=relaxed/simple;
-	bh=am+4OuWHY5jBezHDx4DdSjsvdeJrsWIlV5+Ul/WZ52M=;
+	s=arc-20240116; t=1770151756; c=relaxed/simple;
+	bh=zuSqlW244+m3wc+xnYxvggfqEoTmdLCctZ1AG29pkxE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lr0TJkN/IdvJ/EtGB2Zu6Uo4xHW8ZNfK3B6gi6dv0L+SPxvrA1J6drD7j/B2FyAA83pWt/ZMZHdnK5X9XoTo+d/IsS9+RLv0jRQiQubsqWyTRMJTB3XyKJiYk7vls222GCazx8ing/r+C1wAbuhoUBm8PBYQnKXk4h/n/gdSa60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=thsh/6n7; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=oa0u23VUi96T3iBqQPG/Im89/MhKl+Q2xC9miiNHw8IkgTnsLJ1gIJ1zxZI8eyQjJkdxtXc0m+HwY7aBR8+JDoagmApeyIEelAI5y0TlvK0czP/zNgUI6R7wheHtggc+rtnrCmqYFmm2xC44Tae3UbfoIIuaIXSRkbacUgkFpJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Qdvdjl0E; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5DD411C6;
-	Tue,  3 Feb 2026 21:36:08 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7D24B1C6;
+	Tue,  3 Feb 2026 21:48:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770150968;
-	bh=am+4OuWHY5jBezHDx4DdSjsvdeJrsWIlV5+Ul/WZ52M=;
+	s=mail; t=1770151711;
+	bh=zuSqlW244+m3wc+xnYxvggfqEoTmdLCctZ1AG29pkxE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=thsh/6n7AXAlHQhhSWOm/IR8gMnGfwpYQwZxvYstdAe8bo+ql/CTuoIn73OwDbUjW
-	 xTo6O950h2BfvEh1Q50p9QiNDg4J4VsqBxnzalI1R3J1DlzzgHNRNXCzVFC9nE/Ev3
-	 c9WL316rW5pdXXkR0FwbXk1KRyg3n5icciTpfY+o=
-Date: Tue, 3 Feb 2026 22:36:48 +0200
+	b=Qdvdjl0EU7vgRkfFSQNDGO42x5HK8nEHhlS4/iGMWn94O151Odea+Fc991SwldnZ8
+	 McWU7aee8WP7hdbzMZr/sMS5fOMm+SSYsxazULHEdGSnm6DsPLGqUYM0yyHALrWw18
+	 qLrV+dTygXakTr3pVawsQiLWA61HYvNYIH0Ope6g=
+Date: Tue, 3 Feb 2026 22:49:11 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Oleksandr Natalenko <oleksandr@natalenko.name>
 Cc: Gergo Koteles <soyer@irl.hu>,
@@ -59,7 +59,7 @@ Cc: Gergo Koteles <soyer@irl.hu>,
 	open list <linux-kernel@vger.kernel.org>,
 	Nicolas Dufresne <nicolas@ndufresne.ca>
 Subject: Re: [RFC PATCH] media: Virtual camera driver
-Message-ID: <20260203203648.GA56480@killaraus>
+Message-ID: <20260203204911.GB56480@killaraus>
 References: <20260201133342.335680-1-jarkko@kernel.org>
  <22989766.EfDdHjke4D@natalenko.name>
  <20260203012313.GA280953@killaraus>
@@ -81,13 +81,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52127-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52128-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -98,21 +98,17 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,huawei];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 019ABDE8DA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:url,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: D72ADDEA40
 X-Rspamd-Action: no action
 
 On Tue, Feb 03, 2026 at 04:53:41PM +0200, Laurent Pinchart wrote:
 > On Tue, Feb 03, 2026 at 03:38:06PM +0100, Oleksandr Natalenko wrote:
 > > On úterý 3. února 2026 2:23:13, středoevropský standardní čas Laurent Pinchart wrote:
-> > > Hi Oleksandr,
-> > > 
-> > > (Cc'ing Nicolas Dufresne)
-> > > 
 > > > On Mon, Feb 02, 2026 at 12:45:15PM +0100, Oleksandr Natalenko wrote:
 > > > > On pondělí 2. února 2026 12:40:12, středoevropský standardní čas Laurent Pinchart wrote:
 > > > > > > If I understand correctly, it would be more forward-thinking to develop
@@ -201,18 +197,7 @@ On Tue, Feb 03, 2026 at 04:53:41PM +0200, Laurent Pinchart wrote:
 > > worked pretty reliably, so I'm impressed now.
 > 
 > Thank you for the update. I'll give this a try.
-
-I've tried those, but as soon as Firefox is connecting, I get
-
-0:00:03.569028999 131465 0x7f85cc002030 DEBUG           pipewiresink gstpipewiresink.c:692:on_state_changed:<pipewiresink0> got stream state "error" (-1)
-0:00:03.569060959 131465 0x7f85cc002030 DEBUG           pipewiresink gstpipewiresink.c:692:on_state_changed:<pipewiresink0> got stream state "error" (-1)
-0:00:03.569070767 131465 0x7f85cc002030 WARN            pipewiresink gstpipewiresink.c:710:on_state_changed:<pipewiresink0> error: stream error: no more input formats
-ERROR: from element /GstPipeline:pipeline0/GstPipeWireSink:pipewiresink0: stream error: no more input formats
-Additional debug info:
-../pipewire-1.4.9/src/gst/gstpipewiresink.c(710): on_state_changed (): /GstPipeline:pipeline0/GstPipeWireSink:pipewiresink0
-
-Maybe I should try the pipewire master branch.
-
+> 
 > > The only issue I have with this thing is that once a tab with meeting
 > > in the browser is closed, the whole receiver pipeline stops gracefully
 > > because "PipeWire link to remote node was destroyed". I didn't find a
@@ -229,6 +214,8 @@ Maybe I should try the pipewire master branch.
 > 
 > I'm writing a blog post on this topic, I'll reply with a link when I'll
 > be done.
+
+https://www.ideasonboard.com/news/pipewire-is-the-new-v4l2loopback/
 
 -- 
 Regards,
