@@ -1,159 +1,162 @@
-Return-Path: <linux-media+bounces-52113-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52114-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCXtJ7YQgmm9OwMAu9opvQ
-	(envelope-from <linux-media+bounces-52113-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 16:13:58 +0100
+	id GBPOH4oTgmkgPAMAu9opvQ
+	(envelope-from <linux-media+bounces-52114-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 16:26:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CA9DB297
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 16:13:58 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3499DB429
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 16:26:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 98AA730DB280
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 15:09:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1A2FA300B447
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 15:25:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 146D9316193;
-	Tue,  3 Feb 2026 15:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D39E3B8D7E;
+	Tue,  3 Feb 2026 15:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C9OjkHyC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rh1LB/0Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749C33101BD;
-	Tue,  3 Feb 2026 15:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA0D3B8D62;
+	Tue,  3 Feb 2026 15:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770131339; cv=none; b=e/+A4xg2Rz1Q9ID4PDRL9OELaCiImKDvNGn75hns5eXLHdhm/92waOCgQ5iLrY2eP0Rb+YeGnHL1IJQN5F7ct5WM/d6rtp4A8f4z6KSZO2WvRDlJmbIJO3ND75IaoNhIWDu4PgngDkSBInos3eJ7Kzbqf3aqbCCReSBJRGUgrBw=
+	t=1770132350; cv=none; b=gaQmLJ0TQ3PdoPonP8n/2htuxt/G6/mofEp4sqB42YmpJGaqKuNd+DrN6WnI9Xg7MjKoysQkp9j2NEQiZ6moY2uyd88LnoOzPJwOXfeXtUf4R3EBqNLL+xpEAJR6mQfndMLzZorT5LJyGJWU14i8kCBSYaSOu2D8QXE3162FGlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770131339; c=relaxed/simple;
-	bh=e4sqJ1UNO+FAZKwOmKR+4uAi34dqjv+pWrRv4ajgQDg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDoIG0JxihdJyOdHPGf+BrzauA92x7adwtRyGFYJp6zZh/sNoAa83gcb2eHPK+Y1go4FkT6UeXsvXHSXvIOpnikUkVHtKDUkyEptFtG6CQj3yzk31zpcR9zk73a52ibfCxxMBr6RMkpMgYzN+GWnNucVsmBYjBd1rmDxvE/Zh6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C9OjkHyC; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770131338; x=1801667338;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e4sqJ1UNO+FAZKwOmKR+4uAi34dqjv+pWrRv4ajgQDg=;
-  b=C9OjkHyCIvDBlbHp37z2KlyKea3jiD4l+p0dQH+ZtKAqpuYd0/8Jzjhw
-   ORd4TGfKgD1K51xci4jh/gwaZk9hPNDn2xuAHzC3/PfxsTtlTXLpPgVti
-   ecYOY+b7LDNiqFuxgD9HC9YW7JAJVLOm98BPb9HtPIzuY0ZfAzis3ibrH
-   MKHWbQgJuHvXI+bp82fUPW5PRK6ceE9ysYVBt5KdO5IrY3syey7fyOD4C
-   hlPZNQZAH9N3pV15tTvA414MIeldoG+++bClh9X/ZN4mWHfMAJrMmvEt9
-   i9Gc+vhZVyaehRde7Dl7fQLCNhvYbAnamhiYN/pT751Gj4S02Yfz455+E
-   w==;
-X-CSE-ConnectionGUID: 53LNgdKHSwa8VOuqtuEOxQ==
-X-CSE-MsgGUID: xt7tgRLaSWiN251msWkRPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="82731675"
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="82731675"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 07:08:57 -0800
-X-CSE-ConnectionGUID: OmL2nHe4S0+Zpx3+1LVZhg==
-X-CSE-MsgGUID: x24vwGYnRM+7Ysw6ba5vPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="247472632"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 07:08:54 -0800
-Date: Tue, 3 Feb 2026 17:08:51 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Zilin Guan <zilin@seu.edu.cn>
-Cc: andy.shevchenko@gmail.com, andy@kernel.org, gregkh@linuxfoundation.org,
-	hansg@kernel.org, hverkuil@kernel.org, jianhao.xu@seu.edu.cn,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com
-Subject: Re: [PATCH v3] media: atomisp: Fix memory leak in
- atomisp_fixed_pattern_table()
-Message-ID: <aYIPg22Z-GDOy1fG@smile.fi.intel.com>
-References: <20260203135659.3801028-1-zilin@seu.edu.cn>
+	s=arc-20240116; t=1770132350; c=relaxed/simple;
+	bh=Du5Koej1C4nV9G8aQrwA6mXWCCiESbqfzFqmYQY42hk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aXIS5UcNZuq2d5lB7IMxTgAqy+9k0Qcli2W56XV8w4l6XLuxRXay+yyzko5qCRY2R9YJdcfrQPybKwr8/OMDDDQILQ2xjKZw0DjlibDtONIdByuqJ3vL8Z1QEXO14G8SAj2zsN4X4gi2xCJ7gNCHWLfJPtE5uzPu+smyoLQrqww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rh1LB/0Z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16BC6C116D0;
+	Tue,  3 Feb 2026 15:25:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770132350;
+	bh=Du5Koej1C4nV9G8aQrwA6mXWCCiESbqfzFqmYQY42hk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Rh1LB/0Zvkmvig32AMBUxKl9zSTgCzJQQA798s1NrUepj/r1koRQRvxJr3kZUICrd
+	 fV4bNShYGB1w7OIEwDg1O1suCaTYWBGMH/v9YKvCZfOuDuVcEj++zwPCIH0B29mPpw
+	 hlBQGeu+mDG7gvUF+q8Tk3v7iUcjO3gfHtNuzddc1ru99+nQROgDe3Rtu1KTmgdV/N
+	 e2PZ+I0lfVGLOar0YqD3tuDEOjVfwcwrnUXCooIQOt7XMPdD61UxhCY6/dVBlJUygs
+	 zSSU+Jut0MPmhISbzZJZW3vI2SrMsKjq6Xp6ziyyRp7+yemo5Dh2S9J0UDUX2hncSk
+	 hmECZn7/MGYRQ==
+Date: Tue, 3 Feb 2026 16:25:44 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: johannes.goede@oss.qualcomm.com
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Jarkko Sakkinen
+ <jarkko@kernel.org>, linux-media@vger.kernel.org, anisse@astier.eu,
+ oleksandr@natalenko.name, linux-integrity@vger.kernel.org, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Jacopo Mondi
+ <jacopo.mondi@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v2] media: Virtual camera driver
+Message-ID: <20260203162544.09635a09@foz.lan>
+In-Reply-To: <c6b5832f-d7b3-4bc2-834e-4ce7b0c0b4cd@oss.qualcomm.com>
+References: <20260202204425.2614054-1-jarkko@kernel.org>
+	<6b192c71-c389-4a6e-b7c3-ddcd5cc4aa34@oss.qualcomm.com>
+	<37a0d91c2e78c97f3d956444c4f7a2a2fca9ae06@intel.com>
+	<c6b5832f-d7b3-4bc2-834e-4ce7b0c0b4cd@oss.qualcomm.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260203135659.3801028-1-zilin@seu.edu.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linuxfoundation.org,seu.edu.cn,vger.kernel.org,lists.linux.dev,linux.intel.com];
-	TAGGED_FROM(0.00)[bounces-52113-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52114-lists,linux-media=lfdr.de,huawei];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,smile.fi.intel.com:mid,intel.com:email,intel.com:dkim]
-X-Rspamd-Queue-Id: 43CA9DB297
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: B3499DB429
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 01:56:59PM +0000, Zilin Guan wrote:
-> atomisp_v4l2_framebuffer_to_css_frame() allocates memory for
-> temporary variable raw_black_frame, which must be released via
-> ia_css_frame_free() before the function returns. However, if
-> sh_css_set_black_frame() fails, the function returns immediately without
-> performing this cleanup, leading to a memory leak.
+On Tue, 3 Feb 2026 15:19:13 +0100
+johannes.goede@oss.qualcomm.com wrote:
+
+> Hi Jani,
 > 
-> Fix this by assigning the return value of sh_css_set_black_frame() to
-> ret. This ensures that the error code is propagated while allowing the
-> execution to fall through to the ia_css_frame_free() cleanup call.
+> On 3-Feb-26 14:20, Jani Nikula wrote:
+> > On Tue, 03 Feb 2026, johannes.goede@oss.qualcomm.com wrote:  
+> >> The problem is that what you're suggesting is basically a much
+> >> improved (using dma-buf is way better) v4l2-loopback driver and
+> >> v4l2-loopback has been blocked from getting merged into the kernel
+> >> because besides the mobile-phone camera use, the other main use-case
+> >> is to allow running proprietary camera stacks like Intel's proprietary
+> >> camerastack and then presenting that to userspace as a standard v4l2
+> >> cam so that userspace apps will just work.  
+> > 
+> > ...
+> >   
+> >> The community concensus is that the solution here is for apps to
+> >> access cameras through pipewire. Together with the shift of laptops
+> >> cameras from UVC to "raw" MIPI cameras there also is a shift to
+> >> running applications sandboxed as flatpacks because of the changing
+> >> "cyber" security landscape. This is why pipewire was chosen because
+> >> it also solves the accessing cameras from a sandbox issue.  
+> > 
+> > Why is v4l2-loopback problematic from the perspective of facilitating
+> > running proprietary camera stacks, but pipewire isn't?  
 > 
-> The bug was originally detected on v6.13-rc1 using an experimental
-> static analysis tool we are developing, and we have verified that the
-> issue persists in the latest mainline kernel. The tool is based on the
-> LLVM framework and is specifically designed to detect memory management
-> issues. It is currently under active development and not yet publicly
-> available.
+> Once pipewire mostly works everywhere for camera access then indeed
+> this will allow proprietary stacks to present themselves as a pipewire src.
+> For now though most proprietary stacks seem to prefer v4l2loopback because
+> pipewire is not supported as camera source yet by a lot of apps.
 > 
-> We performed build testing on x86_64 with allyesconfig. Since triggering
-> this error path in atomisp requires specific Intel Atom ISP hardware and
-> firmware, we were unable to perform runtime testing and instead verified
-> the fix according to the code logic.
+> As I indicated in my original email personally I'm a bit divided on
+> whether a virtual camera driver should be kept out of the kernel
+> to not promote proprietary userspace stacks, but this is not my call.
+> 
+> OTHO evdi: https://github.com/DisplayLink/evdi has been kept out
+> of the kernel for pretty much the same reasons by the drm/kms folks.
+> 
+> At least AFAIK there still is no way to present virtual kms capable
+> display outputs backed by userspace in the kernel.
+> 
+> I completely understand where you're coming from wrt v4l2-loopback
+> support (or something equivalent) but asking for this really is
+> the same as asking for the evdi driver to get merged, which AFAIK
+> has been blocked for the reason of avoiding proprietary userspace
+> display output drivers 
 
-> Fixes: 85b606e02ad7 ("media: atomisp: get rid of a bunch of other wrappers")
-> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> (I guess there might be technical reasons too).
 
-I haven't suggested this patch. I only provided a hint on a better
-implementation, so there are no grounds to have this tag to be here.
+There are technical reasons too: streaming requires mutexes and
+semaphores inside the Kernel to manage buffer requests.
+Semaphores, in particular, can't depend on anything that sleeps,
+but there are even some mutexes that could be affected inside
+Linux core. Holding them while waiting for an user event is
+complex, untested and can cause all sorts of issues.
 
-Replace that with
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-as current version LGTM.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Mauro
 
