@@ -1,154 +1,364 @@
-Return-Path: <linux-media+bounces-52088-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52089-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aD48BJiygWmhIwMAu9opvQ
-	(envelope-from <linux-media+bounces-52088-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 09:32:24 +0100
+	id 8AcRKVG3gWkrJAMAu9opvQ
+	(envelope-from <linux-media+bounces-52089-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 09:52:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF0BD6421
-	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 09:32:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2B2D66AB
+	for <lists+linux-media@lfdr.de>; Tue, 03 Feb 2026 09:52:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 68EF93011A76
-	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 08:32:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5B2903035D40
+	for <lists+linux-media@lfdr.de>; Tue,  3 Feb 2026 08:52:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D54DA39525B;
-	Tue,  3 Feb 2026 08:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A249C396B68;
+	Tue,  3 Feb 2026 08:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QyXvwaCP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dgpHZzna"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485CE2D9499;
-	Tue,  3 Feb 2026 08:32:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0435C3242AB;
+	Tue,  3 Feb 2026 08:52:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770107537; cv=none; b=LB/arjcce2oUa4E8MiHWRJ44aXvHJEuloTJWK7mp9nnhIboANJN9KoNx0Mq9bZntBCje2ADbd0yjDG0LEO7bL5lnewR4VAlPZ1HrHAnfFgyQMDq+LiXmSvYZLEFkjHsA4iJEZUYo8gZl3OUlL9UHda+INmMAIZXep52Zlp3rLb4=
+	t=1770108740; cv=none; b=Ze/W5oKDxj5AhoSGmbeN41gii227BkOM1y+0xeO1LEuGYc5PlSQSA9u/y6dduX5eYRTfDgEtyg/ps6vSNdpLGymNISsa1H6tlOwWnRu70mQwqEDho+fwTDu75ApABUk2hcnyYpWUl/Si5rFjCCKJsbDKaX1SMV6SnWN8R9HtuC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770107537; c=relaxed/simple;
-	bh=AaGvZ6MNlA5k2IKQAdwa/l89TAkY8OiHHDWQNGJqX7I=;
+	s=arc-20240116; t=1770108740; c=relaxed/simple;
+	bh=ArkmdIZwMtxV439h7DDoSsMbzFo3medF34IPcR0b4X8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OUC39fU6bLI4rK8vpEQoqWmprNDhRmgxf3pnL8H56H9UHyuNZI7MJxyAK0yXOE+Iy/rJlDVVxkUn2qinN6ONLX48B5XyHiGa4TS98eW8AI7diQAXVI3wtAzNYQe1W2WTqiPfFmoo4k4/Qp7xyJidV8LkVLTUaEfT+b8rruuhNuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QyXvwaCP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ABAFC116D0;
-	Tue,  3 Feb 2026 08:32:15 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lgtzk37Z3K9YbSESCjrSqLwuyry7P0qQVzP0HgQEqgQ5dkTi4TKJtEtKSgaJxHGsD0IHj/jYPT3ZFZLa4hILgCs9ZS7PBXCAbIMA9Rp4nKLlP8oRJYweB3YYLdoXmag8MRQ1dQ0cAS9kX74FpBdeUELXws2aW6PfoLMDoCjlTgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dgpHZzna; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24ED9C116D0;
+	Tue,  3 Feb 2026 08:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770107536;
-	bh=AaGvZ6MNlA5k2IKQAdwa/l89TAkY8OiHHDWQNGJqX7I=;
+	s=k20201202; t=1770108739;
+	bh=ArkmdIZwMtxV439h7DDoSsMbzFo3medF34IPcR0b4X8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QyXvwaCP/7sk7pWDMaymAVGUrldlKJTszeoHZ/hWPQz+6Z0VXYu9Kv8Cqa8hXA5uL
-	 bLnGiBl4gjVX9HDs/+N9O0dEkEn2rz9ij9HSMH6dRWOk+EJRQzaggf6/GC8Arkx8F3
-	 jidlSYKpXpy+GjnWnSB0SKpovh37tvdKLJtzH+FEc6Ef5lDCZQZyJau7+j+b1u0fLD
-	 ECoXIPoRRFbBglffufP8QQWA4uZnYSdFi8uE5C2YflPWL5ae2eQpnkSzkf78PVAFte
-	 kaK5Urgrf2qxyjCIgmCaaKlxQIYiDSHzY62exYnAqwhqh4MtBGUaLriT5rpfxewb+U
-	 /T0PTTw9D7wKA==
-Date: Tue, 3 Feb 2026 10:32:12 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-media@vger.kernel.org
-Cc: jani.nikula@linux.intel.com, anisse@astier.eu, oleksandr@natalenko.name,
-	linux-integrity@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH v2] media: Virtual camera driver
-Message-ID: <aYGyjK76DGLK3HBK@kernel.org>
-References: <20260202204425.2614054-1-jarkko@kernel.org>
- <aYGsyk5SnzktKM3m@kernel.org>
+	b=dgpHZznajfvupYyJSuJyq1T5H4OI4S9OWfQM5v93TjooP/5L1wWlTQtVznjWTJdWB
+	 q3H6cV3knIN09IhjcnNra+oWEUBo+1gHdF3upvzn5+DAM2FZn5Dx5azIXnGzq9R0uO
+	 rOiY82M2Zjeuh6KkLB91VozCCmalvsyHfe7UiweEegfdeJdHhjuUjWsBTjKyAst1xS
+	 MplPK+9IPcXrifL1v1HZD60tfh6J1Mi9ez/64cEQMwOmQQ8yUxC58Ai9pKqCWN8xkk
+	 KHpylOqGmHJlFtkzkoVNIweIfPrMqG0rGzVBrcVMt3lH2ew9hpd4CIskvtmPGyM8To
+	 xWsPmbwUmg3kA==
+Date: Tue, 3 Feb 2026 09:52:16 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Mats Randgaard <matrandg@cisco.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v4 2/4] media: uapi: Introduce MEDIA_BUS_FMT_BGR565_1X16
+Message-ID: <20260203-bald-meek-crayfish-fdaafc@houat>
+References: <20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org>
+ <20251013-csi-bgr-rgb-v4-2-55eab2caa69f@kernel.org>
+ <20251026231553.GB9719@pendragon.ideasonboard.com>
+ <20251026233308.GC9719@pendragon.ideasonboard.com>
+ <20251208-powerful-penguin-of-reputation-ffdc5c@houat>
+ <20260123153432.GA415966@killaraus>
+ <20260128-neon-lyrical-pheasant-6cbdf2@houat>
+ <20260128131903.GC3210848@killaraus>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="6hpfkoqwcvgpoxxg"
 Content-Disposition: inline
-In-Reply-To: <aYGsyk5SnzktKM3m@kernel.org>
+In-Reply-To: <20260128131903.GC3210848@killaraus>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-3.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52088-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52089-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jarkko@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8EF0BD6421
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4D2B2D66AB
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 10:09:25AM +0200, Jarkko Sakkinen wrote:
-> On Mon, Feb 02, 2026 at 10:44:21PM +0200, Jarkko Sakkinen wrote:
-> > Already a quick Google survey backs strongly that OOT drivers (e.g.,
-> > v4l2loopback) are the defacto solution for streaming phone cameras in
-> > video conference calls, which puts confidential discussions at risk.
-> > 
-> > It can be also claimed that there's enough OOT usage in the wild that
-> > possible security bugs could be considered as potential zerodays for the
-> > benefit of malicious actors.
-> > 
-> > The situation has been stagnated for however many years, which is
-> > unsastainable situation, and it further factors potential security
-> > risks. Therefore, a driver is needed to address the popular use case.
-> > 
-> > vcam is a DMA-BUF backed virtual camera driver capable of creating video
-> > capture devices to which data can be streamed through /dev/vcam after
-> > calling VCAM_IOC_CREATE. Frames are pushed with VCAM_IOC_QUEUE and recycled
-> > with VCAM_IOC_DEQUEUE. Zero-copy semantics are supported for shared DMA-BUF
-> > between capture and output.
-> > 
-> > This enables efficient implementation of software, which can manage network
-> > video streams from phone cameras, and map those streams to video devices.
-> > 
-> > PipeWire or any other specific pick of userspace software cannot really
-> > address the issue at scale, as e.g., the use of v4l2loopback is both wide
-> > and scattered.
-> > 
-> > Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> 
-> After learning a bit more about the topic and for future updates I will
-> drop YUYV. NV12, MJPEG, and additionally RGBX32 and XRGB32 for testing
-> and GPUs define pretty well the requirements for a software define device,
-> and limit the applicability of "proprietary risk" (as that was the main
-> concern raised). I honestly did not have idea what would be an
-> appropriate subset of formats to constraint the driver initially.
-> 
-> In addition, a better name for this module would probably be swcam as it
-> does not  mix up with those pre-existing devices starting with the
-> letter 'v'.
 
-In addition to phones, there's also category of devices called IP
-cameras, and managing them ubiquitos to other camera device is a
-convenience to say the least.
+--6hpfkoqwcvgpoxxg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 2/4] media: uapi: Introduce MEDIA_BUS_FMT_BGR565_1X16
+MIME-Version: 1.0
 
-And when it comes to pure testing, not all testing where V4L2 is
-involved is neither about simulating V4L2 hardware nor centered around
-V4L2 as a topic. It could be e.g., embedded system testing where you
-want to mock the cameras with simulated content  in software only
-testing (QEMU has V4L2 passthrough)
+On Wed, Jan 28, 2026 at 03:19:03PM +0200, Laurent Pinchart wrote:
+> On Wed, Jan 28, 2026 at 01:32:15PM +0100, Maxime Ripard wrote:
+> > On Fri, Jan 23, 2026 at 05:34:32PM +0200, Laurent Pinchart wrote:
+> > > On Mon, Dec 08, 2025 at 04:32:33PM +0100, Maxime Ripard wrote:
+> > > > On Mon, Oct 27, 2025 at 01:33:08AM +0200, Laurent Pinchart wrote:
+> > > > > On Mon, Oct 27, 2025 at 01:15:54AM +0200, Laurent Pinchart wrote:
+> > > > > > On Mon, Oct 13, 2025 at 01:01:34PM +0200, Maxime Ripard wrote:
+> > > > > > > MIPI-CSI2 sends its RGB format on the wire with the blue comp=
+onent
+> > > > > > > first, then green, then red. MIPI calls that format "RGB", bu=
+t by v4l2
+> > > > > > > conventions it would be BGR.
+> > > > > > >=20
+> > > > > > > MIPI-CSI2 supports three RGB variants: 444, 555, 565, 666 and=
+ 888.
+> > > > > > >=20
+> > > > > > > We already have BGR666 and BGR888 media bus formats, we don't=
+ have any
+> > > > > > > CSI transceivers using the 444 and 555 variants, but some tra=
+nsceivers
+> > > > > > > use the CSI RGB565 format, while using the RGB565 media bus c=
+ode.
+> > > > > > >=20
+> > > > > > > That's a mistake, but since we don't have a BGR565 media bus =
+code we
+> > > > > > > need to introduce one before fixing it.
+> > > > > > >=20
+> > > > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > > > > > ---
+> > > > > > >  .../userspace-api/media/v4l/subdev-formats.rst     | 37 ++++=
+++++++++++++++++++
+> > > > > > >  include/uapi/linux/media-bus-format.h              |  3 +-
+> > > > > > >  2 files changed, 39 insertions(+), 1 deletion(-)
+> > > > > > >=20
+> > > > > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-for=
+mats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > > > > index 8e92f784abd8123f9ea950f954a60af56ee76dbe..def0d24ef6cdb=
+1a2ec9395af1468f56adf31a8de 100644
+> > > > > > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > > > > @@ -625,10 +625,47 @@ The following tables list existing pack=
+ed RGB formats.
+> > > > > > >        - b\ :sub:`4`
+> > > > > > >        - b\ :sub:`3`
+> > > > > > >        - b\ :sub:`2`
+> > > > > > >        - b\ :sub:`1`
+> > > > > > >        - b\ :sub:`0`
+> > > > > > > +    * .. _MEDIA-BUS-FMT-BGR565-1X16:
+> > > > > > > +
+> > > > > > > +      - MEDIA_BUS_FMT_BGR565_1X16
+> > > > > > > +      - 0x1028
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      -
+> > > > > > > +      - b\ :sub:`4`
+> > > > > > > +      - b\ :sub:`3`
+> > > > > > > +      - b\ :sub:`2`
+> > > > > > > +      - b\ :sub:`1`
+> > > > > > > +      - b\ :sub:`0`
+> > > > > > > +      - g\ :sub:`5`
+> > > > > > > +      - g\ :sub:`4`
+> > > > > > > +      - g\ :sub:`3`
+> > > > > > > +      - g\ :sub:`2`
+> > > > > > > +      - g\ :sub:`1`
+> > > > > > > +      - g\ :sub:`0`
+> > > > > > > +      - r\ :sub:`4`
+> > > > > > > +      - r\ :sub:`3`
+> > > > > > > +      - r\ :sub:`2`
+> > > > > > > +      - r\ :sub:`1`
+> > > > > > > +      - r\ :sub:`0`
+> > > > > >=20
+> > > > > > We're definitely in convention territory, because this is not h=
+ow 16-bit
+> > > > > > RGB data is transmitted over CSI-2. CSI-2 transmits blue first,=
+ but
+> > > > > > starts with bit 0, not bit 4.
+> > > > > >=20
+> > > > > > Have you explored the alternative of picking the parallel bus c=
+ode that
+> > > > > > matches the serial order when transmitted with the least signif=
+icant bit
+> > > > > > first ? That would be MEDIA_BUS_FMT_RGB565_1X16 here, and
+> > > > > > MEDIA_BUS_FMT_RGB888_1X24 for 24-bit RGB.
+> > > > >=20
+> > > > > To be clear, media bus codes are a matter of conventions. Some
+> > > > > conventions would be easier to explain that others, and can also =
+be more
+> > > > > consistent with pixel format namings, but at the end of the day t=
+hey're
+> > > > > all conventions. While saying "pick the media bus code that trans=
+mits a
+> > > > > pixel in one clock sample, with the bit order matching LSB-first
+> > > > > transmission" could be the simplest to document, there will be a
+> > > > > mismatch in component orders between the media bus code and the p=
+ixel
+> > > > > format in some cases. There may also be more drivers implementing=
+ other
+> > > > > conventions, making the transition more difficult.
+> > > > >=20
+> > > > > I'll be very busy the upcoming week and will likely not be able to
+> > > > > participate in this discussion in the near future.
+> > > >=20
+> > > > For the record, we've discussed it on IRC recently.
+> > > >=20
+> > > > The suggestion to have all CSI Data Formats as MEDIA_BUS_FMT_RGB*_1=
+X*
+> > > > variants make sense to me. And we can easily document it, because we
+> > > > could match the first bit transmitted with the least significant bit
+> > > > of a media bus code indeed.
+> > >=20
+> > > That's one of the things I like about it, it's consistent and easy to
+> > > document. Glad we agree :-)
+> > >=20
+> > > > Thus a sensor using RGB888 would register MEDIA_BUS_FMT_RGB888_1X24.
+> > > > That's indeed the case right now with tc358743:
+> > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/i2c/tc3=
+58743.c#L1775
+> > > >=20
+> > > > Unicam however hardcodes (and validates) that the v4l2 format codes
+> > > > matches the media bus code of the other end:
+> > > >=20
+> > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/platfor=
+m/broadcom/bcm2835-unicam.c#L1333
+> > > >=20
+> > > > That alone makes total sense, but it has an association between
+> > > > V4l2_PIX_FMT_RGB24 and MEDIA_BUS_FMT_RGB888_1X24, and between
+> > > > V4L2_PIX_FMT_BGR24 and MEDIA_BUS_FMT_BGR888_1X24
+> > > >=20
+> > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/platfor=
+m/broadcom/bcm2835-unicam.c#L343
+> > > >=20
+> > > > Using the convention you suggested, this association is wrong, and
+> > > > V4L2_PIX_FMT_BGR24 should be associated MEDIA_BUS_FMT_RGB888_1X24. =
+Thus,
+> > > > the red and blue color components are mixed up.
+> > >=20
+> > > Correct.
+> > >=20
+> > > > I initially tried to fix it in my v1 by removing the RGB24 support
+> > > > https://lore.kernel.org/all/20250606-rpi-unicam-rgb-bgr-fix-v1-1-99=
+30b963f3eb@kernel.org/
+> > > >=20
+> > > > This was shot down (rightfully) because it would still be broken.
+> > > >=20
+> > > > The second version changed the media bus tc358743 reported:
+> > > > https://lore.kernel.org/all/20250612-csi-bgr-rgb-v1-0-dc8a309118f8@=
+kernel.org/
+> > > >=20
+> > > > Dave was against it because it would potentially break userspace, c=
+iting
+> > > > Linus that we shouldn't break userspace ever. I understand and some=
+what
+> > > > agree with his point, but having two drivers reporting the same data
+> > > > format but with a different meaning is also a way of breaking users=
+pace.
+> > >=20
+> > > Yes, I would find that pretty bad, possibly even worse.
+> > >=20
+> > > > Anyway. It was then suggested to support both in the tc358743. That=
+'s
+> > > > what the second, third and fourth that you commented on worked towa=
+rds.
+> > > >=20
+> > > > https://lore.kernel.org/all/20250911-csi-bgr-rgb-v2-0-e6c6b10c1040@=
+kernel.org/
+> > > > https://lore.kernel.org/all/20250917-csi-bgr-rgb-v3-0-0145571b3aa4@=
+kernel.org/
+> > > > https://lore.kernel.org/all/20251013-csi-bgr-rgb-v4-0-55eab2caa69f@=
+kernel.org/
+> > > >=20
+> > > > In order to implement your suggestion, I wouldn't to modify tc35874=
+3,
+> > > > but would need to modify the association between the v4l2 format and
+> > > > media bus code that unicam has. In a way, it's very similar to my f=
+irst
+> > > > version that got shot down, and suffers from the same flaws: we cou=
+ld
+> > > > have a userspace application out there hardcoding formats and codes=
+ that
+> > > > will get an error.
+> > > >=20
+> > > > So I'm not sure your suggestion really works, unless we reevaluate =
+what
+> > > > we mean by breaking userspace. Either way, I don't care, I just wan=
+t to
+> > > > get pixels in the expected (and documented!) order when using unica=
+m.
+> > >=20
+> > > I've lost track of the status of this series and what your current
+> > > suggestion is. Can we standardize on
+> > >=20
+> > > - Using MEDIA_BUS_FMT_RGB*
+> >=20
+> > I guess we can do that.
+> >=20
+> > > - Produce V4L2_PIX_FMT_BGR24 from MEDIA_BUS_FMT_RGB888_1X24 in unicam
+> >=20
+> > You called "pretty bad, possibly even worse" to do the exact opposite
+> > (ie, change the bridge media bus to match unicam) because it would break
+> > userspace. Changing the unicam media bus to match the bridge creates the
+> > exact same situation.
+> >=20
+> > The alternative would still be to report both for the bridge, and invert
+> > the current assocation for the v4l2 formats and mbus codes.
+> >=20
+> > > - Possibly implement backward compatibility somewhere (where ?) to av=
+oid
+> > >   regressions, but with a big warning
+> >=20
+> > What would you improve there exactly? It's very clearly in the patches
+> > already, so unless you have some specific comments I'm not really sure
+> > what you want me to do.
+>=20
+> If we standardize on MEDIA_BUS_FMT_RGB*, then the issue is in the unicam
+> driver, not in the tc358743 driver. Is it possible to implement the
+> backward compatibility (with a warning) in unicam instead of tc358743 ?
 
-BR, Jarkko
+I don't think we can, because the media bus code is exposed on the
+links, and we would change the media bus code we require on that link.
+
+Maxime
+
+--6hpfkoqwcvgpoxxg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYG3PAAKCRAnX84Zoj2+
+dkocAYCiLb+3DDKC+w6Fj32TWZ4K3a1c45H2QJs/fsCIEkGm1r/3px/Ioh/CNzTz
+tgzxaykBf08UYQStbV/3k1AoD4lNJ3l6Ld2owO4SMonjxhCnthHCox/LV5B827BJ
+z4lPCjxqHQ==
+=krRI
+-----END PGP SIGNATURE-----
+
+--6hpfkoqwcvgpoxxg--
 
