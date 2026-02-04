@@ -1,195 +1,237 @@
-Return-Path: <linux-media+bounces-52186-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52187-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eGv9N/pLg2kulAMAu9opvQ
-	(envelope-from <linux-media+bounces-52186-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 14:39:06 +0100
+	id oI4bMw1Og2lrlAMAu9opvQ
+	(envelope-from <linux-media+bounces-52187-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 14:47:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BCBE6925
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 14:39:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F12E6A3B
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 14:47:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DC1A0301CC65
-	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 13:36:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B612830480E0
+	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 13:44:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6743D7D72;
-	Wed,  4 Feb 2026 13:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DA0B40B6EA;
+	Wed,  4 Feb 2026 13:44:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BADzg8zU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QRrsKnvR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB28B23E32B;
-	Wed,  4 Feb 2026 13:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2B93D333A;
+	Wed,  4 Feb 2026 13:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770212174; cv=none; b=EP0IX9gby0YzlzJFG5VZJSDDMercWSZ3b90AzD+jwM3dNjmugu0uPG9qC9WOTVxkx2g4Qs2ZLqOtPnz5ry2AM9LBwXQWt5e5o53SGQg72vLe0zCK7jF9cXJxAcbSG3Acb8HRiarKYXTIXIWR/EaxPec8Ad+npmS4yqCbrhQOzFo=
+	t=1770212686; cv=none; b=E1XFH8i7RmcWBv3AJ5ABzD68UtfhEQl3LRpHOcxEVXLE25oseqceCKQX8g1NJT1DmGdurJQDplqt+obwUmeyioQq+7doTNijX3hzQQ2+eA4x5fEkzuBowwiKrL+xFRvbZkDB3K3cFY/oufR7SjiSmF80+sewA0dNQOONFcYENTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770212174; c=relaxed/simple;
-	bh=vByC9itxiQ9gShJfLpgICw6sB6P2HQFDf8Ul63fSmmk=;
+	s=arc-20240116; t=1770212686; c=relaxed/simple;
+	bh=Dyc6QtrdtjDlD83Qzie+D8JQ8LWsKDR5MXLqpqkVovQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qUG/k2TfK/3Me708i9j39JDljCRZuZ1DwsABZhJHUxYUxBPKhbKaNL5b6ldxtaMYArgrSAnYFcOFvt/8Yb0nAGi3TiVZtCSzY6h1Bq1JH5JQnPiEzJczDrpB518t0y9OEJQjQiVtIpdESSTALRobzPbkLt0h3XRTvKLxzH6jLt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BADzg8zU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA6D9833;
-	Wed,  4 Feb 2026 14:35:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770212130;
-	bh=vByC9itxiQ9gShJfLpgICw6sB6P2HQFDf8Ul63fSmmk=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=qPqEh5opAKADV7kJZd2sSZuua41KWAafhCte9pnTisUsbnIkvnNCKGkEZuyvEM/LvfyywFPkyaAnL4ZByn78v68jkQ1pxmmYeTVIX86nk+Jb6q2n6ExmH01Fp9meDfGu2ST+3ICWzbOujQe2pzbLkUCfZse4IxQApYFYmvAZHGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QRrsKnvR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001D6C4CEF7;
+	Wed,  4 Feb 2026 13:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770212685;
+	bh=Dyc6QtrdtjDlD83Qzie+D8JQ8LWsKDR5MXLqpqkVovQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BADzg8zUazGN1CZlxjlY9Kiebki4u+pBqDpj0ocjCRU2QlDtZyOTOKy+GIC3rT3Pd
-	 gkORelKtCUNUNAGLDE67Ho+tbBPP9dHOTT9pR2TWgPSmQdP813htmDLyCQD6kNrsKq
-	 BLJdGsr4/0k3LMuBPLio+dWAyaLNkXtviFN0YWfs=
-Date: Wed, 4 Feb 2026 14:36:08 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Antoine Bouyer <antoine.bouyer@nxp.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com, daniel.baluta@nxp.com, peng.fan@nxp.com, 
-	frank.li@nxp.com, laurent.pinchart@ideasonboard.com, mchehab@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [RFC v1 07/11] media: Add meta formats supported by NXP neoisp
- driver
-Message-ID: <aYNK_fmqsDX_e8cd@zed>
-References: <20260123080938.3367348-1-antoine.bouyer@nxp.com>
- <20260123080938.3367348-8-antoine.bouyer@nxp.com>
- <aYIsHfpMc2DZXYBr@zed>
- <b81b6e6a-10b7-43eb-b857-6c0d2636427e@nxp.com>
+	b=QRrsKnvRdqKdZATXY6+5DepvbKibqh32QzaOqBkKLED5rSOW+W1SSMQ7GtroaGTWN
+	 bTqvZm63QrYiq1cAxaqfLMLVlZ6R78Nf/Rz9I+zOM3S0VViSV3JKgGza+pEdNx8Tru
+	 cV3QXA6p/a60qAO0JiK2roWgipETHpe8EovTlOb1+xCPB5YDtepsm64yiyM1wrWGtp
+	 AZeVzMAQOAZQ5DUiYKOKl3w+bH9Oi3atxQBrkyrCQ0cWADXPcpWnuZj4HC+BYnXCZP
+	 v0XvbnvjoIUKhhpsPXnCKi8MN/sDza76R9G1fwLlsQj1FRVqBabasNoyf09ZzFJM3m
+	 2IKIdP8n1QxPg==
+Date: Wed, 4 Feb 2026 14:44:42 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Alex Deucher <alexander.deucher@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
+	Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, 
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Felix Kuehling <Felix.Kuehling@amd.com>, 
+	Alex Williamson <alex@shazbot.org>, Ankit Agrawal <ankita@nvidia.com>, 
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
+ shared buffers
+Message-ID: <20260204-bloodhound-of-major-realization-9852ab@houat>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260202160425.GO34749@unreal>
+ <20260204081630.GA6771@unreal>
+ <20260204-icy-classic-crayfish-68da6d@houat>
+ <20260204115212.GG6771@unreal>
+ <20260204-clever-butterfly-of-mastery-0cdc19@houat>
+ <20260204121354.GH6771@unreal>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="g57nfe3564yf6hls"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b81b6e6a-10b7-43eb-b857-6c0d2636427e@nxp.com>
+In-Reply-To: <20260204121354.GH6771@unreal>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-3.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52186-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52187-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[ideasonboard.com,nxp.com,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[amd.com,linaro.org,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,ziepe.ca,8bytes.org,kernel.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email]
-X-Rspamd-Queue-Id: 58BCBE6925
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 32F12E6A3B
 X-Rspamd-Action: no action
 
-Hi Antoine
 
-On Wed, Feb 04, 2026 at 02:31:47PM +0100, Antoine Bouyer wrote:
-> Hi Jacopo
->
-> Le 03/02/2026 à 18:11, Jacopo Mondi a écrit :
-> >
-> > Hi Antoine
-> >
-> > On Fri, Jan 23, 2026 at 09:09:34AM +0100, Antoine Bouyer wrote:
-> > > This patch adds new v4l2 meta formats definitions and descriptions used by
-> > > neoisp driver for the parameters and statistics buffers:
-> > >   - `V4L2_META_FMT_NEO_ISP_PARAMS` used for the legacy fixed-size
-> > > parameters buffer structure.
-> > >   - `V4L2_META_FMT_NEO_ISP_EXT_PARAMS` used for the generic v4l2-isp
-> > > extensible parameters structure, supporting a non-fixed-size buffer and
-> > > changeable ISP configuration blocks.
-> > >   - `V4L2_META_FMT_NEO_ISP_STATS` used for the legacy fixed-size statistics
-> > > buffer structure.
-> > >   - `V4L2_META_FMT_NEO_ISP_EXT_STATS` used for the generic v4l2-isp
-> > > extensible statistics structure, supporting a non-fixed-size buffer
-> > > and changeable ISP statistics blocks.
-> >
-> > Uh interesting, you have existing userspace that needs legacy formats ?
->
-> Yes we do have some available here (version with extensible formats will be
-> the next one):
-> https://github.com/nxp-imx/libcamera
->
-> Not in mainline, thought.
+--g57nfe3564yf6hls
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
+ shared buffers
+MIME-Version: 1.0
 
-I see.
+On Wed, Feb 04, 2026 at 02:13:54PM +0200, Leon Romanovsky wrote:
+> On Wed, Feb 04, 2026 at 01:01:54PM +0100, Maxime Ripard wrote:
+> > On Wed, Feb 04, 2026 at 01:52:12PM +0200, Leon Romanovsky wrote:
+> > > On Wed, Feb 04, 2026 at 09:56:08AM +0100, Maxime Ripard wrote:
+> > > > On Wed, Feb 04, 2026 at 10:16:30AM +0200, Leon Romanovsky wrote:
+> > > > > On Mon, Feb 02, 2026 at 06:04:25PM +0200, Leon Romanovsky wrote:
+> > > > > > On Sat, Jan 31, 2026 at 07:34:10AM +0200, Leon Romanovsky wrote:
+> > > > > > > Changelog:
+> > > > > > > v7:
+> > > > > >=20
+> > > > > > <...>
+> > > > > >=20
+> > > > > > > Leon Romanovsky (8):
+> > > > > > >       dma-buf: Rename .move_notify() callback to a clearer id=
+entifier
+> > > > > > >       dma-buf: Rename dma_buf_move_notify() to dma_buf_invali=
+date_mappings()
+> > > > > > >       dma-buf: Always build with DMABUF_MOVE_NOTIFY
+> > > > > > >       vfio: Wait for dma-buf invalidation to complete
+> > > > > > >       dma-buf: Make .invalidate_mapping() truly optional
+> > > > > > >       dma-buf: Add dma_buf_attach_revocable()
+> > > > > > >       vfio: Permit VFIO to work with pinned importers
+> > > > > > >       iommufd: Add dma_buf_pin()
+> > > > > > >=20
+> > > > > > >  drivers/dma-buf/Kconfig                     | 12 -----
+> > > > > > >  drivers/dma-buf/dma-buf.c                   | 69 +++++++++++=
++++++++++-----
+> > > > > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 ++---
+> > > > > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
+> > > > > > >  drivers/gpu/drm/amd/amdkfd/Kconfig          |  2 +-
+> > > > > > >  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+> > > > > > >  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  7 ++-
+> > > > > > >  drivers/gpu/drm/xe/xe_bo.c                  |  2 +-
+> > > > > > >  drivers/gpu/drm/xe/xe_dma_buf.c             | 14 ++---
+> > > > > > >  drivers/infiniband/core/umem_dmabuf.c       | 13 -----
+> > > > > > >  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+> > > > > > >  drivers/iommu/iommufd/pages.c               | 11 +++-
+> > > > > > >  drivers/iommu/iommufd/selftest.c            |  2 +-
+> > > > > > >  drivers/vfio/pci/vfio_pci_dmabuf.c          | 80 +++++++++++=
++++++++++++-------
+> > > > > > >  include/linux/dma-buf.h                     | 17 +++---
+> > > > > > >  15 files changed, 153 insertions(+), 96 deletions(-)
+> > > > > >=20
+> > > > > > Christian,
+> > > > > >=20
+> > > > > > Given the ongoing discussion around patch v5, I'm a bit unclear=
+ on the
+> > > > > > current state. Is the series ready for merging, or do you need =
+me to
+> > > > > > rework anything further?
+> > > > >=20
+> > > > > Christian,
+> > > > >=20
+> > > > > Let's not miss the merge window for work that is already ready.
+> > > >=20
+> > > > The cutoff date for the merge window was on 25/1, so it was already
+> > > > missed by the time you sent your series.
+> > >=20
+> > > The primary goal of this series is to update dma-buf. The changes in
+> > > drivers/gpu/drm are limited to straightforward renames.
+> >=20
+> > And yet, dma-buf is maintained through drm.
+> >=20
+> > Also, it's a general rule Linus has, it's nothing specific to DRM.
+>=20
+> Can you point me to that general rule?
+>=20
+> From what I have seen, subsystems such as netdev, the block layer, and RD=
+MA continue
+> to accept code that is ready for merging, especially when it has been tho=
+roughly
+> reviewed by multiple maintainers across different subsystems.
 
-However I don't think the mainline driver should support both formats.
+He said it multiple times, but here's one of such examples:
 
-And looking at your libcamera branch, it seem it already supports the
-extensible version.
+https://lore.kernel.org/all/CA+55aFwdd30eBsnMLB=3DncExY0-P=3DeAsxkn_O6ir10J=
+UyVSYdhA@mail.gmail.com/
 
+And quoting:
 
+> In particular, if you cannot follow the simple merge window rules
+> (this whole two-week merge window and linux-next process has been in
+> place over a decade), at least make the end result look good. Make it
+> all look easy and problem-free.
 >
-> BR
-> Antoine
+> [...]
 >
-> >
-> > >
-> > > Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
-> > > ---
-> > >   drivers/media/v4l2-core/v4l2-ioctl.c | 4 ++++
-> > >   include/uapi/linux/videodev2.h       | 6 ++++++
-> > >   2 files changed, 10 insertions(+)
-> > >
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > index 37d33d4a363d..c797cf11be38 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > @@ -1471,6 +1471,10 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> > >        case V4L2_META_FMT_C3ISP_STATS:         descr = "Amlogic C3 ISP Statistics"; break;
-> > >        case V4L2_META_FMT_MALI_C55_PARAMS:     descr = "ARM Mali-C55 ISP Parameters"; break;
-> > >        case V4L2_META_FMT_MALI_C55_STATS:      descr = "ARM Mali-C55 ISP 3A Statistics"; break;
-> > > +     case V4L2_META_FMT_NEO_ISP_PARAMS:      descr = "NXP Neo ISP 3A Parameters"; break;
-> > > +     case V4L2_META_FMT_NEO_ISP_EXT_PARAMS:  descr = "NXP Neo ISP ext 3A Parameters"; break;
-> > > +     case V4L2_META_FMT_NEO_ISP_STATS:       descr = "NXP Neo ISP 3A Statistics"; break;
-> > > +     case V4L2_META_FMT_NEO_ISP_EXT_STATS:   descr = "NXP Neo ISP ext 3A Statistics"; break;
-> > >        case V4L2_PIX_FMT_NV12_8L128:   descr = "NV12 (8x128 Linear)"; break;
-> > >        case V4L2_PIX_FMT_NV12M_8L128:  descr = "NV12M (8x128 Linear)"; break;
-> > >        case V4L2_PIX_FMT_NV12_10BE_8L128:      descr = "10-bit NV12 (8x128 Linear, BE)"; break;
-> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > > index 848e86617d5c..5f4992452c66 100644
-> > > --- a/include/uapi/linux/videodev2.h
-> > > +++ b/include/uapi/linux/videodev2.h
-> > > @@ -889,6 +889,12 @@ struct v4l2_pix_format {
-> > >   #define V4L2_META_FMT_MALI_C55_PARAMS        v4l2_fourcc('C', '5', '5', 'P') /* ARM Mali-C55 Parameters */
-> > >   #define V4L2_META_FMT_MALI_C55_STATS v4l2_fourcc('C', '5', '5', 'S') /* ARM Mali-C55 3A Statistics */
-> > >
-> > > +/* Vendor specific - used for NXP NEOISP sub-system */
-> > > +#define V4L2_META_FMT_NEO_ISP_PARAMS         v4l2_fourcc('N', 'N', 'I', 'P') /* NXP NEOISP Parameters */
-> > > +#define V4L2_META_FMT_NEO_ISP_EXT_PARAMS     v4l2_fourcc('N', 'N', 'E', 'P') /* NXP NEOISP Ext Params */
-> > > +#define V4L2_META_FMT_NEO_ISP_STATS          v4l2_fourcc('N', 'N', 'I', 'S') /* NXP NEOISP Statistics */
-> > > +#define V4L2_META_FMT_NEO_ISP_EXT_STATS              v4l2_fourcc('N', 'N', 'E', 'S') /* NXP NEOISP Ext Stats */
-> > > +
-> > >   #ifdef __KERNEL__
-> > >   /*
-> > >    * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
-> > > --
-> > > 2.52.0
-> > >
-> > >
->
+> Next merge window I will not accept anything even remotely like that.
+> Things that haven't been in linux-next will be rejected
+
+So, yeah, we can make exceptions. But you should ask and justify for
+one, instead of expecting us to pick up a patch submission that was
+already late.
+
+Maxime
+
+--g57nfe3564yf6hls
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYNNRQAKCRAnX84Zoj2+
+dmuQAYCiMJtoHGQb2aOEW2qSDKa03ZKmNzMoqgOSNMG7EToE3xlSy2KmWs0Yi5qs
+kqNhz7cBf20n8wxYB3DUANuC5PqYiFatABkIC9y0sRBwvKCN7+kvTj7IGiJzDnEy
+jpWCTHJODw==
+=cYsD
+-----END PGP SIGNATURE-----
+
+--g57nfe3564yf6hls--
 
