@@ -1,60 +1,118 @@
-Return-Path: <linux-media+bounces-52206-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52207-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2GlaNgh4g2mFmwMAu9opvQ
-	(envelope-from <linux-media+bounces-52206-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 17:47:04 +0100
+	id kE6zCfV5g2nyngMAu9opvQ
+	(envelope-from <linux-media+bounces-52207-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 17:55:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57744EA72B
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 17:47:04 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF79DEA989
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 17:55:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A8FAE303E4AC
-	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 16:44:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 42AF4300C32F
+	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 16:55:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DD9731BC94;
-	Wed,  4 Feb 2026 16:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7680933EAED;
+	Wed,  4 Feb 2026 16:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SiHcPyGf"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="dJ3wMTjl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A212F6160;
-	Wed,  4 Feb 2026 16:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB0933E34B
+	for <linux-media@vger.kernel.org>; Wed,  4 Feb 2026 16:55:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770223439; cv=none; b=n0rlvGjVRPGLtpucpjLTgNzMOyBPVK3DjbZe19/3L0JHbGzO4sZVZNcZdU3bso4RGnn5fDcFI9D+5db1/yaZpgSDzY/Vtpsivd0XqPxsfwYZk3JiloGipWtcNV//BwqgIStF+isjvQITovM+EiQZuyNIo7xsTWPvTeoCSq51seQ=
+	t=1770224109; cv=none; b=ZEnvNUK566FVhLbUJzMnZWgB/mCuq+4XmEAaQ88fzylFhUXlXOqJaqxLZ8PU+Os1q2orX4bbLWUjuSklLymyt0kC0X7GZwUok4SceMQS5JL+oE+nbDoL3DlMdWj2JFg13VjmaxaW32b7h1InHMBy5On9U2bhXQS+B8G+SLsaGiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770223439; c=relaxed/simple;
-	bh=qldJ6sgrNVhQ6+tMXyVzxSoNgaT7hsfl7eFw2SC7SYA=;
+	s=arc-20240116; t=1770224109; c=relaxed/simple;
+	bh=5K5fR+HxBrdqjMKErGIv55w9oITaTZk9Qf+xlROKnSo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JImd/q1T0XxS4ozZVzQN6zZfzjxhKVJw5HKwtFHAYRP4DZEYbyXCsA96rl84ENBpNtghpwAbJ/fITk86AYgH/gqjLDES3nnSI9RzfCRreahkdgMSofyfc1FbcTmwwK9XTM1qcxw/Fng6SktlgtctbeLDzoN7YWpMtxOiwBS9Ts8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SiHcPyGf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--ff4.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::ff4])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 88E73593;
-	Wed,  4 Feb 2026 17:43:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770223395;
-	bh=qldJ6sgrNVhQ6+tMXyVzxSoNgaT7hsfl7eFw2SC7SYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SiHcPyGf0AEpN8eWR17GhmL1DwNCRD7xM0HnZ15NDAzsVpgnO5N9uwJTLJkHgTEvc
-	 o+rq9bafM9vx45FqFPuBhhDISq38Z0LN64vyUwhwJwWmEobPKoHpWVxFRFofKFh5C1
-	 uS6hMnz87sngNVI0SPpXjgaFfAKmszYC7YkK9lYE=
-Date: Wed, 4 Feb 2026 18:43:56 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Isaac Scott <isaac.scott@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, dafna@fastmail.com, mchehab@kernel.org,
-	heiko@sntech.de, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/6] media: rkisp1-resizer: Add YUV source formats to
- resizer
-Message-ID: <20260204164356.GC170964@killaraus>
-References: <20260204112506.3706049-1-isaac.scott@ideasonboard.com>
- <20260204112506.3706049-2-isaac.scott@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fKWJHZDEiN2hFx/4vfyVD0RGCKrpCJ+tjSaBR99+RDhjX+22JKzdMpmWMGn/uF5r8yhFN6uGRfpO5B+WkeVZ9D23XfkjQkPVmPWNDzr8WvjtaSW8keI7PKfQtvmk7uxKhZo1yeLTSWy+pgrW80dsiQi+cAodnBI4pm+t/0G1OLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=dJ3wMTjl; arc=none smtp.client-ip=209.85.222.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-8ca3807494eso53239285a.2
+        for <linux-media@vger.kernel.org>; Wed, 04 Feb 2026 08:55:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1770224108; x=1770828908; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+k5zz356tCtx+TsrSTgNS2LOgl52lZtCniOLQPd/1s0=;
+        b=dJ3wMTjlcrFt0OJax/CsfN1yUyB6wvWMaelcWV9nhohy8QA3GVs7AF6ZtNBdf9OjXZ
+         ajkkkzyh+ZvPwYDwiFPktPG7VGNkGPuB03uPbwGQFroNvICbrlkz9Z7q6QgY8p4Srvmy
+         aoD+KvnxxZ/ClqJg66luHVlFyv045VhXvyEvAs/+6pRZyqjBx5MsAhNeUwPJ00he+TTL
+         9jkH7yrYoucRIQdFBYM6v+ePbpC6OHYM39YtbPIn6Dfa/zLh0h5wzq/0TmheDXvPv6mp
+         XBxl7+OdSx9S3klWiruBg0MptbEC0lznV5E0sHEmcIc6uOdE9MX3ZF5AEBrNGgBV9aX5
+         wo4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770224108; x=1770828908;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+k5zz356tCtx+TsrSTgNS2LOgl52lZtCniOLQPd/1s0=;
+        b=t0TJFZ5NC0Ob+LUbJcM++PW2QKaPyiK0FhljDnr0JyLuJWsr/4+hH82n5vNUmkE0JD
+         7YwkklcaGxYZmW0lYCVojERoD6TVMN1VdWOpzW+jd21Agfu0TtPLJ3LYU7nHqL7srbCt
+         rbWcjPJprSivut6c/LMoWpv1tA20IksW8VjEg0UIQjexHq7Nq/AqoC5IkK4iXgxmaw5H
+         z3Bg6+TX75AG1wF56hW4ZKsM0r6FR6MN8OVb4qP802yrTgIQbMsre70kUPMxupt3I1SK
+         alyZ0JN/VoSy4oIhRithKL+iMUOT/p2szOyXjufeCq2A9QqCL0/Tytz6lnP0X0iIiEr+
+         +vcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVx95Kvo59gWdC1c4vstScds7YChD0RvrzvItJa6d+XeRGWvJ3iFZp8cv8flWsprHPrxOByF2VU+U0ikQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzn+dfwq/CbSAyLmxPCND3e9bLIIViK6UjyeYKXfNQJkFMkzO/Y
+	B0xGCkz48kBG4RUsVC+biMV1HiVlKF7AdQHQaQo1aKr1tctL+/RaqKANhhAE6CpqsQc=
+X-Gm-Gg: AZuq6aLhFqFadOSceUQJBvSFuF3CHl8fLvI15JogaSmI3Y6zhF51lbE6tLzG2MGMeRl
+	S4xghlh5OYehWL8g8F0Wp40UsiUCUNK7gJDfCOauQ/V6kO9MWfrp66vUN8IgtIotNvmc/D+KE8F
+	TV6T1Msf9vNDuWW7c3hWTWmSISsE202HHrsaN0k4CpBz5Xs6pt+O37P8LrpSYhdWC1F+dI9QfGE
+	IRtSulNiOKC5rp8Yht7oZmMRVPKqBPrze+exxTymdY63n/7nmHscGtRPDQJq/l2ib262lsNKCe4
+	MWG0mU2cc1SsKgDPd1PWQoz9SoXA6XX7Iwzh1RKcPfykSoX4CyUUbhJRiRqFs1L3Vdbkih9tzib
+	umR6iZVKJ5j1Lb3SLUJ67j7/lqtlz/wO8nc/bejocnu2a1vfzBDQ5poRhBXlhYpKpKAd8WBiwIt
+	orASWRFRvlYC1xPOtvmJ6fBGEOdaRMqihSE3MxPWQwvQouWyZFZEFS7mBug/WC5ddo4nk=
+X-Received: by 2002:a05:620a:4627:b0:8c7:177f:cc17 with SMTP id af79cd13be357-8ca2f9bbb5amr467025085a.46.1770224108469;
+        Wed, 04 Feb 2026 08:55:08 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ca2fd2cfb4sm226461485a.33.2026.02.04.08.55.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 08:55:07 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vng9j-0000000HH15-13rk;
+	Wed, 04 Feb 2026 12:55:07 -0400
+Date: Wed, 4 Feb 2026 12:55:07 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
+Message-ID: <20260204165507.GH2328995@ziepe.ca>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
+ <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,88 +121,114 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260204112506.3706049-2-isaac.scott@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52206-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[vger.kernel.org,fastmail.com,kernel.org,sntech.de,lists.infradead.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-52207-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[ziepe.ca];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 57744EA72B
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,nvidia.com:email,amd.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,shazbot.org:email]
+X-Rspamd-Queue-Id: EF79DEA989
 X-Rspamd-Action: no action
 
-On Wed, Feb 04, 2026 at 11:25:01AM +0000, Isaac Scott wrote:
-> To be able to use YUV bypass, YUV formats need to be available on the
-> source pad of the rkisp1 resizer. Add them.
+On Wed, Feb 04, 2026 at 05:21:45PM +0100, Christian König wrote:
+> On 1/31/26 06:34, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Till now VFIO has rejected pinned importers, largely to avoid being used
+> > with the RDMA pinned importer that cannot handle a move_notify() to revoke
+> > access.
+> > 
+> > Using dma_buf_attach_revocable() it can tell the difference between pinned
+> > importers that support the flow described in dma_buf_invalidate_mappings()
+> > and those that don't.
+> > 
+> > Thus permit compatible pinned importers.
+> > 
+> > This is one of two items IOMMUFD requires to remove its private interface
+> > to VFIO's dma-buf.
+> > 
+> > Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> > Reviewed-by: Alex Williamson <alex@shazbot.org>
+> > Reviewed-by: Christian König <christian.koenig@amd.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/vfio/pci/vfio_pci_dmabuf.c | 15 +++------------
+> >  1 file changed, 3 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > index 78d47e260f34..a5fb80e068ee 100644
+> > --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> > @@ -22,16 +22,6 @@ struct vfio_pci_dma_buf {
+> >  	u8 revoked : 1;
+> >  };
+> >  
+> > -static int vfio_pci_dma_buf_pin(struct dma_buf_attachment *attachment)
+> > -{
+> > -	return -EOPNOTSUPP;
+> > -}
+> > -
+> > -static void vfio_pci_dma_buf_unpin(struct dma_buf_attachment *attachment)
+> > -{
+> > -	/* Do nothing */
+> > -}
+> > -
 > 
-> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-resizer.c     | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> index 8e6b753d3081..e72b76ab078c 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
-> @@ -23,11 +23,26 @@ struct rkisp1_rsz_yuv_mbus_info {
->  };
->  
->  static const struct rkisp1_rsz_yuv_mbus_info rkisp1_rsz_yuv_src_formats[] = {
-> +	{
-> +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8, /* YUV422 */
-> +		.hdiv		= 1,
-> +		.vdiv		= 1,
-> +	},
-> +	{
-> +		.mbus_code	= MEDIA_BUS_FMT_VYUY8_2X8, /* YUV422 */
-> +		.hdiv		= 1,
-> +		.vdiv		= 1,
-> +	},
->  	{
->  		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8, /* YUV422 */
->  		.hdiv		= 2,
->  		.vdiv		= 1,
->  	},
-> +	{
-> +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8, /* YUV422 */
-> +		.hdiv		= 1,
+> This chunk here doesn't want to apply to drm-misc-next, my educated
+> guess is that the patch adding those lines is missing in that tree.
 
-Shouldn't hdiv be 2 for all those new formats ?
+Yes. It looks like Alex took it to his next tree:
 
-But overall, I don't think those formats are needed. I would be very
-surprised if the resizer used different YUV orders on its output bus.
-Can't you use MEDIA_BUS_FMT_YUYV8_2X8 unconditionally ?
+commit 61ceaf236115f20f4fdd7cf60f883ada1063349a
+Author: Leon Romanovsky <leon@kernel.org>
+Date:   Wed Jan 21 17:45:02 2026 +0200
 
-> +		.vdiv		= 1,
-> +	},
->  	{
->  		.mbus_code	= MEDIA_BUS_FMT_YUYV8_1_5X8, /* YUV420 */
->  		.hdiv		= 2,
+    vfio: Prevent from pinned DMABUF importers to attach to VFIO DMABUF
+    
+    Some pinned importers, such as non-ODP RDMA ones, cannot invalidate their
+    mappings and therefore must be prevented from attaching to this exporter.
+    
+    Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
+    Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+    Reviewed-by: Pranjal Shrivastava <praan@google.com>
+    Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+    Link: https://lore.kernel.org/r/20260121-vfio-add-pin-v1-1-4e04916b17f1@nvidia.com
+    Signed-off-by: Alex Williamson <alex@shazbot.org>
 
--- 
-Regards,
+The very best thing would be to pull
+61ceaf236115f20f4fdd7cf60f883ada1063349a which is cleanly based on
+v6.19-rc6 ?
 
-Laurent Pinchart
+> How should we handle that? Patches 1-3 have already been pushed to
+> drm-misc-next and I would rather like to push patches 4-6 through
+> that branch as well.
+
+Or we get Alex to take a branch from you for the first 3 and push it?
+
+Jason
 
