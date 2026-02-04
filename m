@@ -1,425 +1,421 @@
-Return-Path: <linux-media+bounces-52166-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52167-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8OtWLAwTg2kPhQMAu9opvQ
-	(envelope-from <linux-media+bounces-52166-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 10:36:12 +0100
+	id EKYcHo0og2kxigMAu9opvQ
+	(envelope-from <linux-media+bounces-52167-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:07:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14851E3EBB
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 10:36:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF97AE4EAE
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:07:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 57766306ECB0
-	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 09:31:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BC96A3012BFD
+	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 11:07:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D60203ACF0F;
-	Wed,  4 Feb 2026 09:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40893E9589;
+	Wed,  4 Feb 2026 11:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cyof0mHU"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="lSCw1K5M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011032.outbound.protection.outlook.com [52.101.65.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA053A0E9F;
-	Wed,  4 Feb 2026 09:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770197467; cv=none; b=giCeoTPPeORik3thZSFww1g3FY2wu4F8lZglu9rUfNwCzou5plC9wQ/Dkl1XDhXqkwj7rjQvD+0EojzEBsOr9m8RBd+fPNkGurE+dXFtyiuu8m6udQ2swxIYEQHLU1cfB+aprtq0JsOW8IXcK2Q1ScNjSPvsiXcOUwjxGhOzcNk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770197467; c=relaxed/simple;
-	bh=tQ3XIdnaSUo2UGNmxHEuYSJyHlYM8G4Np04MBwdnOvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U1qfkSMUkiujtBn15D1lUZWafychM+puhJi4nDrVi1e+jxd0HZvUJkF8BtRfT/O3xuV/WWj2hRZEzWq6snfR4asWPSVoGtmS35lm3rf66LB/tiaBBoMgFsaFTPRKgff7l6oJTapXPuWxlqeyn+Im3xXI+xdaQ3F0mRPYzjh6ILI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cyof0mHU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6701AC4CEF7;
-	Wed,  4 Feb 2026 09:31:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770197466;
-	bh=tQ3XIdnaSUo2UGNmxHEuYSJyHlYM8G4Np04MBwdnOvE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cyof0mHUktn/2i2FooBn7/XhbX0Txty4MKXHsuNYsyoXwWiCrBGC7c4e3s9rJ8qhq
-	 JGBuxccYKYsAgP+/iISgy3cDZ9eLoea2fsjruNWBYgMgQ4jp1giRRhQVwE+vFa6UBB
-	 KhlKR4ewojG6CdJYOuehSp1vkY6+wKpNUJvv5Gmu6bPGCE1cBvuM8/BTshFZSYaWWG
-	 6DPYxeTl8FWa3sNS0A+74j3Z9iLVvBWafnMvHG1WMXGsWAq9D3n9kfYde3xH/DS+e3
-	 Gu9xx3evZu723N+RR+QzMHTsUNJjaJT7KFdRPRtV6+RhkkP3uf7AKgv/YSvFkU2jzb
-	 Nh3gH4fFyEY0g==
-Date: Wed, 4 Feb 2026 10:31:03 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Mats Randgaard <matrandg@cisco.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v4 2/4] media: uapi: Introduce MEDIA_BUS_FMT_BGR565_1X16
-Message-ID: <20260204-elastic-optimal-basilisk-d2e57a@houat>
-References: <20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org>
- <20251013-csi-bgr-rgb-v4-2-55eab2caa69f@kernel.org>
- <20251026231553.GB9719@pendragon.ideasonboard.com>
- <20251026233308.GC9719@pendragon.ideasonboard.com>
- <20251208-powerful-penguin-of-reputation-ffdc5c@houat>
- <20260123153432.GA415966@killaraus>
- <20260128-neon-lyrical-pheasant-6cbdf2@houat>
- <20260128131903.GC3210848@killaraus>
- <20260203-bald-meek-crayfish-fdaafc@houat>
- <20260203234036.GC133801@killaraus>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D901D2F2905;
+	Wed,  4 Feb 2026 11:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770203267; cv=fail; b=J7awtmKLmVd0fjzBd6llXJ/wZ5kWFDe++v2iLQZaWMK7O+EUeVtTvOjM5zUFwFNcKX5Ct5yVmeK0kEVlADpHqR60GT30Bntr5aWP04uglr5AsqHtwyj/mNaTFNOI+6wzbJZPBKzbAuLe3D9lIuKnl1pZd9iRUMDfQXJ2Mw3ETi4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770203267; c=relaxed/simple;
+	bh=BvhGgGY75ZaXxX/eC0pnKd9byuPohDS+LYINlcZLPnk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=csL6iI70wgAYMjPR1FHUJowjT5qCZTIr9s1Eb9sSUreVGUlC4nkr2BbGPVRf4gxpuZmj5aSd3VDEGLGa5sOPi8sO7bjF0t/OVwYCRnCRUSB0tO4qofNSAhZUhqL3mk3XgmBD5m44IhFYok1SHb/lvKya3Q46En3Sa+XirITsVHg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=lSCw1K5M; arc=fail smtp.client-ip=52.101.65.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FgdHFGMl+2TJ/24c1Hg8RE4KWyiYTpjFIgwL0A9+xJ+rYG3N1CMm/Az2OALZZK57ZMvGYa4ckthcwt3hshaK7HbQYiQ0jGO2fv0qtqdAqPzGEtOdL+HVkl/1GGkfM/5KyeVWlYr+Mbd0gi4TrrK0Ox9Oxq+z7bQJ5K3II0RvIZ4VS802DDtaqHBKvUjPhO/GUM3CTWVPy643m2GXe1hWzgE+zMB7r9/yjKI9U4XXgW3LmxzycwO9zA7FxqdKhp98G75xlkcdDsckrRwGCfeWsQcIXiIpB7RV+1ZbdFNZfi80eRRX/60AjOrfLY/1zpZGNElgX3UZQIs9f+MDDSRyZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8JdjH56NTsmN3y5f/GT9p9IG7KeztPC1lY48JfYA0n0=;
+ b=PAyzSJThKQUJbGyxf6QWXBVSRPzNnqidfis97QDWOlYRjETViKMPz2Wr1O15KZcxwfdiwzaPxahS8VwjZyB8HggQDDSRsLfaAxqZsEFNbHck8LHfMSym06w/f6zOMUTRNZmOxZ2ELg/RFyWzanCpUB08AxBJZHrPpi1UF9Dr2EZx+pvmpOsQ0NFtC1wWcscoa003ixlgrr2Siwy4RSBFkFNLNbu7LJcfEKghMTzAdz54gfvxal15FOIOeHP6of9uh/7jJRrB6EnLOH14Z1lN2NRcbOf8AgoxDa/bx9PsClEImho0nnHbhvIDghZmE8bANZFBLWk6vS0trWwZrQ2rwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8JdjH56NTsmN3y5f/GT9p9IG7KeztPC1lY48JfYA0n0=;
+ b=lSCw1K5MAIR7t83E9XuIOZuBmEAdliV97DFBGpSKoKzlDZS3bcOZyMhq8L9XN6BI2VRdL2b6TtXYbkoTXDr91yTN6taD1666y1KFDD221eucYW9WXg7PZ/FQHVsdHVx5lkcQo4BesSV39RBD6sqa4+g95qZhP8/TsHD1Bvq952zPpdVejaSOZGkTQBFM0zg/RIt0eEHuQpspMNNsaLOmX4lIQjZHYq4QNq0LmCYwiruNEUULtiQry6sR3GDENzqOii3s7X7CTYMNavvvErzNQI1qbCLZ/pjlwJ98OjfQv+ucZJp9zfLcpupJvzcFPOYxyZYWF57V2CeY83+xLFSsZw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16) by GVXPR04MB10110.eurprd04.prod.outlook.com
+ (2603:10a6:150:1b2::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Wed, 4 Feb
+ 2026 11:07:43 +0000
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.20.9587.013; Wed, 4 Feb 2026
+ 11:07:43 +0000
+Message-ID: <71b57f1c-be22-46a2-89a2-5abae11e0436@nxp.com>
+Date: Wed, 4 Feb 2026 12:07:41 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: Re: [RFC v1 01/11] media: uapi: v4l2-isp: Add v4l2 ISP extensible
+ statistics definitions
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com,
+ daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com,
+ laurent.pinchart@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20260123080938.3367348-1-antoine.bouyer@nxp.com>
+ <20260123080938.3367348-2-antoine.bouyer@nxp.com> <aYIb8ZIZDfCJZEZ9@zed>
+Content-Language: en-US
+From: Antoine Bouyer <antoine.bouyer@nxp.com>
+In-Reply-To: <aYIb8ZIZDfCJZEZ9@zed>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR02CA0156.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28d::23) To PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ruzn5zormkky65do"
-Content-Disposition: inline
-In-Reply-To: <20260203234036.GC133801@killaraus>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|GVXPR04MB10110:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8725d01-5668-48f9-1a8e-08de63dd9e61
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|19092799006|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?QWVKd0c3WHJoWnNTaENoSlY5M3JpTDAyWk51bGVqa1AvbVdDWGp4MjZPTHBy?=
+ =?utf-8?B?UitHWGlZK2FDRnIyTVVncDFHQWpyZllEelM4VG0zWGFrbnVnQWVWa0FkKzRG?=
+ =?utf-8?B?YmRvMW9ZVmRoOW5vb3I4Mms4dDU3ZjdVWnRJUTFOUnJBQ3VWdHdMWklPcE1U?=
+ =?utf-8?B?bzdPc1BEQW9pM0ZVMXhQOVJwbkxhc0xuQktvanc4SzZGelorMU9uYzVGMlVQ?=
+ =?utf-8?B?WHFlYWZwRFhxVWExZmJ0MDFrOThURnBodkFTLzNaeDFqRkZNb1dRU1QwK0pX?=
+ =?utf-8?B?Ui9CcktYWnJyaC9BUjdNS2FnTUVwSjU0OGUvaVovczhPN1VzanJWQmxDWTF3?=
+ =?utf-8?B?MHZ4NCtWME5NMldNRjFXU2UwL3orSnVIRUc4bU1hY0piMVZsYXlHNmhxOFJT?=
+ =?utf-8?B?eHRLbnh4R0hsUmd1c1RYSDd4WGYvTFNRRSsrdUFCUFJDbG4xWkt4eUY5S1Zn?=
+ =?utf-8?B?ajZjWE9CdC9Jblg5eHc5RlFDcWdudDY5aThjdi9LZnE5bzVkaEpENjdZZzRm?=
+ =?utf-8?B?MDJIbjRhU0J3eHF6aXNWT0RndCtlT1IxRUZSVWZ0d1EraDg1SDJ3dUw2TjEz?=
+ =?utf-8?B?K0NHM2t2aUd2OXNHbW9kSk8wYzNaSUsvVXFTbHRncmhua21nZWM2WDdaMUx2?=
+ =?utf-8?B?blZRajI5TkJmSDMvaTNodFI0WTcvSFYyVUNqMTJ4Z2NxNFFoS2t3TUlsOHFp?=
+ =?utf-8?B?QWxZN1NvTFpsS0tVQThMRklMQ1RtT1BZLzdIZUxNQ1U3MlRra0dnZE9EaXMz?=
+ =?utf-8?B?QkkrcHJwL28vdFVBemRENUxXWmZteEVicmxWL3lNNWVJZkNXVUZsUmgwT204?=
+ =?utf-8?B?SFNzNU5CMFgzU1N1RFpkRHN2c2FBTnlVNWk3aHVrSTd1OXNkVjVKYmJTcklq?=
+ =?utf-8?B?MHhDdFMrT0NNeTVvTHVBLzhBdmViMjFaQkJ6L21hRVFNU2hEdHliYldaanhR?=
+ =?utf-8?B?czdQYkVvNmEwSURrczBvVEo3MUpDZkN6REwxTnl4Q1A1WUEvRDc3c24zRzBs?=
+ =?utf-8?B?cHZmc3ZGbFUwRWF1MzhxSFlSU1E2WGZ4cUZwZ1RvV2lobUs3SXZ1TEpKUVJI?=
+ =?utf-8?B?eHNzT20rdmFBZHlzK2pEYnpzbHF1eDRnbU5OcDNEazA5RkpteERNVGlGcVA0?=
+ =?utf-8?B?bmdETjBBNWFGWjZ0dVZHNXZaS2pPRW11VE9CRXBXYWdSbXhKKzQ4QUFrRXhT?=
+ =?utf-8?B?encyTUxYcHVadEpBVmprME9PZlZsZ1Q3VHRRa2czQzJwMWx1RVVUb05TOFhV?=
+ =?utf-8?B?RFpuVjhGL0lUVUIwK2pDbnFraFYzbThoNGJ4cE9NSkZsNkk1OTBjSWE1LzlY?=
+ =?utf-8?B?ellnWDF1aytTSjh2ZGIwRHlxMzlybVJrUmdYNHdxOU14SG13R21kbElXV3Vv?=
+ =?utf-8?B?RHRJM3NBUHBWU3dvSmNPcE5jQk1QSWtlYWFVS3RDWnNaZ09JWGc3Mi9oakpB?=
+ =?utf-8?B?OVg1clNhZEpDdTFGeEtOUWVZTGFjZGlENFVJdGxXaFZJRk82V1VIZ2VEMkdu?=
+ =?utf-8?B?bDcvbzluZCs1VitqZllVdUQrQk1qWFhldCttQ1JueHRoRDc0MTM4aWZkVnhr?=
+ =?utf-8?B?MHlIVkNwVHdEcGFVVE1Ma21hODAwbmhYMVlNaGtWSHNjSVdtdnNmOHh0UHJw?=
+ =?utf-8?B?d1A1ajBTN0NWczVobFpPL0w1QVpSbFlzREpPdzE3QTF2UHpUeFhhUTlwN0VV?=
+ =?utf-8?B?ZWNJL0piMFp1VEdmcE5LMHlZek5ZYUxxT3VUVy8wTWZ1Z3BvZzlRaFAvZW5x?=
+ =?utf-8?B?OWpWMjBSclJzYlBzOVB0eURzMnBoNTA4bW1kTldZQXZFUDltZHBiWC9ubkV3?=
+ =?utf-8?B?bC83VlVZTjBHa29rQllnWDd3VXYxc0ZmTWdvcDRhZ0hNRjcxQzZSMzF2SC8r?=
+ =?utf-8?B?M3Z4Z1FiV2lrZjU0VjJFWVJ3c0F1dWxOeVBSaEdOcHAvc01WajZXWkdoOUVw?=
+ =?utf-8?B?RXRrR3p6YjJ4cjZKNWxGN3gzTmI0U0pkajlaTEVydkNZQ09SZ1hmV2x3MXNH?=
+ =?utf-8?B?QmV0RDloQW5tWXVhZjdVZVlRemYxeFE1YlFzOExGVlJ1WnhXQ0M5MlpyV3BQ?=
+ =?utf-8?B?TndtQ2ZsZElnQW5TQUpXMUkySW9qSFV4c2kzdEYwNGZCd3hibUJLbmxKc0xY?=
+ =?utf-8?Q?Bz2Y=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?Y0xUMGNPOHlEUzlKYVREWUc4YTNUbzdCaHJMdStHSWphNGlYcW1DOFVYaHpp?=
+ =?utf-8?B?ckJHYTNGR2FSRmx6azFUampNYmU3YXp0d3luakVrR0FmcHVEbVhMdFZVMEVr?=
+ =?utf-8?B?OFo5cHdWRXpHZGdIOXp4OEtrWG5nekhtaGE3VHNpSjBVdURtZW5yVHYxbzZl?=
+ =?utf-8?B?M2RDWndEMHZjaWVGdUhxN3ppUHVaZytDZTRZbjRseUVIN2lUWVRnMGwrUnRo?=
+ =?utf-8?B?UTFXeDd5TU9wTlMxZmZlQWRIcG1EZzJSLzJyM2syZG5BTm1DQmIySVNpMHFi?=
+ =?utf-8?B?ajhab2M2S051UU9pRGdiOEZ0UlI5WllwVDZwZXB3a3pEbCt4SDdsRGxyZ29O?=
+ =?utf-8?B?bWhVSk54akovVXVudlAxb05rNEhKYlMyTENNbElTZlFjRTJzUTdHM0x1VjFX?=
+ =?utf-8?B?R2YvM2J1dHVOUlZZZ3o2SG1ERkVDSHJRVjdJeGJOSmpTb1BXS094cERVZURq?=
+ =?utf-8?B?NDlCR2dGQkhIN2ZhZHpQc1FsVlgva2JwVTVPaE4vNFBnZkdKUUpDUGVyT2dw?=
+ =?utf-8?B?Wlhjd2hISitIU29NOHhRa2sxOWliOHF1Z00rRWRvMEJyZnArcDdVeGxyVzdX?=
+ =?utf-8?B?ZkRLWC80YTVrRmpqcFB6cFFaMXVHVy9RTWU5MVJEdkpEdVhNR2lvbTlQRFRx?=
+ =?utf-8?B?a3ZsRk5vMmpabVhpRitPTjRZeUlRU3BlTjI4eTQ5RlhFSGM2RnJkV2U1a0ZN?=
+ =?utf-8?B?YjRBaExBWElMUyswN3hzcTY4QXlRcGU1RXdQbVVMNzJ2YVI2Rkd2NTRKZFdT?=
+ =?utf-8?B?WExiQkcvKzRZQnU4b2FGSlIwYTQ4Vi9IS0tkbFFpS0FIcDYxS0xWMUQ4K1Rr?=
+ =?utf-8?B?M05pUmhvdWVvd3dmdEljZVJ4eS9rTUdhbHpSK3dzNThYZE9OWWdEaW9kTWdi?=
+ =?utf-8?B?SDE1RFc5NysrTTV2R1hpbFlPWjhPbll1Nm1PcXRraERSejI5N0JCWTBWOHpS?=
+ =?utf-8?B?VE5ranR5RndRREVXamlQVnM4UzVpc0NyWjBuM3pjdXQrYmNOU0pGWlptYjNq?=
+ =?utf-8?B?ajcrc1BQRlpYNXpMQUtmcnE0eDV3OEtOOTJsL21ENnMveWpaVjZMQlRsQXBH?=
+ =?utf-8?B?Um1yWHpadVZLaU5vMnhJeW9JMnh2Y05CT0M0ak9iK1lZb2xPQmY0Mjc5QUhs?=
+ =?utf-8?B?MGVrTm5kdkFXRm1ETkxwMyt0dVBGdzE4RkduZVB5RUhlMERvamRCQjRLcTdw?=
+ =?utf-8?B?d1RPVldBT0ZZNmttQXBVaDdsN2lrWk43RWVrYm42VWFFZ2l2OVFoeEg3K01p?=
+ =?utf-8?B?S2N3Y1ZSRHY4d01BZ3hpUXpUWTVRMXV2NEhPdFF2QzJzM0cycHVYQVpPQ3Vk?=
+ =?utf-8?B?NEZndGl0TlZ6N0FpMkVTd2xGY3N0TmJvZUMrYkFibjR1Vyt4V1dkajJuSi9i?=
+ =?utf-8?B?bDkyWEoyZUFCV2ovaUs5dlJ1UXRkdzZ0cEkyOGtHWUlnVDd6VHduT2MwNjJt?=
+ =?utf-8?B?K2U3dzlZUy9QenlBRmpCRnpjb1l5SGJWRDJwRGRFdkVFeWl1Q3BTc29mZkR4?=
+ =?utf-8?B?VTYyNE5CRHZzdi84MC84ZkJtaFhxbFNNQ1VqcnNCYnQ5MCtSYlNXVS9nQlhh?=
+ =?utf-8?B?c0d2dnhZYlZEYndGSE9iZ2NXSmN4UXdYM1o3Q3FpUHF6SmF6ZWRaZVhhc29I?=
+ =?utf-8?B?dmlXbEtEaTY0bmhXOFZMVGkvakEyM21QMFFURUN5SEVGZWRpQnBUajZJY2lP?=
+ =?utf-8?B?ZzB2dzZYOENwaHFlbEJwYUZtME5hTDJzZVZvZVZlVGJOR0lNSTJ0MUVGRjRR?=
+ =?utf-8?B?QVRxbG14V3R1LzFpalhMYndIeG9GaUI2UjJ4U21uQjNoN25yWVZoSkxoUFdq?=
+ =?utf-8?B?b3FRbjFBWFFrODBmT1VZQ2NIeWh4emJqaG1GNmtza2M0K3k4ZXViUmVOdmhJ?=
+ =?utf-8?B?VmZQZmhRWG5mZHJsMmJ3ZjFIVkthcDZ3K084L2lDQXhGSjNGZ2NaQk9KYjhB?=
+ =?utf-8?B?enNkMFJySWdVSzVLQVBpMGVJNHNXajlYdStLTVpxTlFoditvcWFLSjlKYjRy?=
+ =?utf-8?B?MWJBRFk4dm95bGdIeWVjNGUyYUxPTi8wblN0OVB2S3hGVjE0Ui9Hb1FqSEph?=
+ =?utf-8?B?ZmtIWkVlT0cyZ3Q0bWR2eWk3ajFKRjhUYUp4WnZBU2s2U05SOVZSdnN5ZHNk?=
+ =?utf-8?B?THNIcVJreCtmRjFtUktGdHo0UlcwTW5MTENKejREN0hsUVNxdEdHdjd1akZU?=
+ =?utf-8?B?b3lsZGF6a2FuZ0Q2NzhDWHhlN0tQSFJzY2VmSG1RWWZlNDFkb0d1M3EzVUVq?=
+ =?utf-8?B?Z1AyTUl1Z2U4dGkrcFdoMjFuYUsvU1JyV2x4ejZwaG1tUjRSbmplVVU0N3pF?=
+ =?utf-8?B?MENHVGIvQWNBL3grdW5TK0pKRkxBQkRnTy9seHBlTExsclhHOGpEdz09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8725d01-5668-48f9-1a8e-08de63dd9e61
+X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 11:07:43.0813
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DvgbVuNr87evGfjr3cCjvEh3zK0FkrC4UrLuL/y4hkVbmiXTnb+UiqP0SIrCGHVCYRozz79MmEXUsYvnCD5MHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10110
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52166-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-52167-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[nxp.com,ideasonboard.com,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 14851E3EBB
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email,nxp.com:dkim,nxp.com:mid]
+X-Rspamd-Queue-Id: DF97AE4EAE
 X-Rspamd-Action: no action
 
+Hi Jacopo
 
---ruzn5zormkky65do
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 2/4] media: uapi: Introduce MEDIA_BUS_FMT_BGR565_1X16
-MIME-Version: 1.0
+On 2/3/26 5:15 PM, Jacopo Mondi wrote:
+> 
+> 
+> Hi Antoine
+>    thanks a lot for extendable stats
+> 
+> On Fri, Jan 23, 2026 at 09:09:28AM +0100, Antoine Bouyer wrote:
+>> Extend the v4l2-isp extensible format introduced for isp parameters buffer
+>> to the statistics buffer as well.
+>>
+>> Like for ISP configuration purpose, that will help supporting various ISP
+>> hardware versions reporting different statistics data with less impact on
+>> userspace.
+>>
+>> The `v4l2_isp_stats_buffer` reuses the `v4l2_isp_params_buffer` container
+>> definitions, with similar header, versions and flags. V0 and V1 versions
+> 
+> Why do you need two flags ?
+> 
+> Params had to introduce two because we had two drivers already
+> mainlined using the pre-v4l2-isp version of extensible params which
+> had defined their version identifier as 1 and 0 and we didn't want to
+> break existing userspace using those identifiers. So we had to accept
+> both V0 and V1 as "first version of the v4l2-isp extensible parameters
+> format".
+> 
+> For stats we don't have users, so I guess we can start with V1 == 0 ?
 
-On Wed, Feb 04, 2026 at 01:40:36AM +0200, Laurent Pinchart wrote:
-> On Tue, Feb 03, 2026 at 09:52:16AM +0100, Maxime Ripard wrote:
-> > On Wed, Jan 28, 2026 at 03:19:03PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Jan 28, 2026 at 01:32:15PM +0100, Maxime Ripard wrote:
-> > > > On Fri, Jan 23, 2026 at 05:34:32PM +0200, Laurent Pinchart wrote:
-> > > > > On Mon, Dec 08, 2025 at 04:32:33PM +0100, Maxime Ripard wrote:
-> > > > > > On Mon, Oct 27, 2025 at 01:33:08AM +0200, Laurent Pinchart wrot=
-e:
-> > > > > > > On Mon, Oct 27, 2025 at 01:15:54AM +0200, Laurent Pinchart wr=
-ote:
-> > > > > > > > On Mon, Oct 13, 2025 at 01:01:34PM +0200, Maxime Ripard wro=
-te:
-> > > > > > > > > MIPI-CSI2 sends its RGB format on the wire with the blue =
-component
-> > > > > > > > > first, then green, then red. MIPI calls that format "RGB"=
-, but by v4l2
-> > > > > > > > > conventions it would be BGR.
-> > > > > > > > >=20
-> > > > > > > > > MIPI-CSI2 supports three RGB variants: 444, 555, 565, 666=
- and 888.
-> > > > > > > > >=20
-> > > > > > > > > We already have BGR666 and BGR888 media bus formats, we d=
-on't have any
-> > > > > > > > > CSI transceivers using the 444 and 555 variants, but some=
- transceivers
-> > > > > > > > > use the CSI RGB565 format, while using the RGB565 media b=
-us code.
-> > > > > > > > >=20
-> > > > > > > > > That's a mistake, but since we don't have a BGR565 media =
-bus code we
-> > > > > > > > > need to introduce one before fixing it.
-> > > > > > > > >=20
-> > > > > > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > > > > > > > ---
-> > > > > > > > >  .../userspace-api/media/v4l/subdev-formats.rst     | 37 =
-++++++++++++++++++++++
-> > > > > > > > >  include/uapi/linux/media-bus-format.h              |  3 =
-+-
-> > > > > > > > >  2 files changed, 39 insertions(+), 1 deletion(-)
-> > > > > > > > >=20
-> > > > > > > > > diff --git a/Documentation/userspace-api/media/v4l/subdev=
--formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > > > > > > index 8e92f784abd8123f9ea950f954a60af56ee76dbe..def0d24ef=
-6cdb1a2ec9395af1468f56adf31a8de 100644
-> > > > > > > > > --- a/Documentation/userspace-api/media/v4l/subdev-format=
-s.rst
-> > > > > > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-format=
-s.rst
-> > > > > > > > > @@ -625,10 +625,47 @@ The following tables list existing =
-packed RGB formats.
-> > > > > > > > >        - b\ :sub:`4`
-> > > > > > > > >        - b\ :sub:`3`
-> > > > > > > > >        - b\ :sub:`2`
-> > > > > > > > >        - b\ :sub:`1`
-> > > > > > > > >        - b\ :sub:`0`
-> > > > > > > > > +    * .. _MEDIA-BUS-FMT-BGR565-1X16:
-> > > > > > > > > +
-> > > > > > > > > +      - MEDIA_BUS_FMT_BGR565_1X16
-> > > > > > > > > +      - 0x1028
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      -
-> > > > > > > > > +      - b\ :sub:`4`
-> > > > > > > > > +      - b\ :sub:`3`
-> > > > > > > > > +      - b\ :sub:`2`
-> > > > > > > > > +      - b\ :sub:`1`
-> > > > > > > > > +      - b\ :sub:`0`
-> > > > > > > > > +      - g\ :sub:`5`
-> > > > > > > > > +      - g\ :sub:`4`
-> > > > > > > > > +      - g\ :sub:`3`
-> > > > > > > > > +      - g\ :sub:`2`
-> > > > > > > > > +      - g\ :sub:`1`
-> > > > > > > > > +      - g\ :sub:`0`
-> > > > > > > > > +      - r\ :sub:`4`
-> > > > > > > > > +      - r\ :sub:`3`
-> > > > > > > > > +      - r\ :sub:`2`
-> > > > > > > > > +      - r\ :sub:`1`
-> > > > > > > > > +      - r\ :sub:`0`
-> > > > > > > >=20
-> > > > > > > > We're definitely in convention territory, because this is n=
-ot how 16-bit
-> > > > > > > > RGB data is transmitted over CSI-2. CSI-2 transmits blue fi=
-rst, but
-> > > > > > > > starts with bit 0, not bit 4.
-> > > > > > > >=20
-> > > > > > > > Have you explored the alternative of picking the parallel b=
-us code that
-> > > > > > > > matches the serial order when transmitted with the least si=
-gnificant bit
-> > > > > > > > first ? That would be MEDIA_BUS_FMT_RGB565_1X16 here, and
-> > > > > > > > MEDIA_BUS_FMT_RGB888_1X24 for 24-bit RGB.
-> > > > > > >=20
-> > > > > > > To be clear, media bus codes are a matter of conventions. Some
-> > > > > > > conventions would be easier to explain that others, and can a=
-lso be more
-> > > > > > > consistent with pixel format namings, but at the end of the d=
-ay they're
-> > > > > > > all conventions. While saying "pick the media bus code that t=
-ransmits a
-> > > > > > > pixel in one clock sample, with the bit order matching LSB-fi=
-rst
-> > > > > > > transmission" could be the simplest to document, there will b=
-e a
-> > > > > > > mismatch in component orders between the media bus code and t=
-he pixel
-> > > > > > > format in some cases. There may also be more drivers implemen=
-ting other
-> > > > > > > conventions, making the transition more difficult.
-> > > > > > >=20
-> > > > > > > I'll be very busy the upcoming week and will likely not be ab=
-le to
-> > > > > > > participate in this discussion in the near future.
-> > > > > >=20
-> > > > > > For the record, we've discussed it on IRC recently.
-> > > > > >=20
-> > > > > > The suggestion to have all CSI Data Formats as MEDIA_BUS_FMT_RG=
-B*_1X*
-> > > > > > variants make sense to me. And we can easily document it, becau=
-se we
-> > > > > > could match the first bit transmitted with the least significan=
-t bit
-> > > > > > of a media bus code indeed.
-> > > > >=20
-> > > > > That's one of the things I like about it, it's consistent and eas=
-y to
-> > > > > document. Glad we agree :-)
-> > > > >=20
-> > > > > > Thus a sensor using RGB888 would register MEDIA_BUS_FMT_RGB888_=
-1X24.
-> > > > > > That's indeed the case right now with tc358743:
-> > > > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/i2c=
-/tc358743.c#L1775
-> > > > > >=20
-> > > > > > Unicam however hardcodes (and validates) that the v4l2 format c=
-odes
-> > > > > > matches the media bus code of the other end:
-> > > > > >=20
-> > > > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/pla=
-tform/broadcom/bcm2835-unicam.c#L1333
-> > > > > >=20
-> > > > > > That alone makes total sense, but it has an association between
-> > > > > > V4l2_PIX_FMT_RGB24 and MEDIA_BUS_FMT_RGB888_1X24, and between
-> > > > > > V4L2_PIX_FMT_BGR24 and MEDIA_BUS_FMT_BGR888_1X24
-> > > > > >=20
-> > > > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media/pla=
-tform/broadcom/bcm2835-unicam.c#L343
-> > > > > >=20
-> > > > > > Using the convention you suggested, this association is wrong, =
-and
-> > > > > > V4L2_PIX_FMT_BGR24 should be associated MEDIA_BUS_FMT_RGB888_1X=
-24. Thus,
-> > > > > > the red and blue color components are mixed up.
-> > > > >=20
-> > > > > Correct.
-> > > > >=20
-> > > > > > I initially tried to fix it in my v1 by removing the RGB24 supp=
-ort
-> > > > > > https://lore.kernel.org/all/20250606-rpi-unicam-rgb-bgr-fix-v1-=
-1-9930b963f3eb@kernel.org/
-> > > > > >=20
-> > > > > > This was shot down (rightfully) because it would still be broke=
-n.
-> > > > > >=20
-> > > > > > The second version changed the media bus tc358743 reported:
-> > > > > > https://lore.kernel.org/all/20250612-csi-bgr-rgb-v1-0-dc8a30911=
-8f8@kernel.org/
-> > > > > >=20
-> > > > > > Dave was against it because it would potentially break userspac=
-e, citing
-> > > > > > Linus that we shouldn't break userspace ever. I understand and =
-somewhat
-> > > > > > agree with his point, but having two drivers reporting the same=
- data
-> > > > > > format but with a different meaning is also a way of breaking u=
-serspace.
-> > > > >=20
-> > > > > Yes, I would find that pretty bad, possibly even worse.
-> > > > >=20
-> > > > > > Anyway. It was then suggested to support both in the tc358743. =
-That's
-> > > > > > what the second, third and fourth that you commented on worked =
-towards.
-> > > > > >=20
-> > > > > > https://lore.kernel.org/all/20250911-csi-bgr-rgb-v2-0-e6c6b10c1=
-040@kernel.org/
-> > > > > > https://lore.kernel.org/all/20250917-csi-bgr-rgb-v3-0-0145571b3=
-aa4@kernel.org/
-> > > > > > https://lore.kernel.org/all/20251013-csi-bgr-rgb-v4-0-55eab2caa=
-69f@kernel.org/
-> > > > > >=20
-> > > > > > In order to implement your suggestion, I wouldn't to modify tc3=
-58743,
-> > > > > > but would need to modify the association between the v4l2 forma=
-t and
-> > > > > > media bus code that unicam has. In a way, it's very similar to =
-my first
-> > > > > > version that got shot down, and suffers from the same flaws: we=
- could
-> > > > > > have a userspace application out there hardcoding formats and c=
-odes that
-> > > > > > will get an error.
-> > > > > >=20
-> > > > > > So I'm not sure your suggestion really works, unless we reevalu=
-ate what
-> > > > > > we mean by breaking userspace. Either way, I don't care, I just=
- want to
-> > > > > > get pixels in the expected (and documented!) order when using u=
-nicam.
-> > > > >=20
-> > > > > I've lost track of the status of this series and what your current
-> > > > > suggestion is. Can we standardize on
-> > > > >=20
-> > > > > - Using MEDIA_BUS_FMT_RGB*
-> > > >=20
-> > > > I guess we can do that.
-> > > >=20
-> > > > > - Produce V4L2_PIX_FMT_BGR24 from MEDIA_BUS_FMT_RGB888_1X24 in un=
-icam
-> > > >=20
-> > > > You called "pretty bad, possibly even worse" to do the exact opposi=
-te
-> > > > (ie, change the bridge media bus to match unicam) because it would =
-break
-> > > > userspace. Changing the unicam media bus to match the bridge create=
-s the
-> > > > exact same situation.
-> > > >=20
-> > > > The alternative would still be to report both for the bridge, and i=
-nvert
-> > > > the current assocation for the v4l2 formats and mbus codes.
-> > > >=20
-> > > > > - Possibly implement backward compatibility somewhere (where ?) t=
-o avoid
-> > > > >   regressions, but with a big warning
-> > > >=20
-> > > > What would you improve there exactly? It's very clearly in the patc=
-hes
-> > > > already, so unless you have some specific comments I'm not really s=
-ure
-> > > > what you want me to do.
-> > >=20
-> > > If we standardize on MEDIA_BUS_FMT_RGB*, then the issue is in the uni=
-cam
-> > > driver, not in the tc358743 driver. Is it possible to implement the
-> > > backward compatibility (with a warning) in unicam instead of tc358743=
- ?
-> >=20
-> > I don't think we can, because the media bus code is exposed on the
-> > links, and we would change the media bus code we require on that link.
->=20
-> I'm sorry but I don't get you. The tc358743 driver uses
-> MEDIA_BUS_FMT_RGB888_1X24. If we standardize on RGB* media bus formats,
-> the link between the tc358743 and unicam will keep using
-> MEDIA_BUS_FMT_RGB888_1X24. What link would use a different media bus
-> code ?
+I wanted to keep it aligned with params, so that any driver/userspace 
+can use the same API version value for both params and stats buffers, 
+and limit headache.
 
-=46rom the summary you asked for:
+> 
+>> are provided to match with params versions. On the other side, ENABLE and
+>> DISABLE flags are not really meaningfull for statistics purpose. So VALID
+>> and INVALID flags are introduced. Purpose is to force ISP driver to
+>> validate a statistics buffer, before it is consumed by userspace.
+> 
+> Interesting. What do you mean with "validate a statistics buffer" ?
+> And if a driver has to do validation, why would it send upstream a
+> non-validated buffer ?
 
-> Unicam however hardcodes (and validates) that the v4l2 format codes
-> matches the media bus code of the other end:
->
-> https://elixir.bootlin.com/linux/v6.18/source/drivers/media/platform/broa=
-dcom/bcm2835-unicam.c#L1333
->
-> That alone makes total sense, but it has an association between
-> V4l2_PIX_FMT_RGB24 and MEDIA_BUS_FMT_RGB888_1X24, and between
-> V4L2_PIX_FMT_BGR24 and MEDIA_BUS_FMT_BGR888_1X24
->
-> https://elixir.bootlin.com/linux/v6.18/source/drivers/media/platform/broa=
-dcom/bcm2835-unicam.c#L343
+Like for version, I wanted to keep same header structure, including 
+flags. Since ENABLE/DISABLE is not relevant for statistics, I thought 
+about using a "validation" flag, to force driver confirming statistics 
+blocks are valid or not.
 
-If *only* standardize on MEDIA_BUS_FMT_RGB888_1X24 for
-V4L2_PIX_FMT_BGR24, then that means breaking the media link code to v4l2
-format unicam has enforced for years now, and both are exposed to
-userspace.
+If you feel it is useless, I'm fine with removing it. Should I keep a 
+flag field anyway to stay aligned with params then ?
 
-If that's not what you suggest, then please state what you actually
-suggest.
+> 
+>>
+>> Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
+>> ---
+>>   include/uapi/linux/media/v4l2-isp.h | 85 +++++++++++++++++++++++++++++
+>>   1 file changed, 85 insertions(+)
+>>
+>> diff --git a/include/uapi/linux/media/v4l2-isp.h b/include/uapi/linux/media/v4l2-isp.h
+>> index 779168f9058e..ed1279b86694 100644
+>> --- a/include/uapi/linux/media/v4l2-isp.h
+>> +++ b/include/uapi/linux/media/v4l2-isp.h
+>> @@ -99,4 +99,89 @@ struct v4l2_isp_params_buffer {
+>>        __u8 data[] __counted_by(data_size);
+>>   };
+>>
+>> +/**
+>> + * enum v4l2_isp_stats_version - V4L2 ISP statistics versioning
+>> + *
+>> + * @V4L2_ISP_STATS_VERSION_V0: First version of the V4L2 ISP statistics format
+>> + *                          (for compatibility)
+>> + * @V4L2_ISP_STATS_VERSION_V1: First version of the V4L2 ISP statistics format
+>> + *
+>> + * V0 and V1 are identical, and comply with V4l2 ISP parameters versions. So
+>> + * both V0 and V1 refers to the first version of the V4L2 ISP statistics
+>> + * format.
+>> + *
+>> + * Future revisions of the V4L2 ISP statistics format should start from the
+>> + * value of 2.
+>> + */
+>> +enum v4l2_isp_stats_version {
+>> +     V4L2_ISP_STATS_VERSION_V0 = 0,
+>> +     V4L2_ISP_STATS_VERSION_V1,
+> 
+> As suggested I would make V1 == 0
+> 
+>> +};
+>> +
+>> +#define V4L2_ISP_PARAMS_FL_BLOCK_VALID               (1U << 0)
+>> +#define V4L2_ISP_PARAMS_FL_BLOCK_INVALID     (1U << 1)
+>> +
+>> +/*
+>> + * Reserve the first 8 bits for V4L2_ISP_STATS_FL_* flag.
+>> + *
+>> + * Driver-specific flags should be defined as:
+>> + * #define DRIVER_SPECIFIC_FLAG0     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(0))
+>> + * #define DRIVER_SPECIFIC_FLAG1     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(1))
+>> + */
+>> +#define V4L2_ISP_STATS_FL_DRIVER_FLAGS(n)       ((n) + 8)
+> 
+> Currently we have no users of V4L2_ISP_PARAMS_FL_DRIVER_FLAGS so we
+> could even consider making it a V4L2_ISP_FL_DRIVER_FLAGS
+> 
+> Or do you think it is worth creating a new symbol ?
 
-Maxime
+To limit impact on potential on-going development, and future conflict, 
+creating new symbol may be safer IMO. But I'm fine with using a single 
+symbol if you prefer. Most probably this flag customization is not used 
+yet by any driver.
 
---ruzn5zormkky65do
-Content-Type: application/pgp-signature; name="signature.asc"
+> 
+>> +
+>> +/**
+>> + * struct v4l2_isp_stats_block_header - V4L2 extensible statistics block header
+>> + * @type: The statistics block type (driver-specific)
+>> + * @flags: A bitmask of block flags (driver-specific)
+>> + * @size: Size (in bytes) of the statistics block, including this header
+>> + *
+>> + * This structure represents the common part of all the ISP statistics blocks.
+>> + * Each statistics block shall embed an instance of this structure type as its
+>> + * first member, followed by the block-specific statistics data.
+>> + *
+>> + * The @type field is an ISP driver-specific value that identifies the block
+>> + * type. The @size field specifies the size of the parameters block.
+>> + *
+>> + * The @flags field is a bitmask of per-block flags V4L2_STATS_ISP_FL_* and
+>> + * driver-specific flags specified by the driver header.
+>> + */
+>> +struct v4l2_isp_stats_block_header {
+>> +     __u16 type;
+>> +     __u16 flags;
+>> +     __u32 size;
+>> +} __attribute__((aligned(8)));
+>> +
+> 
+> This is currently identical to v4l2_isp_params_block_header.
+> 
+> Can we create a single header for both stats and params and provide a
+> 
+> #define v4l2_isp_params_block_header v4l2_isp_block_header
+> 
+> for maintaining compatibility with existing users ?
+> 
+> Or do you expect stats and params to eventually need different headers ?
+> 
 
------BEGIN PGP SIGNATURE-----
+Current approach is to use same structure definitions as for params. So 
+I'm fine with creating a single header as suggested, and provide symbols 
+to keep compatibility.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYMR1wAKCRAnX84Zoj2+
-dm1eAYDqBwVWvDo8GiTXxtAr6Wx2LrVSrPfCFpWMfKnXrhXmJ5aC+8nPXlqbCnEf
-NG9iMpcBf1seSqrf56HHKMW2PDwnmC3BQUGw0P1BPO/MYr+ZBsIT0BJUQU2cCdMx
-KxaodkhXew==
-=DUgq
------END PGP SIGNATURE-----
+>> +/**
+>> + * struct v4l2_isp_stats_buffer - V4L2 extensible statistics data
+>> + * @version: The statistics buffer version (driver-specific)
+>> + * @data_size: The statistics data effective size, excluding this header
+>> + * @data: The statistics data
+>> + *
+>> + * This structure contains the statistics information of the ISP hardware,
+>> + * serialized for userspace into a data buffer. Each statistics block is
+>> + * represented by a block-specific structure which contains a
+>> + * :c:type:`v4l2_isp_stats_block_header` entry as first member. Driver
+>> + * populates the @data buffer with statistics information of the ISP blocks it
+>> + * intends to share to userspace. As a consequence, the data buffer effective
+>> + * size changes according to the number of ISP blocks that driver intends to
+>> + * provide and is set by the driver in the @data_size field.
+>> + *
+>> + * The statistics buffer is versioned by the @version field to allow modifying
+>> + * and extending its definition. Driver shall populate the @version field to
+>> + * inform the userpsace about the version it intends to use. The userspace will
+>> + * parse and handle the @data buffer according to the data layout specific to
+>> + * the indicated version.
+>> + *
+>> + * For each ISP block that driver wants to report, a block-specific structure
+>> + * is appended to the @data buffer, one after the other without gaps in
+>> + * between. Driver shall populate the @data_size field with the effective
+>> + * size, in bytes, of the @data buffer.
+>> + */
+>> +struct v4l2_isp_stats_buffer {
+>> +     __u32 version;
+>> +     __u32 data_size;
+>> +     __u8 data[] __counted_by(data_size);
+>> +};
+>> +
+> 
+> Same question. Should we introduce a struct v4l2_isp_buffer ?
 
---ruzn5zormkky65do--
+Yes, sounds reasonable.
+
+BR
+Antoine
+
+> 
+> Thanks!
+> 
+>>   #endif /* _UAPI_V4L2_ISP_H_ */
+>> --
+>> 2.52.0
+>>
+>>
+
 
