@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-52172-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52171-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uCBdJOssg2kwjAMAu9opvQ
-	(envelope-from <linux-media+bounces-52172-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:26:35 +0100
+	id 8K6xItAtg2kwjAMAu9opvQ
+	(envelope-from <linux-media+bounces-52171-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:30:24 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D52E518E
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:26:35 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A8AE5225
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:30:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4C8253014A21
-	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 11:26:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BB7FD3020EF4
+	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 11:26:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A85153EFD33;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A23943EFD31;
 	Wed,  4 Feb 2026 11:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bWhK2CM2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iWCmWHFs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D9C3ECBD1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E3C3EF0D4;
 	Wed,  4 Feb 2026 11:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770204322; cv=none; b=ZKNspZLwifHY3a6BdXFBd/VxH6MqTu1X4sHcoOwB7KK8p+QUJU8oVM1KxhZbpwvGXSR7frfpSn/dy5sISFXwDZbA7I6VzdMi2CLUttFai9aKeVQMVpt0FSw3Qt8f4Yfs3ltuPbZZTs/BkVSQIxhEQMPSg4M/nfoPR6tXqKmhY6I=
+	t=1770204322; cv=none; b=nYOA0aHR4Xs1uWgcgr5SHVcHm+PxeYhIuTPQVMis9NuTFS/EJURCC/XLEW9D3gU8pTkS2QRYE8w68t8Kin2X1a9l15pZ1XU2h7ENM4paXyFxL/KxbSW6ybe1EYr6dior6BCBNkkxJr5oOeFFEsB5v+FAvDdciZkRiIVX1FhqUNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770204322; c=relaxed/simple;
-	bh=Dvl3Tree0wsEccwQaxwDEFxXPpQC0laXl6e03FgkyEg=;
+	bh=5tT1QreBElhmzJ9xX6zFvlJg6hRkmTy0drDHUcyVEf0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dNXDVfKDRB74tm6+POg2zaznwVFesnD1ms4x9tmqwrPKKMBTf75sGJmj4vdfDfYPOkqlbJhn3aR+VEar+Tvu0yPlyRnbQR+MjnX9GdT53pquv6Lvu8FBR2WJZLaFb8Ho6y0BldD5PIVftC+DQ8XD4DIvSHCvnwM3akJ2uHBDblw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bWhK2CM2; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=geqdRWDyhUtySAvPn3pGHm0Mi31thst18lqyFdvD9rLbL7b2PYne29dXnZJtfPURHhpvTrHhdmuFu1MOx+/yP+3jpvLClveaiVHhwP7op6SZ/Nxr5Q47v5mfCbCPmltC2oAJBMiTYAtUpXZRuR9NZTBWtNXquKpxnNMnAatsdsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iWCmWHFs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from t16.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22DBD1356;
-	Wed,  4 Feb 2026 12:24:33 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF2691379;
+	Wed,  4 Feb 2026 12:24:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770204273;
-	bh=Dvl3Tree0wsEccwQaxwDEFxXPpQC0laXl6e03FgkyEg=;
+	s=mail; t=1770204275;
+	bh=5tT1QreBElhmzJ9xX6zFvlJg6hRkmTy0drDHUcyVEf0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bWhK2CM2Ml1myVRfbA2vz9SqyzEkleAq5+dv54lr6FCE59eA2ba+WNfxCeFh0tIQd
-	 20C4ugZ3FQcpVnw7Pgv1fg2Sfb8LkQrywxNOotcXAUVuSPBhD6RkebFvIeRJtpzmf7
-	 a+0qC8E20QAFhbfnklnTD7N00OOqMEw836bX+K+I=
+	b=iWCmWHFsKSdLFUC99b55o6TBcg1js9Z0ptZTLF1wD4SsuIJmw05tyU6+PH6oNNkcF
+	 lY6SaLchuk8oWonZGq9ld/hxJupjI/ReyJYh56UjZIDAwi838NALD0YVex54u9Psbn
+	 EkD05WdwsiKxplbpy24nQfUAbn1qDpZopLMYz5do=
 From: Isaac Scott <isaac.scott@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: dafna@fastmail.com,
@@ -54,9 +54,9 @@ Cc: dafna@fastmail.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Isaac Scott <isaac.scott@ideasonboard.com>
-Subject: [PATCH v1 3/6] media: rkisp1-isp: Add target_format
-Date: Wed,  4 Feb 2026 11:25:03 +0000
-Message-ID: <20260204112506.3706049-4-isaac.scott@ideasonboard.com>
+Subject: [PATCH v1 4/6] media: rkisp1-isp: Propagate sink -> source format in YUV passthough
+Date: Wed,  4 Feb 2026 11:25:04 +0000
+Message-ID: <20260204112506.3706049-5-isaac.scott@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260204112506.3706049-1-isaac.scott@ideasonboard.com>
 References: <20260204112506.3706049-1-isaac.scott@ideasonboard.com>
@@ -73,7 +73,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -83,9 +83,9 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FREEMAIL_CC(0.00)[fastmail.com,ideasonboard.com,kernel.org,sntech.de,lists.infradead.org,vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52172-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52171-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[isaac.scott@ideasonboard.com,linux-media@vger.kernel.org];
@@ -95,52 +95,35 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 54D52E518E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 07A8AE5225
 X-Rspamd-Action: no action
 
-In passthough mode, we want to make sure the output format of the ISP is
-identical to the input format. Add logic to ensure the format we
-configure the output of the ISP with is the sink format when we are in
-bypass, and the source format if we are not.
+If we are in bypass mode, we should propagate the sink format of the ISP
+to the source format to ensure the pipeline is valid. Ensure the source
+pad format of the ISP is configured to the same format as the sink pad.
 
 Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
 ---
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index f636d738b7e8..716bd7f3c66d 100644
+index 716bd7f3c66d..c457593526c5 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -175,9 +175,10 @@ static void rkisp1_gasket_disable(struct rkisp1_device *rkisp1)
- static void rkisp1_config_ism(struct rkisp1_isp *isp,
- 			      const struct v4l2_subdev_state *sd_state)
- {
--	const struct v4l2_rect *src_crop =
-+	const struct v4l2_rect *target_crop =
- 		v4l2_subdev_state_get_crop(sd_state,
--					   RKISP1_ISP_PAD_SOURCE_VIDEO);
-+			(isp->rkisp1->in_bypass ?
-+				RKISP1_ISP_PAD_SINK_VIDEO : RKISP1_ISP_PAD_SOURCE_VIDEO));
- 	struct rkisp1_device *rkisp1 = isp->rkisp1;
- 	u32 val;
+@@ -630,6 +630,11 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+ 	 */
+ 	sink_info = rkisp1_mbus_info_get_by_code(sink_fmt->code);
  
-@@ -185,10 +186,10 @@ static void rkisp1_config_ism(struct rkisp1_isp *isp,
- 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_MAX_DX, 0);
- 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_MAX_DY, 0);
- 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_DISPLACE, 0);
--	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_H_OFFS, src_crop->left);
--	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_V_OFFS, src_crop->top);
--	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_H_SIZE, src_crop->width);
--	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_V_SIZE, src_crop->height);
-+	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_H_OFFS, target_crop->left);
-+	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_V_OFFS, target_crop->top);
-+	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_H_SIZE, target_crop->width);
-+	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_V_SIZE, target_crop->height);
- 
- 	/* IS(Image Stabilization) is always on, working as output crop */
- 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_CTRL, 1);
++	if (sink_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
++		format->code = sink_fmt->code;
++		dev_dbg(isp->rkisp1->dev, "ISP sink pad is YUV");
++	}
++
+ 	src_fmt->code = format->code;
+ 	src_info = rkisp1_mbus_info_get_by_code(src_fmt->code);
+ 	if (!src_info || !(src_info->direction & RKISP1_ISP_SD_SRC)) {
 -- 
 2.43.0
 
