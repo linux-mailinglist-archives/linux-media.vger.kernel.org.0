@@ -1,233 +1,404 @@
-Return-Path: <linux-media+bounces-52147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52148-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sAcmNnuVgmkRWgMAu9opvQ
-	(envelope-from <linux-media+bounces-52147-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 01:40:27 +0100
+	id YGe4IESYgmm6WgMAu9opvQ
+	(envelope-from <linux-media+bounces-52148-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 01:52:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70049E014E
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 01:40:27 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF831E0217
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 01:52:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 582B93051939
-	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 00:40:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F072130BD038
+	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 00:52:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0B70221554;
-	Wed,  4 Feb 2026 00:40:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43C452236F2;
+	Wed,  4 Feb 2026 00:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="D4qbKGWS";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FAxAuNu1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PfLIRpsR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAE220B80B
-	for <linux-media@vger.kernel.org>; Wed,  4 Feb 2026 00:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91B43FCC;
+	Wed,  4 Feb 2026 00:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770165619; cv=none; b=IQps/MzxdoJf5Cf5mamelUf8dpKPSgAH5MYapT9bN1qgvO0q2ByYv6asSN37muYOEP043UyG6aTmWi4EJDvTo3R8aDXS02bXQZdOlYwufexFQ6jmSHg0mVYS9QPmkxs5nDw23W/Pc9Yohrp1NZ5xq1KHYmIGid5t4nolczkhoAM=
+	t=1770166334; cv=none; b=nxjGZhOJXTlCdZZ7Bt/00bc3mebUUYxH4iG8djap0R8hx8VOoZKta0Ger0Nxpem+6UiZfqcbH4p+Q0hKoBXsBh2m55A7gRGSGgEtqHIS5Wdgf9/s0JLkbG4sXwVq63yAhTx2c+CwVDkEnDRnw4UOgzmAeRsQQqD13hNiC6LsRfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770165619; c=relaxed/simple;
-	bh=F8G7Eg6ph2x/u9+FXMbeiayUy0HItPcu7w225JbCLP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=StPYNn4N9M0CHZp7Bvk4YzfEMJ8FAGSUH7MNOIVAOeUxxeiEVomgQ8lCfXQ0p8bpcb0KRyZLHiKWOcPLXSgfuxc6V9loMCX9pjDFVU3yQeYATbDTwfMH6nCNRbGodeR9KyXrKqS3vrhXNcrzzjn0BdlP/Z5+ARdHkwNrNV++wcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=D4qbKGWS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FAxAuNu1; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 613IlxHm2667695
-	for <linux-media@vger.kernel.org>; Wed, 4 Feb 2026 00:40:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=lzfUjUVNXkWGUVQZQA9MMFUd
-	7EVd3Dj+aLgbQeZkpK8=; b=D4qbKGWSuYk5wQFXWxhv9ULJOl5q0L9KOIQOJYlg
-	XGH5YpjxsXoAVN7vjbrdkwNuxcV1uN7mrQLqnKtbxd7g/vlFF2UI/GYPdf6fQ0Lw
-	yNfG3V/3m6VO/Xv7vSZa/cHB82UUXT4lj8VExjpPW8C3Mq3/bBSmueW8kaA4mHYd
-	KodYnmyi1B1t/pg1mxU57vI6wbg8g2AtD8SeuWQ1BR/IN2lf1/qhEwneLZCPCnzg
-	BhAi8yhU2jnsgygNDFfwUoq0WsJp+P8a/k1Kl2gXiX7280OFGttxmR6xK16bXvmv
-	FLT/Vxth1Y4wxyUJUet5Jr8PtoLV8iSyJsQIJvnY/j4n4A==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c3nf619n3-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 04 Feb 2026 00:40:16 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8946448adbdso249655016d6.1
-        for <linux-media@vger.kernel.org>; Tue, 03 Feb 2026 16:40:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770165616; x=1770770416; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lzfUjUVNXkWGUVQZQA9MMFUd7EVd3Dj+aLgbQeZkpK8=;
-        b=FAxAuNu1YJxqbCIif43GyBC7Ho/wh8wJv2ZJqLm5afbbwzgoYBi6GFhU6dJ+SPoqg1
-         jkS7nU1Gg+qPncG97SnmqfGu+0d70BCIbuZSmWtpuzNutr3kzUCt/J0YO9DkXThlyn6E
-         Sc4ZrJqwxCerEkKftyriunvEdb9l8i3xZFbENAe0IeUcbWVGYU7rp/8SxcKuQ+cPcVWT
-         7o32dU+NAvs5aNSogo1+Rnus2gnzEBX4CyNMh3AIR+KeGaejCvew/sJZpckqJPZeuhqJ
-         UNCRwvBNxtkHIzrhl7y0iY5ZKPgR9YQn/sVWq6a6XYgBOYx3C5paWbQWlYmKdfrjM41n
-         m4Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770165616; x=1770770416;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lzfUjUVNXkWGUVQZQA9MMFUd7EVd3Dj+aLgbQeZkpK8=;
-        b=Rcqk+DovwbU4L1tTCRuIucDOAoa1+HkcwzgkIxUAtdeL/hza4yKhLNFW55td2Ox/XX
-         EUII7dHCiegXyIhuYBO9VXLi71nOOPW/Q2Rv4UhiY0ZaVjmN3PSKDmX+8RkqOMCwjcnN
-         qskCnpGAOXEUC+S9xr1RXrXl+835IkSfXr6L+J/kT464S6+l/M94AAcRWPO/iRHRFHx5
-         lCpXQGIatEl5DOe1qg+zHX3M/d6/XJ5v+9P/yYPk3gSEM979P2v13vI2CIkY56M7ilu/
-         RfGSmbVSABc1PpuQj99Ar3tHZAPyIpDpGSIDPdPF4Ci2EKm62IuSTGay5hgwtZ3Cttq/
-         kMFA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9buBx7Hj6v8mZdPQBeY+b9XWbhYS96aP7m+k5gbqEollDyL5UvujoBWGSuoPxsycQa6+stt+ycYqf7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6QsGUjNZbOGmJ6gOnxMntfjE2h/2zYOf54NoNHi6EorxTVuaM
-	8JOAkFmIi976fZ+uRf9g/aLyP4xAI/tqtS+qS4TbfB0YjBbrap8RBDwXLLHrVlVtBsOeS3y4uj5
-	DKHb6xLuAkZBuBsSKVj00zFgXbIqajHGMvDm/dnG90TKv6Fy0CbPXabPg+ligyL5Rgg==
-X-Gm-Gg: AZuq6aL5FcCBM1zeeAH7OioAkKhDETfI5Z2WJMB+w8EqezCz450Bu33h+wXypu4+aOk
-	76EhY1rjer4snA1r0wPR2DtL2SaUhqqGKzv0nu7wjgD77BnXPmF5YAqMcdpq1ONQG6EPiwUUJYi
-	aWbJlxjULgPsjXigCxP0q+OD8dSWWYsUcaiyO+Tq0fNrvvKjZ+7rapsz8VeVHDEcCePhdsfE5m3
-	Cx3qvHm3KFEADfy2XoJDQaSslxTm5Fa4gOjupa3prq2dHp02XyJmW2SIsN28A5NKAXir1cOSHZw
-	J/CvLIAoX0dohs5LPhwXl/9qninjgvu/v0kG/ZKCp7ZT7asTSDDWMHI2feM1tkuTryS6cFpWOzX
-	r5J1kHNrlf+faT71Psxouf2OyD9v62M7YzkOgM0COT53T6i3RaoLn6gN+Z8HjhC5EBxMW4vy2Kh
-	Sv7J+ENiYOvf9Nh1yME67uF7c=
-X-Received: by 2002:a05:620a:7105:b0:8ca:123e:819a with SMTP id af79cd13be357-8ca2f84af5emr183836785a.36.1770165615874;
-        Tue, 03 Feb 2026 16:40:15 -0800 (PST)
-X-Received: by 2002:a05:620a:7105:b0:8ca:123e:819a with SMTP id af79cd13be357-8ca2f84af5emr183834085a.36.1770165615479;
-        Tue, 03 Feb 2026 16:40:15 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e38822217sm245917e87.67.2026.02.03.16.40.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 16:40:13 -0800 (PST)
-Date: Wed, 4 Feb 2026 02:40:10 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
-        Jonathan Marek <jonathan@marek.ca>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
-        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/8] media: qcom: iris/venus: fix power domain
- handling on SM8250
-Message-ID: <xouz47l4ss6n6jtag44xptv63buuiyq7hikbtormstjt3prdon@nfvyvlksee2m>
-References: <20260201-iris-venus-fix-sm8250-v2-0-6f40d2605c89@oss.qualcomm.com>
- <CAPDyKFoNX087ZhLkQ_n8-42WNQcL06noSuPJPDG87y0andVdNg@mail.gmail.com>
- <CAO9ioeXkhxjghtGVGsOH=1hwC5FvS_4LEXt3hmAEuAbwVjct3g@mail.gmail.com>
- <l6o4lv2sy7x4g33mjigeh6sb6cmrfyz3xshhmbc3el6qvw3oep@okwpfykypawa>
- <CAPDyKFrX7NieYszgEZXFyQJr+PA266MJZTvJcGFmrQ2oy7Mj3A@mail.gmail.com>
+	s=arc-20240116; t=1770166334; c=relaxed/simple;
+	bh=uI3Xqr9pjtdnjjvvil1Jo+EKjUfUZX4BVVpeBsW/sC8=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=Na8weAwJgqt3VrwSLmA6WhTDQnUjb5TQr/8OxBffwYowaszXsFj9WUeIdtqNLzj2f2ptwTNvfULydcLILJOrjq7bhy84r5Y5ECdIDGm/3vHAwWI95D63Bb4srclHeUto4SZX93HSdYtpOB/9KvUhDbTsQ9AvThuEUyNtbd5wi1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PfLIRpsR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c67:86fa:bf02:d5f1:808c:8622])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89EC23A4;
+	Wed,  4 Feb 2026 01:51:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1770166289;
+	bh=uI3Xqr9pjtdnjjvvil1Jo+EKjUfUZX4BVVpeBsW/sC8=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=PfLIRpsRJjuMJwEOxQFowot+TuC0YCrrhJDk/frTlsA9QlPIemZQGbPLT1rvEb6Uf
+	 0UJ2xNknIm2cBp4a0vFDMzeLjWBKfBipHIOH3gFBCkfWRycOZf5bLNBRloPzZlEBIJ
+	 3B6fhev1dnsOS95AyPOptdGmStYCkXvaN7YGWb1s=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFrX7NieYszgEZXFyQJr+PA266MJZTvJcGFmrQ2oy7Mj3A@mail.gmail.com>
-X-Proofpoint-GUID: CpUusPjS0__ZqZLVT2IYI9l_ZbFu2pr6
-X-Proofpoint-ORIG-GUID: CpUusPjS0__ZqZLVT2IYI9l_ZbFu2pr6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA0MDAwMSBTYWx0ZWRfX6N+3M1ZHgAFD
- qxdLCl2MpFQBLvDTY4KAOoksgohEi93CeVLnChc6QJ15Jr6F/YL0SjmNf78EnNwtR7vTEa7ue6P
- 7p+4ey9eWnoIKwcfiFfcEc4DzHoqSG73MP7JCplduXlUtwfzg5yjzxImneiEZO9vINGAfMPtppd
- NNUajuz3yEJSjxwW99Mk0H9HrXIekqFwwe270TOIgfxrwZebGnzvGeFx3zO48Ro49PR/4huJxjl
- Ite47ncY0b35N1wRID6bVq8SzX7y0kwyqeWFbxLVXgMJDrYWOcE6S13bVGtczEiJJhuWE9C7/Xa
- z+bniuRP45of1UPAcVhliht+S/DHQJhydpQGYqer0BcP8OmZuopZ8KY6w4J3J1Zj34VANlbhXO3
- OCxZbNOdB0V2k3+4fAb8nJ0Q7ZIC61fGxkmNhmsG0btY+9JzBPEhWRYn1xK0elpLy5ON83i7BaJ
- 8jMPj47g6NUPpwHHoxQ==
-X-Authority-Analysis: v=2.4 cv=doTWylg4 c=1 sm=1 tr=0 ts=69829570 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=8UNOjA0-WY4o6R8rHOMA:9 a=CjuIK1q_8ugA:10
- a=iYH6xdkBrDN1Jqds4HTS:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-03_07,2026-02-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 impostorscore=0 suspectscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602040001
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260203234354.GD133801@killaraus>
+References: <20251013-csi-bgr-rgb-v4-2-55eab2caa69f@kernel.org> <20251026233308.GC9719@pendragon.ideasonboard.com> <20251208-powerful-penguin-of-reputation-ffdc5c@houat> <20260123153432.GA415966@killaraus> <20260128-neon-lyrical-pheasant-6cbdf2@houat> <20260128131903.GC3210848@killaraus> <177001699568.9154.17517527570808307498@freya> <20260202093105.GC3374091@killaraus> <177002946028.9154.2512834530413257039@freya> <20260203234354.GD133801@killaraus>
+Subject: Re: [PATCH v4 2/4] media: uapi: Introduce MEDIA_BUS_FMT_BGR565_1X16
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Mats Randgaard <matrandg@cisco.com>, Alain Volmat <alain.volmat@foss.st.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Wed, 04 Feb 2026 06:22:05 +0530
+Message-ID: <177016632523.9154.6485752908896894612@freya>
+User-Agent: alot/0.12.dev62+gb9d6144a6
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52147-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,linaro.org:email,qualcomm.com:email,qualcomm.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-52148-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,huawei];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 70049E014E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,bootlin.com:url,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: EF831E0217
 X-Rspamd-Action: no action
 
-On Tue, Feb 03, 2026 at 11:40:45AM +0100, Ulf Hansson wrote:
-> On Mon, 2 Feb 2026 at 20:22, Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> >
-> > On Mon, Feb 02, 2026 at 05:51:16PM +0200, Dmitry Baryshkov wrote:
-> > > On Mon, 2 Feb 2026 at 16:46, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > > >
-> > > > On Sun, 1 Feb 2026 at 11:49, Dmitry Baryshkov
-> > > > <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> > > > >
-> > > > > As pointed out by Konrad during the review of SM8350 / SC8280XP
-> > > > > patchset, Iris aka Venus description has several flows. It doesn't scale
-> > > > > MMCX, the frequencies in the OPP table are wrong, etc.
-> > > > >
-> > > > > Let's correct the Iris/Venus enablement for SM8250 (unfortunately also
-> > > > > stopping it from being overclocked).
-> > > > >
-> > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > > >
-> > > > Do you want me to pick up patch2 for v7.0 - or what do you suggest at
-> > > > this point?
-> > >
-> > > I'd prefer it if it is picked through the immutable tag/branch.
-> >
-> > Another option would be to ack merging it through the media tree.
-> 
-> I didn't think the series was considered as material for v7.0 as it's
-> getting late for that.
-> 
-> Anyway, I have queued patch2 to v7.0 and the patch is also available
-> to pull in via an immutable "core" branch in my pmdomain tree.
+Quoting Laurent Pinchart (2026-02-04 05:13:54)
+> On Mon, Feb 02, 2026 at 04:21:00PM +0530, Jai Luthra wrote:
+> > Quoting Laurent Pinchart (2026-02-02 15:01:05)
+> > > On Mon, Feb 02, 2026 at 12:53:15PM +0530, Jai Luthra wrote:
+> > > > Quoting Laurent Pinchart (2026-01-28 18:49:03)
+> > > > > On Wed, Jan 28, 2026 at 01:32:15PM +0100, Maxime Ripard wrote:
+> > > > > > On Fri, Jan 23, 2026 at 05:34:32PM +0200, Laurent Pinchart wrot=
+e:
+> > > > > > > On Mon, Dec 08, 2025 at 04:32:33PM +0100, Maxime Ripard wrote:
+> > > > > > > > On Mon, Oct 27, 2025 at 01:33:08AM +0200, Laurent Pinchart =
+wrote:
+> > > > > > > > > On Mon, Oct 27, 2025 at 01:15:54AM +0200, Laurent Pinchar=
+t wrote:
+> > > > > > > > > > On Mon, Oct 13, 2025 at 01:01:34PM +0200, Maxime Ripard=
+ wrote:
+> > > > > > > > > > > MIPI-CSI2 sends its RGB format on the wire with the b=
+lue component
+> > > > > > > > > > > first, then green, then red. MIPI calls that format "=
+RGB", but by v4l2
+> > > > > > > > > > > conventions it would be BGR.
+> > > > > > > > > > >=20
+> > > > > > > > > > > MIPI-CSI2 supports three RGB variants: 444, 555, 565,=
+ 666 and 888.
+> > > > > > > > > > >=20
+> > > > > > > > > > > We already have BGR666 and BGR888 media bus formats, =
+we don't have any
+> > > > > > > > > > > CSI transceivers using the 444 and 555 variants, but =
+some transceivers
+> > > > > > > > > > > use the CSI RGB565 format, while using the RGB565 med=
+ia bus code.
+> > > > > > > > > > >=20
+> > > > > > > > > > > That's a mistake, but since we don't have a BGR565 me=
+dia bus code we
+> > > > > > > > > > > need to introduce one before fixing it.
+> > > > > > > > > > >=20
+> > > > > > > > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > > > > > > > > > ---
+> > > > > > > > > > >  .../userspace-api/media/v4l/subdev-formats.rst     |=
+ 37 ++++++++++++++++++++++
+> > > > > > > > > > >  include/uapi/linux/media-bus-format.h              |=
+  3 +-
+> > > > > > > > > > >  2 files changed, 39 insertions(+), 1 deletion(-)
+> > > > > > > > > > >=20
+> > > > > > > > > > > diff --git a/Documentation/userspace-api/media/v4l/su=
+bdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > > > > > > > > index 8e92f784abd8123f9ea950f954a60af56ee76dbe..def0d=
+24ef6cdb1a2ec9395af1468f56adf31a8de 100644
+> > > > > > > > > > > --- a/Documentation/userspace-api/media/v4l/subdev-fo=
+rmats.rst
+> > > > > > > > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-fo=
+rmats.rst
+> > > > > > > > > > > @@ -625,10 +625,47 @@ The following tables list exist=
+ing packed RGB formats.
+> > > > > > > > > > >        - b\ :sub:`4`
+> > > > > > > > > > >        - b\ :sub:`3`
+> > > > > > > > > > >        - b\ :sub:`2`
+> > > > > > > > > > >        - b\ :sub:`1`
+> > > > > > > > > > >        - b\ :sub:`0`
+> > > > > > > > > > > +    * .. _MEDIA-BUS-FMT-BGR565-1X16:
+> > > > > > > > > > > +
+> > > > > > > > > > > +      - MEDIA_BUS_FMT_BGR565_1X16
+> > > > > > > > > > > +      - 0x1028
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      -
+> > > > > > > > > > > +      - b\ :sub:`4`
+> > > > > > > > > > > +      - b\ :sub:`3`
+> > > > > > > > > > > +      - b\ :sub:`2`
+> > > > > > > > > > > +      - b\ :sub:`1`
+> > > > > > > > > > > +      - b\ :sub:`0`
+> > > > > > > > > > > +      - g\ :sub:`5`
+> > > > > > > > > > > +      - g\ :sub:`4`
+> > > > > > > > > > > +      - g\ :sub:`3`
+> > > > > > > > > > > +      - g\ :sub:`2`
+> > > > > > > > > > > +      - g\ :sub:`1`
+> > > > > > > > > > > +      - g\ :sub:`0`
+> > > > > > > > > > > +      - r\ :sub:`4`
+> > > > > > > > > > > +      - r\ :sub:`3`
+> > > > > > > > > > > +      - r\ :sub:`2`
+> > > > > > > > > > > +      - r\ :sub:`1`
+> > > > > > > > > > > +      - r\ :sub:`0`
+> > > > > > > > > >=20
+> > > > > > > > > > We're definitely in convention territory, because this =
+is not how 16-bit
+> > > > > > > > > > RGB data is transmitted over CSI-2. CSI-2 transmits blu=
+e first, but
+> > > > > > > > > > starts with bit 0, not bit 4.
+> > > > > > > > > >=20
+> > > > > > > > > > Have you explored the alternative of picking the parall=
+el bus code that
+> > > > > > > > > > matches the serial order when transmitted with the leas=
+t significant bit
+> > > > > > > > > > first ? That would be MEDIA_BUS_FMT_RGB565_1X16 here, a=
+nd
+> > > > > > > > > > MEDIA_BUS_FMT_RGB888_1X24 for 24-bit RGB.
+> > > > > > > > >=20
+> > > > > > > > > To be clear, media bus codes are a matter of conventions.=
+ Some
+> > > > > > > > > conventions would be easier to explain that others, and c=
+an also be more
+> > > > > > > > > consistent with pixel format namings, but at the end of t=
+he day they're
+> > > > > > > > > all conventions. While saying "pick the media bus code th=
+at transmits a
+> > > > > > > > > pixel in one clock sample, with the bit order matching LS=
+B-first
+> > > > > > > > > transmission" could be the simplest to document, there wi=
+ll be a
+> > > > > > > > > mismatch in component orders between the media bus code a=
+nd the pixel
+> > > > > > > > > format in some cases. There may also be more drivers impl=
+ementing other
+> > > > > > > > > conventions, making the transition more difficult.
+> > > > > > > > >=20
+> > > > > > > > > I'll be very busy the upcoming week and will likely not b=
+e able to
+> > > > > > > > > participate in this discussion in the near future.
+> > > > > > > >=20
+> > > > > > > > For the record, we've discussed it on IRC recently.
+> > > > > > > >=20
+> > > > > > > > The suggestion to have all CSI Data Formats as MEDIA_BUS_FM=
+T_RGB*_1X*
+> > > > > > > > variants make sense to me. And we can easily document it, b=
+ecause we
+> > > > > > > > could match the first bit transmitted with the least signif=
+icant bit
+> > > > > > > > of a media bus code indeed.
+> > > > > > >=20
+> > > > > > > That's one of the things I like about it, it's consistent and=
+ easy to
+> > > > > > > document. Glad we agree :-)
+> > > > > > >=20
+> > > > > > > > Thus a sensor using RGB888 would register MEDIA_BUS_FMT_RGB=
+888_1X24.
+> > > > > > > > That's indeed the case right now with tc358743:
+> > > > > > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media=
+/i2c/tc358743.c#L1775
+> > > > > > > >=20
+> > > > > > > > Unicam however hardcodes (and validates) that the v4l2 form=
+at codes
+> > > > > > > > matches the media bus code of the other end:
+> > > > > > > >=20
+> > > > > > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media=
+/platform/broadcom/bcm2835-unicam.c#L1333
+> > > > > > > >=20
+> > > > > > > > That alone makes total sense, but it has an association bet=
+ween
+> > > > > > > > V4l2_PIX_FMT_RGB24 and MEDIA_BUS_FMT_RGB888_1X24, and betwe=
+en
+> > > > > > > > V4L2_PIX_FMT_BGR24 and MEDIA_BUS_FMT_BGR888_1X24
+> > > > > > > >=20
+> > > > > > > > https://elixir.bootlin.com/linux/v6.18/source/drivers/media=
+/platform/broadcom/bcm2835-unicam.c#L343
+> > > > > > > >=20
+> > > > > > > > Using the convention you suggested, this association is wro=
+ng, and
+> > > > > > > > V4L2_PIX_FMT_BGR24 should be associated MEDIA_BUS_FMT_RGB88=
+8_1X24. Thus,
+> > > > > > > > the red and blue color components are mixed up.
+> > > > > > >=20
+> > > > > > > Correct.
+> > > > > > >=20
+> > > > > > > > I initially tried to fix it in my v1 by removing the RGB24 =
+support
+> > > > > > > > https://lore.kernel.org/all/20250606-rpi-unicam-rgb-bgr-fix=
+-v1-1-9930b963f3eb@kernel.org/
+> > > > > > > >=20
+> > > > > > > > This was shot down (rightfully) because it would still be b=
+roken.
+> > > > > > > >=20
+> > > > > > > > The second version changed the media bus tc358743 reported:
+> > > > > > > > https://lore.kernel.org/all/20250612-csi-bgr-rgb-v1-0-dc8a3=
+09118f8@kernel.org/
+> > > > > > > >=20
+> > > > > > > > Dave was against it because it would potentially break user=
+space, citing
+> > > > > > > > Linus that we shouldn't break userspace ever. I understand =
+and somewhat
+> > > > > > > > agree with his point, but having two drivers reporting the =
+same data
+> > > > > > > > format but with a different meaning is also a way of breaki=
+ng userspace.
+> > > > > > >=20
+> > > > > > > Yes, I would find that pretty bad, possibly even worse.
+> > > > > > >=20
+> > > > > > > > Anyway. It was then suggested to support both in the tc3587=
+43. That's
+> > > > > > > > what the second, third and fourth that you commented on wor=
+ked towards.
+> > > > > > > >=20
+> > > > > > > > https://lore.kernel.org/all/20250911-csi-bgr-rgb-v2-0-e6c6b=
+10c1040@kernel.org/
+> > > > > > > > https://lore.kernel.org/all/20250917-csi-bgr-rgb-v3-0-01455=
+71b3aa4@kernel.org/
+> > > > > > > > https://lore.kernel.org/all/20251013-csi-bgr-rgb-v4-0-55eab=
+2caa69f@kernel.org/
+> > > > > > > >=20
+> > > > > > > > In order to implement your suggestion, I wouldn't to modify=
+ tc358743,
+> > > > > > > > but would need to modify the association between the v4l2 f=
+ormat and
+> > > > > > > > media bus code that unicam has. In a way, it's very similar=
+ to my first
+> > > > > > > > version that got shot down, and suffers from the same flaws=
+: we could
+> > > > > > > > have a userspace application out there hardcoding formats a=
+nd codes that
+> > > > > > > > will get an error.
+> > > > > > > >=20
+> > > > > > > > So I'm not sure your suggestion really works, unless we ree=
+valuate what
+> > > > > > > > we mean by breaking userspace. Either way, I don't care, I =
+just want to
+> > > > > > > > get pixels in the expected (and documented!) order when usi=
+ng unicam.
+> > > > > > >=20
+> > > > > > > I've lost track of the status of this series and what your cu=
+rrent
+> > > > > > > suggestion is. Can we standardize on
+> > > > > > >=20
+> > > > > > > - Using MEDIA_BUS_FMT_RGB*
+> > > > > >=20
+> > > > > > I guess we can do that.
+> > > > > >=20
+> > > > > > > - Produce V4L2_PIX_FMT_BGR24 from MEDIA_BUS_FMT_RGB888_1X24 i=
+n unicam
+> > > > > >=20
+> > > > > > You called "pretty bad, possibly even worse" to do the exact op=
+posite
+> > > > > > (ie, change the bridge media bus to match unicam) because it wo=
+uld break
+> > > > > > userspace. Changing the unicam media bus to match the bridge cr=
+eates the
+> > > > > > exact same situation.
+> > > > > >=20
+> > > > > > The alternative would still be to report both for the bridge, a=
+nd invert
+> > > > > > the current assocation for the v4l2 formats and mbus codes.
+> > > > > >=20
+> > > > > > > - Possibly implement backward compatibility somewhere (where =
+?) to avoid
+> > > > > > >   regressions, but with a big warning
+> > > > > >=20
+> > > > > > What would you improve there exactly? It's very clearly in the =
+patches
+> > > > > > already, so unless you have some specific comments I'm not real=
+ly sure
+> > > > > > what you want me to do.
+> > > > >=20
+> > > > > If we standardize on MEDIA_BUS_FMT_RGB*, then the issue is in the=
+ unicam
+> > > > > driver, not in the tc358743 driver. Is it possible to implement t=
+he
+> > > > > backward compatibility (with a warning) in unicam instead of tc35=
+8743 ?
+> > > >=20
+> > > > Not just unicam. TI's CSI driver (j721e-csi2rx.c) also uses:
+> > > >=20
+> > > > V4L2_PIX_FMT_XBGR32 for MEDIA_BUS_FMT_RGB888_1X24 (and vice versa)
+> > >=20
+> > > That is not necessarily wrong. The mapping between media bus codes and
+> > > pixel formats is device-dependent. Does the upstream j721e-csi2rx dri=
+ver
+> > > map MEDIA_BUS_FMT_RGB888_1X24 to V4L2_PIX_FMT_XBGR32 but actually wri=
+tes
+> > > a different pixel format to memory ?
+> >=20
+> > From the TRM, MIPI RGB888 unpacks to:
+> > BYTE0         BYTE1           BYTE2           BYTE3          =20
+> > BBBBBBBB      GGGGGGGG        RRRRRRRR        00000000       =20
+> >=20
+> > Which is V4L2_PIX_FMT_XBGR32 I believe.
+>=20
+> Correct, it's V4L2_PIX_FMT_XBGR32. Where's the problem ? The mapping
+> between a media bus code and a pixel format is device-dependent,
+> j721e-csi2rx and unicam don't have to use the same mapping.
 
-I think I mixed 7.0 vs 6.20 vs anything. Thanks anyway!
+Ah my bad, I misread the unicam driver, and thought you were suggesting
+changing MEDIA_BUS_FMT_RGB888_1X24 to no longer map to the default bit
+order of MIPI CSI2 RGB888 datatype.
 
--- 
-With best wishes
-Dmitry
+Sorry for the confusion.
+
+>=20
+> > > > (my 2 cents) It's better to have backward compatibility in drivers =
+that
+> > > > currently don't follow the Media documentation. I agree the docs are
+> > > > confusing, they tripped me up too, but there are already userspace
+> > > > scripts/applications that TI / beagle users use that follow those c=
+onfusing
+> > > > docs :)
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
 
