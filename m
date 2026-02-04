@@ -1,150 +1,197 @@
-Return-Path: <linux-media+bounces-52176-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52177-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eLFdLZMvg2kwjAMAu9opvQ
-	(envelope-from <linux-media+bounces-52176-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:37:55 +0100
+	id qClcDvExg2kwjAMAu9opvQ
+	(envelope-from <linux-media+bounces-52177-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:48:01 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4EBE5359
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:37:55 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A531EE54B1
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 12:48:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DA323301BF76
-	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 11:37:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 527E43013717
+	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 11:47:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9AC43E9583;
-	Wed,  4 Feb 2026 11:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41BCC3ECBC6;
+	Wed,  4 Feb 2026 11:47:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ksSdqiXU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gbYlDQxV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085243D5259;
-	Wed,  4 Feb 2026 11:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC172C3745;
+	Wed,  4 Feb 2026 11:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770205034; cv=none; b=t03xHwT6YhIyZN0ZF4ooa3c843eSTxmuwcZTxZ6KiTtOo3Lt8lwMdQ15Q1JE12RmvkW1Q7Ox+yowYFcJgjYUagUg80hpmEq/njqyfOgJnTjrT/bzmgDEFim4XhpPWrsTExvVBs3bk0rM3E4qAgpochT+qjaB7KfuPyWHahNzfxE=
+	t=1770205674; cv=none; b=VZd0hcfGdXvRuH1AxdpCyabczL3qaS8NUQdFTFBS9mFgOVcKdYqIoel+ujfbZiQsXJqq4fAF7k+Fa5W5oRroDRNGJuJPaVg8t2OSB0ooaBqdsfVx7F7bSWtBiwHsNlruhCpRVjwZlAXI4C+8pbeBhgSbcZY2Br6IJ+wr/8Jd+ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770205034; c=relaxed/simple;
-	bh=Ej3KL0sC5zb1ZESyYIKgtPgiVBwvQfrer86L8393e4Q=;
+	s=arc-20240116; t=1770205674; c=relaxed/simple;
+	bh=rPbKYkwfcWB5lqs9Gv5YueZqMCBOM7yviLRmQArria8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HAkeqsvhKyfc8RMFg3QUZSINlNCUXyKzu4m7MNxGxxcXHcbI5vZBNFgOFfLYizcBNwB/dcuEks+g2RszAmCk0jFG0hMBvyW13TfTUJ97ovCLmqwfu+kGQqjWUPvZmA8Zwl1ObSrFHRnSJk5mSv/xe4mEdOfIyCTtRpADJtYxHrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ksSdqiXU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--ff4.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::ff4])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4214F13D7;
-	Wed,  4 Feb 2026 12:36:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770204990;
-	bh=Ej3KL0sC5zb1ZESyYIKgtPgiVBwvQfrer86L8393e4Q=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=pyM47rsJotLNb+PZ32wa2yNSknF9MgczqB4bTANwvKyIBNeqmkFNpkOroVL8+XLW19t0nAnHDPGR8RbkuaIupI88Ipk7R7yq8CL2XBVbbZFiifcXFMYsFkvBDWKXccVf2XCK7C53vC7cRJ109zglGaYBJDyKOnSUAMyPSaYJ6R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gbYlDQxV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A79FCC4CEF7;
+	Wed,  4 Feb 2026 11:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770205674;
+	bh=rPbKYkwfcWB5lqs9Gv5YueZqMCBOM7yviLRmQArria8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ksSdqiXUzolRSKMLCYomaVvVwE+l7IeexfwSYN6Wlwg3ZWoQcu0//VYNIwC+X7C7I
-	 cfgi6sPYE1KFn0HD9mmPL1Eokc6NsxMcwPpgWbxfeV+qqci1Hma3MpHW9c2Ei+9w9o
-	 rYhJKaSL1/Zy1glZPcsKqROqZPvH5yEShYSOvFCo=
-Date: Wed, 4 Feb 2026 13:37:10 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Isaac Scott <isaac.scott@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, dafna@fastmail.com, mchehab@kernel.org,
-	heiko@sntech.de, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/6] media: rkisp1-isp: Add target_format
-Message-ID: <20260204113710.GA156228@killaraus>
-References: <20260204112506.3706049-1-isaac.scott@ideasonboard.com>
- <20260204112506.3706049-4-isaac.scott@ideasonboard.com>
+	b=gbYlDQxVBeta/CNJyWa9MgeMWc8AZVaz/Hqh50dxhpDoTN1L69OChpApl6XkULIi6
+	 NKDHElSpJ3087qW1UgR3Qd1rMmOeJjNykE0aHGpknmYrydT3vaew7r0gqrRjJ7W678
+	 UDYv62OnYV2+8whi9PQWZ5jczYgPNcfZPw0UE5IyEFudBWVmucwnDa3AiZp6JDoVfN
+	 2IA6q0TFbgskZI35/tRemeJn+janbOtDtphRvg1kyfWm4CA/Ultkf4AZhhi+V/VA3e
+	 a4n7hXHn5AWWJK9HRujiYMgAxR9LD249ZcIrZwTSuHkzBVCcfL5/GUQYXrpMK0XvRa
+	 4TY71rz996rFw==
+Date: Wed, 4 Feb 2026 13:47:51 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
+ shared buffers
+Message-ID: <20260204114751.GF6771@unreal>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260202160425.GO34749@unreal>
+ <20260204081630.GA6771@unreal>
+ <6d5c392b-596b-4341-9992-aa4b26001804@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260204112506.3706049-4-isaac.scott@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6d5c392b-596b-4341-9992-aa4b26001804@amd.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52176-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52177-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[vger.kernel.org,fastmail.com,kernel.org,sntech.de,lists.infradead.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3A4EBE5359
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A531EE54B1
 X-Rspamd-Action: no action
 
-On Wed, Feb 04, 2026 at 11:25:03AM +0000, Isaac Scott wrote:
-> In passthough mode, we want to make sure the output format of the ISP is
-> identical to the input format. Add logic to ensure the format we
-> configure the output of the ISP with is the sink format when we are in
-> bypass, and the source format if we are not.
-
-I don't think that's right. In bypass mode, userspace needs to configure
-the same format on the image sink and image source pads of the ISP, and
-not set any cropping. The crop rectangle on the source pad should
-contain the information you need.
-
-> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-> ---
->  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
+On Wed, Feb 04, 2026 at 09:54:13AM +0100, Christian König wrote:
+> On 2/4/26 09:16, Leon Romanovsky wrote:
+> > On Mon, Feb 02, 2026 at 06:04:25PM +0200, Leon Romanovsky wrote:
+> >> On Sat, Jan 31, 2026 at 07:34:10AM +0200, Leon Romanovsky wrote:
+> >>> Changelog:
+> >>> v7:
+> >>
+> >> <...>
+> >>
+> >>> Leon Romanovsky (8):
+> >>>       dma-buf: Rename .move_notify() callback to a clearer identifier
+> >>>       dma-buf: Rename dma_buf_move_notify() to dma_buf_invalidate_mappings()
+> >>>       dma-buf: Always build with DMABUF_MOVE_NOTIFY
+> >>>       vfio: Wait for dma-buf invalidation to complete
+> >>>       dma-buf: Make .invalidate_mapping() truly optional
+> >>>       dma-buf: Add dma_buf_attach_revocable()
+> >>>       vfio: Permit VFIO to work with pinned importers
+> >>>       iommufd: Add dma_buf_pin()
+> >>>
+> >>>  drivers/dma-buf/Kconfig                     | 12 -----
+> >>>  drivers/dma-buf/dma-buf.c                   | 69 ++++++++++++++++++++-----
+> >>>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 ++---
+> >>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  2 +-
+> >>>  drivers/gpu/drm/amd/amdkfd/Kconfig          |  2 +-
+> >>>  drivers/gpu/drm/virtio/virtgpu_prime.c      |  2 +-
+> >>>  drivers/gpu/drm/xe/tests/xe_dma_buf.c       |  7 ++-
+> >>>  drivers/gpu/drm/xe/xe_bo.c                  |  2 +-
+> >>>  drivers/gpu/drm/xe/xe_dma_buf.c             | 14 ++---
+> >>>  drivers/infiniband/core/umem_dmabuf.c       | 13 -----
+> >>>  drivers/infiniband/hw/mlx5/mr.c             |  2 +-
+> >>>  drivers/iommu/iommufd/pages.c               | 11 +++-
+> >>>  drivers/iommu/iommufd/selftest.c            |  2 +-
+> >>>  drivers/vfio/pci/vfio_pci_dmabuf.c          | 80 ++++++++++++++++++++++-------
+> >>>  include/linux/dma-buf.h                     | 17 +++---
+> >>>  15 files changed, 153 insertions(+), 96 deletions(-)
+> >>
+> >> Christian,
+> >>
+> >> Given the ongoing discussion around patch v5, I'm a bit unclear on the
+> >> current state. Is the series ready for merging, or do you need me to
+> >> rework anything further?
+> > 
+> > Christian,
+> > 
+> > Let's not miss the merge window for work that is already ready.
 > 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index f636d738b7e8..716bd7f3c66d 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -175,9 +175,10 @@ static void rkisp1_gasket_disable(struct rkisp1_device *rkisp1)
->  static void rkisp1_config_ism(struct rkisp1_isp *isp,
->  			      const struct v4l2_subdev_state *sd_state)
->  {
-> -	const struct v4l2_rect *src_crop =
-> +	const struct v4l2_rect *target_crop =
->  		v4l2_subdev_state_get_crop(sd_state,
-> -					   RKISP1_ISP_PAD_SOURCE_VIDEO);
-> +			(isp->rkisp1->in_bypass ?
-> +				RKISP1_ISP_PAD_SINK_VIDEO : RKISP1_ISP_PAD_SOURCE_VIDEO));
->  	struct rkisp1_device *rkisp1 = isp->rkisp1;
->  	u32 val;
->  
-> @@ -185,10 +186,10 @@ static void rkisp1_config_ism(struct rkisp1_isp *isp,
->  	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_MAX_DX, 0);
->  	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_MAX_DY, 0);
->  	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_DISPLACE, 0);
-> -	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_H_OFFS, src_crop->left);
-> -	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_V_OFFS, src_crop->top);
-> -	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_H_SIZE, src_crop->width);
-> -	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_V_SIZE, src_crop->height);
-> +	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_H_OFFS, target_crop->left);
-> +	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_V_OFFS, target_crop->top);
-> +	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_H_SIZE, target_crop->width);
-> +	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_V_SIZE, target_crop->height);
->  
->  	/* IS(Image Stabilization) is always on, working as output crop */
->  	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IS_CTRL, 1);
+> Mhm, sounds like AMDs mail servers never send my last mail out.
+> 
+> As far as I can see all patches have an reviewed-by, I also gave an rb on patch #6 (should that mail never got out as well). The discussion on patch v5 is just orthogonal I think, the handling was there even completely before this patch set.
+> 
+> For upstreaming as long as the VFIO and infiniband folks don't object I would like to take that through the drm-misc branch (like every other DMA-buf change).
 
--- 
-Regards,
+Infiniband folks don't object :).
 
-Laurent Pinchart
+> 
+> So as long as nobody objects I can push that today, but I can't promise that Dave/Linus will take it for the 6.20 window.
+
+Let's give it a try, at the very least.
+
+Thanks
+
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Thanks
+> > 
+> >>
+> >> Thanks
+> >>
+> 
+> 
 
