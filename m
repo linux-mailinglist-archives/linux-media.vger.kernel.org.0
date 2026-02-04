@@ -1,335 +1,310 @@
-Return-Path: <linux-media+bounces-52193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52194-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MEU2ItNbg2mYlwMAu9opvQ
-	(envelope-from <linux-media+bounces-52193-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 15:46:43 +0100
+	id iOgaFTtdg2mJlQMAu9opvQ
+	(envelope-from <linux-media+bounces-52194-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 15:52:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC00E7582
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 15:46:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB29FE7810
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 15:52:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 42B5E3011F64
-	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 14:38:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 438AD3011BC2
+	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 14:48:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB44D41B37B;
-	Wed,  4 Feb 2026 14:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 399EB40FDAE;
+	Wed,  4 Feb 2026 14:48:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOPEi4Q9"
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="0o8WaWC+";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jzmMz8cj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA2A41B36C;
-	Wed,  4 Feb 2026 14:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6768A280CD2;
+	Wed,  4 Feb 2026 14:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770215881; cv=none; b=n7QrzzNinZ/D0tbBwsDC74PwJfo5PuapDbCezcHQmPHdBNoOUNlbY66rui1afF9tK8ipA5ccCmBZBNgTG8gtKz2bxc7Zb1jvCIk1NnVMx//yLvsu4AEJ9oS1RIr6q4jK8VwCegGqF7XhYbwhaVlC4bDPXlQMBpfvDnE4MJUEStI=
+	t=1770216488; cv=none; b=Td3iNlPcmuQeFThy7cXwmYMhj5iFjGd87dEjQR4TRqYfwY+6EI3E7XeyKs2YYIjRoUaheqt9afS//+RLeTMQpomZS8myI5f8nmogtDJpGA5A0SgNG4cEi/qxmlWU5lCvtS8pisWe/vdmIRC+h/cqNkLOXD2Ge84Tyez0V1orq7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770215881; c=relaxed/simple;
-	bh=kafDs67owTuKLxcyHcSwQ4cOrPbS81J/Y6fLYe//cYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Type; b=tSAIionwCAxEAWelv27KDstqTdVmKroMbdnoejA/pWS/FZXl99rjsS5hUN2XMWvWlxbOQMsCTSowBQaEJYix5LA0l2oIgNEZZAGAObQOpadtjQXYZUbCP4ciMgEZGjd4Fo/sbYBWSegEl1Ow8xKbmr92fNDYQ56rgSEqSu7ElQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOPEi4Q9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0CE5C116C6;
-	Wed,  4 Feb 2026 14:38:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770215881;
-	bh=kafDs67owTuKLxcyHcSwQ4cOrPbS81J/Y6fLYe//cYs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VOPEi4Q9YuZF5+SdWAx+OPtMfvbyzpluZz1D/JNr+z7d/VodB02fCCVO2A8dFi2ub
-	 VGWS0anH1/bw4KBowiQwOFqWUEft1p1GzZGkly27SPV8OTptN5rHxclSPd56nF0of/
-	 TRKiKb4pfOD+/QNy50Nznz/plqWd8+UzNwlUoYORnvfaIByUTtiiq63b+0Zt+MsXxR
-	 bAIJ8Dqzzu4TNKHQ6dMoGfctPO3pgrYiivEnZDrWlpM09uIJvB0lIrnJ3Z4BiZo+sa
-	 UD4wndDVQAYp2I8/XhlR6VWDRhfaeRnb2jLuhs0l///irxMxGTPo9nu01C6dZwAaL+
-	 VwOLkMj6FJr1Q==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vne10-00000005RPu-0u4h;
-	Wed, 04 Feb 2026 15:37:58 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sean Young <sean@mess.org>
-Subject: [PATCH 2/2] docs: media: media-committer: do some editorial changes
-Date: Wed,  4 Feb 2026 15:37:45 +0100
-Message-ID: <ada3056177e5e4e65119fb1b617777a680534e64.1770215865.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <dc12b2f42304866ccc04053f2a3c97e84c7558a1.1770215865.git.mchehab+huawei@kernel.org>
-References: <dc12b2f42304866ccc04053f2a3c97e84c7558a1.1770215865.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1770216488; c=relaxed/simple;
+	bh=ukFfnHNJ5St3Rj6hRUImngtiQiwt7CXxdu0IEyYKDrw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LfxRs5/2G0/9qAJrt8Y4E24AVmWY3M+OC5Jq8N8mUc3Fp3pdo1gyPduh51yuodalFyW3udkNPsF9qdYE4zZ38WG/bOznRw58oVSOCafEhMCXqa32NCz+n1N7QkqATe8/vvuUunzh4MIXZ/LrF8xlGOqFDNB+fODhpEgqaC6NByo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=0o8WaWC+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jzmMz8cj; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 459111D00099;
+	Wed,  4 Feb 2026 09:48:05 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Wed, 04 Feb 2026 09:48:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1770216485;
+	 x=1770302885; bh=OAqECMTNWylYMxvQZWo48cfQCG+FzsGTUnm7TRzruJc=; b=
+	0o8WaWC+JS0r9CyNO/nTgXfRQDJ56/yoy70axLrKphXjIXJxrk75jlyRIc0mFozg
+	Lk9yZLXvit+j0LAW6FO4NKvl1M/1uw0AqI/Kv0zLHGMB4xaXYj7dVhwRDcsAdFbe
+	XldCsL0y3BWhA1RU+xIRj0DlrCxgJ+y9G+eS5tdLTz/xq9KeKueV28uAkNWAkYki
+	JFt10+lcANDhqdHiJ+aWcx0rZPmqY4AcPIAS78Sywq78D8ETU6OsQVbv4v/NDVLx
+	tcRW2AWOeJfeGEo9hYpBcCvKQi7VmCM0uEGGCIeEXOrD7uBLnfVA8mCfURXdb+Zo
+	0O72ph1Y+QfDvfTonvb22Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770216485; x=
+	1770302885; bh=OAqECMTNWylYMxvQZWo48cfQCG+FzsGTUnm7TRzruJc=; b=j
+	zmMz8cjFVoG/rsm+0syFV2GjH1G9Jl5OSmRwqy86uRGwWgXestcZk51Jl2OtfOhi
+	5dT2To2mQwZKbEcO3KiJ6YVzN/OWqj+r5xAY4f4Pcl47DGV+vjJCwJT82kWxuiYI
+	U3D3g6AIwCcaYR2plHhaB4epoyk0ucC5lxbtg6+tuSzhDaJBG2MwMz5qymt6du14
+	u5x4iw9+Urw3wJMot+A2nGSTxrNjdniDBsJvL0IV/uztGqUeYAV7FueJ6jd7hMI2
+	V0Qujs8/84hPQEZQbg81ddFd/smKComYzHat9t/3Z/A9zAv532+oJhyaXykyLIuz
+	/MklR4ShSvjuoAZODm5ow==
+X-ME-Sender: <xms:JFyDabc3NtC5x9d-S5b8xgv_nBJstlaRTFKO2hRPyja2VYX4o8sNZQ>
+    <xme:JFyDaTGLxs7JuKE4V_IA9P4W29Q7v5RsliDeybttbvBXmlhQwQJ1WPvXOy_ADVtQJ
+    e5mu5eIf2Mw1llgw8EuXb9IOb9VYfiAv1zqZFzzC2PoRDuwWF_R>
+X-ME-Received: <xmr:JFyDaZKGg0VtncgyvA-_AYz2KWPpimcRT69PBe7Nym3aMVuNqRimo99sgsg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukedvjedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpeetlhgvgicu
+    hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
+    htthgvrhhnpedvkeefjeekvdduhfduhfetkedugfduieettedvueekvdehtedvkefgudeg
+    veeuueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grlhgvgiesshhhrgiisghothdrohhrghdpnhgspghrtghpthhtohepfeegpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehlvghonheskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htohepshhumhhithdrshgvmhifrghlsehlihhnrghrohdrohhrghdprhgtphhtthhopegt
+    hhhrihhsthhirghnrdhkohgvnhhighesrghmugdrtghomhdprhgtphhtthhopegrlhgvgi
+    grnhguvghrrdguvghutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheprghirhhlihgv
+    ugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpd
+    hrtghpthhtohepkhhrrgigvghlsehrvgguhhgrthdrtghomhdprhgtphhtthhopegumhhi
+    thhrhidrohhsihhpvghnkhhosegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepgh
+    hurhgthhgvthgrnhhsihhnghhhsegthhhrohhmihhumhdrohhrgh
+X-ME-Proxy: <xmx:JFyDabfA6AFufRXzaJSlKz-2t1bgQfl_-vcdUPLYedDqqhfQtD0F4g>
+    <xmx:JFyDaXvtfjlvHHOBDbzIpiei4TfKRK6qgjSvLo_n98W07rjE3fSC_w>
+    <xmx:JFyDaXtAyHrtabg5GCKcPsYXr1EXU3FQH7-j2yI9cGuotG8BnRMRyA>
+    <xmx:JFyDaW-L9op9ODgl26-U7zgoSReG5Hb16hvQv5SKv36wBdcXrSzLXQ>
+    <xmx:JVyDacEzOan8IdGoHVZJwVYbWkrRfU2u-Tob81oE2TJvkvib1I9BFGdR>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 Feb 2026 09:48:01 -0500 (EST)
+Date: Wed, 4 Feb 2026 07:47:59 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 4/8] vfio: Wait for dma-buf invalidation to complete
+Message-ID: <20260204074759.108f579e@shazbot.org>
+In-Reply-To: <20260131-dmabuf-revoke-v7-4-463d956bd527@nvidia.com>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+	<20260131-dmabuf-revoke-v7-4-463d956bd527@nvidia.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [6.00 / 15.00];
-	MULTIPLE_UNIQUE_HEADERS(7.00)[Content-Type];
-	SUSPICIOUS_RECIPS(1.16)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52193-lists,linux-media=lfdr.de,huawei];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	GREYLIST(0.00)[pass,body];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,intel.com,ziepe.ca,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52194-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[shazbot.org:+,messagingengine.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,cisco,huawei];
+	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linuxtv.org:url,gitlab.freedesktop.org:url]
-X-Rspamd-Queue-Id: 8DC00E7582
-X-Rspamd-Action: add header
-X-Spam: Yes
+	DBL_BLOCKED_OPENRESOLVER(0.00)[shazbot.org:email,shazbot.org:dkim,shazbot.org:mid,messagingengine.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: AB29FE7810
+X-Rspamd-Action: no action
 
-Do some editorial changes to make it look clearer:
+On Sat, 31 Jan 2026 07:34:14 +0200
+Leon Romanovsky <leon@kernel.org> wrote:
 
-  - media-committers tree references corrected from singular to plural;
-  - updated commit rights wording and responsibilities;
-  - fixed various typographical errors;
-  - corrected “mailing list” and “Kernel” references;
-  - improved core committer description;
-  - updated documentation paths and URLs;
-  - added missing “for” and improved sentence flow.
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> dma-buf invalidation is handled asynchronously by the hardware, so VFIO
+> must wait until all affected objects have been fully invalidated.
+> 
+> In addition, the dma-buf exporter is expecting that all importers unmap any
+> buffers they previously mapped.
+> 
+> Fixes: 5d74781ebc86 ("vfio/pci: Add dma-buf export support for MMIO regions")
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> ---
+>  drivers/vfio/pci/vfio_pci_dmabuf.c | 61 +++++++++++++++++++++++++++++++++++---
+>  1 file changed, 57 insertions(+), 4 deletions(-)
 
-Perhaps the most relevant change is that i removed a word
-that was requiring granting Patchwork rights some time before
-adding commit rights (we may grant them altogether if makes
-sense for us), and I added a 4th note to committer notes
-list to let it clear that about what it is expected from a
-committer with regards to updating Patchwork.
+Reviewed-by: Alex Williamson <alex@shazbot.org>
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../driver-api/media/media-committer.rst      | 97 ++++++++++---------
- 1 file changed, 51 insertions(+), 46 deletions(-)
-
-diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-index 18cce6e06a2b..c83e94750e57 100644
---- a/Documentation/driver-api/media/media-committer.rst
-+++ b/Documentation/driver-api/media/media-committer.rst
-@@ -20,8 +20,8 @@ and the Linux Media community.
- 
- .. Note::
- 
--   1. Patches you authored must have a Signed-off-by, Reviewed-by or Acked-by
--      of another Media Maintainer;
-+   1. Patches you authored must have a ``Signed-off-by``, ``Reviewed-by``
-+      or ``Acked-by`` from another Media Maintainer;
-    2. If a patch introduces a regression, then it is the Media Committer's
-       responsibility to correct that as soon as possible. Typically the
-       patch is either reverted, or an additional patch is committed to
-@@ -29,14 +29,18 @@ and the Linux Media community.
-    3. If patches are fixing bugs against already released Kernels, including
-       the reverts above mentioned, the Media Committer shall add the needed
-       tags. Please see :ref:`Media development workflow` for more details.
-+   4. All Media Committers are responsible for maintaining
-+      `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
-+      updating the state of the patches they review or merge.
-+
- 
- Becoming a Media Committer
- --------------------------
- 
- Existing Media Committers can nominate a Media Maintainer to be granted
--commit rights. The Media Maintainer must already have patchwork access and
--have been in that role for some time, and has demonstrated a good
--understanding of the maintainer's duties and processes.
-+commit rights. The Media Maintainer must have patchwork access,
-+have been reviewing patches from third parties for some time, and has
-+demonstrated a good understanding of the maintainer's duties and processes.
- 
- The ultimate responsibility for accepting a nominated committer is up to
- the Media Subsystem Maintainers. The nominated committer must have earned a
-@@ -61,8 +65,8 @@ Media Committer's agreement
- Once a nominated committer is accepted by all Media Subsystem Maintainers,
- they will ask if the developer is interested in the nomination and discuss
- what area(s) of the media subsystem the committer will be responsible for.
--Those areas will typically be the same as the areas that are already
--maintained by the nominated committer.
-+Those areas will typically be the same as the areas that the nominated
-+committer is already maintaining.
- 
- When the developer accepts being a committer, the new committer shall
- explicitly accept the Kernel development policies described under its
-@@ -77,7 +81,7 @@ following the model below::
- 
-    ...
- 
--   For the purpose of committing patches to the media-committer's tree,
-+   For the purpose of committing patches to the media-committers tree,
-    I'll be using my user https://gitlab.freedesktop.org/users/<username>.
- 
- Followed by a formal declaration of agreement with the Kernel development
-@@ -85,7 +89,7 @@ rules::
- 
-    I agree to follow the Kernel development rules described at:
- 
--   https://www.kernel.org/doc/html/latest/driver-api/media/media-committer.rst
-+   https://www.kernel.org/doc/html/latest/driver-api/media/media-committers.rst
- 
-    and to the Linux Kernel development process rules.
- 
-@@ -97,18 +101,17 @@ rules::
-    my commit rights.
- 
-    I am aware that the Kernel development rules change over time.
--   By doing a new push to media-committer tree, I understand that I agree
-+   By doing a new push to media-committers tree, I understand that I agree
-    to follow the rules in effect at the time of the commit.
- 
--That e-mail shall be signed with a PGP key cross signed by other Kernel and
--media developers. As described at :ref:`media-developers-gpg`, the PGP
--signature, together with the gitlab user security are fundamental components
--that ensure the authenticity of the merge requests that will happen at the
--media-committer.git tree.
-+That e-mail shall be signed via the Kernel Web of trust with a PGP key cross
-+signed by other Kernel and media developers. As described at
-+:ref:`media-developers-gpg`, the PGP signature, together with the gitlab user
-+security are fundamental components that ensure the authenticity of the merge
-+requests that will happen at the media-committers.git tree.
- 
--In case the kernel development process changes, by merging new commits
--to the
--`media-committer tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
-+In case the kernel development process changes, by merging new commits to the
-+`media-committers tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
- the Media Committer implicitly declares their agreement with the latest
- version of the documented process including the contents of this file.
- 
-@@ -118,25 +121,27 @@ notify the Media Subsystem Maintainers about that decision.
- .. note::
- 
-    1. Changes to the kernel media development process shall be announced in
--      the media-committers mailinglist with a reasonable review period. All
--      committers are automatically subscribed to that mailinglist;
-+      the media-committers mailing list with a reasonable review period. All
-+      committers are automatically subscribed to that mailing list;
-    2. Due to the distributed nature of the Kernel development, it is
-       possible that kernel development process changes may end being
--      reviewed/merged at the linux-docs mailing list, specially for the
--      contents under Documentation/process and for trivial typo fixes.
-+      reviewed/merged at the Linux Docs and/or at the Linux Kernel mailing
-+      lists, especially for the contents under Documentation/process and for
-+      trivial typo fixes.
- 
- Media Core Committers
- ---------------------
- 
--As described in Documentation/driver-api/media/maintainer-entry-profile.rst
-+A Media Core Committer is a Media Core Maintainer with commit rights.
-+
-+As described in Documentation/driver-api/media/maintainer-entry-profile.rst,
- a Media Core Maintainer maintains media core frameworks as well, besides
--just drivers, and so is able to change core files and the media subsystem's
--Kernel API. A Media Core Committer is a Media Core Maintainer with commit
--rights. The extent of the core committer's grants will be detailed by the
-+just drivers, and so is allowed to change core files and the media subsystem's
-+Kernel API. The extent of the core committer's grants will be detailed by the
- Media Subsystem Maintainers when they nominate a Media Core Committer.
- 
- Existing Media Committers may become Media Core Committers and vice versa.
--Such decisions will be taken in consensus between the Media Subsystem
-+Such decisions will be taken in consensus among the Media Subsystem
- Maintainers.
- 
- Media committers rules
-@@ -148,16 +153,16 @@ shall be merged as soon as possible, aiming to be merged at the same Kernel
- cycle the bug is reported.
- 
- Media committers shall behave accordingly to the rights granted by
--the Media Subsystem Maintainers, specially with regards of the scope of changes
-+the Media Subsystem Maintainers, especially with regards of the scope of changes
- they may apply directly at the media-committers tree. That scope can
--change over time on a mutual agreement between media committers and
--maintainers.
-+change over time on a mutual agreement between Media Committers and
-+Media Subsystem Maintainers.
- 
- The Media Committer workflow is described at :ref:`Media development workflow`.
- 
- .. _Maintain Media Status:
- 
--Maintaining media maintainer or committer status
-+Maintaining Media Maintainer or Committer status
- ------------------------------------------------
- 
- A community of maintainers working together to move the Linux Kernel
-@@ -165,27 +170,27 @@ forward is essential to creating successful projects that are rewarding
- to work on. If there are problems or disagreements within the community,
- they can usually be solved through healthy discussion and debate.
- 
--In the unhappy event that a media maintainer or committer continues to
-+In the unhappy event that a Media Maintainer or Committer continues to
- disregard good citizenship (or actively disrupts the project), we may need
- to revoke that person's status. In such cases, if someone suggests the
--revocation with a good reason, then after discussing this among the media
--maintainers, the final decision is taken by the Media Subsystem Maintainers.
--As the decision to become a media maintainer or committer comes from a
--consensus between Media Subsystem Maintainers, a single subsystem maintainer
--not trusting the media maintainer or committer anymore is enough to revoke
--the maintenance/patchwork or commit rights.
-+revocation with a good reason, then after discussing this among the Media
-+Maintainers, the final decision is taken by the Media Subsystem Maintainers.
- 
--A previous committer that had their commit rights revoked can keep
--contributing to the subsystem via the pull request workflow as documented
--at the :ref:`Media development workflow`, unless they were also removed as
--Media Maintainer.
-+As the decision to become a Media Maintainer or Committer comes from a
-+consensus between Media Subsystem Maintainers, a single Media Subsystem
-+Maintainer not trusting the Media Maintainer or Committer anymore is enough
-+to revoke their maintenance, Patchwork grants and/or commit rights.
-+
-+Having commit rights revoked doesn't prevent Media Maintainers to keep
-+contributing to the subsystem either via the pull request or via email workflow
-+as documented at the :ref:`Media development workflow`.
- 
- If a maintainer is inactive for more than a couple of Kernel cycles,
- maintainers will try to reach you via e-mail. If not possible, they may
--revoke your maintainer/patchwork and committer rights and update MAINTAINERS file
--entries accordingly. If you wish to resume contributing later on, then contact
--the Media Subsystem Maintainers to ask if your maintenance/patchwork and
--commit rights can be restored.
-+revoke their maintainer/patchwork and committer rights and update MAINTAINERS
-+file entries accordingly. If you wish to resume contributing as maintainer
-+later on, then contact the Media Subsystem Maintainers to ask if your
-+maintenance, Patchwork grants and commit rights can be restored.
- 
- References
- ----------
--- 
-2.52.0
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> index d8ceafabef48..78d47e260f34 100644
+> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> @@ -17,6 +17,8 @@ struct vfio_pci_dma_buf {
+>  	struct dma_buf_phys_vec *phys_vec;
+>  	struct p2pdma_provider *provider;
+>  	u32 nr_ranges;
+> +	struct kref kref;
+> +	struct completion comp;
+>  	u8 revoked : 1;
+>  };
+>  
+> @@ -44,27 +46,46 @@ static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+>  	return 0;
+>  }
+>  
+> +static void vfio_pci_dma_buf_done(struct kref *kref)
+> +{
+> +	struct vfio_pci_dma_buf *priv =
+> +		container_of(kref, struct vfio_pci_dma_buf, kref);
+> +
+> +	complete(&priv->comp);
+> +}
+> +
+>  static struct sg_table *
+>  vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
+>  		     enum dma_data_direction dir)
+>  {
+>  	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
+> +	struct sg_table *ret;
+>  
+>  	dma_resv_assert_held(priv->dmabuf->resv);
+>  
+>  	if (priv->revoked)
+>  		return ERR_PTR(-ENODEV);
+>  
+> -	return dma_buf_phys_vec_to_sgt(attachment, priv->provider,
+> -				       priv->phys_vec, priv->nr_ranges,
+> -				       priv->size, dir);
+> +	ret = dma_buf_phys_vec_to_sgt(attachment, priv->provider,
+> +				      priv->phys_vec, priv->nr_ranges,
+> +				      priv->size, dir);
+> +	if (IS_ERR(ret))
+> +		return ret;
+> +
+> +	kref_get(&priv->kref);
+> +	return ret;
+>  }
+>  
+>  static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment,
+>  				   struct sg_table *sgt,
+>  				   enum dma_data_direction dir)
+>  {
+> +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
+> +
+> +	dma_resv_assert_held(priv->dmabuf->resv);
+> +
+>  	dma_buf_free_sgt(attachment, sgt, dir);
+> +	kref_put(&priv->kref, vfio_pci_dma_buf_done);
+>  }
+>  
+>  static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
+> @@ -287,6 +308,9 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+>  		goto err_dev_put;
+>  	}
+>  
+> +	kref_init(&priv->kref);
+> +	init_completion(&priv->comp);
+> +
+>  	/* dma_buf_put() now frees priv */
+>  	INIT_LIST_HEAD(&priv->dmabufs_elm);
+>  	down_write(&vdev->memory_lock);
+> @@ -331,9 +355,33 @@ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+>  
+>  		if (priv->revoked != revoked) {
+>  			dma_resv_lock(priv->dmabuf->resv, NULL);
+> -			priv->revoked = revoked;
+> +			if (revoked)
+> +				priv->revoked = true;
+>  			dma_buf_invalidate_mappings(priv->dmabuf);
+> +			dma_resv_wait_timeout(priv->dmabuf->resv,
+> +					      DMA_RESV_USAGE_BOOKKEEP, false,
+> +					      MAX_SCHEDULE_TIMEOUT);
+>  			dma_resv_unlock(priv->dmabuf->resv);
+> +			if (revoked) {
+> +				kref_put(&priv->kref, vfio_pci_dma_buf_done);
+> +				wait_for_completion(&priv->comp);
+> +			} else {
+> +				/*
+> +				 * Kref is initialize again, because when revoke
+> +				 * was performed the reference counter was decreased
+> +				 * to zero to trigger completion.
+> +				 */
+> +				kref_init(&priv->kref);
+> +				/*
+> +				 * There is no need to wait as no mapping was
+> +				 * performed when the previous status was
+> +				 * priv->revoked == true.
+> +				 */
+> +				reinit_completion(&priv->comp);
+> +				dma_resv_lock(priv->dmabuf->resv, NULL);
+> +				priv->revoked = false;
+> +				dma_resv_unlock(priv->dmabuf->resv);
+> +			}
+>  		}
+>  		fput(priv->dmabuf->file);
+>  	}
+> @@ -354,7 +402,12 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
+>  		priv->vdev = NULL;
+>  		priv->revoked = true;
+>  		dma_buf_invalidate_mappings(priv->dmabuf);
+> +		dma_resv_wait_timeout(priv->dmabuf->resv,
+> +				      DMA_RESV_USAGE_BOOKKEEP, false,
+> +				      MAX_SCHEDULE_TIMEOUT);
+>  		dma_resv_unlock(priv->dmabuf->resv);
+> +		kref_put(&priv->kref, vfio_pci_dma_buf_done);
+> +		wait_for_completion(&priv->comp);
+>  		vfio_device_put_registration(&vdev->vdev);
+>  		fput(priv->dmabuf->file);
+>  	}
+> 
 
 
