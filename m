@@ -1,89 +1,63 @@
-Return-Path: <linux-media+bounces-52200-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52201-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cK+NB39sg2l+mgMAu9opvQ
-	(envelope-from <linux-media+bounces-52200-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 16:57:51 +0100
+	id UEG1HWptg2kFmwMAu9opvQ
+	(envelope-from <linux-media+bounces-52201-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 17:01:46 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA78E9AC6
-	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 16:57:50 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED52E9BEF
+	for <lists+linux-media@lfdr.de>; Wed, 04 Feb 2026 17:01:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 28FF43013007
-	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 15:54:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6E1C03043D6D
+	for <lists+linux-media@lfdr.de>; Wed,  4 Feb 2026 15:58:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1169421F0E;
-	Wed,  4 Feb 2026 15:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A44F421EF7;
+	Wed,  4 Feb 2026 15:58:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KxHqbDL3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kqnwv+C8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435C919E96D;
-	Wed,  4 Feb 2026 15:54:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE5440FD98;
+	Wed,  4 Feb 2026 15:58:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770220473; cv=none; b=IUmcimpO34Iu2zxvCUbRDUET14Nx7dLx5lJJ7R3z0Ncwx1/PZlnZ2UYeg+TBfeMjHsRPILzdvB2Ro6X9T8eF89nHsacnwCr2oeQ+rNuUsDzauYX+5HNJXywpM8gzb3PEDtCXA9cP6xMzTxSM9zRarU+yv1q3BxBYAkgFomQiOQI=
+	t=1770220721; cv=none; b=YaZQWPWPbysk3LPmBvUH/jKcGrvyO2Xf+S/wcuT0jxgWeCvNlboVsb8A1DxmxmdKDk8BOuTXJupFytfxSrcVWVhQDg9zReD9t2XrNTxPVwgPDsgPf4b6yfjwoDS6fHnk4pr1YEwkgcsw3i6/fMJRiV1IBZWqJeJxJ3fdDCa1wuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770220473; c=relaxed/simple;
-	bh=x3icpBvvX8hE/1nJfe0UBQcFgbUp9cP9zJMm3/3XEaY=;
+	s=arc-20240116; t=1770220721; c=relaxed/simple;
+	bh=fXIO50BxCOvj19SX/PYIBMX1v096vG7DR657MgvfepU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tD5eMW4IugzLvsFbY3HZhSUjhQ2853A97AbC9EdDnGEmnQb808isf1aP2k9MS8caThwMR/o/LQliFIp0nLzJwGtOEowCA3LfSz4jhdwcz9VJIv9Duwc4bw+GIGFMii93tjRU5MOuLHbxVr2dDxB4FJaJVKETeHjSycHNpyOf5u0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KxHqbDL3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D388C4CEF7;
-	Wed,  4 Feb 2026 15:54:32 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=lpmd6kM77PVlgZzxTkhpABbBcqUs4GJa5u9FxcFvZsWlO6uAUWVYACKz0/gMjF1HP7UosEAohxUBd+qgCWLvt5rgoiMFk+lAXVlHCuyEDPBcK3csmOOtveMokvH9PNiZekHtVlcuc3Sq1cI4YJCEM53vr2bPI+Ej9s/oP99+daU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kqnwv+C8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BC44C4CEF7;
+	Wed,  4 Feb 2026 15:58:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770220472;
-	bh=x3icpBvvX8hE/1nJfe0UBQcFgbUp9cP9zJMm3/3XEaY=;
+	s=k20201202; t=1770220721;
+	bh=fXIO50BxCOvj19SX/PYIBMX1v096vG7DR657MgvfepU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KxHqbDL3n7bdE9UzsRk7XQac2TSqjA0spynqxf4kNsCT2S2xc4AJmT2jRbThrk/lj
-	 zqM8Y7P0LKKrOuokzq9D5RsQtuvhu35s5XQQkaAHUFs5q+CQcSmyT3ut4GWK+o5OPI
-	 14SAJHJapBuGFmX7oxUDsIvhZsyGyB0YjlBiOxf6rN98kFtP+S2n4rZWYrcUgLJhmD
-	 9NcQ68nt9u8ix1446F6Kxs5wH71sz+4B5rPxsLE9qGk7hd7PqDsnHXpUVk9htPicfP
-	 k2sqg8t4K+A8/NwJxyjtV+bc2Hucut1sgNP+GAgmZKl6q9A/sBoW/w3snteMjK3fK6
-	 y1v60E3s628dQ==
-Date: Wed, 4 Feb 2026 17:54:29 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v7 0/8] dma-buf: Use revoke mechanism to invalidate
- shared buffers
-Message-ID: <20260204155429.GJ6771@unreal>
-References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
- <20260202160425.GO34749@unreal>
- <20260204081630.GA6771@unreal>
- <20260204-icy-classic-crayfish-68da6d@houat>
- <20260204115212.GG6771@unreal>
- <20260204-clever-butterfly-of-mastery-0cdc19@houat>
- <20260204121354.GH6771@unreal>
- <20260204-bloodhound-of-major-realization-9852ab@houat>
- <20260204135657.GE2328995@ziepe.ca>
+	b=kqnwv+C8nMWAHhlk9ovqaF5hQpA6Io/TvuR1dwDelYJR7xE8KrwKmq0Zt7FQBrhhi
+	 Bz4zOOqg2DqMFGZ3kw2qKMhpL3RoyLNnAICEyGv9O6X1gmJ0dIjlhGsAOVj96luc+/
+	 QwsIwKxk35FnOYujaeJIStWhMwUZ+q2nzyUVBIyIVsGp05AkWVHCs1yhNFVH1VMXY8
+	 6czPwUV4KfiA189stlhbQ1bhMQfOzRyaKGeey38pjBVGg/34w31WnprdOzHeQQq9+V
+	 M+O8LP2v/0FTfHRSJRt7Y0NaR8kVPFFuBD7XBgIfQ8c2UCsd2UyaIGYuVLw2OvijbF
+	 +de6EYCBdh06A==
+Date: Wed, 4 Feb 2026 16:58:37 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+Cc: bryan.odonoghue@linaro.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org, 
+	hverkuil-cisco@xs4all.nl, loic.poulain@oss.qualcomm.com, rfoss@kernel.org, 
+	linux-i2c@vger.kernel.org, cros-qcom-dts-watchers@chromium.org, quic_svankada@quicinc.com, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Subject: Re: [PATCH v9 1/5] dt-bindings: i2c: qcom-cci: Document qcs8300
+ compatible
+Message-ID: <aYNqLdPid_GeTryc@zenone.zhora.eu>
+References: <20260121183142.1867199-1-quic_nihalkum@quicinc.com>
+ <20260121183142.1867199-2-quic_nihalkum@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,79 +66,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260204135657.GE2328995@ziepe.ca>
+In-Reply-To: <20260121183142.1867199-2-quic_nihalkum@quicinc.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52200-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,amd.com,linaro.org,gmail.com,ffwll.ch,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,intel.com,8bytes.org,arm.com,shazbot.org,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-52201-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RSPAMD_URIBL_FAIL(0.00)[linaro.org:query timed out];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,kernel.org,xs4all.nl,oss.qualcomm.com,vger.kernel.org,chromium.org,quicinc.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[andi.shyti@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CFA78E9AC6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[zenone.zhora.eu:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email,quicinc.com:email]
+X-Rspamd-Queue-Id: 2ED52E9BEF
 X-Rspamd-Action: no action
 
-On Wed, Feb 04, 2026 at 09:56:57AM -0400, Jason Gunthorpe wrote:
-> On Wed, Feb 04, 2026 at 02:44:42PM +0100, Maxime Ripard wrote:
-> > > From what I have seen, subsystems such as netdev, the block layer, and RDMA continue
-> > > to accept code that is ready for merging, especially when it has been thoroughly
-> > > reviewed by multiple maintainers across different subsystems.
-> > 
-> > He said it multiple times, but here's one of such examples:
-> > 
-> > https://lore.kernel.org/all/CA+55aFwdd30eBsnMLB=ncExY0-P=eAsxkn_O6ir10JUyVSYdhA@mail.gmail.com/
-> 
-> Woah, nobody is saying to skip linux-next. It is Wednesday, if it
-> lands in the public tree today it will be in linux next probably for a
-> week before a PR is sent. This is a fairly normal thing for many trees
-> in Linux.
-> 
-> Linus is specifically complaining about people *entirely* skipping
-> linux-next.
+Hi Nihal,
 
-Yes and yes.
-
+On Thu, Jan 22, 2026 at 12:01:38AM +0530, Nihal Kumar Gupta wrote:
+> The three instances of CCI found on the QCS8300 are functionally the same
+> as on a number of existing Qualcomm SoCs.
 > 
-> > So, yeah, we can make exceptions. But you should ask and justify for
-> > one, instead of expecting us to pick up a patch submission that was
-> > already late.
+> Introduce a new SoC-specific compatible string "qcom,qcs8300-cci" with a
+> common fallback.
 > 
-> I think Leon is only pointing out that a hard cut off two weeks before
-> the merge window even opens is a DRMism, not a kernel wide convention.
+> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
-Correct. I would like to see it in linux-next as soon as possible, and to
-ensure I do not need to constantly rebase the patches because DRM changed
-something in the .move_notify() area.
+just this patch merged to i2c/i2c-host-2(*)
 
-BTW, the series is in my tree:
-https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-revoke-v7
-and is monitored by the kbuild bot, so this is not a random or untested
-submission.
+Thanks,
+Andi
 
-Thanks
-
-> 
-> Jason
-> 
+(*) The pull request for i2c/i2c-host-2 will be sent in the
+middle of the merge window.
 
