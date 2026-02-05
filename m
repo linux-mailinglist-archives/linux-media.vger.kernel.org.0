@@ -1,198 +1,241 @@
-Return-Path: <linux-media+bounces-52248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52249-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wJRAGvSLhGl43QMAu9opvQ
-	(envelope-from <linux-media+bounces-52248-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 13:24:20 +0100
+	id OHL5Bt+RhGk43gMAu9opvQ
+	(envelope-from <linux-media+bounces-52249-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 13:49:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70C9F2679
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 13:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6903DF2CCD
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 13:49:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 20DE93077BBF
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 12:19:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AAD1B3021705
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 12:48:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 818393D3D0E;
-	Thu,  5 Feb 2026 12:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E330C39E6DE;
+	Thu,  5 Feb 2026 12:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i8xsIjDR"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="m0NtUHcw";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q2S+QOsi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB6A3D34A8;
-	Thu,  5 Feb 2026 12:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8533A9D9B
+	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 12:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770293990; cv=none; b=m/3okCR0hOAtmAFuTUF3Wup/QONi07/9tEhdiUu6UvUhm/CbIhCa+HC356mXlQINSD5T9P8LDPaIqSWkpl9vyq6CAbpspdHrPusco/hQBiICa/0UGjwluSpqu6qYDXuEXXmZBVG9KgLtBgOZHb2O3l1FSij3mZu8aGZK4s9kDYY=
+	t=1770295702; cv=none; b=I7qER8OOYjVx+oF8JqVVol+id2mQqNLEO28/2IHJd/YhW7owIfvjQdaTco9ZXdgxO7eRyfpzkuSiAWrjGd8ZWmyVVJ/cpye/3uh9nh4ZUpftPviA6pkO6wGCv+mn9ofZOydpHTMc9aORralIOOfC10ApK7vg+ytYq9REmM6GAAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770293990; c=relaxed/simple;
-	bh=jDVAIy0un6bKwi7cwnpyXpEFdjN35m4ddNYoOutYhhg=;
+	s=arc-20240116; t=1770295702; c=relaxed/simple;
+	bh=R1CdOkY6GMZvyUbC/Hg0FEFK7M+mNUBaoS2H9i4Eorc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s5NSrb7PbejR3WVIxIMxCXYZHpJf7xZ2TWQrVZRd27ynK6zAKlbBN/Fz/f8cjUUlfZlQP08K7WJqrSQQBR2SMbSU/s6KMHZd2D7iJDJRjPgcMb/Q7yykT1SeBownEeCoH2Jc/1uIcKCQbFiscAEgwneaBEDhgBLXnvkfP2bjEW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i8xsIjDR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24EA5C16AAE;
-	Thu,  5 Feb 2026 12:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770293989;
-	bh=jDVAIy0un6bKwi7cwnpyXpEFdjN35m4ddNYoOutYhhg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i8xsIjDRjR/7Rs5Naa0Zy2HxOGqc5prWf5cwXS/H3radpAqh/avw9U+IxguyWKA8y
-	 huFln+oJd1vu7ldLn6LNYkQ6RJxjWsoJ5eS3hT0tMYh4dmMUdxahfCEdqFj5VXkqpT
-	 9ddi8EzI4CBmF7r3/HIXROK8jlpHjEAdgQe9URyey+9Vwp7WQHQV8s4nvLC46FZ6a2
-	 c9HMUyfFhI1lUXLb8Xb4BXpe77RU5uB+OQv6MQF6rYrWjvvFziYpPIuIRa15haC6F5
-	 k9QrwVZPhPwCYG1uDdQYVzTA2Sbfz33PJKtJRXrvJXZ7pvFO9um7Ecx+7L4LAFSQPe
-	 OpIywz7bjpfXA==
-Date: Thu, 5 Feb 2026 14:19:45 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Alex Williamson <alex@shazbot.org>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Kevin Tian <kevin.tian@intel.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
-Message-ID: <20260205121945.GC12824@unreal>
-References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
- <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
- <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
- <20260204095659.5a983af2@shazbot.org>
- <ac33ad1a-330c-4ab5-bb98-4a4dedccf0da@amd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wu5j0CzbHwqbJ+2Mnst7WFftEac8/7wpOmLOibRdukTOD7+uo8YXjC6kJgcAXxokHql1Xukf9jtAfjzF/JvhhDQEB21+u0K1b2oiAD/PsF50naaEQix89xQaldSNCMeSZjeJOf62DpH1MdeaogNGaNhmCswsY+Y2Y+UPZ9hLfWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=m0NtUHcw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q2S+QOsi; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 615B22l22713125
+	for <linux-media@vger.kernel.org>; Thu, 5 Feb 2026 12:48:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=73cwzKzNoPuSUijQsd3G2VOl
+	70mKQlo0JAzXFXp/6hY=; b=m0NtUHcwHYXrptDzKP0JU7nVwuV/2ioAd2fNh15w
+	KIJyAl0M2DzM4ZkP95fU9bns9Nce6jHUPzwxzfHGdF1rihAJ0D4EbQZYV2vg9I/j
+	5KrTGN+/xlxKPwTIMJ4Pt9AhJ3AJQW4YlKP73YuFF/q3HZycxC63TnExncrRiCuj
+	LIaC4L9xt4coI4TS4zT8huI2pfb2Gjpi5PKm/wLa73h3slfBjE1PfN64qYL1Weki
+	zJkhbfl56Qlo98+o2btqIJK/QCv89ioOhrS3rL/Ta1pYtPAz/BHhVtRv9cagO9K7
+	HPst3GhF4fM0IS79HzEMqtNoZ/Cll7f3BF9F8+9rug2cfw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c47ja3u0a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 05 Feb 2026 12:48:21 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-89493622b50so17660756d6.1
+        for <linux-media@vger.kernel.org>; Thu, 05 Feb 2026 04:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1770295700; x=1770900500; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=73cwzKzNoPuSUijQsd3G2VOl70mKQlo0JAzXFXp/6hY=;
+        b=Q2S+QOsimGIYCx7ifd1I515l/ftKrZe/YvIUHDXrYSsemMx6Mqg7PBU4WbVs/GYFTY
+         cO2++nPqMCYWRzBnKnMzsR1kpsb87L7LOuH+NXczyqYkfTfK2UwqsEh2M4C3SkMQU6QH
+         gcQizKHWWrWp6quSpmm6+343qlNoN/A6AkYnf8kkzUGZc0IDauR9C24XQkxT8Rq5WFFz
+         qy9EtbD/xxjpMlrTiUj1/TJS+n83gFkfmbMSRmlKoggF6HQ9oxYabBMaz4VwfHbrVJ3P
+         km9Es8m0jx5cMgjvlxcwPPas9Hj+31OttyxZ4SMRBUaHyynD1OpT738OHOGNzU3X09ub
+         8XbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770295700; x=1770900500;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=73cwzKzNoPuSUijQsd3G2VOl70mKQlo0JAzXFXp/6hY=;
+        b=OvPnLIkLEnhqTDK/xyk1jxoulTXkzKp7zou6yxqMcZsYSQOQ4+n9qPSmR6cEyv+bgt
+         LiVgQD8xNZcgnxBezy2mi1e4TBKHdI599D/gOMiPLRhI0ta6zHY6Xr1mNP2x3Mx+oKYo
+         UmtV36XPV/jCcFUcN/nv6OxrVG8L2kqBjzB/lUVHiNA6X27/jsjpreepnC6xTOnhexS3
+         N+/PqDcy4eqo/VUZfG063J4PrShtriNx45572Cfog6Va1tFh0We/C/9WkXB0tgGP2kTI
+         4HBdZES4szEDM/Fh0cDoOsXeb8anfDVcYiHV2XvByGJJXHoTAcIqVPtTHgJuKd6a5DeH
+         ybCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXKSeyTQGUkBhIfaoh7uVL8/hRWiqbhyVbV4G8XeezQ2m8dQyxXFyDz15RDgyh5B3bh/bxC2OAg5SsSmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRHYNERA1YaYgLn1XtQwrgqTFSy36op+tSREfkFtE5TZbkxuDH
+	2JDUbZyzBejFAOT7rUxI5izfLc1As9etShsiSruTrdD+Zfgh8Lzq0CyyyWdX84zmxWRG8Q2Kdmr
+	P/Syn4LwBIbfnLK6x49NMgX0n7Yo+2dv5Gw2VAUg0CYiqv68KmgP/gcrJHPXkoJ4ezQ==
+X-Gm-Gg: AZuq6aLQzurArMcXlgku9qVuKxBlxggk5euY/rFkdWJ4F3kI7N7d56CJP4OBHKeJNQI
+	UH6bZ+e87FHdy/zf1RFAoG0Ot5Wp6x3W1zo5UpoTzTY5pvfF/QAemtaKaoZuyAOg6eOzTKBC/S2
+	O4ySmkdbnPMkrI+CmlOrWjKdrtEhm5zhH2fPxkvt4NgU3XC98cUAL6hpph2C0U6nEa0jGjmaE/9
+	cOKyidMsG86QZNac4nkFN5jjJSuFRintIAS2h49BunBR+n3IxmbzNX0TUR/BgFeb0SpXL8tukmg
+	x1bpcVSqELBn31jiomVzfA9Kte20Q8c3+H+iIxNKpRoMOIC2qFDL8FEk0CE5XHOB84Xu9eGRBQU
+	KAngMwAkk1luHbNr/XWVm6zDIK8wVMgi/Edgqky8gHJPHHLw74yGhCkZb01Xk+mCQ+UO6Iwncmb
+	n59CVifHCFslzopH+SFXqnO9U=
+X-Received: by 2002:a05:6214:1c8b:b0:890:808f:c255 with SMTP id 6a1803df08f44-8952215989amr81969216d6.14.1770295700288;
+        Thu, 05 Feb 2026 04:48:20 -0800 (PST)
+X-Received: by 2002:a05:6214:1c8b:b0:890:808f:c255 with SMTP id 6a1803df08f44-8952215989amr81968676d6.14.1770295699660;
+        Thu, 05 Feb 2026 04:48:19 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38691f6e30asm9790031fa.10.2026.02.05.04.48.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 04:48:18 -0800 (PST)
+Date: Thu, 5 Feb 2026 14:48:14 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Taniya Das <quic_tdas@quicinc.com>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal <dikshita@qti.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v3 1/7] dt-bindings: clock: qcom,sm8250-videocc: account
+ for the MX domain
+Message-ID: <mlpe7ph27grv4bulvwlo5lbbsjmwqqfwc3rrfwfcu7tl7qltsu@xrtzonb2t44k>
+References: <20260204-iris-venus-fix-sm8250-v3-0-70fa68e57f96@oss.qualcomm.com>
+ <20260204-iris-venus-fix-sm8250-v3-1-70fa68e57f96@oss.qualcomm.com>
+ <20260205-abiding-beautiful-locust-6ee1b5@quoll>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ac33ad1a-330c-4ab5-bb98-4a4dedccf0da@amd.com>
+In-Reply-To: <20260205-abiding-beautiful-locust-6ee1b5@quoll>
+X-Proofpoint-ORIG-GUID: Xt1gip9u5ZW6_0vU4QXhda_POE02HRjr
+X-Proofpoint-GUID: Xt1gip9u5ZW6_0vU4QXhda_POE02HRjr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA1MDA5NSBTYWx0ZWRfX6OUc/cu1+pXB
+ TXaetbyEfcD0ohd0PdQopG+muM7uRObQ0tM3++Y2t8NfrwkLO6dR/n+tiPy5PKa607zRFrZCM06
+ vEFgurJB3pM8KUNluMMPdnIzFu4CZltm07ReXGLvA9xys8ygsF+JBbdcw8j5cc+XY8/huvuNpRl
+ ePbsjcbcHr3iotbaV5jltGHs8Y14T/EluALTz3PKqtDxwBOajqUNUd9fTL6L1iXliJ0oV5gbDoI
+ K5q9AsCrUmhFhCkhOvUECaCxXDvOAAtkl8lMtbNZZG+qs3v52FMZ+T3gSdCaBJWyOngxRTb8g0c
+ 9xqLMaO2OKimdO0AyjNy+xtFN0ZIEm9xO2vHmq0yIJSFoM0F3G28bP9Pf0UyT3M9BZqre8q5pSi
+ jQQzadMn5daabVVWuaijWA/9myYDdJaeEbv4NnBfumwT1NjecPFofnXAbCYIaP70Xhu3GUCXr2Q
+ kuWw+DOWenEabxWWPbw==
+X-Authority-Analysis: v=2.4 cv=a8E9NESF c=1 sm=1 tr=0 ts=69849195 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=L1mSppDWdqrFMHu5o5oA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-05_02,2026-02-05_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
+ spamscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602050095
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-52249-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52248-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[shazbot.org,ffwll.ch,intel.com,linaro.org,amd.com,gmail.com,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,ziepe.ca,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	RCPT_COUNT_TWELVE(0.00)[35];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:dkim];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[anongit.freedesktop.org:url,pages.freedesktop.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B70C9F2679
+	TAGGED_RCPT(0.00)[linux-media,dt,huawei];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 6903DF2CCD
 X-Rspamd-Action: no action
 
-On Thu, Feb 05, 2026 at 10:43:08AM +0100, Christian König wrote:
-> On 2/4/26 17:56, Alex Williamson wrote:
+On Thu, Feb 05, 2026 at 12:31:54PM +0100, Krzysztof Kozlowski wrote:
+> On Wed, Feb 04, 2026 at 02:59:49AM +0200, Dmitry Baryshkov wrote:
+> > To configure the video PLLs and enable the video GDSCs on SM8250,
+> > platform, the MX rail must be ON along with MMCX. Split the bindings
+> > file in order to provide separate file utilizing MMCX and MX power
+> > domains.
+> 
 > ...
-> >>
-> >> This chunk here doesn't want to apply to drm-misc-next, my educated
-> >> guess is that the patch adding those lines is missing in that tree.
-> >>
-> >> How should we handle that? Patches 1-3 have already been pushed to
-> >> drm-misc-next and I would rather like to push patches 4-6 through
-> >> that branch as well.
-> >>
-> >> I can request a backmerge from the drm-misc-next maintainers, but
-> >> then we clearly don't get that upstream this week.
-> > 
-> > Hmm, drm-next already has a backmerge up to v6.19-rc7, the patch here is
-> > based on a commit merged in rc8.  The tag for that change was based on
-> > rc6.  It can be found here:
-> > 
-> > https://github.com/awilliam/linux-vfio.git tags/vfio-v6.19-rc8
-> > 
-> > As the same tag Linus merged in:
-> > 
-> > 1f97d9dcf536 ("Merge tag 'vfio-v6.19-rc8' of https://github.com/awilliam/linux-vfio")
-> > 
-> > drm-misc-next only seems to be based on v6.19-rc1 though, so I don't
-> > know that any of that helps.  Thanks,
 > 
-> Thanks Alex, that was indeed helpful.
+> > +
+> > +description: |
+> > +  Qualcomm video clock control module provides the clocks, resets and power
+> > +  domains on Qualcomm SoCs.
+> > +
+> > +  See also::
 > 
-> Simona, Jani and Lucas can we do a backmerge of 6.19-rc8 into drm-misc-next or does that completely breaks the flow?
-> 
-> If it's not possible immediately then I will do the merge next week or so when the final 6.19 is out and everything merged back into the drm-misc trees.
+> Only one ':', please. It was a mistake to introduce ::
 
-Christian,
-
-You don't need any backmerge, SHA-1 version of vfio-v6.19-rc8 tag is the
-same as in Linus's tree, so the flow is:
-
-➜  kernel git:(wip/leon-for-next) git remote update drm-misc
-Fetching drm-misc
-remote: Enumerating objects: 32768, done.
-remote: Counting objects: 100% (21620/21620), done.
-remote: Compressing objects: 100% (4620/4620), done.
-remote: Total 18154 (delta 14789), reused 16751 (delta 13519), pack-reused 0
-Receiving objects: 100% (18154/18154), 4.33 MiB | 4.30 MiB/s, done.
-Resolving deltas: 100% (14789/14789), completed with 1564 local objects.
-From https://anongit.freedesktop.org/git/drm/drm-misc
- * [new branch]                drm-misc-fixes                                           -> drm-misc/drm-misc-fixes
- * [new branch]                drm-misc-next                                            -> drm-misc/drm-misc-next
-...
-➜  kernel git:(wip/leon-for-next) git checkout -b drm-misc-next drm-misc/drm-misc-next
-Switched to a new branch 'drm-misc-next'
-HEAD is now at 2bcbc706dfa0 dma-buf: add dma_fence_was_initialized function v2
-➜  kernel git:(drm-misc-next) git merge vfio-v6.19-rc8 
-Auto-merging drivers/vfio/pci/vfio_pci_dmabuf.c
-Merge made by the 'ort' strategy.
- drivers/vfio/pci/vfio_pci_dmabuf.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-➜  kernel git:(drm-misc-next) git l -2
-f6e4419050ce (HEAD -> drm-misc-next) Merge tag 'vfio-v6.19-rc8' into drm-misc-next
-2bcbc706dfa0 (drm-misc/drm-misc-next, drm-misc/HEAD) dma-buf: add dma_fence_was_initialized function v2
-
-And after that you can apply rest of dma-buf patches.
-
-Thanks
+Ack.
 
 > 
-> Leon the flow of patches through the DRM subsystem is documented here: https://drm.pages.freedesktop.org/maintainer-tools/repositories/drm-misc.html#merge-timeline
+> > +  clock-names:
+> > +    items:
+> > +      - const: iface
+> > +      - const: bi_tcxo
+> > +      - const: bi_tcxo_ao
+> > +
+> > +  power-domains:
+> > +    items:
+> > +      - description:
+> > +          A phandle and PM domain specifier for the MMCX power domain.
+> > +      - description:
+> > +          A phandle and PM domain specifier for the MX power domain.
 > 
-> Thanks,
-> Christian.
-> 
-> > 
-> > Alex
+> This is an ABI break, so please say in the commit what was not working
+> or why this ABI break is really justified. Currently you just give a
+> hint that it is needed for PLL configuration, but honestly - why would
+> we care to configure PLL if everything was working correct before?
+
+I must admit, I c&p'ed the commit message from [1] which was ack'ed by
+Rob and accepted into the kernel. What is the difference?
+
+[1] https://lore.kernel.org/all/20250530-videocc-pll-multi-pd-voting-v5-1-02303b3a582d@quicinc.com/
+
+-- 
+With best wishes
+Dmitry
 
