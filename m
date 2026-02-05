@@ -1,63 +1,82 @@
-Return-Path: <linux-media+bounces-52267-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52271-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MPXcOSm+hGnG4wMAu9opvQ
-	(envelope-from <linux-media+bounces-52267-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 16:58:33 +0100
+	id gMO3BHTihGkE6QMAu9opvQ
+	(envelope-from <linux-media+bounces-52271-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 19:33:24 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B43EF4DC6
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 16:58:32 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B68AF6757
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 19:33:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 867C53008084
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 15:58:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5C88D301E203
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 18:33:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A6942DFE9;
-	Thu,  5 Feb 2026 15:58:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 966372FE592;
+	Thu,  5 Feb 2026 18:33:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JTSL7yC+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANFnfFa8";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J25sMImr";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JTSL7yC+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F8142DFE0
-	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 15:58:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0AE263F4A
+	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 18:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770307087; cv=none; b=k60cTsTPiZUFLIGL4La8aljrOa1QvJFPpU2ABW3RfUiMT5sfsxz8ER/fn3qrk0e4puak3uW554QGXQSL205IE5xzTdeMBS2BQ3YbEmYBSEPsyJ/kyD8pfWk+TWH4tRhU5mn+WJz6DApXzafxj/EmpEnJF4OKPCH5OPa4bSLpJfQ=
+	t=1770316398; cv=none; b=WSKiXeypC9V0tSMCMkMGNZZLtrDGIxP4X6e9KF8eM1oa/B1TLbijXiNeo8oeOA0cEN9aH37nAllbV01oNcxfrm4BAX04iOn2DdadynSITDFCwCP5V3nDd61ePJ0XJBDUoj+vSOsMcEqSy/onpy8/DizEdLMLcH98ei3/VzfSR18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770307087; c=relaxed/simple;
+	s=arc-20240116; t=1770316398; c=relaxed/simple;
 	bh=tiWT17H9Dzw5aEsfxk8upMAKNqPQadh3IU0U9mH7kIA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H8W7Op9oSrmjS5Hxhq0j6DrOmG1uRVRNEYrJdRigxjJ0/DtZGbS1mItm/Cyzw7k/j+5gwHvPLJjHTsQVrMuHYwsbXPX95VpUj5YmBMORCnUaPjY64o7wX4jFpVDOSK2gvZwUM31n9uhsMKuYHoc2226uPgfEmpSgyd3SCBmabdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JTSL7yC+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B08C4CEF7;
-	Thu,  5 Feb 2026 15:58:06 +0000 (UTC)
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:MIME-Version:
+	 Content-Type:Subject; b=mSFr6jD773gFgti55VSHlqf8aGpuhNJiMoD8rdO3Rc8IiOHkNp/ivAowClaBPXoOU2Bn35gEx8xYKuYJDnFNLuJp8ICAODpsf4sz3UgqxIrhJiLamhrr523Ee8FEWabDe8gGtsKC5aUf/pWMXQL4uHTRlgEolJjTLRMc7Fl07ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANFnfFa8; dkim=fail (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J25sMImr reason="signature verification failed"; dkim=fail (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JTSL7yC+ reason="signature verification failed"; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD19AC19421;
+	Thu,  5 Feb 2026 18:33:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770307087;
+	s=k20201202; t=1770316397;
 	bh=tiWT17H9Dzw5aEsfxk8upMAKNqPQadh3IU0U9mH7kIA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JTSL7yC+GwhucXjgwAGRzQ6z9ia/ZMdbiIZL3wl0BYuapFfiIADf752xxYAEvlHxJ
-	 cVRIlMEmM4c/k9vVBUnR42DVY+Tor2/CTjsR0LtS0pPL+mqLCotGV9PGFRcCVKuP7n
-	 1ofa9JfPwafL6LxBb5xfRLLp6mQlVswtKIKeqMeGwL6HtzO8Pdys1CWGsWowwVmmrr
-	 rWU7DddyuChRt1ndyEcDgCAaxCHPT3NUK/3O9BgBWD28F+4Pc7O7kdl5+8Z+zcn/VG
-	 HpQZg1FQQsKHz4DpaW4p74f/GZFxc3Te+nK0+BFma37TNZQ4MCOzg0wVsb+428tlfE
-	 y6llKDrvpfPdA==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vo1k4-0000000B2I8-22GH;
-	Thu, 05 Feb 2026 16:58:05 +0100
+	h=Date:From:To:Cc:In-Reply-To:References:Resent-Date:Resent-From:
+	 Subject:Resent-To:Resent-Cc:From;
+	b=ANFnfFa8McyUPytnmKSy+7l11TL6RHMO5B7lwVgBUe2DqZjMGiv69Mq5kgECItn10
+	 5B8RigC+DfdDJqknkBbHkG4ETHHKkIbTBwfJmZjnuOsv4dhbmlu94WXpgsJC9D6DB/
+	 UJCL3wyWypDiX7pXKC0e9kJFB4MWOdfMGju67vzO93bE1lfb1hOfChF50xXwL2k5lr
+	 xpI3Emd54RnMrXsHbY3ZWdrrhtmy/CQLkWVsZch4BMfdsL3t8IXVLH2XwnffbCElNF
+	 RI9dxKkhIman3MHdio1YpLYp5cb1BcYq1UE3YqYmuPokE1e8MHbFcxEm0VoxBHB/2G
+	 1FYRpN18A7rHA==
+Envelope-to: mchehab@casper.infradead.org
+Delivery-date: Thu, 05 Feb 2026 15:58:09 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+ :MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=JjswlYxeSvv/uPM6QWKl9im2x+WcPMGz0QcCVQs1Rkc=; b=J25sMImrI/ZyiRDaWQto5SkY1K
+ 5Gbw0DrM+u5qIwXYEe7MFRT3beRY1fckPVVWZ2+CulUPSevmK0rN567IwcZUsp/+K9snoDizAjU5S
+ mADSQnRFB2C2ueIO8937OAJsQgQbggZS8xPuaV1XuAlTyRRGS6Ch40neiwj9oj0HQGBEYwGLobKYQ
+ N6uhOtBS/0jZ+oEYWyV9W1WN1YjOCtXFYGknnd3iGSlemtF1uZZuw2naod/aUaneCxKONTCTSgPqM
+ 1aC450oPu54orVdHR0hFCh5ryrjlW0dpbBFAU8EkdOAX8PvFzDZTGnyIfy760rv5TDZ8XjPDSkKwD
+ Ep5aIKhQ==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1770307087;
+ bh=tiWT17H9Dzw5aEsfxk8upMAKNqPQadh3IU0U9mH7kIA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=JTSL7yC+GwhucXjgwAGRzQ6z9ia/ZMdbiIZL3wl0BYuapFfiIADf752xxYAEvlHxJ
+  cVRIlMEmM4c/k9vVBUnR42DVY+Tor2/CTjsR0LtS0pPL+mqLCotGV9PGFRcCVKuP7n
+  1ofa9JfPwafL6LxBb5xfRLLp6mQlVswtKIKeqMeGwL6HtzO8Pdys1CWGsWowwVmmrr
+  rWU7DddyuChRt1ndyEcDgCAaxCHPT3NUK/3O9BgBWD28F+4Pc7O7kdl5+8Z+zcn/VG
+  HpQZg1FQQsKHz4DpaW4p74f/GZFxc3Te+nK0+BFma37TNZQ4MCOzg0wVsb+428tlfE
+  y6llKDrvpfPdA==
 Date: Thu, 5 Feb 2026 16:58:03 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (by way of Mauro Carvalho Chehab <mchehab+huawei@kernel.org>)
 To: Hans Verkuil <hverkuil+cisco@kernel.org>
 Cc: linux-media@vger.kernel.org, Sakari Ailus
  <sakari.ailus@linux.intel.com>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Nicolas
  Dufresne <nicolas.dufresne@collabora.com>, Bryan O'Donoghue
  <bryan.odonoghue@linaro.org>, Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCHv8 0/3] docs: media: multicommitters model documentation
 Message-ID: <20260205165803.3dfd0cd1@localhost>
 In-Reply-To: <cover.1770301974.git.hverkuil+cisco@kernel.org>
 References: <cover.1770301974.git.hverkuil+cisco@kernel.org>
@@ -70,36 +89,48 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Resent-Date: Thu, 5 Feb 2026 19:33:12 +0100
+Resent-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCHv8 0/3] docs: media: multicommitters model documentation
+Resent-Message-ID: <20260205193312.3db700fe@foz.lan>
+Resent-To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Resent-Cc: linux-media@vger.kernel.org, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Nicolas
+ Dufresne <nicolas.dufresne@collabora.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Ricardo Ribalda <ribalda@chromium.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW_WITH_FAILURES(-0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52267-lists,linux-media=lfdr.de,huawei];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52271-lists,linux-media=lfdr.de,huawei];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	R_DKIM_REJECT(0.00)[infradead.org:s=desiato.20200630,kernel.org:s=k20201202];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	DKIM_MIXED(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DKIM_TRACE(0.00)[kernel.org:+,infradead.org:-,kernel.org:-];
+	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[kernel.org,quarantine];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linuxtv.org:url]
-X-Rspamd-Queue-Id: 4B43EF4DC6
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxtv.org:url]
+X-Rspamd-Queue-Id: 5B68AF6757
 X-Rspamd-Action: no action
 
 On Thu,  5 Feb 2026 15:32:51 +0100
