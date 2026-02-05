@@ -1,132 +1,200 @@
-Return-Path: <linux-media+bounces-52264-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52265-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4GgOA8KvhGk14QMAu9opvQ
-	(envelope-from <linux-media+bounces-52264-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:57:06 +0100
+	id APoXETuwhGk14QMAu9opvQ
+	(envelope-from <linux-media+bounces-52265-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:59:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDF0F4515
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:57:05 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57975F458E
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:59:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6F0F630254E6
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:56:33 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 711AF3004CAC
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:58:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2277541C314;
-	Thu,  5 Feb 2026 14:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4B04218A5;
+	Thu,  5 Feb 2026 14:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFtB4SOX"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="i1JLIViS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873752D46A2;
-	Thu,  5 Feb 2026 14:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F2641C311
+	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 14:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770303388; cv=none; b=SH9IyCKRoyG+noSZG/OBZWoFZEbISN+OeLSnfkNUvvls9sDhYvXkHQgYIagYAfgnReuGQA9Ul1lXt4HSczqdkRFx1frZ9VHbQ8s2XTx5H6mBA8X4cg+gCrTVcHUv1f0mOKXDgl2kJ3A6+Qtfkf2ziHbvXvnFTBuuY4av/8MbM54=
+	t=1770303527; cv=none; b=gESQJ1ox2S3ycFcteLoyDtkCqdFiqoJRRWZFEjtuT3f6mYt5U5++z39+NoU8Y30Ng4VosDa1w6/lRF6+n6hq5c0B/h6ikAKKKReKiQqCv7xKYLdm9lnYIynHw1lW3YdA9VkMbiqWDs+KOIsdpwSK0AIm9sy0Pqepx+JtS56vbV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770303388; c=relaxed/simple;
-	bh=IAg2An7dZPfcLweRV0MG07I4CWHs8V6SJPOpFSNw4no=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=h63ZLztyowUfMW375R+3osGC4ULDSsu3wFOYtDz7zj/hWAa/EreCK53zbhDBC8KOXJgDNOmXldrBcTaAO8R4i7hGbk4Mr6WKarwnlLhacoJnj21QWaDva7DNV3Ncys56btKjRtgaa/+ToJEEP6VJf9+zKS2cUKSkCBy2R5YRAv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFtB4SOX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1491C4CEF7;
-	Thu,  5 Feb 2026 14:56:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770303388;
-	bh=IAg2An7dZPfcLweRV0MG07I4CWHs8V6SJPOpFSNw4no=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mFtB4SOX5LoLp6oxB4RuXSG6sQR0HHjPn1WuTZM8VLht49nghdtTwvZzSlTrUj7nr
-	 RacIhH3GkqJw6ub1zp+ORHuFdBCjZrr0S+Pev+Ct1oLhVNvo88rSlgPsgEt7SlfUo+
-	 dake+TKUtk/tRQJBj6hfDS6NTDvnC1xf3FSmp1WqMHg9qaq0hOiKzhCcC+tDRq/LCI
-	 TfcP8/H/z9MScSiqCulfEwKX8/kuvnMMcOAvXLxOiX6wmJ7Go3vjqgKoKaZb1nZmfR
-	 kISjqjziP0oSiuZypFHPkJq4LYJTJ+PrH56uxKNycV3C1VLgeXR7TiNS8vOob60PPD
-	 72sXLB2TNH74w==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-	"Bryan O'Donoghue" <bod@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Stefan Schmidt <stefan.schmidt@linaro.org>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: iris: fix QCOM_MDT_LOADER dependency
-Date: Thu,  5 Feb 2026 15:56:19 +0100
-Message-Id: <20260205145623.1360105-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1770303527; c=relaxed/simple;
+	bh=r4B2Ie8qQ9e+bddAPy/IrxMyxgCLdGouLxcA6jhMbCY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L+LDZ8oN/DvGw1SvIw9bl6VLgy8C4rqIjT3crDV6ac9cQEnbgQZUYfR0t4iX/yuHTdkZXteIB3KHWVAI7xR+BUFqXkNlDyrqmF9SxPvWnptR+828+aA8JH8KGZENm9qOAHzhC3NVDq4GmRYFipoyH73nN0wtOxXd9Hua1nKMbZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=i1JLIViS; arc=none smtp.client-ip=209.85.219.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qv1-f67.google.com with SMTP id 6a1803df08f44-88a367a1dbbso17929666d6.0
+        for <linux-media@vger.kernel.org>; Thu, 05 Feb 2026 06:58:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1770303526; x=1770908326; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6paZ1/dfF6ZJkTrV436UqQ3Veg/Kl0esrhdcHdeVKCQ=;
+        b=i1JLIViSZyg9JmiQN9fxVXsiYybSALi2vY+h68TUZ0OV/iIqVwWZRRhWt4H4dAcruC
+         1i+pwaEaMqa57MqN90cVZt0MfBHW8Tj1osq2pqqmDhjT0Z7tSaSEVUKtQetugOK1tAeE
+         3FBk14xY6abiw7keBtBmEImVaTb7z6Lz6UPMlPZ4nMWBFAyMHXF/zGrF2gi63Axb1mIW
+         CWxS8XdzmLR3dJRWiH5lPUnU+AoTeVpLYTfg4EhmcXTraVToOqdIuU991XYnC9TCb0FX
+         xQDtvL9jPqwYkvj11cK4xOgrbX8zFxsfixd+4pi5h24blIbPPavxhxs8yeCENJhoSjdL
+         XhZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770303526; x=1770908326;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6paZ1/dfF6ZJkTrV436UqQ3Veg/Kl0esrhdcHdeVKCQ=;
+        b=M6eNq2K4XwSErxoP7+C943XwC1w9/k1SBFTzzpzNUN4wQXPPmTs8Og5KcyvIdsoRLN
+         dq2NX9Aj2zupElHfWeYycN3xLYrqdcLMOsD3bZxHjBu1ltVRVENCPQ8EInG55m2pwg7R
+         COmQEnaluASs9cyA1hblWz3qsRq70B7wJJU8dRDvTSQWsJGhLQp4DtcXrgSWZVcbJ3x3
+         BvFhGpLD8cj3f3dG6QZyNO09RODUd8ZvA8xivfPE6Url2KIdeRmB3HoMSEI449Ye7rPZ
+         6Y42SAm/XJKs/8ybyYSqohwTao5s9eNzuKud0C3g0mgjhosM3Pv5KDa0BeD90TqDIDNX
+         0/8A==
+X-Forwarded-Encrypted: i=1; AJvYcCUS/qlsVQMgXH38ITZrhcxr+MVz79F6kKO3tmJWSGH+K+ri/BPBDPuZ7w76oz7mucYJQ6H2F9PriQZcrw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1B/2CXMsSw+f9QuDjROQQmyDxY93vz2aqKNO9dSKe+lw0/Vkt
+	LscwCUiVAMHggNDfjqcTdzadCc3wGGLbkocQwHGhJ+B3EG6eP6HhWK0zVAuU3ee8XQE=
+X-Gm-Gg: AZuq6aJ+OKaYwE2lTp2qhrSfDEbYY+Mu+Y+yNfM013OgqW/u4bOEVqYt2LdhdXCqJRV
+	mr/bsvaZaf4DbXFulbn5wSJ7PQxbZ1bLVCD3sRVSLuh/76KtS9AgSGOiAxeRk/s8Letmhpw/VH9
+	TEFb+HSiivL+e94sUpzEGqivycM1r7zxdi92KtXZ+AuCHu3FGBLdfxArN/aOnrZKEsqW+hh519A
+	mtyP32B4sU2uIgbVed3rWRXiQYS1+i6M2V4k9+KR50Tb97mennFrD+Q7mOWFmoYHw81GGL5ZK/l
+	hrhYe8BnxAj6q+JTXegqyQmqTFEqGX/6JciMlZ34VrTF8cKPZhi2/22X/3dFF76VOgZ20Ydd4Wb
+	5RpXjSLtnw0x0iPg/1r+JLpmDr6eypwZM6FL+vU9LBpfPiEdd9XQjwIFxkYSWSiHJBXjSO77nM7
+	+S5KvP0RS9V53BKI/tRD5R2v5OZdnbUpsRrb363WYZEMQWiTwMExa0U4U/UJzwim2eh94=
+X-Received: by 2002:ad4:5bc1:0:b0:894:6d0b:502 with SMTP id 6a1803df08f44-895221eff32mr95805386d6.59.1770303526139;
+        Thu, 05 Feb 2026 06:58:46 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89521bffb41sm43278866d6.4.2026.02.05.06.58.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 06:58:45 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vo0of-00000000zky-02N9;
+	Thu, 05 Feb 2026 10:58:45 -0400
+Date: Thu, 5 Feb 2026 10:58:44 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Alex Williamson <alex@shazbot.org>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Leon Romanovsky <leon@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Felix Kuehling <Felix.Kuehling@amd.com>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, kvm@vger.kernel.org
+Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
+Message-ID: <20260205145844.GM2328995@ziepe.ca>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
+ <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
+ <20260204095659.5a983af2@shazbot.org>
+ <ac33ad1a-330c-4ab5-bb98-4a4dedccf0da@amd.com>
+ <20260205121945.GC12824@unreal>
+ <20260205142111.GK2328995@ziepe.ca>
+ <f27ad57b-d935-4ffa-a65c-9f6b5d9a1f9a@amd.com>
+ <1b7ee5ad-6dde-415a-8e06-93daddc9bcef@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1b7ee5ad-6dde-415a-8e06-93daddc9bcef@app.fastmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	DMARC_NA(0.00)[ziepe.ca];
+	FREEMAIL_CC(0.00)[amd.com,kernel.org,ffwll.ch,intel.com,linaro.org,gmail.com,redhat.com,collabora.com,chromium.org,linux.intel.com,suse.de,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52264-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52265-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 6EDF0F4515
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 57975F458E
 X-Rspamd-Action: no action
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, Feb 05, 2026 at 07:41:11AM -0700, Alex Williamson wrote:
+> >> From https://anongit.freedesktop.org/git/drm/drm-misc
+> >>  * branch                          drm-misc-next -> FETCH_HEAD
+> >> 
+> >> $ git show FETCH_HEAD
+> >> commit 779ec12c85c9e4547519e3903a371a3b26a289de
+> >> Author: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>
+> >> Date:   Tue Feb 3 16:48:46 2026 +0300
+> >> 
+> >>     drm/komeda: fix integer overflow in AFBC framebuffer size check
+> >> 
+> >> $ git merge-base  FETCH_HEAD 61ceaf236115f20f4fdd7cf60f883ada1063349a
+> >> 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+> >> $ git describe --contains 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+> >> v6.19-rc6^0
+> >> 
+> >> $ git log --oneline 61ceaf236115f20f4fdd7cf60f883ada1063349a ^FETCH_HEAD
+> >> 61ceaf236115f2 vfio: Prevent from pinned DMABUF importers to attach to VFIO DMABUF
+> >> 
+> >> Just pull Alex's tree, the drm-misc-next tree already has v6.19-rc6,
+> >> so all they will see is one extra patch from Alex in your PR.
+> >> 
+> >> No need to backmerge, this is normal git stuff and there won't be
+> >> conflicts when they merge a later Linus tag.
+> >
+> > Correct, but that would merge the same patch through two different 
+> > trees. That is usually a pretty big no-go.
+> 
+> Applying the patch through two different trees is a no-go, but
+> merging the same commit from a shared branch or tag is very common
+> and acceptable.  It's the same commit after all, there is no
+> conflict, no duplicate commit.  When the trees are merged, the
+> commit will exist once in the log.  Thanks,
 
-When build-testined with CONFIG_QCOM_MDT_LOADER=m and VIDEO_QCOM_IRIS=y,
-the kernel fails to link:
++1
 
-x86_64-linux-ld: drivers/media/platform/qcom/iris/iris_firmware.o: in function `iris_fw_load':
-iris_firmware.c:(.text+0xb0): undefined reference to `qcom_mdt_get_size'
-iris_firmware.c:(.text+0xfd): undefined reference to `qcom_mdt_load'
+This is how shared branches work. There is no issue here.
 
-The problem is the conditional 'select' statement. Change this to
-make the driver built-in here regardless of CONFIG_ARCH_QCOM.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/media/platform/qcom/iris/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/qcom/iris/Kconfig b/drivers/media/platform/qcom/iris/Kconfig
-index 3c803a05305a..5498f48362d1 100644
---- a/drivers/media/platform/qcom/iris/Kconfig
-+++ b/drivers/media/platform/qcom/iris/Kconfig
-@@ -3,7 +3,7 @@ config VIDEO_QCOM_IRIS
-         depends on VIDEO_DEV
-         depends on ARCH_QCOM || COMPILE_TEST
-         select V4L2_MEM2MEM_DEV
--        select QCOM_MDT_LOADER if ARCH_QCOM
-+        select QCOM_MDT_LOADER
-         select QCOM_SCM
-         select VIDEOBUF2_DMA_CONTIG
-         help
--- 
-2.39.5
-
+Jason
 
