@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-52236-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52237-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0DViH71xhGnI2wMAu9opvQ
-	(envelope-from <linux-media+bounces-52236-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 11:32:29 +0100
+	id f9HhDl1yhGnh2wMAu9opvQ
+	(envelope-from <linux-media+bounces-52237-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 11:35:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE7EF154B
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 11:32:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89296F15E6
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 11:35:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DEAD6300532A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 10:32:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DF7A4305262E
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 10:32:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B18C03A7F4A;
-	Thu,  5 Feb 2026 10:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D06463A641E;
+	Thu,  5 Feb 2026 10:32:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tVwpkCFi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SSdAwE5o"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C494933E374;
-	Thu,  5 Feb 2026 10:32:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01373A7F52;
+	Thu,  5 Feb 2026 10:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770287541; cv=none; b=pKwTvUhE9grI+4sOewoKjKGTZWWUytrSSzsYK1V9WU9t0S6Bp3KwbCp7kZMGLWB+IR9JaP8yzsQvWG7zbwcU0eCTsxPFF5JPDLcz9PUhHdNhU+//mZwdFc+qGFs91uGReKFuuPTRqGVS9rpepSQgL7ZGCFc5GC+r2Ndj1Aeau2c=
+	t=1770287542; cv=none; b=u9E9Z6/2S/zN3js6NNQ62BDnkDaEOzBj0k1pjvZGwTHnhTVY7kL5dtsE1E3wE4emeHla/yRWTA2AOIC1CODLCIb7cRq1LA1MuL2prdUn03uxgVMbZiW/vbgJfxnZdMet7TQx/NtFD7qOPYznjrLPueP+8gcIexfVnU2VC3hftWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770287541; c=relaxed/simple;
-	bh=hK1yXrfEUR6Bg4NNCMPtRP8qXwXIu2XyoDJeiCE0V1k=;
+	s=arc-20240116; t=1770287542; c=relaxed/simple;
+	bh=Gno9wHg1RzsBII1gmFbgZKmo/jhDPIpmzk80mPXXxVI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y/Pz59pa0xMMWuB2LdogpLJrVVXVczkVYCphGJH/HN0qdZYdGhT4jjCU68d6WaI7PoVA51Pr4QGwi7xVpzN5wBz2+1fQS+yinahIH7g+ObLzAm8sgNQ0Q2x5YcRWX6EpK0aCPw6bTS08z843+mjI1xM4O8fINVCEYEG+cvt2mFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tVwpkCFi; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=KNTcwb2Vz9AdSXGbtl1bhV/J2nqD4pqufN/BrW3iZgL1UfMFLNjmCybgG35/tPoPc/i1jesjXA/DZWtyD9BhJDKTDoJvR9uP9ddTgs7RuEe7tWjSrg3t8XXVQd5sNoCEKDNvd+lvEyTvU63YwWZbi5lV1cNxh1e4ouBwqOXh7o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SSdAwE5o; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from t16.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B0963A4;
-	Thu,  5 Feb 2026 11:31:36 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72CE446F;
+	Thu,  5 Feb 2026 11:31:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770287496;
-	bh=hK1yXrfEUR6Bg4NNCMPtRP8qXwXIu2XyoDJeiCE0V1k=;
+	s=mail; t=1770287498;
+	bh=Gno9wHg1RzsBII1gmFbgZKmo/jhDPIpmzk80mPXXxVI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tVwpkCFiA2Ra77lMKw0HLiCiO8JizM1N65yWIYZ/YvvBp0Xe8SZHP5G+FlAHwUHVS
-	 0qMjjwWwDkGnurbgp08rgoXxQW1DE/tysTuOjID6VAyLg0orc1g+Mpl6OrvGc9m3QW
-	 BwCr5JJAC3GK2EKwzfA8nkkkiubgcYVWZUMndblw=
+	b=SSdAwE5oVxcWzhqRFFI0CpPrqowo5gRw7O+euCFegeg+tjbMzJloksq4dRk0ye7ck
+	 qwDIBNNwhx9KZlsFCrq1Q4vf1iazd/6Mg8EnlnXrD52qGQOrXI6LG5uOTOrIscyOlQ
+	 Nsmrqa8IPiQasgtb/eRdkzjRRjRkyIZpD8RbR+rE=
 From: Isaac Scott <isaac.scott@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: dafna@fastmail.com,
@@ -54,9 +54,9 @@ Cc: dafna@fastmail.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Isaac Scott <isaac.scott@ideasonboard.com>
-Subject: [PATCH v2 1/2] media: rkisp1-isp: Set correct data mode for YUV bypass
-Date: Thu,  5 Feb 2026 10:32:06 +0000
-Message-ID: <20260205103207.4020959-2-isaac.scott@ideasonboard.com>
+Subject: [PATCH v2 2/2] media: rkisp1: Treat 8 bus width and 16 bus width formats the same
+Date: Thu,  5 Feb 2026 10:32:07 +0000
+Message-ID: <20260205103207.4020959-3-isaac.scott@ideasonboard.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260205103207.4020959-1-isaac.scott@ideasonboard.com>
 References: <20260205103207.4020959-1-isaac.scott@ideasonboard.com>
@@ -73,7 +73,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -83,9 +83,9 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FREEMAIL_CC(0.00)[fastmail.com,ideasonboard.com,kernel.org,sntech.de,lists.infradead.org,vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52236-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52237-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[isaac.scott@ideasonboard.com,linux-media@vger.kernel.org];
@@ -95,46 +95,31 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BEE7EF154B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim,ideasonboard.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 89296F15E6
 X-Rspamd-Action: no action
 
-The rkisp1 features a 'bypass' mode for RAW and YUV formats. This
-disables all ISP blocks, and makes the rkisp1 display input data from
-the MIPI CSI receiver at the output, unmodified.
-
-To determine whether we can activate bypass, we can detect whether both
-the source and sink formats are YUV. If they are, we must configure the
-ISP to expect a YUV input, interpreting H/VSYNC signals as data
-enable / disable.
+As MIPI CSI is a serial interface, we should be able to use a bit depth
+of 16 in the same way as 8 bit depth. Add a fallthrough case to ensure
+we don't reject 16 bit depth formats.
 
 Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-
 ---
-
-Changelog since v1:
-- Removed in_bypass flag
-- Renamed the patch to better represent the functionality of the patch
-
----
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 2311672cedb1..21bfa0edbaf1 100644
+index 21bfa0edbaf1..0fc1ca7f97a0 100644
 --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
 +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -240,7 +240,9 @@ static int rkisp1_config_isp(struct rkisp1_isp *isp,
- 		}
- 	} else if (sink_fmt->pixel_enc == V4L2_PIXEL_ENC_YUV) {
- 		acq_mult = 2;
--		if (mbus_type == V4L2_MBUS_CSI2_DPHY) {
-+		if (src_fmt->pixel_enc == V4L2_PIXEL_ENC_YUV) {
-+			isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_DATA_MODE;
-+		} else if (mbus_type == V4L2_MBUS_CSI2_DPHY) {
- 			isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_ITU601;
- 		} else {
- 			if (mbus_type == V4L2_MBUS_BT656)
+@@ -261,6 +261,7 @@ static int rkisp1_config_isp(struct rkisp1_isp *isp,
+ 
+ 		switch (sink_fmt->bus_width) {
+ 		case 8:
++		case 16:
+ 			acq_prop |= RKISP1_CIF_ISP_ACQ_PROP_IN_SEL_8B_ZERO;
+ 			break;
+ 		case 10:
 -- 
 2.43.0
 
