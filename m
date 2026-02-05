@@ -1,383 +1,219 @@
-Return-Path: <linux-media+bounces-52261-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52262-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yN9jA1+rhGk14QMAu9opvQ
-	(envelope-from <linux-media+bounces-52261-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:38:23 +0100
+	id QOOzN0qshGk14QMAu9opvQ
+	(envelope-from <linux-media+bounces-52262-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:42:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1993FF41EF
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:38:22 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8271EF42D3
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:42:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5A43E3006212
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:37:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 78F843006178
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:42:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A57A740756F;
-	Thu,  5 Feb 2026 14:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 857DB40F8CC;
+	Thu,  5 Feb 2026 14:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uf9Y8uEK"
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="FEf0h2Bc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="fVLT4mfc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3CC407578
-	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 14:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4502F40758B;
+	Thu,  5 Feb 2026 14:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770302231; cv=none; b=mhYyh3rU8lae8Jy/UztNUWteSNR0cInBYRMExlJxK299V0vcS4Sb5nquaR6uX4fVll39Y4GDEr+z8jXr+9zlZj9yhtNZZ/qdroQS/Ykq5AQ8aARCkZZqH7GtHLYQwUqGwCbLRMrPbSUvIMWFfk4fGJdKoDsd9oQ679S5S74g6Ng=
+	t=1770302532; cv=none; b=qJfWBwQmrAPIwXEr7t7jYNcELMo964M9GV9cw9HG11qOqO3DdJKrf8WE6R8oTMOd8Y6IsQx0yqls3I7XRaaLrEN913KSZLl8G9iqqf/0QEs3Yf+QHTyhjSuZtdIAgMjBRkBV0mtaQzB0NTOEbBsvma0kpTyyofAqGoDtK7fbjPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770302231; c=relaxed/simple;
-	bh=Y7bC4SIwCwvHNs9ak6VWLdXF0SuCtnkqWIP+UNk5IRQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=unsNA3KK1np9i8Lswip1aLl8e1q7TaIgMydGfTnHqxOX8I12XPYYn/EbebhvvBGqO7FnFc9z3KS+up7LQJl10Fvv0T4OOFB3IzLV4ORtvIxMr3DLiap/F1OyRuW66Q1b4oyEnNvlv4p1m/AdBzoBNDd24bcw272MhbXW/UY3npc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uf9Y8uEK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF0FCC4CEF7;
-	Thu,  5 Feb 2026 14:37:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770302231;
-	bh=Y7bC4SIwCwvHNs9ak6VWLdXF0SuCtnkqWIP+UNk5IRQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=uf9Y8uEKUjjkoUhSZbTFqNuSB2WjOSWe978KZwxvgNkOEN8Hhn27ylkVs4kYJ8csF
-	 Q3K+7yxuHlC3OFhkrs2CS/qJhj+JYP/SnBSA2Iu03W1mRKyp8bpw9wINOh390fCKwV
-	 4d50grTK5sSyJJyUtQeUHqzCqTlBBf63jUlpZRlTuSDh7vJSUDEfHVioV8N1F5l5pf
-	 HIxDNBmAoBdjy/E6pw5edH0808IRU/+9pXGnMeNSztXh0KkfsgqMF9nzD8eSvIE1Lg
-	 W3sOedXu+7+VzsiGN1wag8hmLhYUGgpj/k67zSNhAqZuev7cTxVrxh4/RrVrF1Xd0X
-	 +ued3JdCMc5Bg==
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-To: linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sean Young <sean@mess.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCHv8 3/3] docs: media: document media multi-committers rules and process
-Date: Thu,  5 Feb 2026 15:32:54 +0100
-Message-ID: <14c1bf61786f99901c3c711aae9123a4042e061f.1770301974.git.hverkuil+cisco@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1770301974.git.hverkuil+cisco@kernel.org>
-References: <cover.1770301974.git.hverkuil+cisco@kernel.org>
+	s=arc-20240116; t=1770302532; c=relaxed/simple;
+	bh=+irZfXnbAyb6yWhUVT9uTx9aYPDMtL/nMFsGsY93TDg=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=kMEiQBB07YzZIrH4X8N0UBIVAIgYrXYWwoHg+bh/SKQv15OHL56tmLkMQGnCaHpm7F4yofBN3Ocol63yoPfSzyCQrL2TQSHX/RJg9tvUgn/7pWJ6fBJsSLWsh0wJxZvqKxW85lFTOk0Htq6Af5z2Jp9fnaFP85vGFHDGRiZX1Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=FEf0h2Bc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=fVLT4mfc; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id F0A547A0066;
+	Thu,  5 Feb 2026 09:42:08 -0500 (EST)
+Received: from phl-imap-18 ([10.202.2.89])
+  by phl-compute-02.internal (MEProxy); Thu, 05 Feb 2026 09:42:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1770302528;
+	 x=1770388928; bh=c2sWSFRwhN1ePbWw0hSzzDPUGT+PUV51S0w9MOaIyks=; b=
+	FEf0h2BcDcZm7G7BDIUK2ADItpwlJ8hNuUMLpKhFD6n01D8okyPnIkq6p81we7L2
+	gIGJ48i+i29M8SF5Umc+j2/hErScJ0HodPUYKew263UE3GLZrJ7hD+mpi7tA1tUX
+	CroIkGk60T8vo4V9I7Cfhb2SMhUSeAwP0kh/1pkZh1xJdlexYo0FdJ5ZcBnF22Gt
+	PcO5FnudagrbQTbq0nW/uUj4MwbWv0LJvy4TiBkSF9/3dPJ/dW8TAz3yrrKGyEcx
+	SXgih4Qq3eCnWAJL/lyYSLwmbXucwl6AUKa54xqHfBzVVIvuk+of2gbkMwwAHZlf
+	LV4/00+M10ZETI1nm733Ig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770302528; x=
+	1770388928; bh=c2sWSFRwhN1ePbWw0hSzzDPUGT+PUV51S0w9MOaIyks=; b=f
+	VLT4mfcVhduoy9qAwuHpxbxsvmL9WGkexpwwI35BBhmw8JlDnXBk4zHMMQX1hHA6
+	4z5QJMxDN/5SU6v2/oB5bORew2XZ927YqZSyGTD1rcl9RdbaPe9yUSI2BgRvAFmc
+	BzOn8OvFG5gzR5jsTizMM+6Q1M4c3zFzIFNxlcJnGt15yhJ9kNlOoAJxgBhI4IXo
+	HYOdBlgGo0Cb+dwdnPpC3xPczHpGadbVzQgJTrwGwpj8XbRm5Jx/FcIuWT1z2tvu
+	m1hBZ0WCbh+BnVOK3X+cMcFnDmQXkToA8t1ygsnVaHAwifuFcHKpaN9hF3Ey5zw0
+	8BX3dnHzbNHviUYX1vBgw==
+X-ME-Sender: <xms:P6yEadwgIGLmdLTZFzYjRQJOhCyboUfHxc2oeaANaZcpJ6heSz2grA>
+    <xme:P6yEaYF5kpO1z-_A41E_Z7SIL7zoEKRjHdReP7Sy2d9f3QP-wHzYia1OmKJT2l7Wh
+    9s2PLYWhd_ZREldE3WJ6Z3I6M3gecVVIbKvRc9oK4rNhKUGcY1k1j0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukeehheeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehlvgig
+    ucghihhllhhirghmshhonhdfuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtf
+    frrghtthgvrhhnpefgleegjeehkeefkefhkeetjedugfdvtdduveehledtteeltedtveff
+    ffegheelffenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhgvgiesshhhrgii
+    sghothdrohhrghdpnhgspghrtghpthhtohepfeehpdhmohguvgepshhmthhpohhuthdprh
+    gtphhtthhopehjohhroheskegshihtvghsrdhorhhgpdhrtghpthhtohepfhgvlhhigidr
+    khhuvghhlhhinhhgsegrmhgurdgtohhmpdhrtghpthhtoheprghlvgigrghnuggvrhdrug
+    gvuhgthhgvrhesrghmugdrtghomhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgv
+    nhhighesrghmugdrtghomhdprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrghrmh
+    drtghomhdprhgtphhtthhopehguhhrtghhvghtrghnshhinhhghhestghhrhhomhhiuhhm
+    rdhorhhgpdhrtghpthhtohepughmihhtrhihrdhoshhiphgvnhhkohestgholhhlrggsoh
+    hrrgdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthht
+    oheprghirhhlihgvugesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:P6yEafGe2iZwOtoy1QIujx9JKcXQzVBHGIr7FCMNM53dR4SA7uoFPQ>
+    <xmx:P6yEaeY4v6aLwSLaI-5cCVbJkfoaGXLUwMVMRnaHKWdyT5nGKisVzQ>
+    <xmx:P6yEabMl_SdUrT753Jz4Iu8zYXeBk5mOIBISChHExnjKF4ONkrV_hA>
+    <xmx:P6yEaXzKVHf1zwRQ33ST0VoEQ8N5wtThWPkF8uM3zAbRNMiwOEPh3w>
+    <xmx:QKyEaQhAhMewyYq6yCQSoIXvkGVUwlZLw6u6ZWNTBxx4oxvqxJ3bHWjK>
+Feedback-ID: i03f14258:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id A92B615C0090; Thu,  5 Feb 2026 09:42:07 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: ATdnKwv6RJ4o
+Date: Thu, 05 Feb 2026 07:41:11 -0700
+From: "Alex Williamson" <alex@shazbot.org>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>
+Cc: "Simona Vetter" <simona@ffwll.ch>, "Jani Nikula" <jani.nikula@intel.com>,
+ "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ "Sumit Semwal" <sumit.semwal@linaro.org>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
+ "David Airlie" <airlied@gmail.com>, "Gerd Hoffmann" <kraxel@redhat.com>,
+ "Dmitry Osipenko" <dmitry.osipenko@collabora.com>,
+ "Gurchetan Singh" <gurchetansingh@chromium.org>,
+ "Chia-I Wu" <olvaffe@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Kevin Tian" <kevin.tian@intel.com>, "Joerg Roedel" <joro@8bytes.org>,
+ "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Felix Kuehling" <Felix.Kuehling@amd.com>,
+ "Ankit Agrawal" <ankita@nvidia.com>,
+ "Vivek Kasireddy" <vivek.kasireddy@intel.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ iommu@lists.linux.dev, kvm@vger.kernel.org
+Message-Id: <1b7ee5ad-6dde-415a-8e06-93daddc9bcef@app.fastmail.com>
+In-Reply-To: <f27ad57b-d935-4ffa-a65c-9f6b5d9a1f9a@amd.com>
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
+ <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
+ <20260204095659.5a983af2@shazbot.org>
+ <ac33ad1a-330c-4ab5-bb98-4a4dedccf0da@amd.com>
+ <20260205121945.GC12824@unreal> <20260205142111.GK2328995@ziepe.ca>
+ <f27ad57b-d935-4ffa-a65c-9f6b5d9a1f9a@amd.com>
+Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-52261-lists,linux-media=lfdr.de,cisco];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TAGGED_FROM(0.00)[bounces-52262-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[35];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FREEMAIL_CC(0.00)[ffwll.ch,intel.com,linaro.org,amd.com,gmail.com,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,huawei,cisco];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,mozilla.org:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,chromium.org:email,webkit.org:url]
-X-Rspamd-Queue-Id: 1993FF41EF
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[shazbot.org:+,messagingengine.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.994];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,shazbot.org:dkim,kaspersky.com:email,messagingengine.com:dkim,anongit.freedesktop.org:url]
+X-Rspamd-Queue-Id: 8271EF42D3
 X-Rspamd-Action: no action
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As the media subsystem will experiment with a multi-committers model,
-update the Maintainer's entry profile to the new rules, and add a file
-documenting the process to become a committer and to maintain such
-rights.
 
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
----
- Documentation/driver-api/media/index.rst      |   1 +
- .../media/maintainer-entry-profile.rst        |  21 ++
- .../driver-api/media/media-committers.rst     | 201 ++++++++++++++++++
- 3 files changed, 223 insertions(+)
- create mode 100644 Documentation/driver-api/media/media-committers.rst
+On Thu, Feb 5, 2026, at 7:28 AM, Christian K=C3=B6nig wrote:
+> On 2/5/26 15:21, Jason Gunthorpe wrote:
+>> On Thu, Feb 05, 2026 at 02:19:45PM +0200, Leon Romanovsky wrote:
+>>> You don't need any backmerge, SHA-1 version of vfio-v6.19-rc8 tag is=
+ the
+>>> same as in Linus's tree, so the flow is:
+>>=20
+>> I'm confused what is the problem here?
+>>=20
+>> From https://anongit.freedesktop.org/git/drm/drm-misc
+>>  * branch                          drm-misc-next -> FETCH_HEAD
+>>=20
+>> $ git show FETCH_HEAD
+>> commit 779ec12c85c9e4547519e3903a371a3b26a289de
+>> Author: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>
+>> Date:   Tue Feb 3 16:48:46 2026 +0300
+>>=20
+>>     drm/komeda: fix integer overflow in AFBC framebuffer size check
+>>=20
+>> $ git merge-base  FETCH_HEAD 61ceaf236115f20f4fdd7cf60f883ada1063349a
+>> 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+>> $ git describe --contains 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+>> v6.19-rc6^0
+>>=20
+>> $ git log --oneline 61ceaf236115f20f4fdd7cf60f883ada1063349a ^FETCH_H=
+EAD
+>> 61ceaf236115f2 vfio: Prevent from pinned DMABUF importers to attach t=
+o VFIO DMABUF
+>>=20
+>> Just pull Alex's tree, the drm-misc-next tree already has v6.19-rc6,
+>> so all they will see is one extra patch from Alex in your PR.
+>>=20
+>> No need to backmerge, this is normal git stuff and there won't be
+>> conflicts when they merge a later Linus tag.
+>
+> Correct, but that would merge the same patch through two different=20
+> trees. That is usually a pretty big no-go.
 
-diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-index d5593182a3f9..08fc2cfc07a3 100644
---- a/Documentation/driver-api/media/index.rst
-+++ b/Documentation/driver-api/media/index.rst
-@@ -26,6 +26,7 @@ Documentation/userspace-api/media/index.rst
-     :numbered:
- 
-     maintainer-entry-profile
-+    media-committers
- 
-     v4l2-core
-     dtv-core
-diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-index 6513bd281354..2c5f1eba5684 100644
---- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-+++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-@@ -174,6 +174,17 @@ the subsystem's maintainers. The nominated maintainer must have earned a trust
- relationship with all Media Subsystem Maintainers, as, by being granted
- Patchwork access, you will take over part of their maintenance tasks.
- 
-+Media Committers
-+----------------
-+
-+Experienced and trusted Media Maintainers may be granted commit rights
-+which allow them to directly push patches to the media development tree instead
-+of posting a Pull Request for the Media Subsystem Maintainers. This helps
-+offloading some of the work of the Media Subsystem Maintainers.
-+
-+More details about Media Committers' roles and responsibilities can be
-+found here: :ref:`Media Committers`.
-+
- Media development tree
- ----------------------
- 
-@@ -347,9 +358,19 @@ at some moment. See: :ref:`kernel_org_trust_repository`.
- 
- With the pull request workflow, pull requests shall use PGP-signed tags.
- 
-+With the committers' workflow, this is ensured at the time merge request
-+rights will be granted to the gitlab instance used by the media-committers.git
-+tree, after receiving the e-mail documented in
-+:ref:`media-committer-agreement`.
-+
- For more details about PGP signing, please read
- Documentation/process/maintainer-pgp-guide.rst.
- 
-+Maintaining media maintainer status
-+-----------------------------------
-+
-+See :ref:`Maintain Media Status`.
-+
- List of Media Maintainers
- -------------------------
- 
-diff --git a/Documentation/driver-api/media/media-committers.rst b/Documentation/driver-api/media/media-committers.rst
-new file mode 100644
-index 000000000000..fd2f30700958
---- /dev/null
-+++ b/Documentation/driver-api/media/media-committers.rst
-@@ -0,0 +1,201 @@
-+.. _Media Committers:
-+
-+Media Committers
-+================
-+
-+Who is a Media Committer?
-+-------------------------
-+
-+A Media Committer is a Media Maintainer with patchwork access who has been
-+granted commit access to push patches from other developers and their own
-+patches to the
-+`media-committers <https://gitlab.freedesktop.org/linux-media/media-committers>`_
-+tree.
-+
-+These commit rights are granted with expectation of responsibility:
-+committers are people who care about the Linux Kernel as a whole and
-+about the Linux media subsystem and want to advance its development. It
-+is also based on a trust relationship among other committers, maintainers
-+and the Linux Media community.
-+
-+As Media Committer you have the following additional responsibilities:
-+
-+1. Patches you authored must have a ``Signed-off-by``, ``Reviewed-by``
-+   or ``Acked-by`` from another Media Maintainer;
-+2. If a patch introduces a regression, then that must be corrected as soon
-+   as possible. Typically the patch is either reverted, or an additional
-+   patch is committed to fix the regression;
-+3. If patches are fixing bugs against already released Kernels, including
-+   the reverts mentioned above, the Media Committer shall add the needed
-+   tags. Please see :ref:`Media development workflow` for more details.
-+4. All Media Committers are responsible for maintaining
-+   `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
-+   updating the state of the patches they review or merge.
-+
-+
-+Becoming a Media Committer
-+--------------------------
-+
-+Existing Media Committers can nominate a Media Maintainer to be granted
-+commit rights. The Media Maintainer must have patchwork access,
-+have been reviewing patches from third parties for some time, and has
-+demonstrated a good understanding of the maintainer's duties and processes.
-+
-+The ultimate responsibility for accepting a nominated committer is up to
-+the Media Subsystem Maintainers. The nominated committer must have earned a
-+trust relationship with all Media Subsystem Maintainers, as, by granting you
-+commit rights, part of their responsibilities are handed over to you.
-+
-+Due to that, to become a Media Committer, a consensus between all Media
-+Subsystem Maintainers is required.
-+
-+.. Note::
-+
-+   In order to preserve/protect the developers that could have their commit
-+   rights granted, denied or removed as well as the subsystem maintainers who
-+   have the task to accept or deny commit rights, all communication related to
-+   changing commit rights should happen in private as much as possible.
-+
-+.. _media-committer-agreement:
-+
-+Media Committer's agreement
-+---------------------------
-+
-+Once a nominated committer is accepted by all Media Subsystem Maintainers,
-+they will ask if the developer is interested in the nomination and discuss
-+what area(s) of the media subsystem the committer will be responsible for.
-+Those areas will typically be the same as the areas that the nominated
-+committer is already maintaining.
-+
-+When the developer accepts being a committer, the new committer shall
-+explicitly accept the Kernel development policies described under its
-+Documentation/, and in particular to the rules in this document, by writing
-+an e-mail to media-committers@linuxtv.org, with a declaration of intent
-+following the model below::
-+
-+   I, John Doe, would like to change my status to: Committer
-+
-+   As Media Maintainer I accept commit rights for the following areas of
-+   the media subsystem:
-+
-+   ...
-+
-+   For the purpose of committing patches to the media-committers tree,
-+   I'll be using my user https://gitlab.freedesktop.org/users/<username>.
-+
-+Followed by a formal declaration of agreement with the Kernel development
-+rules::
-+
-+   I agree to follow the Kernel development rules described at:
-+
-+   https://www.kernel.org/doc/html/latest/driver-api/media/media-committers.rst
-+
-+   and to the Linux Kernel development process rules.
-+
-+   I agree to abide by the Code of Conduct as documented in:
-+   https://www.kernel.org/doc/html/latest/process/code-of-conduct.rst
-+
-+   I am aware that I can, at any point of time, retire. In that case, I will
-+   send an e-mail to notify the Media Subsystem Maintainers for them to revoke
-+   my commit rights.
-+
-+   I am aware that the Kernel development rules change over time.
-+   By doing a new push to media-committers tree, I understand that I agree
-+   to follow the rules in effect at the time of the commit.
-+
-+That e-mail shall be signed via the Kernel Web of trust with a PGP key cross
-+signed by other Kernel and media developers. As described at
-+:ref:`media-developers-gpg`, the PGP signature, together with the gitlab user
-+security are fundamental components that ensure the authenticity of the merge
-+requests that will happen at the media-committers.git tree.
-+
-+In case the kernel development process changes, by merging new commits to the
-+`media-committers tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
-+the Media Committer implicitly declares their agreement with the latest
-+version of the documented process including the contents of this file.
-+
-+If a Media Committer decides to retire, it is the committer's duty to
-+notify the Media Subsystem Maintainers about that decision.
-+
-+.. note::
-+
-+   1. Changes to the kernel media development process shall be announced in
-+      the media-committers mailing list with a reasonable review period. All
-+      committers are automatically subscribed to that mailing list;
-+   2. Due to the distributed nature of the Kernel development, it is
-+      possible that kernel development process changes may end being
-+      reviewed/merged at the Linux Docs and/or at the Linux Kernel mailing
-+      lists, especially for the contents under Documentation/process and for
-+      trivial typo fixes.
-+
-+Media Core Committers
-+---------------------
-+
-+A Media Core Committer is a Media Core Maintainer with commit rights.
-+
-+As described in Documentation/driver-api/media/maintainer-entry-profile.rst,
-+a Media Core Maintainer maintains media core frameworks as well, besides
-+just drivers, and so is allowed to change core files and the media subsystem's
-+Kernel API. The extent of the core committer's grants will be detailed by the
-+Media Subsystem Maintainers when they nominate a Media Core Committer.
-+
-+Existing Media Committers may become Media Core Committers and vice versa.
-+Such decisions will be taken in consensus among the Media Subsystem
-+Maintainers.
-+
-+Media committers rules
-+----------------------
-+
-+Media committers shall do their best efforts to avoid merging patches that
-+would break any existing drivers. If it breaks, fixup or revert patches
-+shall be merged as soon as possible, aiming to be merged at the same Kernel
-+cycle the bug is reported.
-+
-+Media committers shall behave accordingly to the rights granted by
-+the Media Subsystem Maintainers, especially with regards of the scope of changes
-+they may apply directly at the media-committers tree. That scope can
-+change over time on a mutual agreement between Media Committers and
-+Media Subsystem Maintainers.
-+
-+The Media Committer workflow is described at :ref:`Media development workflow`.
-+
-+.. _Maintain Media Status:
-+
-+Maintaining Media Maintainer or Committer status
-+------------------------------------------------
-+
-+A community of maintainers working together to move the Linux Kernel
-+forward is essential to creating successful projects that are rewarding
-+to work on. If there are problems or disagreements within the community,
-+they can usually be solved through healthy discussion and debate.
-+
-+In the unhappy event that a Media Maintainer or Committer continues to
-+disregard good citizenship (or actively disrupts the project), we may need
-+to revoke that person's status. In such cases, if someone suggests the
-+revocation with a good reason, then after discussing this among the Media
-+Maintainers, the final decision is taken by the Media Subsystem Maintainers.
-+
-+As the decision to become a Media Maintainer or Committer comes from a
-+consensus between Media Subsystem Maintainers, a single Media Subsystem
-+Maintainer not trusting the Media Maintainer or Committer anymore is enough
-+to revoke their maintenance, Patchwork grants and/or commit rights.
-+
-+Having commit rights revoked doesn't prevent Media Maintainers to keep
-+contributing to the subsystem either via the pull request or via email workflow
-+as documented at the :ref:`Media development workflow`.
-+
-+If a maintainer is inactive for more than a couple of Kernel cycles,
-+maintainers will try to reach you via e-mail. If not possible, they may
-+revoke their maintainer/patchwork and committer rights and update MAINTAINERS
-+file entries accordingly. If you wish to resume contributing as maintainer
-+later on, then contact the Media Subsystem Maintainers to ask if your
-+maintenance, Patchwork grants and commit rights can be restored.
-+
-+References
-+----------
-+
-+Much of this was inspired by/copied from the committer policies of:
-+
-+- `Chromium <https://chromium.googlesource.com/chromium/src/+/main/docs/contributing.md>`_;
-+- `WebKit <https://webkit.org/commit-and-review-policy/>`_;
-+- `Mozilla <https://www.mozilla.org/hacking/committer/>`_.
--- 
-2.51.0
+Applying the patch through two different trees is a no-go, but merging t=
+he same commit from a shared branch or tag is very common and acceptable=
+.  It's the same commit after all, there is no conflict, no duplicate co=
+mmit.  When the trees are merged, the commit will exist once in the log.=
+  Thanks,
 
+Alex
 
