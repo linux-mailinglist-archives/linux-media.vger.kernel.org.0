@@ -1,230 +1,177 @@
-Return-Path: <linux-media+bounces-52222-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52223-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sIOaOxz3g2kwwQMAu9opvQ
-	(envelope-from <linux-media+bounces-52222-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 02:49:17 +0100
+	id GL/5GpsehGn7zAMAu9opvQ
+	(envelope-from <linux-media+bounces-52223-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 05:37:47 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902ABEDC61
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 02:49:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B9AEE8D4
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 05:37:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 26A63301545A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 01:49:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 544AC301573E
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 04:37:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A609287510;
-	Thu,  5 Feb 2026 01:49:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5968D2EBB89;
+	Thu,  5 Feb 2026 04:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="llodvH/r"
+	dkim=pass (2048-bit key) header.d=u-northwestern-edu.20230601.gappssmtp.com header.i=@u-northwestern-edu.20230601.gappssmtp.com header.b="DleOysBr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013002.outbound.protection.outlook.com [52.101.127.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642A39475;
-	Thu,  5 Feb 2026 01:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770256147; cv=fail; b=VLqQc3L4avj7GYJ49RF/+GKbU8YDkmo7pU7Nqp7fC/+uCMHXphtmI9gFMVEosOCTRCjiQL1z3KqbgI214phNsmuaCQ83ahUjyMuwdQxrPYi4W1aYQuvSNMLAtjZpN24NPFBHj7xt0xOiQDnjL4STz/11j1wH9KpJIGqQCUuKSh8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770256147; c=relaxed/simple;
-	bh=Fe9yeXo2yQhEFEXOCoC3KOnjVYquoYqKWP3M41OjlkU=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=OqwOV06undfONvGz80BJyOMlnCIscnIIglsyPu41/lDBMxguB4Wh7fbP7m4VXPaBhVuR8zSpirgd4vHCVPs058Uf86/21KQgbOn4521/XO7z2e/NICjLrUtZol8oo+Mg0SALg9hPfzNiWJkyJZjoDopnC7BCGrJ+i2YFDDlhzOU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=llodvH/r; arc=fail smtp.client-ip=52.101.127.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Cw+GA/ab2NwgBvUuc9TBRRQ8cvBuGgoNsUQUCEW+4Y126oT4xIDZmGFcYFFoifdARtMthM8rNKHeJPJwTJNLnr2RDlzVKkL8hDEalsEjcmXzSZuX2VNvWOz+jo3XK02vQLsJaEw61KPHCU7zjtWTOH88iwKljc5ScELppv9heAef/w3BKbGrqlip92PoBpcIzA1v2aLeQoDMOiZvdASSCqp6yrRxRPrI1QkzOIbaKJDD2ZLGytloB2zoG3UZnWX+IhpKdCJ5ajykYmQcIiuPJDGgJPdQNGqpL2UZ2BKMjxcRpi/i4hEpAzpS9L9PJp+XWMRIVtMEMrSVQS9fBno/rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VUOYlTjl+wHS/krRXGhK6NLfQ8yN06wUGYxbnzrm34c=;
- b=FUANjKciMJOnVFZFI1Rig4K/Z3APj88YoBHE+gFz/FXIE3EMieVKBlM/OxBU0O9Gd25zv9BRLVOVh65qfVjAlP/phVpHptfQEk0tf7urRDv0wBILc/xB5xIExuFzS1APcHGg2JSoCKclWst+FUUH1MnO3uqhVpE+pJkQJb0KohjcaSnypCW54IAeoViD/1a6hspWLxKHRdzsae1tpguYiHrLjX6DFubXjMzldq2rZELGZJItgHfZCcyK1SESfsd8kFN7lWwwJwPJhQkOC2C7z3X6lUw/Ml9lOljzyBJe/awKBpv0Zh6XEZWD8sbKh9n/nqdHZAR6Oeu3lzSdJngHuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VUOYlTjl+wHS/krRXGhK6NLfQ8yN06wUGYxbnzrm34c=;
- b=llodvH/rpZu6NP3wkvqwOhaMpdVoOy7N5VCGv9uj7k4AYjvy/mhyRLrne1iPgV7hmRsiFkyaA/62imBwq8+wYsEi8kt5apEMp4P2F+hzBN4e1wZ4/iHe6Hr6OiRjSGUgemg33iC9RPuugNb6FjPWQulma0sUDH3p+U9q16w/XqMwiP3f1Iz+LPa9UjUuCD0Y3nwSyM8vTAkMWdytmrOaKFarjOQN/h8UtCjZ/K50jyW+0CgssN16HL/thtTEpvNs9cK4ZSgeegS4gzmF9UDHpeA4PdeHqn8R9rcvpdFbDwIFpjKKYOTqD0giOBRW+EiLeCAONIlCAcTcRshjnFDkoA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from TYZPR06MB6895.apcprd06.prod.outlook.com (2603:1096:405:21::13)
- by SEYPR06MB5109.apcprd06.prod.outlook.com (2603:1096:101:55::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.12; Thu, 5 Feb
- 2026 01:49:04 +0000
-Received: from TYZPR06MB6895.apcprd06.prod.outlook.com
- ([fe80::67c4:dcb9:9cbf:31e6]) by TYZPR06MB6895.apcprd06.prod.outlook.com
- ([fe80::67c4:dcb9:9cbf:31e6%5]) with mapi id 15.20.9587.010; Thu, 5 Feb 2026
- 01:49:04 +0000
-From: huanglipeng <huanglipeng@vivo.com>
-To: sean@mess.org,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0B522129B
+	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 04:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770266253; cv=none; b=gnkWoZREVN66XrrcdRhvznoKCHtQLCraYdgIIZjuqvY2JsXG6WlxdFvbnykVSToTTdkONjgMKB7YltOq7cfYdBOvvdzZKXKurRGmm3VlQu4k6HYsJXQiNiWcB84hi7oHUDh8yMA3AOEB2nHBJ6dt6CdUDzOgzEFWX6hnR3CDL3U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770266253; c=relaxed/simple;
+	bh=UnrAmmSbaRoksWNGky3SSS1vkAjebM2z+IvCmTfQyE0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sK6XtUuqcYoOCIxegNGuKAlKCC2aJB7uXciLo+g9JWIlCqbNcsiKpXNGqMaxsSq/UfXrhQ2Frs4J8uM6cqYR5z0koZI8dRpqMcZwCMRqGGP0xBll3Kx6ijlmaxoLh8NQ1MR3ABvAUsue6H+1DvNbrBIHw0zif/nqudEmN0bvg38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu; spf=pass smtp.mailfrom=u.northwestern.edu; dkim=pass (2048-bit key) header.d=u-northwestern-edu.20230601.gappssmtp.com header.i=@u-northwestern-edu.20230601.gappssmtp.com header.b=DleOysBr; arc=none smtp.client-ip=209.85.161.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=u.northwestern.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=u.northwestern.edu
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-662f30d3f1fso992076eaf.1
+        for <linux-media@vger.kernel.org>; Wed, 04 Feb 2026 20:37:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=u-northwestern-edu.20230601.gappssmtp.com; s=20230601; t=1770266252; x=1770871052; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HJ3frmblWiygOYmfj4eESIem1C0eBPRtCJOntjI5VdM=;
+        b=DleOysBrx2KKarfVAbvQAyj3mghSiyzVhR3vaIYan0hrigWB95BNkB/ltt/wOkJvvl
+         w/rziMGBkcelN7TZXhzW5AppvQ2ChgE953ii3ulheh3l1Wzo33PE3jSycqJJWPrXPM7T
+         +HY3pw+BN3osz6CbQ7qkYcMtmRlXdhYgeNSO+g8miBzr/utl98WNFufZ+WlSBHI3FZ/Z
+         H7S/+bdshfa2dBBSoL1cW3yOOOrvTfEjuXDjspzlbDxS43bN5EW7EpV/auWxHGQEGqNy
+         soE+NFMhdn0TwAg73Tn400tIyiV9jTOCnC267vh4xf453laiDU3sBN1nai6benLM2Kh6
+         9N1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770266252; x=1770871052;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HJ3frmblWiygOYmfj4eESIem1C0eBPRtCJOntjI5VdM=;
+        b=NErdwoSfAZTzOaGyXGGxzoo8vUu7dHsSmg0t88zCK6um9DpUgyQm4Q9xoJoJUQQbCd
+         6Cb7MiUfUSMAVA1sSh82p55yCNssj6atxhCCYQ7DR1EZMJ5q5LFLWocnJslS1dbqyNeK
+         dxrE97B9F4hHEoXM1LN5zbvQXyN+q0XrLiyJRNOST/Wp40r2XeH5HGvKyc/F104pu50v
+         wFzLcoCQIZoIqOZuUme9xf5ksTp2ATWjW1ZwAtZ7poTAs6fIeL3BZ7R+Nw85OSder2sj
+         uqO9pnTGY02T/l6XzgtfTS4gl8HlYYInJ4urTs5qPz3nEUez7isrL3qYJBtqxsq4uOjv
+         AR5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXYvcs+aSaIar/Kn5GkUgTzuvPV0Mt5Bg6/QXoRkqfZqvlTL+HOIcKjjQ5NkopdKLmtGIq5QDpLyOfsdQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK1QcdqKz0G6zv5syWVwa1HHaC2IvoDoHu1KYdogOplHnha4mH
+	/IFYQAkIx0x38k4KPWn5mcea8LKu5XTGNRX+9fZXfCd/i94tMvB/3dGKUdk8LHzJnwQ=
+X-Gm-Gg: AZuq6aLgq61kJHqzwPl7SvSpTTSmEdv1RxPXx5Y6gIC58gEKBoUZljA2QnZTWhfPdCt
+	nmG76WvQFA015b4mJ457TSVWykLxLCNHLIG1BoClxK97Pp7sktvDltEws7d0ez6PyAMJc39Vs7O
+	acK3wRkJ6z+Oi7ZZVCcSPC82257UGQRDZLRNUqkC9/yguLzZJjz29D28P4PcIOPynxAJNEBmMRd
+	nDbRLPydt5ThK0FAA6R5IgY/GfvZ0MqeHAKII+68YvhlHUSLWkyh5jYVPP45PAr7qS+S2yo1JaM
+	4yn9j57XmJDS9Qwa8YKlCn+Pxgpfp5Hdmj622cAfsuw8zuS0uf0cv+i+WwxJpmrR6ZUWp0xXDVU
+	fAzsQoFj/slLdfpjgKVcoYOTdFzxd7T9vMlM7X2jQgO0HcZedywAfO23DRJM6XCuwx77GR0BqsQ
+	2DUeom4g5VPbbQoSJZyrr4o4KwfLKonkO51UPg0p5x6c/57coD+0k5KgFEv3w1mGTs6elDGaLpU
+	04BZj13/GGSStfiLfQbLm7g88K5BU0=
+X-Received: by 2002:a05:6820:468c:b0:65f:6c48:7860 with SMTP id 006d021491bc7-66bac25b5c3mr775281eaf.9.1770266252383;
+        Wed, 04 Feb 2026 20:37:32 -0800 (PST)
+Received: from security.cs.northwestern.edu (security.cs.northwestern.edu. [165.124.184.136])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-66a33189b90sm2544993eaf.6.2026.02.04.20.37.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 20:37:31 -0800 (PST)
+From: Ziyi Guo <n7l8m4@u.northwestern.edu>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	LiPeng Huang <huanglipeng@vivo.com>
-Subject: [PATCH v1] media: lirc: modify the timeout waiting time for the  infrared remote control.
-Date: Thu,  5 Feb 2026 09:48:52 +0800
-Message-Id: <20260205014852.380814-1-huanglipeng@vivo.com>
+	Ziyi Guo <n7l8m4@u.northwestern.edu>
+Subject: [PATCH] media: atomisp: add missing mutex in atomisp_vidioc_default()
+Date: Thu,  5 Feb 2026 04:37:30 +0000
+Message-Id: <20260205043730.3856488-1-n7l8m4@u.northwestern.edu>
 X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR02CA0004.apcprd02.prod.outlook.com
- (2603:1096:4:194::14) To TYZPR06MB6895.apcprd06.prod.outlook.com
- (2603:1096:405:21::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB6895:EE_|SEYPR06MB5109:EE_
-X-MS-Office365-Filtering-Correlation-Id: dfbd9382-f2c5-4f62-124d-08de6458be24
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?QqQCGHRYgq+1wOZh/zr2q7rzFiu1Ek/ZxoOA3lIdgHMMqKOQXF3Cv3jbi1WH?=
- =?us-ascii?Q?vwzgLF9XHuYDWs0FOZyRcFBXFhrcPf7OoO6h22Pu+4e5JsvyuH8UZL/IXRV8?=
- =?us-ascii?Q?o6G7DcXb3CRUI6lrC9ec//C68q3y+Gzj9hjNVzYRNsxY5dOFMuvm3m/vtXU1?=
- =?us-ascii?Q?kbJbEPEAlqQIoz3EpcqAZWfeagySDyP3oagq9g/C8/DN2e8XdRUREAdYK9Jw?=
- =?us-ascii?Q?K0yWu19j845IzA4EGf+T9i5JpF68CuNYOXmQX1++lBpCwuFF261UAR1ulHNy?=
- =?us-ascii?Q?s8BXnwugKPOYxLqRykDTYRhHjFDu0hA3nttLUatrchXp0ZZSkaDbPddnssl6?=
- =?us-ascii?Q?T8j9ICGMMoyW8Jfi2/vWn3t4uqdBBqdO6CIViMvkk2gltUCNA1eXYBQFpvDV?=
- =?us-ascii?Q?lb2dxYou5fvmms5ZjvTjLOpV+HhxMxGDqvI3Cxb8SJtUkuS1lA1DEcEAIWJg?=
- =?us-ascii?Q?SJ60JZOznWAx4Zfpznuq6ncS7Fz9eyvQZ6mJS6X7OyaKnNzB7SbLNzDv29Zk?=
- =?us-ascii?Q?cJz2xjD7rHOLSBhZ8iatc2uwXAFj+PC0fAfNSR7h38k0C5bF2cFJkT5OFenj?=
- =?us-ascii?Q?Px5xw8bDcmy0KKgyLTnfNVJpweybGGKkQ7wjmxysOCciefYXRtWJCOM83WjT?=
- =?us-ascii?Q?TQkfxGjH0NPRN+FqMF+zZCG5skfAMY1CF2JIyajJxQaub2igqNbnEHlRvnWg?=
- =?us-ascii?Q?JXnAlw3e8Qt4c4Rmh/ErbUEZOs/KvYsKzi1X894HO07WRJjLroSF4RKhfSR/?=
- =?us-ascii?Q?dCdNrTDq66m9uZFiq9BQw0OEfYT1w/Qh9aXry8/wEWStFY6LX1c8YQVJ+WzQ?=
- =?us-ascii?Q?stVKz6uZjqBhd1ekGgXfVS7AOz1UxdVmuUg6BDBSIOLvXCCVc8dU2BDZBQB5?=
- =?us-ascii?Q?eYXIW4NKJe8Epp0ObszGe6np0aUlOeF8gR+0UBOfHHmCegF7BIZWwNEYCRph?=
- =?us-ascii?Q?uvpyKw+Q2iGuYrK+dMWrAYxYN5Z+d92FXfCRI6KgLPwfZ4WjFDPSb7cCbCrm?=
- =?us-ascii?Q?Zh5w1Z4YLToGKSxpfZpVDxIJjsJOSObX+ISX/mQkR11XECb5cJyurHEefs5r?=
- =?us-ascii?Q?e7aajI2hr30R85pDPuRObmk9ZRk3Vx9q5nV69gG/+YnRViNSoFHe9lgNKSlJ?=
- =?us-ascii?Q?i4BNB01PfSggv+/N7D4UCjVFOd3gbZZd84Q9ddsZJ8+3vUt9WaEFYYjkUBSy?=
- =?us-ascii?Q?oK9Pid/02EIm7qUx2OQNEyQT6/HO1OWJaKcDVP4b9RUyLT2EZKbhvy/U77uS?=
- =?us-ascii?Q?KDOqaukU4px8lB+6OOG1o8shBeWKc7bK4qxw3QclTdLQnqQlh/sz/Wmq3ruX?=
- =?us-ascii?Q?33hojRlhTCQHQRyd/Ff5gt6twLnVKKwPQlh+Ak5Fokl0pdEMdAE98d+vNFWs?=
- =?us-ascii?Q?lzRUFf5GYn2QsCg+Q1poxQjL+KsHpJWC3xgci702EZ9OyWQqUpGuaOvGZ4Er?=
- =?us-ascii?Q?+U3214f/eOz3LpQpBDwgEyvmKRFCZIi1SYw1Hsr45YS6BfevWkCtXBavYgyP?=
- =?us-ascii?Q?MDRQ0BQ7quC1ScsdhwEiSDZy7fp/pBhhMTdJsB0HBdj2NEQrt4XbfQDwHvKd?=
- =?us-ascii?Q?IDvEnaZIWLPvM6JTNhvn71NI0KjVrf8Pq416zC9XBsIQm2nhMwVZG9yWPQkv?=
- =?us-ascii?Q?KNdcH3qQ0my/XaUMVtSbTbA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6895.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?O8fHqZO+Pz0SQbtoxJVuhhIywMXWMV0jUWA4fOE99/jL1R9qJ+Ejny7mmMRo?=
- =?us-ascii?Q?hOI9ZeFQ+orJl50nnBleMsAeIrMXgDXAUvqmOTuuAPAUGABRHId48IOzCTqR?=
- =?us-ascii?Q?1mRayhqxdAHF+f6xvUr2mQnQcf6g7x5EkIw4CYPdiHSlIRmqpIo7+QuibKPP?=
- =?us-ascii?Q?inzYoteHw7IiqdkgwP8UC8TeJti0Kv9A7nOHBPGUEGFJa2yf0GdbqL+9yJic?=
- =?us-ascii?Q?YynrPp/yvysMLP7tp/NnLSqGh9DUoVmxyTQOaC3ZgTnSm4EvqP+uDAv+ezLz?=
- =?us-ascii?Q?iNfghs6F7jfpUr3elmUgvQGPt+tFqeisLA0wQ7/4u+ECB/WMKnv6QvuwnPyE?=
- =?us-ascii?Q?9EW/FLLf++WvNUwTK36Hj1oSdshBU1dO76nGgze+tCPXBmUaREJ4275UR+OU?=
- =?us-ascii?Q?5BUMQmeWGaWbkWE6tKNxgmFtxVq3KQPcJZLrz6T1MSbHO5RoxIDlwwPOX2nT?=
- =?us-ascii?Q?o8zioMqOCsu3m94w+Ts9GH3alNseNCfJwuve4HkZi23cA4xzKdQvDn+5IFqM?=
- =?us-ascii?Q?98P/w9PBkqiQbTOhB9zwDzcJCKCumBlUjfJVZcSNKrJhyzi0Yg/Spovc7Q5q?=
- =?us-ascii?Q?xFJ2NycIY50W/MYhfQe2112LVcq4b98gk4Tt9SlfoSLl3HUVlFuS1KVtFD2Q?=
- =?us-ascii?Q?t7OW+dlzKIMCDYofjQp59bqRlBsjLgmAeQX+UK1z62NjSTLQlZyc/QDKM8bA?=
- =?us-ascii?Q?nV6gEyWwN7A0K1JWOiPvt7R+7FMq8rlAh4RaE3QX5Mr/OQbAoXpQDuMSeP25?=
- =?us-ascii?Q?pcEYXFK5UXyc8tRasvoEHw/iK1yFDjTZIwcZMYco83U49ul2kjn9sR7aFa0g?=
- =?us-ascii?Q?OfUspZ2kxRoaQba4r2BS654Me7Lu7nL5xCxS6iBWPlqKNJRMu1Xle3gpxRbM?=
- =?us-ascii?Q?yEE8tDpCDKXcfxPqt1awIAV1PpaJXLRN60BL1qYB+1lTRxkAtUNM0D5xNS+R?=
- =?us-ascii?Q?oyjuozvvkJIBT4N/YocI9ftOCy8jExGRVtDvAZ7N713XOsBgFjl1M6BIZbKX?=
- =?us-ascii?Q?0N2rcT3ScLadvl+d+mr3FA4s6CrdzT6wqzoKkALFvNQpMqmUasjRer5pxaoz?=
- =?us-ascii?Q?K8ZOo9lr0G1UvONTYYRTPbDr76YQFW49T2Um5fhDZbgoDaQ9qMPUGvtZO5iq?=
- =?us-ascii?Q?jao+McjsyQ3iAQ242UnEdn0cqwMy69BbVrlYIqb15/BwVmeuBNU3hH4eDuFl?=
- =?us-ascii?Q?X7XwOvJl1UaSr/WA7bPoXeBdzUc3Yh8N9D5wSRFYWXbGlBk7n9C48Z367okx?=
- =?us-ascii?Q?O4LxTtsiYw6CymaEEB7ArtWSmaddGnCOl/pJZKjlFrMNjg33m7EOYvvDuE4r?=
- =?us-ascii?Q?D6g1/yorZGdsj1DBDhJyogejujmW6c8Qlx5RsIPoEpnyvRSZQ7Ff4a3d/t7i?=
- =?us-ascii?Q?+iLc/Vpxons2lPtReEkbscu+T/s90bo/azwlSFdnoLlYBQqnepm1Lp+tqrtq?=
- =?us-ascii?Q?uvEp68kyCKlE5galD7gaFlwOholSs0BWJBmnlGTjj2FLqDQhrxFfE2eHy8NJ?=
- =?us-ascii?Q?JeVFs9D5VS1baq4I4kklklc6rBHgYsPEKG/WnnjRfRVobZSxzXytEvTXDWU6?=
- =?us-ascii?Q?NWAyZ8rZKqH8dYjyT+DpDNZZz5SdCzMWbQxZvCW+XsB5vjm0WrmzOwvpRmh+?=
- =?us-ascii?Q?eMoP+Bk3dTshPFXfHG4ayF0wKzHsaX2isZSl0pL78RBTRkPFRu38iVoyqjzz?=
- =?us-ascii?Q?Y0bzfJVq62JNGa3LLoRWJ06x6bfKXujIAa7ihwsGorEWidXBvFQr8NA+gojA?=
- =?us-ascii?Q?PYK+lIrv2A=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfbd9382-f2c5-4f62-124d-08de6458be24
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6895.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 01:49:04.5129
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ip8cg1NegVYN347dUvGKOyP2sehYXoOlAO3MvgJmfIJL8KNfoiaqOOrk/Bmu5OHaKH7jx6q2JzbZvj/rhZ+nMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5109
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.06 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[vivo.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[vivo.com:s=selector2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[u-northwestern-edu.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[northwestern.edu : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[u-northwestern-edu.20230601.gappssmtp.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52222-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52223-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[huanglipeng@vivo.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[n7l8m4@u.northwestern.edu,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[vivo.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vivo.com:email,vivo.com:dkim,vivo.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 902ABEDC61
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C2B9AEE8D4
 X-Rspamd-Action: no action
 
-From: LiPeng Huang <huanglipeng@vivo.com>
+atomisp_vidioc_default() calls atomisp_exp_id_unlock(),
+atomisp_exp_id_capture(), and atomisp_inject_a_fake_event() without
+holding isp->mutex. However, all three functions have
+lockdep_assert_held(&isp->mutex) indicating callers must hold this lock.
 
- sensor:increase IR_MAX_DURATION to 1000ms 
- to fix long IR remote timeouts Certain infrared remotes 
- (e.g., brand-specific smart home remotes, custom consumer electronics) 
- send extended code sequences that exceed the default 500ms 
- IR_MAX_DURATION threshold. This causes the kernel's raw 
- IR driver to discard incomplete code, resulting in unrecognized commands.
+Other ioctl handlers in the same driver (e.g., atomisp_start_streaming)
+properly acquire the mutex before operating on ISP state.
 
-Increase IR_MAX_DURATION to 1000ms:
-- Aligns with common extended IR protocol specs 
- (most long sequences use 700-900ms)
-- No impact on standard remotes 
- (all mainstream IR codes are <500ms)
-- Validated on vivo X200 and vivo X300, 
- resolves timeout issues without regressions
+Add mutex_lock()/mutex_unlock() around these three ioctl cases to fix the
+missing lock protection.
 
-Signed-off-by: LiPeng Huang <huanglipeng@vivo.com>
+Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
 ---
- include/media/rc-core.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/media/rc-core.h b/include/media/rc-core.h
-index 35c7a0546f02..9214f3fc174d 100644
---- a/include/media/rc-core.h
-+++ b/include/media/rc-core.h
-@@ -303,7 +303,7 @@ struct ir_raw_event {
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index bb8b2f2213b0..ab13630c8149 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -1521,10 +1521,14 @@ static long atomisp_vidioc_default(struct file *file, void *fh,
+ 		break;
  
- #define US_TO_NS(usec)		((usec) * 1000)
- #define MS_TO_US(msec)		((msec) * 1000)
--#define IR_MAX_DURATION		MS_TO_US(500)
-+#define IR_MAX_DURATION		MS_TO_US(1000)
- #define IR_DEFAULT_TIMEOUT	MS_TO_US(125)
- #define IR_MAX_TIMEOUT		LIRC_VALUE_MASK
- 
+ 	case ATOMISP_IOC_EXP_ID_UNLOCK:
++		mutex_lock(&asd->isp->mutex);
+ 		err = atomisp_exp_id_unlock(asd, arg);
++		mutex_unlock(&asd->isp->mutex);
+ 		break;
+ 	case ATOMISP_IOC_EXP_ID_CAPTURE:
++		mutex_lock(&asd->isp->mutex);
+ 		err = atomisp_exp_id_capture(asd, arg);
++		mutex_unlock(&asd->isp->mutex);
+ 		break;
+ 	case ATOMISP_IOC_S_ENABLE_DZ_CAPT_PIPE:
+ 		err = atomisp_enable_dz_capt_pipe(asd, arg);
+@@ -1537,7 +1541,9 @@ static long atomisp_vidioc_default(struct file *file, void *fh,
+ 		err = atomisp_formats(asd, 1, arg);
+ 		break;
+ 	case ATOMISP_IOC_INJECT_A_FAKE_EVENT:
++		mutex_lock(&asd->isp->mutex);
+ 		err = atomisp_inject_a_fake_event(asd, arg);
++		mutex_unlock(&asd->isp->mutex);
+ 		break;
+ 	case ATOMISP_IOC_S_ARRAY_RESOLUTION:
+ 		err = atomisp_set_array_res(asd, arg);
 -- 
 2.34.1
 
