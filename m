@@ -1,229 +1,271 @@
-Return-Path: <linux-media+bounces-52256-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52257-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KNZOMEWohGmI3wMAu9opvQ
-	(envelope-from <linux-media+bounces-52256-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:25:09 +0100
+	id yL7QEUGphGmI3wMAu9opvQ
+	(envelope-from <linux-media+bounces-52257-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:29:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B85EF3EB2
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8839F3F5F
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:29:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 798DC3016C89
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:24:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5E87E3029264
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:28:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741403EFD32;
-	Thu,  5 Feb 2026 14:24:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 068C23F076D;
+	Thu,  5 Feb 2026 14:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iQ2mzybV"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3H8TQ9Qn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012060.outbound.protection.outlook.com [52.101.53.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA5A221FCF
-	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 14:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770301471; cv=none; b=o03LCvko4SzrCSDobAZSaadWyqx8WL6ONRVYbqAOVSVf0NtEsYr76TQ9eo5UrzaupXO7IODlXiFRgV94H6CsRMOJIzC+bqamwduWoAZrHQXAPXFjf6y6pxusWb66m2oVza/16xtmthOHJXepPb2tDEr/6BHPzoeJtTJ96kOtnS8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770301471; c=relaxed/simple;
-	bh=5jFiY0cPrXV+MkyPAfGA7yuayjrXEnAoF53dOk6Pm1o=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aqLzh6pgJoNg+8kf4ch+jYVuqqjVFlw4I47Xl5nzKRUEqpJUo+Lx+fLdRxLhXpg+Upp3jaSdJZAHhkcRSzD/G2gpRbC81FjWPP0lbPEyHVN29Muv1Bh3cLMYwVLhP80Q1Zn9ESQNjDIx75kGN1B1LgJSatcnwnGu0YXDiOSv7SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iQ2mzybV; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1770301469;
-	bh=5jFiY0cPrXV+MkyPAfGA7yuayjrXEnAoF53dOk6Pm1o=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=iQ2mzybVEkTBCuCVQWOD2vB5Y1F4EFcBjHaESy8S1KWI20+Q+/sZR5MvATahKKwD0
-	 GNA0rL8Q1IZIkYbVfLxjmBeX5fjG4A6rpe95Nbi6sHeUwOJVlKRsbtwP2f54O41rlc
-	 R4N68wkMKIMUflRd856ebXF3NRz52JYHxOYI3tHgCVth2Lc+VHAt/0bY/hKLD9AXrp
-	 eo9iVKS2PqSLUIPdKBSDTFE2UWik3Q3xbd82ObQ2M181LhfW5KkVX/tjBvie5Pq+09
-	 nyRJQTte6XHMW5YjdGDrUfnP2cWztDnPScieCXGQEj6wIMBFrwVRnXY77md7Yhjk0M
-	 U87wqv0DRhr+g==
-Received: from [IPv6:2606:6d00:15:210e::5ac] (unknown [IPv6:2606:6d00:15:210e::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C49CD17E00A3;
-	Thu,  5 Feb 2026 15:24:28 +0100 (CET)
-Message-ID: <444435bf1e67841c49b22cb9b4a41c8c17c710e4.camel@collabora.com>
-Subject: Re: [PATCHv7 2/3] docs: media: document Media Maintainers
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Sakari Ailus	
- <sakari.ailus@linux.intel.com>, Laurent Pinchart	
- <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Bryan
- O'Donoghue <bryan.odonoghue@linaro.org>, Ricardo Ribalda
- <ribalda@chromium.org>
-Date: Thu, 05 Feb 2026 09:24:26 -0500
-In-Reply-To: <74976e732f6be2964e0371c73407c9dccf755424.1769511207.git.hverkuil+cisco@kernel.org>
-References: <cover.1769511207.git.hverkuil+cisco@kernel.org>
-	 <74976e732f6be2964e0371c73407c9dccf755424.1769511207.git.hverkuil+cisco@kernel.org>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-h5klbc5ztkTDcdWOf+bw"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262063F074B;
+	Thu,  5 Feb 2026 14:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770301735; cv=fail; b=lznY5CI3fvdYpk+CKG5puie454hQuMJ1CY+NPjE5zdHbUL8ijZvl9Jgc2TSjYlkamR3FM4h+C1sThbCd3Fm8O7cLulF4AlrSJc2iPi66RRuQVp+UZl5rp+Bo9stnGn0B47ZIiW8RT2QHIsA6Wyet3CfdE7xgSk0uKCQCaykI4Xc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770301735; c=relaxed/simple;
+	bh=N6MYHxJ/ltklTku3qIEFlFyx7SO6sEAnfEBZyy6xMY8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RqQNjrWe1xFoCInpbMcdaBs5PzwlDH15s487btKh4lWyp6yqVr7nfR5bsgy1T+BfG3V8i3vXvUZfRiB80vCqj1UWOVdF1GOWBEiH3Xk0kYM0OG4Vopqtw9GrBobHHyd+faTOLcHd/T6PBguEe7T3SmSQjcCSCEyOAYj/tlgROtI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3H8TQ9Qn; arc=fail smtp.client-ip=52.101.53.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YkcXjj8BabRf7aylhc7vbsWuIuRWIHhWDhdGL36ABGILrQqVRInmr2ZacBDhatxusxV59W7Ng2DpQebyrVVzwmWV2+85bljwJVmS9zJA/6gTOK3PYx1lq9R13pOKGDdPrG4yBYe095iYSQmK9E+oXPlR7kcq46RaBfqj+BnuMlsadiKmMb7R0BhJNxTArAi7zzJ2gKz5Ymz46aRCqHmcFIAgNO0r9xYPO1RQjPANS6MSjwgvHmfGFOlBHp6HfmnZUpgvrgMfFSBaaCnL+1MAdGsgl6CJRvXxlj2cL1xR0WwVTMSReljf6MDQN19+Z5pcN7rqrDbNM/8oAg9GvWl+qA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C4U2veOl5/lA/CDBj2YIMsedOzS/fOBJJ8G0S++VTXQ=;
+ b=bfasS4/MoriAedZQAT+0e462I9XgvUY/LAZS+9HYTNWrbLOqWSEsdtoxCnpj2llTMIv3ArxBWCP+ZeDeNwFFnJsQKkndWuTryY9JrfcgPwOG2WWBED+kUEnOi0J2FR7sxtjyWRu5A3NlNILNoNJUiHoXu47J1KSSHBo5cpDV38oCS+C4nMWLn5eTUYWzrgh6tbk9TQXLYI1NJDU4ayP3WYme38ZIuQb25jc2zfKjyCh4vJb+jwDemtQz2J94kqUxThQOV3ZKVTHupX52ExfLiBQp63OLeIye/ky1hJP4OYaYEgqfwlcsb0b5/3k071H1DOWtAoEdFQiwRISXm6HGFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C4U2veOl5/lA/CDBj2YIMsedOzS/fOBJJ8G0S++VTXQ=;
+ b=3H8TQ9QnRwVXNSb/q4MuyrbLm1YrErCD+kdgx8ORjYgPWr8nIml5Av3X2D4j+9c/b4/9+2or4NBw8FvKLLdy5SuDCzt+0wFZHdh8PBsedMi06m1RwOtA9S0ko2DksvYd/9wPAD4kSXbStCxBW0WNeTBP4zqVyKWAAOUkroCd0Co=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW6PR12MB8705.namprd12.prod.outlook.com (2603:10b6:303:24c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.13; Thu, 5 Feb
+ 2026 14:28:51 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9587.013; Thu, 5 Feb 2026
+ 14:28:50 +0000
+Message-ID: <f27ad57b-d935-4ffa-a65c-9f6b5d9a1f9a@amd.com>
+Date: Thu, 5 Feb 2026 15:28:37 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
+To: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
+Cc: Alex Williamson <alex@shazbot.org>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Kevin Tian <kevin.tian@intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Felix Kuehling
+ <Felix.Kuehling@amd.com>, Ankit Agrawal <ankita@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev, kvm@vger.kernel.org
+References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
+ <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
+ <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
+ <20260204095659.5a983af2@shazbot.org>
+ <ac33ad1a-330c-4ab5-bb98-4a4dedccf0da@amd.com>
+ <20260205121945.GC12824@unreal> <20260205142111.GK2328995@ziepe.ca>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260205142111.GK2328995@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0902.namprd03.prod.outlook.com
+ (2603:10b6:408:107::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW6PR12MB8705:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0fb22bc3-8c9a-49ae-1f80-08de64c2e145
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dGtYWUYyd1BYK2o4djNZY3pOcjh3dGF3V0ZGYnJNUzVGNjMvbWFlanBhbG9Q?=
+ =?utf-8?B?RzF4b3M2bEZEOVI5Qlo4UjV0OHBZdGdxT2ErWVF1eVN5MTVFbk1nV215OXFB?=
+ =?utf-8?B?YVB5RHlRVlR6eGhFNGsxZHlmYTRKc3JhNHNsSy9DL3JKS0RyK2RBdU5pUjJa?=
+ =?utf-8?B?TEtZekl3WnA0aE9ZczhsZlpQTm1UaHpaVmZEV0xWYkxDbnlsZVNKR0g1Q2dH?=
+ =?utf-8?B?MGFid25pNEhtbmJKejN1enNyMVFHWkJJYzZrbk0xczRkcnYrcjV3RG54YnBN?=
+ =?utf-8?B?YnFKTEhVRHY3SmJWV2EyR0ZhSldUcElKYllqN1pIVEIvd3p4djljY1BldHNB?=
+ =?utf-8?B?VS9NeHh2MVQ2WGxXN1ZCRm1YRm52OUp2c3AyemxpQVFqNlhaTlE1RnVoV0Qy?=
+ =?utf-8?B?elVTSTNvMSt0cGVRdU9ZcDd0Z2FwWHF1c3JVWmlieFIvVXZkRGtXOC9YaVpm?=
+ =?utf-8?B?ZW5CNXZtWmJzYzZacG55V290V2o5TGhYaHhiTWRoSkkwVnJFQ1pRUVN0WFgv?=
+ =?utf-8?B?R20vbHAzODdFZEJrcHpQOW5PS0FQNG0rVTc1UDZxZ2N1L0N1dk56aSswWnBT?=
+ =?utf-8?B?R3p4MVpOVG9RaDBwaDZjM1ZEK083angzZ1RHcE5USVFZUUVzL0Q3TUR3N2tJ?=
+ =?utf-8?B?aHhlTEY4Zm51QUJPWVdrN1RxRkJ0d0dXSHpza2h4UTNNZ3FNVVVuSlRpR0s3?=
+ =?utf-8?B?eU9GeHkvZ1BTc0ZmL0pjY2ZrTXZ3U3pHNXpxWC9Oam5IQUlxU3RoVGU2ZHlp?=
+ =?utf-8?B?N1F1N1J4MWZnUk40bHR6bHk3R3UySlZOcEtVdXB6T3RIS1JsbWc4UU0zdnZw?=
+ =?utf-8?B?cEdZWmIyK1VHanRmNVhka3cySDh3TUh5dkxvOVNaaFN2d0d2QkNOY1o1VXYx?=
+ =?utf-8?B?bHFBNVdsZlVFanN2VExIdFYxbkh2YS9mNy9rSzFrbFgvdmdsSGxFb1FFMXVo?=
+ =?utf-8?B?MjQ4dmYweWFUMXBxMEtaZXlSaXVlem43bmc2TkR5b0FiM1VYRDE2VnBoRUs4?=
+ =?utf-8?B?eU52WnEzVmtFNUVQZHQzZ2JxaGhGcWdSR1FRWmRZOWRjYjUwTlFQWldFelp1?=
+ =?utf-8?B?bWR3U1U2bHh6MlJlWnRFeUY5dEloU1pyVW1WQU9vRTd1alJyOUdrNHdjYzNC?=
+ =?utf-8?B?MTJlMXd0cXdmbkZyWG5LNy8vdlpIblBZZEhCZGJGSExEUG1MTnVOb3RCNGtS?=
+ =?utf-8?B?ZTRBeVNsbXdOVzMzTzhsYjU0TjFJYWRJMXAzK05kZkYxZHlNNTV0UDdFbDUw?=
+ =?utf-8?B?L2syT3d6VVNTMU9xa3pFMHhFT1RIRldBRUg5eERFZCthbmJFNzB3QUtKTWxP?=
+ =?utf-8?B?clJTQWlWN3grRk40SGNPTitYOGVqVU16ZXpCa09BV2NkK3NMeFk0SC9CQjVi?=
+ =?utf-8?B?MVRWeVBpWDJLVDh3ZmFsby9XalhENnFra09SVXQ5RlRQaTNqNzMwZmxybkF5?=
+ =?utf-8?B?bCtPbnBxcGswbGVkSEx3L2ViaDMybm52NXhTQWJacG1TV2c3b285Nmc2OFl2?=
+ =?utf-8?B?TlBwM2I2aTF6OWRvNDRvYlJLUDhuQUprQ0ZmRmZ4RW9MOFRpMjdrRkR4QTlT?=
+ =?utf-8?B?d0RneUlOR2pkTFQ4YTdmKzk4OE9zN3JSSGp6ZjBPUDBMK3RaR0hRNzZYdDd0?=
+ =?utf-8?B?ZStVMmZCYjB4d0YxYVdvaFBLeHVBZU5KZGV3VWlFM2tjWWREK1BVdEc5OXFP?=
+ =?utf-8?B?eG4wd1ZCMENuZXFsTWJhQTJMajFPZmEzMWhlZjIrMXBTMEdRWTVuWWR1dkdl?=
+ =?utf-8?B?b3lDZ0xzTGpFajBFZXNNbWxqcDgrK1ZVeGQ4azhSQWx0WXlYVFc0eEZHdTJu?=
+ =?utf-8?B?RnFEbSs4Ny9nMzJyWlVEK3JZZGpDWnNrbFFaaGVPVURPRW5GK0tVbEFtcjVO?=
+ =?utf-8?B?N3crSGRva0hvZ0Y3bS9TWm1YSEFKYUwyV0RXcWFUOHNwcXVPMFVVaWwrUVZ0?=
+ =?utf-8?B?TjlRcHRWdnNkdS9KV2k1ZzhpbDh3RzhwdmdyRUdTZDlKV2lNY25iY3NydDY4?=
+ =?utf-8?B?VkU2WUJYa0F6czhXUC9kdVpOZXM3Tjg3Z29valFFWk9CTWlLT1lEeHZLanpk?=
+ =?utf-8?Q?Zo5jvE?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bVh0UkxjOVBGTkZWdm94cHRVd2tHMm1sNDNxVDVzNmpDY3VieFlxRzlVVkhB?=
+ =?utf-8?B?dkJOamVpWTlxejUxVzlPcnVnZEt6M05PWExBS0pKMzgvcVpIMUVuVDFxWW1w?=
+ =?utf-8?B?K2dHdWg1UTN5VVEySCtCalI1QlJ1NUhZRzJ1MCs4QXdGbHZSMVRsS1E3MVpo?=
+ =?utf-8?B?aE1jWTQza29TbkV1cHBIR09aeXJoNnFFVzdSb3BEcUJnajhKWnV0VDdDVjBz?=
+ =?utf-8?B?cEQzMWNram5adG54bUlKQmhrZnBHRTU5ZkFFQlFjR29TeHFneEJob0RlL1hP?=
+ =?utf-8?B?QmlzN2xHNGRZYVM0cnlQdEtRNXdtRE43TFJoc1QyYUR3bHRLZEwrWVFrMVVR?=
+ =?utf-8?B?VVpRNHEvZlFKdHVIN2wyQUtqTWF3K0JRSENGY21SV0I4SktnUlZ4T0JXdi96?=
+ =?utf-8?B?dkpMMmpGc0Nnc0Vqd1Q4bW9jZjRJaG1HSUxaNTFSU3p6VW1XT0FndldDUnRP?=
+ =?utf-8?B?aGwrSmYvU2JZaWdVVUxRY3VXbE5WektPM3ZkQjBKWHB3RkhhUVNma0FVTmZD?=
+ =?utf-8?B?ZU1uZ0ZNN1NCd2xmcVpmRmFLT0hoNVZqNDFxdFE3RDFCejVnakpPVGdVcGlN?=
+ =?utf-8?B?OGlSQ1BNT1pzaEFlRlozSE81RWNZWFVKN0FGazN1ZC9lcHBvUzVMYVNZa2di?=
+ =?utf-8?B?T0dPd0NkSG04UjZvMDhpNUllSndickJWeUdicTJJWUVIQUZ3VXpEajZYMDhs?=
+ =?utf-8?B?S29lM1ZWTm5uMW9Tdk1VREgyZkpIUW03ZU41aW1lY3dYR0I3cmJDUGxRbmJy?=
+ =?utf-8?B?bVJ5R3R5NU8rbkhoNFBjMGJxalRBc3l2ejZHTTlHTFhPcGZTNUV6OUV5ZXV2?=
+ =?utf-8?B?SnpXb0pTTTlYNzA2MkdvQ3NPaHFicW52ZWFpM2tMRFZHbWhBZVJyU2Jibnpo?=
+ =?utf-8?B?UllHTDZiMjZ1NzMxdC9mT2ZtbDFOTTlwUy9nMjdocjBtdTcwQ1lrMTM0ZUNy?=
+ =?utf-8?B?OFRaWTFUS3ZTbWVMekoxeVJQcUllK0FLZEFRSHhrZktsYVM4dDYrVVRhNjda?=
+ =?utf-8?B?YkErUVN3cmdmbmFrOVJUWnF0aTZtK3dGU1gvaG1nbFgwSjVJaW9aOUdvZkpp?=
+ =?utf-8?B?c1JTQlJlY3lVOFNlNEdEa0k3cWFvRG1oY3dIM0FnVk9ndDZyMHJJclVUQ3RQ?=
+ =?utf-8?B?OGlxSlFGTmlWb21mbHAzK3hwckhCZ1NWWnkrd3VrOUFTOWlHNG05QTJvbXAx?=
+ =?utf-8?B?OUdQaUFoWHZERWNSdVdHRUtZWkJubjkrNVVlSTF0NHZDbHhxRzRqeThMRW5v?=
+ =?utf-8?B?K1FQOVZaNlpjdlNvek95bTg1WDVrWXMvb1RkZ3d3SGo2U0l1ajJHdlQzVzg1?=
+ =?utf-8?B?bGdFdzFuU29udjJoeGpEc3hKa1l5bFk3alM2SXBQQVlzVnJNYzEybi8va1Vl?=
+ =?utf-8?B?MjJLckwxRzNpZUc4Z3M3R0lkSDBDMnl3SVZKWVZ1SmE4cnlKeFB4VG1EUEls?=
+ =?utf-8?B?R05jcHl0eExCbCs2ejEyMGd3WWxqeUVTZTI3YkNJUzNpekNTcVFMeXlYdGg4?=
+ =?utf-8?B?OG9DNE8zSW9zL1dybXhvOCs3Qzkrby9lU1hubmFCejYzTkxGWWlxak8yM0Vq?=
+ =?utf-8?B?d2pJeTljNzMrNXNPMkhzMGZYOHVjY01GTkx2UVVwVVhZWWZZVlFiUlhOelk4?=
+ =?utf-8?B?WjdqeGZIK3c1bEUvREJTZGQ3SmU0TUcyaWN6L05QQkRtcmFlaCsxbU5keDRh?=
+ =?utf-8?B?OCttUGNWZEtJcGExRWJMejdUZ0dOam5BMXVKNDlBM2NkczFhZEY3TStEdms5?=
+ =?utf-8?B?RlVIT0FDcWs5UkRjMFFPUzErRndPVlZKT2p1YUpDZDVjcFhJamkvTFhpRUt0?=
+ =?utf-8?B?TmZXWTBUVC9BWjFlVEZWRDNVUEZ4TituMmRnM0xoZTV0QlBWREdqQ1l5TnNz?=
+ =?utf-8?B?UFpqbWl0MUk5OGltaWVSUEtiY1A2REVyak9aNnV2MUFCNHl0em11YUZrbk5B?=
+ =?utf-8?B?SzIyVzFEdGdjaldvR1dJVlJua3p2Qnl2NW9iQXJ4dXdNTzJYTkZPcFJKUmJl?=
+ =?utf-8?B?Y24raWFyZnI1dlUvbmFWd0owcE9OWStJWjAvWHBPYjNyeDZtaTdaMHFsSHNi?=
+ =?utf-8?B?WXVKaU5ZYkJBaHp6Zm5qR05TQ1FWMU5Hcks4OHZab0hIWVdEbVV6Q1R2Rjh5?=
+ =?utf-8?B?ZUx1Z2lTbFZRaENjaENlOHUreWMvejBnMmozRTNYNytQV2g2MGpBa2J6Z1hw?=
+ =?utf-8?B?ZUUwWk5Qa1g4UUlqRFVUT2l5TkxiVmxrQURmQndkVWdWbE9PT0VBS1R5ajRT?=
+ =?utf-8?B?SHVxcG04aEUrK0lmSEcxNGV3dWxSNlVialBKeTgzaEdFWC9xQ3VuMGRCMGV4?=
+ =?utf-8?Q?xrKAe5+HngqCLSyuA7?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fb22bc3-8c9a-49ae-1f80-08de64c2e145
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 14:28:50.0291
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7MW6xNrD+OrHpacGRzNGIKgVygjuO+9uL02S6CaYLDTrd8iFAf2kJWUQgU89V136
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8705
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52256-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,huawei];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[35];
+	TAGGED_FROM(0.00)[bounces-52257-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,ideasonboard.com:email,collabora.com:email,collabora.com:dkim,collabora.com:mid,mess.org:email]
-X-Rspamd-Queue-Id: 1B85EF3EB2
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[shazbot.org,ffwll.ch,intel.com,linaro.org,amd.com,gmail.com,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:mid,amd.com:dkim,anongit.freedesktop.org:url,kaspersky.com:email]
+X-Rspamd-Queue-Id: B8839F3F5F
 X-Rspamd-Action: no action
 
+On 2/5/26 15:21, Jason Gunthorpe wrote:
+> On Thu, Feb 05, 2026 at 02:19:45PM +0200, Leon Romanovsky wrote:
+>> You don't need any backmerge, SHA-1 version of vfio-v6.19-rc8 tag is the
+>> same as in Linus's tree, so the flow is:
+> 
+> I'm confused what is the problem here?
+> 
+> From https://anongit.freedesktop.org/git/drm/drm-misc
+>  * branch                          drm-misc-next -> FETCH_HEAD
+> 
+> $ git show FETCH_HEAD
+> commit 779ec12c85c9e4547519e3903a371a3b26a289de
+> Author: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>
+> Date:   Tue Feb 3 16:48:46 2026 +0300
+> 
+>     drm/komeda: fix integer overflow in AFBC framebuffer size check
+> 
+> $ git merge-base  FETCH_HEAD 61ceaf236115f20f4fdd7cf60f883ada1063349a
+> 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+> $ git describe --contains 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+> v6.19-rc6^0
+> 
+> $ git log --oneline 61ceaf236115f20f4fdd7cf60f883ada1063349a ^FETCH_HEAD
+> 61ceaf236115f2 vfio: Prevent from pinned DMABUF importers to attach to VFIO DMABUF
+> 
+> Just pull Alex's tree, the drm-misc-next tree already has v6.19-rc6,
+> so all they will see is one extra patch from Alex in your PR.
+> 
+> No need to backmerge, this is normal git stuff and there won't be
+> conflicts when they merge a later Linus tag.
 
---=-h5klbc5ztkTDcdWOf+bw
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Correct, but that would merge the same patch through two different trees. That is usually a pretty big no-go.
 
-Le mardi 27 janvier 2026 =C3=A0 11:53 +0100, Hans Verkuil a =C3=A9crit=C2=
-=A0:
-> Document who the Media Maintainers are and what their
-> responsibilities are.
->=20
-> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-> ---
-> =C2=A0.../media/maintainer-entry-profile.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 47 +++++++++++++++++--
-> =C2=A01 file changed, 44 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst =
-b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> index be4728b97759..4f73ee073860 100644
-> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> @@ -346,13 +346,54 @@ With the pull request workflow, pull requests shall=
- use PGP-signed tags.
-> =C2=A0For more details about PGP signing, please read
-> =C2=A0Documentation/process/maintainer-pgp-guide.rst.
-> =C2=A0
-> -Subsystem Media Maintainers
-> ----------------------------
-> +List of Media Maintainers
-> +-------------------------
-> =C2=A0
-> -The subsystem maintainers are:
-> +The Media Maintainers listed here all have patchwork access and can
-> +make Pull Requests or have commit rights.
-> +
-> +The Media Subsystem Maintainers are:
-> =C2=A0=C2=A0 - Mauro Carvalho Chehab <mchehab@kernel.org>
-> =C2=A0=C2=A0 - Hans Verkuil <hverkuil@kernel.org>
-> =C2=A0
-> +The Media Core Maintainers are:
-> +=C2=A0 - Sakari Ailus <sakari.ailus@linux.intel.com>
-> +
-> +=C2=A0=C2=A0=C2=A0 - ISP
-> +=C2=A0=C2=A0=C2=A0 - sensor drivers
-> +=C2=A0=C2=A0=C2=A0 - v4l2-async and v4l2-fwnode core frameworks
-> +=C2=A0=C2=A0=C2=A0 - v4l2-flash-led-class core framework
-> +
-> +=C2=A0 - Mauro Carvalho Chehab <mchehab@kernel.org>
-> +
-> +=C2=A0=C2=A0=C2=A0 - DVB
-> +
-> +=C2=A0 - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +
-> +=C2=A0=C2=A0=C2=A0 - Media controller drivers
-> +=C2=A0=C2=A0=C2=A0 - Core media controller framework
-> +
-> +=C2=A0 - Hans Verkuil <hverkuil@kernel.org>
-> +
-> +=C2=A0=C2=A0=C2=A0 - V4L2 drivers
-> +=C2=A0=C2=A0=C2=A0 - V4L2 and videobuf2 core frameworks
-> +=C2=A0=C2=A0=C2=A0 - HDMI CEC drivers
-> +=C2=A0=C2=A0=C2=A0 - HDMI CEC core framework
-> +
-> +=C2=A0 - Sean Young <sean@mess.org>
-> +
-> +=C2=A0=C2=A0=C2=A0 - Remote Controller (infrared) drivers
-> +=C2=A0=C2=A0=C2=A0 - Remote Controller (infrared) core framework
-> +
-> +The Media Driver Maintainers responsible for specific areas are:
-> +=C2=A0 - Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> +
-> +=C2=A0=C2=A0=C2=A0 - Codec drivers
+Christian.
 
-I also took care of M2M color converters lately, while trying to delegate w=
-hen
-it makes sense (such as DWL100 delegated to Laurent). So we may (or may not=
-)
-add:
+> 
+> Jason
 
-       - M2M driver not otherwise delegated
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-> +
-> +=C2=A0 - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> +
-> +=C2=A0=C2=A0=C2=A0 - Qualcomm drivers
-> +
-> =C2=A0Submit Checklist Addendum
-> =C2=A0-------------------------
-> =C2=A0
-
---=-h5klbc5ztkTDcdWOf+bw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaYSoGgAKCRDZQZRRKWBy
-9AMJAQC8V1y1/ynnxtTCHVwv0mT3Yt13MwuuvvxJvxxPCiIFAgD+O3yARV54CdYp
-LH8svz8udM21QF0tFuLrHHf8EX/V2wY=
-=rcYy
------END PGP SIGNATURE-----
-
---=-h5klbc5ztkTDcdWOf+bw--
 
