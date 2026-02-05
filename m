@@ -1,202 +1,355 @@
-Return-Path: <linux-media+bounces-52266-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52267-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aJrfCWSwhGk14QMAu9opvQ
-	(envelope-from <linux-media+bounces-52266-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:59:48 +0100
+	id MPXcOSm+hGnG4wMAu9opvQ
+	(envelope-from <linux-media+bounces-52267-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 16:58:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70811F45B3
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:59:47 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B43EF4DC6
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 16:58:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 710823023341
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:59:07 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 867C53008084
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 15:58:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72584421891;
-	Thu,  5 Feb 2026 14:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A6942DFE9;
+	Thu,  5 Feb 2026 15:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="i36AdaAY";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JDmLjuig"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JTSL7yC+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5B83EDADD
-	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 14:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F8142DFE0
+	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 15:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770303545; cv=none; b=JyW8yOlwdJgIAHBzZqiTCICEGOrNHnU2+p9BwRLJffUPCQUVHTQ1GLAJPhwfIWt8GkaJbkwuStvszn6uI2N1xC0T+AZuczEfEBIKckbwZa4ri+kJSFaLekihC1hRIVjCkGFoB4CNiBa6/w57rb6mXIcdk+tfIfh7WvRQueKTmlE=
+	t=1770307087; cv=none; b=k60cTsTPiZUFLIGL4La8aljrOa1QvJFPpU2ABW3RfUiMT5sfsxz8ER/fn3qrk0e4puak3uW554QGXQSL205IE5xzTdeMBS2BQ3YbEmYBSEPsyJ/kyD8pfWk+TWH4tRhU5mn+WJz6DApXzafxj/EmpEnJF4OKPCH5OPa4bSLpJfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770303545; c=relaxed/simple;
-	bh=eiU+1bS+g6As9p2FvLqaVvB+ahkyOhmYrIL/xT0QYvQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QiJhwrx4z9yhdrFW0XVtmGVXtLIqA7jQrCPvG7BKoM+oUzltMZNDLvcHHjiE3fNnapV2mHLBVlAgKSvWYjNmfCCRfY0+wtJD1AoWYoo9pL7OYXhE017Y50ZdMyBsvsLTyebblqkf061qB2Z0R9JPoHKEQHdU0n8jGdeJuUNWueA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=i36AdaAY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JDmLjuig; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 615BlZcD4135739
-	for <linux-media@vger.kernel.org>; Thu, 5 Feb 2026 14:59:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	rCooReUn47NbAdYaF/BXRuhgYBtDMcYnTCtHV+u8eeo=; b=i36AdaAYbpWmcnO3
-	3/q37l9Ekg7KWIBmAIQ73jGthMjG2PzhVOkjFimXfkMQrcv79f1WpklVeXWhoVT3
-	Yf2Q3zNJ9NhWDaylIFY3efvNDH/+R8jBCVlQqCKTW3TNL7BCvemjwnzRwh+cKn/Q
-	+GTLkUV5Cuyogu2T9jjOxiJhGSkflqgSkqYCK+APSJlebpPndF+PxTGgaxKUVFwn
-	Us2qzgWnLNKEtrR4fjxL9AeJCvVvbN9WqG9WL2UcqF0NupHfuj1WKx1gPOQgrkf2
-	3pgXNMKAsXOEw7L2orzccJ7PyRJoKPf7WGNb0y17AsqD1KeZt5pXqHfeqzuC1MLz
-	xkifvQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c4tn40jkx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 05 Feb 2026 14:59:05 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c533f07450so36890685a.0
-        for <linux-media@vger.kernel.org>; Thu, 05 Feb 2026 06:59:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770303544; x=1770908344; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rCooReUn47NbAdYaF/BXRuhgYBtDMcYnTCtHV+u8eeo=;
-        b=JDmLjuigeEt+Le6uMrFcRs7BqTsGUp1qLJ8S45hn8QdgQNvpO1MgRwxbIryhuQhfQ6
-         ODCHTG2mTDQei3CU6jfwUissb/l83XKkXsG0j61QfIREsnZkAVqVp0E6duujNjkGT561
-         Ptb9j/A0AMy2i6jSHx5W2CAz+zsc/T5Y8FqLwfgfL+ZzZEpm/QGZifq5CVpfvUFkZCIb
-         SVmJxt0bERBkUnfQ+AUUYeTfMe4w1y0GWwRLHEp6pGKdA0x3uQeK/GEvG5JCjF8frUi6
-         4m/PA5scjXSR3LmETgX4QTgpA1h75fw5L4GvyzWUFahx0Y1mHIR7WJvsh0zn1GDIrv8O
-         cRiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770303544; x=1770908344;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rCooReUn47NbAdYaF/BXRuhgYBtDMcYnTCtHV+u8eeo=;
-        b=e4EctkFxnDPmSvmVSiEzUAzBdkt1NfmDB8rT8VUxXZxTv5Fag86fcdqh54NmfjZ2pj
-         ApkYt20lTSsRa2SKV/6v46Kk8I6z5kvHtZOmCgRRmMzguqlOrO3BHHfo4p8i5Bf/tFyG
-         iW71i8R+G8SdcuOMTCbax8DZM5O05bDnGsbA+0k988XuAap0vvKZnyawOufnNxoHfsHM
-         9tFK4dFyoQHP4isj+fUIRfhjITAU+Xl9367MENpXtEql71brVoTpdrnH2jDZRyBctr30
-         cM2yDvGKpPjAfg+kl/KxuoNAxUAXHbpCRxFHDRp5E57hhluGcL3ZdioLzb1DvJ0BBFFQ
-         AS6w==
-X-Forwarded-Encrypted: i=1; AJvYcCU6gFPQVLnILZkVtC9KLiJHfrjbW0sYoK+p8zettAlnOCTPakXC8xbLdZ3ZPEeY994NDKYy+IA42I3zwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb3OrivFJCP0cD98HcsHkq+LW0qHyBBtkBCO8vI/KAsMr0MO0F
-	24osdtzZLqRzyJ8XkEgI7mVzbAjHIwytKaq/MdOnEZxrauhitxT2iIY7RWmzq09Das5Itrl8QgQ
-	F3QojIRjnCSBaIDXPeedGqbsmdYprJ9+81rF2tERwz2qNsan5C1ZD3oe+OoB8qhhI6g==
-X-Gm-Gg: AZuq6aJ3Ytf8krTgmOR12yLHD8BBbp5SZCIM1nSKYHuIYsQEGeH0pCsBKULVdtaRAVy
-	IMQPZYT9o7f1fiikqfEIUdKuq7mUfPPrV5g2dCLXNbUSus8DrQIklbYMuO8TLI/dstZZXfmRZxf
-	l5wvDWcjOYNC+GNUC+UPtXPHQJ+qtlqBennoT5p8jRpIeiNWRlgDxs2zgi5sbyI1IWphiGB+jjW
-	mbbToCm6ddGCx9L0W3USBqnN8221/qUYhv1XEgU7oS1a7fX4HafrRMugm6a0vp4CUlwopnWn4eL
-	ezs52vkaXmxmFqp8nyqjWUNMMU75tO6JB0Cjtq6inmfOXJ9R+SiCnzaBPsBs2Z9Lpm5+609106a
-	5TWyadReC8yx1tbKSCKYy6YJ3fnmOOHDRjNMytko4cMipn3BHS2pyiCqwiCazQtXuDbc=
-X-Received: by 2002:a05:620a:1924:b0:8a3:d644:6930 with SMTP id af79cd13be357-8ca2f85818dmr660199085a.5.1770303544186;
-        Thu, 05 Feb 2026 06:59:04 -0800 (PST)
-X-Received: by 2002:a05:620a:1924:b0:8a3:d644:6930 with SMTP id af79cd13be357-8ca2f85818dmr660196685a.5.1770303543674;
-        Thu, 05 Feb 2026 06:59:03 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65949ed6b7esm2186812a12.11.2026.02.05.06.59.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Feb 2026 06:59:03 -0800 (PST)
-Message-ID: <1e026cc9-c89a-4c6f-8def-fc9eac5a00e8@oss.qualcomm.com>
-Date: Thu, 5 Feb 2026 15:58:59 +0100
+	s=arc-20240116; t=1770307087; c=relaxed/simple;
+	bh=tiWT17H9Dzw5aEsfxk8upMAKNqPQadh3IU0U9mH7kIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H8W7Op9oSrmjS5Hxhq0j6DrOmG1uRVRNEYrJdRigxjJ0/DtZGbS1mItm/Cyzw7k/j+5gwHvPLJjHTsQVrMuHYwsbXPX95VpUj5YmBMORCnUaPjY64o7wX4jFpVDOSK2gvZwUM31n9uhsMKuYHoc2226uPgfEmpSgyd3SCBmabdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JTSL7yC+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B08C4CEF7;
+	Thu,  5 Feb 2026 15:58:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770307087;
+	bh=tiWT17H9Dzw5aEsfxk8upMAKNqPQadh3IU0U9mH7kIA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JTSL7yC+GwhucXjgwAGRzQ6z9ia/ZMdbiIZL3wl0BYuapFfiIADf752xxYAEvlHxJ
+	 cVRIlMEmM4c/k9vVBUnR42DVY+Tor2/CTjsR0LtS0pPL+mqLCotGV9PGFRcCVKuP7n
+	 1ofa9JfPwafL6LxBb5xfRLLp6mQlVswtKIKeqMeGwL6HtzO8Pdys1CWGsWowwVmmrr
+	 rWU7DddyuChRt1ndyEcDgCAaxCHPT3NUK/3O9BgBWD28F+4Pc7O7kdl5+8Z+zcn/VG
+	 HpQZg1FQQsKHz4DpaW4p74f/GZFxc3Te+nK0+BFma37TNZQ4MCOzg0wVsb+428tlfE
+	 y6llKDrvpfPdA==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vo1k4-0000000B2I8-22GH;
+	Thu, 05 Feb 2026 16:58:05 +0100
+Date: Thu, 5 Feb 2026 16:58:03 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Nicolas
+ Dufresne <nicolas.dufresne@collabora.com>, Bryan O'Donoghue
+ <bryan.odonoghue@linaro.org>, Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCHv8 0/3] docs: media: multicommitters model documentation
+Message-ID: <20260205165803.3dfd0cd1@localhost>
+In-Reply-To: <cover.1770301974.git.hverkuil+cisco@kernel.org>
+References: <cover.1770301974.git.hverkuil+cisco@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: iris: fix QCOM_MDT_LOADER dependency
-To: Arnd Bergmann <arnd@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab
- <mchehab@kernel.org>,
-        Rob Clark <robin.clark@oss.qualcomm.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260205145623.1360105-1-arnd@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260205145623.1360105-1-arnd@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: xLOBLi0q64j3OE9xNTwSCoBUI8yIXnz_
-X-Proofpoint-ORIG-GUID: xLOBLi0q64j3OE9xNTwSCoBUI8yIXnz_
-X-Authority-Analysis: v=2.4 cv=Dfgaa/tW c=1 sm=1 tr=0 ts=6984b039 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=3VnJ6WgW_pJ2kVnysBMA:9
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA1MDExMyBTYWx0ZWRfX2rF50TYhzDA2
- aoZzr2EPkFjcNAVNDmqWBaKGrv0vOWYVeUSqpFoP+JRIiaHCXuDF7PyzECIldQofppuA+LHsbkq
- 0E9MBEydvwGbjMlXkisutcU5EFHdh9XvD7p3B2wpZofjEl2pCXqme1nmMdRDRRgU9m+a6wHcS6L
- PqsUOoSdQYf2Brixh1uXbQeVTCWa3J6kVmcZMwMdP5Igj/0ScxPawn002iq6mp2u1CTmF1XF5y7
- K10fU9+fyK6FWsIYYM4tnvZkzzOMcWpt9zAnTMEVp14wZzZTGX5RNLhmnXZl7P0hiVcCJ5lwQXI
- OWX8fioUT2p665T1fRer52Ksrxxvd90RnzksI2y+JP2npqUAqk+4eGV6jfWEIKPKOUBc1RwRXwQ
- pAUDP5PjWjome5txv45+OWY8f6Yh1TYiGIH6EBjFZKllJZWvwB7jjLapScrTR+tZnWbpLUC7/As
- XNzILsVze+8W41669Yg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-05_03,2026-02-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 clxscore=1015 bulkscore=0 malwarescore=0
- phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602050113
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52266-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52267-lists,linux-media=lfdr.de,huawei];
 	FROM_HAS_DN(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 70811F45B3
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linuxtv.org:url]
+X-Rspamd-Queue-Id: 4B43EF4DC6
 X-Rspamd-Action: no action
 
-On 2/5/26 3:56 PM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> When build-testined with CONFIG_QCOM_MDT_LOADER=m and VIDEO_QCOM_IRIS=y,
-> the kernel fails to link:
-> 
-> x86_64-linux-ld: drivers/media/platform/qcom/iris/iris_firmware.o: in function `iris_fw_load':
-> iris_firmware.c:(.text+0xb0): undefined reference to `qcom_mdt_get_size'
-> iris_firmware.c:(.text+0xfd): undefined reference to `qcom_mdt_load'
-> 
-> The problem is the conditional 'select' statement. Change this to
-> make the driver built-in here regardless of CONFIG_ARCH_QCOM.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
+On Thu,  5 Feb 2026 15:32:51 +0100
+Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Here is v8, based on Mauro's feedback.
+>=20
+> The main changes since v7 are:
+>=20
+> - rename media-committer.rst to media-committers.rst
+> - the 'Note' at the start of media-committers.rst is now just a list
+>   of additional responsibilies (it made no sense that it was a 'Note').
+> - incorporated Mauro's suggestions
+>=20
+> Patch 1/3 updates maintainer-entry-profile.rst: it introduces the
+> three Media maintainer levels (Media Driver Maintainer, Media Core Mainta=
+iner
+> and Media Subsystem Maintainer) and what the responsibilities are.
+>=20
+> Patch 2/3 adds back and updates the list of Media Maintainers that
+> disappeared in patch 1/3. Please verify this whether the email
+> addresses are the correct ones, and verify that the areas of responsibili=
+ty
+> are correct and that nothing is missing.
+>=20
+> Patch 3/3 adds media-committers.rst: that focusses on the additional
+> commit rights that can be granted to a Media Maintainer.
+>=20
+> I have uploaded the documentation with these patches here:
+>=20
+> https://hverkuil.home.xs4all.nl/spec/driver-api/maintainer-entry-profile.=
+html
+> https://hverkuil.home.xs4all.nl/spec/driver-api/media-committers.html
+>=20
+> Mauro's feedback for v7 is here:
+>=20
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=3D21550
 
-I see that drm/msm (+Rob) does that too, but perhaps for a reason (old
-I.MX platforms with Adreno)
+Hans, IMO almost ready. Yet, when looking at the html output, there
+are some minor things to be improved. As before, sending you a patch
+with them.
 
-Konrad
+Feel free to either integrate it on a new version or to place it=20
+at the end.
+
+--=20
+Thanks,
+Mauro
+
+---
+
+[PATCH] media maintainership docs: Some additional editorial changes
+
+- standardise =E2=80=9CPull Request=E2=80=9D spelling;
+- better list URLs that are very confusing at the html output;
+- better display "media-committers.git" at html output;
+- minor formatting fixes;
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/=
+Documentation/driver-api/media/maintainer-entry-profile.rst
+index 2c5f1eba5684..c4b6d685cdda 100644
+--- a/Documentation/driver-api/media/maintainer-entry-profile.rst
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -79,7 +79,7 @@ maintainers are required, each with their own areas of ex=
+pertise:
+=20
+     Userspace API/ABI changes are made via consensus among Media Subsystem
+     Maintainers\ [2]_. Media Maintainers may include API/ABI changes in
+-    their pull requests if they are signed off by all Media Subsystem
++    their Pull Requests if they are signed off by all Media Subsystem
+     Maintainers.
+=20
+ All Media Maintainers shall agree with the Kernel development process as
+@@ -102,7 +102,7 @@ Maintainer who is handling them and the patch status sh=
+all be updated according
+ to these rules:
+=20
+ - ``Under Review``: Used if the patch requires a second opinion
+-  or when it is part of a pull request;
++  or when it is part of a Pull Request;
+ - ``Superseded``: There is a newer version of the patch posted to the
+   mailing list.
+ - ``Duplicated``: There was another patch doing the same thing from someone
+@@ -185,25 +185,32 @@ offloading some of the work of the Media Subsystem Ma=
+intainers.
+ More details about Media Committers' roles and responsibilities can be
+ found here: :ref:`Media Committers`.
+=20
+-Media development tree
+-----------------------
++Media development sites
++-----------------------
+=20
+-The main development tree used by the media subsystem is hosted at
+-https://gitlab.freedesktop.org/linux-media/.
+-https://linuxtv.org/ hosts news about the subsystem,
+-`wiki <https://www.linuxtv.org/wiki/index.php/Main_Page>`_ pages
+-and a `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>=
+`_
+-instance where we track patches though their lifetime.
++The `LinuxTV <https://linuxtv.org/>`_ web site hosts news about the subsys=
+tem,
++together with:
+=20
+-The stable tree used by media developers is at:
++- `Wiki pages <https://www.linuxtv.org/wiki/index.php/Main_Page>`_;
++- `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_;
++- `Linux Media documentation <https://linuxtv.org/docs.php>`_;
++- and more.
+=20
+-https://git.linuxtv.org/media.git/
++The main development trees used by the media subsystem are at:
+=20
+-Patches there are initially committed to the media committers tree:
++- Stable tree:
++  - https://git.linuxtv.org/media.git/
+=20
+-https://gitlab.freedesktop.org/linux-media/media-committers.git
++- Media committers tree:
++  - https://gitlab.freedesktop.org/linux-media/media-committers.git
++
++    Please note that it can be rebased, although only as a last resort.
++
++- Media development trees, including apps and CI:
++
++  - https://git.linuxtv.org/
++  - https://gitlab.freedesktop.org/linux-media/
+=20
+-Please note that the latter can be rebased, although only as a last resort.
+=20
+ .. _Media development workflow:
+=20
+@@ -232,18 +239,18 @@ following baseline for your patch series:
+=20
+ 1. Features for the next mainline release:
+=20
+-   - baseline shall be the media-committers.git ``next`` branch;
++   - baseline shall be the ``media-committers.git next`` branch;
+=20
+ 2. Bug fixes for the next mainline release:
+=20
+-   - baseline shall be the media-committers.git ``next`` branch. If the
+-     changes depend on a fix from the media-committers.git
+-     ``fixes`` branch, then you can use that as baseline.
++   - baseline shall be the ``media-committers.git next`` branch. If the
++     changes depend on a fix from the ``media-committers.git fixes``
++     branch, then you can use that as baseline.
+=20
+ 3. Bug fixes for the current mainline release (-rcX):
+=20
+    - baseline shall be the latest mainline -rcX release or the
+-     media-committers.git ``fixes`` branch if changes depend on a mainline
++     ``media-committers.git fixes`` branch if changes depend on a mainline
+      fix that is not yet merged;
+=20
+ .. Note::
+@@ -269,8 +276,8 @@ See Documentation/process/index.rst for more details ab=
+out e-mail submission.
+ Once a patch is submitted, it may follow either one of the following
+ workflows:
+=20
+-a. Media Maintainers' workflow: Media Maintainers post the PRs, which are
+-   handled by the Media Subsystem Maintainers::
++a. Media Maintainers' workflow: Media Maintainers post the Pull Requests,
++   which are handled by the Media Subsystem Maintainers::
+=20
+      +-------+   +------------+   +------+   +-------+   +----------------=
+-----+
+      |e-mail |-->|picked up by|-->|code  |-->|pull   |-->|Subsystem Mainta=
+iners|
+@@ -278,9 +285,9 @@ a. Media Maintainers' workflow: Media Maintainers post =
+the PRs, which are
+      |       |   |            |   |      |   |       |   |media-committers=
+.git |
+      +-------+   +------------+   +------+   +-------+   +----------------=
+-----+
+=20
+-   For this workflow, pull requests are generated by Media Maintainers with
++   For this workflow, Pull Requests are generated by Media Maintainers with
+    Patchwork access.  If you do not have Patchwork access, then please don=
+'t
+-   submit pull requests, as they will not be processed.
++   submit Pull Requests, as they will not be processed.
+=20
+ b. Media Committers' workflow: patches are handled by Media Maintainers wi=
+th
+    commit rights::
+@@ -300,9 +307,9 @@ Patches will only be moved to the next stage in these t=
+wo workflows if they
+ pass on Media CI or if there are false-positives in the Media CI reports.
+=20
+ For both workflows, all patches shall be properly reviewed at
+-linux-media@vger.kernel.org (LMML) before being merged in media-committers=
+.git.
+-Media patches will be reviewed in a timely manner by the maintainers and
+-reviewers as listed in the MAINTAINERS file.
++linux-media@vger.kernel.org (LMML) before being merged in
++``media-committers.git``. Media patches will be reviewed in a timely manner
++by the maintainers and reviewers as listed in the MAINTAINERS file.
+=20
+ Media Maintainers shall request reviews from other Media Maintainers and
+ developers where applicable, i.e. because those developers have more
+@@ -352,15 +359,15 @@ and such a patch will be rejected.
+ Authentication for pull and merge requests
+ ++++++++++++++++++++++++++++++++++++++++++
+=20
+-The authenticity of developers submitting pull requests and merge requests
++The authenticity of developers submitting Pull Requests and merge requests
+ shall be validated by using the Linux Kernel Web of Trust, with PGP signing
+ at some moment. See: :ref:`kernel_org_trust_repository`.
+=20
+-With the pull request workflow, pull requests shall use PGP-signed tags.
++With the Pull Request workflow, Pull Requests shall use PGP-signed tags.
+=20
+ With the committers' workflow, this is ensured at the time merge request
+-rights will be granted to the gitlab instance used by the media-committers=
+.git
+-tree, after receiving the e-mail documented in
++rights will be granted to the gitlab instance used by the
++``media-committers.git`` tree, after receiving the e-mail documented in
+ :ref:`media-committer-agreement`.
+=20
+ For more details about PGP signing, please read
+diff --git a/Documentation/driver-api/media/media-committers.rst b/Document=
+ation/driver-api/media/media-committers.rst
+index fd2f30700958..4ca2ac8d8c7b 100644
+--- a/Documentation/driver-api/media/media-committers.rst
++++ b/Documentation/driver-api/media/media-committers.rst
+@@ -21,7 +21,7 @@ and the Linux Media community.
+ As Media Committer you have the following additional responsibilities:
+=20
+ 1. Patches you authored must have a ``Signed-off-by``, ``Reviewed-by``
+-   or ``Acked-by`` from another Media Maintainer;
++   or ``Acked-by`` from another Media Maintainer before your merge;
+ 2. If a patch introduces a regression, then that must be corrected as soon
+    as possible. Typically the patch is either reverted, or an additional
+    patch is committed to fix the regression;
+@@ -181,7 +181,7 @@ Maintainer not trusting the Media Maintainer or Committ=
+er anymore is enough
+ to revoke their maintenance, Patchwork grants and/or commit rights.
+=20
+ Having commit rights revoked doesn't prevent Media Maintainers to keep
+-contributing to the subsystem either via the pull request or via email wor=
+kflow
++contributing to the subsystem either via the Pull Request or via email wor=
+kflow
+ as documented at the :ref:`Media development workflow`.
+=20
+ If a maintainer is inactive for more than a couple of Kernel cycles,
+
 
