@@ -1,190 +1,229 @@
-Return-Path: <linux-media+bounces-52255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52256-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wCl+JLKnhGmI3wMAu9opvQ
-	(envelope-from <linux-media+bounces-52255-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:22:42 +0100
+	id KNZOMEWohGmI3wMAu9opvQ
+	(envelope-from <linux-media+bounces-52256-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:25:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EE1F3E6F
-	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:22:42 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B85EF3EB2
+	for <lists+linux-media@lfdr.de>; Thu, 05 Feb 2026 15:25:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8309D3033A9F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:21:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 798DC3016C89
+	for <lists+linux-media@lfdr.de>; Thu,  5 Feb 2026 14:24:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DF593F0745;
-	Thu,  5 Feb 2026 14:21:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741403EFD32;
+	Thu,  5 Feb 2026 14:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="dBYGQPPv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iQ2mzybV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5173D3D7D6C
-	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 14:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA5A221FCF
+	for <linux-media@vger.kernel.org>; Thu,  5 Feb 2026 14:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770301274; cv=none; b=uTtPHX5EJwqmPwqjMaAbS3lqBrg0l5kY6yhUDdv6+wrfuscf9XeprdT87pL7RU3LCeLnuYafhS3SCg3EEilKQPmlkCa8iQ6407UaELE3yxkJL7/bpu71+cFPdQGag0He/ZornD6dE0MBJ/5qS2X1kWx9HBk7bO3WIDFhwf1IbOY=
+	t=1770301471; cv=none; b=o03LCvko4SzrCSDobAZSaadWyqx8WL6ONRVYbqAOVSVf0NtEsYr76TQ9eo5UrzaupXO7IODlXiFRgV94H6CsRMOJIzC+bqamwduWoAZrHQXAPXFjf6y6pxusWb66m2oVza/16xtmthOHJXepPb2tDEr/6BHPzoeJtTJ96kOtnS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770301274; c=relaxed/simple;
-	bh=2XDmVAyyw3kHSva2SZjpEPftSjaLFto+qTX6dWpgwkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B+S9sbQNCMk4PN2s/KYhWZIAXnjxmg43l9quQczuryFNlRNo8tLldX3Zwuxcll5mbrFbrRW7razE8PlnI+K9Ip3vBIivZHiGfJie8oJOtUwnYfAwtfrs4MYE1CmVfjDQYA2emn1We3hRTBNUMh2bKPZn1aWGjts7Cg5NCMPhZNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=dBYGQPPv; arc=none smtp.client-ip=209.85.219.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qv1-f65.google.com with SMTP id 6a1803df08f44-894770e34afso13634156d6.0
-        for <linux-media@vger.kernel.org>; Thu, 05 Feb 2026 06:21:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1770301273; x=1770906073; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MSUoQMJoCCNydU2DcwMWqdKRWnt0MqAVvIGN6ESmMGo=;
-        b=dBYGQPPvUly5VvEqhvl2u7nK0k0qRi4RMkSn5JaxEDU2nUWmV8/KnZlR4swFyjFACU
-         4LTMGns51pld42g426iHpFALujuMgFaW6Dmzu1qZzxekH0GxRDte3EoDkhGRtYD0dqwN
-         9aResQfBpcjtt7jkIB1l1DJS0yS+k9v17AT4s4+TB5BUpbvADfxAumefJFkmMFluAg/D
-         H2yovYYLsqxkNa9DeEp5HRmuiPqDFmfxnIC5He88AYqfjdb7tdBceXzby7SF7J35qG3B
-         xpD2/m2gMonD/zuUz99DDpkKhlpEEB8TU5O5FLSbNZ1MWKvdvaByduuDaOgoCLIMRJdH
-         nDSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770301273; x=1770906073;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MSUoQMJoCCNydU2DcwMWqdKRWnt0MqAVvIGN6ESmMGo=;
-        b=Rt+Vh2PoUSSXvZ3WjwjbTdrN4itGRalhRmojny21k5X85cCxrrkvKmTxfRLrSX7lbQ
-         WDm68CZFTQ9P490kn4UxuVPezIONHGJpr3gmPfov/7DtTBj5qX+ED2JX+QU+nmKf4CVa
-         A1tVi0fojTRVjJbzxOp7jwv4WcDzx71UHAqDK9Fx27/JP6wCGYGfHLDM5lF+oY59CkZi
-         CrDH0CxHcgrJWCxUubYF+zMeo69v6GsbN5bg5nApzD7k7zIUCHSE4qsfDDdhZUDcVp4x
-         O4DxLUUZCE68gH0dLQajnoblP+R+pa/fYMI8JdUZa7pqnZN9f6uI6sabwErbZLXgidyL
-         XAmw==
-X-Forwarded-Encrypted: i=1; AJvYcCW9K6xQlQ/rpOoewoJuydK+Kus4Q0iLBemns4bkFOis4eI85YgWtB8LH+xNtYobGzjRssi1mQRHEYWPcA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYaFAvmvYJOXs17YB/KyIarNsPjOUZ2j/h4CVGzC2gGIdR0M5/
-	FYxSquIcYrq41eJl3vNCyHSGnVxXUsKX2fCCNFY36ldM2RmZQuhqRD3XpWpnpd4wVYk=
-X-Gm-Gg: AZuq6aKtEnams+Jbj9eaHYdpaLjjRRZCHaqBGtHMuwfFv8w0S+ZcEY5MgiY9bGtCFox
-	XZbqAeTDp0uRCbKi5lOCq56vaAzl6jiORfzOuk1g0LTFS4KB7IV1p+r+mpC9leMKqKsSdcIo4+3
-	FbPeV0jJQ5F3RkzqtDrvkFhgT26wHZKIygmPOpT+Fnsj7BhhnxSEF7l0PYZdPOEAtMGdiDQ1RuQ
-	7TKZnAk58XmlxhViXIurn8Sa/a/ODg6SynjRGpjB6Ac9OYYMVFX9gdFXYcNgo0pOzNmmSDgaaPB
-	zb52h8mgs1lJKXh1y0I+w3WCSNuEii2NA0NQ1Vd5LpDYjEZ+r/9UXzb1nFfG4s7cya6gqqvWHyS
-	P85hJueJFnD3xk7gvIgeDrc9oqbZsJQ1mmd2SjzXtsyWpHvVop/07KP0gX6Su5++n1rvBIWCsQU
-	UJmuUSpHhvf8eJKfo/iL7MMH8CKCtlitT6OS1/bZz8P2SnhyeANSVShEaZosI3l5OICN0=
-X-Received: by 2002:ad4:5cc6:0:b0:88f:ca72:6ae8 with SMTP id 6a1803df08f44-89522189787mr84672066d6.45.1770301272999;
-        Thu, 05 Feb 2026 06:21:12 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89521bff53esm42252276d6.8.2026.02.05.06.21.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 06:21:12 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vo0EJ-00000000kPY-3gpa;
-	Thu, 05 Feb 2026 10:21:11 -0400
-Date: Thu, 5 Feb 2026 10:21:11 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Alex Williamson <alex@shazbot.org>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	David Airlie <airlied@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Kevin Tian <kevin.tian@intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Felix Kuehling <Felix.Kuehling@amd.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
-	intel-xe@lists.freedesktop.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org
-Subject: Re: [PATCH v7 7/8] vfio: Permit VFIO to work with pinned importers
-Message-ID: <20260205142111.GK2328995@ziepe.ca>
-References: <20260131-dmabuf-revoke-v7-0-463d956bd527@nvidia.com>
- <20260131-dmabuf-revoke-v7-7-463d956bd527@nvidia.com>
- <fb9bf53a-7962-451a-bac2-c61eb52c7a0f@amd.com>
- <20260204095659.5a983af2@shazbot.org>
- <ac33ad1a-330c-4ab5-bb98-4a4dedccf0da@amd.com>
- <20260205121945.GC12824@unreal>
+	s=arc-20240116; t=1770301471; c=relaxed/simple;
+	bh=5jFiY0cPrXV+MkyPAfGA7yuayjrXEnAoF53dOk6Pm1o=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aqLzh6pgJoNg+8kf4ch+jYVuqqjVFlw4I47Xl5nzKRUEqpJUo+Lx+fLdRxLhXpg+Upp3jaSdJZAHhkcRSzD/G2gpRbC81FjWPP0lbPEyHVN29Muv1Bh3cLMYwVLhP80Q1Zn9ESQNjDIx75kGN1B1LgJSatcnwnGu0YXDiOSv7SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iQ2mzybV; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1770301469;
+	bh=5jFiY0cPrXV+MkyPAfGA7yuayjrXEnAoF53dOk6Pm1o=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=iQ2mzybVEkTBCuCVQWOD2vB5Y1F4EFcBjHaESy8S1KWI20+Q+/sZR5MvATahKKwD0
+	 GNA0rL8Q1IZIkYbVfLxjmBeX5fjG4A6rpe95Nbi6sHeUwOJVlKRsbtwP2f54O41rlc
+	 R4N68wkMKIMUflRd856ebXF3NRz52JYHxOYI3tHgCVth2Lc+VHAt/0bY/hKLD9AXrp
+	 eo9iVKS2PqSLUIPdKBSDTFE2UWik3Q3xbd82ObQ2M181LhfW5KkVX/tjBvie5Pq+09
+	 nyRJQTte6XHMW5YjdGDrUfnP2cWztDnPScieCXGQEj6wIMBFrwVRnXY77md7Yhjk0M
+	 U87wqv0DRhr+g==
+Received: from [IPv6:2606:6d00:15:210e::5ac] (unknown [IPv6:2606:6d00:15:210e::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C49CD17E00A3;
+	Thu,  5 Feb 2026 15:24:28 +0100 (CET)
+Message-ID: <444435bf1e67841c49b22cb9b4a41c8c17c710e4.camel@collabora.com>
+Subject: Re: [PATCHv7 2/3] docs: media: document Media Maintainers
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Sakari Ailus	
+ <sakari.ailus@linux.intel.com>, Laurent Pinchart	
+ <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Bryan
+ O'Donoghue <bryan.odonoghue@linaro.org>, Ricardo Ribalda
+ <ribalda@chromium.org>
+Date: Thu, 05 Feb 2026 09:24:26 -0500
+In-Reply-To: <74976e732f6be2964e0371c73407c9dccf755424.1769511207.git.hverkuil+cisco@kernel.org>
+References: <cover.1769511207.git.hverkuil+cisco@kernel.org>
+	 <74976e732f6be2964e0371c73407c9dccf755424.1769511207.git.hverkuil+cisco@kernel.org>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-h5klbc5ztkTDcdWOf+bw"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260205121945.GC12824@unreal>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[amd.com,shazbot.org,ffwll.ch,intel.com,linaro.org,gmail.com,redhat.com,collabora.com,chromium.org,linux.intel.com,kernel.org,suse.de,8bytes.org,arm.com,nvidia.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-52255-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52256-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[ziepe.ca];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,huawei];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[anongit.freedesktop.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ziepe.ca:mid,ziepe.ca:dkim,kaspersky.com:email]
-X-Rspamd-Queue-Id: 13EE1F3E6F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,ideasonboard.com:email,collabora.com:email,collabora.com:dkim,collabora.com:mid,mess.org:email]
+X-Rspamd-Queue-Id: 1B85EF3EB2
 X-Rspamd-Action: no action
 
-On Thu, Feb 05, 2026 at 02:19:45PM +0200, Leon Romanovsky wrote:
-> You don't need any backmerge, SHA-1 version of vfio-v6.19-rc8 tag is the
-> same as in Linus's tree, so the flow is:
 
-I'm confused what is the problem here?
+--=-h5klbc5ztkTDcdWOf+bw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From https://anongit.freedesktop.org/git/drm/drm-misc
- * branch                          drm-misc-next -> FETCH_HEAD
+Le mardi 27 janvier 2026 =C3=A0 11:53 +0100, Hans Verkuil a =C3=A9crit=C2=
+=A0:
+> Document who the Media Maintainers are and what their
+> responsibilities are.
+>=20
+> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> ---
+> =C2=A0.../media/maintainer-entry-profile.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 47 +++++++++++++++++--
+> =C2=A01 file changed, 44 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst =
+b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> index be4728b97759..4f73ee073860 100644
+> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> @@ -346,13 +346,54 @@ With the pull request workflow, pull requests shall=
+ use PGP-signed tags.
+> =C2=A0For more details about PGP signing, please read
+> =C2=A0Documentation/process/maintainer-pgp-guide.rst.
+> =C2=A0
+> -Subsystem Media Maintainers
+> ----------------------------
+> +List of Media Maintainers
+> +-------------------------
+> =C2=A0
+> -The subsystem maintainers are:
+> +The Media Maintainers listed here all have patchwork access and can
+> +make Pull Requests or have commit rights.
+> +
+> +The Media Subsystem Maintainers are:
+> =C2=A0=C2=A0 - Mauro Carvalho Chehab <mchehab@kernel.org>
+> =C2=A0=C2=A0 - Hans Verkuil <hverkuil@kernel.org>
+> =C2=A0
+> +The Media Core Maintainers are:
+> +=C2=A0 - Sakari Ailus <sakari.ailus@linux.intel.com>
+> +
+> +=C2=A0=C2=A0=C2=A0 - ISP
+> +=C2=A0=C2=A0=C2=A0 - sensor drivers
+> +=C2=A0=C2=A0=C2=A0 - v4l2-async and v4l2-fwnode core frameworks
+> +=C2=A0=C2=A0=C2=A0 - v4l2-flash-led-class core framework
+> +
+> +=C2=A0 - Mauro Carvalho Chehab <mchehab@kernel.org>
+> +
+> +=C2=A0=C2=A0=C2=A0 - DVB
+> +
+> +=C2=A0 - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +
+> +=C2=A0=C2=A0=C2=A0 - Media controller drivers
+> +=C2=A0=C2=A0=C2=A0 - Core media controller framework
+> +
+> +=C2=A0 - Hans Verkuil <hverkuil@kernel.org>
+> +
+> +=C2=A0=C2=A0=C2=A0 - V4L2 drivers
+> +=C2=A0=C2=A0=C2=A0 - V4L2 and videobuf2 core frameworks
+> +=C2=A0=C2=A0=C2=A0 - HDMI CEC drivers
+> +=C2=A0=C2=A0=C2=A0 - HDMI CEC core framework
+> +
+> +=C2=A0 - Sean Young <sean@mess.org>
+> +
+> +=C2=A0=C2=A0=C2=A0 - Remote Controller (infrared) drivers
+> +=C2=A0=C2=A0=C2=A0 - Remote Controller (infrared) core framework
+> +
+> +The Media Driver Maintainers responsible for specific areas are:
+> +=C2=A0 - Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> +
+> +=C2=A0=C2=A0=C2=A0 - Codec drivers
 
-$ git show FETCH_HEAD
-commit 779ec12c85c9e4547519e3903a371a3b26a289de
-Author: Alexander Konyukhov <Alexander.Konyukhov@kaspersky.com>
-Date:   Tue Feb 3 16:48:46 2026 +0300
+I also took care of M2M color converters lately, while trying to delegate w=
+hen
+it makes sense (such as DWL100 delegated to Laurent). So we may (or may not=
+)
+add:
 
-    drm/komeda: fix integer overflow in AFBC framebuffer size check
+       - M2M driver not otherwise delegated
 
-$ git merge-base  FETCH_HEAD 61ceaf236115f20f4fdd7cf60f883ada1063349a
-24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-$ git describe --contains 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-v6.19-rc6^0
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-$ git log --oneline 61ceaf236115f20f4fdd7cf60f883ada1063349a ^FETCH_HEAD
-61ceaf236115f2 vfio: Prevent from pinned DMABUF importers to attach to VFIO DMABUF
+> +
+> +=C2=A0 - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> +
+> +=C2=A0=C2=A0=C2=A0 - Qualcomm drivers
+> +
+> =C2=A0Submit Checklist Addendum
+> =C2=A0-------------------------
+> =C2=A0
 
-Just pull Alex's tree, the drm-misc-next tree already has v6.19-rc6,
-so all they will see is one extra patch from Alex in your PR.
+--=-h5klbc5ztkTDcdWOf+bw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-No need to backmerge, this is normal git stuff and there won't be
-conflicts when they merge a later Linus tag.
+-----BEGIN PGP SIGNATURE-----
 
-Jason
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaYSoGgAKCRDZQZRRKWBy
+9AMJAQC8V1y1/ynnxtTCHVwv0mT3Yt13MwuuvvxJvxxPCiIFAgD+O3yARV54CdYp
+LH8svz8udM21QF0tFuLrHHf8EX/V2wY=
+=rcYy
+-----END PGP SIGNATURE-----
+
+--=-h5klbc5ztkTDcdWOf+bw--
 
