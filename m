@@ -1,195 +1,164 @@
-Return-Path: <linux-media+bounces-52316-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52317-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gLjdOWUZhmktJwQAu9opvQ
-	(envelope-from <linux-media+bounces-52316-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 17:40:05 +0100
+	id +Ad/ElAghmm/JwQAu9opvQ
+	(envelope-from <linux-media+bounces-52317-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 18:09:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BF9100709
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 17:40:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 531B9100BF2
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 18:09:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 30DAA301347D
-	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 16:39:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E942D30107F7
+	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 17:09:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 268A532E146;
-	Fri,  6 Feb 2026 16:39:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 577EA36F40E;
+	Fri,  6 Feb 2026 17:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W3D4XoT4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgEPUCms"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87230314B94;
-	Fri,  6 Feb 2026 16:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D770E364023
+	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 17:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770395985; cv=none; b=t566xA4BAJHIBIHxBgzN2drDogrYRc11cCtjJmUE3eI3W67Uk4/LZkfC5r9iTwuV+k9lLtYOMSPiccCaNN7IeyV3va1ECa8LgilAh+5Fx21Gt8xj6CrmQ8N6In6h3MkQKvkxrLOCroIDfmiLkqJm9c4ZMuk9rUwg/ZYpzTLcW2E=
+	t=1770397768; cv=none; b=IcbpWFsMXQHd7PZpc/7wgPo/v6YavG0B0tNFPUxF8dyjruKl0CpghhG0qrPdqVmpgrw3qO69DWmFYio5VCoVDkEpQBTNttpxyPe+qe9R4lSwNV56qIloa8HtbOWajJCogAJbczWJseHfDuUb1AQ4HpMyEixNIcG0BDjdfpXtcTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770395985; c=relaxed/simple;
-	bh=7syuwNXdSVR4Ve65sRTX3ZIgMyR5B8X1JRDHZX9yUMg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FthCjCeMsWeDsYhV0CWwCFw8Y54JYEDmVp06OAcuM9dpyo7cYQvmjx2koRkdinLxQujIz64Mi0s2U7cgriEIrZaUuMDuW+n9rLXpXlfIn6PQbqKW7vcbu2O6cKj922w0fPlZ9li+xNn5PhKmh05acrnieaPXf+WN1i2z3lbJjaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W3D4XoT4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF9AC116C6;
-	Fri,  6 Feb 2026 16:39:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770395985;
-	bh=7syuwNXdSVR4Ve65sRTX3ZIgMyR5B8X1JRDHZX9yUMg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=W3D4XoT4M+nzs/FnoLQ8dPxkCDuyt8OdqSz3BWlBhGRFPlL5y/XZ02B//xXpHtyor
-	 8lm9NZHz4VO1EFvnp8AIlwO67KvxRqdh0JcMTRF4S04m2spQr+uVnLcUYBvUD7dcvS
-	 rJCpiFZKcKFh9ST5tu/31svO3x7W4Z2SUqirkACu3y2O+gKFtiLQVIgIySV9BxPvPR
-	 /G0PwCy051RKUTN+y9M7JvEdQBxebyfl6zYk9xs2BzVn+iRTgZRVotEWfvzB4dLyvY
-	 wr4INPYXJy0pd1fF7We4NyM9lrPZuTCXo3p4ah5Vedr53IS8MM1HqG8xQu1n+IRxSa
-	 uuKP6II03Zkcw==
-Message-ID: <32c4d3c3-6cbc-42cc-8c6e-7f1d0d35cc2c@kernel.org>
-Date: Fri, 6 Feb 2026 17:39:39 +0100
+	s=arc-20240116; t=1770397768; c=relaxed/simple;
+	bh=peNY96SQpjN+dcda2YyICUV8t/u6NAhduxoOMLRhjS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FLiGtl6jBlMwYMs1mdmdPcNaIya0QWaZl83Q/WNscSXEhk8om9Cb8jOXg5WGNrmNhnMGxesjJLG93B2SA/Tgj2S9mjMYD8p3YiTxQ+aC8d8N37TMIZ+UG8wV8dIPGOmgTkyn64DWIG1B41mLaEhmUUsdwcBuC0dvJe54VmtvFjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgEPUCms; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770397768; x=1801933768;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=peNY96SQpjN+dcda2YyICUV8t/u6NAhduxoOMLRhjS4=;
+  b=YgEPUCms00JC9pMAWzQ75JlnFjt80Ix3LWQ5oIWQoSBynzFWv5uK6dnQ
+   Mut07SMu6yEAX9kTkXdGk/wpmA5nJPR7vbRSldVjVRzzkV9RBTwubm08d
+   /hF2bu489JIRpmeiF+q55YsS/L0N4BOzRksrPGeqihZiMujHnne1Ksaqi
+   x8iw+nZ+YRggwCnufHAQe1K7IAINECad/jku5mp07MX4DQ5DpA2Ui4guT
+   SzcJq8GusAMn5+W2CaLw5aNop6/LrKfw+0F86exUtBBKMJFxF0Ub3gfK2
+   u2i5Qp2S0XanNL2Whqip3Ra6NLQx9SqdNShosUnX2SuA8NENMpAnTe4di
+   Q==;
+X-CSE-ConnectionGUID: YGx9eoVaSWmarE9O+V9ZlQ==
+X-CSE-MsgGUID: 60TRPYfYQmOR5wWAk0FHqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="59178284"
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="59178284"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 09:09:27 -0800
+X-CSE-ConnectionGUID: r/68HpIxS9m6b3i7xgIeig==
+X-CSE-MsgGUID: bU5YS63gSOWMj3sVA+RYmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="210243450"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.43])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 09:09:25 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 9991511F90E;
+	Fri, 06 Feb 2026 19:09:36 +0200 (EET)
+Date: Fri, 6 Feb 2026 19:09:36 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sean Young <sean@mess.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCHv8 0/3] docs: media: multicommitters model documentation
+Message-ID: <aYYgUDtY5L87Bzqg@kekkonen.localdomain>
+References: <cover.1770301974.git.hverkuil+cisco@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 5/5] arm64: dts: qcom: monaco-evk-camera: Add DT
- overlay
-To: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>,
- bryan.odonoghue@linaro.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
- hverkuil-cisco@xs4all.nl, loic.poulain@oss.qualcomm.com, rfoss@kernel.org,
- andi.shyti@kernel.org, linux-i2c@vger.kernel.org,
- cros-qcom-dts-watchers@chromium.org
-Cc: quic_svankada@quicinc.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Ravi Shankar <quic_rshankar@quicinc.com>,
- Vishal Verma <quic_vishverm@quicinc.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20260121183142.1867199-1-quic_nihalkum@quicinc.com>
- <20260121183142.1867199-6-quic_nihalkum@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260121183142.1867199-6-quic_nihalkum@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1770301974.git.hverkuil+cisco@kernel.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52316-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[quicinc.com,linaro.org,kernel.org,xs4all.nl,oss.qualcomm.com,vger.kernel.org,chromium.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-52317-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.987];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,quicinc.com:email,qualcomm.com:email]
-X-Rspamd-Queue-Id: D5BF9100709
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-media,cisco,huawei];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxtv.org:url]
+X-Rspamd-Queue-Id: 531B9100BF2
 X-Rspamd-Action: no action
 
-On 21/01/2026 19:31, Nihal Kumar Gupta wrote:
-> Monaco EVK board does not include a camera sensor in its default hardware
-> configuration. Introducing a device tree overlay to support optional
-> integration of the IMX577 sensor via CSIPHY1.
+Hi Hans,
+
+On Thu, Feb 05, 2026 at 03:32:51PM +0100, Hans Verkuil wrote:
+> Here is v8, based on Mauro's feedback.
 > 
-> Camera reset is handled through an I2C expander, and power is enabled
-> via TLMM GPIO74.
+> The main changes since v7 are:
 > 
-> An example media-ctl pipeline for the imx577 is:
+> - rename media-committer.rst to media-committers.rst
+> - the 'Note' at the start of media-committers.rst is now just a list
+>   of additional responsibilies (it made no sense that it was a 'Note').
+> - incorporated Mauro's suggestions
 > 
-> media-ctl --reset
-> media-ctl -V '"imx577 3-001a":0[fmt:SRGGB10/4056x3040 field:none]'
-> media-ctl -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
-> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-> media-ctl -l '"msm_csiphy1":1->"msm_csid0":0[1]'
-> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video1
+> Patch 1/3 updates maintainer-entry-profile.rst: it introduces the
+> three Media maintainer levels (Media Driver Maintainer, Media Core Maintainer
+> and Media Subsystem Maintainer) and what the responsibilities are.
 > 
-> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
-> Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
-> Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
-> Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
-> Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
->  arch/arm64/boot/dts/qcom/Makefile             |  4 ++
->  .../dts/qcom/monaco-evk-camera-imx577.dtso    | 66 +++++++++++++++++++
->  2 files changed, 70 insertions(+)
+> Patch 2/3 adds back and updates the list of Media Maintainers that
+> disappeared in patch 1/3. Please verify this whether the email
+> addresses are the correct ones, and verify that the areas of responsibility
+> are correct and that nothing is missing.
+> 
+> Patch 3/3 adds media-committers.rst: that focusses on the additional
+> commit rights that can be granted to a Media Maintainer.
+> 
+> I have uploaded the documentation with these patches here:
+> 
+> https://hverkuil.home.xs4all.nl/spec/driver-api/maintainer-entry-profile.html
+> https://hverkuil.home.xs4all.nl/spec/driver-api/media-committers.html
+> 
+> Mauro's feedback for v7 is here:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=21550
 
+Many thanks for your efforts on this!
 
-So many people developed it, three people reviewed it, patch is at v9 and...
+For the set:
 
-still was not build-tested by the author. At this point this is big
-surprise.
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-NAK
+-- 
+Kind regards,
 
-Best regards,
-Krzysztof
+Sakari Ailus
 
