@@ -1,164 +1,200 @@
-Return-Path: <linux-media+bounces-52317-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52318-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +Ad/ElAghmm/JwQAu9opvQ
-	(envelope-from <linux-media+bounces-52317-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 18:09:36 +0100
+	id cLcOFWMjhmklKAQAu9opvQ
+	(envelope-from <linux-media+bounces-52318-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 18:22:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531B9100BF2
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 18:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A184F100E80
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 18:22:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E942D30107F7
-	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 17:09:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 98C10300E399
+	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 17:22:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 577EA36F40E;
-	Fri,  6 Feb 2026 17:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B57673DA7C7;
+	Fri,  6 Feb 2026 17:22:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgEPUCms"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvki4MUE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D770E364023
-	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 17:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190E43B530F
+	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 17:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770397768; cv=none; b=IcbpWFsMXQHd7PZpc/7wgPo/v6YavG0B0tNFPUxF8dyjruKl0CpghhG0qrPdqVmpgrw3qO69DWmFYio5VCoVDkEpQBTNttpxyPe+qe9R4lSwNV56qIloa8HtbOWajJCogAJbczWJseHfDuUb1AQ4HpMyEixNIcG0BDjdfpXtcTE=
+	t=1770398533; cv=none; b=PifqA/x2uXsYEULtbmXtqJAspi4FCJ5OLpvp8ZxDZbpfrS6PxR5SYHQTfUIxs5ffsoy0cvTEBDvILOz8ki+xYMYemvwrpHLZ2M/j3AFNOv8y9B7AABLpueHzVqHs0lI3VkJ+zRmwgXfjHWlx2HpHJu/gF8t7Z5vImk4RbXlS2V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770397768; c=relaxed/simple;
-	bh=peNY96SQpjN+dcda2YyICUV8t/u6NAhduxoOMLRhjS4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FLiGtl6jBlMwYMs1mdmdPcNaIya0QWaZl83Q/WNscSXEhk8om9Cb8jOXg5WGNrmNhnMGxesjJLG93B2SA/Tgj2S9mjMYD8p3YiTxQ+aC8d8N37TMIZ+UG8wV8dIPGOmgTkyn64DWIG1B41mLaEhmUUsdwcBuC0dvJe54VmtvFjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgEPUCms; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1770398533; c=relaxed/simple;
+	bh=SqZlD/qHeZhtq/QbFu010KrzKljFkKfaSPJCYfz3IG8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=F0uJczlE/XU1qXgnPed6t3r8Kpx5pVH6/lNwAz/xCkHs7J8k2DQSLYf4/TinTfphE6jQ7Ln2xImMzG06NmBeO0m0uXfHCYqC1EzA58mkEb2q/BYr4/c8Gp1m9V7TdYM8BlwTQKANzrO6uB85ZBtGLEQKLpA93PxHIY1E7ucCR/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvki4MUE; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770397768; x=1801933768;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=peNY96SQpjN+dcda2YyICUV8t/u6NAhduxoOMLRhjS4=;
-  b=YgEPUCms00JC9pMAWzQ75JlnFjt80Ix3LWQ5oIWQoSBynzFWv5uK6dnQ
-   Mut07SMu6yEAX9kTkXdGk/wpmA5nJPR7vbRSldVjVRzzkV9RBTwubm08d
-   /hF2bu489JIRpmeiF+q55YsS/L0N4BOzRksrPGeqihZiMujHnne1Ksaqi
-   x8iw+nZ+YRggwCnufHAQe1K7IAINECad/jku5mp07MX4DQ5DpA2Ui4guT
-   SzcJq8GusAMn5+W2CaLw5aNop6/LrKfw+0F86exUtBBKMJFxF0Ub3gfK2
-   u2i5Qp2S0XanNL2Whqip3Ra6NLQx9SqdNShosUnX2SuA8NENMpAnTe4di
-   Q==;
-X-CSE-ConnectionGUID: YGx9eoVaSWmarE9O+V9ZlQ==
-X-CSE-MsgGUID: 60TRPYfYQmOR5wWAk0FHqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="59178284"
+  t=1770398533; x=1801934533;
+  h=date:from:to:cc:subject:message-id;
+  bh=SqZlD/qHeZhtq/QbFu010KrzKljFkKfaSPJCYfz3IG8=;
+  b=mvki4MUEg8YgAMCWwTX6DFfU/tEg6RMxE6N8HcKZxN7nzflSZXfIRY6n
+   /j8ZbB6Brogrd3xnCPpXCRRAlrRGAs86o9Wt+q4/i7kf9Ara6KPomg9wr
+   +tiqdSxtyGyxWNsJilMwG60RNeMtfDpg9P+ABIPRvm1kS3zqCDD7t7sqS
+   S9eTAgcQCltiI9wD1ur+RKufFdOm+zhA9amkYW/wV2WzKKn8YCLsC5YX/
+   yYsytAfGkWtTfUm3zcNEFLTsdIuXnXwncrPc74R3n7pV4s61EDgNzPy8C
+   b6veUqEYK4EscytG0kTTXr75yoE+WLstmLvtVpzicP2wxWLFu38CY79zn
+   A==;
+X-CSE-ConnectionGUID: DZTyYb06Q7mJw3M4HPLr2g==
+X-CSE-MsgGUID: ZHZA57GcR6mOEx0wN+9SSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="83050347"
 X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="59178284"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 09:09:27 -0800
-X-CSE-ConnectionGUID: r/68HpIxS9m6b3i7xgIeig==
-X-CSE-MsgGUID: bU5YS63gSOWMj3sVA+RYmw==
+   d="scan'208";a="83050347"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 09:22:09 -0800
+X-CSE-ConnectionGUID: Dh+CaMpRRQ21Hmck3KvmdA==
+X-CSE-MsgGUID: npSXVEo7TrmgS8ucH1V46w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="210243450"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.43])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 09:09:25 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9991511F90E;
-	Fri, 06 Feb 2026 19:09:36 +0200 (EET)
-Date: Fri, 6 Feb 2026 19:09:36 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sean Young <sean@mess.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCHv8 0/3] docs: media: multicommitters model documentation
-Message-ID: <aYYgUDtY5L87Bzqg@kekkonen.localdomain>
-References: <cover.1770301974.git.hverkuil+cisco@kernel.org>
+   d="scan'208";a="210796034"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2026 09:22:08 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1voPWv-00000000kxO-2IYj;
+	Fri, 06 Feb 2026 17:22:05 +0000
+Date: Sat, 07 Feb 2026 01:21:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata-pre 11/13]
+ drivers/media/platform/nxp/imx7-media-csi.c:1415:8: error: too few arguments
+ to function call, expected 4, have 3
+Message-ID: <202602070139.HB5ypt6u-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1770301974.git.hverkuil+cisco@kernel.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52317-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-media,cisco,huawei];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxtv.org:url]
-X-Rspamd-Queue-Id: 531B9100BF2
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52318-lists,linux-media=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url]
+X-Rspamd-Queue-Id: A184F100E80
 X-Rspamd-Action: no action
 
-Hi Hans,
+tree:   git://linuxtv.org/sailus/media_tree.git metadata-pre
+head:   1b58854744d17413b2855b20178e63a1c82d58f5
+commit: e7ba02736fa5365cfe31dfd34c5557f10c4348fa [11/13] media: v4l2-subdev: Add struct v4l2_subdev_client_info pointer to pad ops
+config: hexagon-randconfig-002-20260206 (https://download.01.org/0day-ci/archive/20260207/202602070139.HB5ypt6u-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070139.HB5ypt6u-lkp@intel.com/reproduce)
 
-On Thu, Feb 05, 2026 at 03:32:51PM +0100, Hans Verkuil wrote:
-> Here is v8, based on Mauro's feedback.
-> 
-> The main changes since v7 are:
-> 
-> - rename media-committer.rst to media-committers.rst
-> - the 'Note' at the start of media-committers.rst is now just a list
->   of additional responsibilies (it made no sense that it was a 'Note').
-> - incorporated Mauro's suggestions
-> 
-> Patch 1/3 updates maintainer-entry-profile.rst: it introduces the
-> three Media maintainer levels (Media Driver Maintainer, Media Core Maintainer
-> and Media Subsystem Maintainer) and what the responsibilities are.
-> 
-> Patch 2/3 adds back and updates the list of Media Maintainers that
-> disappeared in patch 1/3. Please verify this whether the email
-> addresses are the correct ones, and verify that the areas of responsibility
-> are correct and that nothing is missing.
-> 
-> Patch 3/3 adds media-committers.rst: that focusses on the additional
-> commit rights that can be granted to a Media Maintainer.
-> 
-> I have uploaded the documentation with these patches here:
-> 
-> https://hverkuil.home.xs4all.nl/spec/driver-api/maintainer-entry-profile.html
-> https://hverkuil.home.xs4all.nl/spec/driver-api/media-committers.html
-> 
-> Mauro's feedback for v7 is here:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/list/?series=21550
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602070139.HB5ypt6u-lkp@intel.com/
 
-Many thanks for your efforts on this!
+All errors (new ones prefixed by >>):
 
-For the set:
+>> drivers/media/platform/nxp/imx7-media-csi.c:1415:8: error: too few arguments to function call, expected 4, have 3
+    1415 |         ret = v4l2_subdev_call_state_active(&csi->sd, pad, get_fmt, &fmt_src);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1939:14: note: expanded from macro 'v4l2_subdev_call_state_active'
+    1939 |                 __result = v4l2_subdev_call(sd, o, f, state, ##args);   \
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1909:20: note: expanded from macro 'v4l2_subdev_call'
+    1908 |                         __result = v4l2_subdev_call_wrappers.o->f(      \
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1909 |                                                         __sd, ##args);  \
+         |                                                                     ^
+>> drivers/media/platform/nxp/imx7-media-csi.c:1415:8: error: too few arguments to function call, expected 4, have 3
+    1415 |         ret = v4l2_subdev_call_state_active(&csi->sd, pad, get_fmt, &fmt_src);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1939:14: note: expanded from macro 'v4l2_subdev_call_state_active'
+    1939 |                 __result = v4l2_subdev_call(sd, o, f, state, ##args);   \
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1911:43: note: expanded from macro 'v4l2_subdev_call'
+    1911 |                         __result = __sd->ops->o->f(__sd, ##args);       \
+         |                                    ~~~~~~~~~~~~~~~             ^
+   drivers/media/platform/nxp/imx7-media-csi.c:2024:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
+    2024 |         .set_fmt        = imx7_csi_set_fmt,
+         |                           ^~~~~~~~~~~~~~~~
+   3 errors generated.
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+vim +1415 drivers/media/platform/nxp/imx7-media-csi.c
+
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1404  
+31959b981c231fd drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1405  static int imx7_csi_video_validate_fmt(struct imx7_csi *csi)
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1406  {
+d01a1c30777e46b drivers/media/platform/nxp/imx7-media-csi.c Laurent Pinchart 2023-01-26  1407  	struct v4l2_subdev_format fmt_src = {
+d01a1c30777e46b drivers/media/platform/nxp/imx7-media-csi.c Laurent Pinchart 2023-01-26  1408  		.pad = IMX7_CSI_PAD_SRC,
+d01a1c30777e46b drivers/media/platform/nxp/imx7-media-csi.c Laurent Pinchart 2023-01-26  1409  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+d01a1c30777e46b drivers/media/platform/nxp/imx7-media-csi.c Laurent Pinchart 2023-01-26  1410  	};
+e352833d32e6932 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1411  	const struct imx7_csi_pixfmt *cc;
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1412  	int ret;
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1413  
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1414  	/* Retrieve the media bus format on the source subdev. */
+1d59fbeb37a70f3 drivers/media/platform/nxp/imx7-media-csi.c Laurent Pinchart 2023-01-26 @1415  	ret = v4l2_subdev_call_state_active(&csi->sd, pad, get_fmt, &fmt_src);
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1416  	if (ret)
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1417  		return ret;
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1418  
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1419  	/*
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1420  	 * Verify that the media bus size matches the size set on the video
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1421  	 * node. It is sufficient to check the compose rectangle size without
+084158200fda600 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1422  	 * checking the rounded size from pix_fmt, as the rounded size is
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1423  	 * derived directly from the compose rectangle size, and will thus
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1424  	 * always match if the compose rectangle matches.
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1425  	 */
+084158200fda600 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1426  	if (csi->vdev_compose.width != fmt_src.format.width ||
+084158200fda600 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1427  	    csi->vdev_compose.height != fmt_src.format.height)
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1428  		return -EPIPE;
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1429  
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1430  	/*
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1431  	 * Verify that the media bus code is compatible with the pixel format
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1432  	 * set on the video node.
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1433  	 */
+2d35c1ff83c0951 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-10  1434  	cc = imx7_csi_find_mbus_format(fmt_src.format.code);
+a61bfe662591ad2 drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-10  1435  	if (!cc || csi->vdev_cc->yuv != cc->yuv)
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1436  		return -EPIPE;
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1437  
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1438  	return 0;
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1439  }
+01ac6b7542872ec drivers/staging/media/imx/imx7-media-csi.c  Laurent Pinchart 2022-05-09  1440  
+
+:::::: The code at line 1415 was first introduced by commit
+:::::: 1d59fbeb37a70f36ba3f03e41128515eee59f5fb media: imx: imx7-media-csi: Use V4L2 subdev active state
+
+:::::: TO: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 
 -- 
-Kind regards,
-
-Sakari Ailus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
