@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-52290-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52291-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kGH+NxTphWkLIQQAu9opvQ
-	(envelope-from <linux-media+bounces-52290-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:13:56 +0100
+	id 2HuZKwnphWnCHwQAu9opvQ
+	(envelope-from <linux-media+bounces-52291-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:13:45 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB3BFDF1C
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:13:56 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 770C8FDF07
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:13:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id ABC723048DEF
+	by sto.lore.kernel.org (Postfix) with ESMTP id 60FC0301060C
 	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 13:13:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EDF13D6473;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D14932D0D4;
 	Fri,  6 Feb 2026 13:13:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZmiF/oDQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HsULiiDD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFF936C5BB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AD236E460
 	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 13:13:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770383618; cv=none; b=dMp4+BSovug3oe3+p/ImTTk/wwSJj78UEYbgpDD5w0GnV8apiqMuHX71gPOAzZDrhrfdksyMTosC0Bf/MC91dXA3c07DnLbXFixDIRUHh867YRy6VXh2R7Ci37k+pMr3TbnWwJj6b33Mp6Z7YtxdkIYmOY6sRGjxAZYIKuLsDG0=
+	t=1770383618; cv=none; b=MNVIhqSIP6JCY/mM/Tj3HwXoAFSnKx2zT6CU/vHamOQQPQvRQDAmX5Tu6sPYRLf5LFMh2j6HLvbSvXoPBkubqJJw/3PX0dyXj02TdjodgTcRdYpOvuGBgH3sxD/+lo3g9pIGzDI+rWC4UgF9zQkqqdQKkkU1BMVr2BTdMYxt/wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770383618; c=relaxed/simple;
-	bh=p+7wLYZRqYGLrHjH4Iw1UW1GedO2euHRAeT7VfN6uxA=;
+	bh=ySYfTqmyUjUx0qaZCJ4q/Gjd81iDecFTl1mQgu0nnPI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kzpjR0vLn73mOIBI7JI42dG7qMcMhMdlf437P+/OIQ/d64GQ2h6RryhIO/ud+0L7wbrT3FrTAJ237QRaJyJjUCt19bAH8IABWwlZEejUk541Le6haJboFCOytoPV8jzx4Soqbpp8WKgdR5fT7ho/KB14s7g6gwk1RCl3YjC8nRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZmiF/oDQ; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version; b=JTev5OuDdz3xdoCreDQnZzcfymvNxGGfZOTuhaqD6S6g+o3U/7lkEimqzUl9JvIAZHV3vdb523C7gaGkR/VW3RzbqY1d+xJsYfqDMSJyLQLumg1aAEBmCD6KrIly4Ww7OH3wl+gLEsWNOxuNwIufx8OMofXabvXUZBB5sO3wg2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HsULiiDD; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -39,34 +39,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1770383618; x=1801919618;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=p+7wLYZRqYGLrHjH4Iw1UW1GedO2euHRAeT7VfN6uxA=;
-  b=ZmiF/oDQm/lEvcdk+/McY08ccZEsgaN4z/2gqNkkoJa9qSjnJhYbTFKr
-   NK/YsVbq3fksU4wZVTNrlTgbQ/ASuolm/MAUTn2UUxvGW9rb+HaqCsSLy
-   0NnJuKsEgk/Y7JgYx6EvAILh5jBDMezO9c7CyldNiAP8fhFUu29DjTPVX
-   Pv1ZTWCawJNMK73niqNQ6SmybmY7jPr6AqN8c30A8Erm9ysTwlNF0YMJo
-   rHJiEEOapUxKL7eChHBBjwX50zTxsN65VizNz+sOjfLefnIvtQsA3HR24
-   ZE8oDXoyFpJWplv12XbQj3LcCK+MNxxcDL7B8SCU/AEHrAs6APbdmnuTy
+  bh=ySYfTqmyUjUx0qaZCJ4q/Gjd81iDecFTl1mQgu0nnPI=;
+  b=HsULiiDDuocTVmgNMeNoD3/c29zWmCC/almuhl9oteUThbN0AH1GX+tS
+   MBow4nl5pXpDTkCMIYIOHdFaZRQfM0PeIJ9y46UfjKzkghwlgOut969Vq
+   Xih8U+gRGZySwXadyFWVcN00zGQsGSPbOuKmZz2kllPIeJB1ethnGCtfs
+   rX/xISHKbek3Q/MkyJPlr+VurjQ9BTfMjPT0N8nt82K78PoxKT2nme99J
+   3DK5RaMTbIkKicBvv4RI8HploGxbDdu5OCaX3zJdEBKprOeqDkPy0mEIu
+   pOPJhVKx3RjOCTsu9+2PgOFL81vxzVxTFrlzfzeOyJSi9txy2pBkSOoYI
    Q==;
-X-CSE-ConnectionGUID: jgalpulNSrG4OYg3Zs+8tA==
-X-CSE-MsgGUID: QmB1Bu9tTDuVxLxIWDKpjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="75441143"
+X-CSE-ConnectionGUID: XHtyZnrkRwmBd/tDllGqnQ==
+X-CSE-MsgGUID: TPPf99HCS/y8v85cAMghnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="75441131"
 X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="75441143"
+   d="scan'208";a="75441131"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 05:13:35 -0800
-X-CSE-ConnectionGUID: zrPFHLBzQG6d2fXtDVqdqg==
-X-CSE-MsgGUID: ec3rS408Q92PXvCJ2t7Tmg==
+X-CSE-ConnectionGUID: CvA545fMQvSSWX49QVsKlw==
+X-CSE-MsgGUID: 3hIhaMziRxeSn47VQGbeVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="215391204"
+   d="scan'208";a="215391203"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.219])
   by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 05:13:30 -0800
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 653C412033A;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 660EB121D87;
 	Fri, 06 Feb 2026 15:13:40 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1voLeL-00000005Ts8-0w33;
+	id 1voLeL-00000005TsC-10Wr;
 	Fri, 06 Feb 2026 15:13:29 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -99,9 +99,9 @@ Cc: hans@jjverkuil.nl,
 	David Plowman <david.plowman@raspberrypi.com>,
 	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH 02/13] media: v4l2-subdev: Allow accessing routes with STREAMS client capability
-Date: Fri,  6 Feb 2026 15:13:19 +0200
-Message-ID: <20260206131329.1306429-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH 03/13] media: Documentation: Improve LINK_FREQ documentation
+Date: Fri,  6 Feb 2026 15:13:20 +0200
+Message-ID: <20260206131329.1306429-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260206131329.1306429-1-sakari.ailus@linux.intel.com>
 References: <20260206131329.1306429-1-sakari.ailus@linux.intel.com>
@@ -120,62 +120,68 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
-	TAGGED_FROM(0.00)[bounces-52290-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52291-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[29];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,linux.intel.com:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:email,intel.com:dkim];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 5AB3BFDF1C
+X-Rspamd-Queue-Id: 770C8FDF07
 X-Rspamd-Action: no action
 
-Disable access to routes when the STREAMS client capability bit isn't set.
-Routes aren't relevant otherwise anyway.
+Add a reference to the LINK_FREQ control and precise the meaning of the
+control as for C-PHY the matter is less obvious.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ Documentation/driver-api/media/tx-rx.rst                      | 3 ++-
+ .../userspace-api/media/v4l/ext-ctrls-image-process.rst       | 4 +++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 66842b975f91..b2105c34478e 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1008,6 +1008,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
- 			return -ENOIOCTLCMD;
+diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+index 22e1b13ecde9..7df2407817b3 100644
+--- a/Documentation/driver-api/media/tx-rx.rst
++++ b/Documentation/driver-api/media/tx-rx.rst
+@@ -93,7 +93,8 @@ where
+    * - variable or constant
+      - description
+    * - link_freq
+-     - The value of the ``V4L2_CID_LINK_FREQ`` integer64 menu item.
++     - The value of the :ref:`V4L2_CID_LINK_FREQ <v4l2-cid-link-freq>` integer64
++       menu item.
+    * - nr_of_lanes
+      - Number of data lanes used on the CSI-2 link.
+    * - 2
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+index 6d516f041ca2..ee88933256dd 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-process.rst
+@@ -24,7 +24,9 @@ Image Process Control IDs
+ .. _v4l2-cid-link-freq:
  
-+		if (!client_supports_streams)
-+			return -EINVAL;
-+
- 		memset(routing->reserved, 0, sizeof(routing->reserved));
+ ``V4L2_CID_LINK_FREQ (integer menu)``
+-    The frequency of the data bus (e.g. parallel or CSI-2).
++    The fundamental frequency of the operating symbol rate (serial interfaces
++    such as CSI-2) or the sampling rate (parallel interfaces such as DVP or
++    Bt.565) of the data interface.
  
- 		krouting = &state->routing;
-@@ -1035,6 +1038,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
- 			return -ENOIOCTLCMD;
- 
-+		if (!client_supports_streams)
-+			return -EINVAL;
-+
- 		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
- 			return -EPERM;
+ .. _v4l2-cid-pixel-rate:
  
 -- 
 2.47.3
