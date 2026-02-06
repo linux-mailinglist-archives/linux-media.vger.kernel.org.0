@@ -1,250 +1,158 @@
-Return-Path: <linux-media+bounces-52320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52321-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yGSkBmwohmmLKAQAu9opvQ
-	(envelope-from <linux-media+bounces-52320-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 18:44:12 +0100
+	id aOYqLIMshmnkKAQAu9opvQ
+	(envelope-from <linux-media+bounces-52321-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 19:01:39 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1DC1014A6
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 18:44:11 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5686E10191F
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 19:01:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D74BC305FBED
-	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 17:42:18 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 833A73006B44
+	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 18:01:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0F2C425CC6;
-	Fri,  6 Feb 2026 17:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42DD836EAB4;
+	Fri,  6 Feb 2026 18:01:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dmqlshof"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nXH925yQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA5B423A9C
-	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 17:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A0F2D8DD0
+	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 18:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770399732; cv=none; b=owZzabwZPQDuSw7wB3Jp1cXmh/KSHMzSk+0rS8iCqv4a+sF0Szu2OL7syxlZz2HFJEC+KbiRVszuJZcpvt+UF9RRJa49oX1n900U1AW2s+iyMxypy8Krtq7r/obNOUGFcKKJS825W2oUHtDjF0aOTSfz8UZv1Ehdwi6tINyjJq8=
+	t=1770400891; cv=none; b=DvHloEuzaGeW4ubIy1FDwB2AtJytpk6r4ihXbn7YQ216AWBAADwMOIx+duf68t6ORJvNbsS592zJo1BdEPXKVCuIIxQVH/qtxf8+E6IKEQGKp0BTeA40jFEJ7dyJkVvap8LLIcmxSe6ttiGXpw79OAi7wFC3kXtNclDP9A4U9rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770399732; c=relaxed/simple;
-	bh=JDt+a/gYazs++ZGB4iN+c7wbmwnVO4l3RhEEUg9XDhs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EWsHiQBzdHT9ZGy3PIQokxPP0keRBhM5reCJj2iXFaLXQCvSuK0MZuH5P64yg7dBf/QQ30bhDxKWkGj2AcgWy7f0pUvPtqvLH9w7pfbgZL06i5yfS8Npid3dF29MoB5gbXGkht6Lwy8XqPRvJsrxBzHkdmJyhIAkq3AUW5gS134=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dmqlshof; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770399732; x=1801935732;
-  h=date:from:to:cc:subject:message-id;
-  bh=JDt+a/gYazs++ZGB4iN+c7wbmwnVO4l3RhEEUg9XDhs=;
-  b=dmqlshofURDHyv5uhQ1EJtitM/eaPd6yFXzdCvCJc9NSlhFM7MQrh4QA
-   N8Zk6Vab+/DytmNv6fZR6gzvUS/g1HTY8LYLZpZXcJEBwvPdlFSe+ep4v
-   7JIka1M2AyNnTTgzdBOp3pJEESE1eYkYntxvLMUTT9HcyhBqByIUyyhnZ
-   H55LTyXa2kDdUawUZ8AlToPB2h4eE/tfypQKb69njiMSzeRr4tSrXSctk
-   dJ3LRGXwMlc/EwHtcQu3tPIBCYK9F0lsLQzYgTNj9GPtC//vXh2CPnEdI
-   TDmdIiUPMzuVytkWG6pDdTgJVul/bANH92kSe1Dic5FdB5g1TovOkNJKT
-   Q==;
-X-CSE-ConnectionGUID: 7BbAUgZoSDK3CDeNmheanA==
-X-CSE-MsgGUID: RuUoo/vTTW+RfXuwa4eCEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="71792159"
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="71792159"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 09:42:11 -0800
-X-CSE-ConnectionGUID: cGnulJS3Rqmh9yYlLLbFQg==
-X-CSE-MsgGUID: RfOJlnddTRumcw22JYcu0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="233884349"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Feb 2026 09:42:08 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1voPqH-00000000ky4-3oIj;
-	Fri, 06 Feb 2026 17:42:05 +0000
-Date: Sat, 07 Feb 2026 01:41:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata-pre 11/13]
- drivers/media/pci/saa7134/saa7134-empress.c:106:2: error: too few arguments
- to function call, expected 4, have 3
-Message-ID: <202602070104.132QkQjg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1770400891; c=relaxed/simple;
+	bh=lSzknfIv//vW3XrZo3ZB5GwoTGxjRj4lI8kJmwNoH0g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VvLU6CKedZkC47JHDEI3sAAF8You2fTfIxjMtebdS81huBGCbyagV6JAJt7d/5EqI4hHLlmsCcXBhBbL1Y3JyFxamAfp4qlBvNLDdsGAYAkYqvpDSss7+g5EuNny/e4elE61kVkJwgO4mUzdzrSTwZ9kHsUAeBQrUfAOIHMRRpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nXH925yQ; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4801eb2c0a5so22557345e9.3
+        for <linux-media@vger.kernel.org>; Fri, 06 Feb 2026 10:01:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770400890; x=1771005690; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=chld7W3Rbl2PUp6cBiIbC1iT7uESUsO9DngY57S8hBw=;
+        b=nXH925yQME2C/lv7xU3N2pyQIphEEpo2HaEr2mjExOB/V12/17synnPdfVx259zHFa
+         s/OseDtCvCMxhdFsZLcZGyLFKeicyTGl9TNKK2V162hPxUPSZHxJvxdUWBxeC/uRPbZV
+         ba34+SNbt/Tyv8GVhI7vlL39IXY+/iV9t0h1tjdxAzd5rIXvEQYsjGIB/YCOysu+iWg7
+         Iu/7ambw7HtnGIKk40JQ/GMgK1cQalk+dr13K8cVTiJXvWpMR0GV5NdL01XtEFRO/VwC
+         HQnhdy7a0ZGyIpNM5WWwzlA4q4iNp6c8P5xGdITM5xHOLCZj2YzbHJzegInrFimdGerZ
+         mTLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770400890; x=1771005690;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=chld7W3Rbl2PUp6cBiIbC1iT7uESUsO9DngY57S8hBw=;
+        b=q6HpMRleKQ3YliK11Y9cWOscaZKWIvVLr2tpJdb7qt+lSb2jIleB+svVO0fjy/hjrl
+         T6VX6gU5ag9o4d7NsV+S2ht6YeWCENZwUFevQ4NTMItxl6ZBRD0z8V7mMCMq6CGaFa3v
+         Brg8MiOZ1ZQl8ujVt9OFGcdNyIO7qk0SOyvgSFXa7Cl86ttKoAggM01Rx6WxVA9+WlFe
+         UhaWIsoCh/x79xXndRVmur48N/fKJtivAqV8Lf21OdnneYrPFjI/x3vhKmffsnX8u0GS
+         UWdRr0KgebfzborEwdMXGNQ6gM257M3cjZoLZMBkYwxI/9fWiUg4MP6hw/YE8jeAeruZ
+         9nYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBjbCWYAQHXZucmElGHzjK/KbdIOlg+TcGDcPr43lLo8qhQW6ks3qwJZbj8PeCf2AeQ1jj83UUC8uwug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZJ3WdsuZ+1cAyPq73JXZyVAbZXdzpFsc63hV7Hdggpg2+MAje
+	RA64/jxGCoLtRuRZX5S7CKl6B0fAMRZW6LsAy4AUw6gyajlnxrFZx5Pw
+X-Gm-Gg: AZuq6aLrCPyZtS16oo2aMU+2ZapoSWznemq0e1xQ4q8xi43Z77I2rWHR0KLlKdks8pp
+	UNBxTua8oDDhc2XJoV7oZ/YATYraGhe5MWBvCZUCRSQpWzKYbVRSVjEFNgz3IRDiZ5GYeMZaOSt
+	SkTLN/9Gxpur0w08xnIE+726IJSzR36zxQUJgehuYXySuah4oHDIJC34Zp5OLNAwo7VQCNSnnAm
+	EIGsl9+heaJBFXnnVNqJcWPbqMXJ9qYi1fz6221EiUzFjevVfXmE/stD1kufw5Ph/OvcpZImWYe
+	EG0FyPZbvZByXb5XFkmvYcS2gMRkKwlG619zVUjaVbP3JyFROuHy7WiSN+DEqgd7TAg/MIDS7AC
+	sReruUSH6QwOGKFyRMELzhRknMc2SYAHI7DZJPXRg3SbBz0kCgyzdbjsbTjvC7PjlqhAb1BxbEg
+	Xtn1mpYFnRlT7mzoReaEbu1XsLJH8Gc9rd+UCLjIvM8Mar/GTp7/QPojXk8TQu+xqultthohJqY
+	lBJ3njImu90tSxEiIzMQ8DhgelwFtxh9AVacsitsgVxBVP/PNtz8tvXKgxGgUINlA==
+X-Received: by 2002:a05:600c:628d:b0:47d:6856:9bd9 with SMTP id 5b1f17b1804b1-48320216d31mr49104765e9.23.1770400889507;
+        Fri, 06 Feb 2026 10:01:29 -0800 (PST)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483203e126dsm51230805e9.2.2026.02.06.10.01.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Feb 2026 10:01:29 -0800 (PST)
+Message-ID: <b0ec01bc-4cbd-431b-bcdd-084cc14553be@gmail.com>
+Date: Fri, 6 Feb 2026 18:01:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 05/11] block: add infra to handle dmabuf tokens
+To: Anuj gupta <anuj1072538@gmail.com>
+Cc: linux-block@vger.kernel.org, io-uring@vger.kernel.org,
+ Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <51cddd97b31d80ec8842a88b9f3c9881419e8a7b.1763725387.git.asml.silence@gmail.com>
+ <CACzX3AupFeAy0-pPsZ51ixd7qW++LYYjiKBZ3aK5Y2JDrB_JWw@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CACzX3AupFeAy0-pPsZ51ixd7qW++LYYjiKBZ3aK5Y2JDrB_JWw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52321-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52320-lists,linux-media=lfdr.de];
-	RCPT_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[asmlsilence@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,intel.com:mid,01.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,cisco.com:email]
-X-Rspamd-Queue-Id: 8F1DC1014A6
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 5686E10191F
 X-Rspamd-Action: no action
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata-pre
-head:   1b58854744d17413b2855b20178e63a1c82d58f5
-commit: e7ba02736fa5365cfe31dfd34c5557f10c4348fa [11/13] media: v4l2-subdev: Add struct v4l2_subdev_client_info pointer to pad ops
-config: loongarch-randconfig-001-20260206 (https://download.01.org/0day-ci/archive/20260207/202602070104.132QkQjg-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070104.132QkQjg-lkp@intel.com/reproduce)
+On 2/6/26 15:08, Anuj gupta wrote:
+>> +
+>> +       dma_fence_init(&fence->base, &blk_mq_dma_fence_ops, &fence->lock,
+>> +                       token->fence_ctx, atomic_inc_return(&token->fence_seq));
+>> +       spin_lock_init(&fence->lock);
+> 
+> nit lock should be initialized before handing its address to
+> dma_fence_init()
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070104.132QkQjg-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/media/pci/saa7134/saa7134-empress.c:106:2: error: too few arguments to function call, expected 4, have 3
-     106 |         saa_call_all(dev, pad, get_fmt, NULL, &fmt);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/saa7134/saa7134.h:707:2: note: expanded from macro 'saa_call_all'
-     707 |         v4l2_device_call_all(&(dev)->v4l2_dev, 0, o, f , ##args);       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-device.h:416:3: note: expanded from macro 'v4l2_device_call_all'
-     416 |                 __v4l2_device_call_subdevs_p(v4l2_dev, __sd,            \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     417 |                         (grpid) == 0 || __sd->grp_id == (grpid), o, f , \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     418 |                         ##args);                                        \
-         |                         ~~~~~~~
-   include/media/v4l2-device.h:297:34: note: expanded from macro '__v4l2_device_call_subdevs_p'
-     297 |                                 (sd)->ops->o->f((sd) , ##args);         \
-         |                                 ~~~~~~~~~~~~~~~              ^
-   drivers/media/pci/saa7134/saa7134-empress.c:125:2: error: too few arguments to function call, expected 4, have 3
-     125 |         saa_call_all(dev, pad, set_fmt, NULL, &format);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/saa7134/saa7134.h:707:2: note: expanded from macro 'saa_call_all'
-     707 |         v4l2_device_call_all(&(dev)->v4l2_dev, 0, o, f , ##args);       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-device.h:416:3: note: expanded from macro 'v4l2_device_call_all'
-     416 |                 __v4l2_device_call_subdevs_p(v4l2_dev, __sd,            \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     417 |                         (grpid) == 0 || __sd->grp_id == (grpid), o, f , \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     418 |                         ##args);                                        \
-         |                         ~~~~~~~
-   include/media/v4l2-device.h:297:34: note: expanded from macro '__v4l2_device_call_subdevs_p'
-     297 |                                 (sd)->ops->o->f((sd) , ##args);         \
-         |                                 ~~~~~~~~~~~~~~~              ^
-   drivers/media/pci/saa7134/saa7134-empress.c:148:2: error: too few arguments to function call, expected 4, have 3
-     148 |         saa_call_all(dev, pad, set_fmt, &pad_state, &format);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/saa7134/saa7134.h:707:2: note: expanded from macro 'saa_call_all'
-     707 |         v4l2_device_call_all(&(dev)->v4l2_dev, 0, o, f , ##args);       \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-device.h:416:3: note: expanded from macro 'v4l2_device_call_all'
-     416 |                 __v4l2_device_call_subdevs_p(v4l2_dev, __sd,            \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     417 |                         (grpid) == 0 || __sd->grp_id == (grpid), o, f , \
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     418 |                         ##args);                                        \
-         |                         ~~~~~~~
-   include/media/v4l2-device.h:297:34: note: expanded from macro '__v4l2_device_call_subdevs_p'
-     297 |                                 (sd)->ops->o->f((sd) , ##args);         \
-         |                                 ~~~~~~~~~~~~~~~              ^
-   3 errors generated.
---
->> drivers/media/platform/marvell/mcam-core.c:1025:9: error: too few arguments to function call, expected 4, have 3
-    1025 |                 ret = sensor_call(cam, pad, set_fmt, NULL, &format);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/marvell/mcam-core.c:96:2: note: expanded from macro 'sensor_call'
-      96 |         v4l2_subdev_call(cam->sensor, o, f, ##args)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1909:20: note: expanded from macro 'v4l2_subdev_call'
-    1908 |                         __result = v4l2_subdev_call_wrappers.o->f(      \
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1909 |                                                         __sd, ##args);  \
-         |                                                                     ^
->> drivers/media/platform/marvell/mcam-core.c:1025:9: error: too few arguments to function call, expected 4, have 3
-    1025 |                 ret = sensor_call(cam, pad, set_fmt, NULL, &format);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/marvell/mcam-core.c:96:2: note: expanded from macro 'sensor_call'
-      96 |         v4l2_subdev_call(cam->sensor, o, f, ##args)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1911:43: note: expanded from macro 'v4l2_subdev_call'
-    1911 |                         __result = __sd->ops->o->f(__sd, ##args);       \
-         |                                    ~~~~~~~~~~~~~~~             ^
-   drivers/media/platform/marvell/mcam-core.c:1365:8: error: too few arguments to function call, expected 4, have 3
-    1365 |         ret = sensor_call(cam, pad, set_fmt, &pad_state, &format);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/marvell/mcam-core.c:96:2: note: expanded from macro 'sensor_call'
-      96 |         v4l2_subdev_call(cam->sensor, o, f, ##args)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1909:20: note: expanded from macro 'v4l2_subdev_call'
-    1908 |                         __result = v4l2_subdev_call_wrappers.o->f(      \
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1909 |                                                         __sd, ##args);  \
-         |                                                                     ^
-   drivers/media/platform/marvell/mcam-core.c:1365:8: error: too few arguments to function call, expected 4, have 3
-    1365 |         ret = sensor_call(cam, pad, set_fmt, &pad_state, &format);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/marvell/mcam-core.c:96:2: note: expanded from macro 'sensor_call'
-      96 |         v4l2_subdev_call(cam->sensor, o, f, ##args)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1911:43: note: expanded from macro 'v4l2_subdev_call'
-    1911 |                         __result = __sd->ops->o->f(__sd, ##args);       \
-         |                                    ~~~~~~~~~~~~~~~             ^
-   4 errors generated.
-
-
-vim +106 drivers/media/pci/saa7134/saa7134-empress.c
-
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16   96  
-78b526a43561d7 drivers/media/video/saa7134/saa7134-empress.c Hans Verkuil          2008-05-28   97  static int empress_g_fmt_vid_cap(struct file *file, void *priv,
-2c10e8a8985e41 drivers/media/video/saa7134/saa7134-empress.c Mauro Carvalho Chehab 2007-12-11   98  				struct v4l2_format *f)
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16   99  {
-b9f63b25954495 drivers/media/pci/saa7134/saa7134-empress.c   Hans Verkuil          2013-12-14  100  	struct saa7134_dev *dev = video_drvdata(file);
-da298c6d98d531 drivers/media/pci/saa7134/saa7134-empress.c   Hans Verkuil          2015-04-09  101  	struct v4l2_subdev_format fmt = {
-da298c6d98d531 drivers/media/pci/saa7134/saa7134-empress.c   Hans Verkuil          2015-04-09  102  		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-da298c6d98d531 drivers/media/pci/saa7134/saa7134-empress.c   Hans Verkuil          2015-04-09  103  	};
-da298c6d98d531 drivers/media/pci/saa7134/saa7134-empress.c   Hans Verkuil          2015-04-09  104  	struct v4l2_mbus_framefmt *mbus_fmt = &fmt.format;
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16  105  
-da298c6d98d531 drivers/media/pci/saa7134/saa7134-empress.c   Hans Verkuil          2015-04-09 @106  	saa_call_all(dev, pad, get_fmt, NULL, &fmt);
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16  107  
-da298c6d98d531 drivers/media/pci/saa7134/saa7134-empress.c   Hans Verkuil          2015-04-09  108  	v4l2_fill_pix_format(&f->fmt.pix, mbus_fmt);
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16  109  	f->fmt.pix.pixelformat  = V4L2_PIX_FMT_MPEG;
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16  110  	f->fmt.pix.sizeimage    = TS_PACKET_SIZE * dev->ts.nr_packets;
-cabc6508984f2d drivers/media/pci/saa7134/saa7134-empress.c   Hans Verkuil          2013-06-01  111  	f->fmt.pix.bytesperline = 0;
-2c10e8a8985e41 drivers/media/video/saa7134/saa7134-empress.c Mauro Carvalho Chehab 2007-12-11  112  
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16  113  	return 0;
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16  114  }
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-empress.c Linus Torvalds        2005-04-16  115  
-
-:::::: The code at line 106 was first introduced by commit
-:::::: da298c6d98d531de778ba8dd6657b1093ef855d0 [media] v4l2: replace video op g_mbus_fmt by pad op get_fmt
-
-:::::: TO: Hans Verkuil <hans.verkuil@cisco.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+Good catch, thanks, I'll apply that and other suggestions. And I still
+need to address bits Christoph pointed out during review.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pavel Begunkov
+
 
