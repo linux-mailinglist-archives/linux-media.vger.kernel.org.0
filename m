@@ -1,87 +1,89 @@
-Return-Path: <linux-media+bounces-52303-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52304-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mFa4JvTvhWlvIQQAu9opvQ
-	(envelope-from <linux-media+bounces-52303-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:43:16 +0100
+	id iP2uG2bwhWkPIgQAu9opvQ
+	(envelope-from <linux-media+bounces-52304-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:45:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C3CFE57D
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:43:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B78FE5D3
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:45:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7924B3097EA5
-	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 13:39:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B26E8305D28F
+	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 13:40:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D5E43ECBDC;
-	Fri,  6 Feb 2026 13:39:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30777367F56;
+	Fri,  6 Feb 2026 13:39:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TPML3bfX"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ck16nTLI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848883E8C51
-	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 13:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7041936CE02
+	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 13:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770385170; cv=none; b=etmE0Xh36LRHW38j/vcrg98DUlr7I6bejd96S4jVVZFKjuHAtgn2tT52Rui0mRSFF8Qq+MqvmcEnvKdIT07La7tpGZRcqeKvn9vgr31kFfikX0C/JaFn8jeDUryuilB6+QVQgwAJG1Lnr2w7dGEqCxFEon7LIFFL0n8Ld8/fD84=
+	t=1770385197; cv=none; b=Pa7tORvhFrMWxH2/11fII0rc+1gHtsphhcDuFqg7pLTOxiIQH3KgnZ5o2/1L/snuW74Fz8hnorW6MOxcb88vQdH3uWJm8B0TJWZUDxDkWZnwggph74cL8WMuREuOWgayzaMbIK+I31SuiQQsGUiM5XDLvEv1ADec3M1lcmbCkSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770385170; c=relaxed/simple;
-	bh=VAi/DliN2PqkeWyB69lo4z+vs40QemwOf98Sx+YRLpE=;
+	s=arc-20240116; t=1770385197; c=relaxed/simple;
+	bh=ui9sKOmtWTpThirBsaM2PaQ100m/96b72nH4caIV4lE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=E/wGbKFdt1+T2yHVUo4I5MhS37R+CH77JbnFx5dNUAC0udxaTqzFZp8tc4qn3ZXYBTr6rwNp7MIzAfv1KvGJayvBw+NilZg1vbjvqvEBkDjMs6h02MpxspwkIvOitPRU+WQds6fo5hzYs0qX+Q13SomPT3eMy3EM3VZHuALJg+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TPML3bfX; arc=none smtp.client-ip=209.85.128.67
+	 Content-Disposition:In-Reply-To; b=cnIFpD2kMcQdmebfXjj3TFX6oW9U247PVyKzs1H4RxVr+1mY2DpxyGj3Tgqo3IFbpEh10QrX698xwvhzvCcHa3nEkOQGIeoxk6aZCAkGOfT+WVbOytbM5N0Mop1X0t7m46FEKPe6TeY4yJ6sh3d3OBHa2B2gKBlVABjXn15KWXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ck16nTLI; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4806f3fc50bso8140715e9.0
-        for <linux-media@vger.kernel.org>; Fri, 06 Feb 2026 05:39:30 -0800 (PST)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4806bf39419so19440275e9.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Feb 2026 05:39:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770385169; x=1770989969; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1770385196; x=1770989996; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rgkdoioUU+RhOWyr0UvEiFmF3wCxL0ED61NZyLKRXMw=;
-        b=TPML3bfXdtYHFsnApsvT7P5rc3Nalnewd4XCDgxZRL/8Zl+iJeyk/KBLAZ1Td7MV53
-         pCnxueXHtKEVBHle/0gio7D2471h8RV63s+oiNgV3YEkqxV+HKckGce5k3EsVMT8LMJ8
-         a0EONFo6dwmIwBC0t110P4aIvqVB8+S1V3cWG+olzHGD1lK157TS0ausuyXZ7GrdDpGQ
-         F74VNpLWzmlzExeR2ZgDkJUfuaV/HCcEXIzy0Ni5umEnKFvWtjnBT8dVnBGpIO45UGoi
-         tDonxQqSU9PAS+dpP3vpT7jJi3SGiQYGUChqBkW4ecf9ojDmT+OYA2v9nGFV5tAtz/GP
-         WEMQ==
+        bh=+DpawWM0L1bjHsi3UTj4Y3hlyX0qOr0v1C1K5DEznKQ=;
+        b=ck16nTLIhwLgb1TejJUNXo2fCxd04cwkDU8JARz6rpTeJKRj5JqpedGki2Oty3Yd19
+         69y/8WNn2kx2tONjqWCiPrhUitUsnklpUnnDd5lkF5uTYkT6pIBaqVCbDRubQVh4/hrd
+         BoMU00I6DrRyTvjE7q8E5MSLUtInrRxXcsu00IPMbPayvjhSmMFFWvPTsktTEvC1yN9P
+         hYF4nJWBmRnUwUK9w8KT8HodbL3RVmUEgtMpJDF1gKGvv1M5XehsgwMj5Hgy1L666tFV
+         CP2YJ3rjMRNfH/nyPvr6AT+sgDiV+s5LkOEz9F7tJ2l4s76dfMyK7l+dc9JTnQPZUKBP
+         B5Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770385169; x=1770989969;
+        d=1e100.net; s=20230601; t=1770385196; x=1770989996;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rgkdoioUU+RhOWyr0UvEiFmF3wCxL0ED61NZyLKRXMw=;
-        b=r297y1Qw8FbwHAoQWly8FfdB8nxaetHT+4ENDPThTDNyDsgP9MisyEjbW9jS1Z8bc0
-         i12V5gv1BG1dZ03+fvPLJOOrum7SIycyjWETtz4AcmrGkdrSxPsULS8GPUeG0Hz/IS6D
-         gcddkz9kNNYTGRtcSV2W2kaW1xUfJP6gJUw44OY6B7ob5pCiAucAqjkRxZh3qYG3pLVD
-         nOHaFaVcWYhZheLf834I9Sk39+BUGcZpNz22dVPdE+xpZpnSeFLo2tyajc+EBncIduzj
-         BgJxH8oZqumSdVfawpsviwr9Z2PhmcKh3pCAocFuU1+KjZhG863aOUkkUW9Qi2ubGBWR
-         PzPQ==
-X-Gm-Message-State: AOJu0Yxw08fp9S4PlQmihP9w74PJSGwgL1NJ9XkHk/qXzcQcYBoDIT2z
-	2GPnlWpeAfsvY95OPqWFMZRsJ9RO+TXK/u32cQTrMw7EHoO0EUfynFORyG1zA/YiE1o=
-X-Gm-Gg: AZuq6aKm1ZnGukqdw7p65wDv2K2XDmrzZg8NUOof7zXhUL205d1wq2OVhaW46e/+SUV
-	4cV/O3EVQHIjYVQqs3876iw9Dr0NgtIjvgSU5G06sar5x+12QFHfSSmWBoDvAae/LVvGNvdPidl
-	eKCwSdZ7qjET2za4LHJePmPoW4EJCLkcMA/v+6Ypp8WDW0nVpPMSJsH1QQdNq1iBzSRJBXZH2Mu
-	4McTwDfayqezaio8lIw7GqcvRc2rUexlgGfSsKY6tbaxHD4OIAplgWF95ZR5EuRbvWWQD8p8FtL
-	38H1WSFMQoTff465ligT57rHAZkYzUoz2N1CTsTrM0mhM4IZYnIZqnM3Owk8FiKqo/XWJh9gpNh
-	QV1Kvpuhx7pxDdmpLEiZSSDP+vxwQfwCcs23XY7fuTIuF5XFqL+Z1/HhTCVqtq8TcYHxLUUMFEU
-	l4UZiEbEisuh536ODB
-X-Received: by 2002:a05:600c:3f12:b0:477:b734:8c53 with SMTP id 5b1f17b1804b1-483201e476emr39967365e9.12.1770385168829;
-        Fri, 06 Feb 2026 05:39:28 -0800 (PST)
+        bh=+DpawWM0L1bjHsi3UTj4Y3hlyX0qOr0v1C1K5DEznKQ=;
+        b=G2+pq7UIWLv1VrLCcOiyBe42itg7uVKpa+AKD/DybHP66kR3VXT8KXLQ6dypx5+D73
+         nLcSgWe+TiW46MBonu7zZQBqf0WIqUprHegIwIPG4rd74ncpZLaXMZTgDAdM1JhXB0Bm
+         PZRSHI10+5+q6uBCcgJrUij9m9dvZyU7lH4PCFp5aNhiriUzX1PV6J6rap7OGP8FHqT2
+         8DsUX3YffMbDITONbNoiX4Vt9OqfHcLX7ZvvLfgHhIHkmaJUtfS60he2NDC50JDlZdpn
+         EfZWrIHtvNlf0vPol3H11YkmIfrXU11K6TQl13gOAiiQK29FpOwawLo63B4Q364SyLcd
+         Kzpw==
+X-Forwarded-Encrypted: i=1; AJvYcCUYJMkD6d+qovHYEyAxpHkqHXg5nxy9SBQf4O8rf2oFZpEynVtgKKmyPD0TSYf4ZiDHN+7MuP9hsSMoCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTktzdkSPPXhiNhZEmiZavVDFCq9CdKtydOu/awogPZQs+3UeU
+	/wbsRG72+Y4KWNX8Utnt48RH8zXc7jwTI4BLuvd3KGDdnGWj/yEYTi5LGR3U65EFY+Y=
+X-Gm-Gg: AZuq6aJMBxSL8f+rbrWll4ndjvqiWGD5tZzxwSksRxltir4WtmRpenwMhO2y9nXVy2J
+	yNm4cymecG2ZvHaV5wjzXazu/fe8CxFu+5cEqNHmOEsBcEqqVI7qixFsA9Jjf3mceesoNSlV+mF
+	hGg5QvpH48iAvkIYcl4616AOJkidpGXI29Dx6YtcilvExcU+m2wyptedO6scpZiDQ5i1Y0dqPNa
+	e312PQf8oHQT1pZL0MQVHc2Cxx3IAZ7OAXOFUD7XbHCx+KiuYlSKRvmDxG+M1Od2DmWumUFcJBb
+	YvfOANC93W+EtjsJJ28Vx/ZKu/tGZS+tU7pnedBiPezYOtn1oVTy+idqnnNkcVckpMNAt13F5XC
+	gJhqqW17Hz19ZL4EKDsRUNHscNT6QGwSpHZvnOJ3tLscTN6HPz/f4zm1VSuN9xCgwSFNza7F24w
+	eA8QwDrOe1MGpDGxzuoveRM4jgSiM=
+X-Received: by 2002:a05:600c:5619:b0:477:a71c:d200 with SMTP id 5b1f17b1804b1-4831791784bmr62231045e9.11.1770385195657;
+        Fri, 06 Feb 2026 05:39:55 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d7a924sm192988315e9.10.2026.02.06.05.39.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d33f5fsm133089325e9.5.2026.02.06.05.39.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 05:39:28 -0800 (PST)
-Date: Fri, 6 Feb 2026 16:39:25 +0300
+        Fri, 06 Feb 2026 05:39:55 -0800 (PST)
+Date: Fri, 6 Feb 2026 16:39:52 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Michael Riesch <michael.riesch@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: [bug report] media: rockchip: rkcif: add support for rk3568 vicap
- mipi capture
-Message-ID: <aYXvDURNPu_5NILk@stanley.mountain>
+Subject: [bug report] media: iris: gen1: Destroy internal buffers after FW
+ releases
+Message-ID: <aYXvKAX3Pg3sL37P@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -96,74 +98,72 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52303-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52304-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	NEURAL_HAM(-0.00)[-0.998];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,stanley.mountain:mid]
-X-Rspamd-Queue-Id: 49C3CFE57D
+X-Rspamd-Queue-Id: C8B78FE5D3
 X-Rspamd-Action: no action
 
 [ Smatch checking is paused while we raise funding.  #SadFace
   https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/ -dan ]
 
-Hello Michael Riesch,
+Hello Dikshita Agarwal,
 
-Commit 1f2353f5a1af ("media: rockchip: rkcif: add support for rk3568
-vicap mipi capture") from Nov 14, 2025 (linux-next), leads to the
+Commit 1dabf00ee206 ("media: iris: gen1: Destroy internal buffers
+after FW releases") from Dec 29, 2025 (linux-next), leads to the
 following Smatch static checker warning:
 
-drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c:519 rkcif_mipi_id_get_reg()
-index hardmax out of bounds 'rkcif->match_data->mipi->regs_id[id]' size=4 max='4' rl='0-u32max'
+	drivers/media/platform/qcom/iris/iris_buffer.c:588 iris_release_internal_buffers()
+	error: dereferencing freed memory 'buffer' (line 585)
 
-drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c:519 rkcif_mipi_id_get_reg()
-index hardmax out of bounds 'rkcif->match_data->mipi->regs_id[id][index]' size=11 max='11' rl='0-11'
+drivers/media/platform/qcom/iris/iris_buffer.c
+    572 static int iris_release_internal_buffers(struct iris_inst *inst,
+    573                                          enum iris_buffer_type buffer_type)
+    574 {
+    575         const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
+    576         struct iris_buffers *buffers = &inst->buffers[buffer_type];
+    577         struct iris_buffer *buffer, *next;
+    578         int ret;
+    579 
+    580         list_for_each_entry_safe(buffer, next, &buffers->list, list) {
+    581                 if (buffer->attr & BUF_ATTR_PENDING_RELEASE)
+    582                         continue;
+    583                 if (!(buffer->attr & BUF_ATTR_QUEUED))
+    584                         continue;
+    585                 ret = hfi_ops->session_release_buf(inst, buffer);
 
-drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
-    504 static inline unsigned int rkcif_mipi_id_get_reg(struct rkcif_stream *stream,
-    505                                                  unsigned int index)
-    506 {
-    507         struct rkcif_device *rkcif = stream->rkcif;
-    508         unsigned int block, id, offset, reg;
-    509 
-    510         block = stream->interface->index - RKCIF_MIPI_BASE;
-    511         id = stream->id;
-    512 
-    513         if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
-    514             WARN_ON_ONCE(id > RKCIF_ID_MAX) ||
-    515             WARN_ON_ONCE(index > RKCIF_MIPI_ID_REGISTER_MAX))
+The commit adds a free of buffer to ->session_release_buf().
 
+    586                 if (ret)
+    587                         return ret;
+--> 588                 buffer->attr |= BUF_ATTR_PENDING_RELEASE;
+                        ^^^^^^^^^^^^
+Use after free.
 
-The id and index checks should be >=.  Not sure about block but I assume
-it's off by one as well.
-
-    516                 return RKCIF_REGISTER_NOTSUPPORTED;
-    517 
-    518         offset = rkcif->match_data->mipi->blocks[block].offset;
---> 519         reg = rkcif->match_data->mipi->regs_id[id][index];
-    520         if (reg == RKCIF_REGISTER_NOTSUPPORTED)
-    521                 return reg;
-    522 
-    523         return offset + reg;
-    524 }
+    589         }
+    590 
+    591         return 0;
+    592 }
 
 regards,
 dan carpenter
