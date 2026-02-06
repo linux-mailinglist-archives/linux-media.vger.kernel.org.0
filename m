@@ -1,132 +1,131 @@
-Return-Path: <linux-media+bounces-52322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52323-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UHp+L1UthmnkKAQAu9opvQ
-	(envelope-from <linux-media+bounces-52322-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 19:05:09 +0100
+	id 6HWHEKwthmnkKAQAu9opvQ
+	(envelope-from <linux-media+bounces-52323-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 19:06:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF79101988
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 19:05:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFE5101A08
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 19:06:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1EE93302A079
-	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 18:04:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5EC1E3026150
+	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 18:06:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5FD3DA7E2;
-	Fri,  6 Feb 2026 18:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5A05426D1F;
+	Fri,  6 Feb 2026 18:06:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZBx9pav"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B9ioeUFl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D3935F8D9
-	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 18:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338E5392C51
+	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 18:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770401051; cv=none; b=Mi9oVHvQDDbtZpbj30upAfDILOZ4SRwptC2YjfDD9J9cWIqK7lAZu4QWgDq8CmTfRZjanjHwQ8NJgoPAqEDFCaflgy2TLZMqpaOqiwqQ1TZ8Xw88NSoPfQHg7/qllsFoUtc9XeqhNQpETUSfdB5rqsdjaocBYjPhwerLXIuejO0=
+	t=1770401175; cv=none; b=Iec+WgVhdYETJfnFiobHMDEX6KT7fAPX0P63JsA+yOjQW+fWX8no7YNDnQ3H9Hls3VPUgJ843gNGT/PC80hJVXZPR7Y5GUwnAkmm3SVZ3kwjTWGTO6Y+bSETkhMx/97fS36EWOzjax3yECBs+fTJl2L0yWl5Z6EGDi8PcQgKBbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770401051; c=relaxed/simple;
-	bh=BIyzR1QV3JuETEjTYOnCoDTvTxeMgb+AWSVpXMod8b4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LvZV5nit3eg+uTu2//PtOwp9ryBycRX32I9ssGsuLzwaxhI2Ps/Qc4SE/Pt/aMQ9apOYH+TTAp+leol85tZUFpOTFU6hupXjlWxdSbCaSIjDfixHxlPnUWCRZIEbjykuwxkdLPwHIz9RftxNNINQO7nOwB4jO7L2XZJBVuDnwO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZBx9pav; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770401051; x=1801937051;
-  h=date:from:to:cc:subject:message-id;
-  bh=BIyzR1QV3JuETEjTYOnCoDTvTxeMgb+AWSVpXMod8b4=;
-  b=nZBx9pavfDq+V8iMNjW3+Rz7WN5gs2V7wuRX2B4RqVzfcUyG669JDnKG
-   bVSGOGbeNAbNG+nO39bM1M5M9Zawfqy//ZnjVvZM1o+e0bRLfL8aNvBbU
-   MG6BSdndXDUFnb0ZJ+Re8PP2nn2ZsXlyLK7gVOQvfs9aapsu4Fm7etFGz
-   s6wwrq2clmW3BaHOlVfnh1iBc6zjMCPCI3m2Zk3KBAZq8WPx+HSXsqogy
-   9F4e+oAq76WFklNesiKjH+W5FCyYu2+tTPhKAFTLuSV+WNmmrTIu6Xr5J
-   AP+C7i6IoNLns5mS6LOQtHEutbhjP5exosjCfH4cmRlMejMIOrU7Rkoqm
-   g==;
-X-CSE-ConnectionGUID: pbuAGL3PQFeRlqyZQOc7Yg==
-X-CSE-MsgGUID: Cc+Cuc7hQciadmDoNzAcww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="82725693"
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="82725693"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 10:04:11 -0800
-X-CSE-ConnectionGUID: MYNe91w1QOaENBSl0nu8mQ==
-X-CSE-MsgGUID: 7oe1pB51QniYuHZ5yq7r0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
-   d="scan'208";a="210220509"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Feb 2026 10:04:09 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1voQBa-00000000kzE-3Z8X;
-	Fri, 06 Feb 2026 18:04:06 +0000
-Date: Sat, 07 Feb 2026 02:03:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata-pre 13/13] Warning:
- drivers/media/i2c/tvp514x.c:891 function parameter 'ci' not described in
- 'tvp514x_get_pad_format'
-Message-ID: <202602070152.AuqeXeCe-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1770401175; c=relaxed/simple;
+	bh=C+TfAnkwxVqTsDVT84puZfL0sBcDUrbQyEh/s62T/84=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y4OfuLGglEYfZVkKaF8IkWY+lGyln+lnajtht5TCs9UmA4MP9smQsjELY8VQlI5rIyeRvmOw0vCkbc/3dbYqNWzpFlCTn0hmVi13TtoAv9jAtdgNJ38JwASbOCaKp0aveW6IwVC9EGF7IkQXPzysBmkU6Lr220xnH2JtFu9iq/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B9ioeUFl; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pb-laptop.local (185.221.141.206.nat.pool.zt.hu [185.221.141.206])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17AB4596;
+	Fri,  6 Feb 2026 19:05:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1770401122;
+	bh=C+TfAnkwxVqTsDVT84puZfL0sBcDUrbQyEh/s62T/84=;
+	h=From:To:Cc:Subject:Date:From;
+	b=B9ioeUFlu5gmddYAvP9AymQXJY5V9pYTgeJ8n1Wh+YUn23iAtsoZ1nTQF21ndHkAL
+	 lcYwIzg7384gjfNmo8aCPWGuVV1SxusXK8TTc8KZYxBOlBq+Yg42G/Dg5ZgyzE4rzd
+	 fMzjt0+HvYIIp0oMP6mvDG9psNJ7kb95RGtBsouc=
+From: =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <barnabas.pocze@ideasonboard.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org
+Cc: =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <barnabas.pocze@ideasonboard.com>
+Subject: [PATCH v1] media: rzv2h-ivc: Fix concurrent buffer list access
+Date: Fri,  6 Feb 2026 19:05:40 +0100
+Message-ID: <20260206180540.3195294-1-barnabas.pocze@ideasonboard.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.39 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MIXED_CHARSET(0.77)[subject];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52322-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-52323-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_THREE(0.00)[3];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[barnabas.pocze@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	NEURAL_HAM(-0.00)[-0.998];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 1FF79101988
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8FFE5101A08
 X-Rspamd-Action: no action
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata-pre
-head:   1b58854744d17413b2855b20178e63a1c82d58f5
-commit: 1b58854744d17413b2855b20178e63a1c82d58f5 [13/13] media: v4l: Add struct v4l2_subdev_client_info argument to pad ops
-config: hexagon-randconfig-002-20260206 (https://download.01.org/0day-ci/archive/20260207/202602070152.AuqeXeCe-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070152.AuqeXeCe-lkp@intel.com/reproduce)
+The list of buffers (`rzv2h_ivc::buffers.queue`) is protected by a spinlock
+(`rzv2h_ivc::buffers.lock`). However, in `rzv2h_ivc_transfer_buffer()`,
+which runs in a separate workqueue, the `list_del()` call is executed
+without holding the spinlock, which makes it possible for the list to be
+concurrently modified.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070152.AuqeXeCe-lkp@intel.com/
+Fix that by removing from the list in the lock protected section.
 
-All warnings (new ones prefixed by >>):
+Fixes: f0b3984d821b ("media: platform: Add Renesas Input Video Control block driver")
+Signed-off-by: Barnabás Pőcze <barnabas.pocze@ideasonboard.com>
+---
+ .../media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
->> Warning: drivers/media/i2c/tvp514x.c:891 function parameter 'ci' not described in 'tvp514x_get_pad_format'
->> Warning: drivers/media/i2c/tvp514x.c:924 function parameter 'ci' not described in 'tvp514x_set_pad_format'
->> Warning: drivers/media/i2c/tvp514x.c:891 function parameter 'ci' not described in 'tvp514x_get_pad_format'
->> Warning: drivers/media/i2c/tvp514x.c:924 function parameter 'ci' not described in 'tvp514x_set_pad_format'
-
+diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+index 799453250b85..b714c32f72d6 100644
+--- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
++++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+@@ -152,12 +152,11 @@ static void rzv2h_ivc_transfer_buffer(struct work_struct *work)
+ 	scoped_guard(spinlock_irqsave, &ivc->buffers.lock) {
+ 		buf = list_first_entry_or_null(&ivc->buffers.queue,
+ 					       struct rzv2h_ivc_buf, queue);
+-	}
+-
+-	if (!buf)
+-		return;
++		if (!buf)
++			return;
+ 
+-	list_del(&buf->queue);
++		list_del(&buf->queue);
++	}
+ 
+ 	ivc->buffers.curr = buf;
+ 	buf->addr = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.53.0
+
 
