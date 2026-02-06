@@ -1,92 +1,107 @@
-Return-Path: <linux-media+bounces-52288-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52293-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mKylCxjghWnFHgQAu9opvQ
-	(envelope-from <linux-media+bounces-52288-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 13:35:36 +0100
+	id qKhbHBfphWkLIQQAu9opvQ
+	(envelope-from <linux-media+bounces-52293-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:13:59 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F94DFDA51
-	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 13:35:35 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D18FDF23
+	for <lists+linux-media@lfdr.de>; Fri, 06 Feb 2026 14:13:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 923A4302C6F6
-	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 12:35:30 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7CDE2300F1DB
+	for <lists+linux-media@lfdr.de>; Fri,  6 Feb 2026 13:13:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F30383ACF02;
-	Fri,  6 Feb 2026 12:35:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B649A3D667F;
+	Fri,  6 Feb 2026 13:13:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GMJ63e6N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmgHSBJJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1313E3A9D8C
-	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 12:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F863BFE56
+	for <linux-media@vger.kernel.org>; Fri,  6 Feb 2026 13:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770381329; cv=none; b=ahTmyV1lwEGj1b0ZujDcjXyC72WKQEtmJvieaYDb88KD0OreidMuhiYNH2KteKPwN2jhyPgrY27j3iRfWYWUfb3lexUcaktxURW3R2WCLNXuG/xYe+GwpnlbqqF+qAQHUsjAFMZ8FeHLk1Kf3e6g9ov70iWXFnKyGs4vUpGwVyw=
+	t=1770383618; cv=none; b=mXLSFB5iu3SouKhNN3NmRaJ1JltlarcYjxiABRQgslvbi4entvb1JXU0MScgtG4aV4iz+29vuAPiLs7ztYqzCaIMeP7olOM1kzemnmfLQBYeBjRU3NKvN+0dpGdsYomVoz7IA6YXIsUsM6QUSmYF/kpnEpe08O5u6FAYk1+IHNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770381329; c=relaxed/simple;
-	bh=+G7N0NCeWpH5sO5UAdANmGLtEtncFZE84BA13C8/i9k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pdABBaqsFxTx2BddlpLsLpa4mUbGZDcloVSrkXd55kMR6uJy9lSUh6mUBjpa5E72AKo4MH595LM7D21HlmLXERmzvxudQ+SXjo54Hmkzf9bmpOMjdUYPRrXXaOg33r2fz+27OtTPmwU62wEPnQ57ONR0BKkxPoLDtGO/WA7icGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GMJ63e6N; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-436263e31abso1343525f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 06 Feb 2026 04:35:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770381327; x=1770986127; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8L+MplGnfLupn0gC3EMJ4Rrvkql9QUJsgcWoyz8+F+4=;
-        b=GMJ63e6NRl5T7Gd/d6LVh76HDgGkZ0MAskFKQG5RQUOTYFC6OWSfr4v8WY9Z9UJphL
-         xl1iEOtebTb6IK0dAwfdw0SkZoAWqRCDaly9YT/aXbHkkL+F7YUWxphuDIIibQPjFmpI
-         LW7HIpFK+04ueAMnMydyF4z+k+ylTJJB/bO1BtoQSv2UlI4X6YAc40DwCZhYc3XxYzrH
-         hIdJCme39CClvmZFAvs1gCtl8bHgLKv+sepXSFqOm1jvzNSm0aCYzafJ8ibnys85L9J4
-         FNn538+yICYXE0RN0iZGtImId/dOcFx/jltMjYOtC7IfzUU7vRCsyF4I2iYb72lWBJMk
-         joLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770381327; x=1770986127;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8L+MplGnfLupn0gC3EMJ4Rrvkql9QUJsgcWoyz8+F+4=;
-        b=l2vN1+Lj4CBm3STiin3a72Qit00OmaTAbmA8w07rhYsbH2xbkeCXdkIBQErMqj5kjj
-         m6Ayyksjn4o9n1ENU77mHjkU3pkEEij8PIbm280YnWuXGxFNus2+D7iB86x6KCyXzNL1
-         b0PDqdtsnc4CVlTVsY2nUNp34MfwKZCtqnppHgGTubD+7UXJv4/MCY6hCHUOfn/t5Knf
-         +3FONDoALs2MIH/IprTRRuejqX3GuVx+8ijcWcBrjYt/r9uOlcgPIdCSSNiTzsVqXYp8
-         AblTfiD1szd/KQnMu6yQGthXrBqyRmBIyNaJ5iKTcNo4n11vMTgnO+K9vt4V2nv5Frjq
-         VhUQ==
-X-Gm-Message-State: AOJu0Ywwp+tKzY2NCZXvbGUyuupq5kq6U/zWLTmhUI1F9L5oK8EbyhF0
-	0eisoB36Aa7aO0lzyWaoIIq7AwQbghyaTsfA8OqO5L1gFPagLIkv8czd
-X-Gm-Gg: AZuq6aJ8DUaG3eCXCURKpDdxWpGUmdqqalDUFwOq71eoKWy+DA2wyR+GJvfTy6VKmnK
-	75FVrtfeL21F8CYSRPJ0VknGuPsVanvcjkNOHD1rsFR/Ls6bf/rpAb/jInEgQsEjBY40c+5rGTS
-	la8/1DmayFk4A6OfHuWosTjh6ounMNbXNRab9js2jxPj3cH3X6F54z8DqEGkmwQxn07enYns5zT
-	P02gZCgEg3cgp26WshZ8jn/0kDnXzerf8IZyvajzF1QgTc9rd7LXm5uRMSXXjO0QcY/qMJwt7QH
-	iK7sgsD+vknLePop9qavdFRdZQs9M5Qbp640Coo3sbRvsQv5jI2BhSSnckg0EF9nBv6Ivus5GhD
-	REPWa7EbIYCbFd5/pZ2MLvMeZLG6phZkKKlOKQ4sz8i/PU9B0YawXBEXjUSE2yiixBSuyyxwj87
-	LGDc4pdn4GEhE9t4yi6k97Bl87QYnRPShlFdTF/w3rkWAz0u0/O517sp0PuGgzm0zzP+hr1w==
-X-Received: by 2002:a05:6000:2384:b0:42b:396e:2817 with SMTP id ffacd0b85a97d-4362938b1ddmr3942356f8f.40.1770381326957;
-        Fri, 06 Feb 2026 04:35:26 -0800 (PST)
-Received: from thinkpad ([5.238.217.226])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4362974b230sm5892524f8f.36.2026.02.06.04.35.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 04:35:26 -0800 (PST)
-From: Arash Golgol <arash.golgol@gmail.com>
+	s=arc-20240116; t=1770383618; c=relaxed/simple;
+	bh=2QpVJx2LlOBbLe1c09f2UAskM+uNTs3v2uDV687uIgM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jKMcZwm3PeMfTdfbLlpwJd1Oxxht0qhW16THr7KvZTm2UEvor3uZmJtAoWqlGNHLiu49SNQOvs88m3aMCrSSlIbekYcM9bb2uwBmJBH6uSHc9jClFtUVmvlt8NW6mAElZAt7sCAQhMNfr0QlApx1x+oegLjYBzYRoVd12YUm0M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmgHSBJJ; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770383618; x=1801919618;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2QpVJx2LlOBbLe1c09f2UAskM+uNTs3v2uDV687uIgM=;
+  b=kmgHSBJJ8ekbhUegHmfi9rnZNsilJoqZIlCEcwRDZLkJ/iX3tIVgcIRK
+   5Kkn3ZqWozOrCUwdzx0GhR4fuZgZHwexBnYzk3Fau4Srgg9VdyaGvmo/0
+   oFjH5gZmz8OpUGRvQp2WUaiKschShYv1ZPKhdYgQoE9E+476nqlOAw2EH
+   wuzm6bCPwZy8IiiqSEAXi8Mzp9dyvzby/OkafDGeAnvNGYenz8S9cwSGr
+   SZyxq+dLZlAhah8vzGsZniECtetniFuaLjU5O+6LjhalRp1cwZJwAyg2b
+   CfVwdlcmFuZWkmYkXva8fVSNIbZXygF2r2aATQkRtvIxKWkwkmcasWyDn
+   Q==;
+X-CSE-ConnectionGUID: 86jlZ0+FT1ik6X58JzG+rA==
+X-CSE-MsgGUID: Ta6XhMNhRvqZDuSJWaY40Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="75441166"
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="75441166"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 05:13:36 -0800
+X-CSE-ConnectionGUID: r3Tk8sklTvi2jFNFvmdGYw==
+X-CSE-MsgGUID: UQQfvxcDQoCh593ryrWxbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,276,1763452800"; 
+   d="scan'208";a="215391207"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.219])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 05:13:30 -0800
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 641C011FC2C;
+	Fri, 06 Feb 2026 15:13:40 +0200 (EET)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1voLeL-00000005Ts1-0lIH;
+	Fri, 06 Feb 2026 15:13:29 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
-Cc: paulk@sys-base.io,
-	mchehab@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
+Cc: hans@jjverkuil.nl,
 	laurent.pinchart@ideasonboard.com,
-	linux-sunxi@lists.linux.dev,
-	Arash Golgol <arash.golgol@gmail.com>
-Subject: [PATCH] media: sun6i-mipi-csi2: Use V4L2 subdev active state
-Date: Fri,  6 Feb 2026 16:04:55 +0330
-Message-Id: <20260206123455.46476-1-arash.golgol@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>
+Subject: [PATCH 00/13] Metadata series preparation
+Date: Fri,  6 Feb 2026 15:13:17 +0200
+Message-ID: <20260206131329.1306429-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,303 +110,478 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52288-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-52293-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[29];
+	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[sys-base.io,kernel.org,gmail.com,sholland.org,ideasonboard.com,lists.linux.dev];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linuxtv.org:url];
 	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8F94DFDA51
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 85D18FDF23
 X-Rspamd-Action: no action
 
-Use the V4L2 subdev active state API to store the active format.
-This simplifies the driver not only by dropping the bridge mbus_format
-field, but it also allows dropping the bridge lock, replaced with
-the state lock.
+Hi folks,
 
-The sun6i-mipi-csi2 hardware does not perform any format conversion.
-Enforce identical formats on the sink and source pads in the set_fmt()
-and init_state() callbacks.
+This smallish set contains patches that prepare for merging the metadata
+series.
 
-Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
----
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 110 +++++++++---------
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
- 2 files changed, 54 insertions(+), 58 deletions(-)
+There are simple cleanups but also two noteworthy changes: the addition of
+the VALIDATE_LATE media link flag and the addition of the new struct
+v4l2_subdev_client_info struct to the get_fmt, set_fmt, get_selection and
+set_selection pad operation arguments.
 
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-index b06cb73015cd..42384e2c9458 100644
---- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-@@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mipi_csi2_device *csi2_dev)
- 			   SUN6I_MIPI_CSI2_CTL_EN, 0);
- }
- 
--static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev)
-+static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev,
-+				       const struct v4l2_mbus_framefmt *mbus_format)
- {
- 	struct regmap *regmap = csi2_dev->regmap;
- 	unsigned int lanes_count =
- 		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
--	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
- 	const struct sun6i_mipi_csi2_format *format;
- 	struct device *dev = csi2_dev->dev;
- 	u32 version = 0;
-@@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 	struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
- 	union phy_configure_opts dphy_opts = { 0 };
- 	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
--	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
-+	struct v4l2_subdev_state *state;
-+	const struct v4l2_mbus_framefmt *mbus_format;
- 	const struct sun6i_mipi_csi2_format *format;
- 	struct phy *dphy = csi2_dev->dphy;
- 	struct device *dev = csi2_dev->dev;
-@@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 	unsigned long pixel_rate;
- 	int ret;
- 
--	if (!source_subdev)
--		return -ENODEV;
-+	state = v4l2_subdev_lock_and_get_active_state(subdev);
-+
-+	if (!source_subdev) {
-+		ret = -ENODEV;
-+		goto unlock;
-+	}
- 
- 	if (!on) {
- 		v4l2_subdev_call(source_subdev, video, s_stream, 0);
-@@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret < 0)
--		return ret;
-+		goto unlock;
- 
- 	/* Sensor Pixel Rate */
- 
-@@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 		goto error_pm;
- 	}
- 
-+	mbus_format = v4l2_subdev_state_get_format(state,
-+						   SUN6I_MIPI_CSI2_PAD_SINK);
- 	format = sun6i_mipi_csi2_format_find(mbus_format->code);
- 	if (WARN_ON(!format)) {
- 		ret = -ENODEV;
-@@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 
- 	/* Controller */
- 
--	sun6i_mipi_csi2_configure(csi2_dev);
-+	sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
- 	sun6i_mipi_csi2_enable(csi2_dev);
- 
- 	/* D-PHY */
-@@ -274,10 +281,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- 	/* Source */
- 
- 	ret = v4l2_subdev_call(source_subdev, video, s_stream, 1);
--	if (ret && ret != -ENOIOCTLCMD)
-+	if (ret && ret != -ENOIOCTLCMD) {
- 		goto disable;
--
--	return 0;
-+	} else {
-+		ret = 0;
-+		goto unlock;
-+	}
- 
- disable:
- 	phy_power_off(dphy);
-@@ -286,6 +295,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
- error_pm:
- 	pm_runtime_put(dev);
- 
-+unlock:
-+	v4l2_subdev_unlock_state(state);
- 	return ret;
- }
- 
-@@ -308,21 +319,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_mbus_framefmt *mbus_format)
- static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
- 				      struct v4l2_subdev_state *state)
- {
--	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
--	unsigned int pad = SUN6I_MIPI_CSI2_PAD_SINK;
--	struct v4l2_mbus_framefmt *mbus_format =
--		v4l2_subdev_state_get_format(state, pad);
--	struct mutex *lock = &csi2_dev->bridge.lock;
-+	unsigned int pad;
- 
--	mutex_lock(lock);
-+	/*
-+	 * This subdev does not perform format conversion,
-+	 * initialize both pads identically.
-+	 */
-+	for (pad = 0; pad < subdev->entity.num_pads; pad++) {
-+		struct v4l2_mbus_framefmt *mbus_format;
- 
--	mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
--	mbus_format->width = 640;
--	mbus_format->height = 480;
-+		mbus_format = v4l2_subdev_state_get_format(state, pad);
- 
--	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-+		mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
-+		mbus_format->width = 640;
-+		mbus_format->height = 480;
- 
--	mutex_unlock(lock);
-+		sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-+	}
- 
- 	return 0;
- }
-@@ -340,53 +353,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
- 	return 0;
- }
- 
--static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
--				   struct v4l2_subdev_state *state,
--				   struct v4l2_subdev_format *format)
--{
--	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
--	struct v4l2_mbus_framefmt *mbus_format = &format->format;
--	struct mutex *lock = &csi2_dev->bridge.lock;
--
--	mutex_lock(lock);
--
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
--		*mbus_format = *v4l2_subdev_state_get_format(state,
--							     format->pad);
--	else
--		*mbus_format = csi2_dev->bridge.mbus_format;
--
--	mutex_unlock(lock);
--
--	return 0;
--}
--
- static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
- 				   struct v4l2_subdev_state *state,
- 				   struct v4l2_subdev_format *format)
- {
--	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
--	struct v4l2_mbus_framefmt *mbus_format = &format->format;
--	struct mutex *lock = &csi2_dev->bridge.lock;
-+	struct v4l2_mbus_framefmt *fmt;
- 
--	mutex_lock(lock);
-+	/* The format on the source pad always matches the sink pad. */
-+	if (format->pad != SUN6I_MIPI_CSI2_PAD_SINK)
-+		return v4l2_subdev_get_fmt(subdev, state, format);
- 
--	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
-+	sun6i_mipi_csi2_mbus_format_prepare(&format->format);
- 
--	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
--		*v4l2_subdev_state_get_format(state, format->pad) =
--			*mbus_format;
--	else
--		csi2_dev->bridge.mbus_format = *mbus_format;
-+	/* Set the format on the sink pad. */
-+	fmt = v4l2_subdev_state_get_format(state, format->pad);
-+	*fmt = format->format;
- 
--	mutex_unlock(lock);
-+	/* Propagate the format to the source pad. */
-+	fmt = v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_SOURCE);
-+	*fmt = format->format;
- 
- 	return 0;
- }
- 
- static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops = {
- 	.enum_mbus_code	= sun6i_mipi_csi2_enum_mbus_code,
--	.get_fmt	= sun6i_mipi_csi2_get_fmt,
-+	.get_fmt	= v4l2_subdev_get_fmt,
- 	.set_fmt	= sun6i_mipi_csi2_set_fmt,
- };
- 
-@@ -502,8 +494,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	bool notifier_registered = false;
- 	int ret;
- 
--	mutex_init(&bridge->lock);
--
- 	/* V4L2 Subdev */
- 
- 	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
-@@ -532,6 +522,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	if (ret)
- 		return ret;
- 
-+	/* V4L2 Subdev finalize */
-+
-+	ret = v4l2_subdev_init_finalize(subdev);
-+	if (ret < 0)
-+		goto error_media_entity_cleanup;
-+
- 	/* V4L2 Async */
- 
- 	v4l2_async_subdev_nf_init(notifier, subdev);
-@@ -565,6 +561,7 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
- error_v4l2_notifier_cleanup:
- 	v4l2_async_nf_cleanup(notifier);
- 
-+error_media_entity_cleanup:
- 	media_entity_cleanup(&subdev->entity);
- 
- 	return ret;
-@@ -579,6 +576,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_csi2_device *csi2_dev)
- 	v4l2_async_unregister_subdev(subdev);
- 	v4l2_async_nf_unregister(notifier);
- 	v4l2_async_nf_cleanup(notifier);
-+	v4l2_subdev_cleanup(subdev);
- 	media_entity_cleanup(&subdev->entity);
- }
- 
-diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-index 24b15e34b5e8..d72dfbd6a993 100644
---- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-+++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
-@@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
- 	struct media_pad		pads[SUN6I_MIPI_CSI2_PAD_COUNT];
- 	struct v4l2_fwnode_endpoint	endpoint;
- 	struct v4l2_async_notifier	notifier;
--	struct v4l2_mbus_framefmt	mbus_format;
--	struct mutex			lock; /* Mbus format lock. */
- 
- 	struct v4l2_subdev		*source_subdev;
- };
+The VALIDATE_LATE allows using the link_validate callback as the way to
+validate the links connected to the sink pads of video nodes on pipelines
+with multiple capture video nodes. Without this flag, the entire pipeline
+will be validated at the time of the first streamon, with the V4L2 pixel
+(or other) format set on the other capture video nodes at the time,
+requiring all formats to be set before starting streaming anywhere. But
+this does generally not match with what the userspace would do, hence the
+new flag. The patches in the upcoming metadata series version adds the
+support for the flag to the IPU6 driver.
+
+Secondly, the new struct v4l2_subdev_client_info enables passing around
+file handler specific client capability information, which is used to
+differentiate UAPI between existing users and those that are aware of the
+new common raw sensor model. This is effectively required if we want to
+add support for the new model to existing raw sensor drivers: the new
+model is in a direct conflict with how things worked before the model.
+There still needs to be a single driver internal state, the different
+UAPIs simply offer a different view to that state. In-kernel users that do
+not deal with capabilities just use NULL when calling these ops. This also
+means that whatever client capabilities are being used, there may not be a
+change to inter-driver interfaces such as get_fmt() when dealing with
+external pads.
+
+I'm leaving the last Coccinelle-generated patch out this time as it's more
+than 200 kiB. The patch can be found here
+<URL:<https://git.linuxtv.org/sailus/media_tree.git/log/?h=metadata-pre>.
+Patches 11, 12 and 13 will be squashed together before merging.
+
+The Coccinelle spatch used to generate the 13th patch is below, as is a
+Perl script to generate another Coccinelle patch doing the rest of the
+job:
+
+caps.cocci
+------------------8<----------------------
+@ fmt @
+identifier a1, a2, a3;
+identifier fn;
+
+@@
+
+  fn(struct v4l2_subdev *a1,
++ const struct v4l2_subdev_client_info *ci,
+  struct v4l2_subdev_state *a2, struct v4l2_subdev_format *a3) {...}
+
+@ sel @
+identifier a1, a2, a3;
+identifier fn2;
+
+@@
+
+  fn2(struct v4l2_subdev *a1,
++ const struct v4l2_subdev_client_info *ci,
+  struct v4l2_subdev_state *a2, struct v4l2_subdev_selection *a3) {...}
+
+@ fmt_call @
+expression a1, a2, a3;
+identifier fmt.fn;
+@@
+
+  fn(a1
++ , NULL
+  , a2, a3);
+
+@ fmt_call2 @
+expression a1, a2, a3;
+identifier fmt.fn;
+@@
+
+  return fn(a1
++ , NULL
+  , a2, a3);
+
+
+@ fmt_call3 @
+expression ret, a1, a2, a3;
+identifier fmt.fn;
+
+@@
+
+  ret = fn(a1
++ , NULL
+  , a2, a3);
+
+@ fmt_call4 @
+expression a1, a2, a3;
+identifier sel.fn2;
+@@
+
+  fn2(a1
++ , NULL
+  , a2, a3);
+
+@ fmt_call5 @
+expression a1, a2, a3;
+identifier sel.fn2;
+@@
+
+  return fn2(a1
++ , NULL
+  , a2, a3);
+
+
+@ fmt_call6 @
+expression ret, a1, a2, a3;
+identifier sel.fn2;
+
+@@
+
+  ret = fn2(a1
++ , NULL
+  , a2, a3);
+
+------------------8<----------------------
+
+mk-caps2.pl
+------------------8<----------------------
+#!/usr/bin/perl -w
+
+my @prefix = (
+	"(void)",
+	"",
+	"ret = ",
+	"return "
+);
+
+my $state_args = [
+	[ "sd", "state", "fmt" ]
+];
+
+my $pad_args = [
+	[ "sd", "pad", "get_fmt", "state", "fmt" ],
+	[ "sd", "pad", "set_fmt", "state", "fmt" ],
+	[ "sd", "pad", "get_selection", "state", "fmt" ],
+	[ "sd", "pad", "set_selection", "state", "fmt" ],
+];
+
+my $group_args = [
+	[ "dev", "group", "pad", "get_fmt", "state", "fmt" ],
+	[ "dev", "group", "pad", "set_fmt", "state", "fmt" ],
+	[ "dev", "group", "pad", "get_selection", "state", "fmt" ],
+	[ "dev", "group", "pad", "set_selection", "state", "fmt" ],
+];
+
+my %funcs = (
+	"v4l2_subdev_call" => $pad_args,
+	"v4l2_device_call_all" => $group_args,
+	"call_all" => $pad_args,
+	"v4l2_subdev_get_fmt" => $state_args,
+);
+
+my $rule;
+
+foreach my $p (@prefix) {
+	foreach my $f (keys %funcs) {
+		my $a = $funcs{$f};
+
+		foreach my $i (@$a) {
+			print "@ rule" . $rule++ . " @\n";
+			print "symbol $f;\n";
+			print map {
+				((/_/ || /^pad$/) ?
+				"symbol" : "expression") . " $_;\n";
+			} @$i;
+			my @pre = @$i;
+			my @post = splice @pre, $#pre - 1;
+			print "identifier ret;\n" if $p =~ "ret =";
+			print "@@\n";
+			print "  $p$f(" . join(", ", @pre). "\n";
+			print "+ , NULL\n";
+			print "  , " . join(", ", @post) . ");\n";
+		}
+	}
+}
+------------------8<----------------------
+
+Sakari Ailus (13):
+  media: imx219: Rename "PIXEL_ARRAY" as "CROP"
+  media: v4l2-subdev: Allow accessing routes with STREAMS client
+    capability
+  media: Documentation: Improve LINK_FREQ documentation
+  media: Documentation: Improve pixel rate calculation documentation
+  media: v4l2-subdev: Refactor returning routes
+  media: mc: Separate single link validation into a new function
+  media: mc: Add MEDIA_LNK_FL_VALIDATE_LATE
+  media: mc: Don't care about unsettable flags in MEDIA_IOC_LINK_SETUP
+  media: Document enable_streams and disable_streams behaviour
+  media: v4l2-subdev: Move subdev client capabilities into a new struct
+  media: v4l2-subdev: Add struct v4l2_subdev_client_info pointer to pad
+    ops
+  media: i2c: Perform client info changes to i2c drivers
+  media: v4l: Add struct v4l2_subdev_client_info argument to pad ops
+
+ Documentation/driver-api/media/tx-rx.rst      |   9 +-
+ .../media/mediactl/media-ioc-setup-link.rst   |   4 +
+ .../media/mediactl/media-types.rst            |   5 +
+ .../media/v4l/ext-ctrls-image-process.rst     |   4 +-
+ drivers/media/i2c/adv7170.c                   |   2 +
+ drivers/media/i2c/adv7175.c                   |   2 +
+ drivers/media/i2c/adv7180.c                   |   4 +-
+ drivers/media/i2c/adv7183.c                   |   4 +-
+ drivers/media/i2c/adv748x/adv748x-afe.c       |   4 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c      |   3 +-
+ drivers/media/i2c/adv748x/adv748x-hdmi.c      |   4 +-
+ drivers/media/i2c/adv7511-v4l2.c              |   2 +
+ drivers/media/i2c/adv7604.c                   |   3 +
+ drivers/media/i2c/adv7842.c                   |   4 +-
+ drivers/media/i2c/ak881x.c                    |   2 +
+ drivers/media/i2c/alvium-csi2.c               |   3 +
+ drivers/media/i2c/ar0521.c                    |   2 +
+ drivers/media/i2c/ccs/ccs-core.c              |  15 +-
+ drivers/media/i2c/cx25840/cx25840-core.c      |   1 +
+ drivers/media/i2c/ds90ub913.c                 |   3 +-
+ drivers/media/i2c/ds90ub953.c                 |   3 +-
+ drivers/media/i2c/ds90ub960.c                 |   3 +-
+ drivers/media/i2c/et8ek8/et8ek8_driver.c      |   2 +
+ drivers/media/i2c/gc0308.c                    |   1 +
+ drivers/media/i2c/gc0310.c                    |   1 +
+ drivers/media/i2c/gc05a2.c                    |   4 +-
+ drivers/media/i2c/gc08a3.c                    |   4 +-
+ drivers/media/i2c/gc2145.c                    |   2 +
+ drivers/media/i2c/hi556.c                     |   3 +
+ drivers/media/i2c/hi846.c                     |   3 +
+ drivers/media/i2c/hi847.c                     |   2 +
+ drivers/media/i2c/imx111.c                    |   1 +
+ drivers/media/i2c/imx208.c                    |   2 +
+ drivers/media/i2c/imx214.c                    |   4 +-
+ drivers/media/i2c/imx219.c                    |  32 ++--
+ drivers/media/i2c/imx258.c                    |   3 +
+ drivers/media/i2c/imx274.c                    |   4 +
+ drivers/media/i2c/imx283.c                    |   2 +
+ drivers/media/i2c/imx290.c                    |   4 +-
+ drivers/media/i2c/imx296.c                    |   7 +-
+ drivers/media/i2c/imx319.c                    |   2 +
+ drivers/media/i2c/imx334.c                    |   4 +-
+ drivers/media/i2c/imx335.c                    |   4 +-
+ drivers/media/i2c/imx355.c                    |   2 +
+ drivers/media/i2c/imx412.c                    |   4 +-
+ drivers/media/i2c/imx415.c                    |   4 +-
+ drivers/media/i2c/isl7998x.c                  |   2 +
+ drivers/media/i2c/lt6911uxe.c                 |   5 +-
+ drivers/media/i2c/max9286.c                   |   3 +-
+ drivers/media/i2c/max96714.c                  |   3 +-
+ drivers/media/i2c/max96717.c                  |   3 +-
+ drivers/media/i2c/ml86v7667.c                 |   1 +
+ drivers/media/i2c/mt9m001.c                   |   6 +-
+ drivers/media/i2c/mt9m111.c                   |   4 +
+ drivers/media/i2c/mt9m114.c                   |   6 +
+ drivers/media/i2c/mt9p031.c                   |   4 +
+ drivers/media/i2c/mt9t112.c                   |   4 +
+ drivers/media/i2c/mt9v011.c                   |   1 +
+ drivers/media/i2c/mt9v032.c                   |   4 +
+ drivers/media/i2c/mt9v111.c                   |   2 +
+ drivers/media/i2c/og01a1b.c                   |   2 +
+ drivers/media/i2c/og0ve1b.c                   |   3 +-
+ drivers/media/i2c/os05b10.c                   |   2 +
+ drivers/media/i2c/ov01a10.c                   |   3 +
+ drivers/media/i2c/ov02a10.c                   |   4 +-
+ drivers/media/i2c/ov02c10.c                   |   1 +
+ drivers/media/i2c/ov02e10.c                   |   2 +
+ drivers/media/i2c/ov08d10.c                   |   2 +
+ drivers/media/i2c/ov08x40.c                   |   2 +
+ drivers/media/i2c/ov13858.c                   |   2 +
+ drivers/media/i2c/ov13b10.c                   |   2 +
+ drivers/media/i2c/ov2640.c                    |   3 +
+ drivers/media/i2c/ov2659.c                    |   2 +
+ drivers/media/i2c/ov2680.c                    |   4 +
+ drivers/media/i2c/ov2685.c                    |   3 +
+ drivers/media/i2c/ov2735.c                    |   4 +-
+ drivers/media/i2c/ov2740.c                    |   1 +
+ drivers/media/i2c/ov4689.c                    |   2 +
+ drivers/media/i2c/ov5640.c                    |   3 +
+ drivers/media/i2c/ov5645.c                    |   4 +-
+ drivers/media/i2c/ov5647.c                    |   3 +
+ drivers/media/i2c/ov5648.c                    |   2 +
+ drivers/media/i2c/ov5670.c                    |   3 +
+ drivers/media/i2c/ov5675.c                    |   3 +
+ drivers/media/i2c/ov5693.c                    |   4 +
+ drivers/media/i2c/ov5695.c                    |   2 +
+ drivers/media/i2c/ov6211.c                    |   3 +-
+ drivers/media/i2c/ov64a40.c                   |   2 +
+ drivers/media/i2c/ov7251.c                    |   5 +-
+ drivers/media/i2c/ov7670.c                    |   2 +
+ drivers/media/i2c/ov772x.c                    |   3 +
+ drivers/media/i2c/ov7740.c                    |   2 +
+ drivers/media/i2c/ov8856.c                    |   2 +
+ drivers/media/i2c/ov8858.c                    |   3 +-
+ drivers/media/i2c/ov8865.c                    |   3 +
+ drivers/media/i2c/ov9282.c                    |   5 +-
+ drivers/media/i2c/ov9640.c                    |   2 +
+ drivers/media/i2c/ov9650.c                    |   2 +
+ drivers/media/i2c/ov9734.c                    |   2 +
+ drivers/media/i2c/rdacm20.c                   |   1 +
+ drivers/media/i2c/rdacm21.c                   |   1 +
+ drivers/media/i2c/rj54n1cb0c.c                |   4 +
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      |   4 +
+ drivers/media/i2c/s5k3m5.c                    |   4 +-
+ drivers/media/i2c/s5k5baf.c                   |   4 +
+ drivers/media/i2c/s5k6a3.c                    |   2 +
+ drivers/media/i2c/s5kjn1.c                    |   4 +-
+ drivers/media/i2c/saa6752hs.c                 |   2 +
+ drivers/media/i2c/saa7115.c                   |   1 +
+ drivers/media/i2c/saa717x.c                   |   1 +
+ drivers/media/i2c/st-mipid02.c                |   1 +
+ drivers/media/i2c/tc358743.c                  |   4 +-
+ drivers/media/i2c/tc358746.c                  |   3 +-
+ drivers/media/i2c/tda1997x.c                  |   2 +
+ drivers/media/i2c/thp7312.c                   |   1 +
+ drivers/media/i2c/tvp514x.c                   |   2 +
+ drivers/media/i2c/tvp5150.c                   |   3 +
+ drivers/media/i2c/tvp7002.c                   |   4 +-
+ drivers/media/i2c/tw9900.c                    |   2 +
+ drivers/media/i2c/tw9910.c                    |   3 +
+ drivers/media/i2c/vd55g1.c                    |   4 +-
+ drivers/media/i2c/vd56g3.c                    |   4 +-
+ drivers/media/i2c/vgxy61.c                    |   5 +-
+ drivers/media/mc/mc-entity.c                  | 144 +++++++++++++-----
+ drivers/media/pci/cobalt/cobalt-driver.c      |   8 +-
+ drivers/media/pci/cobalt/cobalt-v4l2.c        |  14 +-
+ drivers/media/pci/cx18/cx18-av-core.c         |   1 +
+ drivers/media/pci/cx18/cx18-controls.c        |   2 +-
+ drivers/media/pci/cx18/cx18-ioctl.c           |   2 +-
+ drivers/media/pci/cx23885/cx23885-video.c     |   4 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |   5 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |   2 +
+ .../media/pci/intel/ipu6/ipu6-isys-subdev.c   |   3 +-
+ drivers/media/pci/intel/ivsc/mei_csi.c        |   1 +
+ drivers/media/pci/ivtv/ivtv-controls.c        |   2 +-
+ drivers/media/pci/ivtv/ivtv-ioctl.c           |   2 +-
+ .../platform/amlogic/c3/isp/c3-isp-core.c     |   1 +
+ .../platform/amlogic/c3/isp/c3-isp-resizer.c  |   3 +
+ .../amlogic/c3/mipi-adapter/c3-mipi-adap.c    |   3 +-
+ .../amlogic/c3/mipi-csi2/c3-mipi-csi2.c       |   3 +-
+ .../platform/arm/mali-c55/mali-c55-capture.c  |   2 +-
+ .../platform/arm/mali-c55/mali-c55-isp.c      |   5 +-
+ .../platform/arm/mali-c55/mali-c55-resizer.c  |  15 +-
+ .../platform/arm/mali-c55/mali-c55-tpg.c      |   1 +
+ drivers/media/platform/atmel/atmel-isi.c      |   4 +-
+ .../media/platform/broadcom/bcm2835-unicam.c  |   3 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |   5 +-
+ drivers/media/platform/cadence/cdns-csi2tx.c  |   7 +-
+ .../platform/microchip/microchip-csi2dc.c     |   2 +
+ .../platform/microchip/microchip-isc-base.c   |   1 +
+ .../platform/microchip/microchip-isc-scaler.c |   3 +
+ drivers/media/platform/nxp/imx-mipi-csis.c    |   5 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |   1 +
+ .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |   3 +-
+ .../platform/nxp/imx8-isi/imx8-isi-pipe.c     |   3 +
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c |   3 +-
+ .../media/platform/qcom/camss/camss-csid.c    |   4 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |   4 +-
+ .../media/platform/qcom/camss/camss-ispif.c   |   4 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c |  17 ++-
+ .../media/platform/qcom/camss/camss-video.c   |   2 +-
+ .../media/platform/raspberrypi/rp1-cfe/csi2.c |   1 +
+ .../platform/raspberrypi/rp1-cfe/pisp-fe.c    |   3 +-
+ drivers/media/platform/renesas/rcar-csi2.c    |   3 +-
+ .../media/platform/renesas/rcar-isp/csisp.c   |   3 +-
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |   2 +-
+ drivers/media/platform/renesas/renesas-ceu.c  |   7 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |   3 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |   3 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  |   2 +-
+ .../renesas/rzv2h-ivc/rzv2h-ivc-subdev.c      |   3 +-
+ .../media/platform/renesas/vsp1/vsp1_brx.c    |   3 +
+ .../media/platform/renesas/vsp1/vsp1_clu.c    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_drm.c    |  26 ++--
+ .../media/platform/renesas/vsp1/vsp1_entity.c |   4 +-
+ .../media/platform/renesas/vsp1/vsp1_histo.c  |   9 +-
+ .../media/platform/renesas/vsp1/vsp1_hsit.c   |   1 +
+ .../media/platform/renesas/vsp1/vsp1_iif.c    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_lut.c    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   |   3 +
+ .../media/platform/renesas/vsp1/vsp1_sru.c    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_uds.c    |   1 +
+ .../media/platform/renesas/vsp1/vsp1_uif.c    |   3 +
+ .../media/platform/renesas/vsp1/vsp1_video.c  |   2 +-
+ .../media/platform/renesas/vsp1/vsp1_vspx.c   |   3 +-
+ .../platform/rockchip/rkcif/rkcif-interface.c |   5 +-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |   2 +-
+ .../platform/rockchip/rkisp1/rkisp1-csi.c     |   3 +-
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     |   3 +
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c |   3 +
+ .../samsung/exynos4-is/fimc-capture.c         |  13 +-
+ .../samsung/exynos4-is/fimc-isp-video.c       |   5 +-
+ .../platform/samsung/exynos4-is/fimc-isp.c    |   2 +
+ .../platform/samsung/exynos4-is/fimc-lite.c   |   8 +-
+ .../platform/samsung/exynos4-is/mipi-csis.c   |   2 +
+ .../samsung/s3c-camif/camif-capture.c         |   7 +-
+ .../platform/samsung/s3c-camif/camif-core.c   |   4 +-
+ drivers/media/platform/st/stm32/stm32-csi.c   |   1 +
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |   6 +-
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c    |   3 +-
+ .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c   |   3 +
+ .../st/stm32/stm32-dcmipp/dcmipp-input.c      |   1 +
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |   2 +
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |   2 +
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   |   2 +
+ .../sun8i_a83t_mipi_csi2.c                    |   2 +
+ .../media/platform/ti/am437x/am437x-vpfe.c    |   4 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c  |   3 +-
+ .../media/platform/ti/davinci/vpif_capture.c  |   2 +-
+ drivers/media/platform/ti/omap3isp/ispccdc.c  |   6 +-
+ drivers/media/platform/ti/omap3isp/ispccp2.c  |   4 +-
+ drivers/media/platform/ti/omap3isp/ispcsi2.c  |   4 +-
+ .../media/platform/ti/omap3isp/isppreview.c   |   6 +-
+ .../media/platform/ti/omap3isp/ispresizer.c   |   6 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.c |  12 +-
+ drivers/media/platform/ti/vpe/vip.c           |   7 +-
+ drivers/media/platform/video-mux.c            |   1 +
+ .../media/platform/xilinx/xilinx-csi2rxss.c   |   2 +
+ drivers/media/platform/xilinx/xilinx-dma.c    |   2 +-
+ drivers/media/platform/xilinx/xilinx-tpg.c    |   2 +
+ drivers/media/test-drivers/vimc/vimc-common.c |   2 +-
+ .../media/test-drivers/vimc/vimc-debayer.c    |   3 +-
+ drivers/media/test-drivers/vimc/vimc-scaler.c |   3 +
+ drivers/media/test-drivers/vimc/vimc-sensor.c |   1 +
+ drivers/media/usb/cx231xx/cx231xx-417.c       |   2 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c     |   4 +-
+ drivers/media/usb/dvb-usb/cxusb-analog.c      |   6 +-
+ drivers/media/usb/em28xx/em28xx-camera.c      |   2 +-
+ drivers/media/usb/go7007/go7007-v4l2.c        |   2 +-
+ drivers/media/usb/go7007/s2250-board.c        |   1 +
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c       |   2 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         | 117 +++++++++-----
+ include/media/v4l2-subdev.h                   |  28 +++-
+ include/uapi/linux/media.h                    |   1 +
+ 235 files changed, 836 insertions(+), 267 deletions(-)
+
 -- 
-2.34.1
+2.47.3
 
 
