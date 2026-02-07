@@ -1,168 +1,152 @@
-Return-Path: <linux-media+bounces-52335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52336-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iARME/8Uh2nBTQQAu9opvQ
-	(envelope-from <linux-media+bounces-52335-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 11:33:35 +0100
+	id kNf4EghIh2naVgQAu9opvQ
+	(envelope-from <linux-media+bounces-52336-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 15:11:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C2F105860
-	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 11:33:34 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE74106217
+	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 15:11:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 78918302417C
-	for <lists+linux-media@lfdr.de>; Sat,  7 Feb 2026 10:32:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2A77530143F1
+	for <lists+linux-media@lfdr.de>; Sat,  7 Feb 2026 14:11:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D9033D6EE;
-	Sat,  7 Feb 2026 10:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB9C27FD4B;
+	Sat,  7 Feb 2026 14:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZ0Zs/3A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXZZWsbj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB6929992A
-	for <linux-media@vger.kernel.org>; Sat,  7 Feb 2026 10:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770460359; cv=none; b=ny2uu6f9Cy3TVMQqhETYjl0X2ZnHAwNjC4Wzviubn5YCLWPR1YlA3rM3IBYd7kpJzP23+yD3GKrWJf51I7tT+Q9CnhbEoHpawHSqxox9z4oIKxu8iqI7JQuMqZZuf39S1VfXKafXiMwjhXZuPy6GwAVX+i1q3/3Wz53Nk2TwGjM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770460359; c=relaxed/simple;
-	bh=M9W0GSNrey9NvUygKYFNPFagV2ThOlSKeNb1KaNgINk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J0jLQBqbu8EB9vw4iDwOI6qGBEhtHMoOgS2HsC6RR9tRcBaFoGQVCzcGeomBihURK1m9Ye9STFk9VuwFUF6Vm6xfurDFRDKNRXD5I4uOfbbuNmkCoXS7aADhSFmzTQHs11a0gDW2cmvdSihHmqwIsTWGVdCnU9UICe85Md8c8zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZ0Zs/3A; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8CF271450
+	for <linux-media@vger.kernel.org>; Sat,  7 Feb 2026 14:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770473468; cv=pass; b=ugMND+iCtiYIHeX9+Jm2T8c1CmNHuqn7SLNdogJ/D4vtS1u0Sn1/lcvkHvC4/8ibj0pqxjRh8PH7++iUs4QQjTlX6jAIwKhMZV+dFQxZPQH+PidS+tVaE6M8OS/BtxPiigrlfRijtieOY4MUpTezv7+ILs/Vzrk08X2hrLCW4oE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770473468; c=relaxed/simple;
+	bh=ynCu+LQOF1MUOSRJYtAv/zUlhtEmIi/2yBlF5GbMk/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FNzxXXfszlaMl4IK29tUkudXVXklks+2S521Rkn2icqnved8FEF0aSr9e7j7a2qU0nGF9ah5qeqJti98+hQsgYhJcjrn7dTCpQyuq00mnHlWEEdrjD6k0EnkNvPNWBy/2ZXGgOzY/JLXYK05rVKb61WZik/qDMoNTyQ9+pu8J1o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXZZWsbj; arc=pass smtp.client-ip=209.85.210.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59dcd9b89ecso3991284e87.1
-        for <linux-media@vger.kernel.org>; Sat, 07 Feb 2026 02:32:39 -0800 (PST)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d45d37c7a0so1030705a34.3
+        for <linux-media@vger.kernel.org>; Sat, 07 Feb 2026 06:11:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770473467; cv=none;
+        d=google.com; s=arc-20240605;
+        b=R8gqwf1dnFChkuqjqcVImpcaa+Y7nUDdNe8MhM0eK/+kfdzEaZ76bcLZbl+Vwgf0qZ
+         0hKOX6rOGQ5WGDZBEoYBou0cDiMNZ/q5Z5EpUgGS/hOma9ZUHhzM+X9yo1lQ7+pF8goH
+         nxdDXOyO1bhU2vrdjX2WoU3zQgt4z8WUUWuVsox2RAb4LD1LzWCrzp1Z4gj9OLqb1Ti6
+         hHeAAqdu3XDbJ2w16pShu7bwq+mG0+ZU1NSj+5Ay7BNQ0tCnC7b9INWGWbd2LJpkFa5g
+         /7AR11F7bSEgiLh72r0tsxqa9Ufy3akyDhweWzXZaLlFfDYqRKtDDwTd4PeymmsFkmWL
+         GbQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ynCu+LQOF1MUOSRJYtAv/zUlhtEmIi/2yBlF5GbMk/E=;
+        fh=Df0qTn9CKdZ2SjZb+GdAh+FfMbfvTk0HnDHcZ82D9VI=;
+        b=CvxIM7e/7knSDKQ1xnr2b3DdNPt3Tnly2KACi1LSa22N5vhp3ZkFH5WJ99UDK1KJYu
+         xIf3rw5so8Y7eBZFKsLRr/tPLTjFCF1i/al+7JC2UIegWvfQr7CgL912i8xFMEkeVx1d
+         Kc57g79FODqdCjxLiHsPhi2GZdKLc8u11mm0othPinhGfHopGBawMwgh8zjNyKfxY0+m
+         JhUVB1PGkyiqTgP+lf/zmjBvf+S9Gz+EN0GOMZ4HoihSOKZOg56cYvuQyWhYGOVJhA/6
+         7mm2C1yghymwDKlWKAFCFyd93qQca/k8So3O5CgwjtctTTpUzwVVARk028CLNMRHCjgL
+         SkuA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770460357; x=1771065157; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zf9LCIc1kzu9VHa7rd6ONhcsgjfjhvw4Gxq8LU0j1dg=;
-        b=QZ0Zs/3AS1j/y8DvNHyAI/NveMnP6Q49QG3e4xvP+Hv5esSbfNzXw3AX9PYpKHbUqj
-         4iRbjKFLCJS/HJfjnaGQTenBvZxBEkhVsGW8JIKP3zRI5W4NYn/9ZhHLSD3R3bYhKFJ3
-         3H9BKsG5Sn1pKRRyh25R/R/uZKTi/Gfk8lnxzyKepvM8YmMEDd8Wh0hKQytbVchucCUg
-         dRKhPu1ty2asr7DG3LZjmjoTinVp5Q/itf9q/+ZmN0g6u7W/Csw0VHhAHq2DQZszM/SZ
-         tywdE9m8bYsjZBTsC2nuvlw8gOYmmhULsGMVu6OD0gsBjV69VefqX5J3BvqxFlHVrb0I
-         eU9w==
+        d=gmail.com; s=20230601; t=1770473467; x=1771078267; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ynCu+LQOF1MUOSRJYtAv/zUlhtEmIi/2yBlF5GbMk/E=;
+        b=HXZZWsbj16SxmGxJluLHif1QyEI+Kj0T0cSXxulZEgEKEVrSf72E59DVjMecna3sRC
+         5HUnqcc4IMmaOZoRySn3o4CBi8Nsa6chmQMoio8WeyaJfFp2PXS57L47zgFqHeh1AXHp
+         t7p6Yhh5wOomDLnvw6FI83ex0979JUfoJdp38u2m5ivQt6xb1P1l5VQgUbDLb/hrBHD5
+         bWWS68Z//qrawnwL43NuR2dD5syuqtnzlcPOtDxw5MI27enOg4L5Z8op6He6Ks51hh+d
+         MaoFeBL5yI+oTahjn8Cd3QHAgg8v2TBGg06BEf4md/8iL3L7GDMcxguZdroCNw0LLzLB
+         Afug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770460357; x=1771065157;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1770473467; x=1771078267;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zf9LCIc1kzu9VHa7rd6ONhcsgjfjhvw4Gxq8LU0j1dg=;
-        b=YwLun4bN29Ek2GV5czr2CQ3WOJLgQRTxwObe6cNNtWHOfvEo/83Lq1zCw7qsRPKUrU
-         St6XA+TeLemJWTwwRLNkTUqvI0pvxNah/fH0VlyDAoZkpta+ESjqFVpHrsymHMj4OicX
-         ByT5gcHbYVY6l1RIhZK0bkSV21Fk33iX10DHQTj3pceyiql0GUnND4az8RaYMUhcIXLo
-         LEazGn5gNsq1UmqlfUU95BU7e2ukib7iKWQwNdSM8WRQuT8aXXNT/sy49HtANvCv8XRK
-         QWJ2E+s524oSwaIkcCqu933OfQBOTQtaEsWfnm9mtGhzvIj6wPFve+yXaiN8mPHo4da+
-         TeCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUqVOU2HnV7gO+L91L7GjZq09c4beSchto+sDQal4Lty6kmC/K1Sd6gydtb3qixhk7SAI+i4DPbtqgphQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXvq0rIAe0N3gGe9HQ9M2M0lcZLJu4It/YncD1ZekHJQfsnCS5
-	UiOkUArGbAv1K4axCqmu93qsN1RosaAMo2w81Cih294HyFvmK249fW3C
-X-Gm-Gg: AZuq6aJjIIVxh6odOXIO973VocbFUTHkbrt6JPr10ujz1Yv13CdJ7Ji9r4s6iezpHUe
-	7NLWIfGZmbPJ1jK5J3VOdG0/Y8bhtt9M3DWWB+G7VxR4oyuViVTzmAbkH7q33gKDQw0zidgJHy8
-	9y00TP2DjD6xNTy6C/TWrOd1Ampjvca57Vtlgn5WKS8z0P6TEufDjbhh9GBpfrCb0FQerjBRQ8l
-	mxPu1QJ4BxTTXYh0pwSVj2f3vGBkdxXrZmfJAIlhSmw7G7FHj/wIZA/pAHcp7PuziJOhiORsr+J
-	+GNLzU/6PvypS7CwQMue1M6XlO85r5Dy+deNwRseO9VM0QNYocRgFClvzsPLxNEp9/X08GXT2FC
-	fxaHjvlpX7ORjxH3RuGCq5NLOdMsRd7/U5DGZQ2SWY/Ekncas8i5DAiG5ly5lfJbo5bb/IzTbn/
-	YkMWhv7ykBS8TTlOYds4AaA0N/BtKrAjmICODApn/IGmijIKRbWVmL9XLg/ZLMeL2dk2ucCnUz+
-	yIKD2NO5TO1GRHQAU7NHRSWwg==
-X-Received: by 2002:a05:6512:1155:b0:59e:1930:d932 with SMTP id 2adb3069b0e04-59e44bd7b71mr1859098e87.13.1770460357202;
-        Sat, 07 Feb 2026 02:32:37 -0800 (PST)
-Received: from localhost.localdomain ([176.33.64.73])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e44e25ed3sm1212784e87.92.2026.02.07.02.32.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Feb 2026 02:32:36 -0800 (PST)
-From: Alper Ak <alperyasinak1@gmail.com>
-To: Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alper Ak <alperyasinak1@gmail.com>
-Subject: [PATCH] media: chips-media: wave5: Fix possible ERR_PTR deference
-Date: Sat,  7 Feb 2026 13:32:24 +0300
-Message-ID: <20260207103224.609938-1-alperyasinak1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=ynCu+LQOF1MUOSRJYtAv/zUlhtEmIi/2yBlF5GbMk/E=;
+        b=s/KvmGKUpOE+SxubuSvgUk3NXZHf9PAKv6vRacARmmLlie5NywTKrug24B99hOFTIJ
+         +SqgnMwOlDnM3NpUR+4M/feLmfpYd/PXX5U3UxLgSEpfcaUNK83uHXX8RZFJJKt+i+WG
+         3J5nRz4lPt9WTyyYnDtZK+kBwn5wGf4q40ZTQK7cjmoylN1o6ZtwYTPJAZofLro9beEy
+         umFh71Td8/+56IZnRMVSiO75Prb4PUDCQ83P9FuWSr9glfEgt9oIKkWa0oFiijAw87cU
+         YzDfKMTohjnvlechJdBqYw2tr86WRv1LBNZcjtW8u606mL0+AChhRjEf16R9Mh0oo3SU
+         +jVg==
+X-Forwarded-Encrypted: i=1; AJvYcCXnjPMUh23ItVMJ3S8VqorCIyzfiG0Hd8FLId7WYiESDLe2vCjbbIu47oRcPcb+1sQ/nQjW4zGIWhAtQA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwW3Z0HK5Ke/ezQwmuMxreBafOvi12NOw6QgtQdXoHF58wZyXMB
+	WuVyjyIyYHbKhVpqcLtpP36xDs0KnZfLxejtNN3ZDR54z9Ut5EQGurgFltXjzy+65qvGEKesCHp
+	dYr4FEQZbppm0h3N3OR0eVwum52rzKvc=
+X-Gm-Gg: AZuq6aJfSks8+IFKrdSMei5etzGMLpQs3MAVaopPAvJqEE8Ca7MtUoZa4uu2Mquk407
+	1V8/yMCTv95POGdt7F9f6Xd0yCSTVQuixzMGN8QoXpyu7cHYgGP9/KY7qGVfM7hls8+ikJShvE8
+	8E3Oi5JT+cWp+MyRg6wGzp1SSgLZ6gJc1aGjLUr5uGn8VEB+yPf96ouqpqIHIpVPJtVeWJdcPaJ
+	RSLzXaarWIfNnE/t2GwE6dtOcVO/R+xr/nYjKquMMjzZ+OcZjdgOl3cInd9iGd6ozrVnXB9jkC9
+	N8hbxK1SNCN55jThnxIit2Y/JUq1W7utcXA3CbD7i/P4kT58irokeyHCUPI6
+X-Received: by 2002:a05:6830:83a2:b0:7c9:5bef:e9b with SMTP id
+ 46e09a7af769-7d4643e5575mr3562820a34.3.1770473466626; Sat, 07 Feb 2026
+ 06:11:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260120121105.8959-1-hanguidong02@gmail.com>
+In-Reply-To: <20260120121105.8959-1-hanguidong02@gmail.com>
+From: Gui-Dong Han <hanguidong02@gmail.com>
+Date: Sat, 7 Feb 2026 22:10:55 +0800
+X-Gm-Features: AZwV_QgHv_bKbssi1BqytOrVelCG7ayxL_FlI4KKAvI-JSERB7Ri_i0u3T01qi0
+Message-ID: <CALbr=Lb1wp37PH8XyPOUMts-x0Spr04k9HZjbCP8Li1-y9J0Uw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: dvb_demux: fix potential TOCTOU race conditions
+To: mchehab@kernel.org, mchehab+huawei@kernel.org
+Cc: hverkuil+cisco@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,collabora.com,vger.kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52336-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52335-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alperyasinak1@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: C9C2F105860
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hanguidong02@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
+	TAGGED_RCPT(0.00)[linux-media,huawei,cisco];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0DE74106217
 X-Rspamd-Action: no action
 
-The kthread_run() function returns either a valid task_struct pointer
-or ERR_PTR() on failure. The return value was not checked and in the
-error cleanup path, the code verifies if dev->irq_thread is non NULL
-before calling kthread_stop(). Since ERR_PTR() values are non NULL,
-this would result in passing an error pointer to kthread_stop(),
-causing a kernel panic.
+Hi Mauro,
 
-Add proper IS_ERR() check after kthread_run(), log the error, set
-dev->irq_thread to NULL and fail the probe to prevent the driver
-from operating in a broken state.
+This is a gentle ping regarding the patch submitted on Jan 20.
 
-Fixes: e66ff2b08e4e ("media: chips-media: wave5: Fix Null reference while testing fluster")
-Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
----
- drivers/media/platform/chips-media/wave5/wave5-vpu.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+I would appreciate it if you could take a look when you have a moment.
+Please let me know if there are any questions or if any further
+changes are needed.
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-index 76d57c6b636a..bebe2bd6893b 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-@@ -340,6 +340,12 @@ static int wave5_vpu_probe(struct platform_device *pdev)
- 		dev_err(&pdev->dev, "failed to get irq resource, falling back to polling\n");
- 		sema_init(&dev->irq_sem, 1);
- 		dev->irq_thread = kthread_run(irq_thread, dev, "irq thread");
-+		if (IS_ERR(dev->irq_thread)) {
-+			dev_err(&pdev->dev, "failed to create vpu irq thread\n");
-+			ret = PTR_ERR(dev->irq_thread);
-+			dev->irq_thread = NULL;
-+			goto err_vdi_release;
-+		}
- 		hrtimer_setup(&dev->hrtimer, &wave5_vpu_timer_callback, CLOCK_MONOTONIC,
- 			      HRTIMER_MODE_REL_PINNED);
- 		dev->worker = kthread_run_worker(0, "vpu_irq_thread");
--- 
-2.43.0
-
+Thanks.
 
