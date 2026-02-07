@@ -1,78 +1,75 @@
-Return-Path: <linux-media+bounces-52330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52331-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wBkbLkGGhmn7OQQAu9opvQ
-	(envelope-from <linux-media+bounces-52330-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 01:24:33 +0100
+	id EFejIkSlhmlrPgQAu9opvQ
+	(envelope-from <linux-media+bounces-52331-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 03:36:52 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E478A104461
-	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 01:24:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E74104AEE
+	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 03:36:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A8FEC3032079
-	for <lists+linux-media@lfdr.de>; Sat,  7 Feb 2026 00:24:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 17C9D3024A63
+	for <lists+linux-media@lfdr.de>; Sat,  7 Feb 2026 02:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1621E5B95;
-	Sat,  7 Feb 2026 00:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 601F02E8DEA;
+	Sat,  7 Feb 2026 02:36:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIyhgGjY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lfAncL8k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1571DDC1D
-	for <linux-media@vger.kernel.org>; Sat,  7 Feb 2026 00:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16DA1FE47B
+	for <linux-media@vger.kernel.org>; Sat,  7 Feb 2026 02:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770423867; cv=none; b=RkCeOT3th5ycahU6Idbxynpiww6fNVHZwP7t2PiTCdJvEjlnJgtxAgpQ06PExX9BQ4DtqTf9yqTK0g98PiZYfqktfwR9JFxxZu9QM6trI3351PpiCBkyKbTIwCCo6jfa3C1cOgMS/zFrj51LLKn+Pj3WS7RYQyCJLbBciWMQ8R4=
+	t=1770431789; cv=none; b=WzPSMGXiQlY1lLy9O/Bx6VoqgOhXAUPzDzVyEHt1BGWBXgDbMt1RL4Pph3q8F11pXrXHFJ+XNgpUDxn/zKPofSaCXfaqgJ5WREWLOYPqRF/0dC11ZU+oQ9I2zy84OdEuSGw4KuhBxLDNqTInTpWtGPRBF+TISKaJGtIBwqtXMsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770423867; c=relaxed/simple;
-	bh=8iajhs/wxRSmEgg9+nl9643u3zxchGO1AYxf+OscVUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M+5e15L+iW8FlhOf3iqQbtf31qI1YJfZxnk3AwSlGw7IQA2ctD9GZgzI1hgtoRhPFyg6K2Ly9bva8jw8LW7M/mM1CzxGP25eeJmTnEs7VuOIz9drai14TFMB4iIU5N7ubzVp4UHr+jCig7brIaWZ7OgD0ddr7kraJ27D2r2FpfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIyhgGjY; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1770431789; c=relaxed/simple;
+	bh=0HVHYfnsiYQdgcTWdIM/ZsFbBXsAXry1QEBIJE6WDy8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=flNc08kiu+hiiCtaR8pSOzqSjr2zWx+HpCKE1wWuDG4Ho+CzNst/8b0pkK/CBGpTLXJgIIe581pn/ZAVNd9kPcGvCBa9w+AS7Iw5AUdvQOmO1/VHuyMQ6OrPqdBfRNUWFLYTjlgGnWsy60ooRhvwqEOM+eE7zsAHhvYp+cGVkgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lfAncL8k; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770423866; x=1801959866;
+  t=1770431789; x=1801967789;
   h=date:from:to:cc:subject:message-id;
-  bh=8iajhs/wxRSmEgg9+nl9643u3zxchGO1AYxf+OscVUQ=;
-  b=GIyhgGjYJ1g0XN6PFzsWLIRdfqHDDF5OBy8W7lmkf0fxF2MkbQbcNIsH
-   XXvDREqvJCEilDScnep2Xa50pwlNHYvBBiun2xxjkv9jihjbjCO8jzCRA
-   z7R1OUwZfwo4KLoQKktDNzU/hoydDJq+RmjK0uhiwnLBnsayXMRptoSFP
-   POJ3lXcAlQ8aswQf8U7i7XLoBDMPDs+QnvIjI9w7us1ExxbEDr3aNlMBa
-   ziMakPlSGZujSuxSEqkxwss2B5Q4DKTJnbekeb6oa4/+o+WKeFdTH/hrb
-   D5LD64oDd3EcdxuL9Klk5utM0jB+ArW7EL8F4b5eSm6Dz6IOa8XNLH1z/
-   Q==;
-X-CSE-ConnectionGUID: glS0FaoORxG4QofNGmhECw==
-X-CSE-MsgGUID: S8ATR2MKTdu2POxIp/B1Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="59203181"
+  bh=0HVHYfnsiYQdgcTWdIM/ZsFbBXsAXry1QEBIJE6WDy8=;
+  b=lfAncL8kyQWsIY9Q3Fvyf/zHq6gwYD2oDQXGDcWGJk9KlxezmWpa9Vl3
+   HptiFq3nBwhzGrDbpS/Ajp4dOI9iYPKPrEvaJYhDBjFh4sUFwdrzD89Xz
+   HyyiKBCC3eztoN0YsdWaSi0tvju/idHLcdsDoiLY7PGCrvgzYmeDEbhRo
+   1szVre67KNfD1h3PxlbvQPFmQQlo46L8mzpJLJSbQaBdpxgvHPmVT2H2B
+   3HUtmpv4dZtm1nWNniGhjHfU3wOaU170YgCzxFbxsqo5prPGi9grzTKiH
+   STQR14kbnd1fyd4Np07WujDP45312I6WP5slQ3WWhQbVJeQ0D7tMIg5DK
+   A==;
+X-CSE-ConnectionGUID: tcLZ85ZGTOOphxJCvzMbSQ==
+X-CSE-MsgGUID: SbRhO0VNQ0Wvzeeh6QPIlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11693"; a="94288794"
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="59203181"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 16:24:25 -0800
-X-CSE-ConnectionGUID: i5CzfvN6Qt+3tT1Axe8noQ==
-X-CSE-MsgGUID: 2326Ko59Qv+fJ0MKufWzOw==
+   d="scan'208";a="94288794"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2026 18:36:29 -0800
+X-CSE-ConnectionGUID: rw5K/qBlRzGolDo5bNluSw==
+X-CSE-MsgGUID: iCUe3qtgRBe8Rx7H5AbytA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,277,1763452800"; 
-   d="scan'208";a="210809568"
+   d="scan'208";a="211063587"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Feb 2026 16:24:24 -0800
+  by orviesa008.jf.intel.com with ESMTP; 06 Feb 2026 18:36:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1voW7Z-00000000lHo-2286;
-	Sat, 07 Feb 2026 00:24:21 +0000
-Date: Sat, 07 Feb 2026 08:23:59 +0800
+	id 1voYBM-00000000lLM-2WZC;
+	Sat, 07 Feb 2026 02:36:24 +0000
+Date: Sat, 07 Feb 2026 10:35:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata-pre 13/13]
- drivers/media/platform/renesas/vsp1/vsp1_entity.c:161:5: error: conflicting
- types for 'vsp1_subdev_get_pad_format'; have 'int(struct v4l2_subdev *, const
- struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct
- v4l2_subdev_format *)'
-Message-ID: <202602070821.c9SviwgN-lkp@intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD REGRESSION
+ 17d48829c902c064710e9518b453bd252674ae5e
+Message-ID: <202602071029.g32NCZJv-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -80,97 +77,308 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.47 / 15.00];
-	LONG_SUBJ(2.13)[284];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52330-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52331-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[3];
+	NEURAL_HAM(-0.00)[-0.996];
 	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.997];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: E478A104461
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: E9E74104AEE
 X-Rspamd-Action: no action
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata-pre
-head:   1b58854744d17413b2855b20178e63a1c82d58f5
-commit: 1b58854744d17413b2855b20178e63a1c82d58f5 [13/13] media: v4l: Add struct v4l2_subdev_client_info argument to pad ops
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260207/202602070821.c9SviwgN-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260207/202602070821.c9SviwgN-lkp@intel.com/reproduce)
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: 17d48829c902c064710e9518b453bd252674ae5e  media: ipu6: Don't track power status, rely on runtime PM
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602070821.c9SviwgN-lkp@intel.com/
+Error/Warning (recently discovered and may have been fixed):
 
-All errors (new ones prefixed by >>):
+    https://lore.kernel.org/oe-kbuild-all/202602070234.rlTGLzL7-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202602070437.4jphZAGt-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202602070511.edhvpmc9-lkp@intel.com
 
->> drivers/media/platform/renesas/vsp1/vsp1_entity.c:161:5: error: conflicting types for 'vsp1_subdev_get_pad_format'; have 'int(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
-     161 | int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/media/platform/renesas/vsp1/vsp1_entity.c:19:
-   drivers/media/platform/renesas/vsp1/vsp1_entity.h:178:5: note: previous declaration of 'vsp1_subdev_get_pad_format' with type 'int(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
-     178 | int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+    drivers/media/i2c/ov2740.c:1301:19: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' [-Wincompatible-function-pointer-types]
+    drivers/media/i2c/ov2740.c:1301:26: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' [-Wincompatible-pointer-types]
+    drivers/media/i2c/ov2740.c:1305:19: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' [-Wincompatible-function-pointer-types]
+    drivers/media/i2c/ov2740.c:1305:26: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' [-Werror=incompatible-pointer-types]
+    drivers/media/i2c/ov2740.c:1305:26: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_selection *)' [-Wincompatible-pointer-types]
+    drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:561:14: warning: unused variable 'has_pipeline' [-Wunused-variable]
+    drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:561:7: warning: unused variable 'has_pipeline' [-Wunused-variable]
 
+Error/Warning ids grouped by kconfigs:
 
-vim +161 drivers/media/platform/renesas/vsp1/vsp1_entity.c
+recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- arc-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- arc-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- arm-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- arm64-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-
+|-- csky-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- csky-randconfig-002-20260207
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- i386-allmodconfig
+|   |-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|   `-- drivers-media-pci-intel-ipu6-ipu6-isys-queue.c:warning:unused-variable-has_pipeline
+|-- i386-allyesconfig
+|   |-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|   `-- drivers-media-pci-intel-ipu6-ipu6-isys-queue.c:warning:unused-variable-has_pipeline
+|-- i386-buildonly-randconfig-001-20260207
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- i386-randconfig-011-20260207
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- loongarch-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-
+|-- loongarch-randconfig-r073-20260207
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- m68k-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- m68k-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- microblaze-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- mips-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- mips-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- nios2-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- openrisc-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- parisc-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- parisc-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- powerpc-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- riscv-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-
+|-- riscv-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-
+|-- s390-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-
+|-- s390-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- sh-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- sparc64-allmodconfig
+|   `-- drivers-media-i2c-ov2740.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-
+|-- um-allyesconfig
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+|-- x86_64-allmodconfig
+|   |-- drivers-media-i2c-ov2740.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-
+|   `-- drivers-media-pci-intel-ipu6-ipu6-isys-queue.c:warning:unused-variable-has_pipeline
+|-- x86_64-allyesconfig
+|   |-- drivers-media-i2c-ov2740.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-
+|   `-- drivers-media-pci-intel-ipu6-ipu6-isys-queue.c:warning:unused-variable-has_pipeline
+|-- x86_64-randconfig-012-20260207
+|   `-- drivers-media-pci-intel-ipu6-ipu6-isys-queue.c:warning:unused-variable-has_pipeline
+|-- x86_64-randconfig-013-20260207
+|   `-- drivers-media-pci-intel-ipu6-ipu6-isys-queue.c:warning:unused-variable-has_pipeline
+|-- x86_64-randconfig-076-20260207
+|   `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
+`-- xtensa-allyesconfig
+    `-- drivers-media-i2c-ov2740.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_selection-)-from-incompatible-pointer-typ
 
-e790c3cb8d904c drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2015-11-15  151  
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  152  /*
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  153   * vsp1_subdev_get_pad_format - Subdev pad get_fmt handler
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  154   * @subdev: V4L2 subdevice
-30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  155   * @sd_state: V4L2 subdev state
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  156   * @fmt: V4L2 subdev format
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  157   *
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  158   * This function implements the subdev get_fmt pad operation. It can be used as
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  159   * a direct drop-in for the operation handler.
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  160   */
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24 @161  int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-1b58854744d174 drivers/media/platform/renesas/vsp1/vsp1_entity.c Sakari Ailus     2026-01-30  162  			       const struct v4l2_subdev_client_info *ci,
-0d346d2a6f54f0 drivers/media/platform/vsp1/vsp1_entity.c         Tomi Valkeinen   2021-06-10  163  			       struct v4l2_subdev_state *sd_state,
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  164  			       struct v4l2_subdev_format *fmt)
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  165  {
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  166  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
-30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  167  	struct v4l2_subdev_state *state;
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  168  
-30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  169  	state = vsp1_entity_get_state(entity, sd_state, fmt->which);
-30d187cd74874a drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-26  170  	if (!state)
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  171  		return -EINVAL;
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  172  
-34e77ed84b274d drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-06-26  173  	mutex_lock(&entity->lock);
-0aaf7db0872677 drivers/media/platform/renesas/vsp1/vsp1_entity.c Laurent Pinchart 2023-11-12  174  	fmt->format = *v4l2_subdev_state_get_format(state, fmt->pad);
-34e77ed84b274d drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-06-26  175  	mutex_unlock(&entity->lock);
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  176  
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  177  	return 0;
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  178  }
-3f557220cc29d1 drivers/media/platform/vsp1/vsp1_entity.c         Laurent Pinchart 2016-02-24  179  
+elapsed time: 849m
 
-:::::: The code at line 161 was first introduced by commit
-:::::: 3f557220cc29d1961ef9efa2a8db04c7c5f6e6d4 [media] v4l: vsp1: Factorize get pad format code
+configs tested: 168
+configs skipped: 2
 
-:::::: TO: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-15.2.0
+arc                              allmodconfig    gcc-15.2.0
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    gcc-15.2.0
+arc                                 defconfig    gcc-15.2.0
+arc                   randconfig-001-20260207    gcc-9.5.0
+arc                   randconfig-002-20260207    gcc-8.5.0
+arm                               allnoconfig    clang-22
+arm                              allyesconfig    gcc-15.2.0
+arm                                 defconfig    clang-22
+arm                   randconfig-001-20260207    gcc-10.5.0
+arm                   randconfig-002-20260207    gcc-12.5.0
+arm                   randconfig-003-20260207    gcc-8.5.0
+arm                   randconfig-004-20260207    gcc-8.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-15.2.0
+arm64                 randconfig-001-20260207    clang-22
+arm64                 randconfig-002-20260207    clang-22
+arm64                 randconfig-003-20260207    gcc-14.3.0
+arm64                 randconfig-004-20260207    gcc-14.3.0
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-15.2.0
+csky                  randconfig-001-20260207    gcc-15.2.0
+csky                  randconfig-002-20260207    gcc-15.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                             defconfig    clang-22
+hexagon               randconfig-001-20260207    clang-22
+hexagon               randconfig-002-20260207    clang-18
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20260207    gcc-14
+i386        buildonly-randconfig-002-20260207    clang-20
+i386        buildonly-randconfig-003-20260207    clang-20
+i386        buildonly-randconfig-004-20260207    clang-20
+i386        buildonly-randconfig-005-20260207    clang-20
+i386        buildonly-randconfig-006-20260207    clang-20
+i386                                defconfig    clang-20
+i386                  randconfig-001-20260207    clang-20
+i386                  randconfig-002-20260207    clang-20
+i386                  randconfig-003-20260207    clang-20
+i386                  randconfig-004-20260207    clang-20
+i386                  randconfig-005-20260207    clang-20
+i386                  randconfig-006-20260207    clang-20
+i386                  randconfig-007-20260207    clang-20
+i386                  randconfig-011-20260207    gcc-14
+i386                  randconfig-012-20260207    gcc-14
+i386                  randconfig-013-20260207    gcc-12
+i386                  randconfig-014-20260207    clang-20
+i386                  randconfig-015-20260207    gcc-14
+i386                  randconfig-016-20260207    clang-20
+i386                  randconfig-017-20260207    gcc-14
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20260207    gcc-13.4.0
+loongarch             randconfig-002-20260207    clang-22
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    gcc-15.2.0
+m68k                       bvme6000_defconfig    gcc-15.2.0
+m68k                                defconfig    gcc-15.2.0
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    gcc-15.2.0
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+mips                        bcm47xx_defconfig    clang-18
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20260207    gcc-10.5.0
+nios2                 randconfig-002-20260207    gcc-11.5.0
+openrisc                         allmodconfig    gcc-15.2.0
+openrisc                          allnoconfig    gcc-15.2.0
+openrisc                            defconfig    gcc-15.2.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    gcc-15.2.0
+parisc                           allyesconfig    gcc-15.2.0
+parisc                              defconfig    gcc-15.2.0
+parisc                randconfig-001-20260207    gcc-14.3.0
+parisc                randconfig-002-20260207    gcc-8.5.0
+parisc64                            defconfig    gcc-15.2.0
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    gcc-15.2.0
+powerpc                  iss476-smp_defconfig    gcc-15.2.0
+powerpc               randconfig-001-20260207    gcc-10.5.0
+powerpc               randconfig-002-20260207    gcc-15.2.0
+powerpc                     sequoia_defconfig    clang-17
+powerpc64             randconfig-001-20260207    clang-22
+powerpc64             randconfig-002-20260207    clang-22
+riscv                            allmodconfig    clang-22
+riscv                             allnoconfig    gcc-15.2.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-22
+riscv             nommu_k210_sdcard_defconfig    gcc-15.2.0
+riscv                 randconfig-001-20260207    clang-18
+riscv                 randconfig-002-20260207    clang-22
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.2.0
+s390                                defconfig    clang-22
+s390                  randconfig-001-20260207    gcc-8.5.0
+s390                  randconfig-002-20260207    gcc-14.3.0
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    gcc-15.2.0
+sh                               allyesconfig    gcc-15.2.0
+sh                                  defconfig    gcc-15.2.0
+sh                            hp6xx_defconfig    gcc-15.2.0
+sh                    randconfig-001-20260207    gcc-15.2.0
+sh                    randconfig-002-20260207    gcc-12.5.0
+sh                           se7780_defconfig    gcc-15.2.0
+sh                   sh7724_generic_defconfig    gcc-15.2.0
+sparc                             allnoconfig    gcc-15.2.0
+sparc                               defconfig    gcc-15.2.0
+sparc                 randconfig-001-20260207    gcc-8.5.0
+sparc                 randconfig-002-20260207    gcc-15.2.0
+sparc64                          allmodconfig    clang-22
+sparc64                             defconfig    clang-20
+sparc64               randconfig-001-20260207    gcc-14.3.0
+sparc64               randconfig-002-20260207    clang-20
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                                  defconfig    clang-22
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260207    clang-22
+um                    randconfig-002-20260207    gcc-14
+um                           x86_64_defconfig    clang-22
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20260207    clang-20
+x86_64      buildonly-randconfig-002-20260207    gcc-14
+x86_64      buildonly-randconfig-003-20260207    gcc-14
+x86_64      buildonly-randconfig-004-20260207    clang-20
+x86_64      buildonly-randconfig-005-20260207    clang-20
+x86_64      buildonly-randconfig-006-20260207    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                randconfig-001-20260207    gcc-14
+x86_64                randconfig-002-20260207    gcc-14
+x86_64                randconfig-003-20260207    clang-20
+x86_64                randconfig-004-20260207    clang-20
+x86_64                randconfig-005-20260207    clang-20
+x86_64                randconfig-006-20260207    clang-20
+x86_64                randconfig-011-20260207    gcc-14
+x86_64                randconfig-012-20260207    gcc-14
+x86_64                randconfig-013-20260207    gcc-14
+x86_64                randconfig-014-20260207    clang-20
+x86_64                randconfig-015-20260207    gcc-14
+x86_64                randconfig-016-20260207    gcc-14
+x86_64                randconfig-071-20260207    gcc-14
+x86_64                randconfig-072-20260207    clang-20
+x86_64                randconfig-073-20260207    clang-20
+x86_64                randconfig-074-20260207    gcc-13
+x86_64                randconfig-075-20260207    clang-20
+x86_64                randconfig-076-20260207    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    gcc-15.2.0
+xtensa                           allyesconfig    gcc-15.2.0
+xtensa                randconfig-001-20260207    gcc-8.5.0
+xtensa                randconfig-002-20260207    gcc-8.5.0
 
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
