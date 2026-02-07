@@ -1,95 +1,92 @@
-Return-Path: <linux-media+bounces-52334-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52335-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oH3mI5IKh2l2TAQAu9opvQ
-	(envelope-from <linux-media+bounces-52334-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 10:49:06 +0100
+	id iARME/8Uh2nBTQQAu9opvQ
+	(envelope-from <linux-media+bounces-52335-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 11:33:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF9F105667
-	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 10:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9C2F105860
+	for <lists+linux-media@lfdr.de>; Sat, 07 Feb 2026 11:33:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 47AAF3021E69
-	for <lists+linux-media@lfdr.de>; Sat,  7 Feb 2026 09:48:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 78918302417C
+	for <lists+linux-media@lfdr.de>; Sat,  7 Feb 2026 10:32:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561BC322B8C;
-	Sat,  7 Feb 2026 09:48:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D9033D6EE;
+	Sat,  7 Feb 2026 10:32:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EF7iw2Ay"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZ0Zs/3A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F1A31B80B
-	for <linux-media@vger.kernel.org>; Sat,  7 Feb 2026 09:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB6929992A
+	for <linux-media@vger.kernel.org>; Sat,  7 Feb 2026 10:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770457733; cv=none; b=fWP8LVaRo/z2Ap6JbLnjFRHMgBNjgyfWpXujA7QKuogQuNF4CkmvoHs35EU0nmh22y3I7rVG37kgllXnh6+4thr16c2hPjyZR7bvXQMxjboPz548RzluH1YQzwfP6rMWcJPvrOgMZ7a8lObDSssNfGio2e6t9BiKkXZErLH6igY=
+	t=1770460359; cv=none; b=ny2uu6f9Cy3TVMQqhETYjl0X2ZnHAwNjC4Wzviubn5YCLWPR1YlA3rM3IBYd7kpJzP23+yD3GKrWJf51I7tT+Q9CnhbEoHpawHSqxox9z4oIKxu8iqI7JQuMqZZuf39S1VfXKafXiMwjhXZuPy6GwAVX+i1q3/3Wz53Nk2TwGjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770457733; c=relaxed/simple;
-	bh=TGsE2fB5VTyKMU0l7HF00EXkkyMHxoKJRndW309YkdM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G9PdDQAsNkJytmMKgvq1XOj54R3rVvWJPNOLYWeMe0/UV/8bJ7YC9t1loVzj+FPbkavrm6i+Bji4tU/zoRX8wJFaU57vp6vpGX5pdsLWrvB3IhN2M5v1TcGNtYW4VtndlKvnsDtMdq3laz3jWUfFCBf3R5dSv6yd+NMZ4H3IA8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EF7iw2Ay; arc=none smtp.client-ip=209.85.167.44
+	s=arc-20240116; t=1770460359; c=relaxed/simple;
+	bh=M9W0GSNrey9NvUygKYFNPFagV2ThOlSKeNb1KaNgINk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J0jLQBqbu8EB9vw4iDwOI6qGBEhtHMoOgS2HsC6RR9tRcBaFoGQVCzcGeomBihURK1m9Ye9STFk9VuwFUF6Vm6xfurDFRDKNRXD5I4uOfbbuNmkCoXS7aADhSFmzTQHs11a0gDW2cmvdSihHmqwIsTWGVdCnU9UICe85Md8c8zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZ0Zs/3A; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59dcd9b89ecso3966816e87.1
-        for <linux-media@vger.kernel.org>; Sat, 07 Feb 2026 01:48:53 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59dcd9b89ecso3991284e87.1
+        for <linux-media@vger.kernel.org>; Sat, 07 Feb 2026 02:32:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770457731; x=1771062531; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770460357; x=1771065157; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wEM++L2wpFRImt5jUOuUMN5DTiB5ZK9kF5mPmLtnWQA=;
-        b=EF7iw2AyRwwdgSO9PcJnc6SqpKEduQNx0gwTLCh/KMbiWxkTLE4VNhioD3yaNKgsif
-         bAdt8p4EgeqUjKfURMJl9r8t7TItHLCch85k5ioIyCY1u9LrPSnHOYrm+soc2We2cmXe
-         IKbrxo07N0ge1P0X2lPa/oU1qrVLeQSBaMHz9tonNIeSYjZmVZqpu2s680ffF2NuOisF
-         KNGAOfdEdPo/RwArgMRjkewXvRQeeMlW68YNUKqhYmvXNt9rRYDPMLlzl9/tGd44qxFY
-         XMmdwOkL798mOo6XwDY8leUxIjdcakVAX6uITIzkG0TWM4EpKovRynqj0YiYVcNeumdZ
-         U1mw==
+        bh=zf9LCIc1kzu9VHa7rd6ONhcsgjfjhvw4Gxq8LU0j1dg=;
+        b=QZ0Zs/3AS1j/y8DvNHyAI/NveMnP6Q49QG3e4xvP+Hv5esSbfNzXw3AX9PYpKHbUqj
+         4iRbjKFLCJS/HJfjnaGQTenBvZxBEkhVsGW8JIKP3zRI5W4NYn/9ZhHLSD3R3bYhKFJ3
+         3H9BKsG5Sn1pKRRyh25R/R/uZKTi/Gfk8lnxzyKepvM8YmMEDd8Wh0hKQytbVchucCUg
+         dRKhPu1ty2asr7DG3LZjmjoTinVp5Q/itf9q/+ZmN0g6u7W/Csw0VHhAHq2DQZszM/SZ
+         tywdE9m8bYsjZBTsC2nuvlw8gOYmmhULsGMVu6OD0gsBjV69VefqX5J3BvqxFlHVrb0I
+         eU9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770457731; x=1771062531;
+        d=1e100.net; s=20230601; t=1770460357; x=1771065157;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wEM++L2wpFRImt5jUOuUMN5DTiB5ZK9kF5mPmLtnWQA=;
-        b=pg7uMsZy39hA2jF9URgh1FxxJY59uw2AJjIvRxdnINgcNSBzXEcmbx074TtMQzX757
-         fOlIuoXL6QPizsWmTPVF2nba0jFhG9rqJPb3JCP9285Q1Rvdt4D9e3PtcqQcO9ykpx/u
-         N8F1oj/LV27vEZXaJaZIwRFIvZxNnvcalB6oSxaCnOtHVdjOu9QRcquhLuAmo6YWHOJJ
-         +7vh1qJdBEpv/f6cwA2RdhdIzRoDsfFX5yLn6w7zKoJC80tycVFnjb3twzqYYpVaghlG
-         WwVhCbarPaYnfqiRaQ2nxn4a387pt4CWzrSzCMGrK0MPRX4k2NgciZw25/YUlzARXYTb
-         3mZw==
-X-Forwarded-Encrypted: i=1; AJvYcCXahJqyW73UaVrXux2YyclCQN7McfYksENekKtHp987InSeXl9LHyTvDuyAu6yBung84aeKRkkPZY9SHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdamnUa19Y1VVeZ4W29DQAIZQZl9kD63Jm4LvUCnMW3WQ8ohUP
-	NcJMdpFHWShHFi9qDGUJ6P8gk80yNShjfIgHYVigaOSzWUybj1Jt4U2H
-X-Gm-Gg: AZuq6aK1FB1X9xHfqdHzIuhSJ8kL5NaRbe+KNxOwrNluA2QZYBKBEJhyvZ4LpdeA74L
-	4+ixSYEoddpyKJzXvdAl3mgx5DwuW6SNTs4wjDj+3VAQxTcvavejHSMs0GUTBXNZVovh7i/S6ih
-	u4X6B5334/KiwASHYc1nVsgWk1umiXteLqit2+okA5ZNuthDgsKvy7LqjMZvKY+PqC1tt78cmA5
-	4ECmARTQ3CCZSbdYG2IiREbf4JZ4B1swQSDPudFMYSrtibSSUPr53arWep97jovoWTuuWVyxmdA
-	YhoA9aKeFEQMDs17O1oBUf/CXXG7yjIgRKk7bYObYV7YxqkBktgITO0qMHHafkkp1JTJ3xL4NlQ
-	a3pex0SrO3nVB5Pqwnk5tqtZaiDfDOPU1RsKEGLNjNC9lE2wE0ZybYBeVsiwc377MoxmHbk+Zio
-	Ib+fZvF9UVtfUVD2HWuwYrGvSn2F3JsUXlXysktao28fhsmTE2UmvJEaayu0E/Y2nGgjQYhGcnL
-	gH4ZH5TS5FUNNVhhygJL2pMYg==
-X-Received: by 2002:a05:6512:1327:b0:59e:2d6a:b8a5 with SMTP id 2adb3069b0e04-59e44b59e59mr1936663e87.0.1770457731309;
-        Sat, 07 Feb 2026 01:48:51 -0800 (PST)
+        bh=zf9LCIc1kzu9VHa7rd6ONhcsgjfjhvw4Gxq8LU0j1dg=;
+        b=YwLun4bN29Ek2GV5czr2CQ3WOJLgQRTxwObe6cNNtWHOfvEo/83Lq1zCw7qsRPKUrU
+         St6XA+TeLemJWTwwRLNkTUqvI0pvxNah/fH0VlyDAoZkpta+ESjqFVpHrsymHMj4OicX
+         ByT5gcHbYVY6l1RIhZK0bkSV21Fk33iX10DHQTj3pceyiql0GUnND4az8RaYMUhcIXLo
+         LEazGn5gNsq1UmqlfUU95BU7e2ukib7iKWQwNdSM8WRQuT8aXXNT/sy49HtANvCv8XRK
+         QWJ2E+s524oSwaIkcCqu933OfQBOTQtaEsWfnm9mtGhzvIj6wPFve+yXaiN8mPHo4da+
+         TeCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUqVOU2HnV7gO+L91L7GjZq09c4beSchto+sDQal4Lty6kmC/K1Sd6gydtb3qixhk7SAI+i4DPbtqgphQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXvq0rIAe0N3gGe9HQ9M2M0lcZLJu4It/YncD1ZekHJQfsnCS5
+	UiOkUArGbAv1K4axCqmu93qsN1RosaAMo2w81Cih294HyFvmK249fW3C
+X-Gm-Gg: AZuq6aJjIIVxh6odOXIO973VocbFUTHkbrt6JPr10ujz1Yv13CdJ7Ji9r4s6iezpHUe
+	7NLWIfGZmbPJ1jK5J3VOdG0/Y8bhtt9M3DWWB+G7VxR4oyuViVTzmAbkH7q33gKDQw0zidgJHy8
+	9y00TP2DjD6xNTy6C/TWrOd1Ampjvca57Vtlgn5WKS8z0P6TEufDjbhh9GBpfrCb0FQerjBRQ8l
+	mxPu1QJ4BxTTXYh0pwSVj2f3vGBkdxXrZmfJAIlhSmw7G7FHj/wIZA/pAHcp7PuziJOhiORsr+J
+	+GNLzU/6PvypS7CwQMue1M6XlO85r5Dy+deNwRseO9VM0QNYocRgFClvzsPLxNEp9/X08GXT2FC
+	fxaHjvlpX7ORjxH3RuGCq5NLOdMsRd7/U5DGZQ2SWY/Ekncas8i5DAiG5ly5lfJbo5bb/IzTbn/
+	YkMWhv7ykBS8TTlOYds4AaA0N/BtKrAjmICODApn/IGmijIKRbWVmL9XLg/ZLMeL2dk2ucCnUz+
+	yIKD2NO5TO1GRHQAU7NHRSWwg==
+X-Received: by 2002:a05:6512:1155:b0:59e:1930:d932 with SMTP id 2adb3069b0e04-59e44bd7b71mr1859098e87.13.1770460357202;
+        Sat, 07 Feb 2026 02:32:37 -0800 (PST)
 Received: from localhost.localdomain ([176.33.64.73])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e44cf700dsm1210132e87.11.2026.02.07.01.48.49
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e44e25ed3sm1212784e87.92.2026.02.07.02.32.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Feb 2026 01:48:50 -0800 (PST)
+        Sat, 07 Feb 2026 02:32:36 -0800 (PST)
 From: Alper Ak <alperyasinak1@gmail.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: Alper Ak <alperyasinak1@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: rzg2l-cru: Fix possible ERR_PTR deference
-Date: Sat,  7 Feb 2026 12:48:39 +0300
-Message-ID: <20260207094841.603932-1-alperyasinak1@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Alper Ak <alperyasinak1@gmail.com>
+Subject: [PATCH] media: chips-media: wave5: Fix possible ERR_PTR deference
+Date: Sat,  7 Feb 2026 13:32:24 +0300
+Message-ID: <20260207103224.609938-1-alperyasinak1@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -99,66 +96,72 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,bp.renesas.com,ideasonboard.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-52334-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,collabora.com,vger.kernel.org,gmail.com];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alperyasinak1@gmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52335-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[alperyasinak1@gmail.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3CF9F105667
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: C9C2F105860
 X-Rspamd-Action: no action
 
-The media_pad_remote_pad_unique() can return ERR_PTR() on failure
-(-ENOTUNIQ or -ENOLINK), but the code was dereferencing the return
-value without checking for errors. Add IS_ERR() check before
-dereferencing the pointer.
+The kthread_run() function returns either a valid task_struct pointer
+or ERR_PTR() on failure. The return value was not checked and in the
+error cleanup path, the code verifies if dev->irq_thread is non NULL
+before calling kthread_stop(). Since ERR_PTR() values are non NULL,
+this would result in passing an error pointer to kthread_stop(),
+causing a kernel panic.
 
-Fixes: d7d72dae81d5 ("media: rzg2l-cru: Retrieve virtual channel information")
+Add proper IS_ERR() check after kthread_run(), log the error, set
+dev->irq_thread to NULL and fail the probe to prevent the driver
+from operating in a broken state.
+
+Fixes: e66ff2b08e4e ("media: chips-media: wave5: Fix Null reference while testing fluster")
 Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
 ---
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 6 ++++++
+ drivers/media/platform/chips-media/wave5/wave5-vpu.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index 162e2ace6931..a34c2188df1a 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -411,6 +411,12 @@ static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
- 	int ret;
- 
- 	remote_pad = media_pad_remote_pad_unique(&cru->ip.pads[RZG2L_CRU_IP_SINK]);
-+	if (IS_ERR(remote_pad)) {
-+		ret = PTR_ERR(remote_pad);
-+		dev_err(cru->dev, "Failed to get remote source pad: %d\n", ret);
-+		return ret;
-+	}
-+
- 	ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc, remote_pad->index, &fd);
- 	if (ret < 0 && ret != -ENOIOCTLCMD) {
- 		dev_err(cru->dev, "get_frame_desc failed on IP remote subdev\n");
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+index 76d57c6b636a..bebe2bd6893b 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+@@ -340,6 +340,12 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 		dev_err(&pdev->dev, "failed to get irq resource, falling back to polling\n");
+ 		sema_init(&dev->irq_sem, 1);
+ 		dev->irq_thread = kthread_run(irq_thread, dev, "irq thread");
++		if (IS_ERR(dev->irq_thread)) {
++			dev_err(&pdev->dev, "failed to create vpu irq thread\n");
++			ret = PTR_ERR(dev->irq_thread);
++			dev->irq_thread = NULL;
++			goto err_vdi_release;
++		}
+ 		hrtimer_setup(&dev->hrtimer, &wave5_vpu_timer_callback, CLOCK_MONOTONIC,
+ 			      HRTIMER_MODE_REL_PINNED);
+ 		dev->worker = kthread_run_worker(0, "vpu_irq_thread");
 -- 
 2.43.0
 
