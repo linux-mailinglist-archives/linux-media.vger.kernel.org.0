@@ -1,364 +1,206 @@
-Return-Path: <linux-media+bounces-52345-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52346-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GSv1BXnah2kheAQAu9opvQ
-	(envelope-from <linux-media+bounces-52345-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 08 Feb 2026 01:36:09 +0100
+	id rYiKFbfjh2mCegQAu9opvQ
+	(envelope-from <linux-media+bounces-52346-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 08 Feb 2026 02:15:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6431A10778A
-	for <lists+linux-media@lfdr.de>; Sun, 08 Feb 2026 01:36:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 839C41077D9
+	for <lists+linux-media@lfdr.de>; Sun, 08 Feb 2026 02:15:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4E406302A6C4
-	for <lists+linux-media@lfdr.de>; Sun,  8 Feb 2026 00:36:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7D71A301DBAA
+	for <lists+linux-media@lfdr.de>; Sun,  8 Feb 2026 01:15:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 588E72FD697;
-	Sun,  8 Feb 2026 00:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IU72wpkb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8199C2FE05D;
+	Sun,  8 Feb 2026 01:15:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+Received: from mail-oa1-f79.google.com (mail-oa1-f79.google.com [209.85.160.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A474428E00
-	for <linux-media@vger.kernel.org>; Sun,  8 Feb 2026 00:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770510961; cv=pass; b=uyTWDaP0sFfxhagkCu2l4SKUR7VziSt7cNDDS0qPaWEpm3iJ5sJNLfZq0aDIZJyGGakJmnpKT0+6C2zLag/3hMfD9HKrlYklx7EVuaCG4j6eZaPnhYV7Fkg20tmaU73GF+5TzAs+EHNK3ROkMqR57drNWyml7qyZ0xyMhDFo4sI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770510961; c=relaxed/simple;
-	bh=PRXfW1xczsTV6tUkwGDseKTOuzBpKEmtjRK0kFsCfTo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uPLjbb4zOk97GwEDX/LpvAEnOp6nLEAa0SMejh+MB66zFGmgDhzWqbYt8gV8fTkf/VfXk4sbPu1gI4aVOvOb8HIT7biO4wv9pKJMDpQkgSUZwtoEDunrlugUNlQnOg5PhujtdnW0t3gWaewUkg2gH1HyiAxACNSOCzIQzzK/v3M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IU72wpkb; arc=pass smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-124899ee9d3so2248553c88.0
-        for <linux-media@vger.kernel.org>; Sat, 07 Feb 2026 16:36:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770510961; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kITeIDwg6L7TIjx/gHRECdXAvGVKKRPd4LEVEiGQn+c37aoWDuHW+w4VhzRGbxzyGo
-         IX7DLSBb4LqgPQ+AIeKk/3rlmlFlkS4J85EiRKbOsMzp74v3lZKTwC3ppHdVnXYhugC0
-         jwCTRkpMbCBOhS9GdXNACy1HDSGUayUvUHxLKX/t93bkgT9yKqFc3BMGFh6WoMxi3WeY
-         tNmVqcOgkpL81neC8EcT1cG4kWUyBbSdobCCGVvkgoMRct0dP2ttzmry3lyh9rf7tqSb
-         ZhXj3+DP8ASQ2Heuou8qWO0zy6KkxLNtvbApky4rsJpZLAwagTijZrRcLmp3GjcfZODE
-         H+iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=L9OVhbo0I3sJD/8yglKIH5QK5PrVSt2NJ91/w2gd3CQ=;
-        fh=8WgmoOpo/VartJcQvHbxTYtyJvJA/oau4bxFKygb62E=;
-        b=AwAesWrfjMMkYT4tCmajfoshc14a2QoMjjCiP14W4YDDnaT90xX6NW9go/eb2Hrubo
-         QfjA+BfLABu6q2YlZoWLure/IQBSXGudFW6lsQN4N1NR/rf4VUCk3VPhDtc2yu2+sz9h
-         nrNrHdQsp9Enm82mloIjtzfixWTRFvhBAaFrJEBL54JHLrYc/zOlIYt8DpHc6oWkLYkG
-         6BGd17KQgqObW6wt5Jl8xPm/cnpWmNcUH+4GHQazE27S4Pz1GuAihCmG4cuEibN4F2yG
-         clfPdX1NkFZx6lOL3r2QRWzURcEX7ZtVc3Y5LPjtJqpSYkb3Yhh2JGXPwzWWQzIDek4V
-         k6HA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770510961; x=1771115761; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L9OVhbo0I3sJD/8yglKIH5QK5PrVSt2NJ91/w2gd3CQ=;
-        b=IU72wpkblemW3ZTFwmxMP31wC8yUKgipt1EwTZhQG9Q/HV4GJGm+rIATn+Jrg02R05
-         CwVcklK77CSviT2hhamELYzS2e5aC5UkExa1Hvwcba0O1/GUlt3s0O+4c2BzteEJrwIy
-         AflRbMJ53IpbpyB/vqFMHT7QQ+Ako3LlhGgYTFIoCjSN/1RSANvA3UffQYMQ+SdX6rW+
-         knFrsDsiXy92T7qA9AZVXiIeRVfrGILudSC4lz8QI64eJGSoSrz19B3VB7etj4ZMOmm4
-         amvKNAONIO2P3t2kt2rwp901O5TI2SbywVm+ZD1W9zHGtMUL3H9rQt74j41xSngxN0eO
-         91yw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E999C81732
+	for <linux-media@vger.kernel.org>; Sun,  8 Feb 2026 01:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.79
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770513325; cv=none; b=OW0gJvF9jaXjZF1zk13Xx1zZxN9Vl2XPDpouxlB3FYBm1qR9POCcBzyI+Ir3YjEmExuZvTUV9GusCm22OTIrd1In4N/JsYBj3sEG3DK50gFk0xJf3+cnxuJaW2mBUYJif3Lhb79lBp0vci/St3XMe8DWbbXC2A4K13RMy2KRIOo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770513325; c=relaxed/simple;
+	bh=xj7k+W7AVLI9518Jl8Lw4cxF9MmwkQ0ypihKrtRqQEc=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=s0O2kuuJw1qDf9VVwgbzPDbHVf4l/Jy2oOWp+13LZRWizKxiS9ohgEvMeqf7iDGyuVt52x/0mspIznCs/0ZK4B6duplrDOUYVgIHUKKnA79wtJPuRtWbD7nQ2MeuhFGHns4kkupcMEqCr2G0DHm68msCYU7yvyk9ybpH9B4qNPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f79.google.com with SMTP id 586e51a60fabf-3ff590953b1so11578939fac.2
+        for <linux-media@vger.kernel.org>; Sat, 07 Feb 2026 17:15:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770510961; x=1771115761;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=L9OVhbo0I3sJD/8yglKIH5QK5PrVSt2NJ91/w2gd3CQ=;
-        b=MCukFqKzGCzv6L/Y8pofFCeQOUCcGpSAuTapwkEmXi1jKNJP+pIJcYJndhyBZiTfgw
-         q3TsbY43oXmxkeF/0++4TTm5HqDlRvEgaHY3ydohcnDtgJ5MjPigK69PYdL9dgzzOZH/
-         UnvpJE87jLPKtazTkvLFwkhN+/T90kSmHD2wFeICNln+3jo22+MeKaYmFNQTGd3YPomT
-         6D3ytl740bXkeakgirBKFMsJvo+4KUj9Txm5Xt0MXHtTwNVYvf3e61mgchKe894Eibi6
-         /TJMGpJ9+NGbAXdwRU6Dw0xb5nggQ4l41xcMfiA9S639jBJ3xgMCRMpe2lYBx9tQ/S0Z
-         rPyg==
-X-Gm-Message-State: AOJu0Yx6FZso/i1CtX084EvwZKqUrHcP8LtWQKuo50b0iJGhIfZ/hPTo
-	v+QwP0tYNORm3Or/BMep83cC/uz/S5cJdxw9EAul2qMXBPuHDGZF+8eweR/vPpNl/0i2uzlmSeI
-	j5eAEupQ9dVPj+IuB3z353i8L/YYqlpSLSRpP
-X-Gm-Gg: AZuq6aJF2nEIZWBvBzBasA5VlROug2KjMxY0P5ywiDCPfuQw0cu+IDPojeE9QK6PisF
-	iWPhuzDb0uXzfWaE3+AERCNJ5LPWC6U8ROBftpHvFz8ebEXxVxIG0lQxRhMYzPUYQrkDaccznM2
-	WT4Ihcl/PbjBlXWAaymyw2wZoNkUqC1ijJG+8xfC+4/XggPumBIlvRMAMbd2K7/ppvAHR3aq4tS
-	kQ5nEy9zxSYPqCa3b6DUI29UAEKOx+f09f9OESTuAv+QLsYkKdgmpOuiP49f/6RubXluQ==
-X-Received: by 2002:a05:7022:4381:b0:11b:f271:835a with SMTP id
- a92af1059eb24-126fc18040dmr4887343c88.3.1770510960394; Sat, 07 Feb 2026
- 16:36:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770513324; x=1771118124;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PYwrasxn06P8GYL/h3tcZ43LeJttTxGEDfVNknBOOOU=;
+        b=VuWTvY/ACyHKmxeVBMoalgX/wKR/tzNCF2bWGadojLwEZya9OXM/OquKZLp//JBdor
+         9/5GYTtpK0VgY1cWQwzHrjJ4WuoDEB5MufcpvCduUe7eJJ1fgI+aa44nXqhJJ9irT8eY
+         tY2Vp1ReMrnvE6xuqmWlrgLVYYBq6oKI/FSQqnV14PftZb3z7RVYEABlMgPoqHobUZzS
+         jBDXx0meW3bgq66BcNIMztDlpu4jFVoW7cKXtRzWh7lxRS3L6o8ADEJlTSRaR49nEmNq
+         GutgjGdNwErzab/d0kU6M/9O/ssYR64XDLuYu6xi5AGbjarVmrpL0O39fP/fJI+cZPyw
+         jcaA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgWHB0KAOsV1mWU5DbtGTqsUVx/As60kghZ3zaH1cY6dJs1UNLL7VOmTlhYjq2+seqkRbbLdV/9yvAfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDndwtOB/Q2yDUfp/HtuflP2UqoiYmDThx8O6UMS64EbttPSUK
+	d0/H3wT291DpNVms7bp26j0IInQhNfummK4E8vL9mQCpovc84oOosRGbmRi/LsgGXtLMQTGDYP0
+	LurcxvXvagthLXTYY0Xaz3UHSAXKVPr/kzkq0JPybkzyFs+V3XxGgWgjjz60=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260112022420.390854-1-hoff.benjamin.k@gmail.com>
-In-Reply-To: <20260112022420.390854-1-hoff.benjamin.k@gmail.com>
-From: Ben Hoff <hoff.benjamin.k@gmail.com>
-Date: Sat, 7 Feb 2026 19:35:49 -0500
-X-Gm-Features: AZwV_QhnyoLSoL8YDj2qXJHf5kz1nC9XEa6WQ2qR0mkKZpmbV86LQWr5pHRnYwY
-Message-ID: <CAMSzxxScAW+sR6OzXt4NxOFx=Q0LDFko9d_xY4zoROYOZMzzdA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] media: pci: AVMatrix HWS capture driver
-To: linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, hverkuil@kernel.org
+X-Received: by 2002:a05:6820:1745:b0:663:b2a:60e6 with SMTP id
+ 006d021491bc7-66d0d6dc721mr3224218eaf.81.1770513323866; Sat, 07 Feb 2026
+ 17:15:23 -0800 (PST)
+Date: Sat, 07 Feb 2026 17:15:23 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6987e3ab.050a0220.3b3015.0052.GAE@google.com>
+Subject: [syzbot] [media?] KMSAN: uninit-value in dvbdmx_release_ts_feed
+From: syzbot <syzbot+01d4620886bee3db0e74@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.36 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=9682a42d8ec8b05c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52345-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_THREE(0.00)[4];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_NONE(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-52346-lists,linux-media=lfdr.de,01d4620886bee3db0e74];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	SUBJECT_HAS_QUESTION(0.00)[];
+	REDIRECTOR_URL(0.00)[goo.gl];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hoffbenjamink@gmail.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[3];
-	NEURAL_HAM(-0.00)[-0.997];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 6431A10778A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[storage.googleapis.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,appspotmail.com:email,googlegroups.com:email]
+X-Rspamd-Queue-Id: 839C41077D9
 X-Rspamd-Action: no action
 
-Hi all,
+Hello,
 
-Just following up on this new driver patch sent Jan 11.
+syzbot found the following issue on:
 
-Happy to address review comments or adjust the approach if needed.
+HEAD commit:    2687c848e578 x86/vmware: Fix hypercall clobbers
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=16bd1402580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9682a42d8ec8b05c
+dashboard link: https://syzkaller.appspot.com/bug?extid=01d4620886bee3db0e74
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1154ab22580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1566fa5a580000
 
-I=E2=80=99m happy to maintain this driver going forward.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/915713ca8484/disk-2687c848.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9b87f40abe9d/vmlinux-2687c848.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d4744727b418/bzImage-2687c848.xz
 
-Thanks,
-Ben
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+01d4620886bee3db0e74@syzkaller.appspotmail.com
 
-On Sun, Jan 11, 2026 at 9:24=E2=80=AFPM Ben Hoff <hoff.benjamin.k@gmail.com=
-> wrote:
->
-> Hi all,
->
-> This series introduces an in-tree AVMatrix HWS PCIe capture driver.
-> The driver supports up to four HDMI inputs and exposes the video capture
-> path through V4L2. Audio support is intentionally omitted in this
-> revision so the series can focus on the video pipeline and PCIe glue.
->
-> Major pieces include:
->   - PCI glue with capability discovery, BAR setup, interrupt handling,
->     and power-management hooks.
->   - A vb2-dma-contig based capture pipeline with DV timings support,
->     per-channel controls, two-buffer management, and loss-of-signal
->     recovery.
->
-> The baseline GPL out-of-tree driver is available at:
->   https://github.com/benhoff/hws/tree/baseline
-> A vendor driver bundle is available at:
->   https://www.acasis.com/pages/acasis-product-drivers
-> The vendor is not involved in this upstreaming effort.
->
-> Prior RFC posting: https://lore.kernel.org/lkml/20251027195638.481129-1-h=
-off.benjamin.k@gmail.com/
->
-> Current status / open items:
->   - `v4l2-compliance` passes for each video node, and I have exercised
->     basic capture in OBS and run this driver in a steady state mode
->     daily
->
-> v4l2-compliance (from v4l-utils git, v4l2-compliance 1.32.0):
-> v4l2-compliance 1.32.0, 64 bits, 64-bit time_t
->
-> Compliance test for HwsCapture device /dev/video1:
->
-> Driver Info:
->         Driver name      : HwsCapture
->         Card type        : AVMatrix HWS Capture 2
->         Bus info         : PCI:0000:17:00.0
->         Driver version   : 6.18.3
->         Capabilities     : 0x84200001
->                 Video Capture
->                 Streaming
->                 Extended Pix Format
->                 Device Capabilities
->         Device Caps      : 0x04200001
->                 Video Capture
->                 Streaming
->                 Extended Pix Format
->
-> Required ioctls:
->         test VIDIOC_QUERYCAP: OK
->         test invalid ioctls: OK
->
-> Allow for multiple opens:
->         test second /dev/video1 open: OK
->         test VIDIOC_QUERYCAP: OK
->         test VIDIOC_G/S_PRIORITY: OK
->         test for unlimited opens: OK
->
-> Debug ioctls:
->         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->         test VIDIOC_LOG_STATUS: OK
->
-> Input ioctls:
->         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->         test VIDIOC_ENUMAUDIO: OK (Not Supported)
->         test VIDIOC_G/S/ENUMINPUT: OK
->         test VIDIOC_G/S_AUDIO: OK (Not Supported)
->         Inputs: 1 Audio Inputs: 0 Tuners: 0
->
-> Output ioctls:
->         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->         Outputs: 0 Audio Outputs: 0 Modulators: 0
->
-> Input/Output configuration ioctls:
->         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
->         test VIDIOC_DV_TIMINGS_CAP: OK
->         test VIDIOC_G/S_EDID: OK (Not Supported)
->
-> Control ioctls (Input 0):
->                 info: checking v4l2_query_ext_ctrl of control 'User Contr=
-ols' (0x00980001)
->                 info: checking v4l2_query_ext_ctrl of control 'Brightness=
-' (0x00980900)
->                 info: checking v4l2_query_ext_ctrl of control 'Contrast' =
-(0x00980901)
->                 info: checking v4l2_query_ext_ctrl of control 'Saturation=
-' (0x00980902)
->                 info: checking v4l2_query_ext_ctrl of control 'Hue' (0x00=
-980903)
->                 info: checking v4l2_query_ext_ctrl of control 'Brightness=
-' (0x00980900)
->                 info: checking v4l2_query_ext_ctrl of control 'Contrast' =
-(0x00980901)
->                 info: checking v4l2_query_ext_ctrl of control 'Saturation=
-' (0x00980902)
->                 info: checking v4l2_query_ext_ctrl of control 'Hue' (0x00=
-980903)
->         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->         test VIDIOC_QUERYCTRL: OK
->                 info: checking control 'User Controls' (0x00980001)
->                 info: checking control 'Brightness' (0x00980900)
->                 info: checking control 'Contrast' (0x00980901)
->                 info: checking control 'Saturation' (0x00980902)
->                 info: checking control 'Hue' (0x00980903)
->         test VIDIOC_G/S_CTRL: OK
->                 info: checking extended control 'User Controls' (0x009800=
-01)
->                 info: checking extended control 'Brightness' (0x00980900)
->                 info: checking extended control 'Contrast' (0x00980901)
->                 info: checking extended control 'Saturation' (0x00980902)
->                 info: checking extended control 'Hue' (0x00980903)
->         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->                 info: checking control event 'User Controls' (0x00980001)
->                 info: checking control event 'Brightness' (0x00980900)
->                 info: checking control event 'Contrast' (0x00980901)
->                 info: checking control event 'Saturation' (0x00980902)
->                 info: checking control event 'Hue' (0x00980903)
->                 warn: v4l2-test-controls.cpp(1159): V4L2_CID_DV_RX_POWER_=
-PRESENT not found for input 0
->         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->         Standard Controls: 5 Private Controls: 0
->
-> Format ioctls (Input 0):
->                 info: found 1 formats for buftype 1
->         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->                 warn: v4l2-test-formats.cpp(1485): S_PARM is supported fo=
-r buftype 1, but not for ENUM_FRAMEINTERVALS
->         test VIDIOC_G/S_PARM: OK
->         test VIDIOC_G_FBUF: OK (Not Supported)
->         test VIDIOC_G_FMT: OK
->         test VIDIOC_TRY_FMT: OK
->         test VIDIOC_S_FMT: OK
->         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->         test Cropping: OK (Not Supported)
->         test Composing: OK (Not Supported)
->         test Scaling: OK
->
-> Codec ioctls (Input 0):
->         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->
-> Buffer ioctls (Input 0):
->                 info: test buftype Video Capture
->         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->         test CREATE_BUFS maximum buffers: OK
->         test VIDIOC_REMOVE_BUFS: OK
->         test VIDIOC_EXPBUF: OK
->         test Requests: OK (Not Supported)
->         test blocking wait: OK
->
-> Test input 0:
->
-> Stream using all formats:
->         test MMAP for Format YUYV, Frame Size 640x480:
->                 Stride 1280, Field None: OK
->                 Stride 1344, Field None: OK
->         test MMAP for Format YUYV, Frame Size 1920x1080:
->                 Stride 3840, Field None: OK
-> Total for HwsCapture device /dev/video1: 51, Succeeded: 51, Failed: 0, Wa=
-rnings: 2
->
->
-> Thanks for taking a look!
->
-> Ben
->
-> Ben Hoff (2):
->   media: pci: add AVMatrix HWS capture driver
->   MAINTAINERS: add entry for AVMatrix HWS driver
->
->  MAINTAINERS                            |    6 +
->  drivers/media/pci/Kconfig              |    1 +
->  drivers/media/pci/Makefile             |    1 +
->  drivers/media/pci/hws/Kconfig          |   12 +
->  drivers/media/pci/hws/Makefile         |    4 +
->  drivers/media/pci/hws/hws.h            |  175 +++
->  drivers/media/pci/hws/hws_irq.c        |  268 ++++
->  drivers/media/pci/hws/hws_irq.h        |   10 +
->  drivers/media/pci/hws/hws_pci.c        |  722 +++++++++++
->  drivers/media/pci/hws/hws_reg.h        |  144 +++
->  drivers/media/pci/hws/hws_v4l2_ioctl.c |  755 ++++++++++++
->  drivers/media/pci/hws/hws_v4l2_ioctl.h |   38 +
->  drivers/media/pci/hws/hws_video.c      | 1542 ++++++++++++++++++++++++
->  drivers/media/pci/hws/hws_video.h      |   29 +
->  14 files changed, 3707 insertions(+)
->  create mode 100644 drivers/media/pci/hws/Kconfig
->  create mode 100644 drivers/media/pci/hws/Makefile
->  create mode 100644 drivers/media/pci/hws/hws.h
->  create mode 100644 drivers/media/pci/hws/hws_irq.c
->  create mode 100644 drivers/media/pci/hws/hws_irq.h
->  create mode 100644 drivers/media/pci/hws/hws_pci.c
->  create mode 100644 drivers/media/pci/hws/hws_reg.h
->  create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.c
->  create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.h
->  create mode 100644 drivers/media/pci/hws/hws_video.c
->  create mode 100644 drivers/media/pci/hws/hws_video.h
->
-> --
-> 2.51.0
+dvb_demux: dvb_demux_feed_del: feed not in list (type=0 state=0 pid=ffff)
+=====================================================
+BUG: KMSAN: uninit-value in dvbdmx_release_ts_feed+0x198/0x290 drivers/media/dvb-core/dvb_demux.c:858
+ dvbdmx_release_ts_feed+0x198/0x290 drivers/media/dvb-core/dvb_demux.c:858
+ dvb_dmxdev_start_feed drivers/media/dvb-core/dmxdev.c:-1 [inline]
+ dvb_dmxdev_filter_start+0x1187/0x1af0 drivers/media/dvb-core/dmxdev.c:766
+ dvb_dmxdev_pes_filter_set+0x810/0x860 drivers/media/dvb-core/dmxdev.c:963
+ dvb_demux_do_ioctl+0x9a3/0xc80 drivers/media/dvb-core/dmxdev.c:1077
+ dvb_usercopy+0x263/0x500 drivers/media/dvb-core/dvbdev.c:999
+ dvb_demux_ioctl+0x46/0x70 drivers/media/dvb-core/dmxdev.c:1186
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0x23c/0x400 fs/ioctl.c:583
+ __x64_sys_ioctl+0x97/0xe0 fs/ioctl.c:583
+ x64_sys_call+0x18a7/0x3e70 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xc9/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Uninit was created at:
+ __alloc_frozen_pages_noprof+0x6df/0xf50 mm/page_alloc.c:5263
+ alloc_pages_mpol+0x328/0x860 mm/mempolicy.c:2486
+ alloc_frozen_pages_noprof mm/mempolicy.c:2557 [inline]
+ alloc_pages_noprof+0x101/0x280 mm/mempolicy.c:2577
+ vm_area_alloc_pages mm/vmalloc.c:3649 [inline]
+ __vmalloc_area_node mm/vmalloc.c:3863 [inline]
+ __vmalloc_node_range_noprof+0xa97/0x2d80 mm/vmalloc.c:4051
+ __vmalloc_node_noprof mm/vmalloc.c:4111 [inline]
+ __vmalloc_noprof+0x128/0x1f0 mm/vmalloc.c:4127
+ __vmalloc_array_noprof mm/util.c:633 [inline]
+ vmalloc_array_noprof+0x48/0x80 mm/util.c:644
+ dvb_dmx_init+0x121/0x930 drivers/media/dvb-core/dvb_demux.c:1253
+ vidtv_bridge_dmx_init drivers/media/test-drivers/vidtv/vidtv_bridge.c:334 [inline]
+ vidtv_bridge_dvb_init drivers/media/test-drivers/vidtv/vidtv_bridge.c:441 [inline]
+ vidtv_bridge_probe+0x1b1f/0x2690 drivers/media/test-drivers/vidtv/vidtv_bridge.c:508
+ platform_probe+0x213/0x370 drivers/base/platform.c:1446
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x4d5/0xe40 drivers/base/dd.c:661
+ __driver_probe_device+0x25e/0x370 drivers/base/dd.c:803
+ driver_probe_device+0x70/0x8f0 drivers/base/dd.c:833
+ __driver_attach+0x53e/0xaa0 drivers/base/dd.c:1227
+ bus_for_each_dev+0x33b/0x580 drivers/base/bus.c:383
+ driver_attach+0x51/0x70 drivers/base/dd.c:1245
+ bus_add_driver+0x54f/0xdb0 drivers/base/bus.c:715
+ driver_register+0x42e/0x6a0 drivers/base/driver.c:249
+ __platform_driver_register+0x65/0x80 drivers/base/platform.c:908
+ vidtv_bridge_init+0x73/0x100 drivers/media/test-drivers/vidtv/vidtv_bridge.c:598
+ do_one_initcall+0x22b/0xad0 init/main.c:1378
+ do_initcall_level+0x157/0x2e0 init/main.c:1440
+ do_initcalls+0x176/0x310 init/main.c:1456
+ do_basic_setup+0x1d/0x30 init/main.c:1475
+ kernel_init_freeable+0x213/0x430 init/main.c:1688
+ kernel_init+0x2f/0x5e0 init/main.c:1578
+ ret_from_fork+0x207/0x6f0 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:246
+
+CPU: 0 UID: 0 PID: 6181 Comm: syz.1.40 Not tainted syzkaller #0 PREEMPT(voluntary) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/24/2026
+=====================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
