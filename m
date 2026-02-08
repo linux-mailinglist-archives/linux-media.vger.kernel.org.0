@@ -1,203 +1,183 @@
-Return-Path: <linux-media+bounces-52350-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52351-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aBk/CLluiGnOpQQAu9opvQ
-	(envelope-from <linux-media+bounces-52350-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 08 Feb 2026 12:08:41 +0100
+	id 0BmREdx/iGmKqAQAu9opvQ
+	(envelope-from <linux-media+bounces-52351-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 08 Feb 2026 13:21:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781611087D6
-	for <lists+linux-media@lfdr.de>; Sun, 08 Feb 2026 12:08:40 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A82091089A5
+	for <lists+linux-media@lfdr.de>; Sun, 08 Feb 2026 13:21:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A6A843010510
-	for <lists+linux-media@lfdr.de>; Sun,  8 Feb 2026 11:08:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 085D3300D907
+	for <lists+linux-media@lfdr.de>; Sun,  8 Feb 2026 12:21:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57836346AD1;
-	Sun,  8 Feb 2026 11:08:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AD183570A0;
+	Sun,  8 Feb 2026 12:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ae+M7HhE"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="kbRwQIxh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vG8S5pNS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB17533B6F1
-	for <linux-media@vger.kernel.org>; Sun,  8 Feb 2026 11:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770548881; cv=pass; b=T2pPHkVE0+xIISwo44+52Y8OmwMRvSQPMsyhR6a8CTRvJR99bKkrN2+spQsDLN5icoYEW8elaDEs6SUhWDIE6Wis7obgKiLH32HAP2vAoSlzoXznaL1lqdao8zv6SAnKTvP9dNm3SCmKIbX9zfcNoTAuZyGph39jQ1OzcOV6Tj8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770548881; c=relaxed/simple;
-	bh=lmwlNcWPm29I5DEhvX9N9D/3fB16arRSpqA+boO3ZJ4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YZwNZPmyxMecqtzGN8cKxm+tLgQTnU8nw0aadAa/zbb60AAC617mWTDnhejt+ekqJNrdWPT4S0zVcgEda1KDir/qs5mWbaQwa0Q+k3VbsHropjrF+fLUjjs/8G/tt2cTUExwa9vWQWewf8PepqVjL5cMzDqqJcmOgBQjxxdQFog=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ae+M7HhE; arc=pass smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1248d27f293so13101c88.0
-        for <linux-media@vger.kernel.org>; Sun, 08 Feb 2026 03:08:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770548881; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WPhGxO4yvVRaVPh4UaP693EkrMpsemtinkQlVWmxC5wXM25WttznPTfaK0UAynHzR/
-         L/sBk3iadIQIqzTwUJbsy/UbJmpmcfDh3mWQwjCyCsrtgI4mIXH72j3Y03DriuN0obLQ
-         3P2coF+Lm5WmuWmFXc/Z7qWOZP7IxeLEpYTFbvezgKEJI/ktgt5SpOTxNf1dg5LaID9+
-         FP+ehGGGhyp53MXP+ykrU+w+t7m6gyRLzSWUZunnItsovlVi2dtTkvtwW/E32H9YpbJS
-         w9lxNYErKvmueWbzUW1UKvRs2/kojdgH+FuDu3PDAOsgJfq98ApKnOTl4IlfK5nI00cN
-         luZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Dz7Z9atgtbMAxxfncgHw+s00Hc63IUjYKuoDgmXQbTE=;
-        fh=rXJ2wkkrse9i2IqGkXQHZyaNRl6RmZqF3o9p2Ouibvo=;
-        b=K4FhPK7iTLFvuKaRxsKXB02E1vVVIJKLhQolDyzL7P77ecv2ZawrXn99Ie0FD4FF17
-         aIP0URAi1S7mirT+r8xagU47p7NbPZSGv3kJBKZM4Cd6j2RJ0ghLI+LZGyrIv1PLSt6h
-         UsPZ6Nc8wwrJgL33HCUdwNE2twktfnH6HvNB7jqnJW04AZxDuYh0csjsCrnSrveB7gs5
-         KBdWY+XOsFO/M5A9ViIL7Sp7EglexTgtzmekhwmFoZmYSOLCiilAUG44Gn1Nqw8IXyS+
-         3+TVfaV5osVHeiKI1PGIPplpQB7JmnkfYQP6ymcBzO+ohGztiMFHWDOG/ZfBJdwy4PB6
-         wfNQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770548881; x=1771153681; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dz7Z9atgtbMAxxfncgHw+s00Hc63IUjYKuoDgmXQbTE=;
-        b=ae+M7HhEe2zQ8NYMntrBLB6JnIKgWV0y7zk6ocvvfst/I1QUVh3domrDC1zq6RwIQk
-         SCjNWykXPGULxYmbRjAqBGqFXqMhNqjZwJ12lsxXeEaId/qNtnBYFNVV/dIUXx9kO+uu
-         Cc5BXqaB01uJDUIbhRTXvKkPTG/cggsd394ZiHM2SlF/WxUb6NUwjz7+jTwI1NisXnj2
-         YjxIH+w6TC/dRpVw98OU28kPieo4qDJG6ZMD0I0XDo2tciywCgrCkjKGgu1e3crG2AmC
-         hJj/akzXA4HlsMQlviN76wtlEsxiMytnuD7Cs6pSPJjUr9Pl86VW4PXaL7OrrvbpkcnE
-         zN0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770548881; x=1771153681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Dz7Z9atgtbMAxxfncgHw+s00Hc63IUjYKuoDgmXQbTE=;
-        b=ovACrtKSdZSZFiPJOJlTB9fgaiKO+2dUMIzayiX7MT0ITTbTnaDyvCJDWdiuv//2nQ
-         T/3I5l92T1KumpIXqPk9V9wdnKkRwuZFnBaws6uk0FbkwPzN6jh2N0elOh9DoYNIE7Tw
-         acbf1x4aj9EKG5eiu5xF1fIsnaChoKpmxvwmZchjRSv9C8xI+5KNjJXHvCNCbsb3v1Wi
-         4sbGAdHGlZ/3sHoCOJoRFMXKRQ6RHasXuzJKxvDGT27mv1iCHWdJ2Q6Qv8hmwcyMfYK3
-         JXBS0O83aRsmU7Un0J0aH/j2L+UEgjdG34YAW3uPchLWAaBsL1eJ0B81PULiFVIuwPFZ
-         TTFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZbwBWKUmO8+Ovl1JRQACqGJ8z52cJ4Lv8Q9gi39NYnOBmopSdkdSQ1A2TIWqgMGvEIgfVKn1/Amy1CA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyglurnPGMqp3p/6+SgjTMaK1ipwKu6O2sw7TI/vyzC494Yv9Aq
-	/A3KY5L6y4m6Lqchx4DBI+suMK06ZAvjyM/6V19J2ZhjmFwoDSiQHLzpD6h1j71qC2tcbvzZPLD
-	9KXPkVH7XQwBLnzMtF21neW5QKQEdBvE=
-X-Gm-Gg: AZuq6aLqaO1RRKKDujQmQq0pAIxzdPXsKU/3T89TIC/Otz5e1tinXeLcRIFNHb4bxqw
-	00F5RqAu/gb/VVdYtzgQ3nEClox0IcCw2aCZnQxw2B/ZdTYK8nYrIZZ1TH/oMM+MAYbLI0h5ilr
-	WRtA/Cf7oo07fXvu82cuV0/1EZxdc/ysnfnKuN94Aqs1ee3rQyFTb8T2Q2SwTymeOorjJYyZ6L6
-	e4oukHSXfZq99WUnHOl4tarUoa+3EcsWg1tl25GBfP2VDlKfleHY4TY536wCXJmKROIYcstChWF
-	QXNVyE+BW+NA0C3LQSBfOzX9bq2xnBWvv9n8F+9+NAETEcSyZZz0O3c=
-X-Received: by 2002:a05:7022:fe04:b0:11d:f44c:afbc with SMTP id
- a92af1059eb24-12704074490mr4614462c88.37.1770548880672; Sun, 08 Feb 2026
- 03:08:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6B8350A2C
+	for <linux-media@vger.kernel.org>; Sun,  8 Feb 2026 12:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770553293; cv=none; b=uQSWel/MTeV8ALa3E/siah/gRvFqWLzFGUDbI7PhNqNo/Cn8+relfjH1aAkYbXBMTq+AAOTUR6wTKBNn7nKHYQmdYWKRrBpQ8GvDWzetK6VEofkQzI5sE25QPXCVjZ9g8H1qnd+PPyMykfojI+XMGFJuEsYkHFYTun8afal6ymE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770553293; c=relaxed/simple;
+	bh=36+gHvjSka+cJYRAjmD2RxE804Oin3GdPEIsuWalDCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f1D7VrJ0zA0qxjrxCZ8bWHn35mbhBrq8NGluuYgXaYspvqfyUpr6bzYuRzi89Z2TaPNw6vzqVB3DQCwaHrF9UhrP/gtEvrdfj9//29zJZuU7qDlN0U2yBQaToqTbEaJ3Klg0qxmxaMt58Y3vxv/Ufi1R7wFNWjRZBIUCbHojXv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=kbRwQIxh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vG8S5pNS; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id EF6C71D000B2;
+	Sun,  8 Feb 2026 07:21:31 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Sun, 08 Feb 2026 07:21:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1770553291; x=1770639691; bh=/J
+	Yz/mbu/n1/5mCkKBC9NERe0cBwHnaXXuiMd5iWUy8=; b=kbRwQIxhD4Xo3lsYdZ
+	Gw63Z440wqpD0uYMit81IxFGqwAJJoOT0/pZjeqbsgkGEyAoQ3FkyVV/4hFSqIyC
+	771pHoWHST9HRCnofoTTREqmaJo7B8Mpy4aO/PFt92NLGsutze8EJqLb++WnlP1T
+	HQqfgOLiPj6d6y01rAuzkTN7hV4q9kDb/umBBd+uI758DxsfhAjtdHpg4ub3/mYG
+	LFEALBoeuza2gom9/UyL+m5zquIWdug2G/PzceL7BP0iSwG1zS7WvUX3K0f+knuP
+	XlDsFYUmmY0FJ4e/o7mZLguIVJeEAyk/1uVLbCdf/mKldwOlzw0yLWuiIvQpbibe
+	PWmg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1770553291; x=1770639691; bh=/JYz/mbu/n1/5mCkKBC9NERe0cBw
+	HnaXXuiMd5iWUy8=; b=vG8S5pNSvgAp2/xKmbGCVh8miFw1n0ss33pv13lb20Nr
+	ZbSPI5AWaom0pq/3cQdN3rKjS7UtMY0yzpZROFoo9BJxUKjbsTRFF0/0VsXjLriT
+	z/Fp5Tivh0ofFMki+DbiU8wQTdueMF5+fdblRR4FbjnTRCZ/rRESDvLBfqu2n+vk
+	tIPDsOa8W5KUhf+ldnds0ZNnNGCTQoykfyMMB8tjbORP6qL5Yg30vqLVC8Clt9SG
+	tGGpysvusaqvBMLozR7+E4x7hvlDPeLuxWJFF2vByhsPYf6G6TZzdzYXQlmmLqU+
+	cTH2O7+NBvrkHaM05mCoF/Okrc4GR7suHkGkVqe0hg==
+X-ME-Sender: <xms:yn-IaW4s6UKk2Y6WKAASEOiIa-MU6zr1Rk2FfyuM4e-6UBPzj_LxEw>
+    <xme:yn-IadvMui1Ivyy25WB1oQas6WxgZUMcPtVaaAd0nbblmqg7OHJdirabKkt5sOpFC
+    qe2ObLjMWYyhiIcMSv9WqENoEfqdvAruS4ghvkkArSkdpSqRmIf6io>
+X-ME-Received: <xmr:yn-Iaf4wu71F0eU_je4rNc_rxvPk09sD1q-rvSV0_9_Tak8l_mRCrgrH1xv1IhlAeL-9OkiZjOnmCUcuc7XIzELm>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduleefleduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefgffef
+    udefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
+    ugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrsh
+    honhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghr
+    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnug
+    dorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:yn-IaQVedrP0UIBw9FKGNaiG2YQ374_sRIrU8sqPCNQlONORp8Ky8Q>
+    <xmx:yn-IaZ-ZZUxURNslmOe7GZmyCm1DMJISYdHMgNIqnaCVsYxCPDrdXg>
+    <xmx:yn-IaUkpCGsRWNDywD-ZZBzWMtIuHjGM9vOKF93phAGKQgd4eMqxZQ>
+    <xmx:yn-IafW87-eOQFMXVJJcjF9DcSAhjhXsJct-H-OGRLMawGL1Bbeq7A>
+    <xmx:y3-IaS4Ne7Cd-j_30tfmYvW-Ca-CW10Blg6R_YfK4i2rBEOJCyVasTSF>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 8 Feb 2026 07:21:30 -0500 (EST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [raw2rgbpnm,PATCH] Add warning for non-pixel perfect bayer layout conversions
+Date: Sun,  8 Feb 2026 13:20:45 +0100
+Message-ID: <20260208122045.3175375-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260207094841.603932-1-alperyasinak1@gmail.com> <20260207212723.GN1376807@killaraus.ideasonboard.com>
-In-Reply-To: <20260207212723.GN1376807@killaraus.ideasonboard.com>
-From: Alper Ak <alperyasinak1@gmail.com>
-Date: Sun, 8 Feb 2026 14:07:48 +0300
-X-Gm-Features: AZwV_Qg14ydfDBfHuyQnZ3_EeILMKaWCqMxsGd7QXlghDc9HC55U-Jw-7RWhIlg
-Message-ID: <CAGpma=7O5Uy1U-ePSixiyoWJremYk=x_L=oR19_VptgNAjen=A@mail.gmail.com>
-Subject: Re: [PATCH] media: rzg2l-cru: Fix possible ERR_PTR deference
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52350-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	TAGGED_FROM(0.00)[bounces-52351-lists,linux-media=lfdr.de,renesas];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alperyasinak1@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 781611087D6
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-0.972];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,messagingengine.com:dkim]
+X-Rspamd-Queue-Id: A82091089A5
 X-Rspamd-Action: no action
 
-> Have you seen this happening ?
+While adding support to convert all bayer layout conversion to GRBG
+before passing the raw data along to the rgb converter, which only
+supports GRBG raw data, corrects the output image colors. The conversion
+is not a pixel-perfect conversion of the input image as the input pixels
+are swapped in groups of two bore being converted.
 
-No, I haven't seen this happen in practice. This was reported by
-static analysis tool. Since the function explicitly documents these
-error cases, it seemed appropriate to add defensive error checking to
-avoid potential ERR_PTR dereference.
+Add a warning to highlight this to users.
 
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ raw2rgbpnm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 8 =C5=9Eub 2026 Paz,
-00:27 tarihinde =C5=9Funu yazd=C4=B1:
->
-> On Sat, Feb 07, 2026 at 12:48:39PM +0300, Alper Ak wrote:
-> > The media_pad_remote_pad_unique() can return ERR_PTR() on failure
-> > (-ENOTUNIQ or -ENOLINK), but the code was dereferencing the return
-> > value without checking for errors. Add IS_ERR() check before
-> > dereferencing the pointer.
->
-> Have you seen this happening ?
->
-> > Fixes: d7d72dae81d5 ("media: rzg2l-cru: Retrieve virtual channel inform=
-ation")
-> > Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
-> > ---
-> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
-rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > index 162e2ace6931..a34c2188df1a 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > @@ -411,6 +411,12 @@ static int rzg2l_cru_get_virtual_channel(struct rz=
-g2l_cru_dev *cru)
-> >       int ret;
-> >
-> >       remote_pad =3D media_pad_remote_pad_unique(&cru->ip.pads[RZG2L_CR=
-U_IP_SINK]);
-> > +     if (IS_ERR(remote_pad)) {
-> > +             ret =3D PTR_ERR(remote_pad);
-> > +             dev_err(cru->dev, "Failed to get remote source pad: %d\n"=
-, ret);
-> > +             return ret;
-> > +     }
-> > +
-> >       ret =3D v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc, rem=
-ote_pad->index, &fd);
-> >       if (ret < 0 && ret !=3D -ENOIOCTLCMD) {
-> >               dev_err(cru->dev, "get_frame_desc failed on IP remote sub=
-dev\n");
->
-> --
-> Regards,
->
-> Laurent Pinchart
+diff --git a/raw2rgbpnm.c b/raw2rgbpnm.c
+index b834add4ea6c..59fc4123ebbf 100644
+--- a/raw2rgbpnm.c
++++ b/raw2rgbpnm.c
+@@ -201,6 +201,7 @@ static int raw_layout_to_grbg(const struct format_info *info, unsigned char *src
+ 	case V4L2_PIX_FMT_SBGGR8:
+ 		swap_line = 1; /* BGGR -> GBRG */
+ 		swap_gbrg = 1; /* GBRG -> GRBG */
++		printf("WARNING: bayer layout conversion from BGGR to GRBG is not pixel perfect\n");
+ 		break;
+ 	case V4L2_PIX_FMT_SGBRG16:
+ 	case V4L2_PIX_FMT_SGBRG14:
+@@ -208,6 +209,7 @@ static int raw_layout_to_grbg(const struct format_info *info, unsigned char *src
+ 	case V4L2_PIX_FMT_SGBRG10:
+ 	case V4L2_PIX_FMT_SGBRG8:
+ 		swap_gbrg = 1; /* GBRG -> GRBG */
++		printf("WARNING: bayer layout conversion from GBRG to GRBG is not pixel perfect\n");
+ 		break;
+ 	case V4L2_PIX_FMT_SRGGB16:
+ 	case V4L2_PIX_FMT_SRGGB14:
+@@ -215,6 +217,7 @@ static int raw_layout_to_grbg(const struct format_info *info, unsigned char *src
+ 	case V4L2_PIX_FMT_SRGGB10:
+ 	case V4L2_PIX_FMT_SRGGB8:
+ 		swap_line = 1; /* RGGB -> GRBG */
++		printf("WARNING: bayer layout conversion from RGGB to GRBG is not pixel perfect\n");
+ 		break;
+ 	case V4L2_PIX_FMT_SGRBG16:
+ 	case V4L2_PIX_FMT_SGRBG14:
+-- 
+2.52.0
+
 
