@@ -1,144 +1,171 @@
-Return-Path: <linux-media+bounces-52443-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52444-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPbhD5AgimnLHQAAu9opvQ
-	(envelope-from <linux-media+bounces-52443-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 18:59:44 +0100
+	id KN5eOxEiimnLHQAAu9opvQ
+	(envelope-from <linux-media+bounces-52444-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 19:06:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F28113551
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 18:59:43 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65ACD113619
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 19:06:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 50F4630069AC
-	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 17:59:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 49C12302C35E
+	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 18:05:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 558F338A713;
-	Mon,  9 Feb 2026 17:59:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AD67385ED8;
+	Mon,  9 Feb 2026 18:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b="YUW9PIfB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from postmaster.electro-mail.ru (postmaster.electro-mail.ru [109.236.68.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from s.wfbtzhsv.outbound-mail.sendgrid.net (s.wfbtzhsv.outbound-mail.sendgrid.net [159.183.224.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A528388855;
-	Mon,  9 Feb 2026 17:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.236.68.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C924B38734A
+	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 18:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.183.224.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770659971; cv=none; b=AwEgQ18uP58eVBCQnrFt7EWS0OUJSb9RZL3iZ0PqxogpnIIsyt6f8LKXlZ5EfhvvZzpMuz+TA971jUnGNUuBzQhOhe1kwM19bIvaIM9om679F/NuUcdzfKTELi0XxQi1hwDBGCwyfTpIYKS4XYVUpBKGCkDqeiDoxNYMNhpdCSU=
+	t=1770660328; cv=none; b=jfvgd7euaZdSf1tMxf2MsVScr9RX5My6nX3UE+35yUZ3qxSPKSL4blpbjWBKTtNSNl1kIYi3JUAezf4J2G5UlZG1kfY8bRdwgzjZ2qoI4IoqyDV7xe4GjwZ+f75wKMWkMEzuwBSm//gaqrzdY0lNnJ30aHerUAhcxM9eKh25IWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770659971; c=relaxed/simple;
-	bh=gtSwUzTS9A6okpGzABiWD7+Pn0WQ9EtXzPI723z72jw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GOlDCX3xPkwErqgGSocON558Ak4JVjcFcRrzQYvAzYMI7Gx86x3n68ql7+ORxXbP+BW/NraIMPKPlnXdL13/9HFXW83wOtcTK29J9dOnTkUtuhv8VKDJk2SIqe4U3r9ROPnEW1o1OjvmMprLgMdVZtT1U8vNTdoZTiar9QLx9fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tpz.ru; spf=pass smtp.mailfrom=tpz.ru; arc=none smtp.client-ip=109.236.68.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tpz.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tpz.ru
-Received: from localhost (localhost [127.0.0.1])
-	by postmaster.electro-mail.ru (Postfix) with ESMTP id 83291EEEB77;
-	Mon,  9 Feb 2026 20:50:29 +0300 (MSK)
-Received: from postmaster.electro-mail.ru ([127.0.0.1])
-	by localhost (postmaster.electro-mail.ru [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id q4FJGBBlwqk2; Mon,  9 Feb 2026 20:50:27 +0300 (MSK)
-Received: from postmaster.electro-mail.ru (localhost [127.0.0.1])
-	by postmaster.electro-mail.ru (Postfix) with ESMTPS id 0E1C5101601B;
-	Mon,  9 Feb 2026 20:50:27 +0300 (MSK)
-Received: from email.electro-mail.ru (unknown [10.10.0.10])
-	by postmaster.electro-mail.ru (Postfix) with ESMTPS id F12B6EEEB77;
-	Mon,  9 Feb 2026 20:50:26 +0300 (MSK)
-Received: from lvc.d-systems.local (109.236.68.122) by email.electro-mail.ru
- (10.120.0.4) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 9 Feb 2026
- 20:50:22 +0300
-From: Ilya Krutskih <devsec@tpz.ru>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Ilya Krutskih <devsec@tpz.ru>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
-	<lvc-project@linuxtesting.org>
-Subject: [PATCH v3] media: dvb: mb86a16: fix array overflow in mb86a16_set_fe()
-Date: Mon, 9 Feb 2026 17:50:10 +0000
-Message-ID: <20260209175012.1772804-1-devsec@tpz.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1770660328; c=relaxed/simple;
+	bh=c5lcch9eBeH/WsqUplq73u5Wv26qlczvun+Ec4QEojo=;
+	h=Date:From:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:To:Cc; b=iDMd0GqRkXD1QLbm7xpw9vhUPv/I7i/zEN/z3NE56Rb26ZClHJhiSqDgAXx7X0vNsTBsb4eOqC72/qS3+KFA9qjOJt/j81nmCbQWjvZByka9/2JQa5UJhM+IXn7LNT1hlxDAIq/IWMpcrerzjZcK0zTIOJfMCYD58ZiNjTPeeHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net; spf=pass smtp.mailfrom=em431.mattwardle.net; dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b=YUW9PIfB; arc=none smtp.client-ip=159.183.224.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em431.mattwardle.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mattwardle.net;
+	h=date:from:subject:references:mime-version:content-type:in-reply-to:to:
+	cc:content-transfer-encoding:cc:content-type:date:from:subject:to;
+	s=s1; bh=lgS/OZ4YUXSutx3plb6B0KGIzVEkg1mCoOcPVfl0B78=;
+	b=YUW9PIfBehj62/tthyP3+6dfLOFq+dTK07OyxGkq/4tfaf6cAt1sESQ/867Jk+n3aVu+
+	joR3/3C1r0RPZIj3XmzedF1JL85D+XdwdfhLjBnh8bNLaW6td0z/mSJVJ+upSKaaITqV1M
+	FYsC3QongT9q6Wce1c/KhqFxFEjSCJDQNUR1uw8GZBLPUvXagPXh58I8U2vtiulme1r4hn
+	FurkJgls64gZh33khxiNpJR+Tr1rePInXRCFmYkBePk/2vKypETleWAWtsLgKmvqzLkSxb
+	NyfG0KLE3b1HFCtPdRVCXhix2/7BkKKU6/QHpzcXoMhDii9MWLAzucbFieg1lFRg==
+Received: by recvd-5fb7fdbd94-dvqlf with SMTP id recvd-5fb7fdbd94-dvqlf-1-698A21E5-7C
+	2026-02-09 18:05:25.659793006 +0000 UTC m=+564.030125513
+Received: from mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (unknown)
+	by geopod-ismtpd-3 (SG) with ESMTP
+	id ts6tOhX2S_CAgd8WHWMOxA
+	Mon, 09 Feb 2026 18:05:25.144 +0000 (UTC)
+Authentication-Results: mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net; dmarc=fail (p=reject dis=none) header.from=mattwardle.net
+Received: from thinkpad (unknown [161.142.117.49])
+	by mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (Postfix) with ESMTPSA id 524D841178;
+	Mon,  9 Feb 2026 18:05:24 +0000 (UTC)
+Date: Mon, 09 Feb 2026 18:05:25 +0000 (UTC)
+From: Matt Wardle <matt@mattwardle.net>
+Subject: Re: [PATCH 1/3] staging: media: atomisp: Fix braces on incorrect
+ lines
+Message-ID: <aYoh4RKXOoezheVj@thinkpad>
+References: <20260209142820.650334-1-matt@mattwardle.net>
+ <20260209142820.650334-2-matt@mattwardle.net>
+ <aYoATsI9KB8bgwjz@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-KSE-ServerInfo: srv-mail-01.tpz.local, 9
-X-KSE-AntiSpam-Interceptor-Info: trusted connection
-X-KSE-Antiphishing-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 09.10.2024 20:59:00
-X-KSE-Attachment-Filter-Scan-Result: Clean
-X-KSE-Attachment-Filter-Scan-Result: skipped
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aYoATsI9KB8bgwjz@smile.fi.intel.com>
+X-SG-EID: 
+ =?us-ascii?Q?u001=2EFlbIg1=2FBrpD1HWcEBlj1tgh=2F0VDwewqbkmeZ1SFD9tLmzlDepFYnLmfnO?=
+ =?us-ascii?Q?moWHy7n5HdVZTdyWWeMojZeck4braeM+CVUrqV9?=
+ =?us-ascii?Q?X7l8FP0lHVc6s0RrRscQNVCifXaX3Vd3+QloNIE?=
+ =?us-ascii?Q?9sDjccy+Oj3cKGPmamFj4ClSSmnZGWaDu75=2Fcc3?=
+ =?us-ascii?Q?glkNK1C57unuihioZO1HPceVNiEjhlVV4ayVFt2?=
+ =?us-ascii?Q?5RTdiachH2wPCLNmBPlkHRZ7ktXpNh1EBswuIvk?= =?us-ascii?Q?LBSv?=
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Entity-ID: u001.OAl4HwJfzvoR6h5DRlrySA==
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mattwardle.net,reject];
+	R_DKIM_ALLOW(-0.20)[mattwardle.net:s=s1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DMARC_NA(0.00)[tpz.ru];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52443-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devsec@tpz.ru,linux-media@vger.kernel.org];
-	R_DKIM_NA(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[8];
+	TAGGED_FROM(0.00)[bounces-52444-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mattwardle.net:+];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matt@mattwardle.net,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 54F28113551
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mattwardle.net:dkim]
+X-Rspamd-Queue-Id: 65ACD113619
 X-Rspamd-Action: no action
 
-The size of prev_swp_freq[] is a fixed constant unrelated to
-the number of possible detection attempts. Index 'prev_freq_num'
-of array 'prev_swp_freq' is incremented by each step in cycle.
-If index exceeds the total length of array, an out-of-bounds
-access might happen, in case of repeated unsuccessful signal
-acquisition. Add check to prevent this.
+On Mon, Feb 09, 2026 at 05:42:06PM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 09, 2026 at 02:29:07PM +0000, Matt Wardle wrote:
+> > Fix checkpatch.pl errors:
+> > 
+> > ERROR: open brace '{' following function definitions go on the next line
+> > ERROR: that open brace { should be on the previous line
+> 
+> Nice! My comments below.
+> 
+> ...
+> 
+> > store_dvs_6axis_config(
+> 
+> >      const struct ia_css_dvs_6axis_config *dvs_6axis_config,
+> >      const struct ia_css_binary *binary,
+> >      const struct ia_css_frame_info *dvs_in_frame_info,
+> > -    ia_css_ptr ddr_addr_y) {
+> > +    ia_css_ptr ddr_addr_y)
+> > +{
+> 
+> This makes no sense to touch before the parameters are indented correctly.
+> I dunno if open parenthesis is fine at the end of the line, but I would do it
+> differently, as
+> 
+> store_dvs_6axis_config(const struct ia_css_dvs_6axis_config *dvs_6axis_config,
+> 		       const struct ia_css_binary *binary,
+> 		       ...)
+> {
+> 
+> ...
+> 
+> The bottom line is, you need to check manually these and make prerequisite
+> patch to first fix the indentation.
+> 
+> ...
+> 
+> >  int
+> >  ia_css_get_dvs2_statistics(
+> >      struct ia_css_dvs2_statistics          *host_stats,
+> > -    const struct ia_css_isp_dvs_statistics *isp_stats) {
+> > +    const struct ia_css_isp_dvs_statistics *isp_stats)
+> > +{
+> 
+> Ditto.
+> 
+> And when you go with indentation it makes sense to combine (it's fine in this
+> case) those changes with the splitting { to the next line.
 
-Cc: stable@vger.kernel.org
-Fixes: 41e840b13e11 ("V4L/DVB (13699): [Mantis, MB86A16] Initial checkin:=
- Mantis, MB86A16")
-Signed-off-by: Ilya Krutskih <devsec@tpz.ru>
----
-v2: Add check for array's length on each cycle step,
-edit patch description, edit tag 'fixes'.
-https://lore.kernel.org/all/20251211172251.852254-1-devsec@tpz.ru/
-v3: Edit condition to >=3D ARRAY_SIZE(). Move condition at cycle
-beginning to prevent border check error.
+Thanks, I'll fix the indentation first on the functions then resubmit
+without the last patch.
 
- drivers/media/dvb-frontends/mb86a16.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/media/dvb-frontends/mb86a16.c b/drivers/media/dvb-fr=
-ontends/mb86a16.c
-index 9033e39d75f4..5fabb6b884b5 100644
---- a/drivers/media/dvb-frontends/mb86a16.c
-+++ b/drivers/media/dvb-frontends/mb86a16.c
-@@ -1157,6 +1157,10 @@ static int mb86a16_set_fe(struct mb86a16_state *st=
-ate)
- 		v =3D 0;
-=20
- 		while (loop =3D=3D 1) {
-+			if (prev_freq_num >=3D ARRAY_SIZE(prev_swp_freq)) {
-+				dprintk(verbose, MB86A16_ERROR, 1, "Signal detection retry attempts =
-failed");
-+				return -1;
-+			}
- 			swp_info_get(state, fOSC_start, state->srate,
- 				     v, R, swp_ofs, &fOSC,
- 				     &afcex_freq, &AFCEX_L, &AFCEX_H);
---=20
-2.43.0
-
+This is happening in many files so it might be best I tackle the other
+occurences in a separate patch.
 
