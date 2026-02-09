@@ -1,235 +1,197 @@
-Return-Path: <linux-media+bounces-52463-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52464-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QJmkBJUsimkjIAAAu9opvQ
-	(envelope-from <linux-media+bounces-52463-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 19:51:01 +0100
+	id 0PFILLo+imktIwAAu9opvQ
+	(envelope-from <linux-media+bounces-52464-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 21:08:26 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AB9113D8D
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 19:51:00 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E579114561
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 21:08:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EC540302BB98
-	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 18:50:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B7BB13020E81
+	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 20:08:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5AF73B52FB;
-	Mon,  9 Feb 2026 18:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AE2329C5D;
+	Mon,  9 Feb 2026 20:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="t4/LgPMQ"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HvKYiNEB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B810A3AEF27
-	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 18:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770663005; cv=none; b=oLhQTK4cUxYBA/4JMxw76REjk63sHF+ONR2H4V496qNyXL3Sqmle2WtJcPbYztLQvWPzgwGF0g1b2eQC7ckNP0JDH2kOxQw5/OXfLSy3FORoVuxUonx5RhaWc6mPPhJhAr3qhWKhUQH0gyXJpHfjTV5kq+mRo9DgP/HYkjXzemU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770663005; c=relaxed/simple;
-	bh=undCIAWo6qWW+Z1HOg8qlP6+G1FkpCs7G0WeQTxNGE4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=s9ZzmfbXm5ZW/b4jwpKnliDwz8SEWTYrOwnp1IOoHHxG9IgFhUtI8PRmgEcrU+RYQoKswOhTIdKCY1Ap4GZz7dUhPsx3yu/l+1wSoJU9lAGd48ItdJp5fauR55mrbLN/Qkpwtj0np88IszJDiiQ1Dz+SCq/Af3j/TsoVD3C5Exc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=t4/LgPMQ; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7d19d3c7208so43047a34.0
-        for <linux-media@vger.kernel.org>; Mon, 09 Feb 2026 10:50:04 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC2E2C11DE
+	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 20:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770667697; cv=pass; b=nuGMh251/nKyylfQmRLX9MbqwnjiOUX7riMoePTe3GSMKjWe9RaI77w8U68PFOy0zG3bTI2WQvNL0xz5lG23gBju6V7Roo/fNp3tkDXgmcf0TJwzydubM+lxG2LawWFTnoj4Byo1n2hMmlf/Ig+9QmPlA9DgFKJnSB4bmgnN+u4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770667697; c=relaxed/simple;
+	bh=87ivso5DI1kS8+gT+30C4NuY1qiQblQsyNrdFsbbIQA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KvB9WvGBk8Z+j81++SYvAuRDihMCnnzWmeIodfZ86WgnXlptMyv/bVa7tItP2vLUk6epLIkFFYcqHZ38bhQnFThnwIWXwGudP+P01TRPJXgDdzM85C+OBJXXJh2stwPLAiUW+1GzSdBS/LWGicu5zSefTj42QqM1itqIocfwock=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HvKYiNEB; arc=pass smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b8849dc12f6so12235066b.1
+        for <linux-media@vger.kernel.org>; Mon, 09 Feb 2026 12:08:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770667696; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YNK/JcWIfN21bc5cGbgVFEl9jXRGm2RH73PbsvhhlTmoPALX/IImg6ZP4E/f+s6IkI
+         l6oQIT0C4Flws1gXmoQAE+TxxMcyVFsawX7vsvIp7OVzizKzz0MJqCPXbC8DH5+ImeFj
+         8bzIP1ju1hz5qt4eZumB2SJAse6EhFle6G9cgWb8ni/bnwTdmtMBObpG5w+5CjK5kkF7
+         Va6uLIbN6ElufT9Zv4uPVlf+9GS4PF8TVuWRXjTkvaYIXCc76HwW4ak7npJ9kAgxtGk3
+         URVj+pJPsETE2RxRebffxA9pp7Rx8vNbWqzH+VF9LWbVGns1o4XTxKhmbSHxeA1L4i5I
+         tl9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/ogWTbSZ6gUFcHF4DB6Cif+r0lW3KkX6R4Nx10iOT0E=;
+        fh=3d1LRo1/zgbSTraZP+HUvwT/tr27udCWvG5Q6iuQtK4=;
+        b=kuoUpk4RGIFY3iGrx1gROxQJw7xhenN1m3cLT6RbsgubS3+UVxWY71hcTArfJaGIta
+         chHmLvHLti12qeCSyK217wi7Qk2W8+XlTSKbKOdzwFtNu6whdtI66NNE8e6RLEeAZVsE
+         EEBq1wfkPGyThL4fsPMSZ1VFeTg1ccqMJP7FnJJKZ99gbYPwktQuXUOyHGXDFYNEWInB
+         AmzS4ctQX+8KZVY66tI4lvlMS3TpilXA5h4Pr8vd9w06BrmxPRQbCD0JHGQ4ftil7n7j
+         nFxtA2ScBLTXwG4MT9jSqTdaXCzb+5YDxZQ2Y262ZPMLDoqeJJuygV3iUOb5Bj5lOX3s
+         bgBg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1770663004; x=1771267804; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tYxV1ZZhF0FuP950hVsE38NKjm5LJ2udmADunvWNt+s=;
-        b=t4/LgPMQIOf+ZNB3uBDthKw6azftbW9Btm5KFt8VuvCRJlmSCyP7PJFnrf1XzCiHgQ
-         YzD7zsorl3YdHXqFGjDkQiUQSY53Mac1ESu9I/DOpfyFhd/1SPkzlD5XaLpzYydYgeZY
-         DtDVAQGA6Bq27AXMgZV5m6SC2kjYaCBlgHfIWQ+OPh7npVtRVN+OAtdpt4ApvXXroeql
-         Pc52RomB99ti17lhu5cka7t7DwpZM/ZWetwWLgBWE2tV+emF0orVSHfGaywibOAO+seU
-         ZSfR9x2MN1cBwslC9NfaHngbBhthvlcmpJEEvH9yhrfewRdGZbMIJBFaR17NolrmxuTW
-         Nxbg==
+        d=google.com; s=20230601; t=1770667696; x=1771272496; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/ogWTbSZ6gUFcHF4DB6Cif+r0lW3KkX6R4Nx10iOT0E=;
+        b=HvKYiNEB99bsxcHeAT+50ZKL5pjxQWJdOUO3M6ymI9G9OKYSnoKRqJj64z4rQXO88M
+         ef6iY5fOWTVmudW48DmuCB/yED+afm3061mgUdbFajuC9yJOWJTfy9nS/yZPPqC63gbR
+         CnDwaYBiOqJPs9nhpx+jGKW1Hnv9a0WJRV0bi3ldhv/TXEuIU7/yuB6YR8mVNa31R4Bu
+         f02zaSEW8cU5f6ayZWiP+AdSPuqQIsPm0040L2BoL4voA+mjFRFW9hxIBvXFgPEDO0C8
+         qnfVDO+25FfLzPj3YFS8YYo+TzJsfkjDzQ3xkKKcVRURDj9oVTwxWZ1m73jD3rVdtLoZ
+         s2+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770663004; x=1771267804;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tYxV1ZZhF0FuP950hVsE38NKjm5LJ2udmADunvWNt+s=;
-        b=FlKIhGRzXdOaI5gSD3g8Q14SMYTNiFStNsUoaqy20sxxLa2ZTw0WRbxhBCnwM47x7H
-         xTD5sAuUWcqGtbutM59c0nGC8bn8nQban87KJtj1XpbNVRm8IFr8EW96Y7344G9pnGzW
-         AH56fGeR9XRV3F4PicIQVl23YovSPHQPRceEC9CVTar8koSogU6Eajtpnl6jgyUpFVM0
-         7kLwVuEPj9YpWlG50QLYKsg0o4upc2zw5QB5RIlDaM/xntNYmyJ/IRpV+rnGSY8dJOw8
-         ZTYMWWH3SmI6F0Xrh0QBzdjLmEh9Zsk0e86MeTDAF5tGggCQ4Lm/N4wiwh5m73OornSf
-         MKwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWDAz8z900KZViV7UVjnoV7gl/1K/w5k6jg3TP8u0B1P0nQL/9trjVJ9NvkNQMSKnrzTImMRQHKAHHKnA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMnh2o8fY7T++ojSD1+izkcQJufI6dK7+YVOqHe+wf65Lxzi+G
-	R5LwB03oncRb7UVufajmRpTyjldzMpzaNJC6j/Jup26PpoYE5Gq8adYdVzrbyZQgJtc=
-X-Gm-Gg: AZuq6aKQ8xx2S0vGwPl0XCmc8qngDEwxMaqt+Ny/M/HFmRX1aWJt8CFpMjHZqCeB997
-	7RFd5biXg7eRi0N6XSJrTYX54htsIRX43meLnj5krQm4u/AG+MX1IYo+Qpi9CpaXxY8iM6ycdl2
-	Xa/HeQ/eMM4/h3fY7+BWxBfbAjuM1vH6/8tz0uljtpf6rMimw1+b+0+PrrZXghRDQ/tVLRNrns/
-	UaBLzHnMyR0v8cL+xrN5Uga/telI1Ci8S74KD6/V8+xBAe+T3I7rehaRqpUmIUevEY5P55DX77C
-	jjN14gxf/gRS7ptt+QmwhQ8apFnAHGa0AqVzkilc+RmEoIJJZSPGcNWLBHvfGVmb4GpfIY96wCW
-	ZNg1fZodjBsIFSQxrcsltdCbiL5+ISNtyMECGqzjIccPw/+ZyExvsg4ZEAiEwrBEhJNQuTCC1VQ
-	9uuN/qtU0GwF9iVAD7UU+RVqQjSBerMKDNPO03Az9//EH5zLAtYy9bJ9uVg26cRQKo/Oih2g==
-X-Received: by 2002:a05:6830:6994:b0:79c:f9ff:43e with SMTP id 46e09a7af769-7d46467e812mr6111729a34.28.1770663003431;
-        Mon, 09 Feb 2026 10:50:03 -0800 (PST)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d4647277a4sm7929198a34.13.2026.02.09.10.50.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Feb 2026 10:50:02 -0800 (PST)
-Message-ID: <e6f8da96-6920-434d-9f15-6e283bf3c829@kernel.dk>
-Date: Mon, 9 Feb 2026 11:50:02 -0700
+        d=1e100.net; s=20230601; t=1770667696; x=1771272496;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/ogWTbSZ6gUFcHF4DB6Cif+r0lW3KkX6R4Nx10iOT0E=;
+        b=q6a47fc7b2z8wzvVKoUrBnXy8SWswKA6HFtNss3cgZeKHeOFaKlQxbIW0cVqwciaza
+         Hog1WgxvGJnxhORxdUJ28+TMdDryW3hGMCO14X6SGVk+ziYgWHaTYg81re+Jzn40JwlN
+         XIoWiIbTyG20aceIyVfZuROv5FzRU3lHChJJEuCKkHQ7JxiOh2Q5mMIYBzwoWJlf8eDS
+         3BuuTI9W0DoslXi+05/OkLE0zEO3xfCsm6Dlr+w6zWOvYZMq3ezYUvs54tp3yFKWkPNx
+         N+qFf0CKYlB6JKM+2vUxNsMkLt9r2A/dyyonYPovL23L1KpfOsZhKQlp6hhKL85RKh29
+         NB6w==
+X-Forwarded-Encrypted: i=1; AJvYcCXFPjfnur3EesgjY3pShz/U1VS2j5Qkrd3OOEdVu8fUJxFDXQ73mdkw9Tz6JCCbK1oAMP6zYf/lFC3bdg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxREfGm524D+GaqWdgBoP2uGaXWkINHzerejiAuZfCrRwx/8PpE
+	JvXC/sjoINqemcQ99QX+QkcshQrc5D5H7oDzMjGOtjRYtjvc/zG3dYRT/Sb26F2I6SQmGsSUvvs
+	xs+az+vF3Bo893m085CnUhEkTANOejQBKMs67xds=
+X-Gm-Gg: AZuq6aJadGGDQ5aWmc1BR9BfnT548MSg5yppj5hyyCDwEU7Q0s0o7QOcRO+vO0pDJAQ
+	ITy6p9jnRu1d1jBICcYi5W+tGHzwoHVTFVKURr+lLYdXLh1CfByL8hbz8PY1D6uoP8ZakbxRBBq
+	uxTtQWv7b7QEB1DTljsRSyqYFRg7RrFt0yq0q7H6MNoy6sTBHgtX+xX/PnZE5hCZCHGMh8KV52w
+	SaSWhKzngPZY3ZJhqC5Mh450sYQ/gIwVUs4gK/IFOx46fz8FCCqfnkHJreAFqaADUrAazL73nP+
+	ohGplHBp5qJVaEZaPlk=
+X-Received: by 2002:a17:907:6d0f:b0:b74:984c:a3de with SMTP id
+ a640c23a62f3a-b8edf25a954mr696952366b.28.1770667695453; Mon, 09 Feb 2026
+ 12:08:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [io-uring?] BUG: corrupted list in
- io_poll_remove_entries
-To: syzbot <syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com>,
- io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzkaller-bugs@googlegroups.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org
-References: <698a26d3.050a0220.3b3015.007d.GAE@google.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <698a26d3.050a0220.3b3015.007d.GAE@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260209153809.250835-1-jiri@resnulli.us> <20260209153809.250835-5-jiri@resnulli.us>
+In-Reply-To: <20260209153809.250835-5-jiri@resnulli.us>
+From: John Stultz <jstultz@google.com>
+Date: Mon, 9 Feb 2026 12:08:03 -0800
+X-Gm-Features: AZwV_QgqaltPSA0q99dWV0j2auNF_GQoTvkX0OemEzMtzBNfhVP0pPFcsDiXkzY
+Message-ID: <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
+Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap flags
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	iommu@lists.linux.dev, linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
+	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
+	christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com, 
+	jgg@ziepe.ca, leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com, 
+	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
+	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
+	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, 
+	linux-coco@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel-dk.20230601.gappssmtp.com:s=20230601];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52463-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[storage.googleapis.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,appspotmail.com:email,kernel-dk.20230601.gappssmtp.com:dkim,syzkaller.appspot.com:url,mev.co.uk:email,kernel.dk:mid];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2600:3c04:e001:36c::12fc:5321:from];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[kernel.dk];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52464-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel-dk.20230601.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,ab12f0c08dd7ab8d057c];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Queue-Id: 43AB9113D8D
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jstultz@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[100.90.174.1:received,209.85.218.52:received];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: 2E579114561
 X-Rspamd-Action: no action
 
-On 2/9/26 11:26 AM, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    e7aa57247700 Merge tag 'spi-fix-v6.19-rc8' of git://git.ke..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=14d3b65a580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671
-> dashboard link: https://syzkaller.appspot.com/bug?extid=ab12f0c08dd7ab8d057c
-> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1222965a580000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=140e833a580000
-> 
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/c46beb4ff3a5/disk-e7aa5724.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/d162bcaaf9b9/vmlinux-e7aa5724.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/54b0844b8ea7/bzImage-e7aa5724.xz
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
-> 
-> list_del corruption. prev->next should be ffff88807dc6c3f0, but was ffff888146b205c8. (prev=ffff888146b205c8)
-> ------------[ cut here ]------------
-> kernel BUG at lib/list_debug.c:62!
-> Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-> CPU: 0 UID: 0 PID: 5969 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/24/2026
-> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
-> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
-> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
-> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
-> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
-> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
-> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
-> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
-> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
-> Call Trace:
->  <TASK>
->  __list_del_entry_valid include/linux/list.h:132 [inline]
->  __list_del_entry include/linux/list.h:223 [inline]
->  list_del_init include/linux/list.h:295 [inline]
->  io_poll_remove_waitq io_uring/poll.c:149 [inline]
->  io_poll_remove_entry io_uring/poll.c:166 [inline]
->  io_poll_remove_entries.part.0+0x156/0x7e0 io_uring/poll.c:197
->  io_poll_remove_entries io_uring/poll.c:177 [inline]
->  io_poll_task_func+0x39e/0xe30 io_uring/poll.c:343
->  io_handle_tw_list+0x194/0x580 io_uring/io_uring.c:1122
->  tctx_task_work_run+0x57/0x2b0 io_uring/io_uring.c:1182
->  tctx_task_work+0x7a/0xd0 io_uring/io_uring.c:1200
->  task_work_run+0x150/0x240 kernel/task_work.c:233
->  exit_task_work include/linux/task_work.h:40 [inline]
->  do_exit+0x829/0x2a30 kernel/exit.c:971
->  do_group_exit+0xd5/0x2a0 kernel/exit.c:1112
->  __do_sys_exit_group kernel/exit.c:1123 [inline]
->  __se_sys_exit_group kernel/exit.c:1121 [inline]
->  __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1121
->  x64_sys_call+0x14fd/0x1510 arch/x86/include/generated/asm/syscalls_64.h:232
->  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->  do_syscall_64+0xc9/0xf80 arch/x86/entry/syscall_64.c:94
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f60e579aeb9
-> Code: Unable to access opcode bytes at 0x7f60e579ae8f.
-> RSP: 002b:00007ffc2d47ddf8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f60e579aeb9
-> RDX: 0000000000000064 RSI: 0000000000000000 RDI: 0000000000000000
-> RBP: 0000000000000003 R08: 0000000000000000 R09: 00007f60e59e1280
-> R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000000
-> R13: 00007f60e59e1280 R14: 0000000000000003 R15: 00007ffc2d47deb0
->  </TASK>
-> Modules linked in:
-> ---[ end trace 0000000000000000 ]---
-> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
-> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
-> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
-> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
-> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
-> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
-> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
-> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
-> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
+On Mon, Feb 9, 2026 at 7:38=E2=80=AFAM Jiri Pirko <jiri@resnulli.us> wrote:
+>
+> From: Jiri Pirko <jiri@nvidia.com>
+>
+> Currently the flags, which are unused, are validated for all heaps.
+> Since the follow-up patch introduces a flag valid for only one of the
+> heaps, allow to specify the valid flags per-heap.
 
-This looks like a bug related to dvb polling, presumably in dvb_dvr_poll()
-or friends. I've seen that in drivers before, for example comedi, see:
+I'm not really in this space anymore, so take my feedback with a grain of s=
+alt.
 
-commit 35b6fc51c666fc96355be5cd633ed0fe4ccf68b2
-Author: Ian Abbott <abbotti@mev.co.uk>
-Date:   Tue Jul 22 16:53:16 2025 +0100
+While the heap allocate flags argument is unused, it was intended to
+be used for generic allocation flags that would apply to all or at
+least a wide majority of heaps.
 
-    comedi: fix race between polling and detaching
+It was definitely not added to allow for per-heap or heap specific
+flags (as this patch tries to utilize it). That was the mess we had
+with ION driver that we were trying to avoid.
 
-as a reference.
+The intent of dma-buf heaps is to try to abstract all the different
+device memory constraints so there only needs to be a [usage] ->
+[heap] mapping, and otherwise userland can be generalized so that it
+doesn't need to be re-written to work with different devices/memory
+types.  Adding heap-specific allocation flags prevents that
+generalization.
 
-#syz set subsystems: media
+So instead of adding heap specific flags, the general advice has been
+to add a separate heap name for the flag property.
 
--- 
-Jens Axboe
+Now, there has been many discussions around "protected buffers" (which
+doesn't seem to map exactly to this confidental computing primitive,
+but sounds like it might be related) , which have bounced between
+being a allocation flag or a device specific heap without much
+resolution. I appreciate in this patch seires you've pushed your
+concept down into a DMA_ATTR_, as I do feel the kernel should have a
+deeper sense of protected buffers (or any general propery like this)
+as a concept if it is going to be a generic allocation flag, instead
+of it being a somewhat thin creation of the outer heap-driver layer.
 
+But, it seems like the use case here is still far too narrow for a top
+level allocation flag.
+
+So I'd advocate against introducing heap-specific flags like this.
+
+thanks
+-john
 
