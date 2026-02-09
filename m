@@ -1,781 +1,409 @@
-Return-Path: <linux-media+bounces-52370-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52371-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mKDDMClpiWks8gQAu9opvQ
-	(envelope-from <linux-media+bounces-52370-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 05:57:13 +0100
+	id 4AbDLeZ2iWlm9gQAu9opvQ
+	(envelope-from <linux-media+bounces-52371-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 06:55:50 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AFE10BA63
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 05:57:13 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6EF10BE87
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 06:55:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 945C6301B713
-	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 04:56:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 570F630087A4
+	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 05:55:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBFBF285CAE;
-	Mon,  9 Feb 2026 04:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5982D97B9;
+	Mon,  9 Feb 2026 05:55:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ohxorud.com header.i=@ohxorud.com header.b="Ctv7lfd3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CzzqIcgo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A52F22D7B5
-	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 04:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29932222B2
+	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 05:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770612976; cv=none; b=UZUeXXidtGNgvEpkLd3NZSCsQowo/1qj/0zqf4dD8lRBdvEbfAG+28Sr4BAlwkZzBlJz+6A7ZnTPOgOyF8ECzoMsSfSfDeF+7/73U9Zq0C4sIfmgwVl1QvbIz/DOMMS9Xc94vbQ3lxbqw6pXAEgbbzk83FRjwzRCzWhWQdqJL+k=
+	t=1770616539; cv=none; b=HbpncYEE7ZYJN7LradVH0Rsx3MNQcBYf8qQ1dN0en1+KJtiZJXlxFlGXjSqPEE6wYWM5g87rMCGVptvL1zZDfvnyhn4RwK9QDUtyRaLzukVBrFSuGfjpn1qFsm2u7ICME9YY9GdKTqm0W6ZYY1960TIGCsOVzATXg/AXEEHZ2dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770612976; c=relaxed/simple;
-	bh=0qdPE6Xk1TGDepERf1UWroxDVhRl25vdaR0BUTMitY4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OOXtbCdLHONbUfJNePVukNj9/ONVwJNiMpW9llUr3ripqlw94FMuesh8k7PvuPKQFDk9ecHjy/7IbXguVK8gEgjCEDNUSgAeasGpPwVIePzjOJpUXGXXB0XQUD5pR4+oRvYJ/68QmDchZxeWmQ0LJp5lUqVjPIKcg8YqExy/kAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ohxorud.com; spf=pass smtp.mailfrom=ohxorud.com; dkim=pass (2048-bit key) header.d=ohxorud.com header.i=@ohxorud.com header.b=Ctv7lfd3; arc=none smtp.client-ip=57.129.93.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ohxorud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ohxorud.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ohxorud.com;
-	s=protonmail3; t=1770612960; x=1770872160;
-	bh=ajd/UspWcW7+BIH+zDFNN7edDjgmws2dKm7KSuRm1ik=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Ctv7lfd3QkFeC34CE0lUnvxmGxW4rt6Tm97SeDAbLAhmhVNNyQtzXKiuKV8oe9l0z
-	 K0iP7LGJ+/yYz/SiBmv3XVK73ex2qh1kEH5kr9Qy2IT4AvUkSQguln7KPnVJX7rR/z
-	 Kp8bHbfkq7sTP+obnpmdJ4xPVZFk+2Pc0Dt3X89un3vZHn8V7P1VD5MlztJ0hktYsW
-	 QhdVZ+o7ByD+K5w1Msvic8QHCX4PgnlNwip9T2y/HPBENnLt7lSbxJFXKmVH6pfRPg
-	 3YB4H5bxbhtr5mg6CVMP6b3racUJbZuJNr5Y+bD+xaOBBH0fblPl/w2nSis+rZB4CN
-	 kSa33TVJ8oNlA==
-Date: Mon, 09 Feb 2026 04:55:57 +0000
-To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andy@kernel.org>
-From: Taekyung Oh <ohxorud@ohxorud.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Taekyung Oh <ohxorud@ohxorud.com>
-Subject: [PATCH 2/2] staging: media: atomisp: remove dead code in ov2722.h
-Message-ID: <20260209045514.40352-3-ohxorud@ohxorud.com>
-In-Reply-To: <20260209045514.40352-1-ohxorud@ohxorud.com>
-References: <20260209045514.40352-1-ohxorud@ohxorud.com>
-Feedback-ID: 133357498:user:proton
-X-Pm-Message-ID: be873f84bcc1d2bcb994b7455d36f383cb94cbae
+	s=arc-20240116; t=1770616539; c=relaxed/simple;
+	bh=Xs1L+PeVa5xFXNjQeHKr47cOVBET8yv3ROzNpeHVCho=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jP9HRhmgyqrV7eS+nhlC+QHQI4qYZwfOYDpI0SW/qB0dMU/afUrWNyboXxOPx79CMLfySXYqNET7U7RQ2UHH/7n40FDPZze5cpo49euKjDEby71349/BscWJITY7mAOfLHKGDr2yYHIJ5TiqYhgBucwum2EphvgiiPR50DtnA4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CzzqIcgo; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ff94b46afso38062245e9.1
+        for <linux-media@vger.kernel.org>; Sun, 08 Feb 2026 21:55:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770616537; x=1771221337; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tlfYfZAAOhKPlWI86OOkOxP71ePpXQ8i0toDN3DWIcs=;
+        b=CzzqIcgot8jqvkZv5pKTAS+6KkjFrV1xlZ23QUV0mfio9yCgJrKAX4J1MQYHwrxkfT
+         vgJ8ZFdrDcRC7uHBpcOn/6Or8QYYQu7uveoEgnq+MUtNw3vqQz5f90LnaV4jQKcO9DnU
+         HRLMg23eWofrzesMi6NP3OQDHlmWPAwNcmOC/ds/H9D2HeYA1A4DJZXPfEoA3WRtfHUl
+         R+K7/qZcyZdDiNt9hlELhIjYZIEkrBiMAZUWp0OquTrC1XG+sH6A/lkYyP0E99dlSDSS
+         9UR0e9T/eSCbKKgt00tamaY6xuh22QjfWkvUHOwYuuBI7jjR/hycd952nKBHeMpeXcV5
+         uyfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770616537; x=1771221337;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tlfYfZAAOhKPlWI86OOkOxP71ePpXQ8i0toDN3DWIcs=;
+        b=qMZxmQla5yilhi4BW4HlDpC0oypIduNrUV9PsxaKo1tDbOWhT3ijuPRM0EUQdfFH5/
+         EU8ecnenNCkhjkWl/EsnqeFb2nr+/p1LGhr3zPj+xoWxVqq+32FDx2eWeHh9YP2tmWyK
+         JtP+xhWbPPWQKLo+K2xal/MxnGMwHbJQRLCi02vb9FaSv0AiswgOLixo/EeHpxgwRbiv
+         4vEMcvZR3wbuQpimpTXlc0tEWUJEjhYr0aXGv3UlqDtS9VYieTa1iaAXVgyFKT1m9ABV
+         fOPzO8pey3Fqbz4gIF0NNsHvjVmwtpEVCXfB1DJBgDTg3AeETYiKcn7qdxve3HP7HvRr
+         /osA==
+X-Gm-Message-State: AOJu0YysPVIw0TAdKlX0hqEHCiurDyfEdC7NiWuHgjFmvD5GP0V7YzBk
+	rbQKjYMvJoMqLkLmIH6JblJIyHeJyu6JvPEIuoC8eCwSsg/EaEHiBH3C/XSPORFplgH0ng==
+X-Gm-Gg: AZuq6aLeG+cK+MSoQ7ZqutCxnuB6riBNgancx3ZZdWWshAfd6EcFu/IWZMTXXEsOa/W
+	kmST2Vz3e+o3zjt7+o6kSMIBPu5zZge6yDJr9Va85SXQBotXG2c7t1UB+PoGgEIZyv5qQQMtNwk
+	mGM/3WOtc0jFo1EIK42us/KF3yWAVEF7AtdCrOiWfB69mu9ZSrd3ye+yTMCT/a9hw5PtSz/sQlW
+	F6Z7rOfitu+b3yust881VjHy+wZs/KTJBustDdER5TWf33YUKEvHa3UCQvX1IhzzzZzD9Cpnlkw
+	cqMMqhs0PPoQ4o15YYxBrKQdJgKMNJWXufZzOgqxY0iiGJvkzQ52uZlUhueKCFnn/52mH2n/cGG
+	xX0Hfpsfbo9VPZfsjoU40hZKbByljbvA0nViR7hvdUIxqeemRFBTeCro5Jt92h5dqf4lKAK60qH
+	I003ZFWS9NaUMI5MaUPfiq3tiEscJEEGBIC5eRUCSk5KIXKwgM2WY7DxgXOv1h32WLwkhr
+X-Received: by 2002:a05:600c:3f0d:b0:479:13e9:3d64 with SMTP id 5b1f17b1804b1-483203d5f73mr148535035e9.15.1770616537224;
+        Sun, 08 Feb 2026 21:55:37 -0800 (PST)
+Received: from thinkpad ([5.217.172.63])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d7a963sm270720055e9.9.2026.02.08.21.55.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 21:55:36 -0800 (PST)
+From: Arash Golgol <arash.golgol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: paulk@sys-base.io,
+	mchehab@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	laurent.pinchart@ideasonboard.com,
+	linux-sunxi@lists.linux.dev,
+	Arash Golgol <arash.golgol@gmail.com>
+Subject: [PATCH v2] media: sun6i-mipi-csi2: Use V4L2 subdev active state
+Date: Mon,  9 Feb 2026 09:25:29 +0330
+Message-Id: <20260209055529.16644-1-arash.golgol@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ohxorud.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[ohxorud.com:s=protonmail3];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52370-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-52371-lists,linux-media=lfdr.de];
+	URIBL_MULTI_FAIL(0.00)[sea.lore.kernel.org:server fail];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ohxorud.com:+];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[sys-base.io,kernel.org,gmail.com,sholland.org,ideasonboard.com,lists.linux.dev];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ohxorud@ohxorud.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ohxorud.com:email,ohxorud.com:dkim,ohxorud.com:mid]
-X-Rspamd-Queue-Id: 26AFE10BA63
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3A6EF10BE87
 X-Rspamd-Action: no action
 
-Remove unused code blocks enclosed in #if 0 to clean up the code.
+Use the V4L2 subdev active state API to store the active format.
+This simplifies the driver not only by dropping the bridge mbus_format
+field, but it also allows dropping the bridge lock, replaced with
+the state lock.
 
-Signed-off-by: Taekyung Oh <ohxorud@ohxorud.com>
+The sun6i-mipi-csi2 hardware does not perform any format conversion.
+Enforce identical formats on the sink and source pads in the set_fmt()
+and init_state() callbacks.
+
+Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
 ---
- drivers/staging/media/atomisp/i2c/ov2722.h | 637 ---------------------
- 1 file changed, 637 deletions(-)
+Changes in v2:
+    - Simplify control flow by dropping the else at end of s_stream()
+    - Call v4l2_subdev_cleanup() on bridge setup failure before 
+    notifier registration
 
-diff --git a/drivers/staging/media/atomisp/i2c/ov2722.h b/drivers/staging/m=
-edia/atomisp/i2c/ov2722.h
-index c69f0086c..9e18ac85e 100644
---- a/drivers/staging/media/atomisp/i2c/ov2722.h
-+++ b/drivers/staging/media/atomisp/i2c/ov2722.h
-@@ -232,339 +232,6 @@ struct ov2722_write_ctrl {
- =09struct ov2722_write_buffer buffer;
- };
-=20
--/*
-- * Register settings for various resolution
-- */
--#if 0
--static const struct ov2722_reg ov2722_QVGA_30fps[] =3D {
--=09{OV2722_8BIT, 0x3718, 0x10},
--=09{OV2722_8BIT, 0x3702, 0x0c},
--=09{OV2722_8BIT, 0x373a, 0x1c},
--=09{OV2722_8BIT, 0x3715, 0x01},
--=09{OV2722_8BIT, 0x3703, 0x0c},
--=09{OV2722_8BIT, 0x3705, 0x06},
--=09{OV2722_8BIT, 0x3730, 0x0e},
--=09{OV2722_8BIT, 0x3704, 0x1c},
--=09{OV2722_8BIT, 0x3f06, 0x00},
--=09{OV2722_8BIT, 0x371c, 0x00},
--=09{OV2722_8BIT, 0x371d, 0x46},
--=09{OV2722_8BIT, 0x371e, 0x00},
--=09{OV2722_8BIT, 0x371f, 0x63},
--=09{OV2722_8BIT, 0x3708, 0x61},
--=09{OV2722_8BIT, 0x3709, 0x12},
--=09{OV2722_8BIT, 0x3800, 0x01},
--=09{OV2722_8BIT, 0x3801, 0x42}, /* H crop start: 322 */
--=09{OV2722_8BIT, 0x3802, 0x00},
--=09{OV2722_8BIT, 0x3803, 0x20}, /* V crop start: 32 */
--=09{OV2722_8BIT, 0x3804, 0x06},
--=09{OV2722_8BIT, 0x3805, 0x95}, /* H crop end:  1685 */
--=09{OV2722_8BIT, 0x3806, 0x04},
--=09{OV2722_8BIT, 0x3807, 0x27}, /* V crop end:  1063 */
--=09{OV2722_8BIT, 0x3808, 0x01},
--=09{OV2722_8BIT, 0x3809, 0x50}, /* H output size: 336 */
--=09{OV2722_8BIT, 0x380a, 0x01},
--=09{OV2722_8BIT, 0x380b, 0x00}, /* V output size: 256 */
--
--=09/* H blank timing */
--=09{OV2722_8BIT, 0x380c, 0x08},
--=09{OV2722_8BIT, 0x380d, 0x00}, /* H total size: 2048 */
--=09{OV2722_8BIT, 0x380e, 0x04},
--=09{OV2722_8BIT, 0x380f, 0xa0}, /* V total size: 1184 */
--=09{OV2722_8BIT, 0x3810, 0x00},
--=09{OV2722_8BIT, 0x3811, 0x04}, /* H window offset: 5 */
--=09{OV2722_8BIT, 0x3812, 0x00},
--=09{OV2722_8BIT, 0x3813, 0x01}, /* V window offset: 2 */
--=09{OV2722_8BIT, 0x3820, 0xc0},
--=09{OV2722_8BIT, 0x3821, 0x06}, /* flip isp*/
--=09{OV2722_8BIT, 0x3814, 0x71},
--=09{OV2722_8BIT, 0x3815, 0x71},
--=09{OV2722_8BIT, 0x3612, 0x49},
--=09{OV2722_8BIT, 0x3618, 0x00},
--=09{OV2722_8BIT, 0x3a08, 0x01},
--=09{OV2722_8BIT, 0x3a09, 0xc3},
--=09{OV2722_8BIT, 0x3a0a, 0x01},
--=09{OV2722_8BIT, 0x3a0b, 0x77},
--=09{OV2722_8BIT, 0x3a0d, 0x00},
--=09{OV2722_8BIT, 0x3a0e, 0x00},
--=09{OV2722_8BIT, 0x4520, 0x09},
--=09{OV2722_8BIT, 0x4837, 0x1b},
--=09{OV2722_8BIT, 0x3000, 0xff},
--=09{OV2722_8BIT, 0x3001, 0xff},
--=09{OV2722_8BIT, 0x3002, 0xf0},
--=09{OV2722_8BIT, 0x3600, 0x08},
--=09{OV2722_8BIT, 0x3621, 0xc0},
--=09{OV2722_8BIT, 0x3632, 0x53}, /* added for power opt */
--=09{OV2722_8BIT, 0x3633, 0x63},
--=09{OV2722_8BIT, 0x3634, 0x24},
--=09{OV2722_8BIT, 0x3f01, 0x0c},
--=09{OV2722_8BIT, 0x5001, 0xc1}, /* v_en, h_en, blc_en */
--=09{OV2722_8BIT, 0x3614, 0xf0},
--=09{OV2722_8BIT, 0x3630, 0x2d},
--=09{OV2722_8BIT, 0x370b, 0x62},
--=09{OV2722_8BIT, 0x3706, 0x61},
--=09{OV2722_8BIT, 0x4000, 0x02},
--=09{OV2722_8BIT, 0x4002, 0xc5},
--=09{OV2722_8BIT, 0x4005, 0x08},
--=09{OV2722_8BIT, 0x404f, 0x84},
--=09{OV2722_8BIT, 0x4051, 0x00},
--=09{OV2722_8BIT, 0x5000, 0xff},
--=09{OV2722_8BIT, 0x3a18, 0x00},
--=09{OV2722_8BIT, 0x3a19, 0x80},
--=09{OV2722_8BIT, 0x4521, 0x00},
--=09{OV2722_8BIT, 0x5183, 0xb0}, /* AWB red */
--=09{OV2722_8BIT, 0x5184, 0xb0}, /* AWB green */
--=09{OV2722_8BIT, 0x5185, 0xb0}, /* AWB blue */
--=09{OV2722_8BIT, 0x5180, 0x03}, /* AWB manual mode */
--=09{OV2722_8BIT, 0x370c, 0x0c},
--=09{OV2722_8BIT, 0x4800, 0x24}, /* clk lane gate enable */
--=09{OV2722_8BIT, 0x3035, 0x00},
--=09{OV2722_8BIT, 0x3036, 0x26},
--=09{OV2722_8BIT, 0x3037, 0xa1},
--=09{OV2722_8BIT, 0x303e, 0x19},
--=09{OV2722_8BIT, 0x3038, 0x06},
--=09{OV2722_8BIT, 0x3018, 0x04},
--
--=09/* Added for power optimization */
--=09{OV2722_8BIT, 0x3000, 0x00},
--=09{OV2722_8BIT, 0x3001, 0x00},
--=09{OV2722_8BIT, 0x3002, 0x00},
--=09{OV2722_8BIT, 0x3a0f, 0x40},
--=09{OV2722_8BIT, 0x3a10, 0x38},
--=09{OV2722_8BIT, 0x3a1b, 0x48},
--=09{OV2722_8BIT, 0x3a1e, 0x30},
--=09{OV2722_8BIT, 0x3a11, 0x90},
--=09{OV2722_8BIT, 0x3a1f, 0x10},
--=09{OV2722_8BIT, 0x3011, 0x22},
--=09{OV2722_8BIT, 0x3a00, 0x58},
--=09{OV2722_8BIT, 0x3503, 0x17},
--=09{OV2722_8BIT, 0x3500, 0x00},
--=09{OV2722_8BIT, 0x3501, 0x46},
--=09{OV2722_8BIT, 0x3502, 0x00},
--=09{OV2722_8BIT, 0x3508, 0x00},
--=09{OV2722_8BIT, 0x3509, 0x10},
--=09{OV2722_TOK_TERM, 0, 0},
--
--};
--
--static const struct ov2722_reg ov2722_480P_30fps[] =3D {
--=09{OV2722_8BIT, 0x3718, 0x10},
--=09{OV2722_8BIT, 0x3702, 0x18},
--=09{OV2722_8BIT, 0x373a, 0x3c},
--=09{OV2722_8BIT, 0x3715, 0x01},
--=09{OV2722_8BIT, 0x3703, 0x1d},
--=09{OV2722_8BIT, 0x3705, 0x12},
--=09{OV2722_8BIT, 0x3730, 0x1f},
--=09{OV2722_8BIT, 0x3704, 0x3f},
--=09{OV2722_8BIT, 0x3f06, 0x1d},
--=09{OV2722_8BIT, 0x371c, 0x00},
--=09{OV2722_8BIT, 0x371d, 0x83},
--=09{OV2722_8BIT, 0x371e, 0x00},
--=09{OV2722_8BIT, 0x371f, 0xbd},
--=09{OV2722_8BIT, 0x3708, 0x63},
--=09{OV2722_8BIT, 0x3709, 0x52},
--=09{OV2722_8BIT, 0x3800, 0x00},
--=09{OV2722_8BIT, 0x3801, 0xf2}, /* H crop start: 322 - 80 =3D 242*/
--=09{OV2722_8BIT, 0x3802, 0x00},
--=09{OV2722_8BIT, 0x3803, 0x20}, /* V crop start:  32*/
--=09{OV2722_8BIT, 0x3804, 0x06},
--=09{OV2722_8BIT, 0x3805, 0xBB}, /* H crop end:   1643 + 80 =3D 1723*/
--=09{OV2722_8BIT, 0x3806, 0x04},
--=09{OV2722_8BIT, 0x3807, 0x03}, /* V crop end:   1027*/
--=09{OV2722_8BIT, 0x3808, 0x02},
--=09{OV2722_8BIT, 0x3809, 0xE0}, /* H output size: 656 +80 =3D 736*/
--=09{OV2722_8BIT, 0x380a, 0x01},
--=09{OV2722_8BIT, 0x380b, 0xF0}, /* V output size: 496 */
--
--=09/* H blank timing */
--=09{OV2722_8BIT, 0x380c, 0x08},
--=09{OV2722_8BIT, 0x380d, 0x00}, /* H total size: 2048 */
--=09{OV2722_8BIT, 0x380e, 0x04},
--=09{OV2722_8BIT, 0x380f, 0xa0}, /* V total size: 1184 */
--=09{OV2722_8BIT, 0x3810, 0x00},
--=09{OV2722_8BIT, 0x3811, 0x04}, /* H window offset: 5 */
--=09{OV2722_8BIT, 0x3812, 0x00},
--=09{OV2722_8BIT, 0x3813, 0x01}, /* V window offset: 2 */
--=09{OV2722_8BIT, 0x3820, 0x80},
--=09{OV2722_8BIT, 0x3821, 0x06}, /* flip isp*/
--=09{OV2722_8BIT, 0x3814, 0x31},
--=09{OV2722_8BIT, 0x3815, 0x31},
--=09{OV2722_8BIT, 0x3612, 0x4b},
--=09{OV2722_8BIT, 0x3618, 0x04},
--=09{OV2722_8BIT, 0x3a08, 0x02},
--=09{OV2722_8BIT, 0x3a09, 0x67},
--=09{OV2722_8BIT, 0x3a0a, 0x02},
--=09{OV2722_8BIT, 0x3a0b, 0x00},
--=09{OV2722_8BIT, 0x3a0d, 0x00},
--=09{OV2722_8BIT, 0x3a0e, 0x00},
--=09{OV2722_8BIT, 0x4520, 0x0a},
--=09{OV2722_8BIT, 0x4837, 0x1b},
--=09{OV2722_8BIT, 0x3000, 0xff},
--=09{OV2722_8BIT, 0x3001, 0xff},
--=09{OV2722_8BIT, 0x3002, 0xf0},
--=09{OV2722_8BIT, 0x3600, 0x08},
--=09{OV2722_8BIT, 0x3621, 0xc0},
--=09{OV2722_8BIT, 0x3632, 0x53}, /* added for power opt */
--=09{OV2722_8BIT, 0x3633, 0x63},
--=09{OV2722_8BIT, 0x3634, 0x24},
--=09{OV2722_8BIT, 0x3f01, 0x0c},
--=09{OV2722_8BIT, 0x5001, 0xc1}, /* v_en, h_en, blc_en */
--=09{OV2722_8BIT, 0x3614, 0xf0},
--=09{OV2722_8BIT, 0x3630, 0x2d},
--=09{OV2722_8BIT, 0x370b, 0x62},
--=09{OV2722_8BIT, 0x3706, 0x61},
--=09{OV2722_8BIT, 0x4000, 0x02},
--=09{OV2722_8BIT, 0x4002, 0xc5},
--=09{OV2722_8BIT, 0x4005, 0x08},
--=09{OV2722_8BIT, 0x404f, 0x84},
--=09{OV2722_8BIT, 0x4051, 0x00},
--=09{OV2722_8BIT, 0x5000, 0xff},
--=09{OV2722_8BIT, 0x3a18, 0x00},
--=09{OV2722_8BIT, 0x3a19, 0x80},
--=09{OV2722_8BIT, 0x4521, 0x00},
--=09{OV2722_8BIT, 0x5183, 0xb0}, /* AWB red */
--=09{OV2722_8BIT, 0x5184, 0xb0}, /* AWB green */
--=09{OV2722_8BIT, 0x5185, 0xb0}, /* AWB blue */
--=09{OV2722_8BIT, 0x5180, 0x03}, /* AWB manual mode */
--=09{OV2722_8BIT, 0x370c, 0x0c},
--=09{OV2722_8BIT, 0x4800, 0x24}, /* clk lane gate enable */
--=09{OV2722_8BIT, 0x3035, 0x00},
--=09{OV2722_8BIT, 0x3036, 0x26},
--=09{OV2722_8BIT, 0x3037, 0xa1},
--=09{OV2722_8BIT, 0x303e, 0x19},
--=09{OV2722_8BIT, 0x3038, 0x06},
--=09{OV2722_8BIT, 0x3018, 0x04},
--
--=09/* Added for power optimization */
--=09{OV2722_8BIT, 0x3000, 0x00},
--=09{OV2722_8BIT, 0x3001, 0x00},
--=09{OV2722_8BIT, 0x3002, 0x00},
--=09{OV2722_8BIT, 0x3a0f, 0x40},
--=09{OV2722_8BIT, 0x3a10, 0x38},
--=09{OV2722_8BIT, 0x3a1b, 0x48},
--=09{OV2722_8BIT, 0x3a1e, 0x30},
--=09{OV2722_8BIT, 0x3a11, 0x90},
--=09{OV2722_8BIT, 0x3a1f, 0x10},
--=09{OV2722_8BIT, 0x3011, 0x22},
--=09{OV2722_8BIT, 0x3a00, 0x58},
--=09{OV2722_8BIT, 0x3503, 0x17},
--=09{OV2722_8BIT, 0x3500, 0x00},
--=09{OV2722_8BIT, 0x3501, 0x46},
--=09{OV2722_8BIT, 0x3502, 0x00},
--=09{OV2722_8BIT, 0x3508, 0x00},
--=09{OV2722_8BIT, 0x3509, 0x10},
--=09{OV2722_TOK_TERM, 0, 0},
--};
--
--static const struct ov2722_reg ov2722_VGA_30fps[] =3D {
--=09{OV2722_8BIT, 0x3718, 0x10},
--=09{OV2722_8BIT, 0x3702, 0x18},
--=09{OV2722_8BIT, 0x373a, 0x3c},
--=09{OV2722_8BIT, 0x3715, 0x01},
--=09{OV2722_8BIT, 0x3703, 0x1d},
--=09{OV2722_8BIT, 0x3705, 0x12},
--=09{OV2722_8BIT, 0x3730, 0x1f},
--=09{OV2722_8BIT, 0x3704, 0x3f},
--=09{OV2722_8BIT, 0x3f06, 0x1d},
--=09{OV2722_8BIT, 0x371c, 0x00},
--=09{OV2722_8BIT, 0x371d, 0x83},
--=09{OV2722_8BIT, 0x371e, 0x00},
--=09{OV2722_8BIT, 0x371f, 0xbd},
--=09{OV2722_8BIT, 0x3708, 0x63},
--=09{OV2722_8BIT, 0x3709, 0x52},
--=09{OV2722_8BIT, 0x3800, 0x01},
--=09{OV2722_8BIT, 0x3801, 0x42}, /* H crop start: 322 */
--=09{OV2722_8BIT, 0x3802, 0x00},
--=09{OV2722_8BIT, 0x3803, 0x20}, /* V crop start:  32*/
--=09{OV2722_8BIT, 0x3804, 0x06},
--=09{OV2722_8BIT, 0x3805, 0x6B}, /* H crop end:   1643*/
--=09{OV2722_8BIT, 0x3806, 0x04},
--=09{OV2722_8BIT, 0x3807, 0x03}, /* V crop end:   1027*/
--=09{OV2722_8BIT, 0x3808, 0x02},
--=09{OV2722_8BIT, 0x3809, 0x90}, /* H output size: 656 */
--=09{OV2722_8BIT, 0x380a, 0x01},
--=09{OV2722_8BIT, 0x380b, 0xF0}, /* V output size: 496 */
--
--=09/* H blank timing */
--=09{OV2722_8BIT, 0x380c, 0x08},
--=09{OV2722_8BIT, 0x380d, 0x00}, /* H total size: 2048 */
--=09{OV2722_8BIT, 0x380e, 0x04},
--=09{OV2722_8BIT, 0x380f, 0xa0}, /* V total size: 1184 */
--=09{OV2722_8BIT, 0x3810, 0x00},
--=09{OV2722_8BIT, 0x3811, 0x04}, /* H window offset: 5 */
--=09{OV2722_8BIT, 0x3812, 0x00},
--=09{OV2722_8BIT, 0x3813, 0x01}, /* V window offset: 2 */
--=09{OV2722_8BIT, 0x3820, 0x80},
--=09{OV2722_8BIT, 0x3821, 0x06}, /* flip isp*/
--=09{OV2722_8BIT, 0x3814, 0x31},
--=09{OV2722_8BIT, 0x3815, 0x31},
--=09{OV2722_8BIT, 0x3612, 0x4b},
--=09{OV2722_8BIT, 0x3618, 0x04},
--=09{OV2722_8BIT, 0x3a08, 0x02},
--=09{OV2722_8BIT, 0x3a09, 0x67},
--=09{OV2722_8BIT, 0x3a0a, 0x02},
--=09{OV2722_8BIT, 0x3a0b, 0x00},
--=09{OV2722_8BIT, 0x3a0d, 0x00},
--=09{OV2722_8BIT, 0x3a0e, 0x00},
--=09{OV2722_8BIT, 0x4520, 0x0a},
--=09{OV2722_8BIT, 0x4837, 0x29},
--=09{OV2722_8BIT, 0x3000, 0xff},
--=09{OV2722_8BIT, 0x3001, 0xff},
--=09{OV2722_8BIT, 0x3002, 0xf0},
--=09{OV2722_8BIT, 0x3600, 0x08},
--=09{OV2722_8BIT, 0x3621, 0xc0},
--=09{OV2722_8BIT, 0x3632, 0x53}, /* added for power opt */
--=09{OV2722_8BIT, 0x3633, 0x63},
--=09{OV2722_8BIT, 0x3634, 0x24},
--=09{OV2722_8BIT, 0x3f01, 0x0c},
--=09{OV2722_8BIT, 0x5001, 0xc1}, /* v_en, h_en, blc_en */
--=09{OV2722_8BIT, 0x3614, 0xf0},
--=09{OV2722_8BIT, 0x3630, 0x2d},
--=09{OV2722_8BIT, 0x370b, 0x62},
--=09{OV2722_8BIT, 0x3706, 0x61},
--=09{OV2722_8BIT, 0x4000, 0x02},
--=09{OV2722_8BIT, 0x4002, 0xc5},
--=09{OV2722_8BIT, 0x4005, 0x08},
--=09{OV2722_8BIT, 0x404f, 0x84},
--=09{OV2722_8BIT, 0x4051, 0x00},
--=09{OV2722_8BIT, 0x5000, 0xff},
--=09{OV2722_8BIT, 0x3a18, 0x00},
--=09{OV2722_8BIT, 0x3a19, 0x80},
--=09{OV2722_8BIT, 0x4521, 0x00},
--=09{OV2722_8BIT, 0x5183, 0xb0}, /* AWB red */
--=09{OV2722_8BIT, 0x5184, 0xb0}, /* AWB green */
--=09{OV2722_8BIT, 0x5185, 0xb0}, /* AWB blue */
--=09{OV2722_8BIT, 0x5180, 0x03}, /* AWB manual mode */
--=09{OV2722_8BIT, 0x370c, 0x0c},
--=09{OV2722_8BIT, 0x4800, 0x24}, /* clk lane gate enable */
--=09{OV2722_8BIT, 0x3035, 0x00},
--=09{OV2722_8BIT, 0x3036, 0x26},
--=09{OV2722_8BIT, 0x3037, 0xa1},
--=09{OV2722_8BIT, 0x303e, 0x19},
--=09{OV2722_8BIT, 0x3038, 0x06},
--=09{OV2722_8BIT, 0x3018, 0x04},
--
--=09/* Added for power optimization */
--=09{OV2722_8BIT, 0x3000, 0x00},
--=09{OV2722_8BIT, 0x3001, 0x00},
--=09{OV2722_8BIT, 0x3002, 0x00},
--=09{OV2722_8BIT, 0x3a0f, 0x40},
--=09{OV2722_8BIT, 0x3a10, 0x38},
--=09{OV2722_8BIT, 0x3a1b, 0x48},
--=09{OV2722_8BIT, 0x3a1e, 0x30},
--=09{OV2722_8BIT, 0x3a11, 0x90},
--=09{OV2722_8BIT, 0x3a1f, 0x10},
--=09{OV2722_8BIT, 0x3011, 0x22},
--=09{OV2722_8BIT, 0x3a00, 0x58},
--=09{OV2722_8BIT, 0x3503, 0x17},
--=09{OV2722_8BIT, 0x3500, 0x00},
--=09{OV2722_8BIT, 0x3501, 0x46},
--=09{OV2722_8BIT, 0x3502, 0x00},
--=09{OV2722_8BIT, 0x3508, 0x00},
--=09{OV2722_8BIT, 0x3509, 0x10},
--=09{OV2722_TOK_TERM, 0, 0},
--};
--#endif
--
- static const struct ov2722_reg ov2722_1632_1092_30fps[] =3D {
-     /* For stand wait for a whole frame complete.(vblank) */
- =09{OV2722_8BIT, 0x3021, 0x03},
-@@ -768,115 +435,6 @@ static const struct ov2722_reg ov2722_1452_1092_30fps=
-[] =3D {
- =09{OV2722_TOK_TERM, 0, 0}
- };
-=20
--#if 0
--static const struct ov2722_reg ov2722_1M3_30fps[] =3D {
--=09{OV2722_8BIT, 0x3718, 0x10},
--=09{OV2722_8BIT, 0x3702, 0x24},
--=09{OV2722_8BIT, 0x373a, 0x60},
--=09{OV2722_8BIT, 0x3715, 0x01},
--=09{OV2722_8BIT, 0x3703, 0x2e},
--=09{OV2722_8BIT, 0x3705, 0x10},
--=09{OV2722_8BIT, 0x3730, 0x30},
--=09{OV2722_8BIT, 0x3704, 0x62},
--=09{OV2722_8BIT, 0x3f06, 0x3a},
--=09{OV2722_8BIT, 0x371c, 0x00},
--=09{OV2722_8BIT, 0x371d, 0xc4},
--=09{OV2722_8BIT, 0x371e, 0x01},
--=09{OV2722_8BIT, 0x371f, 0x0d},
--=09{OV2722_8BIT, 0x3708, 0x61},
--=09{OV2722_8BIT, 0x3709, 0x12},
--=09{OV2722_8BIT, 0x3800, 0x01},
--=09{OV2722_8BIT, 0x3801, 0x4a},=09/* H crop start: 330 */
--=09{OV2722_8BIT, 0x3802, 0x00},
--=09{OV2722_8BIT, 0x3803, 0x03},=09/* V crop start: 3 */
--=09{OV2722_8BIT, 0x3804, 0x06},
--=09{OV2722_8BIT, 0x3805, 0xe1},=09/* H crop end:  1761 */
--=09{OV2722_8BIT, 0x3806, 0x04},
--=09{OV2722_8BIT, 0x3807, 0x47},=09/* V crop end:  1095 */
--=09{OV2722_8BIT, 0x3808, 0x05},
--=09{OV2722_8BIT, 0x3809, 0x88},=09/* H output size: 1416 */
--=09{OV2722_8BIT, 0x380a, 0x04},
--=09{OV2722_8BIT, 0x380b, 0x0a},=09/* V output size: 1034 */
--
--=09/* H blank timing */
--=09{OV2722_8BIT, 0x380c, 0x08},
--=09{OV2722_8BIT, 0x380d, 0x00},=09/* H total size: 2048 */
--=09{OV2722_8BIT, 0x380e, 0x04},
--=09{OV2722_8BIT, 0x380f, 0xa0},=09/* V total size: 1184 */
--=09{OV2722_8BIT, 0x3810, 0x00},
--=09{OV2722_8BIT, 0x3811, 0x05},=09/* H window offset: 5 */
--=09{OV2722_8BIT, 0x3812, 0x00},
--=09{OV2722_8BIT, 0x3813, 0x02},=09/* V window offset: 2 */
--=09{OV2722_8BIT, 0x3820, 0x80},
--=09{OV2722_8BIT, 0x3821, 0x06},=09/* flip isp */
--=09{OV2722_8BIT, 0x3814, 0x11},
--=09{OV2722_8BIT, 0x3815, 0x11},
--=09{OV2722_8BIT, 0x3612, 0x0b},
--=09{OV2722_8BIT, 0x3618, 0x04},
--=09{OV2722_8BIT, 0x3a08, 0x01},
--=09{OV2722_8BIT, 0x3a09, 0x50},
--=09{OV2722_8BIT, 0x3a0a, 0x01},
--=09{OV2722_8BIT, 0x3a0b, 0x18},
--=09{OV2722_8BIT, 0x3a0d, 0x03},
--=09{OV2722_8BIT, 0x3a0e, 0x03},
--=09{OV2722_8BIT, 0x4520, 0x00},
--=09{OV2722_8BIT, 0x4837, 0x1b},
--=09{OV2722_8BIT, 0x3000, 0xff},
--=09{OV2722_8BIT, 0x3001, 0xff},
--=09{OV2722_8BIT, 0x3002, 0xf0},
--=09{OV2722_8BIT, 0x3600, 0x08},
--=09{OV2722_8BIT, 0x3621, 0xc0},
--=09{OV2722_8BIT, 0x3632, 0xd2},=09/* added for power opt */
--=09{OV2722_8BIT, 0x3633, 0x23},
--=09{OV2722_8BIT, 0x3634, 0x54},
--=09{OV2722_8BIT, 0x3f01, 0x0c},
--=09{OV2722_8BIT, 0x5001, 0xc1},=09/* v_en, h_en, blc_en */
--=09{OV2722_8BIT, 0x3614, 0xf0},
--=09{OV2722_8BIT, 0x3630, 0x2d},
--=09{OV2722_8BIT, 0x370b, 0x62},
--=09{OV2722_8BIT, 0x3706, 0x61},
--=09{OV2722_8BIT, 0x4000, 0x02},
--=09{OV2722_8BIT, 0x4002, 0xc5},
--=09{OV2722_8BIT, 0x4005, 0x08},
--=09{OV2722_8BIT, 0x404f, 0x84},
--=09{OV2722_8BIT, 0x4051, 0x00},
--=09{OV2722_8BIT, 0x5000, 0xcf},
--=09{OV2722_8BIT, 0x3a18, 0x00},
--=09{OV2722_8BIT, 0x3a19, 0x80},
--=09{OV2722_8BIT, 0x4521, 0x00},
--=09{OV2722_8BIT, 0x5183, 0xb0},=09/* AWB red */
--=09{OV2722_8BIT, 0x5184, 0xb0},=09/* AWB green */
--=09{OV2722_8BIT, 0x5185, 0xb0},=09/* AWB blue */
--=09{OV2722_8BIT, 0x5180, 0x03},=09/* AWB manual mode */
--=09{OV2722_8BIT, 0x370c, 0x0c},
--=09{OV2722_8BIT, 0x4800, 0x24},=09/* clk lane gate enable */
--=09{OV2722_8BIT, 0x3035, 0x00},
--=09{OV2722_8BIT, 0x3036, 0x26},
--=09{OV2722_8BIT, 0x3037, 0xa1},
--=09{OV2722_8BIT, 0x303e, 0x19},
--=09{OV2722_8BIT, 0x3038, 0x06},
--=09{OV2722_8BIT, 0x3018, 0x04},
--
--=09/* Added for power optimization */
--=09{OV2722_8BIT, 0x3000, 0x00},
--=09{OV2722_8BIT, 0x3001, 0x00},
--=09{OV2722_8BIT, 0x3002, 0x00},
--=09{OV2722_8BIT, 0x3a0f, 0x40},
--=09{OV2722_8BIT, 0x3a10, 0x38},
--=09{OV2722_8BIT, 0x3a1b, 0x48},
--=09{OV2722_8BIT, 0x3a1e, 0x30},
--=09{OV2722_8BIT, 0x3a11, 0x90},
--=09{OV2722_8BIT, 0x3a1f, 0x10},
--=09{OV2722_8BIT, 0x3503, 0x17},
--=09{OV2722_8BIT, 0x3500, 0x00},
--=09{OV2722_8BIT, 0x3501, 0x46},
--=09{OV2722_8BIT, 0x3502, 0x00},
--=09{OV2722_8BIT, 0x3508, 0x00},
--=09{OV2722_8BIT, 0x3509, 0x10},
--=09{OV2722_TOK_TERM, 0, 0},
--};
--#endif
--
- static const struct ov2722_reg ov2722_1080p_30fps[] =3D {
-     /* For stand wait for a whole frame complete.(vblank) */
- =09{OV2722_8BIT, 0x3021, 0x03},
-@@ -982,108 +540,6 @@ static const struct ov2722_reg ov2722_1080p_30fps[] =
-=3D {
- =09{OV2722_TOK_TERM, 0, 0}
- };
-=20
--#if 0 /* Currently unused */
--static const struct ov2722_reg ov2722_720p_30fps[] =3D {
--=09{OV2722_8BIT, 0x3021, 0x03},
--=09{OV2722_8BIT, 0x3718, 0x10},
--=09{OV2722_8BIT, 0x3702, 0x24},
--=09{OV2722_8BIT, 0x373a, 0x60},
--=09{OV2722_8BIT, 0x3715, 0x01},
--=09{OV2722_8BIT, 0x3703, 0x2e},
--=09{OV2722_8BIT, 0x3705, 0x10},
--=09{OV2722_8BIT, 0x3730, 0x30},
--=09{OV2722_8BIT, 0x3704, 0x62},
--=09{OV2722_8BIT, 0x3f06, 0x3a},
--=09{OV2722_8BIT, 0x371c, 0x00},
--=09{OV2722_8BIT, 0x371d, 0xc4},
--=09{OV2722_8BIT, 0x371e, 0x01},
--=09{OV2722_8BIT, 0x371f, 0x0d},
--=09{OV2722_8BIT, 0x3708, 0x61},
--=09{OV2722_8BIT, 0x3709, 0x12},
--=09{OV2722_8BIT, 0x3800, 0x01},
--=09{OV2722_8BIT, 0x3801, 0x40}, /* H crop start: 320 */
--=09{OV2722_8BIT, 0x3802, 0x00},
--=09{OV2722_8BIT, 0x3803, 0xb1}, /* V crop start: 177 */
--=09{OV2722_8BIT, 0x3804, 0x06},
--=09{OV2722_8BIT, 0x3805, 0x55}, /* H crop end: 1621 */
--=09{OV2722_8BIT, 0x3806, 0x03},
--=09{OV2722_8BIT, 0x3807, 0x95}, /* V crop end: 918 */
--=09{OV2722_8BIT, 0x3808, 0x05},
--=09{OV2722_8BIT, 0x3809, 0x10}, /* H output size: 0x0788=3D=3D1928 */
--=09{OV2722_8BIT, 0x380a, 0x02},
--=09{OV2722_8BIT, 0x380b, 0xe0}, /* output size: 0x02DE=3D=3D734 */
--=09{OV2722_8BIT, 0x380c, 0x08},
--=09{OV2722_8BIT, 0x380d, 0x00}, /* H timing: 2048 */
--=09{OV2722_8BIT, 0x380e, 0x04},
--=09{OV2722_8BIT, 0x380f, 0xa3}, /* V timing: 1187 */
--=09{OV2722_8BIT, 0x3810, 0x00},
--=09{OV2722_8BIT, 0x3811, 0x03}, /* H window offset: 3 */
--=09{OV2722_8BIT, 0x3812, 0x00},
--=09{OV2722_8BIT, 0x3813, 0x02}, /* V window offset: 2 */
--=09{OV2722_8BIT, 0x3820, 0x80},
--=09{OV2722_8BIT, 0x3821, 0x06}, /* mirror */
--=09{OV2722_8BIT, 0x3814, 0x11},
--=09{OV2722_8BIT, 0x3815, 0x11},
--=09{OV2722_8BIT, 0x3612, 0x0b},
--=09{OV2722_8BIT, 0x3618, 0x04},
--=09{OV2722_8BIT, 0x3a08, 0x01},
--=09{OV2722_8BIT, 0x3a09, 0x50},
--=09{OV2722_8BIT, 0x3a0a, 0x01},
--=09{OV2722_8BIT, 0x3a0b, 0x18},
--=09{OV2722_8BIT, 0x3a0d, 0x03},
--=09{OV2722_8BIT, 0x3a0e, 0x03},
--=09{OV2722_8BIT, 0x4520, 0x00},
--=09{OV2722_8BIT, 0x4837, 0x1b},
--=09{OV2722_8BIT, 0x3600, 0x08},
--=09{OV2722_8BIT, 0x3621, 0xc0},
--=09{OV2722_8BIT, 0x3632, 0xd2}, /* added for power opt */
--=09{OV2722_8BIT, 0x3633, 0x23},
--=09{OV2722_8BIT, 0x3634, 0x54},
--=09{OV2722_8BIT, 0x3f01, 0x0c},
--=09{OV2722_8BIT, 0x5001, 0xc1},
--=09{OV2722_8BIT, 0x3614, 0xf0},
--=09{OV2722_8BIT, 0x3630, 0x2d},
--=09{OV2722_8BIT, 0x370b, 0x62},
--=09{OV2722_8BIT, 0x3706, 0x61},
--=09{OV2722_8BIT, 0x4000, 0x02},
--=09{OV2722_8BIT, 0x4002, 0xc5},
--=09{OV2722_8BIT, 0x4005, 0x08},
--=09{OV2722_8BIT, 0x404f, 0x84},
--=09{OV2722_8BIT, 0x4051, 0x00},
--=09{OV2722_8BIT, 0x5000, 0xcf}, /* manual 3a */
--=09{OV2722_8BIT, 0x301d, 0xf0}, /* enable group hold */
--=09{OV2722_8BIT, 0x3a18, 0x00},
--=09{OV2722_8BIT, 0x3a19, 0x80},
--=09{OV2722_8BIT, 0x4521, 0x00},
--=09{OV2722_8BIT, 0x5183, 0xb0},
--=09{OV2722_8BIT, 0x5184, 0xb0},
--=09{OV2722_8BIT, 0x5185, 0xb0},
--=09{OV2722_8BIT, 0x370c, 0x0c},
--=09{OV2722_8BIT, 0x3035, 0x00},
--=09{OV2722_8BIT, 0x3036, 0x26}, /* {0x3036, 0x2c}, //422.4 MHz */
--=09{OV2722_8BIT, 0x3037, 0xa1},
--=09{OV2722_8BIT, 0x303e, 0x19},
--=09{OV2722_8BIT, 0x3038, 0x06},
--=09{OV2722_8BIT, 0x3018, 0x04},
--=09{OV2722_8BIT, 0x3000, 0x00}, /* added for power optimization */
--=09{OV2722_8BIT, 0x3001, 0x00},
--=09{OV2722_8BIT, 0x3002, 0x00},
--=09{OV2722_8BIT, 0x3a0f, 0x40},
--=09{OV2722_8BIT, 0x3a10, 0x38},
--=09{OV2722_8BIT, 0x3a1b, 0x48},
--=09{OV2722_8BIT, 0x3a1e, 0x30},
--=09{OV2722_8BIT, 0x3a11, 0x90},
--=09{OV2722_8BIT, 0x3a1f, 0x10},
--=09{OV2722_8BIT, 0x3503, 0x17}, /* manual 3a */
--=09{OV2722_8BIT, 0x3500, 0x00},
--=09{OV2722_8BIT, 0x3501, 0x3F},
--=09{OV2722_8BIT, 0x3502, 0x00},
--=09{OV2722_8BIT, 0x3508, 0x00},
--=09{OV2722_8BIT, 0x3509, 0x00},
--=09{OV2722_TOK_TERM, 0, 0},
--};
--#endif
--
- static struct ov2722_resolution ov2722_res_preview[] =3D {
- =09{
- =09=09.desc =3D "ov2722_1632_1092_30fps",
-@@ -1128,99 +584,6 @@ static struct ov2722_resolution ov2722_res_preview[] =
-=3D {
-=20
- #define N_RES_PREVIEW (ARRAY_SIZE(ov2722_res_preview))
-=20
--/*
-- * Disable non-preview configurations until the configuration selection is
-- * improved.
-- */
--#if 0
--struct ov2722_resolution ov2722_res_still[] =3D {
--=09{
--=09=09.desc =3D "ov2722_480P_30fps",
--=09=09.width =3D 1632,
--=09=09.height =3D 1092,
--=09=09.fps =3D 30,
--=09=09.pix_clk_freq =3D 85,
--=09=09.used =3D 0,
--=09=09.pixels_per_line =3D 2260,
--=09=09.lines_per_frame =3D 1244,
--=09=09.skip_frames =3D 3,
--=09=09.regs =3D ov2722_1632_1092_30fps,
--=09=09.mipi_freq =3D 422400,
--=09},
--=09{
--=09=09.desc =3D "ov2722_1452_1092_30fps",
--=09=09.width =3D 1452,
--=09=09.height =3D 1092,
--=09=09.fps =3D 30,
--=09=09.pix_clk_freq =3D 85,
--=09=09.used =3D 0,
--=09=09.pixels_per_line =3D 2260,
--=09=09.lines_per_frame =3D 1244,
--=09=09.skip_frames =3D 3,
--=09=09.regs =3D ov2722_1452_1092_30fps,
--=09=09.mipi_freq =3D 422400,
--=09},
--=09{
--=09=09.desc =3D "ov2722_1080P_30fps",
--=09=09.width =3D 1932,
--=09=09.height =3D 1092,
--=09=09.pix_clk_freq =3D 69,
--=09=09.fps =3D 30,
--=09=09.used =3D 0,
--=09=09.pixels_per_line =3D 2068,
--=09=09.lines_per_frame =3D 1114,
--=09=09.skip_frames =3D 3,
--=09=09.regs =3D ov2722_1080p_30fps,
--=09=09.mipi_freq =3D 345600,
--=09},
--};
--
--#define N_RES_STILL (ARRAY_SIZE(ov2722_res_still))
--
--struct ov2722_resolution ov2722_res_video[] =3D {
--=09{
--=09=09.desc =3D "ov2722_QVGA_30fps",
--=09=09.width =3D 336,
--=09=09.height =3D 256,
--=09=09.fps =3D 30,
--=09=09.pix_clk_freq =3D 73,
--=09=09.used =3D 0,
--=09=09.pixels_per_line =3D 2048,
--=09=09.lines_per_frame =3D 1184,
--=09=09.skip_frames =3D 3,
--=09=09.regs =3D ov2722_QVGA_30fps,
--=09=09.mipi_freq =3D 364800,
--=09},
--=09{
--=09=09.desc =3D "ov2722_480P_30fps",
--=09=09.width =3D 736,
--=09=09.height =3D 496,
--=09=09.fps =3D 30,
--=09=09.pix_clk_freq =3D 73,
--=09=09.used =3D 0,
--=09=09.pixels_per_line =3D 2048,
--=09=09.lines_per_frame =3D 1184,
--=09=09.skip_frames =3D 3,
--=09=09.regs =3D ov2722_480P_30fps,
--=09},
--=09{
--=09=09.desc =3D "ov2722_1080P_30fps",
--=09=09.width =3D 1932,
--=09=09.height =3D 1092,
--=09=09.pix_clk_freq =3D 69,
--=09=09.fps =3D 30,
--=09=09.used =3D 0,
--=09=09.pixels_per_line =3D 2068,
--=09=09.lines_per_frame =3D 1114,
--=09=09.skip_frames =3D 3,
--=09=09.regs =3D ov2722_1080p_30fps,
--=09=09.mipi_freq =3D 345600,
--=09},
--};
--
--#define N_RES_VIDEO (ARRAY_SIZE(ov2722_res_video))
--#endif
--
- static struct ov2722_resolution *ov2722_res =3D ov2722_res_preview;
- static unsigned long N_RES =3D N_RES_PREVIEW;
- #endif
---=20
-2.50.1 (Apple Git-155)
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 110 +++++++++---------
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
+ 2 files changed, 55 insertions(+), 57 deletions(-)
 
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+index b06cb73015cd..f4d1f876dac8 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+@@ -95,12 +95,12 @@ static void sun6i_mipi_csi2_disable(struct sun6i_mipi_csi2_device *csi2_dev)
+ 			   SUN6I_MIPI_CSI2_CTL_EN, 0);
+ }
+ 
+-static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev)
++static void sun6i_mipi_csi2_configure(struct sun6i_mipi_csi2_device *csi2_dev,
++				       const struct v4l2_mbus_framefmt *mbus_format)
+ {
+ 	struct regmap *regmap = csi2_dev->regmap;
+ 	unsigned int lanes_count =
+ 		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
+ 	const struct sun6i_mipi_csi2_format *format;
+ 	struct device *dev = csi2_dev->dev;
+ 	u32 version = 0;
+@@ -173,7 +173,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
+ 	union phy_configure_opts dphy_opts = { 0 };
+ 	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
++	struct v4l2_subdev_state *state;
++	const struct v4l2_mbus_framefmt *mbus_format;
+ 	const struct sun6i_mipi_csi2_format *format;
+ 	struct phy *dphy = csi2_dev->dphy;
+ 	struct device *dev = csi2_dev->dev;
+@@ -183,8 +184,12 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	unsigned long pixel_rate;
+ 	int ret;
+ 
+-	if (!source_subdev)
+-		return -ENODEV;
++	state = v4l2_subdev_lock_and_get_active_state(subdev);
++
++	if (!source_subdev) {
++		ret = -ENODEV;
++		goto unlock;
++	}
+ 
+ 	if (!on) {
+ 		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+@@ -196,7 +201,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0)
+-		return ret;
++		goto unlock;
+ 
+ 	/* Sensor Pixel Rate */
+ 
+@@ -222,6 +227,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 		goto error_pm;
+ 	}
+ 
++	mbus_format = v4l2_subdev_state_get_format(state,
++						   SUN6I_MIPI_CSI2_PAD_SINK);
+ 	format = sun6i_mipi_csi2_format_find(mbus_format->code);
+ 	if (WARN_ON(!format)) {
+ 		ret = -ENODEV;
+@@ -260,7 +267,7 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	/* Controller */
+ 
+-	sun6i_mipi_csi2_configure(csi2_dev);
++	sun6i_mipi_csi2_configure(csi2_dev, mbus_format);
+ 	sun6i_mipi_csi2_enable(csi2_dev);
+ 
+ 	/* D-PHY */
+@@ -277,7 +284,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	if (ret && ret != -ENOIOCTLCMD)
+ 		goto disable;
+ 
+-	return 0;
++	ret = 0;
++	goto unlock;
+ 
+ disable:
+ 	phy_power_off(dphy);
+@@ -286,6 +294,8 @@ static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ error_pm:
+ 	pm_runtime_put(dev);
+ 
++unlock:
++	v4l2_subdev_unlock_state(state);
+ 	return ret;
+ }
+ 
+@@ -308,21 +318,23 @@ sun6i_mipi_csi2_mbus_format_prepare(struct v4l2_mbus_framefmt *mbus_format)
+ static int sun6i_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+ 				      struct v4l2_subdev_state *state)
+ {
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	unsigned int pad = SUN6I_MIPI_CSI2_PAD_SINK;
+-	struct v4l2_mbus_framefmt *mbus_format =
+-		v4l2_subdev_state_get_format(state, pad);
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	unsigned int pad;
+ 
+-	mutex_lock(lock);
++	/*
++	 * This subdev does not perform format conversion,
++	 * initialize both pads identically.
++	 */
++	for (pad = 0; pad < subdev->entity.num_pads; pad++) {
++		struct v4l2_mbus_framefmt *mbus_format;
+ 
+-	mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
+-	mbus_format->width = 640;
+-	mbus_format->height = 480;
++		mbus_format = v4l2_subdev_state_get_format(state, pad);
+ 
+-	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++		mbus_format->code = sun6i_mipi_csi2_formats[0].mbus_code;
++		mbus_format->width = 640;
++		mbus_format->height = 480;
+ 
+-	mutex_unlock(lock);
++		sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++	}
+ 
+ 	return 0;
+ }
+@@ -340,53 +352,32 @@ sun6i_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
+ 
+-static int sun6i_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+-				   struct v4l2_subdev_state *state,
+-				   struct v4l2_subdev_format *format)
+-{
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
+-
+-	mutex_lock(lock);
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*mbus_format = *v4l2_subdev_state_get_format(state,
+-							     format->pad);
+-	else
+-		*mbus_format = csi2_dev->bridge.mbus_format;
+-
+-	mutex_unlock(lock);
+-
+-	return 0;
+-}
+-
+ static int sun6i_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+ 				   struct v4l2_subdev_state *state,
+ 				   struct v4l2_subdev_format *format)
+ {
+-	struct sun6i_mipi_csi2_device *csi2_dev = v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	struct v4l2_mbus_framefmt *fmt;
+ 
+-	mutex_lock(lock);
++	/* The format on the source pad always matches the sink pad. */
++	if (format->pad != SUN6I_MIPI_CSI2_PAD_SINK)
++		return v4l2_subdev_get_fmt(subdev, state, format);
+ 
+-	sun6i_mipi_csi2_mbus_format_prepare(mbus_format);
++	sun6i_mipi_csi2_mbus_format_prepare(&format->format);
+ 
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*v4l2_subdev_state_get_format(state, format->pad) =
+-			*mbus_format;
+-	else
+-		csi2_dev->bridge.mbus_format = *mbus_format;
++	/* Set the format on the sink pad. */
++	fmt = v4l2_subdev_state_get_format(state, format->pad);
++	*fmt = format->format;
+ 
+-	mutex_unlock(lock);
++	/* Propagate the format to the source pad. */
++	fmt = v4l2_subdev_state_get_format(state, SUN6I_MIPI_CSI2_PAD_SOURCE);
++	*fmt = format->format;
+ 
+ 	return 0;
+ }
+ 
+ static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_pad_ops = {
+ 	.enum_mbus_code	= sun6i_mipi_csi2_enum_mbus_code,
+-	.get_fmt	= sun6i_mipi_csi2_get_fmt,
++	.get_fmt	= v4l2_subdev_get_fmt,
+ 	.set_fmt	= sun6i_mipi_csi2_set_fmt,
+ };
+ 
+@@ -502,8 +493,6 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	bool notifier_registered = false;
+ 	int ret;
+ 
+-	mutex_init(&bridge->lock);
+-
+ 	/* V4L2 Subdev */
+ 
+ 	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+@@ -532,6 +521,12 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	if (ret)
+ 		return ret;
+ 
++	/* V4L2 Subdev finalize */
++
++	ret = v4l2_subdev_init_finalize(subdev);
++	if (ret < 0)
++		goto error_media_entity_cleanup;
++
+ 	/* V4L2 Async */
+ 
+ 	v4l2_async_subdev_nf_init(notifier, subdev);
+@@ -539,7 +534,7 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 
+ 	ret = sun6i_mipi_csi2_bridge_source_setup(csi2_dev);
+ 	if (ret && ret != -ENODEV)
+-		goto error_v4l2_notifier_cleanup;
++		goto error_v4l2_subdev_cleanup;
+ 
+ 	/* Only register the notifier when a sensor is connected. */
+ 	if (ret != -ENODEV) {
+@@ -565,6 +560,10 @@ static int sun6i_mipi_csi2_bridge_setup(struct sun6i_mipi_csi2_device *csi2_dev)
+ error_v4l2_notifier_cleanup:
+ 	v4l2_async_nf_cleanup(notifier);
+ 
++error_v4l2_subdev_cleanup:
++	v4l2_subdev_cleanup(subdev);
++
++error_media_entity_cleanup:
+ 	media_entity_cleanup(&subdev->entity);
+ 
+ 	return ret;
+@@ -579,6 +578,7 @@ sun6i_mipi_csi2_bridge_cleanup(struct sun6i_mipi_csi2_device *csi2_dev)
+ 	v4l2_async_unregister_subdev(subdev);
+ 	v4l2_async_nf_unregister(notifier);
+ 	v4l2_async_nf_cleanup(notifier);
++	v4l2_subdev_cleanup(subdev);
+ 	media_entity_cleanup(&subdev->entity);
+ }
+ 
+diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+index 24b15e34b5e8..d72dfbd6a993 100644
+--- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
++++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+@@ -32,8 +32,6 @@ struct sun6i_mipi_csi2_bridge {
+ 	struct media_pad		pads[SUN6I_MIPI_CSI2_PAD_COUNT];
+ 	struct v4l2_fwnode_endpoint	endpoint;
+ 	struct v4l2_async_notifier	notifier;
+-	struct v4l2_mbus_framefmt	mbus_format;
+-	struct mutex			lock; /* Mbus format lock. */
+ 
+ 	struct v4l2_subdev		*source_subdev;
+ };
+-- 
+2.34.1
 
 
