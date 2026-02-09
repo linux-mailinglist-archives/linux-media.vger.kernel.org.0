@@ -1,81 +1,82 @@
-Return-Path: <linux-media+bounces-52425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52426-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KJBzEJj/iWluFQAAu9opvQ
-	(envelope-from <linux-media+bounces-52425-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:39:04 +0100
+	id oLYPJhoBimluFQAAu9opvQ
+	(envelope-from <linux-media+bounces-52426-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:45:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F24111FDB
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:39:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F037711214D
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:45:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4D8A4300BC59
-	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 15:38:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EF8E1306689C
+	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 15:38:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 355C03803C5;
-	Mon,  9 Feb 2026 15:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AF5437FF5A;
+	Mon,  9 Feb 2026 15:38:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="N97pyVb8"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="FQp29DCu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D5837FF7D
-	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 15:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB56F3803C8
+	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 15:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770651495; cv=none; b=mtbtokEn0pMiqBpxu0JmKneGNwexkRbKMqQ5r/rP25Gx9DRrF5iwJ5APh8s+S+1eEMM2huUajEzs3jqJcAgmntUl3DW9FjRYfI5LMip69XjAv6bcGJgL8tn76r2/PwJfwwMS1fFKDTS6EWmrNI5+p3UmVXRzF0jMZqvoARHrBRM=
+	t=1770651497; cv=none; b=GPABQAtJy8f9NqvpYzXpc/EtqpPP7DB59KfK+3lwYC1qKGvw7cMIE1pzlDfFiyfnjWnRVRzZi7YgFZWpOsILYW3tGaMKQiM8MDljvd5ns5n0PRZ5vvi4Zzk5PtRL9FC8yTKdMsRnsPvM4DPm77kOA+y3IKgp0jTq3Uaigdl6iek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770651495; c=relaxed/simple;
-	bh=4+KS84gkU8a/qj/+caCigpMBaF9Inx8ny9YhQVJcbQI=;
+	s=arc-20240116; t=1770651497; c=relaxed/simple;
+	bh=QKlzvN5Ibeyd+ZwXwOg2RWNZHh/JmCKBpn+iFp4nZow=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QTJQFLVV/l4OHUUuqU/yXcIOdhWGgKO5VMmnYgJyHYCZhXj6HNN7x7u7RNH4O57Jps5/Mu9euySfS5hyNuB3EBtGFxTzp7j84heHnsl3G/COE6hTjLTlJPdPC4STsu81SoRFTpMAVntTtAL6Y3QWLn3MzhWxAtKHBapdO96yTqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=N97pyVb8; arc=none smtp.client-ip=209.85.128.66
+	 MIME-Version; b=BHiXf2XOGuL/zQKOU01+1T15ERLGycq20Fp5R8WB1x8p8Af9a69ZXgm9hMUTj/+wWxbxKZ7ydGut357LEYPHtqcy1ZCbgxALQvopw3llEe7Ax/l0nA8ZCiDtzdebmUHOXZ5RiBv6SWyPq5JJ/60hevhQS+oX8VEgW7AMEUX+udc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=FQp29DCu; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-483337aa225so7501625e9.2
-        for <linux-media@vger.kernel.org>; Mon, 09 Feb 2026 07:38:15 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4376de3f128so837059f8f.0
+        for <linux-media@vger.kernel.org>; Mon, 09 Feb 2026 07:38:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770651494; x=1771256294; darn=vger.kernel.org;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770651495; x=1771256295; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xCp//tMOTqGacLZXvOrrIiaVx7JZ5khmQmJbVkzQNLk=;
-        b=N97pyVb85Y940y3ED0rQsIlcpcaSQ6qPYTj+DriixmpTOA0TBbPLvHaQhfQzCroYjV
-         U5aFhKjz8ydckIrcttatHUiBL1sKZ5BOjEBoUr+o4VfTf/h/H9FE4OWtfaerhsuBpnRj
-         JRiY44e9OIL2fBP/3HIp2Nhl1mO1t1hynFmy8rOxlYYZS/7qH7IScnvJndbCQKG636jz
-         vDCy98QlV01TSfEXshLxlaKX8Q1zQc0637jRPIzl2uwM+X4BhTO1JMOqddZ0O6/Q8Szw
-         jcOgRw/cjy2FrlhDVkYK8m2mJ36lYmt8wdLFYGdULB2oxSbtYUj2ztIRgjcBOOnL7cn1
-         OILw==
+        bh=RHwHnR/AkgDNwuGXRgvil2Ov0DASjUJHIHivMAy5Dsg=;
+        b=FQp29DCuJDxbrCVTbvX7aF+FIHqxpkUhkigjvbLyWT3QwgkYRLSV/GwaZrGvRGvSyC
+         f+oDPZjSzp+PtAAaXKYgPIeYHmijF65osYbSrrBbUN+u4vp5BGqfQZpDYCkNtOhgJp51
+         Tt6GEg5ReXNtgxF+rU2/wSlv75MsjDXmjEvt/sxENuilBnC+axuKperGhbDnpIV/K5yn
+         vDlKPzX0SdGwvZpw49HDwU8MqdHkCxoQdS05sOgJUolZst3eHxRUyAmf+TUmKcalq/ni
+         22swsY2BPCnxo4N5D31pohhlzWO2ZQBf9F9C3XzXHjdPe4vNnF4YrBh5NKqcpubzG+Jq
+         ZOkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770651494; x=1771256294;
+        d=1e100.net; s=20230601; t=1770651495; x=1771256295;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=xCp//tMOTqGacLZXvOrrIiaVx7JZ5khmQmJbVkzQNLk=;
-        b=SyXS+SxAZgLphxv0fgufKOYGOYKXo7cE+NYZ/1KpVSkUIdMcbHQnPzs+HmoTLcfbzj
-         PrYAudWZfShtj7rNtl2fF9DEpKWmxIJ16YMv5y0DCL5LRHxpgXnihqoRmVwpuLCgDlCl
-         U2Sdanjm34YY2pZKYGDUWtJMLe/u4L5w30l6pWIdZ+7PD8jXkbHFXC4XR9d+cEWmQVCE
-         Q0Wy2YUhkhHj7k335JvEqDKsBHVDvk5FhoN8wOq0pxqSe9PYnAkEWJPlTOh/odhZrovB
-         2gbShXTkAj2I1zs+FrM6bieHnzU1267swMsnSBpY7YWq5o4/zgc3oOcD9iNJLM69WvoR
-         26rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXlviiMtt/YJxLZiGZEHaqOnJjBjyk3Yenr6jxaloAIvWJDN+tdnqgzNPUO6khM4Npo255ntW6zPGnCGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyv/n50regP1pP1usbYDT7eXymQJsmFSF2fn6et/crwR7kis+5r
-	pAT0Mdx4i6X05+MrZPaXkoxsnu46b6cA23uZFgA2uzIHcLJIALREHBztEiV+Up3IxiI=
-X-Gm-Gg: AZuq6aIOTHMxxPGWHIEOBp/Rn03L6XK5WCCJo8jqQSxhZb2ay6Ps0RqUKSp81BAYLM7
-	8EzOLfZx3SYzgmb3NCXRWrTpOSA8M2f4i4wRtFFWD34idoIuwHrpQ3kQQIAw10eFX3mCUpxDJWC
-	NjiNYJepuV3mWByoKaKkZyvEAAdt3AUsQikURtgmcmmi/TI3kARFg9iCgRB6R+uGrxyw8SRfPBh
-	nxzvyzuOXMD6QxaX+SsefsoSQPVd7mJ7KTOaB9ZeOpJvEbZ3+6WprsnbC6392IaDLOMaky6Lp7s
-	cYRYRvCe0UgEyaEQ/FdifBhrOk0OBHyxvQmaOq71s5aFbBaCn6ssfmqPglV9SMboHH7jY7xDwMS
-	Neb8MibY+862RKvKgVTRY0b6561VuEXbC2TDpI76EnSShiLRQbZp6hqRVJWDld6/nWA8CtMAgxe
-	FwPA==
-X-Received: by 2002:a05:600c:c16a:b0:475:dcbb:7903 with SMTP id 5b1f17b1804b1-483201e1895mr157429035e9.9.1770651493820;
-        Mon, 09 Feb 2026 07:38:13 -0800 (PST)
+        bh=RHwHnR/AkgDNwuGXRgvil2Ov0DASjUJHIHivMAy5Dsg=;
+        b=uwJostxJU4ZFvexF6HeXKyh7sQlxk+hiFZ3InVheraZ3DXBnFe8Pup35sEm1wyzM7+
+         vXa2J4YmWW6mGJzNdWAAxNhNDxeXI4CSGAMv9nfDvy+n61YPa8KWL5laldIRxicgUlfp
+         sDTo7mIfPEKB0lLpGgWhtYUHPGEaRMCkYVGbpZg6K1kj79bA1pER6NKreD9Jd21by0Y9
+         o8X3F9wwICPT6vdO0k7RKLJPcxpIlGxshuwj46XZ5RiNR5f/QOqQBraKD5UTIhZvUXTp
+         NRuDGqoTQxH3Nv6WVqJtM0+sYzLEE1n3Yv1N0XHwc+td4QpeKXQu5LbFsr5+P6eF8faw
+         ixMA==
+X-Forwarded-Encrypted: i=1; AJvYcCVX0RdZwhSJWhnBAg5VHtYHjWGtaVdQvBfVCiOilCzcV64pMSk0gppBj0d9IRygcwBertNqZBuSNpJ+Xg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjXnrUeHsHhS8VzWgKE5RJOj0aXTc+tezwVsN35C9+or5OUQW6
+	Ek/D7A79Py73nP6a0m1DhNIKeI0mXcyzAS/e72NpP7NsRl9Ir55goa7sKGmemKi3CN7pu0LDA5d
+	ufLY2
+X-Gm-Gg: AZuq6aIK7ehYLARWLpl5jn1SE7ojw8SfcvtPLwqTEYCi+dt3no+XAZX5wbTko+nSmF3
+	j9MeXzKCIJDzzb7DRcMgU4j/SCgyh6jyd5rFEOlPdKA3isxOiKHLc1wFSbMnkL7jUN+5yRF21O7
+	Ad1fEpk79oOa35AbQxcMIdbVo66rpyU+ZayhXc22EZND87tqpazNd5lWMWdIVYkO7S54mOxYNiO
+	8EfrpnFokvSq6sEXY2FNQflbBJHR1G4XLHuFUTqjh7c4Fq7dXlM5zkjB4MmHzTJz4gB43/z4SgI
+	5qFFL6qevBKRF9Daf3BSllB9dKXxqsUaMCU/Xc8PJqipnPFgWTmncsnIK8oaYnN5MOgOkGRjW0m
+	aCKIeZownQ6P63dWVf7nlXNyVIxkMI9yooa1BZo4BXpI2UMAiBSBWy4T7jVvPX/L90fa00uHSfz
+	z8ug==
+X-Received: by 2002:a5d:5f91:0:b0:432:852d:5662 with SMTP id ffacd0b85a97d-4362938f401mr17980642f8f.63.1770651495066;
+        Mon, 09 Feb 2026 07:38:15 -0800 (PST)
 Received: from localhost ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483206b8ebbsm382402735e9.1.2026.02.09.07.38.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b25casm28647578f8f.4.2026.02.09.07.38.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 07:38:13 -0800 (PST)
+        Mon, 09 Feb 2026 07:38:14 -0800 (PST)
 From: Jiri Pirko <jiri@resnulli.us>
 To: dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org,
@@ -102,9 +103,9 @@ Cc: sumit.semwal@linaro.org,
 	ashish.kalra@amd.com,
 	suravee.suthikulpanit@amd.com,
 	linux-coco@lists.linux.dev
-Subject: [PATCH 3/5] dma-buf: heaps: use designated initializer for exp_info
-Date: Mon,  9 Feb 2026 16:38:07 +0100
-Message-ID: <20260209153809.250835-4-jiri@resnulli.us>
+Subject: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap flags
+Date: Mon,  9 Feb 2026 16:38:08 +0100
+Message-ID: <20260209153809.250835-5-jiri@resnulli.us>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20260209153809.250835-1-jiri@resnulli.us>
 References: <20260209153809.250835-1-jiri@resnulli.us>
@@ -120,7 +121,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -130,7 +131,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	DMARC_NA(0.00)[resnulli.us];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52425-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52426-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -141,70 +142,80 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_TWELVE(0.00)[25];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,resnulli-us.20230601.gappssmtp.com:dkim,exp_info.name:url,resnulli.us:mid]
-X-Rspamd-Queue-Id: 64F24111FDB
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,resnulli-us.20230601.gappssmtp.com:dkim,resnulli.us:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F037711214D
 X-Rspamd-Action: no action
 
 From: Jiri Pirko <jiri@nvidia.com>
 
-Use designated initializer for dma_heap_export_info instead of
-separate field assignments and avoid the need to explicitly
-zero fields in preparation to follow-up patch.
+Currently the flags, which are unused, are validated for all heaps.
+Since the follow-up patch introduces a flag valid for only one of the
+heaps, allow to specify the valid flags per-heap.
 
 Signed-off-by: Jiri Pirko <jiri@nvidia.com>
 ---
- drivers/dma-buf/heaps/cma_heap.c    | 7 ++++---
- drivers/dma-buf/heaps/system_heap.c | 9 ++++-----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/dma-buf/dma-heap.c | 5 ++++-
+ include/linux/dma-heap.h   | 2 ++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 42f88193eab9..d12c98be7fa9 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -388,7 +388,10 @@ static const struct dma_heap_ops cma_heap_ops = {
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 8ab49924f8b7..4751bcef4b19 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -28,6 +28,7 @@
+  * @name:		used for debugging/device-node name
+  * @ops:		ops struct for this heap
+  * @priv:		private data for this heap
++ * @valid_heap_flags:	valid heap flags for this heap
+  * @heap_devt:		heap device node
+  * @list:		list head connecting to list of heaps
+  * @heap_cdev:		heap char device
+@@ -38,6 +39,7 @@ struct dma_heap {
+ 	const char *name;
+ 	const struct dma_heap_ops *ops;
+ 	void *priv;
++	u64 valid_heap_flags;
+ 	dev_t heap_devt;
+ 	struct list_head list;
+ 	struct cdev heap_cdev;
+@@ -105,7 +107,7 @@ static long dma_heap_ioctl_allocate(struct file *file, void *data)
+ 	if (heap_allocation->fd_flags & ~DMA_HEAP_VALID_FD_FLAGS)
+ 		return -EINVAL;
  
- static int __init __add_cma_heap(struct cma *cma, const char *name)
- {
--	struct dma_heap_export_info exp_info;
-+	struct dma_heap_export_info exp_info = {
-+		.name = name,
-+		.ops = &cma_heap_ops,
-+	};
- 	struct cma_heap *cma_heap;
+-	if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
++	if (heap_allocation->heap_flags & ~heap->valid_heap_flags)
+ 		return -EINVAL;
  
- 	cma_heap = kzalloc(sizeof(*cma_heap), GFP_KERNEL);
-@@ -396,8 +399,6 @@ static int __init __add_cma_heap(struct cma *cma, const char *name)
- 		return -ENOMEM;
- 	cma_heap->cma = cma;
+ 	fd = dma_heap_buffer_alloc(heap, heap_allocation->len,
+@@ -246,6 +248,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 	heap->name = exp_info->name;
+ 	heap->ops = exp_info->ops;
+ 	heap->priv = exp_info->priv;
++	heap->valid_heap_flags = exp_info->valid_heap_flags;
  
--	exp_info.name = name;
--	exp_info.ops = &cma_heap_ops;
- 	exp_info.priv = cma_heap;
+ 	/* Find unused minor number */
+ 	ret = xa_alloc(&dma_heap_minors, &minor, heap,
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 27d15f60950a..7cfb531a9281 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -31,6 +31,7 @@ struct dma_heap_ops {
+  * @name:	used for debugging/device-node name
+  * @ops:	ops struct for this heap
+  * @priv:	heap exporter private data
++ * @valid_heap_flags:	valid heap flags for this heap
+  *
+  * Information needed to export a new dmabuf heap.
+  */
+@@ -38,6 +39,7 @@ struct dma_heap_export_info {
+ 	const char *name;
+ 	const struct dma_heap_ops *ops;
+ 	void *priv;
++	u64 valid_heap_flags;
+ };
  
- 	cma_heap->heap = dma_heap_add(&exp_info);
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 4c782fe33fd4..124dca56e4d8 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -427,13 +427,12 @@ static const struct dma_heap_ops system_heap_ops = {
- 
- static int __init system_heap_create(void)
- {
--	struct dma_heap_export_info exp_info;
-+	struct dma_heap_export_info exp_info = {
-+		.name = "system",
-+		.ops = &system_heap_ops,
-+	};
- 	struct dma_heap *sys_heap;
- 
--	exp_info.name = "system";
--	exp_info.ops = &system_heap_ops;
--	exp_info.priv = NULL;
--
- 	sys_heap = dma_heap_add(&exp_info);
- 	if (IS_ERR(sys_heap))
- 		return PTR_ERR(sys_heap);
+ void *dma_heap_get_drvdata(struct dma_heap *heap);
 -- 
 2.51.1
 
