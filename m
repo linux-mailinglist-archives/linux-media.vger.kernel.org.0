@@ -1,241 +1,184 @@
-Return-Path: <linux-media+bounces-52433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52434-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sM5vDLoFimluFQAAu9opvQ
-	(envelope-from <linux-media+bounces-52433-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 17:05:14 +0100
+	id +LZ8HxAIimluFQAAu9opvQ
+	(envelope-from <linux-media+bounces-52434-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 17:15:12 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4421124C2
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 17:05:13 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34491112675
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 17:15:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D166B3005330
-	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 16:05:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2B98D301DEED
+	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 16:15:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4683806BA;
-	Mon,  9 Feb 2026 16:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BD733815E9;
+	Mon,  9 Feb 2026 16:15:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GzXOc1Ln"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NWNx69Db"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA93283FC5;
-	Mon,  9 Feb 2026 16:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8504374198;
+	Mon,  9 Feb 2026 16:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770653107; cv=none; b=d7MWEMuA+l06yXCgOYJqKqrVo1XeZcXt74sQJBAKKkdD/NCYC81bxgWhETYJlJ5bK9mRdmYNFKPiU0k1gxAvDWZ783DVdzuA4ZWl6K28zvq4OPoIqxoxzl7+y1Dw1YwiH8xZQ8Ze3VNxVRIgVUwU/qk9pOE+idKTZWkkcsXoUf4=
+	t=1770653704; cv=none; b=XjjDVtCjYcwC1LBNnX1Q/0004V8VyNqEa1NJ3efOvuJUzSiESzk7x4vX7xQrDpbH6NFEdXoKlNb8giq0IDHF8AoUtrQNdeIUtGXjVb6sYowCYoP7PG+EX27VduUv/z0QSPlPS0fMPSKBc07KYdVdhwxMeyOSwoyYBg2MbDX9Ous=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770653107; c=relaxed/simple;
-	bh=p6Fq4ro6/P5c9Yo+h2Np7ytxI8QOl2SyMtcIEaZJteI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dmLLQzC31KQbBTzysxyT0l8b94XoM85bqaPZOJCJTIuSJLUSU0bbctriELmaQAIXpHpeae4ctX7XNq/z3TpWBFESu7SPzEhhk022leP5k8hmIWMOVTfvpAwdupM2ejz1ST1HbnJ95j4yX2JvO9HPs2SG0WOx1GvCkq/XCvq5IL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GzXOc1Ln; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61D5C63F;
-	Mon,  9 Feb 2026 17:04:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770653059;
-	bh=p6Fq4ro6/P5c9Yo+h2Np7ytxI8QOl2SyMtcIEaZJteI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GzXOc1Lnouv8NugQNXcEsujGg83ktaMNTEC50fwfazHphFI5AFmUtHYm6pONSGAX4
-	 MxLel4H5Bz4oyDyBnmQ4yVh9bXYsOYmVjhdeAciEm4I2FuX2uqOyvTrmpUYmqtmPRQ
-	 izahPUOEKGLaY2tU9T2xpcGfFyGYPy89IHfM4lxs=
-Date: Mon, 9 Feb 2026 17:05:01 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, tomm.merciai@gmail.com, 
-	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: rzg2l-cru: Skip ICnMC configuration when
- ICnSVC is used
-Message-ID: <aYoFBMBBT88qH756@zed>
-References: <cover.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
- <b9aeabb34829b8e97559610a3d00ef67399a300c.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
- <aYnnRWR-5xOPSHOh@zed>
- <aYn_Vf1H1m1z44p2@tom-desktop>
+	s=arc-20240116; t=1770653704; c=relaxed/simple;
+	bh=FvZn+OEw8GU8SWUBK2R6uXoXALacJBeJ2a/5HKKfI4c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=oSijooMMCrdQOMaUWIfTeeMVE48ss3glajPbiyqzusOLok34LuUSd7Ub5GX4zVjgU9e/v9bnhv8bV7OuPU4K/Lb+UBiDPWcz25ZJF/VpZVlMOidCdu2den5fh7xwTz4qejqFsqGCob3q4QYcsYHi7yJ5MGxeF6hqKvVJNjoQ6Ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NWNx69Db; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 619F2ssL2814553;
+	Mon, 9 Feb 2026 16:14:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	g+edwX847h+ardtb75/Mc+k2r5of2NtPFWAl6tK0Bbw=; b=NWNx69DbPZquUbj5
+	ygsi+H5VBAskkLJNEZcuWBPbUayLT9GKNURt/qIYTUG8ys780m+B5Sa2wVaLq7iR
+	lFa9Srfae9c7u3cEsGIx/iGsnx1NvPXrIDyTGL0/8K9ssX9CsaMekpD3XHEpoXUa
+	lgRiCbaRS5zu0i8wW71NcUeSnPbTVou79Xp+sAOqc0HrKkl+cpoX1kbXp+EYykR1
+	CeP6rfv2fq792qqfLhXFXHFH7kpcUkZmacgkwNW8T4KWJX5mn1gFrcg1PfKEjzsD
+	zEWOJXApNhlPNFo80QnbKNRZuz6a4av8kuQPTz0JWz0wvghI3VkqWpsOczMel8Uw
+	bV7TqA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c6g65c6s0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Feb 2026 16:14:59 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 619GEv28031136
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 9 Feb 2026 16:14:57 GMT
+Received: from [10.216.23.47] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 9 Feb
+ 2026 08:14:50 -0800
+Message-ID: <0c88b41a-6884-4056-ab47-9b67eb735f60@quicinc.com>
+Date: Mon, 9 Feb 2026 21:44:39 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aYn_Vf1H1m1z44p2@tom-desktop>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/5] arm64: dts: qcom: monaco: Add CCI definitions
+To: Krzysztof Kozlowski <krzk@kernel.org>, <bryan.odonoghue@linaro.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <loic.poulain@oss.qualcomm.com>,
+        <rfoss@kernel.org>, <andi.shyti@kernel.org>,
+        <linux-i2c@vger.kernel.org>, <cros-qcom-dts-watchers@chromium.org>
+CC: <quic_svankada@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Ravi Shankar <quic_rshankar@quicinc.com>,
+        Vishal Verma <quic_vishverm@quicinc.com>,
+        Vladimir Zapolskiy
+	<vladimir.zapolskiy@linaro.org>,
+        Konrad Dybcio
+	<konrad.dybcio@oss.qualcomm.com>
+References: <20260121183142.1867199-1-quic_nihalkum@quicinc.com>
+ <20260121183142.1867199-3-quic_nihalkum@quicinc.com>
+ <1591d0a9-d5c6-4043-a156-98954bb5b1e6@kernel.org>
+Content-Language: en-US
+From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+In-Reply-To: <1591d0a9-d5c6-4043-a156-98954bb5b1e6@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=GqNPO01C c=1 sm=1 tr=0 ts=698a0803 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=COk6AnOGAAAA:8 a=BjyQy4h12ZiA_7grzfYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: tgCSkNieX9RSoyvyiLHbdnYppgW6O_Ku
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA5MDEzNiBTYWx0ZWRfX9zzrbCId3Uyc
+ LiihgcNa84MDCF0wa8ms5IsBpw5EXpuM6jtpXqtC37PY/sM5r0eCHdjsSEpwX9b00VXGh4gliMU
+ eR2zKU3ek/+/EAMUzbhfKIFHZiIOZj4dye7XGjIfglll5cozdeU3IoO3nkPIqLxfQbv3OFDPIyc
+ ZAmTYgaNulbGlJ63rs+iFmehBMy/v7Sv2hEZ5Y11Mreo8ePR7HLz37rV+MkrVJoz/0Y3f0aQdtQ
+ 5sp9m0D11gSMd6SWRgKkahmuC/7qj1EOJb7AyNGQLMctdvA+Vy3Nu22vswo1E/X2EDQEhpoi7O1
+ MaxyU5Y2qecH3xmz4szbnQJtTdZFzZGqn9ws+Vnm+XYMA2y4nTDxL8yDqp+J6evgjetMgfZdbHb
+ XV7W5ssM7SEDUI0JSnOAdBJzmf7QvzX5scLTotH8hcXmMmlY0lTd03qsjigytrPoMSXGcVBJoFL
+ L+fOBY2puFnQb0ZB1ew==
+X-Proofpoint-GUID: tgCSkNieX9RSoyvyiLHbdnYppgW6O_Ku
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-09_01,2026-02-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 adultscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 phishscore=0 clxscore=1011 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602090136
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[quicinc.com,none];
+	R_DKIM_ALLOW(-0.20)[quicinc.com:s=qcppdkim1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52433-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-52434-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,linaro.org,xs4all.nl,oss.qualcomm.com,vger.kernel.org,chromium.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[ideasonboard.com,gmail.com,vger.kernel.org,bp.renesas.com,kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[quicinc.com:mid,quicinc.com:dkim,quicinc.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[quic_nihalkum@quicinc.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[quicinc.com:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ideasonboard.com:dkim,renesas.com:email]
-X-Rspamd-Queue-Id: 1D4421124C2
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 34491112675
 X-Rspamd-Action: no action
 
-Hi Tommaso
 
-On Mon, Feb 09, 2026 at 04:37:57PM +0100, Tommaso Merciai wrote:
-> Hi Jacopo,
-> Thanks for your review!
->
-> On Mon, Feb 09, 2026 at 03:21:59PM +0100, Jacopo Mondi wrote:
-> > Hi Tommaso
-> >
-> > On Tue, Dec 30, 2025 at 06:09:15PM +0100, Tommaso Merciai wrote:
-> > > When the CRU is configured to use ICnSVC for virtual channel mapping,
-> > > as on the RZ/{G3E, V2H/P} SoC, the ICnMC register must not be
-> > > programmed.
-> >
-> > I see a difference indeed between the [G3E, V2H/P] and the G2L version
-> > of the IP in the presence of the VCSEL[1:0] field in register ICnMC.
-> >
-> > On [G3E, V2H/P] the selection of which virtual channel to accept
-> > doesn't go through VCSEL[1:0] in ICnMC but a dedicated register ICnSVC
-> > is provided for that purpose. So far so good.
-> >
-> > >
-> > > Return early after setting up ICnSVC to avoid overriding the ICnMC
-> > > register, which is not applicable in this mode.
-> > >
-> > > This prevents unintended register programming when ICnSVC is enabled.
-> > >
-> > > Fixes: 3c5ca0a48bb0 ("media: rzg2l-cru: Drop function pointer to configure CSI")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > ---
-> > >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > index 162e2ace6931..480e9b5dbcfe 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > @@ -268,6 +268,8 @@ static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> > >  		rzg2l_cru_write(cru, ICnSVCNUM, csi_vc);
-> > >  		rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1(1) |
-> > >  				ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
-> > > +
-> > > +		return;
-> > >  	}
-> > >
-> > >  	icnmc |= rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MASK;
-> >
-> > However, the rest of the rzg2l_cru_csi2_setup() doesn't only program
-> > the virtual channel filtering through ICnMC (which should be skept for
-> > G3E, V2H/P) but also programs DT filtering in INF[5:0] of register
-> > ICnIPMC_C0 which seems to be available on G3E and V2H/P as well.
-> >
-> > Section "9.2.4.3.6 VC/Data Type Selector (for Image Processing)" of
-> > the chip manual (V2H/P) prescribes:
-> >
-> > Only one data type can be handled by each SVC and the data types are
-> > selected in the ICnIPMC_C0 to 3.INF[5:0] registers.
->
-> You are correct, thanks.
-> I miss that part.
->
-> Maybe we can go for:
->
-> static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> 				 const struct rzg2l_cru_ip_format *ip_fmt,
-> 				 u8 csi_vc)
-> {
-> 	const struct rzg2l_cru_info *info = cru->info;
-> 	u32 icnmc = ICnMC_INF(ip_fmt->datatype);
->
-> 	if (cru->info->regs[ICnSVC]) {
-> 		rzg2l_cru_write(cru, ICnSVCNUM, csi_vc);
-> 		rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1(1) |
-> 				ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
-> 	} else {
-> 		/* Set virtual channel CSI2 */
-> 		icnmc |= ICnMC_VCSEL(csi_vc);
-> 	}
->
-> 	icnmc |= rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MASK;
-> 	rzg2l_cru_write(cru, info->image_conv, icnmc);
-> }
->
-> ?
 
-yes, I ended up with something similar locally to be able to move
-forward and test more patches from this series.
+On 06-02-2026 22:07, Krzysztof Kozlowski wrote:
+> On 21/01/2026 19:31, Nihal Kumar Gupta wrote:
+>> Qualcomm QCS8300 SoC contains three Camera Control Interface (CCI).
+>> Compared to Lemans, the key difference is in SDA/SCL GPIO assignments
+>> and number of CCIs.
+>>
+>> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+>> Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
+>> Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
+>> Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
+>> Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
+>> Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
+>> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+>> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> Wrong DCO chain. And above looks like total mess...
 
-static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-				 const struct rzg2l_cru_ip_format *ip_fmt,
-				 u8 csi_vc)
-{
-	const struct rzg2l_cru_info *info = cru->info;
-	u32 icnmc = rzg2l_cru_read(cru, info->image_conv) & ~(ICnMC_INF_MASK |
-						              ICnMC_VCSEL_MASK);
-	icnmc |= ICnMC_INF(ip_fmt->datatype);
+Understood regarding the DCO ordering. Until v6, Vikram was sending the
+series, so his Signed-off-by was placed first. I have now taken over
+maintaining and sending the patches, and the previous tags were left
+behind unintentionally.
 
-	/*
-	 * VC filtering goes through SVC register on G3E/V2H and through ICnMC
-	 * on G2L.
-	 */
-	if (cru->info->regs[ICnSVC]) {
-	 	/* FIXME: This only works if 'csi_vc' is 0. */
-		rzg2l_cru_write(cru, ICnSVCNUM, csi_vc);
-		rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1(1) |
-				ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
-	} else {
-		icnmc |= ICnMC_VCSEL(csi_vc);
-	}
+I will correct the chain so that the primary author’s Signed-off-by
+comes first, followed by any Co-developed-by + Signed-off-by entries,
+and send an updated revision.
 
-	rzg2l_cru_write(cru, info->image_conv, icnmc);
-}
+-- 
+Regards,
+Nihal Kumar Gupta
 
->
-> >
-> > And this patch makes the driver skips that part.
-> > Has this patch been tested ? It breaks my V2H/P setup:
-> >
-> >  rzg2l-cru 16010000.cru1: Invalid MB address 0x0 (out of range)
->
-> I've not seeing that on RZ/G3E.
-> Thanks for sharing.
-
-Without programming which DT to filter I don't see how this could
-work to be honest..
-
->
->
-> Kind Regards,
-> Tommaso
->
-> >
-> >
-> > > --
-> > > 2.43.0
-> > >
-> > >
 
