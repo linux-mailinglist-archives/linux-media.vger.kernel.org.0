@@ -1,61 +1,83 @@
-Return-Path: <linux-media+bounces-52468-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52469-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id q2f7OkdPimmUJQAAu9opvQ
-	(envelope-from <linux-media+bounces-52468-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 22:19:03 +0100
+	id yAnfF+9ZimnnJgAAu9opvQ
+	(envelope-from <linux-media+bounces-52469-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 23:04:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51710114B5C
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 22:19:03 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C23B1114F5B
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 23:04:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 51E47300C008
-	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 21:19:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 78223302305F
+	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 22:04:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F8A930BB82;
-	Mon,  9 Feb 2026 21:18:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DFDC20E025;
+	Mon,  9 Feb 2026 22:04:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="LXXMH2Pc"
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="ladGQrEM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f119.zoho.com (sender4-pp-f119.zoho.com [136.143.188.119])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7108B2DCF4C;
-	Mon,  9 Feb 2026 21:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.119
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770671936; cv=pass; b=XlzZ+L34Xoe+BvGrf5j7M4Z/qrrH5stAJ1F8L99NDaFOQj4MJvZSCyBpNqLoq6NPL2A8PvAyRKp1mYzVPdGiIZAPRKVHx1Mf+lBx2cVNgkKc0w+RuPcWurXBjlTh4m9fQC//93vrXze3OtUpOzJD6nLSTVpwi3npLZs1zsYL4/M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770671936; c=relaxed/simple;
-	bh=mq12hSuh+6+szevywMP2aHTXFxOksdgg1lsS6LuAVLA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ZXmRC245cT7B4m/LzIdZD7QMc8qec0OVuVgeptLVdr9Sam6OUOw4MSZfABG/ml7EqsgReMDiWNEDsbNM7sUEC+v0c2+pYLhai6U2ZFhsA3fRTkgUR3rEtw9S6tSYom/arvBCKr0NmBN8jkFh/2T0904AiEptV9X2m/HPeBiQJrU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=LXXMH2Pc; arc=pass smtp.client-ip=136.143.188.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1770671921; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=cCTbZ5yqbt+K+thi8lcDf5gzHwquohfQtJAWMozlydpwQ8AQzVWJMA7G/f8903fctZDm5mWHrP+GnKv1NLIq5cw41jS3JqiV1ELbOkDuYA0yarX8ZdUUaYVSiZLdsl/q0htuNcz2sC3dDUxDXOC7SgUTChr+LrJdeNQJ8tz5/+8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1770671921; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ERXZ5hIvSu/hODlghE4TA8bwRra+9HDTO4t7wORrejo=; 
-	b=FFtlkIuJ9XmffZky7uvXgqKwdC39O8cNv+ufSsE8L2shFxh1AbRrEFpiXTTT3Ykes5iBzx867cBkvsHMy7qcIquaAbTcvh8RBo9lO/MB7sIkxrd+nFrcxXy2d/PeNqgX85whbBv60PF8wH0UYZjjnU+z67D7udtw5dXWISAt/cQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770671921;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=ERXZ5hIvSu/hODlghE4TA8bwRra+9HDTO4t7wORrejo=;
-	b=LXXMH2PciszbzNiuLwU+PPOxm5eFPKLZKE+yy4Gf7PHNoGlhTO25lk5GDbaQzx+4
-	cZMsQD/r6YUCdBxMr1nEULtN0oeuCIbrrhiGojCg0Hz60YHCc4sdHIzIwfGNW4ljgLw
-	ARtfIqyMWe9ckw4KYh5vN5mMwvXBK0KzuoU7XHYc=
-Received: by mx.zohomail.com with SMTPS id 1770671919744813.3929930767857;
-	Mon, 9 Feb 2026 13:18:39 -0800 (PST)
-Message-ID: <2b5e55c8-6790-4de5-912b-9ca23f6bd7a5@collabora.com>
-Date: Tue, 10 Feb 2026 00:18:34 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFD330C625
+	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 22:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770674664; cv=none; b=ZaMHE931HcIgC1e9CVxgsuZtqWLFyTFwJ3nLjncvV64/Y+2BoUxSdVw5CA+hAVA60jWxqf1croawjacyNq+xOEzbj/17OXStj5w8hzqi6SfzQkzBheU92pV9Dk17StMjqXssIjmu2ECW2bcwIKeZ5MURtPxlDFp2g+0RZwhw1yc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770674664; c=relaxed/simple;
+	bh=sg9i6EbR3opqzhIfz2zDRSTLPBwOL8szFxvxPWiswzo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=SDTj9r+2dTW2vLIwm3XHp9d4EozTZlPxvLZAq+CskCueSBw7fp9eFZxXG7srks/2FMZWYw3y2n5FNpi9WwyWp3GQpuVJpsMLMT2IxeTE8vWWP7yBymCTgAaGHOJ8mfZfPYPLVbIZ4/LKBaGS4hxu8wXMe8QOinmS9Za99AknuGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=ladGQrEM; arc=none smtp.client-ip=209.85.167.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-45c9f47e1e8so1642284b6e.0
+        for <linux-media@vger.kernel.org>; Mon, 09 Feb 2026 14:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1770674661; x=1771279461; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RqalBd1i+2sp9rJIkOfh/aaeHsqLHRAKGG+Rqctmir8=;
+        b=ladGQrEMZ7fgNXvqmbeXFeDXbNb+fY/IcQNK6MiaJnYs3RUCxUpWUu71eWZKjQ2xw/
+         nhnvVFGwutm+86TaXKZmCXPx6lTkSc2Zu8CnqCH5qeZOaGK+0QuzLPjo2ys2vyhcL5Ar
+         zMfrqPK156wMGEowW9HzA0xE1+c7tT4oWW0ew3eETQpCNY3ZeKpTrn1FaHQRn5gT8HgB
+         TgUd2Fe0Z7gcquBnaHQYGXmk0Z/twNSZ96VJXJsBzA2DnDMP9KnIoqqAQ4LUKq/5m7Af
+         QVx7QcbonP8Eszjafg4LEBzUCF83T963eMW3+OkNKjtpQW8oWLe5grebTnoTNMpRGaAu
+         UkwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770674661; x=1771279461;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RqalBd1i+2sp9rJIkOfh/aaeHsqLHRAKGG+Rqctmir8=;
+        b=Fmp+D+6sZiLKl4U+o7I9d3jerbsMRrbJdn/GYBdX2D/CRQy9oo3ZaExy/WaPzvIe7M
+         Q+JtX+QSRHyD9+F4n6RH7gaA8pObpz9kHksG8PfUme+FHERMOeKgGoTTfBglTkocXHg0
+         Uy1ZjOpGTS+mLWaC5k42xV5mJW6yU42Aq+e2/OH7RXfzf69ohJ+68Sfsj7fWmabwdzAc
+         ZgvUsCuGBOerCI2mC6IGFFRGN/lvJ45QaMOYS8Xh5FWMVf0SOawK3ruYYMy4SCdxOfLM
+         8QtyU9RweUsv4In34QjVEcmSUCdYtiDmSDGRrmF+hHk8/hrWkrgRqdUksLXRM14nHMUK
+         0JBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjyjkbrASzdTNXyXDyVnPzWJuWct2TCGdU41YO4bKfpTitLOA64bAM36lojRgxNQPJ6Mdq/vBlOOUO8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjSjLBiq7W1Xelj4mZLQNjZDsz/uytAjDinkDc+RMMZbc7zPWx
+	dA8NNS6SSnr6hvfXdea8gt0kgsr8oPdBtk+Jvw5c7AMJUmx2sSYSeVVdWp9o7+3dpcQ=
+X-Gm-Gg: AZuq6aIW88G0eUjKRo1pMLoRZGIVQyCTroMsilKgps1le42zKyZDMo3JkIBHaLyZ7RY
+	LkE/+nZT1m1ZjrcUMxlK2VTSBq6TJQSuy3onkqbcD7VkAJ+NWf/1f8P34qQJafF+6BVCWW1avKs
+	g92Cioj9Xu8ooAfj1aAwCPyrGeLTFKZ55UbhEnYA1bCzgA2N5DZtw+KaEaqjvzQsWm9TVrP4xJv
+	fjRdTGRw1pjtTO6vrSxtt7AOMuvbsdbJEdlgOWczdnA/2IfPUgZpMsY3FoPKP724Y1YLJSb90fg
+	kKCxOagVXzmwlguzds1uZrc5W/c2vNNdDOi0XufU0LcI90eKBCgA32KEJB90AGERCqImF2RD7Ht
+	poJliuQxmBRuBh76jblKhLe3VlSZc+1cWnphP8LTrWJv129akrBwdDi7ILl2bZhXQgFWbgnAZUc
+	7T81/RRoA2h96BI6Pn0W/K+CcnZLmjrVQ24PPaD9m4G4LydatjNQO+k/+8r6QCgzKvCxI4Dg==
+X-Received: by 2002:a05:6820:2d09:b0:662:c1a7:e166 with SMTP id 006d021491bc7-672fff0d6bdmr29090eaf.48.1770674661274;
+        Mon, 09 Feb 2026 14:04:21 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-66d3b2a6c16sm6592595eaf.16.2026.02.09.14.04.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Feb 2026 14:04:20 -0800 (PST)
+Message-ID: <96e92028-88b0-4dfa-a468-ce1d602affd8@kernel.dk>
+Date: Mon, 9 Feb 2026 15:04:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,80 +85,268 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: synopsys: hdmirx: replace use of system_unbound_wq
- with system_dfl_wq
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Marco Crivellari <marco.crivellari@suse.com>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- kernel@collabora.com
-Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Frederic Weisbecker <frederic@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Michal Hocko <mhocko@suse.com>, Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20251104102048.79374-1-marco.crivellari@suse.com>
- <CAAofZF42TocsYR7kBMoUWC4YQMnqv4j37kWsnY9r75V5PC7UjQ@mail.gmail.com>
- <f8522806-fc3a-403c-93ad-f37638870643@collabora.com>
+Subject: Re: [syzbot] [io-uring?] BUG: corrupted list in
+ io_poll_remove_entries
+From: Jens Axboe <axboe@kernel.dk>
+To: syzbot <syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com>,
+ io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org
+References: <698a26d3.050a0220.3b3015.007d.GAE@google.com>
+ <e6f8da96-6920-434d-9f15-6e283bf3c829@kernel.dk>
 Content-Language: en-US
-In-Reply-To: <f8522806-fc3a-403c-93ad-f37638870643@collabora.com>
+In-Reply-To: <e6f8da96-6920-434d-9f15-6e283bf3c829@kernel.dk>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel-dk.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52468-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52469-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[storage.googleapis.com:url,kernel.dk:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qemu.org:url,appspotmail.com:email,kernel-dk.20230601.gappssmtp.com:dkim];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linutronix.de,suse.com,collabora.com];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.osipenko@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	DMARC_NA(0.00)[kernel.dk];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 51710114B5C
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel-dk.20230601.gappssmtp.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,ab12f0c08dd7ab8d057c];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Queue-Id: C23B1114F5B
 X-Rspamd-Action: no action
 
-On 2/9/26 23:46, Dmitry Osipenko wrote:
-> On 2/4/26 14:49, Marco Crivellari wrote:
->> On Tue, Nov 4, 2025 at 11:23 AM Marco Crivellari
->> <marco.crivellari@suse.com> wrote:
->>> [...]
->>>  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 8 ++++----
->>>  1 file changed, 4 insertions(+), 4 deletions(-)
+On 2/9/26 11:50 AM, Jens Axboe wrote:
+> On 2/9/26 11:26 AM, syzbot wrote:
+>> Hello,
 >>
->> Gentle ping.
+>> syzbot found the following issue on:
 >>
->> Thanks!
+>> HEAD commit:    e7aa57247700 Merge tag 'spi-fix-v6.19-rc8' of git://git.ke..
+>> git tree:       upstream
+>> console output: https://syzkaller.appspot.com/x/log.txt?x=14d3b65a580000
+>> kernel config:  https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671
+>> dashboard link: https://syzkaller.appspot.com/bug?extid=ab12f0c08dd7ab8d057c
+>> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1222965a580000
+>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=140e833a580000
 >>
+>> Downloadable assets:
+>> disk image: https://storage.googleapis.com/syzbot-assets/c46beb4ff3a5/disk-e7aa5724.raw.xz
+>> vmlinux: https://storage.googleapis.com/syzbot-assets/d162bcaaf9b9/vmlinux-e7aa5724.xz
+>> kernel image: https://storage.googleapis.com/syzbot-assets/54b0844b8ea7/bzImage-e7aa5724.xz
+>>
+>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>> Reported-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
+>>
+>> list_del corruption. prev->next should be ffff88807dc6c3f0, but was ffff888146b205c8. (prev=ffff888146b205c8)
+>> ------------[ cut here ]------------
+>> kernel BUG at lib/list_debug.c:62!
+>> Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+>> CPU: 0 UID: 0 PID: 5969 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/24/2026
+>> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
+>> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
+>> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
+>> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
+>> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
+>> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
+>> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
+>> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
+>> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
+>> Call Trace:
+>>  <TASK>
+>>  __list_del_entry_valid include/linux/list.h:132 [inline]
+>>  __list_del_entry include/linux/list.h:223 [inline]
+>>  list_del_init include/linux/list.h:295 [inline]
+>>  io_poll_remove_waitq io_uring/poll.c:149 [inline]
+>>  io_poll_remove_entry io_uring/poll.c:166 [inline]
+>>  io_poll_remove_entries.part.0+0x156/0x7e0 io_uring/poll.c:197
+>>  io_poll_remove_entries io_uring/poll.c:177 [inline]
+>>  io_poll_task_func+0x39e/0xe30 io_uring/poll.c:343
+>>  io_handle_tw_list+0x194/0x580 io_uring/io_uring.c:1122
+>>  tctx_task_work_run+0x57/0x2b0 io_uring/io_uring.c:1182
+>>  tctx_task_work+0x7a/0xd0 io_uring/io_uring.c:1200
+>>  task_work_run+0x150/0x240 kernel/task_work.c:233
+>>  exit_task_work include/linux/task_work.h:40 [inline]
+>>  do_exit+0x829/0x2a30 kernel/exit.c:971
+>>  do_group_exit+0xd5/0x2a0 kernel/exit.c:1112
+>>  __do_sys_exit_group kernel/exit.c:1123 [inline]
+>>  __se_sys_exit_group kernel/exit.c:1121 [inline]
+>>  __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1121
+>>  x64_sys_call+0x14fd/0x1510 arch/x86/include/generated/asm/syscalls_64.h:232
+>>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>>  do_syscall_64+0xc9/0xf80 arch/x86/entry/syscall_64.c:94
+>>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>> RIP: 0033:0x7f60e579aeb9
+>> Code: Unable to access opcode bytes at 0x7f60e579ae8f.
+>> RSP: 002b:00007ffc2d47ddf8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+>> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f60e579aeb9
+>> RDX: 0000000000000064 RSI: 0000000000000000 RDI: 0000000000000000
+>> RBP: 0000000000000003 R08: 0000000000000000 R09: 00007f60e59e1280
+>> R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000000
+>> R13: 00007f60e59e1280 R14: 0000000000000003 R15: 00007ffc2d47deb0
+>>  </TASK>
+>> Modules linked in:
+>> ---[ end trace 0000000000000000 ]---
+>> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
+>> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
+>> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
+>> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
+>> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
+>> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
+>> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
+>> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
+>> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
+>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
 > 
-> Would be good to have a reply from Tejun as I feel confused by the two
-> "identical" unbound workqueues. What happens if one part of kernel
-> queues work items to old unbound wq and other queues to new system_dfl
-> at the same time such that all workers are busy?
+> This looks like a bug related to dvb polling, presumably in dvb_dvr_poll()
+> or friends. I've seen that in drivers before, for example comedi, see:
 
-Alright, looking further at the code, apparently there is nothing
-special RE the two unbound work queues. See some parts of kernel already
-moved to system_dfl. Would be great is this all was clarified in the
-commit message.
+As per the other email, I believe this analysis was correct. Here's an
+epoll based reproducer for the same issue, showing the problem with dvb
+blowing away poll waitqueues. Crash here:
 
-Acked-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+list_del corruption. prev->next should be ff1100004a299148, but was ff1100004169c5c8. (prev=ff1100004169c5c8)
+------------[ cut here ]------------
+kernel BUG at lib/list_debug.c:62!
+Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+CPU: 0 UID: 0 PID: 10044 Comm: dvr-poll-repro Not tainted 6.19.0-g05f7e89ab973 #422 PREEMPT(full) 
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+RIP: 0010:__list_del_entry_valid_or_report+0x178/0x280
+Code: fc ff df 48 89 d1 48 c1 e9 03 80 3c 01 00 0f 85 07 01 00 00 48 8b 02 48 89 d1 48 c7 c7 40 44 1a 8c 48 89 c2 e8 39 d5 2e fc 90 <0f> 0b 48 89 cf 48 89 74 24 10 48 89 0c 24 48 89 44 24 08 e8 b0 2b
+RSP: 0018:ffa000000c74fd30 EFLAGS: 00010082
+RAX: 000000000000006d RBX: ff1100004a299130 RCX: 0000000000000000
+RDX: 000000000000006d RSI: ffffffff81e76a0e RDI: fff3fc00018e9f97
+RBP: ff1100004a299148 R08: ffffffff81e6f6f7 R09: 0000000000000001
+R10: 0000000000000005 R11: 0000000000000000 R12: ff1100004169c588
+R13: 0000000000000286 R14: ff1100004a354c00 R15: ff1100004a299120
+FS:  00007f486cac8740(0000) GS:ff110000975d4000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005599332e7fe0 CR3: 000000006a752000 CR4: 0000000000351ef0
+Call Trace:
+ <TASK>
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ remove_wait_queue+0x28/0x1b0
+ ep_remove_wait_queue+0x85/0x1d0
+ ep_clear_and_put+0x186/0x420
+ ? __pfx_ep_eventpoll_release+0x10/0x10
+ ep_eventpoll_release+0x3e/0x60
+ __fput+0x3fd/0xb40
+ fput_close_sync+0x113/0x250
+ ? __pfx_fput_close_sync+0x10/0x10
+ __x64_sys_close+0x8b/0x120
+ do_syscall_64+0xcb/0xf80
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f486cb5ceb2
+Code: 18 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 75 1a 83 e2 39 83 fa 08 75 12 e8 2b ff ff ff 0f 1f 00 49 89 ca 48 8b 44 24 20 0f 05 <48> 83 c4 18 c3 66 0f 1f 84 00 00 00 00 00 48 83 ec 10 ff 74 24 18
+RSP: 002b:00007ffe5521f0b0 EFLAGS: 00000202 ORIG_RAX: 0000000000000003
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f486cb5ceb2
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000004
+RBP: 00007ffe5521f140 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000001
+R13: 00007f486cd0a000 R14: 00007ffe5521f298 R15: 00005643adab8dd8
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__list_del_entry_valid_or_report+0x178/0x280
+Code: fc ff df 48 89 d1 48 c1 e9 03 80 3c 01 00 0f 85 07 01 00 00 48 8b 02 48 89 d1 48 c7 c7 40 44 1a 8c 48 89 c2 e8 39 d5 2e fc 90 <0f> 0b 48 89 cf 48 89 74 24 10 48 89 0c 24 48 89 44 24 08 e8 b0 2b
+RSP: 0018:ffa000000c74fd30 EFLAGS: 00010082
+RAX: 000000000000006d RBX: ff1100004a299130 RCX: 0000000000000000
+RDX: 000000000000006d RSI: ffffffff81e76a0e RDI: fff3fc00018e9f97
+RBP: ff1100004a299148 R08: ffffffff81e6f6f7 R09: 0000000000000001
+R10: 0000000000000005 R11: 0000000000000000 R12: ff1100004169c588
+R13: 0000000000000286 R14: ff1100004a354c00 R15: ff1100004a299120
+FS:  00007f486cac8740(0000) GS:ff110000975d4000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005599332e7fe0 CR3: 000000006a752000 CR4: 0000000000351ef0
+
+Reproducer:
+
+
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/epoll.h>
+#include <unistd.h>
+
+#define DVR_PATH	"/dev/dvb/adapter0/dvr0"
+#define NR_ITERATIONS	100
+
+static int test_dvr_poll(int iter)
+{
+	struct epoll_event ev;
+	int dvr_fd, dvr_fd2, epfd;
+	int ret = -1;
+
+	dvr_fd = open(DVR_PATH, O_RDWR | O_WRONLY);
+	if (dvr_fd < 0) {
+		perror("open " DVR_PATH);
+		return -1;
+	}
+
+	epfd = epoll_create1(0);
+	if (epfd < 0) {
+		perror("epoll_create1");
+		goto close_dvr;
+	}
+	memset(&ev, 0, sizeof(ev));
+	ev.events = EPOLLIN;
+	ev.data.fd = dvr_fd;
+	if (epoll_ctl(epfd, EPOLL_CTL_ADD, dvr_fd, &ev) < 0) {
+		perror("epoll_ctl ADD");
+		goto close_ep;
+	}
+
+	dvr_fd2 = open(DVR_PATH, O_RDONLY);
+	if (dvr_fd2 < 0) {
+		perror("open " DVR_PATH " O_RDONLY");
+		goto close_ep;
+	}
+
+	close(dvr_fd2);
+	ret = 0;
+close_ep:
+	close(epfd);
+close_dvr:
+	close(dvr_fd);
+	return ret;
+}
+
+int main(int argc, char *argv[])
+{
+	int i, iterations = NR_ITERATIONS;
+
+	if (argc > 1)
+		iterations = atoi(argv[1]);
+
+	for (i = 0; i < iterations; i++) {
+		if (test_dvr_poll(i))
+			return 1;
+	}
+
+	return 0;
+}
 
 -- 
-Best regards,
-Dmitry
+Jens Axboe
 
