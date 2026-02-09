@@ -1,207 +1,202 @@
-Return-Path: <linux-media+bounces-52418-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52419-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AGBTLmn4iWn5FAAAu9opvQ
-	(envelope-from <linux-media+bounces-52418-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:08:25 +0100
+	id yOf6Nqr5iWkiFQAAu9opvQ
+	(envelope-from <linux-media+bounces-52419-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:13:46 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F056111970
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD8F111C02
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:13:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id AE6BE304AD12
-	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 15:03:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E5750300ECA5
+	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 15:13:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54D7037F0E4;
-	Mon,  9 Feb 2026 15:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B240B37E2E1;
+	Mon,  9 Feb 2026 15:13:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oHKLWNFB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KLxAm5rA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6B837D13B;
-	Mon,  9 Feb 2026 15:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E4E295DAC;
+	Mon,  9 Feb 2026 15:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770649412; cv=none; b=WsLzbh3R1MgJIYI8/HtY+i6g4MInKFE8WN/LcT61AQ+nG2xZTsAIr4rJcumWO4yna7jV7M0P57Lu+LWcxGjZQTYlkHxFqZQeSxHe4gqWM18oWEMju5DkPAicaE98Iun6kmeSx+KK8hI6DNRdTB/AbnNQbYXIkQdZHuPlHpu+L+U=
+	t=1770650012; cv=none; b=ueaGOYer/P4Aoie42OYtDt8ZfYydJB9h1wF+zqmMaw2N8GszoRkVJq/XOdC26VllB1uOFtpeP1Rape/R//14ZUJjwVAKvclHJiDTRcBcAL/AHPLq30a53MX5BVZ1Y4rGkFsOdFNSCQaGJzmPeJifTqKu/3+TyOGGtRi6WJIddQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770649412; c=relaxed/simple;
-	bh=F2khG7L1dR+0zU65qFss9557GzPTMPDXuNJP8BR35mU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kCNdQvy/rPIRy85wpoDeOJs/WNDFS5Zy5i98bhXimFlG70AtEQzHRmcMUcmtuRPEPM5pRE7opYXsuAo8733W5rvRdAhGURGHBcqE0OCYAmFxFrMbEN094+YYbpEAlwQ3xWIdlPVIaUlqjNxQDZXQczfVH+K/ohEabkInfQ6Ub8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oHKLWNFB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D1FC116C6;
-	Mon,  9 Feb 2026 15:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770649412;
-	bh=F2khG7L1dR+0zU65qFss9557GzPTMPDXuNJP8BR35mU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=oHKLWNFBbZaOpHziby7n/fa4U7UewBZWLA4cyFsJVUjMhLvgz+ljHaAhwInujp4YP
-	 zz+KUXqzUkxapjyrqsPrt4o/snFIL3jbD9QFAkGFm0YCmcnJ3GUuTvDx62F9T2vHNd
-	 2X7QgcgRQrK2DWYh0w/ciWUKbp/ZgppYo/2sBL63xNRIOQ2+vI2cyergdPv3pLqHaT
-	 7tYrk3cvIsFjj4mRceqioDb08eg/X4EDri3LbGkIy/FkN6cGw6vmUM+idxJuBVhm6R
-	 bv9yRUrG3mc2+x3/GhKROMWuatx6WuXnvfnCT601dUwc3asiI9fNEgR34BdyBrbI75
-	 2WwNgcpQKFeQA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 09 Feb 2026 16:03:17 +0100
-Subject: [PATCH v5 2/2] media: bcm2835-unicam: Fix RGB format / mbus code
- association
+	s=arc-20240116; t=1770650012; c=relaxed/simple;
+	bh=qln5MWNl5E1ZmsYC/IhNp6ONaDvQwsVe1loj/Qq4q0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HWx0qY19VCF1WYjDBqCqV9rSbxFIeT+jXwzhEmY9t8OKTLImJZg8MCV96eKVol1M3C26j1OeEVoXUeYbeFY2oJempQces+VaTw5+sRvka0OYxUeqQuvTTH0qxucICNrYOJqyqK6fRmOvjLtFPj0/pFCdcz9aDr0KtYSZbd2JJrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KLxAm5rA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CAEDF454;
+	Mon,  9 Feb 2026 16:12:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1770649963;
+	bh=qln5MWNl5E1ZmsYC/IhNp6ONaDvQwsVe1loj/Qq4q0o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KLxAm5rAhTREzXxItz3WCZQ2SFL1ShHNpuH8zaw9zAEafNbIOWyUq65uerHD7fA+o
+	 IzL6st2dqeF07DfM8Tq3QwvtuKwY6yPKhRLmUxoG21M+SSxayHPaDew+4ENgGr2mvz
+	 vvfN+tvNcRTSmVFqTWeqK1SpHvnEW6fg+qhMTmL8=
+Date: Mon, 9 Feb 2026 16:13:26 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
+	biju.das.jz@bp.renesas.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Daniel Scally <dan.scally+renesas@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: rzg2l-cru: Use only frame end interrupts for
+ DMA stopping state
+Message-ID: <aYn3UZ-O4HNc4lvY@zed>
+References: <cover.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
+ <62200deb6cceb09fa9f6086c3d9ef9031b8db5e4.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260209-csi-bgr-rgb-v5-2-e7af3cd6cde6@redhat.com>
-References: <20260209-csi-bgr-rgb-v5-0-e7af3cd6cde6@redhat.com>
-In-Reply-To: <20260209-csi-bgr-rgb-v5-0-e7af3cd6cde6@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Hans Verkuil <hans.verkuil@cisco.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Maxime Ripard <mripard@redhat.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3835; i=mripard@redhat.com;
- h=from:subject:message-id; bh=73PUMIGPELjm99pGEtCMcu8OVoQto0KLcNqUrl0lEf4=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmd363aN2/pzsjbxTB1q/bKlqKUop6nP88IcK8wVFj4a
- f7LnrcWHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAi3IqMDUeZjqtOYJNdzVMu
- 0yrZuuUqw3xd/dIPL5iWluazs2efaTqte/veQ/nWkIsev9YckbeLZKxma3yhIpN/6LbvkefMP78
- o37dZvunoPo79CfqMe92Cwv5+NQutydcq2HknXvz4R4ZvrF4A
-X-Developer-Key: i=mripard@redhat.com; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <62200deb6cceb09fa9f6086c3d9ef9031b8db5e4.1767114395.git.tommaso.merciai.xr@bp.renesas.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52418-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+]
-X-Rspamd-Queue-Id: 2F056111970
+	TAGGED_FROM(0.00)[bounces-52419-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,kernel.org,ideasonboard.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4FD8F111C02
 X-Rspamd-Action: no action
 
-From: Maxime Ripard <mripard@redhat.com>
+Hi Tommaso
 
-The Unicam driver is a MIPI-CSI2 Receiver, that can capture RGB 4:4:4,
-YCbCr 4:2:2, and raw formats.
+On Tue, Dec 30, 2025 at 06:09:16PM +0100, Tommaso Merciai wrote:
+> On RZ/G3E the CRU driver relies on frame end interrupts to detect the
+> completion of an active frame when stopping DMA.
 
-RGB 4:4:4 is converted to the MIPI-CSI2 RGB888 video format, and
-associated to the MEDIA_BUS_FMT_RGB888_1X24 media bus code.
+Why do you think it does so ?
 
-However, V4L2_PIX_FMT_RGB24 is defined as having its color components in
-the R, G and B order, from left to right. MIPI-CSI2 however defines the
-RGB888 format with blue first, and that's what MEDIA_BUS_FMT_RGB888_1X24
-defines too.
+I read in rzg2l_cru_stop_image_processing()
 
-This essentially means that the R and B will be swapped compared to what
-V4L2_PIX_FMT_RGB24 defines. The same situation occurs with
-V4L2_PIX_FMT_BGR24 being associated to MEDIA_BUS_FMT_BGR888_1X24.
+	/* Stop the operation of image conversion */
+	rzg2l_cru_write(cru, ICnEN, 0);
 
-In order to fix the swapped components, we need to change the
-association of V4L2_PIX_FMT_BGR24 to MEDIA_BUS_FMT_RGB888_1X24, and of
-V4L2_PIX_FMT_RGB24 to MEDIA_BUS_FMT_BGR888_1X24.
+	/* Wait for streaming to stop */
+	while ((rzg2l_cru_read(cru, ICnMS) & ICnMS_IA) && retries++ < RZG2L_RETRIES) {
+		spin_unlock_irqrestore(&cru->qlock, flags);
+		msleep(RZG2L_TIMEOUT_MS);
+		spin_lock_irqsave(&cru->qlock, flags);
+	}
 
-Since the media bus code is exposed to userspace, and validated by
-unicam's link_validate implementation, we need to explicitly accept (and
-warn) the old association still to preserve backward compatibility.
+Which seems to suggest the driver is polling a register to detect when
+the Image Converter is still processing data or not.
 
-Signed-off-by: Maxime Ripard <mripard@redhat.com>
----
- drivers/media/platform/broadcom/bcm2835-unicam.c | 36 +++++++++++++++++++++---
- 1 file changed, 32 insertions(+), 4 deletions(-)
+>
+> Update the driver to enable only frame end interrupts (CRUnIE2_FExE),
+> dropping the use of frame start interrupts, which are not required for
+> this flow.
 
-diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-index f10064107d543caf867249d0566a0f42d6d8c4c6..5e4850831c931d346146aa8e22c53f0655e462c9 100644
---- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-+++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-@@ -340,16 +340,16 @@ static const struct unicam_format_info unicam_image_formats[] = {
- 		.code		= MEDIA_BUS_FMT_RGB565_1X16,
- 		.depth		= 16,
- 		.csi_dt		= MIPI_CSI2_DT_RGB565,
- 	}, {
- 		.fourcc		= V4L2_PIX_FMT_RGB24, /* rgb */
--		.code		= MEDIA_BUS_FMT_RGB888_1X24,
-+		.code		= MEDIA_BUS_FMT_BGR888_1X24,
- 		.depth		= 24,
- 		.csi_dt		= MIPI_CSI2_DT_RGB888,
- 	}, {
- 		.fourcc		= V4L2_PIX_FMT_BGR24, /* bgr */
--		.code		= MEDIA_BUS_FMT_BGR888_1X24,
-+		.code		= MEDIA_BUS_FMT_RGB888_1X24,
- 		.depth		= 24,
- 		.csi_dt		= MIPI_CSI2_DT_RGB888,
- 	}, {
- 	/* Bayer Formats */
- 		.fourcc		= V4L2_PIX_FMT_SBGGR8,
-@@ -2153,12 +2153,40 @@ static int unicam_video_link_validate(struct media_link *link)
- 		if (WARN_ON(!fmtinfo)) {
- 			ret = -EPIPE;
- 			goto out;
- 		}
- 
--		if (fmtinfo->code != format->code ||
--		    fmt->height != format->height ||
-+		/*
-+		 * Unicam initially associated BGR24 to BGR888_1X24 and
-+		 * RGB24 to RGB888_1X24.
-+		 *
-+		 * In order to allow the applications using the old
-+		 * behaviour to run, let's accept the old combination,
-+		 * but warn about it.
-+		 */
-+		if (fmtinfo->code != format->code) {
-+			if (fmtinfo->fourcc == V4L2_PIX_FMT_BGR24 &&
-+			    format->code == MEDIA_BUS_FMT_BGR888_1X24) {
-+				dev_warn_once(node->dev->dev,
-+					      "MIPI-CSI media bus code for RGB88 is RGB888_1X24. The application must be fixed.");
-+			} else if (fmtinfo->fourcc == V4L2_PIX_FMT_RGB24 &&
-+				   format->code == MEDIA_BUS_FMT_RGB888_1X24) {
-+				dev_warn_once(node->dev->dev,
-+					      "MIPI-CSI media bus code for BGR888 is BGR888_1X24. The application must be fixed.");
-+			} else {
-+				dev_dbg(node->dev->dev,
-+					"image: (%u x %u) 0x%08x %s != (%u x %u) 0x%08x %s\n",
-+					fmt->width, fmt->height, fmtinfo->code,
-+					v4l2_field_names[fmt->field],
-+					format->width, format->height, format->code,
-+					v4l2_field_names[format->field]);
-+				ret = -EPIPE;
-+				goto out;
-+			}
-+		}
-+
-+		if (fmt->height != format->height ||
- 		    fmt->width != format->width ||
- 		    fmt->field != format->field) {
- 			dev_dbg(node->dev->dev,
- 				"image: (%u x %u) 0x%08x %s != (%u x %u) 0x%08x %s\n",
- 				fmt->width, fmt->height, fmtinfo->code,
+This might be ok, but I don't think it's related to to detecting when
+the DMA has actually stopped.
 
--- 
-2.52.0
+>
+> Fix the interrupt status handling in the DMA stopping state by checking
+> the correct frame end status bits (FExS) instead of the frame start ones
+> (FSxS). Add a dedicated CRUnINTS2_FExS() macro to reflect the actual
+> register bit layout.
+>
+> This ensures that DMA stopping is triggered by the intended frame end
+> events and avoids incorrect interrupt handling.
 
+I don't see where the frame end interrupt triggers the DMA stopping,
+sorry
+
+>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h    | 1 +
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c   | 9 ++++-----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> index a5a57369ef0e..102a2fec5037 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> @@ -19,6 +19,7 @@
+>
+>  #define CRUnINTS_SFS			BIT(16)
+>
+> +#define CRUnINTS2_FExS(x)		BIT(((x) * 3) + 1)
+>  #define CRUnINTS2_FSxS(x)		BIT(((x) * 3))
+>
+>  #define CRUnRST_VRESETN			BIT(0)
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 480e9b5dbcfe..34e74e5796e8 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -437,7 +437,6 @@ static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
+>
+>  void rzg3e_cru_enable_interrupts(struct rzg2l_cru_dev *cru)
+>  {
+> -	rzg2l_cru_write(cru, CRUnIE2, CRUnIE2_FSxE(cru->svc_channel));
+>  	rzg2l_cru_write(cru, CRUnIE2, CRUnIE2_FExE(cru->svc_channel));
+>  }
+>
+> @@ -697,10 +696,10 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
+>  		}
+>
+>  		if (cru->state == RZG2L_CRU_DMA_STOPPING) {
+> -			if (irq_status & CRUnINTS2_FSxS(0) ||
+> -			    irq_status & CRUnINTS2_FSxS(1) ||
+> -			    irq_status & CRUnINTS2_FSxS(2) ||
+> -			    irq_status & CRUnINTS2_FSxS(3))
+> +			if (irq_status & CRUnINTS2_FExS(0) ||
+> +			    irq_status & CRUnINTS2_FExS(1) ||
+> +			    irq_status & CRUnINTS2_FExS(2) ||
+> +			    irq_status & CRUnINTS2_FExS(3))
+
+As the cru->state flag is accessed and set to RZG2L_CRU_DMA_STOPPING
+without any lock and concurrently inspected by the IRQ handler, I guess
+litterally anything can happen. Which makes me wonder
+1) is the STOPPING condition useful at all
+2) what is the purpose of this error detection
+
+Thanks
+  j
+
+>  				dev_dbg(cru->dev, "IRQ while state stopping\n");
+>  			return IRQ_HANDLED;
+>  		}
+> --
+> 2.43.0
+>
 
