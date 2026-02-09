@@ -1,208 +1,214 @@
-Return-Path: <linux-media+bounces-52414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52415-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cB3bBc3wiWnGEgAAu9opvQ
-	(envelope-from <linux-media+bounces-52414-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 15:35:57 +0100
+	id 2GtPHCj6iWkiFQAAu9opvQ
+	(envelope-from <linux-media+bounces-52415-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:15:52 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F331107DD
-	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 15:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0610111C8F
+	for <lists+linux-media@lfdr.de>; Mon, 09 Feb 2026 16:15:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7843D307F096
-	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 14:29:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A8FEC31242B3
+	for <lists+linux-media@lfdr.de>; Mon,  9 Feb 2026 15:01:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B502E37AA9E;
-	Mon,  9 Feb 2026 14:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3027D37D135;
+	Mon,  9 Feb 2026 15:01:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b="eCjy1SBn"
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="cUpctzdK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="t4UubUuL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from s.wrqvtvvn.outbound-mail.sendgrid.net (s.wrqvtvvn.outbound-mail.sendgrid.net [149.72.120.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0548037AA91
-	for <linux-media@vger.kernel.org>; Mon,  9 Feb 2026 14:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.120.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396EA3612CC;
+	Mon,  9 Feb 2026 15:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770647369; cv=none; b=OmwLx5ZgXmvTsA1Mko7lYcYGMYiBD62sHr1rUkd58Lrt/R34zuKLcQWy5/+He4uIbOzs/MfmMoo9eUyHHJI6jJ+HIVtRtBP6YcX0psIuEoxc3ZATtUBgY4dmRNXJmsatrSApSgXcWbWy4KaPo9CLydOuyxBgFJlw1wi1x81wmeA=
+	t=1770649271; cv=none; b=inQTv/9QXScpjAjr1Y6h1GwBYqI1vitBCmMShJC5ct5Rn090av+OexQn4YLsPuFabGVx2F9lP0Gm4UqCh+t3jmvqMOvBc2hDsZuTJe2RsailOX83Xtemf7QctasybBYACxhwQrrHN4pNjWNSQMQyEgK01D7TCYTUF/dE89GdLOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770647369; c=relaxed/simple;
-	bh=vHetGdDhMdn61lL9xDYXqT/P+V2uhXehpyRdrdEVwgU=;
-	h=From:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
-	 To:Cc:Content-Type; b=o68hosC4QMLRbUuNb/fdqN1Y5Ysa0mAQC33tLOeBWswHIUEeQJ9Ib/9zy+ff/0x5qGVfPfzh6GGfddhI7hbHUzkFtBDOuzw6NaKV9rUtKYBXO4GR6rY27j6Ls+OSALmomhz8TGmlxc2uxkQLd1Nj6IooV8BdHdHJQiT/Lx8oU6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net; spf=pass smtp.mailfrom=em431.mattwardle.net; dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b=eCjy1SBn; arc=none smtp.client-ip=149.72.120.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em431.mattwardle.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mattwardle.net;
-	h=from:subject:date:in-reply-to:references:mime-version:to:cc:
-	content-transfer-encoding:content-type:cc:content-type:date:from:subject:to;
-	s=s1; bh=dMbXhd9/S9Y/DJ+qpt1Ch+LXLMFvlDpOUhtU++kh2bY=;
-	b=eCjy1SBnmoYhswvwCm2V+aXivyPBwfAAHJvpoxv/l6mi1k5CN71+NTQhL2yHxHGYfRuf
-	dCnpE7cJLLP0q2kdrGIj6FWhw4pcFvBRRE1BayaNvs0UtMHA8FATsnCLydqZLRtU0HVm4o
-	QKTViyF9RUB6z1vxMaV8gx/7IcHCYOgSMn9ufqWPADP2Q/KdzuZ+rFw+PPpwt74dBHvGm2
-	vBMfwydZfEI5+6eibCWqJfOBQ+yOmJUPOrQDcQ/iTEf3LaBpCS43xV6wtgh6aJTebSNfjz
-	RfltVuVRIxp9ILfmO34qZqLNsdvyemuNtVzA+qDGfcyVpIyAOe0t0KuZZ01Cqf3Q==
-Received: by recvd-784c64d46-4vfvf with SMTP id recvd-784c64d46-4vfvf-1-6989EF48-5
-	2026-02-09 14:29:28.059340866 +0000 UTC m=+111053.134655920
-Received: from mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (unknown)
-	by geopod-ismtpd-11 (SG) with ESMTP
-	id obLb5FnvSDan0fXQc-IBSA
-	Mon, 09 Feb 2026 14:29:18.298 +0000 (UTC)
-Authentication-Results: mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net; dmarc=fail (p=reject dis=none) header.from=mattwardle.net
-Received: from thinkpad (unknown [161.142.117.49])
-	by mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (Postfix) with ESMTPSA id 6FA2C41178;
-	Mon,  9 Feb 2026 14:29:17 +0000 (UTC)
-From: Matt Wardle <matt@mattwardle.net>
-Subject: [PATCH 3/3] staging: media: atomisp: Fix missing braces for statement
- blocks
-Date: Mon, 09 Feb 2026 14:29:28 +0000 (UTC)
-Message-ID: <20260209142820.650334-4-matt@mattwardle.net>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260209142820.650334-1-matt@mattwardle.net>
-References: <20260209142820.650334-1-matt@mattwardle.net>
+	s=arc-20240116; t=1770649271; c=relaxed/simple;
+	bh=6ReE5VIHLx3N9CG+rtcyN01632FpJ+E0YCNQBvEC8Kc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CviNFgI9JhKyS2jtjG9ADd1q3VPqGC//S+mK54MZBDPXUzIJjObs1z+G2wU5qjaKoXAXddNngNqHYIHozxiG4Vt7hUCpth8C/sOYTKzvFjAp0fmTX0S++cCCwtyhV3XTqBAWMcDZID5CJnz8pGVdAg/GRYrOW7QQFmakuhiCXA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=cUpctzdK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=t4UubUuL; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 39BC7EC0626;
+	Mon,  9 Feb 2026 10:01:10 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Mon, 09 Feb 2026 10:01:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm3;
+	 t=1770649270; x=1770735670; bh=qBP8CAa3S5jQW57WvRTHGGtEqTNwVqhE
+	DcsU1gl8sjI=; b=cUpctzdKyqtv3ebKpD6ZGnFjWiWOs6lZ8wVAUftbmgNNPjjl
+	rSlk8bMAldaNCmsSvtkJjAlf9pKgtR7W4UdK4VPv1mn5B4UNH2/sgUsIg7d/3f34
+	Hgngcj3FaNjgxdYsZT46JX9CVWVjCJ30pz8/iQTUJtAth1+jTFU1eEFNPFT6Nqkg
+	lAYKWHYozSc0FA8yeF8fPiGxIykBozha1dMBxwmZoQdQhZfo2oRa1Hy2E3GKywUg
+	sWCj7xnZ1GbiVpgyGXBllsCNnCcP4M3hy6aOM+E45Snzwm3vWQKGfEtqAq+mzCZ+
+	bSPM5e0+kUvTWjYyS8YsODGGkeqxucCoJWXBKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1770649270; x=
+	1770735670; bh=qBP8CAa3S5jQW57WvRTHGGtEqTNwVqhEDcsU1gl8sjI=; b=t
+	4UubUuLhcYmk0YuUpEtWtPPs9z6G8CU38Jjo1pSN715kFqcZUkUYnmnzdS55kxpB
+	jmUctZBMZPEDpD+EfQE6vFGTVvli9KnqgxqPXQ8U2eOuPHc5/KRR6Uuv2ir8pA2/
+	bpFDJigt7cLCSwa7yPr6BLH8VBcDq7CA/bBFUoht6SVINP69UEQE9mkJgrKfDiZs
+	FbhKSTdlbbBuZxYl60M/iU9ojGDH4CidXo2tWaVR1pHDT3DTxKmnsspzElyDOMeI
+	pthgE7ck1VPJqoDtQGKs9HCLfoVaqWu/4OFAVuOnNHJqt5K8PV9UtMZDkvGixCvB
+	Oclka30n973Hvz9sCaUqQ==
+X-ME-Sender: <xms:tfaJaeK7FSwgKNPNFlutUOxNdEl9feiZKESpsIu6hD30A3q-pUAKpQ>
+    <xme:tfaJaWnBB45adEU9HVVx8lnObFTtO6MErizeRlELZHxTFgvuwnXDfyR6bZP4hZa9D
+    U16-hWwm1kpLJ4LBo_ohwiXsEAY_0vv2u7-JMLJLnFr58EncvVXQw>
+X-ME-Received: <xmr:tfaJafar5JQJudDeSXLfWgw7DLUa6yVf5HGRvZAAYIRymTFLpk7tfg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduleejudduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukffpifggtggusehgtderre
+    dttddvnecuhfhrohhmpeetnhgurhhihicufghtkhhinhcuoegrnhgurhgvhigpuhhtkhhi
+    nhesfhgrshhtmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeduhfevjeeggeffie
+    efgefggeehvedtjedtgfdtffevhedvieegtefgjeelueffleenucevlhhushhtvghrufhi
+    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvhigpuhhtkhhinhesfh
+    grshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeelpdhmohguvgepshhmthhpohhu
+    thdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohephhhvvghrkhhuihhlsehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrghinhhtrghi
+    nhgvrhhssegslhhuvggthhgvrhhrhiguvhhrrdgtohhmpdhrtghpthhtohepihhsmhgrvg
+    hlsehiohguvghvrdgtohdruhhkpdhrtghpthhtoheprghnthhonhesphhitggrphhitggr
+    rdhimhdprhgtphhtthhopegrnhgurhhihigpuhhtkhhinhesfhgrshhtmhgrihhlrdgtoh
+    hmpdhrtghpthhtohephhgvlhhlohesrghuthhkihhnrdhnvght
+X-ME-Proxy: <xmx:tfaJaa8icCqwJj_GuQPS7kiAAcsvvMjTqPhtueqxh9OiVSfBiUT4Gw>
+    <xmx:tfaJaWY34v_rnVAnfoWGuf6crrAUjl3NukINYwXadOocadU-y99E7g>
+    <xmx:tfaJacc7lOe_nrTimWkG1Ukn-RkfBBCN7Kh9JXK9VLpbROppyIIvGQ>
+    <xmx:tfaJabkVZNGWfS1Q_F15Ga69ZHT154huh_ARn_D51Et7DkB_DiEW8w>
+    <xmx:tvaJaYtRNTYA53ZifJdZx0V5sSZAgwmV-DqikDbGxuT0yW5dgSHkAEvZ>
+Feedback-ID: i74c34308:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 9 Feb 2026 10:01:08 -0500 (EST)
+Date: Mon, 9 Feb 2026 15:01:06 +0000
+From: Andriy Utkin <andrey_utkin@fastmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	hverkuil@kernel.org, mchehab@kernel.org, maintainers@bluecherrydvr.com, 
+	ismael@iodev.co.uk, anton@picapica.im
+Cc: andriy_utkin@fastmail.com, hello@autkin.net
+Subject: [PATCH] MAINTAINERS: drop myself from solo6x10, tw5864
+Message-ID: <aYn2ldgvGR1ceRHd@gray>
+Disposition-Notification-To: Andriy Utkin <andriy_utkin@fastmail.com>
+X-Confirm-Reading-To: Andriy Utkin <andriy_utkin@fastmail.com>
+Return-Receipt-To: Andriy Utkin <andriy_utkin@fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SG-EID: 
- =?us-ascii?Q?u001=2EFlbIg1=2FBrpD1HWcEBlj1tgh=2F0VDwewqbkmeZ1SFD9tLmzlDepFYnLmfnO?=
- =?us-ascii?Q?moWHy7n5HdVZTdyWWeMojZeck4brX0zefUrqzzC?=
- =?us-ascii?Q?BetvAov5ve1wLLT+1lpOo9AF4DoSRKKS8CtQtXe?=
- =?us-ascii?Q?ShZjar7z46K9tlQndTmiFrd7Wlw6N+xdBu1H7HV?=
- =?us-ascii?Q?DNfY+E3OqGA6bJq3P2WMtHsgWTbx3wYI9tN3R+d?=
- =?us-ascii?Q?joMySq71cVEKIcSScPn9DPBfqeVVeNmmfT9Wz=2Fs?=
- =?us-ascii?Q?JZ=2FI?=
-To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Matt Wardle
-	<matt@mattwardle.net>
-X-Entity-ID: u001.OAl4HwJfzvoR6h5DRlrySA==
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="anuk5z3wboopbqd6"
+Content-Disposition: inline
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.84 / 15.00];
-	RECEIVED_BLOCKLISTDE(3.00)[149.72.120.130:received];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.24 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	HEADER_FORGED_MDN(2.00)[];
+	HEADER_RCONFIRM_MISMATCH(2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[fastmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[fastmail.com:s=fm3,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
-	BAD_REP_POLICIES(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52414-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	DKIM_TRACE(0.00)[fastmail.com:+,messagingengine.com:+];
+	FREEMAIL_CC(0.00)[fastmail.com,autkin.net];
+	TAGGED_FROM(0.00)[bounces-52415-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_POLICY_ALLOW(0.00)[mattwardle.net,reject];
-	R_DKIM_ALLOW(0.00)[mattwardle.net:s=s1];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[mattwardle.net:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matt@mattwardle.net,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andrey_utkin@fastmail.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_MDN(0.00)[fastmail.com];
 	TAGGED_RCPT(0.00)[linux-media];
-	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_FROM(0.00)[fastmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,checkpatch.pl:url,mattwardle.net:mid,mattwardle.net:dkim,mattwardle.net:email]
-X-Rspamd-Queue-Id: 69F331107DD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[fastmail.com:email,fastmail.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,bluecherry.net:email,bluecherrydvr.com:email,messagingengine.com:dkim]
+X-Rspamd-Queue-Id: C0610111C8F
 X-Rspamd-Action: no action
 
-Fix checkpatch.pl checks:
 
-CHECK: Unbalanced braces around else statement
-CHECK: braces {} should be used on all arms of this statement
-CHECK: Blank lines aren't necessary before a close brace '}'
+--anuk5z3wboopbqd6
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: [PATCH] MAINTAINERS: drop myself from solo6x10, tw5864
+MIME-Version: 1.0
 
-Signed-off-by: Matt Wardle <matt@mattwardle.net>
+Years passed since I stopped being involved in development of these
+drivers. Don't possess hardware samples, too.
+
+Signed-off-by: Andriy Utkin <andrey_utkin@fastmail.com>
 ---
- .../staging/media/atomisp/pci/base/refcount/src/refcount.c | 7 ++++---
- drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c    | 6 ++++--
- drivers/staging/media/atomisp/pci/sh_css.c                 | 1 -
- drivers/staging/media/atomisp/pci/sh_css_sp.c              | 3 ++-
- 4 files changed, 10 insertions(+), 7 deletions(-)
+ MAINTAINERS | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-index 4a8675d0129a..65dda74614f6 100644
---- a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-+++ b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-@@ -140,13 +140,14 @@ ia_css_ptr ia_css_refcount_increment(s32 id, ia_css_ptr ptr)
- 		return mmgr_NULL;
- 	}
- 
--	if (entry->data == ptr)
-+	if (entry->data == ptr) {
- 		entry->count += 1;
--	else if (entry->data == mmgr_NULL) {
-+	} else if (entry->data == mmgr_NULL) {
- 		entry->data = ptr;
- 		entry->count = 1;
--	} else
-+	} else {
- 		return mmgr_NULL;
-+	}
- 
- 	return ptr;
- }
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-index 9cfb8bc97e24..66e72f2ce288 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-@@ -484,13 +484,15 @@ int ia_css_isys_convert_compressed_format(
- 			default:
- 				err = -EINVAL;
- 			}
--		} else
-+		} else {
- 			err = -EINVAL;
-+		}
- 		cfg->csi_port_attr.comp_predictor =
- 		    sh_css_csi2_compression_type_2_mipi_predictor(comp->type);
- 		cfg->csi_port_attr.comp_enable = true;
--	} else /* No compression */
-+	} else { /* No compression */
- 		cfg->csi_port_attr.comp_enable = false;
-+	}
- 	return err;
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index e7f2443696d1..27b552501e7f 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -3520,7 +3520,6 @@ ia_css_pipe_enqueue_buffer(struct ia_css_pipe *pipe,
- 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
- 				    "ia_css_pipe_enqueue_buffer() buf_type=%d, data(DDR address)=0x%x\n",
- 				    buf_type, buffer->data.frame->data);
--
- 	}
- 
- 	/* start of test for using rmgr for acq/rel memory */
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-index 6da151e7a873..0fb6a90fcbcb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
-@@ -1484,10 +1484,11 @@ sh_css_update_host2sp_cont_num_raw_frames(unsigned int num_frames,
- 						      host2sp_cont_extra_num_raw_frames)
- 			       / sizeof(int);
- 		store_sp_array_uint(host_sp_com, offset_extra, extra_num_frames);
--	} else
-+	} else {
- 		offset = (unsigned int)offsetof(struct host_sp_communication,
- 						host2sp_cont_target_num_raw_frames)
- 			 / sizeof(int);
-+	}
- 
- 	store_sp_array_uint(host_sp_com, offset, num_frames);
- }
--- 
-2.53.0
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e08767323..d984a8213 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -24246,7 +24246,6 @@ F:	include/uapi/rdma/rdma_user_rxe.h
+=20
+ SOFTLOGIC 6x10 MPEG CODEC
+ M:	Bluecherry Maintainers <maintainers@bluecherrydvr.com>
+-M:	Andrey Utkin <andrey_utkin@fastmail.com>
+ M:	Ismael Luceno <ismael@iodev.co.uk>
+ L:	linux-media@vger.kernel.org
+ S:	Supported
+@@ -26639,8 +26638,6 @@ F:	drivers/platform/x86/tuxedo/
+=20
+ TW5864 VIDEO4LINUX DRIVER
+ M:	Bluecherry Maintainers <maintainers@bluecherrydvr.com>
+-M:	Andrey Utkin <andrey.utkin@corp.bluecherry.net>
+-M:	Andrey Utkin <andrey_utkin@fastmail.com>
+ L:	linux-media@vger.kernel.org
+ S:	Supported
+ F:	drivers/media/pci/tw5864/
+--=20
+2.52.0
 
+
+--anuk5z3wboopbqd6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQKTBAABCgB9FiEEQtXEeQ89N5Y1BX/FMEr79spYDpcFAmmJ9rBfFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldDQy
+RDVDNDc5MEYzRDM3OTYzNTA1N0ZDNTMwNEFGQkY2Q0E1ODBFOTcACgkQMEr79spY
+Dpfb7A/+PyzLH7mI2tZJwCegj7EmrIrp/W5bYIMCbtr4EuZSPLEBtCWS6YFur0p6
+4hRKHgNRLyiYsq6VIvkfGV/27cvf90/vukZuyXwUmZClLVp3lB94XXho4wjCTIXK
+wcUSmuuB1Kt6q86+RGk0xXsl3JoK7051ACgFuzFm7R3a1PZP30RwGNMsp1LlOtdU
+gFtqAgyydkI/b5j+OQQSjzCrMuH7iS+XA4J0Q/o0sDZTtJMKcrDYNLRuXmE9qrS6
+bSzPRSb0rg4ETuk0nf7TNMJB51NU65sF0L3vh9QQcxgzCwea69wr2l8kX7/jtM2+
+DkTD8Qeoz9OSckswL5nH8uV1uSgK/8+6L6v0cFwEIJB2pU1gP4qEbFU9zxU3J7WZ
+OXgAI67KyZr7JaG/Tm73XLZIdKQ9cSeYjUvlNcviYUmresJUOJQmRueK5brI7EKP
++OOCry4vqm+li5u7Cu8xouFB5zYxxidKrpXdEVRSjKRbYM2hGGlQ1AeyebaNPpE7
+9kDwcphoyDXhtp47WF9DKselUNDmdva/xMqLOELllKRLdKWctF1eM4FtgTUvFj/C
+a0IPH9QsL5PdgknibydIP/mATyC9M/NDOm7asLwY5x+dkFrctitINy8ntCH0sgQl
+FYEfwutk6gnfl9X3uE6WE0Y1sDRsoemB+EqcwBAI0/nL6UYDQkE=
+=i941
+-----END PGP SIGNATURE-----
+
+--anuk5z3wboopbqd6--
 
