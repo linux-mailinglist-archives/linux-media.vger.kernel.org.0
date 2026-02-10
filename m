@@ -1,78 +1,76 @@
-Return-Path: <linux-media+bounces-52507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52508-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WPfmGY/8imlyPAAAu9opvQ
-	(envelope-from <linux-media+bounces-52507-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:38:23 +0100
+	id uBj/JdX9imlyPAAAu9opvQ
+	(envelope-from <linux-media+bounces-52508-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:43:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9107B118F7E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:38:22 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6C8119065
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:43:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4F8EB30804F5
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:36:07 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 87EB6300B59D
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:43:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B32D341065;
-	Tue, 10 Feb 2026 09:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4861334167B;
+	Tue, 10 Feb 2026 09:43:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aQ3Ja7OD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tu/g0M2E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776CB340D86;
-	Tue, 10 Feb 2026 09:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AA8340280;
+	Tue, 10 Feb 2026 09:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770716165; cv=none; b=UZEx5G+eDKB4PN9u/KD3zb8gmZOdzo0DT4e39GmHHDYljkTMT0AmHYQ/zB49dn1FsN19YmLd4eo8on30RN4kxWhas6JLFMDx3TmUevoCHDfa56QlFLZlvyY6pWImhkOqi+EOp46GpqGzDbfMonEZlCRrgy8GxN7KK1hxPvJyM60=
+	t=1770716626; cv=none; b=EzPGoXbst95o2kHyPKdxNF5d0cKaJzz9w/izSKYcA1a22A9hbBoVy14yg/XG4N+R5LAOkaZd3/JQTk2XNSmMcoa7Zkbnh8MgchZ+IL6BhKM/uK/a1xYvjMedccjOvOMOWZ33tXVjr7CwPomqIIfNz7rjz4CEF2zabRwf7/gcqbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770716165; c=relaxed/simple;
-	bh=HCAzEvcUUgphFumwRL+NNWNYLS5ZQFT4YzoX1lMd+mo=;
+	s=arc-20240116; t=1770716626; c=relaxed/simple;
+	bh=VNlCnlDm3LalWAYPVIDP8Zo+8N2RwvMxFWoqr6j/8cA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S87+fVrdfUTlgPl/QiIGSn0C6UtuSPnLibl6LFToLcW7dM8gSCo2yo8YyFWXOhG3WJ7e/sU1ZWwTLnKROhLg9MYVkHeQvcR2Hwu/FI8OJ46VFAkCW/7OEX+O+tFKpR9MXifM2AYS/2EdzYp/3rVXr3NgzF0Y3HlWdXIG/0hg2ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aQ3Ja7OD; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lnozumsd4Vkb/8gJ/NVJCbejN6iEdBUSq5fDWh/J4MkacusPdVwDjn2GcCVoPAcXgpOWI8bUfq24qoyfiCG9aQYLWCIz/j/YpI8wORiPM5geG+BMyZRplHvnTdKFULp72D3I53D2M5ISUTCRcE5hGhDRJYp4ztJD/aYgwF0PK2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tu/g0M2E; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770716164; x=1802252164;
+  t=1770716625; x=1802252625;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HCAzEvcUUgphFumwRL+NNWNYLS5ZQFT4YzoX1lMd+mo=;
-  b=aQ3Ja7ODx6a5kyj1C3MGuCR+qrObobz8mVlWAksOm+47wKIUdPlL26qD
-   BuIJnRr/WtFKaIQ3o0Qu16o41C7yWF9L6qQa2z5bQKyWlwEz/KGPjCbiB
-   pRCPcFLnpx9ZMenx4gWh+h3bP9Y8ZOaJLNk3j73fAZtU5RhAieAqej17O
-   oCwdOz5cQMupXwa8z1N7qESLUXfUnZSrlBwNyexNqNIh4XfO+vqB9D6lU
-   OA+rROUHD1j+th3KezY7VzEkSXDMERWS9bZuGlID2dVgzEws477L4nP6L
-   CegaGwE2cvYAWwIPXCRp5V+4M7nF1IZEZ6nw2jMLPkGf7drCq4M/ng9XI
-   w==;
-X-CSE-ConnectionGUID: 4yXVbzd5TEaM9q//Fdk9Vw==
-X-CSE-MsgGUID: FNQDVYXsTvi+aOaTZl+kzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="89425113"
+  bh=VNlCnlDm3LalWAYPVIDP8Zo+8N2RwvMxFWoqr6j/8cA=;
+  b=Tu/g0M2Es7pfYH8gT80eK6K5Z4wzeRsQ/IPUOvYO9CSY9FutgiJl8Cdk
+   Z/39tDH9KvB8j+81eCv/WlDYmsshTpB+MHcor68lWjtlB1dYOB1hpK4b0
+   MDwrpjroMe40CCoyU8jP04uodlT81vYC76fiOCdGck+lGKYlfM/zSYLIP
+   gf47GZyujKQF59JbFdMANnOJzXEpfBZApt24iKD85WxQ2AjOsQHxdpNri
+   yyejY2P6qHG33KKtSsGYxLgpSOZgKhygkUEGr61wSmVxl8nuQgx44mG5Y
+   pf9UxNyiQV5Gv7b/FgNFUTh8mFEn78xi+hxv5sNiRHmB31h04BZjsz+I6
+   g==;
+X-CSE-ConnectionGUID: 0ahNoe0nR2ezha8Fvcux6g==
+X-CSE-MsgGUID: 6+n6St5DRrOsGUoT0difsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82478716"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="89425113"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 01:36:04 -0800
-X-CSE-ConnectionGUID: oyF5SJmPSse9dJ8FSr3COA==
-X-CSE-MsgGUID: avay1qrHSWW2hb5Idp8Ozw==
+   d="scan'208";a="82478716"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 01:43:29 -0800
+X-CSE-ConnectionGUID: hcf8+xKPSwuy2e1Tdni8qw==
+X-CSE-MsgGUID: vQo+IOGYTAOx0nfHGuJUlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="216399233"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.45])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 01:36:02 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 888B912033A;
-	Tue, 10 Feb 2026 11:36:17 +0200 (EET)
-Date: Tue, 10 Feb 2026 11:36:17 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Leif Skunberg <diamondback@cohunt.app>
-Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+   d="scan'208";a="216839734"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.39])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 01:43:27 -0800
+Date: Tue, 10 Feb 2026 11:43:24 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Ethan Lam <ethanlxkernel@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	sakari.ailus@linux.intel.com, andy@kernel.org, hverkuil@kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: ipu-bridge: Add OV5675 sensor config
-Message-ID: <aYr8EfzlN59-dNeV@kekkonen.localdomain>
-References: <20260210085558.34140-1-diamondback@cohunt.app>
+Subject: Re: [PATCH v2] staging: media: atomisp: fix block comment style
+Message-ID: <aYr9vMzvyBn83A0U@smile.fi.intel.com>
+References: <20260210092312.29322-1-ethanlxkernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,73 +79,87 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260210085558.34140-1-diamondback@cohunt.app>
+In-Reply-To: <20260210092312.29322-1-ethanlxkernel@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52507-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52508-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_FIVE(0.00)[6];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9107B118F7E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,checkpatch.pl:url,intel.com:dkim,smile.fi.intel.com:mid]
+X-Rspamd-Queue-Id: 3F6C8119065
 X-Rspamd-Action: no action
 
-Hi Leif,
+On Tue, Feb 10, 2026 at 05:23:11PM +0800, Ethan Lam wrote:
+> Fixed all block comment style warnings by checkpatch.pl.
 
-Thanks for the patch.
+...
 
-On Tue, Feb 10, 2026 at 09:55:58AM +0100, Leif Skunberg wrote:
-> Add the Omnivision OV5675 (ACPI HID OVTI5675) to the
-> ipu_supported_sensors[] table with a link frequency of 450 MHz.
-> 
-> This sensor is found in the Lenovo ThinkPad X1 Fold 16 Gen 1 behind
-> an Intel Vision Sensing Controller (IVSC). Without this entry the IPU
-> bridge does not create the software-node fwnode graph for the sensor,
-> preventing the camera from being enumerated.
-> 
-> Signed-off-by: Leif Skunberg <diamondback@cohunt.app>
-> ---
->  drivers/media/pci/intel/ipu-bridge.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-> index 4e579352a..aaad759dd 100644
-> --- a/drivers/media/pci/intel/ipu-bridge.c
-> +++ b/drivers/media/pci/intel/ipu-bridge.c
-> @@ -79,6 +79,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
->  	IPU_SENSOR_CONFIG("OVTI02C1", 1, 400000000),
->  	/* Omnivision OV02E10 */
->  	IPU_SENSOR_CONFIG("OVTI02E1", 1, 360000000),
-> +	/* Omnivision OV5675 */
-> +	IPU_SENSOR_CONFIG("OVTI5675", 1, 450000000),
+>  /*
+>   * DFS progress is shown as follows:
+>   * 1. Target frequency is calculated according to FPS/Resolution/ISP running
+> - *    mode.
+> + * mode.
+>   * 2. Ratio is calculated using formula: 2 * HPLL / target frequency - 1
+> - *    with proper rounding.
+> + * with proper rounding.
+>   * 3. Set ratio to ISPFREQ40, 1 to FREQVALID and ISPFREQGUAR40
+> - *    to 200MHz in ISPSSPM1.
+> + * to 200MHz in ISPSSPM1.
+>   * 4. Wait for FREQVALID to be cleared by P-Unit.
+>   * 5. Wait for field ISPFREQSTAT40 in ISPSSPM1 turn to ratio set in 3.
+>   */
 
-Could you order this alphabetically, please?
+Please, use your common sense. The above is false-positive.
 
->  	/* Omnivision OV08A10 */
->  	IPU_SENSOR_CONFIG("OVTI08A1", 1, 500000000),
->  	/* Omnivision OV08x40 */
+...
+
+>  	 * The standard CSS2.0 API tells the following calling sequence of
+>  	 * dequeue ready buffers:
+>  	 * while (ia_css_dequeue_psys_event(...)) {
+> -	 *	switch (event.type) {
+> -	 *	...
+> -	 *	ia_css_pipe_dequeue_buffer()
+> -	 *	}
+> +	 * switch (event.type) {
+> +	 * ...
+> +	 * ia_css_pipe_dequeue_buffer()
+> +	 * }
+>  	 * }
+
+No way, really.
+
+...
+
+You need to read the code and change wisely. NAK for this version.
+(I'm even not going to read the rest.)
 
 -- 
-Kind regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
 
