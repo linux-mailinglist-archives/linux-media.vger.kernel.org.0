@@ -1,354 +1,153 @@
-Return-Path: <linux-media+bounces-52502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52503-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kPLeIBP5imlBPAAAu9opvQ
-	(envelope-from <linux-media+bounces-52502-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:23:31 +0100
+	id eOXNC0n5imlSPAAAu9opvQ
+	(envelope-from <linux-media+bounces-52503-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:24:25 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16C4118D3A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A56118D66
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:24:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1F80B3045AA9
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:23:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 66D93304E82E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF3E340A4D;
-	Tue, 10 Feb 2026 09:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA2AE340D86;
+	Tue, 10 Feb 2026 09:23:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bw0hf7o+"
+	dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b="KywBmqDW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+Received: from s.wfbtzhsw.outbound-mail.sendgrid.net (s.wfbtzhsw.outbound-mail.sendgrid.net [159.183.224.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55181340273
-	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 09:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B11B33F390
+	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 09:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.183.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770715404; cv=none; b=B00brZ6Je3jUxaDIgt0y5IIlXK5UiiEczYKHZ+qPPRLBY/7YdpSY4dT2yCBVcMGYfUh/t3GlN7TlUebUd5IBEf/k2hHszxy3t/6V8YaAY8lWKRq+7TZ8V6ZAvYkHhVcxYWBjpuEaVoZk1+Tx0P5Bg1uQLfyioC5S6vhnzqxw2m8=
+	t=1770715438; cv=none; b=qVAgmoKUrU1MAehZfqp57/Qq8KoRirC2a2J6Asg32w+cZg0FfalRNiO7FgPT5Fd0QQZsD+Jgdk/WZOafx4Jv3Z5phGzk+9+dJ1+uoAQkbTLVp3XbTbVleP8wzGijNJjE0iMfOaKeDf+yDV6IL1fA9fo2WRvnB92bpJpquS/6z4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770715404; c=relaxed/simple;
-	bh=Bjn0RuhZN3vqk8AfJwE84T734D8d5+Wrpn4epkSHCRc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nPm7vVh0iQOEcuhzg+8TMw/Y/oUqEoy0wKRZklmIxOlBv0WGgLWZ0jA1kgSqYvOtIEB1DseB1ZMc7j4djk8857AQ62hZF5gwraqqcLSxvoHEelglX+4yu6NqvxJ+cG4fwRybfeUoTHJB4+BnA4+vSBxjQlGkV4fOdwzaPSaX/pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bw0hf7o+; arc=none smtp.client-ip=209.85.219.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-896ff127650so31158356d6.3
-        for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 01:23:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770715402; x=1771320202; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GFfJRx9iqyIpJUs0rDFUoU85OWoD1Zb4nd1kIoRNApI=;
-        b=bw0hf7o+tdT5+kNvV2uOhL873MzZGSaY/4D81CUiifeyohffkEzC4qTu7hn9O89HQy
-         GHOjTAKZtW4/Gj5W2JSztg+DAYUY2iLuQowdsJ2gQwrCufM57FRw6hYRSyyKyOa79Z9P
-         7065UeRgK7b57rghQJN0Z/eV0shojIaORxy+4NGos6yVxpeQPyqyDatYlPdXq5dYy514
-         5SyV1TRspGbciPllt8bnbEso/6IQ2ZyiJeKVXEoziK9b58K/VQxSuQlwEh2NEHLaK9wb
-         vu9gfsZBgsz3LZIt8oqjWQalhdAgT6SX7hMKTUWjn2ZF8bdc7MPuBOyiEmx3j6QMSKe9
-         z4xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770715402; x=1771320202;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GFfJRx9iqyIpJUs0rDFUoU85OWoD1Zb4nd1kIoRNApI=;
-        b=qDcOSC9Zm6k03HgscKk/lr+gH19rS8Ncf5xNsqR/Ruonw6OwuEu4vw2hUwWnSFdpfw
-         FmiyabLdiokoGOfMlueY1Bl+85v0xB1Xf3bIzn4oZAwdEzlLHnI+vkUanRQXFpWhC/N2
-         nrKjhcgxu8MHQdjE+sIe3iTMeasn5oGBY9j2p/IRL9YI0AVkGoaOE0NfPhJ0uOBm96Ta
-         wmUvJpszsg4Bt/O/itPA/jclsf0R/A5F8jsCrJmmF0zToidf2FPj41wqGzt1TDsmlFu6
-         qEkYXdj+qqtA+vbvPRRwRmBsfSAWSbeoWXec7m73UQ3r/apM3Pz12lezbbmx8y8sUUnj
-         vbcA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtSQGFmurrbJNqNgUnSWqgp+y0KLrSjF1dX5aIu7r1IGNCXDytFxJeSuDIqTwSCjbeZCm62J6VzrgW/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBelMwTp1NFqkNBFtoLyUpMA7FJXUQDDYyy4xfxiZQx2cDOEh1
-	fxYD4XRwv032vbvVk6qvWkShugWZZAOYy3LatjcLapJHIjJn9z8h7TX9
-X-Gm-Gg: AZuq6aKJ4X+rppzSdkTHxCvz+0+b4ZnOr6udETAD79Fpns+DtFF8LMHsfyLKoEsnivy
-	6nopW6uiZEunEHV26ZDwS9RVwilIMWXuCDm2kyT1PHtdbS1rjdgBLwpVa5ZGyyOjbVVcKBVH5lZ
-	kvx9Xep6daRCzvEsGA3y2YZh9DsaOfC4xFZ1j+8VOtM2pBs7OcIkLk3yVrBlxNLpDn/Rzd30P4g
-	sjPZBT0SXfktEn24IhwKCxeyZ7plTfqvRSyOhtztcjHXyd8khrqEqAIYmtPtmw1EDO6Nli9Lg0K
-	FtQYlvAK8LE/JnVXrO962nJHmvXuPrFt9hgTc9b5IywYeCGLl6Ayw9XPAW+E9yIzMAjnxTqVgso
-	XMcf8qBJnrKK0mY0mleddF/HjLVJTnrsDEeCNxauRZKjaIIS6DAiaOPVo9YR8pIglwojk61BI5t
-	ncafKLPW9L6Xlf
-X-Received: by 2002:ac8:7f82:0:b0:505:e4ab:ce4 with SMTP id d75a77b69052e-5063985e325mr165282301cf.11.1770715402225;
-        Tue, 10 Feb 2026 01:23:22 -0800 (PST)
-Received: from deadibone.. ([118.141.233.34])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf77f320esm998136485a.5.2026.02.10.01.23.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 01:23:21 -0800 (PST)
-From: Ethan Lam <ethanlxkernel@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	hverkuil@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ethan Lam <ethanlxkernel@gmail.com>
-Subject: [PATCH v2] staging: media: atomisp: fix block comment style
-Date: Tue, 10 Feb 2026 17:23:11 +0800
-Message-ID: <20260210092312.29322-1-ethanlxkernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1770715438; c=relaxed/simple;
+	bh=e3tnrhU2WWQV4tzlMrOhm3+ZfchRekUzK45FwPsdrbI=;
+	h=From:Subject:Date:Message-ID:MIME-Version:To:Cc:Content-Type; b=Q3kkkgRNy47y0h2aQoF8zOeCGcbk9aAQBe9SXwwUCSOZgBje0dhGVjOpmdRxYnijIDVFWaTbDkgGugvC0a3+aQTCRZngw2QU0rpcctN/cS0v0qjyoTgj+hElbI+o4jQi1t7RIeZ0aIvanqD4N8MzFXCrvToRBt7Z8Jv9Kebt5wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net; spf=pass smtp.mailfrom=em431.mattwardle.net; dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b=KywBmqDW; arc=none smtp.client-ip=159.183.224.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em431.mattwardle.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mattwardle.net;
+	h=from:subject:date:mime-version:to:cc:content-transfer-encoding:
+	content-type:cc:content-type:date:from:subject:to;
+	s=s1; bh=a3lliGT1ClyKInWlMgfue2ry7gl/2QxUj9xD6roeLiQ=;
+	b=KywBmqDWeIcx+3YYKqAD+/uhJBSckY+PIHKEdFFd5tYpxTrXG/oRHXelRwE6VC9aHExj
+	Gi2terAP0A7a4p0+J9SE7sCiepNLD/vLFWXkOBjJoYm3Rvc8uyLIT9B6ujnO0NKqiJn8w1
+	GdvfVnRQnSIDoARNooH3AFZJL2o478pHKuAqmocfaBkh0NcFMyYzEiyZIFVq33HEIUkpzt
+	jWwmAS0UMCICFOzS7cOsC63qwcJVZh/MK7N7AvF5qBeJnSNqPj1x7TtzbK+H5pazkeed/6
+	D0ghbwMbRyWA+myHR1zcT7A/S3LmI0uOIbBE24YUfu849Uitpbrp5ZzxuoafgbSw==
+Received: by recvd-canary-7cf988d8f6-zmwhk with SMTP id recvd-canary-7cf988d8f6-zmwhk-1-698AF92A-1C
+	2026-02-10 09:23:54.502465973 +0000 UTC m=+5299.866422509
+Received: from mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (unknown)
+	by geopod-ismtpd-0 (SG) with ESMTP
+	id oevtbXT0T1K2NE3fLb7K4g
+	Tue, 10 Feb 2026 09:23:54.008 +0000 (UTC)
+Authentication-Results: mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net; dmarc=fail (p=reject dis=none) header.from=mattwardle.net
+Received: from thinkpad (unknown [161.142.117.49])
+	by mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (Postfix) with ESMTPSA id 2DB5940E37;
+	Tue, 10 Feb 2026 09:23:53 +0000 (UTC)
+From: Matt Wardle <matt@mattwardle.net>
+Subject: [PATCH 0/3] staging: media: atomisp: Fix style issues
+Date: Tue, 10 Feb 2026 09:23:54 +0000 (UTC)
+Message-ID: <20260210092243.294732-1-matt@mattwardle.net>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SG-EID: 
+ =?us-ascii?Q?u001=2EFlbIg1=2FBrpD1HWcEBlj1tgh=2F0VDwewqbkmeZ1SFD9tLmzlDepFYnLmfnO?=
+ =?us-ascii?Q?moWHy7n5HdVZTdyWWeMojZeck4brYOZU6=2Fl2TRZ?=
+ =?us-ascii?Q?fFgNnVNO1q5b60i7K0d1=2F9ASuQDgZz1RTRjSZjG?=
+ =?us-ascii?Q?GrBFNs8Xit+qOsR2OcybvqhZxs6tNhKStKuil8r?=
+ =?us-ascii?Q?6zqXlBDL5YBETuw+5HVUr8APN3yd9xEJ+QxVxrl?=
+ =?us-ascii?Q?dM5jE0mHLs2xNLgxE64vLrcMYqEYQSjA63kCCi+?= =?us-ascii?Q?=2FPoo?=
+To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Matt Wardle
+	<matt@mattwardle.net>
+X-Entity-ID: u001.OAl4HwJfzvoR6h5DRlrySA==
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[mattwardle.net,reject];
+	R_DKIM_ALLOW(-0.20)[mattwardle.net:s=s1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	TAGGED_FROM(0.00)[bounces-52502-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[mattwardle.net:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ethanlxkernel@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52503-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matt@mattwardle.net,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,checkpatch.pl:url]
-X-Rspamd-Queue-Id: C16C4118D3A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mattwardle.net:mid,mattwardle.net:dkim,checkpatch.pl:url]
+X-Rspamd-Queue-Id: A5A56118D66
 X-Rspamd-Action: no action
 
-Fixed all block comment style warnings by checkpatch.pl.
+This patch fixes errors and warnings reported by checkpatch.pl to
+conform to kernel coding style.
 
-Signed-off-by: Ethan Lam <ethanlxkernel@gmail.com>
----
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 94 ++++++++++++-------
- 1 file changed, 59 insertions(+), 35 deletions(-)
+Matt Wardle (3):
+  staging: media: atomisp: Remove braces for single statement blocks
+  staging: media: atomisp: Fix function indentation and braces
+  staging: media: atomisp: Fix braces on incorrect lines
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..a16fefa24216 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -99,11 +99,11 @@ static unsigned short atomisp_get_sensor_fps(struct atomisp_sub_device *asd)
- /*
-  * DFS progress is shown as follows:
-  * 1. Target frequency is calculated according to FPS/Resolution/ISP running
-- *    mode.
-+ * mode.
-  * 2. Ratio is calculated using formula: 2 * HPLL / target frequency - 1
-- *    with proper rounding.
-+ * with proper rounding.
-  * 3. Set ratio to ISPFREQ40, 1 to FREQVALID and ISPFREQGUAR40
-- *    to 200MHz in ISPSSPM1.
-+ * to 200MHz in ISPSSPM1.
-  * 4. Wait for FREQVALID to be cleared by P-Unit.
-  * 5. Wait for field ISPFREQSTAT40 in ISPSSPM1 turn to ratio set in 3.
-  */
-@@ -808,7 +808,8 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
- 						     &asd->params.css_param);
- 			if (asd->params.css_param.update_flag.dz_config)
- 				asd->params.config.dz_config = &asd->params.css_param.dz_config;
--			/* New global dvs 6axis config should be blocked
-+			/*
-+			 * New global dvs 6axis config should be blocked
- 			 * here if there's a buffer with per-frame parameters
- 			 * pending in CSS frame buffer queue.
- 			 * This is to aviod zooming vibration since global
-@@ -821,7 +822,8 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
- 							  asd->params.dvs_6axis);
- 			else
- 				asd->params.css_update_params_needed = false;
--			/* The update flag should not be cleaned here
-+			/*
-+			 * The update flag should not be cleaned here
- 			 * since it is still going to be used to make up
- 			 * following per-frame parameters.
- 			 * This will introduce more copy work since each
-@@ -963,10 +965,10 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
- 	 * The standard CSS2.0 API tells the following calling sequence of
- 	 * dequeue ready buffers:
- 	 * while (ia_css_dequeue_psys_event(...)) {
--	 *	switch (event.type) {
--	 *	...
--	 *	ia_css_pipe_dequeue_buffer()
--	 *	}
-+	 * switch (event.type) {
-+	 * ...
-+	 * ia_css_pipe_dequeue_buffer()
-+	 * }
- 	 * }
- 	 * That is, dequeue event and buffer are one after another.
- 	 *
-@@ -1380,8 +1382,11 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 	if (atomisp_css_get_grid_info(asd, pipe_id))
- 		return;
- 
--	/* We must free all buffers because they no longer match
--	   the grid size. */
-+	/*
-+	 * We must free all buffers because they no longer match
-+	 * the grid size.
-+	 */
-+
- 	atomisp_css_free_stat_buffers(asd);
- 
- 	err = atomisp_alloc_css_stat_bufs(asd, ATOMISP_INPUT_STREAM_GENERAL);
-@@ -1393,8 +1398,10 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 	if (atomisp_alloc_3a_output_buf(asd)) {
- 		/* Failure for 3A buffers does not influence DIS buffers */
- 		if (asd->params.s3a_output_bytes != 0) {
--			/* For SOC sensor happens s3a_output_bytes == 0,
--			 * using if condition to exclude false error log */
-+			/*
-+			 * For SOC sensor happens s3a_output_bytes == 0,
-+			 * using if condition to exclude false error log
-+			 */
- 			dev_err(isp->dev, "Failed to allocate memory for 3A statistics\n");
- 		}
- 		goto err;
-@@ -1686,9 +1693,11 @@ int atomisp_3a_stat(struct atomisp_sub_device *asd, int flag,
- 		return -EINVAL;
- 
- 	if (atomisp_compare_grid(asd, &config->grid_info) != 0) {
--		/* If the grid info in the argument differs from the current
--		   grid info, we tell the caller to reset the grid size and
--		   try again. */
-+		/*
-+		 * If the grid info in the argument differs from the current
-+		 * grid info, we tell the caller to reset the grid size and
-+		 * try again.
-+		 */
- 		return -EAGAIN;
- 	}
- 
-@@ -1774,7 +1783,8 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
- 		return 0;
- 	}
- 
--	/* FIXME:
-+	/*
-+	 * FIXME:
- 	 * This is not the correct implementation with Google's definition, due
- 	 * to firmware limitation.
- 	 * map real crop region base on above calculating base max crop region.
-@@ -2462,9 +2472,11 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		if (sizeof(*cur) != sizeof(coefs->grid) ||
- 		    memcmp(&coefs->grid, cur, sizeof(coefs->grid))) {
- 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
--			/* If the grid info in the argument differs from the current
--			grid info, we tell the caller to reset the grid size and
--			try again. */
-+			/*
-+			 * If the grid info in the argument differs from the current
-+			 * grid info, we tell the caller to reset the grid size and
-+			 * try again.
-+			 */
- 			return -EAGAIN;
- 		}
- 
-@@ -2518,9 +2530,11 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		if (sizeof(*cur) != sizeof(dvs2_coefs.grid) ||
- 		    memcmp(&dvs2_coefs.grid, cur, sizeof(dvs2_coefs.grid))) {
- 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
--			/* If the grid info in the argument differs from the current
--			grid info, we tell the caller to reset the grid size and
--			try again. */
-+			/*
-+			 * If the grid info in the argument differs from the current
-+			 * grid info, we tell the caller to reset the grid size and
-+			 * try again.
-+			 */
- 			return -EAGAIN;
- 		}
- 
-@@ -3028,9 +3042,11 @@ int atomisp_param(struct atomisp_sub_device *asd, int flag,
- 
- 		atomisp_curr_user_grid_info(asd, &config->info);
- 
--		/* We always return the resolution and stride even if there is
-+		/*
-+		 * We always return the resolution and stride even if there is
- 		 * no valid metadata. This allows the caller to get the
--		 * information needed to allocate user-space buffers. */
-+		 * information needed to allocate user-space buffers.
-+		 */
- 		config->metadata_config.metadata_height = asd->
- 			stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream_info.
- 			metadata_info.resolution.height;
-@@ -3280,8 +3296,10 @@ atomisp_bytesperline_to_padded_width(unsigned int bytesperline,
- 		return bytesperline / 2;
- 	case IA_CSS_FRAME_FORMAT_RGBA888:
- 		return bytesperline / 4;
--	/* The following cases could be removed, but we leave them
--	   in to document the formats that are included. */
-+	/*
-+	 * The following cases could be removed, but we leave them
-+	 * in to document the formats that are included.
-+	 */
- 	case IA_CSS_FRAME_FORMAT_NV11:
- 	case IA_CSS_FRAME_FORMAT_NV12:
- 	case IA_CSS_FRAME_FORMAT_NV16:
-@@ -3317,9 +3335,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
- 	padded_width = atomisp_bytesperline_to_padded_width(
- 			   arg->fmt.bytesperline, sh_format);
- 
--	/* Note: the padded width on an ia_css_frame is in elements, not in
--	   bytes. The RAW frame we use here should always be a 16bit RAW
--	   frame. This is why we bytesperline/2 is equal to the padded with */
-+	/*
-+	 * Note: the padded width on an ia_css_frame is in elements, not in
-+	 * bytes. The RAW frame we use here should always be a 16bit RAW
-+	 * frame. This is why we bytesperline/2 is equal to the padded with
-+	 */
- 	if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
- 				       sh_format, padded_width, 0)) {
- 		ret = -ENOMEM;
-@@ -3928,8 +3948,10 @@ static inline int atomisp_set_sensor_mipi_to_isp(
- 		    asd->stream_env[stream_id].isys_info[1].height);
- 	}
- 
--	/* Compatibility for sensors which provide no media bus code
--	 * in s_mbus_framefmt() nor support pad formats. */
-+	/*
-+	 * Compatibility for sensors which provide no media bus code
-+	 * in s_mbus_framefmt() nor support pad formats.
-+	 */
- 	if (mipi_info && mipi_info->input_format != -1) {
- 		bayer_order = mipi_info->raw_bayer_order;
- 
-@@ -4031,7 +4053,7 @@ static int css_input_resolution_changed(struct atomisp_sub_device *asd,
- 
- 	/*
- 	 * TODO: atomisp_css_preview_configure_pp_input() not
--	 *       reset due to CSS bug tracked as PSI BZ 115124
-+	 * reset due to CSS bug tracked as PSI BZ 115124
- 	 */
- }
- 
-@@ -4387,8 +4409,10 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 			ATOMISP_SUBDEV_PAD_SINK,
- 			V4L2_SEL_TGT_CROP);
- 
--	/* Try to enable YUV downscaling if ISP input is 10 % (either
--	 * width or height) bigger than the desired result. */
-+	/*
-+	 * Try to enable YUV downscaling if ISP input is 10 % (either
-+	 * width or height) bigger than the desired result.
-+	 */
- 	if (!IS_MOFD ||
- 	    isp_sink_crop.width * 9 / 10 < f->fmt.pix.width ||
- 	    isp_sink_crop.height * 9 / 10 < f->fmt.pix.height ||
+ .../base/circbuf/interface/ia_css_circbuf.h   |   3 +-
+ .../circbuf/interface/ia_css_circbuf_desc.h   |   3 +-
+ .../atomisp/pci/base/refcount/src/refcount.c  |   3 +-
+ .../pci/camera/pipe/src/pipe_stagedesc.c      |   9 +-
+ .../atomisp/pci/camera/pipe/src/pipe_util.c   |   3 +-
+ .../host/isys_stream2mmio_private.h           |   3 +-
+ .../host/event_fifo_private.h                 |   3 +-
+ .../host/input_formatter.c                    |   3 +-
+ .../hive_isp_css_common/host/input_system.c   |  14 +--
+ .../pci/hive_isp_css_common/host/irq.c        |  30 ++---
+ .../pci/hive_isp_css_common/host/mmu.c        |   3 +-
+ .../pci/hive_isp_css_common/host/vmem.c       |   4 +-
+ .../isp/kernels/anr/anr_2/ia_css_anr2.host.c  |   3 +-
+ .../pci/isp/kernels/bnlm/ia_css_bnlm.host.c   |   6 +-
+ .../isp/kernels/ctc/ctc2/ia_css_ctc2.host.c   |   7 +-
+ .../isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c |  14 +--
+ .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   |  13 +-
+ .../isp/kernels/raw/raw_1.0/ia_css_raw.host.c |   7 +-
+ .../isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c |   3 +-
+ .../kernels/sdis/sdis_1.0/ia_css_sdis.host.c  |   6 +-
+ .../kernels/sdis/sdis_2/ia_css_sdis2.host.c   |  13 +-
+ .../isp/kernels/vf/vf_1.0/ia_css_vf.host.c    |  25 ++--
+ .../atomisp/pci/runtime/binary/src/binary.c   | 111 +++++++-----------
+ .../pci/runtime/debug/src/ia_css_debug.c      |   6 +-
+ .../pci/runtime/isp_param/src/isp_param.c     |  24 ++--
+ .../pci/runtime/isys/src/virtual_isys.c       |   3 +-
+ .../pci/runtime/pipeline/src/pipeline.c       |   3 +-
+ drivers/staging/media/atomisp/pci/sh_css.c    |   6 +-
+ .../staging/media/atomisp/pci/sh_css_params.c |  12 +-
+ 29 files changed, 134 insertions(+), 209 deletions(-)
+
 -- 
-2.43.0
+2.53.0
 
 
