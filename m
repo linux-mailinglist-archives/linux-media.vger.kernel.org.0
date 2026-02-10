@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-52525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52526-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oLiSHsxQi2nwTwAAu9opvQ
-	(envelope-from <linux-media+bounces-52525-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 16:37:48 +0100
+	id 0OstByRTi2kMUAAAu9opvQ
+	(envelope-from <linux-media+bounces-52526-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 16:47:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D2511C966
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 16:37:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C34911CB57
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 16:47:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 39AAE3033A91
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:36:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9F343305833E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:45:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53163815FC;
-	Tue, 10 Feb 2026 15:35:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434C93815FC;
+	Tue, 10 Feb 2026 15:45:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLMND+6z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/WZZSyj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B202EDD40;
-	Tue, 10 Feb 2026 15:35:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA72D28E0F;
+	Tue, 10 Feb 2026 15:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770737746; cv=none; b=PIfcKZ8TqYN0EkJiwkA1i38iGXQkVGiR84FBmJpR/DTrkFZJnjWtHuRsudgIxAcctTr/Pw1UahFeZVmj22gI7Dj4dU2+3DqHpU7nTPMb9Wom/LFd+ayhdR1aMKnh9ohij+DJ0wGPhOBsBJ1FlH4B2BIuWFnEfNV+DEeUWa8mPi8=
+	t=1770738340; cv=none; b=pv9QZ3InhizvxxjXwgsnL3T+Bq1XJm6NpFVe8XbAe7oPN5OUK85NJPmxMJLIf7Q7ANctRaBrJK1Azif8zFCM2iuVvuH1IimaBocx33JfJWG+su+iOAS6ZRCzUcZwn+7F2/78o/oGFBXLgd4lPbK9sy7UUkkqoPbgkUm2RkJIc0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770737746; c=relaxed/simple;
-	bh=/D9WayX2RyezQv/BMFEI20I2X4SxmXeXzlv+0+3fv8I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NBuEmOjeWtpxyjCkIEm+m3Erl2aHzb2yYVVlnssbkGQDny5L70i0E/SRY1bo7In5UwEJSRLr3eN42c1G0h4bVdFaXRLnKxXmb3a7KRCzQI/PcXVTGZJc8dJgUpLumrCESdxedyWX5FyJBPIOoKev9f5Z3n0CQWDhCkhFQFt4GGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLMND+6z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EA0A5C116C6;
-	Tue, 10 Feb 2026 15:35:45 +0000 (UTC)
+	s=arc-20240116; t=1770738340; c=relaxed/simple;
+	bh=f/yXqF8MtqWCkk+l6WPtkqJBbYUKSHSNM30NkMJmZiA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qYiYBTJF3ugpwWS/CFV8hBxlIFuZnftif6zCc2bNuBD0XxKG1ndXyB5ye7WwMiOF3rQHz67F7QDMrZ/sBin3nkdPqnFoYJLGtODWGw6IVty+KQi8inEoPgrN48xISu5iAjBNGij454mSSb+7HBnF2TmNrqK1qvxRNq/GIzq1FAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o/WZZSyj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 72BD2C116C6;
+	Tue, 10 Feb 2026 15:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770737746;
-	bh=/D9WayX2RyezQv/BMFEI20I2X4SxmXeXzlv+0+3fv8I=;
+	s=k20201202; t=1770738340;
+	bh=f/yXqF8MtqWCkk+l6WPtkqJBbYUKSHSNM30NkMJmZiA=;
 	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=MLMND+6zO1mw6D5D2vRgotwECtaX49Vsw5oshv1RQk+oH0W3x1jcywrKF9adtvjy7
-	 sBrOXpwVobU2TowG8xxAB8caE9riDYnVebmNYl2pAc7m2NkOh7rRTFLVKK5wV0pwzU
-	 kt0umUOPiHTypmbka2yq+f6mTHf7n6TnhCGxuCBzdf67u7+leIiar+NHwU3sLKoW/g
-	 CTji1PYz52V7RQgU+4iTbmpM0gaKrbJ8/eqVWiozfInT1RNBqROjFFZVushCR8c7PI
-	 MZbKR28kfuCAiZ97SUJVFtVDQfJRnpydb860mjGwKhQJhMx9XmUGsPciOSgpDnSluj
-	 tR4wzLf3uJvgw==
+	b=o/WZZSyj0qh+6+pJDySuzGkxX9i6A3YpvZ9hvNNCus1EJi66ITtKlFlJAF223NIWG
+	 FKBW3LvSW8LR+TJip7VJ3LE9y0t+FOlo43kc1DeQLdmVBogwVolDfpXxWkecC+o8bK
+	 kmhneDoc354Ew7udF+yWzaGGzsaygAoaL34mG0CRjR4D40jy+4NKfV+FELxNkSgje0
+	 jRVxEsTe2HPVJW/WMJWrnVRxBcuDnxNLPqQfXg+mX2IpRTYAq7RJyBOB+2qpVV7ron
+	 TuS5Q/Ate7q/7TJiHIKxnq1eELkYBuieAfRqbwdeU+UoucwKkEiQ3vYQL2l7x3AM6s
+	 QReTkuep3F00w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E71EA812D;
-	Tue, 10 Feb 2026 15:35:45 +0000 (UTC)
-From: Soufiane via B4 Relay <devnull+soufianeda.tutanota.com@kernel.org>
-Date: Tue, 10 Feb 2026 16:35:27 +0100
-Subject: [PATCH v2] staging: atomisp: fix heap buffer overflow in
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59587EA8131;
+	Tue, 10 Feb 2026 15:45:40 +0000 (UTC)
+From: Soufiane Dani via B4 Relay <devnull+soufianeda.tutanota.com@kernel.org>
+Date: Tue, 10 Feb 2026 16:45:23 +0100
+Subject: [PATCH v3] staging: atomisp: fix heap buffer overflow in
  framebuffer conversion
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -58,37 +58,38 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260210-atomisp-fix-v2-1-2e1e15f1b774@tutanota.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22MQQ7CIBAAv9LsWQwstWJP/sP0gAh2D4UGkGga/
- i727HEmmdkg2Ug2wdhtEG2hRME3wEMHZtb+aRk9GgNyHDgKznQOC6WVOXozZbmS7nySg1LQijX
- apvfbbWo8U8ohfvZ5ET/7/1MEE4xj3+PF3J2T4ppfWfuQ9dGEBaZa6xfRn5UsqQAAAA==
+Message-Id: <20260210-atomisp-fix-v3-1-b2efe28a6c53@tutanota.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32MQQ7CIBAAv9JwFsMutEVP/sN4oHWxHFoaQKJp+
+ ndpj8Z4nElmFhYpOIrsXC0sUHbR+amAPFSsH8z0IO7uhRkKbASC4Cb50cWZW/fimoSWtq1lozU
+ rxRyo6P12vRUeXEw+vPd5hs3+/mTgwAUqhae+s1bCJT2TmXwyx96PbFtl/JNjyZGAoLbQta36y
+ td1/QDW9w9z6AAAAA==
 X-Change-ID: 20260210-atomisp-fix-8e083f753688
 To: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
  sakari.ailus@linux.intel.com
 Cc: gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, Soufiane <soufianeda@tutanota.com>
+ linux-staging@lists.linux.dev, Soufiane Dani <soufianeda@tutanota.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770737743; l=1170;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770738339; l=1297;
  i=soufianeda@tutanota.com; s=20260210; h=from:subject:message-id;
- bh=LIUHpU74WY0uQyqdYbvaZ7O7xKufBT6aHUwY0/k5w9k=;
- b=rvOtB6aPKYanBXLUZDLJTTwFiLVGt8ns4rKokbVb1Lmbrgf+UW2zv3H2/mRt0aiN2A0mwC7u9
- HtRzFBEMl6OBe36d9HpHylgcNkZE13kZ8DnBzwKoo+xO/LcjfOHqODQ
+ bh=i+oYeKTwhxW/Os8v+MNwen7EPT3/rCXrDM2kh4h2xEg=;
+ b=0r32OaiNqqSaLESr+pcgBcZfU3auqLuL711WDCgcl/bT9bYDO55FbJW7yw7zWS2XqK5ET9Wdk
+ ZdeTwmxVrsJCxaAfLkR/dqhwqLNFRg6Rj4JwJdm37gV8UFMp8SE4DV+
 X-Developer-Key: i=soufianeda@tutanota.com; a=ed25519;
  pk=UzU2pI3/kdLVX1NbSuU4LzRt28OBKkEmk+xBRMw7P+Q=
 X-Endpoint-Received: by B4 Relay for soufianeda@tutanota.com/20260210 with
  auth_id=631
-X-Original-From: Soufiane <soufianeda@tutanota.com>
+X-Original-From: Soufiane Dani <soufianeda@tutanota.com>
 Reply-To: soufianeda@tutanota.com
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52525-lists,linux-media=lfdr.de,soufianeda.tutanota.com];
+	TAGGED_FROM(0.00)[bounces-52526-lists,linux-media=lfdr.de,soufianeda.tutanota.com];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -104,18 +105,23 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 22D2511C966
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,tutanota.com:mid,tutanota.com:email,tutanota.com:replyto]
+X-Rspamd-Queue-Id: 8C34911CB57
 X-Rspamd-Action: no action
 
-From: Soufiane <soufianeda@tutanota.com>
+From: Soufiane Dani <soufianeda@tutanota.com>
 
 Validate sizeimage against the allocated frame buffer size before
 hmm_store() to prevent out-of-bounds write.
 
-Signed-off-by: Soufiane <soufianeda@tutanota.com>
+Signed-off-by: Soufiane Dani <soufianeda@tutanota.com>
 ---
+Changes in v3:
+-
+-
+- Link to v2: https://lore.kernel.org/r/20260210-atomisp-fix-v2-1-2e1e15f1b774@tutanota.com
+
 Changes in v2:
 - Resend with all recipients (v1 only reached sakari and linux-staging)
 - Link to v1: https://lore.kernel.org/r/20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com
@@ -146,7 +152,7 @@ change-id: 20260210-atomisp-fix-8e083f753688
 
 Best regards,
 -- 
-Soufiane <soufianeda@tutanota.com>
+Soufiane Dani <soufianeda@tutanota.com>
 
 
 
