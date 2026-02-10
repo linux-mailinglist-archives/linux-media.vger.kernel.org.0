@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-52489-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52490-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GO2dL8jqimlEOwAAu9opvQ
-	(envelope-from <linux-media+bounces-52489-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:22:32 +0100
+	id QGz8AdDqimlEOwAAu9opvQ
+	(envelope-from <linux-media+bounces-52490-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:22:40 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E25F118352
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:22:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808DF118359
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:22:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D8E3B303DA82
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 08:22:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 910233040A8A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 08:22:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E5133CEA9;
-	Tue, 10 Feb 2026 08:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E551D33CEA9;
+	Tue, 10 Feb 2026 08:22:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EoNM+YmF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AMV7ksec"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB97257851
-	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 08:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA7018C933
+	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 08:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770711739; cv=none; b=bxhd9b2j1PDEsne2LHjSlWhOFcwkNIuro+GCP9IMZjimvVM+NqrUcXy3IGPbPO+NX2RNSlAMI94fAAZ4Tq0fs4GfKsnrRsk6U0FJ0rUdri85WI2rr2lo0eqekJvAzO/ijsuhBC/jaxskADPCr+W8v+He3srDACcRmSSxCyhPAdo=
+	t=1770711744; cv=none; b=VY6SlcUTUBMJ+nfQcLnVsBL7MMdtrD5z95Qs9sJleQn2H701wdBuVRU9hDB/2TVpoNS40VQerC7OXHM55uu5A0aMY9ku/s3gZihP95zAJcgGm6EkqxocsulaEYs7m8+vf12gWmpGty33WUokRARzJLrZBm2wyY8tZNIF75j2dxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770711739; c=relaxed/simple;
-	bh=K641g8eud7NkhIQVybGiCdh9Jy579n8o0Vz5/w8g25Y=;
+	s=arc-20240116; t=1770711744; c=relaxed/simple;
+	bh=yhc2p8mv6ev7MJOu6/5Z04VanMMnTHyoknUD8DPOCKE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UAWszWe50VhwmiMMi2dmoZtFcYIk77qEnVFIR5dj862P6asF4FNIR8F/o5u4nx+H5RqnwPfXSG8TvdT33/17JGcmEXFM+UFixETreUz88Q8vlVaUb9RDObLTHeULQVDPBvawpqWbuBxxpBB5gOxuP0YvzWtyKv6bFrYHUBrq5cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EoNM+YmF; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=YmHry0oha/4g9SuZwmNHKWhpkR0xSXpBPTDzIIy+b9smi9lFl9HZsY8cOlV7RzeD1TCKt7FGcS8D3o0Ng8s1DpcJIihrDGOCINc+e0buqPZeoO9mpvQ8oKEt/DF42zoaSKDNsWZPyjsjzQERyD0cHyjdIfI03k8vA7rHD1JJqbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AMV7ksec; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:2edd:807a:f3c0:8d1b:28a])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5BCC713BE;
-	Tue, 10 Feb 2026 09:21:30 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E260E47;
+	Tue, 10 Feb 2026 09:21:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770711690;
-	bh=K641g8eud7NkhIQVybGiCdh9Jy579n8o0Vz5/w8g25Y=;
+	s=mail; t=1770711695;
+	bh=yhc2p8mv6ev7MJOu6/5Z04VanMMnTHyoknUD8DPOCKE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=EoNM+YmFw20w/7abZp6pkEB5ieD5pBh8sd8DxfjzQh6bN/krKOxNRMp1zA4ByacSk
-	 UKN7PeKfZGe5xMlvcjwVhwvyYzFrEWHxTb0yT7oYBL3uJMmBCZ9NQ4Ut2fOlItYNkp
-	 iucLyE6LHz2yif8Auj4WynGrMUTCc61QvVNXDhTg=
+	b=AMV7ksecsqlFP7JAvzeZEzL8nh71ZrHpT1Vowh5ulc/0P5WugX0Nb4COq2BECg5VN
+	 jlNwLl2J9GWCo6Su1lePq2zZgua7QgXMpz+t6Yns2mVUXJf4iYacCoA/sqqbxZtHe3
+	 lS/ULStQLQFvdaGlcHljiad6RaBcpHuIAdwTtViE=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Tue, 10 Feb 2026 13:51:18 +0530
-Subject: [PATCH v2 1/8] platform/raspberrypi: vchiq-mmal: Move headers to
- include/linux
+Date: Tue, 10 Feb 2026 13:51:19 +0530
+Subject: [PATCH v2 2/8] platform/raspberrypi: vchiq-mmal: Support ISP
+ parameters and stats
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260210-b4-vchiq-isp-v2-1-4403944152fe@ideasonboard.com>
+Message-Id: <20260210-b4-vchiq-isp-v2-2-4403944152fe@ideasonboard.com>
 References: <20260210-b4-vchiq-isp-v2-0-4403944152fe@ideasonboard.com>
 In-Reply-To: <20260210-b4-vchiq-isp-v2-0-4403944152fe@ideasonboard.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
@@ -72,21 +72,21 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Daniel Scally <dan.scally@ideasonboard.com>, linux-media@vger.kernel.org, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5507;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4938;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=K641g8eud7NkhIQVybGiCdh9Jy579n8o0Vz5/w8g25Y=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpiuqmPzfFUkuj7Md9xFyaUEl2e0ujcbG0R5VC5
- PZVz5FwW/KJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaYrqpgAKCRBD3pH5JJpx
- RZppEACCagK+9rI+B7YGtzmv5qoW6+ZDEXo1yp7znV14bLz2HcWPmoQFp9i9OfapGRPXlQad+OK
- 23qa02epZ7xKMbAs/MSNzJZb6KWqZB+CaQ0dZPylSweLTR2i0a9buj8za7/beCKBjRxP7BO00Ok
- lfMHmPlSEjCTmhZXtOa91BZ+C3tJKCtRwWSjPexbyXV2csyKLFzUSgQDpnhs7KugJJ5RFLFcSSy
- stzx23P/Wj3Kdktw3x9Kebmq+X2Z0c0L5pbdztpiuCYZsSjrteTw7zJcm5MGdfPEA1Ft5OCcfKm
- yWd7Mhq9VrUz9kcSmmJyNVzXTXtBtnRy77QVk4yiQc9pWNAwmwjerr+21bHgCeyeS+nf19dsj4l
- FhU4UIBIxkTlts9c2vjR1+6yTZhvqPe7ATJe3j5HZ5Q83kQBxwRqKtfE1IW9vXeJzHSmHpwkSMb
- jtlj6tf7fsWbmeYoMRKRhTPCMwG70J+5RUaeKZFBI5/VSNHwkkg7xhXqTV9gJ7N+p29yGOZjjGl
- v6vHtRYbm+36qGgzrN+WERxAYnwu3uU+4/F6v9l+dzSVrzwu3poejDBejLJXDykxbJvj0/bzHaI
- 6E65bKapc7owRB5o1DT+KE/P5TXwhOB/I3p7Bwd9kxeBk2DZWH/vjEKUn8Twea6vIpHSrLh0giO
- vj3/YIImiQkZObA==
+ bh=yhc2p8mv6ev7MJOu6/5Z04VanMMnTHyoknUD8DPOCKE=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpiuqnl9a2woDy5YHOFHhdyoS5BLv4o4+SKYXKG
+ ZuvidCyt7WJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaYrqpwAKCRBD3pH5JJpx
+ RQs3D/oDsBaHa5BeZYVOYeO64GmkcRP8MRi6CmUregEWWvgvUClvYLgBeCHZge00Lg892R012/S
+ 2U11h07SZ3/hjhbyYpoRqOicNytXmnSVN21D6P+kmH9BfbiLyoV+dVcRnll3JrmETp0T6e7fAjf
+ vz4OFKiBpIqfOEdsJ/VriLgdrxQHy/+oBCS+muOzIsZYlaTU4irPfd7ta5QMJBkgQ5y5aZBjPZa
+ nf8TbIG7Ff3lH5UMyFi6+RQAY9+NYQQNrIXv+lVeMyJdoZ3MGGkUcw0IoYSNnfI44dH7TaHzHSb
+ 3IX6JQoMspYlO2f21Ni40YyGOv98g5L377A02jFVC0cDmmeUGTkXVTjcY5XudrBbMDeuTFMLJ0q
+ +25XILr9H4mRP7QQXB91rz+LW8QV0OAfH7FG2TZEFJd8bqteCryhytJwCAOoYGo3j/5F0g5kxxf
+ ZNobNSV54HjF/wkQTfc7sRyy6iMW7OMWi0PyY5bT8N3mCS2Ev8dmSJvFiwjoZdxFgOYOZ+G23zq
+ 5azENRgSELiPPl550gNNi2G2YRIARjzHLqEdRfw0atQV+X6UGPk4yBY9d44seGwEyD6WbwfcpD4
+ F5oHGs1HHwzwStaN86XpvEdU1QOZ5pGd57+H4LTx++8/K0LlgSN9OrbfNR+IF0FVkrpk+HMrnUM
+ k0u/auEy6gbpVGQ==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 X-Rspamd-Server: lfdr
@@ -98,7 +98,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52489-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52490-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -116,121 +116,138 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:email]
-X-Rspamd-Queue-Id: 0E25F118352
+X-Rspamd-Queue-Id: 808DF118359
 X-Rspamd-Action: no action
 
-Now that VCHIQ interface is destaged, different drivers (like ISP or
-codec) no longer live under the same tree as VCHIQ MMAL, but in their
-relevant trees like media or audio.
+The ISP used on BCM2835 and derivative platforms is behind the VCHIQ
+bus, where some parameters and statistics are accessed through the MMAL
+layer.
 
-Enable access to VCHIQ headers for such drivers by moving these headers
-under include/linux/raspberrypi with other VCHIQ related headers.
+So add the relevant structures, macros and enum values.
 
-While at it, add the missing videobuf2-v4l2.h include to mmal-common.h
-as it references struct vb2_v4l2_buffer.
-
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
-Changes in v2:
-- Explain the addition of videobuf2-v4l2.h in the commit message
-- Add Kieran's R-by
-- No code change
----
- MAINTAINERS                                                      | 1 +
- drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c             | 9 ++++-----
- .../vchiq-mmal => include/linux/raspberrypi}/mmal-common.h       | 2 ++
- .../vchiq-mmal => include/linux/raspberrypi}/mmal-encodings.h    | 0
- .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-common.h   | 0
- .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-format.h   | 0
- .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg-port.h     | 0
- .../vchiq-mmal => include/linux/raspberrypi}/mmal-msg.h          | 0
- .../vchiq-mmal => include/linux/raspberrypi}/mmal-parameters.h   | 0
- .../vchiq-mmal => include/linux/raspberrypi}/mmal-vchiq.h        | 0
- 10 files changed, 7 insertions(+), 5 deletions(-)
+ include/linux/raspberrypi/mmal-encodings.h  |  4 ++
+ include/linux/raspberrypi/mmal-parameters.h | 86 +++++++++++++++++++++++++++++
+ 2 files changed, 90 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9bb9943fe3deba7fd27f745b6fb2e0b10daf34cb..34f779679f1d0eff4cfbdc2533db153fb5f8fe2e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4931,6 +4931,7 @@ F:	Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
- F:	drivers/pci/controller/pcie-brcmstb.c
- F:	drivers/platform/raspberrypi/vchiq-*
- F:	drivers/staging/vc04_services
-+F:	include/linux/raspberrypi/mmal*
- F:	include/linux/raspberrypi/vchiq*
- N:	bcm2711
- N:	bcm2712
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
-index a228098d8cc0af5d5900b92b2847a1626a6d599c..3ead81dd2d0f48be7a5dd87256c38d6ba0dbcd0e 100644
---- a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
-+++ b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
-@@ -22,17 +22,16 @@
- #include <linux/mm.h>
- #include <linux/slab.h>
- #include <linux/completion.h>
-+#include <linux/raspberrypi/mmal-common.h>
-+#include <linux/raspberrypi/mmal-parameters.h>
-+#include <linux/raspberrypi/mmal-vchiq.h>
-+#include <linux/raspberrypi/mmal-msg.h>
- #include <linux/raspberrypi/vchiq.h>
- #include <linux/raspberrypi/vchiq_arm.h>
- #include <linux/raspberrypi/vc_sm_knl.h>
- #include <linux/vmalloc.h>
- #include <media/videobuf2-vmalloc.h>
+diff --git a/include/linux/raspberrypi/mmal-encodings.h b/include/linux/raspberrypi/mmal-encodings.h
+index e15ae7b24f73fd055806e2e88e5eec0e1b8bfe9d..eadf2e9814082c861a93ae8119e8ecb27a2fb331 100644
+--- a/include/linux/raspberrypi/mmal-encodings.h
++++ b/include/linux/raspberrypi/mmal-encodings.h
+@@ -73,6 +73,10 @@
+  */
+ #define MMAL_ENCODING_EGL_IMAGE        MMAL_FOURCC('E', 'G', 'L', 'I')
  
--#include "mmal-common.h"
--#include "mmal-parameters.h"
--#include "mmal-vchiq.h"
--#include "mmal-msg.h"
--
- /*
-  * maximum number of components supported.
-  * This matches the maximum permitted by default on the VPU
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h b/include/linux/raspberrypi/mmal-common.h
-similarity index 97%
-rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
-rename to include/linux/raspberrypi/mmal-common.h
-index 6c5092a68b99594a0234f56b48b785fbc611bf5a..e7f065c539bcae7480a8dc2000d2a1e4cec7883c 100644
---- a/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
-+++ b/include/linux/raspberrypi/mmal-common.h
-@@ -16,6 +16,8 @@
- #ifndef MMAL_COMMON_H
- #define MMAL_COMMON_H
- 
-+#include <media/videobuf2-v4l2.h>
++/** ISP image statistics format
++ */
++#define MMAL_ENCODING_BRCM_STATS       MMAL_FOURCC('S', 'T', 'A', 'T')
 +
- #define MMAL_FOURCC(a, b, c, d) ((a) | (b << 8) | (c << 16) | (d << 24))
- #define MMAL_MAGIC MMAL_FOURCC('m', 'm', 'a', 'l')
+ /* }@ */
  
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h b/include/linux/raspberrypi/mmal-encodings.h
-similarity index 100%
-rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h
-rename to include/linux/raspberrypi/mmal-encodings.h
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h b/include/linux/raspberrypi/mmal-msg-common.h
-similarity index 100%
-rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h
-rename to include/linux/raspberrypi/mmal-msg-common.h
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h b/include/linux/raspberrypi/mmal-msg-format.h
-similarity index 100%
-rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h
-rename to include/linux/raspberrypi/mmal-msg-format.h
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h b/include/linux/raspberrypi/mmal-msg-port.h
-similarity index 100%
-rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h
-rename to include/linux/raspberrypi/mmal-msg-port.h
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h b/include/linux/raspberrypi/mmal-msg.h
-similarity index 100%
-rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h
-rename to include/linux/raspberrypi/mmal-msg.h
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h b/include/linux/raspberrypi/mmal-parameters.h
-similarity index 100%
-rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h
-rename to include/linux/raspberrypi/mmal-parameters.h
-diff --git a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h b/include/linux/raspberrypi/mmal-vchiq.h
-similarity index 100%
-rename from drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h
-rename to include/linux/raspberrypi/mmal-vchiq.h
+ /** \name Pre-defined audio encodings */
+diff --git a/include/linux/raspberrypi/mmal-parameters.h b/include/linux/raspberrypi/mmal-parameters.h
+index a0cdd28101f2dd67fd6b64ce1c95c0cbbfe15fc4..6ae5a7a1932c44a73bd482ae72e1191868871ea9 100644
+--- a/include/linux/raspberrypi/mmal-parameters.h
++++ b/include/linux/raspberrypi/mmal-parameters.h
+@@ -223,6 +223,64 @@ enum mmal_parameter_camera_type {
+ 	MMAL_PARAMETER_SHUTTER_SPEED,
+ 		/**< Takes a @ref MMAL_PARAMETER_AWB_GAINS_T */
+ 	MMAL_PARAMETER_CUSTOM_AWB_GAINS,
++		/**< Takes a @ref MMAL_PARAMETER_CAMERA_SETTINGS_T */
++	MMAL_PARAMETER_CAMERA_SETTINGS,
++		/**< Takes a @ref MMAL_PARAMETER_PRIVACY_INDICATOR_T */
++	MMAL_PARAMETER_PRIVACY_INDICATOR,
++		/**< Takes a @ref MMAL_PARAMETER_BOOLEAN_T */
++	MMAL_PARAMETER_VIDEO_DENOISE,
++		/**< Takes a @ref MMAL_PARAMETER_BOOLEAN_T */
++	MMAL_PARAMETER_STILLS_DENOISE,
++		/**< Takes a @ref MMAL_PARAMETER_CAMERA_ANNOTATE_T */
++	MMAL_PARAMETER_ANNOTATE,
++		/**< Takes a @ref MMAL_PARAMETER_STEREOSCOPIC_MODE_T */
++	MMAL_PARAMETER_STEREOSCOPIC_MODE,
++		/**< Takes a @ref MMAL_PARAMETER_CAMERA_INTERFACE_T */
++	MMAL_PARAMETER_CAMERA_INTERFACE,
++		/**< Takes a @ref MMAL_PARAMETER_CAMERA_CLOCKING_MODE_T */
++	MMAL_PARAMETER_CAMERA_CLOCKING_MODE,
++		/**< Takes a @ref MMAL_PARAMETER_CAMERA_RX_CONFIG_T */
++	MMAL_PARAMETER_CAMERA_RX_CONFIG,
++		/**< Takes a @ref MMAL_PARAMETER_CAMERA_RX_TIMING_T */
++	MMAL_PARAMETER_CAMERA_RX_TIMING,
++		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
++	MMAL_PARAMETER_DPF_CONFIG,
++
++	/* 0x50 */
++		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
++	MMAL_PARAMETER_JPEG_RESTART_INTERVAL,
++		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
++	MMAL_PARAMETER_CAMERA_ISP_BLOCK_OVERRIDE,
++		/**< Takes a @ref MMAL_PARAMETER_LENS_SHADING_T */
++	MMAL_PARAMETER_LENS_SHADING_OVERRIDE,
++		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
++	MMAL_PARAMETER_BLACK_LEVEL,
++		/**< Takes a @ref MMAL_PARAMETER_RESIZE_T */
++	MMAL_PARAMETER_RESIZE_PARAMS,
++		/**< Takes a @ref MMAL_PARAMETER_CROP_T */
++	MMAL_PARAMETER_CROP,
++		/**< Takes a @ref MMAL_PARAMETER_INT32_T */
++	MMAL_PARAMETER_OUTPUT_SHIFT,
++		/**< Takes a @ref MMAL_PARAMETER_INT32_T */
++	MMAL_PARAMETER_CCM_SHIFT,
++		/**< Takes a @ref MMAL_PARAMETER_CUSTOM_CCM_T */
++	MMAL_PARAMETER_CUSTOM_CCM,
++		/**< Takes a @ref MMAL_PARAMETER_RATIONAL_T */
++	MMAL_PARAMETER_ANALOG_GAIN,
++		/**< Takes a @ref MMAL_PARAMETER_RATIONAL_T */
++	MMAL_PARAMETER_DIGITAL_GAIN,
++		/**< Takes a @ref MMAL_PARAMETER_DENOISE_T */
++	MMAL_PARAMETER_DENOISE,
++		/**< Takes a @ref MMAL_PARAMETER_SHARPEN_T */
++	MMAL_PARAMETER_SHARPEN,
++		/**< Takes a @ref MMAL_PARAMETER_GEQ_T */
++	MMAL_PARAMETER_GEQ,
++		/**< Tales a @ref MMAP_PARAMETER_DPC_T */
++	MMAL_PARAMETER_DPC,
++		/**< Tales a @ref MMAP_PARAMETER_GAMMA_T */
++	MMAL_PARAMETER_GAMMA,
++		/**< Takes a @ref MMAL_PARAMETER_CDN_T */
++	MMAL_PARAMETER_CDN,
+ };
+ 
+ enum mmal_parameter_camera_config_timestamp_mode {
+@@ -749,4 +807,32 @@ struct mmal_parameter_camera_info {
+ 				flashes[MMAL_PARAMETER_CAMERA_INFO_MAX_FLASHES];
+ };
+ 
++enum mmal_parameter_ls_gain_format_type {
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U0P8_1 = 0,
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U1P7_0 = 1,
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U1P7_1 = 2,
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U2P6_0 = 3,
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U2P6_1 = 4,
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U3P5_0 = 5,
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U3P5_1 = 6,
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U4P10  = 7,
++	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_DUMMY  = 0x7FFFFFFF
++};
++
++struct mmal_parameter_lens_shading_v2 {
++	u32 enabled;
++	u32 grid_cell_size;
++	u32 grid_width;
++	u32 grid_stride;
++	u32 grid_height;
++	u32 mem_handle_table;
++	u32 ref_transform;
++	u32 corner_sampled;
++	enum mmal_parameter_ls_gain_format_type gain_format;
++};
++
++struct mmal_parameter_crop {
++	struct vchiq_mmal_rect rect;
++};
++
+ #endif
 
 -- 
 2.52.0
