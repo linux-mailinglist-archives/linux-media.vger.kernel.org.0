@@ -1,365 +1,267 @@
-Return-Path: <linux-media+bounces-52527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52532-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SAeNI9JWi2lIUAAAu9opvQ
-	(envelope-from <linux-media+bounces-52527-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 17:03:30 +0100
+	id wFw+DsZni2kiUQAAu9opvQ
+	(envelope-from <linux-media+bounces-52532-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 18:15:50 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE12411CE89
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 17:03:29 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7EEB11DBD7
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 18:15:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D25553058BB2
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 16:02:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 29BE63093A71
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 17:13:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B563876CD;
-	Tue, 10 Feb 2026 16:02:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6708638A9B1;
+	Tue, 10 Feb 2026 17:12:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ml9ORTj6"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Qp2mR36w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013019.outbound.protection.outlook.com [40.107.159.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A558915624B;
-	Tue, 10 Feb 2026 16:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770739370; cv=none; b=RXfJrbiZHD/eJX4zRISi9hclpF+x+n/0PV+4sZg2hL+nDH7tQ+BeF+Yvm5YSJ4kRq5Az3Z/NFUdFojf7TIb1q45locIktWHSCn8jJWFcxmV2qvHX1QNWGTU9hK9KD+OvCe4I5p9kridYiIMgHJ6wSYrhg5h46W/rEVYYSVHd6gY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770739370; c=relaxed/simple;
-	bh=ALzULHo7sgR9xPvwqxjQVJXsK5fYs71iG1WLuNUL9hI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LEvs9ifyLzDur/rDIrsY4ctj1TyQr062zzMVzQ9y51o5Pdj8NFOiy/girLiQApvwmm1oTlv2717+CiGvpv9rVtpKFgnuPX7i9xvEuPnjUU+AI2vLSXenJDTGTNDOx0+YVc9cLfx6e/HopFwNDT6peqjUnRXqYhsRKsrErsGqz6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ml9ORTj6; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D8816454;
-	Tue, 10 Feb 2026 17:01:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770739320;
-	bh=ALzULHo7sgR9xPvwqxjQVJXsK5fYs71iG1WLuNUL9hI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ml9ORTj6aXoMnJQggHea7K+MTJh1cSvqwIgkIBvKwcsyl6NPnnOeaHTCmuAmeytLh
-	 U9UGaEZGpO+o67eoB8HHUsfJ8Tehl/1qmrN7hrEnKQ48rrgVnv7Rl4uvE/q+rdrU0x
-	 gFw6PuilcMEeCR/inHi4+tOFsUZMC25NJMI0cwTY=
-Date: Tue, 10 Feb 2026 18:02:45 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Anthony McGivern <anthony.mcgivern@arm.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Antoine Bouyer <antoine.bouyer@nxp.com>,
-	Michael Riesch <michael.riesch@collabora.com>,
-	julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com,
-	daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com,
-	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	niklas soderlund <niklas.soderlund@ragnatech.se>
-Subject: Re: [RFC v1 00/11] Add iMX95 neoisp driver
-Message-ID: <20260210160245.GN2405149@killaraus.ideasonboard.com>
-References: <544a98f3-d451-4ca1-b7d0-0b0a1238f66a@collabora.com>
- <c8536c80-2f58-4eae-9336-436d772206df@nxp.com>
- <22b3916a-a12f-4ea2-8863-8ebd9cb498b0@collabora.com>
- <aYI0CrKLGeiZMlD8@zed>
- <aYN8v3UGFKfzkl4_@zed>
- <86109309-8200-464a-a167-ae9cef3f41b7@nxp.com>
- <aYRSMXHjFC0M_DM_@zed>
- <a4c62fb8-51f5-47eb-a1aa-ec0e4f6a9707@arm.com>
- <20260210002053.GJ2405149@killaraus.ideasonboard.com>
- <2b64aa6c-b3d3-4b96-b603-1ceb3497dce2@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8FF389449;
+	Tue, 10 Feb 2026 17:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770743573; cv=fail; b=UMB6lNxZaEZ6Nxm8S+QCFQ8FU9gQ5MmT1gNaRR+IHCol/UJ/Lg/dKivbruJSZ1JbnZ+n29ot4m024ee+nCM+ccr/BC8irAm5Xft7caF710OBMvDBZtY2D621/ge3Ej1DUWbgOewaq08f8L5+qsiZCiE1iQ+9a1Rsl9WNaY47RUQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770743573; c=relaxed/simple;
+	bh=6xj06aWRemvK0y+/nzs631Qp/8EkYxtcZCK0hear1ww=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=Jfs805jh2Z+756ulIHuNj7ecfslGRfg2wIPw1v+Xayl24sskgO5MG1RchIcqy50kutmtar9itdgk1Kl2UsLAPeNVou0OAnhE4k9Hzy/Exfseq1aLX9zZwsC0MyzYSe9EMV3S+hbDEHAw7AUYAcFhwR6Kr81mfFq7BdWP/Ty12qI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Qp2mR36w; arc=fail smtp.client-ip=40.107.159.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TpegN2P9vj5gk8Zh/LWJObbdeZSZ3s8vo/qIyxnQu0L1u/UAUFoyzvCF1kvDPGNc6Vc26qvXoRtFPO+jChdUef/P3F6R/C6rbgaxzkbAXgZ7fjR62LZb/477Oy86jtJhM9oSntleYlStCUOX6kdTozL6B3/HRNVuF89RIR39uDHwmxNf2CXkL0qZTGsL366gyqomF0re5bjAj6fkGjhntL8+bqmaJ2xVThtH96PYZqHhZMrcL03zDKCrisRgdypUELgvK+xHazb8VIied4dF0XE58l21ymVNad27EOkzQzn716m1XJSpU6sOw5ClxEmFArwm3gCWPI7wQices71l3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bb5G0BcP+KAkPwZivYy+Ert2WvO7BGujVc7DeDvnSlI=;
+ b=vip2Notcq8CV3klXYsJVmZSDrk5pk/KvXSZHTibv0lJidODEbW4zNyUmW6E26uw5Yeo9kITVQDpTCO+2BW2fbVB2IvMn/wOejwTNOGPYxaZICJV116X/yiOtxms+mbCtmrjneSx61MLISn+PSG3kR+A8wxpbxn1+C4vhRu+0K3D+4NZAcJ63NJViDzYU1O2Np9mecTxC1yAhPeXZuk8rBiMOp2jUC40qh3SK3RG3b9YC4WrKBFRVuHzQD/CgA5MXkMUTZaqw12aEx0m/zOiWN5z8UG9sZg97Hy16QICQdKqElYasKvWXcN+2QYONO3fuHgJ5plTnrhEYQ65R0sSSPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bb5G0BcP+KAkPwZivYy+Ert2WvO7BGujVc7DeDvnSlI=;
+ b=Qp2mR36wt+Tm76OHmwMHNtqRtY2aqkRswAaIohZIHel3XilVevM8kUpphGRIZLqFLQ+XO3dICgShm+pokjmmLb5ng2gs43hLHFzdPOt8VAGEOR/NxrQsTA+bHUefLOBva7rGd19wZ0Z7B8jbnkqSN4Rq7Au6SC5PDHcoOpDSO/Qd86Ec94oaVTDMrmIaNFJT6pfCPNT2sC7U0NhZZ3wcOWsLrXdcK2jX4OKIrGleGV/GxznhfITLoimy8iOP+mo7nB6v4Oe9UrN36aRiTKTBMVVakcZAoF76+lkv6+E+AH+jgnu4xoppuP06sfZ+hj2vgq+25cldA/Arc6QFDpXUXQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by PAXPR04MB8428.eurprd04.prod.outlook.com (2603:10a6:102:1ce::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Tue, 10 Feb
+ 2026 17:11:30 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9587.010; Tue, 10 Feb 2026
+ 17:11:30 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH 0/6] media: synopsys: Add imx93 support
+Date: Tue, 10 Feb 2026 12:11:07 -0500
+Message-Id: <20260210-imx93-dw-csi2-v1-0-69667bb86bfa@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKtmi2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDQyML3czcCktj3ZRy3eTiTCPdJBNzo5SU5CRDc7NEJaCegqLUtMwKsHn
+ RsbW1AD/PECVfAAAA
+X-Change-ID: 20260128-imx93-dw-csi2-b472ddcb176a
+To: Michael Riesch <michael.riesch@collabora.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, Guoniu Zhou <guoniu.zhou@oss.nxp.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, imx@lists.linux.dev, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770743486; l=1423;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=6xj06aWRemvK0y+/nzs631Qp/8EkYxtcZCK0hear1ww=;
+ b=RPFp2jIyIBpoylc9xvSwjavqkLbpVAp1euTweiCd5PqVF7pR+BE6uz90AMlOJ6HWG5bCgmyFt
+ ajZMsUFs4b8Bp2khQvx9Xs+xbQ/hza70+6cFaePPhaBklHkRQfLMsDz
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: SA0PR11CA0102.namprd11.prod.outlook.com
+ (2603:10b6:806:d1::17) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2b64aa6c-b3d3-4b96-b603-1ceb3497dce2@arm.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|PAXPR04MB8428:EE_
+X-MS-Office365-Filtering-Correlation-Id: 899820dd-a42f-4cbb-014d-08de68c76e65
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|52116014|7416014|376014|366016|1800799024|19092799006|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?elVETGJObFRERzdxazErWnNCempUU0hDbEJ5bWRTTDRDNGcvOVlXZStXeU9C?=
+ =?utf-8?B?MXVLR2dndlF6dXppT2wrRnZaWXhiTzI3SDRXMDJVbVRCUktmTkxGZlMzbWlP?=
+ =?utf-8?B?akdaM0w3K3c1d2RJZUV6SVU5VTRYTHRJY2R0c2xzekVSNktuWlU4L3E2LzZw?=
+ =?utf-8?B?eHBFd2pEd2lWd1NMOFY2Q2FKdjRBVDN3MFdFa0svcklzNjdteVBHWXcxbE5j?=
+ =?utf-8?B?azFtNnFCajBrOWdmU1BSUzRiQitHZmd3M0VBV0RFd0dWbld0R2FsemZCMVQ3?=
+ =?utf-8?B?SVdIOUdCYXNzalRmekhXTnhseDlTTkFBN0NpTFVKRU5GZ0ZrNnNmcHRzK3dm?=
+ =?utf-8?B?Y1dnd2h1cGdMK1E4MW4wOFBKU09Qc0pUbGhWTElLTTM5d3RtL3ZVdGRuYTh5?=
+ =?utf-8?B?cVpNY1Jkb0ZjeCtjaEpaSmx3bEM5SGRXOWhHNCtmOEJQcmdHWnVPVUl2aS9Q?=
+ =?utf-8?B?RHErczZvMk5kbjM3VThEaXdpZEZuTW5RSHF0TndpMjBoSW5ZMEJDczY0NkM1?=
+ =?utf-8?B?VE9GL3QzczNVdDMzMCtCb25EamdEM013a2NqZmMyNzNvSmJxTFdVU2NrYWlu?=
+ =?utf-8?B?UDF5NWFWR2wwcWpWTlpZamFQZ3BrcWJjV21waWJQNFhCR0ErLzNEcStCdDVs?=
+ =?utf-8?B?SklQWFJjVkhEOFpJVGVHMjJNRVBtMVZxZC9JMXhCWVF1OThIbjdQbDdDeGJh?=
+ =?utf-8?B?UjhXcHJjcTFKRS9BKy9pVHpJaVVzcmticTd0RiticlZnWU5vbDBVem1PNU4z?=
+ =?utf-8?B?NW50VkJNakhaOW1OQ3p6K21mZ0c1TTI3MzFhYVlRZXcvdi80bWdwd1RxOXVC?=
+ =?utf-8?B?clk4SUI4UTQ4NzgyS3ZIalRrNGNmcytzT01nTkYzcUFxeUljMnZZVEhrdm5u?=
+ =?utf-8?B?VnN5ZytXdjZzVnFLajd2R1FRbVVjSkpWVFJOSVk5ZWl0R3k4dG5uRnl4RTVw?=
+ =?utf-8?B?TVhuVVdLWWx1S3B6MENBYkVROG94OW9JMmJzZUtBOGRDbWovanAweEMxaVph?=
+ =?utf-8?B?ODVhWkdDSUJ1RmhRMXpHY1BWWm0zclFFZWZtd3JuV09QVVdrTlZ3dVoweFhF?=
+ =?utf-8?B?SlBIOFRQdDNhK0kramlrTTNvL2UzZXNwb1dHOTVMTkR1elpicEhyTTRRUk1T?=
+ =?utf-8?B?L0lsUWtWd2VGakc4NEFVOHByYjBnR0NJNTV6UEZpenNVQ1JUTXpBOEhIMTB5?=
+ =?utf-8?B?RTg0aE1OeUxjM0Fid0FFcnBUVUdrbkY5ekdySjhiY0sxOTM2Y3RXbmlPcjBm?=
+ =?utf-8?B?T1hWRDFaNjJjalk1WWVEei9ZeDgvVWppTTBzaWpvWWRYZEZOT0dxbmNOVllD?=
+ =?utf-8?B?d0JVcXVrVStsWmt1bnB5blVEdzJiYW5VTTJwVE5IYXFHSFRJVEFLeVRyZzRX?=
+ =?utf-8?B?dUVwWlJodGlGQXZxa254M3VWcU5BMHJHVlJKTThIRWxXejlKWE5ac1ZlVFI0?=
+ =?utf-8?B?TURoV0M0bEZhcHZHVDlmMis2dEdPWE9YMlJSOVIvN2lCUWR2ajBTL0tVRWwv?=
+ =?utf-8?B?TG5LWkxPL2U4czBzMXFiNGh5aTVrK0R0WjJJUmtyNFVBZm9GK29peVQ1ZzNi?=
+ =?utf-8?B?OHQxMGFuQ1dsK2NQMGx3YTNlVTFoN3RacldvVGU1dGtnNWsxSmp0MkVMcyts?=
+ =?utf-8?B?cGIvZGswNEJadk9lcGtrUHlDeVRWUzg0MEtueHdEb3FZaGtxRENJY1dFOUY0?=
+ =?utf-8?B?RVM1ZjBMYUE5S3M0SWEzdXdwL3AyMjZFOGY0eCtnUTVDTlRIMXI1OFdtZk03?=
+ =?utf-8?B?MENqV3RzemxqaVVNMEFFSk5iWXRjd1pnak04cjR4ZEdTSklTZ0RoS3BrSnZ4?=
+ =?utf-8?B?ZkJTNXc1Ynl4aEIyQ2hxMmh5eUEzdkNZQjdlMlBVRFhET2VMalFIZk1QN0tr?=
+ =?utf-8?B?TXMyMmUzM0pvQzJOR3FPR3ZBQ0JZMndrTHF6L1psdlVhTzF2Z1Q5LzZlWVlz?=
+ =?utf-8?B?MEg0Z0VTSkhoeHhVZFhsako1KzUyL0ZVbFB6U2ZxMlE5K0dsdG5nT1U4VDd5?=
+ =?utf-8?B?eEVWTVh3c3FsSENrZmM0bURFZlpSeVBuY1pYTktkN1FjWjVDcUw2dVFQSlp5?=
+ =?utf-8?B?ZllKMkNOdkl6cFdZRGpOQTJKczNkNkM4OWllRkxPQ1NYWng4YU1qLzhhdGxG?=
+ =?utf-8?B?Y0lqOTFzazl1U2hnR0YwVzlyd1BsWi9nV3gyanlRTnZMKzRWZGpXenQxSW45?=
+ =?utf-8?Q?WKIWDX5e34xv323/6JEQ8F8=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(366016)(1800799024)(19092799006)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?TGU0Rkx5c0Z3cWRKay9IczNGOXd0dEp4UUUwQzVyNStwQnJzYlhzbVVKVVJm?=
+ =?utf-8?B?c2RjcGg4T01kOWxiQzI0Ty95SlR6V1I0d0tMNEJUTEdHM01yZFV2RTB1emlH?=
+ =?utf-8?B?cGJSMlBrUEN2T2p1Y2FmckdHZGdiNmhNQXZ0eVh3SXlvSTNNRGw4bTl2VlVn?=
+ =?utf-8?B?SkthSmpzTmlhSHB3Mk1TZC85dzM1UkIxdTZlckZXRUhKME55WkVMajN2UHNZ?=
+ =?utf-8?B?dU9OQ3hlZTlva0xTUmY5ZkJWVTgvSDhOd3V0M1hmb1ZGMjZYVHpOUzhzNTFS?=
+ =?utf-8?B?YmdaNDVHYmdScWtSYjltd3VtSEl4UkRRZWVpT2Rlb0RNZ2NvVHJsMFJxcU5J?=
+ =?utf-8?B?ajVkTUp2Vlh3NlVkeWlyZm51amNRck9yZFA2TG5uNmowZzhYaWhPODVTa1BS?=
+ =?utf-8?B?UG0yNk1ONUlQalp3V1hKUy93c2xmS2xuVTh5anFISExZNHQvNFZDelMvTThP?=
+ =?utf-8?B?TFJxeUE1SlJIVUUwUnVQOG5VcThRTmswQnJFOTNWU1RNYkoxNFJUcXU4MHhW?=
+ =?utf-8?B?SjNoZ3BTdkNoSUNBQXVubStoc1pSMkwrWE01NmtNSmZlSEdpZEZielBJdnVp?=
+ =?utf-8?B?SnZqMEIyNWlxelBRR2lvVEV6RTVQUkdWVTdpRkFPZjdWOWtDcExQSDF2Rm56?=
+ =?utf-8?B?OXd6aVZTR2FRQTRWZ2ZUTFRvL2xiVjRiQW5YUGp3NWdnbWZUdGhESlN4NnVu?=
+ =?utf-8?B?VjBYLzdZOE5jK0d3akhtSGdYOEhXL3NnTU5IUFdnUDBHR3FTaE8yRWZIVDFy?=
+ =?utf-8?B?NUw4elRzeWRNakJuclJid1Z5TjJVY3M0K1pkeDRodHl3Q05KZVN1aEVUcFo1?=
+ =?utf-8?B?dURaeFhPUVZWQW40TDArcGdGN090U3hJSkhUWkxzWE9OK3A3eDhlNUtaSnE2?=
+ =?utf-8?B?WW1LYkNBaFNDaFlYM0lWWk1VRGEyd2xBc2pWbEJVL2ozMFVpUi9lZUYvSVJr?=
+ =?utf-8?B?NVlEekFLN0dqV21FMUg5R24wbTBUZVhOaDNtZXp2bFVGT3ZWWjkxTWNYM1FD?=
+ =?utf-8?B?YVdTek9BWThWeEJENStqOE1mVFRQTk9kY0s2dG5oYkVqR3VmYncxYklUMmRR?=
+ =?utf-8?B?cDdvQWRYZjVZdjBKc2ZDM2kyeGRlVmJHZllNZFYrd1Zmck95bzAzeStVU1hk?=
+ =?utf-8?B?M2V4Wnl5SjdpTjRpWFJ1Q2RpSHozUlJaVXU0djAzTGI3b3ZyVTBsN3RacnBZ?=
+ =?utf-8?B?TDJxVDlZUGhpWncyNzhwOVZmOEczWWw5NmZsZC9XOERERStNVDV6eXl4bmxJ?=
+ =?utf-8?B?ZkYybWw4L1hRZ0E5MmFQMWRqaDZqV1p6K0N1b3BpaVBTZ1lTbnd0Y1VGZWVJ?=
+ =?utf-8?B?SzB0T2U3ZlBwYzBNeGNRK0hTZkVpWVloZkhnQjdDeUZNaGNBQndtaTVPNFNx?=
+ =?utf-8?B?a3JBZSswdGc0QS9sakJDT3VUdG1YNkcvZlhLLzA2UUJXaGZ6cDVDbnFaajZu?=
+ =?utf-8?B?ai9lNzZEenhBdkVaZkY4SjRONVhVNmFTT1V3MkZqNEZLRWQvbHBqODZjRkU5?=
+ =?utf-8?B?MkN3SFlnQmFSZmlwa0llZ1hrbHpybUFCNHJKbG5kZTM4RWZCaVlPLzFDWktQ?=
+ =?utf-8?B?bTlVZXJDT2JIWFF0eU94YnM4d3JNM2RuRUVrZzV4VTNzaklzKzd5S0Z4QnJN?=
+ =?utf-8?B?d2NKSTgyZDlSNldFY1JSZFdqN0YvWm5zdmE1eWs1U0dVUVlad05DM0FtNmZx?=
+ =?utf-8?B?dFhkc0RFcVRUL3lBNnNKMkJ4cmpVMGN3RWU3NHpoaXhDU0hkOE5NbUdqMEVO?=
+ =?utf-8?B?YWtlZ1p1Wk5qQzhRaWdUY0pSeTJxalVJcXh2T1hTMloxdmtoS3lVZGlmT1Vj?=
+ =?utf-8?B?bVYrVWNRaWJnQjNuZ1BOYSs5QmRjMXBDeWRxck1KcVVEVVlrU3FqcEZScnZo?=
+ =?utf-8?B?dHROak5vellVSGlJRTlDTjMyeklleWlIYTVwcFBCeFVrRkVMZzZCZ3VKZFNB?=
+ =?utf-8?B?NWdEZ3FLWVNIVWpYL1h4eVdZdWhDYkw4S3ZCa2gxOHYxUitMWDYwRVYrZGs1?=
+ =?utf-8?B?aFIxQmNtcFdFOGtHekw3Zkc1R3pHU0x2VDRCRzdUbTJ1WUpZTVN6a2t6NEgy?=
+ =?utf-8?B?Uk9MbWhjRHR3KzdtaDJRVWlkL1hiK3R3emFnN3VOMmxVMWxVVVFzMGc0ZVVp?=
+ =?utf-8?B?UkJPVk42M3NGYThoU2hGUHdFWmw3eTE5VGRoSE55ZWhQNUxxODRheGNldmh3?=
+ =?utf-8?B?NkVXYUFDYUZhWGEyeC9tRGcvOHJzL3dsT2pSVlI3Z3FMVTQvVFBmU29VMUk4?=
+ =?utf-8?B?YmlVUG1sTXF6QzNzU2ZCeUNyZlBxZGIydkdrNER6ZlFFRzBPR3FjY1ZrUXpl?=
+ =?utf-8?Q?MsBROU/+6kYJ6eoo34?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 899820dd-a42f-4cbb-014d-08de68c76e65
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 17:11:29.7885
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AIZdKm9rHPhLX8mN+99+96C1GNdtkF41Jqf3iAZ4qq2/eDDn6/TZtc9f2lYRFn2NS0p9QH7f8mG2GUcUzPbkgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8428
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52527-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-52532-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FREEMAIL_CC(0.00)[ideasonboard.com,nxp.com,collabora.com,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org,ragnatech.se];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[Frank.Li@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: EE12411CE89
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:mid,nxp.com:dkim,nxp.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A7EEB11DBD7
 X-Rspamd-Action: no action
 
-On Tue, Feb 10, 2026 at 12:20:42PM +0000, Anthony McGivern wrote:
-> On 10/02/2026 00:20, Laurent Pinchart wrote:
-> > On Mon, Feb 09, 2026 at 01:19:43PM +0000, Anthony McGivern wrote:
-> >> On 05/02/2026 09:40, Jacopo Mondi wrote:
-> >>> On Wed, Feb 04, 2026 at 07:30:18PM +0100, Antoine Bouyer wrote:
-> >>>> Le 04/02/2026 à 18:12, Jacopo Mondi a écrit :
-> >>>>> On Tue, Feb 03, 2026 at 07:37:34PM +0100, Jacopo Mondi wrote:
-> >>>>>> On Thu, Jan 29, 2026 at 12:00:24AM +0100, Michael Riesch wrote:
-> >>>>>>> On 1/28/26 09:17, Antoine Bouyer wrote:
-> >>>>>>>> On 1/26/26 10:44 AM, Michael Riesch wrote:
-> >>>>>>>>> On 1/23/26 09:09, Antoine Bouyer wrote:
-> > 
-> > [snip]
-> >
-> >>>>>>>>>    - How many media devices are registered and which driver registers it
-> >>>>>>>>>      or them?
-> >>>>>>>> 
-> >>>>>>>> That will be part of the evaluation. My initial assumption is that
-> >>>>>>>> neoisp would be the appropriate component to register the media device
-> >>>>>>>> in this mode, since ISI is not involved, and ISI currently performs the
-> >>>>>>>> registration in the M2M configuration.
-> >>>>>> 
-> >>>>>> Isn't the ISP registering its own media graph ?
-> >>>> 
-> >>>> Yes, 8 copies of ISP media graph, that can be used with the 8 output video
-> >>>> devices of the ISI media graph.
-> >>> 
-> >>> I suggest you do what RPi does. The mainline driver only registers one
-> >>> instance and they carry a little patch downstream that implements the
-> >>> for() loop where multiple instances are registered. Duplicating media graphs
-> >>> is not desirable (at least in mainline) as we can have ISPs with 256
-> >>> contexts, we don't want 256 media graphs.
-> >>>
-> >>> A framework level solution with proper priority handling and job
-> >>> scheduling is what is required and that's what the context work should
-> >>> end up being.
-> >> 
-> >> Our Mali-C720 ISP can support up to 16 contexts, each with over a dozen
-> >> subdevs and capture nodes. As we imagine this will not be feasible for
-> >> upstreaming :) So using  this framework is definitely the way we would
-> >> like to go. We are mainly limited by the lack of per-context graph/streams
-> >> configuration at this point.
-> >>
-> >>>>>> Can we get a copy of all media graphs on an i.MX95 system including
-> >>>>>> the ISI and the CSI-2 receiver ?
-> >>>>
-> >>>> Here is an example with multiple sensors. Or do you need it in another
-> >>>> format ?
-> >>>
-> >>> No it's fine, thanks!
-> >>>
-> >>>> digraph board {
-> >>>>         rankdir=TB
-> >>>>         n00000001 [label="{{<port0> 0 | <port1> 1 | <port2> 2 | <port3> 3 | <port4> 4} | crossbar\n/dev/v4l-subdev8 | {<port5> 5 | <port6> 6 | <port7> 7 | <port8> 8 | <port9> 9 | <port10> 10 | <port11> 11 | <port12> 12}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000001:port5 -> n0000000f:port0 [style=bold]
-> >>>>         n00000001:port6 -> n0000001a:port0 [style=bold]
-> >>>>         n00000001:port7 -> n00000025:port0 [style=bold]
-> >>>>         n00000001:port8 -> n00000030:port0 [style=bold]
-> >>>>         n00000001:port9 -> n0000003b:port0 [style=bold]
-> >>>>         n00000001:port10 -> n00000046:port0 [style=bold]
-> >>>>         n00000001:port11 -> n00000051:port0 [style=bold]
-> >>>>         n00000001:port12 -> n0000005c:port0 [style=bold]
-> >>>>         n0000000f [label="{{<port0> 0} | mxc_isi.0\n/dev/v4l-subdev9 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n0000000f:port1 -> n00000012 [style=bold]
-> >>>>         n00000012 [label="mxc_isi.0.capture\n/dev/video8", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n0000001a [label="{{<port0> 0} | mxc_isi.1\n/dev/v4l-subdev10 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n0000001a:port1 -> n0000001d [style=bold]
-> >>>>         n0000001d [label="mxc_isi.1.capture\n/dev/video9", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n00000025 [label="{{<port0> 0} | mxc_isi.2\n/dev/v4l-subdev11 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000025:port1 -> n00000028 [style=bold]
-> >>>>         n00000028 [label="mxc_isi.2.capture\n/dev/video10", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n00000030 [label="{{<port0> 0} | mxc_isi.3\n/dev/v4l-subdev12 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000030:port1 -> n00000033 [style=bold]
-> >>>>         n00000033 [label="mxc_isi.3.capture\n/dev/video13", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n0000003b [label="{{<port0> 0} | mxc_isi.4\n/dev/v4l-subdev13 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n0000003b:port1 -> n0000003e [style=bold]
-> >>>>         n0000003e [label="mxc_isi.4.capture\n/dev/video14", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n00000046 [label="{{<port0> 0} | mxc_isi.5\n/dev/v4l-subdev14 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000046:port1 -> n00000049 [style=bold]
-> >>>>         n00000049 [label="mxc_isi.5.capture\n/dev/video21", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n00000051 [label="{{<port0> 0} | mxc_isi.6\n/dev/v4l-subdev15 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000051:port1 -> n00000054 [style=bold]
-> >>>>         n00000054 [label="mxc_isi.6.capture\n/dev/video22", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n0000005c [label="{{<port0> 0} | mxc_isi.7\n/dev/v4l-subdev16 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n0000005c:port1 -> n0000005f [style=bold]
-> >>>>         n0000005f [label="mxc_isi.7.capture\n/dev/video23", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n00000067 [label="mxc_isi.output\n", shape=box, style=filled, fillcolor=yellow]
-> >>>>         n00000067 -> n00000001:port4 [style=bold]
-> >>>>         n0000006e [label="{{<port0> 0} | 4ac10000.syscon:formatter@20\n/dev/v4l-subdev17 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n0000006e:port1 -> n00000001:port2 [style=bold]
-> >>>>         n00000073 [label="{{<port0> 0} | csidev-4ad30000.csi\n/dev/v4l-subdev18 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000073:port1 -> n0000006e:port0 [style=bold]
-> >>>>         n00000078 [label="{{<port0> 0 | <port1> 1 | <port2> 2 | <port3> 3} | max96724 2-0027\n/dev/v4l-subdev19 | {<port4> 4 | <port5> 5}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000078:port4 -> n00000073:port0 [style=dashed]
-> >>>>         n00000081 [label="{{} | mx95mbcam 8-0040\n/dev/v4l-subdev20 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000081:port0 -> n00000078:port0 [style=bold]
-> >>>>         n00000085 [label="{{} | mx95mbcam 9-0040\n/dev/v4l-subdev21 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000085:port0 -> n00000078:port1 [style=bold]
-> >>>>         n00000089 [label="{{} | mx95mbcam 10-0040\n/dev/v4l-subdev22 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n00000089:port0 -> n00000078:port2 [style=bold]
-> >>>>         n0000008d [label="{{} | mx95mbcam 11-0040\n/dev/v4l-subdev23 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-> >>>>         n0000008d:port0 -> n00000078:port3 [style=bold]
-> >>>> }
-> >>
-> >> This was an interesting point from our sides too regarding the context framework,
-> >> how would shared inputs be linked to independent contexts? For example, one input
-> >> port with 4 sensors where each is processed by a separate context.
-> >
-> > If the multi-context ISP operates in M2M mode, the capture and ISP
-> > pipelines will be disjoint (even if they're in the same media graphs).
-> > Linking the two will be done by userspace, through memory buffers shared
-> > between the pipelines.
-> 
-> In our ISP we don't have to operate in a pure M2M mode for multi-context.
-> 
-> Instead, we have a time division mode for multiple inline sensors simultaneously.
-> The context management unit writes incoming frames from multiple sensors to memory
-> buffers and automatically schedule them for processing, injecting the buffer into
-> the pipeline once it is available.
-> 
-> In the driver we just configure the context, provide internally allocated DMA buffers
-> and the scheduler automatically handles the rest. Of course we can get interrupts
-> for these events if we have use for them.
+This 3rd time try to support DW CSI2RX support for imx93.
 
-OK, so this is offline mode but with hardware (or firmware) scheduling.
+1st: Create new dw csi2 driver
+https://lore.kernel.org/all/20250701-95_cam-v1-5-c5172bab387b@nxp.com/
 
-> While we could do this through userspace, it doesn't make full use of the ISP's
-> capabilities such as its hardware scheduling. From a media graph perspective, I
-> think it should be considered as an inline ISP with the buffers simply acting as
-> temporary storage while the ISP is busy.
+2nd: Based on legacy imx6's DW CSI2 constroller.
+https://lore.kernel.org/imx/20250821-95_cam-v3-0-c9286fbb34b9@nxp.com/
 
-Given that userspace will still have to supply parameters for the ISP,
-as well as buffers for processed images, what would be the advantage of
-scheduling the raw buffers automatically ?
+Now rockchip create a common DW CSI2RX driver at
+drivers/media/platform/synopsys/dw-mipi-csi2rx.c
 
-> I guess my thought was the camera "frontend" would effectively have some shared
-> state across all contexts, but the outputs from this would go to per context instances.
-> Perhaps a similar thing would apply with this CSI-2 receiver and the ISI since they
-> appear to deal with multiple sensors that are then divided across their 8 contexts?
+This time base on rockchip's implement.
 
-With a media graph that spans sensors, CSI-2 receivers, ISI and ISP, the
-frontend part of the graph (sensors, CSI-2, ISI) would be handled with
-one pipeline (in kernel terms, not a libcamera pipeline handler) and the
-ISP with another pipeline. Those two pipelines would operate
-independently. The ISP pipeline would make use of the multi-context API
-while the frontend pipeline wouldn't.
+i.MX93's version is newer than rockchip one. i.MX6's is more similar with
+rockchips.
 
-> >> As a test of multi-context with duplicated media graphs, we would segregate our
-> >> inputs between media devices, though this is less flexible as it strictly ties
-> >> one sensor to a particular context.
-> >>
-> >>>>>> If I'm not mistaken you'll have 8 copies of the ISP media graphs, and
-> >>>>>> that's exactly what we're working on with the context framework :)
-> >>>>
-> >>>> Ok. Then I should have a look to context framework too ...
-> >>>
-> >>> Please, I hope to be able to resume working on it sooner or later
-> >>> given the right use case.
-> >>>
-> >>>>>>> ... since it is not, your assumption seems very reasonable.
-> >>>>>>>
-> >>>>>>>>>    - How can the user decide whether direct (csi2isp) or indirect
-> >>>>>>>>>      (mem2mem) streaming shall be used?
-> >>>>>>>>
-> >>>>>>>> That will also be part of the evaluation. From dts would be my first
-> >>>>>>>> option, but may prevent using both modes on same platform then.
-> >>>>>>>
-> >>>>>>> Of course this depends what the hardware is able to do, but in case the
-> >>>>>>> HW is reconfigurable easily, I doubt that device tree is a good choice
-> >>>>>>> to solve that.
-> >>>>>>>
-> >>>>>>>>> While it is certainly OK to introduce this support only at a later
-> >>>>>>>>> stage, it makes sense to consider this right from the start to avoid
-> >>>>>>>>> some nasty changes e.g. in how this hardware is exposed to user space.
-> >>>>>>>>>
-> >>>>>>>>> Also, we are facing a similiar challenge with recent Rockchip ISP
-> >>>>>>>>> hardware (RK3588, RK3576, ...) and it would be great to hear your
-> >>>>>>>>> thoughts about that.
-> >>>>>>>> 
-> >>>>>>>> Is there an existing discussion thread available on this topic? I would
-> >>>>>>>> be very interested in following it.
-> >>>>>>> 
-> >>>>>>> Not yet, I am afraid. But there should be one or two soon (TM) :-)
-> >>>>>> 
-> >>>>>> It's probably time to have one :)
-> >>>> 
-> >>>> Good. Please loop me in ;)
-> >>> 
-> >>> You are in, this is the conversation ;)
-> >>>
-> >>> It might be a good discussion point for the media summit in Nice
-> >>> co-located with Embedded Recipes if people with interest in the topic
-> >>> will going the be there.
-> >>>
-> >>> I'm also adding Anthony from ARM as I know he's going through the same
-> >>> inline/m2m duality you're now facing.
-> >>> 
-> >> We make the issue even more complex as individual contexts can run in either
-> >> inline or m2m mode simultaneously... Though in our case the ISP does not
-> >> have any external dependencies for this like with Mali-C55 + IVC.
-> > 
-> > Simultaneously ? Can a single ISP instance run in inline and offline
-> > mode simultaneously ? How does that work ?
-> 
-> Technically speaking the inline still require memory buffers but once configured
-> the ISP can run without involvement from the driver. The buffering is effectively
-> invisible at this point.
->
-> The context management unit facilitates this through the aformentioned hardware
-> scheduling. Each individual context may choose to use inline mode or M2M mode.
-> In inline mode, that context is "schedulable" when it's input buffer isready,
-> which occurs automatically once the image is fully written to memory.
-> In M2M mode, the context is "schedulable" when the user triggers it via SW.
-> 
-> >> As a side note, was there any thought into how Libcamera may support a pure m2m
-> >> usecase, say by passing user provided frames rather than indirectly coming from
-> >> a sensor? Perhaps there is already something for this that I've missed.
-> > 
-> > https://lists.libcamera.org/pipermail/libcamera-devel/2025-December/055627.html
-> >
-> > I expect more work to be needed before we can finalize an API, as I
-> > think different people will have very different ideas of how this should
-> > work.
-> 
-> Ah nice thanks :)
-> 
-> I took a quick skim through and it seems pretty good. When I have some time
-> I will try pull this series to test on our side.
+But i.MX6 is too old. So start at i.MX93 firstly even it has bigger
+difference.
 
-What are your use cases ?
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+Frank Li (6):
+      media: synopsys: use devm_reset_control_get_optional_exclusive()
+      media: synopsys: only check errors from devm_clk_bulk_get_all()
+      media: synopsys: implement .get_frame_desc() callback
+      media: synopsys: use struct dw_mipi_csi2rx_regs to describe register offsets
+      media: dt-bindings: add NXP i.MX93 compatible string
+      media: synopsys: add i.MX93 support
 
-> >>>>>>>>>> This series is posted as RFC because extending the v4l2-isp interface may
-> >>>>>>>>>> overlap with ongoing work. If similar development already exists, I am
-> >>>>>>>>>> happy to rebase or adapt the series accordingly. If preferred, the series
-> >>>>>>>>>> can also be split into two parts: the v4l2-isp rework and the Neo ISP
-> >>>>>>>>>> driver introduction.
-> >>>>>>>>>>
-> >>>>>>>>>> A few checkpatch warnings in v4l2-ioctl.c remain intentionally to stay
-> >>>>>>>>>> consistent with the existing style in that file.
-> >>>>>>>>>>
-> >>>>>>>>>> Testing was performed on the i.MX95 EVK using the media/next kernel in
-> >>>>>>>>>> standalone M2M mode. End-to-end camera-to-ISP capture has been validated
-> >>>>>>>>>> using the downstream NXP kernel, as some hardware dependencies are not
-> >>>>>>>>>> yet upstreamed.
-> >
-> > [snip]
+ .../bindings/media/rockchip,rk3568-mipi-csi2.yaml  |  47 +++-
+ drivers/media/platform/synopsys/dw-mipi-csi2rx.c   | 280 ++++++++++++++++++---
+ 2 files changed, 293 insertions(+), 34 deletions(-)
+---
+base-commit: ada3fa02f7a95623b724dfe300fce6f49cc2d75a
+change-id: 20260128-imx93-dw-csi2-b472ddcb176a
 
--- 
-Regards,
+Best regards,
+--
+Frank Li <Frank.Li@nxp.com>
 
-Laurent Pinchart
 
