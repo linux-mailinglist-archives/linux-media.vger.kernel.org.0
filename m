@@ -1,179 +1,158 @@
-Return-Path: <linux-media+bounces-52515-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52516-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ACfMEQUoi2m6QQAAu9opvQ
-	(envelope-from <linux-media+bounces-52515-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 13:43:49 +0100
+	id QFaNIhkoi2m6QQAAu9opvQ
+	(envelope-from <linux-media+bounces-52516-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 13:44:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6C611AF55
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 13:43:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C3211AF7B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 13:44:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B36FD3044B82
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 12:43:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3F83B303F445
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 12:44:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594D828727E;
-	Tue, 10 Feb 2026 12:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71E781F8691;
+	Tue, 10 Feb 2026 12:44:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="acnwf4vJ"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="PuHYRDAI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B0CF4FA;
-	Tue, 10 Feb 2026 12:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC79C1DF261
+	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 12:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770727411; cv=none; b=fJyTP1Z8PmhV+n8U6cMg8y47rQIRyQO++J7Q+F8u6xZC43+Vye1clpGCi7Fs29ZQQhUIGToCXhZTZUfsz7EyTfs1UGyV5bWHA3eZXgxQp8IgcCvfuo2YllrlHOEQKRDVlV3/PweVJcgbsTomQty+kd5lMhuN8Tf9clZxTGU+tJ8=
+	t=1770727440; cv=none; b=Fi4Oa3C+9RNgWbcigoDH27wOEPI7l5wnOL7sHT1ChF841n6k0IRPfLDs9rkB9oY5pyYybvdMu9FJMQLfoF0dNOhOBA9/CSL6SKjX4K+oJ01uNW+rwFTiQP8VbHLwasThhq1Cx++FJzEsDimtCPu21DYGiiM6LvTsIa6P1A1pEMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770727411; c=relaxed/simple;
-	bh=SsUey4ngL1IxmEKLVcbKNfqjTf3Op/WYv3+uHVC9HVg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=lhoDWWnVoqNprBCxN/mUNgSEueCgcjwcI7eu4HMJMQVnGsUoYeyvkxvS+dwmXS1yNZ5Jwp2dUJXP+Hi2vUTeeDXDprO+MEKjnClvu9AbvOMW30txgxAzTuUE8xhFZ7xznL7mxxT9jTnt1uIZGDGVF8HsXtIt5wPjAN5hDW7C3oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=acnwf4vJ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61AB01dA1940314;
-	Tue, 10 Feb 2026 12:43:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/DJUZuxMxHgBmLTMKLMgpfnmRklM8tdMOAxKG/xygi0=; b=acnwf4vJonQLz/nN
-	+M2c4JvMSZmChvFX3Hi1hzhA0MiUak1VWWTfxsmzc5pBz61aOd3Pn/uK3tH8qTni
-	0OTwq8qH6ovr9RGYtVHE82P3ol6/ME/Z9x6w+LRWW6h0XCWFyrIe5I7Bylk98nu0
-	RPuEMZ1qIIFRDCfix6vd8/WDqjSqwynWFdbM756uuu+lcQ3JVr8E8iXOH62ijpiM
-	yZw1UM/+IWQMiFomDySBva2AQGgfrFJRq05EnYiW6A0HT/TXoM2JnxL+vTBFxOt9
-	E75H7o8xCZCP15tR25LRvyS0yx1E46FK5GhUUyv6sv8YBcJD0JJS0hrnfkJZa0I5
-	w7kAHQ==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c7w1jsk4r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Feb 2026 12:43:22 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 61AChMtA022796
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Feb 2026 12:43:22 GMT
-Received: from [10.216.16.89] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 10 Feb
- 2026 04:43:11 -0800
-Message-ID: <d63a0663-626e-416c-a5b4-e7d91f158b44@quicinc.com>
-Date: Tue, 10 Feb 2026 18:12:59 +0530
+	s=arc-20240116; t=1770727440; c=relaxed/simple;
+	bh=xonj/+koAdun2zKMmTEgycmII1nNMKC1m2Fb9Sy9enE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kD0J/CrcXhekQPVWkw8FWtIWf1qZNSplA1dIO/2Bb43YxwF3QFE31UITnqFewsd0c3p/HMPAdyicAMXJ8jNqteux6o7KLMmu60Gv3sKvK6g0jZeg8swI+xFUiYqL7q26X3iUVv44/bD2VMx0Cue/CbhJTMzH6fGxL9KlUjdkGVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=PuHYRDAI; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8c710439535so56230585a.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 04:43:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1770727438; x=1771332238; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=N5ebXMgdbEnP2n7MqO77VYCN9M2l8thAEykxr97Y/HU=;
+        b=PuHYRDAIYNAfidUctJhrrrZq5wFqvXYZUV+LjsIAKEyFQp7bqXDm63P1lFmluvQ+cx
+         z0mbchOwVqAkPOiGCK6KH3F9eWpgfM5qefXNP1I/AsrbPuK2Iixo5FEWBkO1W6x3V0Sa
+         WSqQFFevDzwB/Vnc2jTESz652KOPSgM80Qmo+WwAOIiu+g64vBOypF6KYiCJjyyFvKRV
+         yt8jm6k7aDCTBRw027junEYnUwBPJkq4EYbAJpBmDBFQLlWgxmXNerCdqaRWECcGNUhu
+         +k1EiqFVh/gdBheRcdb2u9eFVUjFczZekCzbu4Vw6fCDR9eihqZeBdonmDfsAFiAsgNs
+         X7/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770727438; x=1771332238;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=N5ebXMgdbEnP2n7MqO77VYCN9M2l8thAEykxr97Y/HU=;
+        b=Z7TGCwNdZDcWro2N7yles8SYkOS1K3CnVMiG3lA8cBmCac+zPYi+oZT/yhixzNH+Hp
+         WuRRNEZ1o+OTwsFPpBVL0ASV9s0dlFzzflyl5Hg2nc/XL77rHH9peauFzvhG7USlZQ5S
+         zny28QztI2miRI4RPlRkBiwMnotPXSSQlCpnhwRNxlLNUuLPRXD3IXAJ/p88jwAffzov
+         AMxTOrsQagfc/zJyKtEM2Ftt4nrO8uNmcKRv0Y9Qyn5PGQxqJwqKfjPpuaPTsLFplGA7
+         8llid31D2PiUXLQ3kCj/4vGg7SMfELzeYEFdO0nT7TxnWzRIx+mQVXqmP50V8YsD/lwo
+         1jCg==
+X-Forwarded-Encrypted: i=1; AJvYcCWPaWanb+xZl7Fzz3AvoCN+Twiuk3B2/rhVqFykrhatF+3YDh6iZa3gKNcND6EKIz0STOmxthRJoZ1MGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeFIdkqkfZK8fNXhkhMjwg1ugwvq62TRkaehj83POJF7L+muxf
+	nKJ+nFZyGHBIlQSChh513Fi6+p+cbVTZGx2o0ZKzBFSreCPRO+pudQzcK/QvHBqWNfg=
+X-Gm-Gg: AZuq6aI2ZLSDmraixhvfs9GQy94ZEqngXq6nYYLCNhJmUsc6ph/V8FmHa1T09MRlgtc
+	Lz9XSeqR0v6n33aiK8pYTn1+LZc6z4pmBeHzBVFXDNVbwQn3vlkDP+e1pkJQA6yRP7N2N43OiLd
+	+ZfuV/yMcIrRRrgD2VBQ9jHruk2XLP6ZU1vQG2/k4zr8ugCfAlmXPCMZIDYMA9JstgHf9F/TFei
+	XpXK3nMikjQWm4aeAEc9+L+hfNK7dD0cbByx2A7+Ss2oBfCOkmczZ5jFjMCIGuIiCZVXyr+6qlF
+	izky+8TUQPMPTk7RYrajRJUxMSDZuhzkPwCpUcmANkQDdIsAOm43K/tz74tEWlIuJRV6vki4y0x
+	YMwKcr9XDvt8MgpJhWX9g86G8mu3ik/nxTYFTtHy9wbR5bGXrvbkr+TPPHtWVPcQezKUQd/NP8f
+	ivbWWYNsnmxQggeg0LxJI1u4suFXrXX4irKtJGcFKOLg2ifoJw2HmYQPug8Kmb7DbOLSjqE5hFm
+	ozc/XA=
+X-Received: by 2002:a05:620a:40c7:b0:8ca:55:ac60 with SMTP id af79cd13be357-8caf16ec83amr1829777785a.78.1770727438524;
+        Tue, 10 Feb 2026 04:43:58 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf9ee8593sm1019180385a.36.2026.02.10.04.43.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 04:43:57 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vpn5x-0000000315A-13dh;
+	Tue, 10 Feb 2026 08:43:57 -0400
+Date: Tue, 10 Feb 2026 08:43:57 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+	linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+	tjmercier@google.com, christian.koenig@amd.com,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, leon@kernel.org,
+	sean.anderson@linux.dev, ptesarik@suse.com, catalin.marinas@arm.com,
+	aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
+	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
+	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
+	linux-coco@lists.linux.dev
+Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap
+ flags
+Message-ID: <20260210124357.GD943673@ziepe.ca>
+References: <20260209153809.250835-1-jiri@resnulli.us>
+ <20260209153809.250835-5-jiri@resnulli.us>
+ <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
+ <20260210002927.GC943673@ziepe.ca>
+ <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 5/5] arm64: dts: qcom: monaco-evk-camera: Add DT
- overlay
-To: Krzysztof Kozlowski <krzk@kernel.org>, <bryan.odonoghue@linaro.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <andersson@kernel.org>, <konradybcio@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <loic.poulain@oss.qualcomm.com>,
-        <rfoss@kernel.org>, <andi.shyti@kernel.org>,
-        <linux-i2c@vger.kernel.org>, <cros-qcom-dts-watchers@chromium.org>
-CC: <quic_svankada@quicinc.com>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Ravi Shankar <quic_rshankar@quicinc.com>,
-        Vishal Verma <quic_vishverm@quicinc.com>,
-        Vladimir Zapolskiy
-	<vladimir.zapolskiy@linaro.org>,
-        Konrad Dybcio
-	<konrad.dybcio@oss.qualcomm.com>
-References: <20260121183142.1867199-1-quic_nihalkum@quicinc.com>
- <20260121183142.1867199-6-quic_nihalkum@quicinc.com>
- <32c4d3c3-6cbc-42cc-8c6e-7f1d0d35cc2c@kernel.org>
- <7889e13e-fd81-42aa-873c-92de641e1979@quicinc.com>
- <c9d1e8ca-253a-4e87-8dc7-d2036737b5e4@kernel.org>
-Content-Language: en-US
-From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
-In-Reply-To: <c9d1e8ca-253a-4e87-8dc7-d2036737b5e4@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: OYhPIZr6wCzhrCvheCyrDBt15RWjAilF
-X-Proofpoint-ORIG-GUID: OYhPIZr6wCzhrCvheCyrDBt15RWjAilF
-X-Authority-Analysis: v=2.4 cv=YrIChoYX c=1 sm=1 tr=0 ts=698b27ea cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=uqR9VxAXCapsPfiRIz4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEwMDEwNyBTYWx0ZWRfXxOWIvIMH6TaC
- OwZPD7hRCr5RAFGXZ489cBHFAbMiHVKOztXjxxARcvxfTyV3k85X2N0d0UyK5SQyml975DyOCsS
- +aZIppzRnivpZErDI31bILww0lnPUlWp2ilRsx/OfGCqSt87+gjpyMBfscjJwychNrTp36brKm7
- lHUQ0GBERy7Uj1t0vwNgPzzwUakVKsaalr4oDBsPJChT/7ptSyLZKFH+ljisiji1vepM5jQfxc3
- Gvd9MfvK3Hld3MhdT9u9KCUR2Iv+73qkDaQxHnElAcp6Kcn2HTUpnpylYRH7hTUxEy7O3xcVuMH
- pgevAzo78FRxK7oYT42w3nAy93Urc6dGIndTWjcHvEZhrtnr1qPBtW7oMNI6Ff/0p7jJv3KYAO8
- fATXpWwF1YPAZYk7sIMY+bjqKM/CnxoW0JJuEg0q+M0Mn/C3cOnmIIPkIrJmjj4n0FxfYuNSUaE
- mC1oAdgKk4OHBQLvy3Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-10_01,2026-02-10_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 bulkscore=0 adultscore=0 clxscore=1015
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602100107
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[quicinc.com,none];
-	R_DKIM_ALLOW(-0.20)[quicinc.com:s=qcppdkim1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-52516-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52515-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,linaro.org,xs4all.nl,oss.qualcomm.com,vger.kernel.org,chromium.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[quic_nihalkum@quicinc.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[quicinc.com:+];
+	DMARC_NA(0.00)[ziepe.ca];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 9D6C611AF55
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 04C3211AF7B
 X-Rspamd-Action: no action
 
+On Tue, Feb 10, 2026 at 10:14:08AM +0100, Jiri Pirko wrote:
 
+> >I'd advocate that the right design is for userspace to positively
+> >signal via this flag that it wants/accepts shared memory and without
+> >the flag shared memory should never be returned.
+> 
+> We can have the same behaviour with the separate heap, can't we?
+> Userpace positively signals it wants/accepts the shared memory by
+> choosing "system_cc_decrypted" heap name.
 
-On 09-02-2026 22:08, Krzysztof Kozlowski wrote:
->> Krzysztof, Thanks for your review.
->> All patches posted here were build‑tested and verified by the author.
-> Then please explain reported by Rob build-process warnings.
+So what do the other heap names do? Always private? Do you ever get
+heaps that are unknowably private or shared (eg MMIO backed?)
 
-The dt-binding for qcom,qcs8300-cci specifies two clocks:
-clock-names = "ahb", "cci";
-
-On Monaco, the CCI node currently defines:
-clock-names = "cpas_ahb", "cci";
-
-The dt-binding warns because it expects the clock-names to be "ahb" and
-"cci", while the Monaco DTS uses "cpas_ahb" instead of "ahb". The
-hardware works correctly, but the name doesn't match the binding.
-Renaming "cpas_ahb" to "ahb" aligns the DTS with the binding and clears
-the warning. Please advise if you prefer a different approach.
-
--- 
-Regards,
-Nihal Kumar Gupta
-
+Jason
 
