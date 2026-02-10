@@ -1,220 +1,240 @@
-Return-Path: <linux-media+bounces-52477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52478-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eB/0Cu57imnJKwAAu9opvQ
-	(envelope-from <linux-media+bounces-52477-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 01:29:34 +0100
+	id 4A5EO5ORimkQMAAAu9opvQ
+	(envelope-from <linux-media+bounces-52478-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 03:01:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F93E1159CC
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 01:29:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF971161E9
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 03:01:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8A2583025C4F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 00:29:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BB1F63019B8B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 02:01:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEE6B22FE0A;
-	Tue, 10 Feb 2026 00:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F312F288C34;
+	Tue, 10 Feb 2026 02:01:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="A83xX/B2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E7BTglVj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C75226CF6
-	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 00:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33222296BBD
+	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 02:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770683371; cv=none; b=jO5QqAC+k1b/v4QYy0ctYi7tzqyMsqqnhS3N5P7T0cOfJIDJgZeexT7D1468JALEy+SFIhliiD2iNC/DbA9cmmqnYUu4yIqQ6x5trEq5Q0MTIwwJisl6OjhacNFZnW1b8P2txUpYLaWT6V3JMMg5nYMTPK5gJ2cM3LjhTt79MrU=
+	t=1770688893; cv=none; b=r0jxKYrLs2YFkeBT6Nm/o2NOeDn+LXXy5cDHGJInueFFXPtfmpCvsQNvfDxmL/mM+KsgX6IEAjxryXRfzL6XEVb0dLomZzlMY8R2g6EnBAr/FRgODSBjPN9MPwa2vyVGI51lVntVaCL8Em4rj/maj+26MIsD7NevUCoZcKFT6Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770683371; c=relaxed/simple;
-	bh=QkYEXlLgFiLfYsdbBUxkHnpm64IBcci0n3arrJTjZQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jBiPB9gr/prDw41XyuzAVL0cKm85Zmy2xhXjSst+UMZi+V5JS3cwatF2eTJWwMxIQh8doG6/ekyiaJ2pCONhlFUn4wK0LJV3OjwgucKibQW2BvNSNy6RXhSmqDijnth00XfJ5nl7TVI2Swb/zx48bumMGxiU15pZAHHX9W8jlUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=A83xX/B2; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-503347e8715so43366751cf.2
-        for <linux-media@vger.kernel.org>; Mon, 09 Feb 2026 16:29:29 -0800 (PST)
+	s=arc-20240116; t=1770688893; c=relaxed/simple;
+	bh=PVIV72hlgxr0+61Nklt1jW11+gpAmY7nqGXMLlsRM74=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HFKJyDQWXZ5LQDNWITWayHMVHbjGy67Teu/RazWOdK1oXdHQQx2/nbIi4zEjzHJjo1HqhECzTwOhxK2DyJJQPV6D2jylG2Sxx+FzZd4R3lM1mxMsVykxatMb5yK/Dg77y4DjbiYQVZYZ+4XJKOcDzWSzb7Yjs0xXPTdJ80G72Eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E7BTglVj; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8c70ce93afaso40517685a.0
+        for <linux-media@vger.kernel.org>; Mon, 09 Feb 2026 18:01:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1770683369; x=1771288169; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=x6h4j6WhKvTbDaZfOUKYNWWIjZl7N5IPl8TkLFVZwN4=;
-        b=A83xX/B2seg/cnscnC0nFblKwgzguEC6y+SEroWVfUvVHrcAX+b2JnHyQAcPpCp2ZN
-         vdH3GOpi2vHftFTQ5MXEWZglALUcKqBVLQ3Pb9Ov6QwjcWnyfV9eEsp+ndQYPX8fHDxZ
-         sYmHcRjhjdUa3CV77cEMlLsPymkmHcyfb3PSR4pBbMZQSn6nYLcpUfldlFW/20WehV4l
-         IdaoH4wc3NoGkZgy1xtXWPFdUz/uf1Y5PLYbl5kFK7D+8YPr/uBGMPFrZ0HjOMz6Ug5k
-         2ro02wIgkjv8ptMNDUUuJ0i2+YvlLTowHgmGq+tx/t/tEIn1F4LEOsiAjDPF6Zaj6fAo
-         0flw==
+        d=gmail.com; s=20230601; t=1770688891; x=1771293691; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OS18pjA26Qhrwf2sU4iRtM5ZXv3xXaEcNw2IpoycwRM=;
+        b=E7BTglVjJYTQmwrroXfKoEoOV5V9UpkVYlIBtWNxFaVpIzWxtS8MI6uJW2wnCiToK5
+         /918yfGK6JjZRWhpDXYaNY84pNXl4R/ZrajkS3P3SejMHMWcCcUoHhN28KlkVYXt0uog
+         3MZ+I1Q4tdeWv2XXw8PjDVZTyL/vut1GpuvkXYxea/RSj4ElSeQ86cqdKcFheF1H9/F9
+         38m3NJO34twRpn5jI1O2FraFa8g+NxM0XFSXYHZoqbpZ10Qr707xB5bAMuuyapUEqBef
+         gL2pPC9rVJbE/AJcunSVMj8krA9BOivjAYIfWxijQnxnnJvnlE6CIMQeg4wYNL/rmGcc
+         aNvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770683369; x=1771288169;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x6h4j6WhKvTbDaZfOUKYNWWIjZl7N5IPl8TkLFVZwN4=;
-        b=XAlYRlyEyqU9b+UazqBXNYkvHQg+8Zf5Pia7HFl9XcnKgWNjDuNaJSEdhvhREUr4r7
-         ZOwcX4xs0dcrt7TB9D+lt+UALkW1RUYulgejNoocO9vMNMs+P4BFkfrmUrLT452b5NfM
-         MWu6BcR4EeYC+PRFDdaOIDm1IuFrssD6yRXp6QM3Rr9UMPkKbnQNIYM4qjavfIS2U4OY
-         XNyQ8AfAZanBchGyfV9tM2IyWJP/d1HUJjQyo7A2vNdMFN3J7fnUw1EkzWTOPuqkEbxE
-         T/Rlk9amA82r4oX/9kbLC47Q4QTvJTbsTPwqvQnpnOLjVbnYLWJG19hDDUvrcTK2zHPn
-         WQPw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+4hNw6zoI6p/siFHgedpEQ7KlsIYaurB8vbHtyXMI5AV7+sFHskq2QJsVz52t/F+os4ypSPxrPUVYtw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjIVG0Vi1Dm+5WDy1gYXG1iPuZuha6NiyMZQXpS4ffzh1xsd5b
-	dHnP9p96qE1b5bOb3DAXRVqnPP4ToiJ29RmiMtkVuR0SuI7BrvUjkrYIDGx4y1uIymU=
-X-Gm-Gg: AZuq6aIhHEuqpy9YAEf4Q92lq+w+HiSMQ/MgewYQq9gkA4z+DWgk53Q7jOUyGE7GB8t
-	a/5X6+24iIVEKZp5M/Jx3NS1bKWWC4MTM+M7PvsPxSxOkvkYqx4YVnqZomZ//boJqg+WeitPOV0
-	tJK5led45RIGucBe1Am5jVVLYMHIvPhBDe0ZqJDRXI1j3FTnhXX/ZMTwrtZsDVAT4Y1wILaPagV
-	8SQEH8iyvWrZ4MZF0fIS8wH0Ng26Gcx9ogWXRqHj/p01sE8iTFJaCCxe7ciB4A4Z7EH6YqwcWbu
-	fGd4DBDJ8wg3Cqfg4Gfn9bxeKgdFV17Ir9pQhiFg6M0JtyjKyJR6llENEEKTfW6+qmOxdxVg1nK
-	sMsy+E22XeOalMTGLWpHng9Lpv6z7j7kxQR1sWNRCRnuqCbxSYFDt+koXM09TAixLiAqM06gHJW
-	6ajaSL7y/J4YbtsF49spr+iIjpe+T/EFvMKfqioOufWly115vzh45zV8XQ8QaYbdMY8EeMKVQNK
-	5afflQ=
-X-Received: by 2002:a05:622a:54:b0:4f3:438c:71 with SMTP id d75a77b69052e-50639889de0mr182445181cf.24.1770683368674;
-        Mon, 09 Feb 2026 16:29:28 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf9a157ddsm979856985a.28.2026.02.09.16.29.27
+        d=1e100.net; s=20230601; t=1770688891; x=1771293691;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OS18pjA26Qhrwf2sU4iRtM5ZXv3xXaEcNw2IpoycwRM=;
+        b=gKC5M8BuyiD6dF3VkvJG9HCKg9NJNyMbP05wxaE6onEtSSUaCl5q9z9Pxv30SdN3nX
+         DxNTWs7wcY3ELqB9H3sDdYpSqklfu+vIZLZA9ZvWtsf/QmpWZUzK0sIhKQg2dNZ9KLg+
+         Zb4+OyJOzkAr/SzIRCeiobTsat0Q2pZDeKRTEQxwNn9Rl2basRZDzIMkdiUqTkMogKHj
+         LdevG6ZNYoef8TEFWLmvrMZkPdeBIKJG0xobYciZnhQy+ZyZCEnMehw1F4tPewzwoosy
+         089NW4and/JiVrJ3Eu+m0GN/YzusyHNTMBtabnIdEvXAXea9Su0aWiy5boT+fJuOK828
+         dKLg==
+X-Forwarded-Encrypted: i=1; AJvYcCWaF7eub3NGw9pKNSYmvafegCaNZjCCfaK638SBiHW+pKTfckH19xkDoLId9KiiioFQtNV0gzzin5UFbw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1fBQtHQIANYyCI66RWjXFfxdDiEuRs+oOYaAs6bDnTGfe2uOp
+	Wd0QOyGwKWNOOd4IXqT/rM4JqfNIe25q+05lNovJYqKWvTS/A3/63j/g
+X-Gm-Gg: AZuq6aI1ZgHqRpsFBGvNpEqmJjFqPIDPrebBpQX5TOG/B2Pl556+ik0dyqIyfxa/kFT
+	yFBHTvAGpzpok6WOtsNa5EGnpkeopqWYySOC2K4UOikRzbw56zDMZh0pd3USjRghRQV9G11/zgF
+	SKDxdgNsM+AI7SAJNcnr41+Y46UlZDnhOBIk1wS9a9DzdgwjGyyxiSQeFplm+tYJzTPNHyezX87
+	oYvmXTKJ0CY+ke35Ki5WiuauFIlih2gH9Vx3Sn3ilgWf3DgeWXLyKvJSiv07pDPiz6CJqv6ltY3
+	HlxZU1EKIoO7Zn5P0Pd3KXOtogCcZ9HnUO1mXpkeUu93XX9JLNcfUH8g3hUfQfSSkMXcuurQAAB
+	qLD0UGmaS2uQeDWjqlCa2seTDeltm3hvEabeDpC1gQY9+CUqb65J/+xyG/6fWy6j5kp2WfBsJF5
+	THOQGTrAtY7OmqWJza0zM023yy++ofGdDIraXyYllsVGP/i2P+qhAMt4emjeWYOY/NlsPK1Zmeh
+	9/QGLHT3z7K+ps=
+X-Received: by 2002:a05:620a:4144:b0:8c6:e20b:e6c6 with SMTP id af79cd13be357-8caf1acb33amr1912215685a.52.1770688891030;
+        Mon, 09 Feb 2026 18:01:31 -0800 (PST)
+Received: from localhost (bras-base-toroon21-grc-75-184-144-58-243.dsl.bell.ca. [184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf77f320esm935366085a.5.2026.02.09.18.01.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 16:29:28 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vpbd9-0000000GngP-1JAF;
-	Mon, 09 Feb 2026 20:29:27 -0400
-Date: Mon, 9 Feb 2026 20:29:27 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: John Stultz <jstultz@google.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
-	linux-media@vger.kernel.org, sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
-	tjmercier@google.com, christian.koenig@amd.com,
-	m.szyprowski@samsung.com, robin.murphy@arm.com, leon@kernel.org,
-	sean.anderson@linux.dev, ptesarik@suse.com, catalin.marinas@arm.com,
-	aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
-	linux-coco@lists.linux.dev
-Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap
- flags
-Message-ID: <20260210002927.GC943673@ziepe.ca>
-References: <20260209153809.250835-1-jiri@resnulli.us>
- <20260209153809.250835-5-jiri@resnulli.us>
- <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
+        Mon, 09 Feb 2026 18:01:30 -0800 (PST)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Cc: Robert Mader <robert.mader@collabora.com>,
+	David Heidelberg <david@ixit.cz>,
+	phone-devel@vger.kernel.org,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH v8 0/7] media: i2c: IMX355 for the Pixel 3a
+Date: Mon,  9 Feb 2026 21:01:59 -0500
+Message-ID: <20260210020207.10246-1-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52477-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-52478-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[ziepe.ca];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,intel.com,linux.intel.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[collabora.com,ixit.cz,vger.kernel.org,gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 8F93E1159CC
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5AF971161E9
 X-Rspamd-Action: no action
 
-On Mon, Feb 09, 2026 at 12:08:03PM -0800, John Stultz wrote:
-> On Mon, Feb 9, 2026 at 7:38 AM Jiri Pirko <jiri@resnulli.us> wrote:
-> >
-> > From: Jiri Pirko <jiri@nvidia.com>
-> >
-> > Currently the flags, which are unused, are validated for all heaps.
-> > Since the follow-up patch introduces a flag valid for only one of the
-> > heaps, allow to specify the valid flags per-heap.
-> 
-> I'm not really in this space anymore, so take my feedback with a grain of salt.
-> 
-> While the heap allocate flags argument is unused, it was intended to
-> be used for generic allocation flags that would apply to all or at
-> least a wide majority of heaps.
-> 
-> It was definitely not added to allow for per-heap or heap specific
-> flags (as this patch tries to utilize it). That was the mess we had
-> with ION driver that we were trying to avoid.
+This adds support for the IMX355 in devicetree and adds support for the
+Pixel 3a front camera.
 
-I don't know alot about DMA heaps..
+Changes since v7 (https://lore.kernel.org/r/20260117040657.27043-1-mailingradian@gmail.com):
+- restrict data-lanes to 4 (4/7)
+- include first patch (1/7)
+- add back optional data-lanes in bindings (2/7)
+- remove assert low on power on again (Bryan's review retained) (3/7)
+- use dev_err_probe in power on (3/7)
+- remove second error on probe power on (3/7)
+- add review tags (2/7, 3/7, 7/7)
 
-On a CC VM system the shared/private property is universal and applies
-to every physical address. Not every address can dynamically change
-between shared and private, but every address does have a
-shared/private state.
+Changes since v6 (https://lore.kernel.org/r/20260107043044.92485-1-mailingradian@gmail.com):
+- remove NAK from Krzysztof (3/6)
+- assert reset GPIO on probe (3/6)
+- change delays in reset sequence (3/6)
+- remove __maybe_unused from OF match table (3/6)
+- fix alignment for arguments to devm_regulator_bulk_get_const (3/6)
+- remove front camera pin configuration (6/6)
+- remove clock-lanes from camss endpoint (1/6, 6/6)
+- remove data-lanes from camera sensor endpoint (2/6, 6/6)
+- remove blank line at top of binding (2/6)
+- add review tags (2/6, 3/6, 5/6, 6/6)
 
-By default userspace process generally run exclusively in private
-memory and there are very few ways for userspace to even access shared
-memory.
+Changes since v5 (https://lore.kernel.org/r/20260107042451.92048-1-mailingradian@gmail.com):
+- add Bryan to CC who added a Reviewed-by
 
-From a heaps perspective the API would be very strange, and perhaps
-even security dangerous, if it is returning shared memory to userspace
-without userspace knowing this is happening.
+Changes since v4 (https://lore.kernel.org/r/20251211014846.16602-1-mailingradian@gmail.com):
+- add NAK from Krzysztof (2/5)
+- label the camss ports (3/5, 5/5)
+- define endpoint properties correctly (1/5)
+- use devm_regulator_bulk_get_const (2/5)
+- remove clock-names (1/5, 5/5)
+- set reset GPIO as active low (1/5, 2/5, 5/5)
+- explicitly drive reset low at start of sequence (2/5)
+- make data-lanes in endpoint optional and start at 1 (1/5, 5/5)
+- add mclk3 pin (4/5)
+- add Reviewed-by's (4/5)
 
-I'd advocate that the right design is for userspace to positively
-signal via this flag that it wants/accepts shared memory and without
-the flag shared memory should never be returned.
+Changes since v3 (https://lore.kernel.org/r/20250905215516.289998-6-mailingradian@gmail.com):
+- separate camera mclk pins and move to different patch (4/5, 5/5)
+- remove polarity from rear camera pin (5/5)
+- remove output-low from front camera pins (5/5)
+- mention effects of dcf6fb89e6f7 ("media: qcom: camss: remove a check for unavailable CAMSS endpoint") (3/5)
+- specify single clock-name without items nesting (1/5)
+- rebase on 49c6ac166cf7 ("media: i2c: imx355: Replace client->dev
+  usage") and eaa7d46d9654 ("media: i2c: imx335: Use V4L2 sensor clock
+  helper") (2/5)
+- do not use of_match_ptr for OF match table (2/5)
+- remove redundant GPIO validity checks (2/5)
+- describe endpoint data-lanes (1/5)
 
-Even if the underyling heap only has shared memory in it (eg it is
-mmio or something).
+Changes since v2 (https://lore.kernel.org/r/20250714210227.714841-6-mailingradian@gmail.com):
+- use devm_v4l2_sensor_clk_get (2/4)
+- require supplies and clock-names (1/4)
+- move unevaluatedProperties down (1/4)
+- disable clocks as last power-off action (2/4)
+- use 0 in gpio pin power-supply (4/4)
 
-Otherwise making it implicit, perhaps based on heap name, sounds very
-tricky for userspace to actually use fully securely.
+Changes since v1 (https://lore.kernel.org/r/20250630225944.320755-7-mailingradian@gmail.com):
+- too much to have a complete list (1-4/4)
+- squash camera orientation patch (4/4, previously 5/5)
+- squash driver changes (2/4, previously 3/5)
+- remove labelled endpoint node in sdm670.dtsi (3/4, 4/4)
+- change init sequence to match other similar drivers (2/4)
+- retrieve clock frequency from devicetree-defined clock (4/4)
+- remove clock-frequency from dt-bindings (1/4)
+- remove redundant descriptions of child nodes (1/4)
+- switch initial drive of the reset GPIO to low (2/4)
+- set mclk frequency to 19.2 MHz (4/4)
+- add vdda-pll supply for camss (4/4)
+- use common power on and off functions (2/4)
+- use devm_clk_get_optional (2/4)
+- remove extra layer when describing mclk pin (4/4)
+- rename regulators (1/4, 2/4, 4/4)
 
-Again, I don't know alot about heaps, but perhaps the missing part
-here is that on a CC system all existing heaps, other than the one
-using normal system pages, should be disabled for now. They can come
-back once they are audited as to their shared/private state and
-respect the new flag.
+Richard Acayan (7):
+  dt-bindings: media: qcom,sdm670-camss: Remove clock-lanes property
+  dt-bindings: media: i2c: Add Sony IMX355
+  media: i2c: imx355: Support devicetree and power management
+  media: i2c: imx355: Restrict data lanes to 4
+  arm64: dts: qcom: sdm670: label the camss ports instead of endpoints
+  arm64: dts: qcom: sdm670: add camera mclk pins
+  arm64: dts: qcom: sdm670-google-sargo: add imx355 front camera
 
-Another view is to ignore this affirmative handshake and just make it
-implicit on something like the heap name and hope userspace lucks into
-something that works for it, and doesn't accidently place, or become
-tricked into placing, sensitive information into shared heap memory.
+ .../bindings/media/i2c/sony,imx355.yaml       | 111 ++++++++++++++++
+ .../bindings/media/qcom,sdm670-camss.yaml     |  13 --
+ .../boot/dts/qcom/sdm670-google-sargo.dts     |  95 ++++++++++++++
+ arch/arm64/boot/dts/qcom/sdm670.dtsi          |  46 ++++---
+ drivers/media/i2c/imx355.c                    | 118 ++++++++++++++++--
+ 5 files changed, 347 insertions(+), 36 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
 
-Again I know nothing about heaps, but this is a fuller picture of the
-security sensitivity and what to think about with heaps and CC VM
-systems.
+-- 
+2.53.0
 
-> Now, there has been many discussions around "protected buffers" (which
-> doesn't seem to map exactly to this confidental computing primitive,
-> but sounds like it might be related) 
-
-I'm not sure what protected buffers are, but this CC VM shared/private
-(or encrypted/decrypted) is a core kernel property that applies to
-every physical address in the CC VM.
-
-I assume protected buffers are something more platform specific and
-hidden?
-
-> But, it seems like the use case here is still far too narrow for a top
-> level allocation flag.
-
-CC certainly is a narrow use case, but within CC I don't think it is
-narrow at all..
-
-Jason
 
