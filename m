@@ -1,94 +1,58 @@
-Return-Path: <linux-media+bounces-52516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52517-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QFaNIhkoi2m6QQAAu9opvQ
-	(envelope-from <linux-media+bounces-52516-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 13:44:09 +0100
+	id QH3kCCEpi2n1QQAAu9opvQ
+	(envelope-from <linux-media+bounces-52517-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 13:48:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C3211AF7B
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 13:44:08 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E27A11AFE2
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 13:48:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3F83B303F445
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 12:44:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A9595300C366
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 12:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71E781F8691;
-	Tue, 10 Feb 2026 12:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F5531B13B;
+	Tue, 10 Feb 2026 12:48:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="PuHYRDAI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Omxd9ntP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC79C1DF261
-	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 12:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518722EA754;
+	Tue, 10 Feb 2026 12:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770727440; cv=none; b=Fi4Oa3C+9RNgWbcigoDH27wOEPI7l5wnOL7sHT1ChF841n6k0IRPfLDs9rkB9oY5pyYybvdMu9FJMQLfoF0dNOhOBA9/CSL6SKjX4K+oJ01uNW+rwFTiQP8VbHLwasThhq1Cx++FJzEsDimtCPu21DYGiiM6LvTsIa6P1A1pEMo=
+	t=1770727704; cv=none; b=HUi0gQz7cQjXfAqaGMkw9iYel9cQyFJLqMqnSkZxTEOioaAqNrMAYUIqXvyJ9vLYNnMZuQHHgFTtZw5U05hBOd8KUrxmHHLsGlB8IJkaIYNJiVnmC7btLT7ckuHdEIGYlB8RxdxvwsopZz00NziWOiJaOJZkD/RlCi68Eb4hKvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770727440; c=relaxed/simple;
-	bh=xonj/+koAdun2zKMmTEgycmII1nNMKC1m2Fb9Sy9enE=;
+	s=arc-20240116; t=1770727704; c=relaxed/simple;
+	bh=f9Hioy1nBNAN6Nj6FmxHzvPM8qjWxbtxXn6ma/BOEN4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kD0J/CrcXhekQPVWkw8FWtIWf1qZNSplA1dIO/2Bb43YxwF3QFE31UITnqFewsd0c3p/HMPAdyicAMXJ8jNqteux6o7KLMmu60Gv3sKvK6g0jZeg8swI+xFUiYqL7q26X3iUVv44/bD2VMx0Cue/CbhJTMzH6fGxL9KlUjdkGVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=PuHYRDAI; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8c710439535so56230585a.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 04:43:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1770727438; x=1771332238; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=N5ebXMgdbEnP2n7MqO77VYCN9M2l8thAEykxr97Y/HU=;
-        b=PuHYRDAIYNAfidUctJhrrrZq5wFqvXYZUV+LjsIAKEyFQp7bqXDm63P1lFmluvQ+cx
-         z0mbchOwVqAkPOiGCK6KH3F9eWpgfM5qefXNP1I/AsrbPuK2Iixo5FEWBkO1W6x3V0Sa
-         WSqQFFevDzwB/Vnc2jTESz652KOPSgM80Qmo+WwAOIiu+g64vBOypF6KYiCJjyyFvKRV
-         yt8jm6k7aDCTBRw027junEYnUwBPJkq4EYbAJpBmDBFQLlWgxmXNerCdqaRWECcGNUhu
-         +k1EiqFVh/gdBheRcdb2u9eFVUjFczZekCzbu4Vw6fCDR9eihqZeBdonmDfsAFiAsgNs
-         X7/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770727438; x=1771332238;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N5ebXMgdbEnP2n7MqO77VYCN9M2l8thAEykxr97Y/HU=;
-        b=Z7TGCwNdZDcWro2N7yles8SYkOS1K3CnVMiG3lA8cBmCac+zPYi+oZT/yhixzNH+Hp
-         WuRRNEZ1o+OTwsFPpBVL0ASV9s0dlFzzflyl5Hg2nc/XL77rHH9peauFzvhG7USlZQ5S
-         zny28QztI2miRI4RPlRkBiwMnotPXSSQlCpnhwRNxlLNUuLPRXD3IXAJ/p88jwAffzov
-         AMxTOrsQagfc/zJyKtEM2Ftt4nrO8uNmcKRv0Y9Qyn5PGQxqJwqKfjPpuaPTsLFplGA7
-         8llid31D2PiUXLQ3kCj/4vGg7SMfELzeYEFdO0nT7TxnWzRIx+mQVXqmP50V8YsD/lwo
-         1jCg==
-X-Forwarded-Encrypted: i=1; AJvYcCWPaWanb+xZl7Fzz3AvoCN+Twiuk3B2/rhVqFykrhatF+3YDh6iZa3gKNcND6EKIz0STOmxthRJoZ1MGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeFIdkqkfZK8fNXhkhMjwg1ugwvq62TRkaehj83POJF7L+muxf
-	nKJ+nFZyGHBIlQSChh513Fi6+p+cbVTZGx2o0ZKzBFSreCPRO+pudQzcK/QvHBqWNfg=
-X-Gm-Gg: AZuq6aI2ZLSDmraixhvfs9GQy94ZEqngXq6nYYLCNhJmUsc6ph/V8FmHa1T09MRlgtc
-	Lz9XSeqR0v6n33aiK8pYTn1+LZc6z4pmBeHzBVFXDNVbwQn3vlkDP+e1pkJQA6yRP7N2N43OiLd
-	+ZfuV/yMcIrRRrgD2VBQ9jHruk2XLP6ZU1vQG2/k4zr8ugCfAlmXPCMZIDYMA9JstgHf9F/TFei
-	XpXK3nMikjQWm4aeAEc9+L+hfNK7dD0cbByx2A7+Ss2oBfCOkmczZ5jFjMCIGuIiCZVXyr+6qlF
-	izky+8TUQPMPTk7RYrajRJUxMSDZuhzkPwCpUcmANkQDdIsAOm43K/tz74tEWlIuJRV6vki4y0x
-	YMwKcr9XDvt8MgpJhWX9g86G8mu3ik/nxTYFTtHy9wbR5bGXrvbkr+TPPHtWVPcQezKUQd/NP8f
-	ivbWWYNsnmxQggeg0LxJI1u4suFXrXX4irKtJGcFKOLg2ifoJw2HmYQPug8Kmb7DbOLSjqE5hFm
-	ozc/XA=
-X-Received: by 2002:a05:620a:40c7:b0:8ca:55:ac60 with SMTP id af79cd13be357-8caf16ec83amr1829777785a.78.1770727438524;
-        Tue, 10 Feb 2026 04:43:58 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf9ee8593sm1019180385a.36.2026.02.10.04.43.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 04:43:57 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vpn5x-0000000315A-13dh;
-	Tue, 10 Feb 2026 08:43:57 -0400
-Date: Tue, 10 Feb 2026 08:43:57 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
+	 Content-Type:Content-Disposition:In-Reply-To; b=bLjlAd8pZq0BjUhkI8oEbd0KDsT5gdjpx0hfLkyp4ng1SxVvksP6nykT//pkH7Y5+xkBaAAx8DlvWHwsT97mTOtXPFGN26DMbeMbdkOW50sAYKrO4Qds0uyrW2KHUzkndrII4nC3wNwGW4rtZBd3PF0pGicSM8PdR91QWraVouE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Omxd9ntP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AAD6C116C6;
+	Tue, 10 Feb 2026 12:48:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770727704;
+	bh=f9Hioy1nBNAN6Nj6FmxHzvPM8qjWxbtxXn6ma/BOEN4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Omxd9ntPib7buprI2avF9vcC5Snk52LrNPhoNyFSO+Pp/RnFY9OpJi8PDjJVaxHmb
+	 JXUYYvf8mDOqJL00C/SA5U6DUzy7M/eEd+7C4i1SVv3A4qZh92mM5Rm14mro68cR2t
+	 6h0t8AeSTNBPNmliXeDF6glQjfeed1kx5MhPTPGFC1WpXrv0JLEgHiJbUaah2n5b5Z
+	 gAdRG3klf2YYAP5MWPc6bLxDm6TKYyUEZQvEGN2z5fMUW9rlSD2hezSOCJvY1XcU/+
+	 BRxCvbm1bcNecNnEBO0TGKpRpqR28vrU2kjBTA1jfqTtyRVkkCx0KnIFJBp3Nan0jG
+	 VoQHRcdYSklIg==
+Date: Tue, 10 Feb 2026 14:48:19 +0200
+From: Leon Romanovsky <leon@kernel.org>
 To: Jiri Pirko <jiri@resnulli.us>
 Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
 	linux-media@vger.kernel.org, sumit.semwal@linaro.org,
 	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
 	tjmercier@google.com, christian.koenig@amd.com,
-	m.szyprowski@samsung.com, robin.murphy@arm.com, leon@kernel.org,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, jgg@ziepe.ca,
 	sean.anderson@linux.dev, ptesarik@suse.com, catalin.marinas@arm.com,
 	aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
 	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
@@ -96,63 +60,95 @@ Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
 	linux-coco@lists.linux.dev
 Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap
  flags
-Message-ID: <20260210124357.GD943673@ziepe.ca>
+Message-ID: <20260210124819.GC12887@unreal>
 References: <20260209153809.250835-1-jiri@resnulli.us>
  <20260209153809.250835-5-jiri@resnulli.us>
  <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
- <20260210002927.GC943673@ziepe.ca>
- <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
+ <hwdezwktndbm6hoko3rz5lffgfljodegcygzf6rbdf2ferokj6@ftk2uk3rqfdq>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <hwdezwktndbm6hoko3rz5lffgfljodegcygzf6rbdf2ferokj6@ftk2uk3rqfdq>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52516-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[ziepe.ca];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
+	TAGGED_FROM(0.00)[bounces-52517-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 04C3211AF7B
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3E27A11AFE2
 X-Rspamd-Action: no action
 
-On Tue, Feb 10, 2026 at 10:14:08AM +0100, Jiri Pirko wrote:
-
-> >I'd advocate that the right design is for userspace to positively
-> >signal via this flag that it wants/accepts shared memory and without
-> >the flag shared memory should never be returned.
+On Tue, Feb 10, 2026 at 10:05:14AM +0100, Jiri Pirko wrote:
+> Mon, Feb 09, 2026 at 09:08:03PM +0100, jstultz@google.com wrote:
+> >On Mon, Feb 9, 2026 at 7:38 AM Jiri Pirko <jiri@resnulli.us> wrote:
+> >>
+> >> From: Jiri Pirko <jiri@nvidia.com>
+> >>
+> >> Currently the flags, which are unused, are validated for all heaps.
+> >> Since the follow-up patch introduces a flag valid for only one of the
+> >> heaps, allow to specify the valid flags per-heap.
+> >
+> >I'm not really in this space anymore, so take my feedback with a grain of salt.
+> >
+> >While the heap allocate flags argument is unused, it was intended to
+> >be used for generic allocation flags that would apply to all or at
+> >least a wide majority of heaps.
+> >
+> >It was definitely not added to allow for per-heap or heap specific
+> >flags (as this patch tries to utilize it). That was the mess we had
+> >with ION driver that we were trying to avoid.
+> >
+> >The intent of dma-buf heaps is to try to abstract all the different
+> >device memory constraints so there only needs to be a [usage] ->
+> >[heap] mapping, and otherwise userland can be generalized so that it
+> >doesn't need to be re-written to work with different devices/memory
+> >types.  Adding heap-specific allocation flags prevents that
+> >generalization.
+> >
+> >So instead of adding heap specific flags, the general advice has been
+> >to add a separate heap name for the flag property.
 > 
-> We can have the same behaviour with the separate heap, can't we?
-> Userpace positively signals it wants/accepts the shared memory by
-> choosing "system_cc_decrypted" heap name.
+> Right, my original idea was to add a separate heap. Then I spotted the
+> flags and seemed like a great fit. Was not aware or the history or
+> original intention. Would be probably good to document it for
+> future generations.
+> 
+> So instead of flag, I will add heap named something
+> like "system_cc_decrypted" to implement this.
 
-So what do the other heap names do? Always private? Do you ever get
-heaps that are unknowably private or shared (eg MMIO backed?)
+It is problematic to expose a user‑visible API that depends on a name.
+Such a design limits our ability to extend the functionality in the
+future, should new use cases arise.
 
-Jason
+Thanks
+
+> 
+> Thanks!
 
