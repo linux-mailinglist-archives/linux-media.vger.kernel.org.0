@@ -1,100 +1,109 @@
-Return-Path: <linux-media+bounces-52523-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52524-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oDQ4B3JFi2mfRwAAu9opvQ
-	(envelope-from <linux-media+bounces-52523-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:49:22 +0100
+	id aPs9Ca1Gi2kJTwAAu9opvQ
+	(envelope-from <linux-media+bounces-52524-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:54:37 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7079911C0EC
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:49:21 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BC811C248
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:54:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 241CA3034282
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 14:49:14 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0107D301287E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 14:54:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3352D3803D4;
-	Tue, 10 Feb 2026 14:49:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 427AA3803D4;
+	Tue, 10 Feb 2026 14:54:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="OcqMuml5"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="n031jfXH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A421367F27
-	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 14:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF7D18FC80
+	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 14:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770734951; cv=none; b=WuWot/Pxk3yRztVW5+b6MJgjHM3ht6F2bxvNw4uvQbSpnGI98LcEENK2Dxl1zFjhNOYcgik1tQ0bqWXVneBQ9mJqm4zVjWhP7+MC4K45BkLuQOOFhUKxFQ59DGVptg2+dxHkabBJbYibSOJCqGOmsXWPrmawqp3kmge/QIOcr1M=
+	t=1770735271; cv=none; b=hzLHPDJskVu7HofxM/GOCgdEzn1wv10HNiUW4wM19F1g51ZctcS5zujbemOrlG7lypwfb7+xuUV5f96JXkNEs1bT4hy6y41xI7hbgUiT3gnls/UQUQGh6VCmNFRfcVTGfUBdhjIM9MrXnae9ahfa+SvfFVijJmr6APzc+2n7gm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770734951; c=relaxed/simple;
-	bh=+bIFsqkuMlO2AMozRHfhdOolt0s77l01f5PiZRSILuE=;
+	s=arc-20240116; t=1770735271; c=relaxed/simple;
+	bh=0cPCA9Kv3jfRsyrFM9MyPi7hD3kaQlMf7gj3XZzuvQw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mifSAHsgfx91okfqRfCpo+hJ24J/Aa+EkHsJ9BSXuK4IcNHH3ml1K1vfkPqX1wcTK99x5Qt/E2Un+vwJFl8C0xlgrhVzYu87y2D3Wj0/B6/P84/ry2hDFfINhmHF9RepighbQhKKLv/SPuQurAKtavAw826IVrr14luKh4g9BjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=OcqMuml5; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-47f5c2283b6so7942325e9.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 06:49:08 -0800 (PST)
+	 Content-Type:Content-Disposition:In-Reply-To; b=OvQ6zD9ZqZ7EMNm0GgDRhDLNpHsDudqZdh5CH8nmdtKuBN9mnTH4fqL0pDNPF0nfwqiAj40hPnKrKDSaiFQYR/mVuKuGiA24B66NaG984U8x7vLQwgzPvLejhSg1ykyHj4VPmJ2DA+HcfoPF+PsEhVMbjWypI+5283Ut7t/E8uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=n031jfXH; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8c52f15c5b3so560866285a.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 06:54:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770734947; x=1771339747; darn=vger.kernel.org;
+        d=ziepe.ca; s=google; t=1770735269; x=1771340069; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=knkS23bKgxD0sGFgNoxwcHFypphehdzY/C+BgKABh1k=;
-        b=OcqMuml5NOPcjom1tin3Y8WNieLRwOxRRg+F0dAvpIJQRxZP2CmCeDTBeYyIm2tdKx
-         EnXKcOIGlJaF2ZVuoX4TuztIqbxD8c6OymDUv2c84H3L3otirxEOXsxIuxO69rPH6kCm
-         JxNoSraFXD9Glbf1e9gM/mkbplvy/DBVA9SOIMwX25GaN4uHQTkF4kJUblP7TAXnYkkm
-         5HBiIE+FY4CS5WVllB9ErovJcXwvk3Kas4tUsb4S0ozimHav0DI4Tdu4ynGdEKYV6ibQ
-         NQ76IVGjQ9aIuUOfintqpAlleHt3Bbe0WY3BdoRVzhx+N+WjRgMkG8tQhIm9t1hNEb5N
-         pB4A==
+        bh=Agj0c4R15XGINXILYWi8Un1ej02BkfWDujptUtk/bVQ=;
+        b=n031jfXHcwWuho1QKWiKDgozcqEOrJh2cZMzZ3wZQkBeC6vIt+Knj3mwGeQTIATqSr
+         U47mWvrHblrylvWuNzdXriQOvcaYV+dpWsbf91kzhOCqt/Vlr4a6DW0nkFrdTqyraYHO
+         Upy2Re74GM8COD4pa4251ZdJsWa/zgUbCIXlXY3gc5Ec1GE+MU16AIT1Tj40PmLbUd2W
+         M+uUyUG7OqzCCVronYOzCZEJp/9kHF7ZERCq9rjstOLsX0bnnKdFFRYKP8BoFajerxvF
+         jhDtQD9QyjVO8HA0ULXM/QDMbwTRyhdrAaJ3s+ervO9UGlWw5eFHWk3rSVviTfiXwt9a
+         JxLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770734947; x=1771339747;
+        d=1e100.net; s=20230601; t=1770735269; x=1771340069;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=knkS23bKgxD0sGFgNoxwcHFypphehdzY/C+BgKABh1k=;
-        b=mgTgGaSLWKS165uJubY00PyOS8vTSjeCgIwKPdi/BSJxzjuds34IUzVcEk4rcUX0ql
-         SKMIHLxVML28A8oKlnC2Hs0AyYQYVIwJVMN041LDXKz5I2B7LqFWvi3/fnuudb59lCIQ
-         IarDJP1T5HcyVCUeYVMcruyvUMypNAGlG1c5YTZDoUBm7QWiGa0oJxgnq5F/OBo+yY9A
-         Xe2tDRyMnmPL78eOSzRCXFzJPgUZVCMq3Jo9zqzE7/5wTuyW+tiTox4Kgn9IW6s0fpBZ
-         4HYz+BufUTFZHhd+i+i5ru/TJn5y1l5+dBu1/pUNBqUM718I5CYTILf2i1Ggqlo/3mlV
-         SZCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLedsNubUXAmzylg3c5ezGSStTWE0bzvc99cnQNLLek5x8D6zOTXDENNuCa2jJNdeKXGWZi9ER7fhnzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXnPI0GdkP6hcSXgcrc9ucyUuOPkY5pl5cHhsrTAMwlMmpaTUM
-	T9qS752F2LELnROkmGIEhKXVacZJCs+xNQXo/E44xqSQYMtYFvSZY6yK2seru/2KRc0=
-X-Gm-Gg: AZuq6aLpdLF0pe6KPnzYG/nHaBsZvq31G38VvB0CuctXA+OYWPvVNSanTfNBwV9JJ9M
-	8wNJkRCD5S49/g2/P2MRJF01r/P04Ac2mO0tW46taQ48NqBnVyYHf2Qb68pJHBJAf4WWyYtqATQ
-	ofRnuiaOw2TmUVhj9cj6AcL8c7SuP2KAbPUPOMKjfIMhQc/p4C4zkrUPxp1NDbwzv5c72WMd0YX
-	RJZhI7Ah5AeUgc8VuUK/XWDonu29IzK4QfyAUvYJhvwHn4if5pXe4Jc9LUi6+kXBOeGdfZo/qx4
-	V+6LKQM18qZiUKyi/Ng7/HrYK+dtLkMC9fqYflzJSvBcU0lzw3qnwH0vXmwJDNxwb36+E1e+wBW
-	3NERqrZn7oSe2sP4eKGVC2Xp/DbBn0UfLw+FhZb9PJEdhJvri0ceuL8l0vrTiE9wPzTzVEyQz0M
-	P3Z4V534HvbVfsX3WdB7Q2NtLRDay6lyeUCE4=
-X-Received: by 2002:a05:600c:3f0a:b0:47e:e712:aa88 with SMTP id 5b1f17b1804b1-48320236ad7mr236498725e9.31.1770734946334;
-        Tue, 10 Feb 2026 06:49:06 -0800 (PST)
-Received: from FV6GYCPJ69 ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296bd1c9sm34022302f8f.15.2026.02.10.06.49.04
+        bh=Agj0c4R15XGINXILYWi8Un1ej02BkfWDujptUtk/bVQ=;
+        b=VlhktzFzGpURNv3+amYcSYmseJmW2TL7oQkFGXJ9+ubwq5fUFbK7x60WLgjXWN6USC
+         yXjLQBDZ1r2cFyynXKLCgX1TpCX67phvGPYdb8pnwJWD7R33jxthIhOMAYGP1rr2DMsc
+         afnfEFVAz3fq85o3cbDcQl1X4h9+Moy2X2R7ud81Uitk6foxbO/Zes0hoxfotfGNLSUn
+         /sDO37WUTcF7ihyELZA2nvQDwYKz5uBom1z+tR8qSzUaJtgAOAq8pqi9L5bB1qSD8RBx
+         fQrJs8BzaliJ+FOQu+drMpx5Iv9V4LfRzbhFtAb1DjxMqmxUeulFxxaHKwmu4RbkVXQu
+         gsiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV4S3mU/7GcIfX5DqOns28TIEB7c4HeJL5zzP7U5B76eLYaNJvgy8G86VIwvgHclO1Zbi6w1ugVrYciyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2hobxgZgwom63gNg5blYVjpErRV5GNAIgRA0rY6SmDpTyELi1
+	3/RI+Y1AyUTWczERYSwhRVIH3epXSz4RVPVphSU2MO5i96gWIZk1BSqmj0yeOrbLEPY=
+X-Gm-Gg: AZuq6aJUO951gIKG51qzV6F2hJMeFssY8bNn8M2EFkDru8g5LHmXn2hH0AsLDqIgYjW
+	dAJAs/tSvyfXqQ+PXg2GWDfYWG5EOcSpV1s5mfslmzT5ZjVoNcmGEEsP2ADvaTgkZ0/wYBw4/hC
+	6708BIMmpUG1goXT3+P/jEHLI/G+YXsAMCLVRJVuG03Kx/Y/CAOspxQApoFEfIisyhsVVjsN9Ia
+	2bzJmbLPl2oxvowTxmKd/8zqhetClo7m/OS3QHaT/yPiJhi6Sfirfdkh0iFkTRd5S+N3Mf5reqE
+	8urje+OfjDzrKoZbqWcfmhljQwVLj1KKyFL/gVLRTB8zKkXUDwwlokN3toZjpQPmodT79FocZ3J
+	TyQFHRsvmWfuUvvbQA1dkJcTMoICKFY16ZaRqkN/C4FYCEGBTKstYvHaVpX9gGCnCdgaWhggcDl
+	c5y1PDyJt8FH1FapkO9uB959LHxCn+aLIqkSMrEdp5zSgh5y3kEHutKY0jAnL3/jXUEt+ZO2avo
+	TgrC60=
+X-Received: by 2002:a05:620a:2804:b0:8c5:2f89:6904 with SMTP id af79cd13be357-8caefeb4daemr2082380185a.45.1770735269414;
+        Tue, 10 Feb 2026 06:54:29 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf9a157ddsm1121052485a.28.2026.02.10.06.54.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 06:49:05 -0800 (PST)
-Date: Tue, 10 Feb 2026 15:49:02 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
-	sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, 
-	tjmercier@google.com, christian.koenig@amd.com, m.szyprowski@samsung.com, 
-	robin.murphy@arm.com, leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com, 
-	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
+        Tue, 10 Feb 2026 06:54:28 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vpp8F-00000003mvN-47aU;
+	Tue, 10 Feb 2026 10:54:27 -0400
+Date: Tue, 10 Feb 2026 10:54:27 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+	linux-media@vger.kernel.org, sumit.semwal@linaro.org,
+	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+	tjmercier@google.com, christian.koenig@amd.com,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, leon@kernel.org,
+	sean.anderson@linux.dev, ptesarik@suse.com, catalin.marinas@arm.com,
+	aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
+	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
+	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
+	linux-coco@lists.linux.dev
 Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap
  flags
-Message-ID: <y7gvezflidmma7odnut2rmlecsbxahrcwpmoevfnhzjveusuwj@6qxqogin45j3>
+Message-ID: <20260210145427.GA750753@ziepe.ca>
 References: <20260209153809.250835-1-jiri@resnulli.us>
  <20260209153809.250835-5-jiri@resnulli.us>
  <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
  <20260210002927.GC943673@ziepe.ca>
  <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
  <20260210124357.GD943673@ziepe.ca>
+ <y7gvezflidmma7odnut2rmlecsbxahrcwpmoevfnhzjveusuwj@6qxqogin45j3>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -103,59 +112,73 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260210124357.GD943673@ziepe.ca>
+In-Reply-To: <y7gvezflidmma7odnut2rmlecsbxahrcwpmoevfnhzjveusuwj@6qxqogin45j3>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-52524-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[resnulli.us];
+	DMARC_NA(0.00)[ziepe.ca];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52523-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
 	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[resnulli-us.20230601.gappssmtp.com:dkim,ziepe.ca:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7079911C0EC
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B2BC811C248
 X-Rspamd-Action: no action
 
-Tue, Feb 10, 2026 at 01:43:57PM +0100, jgg@ziepe.ca wrote:
->On Tue, Feb 10, 2026 at 10:14:08AM +0100, Jiri Pirko wrote:
->
->> >I'd advocate that the right design is for userspace to positively
->> >signal via this flag that it wants/accepts shared memory and without
->> >the flag shared memory should never be returned.
->> 
->> We can have the same behaviour with the separate heap, can't we?
->> Userpace positively signals it wants/accepts the shared memory by
->> choosing "system_cc_decrypted" heap name.
->
->So what do the other heap names do? Always private? Do you ever get
->heaps that are unknowably private or shared (eg MMIO backed?)
+On Tue, Feb 10, 2026 at 03:49:02PM +0100, Jiri Pirko wrote:
+> Tue, Feb 10, 2026 at 01:43:57PM +0100, jgg@ziepe.ca wrote:
+> >On Tue, Feb 10, 2026 at 10:14:08AM +0100, Jiri Pirko wrote:
+> >
+> >> >I'd advocate that the right design is for userspace to positively
+> >> >signal via this flag that it wants/accepts shared memory and without
+> >> >the flag shared memory should never be returned.
+> >> 
+> >> We can have the same behaviour with the separate heap, can't we?
+> >> Userpace positively signals it wants/accepts the shared memory by
+> >> choosing "system_cc_decrypted" heap name.
+> >
+> >So what do the other heap names do? Always private? Do you ever get
+> >heaps that are unknowably private or shared (eg MMIO backed?)
+> 
+> If I understand the code correctly, you may get something like this:
+> $ ls /dev/dma_heap/
+> default_cma_region
+> protected,secure-video
+> protected,secure-video-record
+> protected,trusted-ui
+> system
+> 
+> The "protected*" ones are created by tee. I believe they handle
+> memory that is inaccesible to CPU.
 
-If I understand the code correctly, you may get something like this:
-$ ls /dev/dma_heap/
-default_cma_region
-protected,secure-video
-protected,secure-video-record
-protected,trusted-ui
-system
+If that is the only list of options then maybe just the name will work
+Ok.
 
-The "protected*" ones are created by tee. I believe they handle
-memory that is inaccesible to CPU.
+I *think* CMA and system should be reliably CC private.
+
+The protected ones seem to have their own internal definition, and
+probably can't exist on CC VM systems..
+
+Meaning we don't have any shared things leaking through which would be
+the point.
+
+Jason
 
