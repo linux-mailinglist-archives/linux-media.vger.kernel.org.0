@@ -1,278 +1,193 @@
-Return-Path: <linux-media+bounces-52535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52536-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yAu1F/pvi2lhUQAAu9opvQ
-	(envelope-from <linux-media+bounces-52535-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 18:50:50 +0100
+	id UE31EhZzi2nFUQAAu9opvQ
+	(envelope-from <linux-media+bounces-52536-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 19:04:06 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0710611E1B6
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 18:50:49 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CD711E33E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 19:04:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F26663019CA1
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 17:50:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AF7F330333C7
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 18:04:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92D4638A720;
-	Tue, 10 Feb 2026 17:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6A9438B7A4;
+	Tue, 10 Feb 2026 18:03:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z1lkUjaR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hMXifKy9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6A038550D;
-	Tue, 10 Feb 2026 17:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36342D7DE4
+	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 18:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770745841; cv=none; b=Z2sNTZupT4xjcNoN2XTnFHToxeETXmszunxzzT0cMnrk6i7WEH8476VO2eHQvRQ+k2bCQdTwZzssDbuI07l+KwCQIlQQInPUDxEHQLUpA3y3/+j+vs8REod00PCw0G6XBLsZQVosgHd3aFQkR2/CO8Z8T2FNM9fUXKgoxGpN5Ww=
+	t=1770746639; cv=none; b=Mlpq5LelynOQ2JQoPnN1mG+rDlFL8YBYO9Vpqhjp9Kp3TYM9/p4FEpaKUsksg5vaxdwbaqgmcSIjWTfOQq3R3BQtMzSENLWkzZH+rKztGLkkt7wo6o1fQo8A5lXo78X50HSYzf5oagFWCk7dC4W6Yh5mLAu3lCIQarC5TVyhx/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770745841; c=relaxed/simple;
-	bh=PxYLU0bOkuXF6XS6irDSnU3RpuFicO9Z/EHPm53H19I=;
+	s=arc-20240116; t=1770746639; c=relaxed/simple;
+	bh=RCF0n7XHDUGKM+cjf33SZOFc4i4PkHY0jF5mOX8LCFE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P9VTaMNfj8kUzt1fuUt6CqRI8QzTQy3aMCH8ZxrYlXbDfylQa4qjX6LyCjPisPyaWugdbhMd/3Y0FMMVmGsqM+I/I1aU5hlhxX59Q3NSIQ/aI/OQwQbaHneJhtB4PqIuOoGAsbZn1iH1wvzO4dX/OzpdOhindH4n6M0EGKWA0UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z1lkUjaR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7BCF6E47;
-	Tue, 10 Feb 2026 18:49:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770745790;
-	bh=PxYLU0bOkuXF6XS6irDSnU3RpuFicO9Z/EHPm53H19I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z1lkUjaRK3jyd7O76A/rtE27iZs5dwqrAGGjYK8KwANRGKugk8Yl7GegZucnVZFCT
-	 Fhgl/mq1foQVxs7xdCbbOhMDqlWc5Ark51iK1aMsO4CwK7feT3C5ce52VSBMT4oywG
-	 tkqYS63Yu3zho+mcJHkUrxxOHt+OlRQU2RJD5FZ8=
-Date: Tue, 10 Feb 2026 19:50:35 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: Re: [PATCH v3 1/4] media: dw100: Implement V4L2 requests support
-Message-ID: <20260210175035.GB2502896@killaraus.ideasonboard.com>
-References: <20260129-sklug-v6-16-topic-dw100-v3-1-dev-v3-0-2eb5685eaf09@ideasonboard.com>
- <20260129-sklug-v6-16-topic-dw100-v3-1-dev-v3-1-2eb5685eaf09@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NQqpl3iWyIkEyayFCPirH0iJpQ45zV5iDtYTqYEG8FNxUMBPvljNbYzk3qA6cxmBbBfRdz0mgZFBiLBqo2s7pxkOpbUHna4kmXskayyv0ZGczOtxc4fosozTYLReIj6/MNcTUA92qsqnXBU+rLfApU3nB1EJWvDrDTLpfqY57KU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hMXifKy9; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770746638; x=1802282638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RCF0n7XHDUGKM+cjf33SZOFc4i4PkHY0jF5mOX8LCFE=;
+  b=hMXifKy9/4SQOzymUlvohR5vdNAbCI4mOmkNl22JoiYWqiyw+T3vhcxF
+   Mzgq1N01Bz4+fVYVJ+ScXLy5GvYbtnahf9iUEw3ORuWQ2rq8bPsZbRsuV
+   IDrr189WtjNnypWhg7trcHpHEjoV3256hwPI67TyPRGLlSixQrijd2Y7e
+   3DFS0Dj5pSTZ8v2aADSErNFLBoEOZ3FvcHtIcQJVk9SBm7UmydZT2HX9L
+   Sczy+nd0Z6WD0mtHWcGYLQxo3X24rbUZM6ZDNN4FLNqkLtv+x3jCzHaXi
+   Cdog2lfydHkspxIs6XcsP6ps56MGZX+GElbm2UEnWYXTRg8GqrGpUlNMA
+   w==;
+X-CSE-ConnectionGUID: BDPad9aSTeqINuq7EVYD5Q==
+X-CSE-MsgGUID: BYKFBtN2RlaOgO4jMPpYfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75728608"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="75728608"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 10:03:57 -0800
+X-CSE-ConnectionGUID: zOeotsxLRKmN8lqHs702VQ==
+X-CSE-MsgGUID: 7I9nDF1BShClWzSGAashTg==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 10 Feb 2026 10:03:51 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vps5V-00000000pHk-2Bfq;
+	Tue, 10 Feb 2026 18:03:49 +0000
+Date: Wed, 11 Feb 2026 02:03:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, sumit.semwal@linaro.org,
+	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+	jstultz@google.com, tjmercier@google.com, christian.koenig@amd.com,
+	m.szyprowski@samsung.com, robin.murphy@arm.com, jgg@ziepe.ca,
+	leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com,
+	catalin.marinas@arm.com, aneesh.kumar@kernel.org,
+	suzuki.poulose@arm.com, steven.price@arm.com,
+	thomas.lendacky@amd.com, john.allen@amd.com, ashish.kalra@amd.com,
+	suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
+Subject: Re: [PATCH 5/5] dma-buf: heaps: system: add an option to allocate
+ explicitly decrypted memory
+Message-ID: <202602110149.tBUPP0bh-lkp@intel.com>
+References: <20260209153809.250835-6-jiri@resnulli.us>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129-sklug-v6-16-topic-dw100-v3-1-dev-v3-1-2eb5685eaf09@ideasonboard.com>
+In-Reply-To: <20260209153809.250835-6-jiri@resnulli.us>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52535-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52536-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 0710611E1B6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,01.org:url,gitlab.freedesktop.org:url,git-scm.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B5CD711E33E
 X-Rspamd-Action: no action
 
-Hi Stefan,
+Hi Jiri,
 
-Thank you for the patch.
+kernel test robot noticed the following build errors:
 
-On Thu, Jan 29, 2026 at 12:43:10PM +0100, Stefan Klug wrote:
-> The dw100 dewarper hardware present on the NXP i.MX8MP allows very
-> flexible dewarping using a freely configurable vertex map. Aside from
-> lens dewarping the vertex map can be used to implement things like
-> arbitrary zoom, pan and rotation. The current driver supports setting
-> that vertex map before calling VIDIOC_STREAMON.
-> 
-> To control above mentioned features during streaming it is necessary to
-> update the vertex map dynamically. To do that in a race free manner V4L2
-> requests support is required. This patch adds V4L2 requests support to
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm-tip/drm-tip trace/for-next linus/master v6.19]
+[cannot apply to next-20260209]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Once this gets merged it won't be a patch any more :-) As commit
-messages are written in an imperative mood style,
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Pirko/dma-mapping-avoid-random-addr-value-print-out-on-error-path/20260209-234013
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260209153809.250835-6-jiri%40resnulli.us
+patch subject: [PATCH 5/5] dma-buf: heaps: system: add an option to allocate explicitly decrypted memory
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260211/202602110149.tBUPP0bh-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602110149.tBUPP0bh-lkp@intel.com/reproduce)
 
-s/This patch adds/Add/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602110149.tBUPP0bh-lkp@intel.com/
 
-> prepare for dynamic vertex map updates.
-> 
-> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - Use v4l2_m2m_buf_done_and_job_finish() to mark the buffers as done in
->   the correct order.
-> 
-> Changes in v1:
-> - Moved v4l2_ctrl_request_complete into dw100_device_run
-> ---
->  drivers/media/platform/nxp/dw100/dw100.c | 49 +++++++++++++++++++++++++-------
->  1 file changed, 38 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-> index 4aaf9c3fff5397f0441944ee926f2c8ba6fc864a..1cb895da9912371a2b23ca62412c572d9cb75c00 100644
-> --- a/drivers/media/platform/nxp/dw100/dw100.c
-> +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> @@ -459,6 +459,15 @@ static int dw100_queue_setup(struct vb2_queue *vq,
->  	return 0;
->  }
->  
-> +static int dw100_buf_out_validate(struct vb2_buffer *vb)
-> +{
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +
-> +	vbuf->field = V4L2_FIELD_NONE;
-> +
-> +	return 0;
-> +}
-> +
->  static int dw100_buf_prepare(struct vb2_buffer *vb)
->  {
->  	unsigned int i;
-> @@ -500,6 +509,13 @@ static void dw100_buf_queue(struct vb2_buffer *vb)
->  	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
->  }
->  
-> +static void dw100_buf_request_complete(struct vb2_buffer *vb)
-> +{
-> +	struct dw100_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-> +
-> +	v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->hdl);
-> +}
-> +
->  static void dw100_return_all_buffers(struct vb2_queue *q,
->  				     enum vb2_buffer_state state)
->  {
-> @@ -553,11 +569,13 @@ static void dw100_stop_streaming(struct vb2_queue *q)
->  }
->  
->  static const struct vb2_ops dw100_qops = {
-> -	.queue_setup	 = dw100_queue_setup,
-> -	.buf_prepare	 = dw100_buf_prepare,
-> -	.buf_queue	 = dw100_buf_queue,
-> -	.start_streaming = dw100_start_streaming,
-> -	.stop_streaming  = dw100_stop_streaming,
-> +	.queue_setup	      = dw100_queue_setup,
-> +	.buf_out_validate     = dw100_buf_out_validate,
-> +	.buf_prepare	      = dw100_buf_prepare,
-> +	.buf_queue	      = dw100_buf_queue,
-> +	.start_streaming      = dw100_start_streaming,
-> +	.stop_streaming       = dw100_stop_streaming,
-> +	.buf_request_complete = dw100_buf_request_complete,
->  };
->  
->  static int dw100_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
-> @@ -575,6 +593,7 @@ static int dw100_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	src_vq->lock = &ctx->vq_mutex;
->  	src_vq->dev = ctx->dw_dev->v4l2_dev.dev;
-> +	src_vq->supports_requests = true;
->  
->  	ret = vb2_queue_init(src_vq);
->  	if (ret)
-> @@ -1058,7 +1077,6 @@ static const struct v4l2_ioctl_ops dw100_ioctl_ops = {
->  static void dw100_job_finish(struct dw100_device *dw_dev, bool with_error)
->  {
->  	struct dw100_ctx *curr_ctx;
-> -	struct vb2_v4l2_buffer *src_vb, *dst_vb;
->  	enum vb2_buffer_state buf_state;
->  
->  	curr_ctx = v4l2_m2m_get_curr_priv(dw_dev->m2m_dev);
-> @@ -1069,16 +1087,13 @@ static void dw100_job_finish(struct dw100_device *dw_dev, bool with_error)
->  		return;
->  	}
->  
-> -	src_vb = v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
-> -	dst_vb = v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
-> -
->  	if (likely(!with_error))
->  		buf_state = VB2_BUF_STATE_DONE;
->  	else
->  		buf_state = VB2_BUF_STATE_ERROR;
->  
-> -	v4l2_m2m_buf_done(src_vb, buf_state);
-> -	v4l2_m2m_buf_done(dst_vb, buf_state);
-> +	v4l2_m2m_buf_done_and_job_finish(dw_dev->m2m_dev, curr_ctx->fh.m2m_ctx,
-> +					 buf_state);
->  
->  	dev_dbg(&dw_dev->pdev->dev, "Finishing transaction with%s error(s)\n",
->  		with_error ? "" : "out");
-> @@ -1460,6 +1475,12 @@ static void dw100_device_run(void *priv)
->  	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
->  	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
->  
+All errors (new ones prefixed by >>):
 
-I'd add a comment here, as the complete() call before start() can be
-confusing.
+   drivers/dma-buf/heaps/system_heap.c: In function 'system_heap_set_page_decrypted':
+>> drivers/dma-buf/heaps/system_heap.c:66:15: error: implicit declaration of function 'set_memory_decrypted' [-Wimplicit-function-declaration]
+      66 |         ret = set_memory_decrypted(addr, nr_pages);
+         |               ^~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/heaps/system_heap.c: In function 'system_heap_set_page_encrypted':
+>> drivers/dma-buf/heaps/system_heap.c:80:15: error: implicit declaration of function 'set_memory_encrypted' [-Wimplicit-function-declaration]
+      80 |         ret = set_memory_encrypted(addr, nr_pages);
+         |               ^~~~~~~~~~~~~~~~~~~~
 
-	/*
-	 * Apply controls from the request to the device and copy back the value
-	 * of volatile controls to the request. We can do the latter before
-	 * starting the dewarper as no controls are updated as a result of the
-	 * hardware operation.
-	 /
 
-It could be me not being familiar enough with the API, but I think
-discussions during review of v2 showed that this confused other people
-too.
+vim +/set_memory_decrypted +66 drivers/dma-buf/heaps/system_heap.c
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> +				&ctx->hdl);
-> +
-> +	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> +				   &ctx->hdl);
-> +
->  	dw100_start(ctx, src_buf, dst_buf);
->  }
->  
-> @@ -1467,6 +1488,11 @@ static const struct v4l2_m2m_ops dw100_m2m_ops = {
->  	.device_run	= dw100_device_run,
->  };
->  
-> +static const struct media_device_ops dw100_m2m_media_ops = {
-> +	.req_validate = vb2_request_validate,
-> +	.req_queue = v4l2_m2m_request_queue,
-> +};
-> +
->  static struct video_device *dw100_init_video_device(struct dw100_device *dw_dev)
->  {
->  	struct video_device *vfd = &dw_dev->vfd;
-> @@ -1578,6 +1604,7 @@ static int dw100_probe(struct platform_device *pdev)
->  	dw_dev->mdev.dev = &pdev->dev;
->  	strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_dev->mdev.model));
->  	media_device_init(&dw_dev->mdev);
-> +	dw_dev->mdev.ops = &dw100_m2m_media_ops;
->  	dw_dev->v4l2_dev.mdev = &dw_dev->mdev;
->  
->  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
+    59	
+    60	static int system_heap_set_page_decrypted(struct page *page)
+    61	{
+    62		unsigned long addr = (unsigned long)page_address(page);
+    63		unsigned int nr_pages = 1 << compound_order(page);
+    64		int ret;
+    65	
+  > 66		ret = set_memory_decrypted(addr, nr_pages);
+    67		if (ret)
+    68			pr_warn_ratelimited("dma-buf system heap: failed to decrypt page at %p\n",
+    69					    page_address(page));
+    70	
+    71		return ret;
+    72	}
+    73	
+    74	static int system_heap_set_page_encrypted(struct page *page)
+    75	{
+    76		unsigned long addr = (unsigned long)page_address(page);
+    77		unsigned int nr_pages = 1 << compound_order(page);
+    78		int ret;
+    79	
+  > 80		ret = set_memory_encrypted(addr, nr_pages);
+    81		if (ret)
+    82			pr_warn_ratelimited("dma-buf system heap: failed to re-encrypt page at %p, leaking memory\n",
+    83					    page_address(page));
+    84	
+    85		return ret;
+    86	}
+    87	
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
