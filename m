@@ -1,184 +1,152 @@
-Return-Path: <linux-media+bounces-52524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52525-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aPs9Ca1Gi2kJTwAAu9opvQ
-	(envelope-from <linux-media+bounces-52524-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:54:37 +0100
+	id oLiSHsxQi2nwTwAAu9opvQ
+	(envelope-from <linux-media+bounces-52525-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 16:37:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BC811C248
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:54:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D2511C966
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 16:37:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0107D301287E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 14:54:36 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 39AAE3033A91
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 15:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 427AA3803D4;
-	Tue, 10 Feb 2026 14:54:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53163815FC;
+	Tue, 10 Feb 2026 15:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="n031jfXH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLMND+6z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF7D18FC80
-	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 14:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B202EDD40;
+	Tue, 10 Feb 2026 15:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770735271; cv=none; b=hzLHPDJskVu7HofxM/GOCgdEzn1wv10HNiUW4wM19F1g51ZctcS5zujbemOrlG7lypwfb7+xuUV5f96JXkNEs1bT4hy6y41xI7hbgUiT3gnls/UQUQGh6VCmNFRfcVTGfUBdhjIM9MrXnae9ahfa+SvfFVijJmr6APzc+2n7gm8=
+	t=1770737746; cv=none; b=PIfcKZ8TqYN0EkJiwkA1i38iGXQkVGiR84FBmJpR/DTrkFZJnjWtHuRsudgIxAcctTr/Pw1UahFeZVmj22gI7Dj4dU2+3DqHpU7nTPMb9Wom/LFd+ayhdR1aMKnh9ohij+DJ0wGPhOBsBJ1FlH4B2BIuWFnEfNV+DEeUWa8mPi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770735271; c=relaxed/simple;
-	bh=0cPCA9Kv3jfRsyrFM9MyPi7hD3kaQlMf7gj3XZzuvQw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OvQ6zD9ZqZ7EMNm0GgDRhDLNpHsDudqZdh5CH8nmdtKuBN9mnTH4fqL0pDNPF0nfwqiAj40hPnKrKDSaiFQYR/mVuKuGiA24B66NaG984U8x7vLQwgzPvLejhSg1ykyHj4VPmJ2DA+HcfoPF+PsEhVMbjWypI+5283Ut7t/E8uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=n031jfXH; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8c52f15c5b3so560866285a.3
-        for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 06:54:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1770735269; x=1771340069; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Agj0c4R15XGINXILYWi8Un1ej02BkfWDujptUtk/bVQ=;
-        b=n031jfXHcwWuho1QKWiKDgozcqEOrJh2cZMzZ3wZQkBeC6vIt+Knj3mwGeQTIATqSr
-         U47mWvrHblrylvWuNzdXriQOvcaYV+dpWsbf91kzhOCqt/Vlr4a6DW0nkFrdTqyraYHO
-         Upy2Re74GM8COD4pa4251ZdJsWa/zgUbCIXlXY3gc5Ec1GE+MU16AIT1Tj40PmLbUd2W
-         M+uUyUG7OqzCCVronYOzCZEJp/9kHF7ZERCq9rjstOLsX0bnnKdFFRYKP8BoFajerxvF
-         jhDtQD9QyjVO8HA0ULXM/QDMbwTRyhdrAaJ3s+ervO9UGlWw5eFHWk3rSVviTfiXwt9a
-         JxLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770735269; x=1771340069;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Agj0c4R15XGINXILYWi8Un1ej02BkfWDujptUtk/bVQ=;
-        b=VlhktzFzGpURNv3+amYcSYmseJmW2TL7oQkFGXJ9+ubwq5fUFbK7x60WLgjXWN6USC
-         yXjLQBDZ1r2cFyynXKLCgX1TpCX67phvGPYdb8pnwJWD7R33jxthIhOMAYGP1rr2DMsc
-         afnfEFVAz3fq85o3cbDcQl1X4h9+Moy2X2R7ud81Uitk6foxbO/Zes0hoxfotfGNLSUn
-         /sDO37WUTcF7ihyELZA2nvQDwYKz5uBom1z+tR8qSzUaJtgAOAq8pqi9L5bB1qSD8RBx
-         fQrJs8BzaliJ+FOQu+drMpx5Iv9V4LfRzbhFtAb1DjxMqmxUeulFxxaHKwmu4RbkVXQu
-         gsiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV4S3mU/7GcIfX5DqOns28TIEB7c4HeJL5zzP7U5B76eLYaNJvgy8G86VIwvgHclO1Zbi6w1ugVrYciyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2hobxgZgwom63gNg5blYVjpErRV5GNAIgRA0rY6SmDpTyELi1
-	3/RI+Y1AyUTWczERYSwhRVIH3epXSz4RVPVphSU2MO5i96gWIZk1BSqmj0yeOrbLEPY=
-X-Gm-Gg: AZuq6aJUO951gIKG51qzV6F2hJMeFssY8bNn8M2EFkDru8g5LHmXn2hH0AsLDqIgYjW
-	dAJAs/tSvyfXqQ+PXg2GWDfYWG5EOcSpV1s5mfslmzT5ZjVoNcmGEEsP2ADvaTgkZ0/wYBw4/hC
-	6708BIMmpUG1goXT3+P/jEHLI/G+YXsAMCLVRJVuG03Kx/Y/CAOspxQApoFEfIisyhsVVjsN9Ia
-	2bzJmbLPl2oxvowTxmKd/8zqhetClo7m/OS3QHaT/yPiJhi6Sfirfdkh0iFkTRd5S+N3Mf5reqE
-	8urje+OfjDzrKoZbqWcfmhljQwVLj1KKyFL/gVLRTB8zKkXUDwwlokN3toZjpQPmodT79FocZ3J
-	TyQFHRsvmWfuUvvbQA1dkJcTMoICKFY16ZaRqkN/C4FYCEGBTKstYvHaVpX9gGCnCdgaWhggcDl
-	c5y1PDyJt8FH1FapkO9uB959LHxCn+aLIqkSMrEdp5zSgh5y3kEHutKY0jAnL3/jXUEt+ZO2avo
-	TgrC60=
-X-Received: by 2002:a05:620a:2804:b0:8c5:2f89:6904 with SMTP id af79cd13be357-8caefeb4daemr2082380185a.45.1770735269414;
-        Tue, 10 Feb 2026 06:54:29 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8caf9a157ddsm1121052485a.28.2026.02.10.06.54.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 06:54:28 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vpp8F-00000003mvN-47aU;
-	Tue, 10 Feb 2026 10:54:27 -0400
-Date: Tue, 10 Feb 2026 10:54:27 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: John Stultz <jstultz@google.com>, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
-	linux-media@vger.kernel.org, sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
-	tjmercier@google.com, christian.koenig@amd.com,
-	m.szyprowski@samsung.com, robin.murphy@arm.com, leon@kernel.org,
-	sean.anderson@linux.dev, ptesarik@suse.com, catalin.marinas@arm.com,
-	aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
-	linux-coco@lists.linux.dev
-Subject: Re: [PATCH 4/5] dma-buf: heaps: allow heap to specify valid heap
- flags
-Message-ID: <20260210145427.GA750753@ziepe.ca>
-References: <20260209153809.250835-1-jiri@resnulli.us>
- <20260209153809.250835-5-jiri@resnulli.us>
- <CANDhNCoHEZsNRmU+3z5AbeAy05H7PTtUdTq1apNd5k0f9hWW8A@mail.gmail.com>
- <20260210002927.GC943673@ziepe.ca>
- <tgvdjszwxggr53digbmddcbxvupzl4xcoprofkgrs2kgf6rknx@44ebljjpghjm>
- <20260210124357.GD943673@ziepe.ca>
- <y7gvezflidmma7odnut2rmlecsbxahrcwpmoevfnhzjveusuwj@6qxqogin45j3>
+	s=arc-20240116; t=1770737746; c=relaxed/simple;
+	bh=/D9WayX2RyezQv/BMFEI20I2X4SxmXeXzlv+0+3fv8I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NBuEmOjeWtpxyjCkIEm+m3Erl2aHzb2yYVVlnssbkGQDny5L70i0E/SRY1bo7In5UwEJSRLr3eN42c1G0h4bVdFaXRLnKxXmb3a7KRCzQI/PcXVTGZJc8dJgUpLumrCESdxedyWX5FyJBPIOoKev9f5Z3n0CQWDhCkhFQFt4GGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLMND+6z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EA0A5C116C6;
+	Tue, 10 Feb 2026 15:35:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770737746;
+	bh=/D9WayX2RyezQv/BMFEI20I2X4SxmXeXzlv+0+3fv8I=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=MLMND+6zO1mw6D5D2vRgotwECtaX49Vsw5oshv1RQk+oH0W3x1jcywrKF9adtvjy7
+	 sBrOXpwVobU2TowG8xxAB8caE9riDYnVebmNYl2pAc7m2NkOh7rRTFLVKK5wV0pwzU
+	 kt0umUOPiHTypmbka2yq+f6mTHf7n6TnhCGxuCBzdf67u7+leIiar+NHwU3sLKoW/g
+	 CTji1PYz52V7RQgU+4iTbmpM0gaKrbJ8/eqVWiozfInT1RNBqROjFFZVushCR8c7PI
+	 MZbKR28kfuCAiZ97SUJVFtVDQfJRnpydb860mjGwKhQJhMx9XmUGsPciOSgpDnSluj
+	 tR4wzLf3uJvgw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E71EA812D;
+	Tue, 10 Feb 2026 15:35:45 +0000 (UTC)
+From: Soufiane via B4 Relay <devnull+soufianeda.tutanota.com@kernel.org>
+Date: Tue, 10 Feb 2026 16:35:27 +0100
+Subject: [PATCH v2] staging: atomisp: fix heap buffer overflow in
+ framebuffer conversion
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <y7gvezflidmma7odnut2rmlecsbxahrcwpmoevfnhzjveusuwj@6qxqogin45j3>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260210-atomisp-fix-v2-1-2e1e15f1b774@tutanota.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22MQQ7CIBAAv9LsWQwstWJP/sP0gAh2D4UGkGga/
+ i727HEmmdkg2Ug2wdhtEG2hRME3wEMHZtb+aRk9GgNyHDgKznQOC6WVOXozZbmS7nySg1LQijX
+ apvfbbWo8U8ohfvZ5ET/7/1MEE4xj3+PF3J2T4ppfWfuQ9dGEBaZa6xfRn5UsqQAAAA==
+X-Change-ID: 20260210-atomisp-fix-8e083f753688
+To: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
+ sakari.ailus@linux.intel.com
+Cc: gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Soufiane <soufianeda@tutanota.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770737743; l=1170;
+ i=soufianeda@tutanota.com; s=20260210; h=from:subject:message-id;
+ bh=LIUHpU74WY0uQyqdYbvaZ7O7xKufBT6aHUwY0/k5w9k=;
+ b=rvOtB6aPKYanBXLUZDLJTTwFiLVGt8ns4rKokbVb1Lmbrgf+UW2zv3H2/mRt0aiN2A0mwC7u9
+ HtRzFBEMl6OBe36d9HpHylgcNkZE13kZ8DnBzwKoo+xO/LcjfOHqODQ
+X-Developer-Key: i=soufianeda@tutanota.com; a=ed25519;
+ pk=UzU2pI3/kdLVX1NbSuU4LzRt28OBKkEmk+xBRMw7P+Q=
+X-Endpoint-Received: by B4 Relay for soufianeda@tutanota.com/20260210 with
+ auth_id=631
+X-Original-From: Soufiane <soufianeda@tutanota.com>
+Reply-To: soufianeda@tutanota.com
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52524-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52525-lists,linux-media=lfdr.de,soufianeda.tutanota.com];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[ziepe.ca];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_REPLYTO(0.00)[soufianeda@tutanota.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B2BC811C248
+X-Rspamd-Queue-Id: 22D2511C966
 X-Rspamd-Action: no action
 
-On Tue, Feb 10, 2026 at 03:49:02PM +0100, Jiri Pirko wrote:
-> Tue, Feb 10, 2026 at 01:43:57PM +0100, jgg@ziepe.ca wrote:
-> >On Tue, Feb 10, 2026 at 10:14:08AM +0100, Jiri Pirko wrote:
-> >
-> >> >I'd advocate that the right design is for userspace to positively
-> >> >signal via this flag that it wants/accepts shared memory and without
-> >> >the flag shared memory should never be returned.
-> >> 
-> >> We can have the same behaviour with the separate heap, can't we?
-> >> Userpace positively signals it wants/accepts the shared memory by
-> >> choosing "system_cc_decrypted" heap name.
-> >
-> >So what do the other heap names do? Always private? Do you ever get
-> >heaps that are unknowably private or shared (eg MMIO backed?)
-> 
-> If I understand the code correctly, you may get something like this:
-> $ ls /dev/dma_heap/
-> default_cma_region
-> protected,secure-video
-> protected,secure-video-record
-> protected,trusted-ui
-> system
-> 
-> The "protected*" ones are created by tee. I believe they handle
-> memory that is inaccesible to CPU.
+From: Soufiane <soufianeda@tutanota.com>
 
-If that is the only list of options then maybe just the name will work
-Ok.
+Validate sizeimage against the allocated frame buffer size before
+hmm_store() to prevent out-of-bounds write.
 
-I *think* CMA and system should be reliably CC private.
+Signed-off-by: Soufiane <soufianeda@tutanota.com>
+---
+Changes in v2:
+- Resend with all recipients (v1 only reached sakari and linux-staging)
+- Link to v1: https://lore.kernel.org/r/20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-The protected ones seem to have their own internal definition, and
-probably can't exist on CC VM systems..
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 3a4eb4f6d3be..ca7ffc7855ac 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3326,6 +3326,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
+ 		goto err;
+ 	}
+ 
++	if (arg->fmt.sizeimage > res->data_bytes) {
++		ret = -EINVAL;
++		goto err;
++	}
++
+ 	tmp_buf = vmalloc(arg->fmt.sizeimage);
+ 	if (!tmp_buf) {
+ 		ret = -ENOMEM;
 
-Meaning we don't have any shared things leaking through which would be
-the point.
+---
+base-commit: 72c395024dac5e215136cbff793455f065603b06
+change-id: 20260210-atomisp-fix-8e083f753688
 
-Jason
+Best regards,
+-- 
+Soufiane <soufianeda@tutanota.com>
+
+
 
