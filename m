@@ -1,63 +1,62 @@
-Return-Path: <linux-media+bounces-52505-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52506-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oD4iO3D5imlBPAAAu9opvQ
-	(envelope-from <linux-media+bounces-52505-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:25:04 +0100
+	id sISxCqX5imlBPAAAu9opvQ
+	(envelope-from <linux-media+bounces-52506-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:25:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47CEE118D7E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:25:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A84C118D8C
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 10:25:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7F52B30601B7
-	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:24:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 26022306ECA1
+	for <lists+linux-media@lfdr.de>; Tue, 10 Feb 2026 09:24:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 393F4340DB9;
-	Tue, 10 Feb 2026 09:24:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17B32340D84;
+	Tue, 10 Feb 2026 09:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b="RC/gdnGS"
+	dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b="lp0SA8Iv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from s.wrqvtbkv.outbound-mail.sendgrid.net (s.wrqvtbkv.outbound-mail.sendgrid.net [149.72.123.24])
+Received: from s.wrqvtzvf.outbound-mail.sendgrid.net (s.wrqvtzvf.outbound-mail.sendgrid.net [149.72.126.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC05340A49
-	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 09:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.123.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCE73375DC
+	for <linux-media@vger.kernel.org>; Tue, 10 Feb 2026 09:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.72.126.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770715444; cv=none; b=Wdiwx+lv1Do/6K4q+EZtQYnOAOTpY0uUnTpSZeAZB7vKf8ZaXnY5J4m7qFqBjr5feSyGktKf4SISGmDaPGuHq1P5zW122GLlD/FE3fzo/I0KTxd4sOTGq0Zx2hduKVL2SObQOVBYMMf+NTwWKbNMYcbG3E+D8jAdzL/4wo2u9ok=
+	t=1770715457; cv=none; b=L5/ttskWBXxk0GvbqtxUss4vnOm8Q60age9fvV3cP6574M/zY3O9JulFYS0Qed6Yk59oSE8Tr2ayCCdDU3e8vmWnmCuvINPqUr5FtDWPSeVCgyFfCkQoQ8afADCFt4Mrf3H/10mrzFHrdlgiUtTtdi8OK22q8c1/aD+oZgUM/w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770715444; c=relaxed/simple;
-	bh=9jJs7MmJoKsYj3XlZrD6IjmxfM3I0wNi4KUdZUQ/z0w=;
+	s=arc-20240116; t=1770715457; c=relaxed/simple;
+	bh=mdHV/OrvcoTOfYGXpBzBJ5qf8muzn3HLdO3CHr+Ip3Y=;
 	h=From:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
-	 To:Cc:Content-Type; b=i7pWh3EloeI/lOyq0egt7ckcvumSK6o6wagNeKVe1aGeCM6WuwmD+uNQTkDgOS6LQiPaiKXwwWd3J/aZn95UiR4grenV0muTpSGQzBEr9gGuexdU0btYd/g5+fVMJlV+Oln/mr/AKt2d9ZpRGtMTnOKtqr/dIeL5AadJetT/GUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net; spf=pass smtp.mailfrom=em431.mattwardle.net; dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b=RC/gdnGS; arc=none smtp.client-ip=149.72.123.24
+	 To:Cc:Content-Type; b=rtx3zQ1zia2lkSxmaw40vKwU+l0MmiaHJiLRQu+3dQrrXi05hEvmxREkULLp7bBcfSNpvziBulTe5vO7c476Mg3LzTzFLwAPvRv9r4ty5jhUa8FXyZfUXuqsDRO4TUpnKMx+42S2/xLt8zP4F0MPRlllgZyYQ9E4lGrHiQgQKi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net; spf=pass smtp.mailfrom=em431.mattwardle.net; dkim=pass (2048-bit key) header.d=mattwardle.net header.i=@mattwardle.net header.b=lp0SA8Iv; arc=none smtp.client-ip=149.72.126.143
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mattwardle.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em431.mattwardle.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mattwardle.net;
 	h=from:subject:date:in-reply-to:references:mime-version:to:cc:
 	content-transfer-encoding:content-type:cc:content-type:date:from:subject:to;
-	s=s1; bh=dcfTklgjaCy1rPUq2cimFzYnzz4hXIpUGtmQWpURVCM=;
-	b=RC/gdnGSpA/05ZE2HfkUBNzc3GfZXA0ykVegS6mpfVt//+p9E8fszP2Pq+pXgNiRv9cv
-	WWLiKonqUktfNWT0uyFv0A06R3KrJX2SZ7d5D3m2ZPnBRwjRy0pCfKD1laCXTxsODQiJUA
-	zEq6LMlG0QWanbJcvbJMoVP/N7PbX4ueNI5eKV7vQ09Duq8tlPNoZfTgQvrq4SEAillXda
-	wzURGYKhNHTmJi+OhpuVVEADl1xqy7mvmKz3yg5v7F1E7U6KtoLbxKu1zxC2YbumZTE4sd
-	UzzIMOeJwfBE9IWCw0pmby6/zrIAjRvBjHLBOY1TzbnOinwau68bSF9/gW/fByiQ==
-Received: by recvd-5fb7fdbd94-cwpcz with SMTP id recvd-5fb7fdbd94-cwpcz-1-698AF932-1
-	2026-02-10 09:24:02.014661469 +0000 UTC m=+55669.421760190
+	s=s1; bh=snQso672sutlEFlqaXhUA/V91FaIPJyTuuy2toBCCeM=;
+	b=lp0SA8IvRapHLb7CAvDenq94EAZbFwKGcj2l1P/PRxN0Waj54CWf30MSl0d1Q6STusvs
+	VKfnJzqG7LyaAcI54dJYPs1CZlCXyA9KHjYA1MGJkWFLCu26vCS59JlQF87jqjrnCHEdBh
+	MjTn4BHpsVCXyOcu9H5ubTnik8ljwxMCcnaezH5t5354p1MOOdoKtzO8PADtgSVtuAIQL0
+	Vr+CPGAvjgshU7OLXATjS3DAcjK/dAnSJcKoRbgvpqNq2sej3EvwK3EiTZhMOBuc5SIeAB
+	/NXyOrdPH0B2J44A8F5kZ1CL0dgYdeUwx3e1xnjdjGzupLrBGi83v5yr5rjSYoPw==
+Received: by recvd-5fb7fdbd94-cwpcz with SMTP id recvd-5fb7fdbd94-cwpcz-1-698AF93F-E
+	2026-02-10 09:24:15.304883989 +0000 UTC m=+55682.711982724
 Received: from mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (unknown)
-	by geopod-ismtpd-9 (SG) with ESMTP
-	id Hm-93m4YR7qK3Sh1Thencg
-	Tue, 10 Feb 2026 09:24:01.896 +0000 (UTC)
+	by geopod-ismtpd-3 (SG) with ESMTP
+	id 0-zhEk9CQjCSmtlsjGGwsg
+	Tue, 10 Feb 2026 09:24:05.513 +0000 (UTC)
 Authentication-Results: mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net; dmarc=fail (p=reject dis=none) header.from=mattwardle.net
 Received: from thinkpad (unknown [161.142.117.49])
-	by mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (Postfix) with ESMTPSA id A8D9040E37;
-	Tue, 10 Feb 2026 09:24:01 +0000 (UTC)
+	by mail.3n0xdopx5uce3ivigaxioahche.ix.internal.cloudapp.net (Postfix) with ESMTPSA id 57BDE40E37;
+	Tue, 10 Feb 2026 09:24:05 +0000 (UTC)
 From: Matt Wardle <matt@mattwardle.net>
-Subject: [PATCH 2/3] staging: media: atomisp: Fix function indentation and
- braces
-Date: Tue, 10 Feb 2026 09:24:02 +0000 (UTC)
-Message-ID: <20260210092243.294732-3-matt@mattwardle.net>
+Subject: [PATCH 3/3] staging: media: atomisp: Fix braces on incorrect lines
+Date: Tue, 10 Feb 2026 09:24:15 +0000 (UTC)
+Message-ID: <20260210092243.294732-4-matt@mattwardle.net>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260210092243.294732-1-matt@mattwardle.net>
 References: <20260210092243.294732-1-matt@mattwardle.net>
@@ -69,12 +68,11 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-SG-EID: 
  =?us-ascii?Q?u001=2EFlbIg1=2FBrpD1HWcEBlj1tgh=2F0VDwewqbkmeZ1SFD9tLmzlDepFYnLmfnO?=
- =?us-ascii?Q?moWHy7n5HdVZTdyWWeMojZeck4braJp6ggXS5Hg?=
- =?us-ascii?Q?cJ0Tx4HbZa5NjIBJq7+IQTJAc9yh0Nsf2VPaIe1?=
- =?us-ascii?Q?fp9P9VSCOImMpkgnLg5wvdwyIjeJThJu2xvOnYJ?=
- =?us-ascii?Q?2=2FZpdIb32KgpzDZoKD7SnsxP=2FQ7jYZhw63imEpD?=
- =?us-ascii?Q?TlVDJTFodeptRARK4=2FUw5RUjjBU7Ac92kIH=2FW1a?=
- =?us-ascii?Q?YHS5?=
+ =?us-ascii?Q?moWHy7n5HdVZTdyWWeMojZeck4brVYul=2FIqvcwM?=
+ =?us-ascii?Q?d58FkwoGE+aZ=2FgGAunHiGqEHnhv=2FBXvNq3Sld2d?=
+ =?us-ascii?Q?LlXs9vZ21PJ+CaCif9hbXYxTu=2FbKgtF19Qtsmzw?=
+ =?us-ascii?Q?AXsbYN9ojmksgEoCKmbRBLA0KMOnupTOkHVFFYB?=
+ =?us-ascii?Q?oOpB+kd7yxJkmRc0imcH0PY=2FYLosMYMLHt0cOkc?= =?us-ascii?Q?wegs?=
 To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
 	<mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
@@ -98,7 +96,7 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[mattwardle.net:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52505-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52506-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -110,242 +108,318 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mattwardle.net:mid,mattwardle.net:dkim,mattwardle.net:email,checkpatch.pl:url]
-X-Rspamd-Queue-Id: 47CEE118D7E
+X-Rspamd-Queue-Id: 7A84C118D8C
 X-Rspamd-Action: no action
 
-Fix parameter indentation for functions and move opening braces onto new
-line. Fix checkpatch.pl errors:
+Fix checkpatch.pl errors:
 
-ERROR: open brace '{' following function definitions go on the next line
+ERROR: that open brace { should be on the previous line
 
 Signed-off-by: Matt Wardle <matt@mattwardle.net>
 ---
- .../isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c | 11 ++---
- .../isp/kernels/raw/raw_1.0/ia_css_raw.host.c |  4 +-
- .../kernels/sdis/sdis_2/ia_css_sdis2.host.c   |  7 ++-
- .../isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 22 ++++-----
- .../atomisp/pci/runtime/binary/src/binary.c   | 48 +++++++++----------
- .../pci/runtime/isp_param/src/isp_param.c     | 18 ++++---
- 6 files changed, 52 insertions(+), 58 deletions(-)
+ .../isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c |  3 +-
+ .../isp/kernels/raw/raw_1.0/ia_css_raw.host.c |  3 +-
+ .../kernels/sdis/sdis_2/ia_css_sdis2.host.c   |  6 +-
+ .../isp/kernels/vf/vf_1.0/ia_css_vf.host.c    |  3 +-
+ .../atomisp/pci/runtime/binary/src/binary.c   | 60 +++++++------------
+ .../pci/runtime/isp_param/src/isp_param.c     |  6 +-
+ drivers/staging/media/atomisp/pci/sh_css.c    |  6 +-
+ 7 files changed, 29 insertions(+), 58 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
-index e9d6dd0bbfe2..4c85b5a62224 100644
+index 4c85b5a62224..cf6c29155758 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
-@@ -258,12 +258,11 @@ convert_allocate_dvs_6axis_config(
- 	return me;
- }
+@@ -273,8 +273,7 @@ int store_dvs_6axis_config(const struct ia_css_dvs_6axis_config *dvs_6axis_confi
+ 					       binary,
+ 					       dvs_in_frame_info);
  
--int
--store_dvs_6axis_config(
--    const struct ia_css_dvs_6axis_config *dvs_6axis_config,
--    const struct ia_css_binary *binary,
--    const struct ia_css_frame_info *dvs_in_frame_info,
--    ia_css_ptr ddr_addr_y) {
-+int store_dvs_6axis_config(const struct ia_css_dvs_6axis_config *dvs_6axis_config,
-+			   const struct ia_css_binary *binary,
-+			   const struct ia_css_frame_info *dvs_in_frame_info,
-+			   ia_css_ptr ddr_addr_y)
-+{
- 	struct ia_css_host_data *me;
- 
- 	assert(dvs_6axis_config);
+-	if (!me)
+-	{
++	if (!me) {
+ 		IA_CSS_LEAVE_ERR_PRIVATE(-ENOMEM);
+ 		return -ENOMEM;
+ 	}
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-index a00f8d049a33..80fd64a8eb98 100644
+index 80fd64a8eb98..fb0e2a88cadb 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/raw/raw_1.0/ia_css_raw.host.c
-@@ -21,8 +21,8 @@ static const struct ia_css_raw_configuration default_config = {
- };
- 
+@@ -23,8 +23,7 @@ static const struct ia_css_raw_configuration default_config = {
  /* MW: These areMIPI / ISYS properties, not camera function properties */
--static enum sh_stream_format
--css2isp_stream_format(enum atomisp_input_format from) {
-+static enum sh_stream_format css2isp_stream_format(enum atomisp_input_format from)
-+{
- 	switch (from)
- 	{
+ static enum sh_stream_format css2isp_stream_format(enum atomisp_input_format from)
+ {
+-	switch (from)
+-	{
++	switch (from) {
  	case ATOMISP_INPUT_FORMAT_YUV420_8_LEGACY:
+ 				return sh_stream_format_yuv420_legacy;
+ 	case ATOMISP_INPUT_FORMAT_YUV420_8:
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c
-index 027eae0ca69e..aaabb3388044 100644
+index aaabb3388044..6f92709f87eb 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c
-@@ -164,10 +164,9 @@ void ia_css_sdis2_clear_coefficients(
- 	dvs2_coefs->ver_coefs.even_imag = NULL;
- }
+@@ -176,13 +176,11 @@ int ia_css_get_dvs2_statistics(struct ia_css_dvs2_statistics *host_stats,
+ 	assert(isp_stats);
  
--int
--ia_css_get_dvs2_statistics(
--    struct ia_css_dvs2_statistics          *host_stats,
--    const struct ia_css_isp_dvs_statistics *isp_stats) {
-+int ia_css_get_dvs2_statistics(struct ia_css_dvs2_statistics *host_stats,
-+			       const struct ia_css_isp_dvs_statistics *isp_stats)
-+{
- 	struct ia_css_isp_dvs_statistics_map *map;
- 	int ret = 0;
- 
+ 	map = ia_css_isp_dvs_statistics_map_allocate(isp_stats, NULL);
+-	if (map)
+-	{
++	if (map) {
+ 		hmm_load(isp_stats->data_ptr, map->data_ptr, isp_stats->size);
+ 		ia_css_translate_dvs2_statistics(host_stats, map);
+ 		ia_css_isp_dvs_statistics_map_free(map);
+-	} else
+-	{
++	} else {
+ 		IA_CSS_ERROR("out of memory");
+ 		ret = -ENOMEM;
+ 	}
 diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-index 3c675063c4a7..f8870f7e790d 100644
+index f8870f7e790d..152faab2b169 100644
 --- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
 +++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-@@ -45,11 +45,10 @@ int ia_css_vf_config(struct sh_css_isp_vf_isp_config      *to,
-  * to the requested viewfinder resolution on the upper side. The output cannot
-  * be smaller than the requested viewfinder resolution.
-  */
--int
--sh_css_vf_downscale_log2(
--    const struct ia_css_frame_info *out_info,
--    const struct ia_css_frame_info *vf_info,
--    unsigned int *downscale_log2) {
-+int sh_css_vf_downscale_log2(const struct ia_css_frame_info *out_info,
-+			     const struct ia_css_frame_info *vf_info,
-+			     unsigned int *downscale_log2)
-+{
- 	unsigned int ds_log2 = 0;
- 	unsigned int out_width;
- 
-@@ -80,13 +79,12 @@ sh_css_vf_downscale_log2(
- 	return 0;
- }
- 
--static int
--configure_kernel(
--    const struct ia_css_binary_info *info,
--    const struct ia_css_frame_info *out_info,
--    const struct ia_css_frame_info *vf_info,
--    unsigned int *downscale_log2,
--    struct ia_css_vf_configuration *config) {
-+static int configure_kernel(const struct ia_css_binary_info *info,
-+			    const struct ia_css_frame_info *out_info,
-+			    const struct ia_css_frame_info *vf_info,
-+			    unsigned int *downscale_log2,
-+			    struct ia_css_vf_configuration *config)
-+{
- 	int err;
- 	unsigned int vf_log_ds = 0;
- 
+@@ -64,8 +64,7 @@ int sh_css_vf_downscale_log2(const struct ia_css_frame_info *out_info,
+ 	* test for the height since the vmem buffers only put restrictions on
+ 	* the width of a line, not on the number of lines in a frame.
+ 	*/
+-	while (out_width >= vf_info->res.width)
+-	{
++	while (out_width >= vf_info->res.width) {
+ 		ds_log2++;
+ 		out_width /= 2;
+ 	}
 diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index 60ae7bf5512b..c7962549e999 100644
+index c7962549e999..39b37b557aff 100644
 --- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
 +++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -347,10 +347,10 @@ ia_css_binary_dvs_stat_grid_info(
- 	return;
- }
+@@ -477,8 +477,7 @@ int ia_css_binary_init_infos(void)
+ 	if (!all_binaries)
+ 		return -ENOMEM;
  
--int
--ia_css_binary_3a_grid_info(const struct ia_css_binary *binary,
--			   struct ia_css_grid_info *info,
--			   struct ia_css_pipe *pipe) {
-+int ia_css_binary_3a_grid_info(const struct ia_css_binary *binary,
-+			       struct ia_css_grid_info *info,
-+			       struct ia_css_pipe *pipe)
-+{
- 	struct ia_css_3a_grid_info *s3a_info;
- 	int err = 0;
- 
-@@ -439,9 +439,9 @@ supports_bds_factor(u32 supported_factors,
- 	return ((supported_factors & PACK_BDS_FACTOR(bds_factor)) != 0);
- }
- 
--static int
--binary_init_info(struct ia_css_binary_xinfo *info, unsigned int i,
--		 bool *binary_found) {
-+static int binary_init_info(struct ia_css_binary_xinfo *info, unsigned int i,
-+			    bool *binary_found)
-+{
- 	const unsigned char *blob = sh_css_blob_info[i].blob;
- 	unsigned int size = sh_css_blob_info[i].header.blob.size;
- 
-@@ -464,8 +464,8 @@ binary_init_info(struct ia_css_binary_xinfo *info, unsigned int i,
- /* When binaries are put at the beginning, they will only
-  * be selected if no other primary matches.
-  */
--int
--ia_css_binary_init_infos(void) {
-+int ia_css_binary_init_infos(void)
-+{
- 	unsigned int i;
- 	unsigned int num_of_isp_binaries = sh_css_num_binaries - NUM_OF_SPS - NUM_OF_BLS;
- 
-@@ -497,8 +497,8 @@ ia_css_binary_init_infos(void) {
- 	return 0;
- }
- 
--int
--ia_css_binary_uninit(void) {
-+int ia_css_binary_uninit(void)
-+{
+-	for (i = 0; i < num_of_isp_binaries; i++)
+-	{
++	for (i = 0; i < num_of_isp_binaries; i++) {
+ 		int ret;
+ 		struct ia_css_binary_xinfo *binary = &all_binaries[i];
+ 		bool binary_found;
+@@ -502,8 +501,7 @@ int ia_css_binary_uninit(void)
  	unsigned int i;
  	struct ia_css_binary_xinfo *b;
  
-@@ -625,19 +625,19 @@ binary_in_frame_padded_width(int in_frame_width,
- 	return rval;
- }
+-	for (i = 0; i < IA_CSS_BINARY_NUM_MODES; i++)
+-	{
++	for (i = 0; i < IA_CSS_BINARY_NUM_MODES; i++) {
+ 		for (b = binary_infos[i]; b; b = b->next) {
+ 			if (b->xmem_addr)
+ 				hmm_free(b->xmem_addr);
+@@ -664,8 +662,7 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 	assert(binary);
  
--int
--ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
--			bool online,
--			bool two_ppc,
--			enum atomisp_input_format stream_format,
--			const struct ia_css_frame_info *in_info, /* can be NULL */
--			const struct ia_css_frame_info *bds_out_info, /* can be NULL */
--			const struct ia_css_frame_info *out_info[], /* can be NULL */
--			const struct ia_css_frame_info *vf_info, /* can be NULL */
--			struct ia_css_binary *binary,
--			struct ia_css_resolution *dvs_env,
--			int stream_config_left_padding,
--			bool accelerator) {
-+int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
-+			    bool online,
-+			    bool two_ppc,
-+			    enum atomisp_input_format stream_format,
-+			    const struct ia_css_frame_info *in_info, /* can be NULL */
-+			    const struct ia_css_frame_info *bds_out_info, /* can be NULL */
-+			    const struct ia_css_frame_info *out_info[], /* can be NULL */
-+			    const struct ia_css_frame_info *vf_info, /* can be NULL */
-+			    struct ia_css_binary *binary,
-+			    struct ia_css_resolution *dvs_env,
-+			    int stream_config_left_padding,
-+			    bool accelerator)
-+{
- 	const struct ia_css_binary_info *info = &xinfo->sp;
- 	unsigned int dvs_env_width = 0,
- 	dvs_env_height = 0,
+ 	binary->info = xinfo;
+-	if (!accelerator)
+-	{
++	if (!accelerator) {
+ 		/* binary->css_params has been filled by accelerator itself. */
+ 		err = ia_css_isp_param_allocate_isp_parameters(
+ 		    &binary->mem_params, &binary->css_params,
+@@ -673,15 +670,13 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 		if (err)
+ 			return err;
+ 	}
+-	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
+-	{
++	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
+ 		if (out_info[i] && (out_info[i]->res.width != 0)) {
+ 			bin_out_info = out_info[i];
+ 			break;
+ 		}
+ 	}
+-	if (in_info && bin_out_info)
+-	{
++	if (in_info && bin_out_info) {
+ 		need_scaling = (in_info->res.width != bin_out_info->res.width) ||
+ 			       (in_info->res.height != bin_out_info->res.height);
+ 	}
+@@ -712,8 +707,7 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 	binary->internal_frame_info.res.height      = isp_internal_height;
+ 	binary->internal_frame_info.raw_bit_depth   = bits_per_pixel;
+ 
+-	if (in_info)
+-	{
++	if (in_info) {
+ 		binary->effective_in_frame_res.width = in_info->res.width;
+ 		binary->effective_in_frame_res.height = in_info->res.height;
+ 
+@@ -741,15 +735,13 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 		binary->in_frame_info.crop_info = in_info->crop_info;
+ 	}
+ 
+-	if (online)
+-	{
++	if (online) {
+ 		bits_per_pixel = ia_css_util_input_format_bpp(
+ 				     stream_format, two_ppc);
+ 	}
+ 	binary->in_frame_info.raw_bit_depth = bits_per_pixel;
+ 
+-	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
+-	{
++	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
+ 		if (out_info[i]) {
+ 			binary->out_frame_info[i].res.width     = out_info[i]->res.width;
+ 			binary->out_frame_info[i].res.height    = out_info[i]->res.height;
+@@ -768,8 +760,7 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 		}
+ 	}
+ 
+-	if (vf_info && (vf_info->res.width != 0))
+-	{
++	if (vf_info && (vf_info->res.width != 0)) {
+ 		err = ia_css_vf_configure(binary, bin_out_info,
+ 					  (struct ia_css_frame_info *)vf_info, &vf_log_ds);
+ 		if (err) {
+@@ -787,8 +778,7 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 	binary->input_format      = stream_format;
+ 
+ 	/* viewfinder output info */
+-	if ((vf_info) && (vf_info->res.width != 0))
+-	{
++	if ((vf_info) && (vf_info->res.width != 0)) {
+ 		unsigned int vf_out_vecs, vf_out_width, vf_out_height;
+ 
+ 		binary->vf_frame_info.format = vf_info->format;
+@@ -820,23 +810,20 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 			binary->vf_frame_info.padded_width = vf_out_width;
+ 			binary->vf_frame_info.res.height   = vf_out_height;
+ 		}
+-	} else
+-	{
++	} else {
+ 		binary->vf_frame_info.res.width    = 0;
+ 		binary->vf_frame_info.padded_width = 0;
+ 		binary->vf_frame_info.res.height   = 0;
+ 	}
+ 
+-	if (info->enable.ca_gdc)
+-	{
++	if (info->enable.ca_gdc) {
+ 		binary->morph_tbl_width =
+ 		    _ISP_MORPH_TABLE_WIDTH(isp_internal_width);
+ 		binary->morph_tbl_aligned_width  =
+ 		    _ISP_MORPH_TABLE_ALIGNED_WIDTH(isp_internal_width);
+ 		binary->morph_tbl_height =
+ 		    _ISP_MORPH_TABLE_HEIGHT(isp_internal_height);
+-	} else
+-	{
++	} else {
+ 		binary->morph_tbl_width  = 0;
+ 		binary->morph_tbl_aligned_width  = 0;
+ 		binary->morph_tbl_height = 0;
+@@ -846,8 +833,7 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 	sc_3a_dis_padded_width = binary->in_frame_info.padded_width;
+ 	sc_3a_dis_height = binary->in_frame_info.res.height;
+ 	if (bds_out_info && in_info &&
+-	    bds_out_info->res.width != in_info->res.width)
+-	{
++	    bds_out_info->res.width != in_info->res.width) {
+ 		/* TODO: Next, "internal_frame_info" should be derived from
+ 		 * bds_out. So this part will change once it is in place! */
+ 		sc_3a_dis_width = bds_out_info->res.width + info->pipeline.left_cropping;
+@@ -857,18 +843,15 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 
+ 	s3a_isp_width = _ISP_S3A_ELEMS_ISP_WIDTH(sc_3a_dis_padded_width,
+ 			info->pipeline.left_cropping);
+-	if (info->s3a.fixed_s3a_deci_log)
+-	{
++	if (info->s3a.fixed_s3a_deci_log) {
+ 		s3a_log_deci = info->s3a.fixed_s3a_deci_log;
+-	} else
+-	{
++	} else {
+ 		s3a_log_deci = binary_grid_deci_factor_log2(s3a_isp_width,
+ 			       sc_3a_dis_height);
+ 	}
+ 	binary->deci_factor_log2  = s3a_log_deci;
+ 
+-	if (info->enable.s3a)
+-	{
++	if (info->enable.s3a) {
+ 		binary->s3atbl_width  =
+ 		    _ISP_S3ATBL_WIDTH(sc_3a_dis_width,
+ 				      s3a_log_deci);
+@@ -881,21 +864,18 @@ int ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 		binary->s3atbl_isp_height =
+ 		    _ISP_S3ATBL_ISP_HEIGHT(sc_3a_dis_height,
+ 					   s3a_log_deci);
+-	} else
+-	{
++	} else {
+ 		binary->s3atbl_width  = 0;
+ 		binary->s3atbl_height = 0;
+ 		binary->s3atbl_isp_width  = 0;
+ 		binary->s3atbl_isp_height = 0;
+ 	}
+ 
+-	if (info->enable.sc)
+-	{
++	if (info->enable.sc) {
+ 		binary->sctbl_width_per_color = _ISP_SCTBL_WIDTH_PER_COLOR(sc_3a_dis_padded_width, s3a_log_deci);
+ 		binary->sctbl_aligned_width_per_color = SH_CSS_MAX_SCTBL_ALIGNED_WIDTH_PER_COLOR;
+ 		binary->sctbl_height = _ISP_SCTBL_HEIGHT(sc_3a_dis_height, s3a_log_deci);
+-	} else
+-	{
++	} else {
+ 		binary->sctbl_width_per_color         = 0;
+ 		binary->sctbl_aligned_width_per_color = 0;
+ 		binary->sctbl_height                  = 0;
 diff --git a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
-index 251dd75a7613..354e5405fd60 100644
+index 354e5405fd60..1d20eb650757 100644
 --- a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
 +++ b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
-@@ -93,11 +93,10 @@ ia_css_init_memory_interface(
- 	}
- }
- 
--int
--ia_css_isp_param_allocate_isp_parameters(
--    struct ia_css_isp_param_host_segments *mem_params,
--    struct ia_css_isp_param_css_segments *css_params,
--    const struct ia_css_isp_param_isp_segments *mem_initializers) {
-+int ia_css_isp_param_allocate_isp_parameters(struct ia_css_isp_param_host_segments *mem_params,
-+					     struct ia_css_isp_param_css_segments *css_params,
-+					     const struct ia_css_isp_param_isp_segments *mem_initializers)
-+{
- 	int err = 0;
+@@ -101,8 +101,7 @@ int ia_css_isp_param_allocate_isp_parameters(struct ia_css_isp_param_host_segmen
  	unsigned int mem, pclass;
  
-@@ -171,11 +170,10 @@ ia_css_isp_param_load_fw_params(
- 	}
- }
+ 	pclass = IA_CSS_PARAM_CLASS_PARAM;
+-	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++)
+-	{
++	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++) {
+ 		for (pclass = 0; pclass < IA_CSS_NUM_PARAM_CLASSES; pclass++) {
+ 			u32 size = 0;
  
--int
--ia_css_isp_param_copy_isp_mem_if_to_ddr(
--    struct ia_css_isp_param_css_segments *ddr,
--    const struct ia_css_isp_param_host_segments *host,
--    enum ia_css_param_class pclass) {
-+int ia_css_isp_param_copy_isp_mem_if_to_ddr(struct ia_css_isp_param_css_segments *ddr,
-+					    const struct ia_css_isp_param_host_segments *host,
-+					    enum ia_css_param_class pclass)
-+{
+@@ -176,8 +175,7 @@ int ia_css_isp_param_copy_isp_mem_if_to_ddr(struct ia_css_isp_param_css_segments
+ {
  	unsigned int mem;
  
- 	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++)
+-	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++)
+-	{
++	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++) {
+ 		size_t       size	  = host->params[pclass][mem].size;
+ 		ia_css_ptr ddr_mem_ptr  = ddr->params[pclass][mem].address;
+ 		char	    *host_mem_ptr = host->params[pclass][mem].address;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 73bd87f43a8c..e7f2443696d1 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -2256,8 +2256,7 @@ alloc_continuous_frames(struct ia_css_pipe *pipe, bool init_time)
+ 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+ 				    "alloc_continuous_frames() IA_CSS_FRAME_FORMAT_RAW_PACKED\n");
+ 		ref_info.format = IA_CSS_FRAME_FORMAT_RAW_PACKED;
+-	} else
+-	{
++	} else {
+ 		ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
+ 				    "alloc_continuous_frames() IA_CSS_FRAME_FORMAT_RAW\n");
+ 		ref_info.format = IA_CSS_FRAME_FORMAT_RAW;
+@@ -7862,8 +7861,7 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
+ 
+ 	/* check if mipi size specified */
+ 	if (stream_config->mode == IA_CSS_INPUT_MODE_BUFFERED_SENSOR)
+-		if (!IS_ISP2401 || !stream_config->online)
+-		{
++		if (!IS_ISP2401 || !stream_config->online) {
+ 			unsigned int port = (unsigned int)stream_config->source.port.port;
+ 
+ 			if (port >= N_MIPI_PORT_ID) {
 -- 
 2.53.0
 
