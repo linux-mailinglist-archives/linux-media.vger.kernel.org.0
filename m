@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-52587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52589-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YGImNYJHjGkHkgAAu9opvQ
-	(envelope-from <linux-media+bounces-52587-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 10:10:26 +0100
+	id MCBqCZJHjGkHkgAAu9opvQ
+	(envelope-from <linux-media+bounces-52589-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 10:10:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD521228F4
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 10:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA019122903
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 10:10:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6815E3055DD8
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 09:09:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E962F306DF18
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 09:09:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41CB1352F88;
-	Wed, 11 Feb 2026 09:09:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63CA7355022;
+	Wed, 11 Feb 2026 09:09:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fT2aQbkD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIlmv1bO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02E5354AD4
-	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 09:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E6A27EFFA
+	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 09:09:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770800976; cv=none; b=JFnIvNMl72KTZ0lJBqr5ZWnZBCSgy3U2FiMrvCDSip9XNHrqalhDGnI7uLQ9kDZL0DupMypzcaC9ga//pROn/gvvDKJoqAMIxsRUtcWTupivMqzL804kjxEHI5fZVi0r8Wae0tYx7fD8vui7mxQevyK5T858VrNLiyroXFZP/N8=
+	t=1770800977; cv=none; b=aUiGmN+GqlxyMf5WEbEjc494yASz3osJ+npufVVR6yncq2LoHYkGPrmWdJUaMaML0GfUO/7bzJ5LKOXWQnmNQnFYco+5Mc1RIYY9Tx2kR++00e6LuwcvkSFcWwq+ZN3cUYkBnwshZvlNCgZkTcuTuWWt5sfCtpg4GJqJiCfymoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770800976; c=relaxed/simple;
-	bh=B85jHD4wx7Kvu+IP+/42lW/E6wWsYYRigfJ4suOVatw=;
+	s=arc-20240116; t=1770800977; c=relaxed/simple;
+	bh=ieZdqCrbgXt8Q0D0lLKrHvXYJK6iDWCK0+sWmU0Ehpg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VgPiLPfu0+C8VdU6esJoZsSaaVQLHDzO4YYj0DauNyqzAJ9oAYWL/Z1s6XQGo9cbVrtgql0fYzMsqayqdfGXHSHDXaB1Is+CPK4HOIF/y0t38QIJ+yEaJEHirSPPdCXoht9JPwmcZKZb8AULMtsbos1lNZ3SuZNKGvNggZdG+IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fT2aQbkD; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=T0CH8B/eYnssJdKe/pqGJftYeOcHYvvqjLX8xrB0pQlKDEgLd30i2J93ujifsb7zr95HcOIDZRC1iMARRZy8LV04jnOCK6B5mUEeDCJJLLrzdBhqf/GEu4jSbts+g9i5bB+TRc1+7DvfTULQWj+ngH9YXhN5EtlzZlfnnen3d7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KIlmv1bO; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770800975; x=1802336975;
+  t=1770800976; x=1802336976;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=B85jHD4wx7Kvu+IP+/42lW/E6wWsYYRigfJ4suOVatw=;
-  b=fT2aQbkDQT0tmOvdZZkWYn4k9nLzYptmQKvkGfldJZN2gYOmoqqnU0Fa
-   YCsJxCghbq45pIJqv71nWMjjmYvjQVcxpLlP7ohR41u5g7w6ry7TZQb7i
-   8eTCBuIXAsdMOzMw2jsblZCxHP1vrn4iSusUAv+q9tBMqloLcwyCrTEnI
-   mhvIoWc29LrBQjwQ8EbdO2J9wVq4MKb6lRBpvJOTceTA3zFSRyj9Fc0bE
-   3CmJ5UWUR+yyfBKcnIWiQ5323sWXHCWxVDa1lYCm/6rwKQDjdQgraBhHS
-   gKn2Lk54hEqtC3VIysyQM9c6EoWIWfpG3IE+WgBbNkqyANwG6Q/FkRtuZ
-   Q==;
-X-CSE-ConnectionGUID: K2Mc1kSjSceBHMreWNq/XA==
-X-CSE-MsgGUID: mHiRgjEdQXCwUXEykL7keQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="72019032"
+  bh=ieZdqCrbgXt8Q0D0lLKrHvXYJK6iDWCK0+sWmU0Ehpg=;
+  b=KIlmv1bOjQn6hDlEbES6CCIXSXGpjqUb5ZG6kbl5jCKKX+aOLI9iyw/9
+   nRuVTBmNk2cLfOjK/1+M2p5gkm0IAIwLRoj79D1TJGGVlxBWYw2YyBcjW
+   rBbI+x/hV0AygAYfYLbogkcmRdluE7CTc3k6T9nL70fPYmI5YQ3tQwejK
+   1EsPZsdxymo/oDN1jeB6emNOd/YM14Of9qPSIlTv+yArlWJss4II6bVGR
+   IEH6c5L8k4ZcgMMhbfNoyfLtwBqy6ZyyKqkvYvSMrGTFL4mLtyPXDfDIO
+   uMcjORCeRi3BKrZkvtGPAgQIb1ZaLcjfd0VEliA5XewJtgqX7f/3c5u8l
+   g==;
+X-CSE-ConnectionGUID: KDUMx9qhQwCk4rItG2BPFQ==
+X-CSE-MsgGUID: IhXwbgqLRgGa9Q+sL/M8yA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="72019048"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="72019032"
+   d="scan'208";a="72019048"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 01:09:32 -0800
-X-CSE-ConnectionGUID: DR5hW469QbSI2m13HIe5Xw==
-X-CSE-MsgGUID: h4SE5X3VRVmF9xXRiyDr5w==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 01:09:33 -0800
+X-CSE-ConnectionGUID: zM+ZwkDlQ/CnCGCyvl+xZQ==
+X-CSE-MsgGUID: ag9zpxeGT/qIfUjeDvZ6pg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="212222863"
+   d="scan'208";a="212222860"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.208])
   by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 01:09:24 -0800
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id D3082121D6E;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D4DFE121DA3;
 	Wed, 11 Feb 2026 11:09:31 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1vq6Do-00000007laW-2uVf;
+	id 1vq6Do-00000007laa-2zFR;
 	Wed, 11 Feb 2026 11:09:20 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -99,9 +99,9 @@ Cc: hans@jjverkuil.nl,
 	David Plowman <david.plowman@raspberrypi.com>,
 	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v2 12/14] media: v4l2-subdev: Add v4l2_subdev_call_ci_active_state
-Date: Wed, 11 Feb 2026 11:09:18 +0200
-Message-ID: <20260211090920.1851141-13-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 13/14] media: v4l2-subdev: Perform client info changes to i2c drivers
+Date: Wed, 11 Feb 2026 11:09:19 +0200
+Message-ID: <20260211090920.1851141-14-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
 References: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
@@ -127,7 +127,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[29];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-52587-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52589-lists,linux-media=lfdr.de];
 	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -141,84 +141,57 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 3BD521228F4
+X-Rspamd-Queue-Id: BA019122903
 X-Rspamd-Action: no action
 
-Add v4l2_subdev_call_ci_active_state(), to call sub-device pad ops that
-take struct v4l2_subdev_client_info pointer as an argument.
+Perform client info argument related changes to two i2c drivers (s5k5baf
+and tc358743). These changes are not done by Coccinelle scripts in the
+following patch and will be squashed to the previous patch eventually.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- include/media/v4l2-subdev.h | 49 ++++++++++++++++++++++++++++---------
- 1 file changed, 38 insertions(+), 11 deletions(-)
+ drivers/media/i2c/s5k5baf.c                     | 1 +
+ drivers/media/i2c/tc358743.c                    | 2 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 20cf0560c7f9..b22b05534447 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1912,6 +1912,22 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
- 		__result;						\
- 	})
+diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
+index d1d00eca8708..a580b7e63302 100644
+--- a/drivers/media/i2c/s5k5baf.c
++++ b/drivers/media/i2c/s5k5baf.c
+@@ -1463,6 +1463,7 @@ static bool s5k5baf_cmp_rect(const struct v4l2_rect *r1,
+ }
  
-+#define v4l2_subdev_call_waive_fourth(first, second, third, fourth, rest...) \
-+	v4l2_subdev_call(first, second, third, ##rest)
-+
-+#define __v4l2_subdev_call_state_active(call, sd, o, f, args...) \
-+	({								\
-+		int __result;						\
-+		struct v4l2_subdev_state *state;			\
-+		state = v4l2_subdev_get_unlocked_active_state(sd);	\
-+		if (state)						\
-+			v4l2_subdev_lock_state(state);			\
-+		__result = call(sd, o, f, NULL, state, ##args);		\
-+		if (state)						\
-+			v4l2_subdev_unlock_state(state);		\
-+		__result;						\
-+	})
-+
- /**
-  * v4l2_subdev_call_state_active - call an operation of a v4l2_subdev which
-  *				   takes state as a parameter, passing the
-@@ -1930,17 +1946,28 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
-  * active state, lock it before calling the op and unlock it after the call.
-  */
- #define v4l2_subdev_call_state_active(sd, o, f, args...)		\
--	({								\
--		int __result;						\
--		struct v4l2_subdev_state *state;			\
--		state = v4l2_subdev_get_unlocked_active_state(sd);	\
--		if (state)						\
--			v4l2_subdev_lock_state(state);			\
--		__result = v4l2_subdev_call(sd, o, f, state, ##args);	\
--		if (state)						\
--			v4l2_subdev_unlock_state(state);		\
--		__result;						\
--	})
-+	__v4l2_subdev_call_state_active(v4l2_subdev_call_waive_fourth,	\
-+					sd, o, f, ##args)
-+
-+/**
-+ * v4l2_subdev_call_ci_state_active - call an operation of a v4l2_subdev which
-+ *				      takes state as a parameter, passing the
-+ *				      subdev its active state.
-+ *
-+ * @sd: pointer to the &struct v4l2_subdev
-+ * @o: name of the element at &struct v4l2_subdev_ops that contains @f.
-+ *     Each element there groups a set of callbacks functions.
-+ * @f: callback function to be called.
-+ *     The callback functions are defined in groups, according to
-+ *     each element at &struct v4l2_subdev_ops.
-+ * @args: arguments for @f.
-+ *
-+ * This macro is just as v4l2_subdev_call_state_active(), with the exception
-+ * that it passes NULL as the client info to sub-device ops that need it
-+ * (currently pad ops get_fmt, set_fmt, get_selection and set_selection).
-+ */
-+#define v4l2_subdev_call_ci_state_active(sd, o, f, args...)		\
-+	__v4l2_subdev_call_state_active(v4l2_subdev_call, sd, o, f, ##args)
+ static int s5k5baf_set_selection(struct v4l2_subdev *sd,
++				 const struct v4l2_subdev_client_info *ci,
+ 				 struct v4l2_subdev_state *sd_state,
+ 				 struct v4l2_subdev_selection *sel)
+ {
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index a0ca19359c43..59f509aa1939 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -1822,7 +1822,7 @@ static int tc358743_set_fmt(struct v4l2_subdev *sd,
+ 	struct tc358743_state *state = to_state(sd);
  
- /**
-  * v4l2_subdev_call_state_try - call an operation of a v4l2_subdev which
+ 	u32 code = format->format.code; /* is overwritten by get_fmt */
+-	int ret = tc358743_get_fmt(sd, sd_state, format);
++	int ret = tc358743_get_fmt(sd, ci, sd_state, format);
+ 
+ 	if (code == MEDIA_BUS_FMT_RGB888_1X24 ||
+ 	    code == MEDIA_BUS_FMT_UYVY8_1X16)
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+index 35069099c364..d4f76d513dc6 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+@@ -31,6 +31,7 @@ bool ipu6_isys_is_bayer_format(u32 code);
+ u32 ipu6_isys_convert_bayer_order(u32 code, int x, int y);
+ 
+ int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
++			     const struct v4l2_subdev_client_info *ci,
+ 			     struct v4l2_subdev_state *state,
+ 			     struct v4l2_subdev_format *fmt);
+ int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
 -- 
 2.47.3
 
