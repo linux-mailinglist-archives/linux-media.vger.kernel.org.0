@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-52581-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52578-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eLN7IVtHjGkHkgAAu9opvQ
-	(envelope-from <linux-media+bounces-52581-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 10:09:47 +0100
+	id wAvjFEpHjGkHkgAAu9opvQ
+	(envelope-from <linux-media+bounces-52578-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 10:09:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9F91228D0
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 10:09:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D721228AD
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 10:09:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 65CF8302E413
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 09:09:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 602303019B81
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 09:09:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03C62354ACF;
-	Wed, 11 Feb 2026 09:09:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4342C354ACA;
+	Wed, 11 Feb 2026 09:09:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ml5O7IUV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IktnGgkS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338E9354AD4
-	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 09:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B13F70808
+	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 09:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770800966; cv=none; b=lj5ZoZE+d8ph6t9NcQqcbmgLxO/0Agv3JcOzs2UylqEh6wpR2vQ+9Fc9Wi749E2NIL9Ic+M/xU2ZanOuEhqAMzxkaPYB87T83x12ngJUhSKG1wg7nj0+W4BQL4ni6vysNhtHeJdIeWlFlfmkpnWzsATiMwxw5eadwr7IJpEr9EU=
+	t=1770800963; cv=none; b=rGeDrTYQRuWHBJKZXrG/7cYvmMZ+tU5p25mSNyt2JxsMaPgiIG3lH9pUt3bAYuqlJPWRwsQnl6kf6V3nOeskbsN2Brcgs1M2eSs71lHn3tzDQ1ZzyIuYaNvrdGAivF+fXy8OSbhscCPTDz2uQ2pi1a3nLYZuJIYlsMMkhj9Kwwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770800966; c=relaxed/simple;
-	bh=bAwMwkgd7CjdEwH8mKy4oHqYagQfAW66fXJC90aViXE=;
+	s=arc-20240116; t=1770800963; c=relaxed/simple;
+	bh=p+7wLYZRqYGLrHjH4Iw1UW1GedO2euHRAeT7VfN6uxA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JN8uN9Z65tNIk4Zp+SwEAEtlnip+j5mzAQeNweUbZabsHaJLihE6eS16CwSEW62zAtbzYOEXuZpOQXFhsUQnM9AYeLn9cHUDUKtA+uSvYXFDd4Qq2g4Rwjb04uIcJO0xeWgzYlTwMfArMOgiutd6rzpIjnbgP6lQIPs2OYhDumU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ml5O7IUV; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=bsHaXZNiksuO3UxCBYxJvR3IJK9pHRfy0Cnnv5YJObh3DCIHYIUChOAtP6KH2xqtOFGnClFmduh9mkkVOHLWZQDCIpn6M6lfcJN53eq29o2kQH9w77t4R0r/utRdvt8G+f1eizpCiTwa7+2l7Z/JGQdgm7Mh7WZcA8oTgbIBdIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IktnGgkS; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770800965; x=1802336965;
+  t=1770800962; x=1802336962;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bAwMwkgd7CjdEwH8mKy4oHqYagQfAW66fXJC90aViXE=;
-  b=Ml5O7IUVowKFdOxxuTj/Y0lVJdFuH2zqpMGG7ra13JqK9pvMuyebuHcb
-   1A/gjYPJFgfIDwesrtty5oC5BPujSdtkQNiSRKQKCePHMfCLc63GpGre2
-   jW/zVrQG+OD3M3vK+HPci7CAoXfG7W6u5WHWP+RlRhYsHVJSZT/pB/Pmr
-   o5aRIjYpgx6o53AAaN2cqvGf8NciTmzAoZR3db4rGKrPFlv05gblEasy+
-   1HZB1Ff5rpq+UaobejcWn3S7SA9IciO4TOlvefI9jPiYcymrrCAv1WFNr
-   coIRR+iT9t2Zgt3mQwS6+vLJ8rpPk/fqGCfFb0T2ZvYmTXNb6EB5j+OMj
+  bh=p+7wLYZRqYGLrHjH4Iw1UW1GedO2euHRAeT7VfN6uxA=;
+  b=IktnGgkSHWx4r8UnJGglnZNLOZ6VHgW+UKqwNZ1vZko6eAjXNpRYTEJZ
+   j1iUdo4xhlpAczdc8YbE5qz8cjlfyrs1LzUDqRcsm+8IatmfySNx8pRzG
+   vsUPvconZs3uTOFuTuviN46ctrh2ixOESVYkNc7zqkTuDBa4tKRdfpbKH
+   D2a5/YpLO6rw5mquw0FWTRTPlL/o2UcYALZfejiG7Hb+DNdJArpJDRL7k
+   1LWo+sCxaCCdRAIIIxVYBs9GmRkSYTzTjoCkYDom8Up4a83LheljJwlM1
+   ErPpv5rUH9L0lCVJQ38T/ENaQxZfI+TMa+9wCsAPSI8f2h2qPx5Q7JRZD
    g==;
-X-CSE-ConnectionGUID: OPfUfROHQZWrG6WFAIsyoA==
-X-CSE-MsgGUID: Y70BSW++RIimGIW3rybRTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="72018932"
+X-CSE-ConnectionGUID: jlGhLmm6S0yQTJds82R1nw==
+X-CSE-MsgGUID: 4xzG3o+hSS679xp7DsZ8qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="72018900"
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="72018932"
+   d="scan'208";a="72018900"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 01:09:21 -0800
-X-CSE-ConnectionGUID: AJ9zxxgQTS+XUsbvGb43Eg==
-X-CSE-MsgGUID: EEs+OzR+TICGvKu4fKM6hQ==
+X-CSE-ConnectionGUID: M4T34fRSRVexM0gd/fcvCw==
+X-CSE-MsgGUID: h+xHDfUHRiC/JsKjZheOtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="212222789"
+   d="scan'208";a="212222784"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.208])
   by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 01:09:15 -0800
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id A686A121D3A;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id A7DE0121D42;
 	Wed, 11 Feb 2026 11:09:31 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1vq6Do-00000007lZo-26UR;
+	id 1vq6Do-00000007lZs-2BgK;
 	Wed, 11 Feb 2026 11:09:20 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -99,9 +99,9 @@ Cc: hans@jjverkuil.nl,
 	David Plowman <david.plowman@raspberrypi.com>,
 	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: [PATCH v2 01/14] media: imx219: Rename "PIXEL_ARRAY" as "CROP"
-Date: Wed, 11 Feb 2026 11:09:07 +0200
-Message-ID: <20260211090920.1851141-2-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 02/14] media: v4l2-subdev: Allow accessing routes with STREAMS client capability
+Date: Wed, 11 Feb 2026 11:09:08 +0200
+Message-ID: <20260211090920.1851141-3-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
 References: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
@@ -127,7 +127,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[29];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-52581-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52578-lists,linux-media=lfdr.de];
 	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -141,82 +141,41 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 1E9F91228D0
+X-Rspamd-Queue-Id: 91D721228AD
 X-Rspamd-Action: no action
 
-The imx219 driver uses macros for denoting different aspects of the pixel
-array. The values used for IMX219_PIXEL_ARRAY_* macros imply a crop
-configuration however, not the size of the pixel array. Reflect this in
-the naming, too.
+Disable access to routes when the STREAMS client capability bit isn't set.
+Routes aren't relevant otherwise anyway.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/imx219.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index fee63bc106d9..54622c406a03 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -142,10 +142,10 @@
- /* IMX219 native and active pixel array size. */
- #define IMX219_NATIVE_WIDTH		3296U
- #define IMX219_NATIVE_HEIGHT		2480U
--#define IMX219_PIXEL_ARRAY_LEFT		8U
--#define IMX219_PIXEL_ARRAY_TOP		8U
--#define IMX219_PIXEL_ARRAY_WIDTH	3280U
--#define IMX219_PIXEL_ARRAY_HEIGHT	2464U
-+#define IMX219_CROP_LEFT		8U
-+#define IMX219_CROP_TOP			8U
-+#define IMX219_CROP_WIDTH		3280U
-+#define IMX219_CROP_HEIGHT		2464U
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 66842b975f91..b2105c34478e 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -1008,6 +1008,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+ 			return -ENOIOCTLCMD;
  
- /* Mode : resolution and related config&values */
- struct imx219_mode {
-@@ -675,13 +675,13 @@ static int imx219_set_framefmt(struct imx219 *imx219,
- 	bpp = imx219_get_format_bpp(format);
++		if (!client_supports_streams)
++			return -EINVAL;
++
+ 		memset(routing->reserved, 0, sizeof(routing->reserved));
  
- 	cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
--		  crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
-+		  crop->left - IMX219_CROP_LEFT, &ret);
- 	cci_write(imx219->regmap, IMX219_REG_X_ADD_END_A,
--		  crop->left - IMX219_PIXEL_ARRAY_LEFT + crop->width - 1, &ret);
-+		  crop->left - IMX219_CROP_LEFT + crop->width - 1, &ret);
- 	cci_write(imx219->regmap, IMX219_REG_Y_ADD_STA_A,
--		  crop->top - IMX219_PIXEL_ARRAY_TOP, &ret);
-+		  crop->top - IMX219_CROP_TOP, &ret);
- 	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
--		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
-+		  crop->top - IMX219_CROP_TOP + crop->height - 1, &ret);
+ 		krouting = &state->routing;
+@@ -1035,6 +1038,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+ 			return -ENOIOCTLCMD;
  
- 	imx219_get_binning(state, &bin_h, &bin_v);
- 	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
-@@ -867,8 +867,8 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	 * Use binning to maximize the crop rectangle size, and centre it in the
- 	 * sensor.
- 	 */
--	bin_h = min(IMX219_PIXEL_ARRAY_WIDTH / format->width, 2U);
--	bin_v = min(IMX219_PIXEL_ARRAY_HEIGHT / format->height, 2U);
-+	bin_h = min(IMX219_CROP_WIDTH / format->width, 2U);
-+	bin_v = min(IMX219_CROP_HEIGHT / format->height, 2U);
++		if (!client_supports_streams)
++			return -EINVAL;
++
+ 		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
+ 			return -EPERM;
  
- 	/* Ensure bin_h and bin_v are same to avoid 1:2 or 2:1 stretching */
- 	binning = min(bin_h, bin_v);
-@@ -967,10 +967,10 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
- 
- 	case V4L2_SEL_TGT_CROP_DEFAULT:
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
--		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
--		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
--		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
--		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
-+		sel->r.top = IMX219_CROP_TOP;
-+		sel->r.left = IMX219_CROP_LEFT;
-+		sel->r.width = IMX219_CROP_WIDTH;
-+		sel->r.height = IMX219_CROP_HEIGHT;
- 
- 		return 0;
- 	}
 -- 
 2.47.3
 
