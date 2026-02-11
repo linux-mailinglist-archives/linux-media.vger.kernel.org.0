@@ -1,207 +1,164 @@
-Return-Path: <linux-media+bounces-52570-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52571-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kCeXLqQ5jGlZjgAAu9opvQ
-	(envelope-from <linux-media+bounces-52570-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 09:11:16 +0100
+	id uA7jI7I6jGlZjgAAu9opvQ
+	(envelope-from <linux-media+bounces-52571-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 09:15:46 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE35122178
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 09:11:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2902A122230
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 09:15:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0D2FF303983A
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 08:11:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 266DD3031F3B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 08:15:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5707234FF71;
-	Wed, 11 Feb 2026 08:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 031DB34FF49;
+	Wed, 11 Feb 2026 08:15:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpqvuFzV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mGwYWPig"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70AA26F288
-	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 08:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F202E3A8F7;
+	Wed, 11 Feb 2026 08:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770797470; cv=none; b=tq3MA6HlH/43viubDlFam+7xS/IvqbqL9MqSeyFd24vfiYAS61M95MN7Fh/Y7JljMiV3Zi8C1FGYVobDvCXrJ7aDWpnB+R/2atPXAGqHHf102pY3JOWDkYREnabvqVV1L+j2qEosMXS2ldHWWr4LCA2aZz3146FOPyTYE79W8/Y=
+	t=1770797742; cv=none; b=MzL5JAzkVtq6NK/yuWL5KPzgZ4D1am0K2EaWO5NMudPqV1nQ4LnyUni6rWrtFt4mVjEpWeukZs8yp+Stj2bIppce03jQMXOAeQf5hurBV+DMBH+RB7YAvRQcGRMqme19F2BCfXostoDLnCIU8zLXBblO33N6wVmwf/hUlXneSW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770797470; c=relaxed/simple;
-	bh=vEWtSjI7oE3dEQMS8DNtczztK7/1TVIR72DOtPCM4x4=;
+	s=arc-20240116; t=1770797742; c=relaxed/simple;
+	bh=S9Nngd5Ci9bMCWrJoyP4sJg8P5P3CQre1ZbUDiRpvZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YEnaUnrJY+bzDt1AEeEqh3Llr7G2nqBU4lyDeX8rOoKslXzLVTXwmKnqltSqmHho53jdjr9D1IYrEiMTuiChMZZjAvTVPpjmcD76FuJjggr7/bXCCKzNbyXTBrHqTnOW4NRb7Jl4m5Z6Eq/ezdotGRdUb/W7KADtbxvD5BKOVbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpqvuFzV; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770797469; x=1802333469;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vEWtSjI7oE3dEQMS8DNtczztK7/1TVIR72DOtPCM4x4=;
-  b=fpqvuFzVPy9eYWA9+jl/UNjzU0HjIXvvvOdMMCAQT/1FVy5J4s9C+8KQ
-   zkCrp6/bK2ALGFW55kt702WN4669v+Cpds/ZDgqMfb6pxbsT6bpAiwFfG
-   o5/n70NLd+slWOQoSCXG6PCHTF8ATJ5RO6d4fxZ38kYE4+v4blJY1TrCy
-   YUZCmZ0Cf25S0ZLZrxpvRUNjAqEb+Sy9BjiKu9hFK+l+W4JG2UvF4R+hg
-   96pdd8/YnK436+4vfHRww4Z3lXWwE0S1Tu1y792aTxWCO/oh1vQNvBfq8
-   fFfbnhWq9KWbWQVEHQhX5CswTTx+gXTAFsA/1uxPM8Ay9x8E1cVrRwdZv
-   w==;
-X-CSE-ConnectionGUID: 1iS8jpXFTRiPMLfHhURRZQ==
-X-CSE-MsgGUID: sMIqW4x+SJilJsKgCurf3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="75563961"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="75563961"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 00:11:09 -0800
-X-CSE-ConnectionGUID: OhKjo5noQY6SfyiMwvqpzQ==
-X-CSE-MsgGUID: Oxr2ZQwTRBqg550PGPWlcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="212264951"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.208])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 00:11:08 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id F1009121D36;
-	Wed, 11 Feb 2026 10:11:23 +0200 (EET)
-Date: Wed, 11 Feb 2026 10:11:23 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: soufianeda@tutanota.com, linux-staging@lists.linux.dev,
-	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
-	Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] staging: atomisp: fix heap buffer overflow in
- framebuffer conversion
-Message-ID: <aYw5q_gsHOmKAIhK@kekkonen.localdomain>
-References: <20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com>
- <aYt-vrc7h7CJOmSu@stanley.mountain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Woy5E7yBO3ltGWW7N5bvYPVJMKb3ntK+8JYCjrji+i53ePjBwzywiDslWFvVOOa1z/XVTcclyeHYkqgii/qZj2W/iEMW0nQ1W8ReV9ti01FaS6l5LaOW7gLbbmeGXKJCRKpx+wYmsh5zOEAN9pYnGbbcIiqjAn1oLyr4UYhALE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mGwYWPig; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B1A5912D6;
+	Wed, 11 Feb 2026 09:14:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1770797684;
+	bh=S9Nngd5Ci9bMCWrJoyP4sJg8P5P3CQre1ZbUDiRpvZk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mGwYWPigmx0VdBS6cJ/3BU3eujbykhWplrGRhfHhbcS27MQWTDKnGAYvaa/+wyGpQ
+	 h2M4jryw0SnLwAiD/H2tTUsrH3oZ1cuCLXx9vBh0ufkcRR5Xu9XgWeUGoMDUGzfFMM
+	 Ny+RfNy4P9ShnDbMutXWAUEcZaH+fhfHo9G/eWJc=
+Date: Wed, 11 Feb 2026 10:15:30 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Xiaolei Wang <xiaolei.wang@windriver.com>
+Cc: tomi.valkeinen@ideasonboard.com, kernel-list@raspberrypi.com,
+	mchehab@kernel.org, florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com, hverkuil@xs4all.nl,
+	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rp1-cfe: Fix double-free on video device
+ re-registration
+Message-ID: <20260211081530.GB2553356@killaraus.ideasonboard.com>
+References: <20260211034501.1815035-1-xiaolei.wang@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aYt-vrc7h7CJOmSu@stanley.mountain>
+In-Reply-To: <20260211034501.1815035-1-xiaolei.wang@windriver.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52571-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[ideasonboard.com,raspberrypi.com,kernel.org,broadcom.com,xs4all.nl,linux.intel.com,vger.kernel.org,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-52570-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,kekkonen.localdomain:mid]
-X-Rspamd-Queue-Id: 1FE35122178
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: 2902A122230
 X-Rspamd-Action: no action
 
-Hi Dan, Soufiane,
+Hi Xiaolei,
 
-On Tue, Feb 10, 2026 at 09:53:50PM +0300, Dan Carpenter wrote:
-> On Tue, Feb 10, 2026 at 04:26:31PM +0100, Soufiane via B4 Relay wrote:
-> > From: Soufiane <soufianeda@tutanota.com>
-> > 
-> > Validate sizeimage against the allocated frame buffer size before
-> > hmm_store() to prevent out-of-bounds write.
-> > 
-> > Signed-off-by: Soufiane <soufianeda@tutanota.com>
+On Wed, Feb 11, 2026 at 11:45:01AM +0800, Xiaolei Wang wrote:
+> When a sensor driver is unloaded and reloaded (e.g., rmmod/insmod ov5647),
+> the cfe_async_complete callback is invoked again, attempting to re-register
+> video nodes that are still registered. This causes multiple issues:
 > 
-> We need a Fixes tag if the bug is real.
+> 1. KASAN double-free in kfree_const when dev_set_name tries to free the
+>    kobject name that was already freed during video_unregister_device
+> 2. "tried to init an initialized object" warnings because the video_device
+>    kobject is re-initialized before being fully released
 > 
-> > ---
-> >  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-> > index 3a4eb4f6d3be..ca7ffc7855ac 100644
-> > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-> > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-> > @@ -3326,6 +3326,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
-> >  		goto err;
-> >  	}
-> >  
-> 
-> There is some sketchy stuff happening in this code but I'm not sure I
-> understand the issue.  The code looks like this:
-> 
->   3317          /* Note: the padded width on an ia_css_frame is in elements, not in
->   3318             bytes. The RAW frame we use here should always be a 16bit RAW
->   3319             frame. This is why we bytesperline/2 is equal to the padded with */
->   3320          if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
->   3321                                         sh_format, padded_width, 0)) {
-> 
-> This allocates res.  Why would it allocate something smaller than
-> arg->fmt.sizeimage?  How did you find this bug?  By testing or reading
-> the code?  Do you have a reproducer?
-> 
->   3322                  ret = -ENOMEM;
->   3323                  goto err;
->   3324          }
-> 
-> > +	if (arg->fmt.sizeimage > res->data_bytes) {
-> > +		ret = -EINVAL;
-> > +		goto err;
-> > +	}
-> > +
-> 
->   3325  
->   3326          tmp_buf = vmalloc(arg->fmt.sizeimage);
->   3327          if (!tmp_buf) {
->   3328                  ret = -ENOMEM;
->   3329                  goto err;
->   3330          }
->   3331          if (copy_from_user(tmp_buf, (void __user __force *)arg->base,
->   3332                             arg->fmt.sizeimage)) {
->   3333                  ret = -EFAULT;
->   3334                  goto err;
->   3335          }
->   3336  
->   3337          if (hmm_store(res->data, tmp_buf, arg->fmt.sizeimage)) {
->                               ^^^^^^^^^
-> The worry is that the buffer this references is too small.  I would
-> prefer instead if there were some bounds checking before the memcpy()
-> calls in hmm_store().  They would use a different, smaller limit if
-> only part of the buffer could be used.  I don't know if that bounds
-> checking is really required though...
+> Fix this by:
+> - Adding a check in cfe_probe_complete() to skip nodes already in
+>   NODE_REGISTERED state, preventing duplicate registration attempts
+> - Implementing cfe_async_unbind() callback to properly clear the
+>   source_sd pointer when the subdevice is unbound
 
-Indeed. Beyond that, even I have to admit I have little idea what this
-IOCTL is supposed to be doing. Possibly feed in a raw frame for processing?
-But that's not supposed to be implemented like this... The TODO file
-contains an entry that says "Remove/disable private IOCTLs" -- we should
-move to use parameter buffers instead.
+I think a better fix would be to register video nodes at probe time, not
+when sensors are bound.
 
-I'm not sure anyone depends on these IOCTLs at the moment, but definitely
-some obviously are associated with some risk.
-
-The world looked different when this code was written.
-
-I'd disable all private IOCTLs in the driver, with the possible exception
-of ATOMISP_IOC_S_ISP_PARM, which is close to the parameter buffer approach
-already.
-
-Also cc LMML, Greg and Andy.
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> ---
+>  drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> index 62dca76b468d..d3813c79316d 100644
+> --- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> +++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> @@ -2152,6 +2152,9 @@ static int cfe_probe_complete(struct cfe_device *cfe)
+>  	cfe->v4l2_dev.notify = cfe_notify;
+>  
+>  	for (unsigned int i = 0; i < NUM_NODES; i++) {
+> +		if (check_state(cfe, NODE_REGISTERED, i))
+> +			continue;
+> +
+>  		ret = cfe_register_node(cfe, i);
+>  		if (ret) {
+>  			cfe_err(cfe, "Unable to register video node %u.\n", i);
+> @@ -2204,8 +2207,19 @@ static int cfe_async_complete(struct v4l2_async_notifier *notifier)
+>  	return cfe_probe_complete(cfe);
+>  }
+>  
+> +static void cfe_async_unbind(struct v4l2_async_notifier *notifier,
+> +			     struct v4l2_subdev *subdev,
+> +			     struct v4l2_async_connection *asd)
+> +{
+> +	struct cfe_device *cfe = to_cfe_device(notifier->v4l2_dev);
+> +
+> +	cfe->source_sd = NULL;
+> +	cfe_info(cfe, "Unbinding subdev %s\n", subdev->name);
+> +}
+> +
+>  static const struct v4l2_async_notifier_operations cfe_async_ops = {
+>  	.bound = cfe_async_bound,
+> +	.unbind = cfe_async_unbind,
+>  	.complete = cfe_async_complete,
+>  };
+>  
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
