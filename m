@@ -1,161 +1,179 @@
-Return-Path: <linux-media+bounces-52606-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52607-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mC1ADjmGjGmfqAAAu9opvQ
-	(envelope-from <linux-media+bounces-52606-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 14:38:01 +0100
+	id CKtvLceGjGmfqAAAu9opvQ
+	(envelope-from <linux-media+bounces-52607-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 14:40:23 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC469124D5B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 14:38:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C8F124DCE
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 14:40:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 18CFE30059B1
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 13:38:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 444DB302A69B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 13:39:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9325E285061;
-	Wed, 11 Feb 2026 13:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5F1B2FE04E;
+	Wed, 11 Feb 2026 13:39:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b="MggHiK+T"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q+nUAoil"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71A021FF48
-	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 13:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFB0C8EB;
+	Wed, 11 Feb 2026 13:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770817076; cv=none; b=ZG3Efuyk1FIMkeLk0C0kcg//yiRYispBf/ANsBdRshWA843qsXKmn2894D1oxftJVDpH6+PWlZPOHyltZ00m8YUbz2gdxd2egxk5n0zeXmrMb6Mju38hrD5u/UMI+3/nr5i39zxOf/Ve0FChUROTFLSMfxV4VaJSHoZkiWSIsdU=
+	t=1770817173; cv=none; b=Kt8MSnRSkJiiBQctHJuvCIsZ51MuW+/zI8BTG34ieETQstagfp5ABPyuZ0/fc202SVu0D4myL7KWO+T1Wr7LSagKjX2MGdFUrEW4krI7cuwcN6nDqnCoqZNZTuv0LRlxDa8rQTNq/uriZJqp6gUBF1mV2RAUwMiKoIF45fuxyk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770817076; c=relaxed/simple;
-	bh=9W2G5JcTGD+030lOPS8a6WSy6+wSQZ5q8+t2hBKxMqw=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=kdN5l9v34/oCZ+VJQ8GsolpK3Jf1sAzTmRgwXFLHoTMdru7iZc8T6IXvguJHIzzDlOUC2zSMADszEZ+RvC7RsXjFP+xADNxnWmkNNwnnQ0EqAb+Lx7bTNav7fFbmo1NxocGz9cxW2v9FboNW9xoH28ZsR2a9cedQxfMwkYqYk5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutanota.com; spf=pass smtp.mailfrom=tutanota.com; dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b=MggHiK+T; arc=none smtp.client-ip=185.205.69.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutanota.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutanota.com
-Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w13.tutanota.de (Postfix) with ESMTP id 497E210BD3DC3
-	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 14:37:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770817073;
-	s=s1; d=tutanota.com;
-	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
-	bh=9W2G5JcTGD+030lOPS8a6WSy6+wSQZ5q8+t2hBKxMqw=;
-	b=MggHiK+T8VhOvf1PLrMnRUMFZ4yRojN3FqiztXdTz8jun/UedAeUHgJ750ylRE1U
-	qR5bdWpnZHDUrk6BFKpyEyMESgmV9s/4aDAvyMOfLFOvFkMOKYpGHTfmFk89qV2trvb
-	aXjRZVFWc5yryiZUK0sK6Zb6kLV77KLYm3/4PVybjsxWb1iY7Qp/A7HjoFef6TQ0Mh+
-	VQPQCKjyUM/udEOJb6CaS2V8KMDuU8hyqe/u8xLtKEG8tl4Z3js6SpgwvdkrpOBr8xF
-	UEa1Q82fISzuCoGv0K3xoh35FUOq2IGurvuqcHh8aGxFqchFxaKv3UHtvw4+dZul26/
-	t4YMM58CIQ==
-Date: Wed, 11 Feb 2026 14:37:53 +0100 (CET)
-From: soufianeda@tutanota.com
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Linux Media <linux-media@vger.kernel.org>,
-	Linux Staging <linux-staging@lists.linux.dev>,
-	Gregkh <gregkh@linuxfoundation.org>,
-	Johannes Goede <johannes.goede@oss.qualcomm.com>,
-	Andy <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Message-ID: <OlBv1uI--R-9@tutanota.com>
-In-Reply-To: <aYwVNjC7Zbhr_4vo@stanley.mountain>
-References: <20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com> <aYt-vrc7h7CJOmSu@stanley.mountain> <Ol83sWa--F-9@tutanota.com> <aYwVNjC7Zbhr_4vo@stanley.mountain>
-Subject: Re: [PATCH] staging: atomisp: fix heap buffer overflow in
- framebuffer conversion
+	s=arc-20240116; t=1770817173; c=relaxed/simple;
+	bh=smH6/u2dHedP1RNEYZ2moMcAIaSKU0/J5N0ml/3MVps=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qMI2sVNfiB8XqOU01QH+lQt5uuTKtswVqQ3jnoSeHx5nqLzIs8hasdI5rl1bkdQsNm6OQcRBwjm+90+8Rv0U9U9wnkWBYAHcxNHmstZZlyGTaVTP+ekL5COP81+P5s4M5OKETAwZRGRMS79hNJfVbsYkupp20K5oAY4ihSuM6bU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q+nUAoil; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61BAHuGA2298192;
+	Wed, 11 Feb 2026 13:39:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ovI1Of9i62sla3VPPmetJfS7B15pM70XX/7h+Sqz6lA=; b=Q+nUAoilRCx10j9x
+	vQ+AyqWj2qjbPb29vWOWq6f+dq5u/A8+jt4hlppekwd8wUg9iHcnCRoZ5SOXapHY
+	prmcLSxb8qxUi2HuAhaACIoTbznrCXlxdhWR4A7OgIdb83puTB65d9DrNTvA7dUM
+	p1u/1yy01aaHza6Jhm490vX2hv8rGOt/uBT2F+8gF/6p9aCMSsTIM+0/qHCzCvyi
+	JDThK6KV7kd7YMUEaTjtRYF1mzOe0T98WyRBu0vbvFV7fZUje71pEJG12q6P3Zfl
+	nR38BtZJ41CmQBbk3FA9h3QnWnTgQYWJb5ROeeDtWG6clBV22TbzKiAqvzBu2Nug
+	PMw3+A==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c8qvq8jrm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Feb 2026 13:39:27 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 61BDdQhc031031
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Feb 2026 13:39:26 GMT
+Received: from [10.216.0.199] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 11 Feb
+ 2026 05:39:16 -0800
+Message-ID: <675789d0-9fea-4ee6-a368-e1ec0f2c5a8d@quicinc.com>
+Date: Wed, 11 Feb 2026 19:09:06 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Feedback-ID: 01942f2d6730cf62a97c7cea648ee3955a02563caa9cabc06f7a1657ed38cd89e45b3b265ac75872da62f850375ec2fec65ecca3f233db501351f9ed31f2eeac4a:TurnOnPrivacy!:tutamail
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 5/5] arm64: dts: qcom: monaco-evk-camera: Add DT
+ overlay
+To: Krzysztof Kozlowski <krzk@kernel.org>, <bryan.odonoghue@linaro.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <loic.poulain@oss.qualcomm.com>,
+        <rfoss@kernel.org>, <andi.shyti@kernel.org>,
+        <linux-i2c@vger.kernel.org>, <cros-qcom-dts-watchers@chromium.org>
+CC: <quic_svankada@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Ravi Shankar <quic_rshankar@quicinc.com>,
+        Vishal Verma <quic_vishverm@quicinc.com>,
+        Vladimir Zapolskiy
+	<vladimir.zapolskiy@linaro.org>,
+        Konrad Dybcio
+	<konrad.dybcio@oss.qualcomm.com>
+References: <20260121183142.1867199-1-quic_nihalkum@quicinc.com>
+ <20260121183142.1867199-6-quic_nihalkum@quicinc.com>
+ <32c4d3c3-6cbc-42cc-8c6e-7f1d0d35cc2c@kernel.org>
+ <7889e13e-fd81-42aa-873c-92de641e1979@quicinc.com>
+ <c9d1e8ca-253a-4e87-8dc7-d2036737b5e4@kernel.org>
+ <d63a0663-626e-416c-a5b4-e7d91f158b44@quicinc.com>
+ <8f8d7469-5edb-4718-997e-9cd01f7a9689@kernel.org>
+Content-Language: en-US
+From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+In-Reply-To: <8f8d7469-5edb-4718-997e-9cd01f7a9689@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 7fOO1Wx2NiT14tvRyLQp7kLG0CysBqbN
+X-Authority-Analysis: v=2.4 cv=Q77fIo2a c=1 sm=1 tr=0 ts=698c868f cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=NOhv38UlziJEWAsVEukA:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+X-Proofpoint-GUID: 7fOO1Wx2NiT14tvRyLQp7kLG0CysBqbN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjExMDEwNSBTYWx0ZWRfXxSRwkFB9eYH3
+ ezFbL4P7AnClBQYUlCrKmf0+wL+TwiywkjcS8CgotxyHtVtBXsUE+gFinTf/BjgbFcdlPxdX8ko
+ uwITtWPnQSWQNpTQwNvsriAd2NWx/2y5gu1DFFwHUoIOaeU65TyKP/dnTdTACXKQeWDpE9o3re1
+ q4w6XCfsMi0o6VySMFPLi2nmd2C02UA+N6+zwSYVkNse7y/p+8DpaHoMm/4hF7dQ0YFveRFu262
+ 0IxvwgRCSyJtrKMa62Sf/Hj8djD54UAYe55uaKTuIZQJudWccChT3nm+kV/AxNRwqh7MsGEgnHD
+ ReoDjKMCnpp4zZNcN2frwH+gHG1fmqwQQpgSq6ZOHqNWA/y/vPCIXyi1JHdq/apJAF7/p3B+LFA
+ EZxMbTj9K2a4cg2VlBXsGKCCD/zuzqKJpK09Gl0vHgDOqHypk/TAhfEjGv+srX+GFkfH6i3cs0+
+ xFfN18qyZInlgZnU9gg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-11_01,2026-02-11_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 spamscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602110105
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[tutanota.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[tutanota.com:s=s1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[quicinc.com,none];
+	R_DKIM_ALLOW(-0.20)[quicinc.com:s=qcppdkim1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52606-lists,linux-media=lfdr.de];
-	FROM_NEQ_ENVFROM(0.00)[soufianeda@tutanota.com,linux-media@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[tutanota.com:+];
-	FROM_NO_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	TAGGED_FROM(0.00)[bounces-52607-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,linaro.org,xs4all.nl,oss.qualcomm.com,vger.kernel.org,chromium.org];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CC469124D5B
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,quicinc.com:mid,quicinc.com:dkim];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[quic_nihalkum@quicinc.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[quicinc.com:+];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 20C8F124DCE
 X-Rspamd-Action: no action
 
-Hi Dan,
 
-The issue is that res->data_bytes and arg->fmt.sizeimage are computed
-from independent sources with no validation linking them.
 
-ia_css_frame_allocate() computes data_bytes internally based on
-width, height, format, and padded_width through frame_init_planes():
+On 10-02-2026 18:21, Krzysztof Kozlowski wrote:
+>> Renaming "cpas_ahb" to "ahb" aligns the DTS with the binding and clears
+>> the warning. Please advise if you prefer a different approach.
+> I said this was not build-time tested. I gave a proof of that.
+> 
+> You said it was build tested but you confirm it has build error.
+> 
+> Listen, when tools report you errors and maintainers say your code does
+> not pass basic tests, don't insist that this was basic tested.
+> 
+> It was not and discussing this just wastes our time. I am not going to
+> spend more time on this discussion, wasted already too much.
 
-=C2=A0 frame_allocate_with_data()
-=C2=A0=C2=A0=C2=A0 -> frame_create(width, height, ...)
-=C2=A0=C2=A0=C2=A0 -> ia_css_frame_init_planes()
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -> frame_init_single_plane() / frame_i=
-nit_nv_planes() / ...
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -> frame->data_bytes=
- =3D stride * height=C2=A0 (varies by format)
-=C2=A0=C2=A0=C2=A0 -> frame_allocate_buffer_data()
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -> hmm_alloc(frame->data_bytes)
+Apologies for the inconvenience, Krzysztof.
+I will discuss this internally with the team and resend the patch accordingly.
 
-But arg->fmt.sizeimage is a separate user-controlled field in
-struct v4l2_framebuffer. Nothing enforces that sizeimage matches
-the data_bytes computed from width/height/format. A user can pass:
-
-=C2=A0 width=3D100, height=3D100=C2=A0 -> small data_bytes allocation
-=C2=A0 sizeimage=3D1048576=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -> 1MB copy via hm=
-m_store()
-
-The hmm_store() then does memcpy() with the sizeimage length into
-the data_bytes-sized buffer.
-
-I found this by code review, then confirmed with a userspace harness
-compiled with AFL++/ASAN that simulates the allocation and copy. The
-ASAN output shows heap-buffer-overflow immediately with mismatched
-values.
-
-The ioctl path is:
-
-=C2=A0 ioctl(fd, ATOMISP_IOC_S_ISP_FPN_TABLE, &fb)
-=C2=A0=C2=A0=C2=A0 -> atomisp_fixed_pattern_table()
-=C2=A0=C2=A0=C2=A0 -> atomisp_v4l2_framebuffer_to_css_frame()
-
-Regarding your suggestion about bounds checking in hmm_store() -
-that would also work, but hmm_store() is a generic function used
-elsewhere. Validating at the call site before we even vmalloc the
-oversized tmp_buf seems cleaner and catches it earlier.
-
+-- 
 Regards,
-Soufiane Dani
-
-11 Feb 2026 at 06:35 by dan.carpenter@linaro.org:
-
-> Please send this email to the list.
->
-> This information is not secret and should be included in the
-> commit message.
->
-> regards,
-> dan carpenter
->
->
+Nihal Kumar Gupta
 
 
