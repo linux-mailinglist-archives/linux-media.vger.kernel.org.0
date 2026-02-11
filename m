@@ -1,213 +1,221 @@
-Return-Path: <linux-media+bounces-52608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52609-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sLopNJqHjGmHqgAAu9opvQ
-	(envelope-from <linux-media+bounces-52608-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 14:43:54 +0100
+	id +CmMAd6RjGlQrAAAu9opvQ
+	(envelope-from <linux-media+bounces-52609-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 15:27:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159CA124E12
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 14:43:54 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B77912536F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 15:27:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 379F230191A7
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 13:43:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id ED04F30D8F20
+	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 14:22:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 601852F49F0;
-	Wed, 11 Feb 2026 13:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B88212BDC3E;
+	Wed, 11 Feb 2026 14:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b="AzvX818i"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RvqJEAWa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65805191F94
-	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 13:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5AB329BDAB
+	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 14:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770817400; cv=none; b=aml9T55Gr39Pbc4pvdmYumrkWjVLa2ka04QCKWRbJPTW3uShYTu+O//FsAhgBJZGFYBgwNOBn48YG0BDikgs/2UtAyhmp/froFSMjDcdeQpdiWbCBBULjbWcDi3Zavv0VJhLH5/tNiLvvuTVCOE+3kgrlScdZpnaU+nAkp0G4/g=
+	t=1770819766; cv=none; b=uq87JseP1MLsxpFCrb857n1o00lvOYjMgJnP8GodtwEcsqejDZNSA3o4iMcmgPFAp8wGgyqbZpJuhSagOYpPHd4Fu2DxrkfmoOB+YOEHSpAqkjrp9EEBjZfspr0igi/zT41lKSjDW8rBs4vAGSYxO1uAL2N/u8MwQxfRZc5V+Bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770817400; c=relaxed/simple;
-	bh=QM3Mo7mLeSHu1hU7LX9/FdQYo0PSovytQRy1ZreRZpI=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=nY+OMQj0idVAkj3NDQlXX5oDHBjM6CFlMA2jkdR67G0J6TX6lWoYt0G0OPL8X2+Euhsr98k4oYpkTbsUg1zSdA//7HKujUsKdx6VWvSCuMXz2Kp2xg3/RJki+O2srQqHbThfpo2lB3bwqPYbf/A+AMbD1czjgj+ti9tFLfGXeeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutanota.com; spf=pass smtp.mailfrom=tutanota.com; dkim=pass (2048-bit key) header.d=tutanota.com header.i=@tutanota.com header.b=AzvX818i; arc=none smtp.client-ip=185.205.69.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutanota.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutanota.com
-Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w13.tutanota.de (Postfix) with ESMTP id C4F9510BD47BF
-	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 14:43:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770817397;
-	s=s1; d=tutanota.com;
-	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:References:Sender;
-	bh=6SJRPizldFxZe9bSCcasHL3MytvyEuxH+Zw4TlFCTAA=;
-	b=AzvX818ixqx4Okqk152+OkVmRsOC7Z6C0Zgim6+iJ0mhMKMOsy+il7uO2FD5FbPm
-	QvB7Ec2QeYatOYN9VQMP64uo4TAX6en/IdEa4xaMxuXlLIHlZq0PFm/fY+1azjDQJJU
-	0cf1MvEXHSX5j06PzSMlF+dN8g6mNmyUIMGyB8mM+N4G76ZK3f0t/QknozFpwpwOm5h
-	cNxzYTzrtdZpX3X7lV1ZaqC7fMSTVgypinZ44cKKb2+PH4tvdDcTLqNWbmdp2Jt6gwD
-	+2yJN9+TVGCXEe28KqaIBY4ZjpGTaqSrgwwwdoERUlT/fQ2uKyRJRPlEezEkVoXGdIO
-	bhdz/CcGbg==
-Date: Wed, 11 Feb 2026 14:43:17 +0100 (CET)
-From: soufianeda@tutanota.com
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Linux Media <linux-media@vger.kernel.org>,
-	Linux Staging <linux-staging@lists.linux.dev>,
-	Gregkh <gregkh@linuxfoundation.org>,
-	Johannes Goede <johannes.goede@oss.qualcomm.com>,
-	Andy <andy@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
-Message-ID: <OlBwH9n--F-9@tutanota.com>
-In-Reply-To: <aYw5q_gsHOmKAIhK@kekkonen.localdomain>
-References: <20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com> <aYt-vrc7h7CJOmSu@stanley.mountain> <aYw5q_gsHOmKAIhK@kekkonen.localdomain>
-Subject: Re: [PATCH] staging: atomisp: fix heap buffer overflow in
- framebuffer conversion
+	s=arc-20240116; t=1770819766; c=relaxed/simple;
+	bh=Y6VzJoPNwC7JA2717m/vF6bR6Kk1n0xBDh7/ZtoqI5k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dnLtXjcGJsM6/PXTHenQ6uWzYSgdkptf35cIFgZwsucnrTNGeilOtmpoXUuM6qq+s7Egf4jIrWrjgFYgwAAerbKNFf3UffSSZO6+jtaLONy/wSGqztaSd+Je0HkPdLjr559HivWaFzJ+nkoKKdJ+BMYiXTZtWuWzBIIdxgGGnaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RvqJEAWa; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2aae146b604so25769295ad.3
+        for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 06:22:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770819764; x=1771424564; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i2a0yu6RlT+zETdd3iQNLEBogdpR7mh/Nc5hRgZU3iE=;
+        b=RvqJEAWa2B9kRAPs9IJRP5eCVNlQdGWvOVEBEEBBUwiXfxE3JbquaPbblRtJ4Uw4Ai
+         eMFFRQd4ZT3ByW+vjmX+4+oPLMc4WuHuA3cw47qCF2U0sE0mouil1cQUFasmeAV905qn
+         4FIYoHZQo7gbVLV3UaFha4YHxR2z0lqqaZYT/ppAgHmSZj3y2jGTbRyNRG6oN0A6CEXh
+         3h2+9KYSlN0EmlXk/M5Xl+CU/KboRM0TMWSQdAsZzcVek6efMRv9y7Lb4IXwZXalLxDq
+         wk2HMU0tE4U1aEstCFg95TyIU03uwDKgAaV4142p2kFiQTeOAF6qXmsEackeoc2seFVT
+         ukYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770819764; x=1771424564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i2a0yu6RlT+zETdd3iQNLEBogdpR7mh/Nc5hRgZU3iE=;
+        b=W7CB6HlmmjuCVJzfnKGyrjGNKMzeK/6yikTxtTCTWgOIoKB5hsqID8KW+XDArbNf3s
+         qidjdIqFdzGew/uvMvnfmIl3EEHoqWgVRBOrtuoVQf2zCMsEQadkibTNIldRyqyHuPiN
+         wHL3bdnpuyIPBh+31roIfFyxj8mbEEhHGYJKJ/roSymImlmO930kWiltGuH7inuX+a0H
+         DAaOuCfISn8bjVCQOxtlfpFoeUpMSdgk8GObirgGi7Gu4PXtFu8q16Mo2cdyC9Y+Nyq+
+         A0+MDUaG97X3qUidw+qJZcaX/j41mXDpR9AewG80pTtz9QEqg9LFoEz5mFZvoEhBf/6B
+         +lEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMva94aY86GxXTbzX843l1JtMymgT/mcb3AJVOLN6m8++S+mq48qCRgiWNMCD/FO6p0V4ZkgH90HKTXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx90Ryyvd67hQ4RRN+T7PQkbGQ6SEHFhMPmjBuxrhmlE40J2qo0
+	syPV6ERqjTtmK8LA3qTqOiBsYhp+Elpkh63lBa39TG18LvLvjglpKFrF
+X-Gm-Gg: AZuq6aI4OsHK8UOgH/uRYlISDIzKCGxnQ+aV0/LeoeKs4DXXuqD56g0za8KcJVUIuvD
+	r7MVEiA0mXa1yzZVXEae2ybWsjOosHev4zeuKPAfXfTTEzj3xSQnAyYxtSl4LCRpzKJdt11qCSz
+	TSEC5IBn3hBmU2z2b5JgFFPHfMaKpxBAL1ZeSURjc4qZOGty5zgbUdHGTbEAhUPi63vWFLjWEnd
+	UWUhMq+X/G1r9eR4f4L7UgTi0P5uz1QjQjGiLup2X07/iUwYFFVAVZKNKQbXzjSARktsaRh5ejv
+	bNPXYzXCBcMUDSsONmHCjZm+ErTyNUkfytRX26T4BhLhINqSWcz8cpNA4+x+iNTJNs33Pa1Y7Gi
+	bJxQA3WbGrh+V0+1fVKfnNtL6pq+TgJTzMdRqfbnzhgEG3iD4D0qrK3iVo+hwWHkMJjZrKDi9sx
+	MFTPtWRQPX/GMTYBI71gtPZ2MzfX4M7w8R5zXeFw==
+X-Received: by 2002:a17:903:198e:b0:2aa:e238:e219 with SMTP id d9443c01a7336-2ab2ad2b696mr23330115ad.58.1770819764167;
+        Wed, 11 Feb 2026 06:22:44 -0800 (PST)
+Received: from fedora ([2409:40c1:201e:40f6:5d2e:7e5f:8687:4ec9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ab29998cd3sm23540505ad.85.2026.02.11.06.22.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Feb 2026 06:22:43 -0800 (PST)
+From: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
+To: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	Frank.Li@nxp.com,
+	mchehab@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: imx@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
+Subject: [PATCH] staging: media: imx: remove unused header includes
+Date: Wed, 11 Feb 2026 19:52:08 +0530
+Message-ID: <20260211142208.112033-1-rajveer.chaudhari.linux@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Feedback-ID: 01942f2d6730cf62a97c7cea648ee3955a02563caa9cabc06f7a1657ed38cd89e45b3b265ac75872da62f850375ec2fec65ecca3f233db501351f9ed31f2eeac4a:TurnOnPrivacy!:tutamail
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[tutanota.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[tutanota.com:s=s1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52608-lists,linux-media=lfdr.de];
-	FROM_NEQ_ENVFROM(0.00)[soufianeda@tutanota.com,linux-media@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52609-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[tutanota.com:+];
-	FROM_NO_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,tutanota.com:mid,tutanota.com:dkim,tutanota.com:email]
-X-Rspamd-Queue-Id: 159CA124E12
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,lists.infradead.org,gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com,pengutronix.de,nxp.com,kernel.org,linuxfoundation.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rajveerchaudharilinux@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 8B77912536F
 X-Rspamd-Action: no action
 
+Remove unused header includes from
+imx-ic-prp.c
+imx-ic-prpencvf.c
+imx-media-capture.c
+imx-media-csc-scaler.c
+imx-media-dev.c
+to reduce unnecessary dependencies and improve compilation time.
 
-Hi Sakari,
+Signed-off-by: Rajveer Chaudhari <rajveer.chaudhari.linux@gmail.com>
+---
+ drivers/staging/media/imx/imx-ic-prp.c           | 1 -
+ drivers/staging/media/imx/imx-ic-prpencvf.c      | 3 +--
+ drivers/staging/media/imx/imx-media-capture.c    | 1 -
+ drivers/staging/media/imx/imx-media-csc-scaler.c | 2 --
+ drivers/staging/media/imx/imx-media-dev.c        | 1 -
+ 5 files changed, 1 insertion(+), 7 deletions(-)
 
-I agree that removing the private IOCTL handler is the better
-approach. While fuzzing the driver I found the same class of
-unchecked user-controlled size fields in several other handlers
-(ATOMISP_IOC_S_DIS_VECTOR, morph table, shading table), so
-removing atomisp_vidioc_default() eliminates all of them at once.
-
-I'm cool with sending a patch removing atomisp_vidioc_default() as
-Hans suggested, if that would be helpful.
-
-Regards,
-Soufiane Dani
-
-
-11 Feb 2026 at 09:11 by sakari.ailus@linux.intel.com:
-
-> Hi Dan, Soufiane,
->
-> On Tue, Feb 10, 2026 at 09:53:50PM +0300, Dan Carpenter wrote:
->
->> On Tue, Feb 10, 2026 at 04:26:31PM +0100, Soufiane via B4 Relay wrote:
->> > From: Soufiane <soufianeda@tutanota.com>
->> > 
->> > Validate sizeimage against the allocated frame buffer size before
->> > hmm_store() to prevent out-of-bounds write.
->> > 
->> > Signed-off-by: Soufiane <soufianeda@tutanota.com>
->>
->> We need a Fixes tag if the bug is real.
->>
->> > ---
->> >  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 5 +++++
->> >  1 file changed, 5 insertions(+)
->> > 
->> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
->> > index 3a4eb4f6d3be..ca7ffc7855ac 100644
->> > --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
->> > +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
->> > @@ -3326,6 +3326,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
->> >  		goto err;
->> >  	}
->> > 
->>
->> There is some sketchy stuff happening in this code but I'm not sure I
->> understand the issue.  The code looks like this:
->>
->>  3317          /* Note: the padded width on an ia_css_frame is in elements, not in
->>  3318             bytes. The RAW frame we use here should always be a 16bit RAW
->>  3319             frame. This is why we bytesperline/2 is equal to the padded with */
->>  3320          if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
->>  3321                                         sh_format, padded_width, 0)) {
->>
->> This allocates res.  Why would it allocate something smaller than
->> arg->fmt.sizeimage?  How did you find this bug?  By testing or reading
->> the code?  Do you have a reproducer?
->>
->>  3322                  ret = -ENOMEM;
->>  3323                  goto err;
->>  3324          }
->>
->> > +	if (arg->fmt.sizeimage > res->data_bytes) {
->> > +		ret = -EINVAL;
->> > +		goto err;
->> > +	}
->> > +
->>
->>  3325 
->>  3326          tmp_buf = vmalloc(arg->fmt.sizeimage);
->>  3327          if (!tmp_buf) {
->>  3328                  ret = -ENOMEM;
->>  3329                  goto err;
->>  3330          }
->>  3331          if (copy_from_user(tmp_buf, (void __user __force *)arg->base,
->>  3332                             arg->fmt.sizeimage)) {
->>  3333                  ret = -EFAULT;
->>  3334                  goto err;
->>  3335          }
->>  3336 
->>  3337          if (hmm_store(res->data, tmp_buf, arg->fmt.sizeimage)) {
->>  ^^^^^^^^^
->> The worry is that the buffer this references is too small.  I would
->> prefer instead if there were some bounds checking before the memcpy()
->> calls in hmm_store().  They would use a different, smaller limit if
->> only part of the buffer could be used.  I don't know if that bounds
->> checking is really required though...
->>
->
-> Indeed. Beyond that, even I have to admit I have little idea what this
-> IOCTL is supposed to be doing. Possibly feed in a raw frame for processing?
-> But that's not supposed to be implemented like this... The TODO file
-> contains an entry that says "Remove/disable private IOCTLs" -- we should
-> move to use parameter buffers instead.
->
-> I'm not sure anyone depends on these IOCTLs at the moment, but definitely
-> some obviously are associated with some risk.
->
-> The world looked different when this code was written.
->
-> I'd disable all private IOCTLs in the driver, with the possible exception
-> of ATOMISP_IOC_S_ISP_PARM, which is close to the parameter buffer approach
-> already.
->
-> Also cc LMML, Greg and Andy.
->
-> -- 
-> Kind regards,
->
-> Sakari Ailus
->
+diff --git a/drivers/staging/media/imx/imx-ic-prp.c b/drivers/staging/media/imx/imx-ic-prp.c
+index 2b80d54006b3..bba125234769 100644
+--- a/drivers/staging/media/imx/imx-ic-prp.c
++++ b/drivers/staging/media/imx/imx-ic-prp.c
+@@ -11,7 +11,6 @@
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+-#include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/timer.h>
+diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+index 77360bfe081a..1b9dc5d86926 100644
+--- a/drivers/staging/media/imx/imx-ic-prpencvf.c
++++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+@@ -9,9 +9,8 @@
+  * Copyright (c) 2012-2017 Mentor Graphics Inc.
+  */
+ #include <linux/delay.h>
+-#include <linux/interrupt.h>
+ #include <linux/module.h>
+-#include <linux/sched.h>
++#include <linux/interrupt.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/timer.h>
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index e9cef7af000a..860f93272bbf 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -5,7 +5,6 @@
+  * Copyright (c) 2012-2016 Mentor Graphics Inc.
+  */
+ #include <linux/delay.h>
+-#include <linux/fs.h>
+ #include <linux/module.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index 0a27330f9790..d42652c51358 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -7,8 +7,6 @@
+  */
+ #include <linux/module.h>
+ #include <linux/delay.h>
+-#include <linux/fs.h>
+-#include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <video/imx-ipu-v3.h>
+ #include <video/imx-ipu-image-convert.h>
+diff --git a/drivers/staging/media/imx/imx-media-dev.c b/drivers/staging/media/imx/imx-media-dev.c
+index a08389b99d14..a8f39319bd8a 100644
+--- a/drivers/staging/media/imx/imx-media-dev.c
++++ b/drivers/staging/media/imx/imx-media-dev.c
+@@ -4,7 +4,6 @@
+  *
+  * Copyright (c) 2016-2019 Mentor Graphics Inc.
+  */
+-#include <linux/fs.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <media/v4l2-async.h>
+-- 
+2.53.0
 
 
