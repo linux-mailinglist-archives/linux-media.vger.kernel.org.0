@@ -1,1277 +1,260 @@
-Return-Path: <linux-media+bounces-52623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52624-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aPYcIOH0jGk8wAAAu9opvQ
-	(envelope-from <linux-media+bounces-52623-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 22:30:09 +0100
+	id 4Mw+FFQbjWmkzAAAu9opvQ
+	(envelope-from <linux-media+bounces-52624-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Feb 2026 01:14:12 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442E2127C4E
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 22:30:08 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4C0128738
+	for <lists+linux-media@lfdr.de>; Thu, 12 Feb 2026 01:14:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9E17830125DB
-	for <lists+linux-media@lfdr.de>; Wed, 11 Feb 2026 21:30:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 77CE9301A53F
+	for <lists+linux-media@lfdr.de>; Thu, 12 Feb 2026 00:14:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C8CF36680C;
-	Wed, 11 Feb 2026 21:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD839AD24;
+	Thu, 12 Feb 2026 00:14:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N49IaX37"
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="r58UNs+2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CAB32ED37
-	for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 21:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA9C4A02
+	for <linux-media@vger.kernel.org>; Thu, 12 Feb 2026 00:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770845400; cv=none; b=A1ICJFV+r6EEGLc/Km7HlMpM/M9ioLtVls2jGBdLAxxtVX2jpLZiJ24udl7tYrMC9rLZFJ5Q0ZYDlQrU4hw9rVsUL4Kf7SOCL2lFXgusjdZx/J6nu857w8z/vzS1BC0FwRwMkFYt3gyPWpQu31II/CNqDCsdcXNwbvkJQHWralg=
+	t=1770855249; cv=none; b=geCC2aMPR8tiuwVdzmPkO5pjEP3s3V/Dp0k+lrU76JAmo6Z8HTYKfNFOXuBFqM+vxSYcdSCE8952YEyDDUxpHVfHAP+fm+ejg8SR4r/aDNd31ehQ3V7XmbWlkgb9L88d+9hnS8zK4EE1noqZifkCz7aeSnylsIqtkNFaso+maQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770845400; c=relaxed/simple;
-	bh=Ker2ADh8aoPqspLg71QmWg/CjqpVnVLgSRzqOLbDeGg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=R6Qg/lIKGOn32X0E1zZT+ZsA2bRuiT+F5l55cs26zaL/EdN1UyxaGnmRfoTYiAuRCQGEhP86eU40dgzb5Bn+31n9PV9mHRKVn4IUwUNxT+nDieG6Xy3p5PfPJOlQusNSBn7Up+fhvz3BevGsFJ7NMcgyjD7CSXTHOzQZgbyypxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N49IaX37; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770845394; x=1802381394;
-  h=date:from:to:cc:subject:message-id;
-  bh=Ker2ADh8aoPqspLg71QmWg/CjqpVnVLgSRzqOLbDeGg=;
-  b=N49IaX37CbcusQrdnsT0pirP7/8dFVtcLSIdX1n4Ayt7J60wtmSgd03K
-   AIVhZxaoTzRTKtDeiZjMBlVDI4bONpm3TMJ60kLOpMl92t7273X1dFPmP
-   EbvFji/7axvMt9R+xv1ErtfZJKNff8Fy/TYV/5wm+8p/997nmqqTSU1pL
-   n5NMeoZ0qt/Gsz1q2EM5i2ML0pldy8RNh4DMLTbKWpavts84JpANr5hic
-   GmBuxmBiYmkJiF3R/QZVqQBk1zrVVAxzTl6n04NkIaqGC4ZTs+SWWG/M1
-   U+L1YY7EQDpUi3i1Cq+/+rGEPnJ0Xt+/VazE0B/+Ap5xQz5b1cDSSt5TX
-   A==;
-X-CSE-ConnectionGUID: clFrZImVTaanCNItLRlUhQ==
-X-CSE-MsgGUID: Lic3OvUVS/eoUdR9P9irKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="72190901"
-X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="72190901"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 13:29:53 -0800
-X-CSE-ConnectionGUID: Pki0qm5gQtqyJC5dwU244g==
-X-CSE-MsgGUID: 1796NYcUSW2Zjiwb2ndYaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,285,1763452800"; 
-   d="scan'208";a="211655427"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Feb 2026 13:29:52 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vqHmO-00000000qOq-3Yuy;
-	Wed, 11 Feb 2026 21:29:48 +0000
-Date: Thu, 12 Feb 2026 05:29:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata-pre] BUILD REGRESSION
- 11ab80de774b0527a7365d6f03ea5dcd0ace3e85
-Message-ID: <202602120538.gtSnK1M1-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1770855249; c=relaxed/simple;
+	bh=uflvyI7kYZB1YguZBsEgpXy/6ocNJAjHu0Tnf6RroD8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=Y/KTj9MAh0JUPhGfvAPYDzsQGRFPet3eH2vdUeILPE0W3M2Eat7pWWPX+7uep+C/A+4/3XmfQFT5AEEZnzh22VrTiWNsC2sbUaZHuUuD/Tav6ta2r8CdKHYkT0WMPUJPwYGhlf9Cxx1h63wmEVX03p0bJZPCf8QjMHFt21D+q4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=r58UNs+2; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-66307e10d1dso3887294eaf.0
+        for <linux-media@vger.kernel.org>; Wed, 11 Feb 2026 16:14:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1770855245; x=1771460045; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b1N6XuJ/B8OWlPGQYqZSUkzhw3w+cGpNhGD+iHHuj/I=;
+        b=r58UNs+2p7ZP3QTrgwEhQ1+unDaovuObSP0hCBKN/l8W7QsaQdEInNFisaMqbLNhwA
+         HWHzWoIfYAlIKrCuc7C6jDRUgYqaYm7dRDmcWu4mwZx1xlmI+mobDJi0zLrfE0Jy4gjQ
+         SJGx4WafjuUoAuHyt2k+224KfdixBiW7mRH5Qjjv7JD5hy7jZVZ5jH1jRYJVvjOktnZb
+         Gb+Fn+Kh8ivXyJZTBDtFI1+f9txrTGg1Fu2eJDmTLbP1NG4tgBsYOt/gPp+ioJRAqMU7
+         3c6XNOcDkCzRetYB7YUZ4M0YBR52KbV/L38qi6h5WcF+SOC9a6RtyCkPmSZ1YBwd3DD0
+         Kdwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770855245; x=1771460045;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b1N6XuJ/B8OWlPGQYqZSUkzhw3w+cGpNhGD+iHHuj/I=;
+        b=dbVEImDNYfbygwkPL23buMigaByu0WR0kuS/5UX7dfPbphGxrSJS9akyQ9HiGlcNtA
+         EVjyM9Y2TT5uStqpXMsWLBMOK5gRQ8SgwQtbA8//J0oScVFOV0WzrMMhMOJDA6YShM75
+         +hGTsnC1ZQgl1LdjHH3gghnT2pF0ZQbS8qfabdAdyX4Z5D2X3KhKCQW5mF1kbY/93qdg
+         AWTcVmeElzh0qL/73vJhWFF3zk7e9/0qhl5ctBBJ4fisFV5YrP9ydCgrNv1DTvJHRbJm
+         cYesMt/tic3cnMcHh9oovTm4AVQwrLCiwh4mJhjSu0NHbOZtIOVVYbl8mnV/we44Gyd9
+         oeWg==
+X-Forwarded-Encrypted: i=1; AJvYcCUy3xqWffUsCWI7sUrG8EWgE2eY82f6sGgfKnvLXwlLhOBa7e/g0wpma5zSFJKUcfmQ2IFsE0+gkOlVmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFVhYTuXs1s9KtLvgXmG5MtuT2RBnSIAHxvRWYMtwAN4MsEjR+
+	XVfRPTPIxn3JvJvHusMRRIrrL1/dPVE2OIXRnBLuj+Dr5P1HX72+HBY3xg/KASwD2tA=
+X-Gm-Gg: AZuq6aIjj6LwoISpug7gQWfGz8R1FW3LEcg+Ah9zQ14x3JusRjW3+HVx45jqKPXsD3h
+	vWfYT56WB72wpIj+8EfTvCZZJvjZPTkfm+NX35PnogfPWrd9IEw7mv32ytV2ikiQh+QMZE3vED1
+	Bcv/Cb/ZPRY7ZY8hVP7lKPV8qTRv8GySlPIsf36HJeCNH948R5kWzrJhiyuXfQ2iC2W3PXvxU11
+	SfxMT3+T7cqvzlQrRhyuXGDxj5i0GrrDJuaQ9wZEYbMBQr0k58Bq+6szV0jgKQCPHhpze2PrKyT
+	k6rymnouGf5H/UMdTmAy60wm2NCy8RiG9+HVQgQ27v46IsM9DdTgu+hUj9DuVoOzWi4hjwDnvBd
+	GFrJ1fzQ77PfPbjdc6e0HOqRpLRiHbdR6HvclUMPtdry6oIqpQNgB2LJhR04Y+TOmpvdw6wHs3w
+	JKTPAwehL7CRAbeREGN2fsReQofnpRcEJTpPw4jFUrFkznpJ2Fz1Wo7v0JgdSL/RMUzuB5ofDcq
+	If2nOsRU7l4NkuUg9Nw
+X-Received: by 2002:a05:6820:6ac6:b0:662:f74d:69f5 with SMTP id 006d021491bc7-67598a3a7a6mr461018eaf.31.1770855245449;
+        Wed, 11 Feb 2026 16:14:05 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-40eaef220cesm2450175fac.9.2026.02.11.16.14.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Feb 2026 16:14:04 -0800 (PST)
+Message-ID: <3d6c84df-853a-4e28-8ee6-b1239bc985f0@kernel.dk>
+Date: Wed, 11 Feb 2026 17:14:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [io-uring?] BUG: corrupted list in
+ io_poll_remove_entries
+From: Jens Axboe <axboe@kernel.dk>
+To: syzbot <syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com>,
+ io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org
+References: <698a26d3.050a0220.3b3015.007d.GAE@google.com>
+ <23112bc4-a498-4089-a225-1440c2151ce2@kernel.dk>
+ <cae1de3b-1f76-4595-acfb-70c311d6c1aa@kernel.dk>
+Content-Language: en-US
+In-Reply-To: <cae1de3b-1f76-4595-acfb-70c311d6c1aa@kernel.dk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel-dk.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	TAGGED_FROM(0.00)[bounces-52623-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52624-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,syzkaller.appspot.com:url,appspotmail.com:email,kernel-dk.20230601.gappssmtp.com:dkim];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[kernel.dk];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: 442E2127C4E
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel-dk.20230601.gappssmtp.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,ab12f0c08dd7ab8d057c];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Queue-Id: AD4C0128738
 X-Rspamd-Action: no action
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git metadata-pre
-branch HEAD: 11ab80de774b0527a7365d6f03ea5dcd0ace3e85  media: v4l2-subdev: Add struct v4l2_subdev_client_info argument to pad ops
+On 2/10/26 3:16 PM, Jens Axboe wrote:
+> On 2/9/26 1:18 PM, Jens Axboe wrote:
+>> On 2/9/26 11:26 AM, syzbot wrote:
+>>> Hello,
+>>>
+>>> syzbot found the following issue on:
+>>>
+>>> HEAD commit:    e7aa57247700 Merge tag 'spi-fix-v6.19-rc8' of git://git.ke..
+>>> git tree:       upstream
+>>> console output: https://syzkaller.appspot.com/x/log.txt?x=14d3b65a580000
+>>> kernel config:  https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671
+>>> dashboard link: https://syzkaller.appspot.com/bug?extid=ab12f0c08dd7ab8d057c
+>>> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+>>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1222965a580000
+>>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=140e833a580000
+>>>
+>>> Downloadable assets:
+>>> disk image: https://storage.googleapis.com/syzbot-assets/c46beb4ff3a5/disk-e7aa5724.raw.xz
+>>> vmlinux: https://storage.googleapis.com/syzbot-assets/d162bcaaf9b9/vmlinux-e7aa5724.xz
+>>> kernel image: https://storage.googleapis.com/syzbot-assets/54b0844b8ea7/bzImage-e7aa5724.xz
+>>>
+>>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>>> Reported-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
+>>>
+>>> list_del corruption. prev->next should be ffff88807dc6c3f0, but was ffff888146b205c8. (prev=ffff888146b205c8)
+>>> ------------[ cut here ]------------
+>>> kernel BUG at lib/list_debug.c:62!
+>>> Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+>>> CPU: 0 UID: 0 PID: 5969 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+>>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/24/2026
+>>> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
+>>> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
+>>> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
+>>> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
+>>> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
+>>> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
+>>> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
+>>> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
+>>> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
+>>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
+>>> Call Trace:
+>>>  <TASK>
+>>>  __list_del_entry_valid include/linux/list.h:132 [inline]
+>>>  __list_del_entry include/linux/list.h:223 [inline]
+>>>  list_del_init include/linux/list.h:295 [inline]
+>>>  io_poll_remove_waitq io_uring/poll.c:149 [inline]
+>>>  io_poll_remove_entry io_uring/poll.c:166 [inline]
+>>>  io_poll_remove_entries.part.0+0x156/0x7e0 io_uring/poll.c:197
+>>>  io_poll_remove_entries io_uring/poll.c:177 [inline]
+>>>  io_poll_task_func+0x39e/0xe30 io_uring/poll.c:343
+>>>  io_handle_tw_list+0x194/0x580 io_uring/io_uring.c:1122
+>>>  tctx_task_work_run+0x57/0x2b0 io_uring/io_uring.c:1182
+>>>  tctx_task_work+0x7a/0xd0 io_uring/io_uring.c:1200
+>>>  task_work_run+0x150/0x240 kernel/task_work.c:233
+>>>  exit_task_work include/linux/task_work.h:40 [inline]
+>>>  do_exit+0x829/0x2a30 kernel/exit.c:971
+>>>  do_group_exit+0xd5/0x2a0 kernel/exit.c:1112
+>>>  __do_sys_exit_group kernel/exit.c:1123 [inline]
+>>>  __se_sys_exit_group kernel/exit.c:1121 [inline]
+>>>  __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1121
+>>>  x64_sys_call+0x14fd/0x1510 arch/x86/include/generated/asm/syscalls_64.h:232
+>>>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>>>  do_syscall_64+0xc9/0xf80 arch/x86/entry/syscall_64.c:94
+>>>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>>> RIP: 0033:0x7f60e579aeb9
+>>> Code: Unable to access opcode bytes at 0x7f60e579ae8f.
+>>> RSP: 002b:00007ffc2d47ddf8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+>>> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f60e579aeb9
+>>> RDX: 0000000000000064 RSI: 0000000000000000 RDI: 0000000000000000
+>>> RBP: 0000000000000003 R08: 0000000000000000 R09: 00007f60e59e1280
+>>> R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000000
+>>> R13: 00007f60e59e1280 R14: 0000000000000003 R15: 00007ffc2d47deb0
+>>>  </TASK>
+>>> Modules linked in:
+>>> ---[ end trace 0000000000000000 ]---
+>>> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
+>>> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
+>>> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
+>>> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
+>>> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
+>>> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
+>>> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
+>>> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
+>>> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
+>>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
+>>
+>> #syz test
+>>
+>> diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
+>> index 8c6f5aafda1d..5cb46109d1ff 100644
+>> --- a/drivers/media/dvb-core/dmxdev.c
+>> +++ b/drivers/media/dvb-core/dmxdev.c
+>> @@ -168,7 +168,9 @@ static int dvb_dvr_open(struct inode *inode, struct file *file)
+>>  			mutex_unlock(&dmxdev->mutex);
+>>  			return -ENOMEM;
+>>  		}
+>> -		dvb_ringbuffer_init(&dmxdev->dvr_buffer, mem, DVR_BUFFER_SIZE);
+>> +		dmxdev->dvr_buffer.data = mem;
+>> +		dmxdev->dvr_buffer.size = DVR_BUFFER_SIZE;
+>> +		dvb_ringbuffer_reset(&dmxdev->dvr_buffer);
+>>  		if (dmxdev->may_do_mmap)
+>>  			dvb_vb2_init(&dmxdev->dvr_vb2_ctx, "dvr",
+>>  				     file->f_flags & O_NONBLOCK);
+>>
+> 
+> Mauro and other maintainers, this is literally the same issue as one reported
+> last year:
+> 
+> https://lore.kernel.org/linux-media/20250407091619.11250-1-superman.xpt@gmail.com/
+> 
+> and I'm honestly a bit surprised that nobody has dealt with this, it's 10 months ago.
+> And syzbot is still hitting it, literally crashing the box.
+> 
+> Hmm?
 
-Error/Warning (recently discovered and may have been fixed):
+Nobody cares about any user that is able to open a dvr device, which at
+least on debian is EVERY standard user, can crash the kernel?
 
-    https://lore.kernel.org/oe-kbuild-all/202602070144.zjnSVXAx-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202602070152.AuqeXeCe-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202602070533.3Ybd45b6-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202602070821.c9SviwgN-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202602112130.C4fhjpAe-lkp@intel.com
-    https://lore.kernel.org/oe-kbuild-all/202602112253.JRfzluk0-lkp@intel.com
+I see replies on other messages, yet this issue has seemingly been
+ignored for a year.
 
-    Warning: drivers/media/i2c/imx274.c:1075 function parameter 'ci' not described in 'imx274_get_fmt'
-    Warning: drivers/media/i2c/imx274.c:1098 function parameter 'ci' not described in 'imx274_set_fmt'
-    Warning: drivers/media/i2c/imx334.c:763 function parameter 'ci' not described in 'imx334_get_pad_format'
-    Warning: drivers/media/i2c/imx334.c:791 function parameter 'ci' not described in 'imx334_set_pad_format'
-    Warning: drivers/media/i2c/imx335.c:885 function parameter 'ci' not described in 'imx335_set_pad_format'
-    Warning: drivers/media/i2c/imx335.c:962 function parameter 'ci' not described in 'imx335_get_selection'
-    Warning: drivers/media/i2c/imx412.c:715 function parameter 'ci' not described in 'imx412_get_pad_format'
-    Warning: drivers/media/i2c/imx412.c:746 function parameter 'ci' not described in 'imx412_set_pad_format'
-    Warning: drivers/media/i2c/ov9282.c:1000 function parameter 'ci' not described in 'ov9282_set_pad_format'
-    Warning: drivers/media/i2c/ov9282.c:968 function parameter 'ci' not described in 'ov9282_get_pad_format'
-    Warning: drivers/media/i2c/tvp514x.c:891 function parameter 'ci' not described in 'tvp514x_get_pad_format'
-    Warning: drivers/media/i2c/tvp514x.c:924 function parameter 'ci' not described in 'tvp514x_set_pad_format'
-    drivers/media/platform/renesas/rcar-vin/rcar-dma.c:1184:47: error: passing argument 3 of '__sd->ops->pad->get_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/rcar-vin/rcar-dma.c:1184:47: error: passing argument 3 of 'v4l2_subdev_call_wrappers.pad->get_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/rcar-vin/rcar-dma.c:1184:54: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/rcar-vin/rcar-dma.c:1184:54: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/rcar-vin/rcar-dma.c:1184:54: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/rcar-vin/rcar-dma.c:1184:54: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/rcar-vin/rcar-dma.c:1184:6: error: too few arguments to function call, expected 4, have 3
-    drivers/media/platform/renesas/sh_vou.c:716:8: error: too few arguments to function call, expected 4, have 3
-    drivers/media/platform/renesas/sh_vou.c:717:57: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/sh_vou.c:717:57: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/sh_vou.c:977:57: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_selection' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/sh_vou.c:977:57: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_selection' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_brx.c:270:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_brx.c:270:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_brx.c:270:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_clu.c:161:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_clu.c:161:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_clu.c:161:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_entity.c:161:5: error: conflicting types for 'vsp1_subdev_get_pad_format'
-    drivers/media/platform/renesas/vsp1/vsp1_entity.c:161:5: error: conflicting types for 'vsp1_subdev_get_pad_format'; have 'int(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
-    drivers/media/platform/renesas/vsp1/vsp1_histo.c:383:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_histo.c:383:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_histo.c:383:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_hsit.c:127:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_hsit.c:127:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_hsit.c:127:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_iif.c:70:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_iif.c:70:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_iif.c:70:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_lif.c:74:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_lif.c:74:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_lif.c:74:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_lut.c:137:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_lut.c:137:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_lut.c:137:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_rwpf.c:283:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_rwpf.c:283:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_rwpf.c:283:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_sru.c:263:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_sru.c:263:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_sru.c:263:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_uds.c:250:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_uds.c:250:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_uds.c:250:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_uif.c:179:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_uif.c:179:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Werror=incompatible-pointer-types]
-    drivers/media/platform/renesas/vsp1/vsp1_uif.c:179:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:666:54: error: passing argument 3 of '__sd->ops->pad->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:666:54: error: passing argument 3 of 'v4l2_subdev_call_wrappers.pad->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:995:63: error: passing argument 3 of '__sd->ops->pad->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:995:63: error: passing argument 3 of 'v4l2_subdev_call_wrappers.pad->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:995:70: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:995:70: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:995:70: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:995:70: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/platform/st/stm32/stm32-dcmi.c:995:8: error: too few arguments to function call, expected 4, have 3
-    drivers/media/platform/ti/omap3isp/ispccdc.c:1160:52: error: passing argument 3 of '__sd->ops->pad->get_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/ti/omap3isp/ispccdc.c:1160:52: error: passing argument 3 of 'v4l2_subdev_call_wrappers.pad->get_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/ti/omap3isp/ispccdc.c:1160:59: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/ti/omap3isp/ispccdc.c:1160:59: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/platform/ti/omap3isp/ispccdc.c:1160:59: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    drivers/media/platform/ti/omap3isp/ispccdc.c:1160:59: error: passing argument 3 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-    drivers/media/platform/ti/omap3isp/ispccdc.c:1160:7: error: too few arguments to function call, expected 4, have 3
-    drivers/staging/media/ipu7/ipu7-isys-csi2.c:375:13: error: incompatible function pointer types initializing 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' with an expression of type 'int (struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-function-pointer-types]
-    drivers/staging/media/ipu7/ipu7-isys-csi2.c:375:20: error: initialization of 'int (*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' from incompatible pointer type 'int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)' [-Wincompatible-pointer-types]
-    drivers/staging/media/ipu7/ipu7-isys-subdev.c:101:5: error: conflicting types for 'ipu7_isys_subdev_set_fmt'
-    drivers/staging/media/ipu7/ipu7-isys-subdev.c:101:5: error: conflicting types for 'ipu7_isys_subdev_set_fmt'; have 'int(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct v4l2_subdev_state *, struct v4l2_subdev_format *)'
-    include/media/v4l2-device.h:356:33: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'
-    include/media/v4l2-device.h:356:33: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'; expected 4, have 3
-    include/media/v4l2-device.h:356:33: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_selection'
-    include/media/v4l2-device.h:356:33: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_selection'; expected 4, have 3
-    include/media/v4l2-subdev.h:1908:15: error: too few arguments to function 'v4l2_subdev_call_wrappers.pad->get_fmt'
-    include/media/v4l2-subdev.h:1908:15: error: too few arguments to function 'v4l2_subdev_call_wrappers.pad->set_fmt'
-    include/media/v4l2-subdev.h:1908:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_fmt'
-    include/media/v4l2-subdev.h:1908:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->get_fmt'; expected 4, have 3
-    include/media/v4l2-subdev.h:1908:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set_fmt'
-    include/media/v4l2-subdev.h:1908:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set_fmt'; expected 4, have 3
-    include/media/v4l2-subdev.h:1911:15: error: too few arguments to function '__sd->ops->pad->get_fmt'
-    include/media/v4l2-subdev.h:1911:15: error: too few arguments to function '__sd->ops->pad->set_fmt'
-    include/media/v4l2-subdev.h:1911:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_fmt'
-    include/media/v4l2-subdev.h:1911:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->get_fmt'; expected 4, have 3
-    include/media/v4l2-subdev.h:1911:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'
-    include/media/v4l2-subdev.h:1911:36: error: too few arguments to function '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt'; expected 4, have 3
-    include/media/v4l2-subdev.h:1976:42: error: passing argument 2 of '__sd->ops->pad->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    include/media/v4l2-subdev.h:1976:42: error: passing argument 2 of 'v4l2_subdev_call_wrappers.pad->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    include/media/v4l2-subdev.h:2003:42: error: passing argument 2 of '__sd->ops->pad->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    include/media/v4l2-subdev.h:2003:42: error: passing argument 2 of 'v4l2_subdev_call_wrappers.pad->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    include/media/v4l2-subdev.h:2003:63: error: passing argument 2 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    include/media/v4l2-subdev.h:2003:63: error: passing argument 2 of '((const struct v4l2_subdev_pad_ops *)__sd->ops->pad)->set_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-    include/media/v4l2-subdev.h:2003:63: error: passing argument 2 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set_fmt' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    include/media/v4l2-subdev.h:2003:63: error: passing argument 2 of '((const struct v4l2_subdev_pad_ops *)v4l2_subdev_call_wrappers.pad)->set_fmt' from incompatible pointer type [-Wincompatible-pointer-types]
-
-Error/Warning ids grouped by kconfigs:
-
-recent_errors
-|-- arc-allmodconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- arm-allyesconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- arm-defconfig
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   `-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:too-few-arguments-to-function-call-expected-have
-|-- arm-randconfig-004-20260211
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-__sd-ops-pad-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-__sd-ops-pad-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-__sd-ops-pad-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-__sd-ops-pad-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-__sd-ops-pad-get_fmt
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-__sd-ops-pad-set_fmt
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-v4l2_subdev_call_wrappers.pad-get_fmt
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-v4l2_subdev_call_wrappers.pad-set_fmt
-|-- arm64-defconfig
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|-- arm64-randconfig-002-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- arm64-randconfig-002-20260212
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-__sd-ops-pad-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-__sd-ops-pad-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-__sd-ops-pad-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-__sd-ops-pad-set_fmt-from-incompatible-pointer-type
-|   `-- include-media-v4l2-subdev.h:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-set_fmt-from-incompatible-pointer-type
-|-- csky-allmodconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- i386-allmodconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-staging-media-ipu7-ipu7-isys-csi2.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatib
-|   |-- drivers-staging-media-ipu7-ipu7-isys-subdev.c:error:conflicting-types-for-ipu7_isys_subdev_set_fmt-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt
-|-- i386-allyesconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-staging-media-ipu7-ipu7-isys-csi2.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompatib
-|   |-- drivers-staging-media-ipu7-ipu7-isys-subdev.c:error:conflicting-types-for-ipu7_isys_subdev_set_fmt-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt
-|-- i386-buildonly-randconfig-001-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- i386-buildonly-randconfig-003-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- i386-buildonly-randconfig-006-20260211
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- i386-randconfig-004-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- i386-randconfig-005-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- i386-randconfig-012-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- i386-randconfig-014-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- i386-randconfig-141-20260211
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- loongarch-randconfig-001-20260211
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- m68k-allmodconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- m68k-allyesconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- microblaze-allyesconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- mips-allyesconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- nios2-allmodconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt
-|-- nios2-randconfig-002-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- openrisc-allmodconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-|-- riscv-allyesconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:too-few-arguments-to-function-call-expected-have
-|-- sh-randconfig-001-20260211
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-__sd-ops-pad-get_fmt-from-incompatible-pointer-type
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-v4l2_subdev_call_wrappers.pad-get_fmt-from-incompatible-pointer-type
-|   |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-__sd-ops-pad-get_fmt
-|   `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-v4l2_subdev_call_wrappers.pad-get_fmt
-|-- sh-randconfig-r072-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- sparc-randconfig-002-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- sparc64-allmodconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:too-few-arguments-to-function-call-expected-have
-|-- x86_64-allmodconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-staging-media-ipu7-ipu7-isys-csi2.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_
-|   `-- drivers-staging-media-ipu7-ipu7-isys-subdev.c:error:conflicting-types-for-ipu7_isys_subdev_set_fmt
-|-- x86_64-allyesconfig
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|   |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-sh_vou.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4
-|   |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:too-few-arguments-to-function-call-expected-have
-|   |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:too-few-arguments-to-function-call-expected-have
-|   `-- drivers-staging-media-ipu7-ipu7-isys-csi2.c:error:incompatible-function-pointer-types-initializing-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_
-|-- x86_64-buildonly-randconfig-001-20260211
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- x86_64-buildonly-randconfig-002-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- x86_64-buildonly-randconfig-003-20260211
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   `-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|-- x86_64-randconfig-003-20260211
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-|   |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-|   |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-|   |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-|   |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-|   `-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-|-- x86_64-randconfig-004-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- x86_64-randconfig-011-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- x86_64-randconfig-015-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-|-- x86_64-randconfig-161-20260211
-|   |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-|   `-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-`-- xtensa-allyesconfig
-    |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_get_fmt
-    |-- Warning:drivers-media-i2c-imx274.c-function-parameter-ci-not-described-in-imx274_set_fmt
-    |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_get_pad_format
-    |-- Warning:drivers-media-i2c-imx334.c-function-parameter-ci-not-described-in-imx334_set_pad_format
-    |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_get_selection
-    |-- Warning:drivers-media-i2c-imx335.c-function-parameter-ci-not-described-in-imx335_set_pad_format
-    |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_get_pad_format
-    |-- Warning:drivers-media-i2c-imx412.c-function-parameter-ci-not-described-in-imx412_set_pad_format
-    |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_get_pad_format
-    |-- Warning:drivers-media-i2c-ov9282.c-function-parameter-ci-not-described-in-ov9282_set_pad_format
-    |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_get_pad_format
-    |-- Warning:drivers-media-i2c-tvp514x.c-function-parameter-ci-not-described-in-tvp514x_set_pad_format
-    |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-    |-- drivers-media-platform-renesas-rcar-vin-rcar-dma.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-    |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-    |-- drivers-media-platform-renesas-sh_vou.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-from-incompatible-pointer-type
-    |-- drivers-media-platform-renesas-vsp1-vsp1_brx.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-    |-- drivers-media-platform-renesas-vsp1-vsp1_clu.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-    |-- drivers-media-platform-renesas-vsp1-vsp1_entity.c:error:conflicting-types-for-vsp1_subdev_get_pad_format-have-int(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struc
-    |-- drivers-media-platform-renesas-vsp1-vsp1_histo.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incom
-    |-- drivers-media-platform-renesas-vsp1-vsp1_hsit.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-    |-- drivers-media-platform-renesas-vsp1-vsp1_iif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-    |-- drivers-media-platform-renesas-vsp1-vsp1_lif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-    |-- drivers-media-platform-renesas-vsp1-vsp1_lut.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-    |-- drivers-media-platform-renesas-vsp1-vsp1_rwpf.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incomp
-    |-- drivers-media-platform-renesas-vsp1-vsp1_sru.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-    |-- drivers-media-platform-renesas-vsp1-vsp1_uds.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-    |-- drivers-media-platform-renesas-vsp1-vsp1_uif.c:error:initialization-of-int-(-)(struct-v4l2_subdev-const-struct-v4l2_subdev_client_info-struct-v4l2_subdev_state-struct-v4l2_subdev_format-)-from-incompa
-    |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-    |-- drivers-media-platform-st-stm32-stm32-dcmi.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-    |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-from-incompatible-pointer-type
-    |-- drivers-media-platform-ti-omap3isp-ispccdc.c:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-from-incompatible-pointer-type
-    |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-    |-- include-media-v4l2-device.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_selection-expected-have
-    |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-from-incompatible-pointer-type
-    |-- include-media-v4l2-subdev.h:error:passing-argument-of-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-from-incompatible-pointer-type
-    |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-get_fmt-expected-have
-    |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)__sd-ops-pad)-set_fmt-expected-have
-    |-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-get_fmt-expected-have
-    `-- include-media-v4l2-subdev.h:error:too-few-arguments-to-function-((const-struct-v4l2_subdev_pad_ops-)v4l2_subdev_call_wrappers.pad)-set_fmt-expected-have
-
-elapsed time: 737m
-
-configs tested: 258
-configs skipped: 3
-
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-alpha                               defconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                              allmodconfig    gcc-15.2.0
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-22
-arc                              allyesconfig    gcc-15.2.0
-arc                                 defconfig    gcc-15.2.0
-arc                   randconfig-001-20260211    gcc-9.5.0
-arc                   randconfig-001-20260212    gcc-10.5.0
-arc                   randconfig-002-20260211    gcc-9.5.0
-arc                   randconfig-002-20260212    gcc-10.5.0
-arm                               allnoconfig    clang-22
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                              allyesconfig    gcc-15.2.0
-arm                                 defconfig    clang-22
-arm                                 defconfig    gcc-15.2.0
-arm                           h3600_defconfig    gcc-15.2.0
-arm                           omap1_defconfig    gcc-15.2.0
-arm                       omap2plus_defconfig    gcc-15.2.0
-arm                   randconfig-001-20260211    gcc-10.5.0
-arm                   randconfig-001-20260212    gcc-10.5.0
-arm                   randconfig-002-20260211    gcc-8.5.0
-arm                   randconfig-002-20260212    gcc-10.5.0
-arm                   randconfig-003-20260211    clang-22
-arm                   randconfig-003-20260212    gcc-10.5.0
-arm                   randconfig-004-20260211    gcc-8.5.0
-arm                   randconfig-004-20260212    gcc-10.5.0
-arm64                            allmodconfig    clang-19
-arm64                            allmodconfig    clang-22
-arm64                             allnoconfig    gcc-15.2.0
-arm64                               defconfig    gcc-15.2.0
-arm64                 randconfig-001-20260211    gcc-8.5.0
-arm64                 randconfig-001-20260212    gcc-10.5.0
-arm64                 randconfig-002-20260211    gcc-15.2.0
-arm64                 randconfig-002-20260212    gcc-10.5.0
-arm64                 randconfig-003-20260211    gcc-15.2.0
-arm64                 randconfig-003-20260212    gcc-10.5.0
-arm64                 randconfig-004-20260211    gcc-14.3.0
-arm64                 randconfig-004-20260212    gcc-10.5.0
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                                defconfig    gcc-15.2.0
-csky                  randconfig-001-20260211    gcc-15.2.0
-csky                  randconfig-001-20260212    gcc-10.5.0
-csky                  randconfig-002-20260211    gcc-11.5.0
-csky                  randconfig-002-20260212    gcc-10.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    clang-22
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon                             defconfig    clang-22
-hexagon                             defconfig    gcc-15.2.0
-hexagon               randconfig-001-20260211    clang-22
-hexagon               randconfig-001-20260212    clang-18
-hexagon               randconfig-002-20260211    clang-22
-hexagon               randconfig-002-20260212    clang-18
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-14
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260211    clang-20
-i386        buildonly-randconfig-002-20260211    clang-20
-i386        buildonly-randconfig-002-20260211    gcc-12
-i386        buildonly-randconfig-003-20260211    clang-20
-i386        buildonly-randconfig-004-20260211    clang-20
-i386        buildonly-randconfig-005-20260211    clang-20
-i386        buildonly-randconfig-005-20260211    gcc-14
-i386        buildonly-randconfig-006-20260211    clang-20
-i386                                defconfig    clang-20
-i386                                defconfig    gcc-15.2.0
-i386                  randconfig-001-20260211    gcc-14
-i386                  randconfig-002-20260211    gcc-14
-i386                  randconfig-003-20260211    gcc-14
-i386                  randconfig-004-20260211    clang-20
-i386                  randconfig-005-20260211    gcc-14
-i386                  randconfig-006-20260211    clang-20
-i386                  randconfig-007-20260211    gcc-14
-i386                  randconfig-011-20260211    clang-20
-i386                  randconfig-012-20260211    clang-20
-i386                  randconfig-013-20260211    clang-20
-i386                  randconfig-014-20260211    clang-20
-i386                  randconfig-015-20260211    clang-20
-i386                  randconfig-016-20260211    clang-20
-i386                  randconfig-017-20260211    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                        allmodconfig    clang-22
-loongarch                         allnoconfig    clang-22
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260211    clang-22
-loongarch             randconfig-001-20260212    clang-18
-loongarch             randconfig-002-20260211    clang-22
-loongarch             randconfig-002-20260212    clang-18
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                             allyesconfig    gcc-15.2.0
-m68k                                defconfig    clang-19
-m68k                                defconfig    gcc-15.2.0
-m68k                           virt_defconfig    gcc-15.2.0
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-microblaze                          defconfig    gcc-15.2.0
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-mips                          ath79_defconfig    gcc-15.2.0
-mips                         bigsur_defconfig    gcc-15.2.0
-mips                       bmips_be_defconfig    gcc-15.2.0
-mips                 decstation_r4k_defconfig    gcc-15.2.0
-mips                      fuloong2e_defconfig    gcc-15.2.0
-mips                           ip30_defconfig    gcc-15.2.0
-mips                        omega2p_defconfig    gcc-15.2.0
-nios2                            allmodconfig    clang-22
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    clang-19
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20260211    clang-22
-nios2                 randconfig-001-20260211    gcc-11.5.0
-nios2                 randconfig-001-20260212    clang-18
-nios2                 randconfig-002-20260211    clang-22
-nios2                 randconfig-002-20260211    gcc-11.5.0
-nios2                 randconfig-002-20260212    clang-18
-openrisc                         allmodconfig    clang-22
-openrisc                         allmodconfig    gcc-15.2.0
-openrisc                          allnoconfig    clang-22
-openrisc                          allnoconfig    gcc-15.2.0
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-22
-parisc                            allnoconfig    gcc-15.2.0
-parisc                           allyesconfig    clang-19
-parisc                           allyesconfig    gcc-15.2.0
-parisc                              defconfig    gcc-15.2.0
-parisc                generic-32bit_defconfig    gcc-15.2.0
-parisc                randconfig-001-20260211    clang-22
-parisc                randconfig-001-20260211    gcc-14.3.0
-parisc                randconfig-002-20260211    clang-22
-parisc                randconfig-002-20260211    gcc-15.2.0
-parisc64                            defconfig    clang-19
-parisc64                            defconfig    gcc-15.2.0
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-22
-powerpc                           allnoconfig    gcc-15.2.0
-powerpc                 mpc8315_rdb_defconfig    gcc-15.2.0
-powerpc               randconfig-001-20260211    clang-16
-powerpc               randconfig-001-20260211    clang-22
-powerpc               randconfig-002-20260211    clang-22
-powerpc                    sam440ep_defconfig    gcc-15.2.0
-powerpc                     tqm8541_defconfig    clang-22
-powerpc                      tqm8xx_defconfig    gcc-15.2.0
-powerpc64             randconfig-001-20260211    clang-17
-powerpc64             randconfig-001-20260211    clang-22
-powerpc64             randconfig-002-20260211    clang-22
-riscv                            allmodconfig    clang-22
-riscv                             allnoconfig    clang-22
-riscv                             allnoconfig    gcc-15.2.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    clang-22
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260211    gcc-8.5.0
-riscv                 randconfig-002-20260211    clang-22
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    clang-22
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260211    gcc-13.4.0
-s390                  randconfig-002-20260211    clang-22
-s390                       zfcpdump_defconfig    gcc-15.2.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-22
-sh                                allnoconfig    gcc-15.2.0
-sh                               allyesconfig    clang-19
-sh                               allyesconfig    gcc-15.2.0
-sh                                  defconfig    gcc-14
-sh                          kfr2r09_defconfig    gcc-15.2.0
-sh                    randconfig-001-20260211    gcc-9.5.0
-sh                    randconfig-002-20260211    gcc-13.4.0
-sh                          sdk7786_defconfig    gcc-15.2.0
-sh                           se7751_defconfig    gcc-15.2.0
-sh                     sh7710voipgw_defconfig    gcc-15.2.0
-sparc                             allnoconfig    clang-22
-sparc                             allnoconfig    gcc-15.2.0
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260211    gcc-8.5.0
-sparc                 randconfig-002-20260211    gcc-15.2.0
-sparc64                          allmodconfig    clang-22
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260211    gcc-15.2.0
-sparc64               randconfig-002-20260211    gcc-14.3.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260211    clang-17
-um                    randconfig-002-20260211    gcc-14
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                            allnoconfig    clang-22
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260211    clang-20
-x86_64      buildonly-randconfig-001-20260211    gcc-12
-x86_64      buildonly-randconfig-002-20260211    gcc-12
-x86_64      buildonly-randconfig-002-20260211    gcc-14
-x86_64      buildonly-randconfig-003-20260211    gcc-12
-x86_64      buildonly-randconfig-003-20260211    gcc-14
-x86_64      buildonly-randconfig-004-20260211    gcc-12
-x86_64      buildonly-randconfig-005-20260211    clang-20
-x86_64      buildonly-randconfig-005-20260211    gcc-12
-x86_64      buildonly-randconfig-006-20260211    clang-20
-x86_64      buildonly-randconfig-006-20260211    gcc-12
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260211    clang-20
-x86_64                randconfig-002-20260211    clang-20
-x86_64                randconfig-003-20260211    clang-20
-x86_64                randconfig-004-20260211    clang-20
-x86_64                randconfig-005-20260211    clang-20
-x86_64                randconfig-006-20260211    clang-20
-x86_64                randconfig-011-20260211    gcc-14
-x86_64                randconfig-012-20260211    gcc-14
-x86_64                randconfig-013-20260211    gcc-12
-x86_64                randconfig-013-20260211    gcc-14
-x86_64                randconfig-014-20260211    clang-20
-x86_64                randconfig-014-20260211    gcc-14
-x86_64                randconfig-015-20260211    gcc-14
-x86_64                randconfig-016-20260211    gcc-14
-x86_64                randconfig-071-20260211    clang-20
-x86_64                randconfig-072-20260211    clang-20
-x86_64                randconfig-073-20260211    clang-20
-x86_64                randconfig-074-20260211    clang-20
-x86_64                randconfig-075-20260211    clang-20
-x86_64                randconfig-076-20260211    clang-20
-x86_64                randconfig-076-20260211    gcc-12
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-22
-xtensa                            allnoconfig    gcc-15.2.0
-xtensa                           allyesconfig    clang-22
-xtensa                           allyesconfig    gcc-15.2.0
-xtensa                randconfig-001-20260211    gcc-8.5.0
-xtensa                randconfig-002-20260211    gcc-13.4.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+Jens Axboe
 
