@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-52771-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52772-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mBdIMLQ6j2nHNAEAu9opvQ
-	(envelope-from <linux-media+bounces-52771-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 15:52:36 +0100
+	id wBKXHQc9j2mtNgEAu9opvQ
+	(envelope-from <linux-media+bounces-52772-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 16:02:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1238913744A
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 15:52:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA37E137629
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 16:02:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CFDDA30209CE
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 14:50:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5D35530131DA
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 15:01:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AE2C362153;
-	Fri, 13 Feb 2026 14:50:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02E5A357727;
+	Fri, 13 Feb 2026 15:01:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tMAdTX5d"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SDK9OhfE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A515A247295
-	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 14:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3AF33FE05
+	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 15:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770994204; cv=none; b=UjlRPiuG39GtabzOvwyWUUxlqUZ7ums72nTIkW9Qg+mooPXX4Q3pql6UUpVdgZl3BcYRsXgwn3LiWnV8HVDKwO09+O48JCw5AhZkuwRh9CPwyoKyWUeDGKT918ZBC3gDR25W2H8bdRg5EkbYwJJKQgSvBfNo0i0g7dPdcNMuf8Q=
+	t=1770994911; cv=none; b=C6OQ+DHzY0WZZoihu1mKfjaLYKoyyZfsqDQqFIq5AM006Yg1A8OIlEkJMIZNp3BLc1AajUeRGFCNr+Z6rtK5tKMOSRyQwgZrb8qWLCgL55nY63V6Opg6AtvpKLK8HMpW0aA+aCI9URNsDRBUKBq0Za4n1dDNpzJx537GO1/2P2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770994204; c=relaxed/simple;
-	bh=eb5f+4tsQn+cgO+FTJH63pnWIchcY80adadyBxr5NQI=;
+	s=arc-20240116; t=1770994911; c=relaxed/simple;
+	bh=VQwymPV3vaTOOjfnGHE+QgGR8PGzLRzu8nR9Ve7U8qE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WwN3R+fyBOg26oYSEZVu+eRjJoIdRSzctxk5GlHA6Y9S+cn48eK3VF8Q+807fsTbbRKXZvNjZjodphfDEW+d3n7X2Ufma4E8pt1KZHyzn1BJhB9QpSo4TW4RUOQsi0kaOB7RfjEiPn7cn4FAV+1WyTL03KUa9sy3Rlv/Of94imM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tMAdTX5d; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZoI+EWJtvaSYap9j/c87UmBFwqHK2Ak4yYt1cMTZAjBiN8l1jX9WUKtlUo6iFfLx3w/Q994GhdtbzccqVoFV0Mg6vREKVgyv47LKCA3QEKXgboPcBnXJvMfA58AeNUNlCTPyl4Xg4OaVQkPzi1PEKruQfAHWA/3y+3XG/H52oBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SDK9OhfE; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3366348;
-	Fri, 13 Feb 2026 15:49:13 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2C0D7CF5;
+	Fri, 13 Feb 2026 16:00:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1770994153;
-	bh=eb5f+4tsQn+cgO+FTJH63pnWIchcY80adadyBxr5NQI=;
+	s=mail; t=1770994856;
+	bh=VQwymPV3vaTOOjfnGHE+QgGR8PGzLRzu8nR9Ve7U8qE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tMAdTX5d+XRTRSr+z2XTjrU9XUHWtYJGKgbWRQzGzr3CRZQ+rnPyu++8MEhfNQgcN
-	 3GDnwSI7mueQ1Utk8z1spsh/kth1rxyaPD7eu9YHZxpLEWW/nSwXu4jGzxP5a9kJaU
-	 InSjPHkPFpqHtXUQACaHh1fJS6v8+7A3jBvGxh4k=
-Date: Fri, 13 Feb 2026 15:49:59 +0100
+	b=SDK9OhfEjx3iuFrsTwZTgfrqWis9nqRegD4uablHjNQEXspIMWC3pJJkNmenP8slF
+	 4tXnsVP0XIwnMYJ1qi0kmRiFPeCsxFaJ+LVrgXUvVJO5GVAYIDy16PoTLwGrHajZx2
+	 XQsrdLuJoXxUjIZRq7jLHhfWPtqqxdWfza8jRLuE=
+Date: Fri, 13 Feb 2026 16:01:41 +0100
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
@@ -62,11 +62,10 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
 	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
 	"Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: Re: [PATCH v2 04/14] media: Documentation: Improve pixel rate
- calculation documentation
-Message-ID: <aY86CWrtgTp7hq2n@zed>
+Subject: Re: [PATCH v2 05/14] media: v4l2-subdev: Refactor returning routes
+Message-ID: <aY87XgH0avmszN3-@zed>
 References: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
- <20260211090920.1851141-5-sakari.ailus@linux.intel.com>
+ <20260211090920.1851141-6-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,7 +74,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260211090920.1851141-5-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260211090920.1851141-6-sakari.ailus@linux.intel.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -83,12 +82,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52771-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52772-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -102,47 +101,118 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 1238913744A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: CA37E137629
 X-Rspamd-Action: no action
 
 Hi Sakari
 
-On Wed, Feb 11, 2026 at 11:09:10AM +0200, Sakari Ailus wrote:
-> Improve documentation on calculating the pixel rate, by adding references
-> to relevant functions and mentioning V4L2 fwnode endpoint instead of OF
-> endpoint.
+On Wed, Feb 11, 2026 at 11:09:11AM +0200, Sakari Ailus wrote:
+> Refactor returning the routes by adding a new function that essentially
+> does a memcopy and sets the number of the number of the routes in the
+> routing table.
 >
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
 > ---
->  Documentation/driver-api/media/tx-rx.rst | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 40 +++++++++++++++------------
+>  1 file changed, 22 insertions(+), 18 deletions(-)
 >
-> diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-> index 7df2407817b3..9b231fa0216a 100644
-> --- a/Documentation/driver-api/media/tx-rx.rst
-> +++ b/Documentation/driver-api/media/tx-rx.rst
-> @@ -104,7 +104,11 @@ where
->     * - k
->       - 16 for D-PHY and 7 for C-PHY.
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index b2105c34478e..8a433d074587 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -629,6 +629,19 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
+>  			     v4l2_subdev_get_unlocked_active_state(sd);
+>  }
 >
-> -Information on whether D-PHY or C-PHY is used, and the value of ``nr_of_lanes``, can be obtained from the OF endpoint configuration.
-> +Information on whether D-PHY or C-PHY is used as well as the value of
-> +``nr_of_lanes`` can be obtained from the V4L2 endpoint configuration; see
-> +:c:func:`v4l2_fwnode_endpoint_alloc_parse()`,
-> +:c:func:`v4l2_fwnode_endpoint_parse()` and
-> +:c:func:`v4l2_get_active_data_lanes()`.
+> +static void subdev_copy_fix_routes(struct v4l2_subdev_routing *routing,
+
+or just subdev_copy_routes()
+
+> +				   const struct v4l2_subdev_route *src,
+> +				   u32 copy_routes, u32 num_routes)
+> +{
+> +	struct v4l2_subdev_route *routes =
+> +		(struct v4l2_subdev_route *)(uintptr_t)routing->routes;
+> +
+> +	for (u32 i = 0; i < copy_routes; i++)
+
+Shouldn't this copy the min(copy_routes, num_routes) as the callers
+used to do ?
+
+Even better, shouldn't we just accept one 'dest' and one 'source'
+v4l2_subdev_routing arguments and make sure we don't copy more than
+min(dest->num_routes, source->num_routes) ?
+
+Having the number of routes being passed in by the caller opens the
+door for memory errors.
+
+
+> +		routes[i] = src[i];
+> +
+> +	routing->num_routes = num_routes;
+> +}
+> +
+>  static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  			    struct v4l2_subdev_state *state)
+>  {
+> @@ -1000,7 +1013,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
 >
->  .. note::
+>  	case VIDIOC_SUBDEV_G_ROUTING: {
+>  		struct v4l2_subdev_routing *routing = arg;
+> -		struct v4l2_subdev_krouting *krouting;
 >
+>  		if (!v4l2_subdev_enable_streams_api)
+>  			return -ENOIOCTLCMD;
+> @@ -1013,13 +1025,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>
+>  		memset(routing->reserved, 0, sizeof(routing->reserved));
+>
+> -		krouting = &state->routing;
+> -
+> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+> -		       krouting->routes,
+> -		       min(krouting->num_routes, routing->len_routes) *
+> -		       sizeof(*krouting->routes));
+> -		routing->num_routes = krouting->num_routes;
+> +		subdev_copy_fix_routes(routing, state->routing.routes,
+> +				       routing->len_routes,
+> +				       state->routing.num_routes);
+>
+>  		return 0;
+>  	}
+> @@ -1090,11 +1098,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		 * the routing table.
+>  		 */
+>  		if (!v4l2_subdev_has_op(sd, pad, set_routing)) {
+> -			memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+> -			       state->routing.routes,
+> -			       min(state->routing.num_routes, routing->len_routes) *
+> -			       sizeof(*state->routing.routes));
+> -			routing->num_routes = state->routing.num_routes;
+> +			subdev_copy_fix_routes(routing, state->routing.routes,
+> +					       routing->len_routes,
+> +					       state->routing.num_routes);
+>
+>  			return 0;
+>  		}
+> @@ -1108,11 +1114,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		if (rval < 0)
+>  			return rval;
+>
+> -		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+> -		       state->routing.routes,
+> -		       min(state->routing.num_routes, routing->len_routes) *
+> -		       sizeof(*state->routing.routes));
+> -		routing->num_routes = state->routing.num_routes;
+> +		subdev_copy_fix_routes(routing, state->routing.routes,
+> +				       routing->len_routes,
+> +				       state->routing.num_routes);
+>
+>  		return 0;
+>  	}
 > --
 > 2.47.3
 >
