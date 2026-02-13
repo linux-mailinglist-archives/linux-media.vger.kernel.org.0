@@ -1,530 +1,215 @@
-Return-Path: <linux-media+bounces-52686-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52687-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GPzDCeO7jmkWEQEAu9opvQ
-	(envelope-from <linux-media+bounces-52686-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 06:51:31 +0100
+	id MIAvJRK/jmmzEQEAu9opvQ
+	(envelope-from <linux-media+bounces-52687-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 07:05:06 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A42A133128
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 06:51:30 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0E0133246
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 07:05:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9D13E30A8D9E
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 05:50:31 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 95D6C302F5E4
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 06:05:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD48627EFE3;
-	Fri, 13 Feb 2026 05:50:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4615421D3F3;
+	Fri, 13 Feb 2026 06:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hUvKQkA+";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MKvp8Vh6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1071521D3E2;
-	Fri, 13 Feb 2026 05:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCF72836E
+	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 06:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770961826; cv=none; b=JvBRnLgXgv2CB/yTu/pgUL+lTk33Fucu0cr0YvgywbFgsEE8BLfcwTtyNFOW8eYmm54wKxyqAJje9fZyOcP2kZzrwzDb+N1RfaAQ7aYiuySzAeCpU+AfltmTsvUVhMfu1YPf3Zk/T4iUOl8KNOUJmY/T0qaioaHrLK1Ixc7RyM8=
+	t=1770962699; cv=none; b=GWE9cohYjvKoe7B16Xm8NzXbD/T1FPQw2j5u7Tl8+kaU3Zzp3gfdwI6hxOXREpe+uwz827HnWRz+L5/cn+FnZU43Gkzu5VP3MAsy03C/nZLIVopopL1PBXURlrE8hq6Fkad1YBbFv57BltVe3DpKBKKSk8ytECVWMdzNOSFHcHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770961826; c=relaxed/simple;
-	bh=Olv5FsQoJX1MZOZmz/89/ELafNm3/Vh+Aei35tGdPRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JPKDTga5ty7qCYqpbYD78CuL1PYpACxTAaPqQEBkKaGIPQNt/ANJzZJeNi838LRLrVoO1NBKqSZwntOXSUh1K3tBgQNWbcm1/faEMiMQHI8w60hgOHI1RwiJx8U5Ojfmf5qcAD3UJd9hKqRp18xdieWeS0SavsmWgcAUVCzpQc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-b9-698ebb941ab3
-Date: Fri, 13 Feb 2026 14:50:06 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
-	damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
-	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
-	mingo@redhat.com, peterz@infradead.org, will@kernel.org,
-	tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
-	sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
-	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
-	willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
-	gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
-	akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
-	hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
-	jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
-	yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
-	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
-	gustavo@padovan.org, christian.koenig@amd.com,
-	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
-	mcgrof@kernel.org, da.gomez@kernel.org, samitolvanen@google.com,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
-	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
-	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
-	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
-	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
-	tmgross@umich.edu, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v18 34/42] dept: add module support for struct
- dept_event_site and dept_event_site_dep
-Message-ID: <20260213055006.GA55430@system.software.com>
-References: <20251205071855.72743-1-byungchul@sk.com>
- <20251205071855.72743-35-byungchul@sk.com>
- <7afb6666-43b6-4d17-b875-e585c7a5ac99@suse.com>
+	s=arc-20240116; t=1770962699; c=relaxed/simple;
+	bh=KbHhZD7q9DfMhC041J6lHwdSp2WYNAixN7Obk0zD7HA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=u8YZAaatKcTySOQn1tgZIToPSdAKo5ZLS+KTRWNZybVyvVi1QQfRNZi/TklCQPw7wWF1h2ElNpD+m8WfMTSQVkMpprTCmwykMmfDI8gxmxov4p56Y8d6PE5KAHFtz4COtkIXS2qwcl03Q2o+QBKlSgU6b9cBz/397xhU+/IsZh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hUvKQkA+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MKvp8Vh6; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61CLQdCB3046919
+	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 06:04:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=cMI1LadkCu8p7eT91y1Jko
+	ZS//ZV1c8RKFe+m5iQJms=; b=hUvKQkA+I1eSQW67eiuBFKKtkY97qwb+I/U1Jo
+	gRHg8we5jn0TDlnKhAFrL4dM6MLPFmCaceQqcDq6AE1AyNDANh492M8TH/f5voRy
+	nIHPWp0Hd/sQGN0s8kpke4j4mSbyH1vrEAFkMLjNgPMJOVI3LQNHoVsxVS1HYYys
+	o2CZF317TY2RnPOnJynTC1As8UHc+QZK1hmJ9mc2T6U2rNs7G3jvPGeA/49r/jia
+	vHFo9GrSuFl8iGO956wLjpxOhT89N9X8ook8vDMhMKM2Z4Tf8gCd/2zW1aEfFXEB
+	Bl/kq6CATSTGbPVw3cfq/DgfOV6aOnRgDYNVrTdSmO0Dxmlg==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c9ps2sg9k-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 06:04:57 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-824a1d441e7so340618b3a.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Feb 2026 22:04:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1770962697; x=1771567497; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cMI1LadkCu8p7eT91y1JkoZS//ZV1c8RKFe+m5iQJms=;
+        b=MKvp8Vh6iihmKavy6uer1vMNhPAwetkUqjjp6x7Xh5qks/DwxZXZd8Te0/3W5zoNsN
+         rH5Vw04+21UXLAwjKEA3WeCAKEIIKakUSPhqwbHoGBO6tQWZjN6SABjUrhwlc9KXDMpV
+         KNGlP+B9Y3aHz8dH1Aqi7XNzq4M/ola78ILA4t37MXBRJnVFVYmo/G3EAYLJp7w7sl5Q
+         3A8ot71DYEKYv0cjJt+wc9wR4PokbYATqDsFEQFaCSrRHo4J6m6UU7qLMsE3BoPlJoGv
+         fbtjxJXWJitMzi/RkId7p9+xqQ5ZRBHDEApfnLTqn4ju4iAP3onpswvKPFy1JQUEI2lz
+         Oazg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770962697; x=1771567497;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cMI1LadkCu8p7eT91y1JkoZS//ZV1c8RKFe+m5iQJms=;
+        b=Af0XXod76XVidskLSR3gHXWELvRGMQxIya9Z8UIG1xgtBTwTRptSQi7OCmeTRufqXm
+         r0rQUrp8cjPYotgbkdUmCvztlI4LsaOZu2Q+1+CeHQQ7i9JhU9yJ+q3nnJ04MtEK2uBA
+         b0KbRhoHHCu6nqgCgtlt0MeIog/JDdebqCCRqph9bBsky6EUZhMx/WLcET3LWDvlfXOz
+         taaLjWsJ6ud7X9eSXbAu1Itf6heVV3ivk4Zh09S/HboqCYSebTCszSF7vYNTYlRe/MMP
+         FNZPxbs/Pw33FEGRRLS+WWVWbwY9bqUqRwkrOqHhXKGQrJeGtTfOXIkVnu9d2m3P73wN
+         55gw==
+X-Gm-Message-State: AOJu0YzSenhLLnXzY+Ah1gOcVsoPQdy8oGKPM2J5MFXG1L90gtdciBZU
+	tVPmqgbnTTy3HwSSBbLAPbMVicGIDjuxS3siN6Ou+Z6XrcOVB9Mib8CDKd76nlGPs9P2eb8ctGW
+	O53cBzOCWrS6+weBcO3mZl2f08Jb0sFeS9+i9d7Ydk0ZZAszcAITdFDRTV18MPTXoOw==
+X-Gm-Gg: AZuq6aLX7q9OsbDkgIhHDxqqZ2PNhOhwM31dSOfXV8qVhxN0HihWQlsGuUujO0uvvaU
+	5SzLSnX3psIZU1P6x1zfGrOoUvhsTJz9/8a18UuxhTEPZZ3ZvUVtYUK+jyFDy0FKd/YiBgOZHYO
+	hlLMwOx53z25ZH4Xlf6RCjj2WtyLG195KFqGS7Ea3VG2KRuoId7ASwPB6lEt0Rtf45n5E2dwNYd
+	iXnJk0I8NWHroq8jLrcKGKS9EUSVRptFgFCDDOeDiH62jPW51+FyAuZjGO1LbqEtG50MQqasPRA
+	5Gx+SixP1Of/fVQjE0wCa+lkDOHqv+ffkEhHD/pWqCYBS0xYJR4dfD/z0SlhXZ4gOxkDTDmGP+c
+	iiWXsS0A+tybaxiArvek1z6B/tOMaqVaYwLhO6L7E8Ht9ks9NnaxW
+X-Received: by 2002:a05:6a00:9501:b0:81f:3cd5:2072 with SMTP id d2e1a72fcca58-824c94447b7mr943507b3a.3.1770962697139;
+        Thu, 12 Feb 2026 22:04:57 -0800 (PST)
+X-Received: by 2002:a05:6a00:9501:b0:81f:3cd5:2072 with SMTP id d2e1a72fcca58-824c94447b7mr943478b3a.3.1770962696638;
+        Thu, 12 Feb 2026 22:04:56 -0800 (PST)
+Received: from hu-sachinku-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824c6a2afeesm1342853b3a.2.2026.02.12.22.04.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Feb 2026 22:04:56 -0800 (PST)
+From: Sachin Kumar Garg <sachin.garg@oss.qualcomm.com>
+Subject: [PATCH 0/2] add MBR type rate control for encoder
+Date: Fri, 13 Feb 2026 11:34:44 +0530
+Message-Id: <20260213-b4-add_sc7280_mbr-v1-0-e8d95b4e4809@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7afb6666-43b6-4d17-b875-e585c7a5ac99@suse.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0yTVxjHd947jV2O1YUzMTPpxsyYl7mx7HHBTbMle/dh0WQuRv2gVaq8
-	sRTTAsqSRaZIKgJipRBaL8BG3w5K59pNLUJUNGBHlIoXKhHUjpR1iE5sa7yUrsWY+eXkl/P/
-	P788Hx6BVh3j5giSvlBr0Gt0ak7BKCZmNC2sPV0tffBPrRpu3R5lIRoxMRC3neTh4uBuBvyu
-	NgSPn9lo2OtNMBDwn6GhPvwjA9aQjYfE8BgFg7F7COyjUxQca/ZwMF73LwfPLvXTMBm+g6DL
-	sZuDa9EHHPgs+zmYuHKYgiM2M4LQUBcF3jsdPPTVNFNJKQd1v6WDrX4PlXz+psDSfpqCJ/ZW
-	HuylmRB0WHl4fncJJBoLoKdtjIfhAxYGXBP9LPhGbrAwHjJzcLu3nIXItbsUOCtDNLj/SgZd
-	Q+9DU/nPDDQcvcWBKR5B0HMqSMHVjsMcVB7/g4URZ4KFUttjFvxn+1gYaPMz8OtYgIK+nosM
-	9He0s9AyeIWCWHUG+A9WsXDofgjBeMxOw836e/zyXLHVc4ISnUedSIy07KHFvTVJKvPsEJ9G
-	r3PiwUsLRa91mBcb3UVi2YUJVvQ4ssSfOsOU2DQZZcWh8WWiu3UfJ7onzfyqBesUOblanVSs
-	NSz+bKMizzpwgN9u0u08H4ozpejqNxUoTSA4m1xoD7Iv2ely0ClmcCZ5JMtUijk8nwQCT5L/
-	gjAbv0MGgisqkEKgcd1bxOcxTc/Owjpy/tDD6b4SA4k9stCpkgrXImKRXcyLYCbxNYxOM42z
-	SGAqTKWkNM4g8pSQwjScQ6rrPk413sBvk7MneqmUhuBgGpErfkEv9nyTnHMEmBqEra9Yra9Y
-	rf9bGxHdilSSvjhfI+myF+WV6KWdizYX5LtR8mztPzxffwpN+r/tRlhA6hnKwPUqScVqio0l
-	+d2ICLR6tnLee/sllTJXU/K91lCwwVCk0xq7UYbAqNOVH8Z25KrwVk2hdptWu11reJlSQtqc
-	UtTwWtcnl5+2VOZsumlGZt3Ivl2YrB6V565Y6/I1CxkbtsrHjUujTZ+eM6Vvm5KjwqaVX15+
-	fXmk6qv+vu/wg6X1Rzpnme1S9q6ZhdXlWxrf9ep7479LDWtXfSQmvGXL4l8La8zr5vpJc+bm
-	ogXy6j83fvGwk7u/fl7RGuX88Oc3cJ6aMeZplmTRBqPmP1xmOKWyAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG877v/aKuy7ViuEGzZd2mToVtZiYnwW2SaLhZApmJyZKZqM16
-	AzeUSlpEWGKksLoOhZViS2zVMbDFYEUFlTFsJHTD4UdGYc5mgsDSdWOgDKF1UAprXZb5z8lz
-	zvN7Ts4fhyOqOJ3OyfoSyaDX6NSMglLkZVVl1HfXym+1jW0Bi/kIDI+GaPjZ1ENBZM5CwamL
-	Xgbirk4WLO0nafjhfiUFA23nEYxGLAiexlwEzF3LFMRtfSzMzT9gwW5CsOzrQ+AI2AgEB24Q
-	8F4xYZi9tMTApP8JAvt4iIGGCRMF057jCJxhFwsT3+fAo9FuGpZHfsdwPzqFwBNawhDq+RxB
-	3FEIXzV1JOKOvxiI3f2RQIN9AMHX4yMEnkyMIbjS9xCB71wlA79ZrxIYCr0IP0WmGei3H2Pg
-	UeAUhseXGGis9NEQuDOJ4LTLhiD8iw9DVfNFBhyn2ynoGvuWhcDkIoZhhw3D+fZcGPWEKbht
-	bcKJcxPU5TRwNVThRPkDg/1CN4Z5Tyu73Y3Ep+ZaSmztuIZF82CcEb1nvEiMLdiQOOeuIqLZ
-	mmj9U9NE/KzjkOi+PcWIC5F7jOiLNlLirSZBPPvFAhbr7maIXc4R9sPsjxXbtJJOLpUMb763
-	X1HgHPySLbboyvzhOFWBhnKrUQon8O8I3rZzJKkp/nVhtqUFJzXDrxeCwfnEnONS+deEwV+z
-	q5GCI7zjJaG/w0InmVW8TvDXzzzjlTwI0Vk7SUIq/gQS7C1t1L/GSqH/ZOiZJvxGIbg0gZNL
-	Cb9GaFnikjKF3ybUOrYmidX8q0LPtZvYipTO58LO58LO/8ONiLSiVFlfWqSRdVszjYUF5Xq5
-	LPOTA0XtKPGUnsOLdd+guaGcXsRzSP2CMnivRlbRmlJjeVEvEjiiTlW+/MYxWaXUaso/lQwH
-	9hkO6iRjL1rDUeo05QcfSftVfL6mRCqUpGLJ8J+LuZT0CpS5eNnkbmQLIq6d70bC0Swmb0p7
-	tXhxt2vFcB7dq8rPrb9Dsyd2h2M3A+6aPfqKo1hbe+i77e/f2qR9QFYdPxyJju+Y+XvD3tY/
-	m5srX8k5W1ZXsnZz1uo9O3SxtJ35JQf3WWcGxtXFnmy5xt/5mM4YrEZHy3btur4OdeK16vQz
-	aspYoHl7IzEYNf8AhlstipADAAA=
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPy+jmkC/4XP22rDMAwG4Fcpvp6LLVt2vKu9RxnFp6yGpdnsL
+ rSUvHvVXDcLCMEv0Cd0Zy3Xkht7391ZzVNpZTxTkG87Fk/+/JV5SZQZCDACJPCguU/p2KKFThy
+ HUDk666ORGJySjPZ+au7LdTEPn5RPpV3GeltOTPI5/U+bJBcce1S5E04nZz7G1va/f/47jsOwp
+ 8ae6ASbEBAkojM5dND36FYgtQkpgoIwIrlog0xpBdKbkF5es1QBMGmxAuEmhAR572NW0noM/gU
+ 0z/MDENoMj90BAAA=
+X-Change-ID: 20260212-b4-add_sc7280_mbr-597ac615b931
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Sachin Kumar Garg <sachin.garg@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770962693; l=1348;
+ i=sachin.garg@oss.qualcomm.com; s=20260211; h=from:subject:message-id;
+ bh=KbHhZD7q9DfMhC041J6lHwdSp2WYNAixN7Obk0zD7HA=;
+ b=2XKhR/tNwVPyyOtgHo+3EeHRYSunP8HjVyJWw1qlgyK0/TusqAsDSvCf2ddXk9KfN4ccg31qi
+ H4+aulNPXAJDaGZnOSFfAVvvTWAiatMkasTIOhsNtXb7fQ6QDoKc/ST
+X-Developer-Key: i=sachin.garg@oss.qualcomm.com; a=ed25519;
+ pk=KcRhp4CP9cR1V2tg6xSNRnB2STYaU0vVigdUF4Actu0=
+X-Proofpoint-ORIG-GUID: EjeQeES6Pa_fYGDndt3gVuNYmahQTbEC
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEzMDA0MyBTYWx0ZWRfXyq7GjFErYrhh
+ BhveHofaDSwShrnliImzqMQTgChEDUOIeo14bA0wi30q8gt2eii/Oz0dSl7MUK9T1pjKRuBxGrC
+ egdmGEG9spkgZGG1s/LyEpFKc1RrttD6ODTu+8OwSkDltXYxJHpqCiRg01yMBnWiC5gJFNhagc8
+ 1L3BO5aBxjZIZz4JXuUcZkIgA7heQFbg8rnC8zryQ+Nsz7blbJ87YzLmS37ptGlBYUQ6mjzSRQD
+ V8PAJxFStizqJfWSlJThAAumGcikSI7ldOYcNpqsamSv630x+9zWl4sYAbl9jo+n9Hxo8gRJmBD
+ eihoNakX2A5EOA0z8Gih/EW4INOPphVmNLoCJ5U8Z6Far1R2+D23Ba1z9+xQQYVeRfVL2U97kEi
+ m4rwvoyK1VTLrSIzBTb2U/ocfI67ZdbUNawemfFFCRJASZRUOLyaiLb2MZ7+MQbfHSAf9Vz0T0+
+ gEKhcL01eI2dIVJWdGA==
+X-Authority-Analysis: v=2.4 cv=LoOfC3dc c=1 sm=1 tr=0 ts=698ebf09 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=M2UPhC0fV7HEmC5BqZAA:9 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-GUID: EjeQeES6Pa_fYGDndt3gVuNYmahQTbEC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-12_05,2026-02-12_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 impostorscore=0 spamscore=0 phishscore=0 bulkscore=0
+ malwarescore=0 adultscore=0 suspectscore=0 clxscore=1011 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602130043
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_THREE(0.00)[3];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	TO_DN_SOME(0.00)[];
-	DMARC_NA(0.00)[sk.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[system.software.com:mid,sk.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	RCPT_COUNT_GT_50(0.00)[165];
-	FROM_NEQ_ENVFROM(0.00)[byungchul@sk.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[skhynix.com,linux-foundation.org,opensource.wdc.com,vger.kernel.org,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,gmail.com,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,toxicpanda.com,lists.freedesktop.org,oracle.com,ericsson.com,kzalloc.com,arm.com,lwn.net,alien8.de,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,linux.intel.com,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev,qq.com,ownmail.net,sang-engineering.com,linux-m68k.org,garyguo.net,protonmail.com,umich.edu];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52686-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	TAGGED_FROM(0.00)[bounces-52687-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:dkim];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 9A42A133128
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sachin.garg@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 3A0E0133246
 X-Rspamd-Action: no action
 
-On Wed, Jan 07, 2026 at 01:19:00PM +0100, Petr Pavlu wrote:
-> On 12/5/25 8:18 AM, Byungchul Park wrote:
-> > struct dept_event_site and struct dept_event_site_dep have been
-> > introduced to track dependencies between multi event sites for a single
-> > wait, that will be loaded to data segment.  Plus, a custom section,
-> > '.dept.event_sites', also has been introduced to keep pointers to the
-> > objects to make sure all the event sites defined exist in code.
-> >
-> > dept should work with the section and segment of module.  Add the
-> > support to handle the section and segment properly whenever modules are
-> > loaded and unloaded.
-> >
-> > Signed-off-by: Byungchul Park <byungchul@sk.com>
-> 
-> Below are a few comments from the module loader perspective.
+This series adds the support for MBR rate control type in the
+Iris driver.
+The changes include:
+- Add MBR Rate Control definition in the v4l2-ctrl.
+- Add MBR Documentation in the v4l2-ctrl.
+- Add MBR RC handling in the Iris driver for sc7280.
 
-Sorry about the late reply.  I've been going through some major life
-changes lately. :(
+I have validated this series on sc7280 using the below test application
+by setting the BitRateMode control to V4L2_MPEG_VIDEO_BITRATE_MODE_MBR:
+https://github.com/quic/v4l-video-test-app
 
-Thank you sooooo~ much for your helpful feedback.  I will leave my
-opinion below.
+Signed-off-by: Sachin Kumar Garg <sachin.garg@oss.qualcomm.com>
+---
+Sachin Kumar Garg (2):
+      media: v4l2-ctrls: add encoder maximum bitrate control
+      media: iris: add new rate control type MBR for encoder
 
-> > ---
-> >  include/linux/dept.h     | 14 +++++++
-> >  include/linux/module.h   |  5 +++
-> >  kernel/dependency/dept.c | 79 +++++++++++++++++++++++++++++++++++-----
-> >  kernel/module/main.c     | 15 ++++++++
-> >  4 files changed, 103 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/include/linux/dept.h b/include/linux/dept.h
-> > index 44083e6651ab..c796cdceb04e 100644
-> > --- a/include/linux/dept.h
-> > +++ b/include/linux/dept.h
-> > @@ -166,6 +166,11 @@ struct dept_event_site {
-> >       struct dept_event_site          *bfs_parent;
-> >       struct list_head                bfs_node;
-> >
-> > +     /*
-> > +      * for linking all dept_event_site's
-> > +      */
-> > +     struct list_head                all_node;
-> > +
-> >       /*
-> >        * flag indicating the event is not only declared but also
-> >        * actually used in code
-> > @@ -182,6 +187,11 @@ struct dept_event_site_dep {
-> >        */
-> >       struct list_head                dep_node;
-> >       struct list_head                dep_rev_node;
-> > +
-> > +     /*
-> > +      * for linking all dept_event_site_dep's
-> > +      */
-> > +     struct list_head                all_node;
-> >  };
-> >
-> >  #define DEPT_EVENT_SITE_INITIALIZER(es)                                      \
-> > @@ -193,6 +203,7 @@ struct dept_event_site_dep {
-> >       .bfs_gen = 0,                                                   \
-> >       .bfs_parent = NULL,                                             \
-> >       .bfs_node = LIST_HEAD_INIT((es).bfs_node),                      \
-> > +     .all_node = LIST_HEAD_INIT((es).all_node),                      \
-> >       .used = false,                                                  \
-> >  }
-> >
-> > @@ -202,6 +213,7 @@ struct dept_event_site_dep {
-> >       .recover_site = NULL,                                           \
-> >       .dep_node = LIST_HEAD_INIT((esd).dep_node),                     \
-> >       .dep_rev_node = LIST_HEAD_INIT((esd).dep_rev_node),             \
-> > +     .all_node = LIST_HEAD_INIT((esd).all_node),                     \
-> >  }
-> >
-> >  struct dept_event_site_init {
-> > @@ -225,6 +237,7 @@ extern void dept_init(void);
-> >  extern void dept_task_init(struct task_struct *t);
-> >  extern void dept_task_exit(struct task_struct *t);
-> >  extern void dept_free_range(void *start, unsigned int sz);
-> > +extern void dept_mark_event_site_used(void *start, void *end);
-> 
-> Nit: The coding style recommends not using the extern keyword with
-> function declarations.
+ .../userspace-api/media/v4l/ext-ctrls-codec.rst    |   7 +
+ drivers/media/platform/qcom/iris/iris_ctrls.c      |   2 +
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     |   1 +
+ .../media/platform/qcom/iris/iris_platform_gen1.c  |   9 +-
+ .../platform/qcom/iris/iris_platform_sc7280.h      | 202 +++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          |   1 +
+ include/uapi/linux/v4l2-controls.h                 |   1 +
+ 7 files changed, 216 insertions(+), 7 deletions(-)
+---
+base-commit: c824345288d11e269ce41b36c105715bc2286050
+change-id: 20260212-b4-add_sc7280_mbr-597ac615b931
 
-I will remove 'extern's.  Thanks.
+Best regards,
+-- 
+Sachin Kumar Garg <sachin.garg@oss.qualcomm.com>
 
-> https://www.kernel.org/doc/html/v6.19-rc4/process/coding-style.html#function-prototypes
-> 
-> >
-> >  extern void dept_map_init(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
-> >  extern void dept_map_reinit(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
-> > @@ -288,6 +301,7 @@ struct dept_event_site { };
-> >  #define dept_task_init(t)                            do { } while (0)
-> >  #define dept_task_exit(t)                            do { } while (0)
-> >  #define dept_free_range(s, sz)                               do { } while (0)
-> > +#define dept_mark_event_site_used(s, e)                      do { } while (0)
-> >
-> >  #define dept_map_init(m, k, su, n)                   do { (void)(n); (void)(k); } while (0)
-> >  #define dept_map_reinit(m, k, su, n)                 do { (void)(n); (void)(k); } while (0)
-> > diff --git a/include/linux/module.h b/include/linux/module.h
-> > index d80c3ea57472..29885ba91951 100644
-> > --- a/include/linux/module.h
-> > +++ b/include/linux/module.h
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/srcu.h>
-> >  #include <linux/static_call_types.h>
-> >  #include <linux/dynamic_debug.h>
-> > +#include <linux/dept.h>
-> >
-> >  #include <linux/percpu.h>
-> >  #include <asm/module.h>
-> > @@ -588,6 +589,10 @@ struct module {
-> >  #ifdef CONFIG_DYNAMIC_DEBUG_CORE
-> >       struct _ddebug_info dyndbg_info;
-> >  #endif
-> > +#ifdef CONFIG_DEPT
-> > +     struct dept_event_site **dept_event_sites;
-> > +     unsigned int num_dept_event_sites;
-> > +#endif
-> >  } ____cacheline_aligned __randomize_layout;
-> >  #ifndef MODULE_ARCH_INIT
-> >  #define MODULE_ARCH_INIT {}
-> 
-> My understanding is that entries in the .dept.event_sites section are
-> added by the dept_event_site_used() macro and they are pointers to the
-> dept_event_site_init struct, not dept_event_site.
-> 
-> > diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
-> > index b14400c4f83b..07d883579269 100644
-> > --- a/kernel/dependency/dept.c
-> > +++ b/kernel/dependency/dept.c
-> > @@ -984,6 +984,9 @@ static void bfs(void *root, struct bfs_ops *ops, void *in, void **out)
-> >   * event sites.
-> >   */
-> >
-> > +static LIST_HEAD(dept_event_sites);
-> > +static LIST_HEAD(dept_event_site_deps);
-> > +
-> >  /*
-> >   * Print all events in the circle.
-> >   */
-> > @@ -2043,6 +2046,33 @@ static void del_dep_rcu(struct rcu_head *rh)
-> >       preempt_enable();
-> >  }
-> >
-> > +/*
-> > + * NOTE: Must be called with dept_lock held.
-> > + */
-> > +static void disconnect_event_site_dep(struct dept_event_site_dep *esd)
-> > +{
-> > +     list_del_rcu(&esd->dep_node);
-> > +     list_del_rcu(&esd->dep_rev_node);
-> > +}
-> > +
-> > +/*
-> > + * NOTE: Must be called with dept_lock held.
-> > + */
-> > +static void disconnect_event_site(struct dept_event_site *es)
-> > +{
-> > +     struct dept_event_site_dep *esd, *next_esd;
-> > +
-> > +     list_for_each_entry_safe(esd, next_esd, &es->dep_head, dep_node) {
-> > +             list_del_rcu(&esd->dep_node);
-> > +             list_del_rcu(&esd->dep_rev_node);
-> > +     }
-> > +
-> > +     list_for_each_entry_safe(esd, next_esd, &es->dep_rev_head, dep_rev_node) {
-> > +             list_del_rcu(&esd->dep_node);
-> > +             list_del_rcu(&esd->dep_rev_node);
-> > +     }
-> > +}
-> > +
-> >  /*
-> >   * NOTE: Must be called with dept_lock held.
-> >   */
-> > @@ -2384,6 +2414,8 @@ void dept_free_range(void *start, unsigned int sz)
-> >  {
-> >       struct dept_task *dt = dept_task();
-> >       struct dept_class *c, *n;
-> > +     struct dept_event_site_dep *esd, *next_esd;
-> > +     struct dept_event_site *es, *next_es;
-> >       unsigned long flags;
-> >
-> >       if (unlikely(!dept_working()))
-> > @@ -2405,6 +2437,24 @@ void dept_free_range(void *start, unsigned int sz)
-> >       while (unlikely(!dept_lock()))
-> >               cpu_relax();
-> >
-> > +     list_for_each_entry_safe(esd, next_esd, &dept_event_site_deps, all_node) {
-> > +             if (!within((void *)esd, start, sz))
-> > +                     continue;
-> > +
-> > +             disconnect_event_site_dep(esd);
-> > +             list_del(&esd->all_node);
-> > +     }
-> > +
-> > +     list_for_each_entry_safe(es, next_es, &dept_event_sites, all_node) {
-> > +             if (!within((void *)es, start, sz) &&
-> > +                 !within(es->name, start, sz) &&
-> > +                 !within(es->func_name, start, sz))
-> > +                     continue;
-> > +
-> > +             disconnect_event_site(es);
-> > +             list_del(&es->all_node);
-> > +     }
-> > +
-> >       list_for_each_entry_safe(c, n, &dept_classes, all_node) {
-> >               if (!within((void *)c->key, start, sz) &&
-> >                   !within(c->name, start, sz))
-> > @@ -3337,6 +3387,7 @@ void __dept_recover_event(struct dept_event_site_dep *esd,
-> >
-> >       list_add(&esd->dep_node, &es->dep_head);
-> >       list_add(&esd->dep_rev_node, &rs->dep_rev_head);
-> > +     list_add(&esd->all_node, &dept_event_site_deps);
-> >       check_recover_dl_bfs(esd);
-> >  unlock:
-> >       dept_unlock();
-> > @@ -3347,6 +3398,23 @@ EXPORT_SYMBOL_GPL(__dept_recover_event);
-> >
-> >  #define B2KB(B) ((B) / 1024)
-> >
-> > +void dept_mark_event_site_used(void *start, void *end)
-> 
-> Nit: I suggest that dept_mark_event_site_used() take pointers to
-> dept_event_site_init, which would catch the type mismatch with
-
-IMO, this is the easiest way to get all the pointers from start to the
-end, or I can't get the number of the pointers.  It's similar to the
-initcalls section for device drivers.
-
-> module::dept_event_sites.
-> 
-> > +{
-> > +     struct dept_event_site_init **evtinitpp;
-> > +
-> > +     for (evtinitpp = (struct dept_event_site_init **)start;
-> > +          evtinitpp < (struct dept_event_site_init **)end;
-> > +          evtinitpp++) {
-> > +             (*evtinitpp)->evt_site->used = true;
-> > +             (*evtinitpp)->evt_site->func_name = (*evtinitpp)->func_name;
-> > +             list_add(&(*evtinitpp)->evt_site->all_node, &dept_event_sites);
-> > +
-> > +             pr_info("dept_event_site %s@%s is initialized.\n",
-> > +                             (*evtinitpp)->evt_site->name,
-> > +                             (*evtinitpp)->evt_site->func_name);
-> > +     }
-> > +}
-> > +
-> >  extern char __dept_event_sites_start[], __dept_event_sites_end[];
-> 
-> Related to the above, __dept_event_sites_start and
-> __dept_event_sites_end can already be properly typed here.
-
-How can I get the number of the pointers?
-
-> >
-> >  /*
-> > @@ -3356,20 +3424,11 @@ extern char __dept_event_sites_start[], __dept_event_sites_end[];
-> >  void __init dept_init(void)
-> >  {
-> >       size_t mem_total = 0;
-> > -     struct dept_event_site_init **evtinitpp;
-> >
-> >       /*
-> >        * dept recover dependency tracking works from now on.
-> >        */
-> > -     for (evtinitpp = (struct dept_event_site_init **)__dept_event_sites_start;
-> > -          evtinitpp < (struct dept_event_site_init **)__dept_event_sites_end;
-> > -          evtinitpp++) {
-> > -             (*evtinitpp)->evt_site->used = true;
-> > -             (*evtinitpp)->evt_site->func_name = (*evtinitpp)->func_name;
-> > -             pr_info("dept_event %s@%s is initialized.\n",
-> > -                             (*evtinitpp)->evt_site->name,
-> > -                             (*evtinitpp)->evt_site->func_name);
-> > -     }
-> > +     dept_mark_event_site_used(__dept_event_sites_start, __dept_event_sites_end);
-> >       dept_recover_ready = true;
-> >
-> >       local_irq_disable();
-> > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> > index 03ed63f2adf0..82448cdb8ed7 100644
-> > --- a/kernel/module/main.c
-> > +++ b/kernel/module/main.c
-> > @@ -2720,6 +2720,11 @@ static int find_module_sections(struct module *mod, struct load_info *info)
-> >                                               &mod->dyndbg_info.num_classes);
-> >  #endif
-> >
-> > +#ifdef CONFIG_DEPT
-> > +     mod->dept_event_sites = section_objs(info, ".dept.event_sites",
-> > +                                     sizeof(*mod->dept_event_sites),
-> > +                                     &mod->num_dept_event_sites);
-> > +#endif
-> >       return 0;
-> >  }
-> >
-> > @@ -3346,6 +3351,14 @@ static int early_mod_check(struct load_info *info, int flags)
-> >       return err;
-> >  }
-> >
-> > +static void dept_mark_event_site_used_module(struct module *mod)
-> > +{
-> > +#ifdef CONFIG_DEPT
-> > +     dept_mark_event_site_used(mod->dept_event_sites,
-> > +                          mod->dept_event_sites + mod->num_dept_event_sites);
-> > +#endif
-> > +}
-> > +
-> 
-> It seems to me that the .dept.event_sites section can be discarded after
-> the module is initialized. In this case, the section should be prefixed
-> by ".init" and its address can be obtained at the point of use in
-> dept_mark_event_site_used_module(), without needing to store it inside
-> the module struct.
-
-Maybe yes.  I will try.  Thank you.
-
-> Additionally, what is the reason that the dept_event_site_init data is
-> not stored in the .dept.event_sites section directly and it requires
-> a level of indirection?
-
-Maybe yes.  I will try to store dept_event_site_init in the
-.dept.event_sites section directly.
-
-> In general, for my own understanding, I also wonder whether the check to
-> determine that a dept_event_site is used needs to be done at runtime, or
-> if it could be done at build time by objtool/modpost.
-
-You are right.  I picked what I'm used to the most, among all the
-candidate methods.  However, I will try to use a better way if you
-suggest what you think it should be.
-
-Thanks for the thorough review, Petr.
-
-	Byungchul
-
-> >  /*
-> >   * Allocate and load the module: note that size of section 0 is always
-> >   * zero, and we rely on this for optional sections.
-> > @@ -3508,6 +3521,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
-> >       /* Done! */
-> >       trace_module_load(mod);
-> >
-> > +     dept_mark_event_site_used_module(mod);
-> > +
-> >       return do_init_module(mod);
-> >
-> >   sysfs_cleanup:
-> 
-> --
-> Thanks,
-> Petr
 
