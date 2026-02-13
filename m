@@ -1,243 +1,172 @@
-Return-Path: <linux-media+bounces-52777-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52778-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yFUHK4t7j2mWRAEAu9opvQ
-	(envelope-from <linux-media+bounces-52777-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 20:29:15 +0100
+	id kSHUNTyCj2lTRQEAu9opvQ
+	(envelope-from <linux-media+bounces-52778-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 20:57:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259EC13935B
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 20:29:15 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D914139498
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 20:57:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0197F3031B02
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 19:29:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5EF00300E2B9
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 19:57:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D328C3254B3;
-	Fri, 13 Feb 2026 19:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B25285CB9;
+	Fri, 13 Feb 2026 19:57:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Ks778jel"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EvYTcLNQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-oa1-f66.google.com (mail-oa1-f66.google.com [209.85.160.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4CA296BA9
-	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 19:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771010949; cv=none; b=ax60KzAfIHYxFToblnX6Da9JbzwHqYx5SQB63/ApEgCA/2nate7zWI5N76XPpwPbgZOLIkmmRsnQyQETPh8hLFDEsXOO04GlyTrf0aBDgTbB3svJHn6MHRrD38guGsPSxaQj62oR0fyqs/mpSdGkKUUa8JK24ksN2CqXSNoaWQE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771010949; c=relaxed/simple;
-	bh=SzUnHwptgH9zokkg62OlR2St4ErB9KhCdJB91j/Qkww=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cUzbTBQU70n5r+gpv8VQOZBlOkHPyS4qViW4/BGTW0eLNjZJICs5jQnEsIJU0272Wpybf1rIkGt/rIy7MKjZRz+7bo7FvhMKzKEW/nblpXrVqzgMUlv527WdIJ/Yw2g6htmi71AGKi8xkROrsM0OCO9a/18fzdgv4rcwvmr+GIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Ks778jel; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c710439535so100237585a.1
-        for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 11:29:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972E2239E6C
+	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 19:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771012663; cv=pass; b=I1L8w8tjBIMd9cBcaCkpTQUpDaXyufRTi3ovckOC8lu//jkJtOm6o8Bn85a2Hi1654mjA2OTDSB7jZDS9ATXPCLg8ODoNgCfRQu/eXDPYcqiJ2TwYKgiEn6saiBmfh0IixlWcdmFds2r4PKnDb/eouW6uSF+tTHGt+WxacQx48k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771012663; c=relaxed/simple;
+	bh=IGfWkinjMOHNKED8/YZhSc0EWO4DlWu6yYaS23heKdA=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=ch6x91Q6oenvvNfcoUDHHXq/oYo/X8cN7/uiW+jGCXDJk2gX5yF0NBdlRgnEmOdLqrLTv1pbjbqGmaQRxkGRRzs4tc9adz3fZsrLNpDpzm1AEDbBYc5/S3dzcu71VmlV+m8jwyYLqS0p2F7OWQ9mLP+yNaQTfd5vAS6AsAYGJog=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EvYTcLNQ; arc=pass smtp.client-ip=209.85.160.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f66.google.com with SMTP id 586e51a60fabf-40946982a78so443974fac.2
+        for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 11:57:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771012661; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bffzFbpdYZNQxMpK/5Zwbd0o21nD+OxzavSKThIhL32aWCEpgtIuZH1cAnnq2gmU4X
+         2pwvR2giG333vb+QNnzQeJfehVYPgJEFRsMd8KPp0PLJBk6yciBdOJ0bH9+cV01E65g1
+         fN76YD0eklD26e4Rp71qHvisi22tsfbigddR8hHAWuDn+jZHFB+K0etMIyEqoBtTLsLD
+         zLN+6xHIIdgF8X8vvpP+YVlBkaBvcN9zHVSP2nLL4yA5mZOx9SUxd3N131enUy+xmN8M
+         tTXbc+7yTv/84dE4zCSkBmA+KxkWTDl2sj+jPsFKxTZE4ebFule44q+2yMBwB3te6rtL
+         6H7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=0sTVndXutivOaouYtuhimGwmsBXNgrJhfoFuTS2Y8Kk=;
+        fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
+        b=OLEnWcmfjPqS+ePtDxk0mW3rFOS9UWgWKy+K81xD2gio37UPJE43KibafUT24/ZoQB
+         9UO7uSebMwvsVycWvgTgkVrrg1z4jReF/DgpWlpTrnq8H6gm/I1cT9wajMyzTleFQLuo
+         a+GlA8JuHydxgqgSadYHGOh+Zw6k2OTsmsvJMjULHd0mMfMMDJqoNfDLJpG6hfBxnFpL
+         +NbdBC8WuE9qkb/VRu8HwfCohvgp78Ij7mx4u+cVzpJmlaWheB7AASDWvQV8SaSD0m5X
+         4ZBlYCq/apbTOvc2G1/gl/d2NMYc9vAseoXlMCNmlET9J36H81/nzkluFHQP7p/IOBKk
+         uYEA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1771010946; x=1771615746; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=0klMDiVfrX/lX14Mfsu8AR3W7zS6aiOC+pKWCvgrVY4=;
-        b=Ks778jelDVpvpfnQShDj8QOlV2603ewAb8nUKBkngktIbvQWyv/QW/t8M7AY4KHvTE
-         hH3HEScP09LJoGemkITQRaiYV74g8ipR2+vgJM8FUZj5xE7iUG3qKZHB44apVeg6ZMw3
-         pCvLuoTNx0/Hu6eXjY/1ml6qg93iTULyTUX1edHepwPmcGPrNpHl6dUN8qdkStaW8o0l
-         bYfvzvrVrE3ZuesY4pyNxwDZsk/8rVzS46RSFZ5QosRfDtPDaoz/0LkXHa3xBY0yVoPW
-         ZrWg9Uk8GL+mlY0gaB4Ef+DlzdugPeaJ0Uoj5NnoE57NjYC5Mrg3Cn3GV2JX5Ebldd2k
-         QtIw==
+        d=gmail.com; s=20230601; t=1771012661; x=1771617461; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0sTVndXutivOaouYtuhimGwmsBXNgrJhfoFuTS2Y8Kk=;
+        b=EvYTcLNQoL9UF9H7ASiDxaFJo1uITIgRWCOx3AepW3A2cnKf38sp5tTTA5dQYuBUq6
+         gMBOWYDiFZpDCnglhCXZX8BWIdAtUNdbOAwh8aBo2rA/Nv32lmLllVHqLdR642T9a3is
+         /V5ZxerWlELHVqsA+McdleAV9HKWzQkioMUQRqDNsteX7pg3+s8C+bEq85cK7YlB/Yf5
+         3T9yKWiGEUc1dljrvEL4EOvcU7y7n6ZdpV2sjZ+S2BRp8phQwCOUS94XalCFLHvHT6MS
+         A5bqAiYdyg3whHprGPtTLTYUZMftbqz3gN0MgsCLkS1yjoliWVlmtd1+6j2LO3/4xhYJ
+         B+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771010946; x=1771615746;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0klMDiVfrX/lX14Mfsu8AR3W7zS6aiOC+pKWCvgrVY4=;
-        b=FauGeHI3hwDns5WqcXIKKGPPcrkUHwF2Z9/kGsoITiERbngjrRfiM1ZzDmuqirX230
-         DeEer/3zCuzQhDlfrugFQlXGQI25IB4ciddlCAQA2+OO2Jd7oHdZvWQNdVNqU22L2Tmq
-         aQVE0Nn8prsMYiKLzpPqA30XeWlwaO0YFIKmcbMRybbuM6f2lxhV4Tj4iDecpufXeTPo
-         Tkqid+ucAXkpbzNZxeMzYPD4YIAFXuWnhkVfCE+n0Q0e8274mlpZNrURb3MFxJr2Yu/d
-         B8GRViS9VvNsB9q9PLrCRAAW4OkRpcR/9ej+zvYDJNXlqElku7AS+e1yNdjxkV17V8i4
-         oCYA==
-X-Gm-Message-State: AOJu0YyllVeRQMUDkDO6I0frXnRW0KWuI/Htul2Y5aUuCipM8+VExDbc
-	VrHXHk39vm+TA3rjudy7zTiA7B81Z1wNftcyRe8WvcYkyee20hJu+Fax5uhx/3u/X9zeaX/C9p1
-	HuD2y
-X-Gm-Gg: AZuq6aKBu58arABPqZfExr2mdHlDuYMuS1Fagqsa7/5Sl7aH0dFbgq299mFkdYbV3/L
-	pTWHWfxAVZWaTiUnFSnRzdr4k2wd7K/6Jy6svqz5A/E/ZfJ8hQk8yYPNxpqJaA1qIEfNqrHa5EA
-	ckM04Fnsn5/xbfAdehwsDoaOLSy/Z+RijgyHHjxvYDjv0/3LVdXE7QR+bCmV8NuyQzLkzmDfN0O
-	nkh6TszUgJVCVE4AAIo/0nPsivk14ny+MS6TrQ7S38ZRYGJYriwXrOMEtyBO8z7oNFW7mhcqJ5c
-	h5t9Dnno5w9/hZpyrJLYqAAtM/h0gjoLaPSJf0IYaagJ8sPI5by0ebj7efH4UehFNASI+mXFex3
-	kRv1yfDJiSyCwmNIIscRYSIYCa3ZGSYgC75jiSiBEyk+ofEgy/4ZDwC0TdtofD98NeGqVB0RBCP
-	o7bkkMXufAdrMM7zgIvBOyU9TFGpOI
-X-Received: by 2002:ac8:5ac9:0:b0:506:8738:6518 with SMTP id d75a77b69052e-506a833addbmr41446561cf.65.1771010945728;
-        Fri, 13 Feb 2026 11:29:05 -0800 (PST)
-Received: from ?IPv6:2606:6d00:15:210e::5ac? ([2606:6d00:15:210e::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-506a93ba30fsm19355881cf.26.2026.02.13.11.29.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 11:29:04 -0800 (PST)
-Message-ID: <8ef7dc7d132143e144dc523ed72c25139fa36a28.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/2] media: v4l2-ctrls: add encoder maximum bitrate
- control
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Sachin Kumar Garg <sachin.garg@oss.qualcomm.com>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Bryan O'Donoghue	 <bod@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Date: Fri, 13 Feb 2026 14:29:03 -0500
-In-Reply-To: <20260213-b4-add_sc7280_mbr-v1-1-e8d95b4e4809@oss.qualcomm.com>
-References: <20260213-b4-add_sc7280_mbr-v1-0-e8d95b4e4809@oss.qualcomm.com>
-	 <20260213-b4-add_sc7280_mbr-v1-1-e8d95b4e4809@oss.qualcomm.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-pyeYCoF06hGXM0gUWI2I"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+        d=1e100.net; s=20230601; t=1771012661; x=1771617461;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0sTVndXutivOaouYtuhimGwmsBXNgrJhfoFuTS2Y8Kk=;
+        b=FW/2ZPMtomTrdyZJgt20J19TEHX6+GhHb9jduPuOhrK8xNhWZqJTa0o1bbii+6Pxuq
+         L5P7ML/HQmcW0EG5oIV1+DRH3yybzFRp+DAbSW9JUOq44Pf8VfSkScFWrHCIzSYmsyKy
+         Wcdp96a8e3SkGq8DDIm53WAI/lo0m8woXqyYZrw9cTtQhfwkXa7cemBfk3kMM81v6iMY
+         uUlJKFCamkElXvnIRsdtc974O7pSE+d0uyOGZHog8dEWhw/KyD9k0Ds/KsSyGPcsmM51
+         CH3WnA9XvqdGFRx2+z4psVuAZ0v5SoKB6tpST/RJei6S8DceieKwSPMvyqUNdaH9i7ba
+         TMpg==
+X-Gm-Message-State: AOJu0Yzr5IktS4ggcBzNu9Ws8qZv4aD7qbupZXI7DjFCdq9STF+1ppuM
+	ihvsrCCayDNess3oCVQfx5TYpTE+DHMER42DJtOuqbpMbwrnRVfQfidJISLECFjwY96DtHRxySa
+	4a3A4SJCNzoZK4OTaFq0RAdpTPIjklzo3qanuJ2c=
+X-Gm-Gg: AZuq6aI1buXAkA60DnjaOsQqLUR7EDuzkYFjqlokoSbgDUyzK/o/5F7rqjnK+vRBzsQ
+	fkPuQ2R7FB2O/XcNKeXcc2c5zX57pIsArvd5K/hg/cfn8T04pDYSbUsVgTGr/u/PybiBj7wuVvr
+	nq0AcxUx8hK+1zwV9x0Y2C0AJfFgm2wQ1K7ipulm0ZaoCSMt2aKcxbgfNWLgL3P/3eRysXs2IKX
+	B19Bb+2KvlsO8gBFBup3KI2iH3poNtUTngTha0Cvtp+O5Fmt4Ga/GOMJ1Tc1GSigJnTpw/iUWSz
+	8ML00wLukqoSsrlHdiTsjEPvIf9T9QIdDTUSge1WXle3woL2gIEL+b/2NmLay0pXWg==
+X-Received: by 2002:a05:6871:240d:b0:40f:c84:e57b with SMTP id
+ 586e51a60fabf-40f0c852a46mr454052fac.28.1771012661109; Fri, 13 Feb 2026
+ 11:57:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+From: Lucian Onicescu <lucian.onicescu@gmail.com>
+Date: Fri, 13 Feb 2026 21:57:30 +0200
+X-Gm-Features: AZwV_Qj5gggVzHXjP2pn4rAQ5_X-zcgUumEbZkmgIvcbhyDwK1dv1Ua1tGKCflU
+Message-ID: <CALbYB1O79OnqKMF--HWVx-nuKtYKJbE+Ux=yK_45HDb4oujQyA@mail.gmail.com>
+Subject: [Request] Add USB ID 2040:8360 for Hauppauge WinTV-HVR-935 (media cx231xx)
+To: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[ndufresne-ca.20230601.gappssmtp.com:+];
-	TAGGED_FROM(0.00)[bounces-52777-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52778-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_ONE(0.00)[1];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lucianonicescu@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 259EC13935B
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 5D914139498
 X-Rspamd-Action: no action
 
+The Hauppauge WinTV-HVR-935 HD stick is supported as 2040:b151
+(CX231XX_BOARD_HAUPPAUGE_935C).
+Some units report USB id 2040:8360 with product string "HVR-935 Audio"
+and are not bound by cx231xx, so no DVB adapter is created.
 
---=-pyeYCoF06hGXM0gUWI2I
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Please consider adding 2040:8360 to the cx231xx_id_table with the same
+driver_info as 0xb151 so these devices work without out-of-tree
+patches.
 
-Le vendredi 13 f=C3=A9vrier 2026 =C3=A0 11:34 +0530, Sachin Kumar Garg a =
-=C3=A9crit=C2=A0:
-> Introduce V4L2_MPEG_VIDEO_BITRATE_MODE_MBR rate control for Encoder.
-> Encoder will choose appropriate quantization parameter and do the
-> smart bit allocation to set the frame maximum bitrate level as per
-> the Bitrate value configured.
->=20
-> Signed-off-by: Sachin Kumar Garg <sachin.garg@oss.qualcomm.com>
-> ---
-> =C2=A0Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 7 +++++=
-++
-> =C2=A0drivers/media/v4l2-core/v4l2-ctrls-defs.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
-1 +
-> =C2=A0include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> =C2=A03 files changed, 9 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index c8890cb5e00a..6b2dfabfc4fd 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -577,6 +577,13 @@ enum v4l2_mpeg_video_bitrate_mode -
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Constant bitrate
-> =C2=A0=C2=A0=C2=A0=C2=A0 * - ``V4L2_MPEG_VIDEO_BITRATE_MODE_CQ``
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Constant quality
-> +=C2=A0=C2=A0=C2=A0 * - ``V4L2_MPEG_VIDEO_BITRATE_MODE_MBR``
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MBR Rate Control is a VBR Rate Control mo=
-de optimized for
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 surveillance video contents which has hig=
-h temporal correlation
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 due to static camera positions. This Rate=
- Control smartly identifies
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 key-frames in the scene, and allocates mo=
-re bits to them to improve
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the coding efficiency by taking advantage=
- of high temporal
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 correlation in surveillance videos.
+How the ID was obtained (Debian, kernel 6.1.0-40-amd64):
 
-This is a bit vague, and it sounds like how you'd describe a proprietary th=
-ing.
-Are you sure this is a generic mode that other vendors will support ? If no=
-t,
-perhaps it should be visible in the API ?
+  $ lsusb -d 2040:8360
+  Bus 001 Device 006: ID 2040:8360 Hauppauge HVR-935 Audio
 
-Nicolas
+  $ lsusb -t | grep -A3 "Port 3"
+|__ Port 3: Dev 6, If 2, Class=Audio, Driver=snd-usb-audio, 480M
+|__ Port 3: Dev 6, If 0, Class=Vendor Specific Class, Driver=, 480M
+|__ Port 3: Dev 6, If 1, Class=Audio, Driver=snd-usb-audio, 480M
 
-> =C2=A0
-> =C2=A0
-> =C2=A0
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4=
-l2-
-> core/v4l2-ctrls-defs.c
-> index 551426c4cd01..b336171539a7 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -154,6 +154,7 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
-> =C2=A0		"Variable Bitrate",
-> =C2=A0		"Constant Bitrate",
-> =C2=A0		"Constant Quality",
-> +		"Maximum Bitrate",
-> =C2=A0		NULL
-> =C2=A0	};
-> =C2=A0	static const char * const mpeg_stream_type[] =3D {
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
--
-> controls.h
-> index 68dd0c4e47b2..614fc2c4c81d 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -412,6 +412,7 @@ enum v4l2_mpeg_video_bitrate_mode {
-> =C2=A0	V4L2_MPEG_VIDEO_BITRATE_MODE_VBR =3D 0,
-> =C2=A0	V4L2_MPEG_VIDEO_BITRATE_MODE_CBR =3D 1,
-> =C2=A0	V4L2_MPEG_VIDEO_BITRATE_MODE_CQ=C2=A0 =3D 2,
-> +	V4L2_MPEG_VIDEO_BITRATE_MODE_MBR =3D 3,
-> =C2=A0};
-> =C2=A0#define V4L2_CID_MPEG_VIDEO_BITRATE		(V4L2_CID_CODEC_BASE+207)
-> =C2=A0#define V4L2_CID_MPEG_VIDEO_BITRATE_PEAK	(V4L2_CID_CODEC_BASE+208)
+Interface 0 (Vendor Specific) has no driver; the stock cx231xx module
+has no 2040:8360
+in its alias table.
 
---=-pyeYCoF06hGXM0gUWI2I
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Suggested patch:
 
------BEGIN PGP SIGNATURE-----
+--- a/drivers/media/usb/cx231xx/cx231xx-cards.c
++++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+@@ -1026,6 +1026,8 @@ struct usb_device_id cx231xx_id_table[] = {
+  {USB_DEVICE(0x2040, 0xb151),
+  .driver_info = CX231XX_BOARD_HAUPPAUGE_935C},
++ {USB_DEVICE(0x2040, 0x8360),
++ .driver_info = CX231XX_BOARD_HAUPPAUGE_935C},
+  {USB_DEVICE(0x2040, 0xb150),
+  .driver_info = CX231XX_BOARD_HAUPPAUGE_975},
+  {USB_DEVICE(0x2040, 0xb130),
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaY97fwAKCRDZQZRRKWBy
-9FT8AP0UYYtJi+da1bbrXhWNS+1MIqvdOiangHm4HG+m/kyNQAEAnbYF0UZaVMKr
-BzHOgTlv7/qRYyLbTJutiamm40pWEwA=
-=OvJP
------END PGP SIGNATURE-----
-
---=-pyeYCoF06hGXM0gUWI2I--
+Kind regards,
+Lucian Onicescu
 
