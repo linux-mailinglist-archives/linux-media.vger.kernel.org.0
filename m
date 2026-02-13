@@ -1,275 +1,179 @@
-Return-Path: <linux-media+bounces-52740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52742-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sNObCKMrj2kPKwEAu9opvQ
-	(envelope-from <linux-media+bounces-52740-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 14:48:19 +0100
+	id wJIFFhEvj2mhLwEAu9opvQ
+	(envelope-from <linux-media+bounces-52742-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 15:02:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F7A13677F
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 14:48:18 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6AA136DC9
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 15:02:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CF52B30C732E
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 13:46:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CACB030792DE
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 14:02:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 455563451D4;
-	Fri, 13 Feb 2026 13:46:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 758F53612D1;
+	Fri, 13 Feb 2026 14:02:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="b8Ks7bQv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="We2fb+HR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AA332AAB6
-	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 13:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFF13B28D;
+	Fri, 13 Feb 2026 14:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770990391; cv=none; b=Nu8ICQquJL/PfhcBP7nK4WFICbAuadI2Oz8TskIf6LB8fY2p4N3Odmu0uoUJwmtPDH5gA4PTP6zkQtcmj3QiOU4OZoS63/J3icX70KRCtNrNpldQnsPSlmGxnOSakAAMtbnhi6ldMrVGgE+XZqidXcCD/ngjwJ3XE9D9bmSkj08=
+	t=1770991329; cv=none; b=c/AFD4zNezZH+liaJdrFdkSNSeQt0dA6PWuxLBj89k4pDOVfZ126Ee9uvGJ/YZ2JIcMeULfJwUzUFMTULN8xy5Y/8PMjmpU5dq2viTiJKVM+6UExPNITT8BGbiY63BgGp2bVnmFBWxPEcaBqrLlh9s39urTE5aA2Q4o0kC0m7WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770990391; c=relaxed/simple;
-	bh=7uzhT1Hdpq2Zj/z3tC0kx0DO7eu7YJpM8NOGHA2+aEU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tv9uS196/A7HfGqdqHWu+JguCKfEUdifw/I8t9EbYNz3Yk8BuvdNT+FRiwTaNA7k7oKlG+P1Q5Bg/ZL7LtT8Hn6wYRdeNU4qHPgRdfXpC8m1ShjEQlpCZwZHH4rjhHlp/oSJpDCj+cV2asRUZlaQrUdGUtBO5IkbRcoCZNrJHNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=b8Ks7bQv; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4836f363ad2so11192145e9.1
-        for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 05:46:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1770990388; x=1771595188; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4B97dcFXXQx/22amrzajNB5xqYOGdgqYpxZ5xW5NAyU=;
-        b=b8Ks7bQvyUkk2F2wlPNJKzjRKifHGmZFZYQ3Cf2KK455nlodcZ5T5TXTDIgM2+9usS
-         ds7HW2p0a6k1S54MzhCAvMUh64t1EpOP+xyYm3Saz5pjm+vsEotoLemSLcch6DU4aPWR
-         Y+PCmtCq5eedV7tSaTn3CkR20z3i0o6C0SvCdd48vBQDiekbOrwY4teDX81p/45flYuj
-         2q3RSIW5xbZbA6tHYeML/47+5MUToYRYy5YuWGJvyywjnojw4/xcUWEUJL5y9x0+EgSg
-         SfZGg+PcjPMtrbMV1R+EpqmE0WaVUsczU4roNNRPrenSfPILfkVW6T/FtRQPnVSN6Cov
-         /2uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770990388; x=1771595188;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4B97dcFXXQx/22amrzajNB5xqYOGdgqYpxZ5xW5NAyU=;
-        b=ZDVIRjJv30cCbEsdx9U8uro20e2XzFjZRIDCJdoosTOKRU8P7DPVTZeS0imQAnRhmd
-         vOACkhqC4vVC1qavephGp3RuZ20gr2mhtI6LwScdjVQtbTbbkstp0jxU0JHWh2HVPnky
-         3LcEMvKl+gSxg61ukQMrRteFN8UGJzipCipplXt4u43AHHeoWwk/uf8H8RKePWhlz3/O
-         ZuNmU4CVNV6XAZuu5Yi0/flgQBssJzAmg8jVYh8vbkPlnwK+OyWpUYGbGxBEm05Ttp6D
-         uco//blYhtst+5WQ13tJ67AdkU1NdX00x3nfzUBgI7EGqO2ljUyfnEoI1EiTyomCnka+
-         o1xg==
-X-Gm-Message-State: AOJu0YwrcZJFueJDEQYTHIyXniSP7tcAGXHa+CBE+96xHENjp1MQj8eT
-	hpTO1cx4tuOUONb9P9n6l72J7yQbwuJV0jWHTsFAEWVz22hdGGJ4o7tRIri/NPOG6nI=
-X-Gm-Gg: AZuq6aK+Ey/J87jxc1HOMrA1V2og0BxoysQhR0B8Qqf7JQdQ+b56sEWa6SPUwDMCG8V
-	WauGmB1XCm6/xzXXG/bNoDYSz0Ib1JqJX1bEam9Ie7/b302PUNJ5REdR8pnmPnaQHBIZr2VqQJJ
-	aXEDuQEm4k1idxRsoFG0FB26cA00iQRMnqfo+Urlg3Zc2c5O3e5mV583hu5aMAgPH01ShMPQRe9
-	QTztgINpEFE6Pyz60JeflpYUMEwbyJpt8+XjEgcdv3vfpjdss0ZqSCZcqrq5W5WZ6KHihrEAB5Y
-	PrRYvmYuycnuQCCL59FLib3Cd2NG0NEm7BZR7VT7PVfZtNvFu57/yh9VPH5kL6RZDbDaHz90Qb/
-	9jIgC75roAnunRxplVhg/O6zh1mA+i6t88ccaoD292RMoL8Z059/KZ4sxHh476kleGMSYAm4pvN
-	zDg09KrdzoUnHuJod29NVbPejTA41PQppTrpClVsXt
-X-Received: by 2002:a05:600c:314f:b0:483:6fe1:c057 with SMTP id 5b1f17b1804b1-48373a3f3bcmr26871935e9.21.1770990387410;
-        Fri, 13 Feb 2026 05:46:27 -0800 (PST)
-Received: from zovi.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48371a2998fsm17198625e9.17.2026.02.13.05.46.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 05:46:27 -0800 (PST)
-From: Petr Pavlu <petr.pavlu@suse.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Petr Pavlu <petr.pavlu@suse.com>
-Subject: [PATCH 2/2] media: dvbdev: Simplify error paths in dvb_register_device()
-Date: Fri, 13 Feb 2026 14:44:16 +0100
-Message-ID: <20260213134551.1294954-3-petr.pavlu@suse.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260213134551.1294954-1-petr.pavlu@suse.com>
-References: <20260213134551.1294954-1-petr.pavlu@suse.com>
+	s=arc-20240116; t=1770991329; c=relaxed/simple;
+	bh=ca4k7L25xONgjSva1mhBPxgXgTu0fUMOncOrZhrQyf8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=G3RhUWjdb9twPzVfty/EqBJHxUN8OOc0U24lkAR/Gz8PVnisRnVMAQ741nsi4j8vi/53BUih4a8kPi2ugMsBHQk/maJ/NwLOb7R6CN/ZeSm+2YjBGfcTZnb2WzWwGkdVx158OmHscBMczIFsArEGI3JShOquirKl3Wv1HU3tWdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=We2fb+HR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ping.linuxembedded.co.uk (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D3A4E324;
+	Fri, 13 Feb 2026 15:01:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1770991277;
+	bh=ca4k7L25xONgjSva1mhBPxgXgTu0fUMOncOrZhrQyf8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=We2fb+HR+upp7maVsEaPAL4qk6/Z6dQ+/KGKl+GJBirunoopnBrnSOUW7Ff0SSsXX
+	 LA9eBCQGLEbBzVEqTDIqvYF4OGGTagWfna2nLHPgmJDdINTRRmPRLyMsXpeRV/0opC
+	 TL4IL7a8NW/hvFk4eye1VInO/Uv1gcXsAu3tcgDw=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2 00/25] drivers: media: imx283 improvements
+Date: Fri, 13 Feb 2026 14:01:39 +0000
+Message-Id: <20260213-mainline-imx283-v2-v2-0-be40a3770ebf@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMMuj2kC/x2MQQqAIBAAvyJ7TrCNLPtKdJBaa6EsFESQ/p50n
+ IGZApECU4RJFAiUOPLtK2AjYD2s30nyVhlQoVbYorws+5N99VfGsZMJpTY9OTRqHFoHNXwCOc7
+ /dF7e9wMdSSMDZAAAAA==
+X-Change-ID: 20260212-mainline-imx283-v2-695ef290871f
+To: Umang Jain <uajain@igalia.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: Jai Luthra <jai.luthra@ideasonboard.com>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Stefan Klug <stefan.klug@ideasonboard.com>, stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770991324; l=3501;
+ i=kieran.bingham@ideasonboard.com; s=20260207; h=from:subject:message-id;
+ bh=ca4k7L25xONgjSva1mhBPxgXgTu0fUMOncOrZhrQyf8=;
+ b=1aCTcJr2LURdsen6M3b+8+17Zf5ARE0z88OLXrR35nj38Ss/CUSXh3vPYT76VlZ6YFF8v1uJ3
+ bZIepT3rC8TDaOawwrPdVsI5njUGklbre0wEUkK0nUl4qAJMoydJd8u
+X-Developer-Key: i=kieran.bingham@ideasonboard.com; a=ed25519;
+ pk=FVXKN7YuwHc6UtbRUeTMAmranfsQomA+vnilfglWdaY=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-52742-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52740-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:dkim,suse.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 79F7A13677F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: CF6AA136DC9
 X-Rspamd-Action: no action
 
-The error paths in dvb_register_device() each handle necessary cleanup
-operations individually. Since the function performs a number of
-operations, this leads to duplicated and lengthy code.
+This now far more extensive series reposts some patches which provide
+fixes to the users of the IMX283 camera sensor to resolve handling
+exposure and blanking updates and the reporting of the cropping modes
+configured.
 
-Unify the cleanup process under error labels.
+The series then goes on to extensively extend the driver to move towards
+a dedicated scan out structure allowing mode definitions to be greatly
+simplified and factor out a lot of common definitions and duplication.
 
-Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+Vertical offset corrections are added which handle the correct
+alignment of the output mode in the different binning combinations which
+otherwise translate to an offset in the image capture which is
+detectable when the camera is used as a measurement device.
+
+To make use of this, the horizontal and vertical configuration is
+refactored to make it clearer what calculations are being performed and
+manage the vertical positioning based on the VOB and binning offsets
+accordingly.
+
+This then provides us with a mechanism to fix a separate issue that
+occurs on the IMX283 where an 'extra black line' is inserted by the
+sensor to resolve bayer re-ordering. This extra line is undesirable in
+the output and so we account for this and remove it by instead
+requesting *two* additional lines, and moving two lines back into the
+VOB data type. The extra line is required to maintain bayer order, and
+moving the lines prevents them from being added to the captured image.
+
+Extra modes are added based on this new simplified mode configuration
+structure to match the diagrams present in the sensor datasheet.
+
+Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 ---
- drivers/media/dvb-core/dvbdev.c | 79 +++++++++++++--------------------
- 1 file changed, 31 insertions(+), 48 deletions(-)
+Kieran Bingham (23):
+      media: i2c: imx283: Move imx283_mode structure definition
+      media: i2c: imx283: Move scan out data to single data structure
+      media: i2c: imx283: Remove horizontal_ob
+      media: i2c: imx283: Move vertical_ob to scan modes
+      media: i2c: imx283: Factor out vertical cropping parameters
+      media: i2c: imx283: Vertical offset corrections
+      media: i2c: imx283: Define recommended area
+      media: i2c: imx283: Move Horizontal configuration block
+      media: i2c: imx283: Constrain scope of vertical calculations
+      media: i2c: imx283: Simplify v_pos determination
+      media: i2c: imx283: Move binning to scan modes
+      media: i2c: imx283: Move minimum exposure handling to scan modes
+      media: i2c: imx283: Simplify and clamp widcut calculation
+      media: i2c: imx283: Account for clamp region coordinates
+      media: i2c: imx283: Crop leading lines with user clamp
+      media: i2c: imx283: Reduce vertical cutting
+      media: i2c: imx283: Provide Native pixel array capture mode
+      media: i2c: imx283: Provide a full active pixels mode
+      media: i2c: imx283: Provide an effective pixel array mode
+      media: i2c: imx283: Recalculate SHR on blanking changes
+      media: i2c: imx283: Fix binned mode blanking timings
+      media: i2c: imx283: Update exposure range on blanking changes
+      media: i2c: imx283: Simplify VFLIP control setting
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index c067bbeb9461..94591f8a7afa 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -466,16 +466,15 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 
- 	id = dvbdev_get_free_id(adap, type);
- 	if (id < 0) {
--		mutex_unlock(&dvbdev_register_lock);
--		*pdvbdev = NULL;
- 		pr_err("%s: couldn't find free device id\n", __func__);
--		return -ENFILE;
-+		ret = -ENFILE;
-+		goto error_set_pdvbdev;
- 	}
- 
- 	*pdvbdev = dvbdev = kzalloc(sizeof(*dvbdev), GFP_KERNEL);
- 	if (!dvbdev) {
--		mutex_unlock(&dvbdev_register_lock);
--		return -ENOMEM;
-+		ret = -ENOMEM;
-+		goto error_unlock;
- 	}
- 
- 	/*
-@@ -494,19 +493,15 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 	if (!dvbdevfops) {
- 		dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
- 		if (!dvbdevfops) {
--			kfree(dvbdev);
--			*pdvbdev = NULL;
--			mutex_unlock(&dvbdev_register_lock);
--			return -ENOMEM;
-+			ret = -ENOMEM;
-+			goto error_free_dvbdev;
- 		}
- 
- 		new_node = kzalloc(sizeof(*new_node), GFP_KERNEL);
- 		if (!new_node) {
- 			kfree(dvbdevfops);
--			kfree(dvbdev);
--			*pdvbdev = NULL;
--			mutex_unlock(&dvbdev_register_lock);
--			return -ENOMEM;
-+			ret = -ENOMEM;
-+			goto error_free_dvbdev;
- 		}
- 
- 		new_node->fops = dvbdevfops;
-@@ -534,17 +529,8 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 	minor = nums2minor(adap->num, type, id);
- #endif
- 	if (minor >= MAX_DVB_MINORS) {
--		if (new_node) {
--			list_del(&new_node->list_head);
--			kfree(dvbdevfops);
--			kfree(new_node);
--		}
--		list_del(&dvbdev->list_head);
--		kfree(dvbdev);
--		*pdvbdev = NULL;
--		up_write(&minor_rwsem);
--		mutex_unlock(&dvbdev_register_lock);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto error_dvbdev_cleanup;
- 	}
- 
- 	dvbdev->minor = minor;
-@@ -553,18 +539,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 	if (ret) {
- 		pr_err("%s: dvb_register_media_device failed to create the mediagraph\n",
- 		       __func__);
--		if (new_node) {
--			list_del(&new_node->list_head);
--			kfree(dvbdevfops);
--			kfree(new_node);
--		}
--		dvb_media_device_free(dvbdev);
--		list_del(&dvbdev->list_head);
--		kfree(dvbdev);
--		*pdvbdev = NULL;
--		up_write(&minor_rwsem);
--		mutex_unlock(&dvbdev_register_lock);
--		return ret;
-+		goto error_free_media;
- 	}
- 
- 	clsdev = device_create(dvb_class, adap->device,
-@@ -573,18 +548,8 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 	if (IS_ERR(clsdev)) {
- 		pr_err("%s: failed to create device dvb%d.%s%d (%pe)\n",
- 		       __func__, adap->num, dnames[type], id, clsdev);
--		if (new_node) {
--			list_del(&new_node->list_head);
--			kfree(dvbdevfops);
--			kfree(new_node);
--		}
--		dvb_media_device_free(dvbdev);
--		list_del(&dvbdev->list_head);
--		kfree(dvbdev);
--		*pdvbdev = NULL;
--		up_write(&minor_rwsem);
--		mutex_unlock(&dvbdev_register_lock);
--		return PTR_ERR(clsdev);
-+		ret = PTR_ERR(clsdev);
-+		goto error_free_media;
- 	}
- 
- 	dvb_minors[minor] = dvb_device_get(dvbdev);
-@@ -595,6 +560,24 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 
- 	mutex_unlock(&dvbdev_register_lock);
- 	return 0;
-+
-+error_free_media:
-+	dvb_media_device_free(dvbdev);
-+error_dvbdev_cleanup:
-+	if (new_node) {
-+		list_del(&new_node->list_head);
-+		kfree(dvbdevfops);
-+		kfree(new_node);
-+	}
-+	list_del(&dvbdev->list_head);
-+	up_write(&minor_rwsem);
-+error_free_dvbdev:
-+	kfree(dvbdev);
-+error_set_pdvbdev:
-+	*pdvbdev = NULL;
-+error_unlock:
-+	mutex_unlock(&dvbdev_register_lock);
-+	return ret;
- }
- EXPORT_SYMBOL(dvb_register_device);
- 
+Stefan Klug (2):
+      media: i2c: imx283: Report correct V4L2_SEL_TGT_CROP
+      media: i2c: imx283: Fix handling of unsupported mbus codes
+
+ drivers/media/i2c/imx283.c | 600 +++++++++++++++++++++++++++++----------------
+ 1 file changed, 393 insertions(+), 207 deletions(-)
+---
+base-commit: c824345288d11e269ce41b36c105715bc2286050
+change-id: 20260212-mainline-imx283-v2-695ef290871f
+
+Best regards,
 -- 
-2.52.0
+--
+Kieran
 
 
