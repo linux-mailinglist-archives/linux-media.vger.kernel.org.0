@@ -1,111 +1,70 @@
-Return-Path: <linux-media+bounces-52719-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52720-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sPC1MKgIj2ltHQEAu9opvQ
-	(envelope-from <linux-media+bounces-52719-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 12:19:04 +0100
+	id aFchLnkLj2n4HQEAu9opvQ
+	(envelope-from <linux-media+bounces-52720-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 12:31:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FF0135AAA
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 12:19:03 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D24135BBD
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 12:31:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E7073304791F
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 11:15:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 06DDF304A22D
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 11:31:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56EB93542D7;
-	Fri, 13 Feb 2026 11:14:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4D8735C1B4;
+	Fri, 13 Feb 2026 11:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PelC9FNf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SKp2xfqF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7659535028D
-	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 11:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2686E32D0CE;
+	Fri, 13 Feb 2026 11:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770981298; cv=none; b=RjQQjx6GOxYz6UgqiV98AS0o7N0YRZHcysnOQTvXCg1RSrCgEgoTvHt3wC6Ev+tUGyhw6Ckgj1z6b/4ETLaQy9jbQPE2QGqs8MtrmechFVHes69QwiRuwwqkp0YwJTa2VBdM96fJu0XrrNiHjpeh7z1DfNNqVk2FYq9lRXMjIy0=
+	t=1770982254; cv=none; b=dvc7GoSiKzRAGW50uc+mvEi1kJ5zvBGShPRZVcnxCizPhN+TMs0t+2fRlBwKoT6H3nMAMamj3WbRTf/xCmrCqM+s/rfo6YTAPxGWZEE0fwleT3X5qeynJvKS/23DIy7JROuMYRO71f0Xen2ghfkRFl5+ZImygYGBgaMLnMsUHLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770981298; c=relaxed/simple;
-	bh=8ytPLGxNj2ElVA8s+TjvSjee8Qn3nzSUlf4+BWnRGjg=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=mMWvnAGK/G4tp0HkCVU49c9YYkQJaT+gWdAuKHORKyjrv/sICRcWJa2D9p65KzQXZd/ugMQvaEmuWzAHVSpSSWV4Tcp6IgcdYTH3hX7vjZdZSrwrBxxKyK5NvqldaPCI0O1jq61pT7u1r3ex9j1cAjNXnsdGFXcyZFdQgrkJomM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PelC9FNf; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b8f86167d39so94155366b.0
-        for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 03:14:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770981296; x=1771586096; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8ytPLGxNj2ElVA8s+TjvSjee8Qn3nzSUlf4+BWnRGjg=;
-        b=PelC9FNfMKTHVBtO+wAgF8CPg5WWR1qbJd1PstJVvqLBHn8eSjUhOXaSEXoXTMZ43P
-         T1bxvdxk/GXoulZcHp+sQcUCcSg15pA/i8frzb0pLP1313hhKeKa08aPq/uGPS8Stl6R
-         wQN614kM1wkCzR7GQQgoh4dPZG4RpRTIrSbC23gNgYNnt2JpQ9I59KeSdmKDksWBxry5
-         J8/Ztq12MGql/Ppamw9bF+s0tSpuzwzfvVyES/dsc0D0bROD5xGTw5VHq5zJ8c3o1L99
-         Fkw/OCEvEEWlEi4UnoI69WZpD4tA4ENmhL7F9D5236ExpzatvwsUWautWKCkPjCHdGCg
-         t4ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770981296; x=1771586096;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8ytPLGxNj2ElVA8s+TjvSjee8Qn3nzSUlf4+BWnRGjg=;
-        b=ntdil/9lJX4FfpLajO7Y2JxL64zA+8n2DtIA6RZnOXPc1doDR7bkDKb6cq3UsEsF9R
-         qt7jLKJBdVlDo7Ci39hm3VuF5V5mAU5VuH5iBBCvnBaszkJsAFdOVoN9yd6lzVeFGucx
-         uYfCiMVHeMiV85H7o6MlzyaPxHdqVOjn5nqvWB/fS/ZSJu/xBQvUT0QnAQmCDs+s4KZj
-         QPiZbRr6DRbWAwUOh6eKNwgWtFHJWP42wnoj8uoIZM2Dw/UdpGzzVC/dn+ZL+EIX1Zqx
-         B8TFmD85znjstKTlmsswTslrVvVUUapdwglTz7W7s1Fcpk121pwFguHGwvDDUEGklmgf
-         JVrA==
-X-Forwarded-Encrypted: i=1; AJvYcCW+aaaGYkmu3NRo5y8RSvIDVNKB7lVBgLU4Efd+nxeWkuyPrLTkU5z4NnMTdleUJizEjO2WzwjW/BNZ0Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu7JsusP8JDXaKhhxCT4gFxb+l2RreeX9LthNYeHqrG/K1ViKi
-	nmogggmnHMqVjcz3qNvM9q82AJIgOz7lE4960Z1oek/1bvKljg4JWHRv
-X-Gm-Gg: AZuq6aK9wTc5fG7UCHUldcR79Q2WuyGgJ4V60ecn6ZIBJKrM3toTlZFuloGi2BOmJEN
-	7DTBM35t1Of4bV6e9z/25CjwkJWdfIRxnTN+ZG9Zz8O65mwSFOXZTDcOCzUrULhzzn5mQVS35Ap
-	tvY/mbDKjnNbyzS3hqEu7UfSMqYymZ1i4hj5HB/H31yIujhljr6f0bzuJw3DFykBoNeWyutOxmr
-	YHASaRAQVbBf6l1RMSXPBffAabF5YwieDKPC35wVSRBqM9krOVW46S3kXnkJ22MYdhmGoNG0omb
-	2vh7SedG3/N+azdiaqM9S0V3znPek8QGFS34vzTU3k+HgKZbPDqSElKLNxPlxkjISMZm+Zq69sJ
-	HpON42SfcywL9JupzDCECY4kv7czt+E0tCp/J7Le4OLj87iJ0j2E5D4TNb9APF5yHCHP5d8Cxew
-	JZQgnB0vtnpsUu3S9ShupOwQcJasgCgL7K4P0u4YLU+6iPTo/IXqHjIzbvW+wZTLnKw9rjs/Qgr
-	ikg
-X-Received: by 2002:a17:907:9715:b0:b84:2b70:98ec with SMTP id a640c23a62f3a-b8fb44d62efmr75438766b.42.1770981295511;
-        Fri, 13 Feb 2026 03:14:55 -0800 (PST)
-Received: from smtpclient.apple (89-66-237-154.dynamic.play.pl. [89.66.237.154])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fbe407520sm3908666b.43.2026.02.13.03.14.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 13 Feb 2026 03:14:55 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1770982254; c=relaxed/simple;
+	bh=hixAC+AobzuSMNvmaInhVVPwXDPHawk8Xpy+/sSA30Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M6NrPnqovx/rB1IzliftJzl1+atJ8/FM5zHVSz7wk1cgZUJ8XVWzCq1Wv5DonFE+9PkTR2RL4WHcdJ8KP2EyuvdQZoffjF3j/D07o8P9ffuJcw3m1FsjYCv4QOyskOA+B6emEVTlAzX/p2iLdwmCPrYr39wLtMOjRaHMQjUvVvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SKp2xfqF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFAEDC16AAE;
+	Fri, 13 Feb 2026 11:30:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770982253;
+	bh=hixAC+AobzuSMNvmaInhVVPwXDPHawk8Xpy+/sSA30Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SKp2xfqFV6BAsMTYNLlyaYvBxXlWGnHOSfiM58JHBMVeuw0YywETlnSenzSGUI/Ia
+	 cH0TvSCc4ioR8z5xWUczqqEugeDZ4aqukQ9yrOkOwPOH08k8/YGM7tQ4DRV7ZJDu4s
+	 ee1cW4XOXcbYE4rQhU0ULBjsA6wQ5SG4LA/Kwe3tQYveKf2JhpGNBsJwMlLxNZYMXD
+	 abPOo34qgR5XYw3BKVpMw8vOM8zjF/RRGQZ2gBrwCv5ZOzoGH9cguNlsOcXdaNcEX2
+	 1qj1Vhr9tVXVh9//jZb005oA5hw/eLVI6Gr4lWKe+Ih9c6zyZLPFYW7PGOevPo1yri
+	 XOCkVZz9DyUig==
+Message-ID: <14ee2088-032d-4cd4-8703-fd2f2d304b5b@kernel.org>
+Date: Fri, 13 Feb 2026 12:30:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH RFC v4 1/4] media: dt-bindings: Add Amlogic V4L2 video
  decoder
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <58d57a6c-7c69-4f5b-a4c2-f34ef0238511@kernel.org>
-Date: Fri, 13 Feb 2026 12:14:43 +0100
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
 Cc: Zhentao Guo <zhentao.guo@amlogic.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-media@vger.kernel.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-amlogic@lists.infradead.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D93350ED-72E3-43B5-BA4F-42E0FE491B2A@gmail.com>
 References: <20260213-b4-s4-vdec-upstream-v4-0-c7112d00d662@amlogic.com>
  <20260213-b4-s4-vdec-upstream-v4-1-c7112d00d662@amlogic.com>
  <d96c689d-a5a3-453d-a1ab-56dc1bf01635@kernel.org>
@@ -113,94 +72,115 @@ References: <20260213-b4-s4-vdec-upstream-v4-0-c7112d00d662@amlogic.com>
  <2f68ee18-e9d9-4da6-900c-93a7663b3c9d@kernel.org>
  <598c161c-d157-40e5-992c-912540589d7e@amlogic.com>
  <58d57a6c-7c69-4f5b-a4c2-f34ef0238511@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: Apple Mail (2.3826.700.81.1.4)
+ <D93350ED-72E3-43B5-BA4F-42E0FE491B2A@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <D93350ED-72E3-43B5-BA4F-42E0FE491B2A@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52719-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52720-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[amlogic.com,kernel.org,linaro.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[piotroniszczuk@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E8FF0135AAA
+	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[amlogic.com,kernel.org,linaro.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 31D24135BBD
 X-Rspamd-Action: no action
 
+On 13/02/2026 12:14, Piotr Oniszczuk wrote:
+>>
+>>>>> In short, canvas is a hardware IP inside the Amlogic SoC. The decoder IP
+>>>>> needs to access DDR through canvas IP, so we need to reference the
+>>>> Why decoder cannot access DDR directly?
+>>> The internal topology of the S4 chip is designed this way, we don't know 
+>>> why our VLSI colleauges designed like this. But similar designs have 
+>>> been removed in subsequent chips, eliminating the need to rely on a 
+>>> common hardware IP.
+>>
+>> Quite poor explanation. Based on this, this as well could be entry in
+>> device reg lists.
+>>
+>> Anyway, I am done guessing, explain properly the hardware instead of
+>> answering with half-baked responses just so I will go away.
+>>
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> 
+> Krzysztof,
+> 
+> May you pls explain me: what added value - to upstreaming aml video decoder - will be provided by giving NAK .... because canvas/DDR access details explanations are not enough detailed FOR YOU?
 
+NAK is a disagreement with this patch being merged, so there is no added
+value in it. What sort of added value do you expect from NAKs?
 
-> Wiadomo=C5=9B=C4=87 napisana przez Krzysztof Kozlowski =
-<krzk@kernel.org> w dniu 13 lut 2026, o godz. 09:55:
->=20
-> On 13/02/2026 09:31, Zhentao Guo wrote:
->>>>>>=20
->>>>> Why? What for?
->>>>>=20
->>>>> What is canvas provider?
->>>> The canvas provider is: drivers/soc/amlogic/meson-canvas.c
->>> What is this "canvas" device.
->> You can think of canvas as the agent through which the decoder =
-hardware=20
->> accesses DDR.
->=20
-> AGAIN:
->=20
-> What is the canvas device. Describe or point me to bindings describing
-> it. Your current bindings say that canvas is "a collection of metadata
-> that describes a pixel buffer" so there is no way it handles DDR =
-access.
->=20
-> NAK
->=20
->>>> In short, canvas is a hardware IP inside the Amlogic SoC. The =
-decoder IP
->>>> needs to access DDR through canvas IP, so we need to reference the
->>> Why decoder cannot access DDR directly?
->> The internal topology of the S4 chip is designed this way, we don't =
-know=20
->> why our VLSI colleauges designed like this. But similar designs have=20=
-
->> been removed in subsequent chips, eliminating the need to rely on a=20=
-
->> common hardware IP.
->=20
-> Quite poor explanation. Based on this, this as well could be entry in
-> device reg lists.
->=20
-> Anyway, I am done guessing, explain properly the hardware instead of
-> answering with half-baked responses just so I will go away.
->=20
->=20
-> Best regards,
-> Krzysztof
->=20
-
-Krzysztof,
-
-May you pls explain me: what added value - to upstreaming aml video =
-decoder - will be provided by giving NAK .... because canvas/DDR access =
-details explanations are not enough detailed FOR YOU?
-
-
+Best regards,
+Krzysztof
 
