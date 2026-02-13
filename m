@@ -1,89 +1,88 @@
-Return-Path: <linux-media+bounces-52739-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52740-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UFY4Emsrj2kPKwEAu9opvQ
-	(envelope-from <linux-media+bounces-52739-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 14:47:23 +0100
+	id sNObCKMrj2kPKwEAu9opvQ
+	(envelope-from <linux-media+bounces-52740-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 14:48:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDE5136766
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 14:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79F7A13677F
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 14:48:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 981433080DDA
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 13:46:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CF52B30C732E
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 13:46:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F3E0360754;
-	Fri, 13 Feb 2026 13:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 455563451D4;
+	Fri, 13 Feb 2026 13:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZpyFuGPZ"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="b8Ks7bQv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808CA23BD1F
-	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 13:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AA332AAB6
+	for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 13:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770990390; cv=none; b=WfHfNiTZzE8HyDpJvkEBFwfy+V/8K7tKPDeSMEl2pONTccV5rhkHWzF8/LjZLDVAApj+XFnCaoowK/UY2nDJfixo6A/jF3uYij2Iq9S4xjKEAyo7VSvtz8F0KxtaBq0ACcEv1KzmMeVzIieIFlnBtoggEQw5cTtKYe1bHB46km8=
+	t=1770990391; cv=none; b=Nu8ICQquJL/PfhcBP7nK4WFICbAuadI2Oz8TskIf6LB8fY2p4N3Odmu0uoUJwmtPDH5gA4PTP6zkQtcmj3QiOU4OZoS63/J3icX70KRCtNrNpldQnsPSlmGxnOSakAAMtbnhi6ldMrVGgE+XZqidXcCD/ngjwJ3XE9D9bmSkj08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770990390; c=relaxed/simple;
-	bh=ga/898w/rBkOI5h+0CfCijMC5AU1ZBzwNHy+DuGX48U=;
+	s=arc-20240116; t=1770990391; c=relaxed/simple;
+	bh=7uzhT1Hdpq2Zj/z3tC0kx0DO7eu7YJpM8NOGHA2+aEU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=paayAusDWElK/q2vFcxPI6B+8L7nJCAbrMD3fWSRJmHHdn0j0v103ftnuu0KtaP8Y1TWsk1mgnen6WrJI1GX6dkD1r4GjipKCbQn+mbnUKyZ2SkhkmgEASxPffVjJxF0AMJdwyTo6czimFUbCC+h3ncJ+uPKS+G8GHw8FMQRlzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ZpyFuGPZ; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version; b=tv9uS196/A7HfGqdqHWu+JguCKfEUdifw/I8t9EbYNz3Yk8BuvdNT+FRiwTaNA7k7oKlG+P1Q5Bg/ZL7LtT8Hn6wYRdeNU4qHPgRdfXpC8m1ShjEQlpCZwZHH4rjhHlp/oSJpDCj+cV2asRUZlaQrUdGUtBO5IkbRcoCZNrJHNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=b8Ks7bQv; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4837584120eso3756195e9.1
-        for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 05:46:28 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4836f363ad2so11192145e9.1
+        for <linux-media@vger.kernel.org>; Fri, 13 Feb 2026 05:46:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1770990387; x=1771595187; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1770990388; x=1771595188; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z3kT6gzFtavn2g25Q3ZqjtMQzhhOeb/nLljiXXqhXNo=;
-        b=ZpyFuGPZFiLFkkDDiACSvGYan3Q0sf5XU3nmMElb8zgp59PF2oMkvRtSV2CuNf4weu
-         aZWvBtMbYAdfskmqSJCFmFAknYqmAnjwzTciJ+CrEexzJiIyfbQfdvj6KueIcuy50PjQ
-         awvihJl3c+d7y6A+cTieouSSJIJQTnUjLvlJYSHWSBvshbyXrcxPmt33FxzLI3s64Ozn
-         8ay1oVMuvaC/9MOOI2+OFG81mKda7QbLz9sZ9ekMAymNTGNIXuR0LvbYzSW434VfcpMV
-         92UW3qBfGIO9nj/daIQBdMXk36VATlnpwJGvt0enqjg8w24Gk1SpuhQcxZNgHBLLCQuC
-         TZRQ==
+        bh=4B97dcFXXQx/22amrzajNB5xqYOGdgqYpxZ5xW5NAyU=;
+        b=b8Ks7bQvyUkk2F2wlPNJKzjRKifHGmZFZYQ3Cf2KK455nlodcZ5T5TXTDIgM2+9usS
+         ds7HW2p0a6k1S54MzhCAvMUh64t1EpOP+xyYm3Saz5pjm+vsEotoLemSLcch6DU4aPWR
+         Y+PCmtCq5eedV7tSaTn3CkR20z3i0o6C0SvCdd48vBQDiekbOrwY4teDX81p/45flYuj
+         2q3RSIW5xbZbA6tHYeML/47+5MUToYRYy5YuWGJvyywjnojw4/xcUWEUJL5y9x0+EgSg
+         SfZGg+PcjPMtrbMV1R+EpqmE0WaVUsczU4roNNRPrenSfPILfkVW6T/FtRQPnVSN6Cov
+         /2uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770990387; x=1771595187;
+        d=1e100.net; s=20230601; t=1770990388; x=1771595188;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=z3kT6gzFtavn2g25Q3ZqjtMQzhhOeb/nLljiXXqhXNo=;
-        b=UDS/E492g518ITr0FVtGpbuTNn71Jo50GPS+eb4Dghe8a6EQ6dxi+aEmsg4aiMMm7R
-         8M87yMEJ+aEWTRDKiP9+D2cuQWkq1PJ9uOMkrEQEcWplCLYBCklTZl3ImmyfZ05y+JP8
-         +1B27xu0pKByKvuPO6tC0Maq303q/hFVb92VuXxcEtzVGVkg3kNkhT9VMPdakjxN0ylu
-         ZptLwpVrqq3SRo9lceMs9afEy+IiLw3g+fOL1bMVb+hsYF12VjM4hAFhQzYtQ+eW9Zg8
-         t54IFbaFiyw45Ks06s3Se3TmAAOyoPi/gvegZn+8q3uCGnqplWaiQc2UfvmmQFntBs43
-         F21g==
-X-Gm-Message-State: AOJu0Yz93Wl06oInmaak07P0O3vHRKMy83iG1Ep+O7qojGJwevTefgpe
-	k6pQrhu9Bm/L8/gS54mDOVk3HtNWTbzHvvEP+OjSv6FsS1gzHvnT3pnNxw+c/Rrkn7k=
-X-Gm-Gg: AZuq6aKijWh3DELGBPa6Al7Cu4w1G1epEW0Yoo3zxRI/JlIGFt7KelPt+17AVMTLaqW
-	yI1TlMroTPHvx2dxWN7+7AvVVWFNqYEF2p0Yu8XbXwEuqzp4WIHp0HS3ej2rUULL3Nyt/PeETr5
-	EDC142ML1BhWQ09ykI6ASYYv+6ZA93S8FUr0bp/WB1lEMuWp1i0I0rACUgqRlFkMbsbQiqaf0Ex
-	f4EpsI59VXbtOnm0+YRBzK/ptyOFu7TCYfQFZJph9rW3CX6BwVZ/WXY35/jWcrxo7pY6nWQvhEx
-	S2HycYER5EyhbKaD5tvf8Wzsx4cGFlgBpfCLrRdkveVugWQRs6hUb5NP1haN7x1fcY4bsIHpSjQ
-	7jZdTcbVz1iv//5KacZdJEIQ/vBugtwZgP3bNqe5xHsZeW0T0CxEC0/Jn8qc0rjRimXihRoKUZZ
-	cpmAna4fjxe4hswMmdJVpprTziO2lwpo2Ll+Zopssy
-X-Received: by 2002:a05:600c:4746:b0:471:114e:5894 with SMTP id 5b1f17b1804b1-48373a565d0mr32339115e9.25.1770990386718;
-        Fri, 13 Feb 2026 05:46:26 -0800 (PST)
+        bh=4B97dcFXXQx/22amrzajNB5xqYOGdgqYpxZ5xW5NAyU=;
+        b=ZDVIRjJv30cCbEsdx9U8uro20e2XzFjZRIDCJdoosTOKRU8P7DPVTZeS0imQAnRhmd
+         vOACkhqC4vVC1qavephGp3RuZ20gr2mhtI6LwScdjVQtbTbbkstp0jxU0JHWh2HVPnky
+         3LcEMvKl+gSxg61ukQMrRteFN8UGJzipCipplXt4u43AHHeoWwk/uf8H8RKePWhlz3/O
+         ZuNmU4CVNV6XAZuu5Yi0/flgQBssJzAmg8jVYh8vbkPlnwK+OyWpUYGbGxBEm05Ttp6D
+         uco//blYhtst+5WQ13tJ67AdkU1NdX00x3nfzUBgI7EGqO2ljUyfnEoI1EiTyomCnka+
+         o1xg==
+X-Gm-Message-State: AOJu0YwrcZJFueJDEQYTHIyXniSP7tcAGXHa+CBE+96xHENjp1MQj8eT
+	hpTO1cx4tuOUONb9P9n6l72J7yQbwuJV0jWHTsFAEWVz22hdGGJ4o7tRIri/NPOG6nI=
+X-Gm-Gg: AZuq6aK+Ey/J87jxc1HOMrA1V2og0BxoysQhR0B8Qqf7JQdQ+b56sEWa6SPUwDMCG8V
+	WauGmB1XCm6/xzXXG/bNoDYSz0Ib1JqJX1bEam9Ie7/b302PUNJ5REdR8pnmPnaQHBIZr2VqQJJ
+	aXEDuQEm4k1idxRsoFG0FB26cA00iQRMnqfo+Urlg3Zc2c5O3e5mV583hu5aMAgPH01ShMPQRe9
+	QTztgINpEFE6Pyz60JeflpYUMEwbyJpt8+XjEgcdv3vfpjdss0ZqSCZcqrq5W5WZ6KHihrEAB5Y
+	PrRYvmYuycnuQCCL59FLib3Cd2NG0NEm7BZR7VT7PVfZtNvFu57/yh9VPH5kL6RZDbDaHz90Qb/
+	9jIgC75roAnunRxplVhg/O6zh1mA+i6t88ccaoD292RMoL8Z059/KZ4sxHh476kleGMSYAm4pvN
+	zDg09KrdzoUnHuJod29NVbPejTA41PQppTrpClVsXt
+X-Received: by 2002:a05:600c:314f:b0:483:6fe1:c057 with SMTP id 5b1f17b1804b1-48373a3f3bcmr26871935e9.21.1770990387410;
+        Fri, 13 Feb 2026 05:46:27 -0800 (PST)
 Received: from zovi.suse.cz (nat2.prg.suse.com. [195.250.132.146])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48371a2998fsm17198625e9.17.2026.02.13.05.46.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 05:46:26 -0800 (PST)
+        Fri, 13 Feb 2026 05:46:27 -0800 (PST)
 From: Petr Pavlu <petr.pavlu@suse.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	syzbot+e993e01b15c8eefd9cd4@syzkaller.appspotmail.com
-Subject: [PATCH 1/2] media: dvbdev: Prevent a dangling pointer in dvb_minors
-Date: Fri, 13 Feb 2026 14:44:15 +0100
-Message-ID: <20260213134551.1294954-2-petr.pavlu@suse.com>
+	Petr Pavlu <petr.pavlu@suse.com>
+Subject: [PATCH 2/2] media: dvbdev: Simplify error paths in dvb_register_device()
+Date: Fri, 13 Feb 2026 14:44:16 +0100
+Message-ID: <20260213134551.1294954-3-petr.pavlu@suse.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260213134551.1294954-1-petr.pavlu@suse.com>
 References: <20260213134551.1294954-1-petr.pavlu@suse.com>
@@ -95,8 +94,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
@@ -106,132 +104,170 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-52739-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52740-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	RCVD_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,e993e01b15c8eefd9cd4];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:dkim,suse.com:email,syzkaller.appspot.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9FDE5136766
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:dkim,suse.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 79F7A13677F
 X-Rspamd-Action: no action
 
-Syzbot reports a slab-out-of-bounds write in try_module_get():
+The error paths in dvb_register_device() each handle necessary cleanup
+operations individually. Since the function performs a number of
+operations, this leads to duplicated and lengthy code.
 
-==================================================================
-BUG: KASAN: slab-out-of-bounds in instrument_atomic_read_write include/linux/instrumented.h:96 [inline]
-BUG: KASAN: slab-out-of-bounds in atomic_inc_not_zero include/linux/atomic/atomic-instrumented.h:1536 [inline]
-BUG: KASAN: slab-out-of-bounds in try_module_get+0x46/0xc0 kernel/module/main.c:913
-Write of size 4 at addr ffff888142f67108 by task syz.3.2706/18556
+Unify the cleanup process under error labels.
 
-CPU: 1 UID: 0 PID: 18556 Comm: syz.3.2706 Tainted: G             L      syzkaller #0 PREEMPT(full)-
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/24/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0xba/0x230 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
- instrument_atomic_read_write include/linux/instrumented.h:96 [inline]
- atomic_inc_not_zero include/linux/atomic/atomic-instrumented.h:1536 [inline]
- try_module_get+0x46/0xc0 kernel/module/main.c:913
- dvb_device_open+0xef/0x350 drivers/media/dvb-core/dvbdev.c:103
- chrdev_open+0x4cd/0x5e0 fs/char_dev.c:414
- do_dentry_open+0x7ce/0x1420 fs/open.c:962
- vfs_open+0x3b/0x340 fs/open.c:1094
- do_open fs/namei.c:4637 [inline]
- path_openat+0x3486/0x3e20 fs/namei.c:4796
- do_filp_open+0x22d/0x490 fs/namei.c:4823
- do_sys_openat2+0x12f/0x220 fs/open.c:1430
- do_sys_open fs/open.c:1436 [inline]
- __do_sys_openat fs/open.c:1452 [inline]
- __se_sys_openat fs/open.c:1447 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1447
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7feefad5b78e
-Code: 08 0f 85 a5 a8 ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 80 00 00 00 00 48 83 ec 08
-RSP: 002b:00007feefbc79b28 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007feefbc7a6c0 RCX: 00007feefad5b78e
-RDX: 0000000000000002 RSI: 00007feefbc79c00 RDI: ffffffffffffff9c
-RBP: 00007feefbc79c00 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: cccccccccccccccd
-R13: 00007feefb016128 R14: 00007feefb016090 R15: 00007ffc341cef58
- </TASK>
-==================================================================
-
-The dvb_device_open() function performs 'dvbdev = dvb_minors[minor]' and
-then calls fops_get(dvbdev->fops). The code in fops_get() invokes
-try_module_get(fops->owner) but this operation fails because the module is
-apparently gone.
-
-The issue seems to stem from dvb_register_device() which assigns
-dvb_minors[minor] and then continues with the device creation. However, if
-a subsequent step fails, the value in dvb_minors[minor] is not cleared,
-leaving a dangling dvbdev pointer in the array.
-
-Fix the issue by extending the duration for which minor_rwsem is held in
-dvb_register_device() and assign dvb_minors[minor] only after the device
-creation is fully completed. This is similar to the approach taken in
-usb_register_dev(), where usb_minors and its minor_rwsem are handled.
-
-Reported-by: syzbot+e993e01b15c8eefd9cd4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=71d5d861d9adc6905054
-Fixes: 5dd3f3071070 ("V4L/DVB (9361): Dynamic DVB minor allocation")
 Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
 ---
- drivers/media/dvb-core/dvbdev.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/dvb-core/dvbdev.c | 79 +++++++++++++--------------------
+ 1 file changed, 31 insertions(+), 48 deletions(-)
 
 diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 8b980d371a45..c067bbeb9461 100644
+index c067bbeb9461..94591f8a7afa 100644
 --- a/drivers/media/dvb-core/dvbdev.c
 +++ b/drivers/media/dvb-core/dvbdev.c
-@@ -548,8 +548,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+@@ -466,16 +466,15 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 
+ 	id = dvbdev_get_free_id(adap, type);
+ 	if (id < 0) {
+-		mutex_unlock(&dvbdev_register_lock);
+-		*pdvbdev = NULL;
+ 		pr_err("%s: couldn't find free device id\n", __func__);
+-		return -ENFILE;
++		ret = -ENFILE;
++		goto error_set_pdvbdev;
+ 	}
+ 
+ 	*pdvbdev = dvbdev = kzalloc(sizeof(*dvbdev), GFP_KERNEL);
+ 	if (!dvbdev) {
+-		mutex_unlock(&dvbdev_register_lock);
+-		return -ENOMEM;
++		ret = -ENOMEM;
++		goto error_unlock;
+ 	}
+ 
+ 	/*
+@@ -494,19 +493,15 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	if (!dvbdevfops) {
+ 		dvbdevfops = kmemdup(template->fops, sizeof(*dvbdevfops), GFP_KERNEL);
+ 		if (!dvbdevfops) {
+-			kfree(dvbdev);
+-			*pdvbdev = NULL;
+-			mutex_unlock(&dvbdev_register_lock);
+-			return -ENOMEM;
++			ret = -ENOMEM;
++			goto error_free_dvbdev;
+ 		}
+ 
+ 		new_node = kzalloc(sizeof(*new_node), GFP_KERNEL);
+ 		if (!new_node) {
+ 			kfree(dvbdevfops);
+-			kfree(dvbdev);
+-			*pdvbdev = NULL;
+-			mutex_unlock(&dvbdev_register_lock);
+-			return -ENOMEM;
++			ret = -ENOMEM;
++			goto error_free_dvbdev;
+ 		}
+ 
+ 		new_node->fops = dvbdevfops;
+@@ -534,17 +529,8 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	minor = nums2minor(adap->num, type, id);
+ #endif
+ 	if (minor >= MAX_DVB_MINORS) {
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
+-		list_del(&dvbdev->list_head);
+-		kfree(dvbdev);
+-		*pdvbdev = NULL;
+-		up_write(&minor_rwsem);
+-		mutex_unlock(&dvbdev_register_lock);
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto error_dvbdev_cleanup;
  	}
  
  	dvbdev->minor = minor;
--	dvb_minors[minor] = dvb_device_get(dvbdev);
--	up_write(&minor_rwsem);
-+
- 	ret = dvb_register_media_device(dvbdev, type, minor, demux_sink_pads);
+@@ -553,18 +539,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
  	if (ret) {
  		pr_err("%s: dvb_register_media_device failed to create the mediagraph\n",
-@@ -563,6 +562,7 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		list_del(&dvbdev->list_head);
- 		kfree(dvbdev);
- 		*pdvbdev = NULL;
-+		up_write(&minor_rwsem);
- 		mutex_unlock(&dvbdev_register_lock);
- 		return ret;
- 	}
-@@ -582,10 +582,14 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
- 		list_del(&dvbdev->list_head);
- 		kfree(dvbdev);
- 		*pdvbdev = NULL;
-+		up_write(&minor_rwsem);
- 		mutex_unlock(&dvbdev_register_lock);
- 		return PTR_ERR(clsdev);
+ 		       __func__);
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
+-		dvb_media_device_free(dvbdev);
+-		list_del(&dvbdev->list_head);
+-		kfree(dvbdev);
+-		*pdvbdev = NULL;
+-		up_write(&minor_rwsem);
+-		mutex_unlock(&dvbdev_register_lock);
+-		return ret;
++		goto error_free_media;
  	}
  
-+	dvb_minors[minor] = dvb_device_get(dvbdev);
-+	up_write(&minor_rwsem);
+ 	clsdev = device_create(dvb_class, adap->device,
+@@ -573,18 +548,8 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 	if (IS_ERR(clsdev)) {
+ 		pr_err("%s: failed to create device dvb%d.%s%d (%pe)\n",
+ 		       __func__, adap->num, dnames[type], id, clsdev);
+-		if (new_node) {
+-			list_del(&new_node->list_head);
+-			kfree(dvbdevfops);
+-			kfree(new_node);
+-		}
+-		dvb_media_device_free(dvbdev);
+-		list_del(&dvbdev->list_head);
+-		kfree(dvbdev);
+-		*pdvbdev = NULL;
+-		up_write(&minor_rwsem);
+-		mutex_unlock(&dvbdev_register_lock);
+-		return PTR_ERR(clsdev);
++		ret = PTR_ERR(clsdev);
++		goto error_free_media;
+ 	}
+ 
+ 	dvb_minors[minor] = dvb_device_get(dvbdev);
+@@ -595,6 +560,24 @@ int dvb_register_device(struct dvb_adapter *adap, struct dvb_device **pdvbdev,
+ 
+ 	mutex_unlock(&dvbdev_register_lock);
+ 	return 0;
 +
- 	dprintk("DVB: register adapter%d/%s%d @ minor: %i (0x%02x)\n",
- 		adap->num, dnames[type], id, minor, minor);
++error_free_media:
++	dvb_media_device_free(dvbdev);
++error_dvbdev_cleanup:
++	if (new_node) {
++		list_del(&new_node->list_head);
++		kfree(dvbdevfops);
++		kfree(new_node);
++	}
++	list_del(&dvbdev->list_head);
++	up_write(&minor_rwsem);
++error_free_dvbdev:
++	kfree(dvbdev);
++error_set_pdvbdev:
++	*pdvbdev = NULL;
++error_unlock:
++	mutex_unlock(&dvbdev_register_lock);
++	return ret;
+ }
+ EXPORT_SYMBOL(dvb_register_device);
  
 -- 
 2.52.0
