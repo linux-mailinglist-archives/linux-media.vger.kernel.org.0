@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-52698-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52699-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cCdKDwXejmlSFgEAu9opvQ
-	(envelope-from <linux-media+bounces-52698-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 09:17:09 +0100
+	id 0Y1aLjrejmluFgEAu9opvQ
+	(envelope-from <linux-media+bounces-52699-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 09:18:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9D16133E1D
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 09:17:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B50133E3B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 09:18:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 596333033218
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 08:17:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A22743050237
+	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 08:17:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC23F30DD38;
-	Fri, 13 Feb 2026 08:17:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8106315D39;
+	Fri, 13 Feb 2026 08:17:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sz+4oPuw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gd57xqK3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3030B3BB4A;
-	Fri, 13 Feb 2026 08:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5742505B2;
+	Fri, 13 Feb 2026 08:17:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770970624; cv=none; b=T/5yb1tdlYGcwNTAtV9KkOZMPciPOaUU7dZkab27jl+n1O81UTsIL/GRr1WNT5sKcpUL/m4YN5Jo99z6a+lG49ImiBrRDwuUNph0Bo02crcK5Pl7WxgTFVUIY6xMT39Y1MSEx86/DYX71VodfgHIL5gPpM8r5ipQn26lcYkp3+8=
+	t=1770970650; cv=none; b=aiXyb8rJAnX5FL1yaZi0fLExLtvDEArgkFEwhzwF9u9ni6aPZV8juWtpnUQI+D1S+A/bzPAWXejwABFrzMQJOQ7zd3elnFKmxkx89H7XcrC38xUmapzxIzZhaFRBIy+2Q6y8JffD9+dhTKQ3bz6w36tYz4DMY66qbPYKLrk41xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770970624; c=relaxed/simple;
-	bh=hbYAQt6TNDZ/qXSwhJHkgExQTtHCoS7ggq1824ovTnU=;
+	s=arc-20240116; t=1770970650; c=relaxed/simple;
+	bh=5IFVImr6FC2fCJmvhchlTJID5GokFgIO/taR4mmbo/8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=So0yKHIZuRSIRoDDT8NliUuClIz6GchdKEwe2TVTZDg1IplIunsPtWUGMdOwuccUqEIsAQDQ3KyjodINVaAF9XJOgoYyrjbK/UbTxHfaK/2hgaVLFNCZHQ0mBLYUklxpyT+fZaR304DCY2mgL45OpIWcitwyuhIui3V3UZiwwHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sz+4oPuw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CB68C116C6;
-	Fri, 13 Feb 2026 08:17:00 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=UaL98ph/OBxgsop7TRmfidM7cYuPI4be5SIbqJVqkglT1tGuEEv7zMFswejsuK8q4pLUlQLq1HfikGdXNPdLoOdkDFjJCFakkpapPljlAHzkKtGfd4I3ND8HqA80rufihkP35OR6IaNOiTn9W93pRWitLN57vEgEU89Sor1aCAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gd57xqK3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9DCBC116C6;
+	Fri, 13 Feb 2026 08:17:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770970623;
-	bh=hbYAQt6TNDZ/qXSwhJHkgExQTtHCoS7ggq1824ovTnU=;
+	s=k20201202; t=1770970649;
+	bh=5IFVImr6FC2fCJmvhchlTJID5GokFgIO/taR4mmbo/8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sz+4oPuwy6Y0e3rrzOZBPH52OtlvC18v6Q17Tg/0qckunMalGdoOMAKPS5BvhWe0t
-	 E4XmiXd7zeq3gP8n6EJbjnWlMIh/kcAmlTPfX1oViwtfCtJkPYHif3MKg87/BnLhmn
-	 H0lo1MtX65GWK640lVwPj32jkNsBZb1TkxlNoFuOgpIT5swr6mWpIZBgSc6aNR+YOU
-	 zNJ1WZJ5nLj/JBh7IzaM6ILk7wvcEfk+q3CvzLjGl8zbLmMndKlw3RAOBoTtlhCWsI
-	 flAX+O9Cxh9tBV18rzv2V8XYRTUvbPKPlBZU8lnpl1TiiZVMQaIh6L/nNjh/GuA3x0
-	 kti5SGsXOxbmg==
-Message-ID: <2f68ee18-e9d9-4da6-900c-93a7663b3c9d@kernel.org>
-Date: Fri, 13 Feb 2026 09:16:58 +0100
+	b=Gd57xqK3n0VeLdt58JNtLAZ5WhFhI3RPika/DqHA6aOnlgS+8jyCq+JHfAnaJkSvv
+	 4+AC4B/TmbQiboJj+9Hqx3J7WyGihPIqqRSbOojTOma/n7vbLjSAYZsn/fWkcFvRqQ
+	 7/gJ2wPydMgvUdmaAuvfjs7VZnhTK7qvVW3k3Kqjs3ejOEtYOxM57/WiP8p5HYbt2I
+	 DDUdEjoAWWa2Cz390YjObU+JT/bFBMV0TcwpT6e6NE0RwU7JZPmOsxlEJOGO/Zokbd
+	 6VHGDbaA3mRw5pGkTddLojItB/YkxOEnJksPiV6QgkroywxqotuTdDL54c+vzieC2f
+	 ChPS1BjEfPIdA==
+Message-ID: <5d3e8678-9319-4e0e-a83d-5676127fe8b8@kernel.org>
+Date: Fri, 13 Feb 2026 09:17:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,7 +67,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 References: <20260213-b4-s4-vdec-upstream-v4-0-c7112d00d662@amlogic.com>
  <20260213-b4-s4-vdec-upstream-v4-1-c7112d00d662@amlogic.com>
  <d96c689d-a5a3-453d-a1ab-56dc1bf01635@kernel.org>
- <75e55ceb-e6dd-47b5-a829-66f6fbb3e13e@amlogic.com>
+ <fd56ede0-5d62-42ec-8d19-19552b246c7c@amlogic.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,7 +113,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <75e55ceb-e6dd-47b5-a829-66f6fbb3e13e@amlogic.com>
+In-Reply-To: <fd56ede0-5d62-42ec-8d19-19552b246c7c@amlogic.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
@@ -121,13 +121,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52698-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52699-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[amlogic.com,kernel.org,linaro.org,baylibre.com,googlemail.com];
@@ -141,111 +141,19 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A9D16133E1D
+X-Rspamd-Queue-Id: B4B50133E3B
 X-Rspamd-Action: no action
 
-On 13/02/2026 09:02, Zhentao Guo wrote:
-> Hi Krzysztof,
-> 
+On 13/02/2026 09:04, Zhentao Guo wrote:
 > 
 > 在 2026/2/13 15:35, Krzysztof Kozlowski 写道:
 >> [ EXTERNAL EMAIL ]
 >>
->> On 13/02/2026 06:12, Zhentao Guo via B4 Relay wrote:
->>> From: Zhentao Guo<zhentao.guo@amlogic.com>
->>>
->>> Describe the initial support for the V4L2 stateless video decoder
->>> driver used with the Amlogic S4 (S805X2) platform.
->>>
->>> Signed-off-by: Zhentao Guo<zhentao.guo@amlogic.com>
->>> ---
->>>   .../bindings/media/amlogic,s4-vcodec-dec.yaml      | 96 ++++++++++++++++++++++
->>>   1 file changed, 96 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml b/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
->>> new file mode 100644
->>> index 000000000000..88780514d06c
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/amlogic,s4-vcodec-dec.yaml
->>> @@ -0,0 +1,96 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +# Copyright (C) 2025 Amlogic, Inc. All rights reserved
->>> +%YAML 1.2
->>> +---
->>> +$id:http://devicetree.org/schemas/media/amlogic,s4-vcodec-dec.yaml#
->>> +$schema:http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Amlogic Video Decode Accelerator
->>> +
->>> +maintainers:
->>> +  - Zhentao Guo<zhentao.guo@amlogic.com>
->>> +
->>> +description:
->>> +  The Video Decoder Accelerator present on Amlogic SOCs.
->>> +  It supports stateless h264 decoding.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: amlogic,s4-vcodec-dec
->> Why do you repeat "dec" twice? codec means decoder, so what is the last
->> "dec" about?
-> In fact, codec means encoder+decoder, and dec is short for decoder.
 
-Yes, that's what I meant, so why do you repeat decoder?
-
->>> +
->>> +  reg:
->>> +    maxItems: 2
->>> +
->>> +  reg-names:
->>> +    items:
->>> +      - const: dos
->>> +      - const: dmc
->>> +
->>> +  interrupts:
->>> +    maxItems: 3
->>> +
->>> +  clocks:
->>> +    maxItems: 3
->>> +
->>> +  clock-names:
->>> +    items:
->>> +      - const: vdec
->>> +      - const: clk_vdec_mux
->>> +      - const: clk_hevcf_mux
->> Name them based on their role/name in this device. Why this device would
->> care that it receives a mux? Not a div? or not a gate?
-> Ok, previously we overlooked this. We will improve it in the next version.
->>> +
->>> +  power-domains:
->>> +    maxItems: 2
->>> +
->>> +  power-domain-names:
->>> +    items:
->>> +      - const: vdec
->>> +      - const: hevc
->>> +
->>> +  resets:
->>> +    maxItems: 1
->>> +
->>> +  amlogic,canvas:
->>> +    description: should point to a canvas provider node
->> Why? What for?
->>
->> What is canvas provider?
-> 
-> The canvas provider is: drivers/soc/amlogic/meson-canvas.c
-
-What is this "canvas" device.
-
-> 
-> In short, canvas is a hardware IP inside the Amlogic SoC. The decoder IP 
-> needs to access DDR through canvas IP, so we need to reference the 
-
-Why decoder cannot access DDR directly?
-
+Do not send me such emails more than once. Also, drop the "EXTERNAL
+EMAIL" markings.
 
 Best regards,
 Krzysztof
