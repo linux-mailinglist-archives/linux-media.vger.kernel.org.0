@@ -1,62 +1,61 @@
-Return-Path: <linux-media+bounces-52789-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52790-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0NfPMt7Jj2nMTgEAu9opvQ
-	(envelope-from <linux-media+bounces-52789-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:03:26 +0100
+	id KFWMCtzJj2nMTgEAu9opvQ
+	(envelope-from <linux-media+bounces-52790-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:03:24 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6743A13A459
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:03:26 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8E713A44A
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:03:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2AB1A3045E07
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:03:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A76DA301DFA4
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:03:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF014217704;
-	Sat, 14 Feb 2026 01:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5DC01FF1AD;
+	Sat, 14 Feb 2026 01:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xlts5PHT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tiPKGB8w"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215382147E5;
-	Sat, 14 Feb 2026 01:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181C819004A;
+	Sat, 14 Feb 2026 01:02:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771030976; cv=none; b=EIxPdtfCT5QFZ6PAi8JEybUu32zbyJIz5mT8YCwY9So8/vcVomPms74amE2m/gdVO2BeeHRLRQhN44JjdrFnyoS401pcpqq/1dwiF7FwCrrN/XmDVhtfGRU5RdazJiIskDWr+jdCSQt9jvAGCtrlef/m9HHR4mFGzvh1hDAzTiI=
+	t=1771030980; cv=none; b=fEFBJkIjr4afVaSWzmdZo9riKOWe/AfNQ415R6NoJxLJUei2qUy0xtkwilOGcefU2UFW9w8UyjhyjG9dX6RrFXneB+sGY+WO1KCACHM7ar+kiwBoNU9XuImuYB8yq8gl8lLtanQQ/FFr1eFt9ugPBs9bs7u40ouoBbHkO8muudk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771030976; c=relaxed/simple;
-	bh=oIIHvMzDxaruZGVQGS9JOy8hDJDQ9lNDinPSU2vCRMQ=;
+	s=arc-20240116; t=1771030980; c=relaxed/simple;
+	bh=VSI6CnrW6/IKVWVme+wtXswdhlJrcqigCGiPuij2fzI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uc4o5MRXxJVf/bKEj/ykgLhjPjYqTyR9EJ2HfQk5hZbgEVz5CjMT5MN+m8vizuABKWsuPedlJrozVL80XSRsdgzuSSoSKGBq1fy6IWE6ZOi/hAk6uT4h2enCrFqjhXAIiu0h9z51pHG+wcn2MeB3hdugid2jOeWnCFINhUFFDwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xlts5PHT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE55AC16AAE;
-	Sat, 14 Feb 2026 01:02:54 +0000 (UTC)
+	 MIME-Version:Content-Type; b=kPbDI4xfi2G01oHWgA93bLjWGwRbULcxd4AjDb3lRZPijikdxueZMY9X1rhhrfN3mz4rhberSCQBAFeAuGvldM2ULYrxjrek8v3wFe08mzg5VfmRGrk2C6PG/h5q51WB5LMrH2c2b+7M7GXIaEmMlxMEZJ1sdZJyQl8HKDFeCGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tiPKGB8w; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D250BC16AAE;
+	Sat, 14 Feb 2026 01:02:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771030975;
-	bh=oIIHvMzDxaruZGVQGS9JOy8hDJDQ9lNDinPSU2vCRMQ=;
+	s=k20201202; t=1771030979;
+	bh=VSI6CnrW6/IKVWVme+wtXswdhlJrcqigCGiPuij2fzI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xlts5PHTF2G5z/3daJ/NaRRR/alhSsd5vEDvrwiD4ECn1sjxUg5Bd0sNM8pvSuooe
-	 sV89fel64r2YR8EANStoivpaekJPmZt4OERRJGsMFyTfJx92gtr7ZJgF+hRSwBzj3O
-	 Uib5Dd2PT1VQEfSh9SFcKr93Vm1Fu9gc93R47S6luHHwaUAcZ3GsvPtnWkI5MM0t2J
-	 oKlauR2V6eL6DFLWLuEVEsiXXJg0MgDUP22cMbuXrzLrBXT6DLaxLqwxEyMDoCFeef
-	 7ob+e9pziFR7eDL7/mzQm4CpeRHW/j4I5445GBbC5lNW/nID4SCWvp90dRSR0G5kYJ
-	 OtURRePS1199g==
+	b=tiPKGB8wxGFIetYDyGDdggkZ2Y5kfsnyrYSrb7vATSaE7MgLlTA5LUR9WZlAx0D0O
+	 1/mP9ePUlMJJ/wBLr2/KBGZPl02XJeoCyy/LNai05B3RjPspmnokLrQQ+ku+QLupCX
+	 /P+Rl19tIRBLeSrFuDCVRGouVHAaqrWxkoDth7YqAPNH226YkmVCu1DAM2BWWPUaYt
+	 uNli5+yTD331W/ekW3EmhmW9K8X3XulAN4luR5JRAEmBNzL4Y6rJrF3WP/Ra9t4lKE
+	 oMj4rUeczEz/7OU4PDsJk+e9FuvKTcA/7wZKNzdnwf9zU8gIL1BUVQbiAuWGcjmDPg
+	 sP8ctj4iSeN7A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Brandon Brnich <b-brnich@ti.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	nas.chung@chipsnmedia.com,
-	jackson.lee@chipsnmedia.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.12] media: chips-media: wave5: Fix conditional in start_streaming
-Date: Fri, 13 Feb 2026 19:58:05 -0500
-Message-ID: <20260214010245.3671907-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.12] media: mt9m114: Avoid a reset low spike during probe()
+Date: Fri, 13 Feb 2026 19:58:08 -0500
+Message-ID: <20260214010245.3671907-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -77,14 +76,14 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-52789-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52790-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -93,187 +92,158 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: 6743A13A459
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email,ideasonboard.com:email]
+X-Rspamd-Queue-Id: CC8E713A44A
 X-Rspamd-Action: no action
 
-From: Brandon Brnich <b-brnich@ti.com>
+From: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-[ Upstream commit b4e26c6fc1b3c225caf80d4a95c6f9fcbe959e17 ]
+[ Upstream commit 84359d0a5e3afce5e3e3b6562efadff690614d5b ]
 
-When STREAMON(CAP) is called after STREAMON(OUT), the driver was failing to
-switch states from VPU_INST_STATE_OPEN to VPU_INST_STATE_INIT_SEQ and
-VPU_INST_STATE_PIC_RUN because the capture queue streaming boolean had not
-yet been set to true. This led to a hang in the encoder since the state
-was stuck in VPU_INST_STATE_OPEN. During the second call to
-start_streaming, the sequence initialization and frame buffer allocation
-should occur.
+mt9m114_probe() requests the reset GPIO in output low state:
 
-Signed-off-by: Brandon Brnich <b-brnich@ti.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+
+and then almost immediately afterwards calls mt9m114_power_on() which does:
+
+		gpiod_set_value(sensor->reset, 1);
+		fsleep(duration);
+		gpiod_set_value(sensor->reset, 0);
+
+which means that if the reset pin was high before this code runs that
+it will very briefly be driven low because of passing GPIOD_OUT_LOW when
+requesting the GPIO only to be driven high again possibly directly after
+that. Such a very brief driving low of the reset pin may put the chip in
+a confused state.
+
+Request the GPIO in high (reset the chip) state instead to avoid this,
+turning the initial gpiod_set_value() in mt9m114_power_on() into a no-op.
+and the fsleep() ensures that it will stay high long enough to properly
+reset the chip.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This confirms the key finding. Now I have all the information needed for
-a comprehensive analysis.
+## Analysis of mt9m114 Reset GPIO Spike Fix
 
-## Detailed Analysis
+### Commit Message Analysis
 
-### 1. COMMIT MESSAGE ANALYSIS
+The commit describes a hardware initialization ordering issue in the
+mt9m114 camera sensor driver. During `probe()`, the reset GPIO is
+requested in `GPIOD_OUT_LOW` (deasserted) state, but then
+`mt9m114_power_on()` immediately drives it high (asserted/reset),
+sleeps, then drives it low (deasserted). If the reset pin was already
+high before probe, this creates a brief low spike that could put the
+chip in a "confused state."
 
-The subject "Fix conditional in start_streaming" clearly indicates a
-**bug fix**. The commit message explains:
-- **Trigger**: When `STREAMON(CAPTURE)` is called after
-  `STREAMON(OUTPUT)`, the encoder hangs.
-- **Root cause**: The capture queue's `streaming` boolean hasn't been
-  set to `true` yet at the time the condition is checked.
-- **Symptom**: The VPU instance state gets stuck at
-  `VPU_INST_STATE_OPEN`, never advancing to `VPU_INST_STATE_INIT_SEQ` or
-  `VPU_INST_STATE_PIC_RUN`, causing the encoder to **hang**.
+The fix changes `GPIOD_OUT_LOW` to `GPIOD_OUT_HIGH` so the GPIO starts
+in the reset-asserted state, making the first
+`gpiod_set_value(sensor->reset, 1)` in `mt9m114_power_on()` a no-op, and
+the subsequent sleep ensures proper reset timing.
 
-The commit has "Reviewed-by: Nicolas Dufresne" (Collabora engineer,
-active V4L2 contributor) and was merged by Hans Verkuil (the V4L2
-subsystem maintainer), indicating proper review.
+### Code Change Analysis
 
-### 2. CODE CHANGE ANALYSIS
-
-The fix is a **one-line conditional change** (technically a 2-line
-reformatting of a single condition):
-
-**Before:**
+The change is a single-line modification:
 ```c
-if (inst->state == VPU_INST_STATE_OPEN &&
-m2m_ctx->cap_q_ctx.q.streaming) {
+- sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
++ sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
 ```
 
-**After:**
-```c
-if (inst->state == VPU_INST_STATE_OPEN &&
-    (m2m_ctx->cap_q_ctx.q.streaming || q->type ==
-V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)) {
-```
+This is an extremely minimal, surgical change. It changes the initial
+state of the reset GPIO from low (deasserted) to high (asserted/in-
+reset), which avoids a brief glitch that could leave the sensor in a bad
+state.
 
-The logic bug is clear and verified by examining `vb2_core_streamon()`:
+### Bug Classification
 
-```2347:2353:drivers/media/common/videobuf2/videobuf2-core.c
-        if (q->queued_count >= q->min_queued_buffers) {
-                ret = vb2_start_streaming(q);
-                if (ret)
-                        goto unprepare;
-        }
+This is a **hardware initialization bug fix**. The brief low spike on
+the reset pin is a real hardware issue that can cause the mt9m114 sensor
+to enter an undefined state during probe. This can manifest as:
+- Sensor failing to initialize properly
+- Unreliable camera operation
+- Potentially different behavior depending on the prior state of the
+  GPIO (non-deterministic)
 
-        q->streaming = 1;
-```
+### Scope and Risk Assessment
 
-The `q->streaming = 1` is set **AFTER** the driver's `start_streaming()`
-callback returns. So inside `wave5_vpu_enc_start_streaming()`, when
-called for the capture queue, `m2m_ctx->cap_q_ctx.q.streaming` is still
-`0` because vb2 hasn't set it yet. This means the second `if` block (the
-state transition from OPEN -> INIT_SEQ -> PIC_RUN) is **never entered**
-when streaming is started in the normal OUT-then-CAP order.
+- **Lines changed**: 1 (single token change: `GPIOD_OUT_LOW` →
+  `GPIOD_OUT_HIGH`)
+- **Files changed**: 1 (`drivers/media/i2c/mt9m114.c`)
+- **Risk**: Very low. The change is logically sound — since
+  `mt9m114_power_on()` immediately asserts reset (high), starting in the
+  high state eliminates the transient glitch without changing the
+  overall reset sequence.
+- **Subsystem**: Media/camera driver (i2c sensor driver)
 
-The fix adds `q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE` as an
-alternative condition: if we're currently inside `start_streaming` for
-the capture queue, we know that capture streaming is about to become
-active, so proceed with the state transition.
+### Stability Indicators
 
-This is **identical** to how the decoder handles it — the decoder uses
-`q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE` directly (line 1346 of
-wave5-vpu-dec.c) rather than checking the streaming flag.
+- **Reviewed-by**: Laurent Pinchart (well-known media subsystem
+  maintainer)
+- **Multiple sign-offs**: Hans de Goede, Sakari Ailus, Hans Verkuil (all
+  experienced media/kernel developers)
+- The logic is straightforward and obviously correct
 
-### 3. CLASSIFICATION
+### User Impact
 
-This is a clear **bug fix** that resolves a **system hang**. The encoder
-gets stuck because its state machine never advances past
-`VPU_INST_STATE_OPEN`. This is not a feature addition, refactoring, or
-optimization.
+Users with the mt9m114 camera sensor could experience unreliable
+initialization. This is a real hardware issue — the reset pin glitch
+depends on the prior GPIO state, making it potentially intermittent and
+hard to debug. The fix ensures deterministic, correct behavior.
 
-### 4. SCOPE AND RISK ASSESSMENT
+### Dependency Check
 
-- **Lines changed**: 2 lines (one condition modified)
-- **Files touched**: 1 file (`wave5-vpu-enc.c`)
-- **Complexity**: Extremely low — a simple boolean condition expansion
-- **Risk**: Very low. The added condition (`q->type ==
-  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE`) only evaluates to true when
-  `start_streaming` is called for the capture queue, which is precisely
-  when the streaming flag would be about to be set. This is logically
-  sound and matches the decoder's approach.
-- **Regression potential**: Near zero. The fix only adds a case that was
-  previously unreachable (the dead path that caused the hang).
+The change is self-contained. It modifies a single GPIO request flag and
+doesn't depend on any other commits. The mt9m114 driver has been in the
+kernel for a while, so it exists in stable trees.
 
-### 5. USER IMPACT
+### Risk vs. Benefit
 
-- **Who is affected**: Any user of the Wave5 VPU encoder (Chips&Media IP
-  used in TI processors and other SoCs)
-- **Severity**: **HIGH** — the encoder **hangs completely**. This isn't
-  a minor issue; the hardware cannot encode video at all when STREAMON
-  is called in the standard OUT-then-CAP order.
-- **Real-world impact**: This affects all V4L2 applications using the
-  standard video encoding flow (which is the normal way to use a V4L2
-  M2M encoder).
+- **Benefit**: Fixes a real hardware initialization issue that can cause
+  unreliable sensor operation
+- **Risk**: Essentially zero — the change is a single constant that
+  aligns the initial GPIO state with what `mt9m114_power_on()` expects
+- **Trade-off**: Strongly favorable for backporting
 
-### 6. STABILITY INDICATORS
+### Concerns
 
-- Reviewed by Nicolas Dufresne (Collabora V4L2 expert)
-- Merged by Hans Verkuil (V4L2 subsystem maintainer)
-- The fix follows the same pattern already used by the decoder
-  (wave5-vpu-dec.c), so it's a well-understood pattern
-
-### 7. DEPENDENCY CHECK
-
-- **Self-contained**: Yes. The fix modifies a single condition with no
-  dependencies on other commits.
-- **Exists in stable**: The driver was added in v6.8 via commit
-  `9707a6254a8a6`. It exists in stable trees 6.8.y through 6.18.y (plus
-  the active LTS tree 6.12.y).
-- **The bug has existed since the driver was added** (commit
-  `9707a6254a8a6`), meaning all stable trees with this driver have the
-  bug.
-- **Clean apply**: The surrounding code is essentially identical in
-  6.12.y, 6.15.y, and 6.16.y (minor differences in pm_runtime calls that
-  don't affect the patch context).
-
-### 8. SUMMARY
-
-This is a textbook stable backport candidate:
-- **Fixes a real, user-visible bug**: encoder hangs completely
-- **Small, surgical fix**: 2-line conditional change in one file
-- **Obviously correct**: matches the decoder's existing pattern,
-  reviewed by V4L2 experts
-- **No new features**: just fixes the broken state machine transition
-- **Low regression risk**: only enables a previously dead code path that
-  was always supposed to be reachable
-- **Affects real users**: anyone using the Wave5 encoder for video
-  encoding on TI SoCs
-- **Self-contained**: no dependencies on other commits
+This is a minor driver fix for a specific camera sensor. While the user
+base may not be huge, the fix is trivially correct, has essentially zero
+regression risk, and fixes a genuine hardware issue. It meets all stable
+kernel criteria:
+1. Obviously correct and reviewed by multiple experts
+2. Fixes a real bug (hardware reset glitch)
+3. Important for affected users (unreliable device initialization)
+4. Extremely small and contained (1 line)
+5. No new features or APIs
 
 **YES**
 
- drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/i2c/mt9m114.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index 9bfaa9fb3ceb3..bca881a0a1617 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -1367,7 +1367,8 @@ static int wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsigned int count
- 		if (ret)
- 			goto return_buffers;
+diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+index 51ebbe7ae9969..554f25071cca6 100644
+--- a/drivers/media/i2c/mt9m114.c
++++ b/drivers/media/i2c/mt9m114.c
+@@ -2434,7 +2434,7 @@ static int mt9m114_probe(struct i2c_client *client)
+ 		goto error_ep_free;
  	}
--	if (inst->state == VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.streaming) {
-+	if (inst->state == VPU_INST_STATE_OPEN &&
-+	    (m2m_ctx->cap_q_ctx.q.streaming || q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)) {
- 		ret = initialize_sequence(inst);
- 		if (ret) {
- 			dev_warn(inst->dev->dev, "Sequence not found: %d\n", ret);
+ 
+-	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
++	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(sensor->reset)) {
+ 		ret = PTR_ERR(sensor->reset);
+ 		dev_err_probe(dev, ret, "Failed to get reset GPIO\n");
 -- 
 2.51.0
 
