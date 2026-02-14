@@ -1,278 +1,230 @@
-Return-Path: <linux-media+bounces-52787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52788-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SI6RKfaxj2k4SwEAu9opvQ
-	(envelope-from <linux-media+bounces-52787-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 00:21:26 +0100
+	id GAnoFMDJj2nMTgEAu9opvQ
+	(envelope-from <linux-media+bounces-52788-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:02:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40438139F62
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 00:21:26 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B8D13A3EF
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:02:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BBF62301F175
-	for <lists+linux-media@lfdr.de>; Fri, 13 Feb 2026 23:21:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 02A37301F7B6
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:02:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8018D33D6D6;
-	Fri, 13 Feb 2026 23:20:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 823C01DDA18;
+	Sat, 14 Feb 2026 01:02:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tpxp+Pib"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VoDQrvxR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CB333CE86;
-	Fri, 13 Feb 2026 23:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AEA3EBF2C;
+	Sat, 14 Feb 2026 01:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771024854; cv=none; b=KEfbLAXHwM2J7EsbvqZKj6jKAZIgmr4MZxOQf4hY5ax6q2KGWTT1dH8jZI6rvSi8qMNZb8XKh9fBPZJug7MoTnqFk/g73x2FSvtIQxXJ4PHEglnPpm8oc8g6VjToj2Vni2cMIxY9C5cCjiIk5GSUbSbLXiB6DxS1euEVOFpvims=
+	t=1771030968; cv=none; b=Esy4nXOqErLpAev6DzGYDkIfYaRHLAV6L1cWSCWjkyRBcW9nqGTp482IMXvjo3Isb/ssAh3HuL+CmsTNhwcLd/SIJIj91TXpfIEpLR3VKqp0tiehFZRUzErHBNgYatdMzcHvGcjCtTZ5i7aYYztYGbgD1oezjyFefGuklWr/Ecg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771024854; c=relaxed/simple;
-	bh=UP1k3/aqKqvuuTAexXLYVIICFg/RGeQzEYaH3Yj4530=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bMDZh2ZxR/pCAtq4zYKb1olyeDgBm+w6CxsExKihLYmfhWEtlsuhMWK8FF8TFr1VvNCfCw8p7FDav2FAQR1lB9Dx/YFNgf8jojfm2P0HDpfvmcucV2xCj+cnnwkRJXNWhOWNNizxqi4BOQCG3a4IKwIYoZyU8/VLCj/rfl/hyQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tpxp+Pib; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771024853; x=1802560853;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UP1k3/aqKqvuuTAexXLYVIICFg/RGeQzEYaH3Yj4530=;
-  b=Tpxp+PibEgLk9bvu9HFD+9MjlhGUCwr1eehfm/Qu3BVl0dcYqAgrI9jF
-   kG1CSn4BZBwUtiSCxsFnwAUbSz+FXL3czN0Bq3ncGDGFSuckDzagHIse1
-   jGruVvXoJkLmJ3UmP7CItkkNZjAJu5LJwYSZ47Q/Tf/j4zffel5THL6Qm
-   y6Dmmg1pQk7CZLa+1/bt27ane+hpC8b0ozSJ3rYvO6U0XkASNoJICeUuq
-   DyfT3chF0SaD7M63fuLivkfaILup16hI7q7L9RN+NQACggkhfVfiqtb3u
-   l6lscL537mNDu2HlufDo7ScRu1qwn5c76GdKWHi9YQvtlx/iRTd8AmmPG
-   w==;
-X-CSE-ConnectionGUID: ckwYwzL6TFmNtxurAAmtCg==
-X-CSE-MsgGUID: 12AB7rs1T/+p5rJfjk46LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72202996"
-X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="72202996"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 15:20:53 -0800
-X-CSE-ConnectionGUID: GOQOO2YpQQC3VCOaEwHDZQ==
-X-CSE-MsgGUID: unp07YppQcmFZMvxem8dIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,289,1763452800"; 
-   d="scan'208";a="242391086"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Feb 2026 15:20:50 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vr2Su-00000000vtk-0Tdb;
-	Fri, 13 Feb 2026 23:20:48 +0000
-Date: Sat, 14 Feb 2026 07:20:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <uajain@igalia.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	linux-kernel@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v2 25/25] media: i2c: imx283: Simplify VFLIP control
- setting
-Message-ID: <202602140716.ayhsqB6c-lkp@intel.com>
-References: <20260213-mainline-imx283-v2-v2-25-be40a3770ebf@ideasonboard.com>
+	s=arc-20240116; t=1771030968; c=relaxed/simple;
+	bh=UePWfbBxgT7I3H7m3efoMmny1MCBrzsMkljxq39MG+8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=o7ezbsZUm6IoghiB5xpB2+Trk9vmX2OG4CP4R4og313PoZ/+rx3RRUtMzQYD01PuKZVh3hMw5JLVSxskp0SNygAz+YuOVXHmp6uHjX0JIUls8dkmfBNXflIWtGgksQzINRo1D73ENkQo0kCqpMuawxv7cCJkY/KYvYwrdV6ySpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VoDQrvxR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAE4CC116C6;
+	Sat, 14 Feb 2026 01:02:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771030967;
+	bh=UePWfbBxgT7I3H7m3efoMmny1MCBrzsMkljxq39MG+8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VoDQrvxRxIPXIqF379p3ekn1CgqfqdSFbkoV2ss+HNVqRh9ioOu7DOlEffIGyZS2a
+	 5y6icfR6IrBl59gV5ya02eK7f/nuUuiU0r211BrfuDqVwb8L8Y1f/EGPBYxgypMPqI
+	 TyGTgq6IdSDKgcHh8MnBrAfFjPVJrEoclBCJF8WC3L7bbcpeKfjuUUarKL3lUsitZR
+	 87gr2vopQU6fD65E3W3flvJIYwN+PpFxPVutUqrAomkPSX9iIe5xj4DxNKCamfaFWS
+	 Sl9iSF5PXYhZ1u9eC5gpt2Ph9Mce+cauTcEsHFJXgmLVXxuGQpBTKxLRdw2lBeye9T
+	 qhCUNdpHT0FyQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.12] media: ipu6: Close firmware streams on streaming enable failure
+Date: Fri, 13 Feb 2026 19:58:01 -0500
+Message-ID: <20260214010245.3671907-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260213-mainline-imx283-v2-v2-25-be40a3770ebf@ideasonboard.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.19
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52787-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-52788-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,01.org:url]
-X-Rspamd-Queue-Id: 40438139F62
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: 13B8D13A3EF
 X-Rspamd-Action: no action
 
-Hi Kieran,
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-kernel test robot noticed the following build errors:
+[ Upstream commit 5925a92cc70d10c7d3124923c36da09b9c1a6eeb ]
 
-[auto build test ERROR on c824345288d11e269ce41b36c105715bc2286050]
+When enabling streaming fails, the stream is stopped in firmware but not
+closed. Do this to release resources on firmware side.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kieran-Bingham/media-i2c-imx283-Report-correct-V4L2_SEL_TGT_CROP/20260213-221320
-base:   c824345288d11e269ce41b36c105715bc2286050
-patch link:    https://lore.kernel.org/r/20260213-mainline-imx283-v2-v2-25-be40a3770ebf%40ideasonboard.com
-patch subject: [PATCH v2 25/25] media: i2c: imx283: Simplify VFLIP control setting
-config: openrisc-randconfig-r071-20260214 (https://download.01.org/0day-ci/archive/20260214/202602140716.ayhsqB6c-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 9.5.0
-smatch version: v0.5.0-8994-gd50c5a4c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260214/202602140716.ayhsqB6c-lkp@intel.com/reproduce)
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
+Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602140716.ayhsqB6c-lkp@intel.com/
+LLM Generated explanations, may be completely bogus:
 
-All errors (new ones prefixed by >>):
+## Analysis
 
-   drivers/media/i2c/imx283.c: In function 'imx283_set_ctrl':
->> drivers/media/i2c/imx283.c:951:3: error: a label can only be part of a statement and a declaration is not a statement
-     951 |   u8 trim = IMX283_HTRIMMING_EN;
-         |   ^~
+### Commit Message Analysis
 
+The commit message is clear and directly describes a bug fix: when
+streaming enable fails, the firmware stream is stopped but not closed,
+leading to a resource leak on the firmware side. The fix adds a
+`close_streaming_firmware(av)` call in the error path.
 
-vim +951 drivers/media/i2c/imx283.c
+Key signals:
+- "Close firmware streams on streaming enable failure" — error path fix
+- "release resources on firmware side" — resource leak fix
+- Has **Reviewed-by** from two people (Bingbu Cao, Mehdi Djait)
+- Has **Tested-by** on real hardware (Dell XPS 9315)
+- Reviewed by subsystem maintainer (Hans Verkuil)
 
-   850	
-   851	static int imx283_set_ctrl(struct v4l2_ctrl *ctrl)
-   852	{
-   853		struct imx283 *imx283 = container_of(ctrl->handler, struct imx283,
-   854						     ctrl_handler);
-   855		const struct imx283_mode *mode;
-   856		struct v4l2_mbus_framefmt *fmt;
-   857		const struct imx283_mode *mode_list;
-   858		struct v4l2_subdev_state *state;
-   859		unsigned int num_modes;
-   860		u64 shr;
-   861		int ret = 0;
-   862	
-   863		state = v4l2_subdev_get_locked_active_state(&imx283->sd);
-   864		fmt = v4l2_subdev_state_get_format(state, 0);
-   865	
-   866		get_mode_table(fmt->code, &mode_list, &num_modes);
-   867		mode = v4l2_find_nearest_size(mode_list, num_modes, width, height,
-   868					      fmt->width, fmt->height);
-   869	
-   870		/*
-   871		 * The VBLANK/HBLANK controls change the limits of usable exposure,
-   872		 * so check and adjust if necessary.
-   873		 */
-   874		if (ctrl->id == V4L2_CID_HBLANK) {
-   875			u64 pixel_rate = imx283_pixel_rate(imx283, mode);
-   876			u32 max_width = mode->crop.width + ctrl->val;
-   877	
-   878			imx283->hmax = imx283_internal_clock(pixel_rate, max_width);
-   879		}
-   880	
-   881		if (ctrl->id == V4L2_CID_VBLANK)
-   882			imx283->vmax = mode->crop.height + ctrl->val;
-   883	
-   884		if (ctrl->id == V4L2_CID_HBLANK ||
-   885		    ctrl->id == V4L2_CID_VBLANK) {
-   886			/* Honour the VBLANK limits when setting exposure. */
-   887			s64 current_exposure, max_exposure, min_exposure;
-   888	
-   889			imx283_exposure_limits(imx283, mode,
-   890					       &min_exposure, &max_exposure);
-   891	
-   892			current_exposure = imx283->exposure->val;
-   893			current_exposure = clamp(current_exposure, min_exposure,
-   894						 max_exposure);
-   895	
-   896			__v4l2_ctrl_modify_range(imx283->exposure, min_exposure,
-   897						 max_exposure, 1, current_exposure);
-   898		}
-   899	
-   900		/*
-   901		 * Applying V4L2 control value only happens
-   902		 * when power is up for streaming
-   903		 */
-   904		if (!pm_runtime_get_if_active(imx283->dev))
-   905			return 0;
-   906	
-   907		switch (ctrl->id) {
-   908		case V4L2_CID_EXPOSURE:
-   909			shr = imx283_shr(imx283, mode, ctrl->val);
-   910			dev_dbg(imx283->dev, "V4L2_CID_EXPOSURE : %d - SHR: %lld\n",
-   911				ctrl->val, shr);
-   912			ret = cci_write(imx283->cci, IMX283_REG_SHR, shr, NULL);
-   913			break;
-   914	
-   915		case V4L2_CID_HBLANK:
-   916			dev_dbg(imx283->dev, "V4L2_CID_HBLANK : %d  HMAX : %u\n",
-   917				ctrl->val, imx283->hmax);
-   918			ret = cci_write(imx283->cci, IMX283_REG_HMAX, imx283->hmax, NULL);
-   919	
-   920			/* Recompute the SHR based on the new timings */
-   921			shr = imx283_shr(imx283, mode, imx283->exposure->val);
-   922			cci_write(imx283->cci, IMX283_REG_SHR, shr, &ret);
-   923	
-   924			break;
-   925	
-   926		case V4L2_CID_VBLANK:
-   927			imx283->vmax = mode->crop.height + ctrl->val;
-   928			dev_dbg(imx283->dev, "V4L2_CID_VBLANK : %d  VMAX : %u\n",
-   929				ctrl->val, imx283->vmax);
-   930			ret = cci_write(imx283->cci, IMX283_REG_VMAX, imx283->vmax, NULL);
-   931	
-   932			/* Recompute the SHR based on the new timings */
-   933			shr = imx283_shr(imx283, mode, imx283->exposure->val);
-   934			cci_write(imx283->cci, IMX283_REG_SHR, shr, &ret);
-   935	
-   936			break;
-   937	
-   938		case V4L2_CID_ANALOGUE_GAIN:
-   939			ret = cci_write(imx283->cci, IMX283_REG_ANALOG_GAIN, ctrl->val, NULL);
-   940			break;
-   941	
-   942		case V4L2_CID_DIGITAL_GAIN:
-   943			ret = cci_write(imx283->cci, IMX283_REG_DIGITAL_GAIN, ctrl->val, NULL);
-   944			break;
-   945	
-   946		case V4L2_CID_VFLIP:
-   947			/*
-   948			 * VFLIP is managed by BIT(0) of IMX283_REG_HTRIMMING address, hence
-   949			 * both need to be set simultaneously.
-   950			 */
- > 951			u8 trim = IMX283_HTRIMMING_EN;
-   952	
-   953			trim |= ctrl->val ? IMX283_MDVREV : 0;
-   954			cci_write(imx283->cci, IMX283_REG_HTRIMMING, trim, &ret);
-   955	
-   956			break;
-   957	
-   958		case V4L2_CID_TEST_PATTERN:
-   959			ret = imx283_update_test_pattern(imx283, ctrl->val);
-   960			break;
-   961	
-   962		default:
-   963			dev_err(imx283->dev, "ctrl(id:0x%x, val:0x%x) is not handled\n",
-   964				ctrl->id, ctrl->val);
-   965			break;
-   966		}
-   967	
-   968		pm_runtime_put(imx283->dev);
-   969	
-   970		return ret;
-   971	}
-   972	
+### Code Change Analysis
 
+The change is a **single line addition**:
+
+```c
+out_media_entity_stop_streaming_firmware:
+        stop_streaming_firmware(av);
++       close_streaming_firmware(av);
+
+        return ret;
+```
+
+This is in the error path (`goto
+out_media_entity_stop_streaming_firmware`) that handles the case where
+`v4l2_subdev_enable_streams()` fails. The existing code already called
+`stop_streaming_firmware(av)` to stop the stream, but neglected to call
+`close_streaming_firmware(av)` to release the firmware resources.
+
+This is a classic **resource leak on error path** — one of the most
+common and important bug fix patterns for stable backports. The firmware
+stream is opened and stopped but never closed, which means firmware-side
+resources are leaked every time streaming enable fails.
+
+### Classification
+
+- **Bug type**: Resource leak (firmware resources not released on error
+  path)
+- **Pattern**: Missing cleanup call in error handler — a textbook error
+  path fix
+- **Not a feature addition**: Just completing the error handling that
+  should have been there
+
+### Scope and Risk Assessment
+
+- **Lines changed**: 1 line added
+- **Files changed**: 1 file
+- **Risk**: Extremely low — adding a missing cleanup call in an error
+  path
+- **Subsystem**: Intel IPU6 camera driver (media subsystem)
+- The fix follows the obvious pattern: the normal shutdown path
+  presumably calls both `stop_streaming_firmware()` and
+  `close_streaming_firmware()`, so the error path should too
+
+### User Impact
+
+- Affects users with Intel IPU6 camera hardware (common in modern Intel
+  laptops)
+- Without this fix, firmware resources leak when streaming setup fails,
+  which could lead to the camera becoming unusable until reboot
+- Tested on Dell XPS 9315 — a popular laptop model
+
+### Stability Indicators
+
+- Reviewed by two developers
+- Tested on real hardware
+- Single-line, obviously correct fix
+- No risk of regression — only adds cleanup that was missing
+
+### Dependency Check
+
+The fix is self-contained. It only adds a call to
+`close_streaming_firmware()` which already exists in the codebase. The
+IPU6 driver was added in the 6.8 timeframe, so this would be relevant
+for stable trees that include the IPU6 driver.
+
+### Conclusion
+
+This is a textbook stable backport candidate:
+1. **Obviously correct**: The error path stops streaming but doesn't
+   close it — the fix adds the missing close call
+2. **Fixes a real bug**: Firmware resource leak on error path
+3. **Small and contained**: Single line addition
+4. **No new features**: Just completing error handling
+5. **Well-reviewed and tested**: Multiple reviews and hardware testing
+6. **Low risk**: Cannot introduce regression — only affects an error
+   path by adding necessary cleanup
+
+**YES**
+
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+index dec8f5ffcfa5f..919b77107cef7 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+@@ -1066,6 +1066,7 @@ int ipu6_isys_video_set_streaming(struct ipu6_isys_video *av, int state,
+ 
+ out_media_entity_stop_streaming_firmware:
+ 	stop_streaming_firmware(av);
++	close_streaming_firmware(av);
+ 
+ 	return ret;
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
 
