@@ -1,69 +1,62 @@
-Return-Path: <linux-media+bounces-52801-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52802-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2HUdK9bKj2nMTgEAu9opvQ
-	(envelope-from <linux-media+bounces-52801-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:07:34 +0100
+	id SLfVIP/Kj2nMTgEAu9opvQ
+	(envelope-from <linux-media+bounces-52802-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:08:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08F913A7C9
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:07:33 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF57113A83E
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:08:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5D0F2302D525
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:06:12 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 988373011134
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:06:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF3B017B506;
-	Sat, 14 Feb 2026 01:06:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ED922248B9;
+	Sat, 14 Feb 2026 01:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/XzT3LV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mAyRepvK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFA2221F20;
-	Sat, 14 Feb 2026 01:06:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70CE2556E;
+	Sat, 14 Feb 2026 01:06:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771031167; cv=none; b=BcDCgISh4Q0SIbDhCmsbEC1A2PS9whDSCmTZIXgnrsHbz4t8Oof2DQOPZEs1xXQVIDanm7hE4C7SnjLDQXWg1E0njobqRKu9ZYobpgjt/i/DFOAeFRmmhWfPKw7/9kvvfgF91T4WLMwO0Zo7lfRjjh0lOtIR+JKuIonTsUhMgjo=
+	t=1771031200; cv=none; b=OxxGU/xRltSWpDevqPe06tkp/2lqa0AjM4A8+6cM4N4/bqnPaeHY+TzaRdGhg5qr98ZfXg9CmVDEd8t2XQBJG+vP7haJ+aJIL9RAiLYr9q+FmLiIssTstKWSydAgwsymrOgR2XvmZprW6PwQHbnKHm7e7F9f43VVMppNoqYNqbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771031167; c=relaxed/simple;
-	bh=6d2F1iemyx6CzwrtExH+AjJ2wpUOfKWHrGqdnb+VdrQ=;
+	s=arc-20240116; t=1771031200; c=relaxed/simple;
+	bh=62Oh1rWnodoAQG8K1KrgWZ/qT0lmnHi4eoA6J8s0BsQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A2M1eaqDFD88dQJ31j8t9bLNq2NCA1OARysrsf5Th6YQ/wmgzSfT5A01T5wfRtp7G2wAs04ebxyAb1+dImPZfxiqbPVNyjuQxRFrQ0Xe8uRbhgy7SCpAs5o7OyCDNrAaTd2T5/AferlNq1YKlcT1KvRuNtx+zDoPbfoNiheEXk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/XzT3LV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B6CC16AAE;
-	Sat, 14 Feb 2026 01:06:05 +0000 (UTC)
+	 MIME-Version; b=Qqw0SrmX9Hk5dDl+LObRRTfRsIWoxNNXjVnyUJmdCRlmN52C3oKgKcYxx3Q+JWz43+DPNrz1p/W6F5sUMsTD3dEt4Q8wM5fQdrhQPlDsC0Kah41eHhoVJXklM8p8NOZhiJSvFoiFsygVSu4SgzsxfIp2aVmpckkc3oSlTmZ61mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mAyRepvK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFF2EC19424;
+	Sat, 14 Feb 2026 01:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771031167;
-	bh=6d2F1iemyx6CzwrtExH+AjJ2wpUOfKWHrGqdnb+VdrQ=;
+	s=k20201202; t=1771031200;
+	bh=62Oh1rWnodoAQG8K1KrgWZ/qT0lmnHi4eoA6J8s0BsQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W/XzT3LVHBFoTM/z1XLMZUVQ1nsD+SSJIpGACdQK7FoOLBtCo8RLGf7+Q74879SEQ
-	 BPOGJkosj7/QyAiGy9MnRqukxrq7IO9ulh9Lj+ebmPEOqIs8bm+i//D439tQMB70NQ
-	 Myoa5rXWGjaWyw6Sluq4a7hhekNyZ2Yl1wepAyjomlMf8lhvQrrNQ2C29LAU5A5L0O
-	 nvZ1RhJQuTrLqO1ADEKFWw4T7BZnO9qF024zRjw1uMXHX3rzKY6k5NxKeuArAX6Zx5
-	 rLydvnjD/KP3W6gWb1UtE8oBX1UO0Me8f/v0qhvRRw17hLF33KGA5Mc8gBR26kTk6B
-	 OylTv/7bkdvZQ==
+	b=mAyRepvKwXv+LTYc7OpRZBtudN2XRLhrAwNaXsy0rB2jnsaGZ9OLEN3SJdZBhNnN1
+	 C51c3pubBt4V5n7L3mVBxU6BOxwyKRTj18DRpf+wa80KMMQ+Ccs4rkROQKtvupKs+U
+	 pVUyPnljLHoC0M+wlzG4aMSB2d5D9njv8rXajgUw0xHlD0DNC/WDHY6513DclzvKKQ
+	 bKPlXp3Ph59C4recBpTT+dbL4/6AQSd3nJBmsaTe4S8xD3Z1Edrt4G0V4CmnB7Zo1M
+	 OqmZm4sTT7TvirlAnxOuls54DUXishJzoepeEwKCCFtN2N4GlXsSlFbjsa+Wh8ZqmP
+	 uKSRZ8ATT/7YQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+Cc: Brandon Brnich <b-brnich@ti.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	sumit.semwal@linaro.org,
-	Arvind.Yadav@amd.com,
-	shashank.sharma@amd.com,
-	sunil.khatri@amd.com,
-	tzimmermann@suse.de,
-	David.Francis@amd.com,
-	yelangyan@huaqin.corp-partner.google.com,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.19-6.18] drm/amdgpu: Refactor amdgpu_gem_va_ioctl for Handling Last Fence Update and Timeline Management v4
-Date: Fri, 13 Feb 2026 19:59:26 -0500
-Message-ID: <20260214010245.3671907-86-sashal@kernel.org>
+	nas.chung@chipsnmedia.com,
+	jackson.lee@chipsnmedia.com,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.12] media: chips-media: wave5: Process ready frames when CMD_STOP sent to Encoder
+Date: Fri, 13 Feb 2026 19:59:40 -0500
+Message-ID: <20260214010245.3671907-100-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -73,484 +66,196 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52801-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52802-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,amd.com:email,patchwork.freedesktop.org:url]
-X-Rspamd-Queue-Id: D08F913A7C9
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,collabora.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BF57113A83E
 X-Rspamd-Action: no action
 
-From: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
+From: Brandon Brnich <b-brnich@ti.com>
 
-[ Upstream commit bd8150a1b3370a9f7761c5814202a3fe5a79f44f ]
+[ Upstream commit 5da0380de41439ed64ed9a5218850db38544e315 ]
 
-This commit simplifies the amdgpu_gem_va_ioctl function, key updates
-include:
- - Moved the logic for managing the last update fence directly into
-   amdgpu_gem_va_update_vm.
- - Introduced checks for the timeline point to enable conditional
-   replacement or addition of fences.
+CMD_STOP being sent to encoder before last job is executed by device_run
+can lead to an occasional dropped frame. Ensure that remaining ready
+buffers are drained by making a call to v4l2_m2m_try_schedule.
 
-v2: Addressed review comments from Christian.
-v3: Updated comments (Christian).
-v4: The previous version selected the fence too early and did not manage its
-    reference correctly, which could lead to stale or freed fences being used.
-    This resulted in refcount underflows and could crash when updating GPU
-    timelines.
-    The fence is now chosen only after the VA mapping work is completed, and its
-    reference is taken safely. After exporting it to the VM timeline syncobj, the
-    driver always drops its local fence reference, ensuring balanced refcounting
-    and avoiding use-after-free on dma_fence.
-
-	Crash signature:
-	[  205.828135] refcount_t: underflow; use-after-free.
-	[  205.832963] WARNING: CPU: 30 PID: 7274 at lib/refcount.c:28 refcount_warn_saturate+0xbe/0x110
-	...
-	[  206.074014] Call Trace:
-	[  206.076488]  <TASK>
-	[  206.078608]  amdgpu_gem_va_ioctl+0x6ea/0x740 [amdgpu]
-	[  206.084040]  ? __pfx_amdgpu_gem_va_ioctl+0x10/0x10 [amdgpu]
-	[  206.089994]  drm_ioctl_kernel+0x86/0xe0 [drm]
-	[  206.094415]  drm_ioctl+0x26e/0x520 [drm]
-	[  206.098424]  ? __pfx_amdgpu_gem_va_ioctl+0x10/0x10 [amdgpu]
-	[  206.104402]  amdgpu_drm_ioctl+0x4b/0x80 [amdgpu]
-	[  206.109387]  __x64_sys_ioctl+0x96/0xe0
-	[  206.113156]  do_syscall_64+0x66/0x2d0
-	...
-	[  206.553351] BUG: unable to handle page fault for address: ffffffffc0dfde90
-	...
-	[  206.553378] RIP: 0010:dma_fence_signal_timestamp_locked+0x39/0xe0
-	...
-	[  206.553405] Call Trace:
-	[  206.553409]  <IRQ>
-	[  206.553415]  ? __pfx_drm_sched_fence_free_rcu+0x10/0x10 [gpu_sched]
-	[  206.553424]  dma_fence_signal+0x30/0x60
-	[  206.553427]  drm_sched_job_done.isra.0+0x123/0x150 [gpu_sched]
-	[  206.553434]  dma_fence_signal_timestamp_locked+0x6e/0xe0
-	[  206.553437]  dma_fence_signal+0x30/0x60
-	[  206.553441]  amdgpu_fence_process+0xd8/0x150 [amdgpu]
-	[  206.553854]  sdma_v4_0_process_trap_irq+0x97/0xb0 [amdgpu]
-	[  206.554353]  edac_mce_amd(E) ee1004(E)
-	[  206.554270]  amdgpu_irq_dispatch+0x150/0x230 [amdgpu]
-	[  206.554702]  amdgpu_ih_process+0x6a/0x180 [amdgpu]
-	[  206.555101]  amdgpu_irq_handler+0x23/0x60 [amdgpu]
-	[  206.555500]  __handle_irq_event_percpu+0x4a/0x1c0
-	[  206.555506]  handle_irq_event+0x38/0x80
-	[  206.555509]  handle_edge_irq+0x92/0x1e0
-	[  206.555513]  __common_interrupt+0x3e/0xb0
-	[  206.555519]  common_interrupt+0x80/0xa0
-	[  206.555525]  </IRQ>
-	[  206.555527]  <TASK>
-	...
-	[  206.555650] RIP: 0010:dma_fence_signal_timestamp_locked+0x39/0xe0
-	...
-	[  206.555667] Kernel panic - not syncing: Fatal exception in interrupt
-
-Link: https://patchwork.freedesktop.org/patch/654669/
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Suggested-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Brandon Brnich <b-brnich@ti.com>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-I now have a thorough understanding of this commit. Let me compile my
-complete analysis.
+Here is my complete analysis:
 
 ---
 
-## Complete Analysis
+## Analysis of: "media: chips-media: wave5: Process ready frames when
+CMD_STOP sent to Encoder"
 
 ### 1. COMMIT MESSAGE ANALYSIS
 
-The commit title says "Refactor" but the v4 description reveals this is
-a **critical bug fix**:
+The commit message clearly describes a bug: **CMD_STOP being sent to the
+encoder before the last job is executed by `device_run` can lead to an
+occasional dropped frame.** The fix is to call `v4l2_m2m_try_schedule()`
+to ensure remaining ready buffers are drained. This is a data integrity
+issue - users lose the last frame of their encoded video.
 
-> "The previous version selected the fence too early and did not manage
-its reference correctly, which could lead to stale or freed fences being
-used. This resulted in refcount underflows and could crash when updating
-GPU timelines."
+### 2. CODE CHANGE ANALYSIS
 
-The commit includes a **concrete crash signature** showing:
-- `refcount_t: underflow; use-after-free` in `amdgpu_gem_va_ioctl`
-- `BUG: unable to handle page fault` in
-  `dma_fence_signal_timestamp_locked` from IRQ context
-- `Kernel panic - not syncing: Fatal exception in interrupt`
+The change is a **two-line addition** (one blank line + one function
+call) in `wave5_vpu_enc_encoder_cmd()`:
 
-This is a **kernel panic** triggered via a userspace ioctl path
-(`amdgpu_gem_va_ioctl`).
+```653:654:drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+                m2m_ctx->is_draining = true;
 
-### 2. CODE CHANGE ANALYSIS - THE BUG
-
-The bug is in `amdgpu_gem_update_bo_mapping()`, which was introduced by
-commit 70773bef4e091 ("drm/amdgpu: update userqueue BOs and PDs") in
-v6.16-rc1.
-
-**Bug mechanism** in the old code at lines 115-154 of the current file:
-
-```132:154:drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-        /* Find the last update fence */
-        switch (operation) {
-        case AMDGPU_VA_OP_MAP:
-        case AMDGPU_VA_OP_REPLACE:
-                if (bo && (bo->tbo.base.resv ==
-vm->root.bo->tbo.base.resv))
-                        last_update = vm->last_update;
-                else
-                        last_update = bo_va->last_pt_update;
-                break;
-        case AMDGPU_VA_OP_UNMAP:
-        case AMDGPU_VA_OP_CLEAR:
-                last_update = fence;
-                break;
-        default:
-                return;
-        }
-
-        /* Add fence to timeline */
-        if (!point)
-                drm_syncobj_replace_fence(syncobj, last_update);
-        else
-                drm_syncobj_add_point(syncobj, chain, last_update,
-point);
+                v4l2_m2m_try_schedule(m2m_ctx);
 ```
 
-**Problem 1 - Missing dma_fence references**: `last_update =
-vm->last_update` and `last_update = bo_va->last_pt_update` read fence
-pointers **without taking a reference** via `dma_fence_get()`. These
-fences can be replaced and their references dropped by concurrent VM
-operations or fence signaling. The bare pointer is then passed to
-`drm_syncobj_replace_fence()` or `drm_syncobj_add_point()`, which
-attempt `dma_fence_get()` on a potentially freed fence - **use-after-
-free**.
+**The bug mechanism:**
 
-I verified that `vm->last_update` is replaced via `swap()` in
-`amdgpu_vm_sdma_commit()` (line 106-146 of `amdgpu_vm_sdma.c`), which
-puts the old fence. If the fence was already signaled and no other
-holders exist, it's freed.
+When userspace sends `V4L2_ENC_CMD_STOP`, the driver:
+1. Sets `m2m_ctx->last_src_buf` to the last queued source buffer
+2. Sets `m2m_ctx->is_draining = true`
+3. Returns - **without triggering the m2m scheduler**
 
-**Problem 2 - Fence leak**: In the calling code (lines 971-983 of
-6.16.y), when `timeline_syncobj` is set and the operation is
-MAP/REPLACE, the `fence` (clear_freed fence) returned from
-`amdgpu_gem_va_update_vm()` is **never put** - it's passed to
-`amdgpu_gem_update_bo_mapping()` which ignores it for MAP/REPLACE
-operations.
+The problem is a race: if CMD_STOP arrives between when the last buffer
+is queued and when `device_run` picks it up, the m2m framework has no
+trigger to schedule the remaining work. The `wave5_vpu_enc_job_ready()`
+callback (line 1542) checks `is_draining` and returns `true` to indicate
+the encoder is ready for a drain job - but nobody calls the scheduler to
+check this.
 
-**The fix** properly addresses both issues:
-- Moves fence selection into `amdgpu_gem_va_update_vm()`, which runs
-  immediately after the VM operations complete
-- Takes explicit references with `dma_fence_get()` on the selected fence
-- Returns the properly referenced fence to the caller
-- The caller **always** calls `dma_fence_put(fence)` regardless of
-  whether a timeline syncobj is used
+`v4l2_m2m_try_schedule()` simply calls `__v4l2_m2m_try_queue()` +
+`v4l2_m2m_try_run()` - it checks if there's work ready and runs it. It's
+completely safe - if there's nothing to do, it returns without side
+effects.
 
-### 3. CLASSIFICATION
+### 3. COMPARISON WITH OTHER DRIVERS
 
-This is a **use-after-free / refcount underflow bug fix** disguised as a
-"refactor." The crash is a kernel panic from interrupt context - one of
-the most severe possible outcomes. It's reachable from userspace via the
-`amdgpu_gem_va_ioctl` ioctl.
+This is an **inconsistency bug** that's obvious when comparing with
+other m2m codec drivers:
 
-### 4. AFFECTED VERSIONS
+- **wave5 decoder** (`wave5_vpu_dec_decoder_cmd`, line 888): Already
+  calls `v4l2_m2m_try_schedule(m2m_ctx)` after DEC_CMD_STOP, with the
+  comment "Just in case we don't have anything to decode anymore"
+- **MediaTek encoder** (`vidioc_encoder_cmd` in `mtk_vcodec_enc.c`, line
+  734): Calls `v4l2_m2m_try_schedule(ctx->m2m_ctx)` after ENC_CMD_STOP
+- **MediaTek decoder** (`stateful_decoder_cmd`, line 116): Same pattern
+- **CODA decoder** (`coda_decoder_cmd`, line 1268): Same pattern
 
-- Feature introduced: commit 70773bef4e091, first in **v6.16-rc1** (not
-  in v6.15 or earlier)
-- Partial memleak fix: commit ad6c120f68880, also in v6.16-rc1
-- **Stable trees affected**: 6.16.y, 6.17.y, 6.18.y (all confirmed to
-  have the buggy code)
-- **NOT affected**: 6.12.y LTS, 6.6.y LTS, 6.1.y LTS, 5.15.y LTS (no
-  timeline syncobj code)
+The wave5 encoder was the **only** m2m encoder/decoder driver that set
+`is_draining = true` without calling `v4l2_m2m_try_schedule()`. This is
+clearly a bug present since the driver's initial submission.
 
-### 5. SCOPE AND RISK
+### 4. CLASSIFICATION
 
-- **Lines changed**: ~+70/-41 (net ~+30 lines, mostly restructuring)
-- **Files changed**: 1 (`amdgpu_gem.c`)
-- **Risk**: Moderate - it's a structural change, but well-contained and
-  well-reviewed
-- **Review quality**: Reviewed-by Christian König (the top DRM
-  fence/amdgpu expert), Suggested-by Christian König
-- **Dependency**: Uses `amdgpu_vm_is_bo_always_valid()` which exists
-  since v6.11 - available in all affected trees
-- **Backport concern**: The diff may need minor adaptation for
-  6.16.y/6.17.y due to `va_flags` changes (6716a823d18d4 in v6.18-rc1)
+**Bug fix** - fixes dropped frames (data loss) during video encoding
+drain. Not a feature, not cleanup.
+
+### 5. SCOPE AND RISK ASSESSMENT
+
+- **Lines changed**: 2 (1 blank + 1 function call)
+- **Files touched**: 1
+- **Risk**: Extremely low. `v4l2_m2m_try_schedule()` is the standard
+  V4L2 m2m API for triggering job scheduling. It's called in every other
+  similar driver. It's safe to call at any time - if conditions aren't
+  met for scheduling a job, it simply returns.
+- **Subsystem**: media/chips-media/wave5 - a hardware video encoder
+  driver for Chips&Media Wave5 IP used on TI platforms
 
 ### 6. USER IMPACT
 
-- **Severity**: Kernel panic (fatal exception in interrupt handler)
-- **Trigger**: Userspace GPU applications using the VM timeline syncobj
-  feature (usermode queues)
-- **Who is affected**: AMD GPU users on 6.16+ kernels using MESA/AMDVLK
-  with timeline synchronization
+Users encoding video with the Wave5 hardware encoder (e.g., on TI
+AM62x/AM62Ax platforms) can **lose the last frame** when stopping
+encoding. This is a real data integrity issue for anyone doing video
+encoding with this hardware. The symptom is intermittent, making it
+harder to diagnose.
 
-### 7. VERDICT
+### 7. STABILITY INDICATORS
 
-Despite being titled "Refactor," this commit fixes:
-1. A **use-after-free** on `dma_fence` objects (accessing freed memory)
-2. A **refcount underflow** leading to premature fence destruction
-3. A **kernel panic** in interrupt context
-   (`dma_fence_signal_timestamp_locked`)
-4. A **fence memory leak** (clear_freed fence never put when timeline is
-   used)
+- **Reviewed-by**: Nicolas Dufresne (Collabora - well-known
+  V4L2/GStreamer developer)
+- **Signed-off-by**: Hans Verkuil (media subsystem co-maintainer)
+- **Author**: Brandon Brnich from TI (the SoC vendor that ships this IP)
+- The fix follows established patterns from other drivers
 
-The fix is well-reviewed by the subsystem expert, self-contained to one
-file, and addresses a real crash that users hit. The affected code
-exists in 6.16.y, 6.17.y, and 6.18.y stable trees.
+### 8. DEPENDENCY CHECK
+
+**No dependencies.** This is a self-contained one-line fix that adds a
+call to an existing exported V4L2 m2m API function. The
+`v4l2_m2m_try_schedule()` function has been available since long before
+the wave5 driver was added.
+
+### 9. STABLE TREE APPLICABILITY
+
+The wave5 driver was added in v6.8-rc1 (commit `9707a6254a8a6`). It
+exists in stable trees 6.8.y and later. The fix should apply cleanly
+since the `wave5_vpu_enc_encoder_cmd` function hasn't changed
+significantly since it was added.
+
+### Summary
+
+This is a textbook stable-worthy fix:
+- **Small**: 2 lines added
+- **Obviously correct**: Matches the pattern used by every other V4L2
+  m2m encoder/decoder driver
+- **Fixes a real bug**: Dropped frames during encoding drain (data loss)
+- **Low risk**: Uses standard API, no side effects if conditions aren't
+  met
+- **Well-reviewed**: By V4L2 experts and the media subsystem maintainer
+- **Self-contained**: No dependencies on other patches
 
 **YES**
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 135 ++++++++++++++----------
- 1 file changed, 82 insertions(+), 53 deletions(-)
+ drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index 3e38c5db29871..c5570a9698ed2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -112,47 +112,6 @@ amdgpu_gem_update_timeline_node(struct drm_file *filp,
- 	return 0;
- }
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+index bca881a0a1617..8e3dd9e34abc3 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+@@ -649,6 +649,8 @@ static int wave5_vpu_enc_encoder_cmd(struct file *file, void *fh, struct v4l2_en
  
--static void
--amdgpu_gem_update_bo_mapping(struct drm_file *filp,
--			     struct amdgpu_bo_va *bo_va,
--			     uint32_t operation,
--			     uint64_t point,
--			     struct dma_fence *fence,
--			     struct drm_syncobj *syncobj,
--			     struct dma_fence_chain *chain)
--{
--	struct amdgpu_bo *bo = bo_va ? bo_va->base.bo : NULL;
--	struct amdgpu_fpriv *fpriv = filp->driver_priv;
--	struct amdgpu_vm *vm = &fpriv->vm;
--	struct dma_fence *last_update;
--
--	if (!syncobj)
--		return;
--
--	/* Find the last update fence */
--	switch (operation) {
--	case AMDGPU_VA_OP_MAP:
--	case AMDGPU_VA_OP_REPLACE:
--		if (bo && (bo->tbo.base.resv == vm->root.bo->tbo.base.resv))
--			last_update = vm->last_update;
--		else
--			last_update = bo_va->last_pt_update;
--		break;
--	case AMDGPU_VA_OP_UNMAP:
--	case AMDGPU_VA_OP_CLEAR:
--		last_update = fence;
--		break;
--	default:
--		return;
--	}
--
--	/* Add fence to timeline */
--	if (!point)
--		drm_syncobj_replace_fence(syncobj, last_update);
--	else
--		drm_syncobj_add_point(syncobj, chain, last_update, point);
--}
--
- static vm_fault_t amdgpu_gem_fault(struct vm_fault *vmf)
- {
- 	struct ttm_buffer_object *bo = vmf->vma->vm_private_data;
-@@ -764,16 +723,19 @@ amdgpu_gem_va_update_vm(struct amdgpu_device *adev,
- 			struct amdgpu_bo_va *bo_va,
- 			uint32_t operation)
- {
--	struct dma_fence *fence = dma_fence_get_stub();
-+	struct dma_fence *clear_fence = dma_fence_get_stub();
-+	struct dma_fence *last_update = NULL;
- 	int r;
- 
- 	if (!amdgpu_vm_ready(vm))
--		return fence;
-+		return clear_fence;
- 
--	r = amdgpu_vm_clear_freed(adev, vm, &fence);
-+	/* First clear freed BOs and get a fence for that work, if any. */
-+	r = amdgpu_vm_clear_freed(adev, vm, &clear_fence);
- 	if (r)
- 		goto error;
- 
-+	/* For MAP/REPLACE we also need to update the BO mappings. */
- 	if (operation == AMDGPU_VA_OP_MAP ||
- 	    operation == AMDGPU_VA_OP_REPLACE) {
- 		r = amdgpu_vm_bo_update(adev, bo_va, false);
-@@ -781,13 +743,59 @@ amdgpu_gem_va_update_vm(struct amdgpu_device *adev,
- 			goto error;
- 	}
- 
-+	/* Always update PDEs after we touched the mappings. */
- 	r = amdgpu_vm_update_pdes(adev, vm, false);
-+	if (r)
-+		goto error;
+ 		m2m_ctx->last_src_buf = v4l2_m2m_last_src_buf(m2m_ctx);
+ 		m2m_ctx->is_draining = true;
 +
-+	/*
-+	 * Decide which fence represents the "last update" for this VM/BO:
-+	 *
-+	 * - For MAP/REPLACE we want the PT update fence, which is tracked as
-+	 *   either vm->last_update (for always-valid BOs) or bo_va->last_pt_update
-+	 *   (for per-BO updates).
-+	 *
-+	 * - For UNMAP/CLEAR we rely on the fence returned by
-+	 *   amdgpu_vm_clear_freed(), which already covers the page table work
-+	 *   for the removed mappings.
-+	 */
-+	switch (operation) {
-+	case AMDGPU_VA_OP_MAP:
-+	case AMDGPU_VA_OP_REPLACE:
-+		if (bo_va && bo_va->base.bo) {
-+			if (amdgpu_vm_is_bo_always_valid(vm, bo_va->base.bo)) {
-+				if (vm->last_update)
-+					last_update = dma_fence_get(vm->last_update);
-+			} else {
-+				if (bo_va->last_pt_update)
-+					last_update = dma_fence_get(bo_va->last_pt_update);
-+			}
-+		}
-+		break;
-+	case AMDGPU_VA_OP_UNMAP:
-+	case AMDGPU_VA_OP_CLEAR:
-+		if (clear_fence)
-+			last_update = dma_fence_get(clear_fence);
-+		break;
-+	default:
-+		break;
-+	}
- 
- error:
- 	if (r && r != -ERESTARTSYS)
- 		DRM_ERROR("Couldn't update BO_VA (%d)\n", r);
- 
--	return fence;
-+	/*
-+	 * If we managed to pick a more specific last-update fence, prefer it
-+	 * over the generic clear_fence and drop the extra reference to the
-+	 * latter.
-+	 */
-+	if (last_update) {
-+		dma_fence_put(clear_fence);
-+		return last_update;
-+	}
-+
-+	return clear_fence;
- }
- 
- int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
-@@ -813,6 +821,7 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
- 	uint64_t vm_size;
- 	int r = 0;
- 
-+	/* Validate virtual address range against reserved regions. */
- 	if (args->va_address < AMDGPU_VA_RESERVED_BOTTOM) {
- 		dev_dbg(dev->dev,
- 			"va_address 0x%llx is in reserved area 0x%llx\n",
-@@ -846,6 +855,7 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
- 		return -EINVAL;
- 	}
- 
-+	/* Validate operation type. */
- 	switch (args->operation) {
- 	case AMDGPU_VA_OP_MAP:
- 	case AMDGPU_VA_OP_UNMAP:
-@@ -869,6 +879,7 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
- 		abo = NULL;
- 	}
- 
-+	/* Add input syncobj fences (if any) for synchronization. */
- 	r = amdgpu_gem_add_input_fence(filp,
- 				       args->input_fence_syncobj_handles,
- 				       args->num_syncobj_handles);
-@@ -891,6 +902,7 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
- 			goto error;
- 	}
- 
-+	/* Resolve the BO-VA mapping for this VM/BO combination. */
- 	if (abo) {
- 		bo_va = amdgpu_vm_bo_find(&fpriv->vm, abo);
- 		if (!bo_va) {
-@@ -903,6 +915,11 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
- 		bo_va = NULL;
- 	}
- 
-+	/*
-+	 * Prepare the timeline syncobj node if the user requested a VM
-+	 * timeline update. This only allocates/looks up the syncobj and
-+	 * chain node; the actual fence is attached later.
-+	 */
- 	r = amdgpu_gem_update_timeline_node(filp,
- 					    args->vm_timeline_syncobj_out,
- 					    args->vm_timeline_point,
-@@ -934,18 +951,30 @@ int amdgpu_gem_va_ioctl(struct drm_device *dev, void *data,
- 	default:
++		v4l2_m2m_try_schedule(m2m_ctx);
  		break;
- 	}
-+
-+	/*
-+	 * Once the VA operation is done, update the VM and obtain the fence
-+	 * that represents the last relevant update for this mapping. This
-+	 * fence can then be exported to the user-visible VM timeline.
-+	 */
- 	if (!r && !(args->flags & AMDGPU_VM_DELAY_UPDATE) && !adev->debug_vm) {
- 		fence = amdgpu_gem_va_update_vm(adev, &fpriv->vm, bo_va,
- 						args->operation);
- 
--		if (timeline_syncobj)
--			amdgpu_gem_update_bo_mapping(filp, bo_va,
--					     args->operation,
--					     args->vm_timeline_point,
--					     fence, timeline_syncobj,
--					     timeline_chain);
--		else
--			dma_fence_put(fence);
-+		if (timeline_syncobj && fence) {
-+			if (!args->vm_timeline_point) {
-+				/* Replace the existing fence when no point is given. */
-+				drm_syncobj_replace_fence(timeline_syncobj,
-+							  fence);
-+			} else {
-+				/* Attach the last-update fence at a specific point. */
-+				drm_syncobj_add_point(timeline_syncobj,
-+						      timeline_chain,
-+						      fence,
-+						      args->vm_timeline_point);
-+			}
-+		}
-+		dma_fence_put(fence);
- 
- 	}
- 
+ 	case V4L2_ENC_CMD_START:
+ 		break;
 -- 
 2.51.0
 
