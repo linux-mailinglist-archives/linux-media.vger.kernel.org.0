@@ -1,66 +1,60 @@
-Return-Path: <linux-media+bounces-52794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52795-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cEVoHn3Kj2ntTgEAu9opvQ
-	(envelope-from <linux-media+bounces-52794-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:06:05 +0100
+	id OKAaHDrKj2nMTgEAu9opvQ
+	(envelope-from <linux-media+bounces-52795-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:04:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E27913A6A7
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:06:05 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEA913A5B5
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:04:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4A8EC30ADFD3
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:04:22 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 327AB300D4DC
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:04:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2FC21E1E12;
-	Sat, 14 Feb 2026 01:04:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D0B21A453;
+	Sat, 14 Feb 2026 01:04:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gS6IKkCn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V2zdPFmS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54224194098;
-	Sat, 14 Feb 2026 01:04:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46BA3EBF2C;
+	Sat, 14 Feb 2026 01:04:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771031060; cv=none; b=nWsyF9mTldxC+ZejkJhm9p2ceHS5R4v8pvT9Rjwhk8gIWJEKrGP+hqx0/gdOIsqPZVJ8GPmxz0AuwWe0HgmBcJAA7ogkjNj5OF5nMeTEPqGdXW8j6nKpf6Q5YhKLcqnu/8vo/O+YkUdOI69lvZZEu6qIUOnuO8XOB+7svZ2RnPM=
+	t=1771031074; cv=none; b=Rk5n0pH+yyrl0i+ItB2YsG491ldtSaIvPRO9y+oVxNAtA5dVzBwZwy+k9Se+pbs7g+l0eUk0AY9JKPgnQkfHPUl9Ju3T50N/zw58aXlcus0B9uZ3W3BiknsyfpYJIHZKXTPD3DbpACz4s3gYcly7js9AJqwGrKkSh/Fm9t1go8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771031060; c=relaxed/simple;
-	bh=GiusAiiS+GPxOFmE3BRGJnNd58WMBNvMSuk6l3z+MTA=;
+	s=arc-20240116; t=1771031074; c=relaxed/simple;
+	bh=xLeqN4gDEBl1k1PAAkY5M3ePyEXyeR2Wgm9sP3eQKTE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YKGG7Dwgs+qEOhFSYOC4lKvkFUiqZxCyWSeI6TrYtKsbDROMhq+vKCmIW8d9EfP1dPTeQPF8XOL5G4SAxza35Ki22YM5pfI2F14TUQXqWrUn2+4q0XT4VJaBQ5nO+FvoUC7WxIzSPYb2jBMW8llDb434i8B2uwL9OHLGTsqR2xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gS6IKkCn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5881C116C6;
-	Sat, 14 Feb 2026 01:04:18 +0000 (UTC)
+	 MIME-Version:Content-Type; b=a6nVl9lWDDIL1FkwikPP2EEYNX2tgvrA1paPdaiLGMQj+dSDgxh7l6evb8/ogeBvdLxj5wUHWwxspX6g2vtlIetcgSv2cs1hNNwcwoTO//+cJ0fLhoK5jj4LT4DM7uukvSFaHRiVgMG+MoYY//8DDP7SfxdosHKVSlkKERPl3/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V2zdPFmS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C0BC16AAE;
+	Sat, 14 Feb 2026 01:04:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771031060;
-	bh=GiusAiiS+GPxOFmE3BRGJnNd58WMBNvMSuk6l3z+MTA=;
+	s=k20201202; t=1771031074;
+	bh=xLeqN4gDEBl1k1PAAkY5M3ePyEXyeR2Wgm9sP3eQKTE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gS6IKkCnl9sPMDvptb5+vbL7DFL0clPBuMXwQWCKeCp0Vy4eIqyR2GUnCwY02u+nx
-	 RvCYzLbS+ay4gGXiJ/SLHem3CW2QmiIhaOO21kjSY4LVX7XM5Ltah22A51QvSG8K2F
-	 GEhWbj71z5pcOSvWQihgXENLsejYEyXOuVrsn8SpP2kYYgYNdrbUNfiVWqYRR+OxVE
-	 C4WX1Hx+1gM6O9h6BRrxjtY37AGE/7SOKpg4bSCCxubTBMxNv+vDkhVD5n13y0j4HJ
-	 07ii/GT7kVW7LWRC9stjHlavQLZC85lccEt1KzStE1yt33gAyFsXEdG7+1wI2+s6Bv
-	 uN7kppHrzpN5w==
+	b=V2zdPFmSH07clp+3JG9ONbxUEuIoXsx6L27Hk/aUyzfq+ygzeoU4hch/s8GVbYqh9
+	 cnbCP1tnFXBgLCCtT2ShGs6AC9Q+bW0AtVwl8Ejc5vDwBEtqoETBWgErTMwWHonamR
+	 0bh7nYExtMSN6ZLGdD6mdHus7wqF31vi11VK/BeDXPqIa2y/utcanL8dZ7G/ur1mQk
+	 rdiu62y1Zgi5Rip2FFZrsl4EdSmjdWz3SWFytUEQY+AKGxlNxFnz+ZAGXkZG0BOQQJ
+	 kMBJDuSUvT7DHmDyKOkMgcy22GPGD5mUcIbVz+DRz7cs/XQ3e0Z3MtFtC6qFoE7iB5
+	 dzRWzF4xDFGSw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Rui Wang <rui.wang@ideasonboard.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	dafna@fastmail.com,
-	heiko@sntech.de,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.19-6.1] media: rkisp1: Fix filter mode register configuration
-Date: Fri, 13 Feb 2026 19:58:44 -0500
-Message-ID: <20260214010245.3671907-44-sashal@kernel.org>
+	bingbu.cao@intel.com,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.19-6.12] media: ipu6: Ensure stream_mutex is acquired when dealing with node list
+Date: Fri, 13 Feb 2026 19:58:50 -0500
+Message-ID: <20260214010245.3671907-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -73,189 +67,261 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-52795-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52794-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,fastmail.com,sntech.de,vger.kernel.org,lists.infradead.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,msgid.link:url,ideasonboard.com:email]
-X-Rspamd-Queue-Id: 1E27913A6A7
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: 5BEA913A5B5
 X-Rspamd-Action: no action
 
-From: Rui Wang <rui.wang@ideasonboard.com>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-[ Upstream commit 5a50f2b61104d0d351b59ec179f67abab7870453 ]
+[ Upstream commit 779bdaad2abf718fb8116839e818e58852874b4d ]
 
-The rkisp1_flt_config() function performs an initial direct write to
-RKISP1_CIF_ISP_FILT_MODE without including the RKISP1_CIF_ISP_FLT_ENA
-bit, which clears the filter enable bit in the hardware.
+The ipu6 isys driver maintains the list of video buffer queues related to
+a stream (in ipu6 context streams on the same CSI-2 virtual channel) and
+this list is modified through VIDIOC_STREAMON and VIDIOC_STREAMOFF IOCTLs.
+Ensure the common mutex is acquired when accessing the linked list, i.e.
+the isys device context's stream_mutex.
 
-The subsequent read/modify/write sequence then reads back the register
-with the enable bit already cleared and cannot restore it, resulting in
-the filter being inadvertently disabled.
+Add a lockdep assert to ipu6_isys_get_buffer_list() and switch to guard()
+while at it as the error handling becomes more simple this way.
 
-Remove the redundant direct write. The read/modify/write sequence alone
-correctly preserves the existing enable bit state while updating the
-DNR mode and filter configuration bits.
-
-Signed-off-by: Rui Wang <rui.wang@ideasonboard.com>
-Reviewed-by: Stefan Klug <stefan.klug@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Link: https://patch.msgid.link/20260105171142.147792-2-rui.wang@ideasonboard.com
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis
+## Analysis of commit: "media: ipu6: Ensure stream_mutex is acquired
+when dealing with node list"
 
-### Commit Message Analysis
+### 1. COMMIT MESSAGE ANALYSIS
 
-The commit message clearly describes a **bug fix**: the
-`rkisp1_flt_config()` function performs an initial direct write to the
-`RKISP1_CIF_ISP_FILT_MODE` register that **clears the filter enable
-bit** (`RKISP1_CIF_ISP_FLT_ENA`). The subsequent read/modify/write
-sequence reads back the register with the enable bit already cleared and
-cannot restore it. This results in the **ISP filter being inadvertently
-disabled** whenever its configuration is updated.
+The commit message clearly describes a **synchronization fix**: the ipu6
+ISYS driver maintains a linked list of video buffer queues related to a
+stream, and this list is modified through `STREAMON`/`STREAMOFF` ioctls.
+The list was being accessed without proper mutex protection, creating a
+race condition. The fix ensures `stream_mutex` is held when accessing
+the linked list.
 
-The fix removes the redundant direct write, leaving only the
-read/modify/write sequence that correctly preserves the enable bit.
+Key phrases: "Ensure the common mutex is acquired when accessing the
+linked list" — this is a classic race condition fix.
 
-### Code Change Analysis
+### 2. CODE CHANGE ANALYSIS
 
-The diff is straightforward:
+The commit makes three distinct changes:
 
-**Removed code (the bug):**
+**Change 1: lockdep_assert_held() in buffer_list_get()**
 ```c
-rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_FILT_MODE,
-     (arg->mode ? RKISP1_CIF_ISP_FLT_MODE_DNR : 0) |
-     RKISP1_CIF_ISP_FLT_CHROMA_V_MODE(arg->chr_v_mode) |
-     RKISP1_CIF_ISP_FLT_CHROMA_H_MODE(arg->chr_h_mode) |
-     RKISP1_CIF_ISP_FLT_GREEN_STAGE1(arg->grn_stage1));
++       lockdep_assert_held(&stream->mutex);
 ```
+This adds a runtime assertion that `stream->mutex` is held when
+`buffer_list_get()` is called. This is a debugging aid that documents
+the locking requirement. The function iterates over `stream->queues` (a
+linked list) via `list_for_each_entry(aq, &stream->queues, node)`, which
+needs protection.
 
-This write sets the mode register but does **not** include the
-`RKISP1_CIF_ISP_FLT_ENA` bit, effectively disabling the filter in
-hardware.
-
-**Preserved code (the correct path):**
+**Change 2: guard(mutex) in ipu6_isys_stream_start()**
 ```c
-filt_mode = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_FILT_MODE);
-filt_mode &= RKISP1_CIF_ISP_FLT_ENA;
-// ... build up new mode value preserving enable bit ...
-rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_FILT_MODE, filt_mode);
+- mutex_lock(&stream->isys->stream_mutex);
++       guard(mutex)(&stream->isys->stream_mutex);
+        ret = ipu6_isys_video_set_streaming(av, 1, bl);
+- mutex_unlock(&stream->isys->stream_mutex);
 ```
+This converts a manual lock/unlock pair to a `guard(mutex)` (scoped
+lock), which extends the lock's lifetime through the entire function
+scope. This is a **critical fix**: previously, `stream_mutex` was
+released immediately after `ipu6_isys_video_set_streaming()`, but then
+`buffer_list_get()` was called in the `do...while` loop below without
+holding `stream_mutex`. Since `buffer_list_get()` iterates over
+`stream->queues` (a linked list that can be modified by
+`stop_streaming`), this was a real race condition.
 
-The read/modify/write sequence correctly reads the current register
-value, preserves only the enable bit, then OR's in the new
-configuration. But because the direct write above already cleared the
-enable bit, reading it back gets a 0 for the enable bit - defeating the
-entire purpose of the read/modify/write pattern.
+The `buffer_list_get()` now has `lockdep_assert_held(&stream->mutex)` —
+but wait, it asserts `stream->mutex`, not `stream->isys->stream_mutex`.
+Let me look more carefully...
 
-### Bug Mechanism
+Actually, looking at the `buffer_list_get` function, it asserts
+`stream->mutex`, while the `ipu6_isys_stream_start` acquires
+`stream->isys->stream_mutex`. These are different mutexes. The
+`stream->mutex` would need to be held by the caller of
+`ipu6_isys_stream_start()`. The `stream_mutex` change in
+`ipu6_isys_stream_start` is about protecting the `list_del` in
+`stop_streaming`.
 
-1. Filter is enabled (FLT_ENA bit = 1 in hardware register)
-2. User updates filter configuration parameters
-3. `rkisp1_flt_config()` is called
-4. Direct write clears FLT_ENA bit (writes mode without enable)
-5. Read/modify/write reads back register with FLT_ENA = 0
-6. Final write does not have FLT_ENA set
-7. **Filter is now disabled** even though user only wanted to change
-   configuration
+**Change 3: Moving list_del() inside stream_mutex in stop_streaming()**
+```c
+        mutex_lock(&av->isys->stream_mutex);
+        if (stream->nr_streaming == stream->nr_queues &&
+stream->streaming)
+                ipu6_isys_video_set_streaming(av, 0, NULL);
++       list_del(&aq->node);
+        mutex_unlock(&av->isys->stream_mutex);
 
-This is a real functional bug that affects image processing quality on
-Rockchip platforms using the ISP (Image Signal Processor).
+        stream->nr_streaming--;
+- list_del(&aq->node);
+```
+This is **the most important change**. Previously, `list_del(&aq->node)`
+was called **outside** the `stream_mutex` protection. This means if one
+thread is in `stop_streaming` doing `list_del()` while another thread is
+in `ipu6_isys_stream_start` iterating over the list (in
+`buffer_list_get`), there's a **use-after-free or list corruption race
+condition**.
 
-### Scope and Risk
+By moving `list_del()` inside the `stream_mutex` lock, and extending
+`stream_mutex` in `ipu6_isys_stream_start` to cover the
+`buffer_list_get` calls, the list is now properly protected.
 
-- **Size**: Removal of 5 lines of code. Extremely small and surgical.
-- **Files**: Single file change (`rkisp1-params.c`)
-- **Risk**: Very low. The removed code is entirely redundant - the
-  read/modify/write sequence that follows does everything the direct
-  write did, plus correctly preserves the enable bit. Removing the
-  direct write can only improve behavior.
-- **Subsystem**: Media/camera driver for Rockchip ISP - well-defined
-  scope, won't affect other subsystems.
+### 3. BUG CLASSIFICATION
 
-### Review Quality
+This is a **race condition fix** on a linked list that is concurrently
+modified (via `list_del`) and read (via `list_for_each_entry`). This
+class of bug can cause:
+- **List corruption** (corrupted forward/backward pointers)
+- **Use-after-free** (iterating over a node that was just removed and
+  potentially freed)
+- **Kernel crash/oops** (dereferencing corrupted pointers)
 
-The commit has been reviewed by three experienced media subsystem
-developers:
-- Stefan Klug (Reviewed-by)
-- Kieran Bingham (Reviewed-by)
-- Laurent Pinchart (Reviewed-by, also signed off as maintainer)
+The race window is between `STREAMON` and `STREAMOFF` ioctls, which can
+be triggered from userspace on different file descriptors of the same
+stream.
 
-Merged by Hans Verkuil, the V4L2 subsystem maintainer.
+### 4. SCOPE AND RISK ASSESSMENT
 
-### User Impact
+- **Files changed**: 1 file (`ipu6-isys-queue.c`)
+- **Lines changed**: Very small — adding a lockdep assert, converting
+  lock/unlock to guard, moving one `list_del` inside an existing lock
+  scope
+- **Risk**: LOW — the changes are straightforward synchronization fixes:
+  - The lockdep assert is purely a debugging check
+  - The guard(mutex) extends lock scope (safe — just holds lock longer)
+  - Moving list_del inside existing lock scope is a well-understood
+    pattern
+- **Subsystem**: Intel IPU6 camera driver (media/pci/intel/ipu6) —
+  relatively contained
 
-This bug affects anyone using the Rockchip ISP filter (noise reduction,
-sharpening) on platforms like RK3399 and similar SoCs. When the filter
-configuration is updated, the filter gets inadvertently disabled,
-leading to degraded image quality. This is particularly relevant for
-embedded systems and cameras that use stable kernels.
+### 5. DEPENDENCY CHECK
 
-### Stable Criteria Assessment
+The `guard(mutex)` macro requires `linux/cleanup.h` which was added in
+Linux 6.5. The IPU6 driver was added relatively recently. Need to check
+if the affected code exists in stable trees.
 
-- **Obviously correct**: Yes - removing a redundant write that defeats
-  the read/modify/write pattern is clearly correct
-- **Fixes a real bug**: Yes - filter being disabled when reconfigured is
-  a real functional bug
-- **Small and contained**: Yes - 5 lines removed from a single function
-  in a single file
-- **No new features**: Correct - pure bug fix
-- **Tested**: Multiple reviews from domain experts
+The IPU6 driver (`drivers/media/pci/intel/ipu6/`) was merged in the 6.10
+timeframe. So this would only apply to 6.12.y and possibly 6.11.y stable
+trees (if they exist).
+
+The `guard()` macro dependency (`linux/cleanup.h`) is available in these
+kernels, so no backport adjustment needed.
+
+### 6. STABILITY AND TRUST INDICATORS
+
+- **Author**: Sakari Ailus — well-known Linux media subsystem maintainer
+  at Intel
+- **Reviewer**: Hans Verkuil — another prominent media maintainer
+- **The fix is obviously correct**: Moving `list_del` inside an existing
+  lock that protects the same list is a textbook race condition fix
+
+### 7. USER IMPACT
+
+Intel IPU6 is the camera subsystem used in modern Intel laptops (Alder
+Lake, Raptor Lake, etc.). Users doing camera streaming could hit this
+race condition when starting/stopping video capture, leading to kernel
+crashes. This affects laptops using the IPU6 camera with the mainline
+driver.
+
+### CONCLUSION
+
+This commit fixes a real race condition (concurrent list modification
+and traversal) that can lead to list corruption, use-after-free, or
+kernel crashes. The fix is:
+- **Small and surgical**: One lockdep assert, one lock scope change, one
+  line moved inside existing lock
+- **Obviously correct**: Classic pattern of protecting shared data
+  structures with proper locking
+- **Low risk**: Only extends lock scope and moves an operation inside an
+  existing lock
+- **Authored by subsystem maintainer**: High confidence in correctness
+- **Fixes a real bug**: Race between STREAMON/STREAMOFF ioctls on shared
+  stream list
+
+The fix meets all stable kernel criteria.
 
 **YES**
 
- drivers/media/platform/rockchip/rkisp1/rkisp1-params.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-index c9f88635224cc..6442436a5e428 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
-@@ -411,12 +411,6 @@ static void rkisp1_flt_config(struct rkisp1_params *params,
- 	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_FILT_LUM_WEIGHT,
- 		     arg->lum_weight);
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+index aa2cf7287477c..8f05987cdb4e7 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2013--2024 Intel Corporation
+  */
+ #include <linux/atomic.h>
++#include <linux/cleanup.h>
+ #include <linux/bug.h>
+ #include <linux/device.h>
+ #include <linux/list.h>
+@@ -201,6 +202,8 @@ static int buffer_list_get(struct ipu6_isys_stream *stream,
+ 	unsigned long flags;
+ 	unsigned long buf_flag = IPU6_ISYS_BUFFER_LIST_FL_INCOMING;
  
--	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_FILT_MODE,
--		     (arg->mode ? RKISP1_CIF_ISP_FLT_MODE_DNR : 0) |
--		     RKISP1_CIF_ISP_FLT_CHROMA_V_MODE(arg->chr_v_mode) |
--		     RKISP1_CIF_ISP_FLT_CHROMA_H_MODE(arg->chr_h_mode) |
--		     RKISP1_CIF_ISP_FLT_GREEN_STAGE1(arg->grn_stage1));
--
- 	/* avoid to override the old enable value */
- 	filt_mode = rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_FILT_MODE);
- 	filt_mode &= RKISP1_CIF_ISP_FLT_ENA;
++	lockdep_assert_held(&stream->mutex);
++
+ 	bl->nbufs = 0;
+ 	INIT_LIST_HEAD(&bl->head);
+ 
+@@ -294,9 +297,8 @@ static int ipu6_isys_stream_start(struct ipu6_isys_video *av,
+ 	struct ipu6_isys_buffer_list __bl;
+ 	int ret;
+ 
+-	mutex_lock(&stream->isys->stream_mutex);
++	guard(mutex)(&stream->isys->stream_mutex);
+ 	ret = ipu6_isys_video_set_streaming(av, 1, bl);
+-	mutex_unlock(&stream->isys->stream_mutex);
+ 	if (ret)
+ 		goto out_requeue;
+ 
+@@ -637,10 +639,10 @@ static void stop_streaming(struct vb2_queue *q)
+ 	mutex_lock(&av->isys->stream_mutex);
+ 	if (stream->nr_streaming == stream->nr_queues && stream->streaming)
+ 		ipu6_isys_video_set_streaming(av, 0, NULL);
++	list_del(&aq->node);
+ 	mutex_unlock(&av->isys->stream_mutex);
+ 
+ 	stream->nr_streaming--;
+-	list_del(&aq->node);
+ 	stream->streaming = 0;
+ 	mutex_unlock(&stream->mutex);
+ 
 -- 
 2.51.0
 
