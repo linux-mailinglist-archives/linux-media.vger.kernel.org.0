@@ -1,62 +1,61 @@
-Return-Path: <linux-media+bounces-52802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52803-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLfVIP/Kj2nMTgEAu9opvQ
-	(envelope-from <linux-media+bounces-52802-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:08:15 +0100
+	id uIU+FbrKj2nMTgEAu9opvQ
+	(envelope-from <linux-media+bounces-52803-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:07:06 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF57113A83E
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:08:14 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1724513A768
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:07:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 988373011134
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:06:45 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 06197300C003
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:07:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ED922248B9;
-	Sat, 14 Feb 2026 01:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AC90229B18;
+	Sat, 14 Feb 2026 01:06:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mAyRepvK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oeV9vplD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70CE2556E;
-	Sat, 14 Feb 2026 01:06:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F088D1EF0B0;
+	Sat, 14 Feb 2026 01:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771031200; cv=none; b=OxxGU/xRltSWpDevqPe06tkp/2lqa0AjM4A8+6cM4N4/bqnPaeHY+TzaRdGhg5qr98ZfXg9CmVDEd8t2XQBJG+vP7haJ+aJIL9RAiLYr9q+FmLiIssTstKWSydAgwsymrOgR2XvmZprW6PwQHbnKHm7e7F9f43VVMppNoqYNqbM=
+	t=1771031217; cv=none; b=GGMoUGyLAJBfECkUlP+Oik4p3rpOStNK+fiU6QEMwhaOE1615z+1EzgIzHLERR18DQ3r+F2solyse5vtTOBOUY6SdzgcG7malJbCh4Xk8zoY6Zfg5TSPScqk26zzNVteNnSS5Q9Fn9It0yx3fsF/AIrBw/ql6hh7xjpGPaq7h9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771031200; c=relaxed/simple;
-	bh=62Oh1rWnodoAQG8K1KrgWZ/qT0lmnHi4eoA6J8s0BsQ=;
+	s=arc-20240116; t=1771031217; c=relaxed/simple;
+	bh=8c8sukFP14utfTYrI376lvQLa5+I8ze4lJVTlbyy2q4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qqw0SrmX9Hk5dDl+LObRRTfRsIWoxNNXjVnyUJmdCRlmN52C3oKgKcYxx3Q+JWz43+DPNrz1p/W6F5sUMsTD3dEt4Q8wM5fQdrhQPlDsC0Kah41eHhoVJXklM8p8NOZhiJSvFoiFsygVSu4SgzsxfIp2aVmpckkc3oSlTmZ61mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mAyRepvK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFF2EC19424;
-	Sat, 14 Feb 2026 01:06:39 +0000 (UTC)
+	 MIME-Version:Content-Type; b=qXnSuq7NgT9ISa4ctsu7c5/3kMr88/P50bhZBSjWvX2+mgDAe7ogYB8pT7kV0SlLH53bvlkPsmekDM025YO4PYsxLYDsuFecmR/pSdIW7C4GwCyUVzZNOWaiZ5TpKIOwUUetZkRbLkDZBPPx6vJ2vwPbtRxJUOxhcOp/y7KJ3os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oeV9vplD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ADAFC116C6;
+	Sat, 14 Feb 2026 01:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771031200;
-	bh=62Oh1rWnodoAQG8K1KrgWZ/qT0lmnHi4eoA6J8s0BsQ=;
+	s=k20201202; t=1771031216;
+	bh=8c8sukFP14utfTYrI376lvQLa5+I8ze4lJVTlbyy2q4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mAyRepvKwXv+LTYc7OpRZBtudN2XRLhrAwNaXsy0rB2jnsaGZ9OLEN3SJdZBhNnN1
-	 C51c3pubBt4V5n7L3mVBxU6BOxwyKRTj18DRpf+wa80KMMQ+Ccs4rkROQKtvupKs+U
-	 pVUyPnljLHoC0M+wlzG4aMSB2d5D9njv8rXajgUw0xHlD0DNC/WDHY6513DclzvKKQ
-	 bKPlXp3Ph59C4recBpTT+dbL4/6AQSd3nJBmsaTe4S8xD3Z1Edrt4G0V4CmnB7Zo1M
-	 OqmZm4sTT7TvirlAnxOuls54DUXishJzoepeEwKCCFtN2N4GlXsSlFbjsa+Wh8ZqmP
-	 uKSRZ8ATT/7YQ==
+	b=oeV9vplDudGC2FdxU622iJD1KAL58XswbKg/pCKTiXgl1XOdXk2Qkg01TleeOVfpl
+	 aBkFIJo7M5WiiOnotsNkbMsJm2wfqzY+nuPDpVssYjygoBvode39Bc/cPyyLUq3jDA
+	 Nm8CTaNoV0nCMtEdy+3223zOn+FvKiksecELExpnCC2D5Uo2oPCoocuwRr7Gctc6aj
+	 l+fpGn0XbHI9aEcyLVuzfXFpmsQA/sZnsWvdkzZmhgsN9Mwja6avZxJW0lT8j0O+Zp
+	 vZDTcpGHw/0zFQSUbmcLqqQF9DDXFX8IRSfjBmal9BekHCn86ZF22DPTEq+7cHcQCT
+	 KJfn8wSLU9Fsw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Brandon Brnich <b-brnich@ti.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+Cc: Szymon Wilczek <szymonwilczek@gmx.com>,
+	syzbot+405dcd13121ff75a9e16@syzkaller.appspotmail.com,
+	Mike Isely <isely@pobox.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	nas.chung@chipsnmedia.com,
-	jackson.lee@chipsnmedia.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.12] media: chips-media: wave5: Process ready frames when CMD_STOP sent to Encoder
-Date: Fri, 13 Feb 2026 19:59:40 -0500
-Message-ID: <20260214010245.3671907-100-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-5.10] media: pvrusb2: fix URB leak in pvr2_send_request_ex
+Date: Fri, 13 Feb 2026 19:59:47 -0500
+Message-ID: <20260214010245.3671907-107-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -69,193 +68,198 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[gmx.com,syzkaller.appspotmail.com,pobox.com,kernel.org,vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52802-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-52803-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,collabora.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BF57113A83E
+	TAGGED_RCPT(0.00)[linux-media,405dcd13121ff75a9e16,cisco];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,gmx.com:email,appspotmail.com:email,pobox.com:email]
+X-Rspamd-Queue-Id: 1724513A768
 X-Rspamd-Action: no action
 
-From: Brandon Brnich <b-brnich@ti.com>
+From: Szymon Wilczek <szymonwilczek@gmx.com>
 
-[ Upstream commit 5da0380de41439ed64ed9a5218850db38544e315 ]
+[ Upstream commit a8333c8262aed2aedf608c18edd39cf5342680a7 ]
 
-CMD_STOP being sent to encoder before last job is executed by device_run
-can lead to an occasional dropped frame. Ensure that remaining ready
-buffers are drained by making a call to v4l2_m2m_try_schedule.
+When pvr2_send_request_ex() submits a write URB successfully but fails to
+submit the read URB (e.g. returns -ENOMEM), it returns immediately without
+waiting for the write URB to complete. Since the driver reuses the same
+URB structure, a subsequent call to pvr2_send_request_ex() attempts to
+submit the still-active write URB, triggering a 'URB submitted while
+active' warning in usb_submit_urb().
 
-Signed-off-by: Brandon Brnich <b-brnich@ti.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Fix this by ensuring the write URB is unlinked and waited upon if the read
+URB submission fails.
+
+Reported-by: syzbot+405dcd13121ff75a9e16@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=405dcd13121ff75a9e16
+Signed-off-by: Szymon Wilczek <szymonwilczek@gmx.com>
+Acked-by: Mike Isely <isely@pobox.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Here is my complete analysis:
+## Analysis of pvrusb2 URB Leak Fix
 
----
+### 1. Commit Message Analysis
 
-## Analysis of: "media: chips-media: wave5: Process ready frames when
-CMD_STOP sent to Encoder"
+The commit message is clear and well-structured:
+- **Subject**: Explicitly says "fix URB leak" — this is a bug fix
+- **Problem**: When the write URB is submitted successfully but the read
+  URB submission fails, the function returns without waiting for the
+  write URB to complete. The URB structure is reused, so a subsequent
+  call tries to submit a still-active URB.
+- **Symptom**: Triggers a `'URB submitted while active'` warning in
+  `usb_submit_urb()`, which is a well-known USB core warning indicating
+  a real bug.
+- **Reporter**: syzbot — fuzzer-found, reproducible bug
+- **Acked-by**: Mike Isely (pvrusb2 maintainer) — subsystem maintainer
+  approved
+- **Signed-off-by**: Hans Verkuil (media subsystem maintainer) — proper
+  review chain
 
-### 1. COMMIT MESSAGE ANALYSIS
+### 2. Code Change Analysis
 
-The commit message clearly describes a bug: **CMD_STOP being sent to the
-encoder before the last job is executed by `device_run` can lead to an
-occasional dropped frame.** The fix is to call `v4l2_m2m_try_schedule()`
-to ensure remaining ready buffers are drained. This is a data integrity
-issue - users lose the last frame of their encoded video.
+The fix adds 5 lines of code in a single error path:
 
-### 2. CODE CHANGE ANALYSIS
-
-The change is a **two-line addition** (one blank line + one function
-call) in `wave5_vpu_enc_encoder_cmd()`:
-
-```653:654:drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-                m2m_ctx->is_draining = true;
-
-                v4l2_m2m_try_schedule(m2m_ctx);
+```c
+if (hdw->ctl_write_pend_flag) {
+    usb_unlink_urb(hdw->ctl_write_urb);
+    while (hdw->ctl_write_pend_flag)
+        wait_for_completion(&hdw->ctl_done);
+}
 ```
 
-**The bug mechanism:**
+**What it does**: When the read URB submission fails (`status < 0`), but
+the write URB was already submitted and is pending
+(`ctl_write_pend_flag` set), the fix:
+1. Unlinks (cancels) the still-active write URB
+2. Waits for the write URB completion callback to fire (which clears
+   `ctl_write_pend_flag`)
 
-When userspace sends `V4L2_ENC_CMD_STOP`, the driver:
-1. Sets `m2m_ctx->last_src_buf` to the last queued source buffer
-2. Sets `m2m_ctx->is_draining = true`
-3. Returns - **without triggering the m2m scheduler**
+This is the correct pattern — it mirrors what the existing code already
+does in the normal path (the `while (hdw->ctl_write_pend_flag ||
+hdw->ctl_read_pend_flag)` loop further down), but adapted for this
+specific error path.
 
-The problem is a race: if CMD_STOP arrives between when the last buffer
-is queued and when `device_run` picks it up, the m2m framework has no
-trigger to schedule the remaining work. The `wave5_vpu_enc_job_ready()`
-callback (line 1542) checks `is_draining` and returns `true` to indicate
-the encoder is ready for a drain job - but nobody calls the scheduler to
-check this.
+### 3. Bug Classification
 
-`v4l2_m2m_try_schedule()` simply calls `__v4l2_m2m_try_queue()` +
-`v4l2_m2m_try_run()` - it checks if there's work ready and runs it. It's
-completely safe - if there's nothing to do, it returns without side
-effects.
+- **Type**: Resource leak / URB lifecycle mismanagement
+- **Trigger**: Read URB submission failure (e.g., -ENOMEM) after
+  successful write URB submission
+- **Consequence**:
+  - Active URB left dangling
+  - Next call to the same function triggers `'URB submitted while
+    active'` warning
+  - Could lead to undefined behavior with the USB subsystem, potential
+    data corruption or crashes
+- **Reproducibility**: syzbot found it — reproducible with a concrete
+  trigger
 
-### 3. COMPARISON WITH OTHER DRIVERS
+### 4. Scope and Risk Assessment
 
-This is an **inconsistency bug** that's obvious when comparing with
-other m2m codec drivers:
+- **Lines changed**: +5 lines added in a single file
+- **Files affected**: 1 file (`drivers/media/usb/pvrusb2/pvrusb2-hdw.c`)
+- **Complexity**: Very low — straightforward error path cleanup
+- **Risk**: Minimal. The fix uses standard USB patterns
+  (`usb_unlink_urb` + wait for completion) that are well-established
+  throughout the kernel. The `ctl_write_pend_flag` check ensures we only
+  unlink if the write URB is actually active.
+- **Regression potential**: Very low. This code path only executes when
+  read URB submission fails, and the fix ensures proper cleanup before
+  proceeding — strictly better than the current behavior.
 
-- **wave5 decoder** (`wave5_vpu_dec_decoder_cmd`, line 888): Already
-  calls `v4l2_m2m_try_schedule(m2m_ctx)` after DEC_CMD_STOP, with the
-  comment "Just in case we don't have anything to decode anymore"
-- **MediaTek encoder** (`vidioc_encoder_cmd` in `mtk_vcodec_enc.c`, line
-  734): Calls `v4l2_m2m_try_schedule(ctx->m2m_ctx)` after ENC_CMD_STOP
-- **MediaTek decoder** (`stateful_decoder_cmd`, line 116): Same pattern
-- **CODA decoder** (`coda_decoder_cmd`, line 1268): Same pattern
+### 5. User Impact
 
-The wave5 encoder was the **only** m2m encoder/decoder driver that set
-`is_draining = true` without calling `v4l2_m2m_try_schedule()`. This is
-clearly a bug present since the driver's initial submission.
+- **Affected users**: Anyone using pvrusb2 USB TV capture devices
+- **Severity**: Medium-high — while pvrusb2 is not a widely-used driver,
+  submitting a still-active URB can cause USB core issues, kernel
+  warnings, and potentially crashes
+- **Trigger likelihood**: Moderate — memory pressure situations can
+  cause `-ENOMEM` from `usb_submit_urb()`
 
-### 4. CLASSIFICATION
+### 6. Stability and Trust Indicators
 
-**Bug fix** - fixes dropped frames (data loss) during video encoding
-drain. Not a feature, not cleanup.
+- **Reported-by**: syzbot (automated, reproducible)
+- **Acked-by**: Subsystem maintainer (Mike Isely)
+- **Merged by**: Media subsystem maintainer (Hans Verkuil)
+- **Fix pattern**: Standard, well-understood USB cleanup pattern
 
-### 5. SCOPE AND RISK ASSESSMENT
+### 7. Dependencies
 
-- **Lines changed**: 2 (1 blank + 1 function call)
-- **Files touched**: 1
-- **Risk**: Extremely low. `v4l2_m2m_try_schedule()` is the standard
-  V4L2 m2m API for triggering job scheduling. It's called in every other
-  similar driver. It's safe to call at any time - if conditions aren't
-  met for scheduling a job, it simply returns.
-- **Subsystem**: media/chips-media/wave5 - a hardware video encoder
-  driver for Chips&Media Wave5 IP used on TI platforms
+The fix is self-contained — it uses existing infrastructure
+(`usb_unlink_urb`, `wait_for_completion`, existing flags) that has been
+present in the pvrusb2 driver for years. No dependency on other recent
+commits.
 
-### 6. USER IMPACT
+### 8. Stable Kernel Criteria
 
-Users encoding video with the Wave5 hardware encoder (e.g., on TI
-AM62x/AM62Ax platforms) can **lose the last frame** when stopping
-encoding. This is a real data integrity issue for anyone doing video
-encoding with this hardware. The symptom is intermittent, making it
-harder to diagnose.
+| Criterion | Met? |
+|-----------|------|
+| Obviously correct and tested | Yes — syzbot-reported, maintainer-acked
+|
+| Fixes a real bug | Yes — URB leak, 'URB submitted while active' |
+| Important issue | Yes — can cause USB subsystem issues and warnings |
+| Small and contained | Yes — 5 lines, 1 file |
+| No new features | Correct — pure bug fix |
+| Applies cleanly | Likely — the pvrusb2 code is stable and rarely
+changed |
 
-### 7. STABILITY INDICATORS
+### Conclusion
 
-- **Reviewed-by**: Nicolas Dufresne (Collabora - well-known
-  V4L2/GStreamer developer)
-- **Signed-off-by**: Hans Verkuil (media subsystem co-maintainer)
-- **Author**: Brandon Brnich from TI (the SoC vendor that ships this IP)
-- The fix follows established patterns from other drivers
-
-### 8. DEPENDENCY CHECK
-
-**No dependencies.** This is a self-contained one-line fix that adds a
-call to an existing exported V4L2 m2m API function. The
-`v4l2_m2m_try_schedule()` function has been available since long before
-the wave5 driver was added.
-
-### 9. STABLE TREE APPLICABILITY
-
-The wave5 driver was added in v6.8-rc1 (commit `9707a6254a8a6`). It
-exists in stable trees 6.8.y and later. The fix should apply cleanly
-since the `wave5_vpu_enc_encoder_cmd` function hasn't changed
-significantly since it was added.
-
-### Summary
-
-This is a textbook stable-worthy fix:
-- **Small**: 2 lines added
-- **Obviously correct**: Matches the pattern used by every other V4L2
-  m2m encoder/decoder driver
-- **Fixes a real bug**: Dropped frames during encoding drain (data loss)
-- **Low risk**: Uses standard API, no side effects if conditions aren't
-  met
-- **Well-reviewed**: By V4L2 experts and the media subsystem maintainer
-- **Self-contained**: No dependencies on other patches
+This is a textbook stable backport candidate: a small, surgical fix for
+a syzbot-reported URB lifecycle bug in a USB driver. It's maintainer-
+acked, uses established patterns, has minimal regression risk, and fixes
+a real bug that can cause kernel warnings and potential instability. The
+fix is self-contained with no dependencies.
 
 **YES**
 
- drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index bca881a0a1617..8e3dd9e34abc3 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -649,6 +649,8 @@ static int wave5_vpu_enc_encoder_cmd(struct file *file, void *fh, struct v4l2_en
- 
- 		m2m_ctx->last_src_buf = v4l2_m2m_last_src_buf(m2m_ctx);
- 		m2m_ctx->is_draining = true;
-+
-+		v4l2_m2m_try_schedule(m2m_ctx);
- 		break;
- 	case V4L2_ENC_CMD_START:
- 		break;
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+index b32bb906a9de2..5807734ae26c6 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+@@ -3709,6 +3709,11 @@ status);
+ 				   "Failed to submit read-control URB status=%d",
+ status);
+ 			hdw->ctl_read_pend_flag = 0;
++			if (hdw->ctl_write_pend_flag) {
++				usb_unlink_urb(hdw->ctl_write_urb);
++				while (hdw->ctl_write_pend_flag)
++					wait_for_completion(&hdw->ctl_done);
++			}
+ 			goto done;
+ 		}
+ 	}
 -- 
 2.51.0
 
