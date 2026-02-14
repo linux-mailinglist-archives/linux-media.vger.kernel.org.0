@@ -1,61 +1,62 @@
-Return-Path: <linux-media+bounces-52790-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52791-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KFWMCtzJj2nMTgEAu9opvQ
-	(envelope-from <linux-media+bounces-52790-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:03:24 +0100
+	id kJ/FIwLKj2ndTgEAu9opvQ
+	(envelope-from <linux-media+bounces-52791-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:04:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8E713A44A
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:03:23 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4844713A4DA
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:04:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A76DA301DFA4
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:03:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 028743077121
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:03:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5DC01FF1AD;
-	Sat, 14 Feb 2026 01:03:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF97C1DF751;
+	Sat, 14 Feb 2026 01:03:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tiPKGB8w"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSKAxcG0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181C819004A;
-	Sat, 14 Feb 2026 01:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3277719004A;
+	Sat, 14 Feb 2026 01:03:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771030980; cv=none; b=fEFBJkIjr4afVaSWzmdZo9riKOWe/AfNQ415R6NoJxLJUei2qUy0xtkwilOGcefU2UFW9w8UyjhyjG9dX6RrFXneB+sGY+WO1KCACHM7ar+kiwBoNU9XuImuYB8yq8gl8lLtanQQ/FFr1eFt9ugPBs9bs7u40ouoBbHkO8muudk=
+	t=1771030984; cv=none; b=TgBgxVQjZciAnAzjZOQmxlrHs3kViSbt+nMUVzT4z1U4u/tiZBCSKwSd4HxQ9UiA8ZNdz9QRYHUkeOcY5mmLK4zXF69rWF+e4fQ85O8NYfaoxlveDCgY0pAxKDaQLUsF0CfnDN8gDyb+JpDqvW50Q+Bbz9IDv4dQqPlL6ZOj0sE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771030980; c=relaxed/simple;
-	bh=VSI6CnrW6/IKVWVme+wtXswdhlJrcqigCGiPuij2fzI=;
+	s=arc-20240116; t=1771030984; c=relaxed/simple;
+	bh=6b252clNGbTBiGvYimlqoZL3gDDB5lrGWWn8G9K6lTI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kPbDI4xfi2G01oHWgA93bLjWGwRbULcxd4AjDb3lRZPijikdxueZMY9X1rhhrfN3mz4rhberSCQBAFeAuGvldM2ULYrxjrek8v3wFe08mzg5VfmRGrk2C6PG/h5q51WB5LMrH2c2b+7M7GXIaEmMlxMEZJ1sdZJyQl8HKDFeCGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tiPKGB8w; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D250BC16AAE;
-	Sat, 14 Feb 2026 01:02:58 +0000 (UTC)
+	 MIME-Version:Content-Type; b=BUIOXqpXs/cZELl93te/CcVSzM8CmdEmx76Cm2JF7UIEsA4uTjkq8u+7d+3sgvqxHadlzXyNEiNwYHIkCzUWmGkRZ/6g0YGOawd2wU0Ly824nYp+JYmcEuUYHlMdy8y6HEKDXAzIpgIGt8nzvCiPJtrnaJ5jQKmboNmHjxM2UmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSKAxcG0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2605BC116C6;
+	Sat, 14 Feb 2026 01:03:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771030979;
-	bh=VSI6CnrW6/IKVWVme+wtXswdhlJrcqigCGiPuij2fzI=;
+	s=k20201202; t=1771030984;
+	bh=6b252clNGbTBiGvYimlqoZL3gDDB5lrGWWn8G9K6lTI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tiPKGB8wxGFIetYDyGDdggkZ2Y5kfsnyrYSrb7vATSaE7MgLlTA5LUR9WZlAx0D0O
-	 1/mP9ePUlMJJ/wBLr2/KBGZPl02XJeoCyy/LNai05B3RjPspmnokLrQQ+ku+QLupCX
-	 /P+Rl19tIRBLeSrFuDCVRGouVHAaqrWxkoDth7YqAPNH226YkmVCu1DAM2BWWPUaYt
-	 uNli5+yTD331W/ekW3EmhmW9K8X3XulAN4luR5JRAEmBNzL4Y6rJrF3WP/Ra9t4lKE
-	 oMj4rUeczEz/7OU4PDsJk+e9FuvKTcA/7wZKNzdnwf9zU8gIL1BUVQbiAuWGcjmDPg
-	 sP8ctj4iSeN7A==
+	b=mSKAxcG0oRJ7QzUBVtbQsO8WB1CesdfKRPRqjh1NJPpZYMOZhU1pZ6+MELcFoox0b
+	 RVgHpUhOK7MOU6Qsl/k7CvY2WqJgHbwoOM264ujdTWT1IDbgvZt0UsGJprHRo2ehmP
+	 HxPoQB/qTvPbIZMQR7MDB0jYdrJaOFpcj8C6vFbiy4LpBBkP/516dIMFVsALf4X1WI
+	 EDjpSec+ywpN9/WluGwjhFMWNNaFipVbkkiFzIFgdvKTTM1/p9koK3/H4ThFgU9F/I
+	 KEqLenL7VGXwgXlMgwIA4WoXtqzONRKM/djOZ7/ikgZ2PwzTKs2blRIG8GQ7LAL/B7
+	 HjI4bIOi8eIJA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Ming Qian <ming.qian@oss.nxp.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	ming.qian@nxp.com,
+	eagle.zhou@nxp.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.12] media: mt9m114: Avoid a reset low spike during probe()
-Date: Fri, 13 Feb 2026 19:58:08 -0500
-Message-ID: <20260214010245.3671907-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.1] media: amphion: Clear last_buffer_dequeued flag for DEC_CMD_START
+Date: Fri, 13 Feb 2026 19:58:10 -0500
+Message-ID: <20260214010245.3671907-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -76,14 +77,14 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-52790-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52791-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -92,158 +93,150 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email,ideasonboard.com:email]
-X-Rspamd-Queue-Id: CC8E713A44A
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: 4844713A4DA
 X-Rspamd-Action: no action
 
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
+From: Ming Qian <ming.qian@oss.nxp.com>
 
-[ Upstream commit 84359d0a5e3afce5e3e3b6562efadff690614d5b ]
+[ Upstream commit d85f3207d75df6d7a08be6526b15ff398668206c ]
 
-mt9m114_probe() requests the reset GPIO in output low state:
+The V4L2_DEC_CMD_START command may be used to handle the dynamic source
+change, which will triggers an implicit decoder drain.
+The last_buffer_dequeued flag is set in the implicit decoder drain,
+so driver need to clear it to continue the following decoding flow.
 
-	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-
-and then almost immediately afterwards calls mt9m114_power_on() which does:
-
-		gpiod_set_value(sensor->reset, 1);
-		fsleep(duration);
-		gpiod_set_value(sensor->reset, 0);
-
-which means that if the reset pin was high before this code runs that
-it will very briefly be driven low because of passing GPIOD_OUT_LOW when
-requesting the GPIO only to be driven high again possibly directly after
-that. Such a very brief driving low of the reset pin may put the chip in
-a confused state.
-
-Request the GPIO in high (reset the chip) state instead to avoid this,
-turning the initial gpiod_set_value() in mt9m114_power_on() into a no-op.
-and the fsleep() ensures that it will stay high long enough to properly
-reset the chip.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis of mt9m114 Reset GPIO Spike Fix
+## Analysis of commit: "media: amphion: Clear last_buffer_dequeued flag
+for DEC_CMD_START"
 
-### Commit Message Analysis
+### 1. Commit Message Analysis
 
-The commit describes a hardware initialization ordering issue in the
-mt9m114 camera sensor driver. During `probe()`, the reset GPIO is
-requested in `GPIOD_OUT_LOW` (deasserted) state, but then
-`mt9m114_power_on()` immediately drives it high (asserted/reset),
-sleeps, then drives it low (deasserted). If the reset pin was already
-high before probe, this creates a brief low spike that could put the
-chip in a "confused state."
+The commit message clearly describes a bug fix:
+- When `V4L2_DEC_CMD_START` is used to handle dynamic source changes, an
+  implicit decoder drain is triggered
+- The drain sets the `last_buffer_dequeued` flag
+- This flag is never cleared, which **breaks the subsequent decoding
+  flow**
+- The fix clears the flag when `DEC_CMD_START` is issued, allowing
+  decoding to continue
 
-The fix changes `GPIOD_OUT_LOW` to `GPIOD_OUT_HIGH` so the GPIO starts
-in the reset-asserted state, making the first
-`gpiod_set_value(sensor->reset, 1)` in `mt9m114_power_on()` a no-op, and
-the subsequent sleep ensures proper reset timing.
+Keywords: "need to clear it to continue the following decoding flow" —
+this indicates the decoder becomes stuck/non-functional without this
+fix.
 
-### Code Change Analysis
+### 2. Code Change Analysis
 
-The change is a single-line modification:
+The change is a **single line addition**:
 ```c
-- sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+ sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+vb2_clear_last_buffer_dequeued(v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx));
 ```
 
-This is an extremely minimal, surgical change. It changes the initial
-state of the reset GPIO from low (deasserted) to high (asserted/in-
-reset), which avoids a brief glitch that could leave the sensor in a bad
-state.
+This is added in the `V4L2_DEC_CMD_START` case of `vdec_decoder_cmd()`,
+right after the existing `vdec_cmd_start(inst)` call.
 
-### Bug Classification
+**What the bug mechanism is:**
+- `last_buffer_dequeued` is a flag in the vb2 (Video Buffer 2) queue
+  framework
+- When set, it signals that the last buffer has been dequeued and no
+  more buffers will come
+- During dynamic source change handling, an implicit drain sets this
+  flag
+- Without clearing it on `DEC_CMD_START`, the capture queue thinks it's
+  done and won't deliver any more buffers
+- This effectively **breaks video decoding** after a source change event
 
-This is a **hardware initialization bug fix**. The brief low spike on
-the reset pin is a real hardware issue that can cause the mt9m114 sensor
-to enter an undefined state during probe. This can manifest as:
-- Sensor failing to initialize properly
-- Unreliable camera operation
-- Potentially different behavior depending on the prior state of the
-  GPIO (non-deterministic)
+**The fix uses well-known V4L2 APIs:**
+- `vb2_clear_last_buffer_dequeued()` — standard V4L2 helper function
+- `v4l2_m2m_get_dst_vq()` — standard M2M helper to get the destination
+  (capture) queue
 
-### Scope and Risk Assessment
+### 3. Classification
 
-- **Lines changed**: 1 (single token change: `GPIOD_OUT_LOW` →
-  `GPIOD_OUT_HIGH`)
-- **Files changed**: 1 (`drivers/media/i2c/mt9m114.c`)
-- **Risk**: Very low. The change is logically sound — since
-  `mt9m114_power_on()` immediately asserts reset (high), starting in the
-  high state eliminates the transient glitch without changing the
-  overall reset sequence.
-- **Subsystem**: Media/camera driver (i2c sensor driver)
+This is a **clear bug fix**. Without this patch, the amphion video
+decoder becomes non-functional after handling a dynamic source change
+event. The decoder gets stuck because the capture queue won't deliver
+any more buffers.
 
-### Stability Indicators
+### 4. Scope and Risk Assessment
 
-- **Reviewed-by**: Laurent Pinchart (well-known media subsystem
-  maintainer)
-- **Multiple sign-offs**: Hans de Goede, Sakari Ailus, Hans Verkuil (all
-  experienced media/kernel developers)
-- The logic is straightforward and obviously correct
+- **Lines changed:** 1 line added
+- **Files touched:** 1 file (`drivers/media/platform/amphion/vdec.c`)
+- **Complexity:** Extremely low — calls a standard framework function
+- **Risk of regression:** Very low — this is a targeted fix in a
+  specific command handler, using a well-established API
+- **Subsystem:** Media/V4L2 driver for NXP amphion video decoder
 
-### User Impact
+### 5. User Impact
 
-Users with the mt9m114 camera sensor could experience unreliable
-initialization. This is a real hardware issue — the reset pin glitch
-depends on the prior GPIO state, making it potentially intermittent and
-hard to debug. The fix ensures deterministic, correct behavior.
+- **Who is affected:** Users of NXP i.MX8 SoCs (common in
+  embedded/industrial applications) that use the amphion video decoder
+- **Severity:** The bug causes the video decoder to stop working after a
+  dynamic source change — this is a functional failure, not a minor
+  issue
+- **Real-world scenario:** Dynamic source changes happen when video
+  stream parameters change mid-stream (resolution change, codec
+  reconfiguration). This is a normal operational scenario in media
+  playback.
 
-### Dependency Check
+### 6. Stability Indicators
 
-The change is self-contained. It modifies a single GPIO request flag and
-doesn't depend on any other commits. The mt9m114 driver has been in the
-kernel for a while, so it exists in stable trees.
+- **Reviewed-by:** Nicolas Dufresne (Collabora, well-known V4L2
+  contributor)
+- **Signed-off-by:** Hans Verkuil (V4L2 subsystem maintainer)
+- The patch is obviously correct — it follows the same pattern used by
+  other V4L2 M2M drivers
 
-### Risk vs. Benefit
+### 7. Dependency Check
 
-- **Benefit**: Fixes a real hardware initialization issue that can cause
-  unreliable sensor operation
-- **Risk**: Essentially zero — the change is a single constant that
-  aligns the initial GPIO state with what `mt9m114_power_on()` expects
-- **Trade-off**: Strongly favorable for backporting
+- The fix uses `vb2_clear_last_buffer_dequeued()` and
+  `v4l2_m2m_get_dst_vq()`, which are long-standing V4L2 framework
+  functions available in all stable trees that contain the amphion
+  driver
+- No dependency on other patches — this is a self-contained one-line fix
 
-### Concerns
+### Summary
 
-This is a minor driver fix for a specific camera sensor. While the user
-base may not be huge, the fix is trivially correct, has essentially zero
-regression risk, and fixes a genuine hardware issue. It meets all stable
-kernel criteria:
-1. Obviously correct and reviewed by multiple experts
-2. Fixes a real bug (hardware reset glitch)
-3. Important for affected users (unreliable device initialization)
-4. Extremely small and contained (1 line)
-5. No new features or APIs
+This is a textbook stable backport candidate:
+- **Obviously correct:** Single line calling a standard API at the right
+  place
+- **Fixes a real bug:** Decoder stops working after dynamic source
+  change
+- **Small and contained:** 1 line, 1 file
+- **No new features:** Just fixes existing functionality
+- **Low risk:** Uses established framework API, reviewed by subsystem
+  maintainer
+- **Real user impact:** Video decoding breaks without it
 
 **YES**
 
- drivers/media/i2c/mt9m114.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/amphion/vdec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-index 51ebbe7ae9969..554f25071cca6 100644
---- a/drivers/media/i2c/mt9m114.c
-+++ b/drivers/media/i2c/mt9m114.c
-@@ -2434,7 +2434,7 @@ static int mt9m114_probe(struct i2c_client *client)
- 		goto error_ep_free;
- 	}
- 
--	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
-+	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(sensor->reset)) {
- 		ret = PTR_ERR(sensor->reset);
- 		dev_err_probe(dev, ret, "Failed to get reset GPIO\n");
+diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
+index c0d2aabb9e0e3..f25dbcebdccf6 100644
+--- a/drivers/media/platform/amphion/vdec.c
++++ b/drivers/media/platform/amphion/vdec.c
+@@ -724,6 +724,7 @@ static int vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd
+ 	switch (cmd->cmd) {
+ 	case V4L2_DEC_CMD_START:
+ 		vdec_cmd_start(inst);
++		vb2_clear_last_buffer_dequeued(v4l2_m2m_get_dst_vq(inst->fh.m2m_ctx));
+ 		break;
+ 	case V4L2_DEC_CMD_STOP:
+ 		vdec_cmd_stop(inst);
 -- 
 2.51.0
 
