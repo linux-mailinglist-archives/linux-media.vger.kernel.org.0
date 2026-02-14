@@ -1,60 +1,61 @@
-Return-Path: <linux-media+bounces-52795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52796-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OKAaHDrKj2nMTgEAu9opvQ
-	(envelope-from <linux-media+bounces-52795-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:04:58 +0100
+	id cHOhL1zKj2ntTgEAu9opvQ
+	(envelope-from <linux-media+bounces-52796-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:05:32 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BEA913A5B5
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:04:58 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEDC13A62F
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 02:05:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 327AB300D4DC
-	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:04:42 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 9C1D630091C5
+	for <lists+linux-media@lfdr.de>; Sat, 14 Feb 2026 01:04:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D0B21A453;
-	Sat, 14 Feb 2026 01:04:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4C991D5ABA;
+	Sat, 14 Feb 2026 01:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V2zdPFmS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u0Fb2+JA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46BA3EBF2C;
-	Sat, 14 Feb 2026 01:04:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CE33EBF2C;
+	Sat, 14 Feb 2026 01:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771031074; cv=none; b=Rk5n0pH+yyrl0i+ItB2YsG491ldtSaIvPRO9y+oVxNAtA5dVzBwZwy+k9Se+pbs7g+l0eUk0AY9JKPgnQkfHPUl9Ju3T50N/zw58aXlcus0B9uZ3W3BiknsyfpYJIHZKXTPD3DbpACz4s3gYcly7js9AJqwGrKkSh/Fm9t1go8I=
+	t=1771031077; cv=none; b=Vp95wPwssuCRirSay/ZerKciiYoQEAyGwDYY+/WKBEvo07EdceaKuCC9j3SFhBbOeHHNA+13bDX0PGsLBTkUnUmiFq0e1weyy60clEWlY4XkY8OuihrK1K5j92NI9zjNwjQNcOKamgZC4K2mPxdcRUvLXPKQVnnzQxOLodyiFAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771031074; c=relaxed/simple;
-	bh=xLeqN4gDEBl1k1PAAkY5M3ePyEXyeR2Wgm9sP3eQKTE=;
+	s=arc-20240116; t=1771031077; c=relaxed/simple;
+	bh=7/O/wydur+hPElLkSYkXNH/MjZXgq/aaJ+3jcTRnN/A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a6nVl9lWDDIL1FkwikPP2EEYNX2tgvrA1paPdaiLGMQj+dSDgxh7l6evb8/ogeBvdLxj5wUHWwxspX6g2vtlIetcgSv2cs1hNNwcwoTO//+cJ0fLhoK5jj4LT4DM7uukvSFaHRiVgMG+MoYY//8DDP7SfxdosHKVSlkKERPl3/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V2zdPFmS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C0BC16AAE;
-	Sat, 14 Feb 2026 01:04:33 +0000 (UTC)
+	 MIME-Version:Content-Type; b=gTTWJrSE/iTGyFUzG2W7Z9G9rZqUKVjxhGnpuSU4PFhmS5SJ4b0sHe0qvxiddQCEA8JNzDZxnu0/ECT3YEMJdiwlT9NgAkmOrypTHRmqn3AK3HZaktQEmm8ZtURj3+z1XWbiKX7bvJ2VeSavKeP7WutDnQTlYWRnq/jkkMO+dQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u0Fb2+JA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 597B5C19423;
+	Sat, 14 Feb 2026 01:04:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771031074;
-	bh=xLeqN4gDEBl1k1PAAkY5M3ePyEXyeR2Wgm9sP3eQKTE=;
+	s=k20201202; t=1771031077;
+	bh=7/O/wydur+hPElLkSYkXNH/MjZXgq/aaJ+3jcTRnN/A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=V2zdPFmSH07clp+3JG9ONbxUEuIoXsx6L27Hk/aUyzfq+ygzeoU4hch/s8GVbYqh9
-	 cnbCP1tnFXBgLCCtT2ShGs6AC9Q+bW0AtVwl8Ejc5vDwBEtqoETBWgErTMwWHonamR
-	 0bh7nYExtMSN6ZLGdD6mdHus7wqF31vi11VK/BeDXPqIa2y/utcanL8dZ7G/ur1mQk
-	 rdiu62y1Zgi5Rip2FFZrsl4EdSmjdWz3SWFytUEQY+AKGxlNxFnz+ZAGXkZG0BOQQJ
-	 kMBJDuSUvT7DHmDyKOkMgcy22GPGD5mUcIbVz+DRz7cs/XQ3e0Z3MtFtC6qFoE7iB5
-	 dzRWzF4xDFGSw==
+	b=u0Fb2+JA3sNpM7HUg7oGjIbA/nku3YiIb/SDlfZUdGb37VGx6o783LWjnspIASzAk
+	 76IVLu0n9ePP3pwhoOSz9ch4q3xtJw3ETsrc3XTavEJ0LjR/v83uQuIPPWBXcNPTmW
+	 //Cs+CvrZJwmZeUXg0FhzS4nclnenmPUPGUbIjGctyqvyA1Ddf393zkoRSfid5/S12
+	 2TUAWLdA8ST6l5qeshkokBRL0tbI9+syPyJ1+G4JyrBvlPKqYbryZaP4Ftk+yYn9Bl
+	 W+hJ0swzwt1rIylcnXJk6i8VXc1AgbWXoUBUHzarwLYTRASQtPvMUzaU2M0OrtT2Zq
+	 rGjzB3iu6mhgw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	bingbu.cao@intel.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.19-6.12] media: ipu6: Ensure stream_mutex is acquired when dealing with node list
-Date: Fri, 13 Feb 2026 19:58:50 -0500
-Message-ID: <20260214010245.3671907-50-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.19-6.12] media: mt9m114: Return -EPROBE_DEFER if no endpoint is found
+Date: Fri, 13 Feb 2026 19:58:52 -0500
+Message-ID: <20260214010245.3671907-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260214010245.3671907-1-sashal@kernel.org>
 References: <20260214010245.3671907-1-sashal@kernel.org>
@@ -75,14 +76,14 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-52795-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52796-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -91,27 +92,23 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: 5BEA913A5B5
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:email,ideasonboard.com:email,qualcomm.com:email]
+X-Rspamd-Queue-Id: 3FEDC13A62F
 X-Rspamd-Action: no action
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-[ Upstream commit 779bdaad2abf718fb8116839e818e58852874b4d ]
+[ Upstream commit 437e1f6a960035166495a5117aacbc596115eeb6 ]
 
-The ipu6 isys driver maintains the list of video buffer queues related to
-a stream (in ipu6 context streams on the same CSI-2 virtual channel) and
-this list is modified through VIDIOC_STREAMON and VIDIOC_STREAMOFF IOCTLs.
-Ensure the common mutex is acquired when accessing the linked list, i.e.
-the isys device context's stream_mutex.
+With IPU# bridges, endpoints may only be created when the IPU bridge is
+initialized. This may happen after the sensor driver's first probe().
 
-Add a lockdep assert to ipu6_isys_get_buffer_list() and switch to guard()
-while at it as the error handling becomes more simple this way.
-
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
@@ -119,209 +116,141 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 LLM Generated explanations, may be completely bogus:
 
-## Analysis of commit: "media: ipu6: Ensure stream_mutex is acquired
-when dealing with node list"
+## Analysis of mt9m114: Return -EPROBE_DEFER if no endpoint is found
 
-### 1. COMMIT MESSAGE ANALYSIS
+### Commit Message Analysis
 
-The commit message clearly describes a **synchronization fix**: the ipu6
-ISYS driver maintains a linked list of video buffer queues related to a
-stream, and this list is modified through `STREAMON`/`STREAMOFF` ioctls.
-The list was being accessed without proper mutex protection, creating a
-race condition. The fix ensures `stream_mutex` is held when accessing
-the linked list.
+The commit changes the mt9m114 camera sensor driver to return
+`-EPROBE_DEFER` instead of `-EINVAL` when no fwnode graph endpoint is
+found during probe. The rationale is that on ACPI systems (specifically
+with IPU bridges), the fwnode graph endpoints may not yet exist at the
+time the sensor driver first probes — they are created later when the
+IPU bridge driver initializes.
 
-Key phrases: "Ensure the common mutex is acquired when accessing the
-linked list" — this is a classic race condition fix.
+### Code Change Analysis
 
-### 2. CODE CHANGE ANALYSIS
+The change is small and focused:
 
-The commit makes three distinct changes:
+1. **Old behavior**: When `fwnode_graph_get_next_endpoint()` returns
+   NULL, the driver logs an error and returns `-EINVAL`, causing
+   permanent probe failure.
 
-**Change 1: lockdep_assert_held() in buffer_list_get()**
-```c
-+       lockdep_assert_held(&stream->mutex);
-```
-This adds a runtime assertion that `stream->mutex` is held when
-`buffer_list_get()` is called. This is a debugging aid that documents
-the locking requirement. The function iterates over `stream->queues` (a
-linked list) via `list_for_each_entry(aq, &stream->queues, node)`, which
-needs protection.
+2. **New behavior**: When no endpoint is found, return `-EPROBE_DEFER`
+   (via `dev_err_probe()`), which tells the driver core to retry probing
+   later. A comment explains this is needed because on ACPI systems, the
+   bridge driver that creates the fwnode graph may not have probed yet.
 
-**Change 2: guard(mutex) in ipu6_isys_stream_start()**
-```c
-- mutex_lock(&stream->isys->stream_mutex);
-+       guard(mutex)(&stream->isys->stream_mutex);
-        ret = ipu6_isys_video_set_streaming(av, 1, bl);
-- mutex_unlock(&stream->isys->stream_mutex);
-```
-This converts a manual lock/unlock pair to a `guard(mutex)` (scoped
-lock), which extends the lock's lifetime through the entire function
-scope. This is a **critical fix**: previously, `stream_mutex` was
-released immediately after `ipu6_isys_video_set_streaming()`, but then
-`buffer_list_get()` was called in the `do...while` loop below without
-holding `stream_mutex`. Since `buffer_list_get()` iterates over
-`stream->queues` (a linked list that can be modified by
-`stop_streaming`), this was a real race condition.
+3. The `dev_err()` is replaced with `dev_err_probe()`, which is the
+   standard kernel pattern for deferred probing — it only logs at debug
+   level for `-EPROBE_DEFER` (avoiding log spam) and at error level for
+   other errors.
 
-The `buffer_list_get()` now has `lockdep_assert_held(&stream->mutex)` —
-but wait, it asserts `stream->mutex`, not `stream->isys->stream_mutex`.
-Let me look more carefully...
+### Bug Classification
 
-Actually, looking at the `buffer_list_get` function, it asserts
-`stream->mutex`, while the `ipu6_isys_stream_start` acquires
-`stream->isys->stream_mutex`. These are different mutexes. The
-`stream->mutex` would need to be held by the caller of
-`ipu6_isys_stream_start()`. The `stream_mutex` change in
-`ipu6_isys_stream_start` is about protecting the `list_del` in
-`stop_streaming`.
+This fixes a **real probe ordering bug** on ACPI-based systems. Without
+this fix, the mt9m114 sensor driver will permanently fail to probe on
+systems where the IPU bridge hasn't initialized yet at the time of the
+first probe attempt. This is a **race condition** between driver
+initialization order — the sensor driver needs endpoints that the bridge
+driver creates, but there's no guaranteed ordering.
 
-**Change 3: Moving list_del() inside stream_mutex in stop_streaming()**
-```c
-        mutex_lock(&av->isys->stream_mutex);
-        if (stream->nr_streaming == stream->nr_queues &&
-stream->streaming)
-                ipu6_isys_video_set_streaming(av, 0, NULL);
-+       list_del(&aq->node);
-        mutex_unlock(&av->isys->stream_mutex);
+This is a common pattern in the kernel — many drivers have been updated
+to return `-EPROBE_DEFER` for exactly this kind of dependency issue.
+It's a well-understood fix.
 
-        stream->nr_streaming--;
-- list_del(&aq->node);
-```
-This is **the most important change**. Previously, `list_del(&aq->node)`
-was called **outside** the `stream_mutex` protection. This means if one
-thread is in `stop_streaming` doing `list_del()` while another thread is
-in `ipu6_isys_stream_start` iterating over the list (in
-`buffer_list_get`), there's a **use-after-free or list corruption race
-condition**.
+### Scope and Risk Assessment
 
-By moving `list_del()` inside the `stream_mutex` lock, and extending
-`stream_mutex` in `ipu6_isys_stream_start` to cover the
-`buffer_list_get` calls, the list is now properly protected.
+- **Lines changed**: ~15 lines (very small)
+- **Files affected**: 1 file (`drivers/media/i2c/mt9m114.c`)
+- **Risk**: Very low. The change only affects the case where no endpoint
+  is found. If an endpoint IS found, behavior is unchanged. The worst
+  case is that on systems where no endpoint will ever appear, the driver
+  will defer indefinitely rather than failing immediately — but this is
+  standard kernel behavior for deferred probing, and the driver core
+  handles this gracefully.
 
-### 3. BUG CLASSIFICATION
+### User Impact
 
-This is a **race condition fix** on a linked list that is concurrently
-modified (via `list_del`) and read (via `list_for_each_entry`). This
-class of bug can cause:
-- **List corruption** (corrupted forward/backward pointers)
-- **Use-after-free** (iterating over a node that was just removed and
-  potentially freed)
-- **Kernel crash/oops** (dereferencing corrupted pointers)
+Users with mt9m114 camera sensors on ACPI-based systems (e.g., Intel
+platforms with IPU bridges) would find the camera doesn't work at all
+without this fix. The sensor driver would fail to probe permanently.
+This is a real-world issue affecting actual hardware functionality.
 
-The race window is between `STREAMON` and `STREAMOFF` ioctls, which can
-be triggered from userspace on different file descriptors of the same
-stream.
+### Review and Testing
 
-### 4. SCOPE AND RISK ASSESSMENT
+- **Reviewed-by: Laurent Pinchart** — well-known media subsystem
+  maintainer
+- **Signed-off-by**: Hans de Goede (Qualcomm/known kernel developer),
+  Sakari Ailus (Intel, media maintainer), Hans Verkuil (media subsystem
+  maintainer)
 
-- **Files changed**: 1 file (`ipu6-isys-queue.c`)
-- **Lines changed**: Very small — adding a lockdep assert, converting
-  lock/unlock to guard, moving one `list_del` inside an existing lock
-  scope
-- **Risk**: LOW — the changes are straightforward synchronization fixes:
-  - The lockdep assert is purely a debugging check
-  - The guard(mutex) extends lock scope (safe — just holds lock longer)
-  - Moving list_del inside existing lock scope is a well-understood
-    pattern
-- **Subsystem**: Intel IPU6 camera driver (media/pci/intel/ipu6) —
-  relatively contained
+The patch has strong review credentials from multiple experienced media
+subsystem developers.
 
-### 5. DEPENDENCY CHECK
+### Stable Criteria Check
 
-The `guard(mutex)` macro requires `linux/cleanup.h` which was added in
-Linux 6.5. The IPU6 driver was added relatively recently. Need to check
-if the affected code exists in stable trees.
+1. **Obviously correct and tested**: Yes — standard `-EPROBE_DEFER`
+   pattern, reviewed by multiple maintainers
+2. **Fixes a real bug**: Yes — sensor driver fails to probe on ACPI
+   systems with IPU bridges
+3. **Important issue**: Moderate — camera hardware doesn't work without
+   this fix on affected systems
+4. **Small and contained**: Yes — ~15 lines in a single file
+5. **No new features**: Correct — this is a bug fix for probe ordering
+6. **Applies cleanly**: Should apply cleanly as it's a self-contained
+   change
 
-The IPU6 driver (`drivers/media/pci/intel/ipu6/`) was merged in the 6.10
-timeframe. So this would only apply to 6.12.y and possibly 6.11.y stable
-trees (if they exist).
+### Dependency Check
 
-The `guard()` macro dependency (`linux/cleanup.h`) is available in these
-kernels, so no backport adjustment needed.
+Let me verify if the mt9m114 driver exists in older stable trees and if
+there are any dependencies.
 
-### 6. STABILITY AND TRUST INDICATORS
+The `dev_err_probe()` function has been available since kernel 5.10, so
+this should be backportable to any stable tree that has the mt9m114
+driver. The mt9m114 driver was added relatively recently (v6.x era), so
+the backport scope may be limited to recent stable trees, but that
+doesn't affect the decision.
 
-- **Author**: Sakari Ailus — well-known Linux media subsystem maintainer
-  at Intel
-- **Reviewer**: Hans Verkuil — another prominent media maintainer
-- **The fix is obviously correct**: Moving `list_del` inside an existing
-  lock that protects the same list is a textbook race condition fix
+### Conclusion
 
-### 7. USER IMPACT
-
-Intel IPU6 is the camera subsystem used in modern Intel laptops (Alder
-Lake, Raptor Lake, etc.). Users doing camera streaming could hit this
-race condition when starting/stopping video capture, leading to kernel
-crashes. This affects laptops using the IPU6 camera with the mainline
-driver.
-
-### CONCLUSION
-
-This commit fixes a real race condition (concurrent list modification
-and traversal) that can lead to list corruption, use-after-free, or
-kernel crashes. The fix is:
-- **Small and surgical**: One lockdep assert, one lock scope change, one
-  line moved inside existing lock
-- **Obviously correct**: Classic pattern of protecting shared data
-  structures with proper locking
-- **Low risk**: Only extends lock scope and moves an operation inside an
-  existing lock
-- **Authored by subsystem maintainer**: High confidence in correctness
-- **Fixes a real bug**: Race between STREAMON/STREAMOFF ioctls on shared
-  stream list
-
-The fix meets all stable kernel criteria.
+This is a straightforward probe-deferral fix for a real hardware
+functionality issue. It uses a well-established kernel pattern
+(`-EPROBE_DEFER`), is small and surgical, has been reviewed by multiple
+media subsystem maintainers, and carries very low regression risk. It
+fixes a real problem where the mt9m114 camera sensor fails to work on
+ACPI-based systems with IPU bridges.
 
 **YES**
 
- drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/media/i2c/mt9m114.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-index aa2cf7287477c..8f05987cdb4e7 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-@@ -3,6 +3,7 @@
-  * Copyright (C) 2013--2024 Intel Corporation
-  */
- #include <linux/atomic.h>
-+#include <linux/cleanup.h>
- #include <linux/bug.h>
- #include <linux/device.h>
- #include <linux/list.h>
-@@ -201,6 +202,8 @@ static int buffer_list_get(struct ipu6_isys_stream *stream,
- 	unsigned long flags;
- 	unsigned long buf_flag = IPU6_ISYS_BUFFER_LIST_FL_INCOMING;
- 
-+	lockdep_assert_held(&stream->mutex);
-+
- 	bl->nbufs = 0;
- 	INIT_LIST_HEAD(&bl->head);
- 
-@@ -294,9 +297,8 @@ static int ipu6_isys_stream_start(struct ipu6_isys_video *av,
- 	struct ipu6_isys_buffer_list __bl;
+diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+index 554f25071cca6..b1325e2cd1321 100644
+--- a/drivers/media/i2c/mt9m114.c
++++ b/drivers/media/i2c/mt9m114.c
+@@ -2360,11 +2360,17 @@ static int mt9m114_parse_dt(struct mt9m114 *sensor)
+ 	struct fwnode_handle *ep;
  	int ret;
  
--	mutex_lock(&stream->isys->stream_mutex);
-+	guard(mutex)(&stream->isys->stream_mutex);
- 	ret = ipu6_isys_video_set_streaming(av, 1, bl);
--	mutex_unlock(&stream->isys->stream_mutex);
- 	if (ret)
- 		goto out_requeue;
++	/*
++	 * On ACPI systems the fwnode graph can be initialized by a bridge
++	 * driver, which may not have probed yet. Wait for this.
++	 *
++	 * TODO: Return an error once bridge driver code will have moved
++	 * to the ACPI core.
++	 */
+ 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+-	if (!ep) {
+-		dev_err(&sensor->client->dev, "No endpoint found\n");
+-		return -EINVAL;
+-	}
++	if (!ep)
++		return dev_err_probe(&sensor->client->dev, -EPROBE_DEFER,
++				     "waiting for fwnode graph endpoint\n");
  
-@@ -637,10 +639,10 @@ static void stop_streaming(struct vb2_queue *q)
- 	mutex_lock(&av->isys->stream_mutex);
- 	if (stream->nr_streaming == stream->nr_queues && stream->streaming)
- 		ipu6_isys_video_set_streaming(av, 0, NULL);
-+	list_del(&aq->node);
- 	mutex_unlock(&av->isys->stream_mutex);
- 
- 	stream->nr_streaming--;
--	list_del(&aq->node);
- 	stream->streaming = 0;
- 	mutex_unlock(&stream->mutex);
- 
+ 	sensor->bus_cfg.bus_type = V4L2_MBUS_UNKNOWN;
+ 	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &sensor->bus_cfg);
 -- 
 2.51.0
 
