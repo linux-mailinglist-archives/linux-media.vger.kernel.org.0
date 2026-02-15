@@ -1,261 +1,181 @@
-Return-Path: <linux-media+bounces-52831-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52832-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QB7eHRUGkmnNpQEAu9opvQ
-	(envelope-from <linux-media+bounces-52831-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 18:44:53 +0100
+	id oHJVOIwykmmjrwEAu9opvQ
+	(envelope-from <linux-media+bounces-52832-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 21:54:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9095413F476
-	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 18:44:52 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D6A13FB61
+	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 21:54:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3866C30072A7
-	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 17:43:15 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A9FF930058CA
+	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 20:54:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F302DB7A9;
-	Sun, 15 Feb 2026 17:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="QNBfCUzu";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PxHDBkmo"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17317307AF2;
+	Sun, 15 Feb 2026 20:54:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA702522BA;
-	Sun, 15 Feb 2026 17:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8323F2D322E
+	for <linux-media@vger.kernel.org>; Sun, 15 Feb 2026 20:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771177389; cv=none; b=kqNQxyShDMTUbpRoi04ZfhwbBvAmNp7xAUHO2/SYYg2uA9NelALLVMRawyTS8Z6NZJzrc/rYAuni8+Syv1bT7I2QkoxFDl4KbG5t6asAUMV/6FRebPcQgvJ4/VXPaQSr46SUHhynmlnUetAYOlxVyFgjqKcHNmFunkli6hi/OzQ=
+	t=1771188867; cv=none; b=Oncq9fZtxWumcNKKFfm/G/INgkznAC+5MBU9lKm9EWkTMXrczgyl8ZNKFYtdNs39hdNRSeeGYau20QQGfNjpeUVB3hHTA2YTPbqtKiHb+1dXLk78m/3jmFIv+gTAgLrdcUZhtn1tSGP1gVmhlyXQlh61FX+B4Qo5y8ptI9Sue7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771177389; c=relaxed/simple;
-	bh=HqeldGCK+iEIB8wQse0rxtB7a5CB8yjvv3RNNlcVeiY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=duoL9fj6PjyxVbI6c1qHFm5YrQJX7KwpnsPLCwM+5wZDCnB+hknvvGwBk/q3g8QADbBFD7d5wagBmPxXp+dVm5hjJbRaBMdSo1Rba1YKbB/DjXAnJWluk1IH4Y9529qSsGdBR/FWH5A5MaxpWS615/9/Sh1Pq46hWt3Ao81FArw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=QNBfCUzu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PxHDBkmo; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 394C4EC0658;
-	Sun, 15 Feb 2026 12:43:06 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Sun, 15 Feb 2026 12:43:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1771177386; x=1771263786; bh=sc
-	QgAVxVgqOJys8W+gujBo5wP01cbiK3aqH/Vwsgpew=; b=QNBfCUzu+XGswyGF7E
-	0HrGal6S1408Hq85fOtCZurEouMFVSiBXH1/7KmeCElpVfZikfjAtQfpxAJ9A3+R
-	RO2ZN0gIb2luyXMHJ6UJmzLqaE+t8WMEsDqS9rDEgTyJ7hvdBRIoivK4DttUB16c
-	f+hXAK4Ybk9SgGV+CrNIltSf8Y/QCQTXbZGRoXEhyUsHniBvIL28NkZKTY4t2/MZ
-	8T7ooyjIQTeZQn6yvwvr/AH2Kah3LkwqtDwL5xl27QxgMWAfS7sELdcYX9LEZHMI
-	d5lyB7yO0HI/J6jcKEUUTf5cMKDJrYWFpseGpyFeCoWfD8DTNx+OP6UrDFdbs5od
-	i5WA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1771177386; x=1771263786; bh=scQgAVxVgqOJys8W+gujBo5wP01c
-	biK3aqH/Vwsgpew=; b=PxHDBkmoAHH4yoAj5IWgZ7qytieoNV+myX/ErHLZui99
-	C+e0OMFwy4urQiRh8Xpl9SafWvlAxmak9AZe1+4OlHvbJ9JMMJu5iJOUs7mcvEpk
-	E3KAkOsRlivXPY9ULkDVLgYyLvksdH17TBJ+jchEYGJcRnTrc2LhvsuLrq8FTljR
-	bp4QMDCNTHOvd22U4QxTTvpvKG2KhSDARSC4RkmMKsEhsofDQHlq2rjV4yoJAbuc
-	VBUpa1A2nRM92JCtq/xbtC4/04LrP52PiNu4RlT7n7zCj2sNTQah2AVZ+J7WPZnt
-	K+zonKpV+iyVFD5r3yNuePNAHTejZYSroBCtMkcJyQ==
-X-ME-Sender: <xms:qAWSacfzOW2t8rIOVD9-Fzd42s_3s6hf3FTrDKSSxSUVqe9-LD0NEw>
-    <xme:qAWSaXnhi7EFbRFWBDxGJHQOT6Y9Rxs8gMSBa9bzBejSirB4CqW4GGQ5p7EbkqqhG
-    3JljLoBaaolRbXHtZ6szJOWC8vNsEJp54ROx-aecD2amKfxrrNPbw>
-X-ME-Received: <xmr:qAWSaWD0rN69pIcKL3PVZmjV9gVmUQiH_7EKu-ADoH8DdTGg1dgvkMzL8dZQ9WpI4HxV3U63IV1XrDm-Vs7kLEnjpW3R9aE106etzQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvudegiedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflrghnnhgvucfi
-    rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepfeehle
-    dtheefteejfedvheetuedttdetleegudeuteejveetieefuedvfeffvdeinecuffhomhgr
-    ihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepudei
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehmrdhsiiihphhrohifshhkihessh
-    grmhhsuhhnghdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehjse
-    hjrghnnhgruhdrnhgvthdprhgtphhtthhopehhvhgvrhhkuhhilheskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtoheprghnughriigvjhdrphesshgrmhhsuhhnghdrtghomhdprhgtph
-    htthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggv
-X-ME-Proxy: <xmx:qAWSaRfL6vdEm1C2qkoXfwvMeoo1YeGDAT14JvQTrBXwpHxHCxmv3g>
-    <xmx:qAWSaZ4oUIt12MBSqmo-erRRLunYhYxrnlKCppKeX4UYXQDIzVuukQ>
-    <xmx:qAWSaTMJyXjpyg7qR9Nda4eMBwO32KXALb0g3GEczidXsHuPwDPgiA>
-    <xmx:qAWSaSFf1nqf5a6KNXgU0yZsxgSelSgV4324waqxfvCXBRo4_bvL1Q>
-    <xmx:qgWSaahN6oabijPrFOjFSR08-K-hD88wBYDIkx703jBmqyRHGasX7pi1>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 15 Feb 2026 12:43:03 -0500 (EST)
-From: Janne Grunau <j@jannau.net>
-Date: Sun, 15 Feb 2026 18:42:59 +0100
-Subject: [PATCH] media: videobuf2: Set vma_flags in vb2_dma_sg_mmap
+	s=arc-20240116; t=1771188867; c=relaxed/simple;
+	bh=lDWR3c/tJ4dXT3Cptqc0motAsdZWp6WyqJlXzOvK5gY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=WwEQnwU43MplXIzTlormvzDcPKlkeaAKYkEZJZ7T06DkQOXVHqRublRx35COwEkDq1hFpHdvGQdceAjPUjunZ8Us3PepXdb2KvzOmVkDrz1BjnXb+CMnskUNWl/2tyZhg/K/WXhiEbLR1WgipJh5Sp7IXeJimSciezo7lcpOxfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-663006e4c3cso22778678eaf.2
+        for <linux-media@vger.kernel.org>; Sun, 15 Feb 2026 12:54:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771188865; x=1771793665;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SthyVk+loO4we8rx52goP+aY7WRzJJrIQsA3i2rsE4c=;
+        b=t/E7nfDTHi00S/ThwI3Ui+tv6WuQcyB9SkZpf+26bsNqeqKxgMNu46V0luHk3tqth1
+         nxuqZUZ3NezMCV3TLtwRy/f3DwPANWVPjVi3r2XpfSVAeVAKtsS38PhCuug67Pid3N9g
+         CNaQ0i2WfsEv0WfZ5WDuQIiiWq46IimqGtdP4BVm6frxndZ0pQLrdfZaSze51lSSOIYh
+         XD81fDJMJ8cNzp/u3j/RZFj2KjZCENBfcUjEkZnB43+x8a4LIf2DG6psXjrC03OQQTbn
+         ChopoqRkhth51jkXrBnatDJ9eT4TM78d6uSL6f1iXCubeiOer9VoLEWUssf2wid7orsX
+         Y2CA==
+X-Forwarded-Encrypted: i=1; AJvYcCUG2wyw2m2MN38VKxYI5BanbqIaA8zZf1RQFmGgKcckYnuaQHgu92lFHOFb7bVqa7oGW0SzWKv9FhCJuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2qrpV68SS/SRUWRFF+PIJflRk/PJ+Sq4CU0CsGVhC39s5k6rs
+	/PGLiTulXV/Aomzws+XhKWs88irMYOCBKMYpfl5WwK8eiv8ar0pKbo9Z33zIkXtDw5TWOuwawri
+	Q8FK/xAo39+ox/j4M8/XQvAFqXgORd3nks3j8lpUKGWZ996IZCgMnryeji6s=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260215-media-vb2-dma-sg-v1-1-91b6aa6c1cec@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAKIFkmkC/x3MPQqAMAxA4atIZgP9QQevIg7RpDVDq7Qggnh3i
- +M3vPdAlaJSYeoeKHJp1SM32L6DbaccBZWbwRk3GmcHTMJKeK0OORHWiCaQ94EpMAu07CwS9P6
- X8/K+H/k1qEViAAAA
-X-Change-ID: 20260215-media-vb2-dma-sg-0fa33fdafdde
-To: Tomasz Figa <tfiga@chromium.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Andrzej Pietrasiewicz <andrzej.p@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5294; i=j@jannau.net;
- s=yk2025; h=from:subject:message-id;
- bh=5MO24xI2BDGeb+100l8k8E9pFIay5d55n+ZsgN9zhQA=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhsxJrMsOptyrmOTte/zG/Ycrfv9YOI/5zWZHqVPcUQ0r7
- Obt1Z5yv6OUhUGMi0FWTJElSftlB8PqGsWY2gdhMHNYmUCGMHBxCsBETl1g+Kd7Y82dlfM6Pgkq
- F5pvexNzMV33b0ZIfCd7nuz3UxWux1oY/meuTmVk/209Z4JPcp97e0AYw9RJ3aFreEytLB43H3A
- +xAMA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Received: by 2002:a05:6820:c94:b0:676:aeb2:648 with SMTP id
+ 006d021491bc7-677666f6ecbmr4146251eaf.2.1771188865649; Sun, 15 Feb 2026
+ 12:54:25 -0800 (PST)
+Date: Sun, 15 Feb 2026 12:54:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69923281.050a0220.340abe.038f.GAE@google.com>
+Subject: [syzbot] [media?] [usb?] memory leak in dvb_register_device
+From: syzbot <syzbot+d37184d9d8cc34602616@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-usb@vger.kernel.org, mchehab@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
-	R_DKIM_ALLOW(-0.20)[jannau.net:s=fm2,messagingengine.com:s=fm3];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=1ee062e17a57772f];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[jannau.net];
-	FREEMAIL_TO(0.00)[chromium.org,samsung.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52831-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[jannau.net:+,messagingengine.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[j@jannau.net,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_FROM(0.00)[bounces-52832-lists,linux-media=lfdr.de,d37184d9d8cc34602616];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	SUBJECT_HAS_QUESTION(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[jannau.net:mid,jannau.net:dkim,jannau.net:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,messagingengine.com:dkim]
-X-Rspamd-Queue-Id: 9095413F476
+	R_DKIM_NA(0.00)[];
+	REDIRECTOR_URL(0.00)[goo.gl];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[storage.googleapis.com:url,goo.gl:url,appspotmail.com:email,googlegroups.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 75D6A13FB61
 X-Rspamd-Action: no action
 
-vb2_dma_contig sets VMA flags VM_DONTEXPAND and VM_DONTDUMP and I do not
-see a reason why vb2_dma_sg should behave differently. This avoids
-hitting `WARN_ON(!(vma->vm_flags & VM_DONTEXPAND));` in
-drm_gem_mmap_obj() during mmap() of an imported dma-buf from the out of
-tree Apple ISP camera capture driver which uses vb2_dma_sg_memops.
+Hello,
 
-gst-launch-1.0 v4l2src ! gtk4paintablesink
+syzbot found the following issue on:
 
-[   38.201528] ------------[ cut here ]------------
-[   38.202135] WARNING: CPU: 7 PID: 2362 at drivers/gpu/drm/drm_gem.c:1144 drm_gem_mmap_obj+0x1f8/0x210
-[   38.203278] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer
-snd_seq snd_seq_device uinput nf_conntrack_netbios_ns
-nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib
-nft_reject_inet nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
-nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables qrtr bnep
-nls_ascii i2c_dev loop fuse dm_multipath nfnetlink brcmfmac_wcc
-hid_magicmouse hci_bcm4377 brcmfmac brcmutil bluetooth ecdh_generic
-cfg80211 ecc btrfs xor xor_neon rfkill hid_apple raid6_pq joydev
-aop_als apple_nvmem_spmi industrialio snd_soc_aop apple_z2
-snd_soc_cs42l84 tps6598x snd_soc_tas2764 macsmc_reboot spi_nor
-macsmc_hwmon rtc_macsmc gpio_macsmc macsmc_power regmap_spmi
-macsmc_input dockchannel_hid panel_summit appledrm nvme_apple dwc3
-snd_soc_macaudio drm_client_lib nvme_core phy_apple_atc hwmon
-apple_sart apple_dockchannel macsmc apple_rtkit_helper
-spmi_apple_controller aop apple_wdt mfd_core nvmem_apple_efuses
-pinctrl_apple_gpio apple_isp apple_dcp videobuf2_dma_sg mux_core
-spi_apple
-[   38.203300]  videobuf2_memops i2c_pasemi_platform snd_soc_apple_mca videobuf2_v4l2 videodev clk_apple_nco videobuf2_common snd_pcm_dmaengine adpdrm asahi apple_admac adpdrm_mipi drm_dma_helper pwm_apple i2c_pasemi_core drm_display_helper mc cec apple_dart ofpart apple_soc_cpufreq leds_pwm phram
-[   38.217677] CPU: 7 UID: 1000 PID: 2362 Comm: gst-launch-1.0 Tainted: G        W           6.17.6+ #asahi-dev PREEMPT(full)
-[   38.219040] Tainted: [W]=WARN
-[   38.219398] Hardware name: Apple MacBook Pro (13-inch, M2, 2022) (DT)
-[   38.220213] pstate: 21400005 (nzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-[   38.221088] pc : drm_gem_mmap_obj+0x1f8/0x210
-[   38.221643] lr : drm_gem_mmap_obj+0x78/0x210
-[   38.222178] sp : ffffc0008dc678e0
-[   38.222579] x29: ffffc0008dc678e0 x28: 0000000000042a97 x27: ffff8000b701b480
-[   38.223465] x26: 00000000000000fb x25: ffffc0008dc67d20 x24: ffffc0008dc67968
-[   38.224402] x23: ffff8000e3ca5600 x22: ffff8000265b7800 x21: ffff80003000c0c0
-[   38.225279] x20: 0000000000000000 x19: ffff8000b68c5200 x18: ffffc0008dc67968
-[   38.226151] x17: 0000000000000000 x16: 0000000000000000 x15: ffffc000810a30a8
-[   38.227042] x14: 00007fff637effff x13: 00005555de91ffff x12: 00007fff63293fff
-[   38.227942] x11: 0000000000000000 x10: ffff8000184ecf08 x9 : ffffc0007a1900c8
-[   38.228824] x8 : ffffc0008dc67968 x7 : 0000000000000012 x6 : ffffc0015cf1c000
-[   38.229703] x5 : ffffc0008dc676a0 x4 : ffffc00081a27dc0 x3 : 0000000000000038
-[   38.230607] x2 : 0000000000000003 x1 : 0000000000000003 x0 : 00000000100000fb
-[   38.231488] Call trace:
-[   38.231806]  drm_gem_mmap_obj+0x1f8/0x210 (P)
-[   38.232342]  drm_gem_mmap+0x140/0x260
-[   38.232813]  __mmap_region+0x488/0x9a0
-[   38.233277]  mmap_region+0xd0/0x148
-[   38.233703]  do_mmap+0x350/0x5c0
-[   38.234148]  vm_mmap_pgoff+0x14c/0x200
-[   38.234612]  ksys_mmap_pgoff+0x150/0x208
-[   38.235107]  __arm64_sys_mmap+0x34/0x50
-[   38.235611]  invoke_syscall+0x50/0x120
-[   38.236075]  el0_svc_common.constprop.0+0x48/0xf0
-[   38.236680]  do_el0_svc+0x24/0x38
-[   38.237113]  el0_svc+0x38/0x168
-[   38.237507]  el0t_64_sync_handler+0xa0/0xe8
-[   38.238034]  el0t_64_sync+0x198/0x1a0
-[   38.238491] ---[ end trace 0000000000000000 ]---
+HEAD commit:    ca4ee40bf13d Partly revert "drm/hyperv: Remove reference t..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15e5c722580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1ee062e17a57772f
+dashboard link: https://syzkaller.appspot.com/bug?extid=d37184d9d8cc34602616
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1403fe5a580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16d58652580000
 
-There were discussions in [1] at the end of 2023 that mmap() on imported
-dma-bufs should not be supported but as of v6.17 drm_gem_shmem_mmap() in
-drm_gem_shmem_helper.c still supports it.
-This might affect all gpu or accel drivers using drm_gem_shmem_mmap() or
-the wrapper drm_gem_shmem_object_mmap().
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/aa62e1942b0d/disk-ca4ee40b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6bec89136564/vmlinux-ca4ee40b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/ab4c41bad9dd/bzImage-ca4ee40b.xz
 
-[1] https://lore.kernel.org/dri-devel/bc7f7844-0aa3-4802-b203-69d58e8be2fa@linux.intel.com/
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+d37184d9d8cc34602616@syzkaller.appspotmail.com
 
-Cc: stable@vger.kernel.org
-Fixes: 5ba3f757f059 ("[media] v4l: videobuf2: add DMA scatter/gather allocator")
-Signed-off-by: Janne Grunau <j@jannau.net>
----
-included DRM maintainers due to warning triggered from DRM code.
----
- drivers/media/common/videobuf2/videobuf2-dma-sg.c | 1 +
- 1 file changed, 1 insertion(+)
+BUG: memory leak
+unreferenced object 0xffff88812b704d80 (size 192):
+  comm "kworker/0:10", pid 6154, jiffies 4294943581
+  hex dump (first 32 bytes):
+    00 01 00 00 00 00 ad de 22 01 00 00 00 00 ad de  ........".......
+    01 00 00 00 00 00 00 00 00 ec 21 04 81 88 ff ff  ..........!.....
+  backtrace (crc 5efd1503):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4464 [inline]
+    slab_alloc_node mm/slub.c:4788 [inline]
+    __kmalloc_cache_noprof+0x377/0x480 mm/slub.c:5292
+    kmalloc_noprof include/linux/slab.h:962 [inline]
+    kzalloc_noprof include/linux/slab.h:1204 [inline]
+    dvb_register_device+0x116/0xaa0 drivers/media/dvb-core/dvbdev.c:475
+    dvb_dmxdev_init+0x116/0x1d0 drivers/media/dvb-core/dmxdev.c:1425
+    dvb_usbv2_adapter_dvb_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:484 [inline]
+    dvb_usbv2_adapter_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:801 [inline]
+    dvb_usbv2_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:866 [inline]
+    dvb_usbv2_probe.cold+0xc63/0xfa9 drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:981
+    usb_probe_interface+0x246/0x540 drivers/usb/core/driver.c:396
+    call_driver_probe drivers/base/dd.c:583 [inline]
+    really_probe+0x12f/0x3a0 drivers/base/dd.c:661
+    __driver_probe_device+0xc7/0x160 drivers/base/dd.c:803
+    driver_probe_device+0x2a/0x120 drivers/base/dd.c:833
+    __device_attach_driver+0x10f/0x170 drivers/base/dd.c:961
+    bus_for_each_drv+0xd2/0x130 drivers/base/bus.c:500
+    __device_attach+0xf9/0x290 drivers/base/dd.c:1033
+    device_initial_probe+0x6f/0x80 drivers/base/dd.c:1088
+    bus_probe_device+0x3e/0xb0 drivers/base/bus.c:574
+    device_add+0x97c/0xc80 drivers/base/core.c:3689
+    usb_set_configuration+0x8f5/0xb80 drivers/usb/core/message.c:2210
+    usb_generic_driver_probe+0x73/0xb0 drivers/usb/core/generic.c:250
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-index b3bf2173c14e1b3bedb8ab0bd60c889a0b97cbe3..7c30731cb9a57bebb3cf418e627e7c9f09ba8642 100644
---- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-+++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-@@ -345,6 +345,7 @@ static int vb2_dma_sg_mmap(void *buf_priv, struct vm_area_struct *vma)
- 		return err;
- 	}
- 
-+	vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
- 	/*
- 	 * Use common vm_area operations to track buffer refcount.
- 	 */
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
+
 
 ---
-base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
-change-id: 20260215-media-vb2-dma-sg-0fa33fdafdde
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
