@@ -1,181 +1,184 @@
-Return-Path: <linux-media+bounces-52819-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52821-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2ydHIcCkkWmBlAEAu9opvQ
-	(envelope-from <linux-media+bounces-52819-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 11:49:36 +0100
+	id FeFIMaHBkWkimAEAu9opvQ
+	(envelope-from <linux-media+bounces-52821-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 13:52:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A7B13E81B
-	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 11:49:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AC613EB05
+	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 13:52:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E01D93002317
-	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 10:49:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1F88A3013D4A
+	for <lists+linux-media@lfdr.de>; Sun, 15 Feb 2026 12:52:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 648E42C031E;
-	Sun, 15 Feb 2026 10:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD8D52EF652;
+	Sun, 15 Feb 2026 12:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="oxa1CvWj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26A61F5858
-	for <linux-media@vger.kernel.org>; Sun, 15 Feb 2026 10:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B8325F994;
+	Sun, 15 Feb 2026 12:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771152570; cv=none; b=s+bEMo5Wq2PP1wo9cMfGgS+syU50lDTtkuCIN371xMbmPxbQAC+KrGkU1sxyHP6gAJPqoBQy0F54iH/wznW+XkVJBSjCj2Q1IitcpQnH+F1Xw0gI64PHTavMZSQkp4npEah3huJoLPVI77ZYosDfHVr60YGyPXpbr8rQ3mBnI0s=
+	t=1771159948; cv=none; b=fBzER4fioUF9tBYa0lCF8LJ4Ya/D0aSHc6JsCAI7BaScj7RD1dgbFpEStkpfDPY71lgVuAun02ldiibhRBYbzxSv3Zzb8oD8w3VQKUjPkecHmE6M6bEvfCEzAcbMvX4SsUoTNcHMzInOGj4O+AnBnm9Q4d4u3MDfVZpyvdimbPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771152570; c=relaxed/simple;
-	bh=25F/qOBvf2g2zcZ6dQ1NePM3WPV5zJH3ayE70WSf16g=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Isv1emToXFq1FQ/pl5P/frh7REjmkVIluJUngi6q10m00PIAG+wpUUH8jh5R0g8qCYrRlK4fYDK/QkYOswf5KLcsfRI7GwpIIhDFjHzrwhP1iAq5WGMS4R5Ikmhz4SznZbVHvG4XWtcm9UtHz7abxnSJ1KV2RIaxy2YRYD+I5mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7d4d4db1523so3603881a34.1
-        for <linux-media@vger.kernel.org>; Sun, 15 Feb 2026 02:49:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771152568; x=1771757368;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iwbd+4EH4LGgNmElxlS+yrXKVRdzkUNGTzwIjApnmgQ=;
-        b=CxVS/oH/94Jpabj8zfRYtKiVgI+g8dOkadiupFwwJTxgePk9UJZ2Gi8zIBhOrt8/rs
-         WIBf8UDcrARfrCAA08dL7QGpxDyMdR4HooAbFrm05AaYaCZjpvhPW6CfOSCT4LC5tkRM
-         WsQfbQFCQMivwbABoBkRJX6s53brxAQPSivDI4BVdwpTtYeT65Vy4XH0XSVrpxiZh2u5
-         WzaHikbKIqmkxRQ32Q1ezPCBbEFgyyl6vBjktd+PczrC5WGTcgjmUBcgQG2qwJe8wEVS
-         JTD7QyHAGfafNoI9B3MTkiYN1ZjydIDlb4fD16cMRfBGrpoOk/HRO6KI+GCt4R5cydO6
-         SgGg==
-X-Forwarded-Encrypted: i=1; AJvYcCWonr1gXrk9beQcSUfhcjmcn8ElNGYfJYA7AwS5gVRASxzus6JTSJPxWfbs16X4euld9kVh3uqSlIKdxA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP056MykDYgS1bRpvuMk4TLqETJM3FDUOW4fGimd0zstekHjoa
-	c/Qt4Y9EVdaepUYqy0eOTjOvqYW7niY37iRdql0tBW+WpazrSV5k+2Bl2feod6grWt3RMeXijlt
-	tEpcXfOmPJst/pholHnA0VBeUtONUMDw0dzYHkiyqtdP/QwYTeHvU78p+AeE=
+	s=arc-20240116; t=1771159948; c=relaxed/simple;
+	bh=tPMix/9jLeEqK/ww+R1Oh1liAcTvpO+ypc+rzcf5+JY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H4IwuWrKvQFjkjbk3GvNgtrFDrcAoqoRdK8KfmgUVgfjr00ZzDxmZ4l01XyckerBqssFhqbJcPUg3xnG6nzCRP8KxSvZAUQWoIze9OXC809FMo1TH3M+154N8ufZXsA1bvk06o6Jsjav7uj/J456sI0PatGyLiNqeA27I3lEzcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=oxa1CvWj; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [IPV6:2a02:f000:10bd:e301::1d7] (unknown [IPv6:2a02:f000:10bd:e301::1d7])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id DE68953400FD;
+	Sun, 15 Feb 2026 13:46:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1771159608;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=k5kdRZsLo7w5ra9x8SYPGeVMpT3ZjMRYI9kfh9A6omI=;
+	b=oxa1CvWjIiy5sqhU40bh2yshiXd2dk6rrSJazSSG9KiP2FGxravAgYcGtqdWIOF4v6sk9z
+	Yp0FLz5H8u0R3lsRP4OoWS3AUbDIVGo18niw1ZAGRPr+OnFUJQ47705sqUrkOyVG8FvJ4N
+	KjkJnF1P6KBBOXIkLesZnEn5fZFT6Sw=
+Message-ID: <35d488f6-116e-4840-825e-934eeb0021cc@ixit.cz>
+Date: Sun, 15 Feb 2026 13:46:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:f023:b0:65f:6628:94fc with SMTP id
- 006d021491bc7-6785bb6765amr2633117eaf.63.1771152567785; Sun, 15 Feb 2026
- 02:49:27 -0800 (PST)
-Date: Sun, 15 Feb 2026 02:49:27 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6991a4b7.a70a0220.2c38d7.00dd.GAE@google.com>
-Subject: [syzbot] [media?] KMSAN: uninit-value in vidtv_ts_null_write_into
-From: syzbot <syzbot+96f901260a0b2d29cd1a@syzkaller.appspotmail.com>
-To: dwlsalmeida@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] media: qcom: camss: Add SM6350 support
+To: Luca Weiss <luca.weiss@fairphone.com>, Bryan O'Donoghue <bod@kernel.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260213-sm6350-camss-v3-0-30a845b0b7cc@fairphone.com>
+ <20260213-sm6350-camss-v3-2-30a845b0b7cc@fairphone.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20260213-sm6350-camss-v3-2-30a845b0b7cc@fairphone.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.36 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=50148b563a4d5941];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
+	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52819-lists,linux-media=lfdr.de,96f901260a0b2d29cd1a];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,kernel.org,googlegroups.com];
-	MISSING_XM_UA(0.00)[];
-	SUBJECT_HAS_QUESTION(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[fairphone.com,kernel.org,gmail.com,linaro.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52821-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	R_DKIM_NA(0.00)[];
-	REDIRECTOR_URL(0.00)[goo.gl];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[storage.googleapis.com:url,goo.gl:url,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 11A7B13E81B
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ixit.cz:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ixit.cz:mid,ixit.cz:dkim]
+X-Rspamd-Queue-Id: 24AC613EB05
 X-Rspamd-Action: no action
 
-Hello,
+On 13/02/2026 14:15, Luca Weiss wrote:
+> Add the necessary support for CAMSS on the SM6350 SoC.
+> 
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 125 ++++++++++
+>   drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
+>   drivers/media/platform/qcom/camss/camss.c          | 261 +++++++++++++++++++++
+>   drivers/media/platform/qcom/camss/camss.h          |   1 +
+>   4 files changed, 389 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index 415483274552..2b0c21c90e30 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -399,6 +399,126 @@ csiphy_lane_regs lane_regs_sm8250[] = {
+>   	{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>   };
+>   
+> +/* GEN2 1.2.3 2PH */
+> +static const struct
+> +csiphy_lane_regs lane_regs_sm6350[] = {
+> +	{0x0030, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0904, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0910, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0900, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
 
-syzbot found the following issue on:
+hex numbers should be lowercase I've been told, otherwise LGTM :)
 
-HEAD commit:    cd7a5651db26 alpha: add missing address argument in call t..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=125b62aa580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=50148b563a4d5941
-dashboard link: https://syzkaller.appspot.com/bug?extid=96f901260a0b2d29cd1a
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13e5a6e6580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=172c7e5a580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/23c623fcb1bf/disk-cd7a5651.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5128bb44f38d/vmlinux-cd7a5651.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a65d6b263e08/bzImage-cd7a5651.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+96f901260a0b2d29cd1a@syzkaller.appspotmail.com
-
-=====================================================
-BUG: KMSAN: uninit-value in vidtv_ts_null_write_into+0x43e/0x5c0 drivers/media/test-drivers/vidtv/vidtv_ts.c:62
- vidtv_ts_null_write_into+0x43e/0x5c0 drivers/media/test-drivers/vidtv/vidtv_ts.c:62
- vidtv_mux_pad_with_nulls drivers/media/test-drivers/vidtv/vidtv_mux.c:366 [inline]
- vidtv_mux_tick+0x34b7/0x3e40 drivers/media/test-drivers/vidtv/vidtv_mux.c:411
- process_one_work kernel/workqueue.c:3275 [inline]
- process_scheduled_works+0xae7/0x1d60 kernel/workqueue.c:3358
- worker_thread+0xede/0x1580 kernel/workqueue.c:3439
- kthread+0x53f/0x600 kernel/kthread.c:467
- ret_from_fork+0x20f/0x910 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Uninit was stored to memory at:
- vidtv_ts_null_write_into+0x437/0x5c0 drivers/media/test-drivers/vidtv/vidtv_ts.c:64
- vidtv_mux_pad_with_nulls drivers/media/test-drivers/vidtv/vidtv_mux.c:366 [inline]
- vidtv_mux_tick+0x34b7/0x3e40 drivers/media/test-drivers/vidtv/vidtv_mux.c:411
- process_one_work kernel/workqueue.c:3275 [inline]
- process_scheduled_works+0xae7/0x1d60 kernel/workqueue.c:3358
- worker_thread+0xede/0x1580 kernel/workqueue.c:3439
- kthread+0x53f/0x600 kernel/kthread.c:467
- ret_from_fork+0x20f/0x910 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Local variable args.i134 created at:
- vidtv_mux_pad_with_nulls drivers/media/test-drivers/vidtv/vidtv_mux.c:351 [inline]
- vidtv_mux_tick+0x3150/0x3e40 drivers/media/test-drivers/vidtv/vidtv_mux.c:411
- process_one_work kernel/workqueue.c:3275 [inline]
- process_scheduled_works+0xae7/0x1d60 kernel/workqueue.c:3358
-
-CPU: 1 UID: 0 PID: 30 Comm: kworker/1:1 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2026
-Workqueue: events vidtv_mux_tick
-=====================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+David
 
