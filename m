@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-52867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52869-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KBjsFJ4Nk2nw1AEAu9opvQ
-	(envelope-from <linux-media+bounces-52867-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 13:29:18 +0100
+	id +NsxJ6INk2nw1AEAu9opvQ
+	(envelope-from <linux-media+bounces-52869-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 13:29:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A346414356D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 13:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB3914357D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 13:29:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2717A302DB5F
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7F0D8303207E
 	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 12:28:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAE6930EF65;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B503430EF6F;
 	Mon, 16 Feb 2026 12:28:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kX78jiPh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="auiVmCFm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177B130CD82;
-	Mon, 16 Feb 2026 12:28:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294CA30E0C0;
+	Mon, 16 Feb 2026 12:28:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771244930; cv=none; b=Tv+pTg1K5NFwDwZEm8LZeSBamEDMFTO+u1SlDZzW2laLhGRX0IW3nrg4S5uaOIGLaRW8Dp3/kIthwWqaL3eIvdwEchO3VOvVXw4mfbZzugt889XyGOe3hi74BNuzM9o7uuboO1m0GTP30Xk4K9k+u+v6ZJy5HE06JOolQ/nwgrg=
+	t=1771244930; cv=none; b=b7OXB59wKUnPCz25DSOSLqMlKf0qtkeqGguyN5D1BJdmzsm8rtCenBFBOEAMzfVhsZnVWbcL4fxxkg5c/Fs1hYrScI1rmm+ST4rbMxnNnWc5Tvik5UUv575mMBs8RbFUv8MArjqZqSdVEJ8GpoQuZC7/8dUw2hVt9okPbyi/e20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771244930; c=relaxed/simple;
-	bh=ZZUX9p6IOXZgUk7kYidtxF0lYrWErz/TC16nwHKCul4=;
+	bh=sJEgQivnScC/y69GSX7R+WB6QtVAFvGURYCnsoCXlJE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=S4cVxfJ+IqPKgpRpX9rFHIEb/HzKR0HSQbbk5jcK9iWrlgqAEH2/1gcSAuvWenPKKARvKziHsYWTsHuN/z2Mp/INZVs/a7YFghEBbuxp5YBpNacvYiE1aMDyAYpm9NxrX2SRdg43TzSCw/6kBpgSLc7xHUuu0/4L4F/5Kkgx7ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kX78jiPh; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C6EA2C19424;
+	 In-Reply-To:To:Cc; b=SD84E9njx7vOmlMYu6dvcSi8U45/wj7Hiiki/YKUSZuFP+B3VUJECG6bYHOyo9k8YTalURI1tyrpkZvwn9jAQRySjgM0RBk6Bxx6xla4chC9Vd5M1xRutj1wUB1Flf8ObqdSMePzFgnY8s+9YMvbb71j0DdzE8bKWggxYMrDkx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=auiVmCFm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D6432C2BC87;
 	Mon, 16 Feb 2026 12:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1771244929;
-	bh=ZZUX9p6IOXZgUk7kYidtxF0lYrWErz/TC16nwHKCul4=;
+	bh=sJEgQivnScC/y69GSX7R+WB6QtVAFvGURYCnsoCXlJE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=kX78jiPhTkQKZYYC2Gbk287ciXXi+wOLY129/Tid7HPF6H/qbA0Qn6qygSamRARJz
-	 DSSLEtftPOIQzJ2PN3+yDGki74LwX2YJ2R438rkfz9/K56I7tieGWVsWIYBIw3HKW6
-	 ExE9adosDiP0RdPa+JDWzgnWG0xPWT0ZOjzdN3iSYyqVBMM7ik8HJts2uydRb2dOUF
-	 T8UZkiQDY69udMo7JGqGr+kRpBN8JpUNp0fycwT8o1r/f/jrZCECQNtJ5nYLphURSD
-	 lEYmsjA6UtptoUf7fcCEwT4YB2LWPRmpfmsTlo/NqfDFZGyi9MYoPef5dECn56JyQ3
-	 L6Pphk5mFuf5Q==
+	b=auiVmCFm58yL8UsjaRxgBMyEzib0PpiNAwwWSyBn7jLXUjaT54yCPZDs+LmZZL0/x
+	 uWRPj20RuqAM4voF7C+LcthxyVTknKPpHq9EOy4vmuOElayySgym4h8YEJdjHA4LpC
+	 dvwy4aC4pu0NZ2iWkV9oaZaUj/vfI4IykI743SfBn0N/N9VwyFnu5rWkJFpm0CbAsM
+	 9+RGg9SOVVAkEFEv/dypAqiUFQpNuLljbxrsPqC4tR08C+AwdiSmo+JlS4IEmIfSlE
+	 E7aBYdp00EDpPP0kvw7poLYXOBOgfA3vZo9Nk42L39lnVLKMgFxak5wqXXNhAly/qP
+	 U2nNNQ7U1kpvw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A8BE7BDA9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7BA8E7BDAF;
 	Mon, 16 Feb 2026 12:28:49 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Mon, 16 Feb 2026 13:28:47 +0100
-Subject: [PATCH 1/2] media: synopsys: csi2rx: fix out-of-bounds check for
- formats array
+Date: Mon, 16 Feb 2026 13:28:48 +0100
+Subject: [PATCH 2/2] media: synopsys: csi2rx: add missing kconfig
+ dependency
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260216-snps-csi2rx-v1-1-747bc7408f87@collabora.com>
+Message-Id: <20260216-snps-csi2rx-v1-2-747bc7408f87@collabora.com>
 References: <20260216-snps-csi2rx-v1-0-747bc7408f87@collabora.com>
 In-Reply-To: <20260216-snps-csi2rx-v1-0-747bc7408f87@collabora.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -70,13 +70,14 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Collabora Kernel Team <kernel@collabora.com>, 
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@kernel.org, Michael Riesch <michael.riesch@collabora.com>
+ stable@kernel.org, Michael Riesch <michael.riesch@collabora.com>, 
+ kernel test robot <lkp@intel.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771244928; l=989;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771244928; l=1083;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=VteqfxDD/ymX3hwze8jlu6vilo9kqUzwk/5uLNi6ndw=;
- b=8D3CCwTA9LPe0iN54HoRh3Q7IW8Bi2aUBpaxDlFGRVU/CUvLLJ0T1+PKX4kSSFM0dfT8ev2lE
- AlTZOfw90GICUpaDA3y6R8EFiHtpH0ligqLkYMdjfm/2C3V0w7bENOY
+ bh=bgY+jc+2uqZDs40Q2hJUGLpFX/0F5uA7sZoal/DHrPA=;
+ b=XS5jme6dD3eNof6m0qsSTKtUXpLB/FM0/lx+lwRfop0lsPEn64qyAdqK+gQJcufWjxOcdujAr
+ YtMBQpFUBpwAqxw8RNOO11N41nbhmgj6JUVBnCra+AvEWstQpiUYQhE
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -84,61 +85,63 @@ X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
 X-Original-From: Michael Riesch <michael.riesch@collabora.com>
 Reply-To: michael.riesch@collabora.com
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52867-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
+	TAGGED_FROM(0.00)[bounces-52869-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A346414356D
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2AB3914357D
 X-Rspamd-Action: no action
 
 From: Michael Riesch <michael.riesch@collabora.com>
 
-The out-of-bounds check for the format array is off by one. Fix the
-check.
+Fix "ERROR: modpost: "phy_mipi_dphy_get_default_config_for_hsclk"
+[drivers/media/platform/synopsys/dw-mipi-csi2rx.ko] undefined!" by
+selecting GENERIC_PHY_MIPI_DPHY in the Kconfig entry.
 
 Fixes: 355a11004066 ("media: synopsys: add driver for the designware mipi csi-2 receiver")
 Cc: stable@kernel.org
-Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202602130253.BZnVd4jh-lkp@intel.com/
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- drivers/media/platform/synopsys/dw-mipi-csi2rx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/synopsys/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-index 170346ae1a59..4d96171a650b 100644
---- a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-+++ b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-@@ -301,7 +301,7 @@ dw_mipi_csi2rx_enum_mbus_code(struct v4l2_subdev *sd,
- 
- 		return 0;
- 	case DW_MIPI_CSI2RX_PAD_SINK:
--		if (code->index > csi2->formats_num)
-+		if (code->index >= csi2->formats_num)
- 			return -EINVAL;
- 
- 		code->code = csi2->formats[code->index].code;
+diff --git a/drivers/media/platform/synopsys/Kconfig b/drivers/media/platform/synopsys/Kconfig
+index e798ec00b189..bf2ac092fbb3 100644
+--- a/drivers/media/platform/synopsys/Kconfig
++++ b/drivers/media/platform/synopsys/Kconfig
+@@ -7,6 +7,7 @@ config VIDEO_DW_MIPI_CSI2RX
+ 	depends on VIDEO_DEV
+ 	depends on V4L_PLATFORM_DRIVERS
+ 	depends on PM && COMMON_CLK
++	select GENERIC_PHY_MIPI_DPHY
+ 	select MEDIA_CONTROLLER
+ 	select V4L2_FWNODE
+ 	select VIDEO_V4L2_SUBDEV_API
 
 -- 
 2.39.5
