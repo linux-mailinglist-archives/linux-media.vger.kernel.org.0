@@ -1,151 +1,214 @@
-Return-Path: <linux-media+bounces-52907-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52908-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EIwCKh41k2mg2gEAu9opvQ
-	(envelope-from <linux-media+bounces-52907-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:17:50 +0100
+	id WB1kEjw1k2mg2gEAu9opvQ
+	(envelope-from <linux-media+bounces-52908-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:18:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF60145589
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32061455CE
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:18:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EF9C4304178E
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:09:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1D3F230B243D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0544F315D40;
-	Mon, 16 Feb 2026 15:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B88C3019D9;
+	Mon, 16 Feb 2026 15:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r2tUvp8C"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dzkqb9ha"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57751316190;
-	Mon, 16 Feb 2026 15:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8ACC2505AA;
+	Mon, 16 Feb 2026 15:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771254569; cv=none; b=Y+jXMdt7yrBs8b5yE/MT5roJtl1AuL8IhaPLUw0PlLLVeGHc9EQr+wmipnkzUskN37pms6x1xrcecV+SV46CSREmViHwGsVH+5FoIl4dOPu3A1fLYW9eJkWTVjWklz+NDvia6MKTSivJIA6kKA41u2/qQLyPie3nUMGnJxYZs40=
+	t=1771254615; cv=none; b=CwXUxpdhtr2yvNJ7rqdxWoOrpFEXFR/goZrq+/JR+MYdomZggqunhEDjPTlYn3SGqj2CbN39qqdkDpyJ8w7rMMvsg3ghPBpRi/uABhXusrinb6r60gTQ9Dh8dtzsOJYJob+rBZBAvi1/8Lsjr2V4FCAjFg/3Ps+CFd2iSdV0GC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771254569; c=relaxed/simple;
-	bh=cMjK8guRa1D0nHUMlioDilLRCYWoazq1GS4/ddoABCs=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=uDdE7agIOywAca58y4WR/wAYK1XGKvchPLiaJ2pdrW6sLk7XLlVQRUkt0qstiXOv2XwU0ZFpqkKvsbn4jf1hiAVCtMZkAR4ic3CxYh6i87z3WPV1tZMoq/eutrvrLARpAWTghEzMdxQTYbDmjhTT9XD+ko0mo31YnBp4DqEMfcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=r2tUvp8C; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:6452:b7eb:ea26:c129:40a5])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC93F250;
-	Mon, 16 Feb 2026 16:08:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1771254516;
-	bh=cMjK8guRa1D0nHUMlioDilLRCYWoazq1GS4/ddoABCs=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=r2tUvp8Cn38WuXhbb48271zq+boz/3ZC2jSHg38L4XMg8mqg5Dv/ZyKeWICo1+EvF
-	 UmRv6HBkz2wf7EEA1wmE+bKuRkkfv7769meXMaHUpKnpx3KCoFuDzqcErvHWDzoL9A
-	 UlgEV4OY+5suIsq9Rpa5y0WQzW9uTe3FN74qb65c=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1771254615; c=relaxed/simple;
+	bh=PUweeCUH60125T8ScaJwvVCmsOWOZrHPj5UmkoPC0Go=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Grlym9iSP6ybrfF7V6KaS/xPSfLftO5DGruIj4i9zvXC0TJ57oJxYgmZXZrknp5X8Ml0eErJv0RYthl5QO2zSIe6FaCoJdpwEOzaXOgDuEuFZjQ7fvJNJb1OSckDmMq4DZ8rkAgOBGD7C2/G9CaIYNCWHrHhnJlnI/vXfaCFtMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dzkqb9ha; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA8BBC116C6;
+	Mon, 16 Feb 2026 15:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771254615;
+	bh=PUweeCUH60125T8ScaJwvVCmsOWOZrHPj5UmkoPC0Go=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dzkqb9hayVH/V1Q/F2im8HKVJmcis0ytaGSjVOhb/TVYnDuMb8gs8PdDHpaC8XNPp
+	 TsgsbWBbdOwihe6yHAng8+sq2ZCg8op/JWFvWsz+/TxGdCnYAd3rzovVXEHeV9a398
+	 d/PEB9HI/Q3xFHxjqpXHOYCAtnUJ7I4wxYHcqLnjsZdh56mqHkXX5ALkFgXqUE8Iiq
+	 cs+1+73ONN6nmn3iczsrIX+967XA5OUapJhPVXAW1JZq+uJ/gytTVGKwIjaZwj/rzK
+	 zIml24L4iVHKdLRoXfAcM6rRJS9keO+GzHMHVsdutIch207Mtb0IU/ghSq4QpYtU2T
+	 Jcf0oNmEH9t4w==
+Message-ID: <24443e02-886e-48e2-911e-e4093d251155@kernel.org>
+Date: Mon, 16 Feb 2026 16:10:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260213-mainline-imx283-v2-v2-21-be40a3770ebf@ideasonboard.com>
-References: <20260213-mainline-imx283-v2-v2-0-be40a3770ebf@ideasonboard.com> <20260213-mainline-imx283-v2-v2-21-be40a3770ebf@ideasonboard.com>
-Subject: Re: [PATCH v2 21/25] media: i2c: imx283: Provide an effective pixel array mode
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Hans Verkuil <hverkuil@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Umang Jain <uajain@igalia.com>
-Date: Mon, 16 Feb 2026 20:39:21 +0530
-Message-ID: <177125456185.14753.11092135084716047928@freya>
-User-Agent: alot/0.13.dev20+g31692a239
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/13] dt-bindings: serial: fsl-linflexuart: add clock
+ input properties
+To: Larisa Grigore <larisa.grigore@oss.nxp.com>, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ chester62515@gmail.com, cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
+ stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com
+Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com, aruizrui@redhat.com,
+ eballetb@redhat.com, echanude@redhat.com, jkangas@redhat.com,
+ Radu Pirea <radu-nicolae.pirea@nxp.com>
+References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
+ <20260216150205.212318-9-larisa.grigore@oss.nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260216150205.212318-9-larisa.grigore@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-52908-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52907-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 5FF60145589
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[401c8000:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email]
+X-Rspamd-Queue-Id: B32061455CE
 X-Rspamd-Action: no action
 
-Quoting Kieran Bingham (2026-02-13 19:32:00)
-> Provide a mode that includes all effective pixels which includes a 12
-> pixel margin for colour processing on all edges.
->=20
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+On 16/02/2026 16:02, Larisa Grigore wrote:
+> From: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> 
+> Add optional support for the two clock inputs used by the LINFlexD UART
+> controller:
+> - "lin": LIN_BAUD_CLK
+> - "ipg": LINFLEXD_CLK
+> 
+> The clock inputs are kept optional to maintain compatibility with the
+> S32V234 platform.
 
-Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
+Does S32V234 have the clocks? I don't understand the "maintain
+compatibility" in this context. Either you have or you have not clocks,
+which should be expressed in schema (: false, see example schema).
 
+> 
+> Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> Co-developed-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
+> Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
 > ---
->  drivers/media/i2c/imx283.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->=20
-> diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
-> index d001bfb5e241..75a35d9db05d 100644
-> --- a/drivers/media/i2c/imx283.c
-> +++ b/drivers/media/i2c/imx283.c
-> @@ -183,6 +183,13 @@ static const struct v4l2_rect imx283_native_area =3D=
- {
->         .height =3D 3710,
->  };
-> =20
-> +static const struct v4l2_rect imx283_effective_area =3D {
-> +       .top =3D 16 + 12, /* Clamp + Ignored area*/
-> +       .left =3D 96,
-> +       .width =3D 5496,
-> +       .height =3D 3672,
-> +};
+>  .../bindings/serial/fsl,s32-linflexuart.yaml   | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/serial/fsl,s32-linflexuart.yaml b/Documentation/devicetree/bindings/serial/fsl,s32-linflexuart.yaml
+> index 4171f524a928..885f0b1b3492 100644
+> --- a/Documentation/devicetree/bindings/serial/fsl,s32-linflexuart.yaml
+> +++ b/Documentation/devicetree/bindings/serial/fsl,s32-linflexuart.yaml
+> @@ -34,6 +34,14 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> +  clocks:
+> +    maxItems: 2
 > +
->  static const struct v4l2_rect imx283_active_area =3D {
->         .top =3D 16,
->         .left =3D 96,
-> @@ -538,6 +545,21 @@ static const struct imx283_mode supported_modes_12bi=
-t[] =3D {
-> =20
->                 .crop =3D imx283_active_area,
->         },
-> +       {
-> +               /* Effective Pixel Mode : 5496x3672 */
-> +               .scan =3D &imx283_scan_modes[IMX283_MODE_0],
+> +  clock-names:
+> +    items:
+> +      - const: lin
+> +      - const: ipg
 > +
-> +               .width =3D 5496,
-> +               .height =3D 3672,
-> +               .min_hmax =3D 5914, /* 887 @ 480MHz/72MHz */
-> +               .min_vmax =3D 3793, /* Lines */
+>  required:
+>    - compatible
+>    - reg
+> @@ -48,3 +56,13 @@ examples:
+>          reg = <0x40053000 0x1000>;
+>          interrupts = <0 59 4>;
+>      };
 > +
-> +               /* 20.00 FPS */
-> +               .default_hmax =3D 6000, /* 900 @ 480MHz/72MHz */
-> +               .default_vmax =3D 4000,
-> +
-> +               .crop =3D imx283_effective_area,
-> +       },
->         {
->                 /* 20MPix 21.40 fps readout mode 0 */
->                 .scan =3D &imx283_scan_modes[IMX283_MODE_0],
->=20
-> --=20
-> 2.52.0
->
+> +  - |
+> +    serial@401c8000 {
+> +        compatible = "nxp,s32g2-linflexuart",
+> +                     "fsl,s32v234-linflexuart";
+> +        reg = <0x401C8000 0x3000>;
+> +        interrupts = <0 82 1>;
+> +        clocks = <&clks 14>, <&clks 13>;
+> +        clock-names = "lin", "ipg";
+
+Just add the clocks to existing example. No need for new example for
+each new property.
+
+> +    };
+
+
+Best regards,
+Krzysztof
 
