@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-52909-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52910-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kMILBnE1k2mV2gEAu9opvQ
-	(envelope-from <linux-media+bounces-52909-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:19:13 +0100
+	id uIHAN6kzk2lx2gEAu9opvQ
+	(envelope-from <linux-media+bounces-52910-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:11:37 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99888145635
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:19:12 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B34D8145323
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:11:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 981263044341
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:10:56 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7E9FA3000B3C
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:11:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD067316193;
-	Mon, 16 Feb 2026 15:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC4F315D58;
+	Mon, 16 Feb 2026 15:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMougBDf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftkfm0nK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB9D313547;
-	Mon, 16 Feb 2026 15:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7305E314A6F;
+	Mon, 16 Feb 2026 15:11:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771254652; cv=none; b=id/AG2pKUBPUpV12K4TznE1GcEFnzVZrItgDtLMNXd7sX09i9v0NvoJ2B6ja6tAjKensChribRZFrVUZGyyelce/QsTSeic/xMy3aun9OCQvQnhGsFUlLa0+vq4B+qZIih6k2XTSmKwTokS3H5souOCtWhnU4E6sHM7obClbors=
+	t=1771254689; cv=none; b=k40FeKRYOgrT8wfTSEYy2/hUDx3NIKtpVe3rkrZARfCMVys1w7ID8jeFz9w+okGU8A2czfEd+wsCOyXuN0OiXRifEn9omCw/CzHO6Ar064XD0GBJ/esG71jVLCdK1NGyczUa48zCrk4qmCjGS4WAX2Hdmck9WFDX37UuQfXhqr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771254652; c=relaxed/simple;
-	bh=OlztcMC0eVRsKXKtyYoyiNyW7I1vqat7vjnVFJhepxI=;
+	s=arc-20240116; t=1771254689; c=relaxed/simple;
+	bh=PN7JuZ0MWYp3x4UY+Sr1aCCdlWCIA2xS8o7MwthqdS4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mCWNTVuyGJn0euGg1GdbEQDraUq/LCcZ7dhmzqGx5LRbw8ooQWLtzLJnWX+ih7UAovXlNZ8KKQXBLiP8Cg2b6bDOPL0ZSUzcv9panUev0HRB2EfDlpH8637l2d3l5fHnbbmx1jBdY9WcnkriH5EIV3T5DRCC0ZJMTDpNCkTDKVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMougBDf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D96C116C6;
-	Mon, 16 Feb 2026 15:10:45 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=elrFaM9QGleqCReuFYA0UZeB18xiqSZRjrQPXGRlOKXYpappzDi3KwFJ4zJa5Vlh6XorZ1uptjY1kxwpkLyu1WP2zDBw/pM6yZuJr51XZlLfR/2bCQH9t3eWViSkGoaFWXBmw5fbNoHyw1UsUDpv8TYs002uKbSGr471lUTN9HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftkfm0nK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E998BC116C6;
+	Mon, 16 Feb 2026 15:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771254652;
-	bh=OlztcMC0eVRsKXKtyYoyiNyW7I1vqat7vjnVFJhepxI=;
+	s=k20201202; t=1771254689;
+	bh=PN7JuZ0MWYp3x4UY+Sr1aCCdlWCIA2xS8o7MwthqdS4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DMougBDfE6VrLTrxM2AWjOhtP8+F1grSaI1X4D2sKDw3Of5Kf3b8avUVVlRp7V7oK
-	 9OEpDUA+L7o10PhpurjlVb+Owc9oOa4RgWORdb+LXVcZaET3jf774rLR42ZlpCP10D
-	 jVi2xX4/69h+hL4PTQj4aWz5JdF/aKusUwpWeO3/dqANDIYb2yaYRBLUfGRgcvlqB9
-	 8DVADzYVcrGZ9SuJazAgIMhLiMjuVQsWAJoYDpzkF8cV5QsWYxgaLWohITTnt5R5yH
-	 HnbwBo8/yFGjF26Hxjobj+v+cdKgpc6royeyFhlDFWaFPTWzZvGPt3ooRS45J8Zxco
-	 oHa0giLnZ71kg==
-Message-ID: <be18bbef-02f1-416b-ad2a-739261b3cd97@kernel.org>
-Date: Mon, 16 Feb 2026 16:10:44 +0100
+	b=ftkfm0nKVpL/WcEvY2rnmi2r3bcql47QcEn/8OiKR8fl4I2TH69w98jrxOjk3KZHD
+	 yZTvhKULXH1NcaHDTYEzix8vDE5I2cCJKJfJJY+0XBCGjGizx20gCz+VIaw1bSeCHX
+	 kL3rRUC5hU6TOhGd7YQ1AaL1BS6xWNRvmwD0kR/MCOeagu1YIygMyv1sg6K6b4+0vh
+	 +iqliDiYug2hH0mD6GEkDraPHrBUNx4+XOjKV95tdLJyHTjnHM1C6HkO+ShLMB+I/n
+	 P10aRKSryoLykGcRCnOyToXngRI4V0mKVWdG95hZoMLlLU6UcovjithuKuRrHUkeSb
+	 UaiaAwCTVZj9w==
+Message-ID: <3ca29f96-2b17-493f-a5f6-d770b6fa8530@kernel.org>
+Date: Mon, 16 Feb 2026 16:11:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,8 +53,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/13] dt-bindings: serial: fsl-linflexuart: add dma
- properties
+Subject: Re: [PATCH 12/13] serial: linflexuart: Add DMA support
 To: Larisa Grigore <larisa.grigore@oss.nxp.com>, gregkh@linuxfoundation.org,
  jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
@@ -65,9 +64,10 @@ Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
  s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com, aruizrui@redhat.com,
  eballetb@redhat.com, echanude@redhat.com, jkangas@redhat.com,
- Radu Pirea <radu-nicolae.pirea@nxp.com>
+ Radu Pirea <radu-nicolae.pirea@nxp.com>, Phu Luu An <phu.luuan@nxp.com>,
+ Js Ha <js.ha@nxp.com>, Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
 References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
- <20260216150205.212318-10-larisa.grigore@oss.nxp.com>
+ <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,7 +113,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260216150205.212318-10-larisa.grigore@oss.nxp.com>
+In-Reply-To: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -121,17 +121,17 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52909-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52910-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[27];
+	RCPT_COUNT_TWELVE(0.00)[30];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -142,29 +142,34 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email]
-X-Rspamd-Queue-Id: 99888145635
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B34D8145323
 X-Rspamd-Action: no action
 
 On 16/02/2026 16:02, Larisa Grigore wrote:
-> From: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> Add support for using DMA to avoid generating one interrupt per
+> character and losing characters while copy-paste.
+> In UART mode, the DMA capability can be used only if the UART Tx/Rx
+> buffers are configured as FIFOs.
+> If the DMA related properties are missing from the device tree, the
+> driver will fall back to interrupt + Buffer mode.
+> On the RX side, a timer is used to periodically poll for received data.
 > 
-> Add 'dmas' and 'dma-names' properties to describe optional DMA support
-> for RX and TX channels in the LINFlexD UART controller.
-
-Same question as in other patch about existing devices.
-
-> 
-> This allows the device tree to specify DMA channels used for UART data
-> transfers. If not specified, the driver will fall to interrupt-based
-> operations.
-> 
-> Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
-> Co-developed-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
 > Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
-> ---
+> Co-developed-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
+> Signed-off-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
+> Co-developed-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
+> Co-developed-by: Phu Luu An <phu.luuan@nxp.com>
+> Signed-off-by: Phu Luu An <phu.luuan@nxp.com>
+> Co-developed-by: Js Ha <js.ha@nxp.com>
+> Signed-off-by: Js Ha <js.ha@nxp.com>
+> Co-developed-by: Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
+> Signed-off-by: Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
 
+
+Incorrect DCO chain. Please read submitting patches document.
 
 Best regards,
 Krzysztof
