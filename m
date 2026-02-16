@@ -1,91 +1,104 @@
-Return-Path: <linux-media+bounces-52933-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52934-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sP/sHOiDk2k46AEAu9opvQ
-	(envelope-from <linux-media+bounces-52933-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 21:54:00 +0100
+	id 6E/BOLWIk2kI6QEAu9opvQ
+	(envelope-from <linux-media+bounces-52934-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 22:14:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA3E147949
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 21:53:59 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F2D147ACA
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 22:14:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5A8D8305F7DB
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 20:49:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9D2313031EB8
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 21:14:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6360D305045;
-	Mon, 16 Feb 2026 20:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 149D5331A41;
+	Mon, 16 Feb 2026 21:14:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcc2se07"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F32CNMqM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A390C329C5E;
-	Mon, 16 Feb 2026 20:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D112F6573
+	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 21:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771274979; cv=none; b=s5/GlP2gU4WDfnfY6KdE3eGhDv6zTd0sGXBro1k9JDYofH6FwO3LBUxdjODRm8sQe+NuHw0uSpBlvx0kHy/DEDi8pkwYGdSjh2zOgRKLIY2p4k/Uj2wSgp9a440xdznZI/hZF2Od/WIcDZtScXmL1vyUbY3qWGXzX02Jirrd0nI=
+	t=1771276463; cv=none; b=DxlS/ILPAiboAjkrrVxK5inNcc+FcwLpXdP6ouOnd2a8A315tmDorAtsGHjYvQF1qpGYCtUL9xkY2x/SYELZvrjWG3Go3S60jWgFKGAz62mfAI7YqEy/w4B1dFzqP0AatgJW9szaYbRtbxBQku5bmQesiDi+35XBUcA3pF9Fe1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771274979; c=relaxed/simple;
-	bh=kLdYIq6SYQsYCiukpbRLt9V5tJH5I16KOa7znlZAcK4=;
+	s=arc-20240116; t=1771276463; c=relaxed/simple;
+	bh=rFATaXovnCANT9zP8vL748dkGECcw/GX0kSikqtLKI4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R3MYqhLwrmreo9N1qeoKHNHu8KE3utqBesan83Oi3HxXjnhOt2/VIDQQYwm6mucTCXBrNJoYab+Y05zSSME5d3fAMaQs9umORQ+Fa1VZ0xMBCVJUsAo6tEOeRgz2+H9LJNoNEHBxXxR51+SXLQ4lq6FjVBbEGDp3dimTlQFva3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcc2se07; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=W6ZSEdmFfFU1AZeCLn62JYAsXlo51ufW0pWaaNNPiW2bmFTG/mWNl/j5On12dG3NjrdlchiNgSRreq9JKEaAHo1dMdEVu4WQzVW0Y0fO+/zIgjEJCVupYwR3pg7Rx6NOW9mVCBGH0+uuoocJldqeekrgo2neadyv2+4vBcGg8OA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F32CNMqM; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771274979; x=1802810979;
+  t=1771276461; x=1802812461;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kLdYIq6SYQsYCiukpbRLt9V5tJH5I16KOa7znlZAcK4=;
-  b=mcc2se077cPMsZ3HMSKLmIQrXrm/GoKZ2WJYAQxMct9QhNsBzokTBiUl
-   cctKPu37Aq2oWW8Zl4A6jPLAdVOKGb0lEhaVfVgC9iRmDFU9ObR9OTVlq
-   v6twpLtrAmoyb0126L+VEOI0oCIlmYKMhy8DK7fjh9g3B3ux4scITSkGZ
-   STHbCn3KL0XseDy6Yd//eD65opgmZZaNh0afPuhsWMSzwyqlSuby3LAMU
-   lz72tx2gOZPTWHa/XUQkXIs+iMDonrUeB+4yWSKQfh2UnO5J2SCnQVRAf
-   hP8TBfBQhG/3GCGIxyuK7hA7s6FFMXi2mwtFGp2UBlfOdzSyPFuwO1qQP
-   A==;
-X-CSE-ConnectionGUID: DyGhh7ZOQmmNZwboS+Halg==
-X-CSE-MsgGUID: kR/sS1BCSrizR8QR/G2T5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72399696"
+  bh=rFATaXovnCANT9zP8vL748dkGECcw/GX0kSikqtLKI4=;
+  b=F32CNMqMLhUzBp4pT140Ec6IbPv3z+MFw8QaCQwUgLhZpOejtBwz1uVt
+   01Q4CCdU0g4WMb2YtrWjqUXcMxW21BScqzrlyWznAIql4JS37mdCeAEgQ
+   7nF7UUcH5i2JkIDN84rQi9CruO/4AVKRFn2L7w2NP0NjfdMyQUspisSRB
+   plpPDFPyfb0i9bfe3cW096PJBADxwUbVb1/o+3Cm1KDA5o/2ft2ADqgN+
+   c7dLt7wIPidyK60zZB5xsVyVh4eeoN1r63C0QzSqnAz9210v3svgLHsuT
+   W9vRawZbRqm1xFrxNp+7/yF/ZAE/qlfdxQfLrm0eQ58eEnqzXiODh9C7o
+   Q==;
+X-CSE-ConnectionGUID: E83X9EhGStmfdtD3utqjeQ==
+X-CSE-MsgGUID: HM2+YnwLRESNupZDn+eHTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11703"; a="72450167"
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="72399696"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 12:49:38 -0800
-X-CSE-ConnectionGUID: nahu5ToeTQ2eopx+iuUz6g==
-X-CSE-MsgGUID: ogXU4/T0T/uV3GV2X23/Xw==
+   d="scan'208";a="72450167"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 13:14:20 -0800
+X-CSE-ConnectionGUID: K+GKMKTuQ9GbzHC3kNp8Og==
+X-CSE-MsgGUID: UoB95YQnRxGT9W/lrYXbrQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,294,1763452800"; 
-   d="scan'208";a="218232127"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Feb 2026 12:49:32 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vs5X8-000000010H2-0ZIN;
-	Mon, 16 Feb 2026 20:49:30 +0000
-Date: Tue, 17 Feb 2026 04:48:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Larisa Grigore <larisa.grigore@oss.nxp.com>, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, sumit.semwal@linaro.org,
-	christian.koenig@amd.com, chester62515@gmail.com,
-	cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
-	stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, s32@nxp.com, imx@lists.linux.dev,
-	clizzi@redhat.com, aruizrui@redhat.com, eballetb@redhat.com,
-	echanude@redhat.com, jkangas@redhat.com,
-	Larisa Grigore <larisa.grigore@oss.nxp.com>,
-	Radu Pirea <radu-nicolae.pirea@nxp.com>,
-	Phu Luu An <phu.luuan@nxp.com>, Js Ha <js.ha@nxp.com>,
-	Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
-Subject: Re: [PATCH 12/13] serial: linflexuart: Add DMA support
-Message-ID: <202602170428.SOCWu0Wb-lkp@intel.com>
-References: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
+   d="scan'208";a="212004129"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.46])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 13:14:15 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 443D6121D2E;
+	Mon, 16 Feb 2026 23:14:36 +0200 (EET)
+Date: Mon, 16 Feb 2026 23:14:36 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>
+Subject: Re: [PATCH v2 07/14] media: mc: Add MEDIA_LNK_FL_VALIDATE_LATE
+Message-ID: <aZOIvJE08ZdfBqdP@kekkonen.localdomain>
+References: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
+ <20260211090920.1851141-8-sakari.ailus@linux.intel.com>
+ <c0a52d14-7b62-40ef-ba59-ee715d635274@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,76 +107,197 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
+In-Reply-To: <c0a52d14-7b62-40ef-ba59-ee715d635274@nxp.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52933-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52934-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[29];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,apitzsch.eu,linux.intel.com,kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[32];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
 	RCVD_COUNT_FIVE(0.00)[6];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: DBA3E147949
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,kekkonen.localdomain:mid,intel.com:email,intel.com:dkim]
+X-Rspamd-Queue-Id: 16F2D147ACA
 X-Rspamd-Action: no action
 
-Hi Larisa,
+Hi Mirela,
 
-kernel test robot noticed the following build warnings:
+On Mon, Feb 16, 2026 at 03:19:26PM +0200, Mirela Rabulea wrote:
+> Hi Sakari,
+> 
+> On 2/11/26 11:09, Sakari Ailus wrote:
+> > Add MEDIA_LNK_FL_VALIDATE_LATE flag to support late validation of links.
+> > This is serving the use case where video devices are configured and
+> > started streaming indepenently of each other but this sequence may be run
+> > in series, in such a way that a video device in a pipeline starts
+> > streaming before another one is configured.
+> > 
+> > Before this flag, drivers have resorted to implementing the link
+> > validation separately for the video nodes as part of streaming start
+> > sequence.
+> > 
+> > media_pipeline_start() shall be called on each leaf entity connected to
+> > the graph with a link where MEDIA_LNK_FL_VALIDATE_LATE is set before
+> > uphardware operation.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >   .../media/mediactl/media-ioc-setup-link.rst   |  4 ++
+> >   .../media/mediactl/media-types.rst            |  5 ++
+> >   drivers/media/mc/mc-entity.c                  | 58 ++++++++++++++++++-
+> >   include/uapi/linux/media.h                    |  1 +
+> >   4 files changed, 66 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> > index 23208300cb61..7a9a43c71cde 100644
+> > --- a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> > +++ b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+> > @@ -49,6 +49,10 @@ Only links marked with the ``DYNAMIC`` link flag can be enabled/disabled
+> >   while streaming media data. Attempting to enable or disable a streaming
+> >   non-dynamic link will return an ``EBUSY`` error code.
+> > 
+> > +The ``VALIDATE_LATE`` flag is used to signal that the validation of the link may
+> > +be delayed until actual hardware operation even if the rest of the pipeline
+> > +would be validated at an earlier point of time.
+> > +
+> >   If the specified link can't be found the driver returns with an ``EINVAL``
+> >   error code.
+> > 
+> > diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > index 6332e8395263..d6a690655a01 100644
+> > --- a/Documentation/userspace-api/media/mediactl/media-types.rst
+> > +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
+> > @@ -391,6 +391,7 @@ must be set for every pad.
+> >   .. _MEDIA-LNK-FL-ENABLED:
+> >   .. _MEDIA-LNK-FL-IMMUTABLE:
+> >   .. _MEDIA-LNK-FL-DYNAMIC:
+> > +.. _MEDIA-LNK-FL-VALIDATE-LATE:
+> >   .. _MEDIA-LNK-FL-LINK-TYPE:
+> > 
+> >   .. flat-table:: Media link flags
+> > @@ -410,6 +411,10 @@ must be set for every pad.
+> >          -  The link enabled state can be modified during streaming. This flag
+> >            is set by drivers and is read-only for applications.
+> > 
+> > +    *  -  ``MEDIA_LNK_FL_VALIDATE_LATE``
+> > +       -  The validation of the link may be delayed up to until the start of
+> > +         hardware operation.
+> > +
+> >       *  -  ``MEDIA_LNK_FL_LINK_TYPE``
+> >          -  This is a bitmask that defines the type of the link. The following
+> >            link types are currently supported:
+> > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> > index ef959e9bb313..b29b519237d6 100644
+> > --- a/drivers/media/mc/mc-entity.c
+> > +++ b/drivers/media/mc/mc-entity.c
+> > @@ -772,7 +772,7 @@ static int
+> >   __media_pipeline_validate_one(struct media_pad *origin,
+> >                                struct media_pipeline *pipe,
+> >                                struct media_pad *pad, struct media_link *link,
+> > -                             bool *has_enabled_link)
+> > +                             bool *has_enabled_link, bool skip_validation)
+> >   {
+> >          struct media_device *mdev = origin->graph_obj.mdev;
+> >          struct media_entity *entity = pad->entity;
+> > @@ -782,6 +782,9 @@ __media_pipeline_validate_one(struct media_pad *origin,
+> >          if (link->flags & MEDIA_LNK_FL_ENABLED && has_enabled_link)
+> >                  *has_enabled_link = true;
+> > 
+> > +       if (skip_validation)
+> > +               return 0;
+> > +
+> >          /*
+> >           * Validate the link if it's enabled and has the
+> >           * current pad as its sink.
+> > @@ -833,7 +836,24 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
+> >           * valid, so just increase the start count.
+> The above comment is no longer accurate.
 
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus robh/for-next linus/master v6.19 next-20260216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I'll see how to reword this for v3.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Larisa-Grigore/serial-linflexuart-Fix-locking-in-set_termios/20260216-231403
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20260216150205.212318-13-larisa.grigore%40oss.nxp.com
-patch subject: [PATCH 12/13] serial: linflexuart: Add DMA support
-config: parisc-randconfig-001-20260217 (https://download.01.org/0day-ci/archive/20260217/202602170428.SOCWu0Wb-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260217/202602170428.SOCWu0Wb-lkp@intel.com/reproduce)
+> >           */
+> >          if (pipe->start_count) {
+> > +               struct media_link *link;
+> > +
+> > +               link = __media_entity_next_link(origin->entity, NULL,
+> > +                                               MEDIA_LNK_FL_DATA_LINK);
+> This __media_entity_next_link() will retrieve the first data link. Is this
+> guaranteed to be connected to origin pad? Is this intended, or is a check
+> for (link->source == origin || link->sink == origin) also necessary?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602170428.SOCWu0Wb-lkp@intel.com/
+I'd say so, when it comes to video nodes, but theoretically the flag could
+be set on other entities as well, albeit probably erroneously. I think we
+could add a check there's exacly one pad in the entity and that pad has a
+single link.
 
-All warnings (new ones prefixed by >>):
+> > +               if (link && link->flags & MEDIA_LNK_FL_VALIDATE_LATE) {
+> > +                       dev_dbg(mdev->dev,
+> > +                               "Validating pad '%s':%u late\n",
+> > +                               origin->entity->name, origin->index);
+> > +
+> > +                       ret = __media_pipeline_validate_one(link->sink, pipe,
+> > +                                                           link->sink, link,
+> > +                                                           NULL, false);
+> > +                       if (ret)
+> > +                               return ret;
+> > +               }
+> > +
+> >                  pipe->start_count++;
+> > +
+> >                  return 0;
+> >          }
+> > 
+> > @@ -881,9 +901,16 @@ __must_check int __media_pipeline_start(struct media_pad *origin,
+> >                          if (link->sink != pad && link->source != pad)
+> >                                  continue;
+> > 
+> > +                       /* Skip late-validated links not connected to origin. */
+> > +                       bool skip_validation =
+> 
+> Move skip_validation declaration at beginning of the block.
 
->> drivers/tty/serial/fsl_linflexuart.c:205:13: warning: 'linflex_console_putchar' declared 'static' but never defined [-Wunused-function]
-     205 | static void linflex_console_putchar(struct uart_port *port, unsigned char ch);
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
+I'd think it's fine to declare it here, too, but I can move it a few lines
+up as well.
 
-
-vim +205 drivers/tty/serial/fsl_linflexuart.c
-
-   202	
-   203	static void linflex_dma_tx_complete(void *arg);
-   204	static void linflex_dma_rx_complete(void *arg);
- > 205	static void linflex_console_putchar(struct uart_port *port, unsigned char ch);
-   206	
+> 
+> Regards,
+> 
+> Mirela
+> 
+> > +                               link->flags & MEDIA_LNK_FL_VALIDATE_LATE &&
+> > +                               (link->sink == origin ||
+> > +                                link->source == origin);
+> > +
+> >                          ret = __media_pipeline_validate_one(origin, pipe,
+> >                                                              origin, link,
+> > -                                                           &has_enabled_link);
+> > +                                                           &has_enabled_link,
+> > +                                                           skip_validation);
+> >                          if (ret)
+> >                                  goto error;
+> >                  }
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Sakari Ailus
 
