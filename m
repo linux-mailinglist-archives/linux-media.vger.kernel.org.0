@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-52917-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52918-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OEbnJh06k2mV2gEAu9opvQ
-	(envelope-from <linux-media+bounces-52917-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:39:09 +0100
+	id 8NzmCoU6k2mV2gEAu9opvQ
+	(envelope-from <linux-media+bounces-52918-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:40:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F5A145B32
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:39:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF01145B65
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:40:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A4F5E3057498
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:35:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2AA9D306C507
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:35:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0A231195B;
-	Mon, 16 Feb 2026 15:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C94331239;
+	Mon, 16 Feb 2026 15:35:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="PUJJQXcd"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="A5NZ/sf4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011031.outbound.protection.outlook.com [52.101.70.31])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013005.outbound.protection.outlook.com [52.101.83.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD62432694C
-	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 15:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4293331230
+	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 15:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.5
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771256127; cv=fail; b=cW1jfhOm8YZz9kG6KDaluBwYZyuMLdsbULAy0vrj5J3mW1XtEXeb2NAgk+ATEI+U4OQ1eqyAOOl4gSXk6lxMqw+zHBoNhVjLHMzbz6c4RjyqigAB9AV7M7H3rpeYoiKmaCfPrXODHVb9sgGsDYMOaW5Z0e4c0EzGrhJMZrO6qHk=
+	t=1771256156; cv=fail; b=JLa3SzLBRAViMefJIXHTkXmP6A0wFz2kIHNPjV6U9u/elIv45GPMMAeeXIFlOUfqqK/aGaL5uUSC7mc0goonVk8TWdOgO+atSVSmLwS0pBfF3rJz2gL7gQCWeKpvn8TH+5QhI1SCCNsvPl4+ofx1Yu+hStJmtWREuctIYm4LWq8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771256127; c=relaxed/simple;
-	bh=mh91f3quzlIrVQH2tgn8j5HZ75yu5QDUcsqnP0A7Ofs=;
+	s=arc-20240116; t=1771256156; c=relaxed/simple;
+	bh=OE2LZGHTLSZuI2Y/HGiJWFA0Idtr49NSdX6TlTP7ihA=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Q0OJoVj1kI7oEnWHAd4rSSiXgLqt8smwvFZB7YPEd/ftg6tUwO3sAnA0u+dv3QB9dGLCJ4pUyFo904tANJMnB4RydepS6+CuBzeuDQ1OGSLZEJPjEtC99hWqi7+4e+WZ+jndlzZHxNLULJiZXJWpQrNynqEHBf8H5XhQPfaZ5mw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=PUJJQXcd; arc=fail smtp.client-ip=52.101.70.31
+	 Content-Type:MIME-Version; b=OQHP7kyxTnUCpEX+NplXBltxqXTEsZN363TfJI+S3NoH32dCYxVfZKtTTDVhprTIukhbI2ezXi4bO3kW8PkBPGoGiN9vmmcuzcZQceN8j4R3P6n7dtJIE+qGqFsrYvGIfTn3FdyVl5X9upDYJIX5Azbl9yqdHyytLAZAOOgRoL8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=A5NZ/sf4; arc=fail smtp.client-ip=52.101.83.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wZD2eVwZSuXlAHshHyeCVyVjChCwGESXZcY1+Z6OmWDcfWdAcWcxKL0XurXgkqpgYVuSbdwLLmkNEhJUL1DRJgo7LqmZV8I3SyL8831EQOlsfqztmSg4sQZV2cA8g9KLKDZn+rvsVI3sq7xsFmuw0qN9fG1u0lL7HRVM23nnOotP9BJFTmZBk9SfzJm9fWIv2MfIRnqpaL/tcMUgWNbiM1d9D18/S7fWt9fMWioBkZHOWYg0Zc/O0QaFD07vTiF60ZfB96GY/cTqMefOAsTh4LMQsKHkUwvEk/TxgdGDVw8s1mIEhbZo/zqUe6JdwZW7pxVqwH2k237HRn1Ah8gg3A==
+ b=yeybpN01HpS7VLv9sQ7U5GclaHhhhsh5BmbzIJaGBWF/f4camV6iRERAzyJojCrwXbscUtaUcw+HwxITe10kv1LAXhW/hsz2XxJcNVIzODld8ozVUDe8zr6nUaP7LSZYhCn9yQfJ6xIMJyzFeWBAskj9C84eesEdSji11vbvBknPpdr08wqGpLdfw+zGqszIUGKc9hwa+aACLYsQv3jSK/P++uUT67nwXqgaCPFnBNeW0M9ce9eIEYGdPgt1IK4U7/Z+ca5p4g9OHiWg83+RasLXJxTzx7i3GawHczP+emtoyDZpJS+U9EMoystipVhA3bakIZm9qmCIEKi2j4jryA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FRScR/xu8JKJRlhUaUVf+l1Bt5qWhemoLKq5G2dmqZo=;
- b=VZoc0CRVpBUjgx6MTMqmhGb1fmCbO0kAw+Raa+/CgEbUXIFc0m1jWGCIjXM58/pKIj7YR7udK1ZoeTYnkh78aUhftS2luKv7ZsESIXoLJc0HkIfRu/duw+X07/ebXTK+ve11jgfVsZ3pa9OUjMVWruyEUdYS6AuV95SHt+QGO3Ncc0eBVQBaX0PZgvq90fBYx67/XGJ+t7pQRvD7qXPoT4ha/wI9qjVNEu51KXgY42tLDCv3Js5Pdg92sYrAFnmWn9333TrlDb8qdYIk1uKy/hPPvREUKmkyTiJo3bD37Opd1XFk3UUIYfgswLSGmc3lecnl8jPT9bK7Rp9p+71ZdA==
+ bh=UdWSRAwdgyDX+c1SbUvJqe4eaT4CH27jSZwFAZmvtqw=;
+ b=skjKQNWRWz24Urndo/cCY66oQEeOHYoLEtJ4DwTr61R0OkZpTFSmOOiPyheluvYjpeDUT14wvYuse+TDPJB38oXs4kqUroZHYGokGm+NSuoUtdDTbNI0CQoKTl57zmjmwUAGgCDMAztcbaz6+aERz/atFmXjEnTyF1XHGJoFC52tnZXNbYCh8tKOdRkBt+iG33M/ktPseisxejOVi59L83cQ34mRZOQxxPLugYjoc9/I2SinrgpThEI7RmVmCsFNCiEqEEZBoyPa/k3N5uNZ+ZlrUrL22mrpujAyZMLdY2i2eQC2hSmP4AVnFTFrlWry3oqzscydieQVa7R2ZyjrYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FRScR/xu8JKJRlhUaUVf+l1Bt5qWhemoLKq5G2dmqZo=;
- b=PUJJQXcdr/Mmf7aHyRT+QP98EbNVZcHK2xK6jNcId3pjzzbyscVZyoM9EeiaxtGKo+qQzOnwb0rQVnuKETqBQsJiHKc5lLrRF76HnSOrpEOeerNGWHR/MeCIN/7+Z6NJp2KbDw0zRc8FdK/T54MPL03wJ+qXWvBYeMZTIOAe2gfbSNew0W4YJW0lSfYXYhb4IZro6cLUOMPbl7suaXWyTl2OdEMBKQrFxcblZjTGT2Fu/c4gNfD5Ss6rsGiw+d3276J/3r5XxV8DBxjDYzVxRQN9hBCMWawfx7c8OMDmPwbQGzrkN+Ucfjq0uPf6zuOOreDSOrVbfseTCA17piAHHA==
+ bh=UdWSRAwdgyDX+c1SbUvJqe4eaT4CH27jSZwFAZmvtqw=;
+ b=A5NZ/sf4A8bj+pIW7oro4qQHojgKYkifUCm6W0PnH1hGtJ7fC6eyGipVHJga4F99+g0icutLWmh5ie96hQqw6IodfOpMFCmyWHqUPNI3ZvlTD9BRaC/z0PLmGxNacOPYJ9edJau0wjg5VToZ0EcANBeoGsBHuN4M59/IwvcgFSPnSTSwPwadjF/se/uT1/DEwJvcHV/Z7Cb/JXKv6gT+1Q+wl0tYh8Lx2v7EK7WMUWP/EbhTHT0Co/9ZzDMx3VcNo8Yb9RFZJiKGVbJR04uAuxHZkj6aI56wLErDakcGgkr5nCXeeG2nTgYVsAHgpmHT0XMs3TZeL/gjU5s51ZM+NA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
  by AM7PR04MB7109.eurprd04.prod.outlook.com (2603:10a6:20b:117::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.14; Mon, 16 Feb
- 2026 15:35:22 +0000
+ 2026 15:35:51 +0000
 Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
  ([fe80::adaf:805c:51c5:9538]) by AS4PR04MB9244.eurprd04.prod.outlook.com
  ([fe80::adaf:805c:51c5:9538%4]) with mapi id 15.20.9587.017; Mon, 16 Feb 2026
- 15:35:22 +0000
-Message-ID: <9e71c99b-a6d6-4a71-bfed-ccf8e59695f8@nxp.com>
-Date: Mon, 16 Feb 2026 17:40:12 +0200
+ 15:35:51 +0000
+Message-ID: <c04032ab-bcc6-4644-9d00-debc124eff0f@nxp.com>
+Date: Mon, 16 Feb 2026 17:40:42 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/14] media: v4l2-subdev: Move subdev client
- capabilities into a new struct
+Subject: Re: [PATCH v2 11/14] media: v4l2-subdev: Add struct
+ v4l2_subdev_client_info pointer to pad ops
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
 Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
@@ -90,14 +90,14 @@ Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com,
  "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen"
  <khai.wen.ng@intel.com>
 References: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
- <20260211090920.1851141-11-sakari.ailus@linux.intel.com>
+ <20260211090920.1851141-12-sakari.ailus@linux.intel.com>
 Content-Language: en-US
 From: Mirela Rabulea <mirela.rabulea@nxp.com>
-In-Reply-To: <20260211090920.1851141-11-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260211090920.1851141-12-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM9P192CA0014.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:21d::19) To AS4PR04MB9244.eurprd04.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM9P192CA0019.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21d::24) To AS4PR04MB9244.eurprd04.prod.outlook.com
  (2603:10a6:20b:4e3::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -107,103 +107,103 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|AM7PR04MB7109:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8064b38-57c5-437d-b821-08de6d70ff23
+X-MS-Office365-Filtering-Correlation-Id: 68892803-9431-4f04-73fd-08de6d7110c0
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
  BCL:0;ARA:13230040|1800799024|19092799006|52116014|366016|7416014|376014|38350700014|7053199007;
 X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?NExPRWdXREE5bHNLTjN0ejRwOWxzWU9hY05BMWFOR05XWTJDV2lVNGVPQUFk?=
- =?utf-8?B?VElTVFdoWlVWRkJRWjNFQkt3NFRURURDV2MxaEpMS21FUGpOZHJ6YWRoejVP?=
- =?utf-8?B?YmN0czZVOTZQNkpwK2Z5eWZVZ0lhY0lCT0JFTnhtQ01rVkpFVUNqYVdwRUpt?=
- =?utf-8?B?MEVxZUU4czVER0JUZWFzUkJZSWM2cTE1MHU3VzZUYVNzdFFOUEluTU0rbHVG?=
- =?utf-8?B?cVJ3eCsxQy9oWkxOcFdPQTlnRDVtUk9yWm13Sk1JTFpGaVRDaUh3ck5DUHhM?=
- =?utf-8?B?ZGw1MDdYR0JzN1QxSzlXbGtsWGJwYlVmWWliRHZqTEk1dXdnQlRpTkk4bFl2?=
- =?utf-8?B?bTh4RTZRNU1tMm05WkpPekZZRjdXOS93c1lYb3lrYUh3SXo1VVpTUVUwLzVj?=
- =?utf-8?B?bGROaWZNU0VHY2dmRzlOKzZROVNYdHZ4UjVnQXFEMm90cHQvcGhwSUFFL2la?=
- =?utf-8?B?T29yR0ljZ0ZiUzFYMWJHampkUkFsQWRtMDgycXZoMEJIS3pSSU1xYWZQRURZ?=
- =?utf-8?B?SElMOVJpYi85TWZMZGUrSFlOazZaNlV0OVJOOGxubEhxRzQwVzFQQk43RVM2?=
- =?utf-8?B?a3gzZ0R1TXk2SjU1dk5lcnArWitIYmp3MDZyR0RTM09BeUxFV2lEWDMxeFlF?=
- =?utf-8?B?U3F5bkJPSXlXUDBjM1J1ZW0ybWtPbDZ1SU1RdWtOeFh1N1JOalBGaU9FWlZh?=
- =?utf-8?B?TGdubWdTVmlFVVJpVkRMem1sMGRVbEZpTzhYOS8vQWFGOGxWRnQzVWgyUGZH?=
- =?utf-8?B?VUlaaUIyVXE3RGxPWXRGZXZYcVNudjdCd1IzVFNSNm9QRVYvWnJySGxDRStP?=
- =?utf-8?B?K0F6U0pheHVSYlAxUkFibGhxWUlhTytUNnlxVDk0eXZhQVNVKzNwTmwzdVRB?=
- =?utf-8?B?T3U5SUN2YmFrS1RtZVNkRmhScmtPZ0lsaUhFQW5ZL05uclA0dlFWQ0hBbjJR?=
- =?utf-8?B?dFJNRGR2RzhUQUx5eGdjK0g1SDNJSnpGVUQ5alB2Y0gwREJheWdIKzJXd1gr?=
- =?utf-8?B?RUhFa3E0SkFrWlcrd2tSeURXdk9NTW9IVjI0bHV6TUlYUGpKWDNGZVZvakpl?=
- =?utf-8?B?SGM3WTFRa1JBdUM4M1ExNE4xWG13d2hMeFFUTVpocElGdzVuOHE5Z3g5Z3E4?=
- =?utf-8?B?eEZramY1UlYwTDJ3aCtReStWck1oSXNHMXc5OWhvYjZrYXdLeG8rcFdSMEV0?=
- =?utf-8?B?TDNHSU9OUkgyVTRhbWI3UTJzdmhSU0U5VUpjeEFjdXBQN3ZmZE9XMWNVVFhD?=
- =?utf-8?B?a1B4UmhkNDRPN1BUT1NyVUpOQlBBTXZMYllmUTl3UTFlSWcyZ0lVaWxETDdO?=
- =?utf-8?B?SjlsVGEzNklyTU9QL2w1Y2lwSUVoUkpZWGJFRitaNFdJWWRlSGxyaVZIZUZP?=
- =?utf-8?B?NzVVb1hybkRKWUtiU3RSTkF2MkxTR1NOYzE2OGVSaEhXWFJnR0lhcDFURXlE?=
- =?utf-8?B?cXlvSklmZlpYSlp2dC94WXFrcUZxNEJQRHFGbkRqWlBHbkVZWk9mS01RcjRq?=
- =?utf-8?B?c2ZXQ1JCdW9hT0V3N2dMTFhoaldzc2FPK25KVEwyZlEzN2dsR2ZOUW1NM0Y5?=
- =?utf-8?B?bW1xYmhKT1ZzRGpBZUFoaW5HOWZyQ3ZCZ1ZVdXRzcHlXUk9hcmgyL2lNaEJh?=
- =?utf-8?B?VldkUi9WUmw2dUMrRWlCMzJualBzVDdaSlBobjRnSnV6N1Fib2V0enQrTFVN?=
- =?utf-8?B?VFR4bTlrU0VHd24wUHVXanFReldtYjhmTm9uYk42SjhjeTFPOGVNeUxGcm84?=
- =?utf-8?B?aWhZYUZJTFg2cUVMSUYxNklQcmY3SFF0Z0RaY1Nzam1HQ2MzeE1pQjhKTDM0?=
- =?utf-8?B?VkRJZFlDTngzd1g0by9nZ25RaFZLNmdsWTQvalkrbkJ2clozWElVdXgwcTBX?=
- =?utf-8?B?UUFPSWNFL0Uyc3dIWUVpeHNVQ09IUDZ3QkozUTJsWG43clYybUl6Y3JnZHZK?=
- =?utf-8?B?ejQvZ0F0UkZtWUpob0RoemdoaldLY3FUSlU1amRQa0Z5SWU3SzJDOHJaVEhi?=
- =?utf-8?B?eFA2Q3NlZ2dGYmVFNFdsZHN2L2F1aVR5Wkl3NTlQMmxQVVdERXp4a0daeldL?=
- =?utf-8?B?ZTZMS3p4dEVqdENVRUcyOUNmdUhiQm1IVms0Q2F4aWVBVWZxSitWcFNpZFhG?=
- =?utf-8?B?bUh5UTFDc2lXN1I1S3IrK0FhbEtISDhjOVd5cUg0NnZWU0FTYmhvZDQzamFp?=
- =?utf-8?Q?pqm3h7WGKx+x362KYXzJOeA=3D?=
+ =?utf-8?B?UTV0OEh5UmlvbjRDcThlSFMzdm12OThrdnFJWnJENmJZcUlCdlZhY3QrS3hm?=
+ =?utf-8?B?aE5kaTA5U3JjaER2VGFUdU5XMm1UTURPWGpjUnNsSnl6dEc4RnFsQTVFMEp3?=
+ =?utf-8?B?RGNvQko0amlsMlQxK0JuYnNhcFdDN2x3ZXNZeExGWVAzUStZSVFaRHRHVnMw?=
+ =?utf-8?B?RytwYnhid3FVZDNGeVR3OFFNejZYemE5UlNOUVJITU1RRlNCT3pGc1I4b3BV?=
+ =?utf-8?B?ZlV6MGYvZWZ2bmErTnNDZ0ZJMmlvR1VJREVaNVB6d2hIR0Uwa2NvRXo3d3hU?=
+ =?utf-8?B?eURCVTFUTTdoOFVJT3JYMG1rdzZ4Y0F2cG1Qd3FtaTFKWTB3YnM2SlNZbjBW?=
+ =?utf-8?B?YUJmZlFidlJneUF5N2dDeUlzMUs5SklkbHlEMHpkZjR4R1Fpc0hsM01ackZY?=
+ =?utf-8?B?MHVsOXU3WkYxWkVmU3JHc0FpOVFNUjNtWFV2L01SdUREVkNXQUVYSEs4UU12?=
+ =?utf-8?B?QUpQcDhteVNCNGZMQXY4cXArVERaZHZiK0tvOHIvL3hyV0RiY0FFRmRvRlVR?=
+ =?utf-8?B?WnZXMUV1MlovS2xCODNWK0JDZDE1ajRIL3hjaTk3V25uc00rUUxlN24rZDBU?=
+ =?utf-8?B?WS8weDBwSTNjWGJsRzZoQWJNS2xwdEx0T3B2YTdmWGpxQm1ZeU1XWGsxSThy?=
+ =?utf-8?B?UFgvY1FtcmhFZmh6RWpsKzk2RE1lV3Q5WkZIb3BlanF5ZEhRbGkzU09pT3d4?=
+ =?utf-8?B?d1EveUhVOExWdGJya084V0tIN3JtYVZtVnVSNkNmcVVVVWVUWnQwL1NNTDY0?=
+ =?utf-8?B?U01ScGU2bmRaNjh4TnF5a05vT3hrZmdxV1lZMXNFSm14WnFwVCtFUitiSDdo?=
+ =?utf-8?B?TzNnU2hsUTNPL3kybFA1d3dLUXRwZHVWaTgyS1BzeXNlR2UwOE4zQnZyZFR0?=
+ =?utf-8?B?Q1dWNHMrT3J4T1dRZHlsUnJQdDgwYVFoQkdiQ1RhNnl1ZlByVm5XaTFNbWhl?=
+ =?utf-8?B?LzgvYzRRVUYxc0orbkdUWUpSUUVveGFHWkRVbytoMWJzTXE0ajJHZXFKSUlS?=
+ =?utf-8?B?azYzcEh0V0tyU3NzYldTRWRsbW5qVGFaTW5WOTMvMUZONVJLUHMvWERqN0lY?=
+ =?utf-8?B?Y3dtdjF2V3c2eXdOQThsbm5Rb0Y0ZFIycWJRZVNBc1diRFJZbEtxaEZCZXdU?=
+ =?utf-8?B?WVoxNVljRlM3cENkbGVLNDZuRE94UlRQSGtFNUZubFhyUkZNZzBROVN1M1ZJ?=
+ =?utf-8?B?R3FMNlZSdjRvVEhXTmdVSWVaWE5zQUtsdEdhdUh2eU9NbGhGZEFnQUJHb0xV?=
+ =?utf-8?B?MTNTcHB1eE1FOUhNY1ZWdnZad3YxTWtRcVV2VTUzeUkrR3NCY2RCNlNrdUF3?=
+ =?utf-8?B?Q3VHRU0weWRFbU5TOFNTaVRDMXJIYk9rbXM4RWhoMUtzcENpL1pCZlpNZTRZ?=
+ =?utf-8?B?UE9ZcGNOWWhmKzJUdThMbGc2VGNLWnM5cURlT1FPVlNxUk1MbW53emFJSlNi?=
+ =?utf-8?B?NkJpMkE3WGhVU0hHY2JySXhScDdtUHRJQW9vZElJN1BBbndPUDhtOExydmhi?=
+ =?utf-8?B?SmpyZjY2UGFlZjcyMDA2RGN3VExSWGhacEhnSml4citNaGZpOWs1VCtkSEdL?=
+ =?utf-8?B?QW1mK0dHZlpmTkdwMTVtREtsR0tGVC9Ecm83alR3MlRQRlJDVFJHRDYweFh6?=
+ =?utf-8?B?QllPWHVxZWVlNVJUQ0pyVGtnUWNTdGN5bmtJV3E2cGVCZ0JkeHAvZ1BEQW16?=
+ =?utf-8?B?M3dETjgxNlFMZU84dFFnOUkwYitSWjVlc1BEZWcxZitUZTc5cGUyTmhWdWxs?=
+ =?utf-8?B?Qk1JMlVVUmVuSkdmbUhXS2FkZkVYMEhTaHFPTmZqUnJ2aEdkd1o4dm5wZGFz?=
+ =?utf-8?B?QnZjV0NhcEVudDVaQVhxOXlyWkxqRlRhcTd4WExlR1BIeFl2djNacjdUYnhR?=
+ =?utf-8?B?OE5DY2FsN2lsY2M2WWVJQnM3bFdIRzJLU0o2TEhMaUZxTDh6cGUzTHV3U1Mx?=
+ =?utf-8?B?Uk9GSnlNOGNsbGQ5UmNtWHJCNHhxcGExTHp5Z1VxNjFjMjV5RXBrVkN4UDJl?=
+ =?utf-8?B?NFM4cnh2UUZZaXdCUWk3b2JrQUd3ZUdITEtqU2JkOVl6RHZVdk14ZmJtRnow?=
+ =?utf-8?B?TkpEa2hoOUd6WDhrNGxDbElUSWJObjIrbHozM2NvMGhMcUV4YjE0REZMdU0y?=
+ =?utf-8?B?OElUTHRobHRiOTJpYUhGRHoySnlsak45cEtTUSswQWY0a1laTkZUVGMxazlG?=
+ =?utf-8?Q?oJfd3+nPyUhSEMG9vR6kZDw=3D?=
 X-Forefront-Antispam-Report:
  CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(52116014)(366016)(7416014)(376014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?TUcyTDRkNEg5eE1acGRLZDJ1REFFbytrc3VZNFdROUlVTDVOalgrd1lReEV5?=
- =?utf-8?B?K3FySnV3SEJTQUswQTdReGpKRmc2MGV3eHhNV1JPSDVSVG94Y0RhZnhWZGVq?=
- =?utf-8?B?VElERTd2TmxGcERhK3prczBoNzdKNUlIeUxHUGxBd0pQQ2xheUZLUUpvWTVJ?=
- =?utf-8?B?WXJPYXgxS2E4ZG5Tais4RWpkZHozOXFQQW0rNUEyRW5wWU8yZVlxdlNZMzdI?=
- =?utf-8?B?K1FnaFd5TmxOOEhJTUpHOHZ0YnRWZWtwNWI3ZnVsVG8rdkJ1RVFZUFJOVkxZ?=
- =?utf-8?B?TS90eU5zT3NWSStrbWV3dmQ1ckEwVWdyMHU1eWE0RkdqQTJlcnU2dXVMNjdy?=
- =?utf-8?B?TGxOT2ZBMXNzSExPUmowNlVwSXNPNjc3TVJTUjNic3Jxb1FCdU0xa3R5am8w?=
- =?utf-8?B?eTVWVzEzdWw2RElVdHdkY0R4MFBjV0EwNGw4LzBlWkp1ZlFUd2NsbDJlV2ZI?=
- =?utf-8?B?VUZVb3R0bkRxdUI1Sll6NFlML1FBYUJzRHhLNkszS3A4SkhSSklCeGFNOVc5?=
- =?utf-8?B?UEVFbUdxdSthRWlzYXVDR0wyeGxRQlEyYUE3Q0hkVks5Z0hGcFNuUjZ5dkNr?=
- =?utf-8?B?cVBSNkVqdXJmOG9oMlFlSFNFb2VGenR0c0toM2w1N1VSVndWNXkwdmNFa0lt?=
- =?utf-8?B?a1B6eDNUNy84ak1GTWRYenBaOEtoeC84NjRxVWo5aUVQcStMalhqZlBSc1Zk?=
- =?utf-8?B?VVVDQkRXQVJqbUpBak1vNkNvZjBac3pZNmp5cEJXcVNGL2F5bzNUQTYvdTIx?=
- =?utf-8?B?eEFSb0d1b25EQ2VHUWRSVDRIQ1Q4SkxBakJHSElCcUF1QkZ5VFk1Ri9HUjlT?=
- =?utf-8?B?c2M3cTBWenlXQVlCdjgrRFArRzE5NmlOQWQ2Sm9Wd1ZENlg5TFptdnpMRWl2?=
- =?utf-8?B?dE5nendUdFJmVlAxckZxZzhIMnlLRzFqYWRvdTRyMkFISCtkNXNURXZoK0U3?=
- =?utf-8?B?WG5PWmlyWHNIMHJncGJVNG9BV2VzaFJ2QTRIcGN2MjJucW1MMmpiRU94ckZM?=
- =?utf-8?B?SW1YUjVoVnVqdGNQRVMwTE83WnNYR2hRTVhsVmYrZjloeUJBcE1sUk8wVFpY?=
- =?utf-8?B?Z3hXYWE1YUlCa3pEZlpHZk1jMDEzVDhqMEIxaEVSZm13QjdWd2hiTmw0UFVG?=
- =?utf-8?B?MERIM2tudi90TlhBTU9VMTBEUGtmamdyTytORW1tY2JjZTkzZkdMejdJeDBy?=
- =?utf-8?B?Ty94elhQQitKd2pXWUg5Y2RXWmF1SEVzTEpGR0xhT0UvcHJRRjFia3VTa1F5?=
- =?utf-8?B?N0NyMUVxdStPWjBuVExjMzNFZFpPQjdMUjlRZmFkeDdVcmYzcnNOMVlBc0Rp?=
- =?utf-8?B?TEI1dEZiQ0VJaVd2TnBDeUlGRCs0a0gxTnRuZW54Nm9saDFTeWxxRWtoYTBa?=
- =?utf-8?B?LzZUbXRSZWhCR3M2YlBGZ25OU3ViZEhjY0xQS1pKRmJjVXZrYW9UYmJQQkdR?=
- =?utf-8?B?ZG5XcGlTY2Y4Zk1DRm9penNCOTY5NnRSbVg5UjBTQTZENEM0OWw0UEpMMWZC?=
- =?utf-8?B?Ung1d2poNktvdXFlWEoveUtIUk1ESmMxbFBNckxETm1MY1ZQUmdidktXcDFW?=
- =?utf-8?B?RVNlRTJOWjUwOFp0cU16TjVvcFhUREpzWUwyaFU2ak5LaWk5N3JteTROdGZG?=
- =?utf-8?B?RVkyQnhzeGZaMGdReEkrUGF2YXlDSzVCanJOTWJOaUV0ZjNaN3NnVUxsU1V6?=
- =?utf-8?B?ZWorL2NPS0xxQWpid0wrWEtLeEtNSFMvQy91aGI1YU5OWVE5ejhwRTVheXhT?=
- =?utf-8?B?endYZzQyUXVYT1ZWOU4wT0puNVN6NS95YkU4M21FYUdwOGM1cndpS2R6dTNh?=
- =?utf-8?B?a2VZcnczSlJ3c2xPTDJ5UHhGVTFLQVFwT0d2OUtqMEVWcjllR0JrZm9OQlJ4?=
- =?utf-8?B?NVU5WUw3QmNJNEJiTDc0bUhyb1p5RERJTDY1MU5DQXBDeVBiTnVJNU9seGh5?=
- =?utf-8?B?L1paREh3eGZqL0hFZklocUJ3UGRkRzRwVzVGQ281d2VjeDJTdElvd0F6VjA0?=
- =?utf-8?B?LzRacFpZT25EeEpKVFQ4bkpJMnpZTHd3MzVEbnhlMzY2d2hEdjh4bGRUTDZm?=
- =?utf-8?B?Zk5NcVptL2VqTkJDNUExUGdZMGJuaWptZFVjbFo2V2VaVnk3UDEzSnFDVEc2?=
- =?utf-8?B?TkQ0eS9qalJhZkljQjlpbkpJRE9odFVDVHBjTVB5U01nODlweVI0ZUd2aXhO?=
- =?utf-8?B?dzNlcmNPVXNyNlYySEVWMlh6cE5yWHZYZjMzZWdvMkV6NUkxSklPaXZqeXVh?=
- =?utf-8?B?a3N2Ui9zTWF4dnpFWVBweWRHMnptRG1IRnF2NElFd1ZOODZYMTJyS2ZOTWJo?=
- =?utf-8?B?cnUwR1dpWGNNdlc5ZDZ1REphTTNkTnpnSXNFazFpMDQyTGRuOE9nQT09?=
+ =?utf-8?B?QUhveUcvRFpVS0tzZklUT1lhQUE4azBEZDNGNDVjWmxaTk9QZkhTSDNoZTRt?=
+ =?utf-8?B?KzVYNXNjeG5JTW9pWmM2SGpqcVltaEIyN1FOOVlVUC9aangrK2wzeWZIWjVk?=
+ =?utf-8?B?TCt2bjlIazkxRFRIYitpUTlOMjI0REtDamNRZGoremRrbUNaaG55Y3N0NEFW?=
+ =?utf-8?B?bnhvaEh0WHlrSG00UkVCZnZsdjFLRElkSjkwNXRkU01uR2E1OFcyV1dBMCsr?=
+ =?utf-8?B?ckZZNXByS2czVjZycytOVUhLeXVicWtYVVRXTVR2SnRDY0ZOaGZnTmlmSTdq?=
+ =?utf-8?B?QUJPMlNwUG53ZDZqQTFGZmI4YkQ0eWdPM2p3MTVhTzJkTWlaYi94bnU3dVNE?=
+ =?utf-8?B?ZTFrYmtDWHN4dkxCTEdzaDV1cm5telZoc2JDTjdJOFNLNUl6TytZcGNQZVVt?=
+ =?utf-8?B?bFhLeHgxZFNKaW5jZHNVejgyZC9OREFYUENKdmVRQTBmWENOaXd6bEFwcEtV?=
+ =?utf-8?B?M2w3SXRSQlhLcHBOVnZBSzRPMW1OODVxNzVZdnQvNGQ1dVd3cEJjZzBFNmNL?=
+ =?utf-8?B?dmJueUh0bStzSWxBcDk2RHZIeXRhUmFmeTJaeVFQcEZzRXFqcE1xRHZJMStG?=
+ =?utf-8?B?TWxWMXFWdUpLbTdTUk9XcHlROFdHQVhFRWNGTkVqTVplZnJJVmx4VzlLaFBP?=
+ =?utf-8?B?OXZZU3dTQk5ZWXB2TzNtSDM4Q2ZZd3JJdVdGbWpFVG5YVTAzWGNsWHh5bmJ5?=
+ =?utf-8?B?Q3BRc0NXWHBPOWduYlNlOU1sWkhrM01qN2svRi81eVRLRytmRkw0Wjk1NkRi?=
+ =?utf-8?B?bGNxajRNNG9FSVpqNVY2ckh3M3JLa0I2TGkrc043eEIySGxvSjcyd0hwR2I2?=
+ =?utf-8?B?YmZtbTI1TUZiRFZhMzB4THNZNjc2VHIyOGtHVC9FK2FtL0U0VHNObmNjWWNC?=
+ =?utf-8?B?Nkd3aXJUZ0pRNXU4bTJXams1S0RqYXRYZjI1LzNwZFIxMnpiOE8zOGdodW9Y?=
+ =?utf-8?B?TEFPWFpGcmYxWEI1TC9SeXNhaFFZYzV1V21XZ2J6UVB6WFVPUlZNdERSdXd0?=
+ =?utf-8?B?SWFVOFA5bXN3SWtIU3hNMm1RQW1CZnB3ZWFDL0g3R3RIanY5WlplSEt6U3Vu?=
+ =?utf-8?B?SEM1c2R3NVNwWkh5Uzl1eFIvMVk5WjVMT1I3KzFPVXpKdGRSNDJNUnlXOWUw?=
+ =?utf-8?B?UVh0M1lhU0ZSalB3ZTlIVTUydi9sTVpNOUFKWTIzS2MyRnNwaTRtTFlIUG9L?=
+ =?utf-8?B?VHhuZkhwOFcyMUszeGtVY2poV2VFVmtBVTNGWHJPamVvSFJEZkxteWNsMGFj?=
+ =?utf-8?B?Qnd4d0dLNHVQQWFMazB3RXB0UXgvb1h5Y20zVWJCOWtBVGtTakxHTFpybzlQ?=
+ =?utf-8?B?OHdNOWVCOUtMdW9jdWZJbEtTVEh2cEhUQlU0TTRFY3pWRGFFcEFwTkhialh2?=
+ =?utf-8?B?Q3VxR2wya1VyejBiZ2JSb3QyOFFLNVluSGxOODhNb082VTdRWStuR3ozTGxO?=
+ =?utf-8?B?akxPVURXa3h0VExvaVNlblgvVWEzclhib0xlM0pMS3pVWWRObisxUnZacm9W?=
+ =?utf-8?B?TzZsQzBjaE5EOUtJQXhWajJ6WHZKUVVORU1Ma1ViRVdpc2RwQWRnd3ZBZjhT?=
+ =?utf-8?B?Yzdtc0F6QmMwZjhLS2VrLzkwSURuSzNnZVIyRndvSFJwTVdsb3VKdmljVWc4?=
+ =?utf-8?B?QndoVjJ2ZUpiclJNNFFuc1hBUWZ2RFo3N3Iya0wzcStFWUdqWHV6Rkp5VEQ3?=
+ =?utf-8?B?ZSt2SjZ3bDliUkhrUW5WY0I1QUFEdGM3UVNuRXowYUZnbHNTOUNPeUh6SVlS?=
+ =?utf-8?B?UlZvTFNVMVVCYkZBWmR6WXh6QW9KRDJaMGlsaDNoaE9mQXlQYklpZmVabThD?=
+ =?utf-8?B?cldQcHdYUVB3ZXQ3NzdBd3NLd0V3VkdBU0p5WkFMVDNNaFcyUHI2MTEzM1B3?=
+ =?utf-8?B?bTFubXFveGdRdDFLeEJyVGpqV3JLOXpQWTA2ckcrWSs1NjgreGFiNFVzeUJm?=
+ =?utf-8?B?MlFMOTBOcDJUT2xZVWRSQnlMalZJcFlZU1VDNnBQbjRzWHNwYW1NMzdmVlBS?=
+ =?utf-8?B?NlQxTER4bE8xL0taRFZoeWlXeDVqN0VLM2xuRHY1UGFhcFBHWjdmRHpOK0Mx?=
+ =?utf-8?B?L1AzdWhObFJBcTMzRmU3L3pUU0Jnd3dncERtc1dEbHIwTkJHZ3lZYk4renVz?=
+ =?utf-8?B?UHZTbnR4eVFucFIwanFwWlhNZkJIcHpQK3AwNGMvZzR1eXd2RjVrUnp5a08y?=
+ =?utf-8?B?SnYxUUowWXdKSE5rR3UwRVNXd3VVQXJOeHI3RXdaMjQxM2pHZnFwQ3RDSTBj?=
+ =?utf-8?B?Z0poMDhINVU2blJaNytOZTFKMVR3a3pmQ3lHVXFuUG5URGh6M3pCQnlXSytU?=
+ =?utf-8?B?Q2dQTjdpeklrMmxXZWFnR0pxWmRTa1AzUnp2cUVPN0lWRlZWSElGQT09?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8064b38-57c5-437d-b821-08de6d70ff23
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68892803-9431-4f04-73fd-08de6d7110c0
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 15:35:22.0539
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 15:35:51.4923
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jd06siFMbZAplTSL5LBFbO3l6IqlFFJbJ/1oj7wt2V+40o+Ex1wKR0Xf1KBeaO8hATQr6N4O/yfV2fRpLucLlA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: kjHlh+Chf1hSh7ViGifjuFCZ7QT213xYQIjb6cKXBdhXduDaYfq0A4dfpGyU7VN1G2/aZs7PJqhmEecn63vunA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7109
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.34 / 15.00];
@@ -215,7 +215,7 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52917-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52918-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -231,104 +231,265 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nxp.com:mid,nxp.com:dkim,nxp.com:email,intel.com:email]
-X-Rspamd-Queue-Id: 06F5A145B32
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,sel.stream:url,sel.target:url]
+X-Rspamd-Queue-Id: 7CF01145B65
 X-Rspamd-Action: no action
 
+Hi Sakari,
+
+I get build errors after applying this patch, like:
+
+drivers/media/i2c/imx219.c:1004:20: error: initialization of ‘int 
+(*)(struct v4l2_subdev *, const struct v4l2_subdev_client_info *, struct 
+v4l2_subdev_state *, struct v4l2_subdev_format *)’ from incompatible 
+pointer type ‘int (*)(struct v4l2_subdev *, struct v4l2_subdev_state *, 
+struct v4l2_subdev_format *)’ [-Wincompatible-pointer-types]
+  1004 |         .set_fmt = imx219_set_pad_format,
+
+I'm not sure if it is fixed later, but after I apply all 14 patches, I 
+still get some build errors (I'm building for ARM64).
+
+See also one other issue below.
 
 On 2/11/26 11:09, Sakari Ailus wrote:
-> Add struct v4l2_subdev_client_info to hold sub-device client capability
-> bits that used to be stored in the client_caps field of struct
-> v4l2_subdev_fh. The intent is to enable passing this struct to sub-device
-> pad operation callbacks for capability information. The main reason why
-> this is a new struct instead of a u64 field is that modifying the callback
-> arguments requires touching almost every sub-device driver and that is
-> desirable to avoid in the future, should more than the client capability bits
-> need to be known to the callbacks.
+> Add a pointer to const struct v4l2_subdev_client_info to the get_fmt,
+> set_fmt, get_selection and set_selection sub-device pad ops. The client
+> info struct will soon be used to differentiate UAPI based on client
+> capabilities.
 >
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 > ---
->   drivers/media/v4l2-core/v4l2-subdev.c |  8 ++++----
->   include/media/v4l2-subdev.h           | 12 ++++++++++--
->   2 files changed, 14 insertions(+), 6 deletions(-)
+>   drivers/media/v4l2-core/v4l2-subdev.c | 63 ++++++++++++++++++---------
+>   include/media/v4l2-subdev.h           |  9 +++-
+>   2 files changed, 51 insertions(+), 21 deletions(-)
 >
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 8a433d074587..79fb4643182a 100644
+> index 79fb4643182a..76ab70a99e86 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -611,7 +611,7 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
->          case VIDIOC_SUBDEV_S_FRAME_INTERVAL: {
->                  struct v4l2_subdev_frame_interval *fi = arg;
+> @@ -245,19 +245,21 @@ static inline int check_format(struct v4l2_subdev *sd,
+>   }
 >
-> -               if (!(subdev_fh->client_caps &
-> +               if (!(subdev_fh->ci.client_caps &
->                        V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH))
->                          fi->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>   static int call_get_fmt(struct v4l2_subdev *sd,
+> +                       const struct v4l2_subdev_client_info *ci,
+>                          struct v4l2_subdev_state *state,
+>                          struct v4l2_subdev_format *format)
+>   {
+>          return check_format(sd, state, format) ? :
+> -              sd->ops->pad->get_fmt(sd, state, format);
+> +               sd->ops->pad->get_fmt(sd, ci, state, format);
+>   }
 >
-> @@ -651,7 +651,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->          struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
->          bool ro_subdev = test_bit(V4L2_FL_SUBDEV_RO_DEVNODE, &vdev->flags);
->          bool streams_subdev = sd->flags & V4L2_SUBDEV_FL_STREAMS;
-> -       bool client_supports_streams = subdev_fh->client_caps &
-> +       bool client_supports_streams = subdev_fh->ci.client_caps &
->                                         V4L2_SUBDEV_CLIENT_CAP_STREAMS;
->          int rval;
+>   static int call_set_fmt(struct v4l2_subdev *sd,
+> +                       const struct v4l2_subdev_client_info *ci,
+>                          struct v4l2_subdev_state *state,
+>                          struct v4l2_subdev_format *format)
+>   {
+>          return check_format(sd, state, format) ? :
+> -              sd->ops->pad->set_fmt(sd, state, format);
+> +               sd->ops->pad->set_fmt(sd, ci, state, format);
+>   }
 >
-> @@ -1124,7 +1124,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->          case VIDIOC_SUBDEV_G_CLIENT_CAP: {
->                  struct v4l2_subdev_client_capability *client_cap = arg;
+>   static int call_enum_mbus_code(struct v4l2_subdev *sd,
+> @@ -308,19 +310,21 @@ static inline int check_selection(struct v4l2_subdev *sd,
+>   }
 >
-> -               client_cap->capabilities = subdev_fh->client_caps;
-> +               client_cap->capabilities = subdev_fh->ci.client_caps;
+>   static int call_get_selection(struct v4l2_subdev *sd,
+> +                             const struct v4l2_subdev_client_info *ci,
+>                                struct v4l2_subdev_state *state,
+>                                struct v4l2_subdev_selection *sel)
+>   {
+>          return check_selection(sd, state, sel) ? :
+> -              sd->ops->pad->get_selection(sd, state, sel);
+> +               sd->ops->pad->get_selection(sd, ci, state, sel);
+>   }
 >
->                  return 0;
+>   static int call_set_selection(struct v4l2_subdev *sd,
+> +                             const struct v4l2_subdev_client_info *ci,
+>                                struct v4l2_subdev_state *state,
+>                                struct v4l2_subdev_selection *sel)
+>   {
+>          return check_selection(sd, state, sel) ? :
+> -              sd->ops->pad->set_selection(sd, state, sel);
+> +               sd->ops->pad->set_selection(sd, ci, state, sel);
+>   }
+>
+>   static inline int check_frame_interval(struct v4l2_subdev *sd,
+> @@ -523,6 +527,21 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+>                          v4l2_subdev_unlock_state(state);                   \
+>                  return ret;                                                \
 >          }
-> @@ -1144,7 +1144,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->                  client_cap->capabilities &= (V4L2_SUBDEV_CLIENT_CAP_STREAMS |
->                                               V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH);
+> +#define DEFINE_STATE_WRAPPER_CI(f, arg_type)                               \
+> +       static int call_##f##_state(struct v4l2_subdev *sd,                \
+> +                                   const struct v4l2_subdev_client_info *ci, \
+> +                                   struct v4l2_subdev_state *_state,      \
+> +                                   arg_type *arg) \
+> +       {                                                                  \
+> +               struct v4l2_subdev_state *state = _state;                  \
+> +               int ret;                                                   \
+> +               if (!_state)                                               \
+> +                       state = v4l2_subdev_lock_and_get_active_state(sd); \
+> +               ret = call_##f(sd, ci, state, arg);                        \
+> +               if (!_state && state)                                      \
+> +                       v4l2_subdev_unlock_state(state);                   \
+> +               return ret;                                                \
+> +       }
 >
-> -               subdev_fh->client_caps = client_cap->capabilities;
-> +               subdev_fh->ci.client_caps = client_cap->capabilities;
+>   #else /* CONFIG_MEDIA_CONTROLLER */
 >
->                  return 0;
+> @@ -536,13 +555,13 @@ static int call_s_stream(struct v4l2_subdev *sd, int enable)
+>
+>   #endif /* CONFIG_MEDIA_CONTROLLER */
+>
+> -DEFINE_STATE_WRAPPER(get_fmt, struct v4l2_subdev_format);
+> -DEFINE_STATE_WRAPPER(set_fmt, struct v4l2_subdev_format);
+> +DEFINE_STATE_WRAPPER_CI(get_fmt, struct v4l2_subdev_format);
+
+DEFINE_STATE_WRAPPER_CI is not defined when CONFIG_MEDIA_CONTROLLER is 
+not defined
+
+Regards,
+
+Mirela
+
+> +DEFINE_STATE_WRAPPER_CI(set_fmt, struct v4l2_subdev_format);
+>   DEFINE_STATE_WRAPPER(enum_mbus_code, struct v4l2_subdev_mbus_code_enum);
+>   DEFINE_STATE_WRAPPER(enum_frame_size, struct v4l2_subdev_frame_size_enum);
+>   DEFINE_STATE_WRAPPER(enum_frame_interval, struct v4l2_subdev_frame_interval_enum);
+> -DEFINE_STATE_WRAPPER(get_selection, struct v4l2_subdev_selection);
+> -DEFINE_STATE_WRAPPER(set_selection, struct v4l2_subdev_selection);
+> +DEFINE_STATE_WRAPPER_CI(get_selection, struct v4l2_subdev_selection);
+> +DEFINE_STATE_WRAPPER_CI(set_selection, struct v4l2_subdev_selection);
+>
+>   static const struct v4l2_subdev_pad_ops v4l2_subdev_call_pad_wrappers = {
+>          .get_fmt                = call_get_fmt_state,
+> @@ -804,7 +823,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>
+>                  memset(format->reserved, 0, sizeof(format->reserved));
+>                  memset(format->format.reserved, 0, sizeof(format->format.reserved));
+> -               return v4l2_subdev_call(sd, pad, get_fmt, state, format);
+> +               return v4l2_subdev_call(sd, pad, get_fmt, &subdev_fh->ci, state,
+> +                                       format);
 >          }
+>
+>          case VIDIOC_SUBDEV_S_FMT: {
+> @@ -818,7 +838,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>
+>                  memset(format->reserved, 0, sizeof(format->reserved));
+>                  memset(format->format.reserved, 0, sizeof(format->format.reserved));
+> -               return v4l2_subdev_call(sd, pad, set_fmt, state, format);
+> +               return v4l2_subdev_call(sd, pad, set_fmt, &subdev_fh->ci, state,
+> +                                       format);
+>          }
+>
+>          case VIDIOC_SUBDEV_G_CROP: {
+> @@ -835,8 +856,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>                  sel.stream = crop->stream;
+>                  sel.target = V4L2_SEL_TGT_CROP;
+>
+> -               rval = v4l2_subdev_call(
+> -                       sd, pad, get_selection, state, &sel);
+> +               rval = v4l2_subdev_call(sd, pad, get_selection, &subdev_fh->ci,
+> +                                       state, &sel);
+>
+>                  crop->rect = sel.r;
+>
+> @@ -861,8 +882,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>                  sel.target = V4L2_SEL_TGT_CROP;
+>                  sel.r = crop->rect;
+>
+> -               rval = v4l2_subdev_call(
+> -                       sd, pad, set_selection, state, &sel);
+> +               rval = v4l2_subdev_call(sd, pad, set_selection, &subdev_fh->ci,
+> +                                       state, &sel);
+>
+>                  crop->rect = sel.r;
+>
+> @@ -932,8 +953,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>                          sel->stream = 0;
+>
+>                  memset(sel->reserved, 0, sizeof(sel->reserved));
+> -               return v4l2_subdev_call(
+> -                       sd, pad, get_selection, state, sel);
+> +               return v4l2_subdev_call(sd, pad, get_selection, &subdev_fh->ci,
+> +                                       state, sel);
+>          }
+>
+>          case VIDIOC_SUBDEV_S_SELECTION: {
+> @@ -946,8 +967,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>                          sel->stream = 0;
+>
+>                  memset(sel->reserved, 0, sizeof(sel->reserved));
+> -               return v4l2_subdev_call(
+> -                       sd, pad, set_selection, state, sel);
+> +               return v4l2_subdev_call(sd, pad, set_selection, &subdev_fh->ci,
+> +                                       state, sel);
+>          }
+>
+>          case VIDIOC_G_EDID: {
+> @@ -1348,7 +1369,7 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad, u32 stream,
+>          else
+>                  state = v4l2_subdev_lock_and_get_active_state(sd);
+>
+> -       ret = v4l2_subdev_call(sd, pad, get_fmt, state, fmt);
+> +       ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, state, fmt);
+>
+>          if (!states_locked && state)
+>                  v4l2_subdev_unlock_state(state);
+> @@ -1931,7 +1952,9 @@ v4l2_subdev_init_stream_configs(struct v4l2_subdev_stream_configs *stream_config
+>          return 0;
+>   }
+>
+> -int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> +int v4l2_subdev_get_fmt(struct v4l2_subdev *sd,
+> +                       const struct v4l2_subdev_client_info *ci,
+> +                       struct v4l2_subdev_state *state,
+>                          struct v4l2_subdev_format *format)
+>   {
+>          struct v4l2_mbus_framefmt *fmt;
 > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index de2684b15b96..c9fe99ea7841 100644
+> index c9fe99ea7841..20cf0560c7f9 100644
 > --- a/include/media/v4l2-subdev.h
 > +++ b/include/media/v4l2-subdev.h
-> @@ -734,6 +734,14 @@ struct v4l2_subdev_state {
->          struct v4l2_subdev_stream_configs stream_configs;
->   };
->
-> +/**
-> + * struct v4l2_subdev_client_info - Sub-device client information
-> + * @client_caps: bitmask of ``V4L2_SUBDEV_CLIENT_CAP_*``
-> + */
-> +struct v4l2_subdev_client_info {
-> +       u64 client_caps;
-> +};
-> +
->   /**
->    * struct v4l2_subdev_pad_ops - v4l2-subdev pad level operations
+> @@ -850,15 +850,19 @@ struct v4l2_subdev_pad_ops {
+>                                     struct v4l2_subdev_state *state,
+>                                     struct v4l2_subdev_frame_interval_enum *fie);
+>          int (*get_fmt)(struct v4l2_subdev *sd,
+> +                      const struct v4l2_subdev_client_info *ci,
+>                         struct v4l2_subdev_state *state,
+>                         struct v4l2_subdev_format *format);
+>          int (*set_fmt)(struct v4l2_subdev *sd,
+> +                      const struct v4l2_subdev_client_info *ci,
+>                         struct v4l2_subdev_state *state,
+>                         struct v4l2_subdev_format *format);
+>          int (*get_selection)(struct v4l2_subdev *sd,
+> +                            const struct v4l2_subdev_client_info *ci,
+>                               struct v4l2_subdev_state *state,
+>                               struct v4l2_subdev_selection *sel);
+>          int (*set_selection)(struct v4l2_subdev *sd,
+> +                            const struct v4l2_subdev_client_info *ci,
+>                               struct v4l2_subdev_state *state,
+>                               struct v4l2_subdev_selection *sel);
+>          int (*get_frame_interval)(struct v4l2_subdev *sd,
+> @@ -1461,6 +1465,7 @@ __v4l2_subdev_state_get_interval(struct v4l2_subdev_state *state,
+>    * @sd: subdevice
+>    * @state: subdevice state
+>    * @format: pointer to &struct v4l2_subdev_format
+> + * @ci: pointer to sub-device client information, including client capabilities
 >    *
-> @@ -1129,14 +1137,14 @@ struct v4l2_subdev {
->    * @vfh: pointer to &struct v4l2_fh
->    * @state: pointer to &struct v4l2_subdev_state
->    * @owner: module pointer to the owner of this file handle
-> - * @client_caps: bitmask of ``V4L2_SUBDEV_CLIENT_CAP_*``
-> + * @ci: sub-device client info related to this file handle
+>    * Fill @format->format field based on the information in the @format struct.
+>    *
+> @@ -1470,7 +1475,9 @@ __v4l2_subdev_state_get_interval(struct v4l2_subdev_state *state,
+>    *
+>    * Returns 0 on success, error value otherwise.
 >    */
->   struct v4l2_subdev_fh {
->          struct v4l2_fh vfh;
->          struct module *owner;
->   #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->          struct v4l2_subdev_state *state;
-> -       u64 client_caps;
-> +       struct v4l2_subdev_client_info ci;
->   #endif
->   };
+> -int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> +int v4l2_subdev_get_fmt(struct v4l2_subdev *sd,
+> +                       const struct v4l2_subdev_client_info *ci,
+> +                       struct v4l2_subdev_state *state,
+>                          struct v4l2_subdev_format *format);
 >
+>   /**
 > --
 > 2.47.3
 >
