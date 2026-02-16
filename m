@@ -1,260 +1,254 @@
-Return-Path: <linux-media+bounces-52840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52841-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QJXNIGbakmnKywEAu9opvQ
-	(envelope-from <linux-media+bounces-52840-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 09:50:46 +0100
+	id 4JRAMQDckmn3zAEAu9opvQ
+	(envelope-from <linux-media+bounces-52841-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 09:57:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id F164B141AD9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 09:50:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F87E141BE7
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 09:57:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 93589300B561
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 08:50:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 07E90301226D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 08:57:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 380C726FA6F;
-	Mon, 16 Feb 2026 08:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DDCB27CB02;
+	Mon, 16 Feb 2026 08:57:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="k3Jgfxyq"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="fEZML8Ol"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EB813E02A
-	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 08:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156A127F01B
+	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 08:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771231840; cv=none; b=mTE8kTBPLN/Tp1hDTRfrs4MzGmEB/dF4lgQmPBAYNgpn6fZFkuQtgbqEGfg/8ofRXy6NjuSCqk2C43oMAh1YIdxjXwiKvkwtUOxA163kptTMG7KQuAGziZ+6xPWzGFiXnnzy6vBZsJFlVSQGJ8s+0HEYr3Rx93acB3MLB21xcGw=
+	t=1771232239; cv=none; b=W4r7hQAvJhrSsyDspljElUT5+NQckgpcpHmpBxoU9tJCycP1iX3GfHBWA7B0v7/8BMxpi29iR+15oO4rSGZmG0x5EtqWdz+LgecxjBSHxjXH/F6IzmrD4hm3vYamib3ZY2K689iXYnzFJG+s8A5FUqt8SR+SaiIbv5EPn8W29g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771231840; c=relaxed/simple;
-	bh=oekUZSfQ6Ydpf4XihSlA663vUFsJLp2VtHQMqe3kbxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O54yWqDK/aL+VwGV/rLa6T1L08Esci73fqjqPC4tKNqtSq2F1b0Hh4oF0EU0PWJ3HMnajCqb20PtkhFUaD+iRDvj3RAtdEcbLAd5geSlwrg63psxgMHFOxyk8BV40e2AfPPfGn1YfWG4YqViCebLnvJVHTDoW44HbvAXFtS0fFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=k3Jgfxyq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4A61581;
-	Mon, 16 Feb 2026 09:49:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1771231784;
-	bh=oekUZSfQ6Ydpf4XihSlA663vUFsJLp2VtHQMqe3kbxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k3JgfxyqBnW6uM9kNBGzAKYPnuda4hbzkwg/xKeGhQKMSF/JmpjiekzJYTZwLEg+1
-	 CEUrAQ8W0fy8lwBFW3dw9V10S7qfKCsU60l7MVqokuSyuB4Nz2zrrbF4jBiVs8J8kI
-	 QLWrehMhY6PBWAwwJYjF5NHeUN5D9zrFwNu2aXus=
-Date: Mon, 16 Feb 2026 09:50:32 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
-	Alexander Shiyan <eagle.alexander923@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
-	Hans de Goede <hansg@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: Re: [PATCH v2 00/14] Metadata series preparation
-Message-ID: <aZLXdfGKn9XNscnd@zed>
-References: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
- <aY8sq-UoKFaMNRM-@zed>
- <aY9cfEGnI0MQxH_x@kekkonen.localdomain>
+	s=arc-20240116; t=1771232239; c=relaxed/simple;
+	bh=5JjsO+Z/EOVB62LLP3J5FzjWkCYntCX6eMMQdOZn1vs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RISwDqGQQksbfsPHv71VRi7aAmCN9tGiWlJN09pRldGnVQVdRG4pgY1Ism4BtzDBhCBEJy1064gZ2o+LwLrGW2lInmzAWkn3UQSb2frOA8q6cuSgHSTcf63EMv8fT5UyLzUn/l2b4GitqkBMI/qqO6u154eRNOWQ0r0ibL3JQiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=fEZML8Ol; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b884ad1026cso376483266b.2
+        for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 00:57:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1771232236; x=1771837036; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k07tS0iTMZ1Aduf68Pf/2bDBD3WkPIgz5AsTfsd5Z9U=;
+        b=fEZML8OlIDE4EAwi6/J6lAS5I5d6xWJQ5WGEYgjiyErKPFI7+CuTe3fNr6rFqn6h3Y
+         OC1uEb1iQ0a7WGSJD3brKk6eR1pb8QT8VyDbgUYNllDorr8DedHspX41botUlz02BcCE
+         7Uf/HFSrdNUa7SytVkCBix+hnX4ycNl6upDYTKtwAhWp9REStlveWSl0CCIetcpIn/an
+         8D4URRnk6z527o/4S3hGfZTXcwJGeZvVInYvb+wH8JfcKX+fcSH4N6rR9y+UrYc2unEp
+         8HP0iA/xC5TIcwffBG1VwgvzwEQxS/JCMmNFU6pOPvoVfJx/Blr+GUnFhWkJaVO2b9ZS
+         gTCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771232236; x=1771837036;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k07tS0iTMZ1Aduf68Pf/2bDBD3WkPIgz5AsTfsd5Z9U=;
+        b=EC2u9fkj8QSVs5r7yFor1SesA7DAMxx+pvDMqtYqDWszU+R9AGq2odTIRTogzHI5f3
+         G/FliwX4WeUtOKUCLGfzT0e4iA/R1oy/UD2XHm33lZ0Gz4f0TOu31XXe8kQfy11MBrML
+         hGCy08Ti2Gktv/5oWn5FsqAZ2E6YZPPgoH5WGqYgO6hGj+HhNRovQUFhjZY/v1St9nP3
+         GMuwLgu/qcg0Pb1KthfllNWY02cMjLTpIsIAgs+VH+pNqPq/XpMsaxtlzER+C5k5+FKE
+         Wxy8G4UR540ZcoZf7l4hBWTF4kE5/vt4DIADb3eR9+bxLf7bms8kVz27zlCBiMItFO/i
+         e8RA==
+X-Forwarded-Encrypted: i=1; AJvYcCUyypW3uPUyyU88VKCePgAOzt+PVPEtci1Vjf31jNiPgkq8I+7DNTqgE9YyvBHmvSyJ6jFwD1pbDFgeLQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqigJZIU0GMRekYaEVLUGCx0iT6l/W67qOhxwAB4b/IY4H6qrI
+	LgTPNLuv3XaNMw9YXaXCNmb+N/4a3e4/MwvAFoXVjHWQG8X7emeJkNZ/m9q8OVwHlTg=
+X-Gm-Gg: AZuq6aIn2k+4Ta7cr5KN2XP6z+0HvjKMj/9Mb/dnLJJXYm4QLn3ZfrI5WLZonK31div
+	KnqCsO90ROZW/SyJltNqTgZ+/GiNgSKeGfkfr9ZeLfDM+GQONkTrlIujaCF/IDhD28jwxfjM+BL
+	iwJ3YCteOmSljW993H2kuWRclW1PhPjxk0JESEAqieYyTfkF32e6YJupyPQCqj4QkHXPVuw+CLs
+	UQsD3FSiyqPo/XBm83NbDaFeCkY7F/busSvVCQ+qMYj2Qe0NnK7SavQMJNS/H+zE8ATvHlafeZJ
+	YwpOMxDUHGBGdN9Q9u7/XvA/W6xgOxAPydlyXOlXJx+lXtbboY9kP54yvqpUiRK2g0xGPoKK4ed
+	mjjOSCY7LA05S5n5wJoSQxspnDobHg26de9fU0GhCr3BZgLGZVuPeqb4TWBBR7VM48eMIHW4pMw
+	Ho4DqGrsBpKVW2hnssy5Kze0rh1jL7b5n0N3AB8llQAgmTRx6iu59z4LNZWSQeaFk8z3TD9eaG7
+	LcrEw==
+X-Received: by 2002:a17:906:6a1e:b0:b87:63a8:8849 with SMTP id a640c23a62f3a-b8fb4501385mr555665766b.46.1771232236335;
+        Mon, 16 Feb 2026 00:57:16 -0800 (PST)
+Received: from [172.16.220.101] (144-178-202-139.static.ef-service.nl. [144.178.202.139])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc769437bsm236867966b.61.2026.02.16.00.57.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Feb 2026 00:57:15 -0800 (PST)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH v4 0/3] Add CAMSS support for SM6350
+Date: Mon, 16 Feb 2026 09:54:18 +0100
+Message-Id: <20260216-sm6350-camss-v4-0-b9df35f87edb@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aY9cfEGnI0MQxH_x@kekkonen.localdomain>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23OTQ6CMBAF4KuQrq1pO6WAK+9hXPRnKl0A2iLRG
+ O5uxRgTwvJN8r55L5IwBkzkULxIxCmkMPQ5yF1BbKv7C9LgciaCiZIzIWnqFJSMWt2lRBsrmTS
+ +sd45kivXiD48Fu50/uaIt3tWx++RGJ2Q2qHrwngoenyMNMuKCS7Ip9CGNA7xucyZ+NLY/jxxy
+ qgCp4RSUGvnjl6HeG2HHveZX7BJ/AHO14DIgOPeq8ppAKO2APgBn4WwAiADwHQtS8NMZe0amOf
+ 5DUCVccFfAQAA
+X-Change-ID: 20251024-sm6350-camss-9c404bf9cfdd
+To: Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Todor Tomov <todor.too@gmail.com>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771232235; l=4900;
+ i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
+ bh=5JjsO+Z/EOVB62LLP3J5FzjWkCYntCX6eMMQdOZn1vs=;
+ b=KLLQDTciBdGH1afezBA4vmkcsmEr2/iAtPfFG7fHMTuIU+wtnPlgvhwl7RZVQwwY3CC/6HcR5
+ Q/VoYDRr5URDgDCDwFd6aQZ6zYMFkdRV7iIFBTh4M/92IXK5Y8nSSzL
+X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
+ pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	DMARC_POLICY_ALLOW(-0.50)[fairphone.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[fairphone.com:s=fair];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52840-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52841-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[fairphone.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[luca.weiss@fairphone.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F164B141AD9
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 6F87E141BE7
 X-Rspamd-Action: no action
 
-Hi Sakari
+Add bindings, driver and dts to support the Camera Subsystem on the
+SM6350 SoC.
 
-On Fri, Feb 13, 2026 at 07:16:44PM +0200, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> Thank you for reviewing this!
->
-> On Fri, Feb 13, 2026 at 03:36:43PM +0100, Jacopo Mondi wrote:
-> > Hi Sakari
-> >
-> > On Wed, Feb 11, 2026 at 11:09:06AM +0200, Sakari Ailus wrote:
-> > > Hi folks,
-> > >
-> > > This smallish set contains patches that prepare for merging the metadata
-> > > series.
-> > >
-> > > There are simple cleanups but also two noteworthy changes: the addition of
-> > > the VALIDATE_LATE media link flag and the addition of the new struct
-> > > v4l2_subdev_client_info struct to the get_fmt, set_fmt, get_selection and
-> > > set_selection pad operation arguments.
-> > >
-> > > The VALIDATE_LATE allows using the link_validate callback as the way to
-> > > validate the links connected to the sink pads of video nodes on pipelines
-> > > with multiple capture video nodes. Without this flag, the entire pipeline
-> > > will be validated at the time of the first streamon, with the V4L2 pixel
-> > > (or other) format set on the other capture video nodes at the time,
-> > > requiring all formats to be set before starting streaming anywhere. But
-> > > this does generally not match with what the userspace would do, hence the
-> >
-> > What would userspace do instead ?
-> >
-> > Is there a use case for formats not being known at pipeline start time ?
->
-> Yes. Try capturing from two video nodes with e.g. yavta.
->
+These patches were tested on a Fairphone 4 smartphone with WIP sensor
+drivers (Sony IMX576 and IMX582), the camera pipeline works properly as
+far as I can tell.
 
-maybe yavta is not the right tool to handle streaming on a complex
-platform, or should at least be modified to delay start stream after
-all formats are set up.
+Though when stopping the camera stream, the following clock warning
+appears in dmesg. But it does not interfere with any functionality,
+starting and stopping the stream works and debugcc is showing 426.4 MHz
+while the clock is on, and 'off' while it's off.
 
-Anyway..
+Any suggestion how to fix this, is appreciated.
 
-> I recall the vsp driver does link validation as part of the streamon
-> operation without involving the link_validate callback for this reason.
->
-> >
-> > Is the userspace expected to enable all links with the VALIDATE_LATE
-> > flags ?
->
-> It's not supposed to be a user-settable flag. The purpose is really to
-> allow the framework to do the job it's supposed to.
->
+[ 5738.590980] ------------[ cut here ]------------
+[ 5738.591009] gcc_camera_axi_clk status stuck at 'on'
+[ 5738.591049] WARNING: CPU: 0 PID: 6918 at drivers/clk/qcom/clk-branch.c:87 clk_branch_toggle+0x170/0x190
+[ 5738.591081] Modules linked in:
+[ 5738.591099] CPU: 0 UID: 10000 PID: 6918 Comm: plasma-camera Tainted: G        W           6.17.0-00057-ge6b67db49622 #71 NONE 
+[ 5738.591118] Tainted: [W]=WARN
+[ 5738.591126] Hardware name: Fairphone 4 (DT)
+[ 5738.591136] pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[ 5738.591150] pc : clk_branch_toggle+0x170/0x190
+[ 5738.591164] lr : clk_branch_toggle+0x170/0x190
+[ 5738.591177] sp : ffff800086ed3980
+[ 5738.591184] x29: ffff800086ed3990 x28: 0000000000000001 x27: ffff800086ed3cd8
+[ 5738.591208] x26: 0000000000000000 x25: ffffda14fcfbd250 x24: 0000000000000000
+[ 5738.591230] x23: 0000000000000000 x22: ffffda14fc38bce0 x21: 0000000000000000
+[ 5738.591252] x20: ffffda14fd33e618 x19: 0000000000000000 x18: 00000000000064c8
+[ 5738.591274] x17: 0000000000000000 x16: 00001ae003667e9e x15: ffffda14fd2a07b0
+[ 5738.591295] x14: 0000000000000000 x13: 6f27207461206b63 x12: 7574732073757461
+[ 5738.591317] x11: 0000000000000058 x10: 0000000000000018 x9 : ffffda14fd2a0838
+[ 5738.591338] x8 : 0000000000057fa8 x7 : 0000000000000a16 x6 : ffffda14fd2f8838
+[ 5738.591360] x5 : ffff0001f6f59788 x4 : 0000000000000a15 x3 : ffff25ecf9d7e000
+[ 5738.591381] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0000baf5c100
+[ 5738.591403] Call trace:
+[ 5738.591412]  clk_branch_toggle+0x170/0x190 (P)
+[ 5738.591429]  clk_branch2_disable+0x1c/0x30
+[ 5738.591445]  clk_core_disable+0x5c/0xb4
+[ 5738.591462]  clk_disable+0x38/0x60
+[ 5738.591478]  camss_disable_clocks+0x44/0x78
+[ 5738.591496]  vfe_put+0x7c/0xc0
+[ 5738.591512]  vfe_set_power+0x40/0x50
+[ 5738.591528]  pipeline_pm_power_one+0x14c/0x150
+[ 5738.591546]  pipeline_pm_power+0x74/0xf4
+[ 5738.591561]  v4l2_pipeline_pm_use+0x54/0x9c
+[ 5738.591577]  v4l2_pipeline_pm_put+0x14/0x40
+[ 5738.591592]  video_unprepare_streaming+0x18/0x24
+[ 5738.591608]  __vb2_queue_cancel+0x4c/0x314
+[ 5738.591626]  vb2_core_streamoff+0x24/0xc8
+[ 5738.591643]  vb2_ioctl_streamoff+0x58/0x98
+[ 5738.591657]  v4l_streamoff+0x24/0x30
+[ 5738.591672]  __video_do_ioctl+0x430/0x4a8
+[ 5738.591689]  video_usercopy+0x2ac/0x680
+[ 5738.591705]  video_ioctl2+0x18/0x40
+[ 5738.591720]  v4l2_ioctl+0x40/0x60
+[ 5738.591734]  __arm64_sys_ioctl+0x90/0xf0
+[ 5738.591750]  invoke_syscall.constprop.0+0x40/0xf0
+[ 5738.591769]  el0_svc_common.constprop.0+0x38/0xd8
+[ 5738.591785]  do_el0_svc+0x1c/0x28
+[ 5738.591801]  el0_svc+0x34/0xe8
+[ 5738.591820]  el0t_64_sync_handler+0xa0/0xe4
+[ 5738.591838]  el0t_64_sync+0x198/0x19c
+[ 5738.591854] ---[ end trace 0000000000000000 ]---
 
-This doesn't explain me nothing.
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+---
+Changes in v4:
+- Update power-domain-names order (Krzysztof)
+- Make hex numbers lower case in init seq (David)
+- Pick up tags
+- Link to v3: https://lore.kernel.org/r/20260213-sm6350-camss-v3-0-30a845b0b7cc@fairphone.com
 
-The only documentation patch for this in
-[PATCH v2 07/14] media: mc: Add MEDIA_LNK_FL_VALIDATE_LATE
+Changes in v3:
+- Update dt-bindings to include everything related to camss
+- Update regulator names
+- Remove slow_ahb_src
+- Link to v2: https://lore.kernel.org/r/20251114-sm6350-camss-v2-0-d1ff67da33b6@fairphone.com
 
-just reports:
+Changes in v2:
+- Remove prefix from interconnect-names
+- Move 'top' power-domain to the top of list
+- Update regulator supply names
+- Link to v1: https://lore.kernel.org/r/20251024-sm6350-camss-v1-0-63d626638add@fairphone.com
 
-+The ``VALIDATE_LATE`` flag is used to signal that the validation of the link may
-+be delayed until actual hardware operation even if the rest of the pipeline
-+would be validated at an earlier point of time.
+---
+Luca Weiss (3):
+      dt-bindings: media: camss: Add qcom,sm6350-camss
+      media: qcom: camss: Add SM6350 support
+      arm64: dts: qcom: sm6350: Add CAMSS node
 
-in Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+ .../bindings/media/qcom,sm6350-camss.yaml          | 471 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm6350.dtsi               | 233 ++++++++++
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 125 ++++++
+ drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
+ drivers/media/platform/qcom/camss/camss.c          | 261 ++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 6 files changed, 1093 insertions(+)
+---
+base-commit: 3daf23347bb5f4a375d0101ed29c97ce1a99721b
+change-id: 20251024-sm6350-camss-9c404bf9cfdd
 
-Have I missed any other part of the documentation maybe ?
+Best regards,
+-- 
+Luca Weiss <luca.weiss@fairphone.com>
 
-How are drivers supposed to use it ? Create links to multiplexed
-subdevs with this flag ?
-
-Again, if the problem is a userspace tool not setting up all formats
-before calling s_stream, a driver flag to accommodate it doesn't seem
-right.
-
-> >
-> >         for_each_video_node() {
-> >                 set_format()
-> >                 clear_validate_late();
-> >                 vidioc_streamon()
-> >         }
-> >
-> > As I understand it, the use case is solely delay setting the format on
-> > the video device and its sink pads ?
->
-> Correct.
->
-
-Still not sure why we should allow that.
-
-I'll ask-again:
-
- Is there a use case for formats not being known at pipeline start time ?
-
-> >
-> > > new flag. The patches in the upcoming metadata series version adds the
-> > > support for the flag to the IPU6 driver.
-> > >
-> > > Secondly, the new struct v4l2_subdev_client_info enables passing around
-> > > file handler specific client capability information, which is used to
-> > > differentiate UAPI between existing users and those that are aware of the
-> > > new common raw sensor model. This is effectively required if we want to
-> > > add support for the new model to existing raw sensor drivers: the new
-> > > model is in a direct conflict with how things worked before the model.
-> >
-> > Can you elaborate a little on why a per-ioctl flag is required ?
-> > Doesn't this open the door to possible mixups ?
-> >
-> > I fail to see what the advantage is over per-subdev_fh client
-> > capabilities.
->
-> It's a per-file handle flag, but the sub-device IOCTL handlers currently
-> don't take the file handle (or information related to it) as an argument.
-
-Could you elaborate on the reason why the flag should be an operation
-argument an not a per-file handle setting ?
-
-> Therefore this needs to be added to the relevant ops -- it could also be
-> all pad ops; it would be possible to avoid adding new functions that take
-> client_info pointer and work on the active state (see the third-last
-> patch).
->
-> >
-> > > There still needs to be a single driver internal state, the different
-> > > UAPIs simply offer a different view to that state. In-kernel users that do
-> > > not deal with capabilities just use NULL when calling these ops. This also
-> > > means that whatever client capabilities are being used, there may not be a
-> > > change to inter-driver interfaces such as get_fmt() when dealing with
-> > > external pads.
-> >
-> > Do we expect drivers that still use in-kernel operation calls to be
-> > ported to use streams ?
->
-> Those that benefit from it can be ported. But interoperability is good
-> between those that use streams than those that don't so there's no hurry.
->
-> >
-> > I'll review the rest of the series in the meantime.
->
-> Thank you. I'm down to ~ 80 patches once these are merged.
->
-
-I really hoped we could have landed the 66 patch series to start
-building on it
-
-> --
-> Kind regards,
->
-> Sakari Ailus
 
