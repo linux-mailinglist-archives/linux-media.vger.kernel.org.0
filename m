@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-52910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52911-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uIHAN6kzk2lx2gEAu9opvQ
-	(envelope-from <linux-media+bounces-52910-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:11:37 +0100
+	id 4Go2H/c1k2mV2gEAu9opvQ
+	(envelope-from <linux-media+bounces-52911-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:21:27 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34D8145323
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:11:37 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 242271456EF
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:21:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7E9FA3000B3C
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:11:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E55093020871
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:16:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC4F315D58;
-	Mon, 16 Feb 2026 15:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B1CB31D393;
+	Mon, 16 Feb 2026 15:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftkfm0nK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SmVKhhtc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7305E314A6F;
-	Mon, 16 Feb 2026 15:11:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B74B31B823;
+	Mon, 16 Feb 2026 15:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771254689; cv=none; b=k40FeKRYOgrT8wfTSEYy2/hUDx3NIKtpVe3rkrZARfCMVys1w7ID8jeFz9w+okGU8A2czfEd+wsCOyXuN0OiXRifEn9omCw/CzHO6Ar064XD0GBJ/esG71jVLCdK1NGyczUa48zCrk4qmCjGS4WAX2Hdmck9WFDX37UuQfXhqr8=
+	t=1771254997; cv=none; b=MX221XxLXk04BixexPsOVLr2zCJtHVrMtLEgplwGud3MwnSNIN72RAUpZOdL05pgNXW/ih7EIw4cY940prZNy6Cg6DTSgZpdD2R7fa/xzrH3bI0E4kuXX4INZW1C1YWtpr8fIikivPG+2rdwfyqBGD4XHX5X/FlT6XReVzc+yR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771254689; c=relaxed/simple;
-	bh=PN7JuZ0MWYp3x4UY+Sr1aCCdlWCIA2xS8o7MwthqdS4=;
+	s=arc-20240116; t=1771254997; c=relaxed/simple;
+	bh=XLZILfh8Wpv03rEvDuXVJeOgNvka6GITqW8xD13QNAw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=elrFaM9QGleqCReuFYA0UZeB18xiqSZRjrQPXGRlOKXYpappzDi3KwFJ4zJa5Vlh6XorZ1uptjY1kxwpkLyu1WP2zDBw/pM6yZuJr51XZlLfR/2bCQH9t3eWViSkGoaFWXBmw5fbNoHyw1UsUDpv8TYs002uKbSGr471lUTN9HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftkfm0nK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E998BC116C6;
-	Mon, 16 Feb 2026 15:11:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=FaQPrGaQ2IkSHAFbXSDph3FvRslZbAAw3fYhm8tzrvgefKgwGeO6yGxdJ8p3+01eC3Hpl5gAXdNr+Cvl4EbKElBZNgLRNtSsQnqunSgScmSwZ65qZLCiHQFteKU9j1o/cPJRebzQCB8UBsF2RH6ZH/+ckOgPBBSoSU843ywI7Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SmVKhhtc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 510B6C116C6;
+	Mon, 16 Feb 2026 15:16:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771254689;
-	bh=PN7JuZ0MWYp3x4UY+Sr1aCCdlWCIA2xS8o7MwthqdS4=;
+	s=k20201202; t=1771254996;
+	bh=XLZILfh8Wpv03rEvDuXVJeOgNvka6GITqW8xD13QNAw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ftkfm0nKVpL/WcEvY2rnmi2r3bcql47QcEn/8OiKR8fl4I2TH69w98jrxOjk3KZHD
-	 yZTvhKULXH1NcaHDTYEzix8vDE5I2cCJKJfJJY+0XBCGjGizx20gCz+VIaw1bSeCHX
-	 kL3rRUC5hU6TOhGd7YQ1AaL1BS6xWNRvmwD0kR/MCOeagu1YIygMyv1sg6K6b4+0vh
-	 +iqliDiYug2hH0mD6GEkDraPHrBUNx4+XOjKV95tdLJyHTjnHM1C6HkO+ShLMB+I/n
-	 P10aRKSryoLykGcRCnOyToXngRI4V0mKVWdG95hZoMLlLU6UcovjithuKuRrHUkeSb
-	 UaiaAwCTVZj9w==
-Message-ID: <3ca29f96-2b17-493f-a5f6-d770b6fa8530@kernel.org>
-Date: Mon, 16 Feb 2026 16:11:20 +0100
+	b=SmVKhhtcCQ2tfnX+EV7YsvBRe+ncegb/36IDW8zD2ZCnp3AABmvpYl2S5fcXdJYnV
+	 vZvj7l4gyttKtw0ZpT/gNhxXZjQOecxjEwbWHX8LAh8mdfBlAFMO8Qljx94GvJGIWe
+	 1hCKISFncvS+6i4m3CUlz7EV9y3ucaUtWReZYEHvlDbQJV95bcalnubu1Ee2aaNau0
+	 1wNExlDJL4OMmyTbt2fO6pEeNTlmhzDpKMAc7zzgwgc3Ytji/M7/VpvMnA6NCt27kW
+	 Vp6TGOgak7Xogop/Nabj/AA/fTzP2F5rDB3fw7y90qVp+HwjLxyQiqR1u938uhjF0z
+	 0we0LFxljzTYg==
+Message-ID: <07b62f39-d27b-4439-a60e-42fd47f49b13@kernel.org>
+Date: Mon, 16 Feb 2026 16:16:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,21 +53,17 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/13] serial: linflexuart: Add DMA support
-To: Larisa Grigore <larisa.grigore@oss.nxp.com>, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- chester62515@gmail.com, cosmin.stoica@nxp.com, adrian.nitu@freescale.com,
- stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- devicetree@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- s32@nxp.com, imx@lists.linux.dev, clizzi@redhat.com, aruizrui@redhat.com,
- eballetb@redhat.com, echanude@redhat.com, jkangas@redhat.com,
- Radu Pirea <radu-nicolae.pirea@nxp.com>, Phu Luu An <phu.luuan@nxp.com>,
- Js Ha <js.ha@nxp.com>, Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
-References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com>
- <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
+Subject: Re: [PATCH v13 6/6] arm64: defconfig: enable Verisilicon IOMMU for
+ Rockchip RK3588
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, joro@8bytes.org,
+ will@kernel.org, robin.murphy@arm.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, heiko@sntech.de, nicolas.dufresne@collabora.com,
+ p.zabel@pengutronix.de, mchehab@kernel.org
+Cc: iommu@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org
+References: <20260216095144.107356-1-benjamin.gaignard@collabora.com>
+ <20260216095144.107356-7-benjamin.gaignard@collabora.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,7 +109,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260216150205.212318-13-larisa.grigore@oss.nxp.com>
+In-Reply-To: <20260216095144.107356-7-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -121,18 +117,17 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52910-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-52911-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[30];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -142,35 +137,22 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B34D8145323
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 242271456EF
 X-Rspamd-Action: no action
 
-On 16/02/2026 16:02, Larisa Grigore wrote:
-> Add support for using DMA to avoid generating one interrupt per
-> character and losing characters while copy-paste.
-> In UART mode, the DMA capability can be used only if the UART Tx/Rx
-> buffers are configured as FIFOs.
-> If the DMA related properties are missing from the device tree, the
-> driver will fall back to interrupt + Buffer mode.
-> On the RX side, a timer is used to periodically poll for received data.
+On 16/02/2026 10:51, Benjamin Gaignard wrote:
+> Enable Verisilicon IOMMU used by Rockchip RK3588 AV1 hardware codec.
+> This hardware block could be found in Radxa Rock 5B board.
+
+I could not find such board. I even git grepped for some variants... It
+seems you are adding it earlier to a known DTSI, so it will reach some
+board, so the point is to use here REAL name of the board we do support.
+
 > 
-> Signed-off-by: Larisa Grigore <larisa.grigore@oss.nxp.com>
-> Co-developed-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
-> Signed-off-by: Stoica Cosmin-Stefan <cosmin.stoica@nxp.com>
-> Co-developed-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
-> Signed-off-by: Radu Pirea <radu-nicolae.pirea@nxp.com>
-> Co-developed-by: Phu Luu An <phu.luuan@nxp.com>
-> Signed-off-by: Phu Luu An <phu.luuan@nxp.com>
-> Co-developed-by: Js Ha <js.ha@nxp.com>
-> Signed-off-by: Js Ha <js.ha@nxp.com>
-> Co-developed-by: Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
-> Signed-off-by: Ghennadi Procopciuc <ghennadi.procopciuc@nxp.com>
-
-
-Incorrect DCO chain. Please read submitting patches document.
-
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
 Best regards,
 Krzysztof
 
