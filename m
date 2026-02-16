@@ -1,74 +1,125 @@
-Return-Path: <linux-media+bounces-52862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52863-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +NAMKhcGk2nF0wEAu9opvQ
-	(envelope-from <linux-media+bounces-52862-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 12:57:11 +0100
+	id KGB5OqsHk2m/1AEAu9opvQ
+	(envelope-from <linux-media+bounces-52863-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 13:03:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22231432D0
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 12:57:10 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE143143332
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 13:03:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 73A403014111
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 11:56:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DDA30301624A
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 12:03:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9064306B3B;
-	Mon, 16 Feb 2026 11:56:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3651B30BF5C;
+	Mon, 16 Feb 2026 12:03:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EGYXM8j+"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="T/7fmraQ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aHgeQfGk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FD7303CB6
-	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 11:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE6130BBB8
+	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 12:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771243018; cv=none; b=IMtBAQVsR7udx1WjWVJWuT79BaAkeYnd5WE9DfDNR8nEn2Eq2FTUTGVqdO+FbHSGo3WGJjQm3OGa4gtdhY/rMjnBIhOQdZGeYatn3paSKpY2eCaCKyigE5FMmS6JS+7XtC/fZHvBAC9ISaI27ViYFF0VaUqks4h6RaTPS58zOjg=
+	t=1771243426; cv=none; b=S0FzQdsJWHlTTmxjprdrXv6DV4u4AZSu2CrqLuEjVoKHq0j2qmQWYq0qtMfLnrrSr3g+TXw18vx6XRrBElrJLVTwfG2Na6WVusIF2wKQLq3EVfLPbjhx/NYVPaDQ/K7vLnjW/hONiRbMRbWmH5T+1F3UzPrsebBeCzMY8TSydoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771243018; c=relaxed/simple;
-	bh=6yq4ptaVinD63+xNUaLkXSkKixBBFyv6NVdiqpWkVSQ=;
+	s=arc-20240116; t=1771243426; c=relaxed/simple;
+	bh=OMt9qYi0dDWawXC4CgSrmYFOFq3hpaBjenuDcSPujmw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pCSxs1qtd+GFLCBh0hvdlvLJ/FpNOlahiX3o/GemcbYE1y/LdhrQ2bey36bxIGnNAckmfXCoJPsYuhvDXlHZ4sSBYw1NmXkt+y5meHnPeGB9u1Os4/tbp3hnHSos5afB5jJSVaYiFLQEi2gzZ4woa1M1DQqZf+3zImODltRjX30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EGYXM8j+; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9EACDA8;
-	Mon, 16 Feb 2026 12:56:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1771242961;
-	bh=6yq4ptaVinD63+xNUaLkXSkKixBBFyv6NVdiqpWkVSQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EGYXM8j+Iog83Q3rZBIWvI0X5Rda3nB3Iz2iTzc5VIcvX839SvJq4lVBABSdKNzko
-	 kg+U2jKNaWTWeWN7iDpXZIlHJZEEqtQ7BjRd3C4QpsO3EQ6E4B6ay6t3Wks0L2xv7v
-	 CqA5puDa4AXajHnjWvANY684NMtuGnwiIHNjgCuo=
-Date: Mon, 16 Feb 2026 12:56:49 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
-	Alexander Shiyan <eagle.alexander923@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
-	Hans de Goede <hansg@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: Re: [PATCH v2 00/14] Metadata series preparation
-Message-ID: <aZL9v-GhEcdwrvHw@zed>
-References: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
- <aY8sq-UoKFaMNRM-@zed>
- <aY9cfEGnI0MQxH_x@kekkonen.localdomain>
- <aZLXdfGKn9XNscnd@zed>
- <aZL9LTzRgbDngtOA@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gMbY9sazPhLux2Tx2pD3FEZGO6bROCgGeGBdvIeevYIMYCDGRLrMuyXkJ/rd98yC/PEm6YWLGtOYhDA/gQqAeeiz7OL9oZhbuJCt1KSyvEaI/ERBzwN3LOVohMCwJmLYVVzcT0WNrTekVnUFoxrfmc4LDzyMn8xIl+KWrYHVB9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=T/7fmraQ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aHgeQfGk; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61GA7gV01921279
+	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 12:03:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	msQflfcnwvzaxO2WF5SV3QodDRrU+YL5i1PglUfJitw=; b=T/7fmraQJiRG7F+F
+	+pVwhusOZ67qwDa19AeKwJuR1qPUKjv2wFNc12EkDuaeZcBYY5AI+gIXbXlwdTAF
+	fLFOzVzPAsNwOxIeoxnuIiqARt+/eqaHRZveAolSyqW6ENmbCu3Kgc6MQvX5I6AZ
+	YDcRhYYB0wUY+CAcojwpt3Rw9dJRYRmdTH4fnEZ5rF78BMurzpqYm0OvZCwaTF4X
+	sqJwScUqg1tPTfw03XpKOuRH80fkJ/6EwyrrLj4ZrE+IVOw6mpRvUeSoB5IB5W78
+	PnI1er2DFLDC3cwaVZt2HqSk06m1fOsM/L/aZHW4/rxYi0st6w6GI/YGP/vDEZ0N
+	wtjh6Q==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4caerc4pf0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 12:03:44 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-506afabb8d3so227783481cf.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 04:03:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1771243423; x=1771848223; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=msQflfcnwvzaxO2WF5SV3QodDRrU+YL5i1PglUfJitw=;
+        b=aHgeQfGkteylhJ3nNJPYFsrHe5jBeqfoivkN4+molHdVFiIzaZtcUF2pE/tc8gTfhS
+         E2dj6oCRb6dD5MIIYxN0W0qxewgjb4MWAcAKxlDSRHUVw7QvBc5w7Q+EjgVcQQ63+FhP
+         FQSX5nm/M9z5TCM+9YUdk3SvOQB03RpfSLcVfxAotEU2bQ3AZDQSSlJ4M409RQ3jN4kZ
+         Ti8PL6LiMuPCknCshumnbalGxmGqMJsws+DtpEmT5hCV1NR0RsQTVO508l9dDxcYttkl
+         C6wcx+2elhvP4KYWbeAA+qhSxO0lSxJdMCrtt0MAJtOMl4uT2JZKq8+gOOqu6vcI/blG
+         ncQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771243423; x=1771848223;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=msQflfcnwvzaxO2WF5SV3QodDRrU+YL5i1PglUfJitw=;
+        b=nr0e6iLanWg11nYGp2vZET3v/vkAqESg/p7nzZdC5uSegqVGgeq5H6TvjFNW0M48IE
+         XNMoqrw8Si8fcVp5L0CWAEIuyrOydPGE5pf1kACFPgKrEfjdBBz8UcOLLG6FO7GQ/jH1
+         lPjvbhAgMsxZKEezoGWruTKlsDWIPXfHAeDYoGOEc4JewFeK+OdcrFxG0ji55KaufoP3
+         +mBh9988S3FIYbtfDZq7+444KxRvkmoUm6ufe+MgPgDgFmLPQFmHmeEYJRp0QUNEGzcz
+         l5dnA+3JcK3zF83w9us0xvHPjqXrwFT8o3OrsdEQ8VVY626Prl8IdRm5VpA+lPco+lKD
+         PAMg==
+X-Forwarded-Encrypted: i=1; AJvYcCVTexjzCmTFdRqlrFdeS9+IWc01q+zDfuTXjvXmUj4U40DULdOcVsf4D6vCMWNayeyG9YrtrEJwPuoYmQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKDe20ftTFci/w0LeXmHfutlXaVB3QHoz2A2U3V9QneUy5TLWM
+	QyTOFqxN7BsZA2WTVtUnH/PLLGDye4MrkzbKq0Gvkayc0jChGCi7wuV5HanXQUfXbfQp/sf/yIQ
+	fnecPPIHiHB+SjzTo4r8j8Yu1kDVSqh9+aIv5Fc1ZpY+me6J90HKDAKLlPjuaCWXz4YvynZi2yw
+	==
+X-Gm-Gg: AZuq6aJBKACvByeMPimh/iZCy2W62eYD/M/LsNBFoiXT+3hjmY1TdcOcHMlDBu0ElXE
+	CPhJWGW++gocWCA0WmVRtNLw5TYE+zy3fG8chAQsRRFLklQ32m4cdUqsStwfpdX1QN8RFeHEx0/
+	QlWlG3x88wBF/5EUkNPOv/abNUOiq2JlJZvlVjHmknqhmonljmOA/xwpH9lHAoagDPNYzDt6jQG
+	L6O2J8t3iHnyeK5Lb43dEweRUrj9sf4eqpaIeJnqpGzCe4Qdqq9ZNmcaXnly9RgNWjctTyWl9/i
+	vugSGCzLCc+bdy7kEuXkfLn8dchPO7t2m8mICMVRuJDuDzEIEF7V0dKALt7puUdYRilXWdIM/rp
+	f8c+AFWkfGAzUzlBK/lGVACPldRN6ndbn/Euwz7GNy8Ga4cxFjSskP77xD6t29UR5ENUrl3a7j9
+	ga/tmY9F04qNsXJ6OuKJLXQiSIes3SJsRiIzM=
+X-Received: by 2002:a05:620a:4484:b0:8c5:32a0:3421 with SMTP id af79cd13be357-8cb4ac01d41mr1019159485a.16.1771243423552;
+        Mon, 16 Feb 2026 04:03:43 -0800 (PST)
+X-Received: by 2002:a05:620a:4484:b0:8c5:32a0:3421 with SMTP id af79cd13be357-8cb4ac01d41mr1019153285a.16.1771243423018;
+        Mon, 16 Feb 2026 04:03:43 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e5f5b6cb1sm3176719e87.84.2026.02.16.04.03.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Feb 2026 04:03:42 -0800 (PST)
+Date: Mon, 16 Feb 2026 14:03:39 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: iris: Enable Gen2 HFI on SC7280
+Message-ID: <fw2zmrpijgzu62jnajqpykplhte2ff3cg333yg4mbb62pq7kem@v2mg7mrf7jjh>
+References: <20260209-iris_sc7280_gen2_support-v1-0-390000a4fa39@oss.qualcomm.com>
+ <20260209-iris_sc7280_gen2_support-v1-2-390000a4fa39@oss.qualcomm.com>
+ <0da582a6-5bba-4450-99ec-cf57b67915e6@oss.qualcomm.com>
+ <0a324898-092b-3e44-c35c-15de20b50f40@oss.qualcomm.com>
+ <2uih6xdzarkwnvhlhv5kznmdwo4jorqvsrb7xxrxgr6vprx3ey@4kx45k5i3c4y>
+ <6b9042c8-767e-0fdb-9012-f3790899509e@oss.qualcomm.com>
+ <f9f40ac7-e6fe-41eb-92e4-311913567ef0@oss.qualcomm.com>
+ <b759fb04-22b7-cd5c-9e53-f4ffe9f37dc5@oss.qualcomm.com>
+ <nb576n2risxl5mabotlu3idmoztedrblur4gbvdlk4cu3mtiqq@ecezsux4w7jz>
+ <c3e8b907-06b9-26d0-50a4-e9b091050b1c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,263 +128,174 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aZL9LTzRgbDngtOA@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c3e8b907-06b9-26d0-50a4-e9b091050b1c@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=ZJraWH7b c=1 sm=1 tr=0 ts=699307a0 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=eTqMsk7kSW0O_KvlIWsA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-ORIG-GUID: N53Anh_cxdHZKYsuZJapCTQr6aAaGkZ-
+X-Proofpoint-GUID: N53Anh_cxdHZKYsuZJapCTQr6aAaGkZ-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE2MDEwMSBTYWx0ZWRfX7DJ4gaaJwq9Y
+ C+MGnNQbfHBfrIoGcTN4+KZy/Ouw8Xl/DnHq1k0oiB35qbm+mQTRNvlCX0d+c+NfP68tDTg+CLX
+ luMli5uMYUI1uX5GFoAXNWTjVNkCYnek/0Q/b0UxI0bgrIjKO81hwM6HNOnW9AwwwHrk7Ne3OF7
+ kQKqJnOtUWnQXTV9WNxU6tYgzpO+uhZj6gKx1AvYEEr87Z5Qi2aYm0gE7Kiyj1Z5EXRbDRos0bw
+ OD28mNvpipuIODinjavRwxExpv52fAot05q8FUQFxAg5mnViv6fNjD4KQYvOWLJhemmAqh/YfOv
+ 7yM6QY7jN0ikAlGL73aTxv+aA7gpO9Em+Sr/xUCfaxBvbcD3hCClqvPS3EJGxr6CFLAiDyULW9v
+ jg28AytTmCurWJfnnB2r0KxRnzj3LQC64gGj9IKL8i/Gnr7+6WLs9OjrriYqpkhVAdrYc3mEALn
+ SMdlGgmFIepxh1fuPtg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-16_04,2026-02-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 bulkscore=0
+ spamscore=0 suspectscore=0 phishscore=0 priorityscore=1501 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602160101
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52862-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52863-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C22231432D0
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: AE143143332
 X-Rspamd-Action: no action
 
-Hi Sakari
+On Mon, Feb 16, 2026 at 01:53:28PM +0530, Dikshita Agarwal wrote:
+> 
+> 
+> On 2/13/2026 5:34 PM, Dmitry Baryshkov wrote:
+> > On Thu, Feb 12, 2026 at 06:35:19PM +0530, Dikshita Agarwal wrote:
+> >>
+> >>
+> >> On 2/12/2026 5:13 PM, Konrad Dybcio wrote:
+> >>> On 2/12/26 12:16 PM, Dikshita Agarwal wrote:
+> >>>>
+> >>>>
+> >>>> On 2/9/2026 6:05 PM, Dmitry Baryshkov wrote:
+> >>>>> On Mon, Feb 09, 2026 at 05:04:48PM +0530, Dikshita Agarwal wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 2/9/2026 3:32 PM, Konrad Dybcio wrote:
+> >>>>>>> On 2/9/26 10:45 AM, Dikshita Agarwal wrote:
+> >>>
+> >>> The only SoC with such distinction today is kodiak. So we can simply check:
+> >>>
+> >>> if (kodiak && strstr(fw->data, "VIDEO.VPU.1.0.")
+> >>> 	hfi = gen2;
+> >>
+> >> Agree, this works for Kodiak. However, Dmitry was also referring to other
+> >> SoCs that may support both Gen1 and Gen2, and at the moment there isn’t a
+> >> generic way to handle that check.
+> >>
+> >> Also, please note that the Kodiak Gen1 firmware uses the string
+> >> video-firmware.1.0, whereas Gen2 uses VIDEO.VPU.3.4.
+> > 
+> > This is not quite true. Kodiak Gen2 uses:
+> > 
+> > $ strings /lib/firmware/qcom/vpu/vpu20_p1_gen2.mbn | grep VERSION_S
+> > QC_IMAGE_VERSION_STRING=video-firmware.2.4.2-d7a3d5386743efb16b828e08695bea7722cafadd
+> 
+> This is not the correct firmware for gen2 to work with kodiak,
 
-On Mon, Feb 16, 2026 at 01:19:09PM +0200, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Mon, Feb 16, 2026 at 09:50:32AM +0100, Jacopo Mondi wrote:
-> > Hi Sakari
-> >
-> > On Fri, Feb 13, 2026 at 07:16:44PM +0200, Sakari Ailus wrote:
-> > > Hi Jacopo,
-> > >
-> > > Thank you for reviewing this!
-> > >
-> > > On Fri, Feb 13, 2026 at 03:36:43PM +0100, Jacopo Mondi wrote:
-> > > > Hi Sakari
-> > > >
-> > > > On Wed, Feb 11, 2026 at 11:09:06AM +0200, Sakari Ailus wrote:
-> > > > > Hi folks,
-> > > > >
-> > > > > This smallish set contains patches that prepare for merging the metadata
-> > > > > series.
-> > > > >
-> > > > > There are simple cleanups but also two noteworthy changes: the addition of
-> > > > > the VALIDATE_LATE media link flag and the addition of the new struct
-> > > > > v4l2_subdev_client_info struct to the get_fmt, set_fmt, get_selection and
-> > > > > set_selection pad operation arguments.
-> > > > >
-> > > > > The VALIDATE_LATE allows using the link_validate callback as the way to
-> > > > > validate the links connected to the sink pads of video nodes on pipelines
-> > > > > with multiple capture video nodes. Without this flag, the entire pipeline
-> > > > > will be validated at the time of the first streamon, with the V4L2 pixel
-> > > > > (or other) format set on the other capture video nodes at the time,
-> > > > > requiring all formats to be set before starting streaming anywhere. But
-> > > > > this does generally not match with what the userspace would do, hence the
-> > > >
-> > > > What would userspace do instead ?
-> > > >
-> > > > Is there a use case for formats not being known at pipeline start time ?
-> > >
-> > > Yes. Try capturing from two video nodes with e.g. yavta.
-> > >
-> >
-> > maybe yavta is not the right tool to handle streaming on a complex
-> > platform, or should at least be modified to delay start stream after
-> > all formats are set up.
-> >
-> > Anyway..
-> >
-> > > I recall the vsp driver does link validation as part of the streamon
-> > > operation without involving the link_validate callback for this reason.
-> > >
-> > > >
-> > > > Is the userspace expected to enable all links with the VALIDATE_LATE
-> > > > flags ?
-> > >
-> > > It's not supposed to be a user-settable flag. The purpose is really to
-> > > allow the framework to do the job it's supposed to.
-> > >
-> >
-> > This doesn't explain me nothing.
-> >
-> > The only documentation patch for this in
-> > [PATCH v2 07/14] media: mc: Add MEDIA_LNK_FL_VALIDATE_LATE
-> >
-> > just reports:
-> >
-> > +The ``VALIDATE_LATE`` flag is used to signal that the validation of the link may
-> > +be delayed until actual hardware operation even if the rest of the pipeline
-> > +would be validated at an earlier point of time.
-> >
-> > in Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
-> >
-> > Have I missed any other part of the documentation maybe ?
-> >
-> > How are drivers supposed to use it ? Create links to multiplexed
-> > subdevs with this flag ?
-> >
-> > Again, if the problem is a userspace tool not setting up all formats
-> > before calling s_stream, a driver flag to accommodate it doesn't seem
-> > right.
->
-> As I noted earlier, today drivers implement link validation without using
-> the callback. With the flag some of the job can be done by the framework
-> and also the userspace will be aware of the arrangement.
->
-> I'd think all drivers supporting multiple streams should use the flag on
-> video nodes.
->
-> I'll improve this for v3 to describe this flag is driver-set.
->
-> >
-> > > >
-> > > >         for_each_video_node() {
-> > > >                 set_format()
-> > > >                 clear_validate_late();
-> > > >                 vidioc_streamon()
-> > > >         }
-> > > >
-> > > > As I understand it, the use case is solely delay setting the format on
-> > > > the video device and its sink pads ?
-> > >
-> > > Correct.
-> > >
-> >
-> > Still not sure why we should allow that.
-> >
-> > I'll ask-again:
-> >
-> >  Is there a use case for formats not being known at pipeline start time ?
->
-> Existing user space and general clumsiness in having to set the format
-> beforehand, especially with test programs, when there is no technical need
-> to do so.
->
+Then what is that firmware file?
 
-I'm still not 100% on board with this, sorry.
+    qcom: vpu: add video firmware binary for qcm6490
 
-If the flag is meant to be set by drivers on all media links that
-connect them to a multiplexed source, then the framework could as well
-do that by inspecting the number of streams on the source subdev ?
+    Add Host Firmware Interface (HFI) gen2 based video firmware binary for
+    qcm6490.
 
-> >
-> > > >
-> > > > > new flag. The patches in the upcoming metadata series version adds the
-> > > > > support for the flag to the IPU6 driver.
-> > > > >
-> > > > > Secondly, the new struct v4l2_subdev_client_info enables passing around
-> > > > > file handler specific client capability information, which is used to
-> > > > > differentiate UAPI between existing users and those that are aware of the
-> > > > > new common raw sensor model. This is effectively required if we want to
-> > > > > add support for the new model to existing raw sensor drivers: the new
-> > > > > model is in a direct conflict with how things worked before the model.
-> > > >
-> > > > Can you elaborate a little on why a per-ioctl flag is required ?
-> > > > Doesn't this open the door to possible mixups ?
-> > > >
-> > > > I fail to see what the advantage is over per-subdev_fh client
-> > > > capabilities.
-> > >
-> > > It's a per-file handle flag, but the sub-device IOCTL handlers currently
-> > > don't take the file handle (or information related to it) as an argument.
-> >
-> > Could you elaborate on the reason why the flag should be an operation
-> > argument an not a per-file handle setting ?
->
-> It is a per-file handle flag.
->
+I cannot interpret it in any way other than "Kodiak firmware
+implementing HFI Gen2". What does that commit message mean then?
 
-I initially thought this was a setting coming from userspace on a
-per-ioctl base, which made no sense to me.
+> the correct
+> firmware (not posted yet) would have VIDEO.VPU.3.4.*
 
-Now that I've groked
-[PATCH v2 11/14] media: v4l2-subdev: Add struct v4l2_subdev_client_info pointer to pad ops
+I don't understand, why are you making your life harder than it is?
+All firmware for HFI Gen2 uses different version strings (as outlined
+below). Why all of sudden you want to change that for Kodiak?
 
-I understand the intention is to pass to the ioctl handlers the subdev
-capabilities.
+> 
+> Thanks,
+> Dikshita
+> > 
+> > A collection of versions quickly captured from what I have here (for
+> > different chips, but for the overall picture):
+> > 
+> > HFI Gen1:
+> > 
+> > [skipping prehistorical / museum data]
+> > VIDEO.VE.5.2-00023-PROD-2
+> > VIDEO.VE.5.4-00059-PROD-1
+> > VIDEO.VE.6.0-00055-PROD-1
+> > VIDEO.IR.1.0-00005-PROD-4
+> > VIDEO.VPU.1.0-00119-PROD-2
+> > video-firmware.1.0-6804c210603073037fb32640a3dd6a46fe04edd6
+> > video-firmware.1.0-7da9db401e417a006ef915d6c4323f00cdbcf40a
+> > video-firmware.1.0-ed457c183307eff1737608763ca0f23656c95b53
+> > video-firmware.1.1-84a8080bf84fa9ab15b353bf03bea6e548d89d2f
+> > 
+> > 
+> > HFI Gen2:
+> > vfw-0:rel0095-d1a9e7c4a274aa13e4136500d19262f87ef2c921
+> > vfw-3.1:rel0085-070fa3311d9ef968015fee7fea07198d7eb208a1
+> > vfw-3.1:rel0093-7925621ff52ecb7b1565341042c4e5ffd4fc76ce
+> > vfw-3.5:rel0040-1ded01d0e6dcaef08b8155fd5a02f5b57248d5ca
+> > vfw-4.0:rel0045-25b39e81446baf48716df98dd37099a2103d36ee
+> > video-firmware.2.4-48ec04082362ef1922fec5e20e22f7954b11d736
+> > video-firmware.2.4.2-d7a3d5386743efb16b828e08695bea7722cafadd
+> > video-firmware.3.1-e5aea20c64cb6df9a1c9be99e206053b36424939
+> > video-firmware.3.4-e299f99ffcd086b43a2ccc7c3279ce5df404d693
+> > 
+> > It seems we can assume that Gen2 is:
+> > - vfw-0
+> > - vfw-N.M
+> > - video-firmware.N.M where N >= 2
+> > 
+> > All other binaries are Gen1.
+> > 
+> > Also, we don't even have to query the binary firmware blob.
+> > After the firmware is started, you can read the version string from
+> > smem, saving us from strstr over the firmware image.
+> > 
+> >>
+> >>>
+> >>>
+> >>> Can we agree that VIDEO.VPU.x firmwares are hfigen2? If so, problem also
+> >>> solved for <=8450
+> >>>
+> >>
+> >> Nope. that's not true for all, SM8250 uses VIDEO.VPU.1.0 which is gen1.
+> >>
+> >> Thanks,
+> >> Dikshita
+> >>
+> >>> Konrad
+> > 
 
-However
-
-We have a state passed to every ioctl operation already, and states
-are associated to the file handles already.
-
-Wouldn't it be easier to copy the caps flag to the state before
-calling the ioctl handler instead of adding a new argument to all
-ioctl handlers in the subsystem ?
-
-Are there reasons I've missed why you consider this not possible ?
-
-
-> >
-> > > Therefore this needs to be added to the relevant ops -- it could also be
-> > > all pad ops; it would be possible to avoid adding new functions that take
-> > > client_info pointer and work on the active state (see the third-last
-> > > patch).
-
-Ah, exactly.
-
-What did you prevent you from doing this ?
-
-> > >
-> > > >
-> > > > > There still needs to be a single driver internal state, the different
-> > > > > UAPIs simply offer a different view to that state. In-kernel users that do
-> > > > > not deal with capabilities just use NULL when calling these ops. This also
-> > > > > means that whatever client capabilities are being used, there may not be a
-> > > > > change to inter-driver interfaces such as get_fmt() when dealing with
-> > > > > external pads.
-> > > >
-> > > > Do we expect drivers that still use in-kernel operation calls to be
-> > > > ported to use streams ?
-> > >
-> > > Those that benefit from it can be ported. But interoperability is good
-> > > between those that use streams than those that don't so there's no hurry.
-> > >
-> > > >
-> > > > I'll review the rest of the series in the meantime.
-> > >
-> > > Thank you. I'm down to ~ 80 patches once these are merged.
-> > >
-> >
-> > I really hoped we could have landed the 66 patch series to start
-> > building on it
->
-> I'm also for merging it as soon as possible but it needs to be complete
-> before that. There were missing bits in the previous version, in particular
-> related to the common raw sensor model, for which I'm adding support to the
-> imx219 driver.
->
-> I also understand Laurent would like to see libcamera to support it before
-> merging it to the kernel and I don't really disagree with that.
->
-
-libcamera has added support for it 2 (or maybe 3) years ago. For a
-version of this API that is now outdated, and now we suffer from the
-fact we need a different flag to signal STREAM capabilities to
-userspace otherwise libcamera will break on new platforms implementing
-the model right.
-
-So we would need to 'freeze' this version somehow without merging it,
-give libcamera time to implement support properly and merge both
-implementations together ??
-
-> --
-> Kind regards,
->
-> Sakari Ailus
+-- 
+With best wishes
+Dmitry
 
