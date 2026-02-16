@@ -1,351 +1,222 @@
-Return-Path: <linux-media+bounces-52920-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52922-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mICIGDo9k2kg2wEAu9opvQ
-	(envelope-from <linux-media+bounces-52920-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:52:26 +0100
+	id iIpOCK1Dk2kP3AEAu9opvQ
+	(envelope-from <linux-media+bounces-52922-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 17:19:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B7D145CC9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:52:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE4C14607A
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 17:19:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1E90830162BB
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:52:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7F65030479F2
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 16:17:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4D0E2745C;
-	Mon, 16 Feb 2026 15:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84DF3321D8;
+	Mon, 16 Feb 2026 16:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="I8NZa+WE"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="hqAG6hO5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010015.outbound.protection.outlook.com [52.101.84.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95BE330667;
-	Mon, 16 Feb 2026 15:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771257142; cv=fail; b=AtjOkaEaddi7gttgUHBOhKo17qzAHLmjdeORWcaFx/ElrUH7+q/kbWAQuzqZzVhDOQmv1ZR2YsZls1RtjmdSjaxweqEkzhcwUf5/CDFvTj2QWxV3H0VFph04JpH+cI14cwdg8Fy5PVLD8/6zFfHkwEfNG7rHkORe5KgqIPbWa5Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771257142; c=relaxed/simple;
-	bh=btA12CWBON+Sfh1cNBavg6+GICU5cUNyWhR1NBGvG/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=sCpMClJBYPpOyBvJd7vBwSaJ2DHUnJGgVtSsuW7RBEXNgMYRV8C9HATuaIG1LSlsx5tsbtD1BK8c6sBummA1iqfQ56lshg8JVl+1Ds6Eir51NghY2szQJrRY+cBvoWpIZ++BicCfwl7tDgkoC1/pikM7S0rCOsDqxaTYdktuAWI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=I8NZa+WE; arc=fail smtp.client-ip=52.101.84.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UM/elingkvLho7xwyyKv6femoZjjsgWOjLdC2SkFepthoNzdHVlBPyCFDwNNUR6eszWXTO/4G6LprLO8SXwygdZiRhpr1YeqV76oNzCCBUY0UbF3/7cLsKxbuwlanh4IhhICXcRD5BVwMqTYMn346dtzQ8NaAipyPq65AyJE7pcVW8Lmgp3oC60VRwPXOkuwZZXjo3lwLknlJ/KdDKdgJTUQW6V1IUqlj3xC+tt4tDUrxhzg1qOxCdkOhKGN1xTiCT0Me3SDzD+G3M8/EgbVOkweKsSGzkonMHY1nNuj76b48tn2hGn9Y06CXTFLlCGuavxuabQ9mEdSIm/xFXrNnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZD5xWHMajXqRIAR/ZyL9vvuHjG+gt6rApJ8AOyoRlS4=;
- b=b4aIiUdtMM0NFnTIx5Qg1JdGTkBXV4HEtDyvE3D1dY176fkwmFDPOI3MjvDn3RvhOb4M1ncfS5Ey7nDTEQLs/Jy2mut2H0nX5BQjk5uVsp7Zpn4XxuYqTI2GP/M+2N0MKHDiGbiRUb0Qzp0mUiUH4l8EiUfNPqOK4EmZTgSocSnxJRmSKDfAHvAw7Pdhq12iWMFAfPE/lX2orPe0a4SgOLeB54LrYwFuvy/+4QBarPrSGC6/cbjfUlSJE9GyBqpn72D6WUyLTQb+09HW8YcoMe4RG0XPYOeV4S+A6400T1LotjNDey95mJtoA8QQ844r9qJ4rdhJLkir5YgzAIpaqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZD5xWHMajXqRIAR/ZyL9vvuHjG+gt6rApJ8AOyoRlS4=;
- b=I8NZa+WEf0iByxAfsSoCj7K1dM93A2b1EKCZAspf9aKjawmM1gM+zkjFWGBJg5fGZQ3VwWx++Macj6ZheSSmkO6LxPsfgYZGKjIdYRGraVfl8hPdBqwEnUTbKgvqtRhdybYuQOC846HjMtNxEpVwiVo7WqGR5DoeXroaA6SzaQAALQVNBeqmchBxHZsFaOM0TkMVLddY5LDHzRplyUL7eS5S1ONFZ7bkRY/yj2FBRkwcdTo1AOyYrj/smpeTaBXwvkXd+uemlHGzHpTaTSX3niXM/h+F045UztpV5XILsiuONT95Keod1PkqXMw+s/Rjkq6j7EC/de80qhqcWu00ig==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by AM0PR04MB6995.eurprd04.prod.outlook.com (2603:10a6:208:18e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Mon, 16 Feb
- 2026 15:52:17 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9611.013; Mon, 16 Feb 2026
- 15:52:17 +0000
-Date: Mon, 16 Feb 2026 10:52:07 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Michael Riesch <michael.riesch@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	imx@lists.linux.dev,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v2 5/6] media: dt-bindings: add NXP i.MX93 compatible
- string
-Message-ID: <aZM9JyKn_5q8fTa_@lizhi-Precision-Tower-5810>
-References: <20260213-imx93-dw-csi2-v2-0-8be6039f44c6@nxp.com>
- <20260213-imx93-dw-csi2-v2-5-8be6039f44c6@nxp.com>
- <50a82e17-1666-4ef6-ab6e-c0be3c780a0d@collabora.com>
- <e06feb9d-47cd-40e6-8c43-b24ff8a3e800@collabora.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e06feb9d-47cd-40e6-8c43-b24ff8a3e800@collabora.com>
-X-ClientProxiedBy: PH0PR07CA0021.namprd07.prod.outlook.com
- (2603:10b6:510:5::26) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC9021D3D6
+	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 16:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771258656; cv=none; b=H7PqH6Csb/8BrEWqRM1c2zDBJRVWxZ2ADmyJbuRDluFpvszSmS21dl3Bl83bwAuJCO/KSoWSfaCoVKmKNqQ5fuF3Vek8rsyrfiiS4loBngEmRuY8/x12oFhpXESl498gEs0bBe86X98ql/VhdJY6BwLevSTG1DQ5ykGeyzbHtDk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771258656; c=relaxed/simple;
+	bh=PSTw93rEWxwyptbbknvkyoCYal5ZyikU+NB5M8sxwoQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=f2D+Ynw2I+gofiFjBKn1L2w7tza3ZT0l8hmKkZT22fi53pP0cABEx1O4LzqrwL+BcihFQGDpFaU3E2Eyzo6wM/D6dqONW7RC+ihSeflLORj2fQiGIyYnAdtYO1AglSyH7pcAla2iXgCG26i4XqYGF9x0QdAQt/C4NK0tA0Mtm7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=hqAG6hO5; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8c7146b0854so352205285a.2
+        for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 08:17:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1771258654; x=1771863454; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=yx5A2gw99GEH72oJ5J3K3NBwM48Lr9vgSpEF2S1mSc0=;
+        b=hqAG6hO52CGpWacffxyIRK6i/lr/wOepkQUDz+TdlZAd4t88DZQNzFRLlZj6PLDMKK
+         k+AicBWXhI8EvPw5IBl+88xNSL7koljuJwVKWe/uQX+HhnHOp/S/GEJ8XWm603bqAYeJ
+         89R3Is6E6MedomSdiC0GfeeSslq664J5B1yMXQXqOuOkQ16X6tFLv305Szf1YRqYUB0C
+         HGXbB0GLMECjUYt7kyZr0IH52ZtXhGu26CbXVPrY7C8DvuIU8gpAicKXKhSqMMgOwTel
+         p5dhaxQtsBytoIXv+tiXaVcUVzjiHLVLPsRFaSIA9ow+ePsTgJvAkTvC7/HnPNG5ySFo
+         ZeqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771258654; x=1771863454;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yx5A2gw99GEH72oJ5J3K3NBwM48Lr9vgSpEF2S1mSc0=;
+        b=Hf90Vf8/e7yMIL8sYzO9+XrOZtrX1c44eF0iFo73rQgLggu+2xZXkZkvA9N22uqSEO
+         YM9c785xRDsdDbREsJgGbSq4pkj4JMvhg1peYQBTuWmOzg0k5g3jf++CJFpxggp3XYX6
+         pixuOKBdFwhEyXKBgUf4B5HgUqVCN/Bk52BjJYGwU45yh7BfBEiKLUfGYxkqTWjwH1XE
+         e7BUEcq4X0q2l06TWu2xxI89phIBx8hMj9V36Q5amz32HBCGMHZEZeqNDaUmTvmW7eeX
+         rRwaEQpvoYmISkOz+y1CdtRNh8Ju9G5gf2lh4kKFK+IaLquap5iLtXBERvXh0ABeVarX
+         tZLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVdixiD4xMr2+3tzemMxAmyf5tpAsJcU2jDGSSw4BDMsEq2YsoWAnn5vOdNdDm5lb4lbBno4WFvvFVfCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBZtNnnVvJxU4YHKE6ybAjr32SDy82GK45fIVzx4zPmAnl8Gll
+	NBTy2p1MLfSZkFrRCCdd7pdyH88NsQxQUUc6eHh+HCpTd86WvB52DghGhugemtSxKbo=
+X-Gm-Gg: AZuq6aKJLkESfmP7m6ZsXOtF1obFRlY16ICY2Pg/0Rd0LmW/uyVVNlETaynYiNqfzvk
+	HKqtcnoooNJueq/f1dhTjO9VMaRmti10asNk9k5bSUkRaG/gNMCPXgpSqLz8qxxQRYbjcHyz9GT
+	om+hhygyn+qbKwOiaPDhl14uZc5Rvp6H6svwRhPzbOIpPgLgphuLghkrEBMt0EyZIFOC7jPDcPo
+	ARZr+wXZoXMzx5LIBgmIgCj2QeHSJp0E2FrakR3M2S7DfJ/9c7+LL8Alo73LkikowA3+m0YvN4c
+	PwDHay4/ZdjqLh0m11ztqqcqQL3zWS+pDiCAT1qyfwDnDQ2fp5c3OIs+z6We2I8rIVYB05eIUI7
+	l+NW0nn1MJrvTaJUwOLrw8y1EixHM4FI0MnlkQphft95H3DI/HMMwunPds1fMtSYTeT5SN5T3kK
+	nu5u7CaXp9T9yi6tgGZmGa7BvosdL/
+X-Received: by 2002:a05:620a:40c9:b0:8ca:105b:86b6 with SMTP id af79cd13be357-8cb409219e2mr1421526385a.88.1771258653567;
+        Mon, 16 Feb 2026 08:17:33 -0800 (PST)
+Received: from ?IPv6:2606:6d00:15:210e::5ac? ([2606:6d00:15:210e::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb4120f939sm883143485a.44.2026.02.16.08.17.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Feb 2026 08:17:32 -0800 (PST)
+Message-ID: <90e62bf797b0532e5556adaf9e15cc7b73e18411.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: rockchip: Disable VIDEO_ROCKCHIP_VDEC when
+ compile testing for Hexagon
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Nathan Chancellor <nathan@kernel.org>, Detlev Casanova	
+ <detlev.casanova@collabora.com>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>,  Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+Cc: Brian Cain <bcain@kernel.org>, Nick Desaulniers	
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin
+ Stitt <justinstitt@google.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-hexagon@vger.kernel.org, 
+	llvm@lists.linux.dev
+Date: Mon, 16 Feb 2026 11:17:30 -0500
+In-Reply-To: <20260213-media-disable-rockchip-vdec-hexagon-v1-1-3f903398cc83@kernel.org>
+References: 
+	<20260213-media-disable-rockchip-vdec-hexagon-v1-1-3f903398cc83@kernel.org>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-g0IOH3/wXifty34RwVB5"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AM0PR04MB6995:EE_
-X-MS-Office365-Filtering-Correlation-Id: eadbb53f-0c13-497c-877b-08de6d735c74
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|376014|7416014|52116014|1800799024|19092799006|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?vztDUD73kN03ddV4kfpNXCleWi5kLEqBRsE8gDXO/S7YG0KuCY2HBfMJyDyx?=
- =?us-ascii?Q?CENz7+f4/yS1TyV01hFYzcSZzmpsCb/D8V5oQapWcrcgWpPnLAnrNVTreiJP?=
- =?us-ascii?Q?xCNJJcnfLkavhcRmZW2n2eQhHiXpAQgYPMu/yoRFVQzzsSg6VBHwLZYI7eEP?=
- =?us-ascii?Q?aKGxSfP6Jll5dJbn8HNkMHQZeD/t+UaOcy4tB+Mic81gwgX47xE2Y2qK7vf3?=
- =?us-ascii?Q?5a7z9zQzHQDFe2E517EzEcyPDL+fSKGx66RYidUPkMOorV4cQHl7EnCRsvDi?=
- =?us-ascii?Q?dTTnA1plFfxSMc6Q8xsLKZ/r1vOTtY1yTVUe8NB+jBbpChNcBn0/Ahwo8amc?=
- =?us-ascii?Q?T4DorVarWMcyNrrZMHhUAz4SCOSKehpKx2LLvTSiNTdgH0vX/kN+RpiJV0qq?=
- =?us-ascii?Q?XIpgbwtgyHtYC14WH6jx+p6HraBfU4PmHHGANVjP82saActXtyrg9TDYyi61?=
- =?us-ascii?Q?mpiVAmRDMGCsZvLNkTbFkp1sHWp7jNutGW8XZnQx/27pmzUWWpKHO/XN71qa?=
- =?us-ascii?Q?H/Hc8lVc3Gw/FQDEdNn/ExIpYBQwyUqzaPgt+MwV/xgspXMQsri7A7Z66F5y?=
- =?us-ascii?Q?j/ELBOPcw0bbtYJ/q5qJPGGal94O+l8Fly5/4b9QYixIdz/rTi8R8ZCox77k?=
- =?us-ascii?Q?M/wtwxHD2FpQ1UhWpQLhNNeGTe93NDOKhnvXvk7NKMFgC6GhNmdl0W+0TVh8?=
- =?us-ascii?Q?n4LaBGWD/swRV3c07ehdXeDq3OvhtrFLQbraboKpPJT2L+n77/OPhoINR3Sz?=
- =?us-ascii?Q?GwiWeeJ7yQBOqqymqaXhI33UqDgMPnwtSt/6iG04nvOo93WFKqHDS7QqX6In?=
- =?us-ascii?Q?9uDHQwRKFO+Sw7c6cf96SnOYhYIsC5qNJKGzpQI1M9dXi/2kfBv+WrDlm149?=
- =?us-ascii?Q?jHFlVNMWgl8RTvCTxPI9Wb3xHYvxg0ynUxvF5jC5D3T8TS8yofIPaIvm1QT4?=
- =?us-ascii?Q?yoPxDXCjIS+tOADt8U6BiJALJoKr1Htl6+rLLnJpDn6ham/D5zxxn0g2Xcj+?=
- =?us-ascii?Q?eS3n7YDGro2GdwvkTS4UIGINuUWQbfpnAvPousc2cpD8WJCWMWi+9JSZNgVJ?=
- =?us-ascii?Q?B8CRq8CTONOJ7P3SS3qLDY/H8SyQWsoXvwa7BSgjqocnJ8d0dnP83k+InnKP?=
- =?us-ascii?Q?o61ESyV7aXgyCa+MLg5iih6JOwEjFyWO+vxa39bGaJziY7qnWAjTzCrimnuM?=
- =?us-ascii?Q?fuUT5UZTfpQspZgdf1x1vguR+yMMxZ7EIpGhKsfhYZlGSXJFZKieeq9Sgy1s?=
- =?us-ascii?Q?jUtsWBg8ncixctyTYym7+4pd3sKKycclbJP3WoZfh7CytXgjVBEOUP7YOaML?=
- =?us-ascii?Q?fmlHB4Kq8dDP+7Yr8A5etxr1ertPp7M2ikHRi8cXNF3QqLqLGb640LqP2iab?=
- =?us-ascii?Q?EU1AAGncr3yzZbitf7NhoehS6cbpnKLtWNxiXxLEhRs85b2Opb9VSuFpWjfg?=
- =?us-ascii?Q?BxiqTduHONBb6p2uzSdc43bQ8sR5bbotRSiAH8QXEf5Nkbq0dBRSLJHIPLpP?=
- =?us-ascii?Q?nTkeFSq+nJVZcZKF3jb6f4dxo4vZhQu6mo1IfTT+zWgOyi6QDDXNWyO3Imn0?=
- =?us-ascii?Q?ZzTNOqwRiWf7gA/5wPtqMkF9KC9HFxZWvlpjRWeUAUatyjx8F5PX1OXvhwVa?=
- =?us-ascii?Q?DOQ8C6T0dIfcJUW7U02RStk=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(1800799024)(19092799006)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?Eqv+G8dWPnM+yijYDUUAQIjN923j6XTEXaOXYMgJgnygiJBB6Et5pWwFGB0z?=
- =?us-ascii?Q?Jxv9xjylzhUmZQrBVDkY52/5sR79oUg5WdEb8IoOXKboOkkB/oUBwFgxJcOJ?=
- =?us-ascii?Q?5CRMWHGelsnsuSgj4nPBo9u5BK8GQqkdYABqp2Mp2/qoBZM9FD6c0+UWHxrf?=
- =?us-ascii?Q?OouSpih/rMI6KDiBpSjL+rAj1z77rIHPdcv6BoQ/CmN/2O5pWhD7c5H7vwxr?=
- =?us-ascii?Q?ic2k+w2SYMEnhFBILniknHAfCwJUVNmuyfupf9EZ6n8zskYXzWbETzkU1HKJ?=
- =?us-ascii?Q?EInSRtvjzkPNx2MCCJhtrLfFI/8NC0g67orrm5Edi/vGFkW3OtBu2kCKO1Bt?=
- =?us-ascii?Q?ZT6PH7WAwthi6jnG3S9wI6J1U/a3BZcz1g8GXsoNCHthinbX+PZLETNlzbju?=
- =?us-ascii?Q?AJPmZGa6ubpXO9dqsSg6NdJ127cgQT40yZHE6UdCSp1/5RVsH+kDbLiDvgpn?=
- =?us-ascii?Q?zJU8BQAItm5bJv1U2+TVKvCeXnklj0deDjBTt3wDZK7pW0c2k4YVlfH/AMiN?=
- =?us-ascii?Q?GIt4CaQkBgU0KdG6XzjEH6yIzWhRpbjAnW9eFQdfFjszmUiGCVpiHoOcQOVW?=
- =?us-ascii?Q?Qf/ratMhUDD1f0q0S8tAI1smHPpEceViSH03p6RMWTu0Ze89cR5CSxo05sgq?=
- =?us-ascii?Q?rhHJljSMPXXmVrZIZvw1maUn99TRtLb928yJUpelqADScz6GNzPYVGfIcm1s?=
- =?us-ascii?Q?iJHsQZZFoaoiUWNFpymRwZHJGP/8S3IY1aKbftYo6aqdRWCK27R1xeUx27aY?=
- =?us-ascii?Q?pSoDh89bs63CwW1vXo++mmDVhWWPIoH74vhRoFG8j99e48rLVJ+xL7cvkiWl?=
- =?us-ascii?Q?aM+m5p2H+P7Fp5EhcgTdHG1p8HvHOGgnf/E286z6iKemHM0pWUxsvW7pG5aA?=
- =?us-ascii?Q?QMQd1dqdEcFAshmRXLKVeKaX62elJQiH0kqSyfQ1CGAOSDwJqYu7AF8oQ5J4?=
- =?us-ascii?Q?V0ZaQkU6RyzUg+72RwHjU5WZvNuQo09Gnfnc+TEX/Z3teZJrtJ15qii18Fd8?=
- =?us-ascii?Q?x7pHEuYQuPRZ6xWwAWTP7WpJTJSCuay9Xsu+QdfnNvhfrXlm/BWUc+hZqCBy?=
- =?us-ascii?Q?wuTS4/gohGL2bUtkB9FHUnRkgpiscMJCYqhTpSCiqdPyuuuYXkAAWocig2aH?=
- =?us-ascii?Q?qAQmCRTye1oC2j2dY8hDCVz8i9qeAmJI3jjVZrjjdi8AZ7WUZBEB7NFLc+At?=
- =?us-ascii?Q?I9JvweTFK3b+yRhEknZ27mUalR/qIpZcsZuGFpX1zJUazIJcX3/+r78NQ90F?=
- =?us-ascii?Q?1V2vhp1yQErTrjIj4zzkbxnN50G5fWeBeZs/QfkssJFYU5hAq8raZWRWTSKB?=
- =?us-ascii?Q?mMrt2dvN9O+JT2BmBSzSWm4ixItNL43Q1s6jlDS6OV03Fx7EFNNgtvse1RPr?=
- =?us-ascii?Q?+GNQNq/KBdGIqfMKRM9fj5CIVnUibSVKCrCRHo+qaZaLnxEb/95OuabxDil4?=
- =?us-ascii?Q?eq0WeG6BrKQLgAp018IQyxasd3M4KCmbb3dK2+E+DJ2gaJuuj7jDafEa1cbW?=
- =?us-ascii?Q?IvaQbtT6YOswt4fI9i+W602bWrC3rOew9zywrfmA0386VCH6+6dQUwjO0LSm?=
- =?us-ascii?Q?tgpmXaTrV4jMERpNJXQCfOQrWEs9z1oaSiZLFh9vFSbb1ogOKubf+qKDJjUw?=
- =?us-ascii?Q?pdSpz1mWL9o7Z45mGD8BvGQo3O2Ef6EFmsxpJEGaPelPHmrAQVEb7i8YgFI+?=
- =?us-ascii?Q?t3Nl95rUrImz6E9bk0LaWwK9o89kkTAXjPwhBNReE6UDihZ8?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eadbb53f-0c13-497c-877b-08de6d735c74
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 15:52:17.5374
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UoY3vIh5RwoLy1kI2oxrT6JbHREFB2BifdPOShfD4M6KjRuT/ctY7JWipBNAZYZ2kEKM/ftL2p0D4n1oPBgYlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6995
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.84 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52920-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
+	TAGGED_FROM(0.00)[bounces-52922-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,google.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email,nxp.com:email,nxp.com:dkim]
-X-Rspamd-Queue-Id: C5B7D145CC9
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ndufresne-ca.20230601.gappssmtp.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,lkml];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ndufresne-ca.20230601.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: 6CE4C14607A
 X-Rspamd-Action: no action
 
-On Mon, Feb 16, 2026 at 04:22:13PM +0100, Michael Riesch wrote:
-> Hi Frank,
->
-> On 2/16/26 09:31, Michael Riesch wrote:
-> > Hi Frank,
-> >
-> > On 2/13/26 21:25, Frank Li wrote:
-> >> The i.MX93 uses the DW CSI-2 RX controller, which is similar to the
-> >> Rockchip RK3568 implementation.
-> >>
-> >> The i.MX93 variant provides one IRQ, two clocks, and no resets. Add the
-> >> "fsl,imx93-mipi-csi2" compatible string and keep the same constraints for
-> >> rk3568.
-> >
-> > RK3568.
-> >
-> >>
-> >> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> >> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> >
-> > With that cosmetic fix,
-> >
-> > Acked-by: Michael Riesch <michael.riesch@collabora.com>
->
-> I just recalled a conversation with Heiko we had off-list a while ago,
-> and back then we kind of decided against a snps binding document and
-> compatible, since the integration in the respective SoC (family) varies.
-> Thus, we went for a Rockchip document (which shall be extended with the
-> RK3588 variant of this block, for example) and thought that any other
-> variant (e.g., the one of the imx93) could be documented in a separate
-> document fsl,somethingsomething.
->
-> Seeing that interrupts, clocks, and resets are different, I would
-> recommend that you add a new fsl,... document.
->
-> What do you think?
 
-It is depend on how much difference. Conside Krzysztof Kozlowski already
-acked. we can split it when more soc will be added, if-else branch become
-extremly complex and abstract more common property likes dwc usb at that
-time.
+--=-g0IOH3/wXifty34RwVB5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Frank
+Hi Nathan,
 
->
+Le vendredi 13 f=C3=A9vrier 2026 =C3=A0 15:10 -0500, Nathan Chancellor a =
+=C3=A9crit=C2=A0:
+> Building rkvdec-vdpu383-h264.c can take a few hours to finish building
+> with Clang 20.1.0 or newer when compile testing for Hexagon. While this
+> is further investigated and understood on the LLVM side [1], disable
+> CONFIG_VIDEO_ROCKCHIP_VDEC when compile testing for Hexagon.
+>=20
+> Link: https://github.com/llvm/llvm-project/issues/178535=C2=A0[1]
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+> =C2=A0drivers/media/platform/rockchip/rkvdec/Kconfig | 3 ++-
+> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rkvdec/Kconfig b/drivers/med=
+ia/platform/rockchip/rkvdec/Kconfig
+> index 5f3bdd848a2c..d03689464206 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/Kconfig
+> +++ b/drivers/media/platform/rockchip/rkvdec/Kconfig
+> @@ -1,7 +1,8 @@
+> =C2=A0# SPDX-License-Identifier: GPL-2.0
+> =C2=A0config VIDEO_ROCKCHIP_VDEC
+> =C2=A0	tristate "Rockchip Video Decoder driver"
+> -	depends on ARCH_ROCKCHIP || COMPILE_TEST
+> +	# !HEXAGON: https://github.com/llvm/llvm-project/issues/178535
+> +	depends on ARCH_ROCKCHIP || (COMPILE_TEST && !HEXAGON)
+
+This is clearly not a pleasing change to make. As this specific data struct=
+ure
+and usage of bitfield has been discussed (along with the numerous issues in
+clang/llvm around these). We also agreed to move away from bitfield for thi=
+s
+data structure and use a bitwriter. I would favour delaying this change to =
+give
+devs the time to port instead. Ping again if nothing moves within few weeks=
+.
+
+best regards,
+Nicolas
+
+> =C2=A0	depends on VIDEO_DEV
+> =C2=A0	select MEDIA_CONTROLLER
+> =C2=A0	select VIDEOBUF2_DMA_CONTIG
+>=20
+> ---
+> base-commit: c824345288d11e269ce41b36c105715bc2286050
+> change-id: 20260213-media-disable-rockchip-vdec-hexagon-eb67c47292c5
+>=20
 > Best regards,
-> Michael
->
->
-> >
-> > Best regards,
-> > Michael
-> >
-> >
-> >> ---
-> >>  .../bindings/media/rockchip,rk3568-mipi-csi2.yaml  | 47 +++++++++++++++++++++-
-> >>  1 file changed, 45 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
-> >> index 2c2bd87582eb8bfdd13720edd62a5f00dda958ba..4ac4a3b6f406408b9524c795e6cdeb117d3353da 100644
-> >> --- a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
-> >> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
-> >> @@ -17,6 +17,7 @@ description:
-> >>  properties:
-> >>    compatible:
-> >>      enum:
-> >> +      - fsl,imx93-mipi-csi2
-> >>        - rockchip,rk3568-mipi-csi2
-> >>
-> >>    reg:
-> >> @@ -26,14 +27,23 @@ properties:
-> >>      items:
-> >>        - description: Interrupt that signals changes in CSI2HOST_ERR1.
-> >>        - description: Interrupt that signals changes in CSI2HOST_ERR2.
-> >> +    minItems: 1
-> >>
-> >>    interrupt-names:
-> >>      items:
-> >>        - const: err1
-> >>        - const: err2
-> >> +    minItems: 1
-> >>
-> >>    clocks:
-> >> -    maxItems: 1
-> >> +    minItems: 1
-> >> +    maxItems: 2
-> >> +
-> >> +  clock-names:
-> >> +    items:
-> >> +      - const: per
-> >> +      - const: pixel
-> >> +    minItems: 1
-> >>
-> >>    phys:
-> >>      maxItems: 1
-> >> @@ -88,10 +98,43 @@ required:
-> >>    - phys
-> >>    - ports
-> >>    - power-domains
-> >> -  - resets
-> >>
-> >>  additionalProperties: false
-> >>
-> >> +allOf:
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: rockchip,rk3568-mipi-csi2
-> >> +    then:
-> >> +      properties:
-> >> +        interrupts:
-> >> +          minItems: 2
-> >> +        interrupt-names:
-> >> +          minItems: 2
-> >> +        clocks:
-> >> +          maxItems: 1
-> >> +        clock-names:
-> >> +          maxItems: 1
-> >> +      required:
-> >> +        - resets
-> >> +
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: fsl,imx93-mipi-csi2
-> >> +    then:
-> >> +      properties:
-> >> +        interrupts:
-> >> +          maxItems: 1
-> >> +        interrupt-names: false
-> >> +        clocks:
-> >> +          minItems: 2
-> >> +        clock-names:
-> >> +          minItems: 2
-> >> +
-> >>  examples:
-> >>    - |
-> >>      #include <dt-bindings/clock/rk3568-cru.h>
-> >>
-> >
->
+> --=C2=A0=20
+> Nathan Chancellor <nathan@kernel.org>
+>=20
+
+--=-g0IOH3/wXifty34RwVB5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaZNDGwAKCRDZQZRRKWBy
+9PhBAPwMxt2qHIuuv8Re3nGYyjxclF1akWrq8joXpNiryhAGZQD8DZ31iVeXv3Jn
+qIdzhD88lbsc2tAt4dDx0Aynb0/hEQw=
+=AYDo
+-----END PGP SIGNATURE-----
+
+--=-g0IOH3/wXifty34RwVB5--
 
