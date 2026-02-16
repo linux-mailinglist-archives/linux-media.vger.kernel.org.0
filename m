@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-52882-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52883-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mFvkIgAtk2mZ2AEAu9opvQ
-	(envelope-from <linux-media+bounces-52882-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:43:12 +0100
+	id MD7EDiUtk2mZ2AEAu9opvQ
+	(envelope-from <linux-media+bounces-52883-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:43:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15865144C5D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30B3144C6D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 15:43:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7BCEA3042B43
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 14:41:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D9D703027966
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 14:42:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DDE7310777;
-	Mon, 16 Feb 2026 14:41:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3F9310777;
+	Mon, 16 Feb 2026 14:42:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bhiwq9sF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F3C4y/73"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C3B223708;
-	Mon, 16 Feb 2026 14:41:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1342FF652;
+	Mon, 16 Feb 2026 14:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771252906; cv=none; b=JP/p95cReWGqSJKiVZxf53WAHJvWE5M+Gku7cHh7HQfvMcFa/zRdcSgF+FRZPraDbYbxbvBWnwxDpKAUyqt+js9/dW9ptYjBQgRe0caSBBnPNZKnOS0CKH2gR1211p5GT5wFExEIPMQ4YGwJJeKUBaqotCxHkX0OzuCvHYhWrgo=
+	t=1771252947; cv=none; b=hlFJXxYfoXCBzDG8zlsi7nIbehkk6xlRjewgrPFWA0jkWAbyPwtd188aEyFBZowpVJeCWDqQlVbEICf7ciZVX4Eyzv+Em5zcu4JObQmNVdSI7P/gF/9NhRSpQi+5S9Jp9eJ62lTCW3hdCJj894e/MD+XYgLp6LQQ6n6hrlxh7fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771252906; c=relaxed/simple;
-	bh=DWTAOnJY1clr/RODiXV+S5BwJRSM1N7UR5c4H/6xYbc=;
+	s=arc-20240116; t=1771252947; c=relaxed/simple;
+	bh=xi7PIRDSmFFYJfVfs34X71tXkcfFqcT0/prRQDYvdCs=;
 	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=KVKZ7xXvmIbCFhU6iJ+2GVoFgahWxI33ILv6rOqJeGxJypq3rGAuIf85wGPj1l0t05hszWKvcQyyhzPIJoEWBtj8gO6/SWD4GtuG21pgLPPY08LqHo7tBtV8iHY6VYScLCS0zzACdglu461Gx7a7Q0u2Pe3KwvbElc+TUBMLxLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bhiwq9sF; arc=none smtp.client-ip=213.167.242.64
+	 To:Date:Message-ID; b=nlofxJ+dtq1zLnvhHwZZNZAnG81ZwxjLZvSxnK5ALRi7w80x98vOZmBnF6QoaSN9soj3rA3QeCGvmox2ka8LfGBVQm2aWeJaLOl9EQe0FdRpeq9UIzlwp2U2S7RN1BIuRylRXqJy85Eq0Z6NwZMrq5WGMYShAkAnB9x7DTQruX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F3C4y/73; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:6452:b7eb:ea26:c129:40a5])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1EB284B3;
-	Mon, 16 Feb 2026 15:40:52 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BEBF54B3;
+	Mon, 16 Feb 2026 15:41:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1771252853;
-	bh=DWTAOnJY1clr/RODiXV+S5BwJRSM1N7UR5c4H/6xYbc=;
+	s=mail; t=1771252894;
+	bh=xi7PIRDSmFFYJfVfs34X71tXkcfFqcT0/prRQDYvdCs=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=bhiwq9sFbyoBwh2NHSZeQtBBLuBGPdFomBgIeZSaoKC81sQ3fq8e4phPdhgyj1T4z
-	 fc+8ntVuSbMzxa93gUav6hRYm8EfzmtXDe4r5UkVtgpP48v3C6KMVYofJwfmxPaRYZ
-	 +GyhL7QavJ/cQBJzSOgz6gjnbeY9DMp+UDeEfi6M=
+	b=F3C4y/73Dt02EyGpkL/G7ApaIu4aON/L9YQmN3CHWlwEEI1uijdG/bgB9PrQ9OJKn
+	 efAa7zBg3ZFpYR9qEAI8zAIOb89semVkmVv0pYeeFxoSeMAMF59elcT37BSsE/NjP7
+	 RIZEcWKLmLQb/VW3qKg7xvnJX+8N0u845jQGfvVI=
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -52,14 +52,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260213-mainline-imx283-v2-v2-3-be40a3770ebf@ideasonboard.com>
-References: <20260213-mainline-imx283-v2-v2-0-be40a3770ebf@ideasonboard.com> <20260213-mainline-imx283-v2-v2-3-be40a3770ebf@ideasonboard.com>
-Subject: Re: [PATCH v2 03/25] media: i2c: imx283: Move imx283_mode structure definition
+In-Reply-To: <20260213-mainline-imx283-v2-v2-4-be40a3770ebf@ideasonboard.com>
+References: <20260213-mainline-imx283-v2-v2-0-be40a3770ebf@ideasonboard.com> <20260213-mainline-imx283-v2-v2-4-be40a3770ebf@ideasonboard.com>
+Subject: Re: [PATCH v2 04/25] media: i2c: imx283: Move scan out data to single data structure
 From: Jai Luthra <jai.luthra@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Kieran Bingham <kieran.bingham@ideasonboard.com>
 To: Hans Verkuil <hverkuil@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Umang Jain <uajain@igalia.com>
-Date: Mon, 16 Feb 2026 20:11:38 +0530
-Message-ID: <177125289894.14753.11170098781129796052@freya>
+Date: Mon, 16 Feb 2026 20:12:19 +0530
+Message-ID: <177125293955.14753.15690282606594009547@freya>
 User-Agent: alot/0.13.dev20+g31692a239
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
@@ -74,7 +74,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52882-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-52883-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
@@ -87,166 +87,222 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 15865144C5D
+X-Rspamd-Queue-Id: A30B3144C6D
 X-Rspamd-Action: no action
 
-Quoting Kieran Bingham (2026-02-13 19:31:42)
-> Move the struct imx283_mode further down in the compilation unit so that
-> it can make reference of the scan out mode structures which are
-> presently defined after.
+Quoting Kieran Bingham (2026-02-13 19:31:43)
+> Move the common data structures to a new scanout table and allow v4l2
+> output modes to reference their scanout.
 >=20
-> No functional change intended in this commit.
+> This removes duplication from the mode definitions.
 >=20
 > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
 Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
 > ---
->  drivers/media/i2c/imx283.c | 118 ++++++++++++++++++++++-----------------=
+>  drivers/media/i2c/imx283.c | 90 +++++++++++++++++++++++++++++++---------=
 ------
->  1 file changed, 59 insertions(+), 59 deletions(-)
+>  1 file changed, 62 insertions(+), 28 deletions(-)
 >=20
 > diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
-> index 9a47cd0b181a..d53cea49baae 100644
+> index d53cea49baae..3e97ad38f716 100644
 > --- a/drivers/media/i2c/imx283.c
 > +++ b/drivers/media/i2c/imx283.c
-> @@ -195,65 +195,6 @@ struct imx283_reg_list {
->         const struct cci_reg_sequence *regs;
+> @@ -264,28 +264,63 @@ struct imx283_readout_mode {
+>         u8 mdsel4;
 >  };
 > =20
-> -/* Mode : resolution and related config values */
-> -struct imx283_mode {
+> -static const struct imx283_readout_mode imx283_readout_modes[] =3D {
+> +struct imx283_scanout {
+> +       u8 bpp;
+> +       struct imx283_readout_mode readout;
+> +};
+> +
+> +static const struct imx283_scanout imx283_scan_modes[] =3D {
+>         /* All pixel scan modes */
+> -       [IMX283_MODE_0] =3D { 0x04, 0x03, 0x10, 0x00 }, /* 12 bit */
+> -       [IMX283_MODE_1] =3D { 0x04, 0x01, 0x00, 0x00 }, /* 10 bit */
+> -       [IMX283_MODE_1A] =3D { 0x04, 0x01, 0x20, 0x50 }, /* 10 bit */
+> -       [IMX283_MODE_1S] =3D { 0x04, 0x41, 0x20, 0x50 }, /* 10 bit */
+> +       [IMX283_MODE_0] =3D {
+> +               .bpp =3D 12,
+> +               .readout =3D { 0x04, 0x03, 0x10, 0x00 },
+> +       },
+> +       [IMX283_MODE_1] =3D {
+> +               .bpp =3D 10,
+> +               .readout =3D { 0x04, 0x01, 0x00, 0x00 },
+> +       },
+> +       [IMX283_MODE_1A] =3D {
+> +               .bpp =3D 10,
+> +               .readout =3D { 0x04, 0x01, 0x20, 0x50 },
+> +       },
+> +       [IMX283_MODE_1S] =3D {
+> +               .bpp =3D 10,
+> +               .readout =3D { 0x04, 0x41, 0x20, 0x50 },
+> +       },
+> =20
+>         /* Horizontal / Vertical 2/2-line binning */
+> -       [IMX283_MODE_2] =3D { 0x0d, 0x11, 0x50, 0x00 }, /* 12 bit */
+> -       [IMX283_MODE_2A] =3D { 0x0d, 0x11, 0x70, 0x50 }, /* 12 bit */
+> +       [IMX283_MODE_2] =3D {
+> +               .bpp =3D 12,
+> +               .readout =3D { 0x0d, 0x11, 0x50, 0x00 },
+> +       },
+> +       [IMX283_MODE_2A] =3D {
+> +               .bpp =3D 12,
+> +               .readout =3D { 0x0d, 0x11, 0x70, 0x50 },
+> +       },
+> =20
+>         /* Horizontal / Vertical 3/3-line binning */
+> -       [IMX283_MODE_3] =3D { 0x1e, 0x18, 0x10, 0x00 }, /* 12 bit */
+> +       [IMX283_MODE_3] =3D {
+> +               .bpp =3D 12,
+> +               .readout =3D { 0x1e, 0x18, 0x10, 0x00 },
+> +       },
+> =20
+>         /* Vertical 2/9 subsampling, horizontal 3 binning cropping */
+> -       [IMX283_MODE_4] =3D { 0x29, 0x18, 0x30, 0x50 }, /* 12 bit */
+> +       [IMX283_MODE_4] =3D {
+> +               .bpp =3D 12,
+> +               .readout =3D { 0x29, 0x18, 0x30, 0x50 },
+> +       },
+> =20
+>         /* Vertical 2/19 subsampling binning, horizontal 3 binning */
+> -       [IMX283_MODE_5] =3D { 0x2d, 0x18, 0x10, 0x00 }, /* 12 bit */
+> +       [IMX283_MODE_5] =3D {
+> +               .bpp =3D 12,
+> +               .readout =3D { 0x2d, 0x18, 0x10, 0x00 },
+> +       },
+> =20
+>         /* Vertical 2 binning horizontal 2/4, subsampling 16:9 cropping */
+> -       [IMX283_MODE_6] =3D { 0x18, 0x21, 0x00, 0x09 }, /* 10 bit */
+> +       [IMX283_MODE_6] =3D {
+> +               .bpp =3D 10,
+> +               .readout =3D { 0x18, 0x21, 0x00, 0x09 },
+> +       },
+> =20
+>         /*
+>          * New modes should make sure the offset period is complied.
+> @@ -293,12 +328,14 @@ static const struct imx283_readout_mode imx283_read=
+out_modes[] =3D {
+>          */
+>  };
+> =20
+> +static bool scan_mode(const struct imx283_scanout *scan, enum imx283_mod=
+es mode)
+> +{
+> +       return scan =3D=3D &imx283_scan_modes[mode];
+> +}
+> +
+>  /* Mode : resolution and related config values */
+>  struct imx283_mode {
 > -       unsigned int mode;
 > -
 > -       /* Bits per pixel */
 > -       unsigned int bpp;
-> -
-> -       /* Frame width */
-> -       unsigned int width;
-> -
-> -       /* Frame height */
-> -       unsigned int height;
-> -
-> -       /*
-> -        * Minimum horizontal timing in pixel-units
-> -        *
-> -        * Note that HMAX is written in 72MHz units, and the datasheet as=
-sumes a
-> -        * 720MHz link frequency. Convert datasheet values with the follo=
-wing:
-> -        *
-> -        * For 12 bpp modes (480Mbps) convert with:
-> -        *   hmax =3D [hmax in 72MHz units] * 480 / 72
-> -        *
-> -        * For 10 bpp modes (576Mbps) convert with:
-> -        *   hmax =3D [hmax in 72MHz units] * 576 / 72
-> -        */
-> -       u32 min_hmax;
-> -
-> -       /* minimum V-timing in lines */
-> -       u32 min_vmax;
-> -
-> -       /* default H-timing */
-> -       u32 default_hmax;
-> -
-> -       /* default V-timing */
-> -       u32 default_vmax;
-> -
-> -       /* minimum SHR */
-> -       u32 min_shr;
-> -
-> -       /*
-> -        * Per-mode vertical crop constants used to calculate values
-> -        * of IMX283REG_WIDCUT and IMX283_REG_VWINPOS.
-> -        */
-> -       u32 veff;
-> -       u32 vst;
-> -       u32 vct;
-> -
-> -       /* Horizontal and vertical binning ratio */
-> -       u8 hbin_ratio;
-> -       u8 vbin_ratio;
-> -
-> -       /* Optical Blanking */
-> -       u32 horizontal_ob;
-> -       u32 vertical_ob;
-> -
-> -       /* Analog crop rectangle. */
-> -       struct v4l2_rect crop;
-> -};
-> -
->  struct imx283_input_frequency {
->         unsigned int mhz;
->         unsigned int reg_count;
-> @@ -352,6 +293,65 @@ static const struct imx283_readout_mode imx283_reado=
-ut_modes[] =3D {
->          */
->  };
+> +       const struct imx283_scanout *scan;
 > =20
-> +/* Mode : resolution and related config values */
-> +struct imx283_mode {
-> +       unsigned int mode;
+>         /* Frame width */
+>         unsigned int width;
+> @@ -410,8 +447,8 @@ static const struct imx283_reg_list link_freq_reglist=
+[] =3D {
+>  static const struct imx283_mode supported_modes_12bit[] =3D {
+>         {
+>                 /* 20MPix 21.40 fps readout mode 0 */
+> -               .mode =3D IMX283_MODE_0,
+> -               .bpp =3D 12,
+> +               .scan =3D &imx283_scan_modes[IMX283_MODE_0],
 > +
-> +       /* Bits per pixel */
-> +       unsigned int bpp;
-> +
-> +       /* Frame width */
-> +       unsigned int width;
-> +
-> +       /* Frame height */
-> +       unsigned int height;
-> +
-> +       /*
-> +        * Minimum horizontal timing in pixel-units
-> +        *
-> +        * Note that HMAX is written in 72MHz units, and the datasheet as=
-sumes a
-> +        * 720MHz link frequency. Convert datasheet values with the follo=
-wing:
-> +        *
-> +        * For 12 bpp modes (480Mbps) convert with:
-> +        *   hmax =3D [hmax in 72MHz units] * 480 / 72
-> +        *
-> +        * For 10 bpp modes (576Mbps) convert with:
-> +        *   hmax =3D [hmax in 72MHz units] * 576 / 72
-> +        */
-> +       u32 min_hmax;
-> +
-> +       /* minimum V-timing in lines */
-> +       u32 min_vmax;
-> +
-> +       /* default H-timing */
-> +       u32 default_hmax;
-> +
-> +       /* default V-timing */
-> +       u32 default_vmax;
-> +
-> +       /* minimum SHR */
-> +       u32 min_shr;
-> +
-> +       /*
-> +        * Per-mode vertical crop constants used to calculate values
-> +        * of IMX283REG_WIDCUT and IMX283_REG_VWINPOS.
-> +        */
-> +       u32 veff;
-> +       u32 vst;
-> +       u32 vct;
-> +
-> +       /* Horizontal and vertical binning ratio */
-> +       u8 hbin_ratio;
-> +       u8 vbin_ratio;
-> +
-> +       /* Optical Blanking */
-> +       u32 horizontal_ob;
-> +       u32 vertical_ob;
-> +
-> +       /* Analog crop rectangle. */
-> +       struct v4l2_rect crop;
-> +};
-> +
->  static const struct cci_reg_sequence mipi_data_rate_1440Mbps[] =3D {
->         /* The default register settings provide the 1440Mbps rate */
->         { CCI_REG8(0x36c5), 0x00 }, /* Undocumented */
+>                 .width =3D 5472,
+>                 .height =3D 3648,
+>                 .min_hmax =3D 5914, /* 887 @ 480MHz/72MHz */
+> @@ -442,8 +479,7 @@ static const struct imx283_mode supported_modes_12bit=
+[] =3D {
+>                 /*
+>                  * Readout mode 2 : 2/2 binned mode (2736x1824)
+>                  */
+> -               .mode =3D IMX283_MODE_2,
+> -               .bpp =3D 12,
+> +               .scan =3D &imx283_scan_modes[IMX283_MODE_2],
+>                 .width =3D 2736,
+>                 .height =3D 1824,
+>                 .min_hmax =3D 2414, /* Pixels (362 * 480MHz/72MHz + paddi=
+ng) */
+> @@ -475,8 +511,7 @@ static const struct imx283_mode supported_modes_12bit=
+[] =3D {
+>                 /*
+>                  * Readout mode 3 : 3/3 binned mode (1824x1216)
+>                  */
+> -               .mode =3D IMX283_MODE_3,
+> -               .bpp =3D 12,
+> +               .scan =3D &imx283_scan_modes[IMX283_MODE_3],
+>                 .width =3D 1824,
+>                 .height =3D 1216,
+>                 .min_hmax =3D 1894, /* Pixels (284 * 480MHz/72MHz + paddi=
+ng) */
+> @@ -509,8 +544,7 @@ static const struct imx283_mode supported_modes_12bit=
+[] =3D {
+>  static const struct imx283_mode supported_modes_10bit[] =3D {
+>         {
+>                 /* 20MPix 25.48 fps readout mode 1 */
+> -               .mode =3D IMX283_MODE_1,
+> -               .bpp =3D 10,
+> +               .scan =3D &imx283_scan_modes[IMX283_MODE_1],
+>                 .width =3D 5472,
+>                 .height =3D 3648,
+>                 .min_hmax =3D 5960, /* 745 @ 576MHz / 72MHz */
+> @@ -616,7 +650,7 @@ static u64 imx283_pixel_rate(struct imx283 *imx283,
+>                              const struct imx283_mode *mode)
+>  {
+>         u64 link_frequency =3D link_frequencies[__ffs(imx283->link_freq_b=
+itmap)];
+> -       unsigned int bpp =3D mode->bpp;
+> +       unsigned int bpp =3D mode->scan->bpp;
+>         const unsigned int ddr =3D 2; /* Double Data Rate */
+>         const unsigned int lanes =3D 4; /* Only 4 lane support */
+>         u64 numerator =3D link_frequency * ddr * lanes;
+> @@ -673,7 +707,7 @@ static u32 imx283_exposure(struct imx283 *imx283,
+>         u64 numerator;
+> =20
+>         /* Number of clocks per internal offset period */
+> -       offset =3D mode->mode =3D=3D IMX283_MODE_0 ? 209 : 157;
+> +       offset =3D scan_mode(mode->scan, IMX283_MODE_0) ? 209 : 157;
+>         numerator =3D (imx283->vmax * (svr + 1) - shr) * imx283->hmax + o=
+ffset;
+> =20
+>         do_div(numerator, imx283->hmax);
+> @@ -708,7 +742,7 @@ static u32 imx283_shr(struct imx283 *imx283, const st=
+ruct imx283_mode *mode,
+>         u64 temp;
+> =20
+>         /* Number of clocks per internal offset period */
+> -       offset =3D mode->mode =3D=3D IMX283_MODE_0 ? 209 : 157;
+> +       offset =3D scan_mode(mode->scan, IMX283_MODE_0) ? 209 : 157;
+>         temp =3D ((u64)exposure * imx283->hmax - offset);
+>         do_div(temp, imx283->hmax);
+> =20
+> @@ -1073,7 +1107,7 @@ static int imx283_start_streaming(struct imx283 *im=
+x283,
+>          * Set the readout mode registers.
+>          * MDSEL3 and MDSEL4 are updated to enable Arbitrary Vertical Cro=
+pping.
+>          */
+> -       readout =3D &imx283_readout_modes[mode->mode];
+> +       readout =3D &mode->scan->readout;
+>         cci_write(imx283->cci, IMX283_REG_MDSEL1, readout->mdsel1, &ret);
+>         cci_write(imx283->cci, IMX283_REG_MDSEL2, readout->mdsel2, &ret);
+>         cci_write(imx283->cci, IMX283_REG_MDSEL3,
+> @@ -1082,7 +1116,7 @@ static int imx283_start_streaming(struct imx283 *im=
+x283,
+>                   readout->mdsel4 | IMX283_MDSEL4_VCROP_EN, &ret);
+> =20
+>         /* Mode 1S specific entries from the Readout Drive Mode Tables */
+> -       if (mode->mode =3D=3D IMX283_MODE_1S) {
+> +       if (scan_mode(mode->scan, IMX283_MODE_1S)) {
+>                 cci_write(imx283->cci, IMX283_REG_MDSEL7, 0x01, &ret);
+>                 cci_write(imx283->cci, IMX283_REG_MDSEL18, 0x1098, &ret);
+>         }
 >=20
 > --=20
 > 2.52.0
