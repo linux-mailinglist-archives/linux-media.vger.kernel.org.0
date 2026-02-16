@@ -1,198 +1,188 @@
-Return-Path: <linux-media+bounces-52845-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52846-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0J1vEzbdkmlvzQEAu9opvQ
-	(envelope-from <linux-media+bounces-52845-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 10:02:46 +0100
+	id SPLsHnzdkmlvzQEAu9opvQ
+	(envelope-from <linux-media+bounces-52846-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 10:03:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9229B141CD5
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 10:02:45 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C53141D01
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 10:03:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E7518300F144
-	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 09:02:43 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 692F630054E3
+	for <lists+linux-media@lfdr.de>; Mon, 16 Feb 2026 09:03:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E12A26ED56;
-	Mon, 16 Feb 2026 09:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C410723D7F5;
+	Mon, 16 Feb 2026 09:03:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dW0rbjm7"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PxqPN+nj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF651EDA2B
-	for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 09:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB3726E719;
+	Mon, 16 Feb 2026 09:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771232559; cv=none; b=Bf1MHH7zRUVaqlvScze6F59CqP8378KPsaeLbmVs4OPRLmbUcqgUytCSuu0ic3s4/1s8jqH/HilYWAYzFYHA3SbGIvcao+48vg/nXIgHmgAcrknJPRCLe3WgZjEvM1MpZ6Hgg4xwYvjF2eXhPweUZ/7rRz7h4rnl6BwTY62l7jY=
+	t=1771232633; cv=none; b=EGjf2KeKD8s7J2xsEJWe79o7LE6xq+IEedjNcxq2IcYy9kb0a2AyoSvgKwKa652r/n68a1K51yrYfBOSV1TeDEwQEctLehDgl6sYi2dq2NSPAgZNr8+dpUp+YPywFOvPtN0pPgZKPnL0buxbLKnotmh9D5pLBvQMbxfFREgsEqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771232559; c=relaxed/simple;
-	bh=74rH9qbbtUNAnbsKkVjmR80MePEL/wH+oK1kpH0R+d0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOwFByiOS+1hPHEnh57xPKXkd3QaWjX33Dr8nD67IIsJnF3fp/T3EYyZFMeoq4QLfTMFD2A9DCqJFZ0cVkVc+FSffglua8GpPE7LLzbNGaFWqx+9N6Pq7Cy/eqcdhqY9GZtodj2P/claFHcudMMc2HO8rK5G2ejASZ4dm7SDZyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dW0rbjm7; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771232558; x=1802768558;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=74rH9qbbtUNAnbsKkVjmR80MePEL/wH+oK1kpH0R+d0=;
-  b=dW0rbjm7KKmGxc9WaN/CKff/C1Ql0RKz5VyhYwB7RDMB+mTA8DjAKToH
-   7EeHeTG2zxMwzjILbffha2+TtJla1xS0q5BiWnyQpmQn+Q+nWKvq/kg2q
-   YBidya8+rdWhhWzVkxM3eX6iotgftGY+KGdwKCFXD59vD2MNLHz6g26zW
-   RdgAsoel8EUys80acW0IooQGENI2noOuIMHXMg3BWldn/KAXqm3MVUbb5
-   QoEUlPF7XPa+ok/g6TtAgBXUeW9eqUIl8jst2RdM18Ml8km+PFk56Zmlq
-   lF9KZpaK24Zxb+R7ctYa7ASxaRum25UUpRFXVaTZRq8jhZalxUPaYgErO
-   g==;
-X-CSE-ConnectionGUID: zDAYNAcESFClP4yU9q1DOw==
-X-CSE-MsgGUID: rAHqxEdYRqeqgL7Q8FFtVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11702"; a="83409136"
-X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="83409136"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 01:02:37 -0800
-X-CSE-ConnectionGUID: OH16iJRmSjSVqXua/GfFtw==
-X-CSE-MsgGUID: wRKnVeYUSQGhJm3zZxd9Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,293,1763452800"; 
-   d="scan'208";a="218098060"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.203])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2026 01:02:31 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id A916F121D2E;
-	Mon, 16 Feb 2026 11:02:51 +0200 (EET)
-Date: Mon, 16 Feb 2026 11:02:51 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mirela Rabulea <mirela.rabulea@nxp.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: Re: [PATCH v2 05/14] media: v4l2-subdev: Refactor returning routes
-Message-ID: <aZLdO8k_qDd_3J5a@kekkonen.localdomain>
-References: <20260211090920.1851141-1-sakari.ailus@linux.intel.com>
- <20260211090920.1851141-6-sakari.ailus@linux.intel.com>
- <81e543df-a188-4c2b-a24a-b599b27b3954@nxp.com>
+	s=arc-20240116; t=1771232633; c=relaxed/simple;
+	bh=egyZNlVxOKps8c+uu05c+5nto53qJQKuDG16P33A490=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bwdj5wsfmZfV0OP9Smzohw9UsZm4BI5LpyAZrb1UswYMWZ4qGyBfMpjahOWYm/ZSMvG6qIiIFk5xSgtcn7vHs5QI/mV0uA0TtB3VHFj/YDm1wM3ZX2GpB/iN/wLZKlEygPoHINCQOoAWDMpzIfSnd7mBl9cPMukL3aQvPD1N954=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PxqPN+nj; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1771232630;
+	bh=egyZNlVxOKps8c+uu05c+5nto53qJQKuDG16P33A490=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PxqPN+nj4/xel63axAnL+UABpl+Xy88tyLF+48q1YvuE0TXc+PQjjdnay1cPPdYqY
+	 XTLhup0YYmEnJtlUWYS8IweQuB16PAAGl1tR0HAhPoYEQlmU3C48xpUpt0aMa4eHNN
+	 bWYLMV9Jdf/tk56we0+mJVDhn8zMt/f1z5jMCdRCfOsU+BD1/+OtXN2uCfwZd3y52A
+	 4xiwjrNMvfiziZLcfoNDbGWbq8CpMOkhJ+wJVXejKBjiX20RYc5+T4PNkvJhKJqxLI
+	 +KRR8Kp5tchL5SO5PMhfPoRbbZwSYgdenbCxtWRqzOqUceNNjeyNhImTI6mY7LwD2A
+	 OYKJHXuvfkL6A==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B5D7717E137B;
+	Mon, 16 Feb 2026 10:03:49 +0100 (CET)
+Message-ID: <75abd9eb-6141-46cc-b2d7-0c4d112e2ca5@collabora.com>
+Date: Mon, 16 Feb 2026 10:03:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <81e543df-a188-4c2b-a24a-b599b27b3954@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/6] media: synopsys: csi2rx: implement
+ .get_frame_desc() callback
+To: Frank Li <Frank.Li@nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, imx@lists.linux.dev
+References: <20260213-imx93-dw-csi2-v2-0-8be6039f44c6@nxp.com>
+ <20260213-imx93-dw-csi2-v2-3-8be6039f44c6@nxp.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20260213-imx93-dw-csi2-v2-3-8be6039f44c6@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52845-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,apitzsch.eu,linux.intel.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-52846-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,intel.com:dkim,kekkonen.localdomain:mid]
-X-Rspamd-Queue-Id: 9229B141CD5
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michael.riesch@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,collabora.com:mid,collabora.com:dkim]
+X-Rspamd-Queue-Id: 27C53141D01
 X-Rspamd-Action: no action
 
-Hi Mirela,
+Hi Frank,
 
-On Sun, Feb 15, 2026 at 04:39:58PM +0200, Mirela Rabulea wrote:
-> Hi Sakari,
+On 2/13/26 21:25, Frank Li wrote:
+> Implement the .get_frame_desc() callback to fetch information from the
+> remote endpoint.
 > 
-> On 2/11/26 11:09, Sakari Ailus wrote:
-> > Refactor returning the routes by adding a new function that essentially
-> > does a memcopy and sets the number of the number of the routes in the
-> Repetition "The number of the number"
-
-Fixed for v3.
-
-> > routing table.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >   drivers/media/v4l2-core/v4l2-subdev.c | 40 +++++++++++++++------------
-> >   1 file changed, 22 insertions(+), 18 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > index b2105c34478e..8a433d074587 100644
-> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > @@ -629,6 +629,19 @@ subdev_ioctl_get_state(struct v4l2_subdev *sd, struct v4l2_subdev_fh *subdev_fh,
-> >                               v4l2_subdev_get_unlocked_active_state(sd);
-> >   }
-> > 
-> > +static void subdev_copy_fix_routes(struct v4l2_subdev_routing *routing,
-> > +                                  const struct v4l2_subdev_route *src,
-> > +                                  u32 copy_routes, u32 num_routes)
-> > +{
-> > +       struct v4l2_subdev_route *routes =
-> > +               (struct v4l2_subdev_route *)(uintptr_t)routing->routes;
-> > +
-> > +       for (u32 i = 0; i < copy_routes; i++)
-> > +               routes[i] = src[i];
-> > +
-> > +       routing->num_routes = num_routes;
-> > +}
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> change in v2
+> - add csi2rx in subject
+> ---
+>  drivers/media/platform/synopsys/dw-mipi-csi2rx.c | 25 ++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 > 
-> The function just copies routes, no fixing, so I agree with Jacopo's
-> comment, subdev_copy_routes seems like a better name.
+> diff --git a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
+> index f03fe01280013bf9a832433c6b06dab691bf8f4c..a6d251ca5ad14c5138a6fd0202a970460e64c68f 100644
+> --- a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
+> +++ b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
+> @@ -68,6 +68,8 @@ struct dw_mipi_csi2rx_device {
+>  	struct v4l2_async_notifier notifier;
+>  	struct v4l2_subdev sd;
+>  
+> +	struct v4l2_subdev *remote_source;
+> +
+>  	enum v4l2_mbus_type bus_type;
+>  	u32 lanes_num;
+>  };
+> @@ -429,10 +431,31 @@ static int dw_mipi_csi2rx_disable_streams(struct v4l2_subdev *sd,
+>  	return ret;
+>  }
+>  
+> +static int
+> +dw_mipi_csi2rx_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> +			      struct v4l2_mbus_frame_desc *fd)
+> +{
+> +	struct dw_mipi_csi2rx_device *csi2 = to_csi2(sd);
+> +	struct media_pad *remote_pad;
+> +
+> +	if (!csi2->remote_source)
+> +		return -ENODEV;
+> +
+> +	remote_pad = media_pad_remote_pad_unique(&csi2->pads[DW_MIPI_CSI2RX_PAD_SINK]);
+> +	if (IS_ERR(remote_pad)) {
+> +		dev_err(csi2->dev, "can't get source pad of %s (%pe)\n",
+> +			csi2->remote_source->name, remote_pad);
+> +		return PTR_ERR(remote_pad);
+> +	}
+
+You can get the remote subdevice with
+	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+instead of storing it in the device data.
+
+Best regards,
+Michael
+
+> +	return v4l2_subdev_call(csi2->remote_source, pad, get_frame_desc,
+> +				remote_pad->index, fd);
+> +}
+> +
+>  static const struct v4l2_subdev_pad_ops dw_mipi_csi2rx_pad_ops = {
+>  	.enum_mbus_code = dw_mipi_csi2rx_enum_mbus_code,
+>  	.get_fmt = v4l2_subdev_get_fmt,
+>  	.set_fmt = dw_mipi_csi2rx_set_fmt,
+> +	.get_frame_desc = dw_mipi_csi2rx_get_frame_desc,
+>  	.set_routing = dw_mipi_csi2rx_set_routing,
+>  	.enable_streams = dw_mipi_csi2rx_enable_streams,
+>  	.disable_streams = dw_mipi_csi2rx_disable_streams,
+> @@ -485,6 +508,8 @@ static int dw_mipi_csi2rx_notifier_bound(struct v4l2_async_notifier *notifier,
+>  		return ret;
+>  	}
+>  
+> +	csi2->remote_source = sd;
+> +
+>  	return 0;
+>  }
+>  
 > 
-> Clear names for src/dest sound better, and also address the case when
-> copy_routes>num_routes, at the calling place it was
-> min(state->routing.num_routes, routing->len_routes).
 
-I agree. I'll also change the arguments to just include the routing struct
-and the state -- all the callers already use these. How about calling it
-copy_routes_state_to_routing()?
-
--- 
-Regards,
-
-Sakari Ailus
 
