@@ -1,226 +1,307 @@
-Return-Path: <linux-media+bounces-52960-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52961-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KPN4AksllGnXAAIAu9opvQ
-	(envelope-from <linux-media+bounces-52960-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 09:22:35 +0100
+	id 8PB2KpgolGk9AQIAu9opvQ
+	(envelope-from <linux-media+bounces-52961-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 09:36:40 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711E4149E4F
-	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 09:22:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9C714A052
+	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 09:36:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 10DC4303100C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 08:22:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F35F73042FDC
+	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 08:35:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB4C22E7BB6;
-	Tue, 17 Feb 2026 08:22:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B6342EA172;
+	Tue, 17 Feb 2026 08:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="A6I8Qsq+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u3m4fHr8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7FD82DB7BA
-	for <linux-media@vger.kernel.org>; Tue, 17 Feb 2026 08:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1075933993;
+	Tue, 17 Feb 2026 08:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771316526; cv=none; b=opId3y+v/tUQksCA3rFMoM+kijpJ7r6QGoaKX+gxsI+xMDVbYmKvI0hax6BeVzQg9OjMxpp4Do+M1edhCiTZwmAmALPz+7P2FqLAxWSDs0MfQzFZTNpShbQb2jV893ezfA2yB35Vv+Mx1HK8+ultj6IEO4BR4lg7a9bXD99wFJg=
+	t=1771317298; cv=none; b=cUmRhyvCc2LkPmRNJ/Pg2KmGjhvSWjte+kjAVU5rZkR3JF0xiYa64lq21vJzVj7KooVp1mlIfVAjcMpjo8sidwlzNqBuKVmw+UG2lIBD281a6z4NyxZKszQCaDy2iWr5VOJsOAwKgnl8v7fk5iF4gG59eFTDI3uetIbK0Z/W6lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771316526; c=relaxed/simple;
-	bh=bfkGzTeqMXPNb2FVxSufc857pf0CokCiO6u91ismLhc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=tFpNIKwKwr9O9AqrUzMVATV0Cf6Q5HoizNIr0io7O5i8DDAddK0o8AMN8EwM+MjMdE5Uu7L3q0FZqPWwBoPNciRX1g6Ea1T87oK4ZY5SdWC5n9FkCWY3RvMS+6XqJDsucjpqHP6YIFLdkKUJ2qG1qqdmVcoYijSm7YbVp6nMPR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=A6I8Qsq+; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260217082155euoutp02793e9e36c7b132de80515d0bb0545530~U_vxYtUzu1670516705euoutp027
-	for <linux-media@vger.kernel.org>; Tue, 17 Feb 2026 08:21:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260217082155euoutp02793e9e36c7b132de80515d0bb0545530~U_vxYtUzu1670516705euoutp027
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1771316515;
-	bh=ff9z6TTvPWiEy9lEgyawztrHtxW4KWIFJrR1ygeF3dY=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=A6I8Qsq+XJdYZRm42vZU0xJ4pvePHr0SqFDSTvRrw8c17hCatnjTeJZeCSR8nzPlv
-	 nDuOx0pBAc9o2bqfhrevuoK8bOwvBLLl3xv5A30rUutBgHUlZ6kindmncntMtlrN3r
-	 0c04vesa9kYIjSDB6uBwD0kEu07k56HA/6xglvdQ=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260217082154eucas1p2a2fc74fee77203c5ad24cc011c2efafc~U_vxFq01c1480414804eucas1p2z;
-	Tue, 17 Feb 2026 08:21:54 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260217082153eusmtip1baa04ca6f6de2cc98cc632f532719bb3~U_vwAPOHH0073900739eusmtip1X;
-	Tue, 17 Feb 2026 08:21:53 +0000 (GMT)
-Message-ID: <ce0f5d88-da59-4e0b-812f-5ae753cbabfd@samsung.com>
-Date: Tue, 17 Feb 2026 09:21:52 +0100
+	s=arc-20240116; t=1771317298; c=relaxed/simple;
+	bh=/d2LUl3lan2b/oBZH2ACaEwx0D7znDuXdixvFi7qrI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Czj++iviX9D9Dv4ZMNeJABkOVoVYbUsfh8sd7qn+GMTMXnVXu/ywozv9rnBLYXLFd2uk1pOVoxt5TcnhzxZ+fp92p6/Gx7w+prIt1pVWU7gQ/nWNNVifT5y0lfXC/AbMJZloV1+Xy6mzT3Zm0ikjIkMYn6bDcJzSTWNs3DH2s44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u3m4fHr8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 950CBC4CEF7;
+	Tue, 17 Feb 2026 08:34:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771317297;
+	bh=/d2LUl3lan2b/oBZH2ACaEwx0D7znDuXdixvFi7qrI4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u3m4fHr8KeH4aSJOkYTRYvIR/93ezPrZAczcrLugdlzIBePdXxhzLDiNkPSxMHgeT
+	 oHBFZ/56YuHBGh70sWxlLJtK9f0C1WoiyE3IoDlmhhcFAWYDv/rwBXtlZAOiBeblKN
+	 AUBSQR5hXTKOF6FtZInq/iEBariLiOAOXb6bVtDXvoNhAMwm0k1ZNbu4JyC7Qb54jM
+	 cyja7WrsnixjL9K3loFkm+O/Qoqq8LpqRhm5w6puSmXjRKh9t/e2PF4gskPN2B1Okf
+	 NU4daZO3ssKJfb7y6TIVAi0sqL8xeHWr04mrNLftwMRsE38sLtARDGcL/5bc8jO3E9
+	 caIHowdDj6T/Q==
+Date: Tue, 17 Feb 2026 09:34:55 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v5 2/2] media: bcm2835-unicam: Fix RGB format / mbus code
+ association
+Message-ID: <20260217-married-sloppy-binturong-a21f3e@houat>
+References: <20260209-csi-bgr-rgb-v5-0-e7af3cd6cde6@redhat.com>
+ <20260209-csi-bgr-rgb-v5-2-e7af3cd6cde6@redhat.com>
+ <20260209224436.GE2405149@killaraus.ideasonboard.com>
+ <20260211-truthful-wine-starling-fcc470@houat>
+ <20260212091843.GB2631855@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH] media: videobuf2: Set vma_flags in vb2_dma_sg_mmap
-To: Janne Grunau <j@jannau.net>, Tomasz Figa <tfiga@chromium.org>, Mauro
-	Carvalho Chehab <mchehab@kernel.org>, Kyungmin Park
-	<kyungmin.park@samsung.com>, Hans Verkuil <hverkuil@kernel.org>, Maarten
-	Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260215-media-vb2-dma-sg-v1-1-91b6aa6c1cec@jannau.net>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260217082154eucas1p2a2fc74fee77203c5ad24cc011c2efafc
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260215174311eucas1p1fbf6fb7183edf87af9af0ae2f3a934fd
-X-EPHeader: CA
-X-CMS-RootMailID: 20260215174311eucas1p1fbf6fb7183edf87af9af0ae2f3a934fd
-References: <CGME20260215174311eucas1p1fbf6fb7183edf87af9af0ae2f3a934fd@eucas1p1.samsung.com>
-	<20260215-media-vb2-dma-sg-v1-1-91b6aa6c1cec@jannau.net>
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="a2f3sroqwqfzfflf"
+Content-Disposition: inline
+In-Reply-To: <20260212091843.GB2631855@killaraus.ideasonboard.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.15 / 15.00];
+X-Spamd-Result: default: False [-3.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-52961-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[jannau.net,chromium.org,kernel.org,samsung.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-52960-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[samsung.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[jannau.net:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 711E4149E4F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5C9C714A052
 X-Rspamd-Action: no action
 
-On 15.02.2026 18:42, Janne Grunau wrote:
-> vb2_dma_contig sets VMA flags VM_DONTEXPAND and VM_DONTDUMP and I do not
-> see a reason why vb2_dma_sg should behave differently. This avoids
-> hitting `WARN_ON(!(vma->vm_flags & VM_DONTEXPAND));` in
-> drm_gem_mmap_obj() during mmap() of an imported dma-buf from the out of
-> tree Apple ISP camera capture driver which uses vb2_dma_sg_memops.
->
-> gst-launch-1.0 v4l2src ! gtk4paintablesink
->
-> [   38.201528] ------------[ cut here ]------------
-> [   38.202135] WARNING: CPU: 7 PID: 2362 at drivers/gpu/drm/drm_gem.c:1144 drm_gem_mmap_obj+0x1f8/0x210
-> [   38.203278] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer
-> snd_seq snd_seq_device uinput nf_conntrack_netbios_ns
-> nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib
-> nft_reject_inet nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf_nat
-> nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables qrtr bnep
-> nls_ascii i2c_dev loop fuse dm_multipath nfnetlink brcmfmac_wcc
-> hid_magicmouse hci_bcm4377 brcmfmac brcmutil bluetooth ecdh_generic
-> cfg80211 ecc btrfs xor xor_neon rfkill hid_apple raid6_pq joydev
-> aop_als apple_nvmem_spmi industrialio snd_soc_aop apple_z2
-> snd_soc_cs42l84 tps6598x snd_soc_tas2764 macsmc_reboot spi_nor
-> macsmc_hwmon rtc_macsmc gpio_macsmc macsmc_power regmap_spmi
-> macsmc_input dockchannel_hid panel_summit appledrm nvme_apple dwc3
-> snd_soc_macaudio drm_client_lib nvme_core phy_apple_atc hwmon
-> apple_sart apple_dockchannel macsmc apple_rtkit_helper
-> spmi_apple_controller aop apple_wdt mfd_core nvmem_apple_efuses
-> pinctrl_apple_gpio apple_isp apple_dcp videobuf2_dma_sg mux_core
-> spi_apple
-> [   38.203300]  videobuf2_memops i2c_pasemi_platform snd_soc_apple_mca videobuf2_v4l2 videodev clk_apple_nco videobuf2_common snd_pcm_dmaengine adpdrm asahi apple_admac adpdrm_mipi drm_dma_helper pwm_apple i2c_pasemi_core drm_display_helper mc cec apple_dart ofpart apple_soc_cpufreq leds_pwm phram
-> [   38.217677] CPU: 7 UID: 1000 PID: 2362 Comm: gst-launch-1.0 Tainted: G        W           6.17.6+ #asahi-dev PREEMPT(full)
-> [   38.219040] Tainted: [W]=WARN
-> [   38.219398] Hardware name: Apple MacBook Pro (13-inch, M2, 2022) (DT)
-> [   38.220213] pstate: 21400005 (nzCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-> [   38.221088] pc : drm_gem_mmap_obj+0x1f8/0x210
-> [   38.221643] lr : drm_gem_mmap_obj+0x78/0x210
-> [   38.222178] sp : ffffc0008dc678e0
-> [   38.222579] x29: ffffc0008dc678e0 x28: 0000000000042a97 x27: ffff8000b701b480
-> [   38.223465] x26: 00000000000000fb x25: ffffc0008dc67d20 x24: ffffc0008dc67968
-> [   38.224402] x23: ffff8000e3ca5600 x22: ffff8000265b7800 x21: ffff80003000c0c0
-> [   38.225279] x20: 0000000000000000 x19: ffff8000b68c5200 x18: ffffc0008dc67968
-> [   38.226151] x17: 0000000000000000 x16: 0000000000000000 x15: ffffc000810a30a8
-> [   38.227042] x14: 00007fff637effff x13: 00005555de91ffff x12: 00007fff63293fff
-> [   38.227942] x11: 0000000000000000 x10: ffff8000184ecf08 x9 : ffffc0007a1900c8
-> [   38.228824] x8 : ffffc0008dc67968 x7 : 0000000000000012 x6 : ffffc0015cf1c000
-> [   38.229703] x5 : ffffc0008dc676a0 x4 : ffffc00081a27dc0 x3 : 0000000000000038
-> [   38.230607] x2 : 0000000000000003 x1 : 0000000000000003 x0 : 00000000100000fb
-> [   38.231488] Call trace:
-> [   38.231806]  drm_gem_mmap_obj+0x1f8/0x210 (P)
-> [   38.232342]  drm_gem_mmap+0x140/0x260
-> [   38.232813]  __mmap_region+0x488/0x9a0
-> [   38.233277]  mmap_region+0xd0/0x148
-> [   38.233703]  do_mmap+0x350/0x5c0
-> [   38.234148]  vm_mmap_pgoff+0x14c/0x200
-> [   38.234612]  ksys_mmap_pgoff+0x150/0x208
-> [   38.235107]  __arm64_sys_mmap+0x34/0x50
-> [   38.235611]  invoke_syscall+0x50/0x120
-> [   38.236075]  el0_svc_common.constprop.0+0x48/0xf0
-> [   38.236680]  do_el0_svc+0x24/0x38
-> [   38.237113]  el0_svc+0x38/0x168
-> [   38.237507]  el0t_64_sync_handler+0xa0/0xe8
-> [   38.238034]  el0t_64_sync+0x198/0x1a0
-> [   38.238491] ---[ end trace 0000000000000000 ]---
->
-> There were discussions in [1] at the end of 2023 that mmap() on imported
-> dma-bufs should not be supported but as of v6.17 drm_gem_shmem_mmap() in
-> drm_gem_shmem_helper.c still supports it.
-> This might affect all gpu or accel drivers using drm_gem_shmem_mmap() or
-> the wrapper drm_gem_shmem_object_mmap().
->
-> [1] https://lore.kernel.org/dri-devel/bc7f7844-0aa3-4802-b203-69d58e8be2fa@linux.intel.com/
->
-> Cc: stable@vger.kernel.org
-> Fixes: 5ba3f757f059 ("[media] v4l: videobuf2: add DMA scatter/gather allocator")
-> Signed-off-by: Janne Grunau <j@jannau.net>
 
-This looks like an oversight from the beginning of videobuf2-dma-sg.
+--a2f3sroqwqfzfflf
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 2/2] media: bcm2835-unicam: Fix RGB format / mbus code
+ association
+MIME-Version: 1.0
 
-Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+On Thu, Feb 12, 2026 at 11:18:43AM +0200, Laurent Pinchart wrote:
+> On Wed, Feb 11, 2026 at 11:35:32AM +0100, Maxime Ripard wrote:
+> > On Tue, Feb 10, 2026 at 12:44:36AM +0200, Laurent Pinchart wrote:
+> > > On Mon, Feb 09, 2026 at 04:03:17PM +0100, Maxime Ripard wrote:
+> > > > From: Maxime Ripard <mripard@redhat.com>
+> > > >=20
+> > > > The Unicam driver is a MIPI-CSI2 Receiver, that can capture RGB 4:4=
+:4,
+> > > > YCbCr 4:2:2, and raw formats.
+> > > >=20
+> > > > RGB 4:4:4 is converted to the MIPI-CSI2 RGB888 video format, and
+> > > > associated to the MEDIA_BUS_FMT_RGB888_1X24 media bus code.
+> > > >=20
+> > > > However, V4L2_PIX_FMT_RGB24 is defined as having its color componen=
+ts in
+> > > > the R, G and B order, from left to right. MIPI-CSI2 however defines=
+ the
+> > > > RGB888 format with blue first, and that's what MEDIA_BUS_FMT_RGB888=
+_1X24
+> > > > defines too.
+> > > >=20
+> > > > This essentially means that the R and B will be swapped compared to=
+ what
+> > > > V4L2_PIX_FMT_RGB24 defines. The same situation occurs with
+> > > > V4L2_PIX_FMT_BGR24 being associated to MEDIA_BUS_FMT_BGR888_1X24.
+> > > >=20
+> > > > In order to fix the swapped components, we need to change the
+> > > > association of V4L2_PIX_FMT_BGR24 to MEDIA_BUS_FMT_RGB888_1X24, and=
+ of
+> > > > V4L2_PIX_FMT_RGB24 to MEDIA_BUS_FMT_BGR888_1X24.
+> > > >=20
+> > > > Since the media bus code is exposed to userspace, and validated by
+> > > > unicam's link_validate implementation, we need to explicitly accept=
+ (and
+> > > > warn) the old association still to preserve backward compatibility.
+> > > >=20
+> > > > Signed-off-by: Maxime Ripard <mripard@redhat.com>
+> > > > ---
+> > > >  drivers/media/platform/broadcom/bcm2835-unicam.c | 36 ++++++++++++=
++++++++++---
+> > > >  1 file changed, 32 insertions(+), 4 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/dri=
+vers/media/platform/broadcom/bcm2835-unicam.c
+> > > > index f10064107d543caf867249d0566a0f42d6d8c4c6..5e4850831c931d34614=
+6aa8e22c53f0655e462c9 100644
+> > > > --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > > > @@ -340,16 +340,16 @@ static const struct unicam_format_info unicam=
+_image_formats[] =3D {
+> > > >  		.code		=3D MEDIA_BUS_FMT_RGB565_1X16,
+> > > >  		.depth		=3D 16,
+> > > >  		.csi_dt		=3D MIPI_CSI2_DT_RGB565,
+> > > >  	}, {
+> > > >  		.fourcc		=3D V4L2_PIX_FMT_RGB24, /* rgb */
+> > > > -		.code		=3D MEDIA_BUS_FMT_RGB888_1X24,
+> > > > +		.code		=3D MEDIA_BUS_FMT_BGR888_1X24,
+> > > >  		.depth		=3D 24,
+> > > >  		.csi_dt		=3D MIPI_CSI2_DT_RGB888,
+> > > >  	}, {
+> > > >  		.fourcc		=3D V4L2_PIX_FMT_BGR24, /* bgr */
+> > > > -		.code		=3D MEDIA_BUS_FMT_BGR888_1X24,
+> > > > +		.code		=3D MEDIA_BUS_FMT_RGB888_1X24,
+> > > >  		.depth		=3D 24,
+> > > >  		.csi_dt		=3D MIPI_CSI2_DT_RGB888,
+> > > >  	}, {
+> > > >  	/* Bayer Formats */
+> > > >  		.fourcc		=3D V4L2_PIX_FMT_SBGGR8,
+> > > > @@ -2153,12 +2153,40 @@ static int unicam_video_link_validate(struc=
+t media_link *link)
+> > > >  		if (WARN_ON(!fmtinfo)) {
+> > > >  			ret =3D -EPIPE;
+> > > >  			goto out;
+> > > >  		}
+> > > > =20
+> > > > -		if (fmtinfo->code !=3D format->code ||
+> > > > -		    fmt->height !=3D format->height ||
+> > > > +		/*
+> > > > +		 * Unicam initially associated BGR24 to BGR888_1X24 and
+> > > > +		 * RGB24 to RGB888_1X24.
+> > > > +		 *
+> > > > +		 * In order to allow the applications using the old
+> > > > +		 * behaviour to run, let's accept the old combination,
+> > > > +		 * but warn about it.
+> > > > +		 */
+> > > > +		if (fmtinfo->code !=3D format->code) {
+> > > > +			if (fmtinfo->fourcc =3D=3D V4L2_PIX_FMT_BGR24 &&
+> > > > +			    format->code =3D=3D MEDIA_BUS_FMT_BGR888_1X24) {
+> > > > +				dev_warn_once(node->dev->dev,
+> > > > +					      "MIPI-CSI media bus code for RGB88 is RGB888_1X24. The =
+application must be fixed.");
+> > >=20
+> > > s/RGB88/RGB888/
+> > >=20
+> > > But I find this confusing, the message doesn't make it clear if RGB88=
+8 +
+> > > RGB888_1X24 is expected or is an error. I think the following would be
+> > > clearer.
+> > >=20
+> > > 				dev_warn_once(node->dev->dev,
+> > > 					      "Incorrect pixel format BGR24 for BGR888_1X24. Fix your ap=
+plication to use RGB24.");
+> > >=20
+> > > > +			} else if (fmtinfo->fourcc =3D=3D V4L2_PIX_FMT_RGB24 &&
+> > > > +				   format->code =3D=3D MEDIA_BUS_FMT_RGB888_1X24) {
+> > > > +				dev_warn_once(node->dev->dev,
+> > > > +					      "MIPI-CSI media bus code for BGR888 is BGR888_1X24. The=
+ application must be fixed.");
+> > >=20
+> > > 				dev_warn_once(node->dev->dev,
+> > > 					      "Incorrect pixel format RGB24 for RGB888_1X24. Fix your ap=
+plication to use BGR24.");
+> > >=20
+> > > Or you could combine those two (untested):
+> > >=20
+> > > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drive=
+rs/media/platform/broadcom/bcm2835-unicam.c
+> > > index f10064107d54..e9f191536765 100644
+> > > --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > > @@ -2148,22 +2148,38 @@ static int unicam_video_link_validate(struct =
+media_link *link)
+> > >  		const struct v4l2_pix_format *fmt =3D &node->fmt.fmt.pix;
+> > >  		const struct unicam_format_info *fmtinfo;
+> > >=20
+> > > -		fmtinfo =3D unicam_find_format_by_fourcc(fmt->pixelformat,
+> > > -						       UNICAM_SD_PAD_SOURCE_IMAGE);
+> > > +		fmtinfo =3D unicam_find_format_by_code(format->code,
+> > > +						     UNICAM_SD_PAD_SOURCE_IMAGE);
+> > >  		if (WARN_ON(!fmtinfo)) {
+> > >  			ret =3D -EPIPE;
+> > >  			goto out;
+> > >  		}
+> > >=20
+> > > -		if (fmtinfo->code !=3D format->code ||
+> > > -		    fmt->height !=3D format->height ||
+> > > +		if (fmtinfo->fourcc !=3D fmt->pixelformat) {
+> >=20
+> > I gave it a try, and fmtinfo->fourcc would always be equal to
+> > fmt->pixelformat, so we never enter that branch and don't warn.
+>=20
+> I'm puzzled by this.
 
-> ---
-> included DRM maintainers due to warning triggered from DRM code.
-> ---
->   drivers/media/common/videobuf2/videobuf2-dma-sg.c | 1 +
->   1 file changed, 1 insertion(+)
+Sorry, I was thinking about an earlier case where I missed a condition.
+It's still not working though, see below
+
+> Let's consider the incorrect case where the media
+> bus format on the subdev pad (format->code) is BGR888_1X24 and the pixel
+> format (fmt->pixelformat) BGR24.
+>=20
+> The unicam_find_format_by_code() function iterates over
+> unicam_image_formats and finds the entry that has been patched to
+>=20
+>  	}, {
+>  		.fourcc		=3D V4L2_PIX_FMT_RGB24, /* rgb */
+> -		.code		=3D MEDIA_BUS_FMT_RGB888_1X24,
+> +		.code		=3D MEDIA_BUS_FMT_BGR888_1X24,
+>  		.depth		=3D 24,
+>  		.csi_dt		=3D MIPI_CSI2_DT_RGB888,
+>  	}, {
+>=20
+> fmtinfo->fourcc is V4L2_PIX_FMT_RGB24, which is not equal to
+> fmt->pixelformat (BGR24). What am I missing ?
 >
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index b3bf2173c14e1b3bedb8ab0bd60c889a0b97cbe3..7c30731cb9a57bebb3cf418e627e7c9f09ba8642 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -345,6 +345,7 @@ static int vb2_dma_sg_mmap(void *buf_priv, struct vm_area_struct *vma)
->   		return err;
->   	}
->   
-> +	vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
->   	/*
->   	 * Use common vm_area operations to track buffer refcount.
->   	 */
->
-> ---
-> base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
-> change-id: 20260215-media-vb2-dma-sg-0fa33fdafdde
->
-> Best regards,
+> > I kept the old lookup and condition...
+> >=20
+> > > +			if ((fmtinfo->fourcc =3D=3D V4L2_PIX_FMT_BGR24 &&
+> > > +			     format->code =3D=3D MEDIA_BUS_FMT_BGR888_1X24) ||
+> > > +			    (fmtinfo->fourcc =3D=3D V4L2_PIX_FMT_RGB24 &&
+> > > +			     format->code =3D=3D MEDIA_BUS_FMT_RGB888_1X24)) {
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+The application I tested this with was using RGB24 /
+MEDIA_BUS_FMT_RGB888_1X24 to get the right pixel order.
 
+So, with the changes in those patches, the lookup by mbus code will now
+return the BGR24 fmtinfo, but fmt->pixelformat is RGB24.
+
+I've changed it to test fmt->pixelformat instead of fmtinfo->fourcc, and
+it works fine now.
+
+Maxime
+
+--a2f3sroqwqfzfflf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZQoKgAKCRAnX84Zoj2+
+djtwAYCL1zk7UKTBdfOIWyB3IcV8cYiemFVvG2u2B/cUBMgaWB9vJzbrccWBiuWV
+lld5fSIBeQEh35uafF03pbYLAK/46hXadiDpdMc8JulngjKFmtccriQ4ya56TA4i
+QhwIGWw1bQ==
+=pzpX
+-----END PGP SIGNATURE-----
+
+--a2f3sroqwqfzfflf--
 
