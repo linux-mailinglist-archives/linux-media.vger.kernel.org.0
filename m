@@ -1,108 +1,93 @@
-Return-Path: <linux-media+bounces-52945-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-52946-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GIuQJlG2k2l17wEAu9opvQ
-	(envelope-from <linux-media+bounces-52945-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 01:29:05 +0100
+	id +FO6DbC3k2my7wEAu9opvQ
+	(envelope-from <linux-media+bounces-52946-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 01:34:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001C21484DF
-	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 01:29:04 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B64148503
+	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 01:34:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 94EA5303526D
-	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 00:28:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 615EF301F4BC
+	for <lists+linux-media@lfdr.de>; Tue, 17 Feb 2026 00:34:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C9E264612;
-	Tue, 17 Feb 2026 00:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 028B62737EE;
+	Tue, 17 Feb 2026 00:34:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UtA+1sQ5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kpaag7Xk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268AA2673A5
-	for <linux-media@vger.kernel.org>; Tue, 17 Feb 2026 00:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FA5221DB5
+	for <linux-media@vger.kernel.org>; Tue, 17 Feb 2026 00:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771288106; cv=none; b=BJ4Gn5Yd0wQGPQyDkW1NUdW5JVqfvRkYDGFZPBn0z3uTeSRe20GEkpZsJon3OBx2U8EPOTmqV9aNkAnh+o4yxq7c2XSuBPNJLMIE00D4NVDFdAkbvcuzKYY8LekITF1SH4dsu1X3UTCAAlyDahvSfjlR/PbDM7rt/CKKySmjcl0=
+	t=1771288481; cv=none; b=Coadwcq03BxIBbDUXMdafSvWS7aD7/TCUllBE24Whokj9f56PwI41WzrAAYFB/rxWB6e2dnUHJpdzLOsnqhknDD5TzKgym90rVLXsKN2EAkcOTFrzkYsahqg/ou7Evx3BUqJCFwOdkY9FXKwltXgm3/lEQAoOyAWqhRINHC3o+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771288106; c=relaxed/simple;
-	bh=EcTRKDBc1veGtECuqy6AI3PYeK9xENvrGwMb1X7Kpbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TIGQ+vBLHGyvoHzBMtAkrDDAIlX1SO25LEVjKzqAT3PhCnCnhdxJXa6sdJlPgHifBWYbk+ixCW+g82oSVQZllvUeePysEggtRVQFL6PrBfee2ylov/r0jVpSI12ECr6+OzLNj0H+8GbOMTKFg1UBhhqWMfoJWATHH7ljDdFxLbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UtA+1sQ5; arc=none smtp.client-ip=209.85.222.172
+	s=arc-20240116; t=1771288481; c=relaxed/simple;
+	bh=LttrCdpZM3YSUWza+2RsIvYIbus6j3SXuPEBJ91o0D8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cVjB+a/oVJhAkUrFhUBzcWNrc2lZuYfYR3Na3G8C4z+0buqz3caE1P9esKpjdv3/QfxA0oV7aiF/frlUI60dRp4Iv48CdBVg9kD7eEEAEUl5DGKNVnfHwZtYquqFXs4vTp/2BsFeG2B6Z0OP9Ql4QGnpl8n+HAgohfT7TYNnlNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kpaag7Xk; arc=none smtp.client-ip=209.85.128.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-8cb39f64348so314054085a.0
-        for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 16:28:25 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-790b7b3e594so36003917b3.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Feb 2026 16:34:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771288104; x=1771892904; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JLRIaf1mXyXFgjmYj7clQ+v1OirQdgTMmdH6PpF9IHw=;
-        b=UtA+1sQ5l4f4RNGmavrlB6y0MohCS8lTN2Wn/IKmV1htTSe/8B1J22dBmyYs1wRH4c
-         l3mYHpndvy5Wbo2xx7rRLFvwkikGKoJfZQhCPCtfck6tCYICZ6tn/PgFA06fFBhswRdm
-         qdoYet1iRR85Jp+nPJekj3T9MZOzM240oaOpkIhPa2O+fngTmGAPEZ7zoPAeGFKA/BZb
-         F7mEuEQq21qsB3GLRjv9NrouMvfA+Axkg1lXUtxbbnoqmTyaqCoqaptexc6PaBtksq/a
-         5df7wHzNba0dyg9vM93RHJx5rpxNfOFJi5CIaoGlZqyQYjz8PNACX+4y3IxO9tXAj+pL
-         1agQ==
+        d=gmail.com; s=20230601; t=1771288478; x=1771893278; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Av15tS5FkuU+C+tEk9o+/kI9EUUe3VgwmfVsp/gvxcA=;
+        b=Kpaag7Xk7/zhnM/3+xqO5vRkst1PuwalPccpSj0FqbhSNxZ20W84PUr7dtI58GmAIc
+         w6EHCCaGPu2dK3dY0dE7M6WM0qADv03s7iRpYc8270Ze0U6l5qO6d2wCT/NuX67kHu1u
+         lgxZVsBhBQ3Lds3k5+CJPTUQZJJcdCYC1cGF1TeQyzuExeedyOcsrLNfwEBa92fCe8vM
+         JCYpfKN/C0zAlAfYUNdvM6/g3OjPFFQDtEoU6aNhqWXxNx3WSSVYK4rRQrPHSIrfqP1I
+         kr0/lR5blXxPllItV7rkZnmtpByU1JXwg3nys5cMg7EFR4aJvfOtzPXDg0Qiz0VPG6ye
+         86LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771288104; x=1771892904;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JLRIaf1mXyXFgjmYj7clQ+v1OirQdgTMmdH6PpF9IHw=;
-        b=avz1o/Jm7oFpgsQIGrUx22cd4KVIZOmbBIwTaz38Xrjtp7b9Q49Nt6QdhPO54hWUSY
-         qcbbrCHw61LQgLJHqgAvo9H8ulRuT8KYIcyGPXXrNXWdkVC9+wQTKxcKhppcLvE4uvvQ
-         86PjJHjBBPalCTFrNQNqukyoMaJRBJPv64Iwznl4Bdtdlh8YbeJaYO/Lok7/7cTlVhPu
-         tGVI0dJBojxQI9FAeDhoc033HtLGojAw1PLlkceJR7li8hd+eR4/uW8QOz0/jB5uih0X
-         3EtQzUYHFF9Jz+5lBJYqjSyttX0UbIpUiF3oixGdqG0VjRl8ITF7uWkSx6xQvay07xEX
-         WOGg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9iZkTsWeTob4Z77xA1sI9wz+OSXR+4Jp/P70vI0CkYrgm0a66evPn0BLKD7k9xN7VTYwii1I2Z92fzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSCoOkrA6XBKXI1ngfASPWaClCBCubIPaClcVUuyZ6TCsK08fV
-	PDU0lUadG1BgstU6UYYUL/EhiSLYPqXvHxGEfBRQmHrtajUifOgzi9pg
-X-Gm-Gg: AZuq6aJLZxVXQZD42697MfG4lDy17L5cXjI2qc8+bq7bn3oUo+0lm0pOY2IebZGdV97
-	TCItvE2C64WxjfNAeFuPShSI31phtwB+B+5fUDyr1ygvrXH3GtBSOksSyShpxxSVXB9U7Ojzf4X
-	mk1oKM7l/3rfqcZusNAYbt/TX4CPJeZU8Iwb/y8AS/6bXesGJLFV36Wb56dRy9tUe5O/qDwBizM
-	Lmk9UvP5MTHtVGI51MM/EBrlg4VXEDi5Q9eqkeDHIpTAgnGDtVoXspdTE8hSTnXMppCUdXGEkYf
-	/vS9fwTjIGmrM0I4K6VNszPuuD7hDFZ8UhiRALxr32Z/NNLdyl1t90DdlKPIda9RkC4hnOdVct9
-	0XWk11pDaK3I63URNHd5U30eWLHMvyf6/4Wia/80ztHi71/s6IIaSVSbJ+yvIzbXvwoe6p0im/o
-	pNtblLcBQJtKVZCfLuD2acuFws7Wg5sXNM0AzacNZDOi12ZQ8U/q8gch2Xfp/nCM5hQaiEJnutW
-	oG1j51+yFMHcrpPInU=
-X-Received: by 2002:a05:620a:3711:b0:8cb:668f:b7a0 with SMTP id af79cd13be357-8cb668fb89bmr268485885a.82.1771288104126;
-        Mon, 16 Feb 2026 16:28:24 -0800 (PST)
-Received: from localhost (bras-base-toroon21-grc-75-184-144-58-243.dsl.bell.ca. [184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb2b1c7ef7sm1509044485a.28.2026.02.16.16.28.23
+        d=1e100.net; s=20230601; t=1771288478; x=1771893278;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Av15tS5FkuU+C+tEk9o+/kI9EUUe3VgwmfVsp/gvxcA=;
+        b=HVQ6/qhH8XPKCCrTNmR0eLKYL/b0veuAJyNTNpajkXJ6Tg7XglIlQUs4chEWH3BYnZ
+         6bTBmaOj+eAas8w5Oxy6zGjAB7Y/kkj8ISfl1kkLRWs08ziRh+ZZLzaYe3uolxqYW5KJ
+         d6mpvKcqjjV00YIVNRsgD24lVdtvfPf0DTcehrinTZtbzh7/ZPm5BwdHtBmf0o8cAOcT
+         OV7v1BOLIvpcvyaWF64mby+nN75t3yjuB4XwaYRkGyhrL2QgYbAjc2KlCMP4nYYUjCdq
+         D994GTjZxofIVikKKHVOg4aZgjjx266AIKOlirtNPW04VAApYMWTu8SiuAH1rpRx48Ft
+         eH4g==
+X-Forwarded-Encrypted: i=1; AJvYcCV94HW3oZSHYFppUtI1BLxGoBdgTplKOVFD8sS0FFUBDui4BV1/M2EckOuw0efUCHnEJ/Xi3m9KpHTFhA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YydY3/vxG569pkKV0lNImLU1XgUd8JrXaHgn0jKe7iIVUk2rr6a
+	ZoznvaEZngIqEVEdzZXMRuIXL9Ir3SOQ3UbjoPcHpQq8T5/Vuo1U2kOa
+X-Gm-Gg: AZuq6aIdUJdewg87ksuBMjtvRO4ogg/N5elqDb7cFObA9+vRCF0ad7Kms5FbQmTu2s+
+	9zm8edPm/CICzY/7njmgmmjKDPnXW7UIJgf8LjDpF/M4zbLGd0e7CI8EBCG0XFGKPdCc53BI4AN
+	Txv33hjeQdv9XC96Mn+QeuriD8MazMke2f00X6+w7iWl3zslAEN87WfPr4RY6ixxVYbEyAoNCuG
+	a7Qg09fZSO9MvHYUj6FmZRyzemEgSfViwqwbcA10Ido9fDvITmLag+TF434OB3qrp2TFsDe5Jk0
+	pZHO4/dtkBZIu+CY9VNPHKa3FdsoDTpEHHWYkzeSr649jR4s5tlh3f1UDRvYNsACMH1LQAyQgbz
+	phhOFtdTvMnEnW/HJHderDULciYCCoRTtE6VI1Q+TCLO/TgvKGwy8QIRrTPA6xQfIERcPGz4/c/
+	QZqdnpaie4XJkbigrGxXSvOYpHfO2Nm4JLmwrYqKMgRriuFW7KVCbGOb5vKaH9+4D9IVVJLNosj
+	ECpxV75rdJoujBkgY8XJu+hYKxlMJw+WUV8KxWw7Sk=
+X-Received: by 2002:a05:690c:7085:b0:796:349f:6565 with SMTP id 00721157ae682-797a0cf03e6mr83614637b3.46.1771288478140;
+        Mon, 16 Feb 2026 16:34:38 -0800 (PST)
+Received: from tux ([2601:7c0:c37c:4c00:e3a8:26f7:7e08:88e1])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c195dccsm106030607b3.21.2026.02.16.16.34.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Feb 2026 16:28:23 -0800 (PST)
-From: Richard Acayan <mailingradian@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mon, 16 Feb 2026 16:34:37 -0800 (PST)
+From: Ethan Tidmore <ethantidmore06@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
 	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Cc: Robert Mader <robert.mader@collabora.com>,
-	David Heidelberg <david@ixit.cz>,
-	phone-devel@vger.kernel.org,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v9 7/7] arm64: dts: qcom: sdm670-google-sargo: add imx355 front camera
-Date: Mon, 16 Feb 2026 19:27:38 -0500
-Message-ID: <20260217002738.133534-8-mailingradian@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: [PATCH] media: intel/ipu6: fix error pointer dereference
+Date: Mon, 16 Feb 2026 18:34:20 -0600
+Message-ID: <20260217003420.47280-1-ethantidmore06@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260217002738.133534-1-mailingradian@gmail.com>
-References: <20260217002738.133534-1-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -111,181 +96,68 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-52945-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,intel.com,linux.intel.com,vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[intel.com,kernel.org,vger.kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-52946-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[ethantidmore06@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[collabora.com,ixit.cz,vger.kernel.org,gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,1a:email,linaro.org:email]
-X-Rspamd-Queue-Id: 001C21484DF
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A4B64148503
 X-Rspamd-Action: no action
 
-The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
-mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
-support for it.
+After confirming that isp->psys is an error pointer goto is called and
+imminently goes to this code snippet below:
 
-Co-developed-by: Robert Mader <robert.mader@collabora.com>
-Signed-off-by: Robert Mader <robert.mader@collabora.com>
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+out_ipu6_bus_del_devices:
+	if (isp->psys) {
+		ipu6_cpd_free_pkg_dir(isp->psys);
+		ipu6_buttress_unmap_fw_image(isp->psys, &isp->psys->fw_sgt);
+	}
+
+Since isp->psys is confirmed to be an error pointer not NULL, the
+condition is true and the error pointer is dereferenced. So isp->psys
+should be set to NULL before going to out_ipu6_bus_del_devices.
+
+Fixes: 25fedc021985a ("media: intel/ipu6: add Intel IPU6 PCI device driver")
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 ---
- .../boot/dts/qcom/sdm670-google-sargo.dts     | 95 +++++++++++++++++++
- 1 file changed, 95 insertions(+)
+ drivers/media/pci/intel/ipu6/ipu6.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-index ed55646ca419..e925cba0381f 100644
---- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
-@@ -172,6 +172,34 @@ vreg_s2b_1p05: vreg-s2b-regulator {
- 		regulator-min-microvolt = <1050000>;
- 		regulator-max-microvolt = <1050000>;
- 	};
-+
-+	cam_front_ldo: cam-front-ldo-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "cam_front_ldo";
-+		regulator-min-microvolt = <1352000>;
-+		regulator-max-microvolt = <1352000>;
-+		regulator-enable-ramp-delay = <135>;
-+
-+		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&cam_front_ldo_pin>;
-+		pinctrl-names = "default";
-+	};
-+
-+	cam_vio_ldo: cam-vio-ldo-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "cam_vio_ldo";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-enable-ramp-delay = <233>;
-+
-+		gpios = <&pm660_gpios 13 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&cam_vio_pin>;
-+		pinctrl-names = "default";
-+	};
- };
+diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+index 24238f8311a6..6e6b7d2a68ff 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6.c
++++ b/drivers/media/pci/intel/ipu6/ipu6.c
+@@ -619,6 +619,7 @@ static int ipu6_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 				   psys_base, &psys_ipdata);
+ 	if (IS_ERR(isp->psys)) {
+ 		ret = PTR_ERR(isp->psys);
++		isp->psys = NULL;
+ 		goto out_ipu6_bus_del_devices;
+ 	}
  
- &apps_rsc {
-@@ -392,6 +420,59 @@ vreg_bob: bob {
- 	};
- };
- 
-+&camss {
-+	vdda-phy-supply = <&vreg_l1a_1p225>;
-+	vdda-pll-supply = <&vreg_s6a_0p87>;
-+
-+	status = "okay";
-+};
-+
-+&camss_port1 {
-+	camss_endpoint1: endpoint {
-+		data-lanes = <0 1 2 3>;
-+		remote-endpoint = <&cam_front_endpoint>;
-+	};
-+};
-+
-+&cci {
-+	pinctrl-0 = <&cci1_default>;
-+	pinctrl-1 = <&cci1_sleep>;
-+	pinctrl-names = "default", "sleep";
-+
-+	status = "okay";
-+};
-+
-+&cci_i2c1 {
-+	camera@1a {
-+		compatible = "sony,imx355";
-+		reg = <0x1a>;
-+
-+		clocks = <&camcc CAM_CC_MCLK2_CLK>;
-+
-+		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
-+		assigned-clock-rates = <19200000>;
-+
-+		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
-+
-+		avdd-supply = <&cam_front_ldo>;
-+		dvdd-supply = <&cam_front_ldo>;
-+		dovdd-supply = <&cam_vio_ldo>;
-+
-+		pinctrl-0 = <&cam_mclk2_default>;
-+		pinctrl-names = "default";
-+
-+		rotation = <270>;
-+		orientation = <0>;
-+
-+		port {
-+			cam_front_endpoint: endpoint {
-+				link-frequencies = /bits/ 64 <360000000>;
-+				remote-endpoint = <&camss_endpoint1>;
-+			};
-+		};
-+	};
-+};
-+
- &gcc {
- 	protected-clocks = <GCC_QSPI_CORE_CLK>,
- 			   <GCC_QSPI_CORE_CLK_SRC>,
-@@ -490,6 +571,14 @@ &pm660_charger {
- 	status = "okay";
- };
- 
-+&pm660_gpios {
-+	cam_vio_pin: cam-vio-state {
-+		pins = "gpio13";
-+		function = "normal";
-+		power-source = <0>;
-+	};
-+};
-+
- &pm660_rradc {
- 	status = "okay";
- };
-@@ -508,6 +597,12 @@ led-0 {
- };
- 
- &pm660l_gpios {
-+	cam_front_ldo_pin: cam-front-state {
-+		pins = "gpio4";
-+		function = "normal";
-+		power-source = <0>;
-+	};
-+
- 	vol_up_pin: vol-up-state {
- 		pins = "gpio7";
- 		function = "normal";
 -- 
 2.53.0
 
