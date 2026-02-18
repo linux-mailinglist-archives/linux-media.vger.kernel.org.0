@@ -1,202 +1,200 @@
-Return-Path: <linux-media+bounces-53026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53027-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6E6PL9YwlWmeMwIAu9opvQ
-	(envelope-from <linux-media+bounces-53026-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 04:24:06 +0100
+	id yPFlFyA9lWlpNgIAu9opvQ
+	(envelope-from <linux-media+bounces-53027-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 05:16:32 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51A5152D77
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 04:24:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C51152F17
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 05:16:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D357E300B44E
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 03:24:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CAE823037995
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 04:16:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A001C2EC553;
-	Wed, 18 Feb 2026 03:23:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A98D2F5A22;
+	Wed, 18 Feb 2026 04:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qjQgakFi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K4ZxHJza"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9E12D738E;
-	Wed, 18 Feb 2026 03:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771385038; cv=none; b=Dr5eGh+att5ZVhx3yOmIdT4KvwqRKtTvU0LtKp5srJQbHPY/lUXJcnEOtPOXdytraiDqPwrdqH0DHMCpnR6z9NV+rD/KRn7fxqvHFRbkPQhM4iQNUQpBjPBaPZNfCUTzH5InBebATMrLUu8f//4skNi1bwZMPRGshxcVZm7Gzns=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771385038; c=relaxed/simple;
-	bh=XATtTewez/t8FFgr/Q7a3oAK/bpwADOb4HhHCmUxTR4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=QN6/0YvVUDNiWKnPkfthJp4cGwa/LyNVNgES2pVL3PQW0mHvViX2eY1DBl8DcqNyiU1gFXPxwkOBdgbLVlv4nL0KD0NjVJqmxY0q+XOn+2SR7dlv/aoiPL+rkBOgGbt9pjTWZRzirBfYy3jnCl9qUwNV3U9bnLhTQqvEEyz8WEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qjQgakFi; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from neptunite.rasen.tech (unknown [IPv6:2404:7a81:160:2100:e39a:e0d4:739a:978])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 425A166B;
-	Wed, 18 Feb 2026 04:23:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1771384982;
-	bh=XATtTewez/t8FFgr/Q7a3oAK/bpwADOb4HhHCmUxTR4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=qjQgakFimSjo+7hVS83lyznzRBzJ0wGgos8/mczeTo4OWWaGziEKi8WmzdwLOj6l3
-	 zaaSV+S2q447z69uWL2HwUQH82Y4TNYgD9LxMajb9ODdF4Z4aGS1CHRwWrbh7l7stu
-	 O92zjCg78vyhneBHkYq/+kv7XlZ0mejUHnISLgSw=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4231E19F121
+	for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 04:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771388180; cv=pass; b=D4FE1AfUpMjJW9crvJYOGoPukCCmgdGB7pvspu5UI+HyhXmqi3yB4IHeX3ZY0wlu9SOk5UQP+oHiuXoWjj5ImUuCT4RX1+xsYaYVDjM6atslQWuRRG+xz0l/xNYt/y6LvA+6SVjUVxuKLMlo5LMSPKce2QbWSdpUnBEXAwpeGlw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771388180; c=relaxed/simple;
+	bh=a1/UYzg9qprWQ9Xvw/thJ+toRAuQ11/lEa9Mzm8OiWo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lt7n8+vwzOM1Gah00At0FHIhgTd5yBp0bK5LL6GLOT24N/5bmg/7YCWA7XAm/1INfAd/AQKEngkAqWN4WDXUP8uQe29/yBXgFdoaVvGZcrj3OcEOBaNvWDHq/6myTIYqSSEVuL7siyJROgMlYN5juacNwODRpH1fnikxtJYv/r0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K4ZxHJza; arc=pass smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a7bced39cfso50454365ad.1
+        for <linux-media@vger.kernel.org>; Tue, 17 Feb 2026 20:16:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771388178; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AZrDywn5cswFEzCh6Plad8yvdHaVQdB+oP+ACzRQOv214s0q0pu7QyNlDQ99CeE33W
+         y1BAE20eKzbRBy55NRtniSG/n8tG95jyC2Uq560MZ//kSKFzRdHDYF6+1yB8MbZy6AWa
+         GWc3YoPAoZXRyVxPUdeLVTBFY8EoyCYbJhsXjHkb8wuDlyv1PA2fjRtXy9TYxRJJQoLR
+         9UzC9Lppek53wnUl1gUe9kLn4oYdHa1vqILfOdBWcF1esMMvtT/ALErJr7eFoA8dzjCb
+         ErbkGQppq/qIrEvpeuL2/uGVm/yS61rbCPe5PDBa9CZIx3Lm2tjailEEh83Lvn5mkg1W
+         HplQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=a1/UYzg9qprWQ9Xvw/thJ+toRAuQ11/lEa9Mzm8OiWo=;
+        fh=J3fVQqvf1rU5+XDYAhL+Fajq/vurVsrboplsY/fMPDs=;
+        b=SYN/jieMK+nBciIilCSb1N8+Uk1FkzRm8IJ7E0WjxtICPGw1CG/IWfOaXeobqsIxdZ
+         HKBf3n2V/Wz13kVZmOLS5HmkzG6Y0jr1LyhcBQefa2wd7pEzk8WkGO1HLB0KwbyBUZ6G
+         CcQcdI1VN6XqZ/tSPSHxjVd+fGFfNGcpdVpCYJVBNdd9FaxwZScEq8tx0D7+L1owwrNI
+         2+9wp+/itb8hjgnKaqG0g74SKv7Hs6z6PCVVYGpQbqlT7aWhmJrzbFlWopGpSstnzznh
+         ah1oNm9Oil/9Un+ah4UCEtZ6hZf89AQein0Zr8ZHRRMaTu7CioZCglPSjq3x0aQ33i8g
+         MVtA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771388178; x=1771992978; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a1/UYzg9qprWQ9Xvw/thJ+toRAuQ11/lEa9Mzm8OiWo=;
+        b=K4ZxHJza6uj18r4gSxwTTiAWQ9WPEjh3upXfbkubva+ihMzH8oeeuMK6tTGyPn0j5u
+         RdUaegYm+o28QBNkiKSECmZezqh4ShmiAWTTtZ5GgDpeykM5H1nVIqFuuvkXhUEO2LdY
+         rfb9fA5hVuTJg1voLSSo4BekfWhbOje/aOcnjnSJO1sXjwkq3DERO8nMZDFDMGHxT28D
+         xZia/k+fhj3WlYWm6sDY6a7MyfJrLgLJ2AQ22qN+/tzhHBoyGqX4Am4YGv5LS3C4N+4l
+         LOfuqNjiP3+wAnA39u7TS+0mXs5MAxDGHj2bVXHSg0L4QOACl7AUqOHbg109LVsQH6yy
+         t2nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771388178; x=1771992978;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=a1/UYzg9qprWQ9Xvw/thJ+toRAuQ11/lEa9Mzm8OiWo=;
+        b=c8kOXNhBdjV/NMYuAPWuu2+EvXn/dKhflf1vsx3Z3TyPAI5Gy5ps14tmgziDfISRsJ
+         XpGpJYZfPmUCSxcbc/ZFgE1i+5Yi1G1ndjEBBB1ZPpaWzeYK0B9gn9wMNeX4Q7aTyiI8
+         yRUTF1FgKnvX5aG8UpwLrFXlsy1G4opDsR/f5YRKVNsPEWCJTlzqG4hrVkgZ9XKs6XAB
+         174oFrumgsv0275PrNLJu8JkTfXKQlLCVxW8ZLssoe+Hi9XUBVA5htzkurR05yWuq0ea
+         OhKrmC34Bi9RsoE8Qed3pOnSP4pGNGRbYRKYV0K/mjRKgjQ3S9UKYjKDCyN4omDKM66t
+         UInA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPWpfVjclWYkP9NKGLJvDEIKv+6AJnL1DkAcy+2b+13payZknt/bUBxK2mvcXuDuhG4/wAW7N80rEcUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwebBzkzHnnHxC7SSi7XQtWgsVJcef9IjIkhtccqeF1s91Olo69
+	AIl8cSOFV0CXeCenxLu/Cd65Fzp8bAT2cM06BRZJcij6lYWxU1vVL3G3V00P/Pm42yp33vVtuIp
+	w/HO2LVZUkFvGdrQpoa4/ONPt/GMP/VM=
+X-Gm-Gg: AZuq6aKUGbFJmEgsFd8vcyFBAKIqOL4WxctRmuEp7MjiveUvD5T/A5UX51wX+e1BlwT
+	AR7T75GNwr1Gyj9Akf6hHVe59Q+QiW33Bs+qKVlV2D1keuUKalsah4o6Yq/WBuLHtyN4Ff5oSAi
+	4KKG5TOI0QotAEzcvjrxJl98WAjzIeqY03bvcudxxfTIptXdafQmk6mg0uirNFq+et0t0/biRBf
+	9WoVWXov5a9J/Za+1GkXahHcL+fldT8XnYQ2huuTb9Wza/lwcFJhE9kQlqEYgwLTEGvfd56bxa9
+	57n69f9xdpLWxVkYSL8e8/wYVWs+W5m3VB+ELy0AC3U/jlyJjSqv
+X-Received: by 2002:a17:903:3d10:b0:2a9:2a0b:4ef5 with SMTP id
+ d9443c01a7336-2ad50e5a92dmr7916715ad.7.1771388178534; Tue, 17 Feb 2026
+ 20:16:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20251120084926.18620-1-opensource206@gmail.com>
+ <832f4621-53af-465a-a5e9-f7d65a082481@linuxfoundation.org>
+ <CAKPKb8-qyqMmp6c9OnO+AapRRJyE8ygtQUyuUqK8+C0LvMTYTg@mail.gmail.com>
+ <CAKPKb8-8ctSewOwBk7fFUMVnb-F_gXnyXS8gd9xJ-fpnW1_ZYA@mail.gmail.com>
+ <b5240bd1-eee7-47fd-be70-88435519b12a@linuxfoundation.org>
+ <CAKPKb8-VW3C8c-BmwLEWdLXZ8LVuH_MDMdVzzFs6O8QWmpDeuA@mail.gmail.com>
+ <CAKPKb8_PGYUStAovWjWG8XxabjB5WuT7kQ3qxT3NuYSKihgDDA@mail.gmail.com>
+ <754a344f-4759-4b94-aae5-41e1ce6b7e2f@linuxfoundation.org> <CAKPKb8-hd72r2-11xo6EaN33FfAZ7KFLt59kiwE8UCQKgW+z4Q@mail.gmail.com>
+In-Reply-To: <CAKPKb8-hd72r2-11xo6EaN33FfAZ7KFLt59kiwE8UCQKgW+z4Q@mail.gmail.com>
+From: opensource india <opensource206@gmail.com>
+Date: Wed, 18 Feb 2026 09:46:05 +0530
+X-Gm-Features: AaiRm53NNhCckCkDGiCSFmHdY_xsnAvTXxRGuATWH34hxrtd4JmZiZbRf85jjxM
+Message-ID: <CAKPKb8-HZdpGzbnStwr6TvpPdFT=1J8mc=Bx1mtAcHBXiHhxtQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] media: vimc: add RGB/YUV input entity and improve
+ pipeline support
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: kieran.bingham@ideasonboard.com, mchehab@kernel.org, 
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <23791918-8fed-404d-ad51-d97966ff58c1@collabora.com>
-References: <20260216-rkcif-fixes-v1-0-b16db20b6d68@collabora.com> <20260216-rkcif-fixes-v1-2-b16db20b6d68@collabora.com> <23791918-8fed-404d-ad51-d97966ff58c1@collabora.com>
-Subject: Re: [PATCH 2/2] media: rockchip: rkcif: comply with minimum number of buffers requirement
-From: Paul Elder <paul.elder@ideasonboard.com>
-Cc: Collabora Kernel Team <kernel@collabora.com>, stable@kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Mehdi Djait <mehdi.djait@linux.intel.com>, Michael Riesch <michael.riesch@collabora.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Wed, 18 Feb 2026 12:23:48 +0900
-Message-ID: <177138502835.607498.8225991057811144969@neptunite.rasen.tech>
-User-Agent: alot/0.0.0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,collabora.com:email,neptunite.rasen.tech:mid];
+	TAGGED_FROM(0.00)[bounces-53027-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53026-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ideasonboard.com:+]
-X-Rspamd-Queue-Id: E51A5152D77
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,xs4all.nl,vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[opensource206@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B7C51152F17
 X-Rspamd-Action: no action
 
-Hi Michael,
-
-Thanks for the patch.
-
-Quoting Michael Riesch (2026-02-17 21:25:10)
-> Hi all,
->=20
-> On 2/16/26 14:49, Michael Riesch via B4 Relay wrote:
-> > From: Michael Riesch <michael.riesch@collabora.com>
-> >=20
-> > Each stream requires CIF_REQ_BUFS_MIN=3D1 buffers to enable streaming.
-> > However, it failed with only one buffer provided.
-> >=20
-> > Comply with the minimum number of buffers requirement and accept
-> > exactly one buffer.
-> >=20
-> > Fixes: 501802e2ad51 ("media: rockchip: rkcif: add abstraction for dma b=
-locks")
-> > Cc: stable@kernel.org
-> > Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
-> > ---
-> >  .../media/platform/rockchip/rkcif/rkcif-stream.c   | 41 +++++++++++---=
---------
-> >  1 file changed, 21 insertions(+), 20 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c b/dri=
-vers/media/platform/rockchip/rkcif/rkcif-stream.c
-> > index e00010a91e8b..5a5ab9e7e86e 100644
-> > --- a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-> > +++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-> > @@ -106,19 +106,6 @@ static int rkcif_stream_init_buffers(struct rkcif_=
-stream *stream)
-> >  {
-> >       struct v4l2_pix_format_mplane *pix =3D &stream->pix;
-> > =20
-> > -     stream->buffers[0] =3D rkcif_stream_pop_buffer(stream);
-> > -     if (!stream->buffers[0])
-> > -             goto err_buff_0;
-> > -
-> > -     stream->buffers[1] =3D rkcif_stream_pop_buffer(stream);
-> > -     if (!stream->buffers[1])
-> > -             goto err_buff_1;
-> > -
-> > -     if (stream->queue_buffer) {
-> > -             stream->queue_buffer(stream, 0);
-> > -             stream->queue_buffer(stream, 1);
-> > -     }
-> > -
-> >       stream->dummy.size =3D pix->num_planes * pix->plane_fmt[0].sizeim=
-age;
-> >       stream->dummy.vaddr =3D
-> >               dma_alloc_attrs(stream->rkcif->dev, stream->dummy.size,
-> > @@ -132,16 +119,30 @@ static int rkcif_stream_init_buffers(struct rkcif=
-_stream *stream)
-> >                       stream->dummy.buffer.buff_addr[i - 1] +
-> >                       pix->plane_fmt[i - 1].bytesperline * pix->height;
-> > =20
-> > -     return 0;
-> > +     stream->buffers[0] =3D rkcif_stream_pop_buffer(stream);
-> > +     if (!stream->buffers[0])
-> > +             goto err_buff_0;
-> > =20
-> > -err_dummy:
-> > -     rkcif_stream_return_buffer(stream->buffers[1], VB2_BUF_STATE_QUEU=
-ED);
-> > -     stream->buffers[1] =3D NULL;
-> > +     stream->buffers[1] =3D rkcif_stream_pop_buffer(stream);
-> > +     if (!stream->buffers[1]) {
-> > +             stream->buffers[stream->frame_phase] =3D &stream->dummy.b=
-uffer;
-> > +             stream->buffers[stream->frame_phase]->is_dummy =3D true;
->=20
-> Apparently I was too quick on the trigger here. This should read
-> "stream->buffers[1]" in both lines *facepalm*. Will wait for other
-> responses and send a v2.
-
-With this fix I've tested that it works, and it looks good to me :)
-
-
-Paul
-
->=20
-> Best regards,
-> Michael
->=20
-> > +     }
-> > +
-> > +     if (stream->queue_buffer) {
-> > +             stream->queue_buffer(stream, 0);
-> > +             stream->queue_buffer(stream, 1);
-> > +     }
-> > +
-> > +     return 0;
-> > =20
-> > -err_buff_1:
-> > -     rkcif_stream_return_buffer(stream->buffers[0], VB2_BUF_STATE_QUEU=
-ED);
-> > -     stream->buffers[0] =3D NULL;
-> >  err_buff_0:
-> > +     dma_free_attrs(stream->rkcif->dev, stream->dummy.size,
-> > +                    stream->dummy.vaddr,
-> > +                    stream->dummy.buffer.buff_addr[0],
-> > +                    DMA_ATTR_NO_KERNEL_MAPPING);
-> > +     stream->dummy.vaddr =3D NULL;
-> > +err_dummy:
-> >       return -EINVAL;
-> >  }
-> > =20
-> >=20
+On Thu, Jan 1, 2026 at 6:41=E2=80=AFAM opensource india <opensource206@gmai=
+l.com> wrote:
 >
+> Hi Shuah
+>
+> On Thu, Jan 1, 2026 at 2:13=E2=80=AFAM Shuah Khan <skhan@linuxfoundation.=
+org> wrote:
+> >
+> > On 12/29/25 09:04, opensource india wrote:
+> > > Hi Shuah,
+> > >
+> > > On Tue, Dec 16, 2025 at 8:27=E2=80=AFAM opensource india
+> > > <opensource206@gmail.com> wrote:
+> > >>
+> > >> On Tue, Dec 16, 2025 at 12:40=E2=80=AFAM Shuah Khan <skhan@linuxfoun=
+dation.org> wrote:
+> > >>
+> > >>>>>
+> > >>>>> Hi Kieran and Hans,
+> > >>>>> can you please review?
+> > >>>>
+> > >>>> Hi team, can someone please review?
+> > >>>
+> > >>> I will send these up in my pull request to Mauro - it might be
+> > >>> later in December of early January.
+> > >>>
+> > >>> thanks,
+> > >>> -- Shuah
+> > >>>
+> > >>
+> > >> Thank you so much Shuah
+> > >
+> > > able to pick my changes?
+> >
+> > I applied them to vimc branch a while back.
+> >
+> > https://web.git.kernel.org/pub/scm/linux/kernel/git/shuah/linux.git/log=
+/?h=3Dvimc
+> >
+> > thanks,
+> > -- Shuah
+> >
+>
+> Thank you so much
+
+Hi Shuah, is this patch series going to be part of the mainline kernel?
 
