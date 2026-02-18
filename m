@@ -1,161 +1,126 @@
-Return-Path: <linux-media+bounces-53028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53029-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2KyCKrFvlWmgRAIAu9opvQ
-	(envelope-from <linux-media+bounces-53028-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 08:52:17 +0100
+	id iJG1CNt1lWlCRwIAu9opvQ
+	(envelope-from <linux-media+bounces-53029-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 09:18:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070F5153C8D
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 08:52:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A25153F10
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 09:18:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2A21E302AD11
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 07:51:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2E1433019BBC
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 08:18:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF0E6311948;
-	Wed, 18 Feb 2026 07:51:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B97A30CDA4;
+	Wed, 18 Feb 2026 08:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="poCnTeb0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPRojI1j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB2730F53A
-	for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 07:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1842F6930
+	for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 08:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771401099; cv=none; b=oVahAoNhOLWYCYusGr1jFM7LdahiR9aXUGWphiHJOAkENGCpoSngX/2EF4e58/YaooBoNCSEPgGYqP+sdOVUTQDUz4cICCtGLO5MpTxkT/eYbvNpfjpKe92ZM4dUJCU4katNN3Ab/hDNZ+ZYbHcayKLxR0E5mrtRHVlDS9NsCeE=
+	t=1771402709; cv=none; b=o+JH5CE1Pw6l4HqBd18c5zHlyMLgmwnPpALia000hUUSoW04AsmMVlR1Fb1mw24QsWxoAr4HrdFJ+iRVZFhM8mlyBV4uY3LXV6rZ1vRJNs8jHpHzUIVrxlkKWUQZHbD1UyAfaRUsu29RowZngfMFbQz7gsNEbT2XZsM/UnS7Fqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771401099; c=relaxed/simple;
-	bh=4iOIMJwTfTlhk2X+SSFRPxdpOOMqvgJljSOYKrmpsX0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fYOjfTwK31XUFULdHT8JmQ3CkoGCtERpxNnw2ctJpmm4+f2YJOQtOHN1ITYwZexlhEUV11Ka3vNbzaTIC6koTX/oFF9pxw1QGY6TVEOn0xAzR45bCgrhOBgVNdXveHG+A/BHliL1wIskE1EM5lqYcfrKVw/KT8sRrnYZf4W0/rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=poCnTeb0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C72C0C2BCB0
-	for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 07:51:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771401098;
-	bh=4iOIMJwTfTlhk2X+SSFRPxdpOOMqvgJljSOYKrmpsX0=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=poCnTeb0EiRLHjnZHKa3OTdzzF0Lor2Dktc8/g+0fzCK21yY785y2j78TDy0ydbAG
-	 4atxiINHsZ/XtLw1bOnH9CMZ92SytlY9EwvvUIWnkbiGRDqynwvYGq7BDvluwnqZEY
-	 W5PzOaVduDO6ZCZLchIfQdTTvAdh8zPxEcyhUkeOeTH7H6LRpXhEXQL+a3fmp2Y/eF
-	 pu8uxTfsWrKLFEdaDn/WUEhtIELUzVd57DoXrbhkULNbQlk2+cysxvc4aQul5XxLDM
-	 aVhAqENG+/zXyQoBomqTBZwhLMICyAmGGmsJjaZZph1pPuJdp2piYY+QA1epHg8WZL
-	 /up+Yi62llWxA==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38709888abeso39941731fa.1
-        for <linux-media@vger.kernel.org>; Tue, 17 Feb 2026 23:51:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWkO5dbehIOKJ0t9ypL3m6I6/qwJuBrHW+MljgU5mCnwHaTBXSx6B4Zdofy43Jv6PheAq8gXDcBrunVqw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/VXxtwiwLjNald/jnbHdZ+aoFm+SdHfUbxksJUkGqBFk7y3/1
-	t1ZrSawcbLMbyCUW40YBuNBK4VDivhZU8hF/m6oPMAuECo3XPXTsDEmYs7aqbuH+ZBmI5Abc9eb
-	I6cv+w0BoeGyKSH8XIPyLBRaJwltt9kE=
-X-Received: by 2002:a2e:b896:0:b0:382:f78d:a0c with SMTP id
- 38308e7fff4ca-38846df21a4mr3400331fa.21.1771401097098; Tue, 17 Feb 2026
- 23:51:37 -0800 (PST)
+	s=arc-20240116; t=1771402709; c=relaxed/simple;
+	bh=tVOWB7tEmyu5WaXITu+dXffB6nvim8nL8ZfWHDuZvTY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VTR5WcYuVFiw4xEGbiyOj7uEsqx6vXl18lqkIcYChGMkvKOS+VvsbR7LaXJjMD7U87w64Uj2fnaoG3Ddjo+ywdz3xX+pq0uIlFJfY0zh5FtZIRyKDkaQkEinMumlME/eqziKkG+MIq0wkW1Ayg3OCw0C+XJUgwm9aDA/idlWYUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPRojI1j; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771402707; x=1802938707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tVOWB7tEmyu5WaXITu+dXffB6nvim8nL8ZfWHDuZvTY=;
+  b=dPRojI1jIdf6ozYtDNhbyiOv91BAaG2dRuupDUA3BvLziY9v2GjGZBJ2
+   SuEiTsAkDL6OFUwydWW+rfmD8D7D3DChVaXTJLg9MDdp8s1MgllZDsZ84
+   +Y8iCNAJ0+RQLesZBVjX2uCVdSX2q7hKj9Bv8+PHD/dq7mcGt1wnJSHqO
+   C02QWr5ZTGym4wpUnHxKz78MyLJHG9ir8jUNje62afBJ2uok6peQa5tm6
+   mY/mCOR1POKNfMi7U8z3hMiOjlPrZk6DddensySpvMKMmRL6yHqnm9puy
+   LS9ViKHlcBzwVninzLUIyfWiXIIGzWDMYWvTTIDHXJ/Q+TVvuWr6/MFBz
+   g==;
+X-CSE-ConnectionGUID: fVfkObpWSzeNrdLwXZ6gTQ==
+X-CSE-MsgGUID: xJgHMAwgSymOiltdEsuTnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72542296"
+X-IronPort-AV: E=Sophos;i="6.21,297,1763452800"; 
+   d="scan'208";a="72542296"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 00:18:25 -0800
+X-CSE-ConnectionGUID: SVcJeMe9QvyLl/oJ/Y27MQ==
+X-CSE-MsgGUID: I+xDGYoyTHmVm7uPTcEhgg==
+X-ExtLoop1: 1
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.5])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 00:18:24 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 04ED7120B7D;
+	Wed, 18 Feb 2026 10:18:47 +0200 (EET)
+Date: Wed, 18 Feb 2026 10:18:46 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [raw2rgbpnm PATCH 1/2] Add compiler options to avoid warnings
+Message-ID: <aZV15mb9uCOmsn7P@kekkonen.localdomain>
+References: <20260217214435.2431864-1-sakari.ailus@linux.intel.com>
+ <20260217214435.2431864-2-sakari.ailus@linux.intel.com>
+ <20260217235933.GD18192@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260216-rkcif-fixes-v1-0-b16db20b6d68@collabora.com>
-In-Reply-To: <20260216-rkcif-fixes-v1-0-b16db20b6d68@collabora.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 18 Feb 2026 15:51:24 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65F9OHNdLA2e3HXNiHEUQyW3-zjQGRZE_w5jU6+w5TbMw@mail.gmail.com>
-X-Gm-Features: AaiRm51oWyNatKqHz1nRPBR6_xQMPfJe9Uf0NpOZA7cz-bzmXYkXqyvq3n9ru28
-Message-ID: <CAGb2v65F9OHNdLA2e3HXNiHEUQyW3-zjQGRZE_w5jU6+w5TbMw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] media: rockchip: rkcif: various fixes
-To: michael.riesch@collabora.com
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Paul Elder <paul.elder@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Collabora Kernel Team <kernel@collabora.com>, stable@kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260217235933.GD18192@killaraus.ideasonboard.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53028-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	HAS_REPLYTO(0.00)[wens@kernel.org]
-X-Rspamd-Queue-Id: 070F5153C8D
+	TAGGED_FROM(0.00)[bounces-53029-lists,linux-media=lfdr.de];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+]
+X-Rspamd-Queue-Id: 46A25153F10
 X-Rspamd-Action: no action
 
-On Mon, Feb 16, 2026 at 9:50=E2=80=AFPM Michael Riesch via B4 Relay
-<devnull+michael.riesch.collabora.com@kernel.org> wrote:
->
-> Habidere,
->
-> This series contains
->
->  1) a re-spin of Dan's patch that fixes some more stupid off-by-one issue=
-s.
->     This patch has been around on the list for some time, but apparently
->     has not been applied yet.
->  2) a fix that makes the DMA abstraction respect the minimum number of
->     buffers requirement
->
-> Best regards,
-> Michael
->
-> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+On Wed, Feb 18, 2026 at 12:59:33AM +0100, Laurent Pinchart wrote:
+> On Tue, Feb 17, 2026 at 11:44:34PM +0200, Sakari Ailus wrote:
+> > Add -Wno-missing-field-initializers and -Wno-implicit-fallthrough options
+> 
+> How about fixing the implicit fallthrough occurrences ? :-)
 
-This series, along with the minor fixup for patch 2, makes video capture
-on my Rock 3A w/ IMX219 from a Raspberry Pi v2 camera module run.
-Previously it would fail to queue buffers.
+Well, at this time of day it seems a more plausible approach. :-) But it
+introduces a compiler dependency which I guess is fine nowadays though.
 
-
-Tested-by: Chen-Yu Tsai <wens@kernel.org>
-
-> ---
-> Dan Carpenter (1):
->       media: rockchip: rkcif: fix off by one bugs
->
-> Michael Riesch (1):
->       media: rockchip: rkcif: comply with minimum number of buffers requi=
-rement
->
->  .../platform/rockchip/rkcif/rkcif-capture-mipi.c   | 10 +++---
->  .../media/platform/rockchip/rkcif/rkcif-stream.c   | 41 +++++++++++-----=
-------
->  2 files changed, 26 insertions(+), 25 deletions(-)
-> ---
-> base-commit: c824345288d11e269ce41b36c105715bc2286050
-> change-id: 20260216-rkcif-fixes-bdd9d3c7e4b0
->
-> Best regards,
-> --
-> Michael Riesch <michael.riesch@collabora.com>
->
->
->
+-- 
+Sakari Ailus
 
