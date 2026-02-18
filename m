@@ -1,63 +1,62 @@
-Return-Path: <linux-media+bounces-53067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53068-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QDbrLxwwlmkhcAIAu9opvQ
-	(envelope-from <linux-media+bounces-53067-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 22:33:16 +0100
+	id gNARB/s7lmkDcwIAu9opvQ
+	(envelope-from <linux-media+bounces-53068-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 23:23:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D0D15A271
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 22:33:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7993515A9C7
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 23:23:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A2A413014116
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 21:30:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 56FDE30626D1
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 22:22:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A94ED27A462;
-	Wed, 18 Feb 2026 21:30:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5D4335540;
+	Wed, 18 Feb 2026 22:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BCrgGpGQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NCgqywQY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D90223DD6
-	for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 21:30:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51CA304BDF
+	for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 22:22:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771450251; cv=none; b=HT8nc7iGUZ4CZx7huGYl4GqyTndnpbVBwYr9QiB3nSvMnaIVA+iIygMu4aBccJ2phGUpTTgyc5if6a2JCElsgNnRMqBYYp74g7JChYy31nk8qd46cf7t7nIzG7q/R1SixvxiLKklyOQyNWLH7S7XPeMqjCdjkJ5C6e341K9C9ck=
+	t=1771453338; cv=none; b=AmBcTLZISNMXJTUM93gs+y8ZTXb0PjDY1YSBaQGsY08RusVt23+gOWp92hgSE3JbCsnh7DWLFPuw7YRS/NwA18uNBnGQGb06vtMksQ8XSK3QBhqw/7q3EK3WapnPTjX+j+HopSPqOxDwPOFVj0uQVTOcMU85l4q0KyBZy+whm8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771450251; c=relaxed/simple;
-	bh=pT3NI3tZ/BgXvcF1eInOrdkg6r6wdfpK1PJw6bIneX0=;
+	s=arc-20240116; t=1771453338; c=relaxed/simple;
+	bh=c2bYFjKYrsZTZG+WRbXqjELmtLaVjNQ57pajq83q4RQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uC8ikfXkXC6eiH62Osy22o8c+h2F6V55emNbYSWSF3q4AmJsoOWXyaYwjFQx50FhuSQ2PJWV6UPPqBym+H9H8FycPN/JIBRxRVfQGRWg8Bqi8UyVOnSmwmccvS2SgaOqfYaIRO/KbxorKD429f2ls/CWmFqR3roJIwdWfECzJ8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BCrgGpGQ; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=TNVm1Htapxtr1Y4hgl5EC4Vx1O8ur4lXYnC/K7Xl8YO0eO8FLPR5yeFCjh8sO4P5fRhvFs42VS9LKvgp6NKSqYNOKWnzVNYBt7hf7sBgcsLMtVHXsbHjIEpsMwnwClnsauCiWF/V0i5OPG4jbtkX32CIx+VdEWhugtkQVDbYpUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NCgqywQY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (unknown [83.245.237.175])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 70DB650A;
-	Wed, 18 Feb 2026 22:29:54 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7D2C066B;
+	Wed, 18 Feb 2026 23:21:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1771450194;
-	bh=pT3NI3tZ/BgXvcF1eInOrdkg6r6wdfpK1PJw6bIneX0=;
+	s=mail; t=1771453282;
+	bh=c2bYFjKYrsZTZG+WRbXqjELmtLaVjNQ57pajq83q4RQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BCrgGpGQcCa6WJrbkhWG9GWWc5vTBjAbtP83fXmG4rAf7hLJDV0z/xMCPWPTktLM5
-	 dv8vwkURdVPtd/3vaEarqyP3It3YkpbSYwUYy+puxT7zyS1qGNwDCkZWfIu59B7MEx
-	 xXMDNQebuxHEDJPOHSQL3wipTB+YjTCxdCSxyhQ8=
-Date: Wed, 18 Feb 2026 22:30:43 +0100
+	b=NCgqywQYet4KeDXgFhOMhOw7yUM5r3pYvFMnSqHLZhZSRowHUlpcXQrNjOLgVpPrX
+	 hcpBDj6mD9Dc002M1vbivLBCEivjZkq74Ewk0eP5aqL0troPrzDSeowgmqcbF0ZLme
+	 6dx6Ss94L0TFAkAhzp8kw7zhP7sNEhcpHE/y4Z9M=
+Date: Wed, 18 Feb 2026 23:22:11 +0100
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [raw2rgbpnm PATCH v3 1/3] Add explicit switch fallthrough
- notation
-Message-ID: <20260218213043.GC57525@killaraus.ideasonboard.com>
-References: <20260218083424.2432541-1-sakari.ailus@linux.intel.com>
- <20260218083424.2432541-2-sakari.ailus@linux.intel.com>
- <20260218102618.GA57525@killaraus.ideasonboard.com>
- <aZWgunfrSSxxTXEA@kekkonen.localdomain>
+To: Itay Perl <itay.perl@q.ai>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Hans de Goede <hansg@kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Itay Chamiel <itay.chamiel@q.ai>
+Subject: Re: uvcvideo regression: loss of access to full UVC payload header
+ for generic UVC devices since 6.17
+Message-ID: <20260218222211.GE57525@killaraus.ideasonboard.com>
+References: <AMBPR10MB9376E972B02F45815C729C318D6AA@AMBPR10MB9376.EURPRD10.PROD.OUTLOOK.COM>
+ <CANiDSCtPKtKr7UgEj934BGpV0NEvyHbYcutMV_umBa=JiCNDuw@mail.gmail.com>
+ <AMBPR10MB9376F52A5A6C5EC76EC263CA8D6AA@AMBPR10MB9376.EURPRD10.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,57 +65,65 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aZWgunfrSSxxTXEA@kekkonen.localdomain>
+In-Reply-To: <AMBPR10MB9376F52A5A6C5EC76EC263CA8D6AA@AMBPR10MB9376.EURPRD10.PROD.OUTLOOK.COM>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53067-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-53068-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid,ideasonboard.com:email,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 20D0D15A271
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: 7993515A9C7
 X-Rspamd-Action: no action
 
-On Wed, Feb 18, 2026 at 01:21:30PM +0200, Sakari Ailus wrote:
-> On Wed, Feb 18, 2026 at 11:26:18AM +0100, Laurent Pinchart wrote:
-> > On Wed, Feb 18, 2026 at 10:34:22AM +0200, Sakari Ailus wrote:
-> > > Use __attribute__((fallthrough)) instead of a comment this is taking
-> > > place, to make modern GCC happy.
+On Wed, Feb 18, 2026 at 11:56:28AM +0000, Itay Perl wrote:
+> On 18 February 2026 19:17, Ricardo Ribalda wrote:
+> > On Wed, 18 Feb 2026 at 11:59, Itay Perl wrote:
+> > > Would restoring the previous behavior be acceptable for compatibility?
+> > > Alternatively (or additionally), would it make sense to introduce a dedicated
+> > > metadata format that allows userspace to request the full UVC header for
+> > > generic devices?
 > > 
-> > This will require gcc 7 or newer, which I think is fine. You could check
-> > the compiler version at build time and emit an error if the compiler is
-> > not recent enough (and you could use that as an opportunity to switch
-> > from make to meson :-)). This is of course out of scope for this series.
+> > By any chance the device that you are using supports
+> > V4L2_META_FMT_UVC_MSXU_1_5 ?
+> > If the device exposes the UVC_MSXU_CONTROL_METADATA control, that
+> > format should be available, and it provices access to all the UVC
+> > header as you had before.
+> >
+> > Alternatively, if this is needed for a specific device you could send
+> > a patch adding the UVC_QUIRK_MSXU_META for that device.
+> > Would that work for you?
 > 
-> That could be interesting. Although there are just three .c files to
-> compile, I think make can do it. ;-)
-
-Yavta has a single .c file and I still moved it to meson :-)
-
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> My device is an internal development platform and does not have a public VID/PID
+> that could reasonably be added to the driver.
 > 
-> Thanks, but the patches have been already merged. I'll use this for a
-> future patch. :-D
+> I may be able to implement the MSXU control on the device side as a workaround,
+> but I'm concerned that this could cause issues when the device is used on a
+> Windows machine, which may expect the UVC header to follow a certain
+> format when MSXU is present.
+
+Does your device implement a vendor-specific metadata format ?
 
 -- 
 Regards,
