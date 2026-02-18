@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-53063-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53064-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Ez2HjwclmntaAIAu9opvQ
-	(envelope-from <linux-media+bounces-53063-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 21:08:28 +0100
+	id WNV5Otkclml5aQIAu9opvQ
+	(envelope-from <linux-media+bounces-53064-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 21:11:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97266159584
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 21:08:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 623241595BD
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 21:11:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CAFDD30091E7
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 20:08:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 31B6A30338A1
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 20:10:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 709113491D5;
-	Wed, 18 Feb 2026 20:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9F3349AE0;
+	Wed, 18 Feb 2026 20:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ayxwvv6x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j5KIUqeF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1B23446BE;
-	Wed, 18 Feb 2026 20:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6DE3451A9;
+	Wed, 18 Feb 2026 20:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771445295; cv=none; b=AIgZ83m+U1WT1GAAbBycinOxELE5RBDkdXzkAokM7e/i3vo2PCcGxL5HEH+a8NKy8pU+/piPlDBRlYHw32ab/5VBSkKYpX51szQsLsFivyRkNXM9cdz+2WVfGiifwYGdIhlHA0HA3qVjDxzcVOQJUookYiKmmcy3alRWQOJoZA4=
+	t=1771445450; cv=none; b=QmZVUeF8ghh7FwRpCANnyKeZ7GqO8rMeRhFVFrfVFQ8tuSK0fWiKKT5Dq4QvVaj2tHTxA6ec6mC5qYHEVp1XQBzpg8fBcHV+CGx6q5q5VnHBhOzIAYngE3X2Bb/C9QQ1Rz42DEOc32I0CczUGFe3JT+e4Ap8vNqtf4Ju/2e7eW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771445295; c=relaxed/simple;
-	bh=XfpyD+222XoP/koRPHi06a8muPW5fL2DTc1+zMl81ag=;
+	s=arc-20240116; t=1771445450; c=relaxed/simple;
+	bh=xW/MyHo6KQjbKxYNlRnkTDuAqoAXtNChD2UDEshVBNw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JhWqc0S3OROwjHIuKd+zo43zRDx4dLVPibajCRKSzvAro0iEMpTHNyKmyTwikmMpGk9b/ZqMe4TkkznRA+VLICo+5aiy2dQ+gpkFNxOjkF8eWMt+oB74TKpjXdBMl9sk6N2XKiBEm3z8P+xD30va9zh/bNwc8DlB8XZWi31nTa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ayxwvv6x; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4D3CC19422;
-	Wed, 18 Feb 2026 20:08:11 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Lwnc76fNj4WFM7fR1gcszCu1enFRpsZ4lmhqUm8/psr7QkezQP8Dy3ILvzqvhowx8qPRiH1GFKmfReueoNZKiEZiN99awYNCV711GGFQC5eXqEq2+YVcu5bTnXF//qvNjPRSIvBddWIPdVIeYbhHCP/0kG+65yG/dnhjPgOuSX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j5KIUqeF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C29BC116D0;
+	Wed, 18 Feb 2026 20:10:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771445295;
-	bh=XfpyD+222XoP/koRPHi06a8muPW5fL2DTc1+zMl81ag=;
+	s=k20201202; t=1771445450;
+	bh=xW/MyHo6KQjbKxYNlRnkTDuAqoAXtNChD2UDEshVBNw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ayxwvv6x/FR6I9YoBSW8lSamIiJ/ppaWORGGNUT593Z8GFYYu5NeH3j4ql0CCUPFr
-	 rNdT0blI3aZ7RHNlHGH9dq8HPx+eoZfdw57n+sMoFwXbFrTBFrldZ3SXiqGdOz1sSB
-	 bfp2hldxPthyhMZLHKJKxLeNTfIXi++rm0AvhR9h7J2v29xKeE/g++dqyh4YbkScZ5
-	 pkeGOoIhOKdf05QgjFZZ/K06pxdvXiQ0Lbh1FiurlIvFIUO+W5l94QGIc5HtSWt+e5
-	 sBExiauE9lhycmBfV13I+zemB6AG7d8pNXrkcaSLLuBWdlOMaMbsHBSftS1yGCH7Ue
-	 zV+iL9cAuWdyQ==
-Message-ID: <9e49d2fc-283c-4c54-ad97-8ea2cb312cf8@kernel.org>
-Date: Wed, 18 Feb 2026 21:08:10 +0100
+	b=j5KIUqeFmvAmTrKiAbbfRkQX+Huros6cFShiYDsAv6kkadgN+otQRaQL50GTuDNjS
+	 SfCVKp+yOSJ/ccnDndYa4ZSkr1sKZFs4nTC79+6HUnvW7J50smSHJzTwO4OG1vK0Oi
+	 3GZLsfkbi2DCBtGk0bEwK/iZxAzbd0/+So5BA1Q/klF05kwFViDVEkkXlj4EO8LcVj
+	 ed8Q/40iNT9WDdihErH4PoGjv2NFKuVjHGNYVO5ZwxKSHrtXxTt5mrEdmbtoZgZDOW
+	 RiKvSRTMWp1hKFNHqz31w0I0OojARFVUEE682Zjw4PWcVZbaR6kycErD+urQidy23U
+	 YQpmVH0yxv6Bg==
+Message-ID: <002d0b53-8fd6-4d40-9c4c-4c79a7704fce@kernel.org>
+Date: Wed, 18 Feb 2026 21:10:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,20 +53,25 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v2 1/5] media: dt-bindings: Add CAMSS device for
- SM8750
-To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+Subject: Re: [PATCH v3 1/3] dt-bindings: media: camss: Add qcom,sm6350-camss
+To: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod@kernel.org>, Luca Weiss <luca.weiss@fairphone.com>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
  Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- jeyaprakash.soundrapandian@oss.qualcomm.com,
- Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
-References: <20260119-add-support-for-camss-on-sm8750-v2-0-3e06583a0a81@oss.qualcomm.com>
- <20260119-add-support-for-camss-on-sm8750-v2-1-3e06583a0a81@oss.qualcomm.com>
+ <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260213-sm6350-camss-v3-0-30a845b0b7cc@fairphone.com>
+ <20260213-sm6350-camss-v3-1-30a845b0b7cc@fairphone.com>
+ <W3evhxwcLQLbkKftGpGmJ5LaEO_h3nxsWSSzrthlfatPfO60KrPpbyaq7yAu1vKbQc0RLqsaCQhTPzRruNTg_Q==@protonmail.internalid>
+ <20260214-slick-ringtail-of-innovation-d8eecd@quoll>
+ <f5869002-1b42-4164-9f14-2ee41f5b1496@kernel.org>
+ <b3e76e9f-a820-43ee-9089-7b7eaa876ebe@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -112,56 +117,59 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260119-add-support-for-camss-on-sm8750-v2-1-3e06583a0a81@oss.qualcomm.com>
+In-Reply-To: <b3e76e9f-a820-43ee-9089-7b7eaa876ebe@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-53064-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com,linaro.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53063-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,lists.sr.ht,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 97266159584
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 623241595BD
 X-Rspamd-Action: no action
 
-On 20/01/2026 07:42, Hangxiang Ma wrote:
-> +
-> +  interconnects:
-> +    maxItems: 4
-> +
-> +  interconnect-names:
-> +    items:
-> +      - const: cam_ahb
-> +      - const: cam_hf_mnoc
-> +      - const: cam_sf_icp_mnoc
-> +      - const: cam_sf_mnoc
+On 17/02/2026 23:18, Vijay Kumar Tumati wrote:
+>>>> +  vdd-csiphy3-1p25-supply:
+>>>> +    description:
+>>>> +      Phandle to a 1.25V regulator supply to CSIPHY3.
+>>>
+>>> I assume that we abandon the idea of separate CSI PHY devices. It was
+>>> discssed way too long time ago.
+>>
+>> No just waiting for 6.20/7.0 to drop however, I think its fine to add 
+>> new definitions until we merge that series.
+>>> With domains changed:
+> Please correct me if I misunderstood but if we are not blocking the new 
+> patches over PHY node separation anymore, can you re-review SM8750 
+> patches please, Krzysztof? Thank you.
+> 
+> https://lore.kernel.org/all/20260119-add-support-for-camss-on-sm8750-v2-0-3e06583a0a81@oss.qualcomm.com/
 
-We already requested more than once - drop redundancies. Look at SM8650
-- ahb, hf_mnoc. Then look at X1E binding. I think that's the order you
-want here.
-
+I replied there, one more thing to fix.
 
 Best regards,
 Krzysztof
