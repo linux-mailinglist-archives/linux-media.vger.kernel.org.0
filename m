@@ -1,179 +1,156 @@
-Return-Path: <linux-media+bounces-53042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53043-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id M5AAHN2flWlcSwIAu9opvQ
-	(envelope-from <linux-media+bounces-53042-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 12:17:49 +0100
+	id UHYPEVyglWlcSwIAu9opvQ
+	(envelope-from <linux-media+bounces-53043-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 12:19:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF432155D4B
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 12:17:48 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5073C155D73
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 12:19:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 2C616300825F
-	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 11:17:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9D65B3016EF5
+	for <lists+linux-media@lfdr.de>; Wed, 18 Feb 2026 11:19:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 401D3303CA0;
-	Wed, 18 Feb 2026 11:17:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97615309F0D;
+	Wed, 18 Feb 2026 11:19:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HXX5MT+s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPGmGF/Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4577723ABBE
-	for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 11:17:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B8E1EB5F8
+	for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 11:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771413463; cv=none; b=indjsMhMM9xGk+g42iS1xYLRD3djMupLU+o6rprCQHlZTSJJKbPlq/F+fNwQ+tGN0s6FO97Pacfro7jhzCPm9hlSohth1mL6oAH1A6EBxLP5PddHoRUMWP6SfCoWAuD8dhkwNmqII4BniNkyF1iSV34X85khrsuWNWM0Mlz9Q/g=
+	t=1771413591; cv=none; b=SCmYiZBCpPt3O19lNaFy3rg2Omts6X3gdhUkY9kiHxgSZYp9DCzFcInaYE5uJ9IKtCksST1kndpdsla2tp6C721aMvLMwltfu5v43K34hHyI1SjMODdBFdUJacQAsTB10MKlLCcc3MSRyfJYQepqKet0110GaViprm0YXWpGh4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771413463; c=relaxed/simple;
-	bh=tjqQRcYLsL7y01lXx+/U96yN6/wDoPPMKI2icFXkyUY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pYWgF5N+pCHol6rze6YnjkI45r+XBHqXfBnaSsQpwq9z4GNFaIQN4WDOYITu796g5hQ+8qNjyVA44XExQn+Ip0zQW/8VHAQdzAOW4UqZ9FCkf3i+DmF+Lt0rzQe1STfgOE0Lh3OFtdgBzaOM4NuNoLDS8vvPalvvFIqOoyRUWkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HXX5MT+s; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b884a84e622so262706866b.1
-        for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 03:17:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1771413460; x=1772018260; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=89WRxce87W6kZbQHlP0F7pDysm1NypLMSlXMZAnkF2I=;
-        b=HXX5MT+sW2DykmoX7rygWd+QcRrUQqUZcyDouYjGwDY1ZMEx0TdcIBxXlA0AiBjfI4
-         ezRqO+3/zqMOE9wafvHcDUwZWyvJ9YOJgW1zWTv68PgPs3td8FulVzM9X2co57KFXI6a
-         nNo2rQReTAaUcAAaizCSD+zr1l2OPrTk4VEgw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771413460; x=1772018260;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=89WRxce87W6kZbQHlP0F7pDysm1NypLMSlXMZAnkF2I=;
-        b=dYwWSMjmjJ1QanvMFWFH0TSUxewgA9kIQWv6sLOzQw6iREn3MHN3pEbdTrnN8glgHT
-         l12XTxLH8L2zLvclk9d1cbiTHq0lpKXCm+p2DjiiyuFWcevNcSQk8Zti+YahDKOsYabT
-         B7kOugVzO/TgyYANKL3DbwoypmiFzMINRzCyptHLH53ugcCp666Tdj1MLR272zK6NGjL
-         snjHM4ddX6li3+u0eG8ZFJPDCEdlHvrH5gqa3Yw6EbUmyxpH/BpmrO3dM614quiPBokz
-         M8pTDNOYPqHZ5RD6im2yVEYzgG1cd26PEsMSUkV16yw/MzIYEdh3nk85Puw1ofDqKuac
-         x3Pw==
-X-Gm-Message-State: AOJu0YxuI+gxngPsucdqvjiWPNl0VGtFVJbJkQvYfoVn/nfjsP6ECyso
-	R2FHm+iGtV3w9/KbVVj4rX8i3P2SEWxHaTQ4Ze7I/wHdZEWHe0l6H/YeWv232v+3vkBuiK+syPz
-	XuKM=
-X-Gm-Gg: AZuq6aIS0nCtNIgQL/jzmojnv5fMjpxuW4E0JGpTVtge6jSm+HRmelwgu9mJavX5Eyh
-	tC+K1hiwyypb8jBuuINPpAwe8XbrT1p5G4S6cpY2BLGV/gLY8Fk1efUiv9zOZaiMZdxbvMDbXis
-	/5grrPizVrIG4t50YjiLaZYECQesZMTC8gaqqTWa9yR33RpvWwhrarTalvgzi6mqSK+49VZfJkt
-	LCAKKsDnA8xuINyiki30gXuc7AdPObERyOsVKH+lmESQ54Euw3atwC95Br70lbvUMbI5VgbPjXY
-	BGBvr4rKQsi8FaWias7V0W7XXhbB0AxlSWLfNOtULhuO29+K2asKso0lS89A6I/GlWEsUqHx3do
-	GI0EXpU/aqNVggKUapaX/O/lQk3959jM+ZthVbM46vHD4PrhXLEqgtpfJFAXDyQ4UC2+RzCl4ZG
-	5V5KbYdtQiNydcP/0URgJrF9aKthSZmG979MCBN/4OzN4a9iNkazQEsH/KdexnSKvcfeKq5sg=
-X-Received: by 2002:a17:907:e0d8:b0:b8f:c517:508a with SMTP id a640c23a62f3a-b8fc517a482mr570961866b.60.1771413460032;
-        Wed, 18 Feb 2026 03:17:40 -0800 (PST)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8fc7691f26sm439352266b.58.2026.02.18.03.17.39
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Feb 2026 03:17:39 -0800 (PST)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b8fd976e90cso230972166b.0
-        for <linux-media@vger.kernel.org>; Wed, 18 Feb 2026 03:17:39 -0800 (PST)
-X-Received: by 2002:a17:906:9fc8:b0:b8f:70c0:c619 with SMTP id
- a640c23a62f3a-b8face8258emr1110963266b.52.1771413458073; Wed, 18 Feb 2026
- 03:17:38 -0800 (PST)
+	s=arc-20240116; t=1771413591; c=relaxed/simple;
+	bh=SbRVOhtErEqdDWWF7OT0Nrr4V9/Q1cEw2n5cqavB+5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q04mNYahcNch+egErHcR1VFdOpJsqkYACFPxao7W/7Ausq65Kh75IR7YAlZT4Es4VVv46ZVIY+kCnVlFCjuWKbWNerLpApE9xqY5JOakcs7oHd2IAEQs9lBBadWDu5WKeg8aqvc6KQmdIkg1QNMOjUYfUTpa1LvsaeRzqxHrGnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZPGmGF/Y; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771413589; x=1802949589;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SbRVOhtErEqdDWWF7OT0Nrr4V9/Q1cEw2n5cqavB+5g=;
+  b=ZPGmGF/Y/wfgZpqkhRFmtc7o3riHm1QL8OFoTRjKJ1D0twMGdsTh/5Jh
+   GEx4ipdgR7Oinz5lmcQNfKEyNnWBtBhKgOlRCSP7JSDvMF65wXXgCDZ01
+   aTEubs59+msQmXyZdbV2X3wbDOL1zd2mrVAVIWpZs8FxEGD3unDlGFwtZ
+   QbK52GJ1TQvI58aN6z5v6D01ujgVK+/a264TG4rC3nYrhteGH373/iEeF
+   Qayuxedfa7iYwtJEPxVMEKEb7dXJI2AUYqxx5GI4J9z70u0+ImmShAFyh
+   bknbWQCXPzclgMDsHCGx5to8/PiWowcINr2A1NzW6kvcpWZBTKppRifcP
+   g==;
+X-CSE-ConnectionGUID: tST61sybSRKCWD7VUrmeOA==
+X-CSE-MsgGUID: vZelKF8ATS21oiqd7/iSRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="60056583"
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
+   d="scan'208";a="60056583"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 03:19:48 -0800
+X-CSE-ConnectionGUID: iRsMZ6v/S/aQFUojwlc6+g==
+X-CSE-MsgGUID: cWnhTR3mQgyNA2Jn3t1h9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,298,1763452800"; 
+   d="scan'208";a="212272030"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.5])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2026 03:19:47 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8C54E121D50;
+	Wed, 18 Feb 2026 13:20:10 +0200 (EET)
+Date: Wed, 18 Feb 2026 13:20:10 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [raw2rgbpnm PATCH v3 2/3] Add compiler options to avoid warnings
+Message-ID: <aZWganf2JP1muCEs@kekkonen.localdomain>
+References: <20260218083424.2432541-1-sakari.ailus@linux.intel.com>
+ <20260218083424.2432541-3-sakari.ailus@linux.intel.com>
+ <20260218102736.GC520738@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <AMBPR10MB9376E972B02F45815C729C318D6AA@AMBPR10MB9376.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AMBPR10MB9376E972B02F45815C729C318D6AA@AMBPR10MB9376.EURPRD10.PROD.OUTLOOK.COM>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 18 Feb 2026 12:17:25 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtPKtKr7UgEj934BGpV0NEvyHbYcutMV_umBa=JiCNDuw@mail.gmail.com>
-X-Gm-Features: AaiRm511mlNSH-NAMfC3T1wX5RP0xibWo7WYFHX6COmBGtTroDOfXAYHpD5W0oE
-Message-ID: <CANiDSCtPKtKr7UgEj934BGpV0NEvyHbYcutMV_umBa=JiCNDuw@mail.gmail.com>
-Subject: Re: uvcvideo regression: loss of access to full UVC payload header
- for generic UVC devices since 6.17
-To: Itay Perl <itay.perl@q.ai>, Hans de Goede <hansg@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Itay Chamiel <itay.chamiel@q.ai>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260218102736.GC520738@killaraus.ideasonboard.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53042-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[chromium.org:+];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-53043-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	RCVD_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: CF432155D4B
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,intel.com:dkim]
+X-Rspamd-Queue-Id: 5073C155D73
 X-Rspamd-Action: no action
 
-Hi Itay
+Hi Laurent,
 
-On Wed, 18 Feb 2026 at 11:59, Itay Perl <itay.perl@q.ai> wrote:
->
-> Hello,
->
-> I'm observing a behavior change in uvcvideo starting with kernel 6.17 that
-> appears to remove userspace access to the full UVC payload header on generic UVC
-> devices.
->
-> In kernels up to 6.16, requesting a metadata format of 0 allowed userspace to receive the
-> complete UVC header. uvc_meta_v4l2_try_format had
->
->     fmt->dataformat = fmeta == dev->info->meta_format ? fmeta : V4L2_META_FMT_UVC;
+On Wed, Feb 18, 2026 at 11:27:36AM +0100, Laurent Pinchart wrote:
+> On Wed, Feb 18, 2026 at 10:34:23AM +0200, Sakari Ailus wrote:
+> > Add -Wno-missing-field-initializers option to avoid warnings on modern
+> > GCC.
+> 
+> Maybe I should have mentioned that explicitly in v1, but I would also
+> fix the code instead of disabling the warning.
 
-That looks like a bug in the original code :).
+Since when has it been preferred to require initialising every field in a
+struct? We don't do it in the kernel either... nor this is C++.
 
->
-> and since dev->info->meta_format was 0 for generic devices, format 0 was accepted as
-> the metadata format.
->
-> Since 6.17, requesting 0 falls back to V4L2_META_FMT_UVC which only exposes the
-> standard portion of the header to userspace. As a result, there is currently no
-> mechanism for userspace to access the full UVC header for generic devices.
->
-> Would restoring the previous behavior be acceptable for compatibility?
-> Alternatively (or additionally), would it make sense to introduce a dedicated
-> metadata format that allows userspace to request the full UVC header for
-> generic devices?
+> 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  Makefile | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Makefile b/Makefile
+> > index ab363501a212..7545682dbcce 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1,7 +1,7 @@
+> >  CROSS_COMPILE ?=
+> >  
+> >  CC	:= $(CROSS_COMPILE)gcc
+> > -CFLAGS	?= -O2 -W -Wall -Iinclude
+> > +CFLAGS	?= -O2 -W -Wall -Iinclude -Wno-missing-field-initializers
+> >  LDFLAGS	?=
+> >  
+> >  %.o : %.c
+> 
 
-By any chance the device that you are using supports
-V4L2_META_FMT_UVC_MSXU_1_5 ?
-If the device exposes the UVC_MSXU_CONTROL_METADATA control, that
-format should be available, and it provices access to all the UVC
-header as you had before.
+-- 
+Regards,
 
-Alternatively, if this is needed for a specific device you could send
-a patch adding the UVC_QUIRK_MSXU_META for that device.
-Would that work for you?
-
->
-> Regards,
-> Itay
-
-
-
-
---
-Ricardo Ribalda
+Sakari Ailus
 
