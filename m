@@ -1,245 +1,235 @@
-Return-Path: <linux-media+bounces-53082-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53083-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ILjsMBTVlmmVowIAu9opvQ
-	(envelope-from <linux-media+bounces-53082-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 10:17:08 +0100
+	id kG/lHyzclmlJpgIAu9opvQ
+	(envelope-from <linux-media+bounces-53083-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 10:47:24 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4829E15D43C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 10:17:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D9715D7ED
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 10:47:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B5FD8303B970
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 09:16:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D8EC83033AB0
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 09:45:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B30833987F;
-	Thu, 19 Feb 2026 09:16:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C63F548EE;
+	Thu, 19 Feb 2026 09:45:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S3oPSyt6";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="KN5g58Xd"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZnpcxBN0";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="O2OMqjGB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6451C3346A7
-	for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 09:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771492607; cv=none; b=EIQ7Sl/pCJnld2jRXE/fZOXJ9NkDgmj/NT8RNlJDpmYK5gIeOixwxUPaB2tJQ8/w9oHZ8n3naVNIKi02fcI2Pq7Y7vbvwel/4jlu59it97NfDgkL1EMP5pOlofvtxxK7cFS2vib36dTc+i5KbE781Pei0iqpauolRwtm658ZeZU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771492607; c=relaxed/simple;
-	bh=aEyWs1Zvn9OJBYISRKRqEdGU3qAi+EDqYLdy0wsyuVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gEcas59fkdFcc9DeSewVoyXBML9Mmj4QcuA5X24zNPPmpNySSTQzlzK0e7GmQanWYEpYdnqwVe7cGebb1iHnduq2noxzoO2ioTuxI8hkRPdSBvaWqoSUxMPZivFHONztja0UmN14ZRaiwwamdojt0BANLJPfig+JSkRErFJBohU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S3oPSyt6; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=KN5g58Xd; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC3E21ADB7
+	for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 09:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771494333; cv=pass; b=oXLQYLQ1keuHqjkaOs13DT/oDeIhPotVAzbgaAlk1+ADETrz3m0izpLWobZX3p23/rdUP39J81FkRsmD3G7Pv+sRGdiFsr6LUqww0rTcSrO59RqG9W2aMoVMtfuKJkS7kj+dUJ9k+NX8flbYp+oa1um/jT51V/7eAPDa+SFDXec=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771494333; c=relaxed/simple;
+	bh=hZUPDfJno0KShOcXhqHgbVffPezF2caUnllpBqqzlpE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jq+KyOYQq6A8tj0pbkzAKvVuL9KQAtpANfkDH3qH07dA3ShcKNAcM0+8s0A2dXQJZuSrsFy5iLGMpYti9Q/6wIX5MBKcoAPrVWrF6Sc7jCXHEFA2LYIx4WLiC0oAovyZduXN3bQdI/5DFaK59S6INEIr54KHpUon6++uu3cpiZc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZnpcxBN0; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=O2OMqjGB; arc=pass smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771492605;
+	s=mimecast20190719; t=1771494331;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FvCQKIeQDulHEvNvZG4/Rs7O2SMt0AI9xdkS+RkTuNc=;
-	b=S3oPSyt6ZDAbe+yKY/3wSjr20G0/WTWyNBwT8wqkVykVvluG8yCDH/chQxob2SJ71YPtTJ
-	FdcTwBfcs3O0NCehyro2mz0EI7h/ku53DXFhYR+5JQZAd6a7uG7EoEreTZjFwhDWkdW28W
-	qNuigtps9/7fCvJBBtOT6XcXxY58jBI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=Jc3i9FwjGQs8rH6ZGdIFq1/g5A3pmIExt0aTpd8WwbE=;
+	b=ZnpcxBN0wUdRY3QMdCC0q6s+om+ROlbYUip9NFcJWTylBfNGwc5CXV9G498wxtiR173X25
+	qaxo8mzVLtNW4dDJwmSPkcr5d0r+3xpiKmrGUcrXNlSxudJsvI1E6NwOpRCmuuXYZwpSc3
+	pScq4hWdm9TQPMXixqKKITJc8JfY964=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-575-yiCGFjNoOCubnAwdutkyIg-1; Thu, 19 Feb 2026 04:16:41 -0500
-X-MC-Unique: yiCGFjNoOCubnAwdutkyIg-1
-X-Mimecast-MFC-AGG-ID: yiCGFjNoOCubnAwdutkyIg_1771492600
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4836b7fbf4fso6560535e9.2
-        for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 01:16:40 -0800 (PST)
+ us-mta-277-h1074kpqOvuDBP3_vTMIdw-1; Thu, 19 Feb 2026 04:45:29 -0500
+X-MC-Unique: h1074kpqOvuDBP3_vTMIdw-1
+X-Mimecast-MFC-AGG-ID: h1074kpqOvuDBP3_vTMIdw_1771494329
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-797b0076763so12488477b3.1
+        for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 01:45:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771494329; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YEo+5Wsi+l/r9J9kp7ZH9oABvdfPEOkwLln8NlozeEkz6RbYEx3E3yhl/VDHG15FSu
+         scOTRKpf+opfF9wibFM5xwSUAdef0S0uYt9EJ3TmfiGysCfQLbmsBnGL+GGfeLYiDuao
+         9jVAstVfji3ECouNCvvruepeP6onyOWMaMBnJTdnIgU+UOfs55U738OBqmC51oNUsx6a
+         RfSCwvgZEhDI+0wc0xZljRKY/lgjqklkvJrgLqkTH+cDWYNVNjI9A7LkLCPIArOjE4vr
+         4cp9JweRHAufig2MAwkPrt1CT9eNdh1tHeRZrxUkirQodOc6xxRxy+IrqRic94dfX3r+
+         DWkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Jc3i9FwjGQs8rH6ZGdIFq1/g5A3pmIExt0aTpd8WwbE=;
+        fh=crtm0HerCJqHAro3lqPMVaLoa/v8sXiSCUvNhJU2DMw=;
+        b=PQzDQt8xWB4qn2PsTHF34O08OxeBogNXrmfIlCRH0P+Xrr+XYpwF/6vmUFQh7Da4nH
+         GcAhskB1FnD7QJUCEYN66Dt9ZiPgbFA0GZo63DXh2DFjSzIzYgIHi7IX+PthdvMgEVzF
+         TaImOHhaKH2Vz2ZhqICWEkGFw6J1kCmT3z7y4scoQx/SB+oeZWTNJLWFoSGZEwPHMGE3
+         ZKTbQdJaF2jbrAbfA4aQNdPcR3vcT3biU5lwAH8bGF07/0Os0UM8MsQDp3k84ZS9i+dq
+         o1PRfFpOojOYXgvTDYZQgnPcycM5s3jPXj5+TMvsrjTxFVVGHmQGnMUKXFo4xc5eUkFc
+         Y/lw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1771492600; x=1772097400; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FvCQKIeQDulHEvNvZG4/Rs7O2SMt0AI9xdkS+RkTuNc=;
-        b=KN5g58XdCaGHiKPmJ/NGudUiRrESmzZaMOV/jXZ8x6aymgjeiHsfDrCud/ZW+zwl+S
-         gRVe4yHtRWQRqXYZS8Jwtgz2CrdbutF0EkD/nq1MXB46PipcWEyP5waQFHIe1d2XsHXn
-         jEoxtTA17L68VM7A7oRA/t5RApeHxiUMyIf7j9axD1WTfMcYsiFsw9NPPkMdfgHL2F8Z
-         vANmqarRKAJwPI27Q33JCUWpGkEj9WfEzX6fnWWHNBhkXPaTHk3VJTbulDco5K8hLwjm
-         HYuCrmtBvHXmHx5QIxIvJWeT44ZjikrCIS7fTNH4y4bv9w01wmGBrhCWSttNxzS5cJ+L
-         5fbg==
+        d=redhat.com; s=google; t=1771494329; x=1772099129; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jc3i9FwjGQs8rH6ZGdIFq1/g5A3pmIExt0aTpd8WwbE=;
+        b=O2OMqjGBr7oLIeRyFU3dKyeOUsghfH7hy79i6r4NhjVpRi+4XnKAgknHNJPDG+NgT+
+         esziMWoglE9s6ulbBOlDfHL6qAhOpJrd7xL8j//4DTcm8qIBl4js0s99i7kEOBeXhrMz
+         KFdZKMlPgFou7r45ynBzD2o2iaEXCg4SlB0uX8e02y4QHWdWXMyAIOoOJYti5GdlStkG
+         +E/F8W6JtAFEk5yViRI/zrGNN64SmDvFacvr+/SbJ4UxFRsUPaSOEwWdUUnW+pm8rYLp
+         WI8yRTSLcBlleU4VBun5G5PIc+4Wy1DkE2TXk2U4QSnxeQn8p9gvW5Y0D43bsaz5qXZX
+         ijLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771492600; x=1772097400;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FvCQKIeQDulHEvNvZG4/Rs7O2SMt0AI9xdkS+RkTuNc=;
-        b=rifHlq7ZJhmWEm/nED8S4pY6ect/iJClvSsLR5LS+XfIPF7mJhpSmmtvKIAB3lqC2u
-         syQLEweFYgWtPp0SRMAU0k+gQkQ3MOBIQsEfWY7keH7rqj+6ziE/HNi07dNkFJ7oKb6Z
-         lGVC7i523/xp9+wPf7qowf2b7U4iYXuy262iOPt6R4CxXnp/g655a7iIpfT3BccZQOPG
-         8UyF44URjqKQ1kwMlqK9HbPW5iENpLrYnTK0FQR+zaqLQV7yxVY0wLW9rOjBUQh3sdYT
-         HGwy5Md0lFvnU2ESldR5yLuBX1pnDacp8G0K5P9pgVioDwdCCWpvCisf163qgWoR+t8h
-         0S1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVwb2UQ4iVeLCAkbCy613uveEcQvjPNNTBNL2/N4/a8mnWG0kvbYhuAVFGHE1za8pExclq2K5zM7Ltyag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDKKg5ORMYvsNQAlb4LgtA+NV9NSEkD6cpQV75IlteMAAPdJ2M
-	oWpGxiZyJOy43T4TOGll5WlECqSBpketcVcB0iopRtnRelHRAvxL55SdtIIxw/SM8e+cBxWTzAJ
-	Ubjkta+fvh9Y9UfSBYgLRF0Ybr1zJQRkqBKQVRWZahYT3BXD+kAW6SmTcEgAyAj0Z
-X-Gm-Gg: AZuq6aKSQAiXRSfSvLkSgKwLgvhtYuwI+fKvwYcFIfKtTzeKtbeQ70i4taEgOXQT0lz
-	gn6ZT9DUbU2WmXx+LQUyVHlt/aLEJLjObqnR9YvLFmR1PTg5d5F0e4BnfXI94w6a8N+nhx9RCUk
-	vZ+yEezyeGBE1Auzq/0oYBejX3PplgvvEYRuUiMlRsJ1d1eyBj6xBaRPjnIYiXNaiOEYVQEhNkd
-	I1kJ7zZlgVomVhcyDtKFJhjL6OiiWIGT/FhUZy5BoG5gsiPU8j7KSPe0V8UJ2CrxqYh4TPXdwbU
-	NFo7KwkCC0rtS3T07w+6kdT9WViZJV0OQFqG7vyeQdl5EftheIdVQmYl4WQqb46Js9O2HfNBsQ=
-	=
-X-Received: by 2002:a05:600c:8289:b0:479:3a89:121d with SMTP id 5b1f17b1804b1-4839e66fc83mr23233435e9.36.1771492599591;
-        Thu, 19 Feb 2026 01:16:39 -0800 (PST)
-X-Received: by 2002:a05:600c:8289:b0:479:3a89:121d with SMTP id 5b1f17b1804b1-4839e66fc83mr23232985e9.36.1771492599016;
-        Thu, 19 Feb 2026 01:16:39 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4839ea1e7e1sm14492695e9.2.2026.02.19.01.16.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 01:16:38 -0800 (PST)
-Date: Thu, 19 Feb 2026 10:16:37 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Eric Chanudet <echanude@redhat.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, Albert Esteve <aesteve@redhat.com>, 
-	linux-mm@kvack.org
-Subject: Re: [PATCH v2 3/3] dma-buf: heaps: cma: charge each cma heap's dmem
-Message-ID: <20260219-illustrious-tungsten-starfish-5dad8c@houat>
-References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
- <20260218-dmabuf-heap-cma-dmem-v2-3-b249886fb7b2@redhat.com>
+        d=1e100.net; s=20230601; t=1771494329; x=1772099129;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Jc3i9FwjGQs8rH6ZGdIFq1/g5A3pmIExt0aTpd8WwbE=;
+        b=sWizXTcT6OsxsaHnFHQKk2zrEe0a3ASz2JodyZf5KQyumO3/KdptuyyGbaY3CUD5BB
+         C5XQMzpWO3ft+fgjPUFvSlWKU5hoN4cYrMXt4eerT+GIgx/jtnh0DzaYV4J2g2W6V5fB
+         TAK2wzaBcVD8L4OO4o7oA3ILdlKLbHtqNb5jgzKFL/n9VEPrABkUT4qykDwuOHJ6etZs
+         JGGf0QhHq01tAJyK6tYuNQpZ3MHh8FRdvtv1p3ElD9lr6r7VylYjgPMmdGZp5JmDg6WZ
+         utdsSVe2MpeOk9L1UgewqlnP9o3mFxa6YEbE0Gk7DzIEqM3bZ8A32EkzGSL9T/zDe5at
+         NCzg==
+X-Forwarded-Encrypted: i=1; AJvYcCV3KAHgaT3Yuhzftgva7Nn84inBLiMhTo5hOnKVMA3DRUABVb3FWy1yjVEfZemRDxewvMpDYCedHliBgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9neMKTG/RPq9jzgVGT3Gp+ByAs27m5k717aSqCYJh8I3jCIw+
+	VIS/5LpkBulZt87Sk+6m3ggdCl0s8hFPMcBt6Ss+FL5uVm5WCrx/RvI/NGNTWV1urHwpCMkXZqy
+	ASqbDzIPoJ/nkEdJay/xSlDg1M2X9l31JwXKAKhuzMZSb/r2EpU/2fQOUZFz5hHLz+559xuup6z
+	3vpIpt3yCEN2JWxOVIwU7eQtNJviySfbwhFqSxPgU=
+X-Gm-Gg: AZuq6aL44o2LOBA9sC4jDyclV7Jvho5SbOufXJ1FY5oWiWZo8bovylhXw4nrv+Q5fJf
+	DqvFRUu51Pd84Yf56ocWv+WSrZGLHCdnqrFcdl1iT8kF7ghtYGEFXbKmD0u7PpWwCovgERcHvtw
+	RstiawxQ/sCLOVuY5DaeFXIaI4Lt4QdBvhex8ErkKk4YGtA0hWJkA0xybXB6YXcSoKM7AriPtgy
+	w==
+X-Received: by 2002:a53:ac83:0:b0:64a:cece:95f0 with SMTP id 956f58d0204a3-64c21b189b8mr12656966d50.61.1771494329152;
+        Thu, 19 Feb 2026 01:45:29 -0800 (PST)
+X-Received: by 2002:a53:ac83:0:b0:64a:cece:95f0 with SMTP id
+ 956f58d0204a3-64c21b189b8mr12656956d50.61.1771494328829; Thu, 19 Feb 2026
+ 01:45:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="qbjavhllvvchwpql"
-Content-Disposition: inline
-In-Reply-To: <20260218-dmabuf-heap-cma-dmem-v2-3-b249886fb7b2@redhat.com>
+References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+In-Reply-To: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Thu, 19 Feb 2026 10:45:17 +0100
+X-Gm-Features: AaiRm51_qfw3XQOH44zsawVMk4430XcLLbmTSpOFr53O7yUQLt26G4MawVh9oqo
+Message-ID: <CADSE00+6Jnv_R69nrWdakX2StNK058ksxva48z=ZnwT=Zr3UOQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@redhat.com>, linux-mm@kvack.org, 
+	Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-53083-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53082-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	DKIM_TRACE(0.00)[redhat.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@redhat.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.999];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 4829E15D43C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F2D9715D7ED
 X-Rspamd-Action: no action
 
-
---qbjavhllvvchwpql
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/3] dma-buf: heaps: cma: charge each cma heap's dmem
-MIME-Version: 1.0
-
-Hi,
-
-On Wed, Feb 18, 2026 at 12:14:12PM -0500, Eric Chanudet wrote:
-> The cma dma-buf heaps let userspace allocate buffers in CMA regions
-> without enforcing limits. Since each cma region registers in dmem,
-> charge against it when allocating a buffer in a cma heap.
->=20
+On Wed, Feb 18, 2026 at 6:15=E2=80=AFPM Eric Chanudet <echanude@redhat.com>=
+ wrote:
+>
+> An earlier series[1] from Maxime introduced dmem to the cma allocator in
+> an attempt to use it generally for dma-buf. Restart from there and apply
+> the charge in the narrower context of the CMA dma-buf heap instead.
+>
+> In line with introducing cgroup to the system heap[2], this behavior is
+> enabled based on dma_heap.mem_accounting, disabled by default.
+>
+> dmem is chosen for CMA heaps as it allows limits to be set for each
+> region backing each heap. The charge is only put in the dma-buf heap for
+> now as it guaranties it can be accounted against a userspace process
+> that requested the allocation.
+>
+> [1] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@k=
+ernel.org/
+> [2] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ec=
+c6b62cc446@redhat.com/
+>
 > Signed-off-by: Eric Chanudet <echanude@redhat.com>
+
+Tested-by: Albert Esteve <aesteve@redhat.com>
+
+I tested the series with a Fedora VM, setting the global user.slice
+dmem.max value and then trying to allocate buffers of different sizes
+with DMA_HEAP_IOCTL_ALLOC. Exceeding the max limit results in
+'Resource temporarily unavailable' and the allocation fails.
+
+BR,
+Albert
+
 > ---
+> Changes in v2:
+> - Rebase on Maxime's introduction of dmem to the cma allocator:
+>   https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@ker=
+nel.org/
+> - Remove the dmem region registration from the cma dma-buf heap
+> - Remove the misplaced logic for the default region.
+> - Link to v1: https://lore.kernel.org/r/20260130-dmabuf-heap-cma-dmem-v1-=
+1-3647ea993e99@redhat.com
+>
+> ---
+> Eric Chanudet (1):
+>       dma-buf: heaps: cma: charge each cma heap's dmem
+>
+> Maxime Ripard (2):
+>       cma: Register dmem region for each cma region
+>       cma: Provide accessor to cma dmem region
+>
 >  drivers/dma-buf/heaps/cma_heap.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
-_heap.c
-> index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..bbd4f9495808da19256d97bd6=
-a4dca3e1b0a30a0 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -27,6 +27,7 @@
->  #include <linux/scatterlist.h>
->  #include <linux/slab.h>
->  #include <linux/vmalloc.h>
-> +#include <linux/cgroup_dmem.h>
-> =20
->  #define DEFAULT_CMA_NAME "default_cma_region"
-> =20
-> @@ -58,6 +59,7 @@ struct cma_heap_buffer {
->  	pgoff_t pagecount;
->  	int vmap_cnt;
->  	void *vaddr;
-> +	struct dmem_cgroup_pool_state *pool;
-
-I guess we should add an #if IS_ENABLED #endif guard for dmem?
-
->  };
-> =20
->  struct dma_heap_attachment {
-> @@ -276,6 +278,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *=
-dmabuf)
->  	kfree(buffer->pages);
->  	/* release memory */
->  	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
-> +	dmem_cgroup_uncharge(buffer->pool, buffer->len);
->  	kfree(buffer);
->  }
-> =20
-> @@ -319,9 +322,17 @@ static struct dma_buf *cma_heap_allocate(struct dma_=
-heap *heap,
->  	if (align > CONFIG_CMA_ALIGNMENT)
->  		align =3D CONFIG_CMA_ALIGNMENT;
-> =20
-> +	if (mem_accounting) {
-> +		ret =3D dmem_cgroup_try_charge(
-> +			cma_get_dmem_cgroup_region(cma_heap->cma), size,
-> +			&buffer->pool, NULL);
-
-This alone doesn't call for a new version, but adhering to the kernel
-coding style would look like this:
-
-+		ret =3D dmem_cgroup_try_charge(cma_get_dmem_cgroup_region(cma_heap->cma),
-+					     size, &buffer->pool, NULL);
-
-It looks good to me otherwise,
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-Maxime
-
---qbjavhllvvchwpql
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZbU8AAKCRAnX84Zoj2+
-diB9AYDhkg6+tBwkM8yMFN9/WFT+hpPNlhGw0UEY/ZE0DHuKywzN1rTS3USBgeXc
-4vi8MkIBgIRG4eHa1thavtEHDzWooCqiLhwDczcPdIil4bWekTGZxgf1mQQHrqGd
-pK5ZeNH5CQ==
-=YZKD
------END PGP SIGNATURE-----
-
---qbjavhllvvchwpql--
+>  include/linux/cma.h              |  9 +++++++++
+>  mm/cma.c                         | 20 +++++++++++++++++++-
+>  mm/cma.h                         |  3 +++
+>  4 files changed, 45 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 948e195dfaa56e48eabda591f97630502ff7e27e
+> change-id: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
+>
+> Best regards,
+> --
+> Eric Chanudet <echanude@redhat.com>
+>
 
 
