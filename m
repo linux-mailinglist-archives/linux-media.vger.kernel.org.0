@@ -1,212 +1,183 @@
-Return-Path: <linux-media+bounces-53106-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53107-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sKO7BO9Bl2lXwAIAu9opvQ
-	(envelope-from <linux-media+bounces-53106-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 18:01:35 +0100
+	id QCRnB65Cl2nzwAIAu9opvQ
+	(envelope-from <linux-media+bounces-53107-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 18:04:46 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92BF160E2E
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 18:01:29 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C71A160EB9
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 18:04:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 01F1D3034C9C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 17:01:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A21173013945
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 17:04:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D1FA34DB4A;
-	Thu, 19 Feb 2026 17:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p25jL6qP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23BCD34D93C;
+	Thu, 19 Feb 2026 17:04:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40EC27979A;
-	Thu, 19 Feb 2026 17:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771520453; cv=none; b=d4kKVrpQv2nCb4wl5lXHpxWTOfYuZH0PT9FOB5iF7LZtrHYK8mGwRiB6KxSXrG6gCWDq4pqMLXSLpwmcgcQiTodjEhjOa4Ju9UQvriIWHCV2w3ctnfJTToZN330gbQ5FjO5TOiCZtBGZ3nqNbjIwTgNp1Y5iDcMgqmGod6sxzl4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771520453; c=relaxed/simple;
-	bh=+bJb8RAUEGHe8xLGRMHWSourYuWFNASIziuTwS8aCok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oi0PWePCYqgQ+LbP37UJxeMWgTASRHZZZCRAcnnQBIHH4MeeiR5PNvXtNW60iE4k/I1bdiMZWvJeR5kPDCmtZiW2K3Mo65JSqaccKuYFN3Anhri3apVrBaWGSnVUrty51uoYJmbJw54QC7I2a0Gwbv5l8yREV6fuDyQ+aqcrrD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p25jL6qP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (unknown [83.245.237.175])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2D10755C;
-	Thu, 19 Feb 2026 17:59:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1771520396;
-	bh=+bJb8RAUEGHe8xLGRMHWSourYuWFNASIziuTwS8aCok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p25jL6qPmnFmkBcyC8A8dXf8xXvrzOWBzsJn4Ux841mXCS0ZyncZ3QnzdQC+gJE8W
-	 QLRGk9gON41wwd4iIFLQMWFilucJbxZa86JpDMbIq5NtgkYJAw+SFVIYjR746In9bP
-	 0VMMLw97wf0sABn7MygMiSSh5RxYmPTtgQnVWuWQ=
-Date: Thu, 19 Feb 2026 18:00:46 +0100
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Michael Riesch <michael.riesch@collabora.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Collabora Kernel Team <kernel@collabora.com>, stable@kernel.org,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rockchip: rkcif: comply with minimum number
- of buffers requirement
-Message-ID: <20260219170046.GA626936@killaraus.ideasonboard.com>
-References: <20260216-rkcif-fixes-v1-0-b16db20b6d68@collabora.com>
- <20260216-rkcif-fixes-v1-2-b16db20b6d68@collabora.com>
- <20260219091301.GF520738@killaraus.ideasonboard.com>
- <d701a97d-6051-4a32-ada6-bf014e385c68@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28AC33A710
+	for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 17:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771520682; cv=pass; b=o+IsF2wm3JN+vV7My+Ua4r16FGR48/QXx3nUpmJze554lLYSsVvCJV/BA3SMiyVuu59VL1X2QjrHirr7okuSUD11//i4xNuOGlhIxg/Z+G8kFyBlXxa6Fx8hcMxb5aH/1lECT0tMnbsOpugxyFeRS7kJiBvCqT3I47di+RuHrRM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771520682; c=relaxed/simple;
+	bh=b6U1hG3nrOVFz0ecG5N+39M6HPtyrPXlR9zj9WH7HqQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qV8IPsn49znt39o0CUGGtbE9T++E+8bzTig4M8EWikjNrwxGm217ROUfhQmSn9dxwmbZ+ILEoRZa4De4cDIbLasCDaLH8h3XPq7q6GDbzINsdIljgdALy9hSBoKIwA1pAy9EDRSMOfYTy7OXu2zCNXDlFSDlwAJqgun0p6THPsY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chrisli.org; spf=pass smtp.mailfrom=chrisli.org; arc=pass smtp.client-ip=74.125.224.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chrisli.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisli.org
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64ae5f0777dso905274d50.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 09:04:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771520680; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NoXB+ICvy8t/D+WTCf2sCrNJQ4P+Sd+tlvoxVxW8IzK+SIiJVRqsPkUF/aTn51WmSf
+         qr6p06GOLIJbmOzzQrTsMVoHIwx5vkpHBUxIT8+7ivxrLBpO4ql5gwDuzw+Dfa/ABEk2
+         ByelAt4b8CDaoUtPJEFb98zYvVUhBxwDeeOUMjgtoLn/YR7sDfVqbxhncmTUeaWLT9Hr
+         Df5TcJdi3xTGiOdAplcfixKlXK1Zp1lirEF3vVqil9enmZ6J0Gvg4Vt1ZjzjI/XvBXPM
+         02Op3240nVcDBNikwedhkmhJ/ra4T4FfcpOfkhqoXcBXBpEPcLSRPSFtV4DObdZ1a7hs
+         E/Ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version;
+        bh=GCfnfADMenCdj35GVzlSj1RLfLETxBVqx3iNQnVeu6I=;
+        fh=5xSuYhlBhL3+JMpuV/I8bEVcsJ/5YAkJOpdDveMrRaQ=;
+        b=O7dBE85+uazCZ5gciWeHwOllJJIOg2KJR+k4AD8owngmBY7eT55QZvVAf2FTEf7KbT
+         g/jpuMusql9TA92/SqxCgRG4KcP9HA0UpBkw5l64XIiDHHszWNgDOlLZMhl9tKgVTYRn
+         p4JnkqbWI4+W+wDC8oWUVkBVf+GzcYkoSY1543/Wz/DOZ3AqlJSNa7UZSaApDUXabqtp
+         CauCfeKlNaIozTuEi6iguAwjlEiw1vuMf1uUdYyZczp/ZYflUjtbph99ZEPkgwpbwqJf
+         5bdgcct0DkLzPXS5kXsT0Js2mcIIA1XpkJju4c7DYxRqGWyqAt6fu6Np4+5OYwRbK3Rq
+         YnlQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771520680; x=1772125480;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GCfnfADMenCdj35GVzlSj1RLfLETxBVqx3iNQnVeu6I=;
+        b=fZseom5+MyIKRqIdgADVp7BiikPf175nwxVG6H2NnaVvKpzbIUCF7BGi2jqf4u2tFG
+         8y2yGPE6xxVIsGLQoqeJdbMtn5Jn8Q+YTmMyQ1D9poGIGtwO3hUBoyRufRRtyEqheqCa
+         iFbGv7R+U8otF4rF3EkHw1RZ4DCDfG3QUTv322xoCiFo5ZbB7AdYvI3phaHDZsK67V+u
+         VJ/zAyyNmyKyhGvC71W/Jf+HkwUVgzdie6+WNqvs+LeX/SPvr5+g3O2sVKtGAZgkbX0E
+         1xUSdr3WTBglqKn/zAQF39mPQdVhqdNT5Nakw/5zb/H/AVdqy74vN1dnZOYchMgC7Uzv
+         8/IA==
+X-Forwarded-Encrypted: i=1; AJvYcCWIXQOSO9zAfB8c7cQmB3nw6720QH8AjEHljaWXi5j62PdGy1VdHplmvnUC2g+GEDW9TYZZxa/XQ+6BYQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDO5e2+BaJmcSmTfJjDL62x2IAuQR5wZo3Z8JUr2eA2jVssZxT
+	FfR7o50mKuAc1KdWGZESw/MvkHpciS2f76MjlC1osQdmiQ5LJMVQavUDa/hrsZcEtzkE3mu8Bx4
+	Pdj93bubFnXIc25QoU9LPB00LrJjnn9PmboB6H/qewQ==
+X-Gm-Gg: AZuq6aKoNOk3JuDZ6ampAUvKLnFBuYA7JJFnV42T9zWUXK5hLdEvkYOeg11Z36TWD4e
+	/uBR5DmqVYzkwOnndqCvaRsbvsgArlY/riMieQvoVGc7KOABzAuE/6AKarXlGo+JcfMhvIDdsbu
+	OanPiN5sB7bFuikfTxi4DTvdWX6WEL7stfhgdPVw1FPrdGROUhUXNPJTj64jsDhU7OOcnwIkOPH
+	fMGaQET9z8lH7JrKpiGMWkR2yY+F5mOPP1XBFbotE2ZZY59tcEAm1OHukfu7wTmXPEn4ni4QPbh
+	rixmW0suK8jgdp4Vv8skYaKPPEJBAOSl6KywSbDyElJhHcjV
+X-Received: by 2002:a05:690e:1c1c:b0:649:c375:974c with SMTP id
+ 956f58d0204a3-64c55587d75mr4376174d50.28.1771520680340; Thu, 19 Feb 2026
+ 09:04:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d701a97d-6051-4a32-ada6-bf014e385c68@collabora.com>
+References: <d3dd8fc8-ab46-4cf1-87a9-0324685ba2e0@kernel.org>
+ <SJ1PR11MB6083C6D97484ED4E4710268EFCA3A@SJ1PR11MB6083.namprd11.prod.outlook.com>
+ <aThSGiKwJRYOB6kx@agluck-desk3> <aThqcq0iGge1pQCr@agluck-desk3>
+ <20251210010020.GA2522829@google.com> <aTn0WdVv-S_EpQmS@agluck-desk3>
+ <aTqAxfiVCR2ch4I5@stanley.mountain> <CABCJKufWw4VQA_k6Deuf5Bn6401cbYv_St8VV_0-LAau6F0nTw@mail.gmail.com>
+ <083ebd92-4b3f-47f8-bf0f-395a604b5f05@kernel.org> <aUVI9smf2t7PvDF6@stanley.mountain>
+ <aUV7kyjxlijuy5sC@agluck-desk3>
+In-Reply-To: <aUV7kyjxlijuy5sC@agluck-desk3>
+From: Chris Li <sparse@chrisli.org>
+Date: Thu, 19 Feb 2026 09:04:29 -0800
+X-Gm-Features: AZwV_QgEIU-5ticNLcegsMRlOq6nRWIo8xAridFdMNrLj6Suwr-SXxpNMC8DPy0
+Message-ID: <CACePvbVCwr2hc+gqUBWz++GKsk6+c97sBrVRFJ015jyeLkDbcw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] module: Add compile-time check for embedded NUL characters
+To: "Luck, Tony" <tony.luck@intel.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Eric Biggers <ebiggers@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Rusty Russell <rusty@rustcorp.com.au>, 
+	Petr Pavlu <petr.pavlu@suse.com>, 
+	"linux-modules@vger.kernel.org" <linux-modules@vger.kernel.org>, Malcolm Priestley <tvboxspy@gmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-1.46 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53106-lists,linux-media=lfdr.de];
-	RSPAMD_URIBL_FAIL(0.00)[collabora.com:query timed out];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53107-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[chrisli.org];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,zeniv.linux.org.uk,kernel.org,google.com,rustcorp.com.au,suse.com,vger.kernel.org,gmail.com,pengutronix.de];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RSPAMD_EMAILBL_FAIL(0.00)[stable.kernel.org:query timed out];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sparse@chrisli.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,collabora.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid]
-X-Rspamd-Queue-Id: B92BF160E2E
+	PRECEDENCE_BULK(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.983];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 4C71A160EB9
 X-Rspamd-Action: no action
 
-On Thu, Feb 19, 2026 at 05:19:46PM +0100, Michael Riesch wrote:
-> On 2/19/26 10:13, Laurent Pinchart wrote:
-> > On Mon, Feb 16, 2026 at 02:49:57PM +0100, Michael Riesch via B4 Relay wrote:
-> >> From: Michael Riesch <michael.riesch@collabora.com>
-> >>
-> >> Each stream requires CIF_REQ_BUFS_MIN=1 buffers to enable streaming.
-> >> However, it failed with only one buffer provided.
-> >>
-> >> Comply with the minimum number of buffers requirement and accept
-> >> exactly one buffer.
-> >>
-> >> Fixes: 501802e2ad51 ("media: rockchip: rkcif: add abstraction for dma blocks")
-> >> Cc: stable@kernel.org
-> >> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
-> >> ---
-> >>  .../media/platform/rockchip/rkcif/rkcif-stream.c   | 41 +++++++++++-----------
-> >>  1 file changed, 21 insertions(+), 20 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-> >> index e00010a91e8b..5a5ab9e7e86e 100644
-> >> --- a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-> >> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-> >> @@ -106,19 +106,6 @@ static int rkcif_stream_init_buffers(struct rkcif_stream *stream)
-> >>  {
-> >>  	struct v4l2_pix_format_mplane *pix = &stream->pix;
-> >>  
-> >> -	stream->buffers[0] = rkcif_stream_pop_buffer(stream);
-> >> -	if (!stream->buffers[0])
-> >> -		goto err_buff_0;
-> >> -
-> >> -	stream->buffers[1] = rkcif_stream_pop_buffer(stream);
-> >> -	if (!stream->buffers[1])
-> >> -		goto err_buff_1;
-> >> -
-> >> -	if (stream->queue_buffer) {
-> >> -		stream->queue_buffer(stream, 0);
-> >> -		stream->queue_buffer(stream, 1);
-> >> -	}
-> >> -
-> >>  	stream->dummy.size = pix->num_planes * pix->plane_fmt[0].sizeimage;
-> >>  	stream->dummy.vaddr =
-> >>  		dma_alloc_attrs(stream->rkcif->dev, stream->dummy.size,
-> >> @@ -132,16 +119,30 @@ static int rkcif_stream_init_buffers(struct rkcif_stream *stream)
-> >>  			stream->dummy.buffer.buff_addr[i - 1] +
-> >>  			pix->plane_fmt[i - 1].bytesperline * pix->height;
-> >>  
-> >> -	return 0;
-> >> +	stream->buffers[0] = rkcif_stream_pop_buffer(stream);
-> >> +	if (!stream->buffers[0])
-> >> +		goto err_buff_0;
-> > 
-> > Why do you move this after allocation of the dummy buffer, to then add
-> > dma_free_attrs() in the err_buff_0 error path ?
-> 
-> To keep the two rkcif_stream_pop_buffer calls together. We need to
-> allocate the dummy in any case, but in case the second pop fails we use
-> it -- this was not the case before.
+Hi Tony,
 
-I suppose it's easier than returning buffers[0] in the dummy buffer
-allocate error path. Works for me.
+Sorry for the late reply.
 
-> >> -err_dummy:
-> >> -	rkcif_stream_return_buffer(stream->buffers[1], VB2_BUF_STATE_QUEUED);
-> >> -	stream->buffers[1] = NULL;
-> >> +	stream->buffers[1] = rkcif_stream_pop_buffer(stream);
-> >> +	if (!stream->buffers[1]) {
-> >> +		stream->buffers[stream->frame_phase] = &stream->dummy.buffer;
-> >> +		stream->buffers[stream->frame_phase]->is_dummy = true;
-> >> +	}
-> >> +
-> >> +	if (stream->queue_buffer) {
-> >> +		stream->queue_buffer(stream, 0);
-> >> +		stream->queue_buffer(stream, 1);
-> >> +	}
-> >> +
-> >> +	return 0;
-> >>  
-> >> -err_buff_1:
-> >> -	rkcif_stream_return_buffer(stream->buffers[0], VB2_BUF_STATE_QUEUED);
-> >> -	stream->buffers[0] = NULL;
-> >>  err_buff_0:
-> >> +	dma_free_attrs(stream->rkcif->dev, stream->dummy.size,
-> >> +		       stream->dummy.vaddr,
-> >> +		       stream->dummy.buffer.buff_addr[0],
-> >> +		       DMA_ATTR_NO_KERNEL_MAPPING);
-> >> +	stream->dummy.vaddr = NULL;
-> >> +err_dummy:
-> >>  	return -EINVAL;
-> > 
-> > You can drop the err_dummy label and return -EINVAL directly. Except you
-> > should probably return -ENOMEM as the failure comes from
-> > dma_alloc_attrs().
-> 
-> Makes sense, will fix.
-> 
-> >>  }
-> >>  
+On Fri, Dec 19, 2025 at 8:21=E2=80=AFAM Luck, Tony <tony.luck@intel.com> wr=
+ote:
+>
+> On Fri, Dec 19, 2025 at 03:45:42PM +0300, Dan Carpenter wrote:
+> > On Fri, Dec 12, 2025 at 02:30:48AM +0900, Daniel Gomez wrote:
+> > > Maybe the flag fix just needs to be applied to the evaluation? Other =
+op
+> > > structs do the same. But Dan's patch did not implement evaluate. E.g.=
+:
+> > >
+> > > static struct symbol_op constant_p_op =3D {
+> > >     .evaluate =3D evaluate_to_int_const_expr,
+> > >     .expand =3D expand_constant_p
+> > > };
+> > >
+> >
+> > I was waiting for you to send this as a patch.  I can do it if you
+> > need me to.
+>
+> Dan,
+>
+> Al Viro thought this was wrong. His alternative patch is here:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/viro/sparse.git/commit/?i=
+d=3D2634e39bf02697a18fece057208150362c985992
 
--- 
-Regards,
+Hi Al, should I pull from your git repo
+https://git.kernel.org/pub/scm/linux/kernel/git/viro/sparse.git/
+instead? I saw there is more than one commit. I assume it is ready to
+pull. Please let me know if I shouldn't.
 
-Laurent Pinchart
+Thanks
+
+Chris
 
