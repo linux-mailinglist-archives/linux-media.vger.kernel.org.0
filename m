@@ -1,83 +1,84 @@
-Return-Path: <linux-media+bounces-53103-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53104-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sNjvJ3oxl2kcvgIAu9opvQ
-	(envelope-from <linux-media+bounces-53103-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 16:51:22 +0100
+	id CFrrJXkxl2kcvgIAu9opvQ
+	(envelope-from <linux-media+bounces-53104-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 16:51:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 123AE160620
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 16:51:22 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB39160619
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 16:51:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD6913040188
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 15:47:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EFDEB3016269
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 15:51:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1F7234A3DA;
-	Thu, 19 Feb 2026 15:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6058734A76E;
+	Thu, 19 Feb 2026 15:51:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F7mrMAFJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x1eCrl4H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76850341ACA
-	for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 15:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9875F34A3D9
+	for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 15:51:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771516029; cv=none; b=aOcqXEHNLvadcykEWodFzjzKENOCAz3PIc0ouMcJJAsO3gEg2WjRdlEtVDv4mRg3/sytnZ/63awJR6LfGotVy8qn+8SdrKBwl8+wAEB5U+Iw2qYCL+ZsvhtYSv3GOb4NuKLW3Q0lCFBVRmb/W8oxM5b6oj688H6CsEL+SieHgJk=
+	t=1771516278; cv=none; b=BfimTjlytooxLaUsmRTRJPkWPFgCxKvCmTLdKHbONgrXQkfrqcd29ztnhVwqJKHu+HyBZ9MmRWwdbO/4JWV01Q0g3vDUUo5Wa0N7YQkQqpLtKuEHHyyPRpzyHciiTH3JaHwNepy8PLAC2CtmkUuRnv+gRmrhmwiRWxOR9lwgdf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771516029; c=relaxed/simple;
-	bh=TzHq7yZav8bCw98c2j+ZEsSou8N6PSuWdtv9PXDbB7E=;
+	s=arc-20240116; t=1771516278; c=relaxed/simple;
+	bh=ODFwwXoRVjbg5ASiqI3JvCuqjJsJcoTjporBqEvLB54=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TVI/d/eP2bHKul90Sa7MVPOR18z0+aZlRsU5b5aVd8mHpz0AJIUJv6j3CZfv9pTZMXpuLqh2TGOTMxNdqiTAhQ2QPmdp8HGZ9ufuaUj8OuoKuMXg+QodJFPQJbm4PT01SKKNw+g8umLiXa4ppniGyALVcqyJt1WlHQ/C71Apz5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F7mrMAFJ; arc=none smtp.client-ip=209.85.128.48
+	 In-Reply-To:Content-Type; b=ArIh5eJavHBOjla97rCDZX/qrwGf+S9/dUn7fDAVBJ8lwd8oeGuwu5u0B9wB9orRyMc1TeS9ElaTaYIJyhgXVOrzxF2tDTN9uK+nqWW+4Yk/5rnBR2yICRCl4Yf/j2sX7xM3nUAwhciNVzKKaUWMsGrPT7ScgE0OP6FxbUnMTtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x1eCrl4H; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48336a6e932so7637305e9.3
-        for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 07:47:06 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-483a233819aso6315135e9.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 07:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1771516025; x=1772120825; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1771516275; x=1772121075; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=y/WXokARy7ojyMrrntZZoQPMIh+cmGhr9QHx5QEScEM=;
-        b=F7mrMAFJDGbXIGRGb4RotiYBsFsl5GB0tn1W3SD0W8j0+wgRb2UJVNrCzzuX2KjQ+u
-         XQDLzwh/uJ+1Kwj7js7qBWwvpx3v2UWN6E2vFJa3JRyeE3qFrMm5iUGp5P6Z20oJg8Ya
-         7hCg8z95nxb0qzB6UeaA7rKd5JinAdEl6HjJOnPgc57vcKh4kO43Il+iJIwTntxgKvdg
-         E7iv8DyRNlqeWtyMnLBOcErjkuK8pAJvKXle0SixvKiv4aMiUThtvBB37NPhOP3j6bq6
-         TU2ITz7RaDBLzi754VuiWr43EjnX0wN/D2JuX3VVj1yoo5TcTtsYmtaiH9gPXe99PdkZ
-         TLXg==
+        bh=i6bmYmrM1uJ1f/mzBWOAIkHYrJfIo9TYZxvrZO7Xg+M=;
+        b=x1eCrl4HKdsL0U/WDYJRvtF39HI5enhrfUr+2g47FPlr48ZvEL1rIcn7xF/ejJQKAb
+         pEuC/qm50Cub65Mzqzlrh3xlS1IMx/ocB7fKXVqoMhPL1rF4eyont565qeHvzEgzigJ/
+         E/qRzX04rMDA3fHXWguvsekeCtPnfnIjx9aSRniZoIwURnggzw0Kh3/Y1F96UlJQttED
+         EH8rlNwjjx1k+nY1jRz/MphLmYKSVx7LOfwY0bl8d7ldUaXMjxaHOirX/ZkAlpckRwxy
+         ClawJ6uJLZIyKFliRRcsbgiuIzE/GLjepJ6zJ2XZiC4XIg7OIKWapIj/zHooSn7mEYM6
+         LlWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771516025; x=1772120825;
+        d=1e100.net; s=20230601; t=1771516275; x=1772121075;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=y/WXokARy7ojyMrrntZZoQPMIh+cmGhr9QHx5QEScEM=;
-        b=NibvqTDjaAtf7slC1WcUXta3Cj/+LARxneonr8hXgU7PR7pp2pHYnjsuz+92sL897O
-         1LZ95dI2voh103ExD5mKyJasMOBzV42mJ7/hFMQLGATNUqi6r+K5FjuLzD+9vRjSYorW
-         JRaOUt0Y8X5YQaHDsFUGntxdFq0VOu344E+ZR9XexWU8bQdpsB/9lAX7tIrq5wVY4tGv
-         eSTUip6y/H/8K2KvMb9FKKJSybWeLp48dNPG7LF++cgnuusw6nEXMaaFbYAuhLM0C+6b
-         8B+GJKJEO+6xj2mFOG1Zc3ZMVu6bQc8ZlbbYP55Gfdjf9MQTFP8iWhOLYNd6cik5ME2+
-         n8xQ==
-X-Gm-Message-State: AOJu0Ywoi1xGYskvmLuEWYDGqCseapZTsE3Ebg4F15ToFRtAvKDcG1mf
-	0A1paX7vCrg1QNvvUQkjEbRkXZh4SBNUZZGrQJpm3HS6mQ2NPmpdpHUEbItPbTr/gDY=
-X-Gm-Gg: AZuq6aLssoeGgJCLfjPS83ca6KD2lX6uWp+k/B4Lc2nhgsJMrjnu7zxigpBDunZnTry
-	f0IaX8z6cVjaT5L5qSANRN1xY4LB8whXFCd9O+Nz+DQwg30/DsdZqvnR6gkSFHmxW352dksZzCl
-	xlS4ElF/h1AcBmus0N7ee5MqckZrz3Kx2MwGNtDL3hZNnclyzjA/qJFSiQFBOqs/Y4KkYENqptv
-	VvK9LjB8deoqUyYL6lsQJbxKqskRytTh9WadhgpnhEPxdPzFXFccv89wEtbDu0j2SomzHXBQS+f
-	lB4SP9k1hMS5mbe6EBjnp8oVSDHbgHshLd+lu6+gEi6EtG/80/zMHQUqxfZAwmaNsR4CEkuAxq/
-	sWWPhH6vZwpN4cAXHy+9zr12uNp2nND0HKh1J/k4/hstSkYggtX3Z0tcHMUpvbwuFo0T6J4Pd4w
-	/1KvbC5P1dc0QOSf/9xVqce9JsHAP2YN5+8k8K5Mpmd6ANAQ5RDcooISfTCGag7lUC
-X-Received: by 2002:a05:600c:8119:b0:47a:975b:e3e6 with SMTP id 5b1f17b1804b1-48379be8248mr307196845e9.18.1771516024632;
-        Thu, 19 Feb 2026 07:47:04 -0800 (PST)
+        bh=i6bmYmrM1uJ1f/mzBWOAIkHYrJfIo9TYZxvrZO7Xg+M=;
+        b=b41GSmovKoQBXM293LjYN3EzsdNatDzoeY2u3jEZUWsPl2IKo3XlZwdM2+9Fw6rlHm
+         4aFGtwGEgCA8i9RvRsoqQpB580FjIjkckzzXScq2tK+4eZ5tt8PjMCLvOU/tna+wJnpP
+         woF9Xt2r3A0UXUHJOSSx69t4khBUNq1g4K8QaGnxyPGKsSaEJ87zND/P1Jkz9Ehc4bwQ
+         afxtpPcAp1N+hOLIdaHBPi/0GEuBXvWOl8yTYfGXfFCDQDzwljZedAAH1CLueZPLvWhq
+         1qFNk5AQkM/ezLR2Ot3AUTJwBKgXsFbpPQxeWkDBI9IRxNVJxPysN7kcWgGDQi8QOqTG
+         5V1Q==
+X-Gm-Message-State: AOJu0YwCIl9uUtxxv1BBeruVJsrzS7HANuYY2TEebOpX4XPl71eAV6t+
+	eaJk+LaJTxABBewcnxq/h0qXsheR06GTiQt3DBXGkK/Khv/rsi3xQMZcZT9z+tTc+jQ=
+X-Gm-Gg: AZuq6aJUJQY4oKEx8kG3fJSToFN39ogQWn4oX/xHcWdBPsvDxH1aD3mFUjrQkTtLc6Z
+	ddrsh4UCi3sRytwNjQJcFH131nV9aM/EGzCVcKQ5oxvUFQDGHt58dxCK8KPZlPBxjeTrB3Y+Tjv
+	FZi+PxbO+bECbgVYhrqr+s3uJteV8Nn8m9TxEuxf67rlpPCfemsAprG1+JbjbwBDe6LvF8a21O6
+	ZKM9h5yJdyIVgLQm4D0riG/oc2T2ygoAfQa/Bk1iEiLXY0LvKrx6mYbHhncEbxd/AIYrtoBQlhZ
+	Kpp3uF27IXm2CSAIHD8y75X5Up1LTGuFvwTBCMZ8skGDSMxhTu+C2nRcl3rCZjT6D1kBGwfq6nr
+	2hEh1+7m6CjkSV/jJvzh4+hRwCBsSHxbOq26HOpo4Xgl7N9tq+jGh5Rx8j0/iNxOUJp8Ysw7bSu
+	VfiPTav3T6kghHv2rLeo1x0sTcz+3jBKyQ8JoNMNgCVRxZsH+K38qrHm4eAhOkizXiZDwfGSglF
+	L0=
+X-Received: by 2002:a05:600c:3b01:b0:477:a36f:1a57 with SMTP id 5b1f17b1804b1-48398a678e6mr97258585e9.3.1771516274692;
+        Thu, 19 Feb 2026 07:51:14 -0800 (PST)
 Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4839f9835f9sm18636785e9.19.2026.02.19.07.47.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31bc068sm9361445e9.4.2026.02.19.07.51.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Feb 2026 07:47:04 -0800 (PST)
-Message-ID: <e286c232-f307-42b3-8b3b-c25b62389c90@linaro.org>
-Date: Thu, 19 Feb 2026 15:47:01 +0000
+        Thu, 19 Feb 2026 07:51:14 -0800 (PST)
+Message-ID: <708b6179-90b9-4fe9-9c0c-738fc1c82c2e@linaro.org>
+Date: Thu, 19 Feb 2026 15:51:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,17 +86,17 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: qcom: camss: vfe-340: Proper client handling
+Subject: Re: [PATCH 2/3] media: qcom: camss: csid-340: Enable PIX path support
 To: Loic Poulain <loic.poulain@oss.qualcomm.com>, rfoss@kernel.org,
  todor.too@gmail.com
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  mchehab@kernel.org, vladimir.zapolskiy@linaro.org,
  johannes.goede@oss.qualcomm.com
 References: <20260219152737.728106-1-loic.poulain@oss.qualcomm.com>
- <20260219152737.728106-2-loic.poulain@oss.qualcomm.com>
+ <20260219152737.728106-3-loic.poulain@oss.qualcomm.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20260219152737.728106-2-loic.poulain@oss.qualcomm.com>
+In-Reply-To: <20260219152737.728106-3-loic.poulain@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -103,12 +104,12 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	DKIM_TRACE(0.00)[linaro.org:+];
-	TAGGED_FROM(0.00)[bounces-53103-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53104-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -120,193 +121,159 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim]
-X-Rspamd-Queue-Id: 123AE160620
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim]
+X-Rspamd-Queue-Id: 0DB39160619
 X-Rspamd-Action: no action
 
 On 19/02/2026 15:27, Loic Poulain wrote:
-> We need to properly map camss WM index to our internal WM client
-> instance. Today we're only support RDI interfaces with the RDI_WM
-> macro, introduce a __wm_to_client helper to support any interface.
+> Add support for CSID to PIX interface.
 > 
 > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
 > ---
->   .../media/platform/qcom/camss/camss-vfe-340.c | 94 +++++++++++--------
->   1 file changed, 53 insertions(+), 41 deletions(-)
+>   .../platform/qcom/camss/camss-csid-340.c      | 85 ++++++++++++-------
+>   1 file changed, 55 insertions(+), 30 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-340.c b/drivers/media/platform/qcom/camss/camss-vfe-340.c
-> index 30d7630b3e8b..c6ea8b6216c2 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-340.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-340.c
-> @@ -69,24 +69,19 @@
->   #define TFE_BUS_FRAMEDROP_CFG_0(c)			BUS_REG(0x238 + (c) * 0x100)
->   #define TFE_BUS_FRAMEDROP_CFG_1(c)			BUS_REG(0x23c + (c) * 0x100)
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid-340.c b/drivers/media/platform/qcom/camss/camss-csid-340.c
+> index 2b50f9b96a34..f7b4cb054c55 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid-340.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid-340.c
+> @@ -41,19 +41,24 @@
+>   #define		CSI2_RX_CFG1_MISR_EN			BIT(6)
+>   #define		CSI2_RX_CFG1_CGC_MODE			BIT(7)
 >   
-> -/*
-> - * TODO: differentiate the port id based on requested type of RDI, BHIST etc
-> - *
-> - * TFE write master IDs (clients)
-> - *
-> - * BAYER		0
-> - * IDEAL_RAW		1
-> - * STATS_TINTLESS_BG	2
-> - * STATS_BHIST		3
-> - * STATS_AWB_BG		4
-> - * STATS_AEC_BG		5
-> - * STATS_BAF		6
-> - * RDI0			7
-> - * RDI1			8
-> - * RDI2			9
-> - */
-> -#define RDI_WM(n)		(7 + (n))
-> -#define TFE_WM_NUM		10
-> +enum tfe_client {
-> +	TFE_CLI_BAYER,
-> +	TFE_CLI_IDEAL_RAW,
-> +	TFE_CLI_STATS_TINTLESS_BG,
-> +	TFE_CLI_STATS_BHIST,
-> +	TFE_CLI_STATS_AWB_BG,
-> +	TFE_CLI_STATS_AEC_BG,
-> +	TFE_CLI_STATS_BAF,
-> +	TFE_CLI_RDI0,
-> +	TFE_CLI_RDI1,
-> +	TFE_CLI_RDI2,
-> +	TFE_CLI_NUM
-> +};
->   
->   enum tfe_iface {
->   	TFE_IFACE_PIX,
-> @@ -108,6 +103,13 @@ enum tfe_subgroups {
->   	TFE_SUBGROUP_NUM
->   };
->   
-> +static enum tfe_iface tfe_line_iface_map[VFE_LINE_NUM_MAX] = {
-> +	[VFE_LINE_RDI0] = TFE_CLI_RDI0,
-> +	[VFE_LINE_RDI1] = TFE_CLI_RDI1,
-> +	[VFE_LINE_RDI2] = TFE_CLI_RDI2,
-> +	[VFE_LINE_PIX] = TFE_CLI_BAYER,
-> +};
+> -#define CSID_RDI_CFG0(rdi)					(0x300 + 0x100 * (rdi))
+> -#define		CSID_RDI_CFG0_BYTE_CNTR_EN		BIT(0)
+> -#define		CSID_RDI_CFG0_TIMESTAMP_EN		BIT(1)
+> -#define		CSID_RDI_CFG0_DECODE_FORMAT_MASK	GENMASK(15, 12)
+> -#define		CSID_RDI_CFG0_DECODE_FORMAT_NOP		CSID_RDI_CFG0_DECODE_FORMAT_MASK
+> -#define		CSID_RDI_CFG0_DT_MASK			GENMASK(21, 16)
+> -#define		CSID_RDI_CFG0_VC_MASK			GENMASK(23, 22)
+> -#define		CSID_RDI_CFG0_DTID_MASK			GENMASK(28, 27)
+> -#define		CSID_RDI_CFG0_ENABLE			BIT(31)
+> -
+> -#define CSID_RDI_CTRL(rdi)					(0x308 + 0x100 * (rdi))
+> -#define CSID_RDI_CTRL_HALT_AT_FRAME_BOUNDARY		0
+> -#define CSID_RDI_CTRL_RESUME_AT_FRAME_BOUNDARY		1
+> +#define CSID_CFG0(iface)					(0x300 + 0x100 * (iface))
+> +#define		CSID_CFG0_BYTE_CNTR_EN			BIT(0)
+> +#define		CSID_CFG0_TIMESTAMP_EN			BIT(1)
+> +#define		CSID_CFG0_DECODE_FORMAT_MASK		GENMASK(15, 12)
+> +#define		CSID_CFG0_DECODE_FORMAT_NOP		CSID_CFG0_DECODE_FORMAT_MASK
+> +#define		CSID_CFG0_DT_MASK			GENMASK(21, 16)
+> +#define		CSID_CFG0_VC_MASK			GENMASK(23, 22)
+> +#define		CSID_CFG0_DTID_MASK			GENMASK(28, 27)
+> +#define		CSID_CFG0_ENABLE			BIT(31)
 > +
->   static enum tfe_iface tfe_line_iface_map[VFE_LINE_NUM_MAX] = {
->   	[VFE_LINE_RDI0] = TFE_IFACE_RDI0,
->   	[VFE_LINE_RDI1] = TFE_IFACE_RDI1,
-> @@ -126,6 +128,16 @@ static enum vfe_line_id tfe_subgroup_line_map[TFE_SUBGROUP_NUM] = {
->   	[TFE_SUBGROUP_RDI2] = VFE_LINE_RDI2,
->   };
->   
-> +static inline enum tfe_client  __wm_to_client(u8 wm)
-redundant space
-
-> +{
-> +	if (wm >= ARRAY_SIZE(tfe_wm_client_map)) {
-> +		pr_warn("VFE: Invalid WM%u\n", wm);
-> +		return TFE_CLI_RDI0;
-> +	}
-
-Why or how would this happen ?
-
+> +#define CSID_CTRL(iface)					(0x308 + 0x100 * (iface))
+> +#define CSID_CTRL_HALT_AT_FRAME_BOUNDARY		0
+> +#define CSID_CTRL_RESUME_AT_FRAME_BOUNDARY		1
 > +
-> +	return tfe_wm_client_map[wm];
+> +#define CSID_MAX_RDI_SRC_STREAMS	(MSM_CSID_MAX_SRC_STREAMS - 1)
+> +#define CSID_PIX_SRC_STREAMS		CSID_MAX_RDI_SRC_STREAMS
+
+This I think is fairly common - PIX is ~ always the last one of four - 
+should probably be in the shared csid.h
+> +
+> +#define CSID_IFACE_PIX	-1
+
+-1 ?
+
+>   
+>   static void __csid_configure_rx(struct csid_device *csid, struct csid_phy_config *phy)
+>   {
+> @@ -69,11 +74,6 @@ static void __csid_configure_rx(struct csid_device *csid, struct csid_phy_config
+>   	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
+>   }
+>   
+> -static void __csid_ctrl_rdi(struct csid_device *csid, int enable, u8 rdi)
+> -{
+> -	writel_relaxed(!!enable, csid->base + CSID_RDI_CTRL(rdi));
+> -}
+> -
+>   static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8 vc)
+>   {
+>   	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PAD_FIRST_SRC + vc];
+> @@ -88,7 +88,7 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
+>   	 * the four least significant bits of the five bit VC
+>   	 * bitfield to generate an internal CID value.
+>   	 *
+> -	 * CSID_RDI_CFG0(vc)
+> +	 * CSID_CFG0(vc)
+>   	 * DT_ID : 28:27
+>   	 * VC    : 26:22
+>   	 * DT    : 21:16
+> @@ -97,18 +97,40 @@ static void __csid_configure_rdi_stream(struct csid_device *csid, u8 enable, u8
+>   	 */
+>   	dt_id = vc & 0x03;
+>   
+> -	val = CSID_RDI_CFG0_DECODE_FORMAT_NOP; /* only for RDI path */
+> -	val |= FIELD_PREP(CSID_RDI_CFG0_DT_MASK, format->data_type);
+> -	val |= FIELD_PREP(CSID_RDI_CFG0_VC_MASK, vc);
+> -	val |= FIELD_PREP(CSID_RDI_CFG0_DTID_MASK, dt_id);
+> +	val = CSID_CFG0_DECODE_FORMAT_NOP; /* only for RDI path */
+> +	val |= FIELD_PREP(CSID_CFG0_DT_MASK, format->data_type);
+> +	val |= FIELD_PREP(CSID_CFG0_VC_MASK, vc);
+> +	val |= FIELD_PREP(CSID_CFG0_DTID_MASK, dt_id);
+>   
+>   	if (enable)
+> -		val |= CSID_RDI_CFG0_ENABLE;
+> +		val |= CSID_CFG0_ENABLE;
+>   
+> -	dev_dbg(csid->camss->dev, "CSID%u: Stream %s (dt:0x%x vc=%u)\n",
+> +	dev_dbg(csid->camss->dev, "CSID%u: Stream %s RDI (dt:0x%x vc=%u)\n",
+>   		csid->id, enable ? "enable" : "disable", format->data_type, vc);
+>   
+> -	writel_relaxed(val, csid->base + CSID_RDI_CFG0(vc));
+> +	writel_relaxed(val, csid->base + CSID_CFG0(vc));
+> +	writel_relaxed(!!enable, csid->base + CSID_CTRL(vc));
 > +}
 > +
->   static inline enum tfe_iface  __line_to_iface(enum vfe_line_id line_id)
->   {
->   	if (line_id <= VFE_LINE_NONE || line_id >= VFE_LINE_NUM_MAX) {
-> @@ -209,10 +221,10 @@ static irqreturn_t vfe_isr(int irq, void *dev)
->   	status = readl_relaxed(vfe->base + TFE_BUS_OVERFLOW_STATUS);
->   	if (status) {
->   		writel_relaxed(status, vfe->base + TFE_BUS_STATUS_CLEAR);
-> -		for (i = 0; i < TFE_WM_NUM; i++) {
-> +		for (i = 0; i < TFE_CLI_NUM; i++) {
->   			if (status & BIT(i))
->   				dev_err_ratelimited(vfe->camss->dev,
-> -						    "VFE%u: bus overflow for wm %u\n",
-> +						    "VFE%u: bus overflow for client %u\n",
->   						    vfe->id, i);
->   		}
+> +static void __csid_configure_pix_stream(struct csid_device *csid, u8 enable)
+> +{
+> +	struct v4l2_mbus_framefmt *input_format = &csid->fmt[MSM_CSID_PADS_NUM - 1];
+> +	const struct csid_format_info *format = csid_get_fmt_entry(csid->res->formats->formats,
+> +								   csid->res->formats->nformats,
+> +								   input_format->code);
+> +	u32 val;
+> +
+> +	val = FIELD_PREP(CSID_CFG0_DECODE_FORMAT_MASK, format->decode_format);
+> +	val |= FIELD_PREP(CSID_CFG0_DT_MASK, format->data_type);
+> +
+> +	if (enable)
+> +		val |= CSID_CFG0_ENABLE;
+> +
+> +	dev_dbg(csid->camss->dev, "CSID%u: Stream %s PIX (dt=0x%x df=0x%x)\n",
+> +		csid->id, enable ? "enable" : "disable", format->data_type, format->decode_format);
+> +
+> +	writel_relaxed(val, csid->base + CSID_CFG0(CSID_IFACE_PIX));
+> +	writel_relaxed(!!enable, csid->base + CSID_CTRL(CSID_IFACE_PIX));
+>   }
+>   
+>   static void csid_configure_stream(struct csid_device *csid, u8 enable)
+> @@ -117,12 +139,15 @@ static void csid_configure_stream(struct csid_device *csid, u8 enable)
+>   
+>   	__csid_configure_rx(csid, &csid->phy);
+>   
+> -	for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS; i++) {
+> -		if (csid->phy.en_vc & BIT(i)) {
+> +	/* RDIs */
+> +	for (i = 0; i < CSID_MAX_RDI_SRC_STREAMS; i++) {
+> +		if (csid->phy.en_vc & BIT(i))
+>   			__csid_configure_rdi_stream(csid, enable, i);
+> -			__csid_ctrl_rdi(csid, enable, i);
+> -		}
 >   	}
-> @@ -235,49 +247,49 @@ static void vfe_enable_irq(struct vfe_device *vfe)
->   	       TFE_BUS_IRQ_MASK_0_IMG_VIOL, vfe->base + TFE_BUS_IRQ_MASK_0);
+> +
+> +	/* PIX */
+> +	if (csid->phy.en_vc & BIT(CSID_PIX_SRC_STREAMS))
+> +		__csid_configure_pix_stream(csid, enable);
 >   }
 >   
-> -static void vfe_wm_update(struct vfe_device *vfe, u8 rdi, u32 addr,
-> +static void vfe_wm_update(struct vfe_device *vfe, u8 wm, u32 addr,
->   			  struct vfe_line *line)
->   {
-> -	u8 wm = RDI_WM(rdi);
-> +	u8 client = __wm_to_client(wm);
->   
-> -	writel_relaxed(addr, vfe->base + TFE_BUS_IMAGE_ADDR(wm));
-> +	writel_relaxed(addr, vfe->base + TFE_BUS_IMAGE_ADDR(client));
->   }
->   
-> -static void vfe_wm_start(struct vfe_device *vfe, u8 rdi, struct vfe_line *line)
-> +static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct vfe_line *line)
->   {
->   	struct v4l2_pix_format_mplane *pix = &line->video_out.active_fmt.fmt.pix_mp;
->   	u32 stride = pix->plane_fmt[0].bytesperline;
-> -	u8 wm = RDI_WM(rdi);
-> +	u8 client = __wm_to_client(wm);
->   
->   	/* Configuration for plain RDI frames */
-> -	writel_relaxed(TFE_BUS_IMAGE_CFG_0_DEFAULT, vfe->base + TFE_BUS_IMAGE_CFG_0(wm));
-> -	writel_relaxed(0u, vfe->base + TFE_BUS_IMAGE_CFG_1(wm));
-> -	writel_relaxed(TFE_BUS_IMAGE_CFG_2_DEFAULT, vfe->base + TFE_BUS_IMAGE_CFG_2(wm));
-> -	writel_relaxed(stride * pix->height, vfe->base + TFE_BUS_FRAME_INCR(wm));
-> -	writel_relaxed(TFE_BUS_PACKER_CFG_FMT_PLAIN64, vfe->base + TFE_BUS_PACKER_CFG(wm));
-> +	writel_relaxed(TFE_BUS_IMAGE_CFG_0_DEFAULT, vfe->base + TFE_BUS_IMAGE_CFG_0(client));
-> +	writel_relaxed(0u, vfe->base + TFE_BUS_IMAGE_CFG_1(client));
-> +	writel_relaxed(TFE_BUS_IMAGE_CFG_2_DEFAULT, vfe->base + TFE_BUS_IMAGE_CFG_2(client));
-> +	writel_relaxed(stride * pix->height, vfe->base + TFE_BUS_FRAME_INCR(client));
-> +	writel_relaxed(TFE_BUS_PACKER_CFG_FMT_PLAIN64, vfe->base + TFE_BUS_PACKER_CFG(client));
->   
->   	/* No dropped frames, one irq per frame */
-> -	writel_relaxed(0, vfe->base + TFE_BUS_FRAMEDROP_CFG_0(wm));
-> -	writel_relaxed(1, vfe->base + TFE_BUS_FRAMEDROP_CFG_1(wm));
-> -	writel_relaxed(0, vfe->base + TFE_BUS_IRQ_SUBSAMPLE_CFG_0(wm));
-> -	writel_relaxed(1, vfe->base + TFE_BUS_IRQ_SUBSAMPLE_CFG_1(wm));
-> +	writel_relaxed(0, vfe->base + TFE_BUS_FRAMEDROP_CFG_0(client));
-> +	writel_relaxed(1, vfe->base + TFE_BUS_FRAMEDROP_CFG_1(client));
-> +	writel_relaxed(0, vfe->base + TFE_BUS_IRQ_SUBSAMPLE_CFG_0(client));
-> +	writel_relaxed(1, vfe->base + TFE_BUS_IRQ_SUBSAMPLE_CFG_1(client));
->   
->   	vfe_enable_irq(vfe);
->   
->   	writel(TFE_BUS_CLIENT_CFG_EN | TFE_BUS_CLIENT_CFG_MODE_FRAME,
-> -	       vfe->base + TFE_BUS_CLIENT_CFG(wm));
-> +	       vfe->base + TFE_BUS_CLIENT_CFG(client));
->   
-> -	dev_dbg(vfe->camss->dev, "VFE%u: Started RDI%u width %u height %u stride %u\n",
-> -		vfe->id, rdi, pix->width, pix->height, stride);
-> +	dev_dbg(vfe->camss->dev, "VFE%u: Started client %u width %u height %u stride %u\n",
-> +		vfe->id, client, pix->width, pix->height, client);
->   }
->   
-> -static void vfe_wm_stop(struct vfe_device *vfe, u8 rdi)
-> +static void vfe_wm_stop(struct vfe_device *vfe, u8 wm)
->   {
-> -	u8 wm = RDI_WM(rdi);
-> +	u8 client = __wm_to_client(wm);
->   
-> -	writel(0, vfe->base + TFE_BUS_CLIENT_CFG(wm));
-> +	writel(0, vfe->base + TFE_BUS_CLIENT_CFG(client));
->   
-> -	dev_dbg(vfe->camss->dev, "VFE%u: Stopped RDI%u\n", vfe->id, rdi);
-> +	dev_dbg(vfe->camss->dev, "VFE%u: Stopped client %u\n", vfe->id, client);
->   }
->   
->   static const struct camss_video_ops vfe_video_ops_520 = {
-
-Otherwise seems fine.
-
-Your series title got mangled somewhere BTW.
-
----
-bod
+>   static int csid_reset(struct csid_device *csid)
 
 
