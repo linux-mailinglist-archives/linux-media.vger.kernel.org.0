@@ -1,140 +1,177 @@
-Return-Path: <linux-media+bounces-53071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53072-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKH7EwiQlmkwhgIAu9opvQ
-	(envelope-from <linux-media+bounces-53071-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 05:22:32 +0100
+	id iKjQMCGVlmkZhwIAu9opvQ
+	(envelope-from <linux-media+bounces-53072-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 05:44:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD6715C00E
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 05:22:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A67115C0CF
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 05:44:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A68D1302AC14
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 04:22:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3150F303C2AC
+	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 04:43:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E6F6279798;
-	Thu, 19 Feb 2026 04:22:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B92029B78D;
+	Thu, 19 Feb 2026 04:43:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="z2SpYNyn"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kcP4+gNS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from endrift.com (endrift.com [173.255.198.10])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABC51D555
-	for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 04:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D9A298CC4
+	for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 04:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771474945; cv=none; b=a58pHF1CTqJz/WSB0EZGNUzOSrHGclBHPGhWn7qjwNqoVmukIAf0DqSuGNQuesLJB18jO/rYb4SuoztyFLeWRi9zrrv6ZTO5jI6rJdAyDsc4pjLR+k/J5uRGYRzUWVZvP7UIouLgMXapNiGkHZ+/2s86BS47rR2dS51avz85XdM=
+	t=1771476226; cv=none; b=s+s0BJO6+K5uxN5XTHQmDUSpKSnpRCsB7lwkkhp9FXmTh5QrZAOcNm5eeBSMpwdjIYxzfuR0YfXMuTqlwuDSwv0eO2x8opMu1yC23749FAXB4Z60vL9b/Ue+ASpF05925qCCE4qeq1yYBwgW8HwtFHo+KX0qj/uXSYgIU6fm7Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771474945; c=relaxed/simple;
-	bh=QmiFeMIwm6MIH/qQ2FxjOtiA9u5JvtUZbYFDszf6Jcw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K9P85L8Y553R3vxohTf9rTG9q/f2e8rT475njhw13DmP/jJajG/QpOn/fITqQzpZMt97UJl4egqE7Q5SRMT4SyOQkRYXxkcmzQTq7e8pVQGKcFUpJ2CVLNsb7eEUj8gj7rMggZ6JglPcKmpek/5FQP3al5yLeC41oz3mO17eBEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=z2SpYNyn; arc=none smtp.client-ip=173.255.198.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
-	t=1771474458; bh=QmiFeMIwm6MIH/qQ2FxjOtiA9u5JvtUZbYFDszf6Jcw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=z2SpYNyn6mFnAhEXq87SZ8dYObZ/7082H6gPwmqB4MlE4ZYltrFDlUQ09myFrMKfV
-	 qrfOLFQHpCvVPfbVgfjWMQGtYhWA/Xdly10vDFRq8AwZcusnjA33dpuWAsSSU5cuvQ
-	 Ci1Lakt4NM5dYC52Nhhd6hiFNcrflKsso6Liye+HWw1ovqlNlvvfgghBYPxUD3vd1i
-	 0NIA3nVLp6b71OlM4vYBlNsFLK4jxv8pIt0+4Vm9wM7LEJulhCP5lDhdEGr/WihkQo
-	 n4nn8uZ/od1OrjKefj5kZF31DnI+oQyB3UyJmPD0Sq+jDbt3U4ji0umAAYCuAUjHcb
-	 XE+Jrw4/nwnjQ==
-Received: from microtis.vulpes.eutheria.net (71-212-14-89.tukw.qwest.net [71.212.14.89])
-	by endrift.com (Postfix) with ESMTPSA id EB7FBA041;
-	Wed, 18 Feb 2026 20:14:17 -0800 (PST)
-From: Vicki Pfau <vi@endrift.com>
-To: Hans Verkuil <hverkuil@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: Vicki Pfau <vi@endrift.com>
-Subject: [PATCH] media: pulse8-cec: Handle partial deinit
-Date: Wed, 18 Feb 2026 20:14:08 -0800
-Message-ID: <20260219041410.608067-1-vi@endrift.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1771476226; c=relaxed/simple;
+	bh=pratuVAOGf7bq6R4P7Fll7ZSA31+JBME/ICQsdRNRTo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OdcMMzErSc/R20vUeQ7SJji4JRH0GiCZRLBFKbUMAhWw8PyHPiE6SnLbUQCSHKozP/UdTEVJhomOSp4TNDAxucJ5UkXeiYkpoLHsVo/tFPr3KdvD7zLXLZCWxqCoi3sa/9uxnJKonkDpWg8TG9ud8xvvVePtiRkfc8EfOzGPXoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kcP4+gNS; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Message-ID: <7b4d9e08-122b-4c4b-868e-d48ec0f59dce@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1771476212;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MzIYd8Bu6oYmjdq1gkTQwThMj3+Mr0OUwvt9JYbMgDg=;
+	b=kcP4+gNSFzT9Ojfg+u/nAE86J7X1YCQaUm0MRgc4M1bbjaYv/sUhB2LoobSiDSzjlxTWYK
+	cq1k7BbKRZCoRq80TBaGDCvJFTcp1jqbhrIUqKDk6pGLptfmyFaHzocLljJ1A5I4KeSLFf
+	KYzXLrMumHfN0sB8IyBtf5Df95DLUeI=
+Date: Wed, 18 Feb 2026 20:43:26 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [RFC PATCH v4 0/2] RDMA/rxe: Add dma-buf support
+To: Shunsuke Mie <mie@igel.co.jp>, Zhu Yanjun <zyjzyj2000@gmail.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Doug Ledford <dledford@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jianxin Xiong <jianxin.xiong@intel.com>,
+ Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+ Sean Hefty <sean.hefty@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
+ etom@igel.co.jp
+References: <20211122110817.33319-1-mie@igel.co.jp>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20211122110817.33319-1-mie@igel.co.jp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[endrift.com,none];
-	R_DKIM_ALLOW(-0.20)[endrift.com:s=2020];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53071-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[igel.co.jp,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53072-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vi@endrift.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[endrift.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yanjun.zhu@linux.dev,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 7CD6715C00E
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:mid,linux.dev:dkim,spinics.net:url]
+X-Rspamd-Queue-Id: 2A67115C0CF
 X-Rspamd-Action: no action
 
-In the event that the cec dev node is held open while the adapter is
-disconnected the serio device will be cleaned up but the cec device won't
-be. As the serio device is freed but the ping_eeprom_work is not canceled,
-the next ping will still attempt to send, leading to a kernel oops.
+在 2021/11/22 3:08, Shunsuke Mie 写道:
+> This patch series add a dma-buf support for rxe driver.
+> 
+> A dma-buf based memory registering has beed introduced to use the memory
+> region that lack of associated page structures (e.g. device memory and CMA
+> managed memory) [1]. However, to use the dma-buf based memory, each rdma
+> device drivers require add some implementation. The rxe driver has not
+> support yet.
+> 
+> [1] https://www.spinics.net/lists/linux-rdma/msg98592.html
+> 
+> To enable to use the dma-buf memory in rxe rdma device, add some changes
+> and implementation in this patch series.
+> 
+> This series consists of two patches. The first patch changes the IB core
+> to support for rdma drivers that has not dma device. The secound patch adds
+> the dma-buf support to rxe driver.
+> 
+Hi, Shunsuke Mie
 
-This patch both cancels the ping_eeprom_work in the serio cleanup as well
-as checking to make sure the serio is still present before attempting to
-write to it. Note that while the added serio = NULL line looks similar to
-one that was removed in commit 024e01dead12c ("media: pulse8-cec: fix
-duplicate free at disconnect or probe error"), it notably happens before
-calling cec_unregister_adapter, and as such shouldn't lead to the
-user-after-free that removing it fixed.
+I was revisiting your 2021 proposal around dma-buf integration with RDMA 
+and the related discussions at the time.
 
-Signed-off-by: Vicki Pfau <vi@endrift.com>
----
- drivers/media/cec/usb/pulse8/pulse8-cec.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+As you know, dma-buf usage in RDMA-related workflows has gained more 
+traction recently, and we are seeing increasing interest in 
+heterogeneous memory and cross-device buffer sharing. Given the changes 
+in the ecosystem since then, I’m wondering whether you think the 
+original direction might be worth reconsidering.
 
-diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-index 60569f1670fe5..67834ed333d32 100644
---- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
-+++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-@@ -235,6 +235,9 @@ static int pulse8_send_and_wait_once(struct pulse8 *pulse8,
- {
- 	int err;
- 
-+	if (!pulse8->serio)
-+		return -ENODEV;
-+
- 	if (debug > 1)
- 		dev_info(pulse8->dev, "transmit %s: %*ph\n",
- 			 pulse8_msgname(cmd[0]), cmd_len, cmd);
-@@ -655,6 +658,10 @@ static void pulse8_disconnect(struct serio *serio)
- {
- 	struct pulse8 *pulse8 = serio_get_drvdata(serio);
- 
-+	cancel_delayed_work_sync(&pulse8->ping_eeprom_work);
-+	mutex_lock(&pulse8->lock);
-+	pulse8->serio = NULL;
-+	mutex_unlock(&pulse8->lock);
- 	cec_unregister_adapter(pulse8->adap);
- 	serio_set_drvdata(serio, NULL);
- 	serio_close(serio);
--- 
-2.53.0
+Do you have any interest in continuing that line of work, or updating 
+the design based on today’s context? If not, I’d still appreciate your 
+perspective on what you see as the main blockers from the previous 
+discussions, and whether you think the landscape has changed enough to 
+justify another attempt.
+
+Depending on the direction, we may consider exploring dma-buf support in 
+rxe or at the core level, but I’d prefer to first understand your view 
+before moving forward.
+
+Zhu Yanjun
+
+> Related user space RDMA library changes are provided as a separate patch.
+> 
+> v4:
+> * Fix warnings, unused variable and casting
+> v3: https://www.spinics.net/lists/linux-rdma/msg106776.html
+> * Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc6+)
+> * Fix to use dma-buf-map helpers
+> v2: https://www.spinics.net/lists/linux-rdma/msg105928.html
+> * Rebase to the latest linux-rdma 'for-next' branch (5.15.0-rc1+)
+> * Instead of using a dummy dma_device to attach dma-buf, just store
+>    dma-buf to use software RDMA driver
+> * Use dma-buf vmap() interface
+> * Check to pass tests of rdma-core
+> v1: https://www.spinics.net/lists/linux-rdma/msg105376.html
+> * The initial patch set
+> * Use ib_device as dma_device.
+> * Use dma-buf dynamic attach interface
+> * Add dma-buf support to rxe device
+> 
+> Shunsuke Mie (2):
+>    RDMA/umem: Change for rdma devices has not dma device
+>    RDMA/rxe: Add dma-buf support
+> 
+>   drivers/infiniband/core/umem_dmabuf.c |  20 ++++-
+>   drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+>   drivers/infiniband/sw/rxe/rxe_mr.c    | 113 ++++++++++++++++++++++++++
+>   drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+>   include/rdma/ib_umem.h                |   1 +
+>   5 files changed, 166 insertions(+), 4 deletions(-)
+> 
 
 
