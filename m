@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-53119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53120-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eOuWFKkYmGki/wIAu9opvQ
-	(envelope-from <linux-media+bounces-53119-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:17:45 +0100
+	id oOWUEqcYmGki/wIAu9opvQ
+	(envelope-from <linux-media+bounces-53120-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:17:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF031165959
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A2E16594F
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:17:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D178030467EF
+	by sea.lore.kernel.org (Postfix) with ESMTP id BE9F43046030
 	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 08:15:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65257336EC6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64A6E336EC3;
 	Fri, 20 Feb 2026 08:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PIsXRLo4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7WmexyX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7B21DE3B7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC87C27C84E;
 	Fri, 20 Feb 2026 08:15:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771575309; cv=none; b=NZpklHVs8v66lc5oe2KZQO31U7TD20XPAlfkL9y1k+EfDrsE+xmJOWy6dATB6O89SknS3TMgZIoNYdJ2zoUmZpTFUxQRcq0tQz5aIiQDwth5NsjXBTel94qWNMo9OhRYkobG9QO806eM5E21Gu8G0XtiBlrl4J89ZAPo8uuKS8I=
+	t=1771575309; cv=none; b=FAP8EVwCEmrsy2yvU/8zhuUD8UmlbCN1eKckqNKWolbFPaIZD8ztOSJl+ExVDZXS8vihaHlyug5kfOJWn2RsAbpm2G7YPKi9eTgGmap8w+4LRyLtRI17y4xp+Dmf0tKyP7Xh/1Pi+zITv3OBt9rnJ1KJv1YoaiD5Dfk6Qx0DoOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771575309; c=relaxed/simple;
-	bh=QUFyLFVNFD15SkUE8r9Qz2zM/lufvVEda1scMmLZJpw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qgpGqacmXO6dWs18i7NPfYwCVYYfrjzcxtRpVVGTHYFWfo/SvagmMglsgDtFSGlnYayKIIDWUvlk3PnNh1BKZnnCavc/jycN1DmFJo9doBEObmP39p3/hl0XLXgnWVVegacu0Sv8b4vU+OIVZT3EExTPR41A3KYvwnYP8AyrHAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PIsXRLo4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 56051C116C6;
+	bh=g/dKe7ealZ2Roz+w0mia01uKOCP+aV0TUZ6SoON1WvU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=PSQGsF13CJvPuC+KxxOgYg62j89GQpZficTF1ig+1tt13CMP4ea6QXvuTFBdLjqbNlCZTGHapcLhnQCW/BL+oN1vMynscy28vqAH82Z/vIOLci8aJlaGR7EjgV7dLQRfyI7ymrBe7afcRGZWkBmgRqp92aKAgZ/T+pPPrjLubiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7WmexyX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 71332C19424;
 	Fri, 20 Feb 2026 08:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1771575309;
-	bh=QUFyLFVNFD15SkUE8r9Qz2zM/lufvVEda1scMmLZJpw=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=PIsXRLo4YhSPFWchUIhmNY4rNU6gTTT8qnLvScQegiGTGiKhpaLnPCpQRlz59q+UB
-	 acDCvFiSke3mFRhY5aN7VK3oWG1ewAUKa70fwbWuD/4NhkLR+1rNepFEhundb9HtjR
-	 wCD1V85+XV9tEcrh1Ltl/slBjU9zy5OSMocmR+V64Bj9CgI1w0a73rqL5ljIi5PEm/
-	 ZxAl8bMiK4odihAsfATwiYVnWfGZGA3R1DXj2jzsfRbWTFZdD9nSZt/TWFA0dlDUN3
-	 MMZ0gn/c/v206ubIpVvmhzO07Jg/csaYmTfNpuCYc7xDdzyxtSi1PmcHczEcC5yQ9q
-	 hXUjpjaMUa9wQ==
+	bh=g/dKe7ealZ2Roz+w0mia01uKOCP+aV0TUZ6SoON1WvU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=m7WmexyXFUpR564zdYVzl0jpUfbGWki2B868oYV9SvP2w1U978QnEU+GW/KUkUFYZ
+	 prX5H9PAGydDhOh4KN1gPMr2PqzkZkVAQMj9UI4X8bfBc7aeMWIoiwdgEa04Wrc0l/
+	 yNuH6GewHmQviG/dBWIgjvPYDLXtRft6D50lWpw715FYHiSYeVE9mmd1SBVUGMqfKT
+	 H7aZ6biFyUAkgLcPMwP1rpQNTOiFxSZvMeLgshLqOB/UbQOVLT2Zjd58HatB8FNYfJ
+	 XilNxGFXx446icJCucRLLpWX8LPiFVX8d37QjNTDi/k023SdGPplo65P9bgf0DJaQa
+	 vCcQMYv6sIb6Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A743C53200;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE4EC54FD4;
 	Fri, 20 Feb 2026 08:15:09 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Subject: [PATCH v2 0/2] media: rockchip: rkcif: various fixes
-Date: Fri, 20 Feb 2026 09:15:06 +0100
-Message-Id: <20260216-rkcif-fixes-v2-0-ee40931fe0ff@collabora.com>
+Date: Fri, 20 Feb 2026 09:15:07 +0100
+Subject: [PATCH v2 1/2] media: rockchip: rkcif: fix off by one bugs
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,10 +58,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAoYmGkC/22Nyw7CIBBFf8XM2jGABh8r/8N0wcDUEhEMaKNp+
- u+OXbs8J/cxQeMaucFpNUHlMbZYsoBZr8APLl8ZYxAGo4xVRlusNx977OObG1IIx7D1e96RAmm
- Qa4xUXfaDdPIrJZGPyktazKUTHmJ7lvpZHkf9s//HR40KSdtARpEN9nD2JSVHpbqNL3fo5nn+A
- pQJiWW/AAAA
+Message-Id: <20260216-rkcif-fixes-v2-1-ee40931fe0ff@collabora.com>
+References: <20260216-rkcif-fixes-v2-0-ee40931fe0ff@collabora.com>
+In-Reply-To: <20260216-rkcif-fixes-v2-0-ee40931fe0ff@collabora.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>, 
  Paul Elder <paul.elder@ideasonboard.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -77,11 +76,11 @@ Cc: Collabora Kernel Team <kernel@collabora.com>, stable@kernel.org,
  Michael Riesch <michael.riesch@collabora.com>, 
  Chen-Yu Tsai <wens@kernel.org>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771575308; l=1152;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771575308; l=2303;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=QUFyLFVNFD15SkUE8r9Qz2zM/lufvVEda1scMmLZJpw=;
- b=Npi/LRz/yYZBkJ3+diYHU47zp2Qqf54Rp4LL44ULFxsTXERqUPwiipVtlCo168v/NtIkaVUl2
- dkhVOUoKy1PCWQO+KwWkFVIYLWqPWDUI9/pqo0y7/sfrMEIJNzajgfD
+ bh=+CTMmqq/FBf0OUNoxM2h1AJhLJnTaBpUVbDN8g6FJXc=;
+ b=jkqMSDUDANKBRHHyuTdC4NY7nDzfs9Wzk6LdU8E0ORJ+OVHx360FP8JRfy5VTJk4vVrWWJ7MQ
+ HVgUvXIym14CwVEQA2gWZ/Cq0XPnkiR8U22M7NCl4m2YbgLdCjOcg6X
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -97,7 +96,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53119-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
+	TAGGED_FROM(0.00)[bounces-53120-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -115,47 +114,60 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:email,collabora.com:replyto,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AF031165959
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:email,collabora.com:replyto,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email]
+X-Rspamd-Queue-Id: 97A2E16594F
 X-Rspamd-Action: no action
 
-Habidere,
+From: Dan Carpenter <dan.carpenter@linaro.org>
 
-This series contains
+Change these comparisons from > vs >= to avoid accessing one element
+beyond the end of the arrays.
+While at it, use ARRAY_SIZE instead of the _MAX enum values.
 
- 1) a re-spin of Dan's patch that fixes some more stupid off-by-one issues.
-    This patch has been around on the list for some time, but apparently
-    has not been applied yet.
- 2) a fix that makes the DMA abstraction respect the minimum number of
-    buffers requirement
-
-Best regards,
-Michael
-
+Fixes: 1f2353f5a1af ("media: rockchip: rkcif: add support for rk3568 vicap mipi capture")
+Cc: stable@kernel.org
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Tested-by: Chen-Yu Tsai <wens@kernel.org>
+[fix cosmetic issues]
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
-Changes in v2:
-- fixed index of second buffer (Paul)
-- fixed cosmetic issues (Laurent)
-- Link to v1: https://lore.kernel.org/r/20260216-rkcif-fixes-v1-0-b16db20b6d68@collabora.com
+ drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
----
-Dan Carpenter (1):
-      media: rockchip: rkcif: fix off by one bugs
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+index 1b81bcc067ef..9e67160a16e4 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
+@@ -489,8 +489,8 @@ static inline unsigned int rkcif_mipi_get_reg(struct rkcif_interface *interface,
+ 
+ 	block = interface->index - RKCIF_MIPI_BASE;
+ 
+-	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
+-	    WARN_ON_ONCE(index > RKCIF_MIPI_REGISTER_MAX))
++	if (WARN_ON_ONCE(block >= ARRAY_SIZE(rkcif->match_data->mipi->blocks)) ||
++	    WARN_ON_ONCE(index >= ARRAY_SIZE(rkcif->match_data->mipi->regs)))
+ 		return RKCIF_REGISTER_NOTSUPPORTED;
+ 
+ 	offset = rkcif->match_data->mipi->blocks[block].offset;
+@@ -510,9 +510,9 @@ static inline unsigned int rkcif_mipi_id_get_reg(struct rkcif_stream *stream,
+ 	block = stream->interface->index - RKCIF_MIPI_BASE;
+ 	id = stream->id;
+ 
+-	if (WARN_ON_ONCE(block > RKCIF_MIPI_MAX - RKCIF_MIPI_BASE) ||
+-	    WARN_ON_ONCE(id > RKCIF_ID_MAX) ||
+-	    WARN_ON_ONCE(index > RKCIF_MIPI_ID_REGISTER_MAX))
++	if (WARN_ON_ONCE(block >= ARRAY_SIZE(rkcif->match_data->mipi->blocks)) ||
++	    WARN_ON_ONCE(id >= ARRAY_SIZE(rkcif->match_data->mipi->regs_id)) ||
++	    WARN_ON_ONCE(index >= ARRAY_SIZE(rkcif->match_data->mipi->regs_id[id])))
+ 		return RKCIF_REGISTER_NOTSUPPORTED;
+ 
+ 	offset = rkcif->match_data->mipi->blocks[block].offset;
 
-Michael Riesch (1):
-      media: rockchip: rkcif: comply with minimum number of buffers requirement
-
- .../platform/rockchip/rkcif/rkcif-capture-mipi.c   | 10 ++---
- .../media/platform/rockchip/rkcif/rkcif-stream.c   | 44 +++++++++++-----------
- 2 files changed, 27 insertions(+), 27 deletions(-)
----
-base-commit: c824345288d11e269ce41b36c105715bc2286050
-change-id: 20260216-rkcif-fixes-bdd9d3c7e4b0
-
-Best regards,
 -- 
-Michael Riesch <michael.riesch@collabora.com>
+2.39.5
 
 
 
