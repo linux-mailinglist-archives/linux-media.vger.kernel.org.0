@@ -1,298 +1,333 @@
-Return-Path: <linux-media+bounces-53124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53125-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4EPsITktmGmzCAMAu9opvQ
-	(envelope-from <linux-media+bounces-53124-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 10:45:29 +0100
+	id SD75DDkzmGleCgMAu9opvQ
+	(envelope-from <linux-media+bounces-53125-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 11:11:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C31166646
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 10:45:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5102B166B33
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 11:11:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 56F5C3022547
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:45:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A01FA3027692
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 10:10:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0110A32E745;
-	Fri, 20 Feb 2026 09:45:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C57F337BB3;
+	Fri, 20 Feb 2026 10:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="irKOSzft"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0ttO+13"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012029.outbound.protection.outlook.com [52.101.53.29])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810F432A3D9;
-	Fri, 20 Feb 2026 09:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771580722; cv=fail; b=jP0YUMXyeRRAi6GM1eISthFn6/p2WFr6RfEOZ4sw+dzxDMISULCMTDMP/CKgskVVLAq4SphLAS0xvJpUu+Mu+9rkzE1M0sE0uzD6ST9nAlwgiwJnO7ZbWVc11EI3PVJsemufgGlHU/tOmC9NEYjwBD76E+O/A0j7EONGLLV3B+I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771580722; c=relaxed/simple;
-	bh=0q2vsQFjEEcPYo7/GUI0DZRWY1cLsBMqFfGW6ijn6HI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=LE+bWGLb7yDqINbdqpxjeRxN3Fm2FsakfkCGYtJqQvRVO7SRiaGv4Lya9FRBRiCE8KG/m4PErKdUd2MIweeEhVF+6uOlwePQdUo8yE8LCp/cQu5/XlSIg45zCIIz36YBjiGGWi3nTBiLAOveLw0QjbmplOGQ5hVAPEXzeMmKtOo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=irKOSzft; arc=fail smtp.client-ip=52.101.53.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XVFVKICShWesKy15mlKsFLZklCAllM7tGpZmeN+Fjzu/4/rFBrZ+3IRtAdB4PzU+9919bnmANPaQIFLZ+WBlk4upiMIryzJN/9uWZaZrPijpRY/ITaLFbj7wjFcSw/0BWDRIHaMKqVFZmDty0n6uoHx85RPhk641JJMifyljne1XOOxR7pMxwboso8rGSwhGEmw3Qf6kel1mrTzZyPh8Oufe0PTyQbg+5ybGiAQHjdaVWmjZZJmLs+/ItTRfpi3XOlFqnGfOtklRnuaZUlc/8+ROZDdWR5USzoce/PNQ96PoCMIJv1XTJh8HYygMWqqx1inFhZrxvkdbDi2wJiTmqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nfUaEMeqn7Jk1rrNcnmHv5AW1OxnHQeSGMBKJEnOd24=;
- b=YHm1kPMMeTJiYdIphsC5GOCOE8kZv3IOnkSO1wY0aLlyr9vJ5RicNVBqARUwKvp/BkAA1aT65hVTHbhm9k6czHd0yFRx11iI/Qr9xEm7lj52bmkiVthlzEZApiFP5+eXIcNxvwQnwYutpKl0rTEEnGkMMHYrtnfBJQYmgfHSpJdcMMpo3OVDJnxK2ql8XcV5vhCspOVR6BhstC8ckgAzCjKwlzfkoSM3/smLl7YwMvTukSh2/ufwTsCXTZFJ7h2cW0HNivwY2HxfnX8xx6KuYVClzXpwYc5DwlW2xtiIKmgN/ehu4pL2jDXueLXfgbicJwDC+gWT3zbT/v1nFVsYGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nfUaEMeqn7Jk1rrNcnmHv5AW1OxnHQeSGMBKJEnOd24=;
- b=irKOSzftjKP0e7veuC8iNIkN9Rg3AGlDPvrwsUN+qUh6nPH3SM8qGy4EqcO19R0x0seKxX13PA2g9nPPRf82Y6e6Skm/Ql+7/h1NPbzP9YPgRPAeiyG7u6YOLV6Zg5ED9t7pSHd6kY8I6xsOcSkPIuYDBvNRHSeo88ix3mhzWVE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW3PR12MB4364.namprd12.prod.outlook.com (2603:10b6:303:5c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 20 Feb
- 2026 09:45:16 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.015; Fri, 20 Feb 2026
- 09:45:16 +0000
-Message-ID: <a446b598-5041-450b-aaa9-3c39a09ff6a0@amd.com>
-Date: Fri, 20 Feb 2026 10:45:08 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
-To: "T.J. Mercier" <tjmercier@google.com>, Eric Chanudet <echanude@redhat.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- linux-mm@kvack.org, Maxime Ripard <mripard@kernel.org>,
- Yosry Ahmed <yosryahmed@google.com>, Shakeel Butt <shakeel.butt@linux.dev>
-References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
- <CABdmKX0LpKJ9tw48oQh7=3CF0UR5uFtgo0OMwQhHBB40LnijyQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CABdmKX0LpKJ9tw48oQh7=3CF0UR5uFtgo0OMwQhHBB40LnijyQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0119.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA39B337B8B;
+	Fri, 20 Feb 2026 10:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771582254; cv=none; b=nNc3MK584lefoVFUxL7K3VkuBV4h22VKTKjWmltN1/GNE68x7SGNYfXZL20WBcjIq+cMPC3voYdPhba0CJnICLJzm70QWrr2l/ZDD8DngQrUIu+Cem0D6VTwN6BH1jem4vxqWU/1ov85qpOUDxiOChV/8okRkP/lIt+6Y+Hb9/8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771582254; c=relaxed/simple;
+	bh=oyCmTZ3gY6YQJLpTMgH6uGuGB1IN8/LAlTMSLHU0WN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fdTrkd5wFTeMdcq8PZrlWjmHvQTT8NoZiW9HkH8EG5EryB14+zcNcfVRu+Hqev5Xph8gjQuc9MlysNyfN9dQBxY0lQ46xajdY9UZ2q6fmlgOArqrRAzt3N7XY1BFF6BbPf5KRlFe3YvkrVTsjxhRNpr7FyoIreNUE8De+LkJ/L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0ttO+13; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771582253; x=1803118253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oyCmTZ3gY6YQJLpTMgH6uGuGB1IN8/LAlTMSLHU0WN4=;
+  b=d0ttO+13blRda5mz3wDGnAieJiGPN2df1swzQiq4kd6tGABguc8oEFzi
+   a1kH9e8TBFuCgPgYXc3wSIUkoLtvmXaS7cpA7xBllc+QmCxso7cdurFMM
+   tejAndG1eoafojfWdRw3YP2jgGJGLigfgW9usPk+ytOTE1Gb/b6igAm8e
+   5Hk5uQPrlaChWnIBxf0zBfhT43P9iXnwxT6xvUudyf6keCuxZNmGNVAMJ
+   dp4nf1vVxUILS4GWF+xq8qWEcQX263Z/f3f4CTbM+fzkeMMbP9D20MKr6
+   1wN5CrYE/FiyHgmhso86iVRIZojO8BzSlsONyS4LPGNf2bIUelKF16yzB
+   Q==;
+X-CSE-ConnectionGUID: t57xEfcYQuO2wa4XYCQ6sA==
+X-CSE-MsgGUID: lxJbLJVvS0uen7m1/kJsoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="75282904"
+X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
+   d="scan'208";a="75282904"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 02:10:52 -0800
+X-CSE-ConnectionGUID: C49wharmRryRis9PFAurIg==
+X-CSE-MsgGUID: 6g20KFMiTn64d6zrnxRZ+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
+   d="scan'208";a="214037512"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.29])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 02:10:50 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1B97811FD19;
+	Fri, 20 Feb 2026 12:11:14 +0200 (EET)
+Date: Fri, 20 Feb 2026 12:11:14 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: Documentation: Fix frame interval calculation for
+ raw camera sensors
+Message-ID: <aZgzQgYZy59phFAQ@kekkonen.localdomain>
+References: <20260219-media-fps-docs-v1-1-0387c5c5368c@ideasonboard.com>
+ <aZbdDqjogHqRvQYY@kekkonen.localdomain>
+ <177151300381.14753.2751982828623249475@freya>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW3PR12MB4364:EE_
-X-MS-Office365-Filtering-Correlation-Id: c995acdf-11dd-4550-de49-08de7064c06b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TVhPa2JEemxpVWV6T2pvOHdzdnVkcDkxOFJ3Vm1qWUtOZTVkNXBNbHV0ZnpB?=
- =?utf-8?B?YVl0eCtucUttb3VpSDRCZ2xXK0QwemptV0VKQ2RoNXJkQW1nRk13NVNQeTlC?=
- =?utf-8?B?bE9mWlZpYVpmamE0aGp6eXFwZnhoQmxEQUVtMGVsSFN1dFhDRFltNWtmUHp2?=
- =?utf-8?B?SlRYTG1wOGlSTFlZN1h6aG1Dd0xtOUc2RHh5NHNham9pOUFtbE8wTW9uK01N?=
- =?utf-8?B?bGYzL3QyZHdPR215Q05sZHVDdnhYZEV0NGtkeGhhVVQ3NlR0L3pUdFFqbmFH?=
- =?utf-8?B?aG9nWFJiSTBSY3ZCOVZNR3NHcURVeEErNVFrYWgyS0M3dDBEZkRNbUNFYW5D?=
- =?utf-8?B?UFpjYXQyWUxPeEtxUHhmQ1QxMnVmZHFXUFJhVEZobVJOaHpwMDBUaDZFYWl6?=
- =?utf-8?B?dmFtOU9ocnlIUkp5Mis0WExhV05YZDYrcXkyRldHcEw2NkxpZmVNa0dUNWRY?=
- =?utf-8?B?amJyTU5KbjAxdDl4eHBOQzhUb0dWMVovelRIWHVOMFV6S3lqSFo4ZjZnRys2?=
- =?utf-8?B?OWpnVHYzZkN1UHg2WWxIc3RhVm1Xc3lscjZDcXd6YStudHNYdEJJQzUvVzQw?=
- =?utf-8?B?RGtlajk5bHdtVFkrR05yMTMwRkdGbS9yOFltOGM5WFlCUnRFd2Q2WTBtWHZS?=
- =?utf-8?B?UmNiZzNXdThNb3UwWUJpaXJPRWtFbHU0c1NUdStMWURiOTVmc05rQTlmZ2xj?=
- =?utf-8?B?blEzYXlNY3dlRlRzcXNZclhJemtZRFEwTzhyTHliT1JkZHJXU01XVnYzU3Rp?=
- =?utf-8?B?QlFoQ3k1bzlRY2hQRkxjRU5iSmxLd1JudWJwYTl0VWJaY0RjUzRpcTJ3Y1lK?=
- =?utf-8?B?TjBWTXF3ejNCL05NdzdYY3lNd0g4ODhrOFR0ZTJpbTFCU3RqMUJPQTVvRVZn?=
- =?utf-8?B?MXRuWmUrbWZWQjI1OENKR3o4T2ZyVWVyandlNG0rRk94cXRWM1BIZHNJQmhH?=
- =?utf-8?B?cGtGQnFzSkcwRFhOVTVzWjVpTUFndzJrZGNWdU4rSVU4NVpBVkVrbGNYMitK?=
- =?utf-8?B?TjZoMExWUEhWYktQOG1ZTXFlajVEQjJVdERhem9FOUJkK2tjMWVUdStsK0F1?=
- =?utf-8?B?NkRiWGdtSEZvL3JuWFZNY2ZyVS9zVXRZN21ELzdVM0NHSXFVdXBQU2xBLzVL?=
- =?utf-8?B?eHRmTGJRMGdBM1l4eWxLRS9STGdoVFo4aEtMVXJNZVBNbnE5enpPVTNWUE5G?=
- =?utf-8?B?Qk53Nk1OcjVRaXBJTnp1cVo4d29oWUdMelV6MDNrMmFObVAxcEhqUzZoUE1X?=
- =?utf-8?B?WVpWVjRqeG10NElxamN2Z2FwWDBTR3RFaDNqdVJhQzlIUkVqaVJ5elV0RmRU?=
- =?utf-8?B?ejZWdnk1dkdSOE1sWXFnck1QMFVSVE80enJUaEtEOWl1QVlkNE5ubVJZTTJN?=
- =?utf-8?B?TEQ1K3NvbGZNYmVNZUppWFdZd0JDWUZqeFVuUDYzM1I4ZE1UQXR4MU5MeTg4?=
- =?utf-8?B?bjBjZEN3c0VkK0IyUVRJNzI0bzJLWjVWZ2w3eGdSZVFLcjV4NGhpRnlRaEk0?=
- =?utf-8?B?MjhRSXVxWVBkL2h4WGxZWkFPcjB2YURjUW8yV2tyUWZkaGVYbDRMNFVlTjdq?=
- =?utf-8?B?Ui9ob2lzME83VWwvelROMW5Ba0ZiSGJqc3pkaERFa2orcmpVTCtMR2dEMXgx?=
- =?utf-8?B?RzlFNGVVTzd3ejZuU0JibWx5MTAvcUQyREVxWmFLZmlwSDNjL3BmVzJqQi84?=
- =?utf-8?B?VjlmZVlHYi9WSXhuZnRwcjRaODlHc1FaZTc1SzBQTVNScHA4Nll4RzFEY3hF?=
- =?utf-8?B?cHVIVkpDZG4xeEt4cDZmc1BPYlFlRFhQQ3U3SFBLRW9zNS8zUVdkaWs2Q1pJ?=
- =?utf-8?B?bTBldGpqSFRNV0h6b0M3RTRPdE9LNTdwaktwOGdMaXJtbElVdE5aT0ZKS2o5?=
- =?utf-8?B?YVFKZndmZ3poRWlxOVROR0Q1R3hxenF1Tm1IMnBscjNQYkxwMkFiN2laZVVq?=
- =?utf-8?B?ZlRHQ1V1VlpjUEVaVG5ZSUw0a0FTZUNPVDhvWkl4TkoyZ20wRXAyY2xibFdn?=
- =?utf-8?B?dFliUUdzMWJZVDMxbVNudFc2NHF2R2VwLzdxRjgweERxZHRyTEtDSC94ZFpw?=
- =?utf-8?B?NE5zWlE2S1BkZkFRSC9NWWwyRUxCYWp5UHgwYklVVmJQZkVrOXRRRVczeEND?=
- =?utf-8?Q?w1tv06XiJXYkCM7IH48GmyYh6?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NmRLS2dCOUdEYjJBZW9YaDRIWGZ0cS9WaDZxVlJtSGExejVzT2ZFVjFyQmVP?=
- =?utf-8?B?Wml2TkNUVG9VWTlFeUxURW1kRG5jeVM3cG5lOWZmUEthbHEzTU1vTG93SU5y?=
- =?utf-8?B?NmZlbDA4VUczM2FkQSttOCsrWVRrVElvZUpFbzZuUDE0d0piTVBadlRQRWNm?=
- =?utf-8?B?c2ZSK3dubEl1Tk0wcVM1eWVkb2Y1ZmRQVlR4enJ4NU9IR2p0aXlrZUNmL0ZW?=
- =?utf-8?B?MW50MnRnMkJZeGFEaW1qMWszeExSK3g2b3pRWlpYSVI1M2gxVkJ4QXJWYkl5?=
- =?utf-8?B?RjZYaFQ3UHExb1g2Kzk0UkU4TDQ0THNkRGdmK0RLUkIyWFA3bTc4a1VrVnVh?=
- =?utf-8?B?VzY3TkhJUW8vWGNFd1VDZjlsZ2QwSjUrNlcydmkwWmV1OWV1TmRGTmpRR1JK?=
- =?utf-8?B?N2RueUs2RXZUVnpVSjVtdHRMajN0d2hDM3dCa01YTEpzd0gwSGtqSTl1NDdp?=
- =?utf-8?B?Ni9SSEMrUWR3MHBjTjd2U0RiLzdyTjAxbGNXa21pOGh5R3JwWTJ4ckwxR3lw?=
- =?utf-8?B?Wkhnbnp6YWwrV0pjTlZ2VkIwdXl6aVNkS0M1KzFWZFFUU3YwQml4VWwrdVlK?=
- =?utf-8?B?SDZZU1BZdjF0eHM2L1lwQlBMMkx4YUI3SSt2SFFPRVFzd2EvcGN2VzdlSGkr?=
- =?utf-8?B?WFJXZVJITEFwZUR3RmdOdTJhcnRTSmtvd3haOXE5UEl2UUtFZmp1N2UyNmkw?=
- =?utf-8?B?d2U0L21mVWZCbkRrNXZIK2Qyd1ZwQk82MW1zd2MzQmJSakkrckkzK2kwT2JW?=
- =?utf-8?B?TWQ1VWNrRFA2MmR4N3hzNk0wVCtxeUtObTlxdlZyYzc2NHE5OENLdFdwcDVh?=
- =?utf-8?B?aGZHSG9CQy9DUGNTb29KUnFzL0k0czNQOXhwS2VKRzI1RXdQRVMrWE04T0c2?=
- =?utf-8?B?a2pRQkU2Z0c3MnIwZHVFUVFQN3VCb3ZGUHFHV1ZUdVhNOWVoaE5JZWYrSTJt?=
- =?utf-8?B?K2dLMEozeG5Jcy90d09CdXllZzFCdUNIUlI1SVliT3FVMUIybzYwUTRldTBF?=
- =?utf-8?B?Zi9ROXhtTXFlRzJiY0JvVnhpb2pYSVBTRWtudUNTVTE3bkFXdHBFTlJpMkNm?=
- =?utf-8?B?enJDUjB1L21lYm80UlpzSG9EbFphaisrYWpzbE1tWWkrT05RVlJxTDltNEE5?=
- =?utf-8?B?dWp4RjJxbWRzMDNkenlhRHhDWjBxUUpJYVJkV1pyT29xYWduVnBBS3FUN0NL?=
- =?utf-8?B?K1Fqb1JDL3RoaUs1K3FiNG1JQXFiWWh5U2VSLzlKQ1ZCZ05mbFNoU3ZDTFVn?=
- =?utf-8?B?dXhEWlhkaUh1UWRCVjNRbkhBa0dyMGNGbTh0ME44aWhoUVVaV21CUDlOT0Vq?=
- =?utf-8?B?bWxxTmtmRlpMYmkrQ0VMOVk5cHpWNkJZY0ErRzFZY3cydktiNWpuWDRXeGNu?=
- =?utf-8?B?RmYvREMxRW9pOUFFczBGbFZvQmdzMmtRbXdPVklSZTRwSUNTNllKWVpxWXdU?=
- =?utf-8?B?TkVrQ0VuWVhYdHUzWWV1VVdzZ3M2eTM5RU1ZdmJEbWhnSWp6aEx6VGJDWklM?=
- =?utf-8?B?ZXZ3L1EwcHlNUW8rQTdST3pIMXBMMXZtNWh3ZGNnNlJEckh2Nko4UGV2YitV?=
- =?utf-8?B?bnZZeUNESlpIczlxWnFEQzhuLy8xOWdjNU90SE42dXRQM0I4aE9DWStneC94?=
- =?utf-8?B?QWRSYlZJVTlOUUVJT0ltNmQxcmsxYmxIUTdpMWhiaWFGSmxuSHJRS1JjUWVY?=
- =?utf-8?B?Q0dTblgxb2ZEY0Ria0ZTVGo3akNHSnYxTHlxTlMxdFlPcXZGLzB2NXBPWFp5?=
- =?utf-8?B?dVBHdWlrOUo0NG9OUlJ2Zk51L1c2bEhkdWNFREhKYTl3Uyt1UU1kdnBNeTY2?=
- =?utf-8?B?a25LYnJuNzQxUGpRM3ZOTTkrUkhJb01SSmdDTmRIMlE3OW0vN2Fnd3ZOR1lT?=
- =?utf-8?B?NGR5eDNOSWYxV0k1Qm9vdmNXVXpiNHA2SDVwTXNXaWVLWXRCRXljRWltZkho?=
- =?utf-8?B?cUx0VUM2UUZCaDhqK0VtN2xrdGdydktqNzBGTGU3bEZ0eU40S2dxQlAwNFVR?=
- =?utf-8?B?dWlPYVFZbDlmaStXN2dheWdsTXNBUXY2NStrbTJrdjNidlF4TlYveVpKNWRO?=
- =?utf-8?B?bkQvRnA2RVd6ZitqV1lja1I5Tnp2VG51emRYb0FOcFYzc1E3bEJRRWxzem9H?=
- =?utf-8?B?R2Y0aVFKa2htb0ttb3RLVmc0dnNpczlJV0I3cUg3eXoxZmxxb3NqWFhIV0Nr?=
- =?utf-8?B?U2RXZjNLSGtkMkNRdkk4M3VLUzFYM2RHMnNRZlQ5RUk4ZTlHd29nU25tNEVQ?=
- =?utf-8?B?TFR0T0dNQzFRcmRTVTNWQXROa2V4K2pVQ1pyTjFFc0FlRnJzaEhKdVVmUnlH?=
- =?utf-8?Q?7Yj5Y0QN0p9+QtEAzH?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c995acdf-11dd-4550-de49-08de7064c06b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 09:45:16.2283
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4u9AU1e1kuNGytMCDKLprhAe1+6RoLdYPuVVlpxBCGtR/lTy0SBwk5TETjfTIyDL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4364
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177151300381.14753.2751982828623249475@freya>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53124-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53125-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amd.com:mid,amd.com:dkim]
-X-Rspamd-Queue-Id: 07C31166646
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5102B166B33
 X-Rspamd-Action: no action
 
-On 2/20/26 02:14, T.J. Mercier wrote:
-> On Wed, Feb 18, 2026 at 9:15 AM Eric Chanudet <echanude@redhat.com> wrote:
+Hi Jai,
+
+On Thu, Feb 19, 2026 at 08:26:43PM +0530, Jai Luthra wrote:
+> Hi Sakari,
 > 
-> Hi Eric,
+> Thanks for the review.
 > 
->> An earlier series[1] from Maxime introduced dmem to the cma allocator in
->> an attempt to use it generally for dma-buf. Restart from there and apply
->> the charge in the narrower context of the CMA dma-buf heap instead.
->>
->> In line with introducing cgroup to the system heap[2], this behavior is
->> enabled based on dma_heap.mem_accounting, disabled by default.
->>
->> dmem is chosen for CMA heaps as it allows limits to be set for each
->> region backing each heap. The charge is only put in the dma-buf heap for
->> now as it guaranties it can be accounted against a userspace process
->> that requested the allocation.
+> Quoting Sakari Ailus (2026-02-19 15:21:10)
+> > Hi Jai,
+> > 
+> > Thanks for the patch.
+> > 
+> > On Thu, Feb 19, 2026 at 01:20:50PM +0530, Jai Luthra wrote:
+> > > The previous frame interval formula used analogue crop dimensions. This
+> > > breaks down for some sensors when binning.
+> > > 
+> > > For example in imx219 the minimum FLL (frame length in lines) can be
+> > > lower than the analogue crop height when binning, which would require a
+> > > negative VBLANK to represent the actual timing. Similarly, imx283 allows
+> > > a lower minimum HMAX (line length) when doing 2x2 or 3x3 binning than
+> > > the analogue crop width of the full resolution mode.
+> > 
+> > V4L2 integer controls are signed so using negative numbers is a non-issue.
+> > CCS already does this in some cases actually.
+> > 
 > 
-> But CMA memory is system memory, and regular (non-CMA) movable
-> allocations can occur out of these CMA areas. So this splits system
-> memory accounting between memcg (from [2]) and dmem. If I want to put
-> a limit on system memory use I have to adjust multiple limits (memcg +
-> dmems) and know how to divide the total between them all.
+> Ah, I see. Control being negative was not the only problem, as it would
+> also diverge from what sensors and applications already do, but I see you
+> agreed on that below :-)
 > 
-> How do you envision using this combination of different controllers?
+> I'll update the commit message to make this clear(er).
 
-Yeah we have this problem pretty much everywhere.
-
-There are both use cases where you want to account device allocations to memcg and when you don't want that.
-
-From what I know at the moment it would be best if the administrator could say for each dmem if it should account additionally to memcg or not.
-
-Using module parameters to enable/disable it globally is just a workaround as far as I can see.
-
-Regards,
-Christian.
+Ack.
 
 > 
-> Thanks,
-> T.J.
+> > > 
+> > > The CCS specification also describes under section "8.2.6 Line Length
+> > > and Frame Length" how the horizontal and vertical readout minimums can
+> > > be different when binning.
+> > > 
+> > > Replace the formula with the underlying hardware concepts of LLP (line
+> > > length in pixels) and FLL (frame length in lines). These terms were
+> > > chosen to match the CCS specification on raw sensors, as it is a cleaner
+> > > reference compared to a typical sensor vendor datasheet.
+> > > 
+> > > Finally, define the blanking controls relative to the active pixel
+> > > readout (post-binning) rather than the analogue crop size. This matches
+> > > what most sensor drivers already do, and also what applications like
+> > > libcamera expect. In "Figure 42" of CCS specification too, we see a
+> > > similar definition:
+> > > 
+> > >   frame interval = (output width + HBLANK) *
+> > >                    (output height + VBLANK) / pixel rate
+> > > 
+> > > Also add a note in the "Writing camera sensor drivers" guide, to ensure
+> > > this formula is followed by new sensor drivers.
+> > 
+> > We're about to require implementing the common raw sensor model soon by
+> > essentially all new drivers so documenting the soon-to-be-obsolete state
+> > has limited benefits.
 > 
->> [1] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org/
->> [2] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ecc6b62cc446@redhat.com/
->>
->> Signed-off-by: Eric Chanudet <echanude@redhat.com>
->> ---
->> Changes in v2:
->> - Rebase on Maxime's introduction of dmem to the cma allocator:
->>   https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org/
->> - Remove the dmem region registration from the cma dma-buf heap
->> - Remove the misplaced logic for the default region.
->> - Link to v1: https://lore.kernel.org/r/20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com
->>
->> ---
->> Eric Chanudet (1):
->>       dma-buf: heaps: cma: charge each cma heap's dmem
->>
->> Maxime Ripard (2):
->>       cma: Register dmem region for each cma region
->>       cma: Provide accessor to cma dmem region
->>
->>  drivers/dma-buf/heaps/cma_heap.c | 15 ++++++++++++++-
->>  include/linux/cma.h              |  9 +++++++++
->>  mm/cma.c                         | 20 +++++++++++++++++++-
->>  mm/cma.h                         |  3 +++
->>  4 files changed, 45 insertions(+), 2 deletions(-)
->> ---
->> base-commit: 948e195dfaa56e48eabda591f97630502ff7e27e
->> change-id: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
->>
->> Best regards,
->> --
->> Eric Chanudet <echanude@redhat.com>
->>
+> Makes sense.
+> 
+> > 
+> > But the UAPI documentation remains relevant for quite some time, please see
+> > my comments below.
+> > 
+> > > 
+> > > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> > > ---
+> > >  Documentation/driver-api/media/camera-sensor.rst   | 11 ++++
+> > >  .../userspace-api/media/drivers/camera-sensor.rst  | 59 +++++++++++++++-------
+> > >  2 files changed, 53 insertions(+), 17 deletions(-)
+> > > 
+> > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > index 94bd1dae82d5c570b2d11c7faee20dd45d2f4be6..8dcac7551f54ac4ffa71173281ae3bbea331c036 100644
+> > > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > @@ -120,6 +120,17 @@ The function returns a non-zero value if it succeeded getting the power count or
+> > >  runtime PM was disabled, in either of which cases the driver may proceed to
+> > >  access the device.
+> > >  
+> > > +Frame interval
+> > > +--------------
+> > > +
+> > > +If a sensor supports cropping or binning, it is the sensor driver's
+> > > +responsibility to ensure that the frame interval formula (see
+> > > +:ref:`media_using_camera_sensor_drivers`) remains valid regardless of the
+> > > +pipeline configuration. The driver shall adjust the minimum and maximum allowed
+> > > +values of ``V4L2_CID_HBLANK`` and ``V4L2_CID_VBLANK`` as needed when the mode
+> > > +changes, so that application developers can always rely on the same formula to
+> > > +calculate the frame interval.
+> > > +
+> > >  Rotation, orientation and flipping
+> > >  ----------------------------------
+> > >  
+> > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > index 75fd9166383fdbb2dabdb6384ed0904c4e78a3c6..30dddea72a12da264fc9c30e37b561c762c09d29 100644
+> > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > @@ -49,35 +49,60 @@ depends on the type of the device.
+> > >  Raw camera sensors
+> > >  ~~~~~~~~~~~~~~~~~~
+> > >  
+> > > -Instead of a high level parameter such as frame interval, the frame interval is
+> > > -a result of the configuration of a number of camera sensor implementation
+> > > -specific parameters. Luckily, these parameters tend to be the same for more or
+> > > -less all modern raw camera sensors.
+> > > +Instead of a high level parameter such as frame interval, the frame interval on
+> > > +a raw camera sensor is determined by a number of sensor-specific parameters.
+> > > +These parameters tend to be common across most modern raw camera sensors.
+> > >  
+> > > -The frame interval is calculated using the following equation::
+> > > +The pixel array is the full grid of photosensitive elements on the sensor. A
+> > 
+> > s/sensor/camera sensor/
+> > 
+> 
+> Will fix.
+> 
+> > > +subregion of it is selected by the analogue crop. The cropped image may then be
+> > > +subject to binning (averaging of a NxN block) or subsampling which
+> > > +further reduce the image dimensions. The resulting image is then read out by
+> > > +the ADC (analogue-to-digital converter) line by line. After ADC readout,
+> > > +optional digital crop or scaling may further reduce the image dimensions, see
+> > > +:ref:`VIDIOC_SUBDEV_G_SELECTION <VIDIOC_SUBDEV_G_SELECTION>`.
+> > >  
+> > > -     frame interval = (analogue crop width + horizontal blanking) *
+> > > -                      (analogue crop height + vertical blanking) / pixel rate
+> > > +The frame size is determined by two timing parameters: line length in pixels
+> > > +(LLP) and frame length in lines (FLL). These are fundamental sensor timing
+> > > +registers that control how fast the ADC reads out the image. They may go
+> > > +by different names for a particular sensor, like HMAX and VMAX, or HTOTAL and
+> > > +VTOTAL, or similar.
+> > >  
+> > > -The formula is bus independent and is applicable for raw timing parameters on
+> > > -large variety of devices beyond camera sensors. Devices that have no analogue
+> > > -crop, use the full source image size, i.e. pixel array size.
+> > > +LLP is the total number of pixel clock cycles per line, including both the
+> > > +active readout width and horizontal blanking. FLL is the total number of lines
+> > > +per frame, including both the active readout height and vertical blanking.
+> > > +
+> > > +The frame interval is::
+> > > +
+> > > +        frame interval = LLP * FLL / pixel rate
+> > 
+> > How would this look like if you spell out LLP and FLL? The rest aren't
+> > abbreviated either.
+> 
+>         frame interval = (line length in pixels) *
+>                          (frame length in lines) / pixel rate
+> 
+> This reads much easier, thanks for the suggestion, will update it in v2.
+> 
+> > 
+> > >  
+> > >  Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > >  ``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> > >  is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > > -the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > > -sub-device. The unit of that control is pixels per second.
+> > > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the
+> > > +same sub-device. The unit of that control is pixels per second.
+> > > +
+> > > +The blanking is defined relative to the size of the image being sent out to the
+> > > +host over the bus (like CSI-2)::
+> > > +
+> > > +        LLP = active width + V4L2_CID_HBLANK
+> > > +        FLL = active height + V4L2_CID_VBLANK
+> > > +
+> > > +The driver shall set the minimum and maximum values of ``V4L2_CID_HBLANK`` and
+> > > +``V4L2_CID_VBLANK`` such that the resulting LLP and FLL values correspond to the
+> > > +range permitted by the sensor hardware for the current mode. Sensors that
+> > > +support binning often define a lower minimum for LLP or FLL registers, which
+> > > +can help achieve higher framerates when binning.
+> > > +
+> > > +Application developers can calculate the frame interval using the output
+> > > +dimensions and the blanking controls::
+> > > +
+> > > +        frame interval = (output width + horizontal blanking) *
+> > > +                         (output height + vertical blanking) / pixel rate
+> > 
+> > This is indeed what many presumably non-CCS sensor drivers implement. Are
+> > there any that would use the crop rectangle (the imx219 doesn't seem to)?
+> > For user space variance in this area is of course bad.
+> 
+> I am not aware of any, but I haven't checked all drivers.
+> 
+> The ones I checked (IMX219, IMX283, IMX335, OV5647, OV5640), all set:
+> [h/v]blank = [h/v]total - mode->[width/height]
+> 
+> So IMO updating the documentation to match that is simpler.
 
+I agree. I was just wondering how consistently this was done over the
+years.
+
+> 
+> > The common raw sensor model introduces two new controls for the purpose so
+> > we could re-purpose the old VBLANK/HBLANK controls for this -- apart from
+> > the CCS driver.
+> > 
+> 
+> I guess that's my final cue to finally take out time and read that series
+> properly :-)
+
+The two new controls will be part of the new version which I hope to post
+soon. I'll cc you when I do.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
