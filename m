@@ -1,151 +1,218 @@
-Return-Path: <linux-media+bounces-53115-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53116-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oLspJbiBl2kOzQIAu9opvQ
-	(envelope-from <linux-media+bounces-53115-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 22:33:44 +0100
+	id 6DucHJ+1l2kf6wIAu9opvQ
+	(envelope-from <linux-media+bounces-53116-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 02:15:11 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB05162D1F
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 22:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB241641C8
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 02:15:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7C6BE30180BF
-	for <lists+linux-media@lfdr.de>; Thu, 19 Feb 2026 21:33:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C3D1D301A70A
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 01:15:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C85792773D8;
-	Thu, 19 Feb 2026 21:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFD42222B2;
+	Fri, 20 Feb 2026 01:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kLTSCP9L"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GNgPSX1z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077BF2E973F
-	for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 21:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771536817; cv=none; b=puy6gYadJTGtIT9Rj6uoJOG5MszfYCs4h5UO6O7wcQS7h+4l/TUTPCV8K27P0nh37wflZiKxdlBzzPR4HzW1R6YE2t+wHHR4JzyI2ae9PbREqsWrdjq2S3pC1VD/raL+qiq1Pnz0EHCg4OpgCwxdYCWaENWwLzyW4iTXypeBQ0w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771536817; c=relaxed/simple;
-	bh=tu9ih7VZyOrVQGXfc5NQvAvrv8wd9KH/F6tOAs57jrI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V5vs4uxv5FqBmACF2Q2gPFLEF2PTj6jHE1JkAnxr2KSkTId1IV7g5Hd3s+QXwKcAvD/hsclsekqmNANxWyjW62qDSz0/8PB/izJgxlR7ru2RQDQOdo9oK/hN3MkX6+Rv4G1jtKVE7dtjdJGpIcNvDYRYsey9rCy8Ft+2dw+xdsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kLTSCP9L; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4834826e555so13668155e9.2
-        for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 13:33:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F5B1DED63
+	for <linux-media@vger.kernel.org>; Fri, 20 Feb 2026 01:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771550100; cv=pass; b=VjQlIOXxnlnnHDdDW0LFyj4iiXbzTzORrJNZcP3fte+Sa1eFVTI3NaMI6YaFgdpTDphtkSQxtGs2guS0yGaIGDmP8xNM9AauE4FMKdX+hnGwCLq7L7XXpo78EDkZ6WDAutXp1D8OxtiDsCgWI07cF1yB9/HTxJwEAf40C9lZCCs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771550100; c=relaxed/simple;
+	bh=Euel4yQBIOk0xKSQpfoEpS6OErkxVXjZD9w8QY1ZOxA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ti22Owwmg51thedOCLeSw3pC9GTjniLLcCgC/ds88pmUPB7o+/QkZZzL6SWRZ8BDbqzJ6WibG2yasErqJRcwCSD+LGjeiGWExX3igExUrgvrsZH/8ssOrCKkH6aFPEhiiSt8OTn55abdA5R5Lrmxsqtopv0otmcH+rtkJHTLu/g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GNgPSX1z; arc=pass smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48371d2f661so18735e9.1
+        for <linux-media@vger.kernel.org>; Thu, 19 Feb 2026 17:14:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771550097; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EkuI+iz3UC5MUOGy42S34P8xOagb+gyZWbYKmj6ivMrg9R7VHwripzVB1T8ae5CaVx
+         KO2LZbbktaBxUhP9g+Qhn80Fnc/Lr2csioDtxW4HRnXKtzr3def7on5N7l97fzksHExc
+         GaHkUkAnTC3G6y0Uyik9Sp5e1rzYhGdRkoE571ugSPX03izD8qHzD6DIpHW56JM+/kfD
+         Vo91DdOgBy9X6gIQM1GbM6SJL60WdngGzqLCykxNS6U+OERpccK+w0zkReiLURG0ZejG
+         gnq+lhPICTQLiIoUltXIzuzoKbUvptC0x+HWd0iE9clKcKZCuKsmnJmbfOrfVm+PotiF
+         JRBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nmKdALZJb5FBSVFY2g/62lb/+tq0bPSvdEv6SUxXw5M=;
+        fh=uvVFCKG3S4XUmCkk9zn2Dv6n/p40nhfqPLs3E7DgKYs=;
+        b=ZxZlqDTK+R0yDq7ozei8MH/4XFjFrHyNpLKuVeew3mcsjM0nszdH+5wuDl0e7aKCNw
+         1I2ZbbouS8POeFthDFHNDE2b8z+q5Zb0F3pI3yESdUatZbER1aAwDDhTuOquKIEI/82i
+         WD3Yzyidjeu3+ptCzZtCuYzABkC9ZeGGcr66xa9LtQBXJ7hUvWUnbdd8fLx0yb7a3dMk
+         fkS6enCE9upKjZ8xfikT90WE+vohCmvaJZdf1Iir30BpJrxY5DRc9iH1ZXJuujazwb3s
+         uHUyIi7LwxDz0LLcmRyaSYMs96SdHH+HbNnxPJ/aOpb524MPcd1aRufS9fOC+vOJSqGk
+         Ib0A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1771536814; x=1772141614; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/dHv3d+j2SWXa8nq/pQE5e1PmAwAPgRUcEDzB12u8vY=;
-        b=kLTSCP9L0eAczgXf1qcnpLMaApoHk5C0rL2ZB/rplhxYk0msDAU3xsmyZcFnjtHZRp
-         O3ApfwesTG/bFWj67uQxmxChGjsfiTvHtuBwlbDZLRYatmsZH62ve9XdEon0EhK6wLKD
-         27yQgzgKuWamDRFEP2NRuYn6F7rl0VX2Tyw2+rcWk9UvoKu0xhggnFveVnFZ8JnDji8A
-         LxOVeoFTpRjGC1eI9jBe9Lc9hes+48QVCpbERueUbKKRkfgUTfIwqYZ9gkiTJdaIS1m5
-         XxuBq1yDDrwhZJ6p67BNk9V/y9m9pgV4esUNoVvTUhOX16ydr1bdwaNMgb3KM/HqrnOP
-         1Iaw==
+        d=google.com; s=20230601; t=1771550097; x=1772154897; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nmKdALZJb5FBSVFY2g/62lb/+tq0bPSvdEv6SUxXw5M=;
+        b=GNgPSX1zFnnVRAztGeVbbOI+R370ydixI44VC5c2+qqc6Thg9LnFdq/jLV+zmFSwco
+         hZKfkw+ZSvUg/GMyMU1LLF9ZgwfIcFIoZEnXvv3Xfxx23OrX8yhkBV8kIfGCItwZyNuw
+         lpoORIgm7mxvclJgryKEVMQoDemOypG4HMKAXyp2fmzrW7vQIWeC5Nqb2En20mvEtkZD
+         qWUh3LaSmWue3MkBhCnC7jqF2qUDU0gQzK1i32bbhQZO5yuWUUmLITp349Y9p48qqG04
+         e7FKHrm0H8bKrS3CSNGg6sxbVopGuk+OM5Hb7Hv40vclyuN5jS+Koiu23g3Rw2DWVkGT
+         HsGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771536814; x=1772141614;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/dHv3d+j2SWXa8nq/pQE5e1PmAwAPgRUcEDzB12u8vY=;
-        b=LTC25YoNT6bOEIx2ozL6Xg1xcv9BTyv7FrBJy+sCk5UeMI1jJrKB60n5nORlhyZ4j5
-         NnJnnyHzt894oZGttOCv1BMgchVukvbZFETXA4zmWZOA55bL5yh2le/ku8q8VQf06PyY
-         GpSQErz9Qw2it3ppCWP5qYKUrf+Msg7haPmoroNnDNXmEHDAHTB8lhsdF4tEw9kUDhmt
-         2lWDznifg9YNnt9d7/gefO1Z24QKImN+bYKMQCjCZcYod34iv/yjUG2GPXeCwLkfItho
-         dDxuhQUH1QXk7XsV6dqFoqCXrs+00Ttk2nOtxwf/fZSY+vL/hTdJzP9voNmMg67XtGXK
-         z0BQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX2OxfJo27B2V4n7tcwCe5xRZVSQTWhYPPxi6LoTbOxTcH7xQQYVm2exWhNe3SHpaG9ZTZRsO7cODVp+A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzYKVKyWXzs9zLo3AnHwZ0hvULabvU/Eya2elsDJ7dlgO5ccKP
-	8ep2RLkT2HPXKJCw0jNC8P9M2poce0SnRaw2wnS2v1IIWzIriP/Qm6GfqjmW4EkrLeU=
-X-Gm-Gg: AZuq6aKlQo+GSA+QfxDhKazjeb1+cmwWJQkioABVExaMgjSdqlqZEjcT6t2mavU9DrQ
-	pxI+weEGcdKluN1Duly/i7LXB8g8b4uop0uHpQLGDXPMyNt8PKLIHwOk4F9qHG0OWS1pPBUDkyH
-	YKT+WzSW90GUsXDty5zIx1SfU9LuC+x9egvM8POcbNVvB3iDAI6oyp7nMKn7XVeTxtoyOnM8REl
-	xaiuowpL92M75qdHgoHDwdCXxv6mt+F5LAfDTSAqxfoYBZM3T85RCIQMtZECkOd364+dgrulw/t
-	xjwQcQTjiyr0YPJPL0HSCITfnfid6xy8e8LAi6SsdC2FSJwPRAq8ZXvgRauVxjPYVgK589gs1qU
-	8KM1I+g3mc6eFbHilEttyJsE9mxph70ev0h47G8dEIZZ6T30z9ZSHSXxv4aaViiWgIaqDBvIwPW
-	i1DmTODewIULWGrl/mBKGuSy1Pzqips+j/iuj6PonIHWt5w8YMvK0SR5UkMbdwP5xN9ZOpbwfgl
-	FM=
-X-Received: by 2002:a05:600c:8b61:b0:480:1b65:b744 with SMTP id 5b1f17b1804b1-48379bf7907mr294890925e9.28.1771536814197;
-        Thu, 19 Feb 2026 13:33:34 -0800 (PST)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796abcda5sm55517687f8f.19.2026.02.19.13.33.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Feb 2026 13:33:33 -0800 (PST)
-Message-ID: <3fcce591-cf13-4f3c-95ea-03df3ac9f5d4@linaro.org>
-Date: Thu, 19 Feb 2026 21:33:58 +0000
+        d=1e100.net; s=20230601; t=1771550097; x=1772154897;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nmKdALZJb5FBSVFY2g/62lb/+tq0bPSvdEv6SUxXw5M=;
+        b=qCJUn6QtcGq/nZQC7YbkHU+fhOlsURP5ZlqRkk4a9rAEQBFTgeJfWWq9o5WNtGVeaK
+         64f8tdcQpdNBozhflYZkBTJl7OcD0HFe0lBfMnGpybIyx+Sk3GKN1ncBbqCAtP2bVZ7z
+         bDVwHSJRqVZIwfqm6E4tENdakFo3wOGIumtJCAq+KIXmKi38lLBjMxo46xduvfdwL7hg
+         XGcSfyM4m/yr23U4zh0A0DTWcr84CyBw6bDoOqvntsq0IpxdTq68qk2jvtucEObZQ6mZ
+         JRP9vittn3tRE0yaD8rqCPxyLrWHlyb2dLjOm5MUd1u168xtkFLbwkviqe6qnvidUP26
+         PwBg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmzlhG9UFGqOvEUI8plRM3+eNJp4Kj0vBeigCLG0SrBWxJGjpexSJiOLxXmZg0U/+KOLHQmEPDj0SYKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJqXvSwyEW+Ah7TFx/x18SOsuZB69Y2/0bt3H7wEWzh0teCqXl
+	HACW1RYigBqWpVRx5b6a9KgpiseL5AmkuXBQK5HLDkHlf/od0tCzcSbO0gd3v9P/K+m8S/EJ40l
+	2wvUKFSny+7/rQPgrhH5dpBiQXyFl8CCiiCzvPnRy
+X-Gm-Gg: AZuq6aJM/c2OEmXDm1tQIfFFimZYFM8CaRDspilnbXc2UHM/+8EBvtYtjNsC3DPzqBb
+	NoGgJ8XUqtxkP1QHl+bxXGLLO+zjJIH3A1nOiWrGpzPUB2vVczo9DvRGugJP0PUs/f0e/RtPuxi
+	79KAs/zVZL61DoUC2KIgRLo9lSe93UyNDLLBT2y0Ul1VW0RTyi6U67o9trD4cTlD1qv43YqB6JN
+	IVCPcEFr4Ly4+1YicyJC27CSpVpFpRVxf35/uXp1RLAoNzZo5FPlHFZ3XZ2bW0XBg/oflxIfGd8
+	TkQWik8trOJgaJJ86AWNXPcrgUOdqT7X6JmK1xQpRSlY5V93Yaq38BBGSBubl771p0Q2GIQO1No
+	fTiNM
+X-Received: by 2002:a05:600d:108:20b0:483:7f52:162b with SMTP id
+ 5b1f17b1804b1-483a3e452bcmr287525e9.0.1771550096636; Thu, 19 Feb 2026
+ 17:14:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] media: qcom: camss: csid-340: Enable PIX path support
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: rfoss@kernel.org, todor.too@gmail.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, mchehab@kernel.org,
- vladimir.zapolskiy@linaro.org, johannes.goede@oss.qualcomm.com
-References: <20260219152737.728106-1-loic.poulain@oss.qualcomm.com>
- <20260219152737.728106-3-loic.poulain@oss.qualcomm.com>
- <708b6179-90b9-4fe9-9c0c-738fc1c82c2e@linaro.org>
- <CAFEp6-2-Kck-uL3jx5GjRpcfUSgXN+82uCo_tqtybNBF+mBT-Q@mail.gmail.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <CAFEp6-2-Kck-uL3jx5GjRpcfUSgXN+82uCo_tqtybNBF+mBT-Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+In-Reply-To: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 19 Feb 2026 17:14:42 -0800
+X-Gm-Features: AaiRm51VY-6IMlt-ihglkgENMjUfEiHWPo38nPxJvuL5b9iXSTZyagxYxax_pqI
+Message-ID: <CABdmKX0LpKJ9tw48oQh7=3CF0UR5uFtgo0OMwQhHBB40LnijyQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, Maxime Ripard <mripard@redhat.com>, 
+	Albert Esteve <aesteve@redhat.com>, linux-mm@kvack.org, Maxime Ripard <mripard@kernel.org>, 
+	Yosry Ahmed <yosryahmed@google.com>, Shakeel Butt <shakeel.butt@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org,linaro.org,oss.qualcomm.com];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53115-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53116-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EDB05162D1F
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 1DB241641C8
 X-Rspamd-Action: no action
 
-On 19/02/2026 20:19, Loic Poulain wrote:
->>> +#define CSID_IFACE_PIX       -1
->> -1 ?
-> In the CSID register map, the block offsets are as follows:
-> IPP: 0x200
-> RDI0: 0x300
-> RDI1: 0x400
-> RDI2: 0x500
+On Wed, Feb 18, 2026 at 9:15=E2=80=AFAM Eric Chanudet <echanude@redhat.com>=
+ wrote:
 
-You use that define in two places ?
+Hi Eric,
 
-I think the -1 indexing is a bit non-intuitive. Maybe make a special 
-accessor for those two special cases you have instead of a negative index.
+> An earlier series[1] from Maxime introduced dmem to the cma allocator in
+> an attempt to use it generally for dma-buf. Restart from there and apply
+> the charge in the narrower context of the CMA dma-buf heap instead.
+>
+> In line with introducing cgroup to the system heap[2], this behavior is
+> enabled based on dma_heap.mem_accounting, disabled by default.
+>
+> dmem is chosen for CMA heaps as it allows limits to be set for each
+> region backing each heap. The charge is only put in the dma-buf heap for
+> now as it guaranties it can be accounted against a userspace process
+> that requested the allocation.
 
----
-bod
+But CMA memory is system memory, and regular (non-CMA) movable
+allocations can occur out of these CMA areas. So this splits system
+memory accounting between memcg (from [2]) and dmem. If I want to put
+a limit on system memory use I have to adjust multiple limits (memcg +
+dmems) and know how to divide the total between them all.
+
+How do you envision using this combination of different controllers?
+
+Thanks,
+T.J.
+
+> [1] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@k=
+ernel.org/
+> [2] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ec=
+c6b62cc446@redhat.com/
+>
+> Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> ---
+> Changes in v2:
+> - Rebase on Maxime's introduction of dmem to the cma allocator:
+>   https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@ker=
+nel.org/
+> - Remove the dmem region registration from the cma dma-buf heap
+> - Remove the misplaced logic for the default region.
+> - Link to v1: https://lore.kernel.org/r/20260130-dmabuf-heap-cma-dmem-v1-=
+1-3647ea993e99@redhat.com
+>
+> ---
+> Eric Chanudet (1):
+>       dma-buf: heaps: cma: charge each cma heap's dmem
+>
+> Maxime Ripard (2):
+>       cma: Register dmem region for each cma region
+>       cma: Provide accessor to cma dmem region
+>
+>  drivers/dma-buf/heaps/cma_heap.c | 15 ++++++++++++++-
+>  include/linux/cma.h              |  9 +++++++++
+>  mm/cma.c                         | 20 +++++++++++++++++++-
+>  mm/cma.h                         |  3 +++
+>  4 files changed, 45 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 948e195dfaa56e48eabda591f97630502ff7e27e
+> change-id: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
+>
+> Best regards,
+> --
+> Eric Chanudet <echanude@redhat.com>
+>
 
