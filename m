@@ -1,324 +1,153 @@
-Return-Path: <linux-media+bounces-53121-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53122-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uOGsDiIZmGki/wIAu9opvQ
-	(envelope-from <linux-media+bounces-53121-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:19:46 +0100
+	id cIDjNeIimGlNBgMAu9opvQ
+	(envelope-from <linux-media+bounces-53122-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 10:01:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F909165980
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:19:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 714B8165FA3
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 10:01:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6752230602FC
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 08:16:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D6EF4303D73C
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:01:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2571E335571;
-	Fri, 20 Feb 2026 08:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D0F31A7EA;
+	Fri, 20 Feb 2026 09:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZVg8Pwo4"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="L5C+M2jQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012067.outbound.protection.outlook.com [40.107.200.67])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D811E9B12;
-	Fri, 20 Feb 2026 08:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771575387; cv=fail; b=KEEaRj1/ffyD1OC5BIPeNTTfmDSMT/2N77rkGGbUYmC7UP71W4Oz8cP3qYNiwpQAjmUjjWkJEPApeP9x246zUXeoM8nHmw9aril8J85vuccPnLcVJVVBpMreB2iCV7wYCRiNPbkkVZCNwIn/yE1QxxVYHCvfxpVmXFdQNejD9Hc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771575387; c=relaxed/simple;
-	bh=/dG22pP4EG/MMUm9nMHgNSkce8kNdFfW5iLy6JCVWm4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kgmDS/goWj3Q6F9znFwxOM29bBji2rWJLd6rIdAaFzhhfEVppKLb58XSkIZzZkwGZpChaEGVP3IMdZQY0kVZDUbGvwbkHkCIDRPh0AOtm3aFB/fvLNaCYxi1hhhU3+CmIfWoFgSn6NubJEwX03CqlOwOxHdkPM1Od5tIDHQaqDA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZVg8Pwo4; arc=fail smtp.client-ip=40.107.200.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wxu6en2UU7963EQAKwx88U+g1PESTp/E5xX0SBtN+HwMBFotmVCfjM0i9cl6EBWzsbeyCTLDOwOtvxroTW3oZj7Wup3ttCLxazKsVP/TVWfO2lvN3FZEpy9PLmjukJV0Nf5ryyA6435WtJVLnpfgAXs5e5LviuaMu8/RcGSsLKIJNrVPgsilYJYwKzIDz220O6HOzYEySf0Q+mDT6yGVGCIB8BU073jkzFa9noqIPmkLltC6q+y9zlHivV2pg+/2R5TwsCo3e3zwgbNg91bpItn1mruNLt6+nSlB1J77C4IXqnIp+2ZQtk1nPGnlWDSzRZXHRGVmEmMHqridNS7Wug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zM9D+9LALR47xbjCtwNGkGM7vWrb6dVpZplY2410FM8=;
- b=Wdk3eEPnUalnZmBHDB1ZwPE4XAqYNyzFxMH4IjtQSQr3aXfUfMssr/DsMvAtdY6P8a3MYitzdblg/WvmDT/Pa3tCn9vdltJXoSc+1p9/EumlIDK1zUdCCMBzUSs9zHzya7/tji/14JOYKiOU/XL58tf/AsOVE/oILdm9zE4F7x7Fwap4JmuzDH9+JSL6tKtost3C7jYO1sc1GJr20kRNwk2pxTYUvW1ipkZnhHOY5s345y/qfgC+gqQXoB4m/zInY+6izVCwlarinUbnh0Oa7H7lOuX8E+QtaMkkB5qbKW+FXIAf9g6SIh459qoqNEZ2e9mU9zZ08xy5VWzUnzvB4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zM9D+9LALR47xbjCtwNGkGM7vWrb6dVpZplY2410FM8=;
- b=ZVg8Pwo4g+VGyyqT9J+pswE1Be94ylTiHUyKbZkNQAYoEmeVcwaUtb8w1/2xc9jw2GzzgTX+BHTTXfekL45gG4eEvvX6YV/ijeh9v4PNFiizpab25fxD1KVBRWhUw3oeTCLqCm1icqU1tFtCu+KQWE2HR5FrHHj5SRpYEMVcuKE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY1PR12MB9560.namprd12.prod.outlook.com (2603:10b6:930:fd::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 20 Feb
- 2026 08:16:23 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.015; Fri, 20 Feb 2026
- 08:16:23 +0000
-Message-ID: <0ff02d77-13e8-4b2c-b714-38037595d535@amd.com>
-Date: Fri, 20 Feb 2026 09:16:15 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] dma-buf: heaps: cma: charge each cma heap's dmem
-To: Eric Chanudet <echanude@redhat.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>,
- linux-mm@kvack.org
-References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
- <20260218-dmabuf-heap-cma-dmem-v2-3-b249886fb7b2@redhat.com>
- <435330fd-ecdd-43c7-8527-f285c03c6421@amd.com> <aZdAOMBRdRw59fa0@fedora>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aZdAOMBRdRw59fa0@fedora>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0180.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b7::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF263115B1;
+	Fri, 20 Feb 2026 09:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771578065; cv=none; b=rpw/Kr/2zW5+8uhiueMpIAgZDSR4Ex055cNJDzJmAm8ZzM6POEwQn6WLtRsTmZGNtyCxBEr2umTh4BAf2i1X/SOAQM161CyOGVy06wpkzNfvLXM10hCiagMsZpLvqDgKEoL++lxGwSxyhjZGD3uPlI0c6Zwd8g4BNeeJcNWbo0I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771578065; c=relaxed/simple;
+	bh=Qyfx7vIQJpUOhbXGextIhoP6RuhpY8zjMDDMUTtK9W8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UWE9ATUdDXglqMnM4h0+nG1H634IGwNywnO2KnUAiFldBElqZYLrVXg5Vak2a9w+18qgs4gtmbBEztqB/YlAsFafEvr2v9XG52siEeCAHFd7nYPGFqMfDu1d0f+lYtaS0rFn7MidaW9XR7v+LZEz495775ydcDQGwJ9NzK6Th0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=L5C+M2jQ; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1771578062;
+	bh=Qyfx7vIQJpUOhbXGextIhoP6RuhpY8zjMDDMUTtK9W8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=L5C+M2jQY/y68bEcwrLqFQCRTsgP8GcfINwZfAXsc3s8Q2Lvfo4P7UICsBkVjoB0h
+	 u1E7i0/Kai7k3vgDlMIqomjv8DGgZK3ki0ZRgu/z3e9X3quDvfDkIUQA5e5w9w1vlG
+	 aYMYL5Wr58oevdPnV0DqGBomtE6DEWo8OhY+1jTbIk69h7VsO7ov8gj4PNbbZZleA8
+	 vW9ym9WPHT/MfDUpY48iu+fofnSBHbDUdJG0xoQVmOKrbo4PCbBp7Rw2+vspkRJjwp
+	 01LImxQyC/rJA9d1EMbnW0JcAcqArx0n3HJ2LBFtn9TttU8Ai3oWMjd6D79bTrQE8b
+	 JM85V/waKA/Kg==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D9E6717E0097;
+	Fri, 20 Feb 2026 10:01:01 +0100 (CET)
+Message-ID: <fb697f64-1f2f-4a9b-b430-23867f205f12@collabora.com>
+Date: Fri, 20 Feb 2026 10:01:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY1PR12MB9560:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82bcc803-8acd-46e8-5bbe-08de705855ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?LzBTSERZdUhkUk9tUkx3cE9zdGh1cTd0bUF0amZaeXhYd1F0a1ZxRXozUTZE?=
- =?utf-8?B?VVh6cDlhdzV0SitJYzEvK0dXa2l6OGVYL1liRjNhMEpBNldiZWQvdW4zZXVo?=
- =?utf-8?B?OG9aNFg0MHNyUmRGbVRIb0Z4MUY1RGhiWDBnQlZhNmlaeGpuUWFWR1EvMDBj?=
- =?utf-8?B?V3JGQXhpWEZFQzZ4WHhxZEVmTm14RzNBTHFLUUZCLzEvaGlXN09ZTEhjNDln?=
- =?utf-8?B?TGVKOTJBZ21qaFdtbGdJVFVRKzVBcTArcVFoOUlSWDNUakU5cnVrMi9DRGg1?=
- =?utf-8?B?WkJvSGkvVXdJSXdGbW54NzBnVEszUUxpKzhrV2hlZUxLbUsxNHYvVmMzOEdF?=
- =?utf-8?B?NUpCS0RxLzBNODVhK3pzclFJZmViTVZyTDFDNjBqaUJKYktySUs4YndmV0dm?=
- =?utf-8?B?RFZ5UGQ2aDZmSCtrUEFZT2lDWStnakU3dFdGZjFUdFlRaTYxRlVRZXFhV2NG?=
- =?utf-8?B?TUl1ZkhlSXU1bXBiOWgxK2JHTjBYUnVRZzdLT1VuOEVWZ0ZwN3hTeHBubDVm?=
- =?utf-8?B?dzl0b2Zjcng2OXdEaDFEWEx3L1pVK1NoTW1ZT2V5OTFYTkRhVWdqSCtkM3Q1?=
- =?utf-8?B?ekVvQkczV01rSlJLeXZwV1pyWk9BV0dqY3djZDNNaW5FTTBTQnNScXowNXVE?=
- =?utf-8?B?QzRIS0o1MWlMWGhxTVVyczk5RGFST2Jqcno1ZVlQNUJzSHh4WVJVQTlxWWwr?=
- =?utf-8?B?VHZ1R0cyNm43cnlyL0t5YU9oV0haQ2k2U2V0TjNwTk8zQm9FU1NWb1JSa1cv?=
- =?utf-8?B?VVNtaDl1NGNhRGZjalp5QkZDS1FNZ2ZicTRadXdtZEc2b2FNdEpVUE5ua25x?=
- =?utf-8?B?dG1NVUVhL0RLT25PVGMwMVc2alNLYThRQ0pUbEZRMEkzWE1SRTdmd3NVNmlN?=
- =?utf-8?B?OTF4U3V4K3ljRDhRNmlxMk1ZWU9ZM3lQcU85TlBwRmJReFl3YXpQTDR4VkIv?=
- =?utf-8?B?eDhwRjZNbFcxOXkvUzFENnhGYzFhZlViK1lrbGM4T0NYMWxwU3pjN1gxZlFB?=
- =?utf-8?B?SHY5R1hnQzNrVnI4SWZveEZ1OWt6bGV5MUh1Z0EwYWF0S05IcXhqNU9wQUdk?=
- =?utf-8?B?aW9VcGdzVlpTbjBWNTVpRFUwTnZNVmxRaW4zZHJDVFowV1ptTk5wV25MViti?=
- =?utf-8?B?WTJQdFIzT1lpbEp0cElwUWUxY3czMUp1aS9FU0sxT1hSRE1aSUpCNXJ2VlE3?=
- =?utf-8?B?K0p2SEhDUW9SNTNkQ0FoL3N1RzNVMmZDcm0xSTNQSHZTVVhYR3ZzZk5tMjF3?=
- =?utf-8?B?cC84OXdQL2ZhL3NQeEJNbUNNQjdvQ2M3blVIRzBCamVwcTNRS0twTFlVY3N6?=
- =?utf-8?B?TWZlZlVvaWxCNjNBemlKK3JKR2FKaUY5T0RvZnVwc0UrS2VySVpTbUpFWUhF?=
- =?utf-8?B?SzhsMEVNbjhRL05FVjd1U2h6WUJ2ajBHUllUNnlYaDNSKzJBeWttemVOcENV?=
- =?utf-8?B?WUxDUXJDQUdoUVIwT0o4ZzloYkNjU2J3c25vcXBWcUFSbmpyZ3hUM2xQczF4?=
- =?utf-8?B?ZEluZUk2TEtGTDZGcjViVkVGcWo2UkJNNlNzMGJueGxpY2tWVTFJMkQ5V045?=
- =?utf-8?B?U3p0eHRtSUszb0x1UDhvWk5ESVpoaVR5TlZtMnUydlpidHFsSGtXVENYU3VZ?=
- =?utf-8?B?Qmg0WkJZdU1JdzBMcjlrZ3ZLcjNxYjhIVEdsWHN4MlRKNmJTb2QwYzRTWTVt?=
- =?utf-8?B?NmViaXR0OGZ6T3EvOUZXTTJRZDZZamR2OXc5cVpxOWw5OURYYjVSMkswQ1Nh?=
- =?utf-8?B?Z2V2clhod0U1cGJuYnJROTdXOUhwd0tzZHlCck5zTTF0VUNQMkFneCt6ZVd3?=
- =?utf-8?B?TndGSTM2VzMwMW5FOUU2dStyckNnaWdDaWgvOGhPSDBTcDFOZkRGSnVjS3Ni?=
- =?utf-8?B?QzVadEZkZ0ZBaVhFRlBxUnAvWVFVWXh0RFVPc3RDeFpuS0pOdm9UeUhPdVFy?=
- =?utf-8?B?TEpUZUdoZDVsak9BRUU4MEFCdjU3cGpNeUNmcTc1NjJpcXBMR1lpaEcyMElx?=
- =?utf-8?B?RjB3eC9VWnVQd2VEeXFXTnZwNGdoanRwMUhOSndqUnRwU1dkQUI0TnpRNEZr?=
- =?utf-8?B?TkhrdVdPUjE4bUJodUlTZzlnWDFoMC81aFR4cVJTYzFYRTA5b3dQaWVjS0hl?=
- =?utf-8?Q?FWLg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UTRmZ21KbXJ6RXpHQVROcGdkOE55UTZsOFFQTkI3VGZoeWREb1dPVnY2Ty9M?=
- =?utf-8?B?SmxwMlRYMGV6TGthQzQwSkVpVk85bll5Y0JUK0RmdWlHK2NPQnlia3Z4azlE?=
- =?utf-8?B?QVFlYzF1djd3T05pVzlvSEZEQU9iOWhacXd0M3M3OTNpa0xGbUl5bDh5amdN?=
- =?utf-8?B?T3FwWldSeFNVZ2VPOVF3dUFXaDcvMlNPVXhVOHQwSkV6cEl6UGNLRDRFN24v?=
- =?utf-8?B?bldIZzJmTEhHVHRVdHFTT095cjNUUjZVRXZEd2Z1THF5bkcvbkIyNjFjUlh3?=
- =?utf-8?B?QWluaGxNR3o4S2crMVU3bllxKzVHazY4V2lUZ0ZkanVIOHFYWUZnbFp6dnVw?=
- =?utf-8?B?V2FhVHlWZktITkNMRWlDRVB2aDNMYU5rMmhqOEVabTd4YkFrMjBqdmdYOFI1?=
- =?utf-8?B?TGZhSExmK0hjdTlrYWtjb2tGblhLd0xGMU5vMHVLSkVlNUZKZSs3cmZYcmhi?=
- =?utf-8?B?ZVRxSjRZWTZITnRza3FNVStJdUZrQitpRmZnUENuZTZ3REFoRXR3QmpOUEp0?=
- =?utf-8?B?RHhYNGVVcXJsUThMRWFVUjZ6YTNGUHhIRU5lS0R4UzVEdEE3ZVROWHZFYTFu?=
- =?utf-8?B?SDRXMGVlKzZ1WFh5bEY2UUxpbGFsSUROSFF6dG8yZnBKelp4V1YwT3ZicUw1?=
- =?utf-8?B?b2NQTkFJR3Yzb0ttMlhUTkUyUFJVUXl6ZFhMd0tMKzV5cTlZYWFEZnhqcnNi?=
- =?utf-8?B?UHdyMDBCVWVoN3NEMHVGL2NoeE1kcFhyTU1JNysvLzNFdnVQekI2SnJEb1Nw?=
- =?utf-8?B?c0I4WGQ0TEV0b09UUS9Rd2Vib0pabms4c2NkWTZzc0MwM3ZubzU0SDBJR0hQ?=
- =?utf-8?B?bnc5TE11anhhYnZKOTJ4NVVjb2RmZm44MkxVeEdUM2tiYUY2SlJQeW13OVN4?=
- =?utf-8?B?c01aMWQ2UmU0dmtMaHBxeWtYUlV4bVArZExxaTRDb3hMTyszcTM5VWVmRFU3?=
- =?utf-8?B?akZtQmxQbnZkVEhnTHJ6aG9sNTh5UUh3ZGt3NGFrdENZM0MwTmp1eWhSTGlT?=
- =?utf-8?B?S0JQKzBWRXJ0T09DdE1JbUVvblFNNzMrN1ZFUjFYV04wTFZ0TTVIOGV3V2wy?=
- =?utf-8?B?WnYxeGc1bFlxZFJPOVN3TFZmR3RGRy9kazk0ak0zVkUwaTh0ZHBRKy82RXli?=
- =?utf-8?B?NTNIc1pUUWlTSitVUytIU0RqOUxsaUpMR0ZlUlFEbllIRnVjUGVBWXg2R2p4?=
- =?utf-8?B?M08zUlNrQWZzR0JlcGh4RnhLRkwwV1lCMitWa2VldUFhcnB4N01SYVlyVWFu?=
- =?utf-8?B?QU9KNDFMK3A4bktjMHlUa3E5Mm9YWjBPU3JpdXFmT2p5czlqd25HbXU1Mmt2?=
- =?utf-8?B?SzN5eTM2WVBqdHFmUDUyT3c4N0xmaml0VkhRTlNxb01KRnFlQUtvbGdEOG1v?=
- =?utf-8?B?RmJzTlRqRklpaVJWQmxzMDJiUnl2S1RUcDdlQWRSTWdUNU5SRGErVGppTXBi?=
- =?utf-8?B?UlpoOThMWjhBRGptUVovWlQ2bWo5aC9Md3BMcUFVKzNaNWRFWFIzTDF2MWph?=
- =?utf-8?B?VlR6czFucjdrNEFhTVZoWUNCb2E3L2NtazkxRmt0YkpaVi9ESEhzWis0QVFG?=
- =?utf-8?B?cUtxVWVtdkZWVUNoSE9lRzQ1YWtnc0JxSVdpNTU1WDBVKzlQOXhiMUQ5YlhN?=
- =?utf-8?B?cmFjNWlwOHFLUWZhbVJabExMa1FHTUJJMUwxZG5sU2ZMbGZURjNWZW8veVNH?=
- =?utf-8?B?dmZEQk5UNUdxNXdZMTFKd0pVWnFqdk8wNFI4SnB2dGxRQTNId042T3Z1U2lw?=
- =?utf-8?B?cWF5MWtnVld4TlJuUm1VblZoVjRFSEhRc21HNHdWck4yelZGL3c2eGVSQjNN?=
- =?utf-8?B?WTlWWFdGWGs4VXd4KzZMT3FLcm4xUXJJRWNpRngwMWlDU1VjMXVwV0xYbTZ4?=
- =?utf-8?B?M1dXWXBYVHR3Qk54WDVXU3dpUVNDc3c4Uk80MGdNdFlhM2Rka1ptL2p4SnlG?=
- =?utf-8?B?UTlBdTQ5M1hHSlhzelA4aXpIWmV4ckhxSXo0b2lDakZzZlNiQWMrZkgyYTZW?=
- =?utf-8?B?V01XTCtjVml2c3pqbFk3UzRCWlVOOGdrVnJFOTBxbkt3YlNZUkRydmdFaCtI?=
- =?utf-8?B?ZTlVSjA0dEdjUTBET3ArWVpaYmd4NUxUL0tWdEpTb3Y2bTlzcGczRjVZVExr?=
- =?utf-8?B?aVVXcUJ3Z3lvZ2lNRjhSTlJXL2dtZEhoOWU0a3BJcDI3c1Rwd2g1THRYMkIx?=
- =?utf-8?B?VHNCdWh6U1hwKzZiOTdRZk5saktZdCttK3lmSGY3RmNiaFlzb0xEeGUzOGdP?=
- =?utf-8?B?eWdGRWxac3NLaDlhZHpVTSt6SXRGN3lBNlEvbENVYXA1YzZLM3hoNkoyempD?=
- =?utf-8?Q?JvBLmOE9xTJg5uwi9C?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82bcc803-8acd-46e8-5bbe-08de705855ed
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 08:16:23.5714
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v0lvyLmTX8aoX1SICHMQT9OCwOTvQEommOiR8wON6i+wUC4hAtf94gvsmSEo8MwH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9560
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] media: v4l: async: add helper API
+ v4l2_async_pad_init_and_register_subdev()
+To: Frank Li <Frank.Li@nxp.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev
+References: <20260210-v4l2_init_register-v1-0-8fe43f7d349f@nxp.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20260210-v4l2_init_register-v1-0-8fe43f7d349f@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53121-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53122-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RSPAMD_URIBL_FAIL(0.00)[collabora.com:query timed out,nxp.com:query timed out];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michael.riesch@collabora.com,linux-media@vger.kernel.org];
+	RSPAMD_EMAILBL_FAIL(0.00)[frank.li.nxp.com:query timed out];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9F909165980
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nxp.com:email]
+X-Rspamd-Queue-Id: 714B8165FA3
 X-Rspamd-Action: no action
 
-On 2/19/26 18:10, Eric Chanudet wrote:
-> On Thu, Feb 19, 2026 at 08:17:28AM +0100, Christian König wrote:
->>
->>
->> On 2/18/26 18:14, Eric Chanudet wrote:
->>> The cma dma-buf heaps let userspace allocate buffers in CMA regions
->>> without enforcing limits. Since each cma region registers in dmem,
->>> charge against it when allocating a buffer in a cma heap.
->>>
->>> Signed-off-by: Eric Chanudet <echanude@redhat.com>
->>> ---
->>>  drivers/dma-buf/heaps/cma_heap.c | 15 ++++++++++++++-
->>>  1 file changed, 14 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
->>> index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..bbd4f9495808da19256d97bd6a4dca3e1b0a30a0 100644
->>> --- a/drivers/dma-buf/heaps/cma_heap.c
->>> +++ b/drivers/dma-buf/heaps/cma_heap.c
->>> @@ -27,6 +27,7 @@
->>>  #include <linux/scatterlist.h>
->>>  #include <linux/slab.h>
->>>  #include <linux/vmalloc.h>
->>> +#include <linux/cgroup_dmem.h>
->>>  
->>>  #define DEFAULT_CMA_NAME "default_cma_region"
->>>  
->>> @@ -58,6 +59,7 @@ struct cma_heap_buffer {
->>>  	pgoff_t pagecount;
->>>  	int vmap_cnt;
->>>  	void *vaddr;
->>> +	struct dmem_cgroup_pool_state *pool;
->>>  };
->>>  
->>>  struct dma_heap_attachment {
->>> @@ -276,6 +278,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *dmabuf)
->>>  	kfree(buffer->pages);
->>>  	/* release memory */
->>>  	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
->>> +	dmem_cgroup_uncharge(buffer->pool, buffer->len);
->>>  	kfree(buffer);
->>>  }
->>>  
->>> @@ -319,9 +322,17 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
->>>  	if (align > CONFIG_CMA_ALIGNMENT)
->>>  		align = CONFIG_CMA_ALIGNMENT;
->>>  
->>> +	if (mem_accounting) {
->>
->> Since mem_accounting is a module parameter it is possible to make it changeable during runtime.
->>
->> IIRC it currently is read only, but maybe add a one line comment that the cma heap now depends on that.
->>
-> 
-> Agreed, while read-only it is easily missed without at least a comment.
-> Alternatively, should that value be captured in the init callback to
-> guaranty it is set once and make this requirement clearer?
+Hi Frank,
 
-It probably makes more sense to make nails with heads and make it runtime configurable.
+Thanks for your patches.
 
-I'm not sure how exactly dmem_cgroup_try_charge()/dmem_cgroup_uncharge() works, could be that it works correctly out of the box and you just need to initialize buffer->pool to NULL when mem_accounting is not enabled.
+On 2/10/26 22:42, Frank Li wrote:
+> Add the helper API v4l2_async_pad_init_and_register_subdev(), which
+> combines media_entity_pads_init(), v4l2_subdev_init_finalize(), and
+> v4l2_async_register_subdev() into a single call.
 
-Regards,
-Christian.
+I think this is a good idea, but can you extend that to offer variants
+for v4l2_async_register_subdev_sensor and v4l2_device_register_subdev too?
+
+The function names are awfully long, though. Can we call this
+    media_register_subdev{_async,_sensor,}
+maybe?
+
+Best regards,
+Michael
 
 > 
-> Thanks,
+> Reduce code duplication and simplify error handling in drivers.
 > 
->> Apart from that the series looks totally sane to me.
->>
->> Regards,
->> Christian.
->>
->>> +		ret = dmem_cgroup_try_charge(
->>> +			cma_get_dmem_cgroup_region(cma_heap->cma), size,
->>> +			&buffer->pool, NULL);
->>> +		if (ret)
->>> +			goto free_buffer;
->>> +	}
->>> +
->>>  	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
->>>  	if (!cma_pages)
->>> -		goto free_buffer;
->>> +		goto uncharge_cgroup;
->>>  
->>>  	/* Clear the cma pages */
->>>  	if (PageHighMem(cma_pages)) {
->>> @@ -376,6 +387,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
->>>  	kfree(buffer->pages);
->>>  free_cma:
->>>  	cma_release(cma_heap->cma, cma_pages, pagecount);
->>> +uncharge_cgroup:
->>> +	dmem_cgroup_uncharge(buffer->pool, size);
->>>  free_buffer:
->>>  	kfree(buffer);
->>>  
->>>
->>
+> Only change dwc and cdns. If agree add API, more driver can be simplified.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Frank Li (3):
+>       media: v4l: async: add helper API v4l2_async_pad_init_and_register_subdev()
+>       media: synopsys: Use v4l2_async_pad_init_and_register_subdev() to simplify code
+>       media: cadence: cdns-csi2rx: Use v4l2_async_pad_init_and_register_subdev() to simplify code
+> 
+>  drivers/media/platform/cadence/cdns-csi2rx.c     | 18 ++++----------
+>  drivers/media/platform/synopsys/dw-mipi-csi2rx.c | 15 +++---------
+>  drivers/media/v4l2-core/v4l2-async.c             | 30 ++++++++++++++++++++++++
+>  include/media/v4l2-async.h                       | 18 ++++++++++++++
+>  4 files changed, 55 insertions(+), 26 deletions(-)
+> ---
+> base-commit: bc0bfce7d0f8204e0bbadcee72e87ad9ec105c73
+> change-id: 20260210-v4l2_init_register-0e6d0adcfa21
+> 
+> Best regards,
+> --
+> Frank Li <Frank.Li@nxp.com>
 > 
 
 
