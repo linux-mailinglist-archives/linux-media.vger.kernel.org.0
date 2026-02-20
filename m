@@ -1,213 +1,324 @@
-Return-Path: <linux-media+bounces-53118-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53121-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4AR8K6EYmGki/wIAu9opvQ
-	(envelope-from <linux-media+bounces-53118-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:17:37 +0100
+	id uOGsDiIZmGki/wIAu9opvQ
+	(envelope-from <linux-media+bounces-53121-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:19:46 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336F6165941
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:17:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F909165980
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 09:19:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 693DA3041BFD
-	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 08:15:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6752230602FC
+	for <lists+linux-media@lfdr.de>; Fri, 20 Feb 2026 08:16:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51F1A334C05;
-	Fri, 20 Feb 2026 08:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2571E335571;
+	Fri, 20 Feb 2026 08:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jPkTRKBI"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZVg8Pwo4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012067.outbound.protection.outlook.com [40.107.200.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EC0C145;
-	Fri, 20 Feb 2026 08:15:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771575309; cv=none; b=JljVP66/GRbQawYh/6a2xwWXWgmdiX3CtHdsg3k5tOIwipw5um4dhUr8QTycjiyAudH4z8j2zbfUk9lZ6U+9uVVs7o6gKBxT1/RbJuRUqB6+92AowcR63KWwJNKT7cyp/k+uGnt7M7iL3yhk1UwTcVJOLnsFPIOlJJL30fEC4D8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771575309; c=relaxed/simple;
-	bh=jtkgWkJjHoviWzC1L3qi3r1Sfz0YtO2chH+woXl6s5E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QpBlJ8bKtoHNym2NHwgzjSfpr0Orsx1hMt7OJqeqICtxOqoPfgVYvScda1qBeSRfP7+3No+4j8/uoInzs1o8Pc4nl7SWG0JMBX9fwf7YlbZEJcgzeDdBWxFuiMq49t/Vuet6VEfQGIaCO2ituJ9H85CHZhLYQkAi9HcMLyv+2H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jPkTRKBI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7A797C116D0;
-	Fri, 20 Feb 2026 08:15:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771575309;
-	bh=jtkgWkJjHoviWzC1L3qi3r1Sfz0YtO2chH+woXl6s5E=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=jPkTRKBIdV8vbcuEUJHyULqSjI8oaWmDKLMP/Ibfi37LtwN9ix5QkJGbSiSHiOLxc
-	 o0xj8L19NMDC5J3fRMHAwbwRsGstSCqWOoJClb/wgzmwq+tm3GvnpfBKdNZPVw7gWq
-	 XYduAEtQQXNi48HMACHIqiGncGjGGXzFsjQnN/Y2j00maerUQ6ES49iSTlX/d8w+xc
-	 uAr3lvJaUp05PJip7hNFCOdd1Q7Oh+G2Q584Wxm49i690pRRAysmumcrA0a4n8qklc
-	 t5uvb4omELk9evaUCk7slGWm9LyGMKn/9AyChweLkOP+NZJzxGkDNzRPo6jhYxdY9W
-	 mQ58Lb/w6fCSw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DCB8C55162;
-	Fri, 20 Feb 2026 08:15:09 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Fri, 20 Feb 2026 09:15:08 +0100
-Subject: [PATCH v2 2/2] media: rockchip: rkcif: comply with minimum number
- of buffers requirement
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D811E9B12;
+	Fri, 20 Feb 2026 08:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771575387; cv=fail; b=KEEaRj1/ffyD1OC5BIPeNTTfmDSMT/2N77rkGGbUYmC7UP71W4Oz8cP3qYNiwpQAjmUjjWkJEPApeP9x246zUXeoM8nHmw9aril8J85vuccPnLcVJVVBpMreB2iCV7wYCRiNPbkkVZCNwIn/yE1QxxVYHCvfxpVmXFdQNejD9Hc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771575387; c=relaxed/simple;
+	bh=/dG22pP4EG/MMUm9nMHgNSkce8kNdFfW5iLy6JCVWm4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kgmDS/goWj3Q6F9znFwxOM29bBji2rWJLd6rIdAaFzhhfEVppKLb58XSkIZzZkwGZpChaEGVP3IMdZQY0kVZDUbGvwbkHkCIDRPh0AOtm3aFB/fvLNaCYxi1hhhU3+CmIfWoFgSn6NubJEwX03CqlOwOxHdkPM1Od5tIDHQaqDA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZVg8Pwo4; arc=fail smtp.client-ip=40.107.200.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wxu6en2UU7963EQAKwx88U+g1PESTp/E5xX0SBtN+HwMBFotmVCfjM0i9cl6EBWzsbeyCTLDOwOtvxroTW3oZj7Wup3ttCLxazKsVP/TVWfO2lvN3FZEpy9PLmjukJV0Nf5ryyA6435WtJVLnpfgAXs5e5LviuaMu8/RcGSsLKIJNrVPgsilYJYwKzIDz220O6HOzYEySf0Q+mDT6yGVGCIB8BU073jkzFa9noqIPmkLltC6q+y9zlHivV2pg+/2R5TwsCo3e3zwgbNg91bpItn1mruNLt6+nSlB1J77C4IXqnIp+2ZQtk1nPGnlWDSzRZXHRGVmEmMHqridNS7Wug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zM9D+9LALR47xbjCtwNGkGM7vWrb6dVpZplY2410FM8=;
+ b=Wdk3eEPnUalnZmBHDB1ZwPE4XAqYNyzFxMH4IjtQSQr3aXfUfMssr/DsMvAtdY6P8a3MYitzdblg/WvmDT/Pa3tCn9vdltJXoSc+1p9/EumlIDK1zUdCCMBzUSs9zHzya7/tji/14JOYKiOU/XL58tf/AsOVE/oILdm9zE4F7x7Fwap4JmuzDH9+JSL6tKtost3C7jYO1sc1GJr20kRNwk2pxTYUvW1ipkZnhHOY5s345y/qfgC+gqQXoB4m/zInY+6izVCwlarinUbnh0Oa7H7lOuX8E+QtaMkkB5qbKW+FXIAf9g6SIh459qoqNEZ2e9mU9zZ08xy5VWzUnzvB4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zM9D+9LALR47xbjCtwNGkGM7vWrb6dVpZplY2410FM8=;
+ b=ZVg8Pwo4g+VGyyqT9J+pswE1Be94ylTiHUyKbZkNQAYoEmeVcwaUtb8w1/2xc9jw2GzzgTX+BHTTXfekL45gG4eEvvX6YV/ijeh9v4PNFiizpab25fxD1KVBRWhUw3oeTCLqCm1icqU1tFtCu+KQWE2HR5FrHHj5SRpYEMVcuKE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY1PR12MB9560.namprd12.prod.outlook.com (2603:10b6:930:fd::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 20 Feb
+ 2026 08:16:23 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.015; Fri, 20 Feb 2026
+ 08:16:23 +0000
+Message-ID: <0ff02d77-13e8-4b2c-b714-38037595d535@amd.com>
+Date: Fri, 20 Feb 2026 09:16:15 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] dma-buf: heaps: cma: charge each cma heap's dmem
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>,
+ linux-mm@kvack.org
+References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+ <20260218-dmabuf-heap-cma-dmem-v2-3-b249886fb7b2@redhat.com>
+ <435330fd-ecdd-43c7-8527-f285c03c6421@amd.com> <aZdAOMBRdRw59fa0@fedora>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aZdAOMBRdRw59fa0@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0180.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b7::13) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260216-rkcif-fixes-v2-2-ee40931fe0ff@collabora.com>
-References: <20260216-rkcif-fixes-v2-0-ee40931fe0ff@collabora.com>
-In-Reply-To: <20260216-rkcif-fixes-v2-0-ee40931fe0ff@collabora.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, 
- Paul Elder <paul.elder@ideasonboard.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Collabora Kernel Team <kernel@collabora.com>, stable@kernel.org, 
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Chen-Yu Tsai <wens@kernel.org>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771575308; l=2843;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=QlnSURdd8Dclxdp8UA+BrdFUZIn2tw+OGzLWQP2V3Uw=;
- b=aUmJLnmSesafA20KayfGrJ/nBjA/G1S1v3FbSvXyYUCwd5vve4+NrwlAD+vjZ2DpAv+UGoK7N
- yAS0hKGcYuJDspP8YEFpbSn/FGQKkYY5q0FtMoVclqlMwAbF0CmqgM/
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY1PR12MB9560:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82bcc803-8acd-46e8-5bbe-08de705855ed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?LzBTSERZdUhkUk9tUkx3cE9zdGh1cTd0bUF0amZaeXhYd1F0a1ZxRXozUTZE?=
+ =?utf-8?B?VVh6cDlhdzV0SitJYzEvK0dXa2l6OGVYL1liRjNhMEpBNldiZWQvdW4zZXVo?=
+ =?utf-8?B?OG9aNFg0MHNyUmRGbVRIb0Z4MUY1RGhiWDBnQlZhNmlaeGpuUWFWR1EvMDBj?=
+ =?utf-8?B?V3JGQXhpWEZFQzZ4WHhxZEVmTm14RzNBTHFLUUZCLzEvaGlXN09ZTEhjNDln?=
+ =?utf-8?B?TGVKOTJBZ21qaFdtbGdJVFVRKzVBcTArcVFoOUlSWDNUakU5cnVrMi9DRGg1?=
+ =?utf-8?B?WkJvSGkvVXdJSXdGbW54NzBnVEszUUxpKzhrV2hlZUxLbUsxNHYvVmMzOEdF?=
+ =?utf-8?B?NUpCS0RxLzBNODVhK3pzclFJZmViTVZyTDFDNjBqaUJKYktySUs4YndmV0dm?=
+ =?utf-8?B?RFZ5UGQ2aDZmSCtrUEFZT2lDWStnakU3dFdGZjFUdFlRaTYxRlVRZXFhV2NG?=
+ =?utf-8?B?TUl1ZkhlSXU1bXBiOWgxK2JHTjBYUnVRZzdLT1VuOEVWZ0ZwN3hTeHBubDVm?=
+ =?utf-8?B?dzl0b2Zjcng2OXdEaDFEWEx3L1pVK1NoTW1ZT2V5OTFYTkRhVWdqSCtkM3Q1?=
+ =?utf-8?B?ekVvQkczV01rSlJLeXZwV1pyWk9BV0dqY3djZDNNaW5FTTBTQnNScXowNXVE?=
+ =?utf-8?B?QzRIS0o1MWlMWGhxTVVyczk5RGFST2Jqcno1ZVlQNUJzSHh4WVJVQTlxWWwr?=
+ =?utf-8?B?VHZ1R0cyNm43cnlyL0t5YU9oV0haQ2k2U2V0TjNwTk8zQm9FU1NWb1JSa1cv?=
+ =?utf-8?B?VVNtaDl1NGNhRGZjalp5QkZDS1FNZ2ZicTRadXdtZEc2b2FNdEpVUE5ua25x?=
+ =?utf-8?B?dG1NVUVhL0RLT25PVGMwMVc2alNLYThRQ0pUbEZRMEkzWE1SRTdmd3NVNmlN?=
+ =?utf-8?B?OTF4U3V4K3ljRDhRNmlxMk1ZWU9ZM3lQcU85TlBwRmJReFl3YXpQTDR4VkIv?=
+ =?utf-8?B?eDhwRjZNbFcxOXkvUzFENnhGYzFhZlViK1lrbGM4T0NYMWxwU3pjN1gxZlFB?=
+ =?utf-8?B?SHY5R1hnQzNrVnI4SWZveEZ1OWt6bGV5MUh1Z0EwYWF0S05IcXhqNU9wQUdk?=
+ =?utf-8?B?aW9VcGdzVlpTbjBWNTVpRFUwTnZNVmxRaW4zZHJDVFowV1ptTk5wV25MViti?=
+ =?utf-8?B?WTJQdFIzT1lpbEp0cElwUWUxY3czMUp1aS9FU0sxT1hSRE1aSUpCNXJ2VlE3?=
+ =?utf-8?B?K0p2SEhDUW9SNTNkQ0FoL3N1RzNVMmZDcm0xSTNQSHZTVVhYR3ZzZk5tMjF3?=
+ =?utf-8?B?cC84OXdQL2ZhL3NQeEJNbUNNQjdvQ2M3blVIRzBCamVwcTNRS0twTFlVY3N6?=
+ =?utf-8?B?TWZlZlVvaWxCNjNBemlKK3JKR2FKaUY5T0RvZnVwc0UrS2VySVpTbUpFWUhF?=
+ =?utf-8?B?SzhsMEVNbjhRL05FVjd1U2h6WUJ2ajBHUllUNnlYaDNSKzJBeWttemVOcENV?=
+ =?utf-8?B?WUxDUXJDQUdoUVIwT0o4ZzloYkNjU2J3c25vcXBWcUFSbmpyZ3hUM2xQczF4?=
+ =?utf-8?B?ZEluZUk2TEtGTDZGcjViVkVGcWo2UkJNNlNzMGJueGxpY2tWVTFJMkQ5V045?=
+ =?utf-8?B?U3p0eHRtSUszb0x1UDhvWk5ESVpoaVR5TlZtMnUydlpidHFsSGtXVENYU3VZ?=
+ =?utf-8?B?Qmg0WkJZdU1JdzBMcjlrZ3ZLcjNxYjhIVEdsWHN4MlRKNmJTb2QwYzRTWTVt?=
+ =?utf-8?B?NmViaXR0OGZ6T3EvOUZXTTJRZDZZamR2OXc5cVpxOWw5OURYYjVSMkswQ1Nh?=
+ =?utf-8?B?Z2V2clhod0U1cGJuYnJROTdXOUhwd0tzZHlCck5zTTF0VUNQMkFneCt6ZVd3?=
+ =?utf-8?B?TndGSTM2VzMwMW5FOUU2dStyckNnaWdDaWgvOGhPSDBTcDFOZkRGSnVjS3Ni?=
+ =?utf-8?B?QzVadEZkZ0ZBaVhFRlBxUnAvWVFVWXh0RFVPc3RDeFpuS0pOdm9UeUhPdVFy?=
+ =?utf-8?B?TEpUZUdoZDVsak9BRUU4MEFCdjU3cGpNeUNmcTc1NjJpcXBMR1lpaEcyMElx?=
+ =?utf-8?B?RjB3eC9VWnVQd2VEeXFXTnZwNGdoanRwMUhOSndqUnRwU1dkQUI0TnpRNEZr?=
+ =?utf-8?B?TkhrdVdPUjE4bUJodUlTZzlnWDFoMC81aFR4cVJTYzFYRTA5b3dQaWVjS0hl?=
+ =?utf-8?Q?FWLg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UTRmZ21KbXJ6RXpHQVROcGdkOE55UTZsOFFQTkI3VGZoeWREb1dPVnY2Ty9M?=
+ =?utf-8?B?SmxwMlRYMGV6TGthQzQwSkVpVk85bll5Y0JUK0RmdWlHK2NPQnlia3Z4azlE?=
+ =?utf-8?B?QVFlYzF1djd3T05pVzlvSEZEQU9iOWhacXd0M3M3OTNpa0xGbUl5bDh5amdN?=
+ =?utf-8?B?T3FwWldSeFNVZ2VPOVF3dUFXaDcvMlNPVXhVOHQwSkV6cEl6UGNLRDRFN24v?=
+ =?utf-8?B?bldIZzJmTEhHVHRVdHFTT095cjNUUjZVRXZEd2Z1THF5bkcvbkIyNjFjUlh3?=
+ =?utf-8?B?QWluaGxNR3o4S2crMVU3bllxKzVHazY4V2lUZ0ZkanVIOHFYWUZnbFp6dnVw?=
+ =?utf-8?B?V2FhVHlWZktITkNMRWlDRVB2aDNMYU5rMmhqOEVabTd4YkFrMjBqdmdYOFI1?=
+ =?utf-8?B?TGZhSExmK0hjdTlrYWtjb2tGblhLd0xGMU5vMHVLSkVlNUZKZSs3cmZYcmhi?=
+ =?utf-8?B?ZVRxSjRZWTZITnRza3FNVStJdUZrQitpRmZnUENuZTZ3REFoRXR3QmpOUEp0?=
+ =?utf-8?B?RHhYNGVVcXJsUThMRWFVUjZ6YTNGUHhIRU5lS0R4UzVEdEE3ZVROWHZFYTFu?=
+ =?utf-8?B?SDRXMGVlKzZ1WFh5bEY2UUxpbGFsSUROSFF6dG8yZnBKelp4V1YwT3ZicUw1?=
+ =?utf-8?B?b2NQTkFJR3Yzb0ttMlhUTkUyUFJVUXl6ZFhMd0tMKzV5cTlZYWFEZnhqcnNi?=
+ =?utf-8?B?UHdyMDBCVWVoN3NEMHVGL2NoeE1kcFhyTU1JNysvLzNFdnVQekI2SnJEb1Nw?=
+ =?utf-8?B?c0I4WGQ0TEV0b09UUS9Rd2Vib0pabms4c2NkWTZzc0MwM3ZubzU0SDBJR0hQ?=
+ =?utf-8?B?bnc5TE11anhhYnZKOTJ4NVVjb2RmZm44MkxVeEdUM2tiYUY2SlJQeW13OVN4?=
+ =?utf-8?B?c01aMWQ2UmU0dmtMaHBxeWtYUlV4bVArZExxaTRDb3hMTyszcTM5VWVmRFU3?=
+ =?utf-8?B?akZtQmxQbnZkVEhnTHJ6aG9sNTh5UUh3ZGt3NGFrdENZM0MwTmp1eWhSTGlT?=
+ =?utf-8?B?S0JQKzBWRXJ0T09DdE1JbUVvblFNNzMrN1ZFUjFYV04wTFZ0TTVIOGV3V2wy?=
+ =?utf-8?B?WnYxeGc1bFlxZFJPOVN3TFZmR3RGRy9kazk0ak0zVkUwaTh0ZHBRKy82RXli?=
+ =?utf-8?B?NTNIc1pUUWlTSitVUytIU0RqOUxsaUpMR0ZlUlFEbllIRnVjUGVBWXg2R2p4?=
+ =?utf-8?B?M08zUlNrQWZzR0JlcGh4RnhLRkwwV1lCMitWa2VldUFhcnB4N01SYVlyVWFu?=
+ =?utf-8?B?QU9KNDFMK3A4bktjMHlUa3E5Mm9YWjBPU3JpdXFmT2p5czlqd25HbXU1Mmt2?=
+ =?utf-8?B?SzN5eTM2WVBqdHFmUDUyT3c4N0xmaml0VkhRTlNxb01KRnFlQUtvbGdEOG1v?=
+ =?utf-8?B?RmJzTlRqRklpaVJWQmxzMDJiUnl2S1RUcDdlQWRSTWdUNU5SRGErVGppTXBi?=
+ =?utf-8?B?UlpoOThMWjhBRGptUVovWlQ2bWo5aC9Md3BMcUFVKzNaNWRFWFIzTDF2MWph?=
+ =?utf-8?B?VlR6czFucjdrNEFhTVZoWUNCb2E3L2NtazkxRmt0YkpaVi9ESEhzWis0QVFG?=
+ =?utf-8?B?cUtxVWVtdkZWVUNoSE9lRzQ1YWtnc0JxSVdpNTU1WDBVKzlQOXhiMUQ5YlhN?=
+ =?utf-8?B?cmFjNWlwOHFLUWZhbVJabExMa1FHTUJJMUwxZG5sU2ZMbGZURjNWZW8veVNH?=
+ =?utf-8?B?dmZEQk5UNUdxNXdZMTFKd0pVWnFqdk8wNFI4SnB2dGxRQTNId042T3Z1U2lw?=
+ =?utf-8?B?cWF5MWtnVld4TlJuUm1VblZoVjRFSEhRc21HNHdWck4yelZGL3c2eGVSQjNN?=
+ =?utf-8?B?WTlWWFdGWGs4VXd4KzZMT3FLcm4xUXJJRWNpRngwMWlDU1VjMXVwV0xYbTZ4?=
+ =?utf-8?B?M1dXWXBYVHR3Qk54WDVXU3dpUVNDc3c4Uk80MGdNdFlhM2Rka1ptL2p4SnlG?=
+ =?utf-8?B?UTlBdTQ5M1hHSlhzelA4aXpIWmV4ckhxSXo0b2lDakZzZlNiQWMrZkgyYTZW?=
+ =?utf-8?B?V01XTCtjVml2c3pqbFk3UzRCWlVOOGdrVnJFOTBxbkt3YlNZUkRydmdFaCtI?=
+ =?utf-8?B?ZTlVSjA0dEdjUTBET3ArWVpaYmd4NUxUL0tWdEpTb3Y2bTlzcGczRjVZVExr?=
+ =?utf-8?B?aVVXcUJ3Z3lvZ2lNRjhSTlJXL2dtZEhoOWU0a3BJcDI3c1Rwd2g1THRYMkIx?=
+ =?utf-8?B?VHNCdWh6U1hwKzZiOTdRZk5saktZdCttK3lmSGY3RmNiaFlzb0xEeGUzOGdP?=
+ =?utf-8?B?eWdGRWxac3NLaDlhZHpVTSt6SXRGN3lBNlEvbENVYXA1YzZLM3hoNkoyempD?=
+ =?utf-8?Q?JvBLmOE9xTJg5uwi9C?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82bcc803-8acd-46e8-5bbe-08de705855ed
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 08:16:23.5714
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: v0lvyLmTX8aoX1SICHMQT9OCwOTvQEommOiR8wON6i+wUC4hAtf94gvsmSEo8MwH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR12MB9560
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53118-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
+	TAGGED_FROM(0.00)[bounces-53121-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	DKIM_TRACE(0.00)[amd.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:email,collabora.com:replyto,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 336F6165941
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9F909165980
 X-Rspamd-Action: no action
 
-From: Michael Riesch <michael.riesch@collabora.com>
+On 2/19/26 18:10, Eric Chanudet wrote:
+> On Thu, Feb 19, 2026 at 08:17:28AM +0100, Christian König wrote:
+>>
+>>
+>> On 2/18/26 18:14, Eric Chanudet wrote:
+>>> The cma dma-buf heaps let userspace allocate buffers in CMA regions
+>>> without enforcing limits. Since each cma region registers in dmem,
+>>> charge against it when allocating a buffer in a cma heap.
+>>>
+>>> Signed-off-by: Eric Chanudet <echanude@redhat.com>
+>>> ---
+>>>  drivers/dma-buf/heaps/cma_heap.c | 15 ++++++++++++++-
+>>>  1 file changed, 14 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+>>> index 49cc45fb42dd7200c3c14384bcfdbe85323454b1..bbd4f9495808da19256d97bd6a4dca3e1b0a30a0 100644
+>>> --- a/drivers/dma-buf/heaps/cma_heap.c
+>>> +++ b/drivers/dma-buf/heaps/cma_heap.c
+>>> @@ -27,6 +27,7 @@
+>>>  #include <linux/scatterlist.h>
+>>>  #include <linux/slab.h>
+>>>  #include <linux/vmalloc.h>
+>>> +#include <linux/cgroup_dmem.h>
+>>>  
+>>>  #define DEFAULT_CMA_NAME "default_cma_region"
+>>>  
+>>> @@ -58,6 +59,7 @@ struct cma_heap_buffer {
+>>>  	pgoff_t pagecount;
+>>>  	int vmap_cnt;
+>>>  	void *vaddr;
+>>> +	struct dmem_cgroup_pool_state *pool;
+>>>  };
+>>>  
+>>>  struct dma_heap_attachment {
+>>> @@ -276,6 +278,7 @@ static void cma_heap_dma_buf_release(struct dma_buf *dmabuf)
+>>>  	kfree(buffer->pages);
+>>>  	/* release memory */
+>>>  	cma_release(cma_heap->cma, buffer->cma_pages, buffer->pagecount);
+>>> +	dmem_cgroup_uncharge(buffer->pool, buffer->len);
+>>>  	kfree(buffer);
+>>>  }
+>>>  
+>>> @@ -319,9 +322,17 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+>>>  	if (align > CONFIG_CMA_ALIGNMENT)
+>>>  		align = CONFIG_CMA_ALIGNMENT;
+>>>  
+>>> +	if (mem_accounting) {
+>>
+>> Since mem_accounting is a module parameter it is possible to make it changeable during runtime.
+>>
+>> IIRC it currently is read only, but maybe add a one line comment that the cma heap now depends on that.
+>>
+> 
+> Agreed, while read-only it is easily missed without at least a comment.
+> Alternatively, should that value be captured in the init callback to
+> guaranty it is set once and make this requirement clearer?
 
-Each stream requires CIF_REQ_BUFS_MIN=1 buffers to enable streaming.
-However, it failed with only one buffer provided.
+It probably makes more sense to make nails with heads and make it runtime configurable.
 
-Comply with the minimum number of buffers requirement and accept
-exactly one buffer.
+I'm not sure how exactly dmem_cgroup_try_charge()/dmem_cgroup_uncharge() works, could be that it works correctly out of the box and you just need to initialize buffer->pool to NULL when mem_accounting is not enabled.
 
-Fixes: 501802e2ad51 ("media: rockchip: rkcif: add abstraction for dma blocks")
-Cc: stable@kernel.org
-Tested-by: Paul Elder <paul.elder@ideasonboard.com>
-Tested-by: Chen-Yu Tsai <wens@kernel.org>
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- .../media/platform/rockchip/rkcif/rkcif-stream.c   | 44 +++++++++++-----------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+Regards,
+Christian.
 
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-index e00010a91e8b..f15bee4f7cd7 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-@@ -106,42 +106,42 @@ static int rkcif_stream_init_buffers(struct rkcif_stream *stream)
- {
- 	struct v4l2_pix_format_mplane *pix = &stream->pix;
- 
--	stream->buffers[0] = rkcif_stream_pop_buffer(stream);
--	if (!stream->buffers[0])
--		goto err_buff_0;
--
--	stream->buffers[1] = rkcif_stream_pop_buffer(stream);
--	if (!stream->buffers[1])
--		goto err_buff_1;
--
--	if (stream->queue_buffer) {
--		stream->queue_buffer(stream, 0);
--		stream->queue_buffer(stream, 1);
--	}
--
- 	stream->dummy.size = pix->num_planes * pix->plane_fmt[0].sizeimage;
- 	stream->dummy.vaddr =
- 		dma_alloc_attrs(stream->rkcif->dev, stream->dummy.size,
- 				&stream->dummy.buffer.buff_addr[0], GFP_KERNEL,
- 				DMA_ATTR_NO_KERNEL_MAPPING);
- 	if (!stream->dummy.vaddr)
--		goto err_dummy;
-+		return -ENOMEM;
- 
- 	for (unsigned int i = 1; i < pix->num_planes; i++)
- 		stream->dummy.buffer.buff_addr[i] =
- 			stream->dummy.buffer.buff_addr[i - 1] +
- 			pix->plane_fmt[i - 1].bytesperline * pix->height;
- 
--	return 0;
-+	stream->buffers[0] = rkcif_stream_pop_buffer(stream);
-+	if (!stream->buffers[0])
-+		goto err_dummy_free;
-+
-+	stream->buffers[1] = rkcif_stream_pop_buffer(stream);
-+	if (!stream->buffers[1]) {
-+		stream->buffers[1] = &stream->dummy.buffer;
-+		stream->buffers[1]->is_dummy = true;
-+	}
- 
--err_dummy:
--	rkcif_stream_return_buffer(stream->buffers[1], VB2_BUF_STATE_QUEUED);
--	stream->buffers[1] = NULL;
-+	if (stream->queue_buffer) {
-+		stream->queue_buffer(stream, 0);
-+		stream->queue_buffer(stream, 1);
-+	}
-+
-+	return 0;
- 
--err_buff_1:
--	rkcif_stream_return_buffer(stream->buffers[0], VB2_BUF_STATE_QUEUED);
--	stream->buffers[0] = NULL;
--err_buff_0:
-+err_dummy_free:
-+	dma_free_attrs(stream->rkcif->dev, stream->dummy.size,
-+		       stream->dummy.vaddr,
-+		       stream->dummy.buffer.buff_addr[0],
-+		       DMA_ATTR_NO_KERNEL_MAPPING);
-+	stream->dummy.vaddr = NULL;
- 	return -EINVAL;
- }
- 
-
--- 
-2.39.5
-
+> 
+> Thanks,
+> 
+>> Apart from that the series looks totally sane to me.
+>>
+>> Regards,
+>> Christian.
+>>
+>>> +		ret = dmem_cgroup_try_charge(
+>>> +			cma_get_dmem_cgroup_region(cma_heap->cma), size,
+>>> +			&buffer->pool, NULL);
+>>> +		if (ret)
+>>> +			goto free_buffer;
+>>> +	}
+>>> +
+>>>  	cma_pages = cma_alloc(cma_heap->cma, pagecount, align, false);
+>>>  	if (!cma_pages)
+>>> -		goto free_buffer;
+>>> +		goto uncharge_cgroup;
+>>>  
+>>>  	/* Clear the cma pages */
+>>>  	if (PageHighMem(cma_pages)) {
+>>> @@ -376,6 +387,8 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
+>>>  	kfree(buffer->pages);
+>>>  free_cma:
+>>>  	cma_release(cma_heap->cma, cma_pages, pagecount);
+>>> +uncharge_cgroup:
+>>> +	dmem_cgroup_uncharge(buffer->pool, size);
+>>>  free_buffer:
+>>>  	kfree(buffer);
+>>>  
+>>>
+>>
+> 
 
 
