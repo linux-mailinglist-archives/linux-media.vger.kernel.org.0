@@ -1,85 +1,84 @@
-Return-Path: <linux-media+bounces-53141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53142-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UKzjAYK1mWk8WQMAu9opvQ
-	(envelope-from <linux-media+bounces-53141-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 14:39:14 +0100
+	id aIaPCe7TmWnWWwMAu9opvQ
+	(envelope-from <linux-media+bounces-53142-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 16:49:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B21C16CED7
-	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 14:39:13 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBA816D334
+	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 16:49:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6AA683005AB6
-	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 13:39:12 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 785D43005337
+	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 15:48:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8DC1C5F27;
-	Sat, 21 Feb 2026 13:39:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BCB324113C;
+	Sat, 21 Feb 2026 15:48:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="sXmnKBpo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BbY0ZSgp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D0D1A262D
-	for <linux-media@vger.kernel.org>; Sat, 21 Feb 2026 13:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759E723E33D
+	for <linux-media@vger.kernel.org>; Sat, 21 Feb 2026 15:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771681147; cv=none; b=nhE9mJeoE0hkPr2jCuL09/qXPlEbYh6U5Q2myG3mecGSsciczc0I/Z+tf4t1+AK/S/avTtqzsNHUgSuVUUjU36fG99LjPRLowaikCoiwiWns0ZJwXJu5iA1nAR5tjFJAm84ZI24UtBuTGJPiBhVIBfMn9ydpOv9S9NtXxxOxcA4=
+	t=1771688935; cv=none; b=pYwR8Q+veEl5lvfine3aWTFUMl/UKTH+F8CawH20Pu8JAMTe5phkrMLpUXI5kG4EVXfGPjukWDyY+0/ZEdJMP4WSdWGf87vuEmkbWgr/g2l0bSEykO3Zglc6XnMYWgvKtFsZT0bcaQxFgkt2TnBejTnZ05K2lVy9mWeatkyqLoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771681147; c=relaxed/simple;
-	bh=Ip3ZjBDSE/Zy86Y+LTe9T2puFdEjlBEqxZaFXE079aA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=S7msFRF992rlJVbUy2Xb+MyQEXX5ExSHFB1ne8v1pujFB78+U4QEMuJhI9Unl684jPR28RlDJHuUylRi5LgzTAIXXgP1n4r5LRGLMLwqhgRNdWS9Aza/0km87GT8drhsOhBQ9jZWp3kOTwjJHUXAvBmJF7Zpbf7GL4QmWuxdkOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=sXmnKBpo; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-45f0b597eb4so1717569b6e.2
-        for <linux-media@vger.kernel.org>; Sat, 21 Feb 2026 05:39:05 -0800 (PST)
+	s=arc-20240116; t=1771688935; c=relaxed/simple;
+	bh=vnWocnvA63846HhlJZBx/CXiQhYAUPkA5tMPc5pYk7Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BFxUIfLJmaoaub72Ohm6IR8mck+AzqOYxkMOnbvOJrOjAe2u0dxiZwwV7+UCiQMEv6+zUnqNytGozIUCQSb/V3LYYao+hTT6Osks0UaX3VWHoVUF7ojLvaSQGX18F+oxp1EKxXSDZRJtJ3XQ3SL5RbeII6lLLuhQyWX58e4J7Ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BbY0ZSgp; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59e5ea93a1aso2487199e87.1
+        for <linux-media@vger.kernel.org>; Sat, 21 Feb 2026 07:48:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1771681144; x=1772285944; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9qF2506Q3uzmD43lhIhgvzg5157toy2azs/t1x6da2k=;
-        b=sXmnKBpofg5Kv12ga0YRImp3fbQ/neAk9ffiwle+AxMIxcHFK8WsDTiotkjhx2WV+o
-         7s15tCYS3iSa9YNK1N6YCtfGDctGQ5IAP6ZzsPrDlkLwMQl0p3AVkuVNSsJTm+UGHdZi
-         RkHzRgMDWP33bvRuMqbjDdT07LOxlYe9MKx13ImiWqOoEVQeHAeuIyQJswuZAyQ32cer
-         egdFKWDe2V0YptfycZc4BBiLk5wAoleun5CYzr3LhrKPLk5PSs+wOdzaveSO4yIYXLpn
-         2GnZZA8F9Ic8Oyt1t8rHl6PHkWinTFRmT+fU8jsmv03ZZFIkE7HSjTBdDRFxV4wqgxZU
-         Yg8A==
+        d=gmail.com; s=20230601; t=1771688933; x=1772293733; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=j3y8AY1kiJvcmmu3B0A7ELwunkTenPNVCvL6Mw4W/3A=;
+        b=BbY0ZSgpPVkFJLay3Ro6p/VnVN55WjlGMcItiFSWwIOZV+19lycXco82PrVsGH+8z6
+         K/ImrsA14QrlLiVNI8gOxyCaqu9PdYgHoYbKf8QKgh5DTlgAK8DRqZRdC3NmoQb6bbFj
+         bN2l4AIYWwhfSF3H4IKHL2Ad2+TwdmsndpDbIdG4ZbRk3ImftkrbgOVDctpJY4Pny5zp
+         4m234IUHrLxfHqD/7r4gbKyNmoB4ZLzz88OyWF1hXIjUzqXEGdnYsdaEipVV00Qp5msI
+         rhMrF3R2Ort9OUXYhaUGaAfzKEPSPF6/1ptXga6L8JhG8dMHKc2KvydLoqe9WntndrZD
+         taTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771681144; x=1772285944;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9qF2506Q3uzmD43lhIhgvzg5157toy2azs/t1x6da2k=;
-        b=q4jz5ygiZZPyM9XTieTEN199NQPv4mnf2WQ9TJZzBh9xTEqW/xwKIopco7489IjdeN
-         rVyJNLNZii+VKu7zc4AW4Ux3QB7PzGD1sntk4Ps6nBSBpy0ATkJ+mAaYj1z0/by2bwwB
-         aUJS0DHlmr5Ii7LgntnUxazG7aefkWFXQKZGNX+rcx1EkIbeFvXtvtCwpdmjkoeRGZcJ
-         Ws/EPSn26S/AT+qnffLws7cE9/Oy9ATFqnR9G5NOOS941UpsBnnH81B3/6EjP67jmFRo
-         tIa53LRzKqbwQm1t5H7TaDPzFecnN18ym/qZPa/TD4kqhwU0Eu9Hd0796ylbC1PsoIdf
-         V1gQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMEJ/0ue2JH/bAMpfl+mg/t3DMQaNXqzT90eyGR9yWTBfT1pxcMGTotPNUp7c1muoUV8sTGDcLFkWpMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxN03rY0WeDP255FiuekY1S32PvjJhzrMbEf3M4bZZ8tjIF5nlP
-	jo++f7AQXfGoa2LGAle6LmzrN/qF+stX2u2hCZ/o4Ynt2EY2uNcVIj7f2f+8ashlDHyCjFrP8Bp
-	/9ArdlJ814w==
-X-Gm-Gg: AZuq6aJ/+jT8R1ihBkPXg9iDP0NsojLtqsVWh1jBgJ9h2jCaA4XTKOmNiMA9ubPZxWa
-	S/QKJchSN96d7UMrK4Y3ZoXstDyV6/HVWlcRqLXy/zgm8Qc8EuIeI7hcnlGnHZgiI1Cpidmm4qB
-	+tgYRUAW22NcDc1kadQ2JAVLGpsu7iVmJ7X6lhl4hkhOZ3WFCExw5RGHfkhug7BSQafRB0gPNwX
-	18lCLSDu0b1tano4cLkOjncXIQb+j7VH7kt1sI6XZOzz6dWTi8+uXqUbUNDUwkZUfgWGBE8A3fD
-	RiQd/PRS7IRtGlCllVSmGnoctNXR2X8WlXJWyRJSSPKT5gWYupF6oOyt1tCv5Ew6QcY1Eqg9KqS
-	dNU7ymVeuKVSNiWkPjdBDm0CMIYoyudZjC0N88MuQE956NxnklYnbhHKGdqE3ps/n9p3dAlLRkm
-	7sbiHPD5rao9niGzMhJneC4Y+D10mBZZXZF8i8McLF4+qhp3CbZrV0aIjlei/hwK8FIN47GwOyu
-	lYX8WbNMiSGFw==
-X-Received: by 2002:a05:6808:eca:b0:45e:63e0:4c9a with SMTP id 5614622812f47-4644616cba7mr1983904b6e.1.1771681144251;
-        Sat, 21 Feb 2026 05:39:04 -0800 (PST)
-Received: from [172.25.209.35] ([187.223.170.195])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4644a1b2570sm1502190b6e.17.2026.02.21.05.39.02
+        d=1e100.net; s=20230601; t=1771688933; x=1772293733;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j3y8AY1kiJvcmmu3B0A7ELwunkTenPNVCvL6Mw4W/3A=;
+        b=e+BVEmN7AiIqwhUUIgh4Oj5uX7WJU876xVdhxUz3aIlGpjhMBV55bsuku6dWW4xZ+v
+         Je04bcQWkEojXhd21KJWhQ1LubMEZQIUCSZwyYZ7m1pgSM7bXS2tJd1dXV7Rd0JKc9u2
+         lMsbiquT4M9lcxIIGJzOZH1c8OrJ17j2Jojkg0FOAX6rsn3xnGvEqKKtCWylV9WIJnc1
+         EwcwLYBXQTO93RSz597CaxMmYzkEV58nAw4mdlwRsSjpHT+7pWh/r8JoF70MeVQ6jCsw
+         GCD3DRMEHX2RDns+HCcnQ5sJBNdIvz6xgH9kYZoVQfDEpl1tuE+DV3tw0sdUBsA8oP9F
+         wm8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUiQ+4CzC829xB7GO8B/EKA8zlRxPKVbVuxq2pqg8Jn2uOgGgISRbgjGrtKuf+d2NTPa2ITEtc+3xLgmg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2lb7TNPppBP/2zlQl2eJtbH/nUUrOTnezmg9LgGcrbmoix2yF
+	mF5zMfxjla0xbAl9hnwAdNdzxM5HUKeAjoveV9gmg+f11OdB17MCr5H4
+X-Gm-Gg: AZuq6aIjzWHEGHwky171RSFr/121r0gwHHCggwKQ1NehiWauaJmTAthzudp4hpVGVgr
+	v3gZKp1aVJ0VLBlsF4UaMqKWuBfEzXAbrHRgOQSgYtMQNua6SjnraOhxSvDQkonWrbd84+rZkO9
+	2cJfKykIezM1yhp2A12ejIpdIUbUo+673ggSnaglhukSgYoNKI6JTTDEEM6zfw5e3ZLUEIO5oxe
+	JcjWOTSejXj7oF3O2BLbt0KsEhAVH8qdzDXagAHNhEBQhyhYY1ehESr4AqRPImhN8CnVBRHGqdX
+	JiAjrFekyodgiolUmbvM/b22+zt4piYW8L1aUzJBnDSm+YSI8zP3xR2NrDzq32dc/wrtuI/cfJm
+	JRx8ARXFMUfgaIqgvUV4W+sc11YvYuaNawPpV5pb9nAHp4AM3OYo3NQG/i/l7Lyu1bKabZVTBna
+	TPmSsiwkyXJNjQeSDm9AS7BIEETLhJyHqBxuc=
+X-Received: by 2002:a05:6512:b8e:b0:59d:e774:db0e with SMTP id 2adb3069b0e04-5a0ed8a4d1fmr1017779e87.23.1771688932356;
+        Sat, 21 Feb 2026 07:48:52 -0800 (PST)
+Received: from [192.168.0.131] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb0b989sm515119e87.11.2026.02.21.07.48.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Feb 2026 05:39:03 -0800 (PST)
-Message-ID: <709538df-3f3e-4306-af11-206809e1f742@kernel.dk>
-Date: Sat, 21 Feb 2026 06:39:01 -0700
+        Sat, 21 Feb 2026 07:48:49 -0800 (PST)
+Message-ID: <f5980192-a878-47ed-9b38-8607fb7abdc2@gmail.com>
+Date: Sat, 21 Feb 2026 16:48:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,182 +86,114 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [io-uring?] BUG: corrupted list in
- io_poll_remove_entries
-From: Jens Axboe <axboe@kernel.dk>
-To: syzbot <syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com>,
- io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzkaller-bugs@googlegroups.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>
-References: <698a26d3.050a0220.3b3015.007d.GAE@google.com>
- <23112bc4-a498-4089-a225-1440c2151ce2@kernel.dk>
- <cae1de3b-1f76-4595-acfb-70c311d6c1aa@kernel.dk>
- <3d6c84df-853a-4e28-8ee6-b1239bc985f0@kernel.dk>
+Subject: Re: [PATCH v3] media: v4l2-flash: Enter LED off state after file
+ handle closed
+To: cy_huang@richtek.com, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Bryan Wu <cooloney@gmail.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Jacek Anaszewski <j.anaszewski@samsung.com>, roger-hy.wang@mediatek.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <1106c60cb96786ade1f60c692e566c408d7d8174.1768209230.git.cy_huang@richtek.com>
 Content-Language: en-US
-In-Reply-To: <3d6c84df-853a-4e28-8ee6-b1239bc985f0@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+In-Reply-To: <1106c60cb96786ade1f60c692e566c408d7d8174.1768209230.git.cy_huang@richtek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel-dk.20230601.gappssmtp.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[kernel-dk.20230601.gappssmtp.com:+];
-	TAGGED_FROM(0.00)[bounces-53141-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kernel.dk:mid,storage.googleapis.com:url,syzkaller.appspot.com:url];
-	DMARC_NA(0.00)[kernel.dk];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,samsung.com,mediatek.com,vger.kernel.org,linux.intel.com];
+	TAGGED_FROM(0.00)[bounces-53142-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacekanaszewski@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,ab12f0c08dd7ab8d057c];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Queue-Id: 8B21C16CED7
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3FBA816D334
 X-Rspamd-Action: no action
 
-On 2/11/26 5:14 PM, Jens Axboe wrote:
-> On 2/10/26 3:16 PM, Jens Axboe wrote:
->> On 2/9/26 1:18 PM, Jens Axboe wrote:
->>> On 2/9/26 11:26 AM, syzbot wrote:
->>>> Hello,
->>>>
->>>> syzbot found the following issue on:
->>>>
->>>> HEAD commit:    e7aa57247700 Merge tag 'spi-fix-v6.19-rc8' of git://git.ke..
->>>> git tree:       upstream
->>>> console output: https://syzkaller.appspot.com/x/log.txt?x=14d3b65a580000
->>>> kernel config:  https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671
->>>> dashboard link: https://syzkaller.appspot.com/bug?extid=ab12f0c08dd7ab8d057c
->>>> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
->>>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1222965a580000
->>>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=140e833a580000
->>>>
->>>> Downloadable assets:
->>>> disk image: https://storage.googleapis.com/syzbot-assets/c46beb4ff3a5/disk-e7aa5724.raw.xz
->>>> vmlinux: https://storage.googleapis.com/syzbot-assets/d162bcaaf9b9/vmlinux-e7aa5724.xz
->>>> kernel image: https://storage.googleapis.com/syzbot-assets/54b0844b8ea7/bzImage-e7aa5724.xz
->>>>
->>>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
->>>> Reported-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
->>>>
->>>> list_del corruption. prev->next should be ffff88807dc6c3f0, but was ffff888146b205c8. (prev=ffff888146b205c8)
->>>> ------------[ cut here ]------------
->>>> kernel BUG at lib/list_debug.c:62!
->>>> Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
->>>> CPU: 0 UID: 0 PID: 5969 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
->>>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/24/2026
->>>> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
->>>> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
->>>> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
->>>> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
->>>> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
->>>> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
->>>> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
->>>> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
->>>> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
->>>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
->>>> Call Trace:
->>>>  <TASK>
->>>>  __list_del_entry_valid include/linux/list.h:132 [inline]
->>>>  __list_del_entry include/linux/list.h:223 [inline]
->>>>  list_del_init include/linux/list.h:295 [inline]
->>>>  io_poll_remove_waitq io_uring/poll.c:149 [inline]
->>>>  io_poll_remove_entry io_uring/poll.c:166 [inline]
->>>>  io_poll_remove_entries.part.0+0x156/0x7e0 io_uring/poll.c:197
->>>>  io_poll_remove_entries io_uring/poll.c:177 [inline]
->>>>  io_poll_task_func+0x39e/0xe30 io_uring/poll.c:343
->>>>  io_handle_tw_list+0x194/0x580 io_uring/io_uring.c:1122
->>>>  tctx_task_work_run+0x57/0x2b0 io_uring/io_uring.c:1182
->>>>  tctx_task_work+0x7a/0xd0 io_uring/io_uring.c:1200
->>>>  task_work_run+0x150/0x240 kernel/task_work.c:233
->>>>  exit_task_work include/linux/task_work.h:40 [inline]
->>>>  do_exit+0x829/0x2a30 kernel/exit.c:971
->>>>  do_group_exit+0xd5/0x2a0 kernel/exit.c:1112
->>>>  __do_sys_exit_group kernel/exit.c:1123 [inline]
->>>>  __se_sys_exit_group kernel/exit.c:1121 [inline]
->>>>  __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1121
->>>>  x64_sys_call+0x14fd/0x1510 arch/x86/include/generated/asm/syscalls_64.h:232
->>>>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
->>>>  do_syscall_64+0xc9/0xf80 arch/x86/entry/syscall_64.c:94
->>>>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
->>>> RIP: 0033:0x7f60e579aeb9
->>>> Code: Unable to access opcode bytes at 0x7f60e579ae8f.
->>>> RSP: 002b:00007ffc2d47ddf8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
->>>> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f60e579aeb9
->>>> RDX: 0000000000000064 RSI: 0000000000000000 RDI: 0000000000000000
->>>> RBP: 0000000000000003 R08: 0000000000000000 R09: 00007f60e59e1280
->>>> R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000000
->>>> R13: 00007f60e59e1280 R14: 0000000000000003 R15: 00007ffc2d47deb0
->>>>  </TASK>
->>>> Modules linked in:
->>>> ---[ end trace 0000000000000000 ]---
->>>> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
->>>> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
->>>> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
->>>> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
->>>> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
->>>> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
->>>> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
->>>> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
->>>> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
->>>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>>> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
->>>
->>> #syz test
->>>
->>> diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
->>> index 8c6f5aafda1d..5cb46109d1ff 100644
->>> --- a/drivers/media/dvb-core/dmxdev.c
->>> +++ b/drivers/media/dvb-core/dmxdev.c
->>> @@ -168,7 +168,9 @@ static int dvb_dvr_open(struct inode *inode, struct file *file)
->>>  			mutex_unlock(&dmxdev->mutex);
->>>  			return -ENOMEM;
->>>  		}
->>> -		dvb_ringbuffer_init(&dmxdev->dvr_buffer, mem, DVR_BUFFER_SIZE);
->>> +		dmxdev->dvr_buffer.data = mem;
->>> +		dmxdev->dvr_buffer.size = DVR_BUFFER_SIZE;
->>> +		dvb_ringbuffer_reset(&dmxdev->dvr_buffer);
->>>  		if (dmxdev->may_do_mmap)
->>>  			dvb_vb2_init(&dmxdev->dvr_vb2_ctx, "dvr",
->>>  				     file->f_flags & O_NONBLOCK);
->>>
->>
->> Mauro and other maintainers, this is literally the same issue as one reported
->> last year:
->>
->> https://lore.kernel.org/linux-media/20250407091619.11250-1-superman.xpt@gmail.com/
->>
->> and I'm honestly a bit surprised that nobody has dealt with this, it's 10 months ago.
->> And syzbot is still hitting it, literally crashing the box.
->>
->> Hmm?
-> 
-> Nobody cares about any user that is able to open a dvr device, which at
-> least on debian is EVERY standard user, can crash the kernel?
-> 
-> I see replies on other messages, yet this issue has seemingly been
-> ignored for a year.
+Hi ChiYuan,
 
-Another ping on this one. For some reason you (Mauro) are ignoring this
-issue, both the original report and my report. Not quite sure what to do
-about it, but I'm tempted to just send the patch to Linus at this point.
+On 1/12/26 10:20, cy_huang@richtek.com wrote:
+> From: ChiYuan Huang <cy_huang@richtek.com>
+> 
+> To make sure LED enter off state after file handle is closed, initiatively
+> configure LED_MODE to NONE. This can guarantee whatever the previous state
+> is torch or strobe mode, the final state will be off.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 42bd6f59ae90 ("media: Add registration helpers for V4L2 flash sub-devices")
+> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
+> ---
+> Still cannot pass patch integration check, send v3 patch to fix all.
+> 
+> v3
+> - Remove 'Reported-by' tag
+> - Fix identation check for patch integration
+> 
+> v2
+> - Fix commit message redudant space cause patch robot parsing error
+> 
+> Hi,
+>    We encounter an issue. When the upper layer camera process is crashed,
+> if the new process did not reinit the LED,  it will keeps the previous
+> state whatever it's in torch or strobe mode
+> 
+> OS will handle the resource management. So when the process is crashed
+> or terminated, the 'close' API will be called to release resources.
+> That's why we add the initiative action to trigger LED off in file
+> handle close is called.
+> ---
+>   drivers/media/v4l2-core/v4l2-flash-led-class.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> index 355595a0fefa..46606f5cc192 100644
+> --- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> +++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> @@ -623,6 +623,12 @@ static int v4l2_flash_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>   		return 0;
+>   
+>   	if (led_cdev) {
+> +		/* If file handle is released, make sure LED enter off state */
+> +		ret = v4l2_ctrl_s_ctrl(v4l2_flash->ctrls[LED_MODE],
+> +				       V4L2_FLASH_LED_MODE_NONE);
+> +		if (ret)
+> +			return ret;
+> +
+>   		mutex_lock(&led_cdev->led_access);
+>   
+>   		if (v4l2_flash->ctrls[STROBE_SOURCE])
+> 
+> base-commit: 8ac28a6642d1cc8bac0632222e66add800b027fa
+
+The patch itself looks good, but while at it I started wondering
+if we shouldn't move below STROBE_SOURCE access before the lock.
+I don't see now, why we placed it there.
+
+Adding Sakari.
 
 -- 
-Jens Axboe
+Best regards,
+Jacek Anaszewski
+
 
