@@ -1,309 +1,268 @@
-Return-Path: <linux-media+bounces-53140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53141-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KPYEC6GrmWlMWAMAu9opvQ
-	(envelope-from <linux-media+bounces-53140-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 13:57:05 +0100
+	id UKzjAYK1mWk8WQMAu9opvQ
+	(envelope-from <linux-media+bounces-53141-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 14:39:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642D716CDCD
-	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 13:57:04 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B21C16CED7
+	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 14:39:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7B9673017015
-	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 12:56:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6AA683005AB6
+	for <lists+linux-media@lfdr.de>; Sat, 21 Feb 2026 13:39:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49A1B14884C;
-	Sat, 21 Feb 2026 12:56:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8DC1C5F27;
+	Sat, 21 Feb 2026 13:39:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ao/MFqem"
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="sXmnKBpo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A123B1B3
-	for <linux-media@vger.kernel.org>; Sat, 21 Feb 2026 12:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D0D1A262D
+	for <linux-media@vger.kernel.org>; Sat, 21 Feb 2026 13:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771678615; cv=none; b=E4bJOdNaIt+nO5RW6Z9Kdad5n3eDlv/H/tU59r00QucI6QXHSDWjos7f98Ojw4y4kyt+aj8ZuUh9BHKATjfVl/Ji1IW91SN2ThXt+6yvXWNUc3A5TSEj84KxFjfx32yaZs+5CHFKm35IVa7exb1ADi7q16kKMG1NejnnAXzUbgk=
+	t=1771681147; cv=none; b=nhE9mJeoE0hkPr2jCuL09/qXPlEbYh6U5Q2myG3mecGSsciczc0I/Z+tf4t1+AK/S/avTtqzsNHUgSuVUUjU36fG99LjPRLowaikCoiwiWns0ZJwXJu5iA1nAR5tjFJAm84ZI24UtBuTGJPiBhVIBfMn9ydpOv9S9NtXxxOxcA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771678615; c=relaxed/simple;
-	bh=YgWjYxq7RXbp0FyYKts73N4C0h4XJlyREAM2Ese+c4k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RSc0kMOjdiClXVvCRzhPdJ3GcafYtUpALDNYTJ569IgWx5dnhlKqf9BUEihZIdrbwO7MFGOS69yMW4KLd2EZnsSD9P7poRTZKpc7jnCOE759CV8oEeqwF42iUl7IfGCeC9Z8jr7DNmubAcIeao07dOv7G4uAhtcmj3avVAPNnCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ao/MFqem; arc=none smtp.client-ip=209.85.221.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-436356740e6so3116611f8f.2
-        for <linux-media@vger.kernel.org>; Sat, 21 Feb 2026 04:56:54 -0800 (PST)
+	s=arc-20240116; t=1771681147; c=relaxed/simple;
+	bh=Ip3ZjBDSE/Zy86Y+LTe9T2puFdEjlBEqxZaFXE079aA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=S7msFRF992rlJVbUy2Xb+MyQEXX5ExSHFB1ne8v1pujFB78+U4QEMuJhI9Unl684jPR28RlDJHuUylRi5LgzTAIXXgP1n4r5LRGLMLwqhgRNdWS9Aza/0km87GT8drhsOhBQ9jZWp3kOTwjJHUXAvBmJF7Zpbf7GL4QmWuxdkOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=sXmnKBpo; arc=none smtp.client-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-45f0b597eb4so1717569b6e.2
+        for <linux-media@vger.kernel.org>; Sat, 21 Feb 2026 05:39:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771678613; x=1772283413; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b8C4N7X0/t/n4R4Lnbl6uwhiS31yaXGWjSbzbzgqD70=;
-        b=ao/MFqemtjmdzNssZdB3rs8SN82Xm/HTNFzpJHHnYSpIEMk3BUFfB8imtpx3eg5sTj
-         ynQgV6awZLQpKGtxDaRDaD5Lsy1aCIlTvrm6GJFv3bLFJtcqCWvixLGBA4SzQa9Ku1o2
-         pxJ9edNiivdheCOp+jbXTaT/0LB1817cAbxkLsR0d2XrASR+dxzPIcUJV8I7uR9Te42t
-         l48kL4slP+AmBG2uUBDHblPZtmtK7pxzN7EVD/XAMjp0Q4y3+4NgEBIy1CgxTKkTdI+n
-         e3d41EMoYQuNzVSft4uEdyYxmmsCgHOPBavqD7JniKqErvKn1d5d2tvChJZCWtY0+MCF
-         8gpA==
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1771681144; x=1772285944; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9qF2506Q3uzmD43lhIhgvzg5157toy2azs/t1x6da2k=;
+        b=sXmnKBpofg5Kv12ga0YRImp3fbQ/neAk9ffiwle+AxMIxcHFK8WsDTiotkjhx2WV+o
+         7s15tCYS3iSa9YNK1N6YCtfGDctGQ5IAP6ZzsPrDlkLwMQl0p3AVkuVNSsJTm+UGHdZi
+         RkHzRgMDWP33bvRuMqbjDdT07LOxlYe9MKx13ImiWqOoEVQeHAeuIyQJswuZAyQ32cer
+         egdFKWDe2V0YptfycZc4BBiLk5wAoleun5CYzr3LhrKPLk5PSs+wOdzaveSO4yIYXLpn
+         2GnZZA8F9Ic8Oyt1t8rHl6PHkWinTFRmT+fU8jsmv03ZZFIkE7HSjTBdDRFxV4wqgxZU
+         Yg8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771678613; x=1772283413;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b8C4N7X0/t/n4R4Lnbl6uwhiS31yaXGWjSbzbzgqD70=;
-        b=AQZH7iCBK/jQzrUy6fpjzWduKXJLK1VKPY/mz+sqQOnWW7Mr/0Zgy41oceCEbHBMfB
-         miSdGIxRWK4Bl6dCvlUXYwiuAuipTmC3oQG4kx+zpWIQYlaoX+xdrEcVYH3EqkLFnedb
-         NkzwazSxtCqs3ilja9qn/gKUvLtu6nWg7k17jYSs0/3eyIMwHhYc/rqBameBQQLBvMXj
-         yWcxiRjYw0rLikypGHa5XVzq833LbENHBNPKRE6/mRVsGQ29YbdV/n5+6gfbibyTLxVS
-         KdgEhg04VGBQxvds1jMTwMjxAIhCsTfdoKPByVBS1/OCZCYQFORezDcCCqyB7yWDe7p+
-         XfLg==
-X-Gm-Message-State: AOJu0YysOZb9Gzntk2ODvI3mW03d04wygvjL2/9le2h72qUpmtmKRXhM
-	MtJDf8t9OCTNLUAs+Kw8ZMzM9QDmUZP5Q9qwKnlZR4JfbXPNd/9L5EWU
-X-Gm-Gg: AZuq6aKfNGiOzrYOnC1pI0NYesyCE2fCYNOGkH+x43/W7NKsb2pRKSumljcWpQByh57
-	JhWjDZPwwdm6MMgTbcMBauy5BZBw3jBh05M1tJYJm3ArgIeE0uNVHbQDF92uD0ds9A7K6O+tDn0
-	PpnF5LFs2U2JepRkzCY7qKWm917y0F8dHZBk5t26gYr92fbrr92M1CDhEovBKVrLzzvHbZ4JY+Q
-	TAwCffKKmPFNMoC6khiWyMLYtlfTwzU35Q5328mVFDF1tVDwbXCPMESotW5q+0aAY3IGta5owuG
-	k9ZsorNgj5fwK2XU/gCyGDEQralgWG81y/UVJX4+4BS0TL1Bix4J2zbPBN3gYe1aPsb6VWJdawd
-	p3LKrqLDb5A2/bGtQs0hD6nuWim9DzfQ56COgQK90NsGJmwcuiVuy6P48hpSDB8O9fR7BNXXGi2
-	eS/uqb6lZqCTStBQYLoe7zkS8=
-X-Received: by 2002:a05:6000:3111:b0:437:6f15:29f0 with SMTP id ffacd0b85a97d-4396f17f44dmr5877675f8f.45.1771678612573;
-        Sat, 21 Feb 2026 04:56:52 -0800 (PST)
-Received: from masalkhi ([2a02:3037:22e:87e2:d9d5:eb22:70e:7c2e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bf9ff5sm5700039f8f.4.2026.02.21.04.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 04:56:51 -0800 (PST)
-From: Abd-Alrhman Masalkhi <abd.masalkhi@gmail.com>
-To: dwlsalmeida@gmail.com,
-	mchehab@kernel.org,
-	thomas.weissschuh@linutronix.de,
-	dingyihan@uniontech.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Abd-Alrhman Masalkhi <abd.masalkhi@gmail.com>,
-	syzbot+96f901260a0b2d29cd1a@syzkaller.appspotmail.com
-Subject: [PATCH v2] media: vidtv: fix pass-by-value structs causing MSAN warnings
-Date: Sat, 21 Feb 2026 13:56:18 +0100
-Message-ID: <20260221125618.133570-1-abd.masalkhi@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1771681144; x=1772285944;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9qF2506Q3uzmD43lhIhgvzg5157toy2azs/t1x6da2k=;
+        b=q4jz5ygiZZPyM9XTieTEN199NQPv4mnf2WQ9TJZzBh9xTEqW/xwKIopco7489IjdeN
+         rVyJNLNZii+VKu7zc4AW4Ux3QB7PzGD1sntk4Ps6nBSBpy0ATkJ+mAaYj1z0/by2bwwB
+         aUJS0DHlmr5Ii7LgntnUxazG7aefkWFXQKZGNX+rcx1EkIbeFvXtvtCwpdmjkoeRGZcJ
+         Ws/EPSn26S/AT+qnffLws7cE9/Oy9ATFqnR9G5NOOS941UpsBnnH81B3/6EjP67jmFRo
+         tIa53LRzKqbwQm1t5H7TaDPzFecnN18ym/qZPa/TD4kqhwU0Eu9Hd0796ylbC1PsoIdf
+         V1gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMEJ/0ue2JH/bAMpfl+mg/t3DMQaNXqzT90eyGR9yWTBfT1pxcMGTotPNUp7c1muoUV8sTGDcLFkWpMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxN03rY0WeDP255FiuekY1S32PvjJhzrMbEf3M4bZZ8tjIF5nlP
+	jo++f7AQXfGoa2LGAle6LmzrN/qF+stX2u2hCZ/o4Ynt2EY2uNcVIj7f2f+8ashlDHyCjFrP8Bp
+	/9ArdlJ814w==
+X-Gm-Gg: AZuq6aJ/+jT8R1ihBkPXg9iDP0NsojLtqsVWh1jBgJ9h2jCaA4XTKOmNiMA9ubPZxWa
+	S/QKJchSN96d7UMrK4Y3ZoXstDyV6/HVWlcRqLXy/zgm8Qc8EuIeI7hcnlGnHZgiI1Cpidmm4qB
+	+tgYRUAW22NcDc1kadQ2JAVLGpsu7iVmJ7X6lhl4hkhOZ3WFCExw5RGHfkhug7BSQafRB0gPNwX
+	18lCLSDu0b1tano4cLkOjncXIQb+j7VH7kt1sI6XZOzz6dWTi8+uXqUbUNDUwkZUfgWGBE8A3fD
+	RiQd/PRS7IRtGlCllVSmGnoctNXR2X8WlXJWyRJSSPKT5gWYupF6oOyt1tCv5Ew6QcY1Eqg9KqS
+	dNU7ymVeuKVSNiWkPjdBDm0CMIYoyudZjC0N88MuQE956NxnklYnbhHKGdqE3ps/n9p3dAlLRkm
+	7sbiHPD5rao9niGzMhJneC4Y+D10mBZZXZF8i8McLF4+qhp3CbZrV0aIjlei/hwK8FIN47GwOyu
+	lYX8WbNMiSGFw==
+X-Received: by 2002:a05:6808:eca:b0:45e:63e0:4c9a with SMTP id 5614622812f47-4644616cba7mr1983904b6e.1.1771681144251;
+        Sat, 21 Feb 2026 05:39:04 -0800 (PST)
+Received: from [172.25.209.35] ([187.223.170.195])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4644a1b2570sm1502190b6e.17.2026.02.21.05.39.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Feb 2026 05:39:03 -0800 (PST)
+Message-ID: <709538df-3f3e-4306-af11-206809e1f742@kernel.dk>
+Date: Sat, 21 Feb 2026 06:39:01 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [syzbot] [io-uring?] BUG: corrupted list in
+ io_poll_remove_entries
+From: Jens Axboe <axboe@kernel.dk>
+To: syzbot <syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com>,
+ io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-media@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>
+References: <698a26d3.050a0220.3b3015.007d.GAE@google.com>
+ <23112bc4-a498-4089-a225-1440c2151ce2@kernel.dk>
+ <cae1de3b-1f76-4595-acfb-70c311d6c1aa@kernel.dk>
+ <3d6c84df-853a-4e28-8ee6-b1239bc985f0@kernel.dk>
+Content-Language: en-US
+In-Reply-To: <3d6c84df-853a-4e28-8ee6-b1239bc985f0@kernel.dk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel-dk.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	DKIM_TRACE(0.00)[kernel-dk.20230601.gappssmtp.com:+];
+	TAGGED_FROM(0.00)[bounces-53141-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kernel.dk:mid,storage.googleapis.com:url,syzkaller.appspot.com:url];
+	DMARC_NA(0.00)[kernel.dk];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53140-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linutronix.de,uniontech.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,syzkaller.appspotmail.com];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[abdmasalkhi@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media,96f901260a0b2d29cd1a];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,appspotmail.com:email]
-X-Rspamd-Queue-Id: 642D716CDCD
+	TAGGED_RCPT(0.00)[linux-media,ab12f0c08dd7ab8d057c];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Queue-Id: 8B21C16CED7
 X-Rspamd-Action: no action
 
-vidtv_ts_null_write_into() and vidtv_ts_pcr_write_into() take their
-argument structs by value, causing MSAN to report uninit-value warnings.
-While only vidtv_ts_null_write_into() has triggered a report so far,
-both functions share the same issue.
+On 2/11/26 5:14 PM, Jens Axboe wrote:
+> On 2/10/26 3:16 PM, Jens Axboe wrote:
+>> On 2/9/26 1:18 PM, Jens Axboe wrote:
+>>> On 2/9/26 11:26 AM, syzbot wrote:
+>>>> Hello,
+>>>>
+>>>> syzbot found the following issue on:
+>>>>
+>>>> HEAD commit:    e7aa57247700 Merge tag 'spi-fix-v6.19-rc8' of git://git.ke..
+>>>> git tree:       upstream
+>>>> console output: https://syzkaller.appspot.com/x/log.txt?x=14d3b65a580000
+>>>> kernel config:  https://syzkaller.appspot.com/x/.config?x=f1fac0919970b671
+>>>> dashboard link: https://syzkaller.appspot.com/bug?extid=ab12f0c08dd7ab8d057c
+>>>> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+>>>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1222965a580000
+>>>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=140e833a580000
+>>>>
+>>>> Downloadable assets:
+>>>> disk image: https://storage.googleapis.com/syzbot-assets/c46beb4ff3a5/disk-e7aa5724.raw.xz
+>>>> vmlinux: https://storage.googleapis.com/syzbot-assets/d162bcaaf9b9/vmlinux-e7aa5724.xz
+>>>> kernel image: https://storage.googleapis.com/syzbot-assets/54b0844b8ea7/bzImage-e7aa5724.xz
+>>>>
+>>>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+>>>> Reported-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
+>>>>
+>>>> list_del corruption. prev->next should be ffff88807dc6c3f0, but was ffff888146b205c8. (prev=ffff888146b205c8)
+>>>> ------------[ cut here ]------------
+>>>> kernel BUG at lib/list_debug.c:62!
+>>>> Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+>>>> CPU: 0 UID: 0 PID: 5969 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+>>>> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/24/2026
+>>>> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
+>>>> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
+>>>> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
+>>>> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
+>>>> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
+>>>> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
+>>>> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
+>>>> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
+>>>> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
+>>>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
+>>>> Call Trace:
+>>>>  <TASK>
+>>>>  __list_del_entry_valid include/linux/list.h:132 [inline]
+>>>>  __list_del_entry include/linux/list.h:223 [inline]
+>>>>  list_del_init include/linux/list.h:295 [inline]
+>>>>  io_poll_remove_waitq io_uring/poll.c:149 [inline]
+>>>>  io_poll_remove_entry io_uring/poll.c:166 [inline]
+>>>>  io_poll_remove_entries.part.0+0x156/0x7e0 io_uring/poll.c:197
+>>>>  io_poll_remove_entries io_uring/poll.c:177 [inline]
+>>>>  io_poll_task_func+0x39e/0xe30 io_uring/poll.c:343
+>>>>  io_handle_tw_list+0x194/0x580 io_uring/io_uring.c:1122
+>>>>  tctx_task_work_run+0x57/0x2b0 io_uring/io_uring.c:1182
+>>>>  tctx_task_work+0x7a/0xd0 io_uring/io_uring.c:1200
+>>>>  task_work_run+0x150/0x240 kernel/task_work.c:233
+>>>>  exit_task_work include/linux/task_work.h:40 [inline]
+>>>>  do_exit+0x829/0x2a30 kernel/exit.c:971
+>>>>  do_group_exit+0xd5/0x2a0 kernel/exit.c:1112
+>>>>  __do_sys_exit_group kernel/exit.c:1123 [inline]
+>>>>  __se_sys_exit_group kernel/exit.c:1121 [inline]
+>>>>  __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1121
+>>>>  x64_sys_call+0x14fd/0x1510 arch/x86/include/generated/asm/syscalls_64.h:232
+>>>>  do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+>>>>  do_syscall_64+0xc9/0xf80 arch/x86/entry/syscall_64.c:94
+>>>>  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>>>> RIP: 0033:0x7f60e579aeb9
+>>>> Code: Unable to access opcode bytes at 0x7f60e579ae8f.
+>>>> RSP: 002b:00007ffc2d47ddf8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+>>>> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f60e579aeb9
+>>>> RDX: 0000000000000064 RSI: 0000000000000000 RDI: 0000000000000000
+>>>> RBP: 0000000000000003 R08: 0000000000000000 R09: 00007f60e59e1280
+>>>> R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000000
+>>>> R13: 00007f60e59e1280 R14: 0000000000000003 R15: 00007ffc2d47deb0
+>>>>  </TASK>
+>>>> Modules linked in:
+>>>> ---[ end trace 0000000000000000 ]---
+>>>> RIP: 0010:__list_del_entry_valid_or_report+0x14a/0x1d0 lib/list_debug.c:62
+>>>> Code: 00 00 fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 8d 00 00 00 48 8b 55 00 48 89 e9 48 89 de 48 c7 c7 40 3d fa 8b e8 37 b0 32 fc 90 <0f> 0b 4c 89 e7 e8 3c 24 5d fd 48 89 ea 48 b8 00 00 00 00 00 fc ff
+>>>> RSP: 0018:ffffc90003bffaa8 EFLAGS: 00010082
+>>>> RAX: 000000000000006d RBX: ffff88807dc6c3f0 RCX: 0000000000000000
+>>>> RDX: 000000000000006d RSI: ffffffff81e5d6c9 RDI: fffff5200077ff46
+>>>> RBP: ffff888146b205c8 R08: 0000000000000005 R09: 0000000000000000
+>>>> R10: 0000000080000001 R11: 0000000000000000 R12: ffff88807dc6c2b0
+>>>> R13: ffff88807dc6c408 R14: ffff88807dc6c3f0 R15: ffff88807dc6c3c8
+>>>> FS:  0000000000000000(0000) GS:ffff8881245d9000(0000) knlGS:0000000000000000
+>>>> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>> CR2: 00007f60e56708c0 CR3: 000000006b065000 CR4: 00000000003526f0
+>>>
+>>> #syz test
+>>>
+>>> diff --git a/drivers/media/dvb-core/dmxdev.c b/drivers/media/dvb-core/dmxdev.c
+>>> index 8c6f5aafda1d..5cb46109d1ff 100644
+>>> --- a/drivers/media/dvb-core/dmxdev.c
+>>> +++ b/drivers/media/dvb-core/dmxdev.c
+>>> @@ -168,7 +168,9 @@ static int dvb_dvr_open(struct inode *inode, struct file *file)
+>>>  			mutex_unlock(&dmxdev->mutex);
+>>>  			return -ENOMEM;
+>>>  		}
+>>> -		dvb_ringbuffer_init(&dmxdev->dvr_buffer, mem, DVR_BUFFER_SIZE);
+>>> +		dmxdev->dvr_buffer.data = mem;
+>>> +		dmxdev->dvr_buffer.size = DVR_BUFFER_SIZE;
+>>> +		dvb_ringbuffer_reset(&dmxdev->dvr_buffer);
+>>>  		if (dmxdev->may_do_mmap)
+>>>  			dvb_vb2_init(&dmxdev->dvr_vb2_ctx, "dvr",
+>>>  				     file->f_flags & O_NONBLOCK);
+>>>
+>>
+>> Mauro and other maintainers, this is literally the same issue as one reported
+>> last year:
+>>
+>> https://lore.kernel.org/linux-media/20250407091619.11250-1-superman.xpt@gmail.com/
+>>
+>> and I'm honestly a bit surprised that nobody has dealt with this, it's 10 months ago.
+>> And syzbot is still hitting it, literally crashing the box.
+>>
+>> Hmm?
+> 
+> Nobody cares about any user that is able to open a dvr device, which at
+> least on debian is EVERY standard user, can crash the kernel?
+> 
+> I see replies on other messages, yet this issue has seemingly been
+> ignored for a year.
 
-Fix by passing both structs by const pointer instead, avoiding the
-stack copy of the struct along with its MSAN shadow and origin metadata.
-The functions do not modify the structs, which is enforced by the const
-qualifier.
+Another ping on this one. For some reason you (Mauro) are ignoring this
+issue, both the original report and my report. Not quite sure what to do
+about it, but I'm tempted to just send the patch to Linus at this point.
 
-Fixes: f90cf6079bf67 ("media: vidtv: add a bridge driver")
-Reported-by: syzbot+96f901260a0b2d29cd1a@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=96f901260a0b2d29cd1a
-Tested-by: syzbot+96f901260a0b2d29cd1a@syzkaller.appspotmail.com
-Suggested-by: Yihan Ding <dingyihan@uniontech.com>
-Signed-off-by: Abd-Alrhman Masalkhi <abd.masalkhi@gmail.com>
----
-Changes in v2:
- - Fix the incorrect 'Fixes' tag
- - Add const qualifier to function parameters
- - Fix a similar pass-by-value issue in vidtv_ts_pcr_write_into()
- - Link to v1: https://lore.kernel.org/all/20260216211703.3702-1-abd.masalkhi@gmail.com/
----
- drivers/media/test-drivers/vidtv/vidtv_mux.c |  4 +-
- drivers/media/test-drivers/vidtv/vidtv_ts.c  | 48 ++++++++++----------
- drivers/media/test-drivers/vidtv/vidtv_ts.h  |  4 +-
- 3 files changed, 28 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-index f99878eff7ac..7dad97881fdb 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-@@ -233,7 +233,7 @@ static u32 vidtv_mux_push_pcr(struct vidtv_mux *m)
- 	/* the 27Mhz clock will feed both parts of the PCR bitfield */
- 	args.pcr = m->timing.clk;
- 
--	nbytes += vidtv_ts_pcr_write_into(args);
-+	nbytes += vidtv_ts_pcr_write_into(&args);
- 	m->mux_buf_offset += nbytes;
- 
- 	m->num_streamed_pcr++;
-@@ -363,7 +363,7 @@ static u32 vidtv_mux_pad_with_nulls(struct vidtv_mux *m, u32 npkts)
- 	args.continuity_counter = &ctx->cc;
- 
- 	for (i = 0; i < npkts; ++i) {
--		m->mux_buf_offset += vidtv_ts_null_write_into(args);
-+		m->mux_buf_offset += vidtv_ts_null_write_into(&args);
- 		args.dest_offset  = m->mux_buf_offset;
- 	}
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c b/drivers/media/test-drivers/vidtv/vidtv_ts.c
-index ca4bb9c40b78..cbe9aff9ffb5 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_ts.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
-@@ -48,7 +48,7 @@ void vidtv_ts_inc_cc(u8 *continuity_counter)
- 		*continuity_counter = 0;
- }
- 
--u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
-+u32 vidtv_ts_null_write_into(const struct null_packet_write_args *args)
- {
- 	u32 nbytes = 0;
- 	struct vidtv_mpeg_ts ts_header = {};
-@@ -56,21 +56,21 @@ u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
- 	ts_header.sync_byte          = TS_SYNC_BYTE;
- 	ts_header.bitfield           = cpu_to_be16(TS_NULL_PACKET_PID);
- 	ts_header.payload            = 1;
--	ts_header.continuity_counter = *args.continuity_counter;
-+	ts_header.continuity_counter = *args->continuity_counter;
- 
- 	/* copy TS header */
--	nbytes += vidtv_memcpy(args.dest_buf,
--			       args.dest_offset + nbytes,
--			       args.buf_sz,
-+	nbytes += vidtv_memcpy(args->dest_buf,
-+			       args->dest_offset + nbytes,
-+			       args->buf_sz,
- 			       &ts_header,
- 			       sizeof(ts_header));
- 
--	vidtv_ts_inc_cc(args.continuity_counter);
-+	vidtv_ts_inc_cc(args->continuity_counter);
- 
- 	/* fill the rest with empty data */
--	nbytes += vidtv_memset(args.dest_buf,
--			       args.dest_offset + nbytes,
--			       args.buf_sz,
-+	nbytes += vidtv_memset(args->dest_buf,
-+			       args->dest_offset + nbytes,
-+			       args->buf_sz,
- 			       TS_FILL_BYTE,
- 			       TS_PACKET_LEN - nbytes);
- 
-@@ -83,17 +83,17 @@ u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
- 	return nbytes;
- }
- 
--u32 vidtv_ts_pcr_write_into(struct pcr_write_args args)
-+u32 vidtv_ts_pcr_write_into(const struct pcr_write_args *args)
- {
- 	u32 nbytes = 0;
- 	struct vidtv_mpeg_ts ts_header = {};
- 	struct vidtv_mpeg_ts_adaption ts_adap = {};
- 
- 	ts_header.sync_byte     = TS_SYNC_BYTE;
--	ts_header.bitfield      = cpu_to_be16(args.pid);
-+	ts_header.bitfield      = cpu_to_be16(args->pid);
- 	ts_header.scrambling    = 0;
- 	/* cc is not incremented, but it is needed. see 13818-1 clause 2.4.3.3 */
--	ts_header.continuity_counter = *args.continuity_counter;
-+	ts_header.continuity_counter = *args->continuity_counter;
- 	ts_header.payload            = 0;
- 	ts_header.adaptation_field   = 1;
- 
-@@ -102,27 +102,27 @@ u32 vidtv_ts_pcr_write_into(struct pcr_write_args args)
- 	ts_adap.PCR    = 1;
- 
- 	/* copy TS header */
--	nbytes += vidtv_memcpy(args.dest_buf,
--			       args.dest_offset + nbytes,
--			       args.buf_sz,
-+	nbytes += vidtv_memcpy(args->dest_buf,
-+			       args->dest_offset + nbytes,
-+			       args->buf_sz,
- 			       &ts_header,
- 			       sizeof(ts_header));
- 
- 	/* write the adap after the TS header */
--	nbytes += vidtv_memcpy(args.dest_buf,
--			       args.dest_offset + nbytes,
--			       args.buf_sz,
-+	nbytes += vidtv_memcpy(args->dest_buf,
-+			       args->dest_offset + nbytes,
-+			       args->buf_sz,
- 			       &ts_adap,
- 			       sizeof(ts_adap));
- 
- 	/* write the PCR optional */
--	nbytes += vidtv_ts_write_pcr_bits(args.dest_buf,
--					  args.dest_offset + nbytes,
--					  args.pcr);
-+	nbytes += vidtv_ts_write_pcr_bits(args->dest_buf,
-+					  args->dest_offset + nbytes,
-+					  args->pcr);
- 
--	nbytes += vidtv_memset(args.dest_buf,
--			       args.dest_offset + nbytes,
--			       args.buf_sz,
-+	nbytes += vidtv_memset(args->dest_buf,
-+			       args->dest_offset + nbytes,
-+			       args->buf_sz,
- 			       TS_FILL_BYTE,
- 			       TS_PACKET_LEN - nbytes);
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.h b/drivers/media/test-drivers/vidtv/vidtv_ts.h
-index 09b4ffd02829..3606398e160d 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_ts.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_ts.h
-@@ -90,7 +90,7 @@ void vidtv_ts_inc_cc(u8 *continuity_counter);
-  *
-  * Return: The number of bytes written into the buffer.
-  */
--u32 vidtv_ts_null_write_into(struct null_packet_write_args args);
-+u32 vidtv_ts_null_write_into(const struct null_packet_write_args *args);
- 
- /**
-  * vidtv_ts_pcr_write_into - Write a PCR  packet into a buffer.
-@@ -101,6 +101,6 @@ u32 vidtv_ts_null_write_into(struct null_packet_write_args args);
-  *
-  * Return: The number of bytes written into the buffer.
-  */
--u32 vidtv_ts_pcr_write_into(struct pcr_write_args args);
-+u32 vidtv_ts_pcr_write_into(const struct pcr_write_args *args);
- 
- #endif //VIDTV_TS_H
 -- 
-2.51.0
-
+Jens Axboe
 
