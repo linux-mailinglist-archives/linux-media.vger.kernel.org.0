@@ -1,257 +1,318 @@
-Return-Path: <linux-media+bounces-53144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53145-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6Fx8FqsEm2lPqAMAu9opvQ
-	(envelope-from <linux-media+bounces-53144-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 14:29:15 +0100
+	id aBdFDsFfm2kmywMAu9opvQ
+	(envelope-from <linux-media+bounces-53145-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 20:57:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4C16F3C9
-	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 14:29:14 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 517EF1703B4
+	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 20:57:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1366D3008CA9
-	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 13:29:12 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 50F30300980E
+	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 19:57:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 244EF33859A;
-	Sun, 22 Feb 2026 13:29:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B78835BDB8;
+	Sun, 22 Feb 2026 19:57:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="iQhlVaDh"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="MN+lJy9m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic312-45.consmr.mail.ir2.yahoo.com (sonic312-45.consmr.mail.ir2.yahoo.com [77.238.178.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-07.mail-europe.com (mail-0701.mail-europe.com [51.83.17.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20C6338597
-	for <linux-media@vger.kernel.org>; Sun, 22 Feb 2026 13:28:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79DE34F498
+	for <linux-media@vger.kernel.org>; Sun, 22 Feb 2026 19:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.83.17.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771766943; cv=none; b=dlOaBSAtYpiRgYtPf8oYg3Mk/82vvlsYfHl7EnBFZeEvGxW1bwSseb6bJiB3X6S2AizXqg5KSLaZZ2PAo8/bmdb0A+VbZFAAFPJrv2hOn4vTty6UK1WhrMMyyC1l9gbZlW7FbQlhaP06NfcxkpDu/OK0etvX5uty6M9+jbsZ5nU=
+	t=1771790264; cv=none; b=CfM04XGG0Kwy40Qf+/QPVd2f3u95vWsBM8XbpWcVbhW6RBV71P5dvrdFnI6o76psDuAUxAEnxKFvHHX96AzG0ZD6+isXaoc1U2ghLnCIzY+Cnm8B/Xv9JKrNQYoZOf3Ncj+3+ZaGoUNWY5tqNgR0dGCycR5AsXrhNY7PHEeLK/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771766943; c=relaxed/simple;
-	bh=w0CP5PbtExiLF1kngJAI3FlGH0FrwT7naYWfjv/ZpoI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=EMnv3VJhVUuVMe+G4PQvC+fE2siqH5pXzrkJSN6GQJYnzs7nT/VFz9QESGWhmAve5D9jQZasjWoA+mKKXK007xH2/qIWshTqxjmZF9C99yDDHQ5nCJVOH2Ov8YuzbCWP1/Whn5auSIWJoj6pQOHIEOFv5lNbwVwcVQZwzdZzrIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=iQhlVaDh; arc=none smtp.client-ip=77.238.178.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1771766931; bh=307bPEkFTSndiDoWgMPOBxT0fXFC/7IzAQBC4rm3Nno=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=iQhlVaDhiYtAMNV2UFvF/bgjlhSPF9li0PjdlMVrmXckLi9m0g5M++9tZD2eGcinkpxc+xv8qf12UxIVBoewzRz5GSa4awI0Gji7VHanbfI2LUwu5xcfaS3x912JP+suTF+Ud3VTkHL7i5eSgsbXj8UcIFa5Ssiv0YUOkXSGOrkQ7gGd1dpOeKSY9J/MkKujh4zGKWwAMbMZd/RY61IqEXDvSg/FJfHK1rgaT44RIwlRJzgEW+NAzLocGdbAEhgGrKlxog41wTR0pSK/3JgzAXTtqQxgQghvnRzgwN6ilavRbi2g9dZRRkWymJznOtJ66euymxUhAL5a7/gytMoEow==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1771766931; bh=Nd1wcYt7sxJCw+ymUdl4TnKSzMtFYGc8vl6CHVpF5Rz=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=HVSeIvrgh0QsI+mVJaiovTCAOyOd5FvVAjs0kDVif4+MT90JCoYxfa16SHhbcoitBg2/MyXFFLrteJ1wVueNDtbIIZjBjKcTrsMRWt9QQo1OZkM+zCp4CBnjCFcss0mF/C0dpbAo1z03dCMK8ATSl4AYw0aAMYW6780h0TulSIKKzFGvvWQId1106rjLAvzS50ufDKFOSL+PaTthUpGUeGQGcZycU+3EvzUv6WSWfWL//QaN7MWf1OJSoRRkR7u1wnTC+aSNhP1QRO+kX89BoxGJwZFCI86wrJ6OeeKVz9UfPqXKbcGI8oCkjik3o3Y5JXHtKAkzQfr+sNCwxU7vrg==
-X-YMail-OSG: a8HtXW4VM1lJ3j35MB4Od0UD6N7lb6IzF1gSrSDa8WJDLx3S9yot_qN2cpTFYFz
- daC0vTBtg5_BW6CYNi7TmVwpMaH_4niykJzoxYLg95cISEJn0y8kyq9sH1A83jkgxeUnrFYoW1tP
- rNQs5gSCV_ylKhj74dZvLzhNzFG1BbbBFmZxnyQM3TgEvAMuc9ZUGeESUzhJy9kcRYMYX01XwH83
- Ad73j2J2sjVaeppSePFT91W2Iu2PweIpMUPEznLYVoPwjvHV5sipKbm5hzoMqH3Mrp98Q1RDqZEq
- muEFKH4AYMGcVJMJBW_SqllGTavbXE4d5PbmmrMbN79Atsa7CmvvShB5RVgDB6bC0DlEBbJks9PE
- B6WyL1QcnDO45O9KpC3p5f3N9FsAz095YunlPbNl7NQS0Av5e2IniDPTGQZr73JI5TVwm9eTzcWV
- HnJNhCtLCEdATugi9deiYGFMMjDyJ1HP6eenVWyqIRpthQ76a5cOOmgY.ygE9fNi3rqY.md57XQ_
- 2tRIMLRMSFTi_6QD5PppKClENZzh5PE2xF2TgroJCeybMdR2JmvTygramtev7.iotIZi5s_t132B
- .TqkDYPc2gP0bSkIz4PekGqqHVgiuD_LqvN4TEZbztOBlk23XeLAnZRb0P8zf3PoEuk.2vD9XWNM
- 0DYHBkM9NhFa7CFtZK_jE6EB9gGfvNBQ1t30jp_gme8oezi8xxI6ZaZlnN7IKxXzEUbvLT5S9pFb
- iCmT1TyadvQdDsf9bNX74yUcThzVMG88FJBpw7NZcUg3D0qolz0lQUpYg8D_UHhSw8P5n22s8I0v
- TOijbO2W8tGL_fuE18q66vTQyTMPreb41EynDQrF8xFuf81CwECMn1vecjcmd43bE8CK8dlNxsFS
- 7NJvN_jc_PbcAEqaTdCQ1s4aa6gQudKYLL1PK5WHMFsiqHaiqbVaFIwPKiw3duNktZbJSIiAdLZO
- mPSwf_4_yOWa_1C4fqRt9KBUa48AOr8dGwzxe_TCHa4He3UQFtY5fd594d5sZR9jDQ.lOJ7.Dv9D
- zDAqt91MRMJCKVjKmDiS.gJj4cSj8pUVS44YU4wa5P0cWX2W6kFoEe3._I5ipZLsPq5a4mA7oZzz
- p.tiFScxvYRjUt9YPDKHikKmW4uuuOvkWZqj.G8.xjELEjNuN2r9VxhIpOCs2.cev32rzY0mIZO7
- khdmryOt25.OT89awPWaSK7y7TuuLmAjzhHWwTC76jZ_Mfs4DctV6hau4rSMQznnmPX7i.cZ6s9B
- DxZfYBz_mziqmvboTpxlDl1AE4PHXownhQ1IF_fpvydI1RLVASPd357u8uk1wlXOvNsszi600cye
- JkTwb0xaLHtsqNxSIo_uW38KJ6Nu1Ye_pF0qPI20654AEDE9z4HepX6BTFLwQ3XMiQjr56ww7LBO
- Tu1MoQ4b6z6dT0RCfgnUQkoSVQv3JU7I4EwPwrJXDDYIhSYpjmgY1v9dZUnbY6MUIV_PIJEDLZ3B
- 5deIvNc_lVmee5tLwW3XUY5UTicbrlXFcDDGgxpY1NAokQUcG.Ue1JcQW2JidVa56eIR88mmv4LQ
- 6TkNuo.7B7cKADUU2pAO0LI13iSLIGBf1aM3pW_V_XRdScKIrcwBWriGGJMa9XScGcchixem.bvU
- VBoUUF48thi6d4xcciARJ4GH_Cv_rKiCSxHdiTRnntEU.93Ui2kkXp1AJepbesEzJ.ia9nSNtB2k
- ycvFvh4ffDEeXdX_Uc_F2Qy4GZoxWWT0h3QYK6z1qjTzte87NO9Po9CQUJTETr26efxcxo4A6Zlt
- dOaydeCdM8oxow7.zxGEtkVBYJpVanTqQYOZd0K1W.GWd0hhWvCJJnpreNu8MyA05pAPCtN1JBcc
- 4uq9BSV8w_hOWXOs4YRGfm6jBElyJXQL4D_irtk5EugLUsUZPERxGhRAq_0zf2v3eY2zpvUJXByV
- 7no4fYe53TZu.m7o0dOXCntRT4Idi3kMFHCzek36uvUAUmBkx5fjupl6R59C6PGXE5.Y_EMNjBuK
- wQSCFPS3czjwk7GgPhR2q_FebqGXa53q1t6KQgRgqN0z__GAe1sFMipnK88vKiXJ39RedkC9H_5B
- sTq6JuZ6w7dNLmXcLevPzm5EFJZX9gdAZHLBjQoc76Rtbw2.JeC4Z_bdn1aRh1.0TboViZQMjAtu
- vArzxBJWwapvEQ1VtMofOqRki.1sA_2T0SmtZREw8VCefFsPoo1oTwyc1OcKDpJwaRsAFfVe1H3X
- krmYlwe5hToEc6A9mNGYUaedZhZHQxcHoBvO62OgpmmEUSJIMq8M23rG2LB7nVeoHK0i6.eaLn22
- KCngA4WD01DYoKyhnnIQSvETOIu1des8c195m6xTRURCtEA--
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 0d59d50a-998a-4cdc-8912-e334914e4856
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Sun, 22 Feb 2026 13:28:51 +0000
-Received: by hermes--production-ir2-bbcfb4457-c2jpm (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 7ed9610abc9a97f40fa786294b835035;
-          Sun, 22 Feb 2026 13:16:41 +0000 (UTC)
-From: tomasz.unger@yahoo.pl
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH] staging: atomisp: Fix spelling mistakes in comments
-Date: Sun, 22 Feb 2026 14:16:37 +0100
-Message-ID: <20260222131637.115789-1-tomasz.unger@yahoo.pl>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1771790264; c=relaxed/simple;
+	bh=R1L/HH0FjupSMC3dCFpbqmQXfAo35zLpkD+5mzPPk3A=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ay3JJ3guAybf6J8w6nPPyLOQpRPmHB5U8pYNwBauFoneSjkumkLcxwKiAhzSgu4+HhgBlRvCEoK/4s/u5iMhA4OEjIGjH70iUGIGGWj2vY3jKZOWNHWF4RuPzxwDJjwVaEoEYnlFQMPYMVO+bD/QttgBzVDcs/2FJBaWNBC0B8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=fail smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=MN+lJy9m; arc=none smtp.client-ip=51.83.17.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=proton.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1771790241; x=1772049441;
+	bh=ycYZe0tXV+C+hTkrpeTy8HOFOdhZQnvauJTAyC0Zv5s=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=MN+lJy9mm6NdhqMrR7wUBCl4JaTpxX202LbiqbZ+UPALfPzDI9oTnine9vhy4vy1J
+	 gsZIz3SiG8LyB9palIVRwU5owR+Q9w0pFZpBPMTctNhRR9lqqZRNPaTU0fo7AGo4l9
+	 4O6ySaT+0tMeqbbzR9rXyu8wgGOu/vTbhHgYvl227tTX/bHNEnLHeSaZZY054bi2X1
+	 scBtlRFQBlU+N2V++T6dqPEJbY9pviqgDxvPc6mHwul69SGEQfgxe2jrulQImGNbNz
+	 FJ19vjkDAawUx8KCrevDn6E0EnmdLz9Myb79Euf5yGSjy9lYZLQOQ8vE+y2GYLd26T
+	 2VutCsSM4alLw==
+Date: Sun, 22 Feb 2026 19:57:15 +0000
+To: Andreas Helbech Kleist <andreaskleist@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Bingbu Cao <bingbu.cao@linux.intel.com>, bingbu.cao@intel.com, linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com, Ricardo Ribalda <ribalda@chromium.org>, claus.stovgaard@gmail.com
+From: Ruslan Bay <ruslanbey@proton.me>
+Cc: ilpo.jarvinen@linux.intel.com, tfiga@chromium.org, senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com, tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com, hongju.wang@intel.com
+Subject: Re: RFC: Intel IPU4 driver proof of concept
+Message-ID: <6f37f978-4898-473e-b774-7965d25bf27b@proton.me>
+In-Reply-To: <e136389011517dbc65b30f6bf0b1a9c49ab4e599.camel@gmail.com>
+References: <20230727071558.1148653-1-bingbu.cao@intel.com> <20230727071558.1148653-11-bingbu.cao@intel.com> <1ce2242844b3e1348d7343b84b15dd87e0f66e6a.camel@gmail.com> <ea3cc241-4074-2b53-359f-360ca45a7b1f@linux.intel.com> <900a1efcbf29aa238f2ace788dc739e9c6ad3c26.camel@gmail.com> <9d5d0bd8-41d1-4879-fccf-54e56aaa5073@redhat.com> <e0cc94736e4142f2d661a8bbb0c800b709349377.camel@gmail.com> <83426573-8c4b-ec20-6916-2917aa06954f@redhat.com> <e136389011517dbc65b30f6bf0b1a9c49ab4e599.camel@gmail.com>
+Feedback-ID: 183606634:user:proton
+X-Pm-Message-ID: dbcc994f52754ec12c905ea0b91d94c5692f9d5c
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20260222131637.115789-1-tomasz.unger.ref@yahoo.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
+	DMARC_POLICY_ALLOW(-0.50)[proton.me,quarantine];
+	R_DKIM_ALLOW(-0.20)[proton.me:s=protonmail];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,yahoo.pl];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53144-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[yahoo.pl:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	FROM_NO_DN(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-53145-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,redhat.com,linux.intel.com,intel.com,vger.kernel.org,ideasonboard.com,chromium.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ruslanbey@proton.me,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[proton.me:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_FROM(0.00)[yahoo.pl];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,yahoo.pl:mid,yahoo.pl:dkim,yahoo.pl:email]
-X-Rspamd-Queue-Id: 9FC4C16F3C9
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 517EF1703B4
 X-Rspamd-Action: no action
 
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
+We now have a working IPU4P driver for Ice Lake devices [1][2].
 
-Fix various spelling mistakes found by codespell:
- - aviod => avoid
- - corrent => correct
- - stablization => stabilization
- - addtional => additional
- - facor => factor
- - steams => streams
+The current IPU4P implementation is based on Intel=E2=80=99s downstream IPU=
+4
+driver [3]. ISYS capture works with libcamera and has been tested on
+Surface Pro 7 and Surface Book 3 [4]. The world-facing camera (ov8865)
+works; the user-facing (ov5693) is still being debugged.
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c          | 8 ++++----
- drivers/staging/media/atomisp/pci/atomisp_cmd.h          | 2 +-
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 8 ++++----
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.h | 2 +-
- 4 files changed, 10 insertions(+), 10 deletions(-)
+IPU4P and IPU6 both contain PSYS implementations downstream, but in
+practice only ISYS is usable with libcamera today.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index fec369575d88..5e5f3fe1ba7d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -811,7 +811,7 @@ void atomisp_buf_done(struct atomisp_sub_device *asd, int error,
- 			/* New global dvs 6axis config should be blocked
- 			 * here if there's a buffer with per-frame parameters
- 			 * pending in CSS frame buffer queue.
--			 * This is to aviod zooming vibration since global
-+			 * This is to avoid zooming vibration since global
- 			 * parameters take effect immediately while
- 			 * per-frame parameters are taken after previous
- 			 * buffers in CSS got processed.
-@@ -974,7 +974,7 @@ irqreturn_t atomisp_isr_thread(int irq, void *isp_ptr)
- 	 * to a FIFO, then process the event in the FIFO.
- 	 * This will not have issue in single stream mode, but it do have some
- 	 * issue in multiple stream case. The issue is that
--	 * ia_css_pipe_dequeue_buffer() will not return the corrent buffer in
-+	 * ia_css_pipe_dequeue_buffer() will not return the correct buffer in
- 	 * a specific pipe.
- 	 *
- 	 * This is due to ia_css_pipe_dequeue_buffer() does not take the
-@@ -1575,7 +1575,7 @@ int atomisp_set_dis_vector(struct atomisp_sub_device *asd,
- }
- 
- /*
-- * Function to set/get image stablization statistics
-+ * Function to set/get image stabilization statistics
-  */
- int atomisp_get_dis_stat(struct atomisp_sub_device *asd,
- 			 struct atomisp_dis_statistics *stats)
-@@ -3232,7 +3232,7 @@ int atomisp_bad_pixel_param(struct atomisp_sub_device *asd, int flag,
- }
- 
- /*
-- * Function to enable/disable video image stablization
-+ * Function to enable/disable video image stabilization
-  */
- int atomisp_video_stable(struct atomisp_sub_device *asd, int flag,
- 			 __s32 *value)
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.h b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-index 82199dc9284e..d3d1f2574e77 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.h
-@@ -153,7 +153,7 @@ int atomisp_bad_pixel(struct atomisp_sub_device *asd, int flag,
- int atomisp_bad_pixel_param(struct atomisp_sub_device *asd, int flag,
- 			    struct atomisp_dp_config *config);
- 
--/* Function to enable/disable video image stablization */
-+/* Function to enable/disable video image stabilization */
- int atomisp_video_stable(struct atomisp_sub_device *asd, int flag,
- 			 __s32 *value);
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a6fd..c30501a36f86 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1957,7 +1957,7 @@ static void __configure_capture_pp_input(struct atomisp_sub_device *asd,
- 
- /*
-  * For CSS2.1, preview pipe could support bayer downscaling, yuv decimation and
-- * yuv downscaling, which needs addtional configurations.
-+ * yuv downscaling, which needs additional configurations.
-  */
- static void __configure_preview_pp_input(struct atomisp_sub_device *asd,
- 	unsigned int width, unsigned int height,
-@@ -2044,7 +2044,7 @@ static void __configure_preview_pp_input(struct atomisp_sub_device *asd,
- 		}
- 	}
- 	/*
--	 * calculate YUV Decimation, YUV downscaling facor:
-+	 * calculate YUV Decimation, YUV downscaling factor:
- 	 * YUV Downscaling factor must not exceed 2.
- 	 * YUV Decimation factor could be 2, 4.
- 	 */
-@@ -2085,7 +2085,7 @@ static void __configure_preview_pp_input(struct atomisp_sub_device *asd,
- 
- /*
-  * For CSS2.1, offline video pipe could support bayer decimation, and
-- * yuv downscaling, which needs addtional configurations.
-+ * yuv downscaling, which needs additional configurations.
-  */
- static void __configure_video_pp_input(struct atomisp_sub_device *asd,
- 				       unsigned int width, unsigned int height,
-@@ -3002,7 +3002,7 @@ int atomisp_css_get_zoom_factor(struct atomisp_sub_device *asd,
- }
- 
- /*
-- * Function to set/get image stablization statistics
-+ * Function to set/get image stabilization statistics
-  */
- int atomisp_css_get_dis_stat(struct atomisp_sub_device *asd,
- 			     struct atomisp_dis_statistics *stats)
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
-index 75781807544a..5188df4f469c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
-@@ -40,7 +40,7 @@ enum atomisp_css_stream_state {
- };
- 
- /*
-- *  Sensor of external ISP can send multiple steams with different mipi data
-+ *  Sensor of external ISP can send multiple streams with different mipi data
-  * type in the same virtual channel. This information needs to come from the
-  * sensor or external ISP
-  */
--- 
-2.53.0
+Earlier in this thread Andreas noted that IPU4 and IPU6 share more than
+85% of the code base.IPU7 appears architecturally very similar as well.
+
+Before preparing an RFC, I would like clarification on direction:
+
+1. Is the long-term plan to unify IPU6 and IPU7 under a common driver
+   structure?
+2. If so, should IPU4/IPU4P be aligned on top of that?
+3. If not, would it make sense to follow Andreas=E2=80=99 approach [5],
+   implement IPU4P on top of the IPU6 structure, and move it to
+   staging while iterating, as has been done for IPU7?
+
+The primary goal is upstream IPU4P support (large Ice Lake user base),
+but ideally this should align with the Apollo Lake IPU4 work shared
+earlier [5].
+
+What direction would you recommend?
+
+[1] https://github.com/ruslanbay/ipu4-drivers/tree/main/patches/kernel/v6.1=
+9
+[2] https://github.com/ruslanbay/linux/commits/ipu4-6.19
+[3] https://github.com/intel/linux-intel-lts/tree/lts-v5.15.195-android_t-2=
+51103T063840Z/drivers/media/pci/intel
+[4] https://github.com/linux-surface/linux-surface/discussions/1353?sort=3D=
+new
+[5] https://github.com/Kleist/ipu4-driver
+
+Thanks,
+Ruslan Bay
+
+On 12/20/23 1:53 PM, Andreas Helbech Kleist wrote:
+> Hi,
+>=20
+> As mentioned previously in Bingbu's IPU6 patch series, I'm working on
+> porting the driver to IPU4. I've now got a hole through so I think it
+> makes sense sense to share the code.
+>=20
+> I'm able to capture frames with yavta with the current code, but there
+> are several issues that needs to be fixed for it to be complete.
+>=20
+> # How it is tested
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> The hardware is a custom x86 PC-like embedded device with the following
+> video pipeline:
+> Endoscope -> FPGA -> tc358748 -> IPU4 (E3950/Apollo Lake)
+>=20
+> See my colleague Claus' description[2] for more info.
+>=20
+> There is currently no V4L2 subdevice for the FPGA, so we have a custom
+> ambu-tc358748.c driver which pretends to be an image sensor.
+>=20
+> $ media-ctl -v \
+>   -V "\
+>     \"tc358748 0-000e\"    :0 [fmt:RGB888_1X24/800x800],\
+>     \"Intel IPU4 CSI2 0\"  :0 [fmt:RGB888_1X24/800x800],\
+>     \"Intel IPU4 CSI2 0\"  :1 [fmt:RGB888_1X24/800x800]\
+>     "\
+>   -l "\
+>     \"tc358748 0-000e\"    :0 -> \"Intel IPU4 CSI2 0\" :0 [1],\
+>     \"Intel IPU4 CSI2 0\"  :1 -> \"Intel IPU4 ISYS Capture 12\" :0 [5]\
+>   "
+>=20
+> $ yavta --data-prefix -c2 -n2 -I -s 800x800 --file=3D/tmp/frame-#.bin \
+>         -f XBGR32 /dev/video12
+>=20
+> This produces frame-*.bin files containing 800x800x4 bytes of valid
+> "BGR0" data.
+>=20
+> # The code
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> The code is available at the tag
+> https://github.com/Kleist/linux/tree/kleist-v6.6-ipu4-hacks-1
+> (15245fe26e07)
+>=20
+>=20
+> Note that I haven't renamed the files to ipu4, to make it clear what
+> the changes are compared to the IPU6 driver.
+>=20
+> It is based on v6.6 with the IPU6 v2 patches[1] on top, and then my
+> hacks to make the IPU4 work. This is not meant for upstreaming as it
+> is. The commits are a cleaned up version of the chronological order I
+> made the port in. It is not yet in a state where I think an RFC PATCH
+> series makes sense yet, but I wanted to share it anyway.
+>=20
+> ## Changes compared to IPU6
+> diff --stat of the changes in ../ipu6/ compared to the IPU6 v2 patches:
+>=20
+>  drivers/media/pci/intel/ipu6/Kconfig               |  12 +-
+>  drivers/media/pci/intel/ipu6/Makefile              |  13 +-
+>  drivers/media/pci/intel/ipu6/ipu6-bus.c            |   2 +-
+>  drivers/media/pci/intel/ipu6/ipu6-bus.h            |   6 +-
+>  drivers/media/pci/intel/ipu6/ipu6-buttress.c       |  71 ++-
+>  drivers/media/pci/intel/ipu6/ipu6-buttress.h       |   8 +-
+>  drivers/media/pci/intel/ipu6/ipu6-fw-com.c         |  45 +-
+>  drivers/media/pci/intel/ipu6/ipu6-fw-com.h         |   2 +-
+>  drivers/media/pci/intel/ipu6/ipu6-fw-isys.c        | 171 ++++---
+>  drivers/media/pci/intel/ipu6/ipu6-fw-isys.h        | 237 ++++++----
+>  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      | 219 +++++----
+>  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h      |  11 +-
+>  drivers/media/pci/intel/ipu6/ipu6-isys-queue.c     |  33 +-
+>  drivers/media/pci/intel/ipu6/ipu6-isys-queue.h     |   8 +-
+>  drivers/media/pci/intel/ipu6/ipu6-isys-video.c     | 212 +++------
+>  drivers/media/pci/intel/ipu6/ipu6-isys-video.h     |   4 -
+>  drivers/media/pci/intel/ipu6/ipu6-isys.c           | 435 +++----------
+> -----
+>  drivers/media/pci/intel/ipu6/ipu6-isys.h           |  18 +-
+>  drivers/media/pci/intel/ipu6/ipu6-mmu.c            | 130 +++++-
+>  .../pci/intel/ipu6/ipu6-platform-buttress-regs.h   |  98 +---
+>  .../pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h   | 226 ++-------
+>  drivers/media/pci/intel/ipu6/ipu6-platform-regs.h  | 172 ++-----
+>  drivers/media/pci/intel/ipu6/ipu6.c                | 511 ++++++++-----
+> --------
+>  drivers/media/pci/intel/ipu6/ipu6.h                |  37 +-
+>  24 files changed, 1032 insertions(+), 1649 deletions(-)
+>=20
+> Note that most of the deleted lines are removed because they are not
+> used in IPU4. E.g. the watermark handling, which I haven't seen an
+> equivalent for in the old IPU4 driver.
+>=20
+> ## Ambu-specific tweaks
+> Note that I'm using a hacked ipu-bridge (AMBU_IPU_BRIDGE) to setup the
+> fwnode graph for our hardware. You don't want if you're testing this,
+> so revert at least the "ambu: Add AMBU_IPU_BRIDGE" commit.
+>=20
+> I'm not sure the right approach for handling this would be going
+> forward. Of course the ambu-ipu-bridge shouldn't be upstreamed, so I'm
+> wondering how we can achieve something similar? The ACPI tables from
+> our BIOS unfortunately don't contain any info about the Toshiba Bridge
+> (tc358748), so we can't derive the information from there. Maybe some
+> kind of platform driver could be created which tweaks the ACPI info
+> before the ipu-bridge driver reads it?
+>=20
+> What do you typically do when you have some proprietary hardware that
+> does not provide proper ACPI information? We could carry the ambu-ipu-
+> bridge patches in our internal kernel tree, but that is not desirable
+> in the long term.
+>=20
+> # Inspiration for the IPU4 port
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> We are currently using a Intel LTS 4.19.217 based kernel[3], which
+> contains the old IPU4 driver. The port was basically made by comparing
+> mmiotrace's between the old IPU4 driver and the new driver.
+>=20
+> We're using the IPU4 FW ipu4_cpd_b0.bin extracted from a ClearLinux
+> package[4].
+>=20
+> # Known issues
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ## Doesn't yet work with gstreamer for unknown reasons
+> I get "Unexpected buffer address:" errors from
+> ipu6_isys_queue_buf_ready, and don't get an image through.
+>=20
+> ## 64 byte chunks of wrong data
+> We occasionally get 64 byte aligned 64 byte wrong data (all 0xCC) in
+> the captured frame*.bin files. This could be a cache invalidation
+> issue, we haven't looked into this yet. The code currently doesn't use
+> zlw_invalidate, even though it was ported from the old driver. We
+> haven't yet tested if enabling this fixes the issue.
+>=20
+> # Upstreaming
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> We would like to upstream this driver, probably after the IPU6 driver
+> has been merged. We're definitely not ready yet (either), but I already
+> have a couple of questions, that it would be nice to get some input on
+> from the community.
+>=20
+> ##=C2=A0How to share code between IPU4 and IPU6
+> Big parts of the code (approximately 6k out of 7k lines) does not need
+> to be changed compared to the IPU6 driver, so there is clearly a big
+> overlap in what the two drivers need to do. I'm not sure how the best
+> approach would be for sharing this functionality. I see a few options:
+> 1. Shared driver that supports both IPU's (still split in PCI driver
+> and -isys driver)
+> 2. Shared PCI driver that supports both IPU's, but device-specific
+> intel-ipu4-isys/intel-ipu6-isys drivers
+> 3. Separate drivers that use a shared "library module" (for lack of a
+> better term)
+>=20
+> My gut feeling is that 2. is the right choice, especially if we moved
+> the shared code in to the PCI driver and the more version-specific code
+> was moved into the specific drivers.
+>=20
+> The answer to this could also be input to Bingbu's IPU6 series, maybe
+> it would make sense to place some files differently if they eventually
+> will be used in both IPU4 and IPU6 drivers?
+>=20
+> ## How to implement our platform specific fwnode graph?
+> As mentioned above, we currently have a hacked ambu-ipu-bridge driver,
+> which is clearly not upstreamable. What would you typically do if you
+> need to make a v4l setup where the ACPI table information about
+> sensors/bridges is missing?
+>=20
+> /Andreas
+>=20
+> [1]https://lore.kernel.org/all/20231024112924.3934228-1-bingbu.cao@intel.=
+com/
+> [2]
+> https://lore.kernel.org/all/471df7ffdf34b73d186c429a366cfee62963015f.came=
+l@gmail.com/
+> [3]
+> https://github.com/intel/linux-intel-lts/tree/lts-v4.19.217-base-211118T0=
+72627Z
+> [4]
+> https://download.clearlinux.org/releases/32370/clear/source/SRPMS/linux-f=
+irmware-ipu-19ww39-104.src.rpm
+
 
 
