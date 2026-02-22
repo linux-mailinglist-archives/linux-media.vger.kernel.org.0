@@ -1,318 +1,289 @@
-Return-Path: <linux-media+bounces-53145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53146-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aBdFDsFfm2kmywMAu9opvQ
-	(envelope-from <linux-media+bounces-53145-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 20:57:53 +0100
+	id kBmII4V7m2nc0AMAu9opvQ
+	(envelope-from <linux-media+bounces-53146-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 22:56:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517EF1703B4
-	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 20:57:52 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22266170855
+	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 22:56:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 50F30300980E
-	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 19:57:49 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D7DC83007501
+	for <lists+linux-media@lfdr.de>; Sun, 22 Feb 2026 21:56:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B78835BDB8;
-	Sun, 22 Feb 2026 19:57:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 303C235C1B8;
+	Sun, 22 Feb 2026 21:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="MN+lJy9m"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PuUmUTQB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-07.mail-europe.com (mail-0701.mail-europe.com [51.83.17.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79DE34F498
-	for <linux-media@vger.kernel.org>; Sun, 22 Feb 2026 19:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.83.17.38
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771790264; cv=none; b=CfM04XGG0Kwy40Qf+/QPVd2f3u95vWsBM8XbpWcVbhW6RBV71P5dvrdFnI6o76psDuAUxAEnxKFvHHX96AzG0ZD6+isXaoc1U2ghLnCIzY+Cnm8B/Xv9JKrNQYoZOf3Ncj+3+ZaGoUNWY5tqNgR0dGCycR5AsXrhNY7PHEeLK/0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771790264; c=relaxed/simple;
-	bh=R1L/HH0FjupSMC3dCFpbqmQXfAo35zLpkD+5mzPPk3A=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ay3JJ3guAybf6J8w6nPPyLOQpRPmHB5U8pYNwBauFoneSjkumkLcxwKiAhzSgu4+HhgBlRvCEoK/4s/u5iMhA4OEjIGjH70iUGIGGWj2vY3jKZOWNHWF4RuPzxwDJjwVaEoEYnlFQMPYMVO+bD/QttgBzVDcs/2FJBaWNBC0B8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=fail smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=MN+lJy9m; arc=none smtp.client-ip=51.83.17.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1771790241; x=1772049441;
-	bh=ycYZe0tXV+C+hTkrpeTy8HOFOdhZQnvauJTAyC0Zv5s=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=MN+lJy9mm6NdhqMrR7wUBCl4JaTpxX202LbiqbZ+UPALfPzDI9oTnine9vhy4vy1J
-	 gsZIz3SiG8LyB9palIVRwU5owR+Q9w0pFZpBPMTctNhRR9lqqZRNPaTU0fo7AGo4l9
-	 4O6ySaT+0tMeqbbzR9rXyu8wgGOu/vTbhHgYvl227tTX/bHNEnLHeSaZZY054bi2X1
-	 scBtlRFQBlU+N2V++T6dqPEJbY9pviqgDxvPc6mHwul69SGEQfgxe2jrulQImGNbNz
-	 FJ19vjkDAawUx8KCrevDn6E0EnmdLz9Myb79Euf5yGSjy9lYZLQOQ8vE+y2GYLd26T
-	 2VutCsSM4alLw==
-Date: Sun, 22 Feb 2026 19:57:15 +0000
-To: Andreas Helbech Kleist <andreaskleist@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Bingbu Cao <bingbu.cao@linux.intel.com>, bingbu.cao@intel.com, linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com, Ricardo Ribalda <ribalda@chromium.org>, claus.stovgaard@gmail.com
-From: Ruslan Bay <ruslanbey@proton.me>
-Cc: ilpo.jarvinen@linux.intel.com, tfiga@chromium.org, senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com, tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com, hongju.wang@intel.com
-Subject: Re: RFC: Intel IPU4 driver proof of concept
-Message-ID: <6f37f978-4898-473e-b774-7965d25bf27b@proton.me>
-In-Reply-To: <e136389011517dbc65b30f6bf0b1a9c49ab4e599.camel@gmail.com>
-References: <20230727071558.1148653-1-bingbu.cao@intel.com> <20230727071558.1148653-11-bingbu.cao@intel.com> <1ce2242844b3e1348d7343b84b15dd87e0f66e6a.camel@gmail.com> <ea3cc241-4074-2b53-359f-360ca45a7b1f@linux.intel.com> <900a1efcbf29aa238f2ace788dc739e9c6ad3c26.camel@gmail.com> <9d5d0bd8-41d1-4879-fccf-54e56aaa5073@redhat.com> <e0cc94736e4142f2d661a8bbb0c800b709349377.camel@gmail.com> <83426573-8c4b-ec20-6916-2917aa06954f@redhat.com> <e136389011517dbc65b30f6bf0b1a9c49ab4e599.camel@gmail.com>
-Feedback-ID: 183606634:user:proton
-X-Pm-Message-ID: dbcc994f52754ec12c905ea0b91d94c5692f9d5c
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C51359705
+	for <linux-media@vger.kernel.org>; Sun, 22 Feb 2026 21:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771797376; cv=pass; b=t4ASHMFd4lyiGT5LGpNzXpReRuPZPAotHPEbQYWSzGIdVf0bYlIoY5j40pFPvyCJ68XiYx0I0ufL1Bl2EmO8GO/QO8fyH6QZfX1iQniZKnj+oS8i3OyyCsWmer3clSB1OCwefk3WXbUmTePqmzIgSyrfGjkoxEZcc3Pya3wetMc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771797376; c=relaxed/simple;
+	bh=JmSvQO5XqyT6TdvcO2hqlfP/xs6Gk//750J3WTyc8u0=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=MLKSn4Hke5B614LQ8u2Ex3rUK3BwUiAKVsjcXkve+CKidznHPjIDot7ZvF7rnYvc7sm3ZXClmi9C4iBjzrE3aRNpuEXu3euLjdcHz7/5pXxMVLVpXsJunZ4kvlX1AaIeuX4I66rBAzDwxMgR30xIjbZaCF8Yr3yQql/D+rWac0Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PuUmUTQB; arc=pass smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5674689e507so1604350e0c.3
+        for <linux-media@vger.kernel.org>; Sun, 22 Feb 2026 13:56:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771797374; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gTQh77KIk8Nx4kXRxHg23LAGH33fK72/zZWuTTa5MM3tzEBCWuQgEBBLwnplQzCqjL
+         Zg2abMBLCJNbBvQfrvi7SCl4jzsibNjICuEV935p6282+qj9euAh/EPsn0xX7xtPtXcd
+         b/YsSMu+Xl+9TFAUkM54rPnHcvDOTx6naI33FPVwzOazaKn2lmzA8B61Cl2cTWZwBXJW
+         ZEipemtvpp1PiAlfcDkecwo8GT6RifuBGmaKin98TRDin13i068XhIMEgyfWXtnCvWzj
+         9kmBnO3rqWKr85iZczwDNg1WZAWEo+OGdv9GvWG+mECY4+cT6gw1VFzv9Q+fixjDr6bx
+         rziw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=fvZFs6ZWQcArHoivTdoRPMVBttlGZZKU4uro3YAyvz8=;
+        fh=tc22h79tKXw4e+1vMwq1ISsfDS1PedHFCYBLj/bMJs8=;
+        b=Egc6EiU2JyF1WIdiVdhDLqs4wo6VHG06vA5+v6BtlsMGm0tOrJHEPXMoHB5fkrNxPq
+         ou+8vCXV3cDNuds26k9oztvmMAeYUpw3ruzdU1PhpzzOt72JX/5CqpYwzoYX5OL5/u2n
+         s84FEq85k6EBU2uVBqLjNcasIdNtwNCDsBAl92bqXDPRFPQl1zmtd5WVk4ROrkpfW45G
+         Fr4zo0Iix6pmuiaEAx2ofNxSy9nF80/tOlbZXqhi1db5UMZxcKS1h3ExW/9gdMh4plGB
+         i7nQjUzB6IGrerYzA0mjPN3WKXJ0EyOi2W9uYft9lnigF8HKCXpty1Ugj2BwwEDA7YvN
+         pTLA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771797374; x=1772402174; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fvZFs6ZWQcArHoivTdoRPMVBttlGZZKU4uro3YAyvz8=;
+        b=PuUmUTQBb+Mb558N6vMGiEpSEsrP9fJKT7Yd10sPSRpeznTjeAmClndE+ROruMPtY6
+         coIfG5XhLIYEpBgWdUKVm/qMOI2HaBVc/gz8RKSwVUK13g6kiPpL/3eVe/+tQgRrTrVQ
+         Ez9f8FKMJPfvpeoHqU5X5trewXM4nQVr/1sttBiuF9eIZ7efTk+UcVgTB7N+ucixgaTs
+         wzNHELCG3Jqq+w8MD6RRB32eRn31+kBete7k6qrsYZpR6IuRXh78xpsuOD71o7DK3Epi
+         5TEMHk0ku1B8Gi6WL/wRv+cPVFcU/1As7KPc2yl3fByO73mc3GNboxakUUhNsJ4vj64k
+         QMow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771797374; x=1772402174;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fvZFs6ZWQcArHoivTdoRPMVBttlGZZKU4uro3YAyvz8=;
+        b=TwNfYVcqsq57gXky+gw5vmQCWTQd83zvOTVcL9MVplu1RWmjAuu4zlnnxm7CUSV1tk
+         dDIwkb8OneAnTNllcuujPVOgWOLPhO3o8TgCwnLz0H/kz7CEp0bb3w+Xvo/DWeuua+c/
+         yxkKrhcsXE1gpz9IYDBEk/MH4rr8MHfLgwK02jiJIituV66Yhzs0ZdQEAKDZZRrE1PCa
+         1NhMyyqQQRRhEMuYhNzrLiVlrk/zfOm0mFHECUQJ6PRhU32BIzZcdRoQczr1M8zzgrFp
+         kyOpv9Scaf/0V1njKc/lGk+9G0o8VjfGeAUCic1+FxvvxXaNE75uPaqAVReSzzTDH7h0
+         Druw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmk3DBvdAdQwEWpCt6VRgJrTnNuvtSCt7DIvbZBdqTr/PAH3W8ZeIhkLTusRMAs1qCXzzG7mpEKvDSAQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWU/EDsgqX5jT3LQB6IhVHzIooiP9TPnN9gD5bbgJ4aFTP9M70
+	TUB1Z5nYyZTKGN5VsYWHWeRbxn0jlvg+Fboic0R5is1RjRfsZIcSGJnNJDKpJMnxNsN0WjIPeU2
+	WU4poPGf4Bg1iWBdZ04U+0YqpKOQxDDg=
+X-Gm-Gg: AZuq6aIam2aDUKY7cExfKwSmzC4QZit3asexB4cVJz4a59fT0XZfC12S1+KGDS2LFc1
+	V3bl6YvRNSDvyYWyO9E5snWU57ZNV6hE5EDQH0ov27lXnQIH737Xa5d5ZIUlr5ktk6/z9aED+nY
+	trO4t6/+fNzHMi3IkbyFxY/y4ijzpYqH0uMiECcxLxAD1woMbv5JMKwraqh6mLsRx2Jb7Tqw9ku
+	UkmvY14jfKz0syOaCjgOUSME7S9EhYe80p8HVyW1k3w+ZtTbs9Kb4se4UGtux+09soFpOg41fZp
+	s010Zem1KH83NyMSTRyiIeHB1GXMjY4kozGanFtxxyzBJinFRW5WSdG3CvUAYEsDNAYB0Z9Kfwt
+	wj3C7eyY8sA==
+X-Received: by 2002:a05:6122:469b:b0:55b:1a1b:3273 with SMTP id
+ 71dfb90a1353d-568e47abec3mr2195110e0c.6.1771797374061; Sun, 22 Feb 2026
+ 13:56:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+From: =?UTF-8?B?QW5kcsOpcyBQw6lyZXo=?= <andres.f.perez@gmail.com>
+Date: Sun, 22 Feb 2026 21:55:54 +0000
+X-Gm-Features: AaiRm50d7jLgPyD4kdVKiyrm9CHXFWwo9PDyCMT5qvyZh7PMRFS6zqm3NMkVBvk
+Message-ID: <CAD0gVBsyzYNA6ydPwg9mJ9VQzYg4zPAi24JQ13-=0KtdbQ039A@mail.gmail.com>
+Subject: [REGRESSION] Display freeze on VT switch back to X11 since v6.16
+To: stable@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[proton.me,quarantine];
-	R_DKIM_ALLOW(-0.20)[proton.me:s=protonmail];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+X-Spamd-Result: default: False [-1.45 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_MIXED_CHARSET(0.71)[subject];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53145-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,redhat.com,linux.intel.com,intel.com,vger.kernel.org,ideasonboard.com,chromium.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-53146-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[vger.kernel.org,ideasonboard.com,kernel.org,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,lists.freedesktop.org];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.997];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ruslanbey@proton.me,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[proton.me:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 517EF1703B4
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andresfperez@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 22266170855
 X-Rspamd-Action: no action
 
-We now have a working IPU4P driver for Ice Lake devices [1][2].
+# OVERVIEW
 
-The current IPU4P implementation is based on Intel=E2=80=99s downstream IPU=
-4
-driver [3]. ISYS capture works with libcamera and has been tested on
-Surface Pro 7 and Surface Book 3 [4]. The world-facing camera (ov8865)
-works; the user-facing (ov5693) is still being debugged.
+Since kernel v6.16.1, switching from an X11 session to a text VT and back
+freezes the display on a ThinkPad P15 Gen 2. The system remains responsive
+over SSH; only the display is frozen. Bisecting identified commit
+d1b618e7954802fe ("media: uvcvideo: Do not turn on the camera for some
+ioctls") as the trigger. Reverting the logic change in that commit
+fixes VT switching
+on v6.16.1, v6.17.9, and v6.18.9, but that is not an actual solution. Wayla=
+nd
+compositors (e.g., river and sway) are not affected.
 
-IPU4P and IPU6 both contain PSYS implementations downstream, but in
-practice only ISYS is usable with libcamera today.
+Last good:  v6.15.9
+First bad:  v6.16.1
+Bisect result: d1b618e7954802fe media: uvcvideo: Do not turn on the
+camera for some ioctls
 
-Earlier in this thread Andreas noted that IPU4 and IPU6 share more than
-85% of the code base.IPU7 appears architecturally very similar as well.
+## Hardware:   Lenovo ThinkPad P15 Gen 2i (20YQ0031US)
+CPU:        Intel Core i7-11800H (Tiger Lake-H)
+iGPU:        Intel UHD Graphics (TGL GT1)
+dGPU:       NVIDIA T1200 (not involved in eDP output; driver: nvidia-open)
+Display:    15.6" 1920x1080 eDP, 10 bpc capable (EDID 1.4)
+Webcam:     Integrated Camera on PCH xHCI (Bus 003 Port 004)
+Firmware:   LENOVO N37ET61W (1.97)
+OS:         Arch Linux, Nix home-manager, X11 + xmonad, no display manager
 
-Before preparing an RFC, I would like clarification on direction:
+## Symptoms and reproduction steps:
+1. Boot, start X11 on tty1 (startx).
+2. Switch to tty2 (Ctrl+Alt+F2): works.
+3. Switch back to tty1 (Ctrl+Alt+F1): display freezes.
+   - Frozen on the last frame shown before switching away.
+   - System is fully responsive over SSH.
+   - Other VTs switch normally between each other as long as X11 is
+not active on them.
+   - Killing X does not recover the display. A reboot is required.
 
-1. Is the long-term plan to unify IPU6 and IPU7 under a common driver
-   structure?
-2. If so, should IPU4/IPU4P be aligned on top of that?
-3. If not, would it make sense to follow Andreas=E2=80=99 approach [5],
-   implement IPU4P on top of the IPU6 structure, and move it to
-   staging while iterating, as has been done for IPU7?
+# DEBUG ANALYSIS
 
-The primary goal is upstream IPU4P support (large Ice Lake user base),
-but ideally this should align with the Apollo Lake IPU4 work shared
-earlier [5].
+On v6.16.1, the VT switch back to X triggers a full modeset due to pipe
+configuration mismatches detected by intel_pipe_config_compare:
 
-What direction would you recommend?
+[drm:intel_pipe_config_compare] fastset requirement not met in pipe_bpp
+  (expected 30, found 24)
+[drm:intel_pipe_config_compare] fastset requirement not met in dp_m_n
+  (expected link 269484/524288, found link 336855/524288)
+[drm:intel_pipe_config_compare] fastset requirement not met in dpll_hw_stat=
+e
+  (expected cfgcr0: 0xe001a5, found cfgcr0: 0x1c2)
+[drm:intel_pipe_config_compare] fastset requirement not met in port_clock
+  (expected 270000, found 216000)
+[drm:intel_atomic_check] forcing full modeset
 
-[1] https://github.com/ruslanbay/ipu4-drivers/tree/main/patches/kernel/v6.1=
-9
-[2] https://github.com/ruslanbay/linux/commits/ipu4-6.19
-[3] https://github.com/intel/linux-intel-lts/tree/lts-v5.15.195-android_t-2=
-51103T063840Z/drivers/media/pci/intel
-[4] https://github.com/linux-surface/linux-surface/discussions/1353?sort=3D=
-new
-[5] https://github.com/Kleist/ipu4-driver
+On v6.15.9, the same VT switch shows no such messages.
+no pipe_config_compare runs, no modeset, no freeze.
 
-Thanks,
-Ruslan Bay
+# BISECT AND VERIFICATION
 
-On 12/20/23 1:53 PM, Andreas Helbech Kleist wrote:
-> Hi,
->=20
-> As mentioned previously in Bingbu's IPU6 patch series, I'm working on
-> porting the driver to IPU4. I've now got a hole through so I think it
-> makes sense sense to share the code.
->=20
-> I'm able to capture frames with yavta with the current code, but there
-> are several issues that needs to be fixed for it to be complete.
->=20
-> # How it is tested
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The hardware is a custom x86 PC-like embedded device with the following
-> video pipeline:
-> Endoscope -> FPGA -> tc358748 -> IPU4 (E3950/Apollo Lake)
->=20
-> See my colleague Claus' description[2] for more info.
->=20
-> There is currently no V4L2 subdevice for the FPGA, so we have a custom
-> ambu-tc358748.c driver which pretends to be an image sensor.
->=20
-> $ media-ctl -v \
->   -V "\
->     \"tc358748 0-000e\"    :0 [fmt:RGB888_1X24/800x800],\
->     \"Intel IPU4 CSI2 0\"  :0 [fmt:RGB888_1X24/800x800],\
->     \"Intel IPU4 CSI2 0\"  :1 [fmt:RGB888_1X24/800x800]\
->     "\
->   -l "\
->     \"tc358748 0-000e\"    :0 -> \"Intel IPU4 CSI2 0\" :0 [1],\
->     \"Intel IPU4 CSI2 0\"  :1 -> \"Intel IPU4 ISYS Capture 12\" :0 [5]\
->   "
->=20
-> $ yavta --data-prefix -c2 -n2 -I -s 800x800 --file=3D/tmp/frame-#.bin \
->         -f XBGR32 /dev/video12
->=20
-> This produces frame-*.bin files containing 800x800x4 bytes of valid
-> "BGR0" data.
->=20
-> # The code
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The code is available at the tag
-> https://github.com/Kleist/linux/tree/kleist-v6.6-ipu4-hacks-1
-> (15245fe26e07)
->=20
->=20
-> Note that I haven't renamed the files to ipu4, to make it clear what
-> the changes are compared to the IPU6 driver.
->=20
-> It is based on v6.6 with the IPU6 v2 patches[1] on top, and then my
-> hacks to make the IPU4 work. This is not meant for upstreaming as it
-> is. The commits are a cleaned up version of the chronological order I
-> made the port in. It is not yet in a state where I think an RFC PATCH
-> series makes sense yet, but I wanted to share it anyway.
->=20
-> ## Changes compared to IPU6
-> diff --stat of the changes in ../ipu6/ compared to the IPU6 v2 patches:
->=20
->  drivers/media/pci/intel/ipu6/Kconfig               |  12 +-
->  drivers/media/pci/intel/ipu6/Makefile              |  13 +-
->  drivers/media/pci/intel/ipu6/ipu6-bus.c            |   2 +-
->  drivers/media/pci/intel/ipu6/ipu6-bus.h            |   6 +-
->  drivers/media/pci/intel/ipu6/ipu6-buttress.c       |  71 ++-
->  drivers/media/pci/intel/ipu6/ipu6-buttress.h       |   8 +-
->  drivers/media/pci/intel/ipu6/ipu6-fw-com.c         |  45 +-
->  drivers/media/pci/intel/ipu6/ipu6-fw-com.h         |   2 +-
->  drivers/media/pci/intel/ipu6/ipu6-fw-isys.c        | 171 ++++---
->  drivers/media/pci/intel/ipu6/ipu6-fw-isys.h        | 237 ++++++----
->  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      | 219 +++++----
->  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h      |  11 +-
->  drivers/media/pci/intel/ipu6/ipu6-isys-queue.c     |  33 +-
->  drivers/media/pci/intel/ipu6/ipu6-isys-queue.h     |   8 +-
->  drivers/media/pci/intel/ipu6/ipu6-isys-video.c     | 212 +++------
->  drivers/media/pci/intel/ipu6/ipu6-isys-video.h     |   4 -
->  drivers/media/pci/intel/ipu6/ipu6-isys.c           | 435 +++----------
-> -----
->  drivers/media/pci/intel/ipu6/ipu6-isys.h           |  18 +-
->  drivers/media/pci/intel/ipu6/ipu6-mmu.c            | 130 +++++-
->  .../pci/intel/ipu6/ipu6-platform-buttress-regs.h   |  98 +---
->  .../pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h   | 226 ++-------
->  drivers/media/pci/intel/ipu6/ipu6-platform-regs.h  | 172 ++-----
->  drivers/media/pci/intel/ipu6/ipu6.c                | 511 ++++++++-----
-> --------
->  drivers/media/pci/intel/ipu6/ipu6.h                |  37 +-
->  24 files changed, 1032 insertions(+), 1649 deletions(-)
->=20
-> Note that most of the deleted lines are removed because they are not
-> used in IPU4. E.g. the watermark handling, which I haven't seen an
-> equivalent for in the old IPU4 driver.
->=20
-> ## Ambu-specific tweaks
-> Note that I'm using a hacked ipu-bridge (AMBU_IPU_BRIDGE) to setup the
-> fwnode graph for our hardware. You don't want if you're testing this,
-> so revert at least the "ambu: Add AMBU_IPU_BRIDGE" commit.
->=20
-> I'm not sure the right approach for handling this would be going
-> forward. Of course the ambu-ipu-bridge shouldn't be upstreamed, so I'm
-> wondering how we can achieve something similar? The ACPI tables from
-> our BIOS unfortunately don't contain any info about the Toshiba Bridge
-> (tc358748), so we can't derive the information from there. Maybe some
-> kind of platform driver could be created which tweaks the ACPI info
-> before the ipu-bridge driver reads it?
->=20
-> What do you typically do when you have some proprietary hardware that
-> does not provide proper ACPI information? We could carry the ambu-ipu-
-> bridge patches in our internal kernel tree, but that is not desirable
-> in the long term.
->=20
-> # Inspiration for the IPU4 port
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> We are currently using a Intel LTS 4.19.217 based kernel[3], which
-> contains the old IPU4 driver. The port was basically made by comparing
-> mmiotrace's between the old IPU4 driver and the new driver.
->=20
-> We're using the IPU4 FW ipu4_cpd_b0.bin extracted from a ClearLinux
-> package[4].
->=20
-> # Known issues
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ## Doesn't yet work with gstreamer for unknown reasons
-> I get "Unexpected buffer address:" errors from
-> ipu6_isys_queue_buf_ready, and don't get an image through.
->=20
-> ## 64 byte chunks of wrong data
-> We occasionally get 64 byte aligned 64 byte wrong data (all 0xCC) in
-> the captured frame*.bin files. This could be a cache invalidation
-> issue, we haven't looked into this yet. The code currently doesn't use
-> zlw_invalidate, even though it was ported from the old driver. We
-> haven't yet tested if enabling this fixes the issue.
->=20
-> # Upstreaming
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> We would like to upstream this driver, probably after the IPU6 driver
-> has been merged. We're definitely not ready yet (either), but I already
-> have a couple of questions, that it would be nice to get some input on
-> from the community.
->=20
-> ##=C2=A0How to share code between IPU4 and IPU6
-> Big parts of the code (approximately 6k out of 7k lines) does not need
-> to be changed compared to the IPU6 driver, so there is clearly a big
-> overlap in what the two drivers need to do. I'm not sure how the best
-> approach would be for sharing this functionality. I see a few options:
-> 1. Shared driver that supports both IPU's (still split in PCI driver
-> and -isys driver)
-> 2. Shared PCI driver that supports both IPU's, but device-specific
-> intel-ipu4-isys/intel-ipu6-isys drivers
-> 3. Separate drivers that use a shared "library module" (for lack of a
-> better term)
->=20
-> My gut feeling is that 2. is the right choice, especially if we moved
-> the shared code in to the PCI driver and the more version-specific code
-> was moved into the specific drivers.
->=20
-> The answer to this could also be input to Bingbu's IPU6 series, maybe
-> it would make sense to place some files differently if they eventually
-> will be used in both IPU4 and IPU6 drivers?
->=20
-> ## How to implement our platform specific fwnode graph?
-> As mentioned above, we currently have a hacked ambu-ipu-bridge driver,
-> which is clearly not upstreamable. What would you typically do if you
-> need to make a v4l setup where the ACPI table information about
-> sensors/bridges is missing?
->=20
-> /Andreas
->=20
-> [1]https://lore.kernel.org/all/20231024112924.3934228-1-bingbu.cao@intel.=
-com/
-> [2]
-> https://lore.kernel.org/all/471df7ffdf34b73d186c429a366cfee62963015f.came=
-l@gmail.com/
-> [3]
-> https://github.com/intel/linux-intel-lts/tree/lts-v4.19.217-base-211118T0=
-72627Z
-> [4]
-> https://download.clearlinux.org/releases/32370/clear/source/SRPMS/linux-f=
-irmware-ipu-19ww39-104.src.rpm
+The bisect converged on d1b618e7954802fe in the uvcvideo driver. This
+commit adds a switch statement to uvc_v4l2_unlocked_ioctl that allows
+certain V4L2 IOCTLS to call video_ioctl2 directly without first calling
+uvc_pm_get/uvc_pm_put. Prior to this commit, all ioctls called uvc_pm_get
+before video_ioctl2.
 
+## VT switching verification across kernel versions:
 
+  v6.12.74 arch pkg:   WORKS
+  v6.15.9 arch pkg:    WORKS
+  v6.15.9 from source: WORKS
+  v6.16.1 with d1b618e reverted:     WORKS
+  v6.17.9 with PM wrapping restored: WORKS
+  v6.18.9 with PM wrapping restored: WORKS
+
+  v6.16.1 from source:  FREEZES
+  v6.16.1 arch pkg:     FREEZES
+  v6.17.9 arch pkg:     FREEZES
+  v6.18.9 from source:  FREEZES
+  v6.18.9 arch pkg:     FREEZES
+
+## Things that do not eliminate the freeze
+
+  - module_blacklist=3Duvcvideo on boot
+  - CONFIG_USB_VIDEO_CLASS=3Dn (compiled out)
+  - i915.enable_psr=3D0
+  - Bypassing intel_vrr_transcoder_enable/disable (no-op)
+  - xrandr --output eDP-1 --set "max bpc" 10
+  - Xorg config FBDepth 30 (No effect on pipe_bpp)
+
+## Workaround patch
+
+Reverting the optimization from d1b618e to restore the unconditional
+uvc_pm_get/put wrapping for all ioctls. This is not a proper fix.
+
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v=
+4l2.c
+index 9e4a251eca88..15057b47ec4f 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -1199,33 +1199,12 @@ static long uvc_v4l2_unlocked_ioctl(struct file *fi=
+le,
+  unsigned int converted_cmd =3D v4l2_translate_cmd(cmd);
+  int ret;
+
+- /* The following IOCTLs need to turn on the camera. */
+- switch (converted_cmd) {
+- case UVCIOC_CTRL_MAP:
+- case UVCIOC_CTRL_QUERY:
+- case VIDIOC_G_CTRL:
+- case VIDIOC_G_EXT_CTRLS:
+- case VIDIOC_G_INPUT:
+- case VIDIOC_QUERYCTRL:
+- case VIDIOC_QUERYMENU:
+- case VIDIOC_QUERY_EXT_CTRL:
+- case VIDIOC_S_CTRL:
+- case VIDIOC_S_EXT_CTRLS:
+- case VIDIOC_S_FMT:
+- case VIDIOC_S_INPUT:
+- case VIDIOC_S_PARM:
+- case VIDIOC_TRY_EXT_CTRLS:
+- case VIDIOC_TRY_FMT:
+- ret =3D uvc_pm_get(handle->stream->dev);
+- if (ret)
+- return ret;
+- ret =3D video_ioctl2(file, cmd, arg);
+- uvc_pm_put(handle->stream->dev);
++ ret =3D uvc_pm_get(handle->stream->dev);
++ if (ret)
+  return ret;
+- }
+-
+- /* The other IOCTLs can run with the camera off. */
+- return video_ioctl2(file, cmd, arg);
++ ret =3D video_ioctl2(file, cmd, arg);
++ uvc_pm_put(handle->stream->dev);
++ return ret;
+ }
+
+ const struct v4l2_ioctl_ops uvc_ioctl_ops =3D {
+
+Andr=C3=A9s
 
