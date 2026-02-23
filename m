@@ -1,79 +1,81 @@
-Return-Path: <linux-media+bounces-53176-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53177-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iIG8KmsjnGkCAAQAu9opvQ
-	(envelope-from <linux-media+bounces-53176-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:52:43 +0100
+	id KNgGNTojnGkCAAQAu9opvQ
+	(envelope-from <linux-media+bounces-53177-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:51:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDBD174415
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:52:42 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB301743CC
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:51:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 02E613030757
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 09:51:50 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B74DD302194B
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 09:51:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CD90354AE2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D12D354AE3;
 	Mon, 23 Feb 2026 09:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="vC+QOMk3"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="MZ14esI0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C046134FF50
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 09:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0ABC350A08
+	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 09:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771840303; cv=none; b=Y5Y0AueqVRHlAir/MKRCY2AycJ1qUUtNYIDuljfl6Y3dT/JZDJUCf+BKuxxPqDAbq3qS2ZgdEPHMWFWGxOPtGOP+/4d34win55lGZa0fVMI0LW7VK9eDiyH6CtwgpSWfGm9xsrSy8sZd2qzBEtEqhIQ3QLhide8icvc9LQVG67E=
+	t=1771840303; cv=none; b=LBqvNbauelC5zG57rvRFvQ83Ju9v0lF7qZib502FpwDRBZzCanWDG/esdwAkn+eVKFiXUfgX8UQCg00d3H8RZxXxVfOzeV22lAMJ6BG7P1Q6zAhKqu3wmNOJwmjCoLBRw7aSdu7h2yHRYCDdPZayX9lcdnrmZbO33B0tndNJt9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771840303; c=relaxed/simple;
-	bh=KfFRfouRKPdjO8QdYp354wLUw4VwaWEdMEKo3LWxlW0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PKyzQ+RgCpvAa2rOnbFz4y8MVt8468qkv5bWw4MtqN/F9pqjAVaq+xpc6za4KRcWczX+6FAK5/pBxbsuvNzPWWtpPqAfoPcJ3rKHPq3rfVVoq2TtVZnoCYIoNpygK4oKIY+LnYfa0ZA7kBlSSMW4eTaaaqFgaFN1EgsQGFzcClo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=vC+QOMk3; arc=none smtp.client-ip=209.85.128.53
+	bh=hL1KRdcUkqD5m38qDR44cdwSUdn+MD14fevRfOfX13o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=c6r+eZtJJunf84xhj3rXfreSM2PBpBJJFzWhM5okSMrvc4PuXsCkLewawxWVXBBSqvQxdNIw+eNLhe5dYl7HmuwuyOW8xGbIzkBrutn46/X1VcDggw9eYo7OOT+t+zf8hQm2XJ5rGeyy6dCUNjvKrqVvIL3R7BKQVpIGyXC6BE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=MZ14esI0; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-483703e4b08so32467695e9.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 01:51:39 -0800 (PST)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so38185145e9.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 01:51:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1771840298; x=1772445098; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J9P/hiUK/l/iV+NBMdNBP19LQ/+lioTm29Bruktj9zQ=;
-        b=vC+QOMk3NjIgf5tjcAAAN9f2watvPwzVaAL1qjqBNwNlhuTcNlPaRB/6S6jtbHX//2
-         za5XlXtCwYG2LYsXq4UYTYpszUajkP2CGdHIXTNDlhYkCEUII3PK/ay5y1+X2UOsbVQd
-         gBRqTNMLciHEwpndxqeNHZr1krZ4BJIiWoy2BH/eVne5bA2BN7+fIVSE3FluPG7pACE7
-         BL13TTVFplVAzFJvhZcpO+1eBZ5jglVmEqa3jazEMum79FhgUKD1T8gInmiJYYTi9dbY
-         ImU6ds86ar3UzTY9q3x3kwLPTzOg8pxrVcI5LWMErDm9kPKSzZjitgFDTmwwYbGNz2t1
-         E66w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771840298; x=1772445098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1771840299; x=1772445099; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J9P/hiUK/l/iV+NBMdNBP19LQ/+lioTm29Bruktj9zQ=;
-        b=ayyFsPSMrzkMt74z/SbpeGcez/bZAy4PdZlyy3IWP1sNh0bZXDkUBQXR2LwlEwmErw
-         eLks4QIqlPzUFiNaYWcPSjNZCxGngcmb5JjJUUMUBcyQTlfhB4gw4HhYS1rSIIOfEzez
-         Ctrb38WqTeBAgciT/Q/8NO1uUItnz/c+iA4HbjyNejq6+Kk5YSEVA1LeoSeU9PMQlBvo
-         Ryd3BKdvAsFrGfswtIJrRIFcwPHow1ojOmFW3JqXvvpJL5Y6M6HolJrblhYN70/9Gc/z
-         bhhsfV92H58gD2NtbQGQyU6icOz6FrqIVXJ3xS4NV/m7X+rPBnwwDIwe+9Y66+GQ2f+Q
-         wusg==
-X-Forwarded-Encrypted: i=1; AJvYcCVGDZL1ysUnnqFB3a2EBdHhlxrO+U0SCzc4YmUmx8DHozDv/pYidHh2yfMHp0eV4pQF6rcBz2g3GnneZA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlFtJfj40WrJFWjT0xy7CRT0APH5/ncdK1e9BKF1CKKC3PLkGP
-	UL9fny5+wFQk/B1XYMBTDbayPaWFfYsyKA5BIf4RyGfz93jP2PHO0iV+9DpWsKqcrsI=
-X-Gm-Gg: AZuq6aKEUZ87u4/xOiQBiJCqOHyUqyLuPMVLsqROItNHFdD55cNvvoG2n4nKtUSpt9a
-	b5ROjMNGC4lLg+tQOukNckP5TerSlK7j14yrWhFA77SCqARvLzby65STO0gAm4TiN2h7fnveNKi
-	d9r2zsbR7k3Ovd3/pZm4fn6qquTsoqI9/QAjU34U44MiQ+7WrXNENocm52DYZHUkxPqc0HOPih2
-	7X5IrWQTFW6bzBHe9T3UfzdnNHh7JyLPCpnl6pM6KM81vLvPPKWtNdW4T32U2XIDEP0tDi6PB4h
-	I/j3vMghfRlIX2AN9Ai6LkJl3/ut7so4LlgtppYImSBzpm7hYMX4UlSEs/nqBEohYd4Mf76KbHe
-	nTbwqJI+ki0H419an/gh2NBAk/cx8BaE1hPlehGRnUlIETu9ubaTHbD+gQGcFvyBr8bYcxwglnu
-	/pogQ+6Aa0LqOthg==
-X-Received: by 2002:a05:600c:8b5b:b0:483:a352:b4e4 with SMTP id 5b1f17b1804b1-483a949e600mr141861245e9.6.1771840297668;
-        Mon, 23 Feb 2026 01:51:37 -0800 (PST)
+        bh=jZyzh76/vi/WA0Mw21DKfbc+O5VrV1Ds2EV/BZWk6NE=;
+        b=MZ14esI0l0R90faCb8ODOQ8XBiWNV7vCnmAtXq5GJt7lZCp3IEMqvAZ2PjK3beeEl/
+         lJHR+yZ0A2xrTr84uDO1zF36xtxwdcqyN8Bi1AWkQmCc29ZlbJIjH7pnfzcVb4UCHifk
+         0lG42cf71+6utGvxgTJIBOYzM3B5SL2ruhHPqB5xo1KehAlJDyBMPiyrETbxPm0S2aWG
+         YRCsmsuFC4imrA86nVyCFtEqpqXAcV4mnrY9gXe0O3kVhYAIf5l2PPwW9r4PxgIURTnz
+         t/Qwvh+dn4pH+WL8bmtGsZ1eunmdnZA3TkdbMc8hL89D7CXnU7a+Qd6xgLeaThAc9Pd6
+         VPjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771840299; x=1772445099;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jZyzh76/vi/WA0Mw21DKfbc+O5VrV1Ds2EV/BZWk6NE=;
+        b=qLoVQPYM3Zl+Fi+Ustu8ZJ/RtwCDD1wXvTQzfCLjIqU+K1NglYvoqTcuWYGWp+eusL
+         Fa5rMvsYR/T4LRTa1oA4XIw/DcSJkLug5C66B+ER13Cz8mitazI+M6I8ZVGsqnkD0eli
+         nEew90Z8GdcJUaQfN7u6E22ALtE1LC/xL17jwyOC4ap+aFgSRIjw/N/5+i9bFLvl/e8a
+         Rp1/jhoQzVeyb/xI7QKVHB7ubu7CkR54ToidU80fsnyYDcOvftYCkDU387z4jB0Cj7zj
+         K1Vro19c3tpkVV+bUO22ivm+imRGSEZ9Vh5b5C5L51+utKEwaFmtJhJGjwMWfbSfiYCJ
+         njYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWdDWbATduo5tbgyOMEHLMXb33LxX2Pu25uWmKQyOGnD9pej1PusnXXYbmIVnUBTw+1IVYT00lHfmKlDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxhQU73Ka5ZYI8iVONAveuaNkEdV+Fq2mT6yOv9+qxmebXqOGG
+	+8jf1tPJ2PxOJaSUkkdq+MIgePK64uBJ/hRWyoSMy88kJoVAdACc5ZUs/MuW4Avycas=
+X-Gm-Gg: AZuq6aJ/9OLhVCm+RTSIoRT9BHc9Bw1NEFgfW/iVcFlU+A6pQNsHL9nc4ElVOnbK8lb
+	aM5KEBmrEa6q3R2SmJqO4JyWznF88lNZ+hlQMO45QugQj99z2A2NO0znwaUYE/qDNE6288Xaqux
+	Vvht6+rh1dYN/NwVIhBG/X+ERoGqfP8IYm3Zp3VuqQahcktpfNcziZumaX3KPfO4I5p2DNn1DPl
+	VoxZglGR07tuA1ZJXzGjpZ/34KLApK8bvpfO9/tK5gPgf2VCnNcss6T/kyoQdN/9dXm03d0qVM5
+	ofTZJ02+9yoMBMh8x2H8XaetkK/u6ezUVwgFACJCsHz+pTqlEFuFL4AcrqCrGK9J8Y+TGao3Vkk
+	wbHvbfFkGcigKWbXUDGRXb6tZpQE+OPpEQC1YwIUXdPUltQpTSUMRaAvv4c7qjE2C6AhHfiVShc
+	QM5K8Nvoql47LEfd25ZkqGUllJ
+X-Received: by 2002:a05:600c:1e1d:b0:483:456a:514b with SMTP id 5b1f17b1804b1-483a95befe5mr129473145e9.12.1771840299027;
+        Mon, 23 Feb 2026 01:51:39 -0800 (PST)
 Received: from localhost ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a9caadedsm152601835e9.10.2026.02.23.01.51.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31b3e0dsm397848795e9.1.2026.02.23.01.51.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 01:51:37 -0800 (PST)
+        Mon, 23 Feb 2026 01:51:38 -0800 (PST)
 From: Jiri Pirko <jiri@resnulli.us>
 To: dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org,
@@ -100,10 +102,12 @@ Cc: sumit.semwal@linaro.org,
 	ashish.kalra@amd.com,
 	suravee.suthikulpanit@amd.com,
 	linux-coco@lists.linux.dev
-Subject: [PATCH v2 0/2] dma-buf: heaps: system: add an option to allocate explicitly decrypted memory
-Date: Mon, 23 Feb 2026 10:51:34 +0100
-Message-ID: <20260223095136.225277-1-jiri@resnulli.us>
+Subject: [PATCH v2 1/2] dma-mapping: introduce DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
+Date: Mon, 23 Feb 2026 10:51:35 +0100
+Message-ID: <20260223095136.225277-2-jiri@resnulli.us>
 X-Mailer: git-send-email 2.51.1
+In-Reply-To: <20260223095136.225277-1-jiri@resnulli.us>
+References: <20260223095136.225277-1-jiri@resnulli.us>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -116,12 +120,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53176-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53177-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	DMARC_NA(0.00)[resnulli.us];
@@ -130,7 +134,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
 	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -139,57 +143,98 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_TWELVE(0.00)[25];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,resnulli.us:mid,resnulli-us.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: DEDBD174415
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: 7DB301743CC
 X-Rspamd-Action: no action
 
 From: Jiri Pirko <jiri@nvidia.com>
 
-Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
-run with encrypted/protected memory which creates a challenge
-for devices that do not support DMA to it (no TDISP support).
+Current CC designs don't place a vIOMMU in front of untrusted devices.
+Instead, the DMA API forces all untrusted device DMA through swiotlb
+bounce buffers (is_swiotlb_force_bounce()) which copies data into
+decrypted memory on behalf of the device.
 
-For kernel-only DMA operations, swiotlb bounce buffering provides a
-transparent solution by copying data through decrypted memory.
-However, the only way to get this memory into userspace is via the DMA
-API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
-the use of the memory to a single DMA device, and is incompatible with
-pin_user_pages().
+When a caller has already arranged for the memory to be decrypted
+via set_memory_decrypted(), the DMA API needs to know so it can map
+directly using the unencrypted physical address rather than bounce
+buffering. Following the pattern of DMA_ATTR_MMIO, add
+DMA_ATTR_CC_DECRYPTED for this purpose. Like the MMIO case, only the
+caller knows what kind of memory it has and must inform the DMA API
+for it to work correctly.
 
-These limitations are particularly problematic for the RDMA subsystem
-which makes heavy use of pin_user_pages() and expects flexible memory
-usage between many different DMA devices.
-
-This patch series enables userspace to explicitly request decrypted
-(shared) memory allocations from the dma-buf system heap.
-Userspace can mmap this memory and pass the dma-buf fd to other
-existing importers such as RDMA or DRM devices to access the
-memory. The DMA API is improved to allow the dma heap exporter to DMA
-map the shared memory to each importing device.
-
+Signed-off-by: Jiri Pirko <jiri@nvidia.com>
 ---
 v1->v2:
- patch1:
-  - rebased on top of recent dma-mapping-fixes
- patch2:
-  - fixed build errors on s390 by including mem_encrypt.h
-  - converted system heap flag implementation to a separate heap
+- rebased on top of recent dma-mapping-fixes
+---
+ include/linux/dma-mapping.h |  6 ++++++
+ include/trace/events/dma.h  |  3 ++-
+ kernel/dma/direct.h         | 14 +++++++++++---
+ 3 files changed, 19 insertions(+), 4 deletions(-)
 
-Based on dma-mapping-fixes HEAD d5b5e8149af0f5efed58653cbebf1cb3258ce49a
-
-Jiri Pirko (2):
-  dma-mapping: introduce DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
-  dma-buf: heaps: system: add system_cc_decrypted heap for explicitly
-    decrypted memory
-
- drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
- include/linux/dma-heap.h            |   1 +
- include/linux/dma-mapping.h         |   6 ++
- include/trace/events/dma.h          |   3 +-
- include/uapi/linux/dma-heap.h       |   3 +-
- kernel/dma/direct.h                 |  14 +++-
- 6 files changed, 119 insertions(+), 11 deletions(-)
-
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 29973baa0581..ae3d85e494ec 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -85,6 +85,12 @@
+  * a cacheline must have this attribute for this to be considered safe.
+  */
+ #define DMA_ATTR_CPU_CACHE_CLEAN	(1UL << 11)
++/*
++ * DMA_ATTR_CC_DECRYPTED: Indicates memory that has been explicitly decrypted
++ * (shared) for confidential computing guests. The caller must have
++ * called set_memory_decrypted(). A struct page is required.
++ */
++#define DMA_ATTR_CC_DECRYPTED	(1UL << 12)
+ 
+ /*
+  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
+index 33e99e792f1a..b8082d5177c4 100644
+--- a/include/trace/events/dma.h
++++ b/include/trace/events/dma.h
+@@ -32,7 +32,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
+ 		{ DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
+ 		{ DMA_ATTR_NO_WARN, "NO_WARN" }, \
+ 		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
+-		{ DMA_ATTR_MMIO, "MMIO" })
++		{ DMA_ATTR_MMIO, "MMIO" }, \
++		{ DMA_ATTR_CC_DECRYPTED, "CC_DECRYPTED" })
+ 
+ DECLARE_EVENT_CLASS(dma_map,
+ 	TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t dma_addr,
+diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+index e89f175e9c2d..c047a9d0fda3 100644
+--- a/kernel/dma/direct.h
++++ b/kernel/dma/direct.h
+@@ -84,16 +84,24 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
+ 	dma_addr_t dma_addr;
+ 
+ 	if (is_swiotlb_force_bounce(dev)) {
+-		if (attrs & DMA_ATTR_MMIO)
+-			return DMA_MAPPING_ERROR;
++		if (!(attrs & DMA_ATTR_CC_DECRYPTED)) {
++			if (attrs & DMA_ATTR_MMIO)
++				return DMA_MAPPING_ERROR;
+ 
+-		return swiotlb_map(dev, phys, size, dir, attrs);
++			return swiotlb_map(dev, phys, size, dir, attrs);
++		}
++	} else if (attrs & DMA_ATTR_CC_DECRYPTED) {
++		return DMA_MAPPING_ERROR;
+ 	}
+ 
+ 	if (attrs & DMA_ATTR_MMIO) {
+ 		dma_addr = phys;
+ 		if (unlikely(!dma_capable(dev, dma_addr, size, false)))
+ 			goto err_overflow;
++	} else if (attrs & DMA_ATTR_CC_DECRYPTED) {
++		dma_addr = phys_to_dma_unencrypted(dev, phys);
++		if (unlikely(!dma_capable(dev, dma_addr, size, false)))
++			goto err_overflow;
+ 	} else {
+ 		dma_addr = phys_to_dma(dev, phys);
+ 		if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
 -- 
 2.51.1
 
