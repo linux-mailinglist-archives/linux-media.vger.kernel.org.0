@@ -1,234 +1,254 @@
-Return-Path: <linux-media+bounces-53220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53221-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WMk8BiCqnGklJwQAu9opvQ
-	(envelope-from <linux-media+bounces-53220-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 20:27:28 +0100
+	id 0LvVFg+tnGlyJwQAu9opvQ
+	(envelope-from <linux-media+bounces-53221-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 20:39:59 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695D417C5B9
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 20:27:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A9017C79F
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 20:39:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 68C7131A22D7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 19:13:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C2D2B30715C6
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 19:39:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3208E376488;
-	Mon, 23 Feb 2026 19:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD6236F426;
+	Mon, 23 Feb 2026 19:39:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pqFA/fbd";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jTj0se3R"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MJS3c3CP";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="s/pwrMw3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FE4374746
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 19:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1670523AB8D
+	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 19:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771873898; cv=none; b=CuCGH9EdhEguHurqoXNBBjgbVLasMAplaWiv2eE4IDJyQyIq+KfIvQmpoRx62jKT2mvAyICHpsaKbZ8XwELzqjNs61jPIKvxoa9hc6e1DaeRqq9uP0nap7KarI/rr5/PI3xDjbss5R6Z6zhUeiEnR2lP4s3YIJ55E6ajPYmSNcU=
+	t=1771875582; cv=none; b=M79M6fbuYZhbGyrH0wPO5WzTJhutlulIu94dsOSVYkeijATFz2u/DAEZnwokU0YkgHDHF7BKDpqQ9PCVO+WdYId3ww8QWZEdtEau85K6Nu8Uf/kn4SEX4WNsJM+AiJAZRZDjFW/86jBFYsqvcd9iv71F5/TNnr0V5UC1xze7MeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771873898; c=relaxed/simple;
-	bh=Lyy5sl15dqp/AXuBfl18EdJ2b3DY11ZJbm74AYUuJlc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=P/gyYFHo54/ylO3iL7UxgE9U267Qf8hOHQ36CYW082FqWm5zK/bSh8eqcE5OvVtCEPQHOBaoTScxbdz7NTEVRSs1coOoRmittJyj/T/qPCVUezVAD70Yctsfc6eqwhy4oKd2E4NoW81MqlbbxI5pmU5khTlgjaw/9gfru27mH9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pqFA/fbd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jTj0se3R; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NIvCIN3409088
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 19:11:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	yRUzuJcFHmAaqmAyK9hpXfuGmZiOZ8PtVGzanUhu6Dk=; b=pqFA/fbd40J7GH0t
-	61FyLOwfDSBvbMB0H48uB5tQBf1nMdwKyi7biOEudmKNLtZaCsHYrrY/RnXrULD4
-	w4yAWFNMhi50p0mUeEzxYnRpAxzUsKqBh/pCA3yKoiiWVnVijCCw2Lr6ocNjAwS/
-	yo/iHekskfL7+jZGq0dYD6AMhCUsw+aYBjxRqJigwofNqsASS6DqjbDCKDNjGeva
-	ZhR57O96hFB0Ppr3UBZXQqFPhusEZciHCQ7Q0HMY+qI2KySKOkAPwz4wCWfSFwRv
-	gVh0g8+HS7qHnwJT/iBLrycvZyJHCNIIhltkojxsTRyuAREntcMXPozM3Ft9BD7K
-	1QpTdg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgn8tsk9v-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 19:11:36 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2a79164b686so60906665ad.0
-        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 11:11:36 -0800 (PST)
+	s=arc-20240116; t=1771875582; c=relaxed/simple;
+	bh=dk8hvoE8uQxFO2m7M7VLsnEvFj4HuBT1x4Phxw8bnzI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qByy4mXDtHBaMWERv8JW2kUsSIEtu9mBsD3i3i1S3gunhwWzb+SuSvJ6adB8o6G5QBHiQGngBaddk/L8B+XyKp+exHujGQn3csrDtBu6dBhnWAPIINFIrGgz4iyCr/ObEJxU8+BUam+5pyRxkd9v09Gsuxl/OkhyEf6+ARGnc9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MJS3c3CP; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=s/pwrMw3; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771875580;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=67ebD5htsI6tjAjswLGtA5uaDjUqlsPp6plwpaEU6dc=;
+	b=MJS3c3CPHIGLssrQBUJq6kMDK3U+tvMIsU5El5N7e5+iIniMf7FKnzHNlxGYAVC46tBFWm
+	6aQu8ORETCjUNrQf0PZMjFGudSVH1qIppHqihD2RjlwjDu9TDQQjt/tOiKfVZmozSQt9nn
+	T4PQSgE5pNiFZ2m2cUYTpLOqn9TXfuc=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-628-YhPrg1Q9OXWC9Wdw2iFNTA-1; Mon, 23 Feb 2026 14:39:38 -0500
+X-MC-Unique: YhPrg1Q9OXWC9Wdw2iFNTA-1
+X-Mimecast-MFC-AGG-ID: YhPrg1Q9OXWC9Wdw2iFNTA_1771875578
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-896fa0fcf27so618470256d6.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 11:39:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771873896; x=1772478696; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yRUzuJcFHmAaqmAyK9hpXfuGmZiOZ8PtVGzanUhu6Dk=;
-        b=jTj0se3RNwIyWh3zFk8u3xW4KdT1njeYLwrxLRaIpYtgFAlepUXNvBZuYK4lxogXmC
-         12r7ke3O+bY22nZhdkMY5ULNIEQ9eQHxi3cb0jTtzhVP5WEs/uFpOtc5672SiJvtzSjG
-         3RVMAi0rqKbN6ite2RDbMuhA4ZiK1icD2xMr0jrjnFuO/d22VTLuHMyPQGk4iu7LfKhv
-         8os5zbPjCl9FvSRXu2zeEg0LzIfFHbLWyE8aRwyUDpVl44tfN84QIMDbpFsDooVULyu3
-         6Uh9wU97yfnfRBnx2UEYVAwNEZQnh6Us9qK8mhXRKu1KUofh5WTuoE6DM66JRAP/A+l0
-         FUKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771873896; x=1772478696;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+        d=redhat.com; s=google; t=1771875578; x=1772480378; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=yRUzuJcFHmAaqmAyK9hpXfuGmZiOZ8PtVGzanUhu6Dk=;
-        b=gkhAWQvWrL4RMB75fZUWuxnWQWnjjqTptFyY2Hf1fn3rTRlNePrDv564DvkccgzLbf
-         TQPMiuacGTY/VUAEiRBq3MYb9oM3FA+eABt3EkBgVRIGHNQ/shmXpVU4zQNyKhdJrIzn
-         E0MthqXlZPXJmpMJy3iAghszRzA65Czua6hCCVWsvzmvUnvuQo6c9QV5pD40iCxBF9iK
-         V7TCidXBcw1Y7hK7OR6049kWK2iFYYxxLHz+lQ4ZPGHtFRgUyIj8DFYoSHDJhhcEFOBn
-         Gdp20vWjCPR2p5AoTiY2s5xu6v1luV7QH2iBDNvCr9f4pZ2GOL+LjbWIuhA6Knu/5lUS
-         RSrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWpX7ydHOuaU29LH2Kxpii9iDhtQZn7kkp4ZFWk2sdBICr8FIlOaSUlz1A+5lnjALgOqHtWuyXhqO8auQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyplyTbnCsng69IeltDbUGsPuyA6zTPiQbD+Ls/P3Iwoh80M1t
-	LDnT0iajvAx21W4lGYjelNi+UEVVjORDB/B/y73NhtybFMsYgkInKyEe67N3wBoCnNgGKRPZr+i
-	yoV9k4VZFjpVHp7wfiikkwrp7k+P1DvvL3iuMpSkzYsiZJ9GkZamKcE0URJYmiHrhWw==
-X-Gm-Gg: ATEYQzy+pCoSqssBtWUJtyoRnqOdUcR2I8uEauIdP4vj7Jy4GZkqqhZsf6tSfxBllLy
-	h3FFFH2IUG9a+WlFyLlKqSuf87KsHU//dGPhN4r2WObzsMszy4aHMxmdB6DG36Q95L2b6X1q9I5
-	7ZSxETzY+AdSOf+6qwqRNp3H+f0JpozKKDolxodvbaPHPHaMrepklkpuvAfRitJ/welrRA8Wh6n
-	NCesMTtY+teb9fVvWfUIP4ZyijXlffGTNOYVWLIP2kBB8bzISXGrLClZ0sc7sOZxgIQyl53ePtX
-	fa9+u5hhSv1DUM+4DUppNzlRLqDYDBC7+w63dDOUvVKxmIv/K55GhcTln+Od6O/GkB85sr1xWRS
-	ruIBqXUvPYf/6GqxWAkOSxAFM5wHyQpeKEhboOoV6HoPCrGF9Z4TJTQ==
-X-Received: by 2002:a17:902:db02:b0:2a5:8c1c:744f with SMTP id d9443c01a7336-2ad74525046mr99741345ad.40.1771873895867;
-        Mon, 23 Feb 2026 11:11:35 -0800 (PST)
-X-Received: by 2002:a17:902:db02:b0:2a5:8c1c:744f with SMTP id d9443c01a7336-2ad74525046mr99740985ad.40.1771873895387;
-        Mon, 23 Feb 2026 11:11:35 -0800 (PST)
-Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad74e34e18sm83501505ad.10.2026.02.23.11.11.28
+        bh=67ebD5htsI6tjAjswLGtA5uaDjUqlsPp6plwpaEU6dc=;
+        b=s/pwrMw3v47VB2otoas6SJzdZ6moh27+AXmH8XHx8PHLc3VrjnYrR2akBOYZ/n9VXn
+         jb8jilfR00a1RMsFWDl8NUmvfrm7nOgoRtr+vx6e2xl0e6HOaGKuoO7/jGJAzYTAMhzm
+         saWbdluATIr8ZvAT9zHCOprDCyoitkFm7lG/ZvXvLvwquP7rfGXi/whdIXSBtB1SwEMQ
+         uyCdU1gI8YA1iNNdH58uFtTtpzLJ5WrWmj34GgSTn+szfHYY5vu22freDJ+MU/70XvZb
+         at7dVwy83FdAg0oS7H5pYntK70RZFWGF9v4x94AnIv8Cv62UZJZeTT8tgsGy+zLH/dD2
+         X3bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771875578; x=1772480378;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=67ebD5htsI6tjAjswLGtA5uaDjUqlsPp6plwpaEU6dc=;
+        b=VDMenj6s3BoGK80WBhLi6wnn9oBuDKZeNrE81ujH5aagP0ZNzY8NQX4Nb2tnlk8jDu
+         jraDO82fSwzBpeMpxrVShj6V5f3EbX4KgLBqz5/72N6SqNm0bwP2TR8yMcT1OHjSWwFk
+         2uv+bVsF7MDyLfpN/VaL9jFarILk32q8kqRLHOkHTueaccV/JcmuZofissznkBKNjyGR
+         mRanHJdRWSZ6XczCG+BdKTmuzSixaH89/vki/b181dfUHYXbtO4XUYxwX/ezTprLBn+M
+         aSJu+bmxl3HdV3thmcSehMnX9fHELMFnPcXBsxI4M883OLl+xTxJ8l87eu/6XfhdZ29v
+         cQuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWuaYmXweO3IdKuEw/esjh/4KUXVJUenlagQgZZDFGGYpZumYqL7mzJhyd/Q0oUGMWaIiOP1UE+PkIKQg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8LdHeL+RsEgdOS4cjpSXkOBrOE0KM4on74qizA8Dkbdkoj9xy
+	6wJP05k82oI0/0bs5dDvfbES/hB0QuuG4ykQ9kg17YtdHw7idQAXLQ9yHBa7Js2MeifirqxxxWW
+	uQwxVsn+eCeNmZ9bdMZ4XkoxjTFU1y+M3dcu9yxaPaeYRk30xb0iWjDZTysQptMEB
+X-Gm-Gg: ATEYQzzzqUJZPldwYUh3GlB4MtC6vWrhs2+FDNXGzRLYMFFATWJjxGrf4UFnfahQvJG
+	Nb/QPz67wrtVnCo3BMhp+BIl5TQTHnhAbCQX0uhpXDQ/iJwyIbPTuxCyDkgQXbIDwnuHllUYyV2
+	ObfUPjIoOW27gpD35FZo+x9ZaSF7ECXFcEOmF+0lcqWM/tBffwvx8kRRvFiiqDMwi0/437GAlkG
+	szKK3UvaFFcDVB0Z8lyt8vJKuPL/9S/ie4Not6QHBfBF5vmOf8UpSTr1Lly7Dgc8f/irGUGcqJo
+	lO6oAXAxV+wkQfj6f8jiMRB0KUBFD4V4YcdROQnM3h0K1gmi5g7WwuBjq0z+BjaSOJgVwe1Z71K
+	Z+3cijzJedZerRbo/B7VO8nqmMrRkdawiCuESXzqSiFB2/HFlBMjk9vIUZGnrnDs=
+X-Received: by 2002:ad4:5e8d:0:b0:897:306d:98be with SMTP id 6a1803df08f44-89979efc4a9mr154810696d6.55.1771875578033;
+        Mon, 23 Feb 2026 11:39:38 -0800 (PST)
+X-Received: by 2002:ad4:5e8d:0:b0:897:306d:98be with SMTP id 6a1803df08f44-89979efc4a9mr154810126d6.55.1771875577480;
+        Mon, 23 Feb 2026 11:39:37 -0800 (PST)
+Received: from localhost (pool-100-17-19-56.bstnma.fios.verizon.net. [100.17.19.56])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5070d544cb8sm74614481cf.12.2026.02.23.11.39.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 11:11:34 -0800 (PST)
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Date: Tue, 24 Feb 2026 00:39:12 +0530
-Subject: [PATCH RFC 18/18] MAINTAINERS: Add MAINTAINERS entry for QDA
- driver
+        Mon, 23 Feb 2026 11:39:35 -0800 (PST)
+Date: Mon, 23 Feb 2026 14:39:34 -0500
+From: Eric Chanudet <echanude@redhat.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: "T.J. Mercier" <tjmercier@google.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	Maxime Ripard <mripard@redhat.com>, Albert Esteve <aesteve@redhat.com>, linux-mm@kvack.org, 
+	Maxime Ripard <mripard@kernel.org>, Yosry Ahmed <yosryahmed@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>
+Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
+Message-ID: <aZoHfloupKvF2oSu@fedora>
+References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
+ <CABdmKX0LpKJ9tw48oQh7=3CF0UR5uFtgo0OMwQhHBB40LnijyQ@mail.gmail.com>
+ <a446b598-5041-450b-aaa9-3c39a09ff6a0@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260224-qda-firstpost-v1-18-fe46a9c1a046@oss.qualcomm.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
-In-Reply-To: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
-To: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        iommu@lists.linux.dev, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>,
-        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771873753; l=1237;
- i=ekansh.gupta@oss.qualcomm.com; s=20260223; h=from:subject:message-id;
- bh=Lyy5sl15dqp/AXuBfl18EdJ2b3DY11ZJbm74AYUuJlc=;
- b=U2RuZmqfnOzXIV4uEy/q/+tEABjRAyjmepjpnCpXNvRPVQEY3N8FyXUwnOR4IQspDW9EJCN6r
- /BSlCMecuL/A6nXKoi/ZCcCSKbs/ob1ERp+7UwIQROKZVvMOxgaov2G
-X-Developer-Key: i=ekansh.gupta@oss.qualcomm.com; a=ed25519;
- pk=n0SepARizye+pYjhjg1RA5J+Nq4+IJbyRcBybU+/ERQ=
-X-Authority-Analysis: v=2.4 cv=X7Jf6WTe c=1 sm=1 tr=0 ts=699ca668 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=DP9mDQDU2fd_VHYdcv8A:9
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-ORIG-GUID: FGUeq96G0j5-xQPEuQrO5871gYlwkz9e
-X-Proofpoint-GUID: FGUeq96G0j5-xQPEuQrO5871gYlwkz9e
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE2NiBTYWx0ZWRfX9o8MBbPo8AeL
- 2bb6oRcwNTB6Jxa2SYdNEuyhkYw9VLQd9X7pvfBB9zgxcn8GA8C2QkTlLvXijsdBWsy5lTWzZGx
- zTnZXIpgFzl79sZ8vCr9gm91qzUojtzOXuoEzyPCmokeoT9kOCG5hd0OBBvrvtVFiJwkp2ZhYYY
- gqCjleOgpS7JEmVL/xxHlXRowGHqXJ5HQrBnuygXgOb7clIBm+khJL6h1WrldPb78Bm5So8ldb7
- dLZIFzWogFhfjmZHzPkpW65TSjbPGwujNwRezcf6U9vTiVqwlYa9bxyw1wBtXezwfVpzSmPyXF0
- 4Oa0sRg+4LQND7YdZlHIvJWRJQH/0y5FqbICQtp8BBpsLF41XPaCrwmSXi3BmiwmQ6VF8NrpxoU
- I0wjihXcHIsy5QRj7XJuKjpNdxUEtnYca2bLcFjUSmkHMrTOqNlZeaEAtB3zVzl/6vobUjstcbK
- N6rsE5Z1/MaiiXimveA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_04,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
- adultscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230166
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a446b598-5041-450b-aaa9-3c39a09ff6a0@amd.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53220-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,qualcomm.com:dkim,lists.freedesktop.org:email,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-53221-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[echanude@redhat.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 695D417C5B9
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: B3A9017C79F
 X-Rspamd-Action: no action
 
-Add a new MAINTAINERS entry for the Qualcomm DSP Accelerator (QDA)
-driver. The entry lists the primary maintainer, the linux-arm-msm and
-dri-devel mailing lists, and covers all source files under
-drivers/accel/qda, Documentation/accel/qda and the UAPI header
-include/uapi/drm/qda_accel.h.
+On Fri, Feb 20, 2026 at 10:45:08AM +0100, Christian König wrote:
+> On 2/20/26 02:14, T.J. Mercier wrote:
+> > On Wed, Feb 18, 2026 at 9:15 AM Eric Chanudet <echanude@redhat.com> wrote:
+> > 
+> > Hi Eric,
+> > 
+> >> An earlier series[1] from Maxime introduced dmem to the cma allocator in
+> >> an attempt to use it generally for dma-buf. Restart from there and apply
+> >> the charge in the narrower context of the CMA dma-buf heap instead.
+> >>
+> >> In line with introducing cgroup to the system heap[2], this behavior is
+> >> enabled based on dma_heap.mem_accounting, disabled by default.
+> >>
+> >> dmem is chosen for CMA heaps as it allows limits to be set for each
+> >> region backing each heap. The charge is only put in the dma-buf heap for
+> >> now as it guaranties it can be accounted against a userspace process
+> >> that requested the allocation.
+> > 
+> > But CMA memory is system memory, and regular (non-CMA) movable
+> > allocations can occur out of these CMA areas. So this splits system
+> > memory accounting between memcg (from [2]) and dmem. If I want to put
+> > a limit on system memory use I have to adjust multiple limits (memcg +
+> > dmems) and know how to divide the total between them all.
+> > 
+> > How do you envision using this combination of different controllers?
 
-This ensures that patches to the QDA driver and its public API are
-tracked and routed to the appropriate reviewers as the driver is
-integrated into the DRM accel subsystem.
+We are trying to control each CMA heap use of their CMA regions.
 
-Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Regular allocation would be migrated out should CMA allocation require
+some space already taken in the region (bare, I suppose, if these end up
+pinned...) so I didn't think it needed to account for these in dmem.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 71f76fddebbf..78b8b82a6370 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21691,6 +21691,15 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/crypto/qcom-qce.yaml
- F:	drivers/crypto/qce/
- 
-+QUALCOMM DSP ACCELERATOR (QDA) DRIVER
-+M:	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-+L:	linux-arm-msm@vger.kernel.org
-+L:	dri-devel@lists.freedesktop.org
-+S:	Supported
-+F:	Documentation/accel/qda/
-+F:	drivers/accel/qda/
-+F:	include/uapi/drm/qda_accel.h
-+
- QUALCOMM EMAC GIGABIT ETHERNET DRIVER
- M:	Timur Tabi <timur@kernel.org>
- L:	netdev@vger.kernel.org
+As for accounting for CMA allocations in memcg, I suppose that's the
+question prior discussions explored as well.
+
+> Yeah we have this problem pretty much everywhere.
+> 
+> There are both use cases where you want to account device allocations to memcg and when you don't want that.
+> 
+> From what I know at the moment it would be best if the administrator could say for each dmem if it should account additionally to memcg or not.
+> 
+> Using module parameters to enable/disable it globally is just a workaround as far as I can see.
+> 
+
+So, for example, adding a dmem knob so one can:
+echo "cma/reserved $SIZE" > /sys/fs/cgroup/user.slice/dmem.max
+echo "cma/reserved 1" > /sys/fs/cgroup/user.slice/dmem.charge_memcg
+
+I'll take a look.
+
+> Regards,
+> Christian.
+> 
+> > 
+> > Thanks,
+> > T.J.
+> > 
+> >> [1] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org/
+> >> [2] https://lore.kernel.org/all/20260116-dmabuf-heap-system-memcg-v3-0-ecc6b62cc446@redhat.com/
+> >>
+> >> Signed-off-by: Eric Chanudet <echanude@redhat.com>
+> >> ---
+> >> Changes in v2:
+> >> - Rebase on Maxime's introduction of dmem to the cma allocator:
+> >>   https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org/
+> >> - Remove the dmem region registration from the cma dma-buf heap
+> >> - Remove the misplaced logic for the default region.
+> >> - Link to v1: https://lore.kernel.org/r/20260130-dmabuf-heap-cma-dmem-v1-1-3647ea993e99@redhat.com
+> >>
+> >> ---
+> >> Eric Chanudet (1):
+> >>       dma-buf: heaps: cma: charge each cma heap's dmem
+> >>
+> >> Maxime Ripard (2):
+> >>       cma: Register dmem region for each cma region
+> >>       cma: Provide accessor to cma dmem region
+> >>
+> >>  drivers/dma-buf/heaps/cma_heap.c | 15 ++++++++++++++-
+> >>  include/linux/cma.h              |  9 +++++++++
+> >>  mm/cma.c                         | 20 +++++++++++++++++++-
+> >>  mm/cma.h                         |  3 +++
+> >>  4 files changed, 45 insertions(+), 2 deletions(-)
+> >> ---
+> >> base-commit: 948e195dfaa56e48eabda591f97630502ff7e27e
+> >> change-id: 20260128-dmabuf-heap-cma-dmem-f4120a2df4a8
+> >>
+> >> Best regards,
+> >> --
+> >> Eric Chanudet <echanude@redhat.com>
+> >>
+> 
 
 -- 
-2.34.1
+Eric Chanudet
 
 
