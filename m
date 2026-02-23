@@ -1,471 +1,325 @@
-Return-Path: <linux-media+bounces-53178-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53179-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MIhkFW4jnGkCAAQAu9opvQ
-	(envelope-from <linux-media+bounces-53178-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:52:46 +0100
+	id iEmpDGInnGl1AAQAu9opvQ
+	(envelope-from <linux-media+bounces-53179-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 11:09:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE6C174430
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:52:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8832D1749A8
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 11:09:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A25BD3031ADC
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 09:51:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 810E93099145
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:05:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68C94355026;
-	Mon, 23 Feb 2026 09:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 424EE357737;
+	Mon, 23 Feb 2026 10:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="2T9XMgbv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MzDQ7+t3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35625350A39
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 09:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE5B344056;
+	Mon, 23 Feb 2026 10:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771840303; cv=none; b=crYDMGNkZiJ5nD0qKYgBz9DmC2h9A2gfeR/oEoEq8sjatZ8216+BxkoswHCSS+iBpc+GtfTlmZ9po8j922M/DacbygQZ4PXUfEOBQ91c9vY45nWkj239c18nDDUM+c94L5y367sOt8fBemmVZQsE4eLwxXHkT49dy/2KU5/aJX8=
+	t=1771841141; cv=none; b=qI46eUL9GtVDm1V/AkBZYPf5DTsY83f7qrszgwR6G+AP+5y+YVfk080WcCAOktfUDYIOHDZBt2cBknaWfpBC0uZGkk0yj2ruMh4ZSx2AZ7V1xgdDMXpcT6U7UsOmXJTepxOfa7k4dGefZw3Jd0/YNlRejEOeIYo1cnEmwC3qyRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771840303; c=relaxed/simple;
-	bh=ZyM23UfEgVGntB1/zJ/cKUDJiF+dqS6IUYHE9p7QMok=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T1ET1Qah8LrHaguRP4+wTCR3IxoB3DbhW20mnqXXr0VtuOdhllyncUyEn/wWvylzhnBZ38+fwFq+SgZC/a4Ptmj7zMAubUFYDjxKPsEPQcK/+C0dGd8K7kP1A/u2g8dPlB+AiOiLeCADNlF3vmQpd2O1FFw0E5fN42k+nOi2gbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=2T9XMgbv; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso29904505e9.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 01:51:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1771840301; x=1772445101; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mF8Zav5NAo2mpAKEgaciFJ2LFKzg7+sHGDJbJ7B58Uk=;
-        b=2T9XMgbvPh2Aq9lnbZb4XwGLaCpfzZ4/85+bjHq2w6vgM3zvwF0jY2tBxF2ejXIBco
-         PoAV1ekmdmwM8A3vLGjSj4vS0tCqa2rqqSlylfko6C+A5Y0flhnpTCmp9j2wc4Dbu+M/
-         Vv81l+WA4NA6AYcc0ynVrXyuTGJxH6Tk8vQXp3QEWN4gVSUAHFGV7GyQy6IIZVCE/mp5
-         U19ragHyFT6cA3VuxH2NQseySFU1SjdN7zTkTNlnKW3u5wKvPE02wQzSSD+aBUnyHFzg
-         nwdSyt0MIjCf35GciYoC4Q9hTF42yuWaBPVGl7eXUHKcERF1ioHgiGRdNmlssE+Ir7po
-         UdpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771840301; x=1772445101;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mF8Zav5NAo2mpAKEgaciFJ2LFKzg7+sHGDJbJ7B58Uk=;
-        b=TOrM29F3L2iLRZxMtM7Tud3dDWa8qVIB+/dt3hvLnbgfEDIPVP0XNj3ITk5N1ltoSf
-         2LkO202soQlAwysFi7MusgMgWoh9bHW0s/lN4OmBJZchXILnUvJ3p99zU/uoZFbI6uO/
-         xEisPghJAVYEMDRvKpRgNwTHZ4q/2kW/hk72Gi+XyLZ93dFzBa1kmHzK+pjSxC2SS48F
-         1skvZPhHdUieEhUnCFVumYZkWciyGtho1u35f8H4dlfFC+qe5pTl7cwTjRYobhkjYcxU
-         bEbCgg7+D+BDUrrdwK5xGiFn3lILaofPc3FAhKNou9bg3UYtjiLr37VNSawWPspLLXne
-         l9dA==
-X-Forwarded-Encrypted: i=1; AJvYcCXs/NWpjLI34m9JXwEsdEksIwWUDxHBExETT8nCsACZtQtJMZ/uu4ciDc5yEmgb6XnV3IGk9y+PMoRjLg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJR7ZCdiWoQJnaLIpeup5TkeBDthts9Y/VkSWMfjatVjDizfXP
-	tSrAmNM25Jn3qXBH4amG2/mfQNomFKr64JG6abKV+RUEMHRYscvw/kVCRCq354S+/Qc=
-X-Gm-Gg: AZuq6aKLNeEhVjfXLLmOrZhD82dy0JxSbyIAwcDSxmdSzqcmq+6byA9C5d8D5x0BbL9
-	Y/cwhtzPFu3YHPlXttmUIT7rp97ZwP94hUlMOMhVHDo7+aWIfyWzwWM7xUaL2y1fi1M0mfFu6jb
-	3ghgETyPocJEPn0ymG5kupYkmavlVTUU4+9gSPSojJ1KMSXiCCoevnrXEE39MAzzm9eZhOdlmSD
-	v/aTGevSZNbnh/qogvbOOtMq0WycZOwOXz2W7T4e2VW5Wqjq4wnyulQTp3zXZNC50mfjnzc98I1
-	vVwQHDQCwOwcdn8ux8Km1DeRg/7TcYWAF/2MgdU0KPhp3848HmgaBnlZFl/MxRU9dkTudGmgRQP
-	y8IYzg8YRHt7rJB66OzAA3sDh5nV2uWYxRmSQr8xcedCSC0rVEhMl7ZmJqyztUZ9CJ0uSIKpxzD
-	cv9ek2dMWxm3x1wA==
-X-Received: by 2002:a05:600c:c4a5:b0:483:7783:5382 with SMTP id 5b1f17b1804b1-483a95e6b64mr115865615e9.27.1771840300410;
-        Mon, 23 Feb 2026 01:51:40 -0800 (PST)
-Received: from localhost ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a9caadedsm152604565e9.10.2026.02.23.01.51.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 01:51:40 -0800 (PST)
-From: Jiri Pirko <jiri@resnulli.us>
-To: dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	iommu@lists.linux.dev,
-	linux-media@vger.kernel.org
-Cc: sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com,
-	jstultz@google.com,
-	tjmercier@google.com,
-	christian.koenig@amd.com,
-	m.szyprowski@samsung.com,
-	robin.murphy@arm.com,
-	jgg@ziepe.ca,
-	leon@kernel.org,
-	sean.anderson@linux.dev,
-	ptesarik@suse.com,
-	catalin.marinas@arm.com,
-	aneesh.kumar@kernel.org,
-	suzuki.poulose@arm.com,
-	steven.price@arm.com,
-	thomas.lendacky@amd.com,
-	john.allen@amd.com,
-	ashish.kalra@amd.com,
-	suravee.suthikulpanit@amd.com,
-	linux-coco@lists.linux.dev
-Subject: [PATCH v2 2/2] dma-buf: heaps: system: add system_cc_decrypted heap for explicitly decrypted memory
-Date: Mon, 23 Feb 2026 10:51:36 +0100
-Message-ID: <20260223095136.225277-3-jiri@resnulli.us>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20260223095136.225277-1-jiri@resnulli.us>
-References: <20260223095136.225277-1-jiri@resnulli.us>
+	s=arc-20240116; t=1771841141; c=relaxed/simple;
+	bh=qidrYHU3Vf+rGyiGqxlgqSUImfZ6U11xnHASKgxAHxs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fk+wyjK2GNUe92Z16AYfHE+jqYp0z9EsOz+wReeQqcQPlpqHwZxt3gNbgQz8upohLpb4bO0C9Pi3LKv1mU1h5Z0bTSGqH4FTu878NdKC5Yj/olDg/aRY946gHM9pectHwUq5dQA2csGMNW6X1Mt7lBc41JKyHjOVSLfNVot9yUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MzDQ7+t3; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771841138; x=1803377138;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qidrYHU3Vf+rGyiGqxlgqSUImfZ6U11xnHASKgxAHxs=;
+  b=MzDQ7+t3MbZCjIocKaG5YquJCJg0AdplIM6EVVGS+ywExGoNXHvwJNPO
+   OpXJy6TFOWLqP5EOLqC6Zg71X5IHxty48vq/MxagaMV9GKDOsAn3rjvg8
+   yTPxijV0HEPE5bK2Cqx+IPEhczpyNB/QplYiYccLH3GsKW4aaejFXB13T
+   gQBoZPLa8XLOH3waaJtWtG1HNZmBGSVnla37OzysDfE9f4s/yYjKJn/Ou
+   v60iASVU/ecnVITi5u5fLO8KoDW0b5ullsnyarGACV6CrefSS4yzRMCEf
+   s6QbchwpvcxHpNkz3RxJ6dyK/gja6t5lg5AFJOXaJLKMx6uUjOXpT42vK
+   w==;
+X-CSE-ConnectionGUID: zTbiFcO5Ss+X2Bw/ltbpUg==
+X-CSE-MsgGUID: 4mddijqbTEilHH2O65Pm5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="72894635"
+X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
+   d="scan'208";a="72894635"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 02:05:37 -0800
+X-CSE-ConnectionGUID: QWuMGGjSTHG2x9bChcoj9Q==
+X-CSE-MsgGUID: 3RGmD75aTDe47aHZJJYcOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
+   d="scan'208";a="213477169"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.225])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 02:05:36 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id CAF9F11F908;
+	Mon, 23 Feb 2026 12:06:01 +0200 (EET)
+Date: Mon, 23 Feb 2026 12:06:01 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Jai Luthra <jai.luthra@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH] media: Documentation: Fix frame interval calculation for
+ raw camera sensors
+Message-ID: <aZwmiYu-VZjQE2tE@kekkonen.localdomain>
+References: <20260219-media-fps-docs-v1-1-0387c5c5368c@ideasonboard.com>
+ <aZwQJZX6sjzLgVL4@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aZwQJZX6sjzLgVL4@zed>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53178-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53179-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	DMARC_NA(0.00)[resnulli.us];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,resnulli-us.20230601.gappssmtp.com:dkim,resnulli.us:mid,ti.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,exp_info.name:url]
-X-Rspamd-Queue-Id: AFE6C174430
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,ideasonboard.com:email]
+X-Rspamd-Queue-Id: 8832D1749A8
 X-Rspamd-Action: no action
 
-From: Jiri Pirko <jiri@nvidia.com>
+Hi Jacopo,
 
-Add a new "system_cc_decrypted" dma-buf heap to allow userspace to
-allocate decrypted (shared) memory for confidential computing (CoCo)
-VMs.
+On Mon, Feb 23, 2026 at 10:11:02AM +0100, Jacopo Mondi wrote:
+> Hi Jai
+> 
+> On Thu, Feb 19, 2026 at 01:20:50PM +0530, Jai Luthra wrote:
+> > The previous frame interval formula used analogue crop dimensions. This
+> > breaks down for some sensors when binning.
+> >
+> > For example in imx219 the minimum FLL (frame length in lines) can be
+> > lower than the analogue crop height when binning, which would require a
+> > negative VBLANK to represent the actual timing. Similarly, imx283 allows
+> > a lower minimum HMAX (line length) when doing 2x2 or 3x3 binning than
+> > the analogue crop width of the full resolution mode.
+> >
+> > The CCS specification also describes under section "8.2.6 Line Length
+> > and Frame Length" how the horizontal and vertical readout minimums can
+> > be different when binning.
+> >
+> > Replace the formula with the underlying hardware concepts of LLP (line
+> > length in pixels) and FLL (frame length in lines). These terms were
+> > chosen to match the CCS specification on raw sensors, as it is a cleaner
+> > reference compared to a typical sensor vendor datasheet.
+> >
+> > Finally, define the blanking controls relative to the active pixel
+> > readout (post-binning) rather than the analogue crop size. This matches
+> > what most sensor drivers already do, and also what applications like
+> > libcamera expect. In "Figure 42" of CCS specification too, we see a
+> > similar definition:
+> >
+> >   frame interval = (output width + HBLANK) *
+> >                    (output height + VBLANK) / pixel rate
+> >
+> > Also add a note in the "Writing camera sensor drivers" guide, to ensure
+> > this formula is followed by new sensor drivers.
+> 
+> I agree that using the analogue crop rectangle sizes is not correct,
+> however, with this new formulation the LLP and FLL values might be
+> smaller than the crop rectangles reported through the selection API,
+> which I'm not sure it's great from a consistency point of view ?
+> 
+> Also the below suggested formulation:
+> 
+>         LLP = active width + V4L2_CID_HBLANK
+>         FLL = active height + V4L2_CID_VBLANK
+> 
+> Assumes the combined effect of [binning + subsampling] always directly
+> affect the readout time of pixels on the pixel array. The CCS specs
+> and driver seems to suggest that's not always the case ?
+> 
+> Do we need to distinguish between binning modes that affect the
+> timings and binning modes that do not do that?
 
-On CoCo VMs, guest memory is encrypted by default. The hardware uses an
-encryption bit in page table entries (C-bit on AMD SEV, "shared" bit on
-Intel TDX) to control whether a given memory access is encrypted or
-decrypted. The kernel's direct map is set up with encryption enabled,
-so pages returned by alloc_pages() are encrypted in the direct map
-by default. To make this memory usable for devices that do not support
-DMA to encrypted memory (no TDISP support), it has to be explicitly
-decrypted. A couple of things are needed to properly handle
-decrypted memory for the dma-buf use case:
+For existing (pre-common raw sensor model) drivers, I'd say "no". CCS and
+common raw sensor model will use line length in pixels and frame length in
+lines for this, which reflects what the hardware does.
 
-- set_memory_decrypted() on the direct map after allocation:
-  Besides clearing the encryption bit in the direct map PTEs, this
-  also notifies the hypervisor about the page state change. On free,
-  the inverse set_memory_encrypted() must be called before returning
-  pages to the allocator. If re-encryption fails, pages
-  are intentionally leaked to prevent decrypted memory from being
-  reused as private.
+Existing non-CCS drivers have used the format for this purpose and adjusted
+the blanking values accordingly.
 
-- pgprot_decrypted() for userspace and kernel virtual mappings:
-  Any new mapping of the decrypted pages, be it to userspace via
-  mmap or to kernel vmalloc space via vmap, creates PTEs independent
-  of the direct map. These must also have the encryption bit cleared,
-  otherwise accesses through them would see encrypted (garbage) data.
+> 
+> As we're going to introduce a control for binning to report the
+> binning factor in the image dimension domain, should we introduce
+> a control to specify the binning factor in the image timing domain ?
+> 
+>         LLP = (analog_crop_width + HBLANK) / binning_timing_h
+>         FLL = (analog_crop_height + VBLANK) / binning_timing_v
+>         frame_interval = LLP * FLL / pixel_rate
+> 
+> I'm not 100% sure this is correct however, as the blankings should be
+> expressed on a different clock domain that the pixel sampling rate,
+> but I guess this is a reasonable approximation ?
 
-- DMA_ATTR_CC_DECRYPTED for DMA mapping:
-  Since the pages are already decrypted, the DMA API needs to be
-  informed via DMA_ATTR_CC_DECRYPTED so it can map them correctly
-  as unencrypted for device access.
+If binning is done in analogue domain, the above would hold, but sensor do
+digital binning as well. The driver needs to adjust the blanking values
+(and in the future frame length and line length values) to accommodate
+this.
 
-On non-CoCo VMs, the system_cc_decrypted heap is not registered
-to prevent misuse by userspace that does not understand
-the security implications of explicitly decrypted memory.
+> 
+> >
+> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> > ---
+> >  Documentation/driver-api/media/camera-sensor.rst   | 11 ++++
+> >  .../userspace-api/media/drivers/camera-sensor.rst  | 59 +++++++++++++++-------
+> >  2 files changed, 53 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > index 94bd1dae82d5c570b2d11c7faee20dd45d2f4be6..8dcac7551f54ac4ffa71173281ae3bbea331c036 100644
+> > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > @@ -120,6 +120,17 @@ The function returns a non-zero value if it succeeded getting the power count or
+> >  runtime PM was disabled, in either of which cases the driver may proceed to
+> >  access the device.
+> >
+> > +Frame interval
+> > +--------------
+> > +
+> > +If a sensor supports cropping or binning, it is the sensor driver's
+> > +responsibility to ensure that the frame interval formula (see
+> > +:ref:`media_using_camera_sensor_drivers`) remains valid regardless of the
+> > +pipeline configuration. The driver shall adjust the minimum and maximum allowed
+> > +values of ``V4L2_CID_HBLANK`` and ``V4L2_CID_VBLANK`` as needed when the mode
+> > +changes, so that application developers can always rely on the same formula to
+> > +calculate the frame interval.
+> > +
+> >  Rotation, orientation and flipping
+> >  ----------------------------------
+> >
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > index 75fd9166383fdbb2dabdb6384ed0904c4e78a3c6..30dddea72a12da264fc9c30e37b561c762c09d29 100644
+> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > @@ -49,35 +49,60 @@ depends on the type of the device.
+> >  Raw camera sensors
+> >  ~~~~~~~~~~~~~~~~~~
+> >
+> > -Instead of a high level parameter such as frame interval, the frame interval is
+> > -a result of the configuration of a number of camera sensor implementation
+> > -specific parameters. Luckily, these parameters tend to be the same for more or
+> > -less all modern raw camera sensors.
+> > +Instead of a high level parameter such as frame interval, the frame interval on
+> > +a raw camera sensor is determined by a number of sensor-specific parameters.
+> > +These parameters tend to be common across most modern raw camera sensors.
+> >
+> > -The frame interval is calculated using the following equation::
+> > +The pixel array is the full grid of photosensitive elements on the sensor. A
+> > +subregion of it is selected by the analogue crop. The cropped image may then be
+> > +subject to binning (averaging of a NxN block) or subsampling which
+> > +further reduce the image dimensions. The resulting image is then read out by
+> > +the ADC (analogue-to-digital converter) line by line. After ADC readout,
+> > +optional digital crop or scaling may further reduce the image dimensions, see
+> > +:ref:`VIDIOC_SUBDEV_G_SELECTION <VIDIOC_SUBDEV_G_SELECTION>`.
+> >
+> > -	frame interval = (analogue crop width + horizontal blanking) *
+> > -			 (analogue crop height + vertical blanking) / pixel rate
+> > +The frame size is determined by two timing parameters: line length in pixels
+> > +(LLP) and frame length in lines (FLL). These are fundamental sensor timing
+> > +registers that control how fast the ADC reads out the image. They may go
+> > +by different names for a particular sensor, like HMAX and VMAX, or HTOTAL and
+> > +VTOTAL, or similar.
+> >
+> > -The formula is bus independent and is applicable for raw timing parameters on
+> > -large variety of devices beyond camera sensors. Devices that have no analogue
+> > -crop, use the full source image size, i.e. pixel array size.
+> > +LLP is the total number of pixel clock cycles per line, including both the
+> > +active readout width and horizontal blanking. FLL is the total number of lines
+> > +per frame, including both the active readout height and vertical blanking.
+> > +
+> > +The frame interval is::
+> > +
+> > +        frame interval = LLP * FLL / pixel rate
+> >
+> >  Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> >  ``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+> >  is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+> > -the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+> > -sub-device. The unit of that control is pixels per second.
+> > +the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the
+> > +same sub-device. The unit of that control is pixels per second.
+> > +
+> > +The blanking is defined relative to the size of the image being sent out to the
+> > +host over the bus (like CSI-2)::
+> > +
+> > +        LLP = active width + V4L2_CID_HBLANK
+> > +        FLL = active height + V4L2_CID_VBLANK
+> > +
+> > +The driver shall set the minimum and maximum values of ``V4L2_CID_HBLANK`` and
+> > +``V4L2_CID_VBLANK`` such that the resulting LLP and FLL values correspond to the
+> > +range permitted by the sensor hardware for the current mode. Sensors that
+> > +support binning often define a lower minimum for LLP or FLL registers, which
+> > +can help achieve higher framerates when binning.
+> > +
+> > +Application developers can calculate the frame interval using the output
+> > +dimensions and the blanking controls::
+> > +
+> > +        frame interval = (output width + horizontal blanking) *
+> > +                         (output height + vertical blanking) / pixel rate
+> >
+> >  Register list-based drivers need to implement read-only sub-device nodes for the
+> >  purpose. Devices that are not register list based need these to configure the
+> >  device's internal processing pipeline.
+> >
+> > -The first entity in the linear pipeline is the pixel array. The pixel array may
+> > -be followed by other entities that are there to allow configuring binning,
+> > -skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
+> > -<VIDIOC_SUBDEV_G_SELECTION>`.
+> > -
+> >  USB cameras etc. devices
+> >  ~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> >
+> > ---
+> > base-commit: 956b9cbd7f156c8672dac94a00de3c6a0939c692
+> > change-id: 20260219-media-fps-docs-fd1da722cc38
+> >
+> > Best regards,
+> > --
+> > Jai Luthra <jai.luthra@ideasonboard.com>
+> >
 
-Signed-off-by: Jiri Pirko <jiri@nvidia.com>
----
-v1->v2:
-- fixed build errors on s390 by including mem_encrypt.h
-- converted system heap flag implementation to a separate heap
----
- drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
- include/linux/dma-heap.h            |   1 +
- include/uapi/linux/dma-heap.h       |   3 +-
- 3 files changed, 100 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index b3650d8fd651..a525e9aaaffa 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -10,17 +10,25 @@
-  *	Andrew F. Davis <afd@ti.com>
-  */
- 
-+#include <linux/cc_platform.h>
- #include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/dma-heap.h>
- #include <linux/err.h>
- #include <linux/highmem.h>
-+#include <linux/mem_encrypt.h>
- #include <linux/mm.h>
-+#include <linux/set_memory.h>
- #include <linux/module.h>
-+#include <linux/pgtable.h>
- #include <linux/scatterlist.h>
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
- 
-+struct system_heap_priv {
-+	bool decrypted;
-+};
-+
- struct system_heap_buffer {
- 	struct dma_heap *heap;
- 	struct list_head attachments;
-@@ -29,6 +37,7 @@ struct system_heap_buffer {
- 	struct sg_table sg_table;
- 	int vmap_cnt;
- 	void *vaddr;
-+	bool decrypted;
- };
- 
- struct dma_heap_attachment {
-@@ -36,6 +45,7 @@ struct dma_heap_attachment {
- 	struct sg_table table;
- 	struct list_head list;
- 	bool mapped;
-+	bool decrypted;
- };
- 
- #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
-@@ -52,6 +62,34 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
- static const unsigned int orders[] = {8, 4, 0};
- #define NUM_ORDERS ARRAY_SIZE(orders)
- 
-+static int system_heap_set_page_decrypted(struct page *page)
-+{
-+	unsigned long addr = (unsigned long)page_address(page);
-+	unsigned int nr_pages = 1 << compound_order(page);
-+	int ret;
-+
-+	ret = set_memory_decrypted(addr, nr_pages);
-+	if (ret)
-+		pr_warn_ratelimited("dma-buf system heap: failed to decrypt page at %p\n",
-+				    page_address(page));
-+
-+	return ret;
-+}
-+
-+static int system_heap_set_page_encrypted(struct page *page)
-+{
-+	unsigned long addr = (unsigned long)page_address(page);
-+	unsigned int nr_pages = 1 << compound_order(page);
-+	int ret;
-+
-+	ret = set_memory_encrypted(addr, nr_pages);
-+	if (ret)
-+		pr_warn_ratelimited("dma-buf system heap: failed to re-encrypt page at %p, leaking memory\n",
-+				    page_address(page));
-+
-+	return ret;
-+}
-+
- static int dup_sg_table(struct sg_table *from, struct sg_table *to)
- {
- 	struct scatterlist *sg, *new_sg;
-@@ -90,6 +128,7 @@ static int system_heap_attach(struct dma_buf *dmabuf,
- 	a->dev = attachment->dev;
- 	INIT_LIST_HEAD(&a->list);
- 	a->mapped = false;
-+	a->decrypted = buffer->decrypted;
- 
- 	attachment->priv = a;
- 
-@@ -119,9 +158,11 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
- {
- 	struct dma_heap_attachment *a = attachment->priv;
- 	struct sg_table *table = &a->table;
-+	unsigned long attrs;
- 	int ret;
- 
--	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-+	attrs = a->decrypted ? DMA_ATTR_CC_DECRYPTED : 0;
-+	ret = dma_map_sgtable(attachment->dev, table, direction, attrs);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -188,8 +229,13 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 	unsigned long addr = vma->vm_start;
- 	unsigned long pgoff = vma->vm_pgoff;
- 	struct scatterlist *sg;
-+	pgprot_t prot;
- 	int i, ret;
- 
-+	prot = vma->vm_page_prot;
-+	if (buffer->decrypted)
-+		prot = pgprot_decrypted(prot);
-+
- 	for_each_sgtable_sg(table, sg, i) {
- 		unsigned long n = sg->length >> PAGE_SHIFT;
- 
-@@ -206,8 +252,7 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 		if (addr + size > vma->vm_end)
- 			size = vma->vm_end - addr;
- 
--		ret = remap_pfn_range(vma, addr, page_to_pfn(page),
--				size, vma->vm_page_prot);
-+		ret = remap_pfn_range(vma, addr, page_to_pfn(page), size, prot);
- 		if (ret)
- 			return ret;
- 
-@@ -225,6 +270,7 @@ static void *system_heap_do_vmap(struct system_heap_buffer *buffer)
- 	struct page **pages = vmalloc(sizeof(struct page *) * npages);
- 	struct page **tmp = pages;
- 	struct sg_page_iter piter;
-+	pgprot_t prot;
- 	void *vaddr;
- 
- 	if (!pages)
-@@ -235,7 +281,10 @@ static void *system_heap_do_vmap(struct system_heap_buffer *buffer)
- 		*tmp++ = sg_page_iter_page(&piter);
- 	}
- 
--	vaddr = vmap(pages, npages, VM_MAP, PAGE_KERNEL);
-+	prot = PAGE_KERNEL;
-+	if (buffer->decrypted)
-+		prot = pgprot_decrypted(prot);
-+	vaddr = vmap(pages, npages, VM_MAP, prot);
- 	vfree(pages);
- 
- 	if (!vaddr)
-@@ -296,6 +345,14 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
- 	for_each_sgtable_sg(table, sg, i) {
- 		struct page *page = sg_page(sg);
- 
-+		/*
-+		 * Intentionally leak pages that cannot be re-encrypted
-+		 * to prevent decrypted memory from being reused.
-+		 */
-+		if (buffer->decrypted &&
-+		    system_heap_set_page_encrypted(page))
-+			continue;
-+
- 		__free_pages(page, compound_order(page));
- 	}
- 	sg_free_table(table);
-@@ -347,6 +404,8 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
- 	unsigned long size_remaining = len;
- 	unsigned int max_order = orders[0];
-+	struct system_heap_priv *priv = dma_heap_get_drvdata(heap);
-+	bool decrypted = priv->decrypted;
- 	struct dma_buf *dmabuf;
- 	struct sg_table *table;
- 	struct scatterlist *sg;
-@@ -362,6 +421,7 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 	mutex_init(&buffer->lock);
- 	buffer->heap = heap;
- 	buffer->len = len;
-+	buffer->decrypted = decrypted;
- 
- 	INIT_LIST_HEAD(&pages);
- 	i = 0;
-@@ -396,6 +456,14 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 		list_del(&page->lru);
- 	}
- 
-+	if (decrypted) {
-+		for_each_sgtable_sg(table, sg, i) {
-+			ret = system_heap_set_page_decrypted(sg_page(sg));
-+			if (ret)
-+				goto free_pages;
-+		}
-+	}
-+
- 	/* create the dmabuf */
- 	exp_info.exp_name = dma_heap_get_name(heap);
- 	exp_info.ops = &system_heap_buf_ops;
-@@ -413,6 +481,13 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
- 	for_each_sgtable_sg(table, sg, i) {
- 		struct page *p = sg_page(sg);
- 
-+		/*
-+		 * Intentionally leak pages that cannot be re-encrypted
-+		 * to prevent decrypted memory from being reused.
-+		 */
-+		if (buffer->decrypted &&
-+		    system_heap_set_page_encrypted(p))
-+			continue;
- 		__free_pages(p, compound_order(p));
- 	}
- 	sg_free_table(table);
-@@ -428,6 +503,14 @@ static const struct dma_heap_ops system_heap_ops = {
- 	.allocate = system_heap_allocate,
- };
- 
-+static struct system_heap_priv system_heap_priv = {
-+	.decrypted = false,
-+};
-+
-+static struct system_heap_priv system_heap_cc_decrypted_priv = {
-+	.decrypted = true,
-+};
-+
- static int __init system_heap_create(void)
- {
- 	struct dma_heap_export_info exp_info;
-@@ -435,8 +518,18 @@ static int __init system_heap_create(void)
- 
- 	exp_info.name = "system";
- 	exp_info.ops = &system_heap_ops;
--	exp_info.priv = NULL;
-+	exp_info.priv = &system_heap_priv;
-+
-+	sys_heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(sys_heap))
-+		return PTR_ERR(sys_heap);
-+
-+	if (IS_ENABLED(CONFIG_HIGHMEM) ||
-+	    !cc_platform_has(CC_ATTR_MEM_ENCRYPT))
-+		return 0;
- 
-+	exp_info.name = "system_cc_decrypted";
-+	exp_info.priv = &system_heap_cc_decrypted_priv;
- 	sys_heap = dma_heap_add(&exp_info);
- 	if (IS_ERR(sys_heap))
- 		return PTR_ERR(sys_heap);
-diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-index 648328a64b27..d97b668413c1 100644
---- a/include/linux/dma-heap.h
-+++ b/include/linux/dma-heap.h
-@@ -10,6 +10,7 @@
- #define _DMA_HEAPS_H
- 
- #include <linux/types.h>
-+#include <uapi/linux/dma-heap.h>
- 
- struct dma_heap;
- 
-diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.h
-index a4cf716a49fa..ab95bb355ed5 100644
---- a/include/uapi/linux/dma-heap.h
-+++ b/include/uapi/linux/dma-heap.h
-@@ -18,8 +18,7 @@
- /* Valid FD_FLAGS are O_CLOEXEC, O_RDONLY, O_WRONLY, O_RDWR */
- #define DMA_HEAP_VALID_FD_FLAGS (O_CLOEXEC | O_ACCMODE)
- 
--/* Currently no heap flags */
--#define DMA_HEAP_VALID_HEAP_FLAGS (0ULL)
-+#define DMA_HEAP_VALID_HEAP_FLAGS (0)
- 
- /**
-  * struct dma_heap_allocation_data - metadata passed from userspace for
 -- 
-2.51.1
+Kind regards,
 
+Sakari Ailus
 
