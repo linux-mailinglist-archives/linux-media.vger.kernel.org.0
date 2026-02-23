@@ -1,157 +1,303 @@
-Return-Path: <linux-media+bounces-53153-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53154-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uAFNK+ABnGn6+wMAu9opvQ
-	(envelope-from <linux-media+bounces-53153-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 08:29:36 +0100
+	id MAPpBrMLnGlL/QMAu9opvQ
+	(envelope-from <linux-media+bounces-53154-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 09:11:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57CEB172AA4
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 08:29:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B95D8172F58
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 09:11:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 276D130217E7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 07:28:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 085033029E45
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 08:11:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 121A434A3BC;
-	Mon, 23 Feb 2026 07:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A617D34D390;
+	Mon, 23 Feb 2026 08:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="dxCgZj3E"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gN5sxjFt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83E334A785
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 07:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A570A34CFAE
+	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 08:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771831735; cv=none; b=LwrRLMveMat5W8cndi/ojqcItp4mFTFNDecSq1l4ME6cXMgad33sncpczXHreJHqZ8Fce6wk+sOvqWOhzBdarj2zcOeSITTW62h6ESyY3gxb7SO71fZUEj+/5sG3mH6tjLjHH/NQ3v3cUQNSNRgzHjuu0oJysU/rYnMHVf91Go0=
+	t=1771834268; cv=none; b=YV/I13vUum1CH6EtHegRJ0rN4rgqJAIQBmNyEw9CUJ/Mqu6hZVek1BACDvtpaaUSWNI3fQMUh7EWZtG+svf8vVTjcolkQfov1ngtXcO5Fl7EMmr/Hfd2KX/zLfo7dooacrGpqVkE9k370Gt3Zy6f1b9M0KMPoE4VTthub1ZFnWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771831735; c=relaxed/simple;
-	bh=RSwHrkqjMZnpf4KcuJO3wViQ6uD3lgv4NjJukwJgCBU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=e7r2WglZEzq3vyUvdoGdJ8CPB1zr+qVgx24z5Mx6r+JNigID91ceyX7LHtaHSOk8AF1VuprNbq/Ze3IGY7/RBIU/hxLthpy2UNZPwJUpiZnR6EgVxv0KasLZOIjCxkYfgSEbO/6TO3UPjsM9Eob6lZmV7UQWFwMuAP6qYBwvrhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=dxCgZj3E; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260223072845euoutp02a21691d01c0545fc75db7ca41a191836~Wz5Eq4GoN0705407054euoutp02f
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 07:28:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260223072845euoutp02a21691d01c0545fc75db7ca41a191836~Wz5Eq4GoN0705407054euoutp02f
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1771831725;
-	bh=fHwzvy/lJyzDBJ9QYguzkw4r84XxwakyncGKU7DpSRo=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=dxCgZj3EJWyjxlcARoDCZRa2yYKXIbd5WcWfBShCk11DnhMzW21d4gKyt3hItQMBO
-	 1K0FkaIxNrgCgtUlx4/0vY6CG1ndBcvSZCJ6EKkPmqNANPg+pxRuuWSzaizRsM0dYe
-	 iR11kOjlYz3ssGLrjw4z2bgC7Uo7QfBxXzA2gPoI=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260223072845eucas1p238d8a317d8340fe8e9c8b658727e8ee8~Wz5ESAyjY2513825138eucas1p2J;
-	Mon, 23 Feb 2026 07:28:45 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260223072842eusmtip2e953ab7b19655f3b5707f07bf625dab3~Wz5Bw0DU62888828888eusmtip2N;
-	Mon, 23 Feb 2026 07:28:42 +0000 (GMT)
-Message-ID: <666eefa7-3e00-4586-a443-1a71dc24e6dd@samsung.com>
-Date: Mon, 23 Feb 2026 08:28:41 +0100
+	s=arc-20240116; t=1771834268; c=relaxed/simple;
+	bh=QLIG/cvAGKHL/QsPZAk+8/0vWlzhWoHy3RyVHMRjPY8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jUVhTttF+r6/ee+s7tGB0RpA+Njks/sgN+Vi8u/S762V5gnL17Zd7sjPOjQkPu3gapsrTqwNiIGkJ6du3agyDjBhQkJ7lU7tC9VCwEt24NO3n96YYCSR3dnE9MZ+mGo9UB9ea3hF18FEWqmxDeeIkffel17QEcFuRvsaZVf5JBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gN5sxjFt; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9047e72201so581509666b.2
+        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 00:11:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1771834264; x=1772439064; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fPcLFGqvXQ/TrcZMbc9zEuLscnPpwUEKK1FNGlp3euE=;
+        b=gN5sxjFtWbIVi2Q5Q11QttZo1KKAjedKe32bHdDSHtJ/zHm/tuJoblxJfJEPw6EX6+
+         BZ9uXHWwqXezbueEWS57r5cRpc4rjDW1l+ByLKKYri3Vd5NJdv625IfIC7WTogoph03b
+         tCkZBIQwUCz5GDpuRmU/vuI91YzUtJw+l1miY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771834264; x=1772439064;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fPcLFGqvXQ/TrcZMbc9zEuLscnPpwUEKK1FNGlp3euE=;
+        b=bypc2NT3u8sp/oFy8wfQUOdNv5FGgmjhVszYRRJXIBo3B0bVTbm4qcjZzSY7gmdS23
+         /lUIaq8e181s0+g6X15NUCU9l14KMO6Y1PuORyRaGr2X0n++YgXH6OQuAs96IUGmgCWi
+         QTgZKE9AnHgnt4cy4uU+D7PwzkcXT3X+XArA9zf3zTz9mkZwhzkjX1EIylR5dBFzDDZD
+         16QBrc0dt8TEU2nYaT2pzWlDT+nKOt410UTuOmLRmi4JHmqyceFmj12PNrvZ/8bVcVBV
+         fo+VO62cW5eN5selBQlxdDM8oz1asd0sE07TDUOYXKhRg8ocC7kNTTzD6fJ4s6fyVIl0
+         uGfg==
+X-Forwarded-Encrypted: i=1; AJvYcCXzlLYayxyT/Z5A2W+NnP0DPMYotKoDhRimb5mT9RgQdpfHkm8+X0fPF8eR9k71C+9y/MDDPvZ9FUDHAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKBC8mLWBXcc6UbPI+BcQR0Q+PP9qJdTBzfyJVw2FkU/XOC9fr
+	QAAtYmeCwJFHPH/QEtM/Khw1PqFoqIGl5xMyPkc98xJncH1L0xKVmCqrpL+3HFGPLQ+2tcz3FVq
+	leS0DSg==
+X-Gm-Gg: AZuq6aIpaNgwLnx23oJLg/3vmBgEbwDxtpAZWokDzu3M1R+POHmev9pJd1+RF9lb2b4
+	p+UnmC4dkxBo4AH9sTEx0ByAwbHW6M6mOnWACqf83rA59KHkVCwEJWFwEgumAFka98+teKrTOan
+	VNPHzf6ka0hjHPNFwFmjU18k2fa0IeWmdhef7WSKHaOuJhl60ELwokF2bxkzdTaqaqcHv3n3E5S
+	AlQ88JEvgRS0KeDHYv9uxrPU6hhV1S2gFf4OFhskeq/AAleOGDbtcM4AOecmTFqemIqZWkghbzv
+	dTjCmcu/w/tFziuKvj1fv2SjpYNRJcQNdmb2YMjJ4iu/VGlYng+yVgqopH4X+UbtC/JHgUoa7dX
+	YtVvMzF7DMkdCKORxdWha9una/5mdcppXEcB9OCuuz15J1cS5TwH8n0UMSi+6ozIR+VKXOxxjMb
+	rmLygNRv7I5a73oB3gwUNYLMLWHe/Hc6b4R4VaDiK3HEat4HKxLae1VUVCo7iD
+X-Received: by 2002:a17:907:1c02:b0:b87:1e94:ef6a with SMTP id a640c23a62f3a-b9081b3b135mr491567266b.47.1771834264217;
+        Mon, 23 Feb 2026 00:11:04 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9084c5d47fsm291000866b.11.2026.02.23.00.11.03
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Feb 2026 00:11:03 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b884d5c787bso660385566b.0
+        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 00:11:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWVVzUv7UFVd384evi1OmT+QtBB5UuQ1GG9P68bSHENcSWK9A3JmVAo4pkfCo0BIFhBPON+8PiHOKh2lw==@vger.kernel.org
+X-Received: by 2002:a17:907:94cc:b0:b87:12d2:fa1a with SMTP id
+ a640c23a62f3a-b908191f1d6mr445251466b.12.1771834262096; Mon, 23 Feb 2026
+ 00:11:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 1/5] dma-mapping: avoid random addr value print out on
- error path
-To: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
-	linux-media@vger.kernel.org
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
-	christian.koenig@amd.com, robin.murphy@arm.com, jgg@ziepe.ca,
-	leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com,
-	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
-	linux-coco@lists.linux.dev
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260209153809.250835-2-jiri@resnulli.us>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260223072845eucas1p238d8a317d8340fe8e9c8b658727e8ee8
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed
-X-EPHeader: CA
-X-CMS-RootMailID: 20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed
-References: <20260209153809.250835-1-jiri@resnulli.us>
-	<CGME20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed@eucas1p2.samsung.com>
-	<20260209153809.250835-2-jiri@resnulli.us>
+References: <CAD0gVBsyzYNA6ydPwg9mJ9VQzYg4zPAi24JQ13-=0KtdbQ039A@mail.gmail.com>
+In-Reply-To: <CAD0gVBsyzYNA6ydPwg9mJ9VQzYg4zPAi24JQ13-=0KtdbQ039A@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 23 Feb 2026 09:10:49 +0100
+X-Gmail-Original-Message-ID: <CANiDSCsMVE7qAcjcjbjhYSMoyypkR5Nq-ZA-e=CJVY5CUGAG7Q@mail.gmail.com>
+X-Gm-Features: AaiRm53F0LIMOe6xezXE30KkDM_p2uBY1AB8eOErFcvfTTb2PhOgsWveImx1C0M
+Message-ID: <CANiDSCsMVE7qAcjcjbjhYSMoyypkR5Nq-ZA-e=CJVY5CUGAG7Q@mail.gmail.com>
+Subject: Re: [REGRESSION] Display freeze on VT switch back to X11 since v6.16
+To: =?UTF-8?B?QW5kcsOpcyBQw6lyZXo=?= <andres.f.perez@gmail.com>
+Cc: stable@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.15 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	TAGGED_FROM(0.00)[bounces-53153-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-53154-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[samsung.com:+];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,ideasonboard.com,kernel.org,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,lists.freedesktop.org,lists.linux.dev];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:mid,samsung.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 57CEB172AA4
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:dkim]
+X-Rspamd-Queue-Id: B95D8172F58
 X-Rspamd-Action: no action
 
-On 09.02.2026 16:38, Jiri Pirko wrote:
-> From: Jiri Pirko <jiri@nvidia.com>
+Hi Andr=C3=A9s
+
+Thanks for doing the bisecting
+
+On Sun, 22 Feb 2026 at 22:56, Andr=C3=A9s P=C3=A9rez <andres.f.perez@gmail.=
+com> wrote:
 >
-> dma_addr is unitialized in dma_direct_map_phys() when swiotlb is forced
-> and DMA_ATTR_MMIO is set which leads to random value print out in
-> warning. Fix that by just returning DMA_MAPPING_ERROR.
+> # OVERVIEW
 >
-> Fixes: e53d29f957b3 ("dma-mapping: convert dma_direct_*map_page to be phys_addr_t based")
-> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
-
-Applied to dma-mapping-fixes, thanks!
-
-> ---
->   kernel/dma/direct.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Since kernel v6.16.1, switching from an X11 session to a text VT and back
+> freezes the display on a ThinkPad P15 Gen 2. The system remains responsiv=
+e
+> over SSH; only the display is frozen. Bisecting identified commit
+> d1b618e7954802fe ("media: uvcvideo: Do not turn on the camera for some
+> ioctls") as the trigger. Reverting the logic change in that commit
+> fixes VT switching
+> on v6.16.1, v6.17.9, and v6.18.9, but that is not an actual solution. Way=
+land
+> compositors (e.g., river and sway) are not affected.
 >
-> diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-> index da2fadf45bcd..62f0d9d0ba02 100644
-> --- a/kernel/dma/direct.h
-> +++ b/kernel/dma/direct.h
-> @@ -88,7 +88,7 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
->   
->   	if (is_swiotlb_force_bounce(dev)) {
->   		if (attrs & DMA_ATTR_MMIO)
-> -			goto err_overflow;
-> +			return DMA_MAPPING_ERROR;
->   
->   		return swiotlb_map(dev, phys, size, dir, attrs);
->   	}
+> Last good:  v6.15.9
+> First bad:  v6.16.1
+> Bisect result: d1b618e7954802fe media: uvcvideo: Do not turn on the
+> camera for some ioctls
+>
+> ## Hardware:   Lenovo ThinkPad P15 Gen 2i (20YQ0031US)
+> CPU:        Intel Core i7-11800H (Tiger Lake-H)
+> iGPU:        Intel UHD Graphics (TGL GT1)
+> dGPU:       NVIDIA T1200 (not involved in eDP output; driver: nvidia-open=
+)
+> Display:    15.6" 1920x1080 eDP, 10 bpc capable (EDID 1.4)
+> Webcam:     Integrated Camera on PCH xHCI (Bus 003 Port 004)
+> Firmware:   LENOVO N37ET61W (1.97)
+> OS:         Arch Linux, Nix home-manager, X11 + xmonad, no display manage=
+r
+>
+> ## Symptoms and reproduction steps:
+> 1. Boot, start X11 on tty1 (startx).
+> 2. Switch to tty2 (Ctrl+Alt+F2): works.
+> 3. Switch back to tty1 (Ctrl+Alt+F1): display freezes.
+>    - Frozen on the last frame shown before switching away.
+>    - System is fully responsive over SSH.
+>    - Other VTs switch normally between each other as long as X11 is
+> not active on them.
+>    - Killing X does not recover the display. A reboot is required.
+>
+> # DEBUG ANALYSIS
+>
+> On v6.16.1, the VT switch back to X triggers a full modeset due to pipe
+> configuration mismatches detected by intel_pipe_config_compare:
+>
+> [drm:intel_pipe_config_compare] fastset requirement not met in pipe_bpp
+>   (expected 30, found 24)
+> [drm:intel_pipe_config_compare] fastset requirement not met in dp_m_n
+>   (expected link 269484/524288, found link 336855/524288)
+> [drm:intel_pipe_config_compare] fastset requirement not met in dpll_hw_st=
+ate
+>   (expected cfgcr0: 0xe001a5, found cfgcr0: 0x1c2)
+> [drm:intel_pipe_config_compare] fastset requirement not met in port_clock
+>   (expected 270000, found 216000)
+> [drm:intel_atomic_check] forcing full modeset
+>
+> On v6.15.9, the same VT switch shows no such messages.
+> no pipe_config_compare runs, no modeset, no freeze.
+>
+> # BISECT AND VERIFICATION
+>
+> The bisect converged on d1b618e7954802fe in the uvcvideo driver. This
+> commit adds a switch statement to uvc_v4l2_unlocked_ioctl that allows
+> certain V4L2 IOCTLS to call video_ioctl2 directly without first calling
+> uvc_pm_get/uvc_pm_put. Prior to this commit, all ioctls called uvc_pm_get
+> before video_ioctl2.
+>
+> ## VT switching verification across kernel versions:
+>
+>   v6.12.74 arch pkg:   WORKS
+>   v6.15.9 arch pkg:    WORKS
+>   v6.15.9 from source: WORKS
+>   v6.16.1 with d1b618e reverted:     WORKS
+>   v6.17.9 with PM wrapping restored: WORKS
+>   v6.18.9 with PM wrapping restored: WORKS
+>
+>   v6.16.1 from source:  FREEZES
+>   v6.16.1 arch pkg:     FREEZES
+>   v6.17.9 arch pkg:     FREEZES
+>   v6.18.9 from source:  FREEZES
+>   v6.18.9 arch pkg:     FREEZES
+>
+> ## Things that do not eliminate the freeze
+>
+>   - module_blacklist=3Duvcvideo on boot
+>   - CONFIG_USB_VIDEO_CLASS=3Dn (compiled out)
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+This is puzzling me a bit... You are saying that if you do not build
+the uvc driver, the freeze is still happening?
 
+Am I understanding this correctly?
+
+>   - i915.enable_psr=3D0
+>   - Bypassing intel_vrr_transcoder_enable/disable (no-op)
+>   - xrandr --output eDP-1 --set "max bpc" 10
+>   - Xorg config FBDepth 30 (No effect on pipe_bpp)
+>
+> ## Workaround patch
+>
+> Reverting the optimization from d1b618e to restore the unconditional
+> uvc_pm_get/put wrapping for all ioctls. This is not a proper fix.
+>
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc=
+_v4l2.c
+> index 9e4a251eca88..15057b47ec4f 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -1199,33 +1199,12 @@ static long uvc_v4l2_unlocked_ioctl(struct file *=
+file,
+>   unsigned int converted_cmd =3D v4l2_translate_cmd(cmd);
+>   int ret;
+>
+> - /* The following IOCTLs need to turn on the camera. */
+> - switch (converted_cmd) {
+> - case UVCIOC_CTRL_MAP:
+> - case UVCIOC_CTRL_QUERY:
+> - case VIDIOC_G_CTRL:
+> - case VIDIOC_G_EXT_CTRLS:
+> - case VIDIOC_G_INPUT:
+> - case VIDIOC_QUERYCTRL:
+> - case VIDIOC_QUERYMENU:
+> - case VIDIOC_QUERY_EXT_CTRL:
+> - case VIDIOC_S_CTRL:
+> - case VIDIOC_S_EXT_CTRLS:
+> - case VIDIOC_S_FMT:
+> - case VIDIOC_S_INPUT:
+> - case VIDIOC_S_PARM:
+> - case VIDIOC_TRY_EXT_CTRLS:
+> - case VIDIOC_TRY_FMT:
+> - ret =3D uvc_pm_get(handle->stream->dev);
+> - if (ret)
+> - return ret;
+> - ret =3D video_ioctl2(file, cmd, arg);
+> - uvc_pm_put(handle->stream->dev);
+> + ret =3D uvc_pm_get(handle->stream->dev);
+> + if (ret)
+>   return ret;
+> - }
+> -
+> - /* The other IOCTLs can run with the camera off. */
+> - return video_ioctl2(file, cmd, arg);
+> + ret =3D video_ioctl2(file, cmd, arg);
+> + uvc_pm_put(handle->stream->dev);
+> + return ret;
+>  }
+>
+>  const struct v4l2_ioctl_ops uvc_ioctl_ops =3D {
+>
+> Andr=C3=A9s
+>
+
+
+--=20
+Ricardo Ribalda
 
