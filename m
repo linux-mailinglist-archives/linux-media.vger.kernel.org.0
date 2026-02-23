@@ -1,54 +1,53 @@
-Return-Path: <linux-media+bounces-53231-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53234-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +DreIDbMnGllKQQAu9opvQ
-	(envelope-from <linux-media+bounces-53231-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 22:52:54 +0100
+	id WFyGFYHMnGlsKQQAu9opvQ
+	(envelope-from <linux-media+bounces-53234-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 22:54:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE8E17DCA2
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 22:52:53 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0715317DD13
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 22:54:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8D9843131D9C
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 21:50:39 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 404DB304A0F7
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 21:53:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEE0E379974;
-	Mon, 23 Feb 2026 21:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5850C37B3E4;
+	Mon, 23 Feb 2026 21:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Te00VyXD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itktZGAm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5133B3793C2;
-	Mon, 23 Feb 2026 21:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38CE37AA9F;
+	Mon, 23 Feb 2026 21:52:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771883436; cv=none; b=PelogawUNJeSph6yqOC+KG3nnhwVaeHu/YQdMboBbx2KtjIjCYs/r8tam9oiiLRX7xIzN521Z6v155hrMo9EFDebzEaZ1aWC7RS1chWnvMLe5Yh0X+dQvV7suRxjLFK8d9elQPjzyFVr4cb9KDUu21ER0ad8G0tnswGfo1WyBpE=
+	t=1771883558; cv=none; b=cGtK/XiDfojvsWWW/BiFDHc6alsjkOX2V8uiUaMPDPIs2iYhp5hXZzjTB0atEepxqoFSOk/kJWbFbe5V3TvU4VGbX7vsHppH3zOiemcm6Zw50AKyr1p49stDWLRTyQYq/fAjGnnczPqcXUuI8KHnc9Xpg4ukqzd359INzgnladc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771883436; c=relaxed/simple;
-	bh=yIA0DgDkXMAJODpAWpRW7m141h+JUK6FbQ2KGDgNbrk=;
+	s=arc-20240116; t=1771883558; c=relaxed/simple;
+	bh=/stCI5ijiZ7yMnH4o/+LgfD8ysmkT8zvJMlAlRyApjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mBOYIjkLV6ncxcx56vJrbVyZEqEV+QYcoMWv7goQoHUNpkb5zD9EJI2spUAbHgkYkhj3BVcv2x0z/gIioksJgdG91EBUqmppHUBNXQ0aRXuPQ6dXtALNQshG2CMS6daXNFdk8wFhB9wLlHZaKLuEmOTDEp+XXPBl8y51zmg4QRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Te00VyXD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2779C19421;
-	Mon, 23 Feb 2026 21:50:33 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=G07/d6frynxmcJT+W9LGBMwggn6GBo7ml4O8ldNovT7g1nS9miHuGASVuu6UHqIHQ64qfm+yplqHCi2ZO0miXxjFYwsJ9oYcPQKwX6yPT1WMqfPRFwIsXSMfNOpn7nlkDXIEy1gEF9rOxVnaRNswsZOIqdrx7sS/426AGFkxH6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itktZGAm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D72CC2BC86;
+	Mon, 23 Feb 2026 21:52:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771883435;
-	bh=yIA0DgDkXMAJODpAWpRW7m141h+JUK6FbQ2KGDgNbrk=;
+	s=k20201202; t=1771883558;
+	bh=/stCI5ijiZ7yMnH4o/+LgfD8ysmkT8zvJMlAlRyApjw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Te00VyXDEw7O9qzDqt5v7jEtrHMEbx6c9Vtk7RxnF7k0Dp91xZ3EJ2vQnDUw2vaNa
-	 clevf3aPPW1sbv5R0tIqbMhsNPKPyn4xEHCv14i8e7MxRqWk94xM6plH1RXvnFutUS
-	 aXEOQa9O/LGlngkuP1mofF6qRciBXhGFMS0kK6pKV6iW30/rWHwghCDPkLonpkOYUW
-	 2+IcVnIiRAV+4VZZLlJt1gu1HxTAUabDLN5mQCCX7M6Vun37b1bpgqSaV1D2aGrTrt
-	 hzXVx3RohDbC3w3rS8/RVqGjSbXXIgsoGRKzDVPefPMvtIkIi/qkxxbupU/h36bRv0
-	 Jy6sBufMjrGRA==
-Date: Mon, 23 Feb 2026 15:50:32 -0600
+	b=itktZGAmcWMTx8XokiFfZPKu+31BcdMxHrphcVS9GjKORywe+FScSVJb08hfpx9lz
+	 kAGmTJUPF+Rq6Ai3+nsFJn3VW26qLH1GLnotroUIwCo1D+j22+4g3loa99t+M5h3Aw
+	 f2GkWVbHzLyZu9ziKMTRmoeLQlQlSrNLSZShGvgbShS/ZA7Q+5xVqohl3vhSsArRRn
+	 ielYecXOETCBys8aYMFnZSg2hp/mvDybO7Ww4e8sKiCyNOgVDxFvQeXnclgWWBhuL7
+	 9F3rPkqRrV3vgsqQBaDTWDcIQe8G3S0I2ICNjDJsf40h5ODMwYAKAHX48BbEOHvgcC
+	 IRCxve5BqB9HA==
+Date: Mon, 23 Feb 2026 15:52:34 -0600
 From: Bjorn Andersson <andersson@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, 
-	Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
 	Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
 	Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
 	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -57,13 +56,13 @@ Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
 	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
 	linaro-mm-sig@lists.linaro.org, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
-	Bharath Kumar <quic_bkumar@quicinc.com>, Chenna Kesava Raju <quic_chennak@quicinc.com>
-Subject: Re: [PATCH RFC 03/18] accel/qda: Add RPMsg transport for Qualcomm
- DSP accelerator
-Message-ID: <lyco6vkfjlerri55ldyn6fbhihbkhnuolifddcnscevybsztq7@ljhjln2ynmid>
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Bharath Kumar <quic_bkumar@quicinc.com>, 
+	Chenna Kesava Raju <quic_chennak@quicinc.com>
+Subject: Re: [PATCH RFC 02/18] accel/qda: Add Qualcomm DSP accelerator driver
+ skeleton
+Message-ID: <elu44euja7d7nnnhdmdqgof76646b3m3isjmws5pr274gqhy2a@dbeq4hk74ebo>
 References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-3-fe46a9c1a046@oss.qualcomm.com>
- <tqsdbijgjomrn7fq3sdz7v2axwxqvbccpjh4fmvod4kbrq7pod@af3igw5dx66p>
+ <20260224-qda-firstpost-v1-2-fe46a9c1a046@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,22 +71,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tqsdbijgjomrn7fq3sdz7v2axwxqvbccpjh4fmvod4kbrq7pod@af3igw5dx66p>
+In-Reply-To: <20260224-qda-firstpost-v1-2-fe46a9c1a046@oss.qualcomm.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53231-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53234-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,quicinc.com];
+	FREEMAIL_CC(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,oss.qualcomm.com,quicinc.com];
 	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -98,34 +97,57 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1CE8E17DCA2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0715317DD13
 X-Rspamd-Action: no action
 
-On Mon, Feb 23, 2026 at 11:23:13PM +0200, Dmitry Baryshkov wrote:
-> On Tue, Feb 24, 2026 at 12:38:57AM +0530, Ekansh Gupta wrote:
+On Tue, Feb 24, 2026 at 12:38:56AM +0530, Ekansh Gupta wrote:
 [..]
-> > diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
-[..]
-> > +/* Error logging - always logs and tracks errors */
-> > +#define qda_err(qdev, fmt, ...) do { \
-> > +	struct device *__dev = qda_get_log_device(qdev); \
-> > +	if (__dev) \
-> > +		dev_err(__dev, "[%s] " fmt, __func__, ##__VA_ARGS__); \
-> > +	else \
-> > +		pr_err(DRIVER_NAME ": [%s] " fmt, __func__, ##__VA_ARGS__); \
-> 
-> What /why? You are under drm, so you can use drm_* helpers instead.
-> 
+> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
+> new file mode 100644
+> index 000000000000..18b0d3fb1598
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_drv.c
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> +#include <linux/module.h>
+> +#include <linux/kernel.h>
+> +
+> +static int __init qda_core_init(void)
+> +{
+> +	pr_info("QDA: driver initialization complete\n");
 
-In particular, rather than rolling our own wrappers around standard
-functions, just use dev_err() whenever you have a struct device. And for
-something like fastrpc - life starts at some probe() and ends at some
-remove() so that should be always.
+This print is useless as soon as you make the driver do anything, please
+don't include developmental debug logs.
+
+
+In fact, this patch doesn't actually do anything, please squash things a
+bit to give it some meat.
 
 Regards,
 Bjorn
+
+> +	return 0;
+> +}
+> +
+> +static void __exit qda_core_exit(void)
+> +{
+> +	pr_info("QDA: driver exit complete\n");
+> +}
+> +
+> +module_init(qda_core_init);
+> +module_exit(qda_core_exit);
+> +
+> +MODULE_AUTHOR("Qualcomm AI Infra Team");
+> +MODULE_DESCRIPTION("Qualcomm DSP Accelerator Driver");
+> +MODULE_LICENSE("GPL");
+> 
+> -- 
+> 2.34.1
+> 
+> 
 
