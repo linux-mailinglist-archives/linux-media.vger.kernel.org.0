@@ -1,198 +1,196 @@
-Return-Path: <linux-media+bounces-53175-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53176-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SL0LA0MhnGkZ/wMAu9opvQ
-	(envelope-from <linux-media+bounces-53175-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:43:31 +0100
+	id iIG8KmsjnGkCAAQAu9opvQ
+	(envelope-from <linux-media+bounces-53176-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:52:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31CD174187
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:43:30 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDBD174415
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 10:52:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DE5E13005E9A
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 09:43:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 02E613030757
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 09:51:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDE01350287;
-	Mon, 23 Feb 2026 09:43:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CD90354AE2;
+	Mon, 23 Feb 2026 09:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H+OVcWzP"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="vC+QOMk3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561CD1D5147;
-	Mon, 23 Feb 2026 09:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C046134FF50
+	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 09:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771839798; cv=none; b=JAIA2AStRV/CS8QLUVJ3rZ43az4BIrK3/mqN1sg4NHfG2MIl45PLqlaoxdTS/pFrUaH1ZrMwG4ak4oXzEfk9CLR1trKWqMVCBIAXBKlxh/SShsNGCa076LPkxw+idyRQ13SC3cnCmmBcgvSrMQClEVIN4NMbweJCZRlpZJc0K3w=
+	t=1771840303; cv=none; b=Y5Y0AueqVRHlAir/MKRCY2AycJ1qUUtNYIDuljfl6Y3dT/JZDJUCf+BKuxxPqDAbq3qS2ZgdEPHMWFWGxOPtGOP+/4d34win55lGZa0fVMI0LW7VK9eDiyH6CtwgpSWfGm9xsrSy8sZd2qzBEtEqhIQ3QLhide8icvc9LQVG67E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771839798; c=relaxed/simple;
-	bh=07uW4uvn2V15uKGNvC2oAHiIQAwX+ScRa++ryW7DWPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n0EHAgkT5REd2SC6MKvzqPyqCEWvQTgPN2SK6zlNTsY+wJNaIxdIbu2/XffXH9YfbGE+alYoOi74+YD68U6a1EMZ0TBB+MYQB9LSE0xhOBibqdcFPg7qhN/i4RYBpAKfIu8kuaAl8I7bvE26wriedGCwgAjxU6FSWbKbAyPjL+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H+OVcWzP; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771839797; x=1803375797;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=07uW4uvn2V15uKGNvC2oAHiIQAwX+ScRa++ryW7DWPs=;
-  b=H+OVcWzP/MgC/ZU+sV+XyyH3AVlSE7/BP1cRg/m0W/8fVXedCxx4i/JX
-   NRDVKo/3yTWUPMACakXL+g4KFHk+sK3XwGoyodCMp9mNiWB9QLEuvhuLG
-   bqxMNbffxBmcfNVR6A3OveD7pe/2DIHSJUlyeTn35DqXABzoFqk596FNr
-   DBtrmWq9UBrgEI0nhWkiHQW/Jc41F7bhAayaK/ln6qwJr+leXtSpjkto8
-   mMxvOZ5XfsuHyBm+pq3GlUPL7LvKZqo+MqXAPsxnnz3bp8KUlZvL6/MV3
-   lGQSh6Nnn26KapJt35J17fSw4zKnjo1T0rDDWUBcc2JvOsO8XwvDuxcBJ
-   w==;
-X-CSE-ConnectionGUID: QCOVQWq0Qz+aWawzRIfdcw==
-X-CSE-MsgGUID: /7uERX8YQEmzljT1dFQAaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="76441932"
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="76441932"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 01:43:16 -0800
-X-CSE-ConnectionGUID: wa5XkT+FTCSTd66BSc+x5Q==
-X-CSE-MsgGUID: 0SeF7ea3TPCNJA9s+303LQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="215647941"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.225])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 01:43:14 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id E963511F908;
-	Mon, 23 Feb 2026 11:43:38 +0200 (EET)
-Date: Mon, 23 Feb 2026 11:43:38 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-Cc: cy_huang@richtek.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bryan Wu <cooloney@gmail.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Jacek Anaszewski <j.anaszewski@samsung.com>,
-	roger-hy.wang@mediatek.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v3] media: v4l2-flash: Enter LED off state after file
- handle closed
-Message-ID: <aZwhSj4jhEOUKZ3x@kekkonen.localdomain>
-References: <1106c60cb96786ade1f60c692e566c408d7d8174.1768209230.git.cy_huang@richtek.com>
- <f5980192-a878-47ed-9b38-8607fb7abdc2@gmail.com>
+	s=arc-20240116; t=1771840303; c=relaxed/simple;
+	bh=KfFRfouRKPdjO8QdYp354wLUw4VwaWEdMEKo3LWxlW0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PKyzQ+RgCpvAa2rOnbFz4y8MVt8468qkv5bWw4MtqN/F9pqjAVaq+xpc6za4KRcWczX+6FAK5/pBxbsuvNzPWWtpPqAfoPcJ3rKHPq3rfVVoq2TtVZnoCYIoNpygK4oKIY+LnYfa0ZA7kBlSSMW4eTaaaqFgaFN1EgsQGFzcClo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=vC+QOMk3; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-483703e4b08so32467695e9.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 01:51:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1771840298; x=1772445098; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J9P/hiUK/l/iV+NBMdNBP19LQ/+lioTm29Bruktj9zQ=;
+        b=vC+QOMk3NjIgf5tjcAAAN9f2watvPwzVaAL1qjqBNwNlhuTcNlPaRB/6S6jtbHX//2
+         za5XlXtCwYG2LYsXq4UYTYpszUajkP2CGdHIXTNDlhYkCEUII3PK/ay5y1+X2UOsbVQd
+         gBRqTNMLciHEwpndxqeNHZr1krZ4BJIiWoy2BH/eVne5bA2BN7+fIVSE3FluPG7pACE7
+         BL13TTVFplVAzFJvhZcpO+1eBZ5jglVmEqa3jazEMum79FhgUKD1T8gInmiJYYTi9dbY
+         ImU6ds86ar3UzTY9q3x3kwLPTzOg8pxrVcI5LWMErDm9kPKSzZjitgFDTmwwYbGNz2t1
+         E66w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771840298; x=1772445098;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J9P/hiUK/l/iV+NBMdNBP19LQ/+lioTm29Bruktj9zQ=;
+        b=ayyFsPSMrzkMt74z/SbpeGcez/bZAy4PdZlyy3IWP1sNh0bZXDkUBQXR2LwlEwmErw
+         eLks4QIqlPzUFiNaYWcPSjNZCxGngcmb5JjJUUMUBcyQTlfhB4gw4HhYS1rSIIOfEzez
+         Ctrb38WqTeBAgciT/Q/8NO1uUItnz/c+iA4HbjyNejq6+Kk5YSEVA1LeoSeU9PMQlBvo
+         Ryd3BKdvAsFrGfswtIJrRIFcwPHow1ojOmFW3JqXvvpJL5Y6M6HolJrblhYN70/9Gc/z
+         bhhsfV92H58gD2NtbQGQyU6icOz6FrqIVXJ3xS4NV/m7X+rPBnwwDIwe+9Y66+GQ2f+Q
+         wusg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGDZL1ysUnnqFB3a2EBdHhlxrO+U0SCzc4YmUmx8DHozDv/pYidHh2yfMHp0eV4pQF6rcBz2g3GnneZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlFtJfj40WrJFWjT0xy7CRT0APH5/ncdK1e9BKF1CKKC3PLkGP
+	UL9fny5+wFQk/B1XYMBTDbayPaWFfYsyKA5BIf4RyGfz93jP2PHO0iV+9DpWsKqcrsI=
+X-Gm-Gg: AZuq6aKEUZ87u4/xOiQBiJCqOHyUqyLuPMVLsqROItNHFdD55cNvvoG2n4nKtUSpt9a
+	b5ROjMNGC4lLg+tQOukNckP5TerSlK7j14yrWhFA77SCqARvLzby65STO0gAm4TiN2h7fnveNKi
+	d9r2zsbR7k3Ovd3/pZm4fn6qquTsoqI9/QAjU34U44MiQ+7WrXNENocm52DYZHUkxPqc0HOPih2
+	7X5IrWQTFW6bzBHe9T3UfzdnNHh7JyLPCpnl6pM6KM81vLvPPKWtNdW4T32U2XIDEP0tDi6PB4h
+	I/j3vMghfRlIX2AN9Ai6LkJl3/ut7so4LlgtppYImSBzpm7hYMX4UlSEs/nqBEohYd4Mf76KbHe
+	nTbwqJI+ki0H419an/gh2NBAk/cx8BaE1hPlehGRnUlIETu9ubaTHbD+gQGcFvyBr8bYcxwglnu
+	/pogQ+6Aa0LqOthg==
+X-Received: by 2002:a05:600c:8b5b:b0:483:a352:b4e4 with SMTP id 5b1f17b1804b1-483a949e600mr141861245e9.6.1771840297668;
+        Mon, 23 Feb 2026 01:51:37 -0800 (PST)
+Received: from localhost ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a9caadedsm152601835e9.10.2026.02.23.01.51.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 01:51:37 -0800 (PST)
+From: Jiri Pirko <jiri@resnulli.us>
+To: dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	iommu@lists.linux.dev,
+	linux-media@vger.kernel.org
+Cc: sumit.semwal@linaro.org,
+	benjamin.gaignard@collabora.com,
+	Brian.Starkey@arm.com,
+	jstultz@google.com,
+	tjmercier@google.com,
+	christian.koenig@amd.com,
+	m.szyprowski@samsung.com,
+	robin.murphy@arm.com,
+	jgg@ziepe.ca,
+	leon@kernel.org,
+	sean.anderson@linux.dev,
+	ptesarik@suse.com,
+	catalin.marinas@arm.com,
+	aneesh.kumar@kernel.org,
+	suzuki.poulose@arm.com,
+	steven.price@arm.com,
+	thomas.lendacky@amd.com,
+	john.allen@amd.com,
+	ashish.kalra@amd.com,
+	suravee.suthikulpanit@amd.com,
+	linux-coco@lists.linux.dev
+Subject: [PATCH v2 0/2] dma-buf: heaps: system: add an option to allocate explicitly decrypted memory
+Date: Mon, 23 Feb 2026 10:51:34 +0100
+Message-ID: <20260223095136.225277-1-jiri@resnulli.us>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5980192-a878-47ed-9b38-8607fb7abdc2@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53175-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53176-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[richtek.com,kernel.org,gmail.com,samsung.com,mediatek.com,vger.kernel.org,ideasonboard.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	DMARC_NA(0.00)[resnulli.us];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: B31CD174187
+	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,resnulli.us:mid,resnulli-us.20230601.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: DEDBD174415
 X-Rspamd-Action: no action
 
-Hi Jacek,
+From: Jiri Pirko <jiri@nvidia.com>
 
-On Sat, Feb 21, 2026 at 04:48:48PM +0100, Jacek Anaszewski wrote:
-> Hi ChiYuan,
-> 
-> On 1/12/26 10:20, cy_huang@richtek.com wrote:
-> > From: ChiYuan Huang <cy_huang@richtek.com>
-> > 
-> > To make sure LED enter off state after file handle is closed, initiatively
-> > configure LED_MODE to NONE. This can guarantee whatever the previous state
-> > is torch or strobe mode, the final state will be off.
-> > 
-> > Cc: stable@vger.kernel.org
-> > Fixes: 42bd6f59ae90 ("media: Add registration helpers for V4L2 flash sub-devices")
-> > Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> > ---
-> > Still cannot pass patch integration check, send v3 patch to fix all.
-> > 
-> > v3
-> > - Remove 'Reported-by' tag
-> > - Fix identation check for patch integration
-> > 
-> > v2
-> > - Fix commit message redudant space cause patch robot parsing error
-> > 
-> > Hi,
-> >    We encounter an issue. When the upper layer camera process is crashed,
-> > if the new process did not reinit the LED,  it will keeps the previous
-> > state whatever it's in torch or strobe mode
-> > 
-> > OS will handle the resource management. So when the process is crashed
-> > or terminated, the 'close' API will be called to release resources.
-> > That's why we add the initiative action to trigger LED off in file
-> > handle close is called.
-> > ---
-> >   drivers/media/v4l2-core/v4l2-flash-led-class.c | 6 ++++++
-> >   1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
-> > index 355595a0fefa..46606f5cc192 100644
-> > --- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
-> > +++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
-> > @@ -623,6 +623,12 @@ static int v4l2_flash_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-> >   		return 0;
-> >   	if (led_cdev) {
-> > +		/* If file handle is released, make sure LED enter off state */
-> > +		ret = v4l2_ctrl_s_ctrl(v4l2_flash->ctrls[LED_MODE],
-> > +				       V4L2_FLASH_LED_MODE_NONE);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> >   		mutex_lock(&led_cdev->led_access);
-> >   		if (v4l2_flash->ctrls[STROBE_SOURCE])
-> > 
-> > base-commit: 8ac28a6642d1cc8bac0632222e66add800b027fa
-> 
-> The patch itself looks good, but while at it I started wondering
-> if we shouldn't move below STROBE_SOURCE access before the lock.
-> I don't see now, why we placed it there.
-> 
-> Adding Sakari.
+Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
+run with encrypted/protected memory which creates a challenge
+for devices that do not support DMA to it (no TDISP support).
 
-Thanks for cc'ing me.
+For kernel-only DMA operations, swiotlb bounce buffering provides a
+transparent solution by copying data through decrypted memory.
+However, the only way to get this memory into userspace is via the DMA
+API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
+the use of the memory to a single DMA device, and is incompatible with
+pin_user_pages().
 
-The behaviour this patch changes has been around for a decade or so. I
-wonder what breaks if we change it now. It works the same way as the sysfs
-LED API, too, and I think common behaviour between the two APIs was the
-reasoning back then as well.
+These limitations are particularly problematic for the RDMA subsystem
+which makes heavy use of pin_user_pages() and expects flexible memory
+usage between many different DMA devices.
+
+This patch series enables userspace to explicitly request decrypted
+(shared) memory allocations from the dma-buf system heap.
+Userspace can mmap this memory and pass the dma-buf fd to other
+existing importers such as RDMA or DRM devices to access the
+memory. The DMA API is improved to allow the dma heap exporter to DMA
+map the shared memory to each importing device.
+
+---
+v1->v2:
+ patch1:
+  - rebased on top of recent dma-mapping-fixes
+ patch2:
+  - fixed build errors on s390 by including mem_encrypt.h
+  - converted system heap flag implementation to a separate heap
+
+Based on dma-mapping-fixes HEAD d5b5e8149af0f5efed58653cbebf1cb3258ce49a
+
+Jiri Pirko (2):
+  dma-mapping: introduce DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
+  dma-buf: heaps: system: add system_cc_decrypted heap for explicitly
+    decrypted memory
+
+ drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
+ include/linux/dma-heap.h            |   1 +
+ include/linux/dma-mapping.h         |   6 ++
+ include/trace/events/dma.h          |   3 +-
+ include/uapi/linux/dma-heap.h       |   3 +-
+ kernel/dma/direct.h                 |  14 +++-
+ 6 files changed, 119 insertions(+), 11 deletions(-)
 
 -- 
-Kind regards,
+2.51.1
 
-Sakari Ailus
 
