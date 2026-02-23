@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-53235-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53236-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6O9DEdjOnGllKQQAu9opvQ
-	(envelope-from <linux-media+bounces-53235-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 23:04:08 +0100
+	id WAA1LIbPnGllKQQAu9opvQ
+	(envelope-from <linux-media+bounces-53236-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 23:07:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F2217DF42
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 23:04:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4C517DFB3
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 23:07:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7224930AF707
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 22:01:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 60AE3319DC92
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 22:02:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5791837A4BA;
-	Mon, 23 Feb 2026 22:01:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4D5F37A483;
+	Mon, 23 Feb 2026 22:01:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T50wnAdF"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iKsJcJCO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDD7379997
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 22:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18EF437AA70
+	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 22:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771884093; cv=none; b=iaeGghXtXdEnhEj8r8LmgP27MnOM3Plc/iK87SZD7OlCcsb8JHYqsKO1LDY6ZcIGuQsyw49K9aNmvICE4z/6m2d274ZrfPbiJls6hpkliCXZttzoptjyP5npa1UTRv86BmoqdsVnpCe4LI+VPGIaJoC0efUpxrFA7hEJdK8oMBo=
+	t=1771884097; cv=none; b=c8szld04pwMzQfh6RVD3Fb6+LldnNYvUquOdTd3t7m4DKclohLlqp1S2fTP+0qoS7wgBEX9lF8NMY3Iuu31unXamgGEY5hfZcA0fuQUqxCh90068NUojjHg1RKuObQcSOwKcAf5dnrOX6/WSJ40G/54jytJSCRYZZQa55XeGB5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771884093; c=relaxed/simple;
-	bh=O7msDbSV/q/aPMQwbkM5TLFQRq+8/vrOQCED1+8NCdY=;
+	s=arc-20240116; t=1771884097; c=relaxed/simple;
+	bh=0tBP5BscOH3N3vwVP0uhe79lDd1tLni+eXo9p6Vj0+Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uq9Eq0rfbiXLNQegXlJ27OB59oaTjeLF+rYjg/q/Nr29jF3Dx3EFP3vrqW0q+TZgzx8tJbMsb4ouK4TeOAz42jt5qaeg2Tnl3A7d09eZ9Ubia7nkNKMfeUNgGunSS/CJJydwJQ1aFRAK1stPn9aHVpKcpS0C9VzXdu9TL6DPDYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T50wnAdF; arc=none smtp.client-ip=91.218.175.177
+	 MIME-Version:Content-Type; b=JgoSGvCVpfgJykQST5TFlViI0qco0/fc6gk/9Bsk4k65XdhFJ1q0D0HX7v9lmpAMw+UoMcbMVw1Qx0J1Wm5ddyU5ciSUCIYFTPdh2M5nSBdV4gCexfjs6lD73P5kYo4Rx1H5200JOuqqLoTtrgBbhx/ai9XACUsiSghb3DDE7es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iKsJcJCO; arc=none smtp.client-ip=91.218.175.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1771884090;
+	t=1771884094;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Cx0m4RKg1tjcI09gpNOMxEOQE0GYux9DXoEt7ZAs+co=;
-	b=T50wnAdF5NS6LJODD63u0Q0iXUFJUCfVWKAWRCHWBZDCJUzfkQpYYXWD6CNLxdSxw68e1g
-	Fg1GaeLRWLQvc9K2x85NBZjp2dyIVlEHz00oPEOawOboR2WazxMfd7EbTMCxrkv0igrxE2
-	Ps810Q5/SoC8nXHjHClv4R6ZP4gKSEY=
+	bh=Py2P1r/CaueFX7wsjQNF4qDKdF68aIQqofiLeicyHf4=;
+	b=iKsJcJCOc4zp/KkntDoMTl4EMwPjvvrhs1gh61/YG2me4p2/pq5AsWOScgiiJ5Vq5MaYw0
+	IlQfgq1ow5lHtTY+Slk/TcCStp+E/oFSTHt5/XAsYO38YfQ9LhZU6kDNtCUXqNGtzUlDGu
+	CliWsPzFYPackVc4TNZlb3Qkpv101tY=
 From: Bart Van Assche <bart.vanassche@linux.dev>
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: Ingo Molnar <mingo@redhat.com>,
@@ -63,9 +63,9 @@ Cc: Ingo Molnar <mingo@redhat.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
 	linux-media@vger.kernel.org
-Subject: [PATCH 05/62] dma-buf: Convert dma_buf_import_sync_file() to the early-return style
-Date: Mon, 23 Feb 2026 14:00:05 -0800
-Message-ID: <20260223220102.2158611-6-bart.vanassche@linux.dev>
+Subject: [PATCH 06/62] dma-buf: Handle all dma_resv_lock() errors
+Date: Mon, 23 Feb 2026 14:00:06 -0800
+Message-ID: <20260223220102.2158611-7-bart.vanassche@linux.dev>
 In-Reply-To: <20260223220102.2158611-1-bart.vanassche@linux.dev>
 References: <20260223220102.2158611-1-bart.vanassche@linux.dev>
 Precedence: bulk
@@ -83,12 +83,12 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
 	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53235-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53236-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[3];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -100,46 +100,55 @@ X-Spamd-Result: default: False [-1.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[bart.vanassche@linux.dev,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[linux.dev:+];
 	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amd.com:email,linux.dev:mid,linux.dev:dkim,acm.org:email]
-X-Rspamd-Queue-Id: B3F2217DF42
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:mid,linux.dev:dkim,amd.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email,acm.org:email]
+X-Rspamd-Queue-Id: 2D4C517DFB3
 X-Rspamd-Action: no action
 
 From: Bart Van Assche <bvanassche@acm.org>
 
-Before making changes in dma_buf_import_sync_file(), convert it to
-the early-return coding style. No functionality has been changed.
+Instead of assuming that dma_resv_lock() only returns 0 or -EDEADLK,
+handle all possible dma_resv_lock() return values. This patch prepares
+for enabling compile-time thread-safety analysis. This will cause the
+compiler to check whether all dma_resv_lock() return values are handled.
 
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
 Cc: Christian König <christian.koenig@amd.com>
 Cc: linux-media@vger.kernel.org
 Signed-off-by: Bart Van Assche <bvanassche@acm.org>
 ---
- drivers/dma-buf/dma-buf.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/dma-buf/dma-resv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 11711874a325..1666133ac8b8 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -523,11 +523,13 @@ static long dma_buf_import_sync_file(struct dma_buf *dmabuf,
- 		dma_resv_lock(dmabuf->resv, NULL);
- 
- 		ret = dma_resv_reserve_fences(dmabuf->resv, num_fences);
--		if (!ret) {
--			dma_fence_unwrap_for_each(f, &iter, fence)
--				dma_resv_add_fence(dmabuf->resv, f, usage);
--		}
-+		if (ret)
-+			goto unlock;
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index bea3e9858aca..b4710f730e9b 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -792,6 +792,8 @@ static int __init dma_resv_lockdep(void)
+ 	ret = dma_resv_lock(&obj, &ctx);
+ 	if (ret == -EDEADLK)
+ 		dma_resv_lock_slow(&obj, &ctx);
++	else if (ret)
++		goto fini;
+ 	fs_reclaim_acquire(GFP_KERNEL);
+ 	/* for unmap_mapping_range on trylocked buffer objects in shrinkers */
+ 	i_mmap_lock_write(&mapping);
+@@ -805,12 +807,14 @@ static int __init dma_resv_lockdep(void)
+ #endif
+ 	fs_reclaim_release(GFP_KERNEL);
+ 	ww_mutex_unlock(&obj.lock);
 +
-+		dma_fence_unwrap_for_each(f, &iter, fence)
-+			dma_resv_add_fence(dmabuf->resv, f, usage);
++fini:
+ 	ww_acquire_fini(&ctx);
+ 	mmap_read_unlock(mm);
  
-+unlock:
- 		dma_resv_unlock(dmabuf->resv);
- 	}
+ 	mmput(mm);
  
+-	return 0;
++	return ret;
+ }
+ subsys_initcall(dma_resv_lockdep);
+ #endif
 
