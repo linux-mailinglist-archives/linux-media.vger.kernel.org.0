@@ -1,183 +1,157 @@
-Return-Path: <linux-media+bounces-53152-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53153-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gN1MI8Pem2mu8gMAu9opvQ
-	(envelope-from <linux-media+bounces-53152-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 05:59:47 +0100
+	id uAFNK+ABnGn6+wMAu9opvQ
+	(envelope-from <linux-media+bounces-53153-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 08:29:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F374171D77
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 05:59:47 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57CEB172AA4
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 08:29:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ED2F5302D5F9
-	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 04:59:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 276D130217E7
+	for <lists+linux-media@lfdr.de>; Mon, 23 Feb 2026 07:28:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 800EB344D88;
-	Mon, 23 Feb 2026 04:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 121A434A3BC;
+	Mon, 23 Feb 2026 07:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CsRko61U"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="dxCgZj3E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA1734404E
-	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 04:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83E334A785
+	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 07:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771822772; cv=none; b=qgmNHIY00DQcFNLMFVre6UwCmxdE5P8sgGo2TBuF7hK85YWB43tCeVsTePEPtDmc/TYMXgH9zhhLRZu7Ytj7u9UZ0X6Tn9VhAweApdDUoFVKgsRQx1HNbowvQlXEWcQ0N7MkwHgHUVN27MnF8yKEMcZ6bEykAs6Dzq5ESwbuww0=
+	t=1771831735; cv=none; b=LwrRLMveMat5W8cndi/ojqcItp4mFTFNDecSq1l4ME6cXMgad33sncpczXHreJHqZ8Fce6wk+sOvqWOhzBdarj2zcOeSITTW62h6ESyY3gxb7SO71fZUEj+/5sG3mH6tjLjHH/NQ3v3cUQNSNRgzHjuu0oJysU/rYnMHVf91Go0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771822772; c=relaxed/simple;
-	bh=LEFPyOaZEpHZmLXlHJrYQGoiUUQMfjxNFS9DsEDVwfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DFfPwTNXlOXEgxQO3s52i55TrtjadWl6HlIkqHQt24kg+ItmgJRZTOFiQ7qO20WN5/ZcKPWJQAUPJnAY9rXtJJBa9U05P+dpiuFDfHdaa7mwvFCG55aujBZ2dfCbngsN6lowWM6VWo78/8Uu1MluxowAJ+2O63DvM15S+m609xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CsRko61U; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2ba64b5a53aso3554910eec.0
-        for <linux-media@vger.kernel.org>; Sun, 22 Feb 2026 20:59:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771822770; x=1772427570; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ar5KC76tgxYX5PKL9eOkCAkUY5PVkOEvBMJNrWwerKw=;
-        b=CsRko61UrOS/LBnAhxuT+TWf8AuTTluYnyJBxljgNtgtNuGG9boFKJoaOwN4c3nkpx
-         O1FhxiGi7tpK9YS062HKjOmg71nrE4ULTFC0rWU8gkgL5ovwFceONVcnsbbVyCZEbtMO
-         /ACAjgFK/pzoRzC9YU5WQCND9Jr1qDUCfSQUHBnVKOPtyvfWmbDMSVcH1eSf0LH/GBTw
-         d8NHME19BnqWxpQKf3Fj+ue6cKIw/IDhGdqlE75mHMBNJZm4KOkHl1Yptx6Dw1sa59H0
-         R+uNyoHztlcytswgQPvkUhBR+lpL7T11kJ921W5ptoS+Ww6vmbNH+bNNkprR49e78kny
-         f9GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771822770; x=1772427570;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ar5KC76tgxYX5PKL9eOkCAkUY5PVkOEvBMJNrWwerKw=;
-        b=GzP5UxUh27cBO6xxYcZ83EPLOTFcJlTNbWDmj/tFZBsJdk6iGO8KXRvAnsWvNogSFi
-         LpmAZSdEwvQz9RlKJS7pyqjj3O5IbayBsTJZXZXAJBvklAzggJWi+Ha5KwdotPTCJSZq
-         /hoH3C0oRVjaGkMc3ifVaBMg60s5KA28/kyflHWlK969gjptwgNiLUJJJDfeaSU6JIHZ
-         J44Ev/LVbN/1o+T38+Ft3qPYmVJH6TyJHgVY9tJEMtNye5kKN0K/5DhDfkwgsxuP/mgo
-         65YO6ydYYJltX7sexJFu17W5TzmUAKRozY9lR78HuFr4de7zLn5+yFQyheFhOLkhetuc
-         0r4A==
-X-Forwarded-Encrypted: i=1; AJvYcCWFBaww6qVZ+lVe1n8ilOCuLTJjgVxfKHxKDI8l6FoPfnZUw7O4zlNLmSyTXVI0iWB8TH3hDAj4t4NsaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyuap51/prxvYlHrq4eHnZ1UEIvlvlLmdQR7PWOXRYIY6JV3Ypc
-	TLZOM8lTS+rFEVAwdobjDbHBIMW5PlnYowFYF0DuCIvayWP2KRe/hS7q
-X-Gm-Gg: ATEYQzyvdXoIO/z511CP3kxIkUIw58wq8qRFCuvgFwiDAFGiAf7UXm4HAojBlyth7A4
-	I0xp+e7EhxAIoZtCkniECteoXDDvgeTpl8/dQTNM0GKZfkfXnKMnlCwHsDGjccDmb38ynFBHsEl
-	JUi0G4NPQilzSx2AeraKC4v4PSD7kgDtJKUd2aFu64fnTLR7qTilNogw9xoc1WSAwEFFYJWR+9Z
-	n7325Wnn1ZMHmAzMWOSgre1MMIYgXtsaXEFC9VKRxgWgjro8YTR9pNw8g/GhXxlk9yx1tEYLAkV
-	LtCEXEecY5QgkMajQumof24Hd9emD1qqR6Q9dOMCzwP1JWlt1wbRBy8FDYS/aADlKaOTv5/S7Qb
-	mZrqlmP2coD0tkxEzyMJ/zClvS6FE31HG73TA4L7WAHwOqTPY2Pj+KQOPXKbNvUaQgOKjZ+es7Y
-	bso2sjg6tiQA1RoY3+mPNoxCGK5p1kSjcbuiHf
-X-Received: by 2002:a05:7301:6783:b0:2ba:6b03:90af with SMTP id 5a478bee46e88-2bd7bb4b383mr3387725eec.6.1771822769743;
-        Sun, 22 Feb 2026 20:59:29 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bd7da4775dsm4300363eec.2.2026.02.22.20.59.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Feb 2026 20:59:29 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 22 Feb 2026 20:59:28 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Edward Srouji <edwards@nvidia.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, Yishai Hadas <yishaih@nvidia.com>
-Subject: Re: [PATCH rdma-next v3 2/3] RDMA/uverbs: Add DMABUF object type and
- operations
-Message-ID: <716e8a8e-e4e0-468d-9314-10082c2bbb8d@roeck-us.net>
-References: <20260201-dmabuf-export-v3-0-da238b614fe3@nvidia.com>
- <20260201-dmabuf-export-v3-2-da238b614fe3@nvidia.com>
+	s=arc-20240116; t=1771831735; c=relaxed/simple;
+	bh=RSwHrkqjMZnpf4KcuJO3wViQ6uD3lgv4NjJukwJgCBU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=e7r2WglZEzq3vyUvdoGdJ8CPB1zr+qVgx24z5Mx6r+JNigID91ceyX7LHtaHSOk8AF1VuprNbq/Ze3IGY7/RBIU/hxLthpy2UNZPwJUpiZnR6EgVxv0KasLZOIjCxkYfgSEbO/6TO3UPjsM9Eob6lZmV7UQWFwMuAP6qYBwvrhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=dxCgZj3E; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260223072845euoutp02a21691d01c0545fc75db7ca41a191836~Wz5Eq4GoN0705407054euoutp02f
+	for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 07:28:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260223072845euoutp02a21691d01c0545fc75db7ca41a191836~Wz5Eq4GoN0705407054euoutp02f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1771831725;
+	bh=fHwzvy/lJyzDBJ9QYguzkw4r84XxwakyncGKU7DpSRo=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=dxCgZj3EJWyjxlcARoDCZRa2yYKXIbd5WcWfBShCk11DnhMzW21d4gKyt3hItQMBO
+	 1K0FkaIxNrgCgtUlx4/0vY6CG1ndBcvSZCJ6EKkPmqNANPg+pxRuuWSzaizRsM0dYe
+	 iR11kOjlYz3ssGLrjw4z2bgC7Uo7QfBxXzA2gPoI=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260223072845eucas1p238d8a317d8340fe8e9c8b658727e8ee8~Wz5ESAyjY2513825138eucas1p2J;
+	Mon, 23 Feb 2026 07:28:45 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260223072842eusmtip2e953ab7b19655f3b5707f07bf625dab3~Wz5Bw0DU62888828888eusmtip2N;
+	Mon, 23 Feb 2026 07:28:42 +0000 (GMT)
+Message-ID: <666eefa7-3e00-4586-a443-1a71dc24e6dd@samsung.com>
+Date: Mon, 23 Feb 2026 08:28:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260201-dmabuf-export-v3-2-da238b614fe3@nvidia.com>
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 1/5] dma-mapping: avoid random addr value print out on
+ error path
+To: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+	linux-media@vger.kernel.org
+Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
+	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
+	christian.koenig@amd.com, robin.murphy@arm.com, jgg@ziepe.ca,
+	leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com,
+	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
+	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
+	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
+	linux-coco@lists.linux.dev
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260209153809.250835-2-jiri@resnulli.us>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260223072845eucas1p238d8a317d8340fe8e9c8b658727e8ee8
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed
+X-EPHeader: CA
+X-CMS-RootMailID: 20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed
+References: <20260209153809.250835-1-jiri@resnulli.us>
+	<CGME20260209153816eucas1p22befaa2c5ef3c6d5e67956eea08424ed@eucas1p2.samsung.com>
+	<20260209153809.250835-2-jiri@resnulli.us>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.15 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-53152-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[roeck-us.net];
-	RCVD_TLS_LAST(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	TAGGED_FROM(0.00)[bounces-53153-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[samsung.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linux@roeck-us.net,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[m.szyprowski@samsung.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[roeck-us.net:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: 1F374171D77
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:mid,samsung.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: 57CEB172AA4
 X-Rspamd-Action: no action
 
-On Sun, Feb 01, 2026 at 04:34:05PM +0200, Edward Srouji wrote:
-> From: Yishai Hadas <yishaih@nvidia.com>
-> 
-> Expose DMABUF functionality to userspace through the uverbs interface,
-> enabling InfiniBand/RDMA devices to export PCI based memory regions
-> (e.g. device memory) as DMABUF file descriptors. This allows
-> zero-copy sharing of RDMA memory with other subsystems that support the
-> dma-buf framework.
-> 
-> A new UVERBS_OBJECT_DMABUF object type and allocation method were
-> introduced.
-> 
-> During allocation, uverbs invokes the driver to supply the
-> rdma_user_mmap_entry associated with the given page offset (pgoff).
-> 
-> Based on the returned rdma_user_mmap_entry, uverbs requests the driver
-> to provide the corresponding physical-memory details as well as the
-> driver’s PCI provider information.
-> 
-> Using this information, dma_buf_export() is called; if it succeeds,
-> uobj->object is set to the underlying file pointer returned by the
-> dma-buf framework.
-> 
-> The file descriptor number follows the standard uverbs allocation flow,
-> but the file pointer comes from the dma-buf subsystem, including its own
-> fops and private data.
-> 
-> When an mmap entry is removed, uverbs iterates over its associated
-> DMABUFs, marks them as revoked, and calls dma_buf_move_notify() so that
-> their importers are notified.
-> 
-> The same procedure applies during the disassociate flow; final cleanup
-> occurs when the application closes the file.
-> 
-> Signed-off-by: Yishai Hadas <yishaih@nvidia.com>
-> Signed-off-by: Edward Srouji <edwards@nvidia.com>
+On 09.02.2026 16:38, Jiri Pirko wrote:
+> From: Jiri Pirko <jiri@nvidia.com>
+>
+> dma_addr is unitialized in dma_direct_map_phys() when swiotlb is forced
+> and DMA_ATTR_MMIO is set which leads to random value print out in
+> warning. Fix that by just returning DMA_MAPPING_ERROR.
+>
+> Fixes: e53d29f957b3 ("dma-mapping: convert dma_direct_*map_page to be phys_addr_t based")
+> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
 
-When trying to build powerpc:ppc64e_defconfig:
+Applied to dma-mapping-fixes, thanks!
 
-ERROR: modpost: "dma_resv_wait_timeout" [drivers/infiniband/core/ib_core.ko] undefined!
-ERROR: modpost: "dma_buf_move_notify" [drivers/infiniband/core/ib_core.ko] undefined!
-ERROR: modpost: "dma_resv_reset_max_fences" [drivers/infiniband/core/ib_core.ko] undefined!
+> ---
+>   kernel/dma/direct.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+> index da2fadf45bcd..62f0d9d0ba02 100644
+> --- a/kernel/dma/direct.h
+> +++ b/kernel/dma/direct.h
+> @@ -88,7 +88,7 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
+>   
+>   	if (is_swiotlb_force_bounce(dev)) {
+>   		if (attrs & DMA_ATTR_MMIO)
+> -			goto err_overflow;
+> +			return DMA_MAPPING_ERROR;
+>   
+>   		return swiotlb_map(dev, phys, size, dir, attrs);
+>   	}
 
-The code now requires CONFIG_DMA_SHARED_BUFFER which is not enabled for
-this platform.
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-Guenter
 
