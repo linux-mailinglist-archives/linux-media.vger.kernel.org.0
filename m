@@ -1,211 +1,154 @@
-Return-Path: <linux-media+bounces-53303-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53304-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6G8POSm4nWnERQQAu9opvQ
-	(envelope-from <linux-media+bounces-53303-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 15:39:37 +0100
+	id AFpIMPvPnWn4SAQAu9opvQ
+	(envelope-from <linux-media+bounces-53304-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 17:21:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B8EB1887E5
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 15:39:37 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D90189BBD
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 17:21:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 294F43078BF9
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 14:34:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id ECC22305F222
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 16:20:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 584AC3A0B02;
-	Tue, 24 Feb 2026 14:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QIay9dhO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 511273A7F7E;
+	Tue, 24 Feb 2026 16:20:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0487246BC5;
-	Tue, 24 Feb 2026 14:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289643806B8;
+	Tue, 24 Feb 2026 16:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771943681; cv=none; b=VfblZHRaFuCU8YVcYYWfTkZUbWQ3nrm/oA05dWVGNHadKI9iIwF8ipd2k8yAEUlr9GgxRbcAqyuFfUqKXWxJYpE1qseTy5iRIBum4wQcLZFF1+LPR3RaPHSs9ZMxdKSWH9E3/EZhJjRsiDdJl16+zFtaGTYQ7WSbWCfk7wc+DDw=
+	t=1771950009; cv=none; b=a/3p31JN+Ln/iVhYClMUdHR3BEsDFxCHW96XzI3tyXtY5LCkp2vrLjg86/BEWyjuipZvFv2s1Y0cqe8joQM+E2YLtk7p5dsjrQ890aFqnxiJG1LiGX7PXqsqORj6ZDEm+02lyVU/bnFW4xDNumuejjzP9warqWLYpTsupDig0IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771943681; c=relaxed/simple;
-	bh=ONrZv/Iu6JWBztYdh+If2jwoZaKJW0Rj0z5BS5znOgA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wxn3VDezn8ZJkO48kyFfXBniTsW0yVqjvGTkbm5iJP5imCVxzU3WG3Bq69cGl4ehupkwcIU1NHxq0tuprVEjf675O4hTmorQVl6T5m8QbApaQulSdP4rnEVdZEt18Spz67XmbwDqCmrD0JE3jIU9ICsCkMtpKjxNbPRWn5617jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QIay9dhO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE404C116D0;
-	Tue, 24 Feb 2026 14:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771943681;
-	bh=ONrZv/Iu6JWBztYdh+If2jwoZaKJW0Rj0z5BS5znOgA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QIay9dhOkmQuG3tnDjLlIFjJjdqNNX28pHW5hV13zcYYTXRuNob0DmAFubY7ELLwM
-	 JrlocQ3+VZ3H6U0FR+8CKOnu7nxLPILtXgsVZJQ4grj1xqj+MZjtQMLhuIPuA1LRzf
-	 HskFXf5m6YCduHz3G1b+/ahmyp9BQi3eSKNZDsptcgWN1bRQuIrmA1GbnZ7+iD29Hs
-	 n+4PUn8s+WrTDENwUajLTmSZ0z/pAJRWwYwe/b1bkvboFXXKZfqkL+CdPfsyoRqzUf
-	 q+x9v/Xe6B8T5Uw9XMjnw7C95JKHE3mYkOZf7fkUZsCoroZMnxLq6QdzT+1sYPi9Cm
-	 R9xYGX2hx0Z8Q==
-Message-ID: <1cdc36f2-6e51-492a-9063-7d0a784f5118@kernel.org>
-Date: Tue, 24 Feb 2026 15:34:36 +0100
+	s=arc-20240116; t=1771950009; c=relaxed/simple;
+	bh=6G91BbTqFSYq68w6yhfkl+JDGrXisXHtlEgCseE/wwo=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=USqOVO1G8thfgen45iXNVM6Ww1j0fmbiTNzRg5c7dxMz8bF4y4wQ0aLX+j9GyfK2JA3wIrVqkYLQdlrzBkNRCizxSSmBL4mlSz2rAAu5ju1vSO5mAI3PlnyzZd0LFo3AZFrEeaA2khoswtV2yxqdIflZTG4g0REjoy8UHhwRGjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fL2xC01QGzJ46C2;
+	Wed, 25 Feb 2026 00:19:43 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id C0C2D40570;
+	Wed, 25 Feb 2026 00:20:04 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Feb
+ 2026 16:20:01 +0000
+Date: Tue, 24 Feb 2026 16:20:00 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Shawn Lin <shawn.lin@rock-chips.com>
+CC: Bjorn Helgaas <bhelgaas@google.com>, "Vaibhaav Ram T . L"
+	<vaibhaavram.tl@microchip.com>, Kumaravel Thiagarajan
+	<kumaravel.thiagarajan@microchip.com>, Even Xu <even.xu@intel.com>, Xinpeng
+ Sun <xinpeng.sun@intel.com>, Srinivas Pandruvada
+	<srinivas.pandruvada@linux.intel.com>, Jiri Kosina <jikos@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Zhou Wang
+	<wangzhou1@hisilicon.com>, Longfang Liu <liulongfang@huawei.com>, "Vinod
+ Koul" <vkoul@kernel.org>, Lee Jones <lee@kernel.org>, Jijie Shao
+	<shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, Sunil Goutham
+	<sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "Heiner
+ Kallweit" <hkallweit1@gmail.com>, "David S . Miller" <davem@davemloft.net>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>,
+	Maciej Falkowski <maciej.falkowski@linux.intel.com>, Karol Wachowski
+	<karol.wachowski@linux.intel.com>, Min Ma <mamin506@gmail.com>, Lizhi Hou
+	<lizhi.hou@amd.com>, Andreas Noever <andreas.noever@gmail.com>, "Mika
+ Westerberg" <westeri@kernel.org>, Tomasz Jeznach <tjeznach@rivosinc.com>,
+	Will Deacon <will@kernel.org>, Xinliang Liu <xinliang.liu@linaro.org>, Tian
+ Tao <tiantao6@hisilicon.com>, Davidlohr Bueso <dave@stgolabs.net>, Srujana
+ Challa <schalla@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, Antoine
+ Tenart <atenart@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, Raag
+ Jadav <raag.jadav@intel.com>, "Hans de Goede" <hansg@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
+	<jirislaby@kernel.org>, Andy Shevchenko <andy@kernel.org>, Manivannan
+ Sadhasivam <mani@kernel.org>, Mika Westerberg
+	<mika.westerberg@linux.intel.com>, Andi Shyti <andi.shyti@kernel.org>, Robert
+ Richter <rric@kernel.org>, Mark Brown <broonie@kernel.org>, "Nirmal Patel"
+	<nirmal.patel@linux.intel.com>, Kurt Schwemmer
+	<kurt.schwemmer@microsemi.com>, Logan Gunthorpe <logang@deltatee.com>, Linus
+ Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Sakari
+ Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, Ulf
+ Hansson <ulf.hansson@linaro.org>, Arnd Bergmann <arnd@arndb.de>, Benjamin
+ Tissoires <bentiss@kernel.org>, <linux-input@vger.kernel.org>,
+	<linux-i3c@lists.infradead.org>, <dmaengine@vger.kernel.org>, Philipp Stanner
+	<phasta@kernel.org>, <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
+	<linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-usb@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-riscv@lists.infradead.org>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, <linux-cxl@vger.kernel.org>,
+	<linux-crypto@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+	<linux-serial@vger.kernel.org>, <mhi@lists.linux.dev>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>,
+	<linux-i2c@vger.kernel.org>, Daniel Mack <daniel@zonque.org>, "Haojian
+ Zhuang" <haojian.zhuang@gmail.com>, <linux-spi@vger.kernel.org>, "Jonathan
+ Derrick" <jonathan.derrick@linux.dev>, <linux-pci@vger.kernel.org>,
+	<linux-gpio@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>
+Subject: Re: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors
+ allocation
+Message-ID: <20260224162000.000001a5@huawei.com>
+In-Reply-To: <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
+References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
+	<1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] media: dt-bindings: rockchip,vdec: Correct
- reg-names order for RK35{76,88}
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>, kernel@collabora.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>, linux-media@vger.kernel.org
-References: <20260223-vdec-reg-order-rk3576-v2-0-daf4942dfc02@collabora.com>
- <20260223-vdec-reg-order-rk3576-v2-1-daf4942dfc02@collabora.com>
- <20260224-saffron-peccary-from-heaven-2d5e6e@quoll>
- <244b22d3be77047163b4e47c4ed33b5b1befb4b4.camel@collabora.com>
- <0874bb3d-b38d-4ea3-a5b0-2da2484cc3e5@kernel.org>
- <e73da0713587ad5380344afa686a13431d07e232.camel@collabora.com>
- <af6c6561-3d41-4967-a224-cf239335dc5b@kernel.org>
- <0c9a158a-f70e-461c-900b-6f6485064a02@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <0c9a158a-f70e-461c-900b-6f6485064a02@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [1.54 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[huawei.com : SPF not aligned (relaxed), No valid DKIM,quarantine];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53303-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,gmail.com,davemloft.net,oss.qualcomm.com,amd.com,rivosinc.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,arndb.de,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,ffwll.ch,semihalf.com,zonque.org,linux.dev];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53304-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,netdev];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[jonathan.cameron@huawei.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1B8EB1887E5
+	RCPT_COUNT_GT_50(0.00)[86];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.953];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,huawei.com:mid]
+X-Rspamd-Queue-Id: 49D90189BBD
 X-Rspamd-Action: no action
 
-On 24/02/2026 15:07, Cristian Ciocaltea wrote:
-> On 2/24/26 3:54 PM, Krzysztof Kozlowski wrote:
->> On 24/02/2026 14:48, Nicolas Dufresne wrote:
->>> Le mardi 24 février 2026 à 14:18 +0100, Krzysztof Kozlowski a écrit :
->>>> On 24/02/2026 14:14, Nicolas Dufresne wrote:
->>>>>>>  
->>>>>>>    reg-names:
->>>>>>> -    items:
->>>>>>> +    oneOf:
->>>>>>>        - const: function
->>>>>>> -      - const: link
->>>>>>> -      - const: cache
->>>>>>> +      - items:
->>>>>>> +          - const: link
->>>>>>> +          - const: function
->>>>>>> +          - const: cache
->>>>>>
->>>>>> No, ABI break without point.
->>>>>
->>>>> Its not released yet, otherwise both order would need to be allowed.
->>>>>
->>>> Also, not true.
->>>>
->>>> git describe --contains  c6ffb7e1fb90
->>>> v6.17-rc1~90^2~3
->>>
->>> Ack, I thought this was part of 7.0, it would have been logical to be part of
->>> 7.0-rc1 I must say. Whatever happen, backward compat will unfortunatly be
->>> needed.
->>
->>
->> I was here checking the binding, so the ABI. DTS maybe was in v7.0-rc1
->> indeed. Anyway, the commit msg should describe the impact on users of
->> this ABI, at least known users.
-> 
-> My bad, I only checked the DTS changes which landed in v7.0-rc1, and wrongly
-> assumed the binding also landed about the same time.  I think it's unlikely
-> there are any (external) users of this binding, but obviously we cannot be 100%
-> sure.
-> 
-> Would it be acceptable to extend the binding so that it allows both the current
-> and the new proposed order to coexist?
+On Mon, 23 Feb 2026 23:29:40 +0800
+Shawn Lin <shawn.lin@rock-chips.com> wrote:
 
-Depends also on the drivers and that's your "users analysis" should
-cover. If there are no known released users of relatively new ABI, it is
-fine to propose the change with such explanation and reason - poor
-hardware description because convention expects the main device's
-address to be used as first "reg" entry.
+> pcim_alloc_irq_vectors() and pcim_alloc_irq_vectors_affinity() are created for
+> pci device drivers which rely on the devres machinery to help cleanup the IRQ
+> vectors.
 
-You can have also oneOf with older list "deprecated: true", if want to
-keep any users unaffected.
+It might be worth adding some details on why we need the is_msi_managed
+flag in the first place vs just doing conventional devm_add_action_or_reset()
+with pci_free_irq_vectors().
 
 
-Best regards,
-Krzysztof
 
