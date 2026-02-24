@@ -1,217 +1,221 @@
-Return-Path: <linux-media+bounces-53287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53288-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QB71Lu6AnWk/QQQAu9opvQ
-	(envelope-from <linux-media+bounces-53287-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 11:43:58 +0100
+	id iC2/F1GOnWkXQgQAu9opvQ
+	(envelope-from <linux-media+bounces-53288-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 12:41:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809DB185927
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 11:43:58 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E776C1866F8
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 12:41:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8580B312B975
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 10:40:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7270C308B9A2
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 11:39:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C55837AA98;
-	Tue, 24 Feb 2026 10:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70E8337FF43;
+	Tue, 24 Feb 2026 11:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XopqSYRt"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="cnH6QJC9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010042.outbound.protection.outlook.com [52.101.85.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C3C36B042;
-	Tue, 24 Feb 2026 10:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771929602; cv=none; b=lCGV+B7GrV2vkwhIcFEa3djAP3J1KXbLTHGVF+vJ2DkbF3UKSh1oemtRWoVk2oKxtblnr7eTwBrzHV0R5Su4uYmF7z9iMw/dNO3sDybZVMLeYQtiubyYeexmbwUyNbpeq6kvXsBwev16sxbJURU2Br3aUqEKOelJ0bmzvCZBMDU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771929602; c=relaxed/simple;
-	bh=NKaZi+5e3r7u58UMALFBdqyb3F151mM8t+8ODkTnkmk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QuVBIeOeUqGXMbbJHrkZcYWxFhvxHGZcPdxuev153x914ZOjrvDielbNx8FBfnZ8RLzQtl6ieF8M7xLFPUbe2cMXUmarizYJ4EtyXQaWNOZR+O0HF/WK21g9jeZ4wxiJKXRghRNZhGPlE2MbMcuQggl2avj4uvy4dHy2IUbXVqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XopqSYRt; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771929602; x=1803465602;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NKaZi+5e3r7u58UMALFBdqyb3F151mM8t+8ODkTnkmk=;
-  b=XopqSYRtkRY1kCpFjPfo9JlkKyvfOTeNjUvTQzcCvZ0Wco/duPPH9yTs
-   2BYYe1ehVILAzceGH3kR9Ibdhf9OdaX0nn1X+vLN3lM1WFq9/902MOfSq
-   KT0akGC9Z4l09cVdSTLbXXcMpaWiKqBLrrciFeZCshMMukhcqiV22WdDG
-   /b5p/RX0xr+bMaYohToKBvv7n25aF+7rfchza6LMWuxfkVjUPNhRyRaZg
-   6+zN1SqET5WB4RSFWsS4RccWLmqdGwrGo3zuyT4VJ9ien/7/RJBTVlnn9
-   zk21cIhc+ThlCIJv5ipNdkJCwoh73AczH8JmwDZjLoXyC+iRkkxjPc7ot
-   A==;
-X-CSE-ConnectionGUID: 8SFCJy6SQ3uU5+xUyiH0AA==
-X-CSE-MsgGUID: Aog20IZDRxCZFn5F5ixt8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="95556109"
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="95556109"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 02:40:01 -0800
-X-CSE-ConnectionGUID: 2vh5u/4QSUOjYuKUxqshOA==
-X-CSE-MsgGUID: IM2dRI81S8i45s0yX8WRUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="214955497"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.146])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 02:39:43 -0800
-Date: Tue, 24 Feb 2026 12:39:40 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: phasta@kernel.org
-Cc: Simon Richter <Simon.Richter@hogyros.de>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
-	Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
-	Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Zhou Wang <wangzhou1@hisilicon.com>,
-	Longfang Liu <liulongfang@huawei.com>,
-	Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>,
-	Jijie Shao <shaojijie@huawei.com>,
-	Jian Shen <shenjian15@huawei.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Maciej Falkowski <maciej.falkowski@linux.intel.com>,
-	Karol Wachowski <karol.wachowski@linux.intel.com>,
-	Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Tomasz Jeznach <tjeznach@rivosinc.com>,
-	Will Deacon <will@kernel.org>,
-	Xinliang Liu <xinliang.liu@linaro.org>,
-	Tian Tao <tiantao6@hisilicon.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Srujana Challa <schalla@marvell.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Antoine Tenart <atenart@kernel.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Raag Jadav <raag.jadav@intel.com>, Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Robert Richter <rric@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Nirmal Patel <nirmal.patel@linux.intel.com>,
-	Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org, linux-i3c@lists.infradead.org,
-	dmaengine@vger.kernel.org, netdev@vger.kernel.org,
-	nic_swsd@realtek.com, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
-	iommu@lists.linux.dev, linux-riscv@lists.infradead.org,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
-	mhi@lists.linux.dev, Jan Dabros <jsd@semihalf.com>,
-	linux-i2c@vger.kernel.org, Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	linux-spi@vger.kernel.org,
-	Jonathan Derrick <jonathan.derrick@linux.dev>,
-	linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: Re: [PATCH 0/37] PCI/MSI: Enforce explicit IRQ vector management by
- removing devres auto-free
-Message-ID: <aZ1_7IwDYfiLbfQE@smile.fi.intel.com>
-References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
- <6223f3cb-693f-42e7-9147-30f659f08563@hogyros.de>
- <7ca512d133f7a3bcfe00e9b0b2af5fe5f147ad77.camel@mailbox.org>
- <aZ1rb8zoqmQmakDP@smile.fi.intel.com>
- <48297cc524736e7452def05448ece84260a4fd83.camel@mailbox.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61198226D02;
+	Tue, 24 Feb 2026 11:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771933187; cv=fail; b=STTPXdCuomSf/RVXYu9HQdcG6Lzb9kUJxyjxLH7JUXyGEOVl7i4AZXkrv/14mCqtCLDVzcFzu88/OwoNAq3l8FsxmpetU5ndpdD6OJpv6lIWz/Dyne3SVrTByrV/oKSX+DFuTxcUPme2wnL/XrqZIFm4A6p8EVeQUE6em1HKPyc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771933187; c=relaxed/simple;
+	bh=12OV9qGVNfRrity6P7aIuDA/V0xYvEqUi8c8DqGBJJI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j2LdZ/rAMJaJc5en3yXuj7T4m1izVKpyRfH2LcrTDXZWo1YxKRaOjVZUga0B6dkHmiuwvCU4wpo+GkM2sGJ5fL3DkjTXzdMn7UhOPQQgmW6cGDsOqncggk7TC7/TkikI+9PmeSGB2FgWzCwxXWH3J4fCD4F2LTf7ZxcrN8qvmm8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=cnH6QJC9; arc=fail smtp.client-ip=52.101.85.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JXajPJFQczoN1l+F5cNzE/MAsYD3RpTnbiWIhs6cECdI27rhDQ3WH7TrXjknyPypI71w5ga242W9IaBSOu6AqL92eNIHd5Z+DCtVBjK0puzY+iCk1kjoMsR6F/kACRfC5eJye5CDe8R0IjrNu2U7IKihtdm7eGdasaSy2cQ+EftLro9rtgxeDy1BVidBFxr9yqL5uuFVWSovBXefE8ZxZa7ftIV1zdaRt6y3vPBM2KC/kQij+8bSDOFcLy88w+OcIKx0BtCjGtW3WaizdBUjcSWu8J3M7VRXoLirin/REAmd3IsbqZqcRCj31TSa5+QzEefi2c0K25ueCiBxZEINcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FTSYfdC+XOSHpKm8UI/kWXrYhVvC3K8KUJT/CgVBJso=;
+ b=iL+DjdqO9G8Igs/BhyJeqNg1AOpHpcObSRufUoOPYMQ8ub3d135YYunnHSeP1xCHibC6uoiUFnNOCmrZ9Eue9ToNffne2gPOEVQblsRZ+sSR/VFBsaMF/yjCmsvIVAx/HYfNKUZhKzzayLPvPALhxSg0aj7mDwQ0MO0vkKSDhamwy1EnYi2EumYbUauMfdWA2k6wElBLeYiMHH2kEPZlWTPjOdplKZUCHJwD9cQCyP7OG7+Og3U96+2pgjB97V/2XCZwerOB0apggczuYCwv3gnTOUQp2TRR0XkGyJa+1stsMRJbmYIM2wG4fTPFQvSjhaq5ZzJD86pFIjP1svlKaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FTSYfdC+XOSHpKm8UI/kWXrYhVvC3K8KUJT/CgVBJso=;
+ b=cnH6QJC9G8qyHgp9GYJIqGd/gCt7c8HP755wQP3Gvdd6O5nAa5m4/6alBSOsVRUqHUV4XI2cWUYm+34UseeK0vIEbpl+ym7D9zYqUUKpQrrknG6fdp1ly3HOQ6Rrz8a4qrEBviRtpoQlupWxYn2kc8Ei6Oe2uqZ4xBtTHgFiO6s=
+Received: from BY5PR17CA0019.namprd17.prod.outlook.com (2603:10b6:a03:1b8::32)
+ by DS7PR10MB4832.namprd10.prod.outlook.com (2603:10b6:5:3a6::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
+ 2026 11:39:44 +0000
+Received: from CO1PEPF000066E7.namprd05.prod.outlook.com
+ (2603:10b6:a03:1b8:cafe::e0) by BY5PR17CA0019.outlook.office365.com
+ (2603:10b6:a03:1b8::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.22 via Frontend Transport; Tue,
+ 24 Feb 2026 11:39:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ CO1PEPF000066E7.mail.protection.outlook.com (10.167.249.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Tue, 24 Feb 2026 11:39:43 +0000
+Received: from DFLE202.ent.ti.com (10.64.6.60) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Feb
+ 2026 05:39:42 -0600
+Received: from DFLE200.ent.ti.com (10.64.6.58) by DFLE202.ent.ti.com
+ (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 24 Feb
+ 2026 05:39:42 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE200.ent.ti.com
+ (10.64.6.58) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 24 Feb 2026 05:39:42 -0600
+Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [10.24.51.219])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61OBdaEx2658018;
+	Tue, 24 Feb 2026 05:39:37 -0600
+From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+To: <tomi.valkeinen@ideasonboard.com>, <mchehab@kernel.org>,
+	<robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+	<hverkuil@xs4all.nl>, <sakari.ailus@linux.intel.com>,
+	<laurent.pinchart@ideasonboard.com>
+CC: <johannes.goede@oss.qualcomm.com>, <mehdi.djait@linux.intel.com>,
+	<vladimir.zapolskiy@linaro.org>, <dongcheng.yan@intel.com>,
+	<sylvain.petinot@foss.st.com>, <u-kumar1@ti.com>, <jai.luthra@linux.dev>,
+	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <y-abhilashchandra@ti.com>
+Subject: [PATCH V4 0/4] Add support for DS90UB954-Q1
+Date: Tue, 24 Feb 2026 17:09:20 +0530
+Message-ID: <20260224113925.19983-1-y-abhilashchandra@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48297cc524736e7452def05448ece84260a4fd83.camel@mailbox.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000066E7:EE_|DS7PR10MB4832:EE_
+X-MS-Office365-Filtering-Correlation-Id: 41a5b982-77e6-4e8e-b75d-08de73996736
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|7416014|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?HecSvGOYEU6kUqM7cuwtZjmn+5qRJtj8ErWwBpuPfk4oCxxRrKrXYVrXJHVh?=
+ =?us-ascii?Q?IQl0mmHUgYtSUwx7hewAn9uyDImxaCtSxod8kT+c/1jlyhyiFGtlfmw3rPmK?=
+ =?us-ascii?Q?4ueKNRbOvzVq6tE/QumAFdP0RC0Rmiutadjlrogio10gh6pLkw9FsRP5ltyt?=
+ =?us-ascii?Q?K57huh7kVKZL4czTonL+j4AE+F1ooTohRLHlYPPdc6fbVSOWR90S2+OIhpTU?=
+ =?us-ascii?Q?YFAAzxggfr+4/lHWBVqA22jpw8Sl2/L1a0t9ZmU0Bh3/bd8z64ta4mF3i+X8?=
+ =?us-ascii?Q?YLNQQ/3Mnu66MT1wdbEKgtXuuVppWtp9EtIf1uVEXP+++umIIJwTuVzRGcOK?=
+ =?us-ascii?Q?zRxUSP+fgUSJU+0VkVC4kClSUPDe/Jlbw2kYs9p1walW9sq3f5eFTSC2YYRH?=
+ =?us-ascii?Q?FgfC/K5dtGWuOdqRokYeYb/r/wQzXJPsPFLeV+bYQWA1JTaxKVjNRCpwEflG?=
+ =?us-ascii?Q?Bke0yZBwyt4VWv5P8ukWvP7Al0zC4mHl7uqF2vEDea9IMHF0yVwg9mZ2528S?=
+ =?us-ascii?Q?7ahTPNMWdfC71i7Qw+G16HJXtdIrJrxDleLXlW/cJOFTT6lVKH/02z6L8jRq?=
+ =?us-ascii?Q?a5RJDyQ7RYA5ZNlVjUGWC2CVDV4V9i+T/b/yzSIxvQP93l/ae1gCN62gG3tT?=
+ =?us-ascii?Q?5ClMdu3z2LSpMHHCAGNbx64M4W6+Vh7I97xGwdtGYLVfSsXUS6lFn5Hx+Dii?=
+ =?us-ascii?Q?LBHsTeGvla7H17eEYwmrG13+rxX3SjV1dTH9jptwbm/sWMHqNHI13AFIRj1Y?=
+ =?us-ascii?Q?P5h/O3fDEACarxzQA2wW28dLhqzQhgxbyNtGutsITyoUSM88aLTXH5KnkdRE?=
+ =?us-ascii?Q?fHAxzHQ6D/vxhl1GP35K1/xaTCA/iXbpMlrJg4I5Vaa/usUnB/MezAvLVnqK?=
+ =?us-ascii?Q?u7FQJKz1ZYqsAoYZUBQHP5wjDDPCFJaDJxsug9L+AhZesEntKDdRplyAcezR?=
+ =?us-ascii?Q?DyyDNzH3C5GxG0hAnxdU+TfS1gq0vG856rLoiOHgNj2P8Tx9ADTcKs2/ch9u?=
+ =?us-ascii?Q?+h/ElQ4H8e0AQoXGVZkYifAdG156pLp6NAP2y+d3PI97Hbw5GCyM7LDSWP/E?=
+ =?us-ascii?Q?qMi7O3aI0pMeUMnFlQkR4QyZTBAfF9FN4s9PsLYkAZ6uenf0UfNYiqO0/PoO?=
+ =?us-ascii?Q?xL6lj77EQpQbgCioTVuMIDXyJ0EY4/qE7+OyrWDMpeqPfJ03Ms2w//D800Ao?=
+ =?us-ascii?Q?CgvJVRm4GctFYyjU9rIfEn++kIwti5qNphDL3fCvb6LYMuloQEMmTm2Elaul?=
+ =?us-ascii?Q?H8jdrw0yEXtvjgDiuIEqteZEvjhUqbnPUCVcGi2P14w/JJbi9QGBrngoFYnq?=
+ =?us-ascii?Q?bmb9e51hfVF0xjftpPnZd6NIQj9N1q5BucIqiFAkiTScdyW4DV3L/FdbnC/w?=
+ =?us-ascii?Q?4Ad64HcvWlnigyLbXdSghirYy8FNDMA7Y9fGzcxjs6goi4S/0reNs72TczCe?=
+ =?us-ascii?Q?zf+6V45Y9eNzXpd7KrbNAfQlq0dXfY5fHVpwFOSbQeyZgTYWt+fkjg7H0qjv?=
+ =?us-ascii?Q?6GrYIKfwh8ulRLSI4wZ9CoeGiOJXgCEwLvcOnNQl1xe2udPdp7KEBXr5qAtK?=
+ =?us-ascii?Q?2LzkO0lj5aIJS9IoLps3xkJCDpibwceZwM+sr7RY6XlAisMRIiIm05f4YkPw?=
+ =?us-ascii?Q?jplc1SSfR8qntu6yRu5l+1R1r36cDeqGO/4PuZzztsf1+rKhDY4ic1lmsAss?=
+ =?us-ascii?Q?K5bydQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(7416014)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	dgFoLo9iX4y+j6LXczLh0g29mXeMTOcJMkfqCUtYaLEE81hoEPB4nf3dcLV828Fna+joUKsEYdPemt9bYVY7mf/m3hMH+Y/oSUVZHulUALzP2PTm7SH8/yl5qJwaAj/EGId/W8qtnyY9wuGF7FyqsjMuJV99qTGrDF8FY9z06A6+4BR6b6pjGvRXMrhUkIhRh64ocpnCXYSCf7V+p8wO/93zo0x2sEZuLVTQQZ16DUd8Lu+P6bTjKsXbuuh+0FAwIWBW+m7RkX6SVFwVUgxXsieqtp30+Si+FOpIeO9EjkCOGOpJUaH6PUPPKP2SXKy0RJoPzv+aDe9/DiH5C3xoGLZbrG0k9cVgtxrZFGaqZQN9zYolRXGIuUej0UkY4xo5wYyaC5/s7Q8d+lAmB0HsLvonB6U/aLZu54bAziH/m1dejCJmOywt3LgPljiK7XD3
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 11:39:43.0643
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41a5b982-77e6-4e8e-b75d-08de73996736
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000066E7.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB4832
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ti.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_DKIM_ALLOW(-0.20)[ti.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[hogyros.de,rock-chips.com,google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,gmail.com,davemloft.net,oss.qualcomm.com,amd.com,rivosinc.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,arndb.de,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,ffwll.ch,semihalf.com,zonque.org,linux.dev];
-	TAGGED_FROM(0.00)[bounces-53287-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[87];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,smile.fi.intel.com:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: 809DB185927
+	FREEMAIL_TO(0.00)[ideasonboard.com,kernel.org,xs4all.nl,linux.intel.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53288-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[y-abhilashchandra@ti.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ti.com:+];
+	TO_DN_NONE(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCVD_COUNT_SEVEN(0.00)[10]
+X-Rspamd-Queue-Id: E776C1866F8
 X-Rspamd-Action: no action
 
-On Tue, Feb 24, 2026 at 11:30:28AM +0100, Philipp Stanner wrote:
-> On Tue, 2026-02-24 at 11:12 +0200, Andy Shevchenko wrote:
-> > On Tue, Feb 24, 2026 at 08:39:43AM +0100, Philipp Stanner wrote:
-> > > On Tue, 2026-02-24 at 13:14 +0900, Simon Richter wrote:
+DS90UB954-Q1 is an FPDLink-III deserializer that is mostly register
+compatible with DS90UB960-Q1. The main difference is that it supports
+half of the RX and TX ports, i.e. 2x FPDLink RX ports and 1x CSI TX
+port. Therefore, add support for DS90UB954 within the existing DS90UB960
+bindings and the driver.
 
-...
+Changelog:
+Changes in v3:
+- Rebase on top of next-20260223
 
-> > > If I could design it from scratch I would probably try to tell users to
-> > > use the unmanaged versions instead of revoking the devres consequence.
-> > 
-> > +many.
+Link for v3: https://lore.kernel.org/all/20251219122955.2078270-1-y-abhilashchandra@ti.com/
 
-> hm?
+Yemike Abhilash Chandra (4):
+  media: dt-bindings: ti,ds90ub960: Refactor port definitions
+  media: i2c: ds90ub960: Use enums for chip type and chip family
+  media: dt-bindings: ti,ds90ub960: Add support for DS90UB954-Q1
+  media: i2c: ds90ub960: Add support for DS90UB954-Q1
 
-I'm supporting you with many hands up (more than I possess)!
-
-> > > Devres is actually about your consequence always happening whenever the
-> > > driver unloads, for whatever reason.
-> > 
-> > I believe you meant "unbinds". The device<-->driver link can be broken
-> > without unloading the driver.
-> 
-> Yes, thx for pointing that out. Greg KH AFAIK always calls it "driver
-> detach".
+ .../bindings/media/i2c/ti,ds90ub960.yaml      | 213 ++++++++---------
+ drivers/media/i2c/Kconfig                     |   4 +-
+ drivers/media/i2c/ds90ub960.c                 | 216 ++++++++++++------
+ 3 files changed, 263 insertions(+), 170 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
 
