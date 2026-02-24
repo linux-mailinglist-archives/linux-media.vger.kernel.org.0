@@ -1,198 +1,255 @@
-Return-Path: <linux-media+bounces-53273-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53274-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SIkqIlpgnWkDPAQAu9opvQ
-	(envelope-from <linux-media+bounces-53273-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 09:24:58 +0100
+	id 8NxzMg5inWksPQQAu9opvQ
+	(envelope-from <linux-media+bounces-53274-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 09:32:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33211839C6
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 09:24:57 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 697EF183B83
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 09:32:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DBB9F30CB5F9
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 08:21:36 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 20358301463F
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 08:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA2BC36656E;
-	Tue, 24 Feb 2026 08:21:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45358366839;
+	Tue, 24 Feb 2026 08:32:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="OtokF0pM"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="jNIdh28I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-m21471.qiye.163.com (mail-m21471.qiye.163.com [117.135.214.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF21366806;
-	Tue, 24 Feb 2026 08:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.214.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889CA366813
+	for <linux-media@vger.kernel.org>; Tue, 24 Feb 2026 08:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771921292; cv=none; b=c7wSE4hYou+7htxkKBpX3x3ocowippH+kD0AHV630QVegc3x/ERtAn8OA3Oel0DJtvfMIC0vYCKEJEMDvzzd9AKvH2xPCpXeFUhSCQlCD6CgXjPeyqlEYsHFpG9Z1r+MtvZBmXzHdQWfvm8J416A8wJavRiTV4od5pcnmpD4CIA=
+	t=1771921931; cv=none; b=pVREsEhsf4lHa4aAx6u/SafEukDAn7JBxjJjelmfN9EA2SUVHy8hKJ/QCAwgolKqvmoSrrCkzuVvNqfdfmJ1FNxnLX9gJjuP5l0IQ+2H+poKJfLKWA41H7zxT9W4NjtePnY4Nds0NzVKRAygvF18SI6qFPZRT0S33mVTa0Ouh0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771921292; c=relaxed/simple;
-	bh=jGNKoKMtgp1RUDE0JUj9nl9DZtqZbHM10+ockHI/Lug=;
-	h=Cc:Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=P/KLlkIQh9Dl90OQ+njg4dzOQ/zbf6CwFmP9It6h0RhyWjK/3EXYe9AekiMM0lxaRmdjynzjbFU5jYbWCcidYa2PE4pu52hu0aHvhB6SjVYfsmaV+Xr6aKQ54mGMD/gmQNFz+kHJf6eoRokSfL5o6sVlnBBq/TV3sXJUrkplKUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=OtokF0pM; arc=none smtp.client-ip=117.135.214.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Received: from [172.16.12.14] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 34c7e7f42;
-	Tue, 24 Feb 2026 16:21:13 +0800 (GMT+08:00)
-Cc: shawn.lin@rock-chips.com, Bjorn Helgaas <bhelgaas@google.com>,
- "Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
- Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
- Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Jiri Kosina <jikos@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Zhou Wang <wangzhou1@hisilicon.com>, Longfang Liu <liulongfang@huawei.com>,
- Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>,
- Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>,
- Sunil Goutham <sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- "David S . Miller" <davem@davemloft.net>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Tomasz Jeznach
- <tjeznach@rivosinc.com>, Will Deacon <will@kernel.org>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Srujana Challa <schalla@marvell.com>, Bharat Bhushan
- <bbhushan2@marvell.com>, Antoine Tenart <atenart@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Raag Jadav <raag.jadav@intel.com>,
- Hans de Goede <hansg@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Andy Shevchenko <andy@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>, Robert Richter <rric@kernel.org>,
- Mark Brown <broonie@kernel.org>, Nirmal Patel
- <nirmal.patel@linux.intel.com>, Kurt Schwemmer
- <kurt.schwemmer@microsemi.com>, Logan Gunthorpe <logang@deltatee.com>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Arnd Bergmann <arnd@arndb.de>, Benjamin Tissoires <bentiss@kernel.org>,
- linux-input@vger.kernel.org, linux-i3c@lists.infradead.org,
- dmaengine@vger.kernel.org, netdev@vger.kernel.org, nic_swsd@realtek.com,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-usb@vger.kernel.org, iommu@lists.linux.dev,
- linux-riscv@lists.infradead.org, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-cxl@vger.kernel.org,
- linux-crypto@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-serial@vger.kernel.org, mhi@lists.linux.dev,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jan Dabros <jsd@semihalf.com>, linux-i2c@vger.kernel.org,
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- linux-spi@vger.kernel.org, Jonathan Derrick <jonathan.derrick@linux.dev>,
- linux-pci@vger.kernel.org, linux-gpio@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-mmc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH 01/37] PCI/MSI: Add Devres managed IRQ vectors allocation
-To: phasta@kernel.org
-References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
- <1771860581-82092-2-git-send-email-shawn.lin@rock-chips.com>
- <20260223160402.3ad8f079@kernel.org>
- <ec226aa1-5cc8-855f-8f90-1d7f89efe766@rock-chips.com>
- <07fc896007d86b731cbfb3cf6bbdf4e5315d7a77.camel@mailbox.org>
-From: Shawn Lin <shawn.lin@rock-chips.com>
-Message-ID: <d601ec05-ef38-5e8e-c643-c05010717ebe@rock-chips.com>
-Date: Tue, 24 Feb 2026 16:21:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	s=arc-20240116; t=1771921931; c=relaxed/simple;
+	bh=avykNOyv/u+V3QY9hr2O0Q36L/u7PrqaV597fmOI+CI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nsXWJsrT1cz76tXHLBSBRTeoy28Pg14aKhFW75bNMljX833CXJU/2lbkL4RivCxrpBmoUW5qjXQqjz7QSPungIALL2cDdBNOcaQM/QsC8rm2kxx2iTMuJm8Sz+80rwc0lTzSW5NNO+3cRSWkfyQ3NZUFet2IPXkL0PJuh3sOpT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=jNIdh28I; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-483a2338616so33279245e9.0
+        for <linux-media@vger.kernel.org>; Tue, 24 Feb 2026 00:32:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1771921926; x=1772526726; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/EquV0ZhBp1KMAQWMVyF7t2k8W3NQOG5g8XyiQs2v3s=;
+        b=jNIdh28IXGqv+kQzDLifxTUDsWqn17938bL9gosaSay8tW6dEA8I3jbt1PNovMrwfN
+         43/CKBVRTh8mtlnhZRWbPgawt4nXCC6k/7bgtKmw20ytOx+kNJ6hTUePrlFpwuRuAwaV
+         +WLXHhlQVPn1GOYqzeqmrOLf+Inub7FotrMho66ecch2acZFwnN5irW4gnA2b5DvxDBC
+         qeVko6MVTJ+WwtwFXOTNMhrmXVQXV1UbB6p1s2R6jnJZF1StRjjznP+K8SOCy8cKcyRO
+         EmXu3aEfAXtylsf1bdIaD4HzwsIgGGoORp5VgHvbnOhJYwj2HiXBjedE0/ec1oSekTIc
+         1CGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771921926; x=1772526726;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/EquV0ZhBp1KMAQWMVyF7t2k8W3NQOG5g8XyiQs2v3s=;
+        b=YKC/ea+Sc/HwwtShjKWTOJRJlvYJDhMLAl3SeztTUIo6PX5y82YYqFdwlfvO5k+itX
+         ttxMmKyLxG78EBAG70TqwwxrQN5z6WG/jIiNA4MK9Dav2OTBOzV5OuhOcEuQ5Gv8SFAt
+         VBIuD/ltjcatyD4SvaQfm8Dr2EfUtyP/pNOHVhHIH2f7ynwfbBcRtS9K4HcdSCssZpKb
+         lKTxUyWB5qfoAn50xmeaEsOz8+qjRsnteBGTgXe7LmqyAT5pz+OyK22yrMXDiCXccLIf
+         /+W1YxPLaL7WscFTe45Nqpzw/BpZOvShgCQ0uHPDhZT7PiO5MCwd1Ix+vp81pY4MQfUA
+         9A+g==
+X-Forwarded-Encrypted: i=1; AJvYcCW9ZHbBQ9oujb2Lolg3fxzalgXHP5xsaoE21lTolN15niiCF53otWyU8AlHF4YpjWwnWrrQ288dv7sgjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2PavfVeAtcTPomy6PI/+zz2qr1AMcBb/uDp5KHUPzAd4gjwOx
+	1J5CjMj8EaoIBO8IV/MWjrc8/nQcm7lZaAyz/Qr+6enqNW1UeVP+4gHS95swYCuVx54=
+X-Gm-Gg: AZuq6aKkMit/5fwvp4Ejp7nSXVwUrN7kHt6d5iSxvnFM9FKjmpE4YtkvnoxehT5D/I5
+	5Bay6pkSgDwCD/4fmfh3IzSQJ2WNa13xHAFQmcprrsF6nZzPVhsyiJTpFMC0j6GPZ8MilzQCHoD
+	VPEBEpbhNIfCBoV1gfuHyQwJQm98C06Kv1mgESGsJ1s+Tq+NjfJKi44omhyV5OJsC8H5OH288IV
+	Qsk6vXGFcNM30sp1F1rePfVgL4WZkGJhm2hGJjXqUdBVlAzzsZWpC0NavNFH4YelW+rLY/mXxve
+	fVoeAMBTvtfz4KeCQ/eB2edQjS7BjsRFV9mbluIfn0o8WdKjWWWBiLK6xKDMOxpWAqlwlrcGthr
+	YqLJamATlmlszaNj8xTCZpnlwwXv/+yRbhrEk+4rB+hvN1wt1EQruxP+pVYQf1e9K8o29Z00Xyq
+	YJ1DPt+lrt3EPFDYV99jyo5zZdOZ+Hx4c=
+X-Received: by 2002:a05:600c:1386:b0:483:887:59b0 with SMTP id 5b1f17b1804b1-483a960c879mr236583495e9.35.1771921925134;
+        Tue, 24 Feb 2026 00:32:05 -0800 (PST)
+Received: from FV6GYCPJ69 ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b820f718sm14689075e9.5.2026.02.24.00.32.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 00:32:04 -0800 (PST)
+Date: Tue, 24 Feb 2026 09:32:01 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: John Stultz <jstultz@google.com>
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	iommu@lists.linux.dev, linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
+	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
+	christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com, jgg@ziepe.ca, 
+	leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com, 
+	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
+	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
+	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] dma-buf: heaps: system: add system_cc_decrypted
+ heap for explicitly decrypted memory
+Message-ID: <5z6d2etfr24oscoxhk3samf2bbhtcz6hymf65cow76omagsplf@6gdaev2perkk>
+References: <20260223095136.225277-1-jiri@resnulli.us>
+ <20260223095136.225277-3-jiri@resnulli.us>
+ <CANDhNCp94KG06P_7ivMTNA27qEM9g8ox-h3b_tZ=v6e-25xJ3g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <07fc896007d86b731cbfb3cf6bbdf4e5315d7a77.camel@mailbox.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9c8ebcf01809cckunma66e3c5da3898b
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkwYT1ZIQ05NT00aQhpOTEpWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEtKTE
-	tVSktLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=OtokF0pM0Rdmb7CoOmlCq/zfLcm40+tPTFk2ZLwxQS10TLzJue4pNlrDVsSPzZGK7GjnZ03zAIHAn5VDRN2uAWAEjdInG9Pdls9n5NtKIAxCt/aoY8MRgy7icqkMUtp0jEjJ+naa5XLLsJTKYxzikINqVGIROqqbjer5tDm2ofg=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=NX1TqWCCjq6xu1hXTAQXpYiiKKus6llHeXoiHdmvBy4=;
-	h=date:mime-version:subject:message-id:from;
+In-Reply-To: <CANDhNCp94KG06P_7ivMTNA27qEM9g8ox-h3b_tZ=v6e-25xJ3g@mail.gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[rock-chips.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[rock-chips.com:s=default];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-53273-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[rock-chips.com,google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,gmail.com,davemloft.net,oss.qualcomm.com,amd.com,rivosinc.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,arndb.de,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,ffwll.ch,semihalf.com,zonque.org,linux.dev];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[88];
+	DMARC_NA(0.00)[resnulli.us];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53274-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shawn.lin@rock-chips.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[rock-chips.com:+];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[rock-chips.com:mid,rock-chips.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D33211839C6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[resnulli-us.20230601.gappssmtp.com:dkim,nvidia.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 697EF183B83
 X-Rspamd-Action: no action
 
-在 2026/02/24 星期二 15:47, Philipp Stanner 写道:
-> On Tue, 2026-02-24 at 10:08 +0800, Shawn Lin wrote:
->> 在 2026/02/24 星期二 8:04, Jakub Kicinski 写道:
->>> On Mon, 23 Feb 2026 23:29:40 +0800 Shawn Lin wrote:
->>>> pcim_alloc_irq_vectors() and pcim_alloc_irq_vectors_affinity() are created for
->>>> pci device drivers which rely on the devres machinery to help cleanup the IRQ
->>>> vectors.
->>>
->>> If you can please add this API with just a few users, and then convert
->>> remaining users via the subsystem trees in the next cycle.
->>> There's no need to risk wasting maintainer time on conflicts with
->>> conversions like this.
+Mon, Feb 23, 2026 at 07:33:07PM +0100, jstultz@google.com wrote:
+>On Mon, Feb 23, 2026 at 1:51 AM Jiri Pirko <jiri@resnulli.us> wrote:
 >>
->> Thanks for the suggestion, Jakub. I have little experience with
->> cross-subsystem cleanups like this, so your suggestion is very helpful.
-> 
-> 
-> When I removed the hybrid nature of pci_request_region() et al., I
-> concluded that there were so few users that doing them all in one run
-> was sufficient.
-> 
-> For larger reworks, like removing pcim_iomap_table(), a slower step-by-
-> step strategy is necessary for the reasons that Jakub details.
-> 
-> It is then smart to omit an easy to port subsystem / driver for the
-> ultimate patch series where one then removes the hybrid behavior from
-> PCI itself, after porting the last driver.
-> 
-> In general,  as Jakub details, those step-by-step cleanups are a bit
-> safer, since you can proof valid behavior early on and in case of an
-> explosion they are very easy to revert.
-> 
+>> From: Jiri Pirko <jiri@nvidia.com>
+>>
+>> Add a new "system_cc_decrypted" dma-buf heap to allow userspace to
+>> allocate decrypted (shared) memory for confidential computing (CoCo)
+>> VMs.
+>>
+>> On CoCo VMs, guest memory is encrypted by default. The hardware uses an
+>> encryption bit in page table entries (C-bit on AMD SEV, "shared" bit on
+>> Intel TDX) to control whether a given memory access is encrypted or
+>> decrypted. The kernel's direct map is set up with encryption enabled,
+>> so pages returned by alloc_pages() are encrypted in the direct map
+>> by default. To make this memory usable for devices that do not support
+>> DMA to encrypted memory (no TDISP support), it has to be explicitly
+>> decrypted. A couple of things are needed to properly handle
+>> decrypted memory for the dma-buf use case:
+>>
+>> - set_memory_decrypted() on the direct map after allocation:
+>>   Besides clearing the encryption bit in the direct map PTEs, this
+>>   also notifies the hypervisor about the page state change. On free,
+>>   the inverse set_memory_encrypted() must be called before returning
+>>   pages to the allocator. If re-encryption fails, pages
+>>   are intentionally leaked to prevent decrypted memory from being
+>>   reused as private.
+>>
+>> - pgprot_decrypted() for userspace and kernel virtual mappings:
+>>   Any new mapping of the decrypted pages, be it to userspace via
+>>   mmap or to kernel vmalloc space via vmap, creates PTEs independent
+>>   of the direct map. These must also have the encryption bit cleared,
+>>   otherwise accesses through them would see encrypted (garbage) data.
+>>
+>> - DMA_ATTR_CC_DECRYPTED for DMA mapping:
+>>   Since the pages are already decrypted, the DMA API needs to be
+>>   informed via DMA_ATTR_CC_DECRYPTED so it can map them correctly
+>>   as unencrypted for device access.
+>>
+>> On non-CoCo VMs, the system_cc_decrypted heap is not registered
+>> to prevent misuse by userspace that does not understand
+>> the security implications of explicitly decrypted memory.
+>>
+>> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
+>
+>Thanks for reworking this! I've not reviewed it super closely, but I
+>believe it resolves my objection on your first version.
+>
+>Few nits/questions below.
+>
+>> @@ -296,6 +345,14 @@ static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
+>>         for_each_sgtable_sg(table, sg, i) {
+>>                 struct page *page = sg_page(sg);
+>>
+>> +               /*
+>> +                * Intentionally leak pages that cannot be re-encrypted
+>> +                * to prevent decrypted memory from being reused.
+>> +                */
+>> +               if (buffer->decrypted &&
+>> +                   system_heap_set_page_encrypted(page))
+>> +                       continue;
+>> +
+>
+>What are the conditions where this would fail? How much of an edge
+>case is this? I fret this opens a DoS vector if one is able to
+>allocate from this heap and then stress the system when doing the
+>free.
 
-Thank you, Philipp. I wish I had attended your talk at FOSDEM 2025 on
-removing pcim_iomap_table earlier. This first version was perhaps a bit 
-too aggressive. For v2, I think the plan should start with addressing 
-the switchtec and vmd drivers, since both of those, along with the new 
-API additions, can be handled entirely within the PCI subsystem scope.
+From what I can see, the failure of set_memory_encrypted() is quite
+rare. Don't see any real DoS scenario for this. All the failures seems
+to be either theoretical (sanity checks, malicious VMM) or concurrent
+kexec execution in case of x86/pat.
 
-> 
-> P.
-> 
+
+>
+>Should there be some global list of leaked decrypted pages such that
+>the mm subsystem could try again later to recover these?
+
+swiotlb does the same non-recovery leakage. I belive is it not worth
+implementing this at this time,
+
+
+>
+>> diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+>> index 648328a64b27..d97b668413c1 100644
+>> --- a/include/linux/dma-heap.h
+>> +++ b/include/linux/dma-heap.h
+>> @@ -10,6 +10,7 @@
+>>  #define _DMA_HEAPS_H
+>>
+>>  #include <linux/types.h>
+>> +#include <uapi/linux/dma-heap.h>
+>>
+>>  struct dma_heap;
+>>
+>> diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-heap.h
+>> index a4cf716a49fa..ab95bb355ed5 100644
+>> --- a/include/uapi/linux/dma-heap.h
+>> +++ b/include/uapi/linux/dma-heap.h
+>> @@ -18,8 +18,7 @@
+>>  /* Valid FD_FLAGS are O_CLOEXEC, O_RDONLY, O_WRONLY, O_RDWR */
+>>  #define DMA_HEAP_VALID_FD_FLAGS (O_CLOEXEC | O_ACCMODE)
+>>
+>> -/* Currently no heap flags */
+>> -#define DMA_HEAP_VALID_HEAP_FLAGS (0ULL)
+>> +#define DMA_HEAP_VALID_HEAP_FLAGS (0)
+>>
+>>  /**
+>>   * struct dma_heap_allocation_data - metadata passed from userspace for
+>
+>Are these header changes still necessary?
+
+Oops, leftovers. Will remove.
+
+Thanks!
+
+>
+>thanks
+>-john
 
