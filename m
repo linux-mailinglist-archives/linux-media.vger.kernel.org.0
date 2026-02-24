@@ -1,249 +1,221 @@
-Return-Path: <linux-media+bounces-53257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53258-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +EepJbUVnWkGMwQAu9opvQ
-	(envelope-from <linux-media+bounces-53257-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 04:06:29 +0100
+	id eIsiKgYcnWmPMwQAu9opvQ
+	(envelope-from <linux-media+bounces-53258-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 04:33:26 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084E11814A1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 04:06:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0877E181678
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 04:33:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A3C13309AD5C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 03:05:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9456B30484F7
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 03:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2028C29B789;
-	Tue, 24 Feb 2026 03:05:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3454726B755;
+	Tue, 24 Feb 2026 03:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="D1NXrLDX"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MpsmBFFf";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kNduJN2p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-m49234.qiye.163.com (mail-m49234.qiye.163.com [45.254.49.234])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8D827510B;
-	Tue, 24 Feb 2026 03:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0E43EBF17
+	for <linux-media@vger.kernel.org>; Tue, 24 Feb 2026 03:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771902328; cv=none; b=G06Zvwo4Kh+2HmPxODPY/u94yRNKZmkgp/sVW+AZ8DnW7FOSlDnaJIwZG5NDSpZZ5Y8Up1jRKGf2qNXcD6Tp9OCrCmWLdJ2vWWkcGHIPptPY4UdO2Y/66D6CKlIt/fsrY+lblVcMpt2uirRuVA7TBWmCJc+R6QJONHaWSy204X4=
+	t=1771903996; cv=none; b=YaAJFCox2U37LpWGQU05sPRUY4UEhOVScbXDcQVe63ZSzzsunNWTZXtp0EIERuOTAssdn4BVZ8y6uCrhSemb4+s5zeC4sxwlmYBnoLD2B/y1mxVVbUPYuXVfw8jhW48jJX+ruF+sh1/xMPJ08lkQpubKIlm4STMa6BPa9Vha7c4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771902328; c=relaxed/simple;
-	bh=umPME9UPW5IDOk9nfGV7v/p8mD8ssTKOiFHxedxlBoU=;
-	h=Cc:Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=pTPHgUedwtild0UmFSunw1LmbEsxH7gQYQg4Pv3OwpmzRAlbBggR7gad/pNHZ3Sp2dfZcpAUfUc/k0SjPL3eBCnLiiwsOP01qiczMHcMJh7IDXLbyrQGjSyd4g+LFyYMpDnhOyWzYtP6PLH0VWRkJV8/UVVQXLzYDYMzsj2t6f4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=D1NXrLDX; arc=none smtp.client-ip=45.254.49.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Received: from [172.16.12.14] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 34be19b08;
-	Tue, 24 Feb 2026 10:29:38 +0800 (GMT+08:00)
-Cc: shawn.lin@rock-chips.com, Andy Shevchenko <andy.shevchenko@gmail.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- "Vaibhaav Ram T . L" <vaibhaavram.tl@microchip.com>,
- Kumaravel Thiagarajan <kumaravel.thiagarajan@microchip.com>,
- Even Xu <even.xu@intel.com>, Xinpeng Sun <xinpeng.sun@intel.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Jiri Kosina <jikos@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Zhou Wang <wangzhou1@hisilicon.com>, Longfang Liu <liulongfang@huawei.com>,
- Vinod Koul <vkoul@kernel.org>, Lee Jones <lee@kernel.org>,
- Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>,
- Sunil Goutham <sgoutham@marvell.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- "David S . Miller" <davem@davemloft.net>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Karol Wachowski <karol.wachowski@linux.intel.com>,
- Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Tomasz Jeznach
- <tjeznach@rivosinc.com>, Will Deacon <will@kernel.org>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Srujana Challa <schalla@marvell.com>, Bharat Bhushan
- <bbhushan2@marvell.com>, Antoine Tenart <atenart@kernel.org>,
- Herbert Xu <herbert@gondor.apana.org.au>, Raag Jadav <raag.jadav@intel.com>,
- Hans de Goede <hansg@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Andy Shevchenko <andy@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andi Shyti <andi.shyti@kernel.org>, Robert Richter <rric@kernel.org>,
- Mark Brown <broonie@kernel.org>, Nirmal Patel
- <nirmal.patel@linux.intel.com>, Kurt Schwemmer
- <kurt.schwemmer@microsemi.com>, Logan Gunthorpe <logang@deltatee.com>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Arnd Bergmann <arnd@arndb.de>, Benjamin Tissoires <bentiss@kernel.org>,
- linux-input@vger.kernel.org, linux-i3c@lists.infradead.org,
- dmaengine@vger.kernel.org, Philipp Stanner <phasta@kernel.org>,
- netdev@vger.kernel.org, nic_swsd@realtek.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
- iommu@lists.linux.dev, linux-riscv@lists.infradead.org,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-serial@vger.kernel.org,
- mhi@lists.linux.dev, Jan Dabros <jsd@semihalf.com>,
- linux-i2c@vger.kernel.org, Daniel Mack <daniel@zonque.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, linux-spi@vger.kernel.org,
- Jonathan Derrick <jonathan.derrick@linux.dev>, linux-pci@vger.kernel.org,
- linux-gpio@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org
-Subject: Re: [PATCH 0/37] PCI/MSI: Enforce explicit IRQ vector management by
- removing devres auto-free
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <1771860581-82092-1-git-send-email-shawn.lin@rock-chips.com>
- <CAHp75VeWD5A0r7-Uayyte1ZXXxdhLixd+z_y0xNeki0N+Ro=jQ@mail.gmail.com>
- <cb878741-7b61-b72c-5a72-6ed6d5091b1f@rock-chips.com>
- <aZyQmc7nOt87jitX@smile.fi.intel.com>
-From: Shawn Lin <shawn.lin@rock-chips.com>
-Message-ID: <f2ea12bb-d90a-2b5e-eb4f-fabb3b702ca5@rock-chips.com>
-Date: Tue, 24 Feb 2026 10:29:37 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	s=arc-20240116; t=1771903996; c=relaxed/simple;
+	bh=alwlXydTZQTHU+SrbhxPkAVBaJ0ViLt6EMzcXAEspXg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gnEp/b+XEX7kYhg5nTxVDkBWu2Fs36dwIRzfm3uefOyJ7WiBtcxWNZJonCpiqvnBlpgATLBBswyt+d8yBrpBoysUCO6u+brPasb0ijEgswlXjTgo+mhLaJQswie2s9uzhrTzHuem/i0U9wyBpWro21VfoyK3GFBlyec8mUu5S1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MpsmBFFf; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kNduJN2p; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O3Kp4I1396472
+	for <linux-media@vger.kernel.org>; Tue, 24 Feb 2026 03:33:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	cw5oOYysEVaaTcVwIagtgtb1acPAUP70RqJhekAP7Zs=; b=MpsmBFFfOVHfn/pk
+	Gg4QcxaaZhK4U4eeUQBi7urMNKOvTDwSza1oS2UzSLIHLFy6kA7W7NleuM4sn6pl
+	M4x4z6TjyHPZgg4ou/d8h8DibM3bcqEdiwQu0FeW7LgGxLih+lLSrErJxFh5rbzX
+	joWxCc85TVP2OaJiKwZxzYkKcrm6kl8YijJF6ZMr0v7LH8HP2qqM6Z0p5yvz6YbR
+	XjQe9GyKv84EeXPKNaDjKC9RSLpcMfINW3laTZ+VfF97K/O+0n8fHtp5xtJi4egN
+	BJECOTqR8p85DNs0EfpaZlyZzaGKFuO8gdAkbKig/BVcURryr6jTJC7DzqVx83T0
+	W1ob0w==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgtx09k0m-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 24 Feb 2026 03:33:14 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-2ba87c0e198so3840748eec.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Feb 2026 19:33:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1771903994; x=1772508794; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cw5oOYysEVaaTcVwIagtgtb1acPAUP70RqJhekAP7Zs=;
+        b=kNduJN2piySqJTsIrsTMpdTiJaI6B/J7hYurgu9hLrqYQF0OoTJTnsUWe15cFyFWhl
+         gFEViEMqiNyJ4LpPTgUavfwUJbBj3HRKEzfxWvw1XNgdUaLw0kKeKf1yMK4AgjMUpsK8
+         egIa8T9fWOz6a8Jf3raNro4JLZWeykiCgMUyjFTTNQRmvH2NjrbN2ka6VW2kC/2lqhBb
+         Gqe7StgDHok/1VBNns4+GpNi05KyUSj8JBFwciPznYc5guB+ztF4T6n7+VwEHpPsiqRq
+         ++VO8rcvQMdLWqwyUKjOkFPUGrmIfK3iQq8OQMeVG7zU0sWzr1zb4gcXRxW4DcKaoPeh
+         C89Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771903994; x=1772508794;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cw5oOYysEVaaTcVwIagtgtb1acPAUP70RqJhekAP7Zs=;
+        b=tEX8K1tqNCVaBlEeWFiSujQ0CHVYJo5/Iil5VcEC0mtccluqLxzEkn3IpLBdMHWgZw
+         YjqVpYVvXSex2iA8oD1cXw8Pmui+IkfsV1rUUPnSTmekk+e2KHQpag+dQL95/aMO+tD+
+         LQDO5d3grMNDHYLmvoD045FlTEIG+J0l1EdByXNh/JyINTPe8JDMAMMyaw0clpGPu6JK
+         3EftGvoalFiaC4qKvwrVZZ0hl80IqIKdD+X1g5UgJSLE2lA/alhPjRQ03dqU4GpL3CYt
+         q1YUwJSiKTi3l+aVm0SQehuKSl2vdOpbaBa9p7iGqux9nDljMYjrTh0tm7Zf6SKPajPI
+         dxCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWd0Ica8oJiwAcRZSQSXpLTvvpPHlT60DvJA+C8f8LQnZeP7sljgSOZ5RqvmmsQp88DEmKs5embQ2wzkg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeREZqZvhyok8GT86zRn3N+XOEmGwGINCHtDMx1ILF58Xx6rJb
+	VyYdvEoFbObPponu3FkOWRNj02Yygf9LaSJhi1Wq5cV1ZsA3UOtT0eSxwVfT0NUBCetco7TBQaN
+	Uy2Fx9LMhyj8X1Eha9jXOGu/BX9L01lBxMFkxS00UmzuaBBChmmDEYr/QbWFOsAwGUg==
+X-Gm-Gg: AZuq6aJWjzf9jRhMqtQIDS0JYxNGY5vlz05mwWjs27Ck9hs7dwi//9iQzVXVbvo3G8U
+	usOHNIUlwFf4AAf8E1Kcxl6RUa5pLe7SpxdpX8WrkZE8aZsbKZZMk/0sScA4678Cac8NDVY9rXb
+	LXsxTPdLcv6XdV/XyoEF2+zznwblcojM/aXCW+2pkygfQavQstLhWTS7ebWDsehjf8Az6tDw4+H
+	1sRA8SGcAG5ByEFNTFgO8dc5HU+V2owlaBWNHiMQwZ3GbHxV95axRRAatOCMYkPcZNRxaTpg7te
+	yC8BV8g3RJPIqVMnxpITBBGvKZ7tJIYBsxCrCLuOQSY2Y1m/bg1X3YxkHPmUHpb4BBkj58eqIx3
+	DBn8HgfQ5oIJV3Z0NJq149ODhEjeI3EBalYzD57AKzi04ZkROChsaPpM=
+X-Received: by 2002:a05:7022:4387:b0:121:9f05:c4c2 with SMTP id a92af1059eb24-1276ad18ec5mr3365893c88.23.1771903994055;
+        Mon, 23 Feb 2026 19:33:14 -0800 (PST)
+X-Received: by 2002:a05:7022:4387:b0:121:9f05:c4c2 with SMTP id a92af1059eb24-1276ad18ec5mr3365882c88.23.1771903993530;
+        Mon, 23 Feb 2026 19:33:13 -0800 (PST)
+Received: from [192.168.86.165] ([76.176.48.107])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1276af20fc8sm10325680c88.6.2026.02.23.19.33.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Feb 2026 19:33:12 -0800 (PST)
+Message-ID: <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
+Date: Mon, 23 Feb 2026 19:33:10 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <aZyQmc7nOt87jitX@smile.fi.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9c8d7b0eac09cckunm431e2ebe9c2487
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQk1JSlYfQ0xKSUgZSExJTR5WFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUJNS0
-	pVSktLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=D1NXrLDXYu05Q03TAx05oty8f+yTvVFdBAZyiSUmQKIY0HvT8qR+fZzXAm5BOQ41zzptRcoWbADvnv7drXshfBmn85RqQEDxVHw/jKK+KYsM4769ieUIh+QcpalR29uuc0K0fEj0iBdlNJUhOg6fCPz7HghkYa/b9akRJdf4g50=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=913DgA+wi5Qtxbiu+wfSgg50lMszTH4hoG4VFZ28+hE=;
-	h=date:mime-version:subject:message-id:from;
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
+ driver docs
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
+Content-Language: en-US
+From: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
+In-Reply-To: <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: Tim0YrS5McQkxMS-Taj4QLOL-n0wJbea
+X-Authority-Analysis: v=2.4 cv=euvSD4pX c=1 sm=1 tr=0 ts=699d1bfa cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=lsoD3MMNObdLvy1227ExmA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=88Pab4rnIKjo3RbOS5oA:9 a=QEXdDO2ut3YA:10 a=bBxd6f-gb0O0v-kibOvt:22
+X-Proofpoint-GUID: Tim0YrS5McQkxMS-Taj4QLOL-n0wJbea
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDAyOCBTYWx0ZWRfX0i7z4OvX6AOr
+ kDEG80yC53nSh+53noeqUU7H2zjgf3blOSrzRUC0K7OVZEBldYUyM5ibDmHC7RgEhv9/wXK2yzo
+ 6k6TLXX6/0cAoP8bOMHZjUedroPaIKNZv5muyaTk8KGSSS37nGOMOJy4YGzmTuq/BgGBccQ9YFv
+ 1Tcd11T/5ekniFpihNq2Xn6SKjUIDNrSd8bD2562uJ3VrGJMvgXMFkvdPcu8SNSjpsJANbsSVMT
+ ohu5i3/H8nBOeAa6Q8UpxwXBxaN+KZWpwFxXKSlQItK3JN2f2fco83d5Y0e6RqsqzLVcxGpxD22
+ QFLP65pJ+7RH/UnDIt6Asu3tLefDx704+IrByofj9VDSbPYMexEnljVRP6UBABoixEAf0enHd2h
+ Xlgf0ULCRo1mtUekEfoYFh7J+EsGWJSI3PxKNjfBswXociunVu2jQGxmsb6EJRTXJe2pI+bL6Y3
+ VnE1cfPvXdfIPcyPUHA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-23_06,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 bulkscore=0
+ impostorscore=0 phishscore=0 clxscore=1011 suspectscore=0 malwarescore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2602240028
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[rock-chips.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[rock-chips.com:s=default];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-53257-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53258-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[rock-chips.com,gmail.com,google.com,microchip.com,intel.com,linux.intel.com,kernel.org,bootlin.com,hisilicon.com,huawei.com,marvell.com,lunn.ch,davemloft.net,oss.qualcomm.com,amd.com,rivosinc.com,linaro.org,stgolabs.net,gondor.apana.org.au,linuxfoundation.org,microsemi.com,deltatee.com,arndb.de,vger.kernel.org,lists.infradead.org,realtek.com,lists.freedesktop.org,lists.linux.dev,ffwll.ch,semihalf.com,zonque.org,linux.dev];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[88];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[shawn.lin@rock-chips.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[rock-chips.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,rock-chips.com:mid,rock-chips.com:dkim,rock-chips.com:email]
-X-Rspamd-Queue-Id: 084E11814A1
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[trilokkumar.soni@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 0877E181678
 X-Rspamd-Action: no action
 
-在 2026/02/24 星期二 1:38, Andy Shevchenko 写道:
-> On Tue, Feb 24, 2026 at 12:09:37AM +0800, Shawn Lin wrote:
->> 在 2026/02/23 星期一 23:50, Andy Shevchenko 写道:
->>> On Mon, Feb 23, 2026 at 5:32 PM Shawn Lin <shawn.lin@rock-chips.com> wrote:
->>>>
->>>> This patch series addresses a long-standing design issue in the PCI/MSI
->>>> subsystem where the implicit, automatic management of IRQ vectors by
->>>> the devres framework conflicts with explicit driver cleanup, creating
->>>> ambiguity and potential resource management bugs.
->>>>
->>>> ==== The Problem: Implicit vs. Explicit Management ====
->>>> Historically, `pcim_enable_device()` not only manages standard PCI resources
->>>> (BARs) via devres but also implicitly triggers automatic IRQ vector management
->>>> by setting a flag that registers `pcim_msi_release()` as a cleanup action.
->>>>
->>>> This creates an ambiguous ownership model. Many drivers follow a pattern of:
->>>> 1. Calling `pci_alloc_irq_vectors()` to allocate interrupts.
->>>> 2. Also calling `pci_free_irq_vectors()` in their error paths or remove routines.
->>>>
->>>> When such a driver also uses `pcim_enable_device()`, the devres framework may
->>>> attempt to free the IRQ vectors a second time upon device release, leading to
->>>> a double-free. Analysis of the tree shows this hazardous pattern exists widely,
->>>> while 35 other drivers correctly rely solely on the implicit cleanup.
->>>
->>> Is this confirmed? What I read from the cover letter, this series was
->>> only compile-tested, so how can you prove the problem exists in the
->>> first place?
->>
->> Yes, it's confirmed. My debug of a double free issue of a out-of-tree
->> PCIe wifi driver which uses
->> pcim_enable_device + pci_alloc_irq_vectors + pci_free_irq_vectors expose
->> it. And we did have a TODO to cleanup this hybrid usage, targeted in
->> this cycle[1] suggested by Philipp:
+On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
+> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
+> integrated in the DRM accel subsystem.
 > 
-> Okay, fair enough. I think this bit was missing in the cover letter.
+> The new docs introduce QDA as a DRM/accel-based implementation of
+> Hexagon DSP offload that is intended as a modern alternative to the
+> legacy FastRPC driver in drivers/misc. The text describes the driver
+> motivation, high-level architecture and interaction with IOMMU context
+> banks, GEM-based buffer management and the RPMsg transport.
 > 
->> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=msi
+> The user-space facing section documents the main QDA IOCTLs used to
+> establish DSP sessions, manage GEM buffer objects and invoke remote
+> procedures using the FastRPC protocol, along with a typical lifecycle
+> example for applications.
 > 
->>>> ==== The Solution: Making Management Explicit ====
->>>> This series enforces a clear, predictable model:
->>>> 1.  New Managed API (Patch 1/37): Introduces pcim_alloc_irq_vectors() and
->>>>       pcim_alloc_irq_vectors_affinity(). Drivers that desire devres-managed IRQ
->>>>       vectors should use these functions, which set the is_msi_managed flag and
->>>>       ensure automatic cleanup.
->>>> 2.  Patches 2 through 36 convert each driver that uses pcim_enable_device() alongside
->>>>       pci_alloc_irq_vectors() and relies on devres for IRQ vector cleanup to instead
->>>>       make an explicit call to pcim_alloc_irq_vectors().
->>>> 3.  Core Change (Patch 37/37): With the former cleanup, now modifies pcim_setup_msi_release()
->>>>       to check only the is_msi_managed flag. This decouples automatic IRQ cleanup from
->>>>       pcim_enable_device(). IRQ vectors allocated via pci_alloc_irq_vectors*()
->>>>       are now solely the driver's responsibility to free with pci_free_irq_vectors().
->>>>
->>>> With these changes, we clear ownership model: Explicit resource management eliminates
->>>> ambiguity and follows the "principle of least surprise." New drivers choose one model and
->>>> be consistent.
->>>> - Use `pci_alloc_irq_vectors()` + `pci_free_irq_vectors()` for explicit control.
->>>> - Use `pcim_alloc_irq_vectors()` for devres-managed, automatic cleanup.
->>>
->>> Have you checked previous attempts? Why is your series better than those?
->>
+> Finally, the driver is wired into the Compute Accelerators
+> documentation index under Documentation/accel, and a brief debugging
+> section shows how to enable dynamic debug for the QDA implementation.
 
-Thanks for sharing this 5-years-old discusstion, I totally missed it.
+So existing applications written over character device UAPI needs to be
+rewritten over new UAPI and it will be broken once this driver gets
+merged? Are we going to keep both the drivers in the Linux kernel
+and not deprecate the /char device one? 
 
-I read the V7 discussion, and it seems to have disappeared without much
-follow-up, like a stone dropped into the ocean. For five years, newly
-added drivers have continued to misuse these APIs incorrectly, and
-we’ve been watching it happen. I can’t really claim this patch series
-is inherently better than Dejin’s earlier work at its core, this is
-just about fixing one entire category of misuse in a single pass.
+Is Qualcomm going to provide the wrapper library in the userspace
+so that existing applications by our customers and developers
+keep working w/ the newer kernel if the char interface based
+driver gets deprecated? It is not clear from your text above. 
 
-According to Bjorn's final search and reply, if we include the removal
-of deprecated APIs, it would require a massive amount of work and might
-span many release cycles. Unfortunately, the work never began, and the
-cleanup might never be completed. I’m not sure if folks have changed
-their minds now. Can we at least start by completing the changes for the
-pci_alloc_irq_vectors category?
-
-
->> There seems not previous attempts.
-> 
-> Maybe we are looking to the different projects...
-> 
-> https://lore.kernel.org/all/?q=pcim_alloc_irq_vectors
-> 
->>>> ==== Testing And Review ====
->>>> 1. This series is only compiled test with allmodconfig.
->>>> 2. Given the substantial size of this patch series, I have structured the mailing
->>>>      to facilitate efficient review. The cover letter, the first patch and the last one will be sent
->>>>      to all relevant mailing lists and key maintainers to ensure broad visibility and
->>>>      initial feedback on the overall approach. The remaining subsystem-specific patches
->>>>      will be sent only to the respective subsystem maintainers and their associated
->>>>      mailing lists, reducing noise.
-> 
+---Trilok Soni
 
