@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-53295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53296-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CD5JJeGmnWmgQwQAu9opvQ
-	(envelope-from <linux-media+bounces-53295-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 14:25:53 +0100
+	id YEPKHm6nnWmgQwQAu9opvQ
+	(envelope-from <linux-media+bounces-53296-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 14:28:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2331879FA
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 14:25:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6699187A78
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 14:28:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3D18131BDE7C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 13:18:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1146E31C1B4E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Feb 2026 13:19:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0313F39E6D7;
-	Tue, 24 Feb 2026 13:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF68439C65B;
+	Tue, 24 Feb 2026 13:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjxbxFox"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUVP9Qs1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659B939E6CA;
-	Tue, 24 Feb 2026 13:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624F939B497;
+	Tue, 24 Feb 2026 13:19:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771939085; cv=none; b=CrUz5WAHxLtZEbrPEbU4RZHsg/ujwM0fWrOJ3FnOWZRQvmRIZTC82fIWKg8pwz9O4u3v0ecnsV4w5biUTtejHmqwP6hNMUCEmBtiMq1dU8Ux6nITpUreY/AmKBPegjNeSAOmMtSw9omPMq8Xa9LKZ1YiczZM9a/GWDHPm24BdhA=
+	t=1771939141; cv=none; b=pz8zrc7aiJlMJNJA3Uw32pAf5CBB6kW6ugcKx45049Vabbiqn2veSkdNj4h7cft1Jg9WfTVVOcSX33EBgDnECbOuj0BPXZHKRDQkP/FFG5aRWS5W9ytnNY7iVJK42+uo3BpD7Zjo63MMqorCR2jGev1Z2+7y4lQibfnCnqyLxyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771939085; c=relaxed/simple;
-	bh=G6eZk5Nfo/RDIiGr0N39A1cxm9lBiDCxNCqjfX17+x8=;
+	s=arc-20240116; t=1771939141; c=relaxed/simple;
+	bh=9dDLZKZe4Vnpg/vn4EwiF+rh9/b7hE8wVvMoi/ULJJU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lCgzi0IplcAQadfNo/IokNi00/m1tPUqLUZKZOTteIxK9OhUgui+xT8EHWKqi6+TiOJb3CqbdtMk+oFu7NJUwBnyH9FekAiU7bayvdFOp9cu2alvafnl41roM0oiJk1EBnlCsY8L0Dyg2kpA8iFLrO/azGinAxy0N3cn4+xYhLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjxbxFox; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DB7FC116D0;
-	Tue, 24 Feb 2026 13:18:01 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ZpRezLWZjt55Ckamc4PJdG1Oa1sPxesdlGMOmAOwy8YsJA5OnHFmioqToEV2KuOeRtftHAJQXQAl3IxG6MHBbr9Fih0zq9Cw4LAYfEV1GzWZ0ikFID3bMcPutfDeTeG6/EITOwAZZPHMyHtg+hPpj4pglYWqkIo4pum/tL47SrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUVP9Qs1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67ECFC116D0;
+	Tue, 24 Feb 2026 13:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771939085;
-	bh=G6eZk5Nfo/RDIiGr0N39A1cxm9lBiDCxNCqjfX17+x8=;
+	s=k20201202; t=1771939141;
+	bh=9dDLZKZe4Vnpg/vn4EwiF+rh9/b7hE8wVvMoi/ULJJU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rjxbxFoxRQXNKHhuQWTUz5qFtnYkgLOWBjXXUUm8noaFW0VgSm2s3T/pXo3gT4umW
-	 KsEXCf22g2ZNHC2fbnUOqFqFOw82LpheUV//ABxiXewlacqe9T2c9N6wDwLma543CU
-	 G5IX6PDCONCJjQQ2eUh8FF3LqPazCcw8XKLatgDOZ+wVOuc2jVD2iHCHVR+ZIHm0zv
-	 g5BBqAkHVY5YZcD8PDSkdazBsc5tzEZQMoAFgXOLBXkr91a0GIiDfFBkthWbj3uJVw
-	 sxV4OneK2RZAgx2SAMjYvd9byubBT/bJeJQnkFiG0GnrpdCds5B06enikZWld6W713
-	 wFo156lkGobcQ==
-Message-ID: <2996bc4a-1746-40ff-8ec0-76f779600c1e@kernel.org>
-Date: Tue, 24 Feb 2026 14:17:59 +0100
+	b=aUVP9Qs1It676WNKcJHtsndmf8EUw6PQg7c++d2+W5d1qXhOPe6ig6tdUhUlal3Rh
+	 Xdk0JXJjpR45f5ZuP3ZiY/y1DktkGRSWUqE12qIwEC/RJj9GJ9nJcMGUKb9P2//SiR
+	 tbK1OVyUR28oUkNpWEUE+ON2KPSDA0zs2FoZLbf9YGHbDO0jDMvsG8J3XvLrrRJqxy
+	 QPZN6SKe/N/xn5L/PKWbYfRwEF2HI38tfRXAKB4mqQ1JlquBSHnlGycJVGOBDdeZ4M
+	 WpmUiC0XdKMwpMS4uLN5qTiiKFlCa736l5gzJ/j+d0wcjU9eL516ALrXY4t5h/uem1
+	 /WcqTdCuSQ2oA==
+Message-ID: <0874bb3d-b38d-4ea3-a5b0-2da2484cc3e5@kernel.org>
+Date: Tue, 24 Feb 2026 14:18:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -129,7 +129,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53295-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53296-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -137,7 +137,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -145,65 +145,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,27b00000:email,collabora.com:email]
-X-Rspamd-Queue-Id: 1C2331879FA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C6699187A78
 X-Rspamd-Action: no action
 
 On 24/02/2026 14:14, Nicolas Dufresne wrote:
-> Hi,
-> 
-> Le mardi 24 février 2026 à 08:17 +0100, Krzysztof Kozlowski a écrit :
->> On Mon, Feb 23, 2026 at 09:49:49PM +0200, Cristian Ciocaltea wrote:
->>> Update 'reg-names' property to allow providing the register blocks in
->>> the expected address-based order for RK3576 & RK3588 video decoder and,
->>
->> What? The register blocks SHOULD NOT be provided in address-based order.
->> There was never such coding style, never ever we gave such hint and if
->> you found Qcom discussions you would see me and Rob objecting to it.
-> 
-> Would be nice to make a suggestion to how to fix this warning differently.
-> 
-> rk3576.dtsi:1282.30-1304.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
-
-I provided the suggestion in the commit mentioning the issue. Nothing
-here suggests any warning, so why would I suggest some steps?
-
-> 
-> 
->>
->>> consequently, fix some DTC warnings.
->>>
->>> Additionally, drop the 'reg' description items as the order is not fixed
->>> anymore, while the information they offer is not very relevant anyway.
->>>
->>> Fixes: c6ffb7e1fb90 ("media: dt-bindings: rockchip: Document RK3588 Video Decoder bindings")
->>> Fixes: a5c4a6526476 ("media: dt-bindings: rockchip: Add RK3576 Video Decoder bindings")
->>
->> No, nothing to be fixed here. Describe the bug, because missing order
->> to address-based is for sure not a bug.
-> 
-> The warning should be part of this this commit message, since the cover letter
-> is not going into git.
-> 
->>
->>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>> ---
->>>  Documentation/devicetree/bindings/media/rockchip,vdec.yaml | 13 ++++++-------
->>>  1 file changed, 6 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
->>> index 809fda45b3bd..2d3164a2882b 100644
->>> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
->>> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
->>> @@ -28,16 +28,15 @@ properties:
->>>  
->>>    reg:
->>>      minItems: 1
->>> -    items:
->>> -      - description: The function configuration registers base
->>> -      - description: The link table configuration registers base
->>> -      - description: The cache configuration registers base
->>> +    maxItems: 3
 >>>  
 >>>    reg-names:
 >>> -    items:
@@ -219,9 +165,13 @@ here suggests any warning, so why would I suggest some steps?
 >> No, ABI break without point.
 > 
 > Its not released yet, otherwise both order would need to be allowed.
+> 
+Also, not true.
 
-Nothing in commit msg explains that and we expressed such expectation
-multiple times. Otherwise you get above comment.
+git describe --contains  c6ffb7e1fb90
+v6.17-rc1~90^2~3
+
+So clearly released.
 
 Best regards,
 Krzysztof
