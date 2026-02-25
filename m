@@ -1,346 +1,224 @@
-Return-Path: <linux-media+bounces-53332-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53333-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8Pc2MYrqnmk/XwQAu9opvQ
-	(envelope-from <linux-media+bounces-53332-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:26:50 +0100
+	id ePCNBIXqnmk/XwQAu9opvQ
+	(envelope-from <linux-media+bounces-53333-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:26:45 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA8F197498
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:26:49 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A40197481
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:26:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 77F7F304FFB4
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 12:21:28 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5855A302CB3C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 12:26:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AC763ACA5A;
-	Wed, 25 Feb 2026 12:21:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199173AE719;
+	Wed, 25 Feb 2026 12:26:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KjwY5ZUY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OnMSlue6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA8513A244;
-	Wed, 25 Feb 2026 12:21:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CA933A9CE;
+	Wed, 25 Feb 2026 12:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772022086; cv=none; b=nv+HUKquvPKDouF5PRJ5uTwaSxBoacD2i1jZ84e2U5GtVkUIUfMRfB1vsXy/T6X3Fzduzz0rCsui+T+SObh1RsLu5mwh38++HHjrR0P/cNV1JIkHDXcngqdkMNmSK141YLGUDU2peHR9jZ0weg3iZ05nFQNnU1gmfaHS4CUMc/U=
+	t=1772022397; cv=none; b=CxeUVbhgiYXdlvad8WRnp0JEtpKgIE+lVbhpDUpC5Pqbsr1Pn2XR4Ay6+hwsLR3DFzHlzFxQvUvvNS77AmLsadmM4qUO8VFoSNlJVghswoLC0PUPN6PChCNtCZZh7dzQoMbr803Xti5t0d7sSoj8KVya13+DufkFMdo/SbsY7h4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772022086; c=relaxed/simple;
-	bh=O3SZVQ+M9LG2PI2LBL6JJVkAewsKootWHqN8pcBDkPI=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=gq880Bror79tYyZA3kIqf56sj2juf3IdZenCQV3KEEX9+EZLESgYAD95Eg6oRVI9vi05zph+FT7p25SqwOMrO/dvUlhghSlEoAf47mrnUAj/U/zTYcJ06tg6rfQxSZdsqcDE1G7eYq+q2skfCAiK9tdJCZ+nkbPtr6WUP2ow2d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KjwY5ZUY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:cd05:b041:1dc3:f62c])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 93E1C448;
-	Wed, 25 Feb 2026 13:20:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1772022025;
-	bh=O3SZVQ+M9LG2PI2LBL6JJVkAewsKootWHqN8pcBDkPI=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=KjwY5ZUYkckHkY/gdqU07Rs+pt3hfjpYRGJUtE+oErC8yB9owcHiOpkBmSgBGseD4
-	 u0ZVRknSgKrgb+CbABdys+uw8sPbhrA2FeIBvYIo3BxzExu/slZ3e0Q08Bk1jha20V
-	 UNpu0TaDkKaIRIBIusIJIwkl5b1WJfncLR5yK0BM=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1772022397; c=relaxed/simple;
+	bh=ku//C0HXfvmJOEr1hs9KBjnJ+EB6f62HY39EOsCWCME=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hAR7CkkklQAKjgf59RVLchLjZgLhabANYmkYmW3Y2bFUJpWXSKgmIHgyMt/kujkOhIhBxRVo5BMLOdTIT7r4tUyjhscy+MGn0bAxKoxr8Bjtqu3Gg4NIoBZZApprgHZ11EgSIqCUpYVG3akkIyJkc1T5e9k8g8w/vdzLmNu26JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OnMSlue6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A84BDC116D0;
+	Wed, 25 Feb 2026 12:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772022397;
+	bh=ku//C0HXfvmJOEr1hs9KBjnJ+EB6f62HY39EOsCWCME=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OnMSlue6sLcP2TzFxgazJrbaHKBIypLT5s/xSdj8eT+y8P+1Hxnh3BX2i/62J+qrI
+	 rugZD2wJWFuqUU26rNcGaIbwsxJi0Vn3A1ILiP+KJdkbqq39In0iGn0095Gcf9/kOo
+	 H8BzX/FUBrthf2/pwAigiwoxBgibzVF6omcqeHUml4I1DNTShbAmbC3Ne8F+40D1M0
+	 tO7Xl3BkqHYLOzSvcAY0OGUYy3Q2KyWQd6W+eeX0w3+gtnpCQkoz0HPb83L6NBgQow
+	 JLvuiIPCuAkFdzdL4l/kAFJikDk2ioTpdYa9UPXMEoor8aebBcWxRFEKiDKeD+WK9W
+	 +psS3QNHlLaug==
+Message-ID: <9bb74438-e759-46a7-9fa1-2c6b1fced76b@kernel.org>
+Date: Wed, 25 Feb 2026 13:26:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250301143453.GJ7342@pendragon.ideasonboard.com>
-References: <20250227114558.3097101-1-stefan.klug@ideasonboard.com> <20250227114558.3097101-2-stefan.klug@ideasonboard.com> <20250301010252.GI7342@pendragon.ideasonboard.com> <20250301143453.GJ7342@pendragon.ideasonboard.com>
-Subject: Re: [PATCH 1/3] media: rkisp1: Set format defaults based on requested color space
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Wed, 25 Feb 2026 13:21:20 +0100
-Message-ID: <177202208017.2000438.5208896949701142402@localhost>
-User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] media: dt-bindings: rockchip,vdec: Add alternative
+ reg-names order for RK35{76,88}
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: kernel@collabora.com, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ linux-media@vger.kernel.org
+References: <20260225-vdec-reg-order-rk3576-v3-0-5a2ebe1b11a8@collabora.com>
+ <20260225-vdec-reg-order-rk3576-v3-1-5a2ebe1b11a8@collabora.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260225-vdec-reg-order-rk3576-v3-1-5a2ebe1b11a8@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53332-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[vger.kernel.org,fastmail.com,kernel.org,sntech.de,lists.infradead.org];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53333-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[stefan.klug@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 1EA8F197498
+X-Rspamd-Queue-Id: A5A40197481
 X-Rspamd-Action: no action
 
-Hi Laurent,
+On 25/02/2026 13:19, Cristian Ciocaltea wrote:
+> With the introduction of the RK3588 SoC, and RK3576 afterwards, the
+> 'link' and 'cache' register blocks have been provided for the video
+> decoder unit in addition to the existing 'function' one, which now shows
+> up in between them (from address-based ordering point of view).
+> 
+> However, the binding does not properly describe this hardware layout, as
+> the new blocks are listed after the old one.  Therefore it breaks the
+> convention expecting the unit address to indicate the first register
+> range.
+> 
+> Since the binding changes have been already released and a fix would
+> bring up an ABI break, mark the current 'reg-names' listing as
+> deprecated and introduce an alternative 'link,function,cache' one.
+> 
+> Additionally, drop the 'reg' description items as the order is not fixed
+> anymore, while the information they offer is not very relevant anyway.
+> 
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+>  .../devicetree/bindings/media/rockchip,vdec.yaml      | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> index 809fda45b3bd..3f6072e8baa5 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> @@ -28,16 +28,21 @@ properties:
+>  
+>    reg:
+>      minItems: 1
+> -    items:
+> -      - description: The function configuration registers base
+> -      - description: The link table configuration registers base
+> -      - description: The cache configuration registers base
+> +    maxItems: 3
+>  
+>    reg-names:
+> -    items:
+> +    oneOf:
+>        - const: function
 
-Thank you for the (loong ago) review. I finally came around to wrap my
-head around that again.
+This is confusing, I think I missed that in previous patch because it
+did not leave that part or I misread the diff hunk - why do you allow
+one entry?
 
-Quoting Laurent Pinchart (2025-03-01 15:34:53)
-> On Sat, Mar 01, 2025 at 03:02:54AM +0200, Laurent Pinchart wrote:
-> > On Thu, Feb 27, 2025 at 12:44:59PM +0100, Stefan Klug wrote:
-> > > When color space JPEG is requested, the ISP sets the quantization
-> > > incorrectly to limited range. To fix that, set the xfer_func, ycbcr_e=
-nc
-> > > and quantization to the defaults for the requested color space if they
-> > > are not specified explicitly.
-> >=20
-> > The commit message fails to explain why you're addressing xfer_func and
-> > ycbcr_enc to fix the quantization issue.
-> >=20
-> > > Do this only in case we are converting
-> > > from RAW to YUV.
-> >=20
-> > And this should explain why.
-> >=20
-> > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> > > ---
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-isp.c   | 15 +++++++++++++=
-+-
-> > >  1 file changed, 14 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/dr=
-ivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > > index d94917211828..468f5a7d03c7 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > > @@ -680,10 +680,23 @@ static void rkisp1_isp_set_src_fmt(struct rkisp=
-1_isp *isp,
-> >=20
-> > Adding a bit more context:
-> >=20
-> >       set_csc =3D format->flags & V4L2_MBUS_FRAMEFMT_SET_CSC;
-> >=20
-> >       if (set_csc && src_info->pixel_enc =3D=3D V4L2_PIXEL_ENC_YUV) {
-> >=20
-> > If V4L2_MBUS_FRAMEFMT_SET_CSC isn't set, the colorspace fields on the
-> > source pad will be copied from the sink pad, which doesn't seem right.
->=20
-> Thinking some more about it, it's not wrong either. The colorspace and
-> xfer_func fields are not used by the driver, as the related ISP
-> processing blocks are configured through ISP parameters. Without
-> userspace providing the value of the fields on the source pad, the
-> driver can't know what colorspace and xfer_func is produced. Copying the
-> values from the sink pad is as good of a guess as we can make.
->=20
-> The ycbcr_enc and quantization fields are different, as they are taken
-> into account by the driver to configure the ISP. Copying ycbcr_enc from
-> the sink pad means that it will be set to V4L2_YCBCR_ENC_601 when the
-> sink format is bayer and the source format is YUV. As the sink
-> colorspace is most likely going to be V4L2_COLORSPACE_RAW in that case,
-> that's a fine default, and is identical to what we would get from
-> V4L2_MAP_YCBCR_ENC_DEFAULT(). Setting the quantization to
-> V4L2_QUANTIZATION_LIM_RANGE also seems fine as a default, and it what
-> V4L2_MAP_QUANTIZATION_DEFAULT() would give us.
->=20
-> TL;DR: there's probably no need to change the current behaviour when
-> V4L2_MBUS_FRAMEFMT_SET_CSC isn't set.
+If the first entry is function, then all others MUST built on top, thus
+this:
 
-I partially agree. Basically we don't care about colorspace and
-xfer_func because we know that it is not used by the driver. But
-src_fmt->colorspace is now V4L2_COLORSPACE_RAW and that could also be
-queried by the user if I'm not mistaken. Wouldn't it be better (and
-clearer code wise) to explicitly set the defaults in case we are
-converting from RAW to YUV? Something like
+> +          - const: link
+> +          - const: function
+> +          - const: cache
 
-	/*
-	 * Copy the color space for the sink pad. When converting from Bayer to
-	 * YUV, set proper defaults.
-	 */
-	if (sink_info->pixel_enc =3D=3D V4L2_PIXEL_ENC_BAYER &&
-	    src_info->pixel_enc =3D=3D V4L2_PIXEL_ENC_YUV) {
-		src_fmt->colorspace =3D V4L2_COLORSPACE_SRGB;
-		src_fmt->xfer_func =3D V4L2_XFER_FUNC_SRGB;
-		src_fmt->ycbcr_enc =3D V4L2_YCBCR_ENC_601;
-		src_fmt->quantization =3D V4L2_QUANTIZATION_LIM_RANGE;
-	} else {
-		src_fmt->colorspace =3D sink_fmt->colorspace;
-		src_fmt->xfer_func =3D sink_fmt->xfer_func;
-		src_fmt->ycbcr_enc =3D sink_fmt->ycbcr_enc;
-		src_fmt->quantization =3D sink_fmt->quantization;
-	}
+is not correct.
 
-Functionality wise it is the same, but it makes the following code easier
-to understand without the need to remember that we can safely copy
-colorspace as it won't be used anyways.
+No, you don't change the orders. So again, if you have such binding,
+then you just fix the unit address leaving the binding as is.
 
->=20
-> > It's a separate issue, but fixing both together may lead to better code.
-> >=20
-> > >             if (sink_info->pixel_enc =3D=3D V4L2_PIXEL_ENC_BAYER) {
-> > >                     if (format->colorspace !=3D V4L2_COLORSPACE_DEFAU=
-LT)
-> > >                             src_fmt->colorspace =3D format->colorspac=
-e;
-> > > -                   if (format->xfer_func !=3D V4L2_XFER_FUNC_DEFAULT)
-> > > +
-> > > +                   if (format->xfer_func =3D=3D V4L2_XFER_FUNC_DEFAU=
-LT)
-> >=20
-> > Are you sure the condition should be inverted ?
 
-That really looks quite wrong.
-
-> >=20
-> > >                             src_fmt->xfer_func =3D format->xfer_func;
-> > > +                   else
-> > > +                           src_fmt->xfer_func =3D
-> > > +                                   V4L2_MAP_XFER_FUNC_DEFAULT(format=
-->colorspace);
-> > > +
-> > >                     if (format->ycbcr_enc !=3D V4L2_YCBCR_ENC_DEFAULT)
-> > >                             src_fmt->ycbcr_enc =3D format->ycbcr_enc;
-> > > +                   else
-> > > +                           src_fmt->ycbcr_enc =3D
-> > > +                                   V4L2_MAP_YCBCR_ENC_DEFAULT(format=
-->colorspace);
-> > > +
-> > > +                   if (format->quantization =3D=3D V4L2_QUANTIZATION=
-_DEFAULT)
-> > > +                           src_fmt->quantization =3D
-> > > +                                   V4L2_MAP_QUANTIZATION_DEFAULT(fal=
-se,
-> > > +                                           format->colorspace, forma=
-t->ycbcr_enc);
-> >=20
-> > Shouldn't this use src_fmt instead of format ?
-
-The outcome is the same. It felt more symmetrical to base the default
-value on format->... as we do for the other fields.
-
-> >=20
-> > I think quantization handling could be moved below.
-> >=20
-> > >             }
-> > > =20
-> > >             if (format->quantization !=3D V4L2_QUANTIZATION_DEFAULT)
->=20
-> Now I'm wondering if this is right. As far as I can tell, the
-> quantization isn't taken into account by the driver when the ISP is
-> bypassed (capturing raw bayer data, or capturing YUV data from a YUV
-> sensor).
-
-Are you sure about the YUV to YUV case? We pass src_fmt->quatization
-into rkisp1_params_pre_configure() which is then used to initializ the
-remaining blocks. Iam however unsure if *any* of these blocks is active
-in YUV to YUV mode.
-
->=20
-> How about something like this ?
->=20
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/driver=
-s/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index d94917211828..9c215c9bb30f 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -659,11 +659,10 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_is=
-p *isp,
->                 src_fmt->quantization =3D sink_fmt->quantization;
->=20
->         /*
-> -        * Allow setting the source color space fields when the SET_CSC f=
-lag is
-> -        * set and the source format is YUV. If the sink format is YUV, d=
-on't
-> -        * set the color primaries, transfer function or YCbCr encoding a=
-s the
-> -        * ISP is bypassed in that case and passes YUV data through witho=
-ut
-> -        * modifications.
-> +        * Allow setting the source color space fields when the SET_CSC f=
-lag.
-> +        * This is restricted to the case where the sink format is raw an=
-d the
-> +        * source format is YUV, as in other cases the ISP is bypassed an=
-d the
-> +        * input data is passed through without modifications.
-
-Yes, that seems legit and makes the logic easier to follow. Only concern
-is the YUV to YUV mode.
-
->          *
->          * The color primaries and transfer function are configured throu=
-gh the
->          * cross-talk matrix and tone curve respectively. Settings for th=
-ose
-> @@ -676,18 +675,30 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_is=
-p *isp,
->          */
->         set_csc =3D format->flags & V4L2_MBUS_FRAMEFMT_SET_CSC;
->=20
-> -       if (set_csc && src_info->pixel_enc =3D=3D V4L2_PIXEL_ENC_YUV) {
-> -               if (sink_info->pixel_enc =3D=3D V4L2_PIXEL_ENC_BAYER) {
-> -                       if (format->colorspace !=3D V4L2_COLORSPACE_DEFAU=
-LT)
-> -                               src_fmt->colorspace =3D format->colorspac=
-e;
-> -                       if (format->xfer_func !=3D V4L2_XFER_FUNC_DEFAULT)
-> -                               src_fmt->xfer_func =3D format->xfer_func;
-> -                       if (format->ycbcr_enc !=3D V4L2_YCBCR_ENC_DEFAULT)
-> -                               src_fmt->ycbcr_enc =3D format->ycbcr_enc;
-> -               }
-> +       if (set_csc && sink_info->pixel_enc =3D=3D V4L2_PIXEL_ENC_BAYER &&
-> +           src_info->pixel_enc =3D=3D V4L2_PIXEL_ENC_YUV) {
-> +               if (format->colorspace !=3D V4L2_COLORSPACE_DEFAULT)
-> +                       src_fmt->colorspace =3D format->colorspace;
-> +
-> +               if (format->xfer_func !=3D V4L2_XFER_FUNC_DEFAULT)
-> +                       src_fmt->xfer_func =3D format->xfer_func;
-> +               else
-> +                       src_fmt->xfer_func =3D
-> +                               V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->color=
-space);
-> +
-> +               if (format->ycbcr_enc !=3D V4L2_YCBCR_ENC_DEFAULT)
-> +                       src_fmt->ycbcr_enc =3D format->ycbcr_enc;
-> +               else
-> +                       src_fmt->ycbcr_enc =3D
-> +                               V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->color=
-space);
->=20
->                 if (format->quantization !=3D V4L2_QUANTIZATION_DEFAULT)
->                         src_fmt->quantization =3D format->quantization;
-> +               else
-> +                       src_fmt->quantization =3D
-> +                               V4L2_MAP_QUANTIZATION_DEFAULT(false,
-> +                                                             src_fmt->co=
-lorspace,
-> +                                                             src_fmt->yc=
-bcr_enc);
->         }
->=20
->         *format =3D *src_fmt;
->=20
-> Can I let you write a commit message ? :-)
-
-I try to get bak to it :-)
-
+> -      - const: link
+> -      - const: cache
+> +      - items:
+> +          - const: link
+> +          - const: function
+> +          - const: cache
+> +      - items:
+> +          - const: function
+> +          - const: link
+> +          - const: cache
+> +        deprecated: true
+> +        description: Use link,function,cache block order instead.
+>  
 Best regards,
-Stefan
-
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
->
+Krzysztof
 
