@@ -1,149 +1,155 @@
-Return-Path: <linux-media+bounces-53327-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53328-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yMVtCYPknmnQXgQAu9opvQ
-	(envelope-from <linux-media+bounces-53327-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:01:07 +0100
+	id CKa8CLnpnmk/XwQAu9opvQ
+	(envelope-from <linux-media+bounces-53328-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:23:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97321196F12
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 743021973A6
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:23:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3CF3F302412F
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 12:01:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 166B030FA49A
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 12:20:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80C9F3ACEF3;
-	Wed, 25 Feb 2026 12:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0536C3AE6E7;
+	Wed, 25 Feb 2026 12:20:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a0P4qPzi"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZZhdxzLS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF38F35BDBB
-	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 12:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E809E3AE6F9;
+	Wed, 25 Feb 2026 12:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772020860; cv=none; b=EHPO5EruLsKRql9rjdVIcOxQHHjy57OU0PM+95JqpAcoVgH7eKgXuAcT4ZaSqnbsxBoVpFO+sXBzPh/MH2GWR2Zo9m/3HxQJMASywbv5qBMGeM/V/nxgEUi9HOM/DryQc4ONnUCahoZPknCeA54FcIBpRHTOEizy0RDUSDsL9xU=
+	t=1772022005; cv=none; b=AWqV8Z/dnt0bdbgSvVQzgJhAJGwXQ4fUtCDYgqfeVzd5QryLm+OBijY656eDF7+Cy34JDdog6YY4ztFGMCcGtHeC4Aql1tqErGj+OpkK5/sQp8TBJ9sE6XGOdjDInP/8P3bNRmdR1GdDn6Qm5Lmklzs6Qji5ehehcvnklBJYwxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772020860; c=relaxed/simple;
-	bh=m7LiiBNck6GlBg+KwuXzA8YMGw7I2PdXgrTk7oT+qWw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GgOMN8nAuTm2Ru5AJKPpSrBXq2yppDJLdBR8arAo/C1Ut9GZ75+LeCI/3ZEaeTf5w9HqBoRUFEYQLS5MJ2k9adTlF+9sdPP4Vd4koIfGniO31HZxdJq/d3znT3LhQbSqNdQRx7rSs9f1r52tYNp5a28ZClc54n56/b+XqyJf2qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a0P4qPzi; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48378136adcso39636315e9.1
-        for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 04:00:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772020857; x=1772625657; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bHl7/z9CiN5Y0GbWmCMlQk8ltpG+PRfIFng1ojO696Q=;
-        b=a0P4qPziBupy9BKHZX0nEfXeqGnJBzRS7n6ZbPSq368tHUvfusW2k0lsJqGn2drkkV
-         VSRmGzfYMQMB/QI5CKSIE8i0CnFftr6f5FfoyKi1Vog4Wbs2TTQwknwMRmMyXdUN35O3
-         /om59j4rO7mj/QyOpZjZ6B+/KDevt0w8WXJfXP25qqXsjld5fE9WuxeMKaQbHFk78Y3S
-         i8wWAhckET2ZrQAStjRw9AJeXd7GWBsmE38EQLEPIQMyRwCw3PCeJ1L0htmGt2RK1LCl
-         /pg9MhOgAIx/dyizcqX9R5RLiOMsMX3f2jWOWxj0sdali+OjSMxCEAAPyRpG3dvbVSd3
-         SYNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772020857; x=1772625657;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bHl7/z9CiN5Y0GbWmCMlQk8ltpG+PRfIFng1ojO696Q=;
-        b=R2AhLSGjV9uS8DW8jXbbbGWKM30b/9n/Ypx7oe8VgnBjeaCTOYzWUp11fWI7U+LHU6
-         FxujUWgpVr7JrN8GQGu4aIDXh6B7gmYEhSpXMSyohbZufcVnBZx5E8RCoXSf9kc2nJd1
-         r4iiersQF2q8pAKrLVJuyCMVvw0oomEuq6KO53aalAb7aXuyJedrT/+/c1BHNLkI/d+w
-         vmP9TC9ESa8zdnOtcZeEnTxbfRCT4tAEf2TxlqAeHQlM4VDVJwQVSfQjbWfgXU3MjXxO
-         oNe5sm6zAjFjfKUWCd44ZMAMrODWRtZEaYSxeyGb5LtkX7oJB5YJbNw2ZcxwkH0qh1Ui
-         da9A==
-X-Gm-Message-State: AOJu0Yx89uq2gqT7aVQAHbWhjvn/IXWSASkbfUY8RSNq8V/uMEkW+94r
-	0mJWSDjYhImviQOrFkL7m0IPxEgT6stefO1Q2XeIZbDITh2PNuzeP93a5SiYE9bh
-X-Gm-Gg: ATEYQzy4JOolwsKuyfrNOx29xbWcQMMJTm+DxmaJj4yXNdYKXxLS9LnVswzXCtodIHz
-	gc+nZ0Jbv4LtbDjPm3CyOAHmvZnH+Lxzto1IhRW2ZP9r9Mmew1qMctYBvR7mPpFRrx5qbahZ+dH
-	XdHV/AAeIltV/JoAhIvhAeurl/lNQ0Iy/kuIODd6YCwc1tVaYL8jcnmnkRDIe4E8vuijyAtd6IJ
-	ORqqgD9NTVfvJZVyzFgyZ6dMk5Fol+oR/ZVkFxSUo02v0C4+bV1Fmk7g8NHqHzS5GvGyAaBPCcj
-	25FDJ73QUMo0LtpFq/PaccfY1tfEoNxyn0HbkgryQ6JJlg4YK7L3mgy76iMBCzOIjgvEmq4rfYq
-	2mqoSIe7dwiqcrFl9Jjhh6DrEQMH8cv1oUQfjuy6LCb0XYmTVRO/7j+c0JxiqiXMltpGK8Jl0BQ
-	96ilO88+8fXWPVcVO8ZkSH+eW9ULws2e8JFpzqxO1L3xDhKCz4
-X-Received: by 2002:a05:600c:3589:b0:483:129e:b573 with SMTP id 5b1f17b1804b1-483c219eb09mr1971225e9.18.1772020852382;
-        Wed, 25 Feb 2026 04:00:52 -0800 (PST)
-Received: from localhost ([195.60.235.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb77abdsm10379985e9.2.2026.02.25.04.00.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 04:00:51 -0800 (PST)
-From: yehudis9982 <y0533159982@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: yehudis9982 <y0533159982@gmail.com>
-Subject: [PATCH v4l-utils] v4l2-tracer: trace: serialize all mplane planes
-Date: Wed, 25 Feb 2026 14:00:48 +0200
-Message-ID: <20260225120048.156888-1-y0533159982@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1772022005; c=relaxed/simple;
+	bh=bZoRD/Bq4RKph0cDXwuzpv24e0W+T6a1VDCAqIREFsg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pTXwtEDSQ29uFUr+STvJ/osBUKpS2M+PdrPR+drW2f0JFoX5Zat3AVE8h5lwp6ewZ1HcCsPndEqftz/+kQ114O22T8mLYIelNob2sjt0PF+Nd3ctPXJmpqDcQsUBKpX5weENbRYEBObRzMch2cmP3hJxemXVe+u2Jc6XHl5JPzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZZhdxzLS; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1772022000;
+	bh=bZoRD/Bq4RKph0cDXwuzpv24e0W+T6a1VDCAqIREFsg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ZZhdxzLS7pr8+CqP4HWy0BgdfFRvDjq37aqssrM+ieDdcoz4Rw4lCbrl75Zsq6oYH
+	 rj3f/svfN2tHvnyBaIGHJufPS+XMxLzMj6sYlieXqpK1QS4BTFnAcmwAKF6n4KvB8o
+	 MrQkdmhvK2RX/ZSXS1sfo/cXXhvJysmvGQkcbYBoPMOnK/8BYZR/zyqlR+LQ2oAYRM
+	 ByCM5MHV8/18fH1x43LcNIsmwnPoxyFije0MYiPQ9UdX1kFGr4fCmLYWxvoGLvxe/R
+	 hYlssDx10bAe5bqd9l4nE7hvY1sHQOQkIZ8KduhejTs9Kp/JVkK+DmVvcUGei6mhHT
+	 66UnbaKrxdxnA==
+Received: from localhost (unknown [86.123.23.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 85C6B17E012E;
+	Wed, 25 Feb 2026 13:20:00 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH v3 0/3] arm64: dts: rockchip: Fix vdec register blocks
+ order on RK3576/RK3588
+Date: Wed, 25 Feb 2026 14:19:56 +0200
+Message-Id: <20260225-vdec-reg-order-rk3576-v3-0-5a2ebe1b11a8@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43NQQ6CMBCF4auQrh1TprSIK+9hXEA7QKNSMzWNh
+ nB3C0s3uvxfMt/MIhJ7iuJYzIIp+ejDlEPtCmHHdhoIvMstUKKRiAqSIwtMAwR2xMBXpWsD1iJ
+ ZQ1JTcxD59sHU+9fmni+5Rx+fgd/bm1Su6y8xlVCCNrKpjTamc+pkw+3WdoHbvQ13saoJ/5IQJ
+ Li2r5oKXW8lfkvLsnwAWVFjfwgBAAA=
+X-Change-ID: 20260223-vdec-reg-order-rk3576-cc2ec6e05e98
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Detlev Casanova <detlev.casanova@collabora.com>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: kernel@collabora.com, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
+ linux-media@vger.kernel.org
+X-Mailer: b4 0.14.3
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53327-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53328-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[y0533159982@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 97321196F12
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,27b00000:email]
+X-Rspamd-Queue-Id: 743021973A6
 X-Rspamd-Action: no action
 
-For V4L2_BUF_TYPE_*_MPLANE buffers, trace_v4l2_buffer() only serialized the first plane.
-Serialize all planes by iterating over buf->length and appending each entry to m.planes in the JSON trace output.
+When building device trees for the RK3576 based boards, DTC shows the
+following complaint:
 
-Signed-off-by: yehudis9982 <y0533159982@gmail.com>
+  rk3576.dtsi:1282.30-1304.5: Warning (simple_bus_reg): /soc/video-codec@27b00000: simple-bus unit address format error, expected "27b00100"
+
+The first patch updates 'reg-names' property in rockchip,vdec binding to
+allow providing the register blocks following the address-based order
+and, consequently, ensure the unit address points to the first register
+range.
+
+The next two patches reorder 'reg' and 'reg-names' for the impacted
+RK3576 & RK3588 video decoder nodes.
+
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- utils/v4l2-tracer/trace.cpp | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v3:
+- Mark the current 'reg-names' listing in the binding as deprecated and
+  introduce an alternative 'link,function,cache' one
+- Drop the Fixes tags from all patches and updated commit descriptions
+- Link to v2: https://lore.kernel.org/r/20260223-vdec-reg-order-rk3576-v2-0-daf4942dfc02@collabora.com
 
-diff --git a/utils/v4l2-tracer/trace.cpp b/utils/v4l2-tracer/trace.cpp
-index 996fb043..8e9039ef 100644
---- a/utils/v4l2-tracer/trace.cpp
-+++ b/utils/v4l2-tracer/trace.cpp
-@@ -252,8 +252,8 @@ void trace_v4l2_buffer(void *arg, json_object *ioctl_args)
- 	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE ||
- 	    buf->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
- 		json_object *planes_obj = json_object_new_array();
--		/* TODO add planes > 0 */
--		json_object_array_add(planes_obj, trace_v4l2_plane(buf->m.planes, buf->memory));
-+		for (__u32 i = 0; i < buf->length; i++)
-+			json_object_array_add(planes_obj, trace_v4l2_plane(&buf->m.planes[i], buf->memory));
- 		json_object_object_add(m_obj, "planes", planes_obj);
- 	}
- 
--- 
-2.43.0
+Changes in v2:
+- Added patch for updating rockchip,vdec.yaml binding
+- Added patch for updating RK3588 vdec nodes
+- Link to v1: https://lore.kernel.org/r/20260223-vdec-reg-order-rk3576-v1-1-560976566bd3@collabora.com
+
+---
+Cristian Ciocaltea (3):
+      media: dt-bindings: rockchip,vdec: Add alternative reg-names order for RK35{76,88}
+      arm64: dts: rockchip: Fix vdec register blocks order on RK3576
+      arm64: dts: rockchip: Update vdec register blocks order on RK3588
+
+ .../devicetree/bindings/media/rockchip,vdec.yaml      | 19 ++++++++++++-------
+ arch/arm64/boot/dts/rockchip/rk3576.dtsi              |  6 +++---
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi         | 12 ++++++------
+ 3 files changed, 21 insertions(+), 16 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260223-vdec-reg-order-rk3576-cc2ec6e05e98
 
 
