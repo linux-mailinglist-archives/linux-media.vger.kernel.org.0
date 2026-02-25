@@ -1,163 +1,280 @@
-Return-Path: <linux-media+bounces-53412-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53413-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WBMLL+5On2n+ZwQAu9opvQ
-	(envelope-from <linux-media+bounces-53412-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 20:35:10 +0100
+	id 2LySGVtQn2k7aAQAu9opvQ
+	(envelope-from <linux-media+bounces-53413-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 20:41:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759BE19CC10
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 20:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F419B19CCDD
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 20:41:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8E04F303A3C7
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 19:35:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B4A1930634F8
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 19:41:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66E223EF0BB;
-	Wed, 25 Feb 2026 19:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0C173EDAD9;
+	Wed, 25 Feb 2026 19:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ykmU2B6n"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bb6+ZXg4";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="L/vUdoIy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891643EDADB
-	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 19:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772048098; cv=pass; b=O3SOpkTkmlQtB6VkHHV/dJ0n5uPbl1VMO5aYqeoViPEmKCJ9FNYKZBNMCFP63xO1f4em601hJ+ksrvBuinIRIHKvK0ffmmjhod6Jc8/m0YwpVpuw9um5yvrk6IkrLW+x1NqUVfiLIhRLCBppEeF3eKXti6J4wDW3fjm4yDV9XMc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772048098; c=relaxed/simple;
-	bh=JcGfZZLTy1EfxpUAiB3PslYr4DWldds2kTYxvCknlIw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jLwZNspZlvtHc4ob2LpL1PGdRM3Yu3FabV/mNcqLYqDsNJat9yrbd8BzfVTn+ZBLkM2N6xZ0oGQn/U3G8xrCth5Vq+eXulSRHu5CrXNM6ZDKBkfEKFSoAGGGGx6YXkaxLXZkD5ZA6kP9xSzr4ZNb5XTm2IBYP9wWGH2mZha9K/Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ykmU2B6n; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48373ad38d2so14365e9.0
-        for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 11:34:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772048096; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FkxhGdcJCJXVWVRypaaZ8uc9ntPb2BJxUeNzAYjgi3EeOcQFvoDW7CQ2qHjsPK+S9a
-         paHK1ZBoCuff8RIbxWorzGZsm4LhfosIxmty/jwWYD/5dr8wCVUu1ODw6UY3QdAC+vo3
-         JamljdEt5OChm1LBND52RKY9xLMBMjV4abRcHmU+bqwlz8qKluqpHBndPvda+R3TyHZm
-         0h3qmDQUVW1GDRur7HVTK5V4wUnEaurYHAInaom8RxUJgm7kTY/1BekUyOhkqnWBUB+o
-         7k5uGMfBFRC2su76UmFoe0NTQvzgfVhsusSZHxgRIAWVj5IdOVuJ+8Yk9azxDo471r+O
-         XWoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=JcGfZZLTy1EfxpUAiB3PslYr4DWldds2kTYxvCknlIw=;
-        fh=gsO1UWf8TU6FAvXwdx5Nn87q+dkl42OEaFBWqQgmcKc=;
-        b=bn1zYkTNexqbkv28vA9n1LqWHUb1b5WiU44fuVNqqoRx4dXSXkStUtPhhlV9oQC7LQ
-         SkmF9WtCSCewX4xxcMHt1sSsqZv8P82eO9f+dm6ilCZV0qUexny7fLXm1nK8tNJ4Hhpw
-         CP4c6oT12onVxvSd5TxtoB1TGQXcC7XKPd56C+oNWZtgdOKqy044CSRzhiQM6R2rN0fO
-         tGQnsdXks4l+Yk9L2VyT8faMkW3hJg/YYGD6MGCqnpxou9tS8FwD1mDsbUCZkxvKNjhu
-         k6hM9dQIZrBC89YSWbIROHm6I83QAUYLu9mOF6XmwdUnpBtLyPSrzT0i6k+HmHkv2E3g
-         G7KA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130193D668E
+	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 19:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772048462; cv=none; b=C71G6fh5dKKdfrfKsXjWxVQ+m52WVwgP2ukhb5OaKFUQKQmqyG9mzyXeYui3t61OkhrDZ2jANDQF0CzoQpWJeGTXJtAQ1rtL2beM/gvA0acZQZKv2/SBGu8+4GJMqErvCNntt3snbmQ08cuf8z1AATy6NrLURoqJmUdeZYZtUt4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772048462; c=relaxed/simple;
+	bh=FCb6qRsffNOFquP1zsdT5LrT/xxl0ASJ+i+C6Ffk7Q0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oDAqY5v5yu5IrEMYa4EYldRgnUffIT54jpCpkV3H/a2xsu3oKQy5QTFxFwnUAg0ZqaiKsNOt/zJuI8JRWYzFOBWU5HhNPm6OIRav3aRVXstXDVni8tX2Sy2xkrlaNb/nbidoy/OtFGql2yUHqel7gdUjc6kUKCKDTvJEQQ0EwbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bb6+ZXg4; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=L/vUdoIy; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PHYZRm1087910
+	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 19:41:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YldBZQ/Jim+tynF85y7k+vY7BGkAqZn1hJiK/ioWbpQ=; b=bb6+ZXg4Bc21i6nI
+	8YZgTqmAMOzl06INuTbAreMHrTwt9uIaIbxUXWgqIj90/VMFd0maXT2OFDW6JYg7
+	K3KWk+18VoLozcITPhcI2VBzd8Jt6u+Ef5fWU2aek2C+GgEj0WeSlDu2U+sPmyz+
+	ZarHADoXvpftmC/fQPY6EXQ1mpg8lOnG+ylhPR4YMQOiaktPAP4DjVzUByvyKSGn
+	BYSLMygKkC/C6+JJ+rq+7G49iysdZhsU/lUbJ66yKZeB755ABxZKg+A+HuhWea99
+	2ITdBRgW+YB+i5N6/3IJLENnIM5CDJqAsLjX+m/S9G0CYsbM0RFhTzgFxX2tdQ5n
+	0JYRPQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chh4749a4-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 19:41:00 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cb390a0c4eso3525806385a.1
+        for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 11:41:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772048096; x=1772652896; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JcGfZZLTy1EfxpUAiB3PslYr4DWldds2kTYxvCknlIw=;
-        b=ykmU2B6nbxVRtSHiRakR60iknARqH2wn5JcqglHjo0pVuuzAWrXE9PCgjrwBSNFGYX
-         IBaBeUIdOpSnpgICdYLjKg2AlUXugT/tQvUzClwIsbaEJf/0hte21JOKqaGT7G1qOnYk
-         cVgMzYdDyDNcGjQ6Hxcbu/mXImNkIxNo4NmkgRje5E566WChnMgHFiFB/ZAN1ONBGNA3
-         xUrcM5p1vkhaQhKElcuehQN5CkUWFyfnfGTQa/zjz2vhksnrXM8BqOPMzov/nNwpO1M6
-         QnNYKASDgEsCh+lIIJxJvEFUie/J8GdyQGiS2EF77h6Zx7myBTVzshV5EEN1oRuyXvqR
-         ozQA==
+        d=oss.qualcomm.com; s=google; t=1772048459; x=1772653259; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YldBZQ/Jim+tynF85y7k+vY7BGkAqZn1hJiK/ioWbpQ=;
+        b=L/vUdoIyFGQPpW8xYnU5G/p5PnQYcJCPjjUyyqbV1sTGIln4inIaApcZsveoLFWp2p
+         kLd2cPH2n8sWK33HynmHNipGU1EjPPrRuq0UZvAfKTwNsLIhfaCkC3RcC1dLbydTWGc4
+         1g12larGiDAATSGGYyVKwmiaitgQIlvXCEXu5alhbZwGGOS8nHeYeB/ebRpFtyPmYAUS
+         DsLCijKW+hU0V3o7Jy9gF8gg0yti1LuwEtX40yJqR7WDn/j9oz0CZXlzCVc4pIvCrqgq
+         YdAftf78ptXvKIu8lTMd+1G+Ku7cpXLv5URttArLhwVfebLlDnmfYmG71ajI6uM3wBwU
+         dEBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772048096; x=1772652896;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JcGfZZLTy1EfxpUAiB3PslYr4DWldds2kTYxvCknlIw=;
-        b=SjJNAIR7O57UpK508p4Hgi5qVq17mmtovQEsQCSu4mtDMynO5P6MSnAsK0F3F2lPzw
-         j/L+q4N3sV10YWbHM9grJFw12WVoZkVyYd+JFFMePiylLVCXmRZhuMAKtsrKcK/6zhJF
-         KBLy+tr7Le0pGQNfRRf1T498D81wMD3+o+ReM4ZlbDPBvaxptn2P/WVUPWTWCa5aXWcq
-         T65LQdR5p65d8jtzC+RqmEpGxTrBZ3bCbeN9ARBgf6EcnSRDeO77vWs9B9eKXKa6rETS
-         RnwAD1K7QgEYK4XB2DZ0WmycpbbeJw4U8GEO7LUri9X8HTj1Bvpg/RUyuntPNT1u5lgm
-         rY3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW7+I7im8AiJ3t8IN+QSBq1G+Avd/x11YChwIzDaSszK64PGACaA2RgzpcPSuyKiRPurH/fmG83SOGXdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxmSJkjO2rbaExkFBv/xc0tuk9ucduqGWKDbtJ9sxiBFCJ/dPD
-	2ckQOVq+PNtv9z7u+GM0sWHOjEidYA4NaLLSUNXVS3Bj1VUC3kLit687IkuplTJ39uFwccocdFm
-	quOw9GT1on4Flru56JIV/IXNz6AZFL8EURkCmZQcs
-X-Gm-Gg: ATEYQzyUH3a6soB28X3MHkm1qvZUMYKQMIZbRQXKu4sJ1nWKZ3/WAn2nrX7zDKSSMtU
-	qAPQqYK09Zbtv5jnIL6ZX6mH72LRh/5t7R4hxJQuH24qPjP1qioTadpp5KbHbNCG7mmVun14WGb
-	FaFz0Y8Nw0DilWr7qPkST7CvTn+SMmXqKWhCZ7FL3C7vnhi3f3nFuF8I9iuqJHV8FkfmKy0Xoo5
-	n+/r1rlMxlzwMbVxlxvQRXGihi0YsrZKUnPaEPy9pYeeA89kb4yeDxpWe394nklbdR4Ig/u6XJD
-	acFd3MLgecF5fNgSmeMdDonqLoKEFoPbNjMdBRbP6rb2zPVq7vxsF4atwLlEU7Nuxb2PcQ==
-X-Received: by 2002:a05:600c:628e:b0:480:274f:843d with SMTP id
- 5b1f17b1804b1-483c31b00d9mr66475e9.16.1772048095548; Wed, 25 Feb 2026
- 11:34:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772048459; x=1772653259;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YldBZQ/Jim+tynF85y7k+vY7BGkAqZn1hJiK/ioWbpQ=;
+        b=KQviqs7C73i2dK6elCI9i4Kj/9CqUa5CbNa1aun7uXzUVYPdVTaUqmqHf+RR0B8xPJ
+         O/oVRlNPt7QZRfoAevGNsEWcvUAS+3SUB3PhGEZh6lKHQPI/p6P4HZgZHqG1fRD1Y2mg
+         gB9MwQ6J8XRrFUhDghA48ITnLg6q6zFUZjyAt2ItuYfXhk9hGcR/46Fwf0THjmLPtMOf
+         NvNRPZ8SCj9iJnYi7wALWDApMLNt0OkXS2JPBL/KP4rn0GkJGzsD42OTPAyAsTOs5PCJ
+         S+IBSCHZUB1XN6IAKQv98ptqkZ2jklrheednD6BaUyZAtXoybj7mImRv5zvcB80NmUOZ
+         7jug==
+X-Forwarded-Encrypted: i=1; AJvYcCU2F3gb0Mc3x48QSMXztRJwXzB9SiWFE5mNcIBW0BrgwoYRHTHH+50TgJ/2X1dgqadju+ZKaB/H1dvWyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YziKKmK9ghhVVaKZecgfXgYV1VrTamE1ODr5orJCcY7Z3Mc+e07
+	9EE9eGN+rO5X97B/LjJPv2tqZBDPt2B8kW/A37aMKGdm1gKtewaak970kSmuf5oS8BUBhwpYR4T
+	vuyYZKGfuq8fWDDW70O6cUj8tKOEzSqNHCcg5uQLq2gOkbnFLNFsM/9KM2Jtj7lyl4g==
+X-Gm-Gg: ATEYQzzy2+6AlDd/hCdWmaiQMeB5x5VFE1EnCxJcdS/HJ6OQ3WtmbI6UoC9mLZcmkQ/
+	yJOaP9txQJEmzgcQR2En/hxPGqeRUDb3yJnjtgE30x8oohz6xIsPMMRxcxBZGyyuKvcxyqukSYP
+	EDZBkxm/Cou/0hlP9qo/NbY8mvNOJ9Ar7Qbp6ntF8fpND9lcvalyrmcHwAYjaEGVbApSEUG7gf0
+	/h3XhlzrxCSuDSdDPxIOSeTTPV2xQKCypO5pDG3lO+qjGa7ZLMN4F7hEDn9m5Gw1dhchA7NIyxQ
+	g7gcrBuwc7UDVNmY9AuAlPc0JWBGNt06HAfmuwmOfI/qsFjFnOs6vDFXD8sJLD2+cd48btqFY42
+	fUtBRStXGBdR5V9/igO5PJfOd84BG6yrBlKv1kRhTUKhiq+CMT3Xu2uBR9OZOqvZTJImx/Kwjde
+	3GXSRATICzbgUT6w5EKIizTfpeQU+knLNI0iY=
+X-Received: by 2002:a05:620a:294b:b0:8ca:fdc1:cc9c with SMTP id af79cd13be357-8cbbd07f3e0mr229589085a.76.1772048459318;
+        Wed, 25 Feb 2026 11:40:59 -0800 (PST)
+X-Received: by 2002:a05:620a:294b:b0:8ca:fdc1:cc9c with SMTP id af79cd13be357-8cbbd07f3e0mr229583885a.76.1772048458831;
+        Wed, 25 Feb 2026 11:40:58 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f21a4293sm46201fa.39.2026.02.25.11.40.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 11:40:58 -0800 (PST)
+Date: Wed, 25 Feb 2026 21:40:56 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>
+Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
+ driver docs
+Message-ID: <jmv4jkwku5x5acxno3vyar4cozl3makdz6vzdyjsitf2vtyhp6@cxtl7zmaayvq>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
+ <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
+ <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
+ <opjniedtfhkv7vlb57g3xyikcfkxelthx3lmspmypws4vxz4oc@4uypmmf4t6fb>
+ <4e4b50fe-1091-451e-b854-f7b061ebd88d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org> <20260225-dma-buf-heaps-as-modules-v1-3-2109225a090d@kernel.org>
-In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-3-2109225a090d@kernel.org>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 25 Feb 2026 11:34:43 -0800
-X-Gm-Features: AaiRm50gu1dpca-LBzWZRd4gNx9rYHRkdAZSms4Y4Ytlet4IdIIADCtT7UW67vY
-Message-ID: <CABdmKX0hGSSbRFwni+Mzq9KbpxwCHzAFPc70RZVv1GmFW92fzg@mail.gmail.com>
-Subject: Re: [PATCH 3/7] mm: cma: Export cma_get_name
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4e4b50fe-1091-451e-b854-f7b061ebd88d@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: xxoPMMGPSUbSy6vmQOYrcMnBgMxUp7se
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE4OCBTYWx0ZWRfXydv8wU5DECQ6
+ k/xupUgiFVLRZPFGq7ITynm0KP1WbKBxy14DSn1Ihs6GkvwH/j1O2jJ/PIPEkG0u6czkn5uPOF3
+ pxiwYOFQjUxvSYWOg/LjW7zbD5D+Q+34N4VbJ3mnlmockTsyQW9yJFNDcmWTTyVHM5at9T3FlvF
+ NDHSTFxp93705pc1PDCm4GLePkfcLX17kZaoH26O5taD/icEVNoDYraRDl1GqJpyGVeywq6WBIC
+ d1ouotRDYmhsM3mcwlAjb+lQ/fxMO4qCVq8AjEac48n66Xj5QH2lKt0nYTSL6hD5oO3HHVdV6+z
+ A4jby8FIU3XJqwKHuL5a7pkP2DuoLo3dyC1CCL+WCfCk5K8ogYS7KvlsyJ6NGR1RrKcdXP8630u
+ 0WYcHrAikhO7+AKfrzJHhG457YeNPPyl6w8x7J8SbVFQcDTVQ/O9nlvId2B1YpDyOjX9d1BudnI
+ 4zlGX9l7II577dj7UMQ==
+X-Authority-Analysis: v=2.4 cv=fvDRpV4f c=1 sm=1 tr=0 ts=699f504c cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=eG7pLEoM89m89vxRJVQA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: xxoPMMGPSUbSy6vmQOYrcMnBgMxUp7se
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_03,2026-02-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ impostorscore=0 adultscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2602250188
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53412-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_FROM(0.00)[bounces-53413-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,quicinc.com];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 759BE19CC10
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: F419B19CCDD
 X-Rspamd-Action: no action
 
-On Wed, Feb 25, 2026 at 8:42=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
->
-> The CMA dma-buf heap uses the cma_get_name() function to get the name of
-> the heap instance it's going to create.
->
-> However, this function is not exported. Since we want to turn the CMA
-> heap into a module, let's export it.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On Wed, Feb 25, 2026 at 11:16:26AM -0800, Trilok Soni wrote:
+> On 2/25/2026 7:12 AM, Bjorn Andersson wrote:
+> > On Wed, Feb 25, 2026 at 07:47:08PM +0530, Ekansh Gupta wrote:
+> >>
+> >>
+> >> On 2/24/2026 9:03 AM, Trilok Soni wrote:
+> >>> On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
+> >>>> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
+> >>>> integrated in the DRM accel subsystem.
+> >>>>
+> >>>> The new docs introduce QDA as a DRM/accel-based implementation of
+> >>>> Hexagon DSP offload that is intended as a modern alternative to the
+> >>>> legacy FastRPC driver in drivers/misc. The text describes the driver
+> >>>> motivation, high-level architecture and interaction with IOMMU context
+> >>>> banks, GEM-based buffer management and the RPMsg transport.
+> >>>>
+> >>>> The user-space facing section documents the main QDA IOCTLs used to
+> >>>> establish DSP sessions, manage GEM buffer objects and invoke remote
+> >>>> procedures using the FastRPC protocol, along with a typical lifecycle
+> >>>> example for applications.
+> >>>>
+> >>>> Finally, the driver is wired into the Compute Accelerators
+> >>>> documentation index under Documentation/accel, and a brief debugging
+> >>>> section shows how to enable dynamic debug for the QDA implementation.
+> >>> So existing applications written over character device UAPI needs to be
+> >>> rewritten over new UAPI and it will be broken once this driver gets
+> >>> merged? Are we going to keep both the drivers in the Linux kernel
+> >>> and not deprecate the /char device one? 
+> >>>
+> >>> Is Qualcomm going to provide the wrapper library in the userspace
+> >>> so that existing applications by our customers and developers
+> >>> keep working w/ the newer kernel if the char interface based
+> >>> driver gets deprecated? It is not clear from your text above. 
+> >> Thanks for raising this, Trilok.
+> >>
+> >> This is one of the open items that I have. I'm not exactly sure what would be the
+> >> acceptable way for this. 
+> >>
+> >> As you mentioned, applications that rely on /dev/fastrpc* might not work on QDA
+> >> without modification.
+> >>
+> >> I was thinking in the same lines as you have mentioned and  having some shim/compat
+> >> driver to translate FastRPC UAPI to QDA. The compat driver would expose the existing
+> >> character devices and route the calls to QDA. The compat driver could be built via Kconfig.
+> >>
+> > 
+> > This is a fundamental requirement, you need to address this in order for
+> > this to move forward.
+> > 
+> > Which makes me wonder if it would be possible to reach an accel driver
+> > through incremental transition of the current driver, instead of just
+> > dropping in a few thousand lines of new code/design.
+> > 
+> >> However, I haven’t encountered an example of such a UAPI‑translation driver in the kernel
+> >> before, so I would want guidance from maintainers on whether this is an acceptable
+> >> model or not.
+> >>
+> >> Regarding your question about library, all the APIs exposed by github/fastrpc library are kept
+> >> unchanged in terms of definitions and expectation. The same project can be build for both
+> >> FastRPC and QDA based on configure options. So, the applications using github/fastrpc should
+> >> not face any problem if the libs is built with proper configure options.
+> >>
+> > 
+> > You're assuming that the kernel and userspace are a unified piece of
+> > software, they are not. It must be possible for me to install a new
+> > kernel package without having to replace the userspace libraries.
+> 
+> Thank you Bjorn for providing the inputs. 
+> 
+> I also foresee that we will be stop adding (or already happened) new features
+> into the existing fastrpc driver, so calling the new driver as an alternative
+> is in oversold category.
+> 
+> You are pretty much began the deprecating the existing fastrpc driver, so let's
+> just mention it if that is the case and provide migration/shim path so that
+> existing binaries doesn't break.
 
-Reviewed-by: T.J. Mercier <tjmercier@google.com>
+I agree that we need a migration path, but I'd really focus on it after
+getting at least basic parts of the QDA reviewed and agreed upon.
+Otherwise the shim layer will be reworked again and again with no
+immediate added benefit.
+
+-- 
+With best wishes
+Dmitry
 
