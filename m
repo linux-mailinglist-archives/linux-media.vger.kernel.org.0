@@ -1,66 +1,58 @@
-Return-Path: <linux-media+bounces-53423-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53424-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oIBIHoVwn2kDcAQAu9opvQ
-	(envelope-from <linux-media+bounces-53423-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 22:58:29 +0100
+	id 8EYDNCd3n2nScAQAu9opvQ
+	(envelope-from <linux-media+bounces-53424-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 23:26:47 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82CE19E112
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 22:58:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4371E19E424
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 23:26:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EFA8A304277E
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 21:58:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7B3343023D9E
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 22:26:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C0793191CA;
-	Wed, 25 Feb 2026 21:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11372330B15;
+	Wed, 25 Feb 2026 22:26:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="PkOT8fQh"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DLPQZ1qK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0212EFDA1
-	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 21:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C9A2C0282;
+	Wed, 25 Feb 2026 22:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772056702; cv=none; b=goxSLjNNdwE8c2vacsTQkDfDfzTmOfDUd8K16yvHchM8Ge/6HBh3d5sE/WW48m2E+bfmj8uUTAuqIJ3TBwkcT3mwTyuJ0MC4lFuVYwqLQX3riAma1SiIe1KBzG+clWJI2phle7ozJsoN/Cu2yHTcKxW3Nt4rzDJjuPti5czxf64=
+	t=1772058401; cv=none; b=b9PFCHvxBaxqviUlcLqip/VRxjLcobvMHnJp57Wi+s9F2u72p2uazJhO0U6XFZqW8TgGV+hTBee8+eHkThOO7y7gV+HfmjdPHc4wm5Nx2zEydP65lCkOEHmC5WFeHpQf7/PsQXB93ILIPgxv2UE3OMlv05KKElHpyxaS3Grbvkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772056702; c=relaxed/simple;
-	bh=eQgQNtj8QhtdHIEjtpYQDnLhl4B9Dv5k9b7H2F5InzA=;
+	s=arc-20240116; t=1772058401; c=relaxed/simple;
+	bh=k0xNHmg+Rg6PlS1Wra/0RI+5j9ZASPAy6uL892tIiMs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pPn+Efa+ucMeLdAg72ej2sZXtwsTuuEK+K5uic76vvubEuOp0shubFr1u/qRvUwKqEyHVA0l4FsAermP9ymhy6PQW2VrT5MmGQ+dKG2HzsH1FscnFpWgWBty7K9o80zOWQmdDVgSAZn4PLSPeGSinEuJqcuIFg3e9fYNtO1S6us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=PkOT8fQh; arc=none smtp.client-ip=199.89.1.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fLpPS5ncVzlfdfX;
-	Wed, 25 Feb 2026 21:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1772056699; x=1774648700; bh=ZjAqWcEvjOomPt3NqF76uAm6
-	ROWInG489yOCNcu3AVo=; b=PkOT8fQhz7ZnYoPQAXoYuawP8G2UUEtVr39tcgVO
-	kW3ANmssnaeQMJk5NefcNcvfm4xW98pCrz6Z4A58EUeKji+f6lAJnJ5jbGFUV4I4
-	II2TLFETtkbQrv2cIamkLTceC2aaDNnTCw4kVRVhEUx4zIbS1OSUkiL2EDZnWFTn
-	u06lbXFgxvpRQDdvAyg8agEEb3NWpCtYF/DwOZcX2ED7dcteTKG1lqANA63PWeA7
-	WC5FsWjCVdgp15Rus7WBteGtJLNSB47KZ/SNaYAMJ3xv5RydvCkKGHAy7z/x4uYJ
-	ldVqyVkVaYStcPRQqf7Kkg4IO1But048Elmy0Wl8v37/IA==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id LMUzZlRL2isk; Wed, 25 Feb 2026 21:58:19 +0000 (UTC)
-Received: from [172.20.2.156] (unknown [4.28.11.157])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 In-Reply-To:Content-Type; b=qoi5RaOdgCH2Nd62xUqyfLqeaKNia3YHy33brTCFSGxtlwjgN1BVE93frRRzHOryiymY+vp3OUotMvbDzgH7ZavrYEyYOwG6f7QSdp6npnGs54ipc1TtB7UqwAjfa4iGHTPcZolDc0BII9/eEsy5sBLZTsHAoN/fIYznYaqwxeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DLPQZ1qK; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1772058398;
+	bh=k0xNHmg+Rg6PlS1Wra/0RI+5j9ZASPAy6uL892tIiMs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DLPQZ1qKtw0UPrCiH2oVW0xmo2GRHB9P+bSqPaE3iHm8F6eBR7XvhpIfEjh3pBidG
+	 tmE3bOZ8btb+Vq1Z9DzXcObYLgjLIHlA9tCrVsNQhy886X754qzz6KZogPIQyOFufM
+	 fGwKqVnhPWDd7+dt3t3VyHSuXjPXk0G2fyROFV4dgNlNjRmSLxeUReHAOrYF9zWZ0T
+	 DbkDx4mCDmCCXHFaIXiDXOXGVu8yaRgEOOEUT5mW0MDS5hbbhQRA7W1cY8674oR0zl
+	 VTpL/+73warn2Svdh10gyq2gMHAIcGcpi1r0ep8wCRtPOVWcYlcDsJN9aAmkFvZwY8
+	 OSl5n1LiErqKA==
+Received: from [192.168.1.90] (unknown [86.123.23.225])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fLpPQ6YwZzlfl6N;
-	Wed, 25 Feb 2026 21:58:18 +0000 (UTC)
-Message-ID: <5846b79c-77aa-41b5-945b-7e3cff29d18a@acm.org>
-Date: Wed, 25 Feb 2026 13:58:18 -0800
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 959D617E03E5;
+	Wed, 25 Feb 2026 23:26:37 +0100 (CET)
+Message-ID: <72a72c50-4816-47d4-b533-be4b7feee027@collabora.com>
+Date: Thu, 26 Feb 2026 00:26:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,83 +60,187 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/62] dma-buf: Convert dma_buf_import_sync_file() to the
- early-return style
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Peter Zijlstra <peterz@infradead.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
-References: <20260223214950.2153735-1-bvanassche@acm.org>
- <20260223214950.2153735-6-bvanassche@acm.org>
- <1405f2c3-ffde-4084-b27c-8b54988415a6@amd.com>
+Subject: Re: [PATCH v3 1/3] media: dt-bindings: rockchip,vdec: Add alternative
+ reg-names order for RK35{76,88}
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: kernel@collabora.com, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>,
+ linux-media@vger.kernel.org
+References: <20260225-vdec-reg-order-rk3576-v3-0-5a2ebe1b11a8@collabora.com>
+ <20260225-vdec-reg-order-rk3576-v3-1-5a2ebe1b11a8@collabora.com>
+ <9bb74438-e759-46a7-9fa1-2c6b1fced76b@kernel.org>
+ <d5a244f3-5f1b-4bcb-8042-646320a47b6c@collabora.com>
+ <85793250-425d-40da-b382-ada9fc7b50e1@kernel.org>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <1405f2c3-ffde-4084-b27c-8b54988415a6@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <85793250-425d-40da-b382-ada9fc7b50e1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[acm.org,reject];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[acm.org:s=mr01];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53423-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	DKIM_TRACE(0.00)[acm.org:+];
-	RCPT_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-53424-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bvanassche@acm.org,linux-media@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,acm.org:mid,acm.org:dkim]
-X-Rspamd-Queue-Id: E82CE19E112
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4371E19E424
 X-Rspamd-Action: no action
 
-On 2/23/26 11:56 PM, Christian K=C3=B6nig wrote:
-> On 2/23/26 22:48, Bart Van Assche wrote:
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index 11711874a325..1666133ac8b8 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -523,11 +523,13 @@ static long dma_buf_import_sync_file(struct dma_=
-buf *dmabuf,
->>                  dma_resv_lock(dmabuf->resv, NULL);
+On 2/25/26 4:11 PM, Krzysztof Kozlowski wrote:
+> On 25/02/2026 14:36, Cristian Ciocaltea wrote:
+>> On 2/25/26 2:26 PM, Krzysztof Kozlowski wrote:
+>>> On 25/02/2026 13:19, Cristian Ciocaltea wrote:
+>>>> With the introduction of the RK3588 SoC, and RK3576 afterwards, the
+>>>> 'link' and 'cache' register blocks have been provided for the video
+>>>> decoder unit in addition to the existing 'function' one, which now shows
+>>>> up in between them (from address-based ordering point of view).
+>>>>
+>>>> However, the binding does not properly describe this hardware layout, as
+>>>> the new blocks are listed after the old one.  Therefore it breaks the
+>>>> convention expecting the unit address to indicate the first register
+>>>> range.
+>>>>
+>>>> Since the binding changes have been already released and a fix would
+>>>> bring up an ABI break, mark the current 'reg-names' listing as
+>>>> deprecated and introduce an alternative 'link,function,cache' one.
+>>>>
+>>>> Additionally, drop the 'reg' description items as the order is not fixed
+>>>> anymore, while the information they offer is not very relevant anyway.
+>>>>
+>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>>> ---
+>>>>  .../devicetree/bindings/media/rockchip,vdec.yaml      | 19 ++++++++++++-------
+>>>>  1 file changed, 12 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>>>> index 809fda45b3bd..3f6072e8baa5 100644
+>>>> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>>>> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>>>> @@ -28,16 +28,21 @@ properties:
+>>>>  
+>>>>    reg:
+>>>>      minItems: 1
+>>>> -    items:
+>>>> -      - description: The function configuration registers base
+>>>> -      - description: The link table configuration registers base
+>>>> -      - description: The cache configuration registers base
+>>>> +    maxItems: 3
+>>>>  
+>>>>    reg-names:
+>>>> -    items:
+>>>> +    oneOf:
+>>>>        - const: function
+>>>
+>>> This is confusing, I think I missed that in previous patch because it
+>>> did not leave that part or I misread the diff hunk - why do you allow
+>>> one entry?
 >>
->>                  ret =3D dma_resv_reserve_fences(dmabuf->resv, num_fen=
-ces);
->> -               if (!ret) {
->> -                       dma_fence_unwrap_for_each(f, &iter, fence)
->> -                               dma_resv_add_fence(dmabuf->resv, f, us=
-age);
->> -               }
->> +               if (ret)
->> +                       goto unlock;
->> +
->> +               dma_fence_unwrap_for_each(f, &iter, fence)
->> +                       dma_resv_add_fence(dmabuf->resv, f, usage);
->=20
-> Mhm, I don't see what this is good for?
->=20
-> While this might look a little bit nicer we don't enforce this coding s=
-tyle and it adds more loc.
+>> That's for the older SoCs, e.g. RK3288, RK3399, as the 'link' and 'cache' blocks
+>> are only available for RK3576 & RK3588.
+> 
+> Yeah, I see in the bottom of the binding
+> 
+>>
+>>>
+>>> If the first entry is function, then all others MUST built on top, thus
+>>> this:
+>>>
+>>>> +          - const: link
+>>>> +          - const: function
+>>>> +          - const: cache
+>>>
+>>> is not correct.
+>>>
+>>> No, you don't change the orders. So again, if you have such binding,
+>>> then you just fix the unit address leaving the binding as is.
+>>
+>> Changing the unit address would mean it will point inside the register range,
+>> rather than at the beginning of it.
+> 
+> First, not true. If this was one register range, you would have one
+> entry. You cannot split entries. Split entries means you have two
+> SEPARATE register ranges.
+> Second, it does not matter because main rule stays - the unit address
+> describes the main address space. The main address space in other device
+> was called "function", so I assume the main address space is also here
+> the "function". Which makes sense, because link feels secondary to
+> functioning of the device.
+> 
+>>
+>> Sorry, but I don't quite get why would this be a better approach than just
+>> properly list the items according to the HW layout, i.e. following the
+>> address-based ordering?
+> 
+> We always expect the list to grow, to have common set. That's rule given
+> during reviews multiple times. For multiple reasons, also explained
+> (consistency, maintenance and actually proper description of hardware
+> like the main reg address space).
+> 
+> Probably this was also given to that binding during discussions when it
+> was upstream, so your change reverts previous discussion and to that I
+> do not agree.
 
-Hi Christian,
+Thank you for detailing this, I get your point now.
 
-I will drop this change.
+After digging a bit further, it looks like the "function" naming has been
+introduced as part of the RK3588 support via commit c6ffb7e1fb90 ("media:
+dt-bindings: rockchip: Document RK3588 Video Decoder bindings").
 
-Thanks,
+Morever, it also sets `reg-names: false` for all the SoCs other than RK3588 -
+sorry for missing this initially.
 
-Bart.
+Hence "function" wasn't used at all in the context of the older SoCs, while on
+RK3588 & RK3576 there is no indication that "function" should be treated as the
+main address space or anything like that.  E.g. RK3588 TRM clearly shows the
+"link" range at the top of the listing, starting at video decoder unit base
+address:
+
+--------------------------------------------------------------------------------
+Config Register                         |   Base addr
+--------------------------------------------------------------------------------
+VDPU381 core0/1 link table config base  |   VDPU381_core0/1_base+0x000
+VDPU381 core0/1 function config base    |   VDPU381_core0/1_base+0x100
+--------------------------------------------------------------------------------
+                                        |   VDPU381_core0/1_base+0x600 for Y channel
+VDPU381 core0/1 cache config base       |   VDPU381_core0/1_base+0x640 for C channel
+                                        |   VDPU381_core0/1_base+0x680 for head channel
+--------------------------------------------------------------------------------
+
+Assuming the reasoning above is now good enough to move further with the
+proposed approach, I can prepare a new revision dropping the unnecessary
+one-entry item from the reg-names, while keeping all the rest in the series as
+is.
+
+Regards,
+Cristian
+
 
