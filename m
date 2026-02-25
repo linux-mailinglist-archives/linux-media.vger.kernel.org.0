@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-53387-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53388-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2EslFr0fn2lcZAQAu9opvQ
-	(envelope-from <linux-media+bounces-53387-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 17:13:49 +0100
+	id 0GKMNtIfn2lcZAQAu9opvQ
+	(envelope-from <linux-media+bounces-53388-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 17:14:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F9219A566
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 17:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6101519A583
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 17:14:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 522CF30D1F82
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 15:52:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4A8513227296
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 15:52:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE073DA7E1;
-	Wed, 25 Feb 2026 15:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38FEA3E8C61;
+	Wed, 25 Feb 2026 15:51:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SirGKD0h"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kQzTaUXU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3713A3D905A;
-	Wed, 25 Feb 2026 15:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D553DA7F8;
+	Wed, 25 Feb 2026 15:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772034661; cv=none; b=MQuAlxWcDGyVTWOxW+1LUPY8OJPlAYq++3AfGj9NCjcMQbaimtIAZGVrcxInI1aCxZUQcUk1vLU0bJiaFzRx1OJwl7YpV2Tohb+dJnEF3lpzO8ziC/Lo9Zce5rt9/dfgNwbRrZXU6NczJ45iiXBHIT95GwOA5RHHnVafLIYaugw=
+	t=1772034664; cv=none; b=DebtWuHwjqCgZX86ZSDoKYIdLoKNjIqP9vKiKAiyzCySdyP9cts2WhxzM0HVKmy6S+44phNBs11uQVNP6RMmS9WNwcpmbrhtKAnrwApNjZyUXNDTjgwUszv/Jp79WDfFIwduIJ05sVXCzwq1d1OKqPhqpNPGfiriYQUGXUPPemM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772034661; c=relaxed/simple;
-	bh=SdyL16nC6V4cyutE1SUgo0NkRwcZhSRaWCkr27A6hkA=;
+	s=arc-20240116; t=1772034664; c=relaxed/simple;
+	bh=IPoW0hAdPmyxLojSbJoofjfzT0HDKdluoXNZXbT9mVI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uNcsX28L4+GE4GqXkSGMjm3A382oAoWlKHJuSvztZVnaBpCINPVzSfGZwL4CYJpoOgr684y9z59GBmJypizLMfmkdahWBfBJJTMwettyX6NCqXRKQKwV2dokYWzjkSqZqHOL98O8qBmC4lcld8mIcHYBZb+Dlor1ba4btRo6rB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SirGKD0h; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=Q1tEE/etmunzR+2J9mnoobyWFzV/sey1Kz2uhEnjvXi83yzXb4AYNX3iYCAWoiBWmjk5zmVVHYZn0tJGalY6t0BFyLUNGZIPLMCM8ilf2kBv0En9eJzLYSOGB17RDz+nxZHlEZxsDIyrGSiogE1StyEz4Yzra6mWxGJtSzYBAeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kQzTaUXU; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:cd05:b041:1dc3:f62c])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6A0F1448;
-	Wed, 25 Feb 2026 16:50:01 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A7237E79;
+	Wed, 25 Feb 2026 16:50:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1772034601;
-	bh=SdyL16nC6V4cyutE1SUgo0NkRwcZhSRaWCkr27A6hkA=;
+	s=mail; t=1772034604;
+	bh=IPoW0hAdPmyxLojSbJoofjfzT0HDKdluoXNZXbT9mVI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SirGKD0hljakAXS/gqJOQlKrmX94SWCCMzv/wwGkzp5bS9zNv4kpcwZiE6+xCzQR6
-	 tHjOn2eiblTGG7NJIGxJd4IaDDY2afbkZg66bT6gSnsen8JBOtzb8oRMyUbfh5dKDe
-	 KHP7q4+Odv8sYSrbrF1NUkcLSN6GmHCih2osovZU=
+	b=kQzTaUXU6ctUbmvQCO0JZkMQJfYnddMqmYpmoMUPfov3rWN40OheEmUPEEuk/Jj9/
+	 itvvMoY0rkO0EVJ2d5OXL/AKqW6zzOtn/1GirM+GJ5JoaTzd0QjgQdFgWRjuym+bR7
+	 4y/S2w9RlGEdnzoLAkgMvfn8I18nMlWFWgOr9ujQ=
 From: Stefan Klug <stefan.klug@ideasonboard.com>
-Date: Wed, 25 Feb 2026 16:50:49 +0100
-Subject: [PATCH v4 3/4] media: dw100: Fix kernel oops with PREEMPT_RT
- enabled
+Date: Wed, 25 Feb 2026 16:50:50 +0100
+Subject: [PATCH v4 4/4] media: dw100: Merge dw100_device_run and
+ dw100_start
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-3-53536d08de91@ideasonboard.com>
+Message-Id: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-4-53536d08de91@ideasonboard.com>
 References: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-0-53536d08de91@ideasonboard.com>
 In-Reply-To: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-0-53536d08de91@ideasonboard.com>
 To: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, 
@@ -77,7 +77,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53387-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53388-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -94,29 +94,14 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email]
-X-Rspamd-Queue-Id: C6F9219A566
+X-Rspamd-Queue-Id: 6101519A583
 X-Rspamd-Action: no action
 
-On kernels with PREEMPT_RT enabled, a "BUG: scheduling while atomic"
-kernel oops occurs inside dw100_irq_handler -> vb2_buffer_done. This is
-because vb2_buffer_done takes a spinlock which is not allowed within
-interrupt context on PREEMPT_RT.
+The dw100_start() function is only called from dw100_device_run(). As
+both functions are not too big, move the code directly into
+dw100_device_run() and drop dw100_start() to improve readability.
 
-The first attempt to fix this was to just drop the IRQF_ONESHOT so that
-the interrupt is handled threaded on PREEMPT_RT systems. This introduced
-a new issue. The dw100 has an internal timeout counter that is gated by
-the DW100_BUS_CTRL_AXI_MASTER_ENABLE bit. Depending on the time it takes
-for the threaded handler to run and the geometry of the data being
-processed it is possible to reach the timeout resulting in
-DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT being set and "dw100
-32e30000.dwe: Interrupt error: 0x1" errors in dmesg.
-
-To properly fix that, split the interrupt into two halves, reset the
-DW100_BUS_CTRL_AXI_MASTER_ENABLE bit in the hard interrupt handler and
-do the v4l2 buffer handling in the threaded half. The IRQF_ONESHOT can
-still be dropped as the interrupt gets disabled in the hard handler and
-will only be reenabled on the next dw100_device_run which will not be
-called before the current job has finished.
+This patch contains no functional changes.
 
 Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
 Reviewed-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
@@ -124,93 +109,120 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 ---
 
-Thank you Xavier for the technical support and further details on the
-interrupt bit.
-
 Changes in v4:
 - Collected tags
-- Fixed include order
 
 Changes in v3:
-- Split interrupt in two halves to prevent timeout error
-- Dropped rby tags, as the patch changed substantially
-
-Changes in v2:
-- Dropped the IRQF_ONESHOT instead of making the interrupt handler
-  threaded to fix the issue.
-- I didn't keep the r-by tag from Nicolas as the solution is now a
-  different one.
+- Added this patch as proposed in the review of v1
 ---
- drivers/media/platform/nxp/dw100/dw100.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ drivers/media/platform/nxp/dw100/dw100.c | 77 +++++++++++++++-----------------
+ 1 file changed, 35 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-index 2d5c3199428dfa38d1bb253923863b8137a8bea4..a80139427f19942cdc61838afdccb8ef45bcda34 100644
+index a80139427f19942cdc61838afdccb8ef45bcda34..e59361aeeec73ee0df0b86159c3b3c19f2eb8b5f 100644
 --- a/drivers/media/platform/nxp/dw100/dw100.c
 +++ b/drivers/media/platform/nxp/dw100/dw100.c
-@@ -11,6 +11,7 @@
- #include <linux/debugfs.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-+#include <linux/irqreturn.h>
- #include <linux/minmax.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -74,6 +75,7 @@ struct dw100_device {
- 	struct clk_bulk_data		*clks;
- 	int				num_clks;
- 	struct dentry			*debugfs_root;
-+	bool				frame_failed;
- };
- 
- struct dw100_q_data {
-@@ -1406,7 +1408,8 @@ static irqreturn_t dw100_irq_handler(int irq, void *dev_id)
- {
- 	struct dw100_device *dw_dev = dev_id;
- 	u32 pending_irqs, err_irqs, frame_done_irq;
--	bool with_error = true;
-+
-+	dw_dev->frame_failed = true;
- 
- 	pending_irqs = dw_hw_get_pending_irqs(dw_dev);
- 	frame_done_irq = pending_irqs & DW100_INTERRUPT_STATUS_INT_FRAME_DONE;
-@@ -1414,7 +1417,7 @@ static irqreturn_t dw100_irq_handler(int irq, void *dev_id)
- 
- 	if (frame_done_irq) {
- 		dev_dbg(&dw_dev->pdev->dev, "Frame done interrupt\n");
--		with_error = false;
-+		dw_dev->frame_failed = false;
- 		err_irqs &= ~DW100_INTERRUPT_STATUS_INT_ERR_STATUS
- 			(DW100_INTERRUPT_STATUS_INT_ERR_FRAME_DONE);
- 	}
-@@ -1427,7 +1430,14 @@ static irqreturn_t dw100_irq_handler(int irq, void *dev_id)
- 	dw100_hw_clear_irq(dw_dev, pending_irqs |
- 			   DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT);
- 
--	dw100_job_finish(dw_dev, with_error);
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+static irqreturn_t dw100_irq_thread_fn(int irq, void *dev_id)
-+{
-+	struct dw100_device *dw_dev = dev_id;
-+
-+	dw100_job_finish(dw_dev, dw_dev->frame_failed);
- 
+@@ -1442,49 +1442,10 @@ static irqreturn_t dw100_irq_thread_fn(int irq, void *dev_id)
  	return IRQ_HANDLED;
  }
-@@ -1596,8 +1606,9 @@ static int dw100_probe(struct platform_device *pdev)
  
- 	pm_runtime_put_sync(&pdev->dev);
+-static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
+-			struct vb2_v4l2_buffer *out_vb)
+-{
+-	struct dw100_device *dw_dev = ctx->dw_dev;
+-
+-	out_vb->sequence =
+-		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
+-	in_vb->sequence =
+-		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)->sequence++;
+-
+-	dev_dbg(&ctx->dw_dev->pdev->dev,
+-		"Starting queues %p->%p, sequence %u->%u\n",
+-		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+-				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE),
+-		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+-				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
+-		in_vb->sequence, out_vb->sequence);
+-
+-	v4l2_m2m_buf_copy_metadata(in_vb, out_vb);
+-
+-	/* Now, let's deal with hardware ... */
+-	dw100_hw_master_bus_disable(dw_dev);
+-	dw100_hw_init_ctrl(dw_dev);
+-	dw100_hw_set_pixel_boundary(dw_dev);
+-	dw100_hw_set_src_crop(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
+-			      &ctx->q_data[DW100_QUEUE_DST]);
+-	dw100_hw_set_source(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
+-			    &in_vb->vb2_buf);
+-	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
+-				 ctx->q_data[DW100_QUEUE_SRC].fmt,
+-				 &out_vb->vb2_buf);
+-	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
+-			     ctx->map_width, ctx->map_height);
+-	dw100_hw_enable_irq(dw_dev);
+-	dw100_hw_dewarp_start(dw_dev);
+-
+-	/* Enable Bus */
+-	dw100_hw_master_bus_enable(dw_dev);
+-}
+-
+ static void dw100_device_run(void *priv)
+ {
+ 	struct dw100_ctx *ctx = priv;
++	struct dw100_device *dw_dev = ctx->dw_dev;
+ 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
  
--	ret = devm_request_irq(&pdev->dev, irq, dw100_irq_handler, IRQF_ONESHOT,
--			       dev_name(&pdev->dev), dw_dev);
-+	ret = devm_request_threaded_irq(&pdev->dev, irq, dw100_irq_handler,
-+					dw100_irq_thread_fn, 0,
-+					dev_name(&pdev->dev), dw_dev);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
- 		goto err_pm;
+ 	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+@@ -1496,7 +1457,7 @@ static void dw100_device_run(void *priv)
+ 	if (src_buf->vb2_buf.req_obj.req)
+ 		dw100_update_mapping(ctx);
+ 	else if (ctx->user_map_is_dirty)
+-		dev_warn_once(&ctx->dw_dev->pdev->dev,
++		dev_warn_once(&dw_dev->pdev->dev,
+ 			      "V4L2 requests are required to update the vertex map dynamically\n");
+ 
+ 	/*
+@@ -1506,7 +1467,39 @@ static void dw100_device_run(void *priv)
+ 	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
+ 				   &ctx->hdl);
+ 
+-	dw100_start(ctx, src_buf, dst_buf);
++	src_buf->sequence =
++		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)->sequence++;
++	dst_buf->sequence =
++		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
++
++	dev_dbg(&dw_dev->pdev->dev,
++		"Starting queues %p->%p, sequence %u->%u\n",
++		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
++				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE),
++		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
++				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
++		src_buf->sequence, dst_buf->sequence);
++
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf);
++
++	/* Now, let's deal with hardware ... */
++	dw100_hw_master_bus_disable(dw_dev);
++	dw100_hw_init_ctrl(dw_dev);
++	dw100_hw_set_pixel_boundary(dw_dev);
++	dw100_hw_set_src_crop(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
++			      &ctx->q_data[DW100_QUEUE_DST]);
++	dw100_hw_set_source(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
++			    &src_buf->vb2_buf);
++	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
++				 ctx->q_data[DW100_QUEUE_SRC].fmt,
++				 &dst_buf->vb2_buf);
++	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
++			     ctx->map_width, ctx->map_height);
++	dw100_hw_enable_irq(dw_dev);
++	dw100_hw_dewarp_start(dw_dev);
++
++	/* Enable Bus */
++	dw100_hw_master_bus_enable(dw_dev);
+ }
+ 
+ static const struct v4l2_m2m_ops dw100_m2m_ops = {
 
 -- 
 2.51.0
