@@ -1,263 +1,1446 @@
-Return-Path: <linux-media+bounces-53318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53319-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8CQbKj2xnmlxWwQAu9opvQ
-	(envelope-from <linux-media+bounces-53318-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 09:22:21 +0100
+	id gAAQBmy2nmnwWwQAu9opvQ
+	(envelope-from <linux-media+bounces-53319-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 09:44:28 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF66194228
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 09:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FCDE1945A5
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 09:44:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 19AA130642E2
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 08:16:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B90243050D44
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 08:44:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87EAF31195A;
-	Wed, 25 Feb 2026 08:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8F99322527;
+	Wed, 25 Feb 2026 08:44:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DaA0rl4/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QqxKHPsn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013040.outbound.protection.outlook.com [40.107.201.40])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8C629D288
-	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 08:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772007383; cv=fail; b=Q6zmWXZc9/E+J4Dx/noTnAMmt38VnU18BfvP9StTbsGoHRKSlTUwmXXFnlwHf+BFyiReneK7QizoWDxi8/9fUsh7t2T36bsGGVKiRWip9N3DyEQNr0XCec8u7F4Uq4KAqnzBczVFNmNpJ2IyWwm8FecmDHbEzShP/AE3cjUKS0g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772007383; c=relaxed/simple;
-	bh=c8jkCNArwD0FjACITV8Hfp9CSnoXVYalWP/feUR+k5U=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=DHBMi2uSUNh6GBP698tEg7De1Ye7yP4AtVi2r77eZ1l0u2aWVD4C9Dr5SBBEk+YGWWCJTFBN4yzsfYZVWvZGrT7CVECysfyelp0Nd8ISO4mgFvlzeU1/mcS0QU6IURzSEqu/GIsFR41jTkkWZtd2Mhv8nNfU2a2pbXFSmC3M13g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=DaA0rl4/; arc=fail smtp.client-ip=40.107.201.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CYmcz75oAkxu4LNrfMIyqycwTBNukdmGB/42UvKtSrmMv4xNxqCm+fEGdCaPWa8kgiL9CyTxE2prpIK+SbDWB5DtnXZszb0s0iTlRTxY7zVQalzxay9U/gmQ7U9dKOLBRGBJEzhZrfcW9g3sOE2/xbYm6YjyqfdRPK38vVJIPC39fsFR2v0Oik+5cn8FZ8PhKnynfB0KF4rFUs1NkY0kCiGFZ60Rl0P6tTHPLpCUC4Cnh2RBCyikrRKJ+/xoT9kMoPgKPsLhs/lXylzCalIPbr3nTFvlt1JZepMRt/DwpUvIxiXXNrMOvZXtfZe6TTYe/THllVuaaFzFLIOMUNAaMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bp62qNa5zOLvrZBtgRCMe2m/9TtTtQWlmPWOw+O6lTw=;
- b=RpGUjhqLkJIBWEmwO0yqppG388aTTi9LGeX97q8xLkQuOKW0z9kuwAbicRmawlB1jpJgkUtB3gDXYIWvgaWB56Kfynd3XbKJe/OZIahViE7d8/dHZa3K6YuX0YIBRWs6kS4Ns+HZxR2hInzELzq1yZpiOHWPHvq5jDWjhDvcpGrQHXP4fg1PdL37rFznWLSAj5rOmnom4j7lXRK1dxHnhyawvDCEKsyFrOsq0t/wnkfdd+6D2OjjTuIVucF9Gr4g2Jtz2AOh+5qC9CRXacfs0Sl/50lISa80363vIhP8tYSNJoHdREZD9LTZc5ZL5e3RgZEeuX7tOnjvhQDvZWqsoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bp62qNa5zOLvrZBtgRCMe2m/9TtTtQWlmPWOw+O6lTw=;
- b=DaA0rl4/0rJru3NLnP7+gl/plE6OfEBlvojjGl9O7JFkt+Z2cOTF/lLGf1Hn5eSf5DQhbACdoh/Vwo/5vJkzpEX0SVL7FxTIUXp3L9gDWbq64x9WJEX4DgRfhnJhoxTYhSG1AfAHNzzKJKXjAmgqHC9Y5LB3Z33YlHFwj9OTToA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB9138.namprd12.prod.outlook.com (2603:10b6:a03:565::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Wed, 25 Feb
- 2026 08:16:18 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
- 08:16:18 +0000
-Message-ID: <5e23a5f9-0eaa-419e-ada6-4389754075bc@amd.com>
-Date: Wed, 25 Feb 2026 09:16:15 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/62] dma-buf: Handle all dma_resv_lock() errors
-To: Bart Van Assche <bvanassche@acm.org>,
- Peter Zijlstra <peterz@infradead.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
-References: <20260223214950.2153735-1-bvanassche@acm.org>
- <20260223214950.2153735-7-bvanassche@acm.org>
- <5d9daad3-a687-4116-99fc-b6c7d82fe5a9@amd.com>
- <975acbb3-a4d3-45a6-9aad-3682c46e8fd8@acm.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <975acbb3-a4d3-45a6-9aad-3682c46e8fd8@acm.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0081.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDC223E35F;
+	Wed, 25 Feb 2026 08:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772009058; cv=none; b=qCwHZSHKBiHiaxl40VdRfbk6rfaA8p+GiNu1Xlv2RO2J/Mw3NlWq9a2xAcrvutSMlCIt9S8r/N8STm1KIjGlaix5Kllqut+QJVBhbwFZGq1w1OqQbn/aTg7P/xpV3yHB5N2wpcvXS/3iwS2iOMcg00jwaYYKVbiXVc6M1AFu42I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772009058; c=relaxed/simple;
+	bh=KC+2N6w+WaI3l8QzEBlZx6OcbWc1jW+vV3iDV4GJzlU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fXwO3P2nUtl7btIPK9HoRrqNH3NiSUwXEsOaI/rAwww5wMPSNoFdGXuFc6Mvz8QVmgikiXQK6DVRv4hsjrV3u27VK6jOio1gGy8yR9KzIE5lcCn0Uv4I8mWVanGZFmBPhuUpCPg22CcInFRF6CV+ingsjHOptdKPDXTWhdYO5XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QqxKHPsn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC099E47;
+	Wed, 25 Feb 2026 09:43:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1772008994;
+	bh=KC+2N6w+WaI3l8QzEBlZx6OcbWc1jW+vV3iDV4GJzlU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QqxKHPsnb1GE2YG+EFLgRPv9I5Q2NWbq/6UFvS5DK0oxQSuSMkHBe7fMc8ZtoE9bt
+	 YqWYx79z0C79a0RC2YNde0Jjm/KruSE2Gvz+Hb5bxkBaOrDJPjiIHc0jHAO6trQej2
+	 ThDTq4776H6i6tyz6C4BMhM9gTS+iupJTHUUJUbw=
+Date: Wed, 25 Feb 2026 09:44:07 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Julien Vuillaumier <julien.vuillaumier@nxp.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>, Antoine Bouyer <antoine.bouyer@nxp.com>, 
+	Michael Riesch <michael.riesch@collabora.com>, alexi.birlinger@nxp.com, daniel.baluta@nxp.com, peng.fan@nxp.com, 
+	frank.li@nxp.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	niklas soderlund <niklas.soderlund@ragnatech.se>, Anthony McGivern <Anthony.McGivern@arm.com>
+Subject: Re: [RFC v1 00/11] Add iMX95 neoisp driver
+Message-ID: <aZ6v1dL1UrDRAj6G@zed>
+References: <544a98f3-d451-4ca1-b7d0-0b0a1238f66a@collabora.com>
+ <c8536c80-2f58-4eae-9336-436d772206df@nxp.com>
+ <22b3916a-a12f-4ea2-8863-8ebd9cb498b0@collabora.com>
+ <aYI0CrKLGeiZMlD8@zed>
+ <aYN8v3UGFKfzkl4_@zed>
+ <86109309-8200-464a-a167-ae9cef3f41b7@nxp.com>
+ <aYRSMXHjFC0M_DM_@zed>
+ <cf9c2d21-fc0e-42ad-a554-b1d47549bc54@nxp.com>
+ <aZx0LJFYR44_mF7O@zed>
+ <596e5efa-4fdc-45ac-a9aa-7d4a40abfd9b@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB9138:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4de8dad-7281-4a0a-1933-08de7446272a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Tk91NzNlQnZOVXJzZWwwKzJwTXZMcU00OG1sT29GR1dGam1VeVNkc2d6RDNK?=
- =?utf-8?B?a1ZpKzM3aDBUS0R1eUp5S2pZYUZZU3k4Snp6encrMDFaSys2Ri9KOVgrbkdI?=
- =?utf-8?B?R3BXRlV6Wk1DQlRYOE5TR3VSb1dJSXhWcFdvVmo3MHhLSm9YUW9ycHdESW9C?=
- =?utf-8?B?eFozNWxaVGVGU3dJbDNUZGpJajlTYUdrZW0ycXdpS0NNMzZCL3ovanBaazh6?=
- =?utf-8?B?YmJSczdxYnhmWm5kRlBlT2FKUGxRb1ZSNzJVSHRuRkVyQ2dBVm1EaVpKYVdP?=
- =?utf-8?B?TUxkWEVtamVZMkptMGRVWkR3V2ZYUEVlc2JWdTU4cEo0aVNNdFIxM2NNd3l0?=
- =?utf-8?B?dFBaL01MRlVJVGIwS0E5UXF5cGhrdkJvcnd2eDY4TWcxYjB4bWpBY2NncTJw?=
- =?utf-8?B?S0l0VmhkWkw3TUdWU2dJKzEyMzFzdmluRDRYZmNhdjVWK2xuU09FSUIxRmF5?=
- =?utf-8?B?YVcxcGFmN1VMdVY0NGJ2TkVMa0tjQnNCdGZXNktkYzVYQXZOeGZKMldJUStZ?=
- =?utf-8?B?c0RPQ0Z1bkhScWI2akVLaUR0M0tRcjJNZ0hqblFiQkwySWxycmxqaDQ2T2JY?=
- =?utf-8?B?RmJxOEZYSXhXQ3h4NDFSMTNseXVVeXZMekNCN2k3MGZocEVVR0hwZG1YQ1pN?=
- =?utf-8?B?d2p4UnZqeU9GMHZEU0k1TlN4eUlkVHE2Ymhkb2hkSDgwV2RMc3lnWHEvTEY1?=
- =?utf-8?B?UFc2UThYcTBZYUpGN3o4QzV0bGV1M2pLUTUvNko2Nm5lMDZMaU1xNm9GbmVU?=
- =?utf-8?B?MnpGdkxCeVZFT1VGbW9paldXU3JXcGhJNzU0R01WRkhURldYcFEvTzc3dHJj?=
- =?utf-8?B?aGl6MTBXQjFDRU5RREw0TUFuMnpNY2hjZ2t3NE1OWnhxMnlSOVphNm8wZFJo?=
- =?utf-8?B?d1RMUER2SG9HbUxnbk5ja3Y2YmhscC9VOGNrL3ZFOGZvNWlrVHZHT1lzNXZC?=
- =?utf-8?B?dU5ibGNRL0FtVCtoUFo0WmdtOXIwQldKcTBkOERsTUNBeGlWOFMxcUlUM2lC?=
- =?utf-8?B?bEFaTkFlUE5BQTJXUXZWZHFqY0k2VkFWb2REdnlndE9ySWpncFN0RjR2Qzk2?=
- =?utf-8?B?czlWMERiaWdNWEZ3VElMSE1PQ2E4U1lNb3pNRU01RElKR1FyN3poQTZmVVhU?=
- =?utf-8?B?NW9LT2tsMHJqZUs1N3ZBcGVmM0JIcG83Z0hsREpYcFY0M0ViV3ZOSU1CdEtX?=
- =?utf-8?B?bjI3dk1jdDZ3KzFSdUVnUFJCdnMyZXJGWGhCV0N2ek9RSWxSbG9DM3VrNFBD?=
- =?utf-8?B?YUlUNnhvNDRsN1hhOVZUQURZQk5sUDVQU24yVXNuSm82NDI2TjV0bTBaOFBU?=
- =?utf-8?B?UWpmaTFGeFNWVlMzZ3N1MlFKRSsyZmpmSlk3djBJaTdYQ2F0dEhGa0tJeHJr?=
- =?utf-8?B?c0JhY2VZRDR2d0pIU3N5OGVOODRXVUdSamh2bEljdnJtTjVyb0kybzNvNjZi?=
- =?utf-8?B?bXVReTB1R1VhOHkvUldJRzBZWFUwYUZNQ1JnbzFnd2pBc2RFTTN4enBlNXcx?=
- =?utf-8?B?elo4NFQ0RFRMVUhpN1VuYTZsTDMzRkRKTTU0YkV3bENqYkJlQVpGMmpkcTg1?=
- =?utf-8?B?S2VHNjgyQVFBdkF3aW85MW5pYnhTQVJZa2J5VGxmQ1lhYk9HVHpMdjA1UG1p?=
- =?utf-8?B?VTZzdFFJdzRPSURESDd2MlhReStVU21VdDFXdHAxZUxuRW5QVzByUWh2eDR1?=
- =?utf-8?B?cndhYUNJY0VDc3haVi9DbmJ5MTdsb1k0K3Y5VEtZNXNtNVFvQXQ1bHkwRmdS?=
- =?utf-8?B?cVVZQVZ6NUtQRDdvZGhEREJwOHVjTDZIZEc3MENaaGNqU1FaNWRFSStuVFRJ?=
- =?utf-8?B?cTZ4dE5ueDQzbkszM3o4K2R6SHBHS3g1ZGpxbmIzVzFqR1pGc0dXYkcrK0hn?=
- =?utf-8?B?VndDSHVUSks5THJDSnVXSW1NQ01PUStkU29ra25hbGlIS0RwZXE2NVhzVi9X?=
- =?utf-8?B?cnlQdlRtd1dmRkE5QnFvRytyeXVCQ2oxZDZuQ0xuaHVFYTJJTDhTOTZjNS9r?=
- =?utf-8?B?SHNwU25MbUMyalJxRnBkRGxqMWRuTGt6Mk9hbWFiUlZodCt1WGF0azlUMG1h?=
- =?utf-8?B?ZURxTFBzNGpWMktuSUtBenNhbUhsMVgrOU9XMHBZSmNzSHhRUCtZU2FiNjBD?=
- =?utf-8?Q?Gdo4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RXNUcEFiUUs0M3lyV0tjNi9BeHhvdTY2Tnk0M04vdTNQTHhUY2dkSTRmbUtv?=
- =?utf-8?B?M2RwTDFkWURtU2NiZjZscytBWkF2Y094eFVndTFZM09VU3B0TlduZlJZQWwv?=
- =?utf-8?B?WkRqeGNpWUd3RzBtV05jemsvTUwzY1ptVUFLQXJ4bDdLb05wcG9XUHJRWkR6?=
- =?utf-8?B?M25qVDUrU0prcHp4aHYvU3JRK1NjYnBld2lOWEVvWWg3NCtYOEp3dlRFeHJ3?=
- =?utf-8?B?VUtENDZkUHp3eXZwbkRRc0ZhR2pMRjFYc2tmeXBnNWY1ZnZGa2oxbnlRM0FR?=
- =?utf-8?B?L0tSWEw3dEhPc3QrTVpjZVhYcVFRMDRuMFBtWUV5b2IrYzNqRFBDUEhBWGcv?=
- =?utf-8?B?VjRZOU1qM0pORkxhR0hDaE5xN3VLOVVXcStHUmFLTFp6cUpCVUtPQy9tS01L?=
- =?utf-8?B?Y0J1ZDRuTDJwQTdFbzlKaU1hTjdOL0s2T05XYzVrb0RpV1pFUWhLQk1vSTM2?=
- =?utf-8?B?YnBZQ2VBMnpTYVllWGl1WGRCMkZwMEo1Q05rVU00dm4reDY0TVRLT3dROUQw?=
- =?utf-8?B?UXZDVEZTZXFicUpMdFBld2ViZCt0NENIYVo2amtNa29INWZmaGJ2Mi9aR0pL?=
- =?utf-8?B?Z01sV1pOaHIyVSsxUkoyR1Q1d1M4aWhvaHVOVVhGcGFuM0NybFkvcFkxdWpU?=
- =?utf-8?B?d3pYd2JsbVFYSXNmbVdXVHJLWGR0T0ZIMTdjYkw5dDdFaUI3eXV3ZDRjUE5o?=
- =?utf-8?B?eW9CZm1BOE5xdkJnZmt0aE1FVTBUWmZjcTFTazEwemRvbk1ZV1A1c0gzR3Zo?=
- =?utf-8?B?SzVFOHh5RUJuU2hteU9YUUVIRU0yZGtHdTJiVVNBNkZFa0c2YzVTUlpTalQ0?=
- =?utf-8?B?WXNGbEhhQ21VMHhzaTFmS0NMbGRXNmF3MWRxS3hEdFdvRDNUUkJIQzlzYkRV?=
- =?utf-8?B?TlNRQ3BKdDhXWW5kZWdlN3pycXlJZWRRN1RjZVVQSEJSK2ptK09QWU80UC8x?=
- =?utf-8?B?NzVIZzZPbkVZWU52QzgwODVvUHRqZzJBRFpEeHg1WWZIbk9rZFlpeG4xaUtI?=
- =?utf-8?B?Q0M5eTRxYnlXODB5SUJ5QkNUbUs2c2dxdmY0S25jSWJOZFNRSGt6clNGeFpL?=
- =?utf-8?B?bUFLUTMwbkUvUThGenlLRmRXK2ZjaXY1OFk5U3lvc0hqY2NJVDJsb3BJa2Qv?=
- =?utf-8?B?eFFBc0JjbExTZU1wRFVIbjNoaCtUbW9peE5xL0RkdVhMSTBXNmNHMU9HQXBk?=
- =?utf-8?B?cVRSY2d1dEJoZmZmTDUyWHRqQll0L0FyS2dTSDNEUFd0WUhRR3Q4TnFjTjI3?=
- =?utf-8?B?Z3FQN0ZtVTNDTmY4OU5ZUkIyR3c1UmxtUmhzOTBMRkozYnJJR0toRXN2M3F6?=
- =?utf-8?B?UWJaZDg4TDZtOUs4TWsyNUZLTHBhU0ROMVNuanBMblJhWTl0Mk5PNTNleDJo?=
- =?utf-8?B?Zm96RGRuWDJucmR1YXZBNWlYL1JYYWhiM3JTaGJIUFg5WnA3NS9FUUhLY20v?=
- =?utf-8?B?WDA3OHFvWWZTd29IdlFZMjZ5bHhNcFVJVWxDMHRRbmFsNFZ6RXpTY0hMRVVC?=
- =?utf-8?B?TWFKeEdZOUhtRFlyUVE3ZDYwVlBEbTU5ZFJJb0hIa2FrcGlBV2x1Z0FpekVx?=
- =?utf-8?B?eTlmbXdIZi9BM3BzamlLeEFrYzRPTU5aMDM2UER4VEkwM3FFZG9JTWlkaXdx?=
- =?utf-8?B?b2o2d0c4QUFlZXo3R05SNE9hOFB4QnZSR3VGZ0MrTTNFR2lDT05GSFRxVmw0?=
- =?utf-8?B?eGlPZTFkUzR5dTZiOEp4cWxXam1CMDdaTmdDNlA5ZUxJZmw4cnh5ZHRieXhM?=
- =?utf-8?B?R2VYL2xEMGJ6LzMvOXhiQVh1cmpndjhRQ1lUT2Z3Tnd1U0F1dXJIckUyOWVI?=
- =?utf-8?B?dUFMZkgwVHBZWWoxN2NWV1VaY05GOU5QUTNHR2NENGdtY1dhcVU5OE5VRWtO?=
- =?utf-8?B?Nndsa0ZKUS9DVzFtcCszNFhDVmIvUEZjMVAyN3FQSUkyTTY4WVk3V0pNdklN?=
- =?utf-8?B?dzkxZ2NHRkp0SFA2RTVVZ3VuOFdCRnNYWld2c2VYczlXSDlOVnVuMCtCTTBl?=
- =?utf-8?B?aUhjS0JxR0xzT2hWcnc1TkhZaVBWSEZNUE1iV3NFb0hOVjA3YXUwaGVqeUl2?=
- =?utf-8?B?c0pWcHdTL0tQY2Y1TmlLQjVvZzBsN0hlOU01dzRkaFc1OGJaZFdNWmNNQXg3?=
- =?utf-8?B?Zy9yOG9CQmVVYWM3b2FyZGxESThWTDhmWitQTkI5bHlPQ0s1SUZNdnR3MXIy?=
- =?utf-8?B?UWpHcTFiVjFyYWxkSHBBQzFVWFdYazRicUtMYk5vMXVnWVZXY2NjemlxdnRt?=
- =?utf-8?B?K1I2bGJrb0R2N2Nqejh2UTR1SURMZzNnV0wrcjFObHlmS2RNQ2o5a2JTVURF?=
- =?utf-8?Q?+BqUe2cMfoXL7hufRo?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4de8dad-7281-4a0a-1933-08de7446272a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 08:16:18.7962
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9PyGMgrFCInna8zCP+lWsaXeDVU6jfUKGIjOrh4E80su1iI5iOtA8WGfRinzyCRf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9138
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <596e5efa-4fdc-45ac-a9aa-7d4a40abfd9b@nxp.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	TAGGED_FROM(0.00)[bounces-53318-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53319-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_CC(0.00)[ideasonboard.com,linux.intel.com,xs4all.nl,nxp.com,collabora.com,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org,ragnatech.se,arm.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:mid,amd.com:dkim]
-X-Rspamd-Queue-Id: 0EF66194228
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	NEURAL_HAM(-0.00)[-0.992];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,diagram.dot:url,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: 7FCDE1945A5
 X-Rspamd-Action: no action
 
-Hi Bart,
+Hi Julien
 
-On 2/24/26 18:28, Bart Van Assche wrote:
-> On 2/24/26 12:20 AM, Christian König wrote:
->> Why exactly do you need that? Would a code comment explaining the
->> background be helpful?
-> dma_resv_lock() has been annotated with    __cond_acquires(0, &obj->lock)
-> and dma_resv_unlock() has been annotated with __releases(&obj->lock).
-> Hence, with thread-safety analysis enabled, Clang complains about
-> dma_resv_unlock() calls if dma_resv_lock() returns an error code. There
-> are several possibilities for suppressing Clang's thread-
-> safety warnings:
-> * The least elegant is to annotate dma_resv_lockdep() with
->   __no_context_analysis and to add a comment.
+On Tue, Feb 24, 2026 at 08:01:53PM +0100, Julien Vuillaumier wrote:
+> Hello Jacopo,
+>
+> On 2/23/26 17:52, Jacopo Mondi wrote:
+> > On Mon, Feb 23, 2026 at 01:38:20PM +0100, Julien Vuillaumier wrote:
+> > > On 2/5/26 10:40, Jacopo Mondi wrote:
+> > > > On Wed, Feb 04, 2026 at 07:30:18PM +0100, Antoine Bouyer wrote:
+> > > > > Le 04/02/2026 à 18:12, Jacopo Mondi a écrit :
+> > > > > > On Tue, Feb 03, 2026 at 07:37:34PM +0100, Jacopo Mondi wrote:
+> > > > > > > On Thu, Jan 29, 2026 at 12:00:24AM +0100, Michael Riesch wrote:
+> > > > > > > > On 1/28/26 09:17, Antoine Bouyer wrote:
+> > > > > > > > > On 1/26/26 10:44 AM, Michael Riesch wrote:
+> > >
+> > > <snip>
+> > >
+> > > > > > > > > >      - How many media devices are registered and which driver registers it
+> > > > > > > > > >        or them?
+> > > > > > > > >
+> > > > > > > > > That will be part of the evaluation. My initial assumption is that
+> > > > > > > > > neoisp would be the appropriate component to register the media device
+> > > > > > > > > in this mode, since ISI is not involved, and ISI currently performs the
+> > > > > > > > > registration in the M2M configuration.
+> > > > > > >
+> > > > > > > Isn't the ISP registering its own media graph ?
+> > > > >
+> > > > > Yes, 8 copies of ISP media graph, that can be used with the 8 output video
+> > > > > devices of the ISI media graph.
+> > > > >
+> > > >
+> > > > I suggest you do what RPi does. The mainline driver only registers one
+> > > > instance and they carry a little patch downstream that implements the
+> > > > for() loop where multiple instances are registered. Duplicating media graphs
+> > > > is not desirable (at least in mainline) as we can have ISPs with 256
+> > > > contexts, we don't want 256 media graphs.
+> > > >
+> > > > A framework level solution with proper priority handling and job
+> > > > scheduling is what is required and that's what the context work should
+> > > > end up being.
+> > > >
+> > >
+> > > One system use-case for the platform is the support of 8x cameras 1080p
+> > > 30fps using m2m operation.
+> > > Requiring a downstream patch to register multiple ISP instances in order to
+> > > support the multi-cameras use-cases may not be the preferred option.
+> > >
+> > > What would be the issue with having multiple ISP instances created by the
+> > > upstream driver?
+> >
+> > You would be registering a media graph instance for each supported ISP
+> > context, not per each ISP instance in the system, effectively
+> > virtualizing access your hardware resources while losing the ability
+> > to implement resource sharing arbitration.
+>
+> Each media graph would represent a software context indeed, multiplexing the
+> access to a single shared hardware resource.
+> The resource sharing arbitration is presumably not lost but implemented at
+> driver level.
+>
 
-Yeah, that is clearly a bad idea.
+As you correctly pointed out below, arbitration implemented in each
+driver is really not desirable
 
-There are basically only two places were we have to ignore this:
+> > By duplicating the graphs you won't be able to implement priorities
+> > and job scheduling at the media device level. You are now time
+> > multiplexing a single hardware resource but you've lost the single
+> > point of control where an API to manage resources allocation can be
+> > implemented.
+> > > As the media subsystem is also growing towards a "media device
+> > centric" API for several reasons, including reducing the number of
+> > ioctl required today to operate a Video4Linux2 camera, this approach
+> > goes in the opposite direction.
+>
+> Having the media device framework supporting priorities and job scheduling
+> would certainly help with contexts handling. By then, dropping
+> multi-context/multi-camera use-cases on the mainline driver may be a drastic
+> limitation.
+>
 
-1. The dma_resv_lockdep() function you stumbled over.
+I know. And that's why I would be eager to move forward with context
+support
 
-2. Some selftest we used to have which intentionally got it wrong to check if lockdep correctly complains about it.
-   (You most likely already excluded that somehow).
+> Supporting a downstream patch to enable multiple contexts is doable.
+> However, looking at the RPi case you mentioned, the relevant patch [1] is
+> quite significant.
+>
+> [1] https://github.com/raspberrypi/linux/commit/458f2e2644ae32ec62f25cc43f77742f69c3d581
+>
 
-Every other code should definitely have this analysis.
+RPi went the extra mile and correctly removed all abstractions in the
+driver to implement multi-context (principally struct
+pispbe_node_group).
 
-Is it somehow possible to annotate only the dma_resv_lockdep() function?
+While this make the mainline driver cleaner there might be ways to
+reduce the diff size (I admit I haven't checked in detail yet driver how
+multi-context is realized in your driver).
 
-> * A better option is to rework the code such that dma_resv_unlock() is
->   not called if dma_resv_lock() returns an error code. That is what I
->   tried to do. There may be better alternatives than my patch.
+> > Also we have today ISPs with 8 and 16 context on the market, going
+> > forward I think it's reasonable to expect this number to grow. If we
+> > allow 2, 8 or 16 media graphs today why not 64 or 128 tomorrow ?
+>
+> In present case, there is no arbitrary limit for the maximum number of
+> contexts: the limiting factors are the pixel processing bandwidth
+> (pixels/second) and the context switch latencies.
+> Thus, using smaller resolutions or lower frame rates, the system could
+> process a higher number of contexts indeed.
+>
 
-That would be dead code which is never used at all and only there to silence the warning. That is usually also a rather bad idea.
+Ah ok, same as the PiSP BE then.
 
-Would it help if we change the code like this?
+So I presume there is no hw context handler/scheduler with a limited
+number of "slots" and the 8 contexts supported by the driver are a
+resonable compromise between functionalities and performances.
 
-        ret = dma_resv_lock(&obj, &ctx);
--       if (ret == -EDEADLK)
-+       /* Only EDEADLK from the error injection is possible here */
-+       if (ret)
-                dma_resv_lock_slow(&obj, &ctx);
 
-Thanks,
-Christian.
+> > > Alternatively, would it be an option to have some mean (device tree, module
+> > > param...) to configure the number of media graph instances created by the
+> > > driver?
+> >
+> > Do you mean having a way to modify the driver behaviour to register
+> > multiple media devices in case one wants to without changing the
+> > driver code ?
+> >
+> > If we're talking mainline, I hardly see this being accepted as a dt
+> > property. A module parameter I'm not sure. I wouldn't like the idea
+> > much as it would effectively allow working around a limitation instead
+> > of trying to achieve a proper solution at the framework level, with
+> > the result that we'll never get past the current technical debt.
+>
+> Those were speculative options to configure the mainline driver in order to
+> limit the default number of media graph created, while still providing some
+> multi-context support.
+>
+> But, as I understand, the main concern may not be the number of media graphs
+> created, but more the fact that the driver implements locally the jobs
+> priority and scheduling policies, whereas such service will be made
+> available from the media framework.
 
-> 
-> Thanks,
-> 
-> Bart.
+I think both are valid concerns, but to me having context support at
+the framework level is the main one, yes.
 
+>
+> Thanks for your feedback.
+
+Thank you, I guess if we move forward with the topology discussion you
+can probably already start planning a v2 ?
+
+Thanks
+  j
+
+>
+> Best Regards,
+> Julien
+>
+> >
+> > You might want to check with others as well, specifically Sakari
+> > Laurent and Hans, they might have different opinions of course.
+> >
+> > (I've cc-ed them).
+> >
+> > Thanks
+> >    j
+> >
+> > >
+> > > Thanks,
+> > > Julien
+> > >
+> > > > > > >
+> > > > > > > Can we get a copy of all media graphs on an i.MX95 system including
+> > > > > > > the ISI and the CSI-2 receiver ?
+> > > > >
+> > > > > Here is an example with multiple sensors. Or do you need it in another
+> > > > > format ?
+> > > >
+> > > > No it's fine, thanks!
+> > > >
+> > > > >
+> > > > >
+> > > > > digraph board {
+> > > > >           rankdir=TB
+> > > > >           n00000001 [label="{{<port0> 0 | <port1> 1 | <port2> 2 | <port3> 3 |
+> > > > > <port4> 4} | crossbar\n/dev/v4l-subdev8 | {<port5> 5 | <port6> 6 | <port7> 7
+> > > > > | <port8> 8 | <port9> 9 | <port10> 10 | <port11> 11 | <port12> 12}}",
+> > > > > shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000001:port5 -> n0000000f:port0 [style=bold]
+> > > > >           n00000001:port6 -> n0000001a:port0 [style=bold]
+> > > > >           n00000001:port7 -> n00000025:port0 [style=bold]
+> > > > >           n00000001:port8 -> n00000030:port0 [style=bold]
+> > > > >           n00000001:port9 -> n0000003b:port0 [style=bold]
+> > > > >           n00000001:port10 -> n00000046:port0 [style=bold]
+> > > > >           n00000001:port11 -> n00000051:port0 [style=bold]
+> > > > >           n00000001:port12 -> n0000005c:port0 [style=bold]
+> > > > >           n0000000f [label="{{<port0> 0} | mxc_isi.0\n/dev/v4l-subdev9 |
+> > > > > {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n0000000f:port1 -> n00000012 [style=bold]
+> > > > >           n00000012 [label="mxc_isi.0.capture\n/dev/video8", shape=box,
+> > > > > style=filled, fillcolor=yellow]
+> > > > >           n0000001a [label="{{<port0> 0} | mxc_isi.1\n/dev/v4l-subdev10 |
+> > > > > {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n0000001a:port1 -> n0000001d [style=bold]
+> > > > >           n0000001d [label="mxc_isi.1.capture\n/dev/video9", shape=box,
+> > > > > style=filled, fillcolor=yellow]
+> > > > >           n00000025 [label="{{<port0> 0} | mxc_isi.2\n/dev/v4l-subdev11 |
+> > > > > {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000025:port1 -> n00000028 [style=bold]
+> > > > >           n00000028 [label="mxc_isi.2.capture\n/dev/video10", shape=box,
+> > > > > style=filled, fillcolor=yellow]
+> > > > >           n00000030 [label="{{<port0> 0} | mxc_isi.3\n/dev/v4l-subdev12 |
+> > > > > {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000030:port1 -> n00000033 [style=bold]
+> > > > >           n00000033 [label="mxc_isi.3.capture\n/dev/video13", shape=box,
+> > > > > style=filled, fillcolor=yellow]
+> > > > >           n0000003b [label="{{<port0> 0} | mxc_isi.4\n/dev/v4l-subdev13 |
+> > > > > {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n0000003b:port1 -> n0000003e [style=bold]
+> > > > >           n0000003e [label="mxc_isi.4.capture\n/dev/video14", shape=box,
+> > > > > style=filled, fillcolor=yellow]
+> > > > >           n00000046 [label="{{<port0> 0} | mxc_isi.5\n/dev/v4l-subdev14 |
+> > > > > {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000046:port1 -> n00000049 [style=bold]
+> > > > >           n00000049 [label="mxc_isi.5.capture\n/dev/video21", shape=box,
+> > > > > style=filled, fillcolor=yellow]
+> > > > >           n00000051 [label="{{<port0> 0} | mxc_isi.6\n/dev/v4l-subdev15 |
+> > > > > {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000051:port1 -> n00000054 [style=bold]
+> > > > >           n00000054 [label="mxc_isi.6.capture\n/dev/video22", shape=box,
+> > > > > style=filled, fillcolor=yellow]
+> > > > >           n0000005c [label="{{<port0> 0} | mxc_isi.7\n/dev/v4l-subdev16 |
+> > > > > {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n0000005c:port1 -> n0000005f [style=bold]
+> > > > >           n0000005f [label="mxc_isi.7.capture\n/dev/video23", shape=box,
+> > > > > style=filled, fillcolor=yellow]
+> > > > >           n00000067 [label="mxc_isi.output\n", shape=box, style=filled,
+> > > > > fillcolor=yellow]
+> > > > >           n00000067 -> n00000001:port4 [style=bold]
+> > > > >           n0000006e [label="{{<port0> 0} |
+> > > > > 4ac10000.syscon:formatter@20\n/dev/v4l-subdev17 | {<port1> 1}}",
+> > > > > shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n0000006e:port1 -> n00000001:port2 [style=bold]
+> > > > >           n00000073 [label="{{<port0> 0} |
+> > > > > csidev-4ad30000.csi\n/dev/v4l-subdev18 | {<port1> 1}}", shape=Mrecord,
+> > > > > style=filled, fillcolor=green]
+> > > > >           n00000073:port1 -> n0000006e:port0 [style=bold]
+> > > > >           n00000078 [label="{{<port0> 0 | <port1> 1 | <port2> 2 | <port3> 3} |
+> > > > > max96724 2-0027\n/dev/v4l-subdev19 | {<port4> 4 | <port5> 5}}",
+> > > > > shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000078:port4 -> n00000073:port0 [style=dashed]
+> > > > >           n00000081 [label="{{} | mx95mbcam 8-0040\n/dev/v4l-subdev20 |
+> > > > > {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000081:port0 -> n00000078:port0 [style=bold]
+> > > > >           n00000085 [label="{{} | mx95mbcam 9-0040\n/dev/v4l-subdev21 |
+> > > > > {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000085:port0 -> n00000078:port1 [style=bold]
+> > > > >           n00000089 [label="{{} | mx95mbcam 10-0040\n/dev/v4l-subdev22 |
+> > > > > {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n00000089:port0 -> n00000078:port2 [style=bold]
+> > > > >           n0000008d [label="{{} | mx95mbcam 11-0040\n/dev/v4l-subdev23 |
+> > > > > {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> > > > >           n0000008d:port0 -> n00000078:port3 [style=bold]
+> > > > > }
+> > > > >
+> > > > >
+> > > > > > >
+> > > > > > > If I'm not mistaken you'll have 8 copies of the ISP media graphs, and
+> > > > > > > that's exactly what we're working on with the context framework :)
+> > > > > > >
+> > > > >
+> > > > > Ok. Then I should have a look to context framework too ...
+> > > > >
+> > > >
+> > > > Please, I hope to be able to resume working on it sooner or later
+> > > > given the right use case.
+> > > >
+> > > > > > >
+> > > > > > > >
+> > > > > > > > ... since it is not, your assumption seems very reasonable.
+> > > > > > > >
+> > > > > > > > >
+> > > > > > > > > >      - How can the user decide whether direct (csi2isp) or indirect
+> > > > > > > > > >        (mem2mem) streaming shall be used?
+> > > > > > > > >
+> > > > > > > > > That will also be part of the evaluation. From dts would be my first
+> > > > > > > > > option, but may prevent using both modes on same platform then.
+> > > > > > > >
+> > > > > > > > Of course this depends what the hardware is able to do, but in case the
+> > > > > > > > HW is reconfigurable easily, I doubt that device tree is a good choice
+> > > > > > > > to solve that.
+> > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > While it is certainly OK to introduce this support only at a later
+> > > > > > > > > > stage, it makes sense to consider this right from the start to avoid
+> > > > > > > > > > some nasty changes e.g. in how this hardware is exposed to user space.
+> > > > > > > > > >
+> > > > > > > > > > Also, we are facing a similiar challenge with recent Rockchip ISP
+> > > > > > > > > > hardware (RK3588, RK3576, ...) and it would be great to hear your
+> > > > > > > > > > thoughts about that.
+> > > > > > > > >
+> > > > > > > > > Is there an existing discussion thread available on this topic? I would
+> > > > > > > > > be very interested in following it.
+> > > > > > > >
+> > > > > > > > Not yet, I am afraid. But there should be one or two soon (TM) :-)
+> > > > > > >
+> > > > > > > It's probably time to have one :)
+> > > > >
+> > > > > Good. Please loop me in ;)
+> > > >
+> > > > You are in, this is the conversation ;)
+> > > >
+> > > > It might be a good discussion point for the media summit in Nice
+> > > > co-located with Embedded Recipes if people with interest in the topic
+> > > > will going the be there.
+> > > >
+> > > > I'm also adding Anthony from ARM as I know he's going through the same
+> > > > inline/m2m duality you're now facing.
+> > > >
+> > > > Thanks
+> > > >     j
+> > > >
+> > > > >
+> > > > > BR
+> > > > > Antoine
+> > > > >
+> > > > > > >
+> > > > > > > >
+> > > > > > > > Thanks and regards,
+> > > > > > > > Michael
+> > > > > > > >
+> > > > > > > > >
+> > > > > > > > > Thanks
+> > > > > > > > > Antoine
+> > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > Thanks in advance and best regards,
+> > > > > > > > > > Michael
+> > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > This series is posted as RFC because extending the v4l2-isp interface
+> > > > > > > > > > > may
+> > > > > > > > > > > overlap with ongoing work. If similar development already exists, I am
+> > > > > > > > > > > happy to rebase or adapt the series accordingly. If preferred, the
+> > > > > > > > > > > series
+> > > > > > > > > > > can also be split into two parts: the v4l2-isp rework and the Neo ISP
+> > > > > > > > > > > driver introduction.
+> > > > > > > > > > >
+> > > > > > > > > > > A few checkpatch warnings in v4l2-ioctl.c remain intentionally to stay
+> > > > > > > > > > > consistent with the existing style in that file.
+> > > > > > > > > > >
+> > > > > > > > > > > Testing was performed on the i.MX95 EVK using the media/next kernel in
+> > > > > > > > > > > standalone M2M mode. End-to-end camera-to-ISP capture has been validated
+> > > > > > > > > > > using the downstream NXP kernel, as some hardware dependencies are not
+> > > > > > > > > > > yet upstreamed.
+> > > > > > > > > > >
+> > > > > > > > > > > Thanks,
+> > > > > > > > > > > Antoine
+> > > > > > > > > > >
+> > > > > > > > > > > ---
+> > > > > > > > > > > Here are v4l2-compliance test results:
+> > > > > > > > > > >
+> > > > > > > > > > > v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
+> > > > > > > > > > > v4l2-compliance SHA: fc15e229d9d3 2024-07-23 19:22:15
+> > > > > > > > > > >
+> > > > > > > > > > > Compliance test for neoisp device /dev/media0:
+> > > > > > > > > > >
+> > > > > > > > > > > Media Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Model            : neoisp
+> > > > > > > > > > >           Serial           :
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Media version    : 6.19.0
+> > > > > > > > > > >           Hardware revision: 0x00000002 (2)
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > >
+> > > > > > > > > > > Required ioctls:
+> > > > > > > > > > >           test MEDIA_IOC_DEVICE_INFO: OK
+> > > > > > > > > > >           test invalid ioctls: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Allow for multiple opens:
+> > > > > > > > > > >           test second /dev/media0 open: OK
+> > > > > > > > > > >           test MEDIA_IOC_DEVICE_INFO: OK
+> > > > > > > > > > >           test for unlimited opens: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Media Controller ioctls:
+> > > > > > > > > > >           test MEDIA_IOC_G_TOPOLOGY: OK
+> > > > > > > > > > >           Entities: 7 Interfaces: 7 Pads: 12 Links: 13
+> > > > > > > > > > >           test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
+> > > > > > > > > > >           test MEDIA_IOC_SETUP_LINK: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Total for neoisp device /dev/media0: 8, Succeeded: 8, Failed: 0,
+> > > > > > > > > > > Warnings: 0
+> > > > > > > > > > > --------------------------------------------------------------------------------
+> > > > > > > > > > > Compliance test for neoisp device /dev/video0:
+> > > > > > > > > > >
+> > > > > > > > > > > Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Card type        : neoisp
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > >           Capabilities     : 0x8ca03000
+> > > > > > > > > > >                   Video Capture Multiplanar
+> > > > > > > > > > >                   Video Output Multiplanar
+> > > > > > > > > > >                   Metadata Capture
+> > > > > > > > > > >                   Metadata Output
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > >                   Device Capabilities
+> > > > > > > > > > >           Device Caps      : 0x04202000
+> > > > > > > > > > >                   Video Output Multiplanar
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > > Media Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Model            : neoisp
+> > > > > > > > > > >           Serial           :
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Media version    : 6.19.0
+> > > > > > > > > > >           Hardware revision: 0x00000002 (2)
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > > Interface Info:
+> > > > > > > > > > >           ID               : 0x0300000a
+> > > > > > > > > > >           Type             : V4L Video
+> > > > > > > > > > > Entity Info:
+> > > > > > > > > > >           ID               : 0x00000008 (8)
+> > > > > > > > > > >           Name             : neoisp-input0
+> > > > > > > > > > >           Function         : V4L2 I/O
+> > > > > > > > > > >           Pad 0x01000009   : 0: Source
+> > > > > > > > > > >             Link 0x0200000c: to remote pad 0x1000002 of entity
+> > > > > > > > > > > 'neoisp' (Image Signal Processor): Data, Enabled, Immutable
+> > > > > > > > > > >
+> > > > > > > > > > > Required ioctls:
+> > > > > > > > > > >           test MC information (see 'Media Driver Info' above): OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test invalid ioctls: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Allow for multiple opens:
+> > > > > > > > > > >           test second /dev/video0 open: OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PRIORITY: OK
+> > > > > > > > > > >           test for unlimited opens: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Debug ioctls:
+> > > > > > > > > > >           test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Input ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > > > > > > > > > >           Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Output ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > > > > > > > > > >           Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Input/Output configuration ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_EDID: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Control ioctls:
+> > > > > > > > > > >           test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_QUERYCTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_CTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > > > > > > > > > >           Standard Controls: 0 Private Controls: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Format ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PARM: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FBUF: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FMT: OK
+> > > > > > > > > > >           test VIDIOC_TRY_FMT: OK
+> > > > > > > > > > >           test VIDIOC_S_FMT: OK
+> > > > > > > > > > >           test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > > > > > > > > > >           test Cropping: OK
+> > > > > > > > > > >           test Composing: OK (Not Supported)
+> > > > > > > > > > >           test Scaling: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Codec ioctls:
+> > > > > > > > > > >           test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Buffer ioctls:
+> > > > > > > > > > >           test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> > > > > > > > > > >           test CREATE_BUFS maximum buffers: OK
+> > > > > > > > > > >           test VIDIOC_REMOVE_BUFS: OK
+> > > > > > > > > > >           test VIDIOC_EXPBUF: OK
+> > > > > > > > > > >           test Requests: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Total for neoisp device /dev/video0: 48, Succeeded: 48, Failed: 0,
+> > > > > > > > > > > Warnings: 0
+> > > > > > > > > > > --------------------------------------------------------------------------------
+> > > > > > > > > > > Compliance test for neoisp device /dev/video1:
+> > > > > > > > > > >
+> > > > > > > > > > > Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Card type        : neoisp
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > >           Capabilities     : 0x8ca03000
+> > > > > > > > > > >                   Video Capture Multiplanar
+> > > > > > > > > > >                   Video Output Multiplanar
+> > > > > > > > > > >                   Metadata Capture
+> > > > > > > > > > >                   Metadata Output
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > >                   Device Capabilities
+> > > > > > > > > > >           Device Caps      : 0x04202000
+> > > > > > > > > > >                   Video Output Multiplanar
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > > Media Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Model            : neoisp
+> > > > > > > > > > >           Serial           :
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Media version    : 6.19.0
+> > > > > > > > > > >           Hardware revision: 0x00000002 (2)
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > > Interface Info:
+> > > > > > > > > > >           ID               : 0x03000010
+> > > > > > > > > > >           Type             : V4L Video
+> > > > > > > > > > > Entity Info:
+> > > > > > > > > > >           ID               : 0x0000000e (14)
+> > > > > > > > > > >           Name             : neoisp-input1
+> > > > > > > > > > >           Function         : V4L2 I/O
+> > > > > > > > > > >           Pad 0x0100000f   : 0: Source
+> > > > > > > > > > >             Link 0x02000012: to remote pad 0x1000003 of entity
+> > > > > > > > > > > 'neoisp' (Image Signal Processor): Data
+> > > > > > > > > > >
+> > > > > > > > > > > Required ioctls:
+> > > > > > > > > > >           test MC information (see 'Media Driver Info' above): OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test invalid ioctls: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Allow for multiple opens:
+> > > > > > > > > > >           test second /dev/video1 open: OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PRIORITY: OK
+> > > > > > > > > > >           test for unlimited opens: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Debug ioctls:
+> > > > > > > > > > >           test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Input ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > > > > > > > > > >           Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Output ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > > > > > > > > > >           Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Input/Output configuration ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_EDID: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Control ioctls:
+> > > > > > > > > > >           test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_QUERYCTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_CTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > > > > > > > > > >           Standard Controls: 0 Private Controls: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Format ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PARM: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FBUF: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FMT: OK
+> > > > > > > > > > >           test VIDIOC_TRY_FMT: OK
+> > > > > > > > > > >           test VIDIOC_S_FMT: OK
+> > > > > > > > > > >           test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > > > > > > > > > >           test Cropping: OK
+> > > > > > > > > > >           test Composing: OK (Not Supported)
+> > > > > > > > > > >           test Scaling: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Codec ioctls:
+> > > > > > > > > > >           test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Buffer ioctls:
+> > > > > > > > > > >           test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> > > > > > > > > > >           test CREATE_BUFS maximum buffers: OK
+> > > > > > > > > > >           test VIDIOC_REMOVE_BUFS: OK
+> > > > > > > > > > >           test VIDIOC_EXPBUF: OK
+> > > > > > > > > > >           test Requests: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Total for neoisp device /dev/video1: 48, Succeeded: 48, Failed: 0,
+> > > > > > > > > > > Warnings: 0
+> > > > > > > > > > > --------------------------------------------------------------------------------
+> > > > > > > > > > > Compliance test for neoisp device /dev/video2:
+> > > > > > > > > > >
+> > > > > > > > > > > Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Card type        : neoisp
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > >           Capabilities     : 0x8ca03000
+> > > > > > > > > > >                   Video Capture Multiplanar
+> > > > > > > > > > >                   Video Output Multiplanar
+> > > > > > > > > > >                   Metadata Capture
+> > > > > > > > > > >                   Metadata Output
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > >                   Device Capabilities
+> > > > > > > > > > >           Device Caps      : 0x0c200000
+> > > > > > > > > > >                   Metadata Output
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > > Media Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Model            : neoisp
+> > > > > > > > > > >           Serial           :
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Media version    : 6.19.0
+> > > > > > > > > > >           Hardware revision: 0x00000002 (2)
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > > Interface Info:
+> > > > > > > > > > >           ID               : 0x03000016
+> > > > > > > > > > >           Type             : V4L Video
+> > > > > > > > > > > Entity Info:
+> > > > > > > > > > >           ID               : 0x00000014 (20)
+> > > > > > > > > > >           Name             : neoisp-params
+> > > > > > > > > > >           Function         : V4L2 I/O
+> > > > > > > > > > >           Pad 0x01000015   : 0: Source
+> > > > > > > > > > >             Link 0x02000018: to remote pad 0x1000004 of entity
+> > > > > > > > > > > 'neoisp' (Image Signal Processor): Data, Enabled
+> > > > > > > > > > >
+> > > > > > > > > > > Required ioctls:
+> > > > > > > > > > >           test MC information (see 'Media Driver Info' above): OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test invalid ioctls: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Allow for multiple opens:
+> > > > > > > > > > >           test second /dev/video2 open: OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PRIORITY: OK
+> > > > > > > > > > >           test for unlimited opens: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Debug ioctls:
+> > > > > > > > > > >           test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Input ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > > > > > > > > > >           Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Output ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > > > > > > > > > >           Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Input/Output configuration ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_EDID: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Control ioctls:
+> > > > > > > > > > >           test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_QUERYCTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_CTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > > > > > > > > > >           Standard Controls: 0 Private Controls: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Format ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PARM: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FBUF: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FMT: OK
+> > > > > > > > > > >           test VIDIOC_TRY_FMT: OK
+> > > > > > > > > > >           test VIDIOC_S_FMT: OK
+> > > > > > > > > > >           test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > > > > > > > > > >           test Cropping: OK (Not Supported)
+> > > > > > > > > > >           test Composing: OK (Not Supported)
+> > > > > > > > > > >           test Scaling: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Codec ioctls:
+> > > > > > > > > > >           test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Buffer ioctls:
+> > > > > > > > > > >           test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> > > > > > > > > > >           test CREATE_BUFS maximum buffers: OK
+> > > > > > > > > > >           test VIDIOC_REMOVE_BUFS: OK
+> > > > > > > > > > >           test VIDIOC_EXPBUF: OK
+> > > > > > > > > > >           test Requests: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Total for neoisp device /dev/video2: 48, Succeeded: 48, Failed: 0,
+> > > > > > > > > > > Warnings: 0
+> > > > > > > > > > > --------------------------------------------------------------------------------
+> > > > > > > > > > > Compliance test for neoisp device /dev/video3:
+> > > > > > > > > > >
+> > > > > > > > > > > Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Card type        : neoisp
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > >           Capabilities     : 0x8ca03000
+> > > > > > > > > > >                   Video Capture Multiplanar
+> > > > > > > > > > >                   Video Output Multiplanar
+> > > > > > > > > > >                   Metadata Capture
+> > > > > > > > > > >                   Metadata Output
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > >                   Device Capabilities
+> > > > > > > > > > >           Device Caps      : 0x04201000
+> > > > > > > > > > >                   Video Capture Multiplanar
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > > Media Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Model            : neoisp
+> > > > > > > > > > >           Serial           :
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Media version    : 6.19.0
+> > > > > > > > > > >           Hardware revision: 0x00000002 (2)
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > > Interface Info:
+> > > > > > > > > > >           ID               : 0x0300001c
+> > > > > > > > > > >           Type             : V4L Video
+> > > > > > > > > > > Entity Info:
+> > > > > > > > > > >           ID               : 0x0000001a (26)
+> > > > > > > > > > >           Name             : neoisp-frame
+> > > > > > > > > > >           Function         : V4L2 I/O
+> > > > > > > > > > >           Pad 0x0100001b   : 0: Sink
+> > > > > > > > > > >             Link 0x0200001e: from remote pad 0x1000005 of entity
+> > > > > > > > > > > 'neoisp' (Image Signal Processor): Data, Enabled
+> > > > > > > > > > >
+> > > > > > > > > > > Required ioctls:
+> > > > > > > > > > >           test MC information (see 'Media Driver Info' above): OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test invalid ioctls: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Allow for multiple opens:
+> > > > > > > > > > >           test second /dev/video3 open: OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PRIORITY: OK
+> > > > > > > > > > >           test for unlimited opens: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Debug ioctls:
+> > > > > > > > > > >           test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Input ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > > > > > > > > > >           Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Output ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > > > > > > > > > >           Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Input/Output configuration ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_EDID: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Control ioctls:
+> > > > > > > > > > >           test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_QUERYCTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_CTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > > > > > > > > > >           Standard Controls: 0 Private Controls: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Format ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PARM: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FBUF: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FMT: OK
+> > > > > > > > > > >           test VIDIOC_TRY_FMT: OK
+> > > > > > > > > > >           test VIDIOC_S_FMT: OK
+> > > > > > > > > > >           test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > > > > > > > > > >           test Cropping: OK (Not Supported)
+> > > > > > > > > > >           test Composing: OK (Not Supported)
+> > > > > > > > > > >           test Scaling: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Codec ioctls:
+> > > > > > > > > > >           test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Buffer ioctls:
+> > > > > > > > > > >           test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> > > > > > > > > > >           test CREATE_BUFS maximum buffers: OK
+> > > > > > > > > > >           test VIDIOC_REMOVE_BUFS: OK
+> > > > > > > > > > >           test VIDIOC_EXPBUF: OK
+> > > > > > > > > > >           test Requests: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Total for neoisp device /dev/video3: 48, Succeeded: 48, Failed: 0,
+> > > > > > > > > > > Warnings: 0
+> > > > > > > > > > > --------------------------------------------------------------------------------
+> > > > > > > > > > > Compliance test for neoisp device /dev/video4:
+> > > > > > > > > > >
+> > > > > > > > > > > Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Card type        : neoisp
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > >           Capabilities     : 0x8ca03000
+> > > > > > > > > > >                   Video Capture Multiplanar
+> > > > > > > > > > >                   Video Output Multiplanar
+> > > > > > > > > > >                   Metadata Capture
+> > > > > > > > > > >                   Metadata Output
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > >                   Device Capabilities
+> > > > > > > > > > >           Device Caps      : 0x04201000
+> > > > > > > > > > >                   Video Capture Multiplanar
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > > Media Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Model            : neoisp
+> > > > > > > > > > >           Serial           :
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Media version    : 6.19.0
+> > > > > > > > > > >           Hardware revision: 0x00000002 (2)
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > > Interface Info:
+> > > > > > > > > > >           ID               : 0x03000022
+> > > > > > > > > > >           Type             : V4L Video
+> > > > > > > > > > > Entity Info:
+> > > > > > > > > > >           ID               : 0x00000020 (32)
+> > > > > > > > > > >           Name             : neoisp-ir
+> > > > > > > > > > >           Function         : V4L2 I/O
+> > > > > > > > > > >           Pad 0x01000021   : 0: Sink
+> > > > > > > > > > >             Link 0x02000024: from remote pad 0x1000006 of entity
+> > > > > > > > > > > 'neoisp' (Image Signal Processor): Data
+> > > > > > > > > > >
+> > > > > > > > > > > Required ioctls:
+> > > > > > > > > > >           test MC information (see 'Media Driver Info' above): OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test invalid ioctls: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Allow for multiple opens:
+> > > > > > > > > > >           test second /dev/video4 open: OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PRIORITY: OK
+> > > > > > > > > > >           test for unlimited opens: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Debug ioctls:
+> > > > > > > > > > >           test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Input ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > > > > > > > > > >           Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Output ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > > > > > > > > > >           Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Input/Output configuration ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_EDID: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Control ioctls:
+> > > > > > > > > > >           test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_QUERYCTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_CTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > > > > > > > > > >           Standard Controls: 0 Private Controls: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Format ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PARM: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FBUF: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FMT: OK
+> > > > > > > > > > >           test VIDIOC_TRY_FMT: OK
+> > > > > > > > > > >           test VIDIOC_S_FMT: OK
+> > > > > > > > > > >           test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > > > > > > > > > >           test Cropping: OK (Not Supported)
+> > > > > > > > > > >           test Composing: OK (Not Supported)
+> > > > > > > > > > >           test Scaling: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Codec ioctls:
+> > > > > > > > > > >           test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Buffer ioctls:
+> > > > > > > > > > >           test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> > > > > > > > > > >           test CREATE_BUFS maximum buffers: OK
+> > > > > > > > > > >           test VIDIOC_REMOVE_BUFS: OK
+> > > > > > > > > > >           test VIDIOC_EXPBUF: OK
+> > > > > > > > > > >           test Requests: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Total for neoisp device /dev/video4: 48, Succeeded: 48, Failed: 0,
+> > > > > > > > > > > Warnings: 0
+> > > > > > > > > > > --------------------------------------------------------------------------------
+> > > > > > > > > > > Compliance test for neoisp device /dev/video5:
+> > > > > > > > > > >
+> > > > > > > > > > > Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Card type        : neoisp
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > >           Capabilities     : 0x8ca03000
+> > > > > > > > > > >                   Video Capture Multiplanar
+> > > > > > > > > > >                   Video Output Multiplanar
+> > > > > > > > > > >                   Metadata Capture
+> > > > > > > > > > >                   Metadata Output
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > >                   Device Capabilities
+> > > > > > > > > > >           Device Caps      : 0x04a00000
+> > > > > > > > > > >                   Metadata Capture
+> > > > > > > > > > >                   Streaming
+> > > > > > > > > > >                   Extended Pix Format
+> > > > > > > > > > > Media Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Model            : neoisp
+> > > > > > > > > > >           Serial           :
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Media version    : 6.19.0
+> > > > > > > > > > >           Hardware revision: 0x00000002 (2)
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > > Interface Info:
+> > > > > > > > > > >           ID               : 0x03000028
+> > > > > > > > > > >           Type             : V4L Video
+> > > > > > > > > > > Entity Info:
+> > > > > > > > > > >           ID               : 0x00000026 (38)
+> > > > > > > > > > >           Name             : neoisp-stats
+> > > > > > > > > > >           Function         : V4L2 I/O
+> > > > > > > > > > >           Pad 0x01000027   : 0: Sink
+> > > > > > > > > > >             Link 0x0200002a: from remote pad 0x1000007 of entity
+> > > > > > > > > > > 'neoisp' (Image Signal Processor): Data, Enabled
+> > > > > > > > > > >
+> > > > > > > > > > > Required ioctls:
+> > > > > > > > > > >           test MC information (see 'Media Driver Info' above): OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test invalid ioctls: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Allow for multiple opens:
+> > > > > > > > > > >           test second /dev/video5 open: OK
+> > > > > > > > > > >           test VIDIOC_QUERYCAP: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PRIORITY: OK
+> > > > > > > > > > >           test for unlimited opens: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Debug ioctls:
+> > > > > > > > > > >           test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Input ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > > > > > > > > > >           Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Output ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > > > > > > > > > >           Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Input/Output configuration ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_EDID: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Control ioctls:
+> > > > > > > > > > >           test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_QUERYCTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_CTRL: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > > > > > > > > > >           Standard Controls: 0 Private Controls: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Format ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> > > > > > > > > > >           test VIDIOC_G/S_PARM: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FBUF: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FMT: OK
+> > > > > > > > > > >           test VIDIOC_TRY_FMT: OK
+> > > > > > > > > > >           test VIDIOC_S_FMT: OK
+> > > > > > > > > > >           test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > > > > > > > > > >           test Cropping: OK (Not Supported)
+> > > > > > > > > > >           test Composing: OK (Not Supported)
+> > > > > > > > > > >           test Scaling: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Codec ioctls:
+> > > > > > > > > > >           test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Buffer ioctls:
+> > > > > > > > > > >           test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> > > > > > > > > > >           test CREATE_BUFS maximum buffers: OK
+> > > > > > > > > > >           test VIDIOC_REMOVE_BUFS: OK
+> > > > > > > > > > >           test VIDIOC_EXPBUF: OK
+> > > > > > > > > > >           test Requests: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Total for neoisp device /dev/video5: 48, Succeeded: 48, Failed: 0,
+> > > > > > > > > > > Warnings: 0
+> > > > > > > > > > > --------------------------------------------------------------------------------
+> > > > > > > > > > > Compliance test for neoisp device /dev/v4l-subdev0:
+> > > > > > > > > > >
+> > > > > > > > > > > Driver Info:
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > >           Capabilities     : 0x00000000
+> > > > > > > > > > >           Client Capabilities: 0x0000000000000002
+> > > > > > > > > > > interval-uses-which Media Driver Info:
+> > > > > > > > > > >           Driver name      : neoisp
+> > > > > > > > > > >           Model            : neoisp
+> > > > > > > > > > >           Serial           :
+> > > > > > > > > > >           Bus info         : platform:4ae00000.isp
+> > > > > > > > > > >           Media version    : 6.19.0
+> > > > > > > > > > >           Hardware revision: 0x00000002 (2)
+> > > > > > > > > > >           Driver version   : 6.19.0
+> > > > > > > > > > > Interface Info:
+> > > > > > > > > > >           ID               : 0x0300002c
+> > > > > > > > > > >           Type             : V4L Sub-Device
+> > > > > > > > > > > Entity Info:
+> > > > > > > > > > >           ID               : 0x00000001 (1)
+> > > > > > > > > > >           Name             : neoisp
+> > > > > > > > > > >           Function         : Image Signal Processor
+> > > > > > > > > > >           Pad 0x01000002   : 0: Sink
+> > > > > > > > > > >             Link 0x0200000c: from remote pad 0x1000009 of entity
+> > > > > > > > > > > 'neoisp-input0' (V4L2 I/O): Data, Enabled, Immutable
+> > > > > > > > > > >           Pad 0x01000003   : 1: Sink
+> > > > > > > > > > >             Link 0x02000012: from remote pad 0x100000f of entity
+> > > > > > > > > > > 'neoisp-input1' (V4L2 I/O): Data
+> > > > > > > > > > >           Pad 0x01000004   : 2: Sink
+> > > > > > > > > > >             Link 0x02000018: from remote pad 0x1000015 of entity
+> > > > > > > > > > > 'neoisp-params' (V4L2 I/O): Data, Enabled
+> > > > > > > > > > >           Pad 0x01000005   : 3: Source
+> > > > > > > > > > >             Link 0x0200001e: to remote pad 0x100001b of entity 'neoisp-
+> > > > > > > > > > > frame' (V4L2 I/O): Data, Enabled
+> > > > > > > > > > >           Pad 0x01000006   : 4: Source
+> > > > > > > > > > >             Link 0x02000024: to remote pad 0x1000021 of entity 'neoisp-
+> > > > > > > > > > > ir' (V4L2 I/O): Data
+> > > > > > > > > > >           Pad 0x01000007   : 5: Source
+> > > > > > > > > > >             Link 0x0200002a: to remote pad 0x1000027 of entity 'neoisp-
+> > > > > > > > > > > stats' (V4L2 I/O): Data, Enabled
+> > > > > > > > > > >
+> > > > > > > > > > > Required ioctls:
+> > > > > > > > > > >           test MC information (see 'Media Driver Info' above): OK
+> > > > > > > > > > >           test VIDIOC_SUDBEV_QUERYCAP: OK
+> > > > > > > > > > >           test invalid ioctls: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Allow for multiple opens:
+> > > > > > > > > > >           test second /dev/v4l-subdev0 open: OK
+> > > > > > > > > > >           test VIDIOC_SUBDEV_QUERYCAP: OK
+> > > > > > > > > > >           test for unlimited opens: OK
+> > > > > > > > > > >
+> > > > > > > > > > > Debug ioctls:
+> > > > > > > > > > >           test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Input ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> > > > > > > > > > >           Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Output ioctls:
+> > > > > > > > > > >           test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> > > > > > > > > > >           Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Input/Output configuration ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_EDID: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Sub-Device ioctls (Sink Pad 0):
+> > > > > > > > > > >           Try Stream 0
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           Active Stream 0
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Sub-Device ioctls (Sink Pad 1):
+> > > > > > > > > > >           Try Stream 0
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           Active Stream 0
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Sub-Device ioctls (Sink Pad 2):
+> > > > > > > > > > >           Try Stream 0
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           Active Stream 0
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Sub-Device ioctls (Source Pad 3):
+> > > > > > > > > > >           Try Stream 0
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           Active Stream 0
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Sub-Device ioctls (Source Pad 4):
+> > > > > > > > > > >           Try Stream 0
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           Active Stream 0
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Sub-Device ioctls (Source Pad 5):
+> > > > > > > > > > >           Try Stream 0
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Try VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           Active Stream 0
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/
+> > > > > > > > > > > FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_SELECTION/CROP: OK (Not Supported)
+> > > > > > > > > > >           test Active VIDIOC_SUBDEV_G/S_FRAME_INTERVAL: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Control ioctls:
+> > > > > > > > > > >           test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+> > > > > > > > > > >           test VIDIOC_QUERYCTRL: OK
+> > > > > > > > > > >           test VIDIOC_G/S_CTRL: OK
+> > > > > > > > > > >           test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+> > > > > > > > > > >           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+> > > > > > > > > > >           test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> > > > > > > > > > >           Standard Controls: 1 Private Controls: 1
+> > > > > > > > > > >
+> > > > > > > > > > > Format ioctls:
+> > > > > > > > > > >           test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not
+> > > > > > > > > > > Supported)
+> > > > > > > > > > >           test VIDIOC_G/S_PARM: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FBUF: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_FMT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_TRY_FMT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_S_FMT: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> > > > > > > > > > >           test Cropping: OK (Not Supported)
+> > > > > > > > > > >           test Composing: OK (Not Supported)
+> > > > > > > > > > >           test Scaling: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Codec ioctls:
+> > > > > > > > > > >           test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> > > > > > > > > > >           test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Buffer ioctls:
+> > > > > > > > > > >           test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+> > > > > > > > > > >           test CREATE_BUFS maximum buffers: OK
+> > > > > > > > > > >           test VIDIOC_REMOVE_BUFS: OK
+> > > > > > > > > > >           test VIDIOC_EXPBUF: OK (Not Supported)
+> > > > > > > > > > >           test Requests: OK (Not Supported)
+> > > > > > > > > > >
+> > > > > > > > > > > Total for neoisp device /dev/v4l-subdev0: 88, Succeeded: 88, Failed:
+> > > > > > > > > > > 0, Warnings: 0
+> > > > > > > > > > >
+> > > > > > > > > > > Grand Total for neoisp device /dev/media0: 384, Succeeded: 384,
+> > > > > > > > > > > Failed: 0, Warnings: 0
+> > > > > > > > > > >
+> > > > > > > > > > > ---
+> > > > > > > > > > > Antoine Bouyer (11):
+> > > > > > > > > > >       media: uapi: v4l2-isp: Add v4l2 ISP extensible statistics definitions
+> > > > > > > > > > >       media: v4l2-isp: Add helper function to compute extended stats size
+> > > > > > > > > > >       media: Documentation: uapi: Update V4L2 ISP for extensible stats
+> > > > > > > > > > >       media: Documentation: Add NXP neoisp driver documentation
+> > > > > > > > > > >       dt-bindings: media: Add nxp neoisp support
+> > > > > > > > > > >       media: v4l2-ctrls: Add user control base for NXP neoisp controls
+> > > > > > > > > > >       media: Add meta formats supported by NXP neoisp driver
+> > > > > > > > > > >       media: uapi: Add NXP NEOISP user interface header file
+> > > > > > > > > > >       media: platform: Add NXP Neoisp Image Signal Processor
+> > > > > > > > > > >       media: platform: neoisp: Add debugfs support
+> > > > > > > > > > >       arm64: dts: freescale: imx95: Add NXP neoisp device tree node
+> > > > > > > > > > >
+> > > > > > > > > > >      .../admin-guide/media/nxp-neoisp-diagram.dot  |   22 +
+> > > > > > > > > > >      .../admin-guide/media/nxp-neoisp.dot          |   16 +
+> > > > > > > > > > >      .../admin-guide/media/nxp-neoisp.rst          |  189 ++
+> > > > > > > > > > >      .../admin-guide/media/v4l-drivers.rst         |    1 +
+> > > > > > > > > > >      .../devicetree/bindings/media/nxp,neoisp.yaml |   65 +
+> > > > > > > > > > >      .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+> > > > > > > > > > >      .../media/v4l/metafmt-nxp-neoisp.rst          |  114 +
+> > > > > > > > > > >      .../userspace-api/media/v4l/v4l2-isp.rst      |   42 +-
+> > > > > > > > > > >      MAINTAINERS                                   |    9 +
+> > > > > > > > > > >      .../boot/dts/freescale/imx95-19x19-evk.dts    |    4 +
+> > > > > > > > > > >      arch/arm64/boot/dts/freescale/imx95.dtsi      |   11 +
+> > > > > > > > > > >      drivers/media/platform/nxp/Kconfig            |    1 +
+> > > > > > > > > > >      drivers/media/platform/nxp/Makefile           |    1 +
+> > > > > > > > > > >      drivers/media/platform/nxp/neoisp/Kconfig     |   15 +
+> > > > > > > > > > >      drivers/media/platform/nxp/neoisp/Makefile    |    8 +
+> > > > > > > > > > >      drivers/media/platform/nxp/neoisp/neoisp.h    |  270 ++
+> > > > > > > > > > >      .../media/platform/nxp/neoisp/neoisp_ctx.c    | 2798 +++++++++++++++++
+> > > > > > > > > > >      .../media/platform/nxp/neoisp/neoisp_ctx.h    |   85 +
+> > > > > > > > > > >      .../platform/nxp/neoisp/neoisp_debugfs.c      |  503 +++
+> > > > > > > > > > >      .../media/platform/nxp/neoisp/neoisp_fmt.h    |  509 +++
+> > > > > > > > > > >      drivers/media/platform/nxp/neoisp/neoisp_hw.h |  577 ++++
+> > > > > > > > > > >      .../media/platform/nxp/neoisp/neoisp_main.c   | 1999 ++++++++++++
+> > > > > > > > > > >      .../media/platform/nxp/neoisp/neoisp_nodes.h  |   60 +
+> > > > > > > > > > >      .../media/platform/nxp/neoisp/neoisp_regs.h   | 2501 +++++++++++++++
+> > > > > > > > > > >      drivers/media/v4l2-core/v4l2-ioctl.c          |    4 +
+> > > > > > > > > > >      include/media/v4l2-isp.h                      |   13 +
+> > > > > > > > > > >      include/uapi/linux/media/nxp/nxp_neoisp.h     | 1968 ++++++++++++
+> > > > > > > > > > >      include/uapi/linux/media/v4l2-isp.h           |   85 +
+> > > > > > > > > > >      include/uapi/linux/v4l2-controls.h            |    6 +
+> > > > > > > > > > >      include/uapi/linux/videodev2.h                |    6 +
+> > > > > > > > > > >      30 files changed, 11880 insertions(+), 3 deletions(-)
+> > > > > > > > > > >      create mode 100644 Documentation/admin-guide/media/nxp-neoisp-
+> > > > > > > > > > > diagram.dot
+> > > > > > > > > > >      create mode 100644 Documentation/admin-guide/media/nxp-neoisp.dot
+> > > > > > > > > > >      create mode 100644 Documentation/admin-guide/media/nxp-neoisp.rst
+> > > > > > > > > > >      create mode 100644 Documentation/devicetree/bindings/media/
+> > > > > > > > > > > nxp,neoisp.yaml
+> > > > > > > > > > >      create mode 100644 Documentation/userspace-api/media/v4l/metafmt-
+> > > > > > > > > > > nxp-neoisp.rst
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/Kconfig
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/Makefile
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp.h
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_ctx.c
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_ctx.h
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_debugfs.c
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_fmt.h
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_hw.h
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_main.c
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_nodes.h
+> > > > > > > > > > >      create mode 100644 drivers/media/platform/nxp/neoisp/neoisp_regs.h
+> > > > > > > > > > >      create mode 100644 include/uapi/linux/media/nxp/nxp_neoisp.h
+> > > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > >
+> > > > >
+> > >
+>
 
