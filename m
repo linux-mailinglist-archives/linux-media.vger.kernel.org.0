@@ -1,249 +1,185 @@
-Return-Path: <linux-media+bounces-53377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53378-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LejFQoVn2nWYwQAu9opvQ
-	(envelope-from <linux-media+bounces-53377-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 16:28:10 +0100
+	id +KU/O3ETn2nWYwQAu9opvQ
+	(envelope-from <linux-media+bounces-53378-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 16:21:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C697199979
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 16:28:09 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5711997E5
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 16:21:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C7AA31BFFCD
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 15:14:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 61404305B8E1
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 15:15:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 859E33ECBFB;
-	Wed, 25 Feb 2026 15:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA5773D6465;
+	Wed, 25 Feb 2026 15:12:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BeaSEnys"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="olWIYesR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFD43ED12B
-	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 15:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA72392800;
+	Wed, 25 Feb 2026 15:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772032321; cv=none; b=AzZsN8pLsHYrwOKNnm4ktuMcSeyml79e1AXSa44TZiIMi1eIc9vt19E4PfzBitVz6JNQoqy4muK6Zs0NfsGAjXW+JuynXVzp1JKnUTuw4fLEtwfIJxXYpUNaaBnNSC/HlICUbODFG5/QLvTGYJSJuVg8ZzS+TIMX/n+Izd5ePHs=
+	t=1772032371; cv=none; b=Y/TiUNJ4/KfWFn3y+55dksVkBgWbdfGhZMJIwj256yV6LG+S6rWRTnkkW2XD3qz8kHj0s6s/0RkHvuBDVpsk7TLIoEf8L0JAdZ34El+ELMpCeVz9tNMEL80SBKFRDtxYrnab3/gmS3e/Q9o6WXebKe/+u/tsSsit1xyL3sCmw+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772032321; c=relaxed/simple;
-	bh=ebkke2YANs9n6nYyCO22AE5aFFfEjzmYBdxWd0Lesig=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GsQM6eFsShfQurQ/duJc3qsX4bStUyykWUgXnrjPGW2630SsmKo0f5cI3hV1uwqSyw6ot62TefCtlBSnUeDHBBDkfv/UF+KiG7eCcZbBzFTP1FWXT6LnAhsU5TTbXMFBNLGK+nhplndxpX3Qb5tmMQzeDSSYyTK5DmOlgCKGS0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BeaSEnys; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso55183535e9.0
-        for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 07:11:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772032316; x=1772637116; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7tos4+IgDSo6CwfLzCIfZMyKUALZ1R6xgwrZqzbsYVc=;
-        b=BeaSEnysUQJJmPwOPyMxDwDj6Nvu47ngZf1f1KyeaSu1Ll1VPKQtbUJs9EVgH9x0cm
-         hGwcDfdf1q8Y493gqvylCaUpywVdXMSbxPLI7Yu6EdAQjNVbmJimN4gXUb1mAFN5EBM6
-         MjoPCGXkGd+vNEI/FnBSg7ueUdU6plzthAExgbSqRM4D7pH5O7oGZAjLwNr49y/5wVPz
-         V+6ZpBxYhtV7NFT3ToMkztdb9p5nfr2nbgveWnkZa6/lzn5DTKxk1z2ML/p6uB7bFj6H
-         +4HqMszswXAXtbS7YW5w0Mhw4wnctExv3zy2cMF5jtSZrKJoqy79oVcdVrDjuawElhmq
-         IsWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772032316; x=1772637116;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7tos4+IgDSo6CwfLzCIfZMyKUALZ1R6xgwrZqzbsYVc=;
-        b=CkIMhGcP480iYyACXiEWjC4T7NwP8i/5M1caBiDxGF+84iIpx5goE6Yr4X8chlRhWl
-         wicWHBgzlQ1Cpd2ChbEW4r9fuy2HK75P8iAmxyYRvx2dDLIiqUa+jP5BZIGls/0P9zBv
-         aFywe/Tv74zq1OxCnWIy8MJuARTLBHUegaQA5+oL8DElZerskidUVdb5XG3PZkHWErUh
-         34Vj/ixHktFxwmaELRxoJ5kvdGVO7nsvIbmus+D3ar18iSD4mXgNP0rQmqMJwwE8Lbts
-         HNpiULcjsO+a95IM6rftUcrIQPaFUZ124IKpGCcsvOa7mL1TNNFHj75n6sAo3r46Zhmv
-         vwZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWts3QtPmN814F9cI5zBW5tibgw9TXYbfOHnbMl5X+aJ1Oo1pHFWC0k4jQhk8OUcpSras4zKR4HzyMPuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzilc6yJynazjmrUu5kP6XuvCkamrjXmLcTud/ceP/uZQvI4sNp
-	Te9DLj2lXRAP1WBmPSyLuNzX4kZ7B9ANwGAN8iu/gz7z/iNduO0SH3cFRT0pfqyRr3U=
-X-Gm-Gg: ATEYQzy9EdFxhf1UHWZgxGTdDvcoN7Lb9+9cdCZG0WMagxswRotiPFb5BGD4u9DE6X3
-	6j8yOBIOZZvWvzTCpP7HxvCr4Dl0poLzkjvD18O7Y6JXy5WQcS+fQW/9vjQOJy1Ak7UMc1w2MS5
-	SxIvNkT6pjaSuud8d8nsrGuqxhATlYSVrESmYLeh6+FoV43npNf4sI9v1P+k28e1N6hcSylB/L6
-	hMoULCy34X14wyzgh99Sc1x1e3BkGKnGx/l4KikK7GkK1q9sWPBYOgfcIdbuYnGT15N/3EHWYL5
-	ITJkdY3JYQdxrUEXK/QyV+phyxEkeTm18+rQCX7rdqrvbbPvYINGTuQqCC+4nTVMVYWDF6wDgrn
-	FfBD+2xtIqrcZhLmINYMmWGsjF1pW9Dvsd9gdlKWe+0IDJq6jkJ+JMZR7uLSmGGShej5nHtYhZU
-	SecOUZB8Mni9B7nNCt+7PmL+vAPcJer4TqdrzCC864n3BXBY4gIBaGg0XE8SSnWEas
-X-Received: by 2002:a05:600c:5486:b0:483:709e:f239 with SMTP id 5b1f17b1804b1-483a95dea69mr255370725e9.22.1772032316285;
-        Wed, 25 Feb 2026 07:11:56 -0800 (PST)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfba9a5esm33950695e9.4.2026.02.25.07.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 07:11:55 -0800 (PST)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Wed, 25 Feb 2026 15:11:35 +0000
-Subject: [PATCH v8 18/18] arm64: dts: qcom: x1e80100-dell-inspiron14-7441:
- Switch on CAMSS RGB sensor
+	s=arc-20240116; t=1772032371; c=relaxed/simple;
+	bh=WBE2By5FzkP5SLbnPSG3o0NgugwGTYXwxmVW/sbRDIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f5rVnAgp/XPYlGqbeWC5ssrEAJ7YQc6ougQaNQBmpVM3INZ9ULwunvYd3sh/SDBQzCqnNiEj6Rab5scednPm8ABIW8xDbYbkai6cCSJa6xCG03gDb2wke820TKmNnTmsz15msA8lgJIu8ZrgXRZDBaPQoczNHNXaaSxCyXDC7yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=olWIYesR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73BEFC116D0;
+	Wed, 25 Feb 2026 15:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772032370;
+	bh=WBE2By5FzkP5SLbnPSG3o0NgugwGTYXwxmVW/sbRDIw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=olWIYesRWiw65xkODMWGjed+aMm2qj32u6gVvmfLAViXpgfQ1gV5euIFOYqvzyXKS
+	 1oBjv1D1FTk1wR7rMSeAmVBJmSYp1VZMujILP/lxeKQLisP+WFoCBJSvHgrg3aUY3G
+	 o55VFauH6L5QLsO4DYrMf5yk93ODqho4R4lpocJaU2wzmq0zPxpd0cTDezXbJtbtdP
+	 /OJCdoFKX0X5bkE917xIuyjMETyXUBUHJ86z0zVUQQOfhQ0d3fwlrlGb+29Bjbz5N6
+	 c7uzqpRNp6BBV/ZOpgHGboQQIXulvsYguBBOqtlXiUDdZB9VHUdXaViALWDNYzYiOp
+	 VtX+a33PmtVOA==
+Date: Wed, 25 Feb 2026 09:12:46 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>, 
+	Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Bharath Kumar <quic_bkumar@quicinc.com>, 
+	Chenna Kesava Raju <quic_chennak@quicinc.com>
+Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
+ driver docs
+Message-ID: <opjniedtfhkv7vlb57g3xyikcfkxelthx3lmspmypws4vxz4oc@4uypmmf4t6fb>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
+ <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
+ <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-18-95517393bcb2@linaro.org>
-References: <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-0-95517393bcb2@linaro.org>
-In-Reply-To: <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-0-95517393bcb2@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Todor Tomov <todor.too@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
- Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2061;
- i=bryan.odonoghue@linaro.org; h=from:subject:message-id;
- bh=ebkke2YANs9n6nYyCO22AE5aFFfEjzmYBdxWd0Lesig=;
- b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBpnxEcTGwAibtB0wENsoOC1s/k6bz4RyirTAXoc
- 7ZjukTPtpCJAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCaZ8RHAAKCRAicTuzoY3I
- OitLD/99TbZpAmDM1v6XAbKZ/oSRLA+tzBou8rGcdJ5nf1guXh1CLNuuhnm6GqG7Pbyk8X3WfFW
- VE+3wWLJoFwv8kXwlkwwwCYtdMYID7E/IItqUBVlNyO9v4POOYomAgvjBfozD1ee25uZTMDvPQ5
- JCXh3ubpjOPoFOZ9VlFx/0i8ADEbFbthhl3lsFO4YNaj8dOmACrVm7nbtx6l1tAKm15W2KAc4jJ
- eaYLi68Ln3i1n0HKMsfO9tWtRlBvQw0K1hpyOq4vlUPGp+qJ2mfs7xldjCCIVXQJnSKhuE44yuA
- CXCKOt19GiwEtpFb+ZpAWmVrEsKOonWyEXYKvf+5H8bVcbo7joTfbcWsYm8PCGJHnG4VXqqjZdX
- XyOEXj4ys3FtU0JknkO55+9gxne80Eh5wUHcZJWl3DyOi1c3Tw9Y818tH6jqR0Ai9I7ZLNWVD9l
- 95L8CTR6rg+NemKwEDFCRpelZWzCSjq3/Jm6b2F1Y2zQgwge3cJhwJdaFhIU9ieuy+Y7NqvP4Gr
- fD+O0qt54vAD0ZsrC6X5p8JZ2JxAcmvi2hiOtxN+3IWfbkHYrTTP8W2s44eap+9jKsMwInTUm0P
- dwqjIezR2ZTAeNOpYPyZ4op83A5xinGC08v3HfHM//5ak0BONBW86Xae0EV+pkI5UKV4CSv8NiD
- iX4GYktCULafB8A==
-X-Developer-Key: i=bryan.odonoghue@linaro.org; a=openpgp;
- fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	URIBL_MULTI_FAIL(0.00)[0.0.0.10:server fail,0.0.0.3:server fail,linaro.org:server fail,sea.lore.kernel.org:server fail,0.0.0.0:server fail];
-	TAGGED_FROM(0.00)[bounces-53377-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	TAGGED_FROM(0.00)[bounces-53378-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,quicinc.com];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andersson@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,linaro.org:email,0.0.0.3:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,0.0.0.10:email,0.0.0.0:email]
-X-Rspamd-Queue-Id: 9C697199979
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0F5711997E5
 X-Rspamd-Action: no action
 
-Inspiron14 has a ov02e10 sensor on CSIPHY4. Enable the list of dependencies
-now.
+On Wed, Feb 25, 2026 at 07:47:08PM +0530, Ekansh Gupta wrote:
+> 
+> 
+> On 2/24/2026 9:03 AM, Trilok Soni wrote:
+> > On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
+> >> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
+> >> integrated in the DRM accel subsystem.
+> >>
+> >> The new docs introduce QDA as a DRM/accel-based implementation of
+> >> Hexagon DSP offload that is intended as a modern alternative to the
+> >> legacy FastRPC driver in drivers/misc. The text describes the driver
+> >> motivation, high-level architecture and interaction with IOMMU context
+> >> banks, GEM-based buffer management and the RPMsg transport.
+> >>
+> >> The user-space facing section documents the main QDA IOCTLs used to
+> >> establish DSP sessions, manage GEM buffer objects and invoke remote
+> >> procedures using the FastRPC protocol, along with a typical lifecycle
+> >> example for applications.
+> >>
+> >> Finally, the driver is wired into the Compute Accelerators
+> >> documentation index under Documentation/accel, and a brief debugging
+> >> section shows how to enable dynamic debug for the QDA implementation.
+> > So existing applications written over character device UAPI needs to be
+> > rewritten over new UAPI and it will be broken once this driver gets
+> > merged? Are we going to keep both the drivers in the Linux kernel
+> > and not deprecate the /char device one? 
+> >
+> > Is Qualcomm going to provide the wrapper library in the userspace
+> > so that existing applications by our customers and developers
+> > keep working w/ the newer kernel if the char interface based
+> > driver gets deprecated? It is not clear from your text above. 
+> Thanks for raising this, Trilok.
+> 
+> This is one of the open items that I have. I'm not exactly sure what would be the
+> acceptable way for this. 
+> 
+> As you mentioned, applications that rely on /dev/fastrpc* might not work on QDA
+> without modification.
+> 
+> I was thinking in the same lines as you have mentioned and  having some shim/compat
+> driver to translate FastRPC UAPI to QDA. The compat driver would expose the existing
+> character devices and route the calls to QDA. The compat driver could be built via Kconfig.
+> 
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- arch/arm64/boot/dts/qcom/x1-dell-thena.dtsi | 61 +++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+This is a fundamental requirement, you need to address this in order for
+this to move forward.
 
-diff --git a/arch/arm64/boot/dts/qcom/x1-dell-thena.dtsi b/arch/arm64/boot/dts/qcom/x1-dell-thena.dtsi
-index bf04a12b16bc9..d21963e52ee48 100644
---- a/arch/arm64/boot/dts/qcom/x1-dell-thena.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1-dell-thena.dtsi
-@@ -10,6 +10,7 @@
- #include <dt-bindings/input/gpio-keys.h>
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/leds/common.h>
-+#include <dt-bindings/phy/phy.h>
- #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
- 
- #include "hamoa-pmics.dtsi"
-@@ -792,6 +793,66 @@ vreg_l3j_0p8: ldo3 {
- 	};
- };
- 
-+&camss {
-+	status = "okay";
-+
-+	ports {
-+		/*
-+		 * port0 => csiphy0
-+		 * port1 => csiphy1
-+		 * port2 => csiphy2
-+		 * port3 => csiphy4
-+		 */
-+		port@3 {
-+			camss_csiphy4_inep0: endpoint@0 {
-+				clock-lanes = <7>;
-+				data-lanes = <0 1>;
-+				remote-endpoint = <&ov02e10_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci1 {
-+	status = "okay";
-+};
-+
-+&cci1_i2c1 {
-+	camera@10 {
-+		compatible = "ovti,ov02e10";
-+		reg = <0x10>;
-+
-+		reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&cam_rgb_default>;
-+
-+		clocks = <&camcc CAM_CC_MCLK4_CLK>;
-+		assigned-clocks = <&camcc CAM_CC_MCLK4_CLK>;
-+		assigned-clock-rates = <19200000>;
-+
-+		orientation = <0>; /* front facing */
-+
-+		avdd-supply = <&vreg_l7b_2p8>;
-+		dvdd-supply = <&vreg_l7b_2p8>;
-+		dovdd-supply = <&vreg_cam_1p8>;
-+
-+		port {
-+			ov02e10_ep: endpoint {
-+				data-lanes = <1 2>;
-+				link-frequencies = /bits/ 64 <360000000>;
-+				remote-endpoint = <&camss_csiphy4_inep0>;
-+			};
-+		};
-+	};
-+};
-+
-+&csiphy4 {
-+	vdda-0p8-supply = <&vreg_l2c_0p8>;
-+	vdda-1p2-supply = <&vreg_l1c_1p2>;
-+
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	clock-frequency = <400000>;
- 
+Which makes me wonder if it would be possible to reach an accel driver
+through incremental transition of the current driver, instead of just
+dropping in a few thousand lines of new code/design.
 
--- 
-2.52.0
+> However, I haven’t encountered an example of such a UAPI‑translation driver in the kernel
+> before, so I would want guidance from maintainers on whether this is an acceptable
+> model or not.
+> 
+> Regarding your question about library, all the APIs exposed by github/fastrpc library are kept
+> unchanged in terms of definitions and expectation. The same project can be build for both
+> FastRPC and QDA based on configure options. So, the applications using github/fastrpc should
+> not face any problem if the libs is built with proper configure options.
+> 
 
+You're assuming that the kernel and userspace are a unified piece of
+software, they are not. It must be possible for me to install a new
+kernel package without having to replace the userspace libraries.
+
+Regards,
+Bjorn
+
+> I have noted your point regarding the doc not providing clear details, I have added interface
+> compatibility information in cover letter and will try pulling the same to Doc.
+> >
+> > ---Trilok Soni
+> 
+> 
 
