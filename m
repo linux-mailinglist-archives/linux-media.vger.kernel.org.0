@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-53333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53334-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ePCNBIXqnmk/XwQAu9opvQ
-	(envelope-from <linux-media+bounces-53333-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:26:45 +0100
+	id gNqGDyPsnmlpXwQAu9opvQ
+	(envelope-from <linux-media+bounces-53334-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:33:39 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A40197481
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:26:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C63FD1976BE
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 13:33:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5855A302CB3C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 12:26:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 59E913051CAA
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 12:28:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199173AE719;
-	Wed, 25 Feb 2026 12:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A78913AEF2B;
+	Wed, 25 Feb 2026 12:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OnMSlue6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dyiwnpBR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CA933A9CE;
-	Wed, 25 Feb 2026 12:26:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A5639281B;
+	Wed, 25 Feb 2026 12:27:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772022397; cv=none; b=CxeUVbhgiYXdlvad8WRnp0JEtpKgIE+lVbhpDUpC5Pqbsr1Pn2XR4Ay6+hwsLR3DFzHlzFxQvUvvNS77AmLsadmM4qUO8VFoSNlJVghswoLC0PUPN6PChCNtCZZh7dzQoMbr803Xti5t0d7sSoj8KVya13+DufkFMdo/SbsY7h4=
+	t=1772022471; cv=none; b=Jhzx+J5pIplqqXX0r6jQoV2vyNq1bCtKakz+FjAQDTd/tkbJ82dVVvq9mQlJMJ1uyHLjS8vTkZRVLI7cSZ3LebptD6U61hi1Ano/EzmdbnaFmt219G7RLHJXPYHHalw39Cu/fKh7vQ4VcEXTRg/ogEcYAO3xdS2gjobzeLgxabs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772022397; c=relaxed/simple;
-	bh=ku//C0HXfvmJOEr1hs9KBjnJ+EB6f62HY39EOsCWCME=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hAR7CkkklQAKjgf59RVLchLjZgLhabANYmkYmW3Y2bFUJpWXSKgmIHgyMt/kujkOhIhBxRVo5BMLOdTIT7r4tUyjhscy+MGn0bAxKoxr8Bjtqu3Gg4NIoBZZApprgHZ11EgSIqCUpYVG3akkIyJkc1T5e9k8g8w/vdzLmNu26JE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OnMSlue6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A84BDC116D0;
-	Wed, 25 Feb 2026 12:26:33 +0000 (UTC)
+	s=arc-20240116; t=1772022471; c=relaxed/simple;
+	bh=gf6i6MUQ7Ft3mdcBnXb0lPEF0Yd88FAI57ADlhufGMo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=hcYqGN/md7KO4jrMf51VbCnCGtTavD5yQt7tKGVVQSG+/GBHoxe9AZFc1+SJoa69Slre1836Q+1Hpw0UlI65D4wI5dLlK7P/WeUqyOKAD2K+4e0g4iBa3fEJfyDuEtpcLgHMW5zF0xCMWR1Sis+nCSahR8H7VwomHw3Ag6g6S7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dyiwnpBR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 721D0C116D0;
+	Wed, 25 Feb 2026 12:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772022397;
-	bh=ku//C0HXfvmJOEr1hs9KBjnJ+EB6f62HY39EOsCWCME=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OnMSlue6sLcP2TzFxgazJrbaHKBIypLT5s/xSdj8eT+y8P+1Hxnh3BX2i/62J+qrI
-	 rugZD2wJWFuqUU26rNcGaIbwsxJi0Vn3A1ILiP+KJdkbqq39In0iGn0095Gcf9/kOo
-	 H8BzX/FUBrthf2/pwAigiwoxBgibzVF6omcqeHUml4I1DNTShbAmbC3Ne8F+40D1M0
-	 tO7Xl3BkqHYLOzSvcAY0OGUYy3Q2KyWQd6W+eeX0w3+gtnpCQkoz0HPb83L6NBgQow
-	 JLvuiIPCuAkFdzdL4l/kAFJikDk2ioTpdYa9UPXMEoor8aebBcWxRFEKiDKeD+WK9W
-	 +psS3QNHlLaug==
-Message-ID: <9bb74438-e759-46a7-9fa1-2c6b1fced76b@kernel.org>
-Date: Wed, 25 Feb 2026 13:26:32 +0100
+	s=k20201202; t=1772022471;
+	bh=gf6i6MUQ7Ft3mdcBnXb0lPEF0Yd88FAI57ADlhufGMo=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=dyiwnpBRFkzCCiXWC4ciC7Ko1dcOb3w2mBZKGNmNrj8Zmpc4AsV7c+5W084jXS76s
+	 GohdRZr6PzMVLREexhSbE7MXRC3YaMHUmybGup4uOIPK2A0CkH8vkyzZ1Tda6djAmY
+	 gtltNpHQKLg2NErvWNt+fyQc7CWJCLWvtDiX05lB0EfWshtTgFtsjix1KF8AmZaUO2
+	 rG7z6aMI2R4gi6ZHwr10/t4NyzFN40deXdOx2dQ0ahPZD6fGxAq4f7or2wOfNlr8iP
+	 GOzBia9m/LBrhUgBfDpmucM85MWmw4uhbdKgDB97QnRVUeYas774LXlQ64uX6nQZWy
+	 31J+Wi7HN6zTA==
+Message-ID: <e23f62a6-8546-430c-b616-1208e43b0698@kernel.org>
+Date: Wed, 25 Feb 2026 13:27:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,6 +55,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 1/3] media: dt-bindings: rockchip,vdec: Add alternative
  reg-names order for RK35{76,88}
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
@@ -69,7 +70,7 @@ Cc: kernel@collabora.com, devicetree@vger.kernel.org,
  linux-media@vger.kernel.org
 References: <20260225-vdec-reg-order-rk3576-v3-0-5a2ebe1b11a8@collabora.com>
  <20260225-vdec-reg-order-rk3576-v3-1-5a2ebe1b11a8@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <9bb74438-e759-46a7-9fa1-2c6b1fced76b@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -114,7 +115,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260225-vdec-reg-order-rk3576-v3-1-5a2ebe1b11a8@collabora.com>
+In-Reply-To: <9bb74438-e759-46a7-9fa1-2c6b1fced76b@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -123,102 +124,95 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53333-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53334-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCPT_COUNT_TWELVE(0.00)[17];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A5A40197481
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C63FD1976BE
 X-Rspamd-Action: no action
 
-On 25/02/2026 13:19, Cristian Ciocaltea wrote:
-> With the introduction of the RK3588 SoC, and RK3576 afterwards, the
-> 'link' and 'cache' register blocks have been provided for the video
-> decoder unit in addition to the existing 'function' one, which now shows
-> up in between them (from address-based ordering point of view).
+On 25/02/2026 13:26, Krzysztof Kozlowski wrote:
+> On 25/02/2026 13:19, Cristian Ciocaltea wrote:
+>> With the introduction of the RK3588 SoC, and RK3576 afterwards, the
+>> 'link' and 'cache' register blocks have been provided for the video
+>> decoder unit in addition to the existing 'function' one, which now shows
+>> up in between them (from address-based ordering point of view).
+>>
+>> However, the binding does not properly describe this hardware layout, as
+>> the new blocks are listed after the old one.  Therefore it breaks the
+>> convention expecting the unit address to indicate the first register
+>> range.
+>>
+>> Since the binding changes have been already released and a fix would
+>> bring up an ABI break, mark the current 'reg-names' listing as
+>> deprecated and introduce an alternative 'link,function,cache' one.
+>>
+>> Additionally, drop the 'reg' description items as the order is not fixed
+>> anymore, while the information they offer is not very relevant anyway.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  .../devicetree/bindings/media/rockchip,vdec.yaml      | 19 ++++++++++++-------
+>>  1 file changed, 12 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>> index 809fda45b3bd..3f6072e8baa5 100644
+>> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>> @@ -28,16 +28,21 @@ properties:
+>>  
+>>    reg:
+>>      minItems: 1
+>> -    items:
+>> -      - description: The function configuration registers base
+>> -      - description: The link table configuration registers base
+>> -      - description: The cache configuration registers base
+>> +    maxItems: 3
+>>  
+>>    reg-names:
+>> -    items:
+>> +    oneOf:
+>>        - const: function
 > 
-> However, the binding does not properly describe this hardware layout, as
-> the new blocks are listed after the old one.  Therefore it breaks the
-> convention expecting the unit address to indicate the first register
-> range.
+> This is confusing, I think I missed that in previous patch because it
+> did not leave that part or I misread the diff hunk - why do you allow
+> one entry?
 > 
-> Since the binding changes have been already released and a fix would
-> bring up an ABI break, mark the current 'reg-names' listing as
-> deprecated and introduce an alternative 'link,function,cache' one.
+> If the first entry is function, then all others MUST built on top, thus
+> this:
 > 
-> Additionally, drop the 'reg' description items as the order is not fixed
-> anymore, while the information they offer is not very relevant anyway.
+>> +          - const: link
+>> +          - const: function
+>> +          - const: cache
 > 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  .../devicetree/bindings/media/rockchip,vdec.yaml      | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
+> is not correct.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> index 809fda45b3bd..3f6072e8baa5 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> @@ -28,16 +28,21 @@ properties:
->  
->    reg:
->      minItems: 1
-> -    items:
-> -      - description: The function configuration registers base
-> -      - description: The link table configuration registers base
-> -      - description: The cache configuration registers base
-> +    maxItems: 3
->  
->    reg-names:
-> -    items:
-> +    oneOf:
->        - const: function
+> No, you don't change the orders. So again, if you have such binding,
+> then you just fix the unit address leaving the binding as is.
+> 
 
-This is confusing, I think I missed that in previous patch because it
-did not leave that part or I misread the diff hunk - why do you allow
-one entry?
+I just now checked v2 - it had this first "function" left, so I missed
+that part. I would give different review at v2, so you would not waste
+time. Apologies for that.
 
-If the first entry is function, then all others MUST built on top, thus
-this:
-
-> +          - const: link
-> +          - const: function
-> +          - const: cache
-
-is not correct.
-
-No, you don't change the orders. So again, if you have such binding,
-then you just fix the unit address leaving the binding as is.
-
-
-> -      - const: link
-> -      - const: cache
-> +      - items:
-> +          - const: link
-> +          - const: function
-> +          - const: cache
-> +      - items:
-> +          - const: function
-> +          - const: link
-> +          - const: cache
-> +        deprecated: true
-> +        description: Use link,function,cache block order instead.
->  
 Best regards,
 Krzysztof
 
