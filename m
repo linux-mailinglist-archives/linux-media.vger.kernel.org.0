@@ -1,311 +1,242 @@
-Return-Path: <linux-media+bounces-53316-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53317-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4PziIWOlnmmrWgQAu9opvQ
-	(envelope-from <linux-media+bounces-53316-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 08:31:47 +0100
+	id oCDEDBivnmlxWwQAu9opvQ
+	(envelope-from <linux-media+bounces-53317-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 09:13:12 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D08F19379E
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 08:31:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A189193F49
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 09:13:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B69BD3112A0C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 07:25:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A3CC93068F07
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 08:12:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B69ED2BE642;
-	Wed, 25 Feb 2026 07:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 843C12FFF9D;
+	Wed, 25 Feb 2026 08:12:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DbfaU8qw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cU5k4cAl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C648296BD5;
-	Wed, 25 Feb 2026 07:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512263101B1;
+	Wed, 25 Feb 2026 08:12:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772004223; cv=none; b=W2mfQelXOnZWsbbg1t9PLzOKCw7pvM5/0q5pb4WPcqluU+JLRoJGE6Jro4HX+bX70YDN2QYljGOon+9wnQeIqhYO0sIVhoCa3JSOlWXtjbzkE3yqtYXbnVPLBoTckoy3e2m3IpyvZ+kVSzaJCCis1pD7Z7E44B2JrffTsh9b8S0=
+	t=1772007162; cv=none; b=jPtr11jLcNPJdXGn8SFEbzSlxRQRGbzXgD7A911ItkHsqBAAQXVwzYxCR2LBTOPMjx8eMaqygC5oJTaxqT5hMoPKrQidE3IM31w4T+e00UVT+uSAi/BHxpNfTQKW0nhewFv8Mfc8xbeIM47lW+9QG8Amrl0n7jdtdUnffGuSab4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772004223; c=relaxed/simple;
-	bh=46saJDg62/XixnE1xpTaQvU8i1/NZjYQRfba62tHpo4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=czQO3xM3CRVAMhVPw4CiVBpOYPblAlahPT2Fm2RSzBwDbdqZjvySWTgZIgQVGAuUPSUPeFUkAHtdVQ83QwQoe478mMIP+AJIrAiMoLm8GwIYBpjyCeX13ypmnjSo2luC/jY+6zGQODVNyafb4h9goIBvLvN/zXMEVW6pduGu62w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DbfaU8qw; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1772007162; c=relaxed/simple;
+	bh=XrPRETrIz/BRr0AU5M3BOBTEvVFG+Kg0pt2ply1ceKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E+8VBWBbUfYJr/thqG3exbkpq7bmJCgqpOQ8772A9TZfEALZfmULPJNq4sKSmLNUP0TL/rrXDJmzoYrxklohKVS+I7SPoi5RyudJVZ99egQCYa0uwYj9FgIzF3Qq60gPocqBK8JzWFSkcjBm07ZUuSEbWWiw27CY8fDtzHWx0HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cU5k4cAl; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:cd05:b041:1dc3:f62c])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 35A0A379;
-	Wed, 25 Feb 2026 08:22:41 +0100 (CET)
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C5B0DE47;
+	Wed, 25 Feb 2026 09:11:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1772004161;
-	bh=46saJDg62/XixnE1xpTaQvU8i1/NZjYQRfba62tHpo4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=DbfaU8qwyzE6pRhGBCG5YEE0HalCwcbJYEacs9Rsotw//YV1ldKoYcy2qIyNGqOV9
-	 BcbeFiPUclfoYb631crwtQudO/j1RzZxVi87eOoGZO5TxnF4zCDmTc/rmMFOmLtPQM
-	 KDzuFPucoItCBx8fg4wicWcS7unwEzECAg/Xp458=
-Content-Type: text/plain; charset="utf-8"
+	s=mail; t=1772007100;
+	bh=XrPRETrIz/BRr0AU5M3BOBTEvVFG+Kg0pt2ply1ceKQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cU5k4cAldkQb4cuKW1vp4GYyFLa5PKjRg7tBjFQC7W0jfXzh4KuMyqOcNnpozO4un
+	 qF5za+04UjfGqXoolYx8NdJuPJHA7ZOQJ6UVN883Oa3TdoFCjuoK/fmfsvN5Pd02RD
+	 TOMk8tOJFUmwdAJ/3SZs6KWWDDFnsZ5rvIzp19Qk=
+Date: Wed, 25 Feb 2026 09:12:35 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH] media: Documentation: Fix frame interval calculation for
+ raw camera sensors
+Message-ID: <aZ6ubqtUwCuVPQtt@zed>
+References: <20260219-media-fps-docs-v1-1-0387c5c5368c@ideasonboard.com>
+ <aZwQJZX6sjzLgVL4@zed>
+ <177191073323.14753.12002575507884033868@freya>
+ <aZ3qotzgQQeyhnbg@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260210175035.GB2502896@killaraus.ideasonboard.com>
-References: <20260129-sklug-v6-16-topic-dw100-v3-1-dev-v3-0-2eb5685eaf09@ideasonboard.com> <20260129-sklug-v6-16-topic-dw100-v3-1-dev-v3-1-2eb5685eaf09@ideasonboard.com> <20260210175035.GB2502896@killaraus.ideasonboard.com>
-Subject: Re: [PATCH v3 1/4] media: dw100: Implement V4L2 requests support
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Wed, 25 Feb 2026 08:23:35 +0100
-Message-ID: <177200421586.2000438.13945396794652854559@localhost>
-User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aZ3qotzgQQeyhnbg@zed>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53316-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-53317-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[stefan.klug@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1D08F19379E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim]
+X-Rspamd-Queue-Id: 8A189193F49
 X-Rspamd-Action: no action
 
-Hi Laurent,
+Sorry, one correction
 
-Thank you for the review.
+On Tue, Feb 24, 2026 at 07:22:24PM +0100, Jacopo Mondi wrote:
+> Hi Jai
+>
+> On Tue, Feb 24, 2026 at 10:55:33AM +0530, Jai Luthra wrote:
+> > Hi Jacopo,
+> >
+> > Thanks for the review.
+> >
+> > Quoting Jacopo Mondi (2026-02-23 14:41:02)
+> > > Hi Jai
+> > >
+> > > On Thu, Feb 19, 2026 at 01:20:50PM +0530, Jai Luthra wrote:
+> > > > The previous frame interval formula used analogue crop dimensions. This
+> > > > breaks down for some sensors when binning.
+> > > >
+> > > > For example in imx219 the minimum FLL (frame length in lines) can be
+> > > > lower than the analogue crop height when binning, which would require a
+> > > > negative VBLANK to represent the actual timing. Similarly, imx283 allows
+> > > > a lower minimum HMAX (line length) when doing 2x2 or 3x3 binning than
+> > > > the analogue crop width of the full resolution mode.
+> > > >
+> > > > The CCS specification also describes under section "8.2.6 Line Length
+> > > > and Frame Length" how the horizontal and vertical readout minimums can
+> > > > be different when binning.
+> > > >
+> > > > Replace the formula with the underlying hardware concepts of LLP (line
+> > > > length in pixels) and FLL (frame length in lines). These terms were
+> > > > chosen to match the CCS specification on raw sensors, as it is a cleaner
+> > > > reference compared to a typical sensor vendor datasheet.
+> > > >
+> > > > Finally, define the blanking controls relative to the active pixel
+> > > > readout (post-binning) rather than the analogue crop size. This matches
+> > > > what most sensor drivers already do, and also what applications like
+> > > > libcamera expect. In "Figure 42" of CCS specification too, we see a
+> > > > similar definition:
+> > > >
+> > > >   frame interval = (output width + HBLANK) *
+> > > >                    (output height + VBLANK) / pixel rate
+> > > >
+> > > > Also add a note in the "Writing camera sensor drivers" guide, to ensure
+> > > > this formula is followed by new sensor drivers.
+> > >
+> > > I agree that using the analogue crop rectangle sizes is not correct,
+> > > however, with this new formulation the LLP and FLL values might be
+> > > smaller than the crop rectangles reported through the selection API,
+> > > which I'm not sure it's great from a consistency point of view ?
+> >
+> > While it takes a while to grok, but most sensors I looked at operate in
+> > this way (of reducing the line length or the frame length) when binning,
+> > including CCS (implicitly). A counterexample would really help here.
+> >
+> > >
+> > > Also the below suggested formulation:
+> > >
+> > >         LLP = active width + V4L2_CID_HBLANK
+> > >         FLL = active height + V4L2_CID_VBLANK
+> > >
+> > > Assumes the combined effect of [binning + subsampling] always directly
+> > > affect the readout time of pixels on the pixel array. The CCS specs
+> > > and driver seems to suggest that's not always the case ?
+> >
+> > Why do you think this model can't work for sensors where the readout time is
+> > unaffected?
+> >
+> > Let's say a sensor's pixel array is 1920x1080 with minimum LLP=2000, FLL=1200.
+> >
+> > so, HBLANK minimum = 80, VBLANK minimum = 120
+> >
+> > It also supports a 2x2 binned mode of 960x540 with the same minimum LLP and FLL
+> > (that is same max framerate, no speed up or change in readout).
+> >
+> > so, HBLANK minimum = 2000 - 960 = 1040, VBLANK minimum = 1200 - 540 = 660
+> >
+> > If you match this with the CCS Figure 42 it still makes sense.
+> >
+>
+> Ah well, sure if LLP and FFL remain constant, the usage of the
+> "active sizes" doesn't matter.
+>
+> This means that the min hblank and min vblank have to be doubled to
+> compensate for the halved the active sizes.
 
-Quoting Laurent Pinchart (2026-02-10 18:50:35)
-> Hi Stefan,
->=20
-> Thank you for the patch.
->=20
-> On Thu, Jan 29, 2026 at 12:43:10PM +0100, Stefan Klug wrote:
-> > The dw100 dewarper hardware present on the NXP i.MX8MP allows very
-> > flexible dewarping using a freely configurable vertex map. Aside from
-> > lens dewarping the vertex map can be used to implement things like
-> > arbitrary zoom, pan and rotation. The current driver supports setting
-> > that vertex map before calling VIDIOC_STREAMON.
-> >=20
-> > To control above mentioned features during streaming it is necessary to
-> > update the vertex map dynamically. To do that in a race free manner V4L2
-> > requests support is required. This patch adds V4L2 requests support to
->=20
-> Once this gets merged it won't be a patch any more :-) As commit
-> messages are written in an imperative mood style,
->=20
-> s/This patch adds/Add/
->=20
-> > prepare for dynamic vertex map updates.
-> >=20
-> > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> >=20
-> > ---
-> >=20
-> > Changes in v2:
-> > - Use v4l2_m2m_buf_done_and_job_finish() to mark the buffers as done in
-> >   the correct order.
-> >=20
-> > Changes in v1:
-> > - Moved v4l2_ctrl_request_complete into dw100_device_run
-> > ---
-> >  drivers/media/platform/nxp/dw100/dw100.c | 49 ++++++++++++++++++++++++=
-+-------
-> >  1 file changed, 38 insertions(+), 11 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/p=
-latform/nxp/dw100/dw100.c
-> > index 4aaf9c3fff5397f0441944ee926f2c8ba6fc864a..1cb895da9912371a2b23ca6=
-2412c572d9cb75c00 100644
-> > --- a/drivers/media/platform/nxp/dw100/dw100.c
-> > +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> > @@ -459,6 +459,15 @@ static int dw100_queue_setup(struct vb2_queue *vq,
-> >       return 0;
-> >  }
-> > =20
-> > +static int dw100_buf_out_validate(struct vb2_buffer *vb)
-> > +{
-> > +     struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(vb);
-> > +
-> > +     vbuf->field =3D V4L2_FIELD_NONE;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >  static int dw100_buf_prepare(struct vb2_buffer *vb)
-> >  {
-> >       unsigned int i;
-> > @@ -500,6 +509,13 @@ static void dw100_buf_queue(struct vb2_buffer *vb)
-> >       v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
-> >  }
-> > =20
-> > +static void dw100_buf_request_complete(struct vb2_buffer *vb)
-> > +{
-> > +     struct dw100_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
-> > +
-> > +     v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->hdl);
-> > +}
-> > +
-> >  static void dw100_return_all_buffers(struct vb2_queue *q,
-> >                                    enum vb2_buffer_state state)
-> >  {
-> > @@ -553,11 +569,13 @@ static void dw100_stop_streaming(struct vb2_queue=
- *q)
-> >  }
-> > =20
-> >  static const struct vb2_ops dw100_qops =3D {
-> > -     .queue_setup     =3D dw100_queue_setup,
-> > -     .buf_prepare     =3D dw100_buf_prepare,
-> > -     .buf_queue       =3D dw100_buf_queue,
-> > -     .start_streaming =3D dw100_start_streaming,
-> > -     .stop_streaming  =3D dw100_stop_streaming,
-> > +     .queue_setup          =3D dw100_queue_setup,
-> > +     .buf_out_validate     =3D dw100_buf_out_validate,
-> > +     .buf_prepare          =3D dw100_buf_prepare,
-> > +     .buf_queue            =3D dw100_buf_queue,
-> > +     .start_streaming      =3D dw100_start_streaming,
-> > +     .stop_streaming       =3D dw100_stop_streaming,
-> > +     .buf_request_complete =3D dw100_buf_request_complete,
-> >  };
-> > =20
-> >  static int dw100_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
-> > @@ -575,6 +593,7 @@ static int dw100_m2m_queue_init(void *priv, struct =
-vb2_queue *src_vq,
-> >       src_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_COPY;
-> >       src_vq->lock =3D &ctx->vq_mutex;
-> >       src_vq->dev =3D ctx->dw_dev->v4l2_dev.dev;
-> > +     src_vq->supports_requests =3D true;
-> > =20
-> >       ret =3D vb2_queue_init(src_vq);
-> >       if (ret)
-> > @@ -1058,7 +1077,6 @@ static const struct v4l2_ioctl_ops dw100_ioctl_op=
-s =3D {
-> >  static void dw100_job_finish(struct dw100_device *dw_dev, bool with_er=
-ror)
-> >  {
-> >       struct dw100_ctx *curr_ctx;
-> > -     struct vb2_v4l2_buffer *src_vb, *dst_vb;
-> >       enum vb2_buffer_state buf_state;
-> > =20
-> >       curr_ctx =3D v4l2_m2m_get_curr_priv(dw_dev->m2m_dev);
-> > @@ -1069,16 +1087,13 @@ static void dw100_job_finish(struct dw100_devic=
-e *dw_dev, bool with_error)
-> >               return;
-> >       }
-> > =20
-> > -     src_vb =3D v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
-> > -     dst_vb =3D v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
-> > -
-> >       if (likely(!with_error))
-> >               buf_state =3D VB2_BUF_STATE_DONE;
-> >       else
-> >               buf_state =3D VB2_BUF_STATE_ERROR;
-> > =20
-> > -     v4l2_m2m_buf_done(src_vb, buf_state);
-> > -     v4l2_m2m_buf_done(dst_vb, buf_state);
-> > +     v4l2_m2m_buf_done_and_job_finish(dw_dev->m2m_dev, curr_ctx->fh.m2=
-m_ctx,
-> > +                                      buf_state);
-> > =20
-> >       dev_dbg(&dw_dev->pdev->dev, "Finishing transaction with%s error(s=
-)\n",
-> >               with_error ? "" : "out");
-> > @@ -1460,6 +1475,12 @@ static void dw100_device_run(void *priv)
-> >       src_buf =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> >       dst_buf =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> > =20
->=20
-> I'd add a comment here, as the complete() call before start() can be
-> confusing.
->=20
->         /*
->          * Apply controls from the request to the device and copy back th=
-e value
->          * of volatile controls to the request. We can do the latter befo=
-re
->          * starting the dewarper as no controls are updated as a result o=
-f the
->          * hardware operation.
->          /
->=20
-> It could be me not being familiar enough with the API, but I think
-> discussions during review of v2 showed that this confused other people
-> too.
+This is of course not correct. blankings doesn't have to be doubled,
+but just enalrged enough to maintain LLP/FFL constant.
 
-I was just applying the comment to the code when I realized that I had
-difficulties parsing it. Main cause is that it is just above the call to
-v4l2_ctrl_request_setup() which is imho not the questionable call. Would
-you be fine with a shorter comment above v4l2_ctrl_request_complete()
-only?
+Sorry for the oversight.
 
-	/*
-         * As the hardware does not update any volatile controls, we can
-         * complete control handling before starting the dewarper.
-         */
-	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-				   &ctx->hdl);
-
->=20
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thanks,
-Stefan
-
->=20
-> > +     v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> > +                             &ctx->hdl);
-> > +
-> > +     v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> > +                                &ctx->hdl);
-> > +
-> >       dw100_start(ctx, src_buf, dst_buf);
-> >  }
-> > =20
-> > @@ -1467,6 +1488,11 @@ static const struct v4l2_m2m_ops dw100_m2m_ops =
-=3D {
-> >       .device_run     =3D dw100_device_run,
-> >  };
-> > =20
-> > +static const struct media_device_ops dw100_m2m_media_ops =3D {
-> > +     .req_validate =3D vb2_request_validate,
-> > +     .req_queue =3D v4l2_m2m_request_queue,
-> > +};
-> > +
-> >  static struct video_device *dw100_init_video_device(struct dw100_devic=
-e *dw_dev)
-> >  {
-> >       struct video_device *vfd =3D &dw_dev->vfd;
-> > @@ -1578,6 +1604,7 @@ static int dw100_probe(struct platform_device *pd=
-ev)
-> >       dw_dev->mdev.dev =3D &pdev->dev;
-> >       strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_dev->mdev.model));
-> >       media_device_init(&dw_dev->mdev);
-> > +     dw_dev->mdev.ops =3D &dw100_m2m_media_ops;
-> >       dw_dev->v4l2_dev.mdev =3D &dw_dev->mdev;
-> > =20
-> >       ret =3D video_register_device(vfd, VFL_TYPE_VIDEO, -1);
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+>
+> Speaking in CCS terms, this means the limits reported in Table 86 are
+> always populated.
+>
+> And what I'm struggling with at the moment, is the assumptions that's
+> always be the case for all sensors. Unfortunately I don't have enough
+> experience across all vendors to tell if that's the case..
+>
+>
+> > >
+> > > Do we need to distinguish between binning modes that affect the
+> > > timings and binning modes that do not do that?
+> > >
+> > > As we're going to introduce a control for binning to report the
+> > > binning factor in the image dimension domain, should we introduce
+> > > a control to specify the binning factor in the image timing domain ?
+> > >
+> > >         LLP = (analog_crop_width + HBLANK) / binning_timing_h
+> > >         FLL = (analog_crop_height + VBLANK) / binning_timing_v
+> > >         frame_interval = LLP * FLL / pixel_rate
+> > >
+> > > I'm not 100% sure this is correct however, as the blankings should be
+> > > expressed on a different clock domain that the pixel sampling rate,
+> > > but I guess this is a reasonable approximation ?
+> >
+> > What does these two extra controls really offer us?
+> >
+> > All sensors we have seen thus far map their LLP/FLL (or equivalent HTOT/VTOT)
+> > values with respect to the digital readout, and not the analogue pixel array.
+> >
+> > If we add these two controls, we will have to support two different models for
+> > frame interval calculation in the application layer too. Which I'm fine with if
+> > it has a practical benefit, that is, it makes it easier to deal with some
+> > particular sensor.
+>
+> Not sure why you would need two modes to calculate timings in
+> userspace.
+>
+> >
+> > And if exposing the LLP/FLL directly offer the same benefit, then that is
+> > cleaner, as it leaves the HBLANK/VBLANK as-is in the new model.
+> >
+>
+> As per above, if the consensus is that having the limits updated when
+> binning to maintaine the LLP/FFL values will work for all sensors,
+> then I'm fine with that.
+>
+> > Thanks,
+> > Jai
+> >
+> > [...]
 
