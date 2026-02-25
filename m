@@ -1,230 +1,162 @@
-Return-Path: <linux-media+bounces-53388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53389-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0GKMNtIfn2lcZAQAu9opvQ
-	(envelope-from <linux-media+bounces-53388-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 17:14:10 +0100
+	id OAzBJ9Qgn2lcZAQAu9opvQ
+	(envelope-from <linux-media+bounces-53389-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 17:18:28 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6101519A583
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 17:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2DE19A6A8
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 17:18:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4A8513227296
-	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 15:52:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3859D317CC42
+	for <lists+linux-media@lfdr.de>; Wed, 25 Feb 2026 16:03:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38FEA3E8C61;
-	Wed, 25 Feb 2026 15:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E479F3D6688;
+	Wed, 25 Feb 2026 16:03:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kQzTaUXU"
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="1BjFvPpi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D553DA7F8;
-	Wed, 25 Feb 2026 15:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788D939901C
+	for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 16:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772034664; cv=none; b=DebtWuHwjqCgZX86ZSDoKYIdLoKNjIqP9vKiKAiyzCySdyP9cts2WhxzM0HVKmy6S+44phNBs11uQVNP6RMmS9WNwcpmbrhtKAnrwApNjZyUXNDTjgwUszv/Jp79WDfFIwduIJ05sVXCzwq1d1OKqPhqpNPGfiriYQUGXUPPemM=
+	t=1772035422; cv=none; b=ev5ark9tGuMK6UREqaHzMtj9v/Lo1ehcWW5yDFb/b0HgT3jh+0SMh+MArI9KMTuvmsaa/MiWWBEYzIWuG0QMwYF1xQIK7qpuUIUwYtx/lLnGvEEbRy8N8piHvMgPY6OgWWtZVfumrG38ZbMunCDaVFNIyOUPiCX07Hm/5BN6wQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772034664; c=relaxed/simple;
-	bh=IPoW0hAdPmyxLojSbJoofjfzT0HDKdluoXNZXbT9mVI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q1tEE/etmunzR+2J9mnoobyWFzV/sey1Kz2uhEnjvXi83yzXb4AYNX3iYCAWoiBWmjk5zmVVHYZn0tJGalY6t0BFyLUNGZIPLMCM8ilf2kBv0En9eJzLYSOGB17RDz+nxZHlEZxsDIyrGSiogE1StyEz4Yzra6mWxGJtSzYBAeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kQzTaUXU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:cd05:b041:1dc3:f62c])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A7237E79;
-	Wed, 25 Feb 2026 16:50:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1772034604;
-	bh=IPoW0hAdPmyxLojSbJoofjfzT0HDKdluoXNZXbT9mVI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=kQzTaUXU6ctUbmvQCO0JZkMQJfYnddMqmYpmoMUPfov3rWN40OheEmUPEEuk/Jj9/
-	 itvvMoY0rkO0EVJ2d5OXL/AKqW6zzOtn/1GirM+GJ5JoaTzd0QjgQdFgWRjuym+bR7
-	 4y/S2w9RlGEdnzoLAkgMvfn8I18nMlWFWgOr9ujQ=
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-Date: Wed, 25 Feb 2026 16:50:50 +0100
-Subject: [PATCH v4 4/4] media: dw100: Merge dw100_device_run and
- dw100_start
+	s=arc-20240116; t=1772035422; c=relaxed/simple;
+	bh=T6QHUXXan9RlQRVyU2bv9a5SpuOrQlV9z8My9p1kMzQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Lvx1idubIw2geevpprMNQBOezNKP9A+de8PoZstVlU3eCGgcKtM73xr3JwyMrlbat4AZ9MGAAT5fGA071Kfbw4/J96+EfCNrqEMa6K8gyzzvECJIn9X8bU3klBVsjHcjZQW5E/NDHFu+28YD9SJDJunZHjr8sR/CWBhTKHgjlNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=1BjFvPpi; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7d4ba9abbecso7226791a34.1
+        for <linux-media@vger.kernel.org>; Wed, 25 Feb 2026 08:03:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1772035419; x=1772640219; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qQzwfTuurdHrCRbQq1Lkz9HB0o+Mxk5jPOjkJ+sWd20=;
+        b=1BjFvPpiDvoA8He3wratHkzQ9VNWHza++V90u+WOLgPpIE49Nwdtyf8jdUZ0ToiNNT
+         4UDQdy80hugQk59xXsjJIE39f1bYdAR8h3SyDq7A1W+GeJL7EJEMsp2B3MJwjazUAyz1
+         4hebAWKCoDIjFNRAmZ/7O9P0J1BikZJ/DayceyfTvLr51/aK0chevxhyU26Y9hV4Z75V
+         j9ny588TUqb+AmRMoVfz5TdZ+ALWi6YzY4NfGeTr3HMof0psPIX4b3IINNjsZ9A3FhLe
+         MDDeyh9E3rPNNjm0WK1dVp3Wmm/WcIi4DW+U5TQihLJ5gcREA8M8P/DciF9YcvIknwRh
+         on0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772035419; x=1772640219;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qQzwfTuurdHrCRbQq1Lkz9HB0o+Mxk5jPOjkJ+sWd20=;
+        b=Q3/wasvFCPGLWqgO3LvHsJur7271IadZt2zM1+xpYWyoz7dKDqtoiP6DyXM+5AGvID
+         ydhgDMUGX78iLUtMNBGqB8VYnPIqDGEhMA+oDGiu9qnEN1g7i5WvnBGAonqbUlMJsMOw
+         3Y7ZpJJTTesZuXKrz9/IseeedjvjuVcTQWM85qzBjrL7/664yvkjDYUhG+/hvLmGUTJp
+         lPqtwx0BPu5jCpKiyEnjHRnpe0qmAj/wci4FIZRq5SBFQvZCkbA2WVELztvKCc/NnAsz
+         RPzzjTlMZWgx0exxNIIDZHyGQ69FgUy7fJwvr3SU8xdUjBbLc+uFVu45m+mtWUd6QEi3
+         02xQ==
+X-Gm-Message-State: AOJu0YzHoZUnAR6Ndu7XBtf0kVdNemN/ur6Z0H71NucjziRQC2T3Wcti
+	3cQCJzD8UaqiSHZb0qE2HLLd+zQjZeaTEUEGNedxLWmEBsxVXgxh4Y5+6nLEDdZENbeDPEv+Woe
+	7bLnn
+X-Gm-Gg: ATEYQzy534XxW83bv878/ykP31YYkegtEUy89DnzzgXDCkFXgQhH8z5LBow5uq1qWro
+	y8a3pQMc54AuCsfJLnDysryJoHzYQ326A6BI9D0YQqlr46rfJoMhJiNJe7dAvWu1pZA1tzlg03n
+	+bMc82Q+qSvPlODvSDrkRZNKfZg0ac5M+MuoStDdrH8DnKPUbpt/VJKF47nZnpo0k8DsmdGdPAV
+	kroR46rXGWNJ8Rnr7yAsypZIte/Dbzil7Yf2OPu21cQyvDGRvRg2VVnk+xscSXijlXh8cKzR1hO
+	BiNqGJcoZ6c4GfyN8Krz93gpZ/srEKTE2c/rUVFAsW8kRvblqRhnTEGkYO6OLoJLumOLFG3v8pt
+	RbYTYvIRzQZU7TpTBxiTpSuTgOMBx6bONyuJ5PA1XMyI0KlYG4UZxtDvzKSeV/OidCAXYj7RG6y
+	BJZau1YdFvmqIuocA8Vxn6xozRzYR65blxVXTrua2l5+28zHsgPn6pT4rDUwZTZUm8rEPGPLdo6
+	rxnKvChXA==
+X-Received: by 2002:a05:6870:16e1:b0:409:6862:aba5 with SMTP id 586e51a60fabf-4157b1033f0mr8810637fac.25.1772035418618;
+        Wed, 25 Feb 2026 08:03:38 -0800 (PST)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4157d34a4b2sm13440375fac.15.2026.02.25.08.03.37
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Feb 2026 08:03:38 -0800 (PST)
+Message-ID: <df2b234b-59a4-4c90-b7b8-01b8f3e49dea@kernel.dk>
+Date: Wed, 25 Feb 2026 09:03:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: media: dvb-core: fix wrong reinitialization of ringbuffer on
+ reopen
+To: linux-media@vger.kernel.org
+References: <32f48179-b51d-4513-b6a4-054241bec8e9@kernel.dk>
+ <699f1b50.050a0220.356767.518e@mx.google.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <699f1b50.050a0220.356767.518e@mx.google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-4-53536d08de91@ideasonboard.com>
-References: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-0-53536d08de91@ideasonboard.com>
-In-Reply-To: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-0-53536d08de91@ideasonboard.com>
-To: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, Nicolas Dufresne <nicolas@ndufresne.ca>, 
- Stefan Klug <stefan.klug@ideasonboard.com>
-X-Mailer: b4 0.14.2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[kernel-dk.20230601.gappssmtp.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53388-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel-dk.20230601.gappssmtp.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53389-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[stefan.klug@ideasonboard.com,linux-media@vger.kernel.org];
+	DMARC_NA(0.00)[kernel.dk];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_ONE(0.00)[1];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nxp.com:email]
-X-Rspamd-Queue-Id: 6101519A583
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[axboe@kernel.dk,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kernel-dk.20230601.gappssmtp.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,kernel.dk:mid]
+X-Rspamd-Queue-Id: 1C2DE19A6A8
 X-Rspamd-Action: no action
 
-The dw100_start() function is only called from dw100_device_run(). As
-both functions are not too big, move the code directly into
-dw100_device_run() and drop dw100_start() to improve readability.
+On 2/25/26 8:54 AM, Patchwork Integration wrote:
+> Dear Jens Axboe:
+> 
+> Thanks for your patches! Unfortunately the Media CI robot detected some
+> issues:
+> 
+> # Test media-patchstyle:./0001-media-dvb-core-fix-wrong-reinitialization-of-ringbuf.patch media style
+> WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+> #25: 
+> Reported-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
+> Tested-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
+> 
+> total: 0 errors, 1 warnings, 10 lines checked
+> 
+> ERROR: Fails one or more mandatory checkpatch tests
+> 
+> # Test checkpatch:./0001-media-dvb-core-fix-wrong-reinitialization-of-ringbuf.patch checkpatch
+> WARNING: Reported-by: should be immediately followed by Closes: with a URL to the report
+> #25: 
+> Reported-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
+> Tested-by: syzbot+ab12f0c08dd7ab8d057c@syzkaller.appspotmail.com
+> 
+> total: 0 errors, 1 warnings, 0 checks, 10 lines checked
 
-This patch contains no functional changes.
-
-Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-Reviewed-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
----
-
-Changes in v4:
-- Collected tags
-
-Changes in v3:
-- Added this patch as proposed in the review of v1
----
- drivers/media/platform/nxp/dw100/dw100.c | 77 +++++++++++++++-----------------
- 1 file changed, 35 insertions(+), 42 deletions(-)
-
-diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-index a80139427f19942cdc61838afdccb8ef45bcda34..e59361aeeec73ee0df0b86159c3b3c19f2eb8b5f 100644
---- a/drivers/media/platform/nxp/dw100/dw100.c
-+++ b/drivers/media/platform/nxp/dw100/dw100.c
-@@ -1442,49 +1442,10 @@ static irqreturn_t dw100_irq_thread_fn(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
--static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
--			struct vb2_v4l2_buffer *out_vb)
--{
--	struct dw100_device *dw_dev = ctx->dw_dev;
--
--	out_vb->sequence =
--		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
--	in_vb->sequence =
--		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)->sequence++;
--
--	dev_dbg(&ctx->dw_dev->pdev->dev,
--		"Starting queues %p->%p, sequence %u->%u\n",
--		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE),
--		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
--		in_vb->sequence, out_vb->sequence);
--
--	v4l2_m2m_buf_copy_metadata(in_vb, out_vb);
--
--	/* Now, let's deal with hardware ... */
--	dw100_hw_master_bus_disable(dw_dev);
--	dw100_hw_init_ctrl(dw_dev);
--	dw100_hw_set_pixel_boundary(dw_dev);
--	dw100_hw_set_src_crop(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
--			      &ctx->q_data[DW100_QUEUE_DST]);
--	dw100_hw_set_source(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
--			    &in_vb->vb2_buf);
--	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
--				 ctx->q_data[DW100_QUEUE_SRC].fmt,
--				 &out_vb->vb2_buf);
--	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
--			     ctx->map_width, ctx->map_height);
--	dw100_hw_enable_irq(dw_dev);
--	dw100_hw_dewarp_start(dw_dev);
--
--	/* Enable Bus */
--	dw100_hw_master_bus_enable(dw_dev);
--}
--
- static void dw100_device_run(void *priv)
- {
- 	struct dw100_ctx *ctx = priv;
-+	struct dw100_device *dw_dev = ctx->dw_dev;
- 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
- 
- 	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-@@ -1496,7 +1457,7 @@ static void dw100_device_run(void *priv)
- 	if (src_buf->vb2_buf.req_obj.req)
- 		dw100_update_mapping(ctx);
- 	else if (ctx->user_map_is_dirty)
--		dev_warn_once(&ctx->dw_dev->pdev->dev,
-+		dev_warn_once(&dw_dev->pdev->dev,
- 			      "V4L2 requests are required to update the vertex map dynamically\n");
- 
- 	/*
-@@ -1506,7 +1467,39 @@ static void dw100_device_run(void *priv)
- 	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
- 				   &ctx->hdl);
- 
--	dw100_start(ctx, src_buf, dst_buf);
-+	src_buf->sequence =
-+		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)->sequence++;
-+	dst_buf->sequence =
-+		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
-+
-+	dev_dbg(&dw_dev->pdev->dev,
-+		"Starting queues %p->%p, sequence %u->%u\n",
-+		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE),
-+		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
-+		src_buf->sequence, dst_buf->sequence);
-+
-+	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf);
-+
-+	/* Now, let's deal with hardware ... */
-+	dw100_hw_master_bus_disable(dw_dev);
-+	dw100_hw_init_ctrl(dw_dev);
-+	dw100_hw_set_pixel_boundary(dw_dev);
-+	dw100_hw_set_src_crop(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
-+			      &ctx->q_data[DW100_QUEUE_DST]);
-+	dw100_hw_set_source(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
-+			    &src_buf->vb2_buf);
-+	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
-+				 ctx->q_data[DW100_QUEUE_SRC].fmt,
-+				 &dst_buf->vb2_buf);
-+	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
-+			     ctx->map_width, ctx->map_height);
-+	dw100_hw_enable_irq(dw_dev);
-+	dw100_hw_dewarp_start(dw_dev);
-+
-+	/* Enable Bus */
-+	dw100_hw_master_bus_enable(dw_dev);
- }
- 
- static const struct v4l2_m2m_ops dw100_m2m_ops = {
+Add the Closes if you want, I'm not resending this patch. Already wasted
+way too much time on an issue that you guys have known about for a year
+and did NOTHING about. I sent a fix, take it or fix it yourself.
 
 -- 
-2.51.0
+Jens Axboe
 
 
