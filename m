@@ -1,325 +1,198 @@
-Return-Path: <linux-media+bounces-53605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53606-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gERqAx+MoGkCkwQAu9opvQ
-	(envelope-from <linux-media+bounces-53605-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 19:08:31 +0100
+	id 6IAvDdGQoGllkwQAu9opvQ
+	(envelope-from <linux-media+bounces-53606-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 19:28:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68B11AD48A
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 19:08:30 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B2A11AD9F7
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 19:28:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 295EE30FA04F
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 17:54:50 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4DBA430C17F9
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 18:03:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD5D35A38E;
-	Thu, 26 Feb 2026 17:53:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3643535A3BC;
+	Thu, 26 Feb 2026 18:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSFys7tF"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hUOJ+iBn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A79355F3D;
-	Thu, 26 Feb 2026 17:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772128437; cv=none; b=M9CRa7p3F8Pci0XbBaivSiBoeVynq657eH5kTAdUFrR3lZTQNVKMTAF0qzHM078/XZ8glPumklSeUTLoFrJqrCt/KGtPVzDymHz756DjABbU//3vZZ2fVkXuDho9GfNmjrwhONQ06y7eaVYEsQJHYPBAu9wOrrBXygzgDFyHke0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772128437; c=relaxed/simple;
-	bh=moWnYE8/Vbpv09X6nITbMhXYVzO985Iymx+6B4LKXtI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XMkh+dYkRUxE91EkcBxKCpxEhhuUlTMgGwMS+9I61ZiIsrW/G7QX3XMDDm9YqMtCdH1HQrEkrjw620LgrAoJa5eXPbIqFvSI9uzxcbJdMtKPRh8fPB8/G+u7Sada+C+aKNJwJcygNQOkfvX5F7+tUYY4mobG9rN+FIOK92FIG2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSFys7tF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9026C116C6;
-	Thu, 26 Feb 2026 17:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772128436;
-	bh=moWnYE8/Vbpv09X6nITbMhXYVzO985Iymx+6B4LKXtI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=SSFys7tFdXTAyhr+VddviYDQcdIcSNALi0h44vkTTgABjXl2HZOlR+hXAGlAxrBYs
-	 W6y/je/mk2w7IeEvXDvch9OEQs71Mqu4n7+p6GgXpJIOgNvtC+Ka/RS7RtOQGi9t1b
-	 AHfzkCZfJkn4NUfryM17K8KZaL7r6ujmVn0LVfr3+oQhvJSb/vgigxIpqtyQNEDE3z
-	 Kc5lJHajXp11EPVsZ8dEZ4mqRRgBGmO9F6l9L9qtvR0/qAA4MH1H2rlhjay25Lovq+
-	 sdsm8hBVOyD2wkaZcXwjKOnh6ejRtTVlZvNzAY3zouYB43PEzCLkbNWpoKk/MPU5ho
-	 hFMvp9HOHb8eg==
-Message-ID: <353dfa5494f8d83eff01b0c7dc8451c81463ce57.camel@kernel.org>
-Subject: Re: [PATCH 03/61] trace: update VFS-layer trace events for u64 i_ino
-From: Jeff Layton <jlayton@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner	
- <brauner@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu	 <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>,  Dan Williams <dan.j.williams@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Eric Biggers	 <ebiggers@kernel.org>,
- "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song	 <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand	 <david@kernel.org>,
- David Howells <dhowells@redhat.com>, Paulo Alcantara	 <pc@manguebit.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara	 <jack@suse.com>,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,  Trond
- Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck
- Lever <chuck.lever@oracle.com>,  NeilBrown <neil@brown.name>, Olga
- Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,  Tom
- Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>, Ronnie Sahlberg
- <ronniesahlberg@gmail.com>,  Shyam Prasad N <sprasad@microsoft.com>,
- Bharath SM <bharathsm@microsoft.com>, Alexander Aring	
- <alex.aring@gmail.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
- Viacheslav Dubeyko	 <slava@dubeyko.com>, Eric Van Hensbergen
- <ericvh@kernel.org>, Latchesar Ionkov	 <lucho@ionkov.net>, Dominique
- Martinet <asmadeus@codewreck.org>, Christian Schoenebeck
- <linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, Marc Dionne	
- <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, Luis de
- Bethencourt	 <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>,
- "Tigran A. Aivazian"	 <aivazian.tigran@gmail.com>, Ilya Dryomov
- <idryomov@gmail.com>, Alex Markuze	 <amarkuze@redhat.com>, Jan Harkes
- <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,  Nicolas Pitre <nico@fluxnic.net>,
- Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>, 
- Christoph Hellwig	 <hch@infradead.org>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>,  Yangtao Li <frank.li@vivo.com>, Mikulas
- Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse	
- <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Dave Kleikamp	
- <shaggy@kernel.org>, Konstantin Komarov	
- <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
- Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
- Mike Marshall	 <hubcap@omnibond.com>, Martin Brandenburg
- <martin@omnibond.com>, Miklos Szeredi	 <miklos@szeredi.hu>, Anders Larsen
- <al@alarsen.net>, Zhihao Cheng	 <chengzhihao1@huawei.com>, Damien Le Moal
- <dlemoal@kernel.org>, Naohiro Aota	 <naohiro.aota@wdc.com>, Johannes
- Thumshirn <jth@kernel.org>, John Johansen	 <john.johansen@canonical.com>,
- Paul Moore <paul@paul-moore.com>, James Morris	 <jmorris@namei.org>, "Serge
- E. Hallyn" <serge@hallyn.com>, Mimi Zohar	 <zohar@linux.ibm.com>, Roberto
- Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin
- <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, Fan
- Wu	 <wufan@kernel.org>, Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, Casey Schaufler
- <casey@schaufler-ca.com>, Alex Deucher	 <alexander.deucher@amd.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter	 <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, Eric Dumazet	 <edumazet@google.com>, Kuniyuki
- Iwashima <kuniyu@google.com>, Paolo Abeni	 <pabeni@redhat.com>, Willem de
- Bruijn <willemb@google.com>, "David S. Miller"	 <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman	 <horms@kernel.org>, Oleg
- Nesterov <oleg@redhat.com>, Peter Zijlstra	 <peterz@infradead.org>, Ingo
- Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland	 <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,  Jiri Olsa
- <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian Hunter
- <adrian.hunter@intel.com>,  James Clark <james.clark@linaro.org>, "Darrick
- J. Wong" <djwong@kernel.org>, Martin Schiller <ms@dev.tdt.de>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
-	v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
- autofs@vger.kernel.org, 	ceph-devel@vger.kernel.org,
- codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net, 
-	ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
- devel@lists.orangefs.org, 	linux-unionfs@vger.kernel.org,
- apparmor@lists.ubuntu.com, 	linux-security-module@vger.kernel.org,
- linux-integrity@vger.kernel.org, 	selinux@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, 	dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, 	linaro-mm-sig@lists.linaro.org,
- netdev@vger.kernel.org, 	linux-perf-users@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, 	linux-xfs@vger.kernel.org,
- linux-hams@vger.kernel.org, linux-x25@vger.kernel.org
-Date: Thu, 26 Feb 2026 12:53:42 -0500
-In-Reply-To: <6exhq5gjvef5obfsqwkxfcpl2sjqmlv7klrzolodzpcjolgrmd@ds42ulhod7pw>
-References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
-	 <20260226-iino-u64-v1-3-ccceff366db9@kernel.org>
-	 <6exhq5gjvef5obfsqwkxfcpl2sjqmlv7klrzolodzpcjolgrmd@ds42ulhod7pw>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A124355F5B
+	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 18:03:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772129017; cv=pass; b=MIljrOwjZBP1yuW+AYpjk245JwICC4ev78/w7RpAJOP5UbQ7csGY3mOpn6MwJLkebyXHj0ItPGYzqUOf337Mc2zsSh66V1HoH0hj2irUx6/7mXn7mF+dENRg5Dsdk34DGzs/G3GDiaWanIErzHa/rxjWUlYbhEeaVQfaKMU7iGs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772129017; c=relaxed/simple;
+	bh=/VdG3rC0gGwM5+sHi4tU9peTW/HaTVJcFc8R/yRCdTU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fe89V4IKeyO2D5r437g9AymrXMBCS80KHVJrnLUbTwSh8lHBeXLrfgcE1Ya2gEGstFO6efi7IvIDZumUo5NLPOyKwNErcXAdhLDzEw505pCfx3lFS+iybfSiarzDV/skcFIOId5ma4510Xg91aJRKd6S45cK3/mlUbLAKnpdpEs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hUOJ+iBn; arc=pass smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b8fb6ad3243so170730666b.1
+        for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 10:03:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772129015; cv=none;
+        d=google.com; s=arc-20240605;
+        b=R4uRaIguO+Mnc3CN4TtACvJg3RnoyKD0uIPBRmLEk3mcObUCMxEvCul2JLS6HxkGAt
+         sTaohC4MX0eARKSyK7WTOJX0zMcEGs5o6t/Fr90Awp7NO7oSnDRxsqGjO+AO9Lw57XdB
+         xRTaL9Bq7a3QAYvRn6r4eDqmuZ4H63TFSwwxFGwzNGe/fdwWAbOX+ZcD5LQmNh9pnG9O
+         chtIbIfw+9Cf3uVhCYOehqACGiLt19rXeOQTy0xwHZX/PJsTGLDPutyBRfJirtv6t4V3
+         MpxYK7BrlYxGS77Xt8jVOc5MtvqMxq6zOi491UZTCt+O/Qb/zBRJaaEYmz3zJbIT6pxs
+         QXiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9Qnm2oa0MVzHK3SlIdevV2oCNgF9I6YsjdLLXN+h7bs=;
+        fh=CsRZW/Zfns1t977TbvmQbwR3fkeSgAaCdLg/YW9YNKw=;
+        b=PbwpMy38I8ZGcqZsK12mt+ewGBKU/fKU5JA2CmjRCy/VvLih0aJA3mgHVDnaFXsVuk
+         //YgxfjcxnyjWTVdx4w+/Gsnn0ETO21vj2CNbTKocNp9aUleb8VY1YkrGRN5KddoY7wa
+         ZVQa/oEvbdNNRcsf22kJHq0kj5BMlm2rQjTW7iGiaN/Frtqg66l/bs2L75cJKqZywHD0
+         U6zbQeN+xuFL+TLoi0ilMoszDEYO54TAXDLj2YeRkZdncl8rbGkDGZQCg0fT68rK0PV9
+         Pzm+0zmuG5FVBOHtnrx2nmdPquujv8Z5E5vpycuwyAF3i3VJOmRwxYKZz68D5ELFR6hy
+         LqlA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772129015; x=1772733815; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9Qnm2oa0MVzHK3SlIdevV2oCNgF9I6YsjdLLXN+h7bs=;
+        b=hUOJ+iBnx3F3Li1c2T6LFk2MM39CfivWAfQpxA85AEX0/Qj3i0lmUq+sGhsZh9rP7+
+         qq+hWk9FUPoS4CfALMPbHrw8k/A/L50CCJtsEb/ywQH3lOfg0oCmkh6Ofv6/+fGKLGzs
+         HAj8EuWOUTtQa2OGXpXh1+LzXecrWv04AvC09WGmqswQLZ5KjEYtomdHofGn11ZKsy/Z
+         sJfhwOhXCIeyGSLbSOYHYOt8Ewx/KpPtci/6O3WN5suepsN06Wep4CbXCw8J62l73ZTa
+         h7KEd29SPWTKsNt8mTehbw9EYZ4OosW2TTNCzbYkb8hdInlTf/3RVH36Fc1EvAknUYAs
+         HxqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772129015; x=1772733815;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9Qnm2oa0MVzHK3SlIdevV2oCNgF9I6YsjdLLXN+h7bs=;
+        b=fO2rfMneKX0qraDXmPk4w+vts53qTiq1MKxwHG7rcD9zkfjAPZrj9fQD/wE1WNYXWf
+         Uy8mZrO75mCUBQ5ZydLWwrJ5rGAC/qnnePO0/2b/T791P5pujuLKtCtFsyXRy/IqyNyM
+         uU5JnWZTHXzgoFxJq7A1ocB2PEGCQSuLuMlZ1x1VcwJqIX7Eu9tdh6q2dWiEkDdAovAe
+         Z2UHZBFtEvOLcwdQEc0NdnV4lLfEjkdrBnhpbzEl6dqPNIBJ2CGDKGx13klNfk/Vc0en
+         5496jQYTgynYH3zrHuaPDVoeEUWeCkYV2DuBwB1wlRVv31fFZy4YC27zk8oQyQuXDj4y
+         HXUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX/NxLnmU+VpUdgYPKNQEPepsI3HcKCeHdPb0z43oM7viLIAi3NKeub6SeSTOxCYOcvATo/pK0l4tHfiQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQT9c6QxyvA0S0ugCn3nD399T0a/qN9vDEBDdZhCleD4B12Jb1
+	iFdDJU1zCcG+zzS1QSckCDjv7RHDAk+ovGkk46mXqTyq8UFqp+OVIFCHLjF/5sIZ6c6sU+ZDEyX
+	YhW7dm2yivKoH3QdxtTekcUe8d6RB6fqQ6BO9bHk=
+X-Gm-Gg: ATEYQzzhPu+gwfTEOG6RSHxl1SE9p8aaoY9HmfhgdOGRM2HPH59BPL0nL7cD0gTn1eg
+	3jYLq1EAWe1EbN8tlaX5Y9urY97+wMgsWsVT9bfi3wzvnHjTdSBu+OcCYi7di8olHGaYv3E+rF0
+	U250XSTfVLccFQayV+XsoUdOD1Jb5XR8JaNVfkjeSbixCJVJzZjhjRCYMWugw8lNrvHVT9AMmEd
+	pqHuydVkk4yskH06YsZstCyq3dazWPUPBmJqVkEja0ITc5Lkz9Ky+QNm6Dp6z1/QLZq0UzH5/8W
+	1Bynz7kDdcGc8dxkKF5f8Ai+8sRBuRKoXXd1
+X-Received: by 2002:a17:906:eec7:b0:b87:d255:39ff with SMTP id
+ a640c23a62f3a-b9081b37fe6mr1411724466b.32.1772129014224; Thu, 26 Feb 2026
+ 10:03:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
+ <CANDhNCqk9Uk4aXHhUsL4hR1GHNmWZnH3C9Np-A02wdi+J3D7tA@mail.gmail.com> <20260226-adaptable-vermilion-nautilus-0aa6f0@penduick>
+In-Reply-To: <20260226-adaptable-vermilion-nautilus-0aa6f0@penduick>
+From: John Stultz <jstultz@google.com>
+Date: Thu, 26 Feb 2026 10:03:21 -0800
+X-Gm-Features: AaiRm538ftOfa1UyUjDoV9Yd7b0SRwtnSHBghCEM_shajRcZSxbK21W611Pqdkc
+Message-ID: <CANDhNCrpNU7QJgu+0CZRvdxLwKp8VNxZoG_zDo7qqxaE0mjoTw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] dma-buf: heaps: Turn heaps into modules
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
-	TAGGED_FROM(0.00)[bounces-53605-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[145];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jlayton@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-53606-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.993];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jstultz@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E68B11AD48A
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[googlesource.com:url,mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4B2A11AD9F7
 X-Rspamd-Action: no action
 
-On Thu, 2026-02-26 at 18:11 +0100, Jan Kara wrote:
-> On Thu 26-02-26 10:55:05, Jeff Layton wrote:
-> > Update trace event definitions in VFS-layer trace headers to use u64
-> > instead of ino_t/unsigned long for inode number fields, and change
-> > format strings from %lu/%lx to %llu/%llx to match.
-> >=20
-> > This is needed because i_ino is now u64. Changing trace event field
-> > types changes the binary trace format, but the self-describing format
-> > metadata handles this transparently for modern trace-cmd and perf.
-> >=20
-> > Files updated:
-> >   - cachefiles.h, filelock.h, filemap.h, fs_dax.h, fsverity.h,
-> >     hugetlbfs.h, netfs.h, readahead.h, timestamp.h, writeback.h
-> >=20
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
->=20
-> ...
->=20
-> > diff --git a/include/trace/events/writeback.h b/include/trace/events/wr=
-iteback.h
-> > index 4d3d8c8f3a1bc3e5ef10fc96e3c6dbbd0cf00c98..cc7651749eb3ce1123cb3ea=
-9496f0803a0f4c1a0 100644
-> > --- a/include/trace/events/writeback.h
-> > +++ b/include/trace/events/writeback.h
-> > @@ -67,7 +67,7 @@ DECLARE_EVENT_CLASS(writeback_folio_template,
-> > =20
-> >  	TP_STRUCT__entry (
-> >  		__array(char, name, 32)
-> > -		__field(ino_t, ino)
-> > +		__field(u64, ino)
-> >  		__field(pgoff_t, index)
-> >  	),
-> > =20
-> > @@ -79,9 +79,9 @@ DECLARE_EVENT_CLASS(writeback_folio_template,
-> >  		__entry->index =3D folio->index;
-> >  	),
-> > =20
-> > -	TP_printk("bdi %s: ino=3D%lu index=3D%lu",
-> > +	TP_printk("bdi %s: ino=3D%llu index=3D%lu",
-> >  		__entry->name,
-> > -		(unsigned long)__entry->ino,
-> > +		(unsigned long long)__entry->ino,
->=20
-> No need for explicit typing to ULL?
+On Thu, Feb 26, 2026 at 2:18=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+> On Wed, Feb 25, 2026 at 10:51:30AM -0800, John Stultz wrote:
+> > So heaps-as-modules is common in the Android kernels, and was
+> > attempted to be upstreamed long ago:
+> >   https://lore.kernel.org/lkml/20191025234834.28214-1-john.stultz@linar=
+o.org/
+> >
+> > And it got a fairly chilly reception, but maybe having the additional
+> > optee heap (as well as other proposed heaps) might sway folks on this
+> > now.
 >
-> >  		__entry->index
-> >  	)
-> >  );
-> > @@ -108,7 +108,7 @@ DECLARE_EVENT_CLASS(writeback_dirty_inode_template,
-> > =20
-> >  	TP_STRUCT__entry (
-> >  		__array(char, name, 32)
-> > -		__field(ino_t, ino)
-> > +		__field(u64, ino)
-> >  		__field(unsigned long, state)
-> >  		__field(unsigned long, flags)
-> >  	),
-> > @@ -123,9 +123,9 @@ DECLARE_EVENT_CLASS(writeback_dirty_inode_template,
-> >  		__entry->flags		=3D flags;
-> >  	),
-> > =20
-> > -	TP_printk("bdi %s: ino=3D%lu state=3D%s flags=3D%s",
-> > +	TP_printk("bdi %s: ino=3D%llu state=3D%s flags=3D%s",
-> >  		__entry->name,
-> > -		(unsigned long)__entry->ino,
-> > +		(unsigned long long)__entry->ino,
->=20
-> And here as well? And many times below as well...
->=20
-> 								Honza
+> I didn't know that Android was using heap as modules only, but I'd say
+> that it's even more of a reason to upstream it then.
+>
+> > There is also the kref bits you might need (which Android still carries=
+):
+> >   https://lore.kernel.org/lkml/20200725032633.125006-1-john.stultz@lina=
+ro.org/
+>
+> I'm curious about this one though. It looks like you add refcounting,
+> but never really get the references anywhere. What was your intent, that
+> on every allocation the buffer would get a reference to the heap so we
+> avoid removing a heap with allocated buffers?
 
-Good catch. I'll clean those up.
+Oh, apologies I mixed this up. You can ignore that suggestion.
 
-Thanks,
---=20
-Jeff Layton <jlayton@kernel.org>
+In Android, once folks were familiar with thinking about dma-buf
+heaps, some (out of tree) drivers wanted to be able to internally
+allocate from a given heap (somewhat of a hold-over from the old ION
+drivers). So we have a convenience patch to provide that:
+   https://android.googlesource.com/kernel/common/+/8e1ec97355ef9927e82ec18=
+c98312bdcd80bf289%5E%21/
+
+And since we return a dma_heap to the driver to allocate against:
+  https://android.googlesource.com/kernel/common/+/fc1310ebf8fe25ea7b983400=
+e6fa41f5a6d11966%5E%21/
+
+The kref bit is to make sure we're doing proper reference counting on
+that shared pointer.
+
+This ended up getting bundled together along with the heaps-as-modules
+changes in our out-of-tree changes, and I just confused its use here.
+
+thanks
+-john
 
