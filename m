@@ -1,266 +1,246 @@
-Return-Path: <linux-media+bounces-53635-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53636-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cE1UL9q3oGnClwQAu9opvQ
-	(envelope-from <linux-media+bounces-53635-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 22:15:06 +0100
+	id cL/dFYa5oGnClwQAu9opvQ
+	(envelope-from <linux-media+bounces-53636-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 22:22:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292481AF921
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 22:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57B51AFAC9
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 22:22:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 88C5130F759D
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 21:12:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3B9FE3040445
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 21:16:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F30D546AED8;
-	Thu, 26 Feb 2026 21:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B4C044BC81;
+	Thu, 26 Feb 2026 21:16:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="HW/o4Vat"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZ0XYGDU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BD3451070
-	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 21:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772140319; cv=pass; b=Yup3zCA+t5oFeJRPNHt+uamczBklrTkMdHoW+xo4Q8rbSmfEDfoTRh5w69mS2C2fDuTUwCiNxxUj3yb05cVbr5biJlclQe1uN5ZFkcH1qV2aOFc6WuzQzaNSGc2eMrgzbn7bEGdJOdFIHNUMXXawi4PkGoc6CmVfNAZZc020g6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772140319; c=relaxed/simple;
-	bh=bnDaNoU6qjKfC/eAGGjHl/JBEfLQ2MSCDsq35dJ1WO8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ryoEP3HtyCA4HQ9dmrtIueWPCbw2cA1fC2BhuXTOUGQhhDYa/dUG9ViNeJl+AtcKOWz1FViiPMcTEba+hFSWhII8iPo1TmxIs72MDkM0cAlfi3AR3HvOjcJkhqfK1+H3KrdGVuGrEwoeqPWLWK6caPXU4qE8g+0GVyIr6I51//k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=HW/o4Vat; arc=pass smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c70bfef17a4so739150a12.2
-        for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 13:11:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772140314; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CwbSmw05iHlH5LHfTuFZJ4834kuQHAHYZagMGIxJJFUsvTw0xTMopKEw8aQ75+k3ce
-         tfS1e3PNat5Zowf4SMnltYn4kQRbCxJBfeh4f7J4UEsS8iP+6jJdHSlO7c14t09BgFjO
-         xLeiZdMKj/1G6La4R1thJ1PrKYNuAbWeFyiYs+AaxdyjKyG8WIM9x35nQJ0+rR2+7r7G
-         6CVYMUIRF2YiLxjIuKEtH2tOY9Kq6SKsR2JZkgPlt2dYJAYaYGxDz81IZ0QIWRB0JttE
-         VoEIsY9uyxoMZ/aFbSaNKPJtsdPqD2It4CZf25xFhVWA2skU9Trw5KK9LbXGDJDace3Z
-         ewdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zmNhsrxkJsNmzJoSll+GD0SvmHq0rQdZiw5NaBd3y6o=;
-        fh=7qY3v9urn9EY2n6kQb2Q27o9f7Mv2Cf2SDXvM860O4A=;
-        b=ADCLFHvbFqiA+gL0eKm29BUFqSJoAiUy5BxOcjb0I/2huubZwjSS5zGHEFgUaD6o5D
-         cYGxYsw6ykmtdmbISZYbCA9M/5xKytIsz+EBG+qRVzLD6Ix8XvLziWGwfw0P2M+4g9L7
-         CPuexcG3IkiaCkbg8QtF/leUZyloT1s2LqXmm7V5dTIzXorKIhBLIfb1E24tEOIDu0Oj
-         6vTwdTrG9T3plzwcAmUbllXSRUBFx+q/KVVNdFqWXJACXYM72fc+EMDYmCWJ45PsnExS
-         1jGZ6SE7BCQKPHv2tN/PwynBVpbqSIQ1FWVj7ZrGC1xqXZRAQrG95AYtdo1zAtzgVg85
-         Ucgw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1772140314; x=1772745114; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zmNhsrxkJsNmzJoSll+GD0SvmHq0rQdZiw5NaBd3y6o=;
-        b=HW/o4Vata6iL0319Ebvg+XwcmFV3aXvPxwJavhnSNkrdZzg0DUnb3gyhur+Z5qjlLy
-         DF8ktagjV0h021ZkfaIiy95wdENx8nhp/3Vvz2748i/fBYrVuloVbagkkQGgRNG86+Xf
-         7YlzwOmtdpv3bWcOUuDxueD4ZLfhl1dx7sRZkDnHp2PU66qfJaPiPJAVJ/M8KD8ERzr8
-         bIQQxKK/DZLsihhNuRa8yQlW78+eqc562C9u6niHHz0B0ONpkKGa75Gk3umCQziU6XHm
-         celOWJX9fFF/7lcRec9du77GkDGs1yNtYP28Isk20pFkO0mQFH92SHVI+gBYVb/yj5+Z
-         wXJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772140314; x=1772745114;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zmNhsrxkJsNmzJoSll+GD0SvmHq0rQdZiw5NaBd3y6o=;
-        b=lWUeJtNLyKww1YJSxpsIyT6TXUSOW9v0Kdhm2Z5AxgQgIBChggoY6+N1X521/mSiBA
-         EN89zcnyx2UAtAJQgZk/UKO95SHb8z2NDswHxXTFee1z3gw8tf7FdlcpTksC2k3cSLD4
-         y2e2qZMfD3dfoyGB8mAKUky+nMIenbapi4+KJYxUJOpBYHprEv9ZH0N6tEtCEMLfv0mm
-         /WZO9pFyGldLkDZF7XaNu0mluVZ/lW6l48XPxU1OntKfKq8GHsGvoi7Vg59iAoT1h5Vd
-         xym6L5Qg4iinFdEk4oKbxwW9dhiGC6o/DADOIjM321oG1grG/JX8x7ZYGCYRHv3+StQI
-         X81A==
-X-Forwarded-Encrypted: i=1; AJvYcCX+2CWy+rcsw49Dlg3VLIbojk1PbGDVUSF+ZiyS3aO6Pb3nHWuBUGejxC1lT0Se1TYXZouS4150coIBaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaoomWS7WSaKG6TzF2pBfqS6BoyW/bx2rY9lEAtz90naNSetNd
-	hsbbyZHNrOcGir3BHubl4eh3YMxuGk6Jrw/PVbKKtbUXIxDM8W3sHr5bOCM1eTVVhchbTg/mezV
-	hn4OF3r/nEZcZM+DLcJQbUyfJYWyUrwHAz3yWMMVh
-X-Gm-Gg: ATEYQzzp7FSIFokfjOYq/iTQRQefloKvLYHl3NmGHCTtuYnJlO9lDWldTLlAZWA76nO
-	LduZPUGYt2U1fxxDkm+2o/MuNXZypQKDkigsumsoh9DJhOM/ic/SY0ncFA9+ir5Z81jdl/doUVH
-	CZ6FOL9I7cXp2J3PImRjT3DJhvlXLvUKGEZKxCrobZa5TT+sOtrEV15OHQ0IM28FNEKLpprNr04
-	pLLAQ1TwXR4Vry2cX3KpUhiIzFso98sOaT4TUkyGELRt/5N6O4uKMKG7tB2LEhNuiGb/swqa98a
-	rWmhSGQ=
-X-Received: by 2002:a17:90b:574f:b0:359:877:370f with SMTP id
- 98e67ed59e1d1-35965ccf029mr498632a91.17.1772140313953; Thu, 26 Feb 2026
- 13:11:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404B74779B1;
+	Thu, 26 Feb 2026 21:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772140569; cv=none; b=OgPgoXjMZhkEYvKDKYtwzgY9A85Y3WQi/m/E0/n52oEBb7VT6jDfPBrtXxjSRxd5KEfhT1Sf9NEZuwQ3rB4AeABNDCsJ2qvUQKaRzxdMdLzqwsZkQ96RQCDt4JvP0gMwffG96O22NPDSwbLn1Ntgwinc2t5rVssKrVuaLXU9TcY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772140569; c=relaxed/simple;
+	bh=YwPQeyGBzJcABYucg90H9LmrLb/nelrgO9edJ4pmwS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BXnx7GNt8/eN8MOYuNACv8h+RsNYtsVa7CWB7gLsq9vaIaYqmdogWYVHyoH2gP9PjcKHUNdYX7qlVdb0pg0alq593xWSog2o3CKZA6z5nPO7Omi9OanFGWW9cF9hifizUr1inyKSoGwIe19bUOGhb2tkKrWQwaAbBmQTgiCfNNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZ0XYGDU; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772140563; x=1803676563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YwPQeyGBzJcABYucg90H9LmrLb/nelrgO9edJ4pmwS0=;
+  b=AZ0XYGDUIzxJ3qK14WHSQJSrpceUeObiO7kQbUmgngDhcRd8c7re8lDQ
+   /91vY3V8VEG5pWO1MHLvxtYYEbyqU09Kk0Xxd7sMLkbQvFfT5THJgr5FS
+   eNqTPeXAXOppdCRPk7lvB0uU17EBxCgHiIHt9yhM6AofMRxNq5fvOBlTY
+   aPCANQrAclX7cihPQarmgXyI7C8dPpYNl65u5LzC0xSR2ETDKcz+PKrrh
+   asQ+uVaFPgboyVleYNAz62SRoqzAc6yD14sRrjajkntCg2AezmZ88XjIO
+   BOCUA/jguBHNqC/29RDG2IIT4UwigbO2vfr6gtibgR/edXwC1NKaSEpEu
+   g==;
+X-CSE-ConnectionGUID: dSvJkTJ2SACab6Qp8XUt7g==
+X-CSE-MsgGUID: mB5b9FITSg+bisAjbbTSqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="72422796"
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="72422796"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 13:16:02 -0800
+X-CSE-ConnectionGUID: KF8q2MCfQ7KO5yyM2PuPtA==
+X-CSE-MsgGUID: booS3pxyQp61NWJ++rs5Zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="216816235"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 26 Feb 2026 13:15:57 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vviiA-000000009sp-1VpU;
+	Thu, 26 Feb 2026 21:15:54 +0000
+Date: Fri, 27 Feb 2026 05:15:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi <xuelin.shi@nxp.com>,
+	Alexandru Taran <alexandru.taran@nxp.com>,
+	Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+Subject: Re: [PATCH 5/9] accel/neutron: Add GEM buffer object support
+Message-ID: <202602270531.MP8x6wo3-lkp@intel.com>
+References: <20260226-neutron-v1-5-46eccb3bb50a@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org> <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
-In-Reply-To: <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
-From: Paul Moore <paul@paul-moore.com>
-Date: Thu, 26 Feb 2026 16:11:41 -0500
-X-Gm-Features: AaiRm51CHDvKlRV2Z04ZUK5c4lU9AiJhpRFTzD6a70HHA0FgEKDqsojtRqG1Wpw
-Message-ID: <CAHC9VhTPutzjNfYoRJigC2AQS4wz1A3vTEYn2koeR0kKetYk0w@mail.gmail.com>
-Subject: Re: [PATCH 51/61] security: update audit format strings for u64 i_ino
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Steve French <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
-	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
-	Christian Schoenebeck <linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
-	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
-	Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse <dwmw2@infradead.org>, 
-	Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
-	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
-	Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
-	John Johansen <john.johansen@canonical.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Martin Schiller <ms@dev.tdt.de>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
-	v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
-	ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
-	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
-	linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
-	linux-x25@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226-neutron-v1-5-46eccb3bb50a@nxp.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[paul-moore.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[paul-moore.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53636-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[nxp.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
-	TAGGED_FROM(0.00)[bounces-53635-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[145];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paul@paul-moore.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[paul-moore.com:+];
-	NEURAL_HAM(-0.00)[-0.987];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[paul-moore.com:url,paul-moore.com:dkim,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 292481AF921
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:mid,intel.com:dkim,intel.com:email]
+X-Rspamd-Queue-Id: B57B51AFAC9
 X-Rspamd-Action: no action
 
-On Thu, Feb 26, 2026 at 11:06=E2=80=AFAM Jeff Layton <jlayton@kernel.org> w=
-rote:
->
-> Update %lu/%ld to %llu/%lld in security audit logging functions that
-> print inode->i_ino, since i_ino is now u64.
->
-> Files updated: apparmor/apparmorfs.c, integrity/integrity_audit.c,
-> ipe/audit.c, lsm_audit.c.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  security/apparmor/apparmorfs.c       |  4 ++--
->  security/integrity/integrity_audit.c |  2 +-
->  security/ipe/audit.c                 |  2 +-
->  security/lsm_audit.c                 | 10 +++++-----
->  security/selinux/hooks.c             |  4 ++--
->  security/smack/smack_lsm.c           | 12 ++++++------
->  6 files changed, 17 insertions(+), 17 deletions(-)
+Hi Ioana,
 
-...
+kernel test robot noticed the following build warnings:
 
-> diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-> index 7d623b00495c14b079e10e963c21a9f949c11f07..737f5a263a8f79416133315ed=
-f363ece3d79c722 100644
-> --- a/security/lsm_audit.c
-> +++ b/security/lsm_audit.c
+[auto build test WARNING on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
 
-Everything in security/lsm_audit.c looks okay.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ioana-Ciocoi-Radulescu/drm-gem-dma-Add-flag-for-bidirectional-mapping-of-non-coherent-GEM-DMA-buffers/20260226-221222
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260226-neutron-v1-5-46eccb3bb50a%40nxp.com
+patch subject: [PATCH 5/9] accel/neutron: Add GEM buffer object support
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260227/202602270531.MP8x6wo3-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270531.MP8x6wo3-lkp@intel.com/reproduce)
 
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index d8224ea113d1ac273aac1fb52324f00b3301ae75..150ea86ebc1f7c7f8391af410=
-9a3da82b12d00d2 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -1400,7 +1400,7 @@ static int inode_doinit_use_xattr(struct inode *ino=
-de, struct dentry *dentry,
->         if (rc < 0) {
->                 kfree(context);
->                 if (rc !=3D -ENODATA) {
-> -                       pr_warn("SELinux: %s:  getxattr returned %d for d=
-ev=3D%s ino=3D%ld\n",
-> +                       pr_warn("SELinux: %s:  getxattr returned %d for d=
-ev=3D%s ino=3D%lld\n",
->                                 __func__, -rc, inode->i_sb->s_id, inode->=
-i_ino);
->                         return rc;
->                 }
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602270531.MP8x6wo3-lkp@intel.com/
 
-Additionally, later in this function there are pr_notice_ratelimited()
-and pr_warn() calls that print inode numbers and need to be updated.
+All warnings (new ones prefixed by >>):
 
---=20
-paul-moore.com
+>> drivers/accel/neutron/neutron_gem.c:52:6: warning: variable 'gem_obj' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+      52 |         if (drm_WARN_ON(drm, !IS_ALIGNED(dma_obj->dma_addr, NEUTRON_BO_ALIGN))) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:789:2: note: expanded from macro 'drm_WARN_ON'
+     789 |         drm_WARN((drm), (x), "%s",                                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     790 |                  "drm_WARN_ON(" __stringify(x) ")")
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:779:2: note: expanded from macro 'drm_WARN'
+     779 |         WARN(condition, "%s %s: [drm] " format,                         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     780 |                         dev_driver_string(__drm_to_dev(drm)),           \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     781 |                         dev_name(__drm_to_dev(drm)), ## arg)
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:163:36: note: expanded from macro 'WARN'
+     163 | #define WARN(condition, format...) ({                                   \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     164 |         int __ret_warn_on = !!(condition);                              \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     165 |         if (unlikely(__ret_warn_on))                                    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     166 |                 __WARN_printf(TAINT_WARN, format);                      \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     167 |         unlikely(__ret_warn_on);                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     168 | })
+         | ~~
+   drivers/accel/neutron/neutron_gem.c:67:21: note: uninitialized use occurs here
+      67 |         drm_gem_object_put(gem_obj);
+         |                            ^~~~~~~
+   drivers/accel/neutron/neutron_gem.c:52:2: note: remove the 'if' if its condition is always false
+      52 |         if (drm_WARN_ON(drm, !IS_ALIGNED(dma_obj->dma_addr, NEUTRON_BO_ALIGN))) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      53 |                 ret = -EFAULT;
+         |                 ~~~~~~~~~~~~~~
+      54 |                 goto out_put;
+         |                 ~~~~~~~~~~~~~
+      55 |         }
+         |         ~
+   drivers/accel/neutron/neutron_gem.c:38:32: note: initialize the variable 'gem_obj' to silence this warning
+      38 |         struct drm_gem_object *gem_obj;
+         |                                       ^
+         |                                        = NULL
+   1 warning generated.
+
+
+vim +52 drivers/accel/neutron/neutron_gem.c
+
+    33	
+    34	int neutron_ioctl_create_bo(struct drm_device *drm, void *data, struct drm_file *filp)
+    35	{
+    36		struct drm_neutron_create_bo *args = data;
+    37		struct drm_gem_dma_object *dma_obj;
+    38		struct drm_gem_object *gem_obj;
+    39		size_t size;
+    40		int ret;
+    41	
+    42		if (!args->size || args->pad)
+    43			return -EINVAL;
+    44	
+    45		size = ALIGN(args->size, NEUTRON_BO_ALIGN);
+    46	
+    47		dma_obj = drm_gem_dma_create(drm, size);
+    48		if (IS_ERR(dma_obj))
+    49			return PTR_ERR(dma_obj);
+    50	
+    51		/* We expect correctly aligned buffers, but double-check */
+  > 52		if (drm_WARN_ON(drm, !IS_ALIGNED(dma_obj->dma_addr, NEUTRON_BO_ALIGN))) {
+    53			ret = -EFAULT;
+    54			goto out_put;
+    55		}
+    56	
+    57		gem_obj = &dma_obj->base;
+    58		ret = drm_gem_handle_create(filp, gem_obj, &args->handle);
+    59		if (ret)
+    60			goto out_put;
+    61	
+    62		args->map_offset = drm_vma_node_offset_addr(&gem_obj->vma_node);
+    63		args->size = gem_obj->size;
+    64	
+    65	out_put:
+    66		/* No need to keep a reference of the GEM object. Freeing is handled by user */
+    67		drm_gem_object_put(gem_obj);
+    68	
+    69		return ret;
+    70	}
+    71	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
