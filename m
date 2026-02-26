@@ -1,90 +1,90 @@
-Return-Path: <linux-media+bounces-53501-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53502-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6CFAM9lNoGnvhwQAu9opvQ
-	(envelope-from <linux-media+bounces-53501-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:42:49 +0100
+	id GOnaHuZNoGnvhwQAu9opvQ
+	(envelope-from <linux-media+bounces-53502-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:43:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326181A6D3D
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:42:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F6B1A6D62
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:43:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E1F9030F9B48
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 13:38:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C0D3030A5CFA
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 13:38:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFBF13644C9;
-	Thu, 26 Feb 2026 13:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18D07364EB6;
+	Thu, 26 Feb 2026 13:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eRKTVPAV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="INDp/tMp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE80311963
-	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 13:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76D9362134
+	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 13:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772113073; cv=none; b=gvVzyybBDB7WrzSJcfuBv4BJuRtnDHKD+Q2Q/mH/JCvsQX+zlvsca3nEUXeVZnCDoClipIxcMgnzIdL97ZMWF7Nd9+UPlE8CCMlfOQC4YEuOoqq/R9CVKNJ3B2mLb5IBsuyJl/IzWmxZhjtyasLEkQOjyKqzRNvlMEBALIf3wfA=
+	t=1772113074; cv=none; b=uCQ5lVUXwFeThUiHhfHDeOZohlCuvLESp/kYir6cuvIoS7SvKHGvV8CLFBwQRcaIP58ZSnE+/YBafFmolE+fvBs5Rv+vUT4sBgIXwsZkEcjRJYravkSkS9+LCF7/P1FSB0IJMeH7paOtcQ7IJc3mGTA1A0cs2uxsVry5WYbWMiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772113073; c=relaxed/simple;
-	bh=pNWpL/seGBzq8+7qJBazQVESkrMSQ7hddiWcr8IZ/gI=;
+	s=arc-20240116; t=1772113074; c=relaxed/simple;
+	bh=8lvmyk5SJ3ITsfx5DuuH4GFi9C0p3NH5iQa0vqle2MY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C4vDdv/8Q3ZK+ST8Ufg/R8mfX59WKDnyROw9618D3e62UIKzMmiPRAjAspOMMoZ3mOCpcS5upm/gIhJNkGg2+BPLgoCa35B/ogzwpDoYQxF/OEEB7TkDjZealmIiGoe0DaZ8HA45LjcYYST7gCO1cm39mgW67INWb8X+jE2AKHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eRKTVPAV; arc=none smtp.client-ip=209.85.208.169
+	 MIME-Version; b=i66Vmp3DXewYl1Vf2/hWu3m6Qbv2EMw1YC/ZZu6B71V0RYmjvs//X1lbL7Oiy/NVpMKOUgOuin6yMQ8N437tOx0ZgAqSEVgGto248Ylp2oiaNKNkhRYdB6hOa46tcQuQ21INzlwW9O+1zYTkRlh43XxUiBUdNHIOMQ6zTrP7HH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=INDp/tMp; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-385bb44e1f6so358391fa.0
-        for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 05:37:51 -0800 (PST)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59e58404f28so117088e87.2
+        for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 05:37:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772113070; x=1772717870; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1772113071; x=1772717871; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5svD2XU/oLsPty5287a6lAq3vE5cj9mRPI5cS46o5v4=;
-        b=eRKTVPAVTxpsUlDlnsPHxxIXiK+SWd5dF+vc8dEnoB0w/xF7qJcX+jkbHoUgRK4rCf
-         ceD9FawsuNeRRV9bds+Bp02Md6/06Buu4FtnhrpPHLi4jnMUk36CdlU87o0Qitba6OEu
-         cbWY35/k0Qm+Js4iGCxGhDUrunscDsHYgl20chbmX5NhIvuy1sMoluti0X0orbZO3Bgg
-         pmOQuoGFpmekUM+7CbUAYvDUQNeGcexHKZxKDv4+7caK6VGnRphUB8CM3FE2EYz1SMjv
-         Wu66U+Q/rdr2f61ZHP73XiEsgtVUIz4K6Ni/GxXAAGPU1Ct9rE7Y0USSf0j7y00FNlKR
-         61FA==
+        bh=PP1eLMF3g+6gwB95yPi0VipRj9cXqeHr5aplCISf/c4=;
+        b=INDp/tMpk05cbKsmaE0VpeAzesqYGqf6nYyP63xcP4AENQ+Vj/6Cs7JQJTjSOpMvdK
+         NBsrpoFj0rJBM59TKShZ2gy7eXJmVC/I+Z003KoDsEQAWP9+bF0KAuAzUE3VQ2Z6VRgo
+         YJ9U9bYMnp46dBH52wIaBOD85CvjbNLORFiGTWlRBKYXiev5lI/ebaG+Cjpt+bA7fPTw
+         KYz7EALMRaVrQQeO2Zg3XCiuRBItXLHxRDQeC8SQ2NFYAeE2MyueZ2wqdtPtNt605bQB
+         KooUj7xllVStsZmImotDVSUvHqjv8zBwouhlB2oaLTeiiP4yeUHJqyGMjbY2p+KiBLBu
+         KzeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772113070; x=1772717870;
+        d=1e100.net; s=20230601; t=1772113071; x=1772717871;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5svD2XU/oLsPty5287a6lAq3vE5cj9mRPI5cS46o5v4=;
-        b=HRlZajumM4CU4uT8OidLxIjtQmjHulEuLhNXzvQnpoLoOcMj8aBd/PWzgxTjxJOk6k
-         cPJoRBUwksyYAqM6BaRpgW/W9FbhOwF9fvsi93m+JU1yF9osk/plKdPxlqh6hhMV/7lX
-         F+YtRDopIoYG42/J2YP2GYi9veqfAKTmJGNXzbbCDjJmPJExwv6qJZeeWfBW+4pBDc0n
-         VzKPw8ISt33taSHBfFdRMaJipDuoZnQKHR9Af6MVhVwsIzueYp5T2/DWbaLF89s3KhSm
-         vdQ/H47wfrVCL8EmYFL+CZX81p+XXfEetMkteKtNXtIiy1hxlKd7Sq/9gPOQH0htNX35
-         Iveg==
-X-Forwarded-Encrypted: i=1; AJvYcCVjF/6UT+WsJ5TmaobefuCLQAgu1+h7Dw64SZbWSB83MfJ8oFdYAjGyg4B9r20w5660uAxE20cAeSv2ag==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCxiswcKncoohQLqONoVMS5d7mG6IoeWOvRFWYqNK6znDANE2u
-	bpKIjbmRtXKKlUPMuYkTXbMQ7Ay5Pge6WJq+fkJz5fWk0/d84fyIijHkbWgA9GPkVuk=
-X-Gm-Gg: ATEYQzw9LEZA3DVWv253YEb902Goc6yCqj5AbKhrjllawlgS7GdQPKKOn97uTz0ZxED
-	OZ85F/lOp0zADrGho/pZ9GXiy+5k61KxjeFhHIMfj6b/7ZUHxY7YbiyaoRBlD9N7uL2T3m8dYr3
-	Q8bWhLQaczuyDhUSxQN5mBdOiGmCDSvrZQg2Txfo8A8rACrcaxSlCafqQ90NAKK10aTw2/oPa1V
-	/K6gltXAHt66wpwml/sUdolBQhJ8xtCOTlYNyrQ7z+vNf8ZjNH1w494m9QAmWT4aPZDwRPGQ5Ly
-	Ays4ytd7A/JV/U2M68W+KPrxbzlOcI77N1l5LmDXnfx8c88m+wYwUriTeWetWQx4wLTE+HKkY3Q
-	xSI6E/de+dd43I8LIJNWKvr+vCAt8LI+zygcGLd00riRDST2lnG1m8/EhHE1+TeVJEGt7es1Avc
-	hTdQqBpHD3Xe8lQv/h0vJC+Ft3j4y08Bd1AYRUeCQpzSTKhMXV1qq3c6R8o32Zuq2IZw==
-X-Received: by 2002:a2e:a813:0:b0:385:c05a:4814 with SMTP id 38308e7fff4ca-389a5d0fad3mr34910461fa.4.1772113070151;
+        bh=PP1eLMF3g+6gwB95yPi0VipRj9cXqeHr5aplCISf/c4=;
+        b=xTjLOPRt7Z927JwkIOMoVq4X2ttc3jG/ghaCjGeo0y/Oj3oaNtQdvXfCNzuFuw3QZ2
+         HkHyO4XMjnpzwSJMkaHMqLxrF+2HQob1rtJx0ZasYjw+O7UoGBUoej47Be1JA+5vhzan
+         gxkZGBJImS0opZ8OC7yiWeAxDtFH0BcrtguNkAhk0SbN4v4ujzRDmvy08tTI+XdnBOUR
+         5+oqvQfJalt3EhIPejdtnwOg1rqalVmjLqcG9J1vrAaaFuaHo2PmlKpWHKlVRdoJewGm
+         uR6WrCSKDAIQ7QZ0+VcGP/IBwfxzxOPOdrG64J7pMQ8m8xd0HjrFjA9U1fAsU0s4gQ0d
+         Fm/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX/Y1DKBtFzZ9lH7kzOVZFSVsO+3EfQ9EQT8n9x7EmUoZuE8Ge3acMj8yW4slkYhtOnmfyrLGevk1Nyyw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBZ+M/dfDcfskgeDBBf5NUNRYNKv6ABPHvDJkk7P0QbUQcifcJ
+	qLY/cnQH6oAaxRqucShOaCJNR7FlOumcmJPC7aj1j9iKSj1bp0C3kq9yYI8gw5n98EE=
+X-Gm-Gg: ATEYQzzCMwkA1Stxsb2/ZB4292TgeMnfzFjdfRt1n37J8nySi1n6PNz5jkC66NhooQE
+	KJXbmQe9cD7k0SvxOUv+A4WTSYpEjzHlfGQvEkuVtwJuGg0NDluaicAt3urV7eHsmTgA7bm6KGe
+	+ul96xmb7Rq4InVUC1jU76EerehClN6WE3aRnqxWOxuR1nwL9N/bm5p7bDRbjF8S9ltKYfy7H3F
+	BpOUu38WmSDBMqukKFXVeKN5N0HqhJCkBNEZbIEORurSEgWEcdqXIZDYNpCZfb1Dht7rga3Y1w8
+	d0BS9lRewvzFMYhHNYMgopsGEEVnrZ1sdVw110EWrYCiRdDs4rsDUgVmKqSvYAAMFQNbr+lbLK5
+	DxqtVcxcBC66a63rhEbpCj8q+nzNbLgs8Ii9cIBPkKNxdeRT/3nurrfvK2XhqdOA8DxhLjCcfIU
+	7VF5E9EdywPaMRuzKRw1PokZJyIpDxHArekQmg9uKzolg0s3xsmA1P7XPwMnBEbPcrRA==
+X-Received: by 2002:a05:651c:211d:b0:387:170:73e9 with SMTP id 38308e7fff4ca-389a5ba5af5mr33986221fa.4.1772113070980;
         Thu, 26 Feb 2026 05:37:50 -0800 (PST)
 Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f302292bsm6572041fa.45.2026.02.26.05.37.49
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f302292bsm6572041fa.45.2026.02.26.05.37.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 05:37:49 -0800 (PST)
+        Thu, 26 Feb 2026 05:37:50 -0800 (PST)
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@kernel.org>
 Cc: Shawn Tu <shawnx.tu@intel.com>,
 	linux-media@vger.kernel.org
-Subject: [PATCH 5/6] media: i2c: og01a1b: Use generic v4l2_subdev_get_fmt() to get format
-Date: Thu, 26 Feb 2026 15:37:38 +0200
-Message-ID: <20260226133739.4050870-6-vladimir.zapolskiy@linaro.org>
+Subject: [PATCH 6/6] media: i2c: og01a1b: Add support of 8-bit media bus format
+Date: Thu, 26 Feb 2026 15:37:39 +0200
+Message-ID: <20260226133739.4050870-7-vladimir.zapolskiy@linaro.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260226133739.4050870-1-vladimir.zapolskiy@linaro.org>
 References: <20260226133739.4050870-1-vladimir.zapolskiy@linaro.org>
@@ -101,13 +101,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53501-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53502-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MIME_TRACE(0.00)[0:+];
@@ -120,55 +120,239 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[linaro.org:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 326181A6D3D
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim,linaro.org:email]
+X-Rspamd-Queue-Id: 21F6B1A6D62
 X-Rspamd-Action: no action
 
-The generic v4l2_subdev_get_fmt() helper function can be utilized to
-get the setup device format instead of the custom one.
+Omnivision OG01A1B monochrome image sensor supports 8-bit and 10-bit
+output formats, add support of 8-bit Y8 format to the driver.
 
 Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 ---
- drivers/media/i2c/og01a1b.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+ drivers/media/i2c/og01a1b.c | 97 ++++++++++++++++++++++---------------
+ 1 file changed, 58 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index 537218f6fa62..58531ab8f87d 100644
+index 58531ab8f87d..0ccb03f05734 100644
 --- a/drivers/media/i2c/og01a1b.c
 +++ b/drivers/media/i2c/og01a1b.c
-@@ -701,21 +701,6 @@ static int og01a1b_set_format(struct v4l2_subdev *sd,
- 	return 0;
+@@ -18,7 +18,6 @@
+ #define OG01A1B_SCLK			120000000LL
+ #define OG01A1B_MCLK			19200000
+ #define OG01A1B_DATA_LANES		2
+-#define OG01A1B_RGB_DEPTH		10
+ 
+ #define OG01A1B_REG_CHIP_ID		CCI_REG24(0x300a)
+ #define OG01A1B_CHIP_ID			0x470141
+@@ -98,6 +97,11 @@ struct og01a1b_mode {
+ 	const struct og01a1b_reg_list reg_list;
+ };
+ 
++static const u32 og01a1b_mbus_formats[] = {
++	MEDIA_BUS_FMT_Y10_1X10,
++	MEDIA_BUS_FMT_Y8_1X8,
++};
++
+ static const struct cci_reg_sequence mipi_data_rate_1000mbps[] = {
+ 	{ CCI_REG8(0x0103), 0x01 },
+ 	{ CCI_REG8(0x0303), 0x02 },
+@@ -173,7 +177,6 @@ static const struct cci_reg_sequence mode_1280x1024_regs[] = {
+ 	{ CCI_REG8(0x3639), 0x38 },
+ 	{ CCI_REG8(0x363f), 0x09 },
+ 	{ CCI_REG8(0x3640), 0x17 },
+-	{ CCI_REG8(0x3662), 0x04 },
+ 	{ CCI_REG8(0x3665), 0x80 },
+ 	{ CCI_REG8(0x3670), 0x68 },
+ 	{ CCI_REG8(0x3674), 0x00 },
+@@ -427,20 +430,23 @@ struct og01a1b {
+ 
+ 	/* Current mode */
+ 	const struct og01a1b_mode *cur_mode;
++
++	/* Selected media bus format output */
++	u32 code;
+ };
+ 
+-static u64 to_pixel_rate(u32 f_index)
++static u64 to_pixel_rate(u32 f_index, u32 bpp)
+ {
+ 	u64 pixel_rate = link_freq_menu_items[f_index] * 2 * OG01A1B_DATA_LANES;
+ 
+-	do_div(pixel_rate, OG01A1B_RGB_DEPTH);
++	do_div(pixel_rate, bpp);
+ 
+ 	return pixel_rate;
  }
  
--static int og01a1b_get_format(struct v4l2_subdev *sd,
--			      struct v4l2_subdev_state *sd_state,
--			      struct v4l2_subdev_format *fmt)
--{
--	struct og01a1b *og01a1b = to_og01a1b(sd);
+-static u64 to_pixels_per_line(u32 hts, u32 f_index)
++static u64 to_pixels_per_line(u32 hts, u32 f_index, u32 bpp)
+ {
+-	u64 ppl = hts * to_pixel_rate(f_index);
++	u64 ppl = hts * to_pixel_rate(f_index, bpp);
+ 
+ 	do_div(ppl, OG01A1B_SCLK);
+ 
+@@ -522,6 +528,7 @@ static int og01a1b_init_controls(struct og01a1b *og01a1b)
+ {
+ 	struct v4l2_ctrl_handler *ctrl_hdlr;
+ 	s64 exposure_max, h_blank;
++	u32 bpp;
+ 	int ret;
+ 
+ 	ctrl_hdlr = &og01a1b->ctrl_handler;
+@@ -538,13 +545,12 @@ static int og01a1b_init_controls(struct og01a1b *og01a1b)
+ 	if (og01a1b->link_freq)
+ 		og01a1b->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
++	bpp = (og01a1b->code == MEDIA_BUS_FMT_Y10_1X10 ? 10 : 8);
+ 	og01a1b->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &og01a1b_ctrl_ops,
+-						V4L2_CID_PIXEL_RATE, 0,
+-						to_pixel_rate
+-						(OG01A1B_LINK_FREQ_1000MBPS),
+-						1,
+-						to_pixel_rate
+-						(OG01A1B_LINK_FREQ_1000MBPS));
++				V4L2_CID_PIXEL_RATE, 0,
++				to_pixel_rate(OG01A1B_LINK_FREQ_1000MBPS, bpp),
++				1,
++				to_pixel_rate(OG01A1B_LINK_FREQ_1000MBPS, bpp));
+ 	og01a1b->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &og01a1b_ctrl_ops,
+ 					    V4L2_CID_VBLANK,
+ 					    og01a1b->cur_mode->vts_min -
+@@ -554,7 +560,7 @@ static int og01a1b_init_controls(struct og01a1b *og01a1b)
+ 					    og01a1b->cur_mode->vts_def -
+ 					    og01a1b->cur_mode->height);
+ 	h_blank = to_pixels_per_line(og01a1b->cur_mode->hts,
+-				     og01a1b->cur_mode->link_freq_index) -
++				     og01a1b->cur_mode->link_freq_index, bpp) -
+ 				     og01a1b->cur_mode->width;
+ 	og01a1b->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &og01a1b_ctrl_ops,
+ 					    V4L2_CID_HBLANK, h_blank, h_blank,
+@@ -594,7 +600,6 @@ static void og01a1b_update_pad_format(const struct og01a1b_mode *mode,
+ {
+ 	fmt->width = mode->width;
+ 	fmt->height = mode->height;
+-	fmt->code = MEDIA_BUS_FMT_Y10_1X10;
+ 	fmt->field = V4L2_FIELD_NONE;
+ }
+ 
+@@ -627,6 +632,14 @@ static int og01a1b_enable_streams(struct v4l2_subdev *sd,
+ 		return ret;
+ 	}
+ 
++	ret = cci_write(og01a1b->regmap, CCI_REG8(0x3662),
++			(og01a1b->code == MEDIA_BUS_FMT_Y10_1X10 ? 0x4 : 0x6),
++			NULL);
++	if (ret) {
++		dev_err(og01a1b->dev, "failed to set output format: %d\n", ret);
++		return ret;
++	}
++
+ 	ret = __v4l2_ctrl_handler_setup(og01a1b->sd.ctrl_handler);
+ 	if (ret)
+ 		goto error;
+@@ -669,7 +682,7 @@ static int og01a1b_set_format(struct v4l2_subdev *sd,
+ {
+ 	struct og01a1b *og01a1b = to_og01a1b(sd);
+ 	const struct og01a1b_mode *mode;
+-	s32 vblank_def, h_blank;
++	s32 vblank_def, h_blank, bpp;
+ 
+ 	mode = v4l2_find_nearest_size(supported_modes,
+ 				      ARRAY_SIZE(supported_modes), width,
+@@ -677,26 +690,30 @@ static int og01a1b_set_format(struct v4l2_subdev *sd,
+ 				      fmt->format.height);
+ 
+ 	og01a1b_update_pad_format(mode, &fmt->format);
+-	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+-		*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
+-	} else {
+-		og01a1b->cur_mode = mode;
+-		__v4l2_ctrl_s_ctrl(og01a1b->link_freq, mode->link_freq_index);
+-		__v4l2_ctrl_s_ctrl_int64(og01a1b->pixel_rate,
+-					 to_pixel_rate(mode->link_freq_index));
 -
--	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
--		fmt->format = *v4l2_subdev_state_get_format(sd_state,
--							    fmt->pad);
--	else
--		og01a1b_update_pad_format(og01a1b->cur_mode, &fmt->format);
--
--	return 0;
--}
--
- static int og01a1b_enum_mbus_code(struct v4l2_subdev *sd,
+-		/* Update limits and set FPS to default */
+-		vblank_def = mode->vts_def - mode->height;
+-		__v4l2_ctrl_modify_range(og01a1b->vblank,
+-					 mode->vts_min - mode->height,
+-					 OG01A1B_VTS_MAX - mode->height, 1,
+-					 vblank_def);
+-		__v4l2_ctrl_s_ctrl(og01a1b->vblank, vblank_def);
+-		h_blank = to_pixels_per_line(mode->hts, mode->link_freq_index) -
+-			  mode->width;
+-		__v4l2_ctrl_modify_range(og01a1b->hblank, h_blank, h_blank, 1,
+-					 h_blank);
+-	}
++
++	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
++		goto set_format;
++
++	bpp = (fmt->format.code == MEDIA_BUS_FMT_Y10_1X10 ? 10 : 8);
++	__v4l2_ctrl_s_ctrl(og01a1b->link_freq, mode->link_freq_index);
++	__v4l2_ctrl_s_ctrl_int64(og01a1b->pixel_rate,
++				 to_pixel_rate(mode->link_freq_index, bpp));
++
++	/* Update limits and set FPS to default */
++	vblank_def = mode->vts_def - mode->height;
++	__v4l2_ctrl_modify_range(og01a1b->vblank,
++				 mode->vts_min - mode->height,
++				 OG01A1B_VTS_MAX - mode->height, 1, vblank_def);
++	__v4l2_ctrl_s_ctrl(og01a1b->vblank, vblank_def);
++	h_blank = to_pixels_per_line(mode->hts, mode->link_freq_index,
++				     bpp) - mode->width;
++	__v4l2_ctrl_modify_range(og01a1b->hblank, h_blank, h_blank, 1, h_blank);
++
++	og01a1b->cur_mode = mode;
++	og01a1b->code = fmt->format.code;
++
++set_format:
++	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
+ 
+ 	return 0;
+ }
+@@ -705,10 +722,10 @@ static int og01a1b_enum_mbus_code(struct v4l2_subdev *sd,
  				  struct v4l2_subdev_state *sd_state,
  				  struct v4l2_subdev_mbus_code_enum *code)
-@@ -771,7 +756,7 @@ static const struct v4l2_subdev_video_ops og01a1b_video_ops = {
+ {
+-	if (code->index > 0)
++	if (code->index > ARRAY_SIZE(og01a1b_mbus_formats) - 1)
+ 		return -EINVAL;
  
- static const struct v4l2_subdev_pad_ops og01a1b_pad_ops = {
- 	.set_fmt = og01a1b_set_format,
--	.get_fmt = og01a1b_get_format,
-+	.get_fmt = v4l2_subdev_get_fmt,
- 	.enum_mbus_code = og01a1b_enum_mbus_code,
- 	.enum_frame_size = og01a1b_enum_frame_size,
- 	.enable_streams = og01a1b_enable_streams,
+-	code->code = MEDIA_BUS_FMT_Y10_1X10;
++	code->code = og01a1b_mbus_formats[code->index];
+ 
+ 	return 0;
+ }
+@@ -720,7 +737,8 @@ static int og01a1b_enum_frame_size(struct v4l2_subdev *sd,
+ 	if (fse->index >= ARRAY_SIZE(supported_modes))
+ 		return -EINVAL;
+ 
+-	if (fse->code != MEDIA_BUS_FMT_Y10_1X10)
++	if (fse->code != MEDIA_BUS_FMT_Y10_1X10 &&
++	    fse->code != MEDIA_BUS_FMT_Y8_1X8)
+ 		return -EINVAL;
+ 
+ 	fse->min_width = supported_modes[fse->index].width;
+@@ -741,7 +759,7 @@ static int og01a1b_init_state(struct v4l2_subdev *sd,
+ 		.format = {
+ 			.width = og01a1b->cur_mode->width,
+ 			.height = og01a1b->cur_mode->height,
+-			.code = MEDIA_BUS_FMT_Y10_1X10,
++			.code = og01a1b->code,
+ 		},
+ 	};
+ 
+@@ -1032,6 +1050,7 @@ static int og01a1b_probe(struct i2c_client *client)
+ 	}
+ 
+ 	og01a1b->cur_mode = &supported_modes[0];
++	og01a1b->code = og01a1b_mbus_formats[0];
+ 	ret = og01a1b_init_controls(og01a1b);
+ 	if (ret) {
+ 		dev_err(og01a1b->dev, "failed to init controls: %d", ret);
 -- 
 2.49.0
 
