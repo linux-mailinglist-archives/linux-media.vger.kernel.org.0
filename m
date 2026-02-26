@@ -1,51 +1,50 @@
-Return-Path: <linux-media+bounces-53475-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53476-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YPNBKQsgoGmzfgQAu9opvQ
-	(envelope-from <linux-media+bounces-53475-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 11:27:23 +0100
+	id SN+NHX4goGmzfgQAu9opvQ
+	(envelope-from <linux-media+bounces-53476-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 11:29:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB431A4387
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 11:27:22 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF9E1A43E2
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 11:29:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7971730D5452
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 10:25:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1AC19300DA56
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 10:28:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 929B23A640C;
-	Thu, 26 Feb 2026 10:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A15493A7F40;
+	Thu, 26 Feb 2026 10:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljer1qeH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QY0ksPGt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069642F7478;
-	Thu, 26 Feb 2026 10:25:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F07D3A7F60
+	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 10:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772101532; cv=none; b=DxNunANfA3yrj4xDcUgZoTndQ7P/JamTcnwlMCrrmDonqBkarIRlSqKjzjKjJhdqiq8w2x7id/LkMnIz8/im0uvXeBbFGjNWImTwBEs4MWw8obEpwFGU7I69qDgjYk6R8HtN5MiSFxjyNq6tTbdf4LCUm43u/pA3DUefPgMQ+Hg=
+	t=1772101726; cv=none; b=uXHPwSvAVPoqDCUk46ni9bv3gYbdaI/a+KYKxguMJgk7ZcZescPCmq4d/hCyfxjd90IgZSCSNnzjtckTGsJLDHozPf3wT2/JD0v3NZlnaLuSkk5Iajqv/JPkS3KsbiSD3nGWaYEU5fmzt3uGmZo6+Cwe8lULq6lzVYBv1k3YtOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772101532; c=relaxed/simple;
-	bh=TscTll6shwFCsEbTmyYHSLu1Gx7N8flsnoMTzejeBvg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K5twag8/dIVxhmcyVbYOlGTE9KUTpbpBgExCCGpn9sRqjICQACaSIqwM/ROCPdJ95ueb4njS1hajjbecVkQZl/Pjd/7jSzuzwqvxPqipl6QOHRSszr6ODfbZ5Iu/K1CbxSPoqWWHOvGxyEayIC9kHdKOeR7ojuvd/Mf9+rN5q6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljer1qeH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C424C19422;
-	Thu, 26 Feb 2026 10:25:26 +0000 (UTC)
+	s=arc-20240116; t=1772101726; c=relaxed/simple;
+	bh=h1xjBEDrOe4iUI4x3HrTryumOOArXGT3pc8Pzv9Zr7c=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=hUZt3yMdwVZPeY+ILo01VlgtAexliWmYcthE8WMDfcq/uTYyInnO9so/rPAe+9Q2GGUQR8QtKQ7HCvrcOBrMHp1naiEgmcf8wBT15tIqZqroS/48UO/rBBmbLXI6eY0CX4L/C/r1MzN25SltMC26BLGl4ynNsCOpZovj6PdZd9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QY0ksPGt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03422C19424;
+	Thu, 26 Feb 2026 10:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772101531;
-	bh=TscTll6shwFCsEbTmyYHSLu1Gx7N8flsnoMTzejeBvg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ljer1qeH1314umbp8UuGC6ihlDBtyXGYDypbyQaDR4SB3A9yHQZL48P8nv7FpmpCU
-	 nDVPLRdgbsRYRJvRyuHcXz66wnT7xOIcR1s0eVTozTi+yCvtwJmAy/8HyOLvjMf95l
-	 f49gmbzsXn4qrRdA4OO53cJy0iYfzuZUQq4L6x3w9rcnqXl9769k2rqYJfHHIg0fci
-	 gmFKFPKBwS7kIOfy3sBNrXIWdwzIbFC24UBRGNK2TLW8QZBzpcHWdcH7AkvpOGtSJU
-	 9bwANzkMlNKf1IIAgFk4asaRVW8AYpXhx0dGcmRpkWAMqgl/Dy3vxyKjEklJupCLuq
-	 ScHzLqc3YdoTw==
-Message-ID: <60ecebf2-a708-4797-bedd-588c3e9931ff@kernel.org>
-Date: Thu, 26 Feb 2026 11:25:24 +0100
+	s=k20201202; t=1772101725;
+	bh=h1xjBEDrOe4iUI4x3HrTryumOOArXGT3pc8Pzv9Zr7c=;
+	h=Date:From:Subject:To:From;
+	b=QY0ksPGtqWMxqZaqd1irxg13ezca7kHT9N02a2lJuFMRMOlCTIPhDZTE5tiaFf3/f
+	 ks57YP6aS9szSZ9nYm7sGEhhYwSMyMxp/o50r70S1hW+cUfQ6wRCp9rgGl0B0WiNkt
+	 6MY0Oe95W8Dnf082NMv6QBhYbraZe2BRin9yr8WKcpKiR2ODJjWumG8aJyBdQAbq77
+	 PIvMpFMZ6BFBLioIva0idCWGOrvFQOZZlIfQE5ACVqJE4bG8jQEtKFQTm20/htroh7
+	 AyyqDi+5No7Q1ccUl739IoEpsc/pD58cvMVwSNCCdncRXzQMZOlp+ZUcLko/jnhHPx
+	 fDIejdkrek0MA==
+Message-ID: <d1836871-2b76-4ac1-8ef1-b91f80c85b11@kernel.org>
+Date: Thu, 26 Feb 2026 11:28:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,155 +52,93 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] mm: cma: Export cma_alloc and cma_release
-To: Maxime Ripard <mripard@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
- <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-mm@kvack.org
-References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
- <20260225-dma-buf-heaps-as-modules-v1-2-2109225a090d@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-2-2109225a090d@kernel.org>
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Content-Language: en-US, nl
+Subject: [GIT PULL FOR v7.1] media: add multi-committer series
+To: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53475-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	URIBL_MULTI_FAIL(0.00)[sea.lore.kernel.org:server fail];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+];
+	TO_DN_ALL(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53476-lists,linux-media=lfdr.de,cisco];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0EB431A4387
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linuxtv.org:url]
+X-Rspamd-Queue-Id: AAF9E1A43E2
 X-Rspamd-Action: no action
 
-On 2/25/26 17:41, Maxime Ripard wrote:
-> The CMA dma-buf heap uses cma_alloc() and cma_release() to allocate and
-> free, respectively, its CMA buffers.
-> 
-> However, these functions are not exported. Since we want to turn the CMA
-> heap into a module, let's export them both.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  mm/cma.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/mm/cma.c b/mm/cma.c
-> index 94b5da468a7d719e5144d33b06bcc7619c0fbcc9..be142b473f3bd41b9c7d8ba4397f018f6993d962 100644
-> --- a/mm/cma.c
-> +++ b/mm/cma.c
-> @@ -949,10 +949,11 @@ struct page *cma_alloc(struct cma *cma, unsigned long count,
->  	if (page)
->  		set_pages_refcounted(page, count);
->  
->  	return page;
->  }
-> +EXPORT_SYMBOL_GPL(cma_alloc);
->  
->  static struct cma_memrange *find_cma_memrange(struct cma *cma,
->  		const struct page *pages, unsigned long count)
->  {
->  	struct cma_memrange *cmr = NULL;
-> @@ -1025,10 +1026,11 @@ bool cma_release(struct cma *cma, const struct page *pages,
->  
->  	__cma_release_frozen(cma, cmr, pages, count);
->  
->  	return true;
->  }
-> +EXPORT_SYMBOL_GPL(cma_release);
->  
->  bool cma_release_frozen(struct cma *cma, const struct page *pages,
->  		unsigned long count)
->  {
->  	struct cma_memrange *cmr;
-> 
+Hi Mauro,
 
-I'm wondering whether we want to restrict all these exports to the
-dma-buf module only using EXPORT_SYMBOL_FOR_MODULES().
+This adds the v9 patch series for the multi-committer documentation:
 
-Especially dma_contiguous_default_area() (patch #4), I am not sure
-whether we want arbitrary modules to mess with that.
+https://patchwork.linuxtv.org/project/linux-media/list/?series=21721
 
--- 
-Cheers,
+The only change with v9 is that I added SPDX lines for these two documentation
+files, media CI complained about that.
 
-David
+Also included are two patches from your original patch series:
+
+https://lore.kernel.org/all/2d8d4e6eeb3c5adbf0f34c8096d594c6bca2c82d.1756807237.git.mchehab+huawei@kernel.org/
+https://lore.kernel.org/all/2cfcaefd4680270a470a5ada6d07128c0133c317.1756807237.git.mchehab+huawei@kernel.org/
+
+These two were never CC-ed to linux-media, so they are not in patchwork.
+
+Regards,
+
+	Hans
+
+The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
+
+  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media.git tags/br-v7.1a
+
+for you to fetch changes up to 0838ac33deeb82da95618f3737d5182ebaa8b2df:
+
+  docs: media: document media multi-committers rules and process (2026-02-26 10:09:55 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      docs: media: document Media Maintainers
+
+Mauro Carvalho Chehab (4):
+      docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
+      MAINTAINERS: fix a couple issues at media input infrastructure
+      docs: media: update maintainer-entry-profile for multi-committers
+      docs: media: document media multi-committers rules and process
+
+ Documentation/driver-api/media/index.rst                    |   1 +
+ Documentation/driver-api/media/maintainer-entry-profile.rst | 463 ++++++++++++++++++++++++++++++++++++++++++++++++++--------
+ Documentation/driver-api/media/media-committers.rst         | 203 +++++++++++++++++++++++++
+ Documentation/process/maintainer-pgp-guide.rst              |   2 +
+ MAINTAINERS                                                 |   3 +-
+ 5 files changed, 609 insertions(+), 63 deletions(-)
+ create mode 100644 Documentation/driver-api/media/media-committers.rst
 
