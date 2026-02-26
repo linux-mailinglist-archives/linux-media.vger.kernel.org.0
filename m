@@ -1,170 +1,207 @@
-Return-Path: <linux-media+bounces-53474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53475-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WLRTIngeoGmzfgQAu9opvQ
-	(envelope-from <linux-media+bounces-53474-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 11:20:40 +0100
+	id YPNBKQsgoGmzfgQAu9opvQ
+	(envelope-from <linux-media+bounces-53475-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 11:27:23 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED0A1A429A
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 11:20:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB431A4387
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 11:27:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0337530D3E97
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 10:18:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7971730D5452
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 10:25:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27EAE3A4F48;
-	Thu, 26 Feb 2026 10:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 929B23A640C;
+	Thu, 26 Feb 2026 10:25:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YA05vn+G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljer1qeH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC473A63E4;
-	Thu, 26 Feb 2026 10:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069642F7478;
+	Thu, 26 Feb 2026 10:25:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772101092; cv=none; b=gLEAzws+RRGA2dNroysytbZTXIuuMO1lMgOPOABb5fVJyQ6QqpkjRcSoAAmt3r8w4Xc9Cnlm+XC0Tk72MWWzNNt4W2cb+tAQakZ7hz9maZWRC0uT4cVnlW8zm2hZ6JoSqR5p6dDlznLCVJ1Qx+yKf86qKHKnHaK+Q6S0bBda000=
+	t=1772101532; cv=none; b=DxNunANfA3yrj4xDcUgZoTndQ7P/JamTcnwlMCrrmDonqBkarIRlSqKjzjKjJhdqiq8w2x7id/LkMnIz8/im0uvXeBbFGjNWImTwBEs4MWw8obEpwFGU7I69qDgjYk6R8HtN5MiSFxjyNq6tTbdf4LCUm43u/pA3DUefPgMQ+Hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772101092; c=relaxed/simple;
-	bh=tJEgWGAKGq9f+lDM1K325bKAQQGVyuPowxRSNNeauh8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YgcHdbL5LVrPX6cZDNX2r76xbxUenBV2i28Qm2V8fujwzs05Sv/2id0bjC3qFuaXpO/44Jn5cwNJGsEq6H9IyP1o/LpcT7hsrpeMr8FO6v9r8HfYrIk1eUqZwE0OZk2U4UETXnm8tTpUHayqfIc2Jmk99xZh49gWR+DLnHunN0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YA05vn+G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 653B0C19423;
-	Thu, 26 Feb 2026 10:18:11 +0000 (UTC)
+	s=arc-20240116; t=1772101532; c=relaxed/simple;
+	bh=TscTll6shwFCsEbTmyYHSLu1Gx7N8flsnoMTzejeBvg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K5twag8/dIVxhmcyVbYOlGTE9KUTpbpBgExCCGpn9sRqjICQACaSIqwM/ROCPdJ95ueb4njS1hajjbecVkQZl/Pjd/7jSzuzwqvxPqipl6QOHRSszr6ODfbZ5Iu/K1CbxSPoqWWHOvGxyEayIC9kHdKOeR7ojuvd/Mf9+rN5q6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljer1qeH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C424C19422;
+	Thu, 26 Feb 2026 10:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772101092;
-	bh=tJEgWGAKGq9f+lDM1K325bKAQQGVyuPowxRSNNeauh8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YA05vn+GecAOHOV0bBkerBcyLQZtuSeUa6UQ7vgNRSwpIOnk1+Xg6+oT0x9IHtTrl
-	 onYSZPAZMTe0F6nGswJKHdgRDg7XQpXjYPnevq2aP5CjzYYkfR/90mmCWiRXuQKXgO
-	 +H6Xg/Rhq5agCeF2gZr/HUOYNb17ra9+vda9r0ixBAHkwbHtqrU3kZA80oQM3Md0VV
-	 3oG+afWszq4v8KgLw8YU0gigEQkK/ASy2JB3YMNHuc2rU2TRc0G1OCIOlc/+VT9/An
-	 WWug7j7lR9Tts668IPaefBI8ZdIfDjIeHH8rA4GmNx2mGPbyBeq/94vk28A4Nl//XZ
-	 CkRcRNPs8Ilvw==
-Date: Thu, 26 Feb 2026 11:18:08 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: John Stultz <jstultz@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-mm@kvack.org
-Subject: Re: [PATCH 0/7] dma-buf: heaps: Turn heaps into modules
-Message-ID: <20260226-adaptable-vermilion-nautilus-0aa6f0@penduick>
-References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
- <CANDhNCqk9Uk4aXHhUsL4hR1GHNmWZnH3C9Np-A02wdi+J3D7tA@mail.gmail.com>
+	s=k20201202; t=1772101531;
+	bh=TscTll6shwFCsEbTmyYHSLu1Gx7N8flsnoMTzejeBvg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ljer1qeH1314umbp8UuGC6ihlDBtyXGYDypbyQaDR4SB3A9yHQZL48P8nv7FpmpCU
+	 nDVPLRdgbsRYRJvRyuHcXz66wnT7xOIcR1s0eVTozTi+yCvtwJmAy/8HyOLvjMf95l
+	 f49gmbzsXn4qrRdA4OO53cJy0iYfzuZUQq4L6x3w9rcnqXl9769k2rqYJfHHIg0fci
+	 gmFKFPKBwS7kIOfy3sBNrXIWdwzIbFC24UBRGNK2TLW8QZBzpcHWdcH7AkvpOGtSJU
+	 9bwANzkMlNKf1IIAgFk4asaRVW8AYpXhx0dGcmRpkWAMqgl/Dy3vxyKjEklJupCLuq
+	 ScHzLqc3YdoTw==
+Message-ID: <60ecebf2-a708-4797-bedd-588c3e9931ff@kernel.org>
+Date: Thu, 26 Feb 2026 11:25:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="sxksscuwilvy7rfq"
-Content-Disposition: inline
-In-Reply-To: <CANDhNCqk9Uk4aXHhUsL4hR1GHNmWZnH3C9Np-A02wdi+J3D7tA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/7] mm: cma: Export cma_alloc and cma_release
+To: Maxime Ripard <mripard@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-mm@kvack.org
+References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
+ <20260225-dma-buf-heaps-as-modules-v1-2-2109225a090d@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260225-dma-buf-heaps-as-modules-v1-2-2109225a090d@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53474-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53475-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	URIBL_MULTI_FAIL(0.00)[sea.lore.kernel.org:server fail];
 	RCPT_COUNT_TWELVE(0.00)[22];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 0ED0A1A429A
+X-Rspamd-Queue-Id: 0EB431A4387
 X-Rspamd-Action: no action
 
+On 2/25/26 17:41, Maxime Ripard wrote:
+> The CMA dma-buf heap uses cma_alloc() and cma_release() to allocate and
+> free, respectively, its CMA buffers.
+> 
+> However, these functions are not exported. Since we want to turn the CMA
+> heap into a module, let's export them both.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  mm/cma.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/mm/cma.c b/mm/cma.c
+> index 94b5da468a7d719e5144d33b06bcc7619c0fbcc9..be142b473f3bd41b9c7d8ba4397f018f6993d962 100644
+> --- a/mm/cma.c
+> +++ b/mm/cma.c
+> @@ -949,10 +949,11 @@ struct page *cma_alloc(struct cma *cma, unsigned long count,
+>  	if (page)
+>  		set_pages_refcounted(page, count);
+>  
+>  	return page;
+>  }
+> +EXPORT_SYMBOL_GPL(cma_alloc);
+>  
+>  static struct cma_memrange *find_cma_memrange(struct cma *cma,
+>  		const struct page *pages, unsigned long count)
+>  {
+>  	struct cma_memrange *cmr = NULL;
+> @@ -1025,10 +1026,11 @@ bool cma_release(struct cma *cma, const struct page *pages,
+>  
+>  	__cma_release_frozen(cma, cmr, pages, count);
+>  
+>  	return true;
+>  }
+> +EXPORT_SYMBOL_GPL(cma_release);
+>  
+>  bool cma_release_frozen(struct cma *cma, const struct page *pages,
+>  		unsigned long count)
+>  {
+>  	struct cma_memrange *cmr;
+> 
 
---sxksscuwilvy7rfq
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/7] dma-buf: heaps: Turn heaps into modules
-MIME-Version: 1.0
+I'm wondering whether we want to restrict all these exports to the
+dma-buf module only using EXPORT_SYMBOL_FOR_MODULES().
 
-Hi John,
+Especially dma_contiguous_default_area() (patch #4), I am not sure
+whether we want arbitrary modules to mess with that.
 
-Thanks for the review
+-- 
+Cheers,
 
-On Wed, Feb 25, 2026 at 10:51:30AM -0800, John Stultz wrote:
-> On Wed, Feb 25, 2026 at 8:42=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> >
-> > The recent introduction of heaps in the optee driver [1] made possible
-> > the creation of heaps as modules.
-> >
-> > It's generally a good idea if possible, including for the already
-> > existing system and CMA heaps.
-> >
-> > The system one is pretty trivial, the CMA one is a bit more involved,
-> > especially since we have a call from kernel/dma/contiguous.c to the CMA
-> > heap code. This was solved by turning the logic around and making the
-> > CMA heap call into the contiguous DMA code.
-> >
->=20
-> So heaps-as-modules is common in the Android kernels, and was
-> attempted to be upstreamed long ago:
->   https://lore.kernel.org/lkml/20191025234834.28214-1-john.stultz@linaro.=
-org/
->=20
-> And it got a fairly chilly reception, but maybe having the additional
-> optee heap (as well as other proposed heaps) might sway folks on this
-> now.
-
-I didn't know that Android was using heap as modules only, but I'd say
-that it's even more of a reason to upstream it then.
-
-> There is also the kref bits you might need (which Android still carries):
->   https://lore.kernel.org/lkml/20200725032633.125006-1-john.stultz@linaro=
-=2Eorg/
-
-I'm curious about this one though. It looks like you add refcounting,
-but never really get the references anywhere. What was your intent, that
-on every allocation the buffer would get a reference to the heap so we
-avoid removing a heap with allocated buffers?
-
-Maxime
-
---sxksscuwilvy7rfq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaaAd3wAKCRAnX84Zoj2+
-dircAYDWmwkdH/3AAjuPp85DnYNPbSGFdhX/eyVBlLKWPqfln+xq2+gc6gDrOAAL
-OyDKUToBf19j250y3Z4PQ7QYr1AXEq1bAKHYLpYrTQLrYCtOtKbL3L1J1eqyj4Jl
-H3gZy48H7w==
-=URjd
------END PGP SIGNATURE-----
-
---sxksscuwilvy7rfq--
+David
 
