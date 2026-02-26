@@ -1,247 +1,228 @@
-Return-Path: <linux-media+bounces-53645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53646-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eINxJOXPoGmTmwQAu9opvQ
-	(envelope-from <linux-media+bounces-53645-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 23:57:41 +0100
+	id MGpqALPPoGmTmwQAu9opvQ
+	(envelope-from <linux-media+bounces-53646-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 23:56:51 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37241B0A87
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 23:57:40 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AAD1B0A43
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 23:56:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 979EC30E1CCF
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 22:56:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5CC2D301AE49
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 22:56:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0278245104D;
-	Thu, 26 Feb 2026 22:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50F6B47B402;
+	Thu, 26 Feb 2026 22:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="joqLjQNp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ln4pWb9Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011054.outbound.protection.outlook.com [52.101.70.54])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A488F3DA7DF;
-	Thu, 26 Feb 2026 22:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772146559; cv=fail; b=guilKjfMN1VXvLITUUQF+yG/1lStpNVugDYMdVKfRblf3vCk5gdPQgLDugDi7QDz5HMOFreZxjMWYP1YaDcFSqASC1Zd9XaKeNmdkR0FWaDMFMRpHw0mUNh5qLkJzr4FuNUjLZkwwVqTXOYhX/B7XkyZ6ytlEnxwTZxf/6PSzeA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772146559; c=relaxed/simple;
-	bh=ciJxjsUBy9C0rYso7LRgpP7ETsoEM8zwacgz9WEWs/8=;
-	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=CXhUGoQOz3E10WCiCgaqn2q4Pu7WdHCHZdPCFgCww1ZcAhrIuAVJF+YdgoouUl+QVK39KTC0KYJkxM1FylTwfvGz/vJBHrZ8wqZ7gE6NCFXfRM+326JMrS/plR9rms0ThtzpOTAP8uFJCsSW+bXDo99eq/poReuwWRg2LMw02VY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=joqLjQNp; arc=fail smtp.client-ip=52.101.70.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M/enjlmJYa50RnSxaMIyyX3e9AKXXp9N+uPftLmb2H9nP//kjtPoIK0LxpvPKowzkmHsNNam1xSvry0PDiP8BFS9gRarcOW7cROJYOp/pUOx2y2XP8BjCGgvZSuI6dP9dmBzxf4YHavG9csIqq+C5Da4KahLjK4zcXtN6Yi18HFlDhhQTsjW5SrbhRSYjRi+gYkiX9Bwomay2J6tIE3QJLVMXsoSnJFACudeKXZK1nmW34t32VbQRLAOqsbvtCqzxcYstmJXW31BFugBz+PgH49x5GSdLAQq9Ut9+1fBxW2Vp1jhUlpeFzO4UIewj16mGQ1kesyFLo4jD9pk/Hl45w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mKcPPenLKLPVIGoDrsEI4sZur1CxZS5oYAX4qJG5SZ0=;
- b=aYlIqqUBar+blvJ7H8gJ8B8Ap4+/bOVGnvHIzUdyrL3qtXE2UK1LG9PwZ1uuhQJK5gDMMipBrxjj2ClJp277AjuHZJPz4dQKxt2JmuJfcVVNAa93AQHwgYF6WsprEo87MuflP71ucclxzqqvbO4WZehHSXhhBylk1AOXgNYwGq1EyowvRDJTFdYGcN+oSCbYhSLD6U5LLG4vraU3gTeNReyu9s1VaX93MI3cNmWmha1oRxhS3yi2becImt135meGnI8MRbuYBsXLWqQkzmQoqhC2iLQ0Dhrmt9F9hp3Yxa8X9B1yfDNmSidHKe2koJAjDqLW4NIts4t+ubyTRYJHVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mKcPPenLKLPVIGoDrsEI4sZur1CxZS5oYAX4qJG5SZ0=;
- b=joqLjQNpJgVjpFix3kG2bhXKGHsDNkhYt0PbVo4omPZI26SoiCAaMnD9xAnod/C+kM2xTg1vxMFK2EUJaTdXhdZelDRhUpLasnlEizNHEpu38Rxu9sbUG6qDoebSlltqSmWyB5KdmqV7ADuT4PgWnP3PAijOursPk3+WaoPvHG5V8B9M66kC38UIJO7zVatVH+fyu59jjdOhUwSPSevCa6ol940gPmuDi5cHO0IHbE4DUoZVCpwxB9yxJDulYraKNlKBXZbNw+47PgX6z+AIT2nkzgbVrovtLTATzfovbLnghKUSJpWMELasIOARh/jCF1h9TR/nBrMCNycM7GN0oQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by AM0PR04MB12143.eurprd04.prod.outlook.com (2603:10a6:20b:744::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Thu, 26 Feb
- 2026 22:55:54 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9632.017; Thu, 26 Feb 2026
- 22:55:54 +0000
-From: Frank Li <Frank.Li@nxp.com>
-Date: Thu, 26 Feb 2026 17:55:28 -0500
-Subject: [PATCH v2 3/3] media: cadence: cdns-csi2rx: Use
- media_async_register_subdev() to simplify code
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260226-v4l2_init_register-v2-3-902d7140f9fa@nxp.com>
-References: <20260226-v4l2_init_register-v2-0-902d7140f9fa@nxp.com>
-In-Reply-To: <20260226-v4l2_init_register-v2-0-902d7140f9fa@nxp.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Maxime Ripard <mripard@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772146544; l=1874;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=ciJxjsUBy9C0rYso7LRgpP7ETsoEM8zwacgz9WEWs/8=;
- b=SdAos39GXDYLoGvW3XDa0ZzxK23oHeW8ty20j1cqpqFHK5OE8bD1NliZCuV7T08p1EP6CrX8i
- ukPb9AbYstKA6G1kTgWVk9n+XkNrgSFxEI49V7QUEfCaga5l3dtF8CP
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: BYAPR03CA0025.namprd03.prod.outlook.com
- (2603:10b6:a02:a8::38) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904A53A783E;
+	Thu, 26 Feb 2026 22:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772146602; cv=none; b=qGRpibsGF4WetNUeXKRvNNbrYh4K6iNcifJHrwM3u0/OIlyBUZX5OD8iNOhCF7MJKZ4CHvNvMuTiH/ul0igZVTgVzdEY7/iVyG5Dy755z8kWejyJ+qu40fgyRMGHgk62FBQri+ywrJORCkgLb64+06A5448dSQQi+ZIpjPT3eTQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772146602; c=relaxed/simple;
+	bh=ElkHN/R2fcBT5rLZGFbsSk4BZBEcI1Z5rkz7cnL9q58=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kXmdDYzUiiVaMI7g7pMec5/wrwftZ2VX+GDrNZxvwZU9drFVcXboLVqblVoWvj8otDc2BLCYw29IfBmAxAkURNX3l+k3vaZCW5uk0TUokgnjWWqceDuQU3O2Oo1jFlhD31hLfmZiAbdYHExipr9i/BqV4/LCK7AM+EKNZ8nMwCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ln4pWb9Z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E473EC116C6;
+	Thu, 26 Feb 2026 22:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772146602;
+	bh=ElkHN/R2fcBT5rLZGFbsSk4BZBEcI1Z5rkz7cnL9q58=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ln4pWb9ZIa3iii1vd5gskrCoKmm1t9tEjYVEd5fbke5FD8fPQDsw2mkbqPb5Bnw+S
+	 z3+EiWtdlhrUEY/TzIpfb4TaDwuEYYePiDKvB2OL6xLfeGklpk4bZ6oZPa7zFemslG
+	 rGqmK29WoeRiHAvoCn9ydRfTOnwb3b8GUvcCmKy2jWa2lV07OB5alxRd6yvLlYu4sb
+	 GaIsxiVCRS8rqhZm6xuDYkrjN+izm2sJOCaV0gENsM1vxdjD6EFWvjkPYxW+Mk0ppk
+	 CgdPwGLujPkowNzYZB2g8SKWMopeLJvORgQ3TQwNfrH9FkU9y/THXIshdB3DErq5Vf
+	 e80DkaSCt9oCA==
+Message-ID: <044291bc-9841-44fe-813e-c50772962f09@kernel.org>
+Date: Fri, 27 Feb 2026 07:56:18 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AM0PR04MB12143:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a29a6fb-abd6-410a-eca1-08de758a3247
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|19092799006|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	CwlhOiHmMz9yqQC17j+BQ2tKsCWN0VTPBhRsbAB52D4zKd2bH5mIW1QxhxmTJpxNDK7MI9l1AarFGE1M7NhbjGF3/sd5xwZfZrSMTQbF2NQFpCtfGoialzd//m3G8VFRtCSTfL5fDyHpOBr++VgyprrxHzzEUlwOX67bAFEq9UP478ovk2lPkHanEmkF05xIHlZ4Cnm3JvHPYlqpUsa1BUnlcKkzrFPIrbZnJZRMzyQDjLlQuk75UUV9Yo7DJo3fXFdWPAeurqSXzSoo+RLfWdGlK4QkCfMjHKvhUq3BDesdYDU5PxL8uxpvx2q/ZDtxFQnhymHTP8zXj74bUzX+nfAPkbQ2bCPGrmkWQWhF4uOjbpiZpFAux07O32FA6ZIH5BdSmcrKwmZw9WHMo4Veo5yf140TuoUg+T3jcxdQQvP2YiSRGv8mqK6TAHcvl9NaJOh+4cH0GZNjMJMVHPYPPW0G4nWj3TJus7YDtA958+dHxt3aXGRGd8yFVE/zyMpCIU3CZb2uFcsqu3vgeA4g78YwxTpIu53qP2vKzItv4OoGXC9TXFzPUP0y+AMW2lywL5WjNghYazS9W630EbG3+LvFgPhR2UV/kAVRycfJFq6Ruv1rP6utK9r5wAOoUxOpMV5jXhjqkpd151KM3LZ7T5v45uqkbAWwFDxEsKa4/PInn+VxGmSz+nEmxS1oaFItJfBeD8OLL7um+4BNOMWU9XZtRlck6dTAdZ8l+3XEFyvogaySCa7EQBdrld2LC8THQoA443rL7tTvm0HOJYoADxLESnvMMn0qST01Kgk6YpI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SkV3Q0RQSlF6S2lJVkI5SjZHdW9qdU5TYlRjbFdvL3IyOVBmL3JiZElrTnhk?=
- =?utf-8?B?KytKRE9aczZPM3V6MFpXdWN4UUF4TlJOdWlnZWhDeFlMb2lkSG1VanZCVmFP?=
- =?utf-8?B?akZXR1NiREQxYTBxRDBnTmNoK2x4WWRoVXZTNlcrKzNkcUtjNlh5S1VRSEdL?=
- =?utf-8?B?WGRZVjVRVWJqcFhhaS9KblF3eXV0SjgrelE4dEpHK0tzQ2JwNVFnOXdDKzd6?=
- =?utf-8?B?WnR2ZFpxMUtVSFViVFpRdHRCaUNnQ1BLT2JyRHRhTjQrNXAxck5XbDBDanJy?=
- =?utf-8?B?Zlg0S3o3cFBIZU52cUQxU0NrM0hEUWRSY3VONE1TTGxraVlPajQwUWYwdEpO?=
- =?utf-8?B?YU5lZlZUREg2NXdreU92YVovSnc5b2ZudDBBMTRmRGExMU9VakdkakhzeFR0?=
- =?utf-8?B?ckFlbFZpQnJKQURkcmtaN1VhTUpSZmo1RGNSbTFUWit0cGl6NnQ0Y3oxZW5L?=
- =?utf-8?B?NmlncktSVmpnd1IvaHIwRWc2dGVtcHU4TXJsaEMxb08vM0JPZ09ZVnNFMkZo?=
- =?utf-8?B?ODl1eUcwZmFLb09ZcG5qRHFhRmNBOHU0T2RkSEFCVjNnZVQvTURCczRiWE1W?=
- =?utf-8?B?WWhKMXFxVGx6dGFETVArcGtHd1QwSXhjZWFKQi8weVltSndoeHJKcFVPdDRQ?=
- =?utf-8?B?Qmgrb3phUC80ZTBGOXlvR3ZWQ1RJSXdqb2F0UVFEdVZ1OWVQNG9DZjRPaTBT?=
- =?utf-8?B?alNCM3Fsc3ZHZ1Z3ZmszR1cyRVJQZ1F3WTJRRlcvMWZMMllSWXBaYnlNYjNY?=
- =?utf-8?B?ZExSd2NqSUdHaWZVY1lYOG1qZnFrTTBzalc1ZWlaM1ViTVlWYkUwQnlTQnhQ?=
- =?utf-8?B?cExHSktxNkpFcDA5bFFDWk9qcmJwSEN4SGVnYWMwcnJ4K2VFcS8vZjN5bWh5?=
- =?utf-8?B?UWVOVUNuS091c2FaSjNVQnV0YnJLUEdnMUZmSzJVU0xVanAzZVdNUnJPeGdl?=
- =?utf-8?B?K0hRTFh2M2NJT0h1Qlpab1B0YTZ3V1FGblhFSVI5OEN0Zm9NN0VpTTB5OFNK?=
- =?utf-8?B?VFRHclBTT2JFUnhhMkliMWFxVkRJL29rZzBhZFlNYXlXV2hCK3RlcXVxMS9p?=
- =?utf-8?B?QTk5NWdUeXN2YkZvRGE5VERVMjIwT2ZOUU05SHJqb2Zld2lnelluOEQ1RmVx?=
- =?utf-8?B?T2owakJQNkhBTEVsQkQ2YzMvcitPanpnMnFWdjRHRHZQZmRTenhPT1JOcjZt?=
- =?utf-8?B?cm1QVmtTYnNibGx6L29SQUVYbTZQTWgxVGlDQjNoL2t3dm9wRDQrUWR0ZGpU?=
- =?utf-8?B?alZKVnYvcDFPaERzZnU3UGliNmh4UGRZY2FSM2p5dkQzT0hxNitJNXdFMXl1?=
- =?utf-8?B?ZUE4UXBpNWJvT1dqVzBWQXZjeExGSXA5dmhHY0t0OGZ6Vml2UzFjWDNPQVVj?=
- =?utf-8?B?UjF2cENmOXZDZDRNQVNMUG1VWUpGcVRFeHRNYVllRFR5RTdkNzVib1IrQWFy?=
- =?utf-8?B?enJpR0w5UkQ1dElUY0JMS1plZmNrZGxabExZQWJjenlucUJuZHJLZlp5MHF1?=
- =?utf-8?B?ZWxYNDJlMmNNSVl3aEFuT0RqbWlublpncnRuTm0xeHNQTGIrU2h4ckRoSGhB?=
- =?utf-8?B?Rlg0Uy9SN2p1UGxuU205V1d6SWQzcXZNbXRRZzFJRDZZRG5mSXNCTm5NeDdj?=
- =?utf-8?B?T2NjMXVZc21xTk5MUmtlWnRmNlErSzFib2hyM29iQitJeTBIdUUrUS9EaDJZ?=
- =?utf-8?B?eTdXQXNwc3h0T3QzR25nZVIrT0g2bG56LzRTRXZvdisycWJYeTJGTG9McDJ6?=
- =?utf-8?B?L0s2WGh0VlEzNW5TaTVYMTBENUJzU1cxaW93Z2FPcnZxdE9NSEtYbFRUb0NR?=
- =?utf-8?B?RFNDcG1yT1JNSXppbFNOWGFQWGU3TWMyYkdnSHR2SzB0QnBjem9yMWtMSEdD?=
- =?utf-8?B?eGRGcisvbnB6bUZndWNpdGdhbEZNczRSSWx2dHRka3lWOExmK011QkxhYWF1?=
- =?utf-8?B?SHpGenVKQUI1czEweHlRVXdGdEJSYVM5TkROL2IrSzhQYnVtQlhpY05YMVJz?=
- =?utf-8?B?N3o3dGkyTDFHTFNEWWNxMW1Ld1BNKzdtQytUV0dGSks4N1FjMkw0b1dnb2lp?=
- =?utf-8?B?MGttdjNBeWE0UktxOWJzbGNGN1F4bWFDY2lhcEdQQjRMZWY1WGNmVm8yNEZL?=
- =?utf-8?B?QlhiRnNWd2lmYVVYWURhTzRLTUc3aXVOSjBUOXQxbUxrUVdzc0sreWtPQ2k1?=
- =?utf-8?B?RTFnQ3plc1NYWFhoVnlLME5aNEtWaTU4YWRxNSs4TUFMMHhXUmU5T0wwRXlP?=
- =?utf-8?B?NDNkRDdWQ0dzOTFEdFQ4N3RxYXA4b0U3RVI1Y09PdXdKL3c0eE56WEowRnJV?=
- =?utf-8?B?VTlwWkpIY2pZTVduSytSc3JybXZYcUNBcEpwd0VhdjBYaUYyc2dpdz09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a29a6fb-abd6-410a-eca1-08de758a3247
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 22:55:54.4611
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IoMM4G3HctoFieFOeKheBrJtKAhuPGrgO+8kinCA5ZnM5ODn7kaFn1PTmJkvzTTDNImafFpP96iJUKAb9IO8Cw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB12143
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/61] vfs: widen inode hash/lookup functions to u64
+To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Dan Williams <dan.j.williams@intel.com>, Matthew Wilcox
+ <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>,
+ Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+ Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Shyam Prasad N <sprasad@microsoft.com>, Bharath SM
+ <bharathsm@microsoft.com>, Alexander Aring <alex.aring@gmail.com>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>,
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
+ <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>,
+ Salah Triki <salah.triki@gmail.com>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>,
+ Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+ Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>,
+ Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Yangtao Li <frank.li@vivo.com>,
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+ David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>,
+ Dave Kleikamp <shaggy@kernel.org>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+ Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall
+ <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, Naohiro Aota <naohiro.aota@wdc.com>,
+ Johannes Thumshirn <jth@kernel.org>,
+ John Johansen <john.johansen@canonical.com>, Paul Moore
+ <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>,
+ Casey Schaufler <casey@schaufler-ca.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>,
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Willem de Bruijn <willemb@google.com>, "David S. Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>,
+ Martin Schiller <ms@dev.tdt.de>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
+ v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
+ ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org,
+ jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev,
+ ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
+ linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
+ selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org,
+ linux-x25@vger.kernel.org
+References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
+ <20260226-iino-u64-v1-1-ccceff366db9@kernel.org>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260226-iino-u64-v1-1-ccceff366db9@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-53645-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	TAGGED_FROM(0.00)[bounces-53646-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[145];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.Li@nxp.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[dlemoal@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nxp.com:mid,nxp.com:dkim,nxp.com:email]
-X-Rspamd-Queue-Id: E37241B0A87
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D0AAD1B0A43
 X-Rspamd-Action: no action
 
-Use media_async_register_subdev() to simplify the code.
+On 2/27/26 00:55, Jeff Layton wrote:
+> Change the inode hash/lookup VFS API functions to accept u64 parameters
+> instead of unsigned long for inode numbers and hash values. This is
+> preparation for widening i_ino itself to u64, which will allow
+> filesystems to store full 64-bit inode numbers on 32-bit architectures.
+> 
+> Since unsigned long implicitly widens to u64 on all architectures, this
+> change is backward-compatible with all existing callers.
+> 
+> Functions updated:
+>   - hash(), find_inode_fast(), find_inode_by_ino_rcu(), test_inode_iunique()
+>   - __insert_inode_hash(), iget_locked(), iget5_locked(), iget5_locked_rcu()
+>   - ilookup(), ilookup5(), ilookup5_nowait()
+>   - find_inode_nowait(), find_inode_rcu()
+>   - inode_insert5(), insert_inode_locked4()
+>   - insert_inode_locked() (local variable)
+>   - dump_mapping() (local variable and format string)
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-No functional changes.
+[...]
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
-build test only
----
- drivers/media/platform/cadence/cdns-csi2rx.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+> -int insert_inode_locked4(struct inode *inode, unsigned long hashval,
+> +int insert_inode_locked4(struct inode *inode, u64 hashval,
+>  		int (*test)(struct inode *, void *), void *data)
+>  {
+>  	struct inode *old;
+> @@ -2642,7 +2642,7 @@ void init_special_inode(struct inode *inode, umode_t mode, dev_t rdev)
+>  		break;
+>  	default:
+>  		printk(KERN_DEBUG "init_special_inode: bogus i_mode (%o) for"
+> -				  " inode %s:%lu\n", mode, inode->i_sb->s_id,
+> +				  " inode %s:%llu\n", mode, inode->i_sb->s_id,
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index 8c19f125da3e50f55a0ae280b05e7918ce115101..e0fec1027c9b74dd7dc46375f3aa4cc5fc951138 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -855,11 +855,6 @@ static int csi2rx_probe(struct platform_device *pdev)
- 	csi2rx->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
- 	csi2rx->subdev.entity.ops = &csi2rx_media_ops;
- 
--	ret = media_entity_pads_init(&csi2rx->subdev.entity, CSI2RX_PAD_MAX,
--				     csi2rx->pads);
--	if (ret)
--		goto err_cleanup;
--
- 	csi2rx->error_irq = platform_get_irq_byname_optional(pdev, "error_irq");
- 
- 	if (csi2rx->error_irq < 0) {
-@@ -875,13 +870,10 @@ static int csi2rx_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	ret = v4l2_subdev_init_finalize(&csi2rx->subdev);
--	if (ret)
--		goto err_cleanup;
--
--	ret = v4l2_async_register_subdev(&csi2rx->subdev);
-+	ret = media_async_register_subdev(&csi2rx->subdev, CSI2RX_PAD_MAX,
-+					  csi2rx->pads);
- 	if (ret < 0)
--		goto err_free_state;
-+		goto err_cleanup;
- 
- 	dev_info(&pdev->dev,
- 		 "Probed CSI2RX with %u/%u lanes, %u streams, %s D-PHY\n",
-@@ -891,12 +883,9 @@ static int csi2rx_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
--err_free_state:
--	v4l2_subdev_cleanup(&csi2rx->subdev);
- err_cleanup:
- 	v4l2_async_nf_unregister(&csi2rx->notifier);
- 	v4l2_async_nf_cleanup(&csi2rx->notifier);
--	media_entity_cleanup(&csi2rx->subdev.entity);
- err_free_priv:
- 	kfree(csi2rx);
- 	return ret;
+Hmmm. the type of ino in struct inode is changed in patch 2, not this patch. So
+this feels incorrect. Why not just squash patch 2 in here ?
+
+While at it, maybe you could change this to use pr_debug() too ?
 
 -- 
-2.43.0
-
+Damien Le Moal
+Western Digital Research
 
