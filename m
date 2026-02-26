@@ -1,194 +1,228 @@
-Return-Path: <linux-media+bounces-53596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53597-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KGZJLSmOoGkokwQAu9opvQ
-	(envelope-from <linux-media+bounces-53596-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 19:17:13 +0100
+	id kCfsC39/oGnWkQQAu9opvQ
+	(envelope-from <linux-media+bounces-53597-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 18:14:39 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D87C1AD744
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 19:17:13 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A430A1AC01C
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 18:14:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A4FD530247E9
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 17:05:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E189F341B081
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 17:05:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44A1335A392;
-	Thu, 26 Feb 2026 16:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 913003603E9;
+	Thu, 26 Feb 2026 16:59:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b="nlx+CJv1"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qeuBWaGY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.manguebit.org (mx1.manguebit.org [143.255.12.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4B936894F;
-	Thu, 26 Feb 2026 16:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.255.12.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772125129; cv=none; b=ZA1KbuQfA4mooOuJ1CI/dt5xHZ7xnJQ8jAQJTPz/fnEFWL3neKB3j2iVpAw8ztba7xpD0zlWrUzs1arNarHKCBrq/35K0hb9CQSPE7SD4ExWSNS9pYRsLVefyj17AAsoDjOUHLF84L/qjjMJtJ/j0WHEL+25Vm/uEILPG0k3bAA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772125129; c=relaxed/simple;
-	bh=BTBsFxFgqkwEIGB43dDZrV44AEDn/svkEIniI0FsAnc=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
-	 MIME-Version:Content-Type; b=ZYEhMYwQdbbwpw4yM7y2k5rrRyaSNbZEQVNf6kg6y202KqOX4mgttlxdncLBWMEdjgTOr4+T3QoVhhRhpfwAfelV1sDdPqh4S2ryEc6A8w3ogpkmNuw5CfkLn2DodZVZ1fH2BdexN/RDojaQROZereHxlzOEf/7VZya7HcCB15U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org; spf=pass smtp.mailfrom=manguebit.org; dkim=pass (2048-bit key) header.d=manguebit.org header.i=@manguebit.org header.b=nlx+CJv1; arc=none smtp.client-ip=143.255.12.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manguebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manguebit.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=manguebit.org; s=dkim; h=Content-Type:MIME-Version:Date:References:
-	In-Reply-To:Subject:Cc:To:From:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=GBAAeNpvfWupATD/Mqi5LhBKxQa5mgBWtQkeTAghv8U=; b=nlx+CJv1x/UuNttwKXynH0qJFV
-	GGPlyhyb56jCAmfo2Dkhao6Akb/whBUWKrLHAtLp2UnbAxsZRiEEnc/PA6a02dlJyun7VB/WjZ/4Y
-	gSNeA6HN4mQbMGOcTdkRiDsoEk5l6Ssb6qUdMgoH7JYTbpZDll0K3Gc9Sl8LgYozq3/3dgHYhmDwe
-	fRUIm7haKSMEmY1/NzzgcvEuyT7l/TJWKX2NJMO7AKfx12ThZPHB/q8MyHq+NyeW4NqEFdN0DjrLH
-	BhCTcfbtcrlXDP67PmPWXw2HF4zz7VIOb15e9g0uBhXA6DI+uxHuKzWDbVQB6y2V+HCbHUW7dwsue
-	9tQXYUVA==;
-Received: from pc by mx1.manguebit.org with local (Exim 4.99.1)
-	id 1vvegu-00000000rdY-0Taa;
-	Thu, 26 Feb 2026 13:58:20 -0300
-Message-ID: <8dcf2c77013a0de245c4417eb4726752@manguebit.org>
-From: Paulo Alcantara <pc@manguebit.org>
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan
- Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Dan Williams <dan.j.williams@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>,
- "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
- David Howells <dhowells@redhat.com>, Andreas Dilger
- <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, Jaegeuk Kim
- <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, Trond Myklebust
- <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever
- <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, Olga Kornievskaia
- <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey
- <tom@talpey.com>, Steve French <sfrench@samba.org>, Ronnie Sahlberg
- <ronniesahlberg@gmail.com>, Shyam Prasad N <sprasad@microsoft.com>,
- Bharath SM <bharathsm@microsoft.com>, Alexander Aring
- <alex.aring@gmail.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>,
- Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen
- <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, Dominique
- Martinet <asmadeus@codewreck.org>, Christian Schoenebeck
- <linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, Marc Dionne
- <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, Luis de
- Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>,
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Ilya Dryomov
- <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, Jan Harkes
- <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, Nicolas Pitre <nico@fluxnic.net>,
- Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>,
- Christoph Hellwig <hch@infradead.org>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, Mikulas
- Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse
- <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Dave Kleikamp
- <shaggy@kernel.org>, Konstantin Komarov
- <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>,
- Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>,
- Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg
- <martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen
- <al@alarsen.net>, Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal
- <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, Johannes
- Thumshirn <jth@kernel.org>, John Johansen <john.johansen@canonical.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge
- E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, Roberto
- Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin
- <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, Fan
- Wu <wufan@kernel.org>, Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, Casey Schaufler
- <casey@schaufler-ca.com>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, Kuniyuki
- Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, Willem de
- Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Oleg
- Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Ingo
- Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa
- <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, Adrian Hunter
- <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, "Darrick
- J. Wong" <djwong@kernel.org>, Martin Schiller <ms@dev.tdt.de>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
- v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
- autofs@vger.kernel.org, ceph-devel@vger.kernel.org,
- codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
- linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
- ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
- devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
- linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-hams@vger.kernel.org, linux-x25@vger.kernel.org, Jeff Layton
- <jlayton@kernel.org>
-Subject: Re: [PATCH 14/61] smb: remove cifs_uniqueid_to_ino_t()
-In-Reply-To: <20260226-iino-u64-v1-14-ccceff366db9@kernel.org>
-References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
- <20260226-iino-u64-v1-14-ccceff366db9@kernel.org>
-Date: Thu, 26 Feb 2026 13:58:19 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C303603CA
+	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 16:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772125147; cv=pass; b=dj7r48ahRm2GCY6XRJeYGlMTKIkwyorndkkXnQQ8X4y5bnSFKeNrJr+XzeVzxbY07gNCJV4y3oAOWUYSgg2kdpXMn5LiLWqYAIBysl7bNTDyxzG6aq3XPj/AKyKNSoTbBfuClm1hFda4Ke52Wo3umn1HqFJXhXG1jYjUP2QRc/k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772125147; c=relaxed/simple;
+	bh=AH7fFA2R32bYr6PwRcky2ytsG7fZdObmn2E9Be7X+EE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LOWDSmWOYiE0xAyHjC86QzvsvRXMKyTfaTEeZUi8DgEPrNaeBlyosqqFKIM0+bsW/UlseExt7qH1nNycleTdD4j1c01gsRxMiRXE2CdYRTSYnjr0cV6GBi+b45WFPqgni2DP4cQx6kXKSSq/eV5bCSKQN1aI3K0DSFPrsyRwtwc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qeuBWaGY; arc=pass smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48373ad38d2so106435e9.0
+        for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 08:59:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772125144; cv=none;
+        d=google.com; s=arc-20240605;
+        b=L4MluuUjfAWEI+YsBY0eNPmCenBexBBxgD/gJrdbEi5fRlpwsRvgwsQ+1oQjtvO/gl
+         ML4UIt+g0YhESDit6Axv7KQ6NU68ozKDRBDsOAN7zDYR6KdT4M+jDRoQHmXN8fObqof/
+         Siq1IMnO2OTLspJwxbrj6Xl+2rTVacE8GlAH1t6LNILdVWlN9jYFJcmkaMeBflFa8EOP
+         9S3mxXS7rxqtyrURkTjhpC0Y7vAB+GYZNRHHoeyX1kNj44z65VRuGpJLgmqvve+rX1as
+         0wKRTF3ErrzAybel/cpvFZD2NzzWh4fTAbZsmHlPr9+JF0ag+a3rWVJeCuoVcXpBQTWo
+         XIHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GaC7hfbtyJLGGerhfBe2P9Hj0mHnDOXyDJFEYnDiBqY=;
+        fh=oLWsDYV8mCB7oLPiY9Wh9RB9x+8Tj8auTT4kldGsA7o=;
+        b=aG53fNreXJBiWGTDLowDs4ASYdcMlXhfZ4krocaOvfwDEC1JvfA1tDzbDFwPZSeAXq
+         95QqTrhCU4kRKDrTryn81c2GWRhbrejCkoTo5mi4TTyXNzfq37jMZ0WzlMqNkM+1+kln
+         O/UD85auEhaAeNEU7tglpC4eBQq1FHZW7Jt8042k4KiHDPUE89xiFMLjFDWL7Lav7UuQ
+         I62X8sujzc3AoLsOx2f630Fo2iuXM4Ocwej/EngScsFwe3oQ3y9yUNK25tcdKWiuO9mb
+         tu7gQWT8nZpQkIpxwk6jdobA+hpa8nEY7e77BhYI1aFbB2n7jUmPAx0aLtc2BOU1tHtO
+         KwrA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772125144; x=1772729944; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GaC7hfbtyJLGGerhfBe2P9Hj0mHnDOXyDJFEYnDiBqY=;
+        b=qeuBWaGYv2ASeuvM5Xjf7tFcXjEWIosC5awIL0qqHxIrVDHGs35G2QMiyT6iCOcmQA
+         uHcyMHvZDqFm+DR3ZAiLu9SwNHoGa8S83twfJUJ50YF9cTxGRUM9DGzRpoBr7bEEGfpC
+         R0GzSsUX0zed58BZ+dem+wBOkmsGud/NwuOsIO5Yj2b9/01zydeG4zFlPXrItVwku6YH
+         EPb400u0+KySBOvWu3FfprArKOY76JTgKKzVBBNG1vnrqB08DCX5xKi8hOBjrCHUM2vj
+         cgyPoVTmPSbTLhp4V76a9CZLMOSxnZ4zBWmfR3ps1RZI5NQwaerbxgK3XC1PC/0o/UK9
+         wmYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772125144; x=1772729944;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GaC7hfbtyJLGGerhfBe2P9Hj0mHnDOXyDJFEYnDiBqY=;
+        b=saBo+yeYfhCfcqGfKAgJWqXzItjHCDjNV73AJJnP8F3iCgToG+3i1Cd9TQW71yeZ3b
+         QvU9BJBpmJN+EU8GlsVq5dczewsHPYiyI5G4gftKXmwCOR43tPZb1OrS7bTk/x4xqAGz
+         AXVCC5gNlDr1BPJ4wZP+zTBBkLU1d/WY3A9bSLJXTswCzCWDJbn9/6MCgQNINk9x3Xb8
+         07sACJ8xWgMqryH7qizRqtlzm8icrILAxtKihWS3dm/UgM4OAnMjUdBan0easB4hhBgu
+         xpI+uw5KoTI73Msyu0gGckBq2BF/Ii2kU+YbRJodkWyFsrUR+Nq8XGb2lNjgErr6qWwN
+         83WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ/dFUt5pxdbDHVHXoaXP6hZi3tWjmsrj9koeHMPVD6m27kCb7Ao1m54u6PO5+4jwUHup8ZO+/k9RnsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOlTmN95Y3XzlrZTkogO3HXUNjassTAaZcqGnbodwbKEuY2dAT
+	Jf4b+WYNE2wTY32M56A6aPcXJ+saY/aDco7Heh8fSQRRkI7yOCdUr7wRRmiJ987a7fRO9KsKA8u
+	76APRPtiHxShcYFdNoZ5jNWlyubhq4LjKa4TupQIw
+X-Gm-Gg: ATEYQzzOmzaYXLMm6B2R4uRcm9ix58LWrn7ZQxVP7MKpEzy87WqLhWZvEngzlfucmOO
+	nMS5yAaLVY9CQndSEZi+dTU4wWaqjHxCyR4DcKwCXCUVKlftN9W7Uqtx0f0ijFs717mZVV9K0LS
+	wx0BgiP0f/a6no2q9IY63e64cyz3c3E9AKVYn9ktPsL2sqJjLB8d6gZCFJa1WYKog8+PyOS/Nua
+	Y5/EBIq36oR6HywFC3lmxkM9vCzFBea8ZUB6e/DXdrT5MSHvjPi1Iy/VjSJHbSGHSHal77pG7ow
+	FPyhkVZdKuH9837/owgGL12NiGixF0sFGWr1dLXOD15t3tRXnx+qgTFtNtlW6gLIaxX1tA==
+X-Received: by 2002:a05:600c:4f16:b0:47e:de1d:ce99 with SMTP id
+ 5b1f17b1804b1-483c31a76e5mr1276055e9.12.1772125143309; Thu, 26 Feb 2026
+ 08:59:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org>
+ <20260225-dma-buf-heaps-as-modules-v1-2-2109225a090d@kernel.org>
+ <60ecebf2-a708-4797-bedd-588c3e9931ff@kernel.org> <20260226-impetuous-analytic-jellyfish-d4a86d@penduick>
+In-Reply-To: <20260226-impetuous-analytic-jellyfish-d4a86d@penduick>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 26 Feb 2026 08:58:51 -0800
+X-Gm-Features: AaiRm51ICxvhnfb6IRxyaVo1JANC2yUPYPY4UyYDMkMh1Zp0Qc24kArQnpKFuW4
+Message-ID: <CABdmKX0KZLGaJWBoo3tkCxLvby3f4Fn0nMCLyz4a-H-9J_CtPQ@mail.gmail.com>
+Subject: Re: [PATCH 2/7] mm: cma: Export cma_alloc and cma_release
+To: Maxime Ripard <mripard@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[manguebit.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[manguebit.org:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53596-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[manguebit.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pc@manguebit.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53597-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[146];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,manguebit.org:mid,manguebit.org:dkim,manguebit.org:email]
-X-Rspamd-Queue-Id: 1D87C1AD744
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: A430A1AC01C
 X-Rspamd-Action: no action
 
-Jeff Layton <jlayton@kernel.org> writes:
-
-> Now that i_ino is u64, cifs_uniqueid_to_ino_t() is a trivial identity
-> function. Remove it and use fattr->cf_uniqueid directly at both call
-> sites.
+On Thu, Feb 26, 2026 at 2:38=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
 >
-> Also remove the now-unused #include <linux/hash.h>, which was only
-> needed for the old XOR-folding logic.
+> Hi David,
 >
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  fs/smb/client/cifsfs.h  | 11 -----------
->  fs/smb/client/inode.c   |  2 +-
->  fs/smb/client/readdir.c |  2 +-
->  3 files changed, 2 insertions(+), 13 deletions(-)
+> On Thu, Feb 26, 2026 at 11:25:24AM +0100, David Hildenbrand (Arm) wrote:
+> > On 2/25/26 17:41, Maxime Ripard wrote:
+> > > The CMA dma-buf heap uses cma_alloc() and cma_release() to allocate a=
+nd
+> > > free, respectively, its CMA buffers.
+> > >
+> > > However, these functions are not exported. Since we want to turn the =
+CMA
+> > > heap into a module, let's export them both.
+> > >
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > ---
+> > >  mm/cma.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/mm/cma.c b/mm/cma.c
+> > > index 94b5da468a7d719e5144d33b06bcc7619c0fbcc9..be142b473f3bd41b9c7d8=
+ba4397f018f6993d962 100644
+> > > --- a/mm/cma.c
+> > > +++ b/mm/cma.c
+> > > @@ -949,10 +949,11 @@ struct page *cma_alloc(struct cma *cma, unsigne=
+d long count,
+> > >     if (page)
+> > >             set_pages_refcounted(page, count);
+> > >
+> > >     return page;
+> > >  }
+> > > +EXPORT_SYMBOL_GPL(cma_alloc);
+> > >
+> > >  static struct cma_memrange *find_cma_memrange(struct cma *cma,
+> > >             const struct page *pages, unsigned long count)
+> > >  {
+> > >     struct cma_memrange *cmr =3D NULL;
+> > > @@ -1025,10 +1026,11 @@ bool cma_release(struct cma *cma, const struc=
+t page *pages,
+> > >
+> > >     __cma_release_frozen(cma, cmr, pages, count);
+> > >
+> > >     return true;
+> > >  }
+> > > +EXPORT_SYMBOL_GPL(cma_release);
+> > >
+> > >  bool cma_release_frozen(struct cma *cma, const struct page *pages,
+> > >             unsigned long count)
+> > >  {
+> > >     struct cma_memrange *cmr;
+> > >
+> >
+> > I'm wondering whether we want to restrict all these exports to the
+> > dma-buf module only using EXPORT_SYMBOL_FOR_MODULES().
+>
+> TIL about EXPORT_SYMBOL_FOR_MODULES, thanks.
 
-Acked-by: Paulo Alcantara (Red Hat) <pc@manguebit.org>
+Ohh, ditto.
+
+> > Especially dma_contiguous_default_area() (patch #4), I am not sure
+> > whether we want arbitrary modules to mess with that.
+>
+> Yeah, I wasn't too fond about that one either. Alternatively, I guess we
+> could turn dev_get_cma_area into a non-inlined function and export that
+> instead?
+
+I checked the history to see if dev_get_cma_area was converted to
+inline at some point for performance, but it has always been that way
+since 3.5. That'd be my only worry with un-inlining and exporting it.
+EXPORT_SYMBOL_FOR_MODULES sounds like a better way to me.
+
+> Or we could do both.
+>
+> Maxime
 
