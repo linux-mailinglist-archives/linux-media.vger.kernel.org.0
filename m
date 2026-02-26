@@ -1,274 +1,326 @@
-Return-Path: <linux-media+bounces-53587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53588-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2M0iBVyAoGnWkQQAu9opvQ
-	(envelope-from <linux-media+bounces-53587-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 18:18:20 +0100
+	id yBFaJmeAoGn3kQQAu9opvQ
+	(envelope-from <linux-media+bounces-53588-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 18:18:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A67191AC28B
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 18:18:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE5C1AC2A1
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 18:18:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 67E6E361FAEE
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 16:42:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 94E6D36243E1
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 16:42:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7803E36492C;
-	Thu, 26 Feb 2026 16:09:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1D123603D1;
+	Thu, 26 Feb 2026 16:09:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Idts03oy"
+	dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b="tEIrXfrr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7C03603C9;
-	Thu, 26 Feb 2026 16:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF9C3603CC
+	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 16:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772122141; cv=none; b=BcJixDtZmyZ5bPalhgnj82+UOkQSgbKUd40yZV11eBAZfsc9AusIwmw7GpHlNAFC+yMz0XLSeZEepS41xOcOfXwMhc/+9QzOoQmPI2ZKyEbhNwixGjqErbTk6GUn9GCemwdTnNLzFaIpNSa62KRcCTZpTgREg612FbRSYFDv/FI=
+	t=1772122147; cv=none; b=nOGnMwfuIQxxviweHw2G1lRaz22Raq/DeGFNvGqQ8XEV1i3fnQ+QRWy4L18WyBlGnZW3Ov/OUnD0OTD8UzjKNdkCRhp7fso5fVCBdh+mdYWEG1UV813JfYmHnAnqADlMGKgTwPUecfo0/5lWQ6TlzIEXjmiDImx2r/fTiMlBBgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772122141; c=relaxed/simple;
-	bh=ohZEfeuOi4xkg2naUuFketibeULdy5VGYUJnnORD2g0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mEvNHyWJwXHDE/QeONkgdknCaAUHqJgvSaqWe2h3VxyaOiMQ1ZGUVbDT3lCiBrEn1ry+0aJaaUa/5GxgGmHny3xMf1WX089ZNYFOpkGmgoJba+y9t8dK/uuIk/yRAF4hZqWVTxKWDx7ZYU6ur2k6jgHu+eBOJxidxoMk2owwlD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Idts03oy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFF4AC2BCB0;
-	Thu, 26 Feb 2026 16:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772122141;
-	bh=ohZEfeuOi4xkg2naUuFketibeULdy5VGYUJnnORD2g0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Idts03oyKH96SfAopisoKaTLc9SLusBKptp8k/MDagLyPeOPplHCfbxiFlufDFLUc
-	 5K4x+4vaAaBsfCpythF7s9D8EXByli3J3u+iy7xATN3OlRJcUBEcuJN4S7kWV8Q8G4
-	 kOfdNs81HdEuVdL2gjffCyo3XQcO4jO4Dnwu4cYxFGG1cqCeDmWXs52Am2xXWjWgS4
-	 OHldjywAYIMuMJotzrCl3t6dbCEWDiOdxjpl+MI3bIDcoO73xuazQ8k66fi6Admx/j
-	 nWxyaEUpqRkV/SeIHZG9VWpdqkUZ5a5E8jjeNvQO8d/KJ1BO0kCzaj91GgaIrGYKnL
-	 sd5mww8Joksmg==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Thu, 26 Feb 2026 10:56:03 -0500
-Subject: [PATCH 61/61] vfs: update core format strings for u64 i_ino
+	s=arc-20240116; t=1772122147; c=relaxed/simple;
+	bh=wQT4A1YWJZSJVJeDDWn0FnXQhUYrvOzhsNfs1BTeyis=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Gttvml4QiGy/5iql1y1vb70Wl/hr2w2//NFegeeU/mLWh+4+snhOKvl7jFjB+3FmSLXHW3+S1y/oDFO5IZakeDf01n97GgxvHbTQfREu6q5mHiuRZ9cRNT76xfrOnaXF4vXJYeblanJK1if5BgPI0H7LhrTQpvn6GJTe/sCatMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=yarny@public-files.de header.b=tEIrXfrr; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=public-files.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
+	s=s31663417; t=1772122139; x=1772726939; i=yarny@public-files.de;
+	bh=AI4HDgEjejlMTEN48eawkCcbDdaPlPbnb+v2ZG3Gp1w=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=tEIrXfrri9au5f8NKuwhUuqqBAFA5023ec/okXM4tWPeENSmCzGL3Sa7tvs7iit3
+	 wwBOPD/nQRGWzbLZ/SQ/WEKVKoF3RqZFSiIo717KK3HuaHhjOO3Dgz+QGWerhr/wA
+	 ++fXDdOevA/bWSayB0imqpVb5G4LH1VVLSqbgJHB0131VVDcH0fEABqC5zFrMJ9Ql
+	 XPCKvAAvKRZHBRRfgttP5/VUedtujtSZxeTGQ48MCgiNWEkVYTHoOFxrDT6ik+vuQ
+	 pjafrPxWcrSO7GVQm2hLqIUdflSmjE0CLMHFW4yj/SvdeDt4bg4yhBoaszaX01lAs
+	 jf4xyEFMCkWLkuJBVg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MkHQX-1vGEZG2Qkj-00hMX0; Thu, 26
+ Feb 2026 17:08:59 +0100
+Message-ID: <afe17741-fef5-4864-94b8-b2361e0daf16@public-files.de>
+Date: Thu, 26 Feb 2026 16:08:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260226-iino-u64-v1-61-ccceff366db9@kernel.org>
-References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
-In-Reply-To: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Dan Williams <dan.j.williams@intel.com>, 
- Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
- "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
- David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>, 
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, 
- Bharath SM <bharathsm@microsoft.com>, 
- Alexander Aring <alex.aring@gmail.com>, 
- Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
- Viacheslav Dubeyko <slava@dubeyko.com>, 
- Eric Van Hensbergen <ericvh@kernel.org>, 
- Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>, 
- Christian Schoenebeck <linux_oss@crudebyte.com>, 
- David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>, 
- Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>, 
- Salah Triki <salah.triki@gmail.com>, 
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
- Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
- Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
- Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, 
- Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Yangtao Li <frank.li@vivo.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
- David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
- Dave Kleikamp <shaggy@kernel.org>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
- Joseph Qi <joseph.qi@linux.alibaba.com>, 
- Mike Marshall <hubcap@omnibond.com>, 
- Martin Brandenburg <martin@omnibond.com>, 
- Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
- Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
- John Johansen <john.johansen@canonical.com>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
- Roberto Sassu <roberto.sassu@huawei.com>, 
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
- Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Ondrej Mosnacek <omosnace@redhat.com>, 
- Casey Schaufler <casey@schaufler-ca.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Willem de Bruijn <willemb@google.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
- Martin Schiller <ms@dev.tdt.de>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
- fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
- v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
- ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
- ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
- jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
- ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
- linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
- linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
- selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
- linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
- linux-x25@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2734; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=ohZEfeuOi4xkg2naUuFketibeULdy5VGYUJnnORD2g0=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpoG0TArPB/A14lA7MwkzhIW1OToQ0CsW6q2kMJ
- NMIT4N0RQ2JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaaBtEwAKCRAADmhBGVaC
- Fd2vEAC7kuwrOi18JaQDOOAKwnH+i9pcIGDqiGslLsrUPbu1STWmcsQX2/GZrZEiyYKHKP0S6Wl
- zcMnbPl3utwH6hWUgGtAY+gzzjhdicih0FDyp40jJOzpKVKjISFyGXmUR+d+WyX5NpbL6x7qZu9
- 1Miz3ZXPbvTnSNhE8UDHtPJWb2LmH5aKdBmNvDuy1kUOZgpWBZN0V+Ugpt5CfHOpb07X6niHBko
- zYIXIl6b8SQvksIwttBHLHM7QD8ow6T8ami6Pv1KXGhOOsW5PIUcgKu7c6qD1Ir8/ZfUUAlgFgV
- C9+vZOR5mC4QnKJBd++VbAJ3ULe7TCMOJv3o9H2kRNMQGl5ztzX6aB9BGpF+YXEKrIeFwlVdTJs
- Wd6qjLkpJj32hltK0IEZaYfHtDb2wBvKqYxVW6nrow+NnCFN/ks1A7JF6fvNPLkiVzv6bsthwaT
- hT6eCv8yxReYIOkkcqbBpyYIyRStZuKDMahsoKkn/NLlvFbCqB06XLmdAHID33m0jXIuroMxuC5
- el7Oug4tahBPWWr4msK1xsxlFlcvwmzmYJvLsGrgik6EThKzRuz1zmh3kfJ5AOnN+pKoArTRBQK
- SunbKJEttAFl0PfaA332vCGW9ETR82ytCvG59Wew+5CiziepSNpMW6ZDKu0oYg5nww31TsjGKV6
- lhC0Z4ASG6kR0mg==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Subject: Re: [dtv-scan-tables] Partially revert "dvb-s: add frequencies from,
+ https://en.kingofsat.net/"
+To: linux-media@vger.kernel.org
+References: <89c093e9-9b27-44ea-8c1e-a10a2edbd784@public-files.de>
+ <699f2d55.050a0220.cd58f.b259@mx.google.com>
+Content-Language: de-DE
+From: Yarny <Yarny@public-files.de>
+In-Reply-To: <699f2d55.050a0220.cd58f.b259@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:gPIZw98ij7+IFsD0tB1oNKPqpyBuwyHxLMKwTaer1pEZ329HYn2
+ pTz86TN9G63ByRBIM0nPjkcpLY+WK/7zpctrjGLe2JqNIlYi78UzuRpByV+W1FMkksY4ll+
+ O8TJWvCq0JV5TI/Fj5nx+B/HVud3YiCt77MfFpCQNAchE++5fiWxUC4AoGiiODiXPEKpH0O
+ BN3XMLxTwTIHltPCxmxmg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:dkj18WIfm1Y=;VA9BwajN0DhEHdkjfcMhb1yaIOR
+ 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
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[public-files.de,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[public-files.de:s=s31663417];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53587-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de];
+	TAGGED_FROM(0.00)[bounces-53588-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_ONE(0.00)[1];
+	DKIM_TRACE(0.00)[public-files.de:+];
+	FREEMAIL_FROM(0.00)[public-files.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[146];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jlayton@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Yarny@public-files.de,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A67191AC28B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: DFE5C1AC2A1
 X-Rspamd-Action: no action
 
-Update format strings from %lu/%lx to %llu/%llx and 0UL literal to
-0ULL in pipe, dcache, fserror, and eventpoll, now that i_ino is u64
-instead of unsigned long.
+Dear linux-media,
+dear Patchwork Integration Media CI robot,
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/dcache.c    | 4 ++--
- fs/eventpoll.c | 2 +-
- fs/fserror.c   | 2 +-
- fs/pipe.c      | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+> If you believe that the CI is wrong, kindly open an issue at
+> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-al=
+l
+> to this message.
+Maybe my patch got misclassified?
+The patch is not aimed at the "media-committers" repository,
+but at the dtv-scan-tables repository
+(as is denoted in the email subject
+and in the commit's subject line).
 
-diff --git a/fs/dcache.c b/fs/dcache.c
-index 24f4f3acaa8cffd6f98124eec38c1a92d6c9fd8e..9e8425ecd88955c72027d21591b1d12c87e7e8aa 100644
---- a/fs/dcache.c
-+++ b/fs/dcache.c
-@@ -1637,11 +1637,11 @@ static enum d_walk_ret umount_check(void *_data, struct dentry *dentry)
- 	if (dentry == _data && dentry->d_lockref.count == 1)
- 		return D_WALK_CONTINUE;
- 
--	WARN(1, "BUG: Dentry %p{i=%lx,n=%pd} "
-+	WARN(1, "BUG: Dentry %p{i=%llx,n=%pd} "
- 			" still in use (%d) [unmount of %s %s]\n",
- 		       dentry,
- 		       dentry->d_inode ?
--		       dentry->d_inode->i_ino : 0UL,
-+		       dentry->d_inode->i_ino : 0ULL,
- 		       dentry,
- 		       dentry->d_lockref.count,
- 		       dentry->d_sb->s_type->name,
-diff --git a/fs/eventpoll.c b/fs/eventpoll.c
-index 5714e900567c499739bb205f43bb6bf73f7ebe54..4ccd4d2e31adf571f939d2e777123e40302e565f 100644
---- a/fs/eventpoll.c
-+++ b/fs/eventpoll.c
-@@ -1080,7 +1080,7 @@ static void ep_show_fdinfo(struct seq_file *m, struct file *f)
- 		struct inode *inode = file_inode(epi->ffd.file);
- 
- 		seq_printf(m, "tfd: %8d events: %8x data: %16llx "
--			   " pos:%lli ino:%lx sdev:%x\n",
-+			   " pos:%lli ino:%llx sdev:%x\n",
- 			   epi->ffd.fd, epi->event.events,
- 			   (long long)epi->event.data,
- 			   (long long)epi->ffd.file->f_pos,
-diff --git a/fs/fserror.c b/fs/fserror.c
-index 06ca86adab9b769dfb72ec58b9e51627abee5152..1e4d11fd9562fd158a23b64ca60e9b7e01719cb8 100644
---- a/fs/fserror.c
-+++ b/fs/fserror.c
-@@ -176,7 +176,7 @@ void fserror_report(struct super_block *sb, struct inode *inode,
- lost:
- 	if (inode)
- 		pr_err_ratelimited(
-- "%s: lost file I/O error report for ino %lu type %u pos 0x%llx len 0x%llx error %d",
-+ "%s: lost file I/O error report for ino %llu type %u pos 0x%llx len 0x%llx error %d",
- 		       sb->s_id, inode->i_ino, type, pos, len, error);
- 	else
- 		pr_err_ratelimited(
-diff --git a/fs/pipe.c b/fs/pipe.c
-index b44a756c0b4165edc2801b2290bf35480245d7a6..9841648c9cf3e8e569cf6ba5c792624fe92396f5 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -873,7 +873,7 @@ static struct vfsmount *pipe_mnt __ro_after_init;
-  */
- static char *pipefs_dname(struct dentry *dentry, char *buffer, int buflen)
- {
--	return dynamic_dname(buffer, buflen, "pipe:[%lu]",
-+	return dynamic_dname(buffer, buflen, "pipe:[%llu]",
- 				d_inode(dentry)->i_ino);
- }
- 
+> Check the latest rules for contributing your patches at:
+> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
 
--- 
-2.53.0
+At the time of this writing,
+that page apparently only concerns
+patches for the linux kernel repository.
+
+I have no idea how to rectify this.
+
+Sorry for the inconvenience -- Yarny
+
+
+
+Am Mi 25 Feb 2026 um 18:11:49 schrieb Patchwork Integration:
+> Dear Yarny:
+>=20
+> Thanks for your patches! Unfortunately the Media CI robot has not been
+> able to test them.
+>=20
+> Make sure that the whole series 89c093e9-9b27-44ea-8c1e-a10a2edbd784@pub=
+lic-files.de is
+> available at lore. And that it can be cherry-picked on top the "next"
+> branch of "https://gitlab.freedesktop.org/linux-media/media-committers.g=
+it".
+>=20
+> You can try something like this:
+>      git fetch https://gitlab.freedesktop.org/linux-media/media-committe=
+rs.git next
+>      git checkout FETCH_HEAD
+>      b4 shazam 89c093e9-9b27-44ea-8c1e-a10a2edbd784@public-files.de
+>=20
+> Error message:
+> Trying branch next 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f...
+> Running in OFFLINE mode
+> Analyzing 1 messages in the thread
+> Checking attestation on all messages, may take a moment...
+> ---
+>    [PATCH] Partially revert "dvb-s: add frequencies from, https://en.kin=
+gofsat.net/"
+>      + Link: https://lore.kernel.org/r/89c093e9-9b27-44ea-8c1e-a10a2edbd=
+784@public-files.de
+> ---
+> Total patches: 1
+> ---
+> Applying: Partially revert "dvb-s: add frequencies from https://en.kingo=
+fsat.net/"
+> Patch failed at 0001 Partially revert "dvb-s: add frequencies from https=
+://en.kingofsat.net/"
+> error: dvb-s/Badr-4-26.0E: does not exist in index
+> error: dvb-s/Eutelsat-10A-12.0W: does not exist in index
+> error: dvb-s/Eutelsat-21B-21.6E: does not exist in index
+> error: dvb-s/Eutelsat-36B-50.5E: does not exist in index
+> error: dvb-s/Eutelsat-36D-36.0E: does not exist in index
+> error: dvb-s/Eutelsat-3B-3.0E: does not exist in index
+> error: dvb-s/Eutelsat-8-West-D-8.0W: does not exist in index
+> error: dvb-s/Express-AM-8-14.0W: does not exist in index
+> error: dvb-s/Hot-Bird-13E-16.0W: does not exist in index
+> error: dvb-s/Intelsat-10-02-0.8W: does not exist in index
+> error: dvb-s/Intelsat-35-34.5W: does not exist in index
+> error: dvb-s/Intelsat-38-45.0E: does not exist in index
+> error: dvb-s/Intelsat-902-50.1W: does not exist in index
+> error: dvb-s/Intelsat-905-45.3W: does not exist in index
+> error: dvb-s/Intelsat-906-64.2E: does not exist in index
+> error: dvb-s/Rascom-QAF-1R-3.0E: does not exist in index
+> error: dvb-s/Turksat-3A-42.0E: does not exist in index
+> error: dvb-s/Yamal-402-55.0E: does not exist in index
+> hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
+> hint: When you have resolved this problem, run "git am --continue".
+> hint: If you prefer to skip this patch, run "git am --skip" instead.
+> hint: To restore the original branch and stop patching, run "git am --ab=
+ort".
+> hint: Disable this message with "git config advice.mergeConflict false"
+>=20
+> Trying branch fixes 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f...
+> Running in OFFLINE mode
+> Analyzing 1 messages in the thread
+> Checking attestation on all messages, may take a moment...
+> ---
+>    [PATCH] Partially revert "dvb-s: add frequencies from, https://en.kin=
+gofsat.net/"
+>      + Link: https://lore.kernel.org/r/89c093e9-9b27-44ea-8c1e-a10a2edbd=
+784@public-files.de
+> ---
+> Total patches: 1
+> ---
+> Applying: Partially revert "dvb-s: add frequencies from https://en.kingo=
+fsat.net/"
+> Patch failed at 0001 Partially revert "dvb-s: add frequencies from https=
+://en.kingofsat.net/"
+> error: dvb-s/Badr-4-26.0E: does not exist in index
+> error: dvb-s/Eutelsat-10A-12.0W: does not exist in index
+> error: dvb-s/Eutelsat-21B-21.6E: does not exist in index
+> error: dvb-s/Eutelsat-36B-50.5E: does not exist in index
+> error: dvb-s/Eutelsat-36D-36.0E: does not exist in index
+> error: dvb-s/Eutelsat-3B-3.0E: does not exist in index
+> error: dvb-s/Eutelsat-8-West-D-8.0W: does not exist in index
+> error: dvb-s/Express-AM-8-14.0W: does not exist in index
+> error: dvb-s/Hot-Bird-13E-16.0W: does not exist in index
+> error: dvb-s/Intelsat-10-02-0.8W: does not exist in index
+> error: dvb-s/Intelsat-35-34.5W: does not exist in index
+> error: dvb-s/Intelsat-38-45.0E: does not exist in index
+> error: dvb-s/Intelsat-902-50.1W: does not exist in index
+> error: dvb-s/Intelsat-905-45.3W: does not exist in index
+> error: dvb-s/Intelsat-906-64.2E: does not exist in index
+> error: dvb-s/Rascom-QAF-1R-3.0E: does not exist in index
+> error: dvb-s/Turksat-3A-42.0E: does not exist in index
+> error: dvb-s/Yamal-402-55.0E: does not exist in index
+> hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
+> hint: When you have resolved this problem, run "git am --continue".
+> hint: If you prefer to skip this patch, run "git am --skip" instead.
+> hint: To restore the original branch and stop patching, run "git am --ab=
+ort".
+> hint: Disable this message with "git config advice.mergeConflict false"
+>=20
+>=20
+>=20
+> Best regards, and Happy Hacking!
+> Media CI robot on behalf of the linux-media community.
+>=20
+> ---
+> Check the latest rules for contributing your patches at:
+> https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
+>=20
+> If you believe that the CI is wrong, kindly open an issue at
+> https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-al=
+l
+> to this message.
+>=20
 
 
