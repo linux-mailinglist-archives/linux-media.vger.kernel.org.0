@@ -1,91 +1,90 @@
-Return-Path: <linux-media+bounces-53500-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53499-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mMNPMbxMoGnvhwQAu9opvQ
-	(envelope-from <linux-media+bounces-53500-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:38:04 +0100
+	id YNoODMZNoGnvhwQAu9opvQ
+	(envelope-from <linux-media+bounces-53499-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:42:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693D31A6B5E
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:38:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C3C1A6D25
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:42:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id DF12930162AF
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 13:37:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 54DD330F1EAF
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 13:37:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8914236402D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 303BD363C6B;
 	Thu, 26 Feb 2026 13:37:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xpCw7iH8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OyH7Ovew"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57C13624B3
-	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 13:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8022D7DF5
+	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 13:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772113073; cv=none; b=j/yz2hoX6buysvUHRP6TPPjfoLSe9pJ+3vxFFpM3JD8dY7Q6qAIRwXM0ZpVWRhjv0OCPwZS2ZFVIhM/zg9620N6gf/6dFCbpPidG4QV9Yoew25p8vG1cKbfnZigvdLsNz7aakeCesfRESpMDD2Ty8LbqE8DCnQR7aER4x32r0RI=
+	t=1772113072; cv=none; b=JVY616mnhA5FGQAz59AjGDbFaR1vY0L6ofd80KYCLWW1VDTgy25XmYfD1SGesfnN8Dj/fZLmqNhMwYLB2INE14AyEe8/ZmYigS90zImpP8ZEXuZq5cl2FkjoJgkYyibLPF1fNmb5E/0ulFn8o7zb+BTkIqC2L2NNa7GMdfmMONo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772113073; c=relaxed/simple;
-	bh=uVZokWzHq953H0GusYIaJlV/VbYRRmCBNOpUEf8D4SE=;
+	s=arc-20240116; t=1772113072; c=relaxed/simple;
+	bh=A/bhWHfDkdngtW8OaPIJhSywA09qaFlpNobpdukj5Oc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KdSqJFS+KCFMGHCIzYF3boCUMdmB6w+8/wRJUTWAU9UwNWkgeBeodhn7NgL2kjbAMauJ0gmbVxCWOFSsMYJHmdQqNW3k/U+SwsZgEmxEZnqCSygYuN77DtCeL4zPDxLEAy5Q6YxND1ktYy1PKTer2vKpJBcQUGo+KNITfWoo9y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xpCw7iH8; arc=none smtp.client-ip=209.85.167.51
+	 MIME-Version; b=snHMmpv3Ey8LrNIO7MPtvR3WK9Y+kEGyPl47DVaMjTCs7ogYGdbUakqIpvpS41j+4pQedsaIbrAmSz0PIAwZg2daEycGqDLi2+/2o8CgpxE4IRuZ7xrCX+8Nbti+yfGdS4IzZOZWJh3TB3A6qEwOH+o9MJm6tCcGmiaJom+VFRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OyH7Ovew; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a1026ed646so125226e87.0
-        for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 05:37:50 -0800 (PST)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-389ea1aabcdso346191fa.2
+        for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 05:37:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google; t=1772113069; x=1772717869; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F7VZTGdbssUZIZlNjQZk3y3CDpmiF2dlX+tt9Lg/IqI=;
-        b=xpCw7iH8ibBlw3mkT1OEqQVhnvCD5yeGL+A5ZktLwf/ZdoSmRgIVvTltPVpYQJrA2b
-         LEQWu1Y9dxeDddzVdsmZ7LTKkkgqBka8IMmv2FyK2cwQALleGTrI0O96Pvcy7pVo0XvD
-         yyXezes2jgw0lpK8efTFNfPoKTB1/f+sU9It2gACVj3lThS7jDBjLqdC48K6RvSX4W5S
-         lan8T26RdbIr/CJa8Xy7R2Z1kSmpurY94BehrtDSvppZz70HlUZXF09pCqa43oyW82Pv
-         Sk2u5VCWF9WkBNT2O+9YLc5Km3KPV6z6j20BHN+gG2l9X4TgsYG9BSH0QLoQ/9HNqAi1
-         DLwg==
+        bh=Hu2Gs1IakSmd6hv5BWpHHNs09vmykuhmpHghIky8JY0=;
+        b=OyH7OvewOmdIuBbQygkTgTc7zR3BVDQD9m11Z+elUr1K/a8mm8uLdsYERpqq1Fw0FP
+         tk0nV1KkkYfgT2cCS3N9PwPAMN8CePdUDUz5ALWPLtusbAK0ZnULNIsoxk+ijb7vxk27
+         ok2F0rBHSLUxrwq+ISb9Rza2zf04bCJB2T+aONOtDY/vwssKbafzVcJ4qqy1CrHeaMSL
+         aYfG65nXgjxMFlv4V+LCwo+gibIZ+h9GAa6Mby0kDYoLIQcH38+RfYakCvffBOgk2vcu
+         Fmd6+fU8RUleZQNWue5FNZ+qxPYvYw+Hi5RRbzdwhO6XegM2Iy41Mcnv9fZE9iRXW4lG
+         2ZEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1772113069; x=1772717869;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=F7VZTGdbssUZIZlNjQZk3y3CDpmiF2dlX+tt9Lg/IqI=;
-        b=ESkD7g9qvhrxDxJrIgthhdIFu7qOMASZheuJV9uCoa99ZrXSp+/U6fLEFFq5TnG1Jq
-         VoyuofFmYted0NmIqWtGXohkDC/OiqowDYLP22PiT10m0rMZJYh4j3uqaRcOfuiGYKgk
-         e3yElf2p3eOnihkwaPH/ZkR1LNcWHQqfkvrSR7TxhQYsDj/T5fN+1sAJr1bxaWAZepWh
-         8z9yVdYgDLt8rxdBikZ1Gs8pYJo97AgFFmZTvd3wwtDIEAYG6tXBdPT/lbQH8bJCK5xC
-         7Sz5jifuGoV4+CILgMlyiJUhXdzRbn6ZY2bFrhWjqBhxtI3QOF2R8k/ylyrz/s4yN9ck
-         cnvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVt2EPc6QzSz6WjNSB+TGCLaxPvMBBK7/NFLw+sq6BQKtboQCnj5pJwvC0YBHdm4jy1+zKb9xvQ1pQ0gA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzszJsdaTOn/CPTm7vdO/Ak2mT6Cp+BnFMWZs86afokVr+U/Q8
-	sFfLnKY3YfR/MOhbTh74vnjCKKsIjd1qr1Lyim8mp9xzhGTTbiFsUPlqHMrky6PV8vOaX1TJWEg
-	iH9kXLzQ=
-X-Gm-Gg: ATEYQzyZTkjM12T52QvF9H/i0TVibnX85YDST4FkIRxMeRk6VPsR0iJQ8gQZUfZODxO
-	H5XJiWySYE/QawhYc0t78rRetFNX7UQZ/Yd9HjmmPERYeJHOX0z9IKuoQ2Fcpv/b/nFNgF3QgFd
-	FFiwFgm8piWRrj0FQS9Bib4qHMmRZ0btJjUXZa1AV2AiUsCvG0Fymw5bIdvguaIXprSVt1UPf2s
-	9qSp8iX7z2zq8M6SW/jmu5jEQLVNjC28HLVaGPRNDGKjrzDwjLi5Nro49Bb08XF1WXEdzf1Fvuk
-	4ll7Xi3E8Zs/gNvFuUKi+14JQGrwKbfgmbN5Aqy7i6OQqJ+oSl4ECSyy3/GaJtGjnk3/gk8TcSA
-	jrvA2SNyAunzeT/w1gyFkP+BDI0kqGd7/JrvwcL6uHDLWNtOfgHBPhyfHMc9ciVDC1Ppaayd77l
-	x5DxG5eWlP9MxRcxaI+JRhsSGkLom47mRywvXizPGCHdFjFPyRscfYnymuOAiPl3K+fg==
-X-Received: by 2002:a05:651c:4192:b0:389:fd1a:4413 with SMTP id 38308e7fff4ca-389fd1a4874mr856851fa.6.1772113068575;
-        Thu, 26 Feb 2026 05:37:48 -0800 (PST)
+        bh=Hu2Gs1IakSmd6hv5BWpHHNs09vmykuhmpHghIky8JY0=;
+        b=f37B5nXOZmA/XOlvV9LdZUmYrAKiiTvbq+fZ2n0tFDEu/Cm+Wn01zmLrYo39Ia3Tli
+         Jh7GqvMRKDEW/+tAls46f5wco2Yb09ULfovsI35SCd261O1GS39x4ElB8Z810In4YEWG
+         cJWIAODHnfcLFcbhzXQCC0JqfNok3RUy3J4lz5ElXyFdWE4q7Z+cki0tmnmxbQa8g0Ba
+         SUft0wWWNCWl62WRExhn9xFU8qldHNlkAipI7rsajG0GDEZHXKQ7xlJeqim4/GuEhpHw
+         bi026dGpCfYslP2GBB64UQpa2A5psGvYNS0pNda29wLa3iAxLCBrFoYfKjSf1yDLTZma
+         4Xzw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkhpzukfHDiyY83DMUpIG8bdmV29lI5btn8mwZm79/+6cMnY5h4WJpTqOacXSJO0d1HkoaWtIFkrgeog==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7bBMfmoTA4/ugd8EpZj6mtqxz0a+FdYWLL5Vzq1CnhGRO1AQZ
+	BsR/K0wYrm/mFfzK3yQOjDTrD6Y4HNoaPmMji4dmPfY1EIsHe6YaWI6N86N0CTZNM6w=
+X-Gm-Gg: ATEYQzzFv0k20JE2WVoDcCWV6cDMHnOa1OO5XFRgYYc0PUbpve53zgRWHIV/w2PPlhv
+	XiPmAW8la0GeJFQddrINIhYu8ltTlhX0OEXEgVuRq9YHEy7hF2TsAlz9sHVq0vJHWRsP86YQ7XT
+	tuRJycOOzpbB0xHVGWc8VJI5ThJHTOYU547dZLyLUIPG8o12N31VEZ3CMMDAggOeqFyQvrj6Le+
+	hv2EZZUS5nozAl3chgceGW3ruMwwVM+FMFcxxizcEORh6pzni/HqmE71NDoaKaSoNRkYpCBmhnh
+	HdOclmFbaiiJ3VY2+q1uoUolshk3EqDLzfWjEGc/m7RHIBzu7dd7JPRI/z7lDqR+6NeONEKV4Gj
+	4ovoHM8v4PAJosP9Jr1zAqoYooyZ7pj2i1gkqsQf6VsdQaIYChCKYC8RDcRb12wzq3QdlKI2YAW
+	+8eIzpkZVTij1A7MKX4GKwHQC/GnUH6PBrLJRJn+OItt0kjaeuTuQa01gDj3fN54CU3w==
+X-Received: by 2002:a05:651c:f19:b0:385:c2b1:ea7c with SMTP id 38308e7fff4ca-389a58a4afcmr33246431fa.0.1772113069411;
+        Thu, 26 Feb 2026 05:37:49 -0800 (PST)
 Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f302292bsm6572041fa.45.2026.02.26.05.37.47
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f302292bsm6572041fa.45.2026.02.26.05.37.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 05:37:48 -0800 (PST)
+        Thu, 26 Feb 2026 05:37:49 -0800 (PST)
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@kernel.org>
 Cc: Shawn Tu <shawnx.tu@intel.com>,
 	linux-media@vger.kernel.org
-Subject: [PATCH 3/6] media: i2c: og01a1b: Change I2C interface controls to V4L2 CCI
-Date: Thu, 26 Feb 2026 15:37:36 +0200
-Message-ID: <20260226133739.4050870-4-vladimir.zapolskiy@linaro.org>
+Subject: [PATCH 4/6] media: i2c: og01a1b: Replace .open with .init_state internal ops
+Date: Thu, 26 Feb 2026 15:37:37 +0200
+Message-ID: <20260226133739.4050870-5-vladimir.zapolskiy@linaro.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260226133739.4050870-1-vladimir.zapolskiy@linaro.org>
 References: <20260226133739.4050870-1-vladimir.zapolskiy@linaro.org>
@@ -102,13 +101,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53500-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53499-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MIME_TRACE(0.00)[0:+];
@@ -121,873 +120,58 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[linaro.org:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,linaro.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 693D31A6B5E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim,linaro.org:email]
+X-Rspamd-Queue-Id: C2C3C1A6D25
 X-Rspamd-Action: no action
 
-Switch the sensor driver to utilize V4L2 CCI helper interfaces instead
-of driver specific wrappers over I2C read/write functions.
-
-The conversion change is intended to be non-function, Group Access
-register macros were removed as unused ones.
+Instead of wiping the camera sensor subdevice initial state on every
+open() syscall it would be better to set the initial state just once.
 
 Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 ---
- drivers/media/i2c/Kconfig   |   1 +
- drivers/media/i2c/og01a1b.c | 687 ++++++++++++++++--------------------
- 2 files changed, 305 insertions(+), 383 deletions(-)
+ drivers/media/i2c/og01a1b.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 5eb1e0e0a87a..db0d32bec533 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -355,6 +355,7 @@ config VIDEO_MT9V111
- 
- config VIDEO_OG01A1B
- 	tristate "OmniVision OG01A1B sensor support"
-+	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the OmniVision
- 	  OG01A1B camera.
 diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index ea4c4c7b3d64..1f33a4e427ef 100644
+index 1f33a4e427ef..537218f6fa62 100644
 --- a/drivers/media/i2c/og01a1b.c
 +++ b/drivers/media/i2c/og01a1b.c
-@@ -9,65 +9,54 @@
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
--#include <linux/unaligned.h>
--
-+#include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
- 
--#define OG01A1B_REG_VALUE_08BIT		1
--#define OG01A1B_REG_VALUE_16BIT		2
--#define OG01A1B_REG_VALUE_24BIT		3
--
- #define OG01A1B_LINK_FREQ_500MHZ	500000000ULL
- #define OG01A1B_SCLK			120000000LL
- #define OG01A1B_MCLK			19200000
- #define OG01A1B_DATA_LANES		2
- #define OG01A1B_RGB_DEPTH		10
- 
--#define OG01A1B_REG_CHIP_ID		0x300a
-+#define OG01A1B_REG_CHIP_ID		CCI_REG24(0x300a)
- #define OG01A1B_CHIP_ID			0x470141
- 
--#define OG01A1B_REG_MODE_SELECT		0x0100
-+#define OG01A1B_REG_MODE_SELECT		CCI_REG8(0x0100)
- #define OG01A1B_MODE_STANDBY		0x00
- #define OG01A1B_MODE_STREAMING		0x01
- 
- /* vertical-timings from sensor */
--#define OG01A1B_REG_VTS			0x380e
-+#define OG01A1B_REG_VTS			CCI_REG16(0x380e)
- #define OG01A1B_VTS_120FPS		0x0498
- #define OG01A1B_VTS_120FPS_MIN		0x0498
- #define OG01A1B_VTS_MAX			0x7fff
- 
- /* horizontal-timings from sensor */
--#define OG01A1B_REG_HTS			0x380c
-+#define OG01A1B_REG_HTS			CCI_REG16(0x380c)
- 
- /* Exposure controls from sensor */
--#define OG01A1B_REG_EXPOSURE		0x3501
-+#define OG01A1B_REG_EXPOSURE		CCI_REG16(0x3501)
- #define	OG01A1B_EXPOSURE_MIN		1
- #define OG01A1B_EXPOSURE_MAX_MARGIN	14
- #define	OG01A1B_EXPOSURE_STEP		1
- 
- /* Analog gain controls from sensor */
--#define OG01A1B_REG_ANALOG_GAIN		0x3508
-+#define OG01A1B_REG_ANALOG_GAIN		CCI_REG16(0x3508)
- #define	OG01A1B_ANAL_GAIN_MIN		16
- #define	OG01A1B_ANAL_GAIN_MAX		248 /* Max = 15.5x */
- #define	OG01A1B_ANAL_GAIN_STEP		1
- 
- /* Digital gain controls from sensor */
--#define OG01A1B_REG_DIG_GAIN		0x350a
-+#define OG01A1B_REG_DIG_GAIN		CCI_REG24(0x350a)
- #define OG01A1B_DGTL_GAIN_MIN		1024
- #define OG01A1B_DGTL_GAIN_MAX		16384 /* Max = 16x */
- #define OG01A1B_DGTL_GAIN_STEP		1
- #define OG01A1B_DGTL_GAIN_DEFAULT	1024
- 
--/* Group Access */
--#define OG01A1B_REG_GROUP_ACCESS	0x3208
--#define OG01A1B_GROUP_HOLD_START	0x0
--#define OG01A1B_GROUP_HOLD_END		0x10
--#define OG01A1B_GROUP_HOLD_LAUNCH	0xa0
--
- /* Test Pattern Control */
--#define OG01A1B_REG_TEST_PATTERN	0x5100
-+#define OG01A1B_REG_TEST_PATTERN	CCI_REG8(0x5100)
- #define OG01A1B_TEST_PATTERN_ENABLE	BIT(7)
- #define OG01A1B_TEST_PATTERN_BAR_SHIFT	2
- 
-@@ -77,14 +66,9 @@ enum {
- 	OG01A1B_LINK_FREQ_1000MBPS,
- };
- 
--struct og01a1b_reg {
--	u16 address;
--	u8 val;
--};
--
- struct og01a1b_reg_list {
-+	const struct cci_reg_sequence *regs;
- 	u32 num_of_regs;
--	const struct og01a1b_reg *regs;
- };
- 
- struct og01a1b_link_freq_config {
-@@ -114,275 +98,275 @@ struct og01a1b_mode {
- 	const struct og01a1b_reg_list reg_list;
- };
- 
--static const struct og01a1b_reg mipi_data_rate_1000mbps[] = {
--	{0x0103, 0x01},
--	{0x0303, 0x02},
--	{0x0304, 0x00},
--	{0x0305, 0xd2},
--	{0x0323, 0x02},
--	{0x0324, 0x01},
--	{0x0325, 0x77},
-+static const struct cci_reg_sequence mipi_data_rate_1000mbps[] = {
-+	{ CCI_REG8(0x0103), 0x01 },
-+	{ CCI_REG8(0x0303), 0x02 },
-+	{ CCI_REG8(0x0304), 0x00 },
-+	{ CCI_REG8(0x0305), 0xd2 },
-+	{ CCI_REG8(0x0323), 0x02 },
-+	{ CCI_REG8(0x0324), 0x01 },
-+	{ CCI_REG8(0x0325), 0x77 },
- };
- 
--static const struct og01a1b_reg mode_1280x1024_regs[] = {
--	{0x0300, 0x0a},
--	{0x0301, 0x29},
--	{0x0302, 0x31},
--	{0x0303, 0x02},
--	{0x0304, 0x00},
--	{0x0305, 0xd2},
--	{0x0306, 0x00},
--	{0x0307, 0x01},
--	{0x0308, 0x02},
--	{0x0309, 0x00},
--	{0x0310, 0x00},
--	{0x0311, 0x00},
--	{0x0312, 0x07},
--	{0x0313, 0x00},
--	{0x0314, 0x00},
--	{0x0315, 0x00},
--	{0x0320, 0x02},
--	{0x0321, 0x01},
--	{0x0322, 0x01},
--	{0x0323, 0x02},
--	{0x0324, 0x01},
--	{0x0325, 0x77},
--	{0x0326, 0xce},
--	{0x0327, 0x04},
--	{0x0329, 0x02},
--	{0x032a, 0x04},
--	{0x032b, 0x04},
--	{0x032c, 0x02},
--	{0x032d, 0x01},
--	{0x032e, 0x00},
--	{0x300d, 0x02},
--	{0x300e, 0x04},
--	{0x3021, 0x08},
--	{0x301e, 0x03},
--	{0x3103, 0x00},
--	{0x3106, 0x08},
--	{0x3107, 0x40},
--	{0x3216, 0x01},
--	{0x3217, 0x00},
--	{0x3218, 0xc0},
--	{0x3219, 0x55},
--	{0x3500, 0x00},
--	{0x3501, 0x04},
--	{0x3502, 0x8a},
--	{0x3506, 0x01},
--	{0x3507, 0x72},
--	{0x3508, 0x01},
--	{0x3509, 0x00},
--	{0x350a, 0x01},
--	{0x350b, 0x00},
--	{0x350c, 0x00},
--	{0x3541, 0x00},
--	{0x3542, 0x40},
--	{0x3605, 0xe0},
--	{0x3606, 0x41},
--	{0x3614, 0x20},
--	{0x3620, 0x0b},
--	{0x3630, 0x07},
--	{0x3636, 0xa0},
--	{0x3637, 0xf9},
--	{0x3638, 0x09},
--	{0x3639, 0x38},
--	{0x363f, 0x09},
--	{0x3640, 0x17},
--	{0x3662, 0x04},
--	{0x3665, 0x80},
--	{0x3670, 0x68},
--	{0x3674, 0x00},
--	{0x3677, 0x3f},
--	{0x3679, 0x00},
--	{0x369f, 0x19},
--	{0x36a0, 0x03},
--	{0x36a2, 0x19},
--	{0x36a3, 0x03},
--	{0x370d, 0x66},
--	{0x370f, 0x00},
--	{0x3710, 0x03},
--	{0x3715, 0x03},
--	{0x3716, 0x03},
--	{0x3717, 0x06},
--	{0x3733, 0x00},
--	{0x3778, 0x00},
--	{0x37a8, 0x0f},
--	{0x37a9, 0x01},
--	{0x37aa, 0x07},
--	{0x37bd, 0x1c},
--	{0x37c1, 0x2f},
--	{0x37c3, 0x09},
--	{0x37c8, 0x1d},
--	{0x37ca, 0x30},
--	{0x37df, 0x00},
--	{0x3800, 0x00},
--	{0x3801, 0x00},
--	{0x3802, 0x00},
--	{0x3803, 0x00},
--	{0x3804, 0x05},
--	{0x3805, 0x0f},
--	{0x3806, 0x04},
--	{0x3807, 0x0f},
--	{0x3808, 0x05},
--	{0x3809, 0x00},
--	{0x380a, 0x04},
--	{0x380b, 0x00},
--	{0x380c, 0x03},
--	{0x380d, 0x50},
--	{0x380e, 0x04},
--	{0x380f, 0x98},
--	{0x3810, 0x00},
--	{0x3811, 0x08},
--	{0x3812, 0x00},
--	{0x3813, 0x08},
--	{0x3814, 0x11},
--	{0x3815, 0x11},
--	{0x3820, 0x40},
--	{0x3821, 0x04},
--	{0x3826, 0x00},
--	{0x3827, 0x00},
--	{0x382a, 0x08},
--	{0x382b, 0x52},
--	{0x382d, 0xba},
--	{0x383d, 0x14},
--	{0x384a, 0xa2},
--	{0x3866, 0x0e},
--	{0x3867, 0x07},
--	{0x3884, 0x00},
--	{0x3885, 0x08},
--	{0x3893, 0x68},
--	{0x3894, 0x2a},
--	{0x3898, 0x00},
--	{0x3899, 0x31},
--	{0x389a, 0x04},
--	{0x389b, 0x00},
--	{0x389c, 0x0b},
--	{0x389d, 0xad},
--	{0x389f, 0x08},
--	{0x38a0, 0x00},
--	{0x38a1, 0x00},
--	{0x38a8, 0x70},
--	{0x38ac, 0xea},
--	{0x38b2, 0x00},
--	{0x38b3, 0x08},
--	{0x38bc, 0x20},
--	{0x38c4, 0x0c},
--	{0x38c5, 0x3a},
--	{0x38c7, 0x3a},
--	{0x38e1, 0xc0},
--	{0x38ec, 0x3c},
--	{0x38f0, 0x09},
--	{0x38f1, 0x6f},
--	{0x38fe, 0x3c},
--	{0x391e, 0x00},
--	{0x391f, 0x00},
--	{0x3920, 0xa5},
--	{0x3921, 0x00},
--	{0x3922, 0x00},
--	{0x3923, 0x00},
--	{0x3924, 0x05},
--	{0x3925, 0x00},
--	{0x3926, 0x00},
--	{0x3927, 0x00},
--	{0x3928, 0x1a},
--	{0x3929, 0x01},
--	{0x392a, 0xb4},
--	{0x392b, 0x00},
--	{0x392c, 0x10},
--	{0x392f, 0x40},
--	{0x4000, 0xcf},
--	{0x4003, 0x40},
--	{0x4008, 0x00},
--	{0x4009, 0x07},
--	{0x400a, 0x02},
--	{0x400b, 0x54},
--	{0x400c, 0x00},
--	{0x400d, 0x07},
--	{0x4010, 0xc0},
--	{0x4012, 0x02},
--	{0x4014, 0x04},
--	{0x4015, 0x04},
--	{0x4017, 0x02},
--	{0x4042, 0x01},
--	{0x4306, 0x04},
--	{0x4307, 0x12},
--	{0x4509, 0x00},
--	{0x450b, 0x83},
--	{0x4604, 0x68},
--	{0x4608, 0x0a},
--	{0x4700, 0x06},
--	{0x4800, 0x64},
--	{0x481b, 0x3c},
--	{0x4825, 0x32},
--	{0x4833, 0x18},
--	{0x4837, 0x0f},
--	{0x4850, 0x40},
--	{0x4860, 0x00},
--	{0x4861, 0xec},
--	{0x4864, 0x00},
--	{0x4883, 0x00},
--	{0x4888, 0x90},
--	{0x4889, 0x05},
--	{0x488b, 0x04},
--	{0x4f00, 0x04},
--	{0x4f10, 0x04},
--	{0x4f21, 0x01},
--	{0x4f22, 0x40},
--	{0x4f23, 0x44},
--	{0x4f24, 0x51},
--	{0x4f25, 0x41},
--	{0x5000, 0x1f},
--	{0x500a, 0x00},
--	{0x5100, 0x00},
--	{0x5111, 0x20},
--	{0x3020, 0x20},
--	{0x3613, 0x03},
--	{0x38c9, 0x02},
--	{0x5304, 0x01},
--	{0x3620, 0x08},
--	{0x3639, 0x58},
--	{0x363a, 0x10},
--	{0x3674, 0x04},
--	{0x3780, 0xff},
--	{0x3781, 0xff},
--	{0x3782, 0x00},
--	{0x3783, 0x01},
--	{0x3798, 0xa3},
--	{0x37aa, 0x10},
--	{0x38a8, 0xf0},
--	{0x38c4, 0x09},
--	{0x38c5, 0xb0},
--	{0x38df, 0x80},
--	{0x38ff, 0x05},
--	{0x4010, 0xf1},
--	{0x4011, 0x70},
--	{0x3667, 0x80},
--	{0x4d00, 0x4a},
--	{0x4d01, 0x18},
--	{0x4d02, 0xbb},
--	{0x4d03, 0xde},
--	{0x4d04, 0x93},
--	{0x4d05, 0xff},
--	{0x4d09, 0x0a},
--	{0x37aa, 0x16},
--	{0x3606, 0x42},
--	{0x3605, 0x00},
--	{0x36a2, 0x17},
--	{0x300d, 0x0a},
--	{0x4d00, 0x4d},
--	{0x4d01, 0x95},
--	{0x3d8C, 0x70},
--	{0x3d8d, 0xE9},
--	{0x5300, 0x00},
--	{0x5301, 0x10},
--	{0x5302, 0x00},
--	{0x5303, 0xE3},
--	{0x3d88, 0x00},
--	{0x3d89, 0x10},
--	{0x3d8a, 0x00},
--	{0x3d8b, 0xE3},
--	{0x4f22, 0x00},
-+static const struct cci_reg_sequence mode_1280x1024_regs[] = {
-+	{ CCI_REG8(0x0300), 0x0a },
-+	{ CCI_REG8(0x0301), 0x29 },
-+	{ CCI_REG8(0x0302), 0x31 },
-+	{ CCI_REG8(0x0303), 0x02 },
-+	{ CCI_REG8(0x0304), 0x00 },
-+	{ CCI_REG8(0x0305), 0xd2 },
-+	{ CCI_REG8(0x0306), 0x00 },
-+	{ CCI_REG8(0x0307), 0x01 },
-+	{ CCI_REG8(0x0308), 0x02 },
-+	{ CCI_REG8(0x0309), 0x00 },
-+	{ CCI_REG8(0x0310), 0x00 },
-+	{ CCI_REG8(0x0311), 0x00 },
-+	{ CCI_REG8(0x0312), 0x07 },
-+	{ CCI_REG8(0x0313), 0x00 },
-+	{ CCI_REG8(0x0314), 0x00 },
-+	{ CCI_REG8(0x0315), 0x00 },
-+	{ CCI_REG8(0x0320), 0x02 },
-+	{ CCI_REG8(0x0321), 0x01 },
-+	{ CCI_REG8(0x0322), 0x01 },
-+	{ CCI_REG8(0x0323), 0x02 },
-+	{ CCI_REG8(0x0324), 0x01 },
-+	{ CCI_REG8(0x0325), 0x77 },
-+	{ CCI_REG8(0x0326), 0xce },
-+	{ CCI_REG8(0x0327), 0x04 },
-+	{ CCI_REG8(0x0329), 0x02 },
-+	{ CCI_REG8(0x032a), 0x04 },
-+	{ CCI_REG8(0x032b), 0x04 },
-+	{ CCI_REG8(0x032c), 0x02 },
-+	{ CCI_REG8(0x032d), 0x01 },
-+	{ CCI_REG8(0x032e), 0x00 },
-+	{ CCI_REG8(0x300d), 0x02 },
-+	{ CCI_REG8(0x300e), 0x04 },
-+	{ CCI_REG8(0x3021), 0x08 },
-+	{ CCI_REG8(0x301e), 0x03 },
-+	{ CCI_REG8(0x3103), 0x00 },
-+	{ CCI_REG8(0x3106), 0x08 },
-+	{ CCI_REG8(0x3107), 0x40 },
-+	{ CCI_REG8(0x3216), 0x01 },
-+	{ CCI_REG8(0x3217), 0x00 },
-+	{ CCI_REG8(0x3218), 0xc0 },
-+	{ CCI_REG8(0x3219), 0x55 },
-+	{ CCI_REG8(0x3500), 0x00 },
-+	{ CCI_REG8(0x3501), 0x04 },
-+	{ CCI_REG8(0x3502), 0x8a },
-+	{ CCI_REG8(0x3506), 0x01 },
-+	{ CCI_REG8(0x3507), 0x72 },
-+	{ CCI_REG8(0x3508), 0x01 },
-+	{ CCI_REG8(0x3509), 0x00 },
-+	{ CCI_REG8(0x350a), 0x01 },
-+	{ CCI_REG8(0x350b), 0x00 },
-+	{ CCI_REG8(0x350c), 0x00 },
-+	{ CCI_REG8(0x3541), 0x00 },
-+	{ CCI_REG8(0x3542), 0x40 },
-+	{ CCI_REG8(0x3605), 0xe0 },
-+	{ CCI_REG8(0x3606), 0x41 },
-+	{ CCI_REG8(0x3614), 0x20 },
-+	{ CCI_REG8(0x3620), 0x0b },
-+	{ CCI_REG8(0x3630), 0x07 },
-+	{ CCI_REG8(0x3636), 0xa0 },
-+	{ CCI_REG8(0x3637), 0xf9 },
-+	{ CCI_REG8(0x3638), 0x09 },
-+	{ CCI_REG8(0x3639), 0x38 },
-+	{ CCI_REG8(0x363f), 0x09 },
-+	{ CCI_REG8(0x3640), 0x17 },
-+	{ CCI_REG8(0x3662), 0x04 },
-+	{ CCI_REG8(0x3665), 0x80 },
-+	{ CCI_REG8(0x3670), 0x68 },
-+	{ CCI_REG8(0x3674), 0x00 },
-+	{ CCI_REG8(0x3677), 0x3f },
-+	{ CCI_REG8(0x3679), 0x00 },
-+	{ CCI_REG8(0x369f), 0x19 },
-+	{ CCI_REG8(0x36a0), 0x03 },
-+	{ CCI_REG8(0x36a2), 0x19 },
-+	{ CCI_REG8(0x36a3), 0x03 },
-+	{ CCI_REG8(0x370d), 0x66 },
-+	{ CCI_REG8(0x370f), 0x00 },
-+	{ CCI_REG8(0x3710), 0x03 },
-+	{ CCI_REG8(0x3715), 0x03 },
-+	{ CCI_REG8(0x3716), 0x03 },
-+	{ CCI_REG8(0x3717), 0x06 },
-+	{ CCI_REG8(0x3733), 0x00 },
-+	{ CCI_REG8(0x3778), 0x00 },
-+	{ CCI_REG8(0x37a8), 0x0f },
-+	{ CCI_REG8(0x37a9), 0x01 },
-+	{ CCI_REG8(0x37aa), 0x07 },
-+	{ CCI_REG8(0x37bd), 0x1c },
-+	{ CCI_REG8(0x37c1), 0x2f },
-+	{ CCI_REG8(0x37c3), 0x09 },
-+	{ CCI_REG8(0x37c8), 0x1d },
-+	{ CCI_REG8(0x37ca), 0x30 },
-+	{ CCI_REG8(0x37df), 0x00 },
-+	{ CCI_REG8(0x3800), 0x00 },
-+	{ CCI_REG8(0x3801), 0x00 },
-+	{ CCI_REG8(0x3802), 0x00 },
-+	{ CCI_REG8(0x3803), 0x00 },
-+	{ CCI_REG8(0x3804), 0x05 },
-+	{ CCI_REG8(0x3805), 0x0f },
-+	{ CCI_REG8(0x3806), 0x04 },
-+	{ CCI_REG8(0x3807), 0x0f },
-+	{ CCI_REG8(0x3808), 0x05 },
-+	{ CCI_REG8(0x3809), 0x00 },
-+	{ CCI_REG8(0x380a), 0x04 },
-+	{ CCI_REG8(0x380b), 0x00 },
-+	{ CCI_REG8(0x380c), 0x03 },
-+	{ CCI_REG8(0x380d), 0x50 },
-+	{ CCI_REG8(0x380e), 0x04 },
-+	{ CCI_REG8(0x380f), 0x98 },
-+	{ CCI_REG8(0x3810), 0x00 },
-+	{ CCI_REG8(0x3811), 0x08 },
-+	{ CCI_REG8(0x3812), 0x00 },
-+	{ CCI_REG8(0x3813), 0x08 },
-+	{ CCI_REG8(0x3814), 0x11 },
-+	{ CCI_REG8(0x3815), 0x11 },
-+	{ CCI_REG8(0x3820), 0x40 },
-+	{ CCI_REG8(0x3821), 0x04 },
-+	{ CCI_REG8(0x3826), 0x00 },
-+	{ CCI_REG8(0x3827), 0x00 },
-+	{ CCI_REG8(0x382a), 0x08 },
-+	{ CCI_REG8(0x382b), 0x52 },
-+	{ CCI_REG8(0x382d), 0xba },
-+	{ CCI_REG8(0x383d), 0x14 },
-+	{ CCI_REG8(0x384a), 0xa2 },
-+	{ CCI_REG8(0x3866), 0x0e },
-+	{ CCI_REG8(0x3867), 0x07 },
-+	{ CCI_REG8(0x3884), 0x00 },
-+	{ CCI_REG8(0x3885), 0x08 },
-+	{ CCI_REG8(0x3893), 0x68 },
-+	{ CCI_REG8(0x3894), 0x2a },
-+	{ CCI_REG8(0x3898), 0x00 },
-+	{ CCI_REG8(0x3899), 0x31 },
-+	{ CCI_REG8(0x389a), 0x04 },
-+	{ CCI_REG8(0x389b), 0x00 },
-+	{ CCI_REG8(0x389c), 0x0b },
-+	{ CCI_REG8(0x389d), 0xad },
-+	{ CCI_REG8(0x389f), 0x08 },
-+	{ CCI_REG8(0x38a0), 0x00 },
-+	{ CCI_REG8(0x38a1), 0x00 },
-+	{ CCI_REG8(0x38a8), 0x70 },
-+	{ CCI_REG8(0x38ac), 0xea },
-+	{ CCI_REG8(0x38b2), 0x00 },
-+	{ CCI_REG8(0x38b3), 0x08 },
-+	{ CCI_REG8(0x38bc), 0x20 },
-+	{ CCI_REG8(0x38c4), 0x0c },
-+	{ CCI_REG8(0x38c5), 0x3a },
-+	{ CCI_REG8(0x38c7), 0x3a },
-+	{ CCI_REG8(0x38e1), 0xc0 },
-+	{ CCI_REG8(0x38ec), 0x3c },
-+	{ CCI_REG8(0x38f0), 0x09 },
-+	{ CCI_REG8(0x38f1), 0x6f },
-+	{ CCI_REG8(0x38fe), 0x3c },
-+	{ CCI_REG8(0x391e), 0x00 },
-+	{ CCI_REG8(0x391f), 0x00 },
-+	{ CCI_REG8(0x3920), 0xa5 },
-+	{ CCI_REG8(0x3921), 0x00 },
-+	{ CCI_REG8(0x3922), 0x00 },
-+	{ CCI_REG8(0x3923), 0x00 },
-+	{ CCI_REG8(0x3924), 0x05 },
-+	{ CCI_REG8(0x3925), 0x00 },
-+	{ CCI_REG8(0x3926), 0x00 },
-+	{ CCI_REG8(0x3927), 0x00 },
-+	{ CCI_REG8(0x3928), 0x1a },
-+	{ CCI_REG8(0x3929), 0x01 },
-+	{ CCI_REG8(0x392a), 0xb4 },
-+	{ CCI_REG8(0x392b), 0x00 },
-+	{ CCI_REG8(0x392c), 0x10 },
-+	{ CCI_REG8(0x392f), 0x40 },
-+	{ CCI_REG8(0x4000), 0xcf },
-+	{ CCI_REG8(0x4003), 0x40 },
-+	{ CCI_REG8(0x4008), 0x00 },
-+	{ CCI_REG8(0x4009), 0x07 },
-+	{ CCI_REG8(0x400a), 0x02 },
-+	{ CCI_REG8(0x400b), 0x54 },
-+	{ CCI_REG8(0x400c), 0x00 },
-+	{ CCI_REG8(0x400d), 0x07 },
-+	{ CCI_REG8(0x4010), 0xc0 },
-+	{ CCI_REG8(0x4012), 0x02 },
-+	{ CCI_REG8(0x4014), 0x04 },
-+	{ CCI_REG8(0x4015), 0x04 },
-+	{ CCI_REG8(0x4017), 0x02 },
-+	{ CCI_REG8(0x4042), 0x01 },
-+	{ CCI_REG8(0x4306), 0x04 },
-+	{ CCI_REG8(0x4307), 0x12 },
-+	{ CCI_REG8(0x4509), 0x00 },
-+	{ CCI_REG8(0x450b), 0x83 },
-+	{ CCI_REG8(0x4604), 0x68 },
-+	{ CCI_REG8(0x4608), 0x0a },
-+	{ CCI_REG8(0x4700), 0x06 },
-+	{ CCI_REG8(0x4800), 0x64 },
-+	{ CCI_REG8(0x481b), 0x3c },
-+	{ CCI_REG8(0x4825), 0x32 },
-+	{ CCI_REG8(0x4833), 0x18 },
-+	{ CCI_REG8(0x4837), 0x0f },
-+	{ CCI_REG8(0x4850), 0x40 },
-+	{ CCI_REG8(0x4860), 0x00 },
-+	{ CCI_REG8(0x4861), 0xec },
-+	{ CCI_REG8(0x4864), 0x00 },
-+	{ CCI_REG8(0x4883), 0x00 },
-+	{ CCI_REG8(0x4888), 0x90 },
-+	{ CCI_REG8(0x4889), 0x05 },
-+	{ CCI_REG8(0x488b), 0x04 },
-+	{ CCI_REG8(0x4f00), 0x04 },
-+	{ CCI_REG8(0x4f10), 0x04 },
-+	{ CCI_REG8(0x4f21), 0x01 },
-+	{ CCI_REG8(0x4f22), 0x40 },
-+	{ CCI_REG8(0x4f23), 0x44 },
-+	{ CCI_REG8(0x4f24), 0x51 },
-+	{ CCI_REG8(0x4f25), 0x41 },
-+	{ CCI_REG8(0x5000), 0x1f },
-+	{ CCI_REG8(0x500a), 0x00 },
-+	{ CCI_REG8(0x5100), 0x00 },
-+	{ CCI_REG8(0x5111), 0x20 },
-+	{ CCI_REG8(0x3020), 0x20 },
-+	{ CCI_REG8(0x3613), 0x03 },
-+	{ CCI_REG8(0x38c9), 0x02 },
-+	{ CCI_REG8(0x5304), 0x01 },
-+	{ CCI_REG8(0x3620), 0x08 },
-+	{ CCI_REG8(0x3639), 0x58 },
-+	{ CCI_REG8(0x363a), 0x10 },
-+	{ CCI_REG8(0x3674), 0x04 },
-+	{ CCI_REG8(0x3780), 0xff },
-+	{ CCI_REG8(0x3781), 0xff },
-+	{ CCI_REG8(0x3782), 0x00 },
-+	{ CCI_REG8(0x3783), 0x01 },
-+	{ CCI_REG8(0x3798), 0xa3 },
-+	{ CCI_REG8(0x37aa), 0x10 },
-+	{ CCI_REG8(0x38a8), 0xf0 },
-+	{ CCI_REG8(0x38c4), 0x09 },
-+	{ CCI_REG8(0x38c5), 0xb0 },
-+	{ CCI_REG8(0x38df), 0x80 },
-+	{ CCI_REG8(0x38ff), 0x05 },
-+	{ CCI_REG8(0x4010), 0xf1 },
-+	{ CCI_REG8(0x4011), 0x70 },
-+	{ CCI_REG8(0x3667), 0x80 },
-+	{ CCI_REG8(0x4d00), 0x4a },
-+	{ CCI_REG8(0x4d01), 0x18 },
-+	{ CCI_REG8(0x4d02), 0xbb },
-+	{ CCI_REG8(0x4d03), 0xde },
-+	{ CCI_REG8(0x4d04), 0x93 },
-+	{ CCI_REG8(0x4d05), 0xff },
-+	{ CCI_REG8(0x4d09), 0x0a },
-+	{ CCI_REG8(0x37aa), 0x16 },
-+	{ CCI_REG8(0x3606), 0x42 },
-+	{ CCI_REG8(0x3605), 0x00 },
-+	{ CCI_REG8(0x36a2), 0x17 },
-+	{ CCI_REG8(0x300d), 0x0a },
-+	{ CCI_REG8(0x4d00), 0x4d },
-+	{ CCI_REG8(0x4d01), 0x95 },
-+	{ CCI_REG8(0x3d8c), 0x70 },
-+	{ CCI_REG8(0x3d8d), 0xe9 },
-+	{ CCI_REG8(0x5300), 0x00 },
-+	{ CCI_REG8(0x5301), 0x10 },
-+	{ CCI_REG8(0x5302), 0x00 },
-+	{ CCI_REG8(0x5303), 0xe3 },
-+	{ CCI_REG8(0x3d88), 0x00 },
-+	{ CCI_REG8(0x3d89), 0x10 },
-+	{ CCI_REG8(0x3d8a), 0x00 },
-+	{ CCI_REG8(0x3d8b), 0xe3 },
-+	{ CCI_REG8(0x4f22), 0x00 },
- };
- 
- static const char * const og01a1b_test_pattern_menu[] = {
-@@ -423,6 +407,7 @@ static const struct og01a1b_mode supported_modes[] = {
- 
- struct og01a1b {
- 	struct device *dev;
-+	struct regmap *regmap;
- 	struct clk *xvclk;
- 	struct gpio_desc *reset_gpio;
- 	struct regulator *avdd;
-@@ -462,80 +447,14 @@ static u64 to_pixels_per_line(u32 hts, u32 f_index)
- 	return ppl;
+@@ -746,10 +746,21 @@ static int og01a1b_enum_frame_size(struct v4l2_subdev *sd,
+ 	return 0;
  }
  
--static int og01a1b_read_reg(struct og01a1b *og01a1b, u16 reg, u16 len, u32 *val)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(&og01a1b->sd);
--	struct i2c_msg msgs[2];
--	u8 addr_buf[2];
--	u8 data_buf[4] = {0};
--	int ret;
--
--	if (len > 4)
--		return -EINVAL;
--
--	put_unaligned_be16(reg, addr_buf);
--	msgs[0].addr = client->addr;
--	msgs[0].flags = 0;
--	msgs[0].len = sizeof(addr_buf);
--	msgs[0].buf = addr_buf;
--	msgs[1].addr = client->addr;
--	msgs[1].flags = I2C_M_RD;
--	msgs[1].len = len;
--	msgs[1].buf = &data_buf[4 - len];
--
--	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
--	if (ret != ARRAY_SIZE(msgs))
--		return -EIO;
--
--	*val = get_unaligned_be32(data_buf);
--
--	return 0;
--}
--
--static int og01a1b_write_reg(struct og01a1b *og01a1b, u16 reg, u16 len, u32 val)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(&og01a1b->sd);
--	u8 buf[6];
--
--	if (len > 4)
--		return -EINVAL;
--
--	put_unaligned_be16(reg, buf);
--	put_unaligned_be32(val << 8 * (4 - len), buf + 2);
--	if (i2c_master_send(client, buf, len + 2) != len + 2)
--		return -EIO;
--
--	return 0;
--}
--
--static int og01a1b_write_reg_list(struct og01a1b *og01a1b,
--				  const struct og01a1b_reg_list *r_list)
--{
--	unsigned int i;
--	int ret;
--
--	for (i = 0; i < r_list->num_of_regs; i++) {
--		ret = og01a1b_write_reg(og01a1b, r_list->regs[i].address, 1,
--					r_list->regs[i].val);
--		if (ret) {
--			dev_err_ratelimited(og01a1b->dev,
--					    "failed to write reg 0x%4.4x. error = %d",
--					    r_list->regs[i].address, ret);
--			return ret;
--		}
--	}
--
--	return 0;
--}
--
- static int og01a1b_test_pattern(struct og01a1b *og01a1b, u32 pattern)
+-static int og01a1b_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
++static int og01a1b_init_state(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_state *state)
  {
- 	if (pattern)
- 		pattern = (pattern - 1) << OG01A1B_TEST_PATTERN_BAR_SHIFT |
- 			  OG01A1B_TEST_PATTERN_ENABLE;
- 
--	return og01a1b_write_reg(og01a1b, OG01A1B_REG_TEST_PATTERN,
--				 OG01A1B_REG_VALUE_08BIT, pattern);
-+	return cci_write(og01a1b->regmap, OG01A1B_REG_TEST_PATTERN,
-+			 pattern, NULL);
- }
- 
- static int og01a1b_set_ctrl(struct v4l2_ctrl *ctrl)
-@@ -562,26 +481,23 @@ static int og01a1b_set_ctrl(struct v4l2_ctrl *ctrl)
- 
- 	switch (ctrl->id) {
- 	case V4L2_CID_ANALOGUE_GAIN:
--		ret = og01a1b_write_reg(og01a1b, OG01A1B_REG_ANALOG_GAIN,
--					OG01A1B_REG_VALUE_16BIT,
--					ctrl->val << 4);
-+		ret = cci_write(og01a1b->regmap, OG01A1B_REG_ANALOG_GAIN,
-+				ctrl->val << 4, NULL);
- 		break;
- 
- 	case V4L2_CID_DIGITAL_GAIN:
--		ret = og01a1b_write_reg(og01a1b, OG01A1B_REG_DIG_GAIN,
--					OG01A1B_REG_VALUE_24BIT,
--					ctrl->val << 6);
-+		ret = cci_write(og01a1b->regmap, OG01A1B_REG_DIG_GAIN,
-+				ctrl->val << 6, NULL);
- 		break;
- 
- 	case V4L2_CID_EXPOSURE:
--		ret = og01a1b_write_reg(og01a1b, OG01A1B_REG_EXPOSURE,
--					OG01A1B_REG_VALUE_16BIT, ctrl->val);
-+		ret = cci_write(og01a1b->regmap, OG01A1B_REG_EXPOSURE,
-+				ctrl->val, NULL);
- 		break;
- 
- 	case V4L2_CID_VBLANK:
--		ret = og01a1b_write_reg(og01a1b, OG01A1B_REG_VTS,
--					OG01A1B_REG_VALUE_16BIT,
--					og01a1b->cur_mode->height + ctrl->val);
-+		ret = cci_write(og01a1b->regmap, OG01A1B_REG_VTS,
-+				og01a1b->cur_mode->height + ctrl->val, NULL);
- 		break;
- 
- 	case V4L2_CID_TEST_PATTERN:
-@@ -696,14 +612,16 @@ static int og01a1b_enable_streams(struct v4l2_subdev *sd,
- 		return ret;
- 
- 	reg_list = &link_freq_configs[link_freq_index].reg_list;
--	ret = og01a1b_write_reg_list(og01a1b, reg_list);
-+	ret = cci_multi_reg_write(og01a1b->regmap, reg_list->regs,
-+				  reg_list->num_of_regs, NULL);
- 	if (ret) {
- 		dev_err(og01a1b->dev, "failed to set plls: %d\n", ret);
- 		goto error;
- 	}
- 
- 	reg_list = &og01a1b->cur_mode->reg_list;
--	ret = og01a1b_write_reg_list(og01a1b, reg_list);
-+	ret = cci_multi_reg_write(og01a1b->regmap, reg_list->regs,
-+				  reg_list->num_of_regs, NULL);
- 	if (ret) {
- 		dev_err(og01a1b->dev, "failed to set mode: %d\n", ret);
- 		return ret;
-@@ -713,9 +631,8 @@ static int og01a1b_enable_streams(struct v4l2_subdev *sd,
- 	if (ret)
- 		goto error;
- 
--	ret = og01a1b_write_reg(og01a1b, OG01A1B_REG_MODE_SELECT,
--				OG01A1B_REG_VALUE_08BIT,
--				OG01A1B_MODE_STREAMING);
-+	ret = cci_write(og01a1b->regmap, OG01A1B_REG_MODE_SELECT,
-+			OG01A1B_MODE_STREAMING, NULL);
- 	if (ret) {
- 		dev_err(og01a1b->dev, "failed to start streaming: %d\n", ret);
- 		goto error;
-@@ -736,8 +653,8 @@ static int og01a1b_disable_streams(struct v4l2_subdev *sd,
- 	struct og01a1b *og01a1b = to_og01a1b(sd);
- 	int ret;
- 
--	ret = og01a1b_write_reg(og01a1b, OG01A1B_REG_MODE_SELECT,
--				OG01A1B_REG_VALUE_08BIT, OG01A1B_MODE_STANDBY);
-+	ret = cci_write(og01a1b->regmap, OG01A1B_REG_MODE_SELECT,
-+			OG01A1B_MODE_STANDBY, NULL);
- 	if (ret)
- 		dev_err(og01a1b->dev, "failed to stop streaming: %d\n", ret);
- 
-@@ -866,15 +783,14 @@ static const struct v4l2_subdev_internal_ops og01a1b_internal_ops = {
- static int og01a1b_identify_module(struct og01a1b *og01a1b)
- {
- 	int ret;
--	u32 val;
-+	u64 val;
- 
--	ret = og01a1b_read_reg(og01a1b, OG01A1B_REG_CHIP_ID,
--			       OG01A1B_REG_VALUE_24BIT, &val);
-+	ret = cci_read(og01a1b->regmap, OG01A1B_REG_CHIP_ID, &val, NULL);
- 	if (ret)
- 		return ret;
- 
- 	if (val != OG01A1B_CHIP_ID) {
--		dev_err(og01a1b->dev, "chip id mismatch: %x!=%x",
-+		dev_err(og01a1b->dev, "chip id mismatch: %x!=%llx",
- 			OG01A1B_CHIP_ID, val);
- 		return -ENXIO;
- 	}
-@@ -1042,6 +958,11 @@ static int og01a1b_probe(struct i2c_client *client)
- 
- 	v4l2_i2c_subdev_init(&og01a1b->sd, client, &og01a1b_subdev_ops);
- 
-+	og01a1b->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(og01a1b->regmap))
-+		return dev_err_probe(og01a1b->dev, PTR_ERR(og01a1b->regmap),
-+				     "failed to init CCI\n");
+-	og01a1b_update_pad_format(&supported_modes[0],
+-				  v4l2_subdev_state_get_format(fh->state, 0));
++	struct og01a1b *og01a1b = to_og01a1b(sd);
++	struct v4l2_subdev_format fmt = {
++		.which = V4L2_SUBDEV_FORMAT_TRY,
++		.pad = 0,
++		.format = {
++			.width = og01a1b->cur_mode->width,
++			.height = og01a1b->cur_mode->height,
++			.code = MEDIA_BUS_FMT_Y10_1X10,
++		},
++	};
 +
- 	og01a1b->xvclk = devm_v4l2_sensor_clk_get(og01a1b->dev, NULL);
- 	if (IS_ERR(og01a1b->xvclk))
- 		return dev_err_probe(og01a1b->dev, PTR_ERR(og01a1b->xvclk),
++	og01a1b_set_format(sd, state, &fmt);
+ 
+ 	return 0;
+ }
+@@ -777,7 +788,7 @@ static const struct media_entity_operations og01a1b_subdev_entity_ops = {
+ };
+ 
+ static const struct v4l2_subdev_internal_ops og01a1b_internal_ops = {
+-	.open = og01a1b_open,
++	.init_state = og01a1b_init_state,
+ };
+ 
+ static int og01a1b_identify_module(struct og01a1b *og01a1b)
 -- 
 2.49.0
 
