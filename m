@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-53499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53501-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YNoODMZNoGnvhwQAu9opvQ
-	(envelope-from <linux-media+bounces-53499-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:42:30 +0100
+	id 6CFAM9lNoGnvhwQAu9opvQ
+	(envelope-from <linux-media+bounces-53501-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:42:49 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C3C1A6D25
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:42:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326181A6D3D
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 14:42:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 54DD330F1EAF
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 13:37:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E1F9030F9B48
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 13:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 303BD363C6B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFBF13644C9;
 	Thu, 26 Feb 2026 13:37:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OyH7Ovew"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eRKTVPAV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8022D7DF5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE80311963
 	for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 13:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772113072; cv=none; b=JVY616mnhA5FGQAz59AjGDbFaR1vY0L6ofd80KYCLWW1VDTgy25XmYfD1SGesfnN8Dj/fZLmqNhMwYLB2INE14AyEe8/ZmYigS90zImpP8ZEXuZq5cl2FkjoJgkYyibLPF1fNmb5E/0ulFn8o7zb+BTkIqC2L2NNa7GMdfmMONo=
+	t=1772113073; cv=none; b=gvVzyybBDB7WrzSJcfuBv4BJuRtnDHKD+Q2Q/mH/JCvsQX+zlvsca3nEUXeVZnCDoClipIxcMgnzIdL97ZMWF7Nd9+UPlE8CCMlfOQC4YEuOoqq/R9CVKNJ3B2mLb5IBsuyJl/IzWmxZhjtyasLEkQOjyKqzRNvlMEBALIf3wfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772113072; c=relaxed/simple;
-	bh=A/bhWHfDkdngtW8OaPIJhSywA09qaFlpNobpdukj5Oc=;
+	s=arc-20240116; t=1772113073; c=relaxed/simple;
+	bh=pNWpL/seGBzq8+7qJBazQVESkrMSQ7hddiWcr8IZ/gI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=snHMmpv3Ey8LrNIO7MPtvR3WK9Y+kEGyPl47DVaMjTCs7ogYGdbUakqIpvpS41j+4pQedsaIbrAmSz0PIAwZg2daEycGqDLi2+/2o8CgpxE4IRuZ7xrCX+8Nbti+yfGdS4IzZOZWJh3TB3A6qEwOH+o9MJm6tCcGmiaJom+VFRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OyH7Ovew; arc=none smtp.client-ip=209.85.208.181
+	 MIME-Version; b=C4vDdv/8Q3ZK+ST8Ufg/R8mfX59WKDnyROw9618D3e62UIKzMmiPRAjAspOMMoZ3mOCpcS5upm/gIhJNkGg2+BPLgoCa35B/ogzwpDoYQxF/OEEB7TkDjZealmIiGoe0DaZ8HA45LjcYYST7gCO1cm39mgW67INWb8X+jE2AKHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eRKTVPAV; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-389ea1aabcdso346191fa.2
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-385bb44e1f6so358391fa.0
         for <linux-media@vger.kernel.org>; Thu, 26 Feb 2026 05:37:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772113069; x=1772717869; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1772113070; x=1772717870; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hu2Gs1IakSmd6hv5BWpHHNs09vmykuhmpHghIky8JY0=;
-        b=OyH7OvewOmdIuBbQygkTgTc7zR3BVDQD9m11Z+elUr1K/a8mm8uLdsYERpqq1Fw0FP
-         tk0nV1KkkYfgT2cCS3N9PwPAMN8CePdUDUz5ALWPLtusbAK0ZnULNIsoxk+ijb7vxk27
-         ok2F0rBHSLUxrwq+ISb9Rza2zf04bCJB2T+aONOtDY/vwssKbafzVcJ4qqy1CrHeaMSL
-         aYfG65nXgjxMFlv4V+LCwo+gibIZ+h9GAa6Mby0kDYoLIQcH38+RfYakCvffBOgk2vcu
-         Fmd6+fU8RUleZQNWue5FNZ+qxPYvYw+Hi5RRbzdwhO6XegM2Iy41Mcnv9fZE9iRXW4lG
-         2ZEA==
+        bh=5svD2XU/oLsPty5287a6lAq3vE5cj9mRPI5cS46o5v4=;
+        b=eRKTVPAVTxpsUlDlnsPHxxIXiK+SWd5dF+vc8dEnoB0w/xF7qJcX+jkbHoUgRK4rCf
+         ceD9FawsuNeRRV9bds+Bp02Md6/06Buu4FtnhrpPHLi4jnMUk36CdlU87o0Qitba6OEu
+         cbWY35/k0Qm+Js4iGCxGhDUrunscDsHYgl20chbmX5NhIvuy1sMoluti0X0orbZO3Bgg
+         pmOQuoGFpmekUM+7CbUAYvDUQNeGcexHKZxKDv4+7caK6VGnRphUB8CM3FE2EYz1SMjv
+         Wu66U+Q/rdr2f61ZHP73XiEsgtVUIz4K6Ni/GxXAAGPU1Ct9rE7Y0USSf0j7y00FNlKR
+         61FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772113069; x=1772717869;
+        d=1e100.net; s=20230601; t=1772113070; x=1772717870;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Hu2Gs1IakSmd6hv5BWpHHNs09vmykuhmpHghIky8JY0=;
-        b=f37B5nXOZmA/XOlvV9LdZUmYrAKiiTvbq+fZ2n0tFDEu/Cm+Wn01zmLrYo39Ia3Tli
-         Jh7GqvMRKDEW/+tAls46f5wco2Yb09ULfovsI35SCd261O1GS39x4ElB8Z810In4YEWG
-         cJWIAODHnfcLFcbhzXQCC0JqfNok3RUy3J4lz5ElXyFdWE4q7Z+cki0tmnmxbQa8g0Ba
-         SUft0wWWNCWl62WRExhn9xFU8qldHNlkAipI7rsajG0GDEZHXKQ7xlJeqim4/GuEhpHw
-         bi026dGpCfYslP2GBB64UQpa2A5psGvYNS0pNda29wLa3iAxLCBrFoYfKjSf1yDLTZma
-         4Xzw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkhpzukfHDiyY83DMUpIG8bdmV29lI5btn8mwZm79/+6cMnY5h4WJpTqOacXSJO0d1HkoaWtIFkrgeog==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7bBMfmoTA4/ugd8EpZj6mtqxz0a+FdYWLL5Vzq1CnhGRO1AQZ
-	BsR/K0wYrm/mFfzK3yQOjDTrD6Y4HNoaPmMji4dmPfY1EIsHe6YaWI6N86N0CTZNM6w=
-X-Gm-Gg: ATEYQzzFv0k20JE2WVoDcCWV6cDMHnOa1OO5XFRgYYc0PUbpve53zgRWHIV/w2PPlhv
-	XiPmAW8la0GeJFQddrINIhYu8ltTlhX0OEXEgVuRq9YHEy7hF2TsAlz9sHVq0vJHWRsP86YQ7XT
-	tuRJycOOzpbB0xHVGWc8VJI5ThJHTOYU547dZLyLUIPG8o12N31VEZ3CMMDAggOeqFyQvrj6Le+
-	hv2EZZUS5nozAl3chgceGW3ruMwwVM+FMFcxxizcEORh6pzni/HqmE71NDoaKaSoNRkYpCBmhnh
-	HdOclmFbaiiJ3VY2+q1uoUolshk3EqDLzfWjEGc/m7RHIBzu7dd7JPRI/z7lDqR+6NeONEKV4Gj
-	4ovoHM8v4PAJosP9Jr1zAqoYooyZ7pj2i1gkqsQf6VsdQaIYChCKYC8RDcRb12wzq3QdlKI2YAW
-	+8eIzpkZVTij1A7MKX4GKwHQC/GnUH6PBrLJRJn+OItt0kjaeuTuQa01gDj3fN54CU3w==
-X-Received: by 2002:a05:651c:f19:b0:385:c2b1:ea7c with SMTP id 38308e7fff4ca-389a58a4afcmr33246431fa.0.1772113069411;
-        Thu, 26 Feb 2026 05:37:49 -0800 (PST)
+        bh=5svD2XU/oLsPty5287a6lAq3vE5cj9mRPI5cS46o5v4=;
+        b=HRlZajumM4CU4uT8OidLxIjtQmjHulEuLhNXzvQnpoLoOcMj8aBd/PWzgxTjxJOk6k
+         cPJoRBUwksyYAqM6BaRpgW/W9FbhOwF9fvsi93m+JU1yF9osk/plKdPxlqh6hhMV/7lX
+         F+YtRDopIoYG42/J2YP2GYi9veqfAKTmJGNXzbbCDjJmPJExwv6qJZeeWfBW+4pBDc0n
+         VzKPw8ISt33taSHBfFdRMaJipDuoZnQKHR9Af6MVhVwsIzueYp5T2/DWbaLF89s3KhSm
+         vdQ/H47wfrVCL8EmYFL+CZX81p+XXfEetMkteKtNXtIiy1hxlKd7Sq/9gPOQH0htNX35
+         Iveg==
+X-Forwarded-Encrypted: i=1; AJvYcCVjF/6UT+WsJ5TmaobefuCLQAgu1+h7Dw64SZbWSB83MfJ8oFdYAjGyg4B9r20w5660uAxE20cAeSv2ag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCxiswcKncoohQLqONoVMS5d7mG6IoeWOvRFWYqNK6znDANE2u
+	bpKIjbmRtXKKlUPMuYkTXbMQ7Ay5Pge6WJq+fkJz5fWk0/d84fyIijHkbWgA9GPkVuk=
+X-Gm-Gg: ATEYQzw9LEZA3DVWv253YEb902Goc6yCqj5AbKhrjllawlgS7GdQPKKOn97uTz0ZxED
+	OZ85F/lOp0zADrGho/pZ9GXiy+5k61KxjeFhHIMfj6b/7ZUHxY7YbiyaoRBlD9N7uL2T3m8dYr3
+	Q8bWhLQaczuyDhUSxQN5mBdOiGmCDSvrZQg2Txfo8A8rACrcaxSlCafqQ90NAKK10aTw2/oPa1V
+	/K6gltXAHt66wpwml/sUdolBQhJ8xtCOTlYNyrQ7z+vNf8ZjNH1w494m9QAmWT4aPZDwRPGQ5Ly
+	Ays4ytd7A/JV/U2M68W+KPrxbzlOcI77N1l5LmDXnfx8c88m+wYwUriTeWetWQx4wLTE+HKkY3Q
+	xSI6E/de+dd43I8LIJNWKvr+vCAt8LI+zygcGLd00riRDST2lnG1m8/EhHE1+TeVJEGt7es1Avc
+	hTdQqBpHD3Xe8lQv/h0vJC+Ft3j4y08Bd1AYRUeCQpzSTKhMXV1qq3c6R8o32Zuq2IZw==
+X-Received: by 2002:a2e:a813:0:b0:385:c05a:4814 with SMTP id 38308e7fff4ca-389a5d0fad3mr34910461fa.4.1772113070151;
+        Thu, 26 Feb 2026 05:37:50 -0800 (PST)
 Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f302292bsm6572041fa.45.2026.02.26.05.37.48
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f302292bsm6572041fa.45.2026.02.26.05.37.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 26 Feb 2026 05:37:49 -0800 (PST)
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
@@ -82,9 +82,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>
 Cc: Shawn Tu <shawnx.tu@intel.com>,
 	linux-media@vger.kernel.org
-Subject: [PATCH 4/6] media: i2c: og01a1b: Replace .open with .init_state internal ops
-Date: Thu, 26 Feb 2026 15:37:37 +0200
-Message-ID: <20260226133739.4050870-5-vladimir.zapolskiy@linaro.org>
+Subject: [PATCH 5/6] media: i2c: og01a1b: Use generic v4l2_subdev_get_fmt() to get format
+Date: Thu, 26 Feb 2026 15:37:38 +0200
+Message-ID: <20260226133739.4050870-6-vladimir.zapolskiy@linaro.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260226133739.4050870-1-vladimir.zapolskiy@linaro.org>
 References: <20260226133739.4050870-1-vladimir.zapolskiy@linaro.org>
@@ -107,7 +107,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53499-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53501-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MIME_TRACE(0.00)[0:+];
@@ -122,56 +122,53 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim,linaro.org:email]
-X-Rspamd-Queue-Id: C2C3C1A6D25
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 326181A6D3D
 X-Rspamd-Action: no action
 
-Instead of wiping the camera sensor subdevice initial state on every
-open() syscall it would be better to set the initial state just once.
+The generic v4l2_subdev_get_fmt() helper function can be utilized to
+get the setup device format instead of the custom one.
 
 Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 ---
- drivers/media/i2c/og01a1b.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/media/i2c/og01a1b.c | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
 
 diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index 1f33a4e427ef..537218f6fa62 100644
+index 537218f6fa62..58531ab8f87d 100644
 --- a/drivers/media/i2c/og01a1b.c
 +++ b/drivers/media/i2c/og01a1b.c
-@@ -746,10 +746,21 @@ static int og01a1b_enum_frame_size(struct v4l2_subdev *sd,
+@@ -701,21 +701,6 @@ static int og01a1b_set_format(struct v4l2_subdev *sd,
  	return 0;
  }
  
--static int og01a1b_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+static int og01a1b_init_state(struct v4l2_subdev *sd,
-+			      struct v4l2_subdev_state *state)
- {
--	og01a1b_update_pad_format(&supported_modes[0],
--				  v4l2_subdev_state_get_format(fh->state, 0));
-+	struct og01a1b *og01a1b = to_og01a1b(sd);
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_TRY,
-+		.pad = 0,
-+		.format = {
-+			.width = og01a1b->cur_mode->width,
-+			.height = og01a1b->cur_mode->height,
-+			.code = MEDIA_BUS_FMT_Y10_1X10,
-+		},
-+	};
-+
-+	og01a1b_set_format(sd, state, &fmt);
+-static int og01a1b_get_format(struct v4l2_subdev *sd,
+-			      struct v4l2_subdev_state *sd_state,
+-			      struct v4l2_subdev_format *fmt)
+-{
+-	struct og01a1b *og01a1b = to_og01a1b(sd);
+-
+-	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+-		fmt->format = *v4l2_subdev_state_get_format(sd_state,
+-							    fmt->pad);
+-	else
+-		og01a1b_update_pad_format(og01a1b->cur_mode, &fmt->format);
+-
+-	return 0;
+-}
+-
+ static int og01a1b_enum_mbus_code(struct v4l2_subdev *sd,
+ 				  struct v4l2_subdev_state *sd_state,
+ 				  struct v4l2_subdev_mbus_code_enum *code)
+@@ -771,7 +756,7 @@ static const struct v4l2_subdev_video_ops og01a1b_video_ops = {
  
- 	return 0;
- }
-@@ -777,7 +788,7 @@ static const struct media_entity_operations og01a1b_subdev_entity_ops = {
- };
- 
- static const struct v4l2_subdev_internal_ops og01a1b_internal_ops = {
--	.open = og01a1b_open,
-+	.init_state = og01a1b_init_state,
- };
- 
- static int og01a1b_identify_module(struct og01a1b *og01a1b)
+ static const struct v4l2_subdev_pad_ops og01a1b_pad_ops = {
+ 	.set_fmt = og01a1b_set_format,
+-	.get_fmt = og01a1b_get_format,
++	.get_fmt = v4l2_subdev_get_fmt,
+ 	.enum_mbus_code = og01a1b_enum_mbus_code,
+ 	.enum_frame_size = og01a1b_enum_frame_size,
+ 	.enable_streams = og01a1b_enable_streams,
 -- 
 2.49.0
 
