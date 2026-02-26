@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-53456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53457-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8HRoFN0UoGlAfgQAu9opvQ
-	(envelope-from <linux-media+bounces-53456-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 10:39:41 +0100
+	id 0Ah+JvUVoGlifgQAu9opvQ
+	(envelope-from <linux-media+bounces-53457-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 10:44:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E351A3966
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 10:39:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8E31A3A92
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 10:44:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3EF593021C2A
-	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 09:33:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2DB063038157
+	for <lists+linux-media@lfdr.de>; Thu, 26 Feb 2026 09:35:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BB0E312824;
-	Thu, 26 Feb 2026 09:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03274315D21;
+	Thu, 26 Feb 2026 09:35:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Abx9n8ZQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T6LhgF0a"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB4B279DB6;
-	Thu, 26 Feb 2026 09:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63941313273;
+	Thu, 26 Feb 2026 09:35:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772098428; cv=none; b=Ap4tgVudYh+4ckXjlqWyzAB1fwZjqBA4lJqZ36VJPg5a3ZLKmzdrMHR63kYly0oN6kWOLycJSZooDXKKJ6pgxKaN0GrNdLotZfr+7TKi5zFdNZEuvzGCtexEKlqHSWnzXGcSdWyBGGVodkn4K4p3TpUODZocq/FTi+SdUWkzLOM=
+	t=1772098524; cv=none; b=cXJSyoZEaYdQAkkE91UZ4p0dD+uuBPyB6OZTd+XaBgaW370sJl9bStjotjBpv8mVAC1kXyRWv6OfSb1kAxxjeYGHEeGcYR6LjRAz4qwFIT7qH/oUWYq5ZovhupkDAnGJD2B8ITGb4cK2hlYYTR/Pz9IAIOmt+MteB0mh6hUEnZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772098428; c=relaxed/simple;
-	bh=Y6cs/rp7hP+e8NwajP9M2oJSWxDL43VDkeziMwgVXso=;
+	s=arc-20240116; t=1772098524; c=relaxed/simple;
+	bh=BiyJ81SxScU57jELiaqGgJ1rzy+WfmrqSqukjYcWC0k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jBAMPRWKHgh3jv6mrY0/5uE+Fg42e8we6MgzBHhjXXS8Fei+F5KBs7hvTv+HNufKtEyS8HbMvuWOS8Ep0YVNsAosrGc96VCpxekFMoBESOzkHn6F6BhDMvhq2ishNjSlq9qKwBkaTA3z+U/N8b2qm7/zRbqQlUKJdp1P6T25s9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Abx9n8ZQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0156C19422;
-	Thu, 26 Feb 2026 09:33:44 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=bvoMNAfiuoAZwMZrkgd82Gyv3E8X3yXTR7lIeRRbS+xonC+719XZ/twU7EfDH6CyeqhpgRLi8q2eG7iXa7odXqlw7GlZl0cFZpEYkTWbkK4ClAN0BognV7em6Gv5jUEK5Zfo4XzsS54gtxo6w3fEneBk3wzBhCV4CvAmOC65ftA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T6LhgF0a; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F9CCC19422;
+	Thu, 26 Feb 2026 09:35:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772098428;
-	bh=Y6cs/rp7hP+e8NwajP9M2oJSWxDL43VDkeziMwgVXso=;
+	s=k20201202; t=1772098524;
+	bh=BiyJ81SxScU57jELiaqGgJ1rzy+WfmrqSqukjYcWC0k=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Abx9n8ZQmEz6tbybRVqYp07Ny0pNGXzfPQPXOx4SAwNdodH6u2cgi/Gf37oimZpuK
-	 rzShR+phvOaefKv3KOKIxjeavNrEbgzKGIjlNcKN2juNAa9ZeMAfi060ea8BbHB00n
-	 yI2lOFPn7YWTBRWcbwiXqHu90VEQr1mtKxyWB50J22M7dwMYLKhJaTeTbkSruDs58a
-	 cpPZb9S49L/rzjGEf3sCUuR28c7POgf1Mu4vJkgGOe49CmWs59a7Ek3s63Cqy2PfYl
-	 OpZn8dVNTgOy4hf+WQIZW4FdWpWo7rA6aYAHYfTJ6bPjff0mCjiLAlBqCqlNy7LHEo
-	 X+YxbtFcnnOjQ==
-Message-ID: <4ebe2f26-29fa-4104-bc90-3f5aa7009ec3@kernel.org>
-Date: Thu, 26 Feb 2026 10:33:42 +0100
+	b=T6LhgF0a317V+Zcc/3uhQ+nwwIiAjavtsnUVVjBJMZy/X8VH0VMZzVD1K+yLfw2f8
+	 vkgxy0dLQxqSVSvP0OuoxvXTqT50BnzK6P1RyyQjFqT9gD1jNELJG60AKAOWqqINNW
+	 RJ7Va6bgX4Kqui9UoKOR30OdixaWMsCJiaJKXran6dMHZzf93wZEPHhSuEWdH2TgCm
+	 x03yUh+TCJV4vXaCptlqxdEyr5twTKR3sCof6Vhty7chRmQBSG9HmvpYcGcprPGWnK
+	 mwUXJdM3UxAeJDFoRbvvy7aZb3DFpgkYgWaFian1XgCc2DVfzzfHNDYKTTpHy8RP3W
+	 nL7DU3SOZBXHQ==
+Message-ID: <13f7c3bb-a45a-4351-9852-ef23471a7a06@kernel.org>
+Date: Thu, 26 Feb 2026 10:35:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,8 +53,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 02/18] dt-bindings: media: qcom,x1e80100-camss: Convert
- from inline PHY definitions to PHY handles
+Subject: Re: [PATCH v8 10/18] arm64: dts: qcom: x1e80100: Add MIPI CSI PHY
+ nodes
 To: Bryan O'Donoghue <bod@kernel.org>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: Bjorn Andersson <andersson@kernel.org>,
@@ -69,10 +69,10 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org
 References: <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-0-95517393bcb2@linaro.org>
- <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-2-95517393bcb2@linaro.org>
- <CuJMpimPBtwHGAd5-YHUArL6FkU2HQeY4SjbxeMwf0ToQ7LKO3zWSTn86L-HKxC1KfarWc4rRbZqnCMQsv0pcw==@protonmail.internalid>
- <20260226-fluffy-complex-malamute-7ecec6@quoll>
- <35b1ba2a-e156-4542-b33a-d4e53f6a62cb@kernel.org>
+ <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-10-95517393bcb2@linaro.org>
+ <-aFhVZI_TELwIThx5MiGBdSa_SX57jDQwkx5Ok4Y7OFJnrTll6svcluFDaoV5oXCAAHCn70h4xEApf8mkvZzyQ==@protonmail.internalid>
+ <20260226-shaggy-nyala-from-jupiter-7abe18@quoll>
+ <d28d9110-4b51-4732-8cc2-b389ba068e86@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -118,29 +118,29 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <35b1ba2a-e156-4542-b33a-d4e53f6a62cb@kernel.org>
+In-Reply-To: <d28d9110-4b51-4732-8cc2-b389ba068e86@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53456-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53457-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -148,25 +148,42 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 73E351A3966
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ace4000:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,0.0.0.1:email]
+X-Rspamd-Queue-Id: 3B8E31A3A92
 X-Rspamd-Action: no action
 
-On 26/02/2026 10:27, Bryan O'Donoghue wrote:
-> On 26/02/2026 07:07, Krzysztof Kozlowski wrote:
->> No, it does not allow that. You cannto change the ABI.
+On 26/02/2026 10:30, Bryan O'Donoghue wrote:
+> On 26/02/2026 07:11, Krzysztof Kozlowski wrote:
+>> On Wed, Feb 25, 2026 at 03:11:27PM +0000, Bryan O'Donoghue wrote:
+>>> +
+>>>   	qup_opp_table_100mhz: opp-table-qup100mhz {
+>>>   		compatible = "operating-points-v2";
+>>>
+>>> @@ -5543,6 +5562,102 @@ cci1_i2c1: i2c-bus@1 {
+>>>   			};
+>>>   		};
+>>>
+>>> +		csiphy0: csiphy@ace4000 {
+>>> +			compatible = "qcom,x1e80100-csi2-phy";
 >>
->> That's why I reminded multiple times before reviewing new CAMSS bindings
->> for Milos and something more. Because once it gets accepted, you cannot
->> change it anymore without valid reason. And there is no valid reason
->> here provided. I kept these patches in staging/waiting for long
->> enough...
+>> There is no such compatible documented in the kernel, nor in this
+>> patchset. Either you combine DTS into driver patchset to solve this, or
+>> don't combine DTS at all. DTS cannot go via driver tree.
 > 
-> I thought your policy was - a dtsi had to have it, which we don't yet have.
+> "b4 shazam <change-id>" should work since
+> 
+> Depends-on: 
+> https://lore.kernel.org/r/20260225-x1e-csi2-phy-v2-0-7756edb67ea9@linaro.org
+> 
+> appears in the series cover, I don't know of any good way to add that 
+> type of dependency link into a patch.
 
-And from where did you take that policy? I am pretty sure my each
-comment is about ABI. Heh, I even commented few times about implied ABI
-purely based on kernel, without DTS.
+Standard way how ask every other person to document it. It's even
+repeated in every Rob's bot answer - you have changelog to provide the
+binding.
+
+But you missed the point - combining here the DTS which still relies on
+something else is not helping.
 
 Best regards,
 Krzysztof
