@@ -1,475 +1,212 @@
-Return-Path: <linux-media+bounces-53740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53741-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qF08BDTLoWnbwQQAu9opvQ
-	(envelope-from <linux-media+bounces-53740-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:49:56 +0100
+	id yFPjNwTMoWnbwQQAu9opvQ
+	(envelope-from <linux-media+bounces-53741-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:53:24 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D1A1BB018
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:49:55 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADD51BB0C4
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:53:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AFC4A30DB67D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:47:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 87CBC3087D16
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:49:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FE6A349B03;
-	Fri, 27 Feb 2026 16:47:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 118D5349B15;
+	Fri, 27 Feb 2026 16:49:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="AsZRArcr"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Htr0BPJy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TGo1bR8n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E14346FBC
-	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 16:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772210845; cv=pass; b=OPZcw6FKkcTlumKk7eq1zYR+uWxH4+afqy311Be8fdYJaf/RWlQ36a02JH7j7iyDHWPJCdQa7KQRMDtkSZsukJ8UVjsEd6LaVYye41fx4QUyt7ucCSpcS9YQtMK6BqLI1BS7ArzF5rsNLSiMH1NcZlIpyI0ON9rBi+h+cDT3OSk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772210845; c=relaxed/simple;
-	bh=EtniMrkccfrrFst83snpcJ9FJYzCqUqT1Eux3rWxpmo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sb0qO1hp7U7OqOHvbXuwVP2NlGVcSPjS+Ig6smm4Sx9Np4IV3mlP3DNkX5bjY43q+TNR3+NuDEQoC454bcB82m4XzYxZMRf2iou9RtV0nEPFhdynAA3f0RA62F4yGe5XgK78FYYyXFLmyQpdj3IKxPSGxVGPTgeVOPRcwmmfE9k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=AsZRArcr; arc=pass smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com [74.125.224.69])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 35EEC3FE1A
-	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 16:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1772210832;
-	bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=AsZRArcr+IHOjGSBnonu/oj477dSluZfbYqix5/Y3zCBdoV1+uw6mYYHWwc4sPEzW
-	 HjFcFZE09FnavTkEnrKbxmF0r3YbTQPiFMojDWqkufdWKDMCZW9OPxWmPLHGl8VYyP
-	 aEEDR142r/egN11v+6BUwh9UCjnO7iqcqVKNlvjuimRs6gHHfWgooiT0xYazkycZV9
-	 iGaNpfepDa56QYdI4I7j3O9bAMZ5DH4c2WTlkXndqNrhlLiQOUUvwizjaREzzR+RaW
-	 G6qhyP2mK34/AwEY8BsSjxU/P2yJBLCVcFF0FazsuIIhPpIJJoppDe/KKLv377XKJO
-	 ckRoiSwBJ3h5NMgLM0yT68s2FLDl6gyLkP/lRN3fVuLZu1yxgjda/ENN1odqNnDS9i
-	 cUltWCZdejwVb0iOVt7w8SJ+e7iURRxp5NxrVK346lnXyAMDOroqzltJLwTrKWTFrE
-	 AN4ruGpriTmmvQ9GwGNvr1LpOw6mwnclV+8SKwiXFM2kWGMs7WC4UqqVSYW/5oxS+O
-	 xoiqh6Acy+TYgniHFTAsDU75wpJzuZLSiIVgwW31LUadIpejlNvpg5EcfEaBbQmLVj
-	 NgnJJyPdPSKozzmB9LKkQNdrUwMQftfhfgs3hHlvFhllpGK5m8UgazcxDHxIY0+WhT
-	 Efp718XcrpREHjvzQoHFxdjs=
-Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-64cad8f8d03so4108379d50.1
-        for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 08:47:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772210831; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lvoBlmEfNnZ20mdEqSqyy8C5+/MVDJLJ/wYuaABjJwB1qF/NW8eNrIcPax/17n5eWK
-         aXe/8HsjtsTrDaaMmW+cYeUSBRtGCRBDNuD2JAbKsjjgQzeeH5H/IkD9Od9BnQp0/FSI
-         JYVLRwI97ns/hu+JTQDV86bggXNbAvYNvdR4qaEaPmjOQJs49g8EHSO4URZ2d1D+lssf
-         v6KgtITqUl16sSknyZ+Vw+GWkVcSuHglE14T4yy7C/PGA8X4Qz8ljxQ82EgMGzt3N5/6
-         pjUuy27cy5jpi6ucTrL//aYqcvoCPpd1dTLNpeJV+yIXogWPQ0d3cMEbXG6Qsf/YhRQM
-         5aVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
-        fh=RS3bSNHg9U3Piw+ZJrYHoV70tyqAyNAHxZsKHxlS8Hg=;
-        b=kyhDVrbHFb5yRDIi9W/NEiGAZ4C2zGumLfDGq0jxHTpKlY+SQTOKoiCOeA9h82tGwd
-         ucixpyAH2WRiql/76o3L0FpCFZU+HHzoBziFogBuhofD9W+WjXZxnANjqxs/H4AnL+Qn
-         ImLNjaVJVtC2eC//f8Ux/n49vr7TwDm0un9z/SLotZZ46BOdcVMiGOJbczKH67GDQIk1
-         9Isvf/4C5ZdDc5O0H6tZQQSWWkrywdNHiSgKOoT5KsZJLTuHRH40mwDzn6bJGyupnKjK
-         koab6APZkXFvzkp+qmha9YVKeXBtYoGVYDEU5XcqRAmUYoLeeXw+FZJ3oiRzv0cxuUu8
-         ROhQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF963469FA
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 16:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772210958; cv=none; b=JADFzXMqC9HR0uIJ8fWAVrwABMPPs6FU02hgYuVAy8KLTp78mrSMsYe/PYIZu4FI02MdN/0Rsh95o8VlO9rU+QRZBtZQOB341DK93LU5wQD/nKDKYDKj14iE1uoiSD8UceAKYR83PZeCrVST/xP/ovs1yd0OKvveY4rj+ix5/nY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772210958; c=relaxed/simple;
+	bh=qS+jq1JrvcU5hElzUv5cMkCRMKosDacHXQdATwP+kLA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I1pk8mXcDVjgqHctBPFZcWxafnPuXIPHDZLBazjwnp0pbfnhsy2NfRLCsniUaNW69pImRZjjEk1RNxdgBwkjcObddEIL2FW/NfjmrP/vmLVjzxETkfisSjImYxsNj5vGZSx+ejqO+kLHTQG2mjEO4BjYUkcSx4XeDkuKYXqOZdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Htr0BPJy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TGo1bR8n; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61RGj2MT4171699
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 16:49:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	GF8gzs0Y2ObftuKtilXKIdvF2o6qLBxvxxDd8LVJ5J8=; b=Htr0BPJyfQzNZWnH
+	KGwS/K4b90TqkpIVkjY0WQe6wv7osT/++zLDbJdsOlQu1wgmilzT7eDC5LNmjtBu
+	IlenPEPLjuXuquEQTglM37TkAYLMnDs4mKZWEg8xDM4bioZKTH3GWGBSwnOg7YyT
+	7w/lZ2t6yKpOev3+azKx/xeNjxEfSRHZmAxuUaJlcYXapHUVVbO4FoOs3OAW0APm
+	mUdv8HKkeat8x4wHvfBDsRCDcApnTWrd1OWtuU6Q3zZ/7d9JCyteLxHjzql7M7e2
+	hL5NP0g0Wal1Areu0rTQ9JeiMT0iYJfEBo18krSVBCKFe7r8wdIqrsoOAVXh+Wkx
+	/OmJjg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cjuytus3n-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 16:49:16 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cb3978cdb2so209188885a.1
+        for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 08:49:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772210956; x=1772815756; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GF8gzs0Y2ObftuKtilXKIdvF2o6qLBxvxxDd8LVJ5J8=;
+        b=TGo1bR8nkZjEpQX3qC/4v6YHp6hgIe3cOZ1fQZHMMEHcyId+SA0VE2qOLIspQbVfli
+         MovGjc+Uwxs7gk8a0wuvw9YJKj3JXW5ELsT9rZ4EnGgz8uR8vpwrtZv2DbJV61lOp6K2
+         rui198P2Gs0nBCKm/eDoMwvP5aEiLZHWZYmrTMFoOyBGBBLlb72LFub7UARbWh/BGzx/
+         UXkR7NWtHyhrz8M1XrFg+4b2vtLNs+3NLjFooDFDp4kfpXXMDyhs+mITRVXfQb/fMkQB
+         xpGgt+EIjUjwFzezFFRPoUO+h1oLkV8RQpNEyBCHyrxSQaUmX/JP2fvk66CKDwaR+kyT
+         eWFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772210831; x=1772815631;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
-        b=orCIRUc/rVN4csplDoiMGSCP1qrbNYRvFgkpWxZjJE4/tz0zEDU94w31Ct90fjAOZx
-         ZPDCXGHUywTrlJbqFTOvbGg3i9idSREJEkMzpKLtPh7GDpS4foigQ3vPUgygWBclK+DR
-         vRWDz4lBn5Qv4mdL7NCdw9tYjkV3sX8zvC9K7YflpCXHaa5m+cA8ngx9JZnc3EkBzTbD
-         lwryzzO/Ybsdw50/jsSVWKjrt4dDjQ1ux2zMASmoi+XbXYyGOql4MvDbnssSdchWrPZK
-         VEhmAK4KOF6VVtNbPHu31r9L05k7VCqI4ZxOOT+IDJJaL7qzCrUdmAD0h7WYJ3yFNOzL
-         o+eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKnIgIP6Y730oJDoYC0dAns40w4+gof2JefMUf3+3dpo3prUNXU9xwRzJJowPd1ICJUyN005Z/fCAwpg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKMedRgb6eIlO8mkF7z5Z/0ANY2TKe0Gef3iQnCT5Ko22Dqb5u
-	F+NpNtgXOWOIjOGv9XNo2/a4u3xdoAz0wPmFygJ+OGw/0Nv0FzR3Y98Gar7TRHwNMy/R0XyLkxP
-	+b3boiEurHWt/PdWcz0jA0dvQnp0q/jrdP3NHkeTiRdN7bi9shZET0VKILnhkxUmthyKNJQGld3
-	Fwje4uIVbrYgoDPpZ2//t2I+EHj1guFuqOJnVn6YAoJxg24a7V+wWu+bg=
-X-Gm-Gg: ATEYQzw9Yx2d1E4vC7lawsovDrluk8LP0mfg6iVmS3U3GmUllmrUQzVA2Fke12zwrMp
-	HtyHiUi2egamI97fqFmMzhIK5Q+xKKbtL1RqPSur0EyK7OcwEJrKTMeh7s8qZimXBEyYzBZ8K6W
-	UImzPnDGSVvMn8zjrVXM8vL3RyxTpSxQyV8+6jhz0YtHNvEQYsxWEP8mZdUmVjBBvTGbcfvhocO
-	x7nsgCe0oJcTWBo27IbIySNa6ogQRXK5bRKiAiTOAXwDjnOFr0sxehLFezsgMHaD2A=
-X-Received: by 2002:a53:b743:0:b0:64c:9b84:92ee with SMTP id 956f58d0204a3-64cb6f438a9mr3821177d50.31.1772210830739;
-        Fri, 27 Feb 2026 08:47:10 -0800 (PST)
-X-Received: by 2002:a53:b743:0:b0:64c:9b84:92ee with SMTP id
- 956f58d0204a3-64cb6f438a9mr3821130d50.31.1772210830102; Fri, 27 Feb 2026
- 08:47:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772210956; x=1772815756;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GF8gzs0Y2ObftuKtilXKIdvF2o6qLBxvxxDd8LVJ5J8=;
+        b=qwHNWZkVzkOV0+rkVZFegGTGBX7xhOOa2kXhfveMZ/txK+GecHypPfAbQV+QsWihR/
+         yO5dP5f/tH1OEg3syE5HelaF0QWEs5k05VduTN6pzF3XO6J19/kfO3HpBxl4sLM17anr
+         EmMgOHVTY7S+PoMkjdN227RpRmET5RJw8sqCbgohEWwAbiCpwT1TbitbUcnv2HpjFNBv
+         vdapROjc69zQ5PMaoC7nGkPd+PLQcTUL0JasGNOQXS556Spu4z2WfwuA4d4cVoWeWndB
+         pmhiV7V/uOjxFAlBDK3Ze0mWWqwRNVCWIUCziO4KokV7KwUILSxSBd3a108T5UWC2SeE
+         MM0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVVcJSbFvkqZ/W6oPNa1Rb/5xxZoaAinOT6vQhyB/fs4SvWP/vs6K+PCEEJbJnWD3nurC0q/GG2yKghzA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRfddJrKO7U3hWanA//+wWzXVjYwtgUrUyMmLiukUA9vPPzDJC
+	colITlSqTKiVaf7WeiZKSS6lQbDJ7Qi6Ka5ZpMV0S+Smf8QmanNY3sNifQYSe4q9kfQqbDdpkne
+	qqVtwLmgYv2iNijxeCIit0hHyf48+yj/SDhwHCZSojJ3kGVvafffz8lvdXjNPPevAOA==
+X-Gm-Gg: ATEYQzzEzDUKaV8rs4+LN85sU9krhtrIYGOVFF9XSP+32BDqfFPtXM8ue6p0eGAxODX
+	Z/J1vJSDO67mv3Ue/DDPio9P3ovX9thDvx4hmsDl7XTq8Y2eeAXZ9L5am+/BfE9dZYfHpEL2Ajr
+	tzx/QggJrdzPiVQ+J1FFy33f7UOqRgyXaLU6DDMtwiaGMid/2dNvRa/AjhQts45QEB0HwZanHsi
+	M1jMm3Dx5ujeDDgtZMG7tHqNxnrZaLpNvu17satdDvd8wjMZ/N2i0yEyoeQo+wXmwoBDp7AVMYJ
+	/XweF9FA1MutgCH00MgAU8CYS6jmXF+VjsJTLsd6cAOF4mEBjwwXXui6RbYVaaUsL09Gwp6WbGd
+	/Gq3uLPrdmnHmq926CoGSqqDKgbY6jsonGe5yQ00KTj6fMKSYffQIOaoWPCScT85KgW2DL7S40U
+	ibv0o=
+X-Received: by 2002:a05:620a:25c7:b0:8c7:f61:eff8 with SMTP id af79cd13be357-8cbc8f5a1aamr328588285a.10.1772210955413;
+        Fri, 27 Feb 2026 08:49:15 -0800 (PST)
+X-Received: by 2002:a05:620a:25c7:b0:8c7:f61:eff8 with SMTP id af79cd13be357-8cbc8f5a1aamr328583485a.10.1772210954927;
+        Fri, 27 Feb 2026 08:49:14 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935aec4426sm162355466b.56.2026.02.27.08.49.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 08:49:14 -0800 (PST)
+Message-ID: <6fe3a1a8-46c7-427c-abb5-2e7366a43392@oss.qualcomm.com>
+Date: Fri, 27 Feb 2026 17:49:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org> <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
-In-Reply-To: <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
-From: Ryan Lee <ryan.lee@canonical.com>
-Date: Fri, 27 Feb 2026 08:46:58 -0800
-X-Gm-Features: AaiRm50sr0j0-BwzNnmwGRvH8jyB1wNkHgZo3vdp3K_4YIT1mBOH-BzuS2c5S3A
-Message-ID: <CAKCV-6ujQK3yj8sB2eHafaw4pvrJUeK18Hu4vzvNSjH48RVgYg@mail.gmail.com>
-Subject: Re: [PATCH 51/61] security: update audit format strings for u64 i_ino
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
-	David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
-	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Steve French <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
-	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
-	Christian Schoenebeck <linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
-	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
-	Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>, 
-	Christoph Hellwig <hch@infradead.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse <dwmw2@infradead.org>, 
-	Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
-	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
-	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
-	Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
-	Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
-	John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Martin Schiller <ms@dev.tdt.de>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
-	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
-	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
-	v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
-	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
-	ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
-	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
-	linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
-	linux-x25@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/7] media: iris: switch to hardware mode after
+ firmware boot
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+References: <20260227-kaanapali-iris-v2-0-850043ac3933@oss.qualcomm.com>
+ <20260227-kaanapali-iris-v2-2-850043ac3933@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260227-kaanapali-iris-v2-2-850043ac3933@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=bJIb4f+Z c=1 sm=1 tr=0 ts=69a1cb0c cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=uMIPjMpX8He5E15aO8IA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: JoOgGLCF579lGcOK3tlziGptCpbOUxUX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDE1MCBTYWx0ZWRfX4O762XpRTj+y
+ yeMKG0MiYdZxS0+EmUF0GykKpP7a8LNSY6bsp1lSFgtGysiP500l/ZHDDfpHxzp9G1YjM47mi92
+ jDSKVbOWVE24CAVgyOAR4oYWYk04BB+KKEnvcF1B8OKUzw2amO8T03i0N5A5q85vzPo88ZYmzrP
+ a99YWvNhkRdsCjlNSDVOR8MXFaUT+GZFVRMAxC0SGeSUB4V3BnxvuPJ6/INcvkE2gQUSP5iiw7R
+ PAe5fFY39+4FadtURhzQoCfyTMp/yGaRzaOKkv9rvg+WrbespPL9QxCPMIAgsIPVrnj46OFAyEr
+ ibeBWzGhr2hqX0/T7/D8vmSEGeLPrfYCBo0cB4V5wzCPnxOBvO2SpsTQmQJbWMCrbLDfmpIOPch
+ 9tjHJf4wgSiH2K1sPIHFpB6bXarZ9vQAilAIer0KZjgG5mGQIcLwbkYQ6KcmQniomvJK8Qw3/qI
+ Kjsll3bSoG9wlRsyiNg==
+X-Proofpoint-GUID: JoOgGLCF579lGcOK3tlziGptCpbOUxUX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-27_03,2026-02-27_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
+ adultscore=0 phishscore=0 suspectscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602270150
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[canonical.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[canonical.com:s=20251003];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53740-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[canonical.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ryan.lee@canonical.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-53741-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[146];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[canonical.com:email,canonical.com:dkim,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 65D1A1BB018
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 4ADD51BB0C4
 X-Rspamd-Action: no action
 
-On Thu, Feb 26, 2026 at 9:13=E2=80=AFAM Jeff Layton <jlayton@kernel.org> wr=
-ote:
->
-> Update %lu/%ld to %llu/%lld in security audit logging functions that
-> print inode->i_ino, since i_ino is now u64.
->
-> Files updated: apparmor/apparmorfs.c, integrity/integrity_audit.c,
-> ipe/audit.c, lsm_audit.c.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  security/apparmor/apparmorfs.c       |  4 ++--
->  security/integrity/integrity_audit.c |  2 +-
->  security/ipe/audit.c                 |  2 +-
->  security/lsm_audit.c                 | 10 +++++-----
->  security/selinux/hooks.c             |  4 ++--
->  security/smack/smack_lsm.c           | 12 ++++++------
->  6 files changed, 17 insertions(+), 17 deletions(-)
->
-> diff --git a/security/apparmor/apparmorfs.c b/security/apparmor/apparmorf=
-s.c
-> index 2f84bd23edb69e7e69cb097e554091df0132816d..7b645f40e71c956f216fa6a7d=
-69c3ecd4e2a5ff4 100644
-> --- a/security/apparmor/apparmorfs.c
-> +++ b/security/apparmor/apparmorfs.c
-> @@ -149,7 +149,7 @@ static int aafs_count;
->
->  static int aafs_show_path(struct seq_file *seq, struct dentry *dentry)
->  {
-> -       seq_printf(seq, "%s:[%lu]", AAFS_NAME, d_inode(dentry)->i_ino);
-> +       seq_printf(seq, "%s:[%llu]", AAFS_NAME, d_inode(dentry)->i_ino);
->         return 0;
->  }
->
-> @@ -2644,7 +2644,7 @@ static int policy_readlink(struct dentry *dentry, c=
-har __user *buffer,
->         char name[32];
+On 2/27/26 3:11 PM, Vikash Garodia wrote:
+> Currently the driver switches the vcodec GDSC to hardware (HW) mode
+> before firmware load and boot sequence. GDSC can be powered off, keeping
+> in hw mode, thereby the vcodec registers programmed in TrustZone (TZ)
+> carry default (reset) values.
+> Move the transition to HW mode after firmware load and boot sequence.
+> 
+> The bug was exposed with driver configuring different stream ids to
+> different devices via iommu-map. With registers carrying reset values,
+> VPU would not generate desired stream-id, thereby leading to SMMU fault.
+> 
+> For vpu4, when GDSC is switched to HW mode, there is a need to perform
+> the reset operation. Without reset, there are occassional issues of
+> register corruption observed. Hence the vpu GDSC switch also involves
+> the reset.
 
-I have confirmed that the buffer is still big enough for a 64-bit inode num=
-ber.
+Is that a characteristic of the hardware (e.g. also seen downstream), or
+is that required with upstream iris only?
 
->         int res;
->
-> -       res =3D snprintf(name, sizeof(name), "%s:[%lu]", AAFS_NAME,
-> +       res =3D snprintf(name, sizeof(name), "%s:[%llu]", AAFS_NAME,
->                        d_inode(dentry)->i_ino);
->         if (res > 0 && res < sizeof(name))
->                 res =3D readlink_copy(buffer, buflen, name, strlen(name))=
-;
-
-For the AppArmor portion:
-
-Reviewed-By: Ryan Lee <ryan.lee@canonical.com>
-
-> diff --git a/security/integrity/integrity_audit.c b/security/integrity/in=
-tegrity_audit.c
-> index 0ec5e4c22cb2a1066c2b897776ead6d3db72635c..d8d9e5ff1cd22b091f462d1e8=
-3d28d2d6bd983e9 100644
-> --- a/security/integrity/integrity_audit.c
-> +++ b/security/integrity/integrity_audit.c
-> @@ -62,7 +62,7 @@ void integrity_audit_message(int audit_msgno, struct in=
-ode *inode,
->         if (inode) {
->                 audit_log_format(ab, " dev=3D");
->                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> -               audit_log_format(ab, " ino=3D%lu", inode->i_ino);
-> +               audit_log_format(ab, " ino=3D%llu", inode->i_ino);
->         }
->         audit_log_format(ab, " res=3D%d errno=3D%d", !result, errno);
->         audit_log_end(ab);
-> diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-> index 3f0deeb54912730d9acf5e021a4a0cb29a34e982..93fb59fbddd60b56c0b22be2a=
-38b809ef9e18b76 100644
-> --- a/security/ipe/audit.c
-> +++ b/security/ipe/audit.c
-> @@ -153,7 +153,7 @@ void ipe_audit_match(const struct ipe_eval_ctx *const=
- ctx,
->                 if (inode) {
->                         audit_log_format(ab, " dev=3D");
->                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
-> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
-;
->                 } else {
->                         audit_log_format(ab, " dev=3D? ino=3D?");
->                 }
-> diff --git a/security/lsm_audit.c b/security/lsm_audit.c
-> index 7d623b00495c14b079e10e963c21a9f949c11f07..737f5a263a8f79416133315ed=
-f363ece3d79c722 100644
-> --- a/security/lsm_audit.c
-> +++ b/security/lsm_audit.c
-> @@ -202,7 +202,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
->                 if (inode) {
->                         audit_log_format(ab, " dev=3D");
->                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
-> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
-;
->                 }
->                 break;
->         }
-> @@ -215,7 +215,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
->                 if (inode) {
->                         audit_log_format(ab, " dev=3D");
->                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
-> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
-;
->                 }
->                 break;
->         }
-> @@ -228,7 +228,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
->                 if (inode) {
->                         audit_log_format(ab, " dev=3D");
->                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
-> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
-;
->                 }
->
->                 audit_log_format(ab, " ioctlcmd=3D0x%hx", a->u.op->cmd);
-> @@ -246,7 +246,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
->                 if (inode) {
->                         audit_log_format(ab, " dev=3D");
->                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
-> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
-;
->                 }
->                 break;
->         }
-> @@ -265,7 +265,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
->                 }
->                 audit_log_format(ab, " dev=3D");
->                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
-> -               audit_log_format(ab, " ino=3D%lu", inode->i_ino);
-> +               audit_log_format(ab, " ino=3D%llu", inode->i_ino);
->                 rcu_read_unlock();
->                 break;
->         }
-> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-> index d8224ea113d1ac273aac1fb52324f00b3301ae75..150ea86ebc1f7c7f8391af410=
-9a3da82b12d00d2 100644
-> --- a/security/selinux/hooks.c
-> +++ b/security/selinux/hooks.c
-> @@ -1400,7 +1400,7 @@ static int inode_doinit_use_xattr(struct inode *ino=
-de, struct dentry *dentry,
->         if (rc < 0) {
->                 kfree(context);
->                 if (rc !=3D -ENODATA) {
-> -                       pr_warn("SELinux: %s:  getxattr returned %d for d=
-ev=3D%s ino=3D%ld\n",
-> +                       pr_warn("SELinux: %s:  getxattr returned %d for d=
-ev=3D%s ino=3D%lld\n",
->                                 __func__, -rc, inode->i_sb->s_id, inode->=
-i_ino);
->                         return rc;
->                 }
-> @@ -3477,7 +3477,7 @@ static void selinux_inode_post_setxattr(struct dent=
-ry *dentry, const char *name,
->                                            &newsid);
->         if (rc) {
->                 pr_err("SELinux:  unable to map context to SID"
-> -                      "for (%s, %lu), rc=3D%d\n",
-> +                      "for (%s, %llu), rc=3D%d\n",
->                        inode->i_sb->s_id, inode->i_ino, -rc);
->                 return;
->         }
-> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-> index 98af9d7b943469d0ddd344fc78c0b87ca40c16c4..7e2f54c17a5d5c70740bbfa92=
-ba4d4f1aca2cf22 100644
-> --- a/security/smack/smack_lsm.c
-> +++ b/security/smack/smack_lsm.c
-> @@ -182,7 +182,7 @@ static int smk_bu_inode(struct inode *inode, int mode=
-, int rc)
->         char acc[SMK_NUM_ACCESS_TYPE + 1];
->
->         if (isp->smk_flags & SMK_INODE_IMPURE)
-> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
-\n",
-> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
-s\n",
->                         inode->i_sb->s_id, inode->i_ino, current->comm);
->
->         if (rc <=3D 0)
-> @@ -195,7 +195,7 @@ static int smk_bu_inode(struct inode *inode, int mode=
-, int rc)
->
->         smk_bu_mode(mode, acc);
->
-> -       pr_info("Smack %s: (%s %s %s) inode=3D(%s %ld) %s\n", smk_bu_mess=
-[rc],
-> +       pr_info("Smack %s: (%s %s %s) inode=3D(%s %lld) %s\n", smk_bu_mes=
-s[rc],
->                 tsp->smk_task->smk_known, isp->smk_inode->smk_known, acc,
->                 inode->i_sb->s_id, inode->i_ino, current->comm);
->         return 0;
-> @@ -214,7 +214,7 @@ static int smk_bu_file(struct file *file, int mode, i=
-nt rc)
->         char acc[SMK_NUM_ACCESS_TYPE + 1];
->
->         if (isp->smk_flags & SMK_INODE_IMPURE)
-> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
-\n",
-> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
-s\n",
->                         inode->i_sb->s_id, inode->i_ino, current->comm);
->
->         if (rc <=3D 0)
-> @@ -223,7 +223,7 @@ static int smk_bu_file(struct file *file, int mode, i=
-nt rc)
->                 rc =3D 0;
->
->         smk_bu_mode(mode, acc);
-> -       pr_info("Smack %s: (%s %s %s) file=3D(%s %ld %pD) %s\n", smk_bu_m=
-ess[rc],
-> +       pr_info("Smack %s: (%s %s %s) file=3D(%s %lld %pD) %s\n", smk_bu_=
-mess[rc],
->                 sskp->smk_known, smk_of_inode(inode)->smk_known, acc,
->                 inode->i_sb->s_id, inode->i_ino, file,
->                 current->comm);
-> @@ -244,7 +244,7 @@ static int smk_bu_credfile(const struct cred *cred, s=
-truct file *file,
->         char acc[SMK_NUM_ACCESS_TYPE + 1];
->
->         if (isp->smk_flags & SMK_INODE_IMPURE)
-> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
-\n",
-> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
-s\n",
->                         inode->i_sb->s_id, inode->i_ino, current->comm);
->
->         if (rc <=3D 0)
-> @@ -253,7 +253,7 @@ static int smk_bu_credfile(const struct cred *cred, s=
-truct file *file,
->                 rc =3D 0;
->
->         smk_bu_mode(mode, acc);
-> -       pr_info("Smack %s: (%s %s %s) file=3D(%s %ld %pD) %s\n", smk_bu_m=
-ess[rc],
-> +       pr_info("Smack %s: (%s %s %s) file=3D(%s %lld %pD) %s\n", smk_bu_=
-mess[rc],
->                 sskp->smk_known, smk_of_inode(inode)->smk_known, acc,
->                 inode->i_sb->s_id, inode->i_ino, file,
->                 current->comm);
->
-> --
-> 2.53.0
->
->
+Konrad
 
