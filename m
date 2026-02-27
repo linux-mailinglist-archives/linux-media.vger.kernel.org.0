@@ -1,261 +1,161 @@
-Return-Path: <linux-media+bounces-53687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53688-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UDHsN4ZtoWm6swQAu9opvQ
-	(envelope-from <linux-media+bounces-53687-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 11:10:14 +0100
+	id OD+GJcJ1oWkPtQQAu9opvQ
+	(envelope-from <linux-media+bounces-53688-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 11:45:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A471B5D5F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 11:10:14 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id B52941B624A
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 11:45:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B74F53099520
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:09:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6EA7B3050E69
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:45:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E65DB3D3D18;
-	Fri, 27 Feb 2026 10:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA0393E9F9C;
+	Fri, 27 Feb 2026 10:45:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="knsPf/M7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zhw5zAn0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011030.outbound.protection.outlook.com [52.101.62.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7FA36EAAD;
-	Fri, 27 Feb 2026 10:09:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772186984; cv=fail; b=bW5IhdJtEjqJWH30mq+iKs2NDxoxEo7QdUdZly6XXtYKCdk9P38Hrwn9KYbBlQMOMbHgbeGelPDyjvP9YOR1cJC0rNZvc/8HaVf8E8d5GqVKB5hsYKDIdFnd9i62PeKvxF1twAOtnM/sMVD9U4F4zOdfdCkB0AOFPIWuQ7fMyaI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772186984; c=relaxed/simple;
-	bh=Q9xZru2UJi1weGWQ2tGaRmvviMVwfBOU2uq6tDuGlBE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ETdQY/yGw+U2r9zL+X2OeT3YlMfXT9ZIQCIDiKRmBPAeycOQqedNp+G0FPibZmEzz5OVI/uFM17ggDt+aVgFHtFB110ZTDn5r+UDQ4tMU9Wxa32F7HsMwANOZod6fEVR4cHN/tcfuUIpYZOA/L1I/JNK+qp8e4dThS67Q95/HBc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=knsPf/M7; arc=fail smtp.client-ip=52.101.62.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HcbZMuxvShHE0YtGWiU6xNKM0gy64xXFEh+FWf20Ty+21JKkqpZwnErhC6rzohkHwmL8JwgDYjkgKQ43VK2EqtYt/VSSxHTuADpnFqy6Hkj7eG3Z40CisOWS+o2vq8AqMjYdgW8NezqjQ4gVzlBLfL854RQVLRBIBBvqlkIjti1lKubUYiajSxkRjKd5ng0UAaHKAjxEra9teMew4yGHpKNEVf7bN5pd0gAIwS6J1jFo2BxVe0s0rAmLOlGXoFVDRcCUUCQUTexgaHbqjWPuUUjTAx7TBSJUhqU2f7wVrrY6c3dpy58h9K8j62YU1c+mF8HkNkA0J8jKPESJh0xnNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XO0nk2qeix7x9SiH3FMMtxKxqLkx562bztrsPlIU84U=;
- b=txh3hWUqp73IgHWIS2yxY0ze5tDdpC9hao18yQKV0Sqo6vZeAAsUqkrshKUJK9IGbd532o0U5BXvoBzLz9Evk8BNPhMBTz8FX2SHtJeg4urwlCT475lHn1/NU0cLb6IdbBbSqvXfFlQat1ZkkT+XhXYfL4EHhQOY7u36DbC91O3gCOx9KXPxa9ChrMP9BEzsPAt5INd1RxT1/GNPfGuJdPEVxyCYe0xXfpEWEdfzDuXIJgGbtYr8AS47EzqSk+yDGJ8MFzpW3PwdSFjAJRd+IyjpULcTAEZnAPyulZbxo1O9469L4rrqLySO4X2LXeD3zcNeb/xCY/L0q9yQs8b4/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XO0nk2qeix7x9SiH3FMMtxKxqLkx562bztrsPlIU84U=;
- b=knsPf/M7HB8e4kEnusNtRA/aPyUUKSQIZaEHqVksPpjNKJRaqPc+1YIs99gXvABbkQMygy66ukNgivLfheDTANugIxisFxGN3sEnrJYXo5eOIp/4mMF0UzkmJDfxDbyBUeeyxsEJLHh8FkEFOz4jkZrdCzy9YztWd9LxY9X9Yng=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB5628.namprd12.prod.outlook.com (2603:10b6:303:185::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 27 Feb
- 2026 10:09:40 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Fri, 27 Feb 2026
- 10:09:40 +0000
-Message-ID: <90bd4185-1e87-4393-b9e1-1318a656a7d9@amd.com>
-Date: Fri, 27 Feb 2026 11:09:31 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/7] vfio/pci: Support mmap() of a DMABUF
-To: Matt Evans <mattev@meta.com>, Alex Williamson <alex@shazbot.org>,
- Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Alex Mastro <amastro@fb.com>, Mahmoud Adam <mngyadam@amazon.de>,
- David Matlack <dmatlack@google.com>
-Cc: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Pranjal Shrivastava <praan@google.com>,
- Alistair Popple <apopple@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org
-References: <20260226202211.929005-1-mattev@meta.com>
- <20260226202211.929005-4-mattev@meta.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260226202211.929005-4-mattev@meta.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0088.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:ff::21) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B6D3C198F;
+	Fri, 27 Feb 2026 10:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772189106; cv=none; b=rbnpZt6xOzYuCVueeS8FDKwEnsQDFIMfyyjoLoWzB6Dc48x8Y6dOgqJpvmpMb92OrR/HzmzV3bekkuSqZY4FE5B6cqR76tasv0SwiWctIDsRKzwj7kGrympV4oDJGqhIhCrEBRCwJyKdY6wFNp+cwSlTtrWFel7h4GvW/6Fwia8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772189106; c=relaxed/simple;
+	bh=xt6m21T316YRs2MqjpM0+Vlxf7fBnTeYJucPWPyF2y8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GekaGl8gKHeartcDh9dbmoE2URXX9qlRUhfew2e1XwRF4ZIpY5N2mocV9EcL/RQ2gLKbfl7isphf2W1tSKAan0Sdm7gPzQm8o4JrvXIQONR1QzvJmUq11g/oAzWpNQ4EcGtG6hZw7yGhSxK5oAtWn8WfIAZ1x5Z8NSS79JXXxcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zhw5zAn0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34864C116C6;
+	Fri, 27 Feb 2026 10:45:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772189105;
+	bh=xt6m21T316YRs2MqjpM0+Vlxf7fBnTeYJucPWPyF2y8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zhw5zAn0HKwQEoqL1ZQN3doeLB+2Bp8zaBcnJEmXgL4yZL974df66p+9+Nmn+JMSh
+	 USW2fOjXMg/Xn6AGFLo6bHhsKzGGJ0ItGvWlIopVpCP4bRRo19bhUET9aE56GTc+Oy
+	 ZpkH6SkogdLShZHZCuooSqASIPk6TzrwcHPCYzjaE3ijGVUJSFw2ykL5VoDEzuxG1D
+	 puMnxG/UG2RXWOK4ijkn09BNQBl55jAT8ewNb92p1FBqZStlalJYqW60r7/QWV99e9
+	 rqLKl2zk/gQU7cmMDT/nZVt5wZUwOuNBBiNspGSrrWKH6k3heRDyRnIxBXHBqLZ7Xi
+	 JZavIov09nQQg==
+Date: Fri, 27 Feb 2026 11:45:03 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Matthias Fend <matthias.fend@emfend.at>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jimmy Su <jimmy.su@intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bsp-development.geo@leica-geosystems.com
+Subject: Re: [PATCH 1/8] dt-bindings: media: i2c: document Omnivision OV08D10
+ CMOS image sensor
+Message-ID: <20260227-imported-benevolent-stingray-e97dfd@quoll>
+References: <20260226-ov08d10-v1-0-c3a916368123@emfend.at>
+ <20260226-ov08d10-v1-1-c3a916368123@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB5628:EE_
-X-MS-Office365-Filtering-Correlation-Id: 446a5cca-dc2e-4a7c-9bb1-08de75e851ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	Pg2vvtpoSMgH75bcls5Ds5PYUN1PoewR2NHOEQsmijnyI4lxJ/AAj8+oIcnv5iQS1EjydP+SbZYwHtQu3MAmdZF83vAUStb1W7Nf69SAa8wLzrsHJ+WfxUQj5g6Jr9Uy5CHOUuduwsxGMQAc9vIY0TRWuKatodxNa3TWi9/mZbAOeQalOOhDV+8rtaZh3TNM/KxtKsE/GWQ3Wj04sgOgIC/lpeIr2771pAvg2l4UffmgOpW/wWyVd3LlgbG+oUHQjiAyXtxBpCIe0Ekm1310UlONJ5Z+zNt26yD5pMWkOq147Qv9n/vdeP4iBGdT/28BA3Aml2TMPCDscD4fRNqkXwXnQFxQ6CQ403Io8DkD5On2tlhP7nUKVHY20Y3KMvHmz9m04Z35EKOZKFXw7di8zL8U8YFW1EPjXxrmad8+FEkqt3F8CU6CCNgalLl+w4FnZF91b8unaKwc1zwnod/+1xes6VWfo9dFRAy+rt0Z0OI3oFgvISlT9ns0uUTTLuhBbIoSRu4vh2T/tpOSFUMKn+WqADFVUIY82KmkKa32zPf7oCc0S4byRLkY7u7kelKW9n/87Udb5fsEkzgkNlFI2yP/BIvAjq+ebCsKqJpE5KVLzqb6pTLFMn/4xWm2M8rzNq4uIYse2VE6YKctsFs2HHog851dXvwwYaXMqTaH1H2HRJlKHJrGkS8PFjc8P34NYd4AJxZUKmABnmRKAzodC3sMTKY9HSXJZFgv6OjB0p4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WGgvWTIreE9aOEp5NW5KV3FwaTZxL1MvRDhrTFhkVUJBUnVRREQySEVIUWVs?=
- =?utf-8?B?RzZ5TXVsaUtUZEpMT1hQanVPTUJuMVVFUzdaT1NJV0VLUS9Wa09kVEw3QUY5?=
- =?utf-8?B?aWEybDlNZHQ4Uk1GeFBzWTdiOUVkRGdzTnBxSmIvamt5TWlmMytUNG1DdVlH?=
- =?utf-8?B?aXNiM1NTYm5OSHMvTUgxSFZWdXljM3g4VWhNVEZ3VlAzMU9JSStpYWVtNnBw?=
- =?utf-8?B?RlFvbmgrMW13T0Fmd09oZmxqYndOeHRaT2l5Tm96V2FObmtTSU5sSnJ6Qm9L?=
- =?utf-8?B?UWgva21uOTMyVU5GSmlNMmdpQW51T21jVVVoSXlhSTBLeWQ0TnlhMkR4R25V?=
- =?utf-8?B?dWphVEtkd0JETWpqQmp4UjZXNzVVSnZiNDFQYXBoSjFNMzlNWWN4cERlME9o?=
- =?utf-8?B?M1BFb0VrWlZCYWhQb0hyNU1LSlBJOUdKbEhGR01BVzJ0UGhaRm1aVG01Nm9z?=
- =?utf-8?B?ZlVMQ0psb1NRTFVYV0hUREQyUnBWTjlaWUhLVVRuTnBUOEN3VWFHbFVQTEln?=
- =?utf-8?B?T3oxK29jQ2NDUnYyU000OU9DQ3F3YUhDdDVvWUFKS25JOFBVWWNpKzRwNDBl?=
- =?utf-8?B?TlhUTmRiajlZaGxEeEVUT0drTnIyNzZUUTVSVlJOc1ZMMEl0ak9XVXQ4N1pE?=
- =?utf-8?B?SlVKd21aeFFSdk53YWRLbDhOZkJMcWIzZG1UbklpUENudTAzQW40YVowbXZM?=
- =?utf-8?B?NEZya1dnWkdpYXRoVUkwc2JhNk0vQUFqYTZDNXRnaFBUaUx6aDkzSHR2RCtF?=
- =?utf-8?B?Y1diRXlYeml0U1NHZVUwcy9nN0FYTlhtWmIyemh4dlRFcVQ4YkU4ZHR2WUtr?=
- =?utf-8?B?cUt4c0VPQktDYVVwVk5FUk95M0pVOTE5cGhCZmdwZEF6aXgwZW9LVmhYWXpi?=
- =?utf-8?B?L1lvNkxBQ2FrQU5EZUdpMmJoRDJOKzNSQTZ5Y3hLVGFPMVVjZTUvdDVYeDJk?=
- =?utf-8?B?amtOYmZSRnNpeHZUWWNRRGZkYTRNQ1VTNTFkRTlmL1RYemZxNTFXaG1yZzNH?=
- =?utf-8?B?U2UxdUZoNjNKQ3Z0Ukd4TlZTYUo0YjN5WmFsaGhVUjNHaWpzV3IvT0NNdGhm?=
- =?utf-8?B?elg1dEh1MlpPZXpDTlJheXJlK0pBS0hwK0xmVno1aFlqV0VIY2dIcEtscTF6?=
- =?utf-8?B?MkFNY1h3NVo2aGgzUTdGWWJVcTRrSUpDN2NRQ2xHeUwxSGl2bTNGVXI5SkFP?=
- =?utf-8?B?MEhTMTJkbkk0dWxNKzVDQTV1WllBYklnNDZwa2pWK2o0ZXAwZTl6bW94WVRC?=
- =?utf-8?B?M2pjbmpOSTRqSjl5ZkhvTTArbWxSbmFPd2ZFbWtCcDdESnowQ3E1ZHRDVDFQ?=
- =?utf-8?B?ZGVNS1VZTzJKWVU2UURIWTVzdnlNM2NkQStseG5ZZ1Btc0hGQVdDNVpQUUhJ?=
- =?utf-8?B?ZXZUemkrVCsvZmFrVnFaMUhoTlVHTEl4V2VQbGttbUpxb0NLVzVEc3QxcVgw?=
- =?utf-8?B?MW95RTBGQmtLdVBzcVF5alNmV2loZ1ZtaHRBYW1vT3pCWHF3ZVVreGdlUmM0?=
- =?utf-8?B?ODFuMFZnT05aQlF1U1F1c01lRGwyNGg5eEszaUN2dnhPL0c2bEMzZEw0ZU1P?=
- =?utf-8?B?ay9WMFJ0VStabzhzbWZVYVFNV09OaUhkNWg3UUFxWnRoNmZleVJ2WU1LY3lS?=
- =?utf-8?B?MnpiSEhQTHhZb1UxL3F5QlZScEdaWTZBREZONElabmU2Y3lkeitzQ1VvL1BF?=
- =?utf-8?B?WEZSQk5RM3dMbVRaQ0lsaFVsZVVjUVhQNmsvMFZpdHFuVVpRa0VPUnhBNWJm?=
- =?utf-8?B?amVjOEpnSkpYRDVxeWIxQm1XL1FuRlUrMmhmb2hrbzQ3UXlieWN6TnVoOXhJ?=
- =?utf-8?B?RWJ6R09kbGU1VVh1Q0FtWk5EUXBGcEVwSTRpS05zQWI0b0lZSGtwODF6Z0tw?=
- =?utf-8?B?d24yazJYUlA1UmVLbHoyK3lEKzVTaFJDZWNvMmJSYzBDeS96TUpJRk4wY1Jy?=
- =?utf-8?B?KzJ1b3dwMFRqQjhDMzNQNEpBWGZtODNPQUYwSVhYYW51YjFFNG9NWm1jS1kw?=
- =?utf-8?B?dk02S0cxTHlVUTJoSFNzV0NTWjB6Zm1PRWc0c2N5TC9zZGRpT2I2aUVQY09C?=
- =?utf-8?B?bER1SWhWT1RWWUdtV2plOWd2c1V1OVRsZ0pJTS9VQXpYMHhsSEttMFlrdlYr?=
- =?utf-8?B?SGJ2Q1J3c3hVQVE1TXBsaTJ0UGl4YUYzRElGaFNRdmdrbWk1RDQ5ZVAwMDF5?=
- =?utf-8?B?bFh5UlpldWVhT0ovbXp4VFM3ckwyN0lNV3hVVnFzU3cyTEVIZVVrR0k3cFB2?=
- =?utf-8?B?enJRMExvWklDZDFSdCtaelRzQ2FmMU1jQUVPL3hwVVdKMThYaCtnTzRsK3Rv?=
- =?utf-8?Q?HHWlWk4Eb/JdrLsT62?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 446a5cca-dc2e-4a7c-9bb1-08de75e851ee
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 10:09:40.2727
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EYHPsmhhCvtJC4kFOoPHF/5Xjf0eZJQx7qcHgnHOANsqa2hyXpYhj9A9HWbGsr3a
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5628
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260226-ov08d10-v1-1-c3a916368123@emfend.at>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53687-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53688-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amd.com:mid,amd.com:dkim]
-X-Rspamd-Queue-Id: 56A471B5D5F
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,emfend.at:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: B52941B624A
 X-Rspamd-Action: no action
 
-On 2/26/26 21:21, Matt Evans wrote:
-> A VFIO DMABUF can export a subset of a BAR to userspace by fd; add
-> support for mmap() of this fd.  This provides another route for a
-> process to map BARs, except one where the process can only map a specific
-> subset of a BAR represented by the exported DMABUF.
+On Thu, Feb 26, 2026 at 09:56:01AM +0100, Matthias Fend wrote:
+> Add YAML bindings for the Omnivision OV08D10 CMOS image sensor.
+
+Drop YAML. You add DT bindings, not YAML. No YAML is bound here to
+anything.
+
 > 
-> mmap() support enables userspace driver designs that safely delegate
-> access to BAR sub-ranges to other client processes by sharing a DMABUF
-> fd, without having to share the (omnipotent) VFIO device fd with them.
+> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+> ---
+>  .../bindings/media/i2c/ovti,ov08d10.yaml           | 101 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 102 insertions(+)
 > 
-> The mmap callback installs vm_ops callbacks for .fault and .huge_fault;
-> they find a PFN by searching the DMABUF's physical ranges.  That is,
-> DMABUFs with multiple ranges are supported for mmap().
-
-In general sounds like a good idea but this approach here doesn't looks good at all.
-
-Especially how you call unmap_mapping_range() from your DMA-buf cleanup path looks extremely questionable.
-
-...
-
-> +/*
-> + * Similar to vfio_pci_core_mmap() for a regular VFIO device fd, but
-> + * differs by pre-checks performed and ultimately the vm_ops installed.
-> + */
-> +static int vfio_pci_dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
-> +{
-> +       struct vfio_pci_dma_buf *priv = dmabuf->priv;
-> +       u64 req_len, req_start;
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..96dbf61cf7c188544f4120216ae2b8e0155128b7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
+> @@ -0,0 +1,101 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov08d10.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +       if (!vfio_pci_dma_buf_is_mappable(dmabuf))
-> +               return -ENODEV;
-> +       if ((vma->vm_flags & VM_SHARED) == 0)
-> +               return -EINVAL;
+> +title: Omnivision OV08D10 1/4-Inch 8MP CMOS color image sensor
 > +
-> +       req_len = vma->vm_end - vma->vm_start;
-> +       req_start = vma->vm_pgoff << PAGE_SHIFT;
+> +maintainers:
+> +  - Jimmy Su <jimmy.su@intel.com>
 > +
-> +       if (req_start + req_len > priv->size)
-> +               return -EINVAL;
+> +description:
+> +  The Omnivision OV08D10 is a 1/4-Inch 8MP CMOS color image sensor with an
+> +  active array size of 3280 x 2464. It is programmable through I2C
+> +  interface. Image data is transmitted via MIPI CSI-2 using 2 lanes.
 > +
-> +       vma->vm_private_data = priv;
-> +       vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-> +       vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
 > +
-> +       /*
-> +        * See comments in vfio_pci_core_mmap() re VM_ALLOW_ANY_UNCACHED.
-> +        *
-> +        * FIXME: get mapping attributes from dmabuf?
-> +        */
-> +       vm_flags_set(vma, VM_ALLOW_ANY_UNCACHED | VM_IO | VM_PFNMAP |
-> +                    VM_DONTEXPAND | VM_DONTDUMP);
-> +       vma->vm_ops = &vfio_pci_dma_buf_mmap_ops;
+> +properties:
+> +  compatible:
+> +    const: ovti,ov08d10
 > +
-> +       return 0;
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: MCLK input clock (6 - 27 MHz)
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: Active low XSHUTDN pin
 
-Let's start with this here, it just looks horrible over complicated.
+So maybe rather powerdown-gpios, see gpio-consumer-common.yaml?
 
-When a DMA-buf just represents a linear piece of BAR which is map-able through the VFIO FD anyway then the right approach is to just re-direct the mapping to this VFIO FD.
+> +    maxItems: 1
 
-Roughly something like this here should do it:
+Best regards,
+Krzysztof
 
-	vma->vm_pgoff += offset_which_your_dma_buf_represents;
-	vma_set_file(vma, core_dev->file);
-	vfio_pci_core_mmap(core_dev, vma);
-
-It can be that you want additional checks (e.g. if the DMA-buf is revoked) in which case you would need to override the vma->vm_ops, but then just do the access checks and call the vfio_pci_mmap_ops to get the actually page fault handling done.
-
-
->+               unmap_mapping_range(priv->dmabuf->file->f_mapping,
->+                                   0, priv->size, 1);
-
-When you need to use unmap_mapping_range() then you usually share the address space object between the file descriptor exporting the DMA-buf and the DMA-buf fd itself.
-
-Otherwise functions like vfio_pci_zap_bars() doesn't work correctly any more and that usually creates a huge bunch of problems.
-
-Regards,
-Christian.
 
