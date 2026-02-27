@@ -1,79 +1,85 @@
-Return-Path: <linux-media+bounces-53802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53803-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qG5YLJEvommQ0gQAu9opvQ
-	(envelope-from <linux-media+bounces-53802-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 00:58:09 +0100
+	id +AQKMK0vommQ0gQAu9opvQ
+	(envelope-from <linux-media+bounces-53803-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 00:58:37 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED691BF445
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 00:58:08 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 411711BF473
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 00:58:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AA84A30B65BC
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 23:53:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B1F013022F41
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 23:58:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2237B315D23;
-	Fri, 27 Feb 2026 23:53:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB76D33C53F;
+	Fri, 27 Feb 2026 23:58:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwNrCM6l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MH2xx2RV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AFF2566F5;
-	Fri, 27 Feb 2026 23:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A908220F2D
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 23:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772236427; cv=none; b=QS9/6yQ75U5NffJmdCPJaHD/SzfGvokFywp076vBx/QTvriehm8VB29s8yHtygDrLehfxaNHTEYNw9g5tDq3v1Khp5ACLB2OuXgcTEG9trVOFuSiPX2lPbQMH2aD70fpyadeaVYegfQGNvpvJcPNPzXo3l6h1sHJ2zwsP7eg+ak=
+	t=1772236714; cv=none; b=taBfREhnrZhVj+GO1BSMyS2QvQmVWH8M4Qvr2PWUaiA0W/m6DPQQ++yMfkxYiJ7r/8jPHQL4Q4ZruM57bRptdQCHZELoJ1eZaDgdM8JNg1TNJw2pBNHB3mxL+N41TetDDaScusw9skjn6BWmZnoCNxRzlS3LXCWcw1HuyWyallk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772236427; c=relaxed/simple;
-	bh=gA2MKG1iTJHXz3CRORci8www8lxPSfk5IKJ1yGC+Mf0=;
+	s=arc-20240116; t=1772236714; c=relaxed/simple;
+	bh=IPV+cnI1iBilQKRWoIUa0gLL1rLP2G0BRnzL8k8+g0E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YKaZcK8kd0YzT/OZvkmXt1L7Gzj42O1liBXRB5flWjnYkh22atp1AhuUia6IcsOR3S5LlMSp/w50sig7ejUXasV0p/RjopjukI4oxhFdHf3VQBLFtiKUdCGRFGch6KVqWWVF38VeryRI1buFgF5iNkmjs3mkF48BaA19sTFeYwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwNrCM6l; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=P3Oz+H4tfU86x6DNAcAJzvadsZmgd91iR0o+xyDui+XdeEJX73S5x4/exRyPTO0i6sXBU+uyMJ3LelFi/dsQ0aFplgiCJDEjXHO6JlMkbL5F1F0BQ9Sh2uSmgsAYVRgPGXb2qfVB4RYfS0TAX4k4KyXXjFhD2Z8feODpNmPms+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MH2xx2RV; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772236424; x=1803772424;
+  t=1772236713; x=1803772713;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gA2MKG1iTJHXz3CRORci8www8lxPSfk5IKJ1yGC+Mf0=;
-  b=CwNrCM6lnO4Ia8o68MUh5IwvTUUKonkJss7jYOxmAXtexPvI4tUfFytc
-   i22QmY9M8iT1/Ah0nHyIoWvuHkreI0KAunSoNIMsSpOFQXXs4RRa3rGeV
-   Y0W2UUsjgB1olgjj8ki+20ZA5iG/nBwT+mZlPDOHOt+CpfaZ6QwrqHnY9
-   3bhkmmPg9Or9QHQO7dskynPGhJKkyAj3D8ISQslVVSqWfSxXO0IcKBhLe
-   gIaocO2+EA+0IIfvQHZnRQXDuL1amg56liAewoWDpp39NdaGWa00jfY0s
-   pAx6gcI4m5DxN4bMAaQhUjNBtpYlh+Gli5VBPKVl/+c4fv8fg4jYO9vaP
+  bh=IPV+cnI1iBilQKRWoIUa0gLL1rLP2G0BRnzL8k8+g0E=;
+  b=MH2xx2RVl4X1mBrix/+FZK/kf+7/gPJ+LGXag3EUNENBYV7ts/gIv1ce
+   hLruIMYK29ZXIdaXng5WOORmxF5VLO5qsIXqse0u71gWHSym6uLJpr/Ft
+   ukrdtKMX5uat+eGsMKHsDGj3em+4H19ivcdzXIdAnLIxEGwa1+ZEgwU+E
+   feQPCJ+z/lnfQkSaq3sWRLbJ7cVFUtCuzljvFC7ytrZ0p7F3IuT1UHbIO
+   1kZnS3VbgL55b8TZKRH7D/EnfRcY9IROdwoA0ueSXZmzIZ7URcVzeGezU
+   rYc3cuvTI+f1j4NfOTVElrjiNegyfGZvSgNzjRaQd+TQ/x40kkqwBkFXb
    A==;
-X-CSE-ConnectionGUID: fFFf2Al5R9W8sXD9Fcbxxg==
-X-CSE-MsgGUID: NdmvFt6LRrOO1W3smHeNVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="84676073"
+X-CSE-ConnectionGUID: xfn7wsEyTeSfvVgPjU3EHQ==
+X-CSE-MsgGUID: cxLldpGURHiUg1SoSCfuog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="84035343"
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="84676073"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 15:53:44 -0800
-X-CSE-ConnectionGUID: cMU7HguIQy6V5DhH6M82+Q==
-X-CSE-MsgGUID: /TTA0KesQoSEu9A6Lwl++w==
+   d="scan'208";a="84035343"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 15:58:32 -0800
+X-CSE-ConnectionGUID: lpgT3A0BQpO0ZSlIR/3bEw==
+X-CSE-MsgGUID: GGsLYfRsTbqCGWdgcGMMUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,315,1763452800"; 
-   d="scan'208";a="247544482"
+   d="scan'208";a="216274000"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.205])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 15:53:42 -0800
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 15:58:30 -0800
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7183211FA45;
-	Sat, 28 Feb 2026 01:54:09 +0200 (EET)
-Date: Sat, 28 Feb 2026 01:54:09 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 38F4911FA45;
+	Sat, 28 Feb 2026 01:58:58 +0200 (EET)
+Date: Sat, 28 Feb 2026 01:58:58 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ethan Lam <ethanlxkernel@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	andy@kernel.org, hverkuil@kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: media: atomisp: fix block comment style
-Message-ID: <aaIuocYuOMc-yOin@kekkonen.localdomain>
-References: <20260210113557.71677-1-ethanlxkernel@gmail.com>
+To: soufianeda@tutanota.com
+Cc: Linux Media <linux-media@vger.kernel.org>,
+	Linux Staging <linux-staging@lists.linux.dev>,
+	Gregkh <gregkh@linuxfoundation.org>,
+	Johannes Goede <johannes.goede@oss.qualcomm.com>,
+	Andy <andy@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH] staging: atomisp: fix heap buffer overflow in
+ framebuffer conversion
+Message-ID: <aaIvwnCTMkPcfBS2@kekkonen.localdomain>
+References: <20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com>
+ <aYt-vrc7h7CJOmSu@stanley.mountain>
+ <aYw5q_gsHOmKAIhK@kekkonen.localdomain>
+ <OlBwH9n--F-9@tutanota.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,64 +88,60 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260210113557.71677-1-ethanlxkernel@gmail.com>
+In-Reply-To: <OlBwH9n--F-9@tutanota.com>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53802-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53803-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim]
-X-Rspamd-Queue-Id: 0ED691BF445
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim]
+X-Rspamd-Queue-Id: 411711BF473
 X-Rspamd-Action: no action
 
-Hi Ethan,
+Hi Soufiane,
 
-On Tue, Feb 10, 2026 at 07:35:57PM +0800, Ethan Lam wrote:
-> Fixed all block comment style warnings by checkpatch.pl.
-> Kept original indentation in comments (requested by Andy Shevchenko)
-
-This can still be improved.
-
-Please see section "Describe your changes" in
-Documentation/process/submitting-patches.rst . In particular:
-
-	Describe your changes in imperative mood, e.g. "make xyzzy do
-	frotz" instead of "[This patch] makes xyzzy do frotz" or "[I]
-	changed xyzzy to do frotz", as if you are giving orders to the
-	codebase to change its behaviour.
-
-No need to mention original indentation is kept as it is correct.
-
-Is atomisp_cmd.c the only file in the atomisp driver with checkpatch.pl
-comment warnings?
-
+On Wed, Feb 11, 2026 at 02:43:17PM +0100, soufianeda@tutanota.com wrote:
 > 
-> Signed-off-by: Ethan Lam <ethanlxkernel@gmail.com>
+> Hi Sakari,
+> 
+> I agree that removing the private IOCTL handler is the better
+> approach. While fuzzing the driver I found the same class of
+> unchecked user-controlled size fields in several other handlers
+> (ATOMISP_IOC_S_DIS_VECTOR, morph table, shading table), so
+> removing atomisp_vidioc_default() eliminates all of them at once.
+> 
+> I'm cool with sending a patch removing atomisp_vidioc_default() as
+> Hans suggested, if that would be helpful.
+
+Oops. I read your message after posting the patch...
+
+Indeed it sounds like we should disable all private IOCTLs, also the only
+one that should have been there to begin with. (I can update my patch as
+well.)
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
 
