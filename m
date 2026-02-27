@@ -1,169 +1,166 @@
-Return-Path: <linux-media+bounces-53673-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53675-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +GHsJx5doWmksQQAu9opvQ
-	(envelope-from <linux-media+bounces-53673-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:00:14 +0100
+	id oD4jJrNeoWmksQQAu9opvQ
+	(envelope-from <linux-media+bounces-53675-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:06:59 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBB11B4D68
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:00:14 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C241B4E8B
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:06:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 016FA30B5A07
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:59:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C4DD53128D98
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 09:04:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF0613A0EA1;
-	Fri, 27 Feb 2026 08:59:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 412993B531A;
+	Fri, 27 Feb 2026 09:04:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Bkt2ARzV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bV3DNDdY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C363859DF
-	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 08:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23A436BCFA;
+	Fri, 27 Feb 2026 09:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772182740; cv=none; b=LBrrHC6/TgzuPvkrWCXShLUETyZfQQ23BHFnEuoXqwnNFTcpUN0r8Wn57bwcWXdyP19XVkUmTdq7pYn73WIxz8+k1HzhcvqnfFxfAKi4+cOMGILZuwI2UYwz4mvnJgetjGrHSnW4z2lNaGcs3T88Zj03n7FCEZHOdCCBsiSGOPg=
+	t=1772183048; cv=none; b=s+dDKQTp1ROnTVbzuLbLLsD9DHHLcLAA5+vqLNZSqLX9YBJM4eCLNZYCjJqxPPrtLzMLzxu3Im4VXAns4h7GchCf0uWUNR+X37vnLl6SSUcumXpMGxuV+efJHqepIMn8JpEcgfqV9sOsg+4P0GpAazhVS9kox/F1J45NFqO3ic0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772182740; c=relaxed/simple;
-	bh=Rab/Jz8s2Uc744fMnlW79JYdb4B3JVTjRt9ymGtF/MY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O9vkq3+3Pbjoa5tLMRM/UhYMy+j0PkHbQt+rjEWV+PMeXalgLlwDaP/8c7y15Y8ifv9uD859mdTHVVVVSAciHP8C0iEe/D+ZOb0DO9zeofNpQa+J5L004tmfp63IEtgHRgcvdmqNotCMdHLntlNdyUGYrpcAfTHg4zXQlUlFkoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Bkt2ARzV; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48329eb96a7so14583445e9.3
-        for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 00:58:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772182737; x=1772787537; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PZj4vcPqGU2PZNqfUYcmBKBz7k0/XrtLyYeVPXSafZ8=;
-        b=Bkt2ARzVpwPQAh9XvhHSQP4SLu0YI3X8jswizkDhlpLhmqT9obhxg4tp7zf92Doi5M
-         1uEX3eYeg0eChfjSfC1+O8FxxBjY04lTO4g7ajtfdXjtPcFaoB3xwPFVax00Mq7p4Fa6
-         QM6P01q7+iiSKNrUMJ6s4/Rk8Em70E2JSI8hdOlJQVN6Sa1yQ/KA193IJrfmkZQpTZC3
-         R6rwYv6RBKlLhUnZHRBapIiYhC08SxR+P8LHxTFyLEvPJSbPjiah28ig4PlNhy4shhBg
-         czkD4W2d/zun7limMH5+l2GiO4cIfFn4bW78fZFauRAW2Ig2JWbEfmF6BWRcEF0105ah
-         bMMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772182737; x=1772787537;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PZj4vcPqGU2PZNqfUYcmBKBz7k0/XrtLyYeVPXSafZ8=;
-        b=j4AnEaMyEar8jXcG+ryK2qsqEfiQi0+oalVQ9oVeLrFIe5e+l8w1t+OX72hYO/H5dH
-         XIWd3XuBW+FzdlxaqnbpzPOQrZ4/FZit4xyfv6fsIh8hL6V8nt1viPbz3TjLsQV7Qhux
-         v2FnoafZiNemGCKCRbxFCq5FaOqQf/5rw5IVtglwmX95+EC/HTFArdAAAya86xT7KSJG
-         uPGfBTZSQ09qd52RjyWNuyLtRVwN8TAec5dUSePA7/ZHAzHOmdt3UH1UkgE/nCSG0z9J
-         IYQvUbmBoEcl9E0TSZSb1/0VaNyKO39yjc5YH9a5Nz1PQzCwTH5oIz7RazpsWO8fRZDR
-         WeKg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/eqIxYc6hrUgSgQQ4ximcqSxf/i+LcAmJr/Cv0Xp0ylnn+jZ5dsXcT+IOOSH/TjLcgMSEseV3LSVcfQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxTkzexlUabEdS/bY+tqAdWDVeOS982x1bRdGMxuQUfjeuatqM
-	IX7s7CjL+hesVRyasaJxdvoJwkUz0m98UcIAQRSGpddJPkS0QzrW/bYQ/f/XIvTwz7o=
-X-Gm-Gg: ATEYQzzOXuuQdMyhWwxqzdyaAeyWhFRSa74dQ5btWvhijJZBxBtmrndYIkobD/fmtmo
-	yJlDV9sazEqHnMo1kGdBucgjCKV5MMGyb2FF9kvD6btNX+YLD0yZrLC4o22gMbjKsQ/ImoX3wt2
-	IMLqTbwTsZE61ngWVnVt8+C/fTy4RUziYEYc6IgkWg905/T6wVcsdgLIJGWEIQq77NSWHUxigKf
-	HeYOlClohrYkPY/2x+nmeaZC8A20J67eWLxff81rc3vmdnADARjMwDwiAVwD0MvhYynRh7wI3ar
-	euLn2lF2/mCG9dzaGjmi3JMISptE+X2ytxOKTK3uUan2dD0glTIZAggA9m76wv9P7idLZcCNOgA
-	x4nHWGQhr+JlcPjH9talW1slNSW6I0lwPSidL8hQYAqjHekep5w5vQWvZdxy87IJqYLze6lw9p4
-	8JGyZDrcBGc0k85+nCh948A263J+vQ5ekB5zoAh+U4TkVX2vEtJAQqUq+A2SV2qUXl
-X-Received: by 2002:a05:600c:3e16:b0:46e:32dd:1b1a with SMTP id 5b1f17b1804b1-483c9ba38damr29772325e9.7.1772182737123;
-        Fri, 27 Feb 2026 00:58:57 -0800 (PST)
-Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd750607sm201855375e9.10.2026.02.27.00.58.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Feb 2026 00:58:56 -0800 (PST)
-Message-ID: <5d880b56-a3fe-4677-9751-feeeea8dc2b1@linaro.org>
-Date: Fri, 27 Feb 2026 08:58:54 +0000
+	s=arc-20240116; t=1772183048; c=relaxed/simple;
+	bh=ULqmscrmRYbb7GaDQ1iw2PdzZRP98XQa3VtXm4mRQjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dLXXTwA957pysy1sju1fMG9S7fvUojYwfp/4+xECByVMQWKjrpgPsFWOqv7U/smdaQDwEe09m3lzS0b0Ym/rSrgCOC0QM9TZ38mMqy4lly7OUj0H1p7KXkCzdi+Qm3Ra+piBBnqzobK/CTtE8e7UyYPmWcwvFqnJfFfluG/Y/v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bV3DNDdY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE6E0C116C6;
+	Fri, 27 Feb 2026 09:04:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772183048;
+	bh=ULqmscrmRYbb7GaDQ1iw2PdzZRP98XQa3VtXm4mRQjU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bV3DNDdY9xhWKrvNO/Wuy+ina1DeOPshRfqwbuTvmPjwRx4yGWjfQVOgUGjL9uVMz
+	 jn9nl5F9K8IhoNQLMCgFUH+GwmMQjIB5QuGp7Bt2NGg+KO+KkooOYyQUKMC14i5Hbn
+	 U+rwxMtwtNNVF6xJ8KqiYPYB8xqqE5zPgytc64riiVotu95z9lGEZbQtVqXrVuOewd
+	 XNCpS2TWddFXJVBwHUJe+rl3evQjIJlQSeutsmpSHggaEe8uGS62b8/FNSMNSKTmTH
+	 lmoxE/xzS2yUe7U3f8TvMsax/mz/zTfFJ6W0NylHRtRMeUr05tjwISn8pY1SmERF+f
+	 D83rEBW+zmhKA==
+Date: Fri, 27 Feb 2026 09:04:01 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Daniel Baluta <daniel.baluta@oss.nxp.com>
+Cc: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi <xuelin.shi@nxp.com>,
+	Alexandru Taran <alexandru.taran@nxp.com>
+Subject: Re: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
+Message-ID: <20260227-shakable-mummified-ba7bb54e0e05@spud>
+References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
+ <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
+ <20260226-unthread-reformat-92b855c4acf9@spud>
+ <16172163-8aef-4d94-be62-70e159aae182@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 1/7] dt-bindings: media: qcom,x1e80100-camss: Add
- optional PHY handle definitions
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>
-References: <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-0-a59c3f037d0b@linaro.org>
- <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-1-a59c3f037d0b@linaro.org>
- <lxkbmpzqgkxdnanetardqhqpyop64ri5sawu3wta7hzjibbgzm@zyrdsfac4wvq>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <lxkbmpzqgkxdnanetardqhqpyop64ri5sawu3wta7hzjibbgzm@zyrdsfac4wvq>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HGUIQTmEq3BO0PCt"
+Content-Disposition: inline
+In-Reply-To: <16172163-8aef-4d94-be62-70e159aae182@oss.nxp.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-53673-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-53675-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_CC(0.00)[nxp.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.infradead.org,lists.linaro.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.992];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim]
-X-Rspamd-Queue-Id: 3DBB11B4D68
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,4ab00000:email,fdab0000:email]
+X-Rspamd-Queue-Id: 17C241B4E8B
 X-Rspamd-Action: no action
 
-On 27/02/2026 00:02, Dmitry Baryshkov wrote:
-> - Add CSI PHY as an optional device node under the camss node.
-> - If it is not present there, create it manually (by applying the
->    platform-specific overlay, by using OF_DYNAMIC or just by creating the
->    platform device manually)
-> - Migrate existing platforms into using the CSI PHY driver (ideally, one
->    by one), while still retaining the backwards compatibility with the
->    current camss ABI.
 
-Even though this is more work, I actually quite like this suggestion.
+--HGUIQTmEq3BO0PCt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Provided the DT compiler doesn't complain, I think I'll take this feedback.
+On Fri, Feb 27, 2026 at 08:45:29AM +0200, Daniel Baluta wrote:
+> On 2/26/26 20:20, Conor Dooley wrote:
+> [..]
+> >> +  - |
+> >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >> +    #include <dt-bindings/interrupt-controller/irq.h>
+> >> +
+> >> +    bus {
+> >> +      #address-cells =3D <2>;
+> >> +      #size-cells =3D <2>;
+> >> +
+> >> +      neutron@4ab00000 {
+> > "neutron" is not a generic node name. This should be something like
+> > "accelerator" or similar.
+> >
+> The only dts nodes I could find using accel subsystem are from rockhip. A=
+nd they use npu@
+>=20
+> e.g:
+>=20
+> =BB=A0 =A0 =A0 =A0rknn_core_0: npu@fdab0000 {
+> =BB=A0 =A0 =A0 =A0=BB=A0 =A0 =A0 =A0compatible =3D "rockchip,rk3588-rknn-=
+core";
+>=20
+> Also, Ethos-U64 introduced by Rob with [1] is using npu@.
+>=20
+> So, I think we should go wit that. I haven't seen any document to standar=
+dize the naming.
 
-One reason for that is indeed as you say, we can reach back to older 
-devices and give them some love.
+accelerator, npu, makes no difference to me, so sure.
 
-> - For platforms starting with N+1 (the next platform to be submitted or
->    merged(?) into the kernel) make CSI PHY node mandatory, keeping
->    backwards compatibility code limited to the currently defined affected
->    platforms, which unfortunately means the following list (I'd leave the
->    question on how to handle the patches currently in flight to the
->    maintainer's discretion):
+--HGUIQTmEq3BO0PCt
+Content-Type: application/pgp-signature; name="signature.asc"
 
----
-bod
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaaFeAQAKCRB4tDGHoIJi
+0jXWAQDkJ0uqFe0zBBD97N8Nc9W1uspEgrsZpTqEwgxIVIlnKwD/SKBKuEJxP5os
+9i6n1nocp64AivMzqCek95MinbTDIgQ=
+=lAaA
+-----END PGP SIGNATURE-----
+
+--HGUIQTmEq3BO0PCt--
 
