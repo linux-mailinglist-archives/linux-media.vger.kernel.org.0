@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-53774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53775-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFF3HrsBomnPyAQAu9opvQ
-	(envelope-from <linux-media+bounces-53774-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 21:42:35 +0100
+	id EDVVKZ4ComnPyAQAu9opvQ
+	(envelope-from <linux-media+bounces-53775-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 21:46:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A91B1BDDFD
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 21:42:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C681BDE87
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 21:46:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A9BCE30797D0
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 20:42:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AA337318B183
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 20:43:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1441477E5F;
-	Fri, 27 Feb 2026 20:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1274478840;
+	Fri, 27 Feb 2026 20:43:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhCktEIb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZUXdrWcy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5641C477E48;
-	Fri, 27 Feb 2026 20:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0EC477E4E;
+	Fri, 27 Feb 2026 20:43:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772224949; cv=none; b=KGpuJEWK3T4gl5E6SidgIB/cfzGxri7IC2CgZOLHsSampJr61M80yCB3W1NvYSdHvioKnthhYXkKk3nbb/d7tHYMXpAvNxDE7eoEc+h3BbY9tP+dH51IVLVNxuk1nikFZrKbcdpg+HThih1XvnYvGWpoo631l8CL4lKI9ADo9ps=
+	t=1772225000; cv=none; b=tmL+PWHxyL0Fgx3jxi04q/UbklPAfBVSRuuWRIhmzv1gghp9Sg5lwiww9FvrkcbC5gpTUbk31yk64OjwLRnpYk1PBuEHcdfv2oWBScZrFxrRDl8YgmFA7A9phK8zA2abBf5Cn/90x5ROToouAYhhKC4z8F+Qb1FQ8/HBzYdNgTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772224949; c=relaxed/simple;
-	bh=HoDEtvg3GBOF96zWJnOOBK0G0fY86adGkY74DzxijNk=;
+	s=arc-20240116; t=1772225000; c=relaxed/simple;
+	bh=C5BQtFO6OyplUBcKY6HfwUHgCQXnt44u+6kJv+UGBZ0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DVhrfX91xYAEYrcRRU4Vr2aTrZnINqPkrB573AVAUpWJSiAHI+I+9Hq/hBfg3YmwD/uvac5/4BZV0/iehIa3A5egp1uXIJvHRs6qzrvTOMtrXDxQRy3pNe22b+89yh8WvLSJN6Gr9qvxvqFbE494nDVG3pP2vNFiYM3GdptELw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhCktEIb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C769C19423;
-	Fri, 27 Feb 2026 20:42:23 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=Ufv+/th3SMAuVdPG1KbSybOy1gsOgb5lrITrxT9idgXMTUc+YHzPO36lmYfiKV3RRVHEuzMK2utlXeXs3S0ecVJHAH40rN/SxN6DKCBXRFaG7w4eg+Ty/AO+kxVQt0j2Y3diSwiSeX+XbTbxDFOmVC+lvSKcUeaIA/jYr67kdNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZUXdrWcy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4A74C19423;
+	Fri, 27 Feb 2026 20:43:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772224949;
-	bh=HoDEtvg3GBOF96zWJnOOBK0G0fY86adGkY74DzxijNk=;
+	s=k20201202; t=1772224999;
+	bh=C5BQtFO6OyplUBcKY6HfwUHgCQXnt44u+6kJv+UGBZ0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UhCktEIbAUDL9Zi2WQd3Bw9EURAPYLxkgEpK+CsepI+fOXULQE8JgHg1vl8KSTp23
-	 BLuUmlh415T01I4XECWLf4lkEYQfVTIHjBO1HWl+Gf1rcinKdsgi9q7UwyEy2uBgBc
-	 hdRSm4apydFPE08ex7f+FZgXbuXgU9FwuiYun8IavC+GtzddnGybOqXkl5ls345ewn
-	 1ojFHG8uNnNykR7DiXj331XVtk2Yj3w9NkeK9R7V6ZwqzrjhjI6ABcik8pxPGllw2/
-	 E+sRfHHAd4s2IFqMfo3SutLJVK9Zai0c+7IyApDHYdVKmZtnH7qYlA0rvLp2XdKx+m
-	 JSQkELTwQxkyQ==
-Message-ID: <8393137b-7eb8-4cfe-8963-ddd5ff75ef4b@kernel.org>
-Date: Fri, 27 Feb 2026 21:42:23 +0100
+	b=ZUXdrWcycn9HDQGAt6dye4JUyNJBbLMu5XaFxuDIw08FKKSW4VKOKdc3x+Bd3/Uau
+	 IlJFrfPsZot75XBx1PKjmd5nwWgPB3ex6Ex3t3Ehp6vWDzzvn3QeyCclaSvrl2T7F4
+	 tWxoFkYagImEIgDHF3tdL+lGU84oA6uS7SqeMwQpSdwVI2WNUPwoZufWwfDPSktMxM
+	 wnPfATuJVBJ0ze8wVi/VROUhytYoqrvA75fib0rawNsT7hnC//NfRQxqv0ND26d9T0
+	 srY0tY7E0q8QSfFpZ2a/VKR+MWSCImCpNQvFMkeHCGwUJcu2IyugZRiLJiHVBQincx
+	 dAg45c0Z/o9vQ==
+Message-ID: <ca2ada49-08cf-43e6-a857-85994374549d@kernel.org>
+Date: Fri, 27 Feb 2026 21:43:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/9] mm: cma: Export cma_alloc and cma_release
+Subject: Re: [PATCH v2 6/9] mm: cma: Export cma_get_name
 To: Maxime Ripard <mripard@kernel.org>, Sumit Semwal
  <sumit.semwal@linaro.org>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
@@ -71,7 +71,7 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
  iommu@lists.linux.dev, linux-mm@kvack.org
 References: <20260227-dma-buf-heaps-as-modules-v2-0-454aee7e06cc@kernel.org>
- <20260227-dma-buf-heaps-as-modules-v2-5-454aee7e06cc@kernel.org>
+ <20260227-dma-buf-heaps-as-modules-v2-6-454aee7e06cc@kernel.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -118,27 +118,27 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260227-dma-buf-heaps-as-modules-v2-5-454aee7e06cc@kernel.org>
+In-Reply-To: <20260227-dma-buf-heaps-as-modules-v2-6-454aee7e06cc@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53774-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53775-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[david@kernel.org,linux-media@vger.kernel.org];
@@ -147,54 +147,36 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3A91B1BDDFD
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 21C681BDE87
 X-Rspamd-Action: no action
 
 On 2/27/26 14:15, Maxime Ripard wrote:
-> The CMA dma-buf heap uses cma_alloc() and cma_release() to allocate and
-> free, respectively, its CMA buffers.
+> The CMA dma-buf heap uses the cma_get_name() function to get the name of
+> the heap instance it's going to create.
 > 
-> However, these functions are not exported. Since we want to turn the CMA
-> heap into a module, let's export them both.
+> However, this function is not exported. Since we want to turn the CMA
+> heap into a module, let's export it.
 > 
 > Reviewed-by: T.J. Mercier <tjmercier@google.com>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  mm/cma.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  mm/cma.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/mm/cma.c b/mm/cma.c
-> index 94b5da468a7d719e5144d33b06bcc7619c0fbcc9..be142b473f3bd41b9c7d8ba4397f018f6993d962 100644
+> index be142b473f3bd41b9c7d8ba4397f018f6993d962..550effb9c4e01cc488b5744fe61d55a5b70a6d6c 100644
 > --- a/mm/cma.c
 > +++ b/mm/cma.c
-> @@ -949,10 +949,11 @@ struct page *cma_alloc(struct cma *cma, unsigned long count,
->  	if (page)
->  		set_pages_refcounted(page, count);
+> @@ -50,10 +50,11 @@ unsigned long cma_get_size(const struct cma *cma)
 >  
->  	return page;
->  }
-> +EXPORT_SYMBOL_GPL(cma_alloc);
->  
->  static struct cma_memrange *find_cma_memrange(struct cma *cma,
->  		const struct page *pages, unsigned long count)
+>  const char *cma_get_name(const struct cma *cma)
 >  {
->  	struct cma_memrange *cmr = NULL;
-> @@ -1025,10 +1026,11 @@ bool cma_release(struct cma *cma, const struct page *pages,
->  
->  	__cma_release_frozen(cma, cmr, pages, count);
->  
->  	return true;
+>  	return cma->name;
 >  }
-> +EXPORT_SYMBOL_GPL(cma_release);
->  
->  bool cma_release_frozen(struct cma *cma, const struct page *pages,
->  		unsigned long count)
->  {
->  	struct cma_memrange *cmr;
-> 
+> +EXPORT_SYMBOL_GPL(cma_get_name);
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+No real reason to not squash this patch into #5, right?
 
 -- 
 Cheers,
