@@ -1,351 +1,215 @@
-Return-Path: <linux-media+bounces-53730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53731-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UImWNXC4oWkYwAQAu9opvQ
-	(envelope-from <linux-media+bounces-53730-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:29:52 +0100
+	id 4EOkLdu7oWmswAQAu9opvQ
+	(envelope-from <linux-media+bounces-53731-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:44:27 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD6E1B9C9E
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37CEB1BA264
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:44:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8D56A321F6A4
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 15:21:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4026330F9E7A
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 15:42:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ED90436359;
-	Fri, 27 Feb 2026 15:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5863843DA56;
+	Fri, 27 Feb 2026 15:42:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IywS8lKy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BLlDRao4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012006.outbound.protection.outlook.com [40.107.200.6])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0622280CE0;
-	Fri, 27 Feb 2026 15:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.6
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772205667; cv=fail; b=W6uMCrh5NYwXQVa5VjlGK0i8Ti1Hvu2mCauI5GooPcaQXrugzI5z+Hp9hRmm8ECXjgSXCx4eVBSWi8IGbRkjQ/sf9CDjA4MMzBjdB8soR8yfaxMbhJKGWriz8QYCeHGg5x2uVea2j8+8ioYH2sZXKuaj695NFxVLBnbBELrTBJg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772205667; c=relaxed/simple;
-	bh=iV1T/RUwz8r56wOnbTUJIC3//ltEqtUUup4xD1fviwo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=LKI9Q3G+JyQ0TDYU9Qh5CnY8aVLqKYMDW8G5B50hRFhcWjMNoQqEnSrY17YcwWHIdS/27lTduijOAEoc0na2671Qq0G/wvmkkOTlyKeDczk1SxY0usP3d7AAdZ02u6lHfFFSbtHPvx20bXpz6Y/lb1/Vu7eMwmMS2sxde1U7xF0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IywS8lKy; arc=fail smtp.client-ip=40.107.200.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OKhZVOloECsNntNsaTeVwA4s3UNx77xAj7wqIIJxbzbpEOktRK3xETqYcZyJJfR5FHG+nWoIkbkMMm9xBzpaodzmBAxMcefIDhlEa0VNcWCtm+uiSg2W3NSCv1GJAVKc91zGNKq/9wu15In7VSVs2+sbYCANFyBc2ChvLMyjwLf0ZsqjF0gz5Jw1Nf6MOfUGFPEGGQ8pTiz6A8EMYmBk1WjpB41slBtt6MqSN2OJK2TWxLcCvPx4kNWk3z80nmW2XKG10LQpPYnwfgPHwAtnezM/dALKuvdTOeH4R4oXcZVjAaGN4nuhf9SbStRt16bq0/ejzsj1FBKOrkluengbuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b3tDzevO92hFp0MiTb2w4uy5SBTIBEUoPh9az88rqkA=;
- b=JBF5cwAnOgGnsf7x8eyn8jjS+9B0AbmShkowMQEK9HR/34FDnEEVjMk5gDX425VQunHnWnAe+X0U5eu0rkNqw3WYZs7HyTeNTPWWVMCE1W7KZ5ZWkptFlYwKg+BnxdgJqbPAlWc293CUeKCLGeRU/kn+VF1g8flU2A7DQsaKkZ2pRdRGlyEZH5AKbnzOGcZXB3jHMWwFJCZPXMjbcVXIf/t33HpPdA5EPQOjREUTsNhgnlmlqXmlSJwolpDc0j1Sjwg+bJKflgOofLKGCTl5UohU+XAHMrwyIO/CFAXQg+YX3pXoC++7VYy9zprjMPvY+hO2112r7HozYBg4COrmtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b3tDzevO92hFp0MiTb2w4uy5SBTIBEUoPh9az88rqkA=;
- b=IywS8lKyKUyyl4LRWHODtXN+eh0nvGFLjq74oWMN6WVyGcp1BvkRKRanRm+wR/tS1U4iOtqUEpeDBnDBv3MBykwDZD7af+4631BGiJ/0ptdchBzmG3HayLxVHyyw/C8TvSOCGaHyZtxnP5IQ9x2bLnQ2Kqp+o4SQWGbxn35lxZo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SN7PR12MB8172.namprd12.prod.outlook.com (2603:10b6:806:352::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 27 Feb
- 2026 15:21:01 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Fri, 27 Feb 2026
- 15:21:01 +0000
-Message-ID: <a006b938-cd53-4c56-8131-30f557919ec6@amd.com>
-Date: Fri, 27 Feb 2026 16:20:54 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 4/7] dma-buf: uapi: Mechanism to revoke DMABUFs via
- ioctl()
-To: Matt Evans <mattev@meta.com>, Alex Williamson <alex@shazbot.org>,
- Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Alex Mastro <amastro@fb.com>, Mahmoud Adam <mngyadam@amazon.de>,
- David Matlack <dmatlack@google.com>
-Cc: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Pranjal Shrivastava <praan@google.com>,
- Alistair Popple <apopple@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org
-References: <20260226202211.929005-1-mattev@meta.com>
- <20260226202211.929005-5-mattev@meta.com>
- <f75088c6-5795-49cc-8932-ea46c2223d74@amd.com>
- <ad614dc4-0fd3-4897-b879-5d78a22b534f@meta.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <ad614dc4-0fd3-4897-b879-5d78a22b534f@meta.com>
-Content-Type: text/plain; charset=UTF-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A99438FF3;
+	Fri, 27 Feb 2026 15:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772206929; cv=none; b=LEFUM9rLIq9gzt+HY2KT0dP9LNCgpSsXdNQBX/tXjBu8OJSDlW5bLgTT5KQ0GFMDOftpEa8t/3GLL20CEZDqDp5xtKQ2+wkZ3kCGltXhkaUm4cGAgKXpvpAWzJ2wbGazRiXbeNcIucgcxruG+MtvrFlMvhZrjhVRO4dwuZuyhqo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772206929; c=relaxed/simple;
+	bh=H4F4fXW8IVEP1W4RpRlj8AR+PZsegR6Ym1A0cP7rrSU=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=ajjNFjOFq0X43KJhMDtuLwLWwRpn2z93gMZtsz/Bm0xq4epxsUD7J+WHo3PmYzxxm19t+vXO9zPndyIexfMG/4PGKm5Mvtms9GLTPFmwBITJFPIKO+MiiseUvlW8cD5f65a3whtnAUBY/0Ioq8HU6Q4YNyRGk/CySnJRtRC6844=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BLlDRao4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CE78C116C6;
+	Fri, 27 Feb 2026 15:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772206929;
+	bh=H4F4fXW8IVEP1W4RpRlj8AR+PZsegR6Ym1A0cP7rrSU=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=BLlDRao44Ywr3A4nFRYO7rd7oo2MtJb9RXIjuWtGBWq4TaghxWJHvvufLzFdpkV7b
+	 V0AvDcyGbm7BpUOY1wo8kR4ZYql6dgNOez4mj+ODfJuLCSnXnYQsJvxTBgg0a8sr0m
+	 A8YFryBSAGl8jyVAA3RD1GBzbcFYyN3hSAUyp5rYGMgeqYEyHQBTwBlOsnoFezCymw
+	 sL6f7oKz4tlCjDIAXS1Opc6tb/dSLy9v0uczAf+gvgRdXtvx1keOfImKNDhb9V+eH5
+	 LtJogS/GP7mCRGEJJ2l4m/+aCbNRfq2uaf0kwn02o27ZiBLdkDY+sOliPqQt+/G2ie
+	 gtKqn11bvSNUw==
+Date: Fri, 27 Feb 2026 09:42:08 -0600
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0395.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cf::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB8172:EE_
-X-MS-Office365-Filtering-Correlation-Id: 530a7277-bc6f-45da-00a4-08de7613d08a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	hQI6wjMuaAXEMrbaK2wVx0LMIG1qBRKRabX/EIrW7Q33BgbFG84CW45QRXRUUB9suXWFzFJvgApf+1VT/ok9E+sDz8Re0PV4pNoeWfEzTTRAn3jqbGFBsKnyEtUBarlETWMchgDIy8IcGLbY+huv52nq2Byr+eJAiTktm+9UTLLCuYkbtfW75+UWARNkmqmywrMBTx4RIwKGikx6/ceFlzGn3FCoOcDbEI0/C4qZ/zdjgoZQlWijpKZw3N4p9ndYdR+lzccNXtRdQ6aHi2TB8bDT7BO5Wki9gL/X6/27bwu6z8hrDorTbWwlvXbU+vhsdbJeTV9c8KXDfzAaQF9UtwTJ3cC0BR0eZvs1+9JC1laJ4ID1iWZ7JNHJVs5e2U2MyC0K+6d3cYpe0LiR1DLCfBSzuAhnywvgfgrlbC69x5/ONfDvCQ0GGO6y5SfTxkUIKYo+EOPai7NLBMu2tXwL2vIz/UCE4ZNxf8PduIjSnAyJmG+L1WZL9vRZG0CyQeqQMwc6eviLE9Z0cyTHu7du28rkiG5Rywp2zIUMDOxSMfZBNhdZLfauhZvd3HStKkikoQHzlVIKXWsKXoO87bJM3UhC0BObvxt74h6QXlYq7Q+sdJRCqQtwSyIkvgdy6XKpiFReilQGowsM/95+M3PaHZtHfT31ej71y34Rx8FmNxLNlTWpA1HCimxCj+wRh2cB
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NDgzMGdPTjVqcUM4R29uaVQza1FaN0ZsaVJKQzNjMFJSeFJOckVFeWk5ZVJ5?=
- =?utf-8?B?dmtEZTRtSjZqRk4wMnF4RlhvUUtwQnVuU0F3am1RN2lrejRqL3kzL1hGWnBI?=
- =?utf-8?B?aGJmY09Ba2RtRTJES3lVcDhBRUpMTitYZVg2TWFtdzNWV0dYeFplZ01IVDJM?=
- =?utf-8?B?TnVORkVha1M0RFNTeXZvNmlYMVptWmxaQU9kU3JLMnZvbFh2YnVTOFI4UGgv?=
- =?utf-8?B?TkdJYVZTWUNCeXVVejFtMWwzdWxFa2Niakpsa2RvSWx3OWk1dG1SaTZ1SU9H?=
- =?utf-8?B?VFhkY09uNVNYTDQrd2FHelAxWmxXK3JYUVNJS0haU3piQ0crTVBXeVFnNUZx?=
- =?utf-8?B?QnFkN201SUJNTE8vWk9HR3hCeVJXelkySGwyeU9Hc1JUZVFWclc0M1k1YUJh?=
- =?utf-8?B?S05zKzAwdmlCNmtzWXIreDZQWXEydURjNTdkNGJXTmpoQUdNZ3hvV2NNS20z?=
- =?utf-8?B?cEkzOFNnWDNtWEJCbUpRV282MWxadFppTjJwTUd2d2sxc0diQkNSdkExVDIx?=
- =?utf-8?B?WXRmWTlEYUdiSS83VnkwekF2Vklpb3dSeDdvNnhzNkw0Y3JORTZHY24zZm1O?=
- =?utf-8?B?d1BMcWFJMW5HdUE0QjNTRmhoUGdWVTlwRUcwRHFZMHlzRStlSzhYTnp2U3k1?=
- =?utf-8?B?Z2xkR1dWZkY0Z1Y4R3M3c25jODVOREtUSzZDZC9QV2h1NWNibTVvdEJxS3p4?=
- =?utf-8?B?d2VlamJTNlkrbkU5TnNjNWIrZ2llK3JPakszTnR5TUZVRHd4UVlOMDJvazVo?=
- =?utf-8?B?WjAvb0hQT1djaFhacnFDNitTWU1CTlZlVXlVVXJEeExBQ3BZRmgyTXVKZVZ3?=
- =?utf-8?B?K2UvS1JxQkhIbFFkUHlRSWpVdzZRR1I0TzRhOWlZTDg4Qm9jMHluWTBPSy9G?=
- =?utf-8?B?dGJ6Q1huVEh6bXh6L0JwSFRJb280V2E0c21tV01pVTlnWVF0SFkvUkxKZm8z?=
- =?utf-8?B?NE9uVDVQVUJpTldsdHJYRmc5RG5uNGY5Zk5CV2t6VkJBUlVVOXgxbmpuR0pT?=
- =?utf-8?B?dmcyYVlEdERyZlk0NUVyNll3aStrWGcwTFpKU21yaWxPaGZMaHZnYjFmNVpD?=
- =?utf-8?B?SnV5QXZZUDhhL0phYnoyT3lkdVhMZWw4OEgxZ2U2YlN3ZVcxeVJZRHYrNzEz?=
- =?utf-8?B?eTJndlZLUnFkM0pZQUhFOHRFWFJ2eXRtKzlZek8rTCtXa0RWZ1pBRlVJV3Fn?=
- =?utf-8?B?SUNqTjJWU2JjWmw0djNFVjBMbHVIcVpiL0k5OVNQSy80Ym1kWkVhVTY0K2Jj?=
- =?utf-8?B?ajYrSFlEWTJIVHFVYTlIWmxNUGpPUkZTVnNSQTExRmg0bXdVSnQ5enhmZWJP?=
- =?utf-8?B?WUQxK2ZyUisyVkdrRTFtWjhkdU5IMk4rSkdxV2JFYXE1ZStHMFVzYW40cGZn?=
- =?utf-8?B?VEp4cTIwai9RMzZIWmNDK3BpUFd2T3lBNTkyTlVTMUtWUVZBcE10T1NiZWJq?=
- =?utf-8?B?eWlVZUhDdEhWSG1Ybi9teHlEZ0c4RmxCckowdXQ5N2hickl6MDNJbVRCOHVh?=
- =?utf-8?B?L1JrZFhwajRBSmtjMTBRbmg5VnBha3htQmZxaEY0dko5ajhmS3d6MUVpODd2?=
- =?utf-8?B?OFo5Vi95MENUT3JXOW05UUVXT1N1Mi9Id2xtS3BGVFJLSVNKSnpZOHVJbXpC?=
- =?utf-8?B?WENXYTNYOW55K2hqMHRZRkVDTUVIU3ljUk9YZEJCWmFxMFNDQzdFSzlhOHRm?=
- =?utf-8?B?UzhkbXF2OXZ0Rkh4SVZ2b2pqM0NMZmdVYkh6emFXd0cycWJkZXpCdWJlYWZh?=
- =?utf-8?B?TEJyQ2RMU3ZTSHNpMTc5QmFTOUhDTlJsR0NlbUVPV1QrekRnc3VTV0kxUERk?=
- =?utf-8?B?bXpLMG5EWXVQbjcrcmxJaE82Ym1NSld2a055RWJvM0hQaFMyeTRIRWtLN3lp?=
- =?utf-8?B?Y21qRUJuYzZRL1VIck9uVVhtNGUwNlcya0FvK2hXeGVNeFN2Vy83VktVLzdF?=
- =?utf-8?B?MlZQN21LYS80aTlLbElZbzhzZjI5dDdWRlVhU2xsWWFTZHBoOFhaakYwczZJ?=
- =?utf-8?B?cEpnM0JjRFdsYjJIbGZwRXFsR2UxOExyTS9kMFdjQVBleTZsWisvcnc5Y1kw?=
- =?utf-8?B?NExZOG9xS0dTQUV3OHlLMFYxczhSV2dOYWdYMzJXNUd5S0JYMVEvMldsdk5h?=
- =?utf-8?B?TmlhdVBmL1kvZmF0bFdPR2VvTTBUVWRwMDcxMnRjTWV3a0pQOThpb3BiUkVx?=
- =?utf-8?B?TXFVYU5PWjRkZTZrdmh3aE1Ndmp0azlUaVpiZXA1UlNEZWwxaSszSFB4bWU0?=
- =?utf-8?B?Z24zZlRwVE1DSHBwSW9ZV2U5WEFHYXh6TVVNNWE2Vi93VWFFblVJK2hRaENG?=
- =?utf-8?Q?6uAZh7MfumrJE/VQHl?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 530a7277-bc6f-45da-00a4-08de7613d08a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 15:21:01.2509
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NkGk85FD5fPT7pg3ayoQGrcsztbtuLfvxbDihFAAtqkGpcS9KbP5w8EbZyqIL3TG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8172
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: iommu@lists.linux.dev, Robin Murphy <robin.murphy@arm.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Bryan O'Donoghue <bod@kernel.org>, 
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+ Will Deacon <will@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Joerg Roedel <joro@8bytes.org>, Saravana Kannan <saravanak@kernel.org>, 
+ Stefan Schmidt <stefan.schmidt@linaro.org>, 
+ Vishnu Reddy <busanna.reddy@oss.qualcomm.com>, linux-media@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, linux-arm-msm@vger.kernel.org, 
+ Hans Verkuil <hverkuil@kernel.org>, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzk@kernel.org>, devicetree@vger.kernel.org
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20260227-kaanapali-iris-v2-1-850043ac3933@oss.qualcomm.com>
+References: <20260227-kaanapali-iris-v2-0-850043ac3933@oss.qualcomm.com>
+ <20260227-kaanapali-iris-v2-1-850043ac3933@oss.qualcomm.com>
+Message-Id: <177220692821.4084988.9709880172251199727.robh@kernel.org>
+Subject: Re: [PATCH v2 1/7] media: dt-bindings: qcom-kaanapali-iris: Add
+ kaanapali video codec binding
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53730-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53731-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[meta.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 2AD6E1B9C9E
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,1c00000:email,0.30.132.128:email,devicetree.org:url]
+X-Rspamd-Queue-Id: 37CEB1BA264
 X-Rspamd-Action: no action
 
-Hi Matt,
 
-On 2/27/26 14:02, Matt Evans wrote:
-> Hi Christian,
+On Fri, 27 Feb 2026 19:41:17 +0530, Vikash Garodia wrote:
+> Kaanapali SOC brings in the new generation of video IP i.e iris4. When
+> compared to previous generation, iris3x, it has,
+> - separate power domains for stream and pixel processing hardware blocks
+>   (bse and vpp).
+> - additional power domain for apv codec.
+> - power domains for individual pipes (VPPx).
+> - different clocks and reset lines.
 > 
-> On 27/02/2026 10:05, Christian König wrote:
->> On 2/26/26 21:22, Matt Evans wrote:
->>> Add a new dma-buf ioctl() op, DMA_BUF_IOCTL_REVOKE, connected to a new
->>> (optional) dma_buf_ops callback, revoke().  An exporter receiving this
->>> will _permanently_ revoke the DMABUF, meaning it can no longer be
->>> mapped/attached/mmap()ed.  It also guarantees that existing
->>> importers have been detached (e.g. via move_notify) and all mappings
->>> made inaccessible.
->>>
->>> This is useful for lifecycle management in scenarios where a process
->>> has created a DMABUF representing a resource, then delegated it to
->>> a client process; access to the resource is revoked when the client is
->>> deemed "done", and the resource can be safely re-used elsewhere.
->>
->> Well that means revoking from the importer side. That absolutely doesn't make sense to me.
->>
->> Why would you do that?
+> iommu-map include all the different stream-ids which can be possibly
+> generated by vpu4 hardware as below,
+> bitstream stream from vcodec
+> non-pixel stream from vcodec
+> non-pixel stream from tensilica
+> pixel stream from vcodec
+> secure bitstream stream from vcodec
+> secure non-pixel stream from vcodec
+> secure non-pixel stream from tensilica
+> secure pixel stream from vcodec
+> firmware stream from tensilica (might be handled by the TZ / hyp)
 > 
-> Well, it's for cleanup, but directed to a specific buffer.
+> This patch is depend on the below dt-schema patch.
+> Link: https://github.com/devicetree-org/dt-schema/pull/184/changes/d341298d62805bc972dfba691da6b3b62aa3ff15
+> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> ---
+>  .../bindings/media/qcom,kaanapali-iris.yaml        | 261 +++++++++++++++++++++
+>  include/dt-bindings/media/qcom,iris.h              |  18 ++
+>  2 files changed, 279 insertions(+)
 > 
-> Elaborating on the original example, a userspace driver creates a DMABUF
-> for parts of a BAR and then sends its fd to some other client process
-> via SCM_RIGHTS.  The client might then do all of:
-> 
-> - Process mappings of the buffer
-> - iommufd IO-mappings of it
-> - other unrelated drivers import it
-> - share the fd with more processes!
-> 
-> i.e. poking a programming interface and orchestrating P2P DMA to it.
-> Eventually the client completes and messages the driver to say goodbye,
-> except the client is buggy: it hangs before it munmaps or request other
-> drivers to shut down/detach their imports.
-> 
-> Now the original driver can't reuse any BAR ranges it shared out, as
-> there might still be active mappings or even ongoing P2P DMA to them.
-> 
-> The goal is to guarantee a point in time where resources corresponding
-> to a previously-shared DMABUF fd _cannot_ be accessed anymore:  CPUs,
-> or other drivers/importers, or any other kind of P2P DMA.  So yes, a
-> revoke must detach importers, using the synchronous revocation flow
-> Leon added in [0] ("dma-buf: Use revoke mechanism to invalidate shared
-> buffers").
-> 
-> (Apologies, I should really have just built this on top of a tree
-> containing that series to make this need clearer.)
-> 
-> But, it ultimately seems to have the same downstream effects as if one
-> were to, say, shut down VFIO device fds and therefore trigger
-> vfio_pci_dma_buf_cleanup().  It's just the reason to trigger revocation
-> is different:  a selective userspace-triggered revocation of a given
-> buffer, instead of an exporter cleanup-triggered revocation of all
-> buffers.  In both cases the goals are identical too, of a synchronised
-> point after which no more DMA/CPU access can happen.
-> 
-> (If I've misunderstood your question please clarify, but I hope that
-> answers it!)
 
-Yeah that makes it clear, Jasons answer also helped quite a bit to understand what you want to do here.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-First of all your requirements sound reasonable, but absolutely clear NAK to the way those patches approach of implementing them. You completely mixed up the different DMA-buf roles and which is used for what.
+yamllint warnings/errors:
 
-See the IOCTLs on the DMA-buf file descriptor are for the importer side to communicate with the exporter side. E.g. thinks like "I'm done writing with the CPU, please make that visible to yourself and other importers".....
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdm845.example.dtb: pcie@1c00000 (qcom,pcie-sdm845): iommu-map:0: [0, 4294967295, 7184, 1, 256, 4294967295, 7185, 1, 512, 4294967295, 7186, 1, 768, 4294967295, 7187, 1, 1024, 4294967295, 7188, 1, 1280, 4294967295, 7189, 1, 1536, 4294967295, 7190, 1, 1792, 4294967295, 7191, 1, 2048, 4294967295, 7192, 1, 2304, 4294967295, 7193, 1, 2560, 4294967295, 7194, 1, 2816, 4294967295, 7195, 1, 3072, 4294967295, 7196, 1, 3328, 4294967295, 7197, 1, 3584, 4294967295, 7198, 1, 3840, 4294967295, 7199, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdm845.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdm845.example.dtb: pcie@1c00000 (qcom,pcie-sdm845): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'vddpe-3v3-supply', 'wake-gpios' were unexpected)
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdm845.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdm845.example.dtb: pcie@1c00000 (qcom,pcie-sdm845): iommu-map:0: [0, 4294967295, 7184, 1, 256, 4294967295, 7185, 1, 512, 4294967295, 7186, 1, 768, 4294967295, 7187, 1, 1024, 4294967295, 7188, 1, 1280, 4294967295, 7189, 1, 1536, 4294967295, 7190, 1, 1792, 4294967295, 7191, 1, 2048, 4294967295, 7192, 1, 2304, 4294967295, 7193, 1, 2560, 4294967295, 7194, 1, 2816, 4294967295, 7195, 1, 3072, 4294967295, 7196, 1, 3328, 4294967295, 7197, 1, 3584, 4294967295, 7198, 1, 3840, 4294967295, 7199, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:0: [0, 4294967295, 512, 1, 256] is too long
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdx55.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:1:0: 4294967295 is greater than the maximum of 65535
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdx55.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:1: [4294967295, 513, 1, 512, 4294967295] is too long
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdx55.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:2:3: 4294967295 is greater than the maximum of 65536
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdx55.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:2: [514, 1, 768, 4294967295, 515] is too long
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdx55.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:3: [1, 1024, 4294967295, 516, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdx55.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): Unevaluated properties are not allowed ('#address-cells', '#interrupt-cells', '#size-cells', 'bus-range', 'device_type', 'interrupt-map', 'interrupt-map-mask', 'iommu-map', 'linux,pci-domain', 'num-lanes', 'pcie@0', 'perst-gpios', 'phy-names', 'phys', 'power-domains', 'ranges', 'wake-gpios' were unexpected)
+	from schema $id: http://devicetree.org/schemas/pci/qcom,pcie-sdx55.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:0: [0, 4294967295, 512, 1, 256] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:1:0: 4294967295 is greater than the maximum of 65535
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:1: [4294967295, 513, 1, 512, 4294967295] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:2:3: 4294967295 is greater than the maximum of 65536
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:2: [514, 1, 768, 4294967295, 515] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/qcom,pcie-sdx55.example.dtb: pcie@1c00000 (qcom,pcie-sdx55): iommu-map:3: [1, 1024, 4294967295, 516, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:0: [256, 4294967295, 6468, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:1: [257, 4294967295, 6464, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:2: [257, 4294967295, 6688, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:3: [258, 4294967295, 6467, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:4: [512, 4294967295, 6470, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:5: [513, 4294967295, 6465, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:6: [513, 4294967295, 6689, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:7: [514, 4294967295, 6469, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.example.dtb: video-codec@2000000 (qcom,kaanapali-iris): iommu-map:8: [768, 4294967295, 6690, 0, 1] is too long
+	from schema $id: http://devicetree.org/schemas/pci/pci-iommu.yaml
 
-But what you want to do here is just the other way around, the exporter side wants to signal to all importers that it can't use the buffer any more, correct?
+doc reference errors (make refcheckdocs):
 
-If I understood that correctly then my suggestion is that you have a new IOCTL on the VFIO fd you originally used to export the DMA-buf fd. This IOCTL takes the DMA-buf fd and after double checking that it indeed is the exporter of that fd revokes all importer access to it.
+See https://patchwork.kernel.org/project/devicetree/patch/20260227-kaanapali-iris-v2-1-850043ac3933@oss.qualcomm.com
 
-I'm certainly open on suggestions on how to improve the DMA-buf documentation to make that more clearer in the future.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Regards,
-Christian.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-> 
-> Cheers,
-> 
-> 
-> Matt
-> 
-> [0] https://lore.kernel.org/linux-iommu/20260205-nocturnal-poetic-chamois-f566ad@houat/T/#m310cd07011e3a1461b6fda45e3f9b886ba76571a
-> 
->>
->> Regards,
->> Christian.
->>
->>>
->>> Signed-off-by: Matt Evans <mattev@meta.com>
->>> ---
->>>  drivers/dma-buf/dma-buf.c    |  5 +++++
->>>  include/linux/dma-buf.h      | 22 ++++++++++++++++++++++
->>>  include/uapi/linux/dma-buf.h |  1 +
->>>  3 files changed, 28 insertions(+)
->>>
->>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>> index edaa9e4ee4ae..b9b315317f2d 100644
->>> --- a/drivers/dma-buf/dma-buf.c
->>> +++ b/drivers/dma-buf/dma-buf.c
->>> @@ -561,6 +561,11 @@ static long dma_buf_ioctl(struct file *file,
->>>         case DMA_BUF_IOCTL_IMPORT_SYNC_FILE:
->>>                 return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
->>>  #endif
->>> +       case DMA_BUF_IOCTL_REVOKE:
->>> +               if (dmabuf->ops->revoke)
->>> +                       return dmabuf->ops->revoke(dmabuf);
->>> +               else
->>> +                       return -EINVAL;
->>>
->>>         default:
->>>                 return -ENOTTY;
->>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->>> index 0bc492090237..a68c9ad7aebd 100644
->>> --- a/include/linux/dma-buf.h
->>> +++ b/include/linux/dma-buf.h
->>> @@ -277,6 +277,28 @@ struct dma_buf_ops {
->>>
->>>         int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->>>         void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
->>> +
->>> +       /**
->>> +        * @revoke:
->>> +        *
->>> +        * This callback is invoked from a userspace
->>> +        * DMA_BUF_IOCTL_REVOKE operation, and requests that access to
->>> +        * the buffer is immediately and permanently revoked.  On
->>> +        * successful return, the buffer is not accessible through any
->>> +        * mmap() or dma-buf import.  The request fails if the buffer
->>> +        * is pinned; otherwise, the exporter marks the buffer as
->>> +        * inaccessible and uses the move_notify callback to inform
->>> +        * importers of the change.  The buffer is permanently
->>> +        * disabled, and the exporter must refuse all map, mmap,
->>> +        * attach, etc. requests.
->>> +        *
->>> +        * Returns:
->>> +        *
->>> +        * 0 on success, or a negative error code on failure:
->>> +        * -ENODEV if the associated device no longer exists/is closed.
->>> +        * -EBADFD if the buffer has already been revoked.
->>> +        */
->>> +       int (*revoke)(struct dma_buf *dmabuf);
->>>  };
->>>
->>>  /**
->>> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
->>> index 5a6fda66d9ad..84bf2dd2d0f3 100644
->>> --- a/include/uapi/linux/dma-buf.h
->>> +++ b/include/uapi/linux/dma-buf.h
->>> @@ -178,5 +178,6 @@ struct dma_buf_import_sync_file {
->>>  #define DMA_BUF_SET_NAME_B     _IOW(DMA_BUF_BASE, 1, __u64)
->>>  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE _IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
->>>  #define DMA_BUF_IOCTL_IMPORT_SYNC_FILE _IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
->>> +#define DMA_BUF_IOCTL_REVOKE   _IO(DMA_BUF_BASE, 4)
->>>
->>>  #endif
->>> --
->>> 2.47.3
->>>
->>
-> 
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
