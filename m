@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-53713-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53714-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLJRIPyboWl8ugQAu9opvQ
-	(envelope-from <linux-media+bounces-53713-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 14:28:28 +0100
+	id iLKrKCqcoWl8ugQAu9opvQ
+	(envelope-from <linux-media+bounces-53714-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 14:29:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61D31B7A4A
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 14:28:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 013721B7A69
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 14:29:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F333931A299F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 13:23:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9561231ADC49
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 13:23:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E615C253F07;
-	Fri, 27 Feb 2026 13:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D26C7257435;
+	Fri, 27 Feb 2026 13:23:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ecpMkkuU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mbiTjtOT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5397C22B8C5;
-	Fri, 27 Feb 2026 13:23:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35038226D00;
+	Fri, 27 Feb 2026 13:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772198617; cv=none; b=DrwjUTdzu8qCYlnK82AJrjDbMO/Y0h0QPip3UT6xsbu8ag5mcnE8Omz78Hg5+ZLOISodzEzgdGlvx/lOCN9br7EK/jrO+gKuHuzANnPCaNJVZKHecxDu7zlU3c+M4ryzAdFpH+JhUheOGHJSlpE4zDVAZ53+SZRw1CgjoivlppY=
+	t=1772198620; cv=none; b=hbh1did4268kq+xmlW2wv7rf2+VNVEahJiN7fE8ZF5ldOBYZdFE5owg5z8p5PSJZSAwW0k+2lspZ3V8bw7nm2CG9pAabGna59PpBtR+fDz+lulc2gwgfjBUaB7jc/iCb3o5AmVnRY6gKeZxZZnPUn0DONa78piSv8XOV7pbstwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772198617; c=relaxed/simple;
-	bh=uocFqI6buKhD72I9T9guormXJl46wyFDpX9g7jostug=;
+	s=arc-20240116; t=1772198620; c=relaxed/simple;
+	bh=lO+1PMKRSkJNghp2Ly48vsH4KqRxHWKQohidvl/pe2Y=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rAHEdx8LxDMepyRJCwbpB8axXxo9ngw5SoJ7PeKw53XfNUhGr815PtpTThIp8b0n4VosrP+Qi9THWAhfZaPrKd4/LUpGck+sNc/7Jpg/KY8LAeRk5HHqeMoLUvhv/vtNj1TivB29OhWXfTkArfYLpo+HPN4ElDTff7MEe+LhmQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ecpMkkuU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C2BC19423;
-	Fri, 27 Feb 2026 13:23:36 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=AoB2mevreOJr7d2AESY/eRZ+2zIP1Ns2qyLXFf5mARJmRQrP8opRFI15rG6lHVsGfPfw3tOhBHDBKA5d1GUBeeEIVZ7dOuwbjuIF2fb1C5bal4MzI9uv16OgVC+h6VMiuX0KumYvDBVK9AkkjEWktRDcydJQa+qefBCIFtcK/K0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mbiTjtOT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7533CC19425;
+	Fri, 27 Feb 2026 13:23:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772198617;
-	bh=uocFqI6buKhD72I9T9guormXJl46wyFDpX9g7jostug=;
+	s=k20201202; t=1772198619;
+	bh=lO+1PMKRSkJNghp2Ly48vsH4KqRxHWKQohidvl/pe2Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ecpMkkuUspj/gJIru8op3fzbNPWELjGitExJdq/w7/qfHqcC4CNuEzgaZG1stLgsv
-	 79jSbCbuKccznKaAR8fVwA+5q18KVaVRgEj/aeOcOdyyLL+NhD6m6mYTCJFWFAQNRo
-	 vs+L46uRiOU83XtQHbHdgb9QML4jqT7c6Gmtv/2R+2EOz7Al2pWMMWX+RIZGIaxUBd
-	 24FDoKikk7LdLS2jiTvt1niMukJYZND8Tn9IKZwMB/1rlQjAUn43JA/TlZ59izSgwt
-	 szKjgxFMFue/OWXvQFcXJDIEgTH/j1TzFqK1uX/VEqrJDchUSR8dr8Ue7EoiQ1NWsh
-	 EY5BIZT8ta9jg==
+	b=mbiTjtOTtuYBF8BfT7XeQwDLoBt+5a7dz9SjmhZsiT/Ed8nZ0DmC5/uiyq4NhyTR3
+	 oLSGEaItLTWcAmVbJqqrihiQ9GKFuYF3DWS12w380+9jcbM/J0s943BD+jdZWPD0uE
+	 mKjJTUg2tiq+Y2+Izuo7hzOjguwCiTb6+L/4DhwqO2G4cwzY4cZYe5rhRo/ufQNHR/
+	 VjM8EsN/4f4QLEtDsvVSUlt3pmHCi3PYrC1g+69TmOUzcOL+vkjWdTwu1lgKdqRGKd
+	 L0vN25+2kKwCx6Lb5BEBrlA0+1vAlWCamvXuZ3Y2S9zkgm3xNN5BOodNjRcv7jNYzC
+	 FmxrJ8KBFCMoQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 27 Feb 2026 14:15:46 +0100
-Subject: [PATCH v2 7/9] dma-buf: heaps: Export mem_accounting parameter
+Date: Fri, 27 Feb 2026 14:15:47 +0100
+Subject: [PATCH v2 8/9] dma-buf: heaps: cma: Turn the heap into a module
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-dma-buf-heaps-as-modules-v2-7-454aee7e06cc@kernel.org>
+Message-Id: <20260227-dma-buf-heaps-as-modules-v2-8-454aee7e06cc@kernel.org>
 References: <20260227-dma-buf-heaps-as-modules-v2-0-454aee7e06cc@kernel.org>
 In-Reply-To: <20260227-dma-buf-heaps-as-modules-v2-0-454aee7e06cc@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -76,32 +76,32 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  iommu@lists.linux.dev, linux-mm@kvack.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1114; i=mripard@kernel.org;
- h=from:subject:message-id; bh=uocFqI6buKhD72I9T9guormXJl46wyFDpX9g7jostug=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLZ+2Ki8n9kLHCV18veOuNicIeLwMiOv1Xl98WSn+67
- XbO1WzxjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRLSGMDQes1d02GbyXm2tv
- IRfKObu+Z/vdzpO2tZYbUsPeRFvGnJm3MG3Cntl63Fpl+vkr2NafZmz4J25xLKUpJWdzkeDfwk8
- NO842Hvv6WLVwotMLn80bM75ahwjp36jZG2z8xefg4Y8x9x8CAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1869; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=lO+1PMKRSkJNghp2Ly48vsH4KqRxHWKQohidvl/pe2Y=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLZ+2W++9zO/z5lufFLSXNFS8W31js/fEI+23H6tPWe
+ RaGlbfud0xlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJuGxkrJXtEojUePZxXdIW
+ M+lfYdyzmvsZw5QiVkd/Et23xmEVe8Rdk4tFrH+yUv2LF2qcNnqVwdjweq3b1eAsndxiJb5N7Nw
+ ir5LXrjjZaRxzc67vhM4lm6UlmeUf8nftu+8tL73UeVUJ410A
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53713-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53714-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[23];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
@@ -111,37 +111,54 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D61D31B7A4A
+X-Rspamd-Queue-Id: 013721B7A69
 X-Rspamd-Action: no action
 
-The mem_accounting kernel parameter is used by heaps to know if they
-should account allocations in their respective cgroup controllers.
+Now that all the symbols used by the CMA heap are exported, turning the
+CMA heap into a module becomes pretty easy: we just need to add the
+usual MODULE_* macros, import the proper namespaces and change the
+Kconfig symbol to a tristate.
 
-Since we're going to allow heaps to compile as modules, we need to
-export that variable.
+This heap won't be able to unload though, since we're missing a lot of
+infrastructure to make it safe.
 
 Reviewed-by: T.J. Mercier <tjmercier@google.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/dma-buf/dma-heap.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/dma-buf/heaps/Kconfig    | 2 +-
+ drivers/dma-buf/heaps/cma_heap.c | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index ac5f8685a649496c0e1c6decbf263b63fa472d04..a76bf3f8b071a3d5bf39a8513f31e9e8aa16e02f 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -51,10 +51,11 @@ static DEFINE_XARRAY_ALLOC(dma_heap_minors);
+diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..aed0b9b4febf388376cfc41be9843980d010c4e8 100644
+--- a/drivers/dma-buf/heaps/Kconfig
++++ b/drivers/dma-buf/heaps/Kconfig
+@@ -4,11 +4,11 @@ config DMABUF_HEAPS_SYSTEM
+ 	help
+ 	  Choose this option to enable the system dmabuf heap. The system heap
+ 	  is backed by pages from the buddy allocator. If in doubt, say Y.
  
- bool __read_mostly mem_accounting;
- module_param(mem_accounting, bool, 0444);
- MODULE_PARM_DESC(mem_accounting,
- 		 "Enable cgroup-based memory accounting for dma-buf heap allocations (default=false).");
-+EXPORT_SYMBOL_NS_GPL(mem_accounting, "DMA_BUF_HEAP");
+ config DMABUF_HEAPS_CMA
+-	bool "DMA-BUF CMA Heap"
++	tristate "DMA-BUF CMA Heap"
+ 	depends on DMABUF_HEAPS && DMA_CMA
+ 	help
+ 	  Choose this option to enable dma-buf CMA heap. This heap is backed
+ 	  by the Contiguous Memory Allocator (CMA). If your system has these
+ 	  regions, you should say Y here.
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index f8a3d87f3ccee9630383ba28502eb40b10671cc2..7216a14262b04bb6130ddf26b7d009f7d15b03fd 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -422,5 +422,8 @@ static int __init add_cma_heaps(void)
  
- static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
- 				 u32 fd_flags,
- 				 u64 heap_flags)
- {
+ 	return 0;
+ }
+ module_init(add_cma_heaps);
+ MODULE_DESCRIPTION("DMA-BUF CMA Heap");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("DMA_BUF");
++MODULE_IMPORT_NS("DMA_BUF_HEAP");
 
 -- 
 2.53.0
