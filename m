@@ -1,165 +1,475 @@
-Return-Path: <linux-media+bounces-53739-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53740-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EJ4ME4LJoWmqwQQAu9opvQ
-	(envelope-from <linux-media+bounces-53739-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:42:42 +0100
+	id qF08BDTLoWnbwQQAu9opvQ
+	(envelope-from <linux-media+bounces-53740-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:49:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EA31BAEF9
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D1A1BB018
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:49:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 08CA0312B15A
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:41:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AFC4A30DB67D
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:47:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2B4A34A795;
-	Fri, 27 Feb 2026 16:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FE6A349B03;
+	Fri, 27 Feb 2026 16:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kaYFALf4"
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="AsZRArcr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5B9346E5E;
-	Fri, 27 Feb 2026 16:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772210469; cv=none; b=A+71L1tYFrNlABoONSE8HOY1Iq8106hwzXaDKXtbOV+7BJ03wt45rlfrrbYr9WNG/7wTlKBNVI0M88nX9BuwYzvM1nwkeHOPU733kgk11ax045/qszBOUjHWl1PQzKCUVQSxd1zUrCToqQ7eUFeiKyX77512H/KPqhPEUL+4J+g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772210469; c=relaxed/simple;
-	bh=Ra4gGeTukVvl+IUi3kpBx/h8Xrcr5tcq4BLIbbsXf6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WHlze4E1QJRgwKf1fTjgP47QJPTVdB/DQcbGBgQRZV1NMS1EG3Bbx+rJcSzuWd2b756gPhdJM7zylyR2A9z1xVbWncYgB1vtF+lAkXLL5PF4ktT4oOL1ibKdZTAqNLr/WXmb/ylFGmuIHX14jINS8KDylLpSFEJOvqUHpcXtbQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kaYFALf4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A9DC116C6;
-	Fri, 27 Feb 2026 16:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772210468;
-	bh=Ra4gGeTukVvl+IUi3kpBx/h8Xrcr5tcq4BLIbbsXf6c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kaYFALf4xSZVQAbA312F7K02ns0zy5kcaOvWHFJNWY9AvATt7pUW+bvMJKbdtChtm
-	 tH2uUwehXsL2Hj8fdwwpVCcWuHdDsb63uUFJP2cMF43xNCJTDSxZcHpwvTLSu1U7Sl
-	 M2FUvnb6mDY3PWKJMno+e3SWOYvxG8KKG8vxw4MEn6hOq41EUPBH23+RINiw2vhX+e
-	 FbHp3qUfZvbZuE+CnrnSZvs5NqaaWkofdWxMYqTtE/Z0RbEfnkD+zmDgc1t+2WJ5x1
-	 9nBJrTX+Zzefz1LyUgn8uO+y6uQ40gkpU5G5jKsZVOMPxB3x2051Wg3WzGAPsaffSQ
-	 nrMMZp0t1q53A==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vw0tB-000000002TD-2FBk;
-	Fri, 27 Feb 2026 17:40:29 +0100
-Date: Fri, 27 Feb 2026 17:40:29 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
- printk helpers
-Message-ID: <aaHI_VavZugXjVoL@hovoldconsulting.com>
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
- <aaFcs1miP88QWmtH@hovoldconsulting.com>
- <aaFfEsfh0xTh0b1y@shikoro>
- <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
- <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E14346FBC
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 16:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.123
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772210845; cv=pass; b=OPZcw6FKkcTlumKk7eq1zYR+uWxH4+afqy311Be8fdYJaf/RWlQ36a02JH7j7iyDHWPJCdQa7KQRMDtkSZsukJ8UVjsEd6LaVYye41fx4QUyt7ucCSpcS9YQtMK6BqLI1BS7ArzF5rsNLSiMH1NcZlIpyI0ON9rBi+h+cDT3OSk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772210845; c=relaxed/simple;
+	bh=EtniMrkccfrrFst83snpcJ9FJYzCqUqT1Eux3rWxpmo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sb0qO1hp7U7OqOHvbXuwVP2NlGVcSPjS+Ig6smm4Sx9Np4IV3mlP3DNkX5bjY43q+TNR3+NuDEQoC454bcB82m4XzYxZMRf2iou9RtV0nEPFhdynAA3f0RA62F4yGe5XgK78FYYyXFLmyQpdj3IKxPSGxVGPTgeVOPRcwmmfE9k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=AsZRArcr; arc=pass smtp.client-ip=185.125.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com [74.125.224.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 35EEC3FE1A
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 16:47:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1772210832;
+	bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=AsZRArcr+IHOjGSBnonu/oj477dSluZfbYqix5/Y3zCBdoV1+uw6mYYHWwc4sPEzW
+	 HjFcFZE09FnavTkEnrKbxmF0r3YbTQPiFMojDWqkufdWKDMCZW9OPxWmPLHGl8VYyP
+	 aEEDR142r/egN11v+6BUwh9UCjnO7iqcqVKNlvjuimRs6gHHfWgooiT0xYazkycZV9
+	 iGaNpfepDa56QYdI4I7j3O9bAMZ5DH4c2WTlkXndqNrhlLiQOUUvwizjaREzzR+RaW
+	 G6qhyP2mK34/AwEY8BsSjxU/P2yJBLCVcFF0FazsuIIhPpIJJoppDe/KKLv377XKJO
+	 ckRoiSwBJ3h5NMgLM0yT68s2FLDl6gyLkP/lRN3fVuLZu1yxgjda/ENN1odqNnDS9i
+	 cUltWCZdejwVb0iOVt7w8SJ+e7iURRxp5NxrVK346lnXyAMDOroqzltJLwTrKWTFrE
+	 AN4ruGpriTmmvQ9GwGNvr1LpOw6mwnclV+8SKwiXFM2kWGMs7WC4UqqVSYW/5oxS+O
+	 xoiqh6Acy+TYgniHFTAsDU75wpJzuZLSiIVgwW31LUadIpejlNvpg5EcfEaBbQmLVj
+	 NgnJJyPdPSKozzmB9LKkQNdrUwMQftfhfgs3hHlvFhllpGK5m8UgazcxDHxIY0+WhT
+	 Efp718XcrpREHjvzQoHFxdjs=
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-64cad8f8d03so4108379d50.1
+        for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 08:47:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772210831; cv=none;
+        d=google.com; s=arc-20240605;
+        b=lvoBlmEfNnZ20mdEqSqyy8C5+/MVDJLJ/wYuaABjJwB1qF/NW8eNrIcPax/17n5eWK
+         aXe/8HsjtsTrDaaMmW+cYeUSBRtGCRBDNuD2JAbKsjjgQzeeH5H/IkD9Od9BnQp0/FSI
+         JYVLRwI97ns/hu+JTQDV86bggXNbAvYNvdR4qaEaPmjOQJs49g8EHSO4URZ2d1D+lssf
+         v6KgtITqUl16sSknyZ+Vw+GWkVcSuHglE14T4yy7C/PGA8X4Qz8ljxQ82EgMGzt3N5/6
+         pjUuy27cy5jpi6ucTrL//aYqcvoCPpd1dTLNpeJV+yIXogWPQ0d3cMEbXG6Qsf/YhRQM
+         5aVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version;
+        bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+        fh=RS3bSNHg9U3Piw+ZJrYHoV70tyqAyNAHxZsKHxlS8Hg=;
+        b=kyhDVrbHFb5yRDIi9W/NEiGAZ4C2zGumLfDGq0jxHTpKlY+SQTOKoiCOeA9h82tGwd
+         ucixpyAH2WRiql/76o3L0FpCFZU+HHzoBziFogBuhofD9W+WjXZxnANjqxs/H4AnL+Qn
+         ImLNjaVJVtC2eC//f8Ux/n49vr7TwDm0un9z/SLotZZ46BOdcVMiGOJbczKH67GDQIk1
+         9Isvf/4C5ZdDc5O0H6tZQQSWWkrywdNHiSgKOoT5KsZJLTuHRH40mwDzn6bJGyupnKjK
+         koab6APZkXFvzkp+qmha9YVKeXBtYoGVYDEU5XcqRAmUYoLeeXw+FZJ3oiRzv0cxuUu8
+         ROhQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772210831; x=1772815631;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BKQzT9t7ZI3mb+6EDIKBTxaX0DX68JkIAcPYLBp08+M=;
+        b=orCIRUc/rVN4csplDoiMGSCP1qrbNYRvFgkpWxZjJE4/tz0zEDU94w31Ct90fjAOZx
+         ZPDCXGHUywTrlJbqFTOvbGg3i9idSREJEkMzpKLtPh7GDpS4foigQ3vPUgygWBclK+DR
+         vRWDz4lBn5Qv4mdL7NCdw9tYjkV3sX8zvC9K7YflpCXHaa5m+cA8ngx9JZnc3EkBzTbD
+         lwryzzO/Ybsdw50/jsSVWKjrt4dDjQ1ux2zMASmoi+XbXYyGOql4MvDbnssSdchWrPZK
+         VEhmAK4KOF6VVtNbPHu31r9L05k7VCqI4ZxOOT+IDJJaL7qzCrUdmAD0h7WYJ3yFNOzL
+         o+eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWKnIgIP6Y730oJDoYC0dAns40w4+gof2JefMUf3+3dpo3prUNXU9xwRzJJowPd1ICJUyN005Z/fCAwpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKMedRgb6eIlO8mkF7z5Z/0ANY2TKe0Gef3iQnCT5Ko22Dqb5u
+	F+NpNtgXOWOIjOGv9XNo2/a4u3xdoAz0wPmFygJ+OGw/0Nv0FzR3Y98Gar7TRHwNMy/R0XyLkxP
+	+b3boiEurHWt/PdWcz0jA0dvQnp0q/jrdP3NHkeTiRdN7bi9shZET0VKILnhkxUmthyKNJQGld3
+	Fwje4uIVbrYgoDPpZ2//t2I+EHj1guFuqOJnVn6YAoJxg24a7V+wWu+bg=
+X-Gm-Gg: ATEYQzw9Yx2d1E4vC7lawsovDrluk8LP0mfg6iVmS3U3GmUllmrUQzVA2Fke12zwrMp
+	HtyHiUi2egamI97fqFmMzhIK5Q+xKKbtL1RqPSur0EyK7OcwEJrKTMeh7s8qZimXBEyYzBZ8K6W
+	UImzPnDGSVvMn8zjrVXM8vL3RyxTpSxQyV8+6jhz0YtHNvEQYsxWEP8mZdUmVjBBvTGbcfvhocO
+	x7nsgCe0oJcTWBo27IbIySNa6ogQRXK5bRKiAiTOAXwDjnOFr0sxehLFezsgMHaD2A=
+X-Received: by 2002:a53:b743:0:b0:64c:9b84:92ee with SMTP id 956f58d0204a3-64cb6f438a9mr3821177d50.31.1772210830739;
+        Fri, 27 Feb 2026 08:47:10 -0800 (PST)
+X-Received: by 2002:a53:b743:0:b0:64c:9b84:92ee with SMTP id
+ 956f58d0204a3-64cb6f438a9mr3821130d50.31.1772210830102; Fri, 27 Feb 2026
+ 08:47:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
+References: <20260226-iino-u64-v1-0-ccceff366db9@kernel.org> <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
+In-Reply-To: <20260226-iino-u64-v1-51-ccceff366db9@kernel.org>
+From: Ryan Lee <ryan.lee@canonical.com>
+Date: Fri, 27 Feb 2026 08:46:58 -0800
+X-Gm-Features: AaiRm50sr0j0-BwzNnmwGRvH8jyB1wNkHgZo3vdp3K_4YIT1mBOH-BzuS2c5S3A
+Message-ID: <CAKCV-6ujQK3yj8sB2eHafaw4pvrJUeK18Hu4vzvNSjH48RVgYg@mail.gmail.com>
+Subject: Re: [PATCH 51/61] security: update audit format strings for u64 i_ino
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Eric Biggers <ebiggers@kernel.org>, 
+	"Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+	David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Steve French <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
+	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
+	Christian Schoenebeck <linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Ilya Dryomov <idryomov@gmail.com>, 
+	Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
+	Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>, 
+	Christoph Hellwig <hch@infradead.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
+	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse <dwmw2@infradead.org>, 
+	Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, 
+	Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
+	Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
+	Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+	John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Willem de Bruijn <willemb@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Martin Schiller <ms@dev.tdt.de>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
+	linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
+	v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
+	ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
+	ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+	linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
+	linux-x25@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[canonical.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[canonical.com:s=20251003];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53739-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[sang-engineering.com,oss.qualcomm.com,kernel.org,gmail.com,sholland.org,nvidia.com,suse.com,linux.ibm.com,ellerman.id.au,suse.de,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	TAGGED_FROM(0.00)[bounces-53740-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[canonical.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[johan@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[ryan.lee@canonical.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[146];
+	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[hovoldconsulting.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E0EA31BAEF9
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[canonical.com:email,canonical.com:dkim,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 65D1A1BB018
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 04:42:09PM +0100, Bartosz Golaszewski wrote:
-> On Fri, Feb 27, 2026 at 11:06 AM Johan Hovold <johan@kernel.org> wrote:
+On Thu, Feb 26, 2026 at 9:13=E2=80=AFAM Jeff Layton <jlayton@kernel.org> wr=
+ote:
+>
+> Update %lu/%ld to %llu/%lld in security audit logging functions that
+> print inode->i_ino, since i_ino is now u64.
+>
+> Files updated: apparmor/apparmorfs.c, integrity/integrity_audit.c,
+> ipe/audit.c, lsm_audit.c.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  security/apparmor/apparmorfs.c       |  4 ++--
+>  security/integrity/integrity_audit.c |  2 +-
+>  security/ipe/audit.c                 |  2 +-
+>  security/lsm_audit.c                 | 10 +++++-----
+>  security/selinux/hooks.c             |  4 ++--
+>  security/smack/smack_lsm.c           | 12 ++++++------
+>  6 files changed, 17 insertions(+), 17 deletions(-)
+>
+> diff --git a/security/apparmor/apparmorfs.c b/security/apparmor/apparmorf=
+s.c
+> index 2f84bd23edb69e7e69cb097e554091df0132816d..7b645f40e71c956f216fa6a7d=
+69c3ecd4e2a5ff4 100644
+> --- a/security/apparmor/apparmorfs.c
+> +++ b/security/apparmor/apparmorfs.c
+> @@ -149,7 +149,7 @@ static int aafs_count;
+>
+>  static int aafs_show_path(struct seq_file *seq, struct dentry *dentry)
+>  {
+> -       seq_printf(seq, "%s:[%lu]", AAFS_NAME, d_inode(dentry)->i_ino);
+> +       seq_printf(seq, "%s:[%llu]", AAFS_NAME, d_inode(dentry)->i_ino);
+>         return 0;
+>  }
+>
+> @@ -2644,7 +2644,7 @@ static int policy_readlink(struct dentry *dentry, c=
+har __user *buffer,
+>         char name[32];
 
-> > It seems all that is needed is to decouple the struct i2c_adapter from
-> > the driver data and have core manage the lifetime of the former using
-> > the reference count of the embedded struct device.
+I have confirmed that the buffer is still big enough for a 64-bit inode num=
+ber.
 
-> This is a weird pattern you sometimes see where a driver allocates
-> something and passes the ownership to the subsystem.
+>         int res;
+>
+> -       res =3D snprintf(name, sizeof(name), "%s:[%lu]", AAFS_NAME,
+> +       res =3D snprintf(name, sizeof(name), "%s:[%llu]", AAFS_NAME,
+>                        d_inode(dentry)->i_ino);
+>         if (res > 0 && res < sizeof(name))
+>                 res =3D readlink_copy(buffer, buflen, name, strlen(name))=
+;
 
-It's not weird at all, this is the standard way to handle this. We have
-these things called reference counts for a reason.
+For the AppArmor portion:
 
-> This often
-> causes confusion among driver authors, who logically assume that if
-> you allocate something, you are responsible for freeing it.Since this
-> is C and not Rust (where such things are tracked by the compiler), I
-> strongly believe we should strive to keep ownership consistent: the
-> driver should free resources it allocated within the bounds of the
-> lifetime of the device it controls. The subsystem should manage the
-> data it allocated - in this case the i2c adapter struct device.
+Reviewed-By: Ryan Lee <ryan.lee@canonical.com>
 
-Drivers are responsible for dropping *their* reference, it doesn't mean
-that the resource is necessarily freed immediately as someone else may
-be holding a reference. Anyone surprised by this should not be doing
-kernel development.
-
-> I know there are a lot of places where this is done in the kernel but
-> let's not introduce new ones. This is a bad pattern.
-
-No, it's not. It's literally the standard way of doing this.
-
-> But even if you decided this is the way to go, I fail to see how it
-> would be easier than what I'm trying to do. You would have to modify
-> *all* I2C bus drivers as opposed to only modifying those that access
-> the underlying struct device. Or am I missing something?
-
-Yes, you have to update the allocation and replace container_of() with
-dev_get_drvdata() but it's a straight-forward transformation that brings
-the i2c subsystem more in line with the driver model (unlike whatever it
-is you're trying to do).
-
-Johan
+> diff --git a/security/integrity/integrity_audit.c b/security/integrity/in=
+tegrity_audit.c
+> index 0ec5e4c22cb2a1066c2b897776ead6d3db72635c..d8d9e5ff1cd22b091f462d1e8=
+3d28d2d6bd983e9 100644
+> --- a/security/integrity/integrity_audit.c
+> +++ b/security/integrity/integrity_audit.c
+> @@ -62,7 +62,7 @@ void integrity_audit_message(int audit_msgno, struct in=
+ode *inode,
+>         if (inode) {
+>                 audit_log_format(ab, " dev=3D");
+>                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -               audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +               audit_log_format(ab, " ino=3D%llu", inode->i_ino);
+>         }
+>         audit_log_format(ab, " res=3D%d errno=3D%d", !result, errno);
+>         audit_log_end(ab);
+> diff --git a/security/ipe/audit.c b/security/ipe/audit.c
+> index 3f0deeb54912730d9acf5e021a4a0cb29a34e982..93fb59fbddd60b56c0b22be2a=
+38b809ef9e18b76 100644
+> --- a/security/ipe/audit.c
+> +++ b/security/ipe/audit.c
+> @@ -153,7 +153,7 @@ void ipe_audit_match(const struct ipe_eval_ctx *const=
+ ctx,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 } else {
+>                         audit_log_format(ab, " dev=3D? ino=3D?");
+>                 }
+> diff --git a/security/lsm_audit.c b/security/lsm_audit.c
+> index 7d623b00495c14b079e10e963c21a9f949c11f07..737f5a263a8f79416133315ed=
+f363ece3d79c722 100644
+> --- a/security/lsm_audit.c
+> +++ b/security/lsm_audit.c
+> @@ -202,7 +202,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -215,7 +215,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -228,7 +228,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>
+>                 audit_log_format(ab, " ioctlcmd=3D0x%hx", a->u.op->cmd);
+> @@ -246,7 +246,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 if (inode) {
+>                         audit_log_format(ab, " dev=3D");
+>                         audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -                       audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +                       audit_log_format(ab, " ino=3D%llu", inode->i_ino)=
+;
+>                 }
+>                 break;
+>         }
+> @@ -265,7 +265,7 @@ void audit_log_lsm_data(struct audit_buffer *ab,
+>                 }
+>                 audit_log_format(ab, " dev=3D");
+>                 audit_log_untrustedstring(ab, inode->i_sb->s_id);
+> -               audit_log_format(ab, " ino=3D%lu", inode->i_ino);
+> +               audit_log_format(ab, " ino=3D%llu", inode->i_ino);
+>                 rcu_read_unlock();
+>                 break;
+>         }
+> diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+> index d8224ea113d1ac273aac1fb52324f00b3301ae75..150ea86ebc1f7c7f8391af410=
+9a3da82b12d00d2 100644
+> --- a/security/selinux/hooks.c
+> +++ b/security/selinux/hooks.c
+> @@ -1400,7 +1400,7 @@ static int inode_doinit_use_xattr(struct inode *ino=
+de, struct dentry *dentry,
+>         if (rc < 0) {
+>                 kfree(context);
+>                 if (rc !=3D -ENODATA) {
+> -                       pr_warn("SELinux: %s:  getxattr returned %d for d=
+ev=3D%s ino=3D%ld\n",
+> +                       pr_warn("SELinux: %s:  getxattr returned %d for d=
+ev=3D%s ino=3D%lld\n",
+>                                 __func__, -rc, inode->i_sb->s_id, inode->=
+i_ino);
+>                         return rc;
+>                 }
+> @@ -3477,7 +3477,7 @@ static void selinux_inode_post_setxattr(struct dent=
+ry *dentry, const char *name,
+>                                            &newsid);
+>         if (rc) {
+>                 pr_err("SELinux:  unable to map context to SID"
+> -                      "for (%s, %lu), rc=3D%d\n",
+> +                      "for (%s, %llu), rc=3D%d\n",
+>                        inode->i_sb->s_id, inode->i_ino, -rc);
+>                 return;
+>         }
+> diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
+> index 98af9d7b943469d0ddd344fc78c0b87ca40c16c4..7e2f54c17a5d5c70740bbfa92=
+ba4d4f1aca2cf22 100644
+> --- a/security/smack/smack_lsm.c
+> +++ b/security/smack/smack_lsm.c
+> @@ -182,7 +182,7 @@ static int smk_bu_inode(struct inode *inode, int mode=
+, int rc)
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -195,7 +195,7 @@ static int smk_bu_inode(struct inode *inode, int mode=
+, int rc)
+>
+>         smk_bu_mode(mode, acc);
+>
+> -       pr_info("Smack %s: (%s %s %s) inode=3D(%s %ld) %s\n", smk_bu_mess=
+[rc],
+> +       pr_info("Smack %s: (%s %s %s) inode=3D(%s %lld) %s\n", smk_bu_mes=
+s[rc],
+>                 tsp->smk_task->smk_known, isp->smk_inode->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, current->comm);
+>         return 0;
+> @@ -214,7 +214,7 @@ static int smk_bu_file(struct file *file, int mode, i=
+nt rc)
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -223,7 +223,7 @@ static int smk_bu_file(struct file *file, int mode, i=
+nt rc)
+>                 rc =3D 0;
+>
+>         smk_bu_mode(mode, acc);
+> -       pr_info("Smack %s: (%s %s %s) file=3D(%s %ld %pD) %s\n", smk_bu_m=
+ess[rc],
+> +       pr_info("Smack %s: (%s %s %s) file=3D(%s %lld %pD) %s\n", smk_bu_=
+mess[rc],
+>                 sskp->smk_known, smk_of_inode(inode)->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, file,
+>                 current->comm);
+> @@ -244,7 +244,7 @@ static int smk_bu_credfile(const struct cred *cred, s=
+truct file *file,
+>         char acc[SMK_NUM_ACCESS_TYPE + 1];
+>
+>         if (isp->smk_flags & SMK_INODE_IMPURE)
+> -               pr_info("Smack Unconfined Corruption: inode=3D(%s %ld) %s=
+\n",
+> +               pr_info("Smack Unconfined Corruption: inode=3D(%s %lld) %=
+s\n",
+>                         inode->i_sb->s_id, inode->i_ino, current->comm);
+>
+>         if (rc <=3D 0)
+> @@ -253,7 +253,7 @@ static int smk_bu_credfile(const struct cred *cred, s=
+truct file *file,
+>                 rc =3D 0;
+>
+>         smk_bu_mode(mode, acc);
+> -       pr_info("Smack %s: (%s %s %s) file=3D(%s %ld %pD) %s\n", smk_bu_m=
+ess[rc],
+> +       pr_info("Smack %s: (%s %s %s) file=3D(%s %lld %pD) %s\n", smk_bu_=
+mess[rc],
+>                 sskp->smk_known, smk_of_inode(inode)->smk_known, acc,
+>                 inode->i_sb->s_id, inode->i_ino, file,
+>                 current->comm);
+>
+> --
+> 2.53.0
+>
+>
 
