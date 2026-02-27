@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-53663-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53664-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ACr4FNpHoWkirwQAu9opvQ
-	(envelope-from <linux-media+bounces-53663-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:29:30 +0100
+	id kPW3HAtIoWkirwQAu9opvQ
+	(envelope-from <linux-media+bounces-53664-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:30:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3A81B3E71
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:29:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F271B3E8E
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:30:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3551F30F9CDB
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 07:27:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8F260309A13D
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 07:28:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00ED536BCD7;
-	Fri, 27 Feb 2026 07:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C91DB35A385;
+	Fri, 27 Feb 2026 07:28:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b+Mseb1b"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cDvgwN7j"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62771163;
-	Fri, 27 Feb 2026 07:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35761364E91;
+	Fri, 27 Feb 2026 07:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772177234; cv=none; b=hvRSyF+NemZPcfWJNmv16UOCmMsiYzz1WragjN9CTIjcgzMjdTwJuxVP2lmHvWsnif6XZg1MpLTQiuXGndd9jSlfAM2wJAcpLR4jodikgoe3y9BeuxUOlRuL3zMANWGfDPY4INjD7ZHod+3gwggM1pHBH89OQ6pcC8UF4VKlGxo=
+	t=1772177299; cv=none; b=OzH4wGJMjJ0nkvyav8x2K0aSi9de1aZMDQuoeDxiL58BtElcQ7sAl87O6WY6omoXd/AXXYeQQml/Pk80DyMtin8Hdtb/FPOI5m+xHU7KF6oVKG485+YdRbp3EfofuZwP2bGnCNR/UCC5aLVRufmHdfpAFN5TkU5c14zVPnjm6SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772177234; c=relaxed/simple;
-	bh=i7UkDkxnWjX3dknY5FQXUVwokF/oAjS8YbaaeDCzCE8=;
+	s=arc-20240116; t=1772177299; c=relaxed/simple;
+	bh=JtoES17Nxln4x2/Z3ODW+0119OnP0+ui+E04/VyxiCo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iN15dkP7cRKCeqKX378XJmR4QVIHPv2abwvPAyei4V00jQeTw3VkR8Iu0GJ32gJDip3Q3TZRET1CwYt5IhubobX+FCyeY16aFM1F/Mrwx/ihND9BKqJgzX+lm+t4NhEgn2LyNhSnDL9LQoDRO4o2G3w8d6osrLqZktgvJSgh7Xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b+Mseb1b; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7143CC116C6;
-	Fri, 27 Feb 2026 07:27:13 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=fOiL9VpTGiZoBFzNjHcDKQD0YZ4HunhlOEVqMXYn73eENkOWEpXTETj9+65k3nUR2TZAnSvkJOMAt2eGPowGlD2l84OPvwi3PcYWb6c/ls1S/JbiK9wZCyaY8BGwii2AapMfCEhKn+aqgRGBIM0A3jiBvCFsfeAGuVAKM6bL+cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cDvgwN7j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5CDC19421;
+	Fri, 27 Feb 2026 07:28:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772177234;
-	bh=i7UkDkxnWjX3dknY5FQXUVwokF/oAjS8YbaaeDCzCE8=;
+	s=k20201202; t=1772177298;
+	bh=JtoES17Nxln4x2/Z3ODW+0119OnP0+ui+E04/VyxiCo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b+Mseb1b4IHGe9c3YH/mhLpSkbwklyVH+kUO9hhZF4Gh36Z518pdkpz3r0otfA+4Y
-	 Sq4GYUAJsySUjUejqHuZBBywn4G6adlQ9ntxvC4SX6+tJ50SvbWD4GyDiNVfkF+7Bm
-	 Q14462QMHfUqM3T1T3HrxZq9fOm0aFgCLkRkkZLD8GwC/GyznQtpOGSMVkY9H6/1Lf
-	 zg0FscdUSHHnAadQZ1soeXMYLg4Jk63F3TX5qyD5QAPSiA9n1LvS1wcRd4VGT38g+K
-	 jnfgI8FtP5ef11+ahjpAoCG1xnoSjWrrZ7wQkVsHlTBgii5PxlBsWbFy2TYZBGwIMF
-	 jwxmJGnnsC4sw==
-Date: Fri, 27 Feb 2026 08:27:11 +0100
+	b=cDvgwN7jfZSzfhQQGNxoUHy/Fg8JoHmViIx7QC/nh96cXPsqRLckBbF8dnRAR91rS
+	 D/XFn7SGBg12ZsjNpMZk0wqPnSjwPXxPsloGahLerWfZODqegC9tTMN/XFz929UouR
+	 QxAJb47AaWbpV5RDkaC69jqc+fnK3zSq8tFIqeUm9ElPZw0LU7W/dw58Mc+NPB/epd
+	 wwMfEDHlPugLoQD8RCoQPRs1WZZHlAlThF1+1KkA03V6QjADbNm2rxWE4hSwLkdq1o
+	 D0MXdWUDpeA9R2qMida0aXHuaLSPgcrwm1djf3pIalLmddkYZDg/qaRIXkfRombQNJ
+	 MFfUxAU3TXjYw==
+Date: Fri, 27 Feb 2026 08:28:16 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: Bjorn Andersson <andersson@kernel.org>, 
@@ -55,11 +55,11 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org, 
 	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 3/7] dt-bindings: media: qcom,x1e80100-camss: Add
- iommus minItems: 5
-Message-ID: <20260227-electric-singing-tanuki-fd290f@quoll>
+Subject: Re: [PATCH v9 4/7] dt-bindings: media: qcom,x1e80100-camss: Allow
+ CSIPHY supplies to be optional
+Message-ID: <20260227-quixotic-delectable-rhino-ea72a8@quoll>
 References: <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-0-a59c3f037d0b@linaro.org>
- <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-3-a59c3f037d0b@linaro.org>
+ <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-4-a59c3f037d0b@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,19 +68,19 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-3-a59c3f037d0b@linaro.org>
+In-Reply-To: <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-4-a59c3f037d0b@linaro.org>
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53663-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53664-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,vger.kernel.org];
@@ -94,40 +94,20 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CF3A81B3E71
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D3F271B3E8E
 X-Rspamd-Action: no action
 
-On Thu, Feb 26, 2026 at 02:28:44PM +0000, Bryan O'Donoghue wrote:
-> Specify a minimum number of iommus entries. Currently the schema
+On Thu, Feb 26, 2026 at 02:28:45PM +0000, Bryan O'Donoghue wrote:
+> When CSIPHY devices are modelled as standalone PHY nodes the voltage
+> rails are defined per-PHY. Allow the CAMSS-level supply properties
+> to be omitted in this case.
 
-Why? Your commit msg must explain that.
-
-> requires exactly eight. Add minItems to allow fewer entries while
-> retaining the existing maximum.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-> index 8dbaab16b11d4..f406cf6f8f9c1 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-> @@ -104,6 +104,7 @@ properties:
->        - const: sf_icp_mnoc
->  
->    iommus:
-> +    minItems: 5
->      maxItems: 8
-
-Same review given to two other such tries from Qualcomm - you need to
-list the items. You know differentiate them, so the items in the list
-have strict order and meaning.
+So that's the same patch as adding phys. Why would adding phys and
+keeping these required be a correct approach?
 
 Best regards,
 Krzysztof
