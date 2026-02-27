@@ -1,253 +1,278 @@
-Return-Path: <linux-media+bounces-53683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53684-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iPIwGFBooWkUsgQAu9opvQ
-	(envelope-from <linux-media+bounces-53683-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:48:00 +0100
+	id iNR7NoNsoWmxswQAu9opvQ
+	(envelope-from <linux-media+bounces-53684-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 11:05:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0751B58A6
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:47:59 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8A31B5C08
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 11:05:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id AED3D30309BC
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 09:47:58 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 91FAD305DDFD
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:05:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 479F9309DCF;
-	Fri, 27 Feb 2026 09:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A814D3D349A;
+	Fri, 27 Feb 2026 10:05:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tawCJQB7"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="bA/BA7HU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012054.outbound.protection.outlook.com [40.107.209.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6E629D27D
-	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 09:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772185676; cv=none; b=XTwmtWtBt3f/Z4/jg4s/oJHs2GU7lphvSkB2OzGAVNE4EgURh6AlVs7TV8lZ/pwjyFnwG3iCT9g4ooxZkT0lmm/Fw4zAWfLALwl59wKoVIwi0nUc3IGPw+5nuBgPHQOQrCiDqBV82pjXZIyDR5CYeyH7pMmM7H/lBpVOz8dumQ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772185676; c=relaxed/simple;
-	bh=sDqOLIElO9sU72I8htWWTt5yNo0GEDCaewrWX4E83eY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mCh2UZnpln94c8rCkEcZRWRDpgxO0VzYGBWgy0EFLhmv/qXvitlmWpaWYbdiZP4ksN9YoXbKtBT6V+zoThmC5svvzh9V5aB/Vl1GwcsZP8nZxzOQdmxvw7i5lphRSihbp0Yy1jzGrBYhAOfTm+t7Tp1InPhnqScO6WkxmjVJQTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tawCJQB7; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43770c94dfaso1735858f8f.2
-        for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 01:47:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772185674; x=1772790474; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lvnzu0nnoktPCLf+OVvM4xkOpLiznX3KsepjyKiu5SE=;
-        b=tawCJQB7tfggauC1TSg88aUG+pHpHclM53cndGvlsNz4NrQFs+I8UCJ6GdHKqx1RxV
-         1vYSwGL77XHCQ9nvDrjllPg+fZR40XhHT/7xy9C2VX6STF7BGecOD2BFsLTYHISicTp8
-         N5HU1APBIzVCrmscvO2TYfTAoliRtvLbOWqy97VzFUtRJbiU6YaesbL3BevcMGxWCFbj
-         XIYBXRWtbBQW1tin9nNbI5u6CTGmXy4Qwtf7fk1zq6EsI+Cs72AJopDgWKfQuAV2eCq9
-         2E4Qhl1MnJp++sI0MKAiy5xz6oK/cqKdkh10Tc5OUgPMnAmY0pGLg8y7IBA1zEe7BJPX
-         Ercw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772185674; x=1772790474;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lvnzu0nnoktPCLf+OVvM4xkOpLiznX3KsepjyKiu5SE=;
-        b=S0xvqiYG2z9i+dsdvMHmRd8MB1msf+UFGZfPS8s6CTR83P9TTKH0c6pCxxgVqt4uIY
-         Z8Qz9sCPK96m3JDmxmL2w7i5gqvlc4m17Ueiri18UTNTEOrqxjBAnwjfw6kBDxZIPLNe
-         QDdJxXRoMTL/cZyNxY1SE83mpWsPK7YGBe/5cbcc2+RdwW20BIhtykhnnjAOfvElzk3C
-         sGRjZxGBZAZLPvyBjzePZI+NizVk8KsGqz/RNa3s615IuerD1IjdR0kWvAoWKmV6iRhQ
-         T9NiaToOvChmUqbIs8FaEzaIFPgTiwLV5UN9WbHBvtwVJ/xfGEr5/RyafhBNuCA7R8S6
-         NjSg==
-X-Forwarded-Encrypted: i=1; AJvYcCXhM3f7ZAAN6Hfng48R1fdIJDg/BwJA/6mz/xQcX/OTbvaeruepic8spJskCvxpf/JXGlRbWlRsqWVX8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxG9je3AwrGLNZmpefjfeNW0CBywT7Fg8rHFZN74gkgMu6VqYdF
-	u5zTXHi3O1pv+CECZeyaGoSLqirb4kfgnMWXjjyz1oGPnk0RqPF3BLg0zY+MGqOR0J8=
-X-Gm-Gg: ATEYQzzItPIAR3TgLwD4Ix3MyEshJ9yGGxafcZCypxj2AHpLNW9/8v3ltaWkp706dTM
-	6oXwz3dQpRC5yao/CAnpm+P/s2Qg/qicq4AbKdr18fRGAqXwPDrdJ2nw/3kZpwyZ0fj543JxwfZ
-	BfDBjEAHnyRUVt6r58NI2TyJYmAzAZQdTrGpJJBAWYbXhrR+bIxrQTJGFabVAEuzAFL6Pmcv3xB
-	TT4S673tdXN18ertPm4D3ZSh5xnBKEjX7hDAh60N7CPzaRUluI4JXliPMt6ZoWOf8uMsucDNDjJ
-	uWZK9AR7FUMWuwSxUdJFxvh9GWR/tB8LKxwgCU1jrsXIailp36z3/kHCKb7izJSycBtI+Du6oMO
-	EPkL52hmn3TShuKrFA0RKVMpQFXMaSX2KJ0wFdZdNjQDltMBUoe6q6xPx08Rh1XYLZlwEO1sWQw
-	robQylqG+akKSaUs6mTPnjGMKzNjX7XWOpWZXPgSJgwcMg4YibUgAFVf1VWfJAV7bfgHXZt8zAe
-	Og=
-X-Received: by 2002:a05:600c:46c4:b0:483:b505:9db4 with SMTP id 5b1f17b1804b1-483c9c0f1d1mr32779065e9.31.1772185673668;
-        Fri, 27 Feb 2026 01:47:53 -0800 (PST)
-Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b770c2sm92861155e9.10.2026.02.27.01.47.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Feb 2026 01:47:53 -0800 (PST)
-Message-ID: <44b01d94-427c-49d6-bac8-a5d14141b24f@linaro.org>
-Date: Fri, 27 Feb 2026 09:47:51 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9093A7F63;
+	Fri, 27 Feb 2026 10:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772186738; cv=fail; b=Oh5Yey1pAL5Vv0FYCrdDv4ODbg+bW5fqXtUOqbruwCa8iRGqWiHaezjCjqkCWQDe0zRXbL2ceaTkEano0H1TIij4ePJcRmiJ14Pc8zzkUdDmpCcCiR5ckklP/Jvs4NPkExxHCDl1GhnL0ecL222xhYlex+giPYgvXPI7QTxQsZk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772186738; c=relaxed/simple;
+	bh=uGbIBYaqYOk3yRLyan84KjZ9jFFfpH/i/snS2n/++d4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=VkDd+GyEWDK3YRIsNCE0q2mNeE2xgsBsdEJ5Mw3CtoJR10KzgTKexOm2UsK9ZYUvn/Muu2LEXU/p/qhEhS0+Pu3aKxbdL8pBoBdiSaiXanxeVraAWvsqZveNK2YO89knbEFupKNgiXYZsc6fiV3B4Nh+Xpuy3769nFhxMue3EmE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=bA/BA7HU; arc=fail smtp.client-ip=40.107.209.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wqcMN/ivMj1km2uuThlSyfuoDmP84juJqbOrcaZUzQ8+YK4iHYYQnJva1Lhe4QDv0BEg95ffGtwViNB+sBzRLqmhidKCxvQFT5x1+KonOnc9BXD2fT+IsIs5GxsaMxpJyV6C3ejUY+8fkp5jV4eNuREnaP3SP9ihex42miudKm9UaFGkwaOzLXgeShsIT/D7TDRxmVhZmXlTfvp8EUIYqjtZyvlM9rRy8ddOSwzqjECgJYlmMbe6yVX2YhXo/nq7lSCsmIdqO39ndVQwpCOrYKgEhGKZfa0SKw3kWJyFjjPn7XiK492aUWxVc/4sxqL3LrObpvMlxGNdxvnZkPwy5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YlxmKmuDeIDjHL9kwblbR4uINzVEeovOWU4h1/4ROaA=;
+ b=SfNr3zSSHb2HamFcSSZ/HDp42OliTeSpE/o4cAJKHMBK3uT7yW0IPiaCW9XvHTWdBQzUGTx540j5XeZklIyFLMeQVWgBQze8pxLMIz1Jal0wyCEbccWdUmkc6YnGMjfPsQ/30gkZABw2haaWJ11MGkf8O4gmTtE+mh5C8cnEVqZXI671q94XBtlwhDR+/9FwlwZ3bbam/RT7AAQke63bJKdStNUjeXKwUckRLoVOv6n4EGQf2qpOo0pahbQV7q2SDLxDaN2UqMkkqZN4zFf0a3ZRbMTJgXn/HeqnD70q89CU+5i43T6XjY/lexB+nz7Z5UATV71trlapyShw+STiyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YlxmKmuDeIDjHL9kwblbR4uINzVEeovOWU4h1/4ROaA=;
+ b=bA/BA7HUQoR23zTx1Oj0e4S1UeLgsJSd86zKB4tnJsJygD+cI1rv+ASIsAYFfFYxyksBp7nCr8L29wkka7h2I8z70Sjc+LdblaTNSoBIB8fwnTwpz5ZmS/pmtn3VI9C+Qecry/so4IngMUPhKzoxo+g04Dt1Qy/I5Hw2JGpvwB0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB5628.namprd12.prod.outlook.com (2603:10b6:303:185::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Fri, 27 Feb
+ 2026 10:05:34 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Fri, 27 Feb 2026
+ 10:05:33 +0000
+Message-ID: <f75088c6-5795-49cc-8932-ea46c2223d74@amd.com>
+Date: Fri, 27 Feb 2026 11:05:24 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 4/7] dma-buf: uapi: Mechanism to revoke DMABUFs via
+ ioctl()
+To: Matt Evans <mattev@meta.com>, Alex Williamson <alex@shazbot.org>,
+ Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Alex Mastro <amastro@fb.com>, Mahmoud Adam <mngyadam@amazon.de>,
+ David Matlack <dmatlack@google.com>
+Cc: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
+ Ankit Agrawal <ankita@nvidia.com>, Pranjal Shrivastava <praan@google.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org
+References: <20260226202211.929005-1-mattev@meta.com>
+ <20260226202211.929005-5-mattev@meta.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260226202211.929005-5-mattev@meta.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT4PR01CA0291.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:10e::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260226-x1e-csi2-phy-v3-0-11e608759410@linaro.org>
- <20260226-x1e-csi2-phy-v3-1-11e608759410@linaro.org>
- <20260227-overjoyed-spiritual-saluki-7561c2@quoll>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20260227-overjoyed-spiritual-saluki-7561c2@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB5628:EE_
+X-MS-Office365-Filtering-Correlation-Id: f874b616-714c-46c9-7f12-08de75e7be79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	buk4rNddqrtQSpIqSVI4x0wPIR/a1qezMGO5SQayFZZLt4CCRvbRdEKIxRvHube9leP9esMMLApYEpclXfNtq9Ths2JAjdahcxS++A6lcIShK5sdhOHSU4CTWMjh2y8Y32X4/1NlIO6LPxKCyeQZuGGHBgyJfnazT2jh2AwWET1nqU3Avf81KYwH5vYr3d5fkJdgfe/rnDYH5C3iGG7L20lFCrBnCEEf/q3SMhuux1KzjmTJ0GaXNNuhKY5I0/RAxqLXS0u1UI2ZuIOlV1qKBgsPb62USbG/FCiPLLTLGtfZARSo5bSsgEqcGxmhyvAPCZ8oOWrg96f3T3tu0HXKeHXijGbjw/rPIE0Mcc7rMvYraQcZ+YbPbXkNpPy+dyGGEeZeV4r8j1mO3ROI7M/CiTKjM/+6VOsiA2cabAZClCOi/X4flckdvlJBYvySNYHO6FVCTSMsWRflMWWOzFSGj2Q2X23a6TRaZQgT4H3FBymU6+ZWK67XcHijynTpAN527da44YTIHb2ON1J7kPYajNadDhCcl2bCO/SU4cLoV+qwiRrOVEOF6DSH7GDf0y1dM1aTTPCnkrdt9rGOw6BwmxuzfsB1aDQLgUZ36bRmYtoj3+uG5Os/0cRHT1z6XLCa+zHF4pwGQpOBD5S8tvFGdb0IIVq+k1y0CEoXaOWhRbAlP9QgN508D5EKC5p+t9+yyuiArGZzfl3O8NPc1nWHeDEMqUWfV/UKDm2oZUguhOE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TkI3YmVqaUYxdks2eUtFMWppSFNuUlhSZ2h0cXBYczhzWHhERWZJNHVUb1Jj?=
+ =?utf-8?B?ZTRtcG5oemQ3djJJdlg4N2toNTN6bkZTTTJrbFYzOVNXYlRPSXVQRitURTRR?=
+ =?utf-8?B?WXNjTHJwQk1KcjhOZkZ1RnZOcHpOckQ2QnhXajAreGZrdHQ1eWwwaGpmdGZo?=
+ =?utf-8?B?ODl4aURGMldxcHUzeTl5aUVkZ2hsVENLcmJqOFhMSDJ5U1EzczBqazg1bXNZ?=
+ =?utf-8?B?NGlSYkUxM0RaSXE0ejgzaUNXVkVCWkszQ3FSUWdmQ1B2cFdRdGd3QUdmSWsv?=
+ =?utf-8?B?S25mSUJIUDNnYUpodVdpYXNyeEoxOW95TElFQnJsNGVtRU1VaDZGVXZncFY4?=
+ =?utf-8?B?bWpYa1diMnkzcXBmOEhjdmQxTzNkQWVrRmtVaTl6dC9OTmNuOU84UTNOYU1u?=
+ =?utf-8?B?d0NZR2VLZDJ1R0xtaDFmcklabDY0a1BVaU5FbWorOEVtdDRSNDB5UVd1S21m?=
+ =?utf-8?B?UG5rL0ZRQ0Rpa3BsTVhZRGw4aWwrejBMOG5LdUZoSmhOQWduUHB2Zks4YXlQ?=
+ =?utf-8?B?WElCSUp6RVYyWTRwU211RWdTa0g0cHJUUHV4dy9vT092ZFNBNGdjdU9TUEly?=
+ =?utf-8?B?YUtrZjllbGdJQmIyeU5MMVNtUkRZR2JBQ3BnTDArbXRldEsyei92d2N6d2p0?=
+ =?utf-8?B?K3kyY21BQlhvVWFEQ0djZ0VOcHlEREpvWm0zeXZVMXNqOG9uUE1MTmtBY3Ex?=
+ =?utf-8?B?TEd4Q2U3V21YU3ZORXh2UWxBc2FnS2NFb1AzVDlwekZzeWJmd0xrTElrVVBl?=
+ =?utf-8?B?c0U1SStvUlZiRlhISlpsYVZvTFUxdGVabEtVWks5UkxSdTFpYzQyNEprczRm?=
+ =?utf-8?B?WnhrTVE0UHVML0xaRDlpdFRXY1FKa2VRUFJIM0pVNGpyNTFpNEVBYUtWY1Y3?=
+ =?utf-8?B?bVZCUUExVFlqQnRhSm00SjJYMEZVZXhSUmdXUWROQ1hselFkdlM2aHpHL2Vz?=
+ =?utf-8?B?bGNJWUxyaXJGalZFdG5VdndzRHR0bVVrQm9QUHFvM0JSYVE3U0NRMUFqN2V3?=
+ =?utf-8?B?WW1DLzM3VW51dmU2cGQ5eFlsVEp2WGFaYW4xN2RXRDFucHd0Q3RuYUVRNFlR?=
+ =?utf-8?B?L3NsWG42Y0ZEUHFWc1R3UGxsWmg4OEZHdlFaVUtnYzZoMzJwQytUT2JIMXZJ?=
+ =?utf-8?B?WVBLSW91MFUySlFBTk9HeHpwdHY4WTRXN2dJMHRyTU4vY3Vwa0hSMHQzZ2JU?=
+ =?utf-8?B?aUVDcmJjNTVrZUgyVnRBNUZKYktuNGprUndLbW5QckRYUUVJNFdsN2o2ZXRU?=
+ =?utf-8?B?N0dRZWlaWUVCcE5lWC84eHdVblVGMFVmaEREMTJXL29MaGcyd1NaVXNsVkhK?=
+ =?utf-8?B?OS9nb00ySDBzdjhiVm9zRGtRTXcvZnBaSHNKamhGUHBCY3lFRnFWQy80dmFD?=
+ =?utf-8?B?dzRxdS92eGhqeWpMY1dSUHBhblBRYXhmK1VJKzVFdkdiMGFQamNncW15MHha?=
+ =?utf-8?B?VUUrUmVSd3hzQlhRS1hhOHY1dEhmZDZJNzVVQ0c1QkNtbXlDTjVMTmZrR2FK?=
+ =?utf-8?B?VWU1MFFrOFNOd1Q2d3FXOStndm9vY0swN2M1dFJURUlFVW5nMlZTbGtrTHEz?=
+ =?utf-8?B?STRESElhbkU3S2pOdVhsMmRIaXZ6QnplTkxzbk5mM29FMjAyTDdVOS9YSjhP?=
+ =?utf-8?B?MXU2VXF2MXhTMWhENXY2cDNFQWZ0VHVmdDFiTkJrSE5UOXFXekJtNVJwT3lz?=
+ =?utf-8?B?TllGVDNTL3hSQWR2a2NOZ0FRNW1oMXlCZVF6LzJIaUpGT3NpQlFIZjFYQ3Rq?=
+ =?utf-8?B?a0dMTmtOR2hLN1NUTWRpWWhqQzg1MDhoUVhkam1jUDhqM004VVhKVE41djNv?=
+ =?utf-8?B?VXF3TGNwZU5xVXNjNTdnOUsyZllpVExpMlY4RDNrRDduVHhyTDJSaUI0VjhL?=
+ =?utf-8?B?UWR4QXpLdHl5dHhUSkY2em5qaHdVSEtMYjVTMUlXelBtT2Q0V0J1cGxyZUV6?=
+ =?utf-8?B?UmhCTHFHOEVKektHTE1aVDh6QVRpTGpnSGpYQlZ4RHVEV0QrU0Z1U0QwNTNX?=
+ =?utf-8?B?TDJlOGR1SXA4K2xtWHF2aGxncHBJV1BDVDJPVGR3WkVvSURlWHFwNWZZbGxn?=
+ =?utf-8?B?NDRHaGVCQ2owTDRGSjZCbElKTDA5MTBueDQzTGI0UlhCb3lRMFh6Um5ONUdL?=
+ =?utf-8?B?LzZhc2JNK3lxQm9iOHdMaFJwK01vQk11OFIvTkh0dW5CYXBibGljQzNtbzhC?=
+ =?utf-8?B?MDBFTXI5UDNaOE1lRVZaeVA0ZzRPQjM2SjZpWE5QSUk4TmZoeFhHN3IwWmI0?=
+ =?utf-8?B?RU02NDFaUW56UUtLMGMrc29UVFdldWpSYTRvRGtQdDNrOWxKU2V1QXJ6S0hB?=
+ =?utf-8?Q?cmUXtQZGRD600YRkEr?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f874b616-714c-46c9-7f12-08de75e7be79
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2026 10:05:33.0887
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /5pIozMZIUIGUR2ZxLVc9Gdc6arNylA+fwGXwVAJ86ZVsE2Hr44w1+bRp3xhrOKb
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5628
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TAGGED_FROM(0.00)[bounces-53683-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53684-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	DKIM_TRACE(0.00)[amd.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim,linaro.org:email]
-X-Rspamd-Queue-Id: CB0751B58A6
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,amd.com:mid,amd.com:dkim,meta.com:email]
+X-Rspamd-Queue-Id: 7D8A31B5C08
 X-Rspamd-Action: no action
 
-On 27/02/2026 09:41, Krzysztof Kozlowski wrote:
-> On Thu, Feb 26, 2026 at 12:34:25PM +0000, Bryan O'Donoghue wrote:
->> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
->> PHY devices.
->>
->> The hardware can support both C-PHY and D-PHY modes. The CSIPHY devices
->> have their own pinouts on the SoC as well as their own individual voltage
->> rails.
->>
->> The need to model voltage rails on a per-PHY basis leads us to define
->> CSIPHY devices as individual nodes.
->>
->> Two nice outcomes in terms of schema and DT arise from this change.
->>
->> 1. The ability to define on a per-PHY basis voltage rails.
->> 2. The ability to require those voltage.
->>
->> We have had a complete bodge upstream for this where a single set of
->> voltage rail for all CSIPHYs has been buried inside of CAMSS.
->>
->> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
->> CAMSS parlance, the CSIPHY devices should be individually modelled.
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->>   .../bindings/phy/qcom,x1e80100-csi2-phy.yaml       | 114 +++++++++++++++++++++
->>   1 file changed, 114 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
->> new file mode 100644
->> index 0000000000000..c937d26ccbda9
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
->> @@ -0,0 +1,114 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm CSI2 PHY
+On 2/26/26 21:22, Matt Evans wrote:
+> Add a new dma-buf ioctl() op, DMA_BUF_IOCTL_REVOKE, connected to a new
+> (optional) dma_buf_ops callback, revoke().  An exporter receiving this
+> will _permanently_ revoke the DMABUF, meaning it can no longer be
+> mapped/attached/mmap()ed.  It also guarantees that existing
+> importers have been detached (e.g. via move_notify) and all mappings
+> made inaccessible.
 > 
-> Qualcomm SoC CSI2 PHY
-> 
-> 
->> +
->> +maintainers:
->> +  - Bryan O'Donoghue <bod@kernel.org>
->> +
->> +description:
->> +  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2 sensors
->> +  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and D-PHY
->> +  modes.
-> 
-> So just to be clear: this is not MIPI CSI, but only the CSI PHY? There
-> are no ports here, which seems fine for the phy and will be in the MIPI
-> CSI block?
+> This is useful for lifecycle management in scenarios where a process
+> has created a DMABUF representing a resource, then delegated it to
+> a client process; access to the resource is revoked when the client is
+> deemed "done", and the resource can be safely re-used elsewhere.
 
-CAMSS ports map to the CSID - CSI Decoder yes.
+Well that means revoking from the importer side. That absolutely doesn't make sense to me.
+
+Why would you do that?
+
+Regards,
+Christian.
 
 > 
->> +
->> +properties:
->> +  compatible:
->> +    const: qcom,x1e80100-csi2-phy
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  "#phy-cells":
->> +    const: 1
->> +
->> +  clocks:
->> +    maxItems: 4
->> +
->> +  clock-names:
->> +    items:
->> +      - const: csiphy
+> Signed-off-by: Matt Evans <mattev@meta.com>
+> ---
+>  drivers/dma-buf/dma-buf.c    |  5 +++++
+>  include/linux/dma-buf.h      | 22 ++++++++++++++++++++++
+>  include/uapi/linux/dma-buf.h |  1 +
+>  3 files changed, 28 insertions(+)
 > 
-> probably: core or iface
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index edaa9e4ee4ae..b9b315317f2d 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -561,6 +561,11 @@ static long dma_buf_ioctl(struct file *file,
+>         case DMA_BUF_IOCTL_IMPORT_SYNC_FILE:
+>                 return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
+>  #endif
+> +       case DMA_BUF_IOCTL_REVOKE:
+> +               if (dmabuf->ops->revoke)
+> +                       return dmabuf->ops->revoke(dmabuf);
+> +               else
+> +                       return -EINVAL;
 > 
->> +      - const: csiphy_timer
+>         default:
+>                 return -ENOTTY;
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 0bc492090237..a68c9ad7aebd 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -277,6 +277,28 @@ struct dma_buf_ops {
 > 
-> timer
+>         int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+>         void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> +
+> +       /**
+> +        * @revoke:
+> +        *
+> +        * This callback is invoked from a userspace
+> +        * DMA_BUF_IOCTL_REVOKE operation, and requests that access to
+> +        * the buffer is immediately and permanently revoked.  On
+> +        * successful return, the buffer is not accessible through any
+> +        * mmap() or dma-buf import.  The request fails if the buffer
+> +        * is pinned; otherwise, the exporter marks the buffer as
+> +        * inaccessible and uses the move_notify callback to inform
+> +        * importers of the change.  The buffer is permanently
+> +        * disabled, and the exporter must refuse all map, mmap,
+> +        * attach, etc. requests.
+> +        *
+> +        * Returns:
+> +        *
+> +        * 0 on success, or a negative error code on failure:
+> +        * -ENODEV if the associated device no longer exists/is closed.
+> +        * -EBADFD if the buffer has already been revoked.
+> +        */
+> +       int (*revoke)(struct dma_buf *dmabuf);
+>  };
 > 
->> +      - const: camnoc_axi
+>  /**
+> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> index 5a6fda66d9ad..84bf2dd2d0f3 100644
+> --- a/include/uapi/linux/dma-buf.h
+> +++ b/include/uapi/linux/dma-buf.h
+> @@ -178,5 +178,6 @@ struct dma_buf_import_sync_file {
+>  #define DMA_BUF_SET_NAME_B     _IOW(DMA_BUF_BASE, 1, __u64)
+>  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE _IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
+>  #define DMA_BUF_IOCTL_IMPORT_SYNC_FILE _IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
+> +#define DMA_BUF_IOCTL_REVOKE   _IO(DMA_BUF_BASE, 4)
 > 
-> axi or noc
+>  #endif
+> --
+> 2.47.3
 > 
->> +      - const: cpas_ahb
-> 
-> bus, ahb or cpas, depending whether this is only one ahb or this is bus of
-> some cpas subblock
-> 
-> See also: https://lore.kernel.org/all/20260115-sm6150_evk-v3-2-81526dd15543@oss.qualcomm.com/
-> 
-> 
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  operating-points-v2:
-> 
-> Just true. It is not an array.
 
-LOL I asked a chatbot to review my submission and it told me to change 
-this from true to a list.
-
-€90 subscription well spent...
-
-Thanks for review.
-
----
-bod
 
