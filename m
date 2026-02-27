@@ -1,175 +1,170 @@
-Return-Path: <linux-media+bounces-53732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53733-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yIkwANC+oWnPwAQAu9opvQ
-	(envelope-from <linux-media+bounces-53732-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:57:04 +0100
+	id YDa4EDe8oWmswAQAu9opvQ
+	(envelope-from <linux-media+bounces-53733-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:45:59 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB6B1BA66B
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:57:03 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A89F41BA301
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:45:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 789B5306777E
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 15:42:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D544D3174C7D
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 15:42:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3774A43E493;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F310A43E9CF;
 	Fri, 27 Feb 2026 15:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBGFhqUB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o4zSXWb5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D2E43DA30
-	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 15:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484A243635F
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 15:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772206943; cv=none; b=h2FoGt2iCrKA9dTCMACJvUZAd1eOM5+jQ0edCeXx005UPEqLG2WWCDnkUWlPavNh/kWENJMSnUAbyJPt/dtKPMw4J2AS+Jvv8xtsiMPmyLbz5h77MQ2Gtw9i5q8X0qLSp4YRjnb3TPbSRATjcbuUqmguJuGxFCBiUEck99dnIgc=
+	t=1772206944; cv=none; b=pJoVEIG4HOcZvMYfATjyg55ELdQMQrvYZ4Y0RV/LcTNAlwoywwRcp3UMCXOOrv4FFgNvELIfCOLJ53qt0IaAyDLj4zwak2Mv0Erqv3JLGlIOpWaML/16S6bImx5PVYS5+fE7+7nxQ/BQoFK2X/o478iEKXjlwN6QyTK64eQ7CSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772206943; c=relaxed/simple;
-	bh=STzTxb6AkecD0Oj2uXWbAE7smRP8JD9AAxkR2Qux/Sc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uDI4ybVvb8RNsLBywEfqojeqk9lem69wT1yXhCkatXdhRvHCM9XxIvejmmpZoJQ7MK4sBCBn610gDOdhzLo2YT1b75X2/lv5DAEzhNAjGNEZ/rtAl3GX8O9Wmw/rlJJFsUE6ZOPC323WdwcKGehrF0sM8HkwuABiNLV6jiV06hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBGFhqUB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B412C2BCFB
-	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 15:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772206943;
-	bh=STzTxb6AkecD0Oj2uXWbAE7smRP8JD9AAxkR2Qux/Sc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=LBGFhqUBtQI9BbpwK46VoHQn50/6CaY1vQ5PIc4y5spoYCP25Jf0LROem1fHBjUy4
-	 yeI4JK9t+VAFfxsB/FRVdfK2qMAp7BaBH+/oWL+LnHZG992H0B/CcnUUAoiNPkt5su
-	 u377zsPtAQxl/Qcm2oYsywZEuG0OqtFcTLP7OjoWey7QG/JHyvrV4iN6xZaOIqUa06
-	 vfJFlrWT+r202v79WRMwFVhTxOamgJ/igAb5KSIJ4HqzNmfDIAyq7QGRarn4/4y6Qh
-	 NxQCbSDcfMyB0gb6ik4hp18xL7FM5BoFy0P7SgHelPVuHedFnta+qYHiFlGS3xx2xF
-	 pZng7DsL48SLg==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-389fac627c9so23471511fa.0
-        for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 07:42:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWol4pLINtlb/X8xhLACWj2J6GRlN8pAiaWCM9iQJ7VxAopvQi+lFwFjS3wncrN9k70kCWbdwHay5Ncrg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywx3BbkId+UJ8vlgHVsErEsTNhB1MywiLgbaSkd76KnWWEN5GLi
-	cmEx9gJdQH+kVh0iA/QR0hHnKhyvUemLA/JulbgJ5tLRRl8MvHSZ1ec7jWaOl3NR/lZIBf91QQV
-	lFi3m3BqFreziIbhXlGN55UjLdA/MJ4eQPwqNcTR+jw==
-X-Received: by 2002:a05:651c:41d8:b0:384:9b92:c5b7 with SMTP id
- 38308e7fff4ca-389ff143720mr18998801fa.15.1772206941514; Fri, 27 Feb 2026
- 07:42:21 -0800 (PST)
+	s=arc-20240116; t=1772206944; c=relaxed/simple;
+	bh=xHYW3p+5GVfDn8x6oFMyWCK6CrLKRkNsDbg87Yl2z8k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Olr1X7YZZgEz7cbDADy6eyPjwOkPQUs5hqbIATz4wYRV6UO/zddKVTGyWWegIgnU/FEpvDXrB5psNS9pMIAfHxy+CGog/NKuFhpDvZRQZaO56WmQaQ56ewtD73c3J/60eT4V8CwxB/CCn/Uji/yYACHg7R0sHzvtphsKGHHFC7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o4zSXWb5; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48069a48629so23570905e9.0
+        for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 07:42:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772206941; x=1772811741; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9wzqme1k+Wy+/3yspGSINYIH3f7UH5wA3CsIMcq2UIg=;
+        b=o4zSXWb5oeEIvPb4mrMDF6IKH/xoKT74sKzJM0PTHy2wGFz3fFja40UDgCZtZf+ZTP
+         lRSI79c0+6QQcEquu8o+F05cYoM/tAVGEQhAvvTMWHKos/fAjoxX7E+c7NQRKiapMS2/
+         dc0X1cNUof8Voy9tbrrarcEKxx3+icaDKouZi8INrbOs3Oo6GqXmBq5DbSAqgFiNv8UB
+         hMxQdi2aF93KtCfssdyfLyyIcE3O2XoyXrBEyJZAVH1xOOfr5lKb4RGo/xQzR+zLZYz9
+         NU2j7rvyqRL3GJAiyBWfisiCZI9EyxHVTCtiTkMy2VaZ67sVC7ASHuT5ct5Ci39GaJ+v
+         088Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772206941; x=1772811741;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9wzqme1k+Wy+/3yspGSINYIH3f7UH5wA3CsIMcq2UIg=;
+        b=HwIPFaFEPr+LQpkurF7AjQ4uy0p0G2hkqk8pid3FfAW5BwY0TkqysGP3BJQG/YLBs1
+         Xt/JwWPWUPiotsXN+fFu+HIqWE4e8TJuy1S9vAfdAoEoJIIj/OC8vpRkJUc53WEgpq1h
+         w3CPr5o9L8aSaK26Alfs0v+SxuWRULuf8/SS+GuSI2GQ4I1ytspw3FONgJnR4rCho6JD
+         85L/wezw2EKkQr/GF09MTLZCqLUV8m5JEtng5fLn9S48wuTgY9d/m/4jSe4YpXSGIcgO
+         60XNy3A+/wZsnRC+AQdoYhT8nh2VIU/ilyDeia2nDV41ArdGBb9iMYd6GOAkuKS2lHqr
+         L5aA==
+X-Forwarded-Encrypted: i=1; AJvYcCXHTpTpjQtfesTzFor9RwtkjDIO+pyLdRqOi3qtmUkRoA5qc3h/yw9askVCmVzXVrAiX/8KKWtOFQW8mw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yygmlk+rPwTKgRhHfoSALmaFhYQz6+fyR+kW6ZmJE0lsjfVhBGN
+	nVJfDhqusAmaGygCcbkpv9YCFCZu5uI6SaxK7S5G94krt7i07TcL5PCBRpBEtdY+n4s=
+X-Gm-Gg: ATEYQzx9bcSW6WysxTyJuQG79yPdAn7EjGbLcrqlwpR9r8AKRD2gUpXzlQa/6KAOLVz
+	FbQ4o9JjZa5XXPOoiTMPq7SbtGaHu8M6VsUVOTfHnvedmbOBNny/529zB+bmOQEH2K0BVbkvXlJ
+	AUe7tTDwPqcbogq3ZMoCRWXClokY0OEmOzstv+Dp2oGw1hfXx7Yg7f1sZDTvTO401SGzFuV+FpL
+	43U7URHYIAq63RU0Uh7g3LSa0ROmwEo0ibEZ8LMl8cRTLVA8uq/kvgWaC6erUYJx6S2tpRTjrTK
+	bWk8lzd1vx59/mzmKkip1Y0gTdstbideIvijmWCoqDz3FzWs29JID1TkIkFsI1zhgbfJ+cij79A
+	yyarp77lvuUWgVQNnQEo27RnuVlEuJSWKW110loG/pmTsLx8/o+7Nba1FqZG/d87s+Q1N+yrmG/
+	95OVcWjeUPjyXTJs+uIq/wc+z8sqTH4ujCAGD3E/M1/YQK71zKjakVf7HCTVPfM3Uq
+X-Received: by 2002:a05:600c:c4a6:b0:480:1d0b:2d32 with SMTP id 5b1f17b1804b1-483c9bc0344mr52202975e9.12.1772206940611;
+        Fri, 27 Feb 2026 07:42:20 -0800 (PST)
+Received: from [192.168.0.40] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb77466sm83821705e9.5.2026.02.27.07.42.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 07:42:20 -0800 (PST)
+Message-ID: <c84f0e40-50d9-4c99-92dd-00bcfc554d83@linaro.org>
+Date: Fri, 27 Feb 2026 15:42:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
- <aaFcs1miP88QWmtH@hovoldconsulting.com> <aaFfEsfh0xTh0b1y@shikoro> <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
-In-Reply-To: <aaFsZbiLYSz_YEjw@hovoldconsulting.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Fri, 27 Feb 2026 16:42:09 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
-X-Gm-Features: AaiRm51scY9nN4P8ovfss040XTmsPoSnyMQYg9QuZyNCyHcgWecCdT1v9mdLWqo
-Message-ID: <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
- printk helpers
-To: Johan Hovold <johan@kernel.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	linux-actions@lists.infradead.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] media: iris: add support for kaanapali platform
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Stefan Schmidt <stefan.schmidt@linaro.org>,
+ Hans Verkuil <hverkuil@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev
+References: <20260227-kaanapali-iris-v2-0-850043ac3933@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20260227-kaanapali-iris-v2-0-850043ac3933@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53732-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[sang-engineering.com,oss.qualcomm.com,kernel.org,gmail.com,sholland.org,nvidia.com,suse.com,linux.ibm.com,ellerman.id.au,suse.de,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53733-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 2FB6B1BA66B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A89F41BA301
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 11:06=E2=80=AFAM Johan Hovold <johan@kernel.org> wr=
-ote:
->
-> On Fri, Feb 27, 2026 at 10:08:34AM +0100, Wolfram Sang wrote:
->
-> > > Wolfram, I noticed you merged these last night. Please think again an=
-d
-> > > let's discuss the end result here. There's no question that there are
-> > > lifetime issues in i2c, but this is not the way to solve it.
-> >
-> > I did think again and do not see a way how the life cycle problems can
-> > be solved while drivers happily access the device struct of the adapter=
-.
->
-> There's nothing special about the struct device. What matters is that
-> drivers don't free memory that's still in use by the core.
->
-> > Whatever the solution to the core problem is (revocable, custom SRCU,
-> > something else), I still think this step is needed in any case. If I am
-> > wrong with this opinion, please enlighten me. Pointer to some existing
-> > thread is OK, too. I didn't have the bandwidth to read the revocable
-> > mail threads.
->
-> It's not even about revocable or SRCU, that's just an implementation
-> detail.
->
-> It seems all that is needed is to decouple the struct i2c_adapter from
-> the driver data and have core manage the lifetime of the former using
-> the reference count of the embedded struct device.
->
+On 27/02/2026 14:11, Vikash Garodia wrote:
+> Qualcomm kaanapali platform have a newer generation of video IP iris4.
+> The hardware have evolved mostly with respect to higher number of power
+> domains as well as multiple clock sources.
+> 
+> Considering iris as a client driver, it adds the handling for multiple
+> stream ids from VPU via iommu-map.
+> 
+> This series is depend on the below series:
+> https://lore.kernel.org/all/20260226074245.3098486-1-vijayanand.jitta@oss.qualcomm.com/
+> 
+> Following patches were dropped in v2, as per the comments, and would
+> be posted separately. This series depends on these patches for
+> functionality.
+> - https://lore.kernel.org/all/20260126-kaanapali-iris-v1-2-e2646246bfc1@oss.qualcomm.com/
+> - https://lore.kernel.org/all/20260126-kaanapali-iris-v1-3-e2646246bfc1@oss.qualcomm.com/
+> 
+> Patch #4 is also posted alongwith below series. If the other series is
+> picked earlier, then this patch can be dropped from this series.
+> https://lore.kernel.org/all/20260227-iris_sc7280_gen2_support-v2-1-7e5b13d26542@oss.qualcomm.com/
 
-I feel like we've discussed it already under v1 or elsewhere.
+For the record this series is blocked on this:
 
-This is a weird pattern you sometimes see where a driver allocates
-something and passes the ownership to the subsystem.  This often
-causes confusion among driver authors, who logically assume that if
-you allocate something, you are responsible for freeing it. Since this
-is C and not Rust (where such things are tracked by the compiler), I
-strongly believe we should strive to keep ownership consistent: the
-driver should free resources it allocated within the bounds of the
-lifetime of the device it controls. The subsystem should manage the
-data it allocated - in this case the i2c adapter struct device.
+https://lore.kernel.org/all/20260226074245.3098486-1-vijayanand.jitta@oss.qualcomm.com/ 
 
-I know there are a lot of places where this is done in the kernel but
-let's not introduce new ones. This is a bad pattern.
 
-But even if you decided this is the way to go, I fail to see how it
-would be easier than what I'm trying to do. You would have to modify
-*all* I2C bus drivers as opposed to only modifying those that access
-the underlying struct device. Or am I missing something?
-
-Bartosz
-
-> Then you can use an rwsem, SRCU, revocable or something else to handle
-> devices going away while they are in use.
->
+---
+bod
 
