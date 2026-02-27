@@ -1,65 +1,70 @@
-Return-Path: <linux-media+bounces-53664-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53665-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kPW3HAtIoWkirwQAu9opvQ
-	(envelope-from <linux-media+bounces-53664-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:30:19 +0100
+	id qChqJHNKoWnWrwQAu9opvQ
+	(envelope-from <linux-media+bounces-53665-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:40:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F271B3E8E
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:30:18 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3601B4049
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:40:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8F260309A13D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 07:28:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C6E553024C9D
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 07:38:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C91DB35A385;
-	Fri, 27 Feb 2026 07:28:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74D90369982;
+	Fri, 27 Feb 2026 07:38:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cDvgwN7j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rDziY4Wc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35761364E91;
-	Fri, 27 Feb 2026 07:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABBE332607;
+	Fri, 27 Feb 2026 07:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772177299; cv=none; b=OzH4wGJMjJ0nkvyav8x2K0aSi9de1aZMDQuoeDxiL58BtElcQ7sAl87O6WY6omoXd/AXXYeQQml/Pk80DyMtin8Hdtb/FPOI5m+xHU7KF6oVKG485+YdRbp3EfofuZwP2bGnCNR/UCC5aLVRufmHdfpAFN5TkU5c14zVPnjm6SQ=
+	t=1772177896; cv=none; b=mE13v1ANGgIT0MRn8mRsVmyRalLPI7ALTa5QPGdOJXUN3L030QC2vryP9MQel8VVf/p0MdJcMlP7TJk+UsqwnrunhZpEpREdSSqNTLWZQ4ShrqUWIkkKA77JNyiubrLfx5Ya/QQuL6yX/6kfsVSORyfno340jSoJzp5QhlvjWLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772177299; c=relaxed/simple;
-	bh=JtoES17Nxln4x2/Z3ODW+0119OnP0+ui+E04/VyxiCo=;
+	s=arc-20240116; t=1772177896; c=relaxed/simple;
+	bh=Q+w9iIKwnNfTEdjsizTb6il87jj7/Nj0WRQOQEUYSUw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fOiL9VpTGiZoBFzNjHcDKQD0YZ4HunhlOEVqMXYn73eENkOWEpXTETj9+65k3nUR2TZAnSvkJOMAt2eGPowGlD2l84OPvwi3PcYWb6c/ls1S/JbiK9wZCyaY8BGwii2AapMfCEhKn+aqgRGBIM0A3jiBvCFsfeAGuVAKM6bL+cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cDvgwN7j; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5CDC19421;
-	Fri, 27 Feb 2026 07:28:18 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=S41Ea7kL+pW+wL4Lzd3ueVGDek9t+FZh/qpmD0sFdtPfHi7LCAahVMwcvLdEZJDYWCNp6luao0JS9g65gHE/bCWnzJxQduGpNNJgteBx3kPaqv/hNxrgAJCTf4uFqaDbaElooIfqfN8RvvcnKRt/Dq/KaNzHvf7+ADXQosZoGuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rDziY4Wc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA227C116C6;
+	Fri, 27 Feb 2026 07:38:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772177298;
-	bh=JtoES17Nxln4x2/Z3ODW+0119OnP0+ui+E04/VyxiCo=;
+	s=k20201202; t=1772177896;
+	bh=Q+w9iIKwnNfTEdjsizTb6il87jj7/Nj0WRQOQEUYSUw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cDvgwN7jfZSzfhQQGNxoUHy/Fg8JoHmViIx7QC/nh96cXPsqRLckBbF8dnRAR91rS
-	 D/XFn7SGBg12ZsjNpMZk0wqPnSjwPXxPsloGahLerWfZODqegC9tTMN/XFz929UouR
-	 QxAJb47AaWbpV5RDkaC69jqc+fnK3zSq8tFIqeUm9ElPZw0LU7W/dw58Mc+NPB/epd
-	 wwMfEDHlPugLoQD8RCoQPRs1WZZHlAlThF1+1KkA03V6QjADbNm2rxWE4hSwLkdq1o
-	 D0MXdWUDpeA9R2qMida0aXHuaLSPgcrwm1djf3pIalLmddkYZDg/qaRIXkfRombQNJ
-	 MFfUxAU3TXjYw==
-Date: Fri, 27 Feb 2026 08:28:16 +0100
+	b=rDziY4WcgDjwUQmVDTEC3X0QsdqWl6v+x2lGYMke6XDP2lfa8pNOLPX+2YYpl5DY7
+	 LvSUqYV+o3T6b9XqKOX4DsMN5FPdcj0U/rTkvT7k+AVDkuUjJ+GWtsCvUOFEWMRuhB
+	 iYQxDJSRcJTmXKIOsEl16Up0WJjHYbJJ1ONFk0y5mlreKP7jXmH5nUtl6GViJIqg/Q
+	 3fIrIBI3oi0IlvTkhq7GOOb2XbXmZ/UYb2uhNKG98iwtzdI8ZpcWdHJla2H64C4YGS
+	 RxTtw8XUS9UcWrMo9+XSsKDyuRYgiWh1CKMUgz4M9L7fx4aVLUMLpclfB4Gsv06Ugn
+	 v73gb8Opb+95A==
+Date: Fri, 27 Feb 2026 08:38:13 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
+To: Conor Dooley <conor@kernel.org>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 4/7] dt-bindings: media: qcom,x1e80100-camss: Allow
- CSIPHY supplies to be optional
-Message-ID: <20260227-quixotic-delectable-rhino-ea72a8@quoll>
-References: <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-0-a59c3f037d0b@linaro.org>
- <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-4-a59c3f037d0b@linaro.org>
+	Heiko Stuebner <heiko@sntech.de>, Detlev Casanova <detlev.casanova@collabora.com>, 
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, kernel@collabora.com, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] media: dt-bindings: rockchip,vdec: Add
+ alternative reg-names order for RK35{76,88}
+Message-ID: <20260227-overjoyed-unyielding-mosquito-7bfbe3@quoll>
+References: <20260226-vdec-reg-order-rk3576-v4-0-b8d72dc75250@collabora.com>
+ <20260226-vdec-reg-order-rk3576-v4-1-b8d72dc75250@collabora.com>
+ <20260226-salute-threaten-a3eabb232396@spud>
+ <429f3c7aa22eccffedbf8db6aa91bee3dd13814a.camel@collabora.com>
+ <20260226-snide-foil-a05e1aa156a8@spud>
+ <3d28c699e47f606bad46bb6447785badace37793.camel@collabora.com>
+ <20260226-ferocious-saturday-0e1f9bb28ec5@spud>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,46 +73,71 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260226-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v9-4-a59c3f037d0b@linaro.org>
+In-Reply-To: <20260226-ferocious-saturday-0e1f9bb28ec5@spud>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53664-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53665-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D3F271B3E8E
+X-Rspamd-Queue-Id: EA3601B4049
 X-Rspamd-Action: no action
 
-On Thu, Feb 26, 2026 at 02:28:45PM +0000, Bryan O'Donoghue wrote:
-> When CSIPHY devices are modelled as standalone PHY nodes the voltage
-> rails are defined per-PHY. Allow the CAMSS-level supply properties
-> to be omitted in this case.
+On Thu, Feb 26, 2026 at 10:15:49PM +0000, Conor Dooley wrote:
+> > 
+> > 
+> > 	if (rkvdec->variant->has_single_reg_region) {
+> > 		rkvdec->regs = devm_platform_ioremap_resource(pdev, 0);
+> > 		if (IS_ERR(rkvdec->regs))
+> > 			return PTR_ERR(rkvdec->regs);
+> > 	} else {
+> > 		rkvdec->regs = devm_platform_ioremap_resource_byname(pdev, "function");
+> > 		if (IS_ERR(rkvdec->regs))
+> > 			return PTR_ERR(rkvdec->regs);
+> > 
+> > 		rkvdec->link = devm_platform_ioremap_resource_byname(pdev, "link");
+> > 		if (IS_ERR(rkvdec->link))
+> > 			return PTR_ERR(rkvdec->link);
+> > 	}
+> > 
+> > 
+> > Where for RK35xx variants, it only pick the resources by name. I don't see the
+> > bug that you see, but I believe this was just a supposition, that you didn't
+> > check the code.
+> 
+> Busy reading path of exile patch notes, so sniping this comment only...
+> 
+> This is a bug, not a supposition, and it's that snippet from the
+> driver that prompted my comment.. That code requires that if
+> ->has_single_reg_region is set that the dts provides reg-names, but the
 
-So that's the same patch as adding phys. Why would adding phys and
-keeping these required be a correct approach?
+No, the opposite. With has_single_reg_region you take first entry and
+ignore names.
+
+> binding does not mandate reg-names for rk3576-vdec and rk3588-vdec, so
 
 Best regards,
 Krzysztof
