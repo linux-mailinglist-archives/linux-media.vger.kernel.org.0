@@ -1,133 +1,271 @@
-Return-Path: <linux-media+bounces-53680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53682-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kA9CKNdkoWn7sQQAu9opvQ
-	(envelope-from <linux-media+bounces-53680-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:33:11 +0100
+	id gNckFe9moWkJsgQAu9opvQ
+	(envelope-from <linux-media+bounces-53682-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:42:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6271B560D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:33:10 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A9F1B57AC
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 10:42:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 34DF53039CB2
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 09:31:37 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DA4FF3048DB8
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 09:42:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BA603815EF;
-	Fri, 27 Feb 2026 09:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 907A73921FD;
+	Fri, 27 Feb 2026 09:41:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBUu4YuS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E8XdEtMT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FE927A477
-	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 09:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F102836896C;
+	Fri, 27 Feb 2026 09:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772184695; cv=none; b=msubgzMgG5J5z3Ymp5k/zj0JxtoJiw3Grp45GqU1noWFXmW+8FfWz0laaTSlBGODPB25YV63ddRd9KVlZLWV1XRTI4hw5WPMW/5JGEyGnRPXtPWUD97DvoftMkk2Qoyae8P6la3oWxz3HvPsznoszgsSgM7ACEoPuBRBbSSzyss=
+	t=1772185318; cv=none; b=jZpSuetXkuBtrJlYhDX7n6u1gpicwjzL6vfYIVQAh2WKIOnw37j7/kAGtH/lEAkEmAGqem5Rtx6R2Y5SU69lfqV1mLVWZxApH2kaKITE4UVJuEPHm1KPf8OQuyq9CmzjTkj89PyFA9WAVOc+YR8bYdkr/BFow2E1PLIZmk1FP50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772184695; c=relaxed/simple;
-	bh=YPcUfmZ2wPQ8/UQp1q6pQBmAGzOq+nyGoi+OFcHYE9g=;
+	s=arc-20240116; t=1772185318; c=relaxed/simple;
+	bh=GunYsepcvS7P0kWU+eE1Pj5AXzd/lEdEY7FWtR3ZB0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TYXK3w0XKfoueADLJnLx3YpsG/xSjHrQwWAj+omx5Y1TagNwho8Dlnl1Ouzu+9uwkPVZQ9mfKhWW+Lj0RhTuJXMho+j9Gdx3AZ6Mvm7lqUFyHe1XvUVKQRaWaRCULR+9WyAOiX8cNlZI2yToymMiuMvdlyEiodxv1ykAd2ePjtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBUu4YuS; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772184695; x=1803720695;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YPcUfmZ2wPQ8/UQp1q6pQBmAGzOq+nyGoi+OFcHYE9g=;
-  b=YBUu4YuSPJloCz+x3MumapGeCe5PSo+tIy9+NUSVA9q67wxOw+Om9scm
-   O4nkv5RFYnL1J2wq9ezAPnquXOQUKZos5Zg6FoVdhXOi2+VG1xXdLURxV
-   7tmIFOFxkww82xSG3dqopyC/LpQei/FAThkuOyayTpokHdv1Qgz39oBvT
-   /b145TzaOlfzqxt6dXBELrzxJwatnY30o9b+CzdczO/6UhumIZ2eA4R+A
-   DdQj/dt4GHRU+qnc9a0ALumuY3bPQbk65Jw/EgI6D8rKbTa+UHzd+B+S1
-   9kcF8hLEmMk8zWi653Uq7+4TMtB5rhKuY34U3rBMIfxLehsOFNlzgRuRm
-   g==;
-X-CSE-ConnectionGUID: 6hr6Th+FRpeLSGMmMKNBkw==
-X-CSE-MsgGUID: LUc0Y4mFRfGtGU/b/OJzhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="77130165"
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="77130165"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 01:31:34 -0800
-X-CSE-ConnectionGUID: ZIWaM+YaQm6uTTsDeJWUgA==
-X-CSE-MsgGUID: PZVPFl6GSCuV8/zz8p19FA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,313,1763452800"; 
-   d="scan'208";a="214719986"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.65])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 01:31:31 -0800
-Date: Fri, 27 Feb 2026 11:31:29 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, andy@kernel.org, hansg@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	Soufiane Dani <soufianeda@tutanota.com>
-Subject: Re: [PATCH 1/1] staging: media: atomisp: Disallow all private
- IOCTLSs but S_PARAMETERS
-Message-ID: <aaFkcS1fMVLxGB87@smile.fi.intel.com>
-References: <20260227092327.3654603-1-sakari.ailus@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iPdIfzr2ZCC8TAEBRbkmJQXNXOQzIyX3niaKY63owuTwUroELkcDikR0zN+kwr5bfa9NxwLYEsuCfhWHv1R/N03JtEnZfPyNlPJsNb6tRbv+ZSMQ3KSiZERUJ+6zWpzX4OYuH14EJbbxah2fD7cL84muzQoLfnwkxNxkCDAMWeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E8XdEtMT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1012CC116C6;
+	Fri, 27 Feb 2026 09:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772185317;
+	bh=GunYsepcvS7P0kWU+eE1Pj5AXzd/lEdEY7FWtR3ZB0o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E8XdEtMTB8GvWT1s1lmZFvQnKzs2cPe4WebgYWtgWdxqxa/t+c6uHPPOO94W3zy0u
+	 Y+Fij5gKuJZjUyPdvXkSqi+IdRgj5Xorye4n2iZQm0gQvtL6rDA4TraNZNH0lS1MRn
+	 stt/1q1HhpAPJaQugONZlSRBA0/4yLr11X1HqFqlPGj+XWtsdIkBCqYuSIUgH6BwKX
+	 uneTRJnZn/bus1BZ9TqllRTPQ/5HB0CeKy9JrAklP9dYjDdgzUOpK34RqHImCpukpe
+	 GI4tmMpZoF76o62EbxNJvOqrPypF4juiQ0ETsyV0xw2oTPh8p+YOLXMmp4cLGrkHFx
+	 oZkmDDPStpftQ==
+Date: Fri, 27 Feb 2026 10:41:55 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Bryan O'Donoghue <bod@kernel.org>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
+Message-ID: <20260227-overjoyed-spiritual-saluki-7561c2@quoll>
+References: <20260226-x1e-csi2-phy-v3-0-11e608759410@linaro.org>
+ <20260226-x1e-csi2-phy-v3-1-11e608759410@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260227092327.3654603-1-sakari.ailus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260226-x1e-csi2-phy-v3-1-11e608759410@linaro.org>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-53680-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-53682-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,smile.fi.intel.com:mid]
-X-Rspamd-Queue-Id: DB6271B560D
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ace4000:email,linaro.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,devicetree.org:url]
+X-Rspamd-Queue-Id: F2A9F1B57AC
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 11:23:27AM +0200, Sakari Ailus wrote:
-> Disallow all private IOCTLs except ATOMISP_IOC_S_PARAMETERS. These aren't
-> quite as safe as one could assume of IOCTL handlers; disable them for now.
-> Instead of removing the code, simply check the IOCTL matches with
-> S_PARAMETERS and bail out otherwise, in order to ease backporting.
+On Thu, Feb 26, 2026 at 12:34:25PM +0000, Bryan O'Donoghue wrote:
+> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+> PHY devices.
+> 
+> The hardware can support both C-PHY and D-PHY modes. The CSIPHY devices
+> have their own pinouts on the SoC as well as their own individual voltage
+> rails.
+> 
+> The need to model voltage rails on a per-PHY basis leads us to define
+> CSIPHY devices as individual nodes.
+> 
+> Two nice outcomes in terms of schema and DT arise from this change.
+> 
+> 1. The ability to define on a per-PHY basis voltage rails.
+> 2. The ability to require those voltage.
+> 
+> We have had a complete bodge upstream for this where a single set of
+> voltage rail for all CSIPHYs has been buried inside of CAMSS.
+> 
+> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
+> CAMSS parlance, the CSIPHY devices should be individually modelled.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../bindings/phy/qcom,x1e80100-csi2-phy.yaml       | 114 +++++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
+> new file mode 100644
+> index 0000000000000..c937d26ccbda9
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
+> @@ -0,0 +1,114 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm CSI2 PHY
 
-> In particular, ATOMISP_IOC_S_ISP_FPN_TABLE is disabled by this patch.
+Qualcomm SoC CSI2 PHY
 
-Why not removing the code?
-It's still and will be in the Git index, it won't disappear.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> +
+> +maintainers:
+> +  - Bryan O'Donoghue <bod@kernel.org>
+> +
+> +description:
+> +  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2 sensors
+> +  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and D-PHY
+> +  modes.
 
+So just to be clear: this is not MIPI CSI, but only the CSI PHY? There
+are no ports here, which seems fine for the phy and will be in the MIPI
+CSI block?
+
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,x1e80100-csi2-phy
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#phy-cells":
+> +    const: 1
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: csiphy
+
+probably: core or iface
+
+> +      - const: csiphy_timer
+
+timer
+
+> +      - const: camnoc_axi
+
+axi or noc
+
+> +      - const: cpas_ahb
+
+bus, ahb or cpas, depending whether this is only one ahb or this is bus of
+some cpas subblock
+
+See also: https://lore.kernel.org/all/20260115-sm6150_evk-v3-2-81526dd15543@oss.qualcomm.com/
+
+
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  operating-points-v2:
+
+Just true. It is not an array.
+
+> +    maxItems: 1
+
+Also opp-table like in other schemas.
+
+
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  vdda-0p8-supply:
+> +    description: Phandle to a 0.8V regulator supply to a PHY.
+> +
+> +  vdda-1p2-supply:
+> +    description: Phandle to 1.2V regulator supply to a PHY.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#phy-cells"
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - operating-points-v2
+> +  - power-domains
+> +  - vdda-0p8-supply
+> +  - vdda-1p2-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+> +    #include <dt-bindings/phy/phy.h>
+> +
+> +    csiphy@ace4000 {
+
+phy@ or csi-phy@
+
+> +        compatible = "qcom,x1e80100-csi2-phy";
+> +        reg = <0x0ace4000 0x2000>;
+> +        #phy-cells = <1>;
+> +
+> +        clocks = <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> +                 <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+> +                 <&camcc CAM_CC_CPAS_AHB_CLK>;
+> +        clock-names = "csiphy",
+> +                      "csiphy_timer",
+> +                      "camnoc_axi",
+> +                      "cpas_ahb";
+> +
+> +        operating-points-v2 = <&csiphy_opp_table>;
+> +
+> +        interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>;
+> +
+> +        power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +
+> +        vdda-0p8-supply = <&vreg_l2c_0p8>;
+> +        vdda-1p2-supply = <&vreg_l1c_1p2>;
+> +    };
+> +
+> +    csiphy_opp_table: opp-table-csiphy {
+
+Drop entire node, not relevant here.
+
+Best regards,
+Krzysztof
 
 
