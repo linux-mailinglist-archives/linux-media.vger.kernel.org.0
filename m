@@ -1,166 +1,217 @@
-Return-Path: <linux-media+bounces-53780-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53781-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QOdUJC4Uomk0zAQAu9opvQ
-	(envelope-from <linux-media+bounces-53780-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 23:01:18 +0100
+	id 4NAeNUwUomk0zAQAu9opvQ
+	(envelope-from <linux-media+bounces-53781-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 23:01:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADA91BE574
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 23:01:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA3A1BE5C2
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 23:01:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5B4E730E78C1
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 22:01:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 061E1311E769
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 22:01:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31244387580;
-	Fri, 27 Feb 2026 22:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49031472792;
+	Fri, 27 Feb 2026 22:01:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b="Vt6Dfnbw"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QN2PkoMv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 449931D5151;
-	Fri, 27 Feb 2026 22:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F633361670
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 22:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772229662; cv=none; b=MECLntBCNllZsswyFQHJv46bhpBEUc3LttAzmQv+Hh0HHRi/ZssYHKMhbPYCMryVy+ThE1w4R2RNbFEtKFFEF5XE1Y8ctHQOGzUtc3Te7dClgLRBkwr0WEsvJKRIgIggySOxpyM0YnQr60othRQygDRG/DxwbLxF/5/FseNXPqA=
+	t=1772229667; cv=none; b=V4iq+gB4OzhPjPyshyeUwNGoQyW/FuPJb1eJzdZIqp5fyJpn4feS4iz7X8RGCiY2tVAl8P8seq4Y+enW/1cCf5VXGzoAo2gENPgnEvwPqn0zGfQCM3UutSYy3b8T17DB0iB+Z7P4Aq+aDJoOaOsk3AeMPOfaaN/FUOyPW9UuzxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772229662; c=relaxed/simple;
-	bh=QnMmAnkNqwhzUh1goVF/03uL2RLz03jmT1quIHusbiU=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JjzYRs1GSlI2s5IGR0RfrfDexFp6P32GNFw2T4+keyVA0yT5h0YwWmYVg/Y1n+ZgaAQDgzlERGIoZLtq/0x5qdZYoZqh+zuKfnhOW1ffPPwzkUU4UEs4kaSB5xe2PSGFRwtMkjhS+PjUiEXDFtYvoAZ8B4ry90f+QQnS4ETsFX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=fb.com header.i=@fb.com header.b=Vt6Dfnbw; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fb.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61RLFT4w330942;
-	Fri, 27 Feb 2026 14:00:46 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=s2048-2025-q2; bh=HAR+YwHCQEx8FQPFwnPF
-	8kbIEZCPvpG17d9RDjMoOD0=; b=Vt6Dfnbwa02wdLXXsDppEs3aB3zzTXE3fpnW
-	siKptPO0oMgFOBjl8hkKLdG8P3W9E8m8w14qsnZynGnMklAliAxrBZCIQMtGB/QF
-	uc5Z2zMoxF1gS7HQGHeIzF6Qw2etqxp0fT43WN1FIC0DsFGHFyzayOlzny4J/C22
-	EjA3pSYTDPkANsqG2PTwCkt9HOT0MNI0NVhqVdag5xCmNx5WecdUArBntUrDCQIS
-	H/iFwWtDXqjGnRbocne31okPRty8nHj8Py8iIVrykuOxHa5OIqSGTI8RoWzn4l6r
-	iDFWyDFZYd8RLgE3Joy7ozAJ38+LIegSrIhML2O3IpU2WN3AiA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4ckfq4at00-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 27 Feb 2026 14:00:45 -0800 (PST)
-Received: from devgpu015.cco6.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.35; Fri, 27 Feb 2026 22:00:43 +0000
-Date: Fri, 27 Feb 2026 14:00:38 -0800
-From: Alex Mastro <amastro@fb.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Matt Evans <mattev@meta.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>,
-        Alex Williamson <alex@shazbot.org>,
-        "Leon
- Romanovsky" <leon@kernel.org>,
-        Mahmoud Adam <mngyadam@amazon.de>,
-        "David
- Matlack" <dmatlack@google.com>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?=
-	<bjorn@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Kevin Tian
-	<kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
-        "Pranjal
- Shrivastava" <praan@google.com>,
-        Alistair Popple <apopple@nvidia.com>,
-        "Vivek
- Kasireddy" <vivek.kasireddy@intel.com>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        <kvm@vger.kernel.org>
-Subject: Re: [RFC PATCH 3/7] vfio/pci: Support mmap() of a DMABUF
-Message-ID: <aaIT9SmOAOF4Jjy1@devgpu015.cco6.facebook.com>
-References: <20260226202211.929005-1-mattev@meta.com>
- <20260226202211.929005-4-mattev@meta.com>
- <90bd4185-1e87-4393-b9e1-1318a656a7d9@amd.com>
- <20260227125109.GH5933@nvidia.com>
- <c5a8f318-20af-4d80-a279-2393192108c3@meta.com>
- <20260227194807.GL5933@nvidia.com>
- <aaISD4mw1XzQl1S8@devgpu015.cco6.facebook.com>
+	s=arc-20240116; t=1772229667; c=relaxed/simple;
+	bh=mAzcRoJBasmeGlXQNqZiZH4u/NL//5nG7PikmKl8E6U=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=m7FzIXDmNLwx2qkr449BccYd2II2u8BSiGobur2pssA6XkUqRf3k6rKcaxlSFqLOh+iiauuMWd7RdyPyZLoqVIRQJ9+Pd5Lotj0Onr5C7k+ILNX5ihD7Y2bi3kFbjiir0BeUduz4R5ySbpsHdrIQBdWFdW3TZNWipMSSR7Z8L9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QN2PkoMv; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4398f8403edso1958285f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 14:01:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772229664; x=1772834464; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qfcMSv/VkkX2uxiYYkJjDIlwc6S46+mM12tf1ZM4Tyg=;
+        b=QN2PkoMvMlGWfE+Gestx6+y95fnJ3wbNZOdqTV/KUwM+iRFcg4DxfZGzK58RrSOmp8
+         A+TGIcFCQDukgXjgWgghnX6GCmaUe//uC6XjfFXG+0TDmgkzhUnJQ8mkeLNKkxPnXB0K
+         AR0BGUxlD99y1t6Z1NwzW0pB8oxw1zbBJ/b2tRlHAlKNxojsKyk+am6Jfr0JZHhZGJbN
+         DP+QPX2uSwzO49jliT80YsZiwY3ReTuypO3FOYxkasoVyOIBVpiQUMZfCg+7XyQGgkDD
+         ZO+t54nUuGksQa9BvYK57IUzXy98tY5p3UrAfUCWd454edDNTjCkJiKvBcUfQ34pyvXa
+         okcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772229664; x=1772834464;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qfcMSv/VkkX2uxiYYkJjDIlwc6S46+mM12tf1ZM4Tyg=;
+        b=Wer7rtLdLAaUZW1yYaDrM3pg/BXwhArZv/JmGOo1UJVKW0yU1PJmbnDT0a3fy1upvl
+         GyRU9eXroC+BuSh/FWV8oUOvFVBOQx7K73aeWzY3ehO8nO2Abdj2BQGfEY5CWyLfGwGD
+         DGvsufimQPTGj2ynhkusnujAtA0QhyvcBwJ32553eDGYnqNwe+P1gRGj3G3f7w8LPI+Q
+         fURFwxXY4wv8ip2Z6+zCj0DcMbIsTmVXti6lD2h/P1jTkj6I49AoD5wj2z2ZnKUgsQFP
+         SxLbngOb7ch0PWjMnkvCtEc3Elxx4cdLlsrE6k4qL1I4VUAspJ0c2XJbZaY8MsTrTI3J
+         11nw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9xoG0yVkBloUt3jypI5MMb1/mqutx6YEhhQvNMpl9owcGgZtismGUzdjpjZROaDcwxdBCbZjPsh9xZg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRI2ZxNmdLL7/esDQzAuObzEZSuszuAyc1jyOGRr3/L1NsyeZf
+	rSHz2gY5pe59itOsNO2pZH9Lz19hNunVWTk6oOOZBGxC9b+G8+C1gbb7p1/j1/hvSSA=
+X-Gm-Gg: ATEYQzyxtOleZW9d5Ziz07TN4AzCUnhWmocs3xSCj5ApVnNR0o9Wgm/Fpha2nx/Wdkt
+	Zsf4z76mlrL4MxyKzZamQVPfgdKgHL4/gR5F3nGx17+bg1ZwCJpuK+Ca3oV7SsYBtt6T3WLpeN3
+	CzBQEni8U92iwx3YNLG516oGVrVjrwFDZd7Ltw227ZOySTVXwop9s2WPdaTI0tbdySG3VH6ciZj
+	xmKrUZkiQyAQnXNB5Yk6TypE4wcLvSC3XyUMLwnAPyqa+PQNL7aDwD2R90M4/5BMjW7Sh4nNWCY
+	SvC7a7BfKV3ITqw1bNp9J0M+qibWpvJNh/QEqKA0rJb8DonN8Zl93DKyMZFUDxhIZxNp5jbxJN3
+	7oQrpw85Oj3Z5ucJDnK3oRt6ZVCmTPK5jACwz4vZUipA3klwvYEF9NrAt31rzWvHK4qoaEayv7o
+	AKXpyCYTSqDu9irJhQkY8AmdQBQr1p4rGsYG83f7dwYmXY6ywiE7S2iD6oApr4j8tUI6OiURtVt
+	8kYRGO+OM7JO9GNfHmJmswB
+X-Received: by 2002:a05:6000:4301:b0:437:719d:a753 with SMTP id ffacd0b85a97d-4399dddb9c8mr6708195f8f.11.1772229664528;
+        Fri, 27 Feb 2026 14:01:04 -0800 (PST)
+Received: from [192.168.16.154] (host86-188-11-239.range86-188.btcentralplus.com. [86.188.11.239])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c71b75dsm9137081f8f.17.2026.02.27.14.01.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Feb 2026 14:01:03 -0800 (PST)
+Message-ID: <233492977e4d890fa90fcbcac66bcbb918d63bcd.camel@linaro.org>
+Subject: Re: [PATCH v8 01/18] dt-bindings: media: qcom,x1e80100-camss:
+ Assign correct main register bank to first address
+From: Christopher Obbard <christopher.obbard@linaro.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson	
+ <andersson@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Robert
+ Foss	 <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, Mauro Carvalho
+ Chehab	 <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Bryan O'Donoghue
+ <bod@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+Date: Fri, 27 Feb 2026 22:01:03 +0000
+In-Reply-To: <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-1-95517393bcb2@linaro.org>
+References: 
+	<20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-0-95517393bcb2@linaro.org>
+	 <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-1-95517393bcb2@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-8 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aaISD4mw1XzQl1S8@devgpu015.cco6.facebook.com>
-X-Authority-Analysis: v=2.4 cv=RYqdyltv c=1 sm=1 tr=0 ts=69a2140d cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
- a=9jRdOu3wAAAA:8 a=V06E79E7ZWWwZtoFcR4A:9 a=CjuIK1q_8ugA:10 a=zZCYzV9kfG8A:10
- a=ZE6KLimJVUuLrTuGpvhn:22
-X-Proofpoint-GUID: 6QWGOPFSRTQAgV1H-lPBFelJW9RsIEhM
-X-Proofpoint-ORIG-GUID: 6QWGOPFSRTQAgV1H-lPBFelJW9RsIEhM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDE5NSBTYWx0ZWRfX8JJtLCQXqeDW
- AUzmo75nyZ+mC2q0y1ZkuWh6Vih1BgaEYz+KoOm9UZsBQwdkvBAwKkVjJ+WDFNxFZXPO8Lxvg0o
- d8mFLjSnq1W3fVfJKwe2IGfRFTivKq0D5OH3nnl2ZwknXpqbeYtg+C691OLckIfU++wZ7vpbngr
- PcFmeti+s/zACqPyqtPM8OEwhq2JdTEWQAz8SuxbCvHI234aNnysOHkFDS7cy9uLN7eE+McmyAK
- /B/oK6ZxZ0S4mmu6zsk6KCvjuaCjkABlrduoBn3OmQRFlOhrtVG4PNjDOQtos5ztGYThO/rhyVN
- wAnxk69WbRZOzVEU2T7lPCXGIrLZ+xgVEUki31v2dnkREcGJWBFmE50t/WruwkKkc7sWwG8sgfA
- Wa5bP4bo3iwfnrz9LKMGxXImpSN+niUT3jdVabBrAZz+RVnPrTivlzIgkHXwxKuHRkBQhibkTxU
- r5qZnRjlPV+36v677YA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-27_04,2026-02-27_03,2025-10-01_01
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[fb.com,reject];
-	R_DKIM_ALLOW(-0.20)[fb.com:s=s2048-2025-q2];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-53780-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53781-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[linaro.org,kernel.org,baylibre.com,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	RCPT_COUNT_TWELVE(0.00)[19];
-	DKIM_TRACE(0.00)[fb.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[amastro@fb.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[fb.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,devgpu015.cco6.facebook.com:mid]
-X-Rspamd-Queue-Id: EADA91BE574
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christopher.obbard@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[acb6000:email,acb7000:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim,linaro.org:email]
+X-Rspamd-Queue-Id: 3DA3A1BE5C2
 X-Rspamd-Action: no action
 
-On Fri, Feb 27, 2026 at 01:52:15PM -0800, Alex Mastro wrote:
-> On Fri, Feb 27, 2026 at 03:48:07PM -0400, Jason Gunthorpe wrote:
-> > > > I actually would like to go the other way and have VFIO always have a
-> > > > DMABUF under the VMA's it mmaps because that will make it easy to
-> > > > finish the type1 emulation which requires finding dmabufs for the
-> > > > VMAs.
-> > 
-> > This is a still better idea since it avoid duplicating the VMA flow
-> > into two parts..
-> 
-> I suppose this would also compose with your idea to use dma-buf for
-> iommufd_compat support of VFIO_IOMMU_MAP_DMA of vfio device fd-backed mmap()s
-> [1]? Instead of needing to materialize a new dma-buf, you could use the existing
-> backing one?
-> 
-> [1] https://lore.kernel.org/all/20260108141044.GC545276@ziepe.ca/
+Hi Bryan,
 
-Sorry, I can't read. That's literally what you said!
+On Wed, 2026-02-25 at 15:11 +0000, Bryan O'Donoghue wrote:
+> The first register bank should be the 'main' register bank, in this case
+> the CSID wrapper register is responsible for muxing PHY/TPG inputs direct=
+ly
+> to CSID or to other blocks such as the Sensor Front End.
+>=20
+> commit f4792eeaa971 ("dt-bindings: media: qcom,x1e80100-camss: Fix isp un=
+it address")
+> assigned the address to the first register bank "csid0" whereas what we
+> should have done is retained the unit address and moved csid_wrapper to b=
+e
+> the first listed bank.
+>=20
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+Reviewed-by: Christopher Obbard <christopher.obbard@linaro.org>
+
+> ---
+>  .../devicetree/bindings/media/qcom,x1e80100-camss.yaml       | 12 ++++++=
+------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.=
+yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> index 2d1662ef522b7..9aaed897f7e0e 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> @@ -21,12 +21,12 @@ properties:
+> =20
+>    reg-names:
+>      items:
+> +      - const: csid_wrapper
+>        - const: csid0
+>        - const: csid1
+>        - const: csid2
+>        - const: csid_lite0
+>        - const: csid_lite1
+> -      - const: csid_wrapper
+>        - const: csiphy0
+>        - const: csiphy1
+>        - const: csiphy2
+> @@ -190,15 +190,15 @@ examples:
+>          #address-cells =3D <2>;
+>          #size-cells =3D <2>;
+> =20
+> -        camss: isp@acb7000 {
+> +        camss: isp@acb6000 {
+>              compatible =3D "qcom,x1e80100-camss";
+> =20
+> -            reg =3D <0 0x0acb7000 0 0x2000>,
+> +            reg =3D <0 0x0acb6000 0 0x1000>,
+> +                  <0 0x0acb7000 0 0x2000>,
+>                    <0 0x0acb9000 0 0x2000>,
+>                    <0 0x0acbb000 0 0x2000>,
+>                    <0 0x0acc6000 0 0x1000>,
+>                    <0 0x0acca000 0 0x1000>,
+> -                  <0 0x0acb6000 0 0x1000>,
+>                    <0 0x0ace4000 0 0x1000>,
+>                    <0 0x0ace6000 0 0x1000>,
+>                    <0 0x0ace8000 0 0x1000>,
+> @@ -211,12 +211,12 @@ examples:
+>                    <0 0x0acc7000 0 0x2000>,
+>                    <0 0x0accb000 0 0x2000>;
+> =20
+> -            reg-names =3D "csid0",
+> +            reg-names =3D "csid_wrapper",
+> +                        "csid0",
+>                          "csid1",
+>                          "csid2",
+>                          "csid_lite0",
+>                          "csid_lite1",
+> -                        "csid_wrapper",
+>                          "csiphy0",
+>                          "csiphy1",
+>                          "csiphy2",
 
