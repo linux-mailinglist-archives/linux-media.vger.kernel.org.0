@@ -1,221 +1,174 @@
-Return-Path: <linux-media+bounces-53704-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53706-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2HOmMFGXoWl8ugQAu9opvQ
-	(envelope-from <linux-media+bounces-53704-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 14:08:33 +0100
+	id QKgTO/yaoWl8ugQAu9opvQ
+	(envelope-from <linux-media+bounces-53706-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 14:24:12 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309BF1B77A8
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 14:08:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AD11B7999
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 14:24:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1D7283137128
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 13:03:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3400230BD4C9
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 13:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8097022424C;
-	Fri, 27 Feb 2026 13:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B47442367D5;
+	Fri, 27 Feb 2026 13:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7AihO16"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0uK8pIA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FAE1A3164;
-	Fri, 27 Feb 2026 13:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2754117B506;
+	Fri, 27 Feb 2026 13:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772197416; cv=none; b=rYjNl+vRQ+xEuOPIJW64swl1IoFzvCcqO1rAv4vmLJMl/1FOye2ZVYWu1E1P2RrhzuL03rmAjJf7yAOQSJBhvBFZXKn1n61DlTH1NUIlCoguHhkOQd9wYt7278QRO/PZoPBeLxqIpaokYjj8PXB2s7B2NFisdTMMJZsTi/MTKIg=
+	t=1772198595; cv=none; b=uId9uc4ATbLxmA4T449/BWFpfeDDAVd2eSLSULoTuCdezh9AF5VIDVtKARP330tVE93uLtUvORUhmCWkkakHUwAsgRmBFgo2WtWSmEGsAKwcVdvd9vX35aG2/YhzO9VJwmOZWor9J2TNuskl8681RikBvxctj33CCQYEOXVR+zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772197416; c=relaxed/simple;
-	bh=bERn3UGgISbC0PbmUnSEW/5x9liqJFQrKwBEdBhysS8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NO2P3Ltav5KH0X0ysefcKtAVR6JUMrhmu1Rs62hk0tuG+6e7tEAXi4Qk/pnoabjydPxke1ihmvHd2bIDR8ox73N89NunyPGPtFswb8Cv5xsrBPRZp+YV9MagtqX2OLJcNz5M9R6fA4/mz5hMxOLtg4zxhF8TKSQNHMRlBaOeCg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7AihO16; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C71C116C6;
-	Fri, 27 Feb 2026 13:03:31 +0000 (UTC)
+	s=arc-20240116; t=1772198595; c=relaxed/simple;
+	bh=mjmT4w11Wfq0ynV+KWTaTpvGkSiB5WiaBYudNN248UY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YyINM+hDqBf2LsMPADHiA9t0Oas80N3Nb0Cg94CrCYzSFPa/syP//QPsU+NlDCYspK543G1dkw4KI+DBJ+5l7bur8m0kqvIJnDsT1mH1p+thu12jVVGkOBPGoIUiqItEXsQleNnk8lFdUOfZlORra7T823rJ06wJyME0DjWxdlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0uK8pIA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E885C116C6;
+	Fri, 27 Feb 2026 13:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772197415;
-	bh=bERn3UGgISbC0PbmUnSEW/5x9liqJFQrKwBEdBhysS8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=T7AihO16oQoaRbGruNs+3F1qNdA1xBl134oPZnqO+JybZGbiDiOXqaOrNO6J/nIPs
-	 WwCIiAqY1sOYDs1qeN7jfy82R9I1rU+9V/FmrGDDMVO4HiP2X0M3G5yCP6s/AsHufn
-	 EoYXkND1bCNkl1+wHlvoF0gpMM5BVQIvvc3jB2XrrM7uXH6Ds7Qp5PIJIjnzRF3kZi
-	 qemM2LAB9KVdXMn0AwgyI8gnLbyLB+Fg57oyYs1DBtpF6FRYmOy5c3JYmsCgpUc589
-	 MQVmaaFtT2R25LyecUJ9s0KebZ+ff1WKAJ2vvgWkpcsloBBFtGMeqKloHcmHZnxwd9
-	 uYeI+Enc6HPBQ==
-Message-ID: <dc2e9e13-165f-4ca1-be29-aabdbf133856@kernel.org>
-Date: Fri, 27 Feb 2026 14:03:30 +0100
+	s=k20201202; t=1772198594;
+	bh=mjmT4w11Wfq0ynV+KWTaTpvGkSiB5WiaBYudNN248UY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=A0uK8pIA9bybdYhTA2eIMWK2CKAddEEVXTlrKyNUFRgyjp5z61iBDziPXYKWc3qNU
+	 BKreHJgju60WflwCbE6o7xZnoJgE785fP2GlTMNIe/hoRkGCpVXpE6X/O2d4Xcd8qW
+	 juvytmljqRQZwanmzNSRn3oDghJmwgcGws5CRlXfxq2bz0JhKhaz8x0eWDZKMAYUEB
+	 3zV+wWz3V4rR0DZCILuf0cRxPIkbLXFGlq2yQXeTQZAs8ycAW7iB/CsROzKdw8ntut
+	 Q/Gfy3fkymQnzF1med4+NEilU0OpawBfP9Kde+FgZMOsuGeEYJEtroOAl3rbNMzIwN
+	 Weh8sp9K9rpbA==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v2 0/9] dma-buf: heaps: Turn heaps into modules
+Date: Fri, 27 Feb 2026 14:15:39 +0100
+Message-Id: <20260227-dma-buf-heaps-as-modules-v2-0-454aee7e06cc@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] media: dt-bindings: rockchip,vdec: Add alternative
- reg-names order for RK35{76,88}
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil@kernel.org>, kernel@collabora.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>, linux-media@vger.kernel.org
-References: <20260226-vdec-reg-order-rk3576-v4-0-b8d72dc75250@collabora.com>
- <20260226-vdec-reg-order-rk3576-v4-1-b8d72dc75250@collabora.com>
- <20260227-observant-roaring-ara-ef7eb0@quoll>
- <adbbdbb1-b126-4807-821c-c9850befd695@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <adbbdbb1-b126-4807-821c-c9850befd695@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0Jm7ZjpoCa48h6ERaEDNAIlHSEaw
+ t2tnMDl+/n//Q1UoheFe7ZBlNWrD1MCPmXQ9HbqBL1LDEx8I+YrutFivbTYi50VreIY3DKIoqH
+ 8UufSFC1bSPM5Suvfh7qsEvdeXyF+jqfV/NI/pKtBQjZUpJalgtzjKXGS4RxiB9W+71+k1vmdw
+ QAAAA==
+X-Change-ID: 20260225-dma-buf-heaps-as-modules-1034b3ec9f2a
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ iommu@lists.linux.dev, linux-mm@kvack.org, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2081; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=mjmT4w11Wfq0ynV+KWTaTpvGkSiB5WiaBYudNN248UY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkLZ233vsYj5JpYrLbY+435oV9Ka1gWd/zcdlDWWzTkX
+ NULZadfHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAi+88y1hd33xXkmvXP4kfW
+ seOxsrWpzodV8m4dz/OZ3jr3zwQvia6rj09/utFxY/nquMQwkyMPmBnrQ8PrZraVVhxN0j8UNqV
+ J5qXU/XeWsjpCsxZ979Yr+RbSpL3TKIt5Lf+Px3cXcB/ycuYHAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53704-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53706-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 309BF1B77A8
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 52AD11B7999
 X-Rspamd-Action: no action
 
-On 27/02/2026 12:37, Cristian Ciocaltea wrote:
-> Hi Krzysztof, Conor,
-> 
-> On 2/27/26 9:46 AM, Krzysztof Kozlowski wrote:
->> On Thu, Feb 26, 2026 at 12:46:53PM +0200, Cristian Ciocaltea wrote:
->>> With the introduction of the RK3588 SoC, and RK3576 afterwards, two more
->>> register blocks have been provided for the video decoder unit.
->>>
->>> However, the binding does not properly describe the new hardware layout,
->>
->> As you shown me last time with excerpt of address spaces from
->> datasheet/manual, the binding correctly describes the hardware and above
->> sentence is not true.
->>
->>> as it breaks the convention expecting the unit address to indicate the
->>> start of the first register range, i.e. 'function' block is listed
->>
->> Imprecise wording. "start of the main or primary register range"
->>
->> (if you have 0x1000 with one reg and 0x20000000 with everything, the
->> unit address will be 0x20000000).
->>
->>> before 'link' instead of the opposite.
->>>
->>> Since the binding changes have been already released and a fix would
->>> bring up an ABI break, mark the current 'reg-names' ordering as
->>> deprecated and introduce an alternative 'link,function,cache' listing
->>> which follows the address-based ordering according to the TRM.
->>>
->>> Additionally, drop the 'reg' description items as the order is not fixed
->>> anymore, while the information they offer is not very relevant anyway.
->>
->> This is fine for me.
-> 
-> Thanks for the additional feedback!
-> 
-> If I'm not mistaken (please correct me), the only remaining (hard)
-> blocker for the series would be to improve this commit message.
-> 
-> How about the following:
-> 
->     With the introduction of the RK3588 SoC, and RK3576 afterwards, three
->     register blocks have been provided for the video decoder unit instead of
->     just one, which are further referenced in the datasheet by 'link table',
->     'function' and 'cache'.  The former is present at the top of the
->     listing, starting at video decoder unit base address.
-> 
->     However, while documenting RK3588, the binding broke the convention
->     expecting the unit address to indicate the start of the primary register
->     range, i.e. the 'function' block got listed before the 'link' one.
-> 
->     Since the binding changes have been already released and a fix would
->     bring up an ABI break, mark the current 'reg-names' ordering as
->     deprecated and introduce an alternative 'link,function,cache' listing
->     which follows the address-based ordering according to the TRM.
-> 
->     Additionally, drop the 'reg' description items as the order is not fixed
->     anymore, while the information they offer is not very relevant anyway.
+Hi,
 
-Yes, it's fine. My comments were actually not blocking, I just wanted to
-wait if discussion with Conor resolves somehow.
+The recent introduction of heaps in the optee driver [1] made possible
+the creation of heaps as modules.
 
-But for me anyway:
+It's generally a good idea if possible, including for the already
+existing system and CMA heaps.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+The system one is pretty trivial, the CMA one is a bit more involved,
+especially since we have a call from kernel/dma/contiguous.c to the CMA
+heap code. This was solved by turning the logic around and making the
+CMA heap call into the contiguous DMA code.
 
+Let me know what you think,
+Maxime
+
+1: https://lore.kernel.org/dri-devel/20250911135007.1275833-4-jens.wiklander@linaro.org/
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Collect tags
+- Don't export dma_contiguous_default_area anymore, but export
+  dev_get_cma_area instead
+- Mentioned that heap modules can't be removed
+- Link to v1: https://lore.kernel.org/r/20260225-dma-buf-heaps-as-modules-v1-0-2109225a090d@kernel.org
+
+---
+Maxime Ripard (9):
+      dma: contiguous: Turn heap registration logic around
+      dma: contiguous: Make dev_get_cma_area() a proper function
+      dma: contiguous: Make dma_contiguous_default_area static
+      mm: cma: Export dev_get_cma_area()
+      mm: cma: Export cma_alloc and cma_release
+      mm: cma: Export cma_get_name
+      dma-buf: heaps: Export mem_accounting parameter
+      dma-buf: heaps: cma: Turn the heap into a module
+      dma-buf: heaps: system: Turn the heap into a module
+
+ drivers/dma-buf/dma-heap.c          |  1 +
+ drivers/dma-buf/heaps/Kconfig       |  4 ++--
+ drivers/dma-buf/heaps/cma_heap.c    | 21 +++++----------------
+ drivers/dma-buf/heaps/system_heap.c |  5 +++++
+ include/linux/dma-map-ops.h         | 14 ++++++--------
+ kernel/dma/contiguous.c             | 37 ++++++++++++++++++++++++++++++++++---
+ mm/cma.c                            |  3 +++
+ 7 files changed, 56 insertions(+), 29 deletions(-)
+---
+base-commit: 499a718536dc0e1c1d1b6211847207d58acd9916
+change-id: 20260225-dma-buf-heaps-as-modules-1034b3ec9f2a
 
 Best regards,
-Krzysztof
+-- 
+Maxime Ripard <mripard@kernel.org>
+
 
