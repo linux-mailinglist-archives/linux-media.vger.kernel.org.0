@@ -1,141 +1,206 @@
-Return-Path: <linux-media+bounces-53742-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53743-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6EEYHXrMoWnbwQQAu9opvQ
-	(envelope-from <linux-media+bounces-53742-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:55:22 +0100
+	id uIRwJQ/RoWkfwgQAu9opvQ
+	(envelope-from <linux-media+bounces-53743-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 18:14:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3991BB127
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:55:21 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BE91BB4AA
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 18:14:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2A07E30300EB
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:55:19 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id F10393006932
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 17:14:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21BF334DCF2;
-	Fri, 27 Feb 2026 16:55:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9630356A2B;
+	Fri, 27 Feb 2026 17:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="zSbqK00j"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YNIKcC4n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5512434DB4E
-	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 16:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19889347FD7;
+	Fri, 27 Feb 2026 17:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772211317; cv=none; b=HV3GDW0knDcOvXmE/0NEzKyJK93w3YKmUFbm+Bfq3yIzMiw7XOgZYinwupzDNgTfO0GC8twTU05CbQBUxxMTsbycHNlkrZA+sH9xnNQKmK2+ZHuhOfn3knWO40d1x6NjG9xX3/1ia8IevyrRE68x2XAen8iudyIlDSzz2Qw0NeA=
+	t=1772212444; cv=none; b=vGVYz00Ck9RoD4rEhWhx/y/PDkmw1WJAYCuc6cpTdHdjU6T1I40mfHoUu70TvJgdVFjSubOq+f0Y7iTtZT8C4Nb2oFFKwNoq18ojevgIkxAn/9nK/dxhqQxwV/Ww1O8YAaylau45LmFV2CrCkiqVzY1X7lBNgsapCf87iTBuEhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772211317; c=relaxed/simple;
-	bh=V/IkXMAFxGrtdixiDQKYs4xwGDNoU1GSSWwo9XNIYZ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fDs1HVNOIKHt7eYXchPfvlYoOT1RnMs39cXR6zcrPRzeUSxHTW/QebNzO3j/A1d4RRU9hVdRx3y0EKoLPUBTZItPsRHUaAYa/Lus37O+9JPVl6hwsC+Dbb66gY0+h3Tyg60g22WUk/b6wSS1hRlLsk0zasbIFMT1OCW6B7AOwQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=zSbqK00j; arc=none smtp.client-ip=199.89.1.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
-Received: from localhost (localhost [127.0.0.1])
-	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fMvZq5lJSzlgr46;
-	Fri, 27 Feb 2026 16:55:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:mime-version:x-mailer:message-id:date
-	:date:subject:subject:from:from:received:received; s=mr01; t=
-	1772211313; x=1774803314; bh=++fxS/eCeGRNwXE9C4CvwpVvEFH5kogdsJ1
-	nvCNrotY=; b=zSbqK00jagc/DjJCVEN/A5t5PBXZuMratNHuugq5YY9d5g2Rb8J
-	n+Q7U7ZNOPR7h3gX8gr3BP9Daxh7nJ5pT+MKwOePa+2izEypvAH+mB6hkeIlqzAX
-	VuSz/RB68+8xchKleD3hswcqxx4X8l9W0qu6KEGdl0bA8LIr6Y2J6qhEzGH4Q0I5
-	ciVBxLNkKFB30jLuJzwoNjLMWVj9O9lOkpTLn0dcJZJiXWgw7JSqT9i0ifgynRuY
-	f+WlV16AmaUDYaBSF+J8pd33yjkBewqXZKQex3k+idsSKLLrO1eQ9yAUS8ZwnAjc
-	zYiXt39UJdI+RIE94WLhcwCqxufb/3/Cowg==
-X-Virus-Scanned: by MailRoute
-Received: from 013.lax.mailroute.net ([127.0.0.1])
- by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id IxumsdYBREna; Fri, 27 Feb 2026 16:55:13 +0000 (UTC)
-Received: from bvanassche.mtv.corp.google.com (unknown [104.135.180.219])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fMvZm0sZNzlfvpH;
-	Fri, 27 Feb 2026 16:55:11 +0000 (UTC)
-From: Bart Van Assche <bvanassche@acm.org>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-media@vger.kernel.org,
-	Marco Elver <elver@google.com>,
-	Bart Van Assche <bvanassche@acm.org>
-Subject: [PATCH v2] dma-buf: Suppress a thread-safety complaint
-Date: Fri, 27 Feb 2026 08:55:01 -0800
-Message-ID: <20260227165501.2062829-1-bvanassche@acm.org>
-X-Mailer: git-send-email 2.53.0.473.g4a7958ca14-goog
+	s=arc-20240116; t=1772212444; c=relaxed/simple;
+	bh=bs6uKlJfn6XI1cj0Kv+3o21KatAk/mhEO4hzxEnlJq8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rqjiH2TByfux49q6ufsolDb0tnDCRz5E1C/tLfGplVFY+qOMnnPuJic2bfzKMCss7A7v1HdJGuFQ6nSyEP84ujtjoNfU7fdkPmEhqantZM6rVPAF9cwsIaVODVVRfmfR72B69kzO6hh7mrYjtQhgxOmKiTk45cxMorF4P9E2ldc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YNIKcC4n; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A603EC116C6;
+	Fri, 27 Feb 2026 17:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772212444;
+	bh=bs6uKlJfn6XI1cj0Kv+3o21KatAk/mhEO4hzxEnlJq8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YNIKcC4nu1duXqR52SQEghCQ0IOnX/CkD88r+a2DTdV/AkPXHApEdd/vE/TOFDsCY
+	 eVCbM4stmW+O612jwVpWV2kHCKbyR1KnOVBq0KBJT3HYUZfxNKY3he5t5m9zSycbkf
+	 ikRE9LswSgL689f5CAjkbKgHP9X1ckb6xXAga8qggeFITJSHbCB3gQy7Y9fW9vfl8L
+	 rqWdjlFS0Qgmd+pqVPyAW5PumZAj9iicix19/lzYlzx/wrrJN+6Sqi5LoyBYEMKuKn
+	 WBqxeInBzL87EbigWYndYnUDZADmL/MpDFPtiq22ShbBKDlvbzi1cVFVl1dvlGRQ2z
+	 3xOeczFYPjx8g==
+Date: Fri, 27 Feb 2026 17:13:58 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil@kernel.org>, kernel@collabora.com,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] media: dt-bindings: rockchip,vdec: Add
+ alternative reg-names order for RK35{76,88}
+Message-ID: <20260227-omission-stoic-417d7109ad4d@spud>
+References: <20260226-vdec-reg-order-rk3576-v4-0-b8d72dc75250@collabora.com>
+ <20260226-vdec-reg-order-rk3576-v4-1-b8d72dc75250@collabora.com>
+ <20260227-observant-roaring-ara-ef7eb0@quoll>
+ <adbbdbb1-b126-4807-821c-c9850befd695@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bShyYlHPkrpIht96"
+Content-Disposition: inline
+In-Reply-To: <adbbdbb1-b126-4807-821c-c9850befd695@collabora.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[acm.org,reject];
-	R_DKIM_ALLOW(-0.20)[acm.org:s=mr01];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53742-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53743-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	DKIM_TRACE(0.00)[acm.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bvanassche@acm.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 8C3991BB127
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C4BE91BB4AA
 X-Rspamd-Action: no action
 
-Handle all possible dma_resv_lock() return values. This patch prepares
-for enabling compile-time thread-safety analysis. This will cause the
-compiler to check whether all dma_resv_lock() return values are handled.
 
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
----
+--bShyYlHPkrpIht96
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changes compared to v1:
- - Removed dead code.
- - Removed the return value changes.
- - Added a comment and a WARN_ON() statement.
+On Fri, Feb 27, 2026 at 01:37:17PM +0200, Cristian Ciocaltea wrote:
+> Hi Krzysztof, Conor,
+>=20
+> On 2/27/26 9:46 AM, Krzysztof Kozlowski wrote:
+> > On Thu, Feb 26, 2026 at 12:46:53PM +0200, Cristian Ciocaltea wrote:
+> >> With the introduction of the RK3588 SoC, and RK3576 afterwards, two mo=
+re
+> >> register blocks have been provided for the video decoder unit.
+> >>
+> >> However, the binding does not properly describe the new hardware layou=
+t,
+> >=20
+> > As you shown me last time with excerpt of address spaces from
+> > datasheet/manual, the binding correctly describes the hardware and above
+> > sentence is not true.
+> >=20
+> >> as it breaks the convention expecting the unit address to indicate the
+> >> start of the first register range, i.e. 'function' block is listed
+> >=20
+> > Imprecise wording. "start of the main or primary register range"
+> >=20
+> > (if you have 0x1000 with one reg and 0x20000000 with everything, the
+> > unit address will be 0x20000000).
+> >=20
+> >> before 'link' instead of the opposite.
+> >>
+> >> Since the binding changes have been already released and a fix would
+> >> bring up an ABI break, mark the current 'reg-names' ordering as
+> >> deprecated and introduce an alternative 'link,function,cache' listing
+> >> which follows the address-based ordering according to the TRM.
+> >>
+> >> Additionally, drop the 'reg' description items as the order is not fix=
+ed
+> >> anymore, while the information they offer is not very relevant anyway.
+> >=20
+> > This is fine for me.
+>=20
+> Thanks for the additional feedback!
+>=20
+> If I'm not mistaken (please correct me), the only remaining (hard)
+> blocker for the series would be to improve this commit message.
 
- drivers/dma-buf/dma-resv.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+No, you also need to fix the problem I pointed out about reg-names being
+optional on the devices you're relying on reg-names for. The new commit
+message I am happy with, provided you also add the information Nicolas
+provided about the impact on users.
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index bea3e9858aca..ce9e6c04897f 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -790,8 +790,11 @@ static int __init dma_resv_lockdep(void)
- 	mmap_read_lock(mm);
- 	ww_acquire_init(&ctx, &reservation_ww_class);
- 	ret =3D dma_resv_lock(&obj, &ctx);
--	if (ret =3D=3D -EDEADLK)
-+	if (ret) {
-+		/* Only EDEADLK from the error injection is possible here */
-+		WARN_ON(ret !=3D -EDEADLK);
- 		dma_resv_lock_slow(&obj, &ctx);
-+	}
- 	fs_reclaim_acquire(GFP_KERNEL);
- 	/* for unmap_mapping_range on trylocked buffer objects in shrinkers */
- 	i_mmap_lock_write(&mapping);
+>=20
+> How about the following:
+>=20
+>     With the introduction of the RK3588 SoC, and RK3576 afterwards, three
+>     register blocks have been provided for the video decoder unit instead=
+ of
+>     just one, which are further referenced in the datasheet by 'link tabl=
+e',
+>     'function' and 'cache'.  The former is present at the top of the
+>     listing, starting at video decoder unit base address.
+>=20
+>     However, while documenting RK3588, the binding broke the convention
+>     expecting the unit address to indicate the start of the primary regis=
+ter
+>     range, i.e. the 'function' block got listed before the 'link' one.
+>=20
+>     Since the binding changes have been already released and a fix would
+>     bring up an ABI break, mark the current 'reg-names' ordering as
+>     deprecated and introduce an alternative 'link,function,cache' listing
+>     which follows the address-based ordering according to the TRM.
+>=20
+>     Additionally, drop the 'reg' description items as the order is not fi=
+xed
+>     anymore, while the information they offer is not very relevant anyway.
+>=20
+> Regards,
+> Cristian
+
+--bShyYlHPkrpIht96
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaaHQ1gAKCRB4tDGHoIJi
+0vvlAP9kvdRU6UlsQZ5Wsfi4QGT5f4KCBum2htINzh1r/oPhrAEA8b+7Mek6yDP8
+qKcKPbQm6I62YBafezuLQlaHjqzSxwE=
+=HhTd
+-----END PGP SIGNATURE-----
+
+--bShyYlHPkrpIht96--
 
