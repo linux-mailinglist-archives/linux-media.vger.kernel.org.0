@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-53735-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53736-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MP93EiG+oWnPwAQAu9opvQ
-	(envelope-from <linux-media+bounces-53735-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:54:09 +0100
+	id UEwEFNm9oWnCwAQAu9opvQ
+	(envelope-from <linux-media+bounces-53736-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:52:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAEE1BA5B2
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:54:08 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 097F01BA556
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 16:52:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 19DD9319E2F1
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 15:50:07 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6822B307DE62
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 15:50:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A5274418CD;
-	Fri, 27 Feb 2026 15:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EBC91AAE28;
+	Fri, 27 Feb 2026 15:50:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TQ3iTjUb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SqUiaXwn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EC0449EAD;
-	Fri, 27 Feb 2026 15:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFD4394465;
+	Fri, 27 Feb 2026 15:50:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772207399; cv=none; b=tfpyuTt1otDN1utcJV84Ya1/Qr4OH6voBXFhVYzBkLBftMUGDZZycgz2pBZ5QC+eibm/5+nDYDGk2emHiJ2M8Geh5ooVp6Ng9DOhltl1z9BnyDcRiA56kNCzMfGoYovL/8u6WS4Yx2PU2hWuTJNCjzQwwFGvmUlzxAuRYy3dtZQ=
+	t=1772207437; cv=none; b=dohTrJl8rNsFo6RY3TycIpEEvW9WpQ1cgNcJMug/bvzQD/rLbXdvU+S7ukv1uV/gzG8GjDOE3taZ9wIf2bb2OqOTcekaqRQUyubP0nJwOypmJj0Un1IhaUG2Vpl91ToDMCCg1hSdAkXCtaA+pUlj9yUZ8XOMp9mhmk0KyX8IMJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772207399; c=relaxed/simple;
-	bh=BS+JRm8LRYMAKig0YFetVVdfXJAVZYXeCpZOawjnWHU=;
+	s=arc-20240116; t=1772207437; c=relaxed/simple;
+	bh=VNdQZZw9aIaxOZa+qCUXMY3f+K9E1mCwFoQ7EytCOHs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R+4e3mv8wstnTAweO37r4+AQ22Qjs76urdmaTDmQGiPG/Cb67yPlJvJepHd4zW3v87R8O2nBfZET5NW0Jqgb+DvbFIIFZeGbYgYrjjYhhuqFt/6UObcjaeXe4l/LGb5RUxuJkEtTYudWEos7fMm+f3LwKEVQkSA3UoAaDYu+k7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TQ3iTjUb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92D00C116C6;
-	Fri, 27 Feb 2026 15:49:54 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=bk/wXDVYpgkIZMHo1Od7S4Bwsfnwplsex44VVu8/TaZZRL0MJamHIu7md1H0y4cKLxdydWnrJ7jSK0OrHMofl+yodwSwY25vyzD46uvaIV+xXYDblxMGad8kAkiew8ClUZV2MLe4QIUHFVkH7vut0zT9bJ1y+6ovG99bgo3o//I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SqUiaXwn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61E60C19422;
+	Fri, 27 Feb 2026 15:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772207399;
-	bh=BS+JRm8LRYMAKig0YFetVVdfXJAVZYXeCpZOawjnWHU=;
+	s=k20201202; t=1772207436;
+	bh=VNdQZZw9aIaxOZa+qCUXMY3f+K9E1mCwFoQ7EytCOHs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TQ3iTjUbG+vjYdUi/b+KVaOYvwwrk2pWPSeFC4XuFPLQGDI4h+DnfBEAaCJ0IUlPa
-	 M5ASGswaO+vylWt6fOr9YjbsardpzRVMa7wdoAuKcQuKchTOzZ4C/Mn4MUeVk3KWgN
-	 mc112KquuVtDRSRTGHLwQxU7+FBuD9Mewpr5o1ooU8BgYZ1pnP/pJYvWhNHTqNiJVG
-	 S6SbvOVMz9LvVwurdObKTxYZxSePKN07/RU1RXpdOS2nXcHqXWsnKCwa4g5Dh5omwt
-	 U7jNIAGPOX83AN+kBfh0NsLZk2EJdk4WuQrf+jct0SP15aIUTNGrQw9v/gD/xDHJuM
-	 6KrCLig2nvpPQ==
-Message-ID: <20257f68-04cf-40fa-9f0b-bd798e62b7eb@kernel.org>
-Date: Fri, 27 Feb 2026 16:49:52 +0100
+	b=SqUiaXwnSzN1fZBKtnZJe8jwY3Y4r0RkIIWxh+/mmUs0GdjdHeTo8eDSn0QdHoZYH
+	 4RNcy44IEtzTKYJk16anEJtE57MHvuz85XelRs0aeUpAAYdwHpKVxbwLoVmjwpjZud
+	 pbA0Tf9Y36VZuXQECSwpVmn4rjG14S4yqmRayPsxPxI1n5mA15CpkVoRxZ54jHJgSc
+	 UVx3QoVhL9yKvKVKYer+G+E7ORAn1B9olYse61XjYSoYStHqwPiOl/pL9pJDMTOG7s
+	 6l07k1N6yQJCm0fV94ZE113BDkHKzrq3wG5nMBNhYki8tL6Mu3SuLCFSRn/uihF13W
+	 5G7TN1LsehT+A==
+Message-ID: <4dcbbd06-18eb-46c6-a52c-07a4b17205cd@kernel.org>
+Date: Fri, 27 Feb 2026 16:50:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,8 +53,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/7] media: iris: add iris vpu bus support and register
- it with iommu_buses
+Subject: Re: [PATCH v2 1/7] media: dt-bindings: qcom-kaanapali-iris: Add
+ kaanapali video codec binding
 To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
  Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
@@ -71,7 +71,7 @@ Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  iommu@lists.linux.dev, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 References: <20260227-kaanapali-iris-v2-0-850043ac3933@oss.qualcomm.com>
- <20260227-kaanapali-iris-v2-3-850043ac3933@oss.qualcomm.com>
+ <20260227-kaanapali-iris-v2-1-850043ac3933@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -117,7 +117,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260227-kaanapali-iris-v2-3-850043ac3933@oss.qualcomm.com>
+In-Reply-To: <20260227-kaanapali-iris-v2-1-850043ac3933@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
@@ -126,18 +126,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53735-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53736-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
@@ -147,86 +147,229 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 9FAEE1BA5B2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,devicetree.org:url,qualcomm.com:email]
+X-Rspamd-Queue-Id: 097F01BA556
 X-Rspamd-Action: no action
 
 On 27/02/2026 15:11, Vikash Garodia wrote:
-> Add iris vpu bus support and hooks the new bus into the iommu_buses
-> list. Iris devices need their own bus so that each iris device can run
-> its own dma_configure() logic.
+> Kaanapali SOC brings in the new generation of video IP i.e iris4. When
+> compared to previous generation, iris3x, it has,
+> - separate power domains for stream and pixel processing hardware blocks
+>   (bse and vpp).
+> - additional power domain for apv codec.
+> - power domains for individual pipes (VPPx).
+> - different clocks and reset lines.
 > 
-> Co-developed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+> iommu-map include all the different stream-ids which can be possibly
+> generated by vpu4 hardware as below,
+> bitstream stream from vcodec
+> non-pixel stream from vcodec
+> non-pixel stream from tensilica
+> pixel stream from vcodec
+> secure bitstream stream from vcodec
+> secure non-pixel stream from vcodec
+> secure non-pixel stream from tensilica
+> secure pixel stream from vcodec
+> firmware stream from tensilica (might be handled by the TZ / hyp)
+
+I cannot really parse above.
+
+> 
+> This patch is depend on the below dt-schema patch.
+> Link: https://github.com/devicetree-org/dt-schema/pull/184/changes/d341298d62805bc972dfba691da6b3b62aa3ff15
 > Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 > ---
->  drivers/iommu/iommu.c                           |  4 ++++
->  drivers/media/platform/qcom/iris/Makefile       |  4 ++++
->  drivers/media/platform/qcom/iris/iris_vpu_bus.c | 32 +++++++++++++++++++++++++
->  include/linux/iris_vpu_bus.h                    | 13 ++++++++++
->  4 files changed, 53 insertions(+)
+>  .../bindings/media/qcom,kaanapali-iris.yaml        | 261 +++++++++++++++++++++
+>  include/dt-bindings/media/qcom,iris.h              |  18 ++
+>  2 files changed, 279 insertions(+)
 > 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 35db5178095404fec87cd0f18e44ea97cf354e78..fd5fb7c10da22ab548d359ca1f44504acc3d646c 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -13,6 +13,7 @@
->  #include <linux/bug.h>
->  #include <linux/types.h>
->  #include <linux/init.h>
-> +#include <linux/iris_vpu_bus.h>
->  #include <linux/export.h>
->  #include <linux/slab.h>
->  #include <linux/errno.h>
-> @@ -178,6 +179,9 @@ static const struct bus_type * const iommu_buses[] = {
->  #ifdef CONFIG_CDX_BUS
->  	&cdx_bus_type,
->  #endif
-> +#if IS_ENABLED(CONFIG_VIDEO_QCOM_IRIS)
-> +	&iris_vpu_bus_type,
-> +#endif
->  };
->  
->  /*
-> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
-> index 2abbd3aeb4af07e52bf372a4b2f352463529c92c..6f4052b98491aeddc299669334d4c93e9a3420e4 100644
-> --- a/drivers/media/platform/qcom/iris/Makefile
-> +++ b/drivers/media/platform/qcom/iris/Makefile
-> @@ -31,3 +31,7 @@ qcom-iris-objs += iris_platform_gen1.o
->  endif
->  
->  obj-$(CONFIG_VIDEO_QCOM_IRIS) += qcom-iris.o
-> +
-> +ifdef CONFIG_VIDEO_QCOM_IRIS
-> +obj-y += iris_vpu_bus.o
-> +endif
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_bus.c b/drivers/media/platform/qcom/iris/iris_vpu_bus.c
+> diff --git a/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.yaml b/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.yaml
 > new file mode 100644
-> index 0000000000000000000000000000000000000000..34ce78d9b0ff1feda15ba4f060a56d02749a0858
+> index 0000000000000000000000000000000000000000..db734c664a0417d8f5ea55b066f63f42583b1c14
 > --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/iris_vpu_bus.c
-> @@ -0,0 +1,32 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/Documentation/devicetree/bindings/media/qcom,kaanapali-iris.yaml
+> @@ -0,0 +1,261 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,kaanapali-iris.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Kaanapali Iris video encoder and decoder
+> +
+> +maintainers:
+> +  - Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> +  - Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+> +
+> +description:
+> +  The iris video processing unit is a video encode and decode accelerator
+> +  present on Qualcomm Kaanapali SoC.
+> +
+> +definitions:
+> +  iommu-types:
+> +    items:
+> +      - description: Function ID
+> +      - description: Phandle to IOMMU
+> +      - description: IOMMU stream ID base
+> +      - description: IOMMU stream ID mask
+> +      - description: Number of stream IDs
+
+You don't need definitions.
+
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,kaanapali-iris
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 10
+> +
+> +  clock-names:
+> +    items:
+> +      - const: iface
+> +      - const: core
+> +      - const: vcodec0_core
+> +      - const: iface1
+> +      - const: core_freerun
+> +      - const: vcodec0_core_freerun
+> +      - const: vcodec_bse
+> +      - const: vcodec_vpp0
+> +      - const: vcodec_vpp1
+> +      - const: vcodec_apv
+> +
+> +  dma-coherent: true
+> +
+> +  firmware-name:
+> +    maxItems: 1
+> +
+> +  interconnects:
+> +    maxItems: 2
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: cpu-cfg
+> +      - const: video-mem
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  iommu-map:
+> +    description: |
+> +        - bitstream stream from vcodec
+> +        - non-pixel stream from vcodec
+> +        - non-pixel stream from tensilica
+> +        - pixel stream from vcodec
+> +        - secure bitstream stream from vcodec
+> +        - secure non-pixel stream from vcodec
+> +        - secure non-pixel stream from tensilica
+> +        - secure pixel stream from vcodec
+> +        # firmware might be handled by the TZ / hyp
+> +        - firmware stream from tensilica
+
+Drop description, pointless. How does it help anyhow in writing DTS?
+
+> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
+> +    items:
+> +      $ref: '#/definitions/iommu-types'
+> +      minItems: 5
+> +    minItems: 8
+> +    maxItems: 9
+
+This solves nothing from the discussions we had. I re-iterated multiple
+times, plus there were internal threads doing the same, that you need to
+define the items to have strict order.
+
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +
+> +  operating-points-v2: true
+> +  opp-table:
+> +    type: object
+> +
+> +  power-domains:
+> +    maxItems: 7
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: venus
+> +      - const: vcodec0
+> +      - const: mxc
+> +      - const: mmcx
+> +      - const: vpp0
+> +      - const: vpp1
+> +      - const: apv
+> +
+> +  resets:
+> +    maxItems: 4
+> +
+> +  reset-names:
+> +    items:
+> +      - const: bus0
+> +      - const: bus1
+> +      - const: core
+> +      - const: vcodec0_core
+> +
+
+I assume you checked and used last SoC order of all the entries here.
+
+
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - dma-coherent
+> +  - interconnects
+> +  - interconnect-names
+> +  - interrupts
+> +  - iommu-map
+> +  - memory-region
+> +  - power-domains
+> +  - power-domain-names
+> +  - resets
+> +  - reset-names
+> +
+> +unevaluatedProperties: false
+
+additionalprops, see writing schema for explanation.
+
+
+...
+
+> +    };
+> diff --git a/include/dt-bindings/media/qcom,iris.h b/include/dt-bindings/media/qcom,iris.h
+
+Filename must match binding/compatible. I asked for this multiple times.
+
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..beb244289466ca938c7e5fe5cf15526f606a3a6c
+> --- /dev/null
+> +++ b/include/dt-bindings/media/qcom,iris.h
+> @@ -0,0 +1,18 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
 > +/*
-> + * Copyright (c) 2026 Qualcomm Innovation Center, Inc. All rights reserved.
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 > + */
 > +
-> +#include <linux/device.h>
-> +#include <linux/of_device.h>
+> +#ifndef _DT_BINDINGS_MEDIA_QCOM_IRIS_H
+> +#define _DT_BINDINGS_MEDIA_QCOM_IRIS_H
 > +
-> +#include "iris_platform_common.h"
+> +/* Function identifiers for iommu-map to attach for the context bank devices */
+> +#define IRIS_BITSTREAM		0x100
+> +#define IRIS_NON_PIXEL		0x101
+> +#define IRIS_PIXEL		0x102
+> +#define IRIS_SECURE_BITSTREAM	0x200
+> +#define IRIS_SECURE_NON_PIXEL	0x201
+> +#define IRIS_SECURE_PIXEL	0x202
+> +#define IRIS_FIRMWARE		0x300
 > +
-> +static int iris_vpu_bus_dma_configure(struct device *dev)
-> +{
-> +	struct iris_context_bank *cb = dev_get_drvdata(dev);
-> +
-> +	if (!cb)
-> +		return -ENODEV;
-> +
-> +	return of_dma_configure_id(dev, dev->parent->of_node, true, &cb->f_id);
 
-
-Apply this patch and build it. Does it build?
+Abstract identifiers for ABI start with 0 or 1 and are incremented by 1,
+not 0x100. There are also decimal, not hex.
 
 Best regards,
 Krzysztof
