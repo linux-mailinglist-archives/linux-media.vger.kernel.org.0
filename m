@@ -1,328 +1,441 @@
-Return-Path: <linux-media+bounces-53757-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53758-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOkEBePeoWlcwgQAu9opvQ
-	(envelope-from <linux-media+bounces-53757-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 19:13:55 +0100
+	id ABO3HEHfoWlcwgQAu9opvQ
+	(envelope-from <linux-media+bounces-53758-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 19:15:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80AC01BBD7E
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 19:13:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09BD1BBDBA
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 19:15:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6C5C0305BFCC
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 18:10:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2D42B30E4DC0
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 18:12:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E7C536AB6F;
-	Fri, 27 Feb 2026 18:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C999636AB5A;
+	Fri, 27 Feb 2026 18:12:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gTXU7wbL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/duHgKF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A0B35D5F8;
-	Fri, 27 Feb 2026 18:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967C236C0BB
+	for <linux-media@vger.kernel.org>; Fri, 27 Feb 2026 18:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772215833; cv=none; b=CtFkrtoTT5y9ZWKVwz0LUaAsB4Q1C8xF0crhTPS4mBY7XmYKED5fdOOSj8zCI3mKkUCqfDLkkyD08meg7GkFUtJtupYD0/AUZwV/OL51ETM4H5hogwHG7SkErEpBaH+bMbFQmZ+pnynzlQA1eaQRYQxKl0r27S04bAqykI2OeSc=
+	t=1772215950; cv=none; b=IbVomSJGeDHiHHpILFxf7qADhDVFk72GW3ALM2ysdKZmHVxCF3G5m7NQu5Y9KNQIpb4XbpPtEZJ2dJCli+0malGqppbWyPO8RvCvtQDcmKaR3C2zmJHlTLfq3W33HUYMOUpCXT2DnYiVwutAd28PsswUI6xrZ09cuIRcKljTMPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772215833; c=relaxed/simple;
-	bh=+7qcDgN76clpfkPEQ7toWJQgeAFbmTue8JQioohY3Qk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NiwjIhNimym3DKzVMR+O4sR2dKxOI08TFg0fqVgn7JYhnLkc0M9a5f670dN3AZgZsPSgLZijJ92rd8dNIPqt11zFGaBpKyTH7tJIphZcI8hnToHb/jEaI/gBPg8dCimS9f7Ax+WIoPFicG+Rb49x0jlm6jr59bgbOYyDGP6pb9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gTXU7wbL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4084C116C6;
-	Fri, 27 Feb 2026 18:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772215833;
-	bh=+7qcDgN76clpfkPEQ7toWJQgeAFbmTue8JQioohY3Qk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gTXU7wbLlsKzNEdiWj3SBc6qFHGrf0uK0+CoKA7YF/AWIVQhoHzdelgz9eVHaxO47
-	 Jxk41tU0Pdvg2vB4ha7J7PBolwFC+ZfAFpUi4Et0r5xxnxSXCxzEiu+7KSBrkJUSAk
-	 0r40EzShDAgrIMFtvLEthHEzcAgtCMislSehrrOrYu+A4CXIdLs8bvFjSmK12h16PO
-	 sFwu0tPOAY/jXi6XycrE3orEi864hBodGUmNRNwEzKsSqKBXAZL58Q/6BQA7UhRhXH
-	 TClc0499OQWoWD8OV1K/1+Oq60ciaYxdOxLs3nE3QS7iCzOkQLU2eGRQIRJ95T5AGd
-	 Wj/wTWo8XdFhw==
-Date: Fri, 27 Feb 2026 18:10:27 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>, kernel@collabora.com,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] media: dt-bindings: rockchip,vdec: Add
- alternative reg-names order for RK35{76,88}
-Message-ID: <20260227-wreckage-cozily-200175c6efce@spud>
-References: <20260226-vdec-reg-order-rk3576-v4-0-b8d72dc75250@collabora.com>
- <20260226-vdec-reg-order-rk3576-v4-1-b8d72dc75250@collabora.com>
- <20260226-salute-threaten-a3eabb232396@spud>
- <429f3c7aa22eccffedbf8db6aa91bee3dd13814a.camel@collabora.com>
- <20260226-snide-foil-a05e1aa156a8@spud>
- <3d28c699e47f606bad46bb6447785badace37793.camel@collabora.com>
- <20260227-atonable-glamorous-920cfd832bc1@spud>
- <86f4e4ee-cf49-4ebe-8cc6-0a9763ade36a@collabora.com>
+	s=arc-20240116; t=1772215950; c=relaxed/simple;
+	bh=a+d33furGH2HIUq7/2uVZKtWEMujlWxywOVPyeVpErA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QDoO8+LQZpnkfO1Y/eHFeTj/UVZiz1odBFrTHrGjW1VmgjvElIdZjiID3dymEWPJ7Rvh/kaa4ZvgBOAr7VdkPCPwuc1WypBLv5g9uaE9HO488iUsb7gBdoBedy8sdxtm9tm9DmZrIo4UZgdTXaoC/1FwxGi1BB5CcAefXIVTsGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/duHgKF; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772215945; x=1803751945;
+  h=date:from:to:cc:subject:message-id;
+  bh=a+d33furGH2HIUq7/2uVZKtWEMujlWxywOVPyeVpErA=;
+  b=a/duHgKF0oVkpM0oeqUCUwCj/6ZHBha18h7oFCEn217At91wB3k6Vkbv
+   z1wFWJHYtWvNxQgFoaAFGGm2mYb0zxuSyTpz+VfbI3t8tHFM43SlJexhl
+   HAmGHuphXpmj73lFsRpWg8flke0C0p8nc3gtEXtK7s+IRdNFetifHy+lz
+   82vY2FXtboRUDkR8CeO0aLji6N0d4VusXyeiRsbZJ9S+868JBaN+eNqkJ
+   sfIK5gChrsD1p2N71rRNRdFxre5KVR8F5S9tvLYZnRcgdfI879n966Atu
+   taNQnhs7go4Y+9vIAJlY21w9a6XVMMa/8VMqMcM3ZjBKQLnWRkrQWWN92
+   w==;
+X-CSE-ConnectionGUID: zW6zLNEVTz+QOuvNpkjdkA==
+X-CSE-MsgGUID: vA/zZ5fVSD2QEPjkf46/gQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73008547"
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="73008547"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 10:12:24 -0800
+X-CSE-ConnectionGUID: /PCJAHFCSPyhhPo7J/UL5g==
+X-CSE-MsgGUID: 7jWaQnkSSRCLXZgYXIwmCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="239969595"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 27 Feb 2026 10:12:22 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vw2K3-00000000Asx-3ut4;
+	Fri, 27 Feb 2026 18:12:19 +0000
+Date: Sat, 28 Feb 2026 02:11:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ f505e978d1a0442adbbde48aed38c084ddea6d6e
+Message-ID: <202602280250.c540NYDU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tog0ews7lACG9O5/"
-Content-Disposition: inline
-In-Reply-To: <86f4e4ee-cf49-4ebe-8cc6-0a9763ade36a@collabora.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53757-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53758-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,fdc38000:email]
-X-Rspamd-Queue-Id: 80AC01BBD7E
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linuxtv.org:url,intel.com:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: E09BD1BBDBA
 X-Rspamd-Action: no action
 
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: f505e978d1a0442adbbde48aed38c084ddea6d6e  docs: media: document media multi-committers rules and process
 
---tog0ews7lACG9O5/
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 724m
 
-On Fri, Feb 27, 2026 at 07:49:33PM +0200, Cristian Ciocaltea wrote:
-> On 2/27/26 7:18 PM, Conor Dooley wrote:
-> > On Thu, Feb 26, 2026 at 04:56:30PM -0500, Nicolas Dufresne wrote:
-> >> Le jeudi 26 f=E9vrier 2026 =E0 20:59 +0000, Conor Dooley a =E9crit :
-> >>> On Thu, Feb 26, 2026 at 02:45:11PM -0500, Nicolas Dufresne wrote:
-> >>>> Le jeudi 26 f=E9vrier 2026 =E0 18:43 +0000, Conor Dooley a =E9crit :
-> >=20
-> >>>>> Deprecating the order also makes little sense to me, given that som=
-e of
-> >>>>> these devices only have one reg entry, which as far as I can tell f=
-rom
-> >>>>> looking at the driver *is* the "function" region, so it can never be
-> >>>>> entirely deprecated.
-> >>>>
-> >>>> What I'd like to see, is a binding expression that behave like a set=
-, not a
-> >>>> list, and leave the ordering open. As people keep repeating, there i=
-s nothing in
-> >>>> a binding that assist to define the right ordering (its not address =
-or base
-> >>>> addres aware). That basically means, we can't as reviewer see that o=
-rdering is
-> >>>> going to imposing using a base address in the unit name (which is a =
-convenience,
-> >>>> not a rule I suppose) that differ from the vendor documented base ad=
-dress.
-> >>>>
-> >>>> By explicitly removing the ordering in the binding, we create a stri=
-ct rule that
-> >>>> driver should retrieve this by name, and never assume the ordering, =
-which I
-> >>>> personally like.
-> >>>>
-> >>>> thoughts ?
-> >>>
-> >>> Yeah, you can do this, but to avoid potential breaks you have to do it
-> >>> from the start, not after the fact. Probably there's bindings that get
-> >>> acked every day that do do this. Even the retcon is okay to do when
-> >>> reg-names is mandated by the binding and the users use reg-names in my
-> >>> opinion.
-> >>
-> >> I think from the above analyses, since the usage only starts in rc1, w=
-e have
-> >> room for improving it knowing we aren't creating problem for anyone. N=
-ote that I
-> >> have no idea what the syntax is to "do this", and I doubt either Detle=
-v or
-> >> Cristian have a clue.
-> >=20
-> > I think this is the only bit that really still needs a reply, this can
-> > be solved by adding reg-names as "required" to the existing conditional
-> > portion of the binding. There's probably hundreds of examples if one
-> > does a search for "then:\n.*required:" to use a basis for the change
-> > here. Probably should be an independent change, since it is needed even
-> > without the re-order given the bug I brought up.
->=20
-> As mentioned in my previous reply, the actual problem is that the binding=
- has
-> been already released, and I'm not sure we can change this without breaki=
-ng the
-> ABI.
+configs tested: 316
+configs skipped: 2
 
-I feel like I am losing my mind here lol. Forget about this patch for a
-moment and consider the driver right now. The code currently looks like
-this:
-	if (rkvdec->variant->has_single_reg_region) {
-		rkvdec->regs =3D devm_platform_ioremap_resource(pdev, 0);
-		if (IS_ERR(rkvdec->regs))
-			return PTR_ERR(rkvdec->regs);
-	} else {
-		rkvdec->regs =3D devm_platform_ioremap_resource_byname(pdev, "function");
-		if (IS_ERR(rkvdec->regs))
-			return PTR_ERR(rkvdec->regs);
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-		rkvdec->link =3D devm_platform_ioremap_resource_byname(pdev, "link");
-		if (IS_ERR(rkvdec->link))
-			return PTR_ERR(rkvdec->link);
-	}
-This means you will fail to probe on any platform that does not have
-has_single_reg_region set if the reg-names property is not present.
-rk3588-vdec uses:
-	static const struct rkvdec_variant vdpu381_variant =3D {
-		.coded_fmts =3D vdpu381_coded_fmts,
-		.num_coded_fmts =3D ARRAY_SIZE(vdpu381_coded_fmts),
-		.rcb_sizes =3D vdpu381_rcb_sizes,
-		.num_rcb_sizes =3D ARRAY_SIZE(vdpu381_rcb_sizes),
-		.ops =3D &vdpu381_variant_ops,
-	};
-The binding does not currently require rk3588-vdec use reg-names. This
-means that the driver will fail to probe if someone provides what the
-binding considers to be a valid devicetree.
+tested configs:
+alpha                            alldefconfig    gcc-15.2.0
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-15.2.0
+arc                              allmodconfig    clang-16
+arc                              allmodconfig    gcc-15.2.0
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    clang-23
+arc                              allyesconfig    gcc-15.2.0
+arc                          axs101_defconfig    clang-23
+arc                                 defconfig    gcc-15.2.0
+arc                         haps_hs_defconfig    gcc-15.2.0
+arc                     haps_hs_smp_defconfig    clang-23
+arc                     haps_hs_smp_defconfig    gcc-15.2.0
+arc                        nsimosci_defconfig    clang-23
+arc                   randconfig-001-20260227    gcc-8.5.0
+arc                   randconfig-002-20260227    gcc-8.5.0
+arm                               allnoconfig    clang-23
+arm                               allnoconfig    gcc-15.2.0
+arm                              allyesconfig    clang-16
+arm                              allyesconfig    gcc-15.2.0
+arm                       aspeed_g5_defconfig    gcc-15.2.0
+arm                                 defconfig    gcc-15.2.0
+arm                       imx_v4_v5_defconfig    gcc-14
+arm                            mmp2_defconfig    gcc-15.2.0
+arm                        multi_v5_defconfig    clang-23
+arm                        mvebu_v5_defconfig    gcc-15.2.0
+arm                             mxs_defconfig    clang-23
+arm                           omap1_defconfig    gcc-15.2.0
+arm                   randconfig-001-20260227    gcc-14.3.0
+arm                   randconfig-001-20260227    gcc-8.5.0
+arm                   randconfig-002-20260227    clang-23
+arm                   randconfig-002-20260227    gcc-8.5.0
+arm                   randconfig-003-20260227    gcc-15.2.0
+arm                   randconfig-003-20260227    gcc-8.5.0
+arm                   randconfig-004-20260227    clang-23
+arm                   randconfig-004-20260227    gcc-8.5.0
+arm                           u8500_defconfig    gcc-15.2.0
+arm                         wpcm450_defconfig    clang-23
+arm64                            allmodconfig    clang-19
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-15.2.0
+arm64                 randconfig-001-20260227    clang-23
+arm64                 randconfig-002-20260227    clang-23
+arm64                 randconfig-003-20260227    clang-23
+arm64                 randconfig-004-20260227    clang-23
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-15.2.0
+csky                  randconfig-001-20260227    clang-23
+csky                  randconfig-002-20260227    clang-23
+hexagon                          alldefconfig    gcc-14
+hexagon                          allmodconfig    clang-17
+hexagon                          allmodconfig    gcc-15.2.0
+hexagon                           allnoconfig    clang-23
+hexagon                           allnoconfig    gcc-15.2.0
+hexagon                             defconfig    gcc-15.2.0
+hexagon               randconfig-001-20260227    clang-23
+hexagon               randconfig-001-20260228    clang-23
+hexagon               randconfig-002-20260227    clang-23
+hexagon               randconfig-002-20260228    clang-23
+i386                             allmodconfig    clang-20
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                              allnoconfig    gcc-15.2.0
+i386                             allyesconfig    clang-20
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20260227    clang-20
+i386        buildonly-randconfig-002-20260227    clang-20
+i386        buildonly-randconfig-003-20260227    clang-20
+i386        buildonly-randconfig-004-20260227    clang-20
+i386        buildonly-randconfig-005-20260227    clang-20
+i386        buildonly-randconfig-006-20260227    clang-20
+i386                                defconfig    gcc-15.2.0
+i386                  randconfig-001-20260227    clang-20
+i386                  randconfig-002-20260227    clang-20
+i386                  randconfig-003-20260227    clang-20
+i386                  randconfig-003-20260227    gcc-14
+i386                  randconfig-004-20260227    clang-20
+i386                  randconfig-004-20260227    gcc-14
+i386                  randconfig-005-20260227    clang-20
+i386                  randconfig-005-20260227    gcc-12
+i386                  randconfig-006-20260227    clang-20
+i386                  randconfig-006-20260227    gcc-14
+i386                  randconfig-007-20260227    clang-20
+i386                  randconfig-011-20260227    clang-20
+i386                  randconfig-011-20260227    gcc-14
+i386                  randconfig-012-20260227    gcc-14
+i386                  randconfig-013-20260227    clang-20
+i386                  randconfig-013-20260227    gcc-14
+i386                  randconfig-014-20260227    gcc-14
+i386                  randconfig-015-20260227    gcc-13
+i386                  randconfig-015-20260227    gcc-14
+i386                  randconfig-016-20260227    clang-20
+i386                  randconfig-016-20260227    gcc-14
+i386                  randconfig-017-20260227    gcc-14
+loongarch                        alldefconfig    clang-20
+loongarch                        alldefconfig    gcc-15.2.0
+loongarch                        allmodconfig    clang-19
+loongarch                        allmodconfig    clang-23
+loongarch                         allnoconfig    clang-23
+loongarch                         allnoconfig    gcc-15.2.0
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20260227    clang-23
+loongarch             randconfig-001-20260227    gcc-15.2.0
+loongarch             randconfig-001-20260228    clang-23
+loongarch             randconfig-002-20260227    clang-20
+loongarch             randconfig-002-20260227    clang-23
+loongarch             randconfig-002-20260228    clang-23
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    clang-16
+m68k                             allyesconfig    gcc-15.2.0
+m68k                          amiga_defconfig    clang-23
+m68k                       bvme6000_defconfig    gcc-15.2.0
+m68k                                defconfig    clang-19
+m68k                          hp300_defconfig    gcc-15.2.0
+m68k                       m5249evb_defconfig    gcc-14
+m68k                       m5475evb_defconfig    gcc-15.2.0
+m68k                          multi_defconfig    gcc-15.2.0
+m68k                        mvme16x_defconfig    gcc-15.2.0
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    clang-19
+microblaze                      mmu_defconfig    gcc-15.2.0
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+mips                          eyeq5_defconfig    gcc-14
+mips                          rb532_defconfig    gcc-15.2.0
+mips                       rbtx49xx_defconfig    gcc-15.2.0
+nios2                            allmodconfig    clang-23
+nios2                             allnoconfig    clang-23
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    clang-19
+nios2                 randconfig-001-20260227    clang-23
+nios2                 randconfig-001-20260227    gcc-11.5.0
+nios2                 randconfig-001-20260228    clang-23
+nios2                 randconfig-002-20260227    clang-23
+nios2                 randconfig-002-20260227    gcc-11.5.0
+nios2                 randconfig-002-20260228    clang-23
+openrisc                         allmodconfig    clang-23
+openrisc                          allnoconfig    clang-23
+openrisc                          allnoconfig    gcc-15.2.0
+openrisc                   de0_nano_defconfig    gcc-15.2.0
+openrisc                            defconfig    gcc-15.2.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    clang-23
+parisc                            allnoconfig    gcc-15.2.0
+parisc                           allyesconfig    clang-19
+parisc                           allyesconfig    gcc-15.2.0
+parisc                              defconfig    gcc-15.2.0
+parisc                randconfig-001-20260227    clang-17
+parisc                randconfig-001-20260227    gcc-8.5.0
+parisc                randconfig-001-20260228    gcc-8.5.0
+parisc                randconfig-002-20260227    clang-17
+parisc                randconfig-002-20260227    gcc-8.5.0
+parisc                randconfig-002-20260228    gcc-8.5.0
+parisc64                            defconfig    clang-19
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    clang-23
+powerpc                           allnoconfig    gcc-15.2.0
+powerpc                      arches_defconfig    clang-23
+powerpc                      bamboo_defconfig    gcc-15.2.0
+powerpc                        cell_defconfig    gcc-14
+powerpc                       ebony_defconfig    clang-23
+powerpc                      ep88xc_defconfig    gcc-15.2.0
+powerpc                        fsp2_defconfig    gcc-15.2.0
+powerpc                        icon_defconfig    gcc-15.2.0
+powerpc                   motionpro_defconfig    clang-23
+powerpc                   motionpro_defconfig    gcc-15.2.0
+powerpc                     mpc5200_defconfig    clang-23
+powerpc                       ppc64_defconfig    clang-23
+powerpc                       ppc64_defconfig    gcc-15.2.0
+powerpc               randconfig-001-20260227    clang-17
+powerpc               randconfig-001-20260227    gcc-11.5.0
+powerpc               randconfig-001-20260228    gcc-8.5.0
+powerpc               randconfig-002-20260227    clang-17
+powerpc               randconfig-002-20260228    gcc-8.5.0
+powerpc                     tqm5200_defconfig    gcc-15.2.0
+powerpc64             randconfig-001-20260227    clang-17
+powerpc64             randconfig-001-20260227    gcc-10.5.0
+powerpc64             randconfig-001-20260228    gcc-8.5.0
+powerpc64             randconfig-002-20260227    clang-17
+powerpc64             randconfig-002-20260227    gcc-14.3.0
+powerpc64             randconfig-002-20260228    gcc-8.5.0
+riscv                            alldefconfig    clang-23
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    clang-23
+riscv                             allnoconfig    gcc-15.2.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-23
+riscv                               defconfig    gcc-15.2.0
+riscv                 randconfig-001-20260227    clang-23
+riscv                 randconfig-001-20260227    gcc-12.5.0
+riscv                 randconfig-001-20260228    gcc-15.2.0
+riscv                 randconfig-002-20260227    gcc-12.5.0
+riscv                 randconfig-002-20260227    gcc-8.5.0
+riscv                 randconfig-002-20260228    gcc-15.2.0
+s390                             allmodconfig    clang-18
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-15.2.0
+s390                                defconfig    clang-23
+s390                                defconfig    gcc-15.2.0
+s390                  randconfig-001-20260227    gcc-11.5.0
+s390                  randconfig-001-20260227    gcc-12.5.0
+s390                  randconfig-001-20260228    gcc-15.2.0
+s390                  randconfig-002-20260227    gcc-12.5.0
+s390                  randconfig-002-20260227    gcc-9.5.0
+s390                  randconfig-002-20260228    gcc-15.2.0
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    clang-23
+sh                                allnoconfig    gcc-15.2.0
+sh                               allyesconfig    clang-19
+sh                               allyesconfig    gcc-15.2.0
+sh                         apsh4a3a_defconfig    clang-23
+sh                                  defconfig    gcc-14
+sh                ecovec24-romimage_defconfig    gcc-15.2.0
+sh                             espt_defconfig    gcc-14
+sh                          kfr2r09_defconfig    gcc-15.2.0
+sh                          lboxre2_defconfig    gcc-15.2.0
+sh                    randconfig-001-20260227    gcc-12.5.0
+sh                    randconfig-001-20260228    gcc-15.2.0
+sh                    randconfig-002-20260227    gcc-12.5.0
+sh                    randconfig-002-20260227    gcc-15.2.0
+sh                    randconfig-002-20260228    gcc-15.2.0
+sh                          sdk7786_defconfig    gcc-15.2.0
+sh                           se7750_defconfig    gcc-15.2.0
+sh                   secureedge5410_defconfig    gcc-15.2.0
+sh                           sh2007_defconfig    clang-23
+sh                              ul2_defconfig    gcc-14
+sparc                             allnoconfig    clang-23
+sparc                             allnoconfig    gcc-15.2.0
+sparc                               defconfig    gcc-15.2.0
+sparc                 randconfig-001-20260227    clang-23
+sparc                 randconfig-001-20260227    gcc-11.5.0
+sparc                 randconfig-002-20260227    clang-23
+sparc                 randconfig-002-20260227    gcc-15.2.0
+sparc64                          allmodconfig    clang-23
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20260227    clang-23
+sparc64               randconfig-002-20260227    clang-23
+um                               alldefconfig    clang-23
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-14
+um                               allyesconfig    gcc-15.2.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260227    clang-23
+um                    randconfig-002-20260227    clang-23
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-20
+x86_64                            allnoconfig    clang-23
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20260227    gcc-14
+x86_64      buildonly-randconfig-002-20260227    gcc-14
+x86_64      buildonly-randconfig-003-20260227    clang-20
+x86_64      buildonly-randconfig-003-20260227    gcc-14
+x86_64      buildonly-randconfig-004-20260227    gcc-14
+x86_64      buildonly-randconfig-005-20260227    gcc-14
+x86_64      buildonly-randconfig-006-20260227    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-20
+x86_64                randconfig-001-20260227    clang-20
+x86_64                randconfig-001-20260227    gcc-13
+x86_64                randconfig-002-20260227    clang-20
+x86_64                randconfig-002-20260227    gcc-13
+x86_64                randconfig-003-20260227    gcc-13
+x86_64                randconfig-003-20260227    gcc-14
+x86_64                randconfig-004-20260227    gcc-13
+x86_64                randconfig-005-20260227    gcc-13
+x86_64                randconfig-005-20260227    gcc-14
+x86_64                randconfig-006-20260227    gcc-13
+x86_64                randconfig-006-20260227    gcc-14
+x86_64                randconfig-011-20260227    gcc-14
+x86_64                randconfig-012-20260227    gcc-14
+x86_64                randconfig-013-20260227    clang-20
+x86_64                randconfig-013-20260227    gcc-14
+x86_64                randconfig-014-20260227    clang-20
+x86_64                randconfig-014-20260227    gcc-14
+x86_64                randconfig-015-20260227    clang-20
+x86_64                randconfig-015-20260227    gcc-14
+x86_64                randconfig-016-20260227    gcc-14
+x86_64                randconfig-071-20260227    gcc-12
+x86_64                randconfig-071-20260227    gcc-14
+x86_64                randconfig-072-20260227    clang-20
+x86_64                randconfig-072-20260227    gcc-14
+x86_64                randconfig-073-20260227    gcc-14
+x86_64                randconfig-074-20260227    clang-20
+x86_64                randconfig-074-20260227    gcc-14
+x86_64                randconfig-075-20260227    clang-20
+x86_64                randconfig-075-20260227    gcc-14
+x86_64                randconfig-076-20260227    clang-20
+x86_64                randconfig-076-20260227    gcc-14
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    clang-23
+xtensa                            allnoconfig    gcc-15.2.0
+xtensa                           allyesconfig    clang-23
+xtensa                  audio_kc705_defconfig    gcc-15.2.0
+xtensa                generic_kc705_defconfig    gcc-15.2.0
+xtensa                  nommu_kc705_defconfig    clang-23
+xtensa                randconfig-001-20260227    clang-23
+xtensa                randconfig-001-20260227    gcc-15.2.0
+xtensa                randconfig-002-20260227    clang-23
+xtensa                randconfig-002-20260227    gcc-10.5.0
+xtensa                    smp_lx200_defconfig    clang-23
 
-There are two ways to resolve this. The first is to do the following:
-| diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/me=
-dia/platform/rockchip/rkvdec/rkvdec.c
-| index 967c452ab61f7..f508fc4746a87 100644
-| --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-| +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-| @@ -1800,11 +1800,11 @@ static int rkvdec_probe(struct platform_device *p=
-dev)
-|  		if (IS_ERR(rkvdec->regs))
-|  			return PTR_ERR(rkvdec->regs);
-|  	} else {
-| -		rkvdec->regs =3D devm_platform_ioremap_resource_byname(pdev, "function=
-");
-| +		rkvdec->regs =3D devm_platform_ioremap_resource(pdev, 0);
-|  		if (IS_ERR(rkvdec->regs))
-|  			return PTR_ERR(rkvdec->regs);
-| =20
-| -		rkvdec->link =3D devm_platform_ioremap_resource_byname(pdev, "link");
-| +		rkvdec->link =3D devm_platform_ioremap_resource(pdev, 1);
-|  		if (IS_ERR(rkvdec->link))
-|  			return PTR_ERR(rkvdec->link);
-|  	}
-
-The second is to make the reg-names property mandatory.
-
-The first way does not constitute an ABI break. The second way is an ABI
-break, as you rightly point out.
-
-Now thinking about your patch here. Without it, the following is a valid
-vdec node on rk3588.
-	video-codec@fdc38000 {
-		compatible =3D "rockchip,rk3588-vdec";
-		reg =3D <0x0 0xfdc38100 0x0 0x500>,
-		      <0x0 0xfdc38000 0x0 0x100>,
-		      <0x0 0xfdc38600 0x0 0x100>;
-		interrupts =3D <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
-		clocks =3D <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA=
->,
-			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
-		clock-names =3D "axi", "ahb", "cabac", "core", "hevc_cabac";
-		assigned-clocks =3D <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
-				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
-		assigned-clock-rates =3D <800000000>, <600000000>,
-				       <600000000>, <1000000000>;
-		iommus =3D <&vdec0_mmu>;
-		power-domains =3D <&power RK3588_PD_RKVDEC0>;
-		resets =3D <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDE=
-C0_CA>,
-			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
-		reset-names =3D "axi", "ahb", "cabac", "core", "hevc_cabac";
-		sram =3D <&vdec0_sram>;
-	};
-Ignore the fact that this will not currently probe for a moment, assuming
-we applied my diff above to the driver, and look at what will be a valid
-node after your patch:
-	video-codec@fdc38000 {
-		compatible =3D "rockchip,rk3588-vdec";
-		reg =3D <0x0 0xfdc38000 0x0 0x100>,
-		      <0x0 0xfdc38100 0x0 0x500>,
-		      <0x0 0xfdc38600 0x0 0x100>;
-		interrupts =3D <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
-		clocks =3D <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA=
->,
-			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
-		clock-names =3D "axi", "ahb", "cabac", "core", "hevc_cabac";
-		assigned-clocks =3D <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
-				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
-		assigned-clock-rates =3D <800000000>, <600000000>,
-				       <600000000>, <1000000000>;
-		iommus =3D <&vdec0_mmu>;
-		power-domains =3D <&power RK3588_PD_RKVDEC0>;
-		resets =3D <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDE=
-C0_CA>,
-			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
-		reset-names =3D "axi", "ahb", "cabac", "core", "hevc_cabac";
-		sram =3D <&vdec0_sram>;
-	};
-Driver is going to break here, cos it will pick up the link region and
-set rkvdec->regs to it!
-
-So, the only way to accommodate the deprecated scheme and the new scheme
-is to use the reg-names property (as the driver currently does).
-
-So yes, while what I propose is an ABI break, the driver currently
-expects reg-names to be mandatory for the rk3588-vdec. Additionally, new
-required properties are only really a meaningful ABI break if the driver
-is changed to required them, since that would render old devicetrees
-non-functional. The driver in question already requires them, so that's
-pretty moot! Were it not for your patch here, I would say that my diff
-should be applied to the driver instead of making the property required.
-
-reg-names is a dependency for your ABI-annihilation, as my example above
-demonstrates, so I find it really bemusing that you're worried about its
-impact!
-
-Hopefully I've made my point about reg-names being mandatory this time
-around?
-
-Cheers,
-Conor.
-
---tog0ews7lACG9O5/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaaHeEwAKCRB4tDGHoIJi
-0h+NAP4wvw68BaqcFHVHj48rD2Vnv9LSwbppWEC2vOaFAP95HAEA5WPKJx6VQARw
-oqJ6yXzhKxmRsV9FyXNxhTx5TORXhw4=
-=FGCk
------END PGP SIGNATURE-----
-
---tog0ews7lACG9O5/--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
