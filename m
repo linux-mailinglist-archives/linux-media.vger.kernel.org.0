@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-53660-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53661-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MK8BGpdCoWndrgQAu9opvQ
-	(envelope-from <linux-media+bounces-53660-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:07:03 +0100
+	id AGFoJ7lGoWkirwQAu9opvQ
+	(envelope-from <linux-media+bounces-53661-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:24:41 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E60F21B3A40
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:07:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BCD1B3D4C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 08:24:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4477730B0A7D
-	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 07:06:31 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 533BF303CEDC
+	for <lists+linux-media@lfdr.de>; Fri, 27 Feb 2026 07:24:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEBFE36F401;
-	Fri, 27 Feb 2026 07:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 770CD366DDA;
+	Fri, 27 Feb 2026 07:24:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V5qRZFOn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EpqVnoRo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEF433262E;
-	Fri, 27 Feb 2026 07:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F933290C7;
+	Fri, 27 Feb 2026 07:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772175988; cv=none; b=JA0BLFGelSHF0lutof6Ryb7cTcXY+3AfVdcTVEgPscxTiaXpmvyUw0dGgtQ9itdpsXZUxTtT2Dum5TpPmbrO936fvw0msoMYphaw8vmWI1dp7hbgLYYXOlsldmSNWVNhSQREyVvpp3v6//QZOqFCR0iYBiYiwEKf2ejr5eNABdg=
+	t=1772177072; cv=none; b=BMlRsDYKYStuQEbEwVf6BXUSU4SseM6zg8VnykMYJbCS+xKTRL66T6hd04U4GnMakvbc6He8Xu6fLOM6zwr+s3TsJvtgO9zwFnjQETgmLz3RAen/EkpKVX7pQ9Rbl3+shTFpOAumoPAQi1TZHOVZYqhtyIKJybV7OQktdvLnGOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772175988; c=relaxed/simple;
-	bh=X8vtJkSyc7mKsCpLbrfh/YJAHY+sBdNmmDe83pbDGfk=;
+	s=arc-20240116; t=1772177072; c=relaxed/simple;
+	bh=GFsoVjf6iZGZ1skfc8tFzdLVvpfXut00+vtgnIytMP8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S/0c/M6rNykvgSjPec5LnuRmt5Omtw9X9rYzd1JqtgeWu8ZQq/isvByJFcDSfouAs1l0HsXENp9A5GsJrq0J0zLScunjoYcCU4QjXb5axgRK9EeeZ142jOrPiQH3cE0W7Vxh4W/zSCvUm6JZLM84bGBnoutQ3u0T4ZSBvjoBnTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V5qRZFOn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85001C116C6;
-	Fri, 27 Feb 2026 07:06:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=tDs3/i7uyTYc3cdmlDMlJDGxKZ9EkwyNms8DxPlrVc/E6mqvL6WDJH+9teTdIaerE6IEpn6AGYbv3gsLxAtYVIXZB4MJ1sIJcj69WglHiPyHCLkFeBwtNWF5zQjx6XoRkk7zeqXx0tqXRerz9rB3Z76iSHjv1IA6kE7mimi3T1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EpqVnoRo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D86FEC116C6;
+	Fri, 27 Feb 2026 07:24:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772175987;
-	bh=X8vtJkSyc7mKsCpLbrfh/YJAHY+sBdNmmDe83pbDGfk=;
+	s=k20201202; t=1772177072;
+	bh=GFsoVjf6iZGZ1skfc8tFzdLVvpfXut00+vtgnIytMP8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=V5qRZFOnCBFNgJH2F3MySablqUS0kgHUbs8dfLZO0EVJq+VpFHNezh4h+N0BDtQRJ
-	 oYON+hh8ftyipK1Gu07+US3wr9hUoUCBkXyXQ1Gp0NCcY2iKH9nbFryFFLwRRZApco
-	 p2JSo9FOOVZNz5wJ+2DBBmi+CL5hpBux7jC6vK1uUS+OLvnVoE/e5+9maKJRz9K0/D
-	 fqdP7keTn/B1NlmDR8q8Ot2U68ExvWzF/7ItfvOQ2uR9GOCyEa2QU+FniKIKNUIrAc
-	 0wp0tNkcRkGtDWY0cx4ilcFhEO4m4iceuA5BmanZ643ocNCIdoDVeNdnKyXJJpq6BD
-	 SAZDJWQxBHkSw==
-Message-ID: <9970272b-b406-4a25-a7d9-8197934f8c3a@kernel.org>
-Date: Fri, 27 Feb 2026 08:06:20 +0100
+	b=EpqVnoRoIEkasvj+HEAPOl1tpYKV1PAm2XL/d6bfj5ihTXmGC1Vew8kQ6k3GQmxoI
+	 mvSmhyW8fs3qS4RMgn8B+/l+E0JbLGowW4WGaVk5WaOU54/UiILiEzC5PikR6z8n9a
+	 VVSNTqnaUEre9DhgmnLbZBDZfsKxRdvg94YEgHsIKKR9EAz0yNy+rBMdpEU9YL4oCA
+	 VIPLdDB3n9UCudUl+IMN3B/QV5GQEDOtHWkxxeV5DtljzsGNPwxJ5+Lk81xvL7BbgU
+	 YxGes2e30WfKWTLy1Fbvt78Tycv/vMBZKaQUi2YB1BAOlXm3Fp2E3ciuJCh2L5BQeh
+	 3ztzf0vAJEZQA==
+Message-ID: <934812b1-a853-471f-beb7-3988eff0856d@kernel.org>
+Date: Fri, 27 Feb 2026 08:24:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,23 +53,31 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
-To: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v8 02/18] dt-bindings: media: qcom,x1e80100-camss: Convert
+ from inline PHY definitions to PHY handles
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Bryan O'Donoghue <bod@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Jiwei Fu <jiwei.fu@nxp.com>,
- Forrest Shi <xuelin.shi@nxp.com>, Alexandru Taran <alexandru.taran@nxp.com>
-References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
- <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-0-95517393bcb2@linaro.org>
+ <20260225-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v8-2-95517393bcb2@linaro.org>
+ <CuJMpimPBtwHGAd5-YHUArL6FkU2HQeY4SjbxeMwf0ToQ7LKO3zWSTn86L-HKxC1KfarWc4rRbZqnCMQsv0pcw==@protonmail.internalid>
+ <20260226-fluffy-complex-malamute-7ecec6@quoll>
+ <35b1ba2a-e156-4542-b33a-d4e53f6a62cb@kernel.org>
+ <tVxcOw7tqTRGXAoW06WPM_voMVBY3SO7Mm_MTMWp6OuotVmgmyi0DOgVHdDavO2V6o3iRH7ax0NosgHuzGkHgw==@protonmail.internalid>
+ <4ebe2f26-29fa-4104-bc90-3f5aa7009ec3@kernel.org>
+ <c2d9742c-3d82-4340-a11b-16370bcad5ea@kernel.org>
+ <72f0ed74-ac86-4571-8a72-d41282349718@kernel.org>
+ <d1ddaa7f-cfba-4e71-8a9f-70014c57de74@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -115,112 +123,105 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
+In-Reply-To: <d1ddaa7f-cfba-4e71-8a9f-70014c57de74@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53660-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[nxp.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53661-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,4ab00000:email]
-X-Rspamd-Queue-Id: E60F21B3A40
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 71BCD1B3D4C
 X-Rspamd-Action: no action
 
-On 26/02/2026 14:40, Ioana Ciocoi-Radulescu wrote:
+On 26/02/2026 11:06, Bryan O'Donoghue wrote:
+> On 26/02/2026 09:50, Krzysztof Kozlowski wrote:
+>> On 26/02/2026 10:40, Bryan O'Donoghue wrote:
+>>> On 26/02/2026 09:33, Krzysztof Kozlowski wrote:
+>>>> On 26/02/2026 10:27, Bryan O'Donoghue wrote:
+>>>>> On 26/02/2026 07:07, Krzysztof Kozlowski wrote:
+>>>>>> No, it does not allow that. You cannto change the ABI.
+>>>>>>
+>>>>>> That's why I reminded multiple times before reviewing new CAMSS bindings
+>>>>>> for Milos and something more. Because once it gets accepted, you cannot
+>>>>>> change it anymore without valid reason. And there is no valid reason
+>>>>>> here provided. I kept these patches in staging/waiting for long
+>>>>>> enough...
+>>>>>
+>>>>> I thought your policy was - a dtsi had to have it, which we don't yet have.
+>>>>
+>>>> And from where did you take that policy? I am pretty sure my each
+>>>> comment is about ABI. Heh, I even commented few times about implied ABI
+>>>> purely based on kernel, without DTS.
+>>>
+>>> Correct me if I'm wrong. I thought we had discussed either @ the Linaro
+>>> Dublin meet or the Linaro Amsterdam meet that changing upstream YAML
+>>> would be feasible _if_ you could show there was no dependency on it -
+>>> say u-boot, FreeBSD etc.
+>>
+>> And I mentioned multiple caveats and restrictions. Do you quote them
+>> here or just took the first part of sentence before ", but only ..."?
+>>
+>> Anyway, whatever spoken is improvable and I am sure I did not give such
+>> permissions, maybe except that Dublin meeting was in 2024 thus before
+>> the release of previous user, so before v6.16, so of course you can
+>> still reshape unreleased ABI. And then you released it closing the
+>> discussion.
+> Well, is there a way to support both then ?
 
-A nit, subject: drop second/last, redundant "bindings for". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
-> +
-> +  memory-region:
-> +    description:
-> +      Phandle referencing a "shared-dma-pool" to be used for Neutron
-> +      inference buffers, which need to be 1MB aligned.
-> +
-> +      The memory region must be defined with alignment of 1MB and size
-> +      should be large enough to accommodate the targeted ML models. It
-> +      should be marked as reusable.
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 3
-
-Why is this flexible?
-
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    items:
-> +      - const: npu
-
-Name "npu" is pretty pointless.
-
-> +      - const: npu_apb
-> +      - const: npu_cgc
-
-Drop npu perfix everywhere.
+I would just not touch x1e80100, but if you want then probably binding
+should stay backwards compatible, where you keep all properties intact
+and only add csiphy nodes.
 
 
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - memory-region
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    bus {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +
-> +      neutron@4ab00000 {
-> +              compatible = "nxp,imx95-neutron";
+> 
+> Right now I have csiphy and their registers listed in the camss block.
+> 
+> I could add phys = <> as optional in the schema. Is there any reason to 
+> stop adding adjacent csiphy nodes ?
 
-Messed indentation. Read writing bindings / writing schema.
+I think no.
 
+> 
+> isp@addr {
+> 	regs = 0xCSID0,
+> 	       0xCSIPH1;
+> 	reg-names = "csidX",
+> 		    "csiphy0";
+> };
+> 
+> csiphy@CSIPHY1 {}
+> 
+> I'm not sure if this is against DT rules.
+> 
+> The iommu items _should_ be fine as its maxItems so I can just set that 
+> to five instead of eight in the dtsi.
+> 
+> ---
+> bod
 
 
 Best regards,
