@@ -1,263 +1,247 @@
-Return-Path: <linux-media+bounces-53804-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53805-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ECEMExRBomlz1QQAu9opvQ
-	(envelope-from <linux-media+bounces-53804-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 02:12:52 +0100
+	id qHfcNWCIomkd3wQAu9opvQ
+	(envelope-from <linux-media+bounces-53805-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 07:17:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA411BFA7C
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 02:12:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9B11C0816
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 07:17:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BEC12306FCC0
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 01:12:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 090FA30848FC
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 06:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0DDE2DECC5;
-	Sat, 28 Feb 2026 01:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 882F333A711;
+	Sat, 28 Feb 2026 06:16:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lz/LW1Lu"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="r+3hXSeL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011004.outbound.protection.outlook.com [40.107.130.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB886248880;
-	Sat, 28 Feb 2026 01:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772241127; cv=none; b=cMbpgKzYenHozRaqQ0mc0S18YQNsb1rPgYWUvk+L9yIMch6LrDBowgYMpBZutzVWKGc+3u9zX+nCIMiGDCA6AzWv5pQ8Yka0tY9P2XrWtwoHovecQk1HauMQRboH4zR2iUaNRRzSZwNewxYJLeFdVCmltCOptZi7V57uX2vYmcU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772241127; c=relaxed/simple;
-	bh=FTpFrrnmK4vqnqZPNlbSmsvAtJAjaotCdfMV7I/jZ7s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SuermzgOroGAFLHT9p+fgpW3oKSWbAyFLIGebvGXpKZW9g6MoXG4ce682/ZjmkF6tY9FUICPQRb3gCMYJ2rvmvYhybjjkA396yKrWbf5IJz4gmL/dBcn7LUgpsUNq/1WnzdcEnyCNVJTzYQYLhtK4DM14x9J2iu5EcraW7CVN1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lz/LW1Lu; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1772241124;
-	bh=FTpFrrnmK4vqnqZPNlbSmsvAtJAjaotCdfMV7I/jZ7s=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=lz/LW1LuOvvEBhbmXEg/YAcmk5SAaMQFyl8PRNds/r8U50ytwDoyvwU94Z74oLaGb
-	 z4hrejurcVQ28QoicDRpwUJNbtIMrXGGhmezXKhTBhJii34j8ASqYO0q5rduJUbsty
-	 9ZVBTDijFucEkvdQjPlOxjRoPuAP4elPr6+CaDwAXIgYYaB1WFQBu3CeRlF0s0HtoO
-	 IKh/aYbBR3fiIIIJGauHyuzEFdu+KdR6rtzZfrN8j5Xt8LKQ/FTxYA+3VzfmC9/FSt
-	 6zt6JueETqyV+9sEGTn9pCToUbUeQwUQSnoY+NYRL/HoqKWXjAlQT/1IBUE3iY+JqY
-	 iu1czmZkLqZeA==
-Received: from [IPv6:2606:6d00:15:210e::5ac] (unknown [IPv6:2606:6d00:15:210e::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A43E717E027A;
-	Sat, 28 Feb 2026 02:12:01 +0100 (CET)
-Message-ID: <da7a9990e3a10de809f8109a5c2ae69715bee2b2.camel@collabora.com>
-Subject: Re: [PATCH v4 1/3] media: dt-bindings: rockchip,vdec: Add
- alternative reg-names order for RK35{76,88}
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Cristian Ciocaltea
-	 <cristian.ciocaltea@collabora.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova	 <detlev.casanova@collabora.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>,  Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
- kernel@collabora.com, 	devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, 	linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Conor Dooley	 <conor.dooley@microchip.com>,
- linux-media@vger.kernel.org
-Date: Fri, 27 Feb 2026 20:11:58 -0500
-In-Reply-To: <dc2e9e13-165f-4ca1-be29-aabdbf133856@kernel.org>
-References: <20260226-vdec-reg-order-rk3576-v4-0-b8d72dc75250@collabora.com>
-	 <20260226-vdec-reg-order-rk3576-v4-1-b8d72dc75250@collabora.com>
-	 <20260227-observant-roaring-ara-ef7eb0@quoll>
-	 <adbbdbb1-b126-4807-821c-c9850befd695@collabora.com>
-	 <dc2e9e13-165f-4ca1-be29-aabdbf133856@kernel.org>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-upWNrmByhbR1y4m3hEOj"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB89930BB85;
+	Sat, 28 Feb 2026 06:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772259407; cv=fail; b=XHazwRSMPNwQQDOrhO3GFYxN7pD+1ZtBV48w32q2GLB/VQd/i/vf4VlixdjWo2vVgSq02kz7A76zY40VXZgnMcH3kpZm3slaCijGN6sBcdj13QCxbSlv8UUmKfEsUkhN5FevKGYQPQUI0KTMt8pU+Z9ytyeVouAJy8y+r5nnPeM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772259407; c=relaxed/simple;
+	bh=Uh1vAwH7MSODufuVr0odjY83YptKy2k1RZFww8w3us8=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=riCEjVl/GYu19EPZns3Ept91i/xj6AHRfF4LzMPQ4HMmBIw34lVugq/NMd5HZtu+y9Rma9+cnywrgscnh/35fR0BmW0jINNN8isLnKg7CsZMJu0RgAcNEhEZVQwKCQJoFAPEfDjKJQyyQgZJkSYymavw4MlSbezEaXMtrfHYCBs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=r+3hXSeL; arc=fail smtp.client-ip=40.107.130.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sY5Sqw9dUBf5maYul6Ul+cWn9rYsbqDJAdTG5CYLJe/hzabEbzkWLiS2bQpyTY7PlPDdNIyG6vr0r+HcB7/fuzk2oiIuRN2eEs5dh8PLgRX9e6I6aWGltsJ0ND8E8PWMcGZXO3/djf6qM09nSl+k/8nKumlPjIg2B5Z4KNhy+4CX3KhXimOMyxlZ61ssl5F5ueFdpHYaezpjqGgFG9T5tOESYcL509Kb4mImjHkL/RJky7uMCaHzeWbm52sPxnrslj7H8c/ESboCtf0mUyMk3IU/uZ3GvheCLCippBostPLDnp5j+LdIWIB9ezMKvL+dWVTlv5n8sFc0HytafNgaNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3HgzCYrVBCljKqSf78/I+w3e+1ZtcsXUQGnmZgW2JzM=;
+ b=TIIVISZGMhh/RNTuMf9IVMJCPL1BPJ96GrTxu9Wp7kYEQewo+DNb7te56o5SP23bykaBc0jnCRZFO328endcvnAADCL1lCCtfDTyx4dbxvjtL/WswQlYV4/qsdx77JWYXWl8DC0YSFer6rm5CxEvNsTNr+KnU3k+cLWCAPOm4Ae+cqwSogTIuIJlP1XvU5Jwgzt5p6KtUwzyHT3T+0iKfb30wVNuVngVURrXmA69/q4wM9V7pAlAdY3VAgNFGdrdGesS2sYJNn35iACh77cbsXcxN3frtWVMOW4FzogdTxM/g6daZbyXwwmEGd//J7DZgzOqnogYcwbwUCTk9I7LeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3HgzCYrVBCljKqSf78/I+w3e+1ZtcsXUQGnmZgW2JzM=;
+ b=r+3hXSeLq4+vRTT7AdRZr4coSQ6Zu/tWDtRObD0op5je1iDHsQ67DL2fu6JSmbnxjHk1wptO+voo4ZlWGFD7H4FgpO3qJro0HJcfxFJdTJodp8LqLLcHZHBx+xUemQ4POwRkY+/FnJV0+LauOInqLiYFNbAYAgu0RARsxJJYULwxF3enRVVNVa+KklnsoHrkuZB5sh32CX2rSt50c9MNuPfS3yU1sHpqsaYtMHwO0iZVRM9/Oyxe6tQMfp8wwKAw+3vEXloRjYCisRdZrBKhlv8zpVI/HgfWLz8uZX1jacbqTcLMoMtk/NhGrPgSVBjAn4jVj5K6TSY6j12nCdcXCA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
+ by VI1PR04MB9809.eurprd04.prod.outlook.com (2603:10a6:800:1dc::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.16; Sat, 28 Feb
+ 2026 06:16:41 +0000
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::92c2:2e03:bf99:68eb]) by AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::92c2:2e03:bf99:68eb%4]) with mapi id 15.20.9654.015; Sat, 28 Feb 2026
+ 06:16:41 +0000
+From: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Subject: [PATCH v5 0/4] media: i2c: ds90ub953: Add back channel GPIO
+ support
+Date: Sat, 28 Feb 2026 14:18:18 +0800
+Message-Id: <20260228-ds90ub953-v5-0-056cf07cc8f1@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKqIomkC/1XNwY7CIBDG8VcxnGUzQAeKp30P4wHKoBxsm7ISj
+ em7i8aNePwm/P7cWaYlUWa7zZ0tVFJO01gHbjdsOLnxSDyFupkEiWBB8JAtXLxFxYXutewHVA6
+ A1ffzQjFdX639oe5Tyn/Tcnuli3he3xUBTaUIDtyZXqgYfYhC/I7X+WeYzuzZKLJ17e9FVgeKy
+ Gjy2qP9dqp1unWqOu+NHzR2GJz5dt2/0yClaV1XXSCHVkvAaOnj1nV9AJRFLA1IAQAA
+X-Change-ID: 20250901-ds90ub953-168628c53a00
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+ Vladimir Zapolskiy <vz@mleia.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ Guoniu Zhou <guoniu.zhou@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772259522; l=2187;
+ i=guoniu.zhou@nxp.com; s=20250815; h=from:subject:message-id;
+ bh=Uh1vAwH7MSODufuVr0odjY83YptKy2k1RZFww8w3us8=;
+ b=0yY/mTFSXp/0RJCGJ2yqXH6JX+I6BowapqfXoBT3BMBE2GcIx6o5ni1/vHXAs6ed01rjpX73f
+ LSoUY1M3gchA9LmaQz22MopdEoNKFMpTIYtb5QRPlwL7t1ae5lIedx3
+X-Developer-Key: i=guoniu.zhou@nxp.com; a=ed25519;
+ pk=MM+/XICg5S78/gs+f9wtGP6yIvkyjTdZwfaxXeu5rlo=
+X-ClientProxiedBy: SI2PR01CA0026.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::16) To AS8PR04MB9080.eurprd04.prod.outlook.com
+ (2603:10a6:20b:447::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB9080:EE_|VI1PR04MB9809:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07baa6fe-2c77-4b45-3b17-08de7690f067
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|7416014|1800799024|19092799006|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	Zfduf293n1EkY6UzYKhpZFJ0UM4KrGkRzWbTogjYf/ltHgkQTaDfxFMkkvf1P2WrpBoH2JRulY1IriSwnIvO2dU9G6XJS4sGPqDSHh3aks2I/8ivYxyWTBg0wRFs1GlK+kUyDwA9NEaM+YKwW9UcFT+qqkVT7IbeJJgVD5RvkFdHVh2Vt5zUYxVmRsWRTiB+2wyfT3nizA2MK076QTP9QOHu+Tu5LFYGGo7s3IQSwfxVEJTesEl7sUrqB2SMwMolu59BPfDP7KtmLgNj0zEOhNZgz+iKu+ofkQ0tC2SFkUaiCMet8zk/ylQHMz4910xyaTqPofSCxma9+NAkm5FRqN9IA4Bl6FSfTRzWa9cdkJ+kckdqhnFHi7lvakPP1w5boOuTOmYHR5QU2WPH+xCWjMogOQhx3ULGCmmi7VP9pA+zKwe8KaFtokv04v5io9WL3AQevZx7YbuBTALhw6MH8UKUw9pa4sAXVLL10QOg5vRH2jcLELim9WwRgngsANdjD1q2LuDjS/RAIOJNRETtxzR3LXGSXoxNqsO+YebYKutRXlxXJVjeVYT/CFQb+iI3VKIMmkhLehexs2IT5Iw2xAJr/eRYsJSG4fm1vYLE/Rj3LE2/+RpPGg31w4mZjh2d6sVaIeSmEGiNijSvTHeSPfOFPfVpy6YP1bUtyozyYezbtj5zxco6B4q7NWbXrH640/+L/+WBWK80eKJ7WOvuGr8Ch8D7xJAPr3yUVGca5MoFG9oDZvuonE5zUvXC8Qcp
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(7416014)(1800799024)(19092799006)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SlhSajIxaTFBQzlScWhXazUzczlYeTgxa21CM0oxTlBwSVR0SWVzenBsa2ZV?=
+ =?utf-8?B?c2xvNDBrYXVSZUkreXpmRjNQMHovelcyV0JMb1RpbVdjTnNrRUdPb3dMWnpC?=
+ =?utf-8?B?TlJseWEzMUdqTkY5RGVxVSt0VkR2S2hiZ296U05taVNmakxURWVkcC9hUnlo?=
+ =?utf-8?B?eHNMMFhYL01xaVltNTdiazFBOXlDZmRabHFMQ1g1eHJyQldCUS9jNThGWnUx?=
+ =?utf-8?B?SXhoOG44ZnV0VkttSTIxUEZtSmdxbjdOK3ovaUpCRlVBeFBIUFRjbUhXMytj?=
+ =?utf-8?B?VmtobzdNcHYzcENLMmNjdXRGWDdXdUJlYytZRFQ1dkpUY1VMUXJDakNTSzdT?=
+ =?utf-8?B?eEhXQTNuUFkvVmU0VG9rNlpFeTJLQnNwdTdrcVhVQUFNc0JxUVZURndXV0E0?=
+ =?utf-8?B?QSt0RUQrYjFvK2xSTjFHRXh1ek92RXY3blA5d2xSYTNlMFUvTlk3czRVNXpk?=
+ =?utf-8?B?S3IzU1B3WVZNS0VhOVJQQ3BBaEpuQnRnZVlkb3dRV293S1h4Y0lLbVlhTzBS?=
+ =?utf-8?B?YlMxT2FnMlBXd1JoR0dGcHFOVitGeXZwZVdLWktxMVhIV2pJRk1yNHkrRk4w?=
+ =?utf-8?B?NlB6b2JsWW9CY1BkckNSVlhjVmJiZVNtWGJ0VlRoNTlLaW9nMDFGYTY2ZnVk?=
+ =?utf-8?B?U3U2QmZ0VGRFa3ZzS0diYW94RW41R1hOZlJuLzBnRjJHc0d5R09taE5WTTFT?=
+ =?utf-8?B?VTJLZ0I0MnlucDU4b1k0TXM0WVlkRjRObHJKN2lXNDdzRjBtQU1WNHQwWUhY?=
+ =?utf-8?B?TXlaTHFzSEIyVnZLK2libzB6NFhES3N0ME1mOVAyZXBRZjU3R3NMOHJWTXlu?=
+ =?utf-8?B?NFRUaTFlQmNtTk5jNmFrOE5PTG16dVRxQUsvR3MycEpCZ3czNXZzbUdTakRt?=
+ =?utf-8?B?V3FFODlIUnFmOTVYYit5N2xOVWh4TW5SLzdsVW1KUDdyb2pqUmNLblM0N2dI?=
+ =?utf-8?B?aHBFc3dVNGlYM0c0ZTRDak0wa3lRRXRad2dFVnkzZkM4MXlsZHBSeldQc0NJ?=
+ =?utf-8?B?U3I2NkQ0NFBiU2Z3cGFpdWdpb0R0d2F6K1AvWXpjQ20vMmFWaHQ2TEN3VTJL?=
+ =?utf-8?B?MTNWMkhCMDYwNDF3NWtkWnZLNWlkaEZUR3Vlc2doTXQzbUdyNGZVM2NEbWF3?=
+ =?utf-8?B?WmhTNXB6blFPZ2pXc3NFK0s4M2czbkp5SGYvdCtNa2ZQa2kvTUhiOGNpb3hu?=
+ =?utf-8?B?K3oxbmdLeFJVT1VVbnhnc2FwM1J1QTVIeUZWOHg5Skx1Y3pBVXVFSThQQk9o?=
+ =?utf-8?B?clJONVlGVWtJNGFaSDRYR2dEbXpzWXU5ZklGSC9ZNHVvUkUwOGxybFdwTVV6?=
+ =?utf-8?B?R0VDTzdhczlLNXduQmxZOTErSWRnc01MS2RtaE9NM1VhRGRDTFpGYWNhR3lI?=
+ =?utf-8?B?ZFdSU1FBZGp6TStIdG0ybEd0NnN1SU9ueUpZVDJwVEFsdkd2TlRiYjhIOTZF?=
+ =?utf-8?B?R0JUZm1FMWlpNm4wZjBMTGdOeDh4Y05UNUFPQTFUamN3eExwZzZNQUt6ejZV?=
+ =?utf-8?B?b1BUNU5Vc3N6ZnBhS2p0TnphN0hXcVMzYTZSN253QVhjTlZPcFB3MW1TWFpt?=
+ =?utf-8?B?VmhSTXNGRjVSNjZhVWtLamJiRVRVNFZIS0JSY1BDelZsaXdsNlQrZjRNNlMw?=
+ =?utf-8?B?QndnRWVSOUlqcy9UZkhDeEZvM3pFNmgrb2twN2xVZmNmcEVkbDlvTmI2TEN3?=
+ =?utf-8?B?YldBNDVJQlYrRXZoSXE4Y1pMZ3ppYmlDVVRaZjF1R0lmNG13MmlsZ1ZZMkc1?=
+ =?utf-8?B?bkcvdkFXS3paQ281NTgwWms4dlI1aE1ITTVSVlA1ZXREa3Yxc1VFekFDYU1k?=
+ =?utf-8?B?UEJBK3ZmS3VqU0hxMkpKTzhsT0Mxb0VFODcvMTEyOEVzT1J0OHYrbjMvS05o?=
+ =?utf-8?B?KzVpL2JxdzJiTWt2VXNMc3dPeFdJcWxRRGRVVzVQSzE2VXFKc0lYRlhkK3p3?=
+ =?utf-8?B?VzUvYjhKVURRTGtMVlo2RWo0b1ZuYXZXSzFxNk9DUUl6ekoyTjl3anN4NnB4?=
+ =?utf-8?B?RDR4YnI2ZFBGUC9LTUxVM2xHS0VUWjU2Mlo0bEs0ekJ1c1ZSUmRPU01icUwz?=
+ =?utf-8?B?Y2RhQnVtbnBYSmdrMTlzeDh4N2ZaSnRCNkhZYkFCTXdaSk16OVZnOXhWYXNQ?=
+ =?utf-8?B?cm5iejFkWHNpRFczZmVnUmYrbmR5WXpDNjdMbVd1U3Nma1FkWmZwTFdYZjJv?=
+ =?utf-8?B?anlEdCt0eTVzVUc5WjZOdnpUZ2trbXNhTjZOQnVDYVdRZ2lTTmJMVjhGN2dQ?=
+ =?utf-8?B?MktSSUJRYXNwUTdGYWtwczBKS0gxbjlxWGJ5dG9vT3V4aEVCWlpVdUxidTJq?=
+ =?utf-8?B?bXNSS0dyVWxOamdtMUhzSEw2dnRuZUl6SWVaa3VvckdjSTZpM0NoUT09?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07baa6fe-2c77-4b45-3b17-08de7690f067
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2026 06:16:41.5594
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 90+zehPKallBeuJMWxdms3BSnnx8nfCOTY/lOTsmQfDHf+ax8HjDf/FEwgGNaNUpTQD/vs/LDwMGs4EGM5KZSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB9809
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [1.94 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-53805-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53804-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[guoniu.zhou@oss.nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: AAA411BFA7C
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:mid,nxp.com:email,NXP1.onmicrosoft.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3B9B11C0816
 X-Rspamd-Action: no action
 
+Add back channel GPIO support.
+  dt-bindings: media: ti,ds90ub953: Add new range for remote GPIO data
+  media: i2c: ds90ub953: Add back channel GPIO support
 
---=-upWNrmByhbR1y4m3hEOj
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Use helper macro to simplify code.
+  media: i2c: ds90ub953: use devm_mutex_init() to simplify code
+  media: i2c: ds90ub953: use guard() to simplify code
 
-Le vendredi 27 f=C3=A9vrier 2026 =C3=A0 14:03 +0100, Krzysztof Kozlowski a =
-=C3=A9crit=C2=A0:
-> On 27/02/2026 12:37, Cristian Ciocaltea wrote:
-> > Hi Krzysztof, Conor,
-> >=20
-> > On 2/27/26 9:46 AM, Krzysztof Kozlowski wrote:
-> > > On Thu, Feb 26, 2026 at 12:46:53PM +0200, Cristian Ciocaltea wrote:
-> > > > With the introduction of the RK3588 SoC, and RK3576 afterwards, two=
- more
-> > > > register blocks have been provided for the video decoder unit.
-> > > >=20
-> > > > However, the binding does not properly describe the new hardware la=
-yout,
-> > >=20
-> > > As you shown me last time with excerpt of address spaces from
-> > > datasheet/manual, the binding correctly describes the hardware and ab=
-ove
-> > > sentence is not true.
-> > >=20
-> > > > as it breaks the convention expecting the unit address to indicate =
-the
-> > > > start of the first register range, i.e. 'function' block is listed
-> > >=20
-> > > Imprecise wording. "start of the main or primary register range"
-> > >=20
-> > > (if you have 0x1000 with one reg and 0x20000000 with everything, the
-> > > unit address will be 0x20000000).
-> > >=20
-> > > > before 'link' instead of the opposite.
-> > > >=20
-> > > > Since the binding changes have been already released and a fix woul=
-d
-> > > > bring up an ABI break, mark the current 'reg-names' ordering as
-> > > > deprecated and introduce an alternative 'link,function,cache' listi=
-ng
-> > > > which follows the address-based ordering according to the TRM.
-> > > >=20
-> > > > Additionally, drop the 'reg' description items as the order is not =
-fixed
-> > > > anymore, while the information they offer is not very relevant anyw=
-ay.
-> > >=20
-> > > This is fine for me.
-> >=20
-> > Thanks for the additional feedback!
-> >=20
-> > If I'm not mistaken (please correct me), the only remaining (hard)
-> > blocker for the series would be to improve this commit message.
-> >=20
-> > How about the following:
-> >=20
-> > =C2=A0=C2=A0=C2=A0 With the introduction of the RK3588 SoC, and RK3576 =
-afterwards, three
-> > =C2=A0=C2=A0=C2=A0 register blocks have been provided for the video dec=
-oder unit instead of
-> > =C2=A0=C2=A0=C2=A0 just one, which are further referenced in the datash=
-eet by 'link table',
-> > =C2=A0=C2=A0=C2=A0 'function' and 'cache'.=C2=A0 The former is present =
-at the top of the
-> > =C2=A0=C2=A0=C2=A0 listing, starting at video decoder unit base address=
-.
-> >=20
-> > =C2=A0=C2=A0=C2=A0 However, while documenting RK3588, the binding broke=
- the convention
-> > =C2=A0=C2=A0=C2=A0 expecting the unit address to indicate the start of =
-the primary register
-> > =C2=A0=C2=A0=C2=A0 range, i.e. the 'function' block got listed before t=
-he 'link' one.
-> >=20
-> > =C2=A0=C2=A0=C2=A0 Since the binding changes have been already released=
- and a fix would
-> > =C2=A0=C2=A0=C2=A0 bring up an ABI break, mark the current 'reg-names' =
-ordering as
-> > =C2=A0=C2=A0=C2=A0 deprecated and introduce an alternative 'link,functi=
-on,cache' listing
+Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+---
+Changes in v5:
+- Improve the description for "#gpio-cells" as commented by Conor.
+- Detail change see each patches's change log.
+- Link to v4: https://lore.kernel.org/r/20260227-ds90ub953-v4-0-dea596205f9e@nxp.com
 
-I would suggest something around:
+Changes in v4:
+- Rebase to 7.0-rc1
+- Use folder block instead of literal block for #gpio-cell property description. 
+- Only log GPIO 0-3 stats since remote GPIO 4-7 reuse GPIO 0-3 pins.
+- Link to v3: https://lore.kernel.org/r/20250916-ds90ub953-v3-0-bb7bc6545da7@nxp.com
 
-		   and introduce the actual hardware order "link, function,  =20
-=C2=A0
-                   cache" ...
+Changes in v3:
+- Make GPIO range from 0-3 to 0-7 to support GPIO data from remote
+  compatible deserializer suggested by Rob instead of adding third
+  cell for GPIO controller.
+- Update driver to expand GPIO range.
+- Link to v2: https://lore.kernel.org/r/20250911-ds90ub953-v2-0-03ee76eb6b59@nxp.com
 
-The rationale is that there is no alternative, if you use the deprecated or=
-der,
-a hypothetical driver maybe interpret the offsets wrong. There is no possib=
-le
-backward compatibility with a new order, and you can't have two possible or=
-der
-in this syntax.
+Changes in v2:
+- Remove new property ti,gpio-data added in patch 1.
+- Add third cell for GPIO controller to select GPIO output source.
+- Move PTR_ERR() in dev_err_probe();
+- Parse gpio third cell to select which GPIO pin the data from remote compatible deserializer.
+- Link to v1: https://lore.kernel.org/r/20250910-ds90ub953-v1-0-a7813ffbdf11@nxp.com
 
-Though, the rational to break ABI and backward compatibility is something w=
-e all
-agreed on.
+---
+Guoniu Zhou (4):
+      dt-bindings: media: ti,ds90ub953: Add new range for remote GPIO data
+      media: i2c: ds90ub953: Add back channel GPIO support
+      media: i2c: ds90ub953: use devm_mutex_init() to simplify code
+      media: i2c: ds90ub953: use guard() to simplify code
 
-> > =C2=A0=C2=A0=C2=A0 which follows the address-based ordering according t=
-o the TRM.
-> >=20
-> > =C2=A0=C2=A0=C2=A0 Additionally, drop the 'reg' description items as th=
-e order is not fixed
-> > =C2=A0=C2=A0=C2=A0 anymore, while the information they offer is not ver=
-y relevant anyway.
->=20
-> Yes, it's fine. My comments were actually not blocking, I just wanted to
-> wait if discussion with Conor resolves somehow.
->=20
-> But for me anyway:
->=20
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
->=20
->=20
-> Best regards,
-> Krzysztof
+ .../bindings/media/i2c/ti,ds90ub953.yaml           |   8 +-
+ drivers/media/i2c/ds90ub953.c                      | 109 ++++++++++++---------
+ 2 files changed, 66 insertions(+), 51 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20250901-ds90ub953-168628c53a00
 
---=-upWNrmByhbR1y4m3hEOj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+Best regards,
+-- 
+Guoniu Zhou <guoniu.zhou@nxp.com>
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaaJA3wAKCRDZQZRRKWBy
-9E7eAQD7eBKuRWQizFQXyLJYdA2O0SdCieGgFYeAuhPz4TNfvwEA+qq94TAEmNy2
-274VsKH25GkqEIFDufTIZrfBHRxBuww=
-=JQoX
------END PGP SIGNATURE-----
-
---=-upWNrmByhbR1y4m3hEOj--
 
