@@ -1,94 +1,87 @@
-Return-Path: <linux-media+bounces-53827-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53829-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2D/GOgupomkn4wQAu9opvQ
-	(envelope-from <linux-media+bounces-53827-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 09:36:27 +0100
+	id xAOYEsGsomln4wQAu9opvQ
+	(envelope-from <linux-media+bounces-53829-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 09:52:17 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE5A1C1726
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 09:36:27 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7211C180B
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 09:52:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 22D063033BC3
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 08:36:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6EB433048133
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 08:52:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60ACE3EBF2E;
-	Sat, 28 Feb 2026 08:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A02036D50C;
+	Sat, 28 Feb 2026 08:52:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="Kk7BBAin"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4T3z3gK0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010022.outbound.protection.outlook.com [52.101.61.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4377233A01E;
-	Sat, 28 Feb 2026 08:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DFB346AE5;
+	Sat, 28 Feb 2026 08:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.22
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772267751; cv=fail; b=lrk+tPvsXm6XB7zZRcb27K8Qa6bLFV7ZAdTa55GBHQuhfM78w0OX2DGVzubI3h7oqvssGDCJ+A71uLZ3EEiT6MQ2xwY/dZM0p4VOud3oO38y74UD/5Vq7e09Zavz1cdlOYw/zgPeWvj2wUZmVpRijskLtbFPvb+3t1e/w7gq2jY=
+	t=1772268730; cv=fail; b=qx6yQrFsGXEzxVp8caHTHyM0nBgmUCce3ZW13F2hSyq55lUSY8t3L5r0fCsmt9cDjJcv/SqbO15B/K5kE0rjDS8F0VxXZzT8EeDWmeyuvy8RbhUY35Cn/NvTIUMfbiZFz/NLEeaifeVO5UdLwxO6dfgZv3G5ATEkYUmAeELlby4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772267751; c=relaxed/simple;
-	bh=0K+iU+rw+Wim54Yx4+hncmiV6mL/gxQWXMvoMxSn3g8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gj83tp1w26A119wFbOQrap8uhLUa7FV+0gd3P56yRtMA4GZA1bJeOvjl+EmqIRqufHayrpCNE2kvGdf6xBUPQSuZpxk8CfW2QtY1NZgmwOHdK+ZMUjWTK6H9n6TRAwatyKEZIkG1s3UlZGg3MyAqXbzVpcU9C85DHBDHw2m2iPk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=Kk7BBAin; arc=fail smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61S6UlIC2801372;
-	Sat, 28 Feb 2026 08:34:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=EijCrlkvqS1hipfJhyqTP+1fcXISF0tPE3iyIW54AfY=; b=
-	Kk7BBAinyqfL9w4Ee5VVZAI4diFc7VOvnLeuWMZ4oL9ln95zuhC+/0/thm012nJJ
-	qXt8EVXHzdVEwvY32G6AZyQtsOpJ1KjVxVpt3gwdYXDsuphScFstrmNGMUTAP0qD
-	+TqhIsVKnZakDED0Mz+Y1nFNSom41TiJ2khNsja98Ez+BxAIPLehOWGu113J2g73
-	H9lsCnD4ZOUWjYF5Oy01MTtlRQ5r5ScGIPUEt74AgeB7vHh3+xogDcGJZCS4MMbO
-	idaPeFlqcOMu+RvzQPOv4hLvastCy6GrU7I8DjoRhpPVwcMj3VYimjis1iu2d0KE
-	bOgnxt+TrCvytJzYub4yDQ==
-Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011013.outbound.protection.outlook.com [52.101.52.13])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckqb4g820-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sat, 28 Feb 2026 08:34:52 +0000 (GMT)
+	s=arc-20240116; t=1772268730; c=relaxed/simple;
+	bh=qglTPIUR9HadvXSzw8URzACsnZfS1vJ//ZuyBbL3i7Y=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YH0elHZDQ88UJl/AYAzb9PklyPnsWFbjP0SMeeiSVOKCV7XLkYZKe+7hujnM1CYzVwJNZ4Z5FWV3s2rKgrEf8vyqjBUWM5GqSXG/TMU+s53V+GNV4Zc4unrluH/okCgmQK1E4kKCpf4EjE4HtBy7It08ar4ca/Mm00i4OmcrGAM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4T3z3gK0; arc=fail smtp.client-ip=52.101.61.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B65J/cQJnX9VL7DpjpX9Z7Ehd9J+tjw1DFINQpk2U1grSCz6+6sw2IyqS379XA45+9/qVpfcZKp01XFhgT7vQ1AhYFLzILm13FAUXyImkqld2ty7MnKdmbhnr3rlL1xTX5l5MQV1zpn9GENPxeIyDz8kVQCuX9DLckmVabuqAYMo4p3mkvaC0Lz126FForsq/3qYX0QbEAklHGiwLAQpgXEXMR6ovgFaXaSEKiYsB0MWxoQs1Gy0DGCgOX+KEBEvu6ZI2Ci02TiDxOb3knLsTzIWNfUotLdofsrbkRUa0AXAhVQXbOG+2fH/vFmNl6EOMoNq65gPUzT0Oa0CdsS7gw==
+ b=PscoGeozR9xwn5CkuBZYgqCUcBkkULN/Fwt55A4JHYMULOHCrMbMUqAoyw+ttVnduq5UKcyNIepTEVa4yLfbG8Er6X/GS8yMto/xgHsqvu57LYV5UOxHJ2rVn9XFJq7VrKMVg+aO2+DQdwQ5scF25RAG2WGVv4iCC0TOMiMZJ5Jrwq+Kr35uworNBVctMUXmxfFpEt1KKxBXYrvepMQP9sNTxz9aNf++7j7NfYrOlyZ3PPjnn5o0CfQYYFrMga/ASDRF1Dunkr9VnXdDb5ZlOV4yy1ccnycLuyAEoEs6NbCbebXdITIPERGpsMfcZTV3SEqkPAJ+EM1dGeoy2KzyJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EijCrlkvqS1hipfJhyqTP+1fcXISF0tPE3iyIW54AfY=;
- b=eWGkkWlL5sIZEgZCKsnGmhftDf4k1d5PgnXk6jL7tNNpWNIx9/v2IWX0WN4Td88G0kYZY2v8Q23IMWs9nsWJ9OTJaux9Jj3LzxNlBprAtqblVpQBfhwuWcxgAUKxB/giqK4kiRD6389OVt5ittn8n8kUaxRZ/XY6o4EmK72OLz2OHG8XbkK1rmkA6GBvU92IAa2Ogy7uEFuctQeiWBjIDmZBj/99aTywCaUw24D+nebKlL5hWXdFG3BCV68PF8yccIirr5c1l0llCc9efpZegRDGDV2SBraASrf10kPHRrpRvq+9WH4Ayw0+SWrvFND2jVi2mCSmNttwgTfeGzbKpA==
+ bh=wmsycvD5DTAuz166W5uu4JzkxXKrlc96/YZ1HnoCPDc=;
+ b=uROo48u4JxMF5o3TKSyKqGm8ynyYwJlQir3RRAL7HYVkygrc3ztzLdi5ugRorBe6nH+2hRVyxTZ/T89dHiv5JVdKBE3oNH9S0cKGjjxuJ8zq+pZ1Z5f0Z1cklT/YZwdP12ywosCYCDw3BXeXBlk4XPV91x6+88VZ7igrfcQ5T4/SgbQQaN/VpPHNosSPVNCgnbZISkNBysxNVLv9PSeoZgPm7Y/Oz7oE/NKiI+k9ob3LGUuruUvzF16ofriaYl/GWrF/AUBMjjHP5+x5ekgHATX2tPTbAF706nhSh6kLKsM7Ix5/XN4jiJGEJx8gPfof0hqv0IpB+IX7tO5xtvXwQg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::53) by PH3PPF67C992ECC.namprd11.prod.outlook.com
- (2603:10b6:518:1::d28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Sat, 28 Feb
- 2026 08:34:51 +0000
-Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
- ([fe80::5f46:caa4:60d4:f669]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
- ([fe80::5f46:caa4:60d4:f669%2]) with mapi id 15.20.9654.014; Sat, 28 Feb 2026
- 08:34:51 +0000
-From: Xiaolei Wang <xiaolei.wang@windriver.com>
-To: sakari.ailus@linux.intel.com, tarang.raval@siliconsignals.io,
-        laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        jacopo@jmondi.org, mchehab@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com, hverkuil+cisco@kernel.org,
-        johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
-        jai.luthra@ideasonboard.com, richard.leitner@linux.dev,
-        Xiaolei.Wang@windriver.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] media: i2c: ov9282: switch to {enable,disable}_streams
-Date: Sat, 28 Feb 2026 16:34:01 +0800
-Message-ID: <20260228083401.1007434-4-xiaolei.wang@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260228083401.1007434-1-xiaolei.wang@windriver.com>
-References: <20260228083401.1007434-1-xiaolei.wang@windriver.com>
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wmsycvD5DTAuz166W5uu4JzkxXKrlc96/YZ1HnoCPDc=;
+ b=4T3z3gK0RQ+RTzYWFrnl/KR6AULhKzJhO2mxGFKvhH0eC4DEF9Qi/Gj9dYueiy2U2T6IPlD1Ws8FDns/Sbz2QTuQXstF3+PHb3Nvo4/u5vzLcM3At3tmKQcBI6YiLnesDtpu6Whp7TUa7cAtA1ZchXAh4YZ8hLw1CXZx+iz3uKA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
+ by MN2PR12MB4047.namprd12.prod.outlook.com (2603:10b6:208:1de::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.15; Sat, 28 Feb
+ 2026 08:52:04 +0000
+Received: from LV9PR12MB9829.namprd12.prod.outlook.com
+ ([fe80::2bc0:451f:661a:ac32]) by LV9PR12MB9829.namprd12.prod.outlook.com
+ ([fe80::2bc0:451f:661a:ac32%7]) with mapi id 15.20.9654.015; Sat, 28 Feb 2026
+ 08:52:04 +0000
+Message-ID: <a97eb423-1791-4097-9f7c-cde82a9ea2af@amd.com>
+Date: Sat, 28 Feb 2026 16:52:03 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 3/7] media: platform: amd: Add isp4 fw and hw interface
+To: Hans Anda <hansa@airmail.cc>, mchehab@kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
+ sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sultan@kerneltoast.com
+Cc: pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+ gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
+ mario.limonciello@amd.com
+References: <20260212083426.216430-1-Bin.Du@amd.com>
+ <20260212083426.216430-4-Bin.Du@amd.com>
+ <4555b8c8f174b5953d5b24a3a101127f9858d910.camel@airmail.cc>
+Content-Language: en-US
+From: "Du, Bin" <bin.du@amd.com>
+In-Reply-To: <4555b8c8f174b5953d5b24a3a101127f9858d910.camel@airmail.cc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0015.jpnprd01.prod.outlook.com (2603:1096:405::27)
- To DS4PPFD667CEBB6.namprd11.prod.outlook.com (2603:10b6:f:fc02::53)
+X-ClientProxiedBy: KL1PR01CA0101.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:3::17) To LV9PR12MB9829.namprd12.prod.outlook.com
+ (2603:10b6:408:2eb::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -96,282 +89,284 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|PH3PPF67C992ECC:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4cbdce0-10b6-4cbd-b052-08de76a43d72
+X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|MN2PR12MB4047:EE_
+X-MS-Office365-Filtering-Correlation-Id: 364ceb04-c302-4215-be4d-08de76a6a52d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|921020|38350700014;
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|921020;
 X-Microsoft-Antispam-Message-Info:
-	xSn067aM6B05Bp/+TAvyrkDLZYei4q9U5VbsIXRYM7WlniwapHJfWcKz9bOfdbm3evqPFD/7AWBWzR/4HYEQQ3yXa6tfIsFL2bvDB5aQlzrN2G6EVPx7atY9ZJi5I//Z7j5SqgzOoWih7V2Y4HNunmdmlRazCHNEmd8benqPv/v28PVFmq0o8oMIKVIrkHBKkqLo8RB3xjzVBKJ00s5kIpUport/ultHWykr6Yjm57RHAaoV7/vx1rlIugoSv1D74pOEYGkq8p2dI0fkscy0Roha0Xk60RAPLbKr5qMzlXEXjGGN84MX7780ZVrhWmOcP6RAz5v+Yww4kDKr55MNiZVquA7n5VRLyKH39kO2GdIYOpsqJK6H5fZcf4haH7aWaUxDh0S8SlKH5nIy6qtNy/T3Iv4akgCkzall9ve+qqckk9GHhU5YJPEJGmIvBi4SiFL6mxrt/0uzokgOZn5fMqn2R/YwrpKez3nf3MZOcREICBWZQvO6k+NBFIvDBJIN2LBar7JAx0LOMOl00hHECRQKhr9aCBvZp843K9jNTvlB5fX9QNepOKT0lVGyYoQ/YcVL1e5NCVaYP5nPtfcx+KfvsnQwqzex2LvFd/zjlIOIPBp+/1r/8HqsxoZRq6t0sKFT55fcLDzQwIEWsWJPcYZoeMYzKwLEw3KLCiDfoPflSzpfaMMv2vyuu80oVzqgaTK5uPOkJ1IiN/iELSWeCgIhO/SrUQ/wU9PU/kF0GkOXVtgXkRVX0K86X/2UtM1SpFRg9vOrm4QTvb54KrH4LbfXWHmt8CBh/HnBKVK+YMoF5IUGKl+VX1uf0FSaiyLS
+	vxprdFMX6KXEvqG71nffNLz1jx0zvrxQu8MCLe5zE1VXtHnMDxw0G0N9cpV+pJN1X0OSnzP8V3VUbpjSBdtevc7KOvFJ2SbpLAgOzC1qLmozFdv6q3xvnoL8eXWcRbGhJygftHpWFGUeHzWRikw3YI3QFWi/AoUJ73epDAamJDKUiVnYVtrAgOP019CKOShjXxt27nqNhpmQsFmAXMLmFr3feLF9l6N9h5FcVUzwSDVnDKVcYWqiX+OJZ4DJDhQPVWYGJKPGxuRE77+e5te+hpC1+humLysT03iuad2xRrMVayoYVlcxATGfSkF1Z6V0q533bImFIjvIXrt7bRjYCx7XBY9nrKZdbEqex8tHBFK2VOOBvN5UqeNtzPMLrLIMW965RuEmJ0iD2PQjgygRz560KBuzgmqWvI2zkfguaaU7bXtD4FLDXYgderlXddXgAbc9cCcNSe+uEhYya/z0Vx3/IqyrFKaCyNvtEyTfy3z7pcyF/CZKo1bGMfQ3ZCT5JVabUHbAfn/YvbcA8DHLVhfO2vC7yj3QIuf5ilRtmMFV/dAzzXs1eEmveq93o9tyVMA+yfRbFr9/E27utjO+xV4brA/3aCNv6O5tdVzM04cyrZIxRMnbyMLN4b7FLglo1H3SGIojWgdC7DmmkVrkg+Axm0enuUDt212dEVotg3NdkUfBK+4P/2F6AjlitoY1zqxWZ0IrXOKFqGnOd/SroG2QDP7kX2b8UwCO1ZxmcNk0hxsi0bTKM/vLqFYLunHfYNkDu2buV4UIRC80Z3IIwQ==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(921020)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Nxt54QW639W2bjXIZOOz+YNNIab1j/EC8Cmlef35G8X25gctmMEn65ppeJDo?=
- =?us-ascii?Q?ILKa3VHBrEjhIB1X2piUReCLkgNTP+S68Zdwz8azRddALRDgUlgiqqSWyFb6?=
- =?us-ascii?Q?b6MtMz9K1cnIL5mu/rGRevO61zCnEFIpzx9zVfVVcNg1YSNt20UVydBpv4y/?=
- =?us-ascii?Q?AwOWWS4fkMiT2cGWzj6TP3y2g3sie0M3pYP8h0HD8E2Bo+RYjrprimmUBw3w?=
- =?us-ascii?Q?De3WWuuiyrPZBY05yJScFq9n+fDpzeXEFMIGyVipwlLs2P3vk4Hg/TqM7WUc?=
- =?us-ascii?Q?LH8PsE0iVTEB1ukvmJn9gwix16FTMwY600dM18nJejMx7Mt/pRuKgGCX5WJ7?=
- =?us-ascii?Q?crC6oZ3ZmZihGjnqdufA7PSpDkz5/ULIMNQjhmmAMSo/4uYIdKpjgMLNLzC4?=
- =?us-ascii?Q?CSduSKe/meVHJYvGDiRri5+0spV5VXMRx9TxQbSoottuA4eQgdBBwz7V9BsZ?=
- =?us-ascii?Q?zkGiqVmlEnUvbWL3Jn7r3SCHX2BrDVBoDGDgW5VCs8BnS6V5CpUVIODnskU8?=
- =?us-ascii?Q?LQErBrTc8blEMeZ9grK6GUQ4n2ckQ8PeB8XSW34Y2V3xuNQ+HujhM0Kn88/D?=
- =?us-ascii?Q?EBp82iOTcdTFrB85kCUyDTt2WwMXBB1tYS4vy21sShZmifSbjZlGxXMKrWAN?=
- =?us-ascii?Q?9WAUe10Rx2lR7hCACYCrNNJYnfhLgqJDOHERr0Zso6YRiyKj5m94Cw50cI5z?=
- =?us-ascii?Q?7lb0sPboCjBNY2GbAssJTtIkM9CNhbBEbtGfyeNC4hapiE0X5qKR2vdrqcdK?=
- =?us-ascii?Q?FlxzFmjMvnN3BeAbt3sLPlIYaozfOLxAyWDbCigvDKNWVAsgG55bQYo1r1ho?=
- =?us-ascii?Q?+J9ONMCkmBdkeUn0HBhRBXMEQ7POivAmuWjWx7rm4/CBvmtJH9Wfq0Z8G0kT?=
- =?us-ascii?Q?8aDERuCv4x59NgGWvqARmUMNQpBxY0LA8efTfltaKIS0VZkdGcOnx78jCYxU?=
- =?us-ascii?Q?bKLiqK5doh1A3P65Ny8cCKd9I18LkWFCp4PVvP0asl8ZdBKg4+dv2eWoDX8p?=
- =?us-ascii?Q?cX4pjRUEXoiFfvYYP9W22VqJtTRhM9HKQVPATg7uKSc7z93NNK0LKV27LX0G?=
- =?us-ascii?Q?miofbFdgSB3qV4oCNz9N0rte6x8UzcaJ85oHumF/FCmbxBPxgyp8B3watHgN?=
- =?us-ascii?Q?WJ0YuXkT5CzbnkkTrfFKQbjjc0ScxPALNtc+INKWM0fSlio2qMcQ+5X5r2/A?=
- =?us-ascii?Q?6gWlftR3r/Nj2R6+b6OgBPvFF1L1nkksRnBt+ZBBwF2NQIYRN7te/ltjVhMG?=
- =?us-ascii?Q?fE7ryoEEbSVpkx805S0ETtf/NJ73bweO5+1EZPtVR2eYI9k9iieVIF0xHKLm?=
- =?us-ascii?Q?8FXPVdmUpQ4Pvrm3YEDi66Oe3+/3BD0h2b6iuYTZeenvtj6yN/cBRdA6CePd?=
- =?us-ascii?Q?rJt/HH3d+i/3NXBiMByLKELVUF1NbgghWfjXI3jCNCtzWxq9/H861g5SbobE?=
- =?us-ascii?Q?W97LWG+YQw26U9UJemvY4liK7iyXRUi6uPcK6eYhGem8HRIgkiFkIT18P4Wi?=
- =?us-ascii?Q?unSAYoM50OEJy5Dd8qPhr9M1E7fEg4wMnOhtfZjDPQb/pR9Pj8UDOUAq9BkD?=
- =?us-ascii?Q?1rH3fKHT7B3Su1QYt7si4XDSO/ElHdlV0FNmu/m1XmoVHh3EMaWPH7WA9PiO?=
- =?us-ascii?Q?9rJnX6zVynzrvzv6NgUhdzlCIHNrkW2TxfNSeXvnlTDxvlbYnoPbfd2xt8JL?=
- =?us-ascii?Q?VWEgd8LJ3No/qKAlmOBD4zEflpva4cv6kKnzOp1J7mmyeOXU8Ig5amKsGuS7?=
- =?us-ascii?Q?SG7KlM8H34fy1t67+OpG9D81Whv2sY8=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4cbdce0-10b6-4cbd-b052-08de76a43d72
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
+	=?utf-8?B?WmsrYmJyTnFPdnl6SEJpdmRkU1BXY2h4Nnd6Mi9janM0S2U2Qytyek1Hc2M5?=
+ =?utf-8?B?YXEwOUpZM1lOWURXYXMvSjJQaDFYUXNjZU43UWlTZlA0cDRZenRoZVRTSlZq?=
+ =?utf-8?B?RC9BRFFWbkNoRVZGZnp5MVl0b1N5VCtIZ0YwV05OUkpqYnZlTnQvN3JLeU82?=
+ =?utf-8?B?ZFo4NjRxZlRuU1ZiK1dKVkNPS2tnWnMvQjczL0t5S3c2S3I0dTMxYUZ1aFRo?=
+ =?utf-8?B?QjVLbnRRSm1FMFJscmtObU5YWGwvRHdnYjUwRXdJTVdJRUFtYUlBNVhYOWp3?=
+ =?utf-8?B?bGNzWnMvY2VQVHZIbkM0QTVDcEN4UjJ4YThnQnMxR1h4RjdaVU9Sb1NYQzd0?=
+ =?utf-8?B?L292dHRmU3BYTHhQcjRUYUJxM3NaRnl6Ynl6LzFVeVFmVUZTWk92eGg5TWhw?=
+ =?utf-8?B?dDhrSG1iMnY3bDJ2MENvTERjeTFwMStQSk1jWCs0WURWM1pEWGsrclgwMTVV?=
+ =?utf-8?B?VTVQaytoZG90YlAxa3hLYlJEQUQ3b3VRbThtU0grOHdLYURwYWQ3ZHZxYzhz?=
+ =?utf-8?B?b21MellKamJtUzZVeWZSYmpUWkVFaEZINjYxS3BkMHpQUHRmZXZmYVZEM1VC?=
+ =?utf-8?B?R2dQaGpTcS9FQjR3NUtPa0laRlV3M0F2ZnF2YXlmWmFnc254d2Y3NkxMRGpY?=
+ =?utf-8?B?bjh4Y1FzZEgveWdXR1J4RVJwUGVvYlRLQzZMTmxqbkxUa1hPcGhhbnhELzBD?=
+ =?utf-8?B?S2xkMjZTM2FERm52bWdCYWpiTThkRVNVeUNiZmxESnBqN1RKMWs5Q1BhVlhY?=
+ =?utf-8?B?Vm1ZY0RJVkFCTDVFbUFKOW9JWjdRRGE0cS9valFsZDVqU0NQSHFMSGNYc0Rp?=
+ =?utf-8?B?ZFQyRnRzYWJDazBnbk5NbElleTFyamxFRDVRaWZEYm4zYnJ4WWJuOHdIMGVY?=
+ =?utf-8?B?ZzBRWEsvbDJWSEJJYlMxaUNQSVhwT2xCUERPZ2ZrN1FDVWtSM1hFRXl4ZTBy?=
+ =?utf-8?B?SUc4NVg5QVdpSllLV0cxSGtESXRjMldueUhKSmtGV1hMMHpNb1hmdFJoRWtS?=
+ =?utf-8?B?YjNzYkNOcXNNQm12UGFqWnQ3SHpOQ0g4QTlYbXppQU1WV3lNTzNzYlNTL01W?=
+ =?utf-8?B?YXAxSW9WR1M1cCtNeGF3aEF1RHREc2FPUXMydUJMNHBvRGpsR3RwZXp5Nlo0?=
+ =?utf-8?B?cXBpRzVDUGdRajU4L3J1eDcrSXhpUzBIUFdvci8rSGp1L21XbmQ4UFBzSDFt?=
+ =?utf-8?B?bDcrNzRaeURMU3B6Zi9VQU9JMTRWeTI1bTRzWFUyL1JDMHpWaExTbkhMZkYz?=
+ =?utf-8?B?N2M3eERXWGIwMzVwcjBFQm15dHNjU09TNkdSb2ZQUE9MdXVsVTViTlAzeTlW?=
+ =?utf-8?B?cU9LSjZzTWpRUERxb2R4cDlPMUFzNUtoOVNuWWs0RGJMRlFrMlZ2VGZVWDdT?=
+ =?utf-8?B?MjRKRXZ5RE5WSWtrYlhtNGNRajhLRVJ4NUw5QllYOUltVnh5VnpHOG4wMGJy?=
+ =?utf-8?B?Nys5Tm1uN05FVXFVL1ZNRFl6R0hSazQxODYvc0R3MjQyeDBYRDJRdVpvNUVk?=
+ =?utf-8?B?VGN5M3MxUDgveWVNbDYxVlU1MTRsd29RbTBTZWF5NjhobzVPQ2xsM1RCZ1Ra?=
+ =?utf-8?B?WTNUcGFrNENteFh0YTVJSFRuNmgrQ0xXcG5FZHlEZTQ2aDVROGZzdU5penQ2?=
+ =?utf-8?B?TlJtMFVLUzN6NnM1eDhhd25SK3dua3NlbkswNEM4Um9obE9xZUxrbWs4UERV?=
+ =?utf-8?B?R0UvM3JtU052VTRTRzFoYUtJQ1RHZkhZNm9NMWtkVlFFUkowblprQmNhSC9C?=
+ =?utf-8?B?RDFPTk5nREViaG1JbEIraUcwOWh3bXZMSnZ5VUwwT0FMSGVUSThHOURxVW1C?=
+ =?utf-8?B?N3NwZkxXY0JQNUN3Mks4K2l5OEpWNWR2blgrbms0bWhGc2JpMHJIZFdjaTNL?=
+ =?utf-8?B?bmxkYTBMM0NzTU16aW10N0FSenVzb2c5QTQzQit0WHBlNkZxMm52S0padzcw?=
+ =?utf-8?B?ek5EbUZMdUJLc0tXNm43amVxN2NxeUdOTEpqZzRGbWQ1U0s4T3Bab05qN3VC?=
+ =?utf-8?B?bzdJQVU5K1dsUStYNEdKdFI1ZjNLbkpWMllRYW1EKzFta3h6aEJwMHhWeXRR?=
+ =?utf-8?B?MERyMWc4RHM1Zk90M3lHMzlwTWgrQlBCZTBYSTFaWFdZS3daQmo5VStIV3Zn?=
+ =?utf-8?B?ZllRQ3ZOZmRMMmUwZXJUWkFCcnFSTkIxRTFNdExBRFBHZ1JaWlc1TXZpMmRp?=
+ =?utf-8?B?amZwQWlkVitzcitPVlhlVTFBRVZkUWJwc2FWQzhaV3FpMTZjT3pycTJubHdr?=
+ =?utf-8?B?Y2MzNzNlZEJTdndsVC9MMFpDMVB4cjFOUVJiL3JoRVNkTWZzMmVoK1dRKzZa?=
+ =?utf-8?Q?hKQHXv7QIkEHwCCt8Y?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 364ceb04-c302-4215-be4d-08de76a6a52d
+X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2026 08:34:51.2945
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2026 08:52:04.4358
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iFqAS9tKPPP7YD4RswOkRTSgZH/FAseCpHVGpBq9cHLFAlZvfeKL8WTGss/NE1zcUoCz8hPaI6jPWuqSbH9biSOML6L88z34A1mxfG3e9pk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF67C992ECC
-X-Authority-Analysis: v=2.4 cv=LqWfC3dc c=1 sm=1 tr=0 ts=69a2a8ad cx=c_pps
- a=0XF06BAwF4INxAelKEegqA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
- a=-DGD1vg1X50fszjQOB8A:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: y5EzskyanOc9sQnGka9DAnMY6HzlreZs
-X-Proofpoint-ORIG-GUID: y5EzskyanOc9sQnGka9DAnMY6HzlreZs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI4MDA3OCBTYWx0ZWRfX7vDMKg3TOPZl
- 38E26f1q3Jw8s+q3l/xV9RHnRn99ni3xzkh+RouF1cs9crlsBtqsnAhXkU/9J1fjULnchXCdQFQ
- NGWiUpWzsWqC5Wqkt+/x0ZAvew7iccTPUahI6ztFqDdVun04ETqozQG72+TLwdFLbbKXB52aKg3
- TqSH83gh0GWYwHHKiRIIG90p5Ei6w+0//OnjBgLxwlIwABRCBKeTgc8KGTmGArffyq/YI3eWWMU
- yFLFGYdmznBDyq3Bc8AnGIgmBst5hETf0UWQ1+ZhibqYY4A9t26nNQfSDaKcJgsbIW1D2tMCAnv
- GdQMi7MqYiq6WvIn9H6Qmq+9aJ7mIhN9WRf6x4gC6CBhKVdiK3E8SlVhwsHddfMBxebVsx/jtRR
- sjf7hmirDW5fJH3B9A4GeF/DfKifbQuH05EtlYB//imepiiJc0MBdNpTJIV+rJq63Er9Lppw2Qs
- C2Rik+VGcDBDnJziiVg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-28_02,2026-02-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0
- clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602280078
+X-MS-Exchange-CrossTenant-UserPrincipalName: iZT3EAaeo8i4FNYUkTRgIRkSi7NB8iBB3Rb8biLj6XNsrvXWYjtr86dCg8BgCZPL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4047
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.84 / 15.00];
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[windriver.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[windriver.com:s=PPS06212021];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[linux.intel.com,siliconsignals.io,ideasonboard.com,raspberrypi.com,jmondi.org,kernel.org,bp.renesas.com,oss.qualcomm.com,xs4all.nl,linux.dev,windriver.com];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-53829-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53827-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xiaolei.wang@windriver.com,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[airmail.cc,kernel.org,xs4all.nl,ideasonboard.com,linaro.org,linux.intel.com,bp.renesas.com,vger.kernel.org,kerneltoast.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[windriver.com:+];
-	TO_DN_NONE(0.00)[];
-	NEURAL_HAM(-0.00)[-0.993];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:mid,windriver.com:dkim,windriver.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 3DE5A1C1726
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bin.du@amd.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[amd.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9A7211C180B
 X-Rspamd-Action: no action
 
-Switch from s_stream to enable_streams and disable_streams callbacks.
+Thanks, Hans, for your comments.
 
-Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
----
- drivers/media/i2c/ov9282.c | 82 ++++++++++++--------------------------
- 1 file changed, 25 insertions(+), 57 deletions(-)
+On 2/24/2026 8:21 PM, Hans Anda wrote:
+> Hi Bin,
+> 
+> I have just read your patch and have a minor issues and a few style suggestions.
+> 
+>> ISP firmware controls ISP HW pipeline using dedicated embedded processor
+>> called ccpu. The communication between ISP FW and driver is using commands
+>> and response messages sent through the ring buffer. Command buffers support
+>> either global setting that is not specific to the steam and support stream
+> 
+> One last typo of steam -> stream
+> 
+> 
 
-diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index aa5a105136bf..b080a56d83a9 100644
---- a/drivers/media/i2c/ov9282.c
-+++ b/drivers/media/i2c/ov9282.c
-@@ -921,13 +921,9 @@ static int ov9282_get_selection(struct v4l2_subdev *sd,
- 	return -EINVAL;
- }
- 
--/**
-- * ov9282_start_streaming() - Start sensor stream
-- * @ov9282: pointer to ov9282 device
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
--static int ov9282_start_streaming(struct ov9282 *ov9282)
-+static int ov9282_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
- {
- 	const struct reg_sequence bitdepth_regs[2][2] = {
- 		{
-@@ -938,16 +934,21 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
- 			{OV9282_REG_ANA_CORE_2, OV9282_ANA_CORE2_RAW8},
- 		}
- 	};
-+	struct ov9282 *ov9282 = to_ov9282(sd);
- 	const struct ov9282_reg_list *reg_list;
- 	int bitdepth_index;
- 	int ret;
- 
-+	ret = pm_runtime_resume_and_get(ov9282->dev);
-+	if (ret)
-+		return ret;
-+
- 	/* Write common registers */
- 	ret = regmap_multi_reg_write(ov9282->regmap, common_regs,
- 					ARRAY_SIZE(common_regs));
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to write common registers");
--		return ret;
-+		goto done;
- 	}
- 
- 	bitdepth_index = ov9282->code == MEDIA_BUS_FMT_Y10_1X10 ? 0 : 1;
-@@ -955,7 +956,7 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
- 				     bitdepth_regs[bitdepth_index], 2);
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to write bitdepth regs");
--		return ret;
-+		goto done;
- 	}
- 
- 	/* Write sensor mode registers */
-@@ -964,75 +965,40 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
- 				     reg_list->num_of_regs);
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to write initial registers");
--		return ret;
-+		goto done;
- 	}
- 
- 	/* Setup handler will write actual exposure and gain */
- 	ret =  __v4l2_ctrl_handler_setup(ov9282->sd.ctrl_handler);
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to setup handler");
--		return ret;
-+		goto done;
- 	}
- 
- 	/* Start streaming */
- 	ret = cci_write(ov9282->regmap, OV9282_REG_MODE_SELECT,
- 			OV9282_MODE_STREAMING, NULL);
--	if (ret) {
-+	if (ret)
- 		dev_err(ov9282->dev, "fail to start streaming");
--		return ret;
--	}
- 
--	return 0;
--}
-+done:
-+	if (ret)
-+		pm_runtime_put(ov9282->dev);
- 
--/**
-- * ov9282_stop_streaming() - Stop sensor stream
-- * @ov9282: pointer to ov9282 device
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
--static int ov9282_stop_streaming(struct ov9282 *ov9282)
--{
--	return cci_write(ov9282->regmap, OV9282_REG_MODE_SELECT,
--			 OV9282_MODE_STANDBY, NULL);
-+	return ret;
- }
- 
--/**
-- * ov9282_set_stream() - Enable sensor streaming
-- * @sd: pointer to ov9282 subdevice
-- * @enable: set to enable sensor streaming
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
--static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
-+static int ov9282_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
- {
- 	struct ov9282 *ov9282 = to_ov9282(sd);
--	struct v4l2_subdev_state *state;
- 	int ret;
- 
--	state = v4l2_subdev_lock_and_get_active_state(sd);
--
--	if (enable) {
--		ret = pm_runtime_resume_and_get(ov9282->dev);
--		if (ret)
--			goto error_unlock;
--
--		ret = ov9282_start_streaming(ov9282);
--		if (ret)
--			goto error_power_off;
--	} else {
--		ov9282_stop_streaming(ov9282);
--		pm_runtime_put(ov9282->dev);
--	}
--
--	v4l2_subdev_unlock_state(state);
--
--	return 0;
-+	ret = cci_write(ov9282->regmap, OV9282_REG_MODE_SELECT,
-+			 OV9282_MODE_STANDBY, NULL);
- 
--error_power_off:
- 	pm_runtime_put(ov9282->dev);
--error_unlock:
--	v4l2_subdev_unlock_state(state);
- 
- 	return ret;
- }
-@@ -1164,7 +1130,7 @@ static const struct v4l2_subdev_core_ops ov9282_core_ops = {
- };
- 
- static const struct v4l2_subdev_video_ops ov9282_video_ops = {
--	.s_stream = ov9282_set_stream,
-+	.s_stream = v4l2_subdev_s_stream_helper,
- };
- 
- static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
-@@ -1173,6 +1139,8 @@ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
- 	.get_fmt = ov9282_get_pad_format,
- 	.set_fmt = ov9282_set_pad_format,
- 	.get_selection = ov9282_get_selection,
-+	.enable_streams = ov9282_enable_streams,
-+	.disable_streams = ov9282_disable_streams,
- };
- 
- static const struct v4l2_subdev_ops ov9282_subdev_ops = {
+Thanks for catching that. Will correct it.
+
+>> +/* [...]
+>> + * @brief Host and Firmware command & response channel.
+>> + *        Two types of command/response channel.
+>> + *          Type Global Command has one command/response channel.
+>> + *          Type Stream Command has one command/response channel.
+>> + *-----------                                        ------------
+>> + *|         |       ---------------------------      |          |
+>> + *|         |  ---->|  Global Command         |----> |          |
+>> + *|         |       ---------------------------      |          |
+>> + *|         |                                        |          |
+>> + *|         |                                        |          |
+>> + *|         |       ---------------------------      |          |
+>> + *|         |  ---->|   Stream Command        |----> |          |
+>> + *|         |       ---------------------------      |          |
+>> + *|         |                                        |          |
+>> + *|         |                                        |          |
+>> + *|         |                                        |          |
+>> + *|  HOST   |                                        | Firmware |
+>> + *|         |                                        |          |
+>> + *|         |                                        |          |
+>> + *|         |       --------------------------       |          |
+>> + *|         |  <----|  Global Response       |<----  |          |
+>> + *|         |       --------------------------       |          |
+>> + *|         |                                        |          |
+>> + *|         |                                        |          |
+>> + *|         |       --------------------------       |          |
+>> + *|         |  <----|  Stream Response       |<----  |          |
+>> + *|         |       --------------------------       |          |
+>> + *|         |                                        |          |
+>> + *|         |                                        |          |
+>> + *-----------                                        ------------
+>> + */
+> 
+> + *        Two types of command/response channel.
+> + *          Type Global Command has one command/response channel.
+> + *          Type Stream Command has one command/response channel.
+> + *-----------                                        ------------
+> + *|         |                                        |          |
+> + *|         |       ---------------------------      |          |
+> + *|         |  ---->|     Global Command      |----> |          |
+> + *|         |       ---------------------------      |          |
+> + *|         |       ---------------------------      |          |
+> + *|         |  <----|     Global Response     |<---- |          |
+> + *|         |       ---------------------------      |          |
+> + *|         |                                        |          |
+> + *|         |                                        |          |
+> + *|         |                                        |          |
+> + *|  HOST   |                                        | Firmware |
+> + *|         |                                        |          |
+> + *|         |                                        |          |
+> + *|         |       ---------------------------      |          |
+> + *|         |  ---->|     Stream Command      |----> |          |
+> + *|         |       ---------------------------      |          |
+> + *|         |       ---------------------------      |          |
+> + *|         |  <----|     Stream Response     |<---- |          |
+> + *|         |       ---------------------------      |          |
+> + *|         |                                        |          |
+> + *|         |                                        |          |
+> + *-----------                                        ------------
+> + */
+> 
+> This way the order of the text comment is structured the same as the visual
+> comment. i made some adjustments for symmetry.  It's no error, it's a style
+> suggestion.	
+> 
+> 
+
+I think both are acceptable, my original order has been structured in 
+accordance with the register definition from an engineering standpoint, 
+all command registers first, then followed by all response registers.
+
+>> +/*
+>> + * @brief command ID format
+>> + *        cmd_id is in the format of following type:
+>> + *        type: indicate command type, global/stream commands.
+>> + *        group: indicate the command group.
+>> + *        id: A unique command identification in one type and group.
+>> + *        |<-Bit31 ~ Bit24->|<-Bit23 ~ Bit16->|<-Bit15 ~ Bit0->|
+>> + *        |      type       |      group      |       id       |
+> 
+> + *        id: A unique command identification in one type and group.
+> + *        |<-Bit31~24->|<-Bit23~16->|<-  Bit15   ~   Bit0  ->|
+> + *        |    type    |   group    |           id           |
+> 
+> So the width of the parts would co relate to the number of bits (8,8,16).
+> Again, a suggestion
+> 
+
+Since this is about the bits layout, matching width with bit count isn't 
+mandatory.
+
+> + *        id: A unique command identification in one type and group.
+> + *        |<-  Bit0   ~   Bit15  ->|<-Bit16~23->|<-Bit24~31->|
+> + *        |           id           |   group    |    type    |
+> + */
+> 
+> If there is no technical reason for numbering Right to Left you could flip it.
+> Left to Right is simpler to read.
+> I guess there is a technical reason for your way.
+> 
+
+I believe my original style is more common to describe bits layout, 
+e.g., drivers/gpu/drm/imagination/pvr_device.h at line 466
+It matches how:
+- Humans read: left to right = most significant to least significant
+- Hex values are written: 0x02010001, type=0x02, group=0x01, id=0x0001
+- Register documentation from hardware vendors is formatted
+
+>> +	/*
+>> +	 * A check num for debug usage, host can set the buf_tags
+>> +	 * to different number
+> 
+> +	 * to different numbers
+> or
+> +	 * to a different number
+> 
+> Both versions work grammatically.
+> 
+> 
+
+Yes, will fix it.
+
+>> + [...]
+>> +};
+>> +
+>> +/* FW cmd ring buffer configuration */
+> 
+>> + [...]
+>> +};
+>> +
+>> +/* FW resp ring buffer configuration */
+>> +static struct isp4if_rb_config isp4if_resp_rb_config[ISP4IF_STREAM_ID_MAX] = {
+>>   [...]
+>> +/* FW log ring buffer configuration */
+>> +static struct isp4if_rb_config isp4if_log_rb_config = {
+>> +	.name = "LOG_RB",
+>>
+>> +
+>> +	rd_ptr = isp4hw_rreg(ispif->mmio, rreg);
+>> +	wr_ptr = isp4hw_rreg(ispif->mmio, wreg);
+>> +
+>> +	/* Read and write pointers are equal, indicating the ringbuf is empty
+>> */
+> 
+>>   [...]
+>> +	/*
+>> +	 * Ignore one byte from the bytes free to prevent rd_ptr from equaling
+>> +	 * wr_ptr when the ringbuf is full, because rd_ptr == wr_ptr is
+>> +	 * supposed to indicate that the ringbuf is empty.
+> 
+> ringbuf -> ringbuffer or ring buffer, it's best to stick to one.
+> just in case someone greps for. That is a suggestion as well.
+> 
+
+Yes, will change it to ring buffer.
+
+> Good Work.
+> I'm just getting to know c - That's why I only found grammar/ style issues.
+> But maybe this way i will get into programming
+> 
+
+Welcome to this field.
+
+> Greeting Hans
+
 -- 
-2.43.0
+Regards,
+Bin
 
 
