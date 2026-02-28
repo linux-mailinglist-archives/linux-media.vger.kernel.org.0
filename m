@@ -1,241 +1,256 @@
-Return-Path: <linux-media+bounces-53833-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53834-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cPq3Mle6omnv5AQAu9opvQ
-	(envelope-from <linux-media+bounces-53833-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 10:50:15 +0100
+	id oFsQF2e7omkE5QQAu9opvQ
+	(envelope-from <linux-media+bounces-53834-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 10:54:47 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453C51C1D16
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 10:50:15 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F611C1D47
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 10:54:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id F25CF3041791
-	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 09:50:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 142DB302C5D9
+	for <lists+linux-media@lfdr.de>; Sat, 28 Feb 2026 09:54:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590F140FDB7;
-	Sat, 28 Feb 2026 09:49:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 748163EBF04;
+	Sat, 28 Feb 2026 09:54:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bF5hHyuN";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="STDs1DrJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eLr0iciQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2876F355F54
-	for <linux-media@vger.kernel.org>; Sat, 28 Feb 2026 09:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78E3270552;
+	Sat, 28 Feb 2026 09:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772272197; cv=none; b=F6qpUV1cEe4zR2qlI8nECKsE+qNQE6JMj4V5ylU2Mjzy+ZTOc+HvjIx0ZTyeQqvTjC6G4jTEeyYPh8L98mvvwcg5Y6Gn2EBuEvA8Aj0WuM3GQ33Fly0/5nYZDwP+oS/6YlKOfGUOe10gF63W+k9YHaNw17rSn2ePV2/clE5CtfE=
+	t=1772272475; cv=none; b=C9vJDJqWLEtb8vP7QbD+aPErrMpST5Hche0zFk9tvXzDXS8pDsZ/XIB0sieBc/kHGwBYckOYewzVHCIVMRsELxla/nz9WGZQf6VNCzOkoPTDjcGCxISz2b0PwKkUPMnL966ENQ6ogVav5zi66iOgwDUQ6Z5sjy5SCWp5Y8/58Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772272197; c=relaxed/simple;
-	bh=59o113IRp7T+/aHGWWfZMJf4LNlY4k+iIPM3ZO07ad8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kqv8rQj+GGkpJth1fUVu5xVctGpWfFmQYjsMGc+FT8dGsENok+0N0F1lVTXl0LtzMw1c2TWavoxpE3n2k1aL3BnM1e6vnlmyzvCLhwst0Q4SZAHVFX8NLsCDLtE0mgI0IkIwB7gBo3x5R074DzbkaNgboNh6hunLPWz8c699C08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bF5hHyuN; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=STDs1DrJ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61S907Xw1684879
-	for <linux-media@vger.kernel.org>; Sat, 28 Feb 2026 09:49:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=StoD4H4S87GO1jzJ7w8HMW
-	WAAln9eUNupmiDKmuGuq8=; b=bF5hHyuNwbcH08I4DBcS1UaKxUUCDUuyUGNcHT
-	Qc+rdJUuPZk3AybhQG4vg4+HG/3NtBSfXvTva8WMyRTTJNhqrjXKe/iVuEMP7ppr
-	OzxORw57f80mb+okEriwk4vs/K8pm6yMdEyRK8Y0uM2bZjp9a1K3yO0d7/SKuIny
-	CqJL1kw+J0EIzFY9B4NtcluQf8uHBaGMKNn7c8wXiHoPP/yOUYIuyMn3v47dYQHf
-	SWvv9R5Fg/TzRZKI7cUbAAzTVarAANKTTkuCD22vDAXzx2oKd7vEGSPDofwy9dyL
-	uIiHl3daQDDkWCaVKa5FPTVUQ8jjPle6GpXag/ryXB32auBQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ckshkrk10-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sat, 28 Feb 2026 09:49:55 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-899e89bf366so24924906d6.0
-        for <linux-media@vger.kernel.org>; Sat, 28 Feb 2026 01:49:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772272194; x=1772876994; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=StoD4H4S87GO1jzJ7w8HMWWAAln9eUNupmiDKmuGuq8=;
-        b=STDs1DrJFGhU8EWYpVAlJcRcpWP5qvdolpKTJukMDUdFajQgDjuDl/FC6t3Bz7cqK2
-         f5LFu1Xh50zUxmqm71KWDofz1PvNT6+SrEAbT3M4hcUG0/EI5l0hb7CoBLMUyvM3rRAj
-         1jvFi+77UtqCpxNt6oRmdVpka+ZJAVHli8zlo5Ifcm9e+iFqxoK9OLxugT8Q6ymCgs3P
-         T2ssfkNCPPbzsnAZiybQuU5oQ4Cgd5SZkKd7SiMdsKhtqCIVgx1JGUJzFpjB8Sxdn/aY
-         2nzEMyOjx+ovYyc7ZraCRAcXNiU5AzqEzyRoW4lnI+1+J78vIGjjro8x5/P39s+AOR3b
-         8MQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772272194; x=1772876994;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=StoD4H4S87GO1jzJ7w8HMWWAAln9eUNupmiDKmuGuq8=;
-        b=Ose+6cugfLRPWYHRu0gNoQSs9dp5UauG7YZ4DsjRhXKMuHxCi6ombgmxBPgDAOLBTA
-         jcmL89Q44Hj7RRkN6kCZiF+hiK0dbXd6XvDUdgMNk+JLlQh+4xfPx67/Iira1IctrBD3
-         HS75UayPYnP8c1e2Gkwh9QJUD+shLh2dwU3o6gczbhj9ugJXOb+v8TlStq5xePOaYxbn
-         Ijrxbne92DmK84m/52mkEH3sRjpE0YzxEIERuOXmAmp+yA3D9/+Fci5POC5RMwyumV6b
-         TQB8LxB6iWBi7TgpZ0kHj3ptr3K7wUFSxBa0Axb14YheqEMToDzxuonU6N9oyv01gqqT
-         yxMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUfze9qjQbQ+lylumjR2Q1H7DT9tOivXd6KTsRXNssXGWn1JJa3qasxtAe+b9d9RSXUn5tC1BscPExiqw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbKjbIRrlsuCggX+vqSDs+5E7gW/M0q6fNdpbxcjfIxy3OaCdG
-	M849vPR2m6cM/yYVeoZkR3qTB/Kh73Nbhe9K0uAeVFjgNeVkZUU6dDMa3DBhbks7julViJZwdlG
-	ALiNArh9OSLY1AOTvzhhB5qBWt4a7PpTs4eCt5He52inuz0LHQa949pE7KTX4XmKoYw==
-X-Gm-Gg: ATEYQzw4hTyWkXzFjze36QpE80dPfUWcQpE3LUTtnaxN7bnn/Qc5M+LoPM0U5P1e1eI
-	UQScuYkERU+F6J0edphTFxvEND/ecTYkLZgUZIJtRsy3tVx7Y81748/zfye7kxLphYd+zUXNnp+
-	nT6Xpemf/Z5F0oojsxVADHm6EKlFl7fUaElyXC41u9VRQZjBv5CDiTmk06DMoYIVpuHiwbUgazX
-	5ZcK8dlzXa9LZ3ONdZxSSSkZLaGYhFoHANuwMLHAsaWTwGxRx+40QrxKLCw85RAqjagDpRyO/oj
-	U2eMegsULvkl2u2GnLfP1gRu1qipkyrfjSzTBngvjs3xZos63Axjapxk1QWCIP/DkCUCE6RASiv
-	Ghr8ZtPTOuZXJuaArU2CAtOrw+cwd1VgFPJTqRBjODqo75bq/SsB9/ts0OAKBlvCrQ3et3y+c92
-	t91XMSGoSt+aL0JWDHuyo3SOzWUaoVE0JXl/E=
-X-Received: by 2002:a05:620a:198f:b0:8cb:5233:8f8a with SMTP id af79cd13be357-8cbc8d83930mr674635785a.11.1772272194315;
-        Sat, 28 Feb 2026 01:49:54 -0800 (PST)
-X-Received: by 2002:a05:620a:198f:b0:8cb:5233:8f8a with SMTP id af79cd13be357-8cbc8d83930mr674633985a.11.1772272193818;
-        Sat, 28 Feb 2026 01:49:53 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a119293172sm26801e87.92.2026.02.28.01.49.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Feb 2026 01:49:53 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sat, 28 Feb 2026 11:49:52 +0200
-Subject: [PATCH] media: venus: allow interlaced video streams
+	s=arc-20240116; t=1772272475; c=relaxed/simple;
+	bh=YouXqvnP0taKGHklJH5cIaDhX7R1/igobBji1f49w58=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T9cqaCZxmKRhh7DdlQWj+OUtcIKJ5VXnu8tdxhu5dWEOLTxzdrXpP6lQhlre1RmhQn3w2Sai6+xklZHoHN5G87wSAPJm1PnxkSQBiiKrYA8ZwJwtyJk33k1kJRJVxyh3s5VjqkKUBTjbsY1WLvvY94HQpEF4Pyrvb3++Sl1nvsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eLr0iciQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A02C116D0;
+	Sat, 28 Feb 2026 09:54:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772272475;
+	bh=YouXqvnP0taKGHklJH5cIaDhX7R1/igobBji1f49w58=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=eLr0iciQqYzyeJegC9ou3JYzCPQGiRD6iyZk/FvAPJn7LjWxoZCtM9mZr+ncM/IW/
+	 LSnEl+FRkXITDqIyh9SAOPbl9xIV1MhTl6JHOZ/Y16XydHloEF/vqe4/qieBsfx8wE
+	 Ta9hdkqnPNzXNldxX2Rut8glRmPPoF/Nvo8TFkfURHkH+pam8Nm2TMgcEOwV2RQQlo
+	 0rVWcx05ELDSSA0FDwZD6aglEUC65FLDa42tIqHqIZ8iOq2mEU1leUp3TCLVmKshfI
+	 WRodMOJvn8/UeHbzi1v6FWPd1rRBW9qr+AIGBBG9Q8rxs2pxGu3OSGNjPbc1+z+M4r
+	 yp2ft605pTPuw==
+Message-ID: <1fe5529f-cd9f-4960-b6dd-96a2d02b8d86@kernel.org>
+Date: Sat, 28 Feb 2026 10:54:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] media: dt-bindings: rockchip,vdec: Add alternative
+ reg-names order for RK35{76,88}
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Conor Dooley <conor@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil@kernel.org>, kernel@collabora.com,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Conor Dooley <conor.dooley@microchip.com>, linux-media@vger.kernel.org
+References: <20260226-vdec-reg-order-rk3576-v4-0-b8d72dc75250@collabora.com>
+ <20260226-vdec-reg-order-rk3576-v4-1-b8d72dc75250@collabora.com>
+ <20260227-observant-roaring-ara-ef7eb0@quoll>
+ <adbbdbb1-b126-4807-821c-c9850befd695@collabora.com>
+ <20260227-omission-stoic-417d7109ad4d@spud>
+ <3ab4f91e-37d0-4950-af88-01920705d31a@collabora.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <3ab4f91e-37d0-4950-af88-01920705d31a@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260228-venus-mpeg2-v1-1-c13aa7cb6e93@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAD+6omkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDIyML3bLUvNJi3dyC1HQjXRNL0zRLQwvzRMPUZCWgjoKi1LTMCrBp0bG
- 1tQD5mW2UXQAAAA==
-X-Change-ID: 20260228-venus-mpeg2-495f9187a1ec
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1654;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=59o113IRp7T+/aHGWWfZMJf4LNlY4k+iIPM3ZO07ad8=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBporpArdzKo4XQpGCc7NhBpz6+0bhmp6vGylsee
- JqTgI8hsE6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaaK6QAAKCRCLPIo+Aiko
- 1bEACACOdQBhGBgA4tlckrobz/Jb6q+GF5vLeUykFIJhwmbhwdN8b8Z7J9eCrRmfE5o7HtJbPGJ
- 6poegE41HugbFvvy8jHR6OIv+DxE8bSh6m2McJdCFA74T/z9yYSDbkq5rAUOGDnVbB38cQEtwUO
- xJ5X+5ubUxgMefW0b95LdvkV8fLALeWsbQP7Fb6ZchTxI2fSJ1k8mZKX02J+yLZ6Cu/aNKdS6K6
- BPXCkPGctzcnWWjQ49EPcVLFajPgzhVS6Sj41Y/+X3uczxcYYKTE04hjhtenO605+M4kriezu3H
- Ak3yQ/slfK8xrDVtrLqOTE4qyKIJNMMWxHzKDSScYOIbUHiX
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI4MDA5MCBTYWx0ZWRfX2JX16CDmkgk0
- Di+Rg70uJPRMJzcZM0au1eCTKUnL36iBSK3hiYLAZIP+QpP1pWKqzggk0iTwL4hWwo9v/o6+3JI
- x8/q1jswK/ipSgy3DS2nqa3vLmgaYsmkEBql27K5U/l12BLbs5U36K1+e7T0sSdRMVLdU1/ChPC
- m4+YeNw47WxCWvsAvIiHE/NVLC8eGZaXTK31wEyxF4dYHAj1VPRi1WLIkpywdqJVnTJtYGxA6Z2
- CtKUxicDUZrfaS+DK0UT86QBDW0Tje1K1x87lPw+Xm7/145rEG5Gy4iqCWHIDzBLzgeOLR/Uj6B
- ygG8rET78UBZBVkBB2cZoDN8wHIeCxggjsF8bC2pUNHKL/ztXghvy4+5dvYGWCEO7da/Y1q2NUZ
- t0deqpCrjQFhqE6hRlxOaU3FHEAhIZQ/b2Xr1whco/AuG9wJR3Q1jF8zYk0zwaYD2AAX6tzyiRn
- gdkIOXaXCTtALF0CJJg==
-X-Proofpoint-ORIG-GUID: Zxh4vS-7wByezBCqVb8w-G7TT5JCpEkq
-X-Authority-Analysis: v=2.4 cv=EvbfbCcA c=1 sm=1 tr=0 ts=69a2ba43 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
- a=mix0NA6vuO6kksnNH3gA:9 a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
-X-Proofpoint-GUID: Zxh4vS-7wByezBCqVb8w-G7TT5JCpEkq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-28_03,2026-02-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602280090
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53833-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53834-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,samsung];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 453C51C1D16
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F2F611C1D47
 X-Rspamd-Action: no action
 
-Venus driver errors out on the interlaced streams with the 'field isn't
-supported' error message, which e.g. prevents decoding of the MPEG2
-video streams. Don't error out if the buffer is set to contain
-interlaced data.
+On 27/02/2026 18:42, Cristian Ciocaltea wrote:
+> On 2/27/26 7:13 PM, Conor Dooley wrote:
+>> On Fri, Feb 27, 2026 at 01:37:17PM +0200, Cristian Ciocaltea wrote:
+>>> Hi Krzysztof, Conor,
+>>>
+>>> On 2/27/26 9:46 AM, Krzysztof Kozlowski wrote:
+>>>> On Thu, Feb 26, 2026 at 12:46:53PM +0200, Cristian Ciocaltea wrote:
+>>>>> With the introduction of the RK3588 SoC, and RK3576 afterwards, two more
+>>>>> register blocks have been provided for the video decoder unit.
+>>>>>
+>>>>> However, the binding does not properly describe the new hardware layout,
+>>>>
+>>>> As you shown me last time with excerpt of address spaces from
+>>>> datasheet/manual, the binding correctly describes the hardware and above
+>>>> sentence is not true.
+>>>>
+>>>>> as it breaks the convention expecting the unit address to indicate the
+>>>>> start of the first register range, i.e. 'function' block is listed
+>>>>
+>>>> Imprecise wording. "start of the main or primary register range"
+>>>>
+>>>> (if you have 0x1000 with one reg and 0x20000000 with everything, the
+>>>> unit address will be 0x20000000).
+>>>>
+>>>>> before 'link' instead of the opposite.
+>>>>>
+>>>>> Since the binding changes have been already released and a fix would
+>>>>> bring up an ABI break, mark the current 'reg-names' ordering as
+>>>>> deprecated and introduce an alternative 'link,function,cache' listing
+>>>>> which follows the address-based ordering according to the TRM.
+>>>>>
+>>>>> Additionally, drop the 'reg' description items as the order is not fixed
+>>>>> anymore, while the information they offer is not very relevant anyway.
+>>>>
+>>>> This is fine for me.
+>>>
+>>> Thanks for the additional feedback!
+>>>
+>>> If I'm not mistaken (please correct me), the only remaining (hard)
+>>> blocker for the series would be to improve this commit message.
+>>
+>> No, you also need to fix the problem I pointed out about reg-names being
+>> optional on the devices you're relying on reg-names for. 
+> 
+> My only concern is that by marking reg-names as required we would break the ABI,
 
-Tested with the fluster enabled to handle MPEG2 through Gstreamer:
+You are ALREADY BREAKING the ABI. Really, for absolutely non-important
+cosmetic change in unit address, where I asked you repeatedly to fix the
+unit address, you change the ABI affecting kernel and DTS users.
 
-./fluster.py r -d GStreamer-MPEG2_VIDEO-V4L2-Gst1.0 -s -so venus-mpeg2.md -j 1
+This is barely acceptable, but I am just annoyed already explain it to
+you multiple times.
 
-GLOBAL SUMMARY
-|TOTALS|GStreamer-MPEG2_VIDEO-V4L2-Gst1.0|
-|-|-|
-|TOTAL|30/52|
-|TOTAL TIME|75.526s|
-|-|-|
-|Profile|GStreamer-MPEG2_VIDEO-V4L2-Gst1.0|
-|MAIN|26/32|
-|PROFILE_4_2_2|0/9|
-|SIMPLE|4/11|
-|-|-|
+But now you claim, you can break ABI for cosmetic unimportant change,
+but actually doing something meaningful is a no-go?
 
-Fixes: 059790467bf4 ("media: venus: helpers: handle correctly vbuf field")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/media/platform/qcom/venus/helpers.c | 5 -----
- 1 file changed, 5 deletions(-)
+At least use correct arguments if you want to discuss.
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 747c388fe25f..71e79093a4c7 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -1466,11 +1466,6 @@ int venus_helper_vb2_buf_prepare(struct vb2_buffer *vb)
- 	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type)) {
- 		if (vbuf->field == V4L2_FIELD_ANY)
- 			vbuf->field = V4L2_FIELD_NONE;
--		if (vbuf->field != V4L2_FIELD_NONE) {
--			dev_err(inst->core->dev, "%s field isn't supported\n",
--				__func__);
--			return -EINVAL;
--		}
- 	}
- 
- 	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
+> since the RK3588 related changes in the binding (not the DTS ones) got already
+> released (i.e. since v6.17). That's also the reason we went with this deprecated
+> order approach.
+> 
+>> The new commit
+>> message I am happy with, provided you also add the information Nicolas
+>> provided about the impact on users.
+> 
+> Nicolas, can you please provide here the statement so that we can agree on the
+> wording?
+> 
+> Thanks,
+> Cristian
+> 
+>>
+>>>
+>>> How about the following:
+>>>
+>>>     With the introduction of the RK3588 SoC, and RK3576 afterwards, three
+>>>     register blocks have been provided for the video decoder unit instead of
+>>>     just one, which are further referenced in the datasheet by 'link table',
+>>>     'function' and 'cache'.  The former is present at the top of the
+>>>     listing, starting at video decoder unit base address.
+>>>
+>>>     However, while documenting RK3588, the binding broke the convention
+>>>     expecting the unit address to indicate the start of the primary register
+>>>     range, i.e. the 'function' block got listed before the 'link' one.
+>>>
+>>>     Since the binding changes have been already released and a fix would
+>>>     bring up an ABI break, mark the current 'reg-names' ordering as
+>>>     deprecated and introduce an alternative 'link,function,cache' listing
+>>>     which follows the address-based ordering according to the TRM.
+>>>
+>>>     Additionally, drop the 'reg' description items as the order is not fixed
+>>>     anymore, while the information they offer is not very relevant anyway.
+>>>
+>>> Regards,
+>>> Cristian
+> 
 
----
-base-commit: 779cae956c8316aebc1946ef86ca001f99658270
-change-id: 20260228-venus-mpeg2-495f9187a1ec
 
 Best regards,
--- 
-With best wishes
-Dmitry
-
+Krzysztof
 
