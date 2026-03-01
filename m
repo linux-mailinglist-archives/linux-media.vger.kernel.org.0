@@ -1,56 +1,58 @@
-Return-Path: <linux-media+bounces-53896-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53897-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QERDGtaWo2l7HQUAu9opvQ
-	(envelope-from <linux-media+bounces-53896-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:31:02 +0100
+	id 2O0mO5OUo2l7HQUAu9opvQ
+	(envelope-from <linux-media+bounces-53897-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:21:23 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C47191CAD92
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:31:01 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F911CA40D
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:21:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9802730E566D
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:20:34 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C9D283018F26
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:20:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49B4627E045;
-	Sun,  1 Mar 2026 01:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4EA27E1C5;
+	Sun,  1 Mar 2026 01:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="relivqiJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdpVVo9y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20991A3154;
-	Sun,  1 Mar 2026 01:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35831482E8;
+	Sun,  1 Mar 2026 01:20:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328021; cv=none; b=IDF5YRKOVmSm1T5JK6OPww3+Ry3fQWPGIjQPW3mHBuQUagDozB/wQDb7d3Oy/i2AGyuBPlpvJ42KOGv+L9MSNQCVOAxOwEooifjrqjfbkKYbkqiX9PjV5wdH0/C0SlXtqC1NJubGYExdeUhPtQyCN2yfF3T3RQ0eHs2hKjH5+a4=
+	t=1772328023; cv=none; b=iZYgYptEILpBrUZcKBEjvIxD1H69DXOR+hx0PJOmgeCTpn+E6GZRXEVSRQPY0cPkMwoKhxjVFw2nbWSyLzGJufwbZ1eiyw/wmaOjmaBIuwIB1RaeapM8MgYq1MJtZ0d2ek3Pz4k0FpcvS3kpnuYxd2gU5fgSE5bIPZAXxuuzK0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328021; c=relaxed/simple;
-	bh=2/dPs9eA+52/abNbJJpxJoJNph69SlOXiKofjthZ+3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sVRGlRb82MzboekeThVdoqW2loWWvZWVzgQI5BR3b1OrZ/0U7Ic6nkFlZb6dxVJo+N8OXDTPDDtV/Uk8EwQIhqpLA4X1didpR5h0MVBAbpu36QoEuBnuVpdI1kSaKxUUCTKxMGtwJOuWuIxT5BtBZPDj2Mq0L9TlP2OCj2usog4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=relivqiJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F4BC19421;
-	Sun,  1 Mar 2026 01:20:20 +0000 (UTC)
+	s=arc-20240116; t=1772328023; c=relaxed/simple;
+	bh=kRqpd2NzPMnvpTLv0h4o1Lz6drKBt7Ff6POLyR9OC64=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qYVRoGKmx1uw/SlAIlEL3OhnVTOxH472GuIOito0xfmMN3Nh+QT/aYdCHnJ6rpF3SlYkyshKXBb/fD1RYYk9/H5jPX8MrVsnfOv8c48Q96rbB1ZxIpKFkBPFlaneLY6xUokaNxCoxXz8NhpVJSmu0ihiJWE+923ZzKszAh8cfAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdpVVo9y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A54C19421;
+	Sun,  1 Mar 2026 01:20:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328021;
-	bh=2/dPs9eA+52/abNbJJpxJoJNph69SlOXiKofjthZ+3c=;
+	s=k20201202; t=1772328023;
+	bh=kRqpd2NzPMnvpTLv0h4o1Lz6drKBt7Ff6POLyR9OC64=;
 	h=From:To:Cc:Subject:Date:From;
-	b=relivqiJNsXqOX34LiD0kecDA9zG5QHeTkEGXLq2fNp5sBCg3nZ/ydd+BJNGvfTDg
-	 7/gA+mKyy1OPt8lwXqazsgWksT30C2O/t5yUCW70POf0IZyFb3Wxqt7VabcZRkn3Yx
-	 QKlpewmoMeQtRj8mdkELDPSek+uXQpM7gThqfvVJGbYKM3GzruSA4+XqPxtWdtgrv4
-	 24IE/iECaAtiKLbrQMOQYCBjDf6fhDHLsaHpuPIhbpk/6E90T2o9Ue8CNplOO72nXl
-	 C5TA+QBOYX1xXlerkfa3e5iMLvqXJu1ktYXmCsC+rAYvYrp2hOafbuFSlyuX7VrAnb
-	 pTJBMtRB5wB8g==
+	b=TdpVVo9yfrkm/UOi2gSca4s8322TELDvyWVJFXNuopEgEM4PrxLLmSMYWGjWg5kWe
+	 ZvtAHJtg9neBEr+ShbAtEcfY7sIIO6ZBSvdrkoxCa+gjKLZOBFHdCVw6Fd174Iyiy2
+	 KpHlTjHclfNFzgMogD6ohXgvDVTaVmksZPSHCDH3XmdsRMjwe0MpvR4wjBkKl9QVIZ
+	 a3bcYdRzPSHCi4e2L1mjAPuUsA3ueqyYEbtEJfSArmX+FZ5Kq9lyAvZyRqZo5Y4xVA
+	 w29WoJnLHI4MWfb+VaHPfL2OQzH+mQpq58kPHSeNtiepUDU/W0pyzGGtKN5FuexeZs
+	 0Bwcv84WT5djA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	nihaal@cse.iitm.ac.in
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	jai.luthra@ideasonboard.com
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: i2c/tw9903: Fix potential memory leak in tw9903_probe()" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:20:19 -0500
-Message-ID: <20260301012019.1675846-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: i2c: ov5647: Initialize subdev before controls" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:20:21 -0500
+Message-ID: <20260301012021.1675895-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -67,19 +69,19 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53896-lists,linux-media=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-53897-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
@@ -87,9 +89,9 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C47191CAD92
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 94F911CA40D
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -102,36 +104,51 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 9cea16fea47e5553f51d10957677ff735b1eff03 Mon Sep 17 00:00:00 2001
-From: Abdun Nihaal <nihaal@cse.iitm.ac.in>
-Date: Tue, 23 Dec 2025 11:18:13 +0530
-Subject: [PATCH] media: i2c/tw9903: Fix potential memory leak in
- tw9903_probe()
+From eee13cbccacb6d0a3120c126b8544030905b069d Mon Sep 17 00:00:00 2001
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Date: Mon, 22 Dec 2025 13:45:25 +0530
+Subject: [PATCH] media: i2c: ov5647: Initialize subdev before controls
 
-In one of the error paths in tw9903_probe(), the memory allocated in
-v4l2_ctrl_handler_init() and v4l2_ctrl_new_std() is not freed. Fix that
-by calling v4l2_ctrl_handler_free() on the handler in that error path.
+In ov5647_init_controls() we call v4l2_get_subdevdata, but it is
+initialized by v4l2_i2c_subdev_init() in the probe, which currently
+happens after init_controls(). This can result in a segfault if the
+error condition is hit, and we try to access i2c_client, so fix the
+order.
 
+Fixes: 4974c2f19fd8 ("media: ov5647: Support gain, exposure and AWB controls")
 Cc: stable@vger.kernel.org
-Fixes: 0890ec19c65d ("[media] tw9903: add new tw9903 video decoder")
-Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+Suggested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/i2c/tw9903.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/i2c/ov5647.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/tw9903.c b/drivers/media/i2c/tw9903.c
-index b996a05e56f28..c3eafd5d5dc82 100644
---- a/drivers/media/i2c/tw9903.c
-+++ b/drivers/media/i2c/tw9903.c
-@@ -228,6 +228,7 @@ static int tw9903_probe(struct i2c_client *client)
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index e193fef4fcedf..f9fac858dc7ba 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -1420,15 +1420,15 @@ static int ov5647_probe(struct i2c_client *client)
  
- 	if (write_regs(sd, initial_registers) < 0) {
- 		v4l2_err(client, "error initializing TW9903\n");
-+		v4l2_ctrl_handler_free(hdl);
- 		return -EINVAL;
- 	}
+ 	sensor->mode = OV5647_DEFAULT_MODE;
  
+-	ret = ov5647_init_controls(sensor);
+-	if (ret)
+-		goto mutex_destroy;
+-
+ 	sd = &sensor->sd;
+ 	v4l2_i2c_subdev_init(sd, client, &ov5647_subdev_ops);
+ 	sd->internal_ops = &ov5647_subdev_internal_ops;
+ 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
+ 
++	ret = ov5647_init_controls(sensor);
++	if (ret)
++		goto mutex_destroy;
++
+ 	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+ 	ret = media_entity_pads_init(&sd->entity, 1, &sensor->pad);
 -- 
 2.51.0
 
