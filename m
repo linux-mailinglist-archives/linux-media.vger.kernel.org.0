@@ -1,58 +1,57 @@
-Return-Path: <linux-media+bounces-53965-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53966-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qFp/LUqao2kwIAUAu9opvQ
-	(envelope-from <linux-media+bounces-53965-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:45:46 +0100
+	id YAMuHl+do2k3IQUAu9opvQ
+	(envelope-from <linux-media+bounces-53966-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:58:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B1C1CB9A0
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:45:46 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D27471CC798
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:58:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 781CA3031024
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:41:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 407E431C6919
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:42:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D582E06E6;
-	Sun,  1 Mar 2026 01:41:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3109629B795;
+	Sun,  1 Mar 2026 01:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRxpzBs0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MEckp6yd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5BE29A9E9;
-	Sun,  1 Mar 2026 01:41:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976D42D9484;
+	Sun,  1 Mar 2026 01:41:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772329297; cv=none; b=mg64TyWZYD9ZyRf9eNeNe9pojdF4G3DMKFrxZmxbLjPqPGMR72WH4NVHax8Jp+wavCwxNDuEyBqNjLlb0ZvMz0/K05cqzvN0kJs1L9Xld3xZgfYoc9hxWJU9zpK7yWUqi9RVzECVCt8ExtPVBviIzC8GrP0tmge7+NQ5kx61BB8=
+	t=1772329299; cv=none; b=HBQvfZZHoa0m76guEDUkaHDqR8Fl97EZAygrWbx9Lcgv8dhd5Oz0wcl+zr3L2g2y7PA7/1tmOEgfd5lvUACcOm9kTQvijGvKi8SkOPRs6rsnm+OdZDKEBoX2DmxfPISP1eJZbPYR3Emr7x6MtGmfDAY6RYsuPAjnNVXxW2lym9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772329297; c=relaxed/simple;
-	bh=pBhVs9+Lcm0Omvzk/QJmtYsmls2+sBIhzgkRj715Og4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K24hfkIWZY2Lp3TkCmoRVLIlwznRjVMdw55qUtsIQOpXF5TfWa+H4Yf+7owA9RJy13mpjFxNExtbFhlb8A1WWwqMpPj1uh5xJ5hIYfVpUqKlhFCS5u5HK9NVAbjnJt1cJp9NGRhXZjSH/RnOTDIXRsjuv13byWJZFc72svI7NNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRxpzBs0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80840C19421;
-	Sun,  1 Mar 2026 01:41:36 +0000 (UTC)
+	s=arc-20240116; t=1772329299; c=relaxed/simple;
+	bh=TjK96KVMnWT4QXd4EnwpEaJFRh0NLRfbkfOtGhlGLRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HVQ/dq4wredWfuw6Mehwhri9VRZmgKeJ4WSGMOKe2i8MO6SQ0jR1ait0ciMIKQT9nSEkMwkMGPWrAnROGBRs0BFWNRqXnsC9EZRdmC0/rp71o/6zK8dfAr84bCYHD3cxL4/bWKus2az0ouhLkgZRlT6WPMhDWVIlHj549oMzoDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MEckp6yd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2BEFC19421;
+	Sun,  1 Mar 2026 01:41:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772329297;
-	bh=pBhVs9+Lcm0Omvzk/QJmtYsmls2+sBIhzgkRj715Og4=;
+	s=k20201202; t=1772329299;
+	bh=TjK96KVMnWT4QXd4EnwpEaJFRh0NLRfbkfOtGhlGLRQ=;
 	h=From:To:Cc:Subject:Date:From;
-	b=KRxpzBs0vWrFXFg8Ntjhr3d85r12xzGAmM4GNOGfsae3cgy2uezevHCjeJkGdnuD2
-	 RuSDh83p/JZieryRHcGLkxsE/N78DhSiO5P6v7kXqG6SNF3TBaZS5Wxbj/QkwWz5MP
-	 J+47N8MokziOfxx1S3GrLx1YumYhjiBmm/peilZhTvL7kQxLmnp6GeH7onGHkyEZU2
-	 8rPw60fc8MXGbmKcXXhz/SZBA9J1UguHNN/rFtCmUVBx4EdIoK2MxowwaK75piQ42I
-	 S1s/91DNbCm2QjrrXsQl0CDJ2einCc5h5dwSOlQtuGmOLwYBe+huPpGsey1f2AqryS
-	 l85547/d7sukw==
+	b=MEckp6ydKJwd1p8tbjogP81ylEOqpLCj56UNmcruv0o++LyP+tlmrYuTQyTJKMX7u
+	 BAaY+fnRSmOiUN5Q+1D+flWOuhTy8Pt9fBKKkFPj/6OINbBw3Ic2eKNW0RqRouamqL
+	 3kvrYlqrvicpwYPlqCsie7XKtg+I3oQJZUkDvsPmfzpGF0/EBPUEIZ2J/U0M/qkQLV
+	 gmMfMG44GlgGo538A3h8Q896TbOSeqtNj3nnoyzlmtgl8zWVUVj+KusIBdESoIp0Ct
+	 SQ9dzlv1etNXJ8YmZz+BRcjWTHpj6qj7XTjAQbnELM+Cb/vjPntfg0pqbuEeNztN0o
+	 kAINYP/CJ7yBw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	sakari.ailus@linux.intel.com
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
+	xiaolei.wang@windriver.com
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: ccs: Avoid possible division by zero" failed to apply to 6.1-stable tree
-Date: Sat, 28 Feb 2026 20:41:35 -0500
-Message-ID: <20260301014135.1703246-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: i2c: ov5647: use our own mutex for the ctrl lock" failed to apply to 6.1-stable tree
+Date: Sat, 28 Feb 2026 20:41:37 -0500
+Message-ID: <20260301014137.1703297-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -64,34 +63,35 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53965-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53966-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.998];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 72B1C1CB9A0
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: D27471CC798
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.1-stable tree.
@@ -104,40 +104,39 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 679f0b7b6a409750a25754c8833e268e5fdde742 Mon Sep 17 00:00:00 2001
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Tue, 25 Nov 2025 00:24:48 +0200
-Subject: [PATCH] media: ccs: Avoid possible division by zero
+From 973e42fd5d2b397bff34f0c249014902dbf65912 Mon Sep 17 00:00:00 2001
+From: Xiaolei Wang <xiaolei.wang@windriver.com>
+Date: Fri, 5 Dec 2025 15:19:18 +0800
+Subject: [PATCH] media: i2c: ov5647: use our own mutex for the ctrl lock
 
-Calculating maximum M for scaler configuration involves dividing by
-MIN_X_OUTPUT_SIZE limit register's value. Albeit the value is presumably
-non-zero, the driver was missing the check it in fact was. Fix this.
+__v4l2_ctrl_handler_setup() and __v4l2_ctrl_modify_range() contains an
+assertion to verify that the v4l2_ctrl_handler::lock is held, as it should
+only be called when the lock has already been acquired. Therefore use our
+own mutex for the ctrl lock, otherwise a warning will be reported.
 
-Reported-by: Josh Poimboeuf <jpoimboe@kernel.org>
-Closes: https://lore.kernel.org/all/ahukd6b3wonye3zgtptvwzvrxldcruazs2exfvll6etjhmcxyj@vq3eh6pd375b/
-Fixes: ccfc97bdb5ae ("[media] smiapp: Add driver")
-Cc: stable@vger.kernel.org # for 5.15 and later
+Fixes: 4974c2f19fd8 ("media: ov5647: Support gain, exposure and AWB controls")
+Cc: stable@vger.kernel.org
+Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+[Sakari Ailus: Fix a minor conflict.]
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Tested-by: Nathan Chancellor <nathan@kernel.org> # build
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ov5647.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index f8523140784c7..dadff8c506794 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -2346,7 +2346,7 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
- 		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
- 	max_m = crops[CCS_PAD_SINK]->width
- 		* CCS_LIM(sensor, SCALER_N_MIN)
--		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
-+		/ (CCS_LIM(sensor, MIN_X_OUTPUT_SIZE) ?: 1);
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index 1041732104fa7..6285e234962e0 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -1248,6 +1248,8 @@ static int ov5647_init_controls(struct ov5647 *sensor)
  
- 	a = clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
- 		  CCS_LIM(sensor, SCALER_M_MAX));
+ 	v4l2_ctrl_handler_init(&sensor->ctrls, 14);
+ 
++	sensor->ctrls.lock = &sensor->lock;
++
+ 	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+ 			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
+ 
 -- 
 2.51.0
 
