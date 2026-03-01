@@ -1,56 +1,59 @@
-Return-Path: <linux-media+bounces-53899-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53900-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8J3WBBuVo2n3HQUAu9opvQ
-	(envelope-from <linux-media+bounces-53899-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:23:39 +0100
+	id 2DMQL6KUo2l7HQUAu9opvQ
+	(envelope-from <linux-media+bounces-53900-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:21:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BE71CA66C
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:23:38 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BAA1CA434
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:21:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A5A33301113E
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:20:44 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 679203012B70
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:20:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E840274B32;
-	Sun,  1 Mar 2026 01:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D9D274B4A;
+	Sun,  1 Mar 2026 01:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pRO4zMUg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SAej5zX1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A695213B7AE;
-	Sun,  1 Mar 2026 01:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2753C25F7B9;
+	Sun,  1 Mar 2026 01:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328028; cv=none; b=fwQRrKC9g4D9Pczt4va1qcuzQhuIMiWqBKfG+Jec2B1DvNUnw+ydzK6Rn4vhmiISGBhq4IE1nknMBeNqkP3VOLYXcPLvUemkL2WxOWBCCbghNUpAYWCslYyS5lUP2/gYMtyI6RIp6CW9nQBU3awGtJzIMq8HTtS9CO5MxrsQkQ8=
+	t=1772328031; cv=none; b=TiyXSskba5G9muay57G0MT6pqx6vPWq8wiy3VlnbkYQhuVabQpBUcgEaJPng11Gxe9Huu7sI7fN4m4i7D8gX8YK5woR8NhzrkOJBUjDxG+nBLGquF474FjzGr+CCMP8xqdrhjN73GMWqLISbar6AGWPyR2iNKlGrQowsbT009o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328028; c=relaxed/simple;
-	bh=UGu23dHQJwfPQzXP+ok/dxfy59Hff0n/1+nS5ct5AD4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=docCdmdwsl7k92+8upRHckOnQqXeK3x3tg0JWQTHxbvWWau+4S3Euh8I174nI3c/GnyOS/K3UXo3S5mo+tuuAKNBoFR8rvUnKhh2cTkSywYieuTfJGyU2ti3IaZYgYpGnhNkcPRqJnpHwdHhF4Id9yezsC7CRGSc8szWRP1CbC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pRO4zMUg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C436C19421;
-	Sun,  1 Mar 2026 01:20:27 +0000 (UTC)
+	s=arc-20240116; t=1772328031; c=relaxed/simple;
+	bh=SUWZfj1dip8uuVb4uMugNZhYc7shOB7K0kA6O53GtNU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kb95kaqvD0HObKfNhgx5YvKvDFIlRfLSUaRJzVx8npX++Zwbo1Qra/vHggiyUgpbA8OAu0nHtwtYTH7r4z8B8jxxlXqu1dJ1zwlRA8HNurF7juW1tL0XlNf1nDP9JE/8JaiiHT1kCVlpXZNUOyHAYXhZLuWSSjvXl7G+qC8sA78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SAej5zX1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FDB7C19421;
+	Sun,  1 Mar 2026 01:20:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328028;
-	bh=UGu23dHQJwfPQzXP+ok/dxfy59Hff0n/1+nS5ct5AD4=;
+	s=k20201202; t=1772328031;
+	bh=SUWZfj1dip8uuVb4uMugNZhYc7shOB7K0kA6O53GtNU=;
 	h=From:To:Cc:Subject:Date:From;
-	b=pRO4zMUgGM25dl0yxOFmh8WB+v3istFdtVyzV3rgMilMsmuLRLy/gdRaZ2/fJt2Dk
-	 dqx+PtjQ+0/JDPmkyFuGbj8rDpUtVnMLw4aAtH9VmpCAK+h2zM9Jl3gxec7RSw3GM/
-	 ymV0e5W4my9dRyvj0vCzk4sir5MDW//rGOOgtpGC3n18W6g7FrwInvaBj/2kwx00wE
-	 XFRoSE1In18xJPe6gSZO95SinRClsAkOabU4iSL973bYoGdjopCJ8g8JgF31Cx1kdN
-	 tHE0InWRfG+3myCzgs6dSHUkGaxBg/iClGtltzjWVmfAQLnDq0e9Q3omwMpx2VP4nk
-	 qTRwUcRJnnqXw==
+	b=SAej5zX1T3EoCaXi6fOYZrZdwXNheyMdeFvRJl7LT7LHCeUE2kPKP8e9PwH/dfvYG
+	 0e2dauuwDtYGZe+KYaOvjZ2luUppxDk4Ze/vhMmoX8gis8iCpxrp/UdwqCZd5FavOo
+	 qINHltfNB9ZnF1QTP7DOjDBkzc1vr/A4rsilTFIPonIrcAl8zvTSdxLTo9RLBRxIUA
+	 E/tkb06N1qlBeBHk9nGltd0P14MUeHpZN55NlDPs3ATeRfgL4t3yR2EZlSUNF7GpUr
+	 PbnLnu84/r8IgE+nTgkPyMwG/JzGkBpJ/2mFLxMoHa23m12U9rWKb5TANyi2vZfbzN
+	 S4bBw5SCJe/qA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	nihaal@cse.iitm.ac.in
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	david.plowman@raspberrypi.com
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: i2c/tw9906: Fix potential memory leak in tw9906_probe()" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:20:26 -0500
-Message-ID: <20260301012026.1675995-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: i2c: ov5647: Correct pixel array offset" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:20:28 -0500
+Message-ID: <20260301012029.1676044-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -62,34 +65,35 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53899-lists,linux-media=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53900-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 59BE71CA66C
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:email]
+X-Rspamd-Queue-Id: 34BAA1CA434
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -102,35 +106,37 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From cad237b6c875fbee5d353a2b289e98d240d17ec8 Mon Sep 17 00:00:00 2001
-From: Abdun Nihaal <nihaal@cse.iitm.ac.in>
-Date: Tue, 23 Dec 2025 11:19:01 +0530
-Subject: [PATCH] media: i2c/tw9906: Fix potential memory leak in
- tw9906_probe()
+From a4e62e597f21bb37db0ad13aca486094e9188167 Mon Sep 17 00:00:00 2001
+From: David Plowman <david.plowman@raspberrypi.com>
+Date: Mon, 22 Dec 2025 13:45:26 +0530
+Subject: [PATCH] media: i2c: ov5647: Correct pixel array offset
 
-In one of the error paths in tw9906_probe(), the memory allocated in
-v4l2_ctrl_handler_init() and v4l2_ctrl_new_std() is not freed. Fix that
-by calling v4l2_ctrl_handler_free() on the handler in that error path.
+The top offset in the pixel array is actually 6 (see page 3-1 of the
+OV5647 data sheet).
 
+Fixes: 14f70a3232aa ("media: ov5647: Add support for get_selection()")
 Cc: stable@vger.kernel.org
-Fixes: a000e9a02b58 ("[media] tw9906: add Techwell tw9906 video decoder")
-Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/i2c/tw9906.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/i2c/ov5647.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/tw9906.c b/drivers/media/i2c/tw9906.c
-index 6220f4fddbabc..0ab43fe42d7f4 100644
---- a/drivers/media/i2c/tw9906.c
-+++ b/drivers/media/i2c/tw9906.c
-@@ -196,6 +196,7 @@ static int tw9906_probe(struct i2c_client *client)
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index f9fac858dc7ba..d9e300406f58e 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -69,7 +69,7 @@
+ #define OV5647_NATIVE_HEIGHT		1956U
  
- 	if (write_regs(sd, initial_registers) < 0) {
- 		v4l2_err(client, "error initializing TW9906\n");
-+		v4l2_ctrl_handler_free(hdl);
- 		return -EINVAL;
- 	}
+ #define OV5647_PIXEL_ARRAY_LEFT		16U
+-#define OV5647_PIXEL_ARRAY_TOP		16U
++#define OV5647_PIXEL_ARRAY_TOP		6U
+ #define OV5647_PIXEL_ARRAY_WIDTH	2592U
+ #define OV5647_PIXEL_ARRAY_HEIGHT	1944U
  
 -- 
 2.51.0
