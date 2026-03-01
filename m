@@ -1,90 +1,95 @@
-Return-Path: <linux-media+bounces-54022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54023-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SryfB86opGkKoQUAu9opvQ
-	(envelope-from <linux-media+bounces-54022-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 21:59:58 +0100
+	id 8Al2JqaqpGkNogUAu9opvQ
+	(envelope-from <linux-media+bounces-54023-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 22:07:50 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641B51D192A
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 21:59:57 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E1B1D1980
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 22:07:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 867C63013A94
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 20:59:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BB8B1301410F
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 21:07:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAD5F329C5F;
-	Sun,  1 Mar 2026 20:59:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D680B33468F;
+	Sun,  1 Mar 2026 21:07:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jxx9yIoG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJwuXD4I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A2D2F5461
-	for <linux-media@vger.kernel.org>; Sun,  1 Mar 2026 20:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184333054EF
+	for <linux-media@vger.kernel.org>; Sun,  1 Mar 2026 21:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772398791; cv=none; b=lkXYPFH269cP2DEw/b0FZwzAiXBIHPGLIJs9JE5w8dz1Ry6sG+BAet+E6lTk5lcJTzI+If3tUvVKlmVzAaN5S9w/mgM+u31YxsIlJiXSMvVEgimWP6NO5dpOTnz95de6EwgmvlUsp9jh9iqVrZKvkzO6PD/mpNCfvRTKlyVoaiE=
+	t=1772399260; cv=none; b=RHxb/NsRKFXxqlfgQVexy1Bnv5bsd7sqvTmMhdPA+t58OQj/ocBY8ylRkoSQp/03ZWYn7OS4Pw4I/XKwacf/1N+gswQt9Ra43xAWWLLVovlIQzR8ICmSTEL6CsZ8L/rA39QU+LxsGEHSMygyfJqVYO6+pP1m+OQPGnzArq//3fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772398791; c=relaxed/simple;
-	bh=SlOWRADI3nROQA80eTEVqGMa/6yj1B2cTK7v2OlMqj0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SZ6yc0kP4kP0qTJAsafWTjv1jxlMGDuSYeA49EHPF1RYmUKwNvMpMP0vzRnSc6CrXZ+7hJLfS9iDg7wcO27Kr5EIygDq9Q/ztRVF1GSxCjx7pcEWweUVuREuvVZ8i+MKg4bgAHkxioKIxiASkvSnPd9o9EwMSfdbJJ/tUoRU2CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jxx9yIoG; arc=none smtp.client-ip=209.85.208.172
+	s=arc-20240116; t=1772399260; c=relaxed/simple;
+	bh=tn7ik9AyBb0NPDqOj5PKOQkDMxeMJ5eXuXxBu+YVLZk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GJZszPzZ0bRWlcmJRfgb2Xhks5cVuBYWWdNhrweneSFhcmvhRnxIgYIlihukaFw+IbY1PPW3JdJgm6euHjDLvkENKvebYvuid213oailKGJ5ETfJ8m0ctVmjttHNjfxZjxD2MhHEXaC8JGWkxsybsdFjSz3To+y/TQO1vqtsvLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJwuXD4I; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3870acaf78eso28327281fa.2
-        for <linux-media@vger.kernel.org>; Sun, 01 Mar 2026 12:59:49 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4834826e5a0so43539615e9.2
+        for <linux-media@vger.kernel.org>; Sun, 01 Mar 2026 13:07:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772398788; x=1773003588; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j6MHN8vujqeAy5voi2iD86dHKq8qVmHMYvFleDpHmjo=;
-        b=Jxx9yIoGP5zRDoAilGMiJcar2qm7Qdw0qxPL+e6T6UltYx/QU413ok0BiOR+kzUPhI
-         3V0dcFD7fnRpYYo6sSPLSPa1G/Uj6jycYsneQLKB6wAyIarEm2sOwf7jojwaS/jjim8a
-         TtENOnDQ0sjjE9Q5FksszDjQmkQSA4GJIdLuZKKnkwqbmfAs+64pYGAKr8QoFH/nOIB3
-         GQNDCidxIiCxwdBTFDCwRRXQmyzOlPTknB5P4Z0durgzc9qJwUcvRJ9PkNtNDTTHn6W4
-         CdFZFS/m6kn52P5cVEdZYlXN2mUiUXpxvSWuUklMMmtZtUrm7R4KR5AXFVIN5jlHiQRX
-         Q+4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772398788; x=1773003588;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772399257; x=1773004057; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j6MHN8vujqeAy5voi2iD86dHKq8qVmHMYvFleDpHmjo=;
-        b=xFSb59SxzduqhjPdkQDrTQQKp2E1VIynB8bij/bD0kJm6NnmPnIN6Xa7om34y+RW9M
-         nNKWjYGjj3+o0vH7YC0vA21RU6/c3h66KySkbUpicQaErl+z8zO7e3e1ULN6KrkKTK8K
-         rT72XxLSvJFvqNA2IBu4vIBLzyPBb1j0DhrM9UWIbeKGEUR9iS1m9A8hX3CpXEbXrpFj
-         1WPkQGZgOjFEgyznn+Un2Tt3vew651gLiCzlxMvhqTUwTva43iiJoqaNu0kVyPA3XB3a
-         gDa3O6A+XrXuO5qlr3AYGUsr6HqC/aHqaeGctVbdrJSoa0+a5Lvo++jaVdB+RCpz1Xwh
-         EVNA==
-X-Forwarded-Encrypted: i=1; AJvYcCVeQCRt2CBR8GCxgj5FobIzvboijeoqkFJJBQ0QDg2HIKT1xBO5Q8cdtCzZx2ef0pEaS+kUUBTsHOw9Lg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznQTo0rdWnyP+bv3oBnc5lk/BYA2UqDmT3W2N8DkkWlWkGUh1x
-	t/zrOq8tZ26KD3VVh5pct5Xmh2gNKcpO1p/B2z/yRbPk3ZuKX3p8MNIfYN231Q==
-X-Gm-Gg: ATEYQzyvNpfRCWBlOOpHOMwQFKcRjTSTM2x3fjS2YoCl9GAKnQgcTDFAS8FUA72O5Wx
-	BULUzwQPTDo0bqt5bMjug8C2WQlwuXs+cMyD+2mVqjqrmAHkILKg2PdlUhp1dmKnTaxmeD+l8yL
-	7mEQhlXgrTp29cMuIPrKWPM1mlPw1m0ZeLdk40aWzzu+KwsWI1K9w5VUb9bB/XGCw+b9GL235FE
-	Y0i0eQAib/2hvpLJW8PrgNqXFWJL6ZJ5kZ08XNxNkY9ixCg5Rp04/NlxFZR/Pu3VU49OV4ck2hd
-	fP2CGiQweTZxeqWGvFkqHS75TPnqCrFcHIit4SemCBnbuEbDBst/IbPBRlee1BdE+y8MFip1gW7
-	RysZC7qqw9V1UVBRGvZ0133+bPioJKJeuyCxWX49zr3pq1n3I1XXLFYeEBb3wKzMLAb1jCg3yw1
-	nbuGzU4oQEW+9Yy3PK03XQoeRMLLd9F42u3HG30+Ttokk4bi38NF+jKFUTfR89vAPd0xkfwl0q6
-	JozvlbBNfY8
-X-Received: by 2002:a2e:a9ac:0:b0:386:91a1:f206 with SMTP id 38308e7fff4ca-389ff119551mr68062701fa.5.1772398787562;
-        Sun, 01 Mar 2026 12:59:47 -0800 (PST)
-Received: from T6NXCV08J99224A.lan (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a115bca099sm1241737e87.32.2026.03.01.12.59.44
+        bh=hgyk8pX/VzX0B/Mf+s7nhMSchzyVmAxwHP9JMWom8BM=;
+        b=cJwuXD4IyGpz5kCC0HshUx5ELeyVVZT7uMYbrkOBPtJTlsxYSH3tMF+be5T+tSsmLA
+         wGTIt6TF1YdvM+QfGKfYMnu+WRyP+PXrtd9j4kcSfPDkmDkz63K3QWYyFPuQOtIPdNwk
+         6k1n6fLrQQ+v2wgiUWkVWFfjZaCZjY25sWIPDiGSJU83rkVO2CucrQSNBHhHCfj1M16c
+         80WwufzhsrAyxLcyyMlSSg0X7xzK7KqMiBgb7kI/HwyywU6LT0aVnX0WbkFFaBc6h6+T
+         vdManudwOOGU1URUcmXEE1HqBn/v858FFCntLTC2aW8q+ugbkTXQwxCPmxb/AJEcuHxO
+         lePQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772399257; x=1773004057;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hgyk8pX/VzX0B/Mf+s7nhMSchzyVmAxwHP9JMWom8BM=;
+        b=ZInAFGJcCXUIae/eVdRDhfiuQvI9jwsJawL0LCVYtyQwT4YFY0rBQJ0evBVucl7fg3
+         uYg+lP1ssYOUKbnBDRJ2toASSZD5BpJhjUG6zcakyaVSrPO78VJPoFqn/988XJ/GkTeF
+         eMtrPKlEGXnhgnOmoVf0XRVem3LM/Xg7d8tYNKs3r/H0Q9zjWw57iyYILegDKZgbvCOb
+         2BhdFr/0G+HTTK4c9uBwnYM2LBMMo4hipKBbzCEF8+VCr8ptNKIUnM8Ehp3+1oB1J3eE
+         uEQpDVj5LbYyTyyrpZ1LN8TwkVuGzZ8RAQqz6nR5p+7s6tx/4oK7tetpX9VOV6ChDtaV
+         XSoA==
+X-Gm-Message-State: AOJu0YwO2RX0Wh2aZV4nIg4cg1ddCAbVTmhddtbS4DCMNT9NhuuzyxNu
+	K4LORGoHxDG/WdNmaOLggEKBqFzVd+/UqvhzhNyeaKRxRmW5N8MELugH
+X-Gm-Gg: ATEYQzx1A9NZKadUiZQNUoqAQAePUgjkR+/R45Pt4P+Ks+9F/P8HMAgvvuNGZlWo/Fh
+	hjX6qV9/hVkpXNRM8Wf0H1eR/Sg18hSO25BSKEmz6kTK4nVcw0c5lf0073csfV61kv4v8aTdqIC
+	BQi87XehOFtHBpB4eBtfMUtaf/u/xTaKB0LwbpBsGKfkHaW9ir/f13tcpflYIYy5gSD4dF6jL77
+	3rJUPj95DbnIxD4CycMNUhWpGx2C52kwfnj4S9LNARLz8BAu9rMlNDYancGmFQlqOd9zt57ix4q
+	T6xWfRC7toV5M4Ujo3TgmMODW7n3pnYZhNkNmrEK+k+GhnJqm/VmFehng0rEDBFNkQY2yXwMzy0
+	gHk3Yfucvb2tZkKM8Qk9yPpNmIuIKON2ZTCzEjBt8FrK6gRJmCuzQKSko0eiRYvPbYD48ZzXbOw
+	==
+X-Received: by 2002:a05:600c:8b30:b0:483:afbb:a086 with SMTP id 5b1f17b1804b1-483c9c0e31amr163966695e9.29.1772399257214;
+        Sun, 01 Mar 2026 13:07:37 -0800 (PST)
+Received: from kimsufi.. ([2001:41d0:303:6f54::1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd6f26d7sm378556845e9.3.2026.03.01.13.07.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 12:59:46 -0800 (PST)
-From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-To: hansg@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-Subject: [PATCH] staging: atomisp: fix block comment style in atomisp_cmd.c
-Date: Sun,  1 Mar 2026 21:59:10 +0100
-Message-ID: <20260301205910.3308-1-rayfraytech@gmail.com>
+        Sun, 01 Mar 2026 13:07:36 -0800 (PST)
+From: Ruslan Valiyev <linuxoid@gmail.com>
+To: syzbot+639ebc6ec75e96674741@syzkaller.appspotmail.com,
+	"Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Ruslan Valiyev <linuxoid@gmail.com>
+Subject: [PATCH] media: vidtv: fix nfeeds state corruption on start_streaming failure
+Date: Sun,  1 Mar 2026 21:07:35 +0000
+Message-ID: <20260301210735.334110-1-linuxoid@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <698aaf77.050a0220.1ad825.0033.GAE@google.com>
+References: <698aaf77.050a0220.1ad825.0033.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,162 +98,93 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com];
-	TAGGED_FROM(0.00)[bounces-54022-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[syzkaller.appspotmail.com,gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,googlegroups.com,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-54023-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rayfraytech@gmail.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[linuxoid@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,639ebc6ec75e96674741];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 641B51D192A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url]
+X-Rspamd-Queue-Id: 03E1B1D1980
 X-Rspamd-Action: no action
 
-Fix block comments to use the proper kernel coding style by adding
-* on subsequent lines and moving trailing */ to a separate line.
+syzbot reported a memory leak in vidtv_psi_service_desc_init [1].
 
-Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+When vidtv_start_streaming() fails inside vidtv_start_feed(), the
+nfeeds counter is left incremented even though no feed was actually
+started. This corrupts the driver state: subsequent start_feed calls
+see nfeeds > 1 and skip starting the mux, while stop_feed calls
+eventually try to stop a non-existent stream.
+
+This state corruption can also lead to memory leaks, since the mux
+and channel resources may be partially allocated during a failed
+start_streaming but never cleaned up, as the stop path finds
+dvb->streaming == false and returns early.
+
+Fix by decrementing nfeeds back when start_streaming fails, keeping
+the counter in sync with the actual number of active feeds.
+
+[1]
+BUG: memory leak
+unreferenced object 0xffff888145b50820 (size 32):
+ comm "syz.0.17", pid 6068, jiffies 4294944486
+ backtrace (crc 90a0c7d4):
+  vidtv_psi_service_desc_init+0x74/0x1b0 drivers/media/test-drivers/vidtv/vidtv_psi.c:288
+  vidtv_channel_s302m_init+0xb1/0x2a0 drivers/media/test-drivers/vidtv/vidtv_channel.c:83
+  vidtv_channels_init+0x1b/0x40 drivers/media/test-drivers/vidtv/vidtv_channel.c:524
+  vidtv_mux_init+0x516/0xbe0 drivers/media/test-drivers/vidtv/vidtv_mux.c:518
+  vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
+  vidtv_start_feed+0x33e/0x4d0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
+
+Fixes: f90cf6079bf67 ("media: vidtv: add a bridge driver")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+639ebc6ec75e96674741@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=639ebc6ec75e96674741
+Signed-off-by: Ruslan Valiyev <linuxoid@gmail.com>
 ---
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 40 ++++++++++++-------
- 1 file changed, 25 insertions(+), 15 deletions(-)
+ drivers/media/test-drivers/vidtv/vidtv_bridge.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index fec369575d88..5bc1541b1e40 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1381,7 +1381,8 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 		return;
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+index b6203e10e37aa..a8a76434989c2 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+@@ -237,8 +237,10 @@ static int vidtv_start_feed(struct dvb_demux_feed *feed)
  
- 	/* We must free all buffers because they no longer match
--	   the grid size. */
-+	 * the grid size.
-+	 */
- 	atomisp_css_free_stat_buffers(asd);
- 
- 	err = atomisp_alloc_css_stat_bufs(asd, ATOMISP_INPUT_STREAM_GENERAL);
-@@ -1391,10 +1392,11 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
+ 	if (dvb->nfeeds == 1) {
+ 		ret = vidtv_start_streaming(dvb);
+-		if (ret < 0)
++		if (ret < 0) {
++			dvb->nfeeds--;
+ 			rc = ret;
++		}
  	}
  
- 	if (atomisp_alloc_3a_output_buf(asd)) {
--		/* Failure for 3A buffers does not influence DIS buffers */
-+		/* Failure for 3A buffers does not influence DIS buffers. */
- 		if (asd->params.s3a_output_bytes != 0) {
- 			/* For SOC sensor happens s3a_output_bytes == 0,
--			 * using if condition to exclude false error log */
-+			 * using if condition to exclude false error log.
-+			 */
- 			dev_err(isp->dev, "Failed to allocate memory for 3A statistics\n");
- 		}
- 		goto err;
-@@ -1687,8 +1689,9 @@ int atomisp_3a_stat(struct atomisp_sub_device *asd, int flag,
- 
- 	if (atomisp_compare_grid(asd, &config->grid_info) != 0) {
- 		/* If the grid info in the argument differs from the current
--		   grid info, we tell the caller to reset the grid size and
--		   try again. */
-+		 * grid info, we tell the caller to reset the grid size and
-+		 * try again.
-+		 */
- 		return -EAGAIN;
- 	}
- 
-@@ -2463,8 +2466,9 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		    memcmp(&coefs->grid, cur, sizeof(coefs->grid))) {
- 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
- 			/* If the grid info in the argument differs from the current
--			grid info, we tell the caller to reset the grid size and
--			try again. */
-+			 * grid info, we tell the caller to reset the grid size and
-+			 * try again.
-+			 */
- 			return -EAGAIN;
- 		}
- 
-@@ -2519,8 +2523,9 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		    memcmp(&dvs2_coefs.grid, cur, sizeof(dvs2_coefs.grid))) {
- 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
- 			/* If the grid info in the argument differs from the current
--			grid info, we tell the caller to reset the grid size and
--			try again. */
-+			 * grid info, we tell the caller to reset the grid size and
-+			 * try again.
-+			 */
- 			return -EAGAIN;
- 		}
- 
-@@ -3027,7 +3032,8 @@ int atomisp_param(struct atomisp_sub_device *asd, int flag,
- 
- 		/* We always return the resolution and stride even if there is
- 		 * no valid metadata. This allows the caller to get the
--		 * information needed to allocate user-space buffers. */
-+		 * information needed to allocate user-space buffers.
-+		 */
- 		config->metadata_config.metadata_height = asd->
- 			stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream_info.
- 			metadata_info.resolution.height;
-@@ -3278,7 +3284,8 @@ atomisp_bytesperline_to_padded_width(unsigned int bytesperline,
- 	case IA_CSS_FRAME_FORMAT_RGBA888:
- 		return bytesperline / 4;
- 	/* The following cases could be removed, but we leave them
--	   in to document the formats that are included. */
-+	 * in to document the formats that are included.
-+	 */
- 	case IA_CSS_FRAME_FORMAT_NV11:
- 	case IA_CSS_FRAME_FORMAT_NV12:
- 	case IA_CSS_FRAME_FORMAT_NV16:
-@@ -3315,8 +3322,9 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
- 			   arg->fmt.bytesperline, sh_format);
- 
- 	/* Note: the padded width on an ia_css_frame is in elements, not in
--	   bytes. The RAW frame we use here should always be a 16bit RAW
--	   frame. This is why we bytesperline/2 is equal to the padded with */
-+	 * bytes. The RAW frame we use here should always be a 16bit RAW
-+	 * frame. This is why we bytesperline/2 is equal to the padded width.
-+	 */
- 	if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
- 				       sh_format, padded_width, 0)) {
- 		ret = -ENOMEM;
-@@ -3926,7 +3934,8 @@ static inline int atomisp_set_sensor_mipi_to_isp(
- 	}
- 
- 	/* Compatibility for sensors which provide no media bus code
--	 * in s_mbus_framefmt() nor support pad formats. */
-+	 * in s_mbus_framefmt() nor support pad formats.
-+	 */
- 	if (mipi_info && mipi_info->input_format != -1) {
- 		bayer_order = mipi_info->raw_bayer_order;
- 
-@@ -4385,7 +4394,8 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 			V4L2_SEL_TGT_CROP);
- 
- 	/* Try to enable YUV downscaling if ISP input is 10 % (either
--	 * width or height) bigger than the desired result. */
-+	 * width or height) bigger than the desired result.
-+	 */
- 	if (!IS_MOFD ||
- 	    isp_sink_crop.width * 9 / 10 < f->fmt.pix.width ||
- 	    isp_sink_crop.height * 9 / 10 < f->fmt.pix.height ||
+ 	mutex_unlock(&dvb->feed_lock);
 -- 
 2.43.0
 
