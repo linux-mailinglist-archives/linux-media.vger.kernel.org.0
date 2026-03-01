@@ -1,60 +1,59 @@
-Return-Path: <linux-media+bounces-53912-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53913-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yKgCLT+Vo2n3HQUAu9opvQ
-	(envelope-from <linux-media+bounces-53912-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:24:15 +0100
+	id EFw7DdmUo2n3HQUAu9opvQ
+	(envelope-from <linux-media+bounces-53913-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:22:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0C41CA6C5
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:24:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E51771CA509
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:22:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 160C13027955
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:22:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DEE62301A2BA
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:22:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AFB4275B18;
-	Sun,  1 Mar 2026 01:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C2EF27CCF2;
+	Sun,  1 Mar 2026 01:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tmjbl5PW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbyuDEph"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820182BD0B;
-	Sun,  1 Mar 2026 01:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD032BD0B;
+	Sun,  1 Mar 2026 01:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328138; cv=none; b=kVBOvibkZUcRIW16DBJ/W70QCBRPgfVAPXepCUjPn7IOQPCvnKC/8Zh0FWzdE35tffC6tIvYvT/DgAkerDZoa8qsYrAzL7eFLTu6ZjkLa7YHyXUhkJPK7x7Bj1s5g3FphXV+r4HaWcoEiP6xNDCkDgqbTl1qPDW0U62YFQOdhoU=
+	t=1772328141; cv=none; b=C1T8V6hTWtLg2OqXdiNBFiZlNT2Oq0ghaxHfcmvashHOUvvK3cg4LDO9Tg/nQ398JxaYO6vrSkYNsuo/pnB/XitupZMV35QdQqiK61JDW/R+kvIybDbKY6SZsQqOGUvUWC/ICgd1wfGiO4kJcEq/bBI0kGkafz6ElBAHzUqwfIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328138; c=relaxed/simple;
-	bh=YXhn7mB2zxwROTnTS2LjnMmTHIEFY8/g9noU56p/vec=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N5CL0Jn7PkXBoVIGsODHinPG0K1fTffX44FK/mf5UgksvogtNKt595PAoH8Cpz34mFKUe2I6e/QJciOEVS6Q0Sl2ebkuDA57Ml5LZ3bWoYXid+H92TLjtJ4b0Xd8OFRhyadvo0KZm9o/vUO8cPZrLG1IlKxEGBfN0t/4TNredGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tmjbl5PW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F60EC19421;
-	Sun,  1 Mar 2026 01:22:17 +0000 (UTC)
+	s=arc-20240116; t=1772328141; c=relaxed/simple;
+	bh=enbfl7CPle6WFkjpMVD+2IY9JcsTP4Svo/FEFgb60Ao=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=swe20dZX9NHQcpV6er8Z/LnQeRdtj0mdyHbpguXhxiPdGWL+HTOOLrb2AAOpGexkbkZUhc8FHiZTTGHEt0fw1vcPEeq27dEp3kfIwrTG7pqFsT+2aOLilegzg+87oit7MCG4TrjZF0pvJCpOpaEkht0Uwv+nUl3y83qtCXRZkfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbyuDEph; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281CEC19424;
+	Sun,  1 Mar 2026 01:22:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328138;
-	bh=YXhn7mB2zxwROTnTS2LjnMmTHIEFY8/g9noU56p/vec=;
+	s=k20201202; t=1772328140;
+	bh=enbfl7CPle6WFkjpMVD+2IY9JcsTP4Svo/FEFgb60Ao=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Tmjbl5PWssUKRG5vHHxidOo3C8O5U1jTC2DOB513kMm4s2GL42IYqCEG2RSRSJ29A
-	 0lTN1aDOuJ4Cqb3yP4hAMxUYVxFA89eTTXWex7EJ6oMhnLNZPDOEd0BXnwFbM4eLHq
-	 qRKGuBgefEy1rJ2tBgfBJOGushkFoVbiZFQUkeZbHGJ2+XVqI+E8WzyTNja+BYRXUh
-	 0/ZfOR2QLq0YhDMeZaRmCXto5SsZ+GZiV6CrHssxtZDcQO7fSBhprXyzgrhE0VjKMS
-	 x45qOq8rH3vxN46TmuZ/ZQzaqOsYBPRPgu/864O6QpMrdJmwoPpPLBHW/qS5tIQE46
-	 P/v4znpHeMCvw==
+	b=hbyuDEphdq/PI96X7wcrzmH1juFzZ41YZjihU+fUPG0yNTy8tXZ2+/4Sg1Ty0O5EN
+	 jIFnszE2hPJwfvdT+pgouGHTBK5If0z4doZLJ9XnZLH7/zNqu4GBOPEMzgL+DjsKkk
+	 4tXzvPg37VPFbfZGXR1FU27X1Vf1JwCTH4d6W4W9dARQWrIyxh/VGFsgNdkqw6xqJC
+	 p7WtTAAsj+WDNbXwFI1zHF0PLftnjBxjsTUU+vb6Gv0K8RHBq0vbzUkaSiCXv/JiZU
+	 F44WS1jy0pNgrv7FCr1PCglnaOSg/ffz5l7ah/X3ra0Ec8ahoZNreFXN8Z5svtSP4C
+	 mTafq9o3vC1gQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	dikshita.agarwal@oss.qualcomm.com
-Cc: Mecid <mecid@mecomediagroup.de>,
-	Renjiang Han <renjiang.han@oss.qualcomm.com>,
+	renjiang.han@oss.qualcomm.com
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
 	Bryan O'Donoghue <bod@kernel.org>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org
-Subject: FAILED: Patch "media: venus: vdec: restrict EOS addr quirk to IRIS2 only" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:22:16 -0500
-Message-ID: <20260301012216.1678454-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: venus: vdec: fix error state assignment for zero bytesused" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:22:18 -0500
+Message-ID: <20260301012219.1678606-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -71,13 +70,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53912-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53913-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -85,15 +84,15 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 5D0C41CA6C5
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: E51771CA509
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -106,64 +105,49 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 63c072e2937e6c9995df1b6a28523ed2ae68d364 Mon Sep 17 00:00:00 2001
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-Date: Tue, 25 Nov 2025 11:04:19 +0530
-Subject: [PATCH] media: venus: vdec: restrict EOS addr quirk to IRIS2 only
+From 93ecd6ee95c38cb533fa25f48d3c1c8cb69f410f Mon Sep 17 00:00:00 2001
+From: Renjiang Han <renjiang.han@oss.qualcomm.com>
+Date: Thu, 11 Dec 2025 15:20:39 +0530
+Subject: [PATCH] media: venus: vdec: fix error state assignment for zero
+ bytesused
 
-On SM8250 (IRIS2) with firmware older than 1.0.087, the firmware could
-not handle a dummy device address for EOS buffers, so a NULL device
-address is sent instead. The existing check used IS_V6() alongside a
-firmware version gate:
+When hfi_session_flush is issued, all queued buffers are returned to
+the V4L2 driver. Some of these buffers are not processed and have
+bytesused = 0. Currently, the driver marks such buffers as error even
+during drain operations, which can incorrectly flag EOS buffers.
 
-    if (IS_V6(core) && is_fw_rev_or_older(core, 1, 0, 87))
-        fdata.device_addr = 0;
-    else
-	fdata.device_addr = 0xdeadb000;
+Only capture buffers with zero payload (and not EOS) should be marked
+with VB2_BUF_STATE_ERROR. The check is performed inside the non-EOS
+branch to ensure correct handling.
 
-However, SC7280 which is also V6, uses a firmware string of the form
-"1.0.<commit-hash>", which the version parser translates to 1.0.0. This
-unintentionally satisfies the `is_fw_rev_or_older(..., 1, 0, 87)`
-condition on SC7280. Combined with IS_V6() matching there as well, the
-quirk is incorrectly applied to SC7280, causing VP9 decode failures.
-
-Constrain the check to IRIS2 (SM8250) only, which is the only platform
-that needed this quirk, by replacing IS_V6() with IS_IRIS2(). This
-restores correct behavior on SC7280 (no forced NULL EOS buffer address).
-
-Fixes: 47f867cb1b63 ("media: venus: fix EOS handling in decoder stop command")
-Cc: stable@vger.kernel.org
-Reported-by: Mecid <mecid@mecomediagroup.de>
-Closes: https://github.com/qualcomm-linux/kernel-topics/issues/222
-Co-developed-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
+Fixes: 51df3c81ba10b ("media: venus: vdec: Mark flushed buffers with error state")
 Signed-off-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
-Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-Tested-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
+Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Cc: stable@vger.kernel.org
 Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/qcom/venus/vdec.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/vdec.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index d0bd2d86a31f9..4cd69440e8753 100644
+index 4a6641fdffcf7..d0bd2d86a31f9 100644
 --- a/drivers/media/platform/qcom/venus/vdec.c
 +++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -565,7 +565,13 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
- 
- 		fdata.buffer_type = HFI_BUFFER_INPUT;
- 		fdata.flags |= HFI_BUFFERFLAG_EOS;
--		if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
-+
-+		/* Send NULL EOS addr for only IRIS2 (SM8250),for firmware <= 1.0.87.
-+		 * SC7280 also reports "1.0.<hash>" parsed as 1.0.0; restricting to IRIS2
-+		 * avoids misapplying this quirk and breaking VP9 decode on SC7280.
-+		 */
-+
-+		if (IS_IRIS2(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
- 			fdata.device_addr = 0;
- 		else
- 			fdata.device_addr = 0xdeadb000;
+@@ -1440,10 +1440,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+ 				inst->drain_active = false;
+ 				inst->codec_state = VENUS_DEC_STATE_STOPPED;
+ 			}
++		} else {
++			if (!bytesused)
++				state = VB2_BUF_STATE_ERROR;
+ 		}
+-
+-		if (!bytesused)
+-			state = VB2_BUF_STATE_ERROR;
+ 	} else {
+ 		vbuf->sequence = inst->sequence_out++;
+ 	}
 -- 
 2.51.0
 
