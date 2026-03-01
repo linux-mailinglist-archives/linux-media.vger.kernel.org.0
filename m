@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-53915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53916-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gAGUK2+Zo2neHgUAu9opvQ
-	(envelope-from <linux-media+bounces-53915-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:42:07 +0100
+	id UAoJFXSZo2kwIAUAu9opvQ
+	(envelope-from <linux-media+bounces-53916-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:42:12 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE071CB656
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:42:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16E51CB665
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:42:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 249B8304C7EB
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:31:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7132931C9A01
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:31:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C454C13B58A;
-	Sun,  1 Mar 2026 01:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89CB42BE05E;
+	Sun,  1 Mar 2026 01:30:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgzVHEWT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NPaW/rhN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350A626ED35;
-	Sun,  1 Mar 2026 01:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F410E26ED35;
+	Sun,  1 Mar 2026 01:30:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328653; cv=none; b=u5Q8hTv+ZENvcGBFMv/3tJXKStuIbxPWv+jXSgAuXsczSI2BG9cTioB/8L20G669PAcAnA62Z+dmS7Savuun0wmt+1i2IsAu21kxvk8PjsR1pE74zMjyGLMYlnlZO0wjTBGCtHln5yvhxWdsj5820a4XKjz7C7Zd4e44X6cHvFU=
+	t=1772328656; cv=none; b=aYagKd5Ztuua9IJDzn0DmefTRpcamXNYmZlj5ARAv5lzyREKlMlTmeC0w/t9GcTvO03K0BzcS/aerUGycN8REkL5Otpxlp57M4RSYYBIzUd84lchdvuSFzgql5waOEhjUnNMPm/6JBQcqXEb0BQ3i3uqTqf7SnMaZgJvzsP5iUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328653; c=relaxed/simple;
-	bh=K1m+6FBJdr8JQKayLF3Q9xXI9VfQt/l0paMkPPxbuAM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X0cYuyauz6EWkaY5sJhZbLYBBBzWCu6JI8Snfphyfa/Wnm9yp3VL0uM6UuMMeI2dEY8CY2IPdTzTQbTJ1uE4qG1ETS+OCR+U4q5h1tYS/18SCfjV6A/BQlKwAh+ySRsAZEYzbNVxIx1RIfTyLRpVUMqiJ5U8dgaKf/4mUIVd700=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mgzVHEWT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FD2C19421;
-	Sun,  1 Mar 2026 01:30:52 +0000 (UTC)
+	s=arc-20240116; t=1772328656; c=relaxed/simple;
+	bh=/DA37+Hf7sJ+rlGkNUToe112J/LF9yM23uSueEqaDgc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UchKH1n4Upf8uOa3Kut/fC9rJ0u1RkVKGDfgxMbcsFlJE3sLgEmEFXvq5Qyl3WnPxqaakc/QqLSbDx3BW+VRTzNUWSJl0Cxgdp7LxzDz1OCHX1GGsN1WjaOs8jjCKUVfXJzDLpbymDhfMJyHjA1+dlkkCnNMlTR/2EEqBLqsie4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NPaW/rhN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA02FC19421;
+	Sun,  1 Mar 2026 01:30:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328653;
-	bh=K1m+6FBJdr8JQKayLF3Q9xXI9VfQt/l0paMkPPxbuAM=;
+	s=k20201202; t=1772328655;
+	bh=/DA37+Hf7sJ+rlGkNUToe112J/LF9yM23uSueEqaDgc=;
 	h=From:To:Cc:Subject:Date:From;
-	b=mgzVHEWTzpmKld2+rLelDy5q0x5XJtXafMqrWpWq0QiRDmoRif6B9FlYg5li8OD2o
-	 4Ov6KiqUo4YBzlT/eDVBElnJlHqCO/fK3awzKRAwNgyB2N2R6MD0fFIY88fzKz6NrG
-	 0MmnTw35IXRFLKg9tyG4Dn4YTuMyJQPl8mAyocIRw8qEkpJQ6a6u1YQ5Mrc9tFsy4w
-	 6JsPkhajtqH5zBnKLdnSyVimUNPSV5/yiESn12gd+oIt/3bgg4apEQjGuKvF9nwgUw
-	 0+PCjxzLM620zinmWFxSrcMzxkofjX+c7GRwE+h8AOKs9wAmIsrvLoKfnS/iosyq7J
-	 8X73/MhqmHMMA==
+	b=NPaW/rhNn49j8onPmXHHz49DbT9mpmNI07Cq6Bc3cCF9j3ANsPpQaivvUdhd4smZA
+	 onbbHfq1CoB4DtFnXdO5ZqO+JDX9NPV/3yk7rPKVkuJfOVkAfMhDbyrrTlKsR0M8sE
+	 cbRhAApex+1bwh7hJr8d2CWEm0J8ED3aTKdL+ILR9akHvcf1FZLmapdzXt/WG+fGWL
+	 DR5xpeTijKLHa+fukoNF10ScQtmHXqMeUsvK9bQQ0Sx63YHM4kYV++yqRaTtgWeyTD
+	 Si9DnSEH4Q4YXtmJ9fcXqBIny/zrJCM/D46i23UDxklKh/shtlqEVJzxgA2+7oxLdI
+	 /XQBdyLDYO2/w==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	haoxiang_li2024@163.com
+	benjamin.gaignard@collabora.com
 Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: FAILED: Patch "media: mtk-mdp: Fix error handling in probe function" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:30:50 -0500
-Message-ID: <20260301013051.1689178-1-sashal@kernel.org>
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: FAILED: Patch "media: verisilicon: AV1: Fix tx mode bit setting" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:30:53 -0500
+Message-ID: <20260301013053.1689229-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -65,36 +65,34 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[vger.kernel.org,163.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53915-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53916-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.987];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
 	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 5AE071CB656
+X-Rspamd-Queue-Id: C16E51CB665
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.6-stable tree.
@@ -107,73 +105,82 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 8a8a3232abac5b972058a5f2cb3e33199d2a8648 Mon Sep 17 00:00:00 2001
-From: Haoxiang Li <haoxiang_li2024@163.com>
-Date: Wed, 8 Oct 2025 16:55:03 +0800
-Subject: [PATCH] media: mtk-mdp: Fix error handling in probe function
+From cb3f945c012ab152fd2323e0df34c2b640071738 Mon Sep 17 00:00:00 2001
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Date: Tue, 9 Dec 2025 11:34:17 +0100
+Subject: [PATCH] media: verisilicon: AV1: Fix tx mode bit setting
 
-Add mtk_mdp_unregister_m2m_device() on the error handling path to prevent
-resource leak.
+AV1 specification describes 3 possibles tx modes: 4x4 only, largest and
+select. The hardware allows 5 possibles tx modes: 4x4 only, 8x8, 16x16,
+32x32 and select. Since the both aren't exactly matching we need to add
+a mapping function to set the correct mode on hardware.
 
-Add check for the return value of vpu_get_plat_device() to prevent null
-pointer dereference. And vpu_get_plat_device() increases the reference
-count of the returned platform device. Add platform_device_put() to
-prevent reference leak.
-
-Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Fixes: 727a400686a2c ("media: verisilicon: Add Rockchip AV1 decoder")
 Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- .../media/platform/mediatek/mdp/mtk_mdp_core.c   | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 27 ++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-index 80fdc6ff57e0e..f78fa30f18648 100644
---- a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-+++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-@@ -194,11 +194,17 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 	}
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+index f4f7cb45b1f1b..f52b8208e6b93 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+@@ -72,6 +72,14 @@
+ 		: AV1_DIV_ROUND_UP_POW2((_value_), (_n_)));		\
+ })
  
- 	mdp->vpu_dev = vpu_get_plat_device(pdev);
-+	if (!mdp->vpu_dev) {
-+		dev_err(&pdev->dev, "Failed to get vpu device\n");
-+		ret = -ENODEV;
-+		goto err_vpu_get_dev;
++enum rockchip_av1_tx_mode {
++	ROCKCHIP_AV1_TX_MODE_ONLY_4X4	= 0,
++	ROCKCHIP_AV1_TX_MODE_8X8	= 1,
++	ROCKCHIP_AV1_TX_MODE_16x16	= 2,
++	ROCKCHIP_AV1_TX_MODE_32x32	= 3,
++	ROCKCHIP_AV1_TX_MODE_SELECT	= 4,
++};
++
+ struct rockchip_av1_film_grain {
+ 	u8 scaling_lut_y[256];
+ 	u8 scaling_lut_cb[256];
+@@ -1935,11 +1943,26 @@ static void rockchip_vpu981_av1_dec_set_reference_frames(struct hantro_ctx *ctx)
+ 	rockchip_vpu981_av1_dec_set_other_frames(ctx);
+ }
+ 
++static int rockchip_vpu981_av1_get_hardware_tx_mode(enum v4l2_av1_tx_mode tx_mode)
++{
++	switch (tx_mode) {
++	case V4L2_AV1_TX_MODE_ONLY_4X4:
++		return ROCKCHIP_AV1_TX_MODE_ONLY_4X4;
++	case V4L2_AV1_TX_MODE_LARGEST:
++		return ROCKCHIP_AV1_TX_MODE_32x32;
++	case V4L2_AV1_TX_MODE_SELECT:
++		return ROCKCHIP_AV1_TX_MODE_SELECT;
 +	}
 +
- 	ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
- 				  VPU_RST_MDP);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register reset handler\n");
--		goto err_m2m_register;
-+		goto err_reg_handler;
- 	}
- 
- 	platform_set_drvdata(pdev, mdp);
-@@ -206,7 +212,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
--		goto err_m2m_register;
-+		goto err_reg_handler;
- 	}
- 
- 	pm_runtime_enable(dev);
-@@ -214,6 +220,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
-+err_reg_handler:
-+	platform_device_put(mdp->vpu_dev);
++	return ROCKCHIP_AV1_TX_MODE_32x32;
++}
 +
-+err_vpu_get_dev:
-+	mtk_mdp_unregister_m2m_device(mdp);
-+
- err_m2m_register:
- 	v4l2_device_unregister(&mdp->v4l2_dev);
+ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
+ 	struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
++	int tx_mode;
  
+ 	hantro_reg_write(vpu, &av1_skip_mode,
+ 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_SKIP_MODE_PRESENT));
+@@ -2005,7 +2028,9 @@ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
+ 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_ALLOW_HIGH_PRECISION_MV));
+ 	hantro_reg_write(vpu, &av1_comp_pred_mode,
+ 			 (ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_REFERENCE_SELECT) ? 2 : 0);
+-	hantro_reg_write(vpu, &av1_transform_mode, (ctrls->frame->tx_mode == 1) ? 3 : 4);
++
++	tx_mode = rockchip_vpu981_av1_get_hardware_tx_mode(ctrls->frame->tx_mode);
++	hantro_reg_write(vpu, &av1_transform_mode, tx_mode);
+ 	hantro_reg_write(vpu, &av1_max_cb_size,
+ 			 (ctrls->sequence->flags
+ 			  & V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK) ? 7 : 6);
 -- 
 2.51.0
 
