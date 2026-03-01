@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-53870-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53871-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uAmgFleTo2khHQUAu9opvQ
-	(envelope-from <linux-media+bounces-53870-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:16:07 +0100
+	id kJgEMtyTo2khHQUAu9opvQ
+	(envelope-from <linux-media+bounces-53871-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:18:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3291CA04B
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:16:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5140B1CA1F7
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:18:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 258CF301FAA6
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:15:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AACEB30616FE
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:15:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7300423B63C;
-	Sun,  1 Mar 2026 01:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82BFE23D2B1;
+	Sun,  1 Mar 2026 01:15:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDSiwTRW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D8Pdm36c"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AC6430B90;
-	Sun,  1 Mar 2026 01:15:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA053430B90;
+	Sun,  1 Mar 2026 01:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327736; cv=none; b=KcbhnjGrPVWAKbSiMrEWysvxlnnWqHUr0Ijk7911SZ70SZTDjao6IvB95AAgqmac4vVmPkIOOoj3GZP8wKy9oFIwRGIxYBp4BKNkwuxKsDIaLJXp7OFTJiO20t3aVresGCPjDirWgHQHcnFxy5MtHZwymIoR/o069WXHUEi5gD8=
+	t=1772327742; cv=none; b=nbZFF6kj1M1HwLIrsbPtCEQ+aUgc4v3pjWIG5YS6u6AEEmx4KNwBX2IBwSyorXDmJMoMWrP9GVjtGb6Fwk+suoBU6FGsWPm56ugJhGx58mpO9WCB7YGphaWhBq+Wfti8lAprRmqB+3W3YSAebDOdn8caJBvUSIS6YKy3GudpaaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327736; c=relaxed/simple;
-	bh=k/Q2SdSDuVQ9xEzNdBSgHjkvZMDM40Qn7IT7bDtZEx8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BmT2OLONOO0ylPOoWGS9jLuzdOlwq0pU7rqJrs0mTHbkBMysMpkGVUGrRXKlrD6ssoCl5bLPid/Y3sUuTC3CtRg21z+71r1Z71SfNynMrITgS9BqKEeXXNOwd0PZNe4LsA03F/liomz0qGWzIOrVe2X7qLheq058XcrOnpEYj2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDSiwTRW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06120C19421;
-	Sun,  1 Mar 2026 01:15:35 +0000 (UTC)
+	s=arc-20240116; t=1772327742; c=relaxed/simple;
+	bh=OAaoWngE4iLEgGq6+OrogRicXN9Jfngd7Pwwn07cWrg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AKxo+SBWQjHjl0k22AmZOw2uJoXs3M8Fkj2rb5A8KnJY88CNm8aIvA6mmZQBVkyr401GaassU5ciEnxTGG9BpqxhsD1jNAanAcJ+5UX4ErVw2S8D5oktxjeLUl41CXzGI2ezPuGZksoJwWHsiyMmzJeEU27rtbIc9Kkq3Do2MZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D8Pdm36c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02D18C19421;
+	Sun,  1 Mar 2026 01:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327736;
-	bh=k/Q2SdSDuVQ9xEzNdBSgHjkvZMDM40Qn7IT7bDtZEx8=;
+	s=k20201202; t=1772327741;
+	bh=OAaoWngE4iLEgGq6+OrogRicXN9Jfngd7Pwwn07cWrg=;
 	h=From:To:Cc:Subject:Date:From;
-	b=hDSiwTRW58DXiC0ueNTBWBhZLZCmZxxfa0wZtF0TMQVY4WwV+JxYgmawqY37yYp5C
-	 aMt1qMgSkhtQx8fdPl0ydRNnb2X+uqQ5aCl7nOovVMef0nuNWdPgPRo9RQj48CfLO/
-	 CkvAmnq8GG/+Yy5GbyshQIEuO1ZE1fOBwR2GBcERSkawBHsyjVE84jFrheytzgvW+9
-	 BJWegTS/ywJ4Q49Vg/2WUTraa55kvjSwM+Awke9aBM1imJEO96euuy0rXfPYszm+tZ
-	 y0KdWCo0tu0x6UHzcnwZxo6oqX87TojpmeuP+FlEMTtTEmUyyD7HgEzuhYcmtAQ9SI
-	 /wr7zwqc3Vehg==
+	b=D8Pdm36cezKFsz8qwd4Pz9NOeKr5IcVVwG1pnNt6VcusqeATfQvt9aO34hq2rQ2Eb
+	 2KIYVzJ5yg+OShwWwtUArLLwOzOd9tgtubpauqW4VHB6RfqkaTmaSpQ1IUHFh9Ihxn
+	 7eZlSWHfTFrhGBGaBykTr8sOne9zpajLMxxL1RjJCUI/OjEhxB+oBXqNhwKF4MW6ty
+	 0/sLBruiybkyai3aPpP6v1CoIFGQrMQKR+n3iCLMW/n0TZrYdDAG3Zy2Hi1hVYkOYq
+	 L6ekJZFVNdyHKAkfIENOLLFMx90gBAsulaMQLX/ZiiV01ALvEtFtbyCgIz310d/38Y
+	 rygPovdzg5OOw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	dikshita.agarwal@oss.qualcomm.com
 Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
 	Bryan O'Donoghue <bod@kernel.org>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org
-Subject: FAILED: Patch "media: iris: remove v4l2_m2m_ioctl_{de,en}coder_cmd API usage during STOP handling" failed to apply to 6.18-stable tree
-Date: Sat, 28 Feb 2026 20:15:34 -0500
-Message-ID: <20260301011534.1669032-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: iris: Add missing platform data entries for SM8750" failed to apply to 6.18-stable tree
+Date: Sat, 28 Feb 2026 20:15:39 -0500
+Message-ID: <20260301011539.1669217-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -70,13 +71,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53870-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53871-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -84,15 +85,15 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 1C3291CA04B
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5140B1CA1F7
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.18-stable tree.
@@ -105,70 +106,54 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 8fc707d13df517222db12b465af4aa9df05c99e1 Mon Sep 17 00:00:00 2001
+From bbef55f414100853d5bcea56a41f8b171bac8fcb Mon Sep 17 00:00:00 2001
 From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-Date: Sun, 2 Nov 2025 09:10:19 +0530
-Subject: [PATCH] media: iris: remove v4l2_m2m_ioctl_{de,en}coder_cmd API usage
- during STOP handling
+Date: Thu, 18 Dec 2025 12:24:09 +0530
+Subject: [PATCH] media: iris: Add missing platform data entries for SM8750
 
-Currently v4l2_m2m_ioctl_{de,enc}coder_cmd is being invoked during STOP
-command handling. However, this is not required as the iris driver has
-its own drain and stop handling mechanism in place.
+Two platform-data fields for SM8750 were missed:
 
-Using the m2m command API in this context leads to incorrect behavior,
-where the LAST flag is prematurely attached to a capture buffer,
-when there are no buffers in m2m source queue. But, in this scenario
-even though the source buffers are returned to client, hardware might
-still need to process the pending capture buffers.
+  - get_vpu_buffer_size = iris_vpu33_buf_size
+    Without this, the driver fails to allocate the required internal
+    buffers, leading to basic decode/encode failures during session
+    bring-up.
 
-Attaching LAST flag prematurely can result in the capture buffer being
-removed from the destination queue before the hardware has finished
-processing it, causing issues when the buffer is eventually returned by
-the hardware.
+  - max_core_mbps = ((7680 * 4320) / 256) * 60
+    Without this capability exposed, capability checks are incomplete and
+    v4l2-compliance for encoder fails.
 
-To prevent this, remove the m2m API usage in stop handling.
-
-Fixes: d09100763bed ("media: iris: add support for drain sequence")
-Fixes: 75db90ae067d ("media: iris: Add support for drain sequence in encoder video device")
+Fixes: a5925a2ce077 ("media: iris: add VPU33 specific encoding buffer calculation")
+Fixes: a6882431a138 ("media: iris: Add support for ENUM_FRAMESIZES/FRAMEINTERVALS for encoder")
+Cc: stable@vger.kernel.org
 Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
 Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Cc: stable@vger.kernel.org
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/qcom/iris/iris_vidc.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/iris/iris_platform_gen2.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-index dfd94f4a84a94..bd38d84c9cc79 100644
---- a/drivers/media/platform/qcom/iris/iris_vidc.c
-+++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-@@ -573,9 +573,10 @@ static int iris_dec_cmd(struct file *filp, void *fh,
- 
- 	mutex_lock(&inst->lock);
- 
--	ret = v4l2_m2m_ioctl_decoder_cmd(filp, fh, dec);
--	if (ret)
-+	if (dec->cmd != V4L2_DEC_CMD_STOP && dec->cmd != V4L2_DEC_CMD_START) {
-+		ret = -EINVAL;
- 		goto unlock;
-+	}
- 
- 	if (inst->state == IRIS_INST_DEINIT)
- 		goto unlock;
-@@ -606,9 +607,10 @@ static int iris_enc_cmd(struct file *filp, void *fh,
- 
- 	mutex_lock(&inst->lock);
- 
--	ret = v4l2_m2m_ioctl_encoder_cmd(filp, fh, enc);
--	if (ret)
-+	if (enc->cmd != V4L2_ENC_CMD_STOP && enc->cmd != V4L2_ENC_CMD_START) {
-+		ret = -EINVAL;
- 		goto unlock;
-+	}
- 
- 	if (inst->state == IRIS_INST_DEINIT)
- 		goto unlock;
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+index b2d8559dd2b85..c932dc026616e 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+@@ -1056,6 +1056,7 @@ const struct iris_platform_data sm8750_data = {
+ 	.get_instance = iris_hfi_gen2_get_instance,
+ 	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu33_buf_size,
+ 	.vpu_ops = &iris_vpu35_ops,
+ 	.set_preset_registers = iris_set_sm8550_preset_registers,
+ 	.icc_tbl = sm8550_icc_table,
+@@ -1088,6 +1089,7 @@ const struct iris_platform_data sm8750_data = {
+ 	.num_vpp_pipe = 4,
+ 	.max_session_count = 16,
+ 	.max_core_mbpf = NUM_MBS_8K * 2,
++	.max_core_mbps = ((7680 * 4320) / 256) * 60,
+ 	.dec_input_config_params_default =
+ 		sm8550_vdec_input_config_params_default,
+ 	.dec_input_config_params_default_size =
 -- 
 2.51.0
 
