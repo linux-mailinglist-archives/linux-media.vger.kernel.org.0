@@ -1,61 +1,59 @@
-Return-Path: <linux-media+bounces-53878-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53879-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kKVkMyCUo2khHQUAu9opvQ
-	(envelope-from <linux-media+bounces-53878-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:19:28 +0100
+	id mHyTOW6Vo2l7HQUAu9opvQ
+	(envelope-from <linux-media+bounces-53879-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:25:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBB31CA2C6
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:19:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C841CA7B2
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:25:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BB9E43009F31
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:19:16 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3243530BDED5
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:19:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65400257849;
-	Sun,  1 Mar 2026 01:19:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51EF264617;
+	Sun,  1 Mar 2026 01:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9MqhwBN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDQeAipZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCFB1E4AF;
-	Sun,  1 Mar 2026 01:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A902594B9;
+	Sun,  1 Mar 2026 01:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327952; cv=none; b=Okiop2ZjzclvbxDZJ1YUk+evMyQXIRhZJUJWiPnYTiGot6IsQHiI6kJjKNMmTvDjXter1vy9P27tJa1BwnNf/Z8FB/Mvu5AgXWGZSeqKlEhrjL/YHUddxCbX4SF9+c+eIY0COZ9QLFu2hdzIofQw/lj1cLAfnMX46Jg2nPvzizI=
+	t=1772327955; cv=none; b=PLxTN8jlEhzOpboIaDobZsmMbYVBz6+BPa4jJkIuMH+T+tHm1Ct9BoRxOA79VK7YfNa3y8jF+7R4d1nN9MaExUXASTJtj2S5Xs6tAP2cLPbMBbrqWIMlJpuHuLVdMZl/d+i6Y+eC14GUDXHitmi6+oFlSKBi1fhbWw1Dt6DshPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327952; c=relaxed/simple;
-	bh=8qbTluFdbVmVWRif48XRin0n1SmN+r3NFnATxC3Unfw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EjLFq2eJpX1SbrPrtBqrhBBTUn9DzK/zsnZlnAxrJAyevZfyqCzlLWNUVi4n3/sd7QdDYgyx+AbfAIj9shrT7Iu2oOqxE2Tdvh0i2DDT7uLlbwh8uerlVBTMFKrbICUnG5musIMplHYNMpM06uVk/DhMZBDSSstRRQit5ruatWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9MqhwBN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A59C19421;
-	Sun,  1 Mar 2026 01:19:11 +0000 (UTC)
+	s=arc-20240116; t=1772327955; c=relaxed/simple;
+	bh=QygN+tm7vRSe8PUAkQZiS9VT5srWgie0sJ/PkT7UXz8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VVfjmD9oupU/MGvlNHfBDbhQcVz658CLv9Roag05IXkwZXxJtxwiJdNW9Gjs/Jdvghr4DIuwbd2vM5cQqM9/PK8ascnWj22D4I8P4caiD4/qCb21vGV+5a+KZxR+U2O0+b/esaYEhHKxhVxXn9pWbKOsr4Z8c7qfWIOvIiyxWjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDQeAipZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F7CC19421;
+	Sun,  1 Mar 2026 01:19:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327952;
-	bh=8qbTluFdbVmVWRif48XRin0n1SmN+r3NFnATxC3Unfw=;
+	s=k20201202; t=1772327955;
+	bh=QygN+tm7vRSe8PUAkQZiS9VT5srWgie0sJ/PkT7UXz8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=F9MqhwBNsbgiRZt/+K9+kFHmRzPRQkLfHPs5HkIhdW0VLX7uzb6jXFAuT5+/9lbVW
-	 LUR3INApdD4gY/7boZIcD6/1RUPrlW1KXN+iDPqCwp1F9I04QIcXWGKoKzD69NjiTK
-	 iDH4c4cmwFaAbkFpm+y2DsRDWQcOTGfVXvytFi+zY9CXcV6pazHB5gKTUPrGRFQ7ay
-	 78R8S+jz5Wf9WAbz8s6r3sGfTbfgA20XKg/HcRFQr603dJertBXIPD8X7Gzp2Zqaew
-	 h6IhFTD6P8vRB+ThoDUAT4EAqPgvxzU0CiwMxZfOypXOsQHSm865tPLH2cgCNIzYVe
-	 0eSBMLzZnhUkQ==
+	b=EDQeAipZHndMtgd90fWDOyId6frQBTscRZEFh6A78uPpi7a3rmND4mJHkY70RLr++
+	 6dZLn4y7ydRCM80nW8PVk/gtEp3RPF3jqbOoG3t4N5CRym37T8C8/VDWbwO90+n7tB
+	 EiVfdXPIGUlFWYehbUL/Vx0HFy6hx+P9ox4hx5fID0SGwlIxlHM/Kz8W8BO90LZKdW
+	 WDBKgZzLaI/DC1FkQfTqk2BU2Drir4pdSkjNkbbonKoSg31GRctQIt8cpXgfS4enzD
+	 +QindDpm/wsfmquXgEGKTbvPAdrhqnfB1RpeTpILTNtZkeq+3jWdi1VomCTCxdRHqx
+	 +UdJrxWCKh5cQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ming.qian@oss.nxp.com
-Cc: Frank Li <Frank.Li@nxp.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	haoxiang_li2024@163.com
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: FAILED: Patch "media: verisilicon: Avoid G2 bus error while decoding H.264 and HEVC" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:19:10 -0500
-Message-ID: <20260301011910.1673923-1-sashal@kernel.org>
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: FAILED: Patch "media: mtk-mdp: Fix a reference leak bug in mtk_mdp_remove()" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:19:13 -0500
+Message-ID: <20260301011913.1674123-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -69,33 +67,34 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53878-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[vger.kernel.org,163.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53879-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.989];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nxp.com:email]
-X-Rspamd-Queue-Id: DDBB31CA2C6
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: 76C841CA7B2
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -108,172 +107,36 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From e0203ddf9af7c8e170e1e99ce83b4dc07f0cd765 Mon Sep 17 00:00:00 2001
-From: Ming Qian <ming.qian@oss.nxp.com>
-Date: Fri, 5 Dec 2025 09:54:26 +0800
-Subject: [PATCH] media: verisilicon: Avoid G2 bus error while decoding H.264
- and HEVC
+From f128bab57b8018e526b7eda854ca20069863af47 Mon Sep 17 00:00:00 2001
+From: Haoxiang Li <haoxiang_li2024@163.com>
+Date: Wed, 8 Oct 2025 17:01:56 +0800
+Subject: [PATCH] media: mtk-mdp: Fix a reference leak bug in mtk_mdp_remove()
 
-For the i.MX8MQ platform, there is a hardware limitation: the g1 VPU and
-g2 VPU cannot decode simultaneously; otherwise, it will cause below bus
-error and produce corrupted pictures, even potentially lead to system hang.
+In mtk_mdp_probe(), vpu_get_plat_device() increases the reference
+count of the returned platform device. Add platform_device_put()
+to prevent reference leak.
 
-[  110.527986] hantro-vpu 38310000.video-codec: frame decode timed out.
-[  110.583517] hantro-vpu 38310000.video-codec: bus error detected.
-
-Therefore, it is necessary to ensure that g1 and g2 operate alternately.
-This allows for successful multi-instance decoding of H.264 and HEVC.
-
-To achieve this, g1 and g2 share the same v4l2_m2m_dev, and then the
-v4l2_m2m_dev can handle the scheduling.
-
-Fixes: cb5dd5a0fa518 ("media: hantro: Introduce G2/HEVC decoder")
+Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
 Cc: stable@vger.kernel.org
-Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-Co-developed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/verisilicon/hantro.h   |  2 +
- .../media/platform/verisilicon/hantro_drv.c   | 42 +++++++++++++++++--
- .../media/platform/verisilicon/imx8m_vpu_hw.c |  8 ++++
- 3 files changed, 49 insertions(+), 3 deletions(-)
+ drivers/media/platform/mediatek/mdp/mtk_mdp_core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
-index e0fdc4535b2d7..0353de154a1ec 100644
---- a/drivers/media/platform/verisilicon/hantro.h
-+++ b/drivers/media/platform/verisilicon/hantro.h
-@@ -77,6 +77,7 @@ struct hantro_irq {
-  * @double_buffer:		core needs double buffering
-  * @legacy_regs:		core uses legacy register set
-  * @late_postproc:		postproc must be set up at the end of the job
-+ * @shared_devices:		an array of device ids that cannot run concurrently
-  */
- struct hantro_variant {
- 	unsigned int enc_offset;
-@@ -101,6 +102,7 @@ struct hantro_variant {
- 	unsigned int double_buffer : 1;
- 	unsigned int legacy_regs : 1;
- 	unsigned int late_postproc : 1;
-+	const struct of_device_id *shared_devices;
- };
+diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
+index f78fa30f18648..8432833814f31 100644
+--- a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
++++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
+@@ -254,6 +254,7 @@ static void mtk_mdp_remove(struct platform_device *pdev)
  
- /**
-diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index 60b95b5d8565f..94f58f4e4a4e5 100644
---- a/drivers/media/platform/verisilicon/hantro_drv.c
-+++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -13,6 +13,7 @@
- #include <linux/clk.h>
- #include <linux/module.h>
- #include <linux/of.h>
-+#include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm.h>
- #include <linux/pm_runtime.h>
-@@ -1035,6 +1036,41 @@ static int hantro_disable_multicore(struct hantro_dev *vpu)
- 	return 0;
- }
+ 	pm_runtime_disable(&pdev->dev);
+ 	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
++	platform_device_put(mdp->vpu_dev);
+ 	mtk_mdp_unregister_m2m_device(mdp);
+ 	v4l2_device_unregister(&mdp->v4l2_dev);
  
-+static struct v4l2_m2m_dev *hantro_get_v4l2_m2m_dev(struct hantro_dev *vpu)
-+{
-+	struct device_node *node;
-+	struct hantro_dev *shared_vpu;
-+
-+	if (!vpu->variant || !vpu->variant->shared_devices)
-+		goto init_new_m2m_dev;
-+
-+	for_each_matching_node(node, vpu->variant->shared_devices) {
-+		struct platform_device *pdev;
-+		struct v4l2_m2m_dev *m2m_dev;
-+
-+		pdev = of_find_device_by_node(node);
-+		if (!pdev)
-+			continue;
-+
-+		shared_vpu = platform_get_drvdata(pdev);
-+		if (IS_ERR_OR_NULL(shared_vpu) || shared_vpu == vpu) {
-+			platform_device_put(pdev);
-+			continue;
-+		}
-+
-+		v4l2_m2m_get(shared_vpu->m2m_dev);
-+		m2m_dev = shared_vpu->m2m_dev;
-+		platform_device_put(pdev);
-+
-+		of_node_put(node);
-+
-+		return m2m_dev;
-+	}
-+
-+init_new_m2m_dev:
-+	return v4l2_m2m_init(&vpu_m2m_ops);
-+}
-+
- static int hantro_probe(struct platform_device *pdev)
- {
- 	const struct of_device_id *match;
-@@ -1186,7 +1222,7 @@ static int hantro_probe(struct platform_device *pdev)
- 	}
- 	platform_set_drvdata(pdev, vpu);
- 
--	vpu->m2m_dev = v4l2_m2m_init(&vpu_m2m_ops);
-+	vpu->m2m_dev = hantro_get_v4l2_m2m_dev(vpu);
- 	if (IS_ERR(vpu->m2m_dev)) {
- 		v4l2_err(&vpu->v4l2_dev, "Failed to init mem2mem device\n");
- 		ret = PTR_ERR(vpu->m2m_dev);
-@@ -1225,7 +1261,7 @@ static int hantro_probe(struct platform_device *pdev)
- 	hantro_remove_enc_func(vpu);
- err_m2m_rel:
- 	media_device_cleanup(&vpu->mdev);
--	v4l2_m2m_release(vpu->m2m_dev);
-+	v4l2_m2m_put(vpu->m2m_dev);
- err_v4l2_unreg:
- 	v4l2_device_unregister(&vpu->v4l2_dev);
- err_clk_unprepare:
-@@ -1248,7 +1284,7 @@ static void hantro_remove(struct platform_device *pdev)
- 	hantro_remove_dec_func(vpu);
- 	hantro_remove_enc_func(vpu);
- 	media_device_cleanup(&vpu->mdev);
--	v4l2_m2m_release(vpu->m2m_dev);
-+	v4l2_m2m_put(vpu->m2m_dev);
- 	v4l2_device_unregister(&vpu->v4l2_dev);
- 	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
- 	reset_control_assert(vpu->resets);
-diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-index 5be0e2e76882f..6f8e43b7f1575 100644
---- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-+++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-@@ -343,6 +343,12 @@ const struct hantro_variant imx8mq_vpu_variant = {
- 	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
- };
- 
-+static const struct of_device_id imx8mq_vpu_shared_resources[] __initconst = {
-+	{ .compatible = "nxp,imx8mq-vpu-g1", },
-+	{ .compatible = "nxp,imx8mq-vpu-g2", },
-+	{ /* sentinel */ }
-+};
-+
- const struct hantro_variant imx8mq_vpu_g1_variant = {
- 	.dec_fmts = imx8m_vpu_dec_fmts,
- 	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
-@@ -356,6 +362,7 @@ const struct hantro_variant imx8mq_vpu_g1_variant = {
- 	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
- 	.clk_names = imx8mq_g1_clk_names,
- 	.num_clocks = ARRAY_SIZE(imx8mq_g1_clk_names),
-+	.shared_devices = imx8mq_vpu_shared_resources,
- };
- 
- const struct hantro_variant imx8mq_vpu_g2_variant = {
-@@ -371,6 +378,7 @@ const struct hantro_variant imx8mq_vpu_g2_variant = {
- 	.num_irqs = ARRAY_SIZE(imx8mq_g2_irqs),
- 	.clk_names = imx8mq_g2_clk_names,
- 	.num_clocks = ARRAY_SIZE(imx8mq_g2_clk_names),
-+	.shared_devices = imx8mq_vpu_shared_resources,
- };
- 
- const struct hantro_variant imx8mm_vpu_g1_variant = {
 -- 
 2.51.0
 
