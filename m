@@ -1,57 +1,59 @@
-Return-Path: <linux-media+bounces-53876-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53877-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eCh+E2WVo2l7HQUAu9opvQ
-	(envelope-from <linux-media+bounces-53876-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:24:53 +0100
+	id SF1sNH6Vo2l7HQUAu9opvQ
+	(envelope-from <linux-media+bounces-53877-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:25:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77B31CA77E
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:24:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF161CA816
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:25:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8F21030B6D71
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:19:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6BD7C30BAEC3
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:19:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B3E8257ACF;
-	Sun,  1 Mar 2026 01:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B26F25F98A;
+	Sun,  1 Mar 2026 01:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MplvO9E7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mcEg4D75"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7983025F98A;
-	Sun,  1 Mar 2026 01:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B4718E02A;
+	Sun,  1 Mar 2026 01:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327947; cv=none; b=CVPuMUTxtTHdf2w213AVUqESN+DByd9Ne97JzRZ3vPpDdns2TFvlSzs/S3rjpXLZl0L5cIhJ8r1iqUlEI0g4hubSEUMaihkd1txmOje9PluNRU+7ato+kIT56Lgk7+JrjtFqVsAwqy4B/9R4Hvaj0TT3kqabB6j591yYhf854xk=
+	t=1772327950; cv=none; b=eZVGv3P+V+VjvddQNNZO/UgsN1DoEghdxXvQctVyuWFPSM3GYTALD63iOYH6jz49GRcZoUzJ9zW9oBUR2BDNc7EApOJgs4Sm38/E6MHoRx+1adBb8yr/a1OckLNmracxDCl+EI9DMH8XQuiU8Oi1bJmklCWE1zRxzGY+DSmdo+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327947; c=relaxed/simple;
-	bh=liU7yQJ0B+D/PkDcFxJSoLnVpiIGZcdo5HqqQh6x6ns=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TvaSqZ3W6TEVfnSoApEBudzaSyL9QWw2fjMZ1Ryzvhg8WxdmvI7uZVrPRD606erj2txbtRwh3dvWVsDdt1upwzZONzWlXnqdmUz2YySk/2lunjs3wyJTtwpMud4FPaBwUqSg+421mhIws8vF37vXY/+AapMGGde6uR+qYANhnTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MplvO9E7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA51AC19421;
-	Sun,  1 Mar 2026 01:19:06 +0000 (UTC)
+	s=arc-20240116; t=1772327950; c=relaxed/simple;
+	bh=6Q2k0VkWDP09CJ3dNoRJSfIB+gFGrjgsHsSzV4bQdA4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KTXrIN3+FCtbWvg0cCoPMLmLV5yoUmgfCVaABnH3sxLTm/3p7eA2JQaGA2KxntDeKk32PtZNSK/l5FmQOtvrd78hL+YY71EgJWWiFNQvI461PGFdxBX6u7oLXvkooIBs6tJvC1FjqU9gDJgQ8azWN31xKZ3YEBleSDFKNcQXeXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mcEg4D75; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E29C19424;
+	Sun,  1 Mar 2026 01:19:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327947;
-	bh=liU7yQJ0B+D/PkDcFxJSoLnVpiIGZcdo5HqqQh6x6ns=;
+	s=k20201202; t=1772327949;
+	bh=6Q2k0VkWDP09CJ3dNoRJSfIB+gFGrjgsHsSzV4bQdA4=;
 	h=From:To:Cc:Subject:Date:From;
-	b=MplvO9E7+f6zZgQrGFa0dHyz+EYXQg6/8U1Pjqrzt8q7Y7ftXoHv9uJIVwcKebHU8
-	 CG/4qu3fOn2y2rOorKzm+OCnn3ULuIHjQqLDFV+atbgcLFhnq0ejQOY0qnDYWBaJxS
-	 ONKS3nH2Hm06iHsH8ZVLIP5OFo8Z8KrZ+qIyx7D8gRx4FUNlnkS2gYjesZRUcRTwc2
-	 L0GTNomZzl+7zfW2sP59Gu3ikCn0qg/5/5kPF5Z7DcEsVEgI8x4iW1vPE8qZxvuKUL
-	 ssfKAndE5b9IQT15r8PdZCynnzSJ3KV5EdFz3oSXrb1ZBImGOrffc3YgyepWPJStAT
-	 o7jxU8A39GKzQ==
+	b=mcEg4D75HROXAAKfHenSKt6j/n3MuOZHAod7A1fj0EMLiHy9/Z4a3jgv1jit+gEE6
+	 /xxg9vVVtR+huEVtmPuBd4hx9hsSncZ4WqGJzo8EUStkdgvd622nV3qy5xx6HQmlJI
+	 9opkRORaYui1307dbtdSy6JVQSBBcF4/7nmYnWC9bSK3AxNXATBQDvBWTgrOxm8DAE
+	 2hjcSwVjl5rBc3OvBA3IgKnPB9qkvWs+X+TN9SbhLZug+KZQHwP6p13RLGSy9HJ7+q
+	 IuQJMyo8SoT+CK1nTnAUXHBrvfvRn7CEtmZkt6Kw7jKUfckEo4Dg4vB+qTLiEuGTCO
+	 I998G2P6KZU9w==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	xulin.sun@windriver.com
+	benjamin.gaignard@collabora.com
 Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: chips-media: wave5: Fix device cleanup order to prevent kernel panic" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:19:05 -0500
-Message-ID: <20260301011905.1673655-1-sashal@kernel.org>
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: FAILED: Patch "media: verisilicon: AV1: Fix tx mode bit setting" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:19:07 -0500
+Message-ID: <20260301011908.1673777-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -63,35 +65,34 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53876-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-53877-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,windriver.com:email]
-X-Rspamd-Queue-Id: C77B31CA77E
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: 4AF161CA816
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -104,83 +105,82 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From b74cedac643b02aefa7da881b58a3792859d9748 Mon Sep 17 00:00:00 2001
-From: Xulin Sun <xulin.sun@windriver.com>
-Date: Thu, 4 Dec 2025 17:41:53 +0800
-Subject: [PATCH] media: chips-media: wave5: Fix device cleanup order to
- prevent kernel panic
+From cb3f945c012ab152fd2323e0df34c2b640071738 Mon Sep 17 00:00:00 2001
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Date: Tue, 9 Dec 2025 11:34:17 +0100
+Subject: [PATCH] media: verisilicon: AV1: Fix tx mode bit setting
 
-Move video device unregistration to the beginning of the remove function
-to ensure all video operations are stopped before cleaning up the worker
-thread and disabling PM runtime. This prevents hardware register access
-after the device has been powered down.
+AV1 specification describes 3 possibles tx modes: 4x4 only, largest and
+select. The hardware allows 5 possibles tx modes: 4x4 only, 8x8, 16x16,
+32x32 and select. Since the both aren't exactly matching we need to add
+a mapping function to set the correct mode on hardware.
 
-In polling mode, the hrtimer periodically triggers
-wave5_vpu_timer_callback() which queues work to the kthread worker.
-The worker executes wave5_vpu_irq_work_fn() which reads hardware
-registers via wave5_vdi_read_register().
-
-The original cleanup order disabled PM runtime and powered down hardware
-before unregistering video devices. When autosuspend triggers and powers
-off the hardware, the video devices are still registered and the worker
-thread can still be triggered by the hrtimer, causing it to attempt
-reading registers from powered-off hardware. This results in a bus error
-(synchronous external abort) and kernel panic.
-
-This causes random kernel panics during encoding operations:
-
-  Internal error: synchronous external abort: 0000000096000010
-    [#1] PREEMPT SMP
-  Modules linked in: wave5 rpmsg_ctrl rpmsg_char ...
-  CPU: 0 UID: 0 PID: 1520 Comm: vpu_irq_thread
-    Tainted: G   M    W
-  pc : wave5_vdi_read_register+0x10/0x38 [wave5]
-  lr : wave5_vpu_irq_work_fn+0x28/0x60 [wave5]
-  Call trace:
-   wave5_vdi_read_register+0x10/0x38 [wave5]
-   kthread_worker_fn+0xd8/0x238
-   kthread+0x104/0x120
-   ret_from_fork+0x10/0x20
-  Code: aa1e03e9 d503201f f9416800 8b214000 (b9400000)
-  ---[ end trace 0000000000000000 ]---
-  Kernel panic - not syncing: synchronous external abort:
-    Fatal exception
-
-Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Fixes: 727a400686a2c ("media: verisilicon: Add Rockchip AV1 decoder")
 Cc: stable@vger.kernel.org
-Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/chips-media/wave5/wave5-vpu.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../verisilicon/rockchip_vpu981_hw_av1_dec.c  | 27 ++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-index 0bcd48df49d0f..77d6c934d0b9d 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-@@ -351,6 +351,10 @@ static void wave5_vpu_remove(struct platform_device *pdev)
- {
- 	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+index f4f7cb45b1f1b..f52b8208e6b93 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+@@ -72,6 +72,14 @@
+ 		: AV1_DIV_ROUND_UP_POW2((_value_), (_n_)));		\
+ })
  
-+	wave5_vpu_enc_unregister_device(dev);
-+	wave5_vpu_dec_unregister_device(dev);
-+	v4l2_device_unregister(&dev->v4l2_dev);
++enum rockchip_av1_tx_mode {
++	ROCKCHIP_AV1_TX_MODE_ONLY_4X4	= 0,
++	ROCKCHIP_AV1_TX_MODE_8X8	= 1,
++	ROCKCHIP_AV1_TX_MODE_16x16	= 2,
++	ROCKCHIP_AV1_TX_MODE_32x32	= 3,
++	ROCKCHIP_AV1_TX_MODE_SELECT	= 4,
++};
 +
- 	if (dev->irq < 0) {
- 		hrtimer_cancel(&dev->hrtimer);
- 		kthread_cancel_work_sync(&dev->work);
-@@ -364,9 +368,6 @@ static void wave5_vpu_remove(struct platform_device *pdev)
- 	mutex_destroy(&dev->hw_lock);
- 	reset_control_assert(dev->resets);
- 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
--	wave5_vpu_enc_unregister_device(dev);
--	wave5_vpu_dec_unregister_device(dev);
--	v4l2_device_unregister(&dev->v4l2_dev);
- 	wave5_vdi_release(&pdev->dev);
- 	ida_destroy(&dev->inst_ida);
+ struct rockchip_av1_film_grain {
+ 	u8 scaling_lut_y[256];
+ 	u8 scaling_lut_cb[256];
+@@ -1935,11 +1943,26 @@ static void rockchip_vpu981_av1_dec_set_reference_frames(struct hantro_ctx *ctx)
+ 	rockchip_vpu981_av1_dec_set_other_frames(ctx);
  }
+ 
++static int rockchip_vpu981_av1_get_hardware_tx_mode(enum v4l2_av1_tx_mode tx_mode)
++{
++	switch (tx_mode) {
++	case V4L2_AV1_TX_MODE_ONLY_4X4:
++		return ROCKCHIP_AV1_TX_MODE_ONLY_4X4;
++	case V4L2_AV1_TX_MODE_LARGEST:
++		return ROCKCHIP_AV1_TX_MODE_32x32;
++	case V4L2_AV1_TX_MODE_SELECT:
++		return ROCKCHIP_AV1_TX_MODE_SELECT;
++	}
++
++	return ROCKCHIP_AV1_TX_MODE_32x32;
++}
++
+ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
+ {
+ 	struct hantro_dev *vpu = ctx->dev;
+ 	struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
+ 	struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
++	int tx_mode;
+ 
+ 	hantro_reg_write(vpu, &av1_skip_mode,
+ 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_SKIP_MODE_PRESENT));
+@@ -2005,7 +2028,9 @@ static void rockchip_vpu981_av1_dec_set_parameters(struct hantro_ctx *ctx)
+ 			 !!(ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_ALLOW_HIGH_PRECISION_MV));
+ 	hantro_reg_write(vpu, &av1_comp_pred_mode,
+ 			 (ctrls->frame->flags & V4L2_AV1_FRAME_FLAG_REFERENCE_SELECT) ? 2 : 0);
+-	hantro_reg_write(vpu, &av1_transform_mode, (ctrls->frame->tx_mode == 1) ? 3 : 4);
++
++	tx_mode = rockchip_vpu981_av1_get_hardware_tx_mode(ctrls->frame->tx_mode);
++	hantro_reg_write(vpu, &av1_transform_mode, tx_mode);
+ 	hantro_reg_write(vpu, &av1_max_cb_size,
+ 			 (ctrls->sequence->flags
+ 			  & V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK) ? 7 : 6);
 -- 
 2.51.0
 
