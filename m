@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-53951-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53952-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ICRGNCapo2nfJQUAu9opvQ
-	(envelope-from <linux-media+bounces-53951-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:49:10 +0100
+	id aFcFCSypo2nfJQUAu9opvQ
+	(envelope-from <linux-media+bounces-53952-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:49:16 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E26E1CDF20
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:49:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B27F1CDF27
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:49:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1640032CA597
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:41:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4DE8132CAE2C
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:41:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741BA2F4A18;
-	Sun,  1 Mar 2026 01:41:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD5D82D838A;
+	Sun,  1 Mar 2026 01:41:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQ76+TBL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NGBdm0du"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1612DF13E;
-	Sun,  1 Mar 2026 01:41:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB3B2DB799;
+	Sun,  1 Mar 2026 01:41:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772329264; cv=none; b=o/oHDQwnjlGT9C3LEHKfI/yhbK3KdkwBtGQaJSwxaDSwc25Pl+dWGMjWkjyP6ZAqeftyvegiDZbR/SAvYoweABgyxymTyaEwA+6ignNphHcsqVSnscXfdpHEEgTWQ1Han6Q/sxolyh3ZuSU6NRjGBqNIdvzNv8s7tCod3X62XZc=
+	t=1772329267; cv=none; b=KvhHLPH4x85UiH4tkJZ7mySJbJS7CPhW+q1ZwixBfpI0dLj8krC116opgCAZ65IHJURokN514XqkrEkacKTlgO1gbjFAl/e7DggGz5IcW6+IdHWwlGEEWaqP83GZ6ZV3Nfy/VH8h2/tWdl/uhwH8XyqRlfHBOnCVI1s1eSr7dRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772329264; c=relaxed/simple;
-	bh=PonijaVrsagX3/M5GbS7xhTi3SmWY1lCL+3ApFbXYiA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o8lt00e+6WMiXgm33X9ur51zPJxTVlSrWrJckdXiHuOTqrGfEefU3s8hcj3dqRWlF51ombOOKg8Z2AwOCW3JxiUfP12zbHQ2G8n2ULJchPWyOun4qb66oDe7KRyod6vu3IPEJSdRttP0LIEWtZay1nuvTT+apJ7w65xm3ZtEqBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQ76+TBL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2413CC19421;
-	Sun,  1 Mar 2026 01:41:04 +0000 (UTC)
+	s=arc-20240116; t=1772329267; c=relaxed/simple;
+	bh=Or6wwqdOF70jugxAy2SH7JMZkkY+pyAQ1NNm8s6D0GE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nefby8JWYCOw4TQ7xL7yHK/BZYwpdq2jznRNezpgGxDdWQEoMJB6fn5Q3u+Tq0NWHNNLE3XiRp5y+fp+31KrB5rbZfZ/R+hdmX7lemxJOjW8HyDEwyQ0MoNOiQn7MZFGVp9IoQYYJVWlah8AwPKwIDKSdESNOfo/OCqGen7Qz6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NGBdm0du; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85057C19421;
+	Sun,  1 Mar 2026 01:41:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772329264;
-	bh=PonijaVrsagX3/M5GbS7xhTi3SmWY1lCL+3ApFbXYiA=;
+	s=k20201202; t=1772329267;
+	bh=Or6wwqdOF70jugxAy2SH7JMZkkY+pyAQ1NNm8s6D0GE=;
 	h=From:To:Cc:Subject:Date:From;
-	b=MQ76+TBLC0qyiwJQwKMtNQmI8qfQqbQ2os0g7tkamhlJbFAQQbqdgEw1drEvzf5LP
-	 qLkjorjx7DkJq8Uj1k4Wn7GSnr51/au2V4KsYrHTi8CKdvY3R6DR/LaP3L7CBN95cb
-	 fzy+zRsDLOOdDrU/r+qdkMAU5EXATIoc+B/LggtxfUfPKmgxPbS61Ft3qRxMrKN2dj
-	 PjhhwUU6lexUvfYPPnzb8V8hOpo9/voMgOtIYZh7C1EUKzk1Zjrvz15svNzYa1+TsH
-	 XSRb/hWCS97bi8IK+biTbl1BBHk5E2TAXXEG1ucerbzK/zJYQHVO+ybAliK2IUuwL8
-	 DOg+caY0T8Ghg==
+	b=NGBdm0duEwhslJlYyhJehWCLa3xq6+tMt7bHBw8/jurPpnK6IyduqvWeL0YC1ESAT
+	 kMSRc40rjend/Vmpk0PVjN7ijhtNy865O6sLG/eqJOdVvwQuiZDHXHoLgkL7CHrdcr
+	 lkQKk6SPQV9+skMlJvqCTppBoujk363rvUCS+cSJR4PtOQGz9x+LctLosQK+VcQdbV
+	 +S5rRtCP5O6CUjm4SfZQ1tSBcbLcocktgxNNPnwNi2r914+u+dZP0T1wBKuifNuldy
+	 M48UcRxtFz/w2ipdbOf3S5WShVh8w2pdCbosTDR9VMj3mKgsyGbEPOt4jF1q80Huzm
+	 iM7Gqqmb5Ia9w==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ming.qian@oss.nxp.com
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: amphion: Drop min_queued_buffers assignment" failed to apply to 6.1-stable tree
-Date: Sat, 28 Feb 2026 20:41:02 -0500
-Message-ID: <20260301014103.1702519-1-sashal@kernel.org>
+	zilin@seu.edu.cn
+Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: FAILED: Patch "media: tegra-video: Fix memory leak in __tegra_channel_try_format()" failed to apply to 6.1-stable tree
+Date: Sat, 28 Feb 2026 20:41:05 -0500
+Message-ID: <20260301014105.1702569-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -71,12 +71,12 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53951-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53952-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -90,9 +90,9 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	NEURAL_HAM(-0.00)[-0.998];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email,nxp.com:email]
-X-Rspamd-Queue-Id: 3E26E1CDF20
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7B27F1CDF27
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.1-stable tree.
@@ -105,51 +105,76 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 5633ec763a2a18cef6c5ac9250e4f4b8786e7999 Mon Sep 17 00:00:00 2001
-From: Ming Qian <ming.qian@oss.nxp.com>
-Date: Tue, 23 Dec 2025 14:27:52 +0800
-Subject: [PATCH] media: amphion: Drop min_queued_buffers assignment
+From 43e5302d22334f1183dec3e0d5d8007eefe2817c Mon Sep 17 00:00:00 2001
+From: Zilin Guan <zilin@seu.edu.cn>
+Date: Fri, 14 Nov 2025 09:12:57 +0000
+Subject: [PATCH] media: tegra-video: Fix memory leak in
+ __tegra_channel_try_format()
 
-The min_queued_buffers field controls when start_streaming() is called
-by the vb2 core (it delays the callback until at least N buffers are
-queued). Setting it to 1 affects the timing of start_streaming(), which
-breaks the seek flow in decoder scenarios and causes test failures.
+The state object allocated by __v4l2_subdev_state_alloc() must be freed
+with __v4l2_subdev_state_free() when it is no longer needed.
 
-The current driver implementation does not rely on this minimum buffer
-requirement and handles streaming start correctly with the default
-value of 0, so remove these assignments.
+In __tegra_channel_try_format(), two error paths return directly after
+v4l2_subdev_call() fails, without freeing the allocated 'sd_state'
+object. This violates the requirement and causes a memory leak.
 
-Fixes: 3cd084519c6f ("media: amphion: add vpu v4l2 m2m support")
+Fix this by introducing a cleanup label and using goto statements in the
+error paths to ensure that __v4l2_subdev_state_free() is always called
+before the function returns.
+
+Fixes: 56f64b82356b7 ("media: tegra-video: Use zero crop settings if subdev has no get_selection")
+Fixes: 1ebaeb09830f3 ("media: tegra-video: Add support for external sensor capture")
 Cc: stable@vger.kernel.org
-Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/amphion/vpu_v4l2.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
-index 121165a7184fc..64fc88d89cccd 100644
---- a/drivers/media/platform/amphion/vpu_v4l2.c
-+++ b/drivers/media/platform/amphion/vpu_v4l2.c
-@@ -669,7 +669,6 @@ static int vpu_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_q
- 		src_vq->mem_ops = &vb2_vmalloc_memops;
- 	src_vq->drv_priv = inst;
- 	src_vq->buf_struct_size = sizeof(struct vpu_vb2_buffer);
--	src_vq->min_queued_buffers = 1;
- 	src_vq->dev = inst->vpu->dev;
- 	src_vq->lock = &inst->lock;
- 	ret = vb2_queue_init(src_vq);
-@@ -686,7 +685,6 @@ static int vpu_m2m_queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_q
- 		dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->drv_priv = inst;
- 	dst_vq->buf_struct_size = sizeof(struct vpu_vb2_buffer);
--	dst_vq->min_queued_buffers = 1;
- 	dst_vq->dev = inst->vpu->dev;
- 	dst_vq->lock = &inst->lock;
- 	ret = vb2_queue_init(dst_vq);
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index c9276ff76157f..14b327afe045e 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -438,7 +438,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 		.target = V4L2_SEL_TGT_CROP_BOUNDS,
+ 	};
+ 	struct v4l2_rect *try_crop;
+-	int ret;
++	int ret = 0;
+ 
+ 	subdev = tegra_channel_get_remote_source_subdev(chan);
+ 	if (!subdev)
+@@ -482,8 +482,10 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 		} else {
+ 			ret = v4l2_subdev_call(subdev, pad, get_selection,
+ 					       NULL, &sdsel);
+-			if (ret)
+-				return -EINVAL;
++			if (ret) {
++				ret = -EINVAL;
++				goto out_free;
++			}
+ 
+ 			try_crop->width = sdsel.r.width;
+ 			try_crop->height = sdsel.r.height;
+@@ -495,14 +497,15 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 
+ 	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
+ 	if (ret < 0)
+-		return ret;
++		goto out_free;
+ 
+ 	v4l2_fill_pix_format(pix, &fmt.format);
+ 	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
+ 
++out_free:
+ 	__v4l2_subdev_state_free(sd_state);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int tegra_channel_try_format(struct file *file, void *fh,
 -- 
 2.51.0
 
