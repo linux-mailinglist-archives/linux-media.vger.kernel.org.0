@@ -1,58 +1,59 @@
-Return-Path: <linux-media+bounces-53869-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53870-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ECulFaCTo2khHQUAu9opvQ
-	(envelope-from <linux-media+bounces-53869-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:17:20 +0100
+	id uAmgFleTo2khHQUAu9opvQ
+	(envelope-from <linux-media+bounces-53870-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:16:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC0B01CA0C6
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:17:19 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3291CA04B
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:16:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 80361305145B
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:15:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 258CF301FAA6
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:15:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C77323C50A;
-	Sun,  1 Mar 2026 01:15:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7300423B63C;
+	Sun,  1 Mar 2026 01:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uXrXthYN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hDSiwTRW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F5822D7A9;
-	Sun,  1 Mar 2026 01:15:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AC6430B90;
+	Sun,  1 Mar 2026 01:15:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327730; cv=none; b=loPkgIKu8qRYSCCSCEiANfVenfkk8GD1LOnwPx8jE/DHzqddiagUnkUwt14XoxXkqsKFZjkfuEh4Q11S0PEwI+USTZQ9Tn6iSicQPZbRvpgUHN4sLm4hC/CNoQbOpWL+rGdvSXON/1Ep3m9yGn5nAhxwXed8YjbbewJmEXyTfx4=
+	t=1772327736; cv=none; b=KcbhnjGrPVWAKbSiMrEWysvxlnnWqHUr0Ijk7911SZ70SZTDjao6IvB95AAgqmac4vVmPkIOOoj3GZP8wKy9oFIwRGIxYBp4BKNkwuxKsDIaLJXp7OFTJiO20t3aVresGCPjDirWgHQHcnFxy5MtHZwymIoR/o069WXHUEi5gD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327730; c=relaxed/simple;
-	bh=TIxQSLnpH7VGK9ejWjNF29LPJEVPfLMt6+Mb6Wq8iOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mP8V4b9o4ub+65geONwtKwdhEJ4AV9//j63sin+c8Z6EVYunCpQUB8F8Jf0y8uilh8zTP0HzUXQL1Nph59458lK0vJnj//mxff3yUUZRox+2yK0X7gt0JcOCftvuFi+jhubxToaOlMgWYTeNBYlvLskC8L22NcL97+1RrY29xOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uXrXthYN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2736C19421;
-	Sun,  1 Mar 2026 01:15:28 +0000 (UTC)
+	s=arc-20240116; t=1772327736; c=relaxed/simple;
+	bh=k/Q2SdSDuVQ9xEzNdBSgHjkvZMDM40Qn7IT7bDtZEx8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BmT2OLONOO0ylPOoWGS9jLuzdOlwq0pU7rqJrs0mTHbkBMysMpkGVUGrRXKlrD6ssoCl5bLPid/Y3sUuTC3CtRg21z+71r1Z71SfNynMrITgS9BqKEeXXNOwd0PZNe4LsA03F/liomz0qGWzIOrVe2X7qLheq058XcrOnpEYj2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hDSiwTRW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06120C19421;
+	Sun,  1 Mar 2026 01:15:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327729;
-	bh=TIxQSLnpH7VGK9ejWjNF29LPJEVPfLMt6+Mb6Wq8iOE=;
+	s=k20201202; t=1772327736;
+	bh=k/Q2SdSDuVQ9xEzNdBSgHjkvZMDM40Qn7IT7bDtZEx8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=uXrXthYNv6HOv8JAxJN5xi/D8rL/aUtD7CeQeiU9ez8HcARWU63tXQV3sIuI+e5So
-	 YGG7QNf+uz+6djtAeGAqZFV6S+Ax/NrcEOXa0ofSVd5s1dns3hgPpz+M9NlSC6+Ceh
-	 W91D0IwUUAtQUVztP7mOTNOQm1Ob6SnlUNp+uHgphsCjYkJnIU5vdvpGU3UoGIdNsU
-	 iESqetp4KuiVuIIBCzx4SIw4PVF7xUOAfmIz7BSvI5G6Ovz6skOgCWeMl7VF1AIXZi
-	 bpOXpDAVnXieDL1ZMmfhsiIjuBg18nEvh+b78uEqWa8xxwCbw2LchTXw9OMTXilBAZ
-	 3/bBRhguAd3gw==
+	b=hDSiwTRW58DXiC0ueNTBWBhZLZCmZxxfa0wZtF0TMQVY4WwV+JxYgmawqY37yYp5C
+	 aMt1qMgSkhtQx8fdPl0ydRNnb2X+uqQ5aCl7nOovVMef0nuNWdPgPRo9RQj48CfLO/
+	 CkvAmnq8GG/+Yy5GbyshQIEuO1ZE1fOBwR2GBcERSkawBHsyjVE84jFrheytzgvW+9
+	 BJWegTS/ywJ4Q49Vg/2WUTraa55kvjSwM+Awke9aBM1imJEO96euuy0rXfPYszm+tZ
+	 y0KdWCo0tu0x6UHzcnwZxo6oqX87TojpmeuP+FlEMTtTEmUyyD7HgEzuhYcmtAQ9SI
+	 /wr7zwqc3Vehg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	zilin@seu.edu.cn
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	dikshita.agarwal@oss.qualcomm.com
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: FAILED: Patch "media: tegra-video: Fix memory leak in __tegra_channel_try_format()" failed to apply to 6.18-stable tree
-Date: Sat, 28 Feb 2026 20:15:27 -0500
-Message-ID: <20260301011527.1668754-1-sashal@kernel.org>
+	linux-arm-msm@vger.kernel.org
+Subject: FAILED: Patch "media: iris: remove v4l2_m2m_ioctl_{de,en}coder_cmd API usage during STOP handling" failed to apply to 6.18-stable tree
+Date: Sat, 28 Feb 2026 20:15:34 -0500
+Message-ID: <20260301011534.1669032-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -64,35 +65,34 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53869-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-53870-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[seu.edu.cn:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EC0B01CA0C6
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: 1C3291CA04B
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.18-stable tree.
@@ -105,76 +105,70 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 43e5302d22334f1183dec3e0d5d8007eefe2817c Mon Sep 17 00:00:00 2001
-From: Zilin Guan <zilin@seu.edu.cn>
-Date: Fri, 14 Nov 2025 09:12:57 +0000
-Subject: [PATCH] media: tegra-video: Fix memory leak in
- __tegra_channel_try_format()
+From 8fc707d13df517222db12b465af4aa9df05c99e1 Mon Sep 17 00:00:00 2001
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Date: Sun, 2 Nov 2025 09:10:19 +0530
+Subject: [PATCH] media: iris: remove v4l2_m2m_ioctl_{de,en}coder_cmd API usage
+ during STOP handling
 
-The state object allocated by __v4l2_subdev_state_alloc() must be freed
-with __v4l2_subdev_state_free() when it is no longer needed.
+Currently v4l2_m2m_ioctl_{de,enc}coder_cmd is being invoked during STOP
+command handling. However, this is not required as the iris driver has
+its own drain and stop handling mechanism in place.
 
-In __tegra_channel_try_format(), two error paths return directly after
-v4l2_subdev_call() fails, without freeing the allocated 'sd_state'
-object. This violates the requirement and causes a memory leak.
+Using the m2m command API in this context leads to incorrect behavior,
+where the LAST flag is prematurely attached to a capture buffer,
+when there are no buffers in m2m source queue. But, in this scenario
+even though the source buffers are returned to client, hardware might
+still need to process the pending capture buffers.
 
-Fix this by introducing a cleanup label and using goto statements in the
-error paths to ensure that __v4l2_subdev_state_free() is always called
-before the function returns.
+Attaching LAST flag prematurely can result in the capture buffer being
+removed from the destination queue before the hardware has finished
+processing it, causing issues when the buffer is eventually returned by
+the hardware.
 
-Fixes: 56f64b82356b7 ("media: tegra-video: Use zero crop settings if subdev has no get_selection")
-Fixes: 1ebaeb09830f3 ("media: tegra-video: Add support for external sensor capture")
+To prevent this, remove the m2m API usage in stop handling.
+
+Fixes: d09100763bed ("media: iris: add support for drain sequence")
+Fixes: 75db90ae067d ("media: iris: Add support for drain sequence in encoder video device")
+Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 Cc: stable@vger.kernel.org
-Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/staging/media/tegra-video/vi.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/media/platform/qcom/iris/iris_vidc.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index c9276ff76157f..14b327afe045e 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -438,7 +438,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		.target = V4L2_SEL_TGT_CROP_BOUNDS,
- 	};
- 	struct v4l2_rect *try_crop;
--	int ret;
-+	int ret = 0;
+diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+index dfd94f4a84a94..bd38d84c9cc79 100644
+--- a/drivers/media/platform/qcom/iris/iris_vidc.c
++++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+@@ -573,9 +573,10 @@ static int iris_dec_cmd(struct file *filp, void *fh,
  
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
- 	if (!subdev)
-@@ -482,8 +482,10 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		} else {
- 			ret = v4l2_subdev_call(subdev, pad, get_selection,
- 					       NULL, &sdsel);
--			if (ret)
--				return -EINVAL;
-+			if (ret) {
-+				ret = -EINVAL;
-+				goto out_free;
-+			}
+ 	mutex_lock(&inst->lock);
  
- 			try_crop->width = sdsel.r.width;
- 			try_crop->height = sdsel.r.height;
-@@ -495,14 +497,15 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+-	ret = v4l2_m2m_ioctl_decoder_cmd(filp, fh, dec);
+-	if (ret)
++	if (dec->cmd != V4L2_DEC_CMD_STOP && dec->cmd != V4L2_DEC_CMD_START) {
++		ret = -EINVAL;
+ 		goto unlock;
++	}
  
- 	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
- 	if (ret < 0)
--		return ret;
-+		goto out_free;
+ 	if (inst->state == IRIS_INST_DEINIT)
+ 		goto unlock;
+@@ -606,9 +607,10 @@ static int iris_enc_cmd(struct file *filp, void *fh,
  
- 	v4l2_fill_pix_format(pix, &fmt.format);
- 	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
+ 	mutex_lock(&inst->lock);
  
-+out_free:
- 	__v4l2_subdev_state_free(sd_state);
+-	ret = v4l2_m2m_ioctl_encoder_cmd(filp, fh, enc);
+-	if (ret)
++	if (enc->cmd != V4L2_ENC_CMD_STOP && enc->cmd != V4L2_ENC_CMD_START) {
++		ret = -EINVAL;
+ 		goto unlock;
++	}
  
--	return 0;
-+	return ret;
- }
- 
- static int tegra_channel_try_format(struct file *file, void *fh,
+ 	if (inst->state == IRIS_INST_DEINIT)
+ 		goto unlock;
 -- 
 2.51.0
 
