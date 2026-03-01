@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-53861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53862-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IPvGMdmNo2keGwUAu9opvQ
-	(envelope-from <linux-media+bounces-53861-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 01:52:41 +0100
+	id SDg7F+WNo2ndGgUAu9opvQ
+	(envelope-from <linux-media+bounces-53862-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 01:52:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD3D1C9E56
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 01:52:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D38661C9E65
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 01:52:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BBA78302E30C
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 00:51:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 38CBD303DD33
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 00:51:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D47D244670;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6688024679F;
 	Sun,  1 Mar 2026 00:51:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLvh1uVZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pTr/hWS1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0431482E8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E2C15539A;
 	Sun,  1 Mar 2026 00:51:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772326283; cv=none; b=ew6C6cOjTFqo+eLGOJLvHTyEjpnZZcfaXYxY0w7enDGXeU0EL6e/MMJhiMgbsXiCrF2idmszhbPJ6YmOvBfRenVTusLl/afGpfH8AqDRI+h8XOWUMg7gyA4Hb1BioAnu5fQXIPdCjEL1CQ7PKGQsP9tk//SZGDxWz7GH2GUO17g=
+	t=1772326283; cv=none; b=rTk0AM8C8ZT73kb6QriyEGo109ZjGFhHZFz7O+46oJtIBrjR1nmo+MBwmz3ebo6eFS1SXu+g1pnL/S6T2WVM/ZgXwIo4c/+RkQykmGoM5w+blFfEcdEn7zITeAggmjVrDRbjHLCfu04g+KakRRA9+VI8P1QuQcaIdxfJvHoBGzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772326283; c=relaxed/simple;
-	bh=V/kaEQX6C9SzR/d+NfS8UjTNWsrCLCWH8jNuXnCCVxk=;
+	bh=fegcXTqMjiIV206X2z+HxUY2Ah8PqoEDD+xs2idN8pw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mwbvTV8EUVzP/jD+SHQYYaEYewTEJk5D64licceWCC9P5naAtqlbHgX56y414o5Fu2v8yIbXQtV55UvmEa1a9UTOwJI9lqKMK9+dQzdYEKCA4sVFZF6GgIQI346D5n0zApBn31PsW8VmUfxoaU+1RNshKqij79ckJT1+V/zwuCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLvh1uVZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5FE4DC2BCB0;
+	 In-Reply-To:To:Cc; b=B6AMh1SIXhN8UBqsE9jRcboMuvx0FUbunuwkdkpNUyi22ARIGx9rIpAkvwEBP+jgBHM++RyfMyOkWY99UXCnYP4yWKWag+Jn0Yg84vYVIeU/p7MXAeO7oweW6atZ2eo2iY6/eBZdR28S9hZRJrj3i/jH2Rk6cSlXDzZgtbk/7Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pTr/hWS1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 76D7AC2BCB2;
 	Sun,  1 Mar 2026 00:51:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1772326283;
-	bh=V/kaEQX6C9SzR/d+NfS8UjTNWsrCLCWH8jNuXnCCVxk=;
+	bh=fegcXTqMjiIV206X2z+HxUY2Ah8PqoEDD+xs2idN8pw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=nLvh1uVZM1UXpIXjvmOZ8eqW19b0Pbzatg9VAfWrreeKLIHZzAX92D9wnA/JB0zp+
-	 MgDNBY/RqWN3GAtgLaeRcdscB67JaUFl7PANRNzXnxUFggXv4QNweIyLtxgVYf+/XE
-	 UnJvfjtcXBYMc6cguKUP/2lYCH+20WJ41CNIIORcrofNL4dpiwooj9sFgUt2r4a1JT
-	 w8gtDEmawfHNrRP6qLAsdxyfm/SS5XlA9JDp/OvhGDP3mpie3OK3wo0fTylXNxfyo1
-	 Q95qY9r2h8pOR3ywDOjd4kTp9MKqtFWOD/NHdggiBRa12k8YRjGI8x2x96XudxU2wq
-	 WF4I/GkpVnCng==
+	b=pTr/hWS1hYZQr+rVY4dv0x56mYnsmxj3P6uADyZ0g6nXfkjFH8wWxxRHzthYXB8jy
+	 /OUxN01UItLcIbNoR4+A9xAHPl2zUWBc1R8VJef5lYpXIsA6zZxvZbE9un1q/AjAQ/
+	 fMBiqK3jQ+DS+zhyI+F7iwYYAcYm7u+BiioeEyqCEGLtGCOc9OcbLhnqWSSE6nVCIk
+	 KlHn+zo3eJC8JUB0rFIylSIxkmt/hiESHyuVJ0kMcjDHNsUxHQTUAHdKG/Wc23dTBq
+	 8wu70v2NueUZe5nlPCbiNRLiq7i0kxlWbOuACBzzkbmxHQMXGUqB/QJrvDQ2Pngvk+
+	 QE0DxQlbPk0cQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5819AFD004B;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69030FD004A;
 	Sun,  1 Mar 2026 00:51:23 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sun, 01 Mar 2026 01:51:22 +0100
-Subject: [PATCH WIP v4 3/9] media: qcom: camss: Prepare CSID for C-PHY
- support
+Date: Sun, 01 Mar 2026 01:51:23 +0100
+Subject: [PATCH WIP v4 4/9] media: qcom: camss: Initialize lanes after lane
+ configuration is available
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260301-qcom-cphy-v4-3-e53316d2cc65@ixit.cz>
+Message-Id: <20260301-qcom-cphy-v4-4-e53316d2cc65@ixit.cz>
 References: <20260301-qcom-cphy-v4-0-e53316d2cc65@ixit.cz>
 In-Reply-To: <20260301-qcom-cphy-v4-0-e53316d2cc65@ixit.cz>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
@@ -74,21 +74,21 @@ Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2138; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3845; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=VE5OUEM0X//rg3dmLrS4SJXKFfJ1U9PcL8DiivLtXg0=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpo42I49cCzgz9a1iEZzYEzT800pShZjkIyRzT8
- 9ClYGl3pyeJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaaONiAAKCRBgAj/E00kg
- cp9uD/9t4vqsgoKkGQC54Qqxi9WS+6D9RT4VTCOiO1cKBCcARAmg75XqmFtZ+Le6RsdZwA0JgzX
- xRfnpM791q0ktfoQkuCWV+HHrToLx9GH0qa6l/vE6twum06ypp+Q9QSfRKOBHE78o1eQ1hRmVAy
- KUxBCsjmuU9oVZUsEXrHWsIeiIiT0lJCRSTA5G0TsmizpzhV7fFmBd5AqpnH8Ecw+2ZznzqXtE8
- iWlrA3Lx283fTilleNYC9KbBu/gC1nL/w+XXXVEKTEZ/YpasNc1I30Ibw1TwrRo5GN/DbHr68uP
- IeSGkDTg7sJsq1LlWcBhLssChBFMbfGHXyl+mBeZjutobRkgIIzt+tXhe9XwLrAUGf9+dsMYlZY
- vWgvDLJa1pufeMR9ej8zEe5wRXFbED9+79tyo3jhLjdhxpGjT9ZV9If42W79qJbMRFhBbVJlJ4s
- sXDMCKxY6cZU2+7ELksLXNexpQM6QZ35UEDLr9VyN8rEXNUAfDxaH9Yp4xG8FkrMsNBe4rpJaVX
- BsfVuRI+8h294p/NRIPr+cfZbsSHt0Uccg9i4xV23EHckSuBbABJuXPrFy8SFd8JelUSiUwlLI1
- C6Dsp5/NK2Z16aBqKHTBOEeS5ffZNN29PUu/ROwVWPMmN78fCvJ6YPv3j2t4rbTGhL0oxsedpKL
- 0nXgdjA9earRARA==
+ bh=POblRjXDkh18ym7OpzBorCGs1kZvG0b381or0ZV6l/s=;
+ b=kA0DAAgBYAI/xNNJIHIByyZiAGmjjYig5aDT7OYPjWMZPx9Az51jCHsFYOQU3Ep85A3kPuij2
+ okCMwQAAQgAHRYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJpo42IAAoJEGACP8TTSSBylZcP/11N
+ xDps7Ztfm/Cxri/RxCzyQ3rkhcHTZjnWYm5dWSztfHEHWnPcE2WjlqGr1SOrt5aDcfCwa63XEwH
+ QwlC24fs7silhmNbm1rEXWZV66/89QcJi7JncZY+ZxcP1tXjWgIFvbdF62y3YGYNasZ7KQMjp3/
+ G6A7M0CacaWFXEHIVWCIH7KhLxsOHzKYaRxSFk3tO1KJz0z0OuZNTzls2gOYRTN+i1pip37qgk/
+ zxtq/Pv1uCLsiVa9DHuktSD6JuTM3ZItUzkJsNXszZ70Ph8epeMSoaW6qBeg2BleqYOyM/sGlQf
+ CY7Ox4LVPiytahyaASG31BfmBuAiCJe6CDYvBo+7IuwoV1b0fz/HaMZui6KD7dQb1w6tZq4QYvB
+ 0K7lNVWhbMHLjTAKDzIUhTtX2L8oyqkUdKfwwTeY52MAk9aQv1umhrxFkVNxEbRiY635P2ATgRZ
+ 3IoOa2iat7OroWbT/A1CFpCa9erjHc7k8ZdIGy0HoedyrLtAEBMPj2sO5ovw1lCBUJH1owE7xy7
+ vSzJzYxhXELw5pNOC2rSTX3azgnBUMlch6PcJ/TypdrBD9y/HHxAMVbcubrZR7hPkKdSlQln3Hd
+ /y/zjeWeJYh9R0yR4J8ew8qYIxsn/WpFEgmngi5DuXFAtVyTrw2RYydjSvZColpluU6JYxbHxvJ
+ vFC7i
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -100,12 +100,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53861-lists,linux-media=lfdr.de,david.ixit.cz];
+	TAGGED_FROM(0.00)[bounces-53862-lists,linux-media=lfdr.de,david.ixit.cz];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com];
 	MIME_TRACE(0.00)[0:+];
@@ -119,63 +119,144 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	HAS_REPLYTO(0.00)[david@ixit.cz]
-X-Rspamd-Queue-Id: 6AD3D1C9E56
+X-Rspamd-Queue-Id: D38661C9E65
 X-Rspamd-Action: no action
 
-From: David Heidelberg <david@ixit.cz>
+From: Petr Hodina <phodina@protonmail.com>
 
-Inherit C-PHY information from CSIPHY, so we can configure CSID
-properly.
+The lanes must not be initialized before the driver has access to
+the lane configuration, as it depends on whether D-PHY or C-PHY mode
+is in use. Move the lane initialization to a later stage where the
+configuration structures are available.
 
-CSI2_RX_CFG0_PHY_TYPE_SEL must be set to 1, when C-PHY mode is used.
-
+Signed-off-by: Petr Hodina <phodina@protonmail.com>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/media/platform/qcom/camss/camss-csid-gen2.c | 1 +
- drivers/media/platform/qcom/camss/camss-csid.c      | 1 +
- drivers/media/platform/qcom/camss/camss-csid.h      | 1 +
- 3 files changed, 3 insertions(+)
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 91 ++++++++++++++--------
+ 1 file changed, 57 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 2a1746dcc1c5b..033036ae28a4f 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -183,6 +183,7 @@ static void __csid_configure_rx(struct csid_device *csid,
- 	val = (lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
- 	val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
- 	val |= phy->csiphy_id << CSI2_RX_CFG0_PHY_NUM_SEL;
-+	val |= csid->phy.cphy << CSI2_RX_CFG0_PHY_TYPE_SEL;
- 	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
+diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+index cf83c9e062b81..9748208107222 100644
+--- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
++++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+@@ -1048,6 +1048,62 @@ static int csiphy_lanes_enable(struct csiphy_device *csiphy,
+ 	u8 val;
+ 	int i;
  
- 	val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index ed1820488c987..b50b0cfe280c1 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -1275,6 +1275,7 @@ static int csid_link_setup(struct media_entity *entity,
- 		csid->phy.csiphy_id = csiphy->id;
++	switch (csiphy->camss->res->version) {
++	case CAMSS_845:
++		{
++			regs->lane_regs = &lane_regs_sdm845[0];
++			regs->lane_array_size = ARRAY_SIZE(lane_regs_sdm845);
++		}
++		break;
++	case CAMSS_2290:
++	case CAMSS_6150:
++		{
++			regs->lane_regs = &lane_regs_qcm2290[0];
++			regs->lane_array_size = ARRAY_SIZE(lane_regs_qcm2290);
++		}
++		break;
++	case CAMSS_7280:
++	case CAMSS_8250:
++		{
++			regs->lane_regs = &lane_regs_sm8250[0];
++			regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8250);
++		}
++		break;
++	case CAMSS_8280XP:
++		{
++			regs->lane_regs = &lane_regs_sc8280xp[0];
++			regs->lane_array_size = ARRAY_SIZE(lane_regs_sc8280xp);
++		}
++		break;
++	case CAMSS_X1E80100:
++		{
++			regs->lane_regs = &lane_regs_x1e80100[0];
++			regs->lane_array_size = ARRAY_SIZE(lane_regs_x1e80100);
++		}
++		break;
++	case CAMSS_8550:
++		{
++			regs->lane_regs = &lane_regs_sm8550[0];
++			regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8550);
++		}
++		break;
++	case CAMSS_8650:
++		{
++			regs->lane_regs = &lane_regs_sm8650[0];
++			regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8650);
++		}
++		break;
++	case CAMSS_8300:
++	case CAMSS_8775P:
++		{
++			regs->lane_regs = &lane_regs_sa8775p[0];
++			regs->lane_array_size = ARRAY_SIZE(lane_regs_sa8775p);
++		}
++		break;
++	default:
++		break;
++	}
++
+ 	settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
  
- 		lane_cfg = &csiphy->cfg.csi2->lane_cfg;
-+		csid->phy.cphy = (lane_cfg->phy_cfg == V4L2_MBUS_CSI2_CPHY);
- 		csid->phy.lane_cnt = lane_cfg->num_data;
- 		csid->phy.lane_assign = csid_get_lane_assign(lane_cfg);
+ 	val = 0;
+@@ -1119,49 +1175,16 @@ static int csiphy_init(struct csiphy_device *csiphy)
+ 		return -ENOMEM;
+ 
+ 	csiphy->regs = regs;
+-	regs->offset = 0x800;
+ 	regs->common_status_offset = 0xb0;
+ 
+ 	switch (csiphy->camss->res->version) {
+-	case CAMSS_845:
+-		regs->lane_regs = &lane_regs_sdm845[0];
+-		regs->lane_array_size = ARRAY_SIZE(lane_regs_sdm845);
+-		break;
+-	case CAMSS_2290:
+-	case CAMSS_6150:
+-		regs->lane_regs = &lane_regs_qcm2290[0];
+-		regs->lane_array_size = ARRAY_SIZE(lane_regs_qcm2290);
+-		break;
+-	case CAMSS_7280:
+-	case CAMSS_8250:
+-		regs->lane_regs = &lane_regs_sm8250[0];
+-		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8250);
+-		break;
+-	case CAMSS_8280XP:
+-		regs->lane_regs = &lane_regs_sc8280xp[0];
+-		regs->lane_array_size = ARRAY_SIZE(lane_regs_sc8280xp);
+-		break;
+ 	case CAMSS_X1E80100:
+-		regs->lane_regs = &lane_regs_x1e80100[0];
+-		regs->lane_array_size = ARRAY_SIZE(lane_regs_x1e80100);
+-		regs->offset = 0x1000;
+-		break;
+ 	case CAMSS_8550:
+-		regs->lane_regs = &lane_regs_sm8550[0];
+-		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8550);
+-		regs->offset = 0x1000;
+-		break;
+ 	case CAMSS_8650:
+-		regs->lane_regs = &lane_regs_sm8650[0];
+-		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8650);
+ 		regs->offset = 0x1000;
+ 		break;
+-	case CAMSS_8300:
+-	case CAMSS_8775P:
+-		regs->lane_regs = &lane_regs_sa8775p[0];
+-		regs->lane_array_size = ARRAY_SIZE(lane_regs_sa8775p);
+-		break;
+ 	default:
++		regs->offset = 0x800;
+ 		break;
  	}
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index aedc96ed84b2f..a82db31bd2335 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -70,6 +70,7 @@ struct csid_phy_config {
- 	u32 lane_assign;
- 	u32 en_vc;
- 	u8 need_vc_update;
-+	bool cphy;
- };
  
- struct csid_device;
 
 -- 
 2.51.0
