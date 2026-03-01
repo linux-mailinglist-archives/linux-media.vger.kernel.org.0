@@ -1,59 +1,60 @@
-Return-Path: <linux-media+bounces-53880-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53881-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wFezDCGUo2lpHQUAu9opvQ
-	(envelope-from <linux-media+bounces-53880-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:19:29 +0100
+	id kLJyGD6Uo2l7HQUAu9opvQ
+	(envelope-from <linux-media+bounces-53881-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:19:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C141CA2CF
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:19:29 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810761CA364
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:19:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 04379301137F
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:19:24 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B6EB6300C356
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:19:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4E631E4AF;
-	Sun,  1 Mar 2026 01:19:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47CEE26F289;
+	Sun,  1 Mar 2026 01:19:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggc64fzM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PLqKCtmQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194B818E02A;
-	Sun,  1 Mar 2026 01:19:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66DD25F78F;
+	Sun,  1 Mar 2026 01:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327960; cv=none; b=KMjw5dfElOdq0SKz4pM0W5fPxtN/up6Cc2HMkVxFBdq3hv/D6NgT+5rKoSnaBouR+06i91rkeTDufnLc2vOjIeYSDNxEkCoiV94xCG9ob4jhuPshM8mhvtZWOiIWCzNqXAWcyWK5PMQspSM23sevqhZmbSrkZkMOFhdnVSEbYR0=
+	t=1772327962; cv=none; b=hLccFlrNm/K2L/dvo6N9YnWwb5OkufawZds//M0unA3aKvqUMwnNSdXLignqqmstDmXASUE8hhXAc4Mx2/BpscDWrR0H2KSGvqy1OKpbXpY2fkYldinhuIBfWsR8lC9yZpQAW8X0EiudYemXKIBS1/Yp6prx9nLZGJamMaaoMZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327960; c=relaxed/simple;
-	bh=KSlzvPMcPdroCRP7Ne2TmImOphnHGVDI27z0Kahl+9A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dEV3lhFipuZAHFIuZfyu7pS/rQobo3nHMNp/Guj4gvCHgV/xouN6FJ89Ph4vxP3FTtb+WJv6QuLnnk2fqhE3O0I9qEEVCQqdLUdZFDq/j5LDAZt9Dls+0qUJs1uCIa+WefweJFhzQGkmJHOEQL1ihdgNVHy1k5uiw7mC9eLXG/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggc64fzM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C6C9C19421;
-	Sun,  1 Mar 2026 01:19:19 +0000 (UTC)
+	s=arc-20240116; t=1772327962; c=relaxed/simple;
+	bh=LdcG8ETEviyuXaC2W+MfMsfj/WLomJKJaGZKqWIdFj0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E56kt3UF/u1X+W21mTDf9lTxe1VCHuSpNjTJdrupT2DeG5uT03eM9Oc1Mh5psfYpBz5bJDZLyo3CSsDl7kwO+B14C0g4VnohkBtKXiK3a1pE3uBuC0xyELwvG8QPaxXnRj+n/PAT4ltiWEVgIegl8Vn3fBPxEVT+OAWN4/pIWN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PLqKCtmQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4CD2C19421;
+	Sun,  1 Mar 2026 01:19:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327960;
-	bh=KSlzvPMcPdroCRP7Ne2TmImOphnHGVDI27z0Kahl+9A=;
+	s=k20201202; t=1772327962;
+	bh=LdcG8ETEviyuXaC2W+MfMsfj/WLomJKJaGZKqWIdFj0=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ggc64fzMGsuekE/SfKhDa/bqLNNTNq9trPciRySyaTnuxcQYhJLWq9hxg2AP/5ZvH
-	 3GU1I1l1eURupXzgzT7khO1kMUxLuifQfwVyx8ks/bgRIMAhdFvu5JCeIz9kd5kQ/6
-	 VAzwHMJx5KY83JZRqJRJa5BmNEMFm78SAOyenxEAmzWUsw3gOtBuXj6QgEq6cHsp+p
-	 /22ooXH/gSY3pjbi40YpJZ8/t1P4XssupEZudH3sOJeZAH+uGi4YpABHkX/tZScGcN
-	 kIoIxWEWEf5D4q9l2rryF1KF778MSw8VGQ4tiiRQ94dnqbHut4eU88BJ0AcgSp3JYf
-	 cxmmYBbUt176g==
+	b=PLqKCtmQ4pEQ1iXzYwdXkrmUQ9o8lXfboU/YdzR6O6wokpTbKtoJ8JH/VKo2yN9rO
+	 ff0ofNOqXnQsfuYuqdQZVf5LVNJKIzENxeTgPDY0D9doMdKi7Gm9cxEwbCP/JLUNcC
+	 Gd24uxT0LzRDZ3ZaZdkiVD9y7/QXx73YNs7DE9C+gWuAYYIFrlqQtOIGZM7EykOTCy
+	 Ady+ZzteoG1EEh1Q5gTHK2EdYRiYECVyGNhJq9ST5aG/Jip6H+EKhwMrtNHwkXq2W7
+	 bZSArM/S5gxAawqSS5GnnfTQkeFm7RIhiT3jt6KwEd6KOULctEiBlrsSCyR0NxmyRK
+	 lQRLJ1tQLMu8A==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	haoxiang_li2024@163.com
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	irui.wang@mediatek.com
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: FAILED: Patch "media: mtk-mdp: Fix error handling in probe function" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:19:17 -0500
-Message-ID: <20260301011918.1674237-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: mediatek: encoder: Fix uninitialized scalar variable issue" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:19:20 -0500
+Message-ID: <20260301011920.1674351-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -65,36 +66,34 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[vger.kernel.org,163.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53880-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53881-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.988];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: 14C141CA2CF
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mediatek.com:email]
+X-Rspamd-Queue-Id: 810761CA364
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -107,73 +106,58 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 8a8a3232abac5b972058a5f2cb3e33199d2a8648 Mon Sep 17 00:00:00 2001
-From: Haoxiang Li <haoxiang_li2024@163.com>
-Date: Wed, 8 Oct 2025 16:55:03 +0800
-Subject: [PATCH] media: mtk-mdp: Fix error handling in probe function
+From 88e935de7cf8795d7a6a51385db87ecb361a7050 Mon Sep 17 00:00:00 2001
+From: Irui Wang <irui.wang@mediatek.com>
+Date: Sun, 7 Sep 2025 17:35:56 +0800
+Subject: [PATCH] media: mediatek: encoder: Fix uninitialized scalar variable
+ issue
 
-Add mtk_mdp_unregister_m2m_device() on the error handling path to prevent
-resource leak.
+UNINIT checker finds some instances of variables that are used
+without being initialized, for example using the uninitialized
+value enc_result.is_key_frm can result in unpredictable behavior,
+so initialize these variables after declaring.
 
-Add check for the return value of vpu_get_plat_device() to prevent null
-pointer dereference. And vpu_get_plat_device() increases the reference
-count of the returned platform device. Add platform_device_put() to
-prevent reference leak.
-
-Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
+Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Encoder Driver")
 Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- .../media/platform/mediatek/mdp/mtk_mdp_core.c   | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ .../media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-index 80fdc6ff57e0e..f78fa30f18648 100644
---- a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-+++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-@@ -194,11 +194,17 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 	}
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+index 6faf3f659e751..b3a0a1d8b7a8e 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+@@ -850,7 +850,7 @@ static void vb2ops_venc_buf_queue(struct vb2_buffer *vb)
+ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
+ {
+ 	struct mtk_vcodec_enc_ctx *ctx = vb2_get_drv_priv(q);
+-	struct venc_enc_param param;
++	struct venc_enc_param param = { };
+ 	int ret;
+ 	int i;
  
- 	mdp->vpu_dev = vpu_get_plat_device(pdev);
-+	if (!mdp->vpu_dev) {
-+		dev_err(&pdev->dev, "Failed to get vpu device\n");
-+		ret = -ENODEV;
-+		goto err_vpu_get_dev;
-+	}
-+
- 	ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
- 				  VPU_RST_MDP);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register reset handler\n");
--		goto err_m2m_register;
-+		goto err_reg_handler;
- 	}
+@@ -1004,7 +1004,7 @@ static int mtk_venc_encode_header(void *priv)
+ 	int ret;
+ 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+ 	struct mtk_vcodec_mem bs_buf;
+-	struct venc_done_result enc_result;
++	struct venc_done_result enc_result = { };
  
- 	platform_set_drvdata(pdev, mdp);
-@@ -206,7 +212,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
--		goto err_m2m_register;
-+		goto err_reg_handler;
- 	}
+ 	dst_buf = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
+ 	if (!dst_buf) {
+@@ -1125,7 +1125,7 @@ static void mtk_venc_worker(struct work_struct *work)
+ 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+ 	struct venc_frm_buf frm_buf;
+ 	struct mtk_vcodec_mem bs_buf;
+-	struct venc_done_result enc_result;
++	struct venc_done_result enc_result = { };
+ 	int ret, i;
  
- 	pm_runtime_enable(dev);
-@@ -214,6 +220,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
-+err_reg_handler:
-+	platform_device_put(mdp->vpu_dev);
-+
-+err_vpu_get_dev:
-+	mtk_mdp_unregister_m2m_device(mdp);
-+
- err_m2m_register:
- 	v4l2_device_unregister(&mdp->v4l2_dev);
- 
+ 	/* check dst_buf, dst_buf may be removed in device_run
 -- 
 2.51.0
 
