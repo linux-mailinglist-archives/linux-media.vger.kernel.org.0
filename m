@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-53879-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53880-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mHyTOW6Vo2l7HQUAu9opvQ
-	(envelope-from <linux-media+bounces-53879-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:25:02 +0100
+	id wFezDCGUo2lpHQUAu9opvQ
+	(envelope-from <linux-media+bounces-53880-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:19:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C841CA7B2
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:25:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C141CA2CF
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:19:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3243530BDED5
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:19:19 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 04379301137F
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:19:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51EF264617;
-	Sun,  1 Mar 2026 01:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4E631E4AF;
+	Sun,  1 Mar 2026 01:19:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDQeAipZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggc64fzM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A902594B9;
-	Sun,  1 Mar 2026 01:19:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194B818E02A;
+	Sun,  1 Mar 2026 01:19:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327955; cv=none; b=PLxTN8jlEhzOpboIaDobZsmMbYVBz6+BPa4jJkIuMH+T+tHm1Ct9BoRxOA79VK7YfNa3y8jF+7R4d1nN9MaExUXASTJtj2S5Xs6tAP2cLPbMBbrqWIMlJpuHuLVdMZl/d+i6Y+eC14GUDXHitmi6+oFlSKBi1fhbWw1Dt6DshPU=
+	t=1772327960; cv=none; b=KMjw5dfElOdq0SKz4pM0W5fPxtN/up6Cc2HMkVxFBdq3hv/D6NgT+5rKoSnaBouR+06i91rkeTDufnLc2vOjIeYSDNxEkCoiV94xCG9ob4jhuPshM8mhvtZWOiIWCzNqXAWcyWK5PMQspSM23sevqhZmbSrkZkMOFhdnVSEbYR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327955; c=relaxed/simple;
-	bh=QygN+tm7vRSe8PUAkQZiS9VT5srWgie0sJ/PkT7UXz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VVfjmD9oupU/MGvlNHfBDbhQcVz658CLv9Roag05IXkwZXxJtxwiJdNW9Gjs/Jdvghr4DIuwbd2vM5cQqM9/PK8ascnWj22D4I8P4caiD4/qCb21vGV+5a+KZxR+U2O0+b/esaYEhHKxhVxXn9pWbKOsr4Z8c7qfWIOvIiyxWjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDQeAipZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F7CC19421;
-	Sun,  1 Mar 2026 01:19:14 +0000 (UTC)
+	s=arc-20240116; t=1772327960; c=relaxed/simple;
+	bh=KSlzvPMcPdroCRP7Ne2TmImOphnHGVDI27z0Kahl+9A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dEV3lhFipuZAHFIuZfyu7pS/rQobo3nHMNp/Guj4gvCHgV/xouN6FJ89Ph4vxP3FTtb+WJv6QuLnnk2fqhE3O0I9qEEVCQqdLUdZFDq/j5LDAZt9Dls+0qUJs1uCIa+WefweJFhzQGkmJHOEQL1ihdgNVHy1k5uiw7mC9eLXG/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggc64fzM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C6C9C19421;
+	Sun,  1 Mar 2026 01:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327955;
-	bh=QygN+tm7vRSe8PUAkQZiS9VT5srWgie0sJ/PkT7UXz8=;
+	s=k20201202; t=1772327960;
+	bh=KSlzvPMcPdroCRP7Ne2TmImOphnHGVDI27z0Kahl+9A=;
 	h=From:To:Cc:Subject:Date:From;
-	b=EDQeAipZHndMtgd90fWDOyId6frQBTscRZEFh6A78uPpi7a3rmND4mJHkY70RLr++
-	 6dZLn4y7ydRCM80nW8PVk/gtEp3RPF3jqbOoG3t4N5CRym37T8C8/VDWbwO90+n7tB
-	 EiVfdXPIGUlFWYehbUL/Vx0HFy6hx+P9ox4hx5fID0SGwlIxlHM/Kz8W8BO90LZKdW
-	 WDBKgZzLaI/DC1FkQfTqk2BU2Drir4pdSkjNkbbonKoSg31GRctQIt8cpXgfS4enzD
-	 +QindDpm/wsfmquXgEGKTbvPAdrhqnfB1RpeTpILTNtZkeq+3jWdi1VomCTCxdRHqx
-	 +UdJrxWCKh5cQ==
+	b=ggc64fzMGsuekE/SfKhDa/bqLNNTNq9trPciRySyaTnuxcQYhJLWq9hxg2AP/5ZvH
+	 3GU1I1l1eURupXzgzT7khO1kMUxLuifQfwVyx8ks/bgRIMAhdFvu5JCeIz9kd5kQ/6
+	 VAzwHMJx5KY83JZRqJRJa5BmNEMFm78SAOyenxEAmzWUsw3gOtBuXj6QgEq6cHsp+p
+	 /22ooXH/gSY3pjbi40YpJZ8/t1P4XssupEZudH3sOJeZAH+uGi4YpABHkX/tZScGcN
+	 kIoIxWEWEf5D4q9l2rryF1KF778MSw8VGQ4tiiRQ94dnqbHut4eU88BJ0AcgSp3JYf
+	 cxmmYBbUt176g==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	haoxiang_li2024@163.com
@@ -51,9 +51,9 @@ Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: FAILED: Patch "media: mtk-mdp: Fix a reference leak bug in mtk_mdp_remove()" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:19:13 -0500
-Message-ID: <20260301011913.1674123-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: mtk-mdp: Fix error handling in probe function" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:19:17 -0500
+Message-ID: <20260301011918.1674237-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -71,7 +71,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -80,21 +80,21 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[vger.kernel.org,163.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53879-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53880-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.989];
+	NEURAL_HAM(-0.00)[-0.988];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: 76C841CA7B2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:email]
+X-Rspamd-Queue-Id: 14C141CA2CF
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -107,14 +107,18 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From f128bab57b8018e526b7eda854ca20069863af47 Mon Sep 17 00:00:00 2001
+From 8a8a3232abac5b972058a5f2cb3e33199d2a8648 Mon Sep 17 00:00:00 2001
 From: Haoxiang Li <haoxiang_li2024@163.com>
-Date: Wed, 8 Oct 2025 17:01:56 +0800
-Subject: [PATCH] media: mtk-mdp: Fix a reference leak bug in mtk_mdp_remove()
+Date: Wed, 8 Oct 2025 16:55:03 +0800
+Subject: [PATCH] media: mtk-mdp: Fix error handling in probe function
 
-In mtk_mdp_probe(), vpu_get_plat_device() increases the reference
-count of the returned platform device. Add platform_device_put()
-to prevent reference leak.
+Add mtk_mdp_unregister_m2m_device() on the error handling path to prevent
+resource leak.
+
+Add check for the return value of vpu_get_plat_device() to prevent null
+pointer dereference. And vpu_get_plat_device() increases the reference
+count of the returned platform device. Add platform_device_put() to
+prevent reference leak.
 
 Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
 Cc: stable@vger.kernel.org
@@ -122,19 +126,52 @@ Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/platform/mediatek/mdp/mtk_mdp_core.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../media/platform/mediatek/mdp/mtk_mdp_core.c   | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-index f78fa30f18648..8432833814f31 100644
+index 80fdc6ff57e0e..f78fa30f18648 100644
 --- a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
 +++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-@@ -254,6 +254,7 @@ static void mtk_mdp_remove(struct platform_device *pdev)
+@@ -194,11 +194,17 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+ 	}
  
- 	pm_runtime_disable(&pdev->dev);
- 	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
+ 	mdp->vpu_dev = vpu_get_plat_device(pdev);
++	if (!mdp->vpu_dev) {
++		dev_err(&pdev->dev, "Failed to get vpu device\n");
++		ret = -ENODEV;
++		goto err_vpu_get_dev;
++	}
++
+ 	ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
+ 				  VPU_RST_MDP);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Failed to register reset handler\n");
+-		goto err_m2m_register;
++		goto err_reg_handler;
+ 	}
+ 
+ 	platform_set_drvdata(pdev, mdp);
+@@ -206,7 +212,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+ 	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
+-		goto err_m2m_register;
++		goto err_reg_handler;
+ 	}
+ 
+ 	pm_runtime_enable(dev);
+@@ -214,6 +220,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
++err_reg_handler:
 +	platform_device_put(mdp->vpu_dev);
- 	mtk_mdp_unregister_m2m_device(mdp);
++
++err_vpu_get_dev:
++	mtk_mdp_unregister_m2m_device(mdp);
++
+ err_m2m_register:
  	v4l2_device_unregister(&mdp->v4l2_dev);
  
 -- 
