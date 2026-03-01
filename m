@@ -1,58 +1,59 @@
-Return-Path: <linux-media+bounces-53924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53925-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KOHrGfemo2mWJAUAu9opvQ
-	(envelope-from <linux-media+bounces-53924-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:39:51 +0100
+	id SFtQFpKXo2neHgUAu9opvQ
+	(envelope-from <linux-media+bounces-53925-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:34:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E081CDC79
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:39:50 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D281CAFC1
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:34:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AB6E131E0555
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:32:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DB307302C733
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BC7E2C1780;
-	Sun,  1 Mar 2026 01:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B406A2D8DA6;
+	Sun,  1 Mar 2026 01:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NaD7Tp9n"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qHA4zvF3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37DC29B793;
-	Sun,  1 Mar 2026 01:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28B8A296BD3;
+	Sun,  1 Mar 2026 01:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328698; cv=none; b=L8rJ32kJnZZooSq7mzmmbaBJEkui+4mlMe+Q1eTOGQzXsaT/L2rdh8PMxj+CmX2XXr0xnJFAjqyjFL81ZVuiWEWbGIGKZqIt3Y7bjS2Sfv7Ucp/Hj1OVQL5bf52ZmnqRVOaWa+B9qL+oLTtuXc7A+v1m2z7NbFN5lUsjQKwbDS0=
+	t=1772328701; cv=none; b=u4RSh+eo2FIMjBCWTNpiyjS3cM1U4O3GPe3Op/VAmtwfZ2jhw9+RjlmRciXM5o3TPDEM91ZHSQjfD9IDkWvtklgTNYtxwjIj+/5anD4grVZSyftmzO8LDfcp6HoqrHgTI8UwGdHXvHvCVO7nLy1zhCTJBYAdfc6hEZTIzH9mfRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328698; c=relaxed/simple;
-	bh=Hp61Qv1mq9B8fwB0cFApl4Aip4a5cnpNnjpl92qMks8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ub2ii9aaXIC9s33JI6W6T0HUvptkGu8vyPdy41SgnJdBZtWpoODUbskqFEmj014snw5XHYGbKsOk8KkLYQSihCJ5IFV76Y39pVy559erjF4QNO2o+RTL1fKKPlb6PPOfhfiMBdYADpReQzLmFAaINURV/u4u7VqBLXIGQKmvcSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NaD7Tp9n; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DACADC19425;
-	Sun,  1 Mar 2026 01:31:37 +0000 (UTC)
+	s=arc-20240116; t=1772328701; c=relaxed/simple;
+	bh=BTGwyeEr1DgEIMibQ7hujRHK2cVbWZkuPIDIOZxZ8Bw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MhSUk+DU5ZAzP+q3D/opDoPOuqgaOAIHlF5QEgvOD58UY0d5rSSeBMpM/0SfVJJHuRjWZXHGdkzPdrIwgpmHOGWqfxYEuP3LuV3L/OV7pZjv0UME2g1JenqSOKRyGqN9LZO6wFQ6f//fCmSN3C+ktae6vYIuW/GRyVVBFJsvhUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qHA4zvF3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C489C19421;
+	Sun,  1 Mar 2026 01:31:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328698;
-	bh=Hp61Qv1mq9B8fwB0cFApl4Aip4a5cnpNnjpl92qMks8=;
+	s=k20201202; t=1772328701;
+	bh=BTGwyeEr1DgEIMibQ7hujRHK2cVbWZkuPIDIOZxZ8Bw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=NaD7Tp9nYHC7MInt1XR0DaaFhi33qDgNPPwg96ggWxs0hJTCciv7jSSsfeSFPWjdv
-	 ouBE0/vxt8bgjXAizOFLSPDFx3Sn8/YGC3SKUInl2o7lPf+Dm4krV/pKo1HsZJsDpz
-	 lnHc/qDitBn5ftvmWbVQma2OWMeQxmCdKa4Tb0L98Edqg9gIBuH2PV9RSCXmt5Qea2
-	 LtK+varkPjRBROgJRCoYIxumv4AC884v66qT+pxakdQJHUL/J71kjnKpCDT0muHHO1
-	 yAbTUhtDx2i9czVHjLIDb07QrLjhPe2Jn/MwGD/sgao4ewZ1xyhtDMuG5lTt3DgPAU
-	 bZ0L/jb1fMLbg==
+	b=qHA4zvF3Rwqfoxo1mJaF9OHM01wMVxRX5a+Uc6WpsanFUGvC57CPMsADNRI2jjzBl
+	 g1o9Md2r73t6KKDt5GIXzQrIDFUSwNi+XBUL41sCSUn/XabyOJdbNa+e8OA5kZn1rt
+	 gLz7pkRzsiQaCahHLoyR0vxjIKKpn6rQOQNG2qFYZGit7QGGIUHGI+RcUgzprz7HcF
+	 TAC1EnWmPx7TPGcztzth2PShO/S0oIRC6rM40K78nvvEJ1rNc62iFSp75Vnbhw339E
+	 J7M1V8kFTaKs/JiILrZYNDoFz4pdFATXZTFbZ75sWmzMj6V6ndBxeocTjYzD1fizba
+	 G5rHnxgJf0aew==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	hansg@kernel.org
 Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: i2c: ov01a10: Fix the horizontal flip control" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:31:36 -0500
-Message-ID: <20260301013136.1690198-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: i2c: ov01a10: Add missing v4l2_subdev_cleanup() calls" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:31:38 -0500
+Message-ID: <20260301013139.1690289-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -65,33 +66,32 @@ X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53924-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53925-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: D2E081CDC79
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 44D281CAFC1
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.6-stable tree.
@@ -104,120 +104,46 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From ada20c3db0db4f2834d9515f6105111871f04a4d Mon Sep 17 00:00:00 2001
+From 0dfec6e30c334364145d0acb38bb8c216b9a7a78 Mon Sep 17 00:00:00 2001
 From: Hans de Goede <hansg@kernel.org>
-Date: Tue, 14 Oct 2025 19:40:09 +0200
-Subject: [PATCH] media: i2c: ov01a10: Fix the horizontal flip control
+Date: Tue, 14 Oct 2025 19:40:12 +0200
+Subject: [PATCH] media: i2c: ov01a10: Add missing v4l2_subdev_cleanup() calls
 
-During sensor calibration I noticed that with the hflip control set
-to false/disabled the image was mirrored.
-
-So it seems that the horizontal flip control is inverted and needs to
-be set to 1 to not flip (just like the similar problem recently fixed
-on the ov08x40 sensor).
-
-Invert the hflip control to fix the sensor mirroring by default.
-
-As the comment above the newly added OV01A10_MEDIA_BUS_FMT define explains
-the control being inverted also means that the native Bayer-order of
-the sensor actually is GBRG not BGGR, but so as to not break userspace
-the Bayer-order is kept at BGGR.
+Add missing v4l2_subdev_cleanup() calls to cleanup after
+v4l2_subdev_init_finalize().
 
 Fixes: 0827b58dabff ("media: i2c: add ov01a10 image sensor driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Hans de Goede <hansg@kernel.org>
 Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
 Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/i2c/ov01a10.c | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+ drivers/media/i2c/ov01a10.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-index 141cb6f75b555..e5df01f979781 100644
+index 834ca46acb75f..1e22df12989ae 100644
 --- a/drivers/media/i2c/ov01a10.c
 +++ b/drivers/media/i2c/ov01a10.c
-@@ -75,6 +75,15 @@
- #define OV01A10_REG_X_WIN		0x3811
- #define OV01A10_REG_Y_WIN		0x3813
+@@ -864,6 +864,7 @@ static void ov01a10_remove(struct i2c_client *client)
+ 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
  
-+/*
-+ * The native ov01a10 bayer-pattern is GBRG, but there was a driver bug enabling
-+ * hflip/mirroring by default resulting in BGGR. Because of this bug Intel's
-+ * proprietary IPU6 userspace stack expects BGGR. So we report BGGR to not break
-+ * userspace and fix things up by shifting the crop window-x coordinate by 1
-+ * when hflip is *disabled*.
-+ */
-+#define OV01A10_MEDIA_BUS_FMT		MEDIA_BUS_FMT_SBGGR10_1X10
-+
- struct ov01a10_reg {
- 	u16 address;
- 	u8 val;
-@@ -185,14 +194,14 @@ static const struct ov01a10_reg sensor_1280x800_setting[] = {
- 	{0x380e, 0x03},
- 	{0x380f, 0x80},
- 	{0x3810, 0x00},
--	{0x3811, 0x08},
-+	{0x3811, 0x09},
- 	{0x3812, 0x00},
- 	{0x3813, 0x08},
- 	{0x3814, 0x01},
- 	{0x3815, 0x01},
- 	{0x3816, 0x01},
- 	{0x3817, 0x01},
--	{0x3820, 0xa0},
-+	{0x3820, 0xa8},
- 	{0x3822, 0x13},
- 	{0x3832, 0x28},
- 	{0x3833, 0x10},
-@@ -411,7 +420,7 @@ static int ov01a10_set_hflip(struct ov01a10 *ov01a10, u32 hflip)
- 	int ret;
- 	u32 val, offset;
+ 	v4l2_async_unregister_subdev(sd);
++	v4l2_subdev_cleanup(sd);
+ 	media_entity_cleanup(&sd->entity);
+ 	v4l2_ctrl_handler_free(sd->ctrl_handler);
  
--	offset = hflip ? 0x9 : 0x8;
-+	offset = hflip ? 0x8 : 0x9;
- 	ret = ov01a10_write_reg(ov01a10, OV01A10_REG_X_WIN, 1, offset);
- 	if (ret)
- 		return ret;
-@@ -420,8 +429,8 @@ static int ov01a10_set_hflip(struct ov01a10 *ov01a10, u32 hflip)
- 	if (ret)
- 		return ret;
+@@ -934,6 +935,7 @@ static int ov01a10_probe(struct i2c_client *client)
+ err_pm_disable:
+ 	pm_runtime_disable(dev);
+ 	pm_runtime_set_suspended(&client->dev);
++	v4l2_subdev_cleanup(&ov01a10->sd);
  
--	val = hflip ? val | FIELD_PREP(OV01A10_HFLIP_MASK, 0x1) :
--		val & ~OV01A10_HFLIP_MASK;
-+	val = hflip ? val & ~OV01A10_HFLIP_MASK :
-+		      val | FIELD_PREP(OV01A10_HFLIP_MASK, 0x1);
- 
- 	return ov01a10_write_reg(ov01a10, OV01A10_REG_FORMAT1, 1, val);
- }
-@@ -610,7 +619,7 @@ static void ov01a10_update_pad_format(const struct ov01a10_mode *mode,
- {
- 	fmt->width = mode->width;
- 	fmt->height = mode->height;
--	fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	fmt->code = OV01A10_MEDIA_BUS_FMT;
- 	fmt->field = V4L2_FIELD_NONE;
- 	fmt->colorspace = V4L2_COLORSPACE_RAW;
- }
-@@ -751,7 +760,7 @@ static int ov01a10_enum_mbus_code(struct v4l2_subdev *sd,
- 	if (code->index > 0)
- 		return -EINVAL;
- 
--	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-+	code->code = OV01A10_MEDIA_BUS_FMT;
- 
- 	return 0;
- }
-@@ -761,7 +770,7 @@ static int ov01a10_enum_frame_size(struct v4l2_subdev *sd,
- 				   struct v4l2_subdev_frame_size_enum *fse)
- {
- 	if (fse->index >= ARRAY_SIZE(supported_modes) ||
--	    fse->code != MEDIA_BUS_FMT_SBGGR10_1X10)
-+	    fse->code != OV01A10_MEDIA_BUS_FMT)
- 		return -EINVAL;
- 
- 	fse->min_width = supported_modes[fse->index].width;
+ err_media_entity_cleanup:
+ 	media_entity_cleanup(&ov01a10->sd.entity);
 -- 
 2.51.0
 
