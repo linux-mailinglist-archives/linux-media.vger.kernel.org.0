@@ -1,59 +1,57 @@
-Return-Path: <linux-media+bounces-53989-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53990-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GOgBHPKfo2k3IQUAu9opvQ
-	(envelope-from <linux-media+bounces-53989-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:09:54 +0100
+	id qITdMbmio2mRIwUAu9opvQ
+	(envelope-from <linux-media+bounces-53990-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:21:45 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8053D1CD28C
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:09:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B17D1CD7AA
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:21:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D07AA306B1E0
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:59:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4A1D632EB8D6
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 02:00:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB88B2FE07D;
-	Sun,  1 Mar 2026 01:59:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39ED22FD1B3;
+	Sun,  1 Mar 2026 01:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PhnCdvWf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rOWV8y42"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5D32C21F7;
-	Sun,  1 Mar 2026 01:59:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32FB262FEC;
+	Sun,  1 Mar 2026 01:59:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772330368; cv=none; b=lySzm0EJPGWWbCTR1Lq5wGbA2vF6/zU82o1FHvkHvUy+ZD5SbjSqJkzPLyZhq4zMT5PqyRCIdLGmnjgKNU0HdO6tE5O5/D9qichPYchD07E8LVSg2mos6hJevJtieA2rHSG69DNEp8yuiNQneZ42fU0VWmhTQKvjkjsNekkePyM=
+	t=1772330393; cv=none; b=TlXFolPnoSX4/1ni9StAeHZZTlwzGH0uR+RHHviZi5qOxd78xmSSij4wGageNFHwqYNxo4xREmdWAAvnGbDqhGRhGLFA6OcCNTpNu4GdCeNh0KUjjV076gvynZQMFXdp7jcOamUzk/l4UU0sFxJHr0rMzSWqyxs2H7ncd2mEmAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772330368; c=relaxed/simple;
-	bh=CGCR+eTo2gn+7VZ0xFdIRYhJtIbX1iy+cbgSQq3g5rw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=paaER3XU1VPWWcn5h0OidFutxiDzzl/VkKbKZW3TuPH/gOAG2swqMVbLc9vyAZh6/5vy429csmF/VUZcev8+AQfGG8jpwTRDdx+golKetsGYEH4Kj5z9QvXa1UuCO3jC5lPKfl4yphnYF/Nh0Lclt1NMuNea+TptB2UGPm53gbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PhnCdvWf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41162C19421;
-	Sun,  1 Mar 2026 01:59:27 +0000 (UTC)
+	s=arc-20240116; t=1772330393; c=relaxed/simple;
+	bh=CgQY3fV5sv3fWj3gdm46iwCUWmj68uyAVvZVs9giwcQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WnkjWodzVUoCkbfgkBFwkXUjhGiHqis31v3B/onF/A96FaQOuvDnp0+igekeQHrP+4jsKypH87PqQIsOogmRwUfkRbpZElJ526CF7hixqR64TTOROS4m6ujr+5Lv6LX08PQaaWGHhD2x40d6z7R45J+3iqeVZieqDW2MHp4MC9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rOWV8y42; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF92EC19421;
+	Sun,  1 Mar 2026 01:59:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772330368;
-	bh=CGCR+eTo2gn+7VZ0xFdIRYhJtIbX1iy+cbgSQq3g5rw=;
+	s=k20201202; t=1772330393;
+	bh=CgQY3fV5sv3fWj3gdm46iwCUWmj68uyAVvZVs9giwcQ=;
 	h=From:To:Cc:Subject:Date:From;
-	b=PhnCdvWfU6qHYNlbo68+DHXRntwDjrm2mmU2fFPFjWCcQlfT2IjQizPoCpmV/OaOp
-	 T4Ly9tS4IzIe6mMHhKOCWj+RTqyyJUKOjx0IisOa234k4gonEHhmp3wc+YcrUtrhRh
-	 Kf/kbo88VZTfngCSXa8gdQlUDjU+DAn/jwgpkGQuo0tQfMErPAQmdi0j5aAnnuF7Cd
-	 bIzInaRMnUmCunMqyKJ8lrgCYJt1e/ppgWD5vNbcH1Ip71eWkkKZAK+qmTM5SuFo7s
-	 ij/9bGqEhXunUPru7DcS411u8wZIHW9ka9w9b4EA8tDI3IxKb0QEjx1e8HApFDz9ic
-	 bN5oxLwanySqw==
+	b=rOWV8y42c0MBc4+rk4YntJ/EmwdCwGJNBJ2kkssE4J0ln74BpFc032UHn+zTRTjVU
+	 Hii9fn54Brk2h78mmWGgUz2H7qUgl4duoJETWFU0Np+d2mAfX4bQuVOuAZGaOAOg14
+	 pFPSMlsgQX12Jhh5UnpWeHfut3wCqonud/nx/ydqH8cWbbDkK6cy7cWT/HD+jkgmXo
+	 KZBDTC+aeHO5L4o231G7QwQ/0AK2piOXyL4c4i86Xw5ZFs6jDUUVDfmtTugq36Iihe
+	 8ZwNKjBDDaNpposd3KAy/ZCRGjvxqKyYGEg7DP/t06vawiPAY/K5YZDnaYUPcUt8/i
+	 EteAw4Q9vepnQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	haoxiang_li2024@163.com
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	ssrane_b23@ee.vjti.ac.in
+Cc: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: FAILED: Patch "media: mtk-mdp: Fix error handling in probe function" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 20:59:25 -0500
-Message-ID: <20260301015926.1725145-1-sashal@kernel.org>
+	linux-media@vger.kernel.org
+Subject: FAILED: Patch "media: radio-keene: fix memory leak in error path" failed to apply to 5.10-stable tree
+Date: Sat, 28 Feb 2026 20:59:51 -0500
+Message-ID: <20260301015951.1725754-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -65,36 +63,34 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[vger.kernel.org,163.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53989-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53990-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.987];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,collabora.com:email]
-X-Rspamd-Queue-Id: 8053D1CD28C
+	TAGGED_RCPT(0.00)[linux-media,a41b73dce23962a74c72,cisco];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,appspotmail.com:email,syzkaller.appspot.com:url,vjti.ac.in:email]
+X-Rspamd-Queue-Id: 2B17D1CD7AA
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 5.10-stable tree.
@@ -107,73 +103,50 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 8a8a3232abac5b972058a5f2cb3e33199d2a8648 Mon Sep 17 00:00:00 2001
-From: Haoxiang Li <haoxiang_li2024@163.com>
-Date: Wed, 8 Oct 2025 16:55:03 +0800
-Subject: [PATCH] media: mtk-mdp: Fix error handling in probe function
+From b8bf939d77c0cd01118e953bbf554e0fa15e9006 Mon Sep 17 00:00:00 2001
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+Date: Thu, 27 Nov 2025 00:34:10 +0530
+Subject: [PATCH] media: radio-keene: fix memory leak in error path
 
-Add mtk_mdp_unregister_m2m_device() on the error handling path to prevent
-resource leak.
+Fix a memory leak in usb_keene_probe(). The v4l2 control handler is
+initialized and controls are added, but if v4l2_device_register() or
+video_register_device() fails afterward, the handler was never freed,
+leaking memory.
 
-Add check for the return value of vpu_get_plat_device() to prevent null
-pointer dereference. And vpu_get_plat_device() increases the reference
-count of the returned platform device. Add platform_device_put() to
-prevent reference leak.
+Add v4l2_ctrl_handler_free() call in the err_v4l2 error path to ensure
+the control handler is properly freed for all error paths after it is
+initialized.
 
-Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
+Reported-by: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a41b73dce23962a74c72
+Fixes: 1bf20c3a0c61 ("[media] radio-keene: add a driver for the Keene FM Transmitter")
 Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- .../media/platform/mediatek/mdp/mtk_mdp_core.c   | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ drivers/media/radio/radio-keene.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-index 80fdc6ff57e0e..f78fa30f18648 100644
---- a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-+++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-@@ -194,11 +194,17 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+diff --git a/drivers/media/radio/radio-keene.c b/drivers/media/radio/radio-keene.c
+index f3b57f0cb1ec4..c133305fd0194 100644
+--- a/drivers/media/radio/radio-keene.c
++++ b/drivers/media/radio/radio-keene.c
+@@ -338,7 +338,6 @@ static int usb_keene_probe(struct usb_interface *intf,
+ 	if (hdl->error) {
+ 		retval = hdl->error;
+ 
+-		v4l2_ctrl_handler_free(hdl);
+ 		goto err_v4l2;
  	}
- 
- 	mdp->vpu_dev = vpu_get_plat_device(pdev);
-+	if (!mdp->vpu_dev) {
-+		dev_err(&pdev->dev, "Failed to get vpu device\n");
-+		ret = -ENODEV;
-+		goto err_vpu_get_dev;
-+	}
-+
- 	ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
- 				  VPU_RST_MDP);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register reset handler\n");
--		goto err_m2m_register;
-+		goto err_reg_handler;
- 	}
- 
- 	platform_set_drvdata(pdev, mdp);
-@@ -206,7 +212,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
--		goto err_m2m_register;
-+		goto err_reg_handler;
- 	}
- 
- 	pm_runtime_enable(dev);
-@@ -214,6 +220,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
-+err_reg_handler:
-+	platform_device_put(mdp->vpu_dev);
-+
-+err_vpu_get_dev:
-+	mtk_mdp_unregister_m2m_device(mdp);
-+
- err_m2m_register:
- 	v4l2_device_unregister(&mdp->v4l2_dev);
- 
+ 	retval = v4l2_device_register(&intf->dev, &radio->v4l2_dev);
+@@ -384,6 +383,7 @@ static int usb_keene_probe(struct usb_interface *intf,
+ err_vdev:
+ 	v4l2_device_unregister(&radio->v4l2_dev);
+ err_v4l2:
++	v4l2_ctrl_handler_free(&radio->hdl);
+ 	kfree(radio->buffer);
+ 	kfree(radio);
+ err:
 -- 
 2.51.0
 
