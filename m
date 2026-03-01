@@ -1,58 +1,56 @@
-Return-Path: <linux-media+bounces-53972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53973-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MA+HFuWco2l2IQUAu9opvQ
-	(envelope-from <linux-media+bounces-53972-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:56:53 +0100
+	id CEV7Geaco2nDIQUAu9opvQ
+	(envelope-from <linux-media+bounces-53973-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:56:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96D71CC54D
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:56:50 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D44861CC570
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:56:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5983730BF87D
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:51:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D8C8E30C0844
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:51:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24C9E2E7657;
-	Sun,  1 Mar 2026 01:49:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56A98318BA8;
+	Sun,  1 Mar 2026 01:49:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DXvUuUp+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QHEE2XJg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABBB2F546D;
-	Sun,  1 Mar 2026 01:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8575277C9D;
+	Sun,  1 Mar 2026 01:49:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772329771; cv=none; b=Mt+auuDKyWaHly2cggVxRm/W62qvtFRgXmVpyqOXO+N7lyTQh+EaYQ4lqyKaV/TeN+jFZrrPLr6bZRTgPz440iSShAagqJsFqlldmatcgNtnYXPuhNbSBgy/iR5pbVvEtFrMknJmKGk7s1mQbZaD4LYMU5tliN/WK9N1vTovsYs=
+	t=1772329773; cv=none; b=lIev3NACze2SGiH94LiXi1ejccxWMa3DBHs//8mLEEFJ89wf9nccfxken8EehJ0mIbdsXQzp73VqL8Oy0xcrXhToPrYrw58f7xYwQuYxdNNj8T5pLaKny+C4TG9P1coEG4gMEC8vnSwh7CjeQg40SkOAbUrEX3EjUhGZCE+rZpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772329771; c=relaxed/simple;
-	bh=C3hC+5gSI1mjnu1NL+XNUtCOjr/KInTEbkisA7ssOJg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tTCl0adyEwdxOq5NkcDDeHhgwcAGaBa8OCGUliKCjDUK27bM45CdI/CruvsA5NEF5xDgH2XQ4odyoOaaFqHQHl00XuufoI7IXhb+NII1G70vmYNN8d3CgURnNGxqzRbCwhwcEbaQDMWwoUWyZaSwu91hfJ0uRSbbclbNRlcGPAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DXvUuUp+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2628C2BCAF;
-	Sun,  1 Mar 2026 01:49:30 +0000 (UTC)
+	s=arc-20240116; t=1772329773; c=relaxed/simple;
+	bh=As4Sxse9+9YgPmodQUEQGc17ozMdgpf6I/Na7BNvHOs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tXT9cg4/AYYn72AxAfM2tT2wCDKkO7dxKx8eW3HGIqgbX7JEpnwXuiaKSsn2WszzExNXJdCYieamc3DAcmWkrHsV7tkG6frU5i4jvkg8S6dr6lTF5A9tAytqZDZIryd0hx/wSiSyZZis6HdscDUkavc/aQk4oealAhlglY/Z6Mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QHEE2XJg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D158C19421;
+	Sun,  1 Mar 2026 01:49:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772329771;
-	bh=C3hC+5gSI1mjnu1NL+XNUtCOjr/KInTEbkisA7ssOJg=;
+	s=k20201202; t=1772329773;
+	bh=As4Sxse9+9YgPmodQUEQGc17ozMdgpf6I/Na7BNvHOs=;
 	h=From:To:Cc:Subject:Date:From;
-	b=DXvUuUp+Bxglptp9kHgkNuXxuFRWXc+0Lt6N0V9RDEmPc5HoYkIRewk389AFdhWOh
-	 XQ5iAiP91qmgjLwqHa5RfWRYIy+WRXPFk0v8J49nYmaBdUCXUOFn7+lHo2KGbMYTER
-	 5q+9Lhnv9rxzAINIfHPEYJKmaMielOHHQJwKhCDYG3JQrKUa4bTNRuC46ZJRhes64g
-	 11MwQEQkh3L5Ohmt1y9BL7a8YjnQZ49dqukBR/AaY4uM6p2EHjl3mNpHPu/0ReVuhF
-	 CtZA/eCo6LVcW6Ym7JFJ0iCZEmEemsaelbxLUVzk/uIrmQsX/1k2KKkur6KAMjgtFB
-	 Q8ldDSzpDu5ug==
+	b=QHEE2XJgcaRxMm6j0khN/wAtJRrezyZSrOpEn0uvw/eS7VQ9pjEjqhvHscJiQK6xo
+	 iAMfjD68YvPCubntw9QY9BeJkGJ+MHRR5xdWq48qMYd+38mDRxZEgjQKyZYespHKub
+	 OO3Hpic1coHyysNfbR03bRVyzr0B0U5EvS2vbdlk2JEhYHa9+gOlXqZLzcBKNKdlcV
+	 1V6BzrfTax+zUyuL9jSV5vTSZGFY1AKN+0s/3q9aBGlha/Xpd/SFTVUGL890JGIkRr
+	 37phcuRJlPHrFUaDlZmpa2aLuLPCxjinpEbuPuyv/36gI1iNWmSmRpRgYlwrlfiFt7
+	 YRrZtlpRYR3HA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	zilin@seu.edu.cn
+	lihaoxiang@isrc.iscas.ac.cn
 Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: FAILED: Patch "media: tegra-video: Fix memory leak in __tegra_channel_try_format()" failed to apply to 5.15-stable tree
-Date: Sat, 28 Feb 2026 20:49:29 -0500
-Message-ID: <20260301014929.1714007-1-sashal@kernel.org>
+	linux-media@vger.kernel.org
+Subject: FAILED: Patch "media: cx88: Add missing unmap in snd_cx88_hw_params()" failed to apply to 5.15-stable tree
+Date: Sat, 28 Feb 2026 20:49:31 -0500
+Message-ID: <20260301014932.1714065-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -64,35 +62,34 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53972-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53973-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_THREE(0.00)[4];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,seu.edu.cn:email]
-X-Rspamd-Queue-Id: E96D71CC54D
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D44861CC570
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 5.15-stable tree.
@@ -105,76 +102,38 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 43e5302d22334f1183dec3e0d5d8007eefe2817c Mon Sep 17 00:00:00 2001
-From: Zilin Guan <zilin@seu.edu.cn>
-Date: Fri, 14 Nov 2025 09:12:57 +0000
-Subject: [PATCH] media: tegra-video: Fix memory leak in
- __tegra_channel_try_format()
+From dbc527d980f7ba8559de38f8c1e4158c71a78915 Mon Sep 17 00:00:00 2001
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Date: Wed, 10 Dec 2025 10:53:48 +0800
+Subject: [PATCH] media: cx88: Add missing unmap in snd_cx88_hw_params()
 
-The state object allocated by __v4l2_subdev_state_alloc() must be freed
-with __v4l2_subdev_state_free() when it is no longer needed.
+In error path, add cx88_alsa_dma_unmap() to release
+resource acquired by cx88_alsa_dma_map().
 
-In __tegra_channel_try_format(), two error paths return directly after
-v4l2_subdev_call() fails, without freeing the allocated 'sd_state'
-object. This violates the requirement and causes a memory leak.
-
-Fix this by introducing a cleanup label and using goto statements in the
-error paths to ensure that __v4l2_subdev_state_free() is always called
-before the function returns.
-
-Fixes: 56f64b82356b7 ("media: tegra-video: Use zero crop settings if subdev has no get_selection")
-Fixes: 1ebaeb09830f3 ("media: tegra-video: Add support for external sensor capture")
+Fixes: b2c75abde0de ("[media] cx88: drop videobuf abuse in cx88-alsa")
 Cc: stable@vger.kernel.org
-Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/staging/media/tegra-video/vi.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/media/pci/cx88/cx88-alsa.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index c9276ff76157f..14b327afe045e 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -438,7 +438,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		.target = V4L2_SEL_TGT_CROP_BOUNDS,
- 	};
- 	struct v4l2_rect *try_crop;
--	int ret;
-+	int ret = 0;
+diff --git a/drivers/media/pci/cx88/cx88-alsa.c b/drivers/media/pci/cx88/cx88-alsa.c
+index 29fb1311e4434..4e574d8390b4d 100644
+--- a/drivers/media/pci/cx88/cx88-alsa.c
++++ b/drivers/media/pci/cx88/cx88-alsa.c
+@@ -483,8 +483,10 @@ static int snd_cx88_hw_params(struct snd_pcm_substream *substream,
  
- 	subdev = tegra_channel_get_remote_source_subdev(chan);
- 	if (!subdev)
-@@ -482,8 +482,10 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 		} else {
- 			ret = v4l2_subdev_call(subdev, pad, get_selection,
- 					       NULL, &sdsel);
--			if (ret)
--				return -EINVAL;
-+			if (ret) {
-+				ret = -EINVAL;
-+				goto out_free;
-+			}
+ 	ret = cx88_risc_databuffer(chip->pci, &buf->risc, buf->sglist,
+ 				   chip->period_size, chip->num_periods, 1);
+-	if (ret < 0)
++	if (ret < 0) {
++		cx88_alsa_dma_unmap(chip);
+ 		goto error;
++	}
  
- 			try_crop->width = sdsel.r.width;
- 			try_crop->height = sdsel.r.height;
-@@ -495,14 +497,15 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
- 
- 	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
- 	if (ret < 0)
--		return ret;
-+		goto out_free;
- 
- 	v4l2_fill_pix_format(pix, &fmt.format);
- 	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
- 
-+out_free:
- 	__v4l2_subdev_state_free(sd_state);
- 
--	return 0;
-+	return ret;
- }
- 
- static int tegra_channel_try_format(struct file *file, void *fh,
+ 	/* Loop back to start of program */
+ 	buf->risc.jmp[0] = cpu_to_le32(RISC_JUMP | RISC_IRQ1 | RISC_CNT_INC);
 -- 
 2.51.0
 
