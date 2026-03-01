@@ -1,58 +1,59 @@
-Return-Path: <linux-media+bounces-53897-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53898-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2O0mO5OUo2l7HQUAu9opvQ
-	(envelope-from <linux-media+bounces-53897-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:21:23 +0100
+	id 2DtqBJqUo2l7HQUAu9opvQ
+	(envelope-from <linux-media+bounces-53898-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:21:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F911CA40D
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:21:23 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B2B1CA424
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:21:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id C9D283018F26
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:20:37 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7249130217CA
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:20:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B4EA27E1C5;
-	Sun,  1 Mar 2026 01:20:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EECBC27FD76;
+	Sun,  1 Mar 2026 01:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdpVVo9y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pgmM0EMT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35831482E8;
-	Sun,  1 Mar 2026 01:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCDE13B7AE;
+	Sun,  1 Mar 2026 01:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328023; cv=none; b=iZYgYptEILpBrUZcKBEjvIxD1H69DXOR+hx0PJOmgeCTpn+E6GZRXEVSRQPY0cPkMwoKhxjVFw2nbWSyLzGJufwbZ1eiyw/wmaOjmaBIuwIB1RaeapM8MgYq1MJtZ0d2ek3Pz4k0FpcvS3kpnuYxd2gU5fgSE5bIPZAXxuuzK0o=
+	t=1772328026; cv=none; b=YdTo0EVhfhKlfIHiZK+bEFb7SddO7rp47t8XaMsmH8GTzsm34DNmO2fQIGaWqB4xNzQp1mFgsm+Y6a2E3HEaXcBoJrvdAA5Yc/oPvbh/tBJ50nci4nTj+PdD/QGmg4GwjHqp0spg9fcZLt5d9Kj72SZ699MNP/FAwML4uj64A/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328023; c=relaxed/simple;
-	bh=kRqpd2NzPMnvpTLv0h4o1Lz6drKBt7Ff6POLyR9OC64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qYVRoGKmx1uw/SlAIlEL3OhnVTOxH472GuIOito0xfmMN3Nh+QT/aYdCHnJ6rpF3SlYkyshKXBb/fD1RYYk9/H5jPX8MrVsnfOv8c48Q96rbB1ZxIpKFkBPFlaneLY6xUokaNxCoxXz8NhpVJSmu0ihiJWE+923ZzKszAh8cfAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdpVVo9y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A54C19421;
-	Sun,  1 Mar 2026 01:20:22 +0000 (UTC)
+	s=arc-20240116; t=1772328026; c=relaxed/simple;
+	bh=yKeu7jjKreibOu2e/GYMYT8WtLaNhKAhPL1K/ng8tQw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PiwTF3+dT+yLKdc0DTA7Zpwvk8WstdbeYyebz5e0k2WzhDIroVyF6wFt379le/OCLqAO66Qdml+EeJ/KTe0AL2l20AIfVkxcrQNfMt/I/7Auq0SmiH4m/dd5LCrZvhXkICVveGHM2wJ92YYJR7La6NC7U6THXev/+nQAtwEh9oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pgmM0EMT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D4B1C19421;
+	Sun,  1 Mar 2026 01:20:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328023;
-	bh=kRqpd2NzPMnvpTLv0h4o1Lz6drKBt7Ff6POLyR9OC64=;
+	s=k20201202; t=1772328026;
+	bh=yKeu7jjKreibOu2e/GYMYT8WtLaNhKAhPL1K/ng8tQw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=TdpVVo9yfrkm/UOi2gSca4s8322TELDvyWVJFXNuopEgEM4PrxLLmSMYWGjWg5kWe
-	 ZvtAHJtg9neBEr+ShbAtEcfY7sIIO6ZBSvdrkoxCa+gjKLZOBFHdCVw6Fd174Iyiy2
-	 KpHlTjHclfNFzgMogD6ohXgvDVTaVmksZPSHCDH3XmdsRMjwe0MpvR4wjBkKl9QVIZ
-	 a3bcYdRzPSHCi4e2L1mjAPuUsA3ueqyYEbtEJfSArmX+FZ5Kq9lyAvZyRqZo5Y4xVA
-	 w29WoJnLHI4MWfb+VaHPfL2OQzH+mQpq58kPHSeNtiepUDU/W0pyzGGtKN5FuexeZs
-	 0Bwcv84WT5djA==
+	b=pgmM0EMTEq+RAC5ROpGrS26R1tNyPQGrQXvSUgyU5rftR/BDjfyEkKm9EiAIiOd/y
+	 XHsmfprRqsHS1pYJo0G+9rtKx3uwiIbwIwXU218gp4WAfNOg0YhdMCfBQpc/BdzGtW
+	 scz9O0TLzA5zheWFWQoQsnwQmS1xuzr7HntarUNjpubiy2+lYlfH3wku3YJiMIBaHg
+	 FIulxEegS6zx32pLmv4FYdhKpMJEj/QPeHrStxAqZ0+eS3uJxk4jRcAhVlIzqoVNWU
+	 j2SnWeia8Rcp8cHvoCIpQZ/DUT/wDHYFfb1nvSDFDHOUO/K0M8YnJPHLc66u2+cNYw
+	 wIDz3fEE2F0hw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	jai.luthra@ideasonboard.com
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	alperyasinak1@gmail.com
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Bryan O'Donoghue <bod@kernel.org>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: i2c: ov5647: Initialize subdev before controls" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:20:21 -0500
-Message-ID: <20260301012021.1675895-1-sashal@kernel.org>
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: FAILED: Patch "media: qcom: camss: vfe: Fix out-of-bounds access in vfe_isr_reg_update()" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:20:24 -0500
+Message-ID: <20260301012024.1675946-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -64,34 +65,36 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53897-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[vger.kernel.org,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53898-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-0.983];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 94F911CA40D
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A4B2B1CA424
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -104,51 +107,53 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From eee13cbccacb6d0a3120c126b8544030905b069d Mon Sep 17 00:00:00 2001
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 22 Dec 2025 13:45:25 +0530
-Subject: [PATCH] media: i2c: ov5647: Initialize subdev before controls
+From d965919af524e68cb2ab1a685872050ad2ee933d Mon Sep 17 00:00:00 2001
+From: Alper Ak <alperyasinak1@gmail.com>
+Date: Mon, 29 Dec 2025 10:52:17 +0300
+Subject: [PATCH] media: qcom: camss: vfe: Fix out-of-bounds access in
+ vfe_isr_reg_update()
 
-In ov5647_init_controls() we call v4l2_get_subdevdata, but it is
-initialized by v4l2_i2c_subdev_init() in the probe, which currently
-happens after init_controls(). This can result in a segfault if the
-error condition is hit, and we try to access i2c_client, so fix the
-order.
+vfe_isr() iterates using MSM_VFE_IMAGE_MASTERS_NUM(7) as the loop
+bound and passes the index to vfe_isr_reg_update(). However,
+vfe->line[] array is defined with VFE_LINE_NUM_MAX(4):
 
-Fixes: 4974c2f19fd8 ("media: ov5647: Support gain, exposure and AWB controls")
+    struct vfe_line line[VFE_LINE_NUM_MAX];
+
+When index is 4, 5, 6, the access to vfe->line[line_id] exceeds
+the array bounds and resulting in out-of-bounds memory access.
+
+Fix this by using separate loops for output lines and write masters.
+
+Fixes: 4edc8eae715c ("media: camss: Add initial support for VFE hardware version Titan 480")
+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
 Cc: stable@vger.kernel.org
-Suggested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/i2c/ov5647.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/platform/qcom/camss/camss-vfe-480.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index e193fef4fcedf..f9fac858dc7ba 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -1420,15 +1420,15 @@ static int ov5647_probe(struct i2c_client *client)
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-480.c b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+index 4feea590a47bc..d73f733fde045 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-480.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+@@ -202,11 +202,13 @@ static irqreturn_t vfe_isr(int irq, void *dev)
+ 		writel_relaxed(status, vfe->base + VFE_BUS_IRQ_CLEAR(0));
+ 		writel_relaxed(1, vfe->base + VFE_BUS_IRQ_CLEAR_GLOBAL);
  
- 	sensor->mode = OV5647_DEFAULT_MODE;
+-		/* Loop through all WMs IRQs */
+-		for (i = 0; i < MSM_VFE_IMAGE_MASTERS_NUM; i++) {
++		for (i = 0; i < MAX_VFE_OUTPUT_LINES; i++) {
+ 			if (status & BUS_IRQ_MASK_0_RDI_RUP(vfe, i))
+ 				vfe_isr_reg_update(vfe, i);
++		}
  
--	ret = ov5647_init_controls(sensor);
--	if (ret)
--		goto mutex_destroy;
--
- 	sd = &sensor->sd;
- 	v4l2_i2c_subdev_init(sd, client, &ov5647_subdev_ops);
- 	sd->internal_ops = &ov5647_subdev_internal_ops;
- 	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
- 
-+	ret = ov5647_init_controls(sensor);
-+	if (ret)
-+		goto mutex_destroy;
-+
- 	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
- 	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
- 	ret = media_entity_pads_init(&sd->entity, 1, &sensor->pad);
++		/* Loop through all WMs IRQs */
++		for (i = 0; i < MSM_VFE_IMAGE_MASTERS_NUM; i++) {
+ 			if (status & BUS_IRQ_MASK_0_COMP_DONE(vfe, RDI_COMP_GROUP(i)))
+ 				vfe_buf_done(vfe, i);
+ 		}
 -- 
 2.51.0
 
