@@ -1,57 +1,56 @@
-Return-Path: <linux-media+bounces-53931-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53932-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wIWqKBCao2l4IAUAu9opvQ
-	(envelope-from <linux-media+bounces-53931-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:44:48 +0100
+	id 0MxqFvWZo2kwIAUAu9opvQ
+	(envelope-from <linux-media+bounces-53932-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:44:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5CF61CB85C
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:44:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F15FC1CB7FF
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:44:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 708B930200D8
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:32:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8963731EE13E
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:32:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CACC62DBF40;
-	Sun,  1 Mar 2026 01:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0264E2C15B0;
+	Sun,  1 Mar 2026 01:31:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l15r+kvT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OEWCTrnJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410CB29A9E9;
-	Sun,  1 Mar 2026 01:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65ADD2C158A;
+	Sun,  1 Mar 2026 01:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328715; cv=none; b=IqYKyhEifVg6IpyvmbonhOZOicrK6/IELHFQZ9q5Jz/nbFXqeI7INdaGlaOvmTNcSmZVmgKthxGmcS7LKktz52LY3NQoABgbvYXFaitVXvTHpcKHEGM28HIBGuv9ezDGREUBX4cm7vmxDe7QbwYoAkBtN8vT2l7+p8ntZVGpG7c=
+	t=1772328717; cv=none; b=M9mm+p3wXiQ9sHDLhJcqkx+4epYXTE2kLQVQ9tvPy0Pl3MHkt7WAGp2f9VgW02ToWKWxiQ0E7+i+2eQIYaYySA6sqW7A9N0fbt3JLYAz3VNJgOmZt3pEIuk/lau23HE2ypkgWiZtHr9BeniLdxcpVZ6xKgJ2wQ24ju6At2bApqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328715; c=relaxed/simple;
-	bh=C0v8ZLFVbDp7KlxdV6bQGDhqpbsp5cs7BHeS1hERovs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fYLNRjuKCy1iIxibt/8syDpWQjygYj2158mrQVS+ud8XYQqho+E2PUrkm9WYjVz1L5jyJ9gfro7sL4606bhVVY3sHGdlrf5X/IaWDYJW4kcMwKZQ+OuN161DiqaMuiTp7ks8qcwr2wW1FWAXVN5pbrjRlvON0VQHxO25lSz/pz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l15r+kvT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90CB3C19425;
-	Sun,  1 Mar 2026 01:31:54 +0000 (UTC)
+	s=arc-20240116; t=1772328717; c=relaxed/simple;
+	bh=BFfoRRcB2ga15niLMhiME3ZpksJa22GqBuTmmIZwG/A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LpT5qBdlAmdbo7HmsO4PVqOXiMajKXYSPOqBzIeWL1RdcRNCmuO+QtyLRYjc2ulcui7QREujdGCXTMjsPtaCfPXpW2zK0cy2q6S6y2ASIDb2p68nWTdISlBPyZDZYHW1AL5GzwVougzBAMFL47nkewRvmJzHJpWVJzri/3VaxIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OEWCTrnJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C71C19421;
+	Sun,  1 Mar 2026 01:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328715;
-	bh=C0v8ZLFVbDp7KlxdV6bQGDhqpbsp5cs7BHeS1hERovs=;
+	s=k20201202; t=1772328717;
+	bh=BFfoRRcB2ga15niLMhiME3ZpksJa22GqBuTmmIZwG/A=;
 	h=From:To:Cc:Subject:Date:From;
-	b=l15r+kvTBsOa4FFLnQ41vbtzJqnTDN3U7Ix4G5dkehlvxjL3wK+hiiiGf46HYElWz
-	 4M6VN3C7r6Z+dZSA2hneZ3UTFnT/KgOM7cX6OfYIH65DQtgX5h9FQx8aG2Ho+Jv4ms
-	 0GiMrK8PeLNJhDYc0PQ+4mrCjiTMIolgc/Jwmf0+rdhkVGWRI+issO8P9YuSNQTw+G
-	 ABF9tG1KCq29ATfD4f2f1lhlP37k/wmUoY2eRHtJs0Ptpf+rpjRdAyBGX12EW3Urjn
-	 A6NbhS7AwIOEwCVHFci56x12dLwh0dtENqge1Aymfx9XBNxsu+5tWuPKg8ZvoK/JY/
-	 KYF2JcO1oVECA==
+	b=OEWCTrnJIDeETPndQXC+WDi8qqLCYccoGcxx+zJcl4Xo5OKJidCU942kX2UBEQEVC
+	 xzhmjaA/oXlBhPQBqptRM+2IHbQ5gAruM7Ylh/iz67t9duSwPhQ3RPLL1P9DbBT0Wx
+	 AHO0SzDSVnV0FleVBm54e16EcE/UY/c2d2Uv/QYw/Pi00kQ2ynUk4C0x3QKw+/zatV
+	 dkDExfmlKkxLHU5mygYozrKPfWH7fX0rsxz1ipbvX3iR9+3PFfUUagT/RwJtojfgW/
+	 3d9sPH4NP0PGvZkJsz3VHdtDmnpLTwioLfeMNCykKmcDDpH1ZL8yDrEZuk7rhuu9vY
+	 W+iMrqT+zAizw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	ssrane_b23@ee.vjti.ac.in
-Cc: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	lihaoxiang@isrc.iscas.ac.cn
+Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: radio-keene: fix memory leak in error path" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:31:53 -0500
-Message-ID: <20260301013153.1690602-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: cx25821: Add missing unmap in snd_cx25821_hw_params()" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:31:55 -0500
+Message-ID: <20260301013155.1690651-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -68,29 +67,29 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53931-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53932-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_THREE(0.00)[4];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,a41b73dce23962a74c72,cisco];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,appspotmail.com:email]
-X-Rspamd-Queue-Id: A5CF61CB85C
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,iscas.ac.cn:email]
+X-Rspamd-Queue-Id: F15FC1CB7FF
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.6-stable tree.
@@ -103,50 +102,34 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From b8bf939d77c0cd01118e953bbf554e0fa15e9006 Mon Sep 17 00:00:00 2001
-From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
-Date: Thu, 27 Nov 2025 00:34:10 +0530
-Subject: [PATCH] media: radio-keene: fix memory leak in error path
+From 863f50d583445c3c8b28a0fc4bb9c18fd9656f41 Mon Sep 17 00:00:00 2001
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Date: Wed, 10 Dec 2025 16:52:30 +0800
+Subject: [PATCH] media: cx25821: Add missing unmap in snd_cx25821_hw_params()
 
-Fix a memory leak in usb_keene_probe(). The v4l2 control handler is
-initialized and controls are added, but if v4l2_device_register() or
-video_register_device() fails afterward, the handler was never freed,
-leaking memory.
+In error path, add cx25821_alsa_dma_unmap() to release the
+resource acquired by cx25821_alsa_dma_map()
 
-Add v4l2_ctrl_handler_free() call in the err_v4l2 error path to ensure
-the control handler is properly freed for all error paths after it is
-initialized.
-
-Reported-by: syzbot+a41b73dce23962a74c72@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=a41b73dce23962a74c72
-Fixes: 1bf20c3a0c61 ("[media] radio-keene: add a driver for the Keene FM Transmitter")
+Fixes: 8d8e6d6005de ("[media] cx28521: drop videobuf abuse in cx25821-alsa")
 Cc: stable@vger.kernel.org
-Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/radio/radio-keene.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/cx25821/cx25821-alsa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/radio/radio-keene.c b/drivers/media/radio/radio-keene.c
-index f3b57f0cb1ec4..c133305fd0194 100644
---- a/drivers/media/radio/radio-keene.c
-+++ b/drivers/media/radio/radio-keene.c
-@@ -338,7 +338,6 @@ static int usb_keene_probe(struct usb_interface *intf,
- 	if (hdl->error) {
- 		retval = hdl->error;
- 
--		v4l2_ctrl_handler_free(hdl);
- 		goto err_v4l2;
+diff --git a/drivers/media/pci/cx25821/cx25821-alsa.c b/drivers/media/pci/cx25821/cx25821-alsa.c
+index a42f0c03a7ca8..f463365163b7e 100644
+--- a/drivers/media/pci/cx25821/cx25821-alsa.c
++++ b/drivers/media/pci/cx25821/cx25821-alsa.c
+@@ -535,6 +535,7 @@ static int snd_cx25821_hw_params(struct snd_pcm_substream *substream,
+ 			chip->period_size, chip->num_periods, 1);
+ 	if (ret < 0) {
+ 		pr_info("DEBUG: ERROR after cx25821_risc_databuffer_audio()\n");
++		cx25821_alsa_dma_unmap(chip);
+ 		goto error;
  	}
- 	retval = v4l2_device_register(&intf->dev, &radio->v4l2_dev);
-@@ -384,6 +383,7 @@ static int usb_keene_probe(struct usb_interface *intf,
- err_vdev:
- 	v4l2_device_unregister(&radio->v4l2_dev);
- err_v4l2:
-+	v4l2_ctrl_handler_free(&radio->hdl);
- 	kfree(radio->buffer);
- 	kfree(radio);
- err:
+ 
 -- 
 2.51.0
 
