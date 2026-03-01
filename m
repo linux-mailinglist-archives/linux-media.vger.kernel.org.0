@@ -1,58 +1,60 @@
-Return-Path: <linux-media+bounces-53911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53912-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EN3hDR+Wo2l7HQUAu9opvQ
-	(envelope-from <linux-media+bounces-53911-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:27:59 +0100
+	id yKgCLT+Vo2n3HQUAu9opvQ
+	(envelope-from <linux-media+bounces-53912-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:24:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864EB1CAAC5
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:27:58 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0C41CA6C5
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:24:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 474CC305C491
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:21:42 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 160C13027955
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:22:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C24278161;
-	Sun,  1 Mar 2026 01:21:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AFB4275B18;
+	Sun,  1 Mar 2026 01:22:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ft7ja9aT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tmjbl5PW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DB713B7AE;
-	Sun,  1 Mar 2026 01:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820182BD0B;
+	Sun,  1 Mar 2026 01:22:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328090; cv=none; b=WwMEifBnbYmvEdAprFW24E9EOP1q9flEO01jnbDkCvEEPNIki55uQZ81SaQUaCl9IHsmy1bS6rPV3HcJWeV9+uQlcRvp3CMqeVJMUL9QkLRwMYE281D0Q8wBdT1zmFjqLxk2bpgsscBORAQSMChNIHHG1Emp0F8jb6Xv7Q+GCIY=
+	t=1772328138; cv=none; b=kVBOvibkZUcRIW16DBJ/W70QCBRPgfVAPXepCUjPn7IOQPCvnKC/8Zh0FWzdE35tffC6tIvYvT/DgAkerDZoa8qsYrAzL7eFLTu6ZjkLa7YHyXUhkJPK7x7Bj1s5g3FphXV+r4HaWcoEiP6xNDCkDgqbTl1qPDW0U62YFQOdhoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328090; c=relaxed/simple;
-	bh=ipmykbxOi4Ap+/fqtwmyMXkO/5SdBy+tybYcoG3buOk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=amtVgcY9yWZhhhatLefye5e8zGuF7ANYkm1LvuyDCdDg0IH80zG81mV0NM3oLBliB72yiexsN+aoQnHp0nC85tWZBYC+ksFXjTXrJmJtbWUMdB6LRVy0aKxzLLPrEmZ/+wATc9ZUa02BzPAa4xQTuWlg+6NsGRUJukxskHtFAyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ft7ja9aT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FDBAC19421;
-	Sun,  1 Mar 2026 01:21:29 +0000 (UTC)
+	s=arc-20240116; t=1772328138; c=relaxed/simple;
+	bh=YXhn7mB2zxwROTnTS2LjnMmTHIEFY8/g9noU56p/vec=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N5CL0Jn7PkXBoVIGsODHinPG0K1fTffX44FK/mf5UgksvogtNKt595PAoH8Cpz34mFKUe2I6e/QJciOEVS6Q0Sl2ebkuDA57Ml5LZ3bWoYXid+H92TLjtJ4b0Xd8OFRhyadvo0KZm9o/vUO8cPZrLG1IlKxEGBfN0t/4TNredGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tmjbl5PW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F60EC19421;
+	Sun,  1 Mar 2026 01:22:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328090;
-	bh=ipmykbxOi4Ap+/fqtwmyMXkO/5SdBy+tybYcoG3buOk=;
+	s=k20201202; t=1772328138;
+	bh=YXhn7mB2zxwROTnTS2LjnMmTHIEFY8/g9noU56p/vec=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Ft7ja9aTe+69gwxpo3wtLpo9ZO1krpndyshNvtYKfr6WCRYOyXyc8EibPOJ8J6V1T
-	 t5P104gtRqdZaLdcQoPtHTVN96EHxaJ0G+jatK8QwgOIRaxgHSnDwcyaRuwaYpTZ8j
-	 d3Si+8jMUQsQ28ZwILqDmzI/nyavOtJYiYsEeWSzq5zVtdSuvO8XrRL7+e0IQsMKEi
-	 WnUefYVOl3cXVZudkl+DQJXm50M52qGvYO+AvGv1oDvkJYuzm4XleoJ/fNJHQ5sm9t
-	 Y2sG5ifd6yzTskTEGBO1+CQXBhW8Ki4ij1CS/3OnFXdZ2IHgNHrh66ESK2LhgeRy60
-	 SKjkd+tG2kmyQ==
+	b=Tmjbl5PWssUKRG5vHHxidOo3C8O5U1jTC2DOB513kMm4s2GL42IYqCEG2RSRSJ29A
+	 0lTN1aDOuJ4Cqb3yP4hAMxUYVxFA89eTTXWex7EJ6oMhnLNZPDOEd0BXnwFbM4eLHq
+	 qRKGuBgefEy1rJ2tBgfBJOGushkFoVbiZFQUkeZbHGJ2+XVqI+E8WzyTNja+BYRXUh
+	 0/ZfOR2QLq0YhDMeZaRmCXto5SsZ+GZiV6CrHssxtZDcQO7fSBhprXyzgrhE0VjKMS
+	 x45qOq8rH3vxN46TmuZ/ZQzaqOsYBPRPgu/864O6QpMrdJmwoPpPLBHW/qS5tIQE46
+	 P/v4znpHeMCvw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	mehdi.djait@linux.intel.com
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	dikshita.agarwal@oss.qualcomm.com
+Cc: Mecid <mecid@mecomediagroup.de>,
+	Renjiang Han <renjiang.han@oss.qualcomm.com>,
+	Bryan O'Donoghue <bod@kernel.org>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: i2c: ov01a10: Fix digital gain range" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:21:28 -0500
-Message-ID: <20260301012128.1677397-1-sashal@kernel.org>
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: FAILED: Patch "media: venus: vdec: restrict EOS addr quirk to IRIS2 only" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:22:16 -0500
+Message-ID: <20260301012216.1678454-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -65,33 +67,33 @@ X-stable: review
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53911-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-53912-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 864EB1CAAC5
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email]
+X-Rspamd-Queue-Id: 5D0C41CA6C5
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.12-stable tree.
@@ -104,37 +106,64 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 91848c99ed6a98daf77f4cb7d44cf3f13bc6998f Mon Sep 17 00:00:00 2001
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-Date: Thu, 8 Jan 2026 14:57:38 +0100
-Subject: [PATCH] media: i2c: ov01a10: Fix digital gain range
+From 63c072e2937e6c9995df1b6a28523ed2ae68d364 Mon Sep 17 00:00:00 2001
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Date: Tue, 25 Nov 2025 11:04:19 +0530
+Subject: [PATCH] media: venus: vdec: restrict EOS addr quirk to IRIS2 only
 
-Digital gain wraps-around at the maximum of 16838 / 0x3fff.
-Fix the maximum digital gain by setting it to 0x3fff.
+On SM8250 (IRIS2) with firmware older than 1.0.087, the firmware could
+not handle a dummy device address for EOS buffers, so a NULL device
+address is sent instead. The existing check used IS_V6() alongside a
+firmware version gate:
 
-Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Fixes: 0827b58dabff ("media: i2c: add ov01a10 image sensor driver")
+    if (IS_V6(core) && is_fw_rev_or_older(core, 1, 0, 87))
+        fdata.device_addr = 0;
+    else
+	fdata.device_addr = 0xdeadb000;
+
+However, SC7280 which is also V6, uses a firmware string of the form
+"1.0.<commit-hash>", which the version parser translates to 1.0.0. This
+unintentionally satisfies the `is_fw_rev_or_older(..., 1, 0, 87)`
+condition on SC7280. Combined with IS_V6() matching there as well, the
+quirk is incorrectly applied to SC7280, causing VP9 decode failures.
+
+Constrain the check to IRIS2 (SM8250) only, which is the only platform
+that needed this quirk, by replacing IS_V6() with IS_IRIS2(). This
+restores correct behavior on SC7280 (no forced NULL EOS buffer address).
+
+Fixes: 47f867cb1b63 ("media: venus: fix EOS handling in decoder stop command")
 Cc: stable@vger.kernel.org
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reported-by: Mecid <mecid@mecomediagroup.de>
+Closes: https://github.com/qualcomm-linux/kernel-topics/issues/222
+Co-developed-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
+Signed-off-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
+Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Tested-by: Renjiang Han <renjiang.han@oss.qualcomm.com>
+Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/i2c/ov01a10.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/venus/vdec.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-index 1aeba3df4cbfc..8a29e5b4b6ba0 100644
---- a/drivers/media/i2c/ov01a10.c
-+++ b/drivers/media/i2c/ov01a10.c
-@@ -63,7 +63,7 @@
- #define OV01A10_REG_DIGITAL_GAIN_GR	CCI_REG24(0x3513)
- #define OV01A10_REG_DIGITAL_GAIN_R	CCI_REG24(0x3516)
- #define OV01A10_DGTL_GAIN_MIN		0
--#define OV01A10_DGTL_GAIN_MAX		0x3ffff
-+#define OV01A10_DGTL_GAIN_MAX		0x3fff
- #define OV01A10_DGTL_GAIN_STEP		1
- #define OV01A10_DGTL_GAIN_DEFAULT	1024
+diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+index d0bd2d86a31f9..4cd69440e8753 100644
+--- a/drivers/media/platform/qcom/venus/vdec.c
++++ b/drivers/media/platform/qcom/venus/vdec.c
+@@ -565,7 +565,13 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
  
+ 		fdata.buffer_type = HFI_BUFFER_INPUT;
+ 		fdata.flags |= HFI_BUFFERFLAG_EOS;
+-		if (IS_V6(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
++
++		/* Send NULL EOS addr for only IRIS2 (SM8250),for firmware <= 1.0.87.
++		 * SC7280 also reports "1.0.<hash>" parsed as 1.0.0; restricting to IRIS2
++		 * avoids misapplying this quirk and breaking VP9 decode on SC7280.
++		 */
++
++		if (IS_IRIS2(inst->core) && is_fw_rev_or_older(inst->core, 1, 0, 87))
+ 			fdata.device_addr = 0;
+ 		else
+ 			fdata.device_addr = 0xdeadb000;
 -- 
 2.51.0
 
