@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-53939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-53940-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOibGRuao2kwIAUAu9opvQ
-	(envelope-from <linux-media+bounces-53939-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:44:59 +0100
+	id KObuBzano2mWJAUAu9opvQ
+	(envelope-from <linux-media+bounces-53940-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:40:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C131CB874
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 02:44:58 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89BA31CDCB5
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 03:40:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5F13431F8644
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:33:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BF36531F93AB
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 01:33:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B17252C21FF;
-	Sun,  1 Mar 2026 01:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D7542E6CC7;
+	Sun,  1 Mar 2026 01:32:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zn7gRJS3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CgWOvvJu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2679626ED35;
-	Sun,  1 Mar 2026 01:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9378F2E62C6;
+	Sun,  1 Mar 2026 01:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328734; cv=none; b=bD5A+r/+Uc0nORNifVL0bcNFypHmSZ8Ap9HzrIXpz7oQCG93Nq9LNnVlSntMcrNw5B4yUPEKbnoxtNIj95P+KOp7n8nYxNgMk6ImQxuxKZJtr8QBbaySUYDO/2J6p3+qNp0BE7eUgQtFInbDvEzBYy+V8foltdEHoXw0BYo3gCM=
+	t=1772328736; cv=none; b=aZCqW3aQuO64O2Jmo9+F4vDb5r2i16kWP33jBO7lsMuDjf6Ty0TwXBksUZog9ljro67kKvLagYAu4Rp5YyKZnb5pchOVak+128SK/cUh7Fpk8UZE6Cy0XeoQHpLvCN7hI+LVGcSYqPI3CWOLq88brDeklVyn53b5DM1DBGVrlqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328734; c=relaxed/simple;
-	bh=ei3flW/4dQO0zI3LRys9GYGDQJhDouYOE2IHt2kIHp8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XYJO1hNOGqrxq+RkfXW1+GSsBZSg5oJuRiDhvFVtxh8TYwXozu9vENEXJYdspu8Z81OgZvi8RlJ5pAmsCtjB2SMtHbyYt7Al/jKxv65hJ5MnrYOT3xM3IbntszmuKmTI4gq2bm1RLwQN52nmAqrQ4Zd3x9bHK2rMHmgBv+LkMLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zn7gRJS3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D394C19421;
-	Sun,  1 Mar 2026 01:32:13 +0000 (UTC)
+	s=arc-20240116; t=1772328736; c=relaxed/simple;
+	bh=4P2N4G/s8yTG8IsM5eK1/AoTF8Bwh/KNnqLYaGctnd8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iLKtv9wNgnRvnWCsyqcb0ILQ5siy0Yu+fouPThvtxAvROMidEhNG01CC9h0/4st/uSZkbWpMDjJ9ZnEQGe9yFO6WkBo8zTb3HCN5ooBroz7FQdMXBDNOUM1c8I9dFSDs9Vt/BkLFtRVCzW1mztody8a1myhVFzglpzb420eVQnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CgWOvvJu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC4A0C19421;
+	Sun,  1 Mar 2026 01:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328734;
-	bh=ei3flW/4dQO0zI3LRys9GYGDQJhDouYOE2IHt2kIHp8=;
+	s=k20201202; t=1772328736;
+	bh=4P2N4G/s8yTG8IsM5eK1/AoTF8Bwh/KNnqLYaGctnd8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Zn7gRJS3Kp4hwREq5JywzqAl5Z04/z8tEeqnP8vczgPd9H842noYg2Ss5aW8Q9CeW
-	 Bv8dnAtAboaJFbfOxnKQbMNVTRjNAuDpbL3VRafbFsd5olN6M6MRBSEINVxfp1MXpn
-	 VUBFQI920y10h76aDBsckerbdDT8yMpX67Wh4mcRjW3R7yd6h4oj3urIfKQPv7V3+w
-	 0JCVWRrNNryf1YUfGUWqNHKvCs/unq2rCxaSBhJmL0IsmQHCIlAlboDsm79Q58o/sG
-	 YRhlGjK7W39r/h3eU/lZwdL8kctXey+GLuThiEMKouoT9xotWLOIoch+JBbi0pvBLx
-	 bWW8XPflwcvKw==
+	b=CgWOvvJufavcYx+aQOdzjxXBqBgFJxLoYjIM3VdGwLvWDFpxt9YrsgCKqUz21CXUO
+	 G2Qp/fcjziPkd5jIONfJjfnrGs0P1cXgf54VDBHBRf98guKp9oVGT2ligfHYnysifV
+	 NqaA3pKrYPwROE538RMXzlMBcyPcvHmej443xpv454Z3BqR09CTFWqrBrjJq0rSvBx
+	 PCkqg5VLM7ewVUarCWItzip3/XZ3jRi9VBTDAvVkSgro0z03lFh2LFCbaRYjbndyfS
+	 BwAm2fOenEtauHYQWu5c3ecG9Zza01+V1LLbYSxEu7dIj6Yg7LbiwFkJNnYt+ogOoC
+	 gZ2Jl6glTLYwg==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	david.plowman@raspberrypi.com
@@ -51,9 +51,9 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: FAILED: Patch "media: i2c: ov5647: Correct minimum VBLANK value" failed to apply to 6.6-stable tree
-Date: Sat, 28 Feb 2026 20:32:11 -0500
-Message-ID: <20260301013212.1691066-1-sashal@kernel.org>
+Subject: FAILED: Patch "media: i2c: ov5647: Sensor should report RAW color space" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:32:14 -0500
+Message-ID: <20260301013214.1691131-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -71,7 +71,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -80,9 +80,9 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-53939-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-53940-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
@@ -92,8 +92,8 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,ideasonboard.com:email,raspberrypi.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D9C131CB874
+	DBL_BLOCKED_OPENRESOLVER(0.00)[raspberrypi.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: 89BA31CDCB5
 X-Rspamd-Action: no action
 
 The patch below does not apply to the 6.6-stable tree.
@@ -106,16 +106,15 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 1438248c5a82c86b4e1f0311c3bb827af747a8cf Mon Sep 17 00:00:00 2001
+From f007586b1e89dcea40168415d0422cb7a0fc31b1 Mon Sep 17 00:00:00 2001
 From: David Plowman <david.plowman@raspberrypi.com>
-Date: Mon, 22 Dec 2025 13:45:27 +0530
-Subject: [PATCH] media: i2c: ov5647: Correct minimum VBLANK value
+Date: Mon, 22 Dec 2025 13:45:28 +0530
+Subject: [PATCH] media: i2c: ov5647: Sensor should report RAW color space
 
-Trial and error reveals that the minimum vblank value appears to be 24
-(the OV5647 data sheet does not give any clues). This fixes streaming
-lock-ups in full resolution mode.
+As this sensor captures RAW bayer frames, the colorspace should be
+V4L2_COLORSPACE_RAW instead of SRGB.
 
-Fixes: 2512c06441e3 ("media: ov5647: Support V4L2_CID_VBLANK control")
+Fixes: a8df5af695a1 ("media: ov5647: Add SGGBR10_1X10 modes")
 Cc: stable@vger.kernel.org
 Signed-off-by: David Plowman <david.plowman@raspberrypi.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
@@ -123,22 +122,49 @@ Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/i2c/ov5647.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ov5647.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index d9e300406f58e..191954497e3db 100644
+index 191954497e3db..c0f1121b025e5 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -73,7 +73,7 @@
- #define OV5647_PIXEL_ARRAY_WIDTH	2592U
- #define OV5647_PIXEL_ARRAY_HEIGHT	1944U
- 
--#define OV5647_VBLANK_MIN		4
-+#define OV5647_VBLANK_MIN		24
- #define OV5647_VTS_MAX			32767
- 
- #define OV5647_EXPOSURE_MIN		4
+@@ -508,7 +508,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 	{
+ 		.format = {
+ 			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-			.colorspace	= V4L2_COLORSPACE_SRGB,
++			.colorspace	= V4L2_COLORSPACE_RAW,
+ 			.field		= V4L2_FIELD_NONE,
+ 			.width		= 2592,
+ 			.height		= 1944
+@@ -529,7 +529,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 	{
+ 		.format = {
+ 			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-			.colorspace	= V4L2_COLORSPACE_SRGB,
++			.colorspace	= V4L2_COLORSPACE_RAW,
+ 			.field		= V4L2_FIELD_NONE,
+ 			.width		= 1920,
+ 			.height		= 1080
+@@ -550,7 +550,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 	{
+ 		.format = {
+ 			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-			.colorspace	= V4L2_COLORSPACE_SRGB,
++			.colorspace	= V4L2_COLORSPACE_RAW,
+ 			.field		= V4L2_FIELD_NONE,
+ 			.width		= 1296,
+ 			.height		= 972
+@@ -571,7 +571,7 @@ static const struct ov5647_mode ov5647_modes[] = {
+ 	{
+ 		.format = {
+ 			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-			.colorspace	= V4L2_COLORSPACE_SRGB,
++			.colorspace	= V4L2_COLORSPACE_RAW,
+ 			.field		= V4L2_FIELD_NONE,
+ 			.width		= 640,
+ 			.height		= 480
 -- 
 2.51.0
 
