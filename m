@@ -1,371 +1,172 @@
-Return-Path: <linux-media+bounces-54007-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54008-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KDDRA3smpGmyYgUAu9opvQ
-	(envelope-from <linux-media+bounces-54007-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 12:43:55 +0100
+	id OBCQNpdBpGkgbQUAu9opvQ
+	(envelope-from <linux-media+bounces-54008-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 14:39:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3E81CF644
-	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 12:43:54 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A4931CFFF4
+	for <lists+linux-media@lfdr.de>; Sun, 01 Mar 2026 14:39:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EBC9B3022050
-	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 11:43:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9CBC5301627B
+	for <lists+linux-media@lfdr.de>; Sun,  1 Mar 2026 13:39:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA2D7318B93;
-	Sun,  1 Mar 2026 11:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AF5532D7F1;
+	Sun,  1 Mar 2026 13:39:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F0sJSgbu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mFy0lI3e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB093175A7A;
-	Sun,  1 Mar 2026 11:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044F232AACB
+	for <linux-media@vger.kernel.org>; Sun,  1 Mar 2026 13:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772365385; cv=none; b=AW05CROE5lOWGwoX/4aQ2Isitg5502Que3OdnonxGpmuVdET4YbUzx2rpd0GXIocX6dLFRsgHsHq7WSCGhU06d+G8yX9i0G4/LJ9EqnifpMjWo57vDIzi9v7uJmnNueg/weQ8P7N46//OEHGnTuafTGBNREuttiCkdAUTUpnmvs=
+	t=1772372372; cv=none; b=j+4P8xgbb0P6g/m+U3eJQFJwxhW1EJqaaL53QlhRAwcJyFsb938YV4edxRsB+Qh3INOFL544stKEuSgxtN0WlYNlw2q1dG6tu4QxmWNhAOV7kGXDOEv7M2sI8YzgZlB91XagtWqs8+hDg9EZpyKvauWSDdjuq8KZb0KpUBEph74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772365385; c=relaxed/simple;
-	bh=/6lGKPBod54k57df5F8PYUqoqo6RqrWwsHxiulBOvgo=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=SxCWrdb4hse2gcQ+v1mGiN/Vp7hurjszTOtiswdLuJPn7SJdFDEl+Xa5GWLWkmkEfjLZQui3ZUx1lFqrwU9CFZFJSGcAD3DIhNBaUAfSzi718w5b3srgFv50lD7BE4y3kqOvGeBq24+G9U+AFo16lovbg2L0gUwKRDCMoSbTL9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F0sJSgbu; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from monstersaurus.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DFD7A56D;
-	Sun,  1 Mar 2026 12:41:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1772365319;
-	bh=/6lGKPBod54k57df5F8PYUqoqo6RqrWwsHxiulBOvgo=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=F0sJSgbuTM8I14ibOxECaF0as6nTmZdXAUyIWP/49hJuyp8uLDfCCx7tgC5fjogFf
-	 RRsPjWGUmVDt1Gwj7drQK4MBeIW2Jb2pK8Mg2HVoJDUmj5vxRU7ETgwVI+urFoTk89
-	 FUSRe+lYLf5TxM2X1fOhWJHNKdb7Ps7TxoHKGigg=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1772372372; c=relaxed/simple;
+	bh=qvTfx76KlUm8ldBdn4DpsFUDxCVObx+MC6CAaoDM30w=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Sxc6WDnBKK91Gx5h3ZXnsWO/Ruy0v0lTG9KA6LTzH4GTzM469ocMzbQe/kaPDp6n76Es/+d5RwgN3xMTQdQhF5Y1KZYT1mwDq2ZNraVMzo9TLRJ7dwHzKv7pOcIKIIMbme8nTihXMldp64NwKMvWr7RrBI/XILbFk8i4hplIawA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mFy0lI3e; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2aaf43014d0so28687335ad.2
+        for <linux-media@vger.kernel.org>; Sun, 01 Mar 2026 05:39:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772372370; x=1772977170; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+Eg1r2EOYc/DtkNCJftZdyjm9sOOP8ZPXYeDO2tNZyo=;
+        b=mFy0lI3eUEPGMFQi1M41zkpWeIB5HaxdMQ/M3eoNtjWBEcLYILl3C/piTWVjwNyUBq
+         CBnjQ3Twqze+TM7aStBqT4uuW39j6i42iQ8hhVnSm616NBg2w1oe88vVwxv1Ra12BRUW
+         GV45CgcLYcttteCR5wkR14uv87sXDqlLgj+THS4lJn1FoR58g12O2koqdw6sjiuBT/Ol
+         XlACeuyOCBbDnnMaD699YhtA3+MT637J+bPyb+2Cg1hzyhVe52RfvMiEm4kJyZxaQ0dd
+         MSsx2T7KeQdpsMwA8t1gPvWE6OZLon1BIo/dpKyx3QG9bhX3k+urmWVNtEIIrxMSgeTz
+         eAqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772372370; x=1772977170;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+Eg1r2EOYc/DtkNCJftZdyjm9sOOP8ZPXYeDO2tNZyo=;
+        b=nlKlAFHhc3cs5i4XiBsNiTrvZnmQTNm1SxPwlWMWfHaGUu0xD5x6GItMfVuBkHhfmT
+         tsn1bjWdFA4Fe40se88CNmYWUa27gcmTr8WnbSG7aL74gDSI5D9UcyGgqarBkl4Fa+WM
+         4nkPAgk3xDZBu9Z1ZWekQ2yAwK+dkuhaNDqnJXYQLX+0cRoXJL1yd4MrEFNtwRgD5bLh
+         K+/cqm1GFNYRiuryKB17afIvgxAScrKLrE5+dShy1IzB81r4JawJ72Da2tJ3fC7xTEKC
+         LOrqbjI2Q8+hJyxTeuxYsobvtNKIPbgRm9CrWRUf4BuwOz9QeDEABkZq6URodYTb/sGw
+         MLTQ==
+X-Gm-Message-State: AOJu0YyIgRxYF6pIRKojbIWeKWtUT2ZVblgk/omuaq8jVclPgEkCOgmF
+	lmDQaSJCPpgkFBrRnoX4wY3rqXrhsyzl4NP4pnwiMZGBeAiUTTqyCliq
+X-Gm-Gg: ATEYQzwJZz5uqXiBa4f0ZLX/Az5lfErIZbQ9CBopGT0YvvnQ2Kpqist6++oF7FaAzhf
+	cGgwYTNA12IH67A19hlXiGdp2p15lDpud8QZuexdwyaliuSHYB3iL3H6S4hPw+YtpGBVZe1M89P
+	JEADYAZ481QGNEYVNanAs4TxKnuaLwuJ4QmrnvmUh+ko6xgi+VUROWvBPvSRaCfD5QylHYY9F+Q
+	y5o4qoOYEVoxUeMpX4V4+Ang6CpkqRTbW/mX78Wa1MQEsGy9hG/+X8PNQh/DOXVVcU6/LDMptFF
+	Py/qDT1m0PkbX8EZ94ag8xj7JdMSqaM+tW0oufFYEoYZS2evd7r8l3LdjOajp0NFBVM2dGk3FTl
+	6lmWRFXO14lVQA/M0XlY0cdJHzDtxUsYTC0mwiamdgJ3IjSzfoHsoUJhC/hDerSgQ4Ja8uZ5qXz
+	ixq9npQysXzNbSI1J8wbPz/+rQXmWi4TqmOXxsjmQPGFPifjE=
+X-Received: by 2002:a17:903:32c7:b0:295:745a:8016 with SMTP id d9443c01a7336-2ae2e3e720amr109441575ad.11.1772372370401;
+        Sun, 01 Mar 2026 05:39:30 -0800 (PST)
+Received: from junjungu-PC.localdomain ([2408:820c:9009:3f2:fcc8:844a:f21c:8d7f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae4d3113e0sm12715325ad.79.2026.03.01.05.39.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Mar 2026 05:39:30 -0800 (PST)
+From: Felix Gu <ustc.gu@gmail.com>
+Date: Sun, 01 Mar 2026 21:39:25 +0800
+Subject: [PATCH] media: ti: vpe: Add missing v4l2_device_unregister in
+ vip_remove()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <b23f0e1e-8a79-44c6-a0b8-09997ed26e4b@ixit.cz>
-References: <20260117-qcom-cphy-v3-0-8ce76a06f7db@ixit.cz> <20260117-qcom-cphy-v3-2-8ce76a06f7db@ixit.cz> <de5fbe8d-3f9e-4be8-a9e3-991b959305e4@linaro.org> <176873791545.3486172.9291085318504972330@ping.linuxembedded.co.uk> <b23f0e1e-8a79-44c6-a0b8-09997ed26e4b@ixit.cz>
-Subject: Re: [PATCH v3 2/8] media: qcom: camss: csiphy-3ph: Use odd bits for configuring C-PHY lanes
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Joel Selvaraj <foss@joelselvaraj.com>, Kieran Bingham <kbingham@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Casey Connolly <casey.connolly@linaro.org>, David Heidelberg <david@ixit.cz>, Dr. Git <drgitx@gmail.com>, Luca Weiss <luca.weiss@fairphone.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Petr Hodina <phodina@protonmail.com>, Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Date: Sun, 01 Mar 2026 11:42:55 +0000
-Message-ID: <177236537581.1230693.15193663000744024111@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260301-vip-v1-1-d90572c2c55a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAIxBpGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDYwND3bLMAt1ks1RLYyMjY0sTE3MloMqCotS0zAqwKdGxtbUAbfVEy1U
+ AAAA=
+X-Change-ID: 20260301-vip-c6e932239447
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Benoit Parrot <bparrot@ti.com>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>, 
+ Dale Farnsworth <dale@farnsworth.org>, 
+ Sukrut Bellary <sbellary@baylibre.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Felix Gu <ustc.gu@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772372367; l=982;
+ i=ustc.gu@gmail.com; h=from:subject:message-id;
+ bh=qvTfx76KlUm8ldBdn4DpsFUDxCVObx+MC6CAaoDM30w=;
+ b=IiMQ5oD2LmKzkgzWijxx3vFGa9QvNVDem7L9PuDXGExWuY0Mi/cFo/vTIQL7jKGscANEc7N3V
+ uZQ0XWuzgNvAC1PU5foyu/UgD3qq/DfKqZEbOxJc4tLWC2B2Y3tLAWT
+X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
+ pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54007-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[linaro.org,ixit.cz,gmail.com,fairphone.com,kernel.org,protonmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54008-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FROM_NEQ_ENVFROM(0.00)[ustcgu@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ping.linuxembedded.co.uk:mid,ixit.cz:email,linaro.org:email,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: 1D3E81CF644
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 5A4931CFFF4
 X-Rspamd-Action: no action
 
-Quoting David Heidelberg (2026-02-28 22:37:57)
-> On 18/01/2026 13:05, Kieran Bingham wrote:
-> > Quoting Bryan O'Donoghue (2026-01-17 21:38:17)
-> >> On 17/01/2026 15:36, David Heidelberg via B4 Relay wrote:
-> >>> From: David Heidelberg <david@ixit.cz>
-> >>>
-> >>> So far, only D-PHY mode was supported, which uses even bits when enab=
-ling
-> >>> or masking lanes. For C-PHY configuration, the hardware instead requi=
-res
-> >>> using the odd bits.
-> >>>
-> >>> Since there can be unrecognized configuration allow returning failure.
-> >>>
-> >>> Signed-off-by: David Heidelberg <david@ixit.cz>
-> >>> ---
-> >>>    .../platform/qcom/camss/camss-csiphy-2ph-1-0.c     |  8 ++--
-> >>>    .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 49 ++++++++++=
-+++++++-----
-> >>>    drivers/media/platform/qcom/camss/camss-csiphy.c   |  4 +-
-> >>>    drivers/media/platform/qcom/camss/camss-csiphy.h   |  6 +--
-> >>>    4 files changed, 47 insertions(+), 20 deletions(-)
-> >>>
-> >>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c=
- b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> >>> index 9d67e7fa6366a..bb4b91f69616b 100644
-> >>> --- a/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> >>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c
-> >>> @@ -94,9 +94,9 @@ static u8 csiphy_settle_cnt_calc(s64 link_freq, u32=
- timer_clk_rate)
-> >>>        return settle_cnt;
-> >>>    }
-> >>>   =20
-> >>> -static void csiphy_lanes_enable(struct csiphy_device *csiphy,
-> >>> -                             struct csiphy_config *cfg,
-> >>> -                             s64 link_freq, u8 lane_mask)
-> >>> +static int csiphy_lanes_enable(struct csiphy_device *csiphy,
-> >>> +                            struct csiphy_config *cfg,
-> >>> +                            s64 link_freq, u8 lane_mask)
-> >>>    {
-> >>>        struct csiphy_lanes_cfg *c =3D &cfg->csi2->lane_cfg;
-> >>>        u8 settle_cnt;
-> >>> @@ -132,6 +132,8 @@ static void csiphy_lanes_enable(struct csiphy_dev=
-ice *csiphy,
-> >>>                writel_relaxed(0x3f, csiphy->base +
-> >>>                               CAMSS_CSI_PHY_INTERRUPT_CLEARn(l));
-> >>>        }
-> >>> +
-> >>> +     return 0;
-> >>>    }
-> >>>   =20
-> >>>    static void csiphy_lanes_disable(struct csiphy_device *csiphy,
-> >>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c=
- b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> >>> index 4154832745525..f3a8625511e1e 100644
-> >>> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> >>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> >>> @@ -14,6 +14,7 @@
-> >>>    #include <linux/delay.h>
-> >>>    #include <linux/interrupt.h>
-> >>>    #include <linux/io.h>
-> >>> +#include <linux/media-bus-format.h>
-> >>>   =20
-> >>>    #define CSIPHY_3PH_LNn_CFG1(n)                      (0x000 + 0x100=
- * (n))
-> >>>    #define CSIPHY_3PH_LNn_CFG1_SWI_REC_DLY_PRG (BIT(7) | BIT(6))
-> >>> @@ -993,13 +994,22 @@ static void csiphy_gen2_config_lanes(struct csi=
-phy_device *csiphy,
-> >>>   =20
-> >>>    static u8 csiphy_get_lane_mask(struct csiphy_lanes_cfg *lane_cfg)
-> >>>    {
-> >>> -     u8 lane_mask;
-> >>> -     int i;
-> >>> +     u8 lane_mask =3D 0;
-> >>>   =20
-> >>> -     lane_mask =3D CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
-> >>> +     switch (lane_cfg->phy_cfg) {
-> >>> +     case V4L2_MBUS_CSI2_CPHY:
-> >>> +             for (int i =3D 0; i < lane_cfg->num_data; i++)
-> >>> +                     lane_mask |=3D (1 << lane_cfg->data[i].pos) + 1;
-> >>
-> >> 1 << anything =3D=3D BIT(anything)
-> >>
-> >> I've always disliked the look of this code and now it occurs to me why.
-> >>
-> >> This code is analogous to:
-> >>
-> >> lane_mask |=3D BIT(lane_cfg->data[i].pos) + 1);
-> >=20
-> > I see that addition to a bit mask and get a little bit scared.
-> >=20
-> > This gives:
-> >    pos   mask
-> >     0    0b00000010 (note 0 bit is zero here but 1 on all others)
-> >     1    0b00000011
-> >     2    0b00000101
-> >     3    0b00001001
-> >     4    0b00010001
-> >=20
-> > Is that expected?
-> >=20
-> > Can data[i].pos ever be position 0 ??
-> >=20
-> > I assume this starts at position 1 - and the +1 here is to always set
-> > the zeroth bit ?
-> >=20
-> > Perhapse this might be precise to convey that in such a case?
-> >=20
-> >    lane_mask |=3D BIT(pos) | 1;
-> >=20
-> > I guess it depends on what this is really being used for which I don't
-> > have in my context.
->=20
-> Ok, I started looking again into the lovely downstream code.
->=20
-> D-PHY has bits 0b0D_D_D_D
-> C-PHY has bits 0b0_C_C_C_
->=20
-> so for some reason it worked in my usecase without proper lane mask, but =
+The v4l2_device is registered during probe but was not being unregistered
+during remove. Add the missing v4l2_device_unregister() call to properly
+clean up resources.
 
-> the original formula should be
->=20
->   -                     lane_mask |=3D (1 << lane_cfg->data[i].pos) + 1;
->   +                     lane_mask |=3D (1 << lane_cfg->data[i].pos + 1);
->=20
-> Thus
->=20
-> BIT(lane_cfg->data[i].pos + 1);
+Fixes: fc2873aa4a21 ("media: ti: vpe: Add the VIP driver")
+Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+---
+ drivers/media/platform/ti/vpe/vip.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-That looks a lot more sane!
+diff --git a/drivers/media/platform/ti/vpe/vip.c b/drivers/media/platform/ti/vpe/vip.c
+index a4b616a5ece7..0e91e87bda9b 100644
+--- a/drivers/media/platform/ti/vpe/vip.c
++++ b/drivers/media/platform/ti/vpe/vip.c
+@@ -3641,6 +3641,7 @@ static void vip_remove(struct platform_device *pdev)
+ 	}
+ 
+ 	v4l2_ctrl_handler_free(&shared->ctrl_handler);
++	v4l2_device_unregister(&shared->v4l2_dev);
+ 
+ 	pm_runtime_put_sync(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
 
---
-Kieran
+---
+base-commit: 3fa5e5702a82d259897bd7e209469bc06368bf31
+change-id: 20260301-vip-c6e932239447
 
->=20
-> >=20
-> > --
-> > Kieran
-> >=20
-> >  =20
-> >=20
-> >>
-> >> but BIT() is less janky and more upstreamy.
-> >>
-> >> janky/upstreamy - this is the on-point technical argument y'all came
-> >> here for :)
-> >>
-> >>> +             break;
-> >>> +     case V4L2_MBUS_CSI2_DPHY:
-> >>> +             lane_mask =3D CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABL=
-E;
-> >>>   =20
-> >>> -     for (i =3D 0; i < lane_cfg->num_data; i++)
-> >>> -             lane_mask |=3D 1 << lane_cfg->data[i].pos;
-> >>> +             for (int i =3D 0; i < lane_cfg->num_data; i++)
-> >>> +                     lane_mask |=3D 1 << lane_cfg->data[i].pos;
-> >>> +             break;
-> >>> +     default:
-> >>> +             break;
-> >>> +     }
-> >>>   =20
-> >>>        return lane_mask;
-> >>>    }
-> >>> @@ -1027,10 +1037,11 @@ static bool csiphy_is_gen2(u32 version)
-> >>>        return ret;
-> >>>    }
-> >>>   =20
-> >>> -static void csiphy_lanes_enable(struct csiphy_device *csiphy,
-> >>> -                             struct csiphy_config *cfg,
-> >>> -                             s64 link_freq, u8 lane_mask)
-> >>> +static int csiphy_lanes_enable(struct csiphy_device *csiphy,
-> >>> +                            struct csiphy_config *cfg,
-> >>> +                            s64 link_freq, u8 lane_mask)
-> >>>    {
-> >>> +     struct device *dev =3D csiphy->camss->dev;
-> >>>        struct csiphy_lanes_cfg *c =3D &cfg->csi2->lane_cfg;
-> >>>        struct csiphy_device_regs *regs =3D csiphy->regs;
-> >>>        u8 settle_cnt;
-> >>> @@ -1039,9 +1050,23 @@ static void csiphy_lanes_enable(struct csiphy_=
-device *csiphy,
-> >>>   =20
-> >>>        settle_cnt =3D csiphy_settle_cnt_calc(link_freq, csiphy->timer=
-_clk_rate);
-> >>>   =20
-> >>> -     val =3D CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
-> >>> -     for (i =3D 0; i < c->num_data; i++)
-> >>> -             val |=3D BIT(c->data[i].pos * 2);
-> >>> +     val =3D 0;
-> >>> +
-> >>> +     switch (c->phy_cfg) {
-> >>> +     case V4L2_MBUS_CSI2_CPHY:
-> >>> +             for (i =3D 0; i < c->num_data; i++)
-> >>> +                     val |=3D BIT((c->data[i].pos * 2) + 1);
-> >>> +             break;
-> >>> +     case V4L2_MBUS_CSI2_DPHY:
-> >>> +             val =3D CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
-> >>> +
-> >>> +             for (i =3D 0; i < c->num_data; i++)
-> >>> +                     val |=3D BIT(c->data[i].pos * 2);
-> >>> +             break;
-> >>> +     default:
-> >>> +             dev_err(dev, "Unsupported bus type %d\n", c->phy_cfg);
-> >>> +             return -EINVAL;
-> >>> +     }
-> >>>   =20
-> >>>        writel_relaxed(val, csiphy->base +
-> >>>                       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 5=
-));
-> >>> @@ -1068,6 +1093,8 @@ static void csiphy_lanes_enable(struct csiphy_d=
-evice *csiphy,
-> >>>                writel_relaxed(0, csiphy->base +
-> >>>                               CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->o=
-ffset, i));
-> >>>        }
-> >>> +
-> >>> +     return 0;
-> >>>    }
-> >>>   =20
-> >>>    static void csiphy_lanes_disable(struct csiphy_device *csiphy,
-> >>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drive=
-rs/media/platform/qcom/camss/camss-csiphy.c
-> >>> index 62623393f4144..08dd238e52799 100644
-> >>> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> >>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> >>> @@ -295,9 +295,7 @@ static int csiphy_stream_on(struct csiphy_device =
-*csiphy)
-> >>>                wmb();
-> >>>        }
-> >>>   =20
-> >>> -     csiphy->res->hw_ops->lanes_enable(csiphy, cfg, link_freq, lane_=
-mask);
-> >>> -
-> >>> -     return 0;
-> >>> +     return csiphy->res->hw_ops->lanes_enable(csiphy, cfg, link_freq=
-, lane_mask);
-> >>
-> >> ick.
-> >>
-> >> More high brow stuff from bod here but, more seriously this is three
-> >> levels of indirection deep and the statement keeps getting longer.
-> >>
-> >> Could you get a pointer to hw_ops() to reduce this down a bit.
-> >>
-> >>>    }
-> >>>   =20
-> >>>    /*
-> >>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drive=
-rs/media/platform/qcom/camss/camss-csiphy.h
-> >>> index d198171700e73..21cf2ce931c1d 100644
-> >>> --- a/drivers/media/platform/qcom/camss/camss-csiphy.h
-> >>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> >>> @@ -73,9 +73,9 @@ struct csiphy_hw_ops {
-> >>>        void (*hw_version_read)(struct csiphy_device *csiphy,
-> >>>                                struct device *dev);
-> >>>        void (*reset)(struct csiphy_device *csiphy);
-> >>> -     void (*lanes_enable)(struct csiphy_device *csiphy,
-> >>> -                          struct csiphy_config *cfg,
-> >>> -                          s64 link_freq, u8 lane_mask);
-> >>> +     int (*lanes_enable)(struct csiphy_device *csiphy,
-> >>> +                         struct csiphy_config *cfg,
-> >>> +                         s64 link_freq, u8 lane_mask);
-> >>>        void (*lanes_disable)(struct csiphy_device *csiphy,
-> >>>                              struct csiphy_config *cfg);
-> >>>        irqreturn_t (*isr)(int irq, void *dev);
-> >>>
-> >>
-> >> With those tweaks.
-> >>
-> >> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> >>
-> >> ---
-> >> bod
->=20
-> --=20
-> David Heidelberg
->
+Best regards,
+-- 
+Felix Gu <ustc.gu@gmail.com>
+
 
