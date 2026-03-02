@@ -1,104 +1,104 @@
-Return-Path: <linux-media+bounces-54054-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54055-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sOsSM4FLpWmt8AUAu9opvQ
-	(envelope-from <linux-media+bounces-54054-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 09:34:09 +0100
+	id eGVeKANMpWmt8AUAu9opvQ
+	(envelope-from <linux-media+bounces-54055-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 09:36:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B498E1D4AC9
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 09:34:09 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 387751D4B18
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 09:36:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4DF4D3013DEC
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 08:34:08 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 83AC2301462B
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 08:36:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77A783290A1;
-	Mon,  2 Mar 2026 08:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC3B2387581;
+	Mon,  2 Mar 2026 08:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KHTvc93G";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FnzeUEqT"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BlTOmEth";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZRic95TA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B103321A1
-	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 08:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22FA34F474
+	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 08:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772440442; cv=none; b=cojXzJX58EJj91NFLWqKXtFpl9nVfGkQEIDPUgQQYZSeTQV0rZ3aHvKMRxRtvI/mL+dxP6ItB0Su88wjPAV0dfvhmpzYBvc3PrNQ2N2XZFf5rtMdLrTUoLCdoeHfE3Wc6qNrR9Jwu/hnNf7J9o2mBeoPn0jt0J2kzqO7wD1TWKE=
+	t=1772440573; cv=none; b=Jo6KJhLNHRzJbNitMXkNvTU7Tm92Wr1RzxdEVFPFeFkpacQRmkQX/MZBEYRcbQLkBlUthVPk9UAknCxSiGwzr84jMCb+tutDen0h71V/0kvQior8q8f1hb5TCScedbpLWc8wjuCf7SUvfLurbtrwdARaV+pBY/2RoCX7Yz85ArQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772440442; c=relaxed/simple;
-	bh=txxu2DG9xzQwMmDjiRwRkA+iOAbbQRJVs+CU5TpGi6M=;
+	s=arc-20240116; t=1772440573; c=relaxed/simple;
+	bh=ggVY9gQwb1pP8rGEZBQk10I5aptVA3Wj0nOFd2MKBNU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EVc36y2CUFnCWk6ilv45cacKhQCdZzSyRt6W0m1kmWuPoh9OE5kUA9F1XpE0pF7W+75Kwp2uJpSyp970qB0QEI5u0HQcETo/hwy53J1iWQY3QjbwW9rPpPcwnREo24aMMrXmUm3yhW3JMhe8Y4rffiZOnRbAKxzxGgUh9x0230Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KHTvc93G; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FnzeUEqT; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=k3g6EP86P45QhV8M3tyq/875k8Hc7EPkiHApJKyAyYk7jdP5LEOtHJimBdpaytcDiwdABpOsb4uagi3bHFxMmEOCeWttd+PMUEnAmQSOnXkpiE/25Hmlaz6BWC1g3wzzKiZuX5MnDuZFm4uteiXIWMQ0uV+pkx51uuWjoP0sXYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BlTOmEth; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZRic95TA; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62283l5a249402
-	for <linux-media@vger.kernel.org>; Mon, 2 Mar 2026 08:33:59 GMT
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62285XE6662205
+	for <linux-media@vger.kernel.org>; Mon, 2 Mar 2026 08:36:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kiGzfhiYB9wtCN3D88VauW9OjmRKCIKm/2P5tjv1u1w=; b=KHTvc93GiHjJt2D4
-	0m6pEeLM/1N0U/B3a242ftDXzyMebgu6s2qhbJiaacWOxnY7Dyep6gZMMgNZTOjv
-	inVNFD5ZTP5oMDZw48i+qeuXlFGdxLDot1h1pO/oNKID6Tof+7JFV2RqsraAZ7VV
-	R7G9ty+hum83Vtc3n1OvYw/6ICoDe7yxESCE6LR0KWOjhGg13msz2KQZc0NgDDdo
-	ulZD8iFY1XZhkxOozsZapkwLXvqtIP1LK2syRk5hTIDsTDgWCebiDzvUM5f+xBZ1
-	U1GH0eve0w+z3+Up+XAUcTpm7ewWi51k80dEcz1MR5JWaRl9hnIaNivUjlObRrDC
-	TWrFaA==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cmw649fvy-1
+	8dFOeVIxat+blul/Mwn+SDuNqbfDaRRvU9J92gKowqk=; b=BlTOmEthli+6TXZE
+	mIqhDjGdubk5skAx6/Ve28p2NaQQY0XNkCr+DaPphL7+sMmUKUK6YwDOxO52wu28
+	PioLN9DzwAQTTKRDVggo2eFxbdYxMHdM9ugn7kbggM12U1I0K24A9/gL0fk4ZuWj
+	Hd0uR+h+tmM2ct35NVXXFBk/d6KDH7GfWRmGR4lmN4t46BDeAn3pU84BphuyE3Of
+	Ghk2qeLNO6xtoca3j/JLVhOnwKAX17Syt+DxrrmkWJwlFuSUwIoRBeKHvxdw1NUS
+	WrL2t72atGHSga7+NTvXD+SQyFrGUeGhgw/5T6Sl8wIWn1yHluC2nEi95x2J7xPj
+	BMYC1w==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn6r2r4g0-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 08:33:59 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2ae4e20a414so40283845ad.3
-        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 00:33:59 -0800 (PST)
+	for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 08:36:10 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-359812e4fefso883289a91.1
+        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 00:36:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772440439; x=1773045239; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1772440570; x=1773045370; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=kiGzfhiYB9wtCN3D88VauW9OjmRKCIKm/2P5tjv1u1w=;
-        b=FnzeUEqTCp7CJeavIiLCm5GroIzv/Q01ZTg23pDxWxKKCT1iSsUgp4/YLteEIeIbAp
-         mVKxmelK+G8i9i7fN8tjxzeESX/aTe3lHH60uxmLyk2sXEenOs797H72/niuWh7hHmYB
-         9cpu+yEwXHd+FAjQU4iHgDrhT41birOwYyhMYxCCxbk5P1pKE7bLBA1fcrkkfNpGmpYU
-         oZPNAjFqzLfXgyeWkCNs2KuaKIXSoFxKKVEYGY/y3NawMUJRjN2igBvYBH945EFhXGu6
-         L3hQpiAm68hJrgYhiywcgzgmRNN24KZUcQ4SEIvmuulOJokmImTB3qT1m3skMOhyEoM2
-         jDVQ==
+        bh=8dFOeVIxat+blul/Mwn+SDuNqbfDaRRvU9J92gKowqk=;
+        b=ZRic95TA06W0/+AP1uImsc5OyICc/5k7KN0SjiI4qHpi5SDYoR0v2Cg8Ai3CIHZ3Po
+         A5hh/HpnPL7ErTKQpRr5u4jwPHEMAx10tvpli5A5bEI0+/+RmoGGECLLuRvWV/l1GAzn
+         8W+2y3aqbPHxJ+Y0ZXoCtshPloXrck88s05xOO7jxOnUId/oTyoCREEqR6Nhwdnt8AIn
+         zj+oB7Zp12nClMG4zmnniaF/bZA5RtkSh1XAp8FjUOFX5ZRAeN6+ucMEl8EpSlFSrOvr
+         iuGSG+B1aVweSYyt1dFENYNqTGfh35fVqxpDYsxro3TSAVPsoMbHEPQWwo9zwc9Obnem
+         coSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772440439; x=1773045239;
+        d=1e100.net; s=20230601; t=1772440570; x=1773045370;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kiGzfhiYB9wtCN3D88VauW9OjmRKCIKm/2P5tjv1u1w=;
-        b=OZwz+40ZU1DLAblhBBM07k8oi9o8Zh0dVc2hYP6yOcWuQBF4wPwjVcqsCo4XXxdV3k
-         lNejWu/SkiasWkQT61fC1k+/MxeTMnj2L26CxgAPmkEaSdWh0vMCB89v7v0ndpGnzG7b
-         tVgUALooAenIMa9vXjyOxDtXz97eOUYweIKzyOl3x8DvIKHzrTqQ1v87EfXWv9c8ZId/
-         v7YAvIBATqw3sU8P6Pmw0wGVn/cnuMP6d/WjpFB5o+lLW8DYZxyNaM1YL4BZNS7NWwh+
-         giwXHSMeziQvJIh6F7y8XQrKd2AKTSWOnGJ2fQCSO4tl7eAkp4yfjPwYf5IQe1WVqmgB
-         y+kg==
-X-Forwarded-Encrypted: i=1; AJvYcCWeWmN3ompaALjA9h0u3NXlsbgNbBv4TeJPYJy+txzp7BaTVTWH3Fc6T28SgjslKFznrfNl65WsULPbEw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDESgiQdXU/l5Y1OKFwCC0lvH/77MAM0A69vrjoXuIp1WNPPKg
-	bWgCryBCsq72//sBDKWPACChO7N9CMreg5EgKt+Szuf0/xAW9IoRjt7bPmHWVPtKvEz7bXc3ShD
-	cxDCBw9KkBnSATkh6P7sIOQDlHu34aaleHoXARCJqyPycgW1JIIh9rL+nuDXHAFcH0g==
-X-Gm-Gg: ATEYQzx+E1U6Q5MOp+3btST9Ab0CyTI5FR1430rYAvwflTzYNoVG0XQM0USvgbmlVJQ
-	/W8CjKuEM9pkCzAcNmR032pBIsZyC5+srQS/KWPoNzU5E21pHRZa2XkKCPneo9VWi3iungcBRG0
-	smUkfoSPChCqJbFTjdKtHa+g7AlIlEaKI+IohhrDmiDUgxFJAudyHkEJg79BQ0PhP09lxgqTui6
-	sJU62iyjY6zpFG10V6EkzCjkjbYpj3djCVUZAZHjzOsYiBlevyZPLUg3xv2zZNDQQsbXhzQnGp9
-	+gl1Tmr061MLOxmzk0V85PZ8Y5d5193HQ1CzrT+6F8a9N8k/UhKO1v7D+Hn1nLFCm39KCyOFgux
-	gLZ8csNrTVJbIu+q9zi9zNTROIcdXZA8KP9mNrrUb3Fx8j9KeUw==
-X-Received: by 2002:a17:902:eb8b:b0:2ae:593c:48fc with SMTP id d9443c01a7336-2ae593c50a1mr6196085ad.53.1772440438903;
-        Mon, 02 Mar 2026 00:33:58 -0800 (PST)
-X-Received: by 2002:a17:902:eb8b:b0:2ae:593c:48fc with SMTP id d9443c01a7336-2ae593c50a1mr6195665ad.53.1772440438404;
-        Mon, 02 Mar 2026 00:33:58 -0800 (PST)
+        bh=8dFOeVIxat+blul/Mwn+SDuNqbfDaRRvU9J92gKowqk=;
+        b=YlNNqolhJHQtBCFSdvXBJIY3x8lLkdmFFpZ7u0l44wUj7C2WmlKZgEuP8XDuSRaeot
+         lzsxQ605U/nzad3z/JZVDi3B0WXHbItiTZ9fATSmD74kTkVgiSqm2PpW6V1BYGfzBt5M
+         FQbj58kzdo8QldiWMSmzsRFfdy7w3rYDu1nYicuoXcVbWtrmlLzThpF1XXSyHdS8vD/B
+         +R1JQY5lzBGk+GomlhSYArPq/QDYeDDSViEEz8fRy/N7JsL6iNllHA9K98urnf543jo8
+         bF5PaZCLDRNVZRWZ7H9c/4OvZV0YYKoGKZt95ax7SCgqfmaWrnWq8XOgheTP/+exAH7s
+         Cu6A==
+X-Forwarded-Encrypted: i=1; AJvYcCWKqQhcmmLFrvzAleVJFf+Z5X/p4eXmFc35ZWAroTUpkftkcZXUY0/fWSKTqJi69nPeF30A1NozLkS3uQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxza5Q9IkWcA+62pNSYLRY/HLAtHFe4qVi/yJxS4VVujFVBpMAI
+	dEV+F0rwuWG3+3nGojjUesQDzpmaBKQ3tTMkjEnT72jcOg6FAkEfKEaNpVcygfKYfzPDcVo04LP
+	NMYuTe3FABI5MT4xUyOkFUYCEqkdj7jwDqudksMCTGukaNaW4dOWSekCKAme1Tk8xiA==
+X-Gm-Gg: ATEYQzyNsBkVPuqpmzOaX7QuYi3TfzGIgewQNWIevRBjsW74RQhAy66tri8QAHIWTfU
+	NlW6P+bDfICQTzEBN7Zm8V6ksLFzWgH5k+YaJmeQefPXCod4YBTfVNvjnrVegixDRw7LD5Rf0Yz
+	Ebgqw0yxG8qUf5vtvZgM2FsLA4sWeBnkWaENAQjDJ7dz2r3j4+62bNoYjB1wPT8PvqFOm74JL2Y
+	5cLJWufbhsE8Upcj1PIBc1Uu0hR4FjLE6uSyepAhpE7Kxh0fKdFYGZr6x9l7NmZR+121bqRk4rg
+	GvjysxF+VWlzwvWyMFP5goeF87iJUJD77d8ziaSQzFdKIylpVHWZAPbswqNTzXNsX1H2u7ktVkz
+	W2vG2W0bwvaWiBprig52dExpPd6CmclLs+M1r42DGZ376Q2SN3g==
+X-Received: by 2002:a17:90a:da85:b0:358:ed1d:2834 with SMTP id 98e67ed59e1d1-35968faa663mr9193277a91.6.1772440570037;
+        Mon, 02 Mar 2026 00:36:10 -0800 (PST)
+X-Received: by 2002:a17:90a:da85:b0:358:ed1d:2834 with SMTP id 98e67ed59e1d1-35968faa663mr9193247a91.6.1772440569507;
+        Mon, 02 Mar 2026 00:36:09 -0800 (PST)
 Received: from [10.206.99.28] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6a041asm136014925ad.57.2026.03.02.00.33.51
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359034bd11fsm16177216a91.9.2026.03.02.00.36.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 00:33:57 -0800 (PST)
-Message-ID: <f5a1d71a-0a32-4e18-aaa0-bd6dcc9c133b@oss.qualcomm.com>
-Date: Mon, 2 Mar 2026 14:03:50 +0530
+        Mon, 02 Mar 2026 00:36:08 -0800 (PST)
+Message-ID: <3540a60d-f9a1-463f-aca2-54ccd484b5c6@oss.qualcomm.com>
+Date: Mon, 2 Mar 2026 14:06:00 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -106,8 +106,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 07/18] accel/qda: Add DRM accel device registration
- for QDA driver
+Subject: Re: [PATCH RFC 08/18] accel/qda: Add per-file DRM context and
+ open/close handling
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
@@ -126,43 +126,43 @@ Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Bharath Kumar <quic_bkumar@quicinc.com>,
         Chenna Kesava Raju <quic_chennak@quicinc.com>
 References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-7-fe46a9c1a046@oss.qualcomm.com>
- <jjj5b2says6y2sk4lokcxslzcwlsg3gj7rme34lqmhufqc7eam@x256mqlsuvet>
+ <20260224-qda-firstpost-v1-8-fe46a9c1a046@oss.qualcomm.com>
+ <rnhqwqtd66fmvmyobhrodzoa7x2etzjjh7xhqrn5hkmibms5cd@ucggzznrx7j6>
 Content-Language: en-US
 From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <jjj5b2says6y2sk4lokcxslzcwlsg3gj7rme34lqmhufqc7eam@x256mqlsuvet>
+In-Reply-To: <rnhqwqtd66fmvmyobhrodzoa7x2etzjjh7xhqrn5hkmibms5cd@ucggzznrx7j6>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: AVYZlvozJWLfZwKqLGz6sJqcTB-OgSLl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3NCBTYWx0ZWRfXzgU3Hi/RpdAa
- QhKKqbY77zlNnIIKzwQ4/n+2HZI3WOTgdjINP5JwwZuBIzWiBFR74jxq8yaW4KVphXMM+5mGYBY
- 30EjTc2OSmBTpNz1t71iz2zVkv7fXN82RgYiDulJGjbmD8heEDztICPqhkwq1aTbwxNVjot5rv8
- 2Uqx2hjhGNu9C8LSCjAZyR8SRmmUuJQeQOngteH7rhqFbjLcBqSLFKTejC2QvdW5iArEAMz58XU
- NGIW5XDORZHkDjfDvPwPdZA1aFz2q90DYLVYORJwzPVELqrcvsxvBRWE+vQLuXXgUTa99RBtM82
- Qq1JA9PwdhTHGwzdtXFLf1Cb5SC0Gd6O/P+dg1XwaZzrl3xH+vP7agPupRsxXLxKbYcMrBTRe+k
- 2NN3Y5bAKqlYcq4EOhXA+XNOaEfEh2paPbDOKfN5koVydVlU73wZHrnaD1PDZYkz/A7Dpgj7fRa
- Pk226SMAZpGvjuEMYYw==
-X-Proofpoint-ORIG-GUID: AVYZlvozJWLfZwKqLGz6sJqcTB-OgSLl
-X-Authority-Analysis: v=2.4 cv=I5Vohdgg c=1 sm=1 tr=0 ts=69a54b77 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: iYhOHOxO1dCXqobMv8karIAmwrHpDaU_
+X-Proofpoint-ORIG-GUID: iYhOHOxO1dCXqobMv8karIAmwrHpDaU_
+X-Authority-Analysis: v=2.4 cv=Hpp72kTS c=1 sm=1 tr=0 ts=69a54bfa cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=TmiqH_r-WPNNxDXjmLoA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=e0RItjUwLU8XcxGzZmsA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3NSBTYWx0ZWRfX3Efr0NDOhwoP
+ X3N8EyOPeGOt133MjdrMzjn1wK50VdwhCPlmPyIWjWmt4a/xa81Y1pLGa1M8JO11vtHi1NErTI4
+ 8SN3g4cIeL6IH3j9UvZ3PQzcrnIy9TrJAq5s0/0GhyNdakvRss85c5NZoCdwegiatvrb35ML8lj
+ sYNUNCk3Q+a9czzlj08SjA6B0bOKUfaYPsobok4YA/eRxOLH8fg2aYft3j3530n4AfMV1bIri8X
+ +x2drb8VYT7gXtMjwZbSwCvSYK6XUeaRUxCRWXuP5ICLgyGJ/tj+N+EU0NnVnTkDYurI3K3yp3o
+ ocmbspVxVJljKErbLkE1XvazOcm6jQEpRva/jsri7YApcOzb8ME5SbyHs+DbzDJOmUY9fVV+q1N
+ GtUoAc58sCdmzi3S+Xlfrr7OrCGIgyKX+3pNWNR8Cmr60QTCwcuqk26n8CPdnJ9gDMOdJwoe4os
+ J1anIs0Qfoa04LFI4qA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-02_02,2026-02-27_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 phishscore=0 impostorscore=0 bulkscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603020074
+ lowpriorityscore=0 suspectscore=0 impostorscore=0 phishscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 malwarescore=0 clxscore=1015
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603020075
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -170,7 +170,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[24];
 	FREEMAIL_CC(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.linaro.org,oss.qualcomm.com,quicinc.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-54054-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54055-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
@@ -180,308 +180,243 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: B498E1D4AC9
+X-Rspamd-Queue-Id: 387751D4B18
 X-Rspamd-Action: no action
 
 
 
-On 2/24/2026 3:46 AM, Dmitry Baryshkov wrote:
-> On Tue, Feb 24, 2026 at 12:39:01AM +0530, Ekansh Gupta wrote:
->> Add DRM accel integration for the QDA DSP accelerator driver. A new
->> qda_drm_priv structure is introduced to hold per-device DRM state,
->> including a pointer to the memory manager and the parent qda_dev
->> instance. The driver now allocates a drm_device, initializes
->> driver-private state, and registers the device via the DRM accel
->> infrastructure.
+On 2/24/2026 3:50 AM, Dmitry Baryshkov wrote:
+> On Tue, Feb 24, 2026 at 12:39:02AM +0530, Ekansh Gupta wrote:
+>> Introduce per-file and per-user context for the QDA DRM accelerator
+>> driver. A new qda_file_priv structure is stored in file->driver_priv
+>> for each open file descriptor, and a qda_user object is allocated per
+>> client with a unique client_id generated from an atomic counter in
+>> qda_dev.
 >>
->> qda_register_device() performs allocation and registration of the DRM
->> device, while qda_unregister_device() handles device teardown and
->> releases references using drm_dev_unregister() and drm_dev_put().
->> Initialization and teardown paths are updated so DRM resources are
->> allocated after IOMMU/memory-manager setup and cleaned during RPMsg
->> remove.
+>> The DRM driver now provides qda_open() and qda_postclose() callbacks.
+>> qda_open() resolves the qda_dev from the drm_device, allocates the
+>> qda_file_priv and qda_user structures, and attaches them to the DRM
+>> file. qda_postclose() tears down the per-file context and frees the
+>> qda_user object when the file is closed.
 >>
->> This patch lays the foundation for adding GEM buffer support and IOCTL
->> handling in later patches as part of the compute accelerator interface.
->>
+>> This prepares the QDA driver to track per-process state for future
+>> features such as per-client memory mappings, job submission contexts,
+>> and access control over DSP compute resources.
+> Start by describing the problem instead of stuffing it to the end. Can
+> we use something better suited for this task, like IDR?
+ack, same comment for IDR here also, sticking with xarray everywhere for QDA for
+uniformity and to avoid checkpatch warnings.
+>
 >> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 >> ---
->>  drivers/accel/qda/qda_drv.c   | 103 ++++++++++++++++++++++++++++++++++++++++++
->>  drivers/accel/qda/qda_drv.h   |  33 +++++++++++++-
->>  drivers/accel/qda/qda_rpmsg.c |   8 ++++
->>  3 files changed, 142 insertions(+), 2 deletions(-)
+>>  drivers/accel/qda/qda_drv.c | 117 ++++++++++++++++++++++++++++++++++++++++++++
+>>  drivers/accel/qda/qda_drv.h |  30 ++++++++++++
+>>  2 files changed, 147 insertions(+)
 >>
 >> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
->> index 69132737f964..a9113ec78fa2 100644
+>> index a9113ec78fa2..bf95fc782cf8 100644
 >> --- a/drivers/accel/qda/qda_drv.c
 >> +++ b/drivers/accel/qda/qda_drv.c
->> @@ -4,9 +4,31 @@
->>  #include <linux/kernel.h>
->>  #include <linux/atomic.h>
->>  #include <linux/slab.h>
->> +#include <drm/drm_accel.h>
->> +#include <drm/drm_drv.h>
->> +#include <drm/drm_file.h>
->> +#include <drm/drm_gem.h>
->> +#include <drm/drm_ioctl.h>
+>> @@ -12,11 +12,127 @@
 >>  #include "qda_drv.h"
 >>  #include "qda_rpmsg.h"
 >>  
->> +DEFINE_DRM_ACCEL_FOPS(qda_accel_fops);
->> +
->> +static struct drm_driver qda_drm_driver = {
->> +	.driver_features = DRIVER_COMPUTE_ACCEL,
->> +	.fops			= &qda_accel_fops,
-> Strange indentation in the middle. Please drop it.
-ack.
->
->> +	.name = DRIVER_NAME,
->> +	.desc = "Qualcomm DSP Accelerator Driver",
->> +};
->> +
->> +static void cleanup_drm_private(struct qda_dev *qdev)
+>> +static struct qda_drm_priv *get_drm_priv_from_device(struct drm_device *dev)
 >> +{
->> +	if (qdev->drm_priv) {
->> +		qda_dbg(qdev, "Cleaning up DRM private data\n");
->> +		kfree(qdev->drm_priv);
->> +	}
+>> +	if (!dev)
+>> +		return NULL;
+>> +
+>> +	return (struct qda_drm_priv *)dev->dev_private;
 >> +}
 >> +
->>  static void cleanup_iommu_manager(struct qda_dev *qdev)
->>  {
->>  	if (qdev->iommu_mgr) {
->> @@ -24,6 +46,7 @@ static void cleanup_device_resources(struct qda_dev *qdev)
->>  
->>  void qda_deinit_device(struct qda_dev *qdev)
->>  {
->> +	cleanup_drm_private(qdev);
->>  	cleanup_iommu_manager(qdev);
->>  	cleanup_device_resources(qdev);
->>  }
->> @@ -59,6 +82,18 @@ static int init_memory_manager(struct qda_dev *qdev)
->>  	return 0;
->>  }
->>  
->> +static int init_drm_private(struct qda_dev *qdev)
+>> +static struct qda_dev *get_qdev_from_drm_device(struct drm_device *dev)
 >> +{
->> +	qda_dbg(qdev, "Initializing DRM private data\n");
+>> +	struct qda_drm_priv *drm_priv;
 >> +
->> +	qdev->drm_priv = kzalloc_obj(*qdev->drm_priv, GFP_KERNEL);
->> +	if (!qdev->drm_priv)
+>> +	if (!dev) {
+>> +		qda_dbg(NULL, "Invalid drm_device\n");
+>> +		return NULL;
+>> +	}
+>> +
+>> +	drm_priv = get_drm_priv_from_device(dev);
+>> +	if (!drm_priv) {
+>> +		qda_dbg(NULL, "No drm_priv in dev_private\n");
+>> +		return NULL;
+>> +	}
+>> +
+>> +	return drm_priv->qdev;
+>> +}
+>> +
+>> +static struct qda_user *alloc_qda_user(struct qda_dev *qdev)
+>> +{
+>> +	struct qda_user *qda_user;
+>> +
+>> +	qda_user = kzalloc_obj(*qda_user, GFP_KERNEL);
+>> +	if (!qda_user)
+>> +		return NULL;
+>> +
+>> +	qda_user->client_id = atomic_inc_return(&qdev->client_id_counter);
+>> +	qda_user->qda_dev = qdev;
+>> +
+>> +	qda_dbg(qdev, "Allocated qda_user with client_id=%u\n", qda_user->client_id);
+>> +	return qda_user;
+>> +}
+>> +
+>> +static void free_qda_user(struct qda_user *qda_user)
+>> +{
+>> +	if (!qda_user)
+>> +		return;
+>> +
+>> +	qda_dbg(qda_user->qda_dev, "Freeing qda_user client_id=%u\n", qda_user->client_id);
+>> +
+>> +	kfree(qda_user);
+>> +}
+>> +
+>> +static int qda_open(struct drm_device *dev, struct drm_file *file)
+>> +{
+>> +	struct qda_user *qda_user;
+>> +	struct qda_file_priv *qda_file_priv;
+>> +	struct qda_dev *qdev;
+>> +
+>> +	if (!file) {
+>> +		qda_dbg(NULL, "Invalid file pointer\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	qdev = get_qdev_from_drm_device(dev);
+>> +	if (!qdev) {
+>> +		qda_dbg(NULL, "Failed to get qdev from drm_device\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	qda_file_priv = kzalloc(sizeof(*qda_file_priv), GFP_KERNEL);
+>> +	if (!qda_file_priv)
 >> +		return -ENOMEM;
 >> +
->> +	qda_dbg(qdev, "DRM private data initialized successfully\n");
+>> +	qda_file_priv->pid = current->pid;
+>> +
+>> +	qda_user = alloc_qda_user(qdev);
+>> +	if (!qda_user) {
+>> +		qda_dbg(qdev, "Failed to allocate qda_user\n");
+>> +		kfree(qda_file_priv);
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	file->driver_priv = qda_file_priv;
+>> +	qda_file_priv->qda_user = qda_user;
+>> +
+>> +	qda_dbg(qdev, "Device opened successfully for PID %d\n", current->pid);
+>> +
 >> +	return 0;
 >> +}
 >> +
->>  int qda_init_device(struct qda_dev *qdev)
->>  {
->>  	int ret;
->> @@ -71,14 +106,82 @@ int qda_init_device(struct qda_dev *qdev)
->>  		goto err_cleanup_resources;
->>  	}
->>  
->> +	ret = init_drm_private(qdev);
->> +	if (ret) {
->> +		qda_err(qdev, "DRM private data initialization failed: %d\n", ret);
->> +		goto err_cleanup_iommu;
+>> +static void qda_postclose(struct drm_device *dev, struct drm_file *file)
+>> +{
+>> +	struct qda_dev *qdev;
+>> +	struct qda_file_priv *qda_file_priv;
+>> +	struct qda_user *qda_user;
+>> +
+>> +	qdev = get_qdev_from_drm_device(dev);
+>> +	if (!qdev || atomic_read(&qdev->removing)) {
+>> +		qda_dbg(NULL, "Device unavailable or removing\n");
+>> +		return;
+> Even if it is being removed, no need to free the memory?
+Right, It should still be freed.
+>
 >> +	}
 >> +
->>  	qda_dbg(qdev, "QDA device initialized successfully\n");
->>  	return 0;
+>> +	qda_file_priv = (struct qda_file_priv *)file->driver_priv;
+>> +	if (qda_file_priv) {
+>> +		qda_user = qda_file_priv->qda_user;
+>> +		if (qda_user)
+>> +			free_qda_user(qda_user);
+>> +
+>> +		kfree(qda_file_priv);
+>> +		file->driver_priv = NULL;
+>> +	}
+>> +
+>> +	qda_dbg(qdev, "Device closed for PID %d\n", current->pid);
+>> +}
+>> +
+>>  DEFINE_DRM_ACCEL_FOPS(qda_accel_fops);
 >>  
->> +err_cleanup_iommu:
->> +	cleanup_iommu_manager(qdev);
->>  err_cleanup_resources:
->>  	cleanup_device_resources(qdev);
->>  	return ret;
+>>  static struct drm_driver qda_drm_driver = {
+>>  	.driver_features = DRIVER_COMPUTE_ACCEL,
+>>  	.fops			= &qda_accel_fops,
+>> +	.open			= qda_open,
+>> +	.postclose		= qda_postclose,
+>>  	.name = DRIVER_NAME,
+>>  	.desc = "Qualcomm DSP Accelerator Driver",
+>>  };
+>> @@ -58,6 +174,7 @@ static void init_device_resources(struct qda_dev *qdev)
+>>  
+>>  	mutex_init(&qdev->lock);
+>>  	atomic_set(&qdev->removing, 0);
+>> +	atomic_set(&qdev->client_id_counter, 0);
 >>  }
 >>  
->> +static int setup_and_register_drm_device(struct qda_dev *qdev)
->> +{
->> +	struct drm_device *ddev;
->> +	int ret;
->> +
->> +	qda_dbg(qdev, "Setting up and registering DRM device\n");
->> +
->> +	ddev = drm_dev_alloc(&qda_drm_driver, qdev->dev);
-> devm_drm_dev_alloc() please. Move this patch to the front of the series,
-> making everything else depend on the allocated data structure.
-ack.
->
->> +	if (IS_ERR(ddev)) {
->> +		ret = PTR_ERR(ddev);
->> +		qda_err(qdev, "Failed to allocate DRM device: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	qdev->drm_priv->drm_dev = ddev;
->> +	qdev->drm_priv->iommu_mgr = qdev->iommu_mgr;
->> +	qdev->drm_priv->qdev = qdev;
->> +
->> +	ddev->dev_private = qdev->drm_priv;
->> +	qdev->drm_dev = ddev;
->> +
->> +	ret = drm_dev_register(ddev, 0);
->> +	if (ret) {
->> +		qda_err(qdev, "Failed to register DRM device: %d\n", ret);
->> +		drm_dev_put(ddev);
->> +		return ret;
->> +	}
->> +
->> +	qda_dbg(qdev, "DRM device registered successfully\n");
->> +	return 0;
->> +}
->> +
->> +int qda_register_device(struct qda_dev *qdev)
->> +{
->> +	int ret;
->> +
->> +	ret = setup_and_register_drm_device(qdev);
->> +	if (ret) {
->> +		qda_err(qdev, "DRM device setup failed: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	qda_dbg(qdev, "QDA device registered successfully\n");
->> +	return 0;
->> +}
->> +
->> +void qda_unregister_device(struct qda_dev *qdev)
->> +{
->> +	qda_info(qdev, "Unregistering QDA device\n");
->> +
->> +	if (qdev->drm_dev) {
->> +		qda_dbg(qdev, "Unregistering DRM device\n");
->> +		drm_dev_unregister(qdev->drm_dev);
->> +		drm_dev_put(qdev->drm_dev);
->> +		qdev->drm_dev = NULL;
->> +	}
->> +
->> +	qda_dbg(qdev, "QDA device unregistered successfully\n");
->> +}
->> +
->>  static int __init qda_core_init(void)
->>  {
->>  	int ret;
+>>  static int init_memory_manager(struct qda_dev *qdev)
 >> diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
->> index 2cb97e4eafbf..2b80401a3741 100644
+>> index 2b80401a3741..e0ba37702a86 100644
 >> --- a/drivers/accel/qda/qda_drv.h
 >> +++ b/drivers/accel/qda/qda_drv.h
->> @@ -11,13 +11,35 @@
+>> @@ -10,6 +10,7 @@
+>>  #include <linux/list.h>
 >>  #include <linux/mutex.h>
 >>  #include <linux/rpmsg.h>
+>> +#include <linux/types.h>
 >>  #include <linux/xarray.h>
->> +#include <drm/drm_drv.h>
->> +#include <drm/drm_file.h>
->> +#include <drm/drm_device.h>
->> +#include <drm/drm_accel.h>
->>  #include "qda_memory_manager.h"
->>  
+>>  #include <drm/drm_drv.h>
+>>  #include <drm/drm_file.h>
+>> @@ -20,6 +21,33 @@
 >>  /* Driver identification */
 >>  #define DRIVER_NAME "qda"
 >>  
 >> +/**
->> + * struct qda_drm_priv - DRM device private data for QDA device
+>> + * struct qda_file_priv - Per-process private data for DRM file
 >> + *
->> + * This structure serves as the DRM device private data (stored in dev_private),
->> + * bridging the DRM device context with the QDA device and providing access to
->> + * shared resources like the memory manager during buffer operations.
+>> + * This structure tracks per-process state for each open file descriptor.
+>> + * It maintains the IOMMU device assignment and links to the legacy qda_user
+>> + * structure for compatibility with existing code.
 >> + */
->> +struct qda_drm_priv {
-> Shared between what and what? Why do you need a separate structure
-> instead of using qda_dev?
-This is for channel specific resources which will be used by all processes using the channel. It
-should be possible to use qda_dev, I'll try it out and fix this in next version.
->
->> +	/* DRM device structure */
->> +	struct drm_device *drm_dev;
->> +	/* Global memory/IOMMU manager */
->> +	struct qda_memory_manager *iommu_mgr;
->> +	/* Back-pointer to qda_dev */
->> +	struct qda_dev *qdev;
+>> +struct qda_file_priv {
+>> +	/* Process ID for tracking */
+>> +	pid_t pid;
+>> +	/* Pointer to qda_user structure for backward compatibility */
+>> +	struct qda_user *qda_user;
 >> +};
 >> +
->>  /* struct qda_dev - Main device structure for QDA driver */
->>  struct qda_dev {
->> +	/* DRM device for accelerator interface */
->> +	struct drm_device *drm_dev;
-> Drop the pointer here.
-I'll modify this based on qda_drm_priv replacement.
->
->>  	/* RPMsg device for communication with remote processor */
->>  	struct rpmsg_device *rpdev;
->>  	/* Underlying device structure */
->> @@ -26,6 +48,8 @@ struct qda_dev {
->>  	struct mutex lock;
->>  	/* IOMMU/memory manager */
->>  	struct qda_memory_manager *iommu_mgr;
->> +	/* DRM device private data */
->> +	struct qda_drm_priv *drm_priv;
+>> +/**
+>> + * struct qda_user - Per-user context for remote processor interaction
+>> + *
+>> + * This structure maintains per-user state for interactions with the
+>> + * remote processor, including memory mappings and pending operations.
+>> + */
+>> +struct qda_user {
+>> +	/* Unique client identifier */
+>> +	u32 client_id;
+>> +	/* Back-pointer to device structure */
+>> +	struct qda_dev *qda_dev;
+>> +};
+>> +
+>>  /**
+>>   * struct qda_drm_priv - DRM device private data for QDA device
+>>   *
+>> @@ -52,6 +80,8 @@ struct qda_dev {
+>>  	struct qda_drm_priv *drm_priv;
 >>  	/* Flag indicating device removal in progress */
 >>  	atomic_t removing;
+>> +	/* Atomic counter for generating unique client IDs */
+>> +	atomic_t client_id_counter;
 >>  	/* Name of the DSP (e.g., "cdsp", "adsp") */
->> @@ -39,8 +63,8 @@ struct qda_dev {
->>   * @qdev: QDA device structure
->>   *
->>   * Returns the most appropriate device structure for logging messages.
->> - * Prefers qdev->dev, or returns NULL if the device is being removed
->> - * or invalid.
->> + * Prefers qdev->dev, falls back to qdev->drm_dev->dev, or returns NULL
->> + * if the device is being removed or invalid.
->>   */
->>  static inline struct device *qda_get_log_device(struct qda_dev *qdev)
->>  {
->> @@ -50,6 +74,9 @@ static inline struct device *qda_get_log_device(struct qda_dev *qdev)
->>  	if (qdev->dev)
->>  		return qdev->dev;
->>  
->> +	if (qdev->drm_dev)
->> +		return qdev->drm_dev->dev;
->> +
->>  	return NULL;
->>  }
->>  
->> @@ -93,5 +120,7 @@ static inline struct device *qda_get_log_device(struct qda_dev *qdev)
->>   */
->>  int qda_init_device(struct qda_dev *qdev);
->>  void qda_deinit_device(struct qda_dev *qdev);
->> +int qda_register_device(struct qda_dev *qdev);
->> +void qda_unregister_device(struct qda_dev *qdev);
->>  
->>  #endif /* __QDA_DRV_H__ */
->> diff --git a/drivers/accel/qda/qda_rpmsg.c b/drivers/accel/qda/qda_rpmsg.c
->> index 5a57384de6a2..b2b44b4d3ca8 100644
->> --- a/drivers/accel/qda/qda_rpmsg.c
->> +++ b/drivers/accel/qda/qda_rpmsg.c
->> @@ -80,6 +80,7 @@ static void qda_rpmsg_remove(struct rpmsg_device *rpdev)
->>  	qdev->rpdev = NULL;
->>  	mutex_unlock(&qdev->lock);
->>  
->> +	qda_unregister_device(qdev);
->>  	qda_unpopulate_child_devices(qdev);
->>  	qda_deinit_device(qdev);
->>  
->> @@ -123,6 +124,13 @@ static int qda_rpmsg_probe(struct rpmsg_device *rpdev)
->>  		return ret;
->>  	}
->>  
->> +	ret = qda_register_device(qdev);
->> +	if (ret) {
->> +		qda_deinit_device(qdev);
->> +		qda_unpopulate_child_devices(qdev);
->> +		return ret;
->> +	}
->> +
->>  	qda_info(qdev, "QDA RPMsg probe completed successfully for %s\n", qdev->dsp_name);
->>  	return 0;
->>  }
+>>  	char dsp_name[16];
+>>  	/* Compute context-bank (CB) child devices */
 >>
 >> -- 
 >> 2.34.1
