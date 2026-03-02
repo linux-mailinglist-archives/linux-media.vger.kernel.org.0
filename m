@@ -1,308 +1,539 @@
-Return-Path: <linux-media+bounces-54039-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54040-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MEiwGIofpWnd3wUAu9opvQ
-	(envelope-from <linux-media+bounces-54039-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 06:26:34 +0100
+	id mJuRNbI8pWne6QUAu9opvQ
+	(envelope-from <linux-media+bounces-54040-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 08:30:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728EC1D3149
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 06:26:33 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5701D3ED8
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 08:30:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5D5B13009835
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 05:26:25 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1CC1F3010520
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 07:30:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4312C314B95;
-	Mon,  2 Mar 2026 05:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685463803D1;
+	Mon,  2 Mar 2026 07:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTq1HzwC"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="t1DT6nKM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010019.outbound.protection.outlook.com [52.101.46.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6434230EF7E
-	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 05:26:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EDE1CF8B;
+	Mon,  2 Mar 2026 07:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.19
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772429179; cv=pass; b=r/GgLar50VahlYqDapfoVNokr/6QhpW4oy1OvUgS3EcNeUcg7Tywh9IYxjxRKnEFSYfHbbYgzRG7YT+s+tx/FCVrZ8heVdOW6IxSYNgOElI2BVx0EDMQFXosJOsikMsDUBcEJRCmtXhdAajwno7Y6dLnHm7TiOuIGeLbrAP+RSE=
+	t=1772436651; cv=fail; b=O0/DXJNlhTGwA3J/pCRvUba+7hddb74OD1TIusuh6wuxEhvSrclsRveYKR+bpsEF7fMscUyztB47hV6mpUJGVeb0V8TJdXVLHYjbZj7YbQSH3PfF57rn3F75IexfRCP15RubNuA34OhnwYEE/tZWCcsxY1RdAE6wMNBhwZh5o4U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772429179; c=relaxed/simple;
-	bh=rNpLqQXBYOorAHCllRmNXHlMvCZoey1fxBa1rcoB5e8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eWGk7TaR617RlHdWLk5Ytm3SxNDhlLdMcfCJMHWZInCfqX5jS+m208Xo1QRIR7cuS44l+w1kXzrp0xgkKxEljGdi5cJnw/dly4P2YL64bsz/E3iQF3ErQwHYSr2C3xAH0Ef47B2oEl4vonkI89dD76kpk8WYDhmnl6oSTbngdPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jTq1HzwC; arc=pass smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-899fa9610bbso9948116d6.0
-        for <linux-media@vger.kernel.org>; Sun, 01 Mar 2026 21:26:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772429177; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Y/ijB3+t6i00Jdc9HCDM0a+/SoPgEwtK/yaRYnQGgFQ0zwf7AhG//BVjAvGQkb4/ZN
-         GX9gaU72EwZC6tlF948CrxAT867SrJEMLcQ/RoKTTmKXST6fgrJuWSQaQ+vPfc4muFee
-         Rg/ZvdMq9HNhblO5bGPtj+C23HUu2oLwLHMWY6J73zc+P0BqX6c9sMaSPMxD4sORR07d
-         vv7dZG/qXWNo6a5eGAhPOvaSbOpPr8lxLBrZnrMyfBeMWvSyjV1tjk2ejDB6rhaeRasO
-         NeobseX5oxQbwXZw0CadNrk8LQOqoKs7Paj6FxQDKP8ASm5Dxi8TIeTWilHIrlCI4ZSt
-         KxKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rNpLqQXBYOorAHCllRmNXHlMvCZoey1fxBa1rcoB5e8=;
-        fh=HrRY7YSEl23Vjw3hcn+nttmTbjp71uiQ2zOfDaycpkY=;
-        b=j9rRzSSiFvuuAqTcEJozAFlMrfL2Iwc2kQBaJ8eGF6noWQP9wnGGKW99NjzZ4By9dU
-         4YX3RvQY6WG4Lu2sC+9QVx9Ct0qCFAE5zGhAAmxMujqRJN9/vcG78gOdzypqBT6xDQ9g
-         0oX86fGpeJlwfHdAdAvOFGM2AkbSZzomdueuBNxyljXVjV1rjmNrH6SLPLrnBadn4BVQ
-         DpkEwnXVTOIZ4iEj3mnHi7kDeZh8LkwCvCNkVs2Wbs80brErTZBH6dZknTuxwFXVJj6m
-         aez5a0pF3LWoUBYzlfdeaDwdumQYHvDtI62ODkFMUZ8gsjsgbPupOymV0J9VvfotTH0/
-         gEYw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772429177; x=1773033977; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rNpLqQXBYOorAHCllRmNXHlMvCZoey1fxBa1rcoB5e8=;
-        b=jTq1HzwCy/bbdjLy4vUq6ZZp6AKOAdoN0sv//pG76nOI9Il6X3llV1G8zgQ5zcIXDH
-         dtvTluzbGu1GMRwyhaCXC04s7OLEEWFtmkGG+ooUr8+4SVyHubkFuiZs5FOWbdSvZJun
-         LS1MKl5Y8AGw+40SgPOBbKvsfF7GZv3qQQtCsl8F6KgIatMY7NLZfrPRcts95yRuBbjq
-         C5dJZ7sMJYG/qpbgYOgbg1Sw9oIPKckEPHgw6wG7bESwMAkcEWsFJCk1sPy5Y3HJeneZ
-         sldC6IUuHKRYwRl5ZuOb34C69PQBjCJucCe2B7wMdfhV8+vGRXSQ52ViKYiV+ANzCzyp
-         BTiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772429177; x=1773033977;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rNpLqQXBYOorAHCllRmNXHlMvCZoey1fxBa1rcoB5e8=;
-        b=BMXkJK/8tRuHPz2u9mBvutvRDN7MlPJ/o1Qj87oFr1BV5lZdNR17u81EeTrqiEzxaX
-         U/EYxtS0bFteyKzh5ryJnFIKUFpFaKLW3nzN6hwAwQBR5cbZINC+ITedNZQ3E1QcKH19
-         5NDKsLQcG/2ryanz/SSfkXQ8d1y4qPDDhjMU1JJVVCPact/syQZRkHS0YqSWMsBV4pNw
-         TuyKVkcwObZK2q2vj7x6+2eqRe8rdhbjoQeiLY/znfeNRXF9vnHddpltG0zmpXLI1LPs
-         QhUD7RLpkTExzz5BeZEDER4LubUATgIvoPXE2Pfmv8Ezcdcm1jYxukS+qbYq7SUaSk+9
-         jnFg==
-X-Forwarded-Encrypted: i=1; AJvYcCVqRu7AXVr2jS+n7NpzOWwvctIwD83xgEGmx28F2fqZfwB1SBUZAQOhlB8+sYQWCpLw+EX2ufeu8CvyPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8xfPaTPMK78TtqJcgQa453FwY54KxPpryebwiH8a8gHNkjpdF
-	5QPqAEa2/6KM09qDsQLNHDJlR+jNzuxz6KylVf9FfPSDQYY8wPKLbX5MIMkgeK1rlf6SDhsyPK+
-	nOoPIOQiMEhMhLpKb/tcdboVjyzJOdkQ=
-X-Gm-Gg: ATEYQzz92w/IKn1hErwHTo9snAPJU/nlbxioU8/O03Ro4uNopnEiAp4g5v7vsyi9QWH
-	EpP1B+sKpO+FJG3fNaUSqP4buByBFql5gYtjv9lziMLr+K/hN8lUL2VBMJMkdDc7r6Z2l952xBo
-	11111UA8pu+I6OJJGIDRy5VG1IAhGFyGlpcKEZ6Sh+k59DMC6g1USCIBMcMy5hZjS1sj5Srdyao
-	DXuot61yMIk9ZrMxOfPB/ITPZErxS+ozAC5yntTI6GeF7njmdPmzAGbgIjhRBd3igc4F03GvXEy
-	KRlDB3k1zRi0kzJHrysykkGlELg2DvOdX1MhapB9tksRkPOFJIBBoW12Cl8vNF0SwnQ=
-X-Received: by 2002:ac8:7fd5:0:b0:506:9fd8:f65e with SMTP id
- d75a77b69052e-507528a59bdmr151673531cf.60.1772429177369; Sun, 01 Mar 2026
- 21:26:17 -0800 (PST)
+	s=arc-20240116; t=1772436651; c=relaxed/simple;
+	bh=D8h20ay+LXASD0fSijBd0143iquFf/+US9kW5QcaXnI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tK+uOSg4D9muV15RT6+74Cy+D7l2ir2D6i4WNwkMQhrplXg2xa0wvUx4QNG7QXF36r+XaCiKvmslH4UiNcFRTd3bUTg3j5IBaYBpMeN0K9PCJRY56tsafWRhuj3ap58NLTH8PkM+p6AK4uGAcuYPrKMOeAxDGnChj+KqklZ4m4o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=t1DT6nKM; arc=fail smtp.client-ip=52.101.46.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xw3bPvpg9JY2eza3/u0cwfdWVPsCvUq/s1yItk8qWAcFjGnBNxZ7LIC3kWtaWM5UD5CbCbwKyX/FTD7iM4SIMV2XY1o+ZqgQGawVec2uvXqluQSoPsquNScbLlAulYaLfSUijWbQLrFsSd0yLJtIQviW2QWFwtJqpBxQjhGXk/Y/+05t0pzJEevg2YVZ32W+CVVE5yq9H/H/UtRokoAEi9JsiEQXP+dukCzZOmppv3/iycwNxTXzlThe/jVGPTnl/3QY3Vxpsrp94ldG+KvY5avNacn86O5gyRvCW1RFrlNVUJHh4k/RVX82CpoIlFbrcvq3jl9z6gd4M5aXt6NGTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iPFjBe8evHCPxnsevJr8PEZfJnVdvn5zZttElxruGx0=;
+ b=QJ30IpLovfggRJUVIVFNKUmBa76aVI/BbmlV1SWk/7LHZ2mtKoozsXXqP3mobHUi/qStRiQ9PJWPpGh0pRdDEBidpVwlaSmRToIIOkGfRue4VU8RZ9Ddz9dKsMgzXq8bPQos7UL8Un6UbwpY8vw4l6E3BQlwgsGy2KwQmQPhj/DOGNsOcYo8vJQu55Os8LrHgiOVGhFZ5p0iJxTqNnwRsuHWJSpjvDrzIypBmOuugT6NAYdfIYWoUyMK+t/+jCj18xuoi73Li5VUM2PXni0WCGtowNTYS4VYVafyhVIQ9eh0n8RTVWguf9jY/HYcr4opeSAaCpCRZmkOBtIE1h81aA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iPFjBe8evHCPxnsevJr8PEZfJnVdvn5zZttElxruGx0=;
+ b=t1DT6nKMG/km3aQgPaVu7VmiC+l8QR/z5Uj8gtf6u4UZ1NlnjO19oM3yxI0g8OAxHl1S3fXcAlRROEGvnq5GVpq53Ur0iGt+x52JeiO5qQfUH/HQo6bztJ26CSLp2Zt4cR50NMJYAIZ6cZhOA/7TdanZfnBGQlethv5AFIgg2SI=
+Received: from BYAPR06CA0072.namprd06.prod.outlook.com (2603:10b6:a03:14b::49)
+ by CH3PR12MB9078.namprd12.prod.outlook.com (2603:10b6:610:196::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
+ 2026 07:30:41 +0000
+Received: from MWH0EPF000A6734.namprd04.prod.outlook.com
+ (2603:10b6:a03:14b:cafe::3c) by BYAPR06CA0072.outlook.office365.com
+ (2603:10b6:a03:14b::49) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.18 via Frontend Transport; Mon,
+ 2 Mar 2026 07:30:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000A6734.mail.protection.outlook.com (10.167.249.26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9654.16 via Frontend Transport; Mon, 2 Mar 2026 07:30:40 +0000
+Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 2 Mar
+ 2026 01:30:35 -0600
+From: Bin Du <Bin.Du@amd.com>
+To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
+	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
+	<sakari.ailus@linux.intel.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<sultan@kerneltoast.com>
+CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
+	<gjorgji.rosikopulos@amd.com>, <Phil.Jawich@amd.com>,
+	<Dominic.Antony@amd.com>, <mario.limonciello@amd.com>,
+	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
+	<Bin.Du@amd.com>
+Subject: [PATCH v9 0/7] Add AMD ISP4 driver
+Date: Mon, 2 Mar 2026 15:30:13 +0800
+Message-ID: <20260302073020.148277-1-Bin.Du@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com>
- <CABdmKX0LpKJ9tw48oQh7=3CF0UR5uFtgo0OMwQhHBB40LnijyQ@mail.gmail.com>
- <a446b598-5041-450b-aaa9-3c39a09ff6a0@amd.com> <20260224-solemn-spider-of-serendipity-0d8b94@houat>
- <56400505-8a13-4cb2-864c-cb785e4b38d4@amd.com> <CAPM=9ty5mbMAVHPO4mRy1jKGnpChr7gK6uMtco2=j7MMJGpZdg@mail.gmail.com>
- <d1b287c9-46ff-4345-a410-7e1cfefb5c66@amd.com>
-In-Reply-To: <d1b287c9-46ff-4345-a410-7e1cfefb5c66@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 2 Mar 2026 15:26:05 +1000
-X-Gm-Features: AaiRm50W0fvfAVhf0ruGga4uliXFXx9vNuU5MHSLrll0LdDEQpXsLFepA1L85R8
-Message-ID: <CAPM=9twnKZYOGchQ0cziSt5yUQxCXNWoKyBiQib2XWvkMiN=GA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] dma-buf: heaps: cma: enable dmem cgroup accounting
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Maxime Ripard <mripard@redhat.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Eric Chanudet <echanude@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	Albert Esteve <aesteve@redhat.com>, linux-mm@kvack.org, 
-	Yosry Ahmed <yosryahmed@google.com>, Shakeel Butt <shakeel.butt@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6734:EE_|CH3PR12MB9078:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc24f4b3-a950-4dad-6712-08de782d9b6b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	Kze/ceSHFzOdU6NuRMyN2MjczquuHoC3Xekmi6lyHFWcGSWpo6tozNB0Ky6Nq//eO0V/YYSoVdbUa2FOIC8PPyEKpC/2HgC1vwO9F/A0STK+cAGjbdiI9uOIVBji5kAF15Pap2JGawIbbdpTLArutwzTUkr0XOZwbUVzxVErSRxBhhlCT0g61kcd/QFf4byOVu0Zxl7KCJOFae95AJUonu8L5Fa5Yffz+Ld1fikiddGOvqlHzFUwRMzMyD6CRYwA8opBs0U8C+HzFIl02YAg5TkoT8mkCmFCErjXs1vBJeQjhdgLk/yPLJcnyKoLMB3c8yKqeZ4SHcTAoe8X02EYiqCsqLI9rbY0gGkIQ75Lk559jiDru0TisVEReG1n9cp3XSf3uFikhyPv+DfevHsjWouvaduScLlO1YCeoRFaTksHonk+2sGVGJ0UWmnkX2CxG00bhVnpwLDLO6UepDYIWhpDoDXllJp31BMmK1ppv4Uj/8EBmYILj2cThCtb0WCLTG4bGOpWVxFxgoEGayMvE2bw04Xlx78T/afUl5T/TTm3JDrnpKwDsS2Lwp0ubszei71kuqjNOJnwVCLzmgGuEtJEGiYO0auhUKJiV9CobkPnGlDPAHvSa7wPZ+0GBnxWxKDxLcL+76PeXR3Vb1TUWWkqCvIvNv/mT89+KDmWAqFgMLXASG9yJTgX6UdV+OjUlSvwHdJAZfdFar4GuV5y6y3t9GPMedtk2sNBqNgh2xOfHbD+2XGQhD6JV6zfzW73t/sFwf3eDqmdZLVbCMYwRv42c6kao9HuhU/yuLZN6AY=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	CaM16PueGMj6CifZCZcT9Pf8tBtCmAgvDuhqYHTyuXIve8QkJ/PnRdJYOfA+2vjAJ0gwoEpc7wti5rCUKXhfuOBaJmCq7CSonziXPF89OuvX/SIXiVTajAlWwz9JwC2H3sjMqg3mrUhl9f3Ml+K5DBuvWTfHMJ6700rRNub6G3ww25I48wJP8Mzot5oqxDcMfafP3vQU6NETyQKP+KJvGlPz26SvIyujzqy9OHUBghqTbYdrBhjPVaWVPGlsSk8LhLeOrZWFaTrAtMFR2/pi09X7edkhQm1S7qjZY1/lstkZ7yEAdtl1v/JnCkjZcnjHtzUyi6mI7WGWCwXRrYRXjUT69NxifhQX4VCqR5EBPbPNI4bdhBYZ/lbenPmmYyOGWnkc4TY814ULlAhcaotYRG0zds/8kCENzSTiS5rUfaTWjmw6eVagEeCAcSIdqPA1
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 07:30:40.8213
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc24f4b3-a950-4dad-6712-08de782d9b6b
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000A6734.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9078
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+X-Spamd-Result: default: False [2.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,ideasonboard.com,linaro.org,linux.intel.com,bp.renesas.com,vger.kernel.org,kerneltoast.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-54039-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54040-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[amd.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[airlied@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[Bin.Du@amd.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[wikipedia.org:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 728EC1D3149
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ubuntu.com:url,gitlab.freedesktop.org:url,pages.freedesktop.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gitlab.com:url];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 3A5701D3ED8
 X-Rspamd-Action: no action
 
-On Thu, 26 Feb 2026 at 21:32, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
->
-> On 2/26/26 00:43, Dave Airlie wrote:
-> >>>>
-> >>>> Using module parameters to enable/disable it globally is just a
-> >>>> workaround as far as I can see.
-> >>>
-> >>> That's a pretty good idea! It would indeed be a solution that could
-> >>> satisfy everyone (I assume?).
-> >>
-> >> I think so yeah.
-> >>
-> >> From what I have seen we have three different use cases:
-> >>
-> >> 1. local device memory (VRAM), GTT/CMA and memcg are completely separa=
-te domains and you want to have completely separate values as limit for the=
-m.
-> >>
-> >> 2. local device memory (VRAM) is separate. GTT/CMA are accounted to me=
-mcg, you can still have separate values as limit so that nobody over alloca=
-tes CMA (for example).
-> >>
-> >> 3. All three are accounted to memcg because system memory is actually =
-used as fallback if applications over allocate device local memory.
-> >>
-> >> It's debatable what should be the default, but we clearly need to hand=
-le all three use cases. Potentially even on the same system.
-> >
-> >
-> > Give me cases where 1 or 3 actually make sense in the real world.
-> >
-> > I can maybe take 1 if CMA is just old school CMA carved out preboot so
-> > it's not in the main memory pool, but in that case it's just equiv to
-> > device memory really
->
-> Well I think #1 is pretty much the default for dGPUs on a desktop. That's=
- why I mentioned it first.
+Hello,
 
-But I don't think it's what we would want, if someone allocate a
-system memory object then we should memcg account it. But in this
-scenario it's where we really have to face eviction, and maybe in this
-scenarios it makes sense to state that we need to reserve memcg space
-for swapping objects, both out of VRAM and into swap itself.
+AMD ISP4 is the AMD image processing gen 4 which can be found in HP ZBook Ultra G1a 14 inch Mobile Workstation PC (Ryzen AI Max 300 Series)
+(https://ubuntu.com/certified/202411-36043)
+This patch series introduces the initial driver support for the AMD ISP4.
 
-I'm starting to think there isn't another good way to deal with
-dynamic power and suspend/resume if we don't have some accounting for
-moving objects out of VRAM into system memory, it's just whether we
-can do something special to account for it, but not destroy the
-process on behalf of another process doing the wrong thing.
+Patch summary:
+- Powers up/off and initializes ISP HW
+- Configures and kicks off ISP FW
+- Interacts with APP using standard V4l2 interface by video node
+- Controls ISP HW and interacts with ISP FW to do image processing
+- Supports enum/set output image format and resolution
+- Supports queueing buffer from app and dequeuing ISP filled buffer to App
+- It is verified on qv4l2, cheese and qcam
+- It is verified together with following patches
+	platform/x86: Add AMD ISP platform config (https://lore.kernel.org/all/20250514215623.522746-1-pratap.nirujogi@amd.com/)
+	pinctrl: amd: isp411: Add amdisp GPIO pinctrl (https://github.com/torvalds/linux/commit/e97435ab09f3ad7b6a588dd7c4e45a96699bbb4a)
+	drm/amd/amdgpu: Add GPIO resources required for amdisp (https://gitlab.freedesktop.org/agd5f/linux/-/commit/ad0f5966ed8297aa47b3184192b00b7379ae0758)
+	drm/amd/amdgpu: Declare isp firmware binary file (https://gitlab.freedesktop.org/agd5f/linux/-/commit/35345917bc9f7c86152b270d9d93c220230b667f)
 
->
-> > If something is in the main memory pool, it should be accounted for
-> > using memcg. You cannot remove memory from the main memory pool
-> > without accounting for it.
->
-> That's what I'm strongly disagreeing on. See the page cache is not accoun=
-ted to memcg either, so when you open a file and the kernel caches the back=
-ing pages that doesn't reduce the amount you can allocate through malloc, d=
-oesn't it?
+AMD ISP4 Key features:
+- Processes bayer raw data from the connected sensor and output them to different YUV formats
+- Downscale input image to different output image resolution
+- Pipeline to do image processing on the input image including demosaic, denoise, 3A, etc.
 
-So the page cache is accounted according to Shakeel, so can we find
-some other example. I really think this is a bad idea, partitioning a
-single resource into two competing pools isn't going to work that
-well.
+----------
 
->
-> In other words system memory becomes the swap of device local memory. Jus=
-t think about why memcg doesn't limits swap but only how much is swapped ou=
-t.
+Changes v8 -> v9:
 
-But we still need swap for system memory as well, but there are
-systems with no swap configured, and on those I think we need to be
-integrated with memcg anyways to make it work.
+- Dropped wait_prepare/wait_finish vb2 callbacks (handled by framework via q->lock since v7.0-rc1).
+- Minor comment, typo and formatting fixes.
 
-> For those use cases you want to have a hard static limit on how much syst=
-em memory can be used as swap. That's why we originally used to have the pe=
-r driver gttsize, the global TTM page limit etc...
->
-> The problem is that we weakened those limitations because of the APU use =
-case and that in turn resulted in all those problems with browsers over all=
-ocating system memory etc....
->
-> Now cgroups should provide an alternative and I still think that this is =
-the right approach to solve this, but in this alternative I think we want t=
-o preserve the original idea of separate domains for dGPUs.
->
-> > Now we can add gpu limits to memcg, that
-> > was going to me a next step in my series.
-> >
-> > Whether we have that as a percentage or a hard limit, we would just
-> > say GPU can consume 95% of the configured max for this cgroup.
->
-> That is only useful on APUs which don't have local memory because those m=
-ake all of their allocations through system memory.
->
-> dGPUs should be much more limited in that regard.
 
-So you think we should limit the system memory allocations on dGPU.
-I'm worried about GTT|VRAM allocations which once evicted, there might
-be no reason to push back into VRAM and that ending up as a backdoor
-to allocating a lot of system memory and bypassing memcg. I don't
-really like the idea of bypassing memcg at all.
+Changes v7 -> v8:
 
->
-> > 3 to me just sounds like we haven't figured out fallback or
-> > suspend/resume accounting yet, which is true, but I'm not sure there
-> > is a reason for 3 to exist outside of the we don't know how to account
-> > for temporary storage of swapped out VRAM objects.
->
-> Mario has fixed or is at least working on the suspend/resume problems. So=
- I don't consider that an issue any more.
->
-> The use case 3 happens on HPC systems where device local memory is basica=
-lly just a cache. For example this one here: https://en.wikipedia.org/wiki/=
-Frontier_(supercomputer)
->
-> In this use case you don't care if a buffer is in device local memory or =
-system memory, what you care about is that things are reliable and for that=
- your task at hand shouldn't exceeds a certain limit.
->
-> E.g. you run computation A which can use 100GB of resources and when comp=
-utation B starts concurrently you don't want A to suddenly fail because it =
-now fights with B for resources.
->
-> > Like it might be we need to have it so we have a limited transfer pool
-> > of system memory for VRAM objects to "live in" but we move them to
-> > swap as soon as possible once we get to the limit on that. Now what we
-> > do on systems where no swap is available, that gets into I've no idea
-> > space.
-> >
-> > Static partitioning memcg up into a dmem and memcg isn't going to
-> > solve this, we should solve it inside memcg.
->
-> Well it's certainly possible to solve all of this in memcg, but I don't t=
-hink it's very elegant.
->
-> Static partitioning between memcg and dmeme for the dGPU case and merged =
-accounting for the APU case by default and then giving the system administr=
-ator to eventually switch to use case 3 sounds much more flexible to me.
->
-> At least the obvious advantage is that you don't start to add module para=
-meters to TTM, DMA-buf heaps and drivers if they should or should not accou=
-nt to memcg, but rather keep all the logic inside cgroups.
+- Replaced ISP subdevice callbacks with direct function calls and deleted subdevice link validation functions and variables.
+- Removed unnecessary media pipeline operations, redundant media bus initialization, and omitted non-essential video format checks.
+- Applied code style improvements, including the 80-character line limit, standardizing macro variable naming from "v4l2_sdev" to "sd", and
+  declaring loop variables inside for loops as unsigned where possible.
+- Added the ISP4FW_ prefix to all firmware interface definitions (such as command, image format, stream, buffer type), and corrected the typo "steam" to "stream".
+- Switched to common vb2 queue memory operations (vb2_vmalloc_memops) and updated Kconfig to add HAS_DMA dependency and VIDEOBUF2_VMALLOC selection.
+- Changed the order of header includes in several files, eliminated unused header inclusions, and reviewed grammar and spelling in comments.
+- Updated Kconfig and Makefile to change module names for ISP4, and modified the debugfs directory from amd_isp to amd_isp4.
+- Removed deprecated v4l2_pipeline_pm_put() and v4l2_pipeline_pm_get() calls, and replaced obsolete s_power() with runtime PM for power management.
 
-I don't think we should have to static partition at all here, it's
-just asking for problems later, and it without proper accounting will
-cause a bunch of reclaim unnecessarily.
 
-Dave.
+Changes v6 -> v7:
+
+- Added missed blank line after some if statements.
+- Changed the pm_runtime_disable() order in isp4_capture_remove() to align with initialization.
+- Reset buf_sent_cnt and start_stream_cmd_sent on stream stop.
+- Removed duplicate buf_sent_cnt and start_stream_cmd_sent reset in isp4sd_pwron_and_init().
+- Combined isp4sd_reset_stream_info() and isp4sd_reset_camera_info() into isp4sd_uninit_stream() to eliminate redundant stream info reset.
+- Removed always-false status check in isp4sd_uninit_stream().
+- Minor style improvements.
+
+
+Changes v5 -> v6:
+
+- Lowered FW mempool buffer size from 200M to 100M (actual usage).
+- Added an irq_enabled member to the ISP subdev for proper IRQ disable handling in both normal and error cases.
+- Removed unnecessary .owner assignment from isp4_capture_drv definition
+- Updated IRQ handling to enable and disable interrupts via the ISP register for improved performance.
+- Revised ring buffer management in isp4if_f2h_resp(), addressing safety checks to ensure the read pointer is validated before memcpy operations, reducing the risk of out-of-bounds access. The ring buffer logic was also streamlined significantly.
+- Modified ring buffer handling in isp4if_is_cmdq_rb_full(), correcting an off-by-one error in safety checks that previously allowed rd_ptr to equal wr_ptr when the buffer was full.
+- Refactored ring buffer handling in isp4if_insert_isp_fw_cmd(), simplifying overall logic.
+- Resolved a regression from v4 to v5 where isp4if_dequeue_buffer() did not protect list_del with bufq_lock.
+- Addressed a subtle use-after-free issue that could occur if a timeout on a synchronous command coincided with completion.
+- Added missing pm_runtime_disable() calls to isp4_capture_remove() and to the error path in isp4_capture_probe().
+- Removed stray semicolons following closing curly braces.
+- Improved and clarified macro definitions in isp4_interface.h.
+- Eliminated unnecessary (u8 *) casts.
+- Added missing memset for firmware command structures in isp4sd_stop_stream().
+- Excluded streams 2 and 3 from ISP4IF_FW_RESP_RB_IRQ_EN_MASK, preventing their activation in the interrupt enable register.
+- Enhanced error handling to clean up kthreads in the event of startup failure.
+- Corrected a race condition during kthread creation where waitqueue head initialization could be delayed, as it was performed by the kthread itself.
+- Removed status checks in isp4sd_pwroff_and_deinit() that were always false.
+- Ensured isp4sd_init_stream() is only invoked once per stream start and reordered corresponding status checks in isp4sd_start_stream().
+- Improved error handling in isp4sd_start_stream() to propagate errors from failed functions.
+- Relocated debugging messages in isp4sd_stop_stream() to execute under lock protection due to access to output_info->start_status.
+- Eliminated redundant GET_REG_BASE() macros.
+- Removed isp4sd_is_stream_running() function.
+- Corrected error message in isp4sd_init_stream() caused by copy/paste.
+- Refined struct isp4_interface to remove firmware ring buffer configurations.
+- Removed obsolete isp4sd_is_stream_running function.
+- Removed pdev member from struct isp4_device, as it is unnecessary.
+- Fixed typo in 'isp_mmip' parameter name within isp4if_init().
+- Removed gap in struct isp4_subdev definition.
+- Performed extensive dead code removal and minor style improvements throughout the codebase.
+
+
+Changes v4 -> v5:
+
+- Transitioned VIDEOBUF2_V4L2 from 'depends' to 'select' within Kconfig.
+- Standardized object file naming conventions in the Makefile and sorted entries alphabetically.
+- Removed the unused macro definition to_isp4_device.
+- Eliminated unused members mem_domain and mem_align from struct isp4if_gpu_mem_info.
+- Deleted unused fields mc_addr and gpu_pkg from struct isp4if_cmd_element.
+- Removed obsolete pltf_data, i2c_nb, and notifier elements from struct isp4_device.
+- Updated platform_get_irq failure handling to return its actual result rather than -ENODEV.
+- Refined inclusion of header files for clarity and efficiency.
+- Appended comments following #endif statements in header files.
+- Improved implementation of isp4if_gpu_mem_free and isp4if_dealloc_fw_gpumem.
+- Removed isp4if_append_cmd_2_cmdq and revised isp4if_send_fw_cmd accordingly.
+- Enhanced isp4if_clear_cmdq and isp4if_clear_bufq by eliminating unnecessary list_del operations.
+- Adopted completion mechanism instead of wait queue and condition for command completion notifications.
+- Employed memset to ensure proper zeroing of padding bits in structures shared between ISP driver and firmware.
+- Streamlined IRQs, reducing total from four to two, retaining only essential ones.
+- Optimized IRQ handler logic using a while loop for greater efficiency.
+- Introduced dynamic IRQ enable/disable functionality based on camera status (open/close).
+- Applied distinct identifiers to differentiate multiple threads and IRQs.
+- Removed unnecessary initialization of local variables.
+- Refined camera start/stop workflow to mitigate potential synchronization concerns.
+- Replaced all remaining mutex with guard mutex.
+- Enhanced command and buffer queue performance by substituting mutexes with spinlocks.
+- Removed redundant isp4sd_init_meta_buf function and its references.
+- Limited firmware logging activities to the stream1 thread.
+- Relocated v4l2_device_unregister_subdev() and media_entity_cleanup() calls from isp4_capture_remove to isp4sd_deinit.
+- Resolved media device registration sequence issues.
+- Modified stream processing thread behavior to await IRQ without a timeout.
+- Addressed cleanup procedures in video device initialization and deinitialization routines.
+- Corrected typos and made other cosmetic improvements.
+
+
+Changes v3 -> v4:
+
+- Replace one mutex with guard mutex.
+- Remove unnecessary bus_info initialization of v4l2_capability.
+- Drop V4L2_CAP_IO_MC from capabilities of v4l2_capability.
+- Modify document with better SOC description.
+- Fix Test x86 failure in Media CI test https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/83470456/artifacts/report.htm
+- Modify some commit messages by describing changes in imperative mood.
+- Add media-ctl output in cover letter.
+- Create separated dedicated amdgpu patch to add declaration MODULE_FIRMWARE("amdgpu/isp_4_1_1.bin");
+- Fix typo errors and other cosmetic issues.
+- Add DRM_AMD_ISP dependency in Kconfig.
+
+
+Changes v2 -> v3:
+
+- All the dependent patches in other modules (drm/amd/amdgpu, platform/x86, pinctrl/amd) merged on upstream mainline kernel (https://github.com/torvalds/linux) v6.17.
+- Removed usage of amdgpu structs in ISP driver. Added helper functions in amdgpu accepting opaque params from ISP driver to allocate and release ISP GART buffers.
+- Moved sensor and MIPI phy control entirely into ISP FW instead of the previous hybrid approach controlling sensor from both FW and x86 (sensor driver).
+- Removed phy configuration and sensor binding as x86 (sensor driver) had relinquished the sensor control for ISP FW. With this approach the driver will be exposed as web camera like interface.
+- New FW with built-in sensor driver is submitted on upstream linux-firmware repo (https://gitlab.com/kernel-firmware/linux-firmware/).
+- Please note the new FW submitted is not directly compatible with OEM Kernel ISP4.0 (https://github.com/amd/Linux_ISP_Kernel/tree/4.0) and the previous ISP V2 patch series.
+- If intend to use the new FW, please rebuild OEM ISP4.0 Kernel with CONFIG_VIDEO_OV05C10=N and CONFIG_PINCTRL_AMDISP=Y.
+- Included critical fixes from Sultan Alsawaf branch (https://github.com/kerneltoast/kernel_x86_laptop.git) related to managing lifetime of isp buffers.
+      media: amd: isp4: Add missing refcount tracking to mmap memop
+      media: amd: isp4: Don't put or unmap the dmabuf when detaching
+      media: amd: isp4: Don't increment refcount when dmabuf export fails
+      media: amd: isp4: Fix possible use-after-free in isp4vid_vb2_put()
+      media: amd: isp4: Always export a new dmabuf from get_dmabuf memop
+      media: amd: isp4: Fix implicit dmabuf lifetime tracking
+      media: amd: isp4: Fix possible use-after-free when putting implicit dmabuf
+      media: amd: isp4: Simplify isp4vid_get_dmabuf() arguments
+      media: amd: isp4: Move up buf->vaddr check in isp4vid_get_dmabuf()
+      media: amd: isp4: Remove unused userptr memops
+      media: amd: isp4: Add missing cleanup on error in isp4vid_vb2_alloc()
+      media: amd: isp4: Release queued buffers on error in start_streaming
+- Addressed all code related upstream comments
+- Fix typo errors and other cosmetic issues.
+
+
+Changes v1 -> v2:
+
+- Fix media CI test errors and valid warnings
+- Reduce patch number in the series from 9 to 8 by merging MAINTAINERS adding patch to the first patch
+- In patch 5
+	- do modification to use remote endpoint instead of local endpoint
+	- use link frequency and port number as start phy parameter instead of extra added phy-id and phy-bit-rate property of endpoint
+
+----------
+
+It passes v4l2 compliance test, the test reports for:
+
+(a) amd_isp_capture device /dev/video0
+
+Compliance test for amd_isp_capture device /dev/video0:
+-------------------------------------------------------
+
+atg@atg-HP-PV:~/bin$ ./v4l2-compliance -d /dev/video0
+v4l2-compliance 1.29.0-5348, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 75e3f0e2c2cb 2025-03-17 18:12:17
+
+Compliance test for amd_isp_capture device /dev/video0:
+
+Driver Info:
+        Driver name      : amd_isp_capture
+        Card type        : amd_isp_capture
+        Bus info         : platform:amd_isp_capture
+        Driver version   : 6.14.0
+        Capabilities     : 0xa4200001
+                Video Capture
+                I/O MC
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x24200001
+                Video Capture
+                I/O MC
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : amd_isp_capture
+        Model            : amd_isp41_mdev
+        Serial           :
+        Bus info         : platform:amd_isp_capture
+        Media version    : 6.14.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.14.0
+Interface Info:
+        ID               : 0x03000005
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000003 (3)
+        Name             : Preview
+        Function         : V4L2 I/O
+        Pad 0x01000004   : 0: Sink
+          Link 0x02000007: from remote pad 0x1000002 of entity 'amd isp4' (Image Signal Processor): Data, Enabled, Immutable
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Total for amd_isp_capture device /dev/video0: 49, Succeeded: 49, Failed: 0, Warnings: 0
+
+The media-ctl output of media device /dev/media0:
+-------------------------------------------------------
+
+atg@atg-HP-PV:~$ media-ctl -p -d /dev/media0
+Media controller API version 6.17.0
+
+Media device information
+------------------------
+driver          amd_isp_capture
+model           amd_isp41_mdev
+serial
+bus info        platform:amd_isp_capture
+hw revision     0x0
+driver version  6.17.0
+
+Device topology
+- entity 1: amd isp4 (1 pad, 1 link, 0 routes)
+            type V4L2 subdev subtype Unknown flags 0
+        pad0: Source
+                -> "Preview":0 [ENABLED,IMMUTABLE]
+
+- entity 3: Preview (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video0
+        pad0: Sink
+                <- "amd isp4":0 [ENABLED,IMMUTABLE]
+
+Please review and provide feedback.
+
+Many thanks,
+
+Bin Du (7):
+  media: platform: amd: Introduce amd isp4 capture driver
+  media: platform: amd: low level support for isp4 firmware
+  media: platform: amd: Add isp4 fw and hw interface
+  media: platform: amd: isp4 subdev and firmware loading handling added
+  media: platform: amd: isp4 video node and buffers handling added
+  media: platform: amd: isp4 debug fs logging and  more descriptive
+    errors
+  Documentation: add documentation of AMD isp 4 driver
+
+ Documentation/admin-guide/media/amdisp4-1.rst |   63 +
+ Documentation/admin-guide/media/amdisp4.dot   |    6 +
+ .../admin-guide/media/v4l-drivers.rst         |    1 +
+ MAINTAINERS                                   |   25 +
+ drivers/media/platform/Kconfig                |    1 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/amd/Kconfig            |    3 +
+ drivers/media/platform/amd/Makefile           |    3 +
+ drivers/media/platform/amd/isp4/Kconfig       |   15 +
+ drivers/media/platform/amd/isp4/Makefile      |   10 +
+ drivers/media/platform/amd/isp4/isp4.c        |  240 ++++
+ drivers/media/platform/amd/isp4/isp4.h        |   20 +
+ drivers/media/platform/amd/isp4/isp4_debug.c  |  271 +++++
+ drivers/media/platform/amd/isp4/isp4_debug.h  |   41 +
+ .../platform/amd/isp4/isp4_fw_cmd_resp.h      |  318 +++++
+ drivers/media/platform/amd/isp4/isp4_hw_reg.h |  124 ++
+ .../media/platform/amd/isp4/isp4_interface.c  |  832 +++++++++++++
+ .../media/platform/amd/isp4/isp4_interface.h  |  144 +++
+ drivers/media/platform/amd/isp4/isp4_subdev.c | 1047 +++++++++++++++++
+ drivers/media/platform/amd/isp4/isp4_subdev.h |  127 ++
+ drivers/media/platform/amd/isp4/isp4_video.c  |  797 +++++++++++++
+ drivers/media/platform/amd/isp4/isp4_video.h  |   57 +
+ 22 files changed, 4146 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
+ create mode 100644 Documentation/admin-guide/media/amdisp4.dot
+ create mode 100644 drivers/media/platform/amd/Kconfig
+ create mode 100644 drivers/media/platform/amd/Makefile
+ create mode 100644 drivers/media/platform/amd/isp4/Kconfig
+ create mode 100644 drivers/media/platform/amd/isp4/Makefile
+ create mode 100644 drivers/media/platform/amd/isp4/isp4.c
+ create mode 100644 drivers/media/platform/amd/isp4/isp4.h
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.c
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.h
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_hw_reg.h
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.c
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.h
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.c
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.h
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_video.c
+ create mode 100644 drivers/media/platform/amd/isp4/isp4_video.h
+
+-- 
+2.34.1
+
 
