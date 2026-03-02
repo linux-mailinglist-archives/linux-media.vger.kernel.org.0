@@ -1,988 +1,441 @@
-Return-Path: <linux-media+bounces-54070-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54071-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YL+NAvZYpWnj9wUAu9opvQ
-	(envelope-from <linux-media+bounces-54070-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 10:31:34 +0100
+	id kMsjIYBbpWlc+QUAu9opvQ
+	(envelope-from <linux-media+bounces-54071-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 10:42:24 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2781D5947
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 10:31:32 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3811D5B1D
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 10:42:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 91439300BE29
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 09:31:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9593B3041BCD
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 09:41:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ED6738F635;
-	Mon,  2 Mar 2026 09:31:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D63538F643;
+	Mon,  2 Mar 2026 09:41:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="SfRyNhO8"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="bkh107a/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011043.outbound.protection.outlook.com [52.101.65.43])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012048.outbound.protection.outlook.com [52.101.66.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5BD1E1DE5;
-	Mon,  2 Mar 2026 09:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8D92DB787;
+	Mon,  2 Mar 2026 09:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772443882; cv=fail; b=HN1U3Kj7ZtNdnHwjPF6XtTEMibgKCBhICmLW74J9WWG7pZvIJk4LAsP+ALNS/SSFbFVlj0ajPcvcmMi1t3JC1tsrrN8kqhNd7eUoUjTtnAKfjDtp8BiUITyFejblyhPBlKpOyEXVwBlyxjKny0fDonkoSH6uBZBiZwAvgHudoGg=
+	t=1772444479; cv=fail; b=LswDtlDUcytPyQa+HmCLdbUvkkN6CjOEmVgpmLXokZvvlAFcki+pOULjEGRjLqYPQUuRUmCu8d2S+v01BrRHw6T2Syi+T0RS/MhpwghtK9ihgiEODRRPWMeyktg+XHWvfhfeUaCi6axwjLJ0GIC6ecVcgiu7KeVOY/KTKCFCQRQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772443882; c=relaxed/simple;
-	bh=/6/7yuC4Jj0O1lMfjQF0fxP6QMwt8hA1CBJQUsiuWIA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JikibwnkEWW2gr47VyJnWOF2n8u4pAfvNkIwTfFiicKSKU33SK9HPtuqa/JR+lacewDvPb1lK3hXt6a29Ate92IGv8F2nGq97yrrWgf5v0nsGZlB45Tejaotq8E5Rg5u0tKQ780Gl6d999dqA9u2zTFnvdXjO02UQl2F5XwesMw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=SfRyNhO8; arc=fail smtp.client-ip=52.101.65.43
+	s=arc-20240116; t=1772444479; c=relaxed/simple;
+	bh=Wcj0UQlBW3mWo+PXoHzxjue9EvuM2+wJh+EHHul1D2g=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=P35BjJZO4lsK/YBjI0DdYf5r28Ut4JXIcFth3EGLpCUnLvOw41ssPVXQSngrnSdY0o+qUImt/77iuRUz6ukUHenROlo+mGoSxyxx+mpg5+oqMHYLhwNP4YJzILsCv/mqdAtIxZjN/586c2ZVIOc+cdlrEQndbsYBQiJc/e1f+r0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=bkh107a/; arc=fail smtp.client-ip=52.101.66.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MZPdUl8f3wOImFGxHyt6vUD740C4aYCUtC7HFxyGfBpcJX5X5M8a3Vjs2Gy3EZ38a4OaqRg8x8CB3jFzy1TQWzRmP6E2QRF+cPa/nLsNxNctWBBcsrX9mNck9R+MenVrMkBoMSkXb50iTIpiT2OD+Mh52JF0pig7zWEh5KHeO1PgkIDR0Zkn15A27JVUnP7aSRrlAVcaOVdwTnB5Rj/KciQSZx+1v6aeUysHhIwMRDuO4c23HBtv6fJtR6iOHPIzYInB2UL9GT3hz/f+nKH0nqvEiaRvhv/3N54Yb1lpPZ2obc6Mx1U/a95CkvRF+CaiXn1B88L0k4CEDv1efl+5jw==
+ b=TLKrJdzOXRgJvBRYRvGtLEeevRkDxjstoXpZAlpRWxns98RSGIEDSeaHKvjhok8f/X8QxuGMtABOg4faO/H8jMI3CTibUl+0eE7yQ9Dc6X7GyJ/FUaYj4vDMWQ4r7rGZpYCEb5AQ5/r3YSSFDUYxhrfRCi3pEVckmjlI7IDqD7BEXnzDbZwzng+1D5Sl5NHllOLBCcn58oPsquf29t6TtkpaOS/CZSHOMHg72yWMJjymhCYy8i7SfWaoKUiUBdu07y6TAqx5E3pYchXSLSct/+qORPdtM4/WcR/QOjpP1ZAJT6kfk1kJm6c8GBy2B5zqVjTchTD4pCt7zredrHyO7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2Z2MEal57E/MTI/ujDs/dv1j64I+XQXiqIB/ndGpi1w=;
- b=UscAtMNoK5JDlbh4x/++oyKW8pPn9ydcCFjwci5Xr8UQgRa7PdQWlk5GE6YPhqzkfyyzR2nYGo41aODVqY6fqoIg7NcitzQJz5bHIVLzfh6CZ4EMlIIOhSg1/yUGZRiRks9fM52lqiByslGWC6pVB9icj5VegOg6u1/ejlkUnEAXgEYN4osHfYajx/+CHfwAPnyBEaPQxS9+97col5E2zbZCx2nxQQfLilZpy8T0fF7s3/5Ce9MNjmh3UUPETn95dUVntoLs8FYDaltnWrEfif44eaahrSbHqyp0AQbNvpaO0rQtRn0K1qDbR6YczsnPm8uWbuqNj0RfvV4YbyKruQ==
+ bh=6Rj0FGwd3DQtJxDtHyNp0wFP6a/UYgGmJ34lKdCtsXM=;
+ b=KcBXOeTTW0FX8mcbKZJstdQoXVQbcQUea+Kija6AZudocp/pPCAaiWEZGK+d0tefe/xUnNg+GdSVo0eVIZt9qF/4D2mifyv76obIBntaBlGDy+A1uMR36zUw9E4qqFZbyyob2UCvUcjqPWcsoHtWsfVpFKXaArFZknQI1BVCFgz9ZtYgMfKrtaYys7nJ00rjKlDan5KOQ6CXzxNC7gf/hyYv0oldC8PDE/6uu5OcQombmbGDLFEZzlQDN7/mk2qay7cb/rR5QDsHShekNKl264U4zD++VL3kTJcRx/pYPqS2UecOW7eXcHJFl+IfUFYvrORrSRebuf/L5w8VBk+fvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2Z2MEal57E/MTI/ujDs/dv1j64I+XQXiqIB/ndGpi1w=;
- b=SfRyNhO8ZtNfsTdG+EpCvZAXiZwXbPtGylFPAQUbgtfUgCPGcUWIkYtYbXZdhXQDyPF890R/1oZVa4ZH+FHtE4TKKELVUzHu5iZ3su+5/Uw2cqSxWW9fqxOomjo9XbiuBXz1KBINpnpoSN3tFgjZWNO0aruIqQZXBnMSDtle7VQ7w46AW1SnIfjB9uqms9Z9PMJG3mAzkj43LJQxRRbzZizOAc3nOykkHSDdr0gNLYyah8EeE3pDXX3kubSu9OpUW0mQrZ6C3Qsu1S73ieF2afZiwreEQwt8gBYaV2VEFNh3h5aujXHfM5LmSzpUVe9D1fUVGduOca68sVu1a49NfQ==
-Received: from DB9PR04MB9426.eurprd04.prod.outlook.com (2603:10a6:10:36a::14)
- by GV2PR04MB11685.eurprd04.prod.outlook.com (2603:10a6:150:2a7::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.18; Mon, 2 Mar
- 2026 09:31:15 +0000
-Received: from DB9PR04MB9426.eurprd04.prod.outlook.com
- ([fe80::9024:608b:852c:f484]) by DB9PR04MB9426.eurprd04.prod.outlook.com
- ([fe80::9024:608b:852c:f484%6]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
- 09:31:14 +0000
-From: Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
-To: =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, Oded Gabbay
-	<ogabbay@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit
- Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li
-	<frank.li@nxp.com>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi
-	<xuelin.shi@nxp.com>, Alexandru Iulian Taran <alexandru.taran@nxp.com>
-Subject: RE: [PATCH 7/9] accel/neutron: Add job submission IOCTL
-Thread-Topic: [PATCH 7/9] accel/neutron: Add job submission IOCTL
-Thread-Index: AQHcpyWRaHKAnAfS3US/TiAeRiQXwLWVEtCAgAXsqlA=
-Date: Mon, 2 Mar 2026 09:31:14 +0000
-Message-ID:
- <DB9PR04MB9426D1359D0E005C8EE04505947EA@DB9PR04MB9426.eurprd04.prod.outlook.com>
-References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
- <20260226-neutron-v1-7-46eccb3bb50a@nxp.com>
- <09364420-1044-4c9b-9907-b92b06653eaf@amd.com>
-In-Reply-To: <09364420-1044-4c9b-9907-b92b06653eaf@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
+ bh=6Rj0FGwd3DQtJxDtHyNp0wFP6a/UYgGmJ34lKdCtsXM=;
+ b=bkh107a/Y6Rla8kBz3s4WAu/gXj8MyeCXuFUbbl8ykjz7tM2AGYsLPVNiHVedUQiZhRvMLNj6F3S9zkNj4kwuxn0f8AKa1Yyld6gU0+KIp3dNU2JLh/ct4LANjOXEu3Le/pXPeQ7kJXXNdwSot0GsbJ8fWO1vZi0yhFYdiY9A945THt3iSOH9uR0tpALZpr5JJRi0PLGa28ak0CY8G7WLoT12J4/O7KiqJLwEG+oLp5egVuoKEd671+vJt7aBn/Yz/L/lgUOO+6T3rxMmaBZIxEfrP2yK+VUjJC6ynS4E2kH+K1RojhFWwONyrS45e30jdE80T9Vj/YZwIAFU/JtYw==
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB9PR04MB9426:EE_|GV2PR04MB11685:EE_
-x-ms-office365-filtering-correlation-id: f6fda990-281f-4018-267a-08de783e7328
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|19092799006|1800799024|366016|921020|38070700021;
-x-microsoft-antispam-message-info:
- 9ZaioStopPJMWl35AacocHfo34BN6t5rbI0G+DC255Iaw6WFxbNgSffMCLWzzPCXwJGk2VaBp7uWzRyw7KWsgjU5lCetNErwvhYkf9Ie8ce9bYQt9jjwAme73eaH/c+x2Kr9crZYKrDEKZUvtR6hBYGwKZUW0IEx/vFzgm/TI0Q6w6R1hhY8ZEjFNC+sf8Sqel35rCpaRhTdhtxqQQGRDtmhdfqzyUFE0L68HO0VX31aYmG+lWJlOV/J2csEbbXCKptnHNIIXPY1Ql4gxof/pDDVQ+Ct8Whp8lIkBF8RgGnEJk/BeFQ1V/oDAhygZeb3o8ptb4thlCMH08bD4Jq6O1qhAztQSWUjREE7HG7ufDIgbkMbvLWJbpQxr/R9OkWK2mPTlCG+oPpVXjxnp2a5YQLtS+v9v+2BMsfiuJxShT8WXsO5sMmrL5kWCq5EwavrYczo95N/Y5EATNqzjaDptr2e2EysZ8wDzPVy4wD6q6PjcG9X9m/AdszEqtzYNPWwFiLREcNEQHCggZGx0t8GbCqxQBm98+94LCsJq7kADfWnYfjVyV4xqTD/c/vmwQ7r+LY5gFNmYgbVwfGtHmacAbdqilNOG99cST99Q5tDImt+sSv6l9hagGjjZwUl06rF3dK0Dh4fm/Ui9N8HRCiiVqlFvVCNQ7nehjsnkBvjRacQVJE82Fe8x/OZeEX1jaslenJcbJ2+KP53p6sp0flvigKPh6riwvzpQliMiQT/lcy5k4duBc36Irqu9iit2FL6qy0m3Rnthx9yUkdn9CHbnwkrF5W5FTxbko1hF14HP7UEtzuRn6s5HxF1ELBAwcfp
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9426.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(1800799024)(366016)(921020)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?I+vtZikRtEmcvQcMACI8k6K//bb11FMC6LpecBH71Ahcb1fRSD2M2pgzje?=
- =?iso-8859-1?Q?/GqaZkUtBA3S9abKH9R/H+bzLm0U35DbHxmxO1KzQ2BU2FOKvgh/mLh6WP?=
- =?iso-8859-1?Q?QlcIp+PTPNuXFWfoMxAQG/hb8rSB2TLcbwfkeDZ/8YfU1UEaqIkoaMob0I?=
- =?iso-8859-1?Q?BKA9W4qqHOzlQ85KVu8axyuz5OrqAsvS4RvIsCrUVuMz+FDrpJ4+EX98Bo?=
- =?iso-8859-1?Q?Vly8R/5JIrPAvCCR/uC7rlH4KQ1L5bYzE76lzYGFAAEMY2slOpk9PDbzjQ?=
- =?iso-8859-1?Q?GWqKbOm2zChbraXcIZZXhXxzuaKgzM1FA7Xp9t3rL1/j0yHRHc4UWlW0s1?=
- =?iso-8859-1?Q?onIHIwK0QqFkdIhyytZRlV+6WZvFb9TDaWHd4ED/AqoneN2Ywra+jPKbfB?=
- =?iso-8859-1?Q?SWFY0gD5rnC/vk2OHfUmQbJfhA8k41vON46ZRmBD0M1alCCrxkqUpNeaZv?=
- =?iso-8859-1?Q?oi9f6O1ANnxjaJkHab59EMlbk3nUmIJk3v+QGtsZvAxTAsSRu5es+aMBAJ?=
- =?iso-8859-1?Q?PANPgnlpxXcmktLY58EECbDl+SmTVTG9psVcwEbGqAm9Dxcd1tMUTYwCYx?=
- =?iso-8859-1?Q?13yD617X9xBP5CceVK1R5AXt6HE52czoL0QGQgggUH2Yr02eflvq6sm+PB?=
- =?iso-8859-1?Q?BXM3A3MlTT2i18jvF7mPqUtvvY/SEpkabURoeUAs4ymrpWg8+v+OEp44RK?=
- =?iso-8859-1?Q?dxJd3X1V+rXOnIcrnasSrPx7lKJ+TO0pVXCyZ2h44bwyQv7AtGiUg8skJW?=
- =?iso-8859-1?Q?3OkAvmtf63muPpT22+omV25vY+l2Qgh7AMowJg8eCVH/yNHWx2Zp1/r8e3?=
- =?iso-8859-1?Q?zME1clqWco6TJ9u9bfOXxRST9BrUGTF61I92tH5VRdZTNBWxpLT/D/uaVx?=
- =?iso-8859-1?Q?gEwqS/pR8IZHrjSxcHyT3IQElA7K3hO23cWK7VfZY/AkAIVYHiqAg+2UAm?=
- =?iso-8859-1?Q?driVa7C0tlu+ZFnscEOPwnKOna23Q6oA1bKjwKs9UgY5Ux/kYa/iuk9Eh4?=
- =?iso-8859-1?Q?+F0abRZgP5e8k5ho+qFpKlUgiYoLwXKOTKrOZlNPnr2CN/UK3J1cuaYrSy?=
- =?iso-8859-1?Q?bNs48mfyit3NXwnzOfSdGUURyUExZLC2sex+YdpfH1U5Aun61MxjCWgQaE?=
- =?iso-8859-1?Q?y2XLg/dmLLxwbfIUmAQDZWLJwq5UicRWWRjJu7DFHRXw6AFJnpC5ONhFXK?=
- =?iso-8859-1?Q?CWC6iasKdE2exlQ+CZFaQw3S46qMgUYdpZVrYM/D+fRQrLTdswSGWSDlT0?=
- =?iso-8859-1?Q?pBDj6bC6QEdM9lxhx1CRLBnmTzRYNSWeneZzjzUotPB2F6SZoMWWGPSaWM?=
- =?iso-8859-1?Q?IXU2UwRzFraByBSCIL/+e6G27MLv6iC4Kp30SfcEMJT3EBTBdvKLzZpKhE?=
- =?iso-8859-1?Q?Cs4SaFA0fp7LHttU8kwvTdlvqVKJESUz6BYNFCVM8VuWfaBtkoUruykCVB?=
- =?iso-8859-1?Q?AU0mdCrf32wTDgvoZx3+tt591aUc/RBWuEotoIo4vPTaBGjXH/MVDOpZWe?=
- =?iso-8859-1?Q?9LI7nv36/Rdl+WO9CFrsPouXV4G34jBUAHgQ/tQmwPIMFU6B5WH1+kR/vF?=
- =?iso-8859-1?Q?d3p46+z6wovPi9NkcXTfYEfsdDIk87FXqntIzca9Tl0oOUhjITo4TCnrwy?=
- =?iso-8859-1?Q?r5OtC4S23KQDUL+2OBzVsQKWJSS1nyn8+mcPr3czm25CSrPnni4Rvvy1kj?=
- =?iso-8859-1?Q?wpvkyTTOqHZv81PPFybd7wI+ORgnjH6aSrhido5w5PlEruDykmipv+sXsx?=
- =?iso-8859-1?Q?b4s8vr2A7gPgMxaOlozJHYdzPJn1JI48VuXdCoeNms/xoHn5QLCZCcQjm/?=
- =?iso-8859-1?Q?EykAtIgHtw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16) by VI0PR04MB10392.eurprd04.prod.outlook.com
+ (2603:10a6:800:21b::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
+ 2026 09:41:13 +0000
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.20.9654.015; Mon, 2 Mar 2026
+ 09:41:13 +0000
+Message-ID: <c5b5619e-d67b-4d80-8496-a5e326d239ae@nxp.com>
+Date: Mon, 2 Mar 2026 10:41:10 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: Re: [RFC v1 01/11] media: uapi: v4l2-isp: Add v4l2 ISP extensible
+ statistics definitions
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com,
+ daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com,
+ mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20260123080938.3367348-1-antoine.bouyer@nxp.com>
+ <20260123080938.3367348-2-antoine.bouyer@nxp.com> <aYIb8ZIZDfCJZEZ9@zed>
+ <71b57f1c-be22-46a2-89a2-5abae11e0436@nxp.com> <aYNEtmJwnAtYitHO@zed>
+ <20260209230036.GF2405149@killaraus.ideasonboard.com>
+Content-Language: en-US
+From: Antoine Bouyer <antoine.bouyer@nxp.com>
+In-Reply-To: <20260209230036.GF2405149@killaraus.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P192CA0033.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:658::27) To PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|VI0PR04MB10392:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f7c0ed4-abde-4e2d-91fc-08de783fd7d3
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|7416014|19092799006|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+ 7CBW5n7SDZkgrv1UoFhBErIWhXV8+8kefura16suPA1zgWmgcTOFE5nS9n2rVzYA0FK1Hy0EyDZnY4s7P7ipRxOMyiGLL633jtr4dcN9WLTloh6M6y9g70e+JwTpmLyHhUHIg1FqqS/u1Cnq+LjPQrdrk/2VKR0uIIrZmE69Kf44PwBvWFD42zHgpN+RHjCxx1uhSOzRpkp0h+e3Px0Xo6jzsrzBpbRUZjexVcJpuIMI/39/uf4A/oBXX/FSisF75tN0NvCL7PV4PjiX+pJuGBLuAnrHGs5VP3U/ymBSFJKr5Vo177+u4cYi2qEZ0V9XbwesFZp3Tv1TERruhl1Faiazcw8NZN7LhSZwllN+OASvy2CIpjYgPqXikbPIK+p3ZrHGhn5IghJk6fI9YNFf3mu2fnruANmNlRpTsk622CnBXJcAiG3pKgfKCeNNfWyO/ctQLDfI6OlLqlX1m9octP058JQh+hugbUhjvDSPNFBrjBTlzXCUzStG4adzj6ab1zmahF0bQxmI5/nkFlojqRH+IiPCAlcecwUPcrByqSfLUBKnMv1qsUNdIpHV/DgWq2q/pvGLe87y22PZVntPGvrF4acpVIfbdWNAZvq3hl9zqaWrxubbncrSBitslka+2aIFNAUgky0pg61VUh7etvh6S/PxPjtaV4tVELd/cYJ1/8nAN7dozUPhxZ+x40/z3afNVBBBpNJFSBai/a4CBdsUsv9J/EX5y2yqWfZH/NM=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?dFVERXlPQ2s1VWY3bG80cU5nWklIQWxpTGJ3WnFzL0o5Z1lad0VzekVuRkl6?=
+ =?utf-8?B?OWNLVWtrUzV4bElQQXR6ZmZrNUpSSHQwUWk3emJ4Vmp0ZFdzNzd1S1JJZ0xa?=
+ =?utf-8?B?OXY1bHpmejhJdEVtdVJNVDVDT3JHOENNdDl5RWhwMWNtRDRLZW9zS2oxazdG?=
+ =?utf-8?B?WVMxdDVWdUJ6WkMvRmdZSkxiNXBRM0pnL3ZKZUR3NWdRUXp5dUNwZ3d4bkhO?=
+ =?utf-8?B?WjlDN1AxY0NmNzFWY0FnR0cyZ2xyUjVmZ3Y1Yko0Z2Y3c3ozaGplZ3BPRkcy?=
+ =?utf-8?B?NGJHU2pGNDd6c2s2K0tKUGhTRm1IN2hHaXU4R0dNbCtyWk5UbEw5WnZ5RlZU?=
+ =?utf-8?B?Z0tpWE13V3lYb0ZKWTU5anZ4eThyc1hOZGFtSVBJT1Q2RWxJTkZ4ZGs3bGxo?=
+ =?utf-8?B?UEFWZjFwaitiMEFQSnNKOXl2WjJUTXN2UUFJaWVWTGIrR2dBdWd3Unk2MHFi?=
+ =?utf-8?B?RWduSHBkL1hMUEdQZy8xc3liZlI5QTQ4d0VzdkRtbXc4T0xCV1NjNTZSTDVN?=
+ =?utf-8?B?ZGZpeGVBZXBMN2kra2M0Tkx5Um1vRHF3Y1JGdFdYWnZaUkF0NDFiQzRBZ0JI?=
+ =?utf-8?B?UHNHZGt1NHhYam1adnJLaDMwZE9KeWc4N3hpeXc5VXpyVExsaTg3bjJHU2R6?=
+ =?utf-8?B?MEJJbXdmWEhKMytmcDhEVVhBZkxRcWRmSTQ4KzR4MEJDbS9IeTJwL3RrRmoz?=
+ =?utf-8?B?bDdOZ2N0bjJ4azh4RHVvc04yOEg2TWg2WEtiYzdLS3NzczlZa3Urb3Rod0tr?=
+ =?utf-8?B?bSt2RXJveVAwWWVMWDYyWFcxbGdNRlN6ZnBzNWJHbTE5SmFOSHRLc2g5WHNm?=
+ =?utf-8?B?TmpiWEJrc24rR3g0Uk5WNjNKNG5TWm5BQzVkaXRia3Rmb3M2K29udVZSY3FZ?=
+ =?utf-8?B?SzZib2tmRzR3d1pKR1JrRUZQVUhFNzI1NTZEeU5yVzg0cnFCVzluLzcyYkcw?=
+ =?utf-8?B?SUV6cElieWdzN0huZ3VaTGZxSEtFYStyWHF1SXhWOFFqcEtOT2hzYXJVb3Uy?=
+ =?utf-8?B?MnFOWGVvMXlRM0w4OUVUNXVJWktDdUdBY1Nxc0ZKTXBZTUpSQ2lMcW9Lb1d1?=
+ =?utf-8?B?U2E2RUxMdlg2bmFyclZ1VnNYdUFXUDgzd2l1ODN2ZkVRR2p3VUI0K1ZiaWVn?=
+ =?utf-8?B?dTlKeXBPMnpBbStHTDN5NWVDTGl1dmZ0eFlBeVEreXdxZlc3a04vWEUrYzdw?=
+ =?utf-8?B?QmpUOFRaOGgwbmgzNm5FVXFRcVdIektOSjdRSUc3Zy8zVmVjSEdxOHZUQUlI?=
+ =?utf-8?B?ckEvemk0dms4QTcyb0UvKzRoNVlaYmVRdmxSci9IYzlXMjFrUFBPK1hCdGFv?=
+ =?utf-8?B?WlpXdlVqOVl4emNvcjVOSURzUi9mdFgwRFVkQVpOMGh3QW5mYUxUalFDNjdn?=
+ =?utf-8?B?Ly9IRVNEL0lqdkVWWmNYWnZFWmFRYXdWazRQaEhqWXFsM3E1M3VuSEZDcVhC?=
+ =?utf-8?B?R1NhYWdWZXFSTkhtbVNmZ1lJbXVhbXpOeDI0SmNIMEZ4bUplSDdYc21lcFYy?=
+ =?utf-8?B?OW1tWXhaRE9lL3IwZmRmMVNxWTJhRUI0cEZ1d3dHMUNEZlRwSmg4bSs4NWpw?=
+ =?utf-8?B?eTg3NVVWYTZELzZKeDZLY3dQTUpQWnJVQjRsUENwV3A5TWlKTUtHbDdCdTA2?=
+ =?utf-8?B?bk5XcnhRemQzdU8xSHVycWYyQWZWdGtTQ2ViTGRwMVc3TDdjekdOaUk4Umhh?=
+ =?utf-8?B?K3B5UU5zMnBZeDRGazNSTVlWLzBRWnl0djVJcWhNcGQvYWNhRzBzOHlGSFNa?=
+ =?utf-8?B?VXRpN29RWDdFYzBBZjQ1M2hMUllTTWREUkN5dWgrL2pEKzcrOWJKeXFvb2Ji?=
+ =?utf-8?B?SW8yRXlobVN6ZEk5WnJVR2RpdkhMZ1VRSlozREhSQnVFam1Idk9iT2phUmhl?=
+ =?utf-8?B?ckVXRXREZXR0clBDNC9qNTlWRHYzMzNLeENHbStVMGpLbGFWdXJuRFo4N0h3?=
+ =?utf-8?B?T3dib3hZdXRMa09IY3VENjUvL2FBRkpwcDdZMmxDVWdFa1NJSVlmazF4Nm9i?=
+ =?utf-8?B?dEJuZ1MvY01raHhxczVTNHBlRHBzeE1qcmlmbE96TE1EdGprZ2RZeWNUbG91?=
+ =?utf-8?B?NFlrODRjdTI3TWRDUm9QZldZcHpRRjRtQlhKdVl4MGdZdlpaQkNBaUNnTEho?=
+ =?utf-8?B?a0NwSjdjbkF0QWVpcm5GbFJVWE8vckpOWkNXdmhGbHIwc3dSNnNlNEE0bENP?=
+ =?utf-8?B?T1UrdEhWK01xYVc2LzY5VytsVmlMbG9DdDRaemt2cTMvK2t5Q3V1Z1RPZlJy?=
+ =?utf-8?B?WnFoNW5JQ2c0RUdvU0RGSDJFQkszbm1ra2ZTdjhNbCtqVzVoaVRTdU9KK2py?=
+ =?utf-8?B?M1JZZDBVUzIrdlMybEU1OGk2b1dVaWlQOG1kQi9PQ1ROdHpWVnFWZz09?=
 X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f7c0ed4-abde-4e2d-91fc-08de783fd7d3
+X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9426.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6fda990-281f-4018-267a-08de783e7328
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2026 09:31:14.7456
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 09:41:13.4938
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 04ri3rALIGnm4+yd8mwfcZokMYcr5CEnFVPAAQHiAPRzXYNc40ji1dWFqJONqS/rcFKDNOmL6PccOmBkuFqL6A2VKnRlsRZPKusfrdfdlYU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11685
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ktqon5b6YKFCyDuNNz1zsxpU9UPw18hTmBGGD/ePlhlOwvjCEtuq9+/X6afbIIhdld0zqkMqokrqWpUkpd6GhQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10392
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54070-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,nxp.com];
-	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ruxandra.radulescu@nxp.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54071-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[nxp.com,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org];
+	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	REDIRECTOR_URL(0.00)[aka.ms];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nxp.com:email,nxp.com:dkim,aka.ms:url,cmd.id:url]
-X-Rspamd-Queue-Id: 0C2781D5947
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nxp.com:mid,nxp.com:dkim,nxp.com:email]
+X-Rspamd-Queue-Id: DC3811D5B1D
 X-Rspamd-Action: no action
 
-On Thursday, February 26, 2026 at 5:00 PM, Christian K=F6nig wrote:
-> On 2/26/26 14:40, Ioana Ciocoi-Radulescu wrote:
-> > [Sie erhalten nicht h=E4ufig E-Mails von ruxandra.radulescu@nxp.com.
-> > Weitere Informationen, warum dies wichtig ist, finden Sie unter
-> > https://aka.ms/LearnAboutSenderIdentification ]
-> >
-> > Neutron can execute a single job at a time. For now, only inference
-> > jobs are supported. Each job has exactly one BO associated with it.
-> >
-> > When submitting a job, user also provides a syncobj handle on which it
-> > will wait for job completion.
-> >
-> > We use the DRM GPU scheduler for job management. Large part of the job
-> > submission code is based on the example of the ethosu driver.
-> >
-> > Signed-off-by: Jiwei Fu <jiwei.fu@nxp.com>
-> > Signed-off-by: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
-> > ---
-> >  drivers/accel/neutron/Makefile         |   1 +
-> >  drivers/accel/neutron/neutron_device.c |   8 +-
-> >  drivers/accel/neutron/neutron_device.h |  21 ++
-> > drivers/accel/neutron/neutron_driver.c |  28 ++-
-> >  drivers/accel/neutron/neutron_driver.h |   3 +
-> >  drivers/accel/neutron/neutron_job.c    | 367
-> +++++++++++++++++++++++++++++++++
-> >  drivers/accel/neutron/neutron_job.h    |  45 ++++
-> >  include/uapi/drm/neutron_accel.h       |  51 +++++
-> >  8 files changed, 519 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/accel/neutron/Makefile
-> > b/drivers/accel/neutron/Makefile index 192ed896a9f9..ac6dd576521c
-> > 100644
-> > --- a/drivers/accel/neutron/Makefile
-> > +++ b/drivers/accel/neutron/Makefile
-> > @@ -6,4 +6,5 @@ neutron-y :=3D \
-> >         neutron_driver.o \
-> >         neutron_device.o \
-> >         neutron_gem.o \
-> > +       neutron_job.o \
-> >         neutron_mailbox.o
-> > diff --git a/drivers/accel/neutron/neutron_device.c
-> > b/drivers/accel/neutron/neutron_device.c
-> > index e5c09105be99..571ec906ad72 100644
-> > --- a/drivers/accel/neutron/neutron_device.c
-> > +++ b/drivers/accel/neutron/neutron_device.c
-> > @@ -7,6 +7,7 @@
-> >  #include <linux/iopoll.h>
-> >
-> >  #include "neutron_device.h"
-> > +#include "neutron_job.h"
-> >  #include "neutron_mailbox.h"
-> >
-> >  void neutron_enable_irq(struct neutron_device *ndev) @@ -32,9 +33,14
-> > @@ void neutron_handle_irq(struct neutron_device *ndev)
-> >         /* Write 1 to clear */
-> >         writel_relaxed(appstatus & APPSTATUS_CLEAR_MASK,
-> > NEUTRON_REG(ndev, APPSTATUS));
-> >
-> > -       if (appstatus & APPSTATUS_FAULTCAUSE_MASK)
-> > +       if (appstatus & APPSTATUS_FAULTCAUSE_MASK) {
-> >                 dev_err(ndev->dev, "Neutron halted due to fault: 0x%lx\=
-n",
-> >                         FIELD_GET(APPSTATUS_FAULTCAUSE_MASK,
-> > appstatus));
-> > +               return neutron_job_err_handler(ndev);
-> > +       }
-> > +
-> > +       if (appstatus & APPSTATUS_INFDONE)
-> > +               neutron_job_done_handler(ndev);
-> >  }
-> >
-> >  #define neutron_boot_done(appctrl) \
-> > diff --git a/drivers/accel/neutron/neutron_device.h
-> > b/drivers/accel/neutron/neutron_device.h
-> > index 8e4df7462d82..0ed72965774d 100644
-> > --- a/drivers/accel/neutron/neutron_device.h
-> > +++ b/drivers/accel/neutron/neutron_device.h
-> > @@ -9,8 +9,10 @@
-> >  #include <linux/spinlock.h>
-> >  #include <linux/bits.h>
-> >  #include <drm/drm_device.h>
-> > +#include <drm/gpu_scheduler.h>
-> >
-> >  struct clk_bulk_data;
-> > +struct neutron_job;
-> >
-> >  #define NEUTRON_FIRMWARE_NAME          "NeutronFirmware.elf"
-> >
-> > @@ -92,6 +94,13 @@ enum neutron_mem_id {
-> >   * @clks: Neutron clocks
-> >   * @num_clks: Number of clocks
-> >   * @flags: Software flags used by driver
-> > + * @fence_lock: DMA fence lock
-> > + * @sched: GPU scheduler
-> > + * @sched_lock: Scheduler lock, for neutron_push_job
-> > + * @fence_context: Fence context
-> > + * @job_seqno: Job sequence number
-> > + * @job_lock: Job lock, for active_job handling
-> > + * @active_job: Currently active job
-> >   */
-> >  struct neutron_device {
-> >         struct drm_device base;
-> > @@ -103,6 +112,18 @@ struct neutron_device {
-> >         struct clk_bulk_data *clks;
-> >         int num_clks;
-> >         u32 flags;
-> > +
-> > +       /* For dma_fence */
-> > +       spinlock_t fence_lock;
->=20
-> I've just pushed a patch set to drm-misc-next which makes the fence_lock
-> superflous in most cases. Just provide NULL as lock when calling to
-> dma_fence_init().
+Hi Laurent, Jacopo
 
-Thanks, I'll update for v2.
+On 2/10/26 12:00 AM, Laurent Pinchart wrote:
+> 
+> 
+> On Wed, Feb 04, 2026 at 02:14:50PM +0100, Jacopo Mondi wrote:
+>> On Wed, Feb 04, 2026 at 12:07:41PM +0100, Antoine Bouyer wrote:
+>>> On 2/3/26 5:15 PM, Jacopo Mondi wrote:
+>>>> On Fri, Jan 23, 2026 at 09:09:28AM +0100, Antoine Bouyer wrote:
+>>>>> Extend the v4l2-isp extensible format introduced for isp parameters buffer
+>>>>> to the statistics buffer as well.
+>>>>>
+>>>>> Like for ISP configuration purpose, that will help supporting various ISP
+>>>>> hardware versions reporting different statistics data with less impact on
+>>>>> userspace.
+>>>>>
+>>>>> The `v4l2_isp_stats_buffer` reuses the `v4l2_isp_params_buffer` container
+>>>>> definitions, with similar header, versions and flags. V0 and V1 versions
+>>>>
+>>>> Why do you need two flags ?
+>>>>
+>>>> Params had to introduce two because we had two drivers already
+>>>> mainlined using the pre-v4l2-isp version of extensible params which
+>>>> had defined their version identifier as 1 and 0 and we didn't want to
+>>>> break existing userspace using those identifiers. So we had to accept
+>>>> both V0 and V1 as "first version of the v4l2-isp extensible parameters
+>>>> format".
+>>>>
+>>>> For stats we don't have users, so I guess we can start with V1 == 0 ?
+>>>
+>>> I wanted to keep it aligned with params, so that any driver/userspace can
+>>> use the same API version value for both params and stats buffers, and limit
+>>> headache.
 
->=20
-> > +       struct drm_gpu_scheduler sched;
-> > +       /* For neutron_push_job */
-> > +       struct mutex sched_lock;
-> > +       u64 fence_context;
-> > +       u64 job_seqno;
-> > +
-> > +       /* For active_job handling */
-> > +       struct mutex job_lock;
-> > +       struct neutron_job *active_job;
-> >  };
-> >
-> >  #define to_neutron_device(drm) \
-> > diff --git a/drivers/accel/neutron/neutron_driver.c
-> > b/drivers/accel/neutron/neutron_driver.c
-> > index c9a18bf52037..ceae1f7e8359 100644
-> > --- a/drivers/accel/neutron/neutron_driver.c
-> > +++ b/drivers/accel/neutron/neutron_driver.c
-> > @@ -19,40 +19,53 @@
-> >  #include "neutron_device.h"
-> >  #include "neutron_driver.h"
-> >  #include "neutron_gem.h"
-> > +#include "neutron_job.h"
-> >
-> >  #define NEUTRON_SUSPEND_DELAY_MS 1000
-> >
-> >  static const struct drm_ioctl_desc neutron_drm_ioctls[] =3D {
-> >         DRM_IOCTL_DEF_DRV(NEUTRON_CREATE_BO,
-> neutron_ioctl_create_bo, 0),
-> >         DRM_IOCTL_DEF_DRV(NEUTRON_SYNC_BO, neutron_ioctl_sync_bo, 0),
-> > +       DRM_IOCTL_DEF_DRV(NEUTRON_SUBMIT_JOB,
-> > + neutron_ioctl_submit_job, 0),
-> >  };
-> >
-> >  static int neutron_open(struct drm_device *drm, struct drm_file
-> > *file)  {
-> >         struct neutron_device *ndev =3D to_neutron_device(drm);
-> >         struct neutron_file_priv *npriv;
-> > +       int ret;
-> >
-> >         npriv =3D kzalloc_obj(*npriv);
-> >         if (!npriv)
-> >                 return -ENOMEM;
-> >
-> >         npriv->ndev =3D ndev;
-> > -       file->driver_priv =3D npriv;
-> >
-> > +       ret =3D neutron_job_open(npriv);
-> > +       if (ret)
-> > +               goto err_free;
-> > +
-> > +       file->driver_priv =3D npriv;
-> >         return 0;
-> > +
-> > +err_free:
-> > +       kfree(npriv);
-> > +       return ret;
-> >  }
-> >
-> >  static void neutron_postclose(struct drm_device *drm, struct drm_file
-> > *file)  {
-> >         struct neutron_file_priv *npriv =3D file->driver_priv;
-> >
-> > +       neutron_job_close(npriv);
-> >         kfree(npriv);
-> >  }
-> >
-> >  DEFINE_DRM_ACCEL_FOPS(neutron_drm_driver_fops);
-> >
-> >  static const struct drm_driver neutron_drm_driver =3D {
-> > -       .driver_features        =3D DRIVER_COMPUTE_ACCEL | DRIVER_GEM,
-> > +       .driver_features        =3D DRIVER_COMPUTE_ACCEL | DRIVER_GEM |
-> > +                                 DRIVER_SYNCOBJ,
-> >         .name                   =3D "neutron",
-> >         .desc                   =3D "NXP Neutron driver",
-> >         .major                  =3D 1,
-> > @@ -151,19 +164,25 @@ static int neutron_probe(struct platform_device
-> *pdev)
-> >                 return ret;
-> >         }
-> >
-> > -       ret =3D devm_pm_runtime_enable(dev);
-> > +       ret =3D neutron_job_init(ndev);
-> >         if (ret)
-> >                 goto free_reserved;
-> >
-> > +       ret =3D devm_pm_runtime_enable(dev);
-> > +       if (ret)
-> > +               goto free_job;
-> > +
-> >         pm_runtime_set_autosuspend_delay(dev,
-> NEUTRON_SUSPEND_DELAY_MS);
-> >         pm_runtime_use_autosuspend(dev);
-> >
-> >         ret =3D drm_dev_register(&ndev->base, 0);
-> >         if (ret)
-> > -               goto free_reserved;
-> > +               goto free_job;
-> >
-> >         return 0;
-> >
-> > +free_job:
-> > +       neutron_job_fini(ndev);
-> >  free_reserved:
-> >         of_reserved_mem_device_release(&pdev->dev);
-> >
-> > @@ -175,6 +194,7 @@ static void neutron_remove(struct platform_device
-> *pdev)
-> >         struct neutron_device *ndev =3D platform_get_drvdata(pdev);
-> >
-> >         drm_dev_unregister(&ndev->base);
-> > +       neutron_job_fini(ndev);
-> >         of_reserved_mem_device_release(&pdev->dev);
-> >  }
-> >
-> > diff --git a/drivers/accel/neutron/neutron_driver.h
-> > b/drivers/accel/neutron/neutron_driver.h
-> > index cd52b5eb2d27..b709de74105a 100644
-> > --- a/drivers/accel/neutron/neutron_driver.h
-> > +++ b/drivers/accel/neutron/neutron_driver.h
-> > @@ -4,10 +4,13 @@
-> >  #ifndef __NEUTRON_DRIVER_H__
-> >  #define __NEUTRON_DRIVER_H__
-> >
-> > +#include <drm/gpu_scheduler.h>
-> > +
-> >  struct neutron_device;
-> >
-> >  struct neutron_file_priv {
-> >         struct neutron_device *ndev;
-> > +       struct drm_sched_entity sched_entity;
-> >  };
-> >
-> >  #endif /* __NEUTRON_DRIVER_H__ */
-> > diff --git a/drivers/accel/neutron/neutron_job.c
-> > b/drivers/accel/neutron/neutron_job.c
-> > new file mode 100644
-> > index 000000000000..316e361166a2
-> > --- /dev/null
-> > +++ b/drivers/accel/neutron/neutron_job.c
-> > @@ -0,0 +1,367 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/* Copyright 2025-2026 NXP */
-> > +
-> > +#include <linux/delay.h>
-> > +#include <linux/pm_runtime.h>
-> > +#include <drm/drm_file.h>
-> > +#include <drm/drm_print.h>
-> > +#include <drm/drm_gem_dma_helper.h>
-> > +#include <drm/neutron_accel.h>
-> > +
-> > +#include "neutron_driver.h"
-> > +#include "neutron_device.h"
-> > +#include "neutron_gem.h"
-> > +#include "neutron_mailbox.h"
-> > +#include "neutron_job.h"
-> > +
-> > +#define NEUTRON_JOB_TIMEOUT_MS 5000
-> > +
-> > +static const char *neutron_fence_get_driver_name(struct dma_fence
-> > +*fence) {
-> > +       return "neutron";
-> > +}
-> > +
-> > +static const char *neutron_fence_get_timeline_name(struct dma_fence
-> > +*fence) {
-> > +       return "neutron-npu";
-> > +}
-> > +
-> > +static const struct dma_fence_ops neutron_fence_ops =3D {
-> > +       .get_driver_name =3D neutron_fence_get_driver_name,
-> > +       .get_timeline_name =3D neutron_fence_get_timeline_name, };
-> > +
-> > +static void neutron_hw_submit(struct neutron_job *job) {
-> > +       struct neutron_device *ndev =3D job->ndev;
-> > +       struct neutron_mbox_cmd cmd =3D {0};
-> > +       u32 base_l, base_h;
-> > +       u64 base_addr;
-> > +       int ret;
-> > +
-> > +       switch (job->type) {
-> > +       case DRM_NEUTRON_JOB_INFERENCE:
-> > +               cmd.id =3D NEUTRON_CMD_INFERENCE;
-> > +               cmd.args[0] =3D job->inference.tensor_offset;
-> > +               cmd.args[1] =3D job->inference.microcode_offset;
-> > +               cmd.args[2] =3D job->inference.tensor_count;
-> > +               break;
-> > +       default:
-> > +               dev_WARN(ndev->dev, "Unknown job type: %d\n", job->type=
-);
-> > +               return;
-> > +       }
-> > +
-> > +       base_addr =3D to_drm_gem_dma_obj(job->bo)->dma_addr;
-> > +       base_l =3D lower_32_bits(base_addr);
-> > +       base_h =3D upper_32_bits(base_addr);
-> > +
-> > +       writel_relaxed(base_l, NEUTRON_REG(ndev, BASEDDRL));
-> > +       writel_relaxed(base_l, NEUTRON_REG(ndev, BASEINOUTL));
-> > +       writel_relaxed(base_l, NEUTRON_REG(ndev, BASESPILLL));
-> > +       writel_relaxed(base_h, NEUTRON_REG(ndev, BASEDDRH));
-> > +       writel_relaxed(base_h, NEUTRON_REG(ndev, BASEINOUTH));
-> > +       writel_relaxed(base_h, NEUTRON_REG(ndev, BASESPILLH));
-> > +
-> > +       ret =3D neutron_mbox_send_cmd(ndev, &cmd);
-> > +       if (ret) {
-> > +               /* Nothing we can do here, we'll reset the device on ti=
-meout */
-> > +               dev_err(ndev->dev, "Failed to submit job, device is bus=
-y\n");
-> > +       }
-> > +}
-> > +
-> > +void neutron_job_err_handler(struct neutron_device *ndev) {
-> > +       guard(mutex)(&ndev->job_lock);
-> > +
-> > +       if (ndev->active_job)
-> > +               drm_sched_fault(&ndev->sched); }
-> > +
-> > +void neutron_job_done_handler(struct neutron_device *ndev) {
-> > +       struct neutron_mbox_state state;
-> > +
-> > +       neutron_mbox_read_state(ndev, &state);
-> > +       if (state.status !=3D NEUTRON_FW_STATUS_DONE) {
-> > +               dev_err(ndev->dev, "Inconsistent firmware state: status=
- 0x%x, err
-> 0x%x\n",
-> > +                       state.status, state.err_code);
-> > +               return neutron_job_err_handler(ndev);
-> > +       }
-> > +
-> > +       if (state.err_code !=3D 0)
-> > +               dev_warn(ndev->dev, "Job finished with error: 0x%x\n",
-> > +                        state.err_code);
->=20
-> Not mandatory but you might also want to forward that as error to your
-> dma_fence, see dma_fence_set_error().
+Seems this topic is not yet clarified. Should I use same version values 
+for both params and stats as in current patch ? Or use different values 
+V1 == 0 as suggested ?
 
-Ok, will do that.
+ From userspace perspective, I feel it would be easier to align params 
+and stats versions, so we don't need to maintain different versions for 
+same purpose; and if a new version V2 comes and is applied to both 
+params and stats buffers, then we can use same value too. What do you 
+think ?
 
->=20
-> > +
-> > +       /* Reset Neutron internal state to prepare for next inference *=
-/
-> > +       neutron_mbox_reset_state(ndev);
-> > +
-> > +       scoped_guard(mutex, &ndev->job_lock) {
-> > +               if (ndev->active_job) {
-> > +                       dma_fence_signal(ndev->active_job->neutron_fenc=
-e);
-> > +                       ndev->active_job =3D NULL;
-> > +               }
-> > +       }
-> > +}
-> > +
-> > +static void neutron_cleanup_job(struct kref *ref) {
-> > +       struct neutron_job *job =3D container_of(ref, struct
-> > +neutron_job, refcnt);
-> > +
-> > +       pm_runtime_put_autosuspend(job->ndev->base.dev);
-> > +
-> > +       dma_fence_put(job->neutron_fence);
-> > +       dma_fence_put(job->sched_fence);
-> > +       drm_gem_object_put(job->bo);
-> > +       drm_syncobj_put(job->syncobj);
-> > +
-> > +       kfree(job);
-> > +}
-> > +
-> > +static void neutron_put_job(struct neutron_job *job) {
-> > +       kref_put(&job->refcnt, neutron_cleanup_job); }
-> > +
-> > +static void neutron_free_job(struct drm_sched_job *sched_job) {
-> > +       struct neutron_job *job =3D to_neutron_job(sched_job);
-> > +
-> > +       drm_sched_job_cleanup(sched_job);
-> > +       neutron_put_job(job);
-> > +}
-> > +
-> > +static struct dma_fence *neutron_run_job(struct drm_sched_job
-> > +*sched_job) {
-> > +       struct neutron_job *job =3D to_neutron_job(sched_job);
-> > +       struct dma_fence *fence =3D job->neutron_fence;
-> > +       struct neutron_device *ndev =3D job->ndev;
-> > +
-> > +       if (unlikely(job->base.s_fence->finished.error))
-> > +               return NULL;
-> > +
-> > +       dma_fence_init(fence, &neutron_fence_ops, &ndev->fence_lock,
-> > +                      ndev->fence_context, ++ndev->job_seqno);
-> > +       dma_fence_get(fence);
-> > +
-> > +       scoped_guard(mutex, &ndev->job_lock) {
-> > +               ndev->active_job =3D job;
-> > +               neutron_hw_submit(job);
-> > +       }
-> > +
-> > +       return fence;
-> > +}
-> > +
-> > +static enum drm_gpu_sched_stat neutron_timedout_job(struct
-> > +drm_sched_job *sched_job) {
-> > +       struct neutron_job *job =3D to_neutron_job(sched_job);
-> > +       struct neutron_device *ndev =3D job->ndev;
-> > +       struct neutron_mbox_state state;
-> > +
-> > +       /* We assume Neutron is stuck, retrieve current state and reset=
- */
-> > +       neutron_mbox_read_state(ndev, &state);
-> > +       dev_err(ndev->dev, "Neutron timedout, status: 0x%x, err: 0x%x\n=
-",
-> > +               state.status, state.err_code);
-> > +
-> > +       drm_sched_stop(&ndev->sched, sched_job);
-> > +
-> > +       scoped_guard(mutex, &ndev->job_lock)
-> > +               ndev->active_job =3D NULL;
-> > +
-> > +       pm_runtime_force_suspend(ndev->dev);
-> > +       pm_runtime_force_resume(ndev->dev);
-> > +
-> > +       drm_sched_start(&ndev->sched, 0);
-> > +
-> > +       return DRM_GPU_SCHED_STAT_RESET; }
-> > +
-> > +static void neutron_cancel_job(struct drm_sched_job *sched_job) {
-> > +       struct neutron_job *job =3D to_neutron_job(sched_job);
-> > +       struct neutron_device *ndev =3D job->ndev;
-> > +
-> > +       guard(mutex)(&ndev->job_lock);
-> > +
-> > +       if (!dma_fence_is_signaled(job->neutron_fence)) {
-> > +               dma_fence_set_error(job->neutron_fence, -ECANCELED);
-> > +               dma_fence_signal(job->neutron_fence);
-> > +       }
-> > +}
-> > +
-> > +static const struct drm_sched_backend_ops neutron_sched_ops =3D {
-> > +       .run_job =3D neutron_run_job,
-> > +       .free_job =3D neutron_free_job,
-> > +       .timedout_job =3D neutron_timedout_job,
-> > +       .cancel_job =3D neutron_cancel_job, };
-> > +
-> > +int neutron_job_init(struct neutron_device *ndev) {
-> > +       const struct drm_sched_init_args args =3D {
-> > +               .ops =3D &neutron_sched_ops,
-> > +               .num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
-> > +               .credit_limit =3D 1,
-> > +               .timeout =3D msecs_to_jiffies(NEUTRON_JOB_TIMEOUT_MS),
-> > +               .name =3D dev_name(ndev->dev),
-> > +               .dev =3D ndev->dev,
-> > +       };
-> > +       int ret;
-> > +
-> > +       ret =3D devm_mutex_init(ndev->dev, &ndev->sched_lock);
-> > +       if (ret)
-> > +               return ret;
-> > +       ret =3D devm_mutex_init(ndev->dev, &ndev->job_lock);
-> > +       if (ret)
-> > +               return ret;
-> > +       spin_lock_init(&ndev->fence_lock);
-> > +
-> > +       ndev->fence_context =3D dma_fence_context_alloc(1);
-> > +
-> > +       ret =3D drm_sched_init(&ndev->sched, &args);
-> > +       if (ret)
-> > +               dev_err(ndev->dev, "Error creating DRM scheduler\n");
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +void neutron_job_fini(struct neutron_device *ndev) {
-> > +       drm_sched_fini(&ndev->sched);
-> > +}
-> > +
-> > +int neutron_job_open(struct neutron_file_priv *npriv) {
-> > +       struct neutron_device *ndev =3D npriv->ndev;
-> > +       struct drm_gpu_scheduler *sched =3D &ndev->sched;
-> > +       int ret;
-> > +
-> > +       ret =3D drm_sched_entity_init(&npriv->sched_entity,
-> > +                                   DRM_SCHED_PRIORITY_NORMAL,
-> > +                                   &sched, 1, NULL);
-> > +       if (ret)
-> > +               dev_err(ndev->dev, "Error creating scheduler
-> > + entity\n");
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +void neutron_job_close(struct neutron_file_priv *npriv) {
-> > +       drm_sched_entity_destroy(&npriv->sched_entity);
-> > +}
-> > +
-> > +static int neutron_push_job(struct neutron_job *job) {
-> > +       struct neutron_device *ndev =3D job->ndev;
-> > +       struct ww_acquire_ctx acquire_ctx;
-> > +       int ret;
-> > +
-> > +       ret =3D drm_gem_lock_reservations(&job->bo, 1, &acquire_ctx);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       ret =3D dma_resv_reserve_fences(job->bo->resv, 1);
-> > +       if (ret)
-> > +               goto out_unlock_res;
-> > +
-> > +       ret =3D drm_sched_job_add_implicit_dependencies(&job->base, job=
-->bo,
-> true);
-> > +       if (ret)
-> > +               goto out_unlock_res;
-> > +
-> > +       ret =3D pm_runtime_resume_and_get(ndev->base.dev);
-> > +       if (ret)
-> > +               goto out_unlock_res;
-> > +
-> > +       scoped_guard(mutex, &ndev->sched_lock) {
-> > +               drm_sched_job_arm(&job->base);
-> > +
-> > +               job->sched_fence =3D dma_fence_get(&job->base.s_fence->=
-finished);
-> > +               drm_syncobj_replace_fence(job->syncobj,
-> > + job->sched_fence);
-> > +
-> > +               kref_get(&job->refcnt);
-> > +               drm_sched_entity_push_job(&job->base);
-> > +
-> > +               dma_resv_add_fence(job->bo->resv, job->sched_fence,
-> > +                                  DMA_RESV_USAGE_WRITE);
-> > +       }
-> > +
-> > +out_unlock_res:
-> > +       drm_gem_unlock_reservations(&job->bo, 1, &acquire_ctx);
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +int neutron_ioctl_submit_job(struct drm_device *drm, void *data,
-> > +struct drm_file *filp) {
-> > +       struct neutron_device *ndev =3D to_neutron_device(drm);
-> > +       struct neutron_file_priv *npriv =3D filp->driver_priv;
-> > +       struct drm_neutron_submit_job *args =3D data;
-> > +       struct neutron_job *job;
-> > +       int ret;
-> > +
-> > +       if (args->pad)
-> > +               return -EINVAL;
-> > +
-> > +       job =3D kzalloc_obj(*job);
-> > +       if (!job)
-> > +               return -ENOMEM;
-> > +
-> > +       job->ndev =3D ndev;
-> > +       kref_init(&job->refcnt);
-> > +
-> > +       job->neutron_fence =3D kzalloc_obj(*job->neutron_fence);
-> > +       if (!job->neutron_fence) {
-> > +               ret =3D -ENOMEM;
-> > +               goto out_free_job;
-> > +       }
-> > +
-> > +       switch (args->type) {
-> > +       case DRM_NEUTRON_JOB_INFERENCE:
-> > +               memcpy(&job->inference, &args->inference,
-> > +                      sizeof(args->inference));
-> > +               break;
-> > +       default:
-> > +               dev_dbg(ndev->dev, "Invalid job type %d\n", args->type)=
-;
-> > +               ret =3D -EINVAL;
-> > +               goto out_free_fence;
-> > +       }
-> > +
-> > +       job->bo =3D drm_gem_object_lookup(filp, args->bo_handle);
-> > +       if (!job->bo) {
-> > +               dev_dbg(ndev->dev, "Invalid BO handle\n");
-> > +               ret =3D -ENOENT;
-> > +               goto out_free_fence;
-> > +       }
-> > +
-> > +       job->syncobj =3D drm_syncobj_find(filp, args->syncobj_handle);
-> > +       if (!job->syncobj) {
-> > +               dev_dbg(ndev->dev, "Invalid syncobj handle\n");
-> > +               ret =3D -ENOENT;
-> > +               goto out_put_gem;
-> > +       }
-> > +
-> > +       ret =3D drm_sched_job_init(&job->base, &npriv->sched_entity, 1,=
- NULL,
-> > +                                filp->client_id);
-> > +       if (ret)
-> > +               goto out_put_syncobj;
-> > +
-> > +       ret =3D neutron_push_job(job);
-> > +       if (ret)
-> > +               goto out_sched_cleanup;
-> > +
-> > +       neutron_put_job(job);
-> > +
-> > +       return 0;
-> > +
-> > +out_sched_cleanup:
-> > +       drm_sched_job_cleanup(&job->base);
-> > +out_put_syncobj:
-> > +       drm_syncobj_put(job->syncobj);
-> > +out_put_gem:
-> > +       drm_gem_object_put(job->bo);
-> > +out_free_fence:
-> > +       kfree(job->neutron_fence);
-> > +out_free_job:
-> > +       kfree(job);
-> > +
-> > +       return ret;
-> > +}
-> > diff --git a/drivers/accel/neutron/neutron_job.h
-> > b/drivers/accel/neutron/neutron_job.h
-> > new file mode 100644
-> > index 000000000000..bb7773aeb218
-> > --- /dev/null
-> > +++ b/drivers/accel/neutron/neutron_job.h
-> > @@ -0,0 +1,45 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/* Copyright 2025-2026 NXP */
-> > +
-> > +#ifndef __NEUTRON_JOB_H__
-> > +#define __NEUTRON_JOB_H__
-> > +
-> > +#include <linux/kref.h>
-> > +#include <drm/drm_gem.h>
-> > +#include <drm/drm_syncobj.h>
-> > +#include <drm/gpu_scheduler.h>
-> > +#include <drm/neutron_accel.h>
-> > +
-> > +#include "neutron_driver.h"
-> > +
-> > +struct neutron_device;
-> > +struct neutron_file_priv;
-> > +
-> > +struct neutron_job {
-> > +       struct drm_sched_job base;
-> > +       struct neutron_device *ndev;
-> > +       struct dma_fence *neutron_fence;
->=20
-> > +       struct dma_fence *sched_fence;
->=20
-> That looks superflous to me. You should always have the scheduler fence
-> through the base.
+>>>
+>>>>> are provided to match with params versions. On the other side, ENABLE and
+>>>>> DISABLE flags are not really meaningfull for statistics purpose. So VALID
+>>>>> and INVALID flags are introduced. Purpose is to force ISP driver to
+>>>>> validate a statistics buffer, before it is consumed by userspace.
+>>>>
+>>>> Interesting. What do you mean with "validate a statistics buffer" ?
+>>>> And if a driver has to do validation, why would it send upstream a
+>>>> non-validated buffer ?
+>>>
+>>> Like for version, I wanted to keep same header structure, including flags.
+>>> Since ENABLE/DISABLE is not relevant for statistics, I thought about using a
+>>> "validation" flag, to force driver confirming statistics blocks are valid or
+>>> not.
+>>
+>> See the question on the documentation patches.
+>>
+>>> If you feel it is useless, I'm fine with removing it. Should I keep a flag
+>>> field anyway to stay aligned with params then ?
+>>
+>> RkISP1 has support for both "legacy" and "extensible" formats because
+>> it has been mainline for a long time with the legacy format only. We
+>> couldn't simply replace the existing format with the new one because
+>> we would break existing users.
+>>
+>> All the other drivers that have been upstreamed with extensible only
+>> (Amlogic C3 and Mali C55) do not expose a legacy format as there was
+>> not prior version in mainline on which userspace might depend on.
+>>
+>> Unless you have very convincing reason, I would certainly drop the
+>> legacy format and only use extensible.
+> 
+> I agree with that, for upstream we shouldn't carry legacy formats in new
+> drivers. I've read elsewhere in this thread that it won't cause issues,
+> otherwise I would have recommended carrying an extra patch in the BSP
+> kernel to implement legacy formats, and only use extensible formats
+> upstream.
 
-Ok.
+ok. I'm fine with removing legacy format from neo driver, and keep it 
+only in downstream for some time.
 
->=20
-> > +       struct drm_syncobj *syncobj;
->=20
-> Why do you want to keep the syncobj around?
+> 
+>>>>> Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
+>>>>> ---
+>>>>>    include/uapi/linux/media/v4l2-isp.h | 85 +++++++++++++++++++++++++++++
+>>>>>    1 file changed, 85 insertions(+)
+>>>>>
+>>>>> diff --git a/include/uapi/linux/media/v4l2-isp.h b/include/uapi/linux/media/v4l2-isp.h
+>>>>> index 779168f9058e..ed1279b86694 100644
+>>>>> --- a/include/uapi/linux/media/v4l2-isp.h
+>>>>> +++ b/include/uapi/linux/media/v4l2-isp.h
+>>>>> @@ -99,4 +99,89 @@ struct v4l2_isp_params_buffer {
+>>>>>         __u8 data[] __counted_by(data_size);
+>>>>>    };
+>>>>>
+>>>>> +/**
+>>>>> + * enum v4l2_isp_stats_version - V4L2 ISP statistics versioning
+>>>>> + *
+>>>>> + * @V4L2_ISP_STATS_VERSION_V0: First version of the V4L2 ISP statistics format
+>>>>> + *                          (for compatibility)
+>>>>> + * @V4L2_ISP_STATS_VERSION_V1: First version of the V4L2 ISP statistics format
+>>>>> + *
+>>>>> + * V0 and V1 are identical, and comply with V4l2 ISP parameters versions. So
+>>>>> + * both V0 and V1 refers to the first version of the V4L2 ISP statistics
+>>>>> + * format.
+>>>>> + *
+>>>>> + * Future revisions of the V4L2 ISP statistics format should start from the
+>>>>> + * value of 2.
+>>>>> + */
+>>>>> +enum v4l2_isp_stats_version {
+>>>>> +     V4L2_ISP_STATS_VERSION_V0 = 0,
+>>>>> +     V4L2_ISP_STATS_VERSION_V1,
+>>>>
+>>>> As suggested I would make V1 == 0
+>>>>
+>>>>> +};
+>>>>> +
+>>>>> +#define V4L2_ISP_PARAMS_FL_BLOCK_VALID               (1U << 0)
+>>>>> +#define V4L2_ISP_PARAMS_FL_BLOCK_INVALID     (1U << 1)
+>>>>> +
+>>>>> +/*
+>>>>> + * Reserve the first 8 bits for V4L2_ISP_STATS_FL_* flag.
+>>>>> + *
+>>>>> + * Driver-specific flags should be defined as:
+>>>>> + * #define DRIVER_SPECIFIC_FLAG0     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(0))
+>>>>> + * #define DRIVER_SPECIFIC_FLAG1     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(1))
+>>>>> + */
+>>>>> +#define V4L2_ISP_STATS_FL_DRIVER_FLAGS(n)       ((n) + 8)
+>>>>
+>>>> Currently we have no users of V4L2_ISP_PARAMS_FL_DRIVER_FLAGS so we
+>>>> could even consider making it a V4L2_ISP_FL_DRIVER_FLAGS
+>>>>
+>>>> Or do you think it is worth creating a new symbol ?
+>>>
+>>> To limit impact on potential on-going development, and future conflict,
+>>> creating new symbol may be safer IMO. But I'm fine with using a single
+>>> symbol if you prefer. Most probably this flag customization is not used yet
+>>> by any driver.
+>>>
+>>>>> +
+>>>>> +/**
+>>>>> + * struct v4l2_isp_stats_block_header - V4L2 extensible statistics block header
+>>>>> + * @type: The statistics block type (driver-specific)
+>>>>> + * @flags: A bitmask of block flags (driver-specific)
+>>>>> + * @size: Size (in bytes) of the statistics block, including this header
+>>>>> + *
+>>>>> + * This structure represents the common part of all the ISP statistics blocks.
+>>>>> + * Each statistics block shall embed an instance of this structure type as its
+>>>>> + * first member, followed by the block-specific statistics data.
+>>>>> + *
+>>>>> + * The @type field is an ISP driver-specific value that identifies the block
+>>>>> + * type. The @size field specifies the size of the parameters block.
+>>>>> + *
+>>>>> + * The @flags field is a bitmask of per-block flags V4L2_STATS_ISP_FL_* and
+>>>>> + * driver-specific flags specified by the driver header.
+>>>>> + */
+>>>>> +struct v4l2_isp_stats_block_header {
+>>>>> +     __u16 type;
+>>>>> +     __u16 flags;
+>>>>> +     __u32 size;
+>>>>> +} __attribute__((aligned(8)));
+>>>>> +
+>>>>
+>>>> This is currently identical to v4l2_isp_params_block_header.
+>>>>
+>>>> Can we create a single header for both stats and params and provide a
+>>>>
+>>>> #define v4l2_isp_params_block_header v4l2_isp_block_header
+>>>>
+>>>> for maintaining compatibility with existing users ?
+>>>>
+>>>> Or do you expect stats and params to eventually need different headers ?
+>>>
+>>> Current approach is to use same structure definitions as for params. So I'm
+>>> fine with creating a single header as suggested, and provide symbols to keep
+>>> compatibility.
+>>>
+>>>>> +/**
+>>>>> + * struct v4l2_isp_stats_buffer - V4L2 extensible statistics data
+>>>>> + * @version: The statistics buffer version (driver-specific)
+>>>>> + * @data_size: The statistics data effective size, excluding this header
+>>>>> + * @data: The statistics data
+>>>>> + *
+>>>>> + * This structure contains the statistics information of the ISP hardware,
+>>>>> + * serialized for userspace into a data buffer. Each statistics block is
+>>>>> + * represented by a block-specific structure which contains a
+>>>>> + * :c:type:`v4l2_isp_stats_block_header` entry as first member. Driver
+>>>>> + * populates the @data buffer with statistics information of the ISP blocks it
+>>>>> + * intends to share to userspace. As a consequence, the data buffer effective
+>>>>> + * size changes according to the number of ISP blocks that driver intends to
+>>>>> + * provide and is set by the driver in the @data_size field.
+>>>>> + *
+>>>>> + * The statistics buffer is versioned by the @version field to allow modifying
+>>>>> + * and extending its definition. Driver shall populate the @version field to
+>>>>> + * inform the userpsace about the version it intends to use. The userspace will
+>>>>> + * parse and handle the @data buffer according to the data layout specific to
+>>>>> + * the indicated version.
+>>>>> + *
+>>>>> + * For each ISP block that driver wants to report, a block-specific structure
+>>>>> + * is appended to the @data buffer, one after the other without gaps in
+>>>>> + * between. Driver shall populate the @data_size field with the effective
+>>>>> + * size, in bytes, of the @data buffer.
+>>>>> + */
+>>>>> +struct v4l2_isp_stats_buffer {
+>>>>> +     __u32 version;
+>>>>> +     __u32 data_size;
+>>>>> +     __u8 data[] __counted_by(data_size);
+>>>>> +};
+>>>>> +
+>>>>
+>>>> Same question. Should we introduce a struct v4l2_isp_buffer ?
+>>>
+>>> Yes, sounds reasonable.
+> 
+> That seems to make sense. Once we'll have a driver using
+> v4l2_isp_stats_buffer the structure will become ABI. If it then is an
+> exact copy of v4l2_isp_params_buffer, it would make sense to unify them.
+> Let's see what will happen after a few review rounds, if we end up
+> requiring separate fields in the stats buffer header.
 
-No good enough reason, I'll remove it from job structure.
+ok to use same struct for both.
 
->=20
->=20
-> Apart from those notes looks pretty good to me, but I'm a bit disapointed=
- that
-> there isn't any DMA-buf support to review :)
+> 
+> It would also be nice to implement support for extensible stats in a
+> second driver to test the API.
 
-Thanks for reviewing!
-Ioana
+What is your preferred approach then ?
 
->=20
+Should I "split" v4l2_isp rework in different patchset BUT with another 
+driver using it (with userspace changes I guess). Not something I'm 
+really comfortable with since I only focused on i.MX95 isp so far. But 
+if this is the only way, that could be evaluated.
+
+Or should I "keep" v4l2_isp changes together with neoisp introduction ?
+
+Thanks
+
+Best regards
+Antoine
+
+> 
+>>>>>    #endif /* _UAPI_V4L2_ISP_H_ */
+> 
+> --
 > Regards,
-> Christian.
->=20
-> > +       struct drm_gem_object *bo;
-> > +       enum drm_neutron_job_type type;
-> > +       union {
-> > +               struct drm_neutron_inference_job inference;
-> > +       };
-> > +       struct kref refcnt;
-> > +};
-> > +
-> > +#define to_neutron_job(job) \
-> > +       container_of(job, struct neutron_job, base)
-> > +
-> > +int neutron_job_init(struct neutron_device *dev); void
-> > +neutron_job_fini(struct neutron_device *dev); int
-> > +neutron_job_open(struct neutron_file_priv *npriv); void
-> > +neutron_job_close(struct neutron_file_priv *npriv);
-> > +
-> > +void neutron_job_done_handler(struct neutron_device *dev); void
-> > +neutron_job_err_handler(struct neutron_device *dev);
-> > +
-> > +int neutron_ioctl_submit_job(struct drm_device *dev, void *data,
-> > +struct drm_file *filp);
-> > +
-> > +#endif /* __NEUTRON_JOB_H__ */
-> > diff --git a/include/uapi/drm/neutron_accel.h
-> > b/include/uapi/drm/neutron_accel.h
-> > index 2f5639f2e0e8..a9e5682709d2 100644
-> > --- a/include/uapi/drm/neutron_accel.h
-> > +++ b/include/uapi/drm/neutron_accel.h
-> > @@ -15,10 +15,12 @@ extern "C" {
-> >   *
-> >   * @DRM_NEUTRON_CREATE_BO: Create a buffer object
-> >   * @DRM_NEUTRON_SYNC_BO: Sync (parts of) the buffer object memory
-> > + * @DRM_NEUTRON_SUBMIT_JOB: Submit a job to the device
-> >   */
-> >  enum drm_neutron_ioctl {
-> >         DRM_NEUTRON_CREATE_BO =3D 0,
-> >         DRM_NEUTRON_SYNC_BO,
-> > +       DRM_NEUTRON_SUBMIT_JOB,
-> >  };
-> >
-> >  /**
-> > @@ -64,6 +66,51 @@ struct drm_neutron_sync_bo {
-> >         __u64 offset;
-> >  };
-> >
-> > +/**
-> > + * enum drm_neutron_job_type - Type of job to submit to Neutron
-> > +device
-> > + *
-> > + * @DRM_NEUTRON_JOB_INFERENCE: Inference job  */ enum
-> > +drm_neutron_job_type {
-> > +       DRM_NEUTRON_JOB_INFERENCE =3D 0, };
-> > +
-> > +/**
-> > + * struct drm_neutron_inference_job - Inference job descriptor
-> > + *
-> > + * @tensor_offset: Offset of tensor array inside job BO
-> > + * @microcode_offset: Microcode offset inside BO
-> > + * @tensor_count: Number of valid tensors
-> > + * @pad: MBZ
-> > + */
-> > +struct drm_neutron_inference_job {
-> > +       __u32 tensor_offset;
-> > +       __u32 microcode_offset;
-> > +       __u32 tensor_count;
-> > +       __u32 pad[5];
-> > +};
-> > +
-> > +/**
-> > + * struct drm_neutron_submit_job - Submit a job to Neutron device
-> > + *
-> > + * @type: Job type, one of enum drm_neutron_job_type
-> > + * @bo_handle: BO handle for this job
-> > + * @inference: Inference job descriptor (when type is
-> > +DRM_NEUTRON_JOB_INFERENCE)
-> > + * @reserved: Reserved for future job types
-> > + * @syncobj_handle: Handle of syncobj on which user waits for job
-> > +completion
-> > + * @pad: MBZ
-> > + */
-> > +struct drm_neutron_submit_job {
-> > +       __u32 type;
-> > +       __u32 bo_handle;
-> > +       union {
-> > +               struct drm_neutron_inference_job inference;
-> > +               __u32 reserved[8];
-> > +       };
-> > +       __u32 syncobj_handle;
-> > +       __u32 pad;
-> > +};
-> > +
-> >  #define DRM_IOCTL_NEUTRON_CREATE_BO \
-> >         DRM_IOWR(DRM_COMMAND_BASE + DRM_NEUTRON_CREATE_BO, \
-> >                  struct drm_neutron_create_bo) @@ -72,6 +119,10 @@
-> > struct drm_neutron_sync_bo {
-> >         DRM_IOWR(DRM_COMMAND_BASE + DRM_NEUTRON_SYNC_BO, \
-> >                  struct drm_neutron_sync_bo)
-> >
-> > +#define DRM_IOCTL_NEUTRON_SUBMIT_JOB \
-> > +       DRM_IOWR(DRM_COMMAND_BASE + DRM_NEUTRON_SUBMIT_JOB,
-> \
-> > +                struct drm_neutron_submit_job)
-> > +
-> >  #if defined(__cplusplus)
-> >  }
-> >  #endif
-> >
-> > --
-> > 2.34.1
-> >
+> 
+> Laurent Pinchart
 
 
