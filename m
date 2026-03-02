@@ -1,286 +1,170 @@
-Return-Path: <linux-media+bounces-54087-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54088-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mMryJ82FpWkeDAYAu9opvQ
-	(envelope-from <linux-media+bounces-54087-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 13:42:53 +0100
+	id YOwuGzWHpWkeDAYAu9opvQ
+	(envelope-from <linux-media+bounces-54088-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 13:48:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BC21D8E0F
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 13:42:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B491D90E2
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 13:48:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E89EB308E860
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 12:36:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 327F230797DD
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 12:40:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02D0436EAAB;
-	Mon,  2 Mar 2026 12:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FAA1385503;
+	Mon,  2 Mar 2026 12:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ATw7NiUt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1CSX99g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF5136D9E5
-	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 12:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96DD36E48F;
+	Mon,  2 Mar 2026 12:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772454967; cv=none; b=cQBdQLnDCjVzuO86PF3CsF5j1RN2cek1x4xw7Xot75DtgCAbqyjmUmqrN+TRRKfIwy+H5W7MWuk6Gc29cKvcRbY1PWCQfT8neuvQbmBTJ1u4cFwr3+WEY+uCnLHvughBafaTczrMQ9A4gJ0flnsGrnZwy3TBjxXncBtwxcsbYkg=
+	t=1772455227; cv=none; b=IDz2vG116IJDorQT2UkXs4EdaU0GEguknx2lUnhp84nPYetOCyz1VWROF2ITMG6tOUbSQ5P9s8lxSeYhcOxdeC2DVDERb2aHkECvVPnAM+aguJaXkYnSW/wHVuxTQbXHlKw68zFYCP/ryIqzqNABQHqyjR2A+xjK+UUIcaeccXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772454967; c=relaxed/simple;
-	bh=WjN5TzoQv+xWU7Skq9M9Zm1RgZ2z6sPgG98q3ldmFL8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SuEK1DItUruJz5xeE2GAdP/js0Yi5HNU2RGAVq0n5hw2OWBSzHhWSmmZf8p9zLtac7cMG8QHMCFi7PCBaAkfjYAhu14PuLXFROyQMIBG4JsfVHFJz2J/dPGVG2UoneVz1s3h/OtD2rSS/EwLHXVDRUh4h5maAuPLYKu2KMbLVA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ATw7NiUt; arc=none smtp.client-ip=209.85.210.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f194.google.com with SMTP id d2e1a72fcca58-824ac5d28f9so4466346b3a.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 04:36:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772454964; x=1773059764; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJO6abKpVzoD+V+e3XRskwGj2DBwgjX9SQo0wFCYDds=;
-        b=ATw7NiUtkRBTpdLVTYLp1HmvGx18YubaOJvKoINF7H4hlGVREXH30bjYlyphI+jX3k
-         AWr0qH8pZ4rvhLTzcpRDntmV3Zyxfk23O+ldA3eLDEdzOzpE3EjkdqouMOFCWxGEJewf
-         WLVpMlAIzw6NbFpYcyRNm3gxe42dxAFWJCTnk0iDyNpmiN2Peqv8HB53dxFc664yqJmZ
-         ImpBzryyIucMWTypMWeaUWGkfTxLcoZHIQIBJ5V6fkctfg2v7DqXtSXD8SGEsQhLSA+l
-         KQmb26knTG3SIxtF5qsisC2eRDjWj97nCDMJU0KXVSmC1EK5sm7xIWd4jcG46IdaSObV
-         gerg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772454964; x=1773059764;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iJO6abKpVzoD+V+e3XRskwGj2DBwgjX9SQo0wFCYDds=;
-        b=kZAKQr+WAOcGfhMhBDMI6UL1wi3XAbH+JgmneauVx0obtTjBpeIQQg2v1E6xq1Z+b0
-         hal2J+4Hq+IAQVQeVFMPevouWPp1PIguzVy5qsv4jRHTKM/vp3SURizTs/IyLG4lObhi
-         Q5RrQvDeyAF5O+Iy1/gS5QGgASUjmoNEJMQmbbCzrbmWeUuI0RcBLDVqbOMPPHvPLC3A
-         1MDCg/1MuysUl+a7BufLyasp8BCwKb3FT8/YKqAombkmSzusEIiMz3ChXp5aTltjWIse
-         spy7eDMFNRdcLY3FD2ReQPGaaUZwlR1ms8e2A1OUHNwLv7urUtXImOOmrpVH1In2nVIs
-         +ocw==
-X-Forwarded-Encrypted: i=1; AJvYcCXEXdN0KCpjQhZ6SQfbrstVhxIus0TUHVGeT/GFnCw+m4sMJSiRCUX92OnQxoFfoWFNww9lv3sn4yFHAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywioau2wxsk/myYxIEhRXU/cR6wA8nRHNtsZBuISERDsaQus+do
-	t+RvKH3TMrMHuJixvrMONf+h7k2BDdpTUBofLtJcPSNKEO9h1LSFpOBZ
-X-Gm-Gg: ATEYQzxlveF5y3ZfFlmC2zR4kOGXshVWyyNZqHmbCqUmmJphyEWwRUuAuuMwhe6ZI5u
-	7czKk5Vq/qtnyDHrdpFPTJmXTV+0TH481bCqTjqPkjGMvyNp2TL6Vl6lbHFgeHZ1h5l5sgWfhJT
-	ujMc5vo4tl9nLtcG0c14KiMAPE2a5OZyzOBcO3K/r3cxe2PbQkkP8dg66iaKyo+GRKqoLlakQc1
-	z/uWuDv5UKFjzI9MQnWN4U6ONTI1Z3DCvC+uK6UlYeL3kS5k6ktF9K/c6IGzSgxEo5U6ry05m80
-	JJOUDKYnA932S3Y4VaIFyd1PcCJYAsj2h0eYb8Pe0c0+Tgg/yULiNX2ATTuV1lfcPScJFlzFEcu
-	cxDhQVMvv6pUswZRN7zqk1kACHoBsfE9kTUi0ecza4K3NAQYX+ipCX2yQA6cJmHYoKwrNpjx4GK
-	DTCNTgGMnwHEufhzQKutjRYzYw7ZYr8vH2BcJYw9I=
-X-Received: by 2002:a05:6a00:94c1:b0:824:93df:6d86 with SMTP id d2e1a72fcca58-8274d9f5b74mr9260840b3a.50.1772454964264;
-        Mon, 02 Mar 2026 04:36:04 -0800 (PST)
-Received: from deadibone.. ([118.141.233.34])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8273a0571acsm13288323b3a.55.2026.03.02.04.36.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 04:36:03 -0800 (PST)
-From: Ethan Lam <ethanlxkernel@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	hverkuil@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ethan Lam <ethanlxkernel@gmail.com>
-Subject: [PATCH v4] staging: media: atomisp: fix block comment style in atomisp_cmd.c
-Date: Mon,  2 Mar 2026 20:35:47 +0800
-Message-ID: <20260302123548.24663-1-ethanlxkernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1772455227; c=relaxed/simple;
+	bh=rpzFy+7EAE2esAzP0RPdL71DMr4OTHuvCae1aeeRJGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mGaEzuVCt5jSVpwE0eON7ZGS0hagu+rKLq5KPjKUwMT6YQ0qvTpI2t3PxRp5MOKrkpZqIC6+nsQdzjF52OHGviAutrFPK8c8KQI6wP21wgGtFA1tai8/AdXVxH65x6zPf6v9O52shBuXfTV4OyS9Qr6mFJwwT+DIYmNqLa2DxZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S1CSX99g; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772455225; x=1803991225;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rpzFy+7EAE2esAzP0RPdL71DMr4OTHuvCae1aeeRJGU=;
+  b=S1CSX99gtZTuXrsFJc5pOnECB2B9zTEI9jT/vxt/j1kDxm8M/zU0YgkX
+   SkwHLrvQ23TAv/rV2aRcAqDnOSK2u8zJFyN2Xl/jZIn+byX/S+d0ebZUK
+   fTwZYQx3qZRZoZK4s6+/nmjdcPHPjSwQapsSbEtulfy4libsrjCiUylkf
+   Vsum929bGAy+IR952ituqKhTRJLNyxyrvU6t24uLH68bPu7h2bcj+/Wg3
+   q4TFxEgrYFeUTxUsNBTRaCqM70rcxq816WZ/tlvganjQQ0w3BE6g4B4kG
+   ACnylJyx+PPdAPycuGbV1Os5d3jeNS5b2jXVYQEcr6/gy4vaE3No7gNt3
+   Q==;
+X-CSE-ConnectionGUID: modLsulHTCiLnE1Vygup6A==
+X-CSE-MsgGUID: ltaMJFHHRJaI/Jap1lhl6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="84810250"
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="84810250"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 04:40:24 -0800
+X-CSE-ConnectionGUID: iBKvTTLERxGUNdL1umrsdw==
+X-CSE-MsgGUID: hW9uVTOJRbW9QZNkWNrMsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
+   d="scan'208";a="214861458"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.89])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 04:40:22 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 799241212D6;
+	Mon, 02 Mar 2026 14:40:49 +0200 (EET)
+Date: Mon, 2 Mar 2026 14:40:49 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: intel/ipu6: fix error pointer dereference
+Message-ID: <aaWFUapXp4Gz12h7@kekkonen.localdomain>
+References: <20260217003420.47280-1-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260217003420.47280-1-ethantidmore06@gmail.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	TAGGED_FROM(0.00)[bounces-54087-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54088-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ethanlxkernel@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,checkpatch.pl:url]
-X-Rspamd-Queue-Id: 16BC21D8E0F
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.997];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim]
+X-Rspamd-Queue-Id: E0B491D90E2
 X-Rspamd-Action: no action
 
-Fix block comment style warnings reported by checkpatch.pl in atomisp_cmd.c.
+Hi Ethan,
 
-Signed-off-by: Ethan Lam <ethanlxkernel@gmail.com>
----
-Changes in v4:
- - Rephrased commit message to fit the documentation's guidelines.
- - Updated subject line to clarify the patch only applies to atomisp_cmd.c.
+Thanks for the patch.
 
-Changes in v3:
- - Preserved original indentation within comments to avoid breaking
-   lists and code examples.
- - Restored dev_dbg() lines that were accidentally removed in v2.
+On Mon, Feb 16, 2026 at 06:34:20PM -0600, Ethan Tidmore wrote:
+> After confirming that isp->psys is an error pointer goto is called and
+> imminently goes to this code snippet below:
+> 
+> out_ipu6_bus_del_devices:
+> 	if (isp->psys) {
+> 		ipu6_cpd_free_pkg_dir(isp->psys);
+> 		ipu6_buttress_unmap_fw_image(isp->psys, &isp->psys->fw_sgt);
+> 	}
+> 
+> Since isp->psys is confirmed to be an error pointer not NULL, the
+> condition is true and the error pointer is dereferenced. So isp->psys
+> should be set to NULL before going to out_ipu6_bus_del_devices.
+> 
+> Fixes: 25fedc021985a ("media: intel/ipu6: add Intel IPU6 PCI device driver")
 
-Changes in v2:
- - Added period to the end of the commit message.
- - Fixed missed block comment style warnings in atomisp_cmd.c.
+Add:
 
-Changes in v1:
- - Initial patch to fix block comment style warnings in atomisp_cmd.c.
+Cc: stable@vger.kernel.org
 
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 60 ++++++++++++-------
- 1 file changed, 39 insertions(+), 21 deletions(-)
+> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+> ---
+>  drivers/media/pci/intel/ipu6/ipu6.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+> index 24238f8311a6..6e6b7d2a68ff 100644
+> --- a/drivers/media/pci/intel/ipu6/ipu6.c
+> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
+> @@ -619,6 +619,7 @@ static int ipu6_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  				   psys_base, &psys_ipdata);
+>  	if (IS_ERR(isp->psys)) {
+>  		ret = PTR_ERR(isp->psys);
+> +		isp->psys = NULL;
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..c67fa4cc3f06 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1380,8 +1380,10 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 	if (atomisp_css_get_grid_info(asd, pipe_id))
- 		return;
- 
--	/* We must free all buffers because they no longer match
--	   the grid size. */
-+	/*
-+	 * We must free all buffers because they no longer match
-+	 * the grid size.
-+	 */
- 	atomisp_css_free_stat_buffers(asd);
- 
- 	err = atomisp_alloc_css_stat_bufs(asd, ATOMISP_INPUT_STREAM_GENERAL);
-@@ -1393,8 +1395,10 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 	if (atomisp_alloc_3a_output_buf(asd)) {
- 		/* Failure for 3A buffers does not influence DIS buffers */
- 		if (asd->params.s3a_output_bytes != 0) {
--			/* For SOC sensor happens s3a_output_bytes == 0,
--			 * using if condition to exclude false error log */
-+			/*
-+			 * For SOC sensor happens s3a_output_bytes == 0,
-+			 * using if condition to exclude false error log
-+			 */
- 			dev_err(isp->dev, "Failed to allocate memory for 3A statistics\n");
- 		}
- 		goto err;
-@@ -1686,9 +1690,11 @@ int atomisp_3a_stat(struct atomisp_sub_device *asd, int flag,
- 		return -EINVAL;
- 
- 	if (atomisp_compare_grid(asd, &config->grid_info) != 0) {
--		/* If the grid info in the argument differs from the current
--		   grid info, we tell the caller to reset the grid size and
--		   try again. */
-+		/*
-+		 * If the grid info in the argument differs from the current
-+		 * grid info, we tell the caller to reset the grid size and
-+		 * try again.
-+		 */
- 		return -EAGAIN;
- 	}
- 
-@@ -2462,9 +2468,11 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		if (sizeof(*cur) != sizeof(coefs->grid) ||
- 		    memcmp(&coefs->grid, cur, sizeof(coefs->grid))) {
- 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
--			/* If the grid info in the argument differs from the current
--			grid info, we tell the caller to reset the grid size and
--			try again. */
-+			/*
-+			 * If the grid info in the argument differs from the current
-+			 * grid info, we tell the caller to reset the grid size and
-+			 * try again.
-+			 */
- 			return -EAGAIN;
- 		}
- 
-@@ -3028,9 +3036,11 @@ int atomisp_param(struct atomisp_sub_device *asd, int flag,
- 
- 		atomisp_curr_user_grid_info(asd, &config->info);
- 
--		/* We always return the resolution and stride even if there is
-+		/*
-+		 * We always return the resolution and stride even if there is
- 		 * no valid metadata. This allows the caller to get the
--		 * information needed to allocate user-space buffers. */
-+		 * information needed to allocate user-space buffers.
-+		 */
- 		config->metadata_config.metadata_height = asd->
- 			stream_env[ATOMISP_INPUT_STREAM_GENERAL].stream_info.
- 			metadata_info.resolution.height;
-@@ -3280,8 +3290,10 @@ atomisp_bytesperline_to_padded_width(unsigned int bytesperline,
- 		return bytesperline / 2;
- 	case IA_CSS_FRAME_FORMAT_RGBA888:
- 		return bytesperline / 4;
--	/* The following cases could be removed, but we leave them
--	   in to document the formats that are included. */
-+	/*
-+	 * The following cases could be removed, but we leave them
-+	 * in to document the formats that are included.
-+	 */
- 	case IA_CSS_FRAME_FORMAT_NV11:
- 	case IA_CSS_FRAME_FORMAT_NV12:
- 	case IA_CSS_FRAME_FORMAT_NV16:
-@@ -3317,9 +3329,11 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
- 	padded_width = atomisp_bytesperline_to_padded_width(
- 			   arg->fmt.bytesperline, sh_format);
- 
--	/* Note: the padded width on an ia_css_frame is in elements, not in
--	   bytes. The RAW frame we use here should always be a 16bit RAW
--	   frame. This is why we bytesperline/2 is equal to the padded with */
-+	/*
-+	 * Note: the padded width on an ia_css_frame is in elements, not in
-+	 * bytes. The RAW frame we use here should always be a 16bit RAW
-+	 * frame. This is why we bytesperline/2 is equal to the padded with
-+	 */
- 	if (ia_css_frame_allocate(&res, arg->fmt.width, arg->fmt.height,
- 				       sh_format, padded_width, 0)) {
- 		ret = -ENOMEM;
-@@ -3928,8 +3942,10 @@ static inline int atomisp_set_sensor_mipi_to_isp(
- 		    asd->stream_env[stream_id].isys_info[1].height);
- 	}
- 
--	/* Compatibility for sensors which provide no media bus code
--	 * in s_mbus_framefmt() nor support pad formats. */
-+	/*
-+	 * Compatibility for sensors which provide no media bus code
-+	 * in s_mbus_framefmt() nor support pad formats.
-+	 */
- 	if (mipi_info && mipi_info->input_format != -1) {
- 		bayer_order = mipi_info->raw_bayer_order;
- 
-@@ -4387,8 +4403,10 @@ int atomisp_set_fmt(struct video_device *vdev, struct v4l2_format *f)
- 			ATOMISP_SUBDEV_PAD_SINK,
- 			V4L2_SEL_TGT_CROP);
- 
--	/* Try to enable YUV downscaling if ISP input is 10 % (either
--	 * width or height) bigger than the desired result. */
-+	/*
-+	 * Try to enable YUV downscaling if ISP input is 10 % (either
-+	 * width or height) bigger than the desired result.
-+	 */
- 	if (!IS_MOFD ||
- 	    isp_sink_crop.width * 9 / 10 < f->fmt.pix.width ||
- 	    isp_sink_crop.height * 9 / 10 < f->fmt.pix.height ||
+There are a number of checks for IS_ERR_OR_NULL() in error handling;
+instead of setting psys to NULL here I'd add the same test to the condition
+after out_ipu6_bus_del_devices:.
+
+>  		goto out_ipu6_bus_del_devices;
+>  	}
+>  
+
 -- 
-2.43.0
+Kind regards,
 
+Sakari Ailus
 
