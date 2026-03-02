@@ -1,232 +1,186 @@
-Return-Path: <linux-media+bounces-54093-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54094-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WPYrEtaOpWmoDgYAu9opvQ
-	(envelope-from <linux-media+bounces-54093-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 14:21:26 +0100
+	id aO8ZOW+XpWmPEQYAu9opvQ
+	(envelope-from <linux-media+bounces-54094-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 14:58:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07081D9ABC
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 14:21:25 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3061DA3C2
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 14:58:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD2F03040462
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 13:21:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 75745303B972
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 13:55:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760F03876C5;
-	Mon,  2 Mar 2026 13:21:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4457B3E0C6A;
+	Mon,  2 Mar 2026 13:55:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxNUpnIj"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XIvurVV6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBDF377026;
-	Mon,  2 Mar 2026 13:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A36A3CC9EC
+	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 13:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772457675; cv=none; b=TQf3JYVdsKHA9KLWopoTF9JarBayeulSLjEapp7o7eMlqbUqTpxsSUv7gZ0X9MDp6d+xr2vFvFZ2MlBphFW6d1xANa/AO3QGUtZtc93kdQ8HoOAtYuJ57wKBHTE/9zqbG5wj9Ii6PgXlK73i7zAsX11FmSN19CmAAxp+t6obojk=
+	t=1772459713; cv=none; b=oSO16Zf1sXBnBXS4KpXdyZob7T0rG5pK+dJQIJBhuJFTDCzphqVU8Zw+Efbkf6qKgHNczDZBwQ72HM3rAk5kCXHSINW3uWwF7cx2+3Rjaz2akub7d4XX3wJQDEp88oKVw/xYFUzoNnYA0HoICAv5EcA4QlCOSzSbPHg+SozXGRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772457675; c=relaxed/simple;
-	bh=Pf94sfCIJI9BUBbVIb9M5Np6YIpqH0nC+NCN1J44u/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s1UThPCBiUW5jmnCbsQ6KRTNPDN9Dt6quGkO9o43BstBH/v3XAxbVWSI/heGkUJjPITRMA8CjxM3csgwTkLXBWemk3BCIEYIgLeJGNH5BLMLccKp/RuxCUC5l0+alExqFFyaTs/ONPVdaLf5p4uh/Cne3PxYChf8U6ggB9QQWRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxNUpnIj; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772457675; x=1803993675;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Pf94sfCIJI9BUBbVIb9M5Np6YIpqH0nC+NCN1J44u/A=;
-  b=cxNUpnIjxYT2E6XlEWNc59BXSVxnrhltC6UXF60EVnPqCKrtWkvOFaS4
-   ZVe++AFhoI0FEBMunmqFu+oOy1SsBt8MUCgi3N5ZqWeCLSpH7S8VHzNy+
-   qoJpuNLAzQ+cHlrrdSvIz5PdrNJfLtEVQQ2gJHoPX9nbtp3VQdO35K8Gf
-   Kmsps4Jl4FoOykZPzpE78ieq4xYVj6HW9D2U7zdZZhDi7Wv1Ji3qZeAid
-   q/m7bgwdoE2Xj5WbEHVasaPInPXW8F98oHELTTNjemTSkkrQudNNSaYuk
-   Ogqz3QJgPxrTPXuX5UlfitERzIUNm5T8bn/24nrMYCoCAJOX1PgczZ5ou
-   g==;
-X-CSE-ConnectionGUID: XwQNv4aUTR+X6kcNx6h5+A==
-X-CSE-MsgGUID: 5/IK7V2/STOhNJ5WPg3qfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73649458"
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="73649458"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 05:21:15 -0800
-X-CSE-ConnectionGUID: 6UVxLDjJSHqLDQrsr0eO/w==
-X-CSE-MsgGUID: 3tbVJbR3QuWoe1udCHpF8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="221805022"
-Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.89])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 05:21:12 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 2CE241212D6;
-	Mon, 02 Mar 2026 15:21:39 +0200 (EET)
-Date: Mon, 2 Mar 2026 15:21:39 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Riesch <michael.riesch@collabora.com>,
-	Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] media: v4l: async: add helper API
- media_async_register_subdev()
-Message-ID: <aaWO49Dga6gHgOXS@kekkonen.localdomain>
-References: <20260226-v4l2_init_register-v2-0-902d7140f9fa@nxp.com>
- <20260226-v4l2_init_register-v2-1-902d7140f9fa@nxp.com>
+	s=arc-20240116; t=1772459713; c=relaxed/simple;
+	bh=A3kWbDf+XTMiYy5cZ9gez7JIkFWT0d4+Z4h9ALLZX2c=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uxgRQBdqUVfDobav7q4AZu0XKRfzRkpUvwe8YVipPFqvJHBlHfIy67JoI9n0eMIcnbCG8n3wJEH3HeC9d4UUzmlY9LJGWTFqcaOhltVP93nNSyHcDPAxwT7Jn3ljOV++4rFOsUxaqECttG9sIZ/0mvHW3pCZKzod9hFDw3vHpXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=XIvurVV6; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1772459710;
+	bh=A3kWbDf+XTMiYy5cZ9gez7JIkFWT0d4+Z4h9ALLZX2c=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=XIvurVV6Y8P5oaJboCzy54WZQjRdZqrE60DnhjjB8P4Kh0gvm+FA2qGUXUBrZ38eX
+	 lKmBw8mjQ2fjjT/5Uu+mmazXSqltbb3cKW1dlumE2cntUFUN2cUy+9nTy4aS0Irsxs
+	 PC3vd12j58S/CrK1hNqMbGtJlwnTHmYmUa6dGyvtvucCn79eNp2EwlIaNSVnV1UWl/
+	 lM7gB8oPIflXqCZ/zR5eNnJN56Ivcj0dTL/Zo4jskYLXggXx/yEiybf0Gn3bhmcE4c
+	 U64whPKtXWbk4mqR3LIzEDENZEYv+4mZrU8ijaeVK0bBboNUYdr7jAQSCWdjSKn+Fq
+	 0BP5DkRb4e3xA==
+Received: from [IPv6:2606:6d00:15:210e::5ac] (unknown [IPv6:2606:6d00:15:210e::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DAEE117E0451;
+	Mon,  2 Mar 2026 14:55:07 +0100 (CET)
+Message-ID: <77aff6321715c2141257d1f114c6bd70c7ac2d29.camel@collabora.com>
+Subject: Re: [ANN] Media Summit on May 26th in Nice, France
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil
+	 <hverkuil+cisco@kernel.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, Sean Young <sean@mess.org>, Sakari Ailus	
+ <sakari.ailus@linux.intel.com>, Ricardo Ribalda <ribalda@chromium.org>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Niklas
+ =?ISO-8859-1?Q?S=F6derlund?=	 <niklas.soderlund@ragnatech.se>, Tomi
+ Valkeinen	 <tomi.valkeinen@ideasonboard.com>, Alain Volmat
+ <alain.volmat@foss.st.com>,  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida	
+ <daniel.almeida@collabora.com>, Michael Tretter <m.tretter@pengutronix.de>,
+  Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Steve Cho <stevecho@chromium.org>,  Kieran Bingham
+ <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>,
+ Paul Kocialkowski	 <paulk@sys-base.io>, Benjamin Mugnier
+ <benjamin.mugnier@foss.st.com>, Hans de Goede <hansg@kernel.org>, Maxime
+ Ripard <mripard@kernel.org>
+Date: Mon, 02 Mar 2026 08:55:05 -0500
+In-Reply-To: <20260301150259.GD2860169@killaraus.ideasonboard.com>
+References: <92e24f36-d189-4ba8-ad0b-43277bc1aabd@kernel.org>
+		 <2f0c3f41-93fa-4a1f-aad2-b59ebbc59909@kernel.org>
+		 <20260301150259.GD2860169@killaraus.ideasonboard.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-RFUDbGgvkJ9ZEBJj9rBc"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226-v4l2_init_register-v2-1-902d7140f9fa@nxp.com>
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54093-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54094-lists,linux-media=lfdr.de];
+	TO_DN_ALL(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,kekkonen.localdomain:mid,nxp.com:email]
-X-Rspamd-Queue-Id: A07081D9ABC
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 6B3061DA3C2
 X-Rspamd-Action: no action
 
-Hi Frank,
 
-Thanks for the set.
+--=-RFUDbGgvkJ9ZEBJj9rBc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 26, 2026 at 05:55:26PM -0500, Frank Li wrote:
-> Add the helper API media_async_register_subdev(), which
-> combines media_entity_pads_init(), v4l2_subdev_init_finalize(), and
-> v4l2_async_register_subdev() into a single call.
-> 
-> Reduce code duplication and simplify error handling in drivers.
+Hi,
 
-I appreciate your efforts to try to simplify registering a sensor
-sub-device, but I'm not sure this gets far enough to make a notable
-difference: the new function calls two functions typically needed and
-requires the driver to implement a new one for registering a sub-device.
+Le dimanche 01 mars 2026 =C3=A0 16:02 +0100, Laurent Pinchart a =C3=A9crit=
+=C2=A0:
+> I would also like to revive efforts to properly support dmabuf import
+> for multi-planar formats with configurable plane offsets (a.k.a. data
+> offsets), but I think this requires a champion to resume the work more
+> than a discussion at the media summit.
 
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 33 +++++++++++++++++++++++++++++++++
->  include/media/v4l2-async.h           | 22 ++++++++++++++++++++++
->  2 files changed, 55 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 1c08bba9ecb91f46b7479da613d6c1688d4b0b5c..e07173f566fbd8fa332b5e58be288e806b4c0482 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -19,6 +19,7 @@
->  #include <linux/slab.h>
->  #include <linux/types.h>
->  
-> +#include <media/media-entity.h>
->  #include <media/v4l2-async.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -881,6 +882,38 @@ int __v4l2_async_register_subdev(struct v4l2_subdev *sd, struct module *module)
->  }
->  EXPORT_SYMBOL(__v4l2_async_register_subdev);
->  
-> +int __media_pad_init_and_register_subdev(struct v4l2_subdev *sd, u16 num_pads,
-> +	struct media_pad *pads,
-> +	int (*register_subdev)(struct v4l2_subdev *sd, struct module *module),
-> +	struct module *module)
-> +{
-> +	int ret;
-> +
-> +	if (!register_subdev)
-> +		return -EINVAL;
-> +
-> +	ret = media_entity_pads_init(&sd->entity, num_pads, pads);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = v4l2_subdev_init_finalize(sd);
-> +	if (ret)
-> +		goto err_entity_cleanup;
-> +
-> +	ret = register_subdev(sd, module);
-> +	if (ret)
-> +		goto err_subdev_cleanup;
-> +
-> +	return 0;
-> +
-> +err_subdev_cleanup:
-> +	v4l2_subdev_cleanup(sd);
-> +err_entity_cleanup:
-> +	media_entity_cleanup(&sd->entity);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(__media_pad_init_and_register_subdev);
-> +
->  void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->  {
->  	struct v4l2_async_connection *asc, *asc_tmp;
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index f26c323e9c963065fd7c19d6d9835df1194bc069..220a302a626732e15452f3efb19b03bdc51e64d5 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -336,6 +336,28 @@ int __v4l2_async_register_subdev(struct v4l2_subdev *sd, struct module *module);
->  int __must_check
->  v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd);
->  
-> +struct media_pad;
-> +
-> +int __must_check
-> +__media_pad_init_and_register_subdev(struct v4l2_subdev *sd, u16 num_pads,
-> +	struct media_pad *pads,
-> +	int (*register_subdev)(struct v4l2_subdev *sd, struct module *module),
-> +	struct module *module);
-> +
-> +/**
-> + * media_async_register_subdev - Initialize the entity pads and
-> + *				 registers a sub-device to the
-> + *				 asynchronous subdevice framework
-> + * @sd: pointer to &struct v4l2_subdev
-> + * @num_pads: total number of sink and source pads
-> + * @pads: Array of @num_pads pads.
-> + *
-> + * Returns an error on failure, 0 on success.
-> + */
-> +#define media_async_register_subdev(sd, num_pads, pads)			\
-> +	__media_pad_init_and_register_subdev(sd, num_pads, pads,	\
-> +					     __v4l2_async_register_subdev, \
-> +					     THIS_MODULE)
->  /**
->   * v4l2_async_unregister_subdev - unregisters a sub-device to the asynchronous
->   *	subdevice framework
-> 
+I haven't sent my RFC yet about that subject, that will probably be after
+Embedded World. But I think it can serve as example of "possible" way forwa=
+rd.
+And I believe the ChromeOS request should be cited. I think we need more th=
+en a
+champion to resume the work, since I personally don't believe in the ancien=
+t
+proposal from Collabora. I'd say plan for a little more time on this subjec=
+t.
 
--- 
-Kind regards,
+If possible, I would like to add to the agenda a short update related to Vu=
+lkan
+Video side of CODECs, what are the viable options for Linux Media and what =
+is in
+preparation outside of our subsystem. The second aspect is informative as t=
+hese
+discussion don't seem to lean toward our subsystem as the foundation. But I
+think its rather useful for everyone to understand why and what is included=
+.
 
-Sakari Ailus
+regards,
+Nicolas
+
+--=-RFUDbGgvkJ9ZEBJj9rBc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaaWWuQAKCRDZQZRRKWBy
+9N2YAPwL4oJTtDNn/w8siDZOqo4YMAqFwh85FSxKtA+ZryXwoQD/fTXmZAfIGqBE
++VtaP4XPW9VUfKrLTOv+3ODGMEWbTgs=
+=0KKU
+-----END PGP SIGNATURE-----
+
+--=-RFUDbGgvkJ9ZEBJj9rBc--
 
