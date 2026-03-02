@@ -1,63 +1,64 @@
-Return-Path: <linux-media+bounces-54040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54041-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJuRNbI8pWne6QUAu9opvQ
-	(envelope-from <linux-media+bounces-54040-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 08:30:58 +0100
+	id WLC5H7g8pWne6QUAu9opvQ
+	(envelope-from <linux-media+bounces-54041-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 08:31:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5701D3ED8
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 08:30:57 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C61B71D3EE8
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 08:31:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1CC1F3010520
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 07:30:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 00747301DD9F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 07:30:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685463803D1;
-	Mon,  2 Mar 2026 07:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F550383C62;
+	Mon,  2 Mar 2026 07:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="t1DT6nKM"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="qCHTwm5U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010019.outbound.protection.outlook.com [52.101.46.19])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012007.outbound.protection.outlook.com [52.101.43.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EDE1CF8B;
-	Mon,  2 Mar 2026 07:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5FA37FF40;
+	Mon,  2 Mar 2026 07:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772436651; cv=fail; b=O0/DXJNlhTGwA3J/pCRvUba+7hddb74OD1TIusuh6wuxEhvSrclsRveYKR+bpsEF7fMscUyztB47hV6mpUJGVeb0V8TJdXVLHYjbZj7YbQSH3PfF57rn3F75IexfRCP15RubNuA34OhnwYEE/tZWCcsxY1RdAE6wMNBhwZh5o4U=
+	t=1772436654; cv=fail; b=KrBWPRH0EleBoc7eWQgttlwNR4O5D8gZF1zHyz8hmhLsmV0261LYByD29dvNBFgkEDCkl9A3dIg7QNIFzKhR4hMxAvPHS6Nvo3NSm0KiSNTnEohzAUdEJqqsn4lj1QJcfQP13QHoErOpuDNR+El2SpP6MW39iorYiMXBlGFXTjo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772436651; c=relaxed/simple;
-	bh=D8h20ay+LXASD0fSijBd0143iquFf/+US9kW5QcaXnI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tK+uOSg4D9muV15RT6+74Cy+D7l2ir2D6i4WNwkMQhrplXg2xa0wvUx4QNG7QXF36r+XaCiKvmslH4UiNcFRTd3bUTg3j5IBaYBpMeN0K9PCJRY56tsafWRhuj3ap58NLTH8PkM+p6AK4uGAcuYPrKMOeAxDGnChj+KqklZ4m4o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=t1DT6nKM; arc=fail smtp.client-ip=52.101.46.19
+	s=arc-20240116; t=1772436654; c=relaxed/simple;
+	bh=i8aauwa6gAJAfMfbWR13sj+xaYszm0YIunUsJeqkkJc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k0F/Xp6HydjA3ddUWrTdsZTulGQhc3UZb4tM0yWcpawjeMh4yz6+WQCk+Pd09m52xzGFNjOXYEn5oExjUOaFzo+w1KfOouupk46EzwsBfGkJ6+GEGOh6hRuKSguykDTbXg2x4Qz64PffAEZQGB2oK7tciJt1C4gfTmCYeCvaM+w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=qCHTwm5U; arc=fail smtp.client-ip=52.101.43.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xw3bPvpg9JY2eza3/u0cwfdWVPsCvUq/s1yItk8qWAcFjGnBNxZ7LIC3kWtaWM5UD5CbCbwKyX/FTD7iM4SIMV2XY1o+ZqgQGawVec2uvXqluQSoPsquNScbLlAulYaLfSUijWbQLrFsSd0yLJtIQviW2QWFwtJqpBxQjhGXk/Y/+05t0pzJEevg2YVZ32W+CVVE5yq9H/H/UtRokoAEi9JsiEQXP+dukCzZOmppv3/iycwNxTXzlThe/jVGPTnl/3QY3Vxpsrp94ldG+KvY5avNacn86O5gyRvCW1RFrlNVUJHh4k/RVX82CpoIlFbrcvq3jl9z6gd4M5aXt6NGTA==
+ b=y++Nbw03b68SUS1tomPbStS5beyUWpM8FGn4t5lbxVuoUaIzodc39+el2vBwOBDh5VUKR9+KbnYsg79t7S2+HOx0Iw5Vcn699JZIzehpjqm73xkSEdGKhIGG09QhjiOjNXdfS+KQ0+RvgqB9sHtoVcTS79o/AxV/hpVmL2K20q166u+Uq7qGztZLhQQO8m9WPzKZWmpXJa1/dS1ZJ+7PsfL3QY/h9djx/SIG49kwUczExvjV/850OcLN8NFx8IRLvBSjK/ha8QwESfg4ygdan2jPga8eUEqUMskjqTsOJy7IzRSdONE/jDZ2CJRAse72lfvYrRKP0t1cn74tVvXS0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iPFjBe8evHCPxnsevJr8PEZfJnVdvn5zZttElxruGx0=;
- b=QJ30IpLovfggRJUVIVFNKUmBa76aVI/BbmlV1SWk/7LHZ2mtKoozsXXqP3mobHUi/qStRiQ9PJWPpGh0pRdDEBidpVwlaSmRToIIOkGfRue4VU8RZ9Ddz9dKsMgzXq8bPQos7UL8Un6UbwpY8vw4l6E3BQlwgsGy2KwQmQPhj/DOGNsOcYo8vJQu55Os8LrHgiOVGhFZ5p0iJxTqNnwRsuHWJSpjvDrzIypBmOuugT6NAYdfIYWoUyMK+t/+jCj18xuoi73Li5VUM2PXni0WCGtowNTYS4VYVafyhVIQ9eh0n8RTVWguf9jY/HYcr4opeSAaCpCRZmkOBtIE1h81aA==
+ bh=pCOpDPg2v+lOcQx7DKjsR/M1MQpGP1v8npa1na4eegA=;
+ b=xm9KZ3dsQHiPRAEU3gP7SbGoMxKBd2I3xO3L3XRdosV2X51t/WDjjMxKngQcHjFULkqTu7nGaWdfbM2z5He3KQbJAaFoSv8fOmx5Qz3lzQnw3oNktKvWDDmdXTDnod3c3t9Rb6WxphLAlh/RL+gzKla8GSi5y0QI56ROtidwNNY68LEyyspx0DQRxQobRYy3FWi+Gwf5BVRD9xufkkLzs85o+EezwyOrzjk/bEfnqCTpNhngvsENHbRmrnr2ikxv6InIU9e1tr8fcFFh/O91aUbi9TyKTrmm+7B3sKa8DALon1xkIyi3KmUnuzeQnffM/yrB1kVBDUPGtsn+bpaYyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iPFjBe8evHCPxnsevJr8PEZfJnVdvn5zZttElxruGx0=;
- b=t1DT6nKMG/km3aQgPaVu7VmiC+l8QR/z5Uj8gtf6u4UZ1NlnjO19oM3yxI0g8OAxHl1S3fXcAlRROEGvnq5GVpq53Ur0iGt+x52JeiO5qQfUH/HQo6bztJ26CSLp2Zt4cR50NMJYAIZ6cZhOA/7TdanZfnBGQlethv5AFIgg2SI=
-Received: from BYAPR06CA0072.namprd06.prod.outlook.com (2603:10b6:a03:14b::49)
- by CH3PR12MB9078.namprd12.prod.outlook.com (2603:10b6:610:196::11) with
+ bh=pCOpDPg2v+lOcQx7DKjsR/M1MQpGP1v8npa1na4eegA=;
+ b=qCHTwm5UfoANgY8ZJd76u/MlBiJfMEkuHvF1DIIj/TKKXEHOGlXarHAh3mQnfD2LKdISeOK+YNSleaBISvpxycm+R9z1bzhuJTBHN8tvZc2mTds65GkQmrl2N1uMx+7tEPgHlFd7RzWo2rWCqEy9oDNIszdtr3IpX09XGsYiy28=
+Received: from BYAPR06CA0063.namprd06.prod.outlook.com (2603:10b6:a03:14b::40)
+ by LV8PR12MB9135.namprd12.prod.outlook.com (2603:10b6:408:18c::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
- 2026 07:30:41 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
+ 2026 07:30:46 +0000
 Received: from MWH0EPF000A6734.namprd04.prod.outlook.com
- (2603:10b6:a03:14b:cafe::3c) by BYAPR06CA0072.outlook.office365.com
- (2603:10b6:a03:14b::49) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:a03:14b:cafe::96) by BYAPR06CA0063.outlook.office365.com
+ (2603:10b6:a03:14b::40) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9654.18 via Frontend Transport; Mon,
- 2 Mar 2026 07:30:40 +0000
+ 2 Mar 2026 07:30:46 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -67,11 +68,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  MWH0EPF000A6734.mail.protection.outlook.com (10.167.249.26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9654.16 via Frontend Transport; Mon, 2 Mar 2026 07:30:40 +0000
+ 15.20.9654.16 via Frontend Transport; Mon, 2 Mar 2026 07:30:46 +0000
 Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 2 Mar
- 2026 01:30:35 -0600
+ 2026 01:30:40 -0600
 From: Bin Du <Bin.Du@amd.com>
 To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
 	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
@@ -82,11 +83,15 @@ CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
 	<gjorgji.rosikopulos@amd.com>, <Phil.Jawich@amd.com>,
 	<Dominic.Antony@amd.com>, <mario.limonciello@amd.com>,
 	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
-	<Bin.Du@amd.com>
-Subject: [PATCH v9 0/7] Add AMD ISP4 driver
-Date: Mon, 2 Mar 2026 15:30:13 +0800
-Message-ID: <20260302073020.148277-1-Bin.Du@amd.com>
+	<Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>, "Mario
+ Limonciello" <superm1@kernel.org>, Alexey Zagorodnikov <xglooom@gmail.com>,
+	Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v9 1/7] media: platform: amd: Introduce amd isp4 capture driver
+Date: Mon, 2 Mar 2026 15:30:14 +0800
+Message-ID: <20260302073020.148277-2-Bin.Du@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260302073020.148277-1-Bin.Du@amd.com>
+References: <20260302073020.148277-1-Bin.Du@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,30 +104,30 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A6734:EE_|CH3PR12MB9078:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc24f4b3-a950-4dad-6712-08de782d9b6b
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6734:EE_|LV8PR12MB9135:EE_
+X-MS-Office365-Filtering-Correlation-Id: e72383ae-9893-441c-a30d-08de782d9e8b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|13003099007;
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|7416014;
 X-Microsoft-Antispam-Message-Info:
-	Kze/ceSHFzOdU6NuRMyN2MjczquuHoC3Xekmi6lyHFWcGSWpo6tozNB0Ky6Nq//eO0V/YYSoVdbUa2FOIC8PPyEKpC/2HgC1vwO9F/A0STK+cAGjbdiI9uOIVBji5kAF15Pap2JGawIbbdpTLArutwzTUkr0XOZwbUVzxVErSRxBhhlCT0g61kcd/QFf4byOVu0Zxl7KCJOFae95AJUonu8L5Fa5Yffz+Ld1fikiddGOvqlHzFUwRMzMyD6CRYwA8opBs0U8C+HzFIl02YAg5TkoT8mkCmFCErjXs1vBJeQjhdgLk/yPLJcnyKoLMB3c8yKqeZ4SHcTAoe8X02EYiqCsqLI9rbY0gGkIQ75Lk559jiDru0TisVEReG1n9cp3XSf3uFikhyPv+DfevHsjWouvaduScLlO1YCeoRFaTksHonk+2sGVGJ0UWmnkX2CxG00bhVnpwLDLO6UepDYIWhpDoDXllJp31BMmK1ppv4Uj/8EBmYILj2cThCtb0WCLTG4bGOpWVxFxgoEGayMvE2bw04Xlx78T/afUl5T/TTm3JDrnpKwDsS2Lwp0ubszei71kuqjNOJnwVCLzmgGuEtJEGiYO0auhUKJiV9CobkPnGlDPAHvSa7wPZ+0GBnxWxKDxLcL+76PeXR3Vb1TUWWkqCvIvNv/mT89+KDmWAqFgMLXASG9yJTgX6UdV+OjUlSvwHdJAZfdFar4GuV5y6y3t9GPMedtk2sNBqNgh2xOfHbD+2XGQhD6JV6zfzW73t/sFwf3eDqmdZLVbCMYwRv42c6kao9HuhU/yuLZN6AY=
+	rLjVsgYCgYhgetKasPziiGwKQHoIiWMfk1JkrBGS7VibOQEzGM1zh0lbRNnLFZrNVjVdWDGBNBifp6VHfXlcX0XTSAUX0ThaqzJEbf2HGw0aH7ZjtzZBNo9YB8hkA6DKqm0dcEOkKNYPE7KmsGr5oAwE4beEKiY50lTi75L+jym2CdVLMlE/iERrqy2K+mrTtPaV0i+d6y7PGoM3y1FrIucKDOU9V6JuYInqb/K+oRKb92n1E4L2ERgsXlXI5ykOhyQgZfsYHzcoYtieZlyA9rxFXhL/FnpjnMMOKAkifRmRSmKzGW6ZPlgKpgfRA4xF2ZXSMFwLAnnsMhvH3qIvaUkKWxobyZOyZdUY9jYUu+OeTZMkqrNjCSbpVdaHc7+uf5FLAPCwzQRgt0OLYWaJuM0v2+VfWanf3VS4GD2VpIzAHG0/jEx9Z4ooydn3so1KKNs59XhgpM9zip22uB0VC+KdSVjUNNbS/Q2WoNg4Vwa+P5N6we5AGm789zzn29eqEl+q3MutO1dS6BFhwNcvk/JrIvqicL2LlhR48/1Rlt4zGt8gseaag8KTqMDZ3ZwcIn3kwkYCg9an8m8UOlT9/ponZbJ11EFC16h8adiXCT5JFeMU/zDDDInprtfKKvz2G7KbFhY49uC3AmR04BLvBM/w1T4Hunza+EweIDdFwmigXAhacIBMejFu953cZe87lbVakem8XMbvjlNdn2muJWT6gc+3hCzIWkhPhz8IVqb9xOOXR4W+G7B81agH3dV+fNkTcGZ1Phm7Ia+25nl398AyWODRmv2czYT4FK74T1UAwTLOgd3Aup0p1UMVsOE4536yttpWTvzXqFHx9cpokg==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(13003099007);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(7416014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	CaM16PueGMj6CifZCZcT9Pf8tBtCmAgvDuhqYHTyuXIve8QkJ/PnRdJYOfA+2vjAJ0gwoEpc7wti5rCUKXhfuOBaJmCq7CSonziXPF89OuvX/SIXiVTajAlWwz9JwC2H3sjMqg3mrUhl9f3Ml+K5DBuvWTfHMJ6700rRNub6G3ww25I48wJP8Mzot5oqxDcMfafP3vQU6NETyQKP+KJvGlPz26SvIyujzqy9OHUBghqTbYdrBhjPVaWVPGlsSk8LhLeOrZWFaTrAtMFR2/pi09X7edkhQm1S7qjZY1/lstkZ7yEAdtl1v/JnCkjZcnjHtzUyi6mI7WGWCwXRrYRXjUT69NxifhQX4VCqR5EBPbPNI4bdhBYZ/lbenPmmYyOGWnkc4TY814ULlAhcaotYRG0zds/8kCENzSTiS5rUfaTWjmw6eVagEeCAcSIdqPA1
+	G1NyPvQqIpn5tsDQ82CAocCtxzXX9ABwB728bJj3w8vIVzZ7/91/mL/da2+F73rYPUavovQ+YmwQ7agrF89NWTTG7dBmN765mHjLjRqiArvYHzIHsIFfMGDYVu4oVTz+ZICCL1JQzW1K/u+siNpWIn43sFa4SfCrH9i1Vah3kyoxGF5IeuvXEwgo4r126w+/V4m3l10KPg5SzKyyOhPiEN9McXz+SdlfPjxsmSp51RdWvfLEBsS8301AIhpophXBSlYvaUtNn40CGlMr2la54s6qT4AapMLB4vO7GvojAjerj5iy8hG+j663DROr/XA4Uy/byckRU0QOKZGfHm/Q8xZrdBXCCnDu7/kPvOUBUQZSCXEvThWYpOI82mhPRrhhNlA//khv+RCsGrsgDXVtjAokGZ5rXQlw/3MvDUeGa7+5ik5Nzchrgy/mFR3b0M0x
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 07:30:40.8213
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 07:30:46.0648
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc24f4b3-a950-4dad-6712-08de782d9b6b
+X-MS-Exchange-CrossTenant-Network-Message-Id: e72383ae-9893-441c-a30d-08de782d9e8b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	MWH0EPF000A6734.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9078
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9135
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -130,409 +135,320 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,ideasonboard.com,linaro.org,linux.intel.com,bp.renesas.com,vger.kernel.org,kerneltoast.com];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54040-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54041-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,ideasonboard.com,linaro.org,linux.intel.com,bp.renesas.com,vger.kernel.org,kerneltoast.com];
+	FREEMAIL_CC(0.00)[amd.com,kernel.org,gmail.com,redhat.com];
 	DKIM_TRACE(0.00)[amd.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[Bin.Du@amd.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ubuntu.com:url,gitlab.freedesktop.org:url,pages.freedesktop.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,gitlab.com:url];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,lists.freedesktop.org:email];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.996];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 3A5701D3ED8
+X-Rspamd-Queue-Id: C61B71D3EE8
 X-Rspamd-Action: no action
 
-Hello,
+AMD isp4 capture is a v4l2 media device which implements media controller
+interface. It has one sub-device (AMD ISP4 sub-device) endpoint which can
+be connected to a remote CSI2 TX endpoint. It supports only one physical
+interface for now. Also add ISP4 driver related entry info into the
+MAINTAINERS file
 
-AMD ISP4 is the AMD image processing gen 4 which can be found in HP ZBook Ultra G1a 14 inch Mobile Workstation PC (Ryzen AI Max 300 Series)
-(https://ubuntu.com/certified/202411-36043)
-This patch series introduces the initial driver support for the AMD ISP4.
-
-Patch summary:
-- Powers up/off and initializes ISP HW
-- Configures and kicks off ISP FW
-- Interacts with APP using standard V4l2 interface by video node
-- Controls ISP HW and interacts with ISP FW to do image processing
-- Supports enum/set output image format and resolution
-- Supports queueing buffer from app and dequeuing ISP filled buffer to App
-- It is verified on qv4l2, cheese and qcam
-- It is verified together with following patches
-	platform/x86: Add AMD ISP platform config (https://lore.kernel.org/all/20250514215623.522746-1-pratap.nirujogi@amd.com/)
-	pinctrl: amd: isp411: Add amdisp GPIO pinctrl (https://github.com/torvalds/linux/commit/e97435ab09f3ad7b6a588dd7c4e45a96699bbb4a)
-	drm/amd/amdgpu: Add GPIO resources required for amdisp (https://gitlab.freedesktop.org/agd5f/linux/-/commit/ad0f5966ed8297aa47b3184192b00b7379ae0758)
-	drm/amd/amdgpu: Declare isp firmware binary file (https://gitlab.freedesktop.org/agd5f/linux/-/commit/35345917bc9f7c86152b270d9d93c220230b667f)
-
-AMD ISP4 Key features:
-- Processes bayer raw data from the connected sensor and output them to different YUV formats
-- Downscale input image to different output image resolution
-- Pipeline to do image processing on the input image including demosaic, denoise, 3A, etc.
-
-----------
-
-Changes v8 -> v9:
-
-- Dropped wait_prepare/wait_finish vb2 callbacks (handled by framework via q->lock since v7.0-rc1).
-- Minor comment, typo and formatting fixes.
-
-
-Changes v7 -> v8:
-
-- Replaced ISP subdevice callbacks with direct function calls and deleted subdevice link validation functions and variables.
-- Removed unnecessary media pipeline operations, redundant media bus initialization, and omitted non-essential video format checks.
-- Applied code style improvements, including the 80-character line limit, standardizing macro variable naming from "v4l2_sdev" to "sd", and
-  declaring loop variables inside for loops as unsigned where possible.
-- Added the ISP4FW_ prefix to all firmware interface definitions (such as command, image format, stream, buffer type), and corrected the typo "steam" to "stream".
-- Switched to common vb2 queue memory operations (vb2_vmalloc_memops) and updated Kconfig to add HAS_DMA dependency and VIDEOBUF2_VMALLOC selection.
-- Changed the order of header includes in several files, eliminated unused header inclusions, and reviewed grammar and spelling in comments.
-- Updated Kconfig and Makefile to change module names for ISP4, and modified the debugfs directory from amd_isp to amd_isp4.
-- Removed deprecated v4l2_pipeline_pm_put() and v4l2_pipeline_pm_get() calls, and replaced obsolete s_power() with runtime PM for power management.
-
-
-Changes v6 -> v7:
-
-- Added missed blank line after some if statements.
-- Changed the pm_runtime_disable() order in isp4_capture_remove() to align with initialization.
-- Reset buf_sent_cnt and start_stream_cmd_sent on stream stop.
-- Removed duplicate buf_sent_cnt and start_stream_cmd_sent reset in isp4sd_pwron_and_init().
-- Combined isp4sd_reset_stream_info() and isp4sd_reset_camera_info() into isp4sd_uninit_stream() to eliminate redundant stream info reset.
-- Removed always-false status check in isp4sd_uninit_stream().
-- Minor style improvements.
-
-
-Changes v5 -> v6:
-
-- Lowered FW mempool buffer size from 200M to 100M (actual usage).
-- Added an irq_enabled member to the ISP subdev for proper IRQ disable handling in both normal and error cases.
-- Removed unnecessary .owner assignment from isp4_capture_drv definition
-- Updated IRQ handling to enable and disable interrupts via the ISP register for improved performance.
-- Revised ring buffer management in isp4if_f2h_resp(), addressing safety checks to ensure the read pointer is validated before memcpy operations, reducing the risk of out-of-bounds access. The ring buffer logic was also streamlined significantly.
-- Modified ring buffer handling in isp4if_is_cmdq_rb_full(), correcting an off-by-one error in safety checks that previously allowed rd_ptr to equal wr_ptr when the buffer was full.
-- Refactored ring buffer handling in isp4if_insert_isp_fw_cmd(), simplifying overall logic.
-- Resolved a regression from v4 to v5 where isp4if_dequeue_buffer() did not protect list_del with bufq_lock.
-- Addressed a subtle use-after-free issue that could occur if a timeout on a synchronous command coincided with completion.
-- Added missing pm_runtime_disable() calls to isp4_capture_remove() and to the error path in isp4_capture_probe().
-- Removed stray semicolons following closing curly braces.
-- Improved and clarified macro definitions in isp4_interface.h.
-- Eliminated unnecessary (u8 *) casts.
-- Added missing memset for firmware command structures in isp4sd_stop_stream().
-- Excluded streams 2 and 3 from ISP4IF_FW_RESP_RB_IRQ_EN_MASK, preventing their activation in the interrupt enable register.
-- Enhanced error handling to clean up kthreads in the event of startup failure.
-- Corrected a race condition during kthread creation where waitqueue head initialization could be delayed, as it was performed by the kthread itself.
-- Removed status checks in isp4sd_pwroff_and_deinit() that were always false.
-- Ensured isp4sd_init_stream() is only invoked once per stream start and reordered corresponding status checks in isp4sd_start_stream().
-- Improved error handling in isp4sd_start_stream() to propagate errors from failed functions.
-- Relocated debugging messages in isp4sd_stop_stream() to execute under lock protection due to access to output_info->start_status.
-- Eliminated redundant GET_REG_BASE() macros.
-- Removed isp4sd_is_stream_running() function.
-- Corrected error message in isp4sd_init_stream() caused by copy/paste.
-- Refined struct isp4_interface to remove firmware ring buffer configurations.
-- Removed obsolete isp4sd_is_stream_running function.
-- Removed pdev member from struct isp4_device, as it is unnecessary.
-- Fixed typo in 'isp_mmip' parameter name within isp4if_init().
-- Removed gap in struct isp4_subdev definition.
-- Performed extensive dead code removal and minor style improvements throughout the codebase.
-
-
-Changes v4 -> v5:
-
-- Transitioned VIDEOBUF2_V4L2 from 'depends' to 'select' within Kconfig.
-- Standardized object file naming conventions in the Makefile and sorted entries alphabetically.
-- Removed the unused macro definition to_isp4_device.
-- Eliminated unused members mem_domain and mem_align from struct isp4if_gpu_mem_info.
-- Deleted unused fields mc_addr and gpu_pkg from struct isp4if_cmd_element.
-- Removed obsolete pltf_data, i2c_nb, and notifier elements from struct isp4_device.
-- Updated platform_get_irq failure handling to return its actual result rather than -ENODEV.
-- Refined inclusion of header files for clarity and efficiency.
-- Appended comments following #endif statements in header files.
-- Improved implementation of isp4if_gpu_mem_free and isp4if_dealloc_fw_gpumem.
-- Removed isp4if_append_cmd_2_cmdq and revised isp4if_send_fw_cmd accordingly.
-- Enhanced isp4if_clear_cmdq and isp4if_clear_bufq by eliminating unnecessary list_del operations.
-- Adopted completion mechanism instead of wait queue and condition for command completion notifications.
-- Employed memset to ensure proper zeroing of padding bits in structures shared between ISP driver and firmware.
-- Streamlined IRQs, reducing total from four to two, retaining only essential ones.
-- Optimized IRQ handler logic using a while loop for greater efficiency.
-- Introduced dynamic IRQ enable/disable functionality based on camera status (open/close).
-- Applied distinct identifiers to differentiate multiple threads and IRQs.
-- Removed unnecessary initialization of local variables.
-- Refined camera start/stop workflow to mitigate potential synchronization concerns.
-- Replaced all remaining mutex with guard mutex.
-- Enhanced command and buffer queue performance by substituting mutexes with spinlocks.
-- Removed redundant isp4sd_init_meta_buf function and its references.
-- Limited firmware logging activities to the stream1 thread.
-- Relocated v4l2_device_unregister_subdev() and media_entity_cleanup() calls from isp4_capture_remove to isp4sd_deinit.
-- Resolved media device registration sequence issues.
-- Modified stream processing thread behavior to await IRQ without a timeout.
-- Addressed cleanup procedures in video device initialization and deinitialization routines.
-- Corrected typos and made other cosmetic improvements.
-
-
-Changes v3 -> v4:
-
-- Replace one mutex with guard mutex.
-- Remove unnecessary bus_info initialization of v4l2_capability.
-- Drop V4L2_CAP_IO_MC from capabilities of v4l2_capability.
-- Modify document with better SOC description.
-- Fix Test x86 failure in Media CI test https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/83470456/artifacts/report.htm
-- Modify some commit messages by describing changes in imperative mood.
-- Add media-ctl output in cover letter.
-- Create separated dedicated amdgpu patch to add declaration MODULE_FIRMWARE("amdgpu/isp_4_1_1.bin");
-- Fix typo errors and other cosmetic issues.
-- Add DRM_AMD_ISP dependency in Kconfig.
-
-
-Changes v2 -> v3:
-
-- All the dependent patches in other modules (drm/amd/amdgpu, platform/x86, pinctrl/amd) merged on upstream mainline kernel (https://github.com/torvalds/linux) v6.17.
-- Removed usage of amdgpu structs in ISP driver. Added helper functions in amdgpu accepting opaque params from ISP driver to allocate and release ISP GART buffers.
-- Moved sensor and MIPI phy control entirely into ISP FW instead of the previous hybrid approach controlling sensor from both FW and x86 (sensor driver).
-- Removed phy configuration and sensor binding as x86 (sensor driver) had relinquished the sensor control for ISP FW. With this approach the driver will be exposed as web camera like interface.
-- New FW with built-in sensor driver is submitted on upstream linux-firmware repo (https://gitlab.com/kernel-firmware/linux-firmware/).
-- Please note the new FW submitted is not directly compatible with OEM Kernel ISP4.0 (https://github.com/amd/Linux_ISP_Kernel/tree/4.0) and the previous ISP V2 patch series.
-- If intend to use the new FW, please rebuild OEM ISP4.0 Kernel with CONFIG_VIDEO_OV05C10=N and CONFIG_PINCTRL_AMDISP=Y.
-- Included critical fixes from Sultan Alsawaf branch (https://github.com/kerneltoast/kernel_x86_laptop.git) related to managing lifetime of isp buffers.
-      media: amd: isp4: Add missing refcount tracking to mmap memop
-      media: amd: isp4: Don't put or unmap the dmabuf when detaching
-      media: amd: isp4: Don't increment refcount when dmabuf export fails
-      media: amd: isp4: Fix possible use-after-free in isp4vid_vb2_put()
-      media: amd: isp4: Always export a new dmabuf from get_dmabuf memop
-      media: amd: isp4: Fix implicit dmabuf lifetime tracking
-      media: amd: isp4: Fix possible use-after-free when putting implicit dmabuf
-      media: amd: isp4: Simplify isp4vid_get_dmabuf() arguments
-      media: amd: isp4: Move up buf->vaddr check in isp4vid_get_dmabuf()
-      media: amd: isp4: Remove unused userptr memops
-      media: amd: isp4: Add missing cleanup on error in isp4vid_vb2_alloc()
-      media: amd: isp4: Release queued buffers on error in start_streaming
-- Addressed all code related upstream comments
-- Fix typo errors and other cosmetic issues.
-
-
-Changes v1 -> v2:
-
-- Fix media CI test errors and valid warnings
-- Reduce patch number in the series from 9 to 8 by merging MAINTAINERS adding patch to the first patch
-- In patch 5
-	- do modification to use remote endpoint instead of local endpoint
-	- use link frequency and port number as start phy parameter instead of extra added phy-id and phy-bit-rate property of endpoint
-
-----------
-
-It passes v4l2 compliance test, the test reports for:
-
-(a) amd_isp_capture device /dev/video0
-
-Compliance test for amd_isp_capture device /dev/video0:
--------------------------------------------------------
-
-atg@atg-HP-PV:~/bin$ ./v4l2-compliance -d /dev/video0
-v4l2-compliance 1.29.0-5348, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 75e3f0e2c2cb 2025-03-17 18:12:17
-
-Compliance test for amd_isp_capture device /dev/video0:
-
-Driver Info:
-        Driver name      : amd_isp_capture
-        Card type        : amd_isp_capture
-        Bus info         : platform:amd_isp_capture
-        Driver version   : 6.14.0
-        Capabilities     : 0xa4200001
-                Video Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x24200001
-                Video Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-Media Driver Info:
-        Driver name      : amd_isp_capture
-        Model            : amd_isp41_mdev
-        Serial           :
-        Bus info         : platform:amd_isp_capture
-        Media version    : 6.14.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.14.0
-Interface Info:
-        ID               : 0x03000005
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x00000003 (3)
-        Name             : Preview
-        Function         : V4L2 I/O
-        Pad 0x01000004   : 0: Sink
-          Link 0x02000007: from remote pad 0x1000002 of entity 'amd isp4' (Image Signal Processor): Data, Enabled, Immutable
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video0 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_REMOVE_BUFS: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-        test blocking wait: OK
-
-Total for amd_isp_capture device /dev/video0: 49, Succeeded: 49, Failed: 0, Warnings: 0
-
-The media-ctl output of media device /dev/media0:
--------------------------------------------------------
-
-atg@atg-HP-PV:~$ media-ctl -p -d /dev/media0
-Media controller API version 6.17.0
-
-Media device information
-------------------------
-driver          amd_isp_capture
-model           amd_isp41_mdev
-serial
-bus info        platform:amd_isp_capture
-hw revision     0x0
-driver version  6.17.0
-
-Device topology
-- entity 1: amd isp4 (1 pad, 1 link, 0 routes)
-            type V4L2 subdev subtype Unknown flags 0
-        pad0: Source
-                -> "Preview":0 [ENABLED,IMMUTABLE]
-
-- entity 3: Preview (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video0
-        pad0: Sink
-                <- "amd isp4":0 [ENABLED,IMMUTABLE]
-
-Please review and provide feedback.
-
-Many thanks,
-
-Bin Du (7):
-  media: platform: amd: Introduce amd isp4 capture driver
-  media: platform: amd: low level support for isp4 firmware
-  media: platform: amd: Add isp4 fw and hw interface
-  media: platform: amd: isp4 subdev and firmware loading handling added
-  media: platform: amd: isp4 video node and buffers handling added
-  media: platform: amd: isp4 debug fs logging and  more descriptive
-    errors
-  Documentation: add documentation of AMD isp 4 driver
-
- Documentation/admin-guide/media/amdisp4-1.rst |   63 +
- Documentation/admin-guide/media/amdisp4.dot   |    6 +
- .../admin-guide/media/v4l-drivers.rst         |    1 +
- MAINTAINERS                                   |   25 +
- drivers/media/platform/Kconfig                |    1 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/amd/Kconfig            |    3 +
- drivers/media/platform/amd/Makefile           |    3 +
- drivers/media/platform/amd/isp4/Kconfig       |   15 +
- drivers/media/platform/amd/isp4/Makefile      |   10 +
- drivers/media/platform/amd/isp4/isp4.c        |  240 ++++
- drivers/media/platform/amd/isp4/isp4.h        |   20 +
- drivers/media/platform/amd/isp4/isp4_debug.c  |  271 +++++
- drivers/media/platform/amd/isp4/isp4_debug.h  |   41 +
- .../platform/amd/isp4/isp4_fw_cmd_resp.h      |  318 +++++
- drivers/media/platform/amd/isp4/isp4_hw_reg.h |  124 ++
- .../media/platform/amd/isp4/isp4_interface.c  |  832 +++++++++++++
- .../media/platform/amd/isp4/isp4_interface.h  |  144 +++
- drivers/media/platform/amd/isp4/isp4_subdev.c | 1047 +++++++++++++++++
- drivers/media/platform/amd/isp4/isp4_subdev.h |  127 ++
- drivers/media/platform/amd/isp4/isp4_video.c  |  797 +++++++++++++
- drivers/media/platform/amd/isp4/isp4_video.h  |   57 +
- 22 files changed, 4146 insertions(+)
- create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
- create mode 100644 Documentation/admin-guide/media/amdisp4.dot
+Co-developed-by: Sultan Alsawaf <sultan@kerneltoast.com>
+Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
+Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
+Signed-off-by: Bin Du <Bin.Du@amd.com>
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+Reviewed-by: Sultan Alsawaf <sultan@kerneltoast.com>
+Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
+Tested-by: Kate Hsuan <hpa@redhat.com>
+---
+ MAINTAINERS                              |  13 +++
+ drivers/media/platform/Kconfig           |   1 +
+ drivers/media/platform/Makefile          |   1 +
+ drivers/media/platform/amd/Kconfig       |   3 +
+ drivers/media/platform/amd/Makefile      |   3 +
+ drivers/media/platform/amd/isp4/Kconfig  |  15 +++
+ drivers/media/platform/amd/isp4/Makefile |   6 ++
+ drivers/media/platform/amd/isp4/isp4.c   | 127 +++++++++++++++++++++++
+ drivers/media/platform/amd/isp4/isp4.h   |  17 +++
+ 9 files changed, 186 insertions(+)
  create mode 100644 drivers/media/platform/amd/Kconfig
  create mode 100644 drivers/media/platform/amd/Makefile
  create mode 100644 drivers/media/platform/amd/isp4/Kconfig
  create mode 100644 drivers/media/platform/amd/isp4/Makefile
  create mode 100644 drivers/media/platform/amd/isp4/isp4.c
  create mode 100644 drivers/media/platform/amd/isp4/isp4.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_hw_reg.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_video.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_video.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cd7ff55b5d32..3640a1e3262c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1133,6 +1133,19 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/iommu/linux.git
+ F:	drivers/iommu/amd/
+ F:	include/linux/amd-iommu.h
+ 
++AMD ISP4 DRIVER
++M:	Bin Du <bin.du@amd.com>
++M:	Nirujogi Pratap <pratap.nirujogi@amd.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media.git
++F:	drivers/media/platform/amd/Kconfig
++F:	drivers/media/platform/amd/Makefile
++F:	drivers/media/platform/amd/isp4/Kconfig
++F:	drivers/media/platform/amd/isp4/Makefile
++F:	drivers/media/platform/amd/isp4/isp4.c
++F:	drivers/media/platform/amd/isp4/isp4.h
++
+ AMD KFD
+ M:	Felix Kuehling <Felix.Kuehling@amd.com>
+ L:	amd-gfx@lists.freedesktop.org
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 9287faafdce5..772c70665510 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -63,6 +63,7 @@ config VIDEO_MUX
+ 
+ # Platform drivers - Please keep it alphabetically sorted
+ source "drivers/media/platform/allegro-dvt/Kconfig"
++source "drivers/media/platform/amd/Kconfig"
+ source "drivers/media/platform/amlogic/Kconfig"
+ source "drivers/media/platform/amphion/Kconfig"
+ source "drivers/media/platform/aspeed/Kconfig"
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index 6fd7db0541c7..b207bd8d8022 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -6,6 +6,7 @@
+ # Place here, alphabetically sorted by directory
+ # (e. g. LC_ALL=C sort Makefile)
+ obj-y += allegro-dvt/
++obj-y += amd/
+ obj-y += amlogic/
+ obj-y += amphion/
+ obj-y += aspeed/
+diff --git a/drivers/media/platform/amd/Kconfig b/drivers/media/platform/amd/Kconfig
+new file mode 100644
+index 000000000000..25af49f246b2
+--- /dev/null
++++ b/drivers/media/platform/amd/Kconfig
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0+
++
++source "drivers/media/platform/amd/isp4/Kconfig"
+diff --git a/drivers/media/platform/amd/Makefile b/drivers/media/platform/amd/Makefile
+new file mode 100644
+index 000000000000..8bfc1955f22e
+--- /dev/null
++++ b/drivers/media/platform/amd/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0+
++
++obj-y += isp4/
+diff --git a/drivers/media/platform/amd/isp4/Kconfig b/drivers/media/platform/amd/isp4/Kconfig
+new file mode 100644
+index 000000000000..55dd2dc453a2
+--- /dev/null
++++ b/drivers/media/platform/amd/isp4/Kconfig
+@@ -0,0 +1,15 @@
++# SPDX-License-Identifier: GPL-2.0+
++
++config VIDEO_AMD_ISP4_CAPTURE
++	tristate "AMD ISP4 and camera driver"
++	depends on DRM_AMD_ISP && VIDEO_DEV && HAS_DMA
++	select VIDEOBUF2_CORE
++	select VIDEOBUF2_MEMOPS
++	select VIDEOBUF2_V4L2
++	select VIDEOBUF2_VMALLOC
++	select VIDEO_V4L2_SUBDEV_API
++	help
++	  This is support for AMD ISP4 and camera subsystem driver.
++	  Say Y here to enable the ISP4 and camera device for video capture.
++	  To compile this driver as a module, choose M here. The module will
++	  be called amd_isp4_capture.
+diff --git a/drivers/media/platform/amd/isp4/Makefile b/drivers/media/platform/amd/isp4/Makefile
+new file mode 100644
+index 000000000000..500b81ce5d14
+--- /dev/null
++++ b/drivers/media/platform/amd/isp4/Makefile
+@@ -0,0 +1,6 @@
++# SPDX-License-Identifier: GPL-2.0+
++#
++# Copyright (C) 2025 Advanced Micro Devices, Inc.
++
++obj-$(CONFIG_VIDEO_AMD_ISP4_CAPTURE) += amd_isp4_capture.o
++amd_isp4_capture-objs := isp4.o
+diff --git a/drivers/media/platform/amd/isp4/isp4.c b/drivers/media/platform/amd/isp4/isp4.c
+new file mode 100644
+index 000000000000..58b21258b6d3
+--- /dev/null
++++ b/drivers/media/platform/amd/isp4/isp4.c
+@@ -0,0 +1,127 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright (C) 2025 Advanced Micro Devices, Inc.
++ */
++
++#include <linux/pm_runtime.h>
++#include <linux/vmalloc.h>
++#include <media/v4l2-ioctl.h>
++
++#include "isp4.h"
++
++#define ISP4_DRV_NAME "amd_isp_capture"
++
++static const struct {
++	const char *name;
++	u32 status_mask;
++	u32 en_mask;
++	u32 ack_mask;
++	u32 rb_int_num;
++} isp4_irq[] = {
++	/* The IRQ order is aligned with the isp4_subdev.fw_resp_thread order */
++	{
++		.name = "isp_irq_global",
++		.rb_int_num = 4, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT12 */
++	},
++	{
++		.name = "isp_irq_stream1",
++		.rb_int_num = 0, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT9 */
++	},
++};
++
++static irqreturn_t isp4_irq_handler(int irq, void *arg)
++{
++	return IRQ_HANDLED;
++}
++
++static int isp4_capture_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	int irq[ARRAY_SIZE(isp4_irq)];
++	struct isp4_device *isp_dev;
++	int ret;
++
++	isp_dev = devm_kzalloc(dev, sizeof(*isp_dev), GFP_KERNEL);
++	if (!isp_dev)
++		return -ENOMEM;
++
++	dev->init_name = ISP4_DRV_NAME;
++
++	for (size_t i = 0; i < ARRAY_SIZE(isp4_irq); i++) {
++		irq[i] = platform_get_irq(pdev, isp4_irq[i].rb_int_num);
++		if (irq[i] < 0)
++			return dev_err_probe(dev, irq[i],
++					     "fail to get irq %d\n",
++					     isp4_irq[i].rb_int_num);
++
++		ret = devm_request_irq(dev, irq[i], isp4_irq_handler,
++				       IRQF_NO_AUTOEN, isp4_irq[i].name, dev);
++		if (ret)
++			return dev_err_probe(dev, ret, "fail to req irq %d\n",
++					     irq[i]);
++	}
++
++	isp_dev->v4l2_dev.mdev = &isp_dev->mdev;
++
++	strscpy(isp_dev->mdev.model, "amd_isp41_mdev",
++		sizeof(isp_dev->mdev.model));
++	isp_dev->mdev.dev = dev;
++	media_device_init(&isp_dev->mdev);
++
++	snprintf(isp_dev->v4l2_dev.name, sizeof(isp_dev->v4l2_dev.name),
++		 "AMD-V4L2-ROOT");
++	ret = v4l2_device_register(dev, &isp_dev->v4l2_dev);
++	if (ret) {
++		dev_err_probe(dev, ret, "fail register v4l2 device\n");
++		goto err_clean_media;
++	}
++
++	pm_runtime_set_suspended(dev);
++	pm_runtime_enable(dev);
++	ret = media_device_register(&isp_dev->mdev);
++	if (ret) {
++		dev_err_probe(dev, ret, "fail to register media device\n");
++		goto err_isp4_deinit;
++	}
++
++	platform_set_drvdata(pdev, isp_dev);
++
++	return 0;
++
++err_isp4_deinit:
++	pm_runtime_disable(dev);
++	v4l2_device_unregister(&isp_dev->v4l2_dev);
++err_clean_media:
++	media_device_cleanup(&isp_dev->mdev);
++
++	return ret;
++}
++
++static void isp4_capture_remove(struct platform_device *pdev)
++{
++	struct isp4_device *isp_dev = platform_get_drvdata(pdev);
++	struct device *dev = &pdev->dev;
++
++	media_device_unregister(&isp_dev->mdev);
++	pm_runtime_disable(dev);
++	v4l2_device_unregister(&isp_dev->v4l2_dev);
++	media_device_cleanup(&isp_dev->mdev);
++}
++
++static struct platform_driver isp4_capture_drv = {
++	.probe = isp4_capture_probe,
++	.remove = isp4_capture_remove,
++	.driver = {
++		.name = ISP4_DRV_NAME,
++	}
++};
++
++module_platform_driver(isp4_capture_drv);
++
++MODULE_ALIAS("platform:" ISP4_DRV_NAME);
++MODULE_IMPORT_NS("DMA_BUF");
++
++MODULE_DESCRIPTION("AMD ISP4 Driver");
++MODULE_AUTHOR("Bin Du <bin.du@amd.com>");
++MODULE_AUTHOR("Pratap Nirujogi <pratap.nirujogi@amd.com>");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/media/platform/amd/isp4/isp4.h b/drivers/media/platform/amd/isp4/isp4.h
+new file mode 100644
+index 000000000000..7f2db0dfa2d9
+--- /dev/null
++++ b/drivers/media/platform/amd/isp4/isp4.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * Copyright (C) 2025 Advanced Micro Devices, Inc.
++ */
++
++#ifndef _ISP4_H_
++#define _ISP4_H_
++
++#include <media/v4l2-device.h>
++#include <media/videobuf2-memops.h>
++
++struct isp4_device {
++	struct v4l2_device v4l2_dev;
++	struct media_device mdev;
++};
++
++#endif /* _ISP4_H_ */
 -- 
 2.34.1
 
