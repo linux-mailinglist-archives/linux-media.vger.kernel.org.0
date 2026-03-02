@@ -1,295 +1,223 @@
-Return-Path: <linux-media+bounces-54104-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54105-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id INlcE2mxpWk8EgAAu9opvQ
-	(envelope-from <linux-media+bounces-54104-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 16:48:57 +0100
+	id cKsnJv6ypWlMEgAAu9opvQ
+	(envelope-from <linux-media+bounces-54105-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 16:55:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57961DC27C
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 16:48:56 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD761DC3CE
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 16:55:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6E9A83087D20
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 15:43:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2243830C442D
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 15:51:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14F43411635;
-	Mon,  2 Mar 2026 15:43:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24A5D41C0AB;
+	Mon,  2 Mar 2026 15:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="SAQhESTd"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NNZp1yCD";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="emRbFzUD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011061.outbound.protection.outlook.com [52.101.70.61])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C762C411628;
-	Mon,  2 Mar 2026 15:43:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772466220; cv=fail; b=iA62ngFGbwBUe150J7AAiZWgTHIxb8RC7NmrxS793bDIA4fYwJut4W8C/d/TSBEvEDIwAwvhoNDQpGgxW33KwTvMm3fgfIWsbEhMBTCIcJgeMS8rIhQonCwkzbLOgJL7IBF8+Ak6PspqCxDJPLGeA1UBpQkniDMiJ7S831WV8iM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772466220; c=relaxed/simple;
-	bh=w3I5P63QOC2YV1zJ94RX6yjZGCCjB/2tH+0RsU8WOiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=he4gA6PUPi5W7rg+5ExTtx+7kxefSq2fdHrlsI3o/VYpZxK04+YhfBmjS6D6g1C6T4h3Wtg6oaABUK7FlGuvDwYwd7AaWpoFPYu4CiDbwb89ZiEy7vNnXRbQgN+/BYVLtfK+CpmNUXRETe9Y/V8RWzK+Ecan3aKh3NNCq+4N17Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=SAQhESTd; arc=fail smtp.client-ip=52.101.70.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yjZQOB1lWgrcUYwz+B9DwVWEyKccMqPycaShTd0kVceHP8lYWUWj1voVKd4vwJr/bgabEMxk8828CxGBbDj0T4O0AaIvfG1j8bdGFr86cM8ovkr4gcHYXMygvPmDDp0U7OmL6uIBvYx+Ex2IIm+sSRfm+FtUc7LL9Kx4XlKNchTMuYmROg0XTnX1IPUiP35z2XE0gAFVgXQrlOtdb5ZmqBewzLPva4B6NQdIBFF6HQB3rBiXqd4IMC4GgXG/AnsO2IGWZFp561YdvTHfpemHmj5NkkNUOxgthCK5d+dZNx1roe1rlDu+x4O6FY4+vV9bHR1wO9eX83Er8f4qxsqJpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FSFmvdlhGCeahKa2JjmAOArabeUyFmNJM0CIjqSyYO0=;
- b=A5kBMOm4mc9qC6INKLu+/VYbPP7Pwk1zGcM2p5rCm2zXRIsgYw8hi7+nK0qPHS4pJ3RD7ItvgVvEYQeLcc8bgNSNMueXV7hXV2KyjY01/wuIvxiqh3P2u2to8uu3MqOmPHFyd2RvdH/KW3dSoZreH9STdbK/CEx8/gVYMXvDx74/ocqfwHQNSZBK0EWbPlQbxjsj8zRj/irdcCqpJT+3TCswMDnl+CLdT8ogmyf7xRUajOkEOutMhh7hKOrReIHmVH2R6dJRs1EaQAkMnFv29tz/bpFBhrSBOsbszLSLvdu+6OX/H+5BlIxLE7ckbzxKBNYF3Ko/4DUvGxJBi5ua/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FSFmvdlhGCeahKa2JjmAOArabeUyFmNJM0CIjqSyYO0=;
- b=SAQhESTdNc6S+zRuMBFGB3zLL6u90agD1xx/6MZEkQS9izso1DL0jUb58gwNYUepx/nGV3bYarWyJnp6qHELabuiJd+MAcAh/2JMOJ16BmYGYZJUuHiNqFkN5MOV5gSATV3NQc42DxxoOoKD3Dg9TwZaYrd9qmJye8IF46yn4Q8THkeGILZe8zISQBXIeizItC0qiOw7nutGxqWpnfzLQYo5d7UM4jdBitLmMq0a2MUn4ru+CIhpPClwPddKZ/R50FU27WB1CP7LdVgl9oBIY7eIOLzh8XYsgNi8bfioM02QO2H4VwWXMfJUJHKNCCNvs7K7H7tBxWATATQHCo9n7Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by AS8PR04MB7846.eurprd04.prod.outlook.com (2603:10a6:20b:2a0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Mon, 2 Mar
- 2026 15:43:35 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
- 15:43:34 +0000
-Date: Mon, 2 Mar 2026 10:43:26 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Riesch <michael.riesch@collabora.com>,
-	Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] media: v4l: async: add helper API
- media_async_register_subdev()
-Message-ID: <aaWwHlvmvvMQKElk@lizhi-Precision-Tower-5810>
-References: <20260226-v4l2_init_register-v2-0-902d7140f9fa@nxp.com>
- <20260226-v4l2_init_register-v2-1-902d7140f9fa@nxp.com>
- <aaWO49Dga6gHgOXS@kekkonen.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aaWO49Dga6gHgOXS@kekkonen.localdomain>
-X-ClientProxiedBy: PH7P221CA0060.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:510:33c::16) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4E041C0B8
+	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 15:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772466706; cv=none; b=AsLd4twFz5IhMJplO6gINRkDiBh8eT2NEcMBg/d3VHTcjfkDvqZn2vVnkcGbVlAdcac65upApLYwSK2NfELW1dXOKPuAxVPyKl561ZRM6KN32wVaKJKv3JHVOQ+l4h4/XFpQ1RYAPrlJ2uDSyS0pWsNiZVoqZ6XEPnTpxMDQhZc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772466706; c=relaxed/simple;
+	bh=xkMkJW1eg13NYB4IQ0I9EK2Kbp7CwzmQkQAQFdklgsA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dd5Diq8JwzpwwFR/O4U/OSpIffyGHFSakwDxGtGgEl+67284dMhJMadCISVNuYebXkzoKpxkvg0dBLlCBbfbYpIvx2oSKQg2h3iH6Jp6fA6TX5icSxyg+C1DqT6FDodevcxiftoSe9VP/wfCp+QO7kzWwIi+XebiJK/6Gl5bGqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NNZp1yCD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=emRbFzUD; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62294sHP3753600
+	for <linux-media@vger.kernel.org>; Mon, 2 Mar 2026 15:51:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Dmr6Lu2CMZ8S0eocC6PKa3LOsOTXBhokS5Zz6BTZz6Q=; b=NNZp1yCDYy+naCuO
+	uHSLA5kMw/K0vBI0owGBXGHx0Ln6gCQhhshiFf4v86t3Y/GhxDA+wB6k8ZjqdY/i
+	40B3znsWWKx7Vhr9nbzD664ia4sWEW/YRYK2qQFS2/7EdCjRt0bzQOFiWgtwy1Dh
+	EkCkE+rN5ZZ7dP1/wJfrQA7wLcyaOpmhEBEt8R66ka9lgpRzdAHJPuz5rFtyeWLF
+	dmLo8IY3GBL5Sy1PX4PjAehWhtFbIvMPLEgf4MZNnxDgVO5HqQSY/Mc9fCrOFBOi
+	onuUqhX4D0ls7kTZCnHWrAgLFvGCJkyBfNjqCChNDVImuralTvB5bR/RuUZtMn6L
+	YeHhCQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn7kq9cwk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 15:51:43 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c70cb31bcdso425996385a.1
+        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 07:51:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772466702; x=1773071502; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Dmr6Lu2CMZ8S0eocC6PKa3LOsOTXBhokS5Zz6BTZz6Q=;
+        b=emRbFzUDFSjZ+G5eFGac1vDEMHdNhYJv9WKLV/NdQAZgqpindFr7GgwttvQcopuhs8
+         LkeRO3DsfDlIWnSWW3ykRww55jfQFrzVH925+gxiZjo6ha0YS0g+kIBGnWIF+uTgVxTr
+         Foxb8kfY6B61dcH1oi6Zfae9BtRpb3CVzmAP+Z3SOnmEwxT+ts1yVyz0CIr0GqBOie7J
+         IxFcSK+khlalEgUOP8lr29Ws+PrfurvqfH6a+gPhKQEF6Mc7NHVsGTlih0SFqbWhiCUd
+         3HMQ3seKNqp5hkBEd2YAXCXJOXS/4JeLYYPe1yYboWqXj6sGVQzVJxMvgdnGtPONW261
+         hMmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772466702; x=1773071502;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dmr6Lu2CMZ8S0eocC6PKa3LOsOTXBhokS5Zz6BTZz6Q=;
+        b=H6CmkF8EYmV+vJxxsdYgYtqZN1PRECgTQkQ+0RkTnEnySs82yLHrMhJ8/0+9TFJujp
+         GGG1aQ/uwUdC/zmxyWdT/woIxT5iP2fScypW2Eqlb20+3QT9vk0wvbYUoHSmUs+eK5xo
+         2XEJuSV+MrME1sF1fRaKM5qunLw77jB9kOEo5CeyL5hrf33N5L4MSm+khyDhDEQc+o+L
+         LBytFE3ok+UNU/Qfov/W/O8uqRQFYeJacu8+CLdx91srC2uab5V340MKzRgPdka+Fbgx
+         kUAekB5HLFNDCGhyM9hpN/J5bRKVl+AsN7bktAXmX5iwF034TosqeAYdVKqp2kWweGoG
+         pVhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUIIdKl06QWfRki8pUwOk9NuTUAUP+5D/xQ5CFmkjuOFv4+DvlD/iC1dxsNUBmF459mv+1OL8AiWJ5adA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWV6BmbRcVyfJwH/9EXg0qdSHbPH96ZA42k6W8GqYY/u8XzPdP
+	RGCJ403C0tuU0UrnbelrBdUDDF78aKoalJtuTo63nQjTkBBP+B5ldXLsIsPTWpMXA+u6rNrSpnh
+	Zd0t+kXsieYhmq+tO2ENhVc+kGa7UyenUEgmHDdDjTdbc0c0gj4GMU4IMmG3nRR/IQJ0H7Wq0IQ
+	==
+X-Gm-Gg: ATEYQzxu2qPT3SSECN1BogcICiVlqyukElwapoSgU4fiWIblp9YVKtKhr8gbp7XwN4D
+	ELK/4tPjatFMnyGk12c+exG1IYckSZRQ04wvBisIoQo2mR2XPpnr/8WNPEK9TnYqK8Dy2cyWJfR
+	tOhRZVSe01eDusjJ2S7U2ivfVhIqGmDC9wG/YaSSn89zoDtJV0BtiopWHSg3fO4hbY7E69J6H2M
+	jhkenucibeKa/trBAseHkLB8Lx/kghno/Jee7/kMx+kNY/mh1RFGrRcmqw52wM2w8/jMwzH1iQO
+	o5ZOVIL6ec8LeAd2nVTeYcBDlmYMoTEhGzMCnCBwqRDxM3FttWaqttMlEmYXJVEgMmeaOM4RRgI
+	Wc3Bsznf8l2cKpgr/0vJcUEcyYJRxq7VYwNfXnNEnF1BsZ1ETn6tk0MjDUGAIK1xNr+Mq2lP/9Z
+	bilWE=
+X-Received: by 2002:a05:620a:4155:b0:8b2:ea2d:a5 with SMTP id af79cd13be357-8cbc8f2348bmr1273197685a.7.1772466701790;
+        Mon, 02 Mar 2026 07:51:41 -0800 (PST)
+X-Received: by 2002:a05:620a:4155:b0:8b2:ea2d:a5 with SMTP id af79cd13be357-8cbc8f2348bmr1273194685a.7.1772466701264;
+        Mon, 02 Mar 2026 07:51:41 -0800 (PST)
+Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65fabd466d7sm3411974a12.13.2026.03.02.07.51.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Mar 2026 07:51:39 -0800 (PST)
+Message-ID: <3eae6261-f61d-4d05-b1c6-393855f107a1@oss.qualcomm.com>
+Date: Mon, 2 Mar 2026 16:51:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AS8PR04MB7846:EE_
-X-MS-Office365-Filtering-Correlation-Id: 666be8cc-ac6a-4559-b993-08de787276ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|1800799024|376014|366016|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	IddVPdEXeeGB8LZf04zj5umOvbCS0sxaDJkox1ncGR2GZhWKEW7gEVlbVBFP+bozBXleCZHPSZUs4XBrGS2RhODsV5LyqX+vMI4XgjBDhaMyktxX17BR1YlflVevwJMpDubf+vSDrSKLWTxxoDzlZq9D/4UsDKJhup4e/5Jldw2+DteVn/ZLDhHc+RtWvj81z9C2VdozY3mWsFzpj9DrSc1IXESt8VhxNyfyq03ONu+xazKzIl4Ogk+4g503w9sWzzS4ER4lZ0yfNPQBfjIEhfZ9RhAREL/rkYy0HLk4xlQ3FoxJFhfbNYY/hSy6x+P6RAWD5/LyndGzcqbV8t0QjYhM4K8ROaBiBk+N/aB3/TpEFg/8ZbSm+DaG+Y/MoN7wdQCc/oXiUT7j9s94GZVK9ctxSCfHT0T8RIyXX55lTAsfJc98ymKu02FuKBgfu9vjsj27LnHqpNg9zLyEfET284ht8hZJCEaHuJVRmR5UiiWMkRr87TqLSW3bhQisskN9ZKQQGZo3H3IsgUib8NDrk8AxIXLCQ8UnImdZmoAm1daDsWrPRSaBqvmA6ul/xZ5wO9kwZsptAB5KH0j/jGqCj5q1nHnN5M3zqW/fWiiune6HhuE8Gn0f9cP2xMVewr+87R3ExQaraFfhdPr1Hk7Gd0AdKtC69avpIy+hNvcHv2RxztcnXxqHBvcqWbp5wXfuqA78X8Pu0P+8MPM8dvqc3MMncQzIdxGvZHV3cYQC6v1KT12rZf8DtdIHpZjH6wzPndP35XE/Q4e0BEuk0KN78FTrmmer48ra67cFKsoB/K4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(376014)(366016)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?wizfi3u6IT+F6oMNHUqzSX/r+w+q11vuwd2uqf+9Ro15LPRZPSBHKq4/EKkT?=
- =?us-ascii?Q?ia9CbcsUKTk9RH4HvI2g7T0uWaklwdyd7cIkocfN8Xag1R+PkwfFdiOrjacP?=
- =?us-ascii?Q?QksKk5ajEMKq9R2sL+c8DgxYIGxD/yLfiFRCBiX+lveYmrCEWt+/aLvoJR59?=
- =?us-ascii?Q?nupElJ7wWnRtd9spNeoXTC6sKdCXlHcqkRK1j7Z8GNbUhxL5fIADEoHBypHC?=
- =?us-ascii?Q?6Hawd5z98dOR1vyMXAo2eSDHa5SWEW8AxtlR/24ikh25PS9Sp4ZRdNTHyNEb?=
- =?us-ascii?Q?e6xFyUzxGfQFF4o3BVA/o/e4hYPQMunvlPSAkXde1zo8TGQA/jwYg0FXowNt?=
- =?us-ascii?Q?uMBypwuk/Bdm+pquhT2ckMyz93Nxqborlw5qVOwt+TjsQkMsLAqVPliugOPZ?=
- =?us-ascii?Q?pya26NVL/3Fjs4JM4OmvuQEKzhWHjg31QFeTDpOXnv2Y4/sjQkajpXUo6oNZ?=
- =?us-ascii?Q?vJtcIBRsAlZuTpXEueH1vIAyMRx6Ucl4ae0pXW25XjhMGZ3SHNg2hXVee2li?=
- =?us-ascii?Q?3MPusohR1sbl6L6ImFzFrWiHNSAbeA/+lgqn1AQ8Sq9vlTQdKJl/dheLMZR6?=
- =?us-ascii?Q?Hb55T3JXivZkOwSwl6NLeuA+xFVOA1PdNA0tUIOlhfZwkZI3rJRF74D8DBaL?=
- =?us-ascii?Q?Lnq5T4hDckmRqFP8gZE+tDZUXEan88EBWpmpmIqKVXPyJVZOi1kk19vYxFeJ?=
- =?us-ascii?Q?XUKa8M6qFS6sY9T5Ipzhq5WrxmlbErxiUS5e9et80vUtsYx1NToRtrhwjf8U?=
- =?us-ascii?Q?BePnZtGhBKTJD3IyfUFQ4DGp3FP+zRPLTHMYVwxGosMy9X8GRxkax1COnU7q?=
- =?us-ascii?Q?1FLPb9j3y0ZogJ+Mph6/IWa0jwwguVuHjtLJdasbbE3r2WMaZy0C6GfAyxyX?=
- =?us-ascii?Q?25r/kxaCnkOJl+CJEG097Z0lMGtwCTWU9jK4Vx1HudmEFZL/Qce1tKr6FlSO?=
- =?us-ascii?Q?UAo+369hU267IsXUofIOPzOeDpjs8GeXysNookmq/Z4UZQ7ajm05kse25mS/?=
- =?us-ascii?Q?pYyi37M2v4xIht0ri2LCCIzer8qsruKhXg6RnDLIZuAVuHdS1Y1mkGlne2tf?=
- =?us-ascii?Q?JwZoMxNzgKmWU7Px9wBRdsSbOtzvTITdmG4qqoIEsg1nEr+j5VpAT2Wq3weU?=
- =?us-ascii?Q?OYVAR+Fnj+rVGJCTCBevPJFIh6WQ2gKnuNABwc3yEUx2z+TEXkJze9Atliep?=
- =?us-ascii?Q?ZM7l8j20gJwRwGTNu9l8wA7FgZmRDHJTngjAnmuNwZbkyxchJzwqejafX3kJ?=
- =?us-ascii?Q?b/J6W2O3028iAAWHneOsQdlwGWazPteZia7FRqdEw9aKsX6ihVhV2XLE3tK7?=
- =?us-ascii?Q?ImERFwjVTIaTGlMRqikPEiY6cppWQn4/dLHASfOS1chk428Z+Atk9XDDdRtP?=
- =?us-ascii?Q?U30/AtdqFVKPO8bh2hX0r6jTymoVHpwwLd3eDFeobSs6ZdhmIeiMrktM2rnb?=
- =?us-ascii?Q?RH/PZ8gJxtq9S7HxR8UaaY6AGiRnzhq6rbdQ8tSKofDJAyJTpdPDR1axbzD5?=
- =?us-ascii?Q?Zb6AXwTOUlcDjOR5JzMPIhLwBWRANbXjlhBqbKcH1v8GDmmi/jeLBAhggb8H?=
- =?us-ascii?Q?FrngiHYPmx4x+H9rvzVhu9/F3JFBi5AULBZ7T8X74PGtSe20XYWw9A1ftXhE?=
- =?us-ascii?Q?fun274JCMxBcKZ/g7E5mccFdxuPpBQSTNfUUYQBHpUO5eqnf1Qe5ljIP7PY6?=
- =?us-ascii?Q?NaN85wBoPDjr3htdOnRyKVOWH1uUQKrrDQtlnPXeGGQemzVC?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 666be8cc-ac6a-4559-b993-08de787276ae
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 15:43:34.8274
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kzhgDuQPEHjAhRpbYpIEk8MLqrGxVKBj9y4L+LzdmMf9HHu7o3DGSc7h/tG5ynLiKXbt+LXD9Yi5hcWcJrRnQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7846
-X-Rspamd-Queue-Id: A57961DC27C
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: qcom: camss: Populate media hw_revision from CAMSS
+ resources
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: bryan.odonoghue@linaro.org, vladimir.zapolskiy@linaro.org,
+        mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20260226100444.857406-1-loic.poulain@oss.qualcomm.com>
+ <1aa1bf9a-ee4c-40a6-bcd0-cd3866415663@oss.qualcomm.com>
+ <CAFEp6-0Pe7t5q11K9fAFkbUEuLOmsBp6rE4FFvW6o99yuLqS=Q@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <CAFEp6-0Pe7t5q11K9fAFkbUEuLOmsBp6rE4FFvW6o99yuLqS=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: pf6lJnX83GOkw0yH6ao-Sje5QCTxMvlA
+X-Proofpoint-GUID: pf6lJnX83GOkw0yH6ao-Sje5QCTxMvlA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDEzMyBTYWx0ZWRfXzNpxS09ajzup
+ m5Sq3f3wAlVuuWxl+BD2WvE3vV4yX70UHe1JmYJ+Fk2Is6kUNimfAlZsA5uc1gUxbzVDXL1vHnH
+ h20N36rjUH1vdaGtH5m7AFltGzyFZXfm80gPr96lD2magcwW5eiy6wVf3EFeyJLe8JO7YwFpThH
+ rntglorg8jn+Kkyx0CuT6VKxzEjT/4M+63+GcTmuFzC11kCJagrUREjmmU3VIxcN5cCfSGwKEki
+ scX8j1W0ioap8mGoilxIp2LZcokI7wKjQddipMGbO3wZzHu47BfBnhCjTjrJIvpMd0FXn3YW5qF
+ M7UfYAxbxZaRCk7Ey+Ca3lZOuNjmXE+okjEQlwUtADc5Sp4+A9UE4uo2svhWE2BYhmOv7bI7v9G
+ GqNFBkpxAy6qsjsZe1GzRcW6erUXdeSNOf9TKv9E/FvYndM3yrA5Apjl3Aj2qY24aA9ZqWd36X+
+ vFYnm3nUVFWwrWklScw==
+X-Authority-Analysis: v=2.4 cv=GLkF0+NK c=1 sm=1 tr=0 ts=69a5b20f cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=EUspDBNiAAAA:8 a=0CubDZv9oxBoJNJMxdMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-02_03,2026-03-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 spamscore=0 adultscore=0
+ phishscore=0 suspectscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020133
+X-Rspamd-Queue-Id: 3BD761DC3CE
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54104-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54105-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:dkim,qualcomm.com:email];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,nxp.com:dkim,nxp.com:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On Mon, Mar 02, 2026 at 03:21:39PM +0200, Sakari Ailus wrote:
-> Hi Frank,
->
-> Thanks for the set.
->
-> On Thu, Feb 26, 2026 at 05:55:26PM -0500, Frank Li wrote:
-> > Add the helper API media_async_register_subdev(), which
-> > combines media_entity_pads_init(), v4l2_subdev_init_finalize(), and
-> > v4l2_async_register_subdev() into a single call.
-> >
-> > Reduce code duplication and simplify error handling in drivers.
->
-> I appreciate your efforts to try to simplify registering a sensor
-> sub-device, but I'm not sure this gets far enough to make a notable
-> difference: the new function calls two functions typically needed and
-> requires the driver to implement a new one for registering a sub-device.
+On 3/2/26 4:28 PM, Loic Poulain wrote:
+> On Thu, Feb 26, 2026 at 2:50 PM Konrad Dybcio
+> <konrad.dybcio@oss.qualcomm.com> wrote:
+>>
+>> On 2/26/26 11:04 AM, Loic Poulain wrote:
+>>> Set media_dev.hw_revision using the CAMSS resource version so that
+>>> user space can query the hardware revision through the media
+>>> controller. This can help identify the exact platform variant and
+>>> adapt behavior accordingly, for example, allowing libcamera to apply
+>>> quirks or enable features that cannot be discovered through standard
+>>> V4L2 or media-controller APIs.
+>>>
+>>> Reported media info on Agatti/CM2290:
+>>> Media Driver Info:
+>>>         Driver name      : qcom-camss
+>>>         Model            : Qualcomm Camera Subsystem
+>>>         Serial           :
+>>>         Bus info         : platform:5c11000.camss
+>>>         Media version    : 6.19.0
+>>>         Hardware revision: 0x00000001 (1)
+>>>         Driver version   : 6.19.0
+>>>
+>>> Note that this may imply that the camss_version enum should become part
+>>> of UAPI.
+>>
+>> Wouldn't it make more sense to populate this field with the revision
+>> of the hardware?
+>>
+>> I see that CPAS_TOP has a TITAN_VERSION register for the newer chips,
+>> while pre-Titan platforms have a version register at CAMSS_BASE+0x0
+> 
+> That could work, but not all camera subsystems are based on the TITAN
+> core. For example, Agatti is different core but also exposes a similar register:
+> CAMSS_A_TOP_CAMERA_VERSION
 
-I not sure what's you means. Actually online one
-media_async_register_subdev() funciton need be called at driver's probe,
-which simple error handler much.  You can refer patch 2/3. (reduce 12 line
-codes)
+Please read the second line of my prior reply ;)
 
-In file, drivers/media/platform/synopsys/dw-mipi-csi2rx.c, about 600 line
-codes, only 20-30 line related hardware register access, others is overhead
-of subdev driver.
+> We therefore need to ensure that the version values remain distinct and
+> do not collide across different core architectures.
 
-Frank
->
-> >
-> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-async.c | 33 +++++++++++++++++++++++++++++++++
-> >  include/media/v4l2-async.h           | 22 ++++++++++++++++++++++
-> >  2 files changed, 55 insertions(+)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > index 1c08bba9ecb91f46b7479da613d6c1688d4b0b5c..e07173f566fbd8fa332b5e58be288e806b4c0482 100644
-> > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > @@ -19,6 +19,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/types.h>
-> >
-> > +#include <media/media-entity.h>
-> >  #include <media/v4l2-async.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-fwnode.h>
-> > @@ -881,6 +882,38 @@ int __v4l2_async_register_subdev(struct v4l2_subdev *sd, struct module *module)
-> >  }
-> >  EXPORT_SYMBOL(__v4l2_async_register_subdev);
-> >
-> > +int __media_pad_init_and_register_subdev(struct v4l2_subdev *sd, u16 num_pads,
-> > +	struct media_pad *pads,
-> > +	int (*register_subdev)(struct v4l2_subdev *sd, struct module *module),
-> > +	struct module *module)
-> > +{
-> > +	int ret;
-> > +
-> > +	if (!register_subdev)
-> > +		return -EINVAL;
-> > +
-> > +	ret = media_entity_pads_init(&sd->entity, num_pads, pads);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = v4l2_subdev_init_finalize(sd);
-> > +	if (ret)
-> > +		goto err_entity_cleanup;
-> > +
-> > +	ret = register_subdev(sd, module);
-> > +	if (ret)
-> > +		goto err_subdev_cleanup;
-> > +
-> > +	return 0;
-> > +
-> > +err_subdev_cleanup:
-> > +	v4l2_subdev_cleanup(sd);
-> > +err_entity_cleanup:
-> > +	media_entity_cleanup(&sd->entity);
-> > +	return ret;
-> > +}
-> > +EXPORT_SYMBOL(__media_pad_init_and_register_subdev);
-> > +
-> >  void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
-> >  {
-> >  	struct v4l2_async_connection *asc, *asc_tmp;
-> > diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> > index f26c323e9c963065fd7c19d6d9835df1194bc069..220a302a626732e15452f3efb19b03bdc51e64d5 100644
-> > --- a/include/media/v4l2-async.h
-> > +++ b/include/media/v4l2-async.h
-> > @@ -336,6 +336,28 @@ int __v4l2_async_register_subdev(struct v4l2_subdev *sd, struct module *module);
-> >  int __must_check
-> >  v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd);
-> >
-> > +struct media_pad;
-> > +
-> > +int __must_check
-> > +__media_pad_init_and_register_subdev(struct v4l2_subdev *sd, u16 num_pads,
-> > +	struct media_pad *pads,
-> > +	int (*register_subdev)(struct v4l2_subdev *sd, struct module *module),
-> > +	struct module *module);
-> > +
-> > +/**
-> > + * media_async_register_subdev - Initialize the entity pads and
-> > + *				 registers a sub-device to the
-> > + *				 asynchronous subdevice framework
-> > + * @sd: pointer to &struct v4l2_subdev
-> > + * @num_pads: total number of sink and source pads
-> > + * @pads: Array of @num_pads pads.
-> > + *
-> > + * Returns an error on failure, 0 on success.
-> > + */
-> > +#define media_async_register_subdev(sd, num_pads, pads)			\
-> > +	__media_pad_init_and_register_subdev(sd, num_pads, pads,	\
-> > +					     __v4l2_async_register_subdev, \
-> > +					     THIS_MODULE)
-> >  /**
-> >   * v4l2_async_unregister_subdev - unregisters a sub-device to the asynchronous
-> >   *	subdevice framework
-> >
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+They seem not to be, but listing them all out would indeed be good
+as verification.
+
+Konrad
 
