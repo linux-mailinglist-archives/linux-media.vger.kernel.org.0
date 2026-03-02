@@ -1,225 +1,353 @@
-Return-Path: <linux-media+bounces-54098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54099-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uN+HMOuhpWmuCAAAu9opvQ
-	(envelope-from <linux-media+bounces-54098-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 15:42:51 +0100
+	id +GuSEw6jpWngCwAAu9opvQ
+	(envelope-from <linux-media+bounces-54099-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 15:47:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253F61DB11E
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 15:42:51 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B750C1DB1E7
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 15:47:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2C42E30EE92F
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 14:30:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 38BB3302BDF0
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 14:42:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 740A33FD15C;
-	Mon,  2 Mar 2026 14:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FBC63FFAD5;
+	Mon,  2 Mar 2026 14:42:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cocKceCA"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ACqoEC3w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011022.outbound.protection.outlook.com [52.101.65.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0463FD155;
-	Mon,  2 Mar 2026 14:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772461846; cv=none; b=TW9YHyo3wiT0sPgYtSAZoM72BEN76Z+NLs3focBFDJdCKzWqujn1HjYyw4clCc3b6DY3RIROOdmhl8OI34Sva9P1xOieFY6uA1lwsWW0rC1do80CMr2np/8OgRfE4Mvmw721DRF5QhquJ40u9NGrNkqZBXIbgXxtFK6f3E9jkbQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772461846; c=relaxed/simple;
-	bh=auTACkpIpLcDN3HAmldqUJ0WhsCrIOAZ1kJlL3SREjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TQ5wUS2OlpQ9Mc9zliEgb2GnY6r8MLs9eW+MaT0+qdp5madV2bZ6gXdaGrQ+9uU0XhJ8mUTfHIpG6fr75gLJ9u2JfgtCncwXjpIYimQYY6TQEFp1sx0W+vJTLQHbQTl4vHYM/+FtoQ8GdJxtLKwfcBIOnbUVutQ3JHL6xwJhrlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cocKceCA; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772461845; x=1803997845;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=auTACkpIpLcDN3HAmldqUJ0WhsCrIOAZ1kJlL3SREjc=;
-  b=cocKceCAfobsM8DV3gdLooQOghO3TyrJNx7JPPexnWRbJEH2D9lzfwc5
-   7BCz+6ZaMpymonTQ39YyFGkFcfu96BIrO1IMyhkANqLzyQaTAwtoRZ9Qa
-   oZYuEZLEL9DBK8fklUVXld2OE7UNAW4gYEN+JpwjNQ2PLR27jdKCzJNU+
-   pzEmO1PiG+TWk7cb5pyonPlQBbc1tcBnrxDn2VimshnYs6Fqz/AGNzcqw
-   g90rkme8EWepyC/PDXyJVFBLmbF5yFy5leSWf8QOVM+zXPJ4b++yJsULv
-   neVOAuZflhxnZQ2MSTLceFSPeRp56QPOaZz1K0ib33CrWgzntn+CIzQBt
-   g==;
-X-CSE-ConnectionGUID: pgPkPQBCSqaE1+2AXjQWsA==
-X-CSE-MsgGUID: TpyhFmx8Q5+zPENFaCEOpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11717"; a="73433642"
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="73433642"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 06:30:44 -0800
-X-CSE-ConnectionGUID: zfgxM7CUQ9WR7C8KSOigbw==
-X-CSE-MsgGUID: IUNhEnTESLyOjAEataNUHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,320,1763452800"; 
-   d="scan'208";a="221823055"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 02 Mar 2026 06:30:43 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 362AA99; Mon, 02 Mar 2026 15:30:41 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v1 1/1] media: atomisp: Kill OP_std_modadd() macro
-Date: Mon,  2 Mar 2026 15:30:40 +0100
-Message-ID: <20260302143040.2495464-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C73327442;
+	Mon,  2 Mar 2026 14:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.22
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772462558; cv=fail; b=PHRfTVNvGIOye+u+y3sg5AapQ/OKQE16B/by9MRLmUK/GgU+NDOxYuq70tlJLi0H0Rgdfj5dKxlPBqJ7QX9HsrTwuRzcWqa+NCCjLGSzQtWpOuG9P91BrogNqEHAgVv8li2JWRDIZM6tBXUGq4iU9+RPVbxnex61vSwa/vxs5gA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772462558; c=relaxed/simple;
+	bh=6xPtTGxjbM6HmtOWlKR7qKc6TDgS0Ws7RfEp1aIiqak=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Hggu5gQ58Du0QNwpCK080VV+ACmEvnOKBEARgiiUzegG5HuChHat3/3JRXfhukJ2dBd4o6VbbKO2YAWG0s9CESWWBOl1XYldASxfBRIJBir1KnM9fu0iu2MxTtx5ufvU/CWdGu1BphXuvR2W3qrtqCiJFVwECu1CQQXju1HK34w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ACqoEC3w; arc=fail smtp.client-ip=52.101.65.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UQOJv/j2SoqQNa27SIE/RgT1krJEFODdGAga0lxlw1VcjutAUZg2EclqhrF/uN4SEP20kJmixHFZK2gA++umClMhQYXw/d/9iYK9MbEGleXVAq/pIbjC0IqjVIAioJYZ5SsbLWBLEDrtRgrn4Aia1qCrKANiFqDYpI0It2xoePhYL0TsuKFgix82vIZWqnuBQ9RKgvG2iHCenIEkOi8B1sRc5dZ/f+n+UBzud43M9jSy56Oyy9y9C8rIwkzG3kYc8mbiuRKDjH6EhKeR32vv8aNPixmAqBs1Yw5MSCulXR3DrAYyCB0FrMo+1uI9OgdDhoe4iMb9RAYmWXPFbjRviw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YVTBK5zq2JeOyMsEgIcxv9T4/QzrJRdysFrpGaKSoOU=;
+ b=NuamxiZ1uH22rN8/ccmUCpyRlsPBfuatd4q9BELc8mLpRnl/PbJSX2+Jcpzq0iugHdSed4r12Q+Ge9yv8HB1BfZ3PfGKMOCjIYIaUehxQ5Eg4oVh0+nHc9ZLhSqUfmWqi1rqddB5KOVRafnT7iRZAP3mX2Nd9xXBdOJgc0xacuAR/DEI3Wv2sJc7Q9jYGJbsMHSCzd5jnUQOxesmHZZMy6ZJ4C1dJ1Af/PwaRIYeKJE5pU0Idks2dFza4blbebxTSYNlU2zH7UpO9IhDTKze8vq7hgQLininEnjgGH2X99+u1veS4wtPG7yqlc1r2uLgkUq0DUpsDCf2YCWvhGS50g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YVTBK5zq2JeOyMsEgIcxv9T4/QzrJRdysFrpGaKSoOU=;
+ b=ACqoEC3wIiSEUuqPq915xulh6f7eQKhkPkBt1Lx6WOuABgB1XdgVqBJlIADtJsMxi4RrGSb7hUD+RkAczmr+lwadxD44iEIqpwoEu/0fsMoIGxcDjlu1qiT4W7lY+SkLY2eRQEZ9RnbP9EkT/Y/6FmfAisWiYB0zOkyUqKpqtiY8zGSvytQtUSHsWYcSn1eLl7a9TfA7a9wPGsy17zvgNmbzYGRx9k16wvg3Yz4kA6X0POU0RrL/FC8TTxF5UNsLASCR174/5Wipi9ejzHZLN67sFbmptS5XSKO1dJz75ddEHqrPhpxkz1b0uUElmsXuGj1e/g2RgKfh8mY5bTt0Sg==
+Received: from DB9PR04MB9426.eurprd04.prod.outlook.com (2603:10a6:10:36a::14)
+ by AM9PR04MB8908.eurprd04.prod.outlook.com (2603:10a6:20b:40b::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
+ 2026 14:42:33 +0000
+Received: from DB9PR04MB9426.eurprd04.prod.outlook.com
+ ([fe80::9024:608b:852c:f484]) by DB9PR04MB9426.eurprd04.prod.outlook.com
+ ([fe80::9024:608b:852c:f484%6]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
+ 14:42:33 +0000
+From: Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
+To: Conor Dooley <conor@kernel.org>
+CC: Oded Gabbay <ogabbay@kernel.org>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>,
+	=?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi
+	<xuelin.shi@nxp.com>, Alexandru Iulian Taran <alexandru.taran@nxp.com>
+Subject: RE: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
+Thread-Topic: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
+Thread-Index: AQHcpyWNgEFrUuUjek+Hd2v4H4n447WVSvIAgAYLbyA=
+Date: Mon, 2 Mar 2026 14:42:33 +0000
+Message-ID:
+ <DB9PR04MB9426A255C4947DB273A17AB6947EA@DB9PR04MB9426.eurprd04.prod.outlook.com>
+References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
+ <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
+ <20260226-unthread-reformat-92b855c4acf9@spud>
+In-Reply-To: <20260226-unthread-reformat-92b855c4acf9@spud>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB9PR04MB9426:EE_|AM9PR04MB8908:EE_
+x-ms-office365-filtering-correlation-id: 6b6b39fd-a85f-49fd-89f2-08de7869f098
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|19092799006|366016|376014|7416014|38070700021;
+x-microsoft-antispam-message-info:
+ 3zAgnS92fF2FgedtS1g5xPc3486CMA7r5rI7H41l2x/VEX5bL0oAaV5Wpbl+rYCzTcKbzP/6am07fjYppwH+9ZGLatE70HYdHZ4Aj9nZQ2eaDokyCKoFj6lUQICUFs6prMUTAWzCpgeP9j4VjDSt/ZNZt03iRD6gmeXkRvB7GPxvXyBZQ2L3lW9KBG775odTYa54qn/OSImvzFLTA36PaCFyn6sY7hCsfa4cmNDu4ATil2yeP/yKPpFDx8BY+D1O2ZMfjYMMmevn3q8tPT0R9w5aVic2pEstU6vBvGLTE+shHEjTOZyZSbt8l1a7/TlwN4D1GNrn5H/xB+xroWfH6e3DMKjkNpibbFb9C/IUFfEDjUYC7cbf42v0mh50CLGjkD60/gNodqSrZtkckGjU/BW77m44jMHYhFN//7wdEeXfR8aDKJe9KabEUlEuM64rwj3U+VAqDTJ0WRsxWQ/DjWrO+k5UItuFzzTC7bZ6vkn/PRQj7WLuyrUkREZs99D7dbEV6tueuU+fF3K6i6dMhKLzNnVVz7J+VEzTBxLMk/LascqfUmNfXuBMLaOZ2mFmmudeDPqVSCrkxr4xEVSHvO5hjJB7CNJ3tiGbx8UjxQx2p50nB+GP8vWOo98PYNVhJHG+jMqDzOVaO1zi99XCpQ8EAAU8086j29dVnBdl9rMgbKqBQz2vzxiJWMId5/pVbrja1BI3FwLWUdUsdqkgvZ+/JUY8oolEdcnC3v19Q0z4aTMOpiZmYxo5elUVy9MrSg97seBKmOxkm08/4DvxmBnSmOGexlwvcC26AkLmfpyOYGErNDMzZ1D2QoSseVqS
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9426.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(376014)(7416014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?L8+xtGjO123VigaQ57mv6E+UM0lk/Ew9ZeQQVfQJer658myAJdT6mX9OcC?=
+ =?iso-8859-1?Q?3ROLRGfwQS0HBsetyFSMtX2uNuTFZFQp9PjuFNLYx8ytdxKfx1CReZVyIg?=
+ =?iso-8859-1?Q?qPCNI3u+Gi+//o8q0BgXZAvQb/H/jlDEk95BMHECTlGlzDGDBbM7a2nrjz?=
+ =?iso-8859-1?Q?CMds3LQ2GZl54hCeCTkFc3HsgCvfei+HCqpK9RS5m9cLkOEE5eoi0NY/Ia?=
+ =?iso-8859-1?Q?4+LOGdGq1CtzgSViE50ehpEY8dshzXXE2hzfLwALLJAc85wXowvmdF9yPr?=
+ =?iso-8859-1?Q?VApDOUBVU2DAh9SNJS7k+NZ5feXMtgFsfJPEgHDebd53AAhZE7qWQrIbB3?=
+ =?iso-8859-1?Q?srimTXnk8VzVYrpBOw25IdWA4jXRygQ0gmt6C3al6NUYhgsLmqri1rzwzm?=
+ =?iso-8859-1?Q?tajGCaUCT/GXuBBzQsi9cL1wLkTaZI2h0q6SDPOnLzqia3WSFgT6zlKPNv?=
+ =?iso-8859-1?Q?Fwl0pmh+JVo/lgzp8m2R1P7Y/89lxC7JxEsqceD2lUkt3kWmoqxAs8mEQ3?=
+ =?iso-8859-1?Q?FhiXVN5725XaFu8tHD7gsDwxY7z47ZddfVzLWnBNZ93hNXV/q8BijQKwTS?=
+ =?iso-8859-1?Q?b/I5rzN5c+drPTosMNEy/Kz2n+bOlBOydD/azrJHZf2eNyBYxBoCaEOjFf?=
+ =?iso-8859-1?Q?vyi8KDaysB1FI/Rb71H5qpth/nGShvsB895xHIenR+FZObuCopwJIDPl5S?=
+ =?iso-8859-1?Q?urG88zoGc5tL9OU/yXOb9DYth8vrT83rlgdgwaqZMReX6whJLvorSmBFEE?=
+ =?iso-8859-1?Q?8B5NheIp10zIFTj0HRrhaB/Wqy09rDnkoinkJei7SR0CvwXt/J+1B8hTJr?=
+ =?iso-8859-1?Q?USUCX5pEYpKXV47rhn85xPKeMxNqdJtrl2I36yJ5K/BM9gv0+flSTq6rjq?=
+ =?iso-8859-1?Q?i1edSBeNhCbfiTZaCRmuccy6jzgCwtiIfXKJGdP2Pjkk0Pb0c7TtFDVVHU?=
+ =?iso-8859-1?Q?Kebso4FjW9mA6bbfpP8ssrcQ2eOP1z9iToctZTkCH1n86/MtGw/2TKnP4u?=
+ =?iso-8859-1?Q?EeQ7fBpGEvtYO0RouVT9+wc8TgtjYWT3CUzagUPAYLFdRSiicQ/wO5kEQL?=
+ =?iso-8859-1?Q?L2r0F0tvEav0rYZKJWIayhIZr1KWNIgLWxWG9lu62fcfRv/gFf51e3oK2+?=
+ =?iso-8859-1?Q?vnkeeMf1rAOBHXOL2PpHkcmgUFC9k3GD0nKSf+hxo3CKVuI5u5UjgTSv90?=
+ =?iso-8859-1?Q?gm7EZgMZ/JNFpWRv9rdFrC1zsoBxXGiWT6HApA9zLQEmJVqaMSo8S9ESRN?=
+ =?iso-8859-1?Q?nuHh9JGi+tGKE7g0UktMucgFez9DL9/oYooXdi4ltzle/Lpx78VKn7AFa+?=
+ =?iso-8859-1?Q?+/p5AVZOM2X0EenSPmi0ZfnI2PZxnWORdWgePHNd/xM+QUcfSUi07tlXnG?=
+ =?iso-8859-1?Q?3rVnshA2o1fAvKLN1mIzDrvB9ztFgCXp8iDIQoHs3rNR+8vtskwfjXUGJv?=
+ =?iso-8859-1?Q?CywFHOnZRs866SzRo2SgoqDFlK9JXqJ1B3ji7ne0tgtCQ9v7Fol7RMrRMR?=
+ =?iso-8859-1?Q?nKmrd77pNpb9mFF1NlB4gBroVJva0Ul8RU1Lp3kZ159gfNx+YnUS18ubrH?=
+ =?iso-8859-1?Q?/WEF2Z9+PETdv64pzXBl/f9jc6kWr4vvcyWheqyHnB7/ZZbn/BwOigXTrl?=
+ =?iso-8859-1?Q?bmL7BzrUjczGNd8/y+r+O6cVcwiiBCScMWyeZJ1cRBSIkp9aLUPm5dc5bT?=
+ =?iso-8859-1?Q?V4THrC4E+saoqRLEr6MgSp2pUwvzfajHDH5+ZsmYDyhNKfyO21bIAB76dK?=
+ =?iso-8859-1?Q?eGULmzktR2D52/54OnPs2SDgBCNyzuJGWwziwiTOe0wY7v0j1vL8iMf0wc?=
+ =?iso-8859-1?Q?NY0fN1g5qA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 253F61DB11E
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9426.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b6b39fd-a85f-49fd-89f2-08de7869f098
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2026 14:42:33.6524
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AkZWbcW1ozomRGcsGinOoPECMFbBCNbxS4Fe3T1sNvWQGQourWXQzgVB7KzAvaXtkX05EEG098ntoRh6fwrikpdldMfLJQQ+b1WVNlivFZc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8908
+X-Rspamd-Queue-Id: B750C1DB1E7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54098-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54099-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,nxp.com,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,lists.infradead.org,lists.linaro.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux.intel.com:mid]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ruxandra.radulescu@nxp.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-0.997];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[devicetree.org:url,4ab00000:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,nxp.com:dkim,nxp.com:email,DB9PR04MB9426.eurprd04.prod.outlook.com:mid]
 X-Rspamd-Action: no action
 
-The OP_std_modadd() adds no value, kill it and update the users to
-perform the necessary operations themselves. No intended functional
-changes.
+On Thursday, February 26, 2026 at 8:21 PM, Conor Dooley wrote:=20
+> On Thu, Feb 26, 2026 at 03:40:42PM +0200, Ioana Ciocoi-Radulescu wrote:
+> > Add the bindings for Neutron, a Neural Processing Unit from NXP.
+> >
+> > Signed-off-by: Jiwei Fu <jiwei.fu@nxp.com>
+>=20
+> You are the author and submitter. What did Jiwei do?
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../atomisp/pci/base/circbuf/interface/ia_css_circbuf.h   | 6 +-----
- .../pci/base/circbuf/interface/ia_css_circbuf_desc.h      | 8 ++------
- .../media/atomisp/pci/hive_isp_css_include/math_support.h | 6 ------
- .../staging/media/atomisp/pci/runtime/queue/src/queue.c   | 4 ++--
- 4 files changed, 5 insertions(+), 19 deletions(-)
+Jiwei is the author of an initial, NXP-internal version of the Neutron
+driver, which wasn't DRM/accel-based; I redesigned parts of it before
+submitting upstream. He also wrote the initial version of this bindings
+document.
 
-diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-index 86300991d30e..b4d86d1e4a61 100644
---- a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-+++ b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-@@ -139,8 +139,6 @@ static inline uint8_t ia_css_circbuf_get_pos_at_offset(
-     u32 base,
-     int offset)
- {
--	u8 dest;
--
- 	OP___assert(cb);
- 	OP___assert(cb->desc);
- 	OP___assert(cb->desc->size > 0);
-@@ -151,9 +149,7 @@ static inline uint8_t ia_css_circbuf_get_pos_at_offset(
- 	}
- 
- 	/* step 2: shift and round by the upper limit */
--	dest = OP_std_modadd(base, offset, cb->desc->size);
--
--	return dest;
-+	return (base + offset) % cb->desc->size;
- }
- 
- /**
-diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf_desc.h b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf_desc.h
-index 5645a7bf493c..5c213fe427d3 100644
---- a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf_desc.h
-+++ b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf_desc.h
-@@ -47,7 +47,7 @@ static inline bool ia_css_circbuf_desc_is_full(
-     ia_css_circbuf_desc_t *cb_desc)
- {
- 	OP___assert(cb_desc);
--	return (OP_std_modadd(cb_desc->end, 1, cb_desc->size) == cb_desc->start);
-+	return ((cb_desc->end + 1) % cb_desc->size) == cb_desc->start;
- }
- 
- /**
-@@ -78,8 +78,6 @@ static inline uint8_t ia_css_circbuf_desc_get_pos_at_offset(
-     u32 base,
-     int offset)
- {
--	u8 dest;
--
- 	OP___assert(cb_desc);
- 	OP___assert(cb_desc->size > 0);
- 
-@@ -89,9 +87,7 @@ static inline uint8_t ia_css_circbuf_desc_get_pos_at_offset(
- 	}
- 
- 	/* step 2: shift and round by the upper limit */
--	dest = OP_std_modadd(base, offset, cb_desc->size);
--
--	return dest;
-+	return (base + offset) % cb_desc->size;
- }
- 
- /**
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-index 2cb5c986790a..72a070d94736 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/math_support.h
-@@ -14,10 +14,4 @@
- #define CEIL_MUL(a, b)       (CEIL_DIV(a, b) * (b))
- #define CEIL_SHIFT(a, b)     (((a) + (1 << (b)) - 1) >> (b))
- 
--/*
-- * For SP and ISP, SDK provides the definition of OP_std_modadd.
-- * We need it only for host
-- */
--#define OP_std_modadd(base, offset, size) ((base + offset) % (size))
--
- #endif /* __MATH_SUPPORT_H */
-diff --git a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-index afe77d4373f8..d27c6567daeb 100644
---- a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-@@ -167,7 +167,7 @@ int ia_css_queue_dequeue(ia_css_queue_t *qhandle, uint32_t *item)
- 
- 		*item = cb_elem.val;
- 
--		cb_desc.start = OP_std_modadd(cb_desc.start, 1, cb_desc.size);
-+		cb_desc.start = (cb_desc.start + 1) % cb_desc.size;
- 
- 		/* c. Store the queue object */
- 		/* Set only fields requiring update with
-@@ -315,7 +315,7 @@ int ia_css_queue_peek(ia_css_queue_t *qhandle, u32 offset, uint32_t *element)
- 		if (offset > num_elems)
- 			return -EINVAL;
- 
--		offset = OP_std_modadd(cb_desc.start, offset, cb_desc.size);
-+		offset = (cb_desc.start + offset) % cb_desc.size;
- 		error = ia_css_queue_item_load(qhandle, (uint8_t)offset, &cb_elem);
- 		if (error != 0)
- 			return error;
--- 
-2.50.1
+>=20
+> > Signed-off-by: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+> > ---
+> >  .../devicetree/bindings/npu/nxp,imx95-neutron.yaml | 95
+> > ++++++++++++++++++++++
+> >  1 file changed, 95 insertions(+)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/npu/nxp,imx95-neutron.yaml
+> > b/Documentation/devicetree/bindings/npu/nxp,imx95-neutron.yaml
+> > new file mode 100644
+> > index 000000000000..ba1f6851866b
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/npu/nxp,imx95-neutron.yaml
+> > @@ -0,0 +1,95 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/npu/nxp,imx95-neutron.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: NXP Neutron NPU
+> > +
+> > +maintainers:
+> > +  - Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+> > +  - Jiwei Fu <jiwei.fu@nxp.com>
+> > +
+> > +description:
+> > +  Neutron is an NPU from NXP targeting edge AI inference applications.
+> > +  Initially supported on i.MX95 SoCs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - nxp,imx95-neutron
+> > +
+> > +  reg:
+> > +    items:
+> > +      - description: Register space
+> > +      - description: Instruction area of the TCM space
+> > +      - description: Data area of the TCM space
+> > +
+> > +  reg-names:
+> > +    items:
+> > +      - const: regs
+> > +      - const: itcm
+> > +      - const: dtcm
+> > +
+> > +  memory-region:
+> > +    description:
+> > +      Phandle referencing a "shared-dma-pool" to be used for Neutron
+> > +      inference buffers, which need to be 1MB aligned.
+> > +
+> > +      The memory region must be defined with alignment of 1MB and size
+> > +      should be large enough to accommodate the targeted ML models. It
+> > +      should be marked as reusable.
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    minItems: 2
+> > +    maxItems: 3
+> > +
+> > +  clock-names:
+> > +    minItems: 2
+> > +    items:
+> > +      - const: npu
+> > +      - const: npu_apb
+> > +      - const: npu_cgc
+>=20
+> clocks should be done as reg is, with the descriptions in the !-names pro=
+perty.
+> Not really keen on the names either, these are all npu clocks so the npu =
+prefix
+> is odd.
 
+Ok, I will add description to clocks and remove "npu" prefix from names.
+
+>=20
+> Additionally, why is the number of clocks variable when you only have one
+> platform?
+
+There are only two clocks for imx95. I'll fix in v2.
+
+>=20
+> > +
+> > +  iommus:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - reg-names
+> > +  - memory-region
+> > +  - interrupts
+>=20
+> Odd that clocks are not mandatory!
+
+They should be, I'll fix.
+
+>=20
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    bus {
+> > +      #address-cells =3D <2>;
+> > +      #size-cells =3D <2>;
+> > +
+> > +      neutron@4ab00000 {
+>=20
+> "neutron" is not a generic node name. This should be something like
+> "accelerator" or similar.
+
+Ok, will fix.
+
+Thanks for reviewing,
+Ioana
+
+>=20
+> pw-bot: changes-requested
+>=20
+> Cheers,
+> Conor.
+>=20
+> > +              compatible =3D "nxp,imx95-neutron";
+> > +              reg =3D <0x0 0x4ab00000 0x0 0x00000400>,
+> > +                    <0x0 0x4AB10000 0x0 0x00010000>,
+> > +                    <0x0 0x4AB08000 0x0 0x00008000>;
+> > +              reg-names =3D "regs", "itcm", "dtcm";
+> > +              memory-region =3D <&neutron_pool>;
+> > +              interrupts =3D <GIC_SPI 318 IRQ_TYPE_LEVEL_HIGH>;
+> > +              clocks =3D <&scmi_clk 68>, <&scmi_clk 67>;
+> > +              clock-names =3D "npu", "npu_apb";
+> > +              power-domains =3D <&scmi_devpd 20>;
+> > +      };
+> > +    };
+> > +...
+> >
+> > --
+> > 2.34.1
+> >
 
