@@ -1,299 +1,201 @@
-Return-Path: <linux-media+bounces-54085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54086-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wK8CLt14pWlbCAYAu9opvQ
-	(envelope-from <linux-media+bounces-54085-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 12:47:41 +0100
+	id CKfuEbyBpWl1CgYAu9opvQ
+	(envelope-from <linux-media+bounces-54086-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 13:25:32 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE151D7D44
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 12:47:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 915551D846C
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 13:25:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id ADED0307F024
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 11:43:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6FBA730A5729
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 12:22:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3E6836309C;
-	Mon,  2 Mar 2026 11:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33AFE365A19;
+	Mon,  2 Mar 2026 12:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HVAaMsLV"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="epwO3Uhg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="grOM0Gsh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013030.outbound.protection.outlook.com [40.93.196.30])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B401A9F90
-	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 11:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772451825; cv=fail; b=tnDMtNQC2oxNhAzbfUQE2v8WuTJbBzdTJigV4jVE8cc2lyO158zl1kgq0dbdJziTy/Ia6cDAII0wuULiqy0NVcjbgWRqvH0piaU8X+5YddnHPbgdFBWc3NJyK9MUeO9vj3Q7NvKiZ0g1x1qjo5Q9pa+gObgQcbt/xLcHj2H10Ic=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772451825; c=relaxed/simple;
-	bh=RVTNqvSivlpgGeB/P5hLppp8WCDHMx3AC7jt0VlGCLU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=HhkjidErq5sALfOqOB6y5M05ceKc2rKzDTs05hAGziUq0e6EALmrZF3qj6qJIqO9Y+WHAEMHkdDlIh6keoUXeJEbOK2dfyIkm9uC93ayRZYIFmIkK4dSgbrflI0ZSnbhfquUySQsrElEa2mtNps3TSDIQcY5ZaeYZRCIpeae8ZE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HVAaMsLV; arc=fail smtp.client-ip=40.93.196.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uMd/UR6shbc6hJgg8SK9mcZLr+vidiQhfWPJqBLSetKIOFofN9S0yw8AUy0ZOp5tqq6GstAZafc1dN6I/nxEMXQI5ygtoCS0fn40m5r/1VCkdIZy/TqysLSPOSue4S2OfPPadDyv6TcQ45U/lqYkV8fcecaJX1uPY6emc8836AdPic5Js9I42vDIW7oDPR8I68yktWuk7UH6xlDoD7e4gcaZQpBwlAPR3GSKZfINJ0z3FXdrBeDmJ/jnTw5G336FBKKIq5LMetr2zhp3qEwQ8BkDGuZrpadEF5QnodBLDpHxXCnYYV76mMbv0NP/LeYEd/3aucoI7CkD+jM173ydVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/C43wIqH54Zm4JpG1HZ+wUQ6D5reWdnglZXHt+WRwmM=;
- b=iXJgNcguwuCuh7Xs2qGTdHSsrltGaOrdJ0MMD7GjSnOwiXLEKtSuzynm1s/XwQK8u6mFyLNB1TuYM46frUtnXbWoquSiwLqSjGawfVH8aiGa/PjVxxRCFFEtORpQt5WEKmHL/h9kRS45nwREVdb18uSDbkbsbTmhKD6SddgPs4i02u3SfC88Y9BRz4LkEgBcySqEng0kSSpnLXRrjZp1+CcqFotepDFOTYpE8xUHVSuiA+zaVHDA6Ps5wrzM+lGoLiWLBHhzskUB5a7oQbnIZGOVtWyTdubhPaeDt1B9QIMU8rX5gNxNu7RW+mN35EaLA/F0OMHaIU+nF9IwUr3voQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/C43wIqH54Zm4JpG1HZ+wUQ6D5reWdnglZXHt+WRwmM=;
- b=HVAaMsLVEbV0H3NK6R2TZeOH2TKjnxX4oPA7xGoTYpwKkWPqRfegtTrbMvDdGucfcjYKGDGeKsvaY79cuACbg9wgD6j0qr+vnCc8azI5y+JvmoYdO5PJCdNl1cjFMi95pqWufwiQdjBI2bZzQD6UNgQsTPcfOvkNIV0pBaAuoCc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SAWPR12MB999140.namprd12.prod.outlook.com (2603:10b6:806:4e2::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Mon, 2 Mar
- 2026 11:43:41 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.014; Mon, 2 Mar 2026
- 11:43:41 +0000
-Message-ID: <7c30f527-abc4-43a9-a11c-9233015b0a59@amd.com>
-Date: Mon, 2 Mar 2026 12:43:34 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] Replace the dmabuf custom test framework with kunit
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: patches@lists.linux.dev
-References: <0-v1-0a349a394eff+14110-dmabuf_kunit_jgg@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <0-v1-0a349a394eff+14110-dmabuf_kunit_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0391.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cf::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86315363C68
+	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 12:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772454157; cv=none; b=nMpD9ErujUq5COwqCNYpZ67aANEnLI8f4ZndX7Aeik6SAN+qvtgQPOyBe8gf0vQIVF5xNSnjNYr9UbFvjdILX6vM8TMOgeZOhXXeftWUQMluCN/Ojx/ZS0KOdpLQERK6zgL2M3MtKX6u6/8yFN/37Gpr4ysMlg4985nh49NNF+0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772454157; c=relaxed/simple;
+	bh=y0jOreQcyhNBY7pAZu8EsbnUnYn58lkvbvEdkTtvM3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=doeYxTWL2G7bSVVYiLU12wDX4opbFxWB74dpJEIW7489eTBEIne9GIDTeiWgtPB4yk7pb+eHFN44Q3xLHo2w7PZ8J6Gux/XUPk63NBdzKh/j0ZjRapUTXl7PJBCJv8wLkJw+hI8ATWHUGMlQb8ocGDZF5yfmTjPhlHEyUMrBDqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=epwO3Uhg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=grOM0Gsh; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6229EwCa3630903
+	for <linux-media@vger.kernel.org>; Mon, 2 Mar 2026 12:22:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=L33aOntU2Bnr2c2KW+UdgnR1
+	awPO0q+V3/ZIdQVGXpE=; b=epwO3Uhg+wB4H/BC7N3/RNvJmGzcOU7iSnfKeqwF
+	OCoqkHgM3nqZphcq/jzuGsMRHLq0x9rk4hkX7CQs3NklSdvfx/jkkK9uW+USYI8m
+	z6Nbslo2bsD6xPLRN1VnIbGJqdjIpgIB3OMPH4uV8+295H63h+Estvz5crKqiI+L
+	U3D88wVEfvu44DXryX+QXjw35hQfPm2E+ONcauMySE8np5HkI9OsjXvCcUSLfjx2
+	98Ba1lk5sswy608RYE7e5imrNaSkMTyQ72sBarid+5Epwkg/iJokDjt5kdnqtawx
+	wRgqKeIJMZjLf/FvSF39FWhhqU5a0zBXuvzhkrwhKuomiQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn7rhrm0c-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 12:22:35 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb4a241582so2967768185a.0
+        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 04:22:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772454155; x=1773058955; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L33aOntU2Bnr2c2KW+UdgnR1awPO0q+V3/ZIdQVGXpE=;
+        b=grOM0GshGPvCOh5cWZ3Ey9reMjK2F9cJjyXCXxWLCBz+tsmRDcbt3x7KUG3GXlm/qu
+         Iwjv2JX6+Nd0MRUUqtg1oXhvBrI6xkffzvJfhR/SC13YuZT8HOm0Un6WHVv6RWFsON4U
+         8npCIit5/OuJOUDgEUJvoFNNEz5OFpmKsSWJfeFaaddg9RPDyabRfgo5Dy6jJWocgUQU
+         1jDSISOD4Lld0Jm52I0xv6sso73kgD9AWnHBT6qn0HdSV1JRybV4tLVCYHiprgfhenzp
+         wqHg/S8HloER3C/g7+z/cbnD8yGPmZNe9eChtfP5mRZvnnZzqMInNFvMm5FcsW/Vd+fh
+         kuyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772454155; x=1773058955;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L33aOntU2Bnr2c2KW+UdgnR1awPO0q+V3/ZIdQVGXpE=;
+        b=f4BRHgTrLxZRDU5AtEaNvhdiwKWBe/yyRrtc/bQCjHN9bvRPJ8YA/vJ7McG0iz+8CM
+         JdMHNkr4LVjvIIczQMKng0HJlq7GGOP0jsm/tnujULxmHAmBed8zSVMPn6/0eqaiEEfc
+         PlzMHXReVTu8mwY5JQov/FAxsKbm0AHkljj9/Cr4RPzg+9b0OEDbIuUdXfsB3Eqh5EzP
+         2OSYaYE69xrH8XONXmotUgK52W5ul8GzoFpzfymByGU5Y+exxyRbWqwx1DVRlOooPHdn
+         d5BLxuudLAu+w5QMH51eZWqsHd1MjW9AVPBV7Tk+4SFgJjtXYoGxrH1kryDqojcNHbzb
+         Mfvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUrtZDFRyASxYAaLjof5WwD9Ur/jhnLptOGIFaK51jetUj0q618sRL8y+A9SABIcsIx6q6Pkh9XZ4iOCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzmgu6e4QvgAMgK+FKjFqht9ctlFmZ9UIRMRJgHzE+M1/yWN7Ck
+	xPWDUvaD9CIYcuFgsEDPXhNwpGWsvFAIhfP6DyGXc3qahbowdzMfDolgPEd2xyj+MttFtc+8Pe5
+	7hVag1elO3nDP90lmlSfU87ekuge4f3VOAjuXEq4PBtJFXUcdEMOGtZmfS/sSxwTwfg==
+X-Gm-Gg: ATEYQzz4Dzg9I+nV1YQIbzdrBWKnesOt1rZYwLNkZMv6MK1vl9QffW5fKOgkW6plKT7
+	L5chZ9wEiiRz7umw1j28P0rkoeXtoZL/Z9BnlgKihsiTfYLOQLpGESnhc176mDmN9y1T2CIolIZ
+	271RVPe1Vlq09p/0xJlt1Hm+wwpOOPPKjj3ch3tT9HdH28fPQpHKb7NPZqyO+dnemOqz1YDc8v6
+	G2A7Jwhtjl6sQx9LBRINq6S0EVMo17UjDUMyvGhTkgVg9WuzUoAe3z7G+I0BAYldErUAJ/e2lWT
+	AFcuexf6mQyhWjah2tSFDzznK4qZ+laVYgIR/uUNxdVIwgDwsafRTtbszRVb37m+iYmLOPVgow7
+	9jHpWU/tLUo2qgEr1O53g9GLNPRVFSt/G0JgIAn5cokxwRfeefa7KGbmnFNYyjtOsBt5YJbL8eR
+	fS1N+nQfNJm64wazutyP3VDmyBDQgWJiGoHiE=
+X-Received: by 2002:a05:620a:470a:b0:8b2:74e5:b36 with SMTP id af79cd13be357-8cbc8e21fdbmr1585649385a.68.1772454154744;
+        Mon, 02 Mar 2026 04:22:34 -0800 (PST)
+X-Received: by 2002:a05:620a:470a:b0:8b2:74e5:b36 with SMTP id af79cd13be357-8cbc8e21fdbmr1585645585a.68.1772454154229;
+        Mon, 02 Mar 2026 04:22:34 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a1142d5fefsm1860478e87.51.2026.03.02.04.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 04:22:33 -0800 (PST)
+Date: Mon, 2 Mar 2026 14:22:31 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 03/11] media: qcom: iris: handle HFI params directly
+Message-ID: <ec77yutijb24k3gvyzpjorbb4i55rv7e7x4flk54djmwko4rua@bagj7w4jo3ee>
+References: <20260228-iris-platform-data-v2-0-acf036a3c84c@oss.qualcomm.com>
+ <20260228-iris-platform-data-v2-3-acf036a3c84c@oss.qualcomm.com>
+ <ab0762db-c804-4651-9bd5-8675fe164ed3@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SAWPR12MB999140:EE_
-X-MS-Office365-Filtering-Correlation-Id: f53124c4-3f14-481f-1952-08de7850f35d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007|921020;
-X-Microsoft-Antispam-Message-Info:
-	WNQHN4GFAi8mktbTG/FuOYRsNkMauQ4tp7Gjj5KFShMiP3SxagVQHWUYWgcJs41pCF6Gpn9FX7NwlNgbscnWCUZUFhI5TeMlODZNX4LbImwgy0tfnqmvQ4o2oHup1732RR9dKV381ZFnQ+wbLIQ3gdaNRW3DqihiskWd6dOTGmDRQFycfiHTOd8KlP8MNnzgAl7ZLo28v+Mx6pq6qNIR5Ua7JkG9bS57fMwSNj147z+3KOcpybe4Mtxg+MJIIBT29EiLhZ1QDiequ2o01jv5n5CkkgKi8v/h6FV6Si7gYQNrts5U/icxOAwJNLLmKQ2vKgEvp/tMpl3Z5qp5He9fpacQlLlfMPeIxcaqMJ/4OXQU5Ugi0A+xMyYb5keY8t4hj9O77wdVhIA5SVe1O9SENYyLhaR4WetNrYmEXTaNmesuyc/2SvxtRJ8bKk60hM805LhxZVNDSe1tx0pRNMKHhmAguU579s4cGu3703DdzopqMfi2rlRwZaJwzPrDuTZRU7RXYX7N/rbPAoZJ+Mq9JJx/1XBHGv5g08dMvNGhU1C+UGLey0u+AKu50cquYykluy0KOKZ3tEkZchcCN/jDKUoYvXDt/1v+EO43GydG1Tx5ttau6KYYDVj4dS5NxkjVu5fBO68wyY+K3DTR5KadQi7cooeIYTOnXrB5FUaNK7SdTm80jnHNizlvpNYD+BK6AIjEIkrJiOiSUu4ycv5PEWK1BrL0W5W7fKkDTjDuDtgk+5e8rkHNLZ0TrfIGInuduZSnKuALOPQw0692brrqt0tfuUkvCgJCujl6I0BiCow=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cFhEZm9tYUswcGRZSnkzU0dJbFh6aXI5Rm5Fak13YUdERTNEV2pNdDdUazlV?=
- =?utf-8?B?WlArV0lGNldxQkIwczJzQlZaT0xMQVkxZE1oaHF4c2xwZ2hWV1BHaVVkUXVC?=
- =?utf-8?B?dFU4ejBtb0xTTlBQWkVrUGlEUVRmYk9iTy9hSUVZSkhEOXROTHMvak1RSlhn?=
- =?utf-8?B?U3FNNGFpcGhUYmF3Z09nbEN0dEZ2S2tGTFhTMjVZQTVGdEJxdnFzRFVpRHdU?=
- =?utf-8?B?NExkbUM0WTV1YmJITDZaK0syaEtiRkJHV0F6QU1qelF2bXBHRzBnRkthUVBj?=
- =?utf-8?B?MEY3Q3B2QW0xQ1JOM0gvYXIwSU90dFpVR1hGUDBOTjYzMit5c3YxNlRWa3BN?=
- =?utf-8?B?ZzBmQkNQMlRadlV2NlVQdTFMOWtaRlpXbG16ekZ6Yno2QUlOMlhXVnZHUjQ5?=
- =?utf-8?B?MjVYZ2I5Z0FVK1p6WmpmNDkwaDdUdzBZLzVwTStTTVI2cWJWb3dncFFtdVBJ?=
- =?utf-8?B?TERTS0p5bnpPTCtReGVhc3NGaEN5WHVVRzJTamxRQ1JxQ2hqU01QbWhiT2d1?=
- =?utf-8?B?VFo4ZlVMVmU3TUZUYkJxVkhMSFVWam9hWHhDeHF3TXBSM0JKYkRNL3Z0UkFF?=
- =?utf-8?B?Z1hQSDRTbGlaU0V3M0NWR3ZodlhDczV3SkJkSUtDZzYxY2lpQ24xVlFnNHph?=
- =?utf-8?B?QXFWUm45OXN6Qk1KelJlY0FvT0ppcHdRREd3NDRvNzl3UGdpUm14TjArejhk?=
- =?utf-8?B?UXl3bkFqdmpibXBkWE8wbkx3Q2w2cmE0MDhMMVhmLzhNV1RLUXEyQThxVUgr?=
- =?utf-8?B?OUdpaGVSU3lLdGJLNDU5bzk5VFd4RGs5NXEwSjZkczAxRVNpSnlIL1BEMFpK?=
- =?utf-8?B?WnZBTzJKRXFIRE1vQi8vL1BackE1cFUwVUVhdmJLOUVIWlEzdFQ3cU9VdGdo?=
- =?utf-8?B?UWxFdnoxSEpxcjc5ZmNtVFhSbEx5b1U5dFBIT2s2alJ5VWtFa0NGWE9ka0hM?=
- =?utf-8?B?NVdlZUp5akF0MXdHekNLOTdsQjRPWkdDNDJnRVpMYm53cS9lTUNaTTAwc2ow?=
- =?utf-8?B?QUpzd2xtc3R6NU1WZkFMck5id0xFUUJzOEsrU2Z2cTNSdUlFbjFtK2xrQzIr?=
- =?utf-8?B?WFlmUWlrVTB4UjN6MldEaytBT25aTTBScWJjMm1weS9OcEhIZ0Z3eE9WSFVB?=
- =?utf-8?B?MzRLZ1FzbW9odXBTWSsyM09lRnBEazVOVCtvS0VUbUZaY3JxWE9aMmZVNUZY?=
- =?utf-8?B?V0cvcGkvWUVnbFZxOG1EOVNxVWR1RGdkdU5mLzRUaFIzTzJqMjljdEU1dG9Q?=
- =?utf-8?B?ZjAxS0NTSUdYamdrdE9zRFNnK1FtQ1NHQmUxZVdPbnJjSkJ6Q3d0L2oyQ3JC?=
- =?utf-8?B?M2hBalN1U0s0aGljUUg1cjl2dzJNeTBjOTdRSFVVTC9qWmZrS3lmNTU5QW1S?=
- =?utf-8?B?d1NScHNKYkdLUUQrbnkvUXJvKzlEb0NsTXJ1bGtZSXBIdzlrSmZ2VUpONVpt?=
- =?utf-8?B?ME90aVFmZTlCVkdVNHQ0MDllQkszd3B5WUhZQ0VkN3BEclp6ZGtsVXJZczln?=
- =?utf-8?B?Nzk0ekNYUGdBNVdnVkE4emthS0srMG45WG9LNzNhakRHZjBOL0VGc0NCS3c5?=
- =?utf-8?B?Q21PYlhVcm5oRkxlV2FyMmpHOGpBbkJpQnNXYW94SjYxSkJ5OStjL1U3Umky?=
- =?utf-8?B?a3dXTGhXUm1mTm5qb3dVbFZIV1hldFg1aWVsOGVMcnR0VXNiVVNLb1pUeEZR?=
- =?utf-8?B?L01qQW1uTHF4enkvZWs1SWVSVERjUFMxREpWVmNWREtRYmV0ODhacE91a2JC?=
- =?utf-8?B?Z0pzcGFtMHpmMnJxNlBYTzByV2lENldQaHd6UVVZS1JMRVBydFp5M0ZWamdU?=
- =?utf-8?B?OFBDbzk1WlVkblB0cUw0NCtsSlVOMkJUdWFPL2cvYVdvUFZBNkFMT0UxR2Va?=
- =?utf-8?B?LzNCb2JFdC85WEhKZnJFMTZHM3VETEN2Z212aGRjV0E1ZThVYjE5SWQvUUVR?=
- =?utf-8?B?U0g2M2QrUThrQWxleVVkMW5CeUJEZlFkU3A5OHFTbGdkbC9ubGdHTzJFekJN?=
- =?utf-8?B?VzA3ZU5XaEJzVS8vVEpETDJtMEFSSWJjYTd0S250U3NVVytpSXpmbUhZS1Bn?=
- =?utf-8?B?RkI0M2tTdGdsMWY4MzdYMklEeFVCcS9QRytldkZsYi9Db0ZKZ3MvcUJ2aU00?=
- =?utf-8?B?QytCL21ZVzcrRXhzcnVJaDRYZG1TSlZtRTMrNzhFem5pNzgwZERQdzBLa2J2?=
- =?utf-8?B?aERVNTdwRE9TeUZ3YkpyV0Z2R0ZPb01LeFR0ZUFEQmprRnI0YVpCVFoyam13?=
- =?utf-8?B?bnpEejJmMVk4ZEtNMGVpakVhUHUwZ3g0VmdsL0lQanppV3kxY0J1WlBaTHA3?=
- =?utf-8?Q?SxIGHX7q5E8mMDgjfq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f53124c4-3f14-481f-1952-08de7850f35d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 11:43:41.2558
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I1h0o0D3pn/6lUYv7F6SOL82eu7kc/GJRN5GkHn+I3HdYgFGpvc64VcDlNWFtVXF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAWPR12MB999140
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab0762db-c804-4651-9bd5-8675fe164ed3@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: upveddpvesoPE6-wY-uXHNGjBYi884j3
+X-Proofpoint-GUID: upveddpvesoPE6-wY-uXHNGjBYi884j3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDEwMyBTYWx0ZWRfX9l5Ph0TuKehM
+ ueb8bPHn0ADVTQR+XzhKDgS3eIYxbsHn6ErXZgPIuQ3iI39vg4bDO8/x6Q6gz5XZjnP+J4M6b3Y
+ kHBt0LodY2xtXW93UjYB+AE3gkA+C3NPvo0x5lwZ4j1h/HBtP0PhplX+/zuRqCMFw5SSMKMnO8A
+ A32s2HkruhOIuvXJukzbF3S1C3wF0H4AgY02GCRHfU4nSDyWBUd5hcS3pL9hhLqILVfAoZA/9QB
+ 89M/R4gENl90xYrhFEKyM2OEhddLXk3WzUiojZyfWRK70TDfbaLuY/d1wHoYVty4PekRXOtEUCh
+ 5Cp4/Wy6Sp8OOYhUtsZh0KE/0jON+3z5lBidXF98avktjfCVVWBAAdcgYJRtE/xeAjO07NuLpmI
+ 9IzX0pu4HEkg+wWnmaNCaHLfuuVCeYYknbhKCLgTdgEFy/PWSCoJvHMp2vt0zy8h/NqOjcPnelg
+ VoCMZjwc+9bPY4FKVaA==
+X-Authority-Analysis: v=2.4 cv=cLntc1eN c=1 sm=1 tr=0 ts=69a5810b cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=qcQtHrNKKEhQtL90CQIA:9
+ a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-02_03,2026-02-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 phishscore=0 spamscore=0 suspectscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020103
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-54085-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,gmail.com,lists.freedesktop.org,linux.intel.com,lists.linaro.org,vger.kernel.org,intel.com,ffwll.ch,linaro.org,ursulin.net];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54086-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:dkim,qualcomm.com:dkim];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[amd.com:+];
-	NEURAL_HAM(-0.00)[-0.997];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,amd.com:mid,amd.com:dkim]
-X-Rspamd-Queue-Id: 3AE151D7D44
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 915551D846C
 X-Rspamd-Action: no action
 
-On 3/1/26 19:57, Jason Gunthorpe wrote:
-> Using kunit to write tests for new work on dmabuf is coming up:
+On Mon, Mar 02, 2026 at 11:04:44AM +0100, Konrad Dybcio wrote:
+> On 2/28/26 4:26 PM, Dmitry Baryshkov wrote:
+> > The HFI params are set per the HFI generation, they don't change between
+> > different platforms with the same HFI interface.
 > 
-> https://lore.kernel.org/all/26-v1-b5cab63049c0+191af-dmabuf_map_type_jgg@nvidia.com/
+> Looking at venus/hfi_cmds.c I wouldn't be so sure..
 > 
-> Replace the custom test framework with kunit to avoid maintaining two
-> concurrent test frameworks.
+> e.g.
+> 
+> case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
+> case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
+> case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
+> case HFI_PROPERTY_PARAM_VENC_SESSION_QP:
+> case HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE:
+> 	/* not implemented on Venus 4xx */
+> 	return -ENOTSUPP;
 
-Oh, yes that was on my todo list for like an eternity as well.
+Interesting. I think it's still be better to have iris_hfi_gen1_4xx_ops
+rather than having a copy-paste of the same data with minimal changes.
+I think it's easier to cross-check two similar functions rather than
+sets of tables which then get referenced against a "handler" table.
 
-No idea when or even if I have time to review that, but feel free to add my Acked-by should that go upstream.
-
-Regards,
-Christian.
-
-> 
-> The conversion minimizes code changes and uses simple pattern-oriented
-> reworks to reduce the chance of breaking any tests. Aside from adding the
-> kunit_test_suite() boilerplate, the conversion follows a number of
-> patterns:
-> 
-> Test failures without cleanup. For example:
->    if (!ptr)
->        return -ENOMEM;
-> Becomes:
->    KUNIT_ASSERT_NOT_NULL(test, ptr);
-> 
-> In kunit ASSERT longjumps out of the test.
-> 
-> Check for error, fail and cleanup:
->    if (err) {
->        pr_err("msg\n");
->        goto cleanup;
->    }
-> Becomes:
->    if (err) {
->        KUNIT_FAIL(test, "msg");
->        goto cleanup;
->    }
-> Preserve the existing failure messages and cleanup code.
-> 
-> Cases where the test returns err but prints no message:
->    if (err)
->        goto cleanup;
-> Becomes:
->    if (err) {
->        KUNIT_FAIL(test, "msg");
->        goto cleanup;
->    }
-> Use KUNIT_FAIL to retain the 'cleanup on err' behavior.
-> 
-> Overall, the conversion is straightforward.
-> 
-> The result can be run with kunit.py:
-> 
->     $ tools/testing/kunit/kunit.py run --build_dir build_kunit_x86_64 --arch x86_64 --kunitconfig ./drivers/dma-buf/.kunitconfig
->     [20:37:23] Configuring KUnit Kernel ...
->     [20:37:23] Building KUnit Kernel ...
->     Populating config with:
->     $ make ARCH=x86_64 O=build_kunit_x86_64 olddefconfig
->     Building with:
->     $ make all compile_commands.json scripts_gdb ARCH=x86_64 O=build_kunit_x86_64 --jobs=20
->     [20:37:29] Starting KUnit Kernel (1/1)...
->     [20:37:29] ============================================================
->     Running tests with:
->     $ qemu-system-x86_64 -nodefaults -m 1024 -kernel build_kunit_x86_64/arch/x86/boot/bzImage -append 'kunit.enable=1 console=ttyS0 kunit_shutdown=reboot' -no-reboot -nographic -accel kvm -accel hvf -accel tcg -serial stdio -bios qboot.rom
->     [20:37:30] ================ dma-buf-resv (5 subtests) =================
->     [20:37:30] [PASSED] test_sanitycheck
->     [20:37:30] ===================== test_signaling  ======================
->     [20:37:30] [PASSED] kernel
->     [20:37:30] [PASSED] write
->     [20:37:30] [PASSED] read
->     [20:37:30] [PASSED] bookkeep
->     [20:37:30] ================= [PASSED] test_signaling ==================
->     ...
->     [20:37:35] Testing complete. Ran 50 tests: passed: 49, skipped: 1
->     [20:37:35] Elapsed time: 12.635s total, 0.001s configuring, 6.551s building, 6.017s running
-> 
-> One test that requires two CPUs is skipped since the default VM has a
-> single CPU and cannot run the test.
-> 
-> All other usual ways to run kunit work as well, and all tests are placed
-> in a module to provide more options for how they are run.
-> 
-> AI was used to do the large scale semantic search and replaces described
-> above, then everything was hand checked. AI also deduced the issue with
-> test_race_signal_callback() in a couple of seconds from the kunit
-> crash (!!), again was hand checked though I am not so familiar with this
-> test to be fully certain this is the best answer.
-> 
-> Jason Gunthorpe (5):
->   dma-buf: Change st-dma-resv.c to use kunit
->   dma-buf: Change st-dma-fence.c to use kunit
->   dma-buf: Change st-dma-fence-unwrap.c to use kunit
->   dma-buf: Change st-dma-fence-chain.c to use kunit
->   dma-buf: Remove the old selftest
-> 
->  drivers/dma-buf/.kunitconfig          |   2 +
->  drivers/dma-buf/Kconfig               |  11 +-
->  drivers/dma-buf/Makefile              |   5 +-
->  drivers/dma-buf/selftest.c            | 167 ---------------
->  drivers/dma-buf/selftest.h            |  30 ---
->  drivers/dma-buf/selftests.h           |  16 --
->  drivers/dma-buf/st-dma-fence-chain.c  | 217 +++++++++----------
->  drivers/dma-buf/st-dma-fence-unwrap.c | 290 +++++++++++---------------
->  drivers/dma-buf/st-dma-fence.c        | 200 ++++++++----------
->  drivers/dma-buf/st-dma-resv.c         | 145 +++++++------
->  drivers/gpu/drm/i915/Kconfig.debug    |   2 +-
->  11 files changed, 394 insertions(+), 691 deletions(-)
->  create mode 100644 drivers/dma-buf/.kunitconfig
->  delete mode 100644 drivers/dma-buf/selftest.c
->  delete mode 100644 drivers/dma-buf/selftest.h
->  delete mode 100644 drivers/dma-buf/selftests.h
-> 
-> 
-> base-commit: 41dae5ac5e157b0bb260f381eb3df2f4a4610205
-
+-- 
+With best wishes
+Dmitry
 
