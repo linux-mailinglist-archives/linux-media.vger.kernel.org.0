@@ -1,569 +1,988 @@
-Return-Path: <linux-media+bounces-54069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54070-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4LEPJ7RYpWnj9wUAu9opvQ
-	(envelope-from <linux-media+bounces-54069-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 10:30:28 +0100
+	id YL+NAvZYpWnj9wUAu9opvQ
+	(envelope-from <linux-media+bounces-54070-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 10:31:34 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CF21D5911
-	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 10:30:27 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C2781D5947
+	for <lists+linux-media@lfdr.de>; Mon, 02 Mar 2026 10:31:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4EB57303B4D9
-	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 09:26:28 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 91439300BE29
+	for <lists+linux-media@lfdr.de>; Mon,  2 Mar 2026 09:31:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E09438F237;
-	Mon,  2 Mar 2026 09:26:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ED6738F635;
+	Mon,  2 Mar 2026 09:31:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JXMHCLuU";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fcMIpUD/"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="SfRyNhO8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011043.outbound.protection.outlook.com [52.101.65.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9696C389DE3
-	for <linux-media@vger.kernel.org>; Mon,  2 Mar 2026 09:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772443586; cv=none; b=YljaSl9THWrmaDmrsaJ0KAdqe5yJa+auF10cpwIiMSnDvzBQ+SHd04z49+xLkHc3KywYpkiLNbarFhwWXglvHKTmnrNDdytIU4BlSDCwqqAoKfTfH6EdutGHFGwy0iJsYauKkcFsA7mMqR+the0d+2T6pvEyD4Y4N1Z4pemwanI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772443586; c=relaxed/simple;
-	bh=TQHXd68lN5Y8GNwjUDFLhEyoWMJbTPiLBw2FzrC64Gw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qzhQywowdM0H0fHscbMJQXRZ8xv/ipynGSVFVyJZIvYSKTyGWi/OMPysOcH94zXjVFbZKLNC8fWTHAzhSHJN/CRqmSVtDRQQH8uM6NLn0Kps8DXHmBlwHLDBOdosWvFvo26rL55ipFlRQ4aIc4jlIGCD0YNINZ4Hs3xDV8Q2Pb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JXMHCLuU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fcMIpUD/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62294r2X3753576
-	for <linux-media@vger.kernel.org>; Mon, 2 Mar 2026 09:26:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	m63XK2iVZk4UvoVq2mXd/LFRNHOlrlceciFzjjpCg3E=; b=JXMHCLuUgpin7sll
-	89lBzwQUs1zNyIw90nykTNOS9rfzCmtczqtOsMskjHhRRCdvTM3qlsLpWOXzty+P
-	FUPc+zCuu4jqDECaF73QRcrqrG37gDsMdZLe7ZjocUvZaczAIVHVQo4VM7VGHadW
-	Dp/YMEFuDpFzXEG0uFi6fNrL/RPFxJpECXKR8BU4Xtn4m5DwurKi5GpOLuHc1x/u
-	x+xes24FdP54nj2uKen8ct7OM3y9lCCnyvD98bwTB11GddLWXCMYVZB+bAEKNs+j
-	Gkm3vVEnRC8Kls2hcmgnGNz51aYp0tN86eRxJqcQiDP+JwXPDhs9PKu3QwrCQ7PQ
-	Y4p/+g==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cn7kq8302-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 09:26:23 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-b6097ca315bso21671624a12.3
-        for <linux-media@vger.kernel.org>; Mon, 02 Mar 2026 01:26:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772443582; x=1773048382; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m63XK2iVZk4UvoVq2mXd/LFRNHOlrlceciFzjjpCg3E=;
-        b=fcMIpUD/FItdxM69KAxyeeSRoPHmwBeWQLmRyjxxVPsHB+fdrxl1AIhiwdaNr+EZZo
-         YMqXtcdbY6tTHL/VxPvbYJnd1rVL9MP2w2zzfjRRHj4g/To7XsoZPxvsuGo9c7duSIeV
-         yO1Et10jVZJqT9acbejGkbPOoUQvchmGau13494+arWLofU2TTvmxmMJiKGW3UK9M9FY
-         5hsUtTqw/JhIjQZwiFrg1bZHs0F0hNQXgqXOXlCPvwkGvEmoLvzQgLMDW2/ITRa8Dvuv
-         AXJMIi/V8g99UEbsyZMm2D8XxO+Bt5UyFi3lsvG07Fyp45EpBOhumEEfod8zjF8Y2hno
-         Rjdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772443582; x=1773048382;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m63XK2iVZk4UvoVq2mXd/LFRNHOlrlceciFzjjpCg3E=;
-        b=mh5vy1Rvivii02Zm+30Rg60LOa1yB+F4JpPAvk2wCO1IQ20isdm8NLL/n3NjmzBm8D
-         /R8t7zYCGBTagxBMU7dIGc2/7EmF5s19ByLPfnibxPJkJEVVIGyztVjjg85SC67VZiPY
-         s2pdUoj2bVSGlmTTRqtxmlAlgz4hIsjqOT2HsGUBZIK0swWxgrK5RF/kWQ4oc3A3nD2d
-         4pd2znOVRn7TVUXV2o8Pagn1Cg6SWX8nAgyM+OZs58e7P0VxcGXaCFnsQ5umdBw9sO0J
-         Awtx/jlKNZwWkpc6HDDu7Jkz4GRtAyFxa2u6pEmfDgJM5ob5tRPl5rZraA9hXqMT7TtL
-         91Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGvaLM8iVJxC/4aahMA9GEQj8xu9dedtx2+P282CMiElmUwes4iKVcglG4BlYb7iRTvN9IpktUI58tMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjKjGTJWiuropD7CF3vBkJ/uyxEt9RXCdahUyPadNfo0EJ7K8P
-	ZjUCasLrP2J959TDKx+EU0t5QLQ38a0Esj5qvRwKV6ITPPvvY88q0TR1fxT7rReA+OdS0pMikPO
-	LYUxbD0eMnL1BoRqCXYJRhwcy5jPljx5k4WlhVfPPEqR/yXy28b0bH2bix/sEYU/ZkA==
-X-Gm-Gg: ATEYQzwdS5nTgeuj4IVoFVkZnaAryU5CZB+vtmIgtbIZRPNq0Q6DelUs08ssCeEMtre
-	qg1Aj+fSZ1R9QPW7Ve7IHd37XgLcXLB4MPJiwTLXHDkT7LZ4Jrowx6g/ZzX6V6P+VjygMGB+I10
-	Z3tDofAk2nxX/O9z4BE5KvdMo01OYpQqsDFfaZqLFWMSZ83VBwBWZiXf/50hGMWQZCtrlS/Kr/X
-	ryLnfqTBsoK8jzBE1BXr652x/ZpVQwlnRwG4YITFZl9J9ieEPZkPkxicJB9laviDDUQf440ZYCT
-	8lmyiTJFYgpJapklREzLBZiJbn1S0L5JDpDqMqL25TFqO+5a2ZYTFGdVNTy4Z6kmw/JCXsrjHel
-	pYKiIUhcpdj3VExkZQk14cBHnO1Fm7pFFYLtdlabwxNRP0AN7oyK5Yg==
-X-Received: by 2002:a05:6a00:14d3:b0:827:2792:e413 with SMTP id d2e1a72fcca58-8274d9b4cabmr12436821b3a.17.1772443582375;
-        Mon, 02 Mar 2026 01:26:22 -0800 (PST)
-X-Received: by 2002:a05:6a00:14d3:b0:827:2792:e413 with SMTP id d2e1a72fcca58-8274d9b4cabmr12436787b3a.17.1772443581755;
-        Mon, 02 Mar 2026 01:26:21 -0800 (PST)
-Received: from [10.0.0.3] ([106.222.233.219])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82739d4c910sm12351878b3a.8.2026.03.02.01.26.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Mar 2026 01:26:21 -0800 (PST)
-Message-ID: <b6caaf35-2e41-9b76-aab8-0b8b6a8a8e67@oss.qualcomm.com>
-Date: Mon, 2 Mar 2026 14:56:16 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5BD1E1DE5;
+	Mon,  2 Mar 2026 09:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772443882; cv=fail; b=HN1U3Kj7ZtNdnHwjPF6XtTEMibgKCBhICmLW74J9WWG7pZvIJk4LAsP+ALNS/SSFbFVlj0ajPcvcmMi1t3JC1tsrrN8kqhNd7eUoUjTtnAKfjDtp8BiUITyFejblyhPBlKpOyEXVwBlyxjKny0fDonkoSH6uBZBiZwAvgHudoGg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772443882; c=relaxed/simple;
+	bh=/6/7yuC4Jj0O1lMfjQF0fxP6QMwt8hA1CBJQUsiuWIA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=JikibwnkEWW2gr47VyJnWOF2n8u4pAfvNkIwTfFiicKSKU33SK9HPtuqa/JR+lacewDvPb1lK3hXt6a29Ate92IGv8F2nGq97yrrWgf5v0nsGZlB45Tejaotq8E5Rg5u0tKQ780Gl6d999dqA9u2zTFnvdXjO02UQl2F5XwesMw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=SfRyNhO8; arc=fail smtp.client-ip=52.101.65.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MZPdUl8f3wOImFGxHyt6vUD740C4aYCUtC7HFxyGfBpcJX5X5M8a3Vjs2Gy3EZ38a4OaqRg8x8CB3jFzy1TQWzRmP6E2QRF+cPa/nLsNxNctWBBcsrX9mNck9R+MenVrMkBoMSkXb50iTIpiT2OD+Mh52JF0pig7zWEh5KHeO1PgkIDR0Zkn15A27JVUnP7aSRrlAVcaOVdwTnB5Rj/KciQSZx+1v6aeUysHhIwMRDuO4c23HBtv6fJtR6iOHPIzYInB2UL9GT3hz/f+nKH0nqvEiaRvhv/3N54Yb1lpPZ2obc6Mx1U/a95CkvRF+CaiXn1B88L0k4CEDv1efl+5jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Z2MEal57E/MTI/ujDs/dv1j64I+XQXiqIB/ndGpi1w=;
+ b=UscAtMNoK5JDlbh4x/++oyKW8pPn9ydcCFjwci5Xr8UQgRa7PdQWlk5GE6YPhqzkfyyzR2nYGo41aODVqY6fqoIg7NcitzQJz5bHIVLzfh6CZ4EMlIIOhSg1/yUGZRiRks9fM52lqiByslGWC6pVB9icj5VegOg6u1/ejlkUnEAXgEYN4osHfYajx/+CHfwAPnyBEaPQxS9+97col5E2zbZCx2nxQQfLilZpy8T0fF7s3/5Ce9MNjmh3UUPETn95dUVntoLs8FYDaltnWrEfif44eaahrSbHqyp0AQbNvpaO0rQtRn0K1qDbR6YczsnPm8uWbuqNj0RfvV4YbyKruQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Z2MEal57E/MTI/ujDs/dv1j64I+XQXiqIB/ndGpi1w=;
+ b=SfRyNhO8ZtNfsTdG+EpCvZAXiZwXbPtGylFPAQUbgtfUgCPGcUWIkYtYbXZdhXQDyPF890R/1oZVa4ZH+FHtE4TKKELVUzHu5iZ3su+5/Uw2cqSxWW9fqxOomjo9XbiuBXz1KBINpnpoSN3tFgjZWNO0aruIqQZXBnMSDtle7VQ7w46AW1SnIfjB9uqms9Z9PMJG3mAzkj43LJQxRRbzZizOAc3nOykkHSDdr0gNLYyah8EeE3pDXX3kubSu9OpUW0mQrZ6C3Qsu1S73ieF2afZiwreEQwt8gBYaV2VEFNh3h5aujXHfM5LmSzpUVe9D1fUVGduOca68sVu1a49NfQ==
+Received: from DB9PR04MB9426.eurprd04.prod.outlook.com (2603:10a6:10:36a::14)
+ by GV2PR04MB11685.eurprd04.prod.outlook.com (2603:10a6:150:2a7::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.18; Mon, 2 Mar
+ 2026 09:31:15 +0000
+Received: from DB9PR04MB9426.eurprd04.prod.outlook.com
+ ([fe80::9024:608b:852c:f484]) by DB9PR04MB9426.eurprd04.prod.outlook.com
+ ([fe80::9024:608b:852c:f484%6]) with mapi id 15.20.9654.020; Mon, 2 Mar 2026
+ 09:31:14 +0000
+From: Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
+To: =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, Oded Gabbay
+	<ogabbay@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li
+	<frank.li@nxp.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi
+	<xuelin.shi@nxp.com>, Alexandru Iulian Taran <alexandru.taran@nxp.com>
+Subject: RE: [PATCH 7/9] accel/neutron: Add job submission IOCTL
+Thread-Topic: [PATCH 7/9] accel/neutron: Add job submission IOCTL
+Thread-Index: AQHcpyWRaHKAnAfS3US/TiAeRiQXwLWVEtCAgAXsqlA=
+Date: Mon, 2 Mar 2026 09:31:14 +0000
+Message-ID:
+ <DB9PR04MB9426D1359D0E005C8EE04505947EA@DB9PR04MB9426.eurprd04.prod.outlook.com>
+References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
+ <20260226-neutron-v1-7-46eccb3bb50a@nxp.com>
+ <09364420-1044-4c9b-9907-b92b06653eaf@amd.com>
+In-Reply-To: <09364420-1044-4c9b-9907-b92b06653eaf@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB9PR04MB9426:EE_|GV2PR04MB11685:EE_
+x-ms-office365-filtering-correlation-id: f6fda990-281f-4018-267a-08de783e7328
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|19092799006|1800799024|366016|921020|38070700021;
+x-microsoft-antispam-message-info:
+ 9ZaioStopPJMWl35AacocHfo34BN6t5rbI0G+DC255Iaw6WFxbNgSffMCLWzzPCXwJGk2VaBp7uWzRyw7KWsgjU5lCetNErwvhYkf9Ie8ce9bYQt9jjwAme73eaH/c+x2Kr9crZYKrDEKZUvtR6hBYGwKZUW0IEx/vFzgm/TI0Q6w6R1hhY8ZEjFNC+sf8Sqel35rCpaRhTdhtxqQQGRDtmhdfqzyUFE0L68HO0VX31aYmG+lWJlOV/J2csEbbXCKptnHNIIXPY1Ql4gxof/pDDVQ+Ct8Whp8lIkBF8RgGnEJk/BeFQ1V/oDAhygZeb3o8ptb4thlCMH08bD4Jq6O1qhAztQSWUjREE7HG7ufDIgbkMbvLWJbpQxr/R9OkWK2mPTlCG+oPpVXjxnp2a5YQLtS+v9v+2BMsfiuJxShT8WXsO5sMmrL5kWCq5EwavrYczo95N/Y5EATNqzjaDptr2e2EysZ8wDzPVy4wD6q6PjcG9X9m/AdszEqtzYNPWwFiLREcNEQHCggZGx0t8GbCqxQBm98+94LCsJq7kADfWnYfjVyV4xqTD/c/vmwQ7r+LY5gFNmYgbVwfGtHmacAbdqilNOG99cST99Q5tDImt+sSv6l9hagGjjZwUl06rF3dK0Dh4fm/Ui9N8HRCiiVqlFvVCNQ7nehjsnkBvjRacQVJE82Fe8x/OZeEX1jaslenJcbJ2+KP53p6sp0flvigKPh6riwvzpQliMiQT/lcy5k4duBc36Irqu9iit2FL6qy0m3Rnthx9yUkdn9CHbnwkrF5W5FTxbko1hF14HP7UEtzuRn6s5HxF1ELBAwcfp
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9426.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(1800799024)(366016)(921020)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?I+vtZikRtEmcvQcMACI8k6K//bb11FMC6LpecBH71Ahcb1fRSD2M2pgzje?=
+ =?iso-8859-1?Q?/GqaZkUtBA3S9abKH9R/H+bzLm0U35DbHxmxO1KzQ2BU2FOKvgh/mLh6WP?=
+ =?iso-8859-1?Q?QlcIp+PTPNuXFWfoMxAQG/hb8rSB2TLcbwfkeDZ/8YfU1UEaqIkoaMob0I?=
+ =?iso-8859-1?Q?BKA9W4qqHOzlQ85KVu8axyuz5OrqAsvS4RvIsCrUVuMz+FDrpJ4+EX98Bo?=
+ =?iso-8859-1?Q?Vly8R/5JIrPAvCCR/uC7rlH4KQ1L5bYzE76lzYGFAAEMY2slOpk9PDbzjQ?=
+ =?iso-8859-1?Q?GWqKbOm2zChbraXcIZZXhXxzuaKgzM1FA7Xp9t3rL1/j0yHRHc4UWlW0s1?=
+ =?iso-8859-1?Q?onIHIwK0QqFkdIhyytZRlV+6WZvFb9TDaWHd4ED/AqoneN2Ywra+jPKbfB?=
+ =?iso-8859-1?Q?SWFY0gD5rnC/vk2OHfUmQbJfhA8k41vON46ZRmBD0M1alCCrxkqUpNeaZv?=
+ =?iso-8859-1?Q?oi9f6O1ANnxjaJkHab59EMlbk3nUmIJk3v+QGtsZvAxTAsSRu5es+aMBAJ?=
+ =?iso-8859-1?Q?PANPgnlpxXcmktLY58EECbDl+SmTVTG9psVcwEbGqAm9Dxcd1tMUTYwCYx?=
+ =?iso-8859-1?Q?13yD617X9xBP5CceVK1R5AXt6HE52czoL0QGQgggUH2Yr02eflvq6sm+PB?=
+ =?iso-8859-1?Q?BXM3A3MlTT2i18jvF7mPqUtvvY/SEpkabURoeUAs4ymrpWg8+v+OEp44RK?=
+ =?iso-8859-1?Q?dxJd3X1V+rXOnIcrnasSrPx7lKJ+TO0pVXCyZ2h44bwyQv7AtGiUg8skJW?=
+ =?iso-8859-1?Q?3OkAvmtf63muPpT22+omV25vY+l2Qgh7AMowJg8eCVH/yNHWx2Zp1/r8e3?=
+ =?iso-8859-1?Q?zME1clqWco6TJ9u9bfOXxRST9BrUGTF61I92tH5VRdZTNBWxpLT/D/uaVx?=
+ =?iso-8859-1?Q?gEwqS/pR8IZHrjSxcHyT3IQElA7K3hO23cWK7VfZY/AkAIVYHiqAg+2UAm?=
+ =?iso-8859-1?Q?driVa7C0tlu+ZFnscEOPwnKOna23Q6oA1bKjwKs9UgY5Ux/kYa/iuk9Eh4?=
+ =?iso-8859-1?Q?+F0abRZgP5e8k5ho+qFpKlUgiYoLwXKOTKrOZlNPnr2CN/UK3J1cuaYrSy?=
+ =?iso-8859-1?Q?bNs48mfyit3NXwnzOfSdGUURyUExZLC2sex+YdpfH1U5Aun61MxjCWgQaE?=
+ =?iso-8859-1?Q?y2XLg/dmLLxwbfIUmAQDZWLJwq5UicRWWRjJu7DFHRXw6AFJnpC5ONhFXK?=
+ =?iso-8859-1?Q?CWC6iasKdE2exlQ+CZFaQw3S46qMgUYdpZVrYM/D+fRQrLTdswSGWSDlT0?=
+ =?iso-8859-1?Q?pBDj6bC6QEdM9lxhx1CRLBnmTzRYNSWeneZzjzUotPB2F6SZoMWWGPSaWM?=
+ =?iso-8859-1?Q?IXU2UwRzFraByBSCIL/+e6G27MLv6iC4Kp30SfcEMJT3EBTBdvKLzZpKhE?=
+ =?iso-8859-1?Q?Cs4SaFA0fp7LHttU8kwvTdlvqVKJESUz6BYNFCVM8VuWfaBtkoUruykCVB?=
+ =?iso-8859-1?Q?AU0mdCrf32wTDgvoZx3+tt591aUc/RBWuEotoIo4vPTaBGjXH/MVDOpZWe?=
+ =?iso-8859-1?Q?9LI7nv36/Rdl+WO9CFrsPouXV4G34jBUAHgQ/tQmwPIMFU6B5WH1+kR/vF?=
+ =?iso-8859-1?Q?d3p46+z6wovPi9NkcXTfYEfsdDIk87FXqntIzca9Tl0oOUhjITo4TCnrwy?=
+ =?iso-8859-1?Q?r5OtC4S23KQDUL+2OBzVsQKWJSS1nyn8+mcPr3czm25CSrPnni4Rvvy1kj?=
+ =?iso-8859-1?Q?wpvkyTTOqHZv81PPFybd7wI+ORgnjH6aSrhido5w5PlEruDykmipv+sXsx?=
+ =?iso-8859-1?Q?b4s8vr2A7gPgMxaOlozJHYdzPJn1JI48VuXdCoeNms/xoHn5QLCZCcQjm/?=
+ =?iso-8859-1?Q?EykAtIgHtw=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 3/3] media: iris: Add support for Gen2 firmware
- detection and loading on SC7280
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil+cisco@kernel.org>,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260227-iris_sc7280_gen2_support-v2-0-7e5b13d26542@oss.qualcomm.com>
- <20260227-iris_sc7280_gen2_support-v2-3-7e5b13d26542@oss.qualcomm.com>
- <yjtzeyjovbi3coyw4rblczokuki6t7oj5ni3exrzksdg4dwwd5@seuaf2tmrvub>
-Content-Language: en-US
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <yjtzeyjovbi3coyw4rblczokuki6t7oj5ni3exrzksdg4dwwd5@seuaf2tmrvub>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: nZJYLYVY_LW6oLjB3gJlqB9Hf_o5PsbO
-X-Proofpoint-GUID: nZJYLYVY_LW6oLjB3gJlqB9Hf_o5PsbO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAyMDA3OSBTYWx0ZWRfX8XiX0fjaxyJV
- 7WciijRQ4TXxBt6Di6FbkA6oEhcTbwDQV6g2DmHi7FbvSZAp8biMz84CvXxEhBFBMz/WlT69vZl
- YWdi1fkHFRHgZPLGtrMKNiOu7sBcJQay578fDZrPKq1qtUM6ECWW9y0jMWnaQ3QiCjqIMuNqgqj
- yCPeg22lVHM5CAvLFRDE31W7HA9bjoRcES5za+p4FS5okVnJt0qiG41SJeKrHX6VXXuB5tth0mL
- sOzjsOyw3yvZSOCssYIwvHXVTDuQ4X8PvDIbQKMydeNA+WmwptOHAvzrIkC0+gCYA+wzL+PAqXe
- AygRIADUPDTIwc4UZEb2KQz07dZaDtNRVX1or7oEnIitn7TNnklDZaOaUz9B5Dlvwn/2k7ZejvX
- hkvZXJaXhQmEuufyh6LnKQbh8bbbYUbbMSZbg66qla9H/WCkvdA5oTRO95M3HrZtqjzgQx9ZQIR
- u3XIgl1FPjBMa9lGAQQ==
-X-Authority-Analysis: v=2.4 cv=GLkF0+NK c=1 sm=1 tr=0 ts=69a557bf cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=Rcr8AszoUWCL+GUTnXSVkw==:17
- a=vAhLNi6rj8_hoSnI:21 a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=0SyxZaFqcU5EExQ19UIA:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_02,2026-02-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 spamscore=0 adultscore=0
- phishscore=0 suspectscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603020079
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9426.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6fda990-281f-4018-267a-08de783e7328
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2026 09:31:14.7456
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 04ri3rALIGnm4+yd8mwfcZokMYcr5CEnFVPAAQHiAPRzXYNc40ji1dWFqJONqS/rcFKDNOmL6PccOmBkuFqL6A2VKnRlsRZPKusfrdfdlYU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11685
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email,qualcomm.com:dkim,60fps:email];
+	TAGGED_FROM(0.00)[bounces-54070-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54069-lists,linux-media=lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[amd.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,nxp.com];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	FROM_NEQ_ENVFROM(0.00)[dikshita.agarwal@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: F3CF21D5911
+	FROM_NEQ_ENVFROM(0.00)[ruxandra.radulescu@nxp.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nxp.com:email,nxp.com:dkim,aka.ms:url,cmd.id:url]
+X-Rspamd-Queue-Id: 0C2781D5947
 X-Rspamd-Action: no action
 
+On Thursday, February 26, 2026 at 5:00 PM, Christian K=F6nig wrote:
+> On 2/26/26 14:40, Ioana Ciocoi-Radulescu wrote:
+> > [Sie erhalten nicht h=E4ufig E-Mails von ruxandra.radulescu@nxp.com.
+> > Weitere Informationen, warum dies wichtig ist, finden Sie unter
+> > https://aka.ms/LearnAboutSenderIdentification ]
+> >
+> > Neutron can execute a single job at a time. For now, only inference
+> > jobs are supported. Each job has exactly one BO associated with it.
+> >
+> > When submitting a job, user also provides a syncobj handle on which it
+> > will wait for job completion.
+> >
+> > We use the DRM GPU scheduler for job management. Large part of the job
+> > submission code is based on the example of the ethosu driver.
+> >
+> > Signed-off-by: Jiwei Fu <jiwei.fu@nxp.com>
+> > Signed-off-by: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+> > ---
+> >  drivers/accel/neutron/Makefile         |   1 +
+> >  drivers/accel/neutron/neutron_device.c |   8 +-
+> >  drivers/accel/neutron/neutron_device.h |  21 ++
+> > drivers/accel/neutron/neutron_driver.c |  28 ++-
+> >  drivers/accel/neutron/neutron_driver.h |   3 +
+> >  drivers/accel/neutron/neutron_job.c    | 367
+> +++++++++++++++++++++++++++++++++
+> >  drivers/accel/neutron/neutron_job.h    |  45 ++++
+> >  include/uapi/drm/neutron_accel.h       |  51 +++++
+> >  8 files changed, 519 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/accel/neutron/Makefile
+> > b/drivers/accel/neutron/Makefile index 192ed896a9f9..ac6dd576521c
+> > 100644
+> > --- a/drivers/accel/neutron/Makefile
+> > +++ b/drivers/accel/neutron/Makefile
+> > @@ -6,4 +6,5 @@ neutron-y :=3D \
+> >         neutron_driver.o \
+> >         neutron_device.o \
+> >         neutron_gem.o \
+> > +       neutron_job.o \
+> >         neutron_mailbox.o
+> > diff --git a/drivers/accel/neutron/neutron_device.c
+> > b/drivers/accel/neutron/neutron_device.c
+> > index e5c09105be99..571ec906ad72 100644
+> > --- a/drivers/accel/neutron/neutron_device.c
+> > +++ b/drivers/accel/neutron/neutron_device.c
+> > @@ -7,6 +7,7 @@
+> >  #include <linux/iopoll.h>
+> >
+> >  #include "neutron_device.h"
+> > +#include "neutron_job.h"
+> >  #include "neutron_mailbox.h"
+> >
+> >  void neutron_enable_irq(struct neutron_device *ndev) @@ -32,9 +33,14
+> > @@ void neutron_handle_irq(struct neutron_device *ndev)
+> >         /* Write 1 to clear */
+> >         writel_relaxed(appstatus & APPSTATUS_CLEAR_MASK,
+> > NEUTRON_REG(ndev, APPSTATUS));
+> >
+> > -       if (appstatus & APPSTATUS_FAULTCAUSE_MASK)
+> > +       if (appstatus & APPSTATUS_FAULTCAUSE_MASK) {
+> >                 dev_err(ndev->dev, "Neutron halted due to fault: 0x%lx\=
+n",
+> >                         FIELD_GET(APPSTATUS_FAULTCAUSE_MASK,
+> > appstatus));
+> > +               return neutron_job_err_handler(ndev);
+> > +       }
+> > +
+> > +       if (appstatus & APPSTATUS_INFDONE)
+> > +               neutron_job_done_handler(ndev);
+> >  }
+> >
+> >  #define neutron_boot_done(appctrl) \
+> > diff --git a/drivers/accel/neutron/neutron_device.h
+> > b/drivers/accel/neutron/neutron_device.h
+> > index 8e4df7462d82..0ed72965774d 100644
+> > --- a/drivers/accel/neutron/neutron_device.h
+> > +++ b/drivers/accel/neutron/neutron_device.h
+> > @@ -9,8 +9,10 @@
+> >  #include <linux/spinlock.h>
+> >  #include <linux/bits.h>
+> >  #include <drm/drm_device.h>
+> > +#include <drm/gpu_scheduler.h>
+> >
+> >  struct clk_bulk_data;
+> > +struct neutron_job;
+> >
+> >  #define NEUTRON_FIRMWARE_NAME          "NeutronFirmware.elf"
+> >
+> > @@ -92,6 +94,13 @@ enum neutron_mem_id {
+> >   * @clks: Neutron clocks
+> >   * @num_clks: Number of clocks
+> >   * @flags: Software flags used by driver
+> > + * @fence_lock: DMA fence lock
+> > + * @sched: GPU scheduler
+> > + * @sched_lock: Scheduler lock, for neutron_push_job
+> > + * @fence_context: Fence context
+> > + * @job_seqno: Job sequence number
+> > + * @job_lock: Job lock, for active_job handling
+> > + * @active_job: Currently active job
+> >   */
+> >  struct neutron_device {
+> >         struct drm_device base;
+> > @@ -103,6 +112,18 @@ struct neutron_device {
+> >         struct clk_bulk_data *clks;
+> >         int num_clks;
+> >         u32 flags;
+> > +
+> > +       /* For dma_fence */
+> > +       spinlock_t fence_lock;
+>=20
+> I've just pushed a patch set to drm-misc-next which makes the fence_lock
+> superflous in most cases. Just provide NULL as lock when calling to
+> dma_fence_init().
 
+Thanks, I'll update for v2.
 
-On 2/27/2026 5:48 PM, Dmitry Baryshkov wrote:
-> On Fri, Feb 27, 2026 at 12:21:03PM +0530, Dikshita Agarwal wrote:
->> SC7280 supports both Gen1 and Gen2 HFI firmware. To support both
->> dynamically, update the firmware loading mechanism to prioritize
->> Gen2 availability and detect the loaded firmware version at runtime.
->>
->> The firmware loading logic is updated with the following priority:
->> 1. Device Tree (`firmware-name`): If specified, load unconditionally.
->> 2. Gen2 Autodetect (SC7280 only): If no DT property exists, attempt to
->>    load the specific Gen2 firmware image (`vpu20_p1_gen2_s6.mbn`).
->> 3. Default Fallback: If Gen2 loading fails or is not applicable, use
->>    the default firmware name defined in the default platform data.
->>
->> Additionally, introduce `iris_update_platform_data` to inspect the
->> loaded firmware memory before authentication. This function scans for
->> `QC_IMAGE_VERSION_STRING`. If the version string starts with "vfw" or
->> matches "video-firmware.N.M" (where N >= 2), it identifies the
->> firmware as Gen2.
->>
->> If Gen2 firmware is detected on SC7280, the driver switches the
->> internal platform data pointer to the Gen2 configuration.
->>
->> Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
->> ---
->>  drivers/media/platform/qcom/iris/iris_firmware.c   | 70 +++++++++++++++++-
->>  .../platform/qcom/iris/iris_platform_common.h      |  1 +
->>  .../media/platform/qcom/iris/iris_platform_gen1.c  |  4 +-
->>  .../media/platform/qcom/iris/iris_platform_gen2.c  | 83 ++++++++++++++++++++++
->>  .../platform/qcom/iris/iris_platform_sc7280.h      | 15 ++++
->>  drivers/media/platform/qcom/iris/iris_probe.c      |  3 -
->>  drivers/media/platform/qcom/iris/iris_vidc.c       |  3 +
->>  7 files changed, 171 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/iris/iris_firmware.c b/drivers/media/platform/qcom/iris/iris_firmware.c
->> index 5f408024e967fd21ade66cc3fa377d8507f9002e..f6ee7f58d4ce215ad9f7fb5fdcadec17f99c8848 100644
->> --- a/drivers/media/platform/qcom/iris/iris_firmware.c
->> +++ b/drivers/media/platform/qcom/iris/iris_firmware.c
->> @@ -14,6 +14,53 @@
->>  
->>  #define MAX_FIRMWARE_NAME_SIZE	128
->>  
->> +static void iris_update_platform_data(struct iris_core *core)
->> +{
->> +	const char *marker = "QC_IMAGE_VERSION_STRING=";
->> +	struct device_node *node = core->dev->of_node;
->> +	const char *found = NULL;
->> +	int major = 0, minor = 0;
->> +	char version_buf[64];
->> +	struct resource res;
->> +	void *mem_virt;
->> +	size_t i;
->> +
->> +	if (!of_device_is_compatible(node, "qcom,sc7280-venus"))
->> +		return;
->> +
->> +	if (of_reserved_mem_region_to_resource(node, 0, &res)) {
->> +		dev_err(core->dev, "Failed to get reserved memory for version check\n");
->> +		return;
->> +	}
->> +
->> +	mem_virt = memremap(res.start, resource_size(&res), MEMREMAP_WC);
->> +	if (!mem_virt) {
->> +		dev_err(core->dev, "Failed to remap memory for version check\n");
->> +		return;
->> +	}
->> +
->> +	for (i = 0; i < resource_size(&res) - strlen(marker); i++) {
->> +		if (memcmp(mem_virt + i, marker, strlen(marker)) == 0) {
->> +			found = (const char *)(mem_virt + i + strlen(marker));
->> +			break;
->> +		}
->> +	}
-> 
-> This should be done in iris_load_fw_to_memory(). Saves you from extra
-> memremap() / memunmap() and also from scanning extra data beyond the
-> loaded image area.
-> 
+>=20
+> > +       struct drm_gpu_scheduler sched;
+> > +       /* For neutron_push_job */
+> > +       struct mutex sched_lock;
+> > +       u64 fence_context;
+> > +       u64 job_seqno;
+> > +
+> > +       /* For active_job handling */
+> > +       struct mutex job_lock;
+> > +       struct neutron_job *active_job;
+> >  };
+> >
+> >  #define to_neutron_device(drm) \
+> > diff --git a/drivers/accel/neutron/neutron_driver.c
+> > b/drivers/accel/neutron/neutron_driver.c
+> > index c9a18bf52037..ceae1f7e8359 100644
+> > --- a/drivers/accel/neutron/neutron_driver.c
+> > +++ b/drivers/accel/neutron/neutron_driver.c
+> > @@ -19,40 +19,53 @@
+> >  #include "neutron_device.h"
+> >  #include "neutron_driver.h"
+> >  #include "neutron_gem.h"
+> > +#include "neutron_job.h"
+> >
+> >  #define NEUTRON_SUSPEND_DELAY_MS 1000
+> >
+> >  static const struct drm_ioctl_desc neutron_drm_ioctls[] =3D {
+> >         DRM_IOCTL_DEF_DRV(NEUTRON_CREATE_BO,
+> neutron_ioctl_create_bo, 0),
+> >         DRM_IOCTL_DEF_DRV(NEUTRON_SYNC_BO, neutron_ioctl_sync_bo, 0),
+> > +       DRM_IOCTL_DEF_DRV(NEUTRON_SUBMIT_JOB,
+> > + neutron_ioctl_submit_job, 0),
+> >  };
+> >
+> >  static int neutron_open(struct drm_device *drm, struct drm_file
+> > *file)  {
+> >         struct neutron_device *ndev =3D to_neutron_device(drm);
+> >         struct neutron_file_priv *npriv;
+> > +       int ret;
+> >
+> >         npriv =3D kzalloc_obj(*npriv);
+> >         if (!npriv)
+> >                 return -ENOMEM;
+> >
+> >         npriv->ndev =3D ndev;
+> > -       file->driver_priv =3D npriv;
+> >
+> > +       ret =3D neutron_job_open(npriv);
+> > +       if (ret)
+> > +               goto err_free;
+> > +
+> > +       file->driver_priv =3D npriv;
+> >         return 0;
+> > +
+> > +err_free:
+> > +       kfree(npriv);
+> > +       return ret;
+> >  }
+> >
+> >  static void neutron_postclose(struct drm_device *drm, struct drm_file
+> > *file)  {
+> >         struct neutron_file_priv *npriv =3D file->driver_priv;
+> >
+> > +       neutron_job_close(npriv);
+> >         kfree(npriv);
+> >  }
+> >
+> >  DEFINE_DRM_ACCEL_FOPS(neutron_drm_driver_fops);
+> >
+> >  static const struct drm_driver neutron_drm_driver =3D {
+> > -       .driver_features        =3D DRIVER_COMPUTE_ACCEL | DRIVER_GEM,
+> > +       .driver_features        =3D DRIVER_COMPUTE_ACCEL | DRIVER_GEM |
+> > +                                 DRIVER_SYNCOBJ,
+> >         .name                   =3D "neutron",
+> >         .desc                   =3D "NXP Neutron driver",
+> >         .major                  =3D 1,
+> > @@ -151,19 +164,25 @@ static int neutron_probe(struct platform_device
+> *pdev)
+> >                 return ret;
+> >         }
+> >
+> > -       ret =3D devm_pm_runtime_enable(dev);
+> > +       ret =3D neutron_job_init(ndev);
+> >         if (ret)
+> >                 goto free_reserved;
+> >
+> > +       ret =3D devm_pm_runtime_enable(dev);
+> > +       if (ret)
+> > +               goto free_job;
+> > +
+> >         pm_runtime_set_autosuspend_delay(dev,
+> NEUTRON_SUSPEND_DELAY_MS);
+> >         pm_runtime_use_autosuspend(dev);
+> >
+> >         ret =3D drm_dev_register(&ndev->base, 0);
+> >         if (ret)
+> > -               goto free_reserved;
+> > +               goto free_job;
+> >
+> >         return 0;
+> >
+> > +free_job:
+> > +       neutron_job_fini(ndev);
+> >  free_reserved:
+> >         of_reserved_mem_device_release(&pdev->dev);
+> >
+> > @@ -175,6 +194,7 @@ static void neutron_remove(struct platform_device
+> *pdev)
+> >         struct neutron_device *ndev =3D platform_get_drvdata(pdev);
+> >
+> >         drm_dev_unregister(&ndev->base);
+> > +       neutron_job_fini(ndev);
+> >         of_reserved_mem_device_release(&pdev->dev);
+> >  }
+> >
+> > diff --git a/drivers/accel/neutron/neutron_driver.h
+> > b/drivers/accel/neutron/neutron_driver.h
+> > index cd52b5eb2d27..b709de74105a 100644
+> > --- a/drivers/accel/neutron/neutron_driver.h
+> > +++ b/drivers/accel/neutron/neutron_driver.h
+> > @@ -4,10 +4,13 @@
+> >  #ifndef __NEUTRON_DRIVER_H__
+> >  #define __NEUTRON_DRIVER_H__
+> >
+> > +#include <drm/gpu_scheduler.h>
+> > +
+> >  struct neutron_device;
+> >
+> >  struct neutron_file_priv {
+> >         struct neutron_device *ndev;
+> > +       struct drm_sched_entity sched_entity;
+> >  };
+> >
+> >  #endif /* __NEUTRON_DRIVER_H__ */
+> > diff --git a/drivers/accel/neutron/neutron_job.c
+> > b/drivers/accel/neutron/neutron_job.c
+> > new file mode 100644
+> > index 000000000000..316e361166a2
+> > --- /dev/null
+> > +++ b/drivers/accel/neutron/neutron_job.c
+> > @@ -0,0 +1,367 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/* Copyright 2025-2026 NXP */
+> > +
+> > +#include <linux/delay.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include <drm/drm_file.h>
+> > +#include <drm/drm_print.h>
+> > +#include <drm/drm_gem_dma_helper.h>
+> > +#include <drm/neutron_accel.h>
+> > +
+> > +#include "neutron_driver.h"
+> > +#include "neutron_device.h"
+> > +#include "neutron_gem.h"
+> > +#include "neutron_mailbox.h"
+> > +#include "neutron_job.h"
+> > +
+> > +#define NEUTRON_JOB_TIMEOUT_MS 5000
+> > +
+> > +static const char *neutron_fence_get_driver_name(struct dma_fence
+> > +*fence) {
+> > +       return "neutron";
+> > +}
+> > +
+> > +static const char *neutron_fence_get_timeline_name(struct dma_fence
+> > +*fence) {
+> > +       return "neutron-npu";
+> > +}
+> > +
+> > +static const struct dma_fence_ops neutron_fence_ops =3D {
+> > +       .get_driver_name =3D neutron_fence_get_driver_name,
+> > +       .get_timeline_name =3D neutron_fence_get_timeline_name, };
+> > +
+> > +static void neutron_hw_submit(struct neutron_job *job) {
+> > +       struct neutron_device *ndev =3D job->ndev;
+> > +       struct neutron_mbox_cmd cmd =3D {0};
+> > +       u32 base_l, base_h;
+> > +       u64 base_addr;
+> > +       int ret;
+> > +
+> > +       switch (job->type) {
+> > +       case DRM_NEUTRON_JOB_INFERENCE:
+> > +               cmd.id =3D NEUTRON_CMD_INFERENCE;
+> > +               cmd.args[0] =3D job->inference.tensor_offset;
+> > +               cmd.args[1] =3D job->inference.microcode_offset;
+> > +               cmd.args[2] =3D job->inference.tensor_count;
+> > +               break;
+> > +       default:
+> > +               dev_WARN(ndev->dev, "Unknown job type: %d\n", job->type=
+);
+> > +               return;
+> > +       }
+> > +
+> > +       base_addr =3D to_drm_gem_dma_obj(job->bo)->dma_addr;
+> > +       base_l =3D lower_32_bits(base_addr);
+> > +       base_h =3D upper_32_bits(base_addr);
+> > +
+> > +       writel_relaxed(base_l, NEUTRON_REG(ndev, BASEDDRL));
+> > +       writel_relaxed(base_l, NEUTRON_REG(ndev, BASEINOUTL));
+> > +       writel_relaxed(base_l, NEUTRON_REG(ndev, BASESPILLL));
+> > +       writel_relaxed(base_h, NEUTRON_REG(ndev, BASEDDRH));
+> > +       writel_relaxed(base_h, NEUTRON_REG(ndev, BASEINOUTH));
+> > +       writel_relaxed(base_h, NEUTRON_REG(ndev, BASESPILLH));
+> > +
+> > +       ret =3D neutron_mbox_send_cmd(ndev, &cmd);
+> > +       if (ret) {
+> > +               /* Nothing we can do here, we'll reset the device on ti=
+meout */
+> > +               dev_err(ndev->dev, "Failed to submit job, device is bus=
+y\n");
+> > +       }
+> > +}
+> > +
+> > +void neutron_job_err_handler(struct neutron_device *ndev) {
+> > +       guard(mutex)(&ndev->job_lock);
+> > +
+> > +       if (ndev->active_job)
+> > +               drm_sched_fault(&ndev->sched); }
+> > +
+> > +void neutron_job_done_handler(struct neutron_device *ndev) {
+> > +       struct neutron_mbox_state state;
+> > +
+> > +       neutron_mbox_read_state(ndev, &state);
+> > +       if (state.status !=3D NEUTRON_FW_STATUS_DONE) {
+> > +               dev_err(ndev->dev, "Inconsistent firmware state: status=
+ 0x%x, err
+> 0x%x\n",
+> > +                       state.status, state.err_code);
+> > +               return neutron_job_err_handler(ndev);
+> > +       }
+> > +
+> > +       if (state.err_code !=3D 0)
+> > +               dev_warn(ndev->dev, "Job finished with error: 0x%x\n",
+> > +                        state.err_code);
+>=20
+> Not mandatory but you might also want to forward that as error to your
+> dma_fence, see dma_fence_set_error().
 
-Agree, I will move the version detection logic inside iris_load_fw_to_memory.
+Ok, will do that.
 
->> +
->> +	if (found) {
->> +		strscpy(version_buf, found, sizeof(version_buf));
->> +
->> +		/* Check for gen2 version string: "vfw..." OR "video-firmware.N..." (N>=2) */
->> +		if (strncmp(version_buf, "vfw", 3) == 0 ||
->> +		    (sscanf(version_buf, "video-firmware.%d.%d", &major, &minor) == 2 &&
->> +			    major >= 2)) {
->> +			dev_info(core->dev, "Gen2 FW Detected: %s\n", version_buf);
->> +			core->iris_platform_data = &sc7280_gen2_data;
->> +		}
->> +	}
->> +
->> +	memunmap(mem_virt);
->> +}
->> +
->>  static int iris_load_fw_to_memory(struct iris_core *core, const char *fw_name)
->>  {
->>  	u32 pas_id = core->iris_platform_data->pas_id;
->> @@ -64,21 +111,38 @@ static int iris_load_fw_to_memory(struct iris_core *core, const char *fw_name)
->>  
->>  int iris_fw_load(struct iris_core *core)
->>  {
->> +	struct device_node *node = core->dev->of_node;
->>  	const struct tz_cp_config *cp_config;
->>  	const char *fwpath = NULL;
->>  	int i, ret;
->>  
->>  	ret = of_property_read_string_index(core->dev->of_node, "firmware-name", 0,
->>  					    &fwpath);
->> -	if (ret)
->> -		fwpath = core->iris_platform_data->fwname;
->> +	if (!ret) {
->> +		ret = iris_load_fw_to_memory(core, fwpath);
->> +	} else {
->> +		bool fw_loaded = false;
->> +
->> +		if (of_device_is_compatible(node, "qcom,sc7280-venus")) {
->> +			ret = iris_load_fw_to_memory(core, "qcom/vpu/vpu20_p1_gen2_s6.mbn");
->> +			if (!ret)
->> +				fw_loaded = true;
->> +		}
->> +
->> +		if (!fw_loaded) {
->> +			fwpath = core->iris_platform_data->fwname;
->> +			dev_dbg(core->dev, "loading default fw: %s\n", fwpath);
->> +			ret = iris_load_fw_to_memory(core, fwpath);
->> +		}
-> 
-> Make SC7280 default to Gen2 firmware. Then:
-> 
-> 	ret = iris_load_fw_to_memory(core, fwpath);
-> 	if (ret == -ENOENT &&
-> 	    fwpath == core->iris_platform_data->fwname &&
-> 	    of_device_is_compatible(node, "qcom,sc7280-venus"))
-> 		ret = iris_load_fw_to_memory(core, sc7280_data.fwname);
-> 
+>=20
+> > +
+> > +       /* Reset Neutron internal state to prepare for next inference *=
+/
+> > +       neutron_mbox_reset_state(ndev);
+> > +
+> > +       scoped_guard(mutex, &ndev->job_lock) {
+> > +               if (ndev->active_job) {
+> > +                       dma_fence_signal(ndev->active_job->neutron_fenc=
+e);
+> > +                       ndev->active_job =3D NULL;
+> > +               }
+> > +       }
+> > +}
+> > +
+> > +static void neutron_cleanup_job(struct kref *ref) {
+> > +       struct neutron_job *job =3D container_of(ref, struct
+> > +neutron_job, refcnt);
+> > +
+> > +       pm_runtime_put_autosuspend(job->ndev->base.dev);
+> > +
+> > +       dma_fence_put(job->neutron_fence);
+> > +       dma_fence_put(job->sched_fence);
+> > +       drm_gem_object_put(job->bo);
+> > +       drm_syncobj_put(job->syncobj);
+> > +
+> > +       kfree(job);
+> > +}
+> > +
+> > +static void neutron_put_job(struct neutron_job *job) {
+> > +       kref_put(&job->refcnt, neutron_cleanup_job); }
+> > +
+> > +static void neutron_free_job(struct drm_sched_job *sched_job) {
+> > +       struct neutron_job *job =3D to_neutron_job(sched_job);
+> > +
+> > +       drm_sched_job_cleanup(sched_job);
+> > +       neutron_put_job(job);
+> > +}
+> > +
+> > +static struct dma_fence *neutron_run_job(struct drm_sched_job
+> > +*sched_job) {
+> > +       struct neutron_job *job =3D to_neutron_job(sched_job);
+> > +       struct dma_fence *fence =3D job->neutron_fence;
+> > +       struct neutron_device *ndev =3D job->ndev;
+> > +
+> > +       if (unlikely(job->base.s_fence->finished.error))
+> > +               return NULL;
+> > +
+> > +       dma_fence_init(fence, &neutron_fence_ops, &ndev->fence_lock,
+> > +                      ndev->fence_context, ++ndev->job_seqno);
+> > +       dma_fence_get(fence);
+> > +
+> > +       scoped_guard(mutex, &ndev->job_lock) {
+> > +               ndev->active_job =3D job;
+> > +               neutron_hw_submit(job);
+> > +       }
+> > +
+> > +       return fence;
+> > +}
+> > +
+> > +static enum drm_gpu_sched_stat neutron_timedout_job(struct
+> > +drm_sched_job *sched_job) {
+> > +       struct neutron_job *job =3D to_neutron_job(sched_job);
+> > +       struct neutron_device *ndev =3D job->ndev;
+> > +       struct neutron_mbox_state state;
+> > +
+> > +       /* We assume Neutron is stuck, retrieve current state and reset=
+ */
+> > +       neutron_mbox_read_state(ndev, &state);
+> > +       dev_err(ndev->dev, "Neutron timedout, status: 0x%x, err: 0x%x\n=
+",
+> > +               state.status, state.err_code);
+> > +
+> > +       drm_sched_stop(&ndev->sched, sched_job);
+> > +
+> > +       scoped_guard(mutex, &ndev->job_lock)
+> > +               ndev->active_job =3D NULL;
+> > +
+> > +       pm_runtime_force_suspend(ndev->dev);
+> > +       pm_runtime_force_resume(ndev->dev);
+> > +
+> > +       drm_sched_start(&ndev->sched, 0);
+> > +
+> > +       return DRM_GPU_SCHED_STAT_RESET; }
+> > +
+> > +static void neutron_cancel_job(struct drm_sched_job *sched_job) {
+> > +       struct neutron_job *job =3D to_neutron_job(sched_job);
+> > +       struct neutron_device *ndev =3D job->ndev;
+> > +
+> > +       guard(mutex)(&ndev->job_lock);
+> > +
+> > +       if (!dma_fence_is_signaled(job->neutron_fence)) {
+> > +               dma_fence_set_error(job->neutron_fence, -ECANCELED);
+> > +               dma_fence_signal(job->neutron_fence);
+> > +       }
+> > +}
+> > +
+> > +static const struct drm_sched_backend_ops neutron_sched_ops =3D {
+> > +       .run_job =3D neutron_run_job,
+> > +       .free_job =3D neutron_free_job,
+> > +       .timedout_job =3D neutron_timedout_job,
+> > +       .cancel_job =3D neutron_cancel_job, };
+> > +
+> > +int neutron_job_init(struct neutron_device *ndev) {
+> > +       const struct drm_sched_init_args args =3D {
+> > +               .ops =3D &neutron_sched_ops,
+> > +               .num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
+> > +               .credit_limit =3D 1,
+> > +               .timeout =3D msecs_to_jiffies(NEUTRON_JOB_TIMEOUT_MS),
+> > +               .name =3D dev_name(ndev->dev),
+> > +               .dev =3D ndev->dev,
+> > +       };
+> > +       int ret;
+> > +
+> > +       ret =3D devm_mutex_init(ndev->dev, &ndev->sched_lock);
+> > +       if (ret)
+> > +               return ret;
+> > +       ret =3D devm_mutex_init(ndev->dev, &ndev->job_lock);
+> > +       if (ret)
+> > +               return ret;
+> > +       spin_lock_init(&ndev->fence_lock);
+> > +
+> > +       ndev->fence_context =3D dma_fence_context_alloc(1);
+> > +
+> > +       ret =3D drm_sched_init(&ndev->sched, &args);
+> > +       if (ret)
+> > +               dev_err(ndev->dev, "Error creating DRM scheduler\n");
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +void neutron_job_fini(struct neutron_device *ndev) {
+> > +       drm_sched_fini(&ndev->sched);
+> > +}
+> > +
+> > +int neutron_job_open(struct neutron_file_priv *npriv) {
+> > +       struct neutron_device *ndev =3D npriv->ndev;
+> > +       struct drm_gpu_scheduler *sched =3D &ndev->sched;
+> > +       int ret;
+> > +
+> > +       ret =3D drm_sched_entity_init(&npriv->sched_entity,
+> > +                                   DRM_SCHED_PRIORITY_NORMAL,
+> > +                                   &sched, 1, NULL);
+> > +       if (ret)
+> > +               dev_err(ndev->dev, "Error creating scheduler
+> > + entity\n");
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +void neutron_job_close(struct neutron_file_priv *npriv) {
+> > +       drm_sched_entity_destroy(&npriv->sched_entity);
+> > +}
+> > +
+> > +static int neutron_push_job(struct neutron_job *job) {
+> > +       struct neutron_device *ndev =3D job->ndev;
+> > +       struct ww_acquire_ctx acquire_ctx;
+> > +       int ret;
+> > +
+> > +       ret =3D drm_gem_lock_reservations(&job->bo, 1, &acquire_ctx);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       ret =3D dma_resv_reserve_fences(job->bo->resv, 1);
+> > +       if (ret)
+> > +               goto out_unlock_res;
+> > +
+> > +       ret =3D drm_sched_job_add_implicit_dependencies(&job->base, job=
+->bo,
+> true);
+> > +       if (ret)
+> > +               goto out_unlock_res;
+> > +
+> > +       ret =3D pm_runtime_resume_and_get(ndev->base.dev);
+> > +       if (ret)
+> > +               goto out_unlock_res;
+> > +
+> > +       scoped_guard(mutex, &ndev->sched_lock) {
+> > +               drm_sched_job_arm(&job->base);
+> > +
+> > +               job->sched_fence =3D dma_fence_get(&job->base.s_fence->=
+finished);
+> > +               drm_syncobj_replace_fence(job->syncobj,
+> > + job->sched_fence);
+> > +
+> > +               kref_get(&job->refcnt);
+> > +               drm_sched_entity_push_job(&job->base);
+> > +
+> > +               dma_resv_add_fence(job->bo->resv, job->sched_fence,
+> > +                                  DMA_RESV_USAGE_WRITE);
+> > +       }
+> > +
+> > +out_unlock_res:
+> > +       drm_gem_unlock_reservations(&job->bo, 1, &acquire_ctx);
+> > +
+> > +       return ret;
+> > +}
+> > +
+> > +int neutron_ioctl_submit_job(struct drm_device *drm, void *data,
+> > +struct drm_file *filp) {
+> > +       struct neutron_device *ndev =3D to_neutron_device(drm);
+> > +       struct neutron_file_priv *npriv =3D filp->driver_priv;
+> > +       struct drm_neutron_submit_job *args =3D data;
+> > +       struct neutron_job *job;
+> > +       int ret;
+> > +
+> > +       if (args->pad)
+> > +               return -EINVAL;
+> > +
+> > +       job =3D kzalloc_obj(*job);
+> > +       if (!job)
+> > +               return -ENOMEM;
+> > +
+> > +       job->ndev =3D ndev;
+> > +       kref_init(&job->refcnt);
+> > +
+> > +       job->neutron_fence =3D kzalloc_obj(*job->neutron_fence);
+> > +       if (!job->neutron_fence) {
+> > +               ret =3D -ENOMEM;
+> > +               goto out_free_job;
+> > +       }
+> > +
+> > +       switch (args->type) {
+> > +       case DRM_NEUTRON_JOB_INFERENCE:
+> > +               memcpy(&job->inference, &args->inference,
+> > +                      sizeof(args->inference));
+> > +               break;
+> > +       default:
+> > +               dev_dbg(ndev->dev, "Invalid job type %d\n", args->type)=
+;
+> > +               ret =3D -EINVAL;
+> > +               goto out_free_fence;
+> > +       }
+> > +
+> > +       job->bo =3D drm_gem_object_lookup(filp, args->bo_handle);
+> > +       if (!job->bo) {
+> > +               dev_dbg(ndev->dev, "Invalid BO handle\n");
+> > +               ret =3D -ENOENT;
+> > +               goto out_free_fence;
+> > +       }
+> > +
+> > +       job->syncobj =3D drm_syncobj_find(filp, args->syncobj_handle);
+> > +       if (!job->syncobj) {
+> > +               dev_dbg(ndev->dev, "Invalid syncobj handle\n");
+> > +               ret =3D -ENOENT;
+> > +               goto out_put_gem;
+> > +       }
+> > +
+> > +       ret =3D drm_sched_job_init(&job->base, &npriv->sched_entity, 1,=
+ NULL,
+> > +                                filp->client_id);
+> > +       if (ret)
+> > +               goto out_put_syncobj;
+> > +
+> > +       ret =3D neutron_push_job(job);
+> > +       if (ret)
+> > +               goto out_sched_cleanup;
+> > +
+> > +       neutron_put_job(job);
+> > +
+> > +       return 0;
+> > +
+> > +out_sched_cleanup:
+> > +       drm_sched_job_cleanup(&job->base);
+> > +out_put_syncobj:
+> > +       drm_syncobj_put(job->syncobj);
+> > +out_put_gem:
+> > +       drm_gem_object_put(job->bo);
+> > +out_free_fence:
+> > +       kfree(job->neutron_fence);
+> > +out_free_job:
+> > +       kfree(job);
+> > +
+> > +       return ret;
+> > +}
+> > diff --git a/drivers/accel/neutron/neutron_job.h
+> > b/drivers/accel/neutron/neutron_job.h
+> > new file mode 100644
+> > index 000000000000..bb7773aeb218
+> > --- /dev/null
+> > +++ b/drivers/accel/neutron/neutron_job.h
+> > @@ -0,0 +1,45 @@
+> > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > +/* Copyright 2025-2026 NXP */
+> > +
+> > +#ifndef __NEUTRON_JOB_H__
+> > +#define __NEUTRON_JOB_H__
+> > +
+> > +#include <linux/kref.h>
+> > +#include <drm/drm_gem.h>
+> > +#include <drm/drm_syncobj.h>
+> > +#include <drm/gpu_scheduler.h>
+> > +#include <drm/neutron_accel.h>
+> > +
+> > +#include "neutron_driver.h"
+> > +
+> > +struct neutron_device;
+> > +struct neutron_file_priv;
+> > +
+> > +struct neutron_job {
+> > +       struct drm_sched_job base;
+> > +       struct neutron_device *ndev;
+> > +       struct dma_fence *neutron_fence;
+>=20
+> > +       struct dma_fence *sched_fence;
+>=20
+> That looks superflous to me. You should always have the scheduler fence
+> through the base.
 
-Ack. I would rework iris_fw_load() so that SC7280 defaults to the Gen2
-firmware when no DT firmware-name is provided, and falls back to the Gen1
-name only when the Gen2 image is missing.
+Ok.
 
->> +	}
->>  
->> -	ret = iris_load_fw_to_memory(core, fwpath);
->>  	if (ret) {
->>  		dev_err(core->dev, "firmware download failed\n");
->>  		return -ENOMEM;
->>  	}
->>  
->> +	iris_update_platform_data(core);
->> +
->>  	ret = qcom_scm_pas_auth_and_reset(core->iris_platform_data->pas_id);
->>  	if (ret)  {
->>  		dev_err(core->dev, "auth and reset failed: %d\n", ret);
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
->> index 5a489917580eb10022fdcb52f7321a915e8b239d..f1bbbe043e3a3ccc5eebf67091162678eb83bf45 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
->> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
->> @@ -43,6 +43,7 @@ enum pipe_type {
->>  
->>  extern const struct iris_platform_data qcs8300_data;
->>  extern const struct iris_platform_data sc7280_data;
->> +extern const struct iris_platform_data sc7280_gen2_data;
->>  extern const struct iris_platform_data sm8250_data;
->>  extern const struct iris_platform_data sm8550_data;
->>  extern const struct iris_platform_data sm8650_data;
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen1.c b/drivers/media/platform/qcom/iris/iris_platform_gen1.c
->> index df8e6bf9430ed2a070e092edae9ef998d092cb5e..6dbdd0833dcdc7dfac6d7b35f99837c883e188e7 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_gen1.c
->> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen1.c
->> @@ -414,8 +414,8 @@ const struct iris_platform_data sc7280_data = {
->>  	.dma_mask = 0xe0000000 - 1,
->>  	.fwname = "qcom/vpu/vpu20_p1.mbn",
->>  	.pas_id = IRIS_PAS_ID,
->> -	.inst_iris_fmts = platform_fmts_sm8250_dec,
->> -	.inst_iris_fmts_size = ARRAY_SIZE(platform_fmts_sm8250_dec),
->> +	.inst_iris_fmts = platform_fmts_sc7280_dec,
->> +	.inst_iris_fmts_size = ARRAY_SIZE(platform_fmts_sc7280_dec),
-> 
-> Why?
-> 
+>=20
+> > +       struct drm_syncobj *syncobj;
+>=20
+> Why do you want to keep the syncobj around?
 
-SC7280 Gen2 platform data relies heavily on SM8550 data structures.
-However, unlike SM8550, SC7280 does not support AV1. To address this, I am
-defining a dedicated platform_fmts_sc7280_dec array that correctly lists
-the supported codecs (H264, HEVC, VP9) excluding AV1 and using for both
-gen1 and gen2 platform data for SC7280.
+No good enough reason, I'll remove it from job structure.
 
->>  	.inst_caps = &platform_inst_cap_sm8250,
->>  	.inst_fw_caps_dec = inst_fw_cap_sm8250_dec,
->>  	.inst_fw_caps_dec_size = ARRAY_SIZE(inst_fw_cap_sm8250_dec),
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
->> index 5da90d47f9c6eab4a7e6b17841fdc0e599397bf7..5f3be22a003fe5d80b683b43a1b2386497785fb1 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
->> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
->> @@ -15,6 +15,7 @@
->>  #include "iris_platform_qcs8300.h"
->>  #include "iris_platform_sm8650.h"
->>  #include "iris_platform_sm8750.h"
->> +#include "iris_platform_sc7280.h"
-> 
-> Don't you end up with two copies of 7280 data in the object files?
-> 
+>=20
+>=20
+> Apart from those notes looks pretty good to me, but I'm a bit disapointed=
+ that
+> there isn't any DMA-buf support to review :)
 
-You are right, there is a duplication.
-The header is needed majorly for above reason to exclude AV1, I can have
-only platform_fmts_sc7280_dec defined in gen1 file and extern and use in
-gen2 file, that will deviate from the design we are currently following for
-platform specific caps though.
+Thanks for reviewing!
+Ioana
 
->>  
->>  #define VIDEO_ARCH_LX 1
->>  #define BITRATE_MAX				245000000
->> @@ -1317,3 +1318,85 @@ const struct iris_platform_data qcs8300_data = {
->>  	.enc_op_int_buf_tbl = sm8550_enc_op_int_buf_tbl,
->>  	.enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
->>  };
->> +
->> +const struct iris_platform_data sc7280_gen2_data = {
->> +	.get_instance = iris_hfi_gen2_get_instance,
->> +	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
->> +	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
->> +	/* Gen2 FW for SC7280 requires bigger size for line buffer for encoder */
->> +	.get_vpu_buffer_size = iris_vpu33_buf_size,
->> +	.vpu_ops = &iris_vpu2_ops,
->> +	.set_preset_registers = iris_set_sm8550_preset_registers,
->> +	.icc_tbl = sm8550_icc_table,
->> +	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
->> +	.bw_tbl_dec = sc7280_bw_table_dec,
->> +	.bw_tbl_dec_size = ARRAY_SIZE(sc7280_bw_table_dec),
->> +	.pmdomain_tbl = sm8550_pmdomain_table,
->> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
->> +	.opp_pd_tbl = sc7280_opp_pd_table,
->> +	.opp_pd_tbl_size = ARRAY_SIZE(sc7280_opp_pd_table),
->> +	.clk_tbl = sc7280_clk_table,
->> +	.clk_tbl_size = ARRAY_SIZE(sc7280_clk_table),
->> +	.opp_clk_tbl = sc7280_opp_clk_table,
->> +	/* Upper bound of DMA address range */
->> +	.dma_mask = 0xe0000000 - 1,
->> +	.fwname = "qcom/vpu/vpu20_p1_gen2_s6.mbn",
->> +	.pas_id = IRIS_PAS_ID,
->> +	.inst_iris_fmts = platform_fmts_sc7280_dec,
->> +	.inst_iris_fmts_size = ARRAY_SIZE(platform_fmts_sc7280_dec),
->> +	.inst_caps = &platform_inst_cap_sm8550,
->> +	.inst_fw_caps_dec = inst_fw_cap_sm8550_dec,
->> +	.inst_fw_caps_dec_size = ARRAY_SIZE(inst_fw_cap_sm8550_dec),
->> +	.inst_fw_caps_enc = inst_fw_cap_sm8550_enc,
->> +	.inst_fw_caps_enc_size = ARRAY_SIZE(inst_fw_cap_sm8550_enc),
->> +	.tz_cp_config_data = tz_cp_config_sm8550,
->> +	.tz_cp_config_data_size = ARRAY_SIZE(tz_cp_config_sm8550),
->> +	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
->> +	.ubwc_config = &ubwc_config_sm8550,
->> +	.core_arch = VIDEO_ARCH_LX,
->> +	.num_vpp_pipe = 1,
->> +	.no_aon = true,
->> +	.max_session_count = 16,
->> +	.max_core_mbpf = 4096 * 2176 / 256 * 2 + 1920 * 1088 / 256,
->> +	/* max spec for SC7280 is 4096x2176@60fps */
->> +	.max_core_mbps = 4096 * 2176 / 256 * 60,
->> +	.dec_input_config_params_default =
->> +		sm8550_vdec_input_config_params_default,
->> +	.dec_input_config_params_default_size =
->> +		ARRAY_SIZE(sm8550_vdec_input_config_params_default),
->> +	.dec_input_config_params_hevc =
->> +		sm8550_vdec_input_config_param_hevc,
->> +	.dec_input_config_params_hevc_size =
->> +		ARRAY_SIZE(sm8550_vdec_input_config_param_hevc),
->> +	.dec_input_config_params_vp9 =
->> +		sm8550_vdec_input_config_param_vp9,
->> +	.dec_input_config_params_vp9_size =
->> +		ARRAY_SIZE(sm8550_vdec_input_config_param_vp9),
->> +	.enc_input_config_params = sm8550_venc_input_config_params,
->> +	.enc_input_config_params_size =
->> +		ARRAY_SIZE(sm8550_venc_input_config_params),
->> +	.dec_output_config_params = sm8550_vdec_output_config_params,
->> +	.dec_output_config_params_size = ARRAY_SIZE(sm8550_vdec_output_config_params),
->> +	.enc_output_config_params = sm8550_venc_output_config_params,
->> +	.enc_output_config_params_size = ARRAY_SIZE(sm8550_venc_output_config_params),
->> +
->> +	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
->> +	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
->> +	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
->> +	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
->> +
->> +	.enc_op_int_buf_tbl = sm8550_enc_op_int_buf_tbl,
->> +	.enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
->> +
->> +	.dec_input_prop = sm8550_vdec_subscribe_input_properties,
->> +	.dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
->> +	.dec_output_prop_avc = sm8550_vdec_subscribe_output_properties_avc,
->> +	.dec_output_prop_avc_size =
->> +		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_avc),
->> +	.dec_output_prop_hevc = sm8550_vdec_subscribe_output_properties_hevc,
->> +	.dec_output_prop_hevc_size =
->> +		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_hevc),
->> +	.dec_output_prop_vp9 = sm8550_vdec_subscribe_output_properties_vp9,
->> +	.dec_output_prop_vp9_size =
->> +		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_vp9),
->> +};
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sc7280.h b/drivers/media/platform/qcom/iris/iris_platform_sc7280.h
->> index 0ec8f334df670c3c1548a5ee3b8907b333e34db3..6e05f2542a5457bd0b3b6acced3bd54d166b2023 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_sc7280.h
->> +++ b/drivers/media/platform/qcom/iris/iris_platform_sc7280.h
->> @@ -6,6 +6,21 @@
->>  #ifndef __IRIS_PLATFORM_SC7280_H__
->>  #define __IRIS_PLATFORM_SC7280_H__
->>  
->> +static struct iris_fmt platform_fmts_sc7280_dec[] = {
->> +	[IRIS_FMT_H264] = {
->> +		.pixfmt = V4L2_PIX_FMT_H264,
->> +		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
->> +	},
->> +	[IRIS_FMT_HEVC] = {
->> +		.pixfmt = V4L2_PIX_FMT_HEVC,
->> +		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
->> +	},
->> +	[IRIS_FMT_VP9] = {
->> +		.pixfmt = V4L2_PIX_FMT_VP9,
->> +		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
->> +	},
->> +};
->> +
->>  static const struct bw_info sc7280_bw_table_dec[] = {
->>  	{ ((3840 * 2160) / 256) * 60, 1896000, },
->>  	{ ((3840 * 2160) / 256) * 30,  968000, },
->> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
->> index 22c7b3410710328b900fc49459cd399aa0e89b02..1f44d3ea337df63fbf5317b9b99139a0867267c3 100644
->> --- a/drivers/media/platform/qcom/iris/iris_probe.c
->> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
->> @@ -12,7 +12,6 @@
->>  #include <linux/reset.h>
->>  
->>  #include "iris_core.h"
->> -#include "iris_ctrls.h"
->>  #include "iris_vidc.h"
->>  
->>  static int iris_init_icc(struct iris_core *core)
->> @@ -257,8 +256,6 @@ static int iris_probe(struct platform_device *pdev)
->>  	if (ret)
->>  		return ret;
->>  
->> -	iris_session_init_caps(core);
->> -
-> 
-> Why?
+>=20
+> Regards,
+> Christian.
+>=20
+> > +       struct drm_gem_object *bo;
+> > +       enum drm_neutron_job_type type;
+> > +       union {
+> > +               struct drm_neutron_inference_job inference;
+> > +       };
+> > +       struct kref refcnt;
+> > +};
+> > +
+> > +#define to_neutron_job(job) \
+> > +       container_of(job, struct neutron_job, base)
+> > +
+> > +int neutron_job_init(struct neutron_device *dev); void
+> > +neutron_job_fini(struct neutron_device *dev); int
+> > +neutron_job_open(struct neutron_file_priv *npriv); void
+> > +neutron_job_close(struct neutron_file_priv *npriv);
+> > +
+> > +void neutron_job_done_handler(struct neutron_device *dev); void
+> > +neutron_job_err_handler(struct neutron_device *dev);
+> > +
+> > +int neutron_ioctl_submit_job(struct drm_device *dev, void *data,
+> > +struct drm_file *filp);
+> > +
+> > +#endif /* __NEUTRON_JOB_H__ */
+> > diff --git a/include/uapi/drm/neutron_accel.h
+> > b/include/uapi/drm/neutron_accel.h
+> > index 2f5639f2e0e8..a9e5682709d2 100644
+> > --- a/include/uapi/drm/neutron_accel.h
+> > +++ b/include/uapi/drm/neutron_accel.h
+> > @@ -15,10 +15,12 @@ extern "C" {
+> >   *
+> >   * @DRM_NEUTRON_CREATE_BO: Create a buffer object
+> >   * @DRM_NEUTRON_SYNC_BO: Sync (parts of) the buffer object memory
+> > + * @DRM_NEUTRON_SUBMIT_JOB: Submit a job to the device
+> >   */
+> >  enum drm_neutron_ioctl {
+> >         DRM_NEUTRON_CREATE_BO =3D 0,
+> >         DRM_NEUTRON_SYNC_BO,
+> > +       DRM_NEUTRON_SUBMIT_JOB,
+> >  };
+> >
+> >  /**
+> > @@ -64,6 +66,51 @@ struct drm_neutron_sync_bo {
+> >         __u64 offset;
+> >  };
+> >
+> > +/**
+> > + * enum drm_neutron_job_type - Type of job to submit to Neutron
+> > +device
+> > + *
+> > + * @DRM_NEUTRON_JOB_INFERENCE: Inference job  */ enum
+> > +drm_neutron_job_type {
+> > +       DRM_NEUTRON_JOB_INFERENCE =3D 0, };
+> > +
+> > +/**
+> > + * struct drm_neutron_inference_job - Inference job descriptor
+> > + *
+> > + * @tensor_offset: Offset of tensor array inside job BO
+> > + * @microcode_offset: Microcode offset inside BO
+> > + * @tensor_count: Number of valid tensors
+> > + * @pad: MBZ
+> > + */
+> > +struct drm_neutron_inference_job {
+> > +       __u32 tensor_offset;
+> > +       __u32 microcode_offset;
+> > +       __u32 tensor_count;
+> > +       __u32 pad[5];
+> > +};
+> > +
+> > +/**
+> > + * struct drm_neutron_submit_job - Submit a job to Neutron device
+> > + *
+> > + * @type: Job type, one of enum drm_neutron_job_type
+> > + * @bo_handle: BO handle for this job
+> > + * @inference: Inference job descriptor (when type is
+> > +DRM_NEUTRON_JOB_INFERENCE)
+> > + * @reserved: Reserved for future job types
+> > + * @syncobj_handle: Handle of syncobj on which user waits for job
+> > +completion
+> > + * @pad: MBZ
+> > + */
+> > +struct drm_neutron_submit_job {
+> > +       __u32 type;
+> > +       __u32 bo_handle;
+> > +       union {
+> > +               struct drm_neutron_inference_job inference;
+> > +               __u32 reserved[8];
+> > +       };
+> > +       __u32 syncobj_handle;
+> > +       __u32 pad;
+> > +};
+> > +
+> >  #define DRM_IOCTL_NEUTRON_CREATE_BO \
+> >         DRM_IOWR(DRM_COMMAND_BASE + DRM_NEUTRON_CREATE_BO, \
+> >                  struct drm_neutron_create_bo) @@ -72,6 +119,10 @@
+> > struct drm_neutron_sync_bo {
+> >         DRM_IOWR(DRM_COMMAND_BASE + DRM_NEUTRON_SYNC_BO, \
+> >                  struct drm_neutron_sync_bo)
+> >
+> > +#define DRM_IOCTL_NEUTRON_SUBMIT_JOB \
+> > +       DRM_IOWR(DRM_COMMAND_BASE + DRM_NEUTRON_SUBMIT_JOB,
+> \
+> > +                struct drm_neutron_submit_job)
+> > +
+> >  #if defined(__cplusplus)
+> >  }
+> >  #endif
+> >
+> > --
+> > 2.34.1
+> >
 
-Movin iris_session_init_caps to iris_open because platform data this
-capabilities may change after firmware loading, which happens after probe.
-Initializing caps in probe would result in stale Gen1 capabilities if the
-driver later switches to Gen2.
-
-Thanks,
-Dikshita
-> 
->>  	ret = v4l2_device_register(dev, &core->v4l2_dev);
->>  	if (ret)
->>  		return ret;
->> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
->> index bd38d84c9cc79d15585ed5dd5f905a37521cb6dc..0727d5d19cb9b7ed1f72ab840ae5dfda0162e23d 100644
->> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
->> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
->> @@ -9,6 +9,7 @@
->>  #include <media/v4l2-mem2mem.h>
->>  #include <media/videobuf2-dma-contig.h>
->>  
->> +#include "iris_ctrls.h"
->>  #include "iris_vidc.h"
->>  #include "iris_instance.h"
->>  #include "iris_vdec.h"
->> @@ -196,6 +197,8 @@ int iris_open(struct file *filp)
->>  		goto fail_m2m_release;
->>  	}
->>  
->> +	iris_session_init_caps(core);
->> +
->>  	if (inst->domain == DECODER)
->>  		ret = iris_vdec_inst_init(inst);
->>  	else if (inst->domain == ENCODER)
->>
->> -- 
->> 2.34.1
->>
-> 
 
