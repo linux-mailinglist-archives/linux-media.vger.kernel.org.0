@@ -1,219 +1,266 @@
-Return-Path: <linux-media+bounces-54244-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54245-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oKDwD7YqpmknLgAAu9opvQ
-	(envelope-from <linux-media+bounces-54244-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 01:26:30 +0100
+	id YM+5Fug4pmnQMgAAu9opvQ
+	(envelope-from <linux-media+bounces-54245-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 02:27:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE681E71CE
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 01:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B55A61E7AB2
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 02:27:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 039B930791F5
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 00:26:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6AF4830B0A4A
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 01:26:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8E820D4FC;
-	Tue,  3 Mar 2026 00:26:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC05A368978;
+	Tue,  3 Mar 2026 01:26:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="l2TquD5C"
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="Wc4TKdAE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06EA1DF26E;
-	Tue,  3 Mar 2026 00:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C932D34B190
+	for <linux-media@vger.kernel.org>; Tue,  3 Mar 2026 01:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772497570; cv=none; b=Jui7Isf4bwWPcV4sYpc5BcfeEQcspCyAC0y1uFPz432ayk4I4llIjZNWVXirRb+n6Jj2vs+KXQlDo+SBoSuuo8mJweRqqKbhtnpJY+FChfYh6vkZW0IjHSqkqtNBYNU5ducmVRQ7CMUn9Ml9YJUdn88qq9NXvkh9QDem5UgkBBQ=
+	t=1772501179; cv=none; b=i0h5cyXyrX5fSk0HTf1oTxFeyzbbH0uFz2hLSl+2rKuXqNmqul1Le04rmC/0MA6tFpFD5eZpShLcRd415bQI8gJe1DFJLEoRjPs/mh8KwNqkL0eWZB0uHuH84Z8A3wgFA26kOEc65QXlFXyqe82/N/MnCCIc881iBPLBIs2hfeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772497570; c=relaxed/simple;
-	bh=nvbePl0CEYS4+L/6FTUnYwtO7w+lj1CwvH0QATF0abw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YTfcscFKAU7P2MYBhB+1VCKGm+9+CGhvrQkD6B45daCilcEbjmmQjgYJ6VeQtm/PrqWGr2bG0ATIWZDfeKa/EuhHzxuvYTWgLY6Y1ZEUG8YV46HAkA/z/6pI9J5uQ9RQpx5/zHUpp1XVNyMRVqm/bU2JLpadBY8lmQJWlKyeM0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=l2TquD5C; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1772497567;
-	bh=nvbePl0CEYS4+L/6FTUnYwtO7w+lj1CwvH0QATF0abw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=l2TquD5CV5jD/gLJ3IBBpxsFsPaNM0jbvYXpMcVZB+R6GX2G5hZSDjH1TLO/VvqWh
-	 LiLMLOQiXb8Q/7TkVbjWoEUtEEnHZNn+goDvA7scw/ghQfNgkLuC406bTduv7svO2p
-	 y84SqoWMUmMtAkfSkOkZM+zI5m+b2Q1QzjzszNV7rf2JOXPr4LTpyicI1y3PCybrF5
-	 k31wAmOAY3snxOHJfwiYXA7xYIyaFI0jz8PDnwpCTYWLXEVbFfuFQEBuZtDmeBx1LS
-	 QoMS9mHsMi3WvHbYsKJcHZPzriAbinthd0KzI7NeYRRCye7m8DuqZukQ4SWdKrDHi1
-	 qvIKnj+ewDlGQ==
-Received: from [192.168.1.90] (unknown [86.123.23.225])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5B36A17E0EA0;
-	Tue,  3 Mar 2026 01:26:06 +0100 (CET)
-Message-ID: <a70731e8-375a-4ba9-b142-600b92ae1087@collabora.com>
-Date: Tue, 3 Mar 2026 02:26:05 +0200
+	s=arc-20240116; t=1772501179; c=relaxed/simple;
+	bh=g+VdGlVLVkH1poZKLQaU9Z6Cz1tsg2GNZN6MfKpgxB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mCT7jJQG4ung9qwAG+ADW6WwBMZueBTnQquVafhjpVggGecvnuqHnxqfCKW7nYtfcu3Isw8DvSAefzrlywqDq5iXKcwbhpv/7ADGvhCB5SLLVmEpfiVYGbKK3J6yM5TzD+q9HPBQLJ5ZHLnmSE9PvnQHphtxCFNc+54PZG8uqck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=Wc4TKdAE; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+Received: from macsyma.thunk.org (pool-173-48-102-84.bstnma.fios.verizon.net [173.48.102.84])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6231Pu3R026610
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 2 Mar 2026 20:25:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1772501160; bh=/4PzqDjQa596+Pxv5nyCAFN8lvFTxej9AhTZolOU+To=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=Wc4TKdAEZiew43ZUa9oyK9BzvbQO3OJloJSKo3pd6MKCTHI4a2teHHPqzw1FRDL2y
+	 +yu6xwBU02gN3nI0t8y5UIoSUv5mdCVHfMEIdSd/UzmQ8n8XljJLn8WdsWZlzyvKGT
+	 rAz3wh7Iki5RyLotCb/Z/VDWmYDbAE0BsYdyvuoQ8F38jRx/zf/TpFP5KA5Lqp0Cw+
+	 Ng03SymNceY21qntaXusQUmsrvhvWlmHGa8roce7/UvpNA6pe9TJunmAktEO3gj4vh
+	 AMgTW7BxiT//fgI8Xnd0Mi0ldl+zhjAuEvp4QGZN3wtROS2Wpi13Sob+oCVUSW/6ZX
+	 sKXZK8+2UchSg==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 33A7D5AC5A1E; Mon,  2 Mar 2026 20:25:56 -0500 (EST)
+Date: Mon, 2 Mar 2026 20:25:56 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Paulo Alcantara <pc@manguebit.org>,
+        Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+        Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+        Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+        Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>,
+        Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+        Shyam Prasad N <sprasad@microsoft.com>,
+        Bharath SM <bharathsm@microsoft.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        Viacheslav Dubeyko <slava@dubeyko.com>,
+        Eric Van Hensbergen <ericvh@kernel.org>,
+        Latchesar Ionkov <lucho@ionkov.net>,
+        Dominique Martinet <asmadeus@codewreck.org>,
+        Christian Schoenebeck <linux_oss@crudebyte.com>,
+        David Sterba <dsterba@suse.com>,
+        Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>,
+        Luis de Bethencourt <luisbg@kernel.org>,
+        Salah Triki <salah.triki@gmail.com>,
+        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+        Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>,
+        Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+        Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Yangtao Li <frank.li@vivo.com>,
+        Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>,
+        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+        Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        Mike Marshall <hubcap@omnibond.com>,
+        Martin Brandenburg <martin@omnibond.com>,
+        Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>,
+        Zhihao Cheng <chengzhihao1@huawei.com>,
+        Damien Le Moal <dlemoal@kernel.org>,
+        Naohiro Aota <naohiro.aota@wdc.com>,
+        Johannes Thumshirn <jth@kernel.org>,
+        John Johansen <john.johansen@canonical.com>,
+        Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>,
+        Roberto Sassu <roberto.sassu@huawei.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>,
+        Stephen Smalley <stephen.smalley.work@gmail.com>,
+        Ondrej Mosnacek <omosnace@redhat.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
+        Willem de Bruijn <willemb@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+        Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        James Clark <james.clark@linaro.org>,
+        "Darrick J. Wong" <djwong@kernel.org>, Martin Schiller <ms@dev.tdt.de>,
+        Eric Paris <eparis@redhat.com>, Joerg Reuter <jreuter@yaina.de>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Oliver Hartkopp <socketcan@hartkopp.net>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>,
+        Steffen Klassert <steffen.klassert@secunet.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Remi Denis-Courmont <courmisch@gmail.com>,
+        Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+        Xin Long <lucien.xin@gmail.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+        Stanislav Fomichev <sdf@fomichev.me>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+        fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
+        v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
+        autofs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        codalist@telemann.coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+        linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+        devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
+        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-x25@vger.kernel.org,
+        audit@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-can@vger.kernel.org, linux-sctp@vger.kernel.org,
+        bpf@vger.kernel.org
+Subject: Re: [PATCH v2 001/110] vfs: introduce kino_t typedef and PRIino
+ format macro
+Message-ID: <20260303012556.GA6520@macsyma-wired.lan>
+References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
+ <20260302-iino-u64-v2-1-e5388800dae0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] media: dt-bindings: rockchip,vdec: Add alternative
- reg-names order for RK35{76,88}
-To: Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil@kernel.org>, kernel@collabora.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>, linux-media@vger.kernel.org
-References: <20260226-vdec-reg-order-rk3576-v4-0-b8d72dc75250@collabora.com>
- <20260226-vdec-reg-order-rk3576-v4-1-b8d72dc75250@collabora.com>
- <20260227-observant-roaring-ara-ef7eb0@quoll>
- <adbbdbb1-b126-4807-821c-c9850befd695@collabora.com>
- <20260227-omission-stoic-417d7109ad4d@spud>
- <3ab4f91e-37d0-4950-af88-01920705d31a@collabora.com>
- <1fe5529f-cd9f-4960-b6dd-96a2d02b8d86@kernel.org>
- <59b442c8-da2a-40a8-b9db-1609a8eee744@kernel.org>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <59b442c8-da2a-40a8-b9db-1609a8eee744@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 9DE681E71CE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260302-iino-u64-v2-1-e5388800dae0@kernel.org>
+X-Rspamd-Queue-Id: B55A61E7AB2
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[mit.edu,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[mit.edu:s=outgoing];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,telemann.coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.o
+ rg];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54244-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-54245-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mit.edu:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[tytso@mit.edu,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[171];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.998];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,collabora.com:dkim,collabora.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,macsyma-wired.lan:mid]
 X-Rspamd-Action: no action
 
-Hi Krzysztof,
+On Mon, Mar 02, 2026 at 03:23:45PM -0500, Jeff Layton wrote:
+> The PRIino macro is a length modifier, not a complete format specifier.
+> It is used as: "%" PRIino "u" for decimal, "%" PRIino "x" for hex, etc.
+> This follows the pattern used by userspace PRIu64/PRIx64 macros.
 
-On 2/28/26 11:58 AM, Krzysztof Kozlowski wrote:
-> On 28/02/2026 10:54, Krzysztof Kozlowski wrote:
->> On 27/02/2026 18:42, Cristian Ciocaltea wrote:
->>> On 2/27/26 7:13 PM, Conor Dooley wrote:
->>>> On Fri, Feb 27, 2026 at 01:37:17PM +0200, Cristian Ciocaltea wrote:
->>>>> Hi Krzysztof, Conor,
->>>>>
->>>>> On 2/27/26 9:46 AM, Krzysztof Kozlowski wrote:
->>>>>> On Thu, Feb 26, 2026 at 12:46:53PM +0200, Cristian Ciocaltea wrote:
->>>>>>> With the introduction of the RK3588 SoC, and RK3576 afterwards, two more
->>>>>>> register blocks have been provided for the video decoder unit.
->>>>>>>
->>>>>>> However, the binding does not properly describe the new hardware layout,
->>>>>>
->>>>>> As you shown me last time with excerpt of address spaces from
->>>>>> datasheet/manual, the binding correctly describes the hardware and above
->>>>>> sentence is not true.
->>>>>>
->>>>>>> as it breaks the convention expecting the unit address to indicate the
->>>>>>> start of the first register range, i.e. 'function' block is listed
->>>>>>
->>>>>> Imprecise wording. "start of the main or primary register range"
->>>>>>
->>>>>> (if you have 0x1000 with one reg and 0x20000000 with everything, the
->>>>>> unit address will be 0x20000000).
->>>>>>
->>>>>>> before 'link' instead of the opposite.
->>>>>>>
->>>>>>> Since the binding changes have been already released and a fix would
->>>>>>> bring up an ABI break, mark the current 'reg-names' ordering as
->>>>>>> deprecated and introduce an alternative 'link,function,cache' listing
->>>>>>> which follows the address-based ordering according to the TRM.
->>>>>>>
->>>>>>> Additionally, drop the 'reg' description items as the order is not fixed
->>>>>>> anymore, while the information they offer is not very relevant anyway.
->>>>>>
->>>>>> This is fine for me.
->>>>>
->>>>> Thanks for the additional feedback!
->>>>>
->>>>> If I'm not mistaken (please correct me), the only remaining (hard)
->>>>> blocker for the series would be to improve this commit message.
->>>>
->>>> No, you also need to fix the problem I pointed out about reg-names being
->>>> optional on the devices you're relying on reg-names for. 
->>>
->>> My only concern is that by marking reg-names as required we would break the ABI,
->>
->> You are ALREADY BREAKING the ABI. Really, for absolutely non-important
->> cosmetic change in unit address, where I asked you repeatedly to fix the
->> unit address, you change the ABI affecting kernel and DTS users.
+For the record, I really hate the inttypes.h format specifiers, but I
+agree that we should forward the example of the C99 spec, for better
+or for worse.
 
-I thought we've already reached consensus to allow extending the binding and
-keep both lists, precisely to avoid breaking the ABI.  At least this was my
-understanding according to your reply [1]:
+That being said, the userspace PRIu64, et. al macros are complete
+format specifiers, not just a length modifier.  And I think this
+results in less ugly format specifiers in our kernel code.
 
-  You can have also oneOf with older list "deprecated: true", if want to
-  keep any users unaffected.
+---- cut here ---
+#!/bin/sh
+cat <<EOF > /tmp/blah.c
+#include <inttypes.h>
+#include <stdio.h>
 
-And this patch was meant to do exactly that.  Did I miss something?
+int main(int arg, char **argv)
+{
+        printf("PRIu64 is %s\n", PRIu64);
+        printf("PRId64 is %s\n", PRId64);
+        printf("PRIx64 is %s\n", PRIx64);
+        return 0;
+}
+EOF
 
->> This is barely acceptable, but I am just annoyed already explain it to
->> you multiple times.
+clang -m32 -o /tmp/blah /tmp/blah.c
+/tmp/blah
+---- cut here ---
 
-There is no need to explain it again, we've got your point.  We've also brought our
-arguments and I had the impression that we eventually agreed to keep the unit
-address unchanged, based on your comments [2]:
+% /tmp/blah.sh
+PRIu64 is llu
+PRId64 is lld
+PRIx64 is llx
 
-  Yes, with drop of the oneOf this would be fine.
-  I meant, the "one item option" in oneOf.
+Thanks!
 
-Is this not applicable anymore?
-
->> But now you claim, you can break ABI for cosmetic unimportant change,
-
-No, breaking ABI wasn't our intention here.  If we put the issue with reg-names
-being optional aside for a moment (as that one will be handled separately), is
-there still a problem with the current revision?
-
->> but actually doing something meaningful is a no-go?
-
-Making reg-names mandatory has been already clarified with Conor and agreed [3]
-to be handled in a dedicated patch.  And that one will indeed break the ABI, but
-it's unavoidable, unfortunately. 
-
->> At least use correct arguments if you want to discuss.
-
-Sorry, I'm not sure what do you mean.  I really believed that we managed to
-address all the open topics by now.
-
-Thanks,
-Cristian
-
-[1] https://lore.kernel.org/all/1cdc36f2-6e51-492a-9063-7d0a784f5118@kernel.org/
-[2] https://lore.kernel.org/all/12b30229-1c55-429d-8a3c-0d831c4d33ab@kernel.org/
-[3] https://lore.kernel.org/all/20260227-urologist-gratitude-7984733f2d41@spud/
-
+						- Ted
 
