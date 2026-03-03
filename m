@@ -1,179 +1,169 @@
-Return-Path: <linux-media+bounces-54396-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54397-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iGu0JUJFp2kNgAAAu9opvQ
-	(envelope-from <linux-media+bounces-54396-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 21:32:02 +0100
+	id sNL3EeVKp2n2gQAAu9opvQ
+	(envelope-from <linux-media+bounces-54397-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 21:56:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E5C1F6D41
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 21:32:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAA91F705E
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 21:56:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 15BC3304F20F
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 20:31:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 37C4A30FCD10
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 20:55:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D5753750B5;
-	Tue,  3 Mar 2026 20:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F15B83876A8;
+	Tue,  3 Mar 2026 20:55:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="k4erFZBI"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="d+WG4euC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B191862;
-	Tue,  3 Mar 2026 20:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772569910; cv=none; b=LdJ/UVilML5BJ1YhBC9HYoJZBACvCXLUVieuyAZCmorUtuVv+wVTX+wwdMX9dMOaEqwGQVNorxTwX5n65HMqDM3uQcU2qc3++8NHYzEwoyRXEw+O7XDNs6ji9QO0ar4M1dqSKiv7Gzrx3/Nmz9/A5EeO0ppCMZ1JivJqj+nmr3E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772569910; c=relaxed/simple;
-	bh=5F9H6sZYaOGQj8Ncrc+tFILSwfKIiqQCK2/fxurdFKo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BhbXmweb7J/Ir1y8qtgC4ERos5EfKNiz/30A2vj8HfMBM40VS2HZX5xCub8NQTXau/kn69syJJ72nj3SFMQvkVsAGpMSuiasQFnA/z94Cyw9UvrNNjG3OfKPsISOOhni/NrS4YxGjhIoOX+iBH+MVV1WZnrCcPr1YdhhXdcIx6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=k4erFZBI; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [IPV6:2a02:f000:10bd:e301::1d7] (unknown [IPv6:2a02:f000:10bd:e301::1d7])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 4D5E453422FF;
-	Tue, 03 Mar 2026 21:31:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1772569904;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7Z4fn9lOz3ldIthi03Uam6PSHh3/GlZ8QX/65u1in0Y=;
-	b=k4erFZBIYMLERkN/P54JbNb638+cBHpxdO8E4UWGvqSETAyYFqOPjjWuNEdxzmyKUN1ekk
-	fsLVu+ARuOltdCYe15FAAMTjjQHEXeGjFevJpJvvD93Y756WlWDKd8MH6vomvzJ0cW5zws
-	4fc+0SHAUxwzmsZQWq3w7b+fOpsAQXc=
-Message-ID: <236f8908-9b0c-4a1c-ad51-f9b6ddb1958a@ixit.cz>
-Date: Tue, 3 Mar 2026 21:31:43 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AB437C91D
+	for <linux-media@vger.kernel.org>; Tue,  3 Mar 2026 20:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772571332; cv=pass; b=ROMBLBem5OFoSnWvlt/HYbDHgnu6MRFuarOQnRVNs+sNOL3sXmM/gp/JOoF/y4kxz37/RM6lvXTLeS6y/ddBlDiv4NcaijGf3bvpC4GgkXQfTrj0fzEVBiUJXdrX6HVoyUs8uQpV+48A/xcD+SWfY9gaPijA1MsDJUnq4gl4brI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772571332; c=relaxed/simple;
+	bh=QTcUFUPPKl9O5H+yEy/BveB8689m0SStI46+e//eW5M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UkowcOsY7mV68xPO8v/i/snxL14zihxOo7sJWLWtjQfoI97rzK3W0WRRyBPtRtXkGi2c5cJInFxxDOcq04WTQfjcq0te0W6+DhpDJ5ENqOR2DtgO11ICXwF6IzpFEyKY8JJ54WcsK9SFH+2bg4v6b4Yl3rDrJBs/oG/193gTBWI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=d+WG4euC; arc=pass smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b9373af81cdso876545966b.2
+        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2026 12:55:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772571329; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HIjx2/AkGPrOCbCyZBeEYoeFiWKbemOnRdwFSMGh9uxEwiTiEdgU4dPrrXmWwK3fvx
+         ZTGqOAEbk1jYcf8D759ds7sPlxv9yTSZj7MG8m672oFU5mVR3+3DkRa61bgyUsCinZpR
+         kmrw/du7G0oCeEpPevvbrkBG6MJ+yTsGW3H5LGbFt/JcsWisCYT0a3cVc/Jk6+j57H7w
+         Me47ESlW1Mw+pdVy1Wc5K3Dpkwk3nYT9BxstPlvq2llD5IPafJExMIiLUCTXry47cyOg
+         qJxGiVDaNBx50CzGQnKjytnYiQud4l8ZGxKaxeBNxuswSTrjUeIN3lTquc5SvHlvpa1Q
+         3/UA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=QTcUFUPPKl9O5H+yEy/BveB8689m0SStI46+e//eW5M=;
+        fh=ADGQQ7cSNAP4xl3mG1dul00+FjugWMv+ZHMQ6yJZSfw=;
+        b=h4vPrX6zLAKSNBr2wCtsNUe/bhQG/saBuhAnJbQVtQQHoFTz3KU5XmBY2vszET0vQX
+         2Ttvx+VwBkmNLt4K0eTMP8bbj5EtK6FmAK0OXqlsTNcySU2y9GItDmUaV9Sdnzu8fff6
+         70Pg+EpEGxNiM5lhun/a2gbnFygzg1MMkKhzGJm5MwmOzz2740kY3b/0mNha9xHdNJ5r
+         HpK/VhHUUzQlAfiSx4+veIHqWgneXardSZg/sr59Sv+EENvUemmsHEeG7p31Ibjzup6l
+         BjA02FuDV1PBmxq9Hym2BMfuvTT0iZqJuvRh7CgAbhjpVQbCkDtgtWhtUP+qXgU4bopj
+         Sr2Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772571329; x=1773176129; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QTcUFUPPKl9O5H+yEy/BveB8689m0SStI46+e//eW5M=;
+        b=d+WG4euC+4qh8SOUFghOC06vPh6fvFYtiD80J3/NAD4Pmh2RU0Jbpfsdn1o+MbOXl7
+         j3nWKaNa2tcsEMPGB2g6WGn2H0hrSzB3JitSmiJNyIIVCjADmrb8EA7lAnyT7ERixuF9
+         Sid/l/c/t98oWHMPLBPG67SDBUSi4vWsyw+5KqGuj3nSL1kwEFTfVcnnWlklrJf8yWTj
+         b0R/mLjKjVqNAXC99+XaqkPJYg8co6Mv7l/kUwjbWs7tyn001RnckajOSmxtMtdanDpw
+         vy8PMduXpDVeMnleRk3Ro0TarfbD0+FOaZEopjM7sbVWny/JAEEHeTsEwqqZ7opo4dBM
+         0L2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772571329; x=1773176129;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=QTcUFUPPKl9O5H+yEy/BveB8689m0SStI46+e//eW5M=;
+        b=t+++U9mGjpSQLLLO/LrHUq9oE/QSS8N6QcM4D3zSBitXiODyo8mbxpLDPdZDRDzAW0
+         HwzlC2da7xqT3x8tGFPDjA4Fdee8UdLbN6bd1c/jbEQYjzU5EUP/y0QEsTxkKZJlGHwt
+         FgKzhuk+zYa0hrZzLg9Wt8WUfnV8fpydWrGKdi1PUz0LPkVvV9gPL4SwxGBLmOT+ZrGL
+         BV0RA867OH2RQyX1HAeuAD93meVJ52lppfIiCFa7dYbd2FCEaOdAlODb/zno7yI2A9IV
+         zbvBC3hFU2+lTmw8c8lWeBi7UaWfG9o4lIGTLVIEV0hxFre8arw2T6xaBaHgXGovyjls
+         u5NA==
+X-Forwarded-Encrypted: i=1; AJvYcCXTkerq6KwzEpTqQsFpM6oHHorMXcz6jOlR9AMOdxcGXyr1NdNIaAujNCMY4X+U/tLt12pdW6dQGy5Uiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5zZ47cVFcjonxTTzaPBnUv/ERywSvyKyThE/IoisHdB1Vei8P
+	6o9Sj3FPwvlRA32Hut1qbyBj5HPwTeD6qBJ5W7LVw9cLfiIKn3COhMUdiNzqQ+lDmGIWcQXTATU
+	jdzLZzjl1wzAtj5VnJwWau6LLr9Hq3oPdadnstzs=
+X-Gm-Gg: ATEYQzwhEtbxewa+TM868dpyvAySBD7CoHWq3ZqIzCWeuu8Xyj5/kBX314+2vIi7rVZ
+	HiMlEwOoEy6JB/XNMgyyqT6Y62H6AJ5lPxJN7TZ/sBXBjgfPMhYRtreo0dVxr9NvcisC6UTDS0q
+	tOTE40Q3eo9iCShufBJzeeuUgXpwfdVppxOZDwSmNmHHKC6h7P1c+LQ/YcQTX6oUKCE9+h1DlRf
+	e4e+C0GZFNWSSFWV9jNwyQYkazfCD3OSFc8EqC+0rJansMEwBTOKrSw7YJUj04ULl2TXZVGSdvs
+	zlJUmWVVd8CrpBQhRtrbNKiDrIt367Q9Rf4R
+X-Received: by 2002:a17:907:3eaa:b0:b87:117f:b6f9 with SMTP id
+ a640c23a62f3a-b937636cd7amr1077404066b.8.1772571329176; Tue, 03 Mar 2026
+ 12:55:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH WIP v4 3/9] media: qcom: camss: Prepare CSID for C-PHY
- support
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
- Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Joel Selvaraj <foss@joelselvaraj.com>, Kieran Bingham <kbingham@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20260301-qcom-cphy-v4-0-e53316d2cc65@ixit.cz>
- <20260301-qcom-cphy-v4-3-e53316d2cc65@ixit.cz>
- <3834ecc4-02d4-42ab-9a4c-075874d27b17@linaro.org>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <3834ecc4-02d4-42ab-9a4c-075874d27b17@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 17E5C1F6D41
+References: <20260303-b4-dmabuf-heap-coherent-rmem-v2-0-65a4653b3378@redhat.com>
+In-Reply-To: <20260303-b4-dmabuf-heap-coherent-rmem-v2-0-65a4653b3378@redhat.com>
+From: John Stultz <jstultz@google.com>
+Date: Tue, 3 Mar 2026 12:55:17 -0800
+X-Gm-Features: AaiRm50eZ6b1R9zR4BWk_SQv0E5klHORf7__0-5ZUwkb8RwaEPVqJM-v_erZHak
+Message-ID: <CANDhNCrVVGsxEjgRcVJSn_E9WPUVY_9zpd+t0X_Jy7JqbcHDqA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] dma-buf: heaps: add coherent reserved-memory heap
+To: Albert Esteve <aesteve@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, 
+	devicetree@vger.kernel.org, echanude@redhat.com, mripard@redhat.com, 
+	John Stultz <john.stultz@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 9DAA91F705E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
-	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54396-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[linaro.org,kernel.org,gmail.com,fairphone.com,protonmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54397-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ixit.cz:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jstultz@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ixit.cz:dkim,ixit.cz:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On 03/03/2026 10:53, Bryan O'Donoghue wrote:
-> On 01/03/2026 00:51, David Heidelberg via B4 Relay wrote:
->> +    bool cphy;
-> 
-> Same comment as before, you should have an enum not a bool.
+On Tue, Mar 3, 2026 at 4:34=E2=80=AFAM Albert Esteve <aesteve@redhat.com> w=
+rote:
+>
+> This patch introduces a new heap driver to expose DT non=E2=80=91reusable
+> "shared-dma-pool" coherent regions as dma-buf heaps, so userspace can
+> allocate buffers from each reserved, named region.
 
+Just a nit here: Might be good to provide some higher level context as
+to why this is wanted, and what it enables.
 
-While for general camss it makes sense to me, here it seems to be very simple 
-switch with no other extra usefulness.
+Also, "shared-dma-pool" is also used for CMA regions, so it might be
+unclear initially how this is different from the CMA heap (you do
+mention non-reusable, but that's a prettty subtle detail).
 
-If u insist, I'll change it, but LGTM with cphy here.
+Might be good to add some of the rationale to the patch adding the
+heap implementation as well so it makes it into the git history.
 
-David
-
-> 
-> ---
-> bod
-
--- 
-David Heidelberg
-
+thanks
+-john
 
