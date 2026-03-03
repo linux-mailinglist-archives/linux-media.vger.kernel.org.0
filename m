@@ -1,267 +1,185 @@
-Return-Path: <linux-media+bounces-54333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54334-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UCq2GmnJpmlOUAAAu9opvQ
-	(envelope-from <linux-media+bounces-54333-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 12:43:37 +0100
+	id QCr7A/DIpmk0TwAAu9opvQ
+	(envelope-from <linux-media+bounces-54334-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 12:41:36 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCABB1EE4F6
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 12:43:36 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 813C51EE3C7
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 12:41:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2107732627D4
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 11:33:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 40B5130E1B68
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 11:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13D333C3C02;
-	Tue,  3 Mar 2026 11:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 723AF42F566;
+	Tue,  3 Mar 2026 11:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BNU8vxGq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Rt3olZrv";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BNU8vxGq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Rt3olZrv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e89h1Ted"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF0F42B75E
-	for <linux-media@vger.kernel.org>; Tue,  3 Mar 2026 11:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1AC048033E
+	for <linux-media@vger.kernel.org>; Tue,  3 Mar 2026 11:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772537264; cv=none; b=GBUT25K3EhrfdEqFQw0T8z4hlo+JMFO2Hlha4QmdfwzJN30Z0r5BVlU8JgimENO6PD2oEQ8jHWOUldGBu9/CwGHfD4bdOwk/59rFOREkC1YZVQLJNM8JHQQURvSQ0QoJ4mEPDUNTTQw+yDLK1k/A1XjDvPYNMuN0IuZYQkXqTR0=
+	t=1772537281; cv=none; b=g35EeRJ+WDudBLQgbyprX03gj5YRB2M2u0Y4P6TKRvX7w6EHLCkoiwrmkl3LoqwG83ob8tXKYtH63v6gtxBfM+sbepIfBiDgOTj43kwG+G/uEdvsSbNvs61KWxXuXzIlUhFBsxIUqw54VIiPYGD/RSU4Z1vAbkGAhp73BwO9Vbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772537264; c=relaxed/simple;
-	bh=haGnj8H3BknRpzbydDnKDB49zOuY0t4KQ9LjSRgYtXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iJ8u4By8q07JP1D9xAqZd42e7mxaA/7K2YTx6EZq5yyq3cPl7pt8bWQRKhbPG7a8noLt95rYq3an8LxFAuG0iozub9refFo1063u3DcSf1HoHv/YUGyIst/UUirMdKHe3lJMBgCwa1CYqE5/ikypSADGCzbgy6e5rzwEYZJTD9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BNU8vxGq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Rt3olZrv; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BNU8vxGq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Rt3olZrv; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 39D025BD1C;
-	Tue,  3 Mar 2026 11:27:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772537257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=32byVgEzGWs3SGMdcYa9Pwu5ZAV22remyLhPovOtNe0=;
-	b=BNU8vxGqXsLgpfZHPskBthD+JL01RrV6UbzUb0G5xLiS4vm6GKRSodzbj5y3Ks/usi88RP
-	8cSPFh0Es+CPKaxXe6JECIwWe7qbh7aEiVrruMZwkl6fvtf069/MQ3dTtZ0/WZLpfts5fk
-	dYSMlrN7fsDv7J9GoGsmFVgp0wO4Ht8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772537257;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=32byVgEzGWs3SGMdcYa9Pwu5ZAV22remyLhPovOtNe0=;
-	b=Rt3olZrvaymW/bYjfmsWnkwpHcLC9owdsmwcBh8E5YQcvvn+CINsVM2clbLpo3Nj7L5gvC
-	eOFaJnESiZC5ANAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=BNU8vxGq;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Rt3olZrv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1772537257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=32byVgEzGWs3SGMdcYa9Pwu5ZAV22remyLhPovOtNe0=;
-	b=BNU8vxGqXsLgpfZHPskBthD+JL01RrV6UbzUb0G5xLiS4vm6GKRSodzbj5y3Ks/usi88RP
-	8cSPFh0Es+CPKaxXe6JECIwWe7qbh7aEiVrruMZwkl6fvtf069/MQ3dTtZ0/WZLpfts5fk
-	dYSMlrN7fsDv7J9GoGsmFVgp0wO4Ht8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1772537257;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=32byVgEzGWs3SGMdcYa9Pwu5ZAV22remyLhPovOtNe0=;
-	b=Rt3olZrvaymW/bYjfmsWnkwpHcLC9owdsmwcBh8E5YQcvvn+CINsVM2clbLpo3Nj7L5gvC
-	eOFaJnESiZC5ANAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 210413EA69;
-	Tue,  3 Mar 2026 11:27:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qk8BCKnFpmmZTQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 03 Mar 2026 11:27:37 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id DAA71A0A1B; Tue,  3 Mar 2026 12:27:36 +0100 (CET)
-Date: Tue, 3 Mar 2026 12:27:36 +0100
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Matthew Wilcox <willy@infradead.org>, 
-	Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, David Howells <dhowells@redhat.com>, 
-	Paulo Alcantara <pc@manguebit.org>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Jan Kara <jack@suse.com>, Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Steve French <sfrench@samba.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
-	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
-	Viacheslav Dubeyko <slava@dubeyko.com>, Eric Van Hensbergen <ericvh@kernel.org>, 
-	Latchesar Ionkov <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>, 
-	Christian Schoenebeck <linux_oss@crudebyte.com>, David Sterba <dsterba@suse.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>, 
-	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>, Ilya Dryomov <idryomov@gmail.com>, 
-	Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
-	Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, 
-	Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Yangtao Li <frank.li@vivo.com>, 
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, David Woodhouse <dwmw2@infradead.org>, 
-	Richard Weinberger <richard@nod.at>, Dave Kleikamp <shaggy@kernel.org>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
-	Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Anders Larsen <al@alarsen.net>, Zhihao Cheng <chengzhihao1@huawei.com>, 
-	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
-	Johannes Thumshirn <jth@kernel.org>, John Johansen <john.johansen@canonical.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Eric Dumazet <edumazet@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, James Clark <james.clark@linaro.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>, 
-	Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>, 
-	Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Oliver Hartkopp <socketcan@hartkopp.net>, Marc Kleine-Budde <mkl@pengutronix.de>, 
-	David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Remi Denis-Courmont <courmisch@gmail.com>, Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
-	Xin Long <lucien.xin@gmail.com>, Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	nvdimm@lists.linux.dev, fsverity@lists.linux.dev, linux-mm@kvack.org, 
-	netfs@lists.linux.dev, linux-ext4@vger.kernel.org, 
-	linux-f2fs-devel@lists.sourceforge.net, linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
-	samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, v9fs@lists.linux.dev, 
-	linux-afs@lists.infradead.org, autofs@vger.kernel.org, ceph-devel@vger.kernel.org, 
-	codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev, 
-	devel@lists.orangefs.org, linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, selinux@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
-	linux-x25@vger.kernel.org, audit@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
-	linux-can@vger.kernel.org, linux-sctp@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 051/110] fsnotify: use PRIino format for i_ino
-Message-ID: <g2trnjm4froahj6sjhhroei5yjmpozeff3erxnhd4h76p4xpoe@ytaohydgalpp>
-References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
- <20260302-iino-u64-v2-51-e5388800dae0@kernel.org>
+	s=arc-20240116; t=1772537281; c=relaxed/simple;
+	bh=Z7wo6V9kU8iNoyeWICZnYBGx6CgJO1IAkVLA1EldMnk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LH0QTRtlpNTI3+l1ah4QWYjpU3jTe++qG7nfUyiduVOn7FJl05dqR2r/BiBJUA8wwzdFiwNvXufzjTqwF+RjJ7Ae2jjR5aj+VBpBEm2dbgpjC+ezb1SyCGN/vwCCiYr8gHglg3FZ+R/AkTu90Aaj64diYvnp+0tvNxWOSbItj6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e89h1Ted; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so62724665e9.1
+        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2026 03:27:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772537276; x=1773142076; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bnm1A86ZE9NwpPvFAzmesLCd98LCt5htyJUYGbVOzOI=;
+        b=e89h1TedqS01u/CqV2thI9o7b9xBjDmf3lPODZR4UlLAJoNWdC0q6Rokbz3vdHygL1
+         eZz+Akn+Pg1O2ffzRkL0vvZKr0Y0mPObzLUZBJG1SqxsseeC5TF/Vi0jcaMsrGxg3/Ct
+         fhtph88fIQyRGq/LwM4UO2lb3vwIRxQ11G8+Ky+ksC3CHuuIIOyiro29MUgWqUAFYUxo
+         4xh3K9rXcjyxA/kU5yvxLuxAVuuzYhTQGk1HqfHpyj0zL+OFi3wPwn3/W0guxvoL27v/
+         2MAzzvwLzKS/Ef8B8UGvYaGAxnoGmshWt2lfWecUbn8RSv3Pl4e0NXRqWi+6+ZE0kjfz
+         DH6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772537276; x=1773142076;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Bnm1A86ZE9NwpPvFAzmesLCd98LCt5htyJUYGbVOzOI=;
+        b=IbOGa7wM6Ve+kgIvtsehZZ6YtbhVZWtwmc0XFKJG+tF/0PoS9YSJpdweE42bQ4XQSr
+         JjWKCMmxfwt5vrTJ0H959RMWqK8+fFw0tB/mTnVZPIlCnX7LYM9LcLKONsR06EiQ0/03
+         ox3k6k/Ueivuct8M1xSqaYfRq38H9oVuLFQQCcGjzJY9a5w4PTxLJd2OuAR0O27Gf5m4
+         Ju2jfr+8+6H1znDKmSxqFQP6b475U71gVEHaKue+yTNDNPvKeDMsP/I9b+wmf8LH/s5I
+         PNqav7l6fCmeVpilQ0vV3CoEbvdzoLcbBi1lvw8KKJVEf2jSehZnyLwas79jcQ8nDWX6
+         fKOA==
+X-Gm-Message-State: AOJu0YxCdlqcUmnAtLw9s2ta9WBC25spejaHwfA3xGUg8J+UQULRI0SK
+	K7DBxZEcoXANZj5Fiu3/NJ2F9uAHXOOSm8pPVTYt0Rj07PxlQGLGCCyh
+X-Gm-Gg: ATEYQzxa60Sg5cDUonadoHq1cXTCHxoFCDl0f6vEQg1UJV/UE/4LG0zcdty20Kyt6Oz
+	vPjgK8RF4ogrMsDSv/F0JBqurC7hRG6gNY1wJ2v/q3mBSFrlA6WD5CAzjGoOBQ2lt0dXT5DmaX9
+	tk/STy6Qhly7ULJ+10hRG0rIX+5OU2ToBsOX3WJgVYP6ltttm4eLl5m+S1EyAku8bt9SwIAHHI3
+	5/OGpupn6n4gvJSe6eOJvRUqSCMtF7rXBBX1Ofpo/GymlmIu0bikRl8BRXyyUTu+doBhVaLgKZN
+	cK39v/lN9m1BxNPiyOV6rjf5wxMGiFYJcKofi/pUSxUEkVaIUY7Bq47SbFZl0so+qs+zAFzX14s
+	45WBLltocneCfaLOPd0YxbczuBG28I7U5f6c2Ux8ElFyZ7gU+Do3Tzo4GCewgORfWkj4Mk4S+qA
+	==
+X-Received: by 2002:a05:600c:8b12:b0:483:71f7:2794 with SMTP id 5b1f17b1804b1-483c9bbbe39mr288394345e9.15.1772537275524;
+        Tue, 03 Mar 2026 03:27:55 -0800 (PST)
+Received: from kimsufi.. ([2001:41d0:303:6f54::1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851262ee4asm22629685e9.1.2026.03.03.03.27.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 03:27:54 -0800 (PST)
+From: Ruslan Valiyev <linuxoid@gmail.com>
+To: syzbot+1f5bcc7c919ec578777a@syzkaller.appspotmail.com,
+	"Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Ruslan Valiyev <linuxoid@gmail.com>
+Subject: [PATCH] media: vidtv: fix NULL pointer dereference in vidtv_channel_pmt_match_sections
+Date: Tue,  3 Mar 2026 11:27:54 +0000
+Message-ID: <20260303112754.340155-1-linuxoid@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <69539037.050a0220.329c0f.052f.GAE@google.com>
+References: <69539037.050a0220.329c0f.052f.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260302-iino-u64-v2-51-e5388800dae0@kernel.org>
-X-Spamd-Bar: /
-X-Spam-Flag: NO
-X-Spam-Score: -0.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: CCABB1EE4F6
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 813C51EE3C7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FREEMAIL_TO(0.00)[syzkaller.appspotmail.com,gmail.com,kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,googlegroups.com,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54333-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[suse.cz];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.or
- g];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[172];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-54334-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	PRECEDENCE_BULK(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[linuxoid@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media,1f5bcc7c919ec578777a];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,appspotmail.com:email]
 X-Rspamd-Action: no action
 
-On Mon 02-03-26 15:24:35, Jeff Layton wrote:
-> Convert fsnotify i_ino format strings to use the PRIino format
-> macro in preparation for the widening of i_ino via kino_t.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+syzbot reported a general protection fault in vidtv_psi_desc_assign [1].
 
-Looks good. Feel free to add:
+vidtv_psi_pmt_stream_init() can return NULL on memory allocation
+failure, but vidtv_channel_pmt_match_sections() does not check for
+this. When tail is NULL, the subsequent call to
+vidtv_psi_desc_assign(&tail->descriptor, desc) dereferences a NULL
+pointer offset, causing a general protection fault.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Add a NULL check after vidtv_psi_pmt_stream_init(). On failure, clean
+up the already-allocated stream chain and return.
 
-								Honza
+[1]
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+RIP: 0010:vidtv_psi_desc_assign+0x24/0x90 drivers/media/test-drivers/vidtv/vidtv_psi.c:629
+Call Trace:
+ <TASK>
+ vidtv_channel_pmt_match_sections drivers/media/test-drivers/vidtv/vidtv_channel.c:349 [inline]
+ vidtv_channel_si_init+0x1445/0x1a50 drivers/media/test-drivers/vidtv/vidtv_channel.c:479
+ vidtv_mux_init+0x526/0xbe0 drivers/media/test-drivers/vidtv/vidtv_mux.c:519
+ vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
+ vidtv_start_feed+0x33e/0x4d0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
 
-> ---
->  fs/notify/fdinfo.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/notify/fdinfo.c b/fs/notify/fdinfo.c
-> index 9cc7eb863643774b83da8b6228c38db16d0dbed1..586eaa7f65a4a61b892fb9c39e6a0d81e025b790 100644
-> --- a/fs/notify/fdinfo.c
-> +++ b/fs/notify/fdinfo.c
-> @@ -84,7 +84,7 @@ static void inotify_fdinfo(struct seq_file *m, struct fsnotify_mark *mark)
->  	inode_mark = container_of(mark, struct inotify_inode_mark, fsn_mark);
->  	inode = igrab(fsnotify_conn_inode(mark->connector));
->  	if (inode) {
-> -		seq_printf(m, "inotify wd:%x ino:%lx sdev:%x mask:%x ignored_mask:0 ",
-> +		seq_printf(m, "inotify wd:%x ino:%" PRIino "x sdev:%x mask:%x ignored_mask:0 ",
->  			   inode_mark->wd, inode->i_ino, inode->i_sb->s_dev,
->  			   inotify_mark_user_mask(mark));
->  		show_mark_fhandle(m, inode);
-> @@ -111,7 +111,7 @@ static void fanotify_fdinfo(struct seq_file *m, struct fsnotify_mark *mark)
->  		inode = igrab(fsnotify_conn_inode(mark->connector));
->  		if (!inode)
->  			return;
-> -		seq_printf(m, "fanotify ino:%lx sdev:%x mflags:%x mask:%x ignored_mask:%x ",
-> +		seq_printf(m, "fanotify ino:%" PRIino "x sdev:%x mflags:%x mask:%x ignored_mask:%x ",
->  			   inode->i_ino, inode->i_sb->s_dev,
->  			   mflags, mark->mask, mark->ignore_mask);
->  		show_mark_fhandle(m, inode);
-> 
-> -- 
-> 2.53.0
-> 
+Fixes: f90cf6079bf67 ("media: vidtv: add a bridge driver")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+1f5bcc7c919ec578777a@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=1f5bcc7c919ec578777a
+Signed-off-by: Ruslan Valiyev <linuxoid@gmail.com>
+---
+ drivers/media/test-drivers/vidtv/vidtv_channel.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
+index da20657adc747..5f8c3af871711 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
+@@ -341,6 +341,10 @@ vidtv_channel_pmt_match_sections(struct vidtv_channel *channels,
+ 					tail = vidtv_psi_pmt_stream_init(tail,
+ 									 s->type,
+ 									 e_pid);
++					if (!tail) {
++						vidtv_psi_pmt_stream_destroy(head);
++						return;
++					}
+ 
+ 					if (!head)
+ 						head = tail;
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.43.0
+
 
