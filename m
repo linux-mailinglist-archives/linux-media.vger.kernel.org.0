@@ -1,208 +1,261 @@
-Return-Path: <linux-media+bounces-54311-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54312-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gIrZNOW8pmlVTQAAu9opvQ
-	(envelope-from <linux-media+bounces-54311-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 11:50:13 +0100
+	id OLlOJHC+pmlDTQAAu9opvQ
+	(envelope-from <linux-media+bounces-54312-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 11:56:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410141ECF2A
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 11:50:13 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5BD1ED23D
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 11:56:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC85E305D1E2
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 10:47:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 820013029622
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 10:49:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28FFB31F9AD;
-	Tue,  3 Mar 2026 10:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A094391829;
+	Tue,  3 Mar 2026 10:49:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AEeYwlk5";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fugf0zqK"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cr82LMqj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4FC315D51
-	for <linux-media@vger.kernel.org>; Tue,  3 Mar 2026 10:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017E23A5E7F
+	for <linux-media@vger.kernel.org>; Tue,  3 Mar 2026 10:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772534819; cv=none; b=lyOyLioYJGblddHv4dc6AQVWk4DNZVz/ca+pAuSgAsm0tSwTsISvv0s+ZLQvKTIDSBPabL8ZRyXlk6t39edqugvNpiX1WoqEwTEGsA85IEHIyPzBGDrFZEM5PeD3YUR/vkdV8PbmattqaCbKQPBINrMfgF1hKMv3fL8OgC5E8to=
+	t=1772534958; cv=none; b=qSVn7ZiH2aoPqr1ellHYyJd2jk7VOc7plBNuCdGXSl+cuW/ofzmDA3d0+S+Aj67sGldlNJImuSeZKjZQRQ4p5crXGCpdAeTVwim9Fw14DxeoLpt0kfXzMz+hP9GUrIGHdtBseUhVxyBaZnYV2QqGK8Hi/aNs3YB9A6Eap+ISRe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772534819; c=relaxed/simple;
-	bh=GBQKgN6kGGPo8iDrDErfLf5dCq2wspOVI0iefN3XQ34=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lbepsZYedK3BOmtFAzJS7KI9nhzn9hsZZdLKzm7so15yiwJvo3qCi/HzN3rtyFDowZVjeRomgqh7qYKjc9mx2MOM1C8wDG7ol2JfVKuyoFJ3T+MKBhgBROdzRrYxXbFzLi23Y2xwRKL7osrvB0vkPXdKQzU4CpMRMEMbHnZNJf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AEeYwlk5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fugf0zqK; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6239n5PY1838277
-	for <linux-media@vger.kernel.org>; Tue, 3 Mar 2026 10:46:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	9oNwRE1lhrPKpjrfCDBV2iYjvDUcrkSGD+DcEAAQyPk=; b=AEeYwlk5qFUBS7rQ
-	xJ/9qEJcTVhNDbxYZsNhDsg8T8Mhemx9Y2rb5nujNZIAf9oikiDcMuqxw7NEeJXb
-	2GQgGYnl/+NRdcFvkNyQGToskXr9OHxER5uO8Ln7i956jdPq6TpTY78bAVb0UpLd
-	7ZydUCHlQMvnS5xmn/l4D3GGmnE6TySa9W2HXAlX94TDu1adgCsAvktinodgy8ND
-	YUu4uLyFHx9URrIWjMJkudYhLrUlFiW3ShZXJ3pzSjn+RMJ6CR9Ztkw5lDOc7unb
-	MzBtM9UzO3HdABqOm4MMSaB0WDKT4PlW34+iua1J/r9h53OZ1F1ipjHIXUbggrKp
-	KReCRA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cnngg9vmb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 03 Mar 2026 10:46:57 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cb50dfd542so469019885a.0
-        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2026 02:46:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772534817; x=1773139617; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9oNwRE1lhrPKpjrfCDBV2iYjvDUcrkSGD+DcEAAQyPk=;
-        b=fugf0zqK9ar0p/dZscz5d5SwrmFyfIbZGt2NGz+ICaAfb5lFLV4Rdf6LYWdabE/DkD
-         1ww0qZye8hyxHRB14S4aA7cR0lL4aHWwPWmjmo4QEKejiV0fDcyKE/URU08tVsXNNbig
-         7Lm8HtMlGQBY7aAzceXrbQNNCkoP+/5CfVtIdW//bA1iUGsk1esA8lOG+InbGeP1q5Yk
-         BnmEa+M1UqMF9OqQmDmDKtLUQpX47J740/2sYy5B605OlTgVo0YG20GW/c8ol2RMKoAE
-         joT1M+inUcLjNBSD2PA47VlXyDYulNyaZcCiXSaUM3AqDBtLQUIIbfsA6wEteX+Ukik/
-         KHTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772534817; x=1773139617;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9oNwRE1lhrPKpjrfCDBV2iYjvDUcrkSGD+DcEAAQyPk=;
-        b=tTyfk7AT24EdfFMy88QLp230pp61GpRZtSHw7JcmqKLaDzMPeQaKujxNKpRVJJ0ckf
-         g9URbivJ8+CPdzLWRIGS9bo6zA1FSsIL3SYl3vgfvXzHqs7YHpnQkZxjzk2LxHjqJkE7
-         DYyQkGdXR/xDSyUu6UiqCVo6sZ/3g6CAc6bA7rAC3QB2fFwl+9v/bObrsLYGWIp6K3E0
-         NHhxmEm0N/y6lb2P4kUCz16rNKG4JkMazQGhu2hm2IyfCTDbtWv2f9xaEMrqm/FkOIgI
-         SWG6iSQh/ldXESNDHOZ+B4eNj7GQ4n2SnFHb7umMn7jqji8DyLeer/XUZH6IzNjUKtk4
-         ByzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGWen0RdJb4UZ3uE3F9O7hrPjeuOEMNllk2fYRlD4oWTMhFYwYKQmPfgkuw90rLbQ5lVBtfFdMnu0ptQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRd4aTQc2oyWNMP1eWkB9zC66kDyKDTvP/gr6u4UK9Mb4BAVrm
-	QTqKe0RlIZbkDIEGTPldjpgfUL8VMpI5fjNzzig2h1Vfcxjt+N8/4ob6mUa7Q503TXo0ALMKnMv
-	elp/nUtRFtp5M/pspaYiUwaJFoKbPHCZ7YdjZq/pSEIzQ7rmIHCOGWZY4Q6kKypSvRw==
-X-Gm-Gg: ATEYQzzW47sqOJkb2U/HsMeNRiNVfzd1rv7QoSFmVIatF8ROTbXMHxx/2CrNV6XFNp1
-	TFiJdevQrgrGA8k1I+Wl9lcV+xowgLRGNzDSUQ+MmoqlEiA31OmbdGI62Zru0xFDHXqXWTIg83d
-	7eEzMZyfeM0Jt+qYQXIOR3XAMthSirIpc6XkRpX20YD0ZMmPv7aV1xKUHycGFS1zfShOWss3X7H
-	kca98iGZUuW3a2O63yB5v0OxT8twHBF1b+lBahdHFQbSVEln0QwRfSX1Jdxu19FC4+YXJj9MQxS
-	pMLK3n96FGQmaOIvuWvHO1he3hv6ZdNsGEMnQshiVeo5ApW+FVQAD9zpOcFnzT42jqyE5jQkM0M
-	+Kw69a4bFuOMTA7twO+B5gTcY0MkwId4AgPrIqfq66cZP1H8kPtVAeynqAidtdO870xhqCf7dXZ
-	go21c=
-X-Received: by 2002:a05:620a:458b:b0:8cb:3872:bd62 with SMTP id af79cd13be357-8cbc8dabb6cmr1494511585a.1.1772534816836;
-        Tue, 03 Mar 2026 02:46:56 -0800 (PST)
-X-Received: by 2002:a05:620a:458b:b0:8cb:3872:bd62 with SMTP id af79cd13be357-8cbc8dabb6cmr1494509485a.1.1772534816383;
-        Tue, 03 Mar 2026 02:46:56 -0800 (PST)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ae61474sm577333066b.44.2026.03.03.02.46.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2026 02:46:55 -0800 (PST)
-Message-ID: <8644d2d8-04b2-46d5-a74d-6d90b5103825@oss.qualcomm.com>
-Date: Tue, 3 Mar 2026 11:46:53 +0100
+	s=arc-20240116; t=1772534958; c=relaxed/simple;
+	bh=ZJFR9/2OtrcnrgSTa4EHnH5JX9DBPEZCrlsYG5puECk=;
+	h=From:In-Reply-To:References:To:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=ilTuUd24HXJD24Yfdab6JIAIt/xUBX69tTbye7tKzq9HiafRLOBWU2Z94KldG74fo6Z14Sk3lClFsr4JqxsA/aICPLhJmgjr0p2IlShWnDaPJA71M+HTGN5wz+J2XIK8Hp2/JEQYs4ZjIHdGWyrMIyg4T/ZjwxAtY7pUysPctFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=fail (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cr82LMqj reason="signature verification failed"; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772534953;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lQfcYf0nTgw81P/IsIDOOQjFjTNPUrLYna+XMlLw958=;
+	b=cr82LMqjNthhPw3t4dcRJvHJe8G5PzkbScUEXuJ2besIIM1D8a7vsvo1Rp4OMNvwYJtVwg
+	9h7ROYEbYi3mXR6GR964/DC/604AC6ngPTcSD4muiHHZp44gAG/J+VnT4EfoSm3sShysWL
+	bWC8QLqNcDrElB1DD862NKYTyNAxkcs=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-711-uSGAZGHOPR6NZ3KYbowoaw-1; Tue,
+ 03 Mar 2026 05:49:09 -0500
+X-MC-Unique: uSGAZGHOPR6NZ3KYbowoaw-1
+X-Mimecast-MFC-AGG-ID: uSGAZGHOPR6NZ3KYbowoaw_1772534944
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3C13A1956089;
+	Tue,  3 Mar 2026 10:49:02 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.44.33.249])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1F8F319560A7;
+	Tue,  3 Mar 2026 10:48:06 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
+References: <20260302-iino-u64-v2-0-e5388800dae0@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+    Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+    Steven Rostedt <rostedt@goodmis.org>,
+    Masami Hiramatsu <mhiramat@kernel.org>,
+    Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+    Dan Williams <dan.j.williams@intel.com>,
+    Matthew Wilcox <willy@infradead.org>,
+    Eric Biggers <ebiggers@kernel.org>,
+    "Theodore Y. Ts'o" <tytso@mit.edu>,
+    Muchun Song <muchun.song@linux.dev>,
+    Oscar Salvador <osalvador@suse.de>,
+    David Hildenbrand <david@kernel.org>,
+    David Howells <dhowells@redhat.com>,
+    Paulo Alcantara <pc@manguebit.org>,
+    Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
+    Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+    Trond Myklebust <trondmy@kernel.org>,
+    Anna Schumaker <anna@kernel.org>,
+    Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+    Olga Kornievskaia <okorniev@redhat.com>,
+    Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+    Steve French <sfrench@samba.org>,
+    Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+    Shyam Prasad N <sprasad@microsoft.com>,
+    Bharath SM <bharathsm@microsoft.com>,
+    Alexander Aring <alex.aring@gmail.com>,
+    Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+    Viacheslav Dubeyko <slava@dubeyko.com>,
+    Eric Van Hensbergen <ericvh@kernel.org>,
+    Latchesar Ionkov <lucho@ionkov.net>,
+    Dominique Martinet <asmadeus@codewreck.org>,
+    Christian Schoenebeck <linux_oss@crudebyte.com>,
+    David Sterba <dsterba@suse.com>,
+    Marc Dionne <marc.dionne@auristor.com>, Ian Kent <raven@themaw.net>,
+    Luis de Bethencourt <luisbg@kernel.org>,
+    Salah Triki <salah.triki@gmail.com>,
+    "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+    Ilya Dryomov <idryomov@gmail.com>,
+    Alex Markuze <amarkuze@redhat.com>, Jan Harkes <jaharkes@cs.cmu.edu>,
+    coda@cs.cmu.edu, Nicolas Pitre <nico@fluxnic.net>,
+    Tyler Hicks <code@tyhicks.com>, Amir Goldstein <amir73il@gmail.com>,
+    Christoph Hellwig <hch@infradead.org>,
+    John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+    Yangtao Li <frank.li@vivo.com>,
+    Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+    David Woodhouse <dwmw2@infradead.org>,
+    Richard Weinberger <richard@nod.at>,
+    Dave Kleikamp <shaggy@kernel.org>,
+    Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+    Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+    Joseph Qi <joseph.qi@linux.alibaba.com>,
+    Mike Marshall <hubcap@omnibond.com>,
+    Martin Brandenburg <martin@omnibond.com>,
+    Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>,
+    Zhihao Cheng <chengzhihao1@huawei.com>,
+    Damien Le Moal <dlemoal@kernel.org>,
+    Naohiro Aota <naohiro.aota@wdc.com>,
+    Johannes Thumshirn <jth@kernel.org>,
+    John Johansen <john.johansen@canonical.com>,
+    Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+    "Serge E. Hallyn" <serge@hallyn.com>,
+    Mimi Zohar <zohar@linux.ibm.com>,
+    Roberto Sassu <roberto.sassu@huawei.com>,
+    Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+    Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>,
+    Stephen Smalley <stephen.smalley.work@gmail.com>,
+    Ondrej Mosnacek <omosnace@redhat.com>,
+    Casey Schaufler <casey@schaufler-ca.com>,
+    Alex Deucher <alexander.deucher@amd.com>,
+    Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
+    David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+    Sumit Semwal <sumit.semwal@linaro.org>,
+    Eric Dumazet <edumazet@google.com>,
+    Kuniyuki Iwashima <kuniyu@google.com>,
+    Paolo Abeni <pabeni@redhat.com>,
+    Willem de Bruijn <willemb@google.com>,
+    "David S.
+ Miller" <davem@davemloft.net>,
+    Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+    Oleg Nesterov <oleg@redhat.com>,
+    Peter Zijlstra <peterz@infradead.org>,
+    Ingo Molnar <mingo@redhat.com>,
+    Arnaldo Carvalho de Melo <acme@kernel.org>,
+    Namhyung Kim <namhyung@kernel.org>,
+    Mark Rutland <mark.rutland@arm.com>,
+    Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+    Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+    Adrian Hunter <adrian.hunter@intel.com>,
+    James Clark <james.clark@linaro.org>,
+    "Darrick J. Wong" <djwong@kernel.org>,
+    Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>,
+    Joerg Reuter <jreuter@yaina.de>,
+    Marcel Holtmann <marcel@holtmann.org>,
+    Johan Hedberg <johan.hedberg@gmail.com>,
+    Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+    Oliver Hartkopp <socketcan@hartkopp.net>,
+    Marc Kleine-Budde <mkl@pengutronix.de>,
+    David Ahern <dsahern@kernel.org>,
+    Neal Cardwell <ncardwell@google.com>,
+    Steffen Klassert <steffen.klassert@secunet.com>,
+    Herbert Xu <herbert@gondor.apana.org.au>,
+    Remi Denis-Courmont <courmisch@gmail.com>,
+    Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+    Xin Long <lucien.xin@gmail.com>,
+    Magnus Karlsson <magnus.karlsson@intel.com>,
+    Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+    Stanislav Fomichev <sdf@fomichev.me>,
+    Alexei Starovoitov <ast@kernel.org>,
+    Daniel Borkmann <daniel@iogearbox.net>,
+    Jesper Dangaard Brouer <hawk@kernel.org>,
+    John Fastabend <john.fastabend@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+    linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+    fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
+    linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+    linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+    samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
+    v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
+    autofs@vger.kernel.org, ceph-devel@vger.kernel.org,
+    codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+    linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+    ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+    devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
+    apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
+    linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
+    amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+    linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+    netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
+    linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org,
+    linux-hams@vger.kernel.org, linux-x25@vger.kernel.org,
+    audit@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+    linux-can@vger.kernel.org, linux-sctp@vger.kernel.org,
+    bpf@vger.kernel.org
+Subject: Re: [PATCH v2 000/110] vfs: change inode->i_ino from unsigned long to u64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH WIP v4 6/9] media: qcom: camss: csiphy-3ph: Update Gen2
- v1.1 MIPI CSI-2 CPHY init
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        David Heidelberg <david@ixit.cz>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Petr Hodina <phodina@protonmail.com>,
-        Casey Connolly <casey.connolly@linaro.org>,
-        "Dr. Git" <drgitx@gmail.com>
-Cc: Joel Selvaraj <foss@joelselvaraj.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20260301-qcom-cphy-v4-0-e53316d2cc65@ixit.cz>
- <20260301-qcom-cphy-v4-6-e53316d2cc65@ixit.cz>
- <4f29492f-c5c0-402c-b2aa-0e1886299d59@linaro.org>
- <f5038001-da33-4c44-b9f7-3f967830eec0@ixit.cz>
- <fee002eb-4447-4ba6-bd3c-7a54ec85e29e@oss.qualcomm.com>
- <fba5ef3e-70be-4329-9f4b-c0eaefe5449f@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <fba5ef3e-70be-4329-9f4b-c0eaefe5449f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=P7E3RyAu c=1 sm=1 tr=0 ts=69a6bc21 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=aUHzePZ-ChQT42NVv6YA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: U-GIQL6LuhzBFt8HWZJR-YfENTZQtQSQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDA4MiBTYWx0ZWRfX9EhqvuW5y7X6
- LsULMg3MT/68ZX4hoLeO6CRaCOX7QQPfw0T89MO/w5NrYq7OY/7WAHBBEo481r34ti9935/vQ6l
- rMnkRFRgvuZ3tkuw8Mp/hRFmrl3acHChvtLEAZ0GRwl+F/X8EEpLd7dpqWEVgAb/vmlgQqKjLL9
- HQuoc+t4CqRweidphpknIslS/lcqJ63DepX0KKwsF2U9tcokJli3EK/g9HlqmznMrWh2hCl3ulG
- yip/4ScjVR8qHe0e69WTsDc5e/DeicyJyo6VuQNAK9g9/mQZXsmFi5LdcWjTPujxsOej7tbcyUC
- 6TBtM90DuZbcDcxIBI8xwhE11zUiaz7kM4MVo/2R3jgxD+saudZWAotOnYsJMcR59Zrxa/MFJwi
- NTsaVXP4AnhCjEY159UOSTxeEueAnkguWPsXN5YpZamLHMcGNv0+dfiubohpBj5/o5yc3liWHV0
- 6S0aFUVeI2wj4DDPHSA==
-X-Proofpoint-ORIG-GUID: U-GIQL6LuhzBFt8HWZJR-YfENTZQtQSQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 malwarescore=0 adultscore=0 bulkscore=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603030082
-X-Rspamd-Queue-Id: 410141ECF2A
+Content-Type: text/plain
+Date: Tue, 03 Mar 2026 10:48:05 +0000
+Message-ID: <1773080.1772534885@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Rspamd-Queue-Id: 0A5BD1ED23D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [6.44 / 15.00];
+	DMARC_POLICY_QUARANTINE(1.50)[redhat.com : SPF not aligned (relaxed),quarantine];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MULTIPLE_UNIQUE_HEADERS(1.40)[To];
+	ARC_REJECT(1.00)[signature check failed: fail, {[1] = sig:subspace.kernel.org:reject}];
+	R_DKIM_REJECT(1.00)[redhat.com:s=mimecast20190719];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54311-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:dkim,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
-	FREEMAIL_TO(0.00)[linaro.org,ixit.cz,kernel.org,gmail.com,fairphone.com,protonmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54312-lists,linux-media=lfdr.de];
+	RCPT_COUNT_GT_50(0.00)[172];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,infradead.org,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net];
+	HAS_ORG_HEADER(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	GREYLIST(0.00)[pass,body];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[dhowells@redhat.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[redhat.com:-];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Action: no action
+	NEURAL_HAM(-0.00)[-0.949];
+	PRECEDENCE_BULK(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,warthog.procyon.org.uk:mid]
+X-Rspamd-Action: add header
+X-Spam: Yes
 
-On 3/3/26 11:39 AM, Bryan O'Donoghue wrote:
-> On 03/03/2026 10:22, Konrad Dybcio wrote:
->>>> Squash down and Co-developed-by
->> Suggested-by, perhaps
->>
->> Co-developed-by usually reflects pair programming and requires a s-o-b,
->> and that carries legal meaning.
-> 
-> Hmm yes but this is his change so he owns his own Co-developed-by and his on S-o-b ;)
+Jeff Layton <jlayton@kernel.org> wrote:
 
-Oh I see, I was under the impression that the original commit was authored
-by him and that you're referencing my request to submit this update from
-some older revision
+> This version splits the change up to be more bisectable. It first adds a
+> new kino_t typedef and a new "PRIino" macro to hold the width specifier
+> for format strings. The conversion is done, and then everything is
+> changed to remove the new macro and typedef.
 
-Konrad
+Why remove the typedef?  It might be better to keep it.
+
+David
+
 
