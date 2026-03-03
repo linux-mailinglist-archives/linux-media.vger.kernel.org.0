@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-54316-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54315-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SIl+FEu9pmlDTQAAu9opvQ
-	(envelope-from <linux-media+bounces-54316-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 11:51:55 +0100
+	id KHPsDlu9pmlDTQAAu9opvQ
+	(envelope-from <linux-media+bounces-54315-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 11:52:11 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82F91ECFB0
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 11:51:54 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A978F1ECFC5
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 11:52:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A862D3039346
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 10:51:24 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B0145307A574
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 10:51:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A859C3B4EAE;
-	Tue,  3 Mar 2026 10:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE3A3B4E87;
+	Tue,  3 Mar 2026 10:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="J/UMUBf+"
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="gmoEwWS2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7353B4E96;
-	Tue,  3 Mar 2026 10:50:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4463A8746;
+	Tue,  3 Mar 2026 10:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772535065; cv=fail; b=AtITKnD1K0QlpKCBAIc2xwRVgbs6V5KafhutEg0dFVHte/4KIGEy6etQMFLImTSQ4bpbaPS1e+22k8tNYz9ZgTGInoMJwqfyXoFGeaNLz1YZT9lcJ6LHCn7+XsGvDii4b8aWYo+h7J6tmJrxVPzy+yV77x+AI58B8xkIiltP0as=
+	t=1772535061; cv=fail; b=T6CzRcZbP1UQJrGVdhufHFkTnfzJVaLzcDNNW7LQLwUBkGTHbFTyP3sxVLUzzimenp7o/OUMoBb4LnFL8YSiP3xgq4KsGfZzn0h98QIre+5nL1vlIB31dXdTANSlCLx+GDhAiGc1unQm0CorHJM43XNRLsh9hcoie8OtzDXpBUc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772535065; c=relaxed/simple;
-	bh=V5PqaMi/A/zkReEZYmsiui5xTmvOlENN2Uohhsw//U0=;
+	s=arc-20240116; t=1772535061; c=relaxed/simple;
+	bh=c0cXsDWr8Z/zXPcTJ69+JiGMbGXXqFdKfV5MhW/PH8E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AVlvYC2nCYrkXfloAldA/CKGS+N8mey5uanu0dhr2R/4AJNhbqeDpWdBjsNnXSfTrzm5PbaMfocoxSv+M+OHR9n38zQbP06YiCk9IZmSyIyZ+EBljeGSXQQE4Qhz38o05aRXMkugT0/pbUwsS2o+zfQOsIZk5W0iDEJBu/LpfU8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=J/UMUBf+; arc=fail smtp.client-ip=205.220.178.238
+	 Content-Type:MIME-Version; b=HZ8yCyiSKxj1d2Gi8PJQ7gaAfx8WviK4KgkNSivgSyvWC/83QAXyAk40MNr2+NFre/qBS6XGPJ1EN1/5PwyKH87+Kd+KfshSKSoUhldrLwY0pr7Y7lQ49qcajEY/QmBoQveyT+Jo2ZknQlZIh81zVwhNg40BUMbiKYSTa4+o+DY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=gmoEwWS2; arc=fail smtp.client-ip=205.220.166.238
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6234Uaob1496548;
-	Tue, 3 Mar 2026 10:50:23 GMT
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6236Pv7v4019490;
+	Tue, 3 Mar 2026 02:50:28 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=2JHu37lJsE9EfEYYHfia9R7J3IwNIwitwNHyS3zu1iA=; b=
-	J/UMUBf+UyFA99Z1qDML7mjWRmdH8RtONXS9WJyJ/1vp3uis7KS2NeUQfVWYF7fj
-	qabVauiI1MgtefZYaq3xQXJmPC6jK07pjgXzirITJ64HRqXnqOdMLLhWbrn/oYRP
-	/VkUFFnb2DcRsKwR8gltm3MuqB2SVxmgaVXbhwzzW7I0cDrjBI6sbpkYtrd7jk27
-	jZAHiCl0OttXw/akw4Ne+7lPeItGqM9CKagwL3Kw4zbvhk5jZouT2ioT/u/eeEiY
-	rVMQMpEcA86lms7OtW9vbCv4sn9iTM+YV9oMSZPFhx7UdX9krT4quLGOx7PhUDGl
-	TChrl38AW+ZegPifsnmO2g==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012060.outbound.protection.outlook.com [52.101.53.60])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckqb4kjrb-1
+	PPS06212021; bh=QtmrsxBeXTC27EmuGbB2GTPdKXYA7v0Pll+DKAK4A44=; b=
+	gmoEwWS26awegHl25sagCQyMGhdsdC/O74362kHnmLCfiygJH9UMMe+i9rS0gCMm
+	Rd9LwPZSUsgPB79TU117aaq5Vno1uK/H/peYxtIJH8mnpxrjNbRgAW3w8hovc4Cz
+	iDe+zzp35qSHIJQ+JBQffbRrIOPKyKYljMFcb7+W0jhvrk9GJmXtzFzPunsH5YwL
+	+4bpolw0JipgytsA80c/Rb2Kn+39sgqbIX/pwokEeM252ylBjguFbr2/mkDB/w7C
+	i7t6lQY57XRuhw1iBHRBp83/sfGhrhUxP67sOcis92An4yWPx6SYgwkvEpfotn4o
+	SF1f8ORxG5LePjAvd7zR0g==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012064.outbound.protection.outlook.com [52.101.53.64])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckvh438de-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 03 Mar 2026 10:50:23 +0000 (GMT)
+	Tue, 03 Mar 2026 02:50:27 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qZ3a2/fanGjYZVzqSOlIv0FMgPGVFL+jG1Advj/vTW12oXZPtldpoLSpvvFP7kmOwvELaKks9qn0oaCCQ8kAombodAoPTYW3tP6bRK9pz64Mdd4pKt95k52AsdPL9ScOCNgqqWO7KBvTJ47D+Gu41lT454ghk4QAEbmF1W28P7+407f4TVk+DIzpNByFL6Fcn1s792h0XfwdBm9qA/ClvmNlueXkV6ScM6L7l6sOF8QkwqrDy/xtVjHHLeZ6nVG+og8ef6KxPH/quloaf8kwqblQ35O9fK7OCpzoPuCo4R/MblTpc+s10HmPCMTy/XmgjXv2j4tviGu/XvFlWQM74Q==
+ b=tHSqUoMa4dStEO4FlJNqsexduHnVpLnR75Ii1O79PwnG3IFY4jFnCnGPxUODghmZ/zRlIaAWpbJp6jtDjvE/7bmZZpIw4b5Su9m2jeIyWkthUcPVIxdTLHIqKWlL6Jqjv80bTyPyeRHbBcHPDHaUW/oeGteX1OkAfIVn9FKVx9qmxy0txjU1DyyyTZK8WOr2rwTGw2RA2eMyQPpklI0iLW401JPnR+/YjUl1OVT1ZR5VCoe9tytY56vGejUuDS+X2rSw27OXNdKHNYZ9jp6kB7jFaUIupua0D2AL/ydO2VGW6HCQIJP3BxiXXTZtTGam0+cYMzRcnZKw7UA/jgPJqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2JHu37lJsE9EfEYYHfia9R7J3IwNIwitwNHyS3zu1iA=;
- b=H2+GgcLl8DM633U0QmIi3Rb6toSAhcAkDZKC6DY/k5VqjJa05K73h/DQfC0yFBDSSaO02sG15VPuzEfY40xnuzRNSfyj7k/8kmsC3hubF8/JsUgPSDunh7bomTIjd4D27Kc/u8Rcd6x+k+iP9VsarV76McQGVbGpeeQQnfc3heTXbF6j9ID34orCQCyLHRXbnYz2fukmLLIdGgyJQ1MJvD4h660zPeTMfCU+QTIZoM4x7yqhiNoWCr0KfM0dRbsfYwo5Tb+amzBuCqdritzOZUK5vP363V8wTU0pbjmIX9gQpcfjC8mcSJfb46lTKv0XFHiY4SR7jKSp2sGt7RLWwQ==
+ bh=QtmrsxBeXTC27EmuGbB2GTPdKXYA7v0Pll+DKAK4A44=;
+ b=Lb3lCSDBhaemPbKElu1NLl1bE80KxS/CR5bkq7wJw/rPvn8P1UuuFVe2mmTL87epaOvF1wXUAdmxQJ1QaU2TQq+t04g65CQIG0sKYmkIXnkhv5y/EJokJq2VBicWdPvp60hQYcSzY341vU2pEscDsdKIKCGZ4RcXVP3C7fjVcu0HKV22foDzzztQBaW9qmzICEkKT2EN0V+GYKQL6BFWQKQvqParc4Qk3oPfOPrPV6SawidSqjR90AITnOWlpDURQEnnp3oiQBoeHUIkphIX6099o3y3Qs/ItcM6+h+lvLcIbMY8Z7hHFqmORG/JV8PHE4NVl8uPI8AZK3YixUm27w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -65,11 +65,11 @@ Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
  (2603:10b6:f:fc02::53) by MW4PR11MB6837.namprd11.prod.outlook.com
  (2603:10b6:303:221::16) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
- 2026 10:50:21 +0000
+ 2026 10:50:25 +0000
 Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
  ([fe80::5f46:caa4:60d4:f669]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
  ([fe80::5f46:caa4:60d4:f669%2]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
- 10:50:21 +0000
+ 10:50:25 +0000
 From: Xiaolei Wang <xiaolei.wang@windriver.com>
 To: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
         tarang.raval@siliconsignals.io, dave.stevenson@raspberrypi.com,
@@ -78,9 +78,9 @@ To: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
         johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
         jai.luthra@ideasonboard.com, Xiaolei.Wang@windriver.com
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/3] media: i2c: ov9282: Convert to CCI register access helpers
-Date: Tue,  3 Mar 2026 18:49:40 +0800
-Message-ID: <20260303104942.3111366-2-xiaolei.wang@windriver.com>
+Subject: [PATCH v3 2/3] media: i2c: ov9282: Switch to using the sub-device state lock
+Date: Tue,  3 Mar 2026 18:49:41 +0800
+Message-ID: <20260303104942.3111366-3-xiaolei.wang@windriver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260303104942.3111366-1-xiaolei.wang@windriver.com>
 References: <20260303104942.3111366-1-xiaolei.wang@windriver.com>
@@ -97,83 +97,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|MW4PR11MB6837:EE_
-X-MS-Office365-Filtering-Correlation-Id: 50645f60-ce5b-4a4d-0ef2-08de7912aa5b
+X-MS-Office365-Filtering-Correlation-Id: de25c670-330d-4efd-60db-08de7912acdc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|366016|1800799024|7416014|52116014|376014|38350700014|921020;
 X-Microsoft-Antispam-Message-Info:
-	jlKxTrWe0cdnDpo82ATglLcZjyx6xWoRD5dnWfu/ouJ3y6+IMdo9R+6cJeN9QkYAFLI9vECwh2IIiPyr8eWxN1Tk1Gsa1rrEsXS6i9vsLx76X2+EE/J21tfjHLHkWZBCX4E4gTU9OW+FB7/eChYQnqiSKx2q4coO6JfhlZVko+UJSutdKQQwLcN7sucjjuLVAtzPcwqlhHd3w5Si2IrsuA8k6d4L3G31LX7sJs3o02HpsF0k8wXCiL89y8lgArLGNMej/2rZ8/x9eR5HKPmwUxpWDQkjECFNo3tRbMOEpqrM2A7xjYOp5Fakgyc9sy/Dx7VSxeqC+jIE1OVcStpV2GK8PqzwEH9qgBl988+RO06+d67q3dOasSgsyP8oSUsClt/G+7CvZgSGtCZSP3EVdAoe2iCqyCtABe2GxkIT1jHgCqomnaBsdcfa+wmYcAHRKjfSA5LD3AO98ADsTqtSyMmId2+xVQCyjR51K7EC64/0e4tSfiybTknTmjfJudMEQmQrfXkdjaPQK3booYbqmD0PeCPgeru/BoXjYi+swmPnfSmKU0wM6cgGgJS6D0NOHus8D613kBaGFkM6av4jrvxjU64u/lb4ni3FtswrWZzjHA8ORbZsyOFCx8ECI6HZSuB9utFEQvUzfR0zo4RCeNJEAl+3Ex10lBKi+JjZRQuKiixT07Qmpzg5FDt5Q5RCOe9rU44qcg9LdiXNl/pzZz+1DhtIOuDSP6c/BvPHT6PUx/qfyjiRNHNGov9mWYDjC3OfGmcA/8yGKlEFuxCqA9WflgZf33qGVLRla+W0apOJSh1Ltfu0r0HA0Db3OKL9
+	YD5cJxgvLw5FzpchrNSGxtC6v8axX828nmk77cMhe+shScMWkVJhnpTkyWydRbcyhxZOX3K/qSgF+M9L1YT5Ntpk8M2Zgyo/iLwgfRo6huaPD5hM5agoNUgsQE4DcRsTT3xXo1/shln+drp4e3YbaQWZtr1P+I8UJBx+9hm0x8Vzx+pKb2iP3B9uGvFPCD9XyPyKmTcpa+zPt7Q8JoqK8LfbNpKGpp9JInqqe56SIOd4Z72c7MrZcDOMbFoS6fFVf1CtEZlsLpTctQpxW3FGFeKFiODlBpOI46HR6Aap0oPqKeRRxVwBKhzw2JMt3XE8+y6tHwNIw/D/OKOBUGLn/mB+IJSle5mxWgSdlqS8KVgmv1gjUN3ALe6u67QpwMFnSGaKkTsNy2FAvuj5iRONk9acaNyFD74phbHvzHPyzLtC9KsyZgwiA+SCQzwpm9Q1MBzzGgAyLgGk+xXiHEAU2cfkCGk6vmQpaNjMJWxncP4u2vf1HIfY2DkiMaWzWYiUZa87KSuG6iLh0Dbt/h8OMog+sFXwwFncKxUYdKK4IBKUINSK7fEMbjU3oZFbMF6RO4vBnV04O7SR5Sc3y5IP03cHZgf1h+NK78+f+s0ed2JlQOoqq64dnBolAj/BhAk8IyifCgb1X48e9ku4E9zeY5gApfomKXDUuHvDhzTwH9W1H31uYSCL+ECWcCotci44mp90N+pas+kb/K5An6VuBNcXgoW4uErzOiihlAMo4CAZUOSQrkU/HVE3j5J+XORCGxuMdwVoNxUi1b91kjgkPyKHwJesRZkYmCF2NzlHZv8v70MF0G1TaDqhEzKgyp3N
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(52116014)(376014)(38350700014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?TO7Wb15A4t+GAy25BCbB1+g+s79aSmxaInqHaRPObrBHElgQ1JJGORjIJsEV?=
- =?us-ascii?Q?8cjjg7xWMPVBYIrw3Rn8xSf7jyVzhxhDzTvyH27bw3gtxKygUh7JATx0An4v?=
- =?us-ascii?Q?Hmojs+55oC+wuo4nQpPw41kOTC5u+20AGP9t7oLSAMv8NDhKzyWskrS5dATJ?=
- =?us-ascii?Q?v0fXUwFwUIUjHtSTjrgcNeIP64i0PtT+YM2hPto2FnGVirNmUhM+CTs4nc1c?=
- =?us-ascii?Q?u5Q91e0MAZMM1j8dkmQoLcfs0v7WuwinDxP3MRy+3f9GviNbsVKhOsOrD0Xq?=
- =?us-ascii?Q?6RfPs+Yukppc8+NQIRpNN2K63eXV/05anrOxTzKn0MB5bsCvbDmpf0htPW1X?=
- =?us-ascii?Q?+5Ehhi06dL043N0MmAJ+d+gn1V739UcShOs/OqpZgBTiT1/kmwWhBH9lX/U6?=
- =?us-ascii?Q?BdQPSYsDgtry4oggY6wDrZwG/iqSWayN+cr6NaMR7P2LekVQzwxvkxuhu3le?=
- =?us-ascii?Q?RqQMYXeimsBcL/MX1vvIvtRC1o76RF8DJo84fqqQDUAy/2ByMEdjj4bumMj8?=
- =?us-ascii?Q?JDgfGoGs/4nx6nGAwoA+8SGLqFOKnFEXhVLdSrVGiVSUMp/Joi9SjFcOpExU?=
- =?us-ascii?Q?3rwHKSjeMISrE4m7FUcfRSn+pFSnTdZyAGz+zEieISpe7WNU+qIoxiyKqivQ?=
- =?us-ascii?Q?E4l9bfnIFFB2jt/kwQMbbUCpN2wby3Pr/sNfjT13ZwO8zvQ1GaC3zf3j24+s?=
- =?us-ascii?Q?PAdqkJR7TebRqYWtTyPhN2Cz6BbxVsAUTSohloq5N0nSI2mcKoHWuL5BhWMI?=
- =?us-ascii?Q?S+WHhlyMPr05iy60JmFeHMHQTZChPlmRROIdj/rbXx54eoP8eXkLTLJZE46L?=
- =?us-ascii?Q?hemQAl8/FaKrhlehiGtW0AzNl5G5IeGqvPkz1x4zcl82Y+exQskfZJL+UQm0?=
- =?us-ascii?Q?PJ0EgDTqiTaxKWqam5dmH5Vrsa+7F4rnKTR8Ae/b3V2yhuIub185Jv5pObUc?=
- =?us-ascii?Q?q+xDkHEo23QN2uO8gDrrdlbuNIp8m3yavLXl1+zA8v86jK3KApM2xbt0C97n?=
- =?us-ascii?Q?lgsAIBEDRSAgLw9Q79L2ydZWt7le0lPvksgg5gZnyeLHNM5jAfF7LM0oZitc?=
- =?us-ascii?Q?8/gf64XTAvgy+q1d245fblNTQ87lceANSN8ALQSk2QusBNZ8adj/4Ey8B+I/?=
- =?us-ascii?Q?FhjDr5MYzS3YSoUae0SmlT/mW5Rz4oPzEHDQduam4X4D++Dt1MVDPY71WMu9?=
- =?us-ascii?Q?5RP8ACd+E1U7UfKAfkkRnVQE3C2sf+HO/68AhmZKwMFBD3IyV973MSYqrE7n?=
- =?us-ascii?Q?JK8Y1x1nqPMgV0/LsM1fsXYTnwpGj0GRaXWj2ekfYgm3LE+Czd90hQSglnUN?=
- =?us-ascii?Q?ZTPhmJhHY044ZDGsJJ3vc+UwN+I/Fb0ccyKUSKgggF5i3PUL6dsg5HRnX3tD?=
- =?us-ascii?Q?GZOAg5hnq79CZJTp4L1wtejQY0yQi2J1lTE+rh8GC7SEZEprz/XvEQuOR+Ya?=
- =?us-ascii?Q?3bjKOIq1jyvoZjQj+iP8svXLywG41jjcpwG4st79fJNdB1s+r1C5DzjJcm7w?=
- =?us-ascii?Q?iJ3Y5N1E+R1OKhZ01zeCaeB8+gYT8ShjWVt1BLKaYVTdWneGu/arJFHFCYyo?=
- =?us-ascii?Q?Lm8j/MZoBinkdriDwOuLBstasWesmA6Gso25SYFNXiMJ1PisRBVlcmisOygQ?=
- =?us-ascii?Q?Efz1lzjoGXnSfNbwAIOnzFKUX7GZH6Xr73HZdqoYROYrveYg4svmAZ+EDKKY?=
- =?us-ascii?Q?enTz/tsrS2K5t5zPJd5xHU34OwezaH+fL7kJOjHQ9Vn2rAapokntDgQHe/7K?=
- =?us-ascii?Q?wfRTNa/4afW5bSuBMRBJWWMw28gUKvs=3D?=
+	=?us-ascii?Q?067oo9Ni+PfGfB1Kh7GNko1TvgrBzsKdmm6Y+fYfBt6+QyGN6Z2VAdv5d+vx?=
+ =?us-ascii?Q?N+IXW5HIlvbvv5RJ1dDatpgRR3+1CcceWMutBl5wC3l4DTTrkF9G1lF+3wF/?=
+ =?us-ascii?Q?bM0dTaVmm2LzV4LUk8qHLDMR4+cXdN9F3CH/nXrD7byWQJn5Qq0QUKL9hc5n?=
+ =?us-ascii?Q?uvNK5cOOeOqsx4zXV/ayvY4QpHG2rGDMr/KZHHcH7xAUDqd9zm9XlqE/RG4B?=
+ =?us-ascii?Q?4Se7sHEh9FyDJafO0zx1EKAkRNdIwNeFJpwdm/3/jmvpA3HwyTVv/d26NneB?=
+ =?us-ascii?Q?jc7W5Su2jFW+WlgMzgW43leB3+FXHNwe50iUeNtyQQ1PhNuoWnenIM79lM7b?=
+ =?us-ascii?Q?AGZiduzS+f296akeI8jM9FgKwDlB0SjwPmY8Tbks4fLxzEiukB6sIR4YeXrr?=
+ =?us-ascii?Q?kMVvHmSCnLp3FLEOpkObsWZdSUlstbbqoW6G9gO59BG4Oyi/sSILBAxRvEMC?=
+ =?us-ascii?Q?Qu4s+LhVLHNXXyon4mhGWaMpPj6XhRLX6V52/vRQDq5i7oFzLSW21Yu6ZrUW?=
+ =?us-ascii?Q?nii+QquWdLXpmtIEMya84zFoh12M24OH2sBrpeUrfoR7Bfujx11Auqzqv9xW?=
+ =?us-ascii?Q?Jc82dqnCIIYUcczPq7higo6+4D4/hDt8GD0z/JNVX2t8FdPNxhPQp7fsRuxs?=
+ =?us-ascii?Q?E9ojKYItsY8KgfPxHWP6n1mpUSAbO7QmfrgYCgG95tu0iMTDDOMimeRtPG9Q?=
+ =?us-ascii?Q?DtDaKh3fC1Gx9Ya8dFeso9sZqxfP84UIwEnk9FTtI/0OGwE+kehQMX6MTdvX?=
+ =?us-ascii?Q?Bli9vqsUqxxmQ0SGnfr9aB56U3wjLl2GhFsBOlmIPJL1Q8Zz/3ySFtcrRpZz?=
+ =?us-ascii?Q?vM4Ln2smWdLAnlQxCUzGgJPQ5jQ69R2RXh6wO2Lqpbc5hFJclOC+k26YscG7?=
+ =?us-ascii?Q?5AgOfjXNVd7G0FZQUlGmtPJ3hfu4FX6CPvZfEksbQNZ0kFVieKGAbM4C4lUm?=
+ =?us-ascii?Q?ShH/OU+CHvo0dvI5hXDlW0IvmenMQ3cQCYodmtT1gQcKk/eM0QqiYktRE0wZ?=
+ =?us-ascii?Q?FRLmaqT7FdizFVjdYONB92CT1d7NscuwHZjQgs6DzObBZzMc7iJfVcMbbiBK?=
+ =?us-ascii?Q?nJzfmXuY/7bGqWj0u5GHlyc4ADb2Xp3xp9Md0ht7JkThnk0j8UUs7wYVrNjU?=
+ =?us-ascii?Q?SEmUGbeFzT2KXzGFKzMc2p0kUrVpT69tXc8zrrlOLN/mMAVPMkzR7LqjHbdi?=
+ =?us-ascii?Q?vefVxmfdtFMwkpP/l5rQdC4v1JEakEba5BY0m3+isKyIcY8Cvjnqd28/dya6?=
+ =?us-ascii?Q?Qa9iKy9/bwaM9PHcUBlv+UoxfNhHHkWC7IeTMI1NtSscS9YAcQRKxzS/jOWz?=
+ =?us-ascii?Q?+bHf76Ktw3n3ffKDmikF+sXliAWYtWjRqoFMhaFtkgVU3BKjLrnWPKlH/vE+?=
+ =?us-ascii?Q?vpNUJq9Asouz0xnpe2KwWssA7uQdhEPCwNdTnmcbR3hWDQO+j9EULsI/q67Z?=
+ =?us-ascii?Q?kdRS3tAPf/hX+IiKekCAcjW/lAtvSENaAKvAGY1RxHXoZTj+V9goIA6/gG/d?=
+ =?us-ascii?Q?t2w9d7so/iG+xEQy8JdSsP0VYlYNtF2bmTqIvX/Pvb+asJ6ZcDl9l+Ey0Ker?=
+ =?us-ascii?Q?zMfyuFTkCzgq3c/UYcm00xYe7vhO6ixbYgOkg1FsJ9B+PAfEXx0EJhrce4Zq?=
+ =?us-ascii?Q?W4Gkpms2MejEvkwnII32wTl5Z5cMI11X4v6ZJRvw02hRfwGYIbqoAUT+Ivj1?=
+ =?us-ascii?Q?DLIAnkcrys605Tx/9x8VJV/Y86yYODNko5WAgAHWWs4a1yQpft32g2ADDbKV?=
+ =?us-ascii?Q?jKudOGNjnF1GLAk7+0Bx6H42gxXcqOw=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50645f60-ce5b-4a4d-0ef2-08de7912aa5b
+X-MS-Exchange-CrossTenant-Network-Message-Id: de25c670-330d-4efd-60db-08de7912acdc
 X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 10:50:21.1225
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 10:50:25.1814
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x/j8DsrcHRts19TrDoHjCgGtm70pJQkM0/bUg1i4ImPCD+AlPYRnoZGJxSgP9yWe7oKmgL8oa3eEbjACBFdCMtu3nVd7vKtu1Q3e9+Bixrg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: EGrSLIt9SKubFsw/xVLxL7czg/NekZptn3VV+VsymiGTcGJJfTH4KSju4XX9UJQiyaBSZd0F6w1zGumhItooQx/3Z+sgU2IVGnBXeT58TOo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6837
-X-Authority-Analysis: v=2.4 cv=LqWfC3dc c=1 sm=1 tr=0 ts=69a6bcef cx=c_pps
- a=yaJUXpcFNTkE3gTvo4ZtIQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-ORIG-GUID: ZKW7LzjayNIu-ZAZFlIhhxESCsAaujyU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDA4MiBTYWx0ZWRfX2R4PjhwaqGXB
+ 2VpQN5MmKZ2oCw50RFp3HjIx3dgmA3QJhefruxoLl+5/jYscWPdcGITZ/2ArtKpc8U10BTDfJvQ
+ ldowUbMi1bHIeJIy770rw09fQoCedDVgzE99+aQLfu58xlykZ8ZCB5fJDFl7Ilpsa25RVGl1tdg
+ 9nh+Gb6QK/KjYRBkc/xCseTur7Pvvx+PIJ/fTh6xIPTzFkM28zMGfQ3kgNS8KdsmM7hHDBZVwdL
+ Gf0IIvA2hGFfO/RZKJUrHfFMfiSXBF15gSCppM35Xjzi1kjpBmGyqMCw9ewTuGJDGb5LZ+9F9zw
+ OTUbo2lUstYowiy+/d+HCtfYcsDQrtbaUhbePET1D78tZSS9jI43Wu+tnr6udkScojnMvxpCtRQ
+ Gzh8XtrcjloYut6wVSEmLa+BvynRC4e5QPJFVQGskKqPQhmZ/TKM6R+S6sbHO7tixaYjfQL02N0
+ t2ktfJ8o+UOEyN1ObkA==
+X-Proofpoint-GUID: ZKW7LzjayNIu-ZAZFlIhhxESCsAaujyU
+X-Authority-Analysis: v=2.4 cv=Z/3h3XRA c=1 sm=1 tr=0 ts=69a6bcf3 cx=c_pps
+ a=BYzTVJwijQ+wlo0xVi9Hgw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
- a=F-GWxTvL4KY9s68XaQkA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: AwNvFbxWLV1NbH11-WeJ3VczO_2IZTxP
-X-Proofpoint-ORIG-GUID: AwNvFbxWLV1NbH11-WeJ3VczO_2IZTxP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDA4MiBTYWx0ZWRfX1SIo8LyQkSlA
- /oib9SSBaKHr7DDQFNxc3TLgbP2dlFGrIMYKw0THGmANy6tYNvvOOVGuyL9siK/bVncRAKz0lHr
- 84dn7Bdj6WiHNG0k7PG+le9uhH3sqjybVJllLprZJbLZsV3NNi5JoPzkQthulmypg0zAjADsIVM
- pORvmGsbou1e2bzV+pgRFcrRg7XCMKjql1/Kc3lxIsof9ryC8EjiyLKA9IGHQJPR8nJgdPHeSBS
- 4o5YYncSbVy1jFkUuhH0lxeR1ePO3AGd7H3iuipTEffEOX+L6XQY9YR8hpejZosDLahfedZWT1H
- ZHR8wjUQQeHS8yjGsEwPXLEgqx4WnUPgMbXl0iYPoxTZizekBmArPb24PQSB0zmP0YPUnDtPBwS
- LyDZxT6CkzdlIynA/2ZQ4DAedWLCLlYD4thw3TSIJxbmOU92UTppeIMClzq4yx76jiAS5vkih5I
- 2WccxYtnUdF9cTztY2g==
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
+ a=b-pzV9cxAM0HHkGdTPcA:9 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0
- clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603030082
-X-Rspamd-Queue-Id: E82F91ECFB0
+X-Rspamd-Queue-Id: A978F1ECFC5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -181,7 +181,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[windriver.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[windriver.com:s=PPS06212021];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -190,7 +190,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	FREEMAIL_TO(0.00)[linux.intel.com,ideasonboard.com,siliconsignals.io,raspberrypi.com,jmondi.org,kernel.org,bp.renesas.com,oss.qualcomm.com,xs4all.nl,windriver.com];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54316-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54315-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	PRECEDENCE_BULK(0.00)[];
@@ -198,589 +198,198 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[windriver.com:+];
 	TO_DN_NONE(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,windriver.com:dkim,windriver.com:email,windriver.com:mid,siliconsignals.io:email];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:dkim,windriver.com:email,windriver.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,siliconsignals.io:email];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Use the new common CCI register access helpers to replace the private
-register access helpers in the ov9282 driver. This simplifies the driver
-by reducing the amount of code.
+Switch to using the sub-device state lock and properly call
+v4l2_subdev_init_finalize() / v4l2_subdev_cleanup() on probe() /
+remove().
 
 Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
 Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/i2c/Kconfig  |   1 +
- drivers/media/i2c/ov9282.c | 293 ++++++++-----------------------------
- 2 files changed, 64 insertions(+), 230 deletions(-)
+ drivers/media/i2c/ov9282.c | 51 +++++++++++++++-----------------------
+ 1 file changed, 20 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 5eb1e0e0a87a..3027e71fd8fb 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -690,6 +690,7 @@ config VIDEO_OV8865
- config VIDEO_OV9282
- 	tristate "OmniVision OV9282 sensor support"
- 	depends on OF_GPIO
-+	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor driver for the OmniVision
- 	  OV9282 camera sensor.
 diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index ded9b2044ff8..8bfaa3ae4be5 100644
+index 8bfaa3ae4be5..6556cbce8dc1 100644
 --- a/drivers/media/i2c/ov9282.c
 +++ b/drivers/media/i2c/ov9282.c
-@@ -12,38 +12,40 @@
- #include <linux/math.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- 
-+#include <media/v4l2-cci.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
- 
- /* Streaming Mode */
--#define OV9282_REG_MODE_SELECT	0x0100
-+#define OV9282_REG_MODE_SELECT	CCI_REG8(0x0100)
- #define OV9282_MODE_STANDBY	0x00
- #define OV9282_MODE_STREAMING	0x01
- 
--#define OV9282_REG_PLL_CTRL_0D	0x030d
-+#define OV9282_REG_PLL_CTRL_0D	CCI_REG8(0x030d)
- #define OV9282_PLL_CTRL_0D_RAW8		0x60
- #define OV9282_PLL_CTRL_0D_RAW10	0x50
- 
--#define OV9282_REG_TIMING_HTS	0x380c
-+#define OV9282_REG_TIMING_HTS	CCI_REG16(0x380c)
- #define OV9282_TIMING_HTS_MAX	0x7fff
- 
- /* Lines per frame */
--#define OV9282_REG_LPFR		0x380e
-+#define OV9282_REG_LPFR		CCI_REG16(0x380e)
- 
- /* Chip ID */
--#define OV9282_REG_ID		0x300a
-+#define OV9282_REG_ID		CCI_REG16(0x300a)
- #define OV9282_ID		0x9281
- 
- /* Output enable registers */
--#define OV9282_REG_OUTPUT_ENABLE4	0x3004
-+#define OV9282_REG_OUTPUT_ENABLE4	CCI_REG8(0x3004)
- #define OV9282_OUTPUT_ENABLE4_GPIO2	BIT(1)
- #define OV9282_OUTPUT_ENABLE4_D9	BIT(0)
- 
--#define OV9282_REG_OUTPUT_ENABLE5	0x3005
-+#define OV9282_REG_OUTPUT_ENABLE5	CCI_REG8(0x3005)
- #define OV9282_OUTPUT_ENABLE5_D8	BIT(7)
- #define OV9282_OUTPUT_ENABLE5_D7	BIT(6)
- #define OV9282_OUTPUT_ENABLE5_D6	BIT(5)
-@@ -53,7 +55,7 @@
- #define OV9282_OUTPUT_ENABLE5_D2	BIT(1)
- #define OV9282_OUTPUT_ENABLE5_D1	BIT(0)
- 
--#define OV9282_REG_OUTPUT_ENABLE6	0x3006
-+#define OV9282_REG_OUTPUT_ENABLE6	CCI_REG8(0x3006)
- #define OV9282_OUTPUT_ENABLE6_D0	BIT(7)
- #define OV9282_OUTPUT_ENABLE6_PCLK	BIT(6)
- #define OV9282_OUTPUT_ENABLE6_HREF	BIT(5)
-@@ -62,14 +64,14 @@
- #define OV9282_OUTPUT_ENABLE6_VSYNC	BIT(1)
- 
- /* Exposure control */
--#define OV9282_REG_EXPOSURE	0x3500
-+#define OV9282_REG_EXPOSURE	CCI_REG24(0x3500)
- #define OV9282_EXPOSURE_MIN	1
- #define OV9282_EXPOSURE_OFFSET	25
- #define OV9282_EXPOSURE_STEP	1
- #define OV9282_EXPOSURE_DEFAULT	0x0282
- 
- /* AEC/AGC manual */
--#define OV9282_REG_AEC_MANUAL		0x3503
-+#define OV9282_REG_AEC_MANUAL		CCI_REG8(0x3503)
- #define OV9282_DIGFRAC_GAIN_DELAY	BIT(6)
- #define OV9282_GAIN_CHANGE_DELAY	BIT(5)
- #define OV9282_GAIN_DELAY		BIT(4)
-@@ -78,28 +80,28 @@
- #define OV9282_AEC_MANUAL_DEFAULT	0x00
- 
- /* Analog gain control */
--#define OV9282_REG_AGAIN	0x3509
-+#define OV9282_REG_AGAIN	CCI_REG8(0x3509)
- #define OV9282_AGAIN_MIN	0x10
- #define OV9282_AGAIN_MAX	0xff
- #define OV9282_AGAIN_STEP	1
- #define OV9282_AGAIN_DEFAULT	0x10
- 
- /* Group hold register */
--#define OV9282_REG_HOLD		0x3308
-+#define OV9282_REG_HOLD		CCI_REG8(0x3308)
- 
--#define OV9282_REG_ANA_CORE_2	0x3662
-+#define OV9282_REG_ANA_CORE_2	CCI_REG8(0x3662)
- #define OV9282_ANA_CORE2_RAW8	0x07
- #define OV9282_ANA_CORE2_RAW10	0x05
- 
--#define OV9282_REG_TIMING_FORMAT_1	0x3820
--#define OV9282_REG_TIMING_FORMAT_2	0x3821
-+#define OV9282_REG_TIMING_FORMAT_1	CCI_REG8(0x3820)
-+#define OV9282_REG_TIMING_FORMAT_2	CCI_REG8(0x3821)
- #define OV9282_FLIP_BIT			BIT(2)
- 
--#define OV9282_REG_MIPI_CTRL00	0x4800
-+#define OV9282_REG_MIPI_CTRL00	CCI_REG8(0x4800)
- #define OV9282_GATED_CLOCK	BIT(5)
- 
- /* Flash/Strobe control registers */
--#define OV9282_REG_STROBE_FRAME_SPAN		0x3925
-+#define OV9282_REG_STROBE_FRAME_SPAN		CCI_REG32(0x3925)
- #define OV9282_STROBE_FRAME_SPAN_DEFAULT	0x0000001a
- 
- /* Input clock rate */
-@@ -139,16 +141,6 @@ static const char * const ov9282_supply_names[] = {
- 
- #define OV9282_NUM_SUPPLIES ARRAY_SIZE(ov9282_supply_names)
- 
--/**
-- * struct ov9282_reg - ov9282 sensor register
-- * @address: Register address
-- * @val: Register value
-- */
--struct ov9282_reg {
--	u16 address;
--	u8 val;
--};
--
- /**
-  * struct ov9282_reg_list - ov9282 sensor register list
-  * @num_of_regs: Number of registers in the list
-@@ -156,7 +148,7 @@ struct ov9282_reg {
-  */
- struct ov9282_reg_list {
- 	u32 num_of_regs;
--	const struct ov9282_reg *regs;
-+	const struct reg_sequence *regs;
+@@ -221,7 +221,6 @@ struct ov9282 {
+ 	bool noncontinuous_clock;
+ 	const struct ov9282_mode *cur_mode;
+ 	u32 code;
+-	struct mutex mutex;
  };
  
- /**
-@@ -188,6 +180,7 @@ struct ov9282_mode {
-  * struct ov9282 - ov9282 sensor device structure
-  * @dev: Pointer to generic device
-  * @sd: V4L2 sub-device
-+ * @regmap: Regmap for sensor register access
-  * @pad: Media pad. Only one pad supported
-  * @reset_gpio: Sensor reset gpio
-  * @inclk: Sensor input clock
-@@ -209,6 +202,7 @@ struct ov9282_mode {
- struct ov9282 {
- 	struct device *dev;
- 	struct v4l2_subdev sd;
-+	struct regmap *regmap;
- 	struct media_pad pad;
- 	struct gpio_desc *reset_gpio;
- 	struct clk *inclk;
-@@ -241,7 +235,7 @@ static const s64 link_freq[] = {
-  * register arrays as some settings are written as part of ov9282_power_on,
-  * and the reset will clear them.
-  */
--static const struct ov9282_reg common_regs[] = {
-+static const struct reg_sequence common_regs[] = {
- 	{0x0302, 0x32},
- 	{0x030e, 0x02},
- 	{0x3001, 0x00},
-@@ -305,11 +299,6 @@ static const struct ov9282_reg common_regs[] = {
- 	{0x5a08, 0x84},
- };
- 
--static struct ov9282_reg_list common_regs_list = {
--	.num_of_regs = ARRAY_SIZE(common_regs),
--	.regs = common_regs,
--};
--
- #define MODE_1280_800		0
- #define MODE_1280_720		1
- #define MODE_640_400		2
-@@ -317,7 +306,7 @@ static struct ov9282_reg_list common_regs_list = {
- #define DEFAULT_MODE		MODE_1280_720
- 
- /* Sensor mode registers */
--static const struct ov9282_reg mode_1280x800_regs[] = {
-+static const struct reg_sequence mode_1280x800_regs[] = {
- 	{0x3778, 0x00},
- 	{0x3800, 0x00},
- 	{0x3801, 0x00},
-@@ -348,7 +337,7 @@ static const struct ov9282_reg mode_1280x800_regs[] = {
- 	{0x4509, 0x00},
- };
- 
--static const struct ov9282_reg mode_1280x720_regs[] = {
-+static const struct reg_sequence mode_1280x720_regs[] = {
- 	{0x3778, 0x00},
- 	{0x3800, 0x00},
- 	{0x3801, 0x00},
-@@ -379,7 +368,7 @@ static const struct ov9282_reg mode_1280x720_regs[] = {
- 	{0x4509, 0x80},
- };
- 
--static const struct ov9282_reg mode_640x400_regs[] = {
-+static const struct reg_sequence mode_640x400_regs[] = {
- 	{0x3778, 0x10},
- 	{0x3800, 0x00},
- 	{0x3801, 0x00},
-@@ -485,97 +474,6 @@ static inline struct ov9282 *to_ov9282(struct v4l2_subdev *subdev)
- 	return container_of(subdev, struct ov9282, sd);
- }
- 
--/**
-- * ov9282_read_reg() - Read registers.
-- * @ov9282: pointer to ov9282 device
-- * @reg: register address
-- * @len: length of bytes to read. Max supported bytes is 4
-- * @val: pointer to register value to be filled.
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
--static int ov9282_read_reg(struct ov9282 *ov9282, u16 reg, u32 len, u32 *val)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(&ov9282->sd);
--	struct i2c_msg msgs[2] = {0};
--	u8 addr_buf[2] = {0};
--	u8 data_buf[4] = {0};
--	int ret;
--
--	if (WARN_ON(len > 4))
--		return -EINVAL;
--
--	put_unaligned_be16(reg, addr_buf);
--
--	/* Write register address */
--	msgs[0].addr = client->addr;
--	msgs[0].flags = 0;
--	msgs[0].len = ARRAY_SIZE(addr_buf);
--	msgs[0].buf = addr_buf;
--
--	/* Read data from register */
--	msgs[1].addr = client->addr;
--	msgs[1].flags = I2C_M_RD;
--	msgs[1].len = len;
--	msgs[1].buf = &data_buf[4 - len];
--
--	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
--	if (ret != ARRAY_SIZE(msgs))
--		return -EIO;
--
--	*val = get_unaligned_be32(data_buf);
--
--	return 0;
--}
--
--/**
-- * ov9282_write_reg() - Write register
-- * @ov9282: pointer to ov9282 device
-- * @reg: register address
-- * @len: length of bytes. Max supported bytes is 4
-- * @val: register value
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
--static int ov9282_write_reg(struct ov9282 *ov9282, u16 reg, u32 len, u32 val)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(&ov9282->sd);
--	u8 buf[6] = {0};
--
--	if (WARN_ON(len > 4))
--		return -EINVAL;
--
--	put_unaligned_be16(reg, buf);
--	put_unaligned_be32(val << (8 * (4 - len)), buf + 2);
--	if (i2c_master_send(client, buf, len + 2) != len + 2)
--		return -EIO;
--
--	return 0;
--}
--
--/**
-- * ov9282_write_regs() - Write a list of registers
-- * @ov9282: pointer to ov9282 device
-- * @regs: list of registers to be written
-- * @len: length of registers array
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
--static int ov9282_write_regs(struct ov9282 *ov9282,
--			     const struct ov9282_reg *regs, u32 len)
--{
--	unsigned int i;
--	int ret;
--
--	for (i = 0; i < len; i++) {
--		ret = ov9282_write_reg(ov9282, regs[i].address, 1, regs[i].val);
--		if (ret)
--			return ret;
--	}
--
--	return 0;
--}
--
- /**
-  * ov9282_update_controls() - Update control ranges based on streaming mode
-  * @ov9282: pointer to ov9282 device
-@@ -639,15 +537,15 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
- 	dev_dbg(ov9282->dev, "Set exp %u (~%u us), analog gain %u",
- 		exposure, exposure_us, gain);
- 
--	ret = ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 1);
-+	ret = cci_write(ov9282->regmap, OV9282_REG_HOLD, 0x01, NULL);
- 	if (ret)
- 		return ret;
- 
--	ret = ov9282_write_reg(ov9282, OV9282_REG_EXPOSURE, 3, exposure << 4);
-+	ret = cci_write(ov9282->regmap, OV9282_REG_EXPOSURE, exposure << 4, NULL);
- 	if (ret)
- 		goto error_release_group_hold;
- 
--	ret = ov9282_write_reg(ov9282, OV9282_REG_AGAIN, 1, gain);
-+	ret = cci_write(ov9282->regmap, OV9282_REG_AGAIN, gain, NULL);
- 	if (ret)
- 		goto error_release_group_hold;
- 
-@@ -656,60 +554,9 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
- 				       OV9282_STROBE_FRAME_SPAN_DEFAULT);
- 
- error_release_group_hold:
--	ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 0);
--
--	return ret;
--}
--
--static int ov9282_set_ctrl_hflip(struct ov9282 *ov9282, int value)
--{
--	u32 current_val;
--	int ret = ov9282_read_reg(ov9282, OV9282_REG_TIMING_FORMAT_2, 1,
--				  &current_val);
--	if (ret)
--		return ret;
-+	int ret_hold = cci_write(ov9282->regmap, OV9282_REG_HOLD, 0, NULL);
- 
--	if (value)
--		current_val |= OV9282_FLIP_BIT;
--	else
--		current_val &= ~OV9282_FLIP_BIT;
--
--	return ov9282_write_reg(ov9282, OV9282_REG_TIMING_FORMAT_2, 1,
--				current_val);
--}
--
--static int ov9282_set_ctrl_vflip(struct ov9282 *ov9282, int value)
--{
--	u32 current_val;
--	int ret = ov9282_read_reg(ov9282, OV9282_REG_TIMING_FORMAT_1, 1,
--				  &current_val);
--	if (ret)
--		return ret;
--
--	if (value)
--		current_val |= OV9282_FLIP_BIT;
--	else
--		current_val &= ~OV9282_FLIP_BIT;
--
--	return ov9282_write_reg(ov9282, OV9282_REG_TIMING_FORMAT_1, 1,
--				current_val);
--}
--
--static int ov9282_set_ctrl_flash_strobe_oe(struct ov9282 *ov9282, bool enable)
--{
--	u32 current_val;
--	int ret;
--
--	ret = ov9282_read_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1, &current_val);
--	if (ret)
--		return ret;
--
--	if (enable)
--		current_val |= OV9282_OUTPUT_ENABLE6_STROBE;
--	else
--		current_val &= ~OV9282_OUTPUT_ENABLE6_STROBE;
--
--	return ov9282_write_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1, current_val);
-+	return ret ? ret : ret_hold;
- }
- 
- static u32 ov9282_us_to_flash_duration(struct ov9282 *ov9282, u32 value)
-@@ -740,30 +587,6 @@ static u32 ov9282_flash_duration_to_us(struct ov9282 *ov9282, u32 value)
- 	return DIV_ROUND_UP(value * frame_width, OV9282_STROBE_SPAN_FACTOR);
- }
- 
--static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, u32 value)
--{
--	u32 val = ov9282_us_to_flash_duration(ov9282, value);
--	int ret;
--
--	ret = ov9282_write_reg(ov9282, OV9282_REG_STROBE_FRAME_SPAN, 1,
--			       (val >> 24) & 0xff);
--	if (ret)
--		return ret;
--
--	ret = ov9282_write_reg(ov9282, OV9282_REG_STROBE_FRAME_SPAN + 1, 1,
--			       (val >> 16) & 0xff);
--	if (ret)
--		return ret;
--
--	ret = ov9282_write_reg(ov9282, OV9282_REG_STROBE_FRAME_SPAN + 2, 1,
--			       (val >> 8) & 0xff);
--	if (ret)
--		return ret;
--
--	return ov9282_write_reg(ov9282, OV9282_REG_STROBE_FRAME_SPAN + 3, 1,
--				val & 0xff);
--}
--
- /**
-  * ov9282_set_ctrl() - Set subdevice control
-  * @ctrl: pointer to v4l2_ctrl structure
-@@ -818,23 +641,27 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_VBLANK:
- 		lpfr = ov9282->vblank + ov9282->cur_mode->height;
--		ret = ov9282_write_reg(ov9282, OV9282_REG_LPFR, 2, lpfr);
-+		ret = cci_write(ov9282->regmap, OV9282_REG_LPFR, lpfr, NULL);
- 		break;
- 	case V4L2_CID_HFLIP:
--		ret = ov9282_set_ctrl_hflip(ov9282, ctrl->val);
-+		ret = cci_update_bits(ov9282->regmap, OV9282_REG_TIMING_FORMAT_2,
-+				      OV9282_FLIP_BIT, ctrl->val ? OV9282_FLIP_BIT : 0, NULL);
- 		break;
- 	case V4L2_CID_VFLIP:
--		ret = ov9282_set_ctrl_vflip(ov9282, ctrl->val);
-+		ret = cci_update_bits(ov9282->regmap, OV9282_REG_TIMING_FORMAT_1,
-+				      OV9282_FLIP_BIT, ctrl->val ? OV9282_FLIP_BIT : 0, NULL);
- 		break;
- 	case V4L2_CID_HBLANK:
--		ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
--				       (ctrl->val + ov9282->cur_mode->width) >> 1);
-+		ret = cci_write(ov9282->regmap, OV9282_REG_TIMING_HTS,
-+				(ctrl->val + ov9282->cur_mode->width) >> 1, NULL);
- 		break;
- 	case V4L2_CID_FLASH_STROBE_OE:
--		ret = ov9282_set_ctrl_flash_strobe_oe(ov9282, ctrl->val);
-+		ret = cci_update_bits(ov9282->regmap, OV9282_REG_OUTPUT_ENABLE6,
-+				      OV9282_OUTPUT_ENABLE6_STROBE,
-+				      ctrl->val ? OV9282_OUTPUT_ENABLE6_STROBE : 0, NULL);
- 		break;
- 	case V4L2_CID_FLASH_DURATION:
--		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
-+		ret = cci_write(ov9282->regmap, OV9282_REG_STROBE_FRAME_SPAN, ctrl->val, NULL);
- 		break;
- 	default:
- 		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
-@@ -1114,7 +941,7 @@ static int ov9282_get_selection(struct v4l2_subdev *sd,
-  */
- static int ov9282_start_streaming(struct ov9282 *ov9282)
+ static const s64 link_freq[] = {
+@@ -795,8 +794,6 @@ static int ov9282_get_pad_format(struct v4l2_subdev *sd,
  {
--	const struct ov9282_reg bitdepth_regs[2][2] = {
-+	const struct reg_sequence bitdepth_regs[2][2] = {
- 		{
- 			{OV9282_REG_PLL_CTRL_0D, OV9282_PLL_CTRL_0D_RAW10},
- 			{OV9282_REG_ANA_CORE_2, OV9282_ANA_CORE2_RAW10},
-@@ -1128,15 +955,16 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
+ 	struct ov9282 *ov9282 = to_ov9282(sd);
+ 
+-	mutex_lock(&ov9282->mutex);
+-
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+ 		struct v4l2_mbus_framefmt *framefmt;
+ 
+@@ -807,8 +804,6 @@ static int ov9282_get_pad_format(struct v4l2_subdev *sd,
+ 				       fmt);
+ 	}
+ 
+-	mutex_unlock(&ov9282->mutex);
+-
+ 	return 0;
+ }
+ 
+@@ -829,8 +824,6 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
+ 	u32 code;
+ 	int ret = 0;
+ 
+-	mutex_lock(&ov9282->mutex);
+-
+ 	mode = v4l2_find_nearest_size(supported_modes,
+ 				      ARRAY_SIZE(supported_modes),
+ 				      width, height,
+@@ -856,8 +849,6 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
+ 		}
+ 	}
+ 
+-	mutex_unlock(&ov9282->mutex);
+-
+ 	return ret;
+ }
+ 
+@@ -904,10 +895,8 @@ static int ov9282_get_selection(struct v4l2_subdev *sd,
+ 	case V4L2_SEL_TGT_CROP: {
+ 		struct ov9282 *ov9282 = to_ov9282(sd);
+ 
+-		mutex_lock(&ov9282->mutex);
+ 		sel->r = *__ov9282_get_pad_crop(ov9282, sd_state, sel->pad,
+ 						sel->which);
+-		mutex_unlock(&ov9282->mutex);
+ 
+ 		return 0;
+ 	}
+@@ -1019,9 +1008,10 @@ static int ov9282_stop_streaming(struct ov9282 *ov9282)
+ static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct ov9282 *ov9282 = to_ov9282(sd);
++	struct v4l2_subdev_state *state;
  	int ret;
  
- 	/* Write common registers */
--	ret = ov9282_write_regs(ov9282, common_regs_list.regs,
--				common_regs_list.num_of_regs);
-+	ret = regmap_multi_reg_write(ov9282->regmap, common_regs,
-+				     ARRAY_SIZE(common_regs));
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to write common registers");
- 		return ret;
+-	mutex_lock(&ov9282->mutex);
++	state = v4l2_subdev_lock_and_get_active_state(sd);
+ 
+ 	if (enable) {
+ 		ret = pm_runtime_resume_and_get(ov9282->dev);
+@@ -1036,14 +1026,14 @@ static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
+ 		pm_runtime_put(ov9282->dev);
  	}
  
- 	bitdepth_index = ov9282->code == MEDIA_BUS_FMT_Y10_1X10 ? 0 : 1;
--	ret = ov9282_write_regs(ov9282, bitdepth_regs[bitdepth_index], 2);
-+	ret = regmap_multi_reg_write(ov9282->regmap,
-+				     bitdepth_regs[bitdepth_index], 2);
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to write bitdepth regs");
- 		return ret;
-@@ -1144,7 +972,8 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
+-	mutex_unlock(&ov9282->mutex);
++	v4l2_subdev_unlock_state(state);
  
- 	/* Write sensor mode registers */
- 	reg_list = &ov9282->cur_mode->reg_list;
--	ret = ov9282_write_regs(ov9282, reg_list->regs, reg_list->num_of_regs);
-+	ret = regmap_multi_reg_write(ov9282->regmap, reg_list->regs,
-+				     reg_list->num_of_regs);
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to write initial registers");
- 		return ret;
-@@ -1158,8 +987,8 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
- 	}
+ 	return 0;
  
- 	/* Start streaming */
--	ret = ov9282_write_reg(ov9282, OV9282_REG_MODE_SELECT,
--			       1, OV9282_MODE_STREAMING);
-+	ret = cci_write(ov9282->regmap, OV9282_REG_MODE_SELECT,
-+			OV9282_MODE_STREAMING, NULL);
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to start streaming");
- 		return ret;
-@@ -1176,8 +1005,8 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
-  */
- static int ov9282_stop_streaming(struct ov9282 *ov9282)
- {
--	return ov9282_write_reg(ov9282, OV9282_REG_MODE_SELECT,
--				1, OV9282_MODE_STANDBY);
-+	return cci_write(ov9282->regmap, OV9282_REG_MODE_SELECT,
-+			 OV9282_MODE_STANDBY, NULL);
+ error_power_off:
+ 	pm_runtime_put(ov9282->dev);
+ error_unlock:
+-	mutex_unlock(&ov9282->mutex);
++	v4l2_subdev_unlock_state(state);
+ 
+ 	return ret;
  }
- 
- /**
-@@ -1228,14 +1057,14 @@ static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
- static int ov9282_detect(struct ov9282 *ov9282)
- {
- 	int ret;
--	u32 val;
-+	u64 val;
- 
--	ret = ov9282_read_reg(ov9282, OV9282_REG_ID, 2, &val);
-+	ret = cci_read(ov9282->regmap, OV9282_REG_ID, &val, NULL);
+@@ -1285,9 +1275,6 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
  	if (ret)
  		return ret;
  
- 	if (val != OV9282_ID) {
--		dev_err(ov9282->dev, "chip id mismatch: %x!=%x",
-+		dev_err(ov9282->dev, "chip id mismatch: %x!=%llx",
- 			OV9282_ID, val);
- 		return -ENXIO;
- 	}
-@@ -1397,9 +1226,8 @@ static int ov9282_power_on(struct device *dev)
+-	/* Serialize controls with sensor device */
+-	ctrl_hdlr->lock = &ov9282->mutex;
+-
+ 	/* Initialize exposure and gain */
+ 	lpfr = mode->vblank + mode->height;
+ 	ov9282->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
+@@ -1409,13 +1396,10 @@ static int ov9282_probe(struct i2c_client *client)
+ 		return dev_err_probe(ov9282->dev, PTR_ERR(ov9282->regmap),
+ 				     "Failed to init CCI\n");
  
- 	usleep_range(400, 600);
- 
--	ret = ov9282_write_reg(ov9282, OV9282_REG_MIPI_CTRL00, 1,
--			       ov9282->noncontinuous_clock ?
--					OV9282_GATED_CLOCK : 0);
-+	ret = cci_write(ov9282->regmap, OV9282_REG_MIPI_CTRL00,
-+			ov9282->noncontinuous_clock ? OV9282_GATED_CLOCK : 0, NULL);
- 	if (ret) {
- 		dev_err(ov9282->dev, "fail to write MIPI_CTRL00");
- 		goto error_clk;
-@@ -1576,6 +1404,11 @@ static int ov9282_probe(struct i2c_client *client)
- 		return ret;
- 	}
- 
-+	ov9282->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(ov9282->regmap))
-+		return dev_err_probe(ov9282->dev, PTR_ERR(ov9282->regmap),
-+				     "Failed to init CCI\n");
-+
- 	mutex_init(&ov9282->mutex);
- 
+-	mutex_init(&ov9282->mutex);
+-
  	ret = ov9282_power_on(ov9282->dev);
+-	if (ret) {
+-		dev_err(ov9282->dev, "failed to power-on the sensor");
+-		goto error_mutex_destroy;
+-	}
++	if (ret)
++		return dev_err_probe(ov9282->dev, ret,
++				     "failed to power-on the sensor");
+ 
+ 	/* Check module identity */
+ 	ret = ov9282_detect(ov9282);
+@@ -1448,27 +1432,34 @@ static int ov9282_probe(struct i2c_client *client)
+ 		goto error_handler_free;
+ 	}
+ 
+-	ret = v4l2_async_register_subdev_sensor(&ov9282->sd);
++	ov9282->sd.state_lock = ov9282->ctrl_handler.lock;
++	ret = v4l2_subdev_init_finalize(&ov9282->sd);
+ 	if (ret < 0) {
+-		dev_err(ov9282->dev,
+-			"failed to register async subdev: %d", ret);
++		dev_err_probe(ov9282->dev, ret, "failed to init subdev\n");
+ 		goto error_media_entity;
+ 	}
+ 
+ 	pm_runtime_set_active(ov9282->dev);
+ 	pm_runtime_enable(ov9282->dev);
++
++	ret = v4l2_async_register_subdev_sensor(&ov9282->sd);
++	if (ret < 0)
++		goto v4l2_subdev_cleanup;
++
+ 	pm_runtime_idle(ov9282->dev);
+ 
+ 	return 0;
+ 
++v4l2_subdev_cleanup:
++	v4l2_subdev_cleanup(&ov9282->sd);
++	pm_runtime_disable(ov9282->dev);
++	pm_runtime_set_suspended(ov9282->dev);
+ error_media_entity:
+ 	media_entity_cleanup(&ov9282->sd.entity);
+ error_handler_free:
+ 	v4l2_ctrl_handler_free(ov9282->sd.ctrl_handler);
+ error_power_off:
+ 	ov9282_power_off(ov9282->dev);
+-error_mutex_destroy:
+-	mutex_destroy(&ov9282->mutex);
+ 
+ 	return ret;
+ }
+@@ -1482,9 +1473,9 @@ static int ov9282_probe(struct i2c_client *client)
+ static void ov9282_remove(struct i2c_client *client)
+ {
+ 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct ov9282 *ov9282 = to_ov9282(sd);
+ 
+ 	v4l2_async_unregister_subdev(sd);
++	v4l2_subdev_cleanup(sd);
+ 	media_entity_cleanup(&sd->entity);
+ 	v4l2_ctrl_handler_free(sd->ctrl_handler);
+ 
+@@ -1492,8 +1483,6 @@ static void ov9282_remove(struct i2c_client *client)
+ 	if (!pm_runtime_status_suspended(&client->dev))
+ 		ov9282_power_off(&client->dev);
+ 	pm_runtime_set_suspended(&client->dev);
+-
+-	mutex_destroy(&ov9282->mutex);
+ }
+ 
+ static const struct dev_pm_ops ov9282_pm_ops = {
 -- 
 2.43.0
 
