@@ -1,1085 +1,430 @@
-Return-Path: <linux-media+bounces-54275-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54276-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0DRNJtGfpmlqRwAAu9opvQ
-	(envelope-from <linux-media+bounces-54275-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 09:46:09 +0100
+	id oHgDB1KgpmlqRwAAu9opvQ
+	(envelope-from <linux-media+bounces-54276-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 09:48:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED0F1EB052
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 09:46:08 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A71A41EB0AE
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 09:48:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D2D56309232D
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 08:43:55 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DCA2A300F5A2
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 08:48:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC474390CB8;
-	Tue,  3 Mar 2026 08:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21220388E6D;
+	Tue,  3 Mar 2026 08:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MqTqDWOy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bdJiuKDr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9586A38F65B
-	for <linux-media@vger.kernel.org>; Tue,  3 Mar 2026 08:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5269E375F77;
+	Tue,  3 Mar 2026 08:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772527396; cv=none; b=L5/KL8ow3W7y1jORHpiJVJplbUmwbmUSfWRT0vY7T5G4qC0ismwemP5nsSMyCiV4d1UR560Iw9CXKN21mPFq32lCdPh8iljsYiNtwhYoK12FBk0jwfU2opdvNxeFnsRBdmYMLiWAwq/0Q8yRRTK66+j/9PonlQrW1jVezAMI/ZU=
+	t=1772527694; cv=none; b=gfV+cUzxAz7iE8FlFSAVXr5eEkz91u3xyP/SZO6SumubCWQhEgFmPZ0UOO/tXv/x/cQ7+dSw1GM5Cy1IuRawawKmrx6m/JrgSfw5edrTQmX/+KiM2LnD/9mOhagc9O/i/d87PTmBMvuZlO/ftS9JFQxRM6l1qxp6ML0J8fQPak4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772527396; c=relaxed/simple;
-	bh=LKQfnatd8BgKSsTHbjFr4+920O8W6AHB7O/fTN4jV+Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HmINY/26SrAjZ+aH51FUke6DeT+1sRusmtptkOvo1foijFZbfss1h3RFxvjyW4er8Oi02aCVNjU5zF6XO6zImXSPOtNPqv4AJT0d3bxL06AaNCXDzXoWe9iWs/sC+XEb0RAjXL8SmqIsF3Qf1M8WyBE8PCOzywrVo/1tRTR8qj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MqTqDWOy; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-389f200c26eso78699031fa.0
-        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2026 00:43:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772527391; x=1773132191; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IPkq+nTUsJcZaKGe1citY1IgXLqCL2rHUfn5Jdh0u20=;
-        b=MqTqDWOyvHm4vCDKq9sz3SLb37b4+M6/qcVjlofFMEiOLeDFTktBMlnCxQi1EjP8VL
-         pJM+SS/nkDrWN+W77oBkiK/9xE3FyvhFNATa9fgMqN2VJYf7GnEYoLqU6VhYBtzEA9fS
-         G5OkieiBUnaSqnWT+ipWTfkhpYaSAJEwLz/54tKxA0VjPEQl/v3vHF7T3JLF3Sz6A1TX
-         WL0KbM5aUyjZuDaoa2XDKjyktEdemIyzpeIuKQ8GG4OXTXek+Y6B+/Ed+sEJXsiufP+U
-         zq3tRU+R+pmJsf4QdXrj50trgTPetEwl0A7asYBiMxYbNKUdyRxKI8Zhcsmb4XzVXj1g
-         GRaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772527391; x=1773132191;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IPkq+nTUsJcZaKGe1citY1IgXLqCL2rHUfn5Jdh0u20=;
-        b=S/rZx9nI9u/LSTaAz8rJCqun5GRRgV+QXsjD/4ftXd/j1Yl96CfytFIl0vEIAZhugR
-         kP+IJhTs4U65x+UjbN140RdByeAVqGmj5DPEQRXYwncMxZX+sh6UBWV1KckfhqMj98O6
-         C9Zq9gylAzbnNk8/DmGYmZxhu6mwOhcdDRnQqCtE9bn9q+uvBKa+40FTnEs0Yss6W9v4
-         1PXqNNsWR2BNr8rVh2q8gNMmg57N8nf6YI4/vdkTjDpGAIaeST83nKqudiCBe/QsCuUN
-         W3aqMjqW5esEhbWv8XgJXMYy2vbdJmdcBl27p/BMxWXcA0rsDwozmKMwPcNBouI6WkjU
-         MaoA==
-X-Forwarded-Encrypted: i=1; AJvYcCV9rNVP89i8U7LyFvbMN4TVF4lFHhystusOl78xOzg6hUbVE27MufB9vGC+NAeJoY3blBFBlgXuVLZPXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbZJsRuvNfCUl0aO2AOw6nFq3R2C70maEhX3QwBr73lPZHh36+
-	mU0EKGv8Ws2nVTiJNvswFNK6TFN0Qof7/7cjvNptxYJzYouMKKlmE6ML
-X-Gm-Gg: ATEYQzx4fWd7g2w4vyFGwYQvcp+nJVCEa/0vVJklmgk/Pl2uoSBYCQF1q+ErSLhvn3r
-	C5abNMhpGTL/3rBOzheW8ErGnB+TbP1dAQR3rIqimOXqSy0+wcgjWE7wRx2GEmb351GpeGcxx0y
-	9JmFEzmmPaU1Pu3Sidg2Esp/q0N1Tybdn3JZ76JN2tWU1/ZtwX/IgKNqXMGFjqycActV1fr8Emy
-	FM7YIkuGh1iX7ukYVbU3f2zB7SN7Btc9SIfPQ/bZEvcuBAc9CcTa1NV42GcwKck945pYoJ0i2bs
-	saC9AIrHBIf3xpQHV1IfE5TXhwICRYarLgKR9kn/wCXPi0iwI2DNZsZijt9B++CIJUGhV5ZBohi
-	FB8CA/4vnjFh1pG3Rl/sf/dKHpA/duVSmIBvTHVLLkdbndlKZ9RHziATxPIPUDM1WacHEsjrzs8
-	XxF7xxGoMoivE9
-X-Received: by 2002:a05:651c:b21:b0:387:bf2:da5 with SMTP id 38308e7fff4ca-389ff359412mr104376451fa.35.1772527390416;
-        Tue, 03 Mar 2026 00:43:10 -0800 (PST)
-Received: from xeon ([188.163.112.72])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f30227a9sm32599471fa.42.2026.03.03.00.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 00:43:09 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Thierry Reding <treding@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-tegra@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v7 15/15] staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
-Date: Tue,  3 Mar 2026 10:42:38 +0200
-Message-ID: <20260303084239.15007-16-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260303084239.15007-1-clamor95@gmail.com>
-References: <20260303084239.15007-1-clamor95@gmail.com>
+	s=arc-20240116; t=1772527694; c=relaxed/simple;
+	bh=8kK1pCNJVkBD644EbsB+J9DSrWpKdqlYxMh0oUoBXzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PLJuwDKSt3zsNE3DWTSLVnb/f+wEpHzHyJhn57ueuIRVdZoH6fCjj55T+jwLjMTMPMY0neSBtqWBvcDRyW+DLuBYwy7xfa7+nuVX1rzDqJRRrhqF50Zh3Z5oLJcQkiMvrOZ3g/nValebMRXksqBoXpqLPPCfo7dKX5d4fUl+lG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bdJiuKDr; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6AAAD986;
+	Tue,  3 Mar 2026 09:47:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1772527626;
+	bh=8kK1pCNJVkBD644EbsB+J9DSrWpKdqlYxMh0oUoBXzA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bdJiuKDrCF4TI/dbm30OvDW4tiQ1hjP4Ko7C/vvJFS9MLLNRoJkKiutxJTKbF7zbo
+	 0ZnIpkaRnYs6E3Ve5Ve0B5hd10c7YRIGmXfvGD8iVCRj6HsV6nI7B7gdrMu3wcyDEc
+	 HWdti5b6VnyLcM6V0AwFJqLRypn+22GMWfKs5as0=
+Date: Tue, 3 Mar 2026 09:48:04 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com, 
+	daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com, mchehab@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [RFC v1 01/11] media: uapi: v4l2-isp: Add v4l2 ISP extensible
+ statistics definitions
+Message-ID: <aaacMySSCCIYvW3B@zed>
+References: <20260123080938.3367348-1-antoine.bouyer@nxp.com>
+ <20260123080938.3367348-2-antoine.bouyer@nxp.com>
+ <aYIb8ZIZDfCJZEZ9@zed>
+ <71b57f1c-be22-46a2-89a2-5abae11e0436@nxp.com>
+ <aYNEtmJwnAtYitHO@zed>
+ <20260209230036.GF2405149@killaraus.ideasonboard.com>
+ <c5b5619e-d67b-4d80-8496-a5e326d239ae@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0ED0F1EB052
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c5b5619e-d67b-4d80-8496-a5e326d239ae@nxp.com>
+X-Rspamd-Queue-Id: A71A41EB0AE
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-54276-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54275-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,nvidia.com,ffwll.ch,bootlin.com,kernel.org,linuxfoundation.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[ideasonboard.com,nxp.com,kernel.org,pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.998];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:email,nvidia.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,yahoo.de:email]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ideasonboard.com:dkim]
 X-Rspamd-Action: no action
 
-Add support for MIPI CSI device and calibration logic found in Tegra20 and
-Tegra30 SoC.
+Hello Antoine
 
-To get CSI operational, an additional syncpoint was allocated to serve as
-the CSI frame counter. Both VIP and CSI use an existing syncpoint for VI
-frame start events. That said, the frame capture function was refactored
-to reflect the addition of the CSI syncpoint, and the CSI-specific
-configuration is guarded by the presence of a passed CSI channel structure
-pointer.
+On Mon, Mar 02, 2026 at 10:41:10AM +0100, Antoine Bouyer wrote:
+> Hi Laurent, Jacopo
+>
+> On 2/10/26 12:00 AM, Laurent Pinchart wrote:
+> >
+> >
+> > On Wed, Feb 04, 2026 at 02:14:50PM +0100, Jacopo Mondi wrote:
+> > > On Wed, Feb 04, 2026 at 12:07:41PM +0100, Antoine Bouyer wrote:
+> > > > On 2/3/26 5:15 PM, Jacopo Mondi wrote:
+> > > > > On Fri, Jan 23, 2026 at 09:09:28AM +0100, Antoine Bouyer wrote:
+> > > > > > Extend the v4l2-isp extensible format introduced for isp parameters buffer
+> > > > > > to the statistics buffer as well.
+> > > > > >
+> > > > > > Like for ISP configuration purpose, that will help supporting various ISP
+> > > > > > hardware versions reporting different statistics data with less impact on
+> > > > > > userspace.
+> > > > > >
+> > > > > > The `v4l2_isp_stats_buffer` reuses the `v4l2_isp_params_buffer` container
+> > > > > > definitions, with similar header, versions and flags. V0 and V1 versions
+> > > > >
+> > > > > Why do you need two flags ?
+> > > > >
+> > > > > Params had to introduce two because we had two drivers already
+> > > > > mainlined using the pre-v4l2-isp version of extensible params which
+> > > > > had defined their version identifier as 1 and 0 and we didn't want to
+> > > > > break existing userspace using those identifiers. So we had to accept
+> > > > > both V0 and V1 as "first version of the v4l2-isp extensible parameters
+> > > > > format".
+> > > > >
+> > > > > For stats we don't have users, so I guess we can start with V1 == 0 ?
+> > > >
+> > > > I wanted to keep it aligned with params, so that any driver/userspace can
+> > > > use the same API version value for both params and stats buffers, and limit
+> > > > headache.
+>
+> Seems this topic is not yet clarified. Should I use same version values for
+> both params and stats as in current patch ? Or use different values V1 == 0
+> as suggested ?
+>
+> From userspace perspective, I feel it would be easier to align params and
+> stats versions, so we don't need to maintain different versions for same
+> purpose; and if a new version V2 comes and is applied to both params and
+> stats buffers, then we can use same value too. What do you think ?
 
-The camera capture setup's configuration was reconsidered: the first two
-writes must be done before tegra_channel_set_stream for MIPI calibration
-to work properly; the third write was moved to VIP/CSI-specific functions
-since it must be source-specific; the function was placed after
-tegra_channel_set_stream so the initial sequence is preserved and expanded.
+As the versioning is meant to identify the serialization format which
+is the same for params and stats, ideally we should have the same
+identifier both both.
 
-CSI configuration sequences were added based on downstream 3.1 kernel
-sources and adjusted to the existing video-tegra framework. Although
-Tegra20 and Tegra30 have the same set of configurations, they differ by
-the number of clocks used by CSI.
+However we can't simply remove enum v4l2_isp_version, to avoid
+breaking userspace. What about
 
-Dropped the software syncpoint counters in favor of reading syncpoints
-directly and passing the incremented value to the polling function. If the
-syncpoint increase fails, the PP is reset. This change should prevent
-possible race conditions.
+--- a/include/uapi/linux/media/v4l2-isp.h
++++ b/include/uapi/linux/media/v4l2-isp.h
+@@ -13,25 +13,33 @@
+ #include <linux/types.h>
 
-MIPI calibration logic was registered in CSI since Tegra20 and Tegra30
-have no dedicated hardware block for these operations and use CSI. These
-calls are used for both CSI and DSI to work properly, which is why MIPI
-calibration cannot be contained within CSI. The pads passed to the
-calibration calls resemble CSI PORT_A (0), CSI PORT_B (1), DSI-A (3) and
-DSI-B (4).
-
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel camera
-Co-developed-by: Jonas Schwöbel <jonasschwoebel@yahoo.de>
-Signed-off-by: Jonas Schwöbel <jonasschwoebel@yahoo.de>
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/staging/media/tegra-video/csi.c     |  17 +
- drivers/staging/media/tegra-video/csi.h     |  10 +
- drivers/staging/media/tegra-video/tegra20.c | 620 ++++++++++++++++++--
- drivers/staging/media/tegra-video/vi.h      |   2 -
- drivers/staging/media/tegra-video/video.c   |   6 +
- 5 files changed, 608 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index c4d3514f19b3..41d57dac61a7 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -827,6 +827,17 @@ static int tegra_csi_probe(struct platform_device *pdev)
- 
- 	csi->dev = &pdev->dev;
- 	csi->ops = csi->soc->ops;
-+
-+	if (csi->soc->mipi_ops) {
-+		ret = devm_tegra_mipi_add_provider(&pdev->dev, pdev->dev.of_node,
-+						   csi->soc->mipi_ops);
-+		if (ret)
-+			return dev_err_probe(&pdev->dev, ret,
-+					     "failed to add MIPI calibration operations\n");
-+	}
-+
-+	mutex_init(&csi->mipi_lock);
-+
- 	platform_set_drvdata(pdev, csi);
- 	pm_runtime_enable(&pdev->dev);
- 
-@@ -859,6 +870,12 @@ static void tegra_csi_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id tegra_csi_of_id_table[] = {
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+	{ .compatible = "nvidia,tegra20-csi", .data = &tegra20_csi_soc },
-+#endif
-+#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+	{ .compatible = "nvidia,tegra30-csi", .data = &tegra30_csi_soc },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
- #endif
-diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
-index 5344088aa022..f0277cb42446 100644
---- a/drivers/staging/media/tegra-video/csi.h
-+++ b/drivers/staging/media/tegra-video/csi.h
-@@ -115,6 +115,7 @@ struct tegra_csi_ops {
-  * struct tegra_csi_soc - NVIDIA Tegra CSI SoC structure
+ /**
+- * enum v4l2_isp_params_version - V4L2 ISP parameters versioning
++ * enum v4l2_isp_version - V4L2 ISP serialization format versioning
   *
-  * @ops: csi hardware operations
-+ * @mipi_ops: MIPI calibration operations
-  * @csi_max_channels: supported max streaming channels
-  * @clk_names: csi and cil clock names
-  * @num_clks: total clocks count
-@@ -123,6 +124,7 @@ struct tegra_csi_ops {
-  */
- struct tegra_csi_soc {
- 	const struct tegra_csi_ops *ops;
-+	const struct tegra_mipi_ops *mipi_ops;
- 	unsigned int csi_max_channels;
- 	const char * const *clk_names;
- 	unsigned int num_clks;
-@@ -130,6 +132,12 @@ struct tegra_csi_soc {
- 	unsigned int tpg_frmrate_table_size;
- };
- 
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+extern const struct tegra_csi_soc tegra20_csi_soc;
-+#endif
-+#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+extern const struct tegra_csi_soc tegra30_csi_soc;
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- extern const struct tegra_csi_soc tegra210_csi_soc;
- #endif
-@@ -144,6 +152,7 @@ extern const struct tegra_csi_soc tegra210_csi_soc;
-  * @vdd: vdd regulator for CSI hardware, usually avdd_dsi_csi
-  * @soc: pointer to SoC data structure
-  * @ops: csi operations
-+ * @mipi_lock: for MIPI calibration operations
-  * @csi_chans: list head for CSI channels
-  */
- struct tegra_csi {
-@@ -154,6 +163,7 @@ struct tegra_csi {
- 	struct regulator *vdd;
- 	const struct tegra_csi_soc *soc;
- 	const struct tegra_csi_ops *ops;
-+	struct mutex mipi_lock; /* for register access */
- 	struct list_head csi_chans;
- };
- 
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 1b8f2a2213f2..7056cfbe988b 100644
---- a/drivers/staging/media/tegra-video/tegra20.c
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -4,6 +4,9 @@
+- * @V4L2_ISP_PARAMS_VERSION_V0: First version of the V4L2 ISP parameters format
+- *                             (for compatibility)
+- * @V4L2_ISP_PARAMS_VERSION_V1: First version of the V4L2 ISP parameters format
++ * @V4L2_ISP_VERSION_V0: First version of the V4L2 ISP serialization format
++ *                     (for compatibility)
++ * @V4L2_ISP_VERSION_V1: First version of the V4L2 ISP serialization format
   *
-  * Copyright (C) 2023 SKIDATA GmbH
-  * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
-+ *
-+ * Copyright (c) 2025 Svyatoslav Ryhel <clamor95@gmail.com>
-+ * Copyright (c) 2025 Jonas Schwöbel <jonasschwoebel@yahoo.de>
-  */
- 
- /*
-@@ -12,10 +15,15 @@
-  */
- 
- #include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/clk/tegra.h>
- #include <linux/delay.h>
- #include <linux/host1x.h>
-+#include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/kthread.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/tegra-mipi-cal.h>
- #include <linux/v4l2-mediabus.h>
- 
- #include "vip.h"
-@@ -42,6 +50,9 @@ enum tegra_vi_out {
- #define       VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT	BIT(8)
- #define       VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT		0
- 
-+#define TEGRA_VI_CONT_SYNCPT_CSI_PP_FRAME_START(n)	(0x0070 + (n) * 8)
-+#define TEGRA_VI_CONT_SYNCPT_CSI_PP_FRAME_END(n)	(0x0074 + (n) * 8)
-+
- #define TEGRA_VI_VI_INPUT_CONTROL			0x0088
- #define       VI_INPUT_FIELD_DETECT			BIT(27)
- #define       VI_INPUT_BT656				BIT(25)
-@@ -88,6 +99,8 @@ enum tegra_vi_out {
- #define       VI_OUTPUT_OUTPUT_FORMAT_YUV422POST	(3 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
- #define       VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR	(6 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
- /* TEGRA_VI_OUT_2 supported formats */
-+#define       VI_OUTPUT_OUTPUT_FORMAT_CSI_PPA_BAYER	(7 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_OUTPUT_FORMAT_CSI_PPB_BAYER	(8 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
- #define       VI_OUTPUT_OUTPUT_FORMAT_VIP_BAYER_DIRECT	(9 << VI_OUTPUT_OUTPUT_FORMAT_SFT)
- 
- #define TEGRA_VI_VIP_H_ACTIVE				0x00a4
-@@ -152,8 +165,106 @@ enum tegra_vi_out {
- #define TEGRA_VI_VI_RAISE				0x01ac
- #define       VI_VI_RAISE_ON_EDGE			BIT(0)
- 
-+#define TEGRA_VI_CSI_PP_RAISE_FRAME_START(n)		(0x01d8 + (n) * 8)
-+#define TEGRA_VI_CSI_PP_RAISE_FRAME_END(n)		(0x01dc + (n) * 8)
-+#define TEGRA_VI_CSI_PP_H_ACTIVE(n)			(0x01e8 + (n) * 8)
-+#define TEGRA_VI_CSI_PP_V_ACTIVE(n)			(0x01ec + (n) * 8)
-+
-+/* Tegra20 CSI registers: Starts from 0x800, offset 0x0 */
-+#define TEGRA_CSI_VI_INPUT_STREAM_CONTROL		0x0000
-+#define TEGRA_CSI_HOST_INPUT_STREAM_CONTROL		0x0008
-+#define TEGRA_CSI_INPUT_STREAM_CONTROL(n)		(0x0010 + (n) * 0x2c)
-+#define       CSI_SKIP_PACKET_THRESHOLD(n)		(((n) & 0xff) << 16)
-+#define TEGRA_CSI_PIXEL_STREAM_CONTROL0(n)		(0x0018 + (n) * 0x2c)
-+#define       CSI_PP_PAD_FRAME_PAD0S			(0 << 28)
-+#define       CSI_PP_PAD_FRAME_PAD1S			(1 << 28)
-+#define       CSI_PP_PAD_FRAME_NOPAD			(2 << 28)
-+#define       CSI_PP_HEADER_EC_ENABLE			BIT(27)
-+#define       CSI_PP_PAD_SHORT_LINE_PAD0S		(0 << 24)
-+#define       CSI_PP_PAD_SHORT_LINE_PAD1S		(1 << 24)
-+#define       CSI_PP_PAD_SHORT_LINE_NOPAD		(2 << 24)
-+#define       CSI_PP_EMBEDDED_DATA_EMBEDDED		BIT(20)
-+#define       CSI_PP_OUTPUT_FORMAT_ARBITRARY		(0 << 16)
-+#define       CSI_PP_OUTPUT_FORMAT_PIXEL		(1 << 16)
-+#define       CSI_PP_OUTPUT_FORMAT_PIXEL_REP		(2 << 16)
-+#define       CSI_PP_OUTPUT_FORMAT_STORE		(3 << 16)
-+#define       CSI_PP_VIRTUAL_CHANNEL_ID(n)		(((n) - 1) << 14)
-+#define       CSI_PP_DATA_TYPE(n)			((n) << 8)
-+#define       CSI_PP_CRC_CHECK_ENABLE			BIT(7)
-+#define       CSI_PP_WORD_COUNT_HEADER			BIT(6)
-+#define       CSI_PP_DATA_IDENTIFIER_ENABLE		BIT(5)
-+#define       CSI_PP_PACKET_HEADER_SENT			BIT(4)
-+#define TEGRA_CSI_PIXEL_STREAM_CONTROL1(n)		(0x001c + (n) * 0x2c)
-+#define TEGRA_CSI_PIXEL_STREAM_WORD_COUNT(n)		(0x0020 + (n) * 0x2c)
-+#define TEGRA_CSI_PIXEL_STREAM_GAP(n)			(0x0024 + (n) * 0x2c)
-+#define       CSI_PP_FRAME_MIN_GAP(n)			(((n) & 0xffff) << 16)
-+#define       CSI_PP_LINE_MIN_GAP(n)			(((n) & 0xffff))
-+#define TEGRA_CSI_PIXEL_STREAM_PP_COMMAND(n)		(0x0028 + (n) * 0x2c)
-+#define       CSI_PP_START_MARKER_FRAME_MAX(n)		(((n) & 0xf) << 12)
-+#define       CSI_PP_START_MARKER_FRAME_MIN(n)		(((n) & 0xf) << 8)
-+#define       CSI_PP_VSYNC_START_MARKER			BIT(4)
-+#define       CSI_PP_SINGLE_SHOT			BIT(2)
-+#define       CSI_PP_NOP				0
-+#define       CSI_PP_ENABLE				1
-+#define       CSI_PP_DISABLE				2
-+#define       CSI_PP_RESET				3
-+#define TEGRA_CSI_PHY_CIL_COMMAND			0x0068
-+#define       CSI_A_PHY_CIL_NOP				0x0
-+#define       CSI_A_PHY_CIL_ENABLE			0x1
-+#define       CSI_A_PHY_CIL_DISABLE			0x2
-+#define       CSI_A_PHY_CIL_ENABLE_MASK			0x3
-+#define       CSI_B_PHY_CIL_NOP				(0x0 << 16)
-+#define       CSI_B_PHY_CIL_ENABLE			(0x1 << 16)
-+#define       CSI_B_PHY_CIL_DISABLE			(0x2 << 16)
-+#define       CSI_B_PHY_CIL_ENABLE_MASK			(0x3 << 16)
-+#define TEGRA_CSI_PHY_CIL_CONTROL0(n)			(0x006c + (n) * 4)
-+#define       CSI_CONTINUOUS_CLOCK_MODE_ENABLE		BIT(5)
-+#define TEGRA_CSI_CSI_PIXEL_PARSER_STATUS		0x0078
-+#define TEGRA_CSI_CSI_CIL_STATUS			0x007c
-+#define       CSI_MIPI_AUTO_CAL_DONE			BIT(15)
-+#define TEGRA_CSI_CSI_PIXEL_PARSER_INTERRUPT_MASK	0x0080
-+#define TEGRA_CSI_CSI_CIL_INTERRUPT_MASK		0x0084
-+#define TEGRA_CSI_CSI_READONLY_STATUS			0x0088
-+#define TEGRA_CSI_ESCAPE_MODE_COMMAND			0x008c
-+#define TEGRA_CSI_ESCAPE_MODE_DATA			0x0090
-+#define TEGRA_CSI_CIL_PAD_CONFIG0(n)			(0x0094 + (n) * 8)
-+#define TEGRA_CSI_CIL_PAD_CONFIG1(n)			(0x0098 + (n) * 8)
-+#define TEGRA_CSI_CIL_PAD_CONFIG			0x00a4
-+#define TEGRA_CSI_CILA_MIPI_CAL_CONFIG			0x00a8
-+#define TEGRA_CSI_CILB_MIPI_CAL_CONFIG			0x00ac
-+#define       CSI_CIL_MIPI_CAL_STARTCAL			BIT(31)
-+#define       CSI_CIL_MIPI_CAL_OVERIDE_A		BIT(30)
-+#define       CSI_CIL_MIPI_CAL_OVERIDE_B		BIT(30)
-+#define       CSI_CIL_MIPI_CAL_NOISE_FLT(n)		(((n) & 0xf) << 26)
-+#define       CSI_CIL_MIPI_CAL_PRESCALE(n)		(((n) & 0x3) << 24)
-+#define       CSI_CIL_MIPI_CAL_SEL_A			BIT(21)
-+#define       CSI_CIL_MIPI_CAL_SEL_B			BIT(21)
-+#define       CSI_CIL_MIPI_CAL_HSPDOS(n)		(((n) & 0x1f) << 16)
-+#define       CSI_CIL_MIPI_CAL_HSPUOS(n)		(((n) & 0x1f) << 8)
-+#define       CSI_CIL_MIPI_CAL_TERMOS(n)		(((n) & 0x1f))
-+#define TEGRA_CSI_CIL_MIPI_CAL_STATUS			0x00b0
-+#define TEGRA_CSI_CLKEN_OVERRIDE			0x00b4
-+#define TEGRA_CSI_DEBUG_CONTROL				0x00b8
-+#define       CSI_DEBUG_CONTROL_DEBUG_EN_ENABLED	BIT(0)
-+#define       CSI_DEBUG_CONTROL_CLR_DBG_CNT_0		BIT(4)
-+#define       CSI_DEBUG_CONTROL_CLR_DBG_CNT_1		BIT(5)
-+#define       CSI_DEBUG_CONTROL_CLR_DBG_CNT_2		BIT(6)
-+#define       CSI_DEBUG_CONTROL_DBG_CNT_SEL(n, v)	((v) << (8 + 8 * (n)))
-+#define TEGRA_CSI_DEBUG_COUNTER(n)			(0x00bc + (n) * 4)
-+#define TEGRA_CSI_PIXEL_STREAM_EXPECTED_FRAME(n)	(0x00c8 + (n) * 4)
-+#define       CSI_PP_EXP_FRAME_HEIGHT(n)		(((n) & 0x1fff) << 16)
-+#define       CSI_PP_MAX_CLOCKS(n)			(((n) & 0xfff) << 4)
-+#define       CSI_PP_LINE_TIMEOUT_ENABLE		BIT(0)
-+#define TEGRA_CSI_DSI_MIPI_CAL_CONFIG			0x00d0
-+#define TEGRA_CSI_MIPIBIAS_PAD_CONFIG			0x00d4
-+#define       CSI_PAD_DRIV_DN_REF(n)			(((n) & 0x7) << 16)
-+#define       CSI_PAD_DRIV_UP_REF(n)			(((n) & 0x7) << 8)
-+#define       CSI_PAD_TERM_REF(n)			(((n) & 0x7) << 0)
-+#define TEGRA_CSI_CSI_CILA_STATUS			0x00d8
-+#define TEGRA_CSI_CSI_CILB_STATUS			0x00dc
-+
- /* --------------------------------------------------------------------------
-- * VI
-+ * Read and Write helpers
-  */
- 
- static void tegra20_vi_write(struct tegra_vi_channel *chan, unsigned int addr, u32 val)
-@@ -161,6 +272,35 @@ static void tegra20_vi_write(struct tegra_vi_channel *chan, unsigned int addr, u
- 	writel(val, chan->vi->iomem + addr);
- }
- 
-+static int __maybe_unused tegra20_vi_read(struct tegra_vi_channel *chan, unsigned int addr)
-+{
-+	return readl(chan->vi->iomem + addr);
-+}
-+
-+static void tegra20_csi_write(struct tegra_csi_channel *csi_chan, unsigned int addr, u32 val)
-+{
-+	writel(val, csi_chan->csi->iomem + addr);
-+}
-+
-+static int __maybe_unused tegra20_csi_read(struct tegra_csi_channel *csi_chan, unsigned int addr)
-+{
-+	return readl(csi_chan->csi->iomem + addr);
-+}
-+
-+static void tegra20_mipi_write(struct tegra_csi *csi, unsigned int addr, u32 val)
-+{
-+	writel(val, csi->iomem + addr);
-+}
-+
-+static int __maybe_unused tegra20_mipi_read(struct tegra_csi *csi, unsigned int addr)
-+{
-+	return readl(csi->iomem + addr);
-+}
-+
-+/* --------------------------------------------------------------------------
-+ * VI
-+ */
-+
- /*
-  * Get the main input format (YUV/RGB...) and the YUV variant as values to
-  * be written into registers for the current VI input mbus code.
-@@ -283,20 +423,27 @@ static int tegra20_vi_enable(struct tegra_vi *vi, bool on)
- static int tegra20_channel_host1x_syncpt_init(struct tegra_vi_channel *chan)
- {
- 	struct tegra_vi *vi = chan->vi;
--	struct host1x_syncpt *out_sp;
-+	struct host1x_syncpt *out_sp, *fs_sp;
- 
- 	out_sp = host1x_syncpt_request(&vi->client, HOST1X_SYNCPT_CLIENT_MANAGED);
- 	if (!out_sp)
--		return -ENOMEM;
-+		return dev_err_probe(vi->dev, -EBUSY, "failed to request mw ack syncpoint\n");
- 
- 	chan->mw_ack_sp[0] = out_sp;
- 
-+	fs_sp = host1x_syncpt_request(&vi->client, HOST1X_SYNCPT_CLIENT_MANAGED);
-+	if (!fs_sp)
-+		return dev_err_probe(vi->dev, -EBUSY, "failed to request frame start syncpoint\n");
-+
-+	chan->frame_start_sp[0] = fs_sp;
-+
- 	return 0;
- }
- 
- static void tegra20_channel_host1x_syncpt_free(struct tegra_vi_channel *chan)
- {
- 	host1x_syncpt_put(chan->mw_ack_sp[0]);
-+	host1x_syncpt_put(chan->frame_start_sp[0]);
- }
- 
- static void tegra20_fmt_align(struct v4l2_pix_format *pix, unsigned int bpp)
-@@ -424,41 +571,91 @@ static void tegra20_channel_vi_buffer_setup(struct tegra_vi_channel *chan,
- }
- 
- static int tegra20_channel_capture_frame(struct tegra_vi_channel *chan,
--					 struct tegra_channel_buffer *buf)
-+					 struct tegra_channel_buffer *buf,
-+					 struct tegra_csi_channel *csi_chan)
- {
-+	u32 val;
- 	int err;
- 
--	chan->next_out_sp_idx++;
--
- 	tegra20_channel_vi_buffer_setup(chan, buf);
- 
--	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
-+	if (csi_chan) {
-+		u32 port = csi_chan->csi_port_nums[0] & 1;
-+
-+		tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND(port),
-+				  CSI_PP_START_MARKER_FRAME_MAX(0xf) |
-+				  CSI_PP_SINGLE_SHOT | CSI_PP_ENABLE);
-+
-+		/*
-+		 * ERESTARTSYS workaround for syncpoints is used because host1x_syncpt_wait
-+		 * is unconditionally interruptible. This is not an issue with single shots
-+		 * or low resolution capture, but -ERESTARTSYS occurs quite often with high
-+		 * resolution or high framerate captures and if not addressed here will
-+		 * cause capture to fail entirely.
-+		 *
-+		 * TODO: once uninterruptible version of host1x_syncpt_wait is available,
-+		 * host1x_syncpt_wait should be swapped and ERESTARTSYS workaround can be
-+		 * removed.
-+		 */
-+
-+		val = host1x_syncpt_read(chan->frame_start_sp[0]);
-+		do {
-+			err = host1x_syncpt_wait(chan->frame_start_sp[0],
-+						 val + 1, TEGRA_VI_SYNCPT_WAIT_TIMEOUT, NULL);
-+		} while (err == -ERESTARTSYS);
-+
-+		if (err) {
-+			if (err != -ERESTARTSYS)
-+				dev_err_ratelimited(&chan->video.dev,
-+						    "frame start syncpt timeout: %d\n", err);
-+
-+			tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND(port),
-+					  CSI_PP_START_MARKER_FRAME_MAX(0xf) | CSI_PP_RESET);
-+			goto exit;
-+		}
-+
-+		tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND(port),
-+				  CSI_PP_START_MARKER_FRAME_MAX(0xf) |
-+				  CSI_PP_DISABLE);
-+	} else {
-+		tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_VIP_ENABLE);
-+	}
-+
-+	val = host1x_syncpt_read(chan->mw_ack_sp[0]);
-+	do {
-+		err = host1x_syncpt_wait(chan->mw_ack_sp[0], val + 1,
-+					 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, NULL);
-+	} while (err == -ERESTARTSYS);
- 
--	/* Wait for syncpt counter to reach frame start event threshold */
--	err = host1x_syncpt_wait(chan->mw_ack_sp[0], chan->next_out_sp_idx,
--				 TEGRA_VI_SYNCPT_WAIT_TIMEOUT, NULL);
- 	if (err) {
--		host1x_syncpt_incr(chan->mw_ack_sp[0]);
--		dev_err_ratelimited(&chan->video.dev, "frame start syncpt timeout: %d\n", err);
--		release_buffer(chan, buf, VB2_BUF_STATE_ERROR);
--		return err;
-+		if (err != -ERESTARTSYS)
-+			dev_err_ratelimited(&chan->video.dev, "mw ack syncpt timeout: %d\n", err);
-+		goto exit;
- 	}
- 
--	tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL,
--			 VI_CAMERA_CONTROL_STOP_CAPTURE | VI_CAMERA_CONTROL_VIP_ENABLE);
-+	if (!csi_chan)
-+		tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL,
-+				 VI_CAMERA_CONTROL_STOP_CAPTURE | VI_CAMERA_CONTROL_VIP_ENABLE);
- 
-+exit:
- 	release_buffer(chan, buf, VB2_BUF_STATE_DONE);
- 
--	return 0;
-+	return err;
- }
- 
- static int tegra20_chan_capture_kthread_start(void *data)
- {
- 	struct tegra_vi_channel *chan = data;
- 	struct tegra_channel_buffer *buf;
-+	struct v4l2_subdev *csi_subdev = NULL;
-+	struct tegra_csi_channel *csi_chan = NULL;
- 	unsigned int retries = 0;
- 	int err = 0;
- 
-+	csi_subdev = tegra_channel_get_remote_csi_subdev(chan);
-+	if (csi_subdev)
-+		csi_chan = to_csi_chan(csi_subdev);
-+
- 	while (1) {
- 		/*
- 		 * Source is not streaming if error is non-zero.
-@@ -483,7 +680,7 @@ static int tegra20_chan_capture_kthread_start(void *data)
- 		list_del_init(&buf->queue);
- 		spin_unlock(&chan->start_lock);
- 
--		err = tegra20_channel_capture_frame(chan, buf);
-+		err = tegra20_channel_capture_frame(chan, buf, csi_chan);
- 		if (!err) {
- 			retries = 0;
- 			continue;
-@@ -510,28 +707,6 @@ static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
- 	enum tegra_vi_out output_channel = (data_type == TEGRA_IMAGE_DT_RAW8 ||
- 					    data_type == TEGRA_IMAGE_DT_RAW10) ?
- 					    TEGRA_VI_OUT_2 : TEGRA_VI_OUT_1;
--	int main_output_format;
--	int yuv_output_format;
--
--	tegra20_vi_get_output_formats(chan, &main_output_format, &yuv_output_format);
--
--	/*
--	 * Set up low pass filter.  Use 0x240 for chromaticity and 0x240
--	 * for luminance, which is the default and means not to touch
--	 * anything.
--	 */
--	tegra20_vi_write(chan, TEGRA_VI_H_LPF_CONTROL,
--			 0x0240 << VI_H_LPF_CONTROL_LUMA_SFT |
--			 0x0240 << VI_H_LPF_CONTROL_CHROMA_SFT);
--
--	/* Set up raise-on-edge, so we get an interrupt on end of frame. */
--	tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE);
--
--	tegra20_vi_write(chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_channel),
--			 (chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
--			 (chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
--			 yuv_output_format << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT |
--			 main_output_format << VI_OUTPUT_OUTPUT_FORMAT_SFT);
- 
- 	/* Set up frame size */
- 	tegra20_vi_write(chan, TEGRA_VI_OUTPUT_FRAME_SIZE(output_channel),
-@@ -562,18 +737,28 @@ static int tegra20_vi_start_streaming(struct vb2_queue *vq, u32 count)
- 	struct media_pipeline *pipe = &chan->video.pipe;
- 	int err;
- 
--	chan->next_out_sp_idx = host1x_syncpt_read(chan->mw_ack_sp[0]);
--
- 	err = video_device_pipeline_start(&chan->video, pipe);
- 	if (err)
- 		goto error_pipeline_start;
- 
--	tegra20_camera_capture_setup(chan);
-+	/*
-+	 * Set up low pass filter.  Use 0x240 for chromaticity and 0x240
-+	 * for luminance, which is the default and means not to touch
-+	 * anything.
-+	 */
-+	tegra20_vi_write(chan, TEGRA_VI_H_LPF_CONTROL,
-+			 0x0240 << VI_H_LPF_CONTROL_LUMA_SFT |
-+			 0x0240 << VI_H_LPF_CONTROL_CHROMA_SFT);
-+
-+	/* Set up raise-on-edge, so we get an interrupt on end of frame. */
-+	tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE);
- 
- 	err = tegra_channel_set_stream(chan, true);
- 	if (err)
- 		goto error_set_stream;
- 
-+	tegra20_camera_capture_setup(chan);
-+
- 	chan->sequence = 0;
- 
- 	chan->kthread_start_capture = kthread_run(tegra20_chan_capture_kthread_start,
-@@ -668,6 +853,345 @@ const struct tegra_vi_soc tegra20_vi_soc = {
- 	.has_h_v_flip = true,
- };
- 
-+/* --------------------------------------------------------------------------
-+ * MIPI Calibration
-+ */
-+static int tegra20_start_pad_calibration(struct tegra_mipi_device *mipi)
-+{
-+	struct tegra_csi *csi = platform_get_drvdata(mipi->pdev);
-+	unsigned int port = mipi->pads;
-+	u32 value;
-+	int ret;
-+
-+	guard(mutex)(&csi->mipi_lock);
-+
-+	ret = pm_runtime_resume_and_get(csi->dev);
-+	if (ret < 0) {
-+		dev_err(csi->dev, "failed to get runtime PM: %d\n", ret);
-+		return ret;
-+	}
-+
-+	tegra20_mipi_write(csi, TEGRA_CSI_DSI_MIPI_CAL_CONFIG,
-+			   CSI_CIL_MIPI_CAL_HSPDOS(4) |
-+			   CSI_CIL_MIPI_CAL_HSPUOS(3) |
-+			   CSI_CIL_MIPI_CAL_TERMOS(0));
-+	tegra20_mipi_write(csi, TEGRA_CSI_MIPIBIAS_PAD_CONFIG,
-+			   CSI_PAD_DRIV_DN_REF(5) |
-+			   CSI_PAD_DRIV_UP_REF(7) |
-+			   CSI_PAD_TERM_REF(0));
-+
-+	/* CSI B */
-+	value = CSI_CIL_MIPI_CAL_HSPDOS(0) |
-+		CSI_CIL_MIPI_CAL_HSPUOS(0) |
-+		CSI_CIL_MIPI_CAL_TERMOS(4);
-+
-+	if (port == PORT_B)
-+		value |= CSI_CIL_MIPI_CAL_SEL_B;
-+
-+	tegra20_mipi_write(csi, TEGRA_CSI_CILB_MIPI_CAL_CONFIG, value);
-+
-+	/* CSI A */
-+	value = CSI_CIL_MIPI_CAL_STARTCAL |
-+		CSI_CIL_MIPI_CAL_NOISE_FLT(0xa) |
-+		CSI_CIL_MIPI_CAL_PRESCALE(0x2) |
-+		CSI_CIL_MIPI_CAL_HSPDOS(0) |
-+		CSI_CIL_MIPI_CAL_HSPUOS(0) |
-+		CSI_CIL_MIPI_CAL_TERMOS(4);
-+
-+	if (port == PORT_A)
-+		value |= CSI_CIL_MIPI_CAL_SEL_A;
-+
-+	tegra20_mipi_write(csi, TEGRA_CSI_CILA_MIPI_CAL_CONFIG, value);
-+
-+	tegra20_mipi_write(csi, TEGRA_CSI_CIL_PAD_CONFIG, 0);
-+
-+	return 0;
-+}
-+
-+static int tegra20_finish_pad_calibration(struct tegra_mipi_device *mipi)
-+{
-+	struct tegra_csi *csi = platform_get_drvdata(mipi->pdev);
-+	void __iomem *cil_status_reg = csi->iomem + TEGRA_CSI_CSI_CIL_STATUS;
-+	unsigned int port = mipi->pads;
-+	u32 value, pp = 0, cil = 0;
-+	int ret;
-+
-+	/* This part is only for CSI */
-+	if (port > PORT_B) {
-+		pm_runtime_put(csi->dev);
-+
-+		return 0;
-+	}
-+
-+	guard(mutex)(&csi->mipi_lock);
-+
-+	ret = readl_relaxed_poll_timeout(cil_status_reg, value,
-+					 value & CSI_MIPI_AUTO_CAL_DONE, 50, 250000);
-+	if (ret < 0) {
-+		dev_warn(csi->dev, "MIPI calibration timeout!\n");
-+		goto exit;
-+	}
-+
-+	/* clear status */
-+	tegra20_mipi_write(csi, TEGRA_CSI_CSI_CIL_STATUS, value);
-+	ret = readl_relaxed_poll_timeout(cil_status_reg, value,
-+					 !(value & CSI_MIPI_AUTO_CAL_DONE), 50, 250000);
-+	if (ret < 0) {
-+		dev_warn(csi->dev, "MIPI calibration status timeout!\n");
-+		goto exit;
-+	}
-+
-+	pp = tegra20_mipi_read(csi, TEGRA_CSI_CSI_PIXEL_PARSER_STATUS);
-+	cil = tegra20_mipi_read(csi, TEGRA_CSI_CSI_CIL_STATUS);
-+	if (pp | cil) {
-+		dev_warn(csi->dev, "Calibration status not been cleared!\n");
-+		ret = -EINVAL;
-+		goto exit;
-+	}
-+
-+exit:
-+	tegra20_mipi_write(csi, TEGRA_CSI_CSI_CIL_STATUS, pp);
-+
-+	/* un-select to avoid interference with DSI */
-+	tegra20_mipi_write(csi, TEGRA_CSI_CILB_MIPI_CAL_CONFIG,
-+			   CSI_CIL_MIPI_CAL_HSPDOS(0) |
-+			   CSI_CIL_MIPI_CAL_HSPUOS(0) |
-+			   CSI_CIL_MIPI_CAL_TERMOS(4));
-+
-+	tegra20_mipi_write(csi, TEGRA_CSI_CILA_MIPI_CAL_CONFIG,
-+			   CSI_CIL_MIPI_CAL_NOISE_FLT(0xa) |
-+			   CSI_CIL_MIPI_CAL_PRESCALE(0x2) |
-+			   CSI_CIL_MIPI_CAL_HSPDOS(0) |
-+			   CSI_CIL_MIPI_CAL_HSPUOS(0) |
-+			   CSI_CIL_MIPI_CAL_TERMOS(4));
-+
-+	pm_runtime_put(csi->dev);
-+
-+	return ret;
-+}
-+
-+static const struct tegra_mipi_ops tegra20_mipi_ops = {
-+	.start_calibration = tegra20_start_pad_calibration,
-+	.finish_calibration = tegra20_finish_pad_calibration,
-+};
-+
-+/* --------------------------------------------------------------------------
-+ * CSI
-+ */
-+static void tegra20_csi_capture_clean(struct tegra_csi_channel *csi_chan)
-+{
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_VI_INPUT_STREAM_CONTROL, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_HOST_INPUT_STREAM_CONTROL, 0);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_PIXEL_PARSER_STATUS, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_CIL_STATUS, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_PIXEL_PARSER_INTERRUPT_MASK, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_CIL_INTERRUPT_MASK, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_READONLY_STATUS, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_ESCAPE_MODE_COMMAND, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_ESCAPE_MODE_DATA, 0);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CIL_PAD_CONFIG, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CIL_MIPI_CAL_STATUS, 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CLKEN_OVERRIDE, 0);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_DEBUG_CONTROL,
-+			  CSI_DEBUG_CONTROL_CLR_DBG_CNT_0 |
-+			  CSI_DEBUG_CONTROL_CLR_DBG_CNT_1 |
-+			  CSI_DEBUG_CONTROL_CLR_DBG_CNT_2);
-+}
-+
-+static int tegra20_csi_port_start_streaming(struct tegra_csi_channel *csi_chan,
-+					    u8 portno)
-+{
-+	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&csi_chan->subdev);
-+	int width  = vi_chan->format.width;
-+	int height = vi_chan->format.height;
-+	u32 data_type = vi_chan->fmtinfo->img_dt;
-+	u32 word_count = (width * vi_chan->fmtinfo->bit_width) / 8;
-+	enum tegra_vi_out output_channel = TEGRA_VI_OUT_1;
-+
-+	unsigned int main_output_format, yuv_output_format;
-+	unsigned int port = portno & 1;
-+	u32 value;
-+
-+	tegra20_vi_get_output_formats(vi_chan, &main_output_format, &yuv_output_format);
-+
-+	switch (data_type) {
-+	case TEGRA_IMAGE_DT_RAW8:
-+	case TEGRA_IMAGE_DT_RAW10:
-+		output_channel = TEGRA_VI_OUT_2;
-+		if (port == PORT_A)
-+			main_output_format = VI_OUTPUT_OUTPUT_FORMAT_CSI_PPA_BAYER;
-+		else
-+			main_output_format = VI_OUTPUT_OUTPUT_FORMAT_CSI_PPB_BAYER;
-+		break;
-+	}
-+
-+	tegra20_csi_capture_clean(csi_chan);
-+
-+	/* CSI port cleanup */
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_INPUT_STREAM_CONTROL(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_CONTROL0(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_CONTROL1(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_WORD_COUNT(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_GAP(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_EXPECTED_FRAME(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_CONTROL0(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CIL_PAD_CONFIG0(port), 0);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CIL_PAD_CONFIG1(port), 0);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_CORE_CONTROL, BIT(25 + port)); /* CSI_PP_YUV422 */
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_H_DOWNSCALE_CONTROL, BIT(2 + port)); /* CSI_PP */
-+	tegra20_vi_write(vi_chan, TEGRA_VI_V_DOWNSCALE_CONTROL, BIT(2 + port)); /* CSI_PP */
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_CSI_PP_H_ACTIVE(port), width << 16);
-+	tegra20_vi_write(vi_chan, TEGRA_VI_CSI_PP_V_ACTIVE(port), height << 16);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_CONTROL1(port), 0x1);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_WORD_COUNT(port), word_count);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_GAP(port),
-+			  CSI_PP_FRAME_MIN_GAP(0x14)); /* 14 vi clks between frames */
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_EXPECTED_FRAME(port),
-+			  CSI_PP_EXP_FRAME_HEIGHT(height) |
-+			  CSI_PP_MAX_CLOCKS(0x300) | /* wait 0x300 vi clks for timeout */
-+			  CSI_PP_LINE_TIMEOUT_ENABLE);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_CONTROL0(port),
-+			  CSI_PP_OUTPUT_FORMAT_PIXEL |
-+			  CSI_PP_DATA_TYPE(data_type) |
-+			  CSI_PP_CRC_CHECK_ENABLE |
-+			  CSI_PP_WORD_COUNT_HEADER |
-+			  CSI_PP_DATA_IDENTIFIER_ENABLE |
-+			  CSI_PP_PACKET_HEADER_SENT |
-+			  port);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_INPUT_STREAM_CONTROL(port),
-+			  CSI_SKIP_PACKET_THRESHOLD(0x3f) |
-+			  (csi_chan->numlanes - 1));
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_CONTROL0(port),
-+			  CSI_CONTINUOUS_CLOCK_MODE_ENABLE |
-+			  0x5); /* Clock settle time */
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_CSI_PP_FRAME_START(port),
-+			 VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT |
-+			 host1x_syncpt_id(vi_chan->frame_start_sp[0])
-+			 << VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT(output_channel),
-+			 VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT |
-+			 host1x_syncpt_id(vi_chan->mw_ack_sp[0])
-+			 << VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT);
-+
-+	value = (port == PORT_A) ? CSI_A_PHY_CIL_ENABLE | CSI_B_PHY_CIL_DISABLE :
-+		CSI_B_PHY_CIL_ENABLE | CSI_A_PHY_CIL_DISABLE;
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_COMMAND, value);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND(port),
-+			  CSI_PP_START_MARKER_FRAME_MAX(0xf) |
-+			  CSI_PP_DISABLE);
-+
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_channel),
-+			 (vi_chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
-+			 (vi_chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
-+			 yuv_output_format | main_output_format);
-+
-+	return 0;
-+};
-+
-+static void tegra20_csi_port_stop_streaming(struct tegra_csi_channel *csi_chan, u8 portno)
-+{
-+	struct tegra_csi *csi = csi_chan->csi;
-+	unsigned int port = portno & 1;
-+	u32 value;
-+
-+	value = tegra20_csi_read(csi_chan, TEGRA_CSI_CSI_PIXEL_PARSER_STATUS);
-+	dev_dbg(csi->dev, "TEGRA_CSI_CSI_PIXEL_PARSER_STATUS 0x%08x\n", value);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_PIXEL_PARSER_STATUS, value);
-+
-+	value = tegra20_csi_read(csi_chan, TEGRA_CSI_CSI_CIL_STATUS);
-+	dev_dbg(csi->dev, "TEGRA_CSI_CSI_CIL_STATUS 0x%08x\n", value);
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_CIL_STATUS, value);
-+
-+	tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND(port),
-+			  CSI_PP_START_MARKER_FRAME_MAX(0xf) |
-+			  CSI_PP_DISABLE);
-+
-+	if (csi_chan->numlanes == 4) {
-+		tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_COMMAND,
-+				  CSI_A_PHY_CIL_DISABLE | CSI_B_PHY_CIL_DISABLE);
-+	} else {
-+		value = (port == PORT_A) ? CSI_A_PHY_CIL_DISABLE | CSI_B_PHY_CIL_NOP :
-+			CSI_B_PHY_CIL_DISABLE | CSI_A_PHY_CIL_NOP;
-+		tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_COMMAND, value);
-+	}
-+}
-+
-+static int tegra20_csi_start_streaming(struct tegra_csi_channel *csi_chan)
-+{
-+	u8 *portnos = csi_chan->csi_port_nums;
-+	int ret, i;
-+
-+	for (i = 0; i < csi_chan->numgangports; i++) {
-+		ret = tegra20_csi_port_start_streaming(csi_chan, portnos[i]);
-+		if (ret)
-+			goto stream_start_fail;
-+	}
-+
-+	return 0;
-+
-+stream_start_fail:
-+	for (i = i - 1; i >= 0; i--)
-+		tegra20_csi_port_stop_streaming(csi_chan, portnos[i]);
-+
-+	return ret;
-+}
-+
-+static void tegra20_csi_stop_streaming(struct tegra_csi_channel *csi_chan)
-+{
-+	u8 *portnos = csi_chan->csi_port_nums;
-+	int i;
-+
-+	for (i = 0; i < csi_chan->numgangports; i++)
-+		tegra20_csi_port_stop_streaming(csi_chan, portnos[i]);
-+}
-+
-+static const struct tegra_csi_ops tegra20_csi_ops = {
-+	.csi_start_streaming = tegra20_csi_start_streaming,
-+	.csi_stop_streaming = tegra20_csi_stop_streaming,
-+};
-+
-+static const char * const tegra20_csi_clks[] = {
-+	NULL,
-+};
-+
-+const struct tegra_csi_soc tegra20_csi_soc = {
-+	.ops = &tegra20_csi_ops,
-+	.mipi_ops = &tegra20_mipi_ops,
-+	.csi_max_channels = 2, /* CSI-A and CSI-B */
-+	.clk_names = tegra20_csi_clks,
-+	.num_clks = ARRAY_SIZE(tegra20_csi_clks),
-+};
-+
-+static const char * const tegra30_csi_clks[] = {
-+	"csi",
-+	"csia-pad",
-+	"csib-pad",
-+};
-+
-+const struct tegra_csi_soc tegra30_csi_soc = {
-+	.ops = &tegra20_csi_ops,
-+	.mipi_ops = &tegra20_mipi_ops,
-+	.csi_max_channels = 2, /* CSI-A and CSI-B */
-+	.clk_names = tegra30_csi_clks,
-+	.num_clks = ARRAY_SIZE(tegra30_csi_clks),
-+};
-+
- /* --------------------------------------------------------------------------
-  * VIP
-  */
-@@ -687,10 +1211,11 @@ static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
- 	enum tegra_vi_out output_channel = (data_type == TEGRA_IMAGE_DT_RAW8 ||
- 					    data_type == TEGRA_IMAGE_DT_RAW10) ?
- 					    TEGRA_VI_OUT_2 : TEGRA_VI_OUT_1;
--	unsigned int main_input_format;
--	unsigned int yuv_input_format;
-+	unsigned int main_input_format, yuv_input_format;
-+	unsigned int main_output_format, yuv_output_format;
- 
- 	tegra20_vi_get_input_formats(vi_chan, &main_input_format, &yuv_input_format);
-+	tegra20_vi_get_output_formats(vi_chan, &main_output_format, &yuv_output_format);
- 
- 	tegra20_vi_write(vi_chan, TEGRA_VI_VI_CORE_CONTROL, 0);
- 
-@@ -723,6 +1248,11 @@ static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
- 
- 	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_STOP_CAPTURE);
- 
-+	tegra20_vi_write(vi_chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_channel),
-+			 (vi_chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
-+			 (vi_chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
-+			  yuv_output_format | main_output_format);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/media/tegra-video/vi.h
-index bfadde8858d4..46328e488aa3 100644
---- a/drivers/staging/media/tegra-video/vi.h
-+++ b/drivers/staging/media/tegra-video/vi.h
-@@ -125,7 +125,6 @@ struct tegra_vi {
-  *		frame through host1x syncpoint counters (On Tegra20 used for the
-  *              OUT_1 syncpt)
-  * @sp_incr_lock: protects cpu syncpoint increment.
-- * @next_out_sp_idx: next expected value for mw_ack_sp[0], i.e. OUT_1 (Tegra20)
+  * V0 and V1 are identical in order to support drivers compatible with the V4L2
+- * ISP parameters format already upstreamed which use either 0 or 1 as their
+- * versioning identifier. Both V0 and V1 refers to the first version of the
+- * V4L2 ISP parameters format.
++ * ISP format already upstreamed which use either 0 or 1 as their versioning
++ * identifier. Both V0 and V1 refers to the first version of the V4L2 ISP
++ * serialization format.
   *
-  * @kthread_start_capture: kthread to start capture of single frame when
-  *		vb buffer is available. This thread programs VI CSI hardware
-@@ -188,7 +187,6 @@ struct tegra_vi_channel {
- 	struct host1x_syncpt *mw_ack_sp[GANG_PORTS_MAX];
- 	/* protects the cpu syncpoint increment */
- 	spinlock_t sp_incr_lock[GANG_PORTS_MAX];
--	u32 next_out_sp_idx;
- 
- 	struct task_struct *kthread_start_capture;
- 	wait_queue_head_t start_wait;
-diff --git a/drivers/staging/media/tegra-video/video.c b/drivers/staging/media/tegra-video/video.c
-index b009ceefda14..2e84385708ba 100644
---- a/drivers/staging/media/tegra-video/video.c
-+++ b/drivers/staging/media/tegra-video/video.c
-@@ -125,6 +125,12 @@ static const struct of_device_id host1x_video_subdevs[] = {
- 	{ .compatible = "nvidia,tegra20-vip", },
- 	{ .compatible = "nvidia,tegra20-vi", },
- #endif
-+#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-+	{ .compatible = "nvidia,tegra20-csi", },
-+#endif
-+#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-+	{ .compatible = "nvidia,tegra30-csi", },
-+#endif
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", },
- 	{ .compatible = "nvidia,tegra210-vi", },
--- 
-2.51.0
+- * Future revisions of the V4L2 ISP parameters format should start from the
++ * Future revisions of the V4L2 ISP serialization format should start from the
+  * value of 2.
+  */
+-enum v4l2_isp_params_version {
+-       V4L2_ISP_PARAMS_VERSION_V0 = 0,
+-       V4L2_ISP_PARAMS_VERSION_V1
++enum v4l2_isp_version {
++       V4L2_ISP_VERSION_V0 = 0,
++       V4L2_ISP_VERSION_V1
+ };
 
++/*
++ * Compatibility with existing users of v4l2_isp_params which pre-date the
++ * introduction of v4l2_isp_stats.
++ */
++#define v4l2_isp_params_version        v4l2_isp_version
++#define V4L2_ISP_PARAMS_VERSION_V0     V4L2_ISP_VERSION_V0
++#define V4L2_ISP_PARAMS_VERSION_V1     V4L2_ISP_VERSION_V1
++
+ #define V4L2_ISP_PARAMS_FL_BLOCK_DISABLE       (1U << 0)
+ #define V4L2_ISP_PARAMS_FL_BLOCK_ENABLE                (1U << 1)
+
+> > > >
+> > > > > > are provided to match with params versions. On the other side, ENABLE and
+> > > > > > DISABLE flags are not really meaningfull for statistics purpose. So VALID
+> > > > > > and INVALID flags are introduced. Purpose is to force ISP driver to
+> > > > > > validate a statistics buffer, before it is consumed by userspace.
+> > > > >
+> > > > > Interesting. What do you mean with "validate a statistics buffer" ?
+> > > > > And if a driver has to do validation, why would it send upstream a
+> > > > > non-validated buffer ?
+> > > >
+> > > > Like for version, I wanted to keep same header structure, including flags.
+> > > > Since ENABLE/DISABLE is not relevant for statistics, I thought about using a
+> > > > "validation" flag, to force driver confirming statistics blocks are valid or
+> > > > not.
+> > >
+> > > See the question on the documentation patches.
+> > >
+> > > > If you feel it is useless, I'm fine with removing it. Should I keep a flag
+> > > > field anyway to stay aligned with params then ?
+> > >
+> > > RkISP1 has support for both "legacy" and "extensible" formats because
+> > > it has been mainline for a long time with the legacy format only. We
+> > > couldn't simply replace the existing format with the new one because
+> > > we would break existing users.
+> > >
+> > > All the other drivers that have been upstreamed with extensible only
+> > > (Amlogic C3 and Mali C55) do not expose a legacy format as there was
+> > > not prior version in mainline on which userspace might depend on.
+> > >
+> > > Unless you have very convincing reason, I would certainly drop the
+> > > legacy format and only use extensible.
+> >
+> > I agree with that, for upstream we shouldn't carry legacy formats in new
+> > drivers. I've read elsewhere in this thread that it won't cause issues,
+> > otherwise I would have recommended carrying an extra patch in the BSP
+> > kernel to implement legacy formats, and only use extensible formats
+> > upstream.
+>
+> ok. I'm fine with removing legacy format from neo driver, and keep it only
+> in downstream for some time.
+>
+
+Thank you!
+
+> >
+> > > > > > Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
+> > > > > > ---
+> > > > > >    include/uapi/linux/media/v4l2-isp.h | 85 +++++++++++++++++++++++++++++
+> > > > > >    1 file changed, 85 insertions(+)
+> > > > > >
+> > > > > > diff --git a/include/uapi/linux/media/v4l2-isp.h b/include/uapi/linux/media/v4l2-isp.h
+> > > > > > index 779168f9058e..ed1279b86694 100644
+> > > > > > --- a/include/uapi/linux/media/v4l2-isp.h
+> > > > > > +++ b/include/uapi/linux/media/v4l2-isp.h
+> > > > > > @@ -99,4 +99,89 @@ struct v4l2_isp_params_buffer {
+> > > > > >         __u8 data[] __counted_by(data_size);
+> > > > > >    };
+> > > > > >
+> > > > > > +/**
+> > > > > > + * enum v4l2_isp_stats_version - V4L2 ISP statistics versioning
+> > > > > > + *
+> > > > > > + * @V4L2_ISP_STATS_VERSION_V0: First version of the V4L2 ISP statistics format
+> > > > > > + *                          (for compatibility)
+> > > > > > + * @V4L2_ISP_STATS_VERSION_V1: First version of the V4L2 ISP statistics format
+> > > > > > + *
+> > > > > > + * V0 and V1 are identical, and comply with V4l2 ISP parameters versions. So
+> > > > > > + * both V0 and V1 refers to the first version of the V4L2 ISP statistics
+> > > > > > + * format.
+> > > > > > + *
+> > > > > > + * Future revisions of the V4L2 ISP statistics format should start from the
+> > > > > > + * value of 2.
+> > > > > > + */
+> > > > > > +enum v4l2_isp_stats_version {
+> > > > > > +     V4L2_ISP_STATS_VERSION_V0 = 0,
+> > > > > > +     V4L2_ISP_STATS_VERSION_V1,
+> > > > >
+> > > > > As suggested I would make V1 == 0
+> > > > >
+> > > > > > +};
+> > > > > > +
+> > > > > > +#define V4L2_ISP_PARAMS_FL_BLOCK_VALID               (1U << 0)
+> > > > > > +#define V4L2_ISP_PARAMS_FL_BLOCK_INVALID     (1U << 1)
+> > > > > > +
+> > > > > > +/*
+> > > > > > + * Reserve the first 8 bits for V4L2_ISP_STATS_FL_* flag.
+> > > > > > + *
+> > > > > > + * Driver-specific flags should be defined as:
+> > > > > > + * #define DRIVER_SPECIFIC_FLAG0     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(0))
+> > > > > > + * #define DRIVER_SPECIFIC_FLAG1     ((1U << V4L2_ISP_STATS_FL_DRIVER_FLAGS(1))
+> > > > > > + */
+> > > > > > +#define V4L2_ISP_STATS_FL_DRIVER_FLAGS(n)       ((n) + 8)
+> > > > >
+> > > > > Currently we have no users of V4L2_ISP_PARAMS_FL_DRIVER_FLAGS so we
+> > > > > could even consider making it a V4L2_ISP_FL_DRIVER_FLAGS
+> > > > >
+> > > > > Or do you think it is worth creating a new symbol ?
+> > > >
+> > > > To limit impact on potential on-going development, and future conflict,
+> > > > creating new symbol may be safer IMO. But I'm fine with using a single
+> > > > symbol if you prefer. Most probably this flag customization is not used yet
+> > > > by any driver.
+> > > >
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * struct v4l2_isp_stats_block_header - V4L2 extensible statistics block header
+> > > > > > + * @type: The statistics block type (driver-specific)
+> > > > > > + * @flags: A bitmask of block flags (driver-specific)
+> > > > > > + * @size: Size (in bytes) of the statistics block, including this header
+> > > > > > + *
+> > > > > > + * This structure represents the common part of all the ISP statistics blocks.
+> > > > > > + * Each statistics block shall embed an instance of this structure type as its
+> > > > > > + * first member, followed by the block-specific statistics data.
+> > > > > > + *
+> > > > > > + * The @type field is an ISP driver-specific value that identifies the block
+> > > > > > + * type. The @size field specifies the size of the parameters block.
+> > > > > > + *
+> > > > > > + * The @flags field is a bitmask of per-block flags V4L2_STATS_ISP_FL_* and
+> > > > > > + * driver-specific flags specified by the driver header.
+> > > > > > + */
+> > > > > > +struct v4l2_isp_stats_block_header {
+> > > > > > +     __u16 type;
+> > > > > > +     __u16 flags;
+> > > > > > +     __u32 size;
+> > > > > > +} __attribute__((aligned(8)));
+> > > > > > +
+> > > > >
+> > > > > This is currently identical to v4l2_isp_params_block_header.
+> > > > >
+> > > > > Can we create a single header for both stats and params and provide a
+> > > > >
+> > > > > #define v4l2_isp_params_block_header v4l2_isp_block_header
+> > > > >
+> > > > > for maintaining compatibility with existing users ?
+> > > > >
+> > > > > Or do you expect stats and params to eventually need different headers ?
+> > > >
+> > > > Current approach is to use same structure definitions as for params. So I'm
+> > > > fine with creating a single header as suggested, and provide symbols to keep
+> > > > compatibility.
+> > > >
+> > > > > > +/**
+> > > > > > + * struct v4l2_isp_stats_buffer - V4L2 extensible statistics data
+> > > > > > + * @version: The statistics buffer version (driver-specific)
+> > > > > > + * @data_size: The statistics data effective size, excluding this header
+> > > > > > + * @data: The statistics data
+> > > > > > + *
+> > > > > > + * This structure contains the statistics information of the ISP hardware,
+> > > > > > + * serialized for userspace into a data buffer. Each statistics block is
+> > > > > > + * represented by a block-specific structure which contains a
+> > > > > > + * :c:type:`v4l2_isp_stats_block_header` entry as first member. Driver
+> > > > > > + * populates the @data buffer with statistics information of the ISP blocks it
+> > > > > > + * intends to share to userspace. As a consequence, the data buffer effective
+> > > > > > + * size changes according to the number of ISP blocks that driver intends to
+> > > > > > + * provide and is set by the driver in the @data_size field.
+> > > > > > + *
+> > > > > > + * The statistics buffer is versioned by the @version field to allow modifying
+> > > > > > + * and extending its definition. Driver shall populate the @version field to
+> > > > > > + * inform the userpsace about the version it intends to use. The userspace will
+> > > > > > + * parse and handle the @data buffer according to the data layout specific to
+> > > > > > + * the indicated version.
+> > > > > > + *
+> > > > > > + * For each ISP block that driver wants to report, a block-specific structure
+> > > > > > + * is appended to the @data buffer, one after the other without gaps in
+> > > > > > + * between. Driver shall populate the @data_size field with the effective
+> > > > > > + * size, in bytes, of the @data buffer.
+> > > > > > + */
+> > > > > > +struct v4l2_isp_stats_buffer {
+> > > > > > +     __u32 version;
+> > > > > > +     __u32 data_size;
+> > > > > > +     __u8 data[] __counted_by(data_size);
+> > > > > > +};
+> > > > > > +
+> > > > >
+> > > > > Same question. Should we introduce a struct v4l2_isp_buffer ?
+> > > >
+> > > > Yes, sounds reasonable.
+> >
+> > That seems to make sense. Once we'll have a driver using
+> > v4l2_isp_stats_buffer the structure will become ABI. If it then is an
+> > exact copy of v4l2_isp_params_buffer, it would make sense to unify them.
+> > Let's see what will happen after a few review rounds, if we end up
+> > requiring separate fields in the stats buffer header.
+>
+> ok to use same struct for both.
+>
+> >
+> > It would also be nice to implement support for extensible stats in a
+> > second driver to test the API.
+>
+> What is your preferred approach then ?
+>
+> Should I "split" v4l2_isp rework in different patchset BUT with another
+> driver using it (with userspace changes I guess). Not something I'm really
+> comfortable with since I only focused on i.MX95 isp so far. But if this is
+> the only way, that could be evaluated.
+>
+> Or should I "keep" v4l2_isp changes together with neoisp introduction ?
+
+It depends what you expect the timing for the next version of neoisp
+to be.
+
+However, to introduce new uAPI it is generally suggested to have at
+least one user, so if time aligns I would keep the two together.
+
+Thanks
+  j
+
+>
+> Thanks
+>
+> Best regards
+> Antoine
+>
+> >
+> > > > > >    #endif /* _UAPI_V4L2_ISP_H_ */
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+>
 
