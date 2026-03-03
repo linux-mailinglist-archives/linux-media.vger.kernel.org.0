@@ -1,199 +1,143 @@
-Return-Path: <linux-media+bounces-54255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54256-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WM0LBjSUpmnmRQAAu9opvQ
-	(envelope-from <linux-media+bounces-54255-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 08:56:36 +0100
+	id 6PwOFguXpmnmRQAAu9opvQ
+	(envelope-from <linux-media+bounces-54256-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 09:08:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5411EA6E1
-	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 08:56:35 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFC91EA8F6
+	for <lists+linux-media@lfdr.de>; Tue, 03 Mar 2026 09:08:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1806F304CCD5
-	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 07:53:34 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BCCAA303B923
+	for <lists+linux-media@lfdr.de>; Tue,  3 Mar 2026 08:07:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5BBE3806BD;
-	Tue,  3 Mar 2026 07:53:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5NdZ4HI4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFB6B387567;
+	Tue,  3 Mar 2026 08:07:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012028.outbound.protection.outlook.com [40.107.209.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AD41DF261;
-	Tue,  3 Mar 2026 07:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.28
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772524410; cv=fail; b=rm7jXNS2RvbaG8ud8JzMDIzin5otEL9Vi8W6w7qVVNMGobjlqnCizcrcduR0LVxHFmZKInqyVc9B73Ph+YVZQTfyIup2JPZS2P/ry+SI5o244F1MdqfmdychC5C6lqcXk8sw3clKPIFiuFDeRNRPBABMVMecaAjuXuGgNUvtnTw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772524410; c=relaxed/simple;
-	bh=BAtTO6wXl4FwgCML/0bQStuyOEe0Y5DnoyYSKzon56Y=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=g4OdC1jyy12sKMSvORBa1yylXYXjMGhBDUMfeJKru1l7IHnYU0i/dY/4ont1yjXPf0foKH6MZrkumqcnvsSJgfY5c9q2MrNtwNO18UB025XNDEcI8EKhwGhpxJIBQEETiVvbEjOWqjslrvPdbRWHzKeN+kI582m8tUu1W2nERFM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5NdZ4HI4; arc=fail smtp.client-ip=40.107.209.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p4WK8phNHPmci8ORbPP4IU2oiGXoW1B9mJyDgWrZhEUAD9efeNx7PdKTYgC35bNqcb/mb/bYGQNsX/7U/NrTumshzQWlIWMDHyrRgHEBIS0skm/C6kV1LeowVMlax/UZ0SyYc6s5X+X01T6et34U+H5lI4xKoCkyWxKzVg0BP+cSS7LxxdZtk8aO+Dj3Nym9AZBfqHxQFuvl+YaWRKKLXzKlkvSnrktRGCxk29sNHv6wFFHgagS2f78MkqDESBivCg94yKdcbt00OiRWYa+2+zcqnWJ4RR1Tm373EhzuGhXtuoKzcrlcb5YhqhDFh6RlQ5+wYRvuGfmI2vGJz6Mhyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TMLe6mdD/05tlCSu/W0k8u/UPWGAjqp9sCI4FCOs8q0=;
- b=Q1ddcKV0wzx+ieKPXkYWXURCvPmuWX6/vBFr83nK8zfIYu7ylRUH+fWkLZbx4+O6QHcNF8aIJPbr/q2NeikARk3rEnNyB3B/mAbLG8mp3MEqkJg2izHDLE5jEzHl6KonuU14GYM7K0Ka87T3a1sXrvoYcEkW6jako29lpKsHnJYNwK4pJPAS1cZzKc3/Jm02AewTc+2RdbAPEOAuvaRpES25wXiK9e1mN1EbnFABLeZqXYkS/odMK8nWcJhqyRZSKOg5x45XBuj9463dftDiQ7urFTOk1jlbxNkwUFDO3lYQqnhJB3RB0Tl/cQ3KYqQgkev2jLcYvbH3pYlo/iEZlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TMLe6mdD/05tlCSu/W0k8u/UPWGAjqp9sCI4FCOs8q0=;
- b=5NdZ4HI4ulA9MZ/Y4tevBtTrwmYg2z6s9JMQekoPtXiggqYi1ECE6XLcoAeeiopqeAA4Ylv5wsSJGThCVz+4VJZdCxPobz9uRyr2UtQ8vZ8QiO1fCmYnQiRwQpLczL9s0wAkf0HG//NgjEjwcuV/K06OTW7FjCdgbNn0h3mRknU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH2PR12MB9493.namprd12.prod.outlook.com (2603:10b6:610:27c::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.21; Tue, 3 Mar
- 2026 07:53:26 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
- 07:53:26 +0000
-Message-ID: <c9c7110b-dc23-473b-a103-cdf11ed494b0@amd.com>
-Date: Tue, 3 Mar 2026 08:53:20 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] dma-buf: Include ioctl.h in UAPI header
-To: "T.J. Mercier" <tjmercier@google.com>,
- "Isaac J. Manjarres" <isaacmanjarres@google.com>
-Cc: sumit.semwal@linaro.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- kernel-team@android.com
-References: <20260303002309.1401849-1-isaacmanjarres@google.com>
- <CABdmKX3FOUUq=9rriXa3BYOOAqedaLma6TXZsA5LH0gBgCAEvg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CABdmKX3FOUUq=9rriXa3BYOOAqedaLma6TXZsA5LH0gBgCAEvg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0155.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5D837DEB1
+	for <linux-media@vger.kernel.org>; Tue,  3 Mar 2026 08:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.71
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772525249; cv=none; b=FoS3xElSRIiNWZRiU1i65LLNup9V8760G1tg0ZNUzGuS6155IsE5VOqXk0p8L6oEowo/kKQK76dowVryLA2iWbgopEbuC7bt4XQ82jGgZC868ZOSpEy8kB9NVFZevemxXWtT6Ueut7nn7z0aiOa9ByUha35KzkmVO6K4OofOerQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772525249; c=relaxed/simple;
+	bh=ZybpNwbrM3vZut0aJW4nT3Oi6K7E6FUrKXZxi1hbFbQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=V5cCSWIsbP4Sf9PzNK+qa88ofCuHI9IMajFV0ZgME4s5Vzm4caYfoHMOJtEIv4QKhqqhYWoybl8H7nNW2UfHOmnyclE9T5zO6fEIhKrFUEJtf7I7n+FiiuUv4X2GKnbNoUDH+CjtJ4QqwZQKEqxh6XX7p334KBgRqOXBieKCCY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-679c6ef1538so102132688eaf.3
+        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2026 00:07:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772525247; x=1773130047;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2ej8Iv24B4gTH5C1v2ZIh0yJb2MZISKaUKTnJyDzhFg=;
+        b=ZmcahsnEGtBpOT9dITGILhOuXBUEY9Q3z56ODOlnoeQp6x9NAfPqU0dmo5sUESuvBS
+         UfLrTVzeBU50BPQ2Bkij0JOb6bl7qKi/e9O9WaMODa8AsFrIIMqWavzGyqNkrCHM5zwB
+         GONQ1fNKtfllyfDyZI3k/MiePymzXue39MbMA3LXEfrD5GasvhldUC8grnqaAyELoVBf
+         2MPZl1n+jju0UryGbKaUhvgCaLYNXJty1Q+HDsGN+HGXBNIcL3d7+f75uT7mGNQ9NHOr
+         tOj3vzj3nSzlSYxu0/HZivu3a9KCUP9R3rAQPvXdimPSeqJXBWx7MjX2JCkAFP/oJLhV
+         om5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUOt+hiVt9n+xVkFtGE/l4NdqvSgbRwJk9Zzy1f4fPslFXN/W6n6LdLZZpc+2MQitoS6e7FAFTzMNNjxg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw77g4muF/fAL9cYjk4NJNEHADW9EqqJFkLNDrEGgRzyhjoc7Jv
+	Xm2lf8o1yIcANDcMoifIgIpPKn4mPj/LLcUa+DrXLKSg5OBk1f1/3IC4fcv2JkA5UOTzkkkkVap
+	mqxxf92ozeMDoz9Uvkq0rbDUe5obJfOhTI1+igewb/Yujy6QBNVfNFDH2qDU=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH2PR12MB9493:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59cb083c-b31e-4945-406e-08de78f9f398
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	0rwwrLpFlDiP8Qq+GVsaGpdVwwvoXVN8B9QBW8/yPhkfrBl3NJ4ELP/byqh75w8oovziP733iNO2PRL3zyRBc66JWwNSCPgILZPu3gh0cyxq35p30R++we20aXHyZDcsbLSVeQYPdJMMlWe1VzeX32gjRqSoL+JzN6YA3V/mC+wBu6ImW6BbwU/krrpUU83YWM97foSAZidCoas1Yqj7DKHEzbSGTzBaguoIAoTRGtN1bi/Qk8UJzRUYwTJakOKIgHW/IRUn2ysZ4Kj43qqb7BsUDwsDUFOprcs6JUkRMJF8Jc33BNZCM3aHBH6Qabo1cccSNF+WDbYBoyruurABXtZCj9MnO0gI6HX8cRD1+VfkecTS8ZRp8TiN/xGmcFW1sVW6iVXs5LdMWoBzQ8xus/7EA/xpT4QCTjGHNyvDs+6PYqRQ/cWAsgwm5SXtt1s2V2u4AT07zIvuE7tf28S4GvAncat3udYf/PAqidIuT5BZ2qIAy8A2TqsAQ0ZqTrlGmrLpO6P5sfY5pCIKO1VV7/v3RF6lWX6SHNNdTYxPueuTLnmt/gX5KTrxlQtyTSAXoRpTJ9u8Vc0h2inmtG7gvnOAkN/15tIvQif5nec82DMIhWGi0OcDlOwi23lJG6KXFohXGFxT715lUUJawwOc551Y32+6ITYSiied8G++EPrVOvm6fxGVxyTObf+9AR0FII01Y1+z00WolKOnMRjI893gEmrsVqxKVrW1JCknt9Y=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MkFzYUJDM2szZE1YbElqQlVTTTNZNDJzUjNmcmp2SVVDZ3FBVHdqNXlmQXFE?=
- =?utf-8?B?NEdnSnJ0eXpRaWU0N2toU3JMQ3JJTllWZHFCUmFEanpvRXhMcWd3UExSNHFw?=
- =?utf-8?B?TGd0aDdobHh5TThTMzMwTFltRE9DSGZ3WGp3N0V0OFhhMW1PWU1xaU5FZUdQ?=
- =?utf-8?B?T0RKTTF3TW1DUlVXejFmQWNiMzFNRXhjcVAvUDNBOUlwQ2Vjclh6L3k4SDRS?=
- =?utf-8?B?dHE0cDFkUUtab1YrSGtCalA2ZENNUnY5K2FPTGpiRk90QXB0dENuNlY0Umtl?=
- =?utf-8?B?YWYvUi91OFBudjZVUXNpN3BzUkZTWCsxb3hNNTZrbnlwNGRJc1ppTVpGd2Ji?=
- =?utf-8?B?bERBY2E3dmM2R1VENkZQMGo0R1dHZUFjZnRETUtHb2haSlhRZDVQd3RNbmdL?=
- =?utf-8?B?VDBDaG9vaENZSFRjRkxsZUl5QXZzSFZva1lFU0ZkY2xoY3JkbUg3aGFlalNW?=
- =?utf-8?B?Njc4dyt0YWhFTDdycEFnOURKVW84NDFGeFpOczJOKzExTGtxQjh6MXI2OTNS?=
- =?utf-8?B?RDBLVmlzTmxydlQzQU5yNFBvOXU3eFRyanVnQ1BmanJNQWxTb2poYW1nMFl6?=
- =?utf-8?B?MDMrUlpVTTBWYWJiZHN6bUNDWXFIc0lrVWxQbnNsZzVod0lYTEFMcUI1UjJG?=
- =?utf-8?B?c2VBSWtvd0d1TTdDT0JHYjRqOEorWXNENUpMYUZhVXNoRVE1M2kzdVdDVitI?=
- =?utf-8?B?dXN5cGYxT3BIWElnY0ZyNng5RVQ4enl1WmI5RGVMNGhXeGxKa1Y5dUlkdGt2?=
- =?utf-8?B?L2U4dGYzOVNCdkxEemdpZmM1b2V0QjJQZ0F0eG0vV2YvN2xpUHA1M1kyQzdS?=
- =?utf-8?B?SHozR3o5V0hxcHJSQ0V3aCtTWHJOaHQ5cGI1ZXlVa2I0K2MxWjc1QXJaVGEz?=
- =?utf-8?B?M2FsU2xiYThQY3o5WEVqbVJOUG1BQzdvVmYybjFPSU4raGQ1bFhOQ1pHOW8y?=
- =?utf-8?B?bDlwTTNZWHp6K3l2Y3BIdzBaTGlKUEJHOHFwR3luRGprNENidHVjK1BzV01M?=
- =?utf-8?B?RXN4eHB6MUlaWXArT0ZXVDFlcjNGSHZFWEtsVTlpUFlmSFhZUWNOd2RzcXB2?=
- =?utf-8?B?UVd4b3F6L1hCamlINHkzRkh1MlpKaGlDSFBFK0I1aUthb1ZIaDNFd2N0em1j?=
- =?utf-8?B?Tk5uaXlER3RuL1ZkRDlVMXdzZjJ1NlZOYkhacDFHNTFMcmtQUDA3SjV4OFNv?=
- =?utf-8?B?ekhqaFM4ZHM2dk9oNVRDS1lqVjJlL0RzSzdOOEhlUSs2UStiYTE1WWF5U0gz?=
- =?utf-8?B?azErNzNoUys3TGNjNG01QWN5WXY0RnpPT1hNbko2NEpPNElsOU5OeUVTRDhT?=
- =?utf-8?B?SERzODZRZnVVRElIY2JvbkZmdld1L1hMWnlLSndjOWVCTW1XUTNDUHRIZmNi?=
- =?utf-8?B?RTYwNXRvaDVUL2xxSlZmTVo0OXlDMjFIMm1jRWFHRHFLLzMzclJQSE5IOHlN?=
- =?utf-8?B?dGwxVElqUXByNk90M3VBYTVVQWpjU09rdXd3dHF3eTB2aFVQdVNRZDRmeE5r?=
- =?utf-8?B?YlBsaHdORzFlWUJHZ3pXUmQ0ZUoyNU14S1Z2UlZlRzJISXBsRzFId0dWNSt4?=
- =?utf-8?B?VGJHVEM5ZVdDdWJNNmFsU2lRWlZvcVRTNTdycmhhR21IMXVoQjVQL1cyM2xC?=
- =?utf-8?B?bE9Id0kxeXYrajBaVjhIRThtUmpMdk5Pc3Z5MVhwRzljTWl5NHowUmdTc1dP?=
- =?utf-8?B?VWViZkkzdEtVNEIvR1Z0ZUI0Vm5kTFFFYmVTZ3FqRXIyK1ZrY1NHaGVJRHlY?=
- =?utf-8?B?b3F1UFpsRjY2aFlxNGN1dTlXcDNPaUw4c1kvNmwwOGVwdFJqSnJROVV3QXMy?=
- =?utf-8?B?VFo5N2c0cWdISk1MOEgyWmp2UEViTFNFUkxBdHgwSU9TdE9yR01EelZPU0sw?=
- =?utf-8?B?dGNRS0E4d3c0c1d4RmErOFJDSFgyNk43d2ZweHpXQlZReWUvT040NjNhYmlF?=
- =?utf-8?B?VHMrc29vOVJrTXFzbnl3V2FXZkVFcmUrN0MvNkZudlNHRkRnR3h0dFQzc1pS?=
- =?utf-8?B?TS9WTGw3VWxnSFZqakF0bzNBTGVUeWgrYXBRM2Yzd3FQMkNLK3hIVUI0bWFp?=
- =?utf-8?B?ZEdHdGxjWjF4R0hCRS8zV2I4YTFEM0dqRHhqSUcyOHc0ZWh2M0d2dHcyM0gz?=
- =?utf-8?B?clc2TEwyZmd0MVJ3Z3pBNTRra0pqUkdaalZDVVZmSlZPS1FuTW9zbWMrRW1V?=
- =?utf-8?B?VHVZOFVud3dIbTcrNnpGRmc5cmU2Nyt1a0lTN0JRYjVMZjdpOUE5R2VBYUg0?=
- =?utf-8?B?WmNyWGgyWHRZVzh1VVkrR0ZqRXFubmpJLzB0RE5BdTN2RXRYWjZqdHZ4cGNF?=
- =?utf-8?Q?znk9XZZI88/DogkDLL?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59cb083c-b31e-4945-406e-08de78f9f398
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 07:53:26.4491
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p6JTVHc4W7zuK1MQGeOG5pYqI7RGgRiLsAPXvqMWg9+V5mnYLgsT7HoOCrGERLdK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB9493
-X-Rspamd-Queue-Id: 6C5411EA6E1
+X-Received: by 2002:a05:6820:c91:b0:679:96f:3ef2 with SMTP id
+ 006d021491bc7-679faf4f1c1mr9515653eaf.60.1772525246852; Tue, 03 Mar 2026
+ 00:07:26 -0800 (PST)
+Date: Tue, 03 Mar 2026 00:07:26 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69a696be.050a0220.21ae90.0009.GAE@google.com>
+Subject: [syzbot] Monthly media report (Mar 2026)
+From: syzbot <syzbot+list844890cacd1fd70d3d36@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: EDFC91EA8F6
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [-1.36 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-54255-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[amd.com:+];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-54256-lists,linux-media=lfdr.de,list844890cacd1fd70d3d36];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	REDIRECTOR_URL(0.00)[goo.gl];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.895];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:email,amd.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,googlegroups.com:email]
 X-Rspamd-Action: no action
 
-On 3/3/26 02:45, T.J. Mercier wrote:
-> On Mon, Mar 2, 2026 at 4:23 PM Isaac J. Manjarres
-> <isaacmanjarres@google.com> wrote:
->>
->> include/uapi/linux/dma-buf.h uses several macros from ioctl.h to define
->> its ioctl commands. However, it does not include ioctl.h itself. So,
->> if userspace source code tries to include the dma-buf.h file without
->> including ioctl.h, it can result in build failures.
->>
->> Therefore, include ioctl.h in the dma-buf UAPI header.
->>
->> Signed-off-by: Isaac J. Manjarres <isaacmanjarres@google.com>
-> 
-> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Hello media maintainers/developers,
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
-Going to push that to drm-misc-fixes now.
+During the period, 8 new issues were detected and 1 were fixed.
+In total, 32 issues are still open and 103 have already been fixed.
 
-Thanks,
-Christian.
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  2684    Yes   KASAN: slab-use-after-free Read in dvb_device_open
+                   https://syzkaller.appspot.com/bug?extid=1eb177ecc3943b883f0a
+<2>  451     Yes   KASAN: slab-use-after-free Read in em28xx_release_resources
+                   https://syzkaller.appspot.com/bug?extid=16062f26c6480975e5ed
+<3>  340     Yes   KMSAN: uninit-value in dvbdmx_release_ts_feed
+                   https://syzkaller.appspot.com/bug?extid=01d4620886bee3db0e74
+<4>  137     No    KASAN: vmalloc-out-of-bounds Write in tpg_fill_plane_buffer (4)
+                   https://syzkaller.appspot.com/bug?extid=dac8f5eaa46837e97b89
+<5>  124     Yes   general protection fault in dvb_usbv2_generic_write
+                   https://syzkaller.appspot.com/bug?extid=f9f5333782a854509322
+<6>  120     No    KASAN: slab-use-after-free Write in as102_release (2)
+                   https://syzkaller.appspot.com/bug?extid=47321e8fd5a4c84088db
+<7>  111     Yes   general protection fault in vidtv_psi_desc_assign
+                   https://syzkaller.appspot.com/bug?extid=1f5bcc7c919ec578777a
+<8>  34      No    general protection fault in vidtv_psi_ts_psi_write_into
+                   https://syzkaller.appspot.com/bug?extid=814c351d094f4f1a1b86
+<9>  11      Yes   BUG: corrupted list in az6007_i2c_xfer
+                   https://syzkaller.appspot.com/bug?extid=0192952caa411a3be209
+<10> 4       Yes   KASAN: slab-use-after-free Read in v4l2_release (2)
+                   https://syzkaller.appspot.com/bug?extid=a658d41cf8564471775e
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
 
