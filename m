@@ -1,215 +1,157 @@
-Return-Path: <linux-media+bounces-54540-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54541-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AM6sKt+nqGlOwQAAu9opvQ
-	(envelope-from <linux-media+bounces-54540-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 22:45:03 +0100
+	id 6PyvEKOoqGlOwQAAu9opvQ
+	(envelope-from <linux-media+bounces-54541-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 22:48:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26858208271
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 22:45:02 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E331B208315
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 22:48:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 054E030F4995
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 21:42:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9F22E3041BC9
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 21:43:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 413943DEAE1;
-	Wed,  4 Mar 2026 21:42:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FC5A3CD8C8;
+	Wed,  4 Mar 2026 21:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MTiNOmzu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djt0iN/L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104C83C3BF4;
-	Wed,  4 Mar 2026 21:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB8C27FB0E;
+	Wed,  4 Mar 2026 21:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772660534; cv=none; b=Rqfug1VyxhHlAJOKoNuALlevKgNwILyynO8JPcNABq+eK6R4L8KiqtpqHCcZI6JUkJTDn9MDHfNDYKCKpq/meaPe3uZO77+ya+ze1XwneHhyrDMg0eGlF9dZISmK9Ay+t87BaqvCmNoDZKW7X+Xbh0ayg6sqv0uPx5g6JhwXdaQ=
+	t=1772660616; cv=none; b=GZrIPLnjeRjgzVOY/fuySmbvp54PDskp0PSZtX0UDNYwwVmhpxx5qKETEQUnx7GhbfoIikB5RZAzJmapPc8eOGvqErf6P+1o0dELsMll1CDj6WhlH/M4MLwhxsGeoLxHp5CRAo9QshBURwxVkzk1E6SU4p3lpy9EKBSeBCiyi40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772660534; c=relaxed/simple;
-	bh=xiOhB9YembJ+CStGf833o6vXChZ9R9iPIsGRMRIY668=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=toguuVh7tLwGBgu9ix+Q0Y4AuWqpeUsRKtNlqZ0vBpRksdSV19H9UwE9ZzVZoViiSu3HtDV3Ox5dON0MYH1IMbHri711EXXX1GHEqzoPeIBvmVSOJJezOK9Um4uhuGefprMIVcLVX1o5jwYWCAtm9D+fivwi1t3TnlgwElz3Tpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MTiNOmzu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07326C2BCB4;
-	Wed,  4 Mar 2026 21:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772660533;
-	bh=xiOhB9YembJ+CStGf833o6vXChZ9R9iPIsGRMRIY668=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MTiNOmzumY+Ccr9Y25oeq5uYZKghdKy9YuMJBVJenlXMeDIlM5fFuFFctJXPSrlj1
-	 KOikET8YCvcGy9yWYQw1bgH6uo7qLLK1Yimq397PsLMKP+QRrCFPLt2x5Iauoplbvb
-	 eVdpKah8RLNh0zfOSHOOrQ3xqtsNbQi1nkFz6EB4vJXFLpSPJMg52b3nqo2mplKkNj
-	 xJmYwih0yzyZ+saefyHXLopmh2Uw8y8KnyiNiI3ZzGwKqQQ7Bt9hEM//Ab6R2kTuX0
-	 dvCJZkANj5UO/wUvSeTKYiDWcUSEi2O8IiF1HH0MkcYb0vMhcqKbNtD1e26QLX94o6
-	 x5Esh08bkPubQ==
-Message-ID: <000dfca2-3101-45dd-8fdd-987ca885124a@kernel.org>
-Date: Thu, 5 Mar 2026 06:41:41 +0900
+	s=arc-20240116; t=1772660616; c=relaxed/simple;
+	bh=7wXP8WRiNeSyKnTYbShOZiG/e+hNJHKsu0WRVUrocSQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=laYYEOwKGODI3v740Tegwev4feZSXFHdfIB0Mc5/YzVWkid822tc2mGnLJaQmn+4JE5jUzXP721SVKApf93Zyru0bgWkByGgPsO2+L9rL6nrcjE3k37wdJptkkn3PW3bLq9r8Q2PxYF928+bE+q9NraeTZf2FcLZSGcaWPau8AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djt0iN/L; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772660615; x=1804196615;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7wXP8WRiNeSyKnTYbShOZiG/e+hNJHKsu0WRVUrocSQ=;
+  b=djt0iN/LX5Cu9Exh3CYvu6y4p7fM7byIgwwteFYgf6x+4+nVYwVpRfJ6
+   0ktjwE3HsaE3Y1cC4+wPJ4xRl3AfkPokNzYPWQ0j1m3QF5JP/y3jNfHc1
+   MjJS9gCnZO3qz4076lASbfFjml3HIjQEFOg1sXHQEZvbJ8IyFTG2iqQK5
+   r9wsfQzFMgMh3CJdbx/Q1E6BpzZ/mClrcDcMPj+/bU7zfenmfmG6DwxXc
+   cmomhjMchxFjoGb5A17cJkc3oNG+elHeXi4lKq+zAxFq05I6p5SCrEfHd
+   byYLKEg9J4twQRmaHkw1z7iaXKOI9FZssqaDI88onPVWw/JwfKxixUW25
+   Q==;
+X-CSE-ConnectionGUID: IJ2pJA+hRQW4ohpZXuoqCA==
+X-CSE-MsgGUID: RyymdAe8TOSCB9MKjsuXHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="85206487"
+X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
+   d="scan'208";a="85206487"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 13:43:35 -0800
+X-CSE-ConnectionGUID: HipjXJbqSqOXgbAMz8bTdg==
+X-CSE-MsgGUID: QdS6PPkRTU2JfLIcFLOudg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
+   d="scan'208";a="217627119"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.13])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 13:43:33 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E5CDB120CA3;
+	Wed, 04 Mar 2026 23:44:01 +0200 (EET)
+Date: Wed, 4 Mar 2026 23:44:01 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] media: i2c: mt9m114: add support for Aptina MI1040
+Message-ID: <aainoYv6RXkXFcHv@kekkonen.localdomain>
+References: <20260304185001.82988-1-clamor95@gmail.com>
+ <20260304185001.82988-3-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/12] zonefs: widen trace event i_ino fields to u64
-To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Dan Williams <dan.j.williams@intel.com>, Eric Biggers <ebiggers@kernel.org>,
- "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
- David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
- Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
- Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Shyam Prasad N <sprasad@microsoft.com>, Bharath SM
- <bharathsm@microsoft.com>, Alexander Aring <alex.aring@gmail.com>,
- Ryusuke Konishi <konishi.ryusuke@gmail.com>,
- Viacheslav Dubeyko <slava@dubeyko.com>,
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
- <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>,
- Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>,
- Salah Triki <salah.triki@gmail.com>,
- "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
- Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>,
- Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
- Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>,
- Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Yangtao Li <frank.li@vivo.com>,
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
- David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>,
- Dave Kleikamp <shaggy@kernel.org>,
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
- Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
- Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall
- <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>,
- Zhihao Cheng <chengzhihao1@huawei.com>, Naohiro Aota <naohiro.aota@wdc.com>,
- Johannes Thumshirn <jth@kernel.org>,
- John Johansen <john.johansen@canonical.com>, Paul Moore
- <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>,
- Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>,
- Casey Schaufler <casey@schaufler-ca.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>,
- Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Willem de Bruijn <willemb@google.com>, "David S. Miller"
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>,
- Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>,
- Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Oliver Hartkopp <socketcan@hartkopp.net>,
- Marc Kleine-Budde <mkl@pengutronix.de>, David Ahern <dsahern@kernel.org>,
- Neal Cardwell <ncardwell@google.com>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Remi Denis-Courmont <courmisch@gmail.com>,
- Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
- Xin Long <lucien.xin@gmail.com>, Magnus Karlsson
- <magnus.karlsson@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
- linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
- v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org,
- ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
- ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org,
- jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev,
- ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
- linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
- selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org,
- linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org,
- linux-x25@vger.kernel.org, audit@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org,
- linux-sctp@vger.kernel.org, bpf@vger.kernel.org
-References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
- <20260304-iino-u64-v3-8-2257ad83d372@kernel.org>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20260304-iino-u64-v3-8-2257ad83d372@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 26858208271
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304185001.82988-3-clamor95@gmail.com>
+X-Rspamd-Queue-Id: E331B208315
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54540-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,goodmis.org,efficios.com,intel.com,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,infradead.org,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net];
+	TAGGED_FROM(0.00)[bounces-54541-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	HAS_ORG_HEADER(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[170];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dlemoal@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.972];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim]
 X-Rspamd-Action: no action
 
-On 3/5/26 00:32, Jeff Layton wrote:
-> Update zonefs trace event definitions to use u64 instead of
-> ino_t/unsigned long for inode number fields.
-> 
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+Hi Svyatoslav,
 
-Acked-by: Damien Le Moal <dlemoal@kernel.org>
+One more thing...
+
+On Wed, Mar 04, 2026 at 08:50:01PM +0200, Svyatoslav Ryhel wrote:
+> @@ -2646,9 +2658,18 @@ static void mt9m114_remove(struct i2c_client *client)
+>  	pm_runtime_set_suspended(dev);
+>  }
+>  
+> +static const struct mt9m114_model_info mt9m114_models_default = {
+> +	.state_standby_polling = true,
+> +};
+> +
+> +static const struct mt9m114_model_info mt9m114_models_aptina = {
+> +	.state_standby_polling = false,
+> +};
+> +
+>  static const struct of_device_id mt9m114_of_ids[] = {
+> -	{ .compatible = "onnn,mt9m114" },
+> -	{ /* sentinel */ },
+> +	{ .compatible = "onnn,mt9m114", .data = &mt9m114_models_default },
+> +	{ .compatible = "aptina,mi1040", .data = &mt9m114_models_aptina },
+> +	{ /* sentinel */ }
+
+The driver also supports ACPI. mt9m114_models_default needs to be added to
+the ACPI data, too; otherwise ACPI support breaks.
+
+>  };
+>  MODULE_DEVICE_TABLE(of, mt9m114_of_ids);
+>  
 
 -- 
-Damien Le Moal
-Western Digital Research
+Kind regards,
+
+Sakari Ailus
 
