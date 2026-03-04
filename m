@@ -1,58 +1,51 @@
-Return-Path: <linux-media+bounces-54538-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54539-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iFY5BpCjqGnKwAAAu9opvQ
-	(envelope-from <linux-media+bounces-54538-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 22:26:40 +0100
+	id wCXMJWunqGlOwQAAu9opvQ
+	(envelope-from <linux-media+bounces-54539-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 22:43:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB0D207F79
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 22:26:39 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E981B2081CC
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 22:43:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id AFBE5301C941
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 21:26:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AAEE230AC5F3
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 21:41:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E757388383;
-	Wed,  4 Mar 2026 21:26:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F39F73D6CB7;
+	Wed,  4 Mar 2026 21:41:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hwVg+qqt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WOy+ahU5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5511E386444;
-	Wed,  4 Mar 2026 21:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F229327BFB;
+	Wed,  4 Mar 2026 21:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772659594; cv=none; b=aHtgBOMS8a0HDGicjTjuQmsan23tnKoUTMh30ikK9YrX4fYjs9U86TnyeTjDhuWvxz4NFTK/zRMZq6m2ziIP1zPsMTcON46mv76xdAcMLJ9cak5SEveHe5K/DzF4kVQjB8pkJEfUh8dwfyX8fzsbnycmmeMX815bNy9dAKHzKxc=
+	t=1772660508; cv=none; b=Sw+pyDYSj5GGyKQkh5PJeOWD5VmG87070nFTyihXeVoAmnxEjU3wcvp37vxTqwTTmxGU++tGIPesOxd1b7JixuRdvuf1j4gWqeB4FZf4ENZ9n0eeQSSTmQr/wCdQChvDlFbA5kY6tmcaIE8ZbEbj42ydFYCAGTSebHjuhEI2gAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772659594; c=relaxed/simple;
-	bh=4Xnncoe1im22Gd++O66NN0sXnUSV5WQx7hFdbwwMeuE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ciEnwR2rQNcmP6pJTdKpY3u5bBDAmz6jKSVebFq1pniIBrpjoGNHKXgeBk9SNOvU7wS+6HehiWNq0FsnZEI0xaYomWxuOf0v/P5QifKrJ9JLNBZU492B22Iy2Yxl6c7k1aeOmvjTaHqCFaU+kU87IZbsLeSSWgP7xiMJXoT6ZRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hwVg+qqt; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1772659591;
-	bh=4Xnncoe1im22Gd++O66NN0sXnUSV5WQx7hFdbwwMeuE=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=hwVg+qqtO823WxAJrDdekGg0chWwLiX4jglTnkBf8EftMdLJo3X0ERvFktguk0FuT
-	 5Myz8LO83G8etw3Kf1o65DY6ajSnktkLk0SVxlNFOV4eXoTEgsyKegFYlrVMaxsqQN
-	 ceibHgPOPhD5De4U5ydFOuWo19kTV4oCkD+AjoAwBk52ZNiDYsPmtsel9tz+lv2sD4
-	 JUzY1dbGd55uTyFIdCs/RzD+9z9nUCPdFzqO8i0ryksDCvMcOmxENb5hrkUtNYeG5s
-	 z6J49eU0YAnrQ9oHoMN1CK934sTfUJGBEpwpCO7DLs8NV4VcVJAwNryRyZggEgMjHA
-	 qbTvF6TUanEyQ==
-Received: from [192.168.1.90] (unknown [86.123.23.225])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C3EFB17E0A2D;
-	Wed,  4 Mar 2026 22:26:30 +0100 (CET)
-Message-ID: <cce68679-8dcf-4c8d-8a66-df426c037f6c@collabora.com>
-Date: Wed, 4 Mar 2026 23:26:30 +0200
+	s=arc-20240116; t=1772660508; c=relaxed/simple;
+	bh=PV67OS/91fsa6EbIf+u5pJQmbMnqcMaw7mOqQaMZtc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lfld2e8/PbdfaAtjfigBPh7E9dFW1n7G05AkucJry/6w46kgIFNyvq8Ec74bhrTMwT2u9Fs/hHRofFqKVS5l0aZXWocJDGl6q3qSWRzXAzvRXgGgyISAtQ65Mjbz52nMmgXXLwGijR+1/0Kp5egn+4O2VOcNn5aQK2iGIdfrkCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WOy+ahU5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFDDDC4CEF7;
+	Wed,  4 Mar 2026 21:41:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772660507;
+	bh=PV67OS/91fsa6EbIf+u5pJQmbMnqcMaw7mOqQaMZtc4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WOy+ahU5UARQ0yTbDyVVAn1fSlv8RpYZwjPT+Gigf4F6vtlQM47BUEAaHpPl28jTi
+	 zijTiFmnsokrQhTEwusFFZyPjXjLpzptmexKVrqiO7zalnrs6jCk/4Dtvo7p2Wi1b1
+	 deFntjfjHaMPD1GtY9aIYLocTQHgNd9upu9na/Ju2G9Ir6nNYqwGJRWtco86cB0/5r
+	 uO2UQtHfq4CG7HDfigIocItuDJOTEaZae9H5bHTqKAx9IDkUJuakGJN2s0X8q9pydZ
+	 YUjxavtU51Dm29ViV1Ch1zVWrQIQ2z11hjkuPtHX/LzHUzaMqMA8RcsW3Ko5J8lxOB
+	 JCi7YwgNkSxnQ==
+Message-ID: <d5ef252a-02db-42d1-8ffa-1769189ae60a@kernel.org>
+Date: Thu, 5 Mar 2026 06:41:21 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,172 +53,179 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] media: dt-bindings: rockchip,vdec: Add alternative
- reg-names order for RK35{76,88}
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil@kernel.org>, kernel@collabora.com,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>, linux-media@vger.kernel.org
-References: <20260226-vdec-reg-order-rk3576-v4-0-b8d72dc75250@collabora.com>
- <20260226-vdec-reg-order-rk3576-v4-1-b8d72dc75250@collabora.com>
- <20260227-observant-roaring-ara-ef7eb0@quoll>
- <adbbdbb1-b126-4807-821c-c9850befd695@collabora.com>
- <20260227-omission-stoic-417d7109ad4d@spud>
- <3ab4f91e-37d0-4950-af88-01920705d31a@collabora.com>
- <1fe5529f-cd9f-4960-b6dd-96a2d02b8d86@kernel.org>
- <59b442c8-da2a-40a8-b9db-1609a8eee744@kernel.org>
- <a70731e8-375a-4ba9-b142-600b92ae1087@collabora.com>
+Subject: Re: [PATCH v3 12/12] treewide: change inode->i_ino from unsigned long
+ to u64
+To: Jeff Layton <jlayton@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Dan Williams <dan.j.williams@intel.com>, Eric Biggers <ebiggers@kernel.org>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>,
+ Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>,
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+ Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>,
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+ Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Shyam Prasad N <sprasad@microsoft.com>, Bharath SM
+ <bharathsm@microsoft.com>, Alexander Aring <alex.aring@gmail.com>,
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>,
+ Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
+ <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>,
+ Salah Triki <salah.triki@gmail.com>,
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+ Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>,
+ Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
+ Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>,
+ Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Yangtao Li <frank.li@vivo.com>,
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
+ David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>,
+ Dave Kleikamp <shaggy@kernel.org>,
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+ Joseph Qi <joseph.qi@linux.alibaba.com>, Mike Marshall
+ <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, Naohiro Aota <naohiro.aota@wdc.com>,
+ Johannes Thumshirn <jth@kernel.org>,
+ John Johansen <john.johansen@canonical.com>, Paul Moore
+ <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Ondrej Mosnacek <omosnace@redhat.com>,
+ Casey Schaufler <casey@schaufler-ca.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>,
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Willem de Bruijn <willemb@google.com>, "David S. Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>,
+ Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>,
+ Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Oliver Hartkopp <socketcan@hartkopp.net>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, David Ahern <dsahern@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>,
+ Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Remi Denis-Courmont <courmisch@gmail.com>,
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+ Xin Long <lucien.xin@gmail.com>, Magnus Karlsson
+ <magnus.karlsson@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
+ v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
+ ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org,
+ jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev,
+ ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
+ linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
+ selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org,
+ linux-x25@vger.kernel.org, audit@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org,
+ linux-sctp@vger.kernel.org, bpf@vger.kernel.org
+References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
+ <20260304-iino-u64-v3-12-2257ad83d372@kernel.org>
 Content-Language: en-US
-In-Reply-To: <a70731e8-375a-4ba9-b142-600b92ae1087@collabora.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260304-iino-u64-v3-12-2257ad83d372@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 7EB0D207F79
+X-Rspamd-Queue-Id: E981B2081CC
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-54539-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54538-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,zeniv.linux.org.uk,suse.cz,goodmis.org,efficios.com,intel.com,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,infradead.org,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net];
+	HAS_ORG_HEADER(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[cristian.ciocaltea@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[170];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dlemoal@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On 3/3/26 2:26 AM, Cristian Ciocaltea wrote:
-> Hi Krzysztof,
+On 3/5/26 00:32, Jeff Layton wrote:
+> On 32-bit architectures, unsigned long is only 32 bits wide, which
+> causes 64-bit inode numbers to be silently truncated. Several
+> filesystems (NFS, XFS, BTRFS, etc.) can generate inode numbers that
+> exceed 32 bits, and this truncation can lead to inode number collisions
+> and other subtle bugs on 32-bit systems.
 > 
-> On 2/28/26 11:58 AM, Krzysztof Kozlowski wrote:
->> On 28/02/2026 10:54, Krzysztof Kozlowski wrote:
->>> On 27/02/2026 18:42, Cristian Ciocaltea wrote:
->>>> On 2/27/26 7:13 PM, Conor Dooley wrote:
->>>>> On Fri, Feb 27, 2026 at 01:37:17PM +0200, Cristian Ciocaltea wrote:
->>>>>> Hi Krzysztof, Conor,
->>>>>>
->>>>>> On 2/27/26 9:46 AM, Krzysztof Kozlowski wrote:
->>>>>>> On Thu, Feb 26, 2026 at 12:46:53PM +0200, Cristian Ciocaltea wrote:
->>>>>>>> With the introduction of the RK3588 SoC, and RK3576 afterwards, two more
->>>>>>>> register blocks have been provided for the video decoder unit.
->>>>>>>>
->>>>>>>> However, the binding does not properly describe the new hardware layout,
->>>>>>>
->>>>>>> As you shown me last time with excerpt of address spaces from
->>>>>>> datasheet/manual, the binding correctly describes the hardware and above
->>>>>>> sentence is not true.
->>>>>>>
->>>>>>>> as it breaks the convention expecting the unit address to indicate the
->>>>>>>> start of the first register range, i.e. 'function' block is listed
->>>>>>>
->>>>>>> Imprecise wording. "start of the main or primary register range"
->>>>>>>
->>>>>>> (if you have 0x1000 with one reg and 0x20000000 with everything, the
->>>>>>> unit address will be 0x20000000).
->>>>>>>
->>>>>>>> before 'link' instead of the opposite.
->>>>>>>>
->>>>>>>> Since the binding changes have been already released and a fix would
->>>>>>>> bring up an ABI break, mark the current 'reg-names' ordering as
->>>>>>>> deprecated and introduce an alternative 'link,function,cache' listing
->>>>>>>> which follows the address-based ordering according to the TRM.
->>>>>>>>
->>>>>>>> Additionally, drop the 'reg' description items as the order is not fixed
->>>>>>>> anymore, while the information they offer is not very relevant anyway.
->>>>>>>
->>>>>>> This is fine for me.
->>>>>>
->>>>>> Thanks for the additional feedback!
->>>>>>
->>>>>> If I'm not mistaken (please correct me), the only remaining (hard)
->>>>>> blocker for the series would be to improve this commit message.
->>>>>
->>>>> No, you also need to fix the problem I pointed out about reg-names being
->>>>> optional on the devices you're relying on reg-names for. 
->>>>
->>>> My only concern is that by marking reg-names as required we would break the ABI,
->>>
->>> You are ALREADY BREAKING the ABI. Really, for absolutely non-important
->>> cosmetic change in unit address, where I asked you repeatedly to fix the
->>> unit address, you change the ABI affecting kernel and DTS users.
+> Change the type of inode->i_ino from unsigned long to u64 to ensure that
+> inode numbers are always represented as 64-bit values regardless of
+> architecture. Update all format specifiers treewide from %lu/%lx to
+> %llu/%llx to match the new type, along with corresponding local variable
+> types.
 > 
-> I thought we've already reached consensus to allow extending the binding and
-> keep both lists, precisely to avoid breaking the ABI.  At least this was my
-> understanding according to your reply [1]:
+> This is the bulk treewide conversion. Earlier patches in this series
+> handled trace events separately to allow trace field reordering for
+> better struct packing on 32-bit.
 > 
->   You can have also oneOf with older list "deprecated: true", if want to
->   keep any users unaffected.
-> 
-> And this patch was meant to do exactly that.  Did I miss something?
-> 
->>> This is barely acceptable, but I am just annoyed already explain it to
->>> you multiple times.
-> 
-> There is no need to explain it again, we've got your point.  We've also brought our
-> arguments and I had the impression that we eventually agreed to keep the unit
-> address unchanged, based on your comments [2]:
-> 
->   Yes, with drop of the oneOf this would be fine.
->   I meant, the "one item option" in oneOf.
-> 
-> Is this not applicable anymore?
-> 
->>> But now you claim, you can break ABI for cosmetic unimportant change,
-> 
-> No, breaking ABI wasn't our intention here.  If we put the issue with reg-names
-> being optional aside for a moment (as that one will be handled separately), is
-> there still a problem with the current revision?
-> 
->>> but actually doing something meaningful is a no-go?
-> 
-> Making reg-names mandatory has been already clarified with Conor and agreed [3]
-> to be handled in a dedicated patch.  And that one will indeed break the ABI, but
-> it's unavoidable, unfortunately. 
-> 
->>> At least use correct arguments if you want to discuss.
-> 
-> Sorry, I'm not sure what do you mean.  I really believed that we managed to
-> address all the open topics by now.
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
 
-I've just submitted v5.  For some reason the link to the cover letter [1]
-doesn't seem to work, I'm getting:
+For the zonefs bits:
 
-  Message-ID <20260304-vdec-reg-order-rk3576-v5-0-7006fad42c3a@collabora.com>
-  not found
+Acked-by: Damien Le Moal <dlemoal@kernel.org>
 
-But all the others are just fine, e.g. [2] is the for the 1st patch.  I've never
-encountered something similar before.
-
-Regards,
-Cristian
-
-[1] https://lore.kernel.org/all/20260304-vdec-reg-order-rk3576-v5-0-7006fad42c3a@collabora.com/
-[2] https://lore.kernel.org/all/20260304-vdec-reg-order-rk3576-v5-1-7006fad42c3a@collabora.com/
-
-
-
+-- 
+Damien Le Moal
+Western Digital Research
 
