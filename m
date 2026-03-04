@@ -1,173 +1,252 @@
-Return-Path: <linux-media+bounces-54423-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54424-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4KbmADjnp2mDlgAAu9opvQ
-	(envelope-from <linux-media+bounces-54423-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 09:03:04 +0100
+	id YMfSGUrmp2mrlAAAu9opvQ
+	(envelope-from <linux-media+bounces-54424-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 08:59:06 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FBB1FC1E0
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 09:03:02 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3E31FC143
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 08:59:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5422630D3ECC
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 07:56:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6E8A9301222B
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 07:59:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D36737F8B5;
-	Wed,  4 Mar 2026 07:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C55388379;
+	Wed,  4 Mar 2026 07:59:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KAax5lPK"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Wp8BKSAs";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="gXvkxwCx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C787B3914F0
-	for <linux-media@vger.kernel.org>; Wed,  4 Mar 2026 07:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772610843; cv=none; b=YY5MVOBwVa9Tgn6A3xXE2h1DPQLGaKoL9A4irLwi6/083qrnzYIaAhRBK0QUEz1lmT/ZGDmB1zRJlxdgS9wTzbXSVDuSiQ38wRD94/DdL6L8zsIpk1jnVC9jNXTPmAHg2JfoYbHArMxNcHJo+ErdWi96PWvb9xKZApZ17zFPkAs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772610843; c=relaxed/simple;
-	bh=26fiH1if8gs9ZxlWdfCJaqGAk6CuKqNZrTLX0ZO0ueA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JM0GuRqDXFg0tZAI20EDQVP3LKmUwp5xTKsj17n/VJQGK28HvCTuC7xMQc4CdgKh8uD8msmAvE7N8xY8lMpFAaYiqfpOFbyBkYyN+4oH43OCdmke/b4WvlmXIQHQ85HajrSiPwkBQEEPOlFJCthicLRizVz56KfbFzGLXjG2wsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KAax5lPK; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772610841; x=1804146841;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=26fiH1if8gs9ZxlWdfCJaqGAk6CuKqNZrTLX0ZO0ueA=;
-  b=KAax5lPKUc7IjRinQZEL4g4drZ+T+MLG8ooWPUn2YIcuUEqZwE0h3ENk
-   z2V1PVyMua7svuJmns8rpmp5WLQ0QdFrEdptES+R1AgL76s3t6boTFU54
-   DizS5bPgvo6JfX19xni1/tuUT5L2CuZQeAGj0NGmcAALKMvrlXRmAfjHu
-   A82thOfOyKgM6b3fcV7zQhX6fpTzole7UK83Vgcu6mXlra2PS+bb9C5Nj
-   CQOTRZNP7xsdQUZEqopmFPWxmWiUktfagFy9Fnn9+AWIrZ/IFpMedZgt1
-   e7txyQ3xzkDSnDPuZWM18mHHZIOdcJT5M3TeL9TEDzjOdiq2k0SpYUtfD
-   A==;
-X-CSE-ConnectionGUID: ocHu/BOjQdul6nbCbisEGg==
-X-CSE-MsgGUID: 08I8DikuQKKmaOfLypbzUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="84755298"
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="84755298"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 23:54:01 -0800
-X-CSE-ConnectionGUID: /Y+pchhJT0+pi1mJj1ORLw==
-X-CSE-MsgGUID: A4BBVG+tRfGI7TqWdZ2t+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="215662894"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.163])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 23:53:58 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id DCF2C121D1E;
-	Wed, 04 Mar 2026 09:54:26 +0200 (EET)
-Date: Wed, 4 Mar 2026 09:54:26 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	linux-media@vger.kernel.org, andy@kernel.org, hansg@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	Soufiane Dani <soufianeda@tutanota.com>
-Subject: Re: [PATCH 1/1] staging: media: atomisp: Disallow all private IOCTLs
-Message-ID: <aaflMrn55oP0_3JJ@kekkonen.localdomain>
-References: <20260303083501.3886922-1-sakari.ailus@linux.intel.com>
- <CAHp75VdaYxvQ+tx51WDPFYSzFOSWqHqFKB4xaNTOt-rx4O9CPw@mail.gmail.com>
- <aabfJEGDJGGP49bS@kekkonen.localdomain>
- <aabnORpRlVBN5_aj@ashevche-desk.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B7838657B
+	for <linux-media@vger.kernel.org>; Wed,  4 Mar 2026 07:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772611139; cv=pass; b=AUfJTtvrlLFoJQ82cJDgxXwbUwiwmf6Oip1B+/EznikNu3BkQcYYPIRL+4XEzaTLOU7fn9DgIRFe3isOisZ7GB6mBoGJTGZNDXoTzqwtNoiINKNAPX3xv91ybXs7+yIWpRt2Sa1gmottByFQa9NArLAB8sjdzfKmTW06ty/9GNE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772611139; c=relaxed/simple;
+	bh=7DX6Xti3V185YiZv0qsnJejX66rVhLRc4dUIutVTUlA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YuQ6LJQeVsMeHsYi20alI4A1SMPQIWnU5+/7kW1KK+NgXLQ+G0BsqXSHRQDmGBf+fvioZx7TcFiwQdBFjUXB7ZnFznBZr5OMesN1zmCCPojOB/EmZNOtlGgIWlY7xOOyELyocvnr74ck5Ad2g9+OBUkCPkOR1UQ8YmR1gSx2/4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Wp8BKSAs; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=gXvkxwCx; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772611136;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wcqpRt8jvMP8XWtSPkO4bteIZfJG5tmplM3Y6kGZdoo=;
+	b=Wp8BKSAsphuka/rWK1RBRi6EyLkevNdS+gOFPkRt8jbyRklUu/bmcGxM6NVupBkCcc+ABq
+	zgbW6Ce+TdsUPhYyyLnOfyGAiqF24PrygpXk/ZCvhWBm3CwR1coHtVq19qm2qmomlnPVB2
+	TRS/xaSnqIIaPfckzGYMZ9k05aAeQCo=
+Received: from mail-yx1-f71.google.com (mail-yx1-f71.google.com
+ [74.125.224.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-358-vMhiSEICOrqwDfFHihllvg-1; Wed, 04 Mar 2026 02:58:54 -0500
+X-MC-Unique: vMhiSEICOrqwDfFHihllvg-1
+X-Mimecast-MFC-AGG-ID: vMhiSEICOrqwDfFHihllvg_1772611134
+Received: by mail-yx1-f71.google.com with SMTP id 956f58d0204a3-649deeeb00fso8561612d50.0
+        for <linux-media@vger.kernel.org>; Tue, 03 Mar 2026 23:58:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772611134; cv=none;
+        d=google.com; s=arc-20240605;
+        b=f8wEvg8CHvMiGMdwl8V0/f2zbl2Xq7tNahj6MGRs2sFYbIruJ8f/VIasD1b7EWoC18
+         zt88jgt4gLPjCP7F3hpyCsHc57HowbDkLQAENLFeR0oMiWNcMWWNlqfWJrpdSxMgGA4A
+         qs/pF2dCYBt8k1hJiR/64WTmtoxx8Z8mxk1EzZcQHhiaW81VdnCaNbZkB0yTWxWdCXof
+         RezB1HV4Rcef9Xn9vr7jbYX/m/36eyhycm6fFqogZmer/YZiZMs4GvbdVfeC5iC5LHuQ
+         MG/08W4Wd/3zCNkktPxJkQu3SVAJQdwhxZnlKX20iMyZcd/8OiDkJamhFCuLIrbqMRei
+         I3Ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wcqpRt8jvMP8XWtSPkO4bteIZfJG5tmplM3Y6kGZdoo=;
+        fh=PPyYsYcemJWJ2XtKNNYc4E3VZI/h8CHafkTxRp04BfY=;
+        b=StN5VaxMaG6n1IE5TLBuKYGtxSqQTYHK6DKBqrTguZ81WbuvAin6fmaohblmrfe+9J
+         KWNx5AtVAUe8NJ21lhjyBZDAxo2DxOKYi6n6KYknpdeGtRKgWgCe5vRrSHSCT7LCQz0y
+         JZizRdn9H+sl7/PeKm8ZJbXxEgaf6UZgtIfoz/PxCADsGg5yEqwELvOdnDgDfil2PbBh
+         2pDs0Sdp6uZA1K6fQzIOdFDLO5SNOl7w5Zb7p5oYy1RJyyIGTtzIwRPmwH9t4i2TL6Us
+         ZFt9Bw7V/orSI6P7UrNNUKSDNoo9OpKWGTrVmlP59P5CnCJF+lrciIkIiLsoCxLjLCed
+         UCyA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1772611134; x=1773215934; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wcqpRt8jvMP8XWtSPkO4bteIZfJG5tmplM3Y6kGZdoo=;
+        b=gXvkxwCx5UGJ7aDb/360IBk8YmmNLdLJ9rSCtR1DFv7nkNQ+veNdtyKTmf9Az1tCpd
+         tZL9rXxya/5GTLBEtNLitFAz6iCzwnqvmzvvt29nFypz8W2nAXqnkcHNjLApJuH2I8yU
+         ZbVaWuSsQV91XTXwWKQ16eAFc1rIH+2fR7+/z+Nl9+VIRoFBVaTHY5fs2WfkoBvjjYU2
+         4iYo/ACApWuFuuYGJRycMlxgwCa/VOtAb7RJTRIFc0e3sHoxGsZBFUbMsPehwnIFVDdV
+         9f278yyIJ89pml0f+eqxTLSSUx8u3mAUXO7wbKaBIQ3j79Sz1lFZAnHrhPRNIQWSh/1f
+         HbtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772611134; x=1773215934;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wcqpRt8jvMP8XWtSPkO4bteIZfJG5tmplM3Y6kGZdoo=;
+        b=t9ut4QdxywrAR+90t1bQ3HZYWMIQxlrlPB/OplYMEPY5t6TutbYGYWDSWH6YhhFBxM
+         Jn3uWSAtyiLK7DX72KdPpM4Np019k+29Bo6sTaw48BdUPaRY0qcrpUvHA8K4zWBuwSC1
+         WM6G3o5gWYFUQXEC7J6eUINiWG0aEPEtxmGu4VDNi+zsnw69KzjsvXaLs6L0m6FUOKbO
+         J70gDz2ALirx85AGduj13NYPfV9sAQU/58J1/KV6Dtuo39bBimDC3zew24x0HLiRKzFR
+         21NLpK3dB/wGIujwTo4sssBM+CM1u6tNworb2GRpH+rr62gE3+Ciq5OPmVeL97KdnRkd
+         EGGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW2mNrK49ibx6pojbwXvBIISUbu9G6ZfYu+q1Z/kU8mMOd0q1bC85DwZbXFmzm1zSEqYMxHhP3JGT5HVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGVlj6Z7kPMUxg5CGknqs8tbO9k+IhgGpqp5fx1OG5v6sxgzjH
+	rhTEYt4+gqd/g6nvdrwyX6UFk7lthkAxh4ol9m6JCRddfTcVfIfhxEcQYk+Yp86E9U3wOQ7J3hM
+	oqmc9WlxsBbTM83pqrhmi2e0iHlzTFaUBxkIA4w91psBZl8BVVPN695J5MJ5C3okzfaWD3dw5ZV
+	bFIYFcsPL8fjBtpdnV7O/rYmS9k9qlqMnstXTxnIM=
+X-Gm-Gg: ATEYQzxrWbksEvbFAKLG9wZoXsM5Mrc0SRXdefm1UX59yRC2jBJlV+2kzwY2dUvlkVg
+	p8r9AyHqH5yvG2zKRqw8R72/7325De59urnqU3tsnQutshF/qapjNe6fJXhAhadZSGF0IAOxFeT
+	yWbI5YDq4nvKuaL2sSzNpmTQ2pqiO0OPt0Hw883lP6z/PjD2d8Km+ZO94kTzAXVa4cbw2TivM26
+	Q==
+X-Received: by 2002:a53:ee53:0:b0:649:b04c:25c3 with SMTP id 956f58d0204a3-64cf9c1872amr761647d50.62.1772611134088;
+        Tue, 03 Mar 2026 23:58:54 -0800 (PST)
+X-Received: by 2002:a53:ee53:0:b0:649:b04c:25c3 with SMTP id
+ 956f58d0204a3-64cf9c1872amr761636d50.62.1772611133749; Tue, 03 Mar 2026
+ 23:58:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aabnORpRlVBN5_aj@ashevche-desk.local>
-X-Rspamd-Queue-Id: E4FBB1FC1E0
+References: <20260303-b4-dmabuf-heap-coherent-rmem-v2-0-65a4653b3378@redhat.com>
+ <20260303-b4-dmabuf-heap-coherent-rmem-v2-3-65a4653b3378@redhat.com> <20260303-weightless-crafty-hyrax-bdf1ca@houat>
+In-Reply-To: <20260303-weightless-crafty-hyrax-bdf1ca@houat>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Wed, 4 Mar 2026 08:58:42 +0100
+X-Gm-Features: AaiRm50vjbd8iZF9aZq1Cno_RqIuyn0PYTIuzz9Iq5d5rpEaa4iOCaZKKjWryT4
+Message-ID: <CADSE00LodeTg8Xfvo4VOZDvHh25=8+Jsqq+V8iynmpYx2bBRjA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] of_reserved_mem: add a helper for rmem device_init op
+To: Maxime Ripard <mripard@redhat.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, 
+	devicetree@vger.kernel.org, echanude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 0E3E31FC143
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,linuxfoundation.org,lists.linux.dev,tutanota.com];
-	TAGGED_FROM(0.00)[bounces-54423-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54424-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:dkim,intel.com:email]
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
-Hi Andy,
+On Tue, Mar 3, 2026 at 2:13=E2=80=AFPM Maxime Ripard <mripard@redhat.com> w=
+rote:
+>
+> On Tue, Mar 03, 2026 at 01:33:46PM +0100, Albert Esteve wrote:
+> > Add a helper function wrapping internal reserved memory
+> > device_init call and expose it externally.
+> >
+> > Use the new helper function within of_reserved_mem_device_init_by_idx()=
+.
+> >
+> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> > ---
+> >  drivers/of/of_reserved_mem.c    | 27 +++++++++++++++++++++++----
+> >  include/linux/of_reserved_mem.h |  8 ++++++++
+> >  2 files changed, 31 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/of/of_reserved_mem.c b/drivers/of/of_reserved_mem.=
+c
+> > index 1fd28f8056108..3a350bef8f11e 100644
+> > --- a/drivers/of/of_reserved_mem.c
+> > +++ b/drivers/of/of_reserved_mem.c
+> > @@ -605,6 +605,28 @@ struct rmem_assigned_device {
+> >  static LIST_HEAD(of_rmem_assigned_device_list);
+> >  static DEFINE_MUTEX(of_rmem_assigned_device_mutex);
+> >
+> > +/**
+> > + * of_reserved_mem_device_init_with_mem() - assign reserved memory reg=
+ion to
+> > + *                                       given device
+> > + * @dev:     Pointer to the device to configure
+> > + * @rmem:    Reserved memory region to assign
+> > + *
+> > + * This function assigns respective DMA-mapping operations based on th=
+e
+> > + * reserved memory region already provided in @rmem to the @dev device=
+,
+> > + * without walking DT nodes.
+> > + *
+> > + * Returns error code or zero on success.
+> > + */
+> > +int of_reserved_mem_device_init_with_mem(struct device *dev,
+> > +                                      struct reserved_mem *rmem)
+> > +{
+> > +     if (!dev || !rmem || !rmem->ops || !rmem->ops->device_init)
+> > +             return -EINVAL;
+> > +
+> > +     return rmem->ops->device_init(rmem, dev);
+> > +}
+> > +EXPORT_SYMBOL_GPL(of_reserved_mem_device_init_with_mem);
+> > +
+> >  /**
+> >   * of_reserved_mem_device_init_by_idx() - assign reserved memory regio=
+n to
+> >   *                                     given device
+> > @@ -643,14 +665,11 @@ int of_reserved_mem_device_init_by_idx(struct dev=
+ice *dev,
+> >       rmem =3D of_reserved_mem_lookup(target);
+> >       of_node_put(target);
+> >
+> > -     if (!rmem || !rmem->ops || !rmem->ops->device_init)
+> > -             return -EINVAL;
+> > -
+> >       rd =3D kmalloc_obj(struct rmem_assigned_device);
+> >       if (!rd)
+> >               return -ENOMEM;
+> >
+> > -     ret =3D rmem->ops->device_init(rmem, dev);
+> > +     ret =3D of_reserved_mem_device_init_with_mem(dev, rmem);
+> >       if (ret =3D=3D 0) {
+> >               rd->dev =3D dev;
+> >               rd->rmem =3D rmem;
+>
+> I think you need to take the allocation of rd, and everything below.
+> Otherwise, your device, despite being attechd, wouldn't be listed
+> anywhere.
 
-On Tue, Mar 03, 2026 at 03:50:49PM +0200, Andy Shevchenko wrote:
-> On Tue, Mar 03, 2026 at 03:16:20PM +0200, Sakari Ailus wrote:
-> > On Tue, Mar 03, 2026 at 11:21:02AM +0200, Andy Shevchenko wrote:
-> > > On Tue, Mar 3, 2026 at 10:34 AM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
-> > > >
-> > > > Disallow all private IOCTLs. These aren't quite as safe as one could
-> > > > assume of IOCTL handlers; disable them for now. Instead of removing the
-> > > > code, return in the beginning of the function if cmd is non-zero in order
-> > > > to keep static checkers happy.
-> > > >
-> > > > Reported-by: Soufiane Dani <soufianeda@tutanota.com>
-> > > > Closes: https://lore.kernel.org/linux-staging/20260210-atomisp-fix-v1-1-024429cbff31@tutanota.com/
-> > > > Cc: stable@vger.kernel.org
-> > > 
-> > > > Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-> > > 
-> > > Is it the correct one? Driver was before that, so I believe this needs
-> > > to go deeper.
-> > 
-> > Technically yes, but even this one is from 2020 and the patch removing it
-> > was merged in 2018, for v4.18. These aren't supported anymore.
-> 
-> It doesn't matter, the Fixes should be correct one, the Revert patch is not
-> the initial one where the code appeared.
+True, I did not pay enough attention to that part. I will fix it in
+the next version.
 
-Both patches actually separately introduce the bug. I'll use both Fixes:
-tags then.
+>
+> Maxime
 
-> 
-> ...
-> 
-> > > > +       /* Disable all private IOCTLs for now! */
-> > > > +       if (cmd)
-> > > > +               return -EINVAL;
-> > > 
-> > > Maybe even a warning?
-> > 
-> > That'd be just filling the logs, wouldn't it?
-> 
-> dev_warn_once()
-
-Would that warning be useful? We don't warn about other unsupported IOCTLs
-either...
-
--- 
-Sakari Ailus
 
