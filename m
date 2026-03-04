@@ -1,282 +1,272 @@
-Return-Path: <linux-media+bounces-54544-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54545-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gLNIECexqGkzwgAAu9opvQ
-	(envelope-from <linux-media+bounces-54544-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 23:24:39 +0100
+	id uAnJJPmxqGlMwgAAu9opvQ
+	(envelope-from <linux-media+bounces-54545-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 23:28:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E412087FD
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 23:24:38 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16FFC2088AA
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 23:28:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D9EA93037C23
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 22:24:17 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C1EF730475AC
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 22:25:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0CE5396B67;
-	Wed,  4 Mar 2026 22:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27FDC350A1B;
+	Wed,  4 Mar 2026 22:25:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JT8h8wa9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K759qUku"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E601C38911B;
-	Wed,  4 Mar 2026 22:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E133587A2
+	for <linux-media@vger.kernel.org>; Wed,  4 Mar 2026 22:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772663050; cv=none; b=rUgGkZxBUuDbYB6P1kMQ+QI5QLNLxdcxMPqCCKhL1O+CFjnGDM9NODV0ZliLHFXA53g16ZeRChHTKm9HPIWissYrd9O0Is0W8DQ+lmX7axw1QtVFw4j1ed3UX2XsG6wPtxKGb1ut6AMEAhTT3HGji1FqUY25Q5mk5lPojpOAwsM=
+	t=1772663141; cv=none; b=mkAGQq7WePvfNOU/K2A7Ub6jnBxUolVyJgARRdGkbtX+ciROOVXCNBoprBLqt5VZ+R+hBwcz5HW14Mjn2LUkj6FgGNQxuqMqn2LCaWR2lfEWDn0zWzga/eS1nyT7LNXSsSVTC9UQtrjOFCL9jVPy/RS3VAEEphzAhAn/6reJwRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772663050; c=relaxed/simple;
-	bh=LZ6aRV4NLElGe+XvDNm2H6HYU4en15K91g1Y0+5t5ls=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=qtZjAM6ICjfGcOkdT4r76joAOupI30P0bL8qQYnaHNMEsZy+YihIex4nW49bjBD27r/fimB9o9DhMX8V2kwbefoPWEgRA8zNTraQsnXfV1JIcE0brecmV8bPr5upJbJmbia/crJvJr15WvOZNtaeXFunFiuG2Kv5Pqm9pbyGW+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JT8h8wa9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78788C4CEF7;
-	Wed,  4 Mar 2026 22:24:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772663049;
-	bh=LZ6aRV4NLElGe+XvDNm2H6HYU4en15K91g1Y0+5t5ls=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=JT8h8wa9YGAM78bb/3oWwxOczIdTWP1RLevWv9SASlMV3F23HjV3aS0cAufk5oNIv
-	 Zbq+dj2V5Q1lrbLpdEf4tkfURlQheh0zpocuRg02jBYOuKwCUWiLX08zynlr3zyeeI
-	 6w6Tf3erGb8F5L7qg0ORfQYnKFUxrQFLM83fJWOTVoAGPovAII829usbx5s2g7ZftI
-	 8F0q5T73eVmTAvQiaF4BLlcaiBz/Wo2J+jlfrwYZ9ZRmUbse8mrHowz62l44VtX+79
-	 VS3gNkNik1DtEJIOtsvBEoQRsmWSal1XE2ICQqhs17+ZVBYOWkmudGUSL2q9myTyT4
-	 S8ZfZ2xwzNClw==
-Date: Wed, 4 Mar 2026 16:24:08 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Heiko Stuebner <heiko@sntech.de>, Shawn Guo <shawn.guo@linaro.org>,
-	Yixun Lan <dlan@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Kevin Xie <kevin.xie@starfivetech.com>
-Subject: Re: [PATCH phy-next 02/22] PCI: add missing headers transitively
- included by <linux/phy/phy.h>
-Message-ID: <20260304222408.GA40990@bhelgaas>
+	s=arc-20240116; t=1772663141; c=relaxed/simple;
+	bh=OIfEXBGW993pcHcGuSckQqpmNUrAKeRpAkpAYOrxMeI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=PE9dQHctz6RMIx165W9NqZcs00JB4SGPc186WYWlt8VtfIBw4Vs7M9tCgtiWBmeen3LsgMqHreF/W3fpQzG8+Tq+FaOPQjsicF8P1ORZi8v8Q2wfeX2bANAKNNwkCeKD/iao+R8WGU6EvcCHZ8yUF5CCFw0wwFYWjptVViQa/Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K759qUku; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772663140; x=1804199140;
+  h=date:from:to:cc:subject:message-id;
+  bh=OIfEXBGW993pcHcGuSckQqpmNUrAKeRpAkpAYOrxMeI=;
+  b=K759qUkuOMuzBkDT312nky/WgO8fQzEwteIeXCctiG9K5bU8SJ/e1As1
+   lNy6hfCqN/gr1+w5c06BKeNGR1EyYYuiKUWJhL/Lli57E0bAEH+W8f+T8
+   9R3aEPcxiwfZ7sbPddBkfDrKHmMq6SZih+gYQQgh0xr3t1A7Vhhx3uc8F
+   YWaan2rzNRGFV2McePzVflDOrfOOBvvAQXdn5ebdH5h+R/WhluowTViOh
+   /9SFVZX2tKb6bwsRII+oSd+HYHvYU/zOQBMq89QzA4O4Ri0jyfKwjdmgQ
+   HLs6uzdX63qR8Tosk65qoreUTphsyEKVjLHaX18l3O2Q/ZUpfIQB3J5M+
+   A==;
+X-CSE-ConnectionGUID: Ihfyvn+0TxKqybzpZxk4mQ==
+X-CSE-MsgGUID: kpjNeQo7SEWADlIKf3kj3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="61310599"
+X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
+   d="scan'208";a="61310599"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 14:25:38 -0800
+X-CSE-ConnectionGUID: C7chbwYPSfeOky0F2yCZVQ==
+X-CSE-MsgGUID: R0A9MNTMRjWIsZ8xWDFt5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,324,1763452800"; 
+   d="scan'208";a="223442712"
+Received: from lkp-server01.sh.intel.com (HELO f27a57aa7a36) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 04 Mar 2026 14:25:37 -0800
+Received: from kbuild by f27a57aa7a36 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vxues-000000004b3-0jaO;
+	Wed, 04 Mar 2026 22:25:34 +0000
+Date: Thu, 05 Mar 2026 06:24:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:fixes] BUILD SUCCESS
+ 24d87712727a5017ad142d63940589a36cd25647
+Message-ID: <202603050628.ioo0zccy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260304175735.2660419-3-vladimir.oltean@nxp.com>
-X-Rspamd-Queue-Id: B1E412087FD
+X-Rspamd-Queue-Id: 16FFC2088AA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54544-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[36];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,microchip.com,google.com,sntech.de,gmail.com,nvidia.com,rock-chips.com,starfivetech.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54545-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[helgaas@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,nvidia.com:email,linaro.org:email,nxp.com:email,starfivetech.com:email,rock-chips.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,intel.com:dkim,intel.com:mid,linuxtv.org:url]
 X-Rspamd-Action: no action
 
-Update subject line to match history:
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git fixes
+branch HEAD: 24d87712727a5017ad142d63940589a36cd25647  media: dvb-net: fix OOB access in ULE extension header tables
 
-  PCI: Add missing headers transitively included by <linux/phy/phy.h>
+elapsed time: 758m
 
-On Wed, Mar 04, 2026 at 07:57:15PM +0200, Vladimir Oltean wrote:
-> The tegra as well as a few dwc PCI controller drivers uses PM runtime
-> operations without including the required <linux/pm_runtime.h> header.
-> 
-> Similarly, pcie-rockchip-host, pcie-starfive as well as a few dwc PCI
-> controllers use the regulator consumer API without including
-> <linux/regulator/consumer.h>.
-> 
-> It seems these function prototypes were indirectly provided by
-> <linux/phy/phy.h>, mostly by mistake (none of the functions it exports
-> need it).
-> 
-> Before the PHY header can drop the unnecessary includes, make sure the
-> PCI controller drivers include what they use.
-> 
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+configs tested: 147
+configs skipped: 1
 
-With the subject line update:
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+arc                              allmodconfig    clang-16
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    clang-23
+arc                   randconfig-001-20260304    clang-23
+arc                   randconfig-002-20260304    clang-23
+arm                               allnoconfig    clang-23
+arm                               allnoconfig    gcc-15.2.0
+arm                              allyesconfig    clang-16
+arm                   randconfig-001-20260304    clang-23
+arm                   randconfig-002-20260304    clang-23
+arm                   randconfig-003-20260304    clang-23
+arm                   randconfig-004-20260304    clang-23
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-15.2.0
+arm64                 randconfig-001-20260304    gcc-15.2.0
+arm64                 randconfig-002-20260304    gcc-15.2.0
+arm64                 randconfig-003-20260304    gcc-15.2.0
+arm64                 randconfig-004-20260304    gcc-15.2.0
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                  randconfig-001-20260304    gcc-15.2.0
+csky                  randconfig-002-20260304    gcc-15.2.0
+hexagon                          allmodconfig    gcc-15.2.0
+hexagon                           allnoconfig    clang-23
+hexagon                           allnoconfig    gcc-15.2.0
+i386                             allmodconfig    clang-20
+i386                              allnoconfig    gcc-14
+i386                              allnoconfig    gcc-15.2.0
+i386                             allyesconfig    clang-20
+i386        buildonly-randconfig-001-20260305    clang-20
+i386        buildonly-randconfig-002-20260305    clang-20
+i386        buildonly-randconfig-003-20260305    clang-20
+i386        buildonly-randconfig-004-20260305    clang-20
+i386        buildonly-randconfig-005-20260305    clang-20
+i386        buildonly-randconfig-006-20260305    clang-20
+i386                  randconfig-001-20260304    clang-20
+i386                  randconfig-002-20260304    clang-20
+i386                  randconfig-003-20260304    clang-20
+i386                  randconfig-004-20260304    clang-20
+i386                  randconfig-005-20260304    clang-20
+i386                  randconfig-006-20260304    clang-20
+i386                  randconfig-007-20260304    clang-20
+i386                  randconfig-011-20260304    gcc-14
+i386                  randconfig-012-20260304    gcc-14
+i386                  randconfig-013-20260304    gcc-14
+i386                  randconfig-014-20260304    gcc-14
+i386                  randconfig-015-20260304    gcc-14
+i386                  randconfig-016-20260304    gcc-14
+i386                  randconfig-017-20260304    gcc-14
+loongarch                        allmodconfig    clang-23
+loongarch                         allnoconfig    clang-23
+loongarch                         allnoconfig    gcc-15.2.0
+loongarch                           defconfig    clang-19
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    clang-16
+m68k                                defconfig    clang-19
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    clang-19
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+nios2                            allmodconfig    clang-23
+nios2                             allnoconfig    clang-23
+nios2                               defconfig    clang-19
+openrisc                         allmodconfig    clang-23
+openrisc                          allnoconfig    clang-23
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    clang-23
+parisc                           allyesconfig    clang-19
+parisc                randconfig-001-20260304    gcc-8.5.0
+parisc                randconfig-002-20260304    gcc-8.5.0
+parisc64                            defconfig    clang-19
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    clang-23
+powerpc               randconfig-001-20260304    gcc-8.5.0
+powerpc               randconfig-002-20260304    gcc-8.5.0
+powerpc64             randconfig-001-20260304    gcc-8.5.0
+powerpc64             randconfig-002-20260304    gcc-8.5.0
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    clang-23
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20260305    clang-23
+riscv                 randconfig-002-20260305    clang-23
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-15.2.0
+s390                  randconfig-001-20260305    clang-23
+s390                  randconfig-002-20260305    clang-23
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    clang-23
+sh                               allyesconfig    clang-19
+sh                                  defconfig    gcc-14
+sh                    randconfig-001-20260305    clang-23
+sh                    randconfig-002-20260305    clang-23
+sh                           se7751_defconfig    gcc-15.2.0
+sh                     sh7710voipgw_defconfig    gcc-15.2.0
+sparc                             allnoconfig    clang-23
+sparc64                          allmodconfig    clang-23
+sparc64                             defconfig    gcc-14
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-15.2.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-23
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20260304    gcc-14
+x86_64      buildonly-randconfig-002-20260304    gcc-14
+x86_64      buildonly-randconfig-003-20260304    gcc-14
+x86_64      buildonly-randconfig-004-20260304    gcc-14
+x86_64      buildonly-randconfig-005-20260304    gcc-14
+x86_64      buildonly-randconfig-006-20260304    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-20
+x86_64                randconfig-001-20260304    clang-20
+x86_64                randconfig-002-20260304    clang-20
+x86_64                randconfig-003-20260304    clang-20
+x86_64                randconfig-004-20260304    clang-20
+x86_64                randconfig-005-20260304    clang-20
+x86_64                randconfig-006-20260304    clang-20
+x86_64                randconfig-011-20260304    gcc-14
+x86_64                randconfig-012-20260304    gcc-14
+x86_64                randconfig-013-20260304    gcc-14
+x86_64                randconfig-014-20260304    gcc-14
+x86_64                randconfig-015-20260304    gcc-14
+x86_64                randconfig-016-20260304    gcc-14
+x86_64                randconfig-071-20260304    clang-20
+x86_64                randconfig-072-20260304    clang-20
+x86_64                randconfig-073-20260304    clang-20
+x86_64                randconfig-074-20260304    clang-20
+x86_64                randconfig-075-20260304    clang-20
+x86_64                randconfig-076-20260304    clang-20
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    clang-23
+xtensa                           allyesconfig    clang-23
 
-> ---
-> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
-> Cc: Manivannan Sadhasivam <mani@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Heiko Stuebner <heiko@sntech.de>
-> Cc: Shawn Guo <shawn.guo@linaro.org>
-> Cc: Yixun Lan <dlan@kernel.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Cc: Shawn Lin <shawn.lin@rock-chips.com>
-> Cc: Kevin Xie <kevin.xie@starfivetech.com>
-> ---
->  drivers/pci/controller/dwc/pci-keystone.c     | 1 +
->  drivers/pci/controller/dwc/pcie-dw-rockchip.c | 1 +
->  drivers/pci/controller/dwc/pcie-histb.c       | 1 +
->  drivers/pci/controller/dwc/pcie-qcom-ep.c     | 1 +
->  drivers/pci/controller/dwc/pcie-spacemit-k1.c | 2 ++
->  drivers/pci/controller/dwc/pcie-tegra194.c    | 1 +
->  drivers/pci/controller/pci-tegra.c            | 1 +
->  drivers/pci/controller/pcie-rockchip-host.c   | 1 +
->  drivers/pci/controller/plda/pcie-starfive.c   | 1 +
->  9 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
-> index 20fa4dadb82a..642e4c45eefc 100644
-> --- a/drivers/pci/controller/dwc/pci-keystone.c
-> +++ b/drivers/pci/controller/dwc/pci-keystone.c
-> @@ -24,6 +24,7 @@
->  #include <linux/of_pci.h>
->  #include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
->  #include <linux/resource.h>
->  #include <linux/signal.h>
-> diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> index 5b17da63151d..e0079ec108ab 100644
-> --- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> +++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
-> @@ -21,6 +21,7 @@
->  #include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/reset.h>
->  
->  #include "../../pci.h"
-> diff --git a/drivers/pci/controller/dwc/pcie-histb.c b/drivers/pci/controller/dwc/pcie-histb.c
-> index a52071589377..432a54c5bfce 100644
-> --- a/drivers/pci/controller/dwc/pcie-histb.c
-> +++ b/drivers/pci/controller/dwc/pcie-histb.c
-> @@ -18,6 +18,7 @@
->  #include <linux/pci.h>
->  #include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/resource.h>
->  #include <linux/reset.h>
->  
-> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> index 18460f01b2c6..e417122da51d 100644
-> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
-> @@ -19,6 +19,7 @@
->  #include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_domain.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
->  #include <linux/reset.h>
->  #include <linux/module.h>
-> diff --git a/drivers/pci/controller/dwc/pcie-spacemit-k1.c b/drivers/pci/controller/dwc/pcie-spacemit-k1.c
-> index be20a520255b..dbec159fd458 100644
-> --- a/drivers/pci/controller/dwc/pcie-spacemit-k1.c
-> +++ b/drivers/pci/controller/dwc/pcie-spacemit-k1.c
-> @@ -15,7 +15,9 @@
->  #include <linux/mod_devicetable.h>
->  #include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/reset.h>
->  #include <linux/types.h>
->  
-> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-> index 06571d806ab3..3378a89580ab 100644
-> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
-> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-> @@ -27,6 +27,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/random.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/reset.h>
->  #include <linux/resource.h>
->  #include <linux/types.h>
-> diff --git a/drivers/pci/controller/pci-tegra.c b/drivers/pci/controller/pci-tegra.c
-> index 512309763d1f..a2c1662b6e81 100644
-> --- a/drivers/pci/controller/pci-tegra.c
-> +++ b/drivers/pci/controller/pci-tegra.c
-> @@ -36,6 +36,7 @@
->  #include <linux/phy/phy.h>
->  #include <linux/pinctrl/consumer.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/reset.h>
->  #include <linux/sizes.h>
->  #include <linux/slab.h>
-> diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
-> index ee1822ca01db..46adb4582fcc 100644
-> --- a/drivers/pci/controller/pcie-rockchip-host.c
-> +++ b/drivers/pci/controller/pcie-rockchip-host.c
-> @@ -24,6 +24,7 @@
->  #include <linux/of_pci.h>
->  #include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regulator/consumer.h>
->  
->  #include "../pci.h"
->  #include "pcie-rockchip.h"
-> diff --git a/drivers/pci/controller/plda/pcie-starfive.c b/drivers/pci/controller/plda/pcie-starfive.c
-> index 298036c3e7f9..22344cca167b 100644
-> --- a/drivers/pci/controller/plda/pcie-starfive.c
-> +++ b/drivers/pci/controller/plda/pcie-starfive.c
-> @@ -21,6 +21,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/reset.h>
->  #include "../../pci.h"
->  
-> -- 
-> 2.43.0
-> 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
