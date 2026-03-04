@@ -1,147 +1,142 @@
-Return-Path: <linux-media+bounces-54447-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54448-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qI1GAdL5p2mtmwAAu9opvQ
-	(envelope-from <linux-media+bounces-54447-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 10:22:26 +0100
+	id OE+6DnD7p2mtmwAAu9opvQ
+	(envelope-from <linux-media+bounces-54448-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 10:29:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4451FD81E
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 10:22:25 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF5A1FD92E
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 10:29:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D671D30A3CFB
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 09:20:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 19C573018C34
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 09:29:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9FDB395261;
-	Wed,  4 Mar 2026 09:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BFE0397692;
+	Wed,  4 Mar 2026 09:29:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EJLxzpsA";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SUkFCX09"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VZJa9yr6";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XGJEBzdW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A1239768F
-	for <linux-media@vger.kernel.org>; Wed,  4 Mar 2026 09:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E4E396B7F
+	for <linux-media@vger.kernel.org>; Wed,  4 Mar 2026 09:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772616025; cv=none; b=GLFZK38bIvNI2ypq+EcsRh+gRLsfmL4jrmdWlgOIqUak7QMvCHhZF4k4uFqWzVoXytMo9/NH6PJ4IuAmZwBhd/HHArOFZZKVPnFgEAjE2h/li+xO2H+RZXuSvpFzjtp6QFy4MHN5elNvd15t0LD5TbyGJp2ia8X3of2i6eP0LUg=
+	t=1772616547; cv=none; b=qRTW3QAm7fpcjtyf34XnN4onVKQ76vgd4lFkbcBhEYoWoNDWz7x7s6bfU0Tp1XbMYaUO10uzQ1h8TdK5fV4WP585ydTtF0EYFf+UKKJ+VJkoJHcFJ1fX6P/bjew2UFo1mWixO3RrU2pgIMWoNQE8kMS8yC3DVIzU3HL19HX99RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772616025; c=relaxed/simple;
-	bh=8ABxF8KGWyosxpUtDGwgLl2L+AgpEgGxwR2CtQsrr9o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Tw6wvhMzRDX5qj+r8HiCbAUtI/igkcZbwGJx3yDg3sU0vNEWAonJahCgF9x4pS/gno6gImbKAYryJbGyrJc2S/4pfsg7RfoMgstlhKRTUpOG0m7iyyQEgsX+3neFCN4hvxFyOKKzXIZw9XkZc3n0EpnWkE7RfOyvdAEmqDMkQLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EJLxzpsA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SUkFCX09; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1772616547; c=relaxed/simple;
+	bh=+iZwt2542TCvLOegTbYJXlTOngpzejOxddz+prY+cYs=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bqbXp85gatFQ2TjqBr0Fe3kWdnAv45yMIKQg8wvanWLRx6TKyapCT58ew8/AZ3fG75KgwFra/ehfJV9T6EBagLnq3fZXdkI0HnXv9FLM0FNb00VLbkH6HOtvGsZWaZvn0pBW3WqLVkyLZjL0+ePuBxsvUmkIJ7RMavzZCpll1H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VZJa9yr6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XGJEBzdW; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6246DWYS1203738
-	for <linux-media@vger.kernel.org>; Wed, 4 Mar 2026 09:20:20 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6246DKYw1203575
+	for <linux-media@vger.kernel.org>; Wed, 4 Mar 2026 09:29:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=/M3P51h1a1yRann62VX77s
-	1NXUJKicz1Y0SDE55UB5Q=; b=EJLxzpsA+/w8ts3WmSF2pXGIAkzsMUVwccnPC5
-	vL5OfHiBJwnaNzkMYbmd/XBCBUmf2whww83iUz58PXpGerDqSw8JMEyeRJUsIOkD
-	l6irhr/vzlJkiho2l2zENMLtbuwhCwu3H6E3iq1TnlLKSDrZN+W/JCO6ychubRrD
-	P023RPMZb/4liBIDfMc2Q/ifg9VjI1atgS/EmGLdo6JPW1LYt0ATop6ktug3WEK6
-	R2cPpkM6e2F3wkFPIXBNZy2RU4XmiXnxyPu6GS4R5kDhchTBKozSd8PCPksz5g9c
-	COTyJkjKscs6vfIpp6e/c39JX0FeGMW1UfoIXaMJ/vWYOJ5w==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpf9c0mwr-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DW5EUg1yaoYe86hPewYMQORzz9/C/R4GlG4Kgu4d2j8=; b=VZJa9yr6rmrbFWTY
+	jkihApjPB49cJJk5FW7LGKhpiWIi+deLiNSYs1kIz4vjiA6/N8jx3+5Kstnv/apO
+	Uod6i5/9Azf4p3Z/EKp1DI0M1+5+G4aRU9k7e6whI3uVNS1pmxRXA/Nflh4Ar5Ox
+	/EB9RyXVTQJzsEE4D13ZfGo1B9axh+zWaCpJgweouIP65+5DAzOM+EWqq8sfHysX
+	JEB9C1zkfuspONJCxSViQMNmlzDgjpjiLhjRR96U7NUiAsg18RrZY1NqLOVGewmF
+	n6K3ysWL6LLrDXOq4yMzvJQC9tT31bASsyunpYjeRNXtBcHZdgPfWKlFdUo3UAcK
+	bOnw+g==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpf9c0nye-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 04 Mar 2026 09:20:20 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-354bc535546so5411760a91.3
-        for <linux-media@vger.kernel.org>; Wed, 04 Mar 2026 01:20:20 -0800 (PST)
+	for <linux-media@vger.kernel.org>; Wed, 04 Mar 2026 09:29:05 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8c882774f0dso4203654485a.2
+        for <linux-media@vger.kernel.org>; Wed, 04 Mar 2026 01:29:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772616019; x=1773220819; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/M3P51h1a1yRann62VX77s1NXUJKicz1Y0SDE55UB5Q=;
-        b=SUkFCX09ZUDfYxLa7dDtBgreTlEM5HQJoFRyYH1MY3CxiMbU5P4cJTaNy0oTuTNi8k
-         c+XBN0YY2nA0czoRlKRCFIVFcGZSb0rbKs5ko8wvqy1HwS2eLsYrogJDIl9blRk8eZat
-         dkAvOEGuRF7I2CeKdrRvlQu2a7pnIxF1FrVkTOofB0yHD9Sq+lGLq4eaOMwnmwtbVEUT
-         ar6TicknmJzKD8gdQnk/Rz8v02743heOhnmnXGn1bjuBW09dPVQu9BuBvjAOmeb4IyUv
-         5IX8/S92RB9ldPS5bf8xp9cKKFEnFqZ+r5tuq7+TwuqaQKg19j/BAaDRpBOTdeyAjyle
-         uujA==
+        d=oss.qualcomm.com; s=google; t=1772616544; x=1773221344; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DW5EUg1yaoYe86hPewYMQORzz9/C/R4GlG4Kgu4d2j8=;
+        b=XGJEBzdW+PMrRH6RuAizH10hSSJ/VgcYx80rWP6yzYxkq+Ubj7rehYw/UuiLb6juZm
+         Us81dzXOZJe12b13ypeb92Apf/wHh5kDcwTblrn7eFr+8+7Hq/zFhP0vfJ4MmqJxkqYt
+         7C5zS7GEaRCZqL7N0rizCLv5sPd4BYprG9MmXtJZoQS4xDJpWcPUnyuLvIQ5ymGcsCBa
+         KAOTwhRIPPxgMua2GVte4SoPFq76IsCFQ8ESeUr/vGpJA/xlpcPLW169ZXZKit3fcjYK
+         X6eYEaujDDTu7GdS9kWJTvXxrzb6ZGyeoUA45TQxMhiQgiKeD6AmGXHsjFoQXYkBE7ZH
+         MK7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772616019; x=1773220819;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/M3P51h1a1yRann62VX77s1NXUJKicz1Y0SDE55UB5Q=;
-        b=MeCFdU8u4lUI51b+Px/N88lmr0QAKDn5uWXeK7M2B7VfUuWlVkRkajSiLvN9TsDkaI
-         maBSsKACmhlCXVmAsUBh+iJuWet7pGwcHTEfoBa5hDxfZ2BTwuffJ/Ex2bFoSxSUxPi+
-         GQQJqWhDqOFxJdCf3x57L8B2BNJnLf3BvSRWLcdSothmBHdlIQT23EdF19mFG0Iu7S7r
-         ppt/uURufQ9+8d05KaT/ETfbyOnW2Rui+ONiJIZSQz7E/2oI1vaWrOiJh0QggHG2Eby7
-         wanR/xNFC1ArxlqhTWO02GP4GEHzAb6jS9bgLyZaxviXqJHoCtfHSf9Rb1Re46RExtDQ
-         dV1w==
-X-Gm-Message-State: AOJu0YzO6w/FCJsSO0WG2QxxCwj3/jeb8YlBvUB9BjFxlzeieONi5SQ1
-	YT3VpTtS3yb8DhuLY9VvwMC8J3qfoSdia982IEuD6jHLgF59UCRp+bv9J291ADD9KFJv7T2PsqG
-	IIqxuII3Ib4hJxsVFQ//Xa0zG3j0eYURLtJB/5VV3tjjRwhH0NMPz4naITHkA8udrQw==
-X-Gm-Gg: ATEYQzyaeCT47eCIsURBO0qw29lF7FljbsEPfZqgJmyA53J62mbuzsyPFwzbQseUy8h
-	KN13FjjreLariJrToduQFyMJDTCDgkZND5mXGBswb1i49o4xTpu1a1l80uInWHnyZm9jalmZfdG
-	wsehrVmod+/24WVsx0eqFZSJOdSXpd1TPFLR1T98b479OiBsq7FSA4PIji6r4w64tqfbnzirKsF
-	IrU3PzYJdA2j/WGxnIWUCxNgTEtNpwCCi6yBvNsFD1paOEUxA30IKeM4wakLNZuME4G/1RJkv2C
-	ch7+iXXCQqrK6dHPhsYJQfhvbN4X7TYmz9F+qSw5THFf7Gm39iiopKIxTt+JwgwnCVvzAAbKD4p
-	5Nhx6hRXayzpITNPkkzHZ5sBQSF9WP0Jvh5sjM/DysJmmuIvH1dxf+Ls=
-X-Received: by 2002:a17:90b:2ccf:b0:354:bd08:4802 with SMTP id 98e67ed59e1d1-359a6a7c458mr1241516a91.35.1772616019487;
-        Wed, 04 Mar 2026 01:20:19 -0800 (PST)
-X-Received: by 2002:a17:90b:2ccf:b0:354:bd08:4802 with SMTP id 98e67ed59e1d1-359a6a7c458mr1241499a91.35.1772616018970;
-        Wed, 04 Mar 2026 01:20:18 -0800 (PST)
-Received: from hu-bvisredd-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae4651e409sm123643265ad.44.2026.03.04.01.20.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 01:20:18 -0800 (PST)
-From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Date: Wed, 04 Mar 2026 14:48:54 +0530
-Subject: [PATCH] media: iris: add FPS calculation and VPP FW overhead in
- frequency formula
+        d=1e100.net; s=20230601; t=1772616544; x=1773221344;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DW5EUg1yaoYe86hPewYMQORzz9/C/R4GlG4Kgu4d2j8=;
+        b=qx5DIR5/alb4HIl1PcWP9CmkUxsWryNHOejNCvi/YNVb8KkkZHLrPfxgwCYk+duD1o
+         vMzsL6m2tWnfbCWd8iCIWxlR7HdB0d6yf+bTPPPwsFvcGSae/fbLJmInEQGIs+Q4Q7rA
+         o8YPoYoJmmheYhhQkBtjMjGh6ivJ0EOBqr8FsIgzvXf0vLdlj0zMCFWQhqJqPPDozXHl
+         6j1PBFZyhtzD8N0ITPzns/7g+V0OVA0onvGzs7zHSGhSrveCFGCEGZo8qdA4fbR3DqXY
+         /mSB6fbi3juWWoqSvF5sWnPP7Ht/4voOvAbzAiOFKhnE/CsneHWyTWS5yEBHujJ0VLsS
+         mDZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVRTHX8hGFEJcfnfzkK2O+9nZfLlF0z1JY1AMUZS0DSEJtipxQ3dD/CCvgZAKq6h36D9fp+wNpz+Va5Rg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxU/643SqR9H4jkCwEQBhLniyYs/73Y/dabNLmld3iX6fapQKZz
+	gzDwoHyJzyL5+Slv+bVSZN45z28lkUHM6LimBf1eTs3dldTv7kba0rYVYWXpdxpaU/NSNdEaPr9
+	uaVnBsF6yxeXETgTweMbpVpVEOuzZiah6Okbhq9+pIdW5DD3Tbf+YaKYdJrf+7eJsD/2dTOPzgg
+	==
+X-Gm-Gg: ATEYQzyhoGA7ENbAevVXIIJ26hL+HygpVkq/YzFbTzhp6ESZNd87dEYbNUuGhzle1fh
+	g1lpsnk8Pvn+A6coIQZanKI+TKNEf9HweRQYLneeLAaHsZ/0IsF7elAilsKXB3h5gkKXyrIC+SW
+	zkyX+K9nQ8z8oBRq8fxNyS0DuAAJ6Y0hi2mhrKzF35pRDlYCj6dsCNhourOk4ht9zW/srzb+kN/
+	0Fdbl+9lwqnBIJyoxS//sy31kjsL1BMje5EJwqOV5pv14OZ8x5QxVcX+Ge9aJK+F6P4HbO8CTrN
+	RRuuK2cw7yo1zvxTEilHRJmYllDNjMplRuqnEYgpvf7SkM7dO4wdhFDLTWZ7QxUa16T0Ke/0B4z
+	AxiZBxpM8/0QLpdljRnSFX1Wb8U6Ea4zr6vw5FH0fC9tmBcMk5QFqeOSllA6n41dDg9hYGlfUJu
+	DkqLnSNRKTZPBTt9nti6Q+NYo3YsDy9AASaIctl1P3ueGpx3XGJQsONHHpXOLLylM7fFxbKLCma
+	57Pe+AK2o54wgf0
+X-Received: by 2002:a05:620a:470c:b0:85e:b7b6:81e2 with SMTP id af79cd13be357-8cd5af818c4mr135783185a.50.1772616544408;
+        Wed, 04 Mar 2026 01:29:04 -0800 (PST)
+X-Received: by 2002:a05:620a:470c:b0:85e:b7b6:81e2 with SMTP id af79cd13be357-8cd5af818c4mr135781385a.50.1772616543833;
+        Wed, 04 Mar 2026 01:29:03 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ab123e8sm713717466b.4.2026.03.04.01.29.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Mar 2026 01:29:03 -0800 (PST)
+Message-ID: <0f2502fb-20cd-4638-8428-9a9eb5318147@oss.qualcomm.com>
+Date: Wed, 4 Mar 2026 10:29:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260304-update_fps_calculation-v1-1-4eeac373a504@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAP34p2kC/yWMWwqDMBAAryL73UDUaGKvUkTW7KYN+GoSS0G8e
- 0P9nIGZAyIHzxHuxQGBPz76dclQ3gqwL1yeLDxlhkpWraylEvtGmHhwWxwsTnafMOVEdIZZO91
- IPZaQ4y2w89//+NFfHPi953+6JIwYWdh1nn26F66RDXfaUIlSqQppHImVQabaWGkUEWNLLUN/n
- j+xY9wLtAAAAA==
-X-Change-ID: 20260304-update_fps_calculation-98ee7f7507b1
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772616015; l=4136;
- i=busanna.reddy@oss.qualcomm.com; s=20260216; h=from:subject:message-id;
- bh=8ABxF8KGWyosxpUtDGwgLl2L+AgpEgGxwR2CtQsrr9o=;
- b=3pv5kCDvQZyFvKiptpI/HpmnbMCL4Q6+sQGcxCof/YQtHdtCPqLdNTyWjgagdYeb6a/jIMEy8
- R90QfE/2394DNFLI/ehIOldVdh484LgMkHmSsUxm3yVhou6zdvO5OGl
-X-Developer-Key: i=busanna.reddy@oss.qualcomm.com; a=ed25519;
- pk=9vmy9HahBKVAa+GBFj1yHVbz0ey/ucIs1hrlfx+qtok=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA3MCBTYWx0ZWRfX0/Aunk4JIRX6
- Wavei8d1f3ufci+eQ1zvYSGDjfiYqQyzb2upL4ePuopwqB9JgvS+jlIEEuI58rD6mu5OGHLP4/D
- xkbCQhTnYeEdcHWhtlzHi9tUKbXIPMOjFo4IzX+ZS41nso0mualE/rdkLh4BzlJW/9xWgE6Y6z/
- LZ6U6vrJ7fONp/p/6wpgg4rrhlKPjPoImuAPxl3pRXPhUo8ooarl4xEiaaiwbn1BUNDn0/b0qn7
- UXaTIPGQi2q6TtjkrmilMA9/NYYkbbdjlHa5bs5m76lSNkGuuVdxfOUQSW4uBZZvulJDvAXX7wR
- ncue2gXXehKfuDOn2HCdg0mOW53jJ2NWK1JQXDQjeYN0SWYDZLCEPb0pbknnD6SakkduxZ1vKBa
- 6BePGME4bghHJ4nC/v/8JQenEP8QVX7Q5AVFOg8BsvbF0n/VZLA7yjeTO0/oNu1xSIHRtyn+Zn0
- mfGbFVjRuWH00eFwmcA==
-X-Proofpoint-GUID: K8PFw06eps-RkubDiX7Dlgnnq7Zfnyxi
-X-Authority-Analysis: v=2.4 cv=S4LUAYsP c=1 sm=1 tr=0 ts=69a7f954 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=aZFUA4iBNJJznah6NdIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-ORIG-GUID: K8PFw06eps-RkubDiX7Dlgnnq7Zfnyxi
+User-Agent: Mozilla Thunderbird
+From: johannes.goede@oss.qualcomm.com
+Subject: Re: [PATCH v2 1/2] platform/x86: int3472: Add board data for Intel
+ nvl
+To: Sakari Ailus <sakari.ailus@iki.fi>, Arun T <arun.t@intel.com>
+Cc: mehdi.djait@linux.intel.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260130092431.2335363-2-arun.t@intel.com>
+ <20260227133542.970820-1-arun.t@intel.com>
+ <20260227133542.970820-2-arun.t@intel.com>
+ <aaRPMtWnX7nWShmv@valkosipuli.retiisi.eu>
+Content-Language: en-US, nl
+In-Reply-To: <aaRPMtWnX7nWShmv@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDA3MSBTYWx0ZWRfX5tMMs+a03nWm
+ ARl18RoI4VU0alAAWYsaA3bL+k2zHIoAKQKsTv3OtYneuqGoCiWUuZUrfDXDMKt+osyuOglHaM0
+ BN+lU6vyt1WUr/hLYLwy6+3z+M2cR8WdqGLGGo2IDcZ2uKcOp6T+mCl3QF1NVtwGax3SUJh4Vmb
+ VR07l5ilIXSak5r6Gr5fFL9hfteZMJydXmp6n2zJeFBHxFTW5RF8/rIWWS0C572GLKbrY1BQw/4
+ mtvlvnsHO0dCaIUBC3tc0t0cqZlMKtJ9tuCrcYykI5ggwwI4DSrTc4qX2AOWR7ACI/RRbgEPcj6
+ hwJlz0jUSEfq/yBsGyretOrkINHdosgcSAYbMfXY39V6gBPRalBoYsnzBU2dJBwbRFTCNwAYMRO
+ uwY6ZRBrXn4K2PvAHnx+YmdN4mHZrndeLS8Jr5ayWbyibjsBID98ZYvVAqi7bywi/o/B+ZUkkTz
+ s1bo1FQai0Zl+ItbYAw==
+X-Proofpoint-GUID: 5vX27IFbfWpkzuZRCowA2siWAiyfrIwk
+X-Authority-Analysis: v=2.4 cv=S4LUAYsP c=1 sm=1 tr=0 ts=69a7fb61 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=QyXUC8HyAAAA:8
+ a=htL7Jlt0GR6tHhuy9c8A:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: 5vX27IFbfWpkzuZRCowA2siWAiyfrIwk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-04_04,2026-03-03_01,2025-10-01_01
@@ -149,145 +144,302 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  suspectscore=0 adultscore=0 impostorscore=0 spamscore=0 priorityscore=1501
  lowpriorityscore=0 malwarescore=0 clxscore=1015 phishscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040070
-X-Rspamd-Queue-Id: 5B4451FD81E
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040071
+X-Rspamd-Queue-Id: 9EF5A1FD92E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:dkim,qualcomm.com:email];
+	TAGGED_FROM(0.00)[bounces-54448-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,qualcomm.com:dkim,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,intel.com:email];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54447-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[johannes.goede@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NO_DN(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-The driver was using a fixed default FPS value when calculating the VPU
-frequency. This caused wrong frequency requests for high‑frame‑rate
-streams, for example 4K at 240 FPS. Because of this, the hardware was
-running at a lower frequency than needed.
+Hi,
 
-Add the FPS measurement based on the decoder input buffer arrival rate.
-The measured FPS is stored per instance and used in frequency calculation
-instead of the fixed default FPS. The value is clamped so that it does
-not exceed platform limits. Add a VPP firmware overhead when running in
-STAGE_2.
+On 1-Mar-26 15:37, Sakari Ailus wrote:
+> Hi Arun,
+> 
+> Thanks for the update. Please avoid using --in-reply-to argument for git
+> send-email when sending a new version of the patchset on the next time.
+> 
+> Could you cc me to my @linux.intel.com address on the next time?
+> 
+> Also cc other maintainers, see what
+> 
+> 	$ scripts/get_maintainer.pl drivers/platform/x86/intel/int3472/
+> 
+> prints.
+> 
+> On Fri, Feb 27, 2026 at 07:05:41PM +0530, Arun T wrote:
+>> The Intel Nvl O13b10 sensor with the Intel IPU8 ISP.
+>> The sensor is powered by a TPS68470 PMIC, and so we
+>> need some board data to describe how to configure the GPIOs and
+>> regulators to run the sensor.
+> 
+> This can be rewrapped and fits to three lines; also see
+> Documentation/process/submitting-patches.rst . Most editors can do that
+> without too much manual work.
+> 
+>>
+>> Signed-off-by: Arun T <arun.t@intel.com>
+>> ---
+>>  .../x86/intel/int3472/tps68470_board_data.c   | 150 ++++++++++++++++++
+>>  1 file changed, 150 insertions(+)
+>>
+>> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+>> index 71357a036292..71dc0940a94b 100644
+>> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+>> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+>> @@ -143,6 +143,34 @@ static struct regulator_consumer_supply int3479_aux2_consumer_supplies[] = {
+>>  	REGULATOR_SUPPLY("dovdd", "i2c-INT3479:00"),
+>>  };
+>>  
+>> +/* Settings for Intel NVL platform */
+>> +
+>> +static struct regulator_consumer_supply int3472_core_consumer_supplies[] = {
+>> +	REGULATOR_SUPPLY("dvdd", "i2c-OVTI13B1:00"),
+>> +};
+>> +
+>> +static struct regulator_consumer_supply int3472_ana_consumer_supplies[] = {
+>> +	REGULATOR_SUPPLY("ana", "i2c-OVTI13B1:00"),
+>> +};
+>> +
+>> +static struct regulator_consumer_supply int3472_vcm_consumer_supplies[] = {
+>> +	REGULATOR_SUPPLY("vdd", "i2c-OVTI13B1:00"),
+>> +};
+>> +
+>> +static struct regulator_consumer_supply int3472_vsio_consumer_supplies[] = {
+>> +	REGULATOR_SUPPLY("dovdd", "i2c-OVTI13B1:00"),
+>> +	REGULATOR_SUPPLY("vsio", "i2c-OVTI13B1:00"),
+>> +	REGULATOR_SUPPLY("vddd", "i2c-OVTI13B1:00"),
+>> +};
+>> +
+>> +static struct regulator_consumer_supply int3472_aux1_consumer_supplies[] = {
+>> +	REGULATOR_SUPPLY("vdda", "i2c-OVTI13B1:00"),
+>> +};
+>> +
+>> +static struct regulator_consumer_supply int3472_aux2_consumer_supplies[] = {
+>> +	REGULATOR_SUPPLY("vdddo", "i2c-OVTI13B1:00"),
+>> +};
+> 
+> That's a lot of regulators. The sensor driver appears to use only three,
+> even after the second patch.
 
-Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
----
- drivers/media/platform/qcom/iris/iris_instance.h   |  2 ++
- drivers/media/platform/qcom/iris/iris_vdec.c       | 21 +++++++++++++++++++++
- drivers/media/platform/qcom/iris/iris_vpu_common.c |  6 +++++-
- 3 files changed, 28 insertions(+), 1 deletion(-)
+Also the names still do not match up with the sensor driver, the sensor
+driver (after patch 2/2) has:
 
-diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
-index 16965150f427..180cba36a7f2 100644
---- a/drivers/media/platform/qcom/iris/iris_instance.h
-+++ b/drivers/media/platform/qcom/iris/iris_instance.h
-@@ -109,6 +109,8 @@ struct iris_inst {
- 	u32				metadata_idx;
- 	u32				codec;
- 	bool				last_buffer_dequeued;
-+	u64				last_buf_recv_time_ns;
-+	u32				frame_count;
- 	u32				frame_rate;
- 	u32				operating_rate;
- 	u32				hfi_rc_type;
-diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
-index 719217399a30..88820060e22a 100644
---- a/drivers/media/platform/qcom/iris/iris_vdec.c
-+++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-@@ -369,6 +369,8 @@ int iris_vdec_streamon_input(struct iris_inst *inst)
- 	if (ret)
- 		return ret;
- 
-+	inst->frame_count = 0;
-+
- 	return iris_process_streamon_input(inst);
- }
- 
-@@ -411,6 +413,7 @@ int iris_vdec_qbuf(struct iris_inst *inst, struct vb2_v4l2_buffer *vbuf)
- {
- 	struct iris_buffer *buf = to_iris_buffer(vbuf);
- 	struct vb2_buffer *vb2 = &vbuf->vb2_buf;
-+	u64 cur_buf_recv_time_ns, time_delta_ns;
- 	struct vb2_queue *q;
- 	int ret;
- 
-@@ -427,6 +430,24 @@ int iris_vdec_qbuf(struct iris_inst *inst, struct vb2_v4l2_buffer *vbuf)
- 		return 0;
- 	}
- 
-+	if (buf->type == BUF_INPUT) {
-+		cur_buf_recv_time_ns = ktime_get_ns();
-+
-+		if (inst->frame_count == 0) {
-+			inst->last_buf_recv_time_ns = cur_buf_recv_time_ns;
-+			inst->frame_rate = MAXIMUM_FPS;
-+		}
-+		time_delta_ns = cur_buf_recv_time_ns - inst->last_buf_recv_time_ns;
-+
-+		if (time_delta_ns >= NSEC_PER_SEC) {
-+			inst->frame_rate = clamp_t(u32, inst->frame_count, DEFAULT_FPS,
-+						   MAXIMUM_FPS);
-+			inst->last_buf_recv_time_ns = cur_buf_recv_time_ns;
-+			inst->frame_count = 0;
-+		}
-+		inst->frame_count++;
-+	}
-+
- 	iris_scale_power(inst);
- 
- 	return iris_queue_buffer(inst, buf);
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers/media/platform/qcom/iris/iris_vpu_common.c
-index 548e5f1727fd..3ccc8feff678 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
-+++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
-@@ -416,7 +416,7 @@ u64 iris_vpu3x_vpu4x_calculate_frequency(struct iris_inst *inst, size_t data_siz
- 	u32 height, width, mbs_per_second, mbpf;
- 	u64 fw_cycles, fw_vpp_cycles;
- 	u64 vsp_cycles, vpp_cycles;
--	u32 fps = DEFAULT_FPS;
-+	u32 fps = inst->frame_rate;
- 
- 	width = max(inp_f->fmt.pix_mp.width, inst->crop.width);
- 	height = max(inp_f->fmt.pix_mp.height, inst->crop.height);
-@@ -435,6 +435,10 @@ u64 iris_vpu3x_vpu4x_calculate_frequency(struct iris_inst *inst, size_t data_siz
- 	if (inst->fw_caps[PIPE].value > 1)
- 		vpp_cycles += div_u64(vpp_cycles * 59, 1000);
- 
-+	/* 1.050 is VPP FW overhead */
-+	if (inst->fw_caps[STAGE].value == STAGE_2)
-+		vpp_cycles += div_u64(vpp_cycles * 50, 1000);
-+
- 	vsp_cycles = fps * data_size * 8;
- 	vsp_cycles = div_u64(vsp_cycles, 2);
- 	/* VSP FW overhead 1.05 */
+	"dovdd",        /* Digital I/O power */
+	"avdd",         /* Analog power */
+	"dvdd",         /* Digital core power */
 
----
-base-commit: f505e978d1a0442adbbde48aed38c084ddea6d6e
-change-id: 20260304-update_fps_calculation-98ee7f7507b1
+Where as above there is no "avdd" only "vdda" and "ana" which are
+both candidates to actually be "avdd" I guess you want to change
+the "ana" one but please double check.
 
-Best regards,
--- 
-Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Note all other regulator_consumer_supply maps except for
+the 3 actually used by the sensor-driver are *wrong* and should
+be dropped.
+
+Even if there is a VCM, then the second part of the mapping
+to "i2c-OVTI13B1:00" is wrong. The "i2c-OVTI13B1:00" consumer
+will only consume "dovdd", "avdd" and "dvdd" supplies so
+for that consumer there should only be those 3 maps.
+
+Regards,
+
+Hans
+
+
+
+
+> 
+> Is there a VCM there, for instance?
+> 
+>> +
+>>  static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data = {
+>>  	.constraints = {
+>>  		.min_uV = 1200000,
+>> @@ -220,6 +248,82 @@ static const struct regulator_init_data dell_7212_tps68470_aux2_reg_init_data =
+>>  	.consumer_supplies = int3479_aux2_consumer_supplies,
+>>  };
+>>  
+>> +static const struct regulator_init_data intel_nvl_tps68470_core_reg_init_data = {
+>> +	.constraints = {
+>> +		.min_uV = 1200000,
+>> +		.max_uV = 1200000,
+>> +		.apply_uV = true,
+>> +		.always_on = true,
+> 
+> Setting always_on to true shouldn't be necessary here.
+> 
+>> +	},
+>> +	.num_consumer_supplies = ARRAY_SIZE(int3472_core_consumer_supplies),
+>> +	.consumer_supplies = int3472_core_consumer_supplies,
+>> +};
+>> +
+>> +static const struct regulator_init_data intel_nvl_tps68470_ana_reg_init_data = {
+>> +	.constraints = {
+>> +		.min_uV = 2815200,
+>> +		.max_uV = 2815200,
+>> +		.apply_uV = true,
+>> +		.always_on = true,
+>> +	},
+>> +	.num_consumer_supplies = ARRAY_SIZE(int3472_ana_consumer_supplies),
+>> +	.consumer_supplies = int3472_ana_consumer_supplies,
+>> +};
+>> +static const struct regulator_init_data intel_nvl_tps68470_vcm_reg_init_data = {
+>> +	.constraints = {
+>> +		.min_uV = 2815200,
+>> +		.max_uV = 2815200,
+>> +		.apply_uV = true,
+>> +		.always_on = true,
+>> +	},
+>> +	.num_consumer_supplies = ARRAY_SIZE(int3472_vcm_consumer_supplies),
+>> +	.consumer_supplies = int3472_vcm_consumer_supplies,
+>> +};
+>> +
+>> +/* Ensure the always-on VIO regulator has the same voltage as VSIO */
+>> +static const struct regulator_init_data intel_nvl_tps68470_vio_reg_init_data = {
+>> +	.constraints = {
+>> +		.min_uV = 1800600,
+>> +		.max_uV = 1800600,
+>> +		.apply_uV = true,
+>> +		.always_on = true,
+>> +	},
+>> +};
+>> +
+>> +static const struct regulator_init_data intel_nvl_tps68470_vsio_reg_init_data = {
+>> +	.constraints = {
+>> +		.min_uV = 1800600,
+>> +		.max_uV = 1800600,
+>> +		.apply_uV = true,
+>> +		.always_on = true,
+>> +	},
+>> +	.num_consumer_supplies = ARRAY_SIZE(int3472_vsio_consumer_supplies),
+>> +	.consumer_supplies = int3472_vsio_consumer_supplies,
+>> +};
+>> +
+>> +static const struct regulator_init_data intel_nvl_tps68470_aux1_reg_init_data = {
+>> +	.constraints = {
+>> +		.min_uV = 2815200,
+>> +		.max_uV = 2815200,
+>> +		.apply_uV = 1,
+>> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+>> +	},
+>> +	.num_consumer_supplies = ARRAY_SIZE(int3472_aux1_consumer_supplies),
+>> +	.consumer_supplies = int3472_aux1_consumer_supplies,
+>> +};
+>> +
+>> +static const struct regulator_init_data intel_nvl_tps68470_aux2_reg_init_data = {
+>> +	.constraints = {
+>> +		.min_uV = 1800600,
+>> +		.max_uV = 1800600,
+>> +		.apply_uV = 1,
+>> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
+>> +	},
+>> +	.num_consumer_supplies = ARRAY_SIZE(int3472_aux2_consumer_supplies),
+>> +	.consumer_supplies = int3472_aux2_consumer_supplies,
+>> +};
+>> +
+>> +
+>>  static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata = {
+>>  	.reg_init_data = {
+>>  		[TPS68470_CORE] = &dell_7212_tps68470_core_reg_init_data,
+>> @@ -232,6 +336,18 @@ static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata =
+>>  	},
+>>  };
+>>  
+>> +static const struct tps68470_regulator_platform_data intel_nvl_tps68470_pdata = {
+>> +	.reg_init_data = {
+>> +		[TPS68470_CORE] = &intel_nvl_tps68470_core_reg_init_data,
+>> +		[TPS68470_ANA]  = &intel_nvl_tps68470_ana_reg_init_data,
+>> +		[TPS68470_VCM]  = &intel_nvl_tps68470_vcm_reg_init_data,
+>> +		[TPS68470_VIO] = &intel_nvl_tps68470_vio_reg_init_data,
+>> +		[TPS68470_VSIO] = &intel_nvl_tps68470_vsio_reg_init_data,
+>> +		[TPS68470_AUX1] = &intel_nvl_tps68470_aux1_reg_init_data,
+>> +		[TPS68470_AUX2] = &intel_nvl_tps68470_aux2_reg_init_data,
+>> +	},
+>> +};
+>> +
+>>  static struct gpiod_lookup_table surface_go_int347a_gpios = {
+>>  	.dev_id = "i2c-INT347A:00",
+>>  	.table = {
+>> @@ -258,6 +374,23 @@ static struct gpiod_lookup_table dell_7212_int3479_gpios = {
+>>  	}
+>>  };
+>>  
+>> +static struct gpiod_lookup_table intel_nvl_int347a_gpios = {
+>> +	.dev_id = "i2c-OVTI13B1:01",
+>> +	.table = {
+>> +		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
+>> +		GPIO_LOOKUP("tps68470-gpio", 8, "s_idle", GPIO_ACTIVE_LOW),
+>> +		{ }
+>> +	}
+>> +};
+>> +
+>> +static struct gpiod_lookup_table intel_nvl_int347e_gpios = {
+>> +	.dev_id = "i2c-OVTI13B1:01",
+>> +	.table = {
+>> +	GPIO_LOOKUP("tps68470-gpio", 7, "s_enable", GPIO_ACTIVE_LOW),
+>> +		{ }
+>> +	}
+>> +};
+>> +
+>>  static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
+>>  	.dev_name = "i2c-INT3472:05",
+>>  	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
+>> @@ -287,6 +420,16 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
+>>  	},
+>>  };
+>>  
+>> +static const struct int3472_tps68470_board_data intel_nvl_tps68470_board_data = {
+>> +	.dev_name = "i2c-INT3472:04",
+>> +	.tps68470_regulator_pdata = &intel_nvl_tps68470_pdata,
+>> +	.n_gpiod_lookups = 2,
+>> +	.tps68470_gpio_lookup_tables = {
+>> +		&intel_nvl_int347a_gpios,
+>> +		&intel_nvl_int347e_gpios,
+>> +	},
+>> +};
+>> +
+>>  static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>>  	{
+>>  		.matches = {
+>> @@ -316,6 +459,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
+>>  		},
+>>  		.driver_data = (void *)&dell_7212_tps68470_board_data,
+>>  	},
+>> +	{
+>> +		.matches = {
+>> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
+>> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Nova Lake Client Platform"),
+>> +		},
+>> +	       .driver_data = (void *)&intel_nvl_tps68470_board_data,
+>> +	},
+>>  	{ }
+>>  };
+>>  
+> 
 
 
