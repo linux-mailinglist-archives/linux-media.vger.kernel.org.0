@@ -1,207 +1,440 @@
-Return-Path: <linux-media+bounces-54452-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54453-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iP74IDb9p2mlnAAAu9opvQ
-	(envelope-from <linux-media+bounces-54452-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 10:36:54 +0100
+	id cAHMK28CqGkRnQAAu9opvQ
+	(envelope-from <linux-media+bounces-54453-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 10:59:11 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5FA1FDB53
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 10:36:53 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3156F1FE004
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 10:59:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9C639301F5CC
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 09:36:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E39B93198A19
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 09:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 969473988F6;
-	Wed,  4 Mar 2026 09:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A1139F175;
+	Wed,  4 Mar 2026 09:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IDXN7gmv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29AB03822BE;
-	Wed,  4 Mar 2026 09:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.76.78.106
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3874339EF36
+	for <linux-media@vger.kernel.org>; Wed,  4 Mar 2026 09:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772617002; cv=none; b=LZnuc5Y4+mPjM4z17Z7u3EnoPrHzs4w/pUKiNJE8MzrcMXLpJX/XWOcXpyMwC5/lA6xrPj6YpizXRhtt5yzZnjyksF1oMCYdoXdOUoM8eXU9RbUOXscYoJstqxUPyr8yGYN4AS/N84alpq3BmsO8bJJrEOcDEJXRDcCyXJmBQoY=
+	t=1772618118; cv=none; b=R1eRrBED0gGnEh+C9p+kY47cF1HvnvVyqHrwJ0rhZYliiysPQ9nXnD462jiKxZnqyHSyQOBD6jmou5I2laUqct4IGbboveiWLyg9mGbNasY6LOD8HXb4eBJ9qqCZUFY2sjouqHE8hGJu1Z9wxOwXvN2BAYND7WiBYYCDkKWu3PY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772617002; c=relaxed/simple;
-	bh=Nbar+qQ+FEFKmjSwZ/YKxYaxwW2O+L+vvwC6NhpahR0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oSWupMt70PS+mbo+QNWuMiS9ehlmT+V9mwBGDD1DGvglkqLXlereGVKoo33zYSnTGNBV5aUHO47n1eszPSY1Yn5/kGkxIxu6WkSv08cmTlILDz0JiIJjvyugnO1DfLju3kCOgvIpFp1TT5fbfTYRdDwN6iW89KnLXBJFjoERp4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.76.78.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wC3Nh0Q_adpkTIFAQ--.16844S3;
-	Wed, 04 Mar 2026 17:36:17 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app4 (Coremail) with SMTP id zi_KCgDnfYMG_adp2KCYBQ--.53298S2;
-	Wed, 04 Mar 2026 17:36:06 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: linux-media@vger.kernel.org
-Cc: tiffany.lin@mediatek.com,
-	yunfei.dong@mediatek.com,
-	mchehab@kernel.org,
-	matthias.bgg@gmail.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>
-Subject: [PATCH] media: mediatek: vcodec: fix use-after-free in encoder release path
-Date: Wed,  4 Mar 2026 09:35:06 +0000
-Message-Id: <20260304093506.236277-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1772618118; c=relaxed/simple;
+	bh=g7rT5pzmvMWMQmalMKqVnAHzQr5G/tKv45hmbKvwObA=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t2rIGAlw1cubnOgXGda5Pgn+SgKt5rH6J1+TctHkD+r1NphISqNg4HSt2P0aemdAC/Mj3IyB12gfcHGVd2dgk2r956qKQtqkcEDHR564R+mOKSVb9eZjhvf85olJ8R5Ow4U/jbN6X2jR5zTxmtB+puwrU/gf8UhMSF54HsLfP3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IDXN7gmv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 009CEC2BCB6
+	for <linux-media@vger.kernel.org>; Wed,  4 Mar 2026 09:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772618118;
+	bh=g7rT5pzmvMWMQmalMKqVnAHzQr5G/tKv45hmbKvwObA=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=IDXN7gmvS9xa2vrKN++cCjK7d/KvXRb8Ik0WHfWNMmet7lpWxZGOi/26+b9OM7+D7
+	 jkyHHARrjVqQ2XdR15cJxU7/YrIaJgEl/o1N+z9S4sph2NDNuRNtXEAEV+iYiuJPYL
+	 AlbzlzVW0NNL6Gk2MLDe8MnTnzokO3kRjwZtLUWqGGY9CRfn0Fp14dkym+JrKsDYBw
+	 /Yj93DNrLfKKLV3Rxo3MnjOXo/0wNJGwHDYwVSC1hL5gSaFNPhKi1d21p4AuSzWMn9
+	 rlqIfOI6OOVSL4MYR10JjAzenjWnefs3y8N2nZJHyhOsEE1p5F9FhahSOVCLOvtA0p
+	 vMTF4c2zJ9rlw==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38a2a59baa6so3880351fa.2
+        for <linux-media@vger.kernel.org>; Wed, 04 Mar 2026 01:55:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXAx3J5iG/XAB7gEuYI+InH8s/Zcq5cnubdWd/xAjzy5W+iu26y5/9g/tIWaUz5EGzMDKQlFt1qJHhXog==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+wQMukGEDjkH6zQj7wXrFgHvSUeTBpItLiCY6T6dXrTVqg5M1
+	x8g2pjWQ+dm37y0LbqLkthpp1YvuphrtkB4NnjRvVYytz/TYowAZiPDQQsHC9qOuy6ca/OhkME9
+	vGz1berALOaDHUgZS+dU0PetJogYPJ+Lb2uUAYyuSmw==
+X-Received: by 2002:a2e:a4d0:0:b0:38a:18e0:6433 with SMTP id
+ 38308e7fff4ca-38a2c7bf182mr10049121fa.37.1772618116458; Wed, 04 Mar 2026
+ 01:55:16 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 4 Mar 2026 01:55:14 -0800
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 4 Mar 2026 01:55:14 -0800
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <aacE-27iaYneKCJi@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zi_KCgDnfYMG_adp2KCYBQ--.53298S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?eygmewXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnVF/U4hEbTTFSw5kpxcvjRb6mQGmGX2Lq9AG8clAwRux2D2Ta4eYv/3f2xyhLs0q0Axz
-	y3xBfAYJQz1E2yiHyG6p9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoWxZFyxtr13Jr1kXr1xKFWUKFX_yoWrXF17pF
-	WfKrW2kayUJr4vyF1xta18Za4ruryagr47Gw40vw1fA3sxAr4qqr42kr109FWktrZ7tF4U
-	ZrsFg3y3Gr4jyFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
-	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1PUUUUU==
-X-Rspamd-Queue-Id: 5F5FA1FDB53
+References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
+ <aaFcs1miP88QWmtH@hovoldconsulting.com> <aaFfEsfh0xTh0b1y@shikoro>
+ <aaFsZbiLYSz_YEjw@hovoldconsulting.com> <CAMRc=MfcvD1nJy=zpoCkSkJq6WjyXQxFUZ4QE6vyCS+XFCn5AA@mail.gmail.com>
+ <aaHI_VavZugXjVoL@hovoldconsulting.com> <CAMRc=MdKF29McBJ9U=qELkzf9GYV1CQpRF7U6OweDNtVzMXo7A@mail.gmail.com>
+ <aacE-27iaYneKCJi@hovoldconsulting.com>
+Date: Wed, 4 Mar 2026 01:55:14 -0800
+X-Gmail-Original-Message-ID: <CAMRc=Mcx8Hu407arSEo3o-Xhmep_ZK4BM2TVi_55nXGwYcaijw@mail.gmail.com>
+X-Gm-Features: AaiRm53mBePX3Vk4_MZn1-cdblcn8U2NxlCqWwVL6LjJiipLfY2kXBxQWFn1FB4
+Message-ID: <CAMRc=Mcx8Hu407arSEo3o-Xhmep_ZK4BM2TVi_55nXGwYcaijw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] i2c: add and start using i2c_adapter-specific
+ printk helpers
+To: Johan Hovold <johan@kernel.org>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>, 
+	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-actions@lists.infradead.org, linux-media@vger.kernel.org, 
+	Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 3156F1FE004
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.54 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54452-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[zju.edu.cn];
+	TAGGED_FROM(0.00)[bounces-54453-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[sang-engineering.com,oss.qualcomm.com,kernel.org,gmail.com,sholland.org,nvidia.com,suse.com,linux.ibm.com,ellerman.id.au,suse.de,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[mediatek.com,kernel.org,gmail.com,lists.infradead.org,vger.kernel.org,zju.edu.cn];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[fanwu01@zju.edu.cn,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.978];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	PRECEDENCE_BULK(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-The fops_vcodec_release() function frees the context structure (ctx)
-without first cancelling any pending or running work in ctx->encode_work.
-This creates a race window where the workqueue handler (mtk_venc_worker)
-may still be accessing the context memory after it has been freed.
+On Tue, Mar 3, 2026 at 4:57=E2=80=AFPM Johan Hovold <johan@kernel.org> wrot=
+e:
+>
+> On Mon, Mar 02, 2026 at 12:03:19PM -0600, Bartosz Golaszewski wrote:
+> > On Fri, Feb 27, 2026 at 5:41=E2=80=AFPM Johan Hovold <johan@kernel.org>=
+ wrote:
+> > >
+> > > On Fri, Feb 27, 2026 at 04:42:09PM +0100, Bartosz Golaszewski wrote:
+> > > > On Fri, Feb 27, 2026 at 11:06=E2=80=AFAM Johan Hovold <johan@kernel=
+.org> wrote:
+> > >
+> > > > > It seems all that is needed is to decouple the struct i2c_adapter=
+ from
+> > > > > the driver data and have core manage the lifetime of the former u=
+sing
+> > > > > the reference count of the embedded struct device.
+> > >
+> > > > This is a weird pattern you sometimes see where a driver allocates
+> > > > something and passes the ownership to the subsystem.
+> > >
+> > > It's not weird at all, this is the standard way to handle this. We ha=
+ve
+> > > these things called reference counts for a reason.
+> > >
+> >
+> > I wouldn't say it's *the* standard way. There are at least several diff=
+erent
+> > ways driver subsystems handle resource ownership. And even so: the fact=
+ that
+> > something's done a lot does not make it automatically correct.
+>
+> It's the way the driver model works.
+>
 
-Race condition:
+No, it does not impose any specific pattern to use for subsystems other tha=
+n
+requiring each device that's been *initialized* to provide a .release() cal=
+lback
+called when the last reference is dropped.
 
-    CPU 0 (release path)               CPU 1 (workqueue)
-    ---------------------               ------------------
-    fops_vcodec_release()
-      v4l2_m2m_ctx_release()
-        v4l2_m2m_cancel_job()
-        // waits for m2m job "done"
-                                        mtk_venc_worker()
-                                          v4l2_m2m_job_finish()
-                                          // m2m job "done"
-                                          // BUT worker still running!
-                                          // post-job_finish access:
-                                        other ctx dereferences
-                                          // UAF if ctx already freed
-        // returns (job "done")
-      kfree(ctx)  // ctx freed
+> > > > This often
+> > > > causes confusion among driver authors, who logically assume that if
+> > > > you allocate something, you are responsible for freeing it.Since th=
+is
+> > > > is C and not Rust (where such things are tracked by the compiler), =
+I
+> > > > strongly believe we should strive to keep ownership consistent: the
+> > > > driver should free resources it allocated within the bounds of the
+> > > > lifetime of the device it controls. The subsystem should manage the
+> > > > data it allocated - in this case the i2c adapter struct device.
+> > >
+> > > Drivers are responsible for dropping *their* reference, it doesn't me=
+an
+> > > that the resource is necessarily freed immediately as someone else ma=
+y
+> > > be holding a reference. Anyone surprised by this should not be doing
+> > > kernel development.
+> >
+> > I disagree. For some reason, you're defending a suboptimal programming
+> > interface. I'm all for reference counting but mixing reference-counted =
+data
+> > with non-counted is simply not a good idea. An API should be easy to us=
+e and
+> > hard to misuse. Given the amount of issues, this approach is definitely=
+ easy
+> > to misuse.
+> >
+> > I'm advocating for a hard split between the subsystem data (reference-c=
+ounted)
+> > and driver data (living from probe() until remove()). A logical struct =
+device
+> > managed entirely by the subsystem should live in a separate structure t=
+han
+> > driver data and be allocated - and freed - by the subsystem module.
+>
+> It doesn't really matter what you think. You can't just go around
+> making up new subsystem specific rules at your whim. The linux driver
+> model uses reference counting and that's what developers expect to be
+> used.
+>
 
-Root cause: The v4l2_m2m_ctx_release() only waits for the m2m job
-lifecycle (via TRANS_RUNNING flag), not the workqueue lifecycle.
-After v4l2_m2m_job_finish() is called, the m2m framework considers
-the job complete and v4l2_m2m_ctx_release() returns, but the worker
-function continues executing and may still access ctx.
+And I've never said that it should not use reference counting. I'm not sure
+what you're implying here.
 
-The work is queued during encode operations via:
-  queue_work(ctx->dev->encode_workqueue, &ctx->encode_work)
-The worker function accesses ctx->m2m_ctx, ctx->dev, and other ctx
-fields even after calling v4l2_m2m_job_finish().
+> > Let's put aside kernel code for a minute and work with an abstract C ex=
+ample,
+> > where the equivalent of what you're proposing would look like this:
+> >
+> > struct bar {
+> >	   struct foo foo;
+> >	   ...
+> > };
+> >
+> > struct bar *bar =3D malloc(sizeof(*bar));
+> >
+> > ret =3D foo_register(&bar->foo);
+> >
+> > And the corresponding free() lives who knows where because foo_register=
+()
+> > automagically introduces reference counting (nevermind the need to calc=
+ulate
+> > where bar is in relations to foo).
+>
+> No, that's not what I'm suggesting here, but it would be compatible with
+> the driver model (ever heard of struct device which works exactly like
+> this?).
+>
 
-This vulnerability was confirmed with KASAN by running an instrumented
-test module that widens the post-job_finish race window. KASAN detected:
+I know how struct device works. I'm pointing out that this is a bad API (ju=
+st
+to be absolutely clear: not the reference counting of struct device itself =
+but
+using it in a way tha looks like it's not refcounted but becomes so after a=
+n
+API call) because it's confusing. I'm not buying the argument that if it
+confuses you then you should not be doing kernel development because it's n=
+ot
+the goal of API design to make it as complex and confusing as possible - qu=
+ite
+the contrary. And it *is* confusing given the amount of misuse present. I'v=
+e
+heard Greg KH say on multiple occasions during his talks that we try to off=
+load
+complex code to subsystems so that drivers can remain fairly simple. I agre=
+e
+with that.
 
-  BUG: KASAN: slab-use-after-free in mtk_venc_worker+0x159/0x180
-  Read of size 4 at addr ffff88800326e000 by task kworker/u8:0/12
+> > I strongly believe that this makes more sense:
+> >
+> > struct bar {
+> >	   ...
+> > };
+> >
+> > struct bar *bar =3D malloc();
+> >
+> > struct foo *foo =3D foo_register(bar);
+> >
+> > // foo is reference counted and allocated in the provider of foo_regist=
+er()
+> >
+> > foo_put(foo);
+> > free(bar);
+> >
+> > The equivalent of which is moving struct device out of struct i2c_adapt=
+er.
+>
+> No, it's not.
+>
+> > In fact: I would love to see i2c_adapter become a truly reference-count=
+ed
+> > object detached from driver data but due to it being embedded in every =
+bus
+> > driver data structure it realistically won't happen.
+>
+> And this is what I've been suggesting all along, separating the driver
+> data and making the adapter reference counted.
+>
+> The idiomatic way to handle this is:
+>
+>		 xyz_probe()
+>		 {
+>				 adap =3D i2c_adapter_alloc();
+>				 // initialise driver data, store pointer in adap
+>				 i2c_adapter_register(adap);
+>		 }
+>
+>		 xyz_remove()
+>		 {
+>				 i2c_adapter_deregister(adap);
+>				 i2c_adapter_put(adap);
+>		 }
+>
+> Exactly where the driver data is stored is secondary, it could be memory
+> allocated by core or by the driver.
+>
+> But the adapter is reference counted and kept around until all users are
+> gone.
+>
 
-  Workqueue: mtk_vcodec_enc_wq mtk_venc_worker
+Yeah, that's awesome but that's not what's being done in i2c. We do:
 
-  Allocated by task 47:
-    __kasan_kmalloc+0x7f/0x90
-    fops_vcodec_open+0x85/0x1a0
+struct foo_i2c_driver_data {
+	struct i2c_adapter adap {
+		struct device dev;
+		...
+	};
+	...
+};
 
-  Freed by task 47:
-    __kasan_slab_free+0x43/0x70
-    kfree+0xee/0x3a0
-    fops_vcodec_release+0xb7/0x190
+instead which is a completely different story. It makes foo_i2c_driver_data
+implicitly reference counted despite its lifetime being tied to the bound-s=
+tate
+of the device. It becomes painfully obvious in rust when the compiler start=
+s
+enforcing proper lifetime management.
 
-Fix this by calling cancel_work_sync(&ctx->encode_work) before kfree(ctx).
-This ensures the workqueue handler is both cancelled (if pending) and
-synchronized (waits for any running handler to complete) before the
-context is freed.
+What you showed above is totally fine. For an even simpler API, my personal
+preference would be to:
 
-Placement rationale: The fix is placed after v4l2_ctrl_handler_free()
-and before list_del_init(&ctx->list). At this point, all m2m operations
-are done (v4l2_m2m_ctx_release() has returned), and we need to ensure
-the workqueue is synchronized before removing ctx from the list and
-freeing it.
+xyz_probe()
+{
+	struct drv_data *data =3D kzalloc();
+	/*
+	 * ... stands for any other arguments or a config struct. In the concrete
+	 * example of i2c, we'd supply the algo struct, fwnode, etc.
+	 */
+	struct i2c_adapter *adap =3D i2c_adapter_register(data, ...);
+}
 
-Note: The open error path does NOT need cancel_work_sync() because
-INIT_WORK() only initializes the work structure - it does not schedule
-it. Work is only scheduled later during device_run() operations.
+xyz_remove()
+{
+	kfree(data);
+	i2c_adapter_unregister();
+}
 
-Fixes: 0934d3759615 ("media: mediatek: vcodec: separate decoder and encoder")
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
- .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c         | 9 +++++++++
- 1 file changed, 9 insertions(+)
+The reference counting of i2c_adapter happens behind the scenes in the
+subsystem code. We're hiding the implementation details from the driver as =
+it
+has no business knowing it - it always only needs a single reference.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-index c977ed0c09b6..4e4541b2fc8e 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c
-@@ -215,6 +215,15 @@ static int fops_vcodec_release(struct file *file)
- 	v4l2_fh_exit(&ctx->fh);
- 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
- 
-+	/*
-+	 * Cancel any pending encode work before freeing the context.
-+	 * Although v4l2_m2m_ctx_release() waits for m2m job completion,
-+	 * the workqueue handler (mtk_venc_worker) may still be accessing
-+	 * the context after v4l2_m2m_job_finish() returns. Without this,
-+	 * a use-after-free occurs when the worker accesses ctx after kfree.
-+	 */
-+	cancel_work_sync(&ctx->encode_work);
-+
- 	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
- 	list_del_init(&ctx->list);
- 	spin_unlock_irqrestore(&dev->dev_ctx_lock, flags);
--- 
-2.34.1
+This way you have a kfree() corresponding with the kmalloc() and an
+unregister() corresponding with the register().
 
+But sure, your example works fine too. My point is: getting to that state w=
+ould
+require more churn than allowing drivers to continue allocating i2c_adapter
+struct themselves with struct device being moved out of it - making referen=
+ce
+counting of it work properly.
+
+And I agree: doing the above would be even better but you'd need - for ever=
+y
+driver - to move the i2c_adapter struct out of driver data and make it a
+pointer. That's in addition to providing new APIs and using them. I2C drive=
+rs
+are spread treewide. There's a reason why nobody attempted it for decades. =
+I'm
+proposing something a bit less complex: allow drivers to free i2c_adapter a=
+t
+unbind but make i2c core keep a private, reference-counted structure for as
+long as it's needed.
+
+> > > > I know there are a lot of places where this is done in the kernel b=
+ut
+> > > > let's not introduce new ones. This is a bad pattern.
+> > >
+> > > No, it's not. It's literally the standard way of doing this.
+> > >
+> > > > But even if you decided this is the way to go, I fail to see how it
+> > > > would be easier than what I'm trying to do. You would have to modif=
+y
+> > > > *all* I2C bus drivers as opposed to only modifying those that acces=
+s
+> > > > the underlying struct device. Or am I missing something?
+> > >
+> > > Yes, you have to update the allocation and replace container_of() wit=
+h
+> > > dev_get_drvdata() but it's a straight-forward transformation that bri=
+ngs
+> > > the i2c subsystem more in line with the driver model (unlike whatever=
+ it
+> > > is you're trying to do).
+> > >
+> >
+> > No, it's not that simple. The .release() callback of struct device embe=
+dded
+> > in struct i2c_adapter is assigned from the bus type and only calls comp=
+lete()
+> > (yeah, I too don't think it looks right, one would expect to see the as=
+sociated
+> > kfree() here, right?). It relies on the bus driver freeing the data in =
+its
+> > remove() path. That's why we wait until all references to said struct d=
+evice
+> > are dropped. After your proposed change, if your new release() lives in=
+ the
+> > driver module, it must not be removed until all the references are drop=
+ped
+> > - basically where we are now. If on the other hand, the release() callb=
+ack's
+> > functionality is moved into i2c-core, how would you handle the fact i2c=
+_adapter
+> > can be embedded in a larger driver data structure? Provide yet another =
+callback
+> > in i2c_adapter called from the device's .release()? Sure, can be done b=
+ut I
+> > doubt it's a better solution.
+>
+> You seem to be constructing some kind of straw man here. Obviously, the
+> release function would free the memory allocated for the adapter struct.
+>
+> An adapter driver can free its driver data on unbind as core will
+> guarantee that there are no further callbacks after the adapter has been
+> deregistered.
+>
+
+Sure, but my point all along has been that - with struct device currently
+embedded in struct i2c_adapter - that's not the case. Driver data *and*
+i2c_adapter are tied together. You need a major rework in either case.
+
+I'm frustrated because I'm spending time working on an actual solution. I'v=
+e
+explained what I'm doing and what the end result will look like based on wh=
+at
+works for GPIO (struct gpio_chip's lifetime is bound to device's "bound" st=
+ate,
+struct gpio_device is refcounted, I want to mirror it with i2c_adapter and
+whatever we eventually call its refcounted counterpart - let's say:
+i2c_bus_device). If you claim you have a better alternative - will you do t=
+he
+work to make it happen?
+
+Bartosz
 
