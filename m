@@ -1,345 +1,529 @@
-Return-Path: <linux-media+bounces-54479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54480-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wCuvAL9RqGnUtAAAu9opvQ
-	(envelope-from <linux-media+bounces-54479-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 16:37:35 +0100
+	id MOi6BE9TqGnUtAAAu9opvQ
+	(envelope-from <linux-media+bounces-54480-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 16:44:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555CD202E94
-	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 16:37:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 216BA20311E
+	for <lists+linux-media@lfdr.de>; Wed, 04 Mar 2026 16:44:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1F254309607F
-	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 15:29:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1D601306E1BF
+	for <lists+linux-media@lfdr.de>; Wed,  4 Mar 2026 15:33:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A24B233C52F;
-	Wed,  4 Mar 2026 15:29:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5DB634BA3A;
+	Wed,  4 Mar 2026 15:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Q1inYt1P";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AitbjPGI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tjZnrAfT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D80314D36
-	for <linux-media@vger.kernel.org>; Wed,  4 Mar 2026 15:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA816344D9D;
+	Wed,  4 Mar 2026 15:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772638176; cv=none; b=DHcwCE5UCCO3DqilnagwVIpgq0I6VHMnsguACrzRqMy+xp0kCVh1fNS8QPKqcnuGRLa+3G1Fdz2JWgBnaDQwa2JbXkz9JDExiEK2UOGccksFjSVgvDeAFRr8SuDR5kEMBOmmzxh3so4UbcccgiAlQSjQWpyV37OFX04Bgwnggg0=
+	t=1772638393; cv=none; b=cNg1oaf73bGoQ0OBbTxsRsyDE4ypHU9X7bNMSiHJDYcY0hzeuWp4/5d8/tY8wlt30MmM/tVb8mkTX7hiw/aJaEZRUAs08zWfvJWg2ehpWpzZEyk4BmZkM5FEh1MccZCA4LSZ4EM7Cl/4oFMSBNF1bz+CywjhPTZ4nLDbRI6tJ9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772638176; c=relaxed/simple;
-	bh=J2pHDqkcI5jgiqu24QsunAV3h4H2fOr3FdQWGJTAODc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AHl2LWTLX0j74asDbDlTxLTZGRO3430QlmFL+cPTurbfDxEZI0m2y3zgukYXE+S0mo4LyaiOOWTlmj7j8P9TnaiyulJ+tVVWhT21rTpxcLXTpJahVwBe5ehnBz+SwYXDo1x9Lz6B+6EwVlWvb8teDxpRX2IcNvJ5yIP6m6fnuAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Q1inYt1P; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AitbjPGI; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 624D005N1203226
-	for <linux-media@vger.kernel.org>; Wed, 4 Mar 2026 15:29:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	S7C3ZGxT6MAy3b00eY/LGUqY8Jlj5bg+7oTeA1mEoGE=; b=Q1inYt1P8vbSvquh
-	RbvN1tXFxrQ7WBO3jZeuKtTjeAdNz4ed30cG+G58sHStPLRsDwStQPGQs1dKktMm
-	oJLDvRMSjLmHEww6yy+apcHIz4RMoGWyCBlp5LE+GYdW6c3jGs6VkyZPZyypEeSw
-	WngbUHpGtG1e2KHcRMRUs18ACkBa+1iML/MCIgto3Bgoa9RSbmmaDGcQst1S+ZFB
-	45FSzvD9ZpzFF6UskSy+MK3gXph4vfIwm/md0q+Vz/2kO7KSp3NJ5AMGDsn/Jj0W
-	1UKHCydobH6Js0BBYNHw5s10R0Zo6ro7QjZYup1+K2sB6cNbJUxZBK9qhpjPdBv2
-	4ThEWQ==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cpf9c1qpx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 04 Mar 2026 15:29:34 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c70f8765641so4545039a12.1
-        for <linux-media@vger.kernel.org>; Wed, 04 Mar 2026 07:29:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772638174; x=1773242974; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S7C3ZGxT6MAy3b00eY/LGUqY8Jlj5bg+7oTeA1mEoGE=;
-        b=AitbjPGIvXVbNYbub9uyfV6HfC7+SN2L2oZLrSo4xFdJxLrm7ZbjpBh+Ergt4LqDh5
-         n7n+NM2ZIjRGAwXAGjpJoTEtwKa1ETN5+/UZjCbB8X5Xry02pdSiQI2Ho1k7HTzz0WWm
-         08/nzOGC1jyZG39W3BI1XtKhOxHGJFCempz00uyOTz7nfFMDuzvInv2iaoRCdm27l+XY
-         1ckv3btGQ+gKVU0SuzWPISYbpVbf1avfHrx5rtK0YD6l5N0TFZ+Rse1ZfgIf9125x0RR
-         kLxeQg+j0lfbCaMdDREXj1Hln+g82KTt0mgdnf8Kb6z/6KJsG2Vr90phqpW2hpQILK4y
-         N77g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772638174; x=1773242974;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S7C3ZGxT6MAy3b00eY/LGUqY8Jlj5bg+7oTeA1mEoGE=;
-        b=mZf+QjvvtiBMs2cM7v2pT/EqYpBq2HL/INlCzAO0Gh1r2htqDSHoZjZqRrVj3iW7q+
-         eIc9uVVk35Yzpex3jKdOi31xZ9GcyYG1bhlGJVv56V7M9pdfeYBb4e7SIOo3YZWEIxRX
-         NlvDhxq7ETROlKqeFM18aDy4FGyYAVcDyhmFmqFGQOOxwusSYBmJRZanlKySIjFxXBps
-         N5K3MR14tvEmDrzGPWfPPyoKH/U2tdOh97Qh5GHqIYf9dzgbe/TqDYBrJWw4t9YleAAy
-         vQxzLo159yXCpGD9L4Af8/tNdcaG+6E/zbx9/0Xbjg7uoBAOFfIrNpHAM47FEq4KjrYB
-         XZ2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUS56zcBrT9Smj0ZL3XXW1XF3bxF3jXa0+GJXA3LiWJUD7uJtNHK6nSlG+eN5MmBpv10Hc3GumwK+M9cQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywvxb72j8OTSLmXAPXL60Lelzu7jNim+7rMzkkrg7JdYUzAY0tn
-	PA483I05wsZb6sK0lxzGpVrrIkkz00mL3fuknZq5mplKaPrXnRFaaDyWO1eCoOOJ1OvXn5aUxyI
-	QUmWMfuxhHVYg/nVqWRCGJZczkzH5qGm/cYK0OyMjqlHlUcgJNxR87fj9EAil4+Vhhg==
-X-Gm-Gg: ATEYQzw1Pfp8fBEaVpTqpcClmv+LS39z8Q+ppbdGvzOiRpje/Lo7YrnK+OmcBSou1VJ
-	//a6PRFN6kvguYIP8FfJunzV83Se8S1UxJFrPZlKTpsl8WoqqHwq/vOcdlaDX4/99t9Qjpr59aj
-	ONjEvGGhsAyXdJC4se2ycZ3x31vC5NDPSIPaKlQQkvH2ZCM/K+21Hye4QsyuOg32kmHf51tBsFv
-	5/JCYBGW7hxkp79SpatWhcWgNoAhqBmjMhTKlvJi+DNh4C2mneT2XZHEKQg2gGDg97/TGff04G3
-	y8wKuNwjBVDMLbLservhuiCia49pkNDlPqvpDEF1j3WJjflMfNWcXLAdfC3Z1+KrGyhvDOAXiol
-	kJvMLvBXV6JkrmIRzy64uSAfqUvBPAmStgCmTSIWmBbYmg/f04yRA7A==
-X-Received: by 2002:a05:6a21:1f89:b0:38b:d9b0:e943 with SMTP id adf61e73a8af0-3982e1fe150mr2227255637.38.1772638173483;
-        Wed, 04 Mar 2026 07:29:33 -0800 (PST)
-X-Received: by 2002:a05:6a21:1f89:b0:38b:d9b0:e943 with SMTP id adf61e73a8af0-3982e1fe150mr2227236637.38.1772638172953;
-        Wed, 04 Mar 2026 07:29:32 -0800 (PST)
-Received: from [10.204.101.56] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c70fa61a19bsm17288234a12.9.2026.03.04.07.29.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Mar 2026 07:29:32 -0800 (PST)
-Message-ID: <22b3e2e9-b855-487e-868f-e72fcbbb22cd@oss.qualcomm.com>
-Date: Wed, 4 Mar 2026 20:59:24 +0530
+	s=arc-20240116; t=1772638393; c=relaxed/simple;
+	bh=EvIxci8XOiLl4n/2GeBIsKqplwU5bONQrJ/+crL2wy0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tKE1be0Vnyj7u17Ccw16K5dGKnkXPcYtkLYu/1rLyl+rA1YYMz0XtLLNzGHFuKjGvfIug+8/pIAyW27qOKt/ZCN+NodcRCO6WVTPNaiBEo4XoiaqbGOIFkugK74edkr+VPvcqhDH0bvb11ukG98771uFIJxtC+81nQj0j6NQwfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tjZnrAfT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6E0C2BC9E;
+	Wed,  4 Mar 2026 15:32:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772638392;
+	bh=EvIxci8XOiLl4n/2GeBIsKqplwU5bONQrJ/+crL2wy0=;
+	h=From:Subject:Date:To:Cc:From;
+	b=tjZnrAfTQY1egcaOHf43QElBbuHttSDoazI+LhukmrntOJQQAiiebEjQy/XlLFIY6
+	 YZBRowumS+CbfL8vCCZJ5ZNJ6/AuhMs+JKxLQn/rsiE38K0mrezhI9zm13iQXv/+v0
+	 8b4CaZIxgaqa06ai0MIFmXbaiCEa7u+DIQgSNfl/GZVw4IjFUwa0m1sAT+eBfYGNH+
+	 /oAPpYF8Pr7sbmfd5yhxB31Nk/jRCBtZQSpT5OlmT7keh30sXYijYmK3N3sLlC34NN
+	 e5vk9jzJkoQkaXORDozAzv3TLVD/vhk71bcohAk5Rj1zHBH/VsCs7Q4VVm9VmXnzkn
+	 19P4RrX9m9yDA==
+From: Jeff Layton <jlayton@kernel.org>
+Subject: [PATCH v3 00/12] vfs: change inode->i_ino from unsigned long to
+ u64
+Date: Wed, 04 Mar 2026 10:32:30 -0500
+Message-Id: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/7] media: iris: add helper to select context bank
- device
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
-        Hans Verkuil <hverkuil+cisco@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20260227-kaanapali-iris-v2-0-850043ac3933@oss.qualcomm.com>
- <20260227-kaanapali-iris-v2-5-850043ac3933@oss.qualcomm.com>
- <bi3i37ho3ppzlgdx264ohxpcem3nwumjelzckf4x5uzdj5rt7a@2y2jrilmfimj>
- <1dc86b00-9a18-482c-94b1-96692c1dd530@oss.qualcomm.com>
- <jgygscmwovezkytizhh54cmmu5etgv23bgopfqrql3qj7zlhxh@adxo2b7izlrc>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <jgygscmwovezkytizhh54cmmu5etgv23bgopfqrql3qj7zlhxh@adxo2b7izlrc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA0MDEyNSBTYWx0ZWRfX7tSoKbL+SzyP
- 5YBSXJ+2N682fv1HYMbnqJhSv61INCCYBekRYKobG3PUmoU/PEI/SBc5hY3Oe8Pq9kK7xgPi4qN
- V1Nc8oAUKcXyMhNLTmhREafpp+Psizl8fADRmbdVeYWJeFmzQA7Wo0LF48uVodj+TRYNy3eJt0u
- /hFQXwxV3H+CB0tyRHHofN60KJtoPdCA3RoNfCbMh4924Rwqxk2GnsaVpC9KchMNg7Y5aKWY1el
- QMfUSA73TgrOUBhxGWaKaUmgVwDNCBPhMdcbhv6vGq1+dpFrDf1cd0NbwrCD4UWA6OnvH3gyfbi
- tZwNk08HR3ifQf26v8jMhOic2cm0M15ucWgisL6Kp0G0KG9GlluYuhTK8SzchY4dzrgFFh7R5wn
- G/HE3XsY7E6n717FpuG9F7gqCxEPrggsS36rS4rqshxGa/LEvHR4LdP5aoLEKQF/zQAtwC04F7g
- xCz/WfcMxmrAALALDqg==
-X-Proofpoint-GUID: rL3YzV4FrGOOtKsSgAQVkzWoWHQODfkr
-X-Authority-Analysis: v=2.4 cv=S4LUAYsP c=1 sm=1 tr=0 ts=69a84fde cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=aBrO_zpjTiySyTrMC9oA:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-ORIG-GUID: rL3YzV4FrGOOtKsSgAQVkzWoWHQODfkr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-04_06,2026-03-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 clxscore=1015 phishscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603040125
-X-Rspamd-Queue-Id: 555CD202E94
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/1WMwQ6CMBAFf4X0bE3Zloqe/A/joZQFNpqWtNpoC
+ P9uITHocV7ezMQiBsLITsXEAiaK5F0GuSuYHYzrkVObmYEALQAUJ3KeP7XijVJGmgNUSlqW72P
+ Ajl5r6nLNPFB8+PBey6lc1m9Eb5FUcsGttdh1Uuu2OZ5vGBze9z70bKkk2Ewp4MeEbGIl67oWo
+ jUo/sx5nj+ixfmA2wAAAA==
+X-Change-ID: 20260224-iino-u64-b44a3a72543c
+To: Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Dan Williams <dan.j.williams@intel.com>, Eric Biggers <ebiggers@kernel.org>, 
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Muchun Song <muchun.song@linux.dev>, 
+ Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
+ David Howells <dhowells@redhat.com>, Paulo Alcantara <pc@manguebit.org>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+ Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+ Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, Steve French <sfrench@samba.org>, 
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Shyam Prasad N <sprasad@microsoft.com>, 
+ Bharath SM <bharathsm@microsoft.com>, 
+ Alexander Aring <alex.aring@gmail.com>, 
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+ Viacheslav Dubeyko <slava@dubeyko.com>, 
+ Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>, 
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>, 
+ David Sterba <dsterba@suse.com>, Marc Dionne <marc.dionne@auristor.com>, 
+ Ian Kent <raven@themaw.net>, Luis de Bethencourt <luisbg@kernel.org>, 
+ Salah Triki <salah.triki@gmail.com>, 
+ "Tigran A. Aivazian" <aivazian.tigran@gmail.com>, 
+ Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+ Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu, 
+ Nicolas Pitre <nico@fluxnic.net>, Tyler Hicks <code@tyhicks.com>, 
+ Amir Goldstein <amir73il@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+ Yangtao Li <frank.li@vivo.com>, 
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+ David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, 
+ Dave Kleikamp <shaggy@kernel.org>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+ Joseph Qi <joseph.qi@linux.alibaba.com>, 
+ Mike Marshall <hubcap@omnibond.com>, 
+ Martin Brandenburg <martin@omnibond.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Anders Larsen <al@alarsen.net>, 
+ Zhihao Cheng <chengzhihao1@huawei.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ John Johansen <john.johansen@canonical.com>, 
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, Mimi Zohar <zohar@linux.ibm.com>, 
+ Roberto Sassu <roberto.sassu@huawei.com>, 
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+ Eric Snowberg <eric.snowberg@oracle.com>, Fan Wu <wufan@kernel.org>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Ondrej Mosnacek <omosnace@redhat.com>, 
+ Casey Schaufler <casey@schaufler-ca.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Eric Dumazet <edumazet@google.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Simon Horman <horms@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ James Clark <james.clark@linaro.org>, "Darrick J. Wong" <djwong@kernel.org>, 
+ Martin Schiller <ms@dev.tdt.de>, Eric Paris <eparis@redhat.com>, 
+ Joerg Reuter <jreuter@yaina.de>, Marcel Holtmann <marcel@holtmann.org>, 
+ Johan Hedberg <johan.hedberg@gmail.com>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+ Oliver Hartkopp <socketcan@hartkopp.net>, 
+ Marc Kleine-Budde <mkl@pengutronix.de>, David Ahern <dsahern@kernel.org>, 
+ Neal Cardwell <ncardwell@google.com>, 
+ Steffen Klassert <steffen.klassert@secunet.com>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, 
+ Remi Denis-Courmont <courmisch@gmail.com>, 
+ Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>, 
+ Xin Long <lucien.xin@gmail.com>, 
+ Magnus Karlsson <magnus.karlsson@intel.com>, 
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+ fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev, 
+ linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+ linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+ samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org, 
+ v9fs@lists.linux.dev, linux-afs@lists.infradead.org, autofs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu, 
+ ecryptfs@vger.kernel.org, linux-mtd@lists.infradead.org, 
+ jfs-discussion@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+ ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org, 
+ linux-unionfs@vger.kernel.org, apparmor@lists.ubuntu.com, 
+ linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org, 
+ selinux@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, netdev@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, linux-hams@vger.kernel.org, 
+ linux-x25@vger.kernel.org, audit@vger.kernel.org, 
+ linux-bluetooth@vger.kernel.org, linux-can@vger.kernel.org, 
+ linux-sctp@vger.kernel.org, bpf@vger.kernel.org, 
+ Jeff Layton <jlayton@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15620; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=EvIxci8XOiLl4n/2GeBIsKqplwU5bONQrJ/+crL2wy0=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpqFCmtSXlBjo6dQnzEqcLO8yRk/GwocfV+Ys43
+ 1r2nHJWZLKJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaahQpgAKCRAADmhBGVaC
+ FZUuD/9cUVHXDTOWJ8EHyosX0JVcAaa8EjHKBSKXi5RdtbvclsnQzxZFo3IHsJRUr5rS20/LlhZ
+ Q7bvvGD3ObSLMUnGJ5qEsuw6qLLQl+AHcZHkBNV82iTQ0HbycsLjgvug8TFq977jlXJnAdPObCG
+ lInf86Xw+IOQIHirr5f4X6M7dXlLOO2Sr7Z0aR+teb2fo6yeAO1PmY/3RSRNWUYP2OJHUwBbcKc
+ 2AUrx1vpCMEhOySlHJikzpiNMpdr08wVChoNCQCaXXnk6LUhVVYq77SBKfeRyZAEWlp5As2TiOd
+ zvjttN0LJ2Si7bJwcjlTZ08DjZxGiskZ6e56aWJqwoemPzH5xfZ7UQsIk5TThABLumTWSFb9Ytp
+ du3oW+3igfz8Mvl0naLgzAt68c3XULfxcmstOXn+iXTvjX0tc0CI4UVCQPpotbo1VIbTSouzh/u
+ OLKWsFTrGH3f5MksUXp7bHWVDjaxi3Y/7Kv7oLKpAmd2BzTFGcXjPGFZSx7Kp7uDEWj6h2t4EEN
+ bBZvroEHtbd9dUC4XmdWp3iuoRrniH7Tbbx4lD5BHONfGwGsvjttpdJ7DJCm6PgnZZQH22AvID4
+ /iG1k2TsVrnLswQvrKkb+SI2T36SGrQsRxcxKEWGtP3ttmRB+Ofhxy/K22a457401aBQq9wv5p/
+ thBn08iirCMMzCg==
+X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
+ fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+X-Rspamd-Queue-Id: 216BA20311E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54479-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-54480-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,goodmis.org,efficios.com,intel.com,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,infradead.org,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.net];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[171];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jlayton@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
+This version squashes all of the format-string changes and the i_ino
+type change into the same patch. This results in a giant 600+ line patch
+at the end of the series, but it does remain bisectable.  Because the
+patchset was reorganized (again) some of the R-b's and A-b's have been
+dropped.
 
-On 3/4/2026 3:57 AM, Dmitry Baryshkov wrote:
-> On Wed, Mar 04, 2026 at 12:46:27AM +0530, Vikash Garodia wrote:
->>
->>
->> On 2/28/2026 1:57 AM, Dmitry Baryshkov wrote:
->>> On Fri, Feb 27, 2026 at 07:41:21PM +0530, Vikash Garodia wrote:
->>>> Depending on the buffer type (input, output, internal and interface
->>>> queues), associated context bank is selected, if available. Fallback to
->>>> parent device for backward compatibility.
->>>>
->>>> Co-developed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
->>>> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
->>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
->>>> ---
->>>>    drivers/media/platform/qcom/iris/iris_buffer.c    |  7 +--
->>>>    drivers/media/platform/qcom/iris/iris_buffer.h    |  2 +
->>>>    drivers/media/platform/qcom/iris/iris_hfi_queue.c | 16 +++---
->>>>    drivers/media/platform/qcom/iris/iris_resources.c | 60 +++++++++++++++++++++++
->>>>    drivers/media/platform/qcom/iris/iris_resources.h |  2 +
->>>>    drivers/media/platform/qcom/iris/iris_vidc.c      |  4 +-
->>>>    6 files changed, 79 insertions(+), 12 deletions(-)
->>>>
->>>> @@ -177,3 +178,62 @@ int iris_create_child_device_and_map(struct iris_core *core, struct iris_context
->>>>    	return 0;
->>>>    }
->>>> +
->>>> +static enum iris_buffer_region iris_get_region(struct iris_inst *inst,
->>>> +					       enum iris_buffer_type buffer_type)
->>>> +{
->>>> +	switch (buffer_type) {
->>>> +	case BUF_INPUT:
->>>> +		if (inst && inst->domain == ENCODER)
->>>
->>> Can inst be NULL here?
->>
->> during queues init/deinit, instances are not created.
-> 
-> Is this function being called during queues init?
+The entire pile is in the "iino-u64" branch of my tree, if anyone is
+interested in testing this.
 
-yes, via iris_get_cb_dev()
+    https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git/
 
-> 
->>
->>>
->>>> +			return IRIS_PIXEL_REGION;
->>>> +		else if (inst && inst->domain == DECODER)
->>>> +			return IRIS_BITSTREAM_REGION;
->>>
->>> Are there any other possibilities than encoder and decoder?
->>
->> will simplify it as
->>
->> if (inst) {
->>      if (inst->domain == ENCODER)
->>          return IRIS_PIXEL_REGION;
->>      else
->>          return IRIS_BITSTREAM_REGION;
->> }
->>>
->>>> +		break;
->>>> +	case BUF_OUTPUT:
->>>> +		if (inst && inst->domain == ENCODER)
->>>> +			return IRIS_BITSTREAM_REGION;
->>>> +		else if (inst && inst->domain == DECODER)
->>>> +			return IRIS_PIXEL_REGION;
->>>> +		break;
->>>> +	case BUF_BIN:
->>>> +		return IRIS_BITSTREAM_REGION;
->>>> +	case BUF_DPB:
->>>> +	case BUF_PARTIAL:
->>>> +	case BUF_SCRATCH_2:
->>>> +	case BUF_VPSS:
->>>> +		return IRIS_PIXEL_REGION;
->>>> +	case BUF_ARP:
->>>> +	case BUF_COMV:
->>>> +	case BUF_HFI_QUEUE:
->>>> +	case BUF_LINE:
->>>> +	case BUF_NON_COMV:
->>>> +	case BUF_PERSIST:
->>>> +		return IRIS_NON_PIXEL_REGION;
->>>> +	default:
->>>> +		return 0;
->>>
->>> dev_err(dev, "unsupported buffer type %x\n", buffer_type)
->>> return -EINVAL;
->>
->> these are bit fields, returning -EINVAL would still match some bits and can
->> make the logic as true. 0 can be defined as IRIS_UNKNOWN_REGION
-> 
-> Yes, sounds good.
-> 
->>
->>>
->>>> +	}
->>>> +
->>>> +	return 0;
->>>
->>> Drop
->>>
->>
->> Ack
->>
->>>> +}
->>>> +
->>>> +struct device *iris_get_cb_dev(struct iris_core *core, struct iris_inst *inst,
->>>> +			       enum iris_buffer_type buffer_type)
->>>> +{
->>>> +	enum iris_buffer_region region;
->>>> +	struct device *dev = NULL;
->>>> +	int i;
->>>> +
->>>> +	region = iris_get_region(inst, buffer_type);
->>>> +
->>>> +	for (i = 0; i < core->iris_platform_data->cb_data_size; i++) {
->>>> +		if (core->iris_platform_data->cb_data[i].region & region) {
->>>> +			dev = core->iris_platform_data->cb_data[i].dev;
->>>> +			break;
->>>> +		}
->>>
->>> You really seem to overcomplicate things. Replace array search with the
->>> indexed array access. Much easier and much better.
->>>
->>> enum iris_buffer_region {
->>> 	IRIS_PIXEL_REGION,
->>> 	IRIS_BITSTREAM_REGION,
->>> 	IRIS_NON_PIXEL_REGION,
->>> 	// add more when necessary
->>> 	IRIS_NUM_REGIONS,
->>> };
->>>
->>> struct iris_core {
->>> 	struct iris_cb_device cb_devices[IRIS_NUM_REGIONS];
->>> };
->>>
->>> region = iris_get_region(inst, buffer_type);
->>> dev = core->cb_devices[region];
->>
->> all the regions may/may not be present in all SOC
-> 
-> You can check for dev != NULL afterwards.
+Original cover letter follows:
 
-with one CB to multiple region mapping, this logic would not work.
+----------------------8<-----------------------
 
-Regards,
-Vikash
+Christian said [1] to "just do it" when I proposed this, so here we are!
 
-> 
-> 
+For historical reasons, the inode->i_ino field is an unsigned long,
+which means that it's 32 bits on 32 bit architectures. This has caused a
+number of filesystems to implement hacks to hash a 64-bit identifier
+into a 32-bit field, and deprives us of a universal identifier field for
+an inode.
+
+This patchset changes the inode->i_ino field from an unsigned long to a
+u64. This shouldn't make any material difference on 64-bit hosts, but
+32-bit hosts will see struct inode grow by at least 4 bytes. This could
+have effects on slabcache sizes and field alignment.
+
+The bulk of the changes are to format strings and tracepoints, since the
+kernel itself doesn't care that much about the i_ino field. The first
+patch changes some vfs function arguments, so check that one out
+carefully.
+
+With this change, we may be able to shrink some inode structures. For
+instance, struct nfs_inode has a fileid field that holds the 64-bit
+inode number. With this set of changes, that field could be eliminated.
+I'd rather leave that sort of cleanups for later just to keep this
+simple.
+
+Much of this set was generated by LLM, but I attributed it to myself
+since I consider this to be in the "menial tasks" category of LLM usage.
+
+[1]: https://lore.kernel.org/linux-fsdevel/20260219-portrait-winkt-959070cee42f@brauner/
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+---
+Changes in v3:
+- reorganize set for fewer patches, drop kino_t typedef and PRIino macro
+- reorganize more TP_struct fields for better packing
+- clean up ext4 goal calculation in ext4_ext_migrate()
+- make audit_inode_hash() take a 64-bit argument
+- Link to v2: https://lore.kernel.org/r/20260302-iino-u64-v2-0-e5388800dae0@kernel.org
+
+Changes in v2:
+- Use a typedef and macro and do the change in two steps to make it cleanly bisectable
+- Fix check_for_busy_inodes() in fscrypt
+- Added patch to reorganize tracepoint structs for better packing
+- Added patch to change sock.sk_ino to u64
+- Added patch to clean up internal handling of inode numbers in audit subsystem
+- Drop some unnecessary casts
+- Link to v1: https://lore.kernel.org/r/20260226-iino-u64-v1-0-ccceff366db9@kernel.org
+
+---
+Jeff Layton (12):
+      vfs: widen inode hash/lookup functions to u64
+      audit: widen ino fields to u64
+      net: change sock.sk_ino and sock_i_ino() to u64
+      vfs: widen trace event i_ino fields to u64
+      cachefiles: widen trace event i_ino fields to u64
+      ext2: widen trace event i_ino fields to u64
+      hugetlbfs: widen trace event i_ino fields to u64
+      zonefs: widen trace event i_ino fields to u64
+      ext4: widen trace event i_ino fields to u64
+      f2fs: widen trace event i_ino fields to u64
+      nilfs2: widen trace event i_ino fields to u64
+      treewide: change inode->i_ino from unsigned long to u64
+
+ drivers/dma-buf/dma-buf.c                  |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |   4 +-
+ fs/9p/vfs_addr.c                           |   4 +-
+ fs/9p/vfs_inode.c                          |   6 +-
+ fs/9p/vfs_inode_dotl.c                     |   6 +-
+ fs/affs/amigaffs.c                         |  10 +-
+ fs/affs/bitmap.c                           |   2 +-
+ fs/affs/dir.c                              |   2 +-
+ fs/affs/file.c                             |  20 +-
+ fs/affs/inode.c                            |  12 +-
+ fs/affs/namei.c                            |  14 +-
+ fs/affs/symlink.c                          |   2 +-
+ fs/afs/dir.c                               |  10 +-
+ fs/afs/dir_search.c                        |   2 +-
+ fs/afs/dynroot.c                           |   2 +-
+ fs/afs/inode.c                             |   2 +-
+ fs/autofs/inode.c                          |   2 +-
+ fs/befs/linuxvfs.c                         |  28 +-
+ fs/bfs/dir.c                               |   4 +-
+ fs/cachefiles/io.c                         |   6 +-
+ fs/cachefiles/namei.c                      |  12 +-
+ fs/cachefiles/xattr.c                      |   2 +-
+ fs/ceph/crypto.c                           |   4 +-
+ fs/coda/dir.c                              |   2 +-
+ fs/coda/inode.c                            |   2 +-
+ fs/cramfs/inode.c                          |   2 +-
+ fs/crypto/crypto.c                         |   2 +-
+ fs/crypto/hooks.c                          |   2 +-
+ fs/crypto/keyring.c                        |   4 +-
+ fs/crypto/keysetup.c                       |   2 +-
+ fs/dcache.c                                |   4 +-
+ fs/ecryptfs/crypto.c                       |   6 +-
+ fs/ecryptfs/file.c                         |   2 +-
+ fs/efs/inode.c                             |   6 +-
+ fs/eventpoll.c                             |   2 +-
+ fs/exportfs/expfs.c                        |   4 +-
+ fs/ext2/dir.c                              |  10 +-
+ fs/ext2/ialloc.c                           |   9 +-
+ fs/ext2/inode.c                            |   2 +-
+ fs/ext2/trace.h                            |   8 +-
+ fs/ext2/xattr.c                            |  14 +-
+ fs/ext4/dir.c                              |   2 +-
+ fs/ext4/ext4.h                             |   4 +-
+ fs/ext4/extents.c                          |   8 +-
+ fs/ext4/extents_status.c                   |  28 +-
+ fs/ext4/fast_commit.c                      |   8 +-
+ fs/ext4/ialloc.c                           |  10 +-
+ fs/ext4/indirect.c                         |   2 +-
+ fs/ext4/inline.c                           |  14 +-
+ fs/ext4/inode.c                            |  22 +-
+ fs/ext4/ioctl.c                            |   4 +-
+ fs/ext4/mballoc.c                          |   6 +-
+ fs/ext4/migrate.c                          |   2 +-
+ fs/ext4/move_extent.c                      |  20 +-
+ fs/ext4/namei.c                            |  10 +-
+ fs/ext4/orphan.c                           |  16 +-
+ fs/ext4/page-io.c                          |  10 +-
+ fs/ext4/super.c                            |  22 +-
+ fs/ext4/xattr.c                            |  10 +-
+ fs/f2fs/compress.c                         |   4 +-
+ fs/f2fs/dir.c                              |   2 +-
+ fs/f2fs/extent_cache.c                     |   8 +-
+ fs/f2fs/f2fs.h                             |   6 +-
+ fs/f2fs/file.c                             |  12 +-
+ fs/f2fs/gc.c                               |   2 +-
+ fs/f2fs/inline.c                           |   4 +-
+ fs/f2fs/inode.c                            |  48 +--
+ fs/f2fs/namei.c                            |   8 +-
+ fs/f2fs/node.c                             |  12 +-
+ fs/f2fs/recovery.c                         |  10 +-
+ fs/f2fs/xattr.c                            |  10 +-
+ fs/freevxfs/vxfs_bmap.c                    |   4 +-
+ fs/fserror.c                               |   2 +-
+ fs/hfs/catalog.c                           |   2 +-
+ fs/hfs/extent.c                            |   4 +-
+ fs/hfs/inode.c                             |   4 +-
+ fs/hfsplus/attributes.c                    |  10 +-
+ fs/hfsplus/catalog.c                       |   2 +-
+ fs/hfsplus/dir.c                           |   6 +-
+ fs/hfsplus/extents.c                       |   6 +-
+ fs/hfsplus/inode.c                         |   8 +-
+ fs/hfsplus/super.c                         |   6 +-
+ fs/hfsplus/xattr.c                         |  10 +-
+ fs/hpfs/dir.c                              |   4 +-
+ fs/hpfs/dnode.c                            |   4 +-
+ fs/hpfs/ea.c                               |   4 +-
+ fs/hpfs/inode.c                            |   4 +-
+ fs/inode.c                                 |  49 ++-
+ fs/iomap/ioend.c                           |   2 +-
+ fs/iomap/trace.h                           |   8 +-
+ fs/isofs/compress.c                        |   2 +-
+ fs/isofs/dir.c                             |   2 +-
+ fs/isofs/inode.c                           |   6 +-
+ fs/isofs/namei.c                           |   2 +-
+ fs/jbd2/journal.c                          |   4 +-
+ fs/jbd2/transaction.c                      |   2 +-
+ fs/jffs2/dir.c                             |   4 +-
+ fs/jffs2/file.c                            |   4 +-
+ fs/jffs2/fs.c                              |  18 +-
+ fs/jfs/inode.c                             |   2 +-
+ fs/jfs/jfs_imap.c                          |   2 +-
+ fs/jfs/jfs_metapage.c                      |   2 +-
+ fs/lockd/svclock.c                         |   8 +-
+ fs/lockd/svcsubs.c                         |   2 +-
+ fs/locks.c                                 |   6 +-
+ fs/minix/inode.c                           |  10 +-
+ fs/nfs/dir.c                               |  20 +-
+ fs/nfs/file.c                              |   8 +-
+ fs/nfs/filelayout/filelayout.c             |   8 +-
+ fs/nfs/flexfilelayout/flexfilelayout.c     |   8 +-
+ fs/nfs/inode.c                             |   6 +-
+ fs/nfs/nfs4proc.c                          |   4 +-
+ fs/nfs/pnfs.c                              |  12 +-
+ fs/nfsd/export.c                           |   2 +-
+ fs/nfsd/nfs4state.c                        |   4 +-
+ fs/nfsd/nfsfh.c                            |   4 +-
+ fs/nfsd/vfs.c                              |   2 +-
+ fs/nilfs2/alloc.c                          |  10 +-
+ fs/nilfs2/bmap.c                           |   2 +-
+ fs/nilfs2/btnode.c                         |   2 +-
+ fs/nilfs2/btree.c                          |  12 +-
+ fs/nilfs2/dir.c                            |  12 +-
+ fs/nilfs2/direct.c                         |   4 +-
+ fs/nilfs2/gcinode.c                        |   2 +-
+ fs/nilfs2/inode.c                          |   8 +-
+ fs/nilfs2/mdt.c                            |   2 +-
+ fs/nilfs2/namei.c                          |   2 +-
+ fs/nilfs2/segment.c                        |   2 +-
+ fs/notify/fdinfo.c                         |   4 +-
+ fs/nsfs.c                                  |   4 +-
+ fs/ntfs3/super.c                           |   2 +-
+ fs/ocfs2/alloc.c                           |   2 +-
+ fs/ocfs2/aops.c                            |   4 +-
+ fs/ocfs2/dir.c                             |   8 +-
+ fs/ocfs2/dlmfs/dlmfs.c                     |  10 +-
+ fs/ocfs2/extent_map.c                      |  12 +-
+ fs/ocfs2/inode.c                           |   2 +-
+ fs/ocfs2/quota_local.c                     |   2 +-
+ fs/ocfs2/refcounttree.c                    |  10 +-
+ fs/ocfs2/xattr.c                           |   4 +-
+ fs/orangefs/inode.c                        |   2 +-
+ fs/overlayfs/export.c                      |   2 +-
+ fs/overlayfs/namei.c                       |   4 +-
+ fs/overlayfs/util.c                        |   2 +-
+ fs/pipe.c                                  |   2 +-
+ fs/proc/fd.c                               |   2 +-
+ fs/proc/task_mmu.c                         |   4 +-
+ fs/qnx4/inode.c                            |   4 +-
+ fs/qnx6/inode.c                            |   2 +-
+ fs/ubifs/debug.c                           |   8 +-
+ fs/ubifs/dir.c                             |  28 +-
+ fs/ubifs/file.c                            |  28 +-
+ fs/ubifs/journal.c                         |   6 +-
+ fs/ubifs/super.c                           |  16 +-
+ fs/ubifs/tnc.c                             |   4 +-
+ fs/ubifs/xattr.c                           |  14 +-
+ fs/udf/directory.c                         |  18 +-
+ fs/udf/file.c                              |   2 +-
+ fs/udf/inode.c                             |  12 +-
+ fs/udf/namei.c                             |   8 +-
+ fs/udf/super.c                             |   2 +-
+ fs/ufs/balloc.c                            |   6 +-
+ fs/ufs/dir.c                               |  10 +-
+ fs/ufs/ialloc.c                            |   6 +-
+ fs/ufs/inode.c                             |  18 +-
+ fs/ufs/ufs_fs.h                            |   6 +-
+ fs/ufs/util.c                              |   2 +-
+ fs/verity/init.c                           |   2 +-
+ fs/zonefs/super.c                          |   8 +-
+ fs/zonefs/trace.h                          |  18 +-
+ include/linux/audit.h                      |   2 +-
+ include/linux/fs.h                         |  28 +-
+ include/net/sock.h                         |   4 +-
+ include/trace/events/cachefiles.h          |  18 +-
+ include/trace/events/ext4.h                | 544 ++++++++++++++---------------
+ include/trace/events/f2fs.h                | 242 ++++++-------
+ include/trace/events/filelock.h            |  34 +-
+ include/trace/events/filemap.h             |  20 +-
+ include/trace/events/fs_dax.h              |  20 +-
+ include/trace/events/fsverity.h            |  30 +-
+ include/trace/events/hugetlbfs.h           |  42 +--
+ include/trace/events/netfs.h               |   8 +-
+ include/trace/events/nilfs2.h              |  12 +-
+ include/trace/events/readahead.h           |  18 +-
+ include/trace/events/timestamp.h           |  16 +-
+ include/trace/events/writeback.h           | 162 ++++-----
+ kernel/audit.h                             |  13 +-
+ kernel/audit_fsnotify.c                    |   4 +-
+ kernel/audit_watch.c                       |  12 +-
+ kernel/auditsc.c                           |   4 +-
+ kernel/events/uprobes.c                    |   4 +-
+ net/ax25/af_ax25.c                         |   2 +-
+ net/bluetooth/af_bluetooth.c               |   4 +-
+ net/can/bcm.c                              |   2 +-
+ net/ipv4/ping.c                            |   2 +-
+ net/ipv4/raw.c                             |   2 +-
+ net/ipv4/tcp_ipv4.c                        |   2 +-
+ net/ipv4/udp.c                             |   2 +-
+ net/ipv6/datagram.c                        |   2 +-
+ net/ipv6/tcp_ipv6.c                        |   2 +-
+ net/key/af_key.c                           |   2 +-
+ net/netlink/af_netlink.c                   |   2 +-
+ net/netlink/diag.c                         |   2 +-
+ net/netrom/af_netrom.c                     |   4 +-
+ net/packet/af_packet.c                     |   2 +-
+ net/packet/diag.c                          |   2 +-
+ net/phonet/socket.c                        |   4 +-
+ net/rose/af_rose.c                         |   4 +-
+ net/sctp/proc.c                            |   4 +-
+ net/socket.c                               |   2 +-
+ net/unix/af_unix.c                         |   2 +-
+ net/unix/diag.c                            |   6 +-
+ net/x25/x25_proc.c                         |   4 +-
+ net/xdp/xsk_diag.c                         |   2 +-
+ security/apparmor/apparmorfs.c             |   4 +-
+ security/integrity/integrity_audit.c       |   2 +-
+ security/ipe/audit.c                       |   2 +-
+ security/lsm_audit.c                       |  10 +-
+ security/selinux/hooks.c                   |  10 +-
+ security/smack/smack_lsm.c                 |  12 +-
+ 220 files changed, 1282 insertions(+), 1283 deletions(-)
+---
+base-commit: 842cfe0733c5a03982a7ae496de6fdc0dd661a41
+change-id: 20260224-iino-u64-b44a3a72543c
+
+Best regards,
+-- 
+Jeff Layton <jlayton@kernel.org>
 
 
