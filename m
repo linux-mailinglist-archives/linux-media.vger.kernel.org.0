@@ -1,216 +1,121 @@
-Return-Path: <linux-media+bounces-54659-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54660-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCIEJVWhqWl5BQEAu9opvQ
-	(envelope-from <linux-media+bounces-54659-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 16:29:25 +0100
+	id KEY4Dg+oqWlSBwEAu9opvQ
+	(envelope-from <linux-media+bounces-54660-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 16:58:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205EA214883
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 16:29:25 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B144E214FE8
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 16:58:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A4F2230358A4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 15:27:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E8FD7317C345
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 15:36:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C0A3BED47;
-	Thu,  5 Mar 2026 15:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWiqRWLb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 806523CA480;
+	Thu,  5 Mar 2026 15:36:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6AB384250;
-	Thu,  5 Mar 2026 15:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F113B3A63F4;
+	Thu,  5 Mar 2026 15:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772724421; cv=none; b=Y4jSC2QHomvNlh6ZMhZneDeWTDhDbZ3gZX/lE16jYxoX0zphQsYxbqFP4BtsTPNjA7Ew3GR44zgeIFqzYRaJbVIiq3G+Fhysk1P9tbNwkuW8nMm+Z3z7gphWjPBIboX5Zckdr4pJrpAnkygLdC7oKj1+gX378pm1cWhYeifug04=
+	t=1772724967; cv=none; b=ko9mG0d23pCHLOp8T0zGjA0BbG+BR4PaODhM+IC14fLD4z3EQ4/DRoqIyVkO+312BZxnn8qZf4cZRz8O9d+fVwnGMsc4ajLTCSTff0TcfCYSfDjhA7dmUHmgoVKkGK7/pPiX3s5ltzTRnGFjhH1TzWXx+X/ddEucRJeCKOEGHCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772724421; c=relaxed/simple;
-	bh=9che9S/rfD6SJcfVDz2SXnU+7MBs/hKF8MhWtpvGqig=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hlGwHU5Mjf+P6NePTpW/4CTts8XEkoDRWoZyVK4kUJYMJJglppldKUty+U/4ie7Qs/qysDa42vV7pLCxYgOB/BEOoCT1BRLeLrnWMLqDk01njSiDt6Of1nNbumb7QpA1gNVF0guErduemqDmvWrQpy/MEt9CVcnve+9eZ9155EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWiqRWLb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86731C19423;
-	Thu,  5 Mar 2026 15:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772724421;
-	bh=9che9S/rfD6SJcfVDz2SXnU+7MBs/hKF8MhWtpvGqig=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IWiqRWLbDF94tCasvan1T3MoT25tOqEQkcz2TfW2kmEyKjFyzSCCCJ1pf4Fg+oiGc
-	 Kvn6Oc7nCZ5oxJpvT3tYbKQHSNu27DF8jvm7mglAxodFk7mVbnTDOk+tfr6TpoOktl
-	 nEr0kndNA06XG2HZahfe32ZqmvLHBiqUB/sWfSnGVaTwgf4OD6XzGmSjf5PMjJyhA1
-	 sS0DgbPR/h7cH41OJYAu1Isx0Hv/8z1BkChrPxUHgqpGHfALXptkLCm0e/NbGQELI7
-	 pPcidjKrhH4P4g4gbevtk+rLC4rkFY1Eb5uZqvmk64mRAFLQawZzkgWzfHj+YRVESP
-	 LgSEUjZOpch9g==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Alex Bee <knaerzche@gmail.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Kees Cook <kees@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH 2/2] [v2] media: rkvdec: reduce stack usage in rkvdec_init_v4l2_vp9_count_tbl()
-Date: Thu,  5 Mar 2026 16:26:17 +0100
-Message-Id: <20260305152644.791897-2-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260305152644.791897-1-arnd@kernel.org>
-References: <20260305152644.791897-1-arnd@kernel.org>
+	s=arc-20240116; t=1772724967; c=relaxed/simple;
+	bh=qocaInGB0SlfrWm+uA1O3uhdYbYezjAl8jrEXMJzGhU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=LWEfGZx3KKfqPR+EulOrLmlCpf/Zbe4FGWLQ38ONHzUkaONzLXL9e6My5PMks7NIArs4AmwsgoWqVrWV9nAjhuWpGrpWu7nVy9K1IDrlnpbbsxe+dAudTWfhENgZOVcfAVbKtdizgBtl3sxPU3CRhJwgBJmfJiRbqPuMFpyAKcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf17.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 9322C14014F;
+	Thu,  5 Mar 2026 15:36:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf17.hostedemail.com (Postfix) with ESMTPA id E35031C;
+	Thu,  5 Mar 2026 15:35:55 +0000 (UTC)
+Message-ID: <21e84301a7c37f9d5ce6f0ddcaed7846174d2a4d.camel@perches.com>
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+From: Joe Perches <joe@perches.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+	linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, Neil
+ Armstrong	 <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, 	spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com
+Date: Thu, 05 Mar 2026 07:35:54 -0800
+In-Reply-To: <20260305114352.2f7btqixg4tu5bzl@skbuf>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+	 <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+	 <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+	 <20260305085148.7cwo3yflp7vcfldf@skbuf>
+	 <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
+	 <20260305114352.2f7btqixg4tu5bzl@skbuf>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 205EA214883
+X-Stat-Signature: hdghxtayq5bkfzsomxmnfbydyyebzipf
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX19f3I+nQL7Hl0m6eSD18a/IIsXK9f3qkJo=
+X-HE-Tag: 1772724955-671908
+X-HE-Meta: U2FsdGVkX1/X7uxRzGLN+IX8WCZcO8p7ZTfkKmYNWBtz0ybputMaHEYE9yjxoGJ588aNvqlmxPrL8260emaV8dmXUI0e+INEtvEJY25I/Ej/PwqlxILke5yF3tqaj6xtvov8nI2F5oYM0uwbLv+6+skyh/sdJqBRUfJJKxLUzixxjwVPNZYZfPXpcC3lGcz5BMW1nsCCc9lzUvpFfMAODgtiRdX4Al8waTK8ABKVHmTqbt8uPB5EPbopscO3f/XucT2DdozpyI3LxZQRIQw7tIxAWEpzWgj98RYMI3rQa9CVBr40+v4Qte7+qYx1OCa5
+X-Rspamd-Queue-Id: B144E214FE8
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+X-Spamd-Result: default: False [7.34 / 15.00];
+	URIBL_BLACK(7.50)[perches.com:mid];
 	MAILLIST(-0.15)[generic];
+	BAD_REP_POLICIES(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	URIBL_MULTI_FAIL(0.00)[tor.lore.kernel.org:server fail,arndb.de:server fail];
-	TAGGED_FROM(0.00)[bounces-54659-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[arndb.de,gmail.com,google.com,collabora.com,kernel.org,kwiboo.se,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@kernel.org,linux-media@vger.kernel.org];
+	DMARC_NA(0.00)[perches.com];
+	TAGGED_FROM(0.00)[bounces-54660-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	GREYLIST(0.00)[pass,body];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,lkml,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,arndb.de:email]
-X-Rspamd-Action: no action
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[joe@perches.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.995];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	R_SPF_ALLOW(0.00)[+ip4:172.234.253.10:c];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,perches.com:mid]
+X-Rspamd-Action: add header
+X-Spam: Yes
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, 2026-03-05 at 13:43 +0200, Vladimir Oltean wrote:
 
-The deeply nested loop in rkvdec_init_v4l2_vp9_count_tbl() needs a lot
-of registers, so when the clang register allocator runs out, it ends up
-spilling countless temporaries to the stack:
+> K:	(?:struct\s+)?phy(?:_ops|_attrs|_lookup|_provider)?\b
 
-drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c:966:12: error: stack frame size (1472) exceeds limit (1280) in 'rkvdec_vp9_start' [-Werror,-Wframe-larger-than]
+You have (?:...)?phy(?:...)?\b
 
-Split out the innermost loop into a separate function that is marked
-noinline_for_stack. I tried out all combinations of having some of
-the inner loops inside of the separate function, but this was the only
-veriant that creates reasonable code with clang-22 on arm64.
+I rather doubt you want anything that ends in phy
 
-Link: https://lore.kernel.org/linux-media/20260202094804.1231706-1-arnd@kernel.org/T/
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
---
-v2: rework after sering more of the same warning with v1 applied.
-
-My earlier version was much simpler but still exceeded 1280 bytes of
-stack space in some configurations for unnecessary variable spills.
----
- .../platform/rockchip/rkvdec/rkvdec-vp9.c     | 48 ++++++++++---------
- 1 file changed, 26 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
-index e4cdd2122873..ecb2819bd566 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vp9.c
-@@ -893,12 +893,36 @@ static void rkvdec_vp9_done(struct rkvdec_ctx *ctx,
- 	update_ctx_last_info(vp9_ctx);
- }
- 
-+/* noinline to ensure clang's register allocator doesn't run out of registers */
-+static noinline void
-+rkvdec_init_v4l2_vp9_count_tbl_loop(struct rkvdec_vp9_ctx *vp9_ctx, int i, int j, int k, int l)
-+{
-+	struct rkvdec_vp9_intra_frame_symbol_counts *intra_cnts = vp9_ctx->count_tbl.cpu;
-+	struct rkvdec_vp9_inter_frame_symbol_counts *inter_cnts = vp9_ctx->count_tbl.cpu;
-+
-+	for (int m = 0; m < ARRAY_SIZE(vp9_ctx->inter_cnts.coeff[0][0][0][0]); ++m) {
-+		vp9_ctx->inter_cnts.coeff[i][j][k][l][m] =
-+			&inter_cnts->ref_cnt[k][i][j][l][m].coeff;
-+		vp9_ctx->inter_cnts.eob[i][j][k][l][m][0] =
-+			&inter_cnts->ref_cnt[k][i][j][l][m].eob[0];
-+		vp9_ctx->inter_cnts.eob[i][j][k][l][m][1] =
-+			&inter_cnts->ref_cnt[k][i][j][l][m].eob[1];
-+										\
-+		vp9_ctx->intra_cnts.coeff[i][j][k][l][m] =
-+			&intra_cnts->ref_cnt[k][i][j][l][m].coeff;
-+		vp9_ctx->intra_cnts.eob[i][j][k][l][m][0] =
-+			&intra_cnts->ref_cnt[k][i][j][l][m].eob[0];
-+		vp9_ctx->intra_cnts.eob[i][j][k][l][m][1] =
-+			&intra_cnts->ref_cnt[k][i][j][l][m].eob[1];
-+	}
-+}
-+
- static void rkvdec_init_v4l2_vp9_count_tbl(struct rkvdec_ctx *ctx)
- {
- 	struct rkvdec_vp9_ctx *vp9_ctx = ctx->priv;
- 	struct rkvdec_vp9_intra_frame_symbol_counts *intra_cnts = vp9_ctx->count_tbl.cpu;
- 	struct rkvdec_vp9_inter_frame_symbol_counts *inter_cnts = vp9_ctx->count_tbl.cpu;
--	int i, j, k, l, m;
-+	int i, j, k, l;
- 
- 	vp9_ctx->inter_cnts.partition = &inter_cnts->partition;
- 	vp9_ctx->inter_cnts.skip = &inter_cnts->skip;
-@@ -936,31 +960,11 @@ static void rkvdec_init_v4l2_vp9_count_tbl(struct rkvdec_ctx *ctx)
- 	vp9_ctx->inter_cnts.class0_hp = &inter_cnts->class0_hp;
- 	vp9_ctx->inter_cnts.hp = &inter_cnts->hp;
- 
--#define INNERMOST_LOOP \
--	do {										\
--		for (m = 0; m < ARRAY_SIZE(vp9_ctx->inter_cnts.coeff[0][0][0][0]); ++m) {\
--			vp9_ctx->inter_cnts.coeff[i][j][k][l][m] =			\
--				&inter_cnts->ref_cnt[k][i][j][l][m].coeff;		\
--			vp9_ctx->inter_cnts.eob[i][j][k][l][m][0] =			\
--				&inter_cnts->ref_cnt[k][i][j][l][m].eob[0];		\
--			vp9_ctx->inter_cnts.eob[i][j][k][l][m][1] =			\
--				&inter_cnts->ref_cnt[k][i][j][l][m].eob[1];		\
--											\
--			vp9_ctx->intra_cnts.coeff[i][j][k][l][m] =			\
--				&intra_cnts->ref_cnt[k][i][j][l][m].coeff;		\
--			vp9_ctx->intra_cnts.eob[i][j][k][l][m][0] =			\
--				&intra_cnts->ref_cnt[k][i][j][l][m].eob[0];		\
--			vp9_ctx->intra_cnts.eob[i][j][k][l][m][1] =			\
--				&intra_cnts->ref_cnt[k][i][j][l][m].eob[1];		\
--		}									\
--	} while (0)
--
- 	for (i = 0; i < ARRAY_SIZE(vp9_ctx->inter_cnts.coeff); ++i)
- 		for (j = 0; j < ARRAY_SIZE(vp9_ctx->inter_cnts.coeff[0]); ++j)
- 			for (k = 0; k < ARRAY_SIZE(vp9_ctx->inter_cnts.coeff[0][0]); ++k)
- 				for (l = 0; l < ARRAY_SIZE(vp9_ctx->inter_cnts.coeff[0][0][0]); ++l)
--					INNERMOST_LOOP;
--#undef INNERMOST_LOOP
-+					rkvdec_init_v4l2_vp9_count_tbl_loop(vp9_ctx, i, j, k, l);
- }
- 
- static int rkvdec_vp9_start(struct rkvdec_ctx *ctx)
--- 
-2.39.5
-
+That matches words like cryptography and way too many dts/yaml files
 
