@@ -1,198 +1,211 @@
-Return-Path: <linux-media+bounces-54576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54577-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aAsMAyY/qWnK3QAAu9opvQ
-	(envelope-from <linux-media+bounces-54576-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:30:30 +0100
+	id IIshH2RBqWkZ3gAAu9opvQ
+	(envelope-from <linux-media+bounces-54577-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:40:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C1520D79E
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:30:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E543C20D93F
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:40:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 24569301A2A8
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 08:30:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4223230D6E2F
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 08:36:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10A61374E46;
-	Thu,  5 Mar 2026 08:30:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5AFC372EF7;
+	Thu,  5 Mar 2026 08:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4xQNHT0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0743E373C0B
-	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 08:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772699403; cv=none; b=jDBt8TNlrZYe3WLdo/WZA4UVoB/h58h5Ak2kOqrnr4lzOvQNic/B+T+kXxSHydgiSlcPIxDCxlJNdfvGLtYP/DdLPbjBawSJ8A/02k+jLnh5aFk3a4GjKU7cjJ/5gs4cmQ0RdhqBQmpg63DPUARrsS+TnBfJJtpl3gz+eEAn0bM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772699403; c=relaxed/simple;
-	bh=CSh/OPgCewZMrxAGotXGAjNREHTmD2ri4RotS2E+6yc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CD12405EB
+	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 08:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772699800; cv=pass; b=eN2v934/Msk7dXTpIMA8GMvY9oP8mUWuKB1058Kif+dJHhoPv3Ve/AxbjNG5Strq50+lQVPKqAd338SVGx4UZ5o2ILsSBjZusrDgJ7GfgK/lLsGnvbeGbKI83cfQ2IiYrW61s6+f6VLw+xsFSmgIN8dN+StbrY/n5K1cOQID45Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772699800; c=relaxed/simple;
+	bh=hSOSB0OeD4m9d1BJ3woE+QzZlposwfo3umzcGKPJDQQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lJ+AnAc8pgPsE5Tco0MpXxXjkXM0E9/liKP7ePh/DD7ob53GVRZzRo5lRNqm2caA9q2SvKFgefrmRvvCwRrzZDnGk755gxFX6FYKr8n9SwQCKZswacIRooorG7I4ZH7S64154TXT054dAlvMnI4oUWO6rnwGTi7W/pQp36uqzC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=vEpXerdaM0if7Zkp730fOTlpFhWosKxpLvG9KYx8zhCp6mCwvBOm41UyQe75xBOO3C9hsn6cONGoNCWLKFltWeFGO6YnCIrj4ifflxnw4LZk2CuHxARu+Ed7MQDJbx10ObFyv5pln/X13qjVcYZmXi4yHUuDW9SRj9r1/dw8qLw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4xQNHT0; arc=pass smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5688c221fd3so3483490e0c.2
-        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2026 00:30:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772699400; x=1773304200;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439ce3605ecso369037f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2026 00:36:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772699797; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iNzx2MF1lxKITOHcOC2cbJHQ08gJhHWLNLaj0ndpz4CLgDPhJ5A3tSOfvRpdtXZasy
+         fohVuglbwTEsdfqUSmMZc5Z+4kPPRaja2oqc/WIafCLelCIErZ1OyXVesdfV7SrHtCNo
+         XOXAis3X+ILpYpNqM69CRrYOiDlLovq5KWace6cBx23kpnIx/y25pR1NGrmjFrQAE/6P
+         fj9u3j96dGjoTq1JwIMPLsXbFRtQ1vZ0C7YbkBhvEeSkHFBr4laLaI4MOEnuN83zexZA
+         j3GsfbuX1fPDgVwj//BHSP+8pSQ/K3GoeLLra5O6PY6rVTzdWLlcMdUhyRz3ZydJ5rcM
+         QWAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=k5G0xZ9vhNKI2yHTPb4OU1Vd6k8/Kyp+TwAEkhLBCXQ=;
+        fh=UsZp1W7rDFEoAgHYaayiJhJKrfaa3Ha31gXLOukkhr0=;
+        b=S9tcwTczKYtGS1qVV7+BzHwERo6iMKQcvL2x0RgXzeGF57iJhZDylfuZerifrnEr+S
+         vTv5ugeFJ67Z+bxEKzZYfUuhe0590PRKjJxLkMELRW+nVpnvr3+AUGfkMQY0azc/G70o
+         Tzl2FNr1tut9ppRWCT6CSpqvrXear4GYXnoeYXkx5Md4h8n1r5wUWxsKaRiA0yWQ6Wg5
+         9Qpe99/RLO5IGYIRDY0aBGEq1D6Us+XJGRwwxjHjPo6EEysQs/rO0BdnE3EwMl6ESqVb
+         ePLidWZ8ra4zoBmS1hwOqsQfwB5tZBg6AGqcZhn4CUBl9HSakYjVDZS9ql4V6XroffK9
+         h59A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772699797; x=1773304597; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Ymdw+XC/6Jy9fN+NX35+E/o8bLZmtxZBZ4e3pQeTxE=;
-        b=qL1Rb8TwimDlY32X5QjlSpYm9n0fa9i7opj7Ls5HNyeqeqM7Ve1VzwgczL6aAQt/lS
-         aJvCGc/RVZ2QYf0jf+ZtA2lNMyK8fbinOsoVq2NmlvX6tBM5wAmgXGpI5DIQAy0Z/F2T
-         qj49ygE5RB6MNkvmU7ypqr5JF+qEPEgzqSxM3EOKJS39CK0KA6mhkBFy1bSkUSPlFnuc
-         hro9k7Ci1U4vEig/dHRlG1A9xuGjCrvX3hGUr0yD0MaL1XHWiaV1mkT+OdjCJy8HcML4
-         +VG0uazLScWBip0f/lHflyB9Xr5jgNGb7/73HNhGoNz7FU1LSVKDPdCb/4wlqcNBtbG1
-         Mq5w==
-X-Forwarded-Encrypted: i=1; AJvYcCW8dqUDOL/LWPVKpUAC4utMdeHw/LsNJRNpa1sKcrV0K29GOs1h8cZqwgZWS32P0XtQb7k1964FP2h9Ow==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1OAN+zp3k8RaJMGy/OqEKiJEKVRcl+I207dwnsIaqOhDqR7s7
-	iN+yP9FEEMMdlVujVDkrX9QO+8GbN0kff60pcpxxe1Wtf/MyfUozVyoX7tIoA+rh
-X-Gm-Gg: ATEYQzxIh3HamVcx4wjVt3N7KrZ+LqbWi/ucoLq7F+3ig/bPLlSEHsRDkj7MtEijf1Q
-	Ur9oJYv0YPwRevbDQQsUllRtKYtSACOxvMXep15RM96gWgA0TQN91csLPnCchUk8+9ZwfDIee/S
-	Q2JN5R6oA95tdEAf5O9gxhxB6vtubqSuz3fYaQQED2U6g1FOYaU4mQRShLcJ+OyOdhIptQ8le6g
-	RcZnREwwyHAqdp3W40j3iNT3k/Fjeb5JJ9M1/VrmvwRR9zvcQrhv43CcEbNBi7TRDArmNHis+qk
-	XmHHrdC5HBsbFa8r8VZQthMVBZK4zALWq0flk6Chq6mCMhxxJ/cytJ/CxTDyjqU9KXVnXWXmKXY
-	zFFkl1DSwlaY6qRRS+yAJ/oOXPEA9mGc4yZiGXl8eIef2DrO1Oj3jRtybDMhegz8+8XSpsBLNEb
-	POaDx3lBh+MIaazQ5TTAS4J4yOMTtp7uIa9DQbf/BfG5yEnVEeW656csIwblji
-X-Received: by 2002:a05:6122:914:b0:56a:e46f:2cfa with SMTP id 71dfb90a1353d-56ae7770ae0mr2287057e0c.12.1772699399892;
-        Thu, 05 Mar 2026 00:29:59 -0800 (PST)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56a92177fbasm25957528e0c.16.2026.03.05.00.29.59
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Mar 2026 00:29:59 -0800 (PST)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5ff1703cb9eso2142787137.3
-        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2026 00:29:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV8cpDx+xxd2nN9Be4T5uz/QhgyqQJw32cv0bKF+pl2oi7GJ5Zw6FQ0FGBPm3KN/E3DBEQNvl2kNaAz+g==@vger.kernel.org
-X-Received: by 2002:a05:6102:2ac9:b0:5f7:24dc:3ac3 with SMTP id
- ada2fe7eead31-5ffaaa86250mr1899404137.7.1772699399463; Thu, 05 Mar 2026
- 00:29:59 -0800 (PST)
+        bh=k5G0xZ9vhNKI2yHTPb4OU1Vd6k8/Kyp+TwAEkhLBCXQ=;
+        b=j4xQNHT0UYnKQ+rEpWViENzb2S8/eUp7RUqLRzhktHaKal2AlCu9GJt1IE/dnrHk/K
+         y1UC0IQfVS4f0gix9ENFVNahdD16k2Dv3+qyqqqGxmrZz5Q3C7dcltuczp2kfurtw4rc
+         /JjAduQknDw3S3Iy13wuZx9sszLNtSmx87jfq63ayZdcrvV+Qp+ubL6p9XVkP260IpoC
+         pdzAiGbryN5WirerS+KXhGKLKQEqrlqRP062NUQ8/uPX09AUzdnUEdpNkCdE1uzEH96O
+         6cXkLUgNH/36W0/oS0+KBi1rSblzHETiaH6kkTyibsLQoCS3z+JAssW/Lj6zPQMAWy2r
+         ZK/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772699797; x=1773304597;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=k5G0xZ9vhNKI2yHTPb4OU1Vd6k8/Kyp+TwAEkhLBCXQ=;
+        b=Ndlp77Jz2pks/nh5VzJLK/K4XcSZjXoLMtWJIX0haB+maOU1gx2I+aE4hStEJh3I/j
+         TjGJEiG8bRYK+jtf6tQn0dAVSASuW/7GajgvKp9wdol7jCURQv/iP+L+QvZerL3R4dIw
+         placflE3cXdvf9nAV4YfwkI1lF7zXWabw+PSclxm8YNx/WBLL84b6gjeifXvaBlF0/Ee
+         GoCAAAGUFAVWUpIIoWk6Mvk4cnS+37VdRYjb279XSDGMyaSuyEQQ73EX3bcfb5vZA9EG
+         O3dVanf4f90TXH4hDwwye6gzYqqQxw8RLKm8tL+5i7Pp7FPfcA6FLB3ZGImL4Og0ZIvS
+         5Z3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUDTnge6dRw8J1u8k3nV1cFI4o2ReSEEqzWj8cJjaSY1buCBnZOTIbEVzqxBnoTJZm0xTHdROw+gEzjWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YymazP+AppIBlb5e0LcCLLz0dXD2++k2GBJjZcmwHbzhYiXbvfy
+	+gwf81gLiRI6mYCPhnLB8PEPT10nVPG1yM8wpG178V+QTEO0yE924AvgD1xx2kDOiO2Qe84Q3Zb
+	903fPjsSW3I6/k7wSzaAVQZzA4iaVk1s=
+X-Gm-Gg: ATEYQzwUHjlS5KEppSItyEBJVSy2iGsxQM59vTt/yf9oArlGVNMjcnSXtMT88DZ/D88
+	yD3m6u1IN7nxTGlUXnGCPoNnw4WvBCTFlCudEfQGztrNu+fSYcz/yW2BSlEm4brNch0NuvcyWVL
+	wBf8Ctnqt8kTRdrqYS/e4QrKdbFCQFUKnYd57r3iudbrXMJGNfmJ6DdxO7Jpk7O5tFr+IiUgcpV
+	BjK5oxCKp8G76tZmIegV1fvrDi2eYsvmdBLMjZekv6533aw9DErnTXn73s8hMG5eDE8oY2+BC/R
+	cC2FaWtw
+X-Received: by 2002:a05:6000:3113:b0:431:808:2d58 with SMTP id
+ ffacd0b85a97d-439c801f516mr8369434f8f.51.1772699797219; Thu, 05 Mar 2026
+ 00:36:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260304175735.2660419-1-vladimir.oltean@nxp.com> <20260304175735.2660419-18-vladimir.oltean@nxp.com>
-In-Reply-To: <20260304175735.2660419-18-vladimir.oltean@nxp.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 5 Mar 2026 09:29:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXUBhpnFEnnTfyPdECWqNmKLweupX=FY2SedYA3bapG2g@mail.gmail.com>
-X-Gm-Features: AaiRm53mHozL13yvxji6rv0MKzaGvWxuhr7SWHD2SjBJ0VWNhqppZZeXezGpDhg
-Message-ID: <CAMuHMdXUBhpnFEnnTfyPdECWqNmKLweupX=FY2SedYA3bapG2g@mail.gmail.com>
-Subject: Re: [PATCH phy-next 17/22] net: renesas: rswitch: include PHY
- provider header
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, 
-	netdev@vger.kernel.org, spacemit@lists.linux.dev, 
-	UNGLinuxDriver@microchip.com, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Michael Dege <michael.dege@renesas.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+References: <20260304185001.82988-1-clamor95@gmail.com> <20260304185001.82988-3-clamor95@gmail.com>
+ <aainoYv6RXkXFcHv@kekkonen.localdomain>
+In-Reply-To: <aainoYv6RXkXFcHv@kekkonen.localdomain>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Thu, 5 Mar 2026 10:36:25 +0200
+X-Gm-Features: AaiRm51wWcAzTlCAo16hjl9YtY3WCpC_whcBCHj-JdnT9M7JLgnBhssMy-E9L0E
+Message-ID: <CAPVz0n2e3HCJRo0_Q5zbYp4w_-=ZCypoaw9vaN0NTfFr7qgorw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] media: i2c: mt9m114: add support for Aptina MI1040
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: 74C1520D79E
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: E543C20D93F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.04 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	TAGGED_FROM(0.00)[bounces-54576-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54577-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.932];
-	TAGGED_RCPT(0.00)[linux-media,netdev,kernel];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid,linux-m68k.org:email,glider.be:email,nxp.com:email]
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:email]
 X-Rspamd-Action: no action
 
-On Wed, 4 Mar 2026 at 19:00, Vladimir Oltean <vladimir.oltean@nxp.com> wrote:
-> As a PHY consumer driver, the Renesas rswitch dereferences internal
-> fields of struct phy, something which shouldn't be done, as that is
-> going to be made an opaque pointer.
+=D1=81=D1=80, 4 =D0=B1=D0=B5=D1=80. 2026=E2=80=AF=D1=80. =D0=BE 23:43 Sakar=
+i Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> It is quite clearly visible that the driver is tightly coupled with the
-> drivers/phy/renesas/r8a779f0-ether-serdes.c, which puts heavy pressure
-> on the Generic PHY subsystem.
+> Hi Svyatoslav,
 >
-> This was discussed before here:
-> https://lore.kernel.org/linux-phy/20260211194541.cdmibrpfn6ej6e74@skbuf/
+> One more thing...
 >
-> but to summarize, it is generally expected that when a Generic PHY
-> function is called, it takes effect immediately. When this doesn't
-> happen, the PHY provider driver must change its implementation rather
-> than the consumer be made to work around it. PHY providers which rely on
-> a hardcoded call sequence in the consumer are just lazy and wrong.
+> On Wed, Mar 04, 2026 at 08:50:01PM +0200, Svyatoslav Ryhel wrote:
+> > @@ -2646,9 +2658,18 @@ static void mt9m114_remove(struct i2c_client *cl=
+ient)
+> >       pm_runtime_set_suspended(dev);
+> >  }
+> >
+> > +static const struct mt9m114_model_info mt9m114_models_default =3D {
+> > +     .state_standby_polling =3D true,
+> > +};
+> > +
+> > +static const struct mt9m114_model_info mt9m114_models_aptina =3D {
+> > +     .state_standby_polling =3D false,
+> > +};
+> > +
+> >  static const struct of_device_id mt9m114_of_ids[] =3D {
+> > -     { .compatible =3D "onnn,mt9m114" },
+> > -     { /* sentinel */ },
+> > +     { .compatible =3D "onnn,mt9m114", .data =3D &mt9m114_models_defau=
+lt },
+> > +     { .compatible =3D "aptina,mi1040", .data =3D &mt9m114_models_apti=
+na },
+> > +     { /* sentinel */ }
 >
-> The most obvious example is commit 5cb630925b49 ("net: renesas: rswitch:
-> Add phy_power_{on,off}() calling"). Problem description:
-> - Ethernet PHYs may change phydev->interface. When this happens, the
->   SerDes must learn of the new phydev->interface using phy_set_mode_ext().
-> - drivers/phy/renesas/r8a779f0-ether-serdes.c implements phy_set_mode_ext(),
->   but this only caches the mode and submode into channel->phy_interface
->   and applies this to hardware during phy_power_on().
+> The driver also supports ACPI. mt9m114_models_default needs to be added t=
+o
+> the ACPI data, too; otherwise ACPI support breaks.
 >
-> The commit author decided to work around this at the consumer site, by
-> power cycling the PHY for the configuration to take effect.
->
-> This had a worse implication from an API perspective in subsequent
-> commit 053f13f67be6 ("rswitch: Fix imbalance phy_power_off() calling").
-> It was observed that phy_power_on() and phy_power_off() calls need to be
-> balanced, and so, the consumer decided to start looking at the struct
-> phy :: power_count (the technical reason why I'm making this change).
->
-> This is also wrong from an API perspective because
-> - a consumer should only care about its own vote on the PHY power state.
->   If this is a multi-port submode like QSGMII, a single phy_power_off()
->   call will not actually turn the PHY off (nor should it).
-> - the power_count is written under the &phy->mutex, but read unlocked
->   here.
->
-> The rswitch and r8a779f0-ether-serdes drivers both need to be completely
-> rethought in terms of Generic PHY API call sequence. There is no quick
-> fix to apply. Just include the PHY provider API along with the consumer
-> one, to keep working as before when struct phy will be made an opaque
-> pointer to normal PHY consumers. But this is a bad offender (and it's
-> not even a provider) so add a FIXME.
->
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+So turn into
 
-Gr{oetje,eeting}s,
+static const struct acpi_device_id mt9m114_acpi_ids[] =3D {
+    { "INT33F0" },
+    { /* sentinel */ },
+};
 
-                        Geert
+into
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+static const struct acpi_device_id mt9m114_acpi_ids[] =3D {
+    { "INT33F0", (kernel_ulong_t)&mt9m114_models_default },
+    { /* sentinel */ }
+};
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I want to be as specific as possible to avoid any misunderstandings.
+Additionally, please ensure these are all the required changes to
+avoid unwanted reiterations, as I may not be as familiar with the
+media framework as you are. Thank you!
+
+> >  };
+> >  MODULE_DEVICE_TABLE(of, mt9m114_of_ids);
+> >
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
