@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-54564-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54561-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oEyjM3kIqWlW0QAAu9opvQ
-	(envelope-from <linux-media+bounces-54564-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 05:37:13 +0100
+	id aKm1Gg0IqWlW0QAAu9opvQ
+	(envelope-from <linux-media+bounces-54561-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 05:35:25 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCFA20AD9F
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 05:37:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77DC20AD70
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 05:35:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9786E3096048
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 04:35:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E37AD305511B
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 04:35:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CD411DF987;
-	Thu,  5 Mar 2026 04:35:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19D3025785D;
+	Thu,  5 Mar 2026 04:35:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="ekUPBfKE"
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="fbxTzwkW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E598286400;
-	Thu,  5 Mar 2026 04:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1160286A4;
+	Thu,  5 Mar 2026 04:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.178.238
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772685326; cv=fail; b=GTReOVlQA+KuNQW7w7Ptamh3SpMNTX7NimtX4cXxHqqy+SiOHr9Sz92gnLg55Igk02Qfn0ju9YxzpYmLJrAbn3/X/5EhYRtNwWgdO9vysgb4LvpHo1hzD9qeCIy7DALFBQ0X+oVnYZMvUnyimJPiRq9uWqdV/l74bowbQkXwJ2s=
+	t=1772685314; cv=fail; b=Pi09vmAbnXmk14IP3BaesvMLYWQsEdeXE3AeKTSHmDnB0H5v/t9pU0WSGTRka5UrEorXlboOzygwkBet5j10XEGyGkb+wgQHYyRF7XnPiMGF70W7oYwh41/4QY1AM+ZGb+ZMwCuqJGbGKfoRSma/czobM7XrgDck0tNDroCsVg8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772685326; c=relaxed/simple;
-	bh=/lqBUnIFKFmMavSAX2+xgXKqBtAHBi8ZSnaWBXDsUAU=;
+	s=arc-20240116; t=1772685314; c=relaxed/simple;
+	bh=E/gpd8buGKooo4XrQ3iesURJLI5sK+nMOE4PSpCfUzw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UJONlHd9wz0D3U8dS6GXdDtt1wf3rAcXFFdL9jsL3BKkRWakQez6mCqtnKsFZP8RBEl37spZvATmStNcsToHpXUlguEDe6N1ahighn360meGxxabEF0rU20eBxPyuK4uGHM6YjyIrTqQhrJBKhrTg2Ay3uHw0vlWUXUmH94InSk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=ekUPBfKE; arc=fail smtp.client-ip=205.220.166.238
+	 Content-Type:MIME-Version; b=dyJZjy5nsgztV3rfAyouEyulVQXfx1rv7PwaxbBuf6MDOCUVPU+LGcwNTWPJvpIimjC/Tvbe7+5qOmt+hlIfw7FzE6TX9Ttc4q5ZfrKP0Zek1biap2dlgUvy31uywe58OaP62BO0bM1VKwEHWrHaQBY3MuiPwaYTh0/bSTnHra4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=fbxTzwkW; arc=fail smtp.client-ip=205.220.178.238
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6254Hd0U513153;
-	Wed, 4 Mar 2026 20:34:24 -0800
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6252U1Qq2001864;
+	Thu, 5 Mar 2026 04:34:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=6lBLeAmE9Nju177Bih1cgna2MZqkoAL+xQBK8E9yjwg=; b=
-	ekUPBfKERSxeyEXqpg1kYniA/vQuipASF+w9llQHinbJR4WGR48xdGdjnXKANY+O
-	RFs51woRdA8VDAJok0uETCf3YOmqnO/HLpC4OByLBCyeOnO1jvggmdfZjGXIf3eD
-	ZUus2fazUWKszb3aB6FABYjYjTmtwjDpRti7Gdb+CrKBUVziwrVYcrYYVjK/dF8w
-	OYZTzpQT8kUawLx6xiTzMEgJGBY0drYlF6w3Y8eJXtS0Vtr3wNsBnqvO+IYSIRvB
-	r9rQET1gVQ4DMhGpUbp+LYL6ifLau79DQPcm2CiBQ7oLpx9fcFRvJXUMgio7Szgv
-	nBrvy1YY6BcO1oSBq2pPsg==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010051.outbound.protection.outlook.com [40.93.198.51])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4cm0rgnfp9-1
+	PPS06212021; bh=5GhiMyD/9HmU5VY7553WLZn7bkMmIjfSD5wqs9xXKM8=; b=
+	fbxTzwkW0rs2JW5vyKYsSe1vtcroRtcSXrq47E86KtI8SceJdFMBojgBMGOEF2/M
+	zCXXuu6rjVRz8cszH2ZkkFz9lkz9RkEpS8xBUK7OVLU0k0mvq3V/gRzCQagJwJu3
+	oMabTRsK+kqLZKw3+BZfdFS3paYtSg7+/gCJwudEMPwo7kKYIiEVIwegniOEyDdN
+	myHYmxKPIKRoEo3GGskQvSi61hHJJu2RMUPmQeergu4baJ73cDEkIsXtgPXNt5Ff
+	zYcqhmNSewiqaK4s/kCXXooWrjo92m/as8FJm3sYsNryGxoJiaMwYZhu9xhUIpKh
+	rzsGtt/V3jACtulTYG7Y5Q==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010056.outbound.protection.outlook.com [40.93.198.56])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckqb4nxsh-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 04 Mar 2026 20:34:24 -0800 (PST)
+	Thu, 05 Mar 2026 04:34:29 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ddTDfrSBrJW3t3yPs2xxH9PMPOj9KbyQCi8xbXtgBCH3gaSgHOCHuARRgHK4V0/kd68qA2vNyi5eS5rQ+UTtJrJyL7TOlAqLog/wrL/i6Nwm2KV9W9W1X+aUCB45tDNupTp6myA0p9W+sRgm2D7LnwIGARsWi3+6h56VNljP2psAdq9TvqOFHKyXcQbHhv1WrXkWeCvaU4SQyJWd0Ysq31mbmp85lvRAcSKdNKpkyL5v+gYfs6gws4m//OT+L3hHfXM/XtwI6VZ/H13E2v0hd/qLthGCU6EsD1VTDrEbl4vyaKmsJumHM8dXwie3Up4HiQUxaq1LqvMK968JsJROWA==
+ b=RriKIaRuIZTThkQx543dGbwWV0mAeQYrEIw0W0BgycLsBmpOT3NyGX8lV133pAhPp071Xh3fvzIMUQvBuZA4C8OWfIQlBq9nIUD7VygBgDlgvBgz+c2PZU4Q3VHMEXV08mxRShfAbH1+Ctq6Km1u7LUTqQAW2v/fqHoZeveque66/roTg37RqRZ6IccZs5psml+SVSxu6A85HPTQYNkIbc4IlUhDFQyY21bMRhYQLzYCxmj/ANkFuXGAYn9DHTJ50reB7JNwj5MB/oxjmmxI2La5Z62ZZEAiq45XTsF8e2nD9CCZrkHurv+jspnfIKZu1ChJvB9CcsTgLZABQ2k+3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6lBLeAmE9Nju177Bih1cgna2MZqkoAL+xQBK8E9yjwg=;
- b=j9ATQi4TtjZxAhFimDzDz/JbsC1USNvXDWlaK+2rY7Ghun206uJLVduIW/3MHBdIILPu7if3yzEggpN6PNi+b5XjIpTC9yIHVBV0B2pe6MFM8Ej4+/kHP66jHkFMxc7D1h0MojQEgN9CO6RH3dzpXOB1Jk63OW/VP1pRFKd89LJafR+EZ1F+zSZunKGiO0W52OhznsaCCqBwCcMc/h8fybPtVS9ChTwBEn8feoUwgcgV02AmXwEYvdfS75d+1Bf048x1T8y67vyDlxvEt6SnkaapQCrDJhwsO+z49PBc68x2FcCM6LAmm65SelDAg/FSPROG/GkGSiUdYizQ/xwjfQ==
+ bh=5GhiMyD/9HmU5VY7553WLZn7bkMmIjfSD5wqs9xXKM8=;
+ b=dGV7cJ8XnZO1lgN/vz4XLuw7ukPVth9LJhhOxutV1WrNQOS3BAng/6/QxPfgWY1GeXMd0aBYJjojV5VnlnxPdWDa8WQF2mRybfPVYYwT+VMe1XuLlitiwMF1Wlvt28BORarziHjqRLTMLi7+hH5i9AmTYxDySUPxDUyggK3nV0qUo9cbfHAT3sz54AXfhE53Dj9L7zYiy7F6aIcKiUYtAmCMcZ/jdrgmBuomdvQcO6y8/0wMAHUoI+p4NKnRzEfaoHOjNoX/cVrgTlzwVMN7MJeW43w3iy7ciLTPhuN7XN9ZQf2nAjCsInl00h7UkglEliOfQNlUXI0bdvnkFUQ1Aw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -65,11 +65,11 @@ Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
  (2603:10b6:f:fc02::53) by SJ2PR11MB8347.namprd11.prod.outlook.com
  (2603:10b6:a03:544::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Thu, 5 Mar
- 2026 04:34:22 +0000
+ 2026 04:34:27 +0000
 Received: from DS4PPFD667CEBB6.namprd11.prod.outlook.com
  ([fe80::5f46:caa4:60d4:f669]) by DS4PPFD667CEBB6.namprd11.prod.outlook.com
  ([fe80::5f46:caa4:60d4:f669%2]) with mapi id 15.20.9654.022; Thu, 5 Mar 2026
- 04:34:22 +0000
+ 04:34:27 +0000
 From: Xiaolei Wang <xiaolei.wang@windriver.com>
 To: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
         tarang.raval@siliconsignals.io, jacopo@jmondi.org, mchehab@kernel.org,
@@ -78,9 +78,9 @@ To: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
         jai.luthra@ideasonboard.com, dave.stevenson@raspberrypi.com,
         Xiaolei.Wang@windriver.com
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/3] media: i2c: ov9282: Switch to using the sub-device state lock
-Date: Thu,  5 Mar 2026 12:33:49 +0800
-Message-ID: <20260305043350.2151936-3-xiaolei.wang@windriver.com>
+Subject: [PATCH v4 3/3] media: i2c: ov9282: switch to {enable,disable}_streams
+Date: Thu,  5 Mar 2026 12:33:50 +0800
+Message-ID: <20260305043350.2151936-4-xiaolei.wang@windriver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260305043350.2151936-1-xiaolei.wang@windriver.com>
 References: <20260305043350.2151936-1-xiaolei.wang@windriver.com>
@@ -97,83 +97,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS4PPFD667CEBB6:EE_|SJ2PR11MB8347:EE_
-X-MS-Office365-Filtering-Correlation-Id: 96bceba6-40f5-4942-66b0-08de7a707935
+X-MS-Office365-Filtering-Correlation-Id: 028e721a-889d-4647-246f-08de7a707c07
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|7416014|52116014|376014|1800799024|366016|38350700014|921020;
 X-Microsoft-Antispam-Message-Info:
-	ROXuezPY1fSRG3fOKAElczBHZxUXM1XRYL7F7WVCfW73iecBw9X0xPgMc8PLIrZOP1gM2mGNJ9PRqFGcqN/S8nylHD21KGwnKzy7HCkunTXWovStFGZVJn4cPXabPsCZIzjq+YkkJIxxxL0GtOk6v7XAMubbSu9/3q9tf6BkaK9gpnJfOLebFCxXg+sUak1CXyZIVv/yotf4D+lXl4HZZ6d8HcTaKcbBxfRNGextiJzW+xjx6xM8Q0Zm9CZcKUcYCsIyGSyWVUmBPXAmC5sboBfkmbl40uwUThXS8YPcv5kCMOK66BXblGXgqvMDlnAwJtSWua3OdfWpWE0UBaraLx3W7hPGhhKGPzW8vERC933Ouq/L6qogdJe25lNadzAzqz8A6/0oAET6kuxm5+8k6KyGFF8aNEJqXohNs3gGEjgAWgl6rDltdrqLxdoCNpOHG/sTY19JjDlAKh+vOGTScxqthTV/JzbS4siIHfMC944c0NK8NSWMFT1gJjfeDRc4EjPslCbGeyP3ey2Ox7ybwLWtWZ+N6wkTVIm7zj/VrW7XBqXemzJpKizHpUKeOVN0Bun1AM4YcpGfQ7dyL2zzEXn49rx4mYf+m/MgTcKBS1UZBB6j/QyYq2MueWfiVIjvuDr6z5OyuAdU4O2tUR6tgYTYUqQx72/u4c1vPkjzpqo0XdZ+Ee35Cne9jGBEQyHce/IW4W9NAqQRIFasXsiS36sDM4ZSAeu7SO/pYCNxS8DfocSAgH6n8GLOuV5P097MvpoyzDGmHDYfDx3j29h7VjoOOdjfldEv/p6JBkfd4daYyjrtEVYmSdBd7OVnRD6N
+	FBAjoES3UfT++zdhEdYz9Fhyn63apLY4N4K9PGtTMjOoZlIweOCn4oC9WKFfeX0a0lJDGHiW8Vs+uuryvXz1odmK3VjfGXZjHjUA9fz6t+65QxqRYZ+Cmu+ARypgvGZy+SGFUD8Pw5gx01le44Wk8GjPUtaiNyRX68EdAsOYFxUasEmPh8JiYsJVKx3+UVhSreLtvHXWhRSO+51Qokb/uBTB0vJO/OAHiEHO+QR39ZTlUf1Hhp2cKHjiA12wUc5Zr3oLz/6M3kMQBj3UYaTdm+T7gPLDBp6HNf2Lkw49iexSKaBg2vFvldn3QNx/U2lJPGqrE+lTOL07P1COFXWK+ARATN174MhGsy5/t0U/C1bq1RxjWcDke49hQQYc6TBK5HRM5m+9WBvWPaUh8PgPvX2/z+ec42ge6mPlUEh2VcozdjPF8VzFV5j6V6so6hi3kOFncY/g2aEanXmszCi1etQriHwfKdMJRmHD5wVUw9gjKAHgr6KdEZh5jFQKYgZKJrObxSukjv7ExVAeOdlMdEWicJz5voo3XSrOiMr1Hf1brvKLKCDy+56JOc0dfvw+8OydLTnphyZbj8CHsOTJ5N+12t5e3RQtwe4PXDvxshCezQNdwFNxCUBO16NG43nL8BjTwNVOVr0A/8459PJmutuiwIIVAkZelaLhLXSH/iqpkLMG5NnaQqM3Fzx+dcqHvwEghZuoyZkhdPUIGNUNQ7kPWNZCZ8VRUl+zpjHoVfSD8s1+BMCCAmyCOdNdMv6zn5PUGWeV7shSjDb7LCFudZKtoEh21DdIwKzKWtf4WxklQsJfSkcTUF18N8bWa0MX
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPFD667CEBB6.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Wd/8VjcQhs6Gn9QlLuD0qXb76dl3M1606wrw0EBaubWDBpnhHuTkBkI/gUuO?=
- =?us-ascii?Q?ghwJRUvAu9mwW5TQl2OrsT2nsr7ucSpg8enr1rT88shtBNEfbduYGM3fsrPV?=
- =?us-ascii?Q?iRRwCw3UM2HMWKyohs/haGTv2qRKCokmiDjsBezzYxtHMtxnFxzgtsVEeuah?=
- =?us-ascii?Q?Cr3h74l5LwY+QcOb1pwygzNUtO2lavCdfBopWouA3FaOi5fjXSOne9JjeNKr?=
- =?us-ascii?Q?5R7KgiThzC50ALWrRJ7BjxDMYZ8tpml5AinckCNReD99mN0bWTh0xnX3lbtX?=
- =?us-ascii?Q?sRyjE9ckt15+nCLuKk28kvhd3hAeloB9T3zSS7/rcvVVthWjQ7xf94qYzUiZ?=
- =?us-ascii?Q?Lb1eL3B/UNv0y3So/rAk43Gb7iqXiea67AaEBGFIC/5GFh5t1ZNJU8pOi1Gu?=
- =?us-ascii?Q?g+Pwke8MolWtwmNUyZmv/GUnWwb6NPVA0btp/tGudU/emixp3DutYhJIWm1v?=
- =?us-ascii?Q?TKMIz3BhFeudjyrYpcPsqyWtJz0Oj6ZIijtpp64yvvJ/X4tRx+MX0jpoJADU?=
- =?us-ascii?Q?GeTMZPiqOyJwy8W93dORboW5AwiWTAhf9o+f9KinPbNEszs+gXENSeHNJDKf?=
- =?us-ascii?Q?WeVQ+ZC/fOxptnKMYfqO3eItnPf5NgwUMRNHqCvuQi436fA0SDiEKU0QVDid?=
- =?us-ascii?Q?rYUPq+E//Gow4LeaRli/krh1mbpX9Tbj5j8DV4ewO0milgZXGO+h07vsaYH/?=
- =?us-ascii?Q?ZGJX29HE9acAqL1YsVlQO6cg+scQiAimvCWPtlPHX84JjWpge9thdi6ALV2m?=
- =?us-ascii?Q?H9Z9m7iBRqKZKGoqX0vYcpkSfON895SlxefvVDDFtYEM5evilaxMPpcz7jiT?=
- =?us-ascii?Q?LYl332/IBQiyr86B/K9SH6trcuku/RdesMpuSqwaMwzcDVmCjTgaX5BkQ27h?=
- =?us-ascii?Q?TIcVGE7bT061q03zyZly0TF2GCxzb0eO/wn/ugeE6/4KXkjSv1IGjaOhdd0l?=
- =?us-ascii?Q?J61xYp7Qqbs/Y2gKpw7e7dOOcdtLvuGTCJ/9GnfeP/qk1qdlK9Jdwkxd4/3/?=
- =?us-ascii?Q?RC8u1E/EvKvhGmMOASfHKOTlQ0cl68J9S9i92uEvjObdZXjtKlHaM0HcwS/B?=
- =?us-ascii?Q?/QfQ+PtYudM28QmoMSZwFac7SL6NXNCDxnbMhN9IkNpbSSwSDVTHZ+4mi+i6?=
- =?us-ascii?Q?8/S/yDSdpK3iYxCYCfo7vTvBNpXKYBhxFcLP11xg+mOsKXRMO3RPacYMQHKN?=
- =?us-ascii?Q?HPFK1JX7HA5HTy55YFGdFnOqMugeYdWHCHRImvAQZBn0MewyM9osviX11nw0?=
- =?us-ascii?Q?DdwkEUF+542Ov2x3mWIoUoPXNjZOACspOk+zebYoxjsU/+ZiDzDwpDyIB8YV?=
- =?us-ascii?Q?ZExxGPi901/7aPC3hsJjjKde6CiaC84hC0tIjktxmy4b9M01dhBGnXteai59?=
- =?us-ascii?Q?t/OAaP5HlPIflaOTZecQYt8lTepF3UOMJ12s1BBESlFX0giePZUnE60MoM2D?=
- =?us-ascii?Q?ZWbhBpxA0FGib5oAuDQHEqwAdnzfe9DRC7LtXIyqCW4U44T5FKk7ZLb9g9uk?=
- =?us-ascii?Q?GJZCaMiHhBn19Xujn/UzpOgt41TQADO2YL9LPsSYDMvNKtGX06xqDY6XH6O6?=
- =?us-ascii?Q?BgD9ugw1gIzM6bZwx+kjHnxwmNNrCWOzKIEpzSddNMO/U/5oq1SkQUQMggtA?=
- =?us-ascii?Q?bT3sg4+BoWouRh8dRjYCX9KORHVT4k126U2l0G4lKTkSiy1mwW49+7K68mUu?=
- =?us-ascii?Q?FKg+GdWfVggvYSnicsovt5hUMeChCHkX6RBpTSlegF7pQ+2CVx6A2dhcmsba?=
- =?us-ascii?Q?dybYpVlo1EqMGcaVooLgJQAhzfGxELU=3D?=
+	=?us-ascii?Q?QobkDWp0VGMamOacFblxvyUTBLtdPCuJCW1pfSfPLtijgEWV9PmJH1JAPR/G?=
+ =?us-ascii?Q?cHh3/hr0cOqth4VKUiHiJVoKp+oOTKpPx+PXqN2RvLxkmJ8cLwATpiTuw1dc?=
+ =?us-ascii?Q?l7FVQ1PGdbqB/k634E4/YB5s6MBRg3ry8/lQ4Xd67WVDusAw3xvahwhhys1r?=
+ =?us-ascii?Q?CNlmEda+h6U3A2XtCRlXHWNBlAQUzaMGTHzrP1MEXPqA9Uei0y+dWfHy1d0B?=
+ =?us-ascii?Q?Db6h3fm/8Do06sFxj+iplM9sFpKhunTMCZQIr5b64QJguny1KMAd2UujkFE2?=
+ =?us-ascii?Q?N6EbqLGZZnfxQq7Zdtl5Xv1ibn7NmMHJK3Ffwdz40fREy4O8eKBvT0AZKvHf?=
+ =?us-ascii?Q?v8irsHp8wnw7jpT+fVzZeieM7kL8Uy8sJu/GMR1PNIFHhawk5fgxZ12P7NQX?=
+ =?us-ascii?Q?wrcJtz+yydSd6TfMH6IGv1OaCm/+exHMvjlq8ehbujDdkfHDnLtzBDGhkQqw?=
+ =?us-ascii?Q?PP6aul2MEm7v4O8stlQOr2JkoGN4I8E1A24ZT9fk4ZhuzOWbpE1d0pLPUAYg?=
+ =?us-ascii?Q?/PtBk48LRZzkKgfGe/v1/S8AF5kBSdDIwcRBGi4RBxvW9UPk8R0Bc2lQkHQZ?=
+ =?us-ascii?Q?T4Fset1g02fE27a1m/D9ilnLwDz+LIFiGRzUffJGss5vEs36Mlns5Kg4x7TS?=
+ =?us-ascii?Q?Hy+SGv/spz7pMX9sZIEr/UXIT3W1rNvFB+xHUow7RpBe8dCTKGzA/RTfNL59?=
+ =?us-ascii?Q?mn0L717pQfCh8OHlKkxu0dy+vycn/KgYGqObi+/+1mhYfNYhkYqJa6G6XYMO?=
+ =?us-ascii?Q?iZ1cvJOUCvtW1G+q197mYer9Vn57cbfhGOzWbEr+V62OusGwd4sOABn6Jd8w?=
+ =?us-ascii?Q?/OyMnm/rmy8GLf0K78So5JJBr2wY8qAW+X7PmEMgxlGxJMvIK5AjNA6Gfjy/?=
+ =?us-ascii?Q?5g2/u0dHHB9MQPXDtcvJX/ksrFtitl431OdBcT6y7XQcl8Wd1IXVphQwj1EC?=
+ =?us-ascii?Q?Aqm732D3y53vgcMW3RWyevMU+8XbhKc2Z/Sa8KbRm+uDVlKUGf3tG1RkDE4V?=
+ =?us-ascii?Q?yEbeoaqKQA3V79U31IIbIYGsmUjXepClwupzK9nnlfc66BvjM1TDsf3iCygc?=
+ =?us-ascii?Q?hCINb4B8/kVbOhGSehIAPRJ3i7ZJy8eapLieKxHrOchEzlZAeS1qTGaTkmP0?=
+ =?us-ascii?Q?q/9LQf33gjY07PpE74Kjxcm2tirhCP80tAdTLQDJ3g6GdY+25qoCS3vtV/TP?=
+ =?us-ascii?Q?X4iF5FN49nushDcfycJNzIcvOs3mY65AEi8Jhwns5G0q0jOAJhErlBB0imBy?=
+ =?us-ascii?Q?SNvgSzp3iNdni63YTF1DQehTsJUgksPSj61+W0kRXaDJf9JWnpcoSA+N2AWZ?=
+ =?us-ascii?Q?CAvFTLeLIXwH8ldjzhtYNfoCYV5utVKGJRCaHPhzIe3dgysC0jYhBYJtxhZL?=
+ =?us-ascii?Q?wdi/TPHmJjpOxFeGcMJygQ7X2dxRCYCfY8z6L7FpZANONKxFEG/0/kur6KAA?=
+ =?us-ascii?Q?SGyOc3P1LqKFzohf3Ubd/1HJKZSMWMSs9jMjYCwH579rpFmjrWELAEQvE+eT?=
+ =?us-ascii?Q?8DVhrN94CUXsQPxi45L9u8+q3ubKKGmt2ZINCQCkjjqsxrEHv3XL5BcyPMes?=
+ =?us-ascii?Q?qzM5iNiIV9zLgQoHTyKFuTaoDXf/SV1lvk1fUXCFKGkmnZS2SYm3G9y6C52/?=
+ =?us-ascii?Q?N082fwVzz9IIiLtrNPpfw0p0PNOjAg3m9DnwnrfsFY0IGBv8X6/1PoDimQBH?=
+ =?us-ascii?Q?/CDzeMB73bLbbRBc0c04QX7YEgT1It1wiQPJgyHlGzK5d37KqL3/Gyc9b645?=
+ =?us-ascii?Q?a93eFy/Z3NFMc45yZX6iCN0gPKrBzHY=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96bceba6-40f5-4942-66b0-08de7a707935
+X-MS-Exchange-CrossTenant-Network-Message-Id: 028e721a-889d-4647-246f-08de7a707c07
 X-MS-Exchange-CrossTenant-AuthSource: DS4PPFD667CEBB6.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 04:34:22.3282
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 04:34:27.3812
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6FaBGvCu/BFkcabhTjvl6Z23dcwDQaMZmocBiVquGqithV95bVKl9pXy0kbdO96pIZPcNaHEuHy9Dfw1uCTCp1Rr9YdKRl0usWNCFQVh+OQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: GG0TT+TElR4qcDfz5nE1ieBLqTf1QMmS69JPUUjA/VrBSEV9sZIm17KbND88zMm9IPXGYOeDxBXEVa6YfD0fnjMLC8KA6rSGgR88b7t/PW0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8347
-X-Proofpoint-GUID: i9-5skMpCoMBb41rPglQwcKb814QSELl
-X-Authority-Analysis: v=2.4 cv=Of+VzxTY c=1 sm=1 tr=0 ts=69a907d0 cx=c_pps
- a=PojWdYBvulneKNx6glcDcw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Authority-Analysis: v=2.4 cv=LqWfC3dc c=1 sm=1 tr=0 ts=69a907d5 cx=c_pps
+ a=8eopZEidgIdRxOfdJNpAuQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8
- a=b-pzV9cxAM0HHkGdTPcA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: i9-5skMpCoMBb41rPglQwcKb814QSELl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDAzMiBTYWx0ZWRfX/04bQx5nLhbC
- SKHrcKlbMRaDyuTFo2SgDqIQ58W8zNOnMrE0nZIg4ir41UnkWDc/HtoCQ1GCS2jJ9lDGwvr89XD
- XjcgJw9avt1CrkTEb7oDgVSy+/mmruZOqgWoeWdHFXq5P5jfnJnkpQ/8I2Os7bbFqScmtIIJoiZ
- Ty0tJcbHGVKtWkbVnKgoQbXv3DqPL40ZFW2EPlsstLMXv2tp3rXbD8XtCj/vGm2azJYIKAJdGf/
- pSkhH+cbdTkV0pTyq9es2CaAJFYBBJNqicDzfEdMY2RH6nwWxcsMavzU72BFP+P/OpTTVm4P1kH
- I28LUbrGkA5AlPXrnJvZbEYK3qk2ecKFjjn0a3yNA9vqCYS19yezrmmHlUfY2uKchLnTwMeQ53g
- Uwy6RBIB/qJgMnKl8okntBo1QnpfYuNmVlCQ9ZFbcWvC4otcSBBigyjLgMMPy92S34YSmw44uNd
- hTDI4xekZfYDBs772Lw==
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
+ a=-DGD1vg1X50fszjQOB8A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: yf20hhmjoy9HOcCJG2KoWqw9AKHxLEMJ
+X-Proofpoint-ORIG-GUID: yf20hhmjoy9HOcCJG2KoWqw9AKHxLEMJ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDAzMiBTYWx0ZWRfXxssUSqt+P83t
+ 5uWj0OdpcGAiJONEZVEH7RjxLGNo3j4MIPRtYONZSfMMJEHbX9r/iKaQW95EfCXxkkl5s20c1kF
+ t+kfBeEigjiVcHyAYLVMX3iIWAvrxi5y3xe/TOebAX+zU0rD6naxNo7zKvClcrCzygDCSNFIObp
+ +IKJEqkX/xDrY61mIkrZT3O+6ES71Mt5HHlJuJGlkEYpnFiTxnzzixajpY781muMLI5XA+uqs7p
+ kC01AQRUiPxvQctZLK9GS/71PsEjDzz2eg/lH5V8tr13TzKGiA+oDDdVFhQbLoF3NsvNndEkHZC
+ B/FemMX1US1rPkReTAVVWMBxQqrVmCu4Y9O2iMVpLIg5mFZY3yG3bfcqzqhdtBFB/i6zJPPZ3kH
+ GZbUK481v1huBFx61m/cWbgJDhqUD7yDbh+2IaIwYDrivwwhrDtAJUVNu6iHz8VmFVEYh9CEVBC
+ AeBZCdJya/hfzm57A/A==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-04_09,2026-03-04_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 priorityscore=1501 lowpriorityscore=0 spamscore=0
- impostorscore=0 malwarescore=0 adultscore=0 phishscore=0 suspectscore=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 adultscore=0
+ clxscore=1015 priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050032
-X-Rspamd-Queue-Id: 3BCFA20AD9F
+X-Rspamd-Queue-Id: B77DC20AD70
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [2.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -190,7 +190,7 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	FREEMAIL_TO(0.00)[linux.intel.com,ideasonboard.com,siliconsignals.io,jmondi.org,kernel.org,bp.renesas.com,oss.qualcomm.com,xs4all.nl,raspberrypi.com,windriver.com];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54564-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54561-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	PRECEDENCE_BULK(0.00)[];
@@ -199,197 +199,179 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	DKIM_TRACE(0.00)[windriver.com:+];
 	TO_DN_NONE(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:dkim,windriver.com:email,windriver.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,siliconsignals.io:email];
+	RCVD_COUNT_SEVEN(0.00)[7];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Switch to using the sub-device state lock and properly call
-v4l2_subdev_init_finalize() / v4l2_subdev_cleanup() on probe() /
-remove().
+Switch from s_stream to enable_streams and disable_streams callbacks.
 
 Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
 Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/i2c/ov9282.c | 51 +++++++++++++++-----------------------
- 1 file changed, 20 insertions(+), 31 deletions(-)
+ drivers/media/i2c/ov9282.c | 79 ++++++++++++--------------------------
+ 1 file changed, 25 insertions(+), 54 deletions(-)
 
 diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-index 56f854a4d04f..98e0a0732ef7 100644
+index 98e0a0732ef7..22bea5cd6d14 100644
 --- a/drivers/media/i2c/ov9282.c
 +++ b/drivers/media/i2c/ov9282.c
-@@ -221,7 +221,6 @@ struct ov9282 {
- 	bool noncontinuous_clock;
- 	const struct ov9282_mode *cur_mode;
- 	u32 code;
--	struct mutex mutex;
- };
- 
- static const s64 link_freq[] = {
-@@ -795,8 +794,6 @@ static int ov9282_get_pad_format(struct v4l2_subdev *sd,
- {
- 	struct ov9282 *ov9282 = to_ov9282(sd);
- 
--	mutex_lock(&ov9282->mutex);
--
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		struct v4l2_mbus_framefmt *framefmt;
- 
-@@ -807,8 +804,6 @@ static int ov9282_get_pad_format(struct v4l2_subdev *sd,
- 				       fmt);
- 	}
- 
--	mutex_unlock(&ov9282->mutex);
--
- 	return 0;
+@@ -922,13 +922,9 @@ static int ov9282_get_selection(struct v4l2_subdev *sd,
+ 	return -EINVAL;
  }
  
-@@ -829,8 +824,6 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
- 	u32 code;
- 	int ret = 0;
- 
--	mutex_lock(&ov9282->mutex);
--
- 	mode = v4l2_find_nearest_size(supported_modes,
- 				      ARRAY_SIZE(supported_modes),
- 				      width, height,
-@@ -856,8 +849,6 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
+-/**
+- * ov9282_start_streaming() - Start sensor stream
+- * @ov9282: pointer to ov9282 device
+- *
+- * Return: 0 if successful, error code otherwise.
+- */
+-static int ov9282_start_streaming(struct ov9282 *ov9282)
++static int ov9282_enable_streams(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state, u32 pad,
++				 u64 streams_mask)
+ {
+ 	const struct cci_reg_sequence bitdepth_regs[2][2] = {
+ 		{
+@@ -939,16 +935,21 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
+ 			{OV9282_REG_ANA_CORE_2, OV9282_ANA_CORE2_RAW8},
  		}
- 	}
- 
--	mutex_unlock(&ov9282->mutex);
--
- 	return ret;
- }
- 
-@@ -904,10 +895,8 @@ static int ov9282_get_selection(struct v4l2_subdev *sd,
- 	case V4L2_SEL_TGT_CROP: {
- 		struct ov9282 *ov9282 = to_ov9282(sd);
- 
--		mutex_lock(&ov9282->mutex);
- 		sel->r = *__ov9282_get_pad_crop(ov9282, sd_state, sel->pad,
- 						sel->which);
--		mutex_unlock(&ov9282->mutex);
- 
- 		return 0;
- 	}
-@@ -1019,9 +1008,10 @@ static int ov9282_stop_streaming(struct ov9282 *ov9282)
- static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct ov9282 *ov9282 = to_ov9282(sd);
-+	struct v4l2_subdev_state *state;
+ 	};
++	struct ov9282 *ov9282 = to_ov9282(sd);
+ 	const struct ov9282_reg_list *reg_list;
+ 	int bitdepth_index;
  	int ret;
  
--	mutex_lock(&ov9282->mutex);
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
- 
- 	if (enable) {
- 		ret = pm_runtime_resume_and_get(ov9282->dev);
-@@ -1036,14 +1026,14 @@ static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
- 		pm_runtime_put(ov9282->dev);
- 	}
- 
--	mutex_unlock(&ov9282->mutex);
-+	v4l2_subdev_unlock_state(state);
- 
- 	return 0;
- 
- error_power_off:
- 	pm_runtime_put(ov9282->dev);
- error_unlock:
--	mutex_unlock(&ov9282->mutex);
-+	v4l2_subdev_unlock_state(state);
- 
- 	return ret;
- }
-@@ -1285,9 +1275,6 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
- 	if (ret)
- 		return ret;
- 
--	/* Serialize controls with sensor device */
--	ctrl_hdlr->lock = &ov9282->mutex;
--
- 	/* Initialize exposure and gain */
- 	lpfr = mode->vblank + mode->height;
- 	ov9282->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-@@ -1409,13 +1396,10 @@ static int ov9282_probe(struct i2c_client *client)
- 		return dev_err_probe(ov9282->dev, PTR_ERR(ov9282->regmap),
- 				     "Failed to init CCI\n");
- 
--	mutex_init(&ov9282->mutex);
--
- 	ret = ov9282_power_on(ov9282->dev);
--	if (ret) {
--		dev_err(ov9282->dev, "failed to power-on the sensor");
--		goto error_mutex_destroy;
--	}
++	ret = pm_runtime_resume_and_get(ov9282->dev);
 +	if (ret)
-+		return dev_err_probe(ov9282->dev, ret,
-+				     "failed to power-on the sensor");
- 
- 	/* Check module identity */
- 	ret = ov9282_detect(ov9282);
-@@ -1448,27 +1432,34 @@ static int ov9282_probe(struct i2c_client *client)
- 		goto error_handler_free;
++		return ret;
++
+ 	/* Write common registers */
+ 	ret = cci_multi_reg_write(ov9282->regmap, common_regs,
+ 				  ARRAY_SIZE(common_regs), NULL);
+ 	if (ret) {
+ 		dev_err(ov9282->dev, "fail to write common registers");
+-		return ret;
++		goto err_pm_put;
  	}
  
--	ret = v4l2_async_register_subdev_sensor(&ov9282->sd);
-+	ov9282->sd.state_lock = ov9282->ctrl_handler.lock;
-+	ret = v4l2_subdev_init_finalize(&ov9282->sd);
- 	if (ret < 0) {
--		dev_err(ov9282->dev,
--			"failed to register async subdev: %d", ret);
-+		dev_err_probe(ov9282->dev, ret, "failed to init subdev\n");
- 		goto error_media_entity;
+ 	bitdepth_index = ov9282->code == MEDIA_BUS_FMT_Y10_1X10 ? 0 : 1;
+@@ -956,7 +957,7 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
+ 				  bitdepth_regs[bitdepth_index], 2, NULL);
+ 	if (ret) {
+ 		dev_err(ov9282->dev, "fail to write bitdepth regs");
+-		return ret;
++		goto err_pm_put;
  	}
  
- 	pm_runtime_set_active(ov9282->dev);
- 	pm_runtime_enable(ov9282->dev);
-+
-+	ret = v4l2_async_register_subdev_sensor(&ov9282->sd);
-+	if (ret < 0)
-+		goto v4l2_subdev_cleanup;
-+
- 	pm_runtime_idle(ov9282->dev);
+ 	/* Write sensor mode registers */
+@@ -965,14 +966,14 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
+ 				  reg_list->num_of_regs, NULL);
+ 	if (ret) {
+ 		dev_err(ov9282->dev, "fail to write initial registers");
+-		return ret;
++		goto err_pm_put;
+ 	}
+ 
+ 	/* Setup handler will write actual exposure and gain */
+ 	ret =  __v4l2_ctrl_handler_setup(ov9282->sd.ctrl_handler);
+ 	if (ret) {
+ 		dev_err(ov9282->dev, "fail to setup handler");
+-		return ret;
++		goto err_pm_put;
+ 	}
+ 
+ 	/* Start streaming */
+@@ -980,60 +981,28 @@ static int ov9282_start_streaming(struct ov9282 *ov9282)
+ 			OV9282_MODE_STREAMING, NULL);
+ 	if (ret) {
+ 		dev_err(ov9282->dev, "fail to start streaming");
+-		return ret;
++		goto err_pm_put;
+ 	}
  
  	return 0;
+-}
  
-+v4l2_subdev_cleanup:
-+	v4l2_subdev_cleanup(&ov9282->sd);
-+	pm_runtime_disable(ov9282->dev);
-+	pm_runtime_set_suspended(ov9282->dev);
- error_media_entity:
- 	media_entity_cleanup(&ov9282->sd.entity);
- error_handler_free:
- 	v4l2_ctrl_handler_free(ov9282->sd.ctrl_handler);
- error_power_off:
- 	ov9282_power_off(ov9282->dev);
--error_mutex_destroy:
--	mutex_destroy(&ov9282->mutex);
+-/**
+- * ov9282_stop_streaming() - Stop sensor stream
+- * @ov9282: pointer to ov9282 device
+- *
+- * Return: 0 if successful, error code otherwise.
+- */
+-static int ov9282_stop_streaming(struct ov9282 *ov9282)
+-{
+-	return cci_write(ov9282->regmap, OV9282_REG_MODE_SELECT,
+-			 OV9282_MODE_STANDBY, NULL);
++err_pm_put:
++	pm_runtime_put(ov9282->dev);
++
++	return ret;
+ }
+ 
+-/**
+- * ov9282_set_stream() - Enable sensor streaming
+- * @sd: pointer to ov9282 subdevice
+- * @enable: set to enable sensor streaming
+- *
+- * Return: 0 if successful, error code otherwise.
+- */
+-static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
++static int ov9282_disable_streams(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state, u32 pad,
++				  u64 streams_mask)
+ {
+ 	struct ov9282 *ov9282 = to_ov9282(sd);
+-	struct v4l2_subdev_state *state;
+ 	int ret;
+ 
+-	state = v4l2_subdev_lock_and_get_active_state(sd);
+-
+-	if (enable) {
+-		ret = pm_runtime_resume_and_get(ov9282->dev);
+-		if (ret)
+-			goto error_unlock;
+-
+-		ret = ov9282_start_streaming(ov9282);
+-		if (ret)
+-			goto error_power_off;
+-	} else {
+-		ov9282_stop_streaming(ov9282);
+-		pm_runtime_put(ov9282->dev);
+-	}
+-
+-	v4l2_subdev_unlock_state(state);
+-
+-	return 0;
++	ret = cci_write(ov9282->regmap, OV9282_REG_MODE_SELECT,
++			OV9282_MODE_STANDBY, NULL);
+ 
+-error_power_off:
+ 	pm_runtime_put(ov9282->dev);
+-error_unlock:
+-	v4l2_subdev_unlock_state(state);
  
  	return ret;
  }
-@@ -1482,9 +1473,9 @@ static int ov9282_probe(struct i2c_client *client)
- static void ov9282_remove(struct i2c_client *client)
- {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct ov9282 *ov9282 = to_ov9282(sd);
+@@ -1165,7 +1134,7 @@ static const struct v4l2_subdev_core_ops ov9282_core_ops = {
+ };
  
- 	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
- 	media_entity_cleanup(&sd->entity);
- 	v4l2_ctrl_handler_free(sd->ctrl_handler);
+ static const struct v4l2_subdev_video_ops ov9282_video_ops = {
+-	.s_stream = ov9282_set_stream,
++	.s_stream = v4l2_subdev_s_stream_helper,
+ };
  
-@@ -1492,8 +1483,6 @@ static void ov9282_remove(struct i2c_client *client)
- 	if (!pm_runtime_status_suspended(&client->dev))
- 		ov9282_power_off(&client->dev);
- 	pm_runtime_set_suspended(&client->dev);
--
--	mutex_destroy(&ov9282->mutex);
- }
+ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
+@@ -1174,6 +1143,8 @@ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
+ 	.get_fmt = ov9282_get_pad_format,
+ 	.set_fmt = ov9282_set_pad_format,
+ 	.get_selection = ov9282_get_selection,
++	.enable_streams = ov9282_enable_streams,
++	.disable_streams = ov9282_disable_streams,
+ };
  
- static const struct dev_pm_ops ov9282_pm_ops = {
+ static const struct v4l2_subdev_ops ov9282_subdev_ops = {
 -- 
 2.43.0
 
