@@ -1,222 +1,239 @@
-Return-Path: <linux-media+bounces-54671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54672-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oOmaAwvPqWk+FgEAu9opvQ
-	(envelope-from <linux-media+bounces-54671-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 19:44:27 +0100
+	id qIqiEYHaqWneGQEAu9opvQ
+	(envelope-from <linux-media+bounces-54672-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 20:33:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB0E217158
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 19:44:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 934D821795F
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 20:33:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7F13C3086064
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 18:43:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7780230C8D26
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 19:32:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3601D3E9F81;
-	Thu,  5 Mar 2026 18:43:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D516C303A1E;
+	Thu,  5 Mar 2026 19:32:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FvICW1C+"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="lYSr5NXb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013071.outbound.protection.outlook.com [40.107.162.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6985B3E7162;
-	Thu,  5 Mar 2026 18:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772736196; cv=none; b=Y6QeQ8N2bapNy591PQD9wNJDrrqLU9aSY8xm2mF8A2aSDMPclwaNnXi5GAKZoCkz9vTMfjwyzeNy0t0Bj4IjL+x00Mmcqtj0ls5kYDk4dK9pPr0MJfmEQJKK1fX/0R0q49qcPMS381En1pOmRuWKjNklTEWMWE7Uz9rmz5/SjUs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772736196; c=relaxed/simple;
-	bh=pnxoz4idCuWp1cjgR8NlXKfgMViTDq/5rJxjecRq6R4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EOQ/F5/ib/QLtYXdLIOM7macFSV0oTChPljU4Szfbwd49bzvNn8e4EPXSNudjjTHbi5an/+Ll2pDWOnqaaNKFPAUXr+amfaeuejUlKaWCwQtGO8EG0RcvyNKAE+4mFlZFOm2enBgS/nv1gC4JYEPsDc1GWGJUfOMGFY8kGOQ+0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FvICW1C+; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1772736193;
-	bh=pnxoz4idCuWp1cjgR8NlXKfgMViTDq/5rJxjecRq6R4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=FvICW1C+Vlwk7C4+2b7hZrZ1qiKUEWLbPrLCzWapdyHqHilwja7f51Mk42/bd4IYS
-	 46BIFvCXXiNaJ+Pja4y+Td9egZ0+ZSeEqthkmqAaA6UmT6YKxhSOOUAl5zJ+z0lf6L
-	 +gNsej+g6pk4/aVVfERQGjaQDW6nYi4DP1BoZchf9c/ktfYhxP4IDNld2oUW2mwAje
-	 4z4UBZdkfg2o4bnQPQSPmnvp7NKwbrYfQkybUPREENsRddcAfsHou8u37b2Y05X2Gu
-	 Y6h1RKLmnJ/1GhWcvkZ+jgbJ5atxN4V5Sw9Hh1RH1DGMSmHwKTlZ/DWOTnUy4wEVzq
-	 baOMHLDz9YL3g==
-Received: from [IPv6:2606:6d00:15:210e::5ac] (unknown [IPv6:2606:6d00:15:210e::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id AB81F17E026C;
-	Thu,  5 Mar 2026 19:43:11 +0100 (CET)
-Message-ID: <5c8e5f38af10f44f366629e1e7c948ae9af2a196.camel@collabora.com>
-Subject: Re: [PATCH 1/2] [RESEND] media: rkvdec: reduce excessive stack
- usage in assemble_hw_pps()
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>, Detlev
- Casanova <detlev.casanova@collabora.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Nathan Chancellor	 <nathan@kernel.org>, Hans Verkuil
- <hverkuil+cisco@kernel.org>
-Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling
-	 <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Kees Cook
-	 <kees@kernel.org>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Date: Thu, 05 Mar 2026 13:43:09 -0500
-In-Reply-To: <e907e900-073f-4aa6-b4fe-36b87e312f62@app.fastmail.com>
-References: <20260305152644.791897-1-arnd@kernel.org>
-	 <1621b56864cb186f1e5433b73b56afc00aa83452.camel@collabora.com>
-	 <e907e900-073f-4aa6-b4fe-36b87e312f62@app.fastmail.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-2kH2WREimXA5rID0isEA"
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68AB27FD54
+	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 19:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772739140; cv=fail; b=ZXNiPlv85yRF8naTFlz2Rytq6q4I5qUeOavDJBHa1Il0Is0Bfblrkzftrc4YtlMMWWIo4diCk4e7c/xXCRocFIDG2b3TDxYi3vKtXgdjFAKZWY4AyzgSXXuX9JESpbtTYK996If6ObmMw5cESojyvlsotKQO/pYf04yPrw0Dydk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772739140; c=relaxed/simple;
+	bh=Ti+RLE0+fn+4JjPaDV1zZzekdSUaqU535Kv+8DkwN5o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=VFL2EJT7lsRDjUfLBBUzlk50A5cRStB2v6oQwtyDm0u0zK+4GfVj7ydCFNuYEQL+hKgWLeCAq068g6QFAkXno0snvabd+KhPZ8ZtQzNFXGQQox02Ct/HYvn8dGrUQzPxYf4QEs0UFKVKFHiKmvFr+jPDrj2scWka1M3UvGxvz+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=lYSr5NXb; arc=fail smtp.client-ip=40.107.162.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FTqz54J4Fat37YGKbv1PVfXrxjpurSOdsst3F0Hx7y2HzZK5NERsYYup2YyKraoX/7ynxwi/zrS07v5Ec/aCMz05hWGFcx5GYtbnt6Uhl2zEN2aV71CunigJQE6NTIjdfkcss/b8uHGv1FjcH8IAP4uV/VgotQJuHp8goYe8u163fnjYMjaC4EfAcz+SZFMMCtT5JKf2Vj1fiLwHk4y3wm+MGAtN+kHh0/fFy6JhhSgj6qs6R0lEXJY0fu5ykVQfFJIR7C9IOwAYQ7wtW9DWUwncpew8UfvnSzTfqfYV8OfW+FUTI+6BkRWtN3+mf8IdZA7VavdzcM1bG1YVxZiemQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YD1PnS4/aGWP+JZe9HzCO6hRejwWBwn8JFXu9Mc44+s=;
+ b=Uy5ISJfoxdcZdwc3l/2fZEGnPrwi1qSuCbFCOr6W1/3iE1PRHcvbtZh0VwUa56++SCLWoJ+e5LxxWeMEs3aDZizbpqgfEEGxJ/8+5EfVQ89zftOa6XtpIHFih2csS2r/SO8xhdYWLqzItFxnF47JbYkYs0iPTrnMyQnIE4itmZy2KdGTgeVEtGhWrKEJBwLngF4Ofx9QyLbllYg3ywpWkEoTMKdD/FTCdZ8P4ZDdsA039wma/wzpf1Zk2rkwp+BI44tm+fpKZh9ajp6iYuFn7j0GTMAsMu96Ly29Mc9OR7dU4BHD4FholGTvx63ykw0Uhww6mZV8wN0XQSo9MCvO9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YD1PnS4/aGWP+JZe9HzCO6hRejwWBwn8JFXu9Mc44+s=;
+ b=lYSr5NXbmGpXvfxK13oibBSfasvJb0HgEeYW6OqYrSy6Pd0OM2BA+cBCiLQFBh+pLeN9z9ZC1M6gK8vJ2VGq6CgGItySvh0nNAiO4uKg53BBBP8f1wp5UVMVuBtqJbexYDL9ZHtjM1PXWxKUu6ADPjLAswctmMGwCjkHAJgBvmvFcDYFK6RRZsR1ecIVNElR15Yj0hBeVJ6E+sll0twydqjHF7KOh9HlTi/diuZFJA8Xht/mFQmLn8BSWmKNJzB/QJ4T9+64KHyWXQxKyk1bMJc22w1xTWlLnWreBlaVXkP6smoTzMQcvYwXRxKGsIgPl4qZO5xmoemxE5Oyo5JEXg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by AS8PR04MB8500.eurprd04.prod.outlook.com (2603:10a6:20b:343::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
+ 2026 19:32:16 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Thu, 5 Mar 2026
+ 19:32:16 +0000
+Date: Thu, 5 Mar 2026 14:32:09 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com,
+	niklas.soderlund+renesas@ragnatech.se, antti.laakso@linux.intel.com
+Subject: Re: [PATCH v2 1/1] media: v4l2-fwnode: Return -EPROBE_DEFER on
+ parsing NULL endpoints
+Message-ID: <aanaOQgQbpzSmooa@lizhi-Precision-Tower-5810>
+References: <20260305173558.3907731-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260305173558.3907731-1-sakari.ailus@linux.intel.com>
+X-ClientProxiedBy: PH0PR07CA0046.namprd07.prod.outlook.com
+ (2603:10b6:510:e::21) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 6BB0E217158
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AS8PR04MB8500:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08ae9ecd-fd51-4fca-f4d0-08de7aede858
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|19092799006|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	Ojy0jyIl8rnDIm6RUIExRMzOFJ7MQoC/Ma19kiwbUKkHK3N5/3KgLbLVnM9fQKJ5uG4kwroKFGtZVYSLk8eOPnpkBrq76dva4ZQmaVsiUdgj+zMh75YVXTojr35R9594UAwfoizgGjQf6rffqq1dnelk91+FhWEkpkjk8Jpaye/Gxul0BoPGBRMs8XCk8cVRP1Tr6RylncOZ9rb+pz6b+5Bs7Pyjj8rzMaF+89JlUuniqXsbEs+uqJGCbj2Hn0ZnLD3krpB3VjtabFlwM3eY5llp+MIWnQucdjirmYtCoY7s+luwIqbjQG3LzM4JI3bK4kl23I4qgyssopJqdsg4k9IBy8wtcxuq18h79eVTvapfQSsysxK8zlgRLvyGwShltwCB/z1GQq4Ph4736AOYIUtOr1ZEQydZCo93jrxm2RG43xDMT//eEUSJriMnZI5n4zh/nre4Of2+F2F6JXwcgrrlEpOVcrHpubbWpfaaLHu7oVeLF00Wn00PKbKuFCECeofzBSAX/ORE4rkklChQSch3Id+y6wJpUPmyUwcBlObG4yfj33AMPyen1hvxxGHlgf1wJGuJ4dAGqruUeS3hc7hpEL+iI4cT+Gj+7/AFOdyDv5TqLeWc0tBu5MdEhM6prbeExk3ro11iByEpqeV0JkQQJks7V7YBTBlkl++oWrYxhdfvenpw17PhZmpC1FWBLO8sE1AE98mxH0Jz8M8QxRX2Q2mdunsAA/bX7IoSn/uILyGP/glfWedv4H74VPrhCXsLpGjPLm0BCoiDfblYU7xqVIYk7yhoESpyj2f3qNM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(19092799006)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?AIwz0MYKFAZOtwYb+KhDLoyagg9BETmaDt+62LSTHeZzMsj9ZSNnHsN6aUKO?=
+ =?us-ascii?Q?HYDOp8kfd4d3droTZeDLqhn13fWWzhuCxyf3nOAyZMi38ClJ2UNTeEBSWliD?=
+ =?us-ascii?Q?yTWfXce4PIwqEIFJ6UjAshRAyNvDrTJ4mtAb/M4rIOH7eF4o+1Xe3DDdfYT1?=
+ =?us-ascii?Q?60vB8eoyUMyzBpIuYSR1jUORTS5lu7MZDMRxLNJMvQbb41ieX34/vjfXhqbz?=
+ =?us-ascii?Q?QFtQJQVraWOMiO1VWOiXCtugYVATcqaflWtMQkSpQVuXjlZU1UwYbk1kQGim?=
+ =?us-ascii?Q?mT3HiU5DAXlxHRUMPW0GgFEv+6pTNoNKe20UU0gh207ufpbGKgd6BtTnnfEn?=
+ =?us-ascii?Q?liluF1XNvkzVJoyRwCLCh6tJXaJQWY52yRMeeBN6lMnddPG/enuyFXpp3d8W?=
+ =?us-ascii?Q?wx2U0OypTYIP2nOBdGci0PnYPQdZr1NBWP/E7D2chePgBGUKvxtxKz+56ll1?=
+ =?us-ascii?Q?VGlM1aGDPCmhue/yTSna73o/l6i1YOEM/eoReJcWKw/pUob3xNdRlveYkx3P?=
+ =?us-ascii?Q?YhKfgkN59RlrD8eTU94kkfqMuM+t6nSRHbQtxcLt3qG9/rAsdheqDu9O+95+?=
+ =?us-ascii?Q?RdouzSSrTCbBq6ddyazEIm4BGKvnzlY85AH/leqxE0+Jwy/dmN96sb8afhXe?=
+ =?us-ascii?Q?eFWD0xQ+N+OCK6iuc54sUU0Dp0gZznFQfliARZw0uD/vC8i5i+uNk/OSpHUJ?=
+ =?us-ascii?Q?l64kxVU7xU9zViaPtvJHO8W58WkaKOqGs9qUvkhdQ/qtnl18Q6exnNumkbav?=
+ =?us-ascii?Q?4uWtZQGEjaxf/O3yqnGb3uCjBT7VYvD/3u7y38y/SkaCbIs2JrXazQkbdLBR?=
+ =?us-ascii?Q?mhz6vWE/vE7mg2NMosvgZ8XYxvNJzgx7aPJadxdb4XJd7Y48ELGxZ6A68S0G?=
+ =?us-ascii?Q?EB+i9Fcd27NuK3VI3W4W6SLCk9aYMZOcFvCPgowBzv7pyIfJOspdygUEfuse?=
+ =?us-ascii?Q?b8G6jAv9o+tF+zJldnE4Tv1R2CBYXmbUGpkBvTys2htkuedc9aR5qJVQvMDV?=
+ =?us-ascii?Q?Gdzq6SQQ2tkmuA3TuIIPvvzewNfX82nl76X7vP55bYARqISSlgWQpPgh6LMS?=
+ =?us-ascii?Q?J3JZU5TLe3Yu9LkPi0Yeb03EiVI8OnVaXMIbmtL8gI4J3TlXy4sXypztPKAF?=
+ =?us-ascii?Q?uK6vtDW07DB/oOPx5faUrWxtGtY0UjkwrYefsJhS/Xxg4PC/Hb31waXr0Oqj?=
+ =?us-ascii?Q?HHPoRrr9qiaKuCCw7OzGCFf4gZUl/BMYQlFfuSt/iDj3p6Mu3Oe+J8bNGsug?=
+ =?us-ascii?Q?aWdKv9ikxp+RpgLRwY/vB5Rjk4dReRZGfQ/T8zwncr6pMmkkzP/c3KlNVdyG?=
+ =?us-ascii?Q?PhQRkLi7Xy96uS5S5c05HI5wjTA/V5Ht6+0yc5U7e3qJV7N516/S0heHfYON?=
+ =?us-ascii?Q?2/uRtINtnOd32LH/DBz0e5ddvPH1eXV/nxWgG4RVp6nbwG2aW6kp40RX0e9P?=
+ =?us-ascii?Q?9zDASYw5ZHLLoH198PnyujLUp+YQ2wS1XBJhvQSBqutRtcHXvVBBjfqZrTuY?=
+ =?us-ascii?Q?eeVnUjFLDMAp2G5MqV3em+q50F0tbzB1l8ozJ/Iuh/vzFhVWXlZqzBe6rrR+?=
+ =?us-ascii?Q?K3R2U6WGYAcnnvgrUTewuw/2HFzjKapEZa8lGhRkLGZkVxEwomhEsDiNNmKh?=
+ =?us-ascii?Q?rtl8FXTqbhRZBG5XT7mMx/H5T6BGykqgiVSfMjib1xCS8rkUcOsMVMO9AtFR?=
+ =?us-ascii?Q?KKN6L6DM7nzmoPOT5IXP50R+SxBoMP0ivSPjtwNlRMsGeUfjm5ZUIJ0EVsbr?=
+ =?us-ascii?Q?WhDLIbkTPA=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08ae9ecd-fd51-4fca-f4d0-08de7aede858
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 19:32:15.9292
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /IL6Qy5stf/3/95S9sQ+uULSguNvZnPrXTsZkreNxQRuOgEFd/AXi/O7nXjNOjpeEtKWPx/A5nNv8hbCNSOusA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8500
+X-Rspamd-Queue-Id: 934D821795F
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [1.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[gmail.com,google.com,kernel.org,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	RCVD_COUNT_THREE(0.00)[4];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54672-lists,linux-media=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54671-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[collabora.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco,lkml];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:email,nxp.com:dkim]
 X-Rspamd-Action: no action
 
+On Thu, Mar 05, 2026 at 07:35:58PM +0200, Sakari Ailus wrote:
+> In general drivers get their firmware graph endpoints from system
+> firmware, but on some systems this information is conveyed to drivers via
+> software nodes. The software nodes may be instantiated only after the
+> drivers are first probed, requiring drivers to explicitly issue
+> -EPROBE_DEFER when endpoints aren't found.
+>
+> Instead of doing this in all (or at least most) drivers, make v4l2-fwnode
+> endpoint parsing functions v4l2_fwnode_endpoint_parse() and
+> v4l2_fwnode_endpoint_alloc_parse() return -EPROBE_DEFER when an endpoint
+> is NULL.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> since v1:
+>
+> - Only check for NULL.
+>
+> - Fix the condition.
+>
+>  drivers/media/v4l2-core/v4l2-fwnode.c | 2 +-
+>  include/media/v4l2-fwnode.h           | 6 ++++--
+>  2 files changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index 03daa8c4ff7a..36b0495351cb 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -466,7 +466,7 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
+>  	int rval;
+>
+>  	if (!fwnode)
+> -		return -EINVAL;
+> +		return -EPROBE_DEFER;
+>
+>  	pr_debug("===== begin parsing endpoint %pfw\n", fwnode);
+>
+> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> index cd82e70ccbaa..44c985a12286 100644
+> --- a/include/media/v4l2-fwnode.h
+> +++ b/include/media/v4l2-fwnode.h
+> @@ -218,8 +218,9 @@ enum v4l2_fwnode_bus_type {
+>   *
+>   * Return: %0 on success or a negative error code on failure:
+>   *	   %-ENOMEM on memory allocation failure
+> - *	   %-EINVAL on parsing failure, including @fwnode == NULL
+> + *	   %-EINVAL on parsing failure
+>   *	   %-ENXIO on mismatching bus types
+> + *	   %-EPROBE_DEFER on NULL or error @fwnode
 
---=-2kH2WREimXA5rID0isEA
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+code only check fwnode is NULL.
 
-Hi,
+Frank
 
-Le jeudi 05 mars 2026 =C3=A0 18:10 +0100, Arnd Bergmann a =C3=A9crit=C2=A0:
-> On Thu, Mar 5, 2026, at 17:37, Nicolas Dufresne wrote:
-> >=20
-> > Le jeudi 05 mars 2026 =C3=A0 16:26 +0100, Arnd Bergmann a =C3=A9crit=C2=
-=A0:
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > >=20
-> > > The rkvdec_pps had a large set of bitfields, all of which
-> > > as misaligned. This causes clang-21 and likely other versions to
-> > > produce absolutely awful object code and a warning about very
-> > > large stack usage, on targets without unaligned access:
-> >=20
-> > I'm a bit surprised you felt the need for resend. Perhaps you can help =
-us
-> > understand what made you think your patch wasn't being processed ?
->=20
-> I updated the second patch today after I found a corner case that
-> wasn't addressed by the first version. As I had sent both as a series
-> a month ago, and neither was in linux-next yet, it seemed more helpful
-> to send an updated series rather than replace only one of the two.
-
-If you updated the code I'd prefer if it is sent as a new version, not a re=
-send.
-As for the media merge window, its been about a week since rc1 got merged i=
-nto
-media tree, with couple of weeks before that waiting for rc1 to land. I bel=
-ieve
-your month gap is there and accurate. I did also took a small break on revi=
-ew
-and PR concurrently.
-
->=20
-> > My PR:
-> > https://patchwork.linuxtv.org/project/linux-media/patch/2074ba5a5d05e23=
-9f432d176eb051105f7e692f9.camel@collabora.com/
-> >=20
-> > And Hans/Mauro did logistic on the #linux-maint IRC channel this mornin=
-g. I
-> > believe I've marked all the relevant patches on patchwork our of "New" =
-state
-> > and
-> > you have my Rb. What else would help you ?
->=20
-> That's fine then, I did not mean to seem impatient. I assume
-> the original patches will be in linux-next then, and [v2 2/2]
-> will conflict. I'll let you review that one first, but can
-> send a rebased version if you think we should merge it on top.
-
-It will first reach media media-fixes (and not media-next, to avoid duplica=
-ting
-the patches), but I have no idea if someone picks from media-fixes into lin=
-ux-
-next. I recall there was a gap to be fixed in this "pre-integration" proces=
-s.
-Though, patch from fixes reaches RCs quickly, which are linux-next base.
-
-Now, concurrently, Detlev is working on removing the bitfield for the RPS, =
-and
-the SPS will come later. Perhaps you want to sync to make sure we don't jus=
-t
-cancel out the work.
-
-To solve the patch conflict issue, you can work on top of your existing ser=
-ies
-(just put a comment in the cover). I'll request a merge of rc2 / rc3 into m=
-edia-
-next, before I pick it up.
-
-regards,
-Nicolas
-
---=-2kH2WREimXA5rID0isEA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaanOvQAKCRDZQZRRKWBy
-9HEEAP9SxgfNdzeWxoTFoO7BIW/dGlPesVcMOtlIL7jliydbcgD+IVKhK0U8Xtik
-CKB7l0ZE/DrTnjCzPM7uHg1CaqNjXwM=
-=SWbL
------END PGP SIGNATURE-----
-
---=-2kH2WREimXA5rID0isEA--
+>   */
+>  int v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
+>  			       struct v4l2_fwnode_endpoint *vep);
+> @@ -276,8 +277,9 @@ void v4l2_fwnode_endpoint_free(struct v4l2_fwnode_endpoint *vep);
+>   *
+>   * Return: %0 on success or a negative error code on failure:
+>   *	   %-ENOMEM on memory allocation failure
+> - *	   %-EINVAL on parsing failure, including @fwnode == NULL
+> + *	   %-EINVAL on parsing failure
+>   *	   %-ENXIO on mismatching bus types
+> + *	   %-EPROBE_DEFER on NULL or error @fwnode
+>   */
+>  int v4l2_fwnode_endpoint_alloc_parse(struct fwnode_handle *fwnode,
+>  				     struct v4l2_fwnode_endpoint *vep);
+> --
+> 2.47.3
+>
 
