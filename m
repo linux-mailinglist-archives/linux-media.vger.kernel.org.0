@@ -1,191 +1,163 @@
-Return-Path: <linux-media+bounces-54625-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54626-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wGv1OHhxqWnH7AAAu9opvQ
-	(envelope-from <linux-media+bounces-54625-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 13:05:12 +0100
+	id RD4HCaVzqWl77wAAu9opvQ
+	(envelope-from <linux-media+bounces-54626-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 13:14:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FC0721135F
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 13:05:11 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A870521166B
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 13:14:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6F5EB30CD933
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 12:04:27 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 147F63029AA4
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 12:14:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B64673074AE;
-	Thu,  5 Mar 2026 12:04:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A38539659E;
+	Thu,  5 Mar 2026 12:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="paod7/ON"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E6qnQQKY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1118321ABC9;
-	Thu,  5 Mar 2026 12:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F304F395DB8;
+	Thu,  5 Mar 2026 12:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772712265; cv=none; b=KbliITki7uMtfzWXwgyrJFDt3kx5ym1kqU/oIa9DQURHhxfuejuF7U7GgMyuseSNhuJFx3NnBTntUfS75sws3sQjDCvJElrKkQhs+kPl/4VIGxKdnC0+9LMCD2PjHP2i/8lGoWDaM07JYQGIXfpFt3BzgRA/tMsIg5fqSbwXQpA=
+	t=1772712854; cv=none; b=Gf7VE6J42XtoTy65EvWPMvs1dIuaURDDcn6PEhjy+gcnxfjGZ63gaBKT35BAGGVOyxdnDDtzcM+QsQdq/LgHsr0n7dAs7iUBHMs0LdldELaj9J4kgMhSkuPg89aTuW2lxddVuQrgq6YTihgXakIrS5ayYAczVk2V2LJT76RHa9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772712265; c=relaxed/simple;
-	bh=8lb0JikjFw000yfEY9T0tVhVJv64G4s9OgYKgvPLq7Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n/mGD+1CdPmPqTQvxkFzU3oj7tTfUAU0xJxfOn7G1HZfIhltHO6iznkD6yowR/RUOWhghal1Rrx2MyjQXcGZb07p+40451O7cmKhhzkng/GJgC5P7BycnESYzNoT5/ykf/bcIgffrGSOPAMp2ulseUG8WW64NMKEVlG5eDdD31E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=paod7/ON; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFEF3C116C6;
-	Thu,  5 Mar 2026 12:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772712264;
-	bh=8lb0JikjFw000yfEY9T0tVhVJv64G4s9OgYKgvPLq7Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=paod7/ONRccNk2YBivmahOlJvWBcy+Yikb6NgV40ON5FCjsemhRmqO3FWLdW1kaqG
-	 FZ1pozwP9EKiNxixfjEJ7jTOFVjzDUKeOH6hth+oL67l5tdTo5MWMrk0xZLbV8WPSf
-	 MESJmCiwg0e3f8rDk354gFbOhviyK3EIr7yEcXWrQBeqrEwLk7/nD8so1vDH47+9E9
-	 mR5nzHr9Y+gdaC4eTtO/3lcRanrZodQ1inWqThNLtgbeYov7icTZ6U7LHj/1BciqIr
-	 SUb9Y12nyR5gSs1qWxBwikCGphbXU/wnxDvQUXEV1ybLaKpE0r9/UgV9QDyRGa5uoU
-	 qKURfu10cp4Bg==
-Message-ID: <4eaae784-3730-4a9b-a94d-d0343c6b31c7@kernel.org>
-Date: Thu, 5 Mar 2026 13:04:16 +0100
+	s=arc-20240116; t=1772712854; c=relaxed/simple;
+	bh=d7P3UBDfkNE3lbDPnmS11IFvwvW2sxYmXxuua2dcFHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gZquMcGschyLN5UtLbN2tnxAq9wPyT0keHKn4fqNoSgluTCCGHpZ0rvm5nvWu+eMNqPkWrmUG22CcgQ1UhXGVxAZCTj/a2KfJS7XOAn0yxxmkJr5fy+ZirZE+z6eoLtuUdZiYYkq8VnMOm5QWwF4LoMC5nlliGivrw3E5Py0fls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E6qnQQKY; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (85-76-15-90-nat.elisa-mobile.fi [85.76.15.90])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 159A7802;
+	Thu,  5 Mar 2026 13:13:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1772712787;
+	bh=d7P3UBDfkNE3lbDPnmS11IFvwvW2sxYmXxuua2dcFHY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E6qnQQKYvTYRS+oPGK9LcXoQL/WXH4S9JOK3pOEoQFXPGd5G4z0CufYM+DPr/We9S
+	 bo1iNMM4HsfndHTfWQhqRoHWwvt5JKKWUrlkG2kS0/0La6ItceTIZDGs+8MKDtN0DB
+	 fM7GJKDVczdBwIq7FF/DMPtDIM/DaUS+JRMjYIGs=
+Date: Thu, 5 Mar 2026 13:14:08 +0100
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v6 1/2] media: uapi: Clarify MBUS color component order
+ for serial buses
+Message-ID: <20260305121408.GA208179@killaraus.ideasonboard.com>
+References: <20260217-csi-bgr-rgb-v6-0-064607effe42@redhat.com>
+ <20260217-csi-bgr-rgb-v6-1-064607effe42@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: verisilicon: Fix kernel panic due to
- __initconst misuse
-To: Marco Felsch <m.felsch@pengutronix.de>, ming.qian@oss.nxp.com
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
- benjamin.gaignard@collabora.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, sebastian.fricke@collabora.com,
- shawnguo@kernel.org, ulf.hansson@linaro.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, fra.schnyder@gmail.com,
- linux-imx@nxp.com, l.stach@pengutronix.de, Frank.li@nxp.com,
- peng.fan@nxp.com, eagle.zhou@nxp.com, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20260305100149.722-1-ming.qian@oss.nxp.com>
- <azwbgxp4pl3m6klyvd5htmy7h7pc76nqvvgmi6pudvfl7zippl@svv7tiibyrci>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <azwbgxp4pl3m6klyvd5htmy7h7pc76nqvvgmi6pudvfl7zippl@svv7tiibyrci>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 3FC0721135F
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260217-csi-bgr-rgb-v6-1-064607effe42@redhat.com>
+X-Rspamd-Queue-Id: A870521166B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54625-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54626-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,xs4all.nl,ndufresne.ca,collabora.com,pengutronix.de,linaro.org,gmail.com,nxp.com,lists.linux.dev,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:email,nxp.com:email,toradex.com:email,pengutronix.de:email]
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,killaraus.ideasonboard.com:mid]
 X-Rspamd-Action: no action
 
-On 05/03/2026 11:32, Marco Felsch wrote:
-> On 26-03-05, ming.qian@oss.nxp.com wrote:
->> From: Ming Qian <ming.qian@oss.nxp.com>
->>
->> Fix a kernel panic when probing the driver as a module:
->>
->>   Unable to handle kernel paging request at virtual address
->>   ffffd9c18eb05000
->>   of_find_matching_node_and_match+0x5c/0x1a0
->>   hantro_probe+0x2f4/0x7d0 [hantro_vpu]
->>
->> The imx8mq_vpu_shared_resources array is referenced by variant
->> structures through their shared_devices field. When built as a
->> module, __initconst causes this data to be freed after module
->> init, but it's later accessed during probe, causing a page fault.
->>
->> The imx8mq_vpu_shared_resources is referenced from non-init code,
->> so keeping __initconst or __initconst_or_module here is wrong.
->>
->> Drop the __initconst annotation and let it live in the normal .rodata
->> section.
->>
->> Fixes: e0203ddf9af7 ("media: verisilicon: Avoid G2 bus error while decoding H.264 and HEVC")
->> Reported-by: Franz Schnyder <franz.schnyder@toradex.com>
->> Closes: https://lore.kernel.org/all/n3qmcb62tepxltoskpf7ws6yiirc2so62ia23b42rj3wlmpl67@rvkbuirx7kkp/
->> Suggested-by: Marco Felsch <m.felsch@pengutronix.de>
+On Tue, Feb 17, 2026 at 09:38:57AM +0100, Maxime Ripard wrote:
+> The subdev format documentation has a subsection describing how to use
+> the media bus pixel codes for serial buses. While it describes the
+> sampling part well, it doesn't really describe the current convention
+> used for the components order.
 > 
-> This fix was suggested by Krzysztof :)
+> Let's improve that.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  .../userspace-api/media/v4l/subdev-formats.rst        | 19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index cf970750dd4c6ab32274f75453390eb8148ef3c6..6d57c325ffa506fd57dad0845c9a742fd199a6f0 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -157,18 +157,21 @@ memory.
+>  While there is a relationship between image formats on buses and image
+>  formats in memory (a raw Bayer image won't be magically converted to
+>  JPEG just by storing it to memory), there is no one-to-one
+>  correspondence between them.
+>  
+> -The media bus pixel codes document parallel formats. Should the pixel data be
+> -transported over a serial bus, the media bus pixel code that describes a
+> -parallel format that transfers a sample on a single clock cycle is used. For
+> -instance, both MEDIA_BUS_FMT_BGR888_1X24 and MEDIA_BUS_FMT_BGR888_3X8 are used
+> -on parallel busses for transferring an 8 bits per sample BGR data, whereas on
+> -serial busses the data in this format is only referred to using
+> -MEDIA_BUS_FMT_BGR888_1X24. This is because there is effectively only a single
+> -way to transport that format on the serial busses.
+> +While the media bus pixel codes are named based on how pixels are
+> +transmitted on parallel buses, serial buses do not define separate
+> +codes. By convention, they use the codes that transfer a sample on a
+> +single clock cycle. and whose names correspond to the order in which
 
-Or at least a bug of __initconst called from regular non-init probe code
-leading to bugs during probe deferrals or during unbind-bind cycles...
+s/cycle./cycle,/
 
-Closes:
-https://lore.kernel.org/all/68ef934f-baa0-4bf6-93d8-834bbc441e66@kernel.org/
-Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+I would write "bit orders from LSB to MSB" instead of "names", as in the
+example below the "name" contains "RGB" but the described order is blue,
+green, red.
 
-?
+> +colour components are transmitted on the serial bus. For instance, the
+> +MIPI CSI-2 24-bit RGB (RGB888) format uses the MEDIA_BUS_FMT_RGB888_1X24
+> +media bus code because CSI-2 transmits the blue colour component first,
+> +followed by green and red, and MEDIA_BUS_FMT_RGB888_1X24 defines the
+> +first bit of blue at index 0. While used for 24-bit RGB data on parallel
 
-Best regards,
-Krzysztof
+s/index 0/bit 0/
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +buses, the MEDIA_BUS_FMT_RGB888_3X8 or MEDIA_BUS_FMT_BGR888_1X24 codes
+> +must not be used for CSI-2.
+>  
+>  Packed RGB Formats
+>  ^^^^^^^^^^^^^^^^^^
+>  
+>  Those formats transfer pixel data as red, green and blue components. The
+
+-- 
+Regards,
+
+Laurent Pinchart
 
