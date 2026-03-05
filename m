@@ -1,273 +1,163 @@
-Return-Path: <linux-media+bounces-54572-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54574-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPPpLZ48qWkd3QAAu9opvQ
-	(envelope-from <linux-media+bounces-54572-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:19:42 +0100
+	id 6LibMQs8qWkd3QAAu9opvQ
+	(envelope-from <linux-media+bounces-54574-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:17:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3208420D5CA
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:19:42 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAE120D540
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:17:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DC0DE30792EC
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 08:15:24 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 485EF3015B4A
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 08:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B0FC367F53;
-	Thu,  5 Mar 2026 08:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13321372B40;
+	Thu,  5 Mar 2026 08:17:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAIpEvbj"
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="rnCTp5Kw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic314-21.consmr.mail.ir2.yahoo.com (sonic314-21.consmr.mail.ir2.yahoo.com [77.238.177.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113E1366DD2;
-	Thu,  5 Mar 2026 08:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8CB372B2A
+	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 08:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772698523; cv=none; b=GZYzgraUh0zTlr8E0dAXVYQcItH3VQcfpPfgX4NmlwUnFlOrcs/9iNTDhjInVupVIZUkHtAJglpRfsgqI7d3o6mQiPFr1a8o7s/Z8WQRkki0cF+ZxPpNetjMHuQ8tpy7UjA54e7LOuEH+XPsa4oc/KaRwKDVBHZ9lcN1cG7Lc1E=
+	t=1772698630; cv=none; b=pQYLWtyLy5mwNIzbNPl8kdCnsXVLB2Vj0zpqnMaPu+0wKKYIiaSdxfSHsg/Jyb5Z0Y37cxkfZ5qVTE8wAuXUmCQlzXH+e+rqRPD8UCKHL9qyXussgIwQTtsQPWFc/x0czNcOV/jUn1Is2YYRLiBzPjfEuaxFiLJZ2fwYz86Fny0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772698523; c=relaxed/simple;
-	bh=8KPx2FOKvTSlvcR2tpuaBA7uVSpJ+rhvxD7w+CnbLQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cKTCfu5fYGlTaZuYmTF2/UX0BGez330BAhEh8AMFM1t7EzEKs9H7zpPxTnVcBCq4aZQ34aDT2ad099koYsqBvvbW3HOuCG1x8uYnFq1BINdzOY2j30E6TR+KfJANk3m2yw0bmY/WZLnU7JeUFQ35FNYv5soobSLrAAkSmmwbyc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAIpEvbj; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772698522; x=1804234522;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8KPx2FOKvTSlvcR2tpuaBA7uVSpJ+rhvxD7w+CnbLQE=;
-  b=dAIpEvbjMPEV0XYXMCR3vqZVlpqX/KgB5Xy+P2SSvF/9qg6IidccD29s
-   9H+ncyQrWgeeMLHi6DQPNza8HDvgxdzlz60z5eo1xSSTTWwkUZFrYbs1s
-   15FK4sVotNz9JBW/DF6d8qlBgmcLi+rd4f8Otf0lYa0yK4Sx7zr14SKA9
-   lnVVUPe/7OLfpyiZmbB+lKghf3yGqJOIU95dNgv6tvZfYaxVtstPU+1jd
-   TBOxaEYo/wGxcYdZBneDSg78SEd+oh0ZDyEdDpCuekNy4XCN2kcYYI+wm
-   kMdCp1MiQrY1DFTeVNTdQwOYc3Efry+tCBIT7lpds36W+CMDor7/Zx5Np
-   g==;
-X-CSE-ConnectionGUID: VttncGR5TtmeaShx9m9zMA==
-X-CSE-MsgGUID: gb0Nck54RfCiEyPky+juUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="76380872"
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="76380872"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:15:21 -0800
-X-CSE-ConnectionGUID: M2KleSAvT7S4HNnQrB642Q==
-X-CSE-MsgGUID: wWvAKrerR9a9wcx48XuvSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="218616034"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.65])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:15:19 -0800
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 99B85120CA3;
-	Thu, 05 Mar 2026 10:15:47 +0200 (EET)
-Date: Thu, 5 Mar 2026 10:15:47 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bogdan Sandu <bogdanelsandu2011@gmail.com>
-Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, mchehab@kernel.org,
-	tian.shu.qiu@intel.com
-Subject: Re: [PATCH v2 1/4] media: ipu3: fix alignment
-Message-ID: <aak7s0qFNf4xgNhZ@kekkonen.localdomain>
-References: <2026020258-very-numbly-b36b@gregkh>
- <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
- <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
+	s=arc-20240116; t=1772698630; c=relaxed/simple;
+	bh=YCa/TJQBt96jMvpwMqcm7weSxOOkzA7Fy2jkcpLJVik=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=NdJKb2Vxkzq1I2GyUdwM4a+2So/NU4oxGYXQGn7MdC1DIQrLstttB8SA52A99Yej2LSX5fvdsQopFrY/DRdNooHRW4lxAXm7224Icfh8uih0FSamYvn1A+kiCfnj3g81c3mMKiTreaWETlctgNCqvJDRcyEUeFNYaw6WI80fPQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=rnCTp5Kw; arc=none smtp.client-ip=77.238.177.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1772698626; bh=PdDOFFB2I5onOmV6EB3F5buviiEtkMpLIexbjAIWTkY=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=rnCTp5KwLddAXSwHzSNwDwdi/TEmxjuatYYvTQ/gJdrUjdL99M58AWrV7nBSEoPsAuqnjzmWdNfUwYpqcodXJ4+9wcLRxZhYP6MsYM4faxkL+6n2nVHcPUAVBTdpyK2/Og1WE2G8L4eggiW2HNeYGbGz5NsQUlh2K4KF3Ox7oMfCq04UppRYP3ASAANcWx4T6aFquTxE7ZgMjzkbv9sd/fLx+sqAa/guSVKqEvahBxms7MxdgBiSTYC90+wSngEHGUqp9RfppeV8y+Zg0WwUUOe20B++rQBSQ33+8GELAwg+dhj1mxmBFEfr/EG02ktNc8sIe2zB/rZtrt569UdYcw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772698626; bh=LopXSQqr7w0I/YYOcASI7lBBOsMUd3zxcenfdgTPK0Y=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=tzM86072G/OTb/DkrgrkWPm9R1YfDreg/2GXL8bMA2cVIgABqUrQ5V15EjuU3hUxikBUDdD+oItVpTCZ1lt4wgP9Jvzw0lScCP1KM6qPOO+4WKf71TR2WwxVsVTD+pcnzND18fI0EIskAvovXexHiar/aClqmlsRHEpb0u2LrM3o9QDAD26jE3ocqhSp2Xs9AvjB6A+1+qRg85ZW8qtuwQNG2WpiMjFjP1FxCc17SsQWaaNPnoZudqEjr4qfDVTmwophmAq0hQAhkBYSo8Y8ptMY803NVDXU4WAEihn4Bprb/a9klm50vHVB+6TZcy13aUEv2y69p32BneeJQ5LH/w==
+X-YMail-OSG: Z6.kg5EVM1l6wk5tkHJcp7O1187KVlB_PhrAE3yCaxViTvZx4bJQH.DDpxLcHjE
+ d_NrH3Hg17VtE.djbXNYwU4UmL2du0AtdcHG8V_MjwUuveuReDBXX2i8Hw4UsBsmhP.VZPwT9z6b
+ X7bEKdlFt3sVZTS5v4PDGX7G8movw0X9S3k3nLnv3HKE8YY16yqktqhn3XqtwBEm23.MJeSC9OEI
+ PN0dQYWg6yn57XfrRpCpQOJ5AAhp_azWvsloLBoPcAX6p0RY7C5Ge4cYzIdsszHy5r2MEanps_IC
+ L1vTniBfqYMaKsn_Rr.abVj_HaSfCn9najk8mqSD01GIaigAwUaVGSP5x3CCQIAA0yycAGGQn2lZ
+ k7Hy2woblnTbPltNULIjq7w8hOxWay4moZtBHQcGIjh0FIlhMhmmtVWAipGY5z7KoclChEzQJ3L0
+ VxSyHSb7S9TIeGpF6IBw3TlJrK8AikzLX9lGGRwrItV.LVIQyMSLWqesvZtxOhYsIJOAwy2XeY5J
+ rvbwpCJyiKDdG9oxNK9u7W9mYJHPtTvU2FikMMxxqmVyg8PMOZPy3.SSWHjMAg76_Wp6eVlrnTCY
+ F322pfJaOG.pKSHDURqb416xAkAgpblQ4QvORQXFPSDf8MQjzOKKUYQ.FDeZhAJDgvvvsNjG30ac
+ Ye7Md2vkChQRJTVhIdVtkMqMf7yYJd32PuzLk54OSF_htgfpcyfFpqFbeUE5n7zki_5ZIL_Wt5bZ
+ P9EZeMOaTeD6bKtiqsg06VInIUPrhyXziwAFICmkppOtG1fyjqAleR6dAxMQa_GqXoVDPArHdaMV
+ 47MvydvuYF9TMFHD8AJo1qQw79caRXlECvAgflvqk3khEea59nJGWa8BQKvwk6H9sChYaw_WlbpJ
+ sMvv0oVEbysu86dTRVkkUBZQzFAe9MQTVGfAXpQrj23.Z_K5xpP65ToIcKEIrsHahwlxxidlKocQ
+ 3l2WWgMDZbiWuZUNXwYn_B0qV7nHr0.Z_erYGmcr96CNmY0Ii95ADR0rwbDQLYTlrR5hCwFIXznM
+ nffFBQYuQZj7VARrC9YwLjIJ04ZekL0W2MdENtdjQd4HegvQkSwcvUlvLqwqr6L9C29kwkfGIXGR
+ O11_F5vmoUNlly__Q9hmDfH0R.1UGUXD5s_FOKZ_5DXvh5Ai5JmXs1BmRQ85YmBph1GoBCPGSSi2
+ LcW4Jzzx.wPGKNU251Jew2086teOszxKXQtup_gcr8L_RCXVCiREGNdjsHeSqz2HHCCKa9pIeHFK
+ 2F.GcagPbuQhaqaenoyQ_qns8TRvrKFY0MeITzDyW.e5R9k53FQcEGwzdNBtxzPKfSZf.B4pRC8C
+ cs7c8FezKQEfDv3fWzUz6ocHwDWPrTgHSHAhAv5NcQGI5W.hJWAzdIpBUY7BX1Tqa74tVMfuoy7V
+ aQTkU7KYWjeFylMc_s3WlrRtGXP7bKK.hlmQMccH.iVRu36TKWzqWPZGS8QAmXBkFgbdp4YUMsfx
+ vAlxo3SoWVTIIIKrb.xK5fdAjnFWc4yMcJBS7aRIRUtWu3zqiwq121LEQKUswBqn0UkMMyCYe7GY
+ HnbY0U4FCZ.RjOS2PmZzhw1MgxblZeC0sB8y.u4.QYo8mgy3gYvwYQKvP1dXb1_Gt5eupkw_XHA8
+ xF25_7I4K0vgy89rbIzwI2NkEVZmfmr2rjXdw4qGSL3ovEImp4ounGPqA9KDI9dpdOvXSUWjuiUg
+ 3UgIjQm41CGlPXCo8qHQKDcKAt1twUmfwisL1TNz7xurfUGR_6mOPvz8HKFI9139I3C5MkYek6IE
+ dEll9XpdAzKbtCsxKn6AJq4WjdK0_FcGaSPb3BPOc6hepwHW_o9TUFAf6IuAzCqWZuFYcgIWDTHL
+ .BK9r.7102xIjUEB0DpT_9lnr1OA8xL8ojxHHYVjzPyJsIvrh1sPb2cl5psePdkV2o9d_VvHU38P
+ ILGt16wFvwLR0JKpLRSI5C3hTNf_LyqdcNtcUcuLguRMXBmPmUJx.hy_IVVYKMcUeCUCF0tz6ffF
+ TqwmBAjCdNZCPctsbIj61q7w4Dhd6rW37Ou17rBYSNwcIK8SxXOfLrgirJVXhKHUkPfQbETNj3H1
+ SVn_Fi9MYAH8PqVOkJ9Q5VDo0gDLhU1eA5GD1Ss4D8EwvMzr8Am077G3xjxcTVs8tMY4aDmVbBcX
+ nfucyGYBieC76GDcoGaNyOLrvWetp6A1Fyvo.WGsdkE1w0UkzTBiKROiDLWQ7QCMy.Kxv.SyleXP
+ sCcUOCWhPjnMzWIWzSliFShTVTT3_MyWyg_Zry.xRkYtzL2uQJyi5JIGAi275Y_GwWcGX7PVMhN5
+ 4t5rNM0usRNKziPxyGF1LWWs7lh4z
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: fa912505-ab7b-482a-9ee0-e1ab69e5c18b
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ir2.yahoo.com with HTTP; Thu, 5 Mar 2026 08:17:06 +0000
+Received: by hermes--production-ir2-bbcfb4457-5fg9x (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d2d86c5442443a9a53b79688de94805a;
+          Thu, 05 Mar 2026 08:17:02 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Thu, 05 Mar 2026 09:16:41 +0100
+Subject: [PATCH] staging: atomisp: Remove unnecessary return statement in
+ void function
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
-X-Rspamd-Queue-Id: 3208420D5CA
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260305-atomisp-remove-void-return-v1-1-9f8672949f1b@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQ5AMBBA0avIrE1SRIWriEW1g1loZUojEXfX2
+ P23+Q9EEqYIQ/GAUOLIwWdUZQF2M34lZJcNtaq1alSL5gw7xwOF9pAIU2CX+7zEo9XOzY22XWV
+ 6yINDaOH7n4/T+36rHE1SbAAAAA==
+X-Change-ID: 20260305-atomisp-remove-void-return-c6ddb36c71a9
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.14.3
+References: <20260305-atomisp-remove-void-return-v1-1-9f8672949f1b.ref@yahoo.pl>
+X-Rspamd-Queue-Id: 6FAE120D540
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54572-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.983];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,yahoo.pl];
+	TAGGED_FROM(0.00)[bounces-54574-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim,kekkonen.localdomain:mid]
+	DKIM_TRACE(0.00)[yahoo.pl:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[yahoo.pl];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,checkpatch.pl:url]
 X-Rspamd-Action: no action
 
-Hi Bogdan,
+Remove redundant 'return;' at the end of void function
+ia_css_dvs_statistics_get(). Void functions do not need an explicit
+return statement at the end. No other occurrences in this file.
 
-On Mon, Feb 02, 2026 at 07:50:30PM +0200, Bogdan Sandu wrote:
-> Fix alignment with parentheses.
-> 
-> Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
-> ---
->  drivers/staging/media/ipu3/ipu3-css.c  | 22 +++++++++++-----------
->  drivers/staging/media/ipu3/ipu3-v4l2.c | 11 +++++------
->  drivers/staging/media/ipu3/ipu3.c      |  4 ++--
->  3 files changed, 18 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
-> index 777cac1c2..145501e90 100644
-> --- a/drivers/staging/media/ipu3/ipu3-css.c
-> +++ b/drivers/staging/media/ipu3/ipu3-css.c
-> @@ -118,7 +118,8 @@ static const struct {
->  
->  /* Initialize queue based on given format, adjust format as needed */
->  static int imgu_css_queue_init(struct imgu_css_queue *queue,
-> -			       struct v4l2_pix_format_mplane *fmt, u32 flags)
-> +			       struct v4l2_pix_format_mplane *fmt,
-> +			       u32 flags)
+Found with checkpatch.pl --strict.
 
-Why?
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+ drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 1 -
+ 1 file changed, 1 deletion(-)
 
->  {
->  	struct v4l2_pix_format_mplane *const f = &queue->fmt.mpix;
->  	unsigned int i;
-> @@ -1241,6 +1242,7 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
->  	css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height =
->  				ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].height,
->  				      IMGU_DVS_BLOCK_H) + 2 * IMGU_GDC_BUF_Y;
-> +
->  	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height;
->  	w = ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].width,
->  		  2 * IPU3_UAPI_ISP_VEC_ELEMS) + 2 * IMGU_GDC_BUF_X;
-> @@ -1248,10 +1250,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
->  		css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].bytesperpixel * w;
->  	size = w * h * BYPC + (w / 2) * (h / 2) * BYPC * 2;
->  	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
-> -		if (imgu_css_dma_buffer_resize(
-> -			imgu,
-> -			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
-> -			size))
-> +		if (imgu_css_dma_buffer_resize(imgu,
-> +					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
-> +					       size))
->  			goto out_of_memory;
->  
->  	/* TNR frames for temporal noise reduction, FRAME_FORMAT_YUV_LINE */
-> @@ -1269,10 +1270,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
->  	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].height;
->  	size = w * ALIGN(h * 3 / 2 + 3, 2);	/* +3 for vf_pp prefetch */
->  	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
-> -		if (imgu_css_dma_buffer_resize(
-> -			imgu,
-> -			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
-> -			size))
-> +		if (imgu_css_dma_buffer_resize(imgu,
-> +					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
-> +					       size))
->  			goto out_of_memory;
->  
->  	return 0;
-> @@ -2036,7 +2036,7 @@ struct imgu_css_buffer *imgu_css_buf_dequeue(struct imgu_css *css)
->  				     struct imgu_css_buffer, list);
->  		if (queue != b->queue ||
->  		    daddr != css_pipe->abi_buffers
-> -			[b->queue][b->queue_pos].daddr) {
-> +		    [b->queue][b->queue_pos].daddr) {
->  			spin_unlock(&css_pipe->qlock);
->  			dev_err(css->dev, "dequeued bad buffer 0x%x\n", daddr);
->  			return ERR_PTR(-EIO);
-> @@ -2169,7 +2169,7 @@ int imgu_css_set_parameters(struct imgu_css *css, unsigned int pipe,
->  		map = imgu_css_pool_last(&css_pipe->pool.acc, 1);
->  		/* user acc */
->  		r = imgu_css_cfg_acc(css, pipe, use, acc, map->vaddr,
-> -			set_params ? &set_params->acc_param : NULL);
-> +				     set_params ? &set_params->acc_param : NULL);
->  		if (r < 0)
->  			goto fail;
->  	}
-> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> index 2f6041d34..8ebfcddab 100644
-> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-> @@ -245,9 +245,9 @@ static int imgu_subdev_set_selection(struct v4l2_subdev *sd,
->  	struct v4l2_rect *rect;
->  
->  	dev_dbg(&imgu->pci_dev->dev,
-> -		 "set subdev %u sel which %u target 0x%4x rect [%ux%u]",
-> -		 imgu_sd->pipe, sel->which, sel->target,
-> -		 sel->r.width, sel->r.height);
-> +		"set subdev %u sel which %u target 0x%4x rect [%ux%u]",
-> +		imgu_sd->pipe, sel->which, sel->target,
-> +		sel->r.width, sel->r.height);
->  
->  	if (sel->pad != IMGU_NODE_IN)
->  		return -EINVAL;
-> @@ -288,7 +288,7 @@ static int imgu_link_setup(struct media_entity *entity,
->  	WARN_ON(pad >= IMGU_NODE_NUM);
->  
->  	dev_dbg(&imgu->pci_dev->dev, "pipe %u pad %u is %s", pipe, pad,
-> -		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
-> +		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
->  
->  	imgu_pipe = &imgu->imgu_pipe[pipe];
->  	imgu_pipe->nodes[pad].enabled = flags & MEDIA_LNK_FL_ENABLED;
-> @@ -303,7 +303,7 @@ static int imgu_link_setup(struct media_entity *entity,
->  		__clear_bit(pipe, imgu->css.enabled_pipes);
->  
->  	dev_dbg(&imgu->pci_dev->dev, "pipe %u is %s", pipe,
-> -		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
-> +		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
->  
->  	return 0;
->  }
-> @@ -750,7 +750,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
->  		} else {
->  			fmts[i] = &imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp;
->  		}
-> -
->  	}
->  
->  	if (!try) {
-> diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-> index bdf5a4577..c33186208 100644
-> --- a/drivers/staging/media/ipu3/ipu3.c
-> +++ b/drivers/staging/media/ipu3/ipu3.c
-> @@ -151,7 +151,7 @@ static int imgu_dummybufs_init(struct imgu_device *imgu, unsigned int pipe)
->  
->  /* May be called from atomic context */
->  static struct imgu_css_buffer *imgu_dummybufs_get(struct imgu_device *imgu,
-> -						   int queue, unsigned int pipe)
-> +						  int queue, unsigned int pipe)
->  {
->  	unsigned int i;
->  	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
-> @@ -774,7 +774,7 @@ static int __maybe_unused imgu_suspend(struct device *dev)
->  	synchronize_irq(pci_dev->irq);
->  	/* Wait until all buffers in CSS are done. */
->  	if (!wait_event_timeout(imgu->buf_drain_wq,
-> -	    imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
-> +				imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
->  		dev_err(dev, "wait buffer drain timeout.\n");
->  
->  	imgu_css_stop_streaming(&imgu->css);
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+index 9ccdb66de2df..3d2cb2d25fdb 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+@@ -269,5 +269,4 @@ ia_css_dvs_statistics_get(enum dvs_statistics_type type,
+ 		ia_css_get_dvs2_statistics(host_stats->p_dvs2_statistics_host,
+ 					   isp_stats->p_dvs_statistics_isp);
+ 	}
+-	return;
+ }
 
+---
+base-commit: 6c2f9cfe611cf4ea666b8fa1153b3c4979ea4fa0
+change-id: 20260305-atomisp-remove-void-return-c6ddb36c71a9
+
+Best regards,
 -- 
-Regards,
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
-Sakari Ailus
 
