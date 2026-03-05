@@ -1,163 +1,149 @@
-Return-Path: <linux-media+bounces-54574-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54573-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6LibMQs8qWkd3QAAu9opvQ
-	(envelope-from <linux-media+bounces-54574-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:17:15 +0100
+	id 0PnXDd07qWld3QAAu9opvQ
+	(envelope-from <linux-media+bounces-54573-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:16:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAE120D540
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:17:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED21320D528
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:16:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 485EF3015B4A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 08:17:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6C47830439DA
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 08:16:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13321372B40;
-	Thu,  5 Mar 2026 08:17:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A59C3372B47;
+	Thu,  5 Mar 2026 08:16:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="rnCTp5Kw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QtZHoXYF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic314-21.consmr.mail.ir2.yahoo.com (sonic314-21.consmr.mail.ir2.yahoo.com [77.238.177.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8CB372B2A
-	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 08:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64DA7372B2D;
+	Thu,  5 Mar 2026 08:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772698630; cv=none; b=pQYLWtyLy5mwNIzbNPl8kdCnsXVLB2Vj0zpqnMaPu+0wKKYIiaSdxfSHsg/Jyb5Z0Y37cxkfZ5qVTE8wAuXUmCQlzXH+e+rqRPD8UCKHL9qyXussgIwQTtsQPWFc/x0czNcOV/jUn1Is2YYRLiBzPjfEuaxFiLJZ2fwYz86Fny0=
+	t=1772698583; cv=none; b=LivPzfla1ZLUGXWAR/vjX4CX/6VIZwOnw8Y6PPDhLcHIZA+zPHQIE1RI26xJEw+Y34JY0gyTcWjrhkFWXFMfRpsY9GHFwx6HufaU4OS3rk7EsM77mT2hjBBqXHbwhLOJ17Vi2bkt97T/RZCTKLoZ5o+Ssq/9hN/4C7FOqbxpQj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772698630; c=relaxed/simple;
-	bh=YCa/TJQBt96jMvpwMqcm7weSxOOkzA7Fy2jkcpLJVik=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=NdJKb2Vxkzq1I2GyUdwM4a+2So/NU4oxGYXQGn7MdC1DIQrLstttB8SA52A99Yej2LSX5fvdsQopFrY/DRdNooHRW4lxAXm7224Icfh8uih0FSamYvn1A+kiCfnj3g81c3mMKiTreaWETlctgNCqvJDRcyEUeFNYaw6WI80fPQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=rnCTp5Kw; arc=none smtp.client-ip=77.238.177.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1772698626; bh=PdDOFFB2I5onOmV6EB3F5buviiEtkMpLIexbjAIWTkY=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=rnCTp5KwLddAXSwHzSNwDwdi/TEmxjuatYYvTQ/gJdrUjdL99M58AWrV7nBSEoPsAuqnjzmWdNfUwYpqcodXJ4+9wcLRxZhYP6MsYM4faxkL+6n2nVHcPUAVBTdpyK2/Og1WE2G8L4eggiW2HNeYGbGz5NsQUlh2K4KF3Ox7oMfCq04UppRYP3ASAANcWx4T6aFquTxE7ZgMjzkbv9sd/fLx+sqAa/guSVKqEvahBxms7MxdgBiSTYC90+wSngEHGUqp9RfppeV8y+Zg0WwUUOe20B++rQBSQ33+8GELAwg+dhj1mxmBFEfr/EG02ktNc8sIe2zB/rZtrt569UdYcw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1772698626; bh=LopXSQqr7w0I/YYOcASI7lBBOsMUd3zxcenfdgTPK0Y=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=tzM86072G/OTb/DkrgrkWPm9R1YfDreg/2GXL8bMA2cVIgABqUrQ5V15EjuU3hUxikBUDdD+oItVpTCZ1lt4wgP9Jvzw0lScCP1KM6qPOO+4WKf71TR2WwxVsVTD+pcnzND18fI0EIskAvovXexHiar/aClqmlsRHEpb0u2LrM3o9QDAD26jE3ocqhSp2Xs9AvjB6A+1+qRg85ZW8qtuwQNG2WpiMjFjP1FxCc17SsQWaaNPnoZudqEjr4qfDVTmwophmAq0hQAhkBYSo8Y8ptMY803NVDXU4WAEihn4Bprb/a9klm50vHVB+6TZcy13aUEv2y69p32BneeJQ5LH/w==
-X-YMail-OSG: Z6.kg5EVM1l6wk5tkHJcp7O1187KVlB_PhrAE3yCaxViTvZx4bJQH.DDpxLcHjE
- d_NrH3Hg17VtE.djbXNYwU4UmL2du0AtdcHG8V_MjwUuveuReDBXX2i8Hw4UsBsmhP.VZPwT9z6b
- X7bEKdlFt3sVZTS5v4PDGX7G8movw0X9S3k3nLnv3HKE8YY16yqktqhn3XqtwBEm23.MJeSC9OEI
- PN0dQYWg6yn57XfrRpCpQOJ5AAhp_azWvsloLBoPcAX6p0RY7C5Ge4cYzIdsszHy5r2MEanps_IC
- L1vTniBfqYMaKsn_Rr.abVj_HaSfCn9najk8mqSD01GIaigAwUaVGSP5x3CCQIAA0yycAGGQn2lZ
- k7Hy2woblnTbPltNULIjq7w8hOxWay4moZtBHQcGIjh0FIlhMhmmtVWAipGY5z7KoclChEzQJ3L0
- VxSyHSb7S9TIeGpF6IBw3TlJrK8AikzLX9lGGRwrItV.LVIQyMSLWqesvZtxOhYsIJOAwy2XeY5J
- rvbwpCJyiKDdG9oxNK9u7W9mYJHPtTvU2FikMMxxqmVyg8PMOZPy3.SSWHjMAg76_Wp6eVlrnTCY
- F322pfJaOG.pKSHDURqb416xAkAgpblQ4QvORQXFPSDf8MQjzOKKUYQ.FDeZhAJDgvvvsNjG30ac
- Ye7Md2vkChQRJTVhIdVtkMqMf7yYJd32PuzLk54OSF_htgfpcyfFpqFbeUE5n7zki_5ZIL_Wt5bZ
- P9EZeMOaTeD6bKtiqsg06VInIUPrhyXziwAFICmkppOtG1fyjqAleR6dAxMQa_GqXoVDPArHdaMV
- 47MvydvuYF9TMFHD8AJo1qQw79caRXlECvAgflvqk3khEea59nJGWa8BQKvwk6H9sChYaw_WlbpJ
- sMvv0oVEbysu86dTRVkkUBZQzFAe9MQTVGfAXpQrj23.Z_K5xpP65ToIcKEIrsHahwlxxidlKocQ
- 3l2WWgMDZbiWuZUNXwYn_B0qV7nHr0.Z_erYGmcr96CNmY0Ii95ADR0rwbDQLYTlrR5hCwFIXznM
- nffFBQYuQZj7VARrC9YwLjIJ04ZekL0W2MdENtdjQd4HegvQkSwcvUlvLqwqr6L9C29kwkfGIXGR
- O11_F5vmoUNlly__Q9hmDfH0R.1UGUXD5s_FOKZ_5DXvh5Ai5JmXs1BmRQ85YmBph1GoBCPGSSi2
- LcW4Jzzx.wPGKNU251Jew2086teOszxKXQtup_gcr8L_RCXVCiREGNdjsHeSqz2HHCCKa9pIeHFK
- 2F.GcagPbuQhaqaenoyQ_qns8TRvrKFY0MeITzDyW.e5R9k53FQcEGwzdNBtxzPKfSZf.B4pRC8C
- cs7c8FezKQEfDv3fWzUz6ocHwDWPrTgHSHAhAv5NcQGI5W.hJWAzdIpBUY7BX1Tqa74tVMfuoy7V
- aQTkU7KYWjeFylMc_s3WlrRtGXP7bKK.hlmQMccH.iVRu36TKWzqWPZGS8QAmXBkFgbdp4YUMsfx
- vAlxo3SoWVTIIIKrb.xK5fdAjnFWc4yMcJBS7aRIRUtWu3zqiwq121LEQKUswBqn0UkMMyCYe7GY
- HnbY0U4FCZ.RjOS2PmZzhw1MgxblZeC0sB8y.u4.QYo8mgy3gYvwYQKvP1dXb1_Gt5eupkw_XHA8
- xF25_7I4K0vgy89rbIzwI2NkEVZmfmr2rjXdw4qGSL3ovEImp4ounGPqA9KDI9dpdOvXSUWjuiUg
- 3UgIjQm41CGlPXCo8qHQKDcKAt1twUmfwisL1TNz7xurfUGR_6mOPvz8HKFI9139I3C5MkYek6IE
- dEll9XpdAzKbtCsxKn6AJq4WjdK0_FcGaSPb3BPOc6hepwHW_o9TUFAf6IuAzCqWZuFYcgIWDTHL
- .BK9r.7102xIjUEB0DpT_9lnr1OA8xL8ojxHHYVjzPyJsIvrh1sPb2cl5psePdkV2o9d_VvHU38P
- ILGt16wFvwLR0JKpLRSI5C3hTNf_LyqdcNtcUcuLguRMXBmPmUJx.hy_IVVYKMcUeCUCF0tz6ffF
- TqwmBAjCdNZCPctsbIj61q7w4Dhd6rW37Ou17rBYSNwcIK8SxXOfLrgirJVXhKHUkPfQbETNj3H1
- SVn_Fi9MYAH8PqVOkJ9Q5VDo0gDLhU1eA5GD1Ss4D8EwvMzr8Am077G3xjxcTVs8tMY4aDmVbBcX
- nfucyGYBieC76GDcoGaNyOLrvWetp6A1Fyvo.WGsdkE1w0UkzTBiKROiDLWQ7QCMy.Kxv.SyleXP
- sCcUOCWhPjnMzWIWzSliFShTVTT3_MyWyg_Zry.xRkYtzL2uQJyi5JIGAi275Y_GwWcGX7PVMhN5
- 4t5rNM0usRNKziPxyGF1LWWs7lh4z
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: fa912505-ab7b-482a-9ee0-e1ab69e5c18b
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ir2.yahoo.com with HTTP; Thu, 5 Mar 2026 08:17:06 +0000
-Received: by hermes--production-ir2-bbcfb4457-5fg9x (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID d2d86c5442443a9a53b79688de94805a;
-          Thu, 05 Mar 2026 08:17:02 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Thu, 05 Mar 2026 09:16:41 +0100
-Subject: [PATCH] staging: atomisp: Remove unnecessary return statement in
- void function
+	s=arc-20240116; t=1772698583; c=relaxed/simple;
+	bh=rw76qL6L945evGUO8vbdDxjDjSV3PdnBtZDJY0ap8Rk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FGog8K6LAvX+Rh9JzwQbENVIRRKMOwBg9atxqTJLsDgkcmfWy5cm5EkV57GZ8+wEd0cGIUZFEfyzgSElhn4jAnckxS1GGt8KUyBxOIIdLUQLeWVTLc0qIq4heaYCMGNGX1hR/G6R490H6pegmpuS2DV+DOfQ7ujTh0RnrJ1wXVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QtZHoXYF; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772698582; x=1804234582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rw76qL6L945evGUO8vbdDxjDjSV3PdnBtZDJY0ap8Rk=;
+  b=QtZHoXYFW35w/6tPDeqMPm/UDqMLbBr3T4F7tzIcp9kT0ZZ1YuSZfVHW
+   rpkAhEuIRtub18/NLBDsL6f63ApozHpPn+d0OgRllmytk3q5Rq+cTYUQv
+   h163+Z5yIvqWc0v8Qi4YcaMamx30Tigjzh6g1gjYJcS3JzUn7jepo33Be
+   7kLSc1rx2Ise3Uc6GqUfNhND9N64oqR1jbGU6whSypXH800V2dIicDMJl
+   5asDbHjaFPgOUMtLXmTs//mVTxRlhFZ8ddX8Ll1P3vS/EcaAUa0Loit8k
+   TMlxg6ZE0UmjIxg3tGYBtR3O3sO0WEURUEIUw+6tDQ94FKp/kx6S3pCxK
+   Q==;
+X-CSE-ConnectionGUID: x06Zp828T3aSx3+lJSBN1Q==
+X-CSE-MsgGUID: 7pZSUWRqRzGXgqnEzfoNIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="73692537"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="73692537"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:16:21 -0800
+X-CSE-ConnectionGUID: zEhTmYNIQM2x2Y/QtP29Wg==
+X-CSE-MsgGUID: IIEZ4/MPRXq5xAUryvtyzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="223282398"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.65])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:16:19 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AE42A120CA3;
+	Thu, 05 Mar 2026 10:16:48 +0200 (EET)
+Date: Thu, 5 Mar 2026 10:16:48 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org,
+	tian.shu.qiu@intel.com
+Subject: Re: [PATCH v2 2/4] media: ipu3: use tabs
+Message-ID: <aak78ByijKCWk-Uj@kekkonen.localdomain>
+References: <2026020258-very-numbly-b36b@gregkh>
+ <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
+ <20260202175033.8640-3-bogdanelsandu2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-atomisp-remove-void-return-v1-1-9f8672949f1b@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQ5AMBBA0avIrE1SRIWriEW1g1loZUojEXfX2
- P23+Q9EEqYIQ/GAUOLIwWdUZQF2M34lZJcNtaq1alSL5gw7xwOF9pAIU2CX+7zEo9XOzY22XWV
- 6yINDaOH7n4/T+36rHE1SbAAAAA==
-X-Change-ID: 20260305-atomisp-remove-void-return-c6ddb36c71a9
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-References: <20260305-atomisp-remove-void-return-v1-1-9f8672949f1b.ref@yahoo.pl>
-X-Rspamd-Queue-Id: 6FAE120D540
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202175033.8640-3-bogdanelsandu2011@gmail.com>
+X-Rspamd-Queue-Id: ED21320D528
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,yahoo.pl];
-	TAGGED_FROM(0.00)[bounces-54574-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[yahoo.pl:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[yahoo.pl];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-54573-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.982];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,checkpatch.pl:url]
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,intel.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Remove redundant 'return;' at the end of void function
-ia_css_dvs_statistics_get(). Void functions do not need an explicit
-return statement at the end. No other occurrences in this file.
+On Mon, Feb 02, 2026 at 07:50:31PM +0200, Bogdan Sandu wrote:
+> Use tabs instead of spaces.
+> 
+> Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+> ---
+>  drivers/staging/media/ipu3/ipu3-css.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+> index 145501e90..e990eb5b3 100644
+> --- a/drivers/staging/media/ipu3/ipu3-css.c
+> +++ b/drivers/staging/media/ipu3/ipu3-css.c
+> @@ -1034,8 +1034,8 @@ static int imgu_css_pipeline_init(struct imgu_css *css, unsigned int pipe)
+>  			       3 * cfg_dvs->num_horizontal_blocks / 2 *
+>  			       cfg_dvs->num_vertical_blocks) ||
+>  	    imgu_css_pool_init(imgu, &css_pipe->pool.obgrid,
+> -			       imgu_css_fw_obgrid_size(
+> -			       &css->fwp->binary_header[css_pipe->bindex])))
+> +			       imgu_css_fw_obgrid_size
+> +			       (&css->fwp->binary_header[css_pipe->bindex])))
 
-Found with checkpatch.pl --strict.
+This doesn't seem to be a major improvement.
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 1 -
- 1 file changed, 1 deletion(-)
+>  		goto out_of_memory;
+>  
+>  	for (i = 0; i < IMGU_ABI_NUM_MEMORIES; i++)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-index 9ccdb66de2df..3d2cb2d25fdb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-@@ -269,5 +269,4 @@ ia_css_dvs_statistics_get(enum dvs_statistics_type type,
- 		ia_css_get_dvs2_statistics(host_stats->p_dvs2_statistics_host,
- 					   isp_stats->p_dvs_statistics_isp);
- 	}
--	return;
- }
-
----
-base-commit: 6c2f9cfe611cf4ea666b8fa1153b3c4979ea4fa0
-change-id: 20260305-atomisp-remove-void-return-c6ddb36c71a9
-
-Best regards,
 -- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
-
+Sakari Ailus
 
