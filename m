@@ -1,232 +1,273 @@
-Return-Path: <linux-media+bounces-54571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54572-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8L7lCzk5qWnf3AAAu9opvQ
-	(envelope-from <linux-media+bounces-54571-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:05:13 +0100
+	id uPPpLZ48qWkd3QAAu9opvQ
+	(envelope-from <linux-media+bounces-54572-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:19:42 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F32220D194
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:05:11 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3208420D5CA
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 09:19:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2697C301615F
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 08:05:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DC0DE30792EC
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 08:15:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59025366071;
-	Thu,  5 Mar 2026 08:05:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B0FC367F53;
+	Thu,  5 Mar 2026 08:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="UaiY1QT2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dAIpEvbj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013049.outbound.protection.outlook.com [40.107.159.49])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEB633CEA2;
-	Thu,  5 Mar 2026 08:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772697902; cv=fail; b=ATy5hc7Y3wma/EQ0m2Q0cqVWedZ37OSNgouyfsdsAtGMmQtGSVTBwV72QsLqo5JMeE9Vw3wknIIhMP7nLNnSayEio34r8G28ga87eh4LvnF2nvGADtHlArF7CUsKFPw+WOjpcDdeniqZrwu5nfyuZ/Hz/34+nezAqPQMfq40DDc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772697902; c=relaxed/simple;
-	bh=b02+3C/Bo8UkG05Mr4bjz0ZwJTIkffmLk7Mc6EsxTHE=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=QZaOp3Fz3h2XWtuPxXwObfyEYHuS2KL51qTRiEYpbQsk4+kRlhtE4OdKBjCTIKM13S/j/R6Z41zpHrS/a5nd7TfDA61ygyBgUEpoGz30HcVnxwnowikrB/mzuy2Ga/9+oQNsRxaP0IZtrhMnvXjNch8wa7JailhfTEP9iPlbY9c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=UaiY1QT2; arc=fail smtp.client-ip=40.107.159.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BA6JD+Dlc/z5srMGVWrFVmNMBVdunpxEyuotnpdx1INJK70EoUYnoO20EVzhl+SEbcM98Oa693UnD/EzunWpwlElT8n4bw3vYCpokPL3uaaZBcxPjUgBv4AT32cr+RkooInn96gd6yw0ZNm9/bUMdwbStKy3P3z5zMgUE/FtvnwnIwN/Qyb72Wf5xx3vLsPqBQ6PnfghiBzZq7DmyIYMouYmx7iVa/vByf5YPshCKZDleF1u0h6DnDX+9VjoqFanWMT1dDgZ4pu+NeFkMbqBVX+V8Df4Jvq+A08NGLQMKKEmD0Qd2WenHDjQf00DlKymQ8J9eHoUtKbqobz7agn34A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PYvW5lGMRhYLQZM24+H+ued90PfEHhVLncMJPUK4Ie4=;
- b=SbSXzO+l2XBk+Xp5v7R1vRkOgIdrKfcNs5umx9kSIVmfRrvygx/IWgJTYYMR6dKjvf4fJyRIxh+XUu7SdP1Os/XZfO+IV8extGrtyBJR2xboRdyP1ysvCg2keZpAP/BEA5BRdJDpAeGdFPm2O1yetB3BxosfaxuOHGxBEDicjUKFTn7h7XiFMTAc19mp2AQXhPY+AeH5nT/Zw34N3ZCD0QX8S40ivQEkiMnfYjO5Z4fxIkKj3wF7oS/yAlMCLyA7U9qia029NdAOq6+PW+rOGTj7dLr2OTqcSY8EQyay5YfWj9cLPtxVOSYeWOgfUcNuxVcFJTxTur4rkU7PGb+U5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PYvW5lGMRhYLQZM24+H+ued90PfEHhVLncMJPUK4Ie4=;
- b=UaiY1QT2Bd7u0HtSwG186Pk/lex4o2xcYELeiKCMBiP5KcFe0iRifC6RKIOnN8bRMmEaPsKC/Xm2NukZgex5BIbqJEyKKRVodc/ifFIGGdMn1btPAOVVU1ufxz53Lwm6Cz6Ca3tT+yyGBqB/hq2Ru3CGKxLkuHdiP7/Cv21BR8OJBrcP8+OW9whWCaHKxFmXMNcv25/rUXnie2Vv7htkPDpmW3wKLw+zu4MAJotnwEl/OA8Djx5KHKBuUEUXJ3eF8hy3/FhonVV2lgEmraK7ZLyZ9NrxS2+nGbXmCexFHsD4PBnNCmSjv0Lf8R9Bi+nvD/6XeKbh4bcLy55gUH/h7A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by VI0PR04MB11000.eurprd04.prod.outlook.com (2603:10a6:800:268::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Thu, 5 Mar
- 2026 08:04:57 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::20db:4017:28ea:911b]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::20db:4017:28ea:911b%4]) with mapi id 15.20.9678.017; Thu, 5 Mar 2026
- 08:04:57 +0000
-From: ming.qian@oss.nxp.com
-To: linux-media@vger.kernel.org
-Cc: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	nicolas@ndufresne.ca,
-	benjamin.gaignard@collabora.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	p.zabel@pengutronix.de,
-	sebastian.fricke@collabora.com,
-	shawnguo@kernel.org,
-	ulf.hansson@linaro.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	m.felsch@pengutronix.de,
-	fra.schnyder@gmail.com,
-	linux-imx@nxp.com,
-	l.stach@pengutronix.de,
-	Frank.li@nxp.com,
-	peng.fan@nxp.com,
-	eagle.zhou@nxp.com,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] media: verisilicon: Fix kernel panic due to __initconst misuse
-Date: Thu,  5 Mar 2026 16:03:52 +0800
-Message-ID: <20260305080354.639-1-ming.qian@oss.nxp.com>
-X-Mailer: git-send-email 2.48.1.windows.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5PR01CA0070.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1b7::10) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113E1366DD2;
+	Thu,  5 Mar 2026 08:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772698523; cv=none; b=GZYzgraUh0zTlr8E0dAXVYQcItH3VQcfpPfgX4NmlwUnFlOrcs/9iNTDhjInVupVIZUkHtAJglpRfsgqI7d3o6mQiPFr1a8o7s/Z8WQRkki0cF+ZxPpNetjMHuQ8tpy7UjA54e7LOuEH+XPsa4oc/KaRwKDVBHZ9lcN1cG7Lc1E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772698523; c=relaxed/simple;
+	bh=8KPx2FOKvTSlvcR2tpuaBA7uVSpJ+rhvxD7w+CnbLQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cKTCfu5fYGlTaZuYmTF2/UX0BGez330BAhEh8AMFM1t7EzEKs9H7zpPxTnVcBCq4aZQ34aDT2ad099koYsqBvvbW3HOuCG1x8uYnFq1BINdzOY2j30E6TR+KfJANk3m2yw0bmY/WZLnU7JeUFQ35FNYv5soobSLrAAkSmmwbyc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dAIpEvbj; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772698522; x=1804234522;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8KPx2FOKvTSlvcR2tpuaBA7uVSpJ+rhvxD7w+CnbLQE=;
+  b=dAIpEvbjMPEV0XYXMCR3vqZVlpqX/KgB5Xy+P2SSvF/9qg6IidccD29s
+   9H+ncyQrWgeeMLHi6DQPNza8HDvgxdzlz60z5eo1xSSTTWwkUZFrYbs1s
+   15FK4sVotNz9JBW/DF6d8qlBgmcLi+rd4f8Otf0lYa0yK4Sx7zr14SKA9
+   lnVVUPe/7OLfpyiZmbB+lKghf3yGqJOIU95dNgv6tvZfYaxVtstPU+1jd
+   TBOxaEYo/wGxcYdZBneDSg78SEd+oh0ZDyEdDpCuekNy4XCN2kcYYI+wm
+   kMdCp1MiQrY1DFTeVNTdQwOYc3Efry+tCBIT7lpds36W+CMDor7/Zx5Np
+   g==;
+X-CSE-ConnectionGUID: VttncGR5TtmeaShx9m9zMA==
+X-CSE-MsgGUID: gb0Nck54RfCiEyPky+juUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="76380872"
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="76380872"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:15:21 -0800
+X-CSE-ConnectionGUID: M2KleSAvT7S4HNnQrB642Q==
+X-CSE-MsgGUID: wWvAKrerR9a9wcx48XuvSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
+   d="scan'208";a="218616034"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.65])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 00:15:19 -0800
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 99B85120CA3;
+	Thu, 05 Mar 2026 10:15:47 +0200 (EET)
+Date: Thu, 5 Mar 2026 10:15:47 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+Cc: gregkh@linuxfoundation.org, bingbu.cao@intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mchehab@kernel.org,
+	tian.shu.qiu@intel.com
+Subject: Re: [PATCH v2 1/4] media: ipu3: fix alignment
+Message-ID: <aak7s0qFNf4xgNhZ@kekkonen.localdomain>
+References: <2026020258-very-numbly-b36b@gregkh>
+ <20260202175033.8640-1-bogdanelsandu2011@gmail.com>
+ <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|VI0PR04MB11000:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91f22eab-b6f8-41ee-5399-08de7a8de3d3
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|1800799024|19092799006|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	e8ArglDeqa9cmZxyNYQuTWQMiYElb0r+jS/Yvlxn/NW8AH2fLwAG8t3RBjMJKbMKDByB/GQiJHZNt6Cf1O2W6zuxyE2l688ZmP94yEcTK12OChyiyP70r4i75gZg7YFvvP86VCAZkGmUIYdMlIG3NYPDReytzctqeJ5ShJjeYS0f2FJmhOCUguyKHsa7N7ChNVMTTKz5wBZs0YAnS84+xibPczMkZifr0dpGk8jnUJsPM5oogWKp426xchyG5LCbcMFQhbnxi7m6dk7l8kBWr2kkb97SBMoAJ68gLTE4CTP8wG4g1olfTgidBGYFtV95F/HALqmzakyZarDxulnOlL34a09+lYTfRAl1bppep+3ER4H2G/TBLpHTK3So29qfi0XRYcYn3b3rlYyizdl7X61KOiWcsgWKKBYc7CJlUKmvmTAYzR+nu4OjNP/8qE48In0D3Bm6DGbpzBOma7QhuL/BUlzFGguIlMxr3gqXfRhULV93RP33HVKiRmZyA3HYTL+wVVn3zYmfFqrGK7dVUfmjpvUHV0PcXy1+7MnBbL0vXKTRHSfcKLyuJ9Z79rnotswGAUKYO4tFYtWY9EFLFlE4fq/mLP344Zv+AiJY9WkBt9COJ6VCrpqZuxQaqJxiCUNhcONdqHl4Fg6+/1AYhDshnHzUfM9MEmH5mgY9B2B/QQRihtwCY+BjY36S4srfDUoWrdbLpl5TtjiNm5T6265LDrGvtVA3XV8rWCVeYS8EaffCFcaqM+dOvVZ1EpO1fxuWwb16D5Pe3z4wXCjqOjpcw4fIKKOnT0X36CTe0hw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(19092799006)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bs4EG9kxZOCYh0GhkMICcvkFrjQOPQvEDjmC+5OHni8W2Zp5WnjeC9Ac9Khr?=
- =?us-ascii?Q?ExQ460cgp4J07PsruY/WqkhuyIEO+0CMJTBHGam0o84fdzsnVNccC6YqZR2w?=
- =?us-ascii?Q?pzpoaMjgDFI8mMx0j2rRdo6UPt+//T2t0Auiuxg7CAsHycRSElzH80gg/IEn?=
- =?us-ascii?Q?XOdS1tckWHHnoLRxxy7iDUOLdP0Z9xnls4TaRPsdk+SyoW6l/MHhuqKkdjzq?=
- =?us-ascii?Q?qhrrr9IK1wi6BCGfLwkNKnTC6Jl3tJ2BPmoRLrkzzo6r/VJC4MpjyNpOP4mx?=
- =?us-ascii?Q?X28FBV31wQw37194/cbyFextqx223UEIA8jczXdWKszeFUK6N2nHVj2AcZIL?=
- =?us-ascii?Q?xj6pEe4u8gGhhHy0u+iZ5EIN8lMSB9kQM/nP+bi0mMZBjYgk+0pn8qNXHM2U?=
- =?us-ascii?Q?6yhyrXybXv9COFskuUgIyBxaJZ15fiUbQLnhFuC8Gumo0AWh0paOwxRdQAQD?=
- =?us-ascii?Q?vsHmEvpWBdUe4QQPiwmeOW2aZryD0FZTudSQkAGB78GgXlirQ7GSHuMMdcuB?=
- =?us-ascii?Q?2FMMF533sjgccFJC+laQbi68cusSmrZfjfoulft/VEWE1XPyGmDg6Cifb1xp?=
- =?us-ascii?Q?L5heHA2IqetUMKOTYLJT3U8R0EvWmkHlvISL43iG2W3FfmwRjuseZFf1QrFC?=
- =?us-ascii?Q?XCuyp/m6PQkWBOuLT5dtmyvU4zvaqqtKgpZApPyRP1SrbR2G+rGw4XUZjdXC?=
- =?us-ascii?Q?3zvMRVHlYsfK3JG7KfwdlCKdyWNqbjdg55npHaTUdw9VA+V6zk0DkKWvDyaL?=
- =?us-ascii?Q?B10VM2GR7e9H5TMSZu1yw5wsOfshblV8EOOcVA+jCxPiyr7FaA0889dWUtzc?=
- =?us-ascii?Q?PcUrpdoQ2wBojuulGO6I0wJtbPDrwMAYm9VidbsBRmzYuFyNEFyrTXy+UrjC?=
- =?us-ascii?Q?pG7/hMryM+JzIGkeEgOpFP6w40u/wMDKCuLEqoK4j/IVSZZI3n1nq/cfNCD0?=
- =?us-ascii?Q?M0gSma2Wk4ya4umP3UQBQqYCn9pR0cCxF4CEJEZHeJKTpeyYBhtkvQlzYtQn?=
- =?us-ascii?Q?lpl5GdS5QEOQGktNlLBaEwVKI6+h2lP6g5pI87taHJ1Bi3u8qy4DWGCBf7UB?=
- =?us-ascii?Q?3F8RTzm4efM9QBri865uPMg/5qA/shQfo6f+Kwd6nf+OwcOygiyX4k+zEfAQ?=
- =?us-ascii?Q?EWCHcrNT1iP/YF/JzsKzC/P4WVvrt+s3HD0OoF5PdxGANRqQrbzGYflZnGK6?=
- =?us-ascii?Q?W5EHZgx5tWd93OnNIlCQep03DJac3342nrrXTCJMjrQYGP57ItlKLVlBUcCy?=
- =?us-ascii?Q?kyDtczMZOe+LIpo0YI8c2IYVAjPXKy6EDMIVCygWWaNKdthihr9w++QZVbij?=
- =?us-ascii?Q?pHsyX7s3NpfYB2UnWTITgGeJZMjoZIXbe//EACxuqJe6S9l8Upbaks/ufYEw?=
- =?us-ascii?Q?4IGvGy1iqb1IqvdI2Pf772N+15W5SC/26KsEquZ4+LV23pAZEzqAHUs4ny5d?=
- =?us-ascii?Q?295IwAAcFuNEU/1IFsISd1EWmWpx5trN0ys2hVFYkX2qjGNXsv2KfT8mT6hW?=
- =?us-ascii?Q?6E2oMB2IBx9NngVUofPZltfAZeoZYIubv1bpMfk9MqvHVpzWaWAR/1ugcVhK?=
- =?us-ascii?Q?3sUD5KH/jlrvtbSrERCMLPu7+sptKi8PIXrN+hBjsAzX2esbBxZVtu3HNEoZ?=
- =?us-ascii?Q?w63/lhCMhLfNElfBbwpRx250zZxuDRA5Z9w/s/dTsmoxrvmh/UQg0qOOJLfB?=
- =?us-ascii?Q?W7e93RlD14vz3YYDd5Nd63sUHYaoVuYjE82QJDiev6OKyFdDrLPtn2r/6bn0?=
- =?us-ascii?Q?lHn4phqQBQ=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91f22eab-b6f8-41ee-5399-08de7a8de3d3
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 08:04:56.9310
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i0dqDggzKjBwfIwup2bvGISGlZCUIrbKM9O1jtaKC42W+D7LPkxvRGasyMtXf+tkgvY9EctOK6ler4EBbJrbFQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11000
-X-Rspamd-Queue-Id: 2F32220D194
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202175033.8640-2-bogdanelsandu2011@gmail.com>
+X-Rspamd-Queue-Id: 3208420D5CA
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.44 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,xs4all.nl,ndufresne.ca,collabora.com,pengutronix.de,linaro.org,gmail.com,nxp.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54572-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54571-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	RCVD_COUNT_FIVE(0.00)[5];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ming.qian@oss.nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	NEURAL_HAM(-0.00)[-1.000];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.nxp.com:mid,nxp.com:email,NXP1.onmicrosoft.com:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.983];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim,kekkonen.localdomain:mid]
 X-Rspamd-Action: no action
 
-From: Ming Qian <ming.qian@oss.nxp.com>
+Hi Bogdan,
 
-Fix a kernel panic when probing the driver as a module:
+On Mon, Feb 02, 2026 at 07:50:30PM +0200, Bogdan Sandu wrote:
+> Fix alignment with parentheses.
+> 
+> Signed-off-by: Bogdan Sandu <bogdanelsandu2011@gmail.com>
+> ---
+>  drivers/staging/media/ipu3/ipu3-css.c  | 22 +++++++++++-----------
+>  drivers/staging/media/ipu3/ipu3-v4l2.c | 11 +++++------
+>  drivers/staging/media/ipu3/ipu3.c      |  4 ++--
+>  3 files changed, 18 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+> index 777cac1c2..145501e90 100644
+> --- a/drivers/staging/media/ipu3/ipu3-css.c
+> +++ b/drivers/staging/media/ipu3/ipu3-css.c
+> @@ -118,7 +118,8 @@ static const struct {
+>  
+>  /* Initialize queue based on given format, adjust format as needed */
+>  static int imgu_css_queue_init(struct imgu_css_queue *queue,
+> -			       struct v4l2_pix_format_mplane *fmt, u32 flags)
+> +			       struct v4l2_pix_format_mplane *fmt,
+> +			       u32 flags)
 
-  Unable to handle kernel paging request at virtual address
-  ffffd9c18eb05000
-  of_find_matching_node_and_match+0x5c/0x1a0
-  hantro_probe+0x2f4/0x7d0 [hantro_vpu]
+Why?
 
-The imx8mq_vpu_shared_resources array is referenced by variant
-structures through their shared_devices field. When built as a
-module, __initconst causes this data to be freed after module
-init, but it's later accessed during probe, causing a page fault.
+>  {
+>  	struct v4l2_pix_format_mplane *const f = &queue->fmt.mpix;
+>  	unsigned int i;
+> @@ -1241,6 +1242,7 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
+>  	css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height =
+>  				ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].height,
+>  				      IMGU_DVS_BLOCK_H) + 2 * IMGU_GDC_BUF_Y;
+> +
+>  	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].height;
+>  	w = ALIGN(css_pipe->rect[IPU3_CSS_RECT_BDS].width,
+>  		  2 * IPU3_UAPI_ISP_VEC_ELEMS) + 2 * IMGU_GDC_BUF_X;
+> @@ -1248,10 +1250,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
+>  		css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].bytesperpixel * w;
+>  	size = w * h * BYPC + (w / 2) * (h / 2) * BYPC * 2;
+>  	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
+> -		if (imgu_css_dma_buffer_resize(
+> -			imgu,
+> -			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
+> -			size))
+> +		if (imgu_css_dma_buffer_resize(imgu,
+> +					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_REF].mem[i],
+> +					       size))
+>  			goto out_of_memory;
+>  
+>  	/* TNR frames for temporal noise reduction, FRAME_FORMAT_YUV_LINE */
+> @@ -1269,10 +1270,9 @@ static int imgu_css_binary_setup(struct imgu_css *css, unsigned int pipe)
+>  	h = css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].height;
+>  	size = w * ALIGN(h * 3 / 2 + 3, 2);	/* +3 for vf_pp prefetch */
+>  	for (i = 0; i < IPU3_CSS_AUX_FRAMES; i++)
+> -		if (imgu_css_dma_buffer_resize(
+> -			imgu,
+> -			&css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
+> -			size))
+> +		if (imgu_css_dma_buffer_resize(imgu,
+> +					       &css_pipe->aux_frames[IPU3_CSS_AUX_FRAME_TNR].mem[i],
+> +					       size))
+>  			goto out_of_memory;
+>  
+>  	return 0;
+> @@ -2036,7 +2036,7 @@ struct imgu_css_buffer *imgu_css_buf_dequeue(struct imgu_css *css)
+>  				     struct imgu_css_buffer, list);
+>  		if (queue != b->queue ||
+>  		    daddr != css_pipe->abi_buffers
+> -			[b->queue][b->queue_pos].daddr) {
+> +		    [b->queue][b->queue_pos].daddr) {
+>  			spin_unlock(&css_pipe->qlock);
+>  			dev_err(css->dev, "dequeued bad buffer 0x%x\n", daddr);
+>  			return ERR_PTR(-EIO);
+> @@ -2169,7 +2169,7 @@ int imgu_css_set_parameters(struct imgu_css *css, unsigned int pipe,
+>  		map = imgu_css_pool_last(&css_pipe->pool.acc, 1);
+>  		/* user acc */
+>  		r = imgu_css_cfg_acc(css, pipe, use, acc, map->vaddr,
+> -			set_params ? &set_params->acc_param : NULL);
+> +				     set_params ? &set_params->acc_param : NULL);
+>  		if (r < 0)
+>  			goto fail;
+>  	}
+> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> index 2f6041d34..8ebfcddab 100644
+> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> @@ -245,9 +245,9 @@ static int imgu_subdev_set_selection(struct v4l2_subdev *sd,
+>  	struct v4l2_rect *rect;
+>  
+>  	dev_dbg(&imgu->pci_dev->dev,
+> -		 "set subdev %u sel which %u target 0x%4x rect [%ux%u]",
+> -		 imgu_sd->pipe, sel->which, sel->target,
+> -		 sel->r.width, sel->r.height);
+> +		"set subdev %u sel which %u target 0x%4x rect [%ux%u]",
+> +		imgu_sd->pipe, sel->which, sel->target,
+> +		sel->r.width, sel->r.height);
+>  
+>  	if (sel->pad != IMGU_NODE_IN)
+>  		return -EINVAL;
+> @@ -288,7 +288,7 @@ static int imgu_link_setup(struct media_entity *entity,
+>  	WARN_ON(pad >= IMGU_NODE_NUM);
+>  
+>  	dev_dbg(&imgu->pci_dev->dev, "pipe %u pad %u is %s", pipe, pad,
+> -		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+> +		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+>  
+>  	imgu_pipe = &imgu->imgu_pipe[pipe];
+>  	imgu_pipe->nodes[pad].enabled = flags & MEDIA_LNK_FL_ENABLED;
+> @@ -303,7 +303,7 @@ static int imgu_link_setup(struct media_entity *entity,
+>  		__clear_bit(pipe, imgu->css.enabled_pipes);
+>  
+>  	dev_dbg(&imgu->pci_dev->dev, "pipe %u is %s", pipe,
+> -		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+> +		str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+>  
+>  	return 0;
+>  }
+> @@ -750,7 +750,6 @@ static int imgu_fmt(struct imgu_device *imgu, unsigned int pipe, int node,
+>  		} else {
+>  			fmts[i] = &imgu_pipe->nodes[inode].vdev_fmt.fmt.pix_mp;
+>  		}
+> -
+>  	}
+>  
+>  	if (!try) {
+> diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+> index bdf5a4577..c33186208 100644
+> --- a/drivers/staging/media/ipu3/ipu3.c
+> +++ b/drivers/staging/media/ipu3/ipu3.c
+> @@ -151,7 +151,7 @@ static int imgu_dummybufs_init(struct imgu_device *imgu, unsigned int pipe)
+>  
+>  /* May be called from atomic context */
+>  static struct imgu_css_buffer *imgu_dummybufs_get(struct imgu_device *imgu,
+> -						   int queue, unsigned int pipe)
+> +						  int queue, unsigned int pipe)
+>  {
+>  	unsigned int i;
+>  	struct imgu_media_pipe *imgu_pipe = &imgu->imgu_pipe[pipe];
+> @@ -774,7 +774,7 @@ static int __maybe_unused imgu_suspend(struct device *dev)
+>  	synchronize_irq(pci_dev->irq);
+>  	/* Wait until all buffers in CSS are done. */
+>  	if (!wait_event_timeout(imgu->buf_drain_wq,
+> -	    imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
+> +				imgu_css_queue_empty(&imgu->css), msecs_to_jiffies(1000)))
+>  		dev_err(dev, "wait buffer drain timeout.\n");
+>  
+>  	imgu_css_stop_streaming(&imgu->css);
 
-Use __initconst_or_module to keep the data available when built
-as a module while still allowing it to be freed when built-in.
-
-Fixes: e0203ddf9af7 ("media: verisilicon: Avoid G2 bus error while decoding H.264 and HEVC")
-Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
----
- drivers/media/platform/verisilicon/imx8m_vpu_hw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-index 6f8e43b7f157..fa429e6e8281 100644
---- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-+++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
-@@ -343,7 +343,7 @@ const struct hantro_variant imx8mq_vpu_variant = {
- 	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
- };
- 
--static const struct of_device_id imx8mq_vpu_shared_resources[] __initconst = {
-+static const struct of_device_id imx8mq_vpu_shared_resources[] __initconst_or_module = {
- 	{ .compatible = "nxp,imx8mq-vpu-g1", },
- 	{ .compatible = "nxp,imx8mq-vpu-g2", },
- 	{ /* sentinel */ }
 -- 
-2.52.0
+Regards,
 
+Sakari Ailus
 
