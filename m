@@ -1,284 +1,341 @@
-Return-Path: <linux-media+bounces-54655-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54656-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QCRxL8WUqWmKAQEAu9opvQ
-	(envelope-from <linux-media+bounces-54655-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 15:35:49 +0100
+	id WGlwAOCYqWm7AgEAu9opvQ
+	(envelope-from <linux-media+bounces-54656-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 15:53:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2D7213914
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 15:35:48 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95D9B213E45
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 15:53:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DA7E831FCC55
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 14:29:27 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 064D83080E2E
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 14:46:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 818F03822BC;
-	Thu,  5 Mar 2026 14:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 648133A9638;
+	Thu,  5 Mar 2026 14:44:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpS9qYUu"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="dn4rpkPW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1C3375F6D
-	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 14:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772720951; cv=none; b=tNR+wnfKVaCyTofR81cCoFU/fEqeO5yB/5a/Os3vO/zwt20Hqppkj867RBYV3ppMgR28zbvzkvlWcslKJMRqmDFVzyxbzqeS7Xon3uLnKYp/3vnG6lk1UbzSXzC6Vr2J0JAcAEW2J5JZLd6yjefmtkvEfr1uzRlGmzdOwyALVPE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772720951; c=relaxed/simple;
-	bh=N2wikGAPv1lHDt7WmYfLEwqMZNyLNyrpFq6ImiHYVZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sIq9SxIVDYxMCbiImGSAr6vI1WxLqxskizxeOjIORkMgeCGfEgAYUAGn0VDZPPhKdE0qmc/UAGGvJC6iN+P/yR57aWy3iAGQmcSXxCkxcwnjfBt5Zaz3EoBWC+j7ruE0ROJciSUjBF0st5DW+sAgepKX8DeZ/cYSQRPggpCds7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpS9qYUu; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772720948; x=1804256948;
-  h=date:from:to:cc:subject:message-id;
-  bh=N2wikGAPv1lHDt7WmYfLEwqMZNyLNyrpFq6ImiHYVZQ=;
-  b=HpS9qYUu6guVc/mXfSCubIJr4S9b6SggKOvO4dZP90crFv5kSIyPoW6F
-   tH6BtUVyE8vWKmiI1+3koe0cbQzoM/XyBamkdMO/sQ5yEy2pMtlx+TL+m
-   u0wZGVoVkE+Yc1WCykSvJB7bl2oP31IbsaT52JcgYf1PgYD2RvAkfPY/l
-   uCBwpojUBQffWZpgtUOAts2MJlJbG/2OZSBE6FQKWpCaHhCLsW86VWX5t
-   iwFNTaZVYrJWkFQkUz69jXDfMFZR+XZLlGEez6LV/bj4NSm4xsr9U2aO0
-   oUpcO9TslH5Cx1OQdMoZhoeHR+qe6I4YAftCTanDPBs1ymE7whjlDPKai
-   g==;
-X-CSE-ConnectionGUID: mO79a2moRuWJU81fZCgKcg==
-X-CSE-MsgGUID: KjJ24gWDS0yaQwnx6yyQwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73777571"
-X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="73777571"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 06:29:08 -0800
-X-CSE-ConnectionGUID: nnUJK3bLSiGHOCw/jLT1tQ==
-X-CSE-MsgGUID: n3R2moUVQ6W7ke8+FvkmUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="241716305"
-Received: from lkp-server01.sh.intel.com (HELO cadc4577a874) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Mar 2026 06:29:06 -0800
-Received: from kbuild by cadc4577a874 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vy9hI-000000000jq-176I;
-	Thu, 05 Mar 2026 14:29:04 +0000
-Date: Thu, 05 Mar 2026 22:28:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
- ed67c5e93fe17822c73a13a106625b77a0aca85f
-Message-ID: <202603052226.otuwIPJL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1443A9002
+	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 14:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772721862; cv=pass; b=oolul7JsZO3lE2mbBnC6T8XTJ/HawVSA3gsLmgOIcPzzy1Rj4SLm2dF26QrYkMwpCksiwnzSiR3WKJqn0HusOrIJ2vwVlDeVmD59B8sDo8B0SXkD62CjB8VzQ25kwlduFg/FDxnEpj9tqqtf3y2gw3+fxV1NPX7E9wAf7oH9rqw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772721862; c=relaxed/simple;
+	bh=w3e9sSN7rbZ1yIbcBjQIknwdSJkIxtra65Y+IoaRfB0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hLRGcKUvT/+p1w1f8ViU/wm9QNRTI031I+u8/FUJemYG8BUxq3lKnNSabAe6X5NYp9D2Wjg7bpmd7Oht/ApjvEV0EG2WEVVd2o+LdGniHsYJH3hQfBuCHcco/mJzPBNrNdc3KDZXD6HWTbBGLeotqYlADVciJ6Ym9mx6agR2BRc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=dn4rpkPW; arc=pass smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-7982c3b7dfcso81724827b3.0
+        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2026 06:44:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772721859; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DPGlJfCDqfwBHszP8f9yCLbedZ2ASZiDBdplZWoRERUIH8DBMmjZAJay/4mA8a6HtF
+         PWiz67RcCjQAighWRmDs2Wa/kAzvIAVvwtN3ikOCgXMRai7q40vuZSDEAdAxhl5EMrbb
+         FkRrZyTqAy2lYiDJS4f3lzKBech5QeMT2fTS7w2K9LVXw4pwgCwiKdGEP+YqGFcGL8Yr
+         Nno7u/U8i6/JtMInFZYjUrkHNW1qePN3Nhu5df3wpX4uvKCuM9RQ0C6xKLhAZsnqqTKp
+         74IrKgh5U2hmQLXkusNtKkNugh26q3JESjpN9HdL2CSm2LmQJX475lCHEYPk2ZedsOL+
+         vIeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=JEmLX9VgRahW+qJozlLIhZVQxpz/LOxrneMfdOojc0A=;
+        fh=/ejuO3qZcY2n+yPKzQtqSp4qkbYKvY/8MlLcvc/47X0=;
+        b=annLJVqCPLg2yZ8gldGKx2D1BCKfu7HpmZUMC9/PfLj6Mag4HJYvhYT8WDcIdjh15d
+         5PY6MV6vpH9pdfFQI6sbraoIBP4rrlyZwERVF1K4oGoFnerUEdI+bDblQQKsd0M+MNyC
+         5Je9xkkRjyL8nZEoZkoQrxYJ74/VD7I3veT0Nu5EuEN4sv3UqKPHB9HHFKTTockEfcux
+         QTQ6z3jPlPS+7JUP+LvfUzCnJbBrDyftq4MigX6bXCyLW3IMNTXIXypCrrU2L6SpnGV9
+         5jGOaugjpT24xJk7iC3UhUWkGrOcaH9u814nZmc5K54sqM+Ne7RUyvpP0xRbD+1LQgGq
+         qDUg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1772721859; x=1773326659; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JEmLX9VgRahW+qJozlLIhZVQxpz/LOxrneMfdOojc0A=;
+        b=dn4rpkPW1stSKt4X9TiTS+Ny8+egiB/OYj3CvHHz767fieddSHd5e904HbnLpKnfXE
+         FWNyQ6b2aoOc4zEAedHhzDIuY1eZJmji+vORc4nRuSvrJBquJazEnTsFgb7yoayHcc1/
+         sn4Dj3CawRDDF4sfdasz6ox4l5BpjenyOcJW4zK9QRHSj0cXYPmQvtOdO8KSNRuKhWl/
+         ICwMny/b2yz/7tw8dGBBwaE9a9FQ4h0hOd2TwrtMF0IDOioyrT2eBoaexP5BZP1a7qQV
+         MA61AEpaiA0hUn+BgBSuInavaVKC8NKv+BTygayNrM63DvlywBFyS5jxDX+p1seZp4vC
+         ov4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772721859; x=1773326659;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JEmLX9VgRahW+qJozlLIhZVQxpz/LOxrneMfdOojc0A=;
+        b=Bg9nA8NvAqoWH5bjbdzu+jkrQtSf2NQAra54wPP+UfBSz+G8SJs1hVXtGGpEYv8uRM
+         VxHnab9V0/ZCKyI+KfiDy4Xdr3wOvfinM2yX3Ck8GEaiquew3XzaJwyVzy7EmqvNmtAL
+         lZEaFvlyDYkDKGF+HH79Y4rMuSyXUjdsGU8a4sPXYjngPoJIOpzjwDjEueNPbP8jxSH9
+         WlzlKwaYl88U4yLqqe+Z7L3+dE+kYh98yjpHZB9IQRoWHJ9EnvhAPNRnzKF4KeyRhtr0
+         FCRCryBs9HXCmODp+7xGgKjAQi/WO0tw2AxnR8bnzL6RCR4OE7C4S9SlnPWfskwGKtIF
+         FwUg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8DJWzRnn4i201LOXJi8MX547lVYbhxRs48OwCGumhVJuhhjWXSGSP47+VwVOnRF40e3qX3fZGeDXmfA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5KbL3Y82pineuOkSjCepRydfMIk1NYLBvyFtifbdUAYSM91D4
+	RgVdYaQaOc/2/nQCQtjXMcptH3OT7ICoF2mKN9X0KehhxV/HvH8kF8liEIuo2HpXqbeUlh0B5aS
+	JG5mbrPqoBR9Ts3fjKy5REW2Ow3WIT5C9rn5xHK7m7A==
+X-Gm-Gg: ATEYQzyw085lp7Q61ukzrP2TBy/Dy6BqQmMq0Wp9emP46gD/vzfbot4KzmURW6cytyW
+	HAIGWelb3ynirrhAIrONIy/gMk79YwNuHQ8qZLFd0Eu+n/TNG9utgU/0ed5tHPFfyNyagzZTeA9
+	O8EzSG6IvXb8yfh3QZGF+f2DjQFOtfNVNCjEsSrUArNCi02TxR8X/fRvN/OL1NtPPZ6Dg8SBqNG
+	4N12x62ZPgHgF/aogUgDNp+znFrMg6ENX8tUA4C7kzFz9SBhL/v951EKANcMhapOyt79k+g+/fU
+	VasDrwX+swPEpXzDWssYvBDxM0T6ZqoMD9kPyvM=
+X-Received: by 2002:a05:690c:d94:b0:798:7821:8b8c with SMTP id
+ 00721157ae682-798c6d000a7mr49050637b3.49.1772721858797; Thu, 05 Mar 2026
+ 06:44:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Rspamd-Queue-Id: 2C2D7213914
+MIME-Version: 1.0
+References: <20260305043350.2151936-1-xiaolei.wang@windriver.com> <20260305043350.2151936-3-xiaolei.wang@windriver.com>
+In-Reply-To: <20260305043350.2151936-3-xiaolei.wang@windriver.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 5 Mar 2026 14:44:01 +0000
+X-Gm-Features: AaiRm51Gr2K46tADYos1K31cmL4v0qX7Lzr8_PeXYTjt5qYO2xwCWwpr854Y-mI
+Message-ID: <CAPY8ntAL05qyHi7FkkVUrcZUSUOEaGZwVmyEBhFufknufgiF=w@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] media: i2c: ov9282: Switch to using the sub-device
+ state lock
+To: Xiaolei Wang <xiaolei.wang@windriver.com>
+Cc: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com, 
+	tarang.raval@siliconsignals.io, jacopo@jmondi.org, mchehab@kernel.org, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, hverkuil+cisco@kernel.org, 
+	johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl, 
+	jai.luthra@ideasonboard.com, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 95D9B213E45
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	TAGGED_FROM(0.00)[bounces-54655-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-54656-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_CC(0.00)[linux.intel.com,ideasonboard.com,siliconsignals.io,jmondi.org,kernel.org,bp.renesas.com,oss.qualcomm.com,xs4all.nl,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,siliconsignals.io:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,windriver.com:email,raspberrypi.com:dkim,raspberrypi.com:email]
 X-Rspamd-Action: no action
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
-branch HEAD: ed67c5e93fe17822c73a13a106625b77a0aca85f  media: i2c: ds90ub913: Use v4l2_subdev_get_frame_desc_passthrough
+On Thu, 5 Mar 2026 at 04:35, Xiaolei Wang <xiaolei.wang@windriver.com> wrote:
+>
+> Switch to using the sub-device state lock and properly call
+> v4l2_subdev_init_finalize() / v4l2_subdev_cleanup() on probe() /
+> remove().
+>
+> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>
 
-elapsed time: 1457m
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-configs tested: 160
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-23
-arc                   randconfig-001-20260305    clang-19
-arc                   randconfig-002-20260305    clang-19
-arm                               allnoconfig    clang-23
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                   randconfig-001-20260305    clang-19
-arm                   randconfig-002-20260305    clang-19
-arm                   randconfig-003-20260305    clang-19
-arm                   randconfig-004-20260305    clang-19
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-15.2.0
-arm64                 randconfig-001-20260305    gcc-8.5.0
-arm64                 randconfig-002-20260305    gcc-8.5.0
-arm64                 randconfig-003-20260305    gcc-8.5.0
-arm64                 randconfig-004-20260305    gcc-8.5.0
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                  randconfig-001-20260305    gcc-8.5.0
-csky                  randconfig-002-20260305    gcc-8.5.0
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    clang-23
-hexagon                           allnoconfig    gcc-15.2.0
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-14
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20260305    clang-20
-i386        buildonly-randconfig-002-20260305    clang-20
-i386        buildonly-randconfig-003-20260305    clang-20
-i386        buildonly-randconfig-004-20260305    clang-20
-i386        buildonly-randconfig-005-20260305    clang-20
-i386        buildonly-randconfig-006-20260305    clang-20
-i386                  randconfig-001-20260305    gcc-14
-i386                  randconfig-002-20260305    gcc-14
-i386                  randconfig-003-20260305    gcc-14
-i386                  randconfig-004-20260305    gcc-14
-i386                  randconfig-005-20260305    gcc-14
-i386                  randconfig-006-20260305    gcc-14
-i386                  randconfig-007-20260305    gcc-14
-i386                  randconfig-011-20260305    clang-20
-i386                  randconfig-012-20260305    clang-20
-i386                  randconfig-013-20260305    clang-20
-i386                  randconfig-014-20260305    clang-20
-i386                  randconfig-015-20260305    clang-20
-i386                  randconfig-016-20260305    clang-20
-i386                  randconfig-017-20260305    clang-20
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    clang-23
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                                defconfig    clang-19
-m68k                        mvme16x_defconfig    gcc-15.2.0
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-nios2                            allmodconfig    clang-23
-nios2                             allnoconfig    clang-23
-nios2                               defconfig    clang-19
-openrisc                         allmodconfig    clang-23
-openrisc                          allnoconfig    clang-23
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-23
-parisc                           allyesconfig    clang-19
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260305    gcc-9.5.0
-parisc                randconfig-002-20260305    gcc-9.5.0
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-23
-powerpc               mpc834x_itxgp_defconfig    clang-23
-powerpc               randconfig-001-20260305    gcc-9.5.0
-powerpc               randconfig-002-20260305    gcc-9.5.0
-powerpc64             randconfig-001-20260305    gcc-9.5.0
-powerpc64             randconfig-002-20260305    gcc-9.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260305    clang-23
-riscv                 randconfig-002-20260305    clang-23
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260305    clang-23
-s390                  randconfig-002-20260305    clang-23
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-23
-sh                               allyesconfig    clang-19
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260305    clang-23
-sh                    randconfig-002-20260305    clang-23
-sparc                             allnoconfig    clang-23
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260305    gcc-14.3.0
-sparc                 randconfig-002-20260305    gcc-14.3.0
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260305    gcc-14.3.0
-sparc64               randconfig-002-20260305    gcc-14.3.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260305    gcc-14.3.0
-um                    randconfig-002-20260305    gcc-14.3.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260305    clang-20
-x86_64      buildonly-randconfig-002-20260305    clang-20
-x86_64      buildonly-randconfig-003-20260305    clang-20
-x86_64      buildonly-randconfig-004-20260305    clang-20
-x86_64      buildonly-randconfig-005-20260305    clang-20
-x86_64      buildonly-randconfig-006-20260305    clang-20
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260305    clang-20
-x86_64                randconfig-002-20260305    clang-20
-x86_64                randconfig-003-20260305    clang-20
-x86_64                randconfig-004-20260305    clang-20
-x86_64                randconfig-005-20260305    clang-20
-x86_64                randconfig-006-20260305    clang-20
-x86_64                randconfig-011-20260305    clang-20
-x86_64                randconfig-012-20260305    clang-20
-x86_64                randconfig-013-20260305    clang-20
-x86_64                randconfig-014-20260305    clang-20
-x86_64                randconfig-015-20260305    clang-20
-x86_64                randconfig-016-20260305    clang-20
-x86_64                randconfig-071-20260305    gcc-14
-x86_64                randconfig-072-20260305    gcc-14
-x86_64                randconfig-073-20260305    gcc-14
-x86_64                randconfig-074-20260305    gcc-14
-x86_64                randconfig-075-20260305    gcc-14
-x86_64                randconfig-076-20260305    gcc-14
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-23
-xtensa                           allyesconfig    clang-23
-xtensa                randconfig-001-20260305    gcc-14.3.0
-xtensa                randconfig-002-20260305    gcc-14.3.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  drivers/media/i2c/ov9282.c | 51 +++++++++++++++-----------------------
+>  1 file changed, 20 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index 56f854a4d04f..98e0a0732ef7 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -221,7 +221,6 @@ struct ov9282 {
+>         bool noncontinuous_clock;
+>         const struct ov9282_mode *cur_mode;
+>         u32 code;
+> -       struct mutex mutex;
+>  };
+>
+>  static const s64 link_freq[] = {
+> @@ -795,8 +794,6 @@ static int ov9282_get_pad_format(struct v4l2_subdev *sd,
+>  {
+>         struct ov9282 *ov9282 = to_ov9282(sd);
+>
+> -       mutex_lock(&ov9282->mutex);
+> -
+>         if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+>                 struct v4l2_mbus_framefmt *framefmt;
+>
+> @@ -807,8 +804,6 @@ static int ov9282_get_pad_format(struct v4l2_subdev *sd,
+>                                        fmt);
+>         }
+>
+> -       mutex_unlock(&ov9282->mutex);
+> -
+>         return 0;
+>  }
+>
+> @@ -829,8 +824,6 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
+>         u32 code;
+>         int ret = 0;
+>
+> -       mutex_lock(&ov9282->mutex);
+> -
+>         mode = v4l2_find_nearest_size(supported_modes,
+>                                       ARRAY_SIZE(supported_modes),
+>                                       width, height,
+> @@ -856,8 +849,6 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
+>                 }
+>         }
+>
+> -       mutex_unlock(&ov9282->mutex);
+> -
+>         return ret;
+>  }
+>
+> @@ -904,10 +895,8 @@ static int ov9282_get_selection(struct v4l2_subdev *sd,
+>         case V4L2_SEL_TGT_CROP: {
+>                 struct ov9282 *ov9282 = to_ov9282(sd);
+>
+> -               mutex_lock(&ov9282->mutex);
+>                 sel->r = *__ov9282_get_pad_crop(ov9282, sd_state, sel->pad,
+>                                                 sel->which);
+> -               mutex_unlock(&ov9282->mutex);
+>
+>                 return 0;
+>         }
+> @@ -1019,9 +1008,10 @@ static int ov9282_stop_streaming(struct ov9282 *ov9282)
+>  static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>         struct ov9282 *ov9282 = to_ov9282(sd);
+> +       struct v4l2_subdev_state *state;
+>         int ret;
+>
+> -       mutex_lock(&ov9282->mutex);
+> +       state = v4l2_subdev_lock_and_get_active_state(sd);
+>
+>         if (enable) {
+>                 ret = pm_runtime_resume_and_get(ov9282->dev);
+> @@ -1036,14 +1026,14 @@ static int ov9282_set_stream(struct v4l2_subdev *sd, int enable)
+>                 pm_runtime_put(ov9282->dev);
+>         }
+>
+> -       mutex_unlock(&ov9282->mutex);
+> +       v4l2_subdev_unlock_state(state);
+>
+>         return 0;
+>
+>  error_power_off:
+>         pm_runtime_put(ov9282->dev);
+>  error_unlock:
+> -       mutex_unlock(&ov9282->mutex);
+> +       v4l2_subdev_unlock_state(state);
+>
+>         return ret;
+>  }
+> @@ -1285,9 +1275,6 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+>         if (ret)
+>                 return ret;
+>
+> -       /* Serialize controls with sensor device */
+> -       ctrl_hdlr->lock = &ov9282->mutex;
+> -
+>         /* Initialize exposure and gain */
+>         lpfr = mode->vblank + mode->height;
+>         ov9282->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
+> @@ -1409,13 +1396,10 @@ static int ov9282_probe(struct i2c_client *client)
+>                 return dev_err_probe(ov9282->dev, PTR_ERR(ov9282->regmap),
+>                                      "Failed to init CCI\n");
+>
+> -       mutex_init(&ov9282->mutex);
+> -
+>         ret = ov9282_power_on(ov9282->dev);
+> -       if (ret) {
+> -               dev_err(ov9282->dev, "failed to power-on the sensor");
+> -               goto error_mutex_destroy;
+> -       }
+> +       if (ret)
+> +               return dev_err_probe(ov9282->dev, ret,
+> +                                    "failed to power-on the sensor");
+>
+>         /* Check module identity */
+>         ret = ov9282_detect(ov9282);
+> @@ -1448,27 +1432,34 @@ static int ov9282_probe(struct i2c_client *client)
+>                 goto error_handler_free;
+>         }
+>
+> -       ret = v4l2_async_register_subdev_sensor(&ov9282->sd);
+> +       ov9282->sd.state_lock = ov9282->ctrl_handler.lock;
+> +       ret = v4l2_subdev_init_finalize(&ov9282->sd);
+>         if (ret < 0) {
+> -               dev_err(ov9282->dev,
+> -                       "failed to register async subdev: %d", ret);
+> +               dev_err_probe(ov9282->dev, ret, "failed to init subdev\n");
+>                 goto error_media_entity;
+>         }
+>
+>         pm_runtime_set_active(ov9282->dev);
+>         pm_runtime_enable(ov9282->dev);
+> +
+> +       ret = v4l2_async_register_subdev_sensor(&ov9282->sd);
+> +       if (ret < 0)
+> +               goto v4l2_subdev_cleanup;
+> +
+>         pm_runtime_idle(ov9282->dev);
+>
+>         return 0;
+>
+> +v4l2_subdev_cleanup:
+> +       v4l2_subdev_cleanup(&ov9282->sd);
+> +       pm_runtime_disable(ov9282->dev);
+> +       pm_runtime_set_suspended(ov9282->dev);
+>  error_media_entity:
+>         media_entity_cleanup(&ov9282->sd.entity);
+>  error_handler_free:
+>         v4l2_ctrl_handler_free(ov9282->sd.ctrl_handler);
+>  error_power_off:
+>         ov9282_power_off(ov9282->dev);
+> -error_mutex_destroy:
+> -       mutex_destroy(&ov9282->mutex);
+>
+>         return ret;
+>  }
+> @@ -1482,9 +1473,9 @@ static int ov9282_probe(struct i2c_client *client)
+>  static void ov9282_remove(struct i2c_client *client)
+>  {
+>         struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> -       struct ov9282 *ov9282 = to_ov9282(sd);
+>
+>         v4l2_async_unregister_subdev(sd);
+> +       v4l2_subdev_cleanup(sd);
+>         media_entity_cleanup(&sd->entity);
+>         v4l2_ctrl_handler_free(sd->ctrl_handler);
+>
+> @@ -1492,8 +1483,6 @@ static void ov9282_remove(struct i2c_client *client)
+>         if (!pm_runtime_status_suspended(&client->dev))
+>                 ov9282_power_off(&client->dev);
+>         pm_runtime_set_suspended(&client->dev);
+> -
+> -       mutex_destroy(&ov9282->mutex);
+>  }
+>
+>  static const struct dev_pm_ops ov9282_pm_ops = {
+> --
+> 2.43.0
+>
 
