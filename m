@@ -1,163 +1,153 @@
-Return-Path: <linux-media+bounces-54626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54627-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id RD4HCaVzqWl77wAAu9opvQ
-	(envelope-from <linux-media+bounces-54626-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 13:14:29 +0100
+	id GH+dOTZ1qWl77wAAu9opvQ
+	(envelope-from <linux-media+bounces-54627-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 13:21:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A870521166B
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 13:14:28 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FB321181B
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 13:21:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 147F63029AA4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 12:14:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 81BFE3040D8A
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 12:15:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A38539659E;
-	Thu,  5 Mar 2026 12:14:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E6qnQQKY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B81A39B4BF;
+	Thu,  5 Mar 2026 12:15:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F304F395DB8;
-	Thu,  5 Mar 2026 12:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECBC39A05F
+	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 12:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772712854; cv=none; b=Gf7VE6J42XtoTy65EvWPMvs1dIuaURDDcn6PEhjy+gcnxfjGZ63gaBKT35BAGGVOyxdnDDtzcM+QsQdq/LgHsr0n7dAs7iUBHMs0LdldELaj9J4kgMhSkuPg89aTuW2lxddVuQrgq6YTihgXakIrS5ayYAczVk2V2LJT76RHa9s=
+	t=1772712938; cv=none; b=eBY+WmMSERTxOfY9M75KDzNHsPpo0AXQD9HSDqaPdcvuKMvmPmM+X4NoNhpNPAO6FlOJCj3GCh/ZMdkHjqdJbxJ0cJK3RvvI0+BCMaeK0kAKlTv08ZoX6z3AIv246AJy4eOP//4hx4P7Vn5S5aIPyTl9A1aNiOBzHCn+KMoVOkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772712854; c=relaxed/simple;
-	bh=d7P3UBDfkNE3lbDPnmS11IFvwvW2sxYmXxuua2dcFHY=;
+	s=arc-20240116; t=1772712938; c=relaxed/simple;
+	bh=1N9rpptCfEGuKF24I3MO+ctQKVCjB9J9sj4YNN7+SI8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gZquMcGschyLN5UtLbN2tnxAq9wPyT0keHKn4fqNoSgluTCCGHpZ0rvm5nvWu+eMNqPkWrmUG22CcgQ1UhXGVxAZCTj/a2KfJS7XOAn0yxxmkJr5fy+ZirZE+z6eoLtuUdZiYYkq8VnMOm5QWwF4LoMC5nlliGivrw3E5Py0fls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=E6qnQQKY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (85-76-15-90-nat.elisa-mobile.fi [85.76.15.90])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 159A7802;
-	Thu,  5 Mar 2026 13:13:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1772712787;
-	bh=d7P3UBDfkNE3lbDPnmS11IFvwvW2sxYmXxuua2dcFHY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E6qnQQKYvTYRS+oPGK9LcXoQL/WXH4S9JOK3pOEoQFXPGd5G4z0CufYM+DPr/We9S
-	 bo1iNMM4HsfndHTfWQhqRoHWwvt5JKKWUrlkG2kS0/0La6ItceTIZDGs+8MKDtN0DB
-	 fM7GJKDVczdBwIq7FF/DMPtDIM/DaUS+JRMjYIGs=
-Date: Thu, 5 Mar 2026 13:14:08 +0100
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v6 1/2] media: uapi: Clarify MBUS color component order
- for serial buses
-Message-ID: <20260305121408.GA208179@killaraus.ideasonboard.com>
-References: <20260217-csi-bgr-rgb-v6-0-064607effe42@redhat.com>
- <20260217-csi-bgr-rgb-v6-1-064607effe42@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hOKoCycoWmwu9YZq2ign1pcsRz/mCExFU+WDKI15aL/2N6NTwrmfMYktHuI6KoTGt9+RX6nieTGmzrkSKZmu/vwmas70yT95WKu0AOm9ro0Dyi5sJuNiYPHJdhgAwlW3S/Ajc2uWq6O0IRGxSpFd2nalAhwPjRj/SEzKzjDiFVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3599019ae92so2353768a91.0
+        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2026 04:15:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772712934; x=1773317734;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yS764krKV6WfB8kOxjvP29bXooB1nm1bNBDNiujlO4g=;
+        b=siU0kS3NVJb3YZ1IxhZItTo252M/Yz7h4lba0Dg0ZDoibGRLLPoTtPy/DKZ083dBRm
+         P+soN24VSMYUIsw/SeBs31s9JgdX5DLz0c0TY8+norH3i7xjIFahMZuIZySefFhmnUPH
+         316WlhemBE0MXVUZmwqSdXDoTcEAngfqpsgFFy5CKgrZA7NddwJHL2Hm2fdvNdNx72hi
+         SnCI4mzwnev3hJFiPSxvXJ6dbm0mvtDcco2X1X1TtTGn2+/qbtlcC6TKIj/D6+x8xL6y
+         0pfwnHHgYiIc8oMkG/ms5He7UkGvYkjvFOKKhost8+tzzLuUD9ntMa6VmNG0U9a6qsT5
+         nxUw==
+X-Forwarded-Encrypted: i=1; AJvYcCXB4un7o1Pgy42icuIy82nlbMY4Th6+9X5uNwqVVFb84hOMi+C7aJCLKDYxWKAf8+EISiAAhuE+g/LnAw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyjkvf/vPVwTXAJgCQZ+uAltvKid4ruUomWIsazjbncMrvLCTkW
+	68pIgVoFAljTwdyfrunh18AI6VqRjHowWe+FyxhMK6DEEb0HDWZ6LdPG
+X-Gm-Gg: ATEYQzw0oM17vamSsyPfvQ/UWp9FM2XOi1OuRI4STmywqJzuEfF0SaDnUDyoTnjnKjM
+	CZrWm7nOuGZOqzMtAvvSVsO8OVpII8EAkbfAVxny/CMw4ePSTkogxj5cujtd38l0zqJYZYoD8h3
+	kORH5HLHRfS2ZjmnQJ0idLIkqKjG01uKS9pu89mRmrpROlBJ4vrI7+NkwLoMV0HUCnN2l/6nebr
+	58AJoHyu8P4Y42pgG0Xnhxxa794hcn6b7clXjxposREX+nTYSGid9nZzVvF4n9Sr/+RN6NRi81i
+	RBMjQuLn1fVKquofptW3yrObDXgBVangkZNbv/+SaAg9cZAncNgSjtZML4R/wBmYahK6bP6m4hC
+	XWDPHaoKfVIHlJZOv+gG0+UmIT8T394UYzBTNA+Vmg69X1wWX8jqjVce2SbVkTQ9A+ZKPG6Hbj7
+	DDklEc3t+b93cCYL//07UnqEyREXdUGcjDvfo8cKELM6W4Qxr9ALUAiZMH9RYL8AxTJw3cD0+ZQ
+	F23qGIthTKUL9FGllE8i6ojKi/ZosSHe7wn8Trxz54r9klLbPm2Jh9UV2MMkA==
+X-Received: by 2002:a17:90a:d44b:b0:34e:630c:616c with SMTP id 98e67ed59e1d1-359a6a92750mr4210979a91.31.1772712934483;
+        Thu, 05 Mar 2026 04:15:34 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359b2c1daa6sm2391359a91.0.2026.03.05.04.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 04:15:33 -0800 (PST)
+Date: Thu, 5 Mar 2026 21:15:32 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Joe Perches <joe@perches.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, spacemit@lists.linux.dev,
+	UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH phy-next 22/22] MAINTAINERS: add regex for linux-phy
+Message-ID: <20260305121532.GA1649635@rocinante>
+References: <20260304175735.2660419-1-vladimir.oltean@nxp.com>
+ <20260304175735.2660419-23-vladimir.oltean@nxp.com>
+ <a8fee1cd-1e69-4a9e-8533-c0988c480fb9@oss.qualcomm.com>
+ <20260305085148.7cwo3yflp7vcfldf@skbuf>
+ <f3a5aa3df78553ffc0fd0024f5fd36a4e2158c88.camel@perches.com>
+ <20260305114352.2f7btqixg4tu5bzl@skbuf>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260217-csi-bgr-rgb-v6-1-064607effe42@redhat.com>
-X-Rspamd-Queue-Id: A870521166B
+In-Reply-To: <20260305114352.2f7btqixg4tu5bzl@skbuf>
+X-Rspamd-Queue-Id: F2FB321181B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.86 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[linux.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54626-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-54627-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kw@linux.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.997];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,killaraus.ideasonboard.com:mid]
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Tue, Feb 17, 2026 at 09:38:57AM +0100, Maxime Ripard wrote:
-> The subdev format documentation has a subsection describing how to use
-> the media bus pixel codes for serial buses. While it describes the
-> sampling part well, it doesn't really describe the current convention
-> used for the components order.
-> 
-> Let's improve that.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  .../userspace-api/media/v4l/subdev-formats.rst        | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index cf970750dd4c6ab32274f75453390eb8148ef3c6..6d57c325ffa506fd57dad0845c9a742fd199a6f0 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -157,18 +157,21 @@ memory.
->  While there is a relationship between image formats on buses and image
->  formats in memory (a raw Bayer image won't be magically converted to
->  JPEG just by storing it to memory), there is no one-to-one
->  correspondence between them.
->  
-> -The media bus pixel codes document parallel formats. Should the pixel data be
-> -transported over a serial bus, the media bus pixel code that describes a
-> -parallel format that transfers a sample on a single clock cycle is used. For
-> -instance, both MEDIA_BUS_FMT_BGR888_1X24 and MEDIA_BUS_FMT_BGR888_3X8 are used
-> -on parallel busses for transferring an 8 bits per sample BGR data, whereas on
-> -serial busses the data in this format is only referred to using
-> -MEDIA_BUS_FMT_BGR888_1X24. This is because there is effectively only a single
-> -way to transport that format on the serial busses.
-> +While the media bus pixel codes are named based on how pixels are
-> +transmitted on parallel buses, serial buses do not define separate
-> +codes. By convention, they use the codes that transfer a sample on a
-> +single clock cycle. and whose names correspond to the order in which
+Hello,
 
-s/cycle./cycle,/
+> K:	\b(?:__)?(?:devm_)?(?:of_)?phy_(?:create|destroy|provider_(?:un)?register)\b
+> K:	\bphy_(?:create|remove)_lookup\b
+> K:	\bphy_(?:get|set)?_drvdata\b
+> K:	\b(?:devm_)?(?:of_)?phy_(?:optional_)?(?:get|put)(?:_by_index)?\b
+> K:	\bphy_pm_runtime_(?:get|put)(?:_sync)?\b
+> K:	\bphy_(?:init|exit|power_(?:on|off))\b
+> K:	\bphy_|(?:get|set)_(?:mode(?:_ext)?|media|speed|bus_width|max_link_rate)\b
+> K:	\bphy_(?:reset|configure|validate|calibrate)\b
+> K:	\bphy_notify_(?:connect|disconnect|state)\b
+> K:	(?:struct\s+)?phy(?:_ops|_attrs|_lookup|_provider)?\b
+> K:	(?:linux/phy/phy\.h|phy-props\.h|phy-provider\.h)
 
-I would write "bit orders from LSB to MSB" instead of "names", as in the
-example below the "name" contains "RGB" but the described order is blue,
-green, red.
+What about
 
-> +colour components are transmitted on the serial bus. For instance, the
-> +MIPI CSI-2 24-bit RGB (RGB888) format uses the MEDIA_BUS_FMT_RGB888_1X24
-> +media bus code because CSI-2 transmits the blue colour component first,
-> +followed by green and red, and MEDIA_BUS_FMT_RGB888_1X24 defines the
-> +first bit of blue at index 0. While used for 24-bit RGB data on parallel
+  F:	drivers/*/*phy*
 
-s/index 0/bit 0/
+or something along these lines.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +buses, the MEDIA_BUS_FMT_RGB888_3X8 or MEDIA_BUS_FMT_BGR888_1X24 codes
-> +must not be used for CSI-2.
->  
->  Packed RGB Formats
->  ^^^^^^^^^^^^^^^^^^
->  
->  Those formats transfer pixel data as red, green and blue components. The
-
--- 
-Regards,
-
-Laurent Pinchart
+	Krzysztof
 
