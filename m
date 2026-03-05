@@ -1,226 +1,187 @@
-Return-Path: <linux-media+bounces-54610-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54611-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SBcZKF1ZqWkL6AAAu9opvQ
-	(envelope-from <linux-media+bounces-54610-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 11:22:21 +0100
+	id eMZ8CHxcqWkL6AAAu9opvQ
+	(envelope-from <linux-media+bounces-54611-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 11:35:40 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6F720FA24
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 11:22:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 742CA20FC36
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 11:35:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9E31C301DEDD
-	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 10:22:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AF4B5302F9BE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 10:33:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 557623803EB;
-	Thu,  5 Mar 2026 10:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O5efC91G"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D36737F726;
+	Thu,  5 Mar 2026 10:33:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206FB37F73B
-	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 10:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2485378D6C
+	for <linux-media@vger.kernel.org>; Thu,  5 Mar 2026 10:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772706110; cv=none; b=V7inizuKqviEj2PfEmCmO4zHxzK4exUv9Aw5s9L/pZB9JerEPxe9BT63nKFNKIwQDN0qdQ/dxUCP+BeOJSViJRI8q4TiDGEBP/P5MF/Ox5sWbg+FFQ6aKYVf8s0mgVvP0zcNQC6UrCUY5GBES2naHvL6YPDsKLI3Neu1nYzvICU=
+	t=1772706802; cv=none; b=BP0uDKoLaJRxuvBaj4is5tAAvMTgqqcKdhBWz13e9icLa0NmUP8dMkABgA3ZCRqYKiwqNcGGiuUUB9LN87OWNQmyCySPVDXCww+V8EpobNWGJhVBpqSmu4MUF74aRuSdwDz0q3SNh/rSlC1icbyHgXRVwnBmGjaVql0to+065ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772706110; c=relaxed/simple;
-	bh=2+U/ZONee4dT26Jw5gWNEb8dK26/hW7z5aXQpBzS04Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pI/kjaFD0EPW6pW+szWf2VMR5DxqG2L8xy9QxXMwwOmlh+ddz/8cAC0fTUOmMKAkH1vEv54gI751oahMyC6ZrHtZyNJ/VjUohvPIcTSL5nSeYMQKkuVBMqifnzqQlaoIBlqVHMsg+fY3QHZhUYms7IAJ9TsDENFM2CQsxSXGKDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O5efC91G; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439b9b190easo2850041f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2026 02:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772706107; x=1773310907; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cx7lcE//ZT+Yr/4kAurpDNP3t7qSzC1pEGhI2wYTnFk=;
-        b=O5efC91GcGdFmdzXiYREL7pqXJHcRK1THkjj3P4RuEF6FbwSUWAllnndaWHtkh0hhS
-         Eha9+nLieN17Q7q0bhzOyPcSZAwvcvizNsUBGp6k4ly6I4qxutg7o3TKPmkV/zF161tn
-         PB8vqrV7If9Hh0401+QgPt93rDCT91pZThZ+xEIw61dqHPd/uihV/pGwx5wXWkSBRxbL
-         F9NgB2Hf3/FxVg29u8pZe7tPSPqbRgomdzCj6pOXE91MKFOBNWJG1aGAFF+LyIYVfLib
-         Z3RU6NAcmuMIFosO+A9WKcRGJ1B7PllhYex2m/CWD0DpsHNrGTlMSRTxJWycdlJzNIYf
-         AsBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772706107; x=1773310907;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Cx7lcE//ZT+Yr/4kAurpDNP3t7qSzC1pEGhI2wYTnFk=;
-        b=mnVTnQEVC3sWbv62q/NgNaTp+YlecltYetRUSWBzkGz++SJa71LnP5A5UEyTKsSgfX
-         gDI+7QVGaEOO3RarYQ6ni1SbZYVHvoX9bo9Rcc2zA+OyXqNx2V+goWgtDW1jlFARw4Op
-         7kf7fwhrnCxFabw1MtJi+JmGwywOcL+qjZ0lSFqEkFATo+8JUyvhm7h54EUoqHS3w/Kn
-         b71DP/pfbxaN7Vh4NARqwywJgkoJ1xEHD9yQE00JUeRfZc5YFmJ2ts5MsqHCFhBev+FG
-         oVz1nL93CLWZ9pNlnRf4QT2Z69Qr82xiBLAfT6fe6CnUsRfBOLqR6TpUPjSi3+tLej3Q
-         yrIw==
-X-Gm-Message-State: AOJu0YyQ584R5qP3vcUINARskd3lDgHN7jQjLcnofyFaio72qO6lYZhr
-	ihRy9Gjov1WDGQgCPWhQVnsn/u8nmdjukpVvp4dk6oVH6agVYwoiA0b9oF/Hxg==
-X-Gm-Gg: ATEYQzy2TExU9aY5KM/2dbMyrTmvgAGcOHx0YX+PpZv/6oZEM61aaNRZAvZnECyW8p1
-	N/ju2T/Hs3qhO3DyelveSFPHI6KokpfUzF8Ypmd6IstyDqiF6xZ0SCqUsVo6UG9TIGGs3eaPN9y
-	/wmuPjP+OroX9bFVckbiPe7w9y2YpntB1e096tpZe8HqII3FSY5AqBX/qPnjp+CN/R5ZHP/zYNK
-	ffwEFF33dXjaQf1fUUpuw16FPkWX1MiYpwmzBAfVYRZ9MwbdMvcfeQRep2NpiL5YOxSwjHZPgnR
-	211hEbT1MfX5yzpRjKBPyno6fw8Wro8dgr8mkPgakRpQ9Jx2NsqjKd3Wm4adAsCMw5uTEvG0flu
-	QczaaXatL4rZCsAuSURQIo3JneFcvVOWXkgHoba4jpcXCVPJkLnz9tYkgpgt61ZG/8aVqx3wPkX
-	DPLu1VdFtSGHey
-X-Received: by 2002:a05:6000:4312:b0:439:c4fb:27f6 with SMTP id ffacd0b85a97d-439c7f79e1cmr10500857f8f.19.1772706107351;
-        Thu, 05 Mar 2026 02:21:47 -0800 (PST)
-Received: from xeon ([188.163.112.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b503425asm32625444f8f.25.2026.03.05.02.21.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 02:21:46 -0800 (PST)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/2] media: i2c: mt9m114: add support for Aptina MI1040
-Date: Thu,  5 Mar 2026 12:21:22 +0200
-Message-ID: <20260305102123.17216-3-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260305102123.17216-1-clamor95@gmail.com>
-References: <20260305102123.17216-1-clamor95@gmail.com>
+	s=arc-20240116; t=1772706802; c=relaxed/simple;
+	bh=O2ceNp0v1y7OfAwh+zyQ5ZRZ8khQkWInlECudLwPWvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ou8gbnEpvpgIBMJPGSY5CgmPDdtF410EcMmX6ojMe9qojjsX2J0n8wRhbrGIOMPx/ehqinWK6+MuyeCY9DaZN6lD0ZGuHstk7NqUeNAckEqvsb5JufxQcEokJ3AByF9DFwCMYT0bPJcQQ1DyPmT+xC5+THeCgXjIN1HUOT/n8TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vy60p-0005YH-Bg; Thu, 05 Mar 2026 11:32:59 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vy60m-003rpi-1E;
+	Thu, 05 Mar 2026 11:32:57 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1vy60n-00000002Foi-2UBF;
+	Thu, 05 Mar 2026 11:32:57 +0100
+Date: Thu, 5 Mar 2026 11:32:57 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: ming.qian@oss.nxp.com
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org, 
+	hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca, benjamin.gaignard@collabora.com, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de, 
+	sebastian.fricke@collabora.com, shawnguo@kernel.org, ulf.hansson@linaro.org, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	fra.schnyder@gmail.com, linux-imx@nxp.com, l.stach@pengutronix.de, Frank.li@nxp.com, 
+	peng.fan@nxp.com, eagle.zhou@nxp.com, devicetree@vger.kernel.org, 
+	imx@lists.linux.dev, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] media: verisilicon: Fix kernel panic due to
+ __initconst misuse
+Message-ID: <azwbgxp4pl3m6klyvd5htmy7h7pc76nqvvgmi6pudvfl7zippl@svv7tiibyrci>
+References: <20260305100149.722-1-ming.qian@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4A6F720FA24
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260305100149.722-1-ming.qian@oss.nxp.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Rspamd-Queue-Id: 742CA20FC36
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.54 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_FROM(0.00)[bounces-54610-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[ideasonboard.com,kernel.org,linux.intel.com,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,xs4all.nl,ndufresne.ca,collabora.com,pengutronix.de,linaro.org,gmail.com,nxp.com,lists.linux.dev,lists.infradead.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54611-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[pengutronix.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-0.999];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	FROM_NEQ_ENVFROM(0.00)[m.felsch@pengutronix.de,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.964];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:url,pengutronix.de:email,checkpatch.pl:url,toradex.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Slightly different version of MT9M114 camera module is used in a several
-devices like ASUS Nexus 7 (2012) or ASUS Transformer Prime TF201 and is
-called Aptina MI1040. The only difference found so far is lacking ability
-to poll STATE register during power on sequence, which causes driver to
-fail with time out error. Add state_standby_polling flag to diverge models
-and address quirk found in MI1040.
+On 26-03-05, ming.qian@oss.nxp.com wrote:
+> From: Ming Qian <ming.qian@oss.nxp.com>
+> 
+> Fix a kernel panic when probing the driver as a module:
+> 
+>   Unable to handle kernel paging request at virtual address
+>   ffffd9c18eb05000
+>   of_find_matching_node_and_match+0x5c/0x1a0
+>   hantro_probe+0x2f4/0x7d0 [hantro_vpu]
+> 
+> The imx8mq_vpu_shared_resources array is referenced by variant
+> structures through their shared_devices field. When built as a
+> module, __initconst causes this data to be freed after module
+> init, but it's later accessed during probe, causing a page fault.
+> 
+> The imx8mq_vpu_shared_resources is referenced from non-init code,
+> so keeping __initconst or __initconst_or_module here is wrong.
+> 
+> Drop the __initconst annotation and let it live in the normal .rodata
+> section.
+> 
+> Fixes: e0203ddf9af7 ("media: verisilicon: Avoid G2 bus error while decoding H.264 and HEVC")
+> Reported-by: Franz Schnyder <franz.schnyder@toradex.com>
+> Closes: https://lore.kernel.org/all/n3qmcb62tepxltoskpf7ws6yiirc2so62ia23b42rj3wlmpl67@rvkbuirx7kkp/
+> Suggested-by: Marco Felsch <m.felsch@pengutronix.de>
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/media/i2c/mt9m114.c | 35 ++++++++++++++++++++++++++++-------
- 1 file changed, 28 insertions(+), 7 deletions(-)
+This fix was suggested by Krzysztof :)
 
-diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-index 16b0ace15813..e395e2d14e97 100644
---- a/drivers/media/i2c/mt9m114.c
-+++ b/drivers/media/i2c/mt9m114.c
-@@ -368,6 +368,10 @@
-  * Data Structures
-  */
- 
-+struct mt9m114_model_info {
-+	bool state_standby_polling;
-+};
-+
- enum mt9m114_format_flag {
- 	MT9M114_FMT_FLAG_PARALLEL = BIT(0),
- 	MT9M114_FMT_FLAG_CSI2 = BIT(1),
-@@ -417,6 +421,8 @@ struct mt9m114 {
- 
- 		struct v4l2_ctrl *tpg[4];
- 	} ifp;
-+
-+	const struct mt9m114_model_info *info;
- };
- 
- /* -----------------------------------------------------------------------------
-@@ -2284,9 +2290,11 @@ static int mt9m114_power_on(struct mt9m114 *sensor)
- 	 * reaches the standby mode (either initiated manually above in
- 	 * parallel mode, or automatically after reset in MIPI mode).
- 	 */
--	ret = mt9m114_poll_state(sensor, MT9M114_SYS_STATE_STANDBY);
--	if (ret < 0)
--		goto error_clock;
-+	if (sensor->info->state_standby_polling) {
-+		ret = mt9m114_poll_state(sensor, MT9M114_SYS_STATE_STANDBY);
-+		if (ret < 0)
-+			goto error_clock;
-+	}
- 
- 	return 0;
- 
-@@ -2532,6 +2540,10 @@ static int mt9m114_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		return ret;
- 
-+	sensor->info = device_get_match_data(dev);
-+	if (!sensor->info)
-+		return -ENODEV;
-+
- 	/* Acquire clocks, GPIOs and regulators. */
- 	sensor->clk = devm_v4l2_sensor_clk_get(dev, NULL);
- 	if (IS_ERR(sensor->clk)) {
-@@ -2646,15 +2658,24 @@ static void mt9m114_remove(struct i2c_client *client)
- 	pm_runtime_set_suspended(dev);
- }
- 
-+static const struct mt9m114_model_info mt9m114_models_default = {
-+	.state_standby_polling = true,
-+};
-+
-+static const struct mt9m114_model_info mt9m114_models_aptina = {
-+	.state_standby_polling = false,
-+};
-+
- static const struct of_device_id mt9m114_of_ids[] = {
--	{ .compatible = "onnn,mt9m114" },
--	{ /* sentinel */ },
-+	{ .compatible = "onnn,mt9m114", .data = &mt9m114_models_default },
-+	{ .compatible = "aptina,mi1040", .data = &mt9m114_models_aptina },
-+	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, mt9m114_of_ids);
- 
- static const struct acpi_device_id mt9m114_acpi_ids[] = {
--	{ "INT33F0" },
--	{ /* sentinel */ },
-+	{ "INT33F0", (kernel_ulong_t)&mt9m114_models_default },
-+	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(acpi, mt9m114_acpi_ids);
- 
+> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> ---
+> v2
+> - Remove __initconst
+> - Add missing Reported-by tag
+> - Add missing Suggested-by tag
+> - Remove comments of sentinel to pass checkpatch.pl
+> 
+>  drivers/media/platform/verisilicon/imx8m_vpu_hw.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> index 6f8e43b7f157..6fbe3c581032 100644
+> --- a/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> +++ b/drivers/media/platform/verisilicon/imx8m_vpu_hw.c
+> @@ -343,10 +343,10 @@ const struct hantro_variant imx8mq_vpu_variant = {
+>  	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
+>  };
+>  
+> -static const struct of_device_id imx8mq_vpu_shared_resources[] __initconst = {
+> +static const struct of_device_id imx8mq_vpu_shared_resources[] = {
+>  	{ .compatible = "nxp,imx8mq-vpu-g1", },
+>  	{ .compatible = "nxp,imx8mq-vpu-g2", },
+> -	{ /* sentinel */ }
+> +	{}
+
+Unnecessary change.
+
+With both fixed:
+
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+
+
+>  };
+>  
+>  const struct hantro_variant imx8mq_vpu_g1_variant = {
+> -- 
+> 2.52.0
+> 
+> 
+
 -- 
-2.51.0
+#gernperDu 
+#CallMeByMyFirstName
 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
 
