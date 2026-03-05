@@ -1,51 +1,52 @@
-Return-Path: <linux-media+bounces-54612-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54615-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ALIAAnJdqWkL6AAAu9opvQ
-	(envelope-from <linux-media+bounces-54612-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 11:39:46 +0100
+	id KL1PNHFdqWkL6AAAu9opvQ
+	(envelope-from <linux-media+bounces-54615-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 11:39:45 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B222620FCE6
+	by mail.lfdr.de (Postfix) with ESMTPS id 688A520FCE5
 	for <lists+linux-media@lfdr.de>; Thu, 05 Mar 2026 11:39:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D5927302A555
+	by tor.lore.kernel.org (Postfix) with ESMTP id A01AB3029C0A
 	for <lists+linux-media@lfdr.de>; Thu,  5 Mar 2026 10:39:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4ABC38423F;
-	Thu,  5 Mar 2026 10:39:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F52338424E;
+	Thu,  5 Mar 2026 10:39:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UFA7gU0Q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eev+W6LC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC523822BC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6FA382360;
 	Thu,  5 Mar 2026 10:39:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772707169; cv=none; b=fIHzngiDjhF3B4x89sFTfIewAyTkA9FEtX4z9v2+W0sMAcIjNaZgOiSMO6hrBeStv+ajVq8QyPhJL6uGS/YpPkxqzdroz41kiqx4hNVMtOWs2xDZXN9vbYdL+qJobJt2NNb7umla83LlKp/oQJW1tFfUIxVIHLeSy1rZBdepkbE=
+	t=1772707169; cv=none; b=oNeZ0lohIDIbs7BEw00X1W7updebMoB8ZAf+X8bSyW5iqQagaZanThvCDFTDUrS26R5/SFRCM0mVqSRFa3qqRjJXVSc76I3pXPI8RQPrTZPbKqeeL1KNGAK1vCJo8GUqwS5F8Mme4jImOb9GKlO6JN9AcaI+9PNTTtNCBB0JyXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772707169; c=relaxed/simple;
-	bh=jyTp85a5aEaHbY7OXrD6Xw/iriSe9M7IayD8vzJEaS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NdbdAEIZRir8iupqDrBFXitf29e2nbAPTyMiEa8eHCTMmYkR9uzDUjw5BIiIh3SbfQTkpnUmqZu8nZ9fzH+iOP/2Pf07lKcISwqPCp6MLMZWckMBxGuzePztAmaY85LS5WJMVKaZHEjmDOcI2YPHzmN5PCWkqHmZR4Tca3nRnXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UFA7gU0Q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0923AC19423;
+	bh=iHepo1Ohl1x8M46tJxVZJc4lcSZlaOA5mD8tdAIuhxg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZUdtU7pICdFPv2ONrRksNl85eKP1pVFFIJXDmDXVIas9+MGYJetrE2dSvoJyBqLnCVcEMY4jAZvkgLY3e58OraMqXIPXcxypn743AK+skyvpPLh3BndDnJIMTyILuUgXTUa9SiRf86xitRz8xuNjNFm1uAPuc1qLdVgLHngQ1z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eev+W6LC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 277B9C2BCB0;
 	Thu,  5 Mar 2026 10:39:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1772707169;
-	bh=jyTp85a5aEaHbY7OXrD6Xw/iriSe9M7IayD8vzJEaS4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UFA7gU0QY3KJnbf+nfBO6Yw77xdfRovSLIzOq46DumctP3nHj6h37hzKWNTVt2Puk
-	 702S4ugcBpQW/U7dyh0rw6I01UPrFQEhnrNVYKGarAxmrKIJqk5Zb+M7mxEQS7kAx8
-	 xjtfgah8J+mrwF7mIcwZ4mrsCiTtHLwgkbdgReNdf9OsP6CWFrgEILQZE6/iGrJiZL
-	 9+4qP8aPhg+eVLrd80Uss3jvKGW49173+2AeJC5NS4Y9LW9Z6icyxGIwwTtZ71rZvp
-	 BJrISJN0LvMyvb+1IsbqgOE1+09Yr7FrUknX8lOAyyfoe/9R4uBbothKGXL86yOUGD
-	 nNi95DXgpDUQg==
+	bh=iHepo1Ohl1x8M46tJxVZJc4lcSZlaOA5mD8tdAIuhxg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=eev+W6LCV0uSfv785AaWz41fUjMC659NfvdWfoPBe0bRS3Wk7LMgYWFtzbXxF/NKQ
+	 NnQvHS6UzaeHO/Y23DhygnWucu+Ma77d+Dw4wHClJoeDacTbG1LuGBSdX82PDLdO5k
+	 Ja8khRSVE1Xf3vZ1s6qA3XVUFvyYVvBHx98JqQ7x+gmAR+fPWxDswCC4S6cKKPkaUd
+	 cKqzDwJjF8+Ug57vjNR+UwIjrno/EncT2/pDO0fa6b8/YoSfwjhPQ04lr+5YDaCWhP
+	 BT97eSRG81ZBy2k44mkcAFdjIFLeZu2i0m8cby0vDvizZEpm40oTlxQNBDM6k7GUmZ
+	 GYMr1UazoLlxA==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1vy674-0000000043O-3XeQ;
+	id 1vy674-0000000043Q-3dGC;
 	Thu, 05 Mar 2026 11:39:26 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Sean Young <sean@mess.org>,
@@ -54,10 +55,12 @@ To: Sean Young <sean@mess.org>,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/4] media: drop redundant device references
-Date: Thu,  5 Mar 2026 11:39:15 +0100
-Message-ID: <20260305103919.15560-1-johan@kernel.org>
+Subject: [PATCH 1/4] media: imon: drop redundant device references
+Date: Thu,  5 Mar 2026 11:39:16 +0100
+Message-ID: <20260305103919.15560-2-johan@kernel.org>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260305103919.15560-1-johan@kernel.org>
+References: <20260305103919.15560-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,7 +68,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B222620FCE6
+X-Rspamd-Queue-Id: 688A520FCE5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -78,7 +81,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54612-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54615-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MIME_TRACE(0.00)[0:+];
@@ -101,25 +104,91 @@ device while the interface is bound to a driver and there is no need to
 take additional references unless the structures are needed after
 disconnect.
 
-Drop redundant device references to reduce cargo culting, make it easier
-to spot drivers where extra references are needed, and reduce the risk
-of memory leaks when drivers fail to release them.
+Drop the redundant device references to reduce cargo culting, make it
+easier to spot drivers where extra references are needed, and reduce the
+risk of memory leaks when drivers fail to release them.
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/media/rc/imon.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-
-Johan Hovold (4):
-  media: imon: drop redundant device references
-  media: mceusb: drop redundant device reference
-  media: go7007-loader: drop redundant device reference
-  media: usbtv: drop redundant device reference
-
- drivers/media/rc/imon.c                  | 13 +++----------
- drivers/media/rc/mceusb.c                |  4 +---
- drivers/media/usb/go7007/go7007-loader.c |  6 +-----
- drivers/media/usb/usbtv/usbtv-core.c     |  4 +---
- 4 files changed, 6 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index 7e92161105d5..ecea0085d411 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -2250,7 +2250,7 @@ static struct imon_context *imon_init_intf0(struct usb_interface *intf,
+ 	mutex_lock(&ictx->lock);
+ 
+ 	ictx->dev = dev;
+-	ictx->usbdev_intf0 = usb_get_dev(interface_to_usbdev(intf));
++	ictx->usbdev_intf0 = interface_to_usbdev(intf);
+ 	ictx->rx_urb_intf0 = rx_urb;
+ 	ictx->tx_urb = tx_urb;
+ 	ictx->rf_device = false;
+@@ -2308,7 +2308,6 @@ static struct imon_context *imon_init_intf0(struct usb_interface *intf,
+ 	usb_kill_urb(ictx->rx_urb_intf0);
+ urb_submit_failed:
+ find_endpoint_failed:
+-	usb_put_dev(ictx->usbdev_intf0);
+ 	mutex_unlock(&ictx->lock);
+ 	usb_free_urb(tx_urb);
+ tx_urb_alloc_failed:
+@@ -2338,7 +2337,7 @@ static struct imon_context *imon_init_intf1(struct usb_interface *intf,
+ 		timer_setup(&ictx->ttimer, imon_touch_display_timeout, 0);
+ 	}
+ 
+-	ictx->usbdev_intf1 = usb_get_dev(interface_to_usbdev(intf));
++	ictx->usbdev_intf1 = interface_to_usbdev(intf);
+ 	ictx->rx_urb_intf1 = rx_urb;
+ 
+ 	ret = -ENODEV;
+@@ -2377,7 +2376,6 @@ static struct imon_context *imon_init_intf1(struct usb_interface *intf,
+ 		input_unregister_device(ictx->touch);
+ touch_setup_failed:
+ find_endpoint_failed:
+-	usb_put_dev(ictx->usbdev_intf1);
+ 	ictx->usbdev_intf1 = NULL;
+ 	mutex_unlock(&ictx->lock);
+ 	usb_free_urb(rx_urb);
+@@ -2426,7 +2424,7 @@ static int imon_probe(struct usb_interface *interface,
+ 	struct imon_context *ictx = NULL;
+ 	u16 vendor, product;
+ 
+-	usbdev     = usb_get_dev(interface_to_usbdev(interface));
++	usbdev     = interface_to_usbdev(interface);
+ 	iface_desc = interface->cur_altsetting;
+ 	ifnum      = iface_desc->desc.bInterfaceNumber;
+ 	vendor     = le16_to_cpu(usbdev->descriptor.idVendor);
+@@ -2495,12 +2493,9 @@ static int imon_probe(struct usb_interface *interface,
+ 		 vendor, product, ifnum,
+ 		 usbdev->bus->busnum, usbdev->devnum);
+ 
+-	usb_put_dev(usbdev);
+-
+ 	return 0;
+ 
+ fail:
+-	usb_put_dev(usbdev);
+ 	dev_err(dev, "unable to register, err %d\n", ret);
+ 
+ 	return ret;
+@@ -2550,7 +2545,6 @@ static void imon_disconnect(struct usb_interface *interface)
+ 			else if (ictx->display_type == IMON_DISPLAY_TYPE_VFD)
+ 				usb_deregister_dev(interface, &imon_vfd_class);
+ 		}
+-		usb_put_dev(ictx->usbdev_intf0);
+ 	} else {
+ 		ictx->dev_present_intf1 = false;
+ 		usb_kill_urb(ictx->rx_urb_intf1);
+@@ -2558,7 +2552,6 @@ static void imon_disconnect(struct usb_interface *interface)
+ 			timer_delete_sync(&ictx->ttimer);
+ 			input_unregister_device(ictx->touch);
+ 		}
+-		usb_put_dev(ictx->usbdev_intf1);
+ 	}
+ 
+ 	if (refcount_dec_and_test(&ictx->users))
 -- 
 2.52.0
 
