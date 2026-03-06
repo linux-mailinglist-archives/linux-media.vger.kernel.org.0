@@ -1,239 +1,786 @@
-Return-Path: <linux-media+bounces-54678-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54679-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YPD+FMUyqmmNNAEAu9opvQ
-	(envelope-from <linux-media+bounces-54678-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 02:49:57 +0100
+	id 2KQyABgzqmm8NAEAu9opvQ
+	(envelope-from <linux-media+bounces-54679-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 02:51:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C083021A5BD
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 02:49:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E83321A666
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 02:51:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1B4CD303502E
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 01:49:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4F17A30156C1
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 01:51:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30CF328B5E;
-	Fri,  6 Mar 2026 01:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E9253254A2;
+	Fri,  6 Mar 2026 01:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="CpCia7Gv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OMVji4ni"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010004.outbound.protection.outlook.com [52.101.69.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274DE1E0DE8;
-	Fri,  6 Mar 2026 01:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772761776; cv=fail; b=LQxr17TkG6BqAN0wPVIvitdl0raTgWtmoC+9vnfZ7j/OW49LX30cO3RQmOKLLEFMYFJ+eRSSPUVTnNRDk1gcP3Nkzq2spN4xhMV/3Z0PCnaz90LhNTksSmA1tRNHojH02djnBqi4l+D7XvaylSFKsEB3U5q9uIWiM1xER0Al+MI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772761776; c=relaxed/simple;
-	bh=AxPJtLkyZE/DuqbirPKjbK+D70TjRCsYi9JttodOi/w=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UP3O5HFzYDqXZYJ+PGWi7JYtXP4ejfDLULl09+uwEUONP4pQKANEzzGxcLFnLHvKW73a/HaeZOXa3x3f5lyXNBXM3n5J7gzGT4mhWQ3dWXxHG6CXyjX9Fli7W8PdDnepnsyK+izgFaIgWvXOkcjvxUoNEitbr8jKI2mddmT6ZGg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=CpCia7Gv; arc=fail smtp.client-ip=52.101.69.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wWr3WmlDH39z61yQXZ5VioxiL9H9dwKxaIeC8XBJk1IXdibthSk862glIBGee6TnvJ/aJhnfT1eG+hEXj2Q5LX6VQAzE/I66ZFDqtovYGCrSTWKnSqGvMwK4aPou/xxABCi5uvxS81/XqBdkmT1rfDrW74ICasJuGgMtu0kPm+HxT4SAnDfZTnKpPIoqZTNvS96+bFq7Vvk+DQHI+Q6OTW+IrApeAFwwra91UJdStuxgwJBUzzQ2HRzHya8++qS+6AY3pdiQJ3VUMbo5iEh9OY92iktl5UfRv0QUrGJIpYNo32MBoIWezDdV4k2HGjxD5Z71ggJK2JOahzR4p5hvxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c3KTW9tz4wkNN8jUSVG90aAJUsDGhnrHZ6pRdfeoiRA=;
- b=Fcnp3WepwEq6JLie7OYA1LtteWHiuEe8BSWVmy0dvra/bLXZQ6lJA1D52bWapHj/TBeN3KsnNu0dURiNnK5ziATj8gGTvmeupig5AMP4Z2Yrnar17tcVwgbu/uXxBNTAosman8Tgw7aagjVN6S1L9bz861+Lzv/TR7uKEUl3kLbtoa2RWPfFLn7FK2KrqKyzxvNchhnQFPAl1OUcfUGJ0kb2w6itd79kvpwnLlkAevNwMKLLLsYrPw1P38fEuX1iOAfewBbHaY3EEX9dS+847AcXPUt9yzRkRYfFGwmrObXlZDKGWwRGhz5wdWVFo7jMrZXsoWtLPOBwmpUYHbC5sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c3KTW9tz4wkNN8jUSVG90aAJUsDGhnrHZ6pRdfeoiRA=;
- b=CpCia7GvyuY2nHHILGk8FAHJMW5UWXvm+6rHzAnieuM/aPDGcuSu4Nagr1Hq8KBeuAUksvMUbLLEE9oxyqNDjjXabY443jHsEWBih2o6K1TAdJ9bL+T/K2vCROmnfEX8pWiNTjyceRJlPsDROEKmpJqWz4uCOyyPjc6Jdjn8GP6P9L/a/Pws4w78BsKXiLlpEMTFRRKyo9eAz+PDm0txrvo7P+N9xR2jmHDE3ngINqPlGx3dTZDWcNWWiSBeIjB/z8pOH1792QjqTo5LZhMb6wAgNFZRMqKIwmj7ThtPazAGf29HbQWWuTPPyTzz8syATEIRDXTNZ2bKflj2gV1hrA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by PA1PR04MB11335.eurprd04.prod.outlook.com (2603:10a6:102:4f6::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Fri, 6 Mar
- 2026 01:49:31 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::20db:4017:28ea:911b]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::20db:4017:28ea:911b%4]) with mapi id 15.20.9678.017; Fri, 6 Mar 2026
- 01:49:31 +0000
-Message-ID: <84b588c1-edad-4c94-b3ad-38e85f7e64e4@oss.nxp.com>
-Date: Fri, 6 Mar 2026 09:49:19 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: verisilicon: Fix kernel panic due to
- __initconst misuse
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Marco Felsch <m.felsch@pengutronix.de>
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
- benjamin.gaignard@collabora.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, p.zabel@pengutronix.de, sebastian.fricke@collabora.com,
- shawnguo@kernel.org, ulf.hansson@linaro.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, fra.schnyder@gmail.com,
- linux-imx@nxp.com, l.stach@pengutronix.de, Frank.li@nxp.com,
- peng.fan@nxp.com, eagle.zhou@nxp.com, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20260305100149.722-1-ming.qian@oss.nxp.com>
- <azwbgxp4pl3m6klyvd5htmy7h7pc76nqvvgmi6pudvfl7zippl@svv7tiibyrci>
- <4eaae784-3730-4a9b-a94d-d0343c6b31c7@kernel.org>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <4eaae784-3730-4a9b-a94d-d0343c6b31c7@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR04CA0014.apcprd04.prod.outlook.com
- (2603:1096:4:197::18) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57A031D362
+	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 01:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772761869; cv=none; b=T6OEDa1AaUS4MoNWqeo3mtPxgT0HeI/7M25IGxO1ptgyDDAyMHaPCj/IN9BFrnMYbTP3NK/VZWuZOzZ76Y/wy9cTuttjYYcrrdgBijifpTtj+fsLS6aRMt9q2XyWAgpRxpjy8iQ39/83xWIMe/R1vvk2DAWtpoljxGphPv/SInE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772761869; c=relaxed/simple;
+	bh=Z9tuv80Wd+Z17aBWjfBPCZL5x2tayG5z4hbZl6oUNtQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RN5Yjl9T0rCEXLWYHUOzNq0/WKaOlNaP80fft9n7eY6cYzPwTVzN2iCCYQqel9ClcLRstyAFPw6iWHSgPQ8QMYgS+INLjOLaQ292yMqNI5Cngo2JZNQnSmmgdQP7at/CbVC8C2uzezMTvWbynr2GzcuViC+R6CbRIe8uBTelnxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OMVji4ni; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-40ee486a76eso2609392fac.2
+        for <linux-media@vger.kernel.org>; Thu, 05 Mar 2026 17:51:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772761864; x=1773366664; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F0rsOoswj5eD7nQPQpmkp6jfLbhrwTpwHV3qnnV31B8=;
+        b=OMVji4niGvKSkH+PsjA5mLoNTHpwKYucSOyKDtGorrrZg0xahOaHYzNz9uxB28x/AZ
+         tFuWznQVo2O5Y08f/xonFvy93PdM5JGWQ1xrIdg4MURsL5MGPevBizYMBGgOFZsvq0HL
+         6EXMjp5bUhceCsI80OekdQcQNO0erS2XPFMfeyBxlL3WdnIdY2woE/yd08NxHzpc4b4V
+         GaP2GisDLAqS6ndpSFYrKMZ8Pu8oM3Q/lUTN0wyuBge95okJfA/DsgK3c9P5aR8cFUFe
+         F4A31jHedbzcKrRt9skFPTP2qfDKcM8KbqMVDduXXdGIKcl1I91uhs/bOPyM7gysxGC1
+         AF6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772761864; x=1773366664;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=F0rsOoswj5eD7nQPQpmkp6jfLbhrwTpwHV3qnnV31B8=;
+        b=O9ddKedkA/fLl+18fwKSi0IuFcU2NlwHPfl3pW1dNGWLE3/hxDgd0ce3/GEsBNgdS0
+         5LwSaxu31hM8tXyfp64rZvHGP8OzuosU5cOA5dzUdx7X5cNZS47aysPZk/x54nG4GMik
+         D0fKWBdPQPolwbOfiPwL1vQ7ag8pyPcR2Gd3Z2KdjZoQAd1PQO//b6nxXLPsErmg/qJY
+         fTlFC0B47HulvRi1tX5ngwReLYOoWdngstD0M3xn0BKMG85nHKTJXQcAraMRH164/Ojx
+         7MLkrsgbK3KL7JQnDnyquyuACn0+0uBNn6d5XDUok2BdHlZsedePXS4q5yXSn6z6X1V/
+         byyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhJRQpBiDfUdYDhdyj9fSclozDcc36/jQRxA5h3kKR4BmM4gCuV1CfE0OLHXuin42ueOhlyrsHVv4G4A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVClf9emPijFgMTYAbiahoog1eSqP6PaRTT6LhGkIuNX4K7d63
+	0pH9+ctF5TSwUI8RdwdW/6j02ge7IidZ0Dt95no+I1K5wNP2yBFcd0Nu
+X-Gm-Gg: ATEYQzz1NUMpIpEtzUGJLLfif5CyjjXeZ0CUbQATpYXC8zugoN4H6WTa/dZRVmynS+u
+	iG4GMHbzbzfMCADuyl258KVJ/qqPbmCk42uJWoSTwluIR+PPNU5CobXXNRZcpUH7RTsM/jyUN8Y
+	LjUFq/jKYEX3Xm3UUH28EUNoDEpjHNRvIP3zVn2QrNd5SWwNj6Eqf1D39uDLVekvxOB5i5KvHiy
+	hgbmha/KUHo6AC/l6560T5SC4+VP9kYKrlDUkwDOkBEGlyhSYSQTMoZYugabjpkiNewKhQMv8n5
+	CrQfJAB5T0yp/15M9eoMyWy5rIN0eqPPZune7zC9FtRdDi3mG/ByLOC1EBTFw5CkjJJgMOPAM6B
+	e3SFuQR5JgyoIMa67dMqDPFq3kDvERhw6j2GxyL/C9TSSUje6zmSjdz8soxli9zLiLeXM0a9YeE
+	p1oNPs66TST0cfsB8GxnSTQWW9MoUJ00LQNe3XtTP60G7k7bypYKQzjTjMEro=
+X-Received: by 2002:a05:6820:162a:b0:679:9873:5e7e with SMTP id 006d021491bc7-67b9bd1af62mr408389eaf.42.1772761863366;
+        Thu, 05 Mar 2026 17:51:03 -0800 (PST)
+Received: from frodo (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
+        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-67b9cc1a627sm115245eaf.6.2026.03.05.17.50.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 17:50:58 -0800 (PST)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gvt-dev@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: Jim Cromie <jim.cromie@gmail.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	virtualization@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [RFC PATCH 2/7] virtio: use pr_debug_ratelimited to avoid flooding
+Date: Thu,  5 Mar 2026 18:50:05 -0700
+Message-ID: <20260306015022.1940986-3-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260306015022.1940986-1-jim.cromie@gmail.com>
+References: <20260306015022.1940986-1-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|PA1PR04MB11335:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8dfc3c8-001b-42ba-b79a-08de7b229bd6
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|19092799006|376014;
-X-Microsoft-Antispam-Message-Info:
-	tvkzrq/MHT/zE+zek4vytLp2jLsCFE+TefwJfrNhKGSHiSI9BO+EjzfqhGly+WU8ZuJxE7O+Xi/YGautcsNnH/gHSFTs2I5tjoIUXaMedmyryxWht7sOAiaFB7Yh4DuAj7lM6ZAqqpOZZQIEmEyNJ6TsPPJkiQyOYANSCiAxU2WfeU/XoFYIKLZgjryZUZWjxqaFdQuO3QBnvSY/yvZeiO8KPjr7cwwJS6D1/Wm9P6o9e8KYhKufBt5I+om9FcVxWScdIdjQ7DDTBkm6JG3YF4Li2VNCmLnqaO9aZlqes2stNeOlJ2hehMBgZgJVMoZPO5OILv61t5YOfoIlVYyNEV7EY33zdWVcVZReGAAKt9abGacEYFdZpTrGfhM2eSb67X8dbbnQGZaNALGNTz+BDIHPbheDpr9WmXUMZF6Qtb+e0U3mqSmPmhQE4JP40gK5JpHRW7XpJYJKlXWYNBYhfKsrIlh4+uhAf0MS8Wv9vo9w1GsOmBmDnjIYDsQTpH+sJ6hxp2AseuhDH8D+ec6xCr4eU0Zx8iSpYZJwXg6l+GBSZWfkGO76905c6+e8IdpIOGRQFHw9p8j4cNM38V6t3CyUEvaI6cF8b1+hwHQtcHWezlAnpQfzM/E483TwYVCL3H2oZrNm3gwY6F85B4RR3SR/IKUNUndmSB6nplwg318NQlDNsMqXqzip8ckpa4GYuXc6Ky719fPuxlSbFC2/QBktoduwM8AIW9Uuv1JPt4ojBZELejmcjJ7AgK5y8wKO
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(19092799006)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bXlLOFA3c1N4dXBYcHJvU2FqK0RHdU1WMDVOMnNXTjlBbmJzWXpIWlRwME92?=
- =?utf-8?B?MldJNFlvRVdKOW1RZXA0UnRjRjBYMXpLSFBvOG1KYmxWWkVRYlNScXJPK25N?=
- =?utf-8?B?dTJQNmh3T3QwTFp0ekszRXVBbE5vS2o5NGRsb2JVdnJkVGdjZFc1aHZySU91?=
- =?utf-8?B?ZEVkczBGc2hZNE5idkxaVzZpaVNvRGhocHB5MnZwSFhYZjhhTnNOUFV0U0tY?=
- =?utf-8?B?SUE3OFBBdVpwSDFLenpxWmcreE1WTiswRXRSU0s5U0plM0hGNENDMG5sVzJQ?=
- =?utf-8?B?NFNmSDNhemwxNEdYQlQyUWg3bzVZeHFPTVQrSm9FU2tMTVEvaC9WTUhHbWN4?=
- =?utf-8?B?L1RQQWxrNTZkTEdvcFpJazJaT3lCRVBiSXVzZFNNVTFqdUtBbFUyR1hIWnNI?=
- =?utf-8?B?V3d0eXdrR1hhTVVjeWJ1WW9vTmgxcmdwZkhYd202ek5yVnEvMTM1YTN6dFFM?=
- =?utf-8?B?RW9rTkwvZ3BWRG1sNXJLVEJOZStBZUhtcG9NcFMwM21PNmh5V0FjMnVwTDVB?=
- =?utf-8?B?bllGT1lTdHhZVG1WSUtXd1FiYzUrN1pTemNIN0pjUXRiU0lEaTVoQVppOTI2?=
- =?utf-8?B?R3lYcTc2V2huYjFpTUdUUjdXc0RRUHVMZzJ0RUlKWHM5RWxUREE5eklETUdK?=
- =?utf-8?B?NGl1WmVPUmdKcS90dXp2c0o0UEQ2a1FEdmlDbjFTWHpZcDR1THM3WVBkcmdn?=
- =?utf-8?B?RVIvakY5L0QzZW9yeUM2bTVkMzEzbjdJam9JVGZoYUQ1U0tWQkkzSHFneUJy?=
- =?utf-8?B?R0lVbUE0c3B1dWlGNmJwTU5kbjh6TXlLMWNJTWxrUGg1eDduRlFOWUFxRmRK?=
- =?utf-8?B?WG8xNUhyYkFOYXViMDc4NGppZDB0d0FvOGRMVDRrZW56ejdFZWpsWS9jbmtD?=
- =?utf-8?B?NXAva2V6N3ZYTDlZOEd5UVJiMXlrUVVwOE5NOE00Qk40djJzemVCUERuQkFm?=
- =?utf-8?B?YTlXMEZLU05Gam1MWWZ4aUdHbnV4ekgzaHdCMTcrdXhKenJHZThtZmlHN1FH?=
- =?utf-8?B?OXJGWlhqbHdIWFpIVlpGNW1ZTG1vWVNXeEhZSDFSc1E5dWJGaWY3eFJaOHNQ?=
- =?utf-8?B?SEdseHJoNnplZS92RVFsaGNMVk1IQm1GR1VCYjBPK1oyVFh3UzdkazEyZGF4?=
- =?utf-8?B?WWo3SGM0R1pPWGNDWTd1RUlnNkh5OXlja0dRYzRVZEdJL0N6bHhibG5XZHho?=
- =?utf-8?B?VHJRbDQvWnpRTGJTdHI1cFlSZ1ZkRVVaUk90WlRKM3VhbGphWEtpYVB5RVpQ?=
- =?utf-8?B?QUorRzRBQ2k1QlFrd0doWk16d3paajhpdlpRWUJhZVdLKzNCZTl3K2cxOWVZ?=
- =?utf-8?B?SXZrQ3dpbWtLNlVWZXlyem9teGttOC9tdW5aOWRTamROL0RaaXpGUWdTd0F6?=
- =?utf-8?B?elZrS2YxeHdISHNWdUV1L1lXbUp5QmVBa1BYc2ZPVTZKWTNLSExjd0hrdHJS?=
- =?utf-8?B?M2pGUE80bWFyUkh2RHVPd24vYkJySkZuUXNPcmtHdHh6SDVsbzFvS04vWk9O?=
- =?utf-8?B?TWlmTHBZdGlsNkV0SGgzakRLNE9Pd2ViUkw5Y0NSRmpTTFB4a1pNVTRLUHFD?=
- =?utf-8?B?QW5xb0dmSkRTdUd5bjNRL0dweUx0ZXl1RmIyYjBFS3JEN2RHQndVTjJKTHlP?=
- =?utf-8?B?T0tIWkZMY1kyS01FSlVRdWJDZUN0UkNsUmszbUs2UjdrZFc0dUl5R3oyUW5I?=
- =?utf-8?B?cFNIMUZFWEhMQUVsaFlpNWtPTTRYc3Jsb2VMelU2ekN5VUNGaUR3RFY2a2lB?=
- =?utf-8?B?ODZPSldSa0pXTzZYOFFsS0JIaldaZzNIb2pFWndPbkE3WlFZcFVJbFpRUisw?=
- =?utf-8?B?aXFMTTh4dmx6Z2V2b2hlM29VSUdDNTFuOThPQUJGQ0ZNTzMwdWdVTHREMXlp?=
- =?utf-8?B?S2h1TzYyY3p3UmhxWTVIQ0ZRVGZBRWJCQU9qRHBRWkM0elB5eEVERXpVZXpp?=
- =?utf-8?B?TFN6Zk1YNEl1OXF3NW1BeVJoUm0rL0JJdU9BbzNCaWdjMHhrM21mbGFDRmYx?=
- =?utf-8?B?V3V0WW5tcFFUSCtsYncyeUs4RWRQSFFCcHVXY0gvWGtqYUUzMXQ2aTRicVN6?=
- =?utf-8?B?YjgyMlJ4Y1JNUXllM2VEZGFaQmhOWkh1dFhZYUl5QkRab0daaUhrd0dVMlFN?=
- =?utf-8?B?eXpTMiszVUY3K0s3T0hrSW94YllmMmNweHpHbW14OEVYOW1KdTUwRldhMmVK?=
- =?utf-8?B?ekNJaGhKL21hRWRGTUdqQ2RoWlRNZ3RpOUk5MTFJMnpDN1l2cFhWTGpGRmVE?=
- =?utf-8?B?TnZCdVhTRG1XUG9Bbkg4VDlYVzFRNEhjeHN3d2tyMjdscmoyZFhObldKWDl4?=
- =?utf-8?B?L3cvSTlZT1dZa3J0YjNad21qUDRpNEQ1YzZ0aEJxOXNmS3duaXZzdz09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8dfc3c8-001b-42ba-b79a-08de7b229bd6
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 01:49:31.1435
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vk89MLU85cxqR5uurazDol1j84Oa6yY5Mv/xApdMwO4kOUzvSYHFhiDFAiV8doSTkm7pjvNczoMaDBsDwCzx9g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB11335
-X-Rspamd-Queue-Id: C083021A5BD
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4E83321A666
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.94 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54678-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[gmail.com,redhat.com,linux.alibaba.com,linaro.org,amd.com,lists.linux.dev,vger.kernel.org,lists.linaro.org];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54679-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,xs4all.nl,ndufresne.ca,collabora.com,pengutronix.de,linaro.org,gmail.com,nxp.com,lists.linux.dev,lists.infradead.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ming.qian@oss.nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[toradex.com:email,NXP1.onmicrosoft.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,nxp.com:email,qualcomm.com:email]
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jimcromie@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[drm-misc-fixes-2026-02-26-80-g9a2f253ad689:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi
+When I test dynamic-debug's static-key toggling performance in a
+virtme-ng session, it is too easy to create an enormous flood of
+printks to the console.
 
-On 3/5/2026 8:04 PM, Krzysztof Kozlowski wrote:
-> On 05/03/2026 11:32, Marco Felsch wrote:
->> On 26-03-05, ming.qian@oss.nxp.com wrote:
->>> From: Ming Qian <ming.qian@oss.nxp.com>
->>>
->>> Fix a kernel panic when probing the driver as a module:
->>>
->>>    Unable to handle kernel paging request at virtual address
->>>    ffffd9c18eb05000
->>>    of_find_matching_node_and_match+0x5c/0x1a0
->>>    hantro_probe+0x2f4/0x7d0 [hantro_vpu]
->>>
->>> The imx8mq_vpu_shared_resources array is referenced by variant
->>> structures through their shared_devices field. When built as a
->>> module, __initconst causes this data to be freed after module
->>> init, but it's later accessed during probe, causing a page fault.
->>>
->>> The imx8mq_vpu_shared_resources is referenced from non-init code,
->>> so keeping __initconst or __initconst_or_module here is wrong.
->>>
->>> Drop the __initconst annotation and let it live in the normal .rodata
->>> section.
->>>
->>> Fixes: e0203ddf9af7 ("media: verisilicon: Avoid G2 bus error while decoding H.264 and HEVC")
->>> Reported-by: Franz Schnyder <franz.schnyder@toradex.com>
->>> Closes: https://lore.kernel.org/all/n3qmcb62tepxltoskpf7ws6yiirc2so62ia23b42rj3wlmpl67@rvkbuirx7kkp/
->>> Suggested-by: Marco Felsch <m.felsch@pengutronix.de>
->>
->> This fix was suggested by Krzysztof :)
-> 
-> Or at least a bug of __initconst called from regular non-init probe code
-> leading to bugs during probe deferrals or during unbind-bind cycles...
-> 
-> Closes:
-> https://lore.kernel.org/all/68ef934f-baa0-4bf6-93d8-834bbc441e66@kernel.org/
-> Reported-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ?
-> 
+  #> echo +p > /proc/dynamic_debug/control
+  #> echo -p > /proc/dynamic_debug/control
 
-Thanks for your help, I will add this in next version.
+Now theres no "good reason" to shoot your own foot, but this is also
+easy to fix, by ratelimiting the sources of the flood.  I don't think
+theres a loss of utility to virtio.
 
-> Best regards,
-> Krzysztof
+Example console output is below the snip.  For this test-case,
+ratelimiting suppresses >900k callbacks.  It also allows this simple
+load test for the static-key toggling performance in a following patch.
+
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+
+root@drm-misc-fixes-2026-02-26-80-g9a2f253ad689:/home/jimc/projects/lx/wk-D/b0-dd# ddcmdq -p
+[  619.868567] dyndbg: query 0: "-p" mod:*
+Delta-CAL (IPI): 71
+
+- above is a noop baseline.
+
+root@drm-misc-fixes-2026-02-26-80-g9a2f253ad689:/home/jimc/projects/lx/wk-D/b0-dd# ddcmdq +p
+[  648.876520] dyndbg: query 0: "+p" mod:*
+[  648.878263] dyndbg: match on module: led_class
+[  648.878350] dyndbg: match on module: probe
+[  648.878474] dyndbg: match on module: pci
+[  648.878636] dyndbg: match on module: pci_driver
+[  648.878743] dyndbg: match on module: irq
+[  648.878845] dyndbg: match on module: setup_bus
+[  648.879032] dyndbg: match on module: pcieportdrv
+[  648.879139] dyndbg: match on module: bwctrl
+[  648.879197] dyndbg: match on module: aspm
+[  648.879241] dyndbg: match on module: slot
+[  648.879328] dyndbg: match on module: pci_acpi
+[  648.879431] dyndbg: match on module: quirks
+[  648.879521] dyndbg: match on module: pci_hotplug
+[  648.879576] dyndbg: match on module: vgaarb
+[  648.879710] dyndbg: match on module: backlight
+[  648.879826] dyndbg: match on module: fb
+[  648.879900] dyndbg: match on module: tables
+[  648.880012] dyndbg: match on module: acpi
+[  648.880977] dyndbg: match on module: ac
+[  648.881021] dyndbg: match on module: button
+[  648.881097] dyndbg: match on module: fan
+[  648.881196] dyndbg: match on module: video
+[  648.881295] dyndbg: match on module: processor
+[  648.881558] dyndbg: match on module: thermal_lib
+[  648.881671] dyndbg: match on module: thermal
+[  648.881784] dyndbg: match on module: srat
+[  648.881860] dyndbg: match on module: battery
+[  648.881938] dyndbg: match on module: acpi_x86
+[  648.882088] dyndbg: match on module: pnp
+[  648.882219] dyndbg: match on module: dmaengine
+[  648.882351] dyndbg: match on module: virt_dma
+[  648.882429] dyndbg: match on module: acpi_dma
+[  648.882518] dyndbg: match on module: dw_dmac_core
+[  648.882619] dyndbg: match on module: virtio_ring
+[  648.882833] dyndbg: match on module: tty_io
+[  648.882835] virtqueue_get_buf_ctx_split: 852672 callbacks suppressed
+[  648.882836] No more buffers in queue
+[  648.882837] virtqueue_add_split: 4962 callbacks suppressed
+[  648.882838] Added buffer head 0 to 00000000531af360
+[  648.882842] No more buffers in queue
+[  648.882843] No more buffers in queue
+[  648.882843] No more buffers in queue
+[  648.882844] No more buffers in queue
+[  648.882844] No more buffers in queue
+[  648.882845] No more buffers in queue
+[  648.882845] No more buffers in queue
+[  648.882846] No more buffers in queue
+[  648.882846] No more buffers in queue
+[  648.882857] Added buffer head 0 to 00000000531af360
+[  648.882869] Added buffer head 0 to 00000000531af360
+[  648.882874] vring_interrupt: 88637 callbacks suppressed
+[  648.882876] virtqueue interrupt with no work for 00000000e20c0e9d
+[  648.882882] Added buffer head 0 to 00000000531af360
+[  648.882899] Added buffer head 0 to 00000000531af360
+[  648.882909] Added buffer head 0 to 00000000531af360
+[  648.882919] Added buffer head 0 to 00000000531af360
+[  648.882930] Added buffer head 0 to 00000000531af360
+[  648.882941] Added buffer head 0 to 00000000531af360
+[  648.882951] Added buffer head 0 to 00000000531af360
+[  648.883860] virtqueue interrupt with no work for 00000000531af360
+[  648.883920] virtqueue interrupt with no work for 0000000088284d45
+[  648.883980] virtqueue interrupt with no work for 000000006b8c4aa3
+[  648.884033] virtqueue interrupt with no work for 00000000f205a9b7
+[  648.884085] virtqueue interrupt with no work for 0000000021930e68
+[  648.884138] virtqueue interrupt with no work for 0000000081dad94c
+[  648.884190] virtqueue interrupt with no work for 0000000097d16d2d
+[  648.884243] virtqueue interrupt with no work for 00000000b4539010
+[  648.884296] virtqueue interrupt with no work for 00000000ac870038
+[  648.884418] dyndbg: match on module: tty_jobctrl
+[  648.884476] dyndbg: match on module: vt_ioctl
+[  648.884528] dyndbg: match on module: serial_base
+[  648.884625] dyndbg: match on module: 8250
+[  648.884698] dyndbg: match on module: 8250_base
+[  648.884795] dyndbg: match on module: 8250_exar
+[  648.884856] dyndbg: match on module: 8250_pci
+[  648.884962] dyndbg: match on module: 8250_pericom
+[  648.885014] dyndbg: match on module: virtio_console
+[  648.885091] dyndbg: match on module: iommu
+[  648.885132] dyndbg: match on module: init
+[  648.885174] dyndbg: match on module: ppr
+[  648.885216] dyndbg: match on module: iommu
+[  648.885256] dyndbg: match on module: dmar
+[  648.885334] dyndbg: match on module: iommu
+[  648.885419] dyndbg: match on module: virtio_iommu
+[  648.885481] dyndbg: match on module: drm
+[  648.885577] dyndbg: match on module: ttm
+[  648.885651] dyndbg: match on module: component
+[  648.885756] dyndbg: match on module: core
+[  648.885979] dyndbg: match on module: bus
+[  648.886081] dyndbg: match on module: dd
+[  648.886238] dyndbg: match on module: syscore
+[  648.886339] dyndbg: match on module: class
+[  648.886429] dyndbg: match on module: platform
+[  648.886519] dyndbg: match on module: faux
+[  648.886567] dyndbg: match on module: main
+[  648.886664] dyndbg: match on module: wakeup
+[  648.886765] dyndbg: match on module: firmware_class
+[  648.886925] dyndbg: match on module: regmap
+[  648.886971] dyndbg: match on module: regcache
+[  648.887089] dyndbg: match on module: regcache_flat
+[  648.887142] dyndbg: match on module: regmap_debugfs
+[  648.887195] dyndbg: match on module: mei
+[  648.887914] dyndbg: match on module: mei_me
+[  648.888149] dyndbg: match on module: dax
+[  648.888267] dyndbg: match on module: dma_buf
+[  648.888322] dyndbg: match on module: scsi_mod
+[  648.888413] dyndbg: match on module: virtio_scsi
+[  648.888486] dyndbg: match on module: libata
+[  648.888736] dyndbg: match on module: ahci
+[  648.888816] dyndbg: match on module: libahci
+[  648.888895] dyndbg: match on module: ata_piix
+[  648.888960] dyndbg: match on module: pata_amd
+[  648.889050] dyndbg: match on module: pata_oldpiix
+[  648.889124] dyndbg: match on module: pata_sch
+[  648.889172] dyndbg: match on module: mdio_bus
+[  648.889229] dyndbg: match on module: libphy
+[  648.889303] dyndbg: match on module: realtek
+[  648.889395] dyndbg: match on module: fwnode_mdio
+[  648.889468] dyndbg: match on module: virtio_net
+[  648.889697] dyndbg: match on module: pcmcia_core
+[  648.889848] dyndbg: match on module: pcmcia
+[  648.890263] dyndbg: match on module: pci_quirks
+[  648.890322] dyndbg: match on module: i8042
+[  648.890355] dyndbg: match on module: libps2
+[  648.890441] dyndbg: match on module: input_core
+[  648.890546] dyndbg: match on module: ff_memless
+[  648.890670] dyndbg: match on module: atkbd
+[  648.890724] dyndbg: match on module: psmouse
+[  648.890981] dyndbg: match on module: rtc_core
+[  648.891135] dyndbg: match on module: rtc_cmos
+[  648.891242] dyndbg: match on module: i2c_boardinfo
+[  648.891303] dyndbg: match on module: i2c_core
+[  648.891519] dyndbg: match on module: i2c_smbus
+[  648.891624] dyndbg: match on module: i2c_i801
+[  648.891757] dyndbg: match on module: pps_core
+[  648.891925] dyndbg: match on module: power_supply
+[  648.892085] dyndbg: match on module: hwmon
+[  648.892129] dyndbg: match on module: thermal_sys
+[  648.892260] dyndbg: match on module: therm_throt
+[  648.892315] dyndbg: match on module: md_mod
+[  648.892570] dyndbg: match on module: dm_mod
+[  648.892696] dyndbg: match on module: sysfs
+[  648.892741] dyndbg: match on module: dmi_scan
+[  648.892787] dyndbg: match on module: qemu_fw_cfg
+[  648.892889] dyndbg: match on module: esrt
+[  648.892935] dyndbg: match on module: mailbox
+[  648.893006] dyndbg: match on module: pcc
+[  648.893051] dyndbg: match on module: nvmem_core
+[  648.893103] dyndbg: match on module: snd
+[  648.893191] dyndbg: match on module: snd_timer
+[  648.893249] dyndbg: match on module: snd_pcm
+[  648.893356] dyndbg: match on module: snd_seq
+[  648.893514] dyndbg: match on module: snd_intel8x0
+[  648.893572] dyndbg: match on module: snd_ac97_codec
+[  648.893667] dyndbg: match on module: snd_hda_core
+[  648.893867] dyndbg: match on module: snd_intel_dspcfg
+[  648.894017] dyndbg: match on module: snd_intel_sdw_acpi
+[  648.894131] dyndbg: match on module: snd_hda_codec
+[  648.894336] dyndbg: match on module: snd_hda_codec_realtek_lib
+[  648.894479] dyndbg: match on module: snd_hda_codec_alc269
+[  648.894585] dyndbg: match on module: snd_hda_scodec_component
+[  648.894655] dyndbg: match on module: snd_hda_codec_generic
+[  648.894775] dyndbg: match on module: snd_hda_intel
+[  648.894939] dyndbg: match on module: sock
+[  648.894987] dyndbg: match on module: dev
+[  648.895119] dyndbg: match on module: sch_api
+[  648.895174] dyndbg: match on module: route
+[  648.895215] dyndbg: match on module: ip_fragment
+[  648.895264] dyndbg: match on module: ip_output
+[  648.895313] dyndbg: match on module: tcp
+[  648.895350] dyndbg: match on module: tcp_input
+[  648.895468] dyndbg: match on module: tcp_output
+[  648.895575] dyndbg: match on module: tcp_timer
+[  648.895634] dyndbg: match on module: tcp_ipv4
+[  648.895687] dyndbg: match on module: tcp_cong
+[  648.895743] dyndbg: match on module: tcp_fastopen
+[  648.895796] dyndbg: match on module: tcp_recovery
+[  648.895854] dyndbg: match on module: udp
+[  648.895951] dyndbg: match on module: arp
+[  648.895994] dyndbg: match on module: icmp
+[  648.896096] dyndbg: match on module: devinet
+[  648.896151] dyndbg: match on module: fib_trie
+[  648.896250] dyndbg: match on module: ping
+[  648.896409] dyndbg: match on module: sysctl_net_ipv4
+[  648.896505] dyndbg: match on module: ipconfig
+[  648.896567] dyndbg: match on module: tcp_cubic
+[  648.896625] dyndbg: match on module: ip6_checksum
+[  648.896718] dyndbg: match on module: sysctl_net
+[  648.896832] dyndbg: match on module: i386
+[  648.896886] dyndbg: match on module: mmconfig_shared
+[  648.896944] dyndbg: match on module: fixup
+[  648.897029] dyndbg: match on module: acpi
+[  648.897087] dyndbg: match on module: irq
+[  648.897185] dyndbg: match on module: decompress
+[  648.897253] dyndbg: match on module: kobject
+[  648.897366] dyndbg: match on module: kobject_uevent
+[  648.897478] dyndbg: applied queued updates to 1900 sites in total
+[  648.897586] applying 1879 queued jump_labels
+[  648.898378] virtqueue callback for 00000000b8493952 (000000004941ab6e)
+[  648.898493] virtio_fs_send_req: opcode 5 unique 0x45a0 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.898493] virtio_fs_send_req: opcode 5 unique 0x459e nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.898582] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.898752] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.898905] virtio_fs_send_req: opcode 5 unique 0x45a2 nodeid 0x2f2 in.len 40 out.len 4095 queue_id 1
+[  648.898912] virtio_fs_send_req: opcode 5 unique 0x45a4 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.899066] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.899183] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.899276] virtio_fs_send_req: opcode 5 unique 0x45a6 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.899281] virtio_fs_send_req: opcode 5 unique 0x45a8 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.899413] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.899528] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.899608] virtio_fs_send_req: opcode 5 unique 0x45ac nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.899608] virtio_fs_send_req: opcode 5 unique 0x45aa nodeid 0x2f2 in.len 40 out.len 4095 queue_id 1
+[  648.899711] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.899850] virtqueue callback for 00000000531af360 (00000000df837aee)
+[  648.899957] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.899989] virtio_fs_send_req: opcode 5 unique 0x45ae nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.899992] virtio_fs_send_req: opcode 5 unique 0x45b0 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.900080] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.900084] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.900520] virtio_fs_send_req: opcode 5 unique 0x45b2 nodeid 0x2f2 in.len 40 out.len 4095 queue_id 1
+[  648.900557] virtio_fs_send_req: opcode 5 unique 0x45b4 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.900725] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.901958] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.902056] virtio_fs_send_req: opcode 5 unique 0x45b6 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.902069] virtio_fs_send_req: opcode 14 unique 0x45b8 nodeid 0x245 in.len 48 out.len 16 queue_id 1
+[  648.902292] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.902409] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.902506] virtio_fs_send_req: opcode 5 unique 0x45ba nodeid 0x2f2 in.len 40 out.len 4095 queue_id 1
+[  648.902507] overlayfs: open(00000000cc553079[bin/grep/l], 0100040) -> (00000000ebc0a9b2, 01100040)
+[  648.902707] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.902793] virtio_fs_send_req: opcode 5 unique 0x45bc nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.902861] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.903071] virtio_fs_send_req: opcode 14 unique 0x45be nodeid 0x28 in.len 48 out.len 16 queue_id 1
+[  648.903072] virtio_fs_send_req: opcode 5 unique 0x45c0 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.903325] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.903329] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.903546] overlayfs: open(0000000044db1ed7[lib64/ld-linux-x86-64.so.2/l], 0100040) -> (00000000ce7f73a3, 01100040)
+[  648.903629] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.903800] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.903896] virtio_fs_send_req: opcode 5 unique 0x45c2 nodeid 0x2f2 in.len 40 out.len 4095 queue_id 1
+[  648.903921] virtio_fs_send_req: opcode 14 unique 0x45c4 nodeid 0x2b in.len 48 out.len 16 queue_id 1
+[  648.904123] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.904252] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.904382] overlayfs: open(0000000044db1ed7[/ld.so.cache/l], 0100000) -> (00000000a546e0ec, 01100000)
+[  648.904421] virtio_fs_send_req: opcode 5 unique 0x45c6 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.904521] virtio_fs_send_req: opcode 25 unique 0x45c8 nodeid 0x2b in.len 64 out.len 0 queue_id 1
+[  648.904698] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.904849] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.904982] virtio_fs_send_req: opcode 5 unique 0x45ca nodeid 0x2f2 in.len 40 out.len 4095 queue_id 1
+[  648.905003] virtio_fs_send_req: opcode 5 unique 0x45cc nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.905214] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.905333] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.905469] virtio_fs_send_req: opcode 14 unique 0x45ce nodeid 0x2f3 in.len 48 out.len 16 queue_id 1
+[  648.905476] virtio_fs_send_req: opcode 5 unique 0x45d0 nodeid 0x4b in.len 40 out.len 4095 queue_id 1
+[  648.905672] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.905803] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.905910] overlayfs: open(00000000b23a5ecd[bin/gawk/l], 0100040) -> (0000000042a63553, 01100040)
+[  648.905918] virtio_fs_send_req: opcode 14 unique 0x45d2 nodeid 0x4c in.len 48 out.len 16 queue_id 1
+[  648.906095] virtio_fs_send_req: opcode 5 unique 0x45d4 nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.906255] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.906359] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.906486] overlayfs: open(0000000044db1ed7[lib64/libpcre2-8.so.0.15.0/l], 0100000) -> (00000000761f1272, 01100000)
+[  648.906498] virtio_fs_send_req: opcode 14 unique 0x45d6 nodeid 0x28 in.len 48 out.len 16 queue_id 1
+[  648.906653] virtio_fs_send_req: opcode 25 unique 0x45d8 nodeid 0x4c in.len 64 out.len 0 queue_id 1
+[  648.906842] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.906929] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.907050] overlayfs: open(000000001dc27c49[lib64/ld-linux-x86-64.so.2/l], 0100040) -> (00000000cb9765b4, 01100040)
+[  648.907060] virtio_fs_send_req: opcode 5 unique 0x45da nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.907329] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.907428] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.907453] virtio_fs_send_req: opcode 14 unique 0x45dc nodeid 0x2b in.len 48 out.len 16 queue_id 1
+[  648.907633] virtio_fs_send_req: opcode 14 unique 0x45de nodeid 0x30 in.len 48 out.len 16 queue_id 1
+[  648.907709] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.907848] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.907943] overlayfs: open(0000000044db1ed7[lib64/libc.so.6/l], 0100000) -> (000000003b97b39b, 01100000)
+[  648.907943] overlayfs: open(000000001dc27c49[/ld.so.cache/l], 0100000) -> (00000000fce78bd3, 01100000)
+[  648.908091] virtio_fs_send_req: opcode 25 unique 0x45e0 nodeid 0x30 in.len 64 out.len 0 queue_id 1
+[  648.908169] virtio_fs_send_req: opcode 25 unique 0x45e2 nodeid 0x2b in.len 64 out.len 0 queue_id 1
+[  648.908341] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.908447] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.908581] virtio_fs_send_req: opcode 5 unique 0x45e4 nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.908724] virtio_fs_send_req: opcode 18 unique 0x45e6 nodeid 0x2b in.len 64 out.len 0 queue_id 1
+[  648.908776] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.908895] virtio_fs_send_req: opcode 14 unique 0x45e8 nodeid 0x2a7 in.len 48 out.len 16 queue_id 1
+[  648.908956] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.909155] virtio_fs_send_req: opcode 5 unique 0x45ea nodeid 0x2f4 in.len 40 out.len 4095 queue_id 1
+[  648.909156] overlayfs: open(0000000044db1ed7[locale/locale-archive/l], 0100000) -> (00000000a546e0ec, 01100000)
+[  648.909346] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.909427] virtio_fs_send_req: opcode 25 unique 0x45ec nodeid 0x2a7 in.len 64 out.len 0 queue_id 1
+[  648.909506] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.909725] virtio_fs_send_req: opcode 14 unique 0x45ee nodeid 0x2f5 in.len 48 out.len 16 queue_id 1
+[  648.909764] virtio_fs_send_req: opcode 14 unique 0x45f0 nodeid 0x2a9 in.len 48 out.len 16 queue_id 1
+[  648.910023] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.910119] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.910240] overlayfs: open(0000000044db1ed7[gconv/gconv-modules.cache/l], 0100000) -> (0000000046b528d3, 01100000)
+[  648.910245] overlayfs: open(000000001dc27c49[lib64/libreadline.so.8.3/l], 0100000) -> (000000006c3dd911, 01100000)
+[  648.910382] virtio_fs_send_req: opcode 25 unique 0x45f2 nodeid 0x2a9 in.len 64 out.len 0 queue_id 1
+[  648.910515] virtio_fs_send_req: opcode 25 unique 0x45f4 nodeid 0x2f5 in.len 64 out.len 0 queue_id 1
+[  648.910662] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.910775] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.910915] virtio_fs_send_req: opcode 5 unique 0x45f6 nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.910930] virtio_fs_send_req: opcode 14 unique 0x45f8 nodeid 0x2b2 in.len 48 out.len 16 queue_id 1
+[  648.911124] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.911233] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.911331] overlayfs: open(0000000044db1ed7[locale/locale.alias/l], 0100000) -> (000000001b94a7b7, 01100000)
+[  648.911332] virtio_fs_send_req: opcode 5 unique 0x45fa nodeid 0x2f6 in.len 40 out.len 4095 queue_id 1
+[  648.911483] virtio_fs_send_req: opcode 25 unique 0x45fc nodeid 0x2b2 in.len 64 out.len 0 queue_id 1
+[  648.911664] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.911757] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.911865] virtio_fs_send_req: opcode 18 unique 0x45fe nodeid 0x2b2 in.len 64 out.len 0 queue_id 1
+[  648.911870] virtio_fs_send_req: opcode 14 unique 0x4600 nodeid 0x2f7 in.len 48 out.len 16 queue_id 1
+[  648.912086] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.912188] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.912284] overlayfs: open(000000001dc27c49[lib64/libmpfr.so.6.2.2/l], 0100000) -> (00000000dd259cff, 01100000)
+[  648.912289] virtio_fs_send_req: opcode 18 unique 0x4602 nodeid 0x28 in.len 64 out.len 0 queue_id 1
+[  648.912456] virtio_fs_send_req: opcode 25 unique 0x4604 nodeid 0x2f7 in.len 64 out.len 0 queue_id 1
+[  648.912515] virtio_fs_send_req: opcode 18 unique 0x4606 nodeid 0x2a9 in.len 64 out.len 0 queue_id 1
+[  648.912599] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.912603] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.912924] virtio_fs_send_req: opcode 18 unique 0x4608 nodeid 0x4c in.len 64 out.len 0 queue_id 1
+[  648.912943] virtio_fs_send_req: opcode 5 unique 0x460a nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.913017] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.913020] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.913078] virtio_fs_send_req: opcode 18 unique 0x460c nodeid 0x30 in.len 64 out.len 0 queue_id 1
+[  648.913298] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.913356] virtio_fs_send_req: opcode 18 unique 0x460e nodeid 0x2a7 in.len 64 out.len 0 queue_id 1
+[  648.913463] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.913537] virtio_fs_send_req: opcode 18 unique 0x4610 nodeid 0x245 in.len 64 out.len 0 queue_id 1
+[  648.913877] virtio_fs_send_req: opcode 5 unique 0x4612 nodeid 0x2f8 in.len 40 out.len 4095 queue_id 1
+[  648.913927] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.914084] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.914219] virtio_fs_send_req: opcode 14 unique 0x4614 nodeid 0x2f9 in.len 48 out.len 16 queue_id 1
+[  648.914388] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.914488] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.914586] overlayfs: open(000000001dc27c49[lib64/libgmp.so.10.5.0/l], 0100000) -> (00000000c480dc70, 01100000)
+[  648.914746] virtio_fs_send_req: opcode 25 unique 0x4616 nodeid 0x2f9 in.len 64 out.len 0 queue_id 1
+[  648.914898] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.914993] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.915130] virtio_fs_send_req: opcode 5 unique 0x4618 nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.915297] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.915391] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.915500] virtio_fs_send_req: opcode 14 unique 0x461a nodeid 0x42 in.len 48 out.len 16 queue_id 1
+[  648.915676] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.915772] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.915873] overlayfs: open(000000001dc27c49[lib64/libm.so.6/l], 0100000) -> (00000000aab89989, 01100000)
+[  648.916022] virtio_fs_send_req: opcode 25 unique 0x461c nodeid 0x42 in.len 64 out.len 0 queue_id 1
+[  648.916184] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.916282] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.916386] virtio_fs_send_req: opcode 5 unique 0x461e nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.916559] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.916656] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.916756] virtio_fs_send_req: opcode 14 unique 0x4620 nodeid 0x30 in.len 48 out.len 16 queue_id 1
+[  648.916947] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.917045] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.917171] overlayfs: open(000000001dc27c49[lib64/libc.so.6/l], 0100000) -> (00000000065b2aff, 01100000)
+[  648.917339] virtio_fs_send_req: opcode 25 unique 0x4622 nodeid 0x30 in.len 64 out.len 0 queue_id 1
+[  648.917498] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.917596] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.917710] virtio_fs_send_req: opcode 5 unique 0x4624 nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.917901] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.917998] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.918105] virtio_fs_send_req: opcode 5 unique 0x4626 nodeid 0x1ed in.len 40 out.len 4095 queue_id 1
+[  648.918283] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.918380] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.918489] virtio_fs_send_req: opcode 14 unique 0x4628 nodeid 0x1ee in.len 48 out.len 16 queue_id 1
+[  648.918682] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.918780] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.918881] overlayfs: open(000000001dc27c49[lib64/libtinfo.so.6.5/l], 0100000) -> (0000000057c26190, 01100000)
+[  648.919054] virtio_fs_send_req: opcode 25 unique 0x462a nodeid 0x1ee in.len 64 out.len 0 queue_id 1
+[  648.919219] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.919318] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.919997] virtio_fs_send_req: opcode 18 unique 0x462c nodeid 0x2b in.len 64 out.len 0 queue_id 1
+[  648.920159] virtio_fs_send_req: opcode 14 unique 0x462e nodeid 0x2a7 in.len 48 out.len 16 queue_id 1
+[  648.920169] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.920368] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.920492] overlayfs: open(000000001dc27c49[locale/locale-archive/l], 0100000) -> (00000000fce78bd3, 01100000)
+[  648.920627] virtio_fs_send_req: opcode 25 unique 0x4630 nodeid 0x2a7 in.len 64 out.len 0 queue_id 1
+[  648.920772] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.920871] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.921036] virtio_fs_send_req: opcode 14 unique 0x4632 nodeid 0x2a9 in.len 48 out.len 16 queue_id 1
+[  648.921211] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.921308] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.921400] overlayfs: open(000000001dc27c49[gconv/gconv-modules.cache/l], 0100000) -> (00000000d54e120f, 01100000)
+[  648.921523] virtio_fs_send_req: opcode 25 unique 0x4634 nodeid 0x2a9 in.len 64 out.len 0 queue_id 1
+[  648.921666] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.921770] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.921832] virtqueue callback for 00000000531af360 (00000000df837aee)
+[  648.922226] virtio_fs_send_req: opcode 18 unique 0x4636 nodeid 0x28 in.len 64 out.len 0 queue_id 1
+[  648.922326] virtio_fs_send_req: opcode 18 unique 0x4638 nodeid 0x2a9 in.len 64 out.len 0 queue_id 1
+[  648.922400] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.922416] virtio_fs_send_req: opcode 18 unique 0x463a nodeid 0x2f5 in.len 64 out.len 0 queue_id 1
+[  648.922482] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.922564] virtio_fs_send_req: opcode 18 unique 0x463c nodeid 0x2f7 in.len 64 out.len 0 queue_id 1
+[  648.922690] virtio_fs_send_req: opcode 18 unique 0x463e nodeid 0x2f9 in.len 64 out.len 0 queue_id 1
+[  648.922762] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.922780] virtio_fs_send_req: opcode 18 unique 0x4640 nodeid 0x42 in.len 64 out.len 0 queue_id 1
+[  648.922847] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.922929] virtio_fs_send_req: opcode 18 unique 0x4642 nodeid 0x30 in.len 64 out.len 0 queue_id 1
+[  648.923060] virtio_fs_send_req: opcode 18 unique 0x4644 nodeid 0x1ee in.len 64 out.len 0 queue_id 1
+[  648.923126] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.923166] virtio_fs_send_req: opcode 18 unique 0x4646 nodeid 0x2a7 in.len 64 out.len 0 queue_id 1
+[  648.923228] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.923311] virtio_fs_send_req: opcode 18 unique 0x4648 nodeid 0x2f3 in.len 64 out.len 0 queue_id 1
+[  648.923487] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.923557] virtiofs virtio0: virtio_fs_vq_done requests.0
+
+Delta-CAL (IPI): 6007
+- this number is before the insert-sort, final number is better.
+
+[  648.926990] virtio_fs_send_req: opcode 14 unique 0x464a nodeid 0xae in.len 48 out.len 16 queue_id 1
+[  648.927221] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.927312] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.927409] overlayfs: open(00000000ae2b3a37[/machine-id/l], 0100000) -> (00000000ebc0a9b2, 01100000)
+[  648.927537] virtio_fs_send_req: opcode 25 unique 0x464c nodeid 0xae in.len 64 out.len 0 queue_id 1
+[  648.927709] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.927798] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.927888] virtio_fs_send_req: opcode 18 unique 0x464e nodeid 0xae in.len 64 out.len 0 queue_id 1
+[  648.928052] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.928135] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.928914] virtqueue callback for 00000000b8493952 (000000004941ab6e)
+[  648.929008] virtio_fs_send_req: opcode 5 unique 0x4650 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.929175] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.929246] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.929318] virtio_fs_send_req: opcode 5 unique 0x4652 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.929467] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.929535] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.929604] virtio_fs_send_req: opcode 5 unique 0x4654 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.929751] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.929824] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.929899] virtio_fs_send_req: opcode 5 unique 0x4656 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.930043] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.930110] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.930188] virtio_fs_send_req: opcode 5 unique 0x4658 nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.930331] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.930399] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.930503] virtio_fs_send_req: opcode 5 unique 0x465a nodeid 0x23 in.len 40 out.len 4095 queue_id 1
+[  648.930648] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.930717] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.930795] virtio_fs_send_req: opcode 14 unique 0x465c nodeid 0x204 in.len 48 out.len 16 queue_id 1
+[  648.930976] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.931046] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.931132] overlayfs: open(00000000b23a5ecd[bin/sed/l], 0100040) -> (0000000074755de1, 01100040)
+[  648.931288] virtio_fs_send_req: opcode 5 unique 0x465e nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.931448] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.931517] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.931600] virtio_fs_send_req: opcode 14 unique 0x4660 nodeid 0x28 in.len 48 out.len 16 queue_id 1
+[  648.931751] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.931826] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.931906] overlayfs: open(00000000fea37e0c[lib64/ld-linux-x86-64.so.2/l], 0100040) -> (00000000ebc0a9b2, 01100040)
+[  648.932282] virtio_fs_send_req: opcode 14 unique 0x4662 nodeid 0x2b in.len 48 out.len 16 queue_id 1
+[  648.932437] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.932508] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.932593] overlayfs: open(00000000fea37e0c[/ld.so.cache/l], 0100000) -> (00000000a546e0ec, 01100000)
+[  648.932710] virtio_fs_send_req: opcode 25 unique 0x4664 nodeid 0x2b in.len 64 out.len 0 queue_id 1
+[  648.932868] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.932945] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.933038] virtio_fs_send_req: opcode 5 unique 0x4666 nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.933203] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.933285] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.933377] virtio_fs_send_req: opcode 5 unique 0x4668 nodeid 0x2c in.len 40 out.len 4095 queue_id 1
+[  648.933528] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.933606] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.933695] virtio_fs_send_req: opcode 14 unique 0x466a nodeid 0x2d in.len 48 out.len 16 queue_id 1
+[  648.933850] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.933924] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.934031] overlayfs: open(00000000fea37e0c[lib64/libacl.so.1.1.2302/l], 0100000) -> (000000003b97b39b, 01100000)
+[  648.934194] virtio_fs_send_req: opcode 25 unique 0x466c nodeid 0x2d in.len 64 out.len 0 queue_id 1
+[  648.934349] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.934427] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.934513] virtio_fs_send_req: opcode 5 unique 0x466e nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.934668] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.934745] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.934835] virtio_fs_send_req: opcode 14 unique 0x4670 nodeid 0x41 in.len 48 out.len 16 queue_id 1
+[  648.934991] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.935069] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.935152] overlayfs: open(00000000fea37e0c[lib64/libselinux.so.1/l], 0100000) -> (00000000761f1272, 01100000)
+[  648.935308] virtio_fs_send_req: opcode 25 unique 0x4672 nodeid 0x41 in.len 64 out.len 0 queue_id 1
+[  648.935462] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.935540] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.935650] virtio_fs_send_req: opcode 5 unique 0x4674 nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.935800] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.935899] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.935994] virtio_fs_send_req: opcode 14 unique 0x4676 nodeid 0x30 in.len 48 out.len 16 queue_id 1
+[  648.936148] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.936226] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.936316] overlayfs: open(00000000fea37e0c[lib64/libc.so.6/l], 0100000) -> (0000000046b528d3, 01100000)
+[  648.936448] virtio_fs_send_req: opcode 25 unique 0x4678 nodeid 0x30 in.len 64 out.len 0 queue_id 1
+[  648.936612] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.936691] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.936784] virtio_fs_send_req: opcode 5 unique 0x467a nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.936943] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.937022] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.937125] virtio_fs_send_req: opcode 5 unique 0x467c nodeid 0x43 in.len 40 out.len 4095 queue_id 1
+[  648.937274] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.937353] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.937447] virtio_fs_send_req: opcode 14 unique 0x467e nodeid 0x44 in.len 48 out.len 16 queue_id 1
+[  648.937604] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.937683] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.937769] overlayfs: open(00000000fea37e0c[lib64/libattr.so.1.1.2502/l], 0100000) -> (00000000ce7f73a3, 01100000)
+[  648.937964] virtio_fs_send_req: opcode 25 unique 0x4680 nodeid 0x44 in.len 64 out.len 0 queue_id 1
+[  648.938148] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.938229] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.938329] virtio_fs_send_req: opcode 5 unique 0x4682 nodeid 0x26 in.len 40 out.len 4095 queue_id 1
+[  648.938499] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.938577] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.938669] virtio_fs_send_req: opcode 5 unique 0x4684 nodeid 0x4b in.len 40 out.len 4095 queue_id 1
+[  648.938831] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.938914] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.939013] virtio_fs_send_req: opcode 14 unique 0x4686 nodeid 0x4c in.len 48 out.len 16 queue_id 1
+[  648.939192] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.939272] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.939361] overlayfs: open(00000000fea37e0c[lib64/libpcre2-8.so.0.15.0/l], 0100000) -> (000000001b94a7b7, 01100000)
+[  648.939502] virtio_fs_send_req: opcode 25 unique 0x4688 nodeid 0x4c in.len 64 out.len 0 queue_id 1
+[  648.939654] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.939734] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.940088] virtio_fs_send_req: opcode 18 unique 0x468a nodeid 0x2b in.len 64 out.len 0 queue_id 1
+[  648.940214] virtio_fs_send_req: opcode 1 unique 0x468c nodeid 0x1 in.len 48 out.len 128 queue_id 1
+[  648.940273] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.940394] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.940552] virtio_fs_send_req: opcode 14 unique 0x468e nodeid 0x2a7 in.len 48 out.len 16 queue_id 1
+[  648.940730] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.940819] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.940910] overlayfs: open(00000000fea37e0c[locale/locale-archive/l], 0100000) -> (00000000a546e0ec, 01100000)
+[  648.941042] virtio_fs_send_req: opcode 25 unique 0x4690 nodeid 0x2a7 in.len 64 out.len 0 queue_id 1
+[  648.941215] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.941295] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.941413] virtio_fs_send_req: opcode 14 unique 0x4692 nodeid 0x2a9 in.len 48 out.len 16 queue_id 1
+[  648.941577] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.941654] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.941735] overlayfs: open(00000000fea37e0c[gconv/gconv-modules.cache/l], 0100000) -> (000000007d5f2653, 01100000)
+[  648.941867] virtio_fs_send_req: opcode 25 unique 0x4694 nodeid 0x2a9 in.len 64 out.len 0 queue_id 1
+[  648.942022] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.942105] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.942374] virtio_fs_send_req: opcode 18 unique 0x4696 nodeid 0x28 in.len 64 out.len 0 queue_id 1
+[  648.942487] virtio_fs_send_req: opcode 18 unique 0x4698 nodeid 0x2a9 in.len 64 out.len 0 queue_id 1
+[  648.942559] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.942599] virtio_fs_send_req: opcode 18 unique 0x469a nodeid 0x2d in.len 64 out.len 0 queue_id 1
+[  648.942660] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.942757] virtio_fs_send_req: opcode 18 unique 0x469c nodeid 0x41 in.len 64 out.len 0 queue_id 1
+[  648.942912] virtio_fs_send_req: opcode 18 unique 0x469e nodeid 0x30 in.len 64 out.len 0 queue_id 1
+[  648.942973] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.943020] virtio_fs_send_req: opcode 18 unique 0x46a0 nodeid 0x44 in.len 64 out.len 0 queue_id 1
+[  648.943084] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.943247] virtio_fs_send_req: opcode 18 unique 0x46a2 nodeid 0x4c in.len 64 out.len 0 queue_id 1
+[  648.943318] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.943353] virtio_fs_send_req: opcode 18 unique 0x46a4 nodeid 0x2a7 in.len 64 out.len 0 queue_id 1
+[  648.943417] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.943514] virtio_fs_send_req: opcode 18 unique 0x46a6 nodeid 0x204 in.len 64 out.len 0 queue_id 1
+[  648.943698] virtqueue callback for 00000000ffb9412a (00000000c5ce06f7)
+[  648.943776] virtiofs virtio0: virtio_fs_vq_done requests.0
+[  648.948394] uart_wait_until_sent(0), jiffies=4295316070, expire=4295316142...
+root@drm-misc-fixes-2026-02-26-80-g9a2f253ad689:/home/jimc/projects/lx/wk-D/b0-dd#
+---
+ drivers/virtio/virtio_ring.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/virtio/virtio_ring.c b/drivers/virtio/virtio_ring.c
+index 335692d41617..99f9e547d264 100644
+--- a/drivers/virtio/virtio_ring.c
++++ b/drivers/virtio/virtio_ring.c
+@@ -759,7 +759,7 @@ static inline int virtqueue_add_split(struct vring_virtqueue *vq,
+ 						vq->split.avail_idx_shadow);
+ 	vq->num_added++;
+ 
+-	pr_debug("Added buffer head %i to %p\n", head, vq);
++	pr_debug_ratelimited("Added buffer head %i to %p\n", head, vq);
+ 	END_USE(vq);
+ 
+ 	/* This is very unlikely, but theoretically possible.  Kick
+@@ -930,7 +930,7 @@ static void *virtqueue_get_buf_ctx_split(struct vring_virtqueue *vq,
+ 	}
+ 
+ 	if (!more_used_split(vq)) {
+-		pr_debug("No more buffers in queue\n");
++		pr_debug_ratelimited("No more buffers in queue\n");
+ 		END_USE(vq);
+ 		return NULL;
+ 	}
+@@ -1595,7 +1595,7 @@ static int virtqueue_add_indirect_packed(struct vring_virtqueue *vq,
+ 
+ 	vq->num_added += 1;
+ 
+-	pr_debug("Added buffer head %i to %p\n", head, vq);
++	pr_debug_ratelimited("Added buffer head %i to %p\n", head, vq);
+ 	END_USE(vq);
+ 
+ 	return 0;
+@@ -1744,7 +1744,7 @@ static inline int virtqueue_add_packed(struct vring_virtqueue *vq,
+ 	vq->packed.vring.desc[head].flags = head_flags;
+ 	vq->num_added += descs_used;
+ 
+-	pr_debug("Added buffer head %i to %p\n", head, vq);
++	pr_debug_ratelimited("Added buffer head %i to %p\n", head, vq);
+ 	END_USE(vq);
+ 
+ 	return 0;
+@@ -1902,7 +1902,7 @@ static inline int virtqueue_add_packed_in_order(struct vring_virtqueue *vq,
+ 	vq->packed.vring.desc[head].flags = head_flags;
+ 	vq->num_added += total_sg;
+ 
+-	pr_debug("Added buffer head %i to %p\n", head, vq);
++	pr_debug_ratelimited("Added buffer head %i to %p\n", head, vq);
+ 	END_USE(vq);
+ 
+ 	return 0;
+@@ -3231,7 +3231,7 @@ irqreturn_t vring_interrupt(int irq, void *_vq)
+ 	struct vring_virtqueue *vq = to_vvq(_vq);
+ 
+ 	if (!more_used(vq)) {
+-		pr_debug("virtqueue interrupt with no work for %p\n", vq);
++		pr_debug_ratelimited("virtqueue interrupt with no work for %p\n", vq);
+ 		return IRQ_NONE;
+ 	}
+ 
+-- 
+2.53.0
 
 
