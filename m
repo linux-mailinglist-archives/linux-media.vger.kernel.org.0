@@ -1,326 +1,244 @@
-Return-Path: <linux-media+bounces-54716-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54717-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +CFvDdubqmnPUQEAu9opvQ
-	(envelope-from <linux-media+bounces-54716-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 10:18:19 +0100
+	id KHMDIO6cqmnPUQEAu9opvQ
+	(envelope-from <linux-media+bounces-54717-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 10:22:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9778221DC63
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 10:18:18 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 719E721DD3C
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 10:22:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 58B61307F98C
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 09:15:15 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1DA373010752
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 09:22:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAACF33CE92;
-	Fri,  6 Mar 2026 09:15:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC3CE33ADB8;
+	Fri,  6 Mar 2026 09:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TyR366hp"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W1+D6493";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="G1BxtlIx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD9A33B6CB;
-	Fri,  6 Mar 2026 09:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDAA8479
+	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 09:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772788508; cv=none; b=e+8vKnSn84cLNLd4ZqnhbpZQ8kIURZi7XqPNUAdVTGF1vkwY96Wprk7pcQZqALiso2xj+M5ginnmVgyAJ/eu6l2y/nFH+GVemtYGsUX4wnV8uZpVUki+WoGqVbpm++w6Mtq9LozfiSAAp/feMTT1fvNbOojpBxMNczzpuS6lCwI=
+	t=1772788964; cv=none; b=BmSOcNNOWUu1bVslBeKFRiqMEnmo3G3KFbemeMbDUUAVkNwrXhX4OT02xrnQMNHTFQde8PLfJdZbMiMsPHkT0JJ1PbTkNo29phuSjJdJT1Sy7pZ2MSe6RoNfuhZXnQoFRBPvNMJEpVSusg1f2hgEsqWsP/OnK+24U+imP9lj1jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772788508; c=relaxed/simple;
-	bh=7RvOdnrFs/iEe9G84pPe+q4PLv+gFd3Sa58Nl0eTC8M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MhkrUNew/kVjjDX00OOp2HBs5hVrUxZeQ+VO91IGOaVaGPyrv/7spRARgvL4zQSEQEm5Soq62lHODY+P8EFU2BSfjsBxus5wxEs6wP6knTO423TDZzAZK0kJ8WCPPK06gaQ5BB7kgguVlb6DEYYVM5ZKe5J9x4Q4fnwuwp8KipI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TyR366hp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C425BC4CEF7;
-	Fri,  6 Mar 2026 09:14:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772788507;
-	bh=7RvOdnrFs/iEe9G84pPe+q4PLv+gFd3Sa58Nl0eTC8M=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TyR366hpH5SBgvb3stJOO+3+JgB4eyp8Ub6SIcEY5Wv5+DIXq3qwQ1akUuyGzm4GI
-	 oVWqv0SYGKFQk/aIJcLbDc3SkZdh03GwnjPJPfc8DHBxnnTk3pTwokbH2aquirHejB
-	 nz1gJxpKMhkWSd0cvlbIm12Yo0dUUSzlaMGnA70lo5LCfYmGHYkoB3BEoaWxEw9skO
-	 0XSBCv8+kTn/Gf5HrA+24udlPqxoLhC1731SEC00PUdG+t6hKArOjAPEtT/hHxR1LY
-	 s+VuE2scXcViJMBvNGcnMzw7bfK0RAeQxP1RLAMHfxMD+S62KQ5DOUo/0QF6h57vkJ
-	 rf8R3FiiVNktg==
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	fsverity@lists.linux.dev,
-	linux-mm@kvack.org,
-	netfs@lists.linux.dev,
-	linux-ext4@vger.kernel.org,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-nfs@vger.kernel.org,
-	linux-cifs@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	linux-nilfs@vger.kernel.org,
-	v9fs@lists.linux.dev,
-	linux-afs@lists.infradead.org,
-	autofs@vger.kernel.org,
-	ceph-devel@vger.kernel.org,
-	codalist@coda.cs.cmu.edu,
-	ecryptfs@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	jfs-discussion@lists.sourceforge.net,
-	ntfs3@lists.linux.dev,
-	ocfs2-devel@lists.linux.dev,
-	devel@lists.orangefs.org,
-	linux-unionfs@vger.kernel.org,
-	apparmor@lists.ubuntu.com,
-	linux-security-module@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	selinux@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	netdev@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-hams@vger.kernel.org,
-	linux-x25@vger.kernel.org,
-	audit@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	linux-sctp@vger.kernel.org,
-	bpf@vger.kernel.org,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Paulo Alcantara <pc@manguebit.org>,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Jan Kara <jack@suse.com>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	Steve French <sfrench@samba.org>,
-	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
-	Shyam Prasad N <sprasad@microsoft.com>,
-	Bharath SM <bharathsm@microsoft.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	David Sterba <dsterba@suse.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Ian Kent <raven@themaw.net>,
-	Luis de Bethencourt <luisbg@kernel.org>,
-	Salah Triki <salah.triki@gmail.com>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	Alex Markuze <amarkuze@redhat.com>,
-	Jan Harkes <jaharkes@cs.cmu.edu>,
-	coda@cs.cmu.edu,
-	Nicolas Pitre <nico@fluxnic.net>,
-	Tyler Hicks <code@tyhicks.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Yangtao Li <frank.li@vivo.com>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Richard Weinberger <richard@nod.at>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Anders Larsen <al@alarsen.net>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Naohiro Aota <naohiro.aota@wdc.com>,
-	Johannes Thumshirn <jth@kernel.org>,
-	John Johansen <john.johansen@canonical.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Fan Wu <wufan@kernel.org>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Willem de Bruijn <willemb@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	James Clark <james.clark@linaro.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Martin Schiller <ms@dev.tdt.de>,
-	Eric Paris <eparis@redhat.com>,
-	Joerg Reuter <jreuter@yaina.de>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Oliver Hartkopp <socketcan@hartkopp.net>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	David Ahern <dsahern@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Remi Denis-Courmont <courmisch@gmail.com>,
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Xin Long <lucien.xin@gmail.com>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>
-Subject: Re: [PATCH v3 00/12] vfs: change inode->i_ino from unsigned long to u64
-Date: Fri,  6 Mar 2026 10:09:33 +0100
-Message-ID: <20260306-kennen-zubrot-2605fcfd6950@brauner>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
-References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
+	s=arc-20240116; t=1772788964; c=relaxed/simple;
+	bh=rxKXOX6VkDWy6uETQN9RI5oCYgXLEojPPXdeXgfWqdE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=u5o72JDgz0SycBFc+JGWOloHvwGS5sQ+gctrkumttSHSZjNS4DY4KdqDOSszoWnbLks2AooQlsWJ9lgTr6M2dE1llNbqlOtpxLwADSCUKxWmOFvRNpwBoWau5jnGA/bisw9/sl4spJtvIEXc3frqOKcjTYLXPy7Qi6dK62qAC8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W1+D6493; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=G1BxtlIx; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6264af6H1087507
+	for <linux-media@vger.kernel.org>; Fri, 6 Mar 2026 09:22:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	7wdJEe8n94wvzDzCHs4VwOQ5WjMYvaee5BChamjF/hw=; b=W1+D6493bmOJ9itf
+	FW1E05EcuX7iGaa77oqnjlShKAvizCMQYb1TNT8wCr6Uk92Ncf8lz3/rfJcbJ0g9
+	c1k5paqQ5rvO3niznCFe7w4qM5FOzijxgY6DJQnRExonVp7dkuw6rWguKsYxQh0+
+	NsRDhIXMgtQ4VKqmRL/CfpKO0Lt1YY6uYjuP3B6f5Gym032jv5OLE/im4/tqzSh2
+	YTSPV2GIANwh3HxcvMabEJ9hBFFAiBQIsYZ+Yv00InfcmcyBCuwsgCo5jWhOX6BK
+	gRyBvkzjf4P2uz+uzJ5QAZM62PiT/AnGJud/MS1CvytWa9M3ybxoD37T653T6nag
+	MBeyXQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqfg6ah2r-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 06 Mar 2026 09:22:41 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8ca3ef536ddso2308404885a.0
+        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2026 01:22:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772788961; x=1773393761; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7wdJEe8n94wvzDzCHs4VwOQ5WjMYvaee5BChamjF/hw=;
+        b=G1BxtlIxgWpjNnP5zRyDB7Nv9dV8++nuEZT8EnS1cyi1OMe02c/gEKnjS70y/Gy4H1
+         Po1UCdhk5MUuxDE+0ys8UpC96tEe4Xg77hCNDa/ZeZpXOKhMSF+lxu0bnQ0fpaRC4YXi
+         ofgk2kVhlt8LaoHIj5MrWzMbC/Ij6fVtcQgp/jkvjUIGr9BFwOWW1WPeACwzASvgAU0k
+         1ZVSa46AA8uZj/68jMS9I4zsvMlbR+cbJSaYl9OOPnJunDrUnVzIpFo9tRFB+HvXBNnD
+         tIpbpo6QK/w8pVJJ++NEw8lg9b9LMyA6Pt+CLXct+gI3pQ+kVlYuhZfIxU3Gpgx2kRxu
+         9bIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772788961; x=1773393761;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7wdJEe8n94wvzDzCHs4VwOQ5WjMYvaee5BChamjF/hw=;
+        b=KPfaNV82VZ7UEfrwdgkUWv+8KsuMQFYDRQiSN55G+k717YJg+4jC6v8v9xJ9H7xiW9
+         R4kNM9bCeNGRhpH3Ix35qoAfP7jUyEmpp3JGTVdG7echzxi0u6EsfeI9oxth5Yre2dJb
+         mE0i9PWpZT6b1ZMxzBZCIWbsTlqgrySD0a81nEfqPgybGD26u7jug+Mt3LhHL4ZoJsJ5
+         Cf6xRelKKbRUE8Mjenhnce2VA85UGVkI/UZaHW41+EFWKudcgPm1Bj6BHLaHOYdlyTZp
+         VpLzHrLUKuU0VG9WP+8+ltPMMehDu1v3PEJstxjXCXesjsPpy9y9HihZv/3Ck+3QhD7k
+         qCxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUmxquxce3fRNkKFIwT1dCyVpazHgCH0ymAikDePPIQaqko1IrBHIP8AlyPvq3eprhbRs6p5tIqTBN6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2G/FI/ZTStdYCcecFh9BqGjYNIPoc45jsVrcCZfzxQQyKrzSC
+	d5oicSzI6aovoBoul15ayybgBg1XJ//Hn2ToSRI32ptBCpQOvl0W0Go1StPm7wK/nDi/DbnVPaj
+	rtfToEmtS2gvrpANkZkeI+63ixTOlmvlNC3EEODRpIJVGa1IIYsBLe+fksMxJf0KRxw==
+X-Gm-Gg: ATEYQzy8LcfpSw1+IQyMgGtbyqe5vbSB2BZ47R7dEhWaMVmkatFpWMaXroUIVZ2aOK1
+	qJ/MmjIdLkXTsBUCaBaody3Yt/hZfhheMfzeOFX2eIoa6vaJtDwN9Da0lr1seMCzbtaJ3nnkpSr
+	zsNjo8k0+vkOEc0Xmi6jBLEMbTRfogf08eHgapxfAzC3NirSR53Nv8gmUvNq3d2gKdmQUbYNT/J
+	wRfwHekt8+RntRgsNc8Jfe44GAu9kmfxQ4MEVAcnRKV2jqwPx47lL9pYfQKnn13WXT6jzWuO9rV
+	amsJ98OA8KAB6h/x8gH7fkv6GFQrCMBEQTODYFTOuO3UrA7wru3bDbH5qXel8c9rZoign268+NZ
+	ATdl+fZGnTmmPl3duPDRZF6b+maP7Ti/48Ac85hC8co3Yj4v6CM3oxoLvcLb1MpbqfhfD89mn1t
+	+UPrkez+TuxjKiDvj/0ml4CeX9xWeVVcytPpivuxV974IA0oHAPxE2Kl+rpcHE5RjtoARZP04Sv
+	tp6atTsXxgkryiY
+X-Received: by 2002:a05:620a:280d:b0:8ca:110b:38cb with SMTP id af79cd13be357-8cd6d38f863mr175763485a.29.1772788960969;
+        Fri, 06 Mar 2026 01:22:40 -0800 (PST)
+X-Received: by 2002:a05:620a:280d:b0:8ca:110b:38cb with SMTP id af79cd13be357-8cd6d38f863mr175761785a.29.1772788960533;
+        Fri, 06 Mar 2026 01:22:40 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b942f15c801sm40650866b.48.2026.03.06.01.22.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Mar 2026 01:22:39 -0800 (PST)
+Message-ID: <14f431a2-3c31-4f23-88dc-7e2d5c8da50d@oss.qualcomm.com>
+Date: Fri, 6 Mar 2026 10:22:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2708; i=brauner@kernel.org; h=from:subject:message-id; bh=7RvOdnrFs/iEe9G84pPe+q4PLv+gFd3Sa58Nl0eTC8M=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSumvWu2uNxbBFXikaZQKrMtl0PLj1c+kZGWOrvZiHz/ W/CTGOed5SyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEzk4A5GhimT869vPnNH4Vqj t6Tr0fqPLXs3v0g/qbXpwf6o52L5D7YyMnxU+idovG+O5JQe0WVOK45/sI9bw9AjJfah78/izrQ aXg4A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9778221DC63
+User-Agent: Mozilla Thunderbird
+From: "johannes.goede@oss.qualcomm.com" <johannes.goede@oss.qualcomm.com>
+Subject: Re: [PATCH v2 1/2] platform/x86: int3472: Add board data for Intel
+ nvl
+To: "T, Arun" <arun.t@intel.com>, Sakari Ailus <sakari.ailus@iki.fi>
+Cc: "mehdi.djait@linux.intel.com" <mehdi.djait@linux.intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20260130092431.2335363-2-arun.t@intel.com>
+ <20260227133542.970820-1-arun.t@intel.com>
+ <20260227133542.970820-2-arun.t@intel.com>
+ <aaRPMtWnX7nWShmv@valkosipuli.retiisi.eu>
+ <0f2502fb-20cd-4638-8428-9a9eb5318147@oss.qualcomm.com>
+ <SA3PR11MB802248098C161FB7EFB7CB529D7AA@SA3PR11MB8022.namprd11.prod.outlook.com>
+Content-Language: en-US, nl
+In-Reply-To: <SA3PR11MB802248098C161FB7EFB7CB529D7AA@SA3PR11MB8022.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: qvsVbx9rNiP3eA5eY7LcQfJ8FLfAkAKP
+X-Proofpoint-ORIG-GUID: qvsVbx9rNiP3eA5eY7LcQfJ8FLfAkAKP
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDA4NyBTYWx0ZWRfXxv3lZ87ZFIqe
+ j0sRSdM2hrH/D296vI601TYYlogCP4En8RA6ZnMgdlNnpwKk+cwAEyRb6wLJ32J6Eg0ydjv56vy
+ OkJMlTnhfvClcuEYIhqFy1F56TGmzVBxgAh/Y1IB+TOEZZrXBDwtl7FtYZCBDc3s/nDL707/074
+ OYsZcH+IFVLVFdM8wGipV1YH7Y6j6Qt1C7VYnlmrHDatMFL9i5YTEHEbO48n5j6BLlNE8ThsbtG
+ h6fbkDh8ahXEMVOU4kIzzSCaQ7lhwGq9GTQv6OKLBAMZpwiKjPKTjXWlSMINTNAfGlKQR7RWB4k
+ 63TkJaFCOOa9GOCeevhtQe/QcXCg5QajiA6ZXhR6Xgs74HKXbpY7hilrGxG8V4H9szQprkTKpcU
+ yhgod/d4TGCISyx/Qn4DqiWVKgWW/MctT1/h0reKnGYh8UXR0+Jy141RYRUBoFTxmE16rkCYz6F
+ 22hLArxiLwqjEey6XFw==
+X-Authority-Analysis: v=2.4 cv=XKg9iAhE c=1 sm=1 tr=0 ts=69aa9ce1 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=7j0FZ4iXMVMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=-204PKcC4nqfIuXNHFwA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-06_03,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ malwarescore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060087
+X-Rspamd-Queue-Id: 719E721DD3C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [3.84 / 15.00];
-	MID_END_EQ_FROM_USER_PART(4.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	FROM_DN_EQ_ADDR(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54716-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,lists.linux.dev,kvack.org,lists.sourceforge.net,lists.samba.org,lists.infradead.org,coda.cs.cmu.edu,lists.orangefs.org,lists.ubuntu.com,lists.freedesktop.org,lists.linaro.org,zeniv.linux.org.uk,suse.cz,goodmis.org,efficios.com,intel.com,mit.edu,linux.dev,suse.de,redhat.com,manguebit.org,dilger.ca,suse.com,oracle.com,brown.name,talpey.com,samba.org,gmail.com,microsoft.com,dubeyko.com,ionkov.net,codewreck.org,crudebyte.com,auristor.com,themaw.net,cs.cmu.edu,fluxnic.net,tyhicks.com,infradead.org,physik.fu-berlin.de,vivo.com,artax.karlin.mff.cuni.cz,nod.at,paragon-software.com,fasheh.com,evilplan.org,linux.alibaba.com,omnibond.com,szeredi.hu,alarsen.net,huawei.com,wdc.com,canonical.com,paul-moore.com,namei.org,hallyn.com,linux.ibm.com,schaufler-ca.com,amd.com,ffwll.ch,linaro.org,google.com,davemloft.net,arm.com,linux.intel.com,dev.tdt.de,yaina.de,holtmann.org,hartkopp.net,pengutronix.de,secunet.com,gondor.apana.org.au,fomichev.me,iogearbox.ne
- t];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[171];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brauner@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-54717-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[johannes.goede@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On Wed, 04 Mar 2026 10:32:30 -0500, Jeff Layton wrote:
-> Christian said [1] to "just do it" when I proposed this, so here we are!
+Hi,
+
+On 6-Mar-26 09:47, T, Arun wrote:
+> Hi Hans, 
 > 
-> For historical reasons, the inode->i_ino field is an unsigned long,
-> which means that it's 32 bits on 32 bit architectures. This has caused a
-> number of filesystems to implement hacks to hash a 64-bit identifier
-> into a 32-bit field, and deprives us of a universal identifier field for
-> an inode.
+> We are using CRD G3 card + ov13b10 (UF and WF), which is supported by Discrete and TPS68470 power solutions.
+> WF camera is powered by Discrete and UF camera is powered by TPS68470 PMIC.
+> Discrete solution provides regulator name as "avdd".
+> TPS68470 provides multiple regulators like "ana". Vdd, dovdd, etc.
 > 
-> [...]
+> As per your comment We have tried below experiments and shared output below:
+> 
+> Experiment 1: 
+> -Add avdd name as a regulator name.
+> 
+> static struct regulator_consumer_supply int3472_ana_consumer_supplies[] = {
+>         REGULATOR_SUPPLY("avdd", "i2c-OVTI13B1:00"),
+> };
+> 
+> +++ b/drivers/media/i2c/ov13b10.c
+> @@ -704,7 +704,6 @@ static const char * const ov13b10_supply_names[] = {
+>         "dovdd",        /* Digital I/O power */
+>         "avdd",         /* Analog power */
+>         "dvdd",         /* Digital core power */
+>  };
+> 
+> Error logs:
+> [    0.732156] tps68470-regulator tps68470-regulator: Failed to set supply avdd
+> [    0.739297] tps68470-regulator tps68470-regulator: error -EBUSY: registering ANA regulator
+> [    0.747663] tps68470-regulator tps68470-regulator: probe with driver tps68470-regulator failed with error -16
+> [    3.621085] intel_ipu7_isys.isys intel_ipu7.isys.40: bind ov13b10 1-0010 nlanes is 2 port is 1
+> 
+> Result:
+> Only WF camera sensor is working, which gets the avdd regulator from the discrete solution.
+> UF camera gets failed to bind due conflict regulator names.
 
-This series makes me happy. We've been talking about this conversion for
-a while and I'm thankful that you did this work. Without the automation
-available this probably wouldn't have happened as quickly as it did now.
-Let's see what bits and pieces it missed.
+If you have 2 OVTI13B1 cameras then they will have 2 different
+device names, you can see these by doing:
 
----
+ls /sys/bus/i2c/devices
 
-Applied to the vfs-7.1.kino branch of the vfs/vfs.git tree.
-Patches in the vfs-7.1.kino branch should appear in linux-next soon.
+They will likely be:
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+"i2c-OVTI13B1:00"
+"i2c-OVTI13B1:01"
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+and since you're getting an error that the discrete INT3472 device
+has already registered the "avdd" supply for the "i2c-OVTI13B1:00"
+sensor, that means that the tps68470 is likely supplying the
+"i2c-OVTI13B1:01" sensor and not the "i2c-OVTI13B1:00" so you
+need to have the regulator_consumer_supply maps point to
+"i2c-OVTI13B1:01" .
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+If you boot with "intel_skl_int3472_discrete.dyndbg intel_skl_int3472_common.dyndbg"
+add to your kernel commandline then the int3472 code will add
+some debug messages to dmesg which let you know which
+sensor is mapped to which INT3472:0x device.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs-7.1.kino
+Regards,
 
-[01/12] vfs: widen inode hash/lookup functions to u64
-        https://git.kernel.org/vfs/vfs/c/2412a9fa518a
-[02/12] audit: widen ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/a5e863be4d02
-[03/12] net: change sock.sk_ino and sock_i_ino() to u64
-        https://git.kernel.org/vfs/vfs/c/c21144a0a33f
-[04/12] vfs: widen trace event i_ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/5e5c380870b2
-[05/12] cachefiles: widen trace event i_ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/25291f67aad7
-[06/12] ext2: widen trace event i_ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/797d04a355e3
-[07/12] hugetlbfs: widen trace event i_ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/3c976fb36a9a
-[08/12] zonefs: widen trace event i_ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/988f68c01b3a
-[09/12] ext4: widen trace event i_ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/1c1427c79bc2
-[10/12] f2fs: widen trace event i_ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/6e62bf74bd8a
-[11/12] nilfs2: widen trace event i_ino fields to u64
-        https://git.kernel.org/vfs/vfs/c/6ce73711525a
-[12/12] treewide: change inode->i_ino from unsigned long to u64
-        https://git.kernel.org/vfs/vfs/c/af82d143e869
+Hans
+
+
 
