@@ -1,67 +1,69 @@
-Return-Path: <linux-media+bounces-54724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54725-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aO9iGHSuqmluVQEAu9opvQ
-	(envelope-from <linux-media+bounces-54724-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:37:40 +0100
+	id CFVhD4quqmmLVQEAu9opvQ
+	(envelope-from <linux-media+bounces-54725-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:38:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2CE21EE73
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:37:39 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D2221EEC9
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:38:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8D17C3056B64
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 10:37:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id AC9643022C01
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 10:37:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267D937D10E;
-	Fri,  6 Mar 2026 10:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B423936309A;
+	Fri,  6 Mar 2026 10:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WoTkBhZB"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OBlLtmZt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED24363C66
-	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 10:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F5435AC15
+	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 10:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772793434; cv=none; b=hx9GV7Z4OozZxn5qt3ZO4KbCIvSA+nNiF1Nw0iYGpVLqaDmeim8vkeDN4s+2DJiD6O8BwTOtrjncmmZLHGeO201UAIUmKxBrS1NEW3ANkNa94nX7Iczy2HzN05SW5rzUJGZq9VccXIupUADHPfSK8fL0zYeEAHZLK0gwKkJ0nO4=
+	t=1772793441; cv=none; b=GRcgnFzaBUJYecJJmQcAAtUehlu6U/mhjsz+Yu/Bv+VbP6PRbrFjmi0HFsOTp5rUv2ZOQ/FtyPqnhL2XQa0C/mChAoguP6XQ5pwFmImB8q8APw1IIeVp0pFYu4SEz2GxNKI4WNicGdLmpbQmqr8WNNTm7WWWbY3cw0yejCEf3W8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772793434; c=relaxed/simple;
-	bh=ExZnC7goEKWKM6Rtl+U4JqZvVGyaRn8TBOjYWQsS5l0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qyIJpsWti0CWXBZp1ZCjhXWXpQh/D3hDWzCzInbWkabIEL+4IcQmmBL40rNzMh276YoiAnHl3czCAlmf30EdoCh8izYD6QlZMH/FSP0gLSDB2bUfcpXagiFsohIkRsGJ9YojyVspHvDORi2o5Z79Dkw+MXb9p9JPwtVObbFA2hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WoTkBhZB; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1772793441; c=relaxed/simple;
+	bh=jEcsosu4FVff7wQTzKWFyuvhOs9GdLa7SAJlZveaz5I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=JWLU2+hrZ6+jDA33S7rODBkKsFFHN+/6Pa0mnUhUlm6VIcgDfuXNU1NB/+96f6P1ZIDjZ5bJjtvwYjiJsJFaaoX4IbGA1NblBnsKKGND1teQLueo4KWtT9td/chvI7X8rz1r876huzN4hmiOJnM8++doK+7WimXGPKxsYsB6g+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OBlLtmZt; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772793431;
+	s=mimecast20190719; t=1772793439;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=CNok9dmrehJj085xLfY0Qs/d7XMY0KJw2lUvqcVr7uo=;
-	b=WoTkBhZBelYn4qeju9Uyfw2oC7UTqp0UAlI3RrsTnVtKj3NgPFbxiXcAIWJd7aKzmTfF6P
-	xzdSZCAkrcnms72dzAAUyZiJn3gZJHOURHghL/NuTrWpVy31c/S8MCyc5R1ofB9sTA0y6r
-	QLLtkMwiGk7AvGwPKanIUwZFRqTeMi8=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gJYSzg9vNyDy8YIRC70niUvoXuiagt/nl4vhegwZQ4I=;
+	b=OBlLtmZtPgDmUvzNKWNvGxfGgrGLYXNoE5ZZKWHyJPYsw6I4EU1W+M+09vOZQ8UwfDbho5
+	NGRaPahw2ZGjWGlOFfeRw+a4ZEogLJAc/DvYqSNxEwDyzup1RPdqiWcZHWhI/TVekVNRG6
+	iarrWn3vsZqQlX+SA08DH9YSSCnMTA0=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-96-fZ85QXqmMvy5WsYgpsd6pQ-1; Fri,
- 06 Mar 2026 05:37:08 -0500
-X-MC-Unique: fZ85QXqmMvy5WsYgpsd6pQ-1
-X-Mimecast-MFC-AGG-ID: fZ85QXqmMvy5WsYgpsd6pQ_1772793425
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-367-ylLWy7D1MiK14lBlXpaTbg-1; Fri,
+ 06 Mar 2026 05:37:15 -0500
+X-MC-Unique: ylLWy7D1MiK14lBlXpaTbg-1
+X-Mimecast-MFC-AGG-ID: ylLWy7D1MiK14lBlXpaTbg_1772793433
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6B9FC1956089;
-	Fri,  6 Mar 2026 10:37:05 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D891E1800344;
+	Fri,  6 Mar 2026 10:37:12 +0000 (UTC)
 Received: from [192.168.1.153] (unknown [10.45.226.103])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 38DB11800576;
-	Fri,  6 Mar 2026 10:36:57 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 033FE1800576;
+	Fri,  6 Mar 2026 10:37:05 +0000 (UTC)
 From: Albert Esteve <aesteve@redhat.com>
-Subject: [PATCH v3 0/6] dma-buf: heaps: add coherent reserved-memory heap
-Date: Fri, 06 Mar 2026 11:36:31 +0100
-Message-Id: <20260306-b4-dmabuf-heap-coherent-rmem-v3-0-3d00d36c9bc4@redhat.com>
+Date: Fri, 06 Mar 2026 11:36:32 +0100
+Subject: [PATCH v3 1/6] dma-buf: dma-heap: Keep track of the heap device
+ struct
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,12 +71,10 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XOTQ7CIBCG4as0rB1DhxatK+9hXFAYhEV/ApVom
- t5d2sQYN7p8Z/F8M7NIwVNkp2JmgZKPfuhziF3BtFP9jcCb3Aw5So4ooK3AdKq9W3CkRtCDo0D
- 9BKGjDprSGtGgVJYalokxkPWPjb9cczsfpyE8t7VUrtc3XP2GUwklGGvJVgKbo9LnQMapaa+Hj
- q1ywo8m+J83EwIHWatK1qIV4nD80pZleQFHSBIuFwEAAA==
-X-Change-ID: 20260223-b4-dmabuf-heap-coherent-rmem-91fd3926afe9
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260306-b4-dmabuf-heap-coherent-rmem-v3-1-3d00d36c9bc4@redhat.com>
+References: <20260306-b4-dmabuf-heap-coherent-rmem-v3-0-3d00d36c9bc4@redhat.com>
+In-Reply-To: <20260306-b4-dmabuf-heap-coherent-rmem-v3-0-3d00d36c9bc4@redhat.com>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
  Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
  Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
@@ -88,20 +88,20 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  iommu@lists.linux.dev, devicetree@vger.kernel.org, 
  Albert Esteve <aesteve@redhat.com>, mripard@redhat.com, echanude@redhat.com, 
  John Stultz <john.stultz@linaro.org>, Maxime Ripard <mripard@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772793417; l=4098;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772793417; l=3407;
  i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=ExZnC7goEKWKM6Rtl+U4JqZvVGyaRn8TBOjYWQsS5l0=;
- b=UNGgoXKmH542rSOqPbjXTgBDaWRdkdTQo0EoW9KZ1vE/PiAG6Zcb1qM/GgwOycyhucLQJuOwG
- Mtb4/HsYkEWDLTZxjMPx0QbPMjLBfxdVBdXHDeL+WLZ6QFhoR4GGmXF
+ bh=+cQjQX7wWYHly3CqYJA61GMkvrlvlEzfu2d2CAj6odw=;
+ b=En+VXoYTUj9Wv8NJOCjiJ2RfNcXww6oL8TirckFIGLBYTejfT3hcTJrdgb6B6KgRDqrUo0tN9
+ FelEna3sZ9ZD6c7cS4dja3evP5ZoiN/f//EuT4Ak6aRC+21Ljf0dHsJ
 X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
  pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Rspamd-Queue-Id: EC2CE21EE73
+X-Rspamd-Queue-Id: 46D2221EEC9
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -110,14 +110,14 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	DKIM_TRACE(0.00)[redhat.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54724-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54725-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[21];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_COUNT_FIVE(0.00)[6];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
@@ -125,89 +125,124 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-This patch series adds a new dma-buf heap driver that exposes coherent,
-non‑reusable reserved-memory regions as named heaps, so userspace can
-explicitly allocate buffers from those device‑specific pools.
+From: John Stultz <john.stultz@linaro.org>
 
-Motivation: we want cgroup accounting for all userspace‑visible buffer
-allocations (DRM, v4l2, dma‑buf heaps, etc.). That’s hard to do when
-drivers call dma_alloc_attrs() directly because the accounting controller
-(memcg vs dmem) is ambiguous. The long‑term plan is to steer those paths
-toward dma‑buf heaps, where each heap can unambiguously charge a single
-controller. To reach that goal, we need a heap backend for each
-dma_alloc_attrs() memory type. CMA and system heaps already exist;
-coherent reserved‑memory was the missing piece, since many SoCs define
-dedicated, device‑local coherent pools in DT under /reserved-memory using
-"shared-dma-pool" with non‑reusable regions (i.e., not CMA) that are
-carved out exclusively for coherent DMA and are currently only usable by
-in‑kernel drivers.
+Keep track of the heap device struct.
 
-Because these regions are device‑dependent, each heap instance binds a
-heap device to its reserved‑mem region via a newly introduced helper
-function -namely, of_reserved_mem_device_init_with_mem()- so coherent
-allocations use the correct dev->dma_mem.
+This will be useful for special DMA allocations
+and actions.
 
-Charging to cgroups for these buffers is intentionally left out to keep
-review focused on the new heap; I plan to follow up based on Eric’s [1]
-and Maxime’s [2] work on dmem charging from userspace.
-
-This series also makes the new heap driver modular, in line with the CMA
-heap change in [3].
-
-[1] https://lore.kernel.org/all/20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com/
-[2] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org/
-[3] https://lore.kernel.org/all/20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org/
-
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Albert Esteve <aesteve@redhat.com>
 ---
-Changes in v3:
-- Reorganized changesets among patches to ensure bisectability
-- Removed unused dma_heap_coherent_register() leftover
-- Removed fallback when setting mask in coherent heap dev, since
-  dma_set_mask() already truncates to supported masks
-- Moved struct rmem_assigned_device (rd) logic to
-  of_reserved_mem_device_init_with_mem() to allow listing the device
-- Link to v2: https://lore.kernel.org/r/20260303-b4-dmabuf-heap-coherent-rmem-v2-0-65a4653b3378@redhat.com
+ drivers/dma-buf/dma-heap.c | 34 ++++++++++++++++++++++++++--------
+ include/linux/dma-heap.h   |  2 ++
+ 2 files changed, 28 insertions(+), 8 deletions(-)
 
-Changes in v2:
-- Removed dmem charging parts
-- Moved coherent heap registering logic to coherent.c
-- Made heap device a member of struct dma_heap
-- Split dma_heap_add logic into create/register, to be able to
-  access the stored heap device before registered.
-- Avoid platform device in favour of heap device
-- Added a wrapper to rmem device_init() op
-- Switched from late_initcall() to module_init()
-- Made the coherent heap driver modular
-- Link to v1: https://lore.kernel.org/r/20260224-b4-dmabuf-heap-coherent-rmem-v1-1-dffef43298ac@redhat.com
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index ac5f8685a6494..1124d63eb1398 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -31,6 +31,7 @@
+  * @heap_devt:		heap device node
+  * @list:		list head connecting to list of heaps
+  * @heap_cdev:		heap char device
++ * @heap_dev:		heap device
+  *
+  * Represents a heap of memory from which buffers can be made.
+  */
+@@ -41,6 +42,7 @@ struct dma_heap {
+ 	dev_t heap_devt;
+ 	struct list_head list;
+ 	struct cdev heap_cdev;
++	struct device *heap_dev;
+ };
+ 
+ static LIST_HEAD(heap_list);
+@@ -223,6 +225,19 @@ const char *dma_heap_get_name(struct dma_heap *heap)
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_heap_get_name, "DMA_BUF_HEAP");
+ 
++/**
++ * dma_heap_get_dev() - get device struct for the heap
++ * @heap: DMA-Heap to retrieve device struct from
++ *
++ * Returns:
++ * The device struct for the heap.
++ */
++struct device *dma_heap_get_dev(struct dma_heap *heap)
++{
++	return heap->heap_dev;
++}
++EXPORT_SYMBOL_NS_GPL(dma_heap_get_dev, "DMA_BUF_HEAP");
++
+ /**
+  * dma_heap_add - adds a heap to dmabuf heaps
+  * @exp_info: information needed to register this heap
+@@ -230,7 +245,6 @@ EXPORT_SYMBOL_NS_GPL(dma_heap_get_name, "DMA_BUF_HEAP");
+ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ {
+ 	struct dma_heap *heap, *h, *err_ret;
+-	struct device *dev_ret;
+ 	unsigned int minor;
+ 	int ret;
+ 
+@@ -272,14 +286,14 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 		goto err1;
+ 	}
+ 
+-	dev_ret = device_create(dma_heap_class,
+-				NULL,
+-				heap->heap_devt,
+-				NULL,
+-				heap->name);
+-	if (IS_ERR(dev_ret)) {
++	heap->heap_dev = device_create(dma_heap_class,
++				       NULL,
++				       heap->heap_devt,
++				       NULL,
++				       heap->name);
++	if (IS_ERR(heap->heap_dev)) {
+ 		pr_err("dma_heap: Unable to create device\n");
+-		err_ret = ERR_CAST(dev_ret);
++		err_ret = ERR_CAST(heap->heap_dev);
+ 		goto err2;
+ 	}
+ 
+@@ -295,6 +309,10 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+ 		}
+ 	}
+ 
++	/* Make sure it doesn't disappear on us */
++	heap->heap_dev = get_device(heap->heap_dev);
++
++
+ 	/* Add heap to the list */
+ 	list_add(&heap->list, &heap_list);
+ 	mutex_unlock(&heap_list_lock);
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 648328a64b27e..493085e69b70e 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -12,6 +12,7 @@
+ #include <linux/types.h>
+ 
+ struct dma_heap;
++struct device;
+ 
+ /**
+  * struct dma_heap_ops - ops to operate on a given heap
+@@ -43,6 +44,7 @@ struct dma_heap_export_info {
+ void *dma_heap_get_drvdata(struct dma_heap *heap);
+ 
+ const char *dma_heap_get_name(struct dma_heap *heap);
++struct device *dma_heap_get_dev(struct dma_heap *heap);
+ 
+ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
+ 
 
----
-Albert Esteve (5):
-      dma-buf: dma-heap: split dma_heap_add
-      of_reserved_mem: add a helper for rmem device_init op
-      dma: coherent: store reserved memory coherent regions
-      dma-buf: heaps: Add Coherent heap to dmabuf heaps
-      dma-buf: heaps: coherent: Turn heap into a module
-
-John Stultz (1):
-      dma-buf: dma-heap: Keep track of the heap device struct
-
- drivers/dma-buf/dma-heap.c            | 138 +++++++++--
- drivers/dma-buf/heaps/Kconfig         |   9 +
- drivers/dma-buf/heaps/Makefile        |   1 +
- drivers/dma-buf/heaps/coherent_heap.c | 417 ++++++++++++++++++++++++++++++++++
- drivers/of/of_reserved_mem.c          |  68 ++++--
- include/linux/dma-heap.h              |   5 +
- include/linux/dma-map-ops.h           |   7 +
- include/linux/of_reserved_mem.h       |   8 +
- kernel/dma/coherent.c                 |  34 +++
- 9 files changed, 640 insertions(+), 47 deletions(-)
----
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
-change-id: 20260223-b4-dmabuf-heap-coherent-rmem-91fd3926afe9
-
-Best regards,
 -- 
-Albert Esteve <aesteve@redhat.com>
+2.52.0
 
 
