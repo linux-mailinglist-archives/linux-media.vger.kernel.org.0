@@ -1,1508 +1,213 @@
-Return-Path: <linux-media+bounces-54723-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54724-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFs6GiqvqmluVQEAu9opvQ
-	(envelope-from <linux-media+bounces-54723-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:40:42 +0100
+	id aO9iGHSuqmluVQEAu9opvQ
+	(envelope-from <linux-media+bounces-54724-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:37:40 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A7721EFC8
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:40:41 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2CE21EE73
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:37:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C067D30D36EA
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 10:36:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8D17C3056B64
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 10:37:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B5F35B12B;
-	Fri,  6 Mar 2026 10:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267D937D10E;
+	Fri,  6 Mar 2026 10:37:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cICyJL9e"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WoTkBhZB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6820F363C55
-	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 10:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED24363C66
+	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 10:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772793405; cv=none; b=LeJrwdVIN/U8QnIodrlcIw7zolQOioWsCoL1ztPv144mt0sw1nreFNbyyhzveI+UXDaBQbLqdW62xGL19HdiT7508R+/uvR7QOHWWbla/0EmzIdPM482wlA44iFiB4Cebih+xPmiCVyjOfpLDTaEjCIMXOeXwScVPyVtMF3QBxg=
+	t=1772793434; cv=none; b=hx9GV7Z4OozZxn5qt3ZO4KbCIvSA+nNiF1Nw0iYGpVLqaDmeim8vkeDN4s+2DJiD6O8BwTOtrjncmmZLHGeO201UAIUmKxBrS1NEW3ANkNa94nX7Iczy2HzN05SW5rzUJGZq9VccXIupUADHPfSK8fL0zYeEAHZLK0gwKkJ0nO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772793405; c=relaxed/simple;
-	bh=NK55jKWtD15suOWD1m7nGNd0Bfrv/iYFLAgvIsFV2pI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r5BWtjuELY3Vahoh4+9/ugAdHlnVRxxvVZZE+Ha8QIbnelATVT0CZDmppHVciEdOZfuSWZG08NKRKlC7oTRnSnQ1nhh/9hUsRoZX+DfblVeLNiP5fSPNIk3FnxF4RwhYI/43h3JxsIa4EpTdgRYPp+Rir75oETCr1VVZHPIi+58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cICyJL9e; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a131e8a236so1992462e87.1
-        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2026 02:36:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772793400; x=1773398200; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vc3yXXE7r0bNEvk/41kwHW8O2gop+6YwbPf20cBwgkE=;
-        b=cICyJL9exEUCSSrDh4Uf5qoLZqqqUb2T5bdQRBHTABCkdP4xBsR/qV6rg/WuiTMhKm
-         x3JKqSja6IW0VZ9D4bX5LuNjOMmahHaLPK4EXdu2YICUW7oIqB/uK0BuPRoAdRMp8iWB
-         Q9gyNtPrWJsDfbii6HMmND1UARN2JIiaWIAQU+ua1vjCxJsM8Z6Hjh9/Ckq+FzX4bH+f
-         aQyNkRMcfxXLXx3c79M7bX/Fv2wp+xw/PxgrTaH2hf3bFlVYDy4DvAug7KKfsjPYEbCj
-         5+4RJAUoITmppj5w4o6QO53F/xZ2eO2/Kd0VZXq7+IGgAGb79wT+jsVGcQH1QPUTlJlq
-         Yn9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772793400; x=1773398200;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Vc3yXXE7r0bNEvk/41kwHW8O2gop+6YwbPf20cBwgkE=;
-        b=JJpoC3/pYfKnEl5gOBbrIbjLiuPNTgV5ZtdAcEuKf0LCV8iVkyL+wlg2J1bxKKCgjv
-         cMtvhm40HR6prY4Dup9glnOi6jYm+j3hl7Z9GsinkNHmELwsKvEQjWIVmKi07LaJHkoq
-         o2P/Tglqu/MCbTeYV6gMWmWE6zs1kBtyKJ6mnM8bPYAFvo0R48/5J1eiKXJ7rIsf14Mz
-         +ns9tzWlJJpaOcJILntnAjIOQ6Po5N+DNnZOU4iDN+qSgAq6CqDXA3QrnCGOKxUsyMzL
-         7yg2UqqrVz4KMftL0H2R0Oki35DvXfdTgwRBIe7W3RCTQSqvle2S7zZ28ONy9yDbSqt7
-         3ehA==
-X-Gm-Message-State: AOJu0YyJOqQ17j6wsfr0wpfewNJL//9v5tokJpTNjzp6FPjOfKVQB7OU
-	zmzjlpL7tfLkSc++X5AXCXAP1miLp8ciqjM5Fq39zvouQ5GvmdF7EoNAp+aK1RP8
-X-Gm-Gg: ATEYQzwh8VjM5g3xyUsrd6+o52vesTpBvghGpc/ISVrKRBj/Gl2D6/tu1gDfExziw1S
-	oLDkRM0JCGriGQwiX5A2vfvig74EkxST121sDJ7ibZb7TWoMvxgT2DbD0D95QiYNgB8fchEzJ5E
-	a6puhtcrflH/TRLL4cUH8aKyxHS+lEodpFKlKXuk+RReRqUlmOrwlzF1Ci3Psm2Snhvsdzmt/FU
-	2Da7yIi9C1A+NXWymy7oq3knE5LcXWz1oqY2zUjMd6CRD/ykwpmri6p2qHiQ2T6JPJB35UkYSuB
-	SUYxYp+zLiY2ShIPNdOfUsylMBjrHRT6J6CR3npruPfSag+68d2/1xGbQ6lIWvBITAYG+XGn1Su
-	sXKaBnsQXYvAtB9mCOMiHJ/moTm8RTtQRBjdT6veQTMsOJsVctE1Yd6sRSKVSB8qMwwLhmqZokc
-	NCNTBgg6JYrjvyzOzkRqKrClMo/+UW0FAVYLo3c5sjPNYoudsZ2A==
-X-Received: by 2002:a05:6512:650c:b0:5a1:343d:818d with SMTP id 2adb3069b0e04-5a13cac6598mr473477e87.12.1772793399670;
-        Fri, 06 Mar 2026 02:36:39 -0800 (PST)
-Received: from gentoo.sknt.ru ([95.161.221.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a13d03da54sm258243e87.40.2026.03.06.02.36.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 02:36:38 -0800 (PST)
-From: Alexander Shiyan <eagle.alexander923@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	devicetree@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>
-Subject: [RFC PATCH v3 2/2] media: i2c: Add onsemi AR0234 image sensor driver
-Date: Fri,  6 Mar 2026 13:36:14 +0300
-Message-ID: <20260306103614.3208182-3-eagle.alexander923@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260306103614.3208182-1-eagle.alexander923@gmail.com>
-References: <20260306103614.3208182-1-eagle.alexander923@gmail.com>
+	s=arc-20240116; t=1772793434; c=relaxed/simple;
+	bh=ExZnC7goEKWKM6Rtl+U4JqZvVGyaRn8TBOjYWQsS5l0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qyIJpsWti0CWXBZp1ZCjhXWXpQh/D3hDWzCzInbWkabIEL+4IcQmmBL40rNzMh276YoiAnHl3czCAlmf30EdoCh8izYD6QlZMH/FSP0gLSDB2bUfcpXagiFsohIkRsGJ9YojyVspHvDORi2o5Z79Dkw+MXb9p9JPwtVObbFA2hM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WoTkBhZB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772793431;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=CNok9dmrehJj085xLfY0Qs/d7XMY0KJw2lUvqcVr7uo=;
+	b=WoTkBhZBelYn4qeju9Uyfw2oC7UTqp0UAlI3RrsTnVtKj3NgPFbxiXcAIWJd7aKzmTfF6P
+	xzdSZCAkrcnms72dzAAUyZiJn3gZJHOURHghL/NuTrWpVy31c/S8MCyc5R1ofB9sTA0y6r
+	QLLtkMwiGk7AvGwPKanIUwZFRqTeMi8=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-96-fZ85QXqmMvy5WsYgpsd6pQ-1; Fri,
+ 06 Mar 2026 05:37:08 -0500
+X-MC-Unique: fZ85QXqmMvy5WsYgpsd6pQ-1
+X-Mimecast-MFC-AGG-ID: fZ85QXqmMvy5WsYgpsd6pQ_1772793425
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6B9FC1956089;
+	Fri,  6 Mar 2026 10:37:05 +0000 (UTC)
+Received: from [192.168.1.153] (unknown [10.45.226.103])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 38DB11800576;
+	Fri,  6 Mar 2026 10:36:57 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+Subject: [PATCH v3 0/6] dma-buf: heaps: add coherent reserved-memory heap
+Date: Fri, 06 Mar 2026 11:36:31 +0100
+Message-Id: <20260306-b4-dmabuf-heap-coherent-rmem-v3-0-3d00d36c9bc4@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C8A7721EFC8
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XOTQ7CIBCG4as0rB1DhxatK+9hXFAYhEV/ApVom
+ t5d2sQYN7p8Z/F8M7NIwVNkp2JmgZKPfuhziF3BtFP9jcCb3Aw5So4ooK3AdKq9W3CkRtCDo0D
+ 9BKGjDprSGtGgVJYalokxkPWPjb9cczsfpyE8t7VUrtc3XP2GUwklGGvJVgKbo9LnQMapaa+Hj
+ q1ywo8m+J83EwIHWatK1qIV4nD80pZleQFHSBIuFwEAAA==
+X-Change-ID: 20260223-b4-dmabuf-heap-coherent-rmem-91fd3926afe9
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ iommu@lists.linux.dev, devicetree@vger.kernel.org, 
+ Albert Esteve <aesteve@redhat.com>, mripard@redhat.com, echanude@redhat.com, 
+ John Stultz <john.stultz@linaro.org>, Maxime Ripard <mripard@kernel.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772793417; l=4098;
+ i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
+ bh=ExZnC7goEKWKM6Rtl+U4JqZvVGyaRn8TBOjYWQsS5l0=;
+ b=UNGgoXKmH542rSOqPbjXTgBDaWRdkdTQo0EoW9KZ1vE/PiAG6Zcb1qM/GgwOycyhucLQJuOwG
+ Mtb4/HsYkEWDLTZxjMPx0QbPMjLBfxdVBdXHDeL+WLZ6QFhoR4GGmXF
+X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
+ pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Rspamd-Queue-Id: EC2CE21EE73
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-54723-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[ideasonboard.com,raspberrypi.com,intel.com,vger.kernel.org,kernel.org,linux.intel.com,oss.qualcomm.com,linaro.org,foss.st.com,gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54724-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[eaglealexander923@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-Add driver for the onsemi AR0234 CMOS image sensor.
+This patch series adds a new dma-buf heap driver that exposes coherent,
+non‑reusable reserved-memory regions as named heaps, so userspace can
+explicitly allocate buffers from those device‑specific pools.
 
-Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
+Motivation: we want cgroup accounting for all userspace‑visible buffer
+allocations (DRM, v4l2, dma‑buf heaps, etc.). That’s hard to do when
+drivers call dma_alloc_attrs() directly because the accounting controller
+(memcg vs dmem) is ambiguous. The long‑term plan is to steer those paths
+toward dma‑buf heaps, where each heap can unambiguously charge a single
+controller. To reach that goal, we need a heap backend for each
+dma_alloc_attrs() memory type. CMA and system heaps already exist;
+coherent reserved‑memory was the missing piece, since many SoCs define
+dedicated, device‑local coherent pools in DT under /reserved-memory using
+"shared-dma-pool" with non‑reusable regions (i.e., not CMA) that are
+carved out exclusively for coherent DMA and are currently only usable by
+in‑kernel drivers.
+
+Because these regions are device‑dependent, each heap instance binds a
+heap device to its reserved‑mem region via a newly introduced helper
+function -namely, of_reserved_mem_device_init_with_mem()- so coherent
+allocations use the correct dev->dma_mem.
+
+Charging to cgroups for these buffers is intentionally left out to keep
+review focused on the new heap; I plan to follow up based on Eric’s [1]
+and Maxime’s [2] work on dmem charging from userspace.
+
+This series also makes the new heap driver modular, in line with the CMA
+heap change in [3].
+
+[1] https://lore.kernel.org/all/20260218-dmabuf-heap-cma-dmem-v2-0-b249886fb7b2@redhat.com/
+[2] https://lore.kernel.org/all/20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org/
+[3] https://lore.kernel.org/all/20260303-dma-buf-heaps-as-modules-v3-0-24344812c707@kernel.org/
+
+Signed-off-by: Albert Esteve <aesteve@redhat.com>
 ---
- drivers/media/i2c/Kconfig  |   12 +
- drivers/media/i2c/Makefile |    1 +
- drivers/media/i2c/ar0234.c | 1309 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 1322 insertions(+)
- create mode 100644 drivers/media/i2c/ar0234.c
+Changes in v3:
+- Reorganized changesets among patches to ensure bisectability
+- Removed unused dma_heap_coherent_register() leftover
+- Removed fallback when setting mask in coherent heap dev, since
+  dma_set_mask() already truncates to supported masks
+- Moved struct rmem_assigned_device (rd) logic to
+  of_reserved_mem_device_init_with_mem() to allow listing the device
+- Link to v2: https://lore.kernel.org/r/20260303-b4-dmabuf-heap-coherent-rmem-v2-0-65a4653b3378@redhat.com
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 5eb1e0e0a87a..02450c89d9b0 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -51,6 +51,18 @@ config VIDEO_ALVIUM_CSI2
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called alvium-csi2.
- 
-+config VIDEO_AR0234
-+	tristate "onsemi AR0234 sensor support"
-+	depends on ACPI || OF || COMPILE_TEST
-+	select V4L2_CCI_I2C
-+	select VIDEO_CCS_PLL
-+	help
-+	  This is a Video4Linux2 sensor driver for the onsemi
-+	  AR0234 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called ar0234.
-+
- config VIDEO_AR0521
- 	tristate "ON Semiconductor AR0521 sensor support"
- 	help
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index a3a6396df3c4..89e06afaa120 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -19,6 +19,7 @@ obj-$(CONFIG_VIDEO_AK7375) += ak7375.o
- obj-$(CONFIG_VIDEO_AK881X) += ak881x.o
- obj-$(CONFIG_VIDEO_ALVIUM_CSI2) += alvium-csi2.o
- obj-$(CONFIG_VIDEO_APTINA_PLL) += aptina-pll.o
-+obj-$(CONFIG_VIDEO_AR0234) += ar0234.o
- obj-$(CONFIG_VIDEO_AR0521) += ar0521.o
- obj-$(CONFIG_VIDEO_BT819) += bt819.o
- obj-$(CONFIG_VIDEO_BT856) += bt856.o
-diff --git a/drivers/media/i2c/ar0234.c b/drivers/media/i2c/ar0234.c
-new file mode 100644
-index 000000000000..f2486f5f5363
---- /dev/null
-+++ b/drivers/media/i2c/ar0234.c
-@@ -0,0 +1,1309 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for the onsemi AR0234 camera sensor
-+ *
-+ * Copyright (C) 2026 Alexander Shiyan <eagle.alexander923@gmail.com>
-+ *
-+ * Some parts of code taken from Raspberry Pi driver ar0234.c by:
-+ * Copyright (C) 2021, Raspberry Pi (Trading) Ltd
-+ * Copyright (C) 2025-2026, UAB Kurokesu
-+ * Author: Dave Stevenson <dave.stevenson@raspberrypi.com>
-+ * Author: Danius Kalvaitis <danius@kurokesu.com>
-+ *
-+ * Some parts of code taken from imx290.c by:
-+ * Copyright (C) 2019 FRAMOS GmbH.
-+ * Copyright (C) 2019 Linaro Ltd.
-+ * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/regulator/consumer.h>
-+#include <media/mipi-csi2.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-subdev.h>
-+
-+#include "ccs-pll.h"
-+
-+#define AR0234_REG_CHIP_VERSION				CCI_REG16(0x3000)
-+#	define AR0234_CHIP_ID				(0x0a56)
-+#	define AR0234_CHIP_ID_MONO			(0x1a56)
-+#define AR0234_REG_Y_ADDR_START				CCI_REG16(0x3002)
-+#define AR0234_REG_X_ADDR_START				CCI_REG16(0x3004)
-+#define AR0234_REG_Y_ADDR_END				CCI_REG16(0x3006)
-+#define AR0234_REG_X_ADDR_END				CCI_REG16(0x3008)
-+#define AR0234_REG_FRAME_LENGTH_LINES			CCI_REG16(0x300a)
-+#	define AR0234_FRAME_LENGTH_LINES_MIN		(16)
-+#	define AR0234_VBLANK_MAX			(0xf000)
-+#define AR0234_REG_LINE_LENGTH_PCK			CCI_REG16(0x300c)
-+#	define AR0234_LINE_LENGTH_PCK_MIN		(612)
-+#	define AR0234_HBLANK_MAX			(0xf000)
-+#define AR0234_REG_REVISION_NUMBER			CCI_REG16(0x300e)
-+#define AR0234_REG_COARSE_INTEGRATION_TIME		CCI_REG16(0x3012)
-+#	define AR0234_EXPOSURE_MIN			(2)
-+#	define AR0234_EXPOSURE_STEP			(1)
-+#define AR0234_REG_FINE_INTEGRATION_TIME		CCI_REG16(0x3014)
-+#define AR0234_REG_RESET				CCI_REG16(0x301a)
-+#define AR0234_REG_MODE_SELECT				CCI_REG8(0x301c)
-+#define AR0234_REG_IMAGE_ORIENTATION			CCI_REG8(0x301d)
-+#define AR0234_REG_GROUPED_PARAMETER_HOLD		CCI_REG8(0x3022)
-+#define AR0234_REG_VT_PIX_CLK_DIV			CCI_REG16(0x302a)
-+#define AR0234_REG_VT_SYS_CLK_DIV			CCI_REG16(0x302c)
-+#define AR0234_REG_PRE_PLL_CLK_DIV			CCI_REG16(0x302e)
-+#define AR0234_REG_PLL_MULTIPLIER			CCI_REG16(0x3030)
-+#define AR0234_REG_OP_PIX_CLK_DIV			CCI_REG16(0x3036)
-+#define AR0234_REG_OP_SYS_CLK_DIV			CCI_REG16(0x3038)
-+#define AR0234_REG_GLOBAL_GAIN				CCI_REG16(0x305e)
-+#	define AR0234_DGTL_GAIN_MIN			(0x0080)
-+#	define AR0234_DGTL_GAIN_MAX			(0x07ff)
-+#	define AR0234_DGTL_GAIN_DEFAULT			(0x0080)
-+#	define AR0234_DGTL_GAIN_STEP			(1)
-+#define AR0234_REG_ANALOG_GAIN				CCI_REG16(0x3060)
-+#	define AR0234_ANA_GAIN_BASE			(64)
-+#	define AR0234_ANA_GAIN_MIN			(AR0234_ANA_GAIN_BASE)
-+#	define AR0234_ANA_GAIN_MAX			(16 * AR0234_ANA_GAIN_BASE)
-+#	define AR0234_ANA_GAIN_STEP			(1)
-+#	define AR0234_ANA_GAIN_DEFAULT			(AR0234_ANA_GAIN_BASE)
-+#define AR0234_REG_TEST_PATTERN_MODE			CCI_REG16(0x3070)
-+#	define AR0234_TEST_PATTERN_DISABLED		(0)
-+#	define AR0234_TEST_PATTERN_SOLID_COLOR		(1)
-+#	define AR0234_TEST_PATTERN_VERTICAL_COLOR_BARS	(2)
-+#	define AR0234_TEST_PATTERN_FADE_TO_GREY		(3)
-+#	define AR0234_TEST_PATTERN_WALKING_1S		(256)
-+#define AR0234_REG_TEST_DATA_RED			CCI_REG16(0x3072)
-+#define AR0234_REG_TEST_DATA_GREENR			CCI_REG16(0x3074)
-+#define AR0234_REG_TEST_DATA_BLUE			CCI_REG16(0x3076)
-+#define AR0234_REG_TEST_DATA_GREENB			CCI_REG16(0x3078)
-+#	define AR0234_TESTP_COLOUR_MIN			(0)
-+#	define AR0234_TESTP_COLOUR_MAX			(0x3ff)
-+#	define AR0234_TESTP_COLOUR_STEP			(1)
-+#define AR0234_REG_MFR_30BA				CCI_REG16(0x30ba)
-+#	define AR0234_MFR_30BA_GAIN_BITS(x)		(0x7620 | (x))
-+#define AR0234_REG_DATA_FORMAT_BITS			CCI_REG16(0x31ac)
-+#	define DATA_FORMAT_BITS(x, y)			(((x) << 8) | (y))
-+#define AR0234_REG_SERIAL_FORMAT			CCI_REG16(0x31ae)
-+#	define DATA_FORMAT_LANES(x)			(0x200 | (x))
-+#define AR0234_REG_COMPANDING				CCI_REG16(0x31d0)
-+#	define COMPANDING_DPCM_EN			BIT(0)
-+#define AR0234_REG_MIPI_CNTRL				CCI_REG16(0x3354)
-+
-+#define AR0234_NATIVE_WIDTH				(1940U)
-+#define AR0234_NATIVE_HEIGHT				(1220U)
-+#define AR0234_PIXEL_ARRAY_LEFT				(8U)
-+#define AR0234_PIXEL_ARRAY_TOP				(8U)
-+#define AR0234_PIXEL_ARRAY_WIDTH			(1920U)
-+#define AR0234_PIXEL_ARRAY_HEIGHT			(1200U)
-+#define AR0234_MIN_CROP_WIDTH				(4U)
-+#define AR0234_MIN_CROP_HEIGHT				(2U)
-+#define AR0234_CROP_WIDTH_STEP				(4U)
-+#define AR0234_CROP_HEIGHT_STEP				(2U)
-+
-+static const struct cci_reg_sequence ar0234_common_init[] = {
-+	{ AR0234_REG_FINE_INTEGRATION_TIME, 0 },
-+};
-+
-+static const char *const ar0234_test_pattern_menu[] = {
-+	"Disabled",
-+	"Solid Color",
-+	"Vertical Color Bars",
-+	"Fade to Grey Vertical Color Bars",
-+	"Walking 1s",
-+};
-+
-+static const unsigned int ar0234_test_pattern_val[] = {
-+	AR0234_TEST_PATTERN_DISABLED,
-+	AR0234_TEST_PATTERN_SOLID_COLOR,
-+	AR0234_TEST_PATTERN_VERTICAL_COLOR_BARS,
-+	AR0234_TEST_PATTERN_FADE_TO_GREY,
-+	AR0234_TEST_PATTERN_WALKING_1S,
-+};
-+
-+static const char *const ar0234_supply_names[] = {
-+	"vaa",
-+	"vdd",
-+	"vddio",
-+};
-+
-+enum ar0234_colour_variant {
-+	AR0234_VARIANT_MONO,
-+	AR0234_VARIANT_COLOUR,
-+	AR0234_VARIANT_MAX
-+};
-+
-+enum ar0234_link_freq_index {
-+	AR0234_LINK_FREQ_IDX_BPP_8,
-+	AR0234_LINK_FREQ_IDX_BPP_10,
-+	AR0234_LINK_FREQ_IDX_MAX
-+};
-+
-+struct ar0234_mode {
-+	u8 bpp_in;
-+	u8 bpp_out;
-+	u8 dpcm;
-+	u8 mipi_dt;
-+	int link_freq_index;
-+	u32 code[AR0234_VARIANT_MAX];
-+};
-+
-+static const struct ar0234_mode ar0234_modes[] = {
-+	{
-+		.bpp_in = 8,
-+		.bpp_out = 8,
-+		.dpcm = 0,
-+		.mipi_dt = MIPI_CSI2_DT_RAW8,
-+		.link_freq_index = AR0234_LINK_FREQ_IDX_BPP_8,
-+		.code = {
-+			[AR0234_VARIANT_MONO] = MEDIA_BUS_FMT_Y8_1X8,
-+			[AR0234_VARIANT_COLOUR] = MEDIA_BUS_FMT_SGRBG8_1X8,
-+		},
-+	},
-+	{
-+		.bpp_in = 10,
-+		.bpp_out = 10,
-+		.dpcm = 0,
-+		.mipi_dt = MIPI_CSI2_DT_RAW10,
-+		.link_freq_index = AR0234_LINK_FREQ_IDX_BPP_10,
-+		.code = {
-+			[AR0234_VARIANT_MONO] = MEDIA_BUS_FMT_Y10_1X10,
-+			[AR0234_VARIANT_COLOUR] = MEDIA_BUS_FMT_SGRBG10_1X10,
-+		},
-+	},
-+	{
-+		.bpp_in = 10,
-+		.bpp_out = 8,
-+		.dpcm = COMPANDING_DPCM_EN,
-+		.mipi_dt = MIPI_CSI2_DT_RAW10,
-+		.link_freq_index = AR0234_LINK_FREQ_IDX_BPP_8,
-+		.code = {
-+			[AR0234_VARIANT_COLOUR] =
-+				MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
-+		},
-+	},
-+};
-+
-+struct ar0234 {
-+	struct device *dev;
-+	struct clk *clk;
-+	struct regmap *regmap;
-+
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(ar0234_supply_names)];
-+	struct gpio_desc *reset;
-+
-+	unsigned int num_data_lanes;
-+
-+	s64 link_freqs[AR0234_LINK_FREQ_IDX_MAX];
-+
-+	enum ar0234_colour_variant variant;
-+
-+	struct ccs_pll pll;
-+
-+	struct ar0234_mode const *mode;
-+	struct v4l2_rect crop;
-+
-+	bool streaming;
-+
-+	struct v4l2_ctrl_handler ctrls;
-+
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *link_freq;
-+	struct v4l2_ctrl *a_gain;
-+	struct {
-+		struct v4l2_ctrl *hflip;
-+		struct v4l2_ctrl *vflip;
-+	};
-+};
-+
-+static inline struct ar0234 *to_ar0234(struct v4l2_subdev *_sd)
-+{
-+	return container_of(_sd, struct ar0234, sd);
-+}
-+
-+static const struct ccs_pll_limits ar0234_pll_limits = {
-+	.min_ext_clk_freq_hz = 6000000,
-+	.max_ext_clk_freq_hz = 54000000,
-+	.vt_fr = {
-+		.min_pre_pll_clk_div = 1,
-+		.max_pre_pll_clk_div = 63,
-+		.min_pll_ip_clk_freq_hz = 6000000,
-+		.max_pll_ip_clk_freq_hz = 12000000,
-+		.min_pll_multiplier = 2,
-+		.max_pll_multiplier = 254,
-+		.min_pll_op_clk_freq_hz = 384000000,
-+		.max_pll_op_clk_freq_hz = 768000000,
-+	},
-+	.vt_bk = {
-+		.min_sys_clk_div = 1,
-+		.max_sys_clk_div = 31,
-+		.min_sys_clk_freq_hz = 6000000,
-+		.max_sys_clk_freq_hz = 768000000,
-+		.min_pix_clk_div = 1,
-+		.max_pix_clk_div = 31,
-+		.min_pix_clk_freq_hz = 6000000,
-+		.max_pix_clk_freq_hz = 90000000,
-+	},
-+	.op_bk = {
-+		.min_sys_clk_div = 1,
-+		.max_sys_clk_div = 31,
-+		.min_sys_clk_freq_hz = 6000000,
-+		.max_sys_clk_freq_hz = 768000000,
-+		.min_pix_clk_div = 1,
-+		.max_pix_clk_div = 31,
-+		.min_pix_clk_freq_hz = 6000000,
-+		.max_pix_clk_freq_hz = 90000000,
-+	},
-+};
-+
-+static int ar0234_calculate_pll(struct ar0234 *ar0234,
-+				const struct ar0234_mode *mode)
-+{
-+	struct ccs_pll pll = { 0 };
-+	int ret;
-+
-+	pll.bus_type = CCS_PLL_BUS_TYPE_CSI2_DPHY;
-+	pll.op_lanes = ar0234->num_data_lanes;
-+	pll.vt_lanes = 1;
-+	pll.csi2.lanes = ar0234->num_data_lanes;
-+	pll.binning_horizontal = 1;
-+	pll.binning_vertical = 1;
-+	pll.scale_m = 1;
-+	pll.scale_n = 1;
-+	pll.bits_per_pixel = mode->bpp_out;
-+	pll.flags = CCS_PLL_FLAG_LANE_SPEED_MODEL |
-+		    CCS_PLL_FLAG_EVEN_PLL_MULTIPLIER |
-+		    CCS_PLL_FLAG_FIFO_DERATING |
-+		    CCS_PLL_FLAG_FIFO_OVERRATING |
-+		    CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER;
-+	pll.link_freq = ar0234->link_freqs[mode->link_freq_index] / 2;
-+	pll.ext_clk_freq_hz = clk_get_rate(ar0234->clk);
-+
-+	ret = ccs_pll_calculate(ar0234->dev, &ar0234_pll_limits, &pll);
-+	if (!ret)
-+		ar0234->pll = pll;
-+
-+	return ret;
-+}
-+
-+static u32 ar0234_calc_analog_gain(u32 req_gain_q6, u32 *reg_val)
-+{
-+	u32 s, t;
-+	u32 best_gain = 0;
-+	u32 best_reg = 0;
-+	u32 min_diff = U32_MAX;
-+	u32 coarse_mult, fine_gain_q6, total_gain_q6, diff;
-+
-+	for (s = 0; s <= 4; s++) {
-+		coarse_mult = (1 << s) * AR0234_ANA_GAIN_BASE;
-+
-+		for (t = 0; t <= 15; t++) {
-+			if (s == 0 || s == 2) {
-+				fine_gain_q6 =
-+					(AR0234_ANA_GAIN_BASE * 32) / (32 - t);
-+			} else if (s == 1 || s == 3) {
-+				fine_gain_q6 = (AR0234_ANA_GAIN_BASE * 16) /
-+					       (16 - (t / 2));
-+			} else {
-+				fine_gain_q6 = (AR0234_ANA_GAIN_BASE * 8) /
-+					       (8 - (t / 4));
-+			}
-+
-+			total_gain_q6 = (coarse_mult * fine_gain_q6) /
-+					AR0234_ANA_GAIN_BASE;
-+
-+			if (req_gain_q6 > total_gain_q6)
-+				diff = req_gain_q6 - total_gain_q6;
-+			else
-+				diff = total_gain_q6 - req_gain_q6;
-+
-+			if (diff < min_diff) {
-+				min_diff = diff;
-+				best_gain = total_gain_q6;
-+				best_reg = (s << 4) | t;
-+			}
-+		}
-+	}
-+
-+	*reg_val = best_reg;
-+
-+	return best_gain;
-+}
-+
-+static int ar0234_set_mfr_30ba(struct ar0234 *ar0234, u32 analog_reg_val)
-+{
-+	u16 mfr_30ba_val;
-+	u32 coarse_idx = (analog_reg_val >> 4) & 0x7;
-+
-+	if (ar0234->pll.pixel_rate_pixel_array <= 45000000) {
-+		if (coarse_idx < 3)
-+			mfr_30ba_val = AR0234_MFR_30BA_GAIN_BITS(6);
-+		else
-+			mfr_30ba_val = AR0234_MFR_30BA_GAIN_BITS(0);
-+	} else {
-+		if (coarse_idx == 0)
-+			mfr_30ba_val = AR0234_MFR_30BA_GAIN_BITS(2);
-+		else if (coarse_idx == 1)
-+			mfr_30ba_val = AR0234_MFR_30BA_GAIN_BITS(1);
-+		else
-+			mfr_30ba_val = AR0234_MFR_30BA_GAIN_BITS(0);
-+	}
-+
-+	return cci_write(ar0234->regmap, AR0234_REG_MFR_30BA,
-+			 mfr_30ba_val, NULL);
-+}
-+
-+static int ar0234_set_analog_gain(struct ar0234 *ar0234, u64 val)
-+{
-+	u32 reg_val, actual_gain;
-+	int ret;
-+
-+	actual_gain = ar0234_calc_analog_gain(val, &reg_val);
-+
-+	if (actual_gain != val) {
-+		__v4l2_ctrl_modify_range(ar0234->a_gain, AR0234_ANA_GAIN_MIN,
-+					 AR0234_ANA_GAIN_MAX,
-+					 AR0234_ANA_GAIN_STEP, actual_gain);
-+		__v4l2_ctrl_s_ctrl(ar0234->a_gain, actual_gain);
-+	}
-+
-+	ret = cci_write(ar0234->regmap, AR0234_REG_GROUPED_PARAMETER_HOLD,
-+			1, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = ar0234_set_mfr_30ba(ar0234, reg_val);
-+
-+	cci_write(ar0234->regmap, AR0234_REG_ANALOG_GAIN, reg_val, &ret);
-+
-+	cci_write(ar0234->regmap, AR0234_REG_GROUPED_PARAMETER_HOLD, 0, NULL);
-+
-+	return ret;
-+}
-+
-+static int ar0234_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct ar0234 *ar0234 = container_of(ctrl->handler,
-+					     struct ar0234, ctrls);
-+	int ret = 0;
-+
-+	if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
-+		return 0;
-+
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		int exposure_max = ar0234->crop.height + ctrl->val - 1;
-+		int exposure_val = clamp(ar0234->exposure->val,
-+					 AR0234_EXPOSURE_MIN, exposure_max);
-+
-+		ret = __v4l2_ctrl_modify_range(ar0234->exposure,
-+					       AR0234_EXPOSURE_MIN,
-+					       exposure_max,
-+					       AR0234_EXPOSURE_STEP,
-+					       exposure_val);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (pm_runtime_get_if_in_use(ar0234->dev) == 0)
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_HBLANK:
-+		cci_write(ar0234->regmap, AR0234_REG_LINE_LENGTH_PCK,
-+			  (ar0234->crop.width / 4) + ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_VBLANK:
-+		cci_write(ar0234->regmap, AR0234_REG_FRAME_LENGTH_LINES,
-+			  ar0234->crop.height + ctrl->val, &ret);
-+		if (ret)
-+			break;
-+		ctrl = ar0234->exposure;
-+		fallthrough;
-+	case V4L2_CID_EXPOSURE:
-+		cci_write(ar0234->regmap, AR0234_REG_COARSE_INTEGRATION_TIME,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ret = ar0234_set_analog_gain(ar0234, ctrl->val);
-+		break;
-+	case V4L2_CID_DIGITAL_GAIN:
-+		cci_write(ar0234->regmap, AR0234_REG_GLOBAL_GAIN,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		cci_write(ar0234->regmap, AR0234_REG_TEST_PATTERN_MODE,
-+			  ar0234_test_pattern_val[ctrl->val], &ret);
-+		break;
-+	case V4L2_CID_HFLIP:
-+	case V4L2_CID_VFLIP:
-+		cci_write(ar0234->regmap, AR0234_REG_IMAGE_ORIENTATION,
-+			  (ar0234->vflip->val << 1) | ar0234->hflip->val, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN_RED:
-+		cci_write(ar0234->regmap, AR0234_REG_TEST_DATA_RED,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN_GREENR:
-+		cci_write(ar0234->regmap, AR0234_REG_TEST_DATA_GREENR,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN_BLUE:
-+		cci_write(ar0234->regmap, AR0234_REG_TEST_DATA_BLUE,
-+			  ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN_GREENB:
-+		cci_write(ar0234->regmap, AR0234_REG_TEST_DATA_GREENB,
-+			  ctrl->val, &ret);
-+		break;
-+	default:
-+		dev_err(ar0234->dev, "Invalid control %d\n", ctrl->id);
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put_autosuspend(ar0234->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops ar0234_ctrl_ops = {
-+	.s_ctrl = ar0234_set_ctrl,
-+};
-+
-+static int ar0234_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+
-+	if (code->index >= ARRAY_SIZE(ar0234_modes))
-+		return -EINVAL;
-+
-+	if (!ar0234_modes[code->index].code[ar0234->variant])
-+		return -EINVAL;
-+
-+	code->code = ar0234_modes[code->index].code[ar0234->variant];
-+
-+	return 0;
-+}
-+
-+static int ar0234_enum_frame_size(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (fse->index >= ARRAY_SIZE(ar0234_modes))
-+		return -EINVAL;
-+
-+	fse->min_width = AR0234_MIN_CROP_WIDTH;
-+	fse->max_width = AR0234_PIXEL_ARRAY_WIDTH;
-+	fse->min_height = AR0234_MIN_CROP_HEIGHT;
-+	fse->max_height = AR0234_PIXEL_ARRAY_HEIGHT;
-+
-+	return 0;
-+}
-+
-+static void ar0234_set_link_limits(struct ar0234 *ar0234)
-+{
-+	u64 pixel_rate = ar0234->link_freqs[ar0234->mode->link_freq_index] * 2;
-+
-+	pixel_rate *= ar0234->num_data_lanes;
-+	do_div(pixel_rate, ar0234->mode->bpp_out);
-+
-+	__v4l2_ctrl_s_ctrl_int64(ar0234->pixel_rate, pixel_rate);
-+
-+	__v4l2_ctrl_s_ctrl(ar0234->link_freq, ar0234->mode->link_freq_index);
-+}
-+
-+static void ar0234_set_framing_limits(struct ar0234 *ar0234)
-+{
-+	unsigned int width = ar0234->crop.width;
-+	int hblank, hblank_min;
-+
-+	__v4l2_ctrl_modify_range(ar0234->vblank, AR0234_FRAME_LENGTH_LINES_MIN,
-+				 AR0234_VBLANK_MAX, 1,
-+				 AR0234_FRAME_LENGTH_LINES_MIN);
-+	__v4l2_ctrl_s_ctrl(ar0234->vblank, AR0234_FRAME_LENGTH_LINES_MIN);
-+
-+	hblank = AR0234_LINE_LENGTH_PCK_MIN - width / 4;
-+	hblank_min = AR0234_LINE_LENGTH_PCK_MIN - AR0234_PIXEL_ARRAY_WIDTH / 4;
-+	__v4l2_ctrl_modify_range(ar0234->hblank, hblank_min,
-+				 AR0234_HBLANK_MAX, 2, hblank);
-+	__v4l2_ctrl_s_ctrl(ar0234->hblank, hblank);
-+}
-+
-+static int ar0234_set_pad_format(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_format *fmt)
-+{
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+	struct ar0234_mode const *mode = NULL;
-+	unsigned int width, height;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ar0234_modes); i++) {
-+		if (ar0234_modes[i].code[ar0234->variant] == fmt->format.code) {
-+			mode = &ar0234_modes[i];
-+			break;
-+		}
-+	}
-+	if (!mode)
-+		return -EINVAL;
-+
-+	width = clamp_t(unsigned int, round_down(fmt->format.width,
-+						 AR0234_CROP_WIDTH_STEP),
-+			AR0234_MIN_CROP_WIDTH, AR0234_PIXEL_ARRAY_WIDTH);
-+	height = clamp_t(unsigned int, round_down(fmt->format.height,
-+						  AR0234_CROP_HEIGHT_STEP),
-+			 AR0234_MIN_CROP_HEIGHT, AR0234_PIXEL_ARRAY_HEIGHT);
-+
-+	fmt->format.width = width;
-+	fmt->format.height = height;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-+	fmt->format.quantization = V4L2_QUANTIZATION_DEFAULT;
-+	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-+		*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-+		return 0;
-+	}
-+
-+	if (ar0234->mode != mode) {
-+		int ret = ar0234_calculate_pll(ar0234, mode);
-+
-+		if (ret) {
-+			dev_err(ar0234->dev,
-+				"PLL recalculations failed: %d\n", ret);
-+			return ret;
-+		}
-+
-+		ar0234->mode = mode;
-+
-+		ar0234_set_link_limits(ar0234);
-+	}
-+
-+	if (ar0234->crop.width != width || ar0234->crop.height != height) {
-+		ar0234->crop.width = width;
-+		ar0234->crop.height = height;
-+		ar0234->crop.left =
-+			min_t(u32, ar0234->crop.left, AR0234_PIXEL_ARRAY_LEFT +
-+			      AR0234_PIXEL_ARRAY_WIDTH - width);
-+		ar0234->crop.top =
-+			min_t(u32, ar0234->crop.top, AR0234_PIXEL_ARRAY_TOP +
-+			      AR0234_PIXEL_ARRAY_HEIGHT - height);
-+		ar0234->crop.left =
-+			max(ar0234->crop.left, AR0234_PIXEL_ARRAY_LEFT);
-+		ar0234->crop.top =
-+			max(ar0234->crop.top, AR0234_PIXEL_ARRAY_TOP);
-+
-+		ar0234_set_framing_limits(ar0234);
-+	}
-+
-+	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-+
-+	return 0;
-+}
-+
-+static int ar0234_init_state(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state)
-+{
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+	struct v4l2_subdev_format format = {
-+		.which = V4L2_SUBDEV_FORMAT_TRY,
-+		.format = {
-+			.width = ar0234->crop.width,
-+			.height = ar0234->crop.height,
-+			.code = ar0234->mode->code[ar0234->variant],
-+		},
-+	};
-+	int ret;
-+
-+	ret = ar0234_set_pad_format(sd, state, &format);
-+	if (ret)
-+		return ret;
-+
-+	*v4l2_subdev_state_get_crop(state, 0) = ar0234->crop;
-+
-+	return 0;
-+}
-+
-+static int ar0234_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
-+			sel->r =
-+				*v4l2_subdev_state_get_crop(sd_state, sel->pad);
-+		else
-+			sel->r = ar0234->crop;
-+
-+		return 0;
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.left = AR0234_PIXEL_ARRAY_LEFT;
-+		sel->r.top = AR0234_PIXEL_ARRAY_TOP;
-+		sel->r.width = AR0234_PIXEL_ARRAY_WIDTH;
-+		sel->r.height = AR0234_PIXEL_ARRAY_HEIGHT;
-+
-+		return 0;
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = AR0234_NATIVE_WIDTH;
-+		sel->r.height = AR0234_NATIVE_HEIGHT;
-+
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int ar0234_set_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+	struct v4l2_rect rect = sel->r;
-+	struct v4l2_rect *try_crop;
-+	struct v4l2_mbus_framefmt *try_fmt;
-+	u32 max_left, max_top;
-+
-+	if (sel->target != V4L2_SEL_TGT_CROP)
-+		return -EINVAL;
-+
-+	max_left = AR0234_PIXEL_ARRAY_LEFT + AR0234_PIXEL_ARRAY_WIDTH -
-+		   AR0234_MIN_CROP_WIDTH;
-+	max_top = AR0234_PIXEL_ARRAY_TOP + AR0234_PIXEL_ARRAY_HEIGHT -
-+		  AR0234_MIN_CROP_HEIGHT;
-+
-+	rect.left = clamp_t(u32, rect.left, AR0234_PIXEL_ARRAY_LEFT, max_left);
-+	rect.top = clamp_t(u32, rect.top, AR0234_PIXEL_ARRAY_TOP, max_top);
-+
-+	rect.width =
-+		clamp_t(u32, round_down(rect.width, AR0234_CROP_WIDTH_STEP),
-+			AR0234_MIN_CROP_WIDTH, AR0234_PIXEL_ARRAY_WIDTH);
-+	rect.height =
-+		clamp_t(u32, round_down(rect.height, AR0234_CROP_HEIGHT_STEP),
-+			AR0234_MIN_CROP_HEIGHT, AR0234_PIXEL_ARRAY_HEIGHT);
-+
-+	if (rect.left + rect.width - 1 >
-+	    AR0234_PIXEL_ARRAY_LEFT + AR0234_PIXEL_ARRAY_WIDTH - 1)
-+		rect.left = AR0234_PIXEL_ARRAY_LEFT +
-+			    AR0234_PIXEL_ARRAY_WIDTH - rect.width;
-+	if (rect.top + rect.height - 1 >
-+	    AR0234_PIXEL_ARRAY_TOP + AR0234_PIXEL_ARRAY_HEIGHT - 1)
-+		rect.top = AR0234_PIXEL_ARRAY_TOP +
-+			   AR0234_PIXEL_ARRAY_HEIGHT - rect.height;
-+
-+	if (sel->flags & V4L2_SEL_FLAG_GE) {
-+		if (rect.width < sel->r.width) {
-+			u32 new_width = rect.width + AR0234_CROP_WIDTH_STEP;
-+
-+			if (new_width <= AR0234_PIXEL_ARRAY_WIDTH)
-+				rect.width = new_width;
-+		}
-+
-+		if (rect.height < sel->r.height) {
-+			u32 new_height = rect.height + AR0234_CROP_HEIGHT_STEP;
-+
-+			if (new_height <= AR0234_PIXEL_ARRAY_HEIGHT)
-+				rect.height = new_height;
-+		}
-+	}
-+
-+	if (sel->flags & V4L2_SEL_FLAG_LE) {
-+		if (rect.width > sel->r.width && rect.width >=
-+		    AR0234_MIN_CROP_WIDTH + AR0234_CROP_WIDTH_STEP)
-+			rect.width -= AR0234_CROP_WIDTH_STEP;
-+
-+		if (rect.height > sel->r.height && rect.height >=
-+		    AR0234_MIN_CROP_HEIGHT + AR0234_CROP_HEIGHT_STEP)
-+			rect.height -= AR0234_CROP_HEIGHT_STEP;
-+	}
-+
-+	if (rect.width < AR0234_MIN_CROP_WIDTH ||
-+	    rect.height < AR0234_MIN_CROP_HEIGHT)
-+		return -EINVAL;
-+
-+	if (sel->which == V4L2_SUBDEV_FORMAT_TRY) {
-+		try_crop = v4l2_subdev_state_get_crop(sd_state, sel->pad);
-+		*try_crop = rect;
-+
-+		try_fmt = v4l2_subdev_state_get_format(sd_state, sel->pad);
-+		if (try_fmt) {
-+			try_fmt->width = rect.width;
-+			try_fmt->height = rect.height;
-+		}
-+
-+		return 0;
-+	}
-+
-+	if (ar0234->streaming)
-+		return -EBUSY;
-+
-+	if (ar0234->crop.left == rect.left && ar0234->crop.top == rect.top &&
-+	    ar0234->crop.width == rect.width &&
-+	    ar0234->crop.height == rect.height) {
-+		sel->r = rect;
-+
-+		return 0;
-+	}
-+
-+	ar0234->crop = rect;
-+
-+	try_fmt = v4l2_subdev_state_get_format(sd_state, sel->pad);
-+	if (try_fmt) {
-+		try_fmt->width = rect.width;
-+		try_fmt->height = rect.height;
-+	}
-+
-+	ar0234_set_framing_limits(ar0234);
-+
-+	sel->r = rect;
-+
-+	return 0;
-+}
-+
-+static int ar0234_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
-+{
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+	int x_addr_start, x_addr_end, y_addr_start, y_addr_end, ret;
-+
-+	ret = pm_runtime_resume_and_get(ar0234->dev);
-+	if (ret)
-+		return ret;
-+
-+	cci_write(ar0234->regmap, AR0234_REG_PRE_PLL_CLK_DIV,
-+		  ar0234->pll.vt_fr.pre_pll_clk_div, &ret);
-+	cci_write(ar0234->regmap, AR0234_REG_PLL_MULTIPLIER,
-+		  ar0234->pll.vt_fr.pll_multiplier, &ret);
-+	cci_write(ar0234->regmap, AR0234_REG_VT_SYS_CLK_DIV,
-+		  ar0234->pll.vt_bk.sys_clk_div, &ret);
-+	cci_write(ar0234->regmap, AR0234_REG_VT_PIX_CLK_DIV,
-+		  ar0234->pll.vt_bk.pix_clk_div, &ret);
-+	cci_write(ar0234->regmap, AR0234_REG_OP_SYS_CLK_DIV,
-+		  ar0234->pll.op_bk.sys_clk_div, &ret);
-+	cci_write(ar0234->regmap, AR0234_REG_OP_PIX_CLK_DIV,
-+		  ar0234->pll.op_bk.pix_clk_div, &ret);
-+	if (ret) {
-+		dev_err(ar0234->dev, "Failed to setup PLL\n");
-+		goto start_err;
-+	}
-+
-+	cci_multi_reg_write(ar0234->regmap, ar0234_common_init,
-+			    ARRAY_SIZE(ar0234_common_init), &ret);
-+
-+	cci_write(ar0234->regmap, AR0234_REG_COMPANDING,
-+		  ar0234->mode->dpcm, &ret);
-+
-+	cci_write(ar0234->regmap, AR0234_REG_DATA_FORMAT_BITS,
-+		  DATA_FORMAT_BITS(ar0234->mode->bpp_in, ar0234->mode->bpp_out),
-+		  &ret);
-+
-+	cci_write(ar0234->regmap, AR0234_REG_SERIAL_FORMAT,
-+		  DATA_FORMAT_LANES(ar0234->num_data_lanes), &ret);
-+
-+	cci_write(ar0234->regmap, AR0234_REG_MIPI_CNTRL,
-+		  ar0234->mode->mipi_dt, &ret);
-+
-+	x_addr_start = ar0234->crop.left;
-+	y_addr_start = ar0234->crop.top;
-+	x_addr_end = ar0234->crop.left + ar0234->crop.width - 1;
-+	y_addr_end = ar0234->crop.top + ar0234->crop.height - 1;
-+
-+	cci_write(ar0234->regmap, AR0234_REG_X_ADDR_START, x_addr_start, &ret);
-+	cci_write(ar0234->regmap, AR0234_REG_Y_ADDR_START, y_addr_start, &ret);
-+	cci_write(ar0234->regmap, AR0234_REG_X_ADDR_END, x_addr_end, &ret);
-+	cci_write(ar0234->regmap, AR0234_REG_Y_ADDR_END, y_addr_end, &ret);
-+
-+	if (ret) {
-+		dev_err(ar0234->dev, "Failed to setup sensor\n");
-+		goto start_err;
-+	}
-+
-+	ret = __v4l2_ctrl_handler_setup(ar0234->sd.ctrl_handler);
-+
-+	cci_write(ar0234->regmap, AR0234_REG_MODE_SELECT, 1, &ret);
-+	if (!ret) {
-+		ar0234->streaming = true;
-+		return 0;
-+	}
-+
-+start_err:
-+	pm_runtime_put_autosuspend(ar0234->dev);
-+
-+	return ret;
-+}
-+
-+static int ar0234_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
-+{
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+	int ret;
-+
-+	ret = cci_write(ar0234->regmap, AR0234_REG_MODE_SELECT, 0, NULL);
-+
-+	ar0234->streaming = false;
-+
-+	pm_runtime_put_autosuspend(ar0234->dev);
-+
-+	return ret;
-+}
-+
-+static int ar0234_g_mbus_config(struct v4l2_subdev *sd, unsigned int pad_id,
-+				struct v4l2_mbus_config *config)
-+{
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+
-+	config->type = V4L2_MBUS_CSI2_DPHY;
-+	config->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
-+	config->bus.mipi_csi2.num_data_lanes = ar0234->num_data_lanes;
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops ar0234_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops ar0234_pad_ops = {
-+	.enum_mbus_code = ar0234_enum_mbus_code,
-+	.enum_frame_size = ar0234_enum_frame_size,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = ar0234_set_pad_format,
-+	.get_selection = ar0234_get_selection,
-+	.set_selection = ar0234_set_selection,
-+	.enable_streams = ar0234_enable_streams,
-+	.disable_streams = ar0234_disable_streams,
-+	.get_mbus_config = ar0234_g_mbus_config,
-+};
-+
-+static const struct v4l2_subdev_core_ops ar0234_core_ops = {
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_ops ar0234_subdev_ops = {
-+	.core = &ar0234_core_ops,
-+	.video = &ar0234_video_ops,
-+	.pad = &ar0234_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops ar0234_internal_ops = {
-+	.init_state = ar0234_init_state,
-+};
-+
-+static const struct media_entity_operations ar0234_subdev_entity_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+};
-+
-+static int ar0234_ctrls_init(struct ar0234 *ar0234)
-+{
-+	struct v4l2_fwnode_device_properties props;
-+	int i, ret;
-+
-+	ret = v4l2_fwnode_device_parse(ar0234->dev, &props);
-+	if (ret)
-+		return ret;
-+
-+	ret = v4l2_ctrl_handler_init(&ar0234->ctrls, 14);
-+	if (ret)
-+		return ret;
-+
-+	ar0234->hblank = v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+					   V4L2_CID_HBLANK, 0,
-+					   AR0234_HBLANK_MAX, 2, 0);
-+
-+	ar0234->vblank = v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+					   V4L2_CID_VBLANK, 0,
-+					   AR0234_VBLANK_MAX, 1, 0);
-+
-+	ar0234->exposure = v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+					     V4L2_CID_EXPOSURE,
-+					     AR0234_EXPOSURE_MIN, U16_MAX,
-+					     AR0234_EXPOSURE_STEP, 200);
-+
-+	ar0234->pixel_rate = v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+					       V4L2_CID_PIXEL_RATE, 1,
-+					       INT_MAX, 1, 1);
-+
-+	ar0234->a_gain = v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+					   V4L2_CID_ANALOGUE_GAIN,
-+					   AR0234_ANA_GAIN_MIN,
-+					   AR0234_ANA_GAIN_MAX,
-+					   AR0234_ANA_GAIN_STEP,
-+					   AR0234_ANA_GAIN_DEFAULT);
-+
-+	v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+			  V4L2_CID_DIGITAL_GAIN, AR0234_DGTL_GAIN_MIN,
-+			  AR0234_DGTL_GAIN_MAX, AR0234_DGTL_GAIN_STEP,
-+			  AR0234_DGTL_GAIN_DEFAULT);
-+
-+	ar0234->hflip = v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+					  V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	ar0234->vflip = v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+					  V4L2_CID_VFLIP, 0, 1, 1, 0);
-+	v4l2_ctrl_cluster(2, &ar0234->hflip);
-+
-+	v4l2_ctrl_new_std_menu_items(&ar0234->ctrls, &ar0234_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(ar0234_test_pattern_menu) - 1,
-+				     0, 0, ar0234_test_pattern_menu);
-+
-+	for (i = 0; i < 4; i++) {
-+		v4l2_ctrl_new_std(&ar0234->ctrls, &ar0234_ctrl_ops,
-+				  V4L2_CID_TEST_PATTERN_RED + i,
-+				  AR0234_TESTP_COLOUR_MIN,
-+				  AR0234_TESTP_COLOUR_MAX,
-+				  AR0234_TESTP_COLOUR_STEP,
-+				  AR0234_TESTP_COLOUR_MAX);
-+	}
-+
-+	ar0234->link_freq =
-+		v4l2_ctrl_new_int_menu(&ar0234->ctrls, &ar0234_ctrl_ops,
-+				       V4L2_CID_LINK_FREQ,
-+				       AR0234_LINK_FREQ_IDX_MAX - 1, 0,
-+				       ar0234->link_freqs);
-+	if (ar0234->link_freq)
-+		ar0234->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(&ar0234->ctrls, &ar0234_ctrl_ops,
-+					      &props);
-+
-+	if (ret)
-+		return dev_err_probe(ar0234->dev, ret,
-+				     "Failed to add controls\n");
-+
-+	ar0234->sd.ctrl_handler = &ar0234->ctrls;
-+
-+	ar0234_set_link_limits(ar0234);
-+	ar0234_set_framing_limits(ar0234);
-+
-+	return 0;
-+}
-+
-+static int ar0234_parse_hw_config(struct ar0234 *ar0234)
-+{
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+	struct fwnode_handle *ep;
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(ar0234->supplies); i++)
-+		ar0234->supplies[i].supply = ar0234_supply_names[i];
-+
-+	ret = devm_regulator_bulk_get(ar0234->dev,
-+				      ARRAY_SIZE(ar0234->supplies),
-+				      ar0234->supplies);
-+	if (ret)
-+		return dev_err_probe(ar0234->dev, ret,
-+				     "Failed to get supplies\n");
-+
-+	ar0234->reset = devm_gpiod_get_optional(ar0234->dev, "reset",
-+						GPIOD_OUT_HIGH);
-+	if (IS_ERR(ar0234->reset))
-+		return dev_err_probe(ar0234->dev, PTR_ERR(ar0234->reset),
-+				     "Failed to get reset GPIO\n");
-+
-+	ar0234->clk = devm_v4l2_sensor_clk_get(ar0234->dev, NULL);
-+	if (IS_ERR(ar0234->clk))
-+		return dev_err_probe(ar0234->dev, PTR_ERR(ar0234->clk),
-+				     "Failed to get clock\n");
-+
-+	ep = fwnode_graph_get_next_endpoint(dev_fwnode(ar0234->dev), NULL);
-+	if (!ep)
-+		return -ENXIO;
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret)
-+		return ret;
-+
-+	switch (bus_cfg.bus.mipi_csi2.num_data_lanes) {
-+	case 2:
-+	case 4:
-+		ar0234->num_data_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
-+		break;
-+	default:
-+		ret = dev_err_probe(ar0234->dev, -EINVAL,
-+				    "Invalid number of CSI2 data lanes %d\n",
-+		      bus_cfg.bus.mipi_csi2.num_data_lanes);
-+		goto done_endpoint_free;
-+	}
-+
-+	if (bus_cfg.nr_of_link_frequencies != AR0234_LINK_FREQ_IDX_MAX) {
-+		ret = dev_err_probe(ar0234->dev, -EINVAL,
-+				    "Invalid number of link freq items %d\n",
-+				    bus_cfg.nr_of_link_frequencies);
-+		goto done_endpoint_free;
-+	}
-+
-+	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-+		s64 freq = bus_cfg.link_frequencies[i];
-+
-+		if (freq < 360000000LL || freq > 450000000LL) {
-+			ret = dev_err_probe(ar0234->dev, -EINVAL,
-+					    "Invalid link frequency %lli\n",
-+					    freq);
-+			goto done_endpoint_free;
-+		}
-+
-+		ar0234->link_freqs[i] = freq;
-+	}
-+
-+done_endpoint_free:
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+}
-+
-+static int ar0234_identify_module(struct ar0234 *ar0234)
-+{
-+	u64 id, rev;
-+	int ret;
-+
-+	ret = cci_read(ar0234->regmap, AR0234_REG_CHIP_VERSION, &id, NULL);
-+	ret = cci_read(ar0234->regmap, AR0234_REG_REVISION_NUMBER, &rev, &ret);
-+	if (ret)
-+		return dev_err_probe(ar0234->dev, ret,
-+				     "Failed to read chip id\n");
-+
-+	if (id == AR0234_CHIP_ID_MONO)
-+		ar0234->variant = AR0234_VARIANT_MONO;
-+	else if (id == AR0234_CHIP_ID)
-+		ar0234->variant = AR0234_VARIANT_COLOUR;
-+	else
-+		return dev_err_probe(ar0234->dev, -ENODEV,
-+				     "Invalid chip id: 0x%04x\n", (u16)id);
-+
-+	dev_info(ar0234->dev, "Success reading chip id: 0x%04x, Rev.%lld\n",
-+		 (u16)id, (rev >> 12) & 0xf);
-+
-+	return ret;
-+}
-+
-+static int ar0234_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ar0234->supplies),
-+				    ar0234->supplies);
-+	if (ret) {
-+		dev_err(ar0234->dev, "Failed to enable regulators\n");
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(ar0234->clk);
-+	if (ret) {
-+		dev_err(ar0234->dev, "Failed to enable clock\n");
-+		regulator_bulk_disable(ARRAY_SIZE(ar0234->supplies),
-+				       ar0234->supplies);
-+		return ret;
-+	}
-+
-+	gpiod_set_value_cansleep(ar0234->reset, 1);
-+	/* ~160000 EXTCLKs */
-+	usleep_range(27000, 28000);
-+
-+	return 0;
-+}
-+
-+static int ar0234_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+
-+	gpiod_set_value_cansleep(ar0234->reset, 0);
-+	regulator_bulk_disable(ARRAY_SIZE(ar0234->supplies), ar0234->supplies);
-+	clk_disable_unprepare(ar0234->clk);
-+	/* 100ms PwrDown until next PwrUp */
-+	usleep_range(100000, 110000);
-+
-+	return 0;
-+}
-+
-+static void ar0234_subdev_cleanup(struct ar0234 *ar0234)
-+{
-+	media_entity_cleanup(&ar0234->sd.entity);
-+	v4l2_ctrl_handler_free(&ar0234->ctrls);
-+}
-+
-+static int ar0234_soft_reset(struct ar0234 *ar0234)
-+{
-+	int ret;
-+
-+	ret = cci_write(ar0234->regmap, AR0234_REG_RESET, 0x0001, NULL);
-+	usleep_range(2000, 2100);
-+	cci_write(ar0234->regmap, AR0234_REG_RESET, 0x2018, &ret);
-+	usleep_range(2000, 2100);
-+
-+	return ret;
-+}
-+
-+static int ar0234_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct ar0234 *ar0234;
-+	int ret;
-+
-+	ar0234 = devm_kzalloc(dev, sizeof(*ar0234), GFP_KERNEL);
-+	if (!ar0234)
-+		return -ENOMEM;
-+
-+	ar0234->dev = dev;
-+
-+	ar0234->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(ar0234->regmap))
-+		return PTR_ERR(ar0234->regmap);
-+
-+	ret = ar0234_parse_hw_config(ar0234);
-+	if (ret)
-+		return ret;
-+
-+	v4l2_i2c_subdev_init(&ar0234->sd, client, &ar0234_subdev_ops);
-+
-+	ret = ar0234_power_on(dev);
-+	if (ret)
-+		goto err_subdev;
-+
-+	pm_runtime_set_active(dev);
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_enable(dev);
-+	pm_runtime_set_autosuspend_delay(dev, 1000);
-+	pm_runtime_use_autosuspend(dev);
-+
-+	ret = ar0234_soft_reset(ar0234);
-+	if (ret)
-+		goto error_pm;
-+
-+	ret = ar0234_identify_module(ar0234);
-+	if (ret)
-+		goto error_pm;
-+
-+	ar0234->crop.left = AR0234_PIXEL_ARRAY_LEFT;
-+	ar0234->crop.top = AR0234_PIXEL_ARRAY_TOP;
-+	ar0234->crop.width = AR0234_PIXEL_ARRAY_WIDTH;
-+	ar0234->crop.height = AR0234_PIXEL_ARRAY_HEIGHT;
-+
-+	ar0234->mode = &ar0234_modes[0];
-+
-+	ret = ar0234_calculate_pll(ar0234, ar0234->mode);
-+	if (ret) {
-+		dev_err(ar0234->dev, "PLL calculations failed: %d\n", ret);
-+		goto error_pm;
-+	}
-+
-+	ret = ar0234_ctrls_init(ar0234);
-+	if (ret)
-+		goto error_pm;
-+
-+	ar0234->sd.internal_ops = &ar0234_internal_ops;
-+	ar0234->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			    V4L2_SUBDEV_FL_HAS_EVENTS;
-+	ar0234->sd.entity.ops = &ar0234_subdev_entity_ops;
-+	ar0234->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	ar0234->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&ar0234->sd.entity, 1, &ar0234->pad);
-+	if (ret) {
-+		dev_err(dev, "Failed to init entity pads: %d\n", ret);
-+		goto error_pm;
-+	}
-+
-+	ar0234->sd.state_lock = ar0234->ctrls.lock;
-+
-+	ret = v4l2_subdev_init_finalize(&ar0234->sd);
-+	if (ret) {
-+		dev_err(ar0234->dev, "Subdev init error\n");
-+		goto error_media;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor(&ar0234->sd);
-+	if (ret) {
-+		dev_err(dev, "Failed to register sensor sub-device: %d\n", ret);
-+		goto error_media;
-+	}
-+
-+	pm_runtime_put_autosuspend(dev);
-+
-+	return 0;
-+
-+error_media:
-+	media_entity_cleanup(&ar0234->sd.entity);
-+
-+error_pm:
-+	pm_runtime_disable(ar0234->dev);
-+	pm_runtime_put_noidle(ar0234->dev);
-+	ar0234_power_off(ar0234->dev);
-+
-+err_subdev:
-+	ar0234_subdev_cleanup(ar0234);
-+
-+	return ret;
-+}
-+
-+static void ar0234_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct ar0234 *ar0234 = to_ar0234(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	ar0234_subdev_cleanup(ar0234);
-+
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		ar0234_power_off(&client->dev);
-+	pm_runtime_set_suspended(&client->dev);
-+}
-+
-+static const struct acpi_device_id ar0234_acpi_ids[] __maybe_unused = {
-+	{ "INTC10C0" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(acpi, ar0234_acpi_ids);
-+
-+static const struct of_device_id ar0234_dt_ids[] __maybe_unused = {
-+	{ .compatible = "onnn,ar0234cs" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ar0234_dt_ids);
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(ar0234_pm_ops, ar0234_power_off,
-+				 ar0234_power_on, NULL);
-+
-+static struct i2c_driver ar0234_i2c_driver = {
-+	.driver = {
-+		.name = "ar0234",
-+		.acpi_match_table = ACPI_PTR(ar0234_acpi_ids),
-+		.of_match_table	= of_match_ptr(ar0234_dt_ids),
-+		.pm = pm_ptr(&ar0234_pm_ops),
-+	},
-+	.probe = ar0234_probe,
-+	.remove = ar0234_remove,
-+};
-+module_i2c_driver(ar0234_i2c_driver);
-+
-+MODULE_DESCRIPTION("onsemi AR0234 Camera Sensor Driver");
-+MODULE_AUTHOR("Alexander Shiyan <eagle.alexander923@gmail.com>");
-+MODULE_LICENSE("GPL");
+Changes in v2:
+- Removed dmem charging parts
+- Moved coherent heap registering logic to coherent.c
+- Made heap device a member of struct dma_heap
+- Split dma_heap_add logic into create/register, to be able to
+  access the stored heap device before registered.
+- Avoid platform device in favour of heap device
+- Added a wrapper to rmem device_init() op
+- Switched from late_initcall() to module_init()
+- Made the coherent heap driver modular
+- Link to v1: https://lore.kernel.org/r/20260224-b4-dmabuf-heap-coherent-rmem-v1-1-dffef43298ac@redhat.com
+
+---
+Albert Esteve (5):
+      dma-buf: dma-heap: split dma_heap_add
+      of_reserved_mem: add a helper for rmem device_init op
+      dma: coherent: store reserved memory coherent regions
+      dma-buf: heaps: Add Coherent heap to dmabuf heaps
+      dma-buf: heaps: coherent: Turn heap into a module
+
+John Stultz (1):
+      dma-buf: dma-heap: Keep track of the heap device struct
+
+ drivers/dma-buf/dma-heap.c            | 138 +++++++++--
+ drivers/dma-buf/heaps/Kconfig         |   9 +
+ drivers/dma-buf/heaps/Makefile        |   1 +
+ drivers/dma-buf/heaps/coherent_heap.c | 417 ++++++++++++++++++++++++++++++++++
+ drivers/of/of_reserved_mem.c          |  68 ++++--
+ include/linux/dma-heap.h              |   5 +
+ include/linux/dma-map-ops.h           |   7 +
+ include/linux/of_reserved_mem.h       |   8 +
+ kernel/dma/coherent.c                 |  34 +++
+ 9 files changed, 640 insertions(+), 47 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260223-b4-dmabuf-heap-coherent-rmem-91fd3926afe9
+
+Best regards,
 -- 
-2.52.0
+Albert Esteve <aesteve@redhat.com>
 
 
