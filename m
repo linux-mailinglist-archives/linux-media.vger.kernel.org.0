@@ -1,169 +1,168 @@
-Return-Path: <linux-media+bounces-54730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54731-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PeRMt6uqmluVQEAu9opvQ
-	(envelope-from <linux-media+bounces-54730-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:39:26 +0100
+	id cFFhCpOwqmluVQEAu9opvQ
+	(envelope-from <linux-media+bounces-54731-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:46:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF4E21EF5E
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:39:26 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F7721F18B
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 11:46:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 384CE302D681
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 10:38:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 61EC931081D9
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 10:44:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D5437F735;
-	Fri,  6 Mar 2026 10:37:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D778D37E2EE;
+	Fri,  6 Mar 2026 10:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cj+IhK2Y"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Lgro5ND7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5BC37DE82
-	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 10:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005BE37C104
+	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 10:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772793471; cv=none; b=LGxr4ne25RLG0yNwpohJD+njC8R4cTZ5H2VEnmF1VewAqY6S2uISVzCadfhwX9Wo8NdPx2YvlmoiADRJlCzd4Gh89RDKVSJev1pNU5AYM0m5r6NFvddGMgYRChmczEmSxfFPeo/NVWFeiiETfguPM0Z5EjC5c5tBhY6bNMZ0JPM=
+	t=1772793851; cv=none; b=U8z2ZVtbi8rRbMhuY351OeJ3Q102H1WLUeUkzhvCZ9T687JmOgNnGRxOB5PDgNhzL2F6V15MvXjFiEYfst2PWtvSEUQioNdqcF9HELSU/LDnXKP5PWO3OzDID4qL4s5r3sU8gM0cqiYJxMUf979hg7XeJIOjMLPRSUisJEBQJ1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772793471; c=relaxed/simple;
-	bh=8dYJXakMo93Mc3lLZ5xLZ8QfYkIluXNTvVn7oLOYyd0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TMebQ4b3nmlf5Rv+ZO7VZ4Fv38hED+RLDYBuw6hN53IqSHyORtxYLIjEnuwKVMACK/vU7gtI1QYRRUoGYPQFsc1ynJdRpbDck/1992c3pDytHkbLeBtFpQykNRd22jOxvUfKKbV0rbenzop7K8ER8xtKMVPLsA0fKesoq2zmcF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cj+IhK2Y; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772793469;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QlzQWM0pQarIoPqm3Nl91hQ8QPCgoigzmRIhUlpi9M8=;
-	b=Cj+IhK2YbS930ntlciKQAqT3UO62W3Xak6GqclH8z86PLz1xl8lxqfX9NX1UmDX7lwne4g
-	/7DcKb/7h+CiEs9WCRDtAMgwrp3Da4KID0QFhaeTQ3lulugk1ZCJ0szeecaIqjieCcPkkD
-	BtGzMYjSdx1+DSTAQ6nn7GcETcXLtxU=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-588-UUtSeqiXMbu1DAjH5sRbQg-1; Fri,
- 06 Mar 2026 05:37:47 -0500
-X-MC-Unique: UUtSeqiXMbu1DAjH5sRbQg-1
-X-Mimecast-MFC-AGG-ID: UUtSeqiXMbu1DAjH5sRbQg_1772793465
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BBFDE1956088;
-	Fri,  6 Mar 2026 10:37:45 +0000 (UTC)
-Received: from [192.168.1.153] (unknown [10.45.226.103])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D4D89180035F;
-	Fri,  6 Mar 2026 10:37:39 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-Date: Fri, 06 Mar 2026 11:36:37 +0100
-Subject: [PATCH v3 6/6] dma-buf: heaps: coherent: Turn heap into a module
+	s=arc-20240116; t=1772793851; c=relaxed/simple;
+	bh=G4C6n0KMnLAbNREaFm3UQE/ADReUrPqJdWAyBHHz9As=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Mjx3tk/1pkRZtxTQ/x3+eauotTbDRoAZ2hwgfS5elLqqqqxYS+HCNvQ25hKoarZxZP1OlmjDyrpwSH64t/IX1/C3+077yUEJAYx5V1c8ygl+63whzSgtYxNBUa66nPdTb/63sdVOYGNCLU9pYLsT0cn04RdI3ZzVj152ldgSYZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Lgro5ND7; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-483703e4b08so88528755e9.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2026 02:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1772793848; x=1773398648; darn=vger.kernel.org;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9DOpbj26ZJnxNbWf0s+w7ImwLrI/solFuJ1Hpz2a8Z0=;
+        b=Lgro5ND7+5uYlpmXgGioxaFdbbRdh7ys2j9TSl4DW8LbroWL3MTJR1RAjlal2ifl7c
+         E7D2lUS/b3grM82/ucrl7UveITCSgtMXf88RJ/dxXuct/h+EjvS/ZsBW+U5jtTqSVG0E
+         eYEJFP4KEyq2KlcmX2Nd25FC6ENcwmEcYvwyPjQqNBnHhUutUm+3maBQiG5zSjMPXao0
+         w5YglE1HHGbj3q2vD/63FMrlyWP/717eTVr24SUJwPolV4bIJODPNfokGt/LOqUJnIZ+
+         RhbPNJ5C/tZEj8CQrSxFMHy436F6QJmAPOnSnbZ8aGET63lPt70co+WV3B+DSn18TQSj
+         m18g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772793848; x=1773398648;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9DOpbj26ZJnxNbWf0s+w7ImwLrI/solFuJ1Hpz2a8Z0=;
+        b=AmEdhRYXpdGYtkhelk/OSwL9VZ6h2d6yUkGZMneAjqTQmwTVB16nsaFgwI57qU9bnT
+         xSiQSoRwZM9xkn5ZvnX9gR5XdtIr0w6qWq2P8gJauO9mTWGkRzfmEXqINXi4V8mB8Jjb
+         XDaDguBVMUktvt62GMYFlTNLygK3zT5BkgSteAh6sR6wQGPkBHyHgc8LQ6do2/vwrAdR
+         6tmRL1R/e8yJjiMXIuC0m9SyiLaUjfmZAIUkpqUxLK3d+VGjUQu5/SvV27mKBeFqFiVX
+         hH7hKUISZAgMcYpNsu/cQOgW9soJm94jS4FdfrsPD/N0SQ7AsiTm0D1mbN2XT8vy9r4Y
+         qlpQ==
+X-Gm-Message-State: AOJu0YwVEVNPJP3Z76H7BMiCJ26RS0hkAX52RYfulWcRAxW9dt2xqeEW
+	zYYth1uJ00OkA389AAGUsgw31EuifDsAgkfejdqDLolRZTJExnzmm1clPvFpU2fkJw4=
+X-Gm-Gg: ATEYQzw1cZd6CzKSSUx8aKzy09jmRRueqMXj2UD6bAVCd7fuSaC34qvybrujwBF8pCb
+	r2l3IdR+I9paqRIAiz9fPHJP1+DWNxV40wC2Dzcpb81G98C2PQ+zQfq/ZusbJDqfJ4Z/+Ro2xxX
+	4xc4QUUEknztftxMNejULOC0S8iErH7W8ZEEl05Wn2Cb+UJribRRjEUf7ydwq5AGjZPpY9UBVsF
+	+v8CE0+lmPxQpk9fJurxuU3GSPux7yhjcT3CGYPPnpPlRJby8TAwALXrsHtYOEO6PshrzLBZS39
+	hr4pJKmnzmkRQyH7RgaC6qtf20IQcv4VS6Iq582ZLUC13u4KlR00MozBY4bv4ozwth+rV077wae
+	OBIf6Cn2DyWFdMjtX6e/rGJX0aNsO074lxVKplYlgJDqkIbXs0doJOa2y7DoXDeCxVljJm1cTyq
+	peEazTRlEwg/P/IXnks/+z+EhtE//HN8/IFsdwxaNOw4l4d2DLsSEdLngy2aVL
+X-Received: by 2002:a05:600c:8586:b0:47e:e0b3:2437 with SMTP id 5b1f17b1804b1-4851ee73b5dmr92071435e9.5.1772793848259;
+        Fri, 06 Mar 2026 02:44:08 -0800 (PST)
+Received: from r1chard (1-164-74-26.dynamic-ip.hinet.net. [1.164.74.26])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dadb29fdsm3098875f8f.16.2026.03.06.02.44.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2026 02:44:07 -0800 (PST)
+Date: Fri, 6 Mar 2026 18:43:59 +0800
+From: Richard Lyu <richard.lyu@suse.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Richard Lyu <richard.lyu@suse.com>
+Subject: [PATCH] media: staging: ipu3: img-mmu: fix sign-to-unsigned
+ conversion
+Message-ID: <20260306104352.629177-1-richard.lyu@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-b4-dmabuf-heap-coherent-rmem-v3-6-3d00d36c9bc4@redhat.com>
-References: <20260306-b4-dmabuf-heap-coherent-rmem-v3-0-3d00d36c9bc4@redhat.com>
-In-Reply-To: <20260306-b4-dmabuf-heap-coherent-rmem-v3-0-3d00d36c9bc4@redhat.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- iommu@lists.linux.dev, devicetree@vger.kernel.org, 
- Albert Esteve <aesteve@redhat.com>, mripard@redhat.com, echanude@redhat.com
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772793417; l=1661;
- i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=8dYJXakMo93Mc3lLZ5xLZ8QfYkIluXNTvVn7oLOYyd0=;
- b=Qm2/NTv+NibwQ4NUgIiBv1ELR84Zemc1608Ij5MBU+ZNmcVHDkvPQnkB17rRPklxBL/kLazKf
- 4Fi3uUXQDF+CAD44A2H9aDZK/GjsuL7JYH0er/9W85JKFYPQp+70MJH
-X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
- pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Rspamd-Queue-Id: 0CF4E21EF5E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.51.0
+User-Agent: Mutt/2.2.13 (2024-03-09)
+X-Rspamd-Queue-Id: 89F7721F18B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[redhat.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54730-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54731-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[richard.lyu@suse.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,suse.com:dkim,suse.com:email,suse.com:mid]
 X-Rspamd-Action: no action
 
-Following the current efforts to make CMA heap as module,
-we can do the same and turn the Coherent heap into
-a module as well, by changing the Kconfig into a tristate
-and importing the proper dma-buf namespaces.
+imgu_mmu_unmap() returns size_t (unsigned), representing the number of
+bytes successfully unmapped. However, when the alignment check fails,
+it currently returns -EINVAL.
 
-This heap won't be able to unload (same as happens with
-the CMA heap), since we're missing a big part of the
-infrastructure that would allow to make it safe.
+On 64-bit systems, this negative error code is implicitly converted
+to a very large unsigned value (18446744073709551594), incorrectly
+indicating that memory was unmapped and potentially breaking the
+caller's logic.
 
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
+Return 0 when the alignment check fails to correctly indicate that
+no bytes were unmapped while resolving the following
+-Wsign-conversion warning:
+
+drivers/staging/media/ipu3/ipu3-mmu.c:393:24: warning: unsigned
+conversion from 'int' to 'size_t' {aka 'long unsigned int'} changes
+value from '-22' to '18446744073709551594' [-Wsign-conversion]
+  393 |         return -EINVAL;
+
+Signed-off-by: Richard Lyu <richard.lyu@suse.com>
 ---
- drivers/dma-buf/heaps/Kconfig         | 2 +-
- drivers/dma-buf/heaps/coherent_heap.c | 3 +++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index aeb475e585048..2f84a1018b900 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -14,7 +14,7 @@ config DMABUF_HEAPS_CMA
- 	  regions, you should say Y here.
+diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+index b196a5815903..fcea125e5935 100644
+--- a/drivers/staging/media/ipu3/ipu3-mmu.c
++++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+@@ -390,7 +390,7 @@ size_t imgu_mmu_unmap(struct imgu_mmu_info *info, unsigned long iova,
+ 	if (!IS_ALIGNED(iova | size, IPU3_PAGE_SIZE)) {
+ 		dev_err(mmu->dev, "unaligned: iova 0x%lx size 0x%zx\n",
+ 			iova, size);
+-		return -EINVAL;
++		return 0;
+ 	}
  
- config DMABUF_HEAPS_COHERENT
--	bool "DMA-BUF Coherent Reserved-Memory Heap"
-+	tristate "DMA-BUF Coherent Reserved-Memory Heap"
- 	depends on DMABUF_HEAPS && OF_RESERVED_MEM && DMA_DECLARE_COHERENT
- 	help
- 	  Choose this option to enable coherent reserved-memory dma-buf heaps.
-diff --git a/drivers/dma-buf/heaps/coherent_heap.c b/drivers/dma-buf/heaps/coherent_heap.c
-index 55f53f87c4c15..fdb3f5d907e88 100644
---- a/drivers/dma-buf/heaps/coherent_heap.c
-+++ b/drivers/dma-buf/heaps/coherent_heap.c
-@@ -412,3 +412,6 @@ static int __init coherent_heap_register(void)
- }
- module_init(coherent_heap_register);
- MODULE_DESCRIPTION("DMA-BUF heap for coherent reserved-memory regions");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("DMA_BUF");
-+MODULE_IMPORT_NS("DMA_BUF_HEAP");
-
+ 	dev_dbg(mmu->dev, "unmap this: iova 0x%lx size 0x%zx\n", iova, size);
 -- 
-2.52.0
+2.51.0
 
 
