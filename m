@@ -1,213 +1,170 @@
-Return-Path: <linux-media+bounces-54828-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54829-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CEvNINwXq2kfaAEAu9opvQ
-	(envelope-from <linux-media+bounces-54828-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 19:07:24 +0100
+	id 0JBEHkgaq2lNaAEAu9opvQ
+	(envelope-from <linux-media+bounces-54829-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 19:17:44 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E026B22690B
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 19:07:23 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2449A2269DB
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 19:17:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E1360303A93D
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 18:07:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 40AED30A08B6
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 18:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7521411615;
-	Fri,  6 Mar 2026 18:07:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3FB421A0E;
+	Fri,  6 Mar 2026 18:17:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dD6zvk2Y"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BDqqKVXC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EBF23EA8B
-	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 18:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3CA36C586
+	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 18:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772820436; cv=none; b=MVnQxOpIGDjkeaIA2hUJWdTm8x1nAVwf1zF+CMzGkZe2UC630+879B3SBSJEZJJkGNWZvi3Rh8uHLHj/UEgblHtJujc3ZWXZGXfOwSbKK1lFdMUmGmYMUaAqQrayH0vXfcIWO6rVQey3gFdz+MbFQvAe7eOwOnZgHY+/qUgruJw=
+	t=1772821031; cv=none; b=UV64Qd9+8VF/196U9D1Q82YjBK4y+wbsRgkbwier0qvnzML6p2VUdxGN66qrYhs0zM+tP38nT6fgd29bZa8QYmdNCXryr4+SH4UZgZdPph/Q/ursouwa9Ka2x+o4R7yr4H40BYF5WDnxeVXBBSSUw5IB1SDRIDI5wNr/7hAUGlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772820436; c=relaxed/simple;
-	bh=za/u5OWT6vGjVtXAlbEKi0r0Fy2n+xpZHa4RApaK/60=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I/kv1WkTVLTXlq4snFevPhiANgFccIfP6SIvRV3rVshvP3hUIrOOvtrF/Ulv/m6t3RRd3uA5sM0I6VEQQtjceEek5mxJ9kDTvWycX4UtxWKqmdyT83ylepWcEh/eR+WThkRIA5Y9F0VpNieetAfMMTdYYfHmhLairpdMpR7kiZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dD6zvk2Y; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1772821031; c=relaxed/simple;
+	bh=tSfUI3NJI4sLf/nmJL25/P/qckWuIbQ2wxSW9jiF/QY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Td4a4Cd+c3SMuHYQTdXty+0ETAyZCIHuQ8MRGL3yzH1WwAYMcOgyumaFdQnFR3liuYK9TxBimcrS7GTcpD0prd8TiXk82T3nfmHSrK7AjVU2AyPuJo4mh2Ssbg3/oYk4yAF7kTsim6ZQu7qH9hmFD0MFTAuqAv4rID+e6IgmhaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BDqqKVXC; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4837f27cf2dso89156865e9.2
-        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2026 10:07:14 -0800 (PST)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48529c325f0so4367225e9.0
+        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2026 10:17:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1772820433; x=1773425233; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=paY3nSpAVM1sX639S9JaAR1ZcjfM4x2sHww4ugttz7E=;
-        b=dD6zvk2Yaf5hcvWcHzJMeC6eZ5uwTtkbN9rB3BxgEHTatsG/39WmC7J6kSHOqzhtXD
-         fzdMZeZqnDjZkob28R0uRd0wdtjH28LfxWCGs2CsZBQV3uAAppPwwZnGFEPrnS5ZVPiF
-         0vLqwGIdTj+uVrEO4I3IlUiaJzvk+U8Gyr2XlKrqFjVNw74E9arjV4Xm7BKNvWCnq7WA
-         o5RzjZIOqnW3xyEOzKq+GhFgnL9fEKdh416YyoxBPOdH6t0lCWQJNZioJx/KpPCd/A9I
-         uAYn4WF0e1Zw5LHAJmkZzFR3giQYE75un7IVCDwZIdM5J3JOhNKhAnywjlD9s1hf9M5n
-         1AQg==
+        d=linaro.org; s=google; t=1772821029; x=1773425829; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JKhWB5WYBOgtNloQxw0BE+V1Qr8Hll+qJ9pU1AjFn3k=;
+        b=BDqqKVXCRaRrNa96j7ok/jk/5AKDKairm2dSXvZiesFXPu53lv15uF0sKbq/i2ZTIt
+         fgzHHeOzl1BpmPcIz2Q/2skgHsPw6/CshJEJjQFv09FLBHJJXjSUAE/fYHUa/YS4N87j
+         Tg0wQQoev1bMnzq7ssU/cnWSD66jo5fij3+OLv6xeL8o1Xsd19hQ7IEkq6CjG/hut1HD
+         azGxtm2TJ/pkynJKZTzg/a5Diahw2+luGGY8nGR4Q2LGRj84xJnAtgicwERwt+OOWAm3
+         32FxHRwbdLBdgt9pBho6clooVUyF66UDNuoof+mJzqhWJ8Zkg7E3WnX3r6qFOXChG4OY
+         d+Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772820433; x=1773425233;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=paY3nSpAVM1sX639S9JaAR1ZcjfM4x2sHww4ugttz7E=;
-        b=S9GpJ1p5noTGlNoijbS5OmAKz2//qm5ppqMTHFXiRKBP4ze8nNOsKNxpfx2MRK5IFW
-         tRRe5DwGzW0CJqP5guwg0oRdpI0Gst16w4IACm9/tgOiAWnjxgCjh/OayzUgZZ59ryDl
-         GM4ddLSajiQODkQZuOXllQTwe0SmJ97Az1cjYFWUjZtHu/l7qXqaS3U3HjJp+zlRmzx9
-         nHGK6x1mhe4JPpf5HKj4g9+0bUbl4tA5dOt9CIxMo++/GOjLS2XgkNEywX4kri9wwePs
-         iCoUReAetRi92gX1HrYNV6NSt93yVfOK3APbfEbOIvd8H6QyTXfXy45I+TSmcKciQpwW
-         hWuw==
-X-Gm-Message-State: AOJu0Yy7eHn1oHc+29552h2Tj8kTsBM9zuo9Q0liEaEhAFq9oOCbj6xW
-	ZD9zMbWA7FgKZVjI8dLPHEXMC85sM87soVxg2TfOH0VNdwzwAqUwqHuT4lcnvpu4FbM=
-X-Gm-Gg: ATEYQzzR4jdqSQWMrDU+Jshw+JMdItYYD4olty45yY8QmTM+xRQeuFi3UPcXn55XLkL
-	OBrUUcMrnqo9zXI0hgLyTEvluwhIom83mOSrURwFuzupYUwjWvkEJ9RodXgvvEihrOuSGhM7f4p
-	EyaMK/BXxxETTar5DMdgRGfWb9q7S9Z9SigO2FbPRlyUs0PP135ABLAg26YbWn26XUbBKT4BCCC
-	97LKmcl8pm07EMTiHMoIK30tQc9ELaLaeDN7RZaJuBGDxtuipHlXQ8p65bu4Vll79VUrdBfjJ6B
-	lhNCJZH466LVA8HTsZcQvTjj2uR1b2nXm9yhhCieBhYZ0M1xPbzAwzU1vH49KXVOAjWJpIlklbs
-	eFR99MDmfPodIMWIh3tapCoMQrAaQY5v7gNN9e+KU6wQjEDzeZu8RyQRL9yefJPUOZM648XXGUq
-	E02GzQWeyhaWCReGkJlfO5XO7E9qWSyv5p1pQ=
-X-Received: by 2002:a05:600c:5253:b0:475:da1a:53f9 with SMTP id 5b1f17b1804b1-4852692c99bmr49110955e9.14.1772820433357;
-        Fri, 06 Mar 2026 10:07:13 -0800 (PST)
-Received: from [192.168.1.102] ([93.107.81.172])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485237dcf87sm23627765e9.1.2026.03.06.10.07.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Mar 2026 10:07:12 -0800 (PST)
-Message-ID: <6f341604-fc77-4329-ba0a-2d67ef01e60a@linaro.org>
-Date: Fri, 6 Mar 2026 18:07:10 +0000
+        d=1e100.net; s=20230601; t=1772821029; x=1773425829;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JKhWB5WYBOgtNloQxw0BE+V1Qr8Hll+qJ9pU1AjFn3k=;
+        b=eUJfLrxudLjQsqGzlr1IrDZDnpaONT103JwwFxNbnxHnXza+Mj7uV2lXfnthqrEdUA
+         JcdDdzUh9JpQq9IzSpdnxzFj8E4enh74iYjmt1Z2qaBHWUSka1uAs0vYs4CC/Ky6FLpk
+         tjVX3niYWO3jnSYCf+nqgsc5mNpC1CNd5aezSSUbkMkg/EWR+eTdipB9lR5w6ie+P2kH
+         rTcQjmLnwQSoZmH64dOI7U6sVZN4ZR4m44D9FmROD/JMbGZ17K1AEBuK5YXbzUGJcLWB
+         pL3hGHiWeXO7gLm8NvVoixBM3LF4THL40Kp9rMzoSJ3xoZCPwXfyKjlzjOm2ygB99G+e
+         ZAww==
+X-Forwarded-Encrypted: i=1; AJvYcCWDRfP3YZUz3IdjECVfa6Gwhzvv3w9ylJylleVqkT99gKkHmqkqpEf+6YHRCnKe1oTg+dL6yFbFpNFNrA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiKOZ71P6mn+oc5tPtTTDFcsJwtRG5fOSqiGAT+SEGTmTZ1Hbt
+	AQdWEnr2v+7YoSjsZ+6yoXNMD8bHolCNDpKoyOPRN45cC5MxV4tThRcNIw6F+pTKTUE=
+X-Gm-Gg: ATEYQzwQAWdQfNTqLLq5p0haqh159lym2SEU8acuSGsFqBT85vbehrbfcDypkDySq+e
+	ONldKo6MRDzgueMBOCmuyV4LNFLq9Y77BvLwD7QGpAUydlfWG1st28IPWdd4mhs0eYHHpK6LPnN
+	eKZ2zoZPXvu2H8b0UU1HNo79W63ApjID+j0p1PojRg4MJcZbmZQQcjkKWUqXCo2sF+wOOjCD1Xu
+	9dKZxthl0hZAqUZTaE2X9JCI42/dh9Sewt4kKLrIxHvpIGzVxGopZtpX3BVml5SMqGEGUP/oBZU
+	bQQQzFlG5q/EamToqR4rKfyfDbpD5qyYbnL0jjSlLrDta296yhGE/y3pk/8+uBQRFgb0W4E8pYX
+	BJkZzTqzY9bC+cdY0YTf01gg3PXPcJcDxMzzLQDSkhZ0APXwaFw0/TCujGTcnDsoS2zSDGW89mW
+	V5kRH154bx7MI5c5RCSUJwuTx/NcQq
+X-Received: by 2002:a05:600c:c088:b0:483:79a6:e7e1 with SMTP id 5b1f17b1804b1-48526919935mr46682665e9.7.1772821028821;
+        Fri, 06 Mar 2026 10:17:08 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851fb27a20sm250849705e9.9.2026.03.06.10.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2026 10:17:08 -0800 (PST)
+Date: Fri, 6 Mar 2026 21:17:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Richard Lyu <richard.lyu@suse.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: staging: ipu3: img-mmu: fix sign-to-unsigned
+ conversion
+Message-ID: <aasaIXvtS36ke9f_@stanley.mountain>
+References: <20260306144307.670648-1-richard.lyu@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] media: camss: Use proper BPL alignment helper and
- non-power-of-two rounding
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
- vladimir.zapolskiy@linaro.org
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- mchehab@kernel.org
-References: <20260306160006.1513177-1-loic.poulain@oss.qualcomm.com>
- <20260306160006.1513177-3-loic.poulain@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20260306160006.1513177-3-loic.poulain@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: E026B22690B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306144307.670648-1-richard.lyu@suse.com>
+X-Rspamd-Queue-Id: 2449A2269DB
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54828-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[linaro.org:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54829-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.946];
+	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.992];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,suse.com:email]
 X-Rspamd-Action: no action
 
-On 06/03/2026 16:00, Loic Poulain wrote:
-> Bytes-per-line (BPL) alignment in CAMSS currently uses ALIGN(), which
-> only works correctly for power-of-two values. Some RAW Bayer packing
-> formats (e.g. RAW10/12/14) require non-power-of-two alignment such as
-> 3, 5, or 7-byte multiples, so ALIGN() produces incorrect results.
+On Fri, Mar 06, 2026 at 10:43:20PM +0800, Richard Lyu wrote:
+> imgu_mmu_unmap() returns size_t (unsigned), representing the number of
+> bytes successfully unmapped. However, when the alignment check fails,
+> it currently returns -EINVAL.
 > 
-> Introduce the use of roundup() with the per-format alignment returned by
-> camss_format_get_bpl_alignment() when no hardware alignment is enforced
-> (video->bpl_alignment).
+> On 64-bit systems, this negative error code is implicitly converted
+> to a very large unsigned value (18446744073709551594). The same happens
+> on 32-bit systems as well, although the resulting value is smaller.
 > 
-> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> Return 0 when the alignment check fails to correctly indicate that
+> no bytes were unmapped while resolving the following
+> -Wsign-conversion warning:
+> 
+> drivers/staging/media/ipu3/ipu3-mmu.c:393:24: warning: unsigned
+> conversion from 'int' to 'size_t' {aka 'long unsigned int'} changes
+> value from '-22' to '18446744073709551594' [-Wsign-conversion]
+>   393 |         return -EINVAL;
+> 
+> All callers ignore the return value, so this change does not affect
+> existing behavior.
+> 
+> Fixes: 26f5689592e2 ("media: staging/intel-ipu3: mmu: Implement driver")
+> Signed-off-by: Richard Lyu <richard.lyu@suse.com>
 > ---
->   drivers/media/platform/qcom/camss/camss-video.c | 13 ++++++++++---
->   1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index f52d8e84f970..0852eb6f1315 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -47,6 +47,9 @@ static int video_mbus_to_pix_mp(const struct v4l2_mbus_framefmt *mbus,
->   	unsigned int i;
->   	u32 bytesperline;
->   
-> +	if (!alignment)
-> +		alignment = camss_format_get_bpl_alignment(f);
-> +
->   	memset(pix, 0, sizeof(*pix));
->   	v4l2_fill_pix_format_mplane(pix, mbus);
->   	pix->pixelformat = f->pixelformat;
-> @@ -54,7 +57,7 @@ static int video_mbus_to_pix_mp(const struct v4l2_mbus_framefmt *mbus,
->   	for (i = 0; i < pix->num_planes; i++) {
->   		bytesperline = pix->width / f->hsub[i].numerator *
->   			f->hsub[i].denominator * f->bpp[i] / 8;
-> -		bytesperline = ALIGN(bytesperline, alignment);
-> +		bytesperline = roundup(bytesperline, alignment);
->   		pix->plane_fmt[i].bytesperline = bytesperline;
->   		pix->plane_fmt[i].sizeimage = pix->height /
->   				f->vsub[i].numerator * f->vsub[i].denominator *
-> @@ -459,6 +462,7 @@ static int video_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
->   
->   static int __video_try_fmt(struct camss_video *video, struct v4l2_format *f)
->   {
-> +	unsigned int alignment = video->bpl_alignment;
->   	struct v4l2_pix_format_mplane *pix_mp;
->   	const struct camss_format_info *fi;
->   	struct v4l2_plane_pix_format *p;
-> @@ -491,6 +495,9 @@ static int __video_try_fmt(struct camss_video *video, struct v4l2_format *f)
->   	width = pix_mp->width;
->   	height = pix_mp->height;
->   
-> +	if (!alignment)
-> +		alignment = camss_format_get_bpl_alignment(fi);
-> +
->   	memset(pix_mp, 0, sizeof(*pix_mp));
->   
->   	pix_mp->pixelformat = fi->pixelformat;
-> @@ -500,7 +507,7 @@ static int __video_try_fmt(struct camss_video *video, struct v4l2_format *f)
->   	for (i = 0; i < pix_mp->num_planes; i++) {
->   		bpl = pix_mp->width / fi->hsub[i].numerator *
->   			fi->hsub[i].denominator * fi->bpp[i] / 8;
-> -		bpl = ALIGN(bpl, video->bpl_alignment);
-> +		bpl = roundup(bpl, alignment);
->   		pix_mp->plane_fmt[i].bytesperline = bpl;
->   		pix_mp->plane_fmt[i].sizeimage = pix_mp->height /
->   			fi->vsub[i].numerator * fi->vsub[i].denominator * bpl;
-> @@ -525,7 +532,7 @@ static int __video_try_fmt(struct camss_video *video, struct v4l2_format *f)
->   			lines = p->sizeimage / p->bytesperline;
->   
->   			if (p->bytesperline < bytesperline[i])
-> -				p->bytesperline = ALIGN(bytesperline[i], 8);
-> +				p->bytesperline = roundup(bytesperline[i], alignment);
->   
->   			if (p->sizeimage < p->bytesperline * lines)
->   				p->sizeimage = p->bytesperline * lines;
+> v2:
+> - Added note that this affects 32-bit systems as well.
+> - Clarified that all callers ignore the return value.
+> - Added Fixes tag.
+> - Link: https://lore.kernel.org/all/aarQeHfQuq20gXH0@stanley.mountain/
 
-This seems fine.
+Thanks!
 
-I still don't think the error handling in the dependent function is 
-right/warranted so I'll hold off on RB until you updated that.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
----
-bod
+regards,
+dan carpenter
+
+
 
