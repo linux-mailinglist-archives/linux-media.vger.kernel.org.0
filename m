@@ -1,330 +1,177 @@
-Return-Path: <linux-media+bounces-54800-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54801-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aJCSJP/iqmkTYAEAu9opvQ
-	(envelope-from <linux-media+bounces-54800-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 15:21:51 +0100
+	id eCG8NozrqmlxYwEAu9opvQ
+	(envelope-from <linux-media+bounces-54801-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 15:58:20 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3BD2228A4
-	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 15:21:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E239223333
+	for <lists+linux-media@lfdr.de>; Fri, 06 Mar 2026 15:58:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9BD8E3032892
-	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 14:21:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E42D4306B4CD
+	for <lists+linux-media@lfdr.de>; Fri,  6 Mar 2026 14:43:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85E8A3A9DBA;
-	Fri,  6 Mar 2026 14:21:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB427347534;
+	Fri,  6 Mar 2026 14:43:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jil9XdiN"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="SokgLTTU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFB719D891;
-	Fri,  6 Mar 2026 14:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2423118CBE1
+	for <linux-media@vger.kernel.org>; Fri,  6 Mar 2026 14:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772806906; cv=none; b=s839kPN5gufxYYRNanuTQdvHn6Hy365NDC+tNhONFF3enSnSjINKJKeww55okP0ZD+Um87YGaR9v5QIo1BGdggRmex+C9XtNh112EFYIAjzQ9RqKWHphQAMIVDjNA3QpHXSF5bChTaaDGvOsXXHuXeU67vSyl7tP2yd2ecMfkkM=
+	t=1772808209; cv=none; b=C/6vpXLDeHNmBlWf/H9Q4aZ2WnUiMKfu2u04+LLDcP+KRDX+1+6cch0KOjrw7f8ZvAE2BICq1DOU5wJkB6FymxrLQ+jVlfXyerjGCQE+O3HkNtsVBNB2FewHspW56Ng11UFODfpngh9+KK0/VC0HfERYDO11r6PljqYZk2hBysc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772806906; c=relaxed/simple;
-	bh=QlowReCLCXaDEPiS+S2GX0Mrds2Ec/PskTemUWOyu5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IYhTadCLKU+qMGY/Ii4YE8sHaCe7YcGZpl3vNzODw/XGP/KAZGC60rN+npc3JWyCN3eTpX/S+npzaP3Eiz9eI928rJDxvvjCermkNnbxEOF+nUMK8OX43SQ6/y1PQztiZDmd1acmhvgFtvTPN4NnEhINDXY82/IRQLdykq0x2GM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jil9XdiN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C60EC4CEF7;
-	Fri,  6 Mar 2026 14:21:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772806905;
-	bh=QlowReCLCXaDEPiS+S2GX0Mrds2Ec/PskTemUWOyu5k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jil9XdiNACVK8YNzZ5AQCO0O/A1VouaMzryqqOCAUCJDpa/RrLxWj2Q3MeCF2Mslg
-	 7d+1SpFsGEfaWNks+Ufj1woTgQrxd0nsBHhcCL925Zm5YXPkiJdb9okYaFmTbCBpSL
-	 tDokRNtYiIUIxpSJuB7Br0LeJb7U9sQ4B7N//dG+efQgrdFRsFNi36aOqOjosrFlXT
-	 Lb1i29HxExS4viNqXTeYq7O1E3gVR8ouf7x/dhLRrp8av5Oh0QuIlZnQWu4/34ggH1
-	 7+mecAb4+B6N63mbxF1LV/aCoWx9adrtQySO77EcmT6LE/cyZmtVIpwkuK8gxMxg9j
-	 0W+3NlSCajVyg==
-Message-ID: <110dace9-3ff9-4750-813f-93c6827b105c@kernel.org>
-Date: Fri, 6 Mar 2026 15:21:38 +0100
+	s=arc-20240116; t=1772808209; c=relaxed/simple;
+	bh=8tkDEwM2asPohBzdRdZz2Gu73uJ0yd4QUYX/86HGjpc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JSO/4pS0qlWrRpodTKBqbwQNbQRxTiwSxvNhxGpRJ1xPiyEnyDVHLpz05RdYRxNXK67IlP2ik+8jHr+ziKM1ZfrKBCZwWa0AQBUWcvefmaK3jSF2lHBKWY5psMqJpQ6H38atcwKeFz2q2bSVzJC9m9YiHAZD/V4HkbhFg1UB8ME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=SokgLTTU; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48371bb515eso138271525e9.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2026 06:43:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1772808206; x=1773413006; darn=vger.kernel.org;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mnkBKbiAwsVbbilQBNTs5Gb2aWXP6aakLa1Sqz5ipyw=;
+        b=SokgLTTUr2H751OQnXqWIiOqjxmZ+y26EbscThH/7RBjUtuy9z/er9Yyd5GTqaGwzz
+         ZO9l77s+X/K9nuYWhP3G5ZNdY6AY9N/SKydHxnqeBCNJMgOFLAo3ZAd1ccAsJsJ3ZJ3J
+         +pwP/L7+5ovHhH2LULzpvD+cRSD0EDMNViBsXv6Be8EllFyWnYsDPTrOriYLapTsVacb
+         T7vIKDA4EYFIgZAm+CuJH6HAiUvSIsikXyqhkLUeuLk0J6o3LC93/gMLinjpiXmw2uuk
+         kR0eYxvG0mgERN4/8VrSBhE4NM6ION1bQuk4GEzDKOU9Tm8THQS5Yn/+/k5k6TboxNg1
+         +uiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772808206; x=1773413006;
+        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mnkBKbiAwsVbbilQBNTs5Gb2aWXP6aakLa1Sqz5ipyw=;
+        b=IHVe6NyBsvr3UVu7ciCHMFBwd2aBHuARK21klXf6kr/ANOhRUweVa/PreFfRPmczR/
+         cSiTOcuKTTxYGoUxX4aXA900bUPGgA1T7OASZoEaxDIGjRl/lwJ3xquLqubMtW3PHYaC
+         UNxp6KH08rthn42OLHq5lQNXvwvRufqzPOFqk0BP6hmiT5G/U6otYr2dbUH/dgO++H4T
+         n/mEwJqocsto15CEGLR9tnVO7fd3ozJ/WXpl/7u/1fijuQMIMiPfAyeSzvUWvzYy57CS
+         y9eZKRA8U4jdfTTzvXaBwmACxKPmlSDQ6lBqRC3kfZ/4i0P394jsFnCLJMqbXHN7biJ1
+         KMdg==
+X-Gm-Message-State: AOJu0YymlJ4sa0DFfYOke5txZLYTyE1wCpk5J6IPhAFsusxI4dxV4Abp
+	ZMn/0N7d6a3Lt0Z0jCqv+XGaQahw7vtGZAoHtPOo3bgXjawcbrMdE/QcWzm7ai17o4c=
+X-Gm-Gg: ATEYQzwcCWpM4edPYDVa+KhIBGmp4aaB10bzHNvbns1IQyVOKMiwGu013prLsE52lZf
+	PF+AqpYkBqIkMJY2YXMI39m1xro1nRIAqflrSchiLqEIQ4GbN+gWF8C9zykh9YALCGzDPXnH00O
+	SkthN1f3OZNpl6K/syOTboO6ez6SnEOjtSnwiZNG2OHi8y794vJ3bNl1pfNAcsVmRp7KFCW8vAo
+	KofJnSTz/Zdjd7ktQXTSqtJOFnqUZqwJNtEb5CJn+2iKxv1xDryMM3iZGfE5RV7/UOP2Uvl4RDS
+	soESNOnOkZYnQoxyHqSU3Zw+DNV4m3ll6tGvgyluWDVjtW6BD3PsU7bl4YPlT4mfzLV7alr+wzy
+	o1aI/KhZ5k1vwNqrx6ZTmZ+bb6u+UMbbnp802350D4kmYOuTtk2rFI/fDOvikzYImaAcKe5TJgx
+	dLJk0VaUL+V4QZHUd+XLq9fjzMOLi4C2yCfgvtaZWbsBdZVl2z8w==
+X-Received: by 2002:a05:600c:474f:b0:477:af8d:203a with SMTP id 5b1f17b1804b1-48526964c79mr39805115e9.27.1772808206465;
+        Fri, 06 Mar 2026 06:43:26 -0800 (PST)
+Received: from r1chard (1-164-74-26.dynamic-ip.hinet.net. [1.164.74.26])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae840ad894sm32276145ad.80.2026.03.06.06.43.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2026 06:43:25 -0800 (PST)
+Date: Fri, 6 Mar 2026 22:43:20 +0800
+From: Richard Lyu <richard.lyu@suse.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Richard Lyu <richard.lyu@suse.com>
+Subject: [PATCH v2] media: staging: ipu3: img-mmu: fix sign-to-unsigned
+ conversion
+Message-ID: <20260306144307.670648-1-richard.lyu@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/9] accel/neutron: Add driver for NXP Neutron NPU
-To: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Frank Li <Frank.Li@nxp.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Jiwei Fu <jiwei.fu@nxp.com>,
- Forrest Shi <xuelin.shi@nxp.com>, Alexandru Taran <alexandru.taran@nxp.com>,
- Daniel Baluta <daniel.baluta@nxp.com>
-References: <20260306-neutron-v2-0-3019bd8c91ef@nxp.com>
- <20260306-neutron-v2-4-3019bd8c91ef@nxp.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260306-neutron-v2-4-3019bd8c91ef@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 3A3BD2228A4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.51.0
+User-Agent: Mutt/2.2.13 (2024-03-09)
+X-Rspamd-Queue-Id: 4E239223333
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54800-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[nxp.com,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2600:3c09:e001:a7::12fc:5321:from];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54801-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[100.90.174.1:received,10.30.226.201:received];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[richard.lyu@suse.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,suse.com:dkim,suse.com:email,suse.com:mid]
 X-Rspamd-Action: no action
 
-On 06/03/2026 14:27, Ioana Ciocoi-Radulescu wrote:
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8a5b27b061da..f7a687eb6b54 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19191,6 +19191,16 @@ S:	Orphan
->  F:	Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml
->  F:	drivers/nfc/nxp-nci
->  
-> +NXP Neutron NPU DRIVER
+imgu_mmu_unmap() returns size_t (unsigned), representing the number of
+bytes successfully unmapped. However, when the alignment check fails,
+it currently returns -EINVAL.
 
-s/Neutron/NEUTRON/ as everything here is in uppercase
+On 64-bit systems, this negative error code is implicitly converted
+to a very large unsigned value (18446744073709551594). The same happens
+on 32-bit systems as well, although the resulting value is smaller.
 
-> +M:	Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
-> +M:	Jiwei Fu <jiwei.fu@nxp.com>
-> +L:	dri-devel@lists.freedesktop.org
-> +S:	Maintained
-> +T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:	Documentation/accel/neutron/
-> +F:	drivers/accel/neutron/
-> +F:	include/uapi/drm/neutron_accel.h
+Return 0 when the alignment check fails to correctly indicate that
+no bytes were unmapped while resolving the following
+-Wsign-conversion warning:
 
+drivers/staging/media/ipu3/ipu3-mmu.c:393:24: warning: unsigned
+conversion from 'int' to 'size_t' {aka 'long unsigned int'} changes
+value from '-22' to '18446744073709551594' [-Wsign-conversion]
+  393 |         return -EINVAL;
 
->  
-> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
-> index 1d3a7251b950..698136e12cce 100644
-> --- a/drivers/accel/Makefile
-> +++ b/drivers/accel/Makefile
-> @@ -4,5 +4,6 @@ obj-$(CONFIG_DRM_ACCEL_AMDXDNA)		+= amdxdna/
->  obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
->  obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
->  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
-> +obj-$(CONFIG_DRM_ACCEL_NXP_NEUTRON)	+= neutron/
->  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
-> -obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-> \ No newline at end of file
+All callers ignore the return value, so this change does not affect
+existing behavior.
 
-You still have patch warnings.
+Fixes: 26f5689592e2 ("media: staging/intel-ipu3: mmu: Implement driver")
+Signed-off-by: Richard Lyu <richard.lyu@suse.com>
+---
+v2:
+- Added note that this affects 32-bit systems as well.
+- Clarified that all callers ignore the return value.
+- Added Fixes tag.
+- Link: https://lore.kernel.org/all/aarQeHfQuq20gXH0@stanley.mountain/
+---
+ drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-> diff --git a/drivers/accel/neutron/Kconfig b/drivers/accel/neutron/Kconfig
-> new file mode 100644
-> index 000000000000..37b8ecb49804
-> --- /dev/null
-> +++ b/drivers/accel/neutron/Kconfig
-> @@ -0,0 +1,16 @@
-> +# SPDX-License-Identifier: GPL-2.0+
-> +
-> +config DRM_ACCEL_NXP_NEUTRON
-> +	tristate "NXP Neutron NPU"
-> +	depends on HAS_IOMEM
-> +	depends on DRM_ACCEL
-> +	depends on ARCH_MXC
+diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+index b196a5815903..fcea125e5935 100644
+--- a/drivers/staging/media/ipu3/ipu3-mmu.c
++++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+@@ -390,7 +390,7 @@ size_t imgu_mmu_unmap(struct imgu_mmu_info *info, unsigned long iova,
+ 	if (!IS_ALIGNED(iova | size, IPU3_PAGE_SIZE)) {
+ 		dev_err(mmu->dev, "unaligned: iova 0x%lx size 0x%zx\n",
+ 			iova, size);
+-		return -EINVAL;
++		return 0;
+ 	}
+ 
+ 	dev_dbg(mmu->dev, "unmap this: iova 0x%lx size 0x%zx\n", iova, size);
+-- 
+2.51.0
 
-Missing compile test
-
-> +	select DRM_GEM_DMA_HELPER
-> +	select DRM_SCHED
-> +	help
-> +	  Enables driver for NXP Neutron NPU.
-> +
-> +	  Select this if you have an NXP SoC with Neutron, like i.MX95,
-> +	  and want to run machine learning applications.
-> +
-> +	  If built as module, the module is named neutron.
-
-...
-
-> +
-> +	ret = devm_request_threaded_irq(dev, ndev->irq, NULL,
-> +					neutron_irq_handler_thread,
-> +					IRQF_ONESHOT, KBUILD_MODNAME, ndev);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to request irq %d\n", ndev->irq);
-
-Drop, not needed.
-
-> +		return ret;
-> +	}
-> +
-> +	ret = of_reserved_mem_device_init(&pdev->dev);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to initialize reserved memory\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = devm_pm_runtime_enable(dev);
-> +	if (ret)
-> +		goto free_reserved;
-> +
-> +	pm_runtime_set_autosuspend_delay(dev, NEUTRON_SUSPEND_DELAY_MS);
-> +	pm_runtime_use_autosuspend(dev);
-> +
-> +	ret = drm_dev_register(&ndev->base, 0);
-> +	if (ret)
-> +		goto free_reserved;
-> +
-> +	return 0;
-> +
-> +free_reserved:
-> +	of_reserved_mem_device_release(&pdev->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static void neutron_remove(struct platform_device *pdev)
-> +{
-> +	struct neutron_device *ndev = platform_get_drvdata(pdev);
-> +
-> +	drm_dev_unregister(&ndev->base);
-> +	of_reserved_mem_device_release(&pdev->dev);
-> +}
-> +
-> +static int neutron_runtime_suspend(struct device *dev)
-> +{
-> +	struct neutron_device *ndev = dev_get_drvdata(dev);
-> +
-> +	neutron_disable_irq(ndev);
-> +	neutron_shutdown(ndev);
-> +
-> +	clk_bulk_disable_unprepare(ndev->num_clks, ndev->clks);
-> +
-> +	return 0;
-> +}
-> +
-> +static int neutron_runtime_resume(struct device *dev)
-> +{
-> +	struct neutron_device *ndev = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = clk_bulk_prepare_enable(ndev->num_clks, ndev->clks);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = neutron_boot(ndev);
-> +	if (ret) {
-> +		clk_bulk_disable_unprepare(ndev->num_clks, ndev->clks);
-> +		return ret;
-> +	}
-> +
-> +	neutron_enable_irq(ndev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops neutron_pm_ops = {
-> +	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-> +	RUNTIME_PM_OPS(neutron_runtime_suspend, neutron_runtime_resume, NULL)
-> +};
-> +
-> +static const struct of_device_id neutron_match_table[] = {
-> +	{ .compatible = "nxp,imx95-neutron" },
-> +	{}
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, neutron_match_table);
-> +
-> +static struct platform_driver neutron_driver = {
-> +	.probe	= &neutron_probe,
-> +	.remove	= &neutron_remove,
-> +	.driver	= {
-> +		.name		= "neutron",
-> +		.of_match_table	= of_match_ptr(neutron_match_table),
-
-Drop of_match_ptr. You will have (or you have already same as v1) here
-warning.
-
-> +		.pm		= pm_ptr(&neutron_pm_ops),
-> +	},
-> +};
-Best regards,
-Krzysztof
 
