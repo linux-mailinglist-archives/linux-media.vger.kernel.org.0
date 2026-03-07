@@ -1,145 +1,131 @@
-Return-Path: <linux-media+bounces-54849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54850-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UCAEMefLq2n7gwEAu9opvQ
-	(envelope-from <linux-media+bounces-54849-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 07:55:35 +0100
+	id GPePOD8krGlHlwEAu9opvQ
+	(envelope-from <linux-media+bounces-54850-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 14:12:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A4E22A876
-	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 07:55:35 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE5322BDBA
+	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 14:12:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 13493301DEEC
-	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2026 06:55:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8FC99301F48C
+	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2026 13:12:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D798135CB91;
-	Sat,  7 Mar 2026 06:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B24A3A1A52;
+	Sat,  7 Mar 2026 13:12:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J8zNd1SC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Td38+9D4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B4E3126C4
-	for <linux-media@vger.kernel.org>; Sat,  7 Mar 2026 06:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF42227E06C;
+	Sat,  7 Mar 2026 13:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772866517; cv=none; b=Mt0riGp+6HX1t4RiIH0aLy8PS7PSVQyS5Vflzl9aaeTPZsDKD8K+I/sx+hmVT92hUYKzrVWVkkVwrVboZUISF8BJKvf8peW/FFYHMGUL0LXjfVJgXM33mTdJK/qZREf0K6YWdAgwnLUFqAn58gsUStCdGaoibbhhYSMN6Nffxzw=
+	t=1772889126; cv=none; b=a2yDphVdNDEE8d2egnaLxlexZIJXCQLwQCkMgJQ8EOU07aHTFaIWZTy7oTLAaqt1cIbLVv5UiGXKns2ksaeUe8obDLeS/KkoLJ5db8d4lQNJ6D+kbfmfRhnG5cg3T2nVzgr2CLUcaqEoR0Ps6NFW8Qir4Gpnj8oy7qbPb419b3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772866517; c=relaxed/simple;
-	bh=1KvS1cSshswY5RxXwlNY6YjqFpwsiw3e+bF0IeZmQDs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=nD1L86mxjRGtDl4/n113aqX1kMPEE90Ma0/WZrTzFb6PBKcmRiDAfvHrQVnr/xEaRG6SQONsb/kcDIVw6kcsiKVHMw/IpqhqgkSodkt/Xd9asfa2gU+49LdjsLcFIOjLZKdneZ1Zfj6ONIx9A7UqCuk10gyCgQBIyCX+t+6J+FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J8zNd1SC; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-798374d0f44so146088967b3.0
-        for <linux-media@vger.kernel.org>; Fri, 06 Mar 2026 22:55:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772866515; x=1773471315; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1KvS1cSshswY5RxXwlNY6YjqFpwsiw3e+bF0IeZmQDs=;
-        b=J8zNd1SCo9F2qUe3em66I9kRhqovf2f5zMEIBRON80MFYUts2F3jbsggOeD2ZZYRHU
-         h4UowjYSRJTg7bH37f2HiS0Y3kCrCUPT8TeCxTw/Yc7IVbBmYoovgZamTt+fcf5d3kG7
-         DYju/7UNYyyDQUu5xOY36EOFsVFDc3V17xg7UcUVm7zl1ygbTsHN+0mDXU4IzQpD9RG4
-         aOleSFB7FPGSn7ArOPB/e22UPhGTt5eM+V0qmnizNreaf+LbrdTcS9HWOlC0In7LqwFm
-         vY+OFu1hszaViLtCb39+oukyerVi5tThVKrV4b1kaNBoAt+rWqlhR3Cmum9ifEdkFWqt
-         B2LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772866515; x=1773471315;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1KvS1cSshswY5RxXwlNY6YjqFpwsiw3e+bF0IeZmQDs=;
-        b=VbHJ6BEaU3TY3kuN9J/09nSmOeQhjRL6i3sXaDxrv/aHBLeEqDWOGohn9Gy6Zw7xD2
-         EHqU8yko19EDgZHMaK88C8MFdNvsyFCSzTeP2PNqLnwz7v3CBr/Behq5rUaegNRz8qXH
-         vuesoTcaHpBM0TLBMulLRwaCb6RGd3P0+Q0lEYLds0W2dkYV9Kgm3gyqRdOSdMx08aVN
-         bg7jnacDRIeV9NK1g6xIwT8nqD29q20IR1cc14z3wKdK/4iqp50VzkmhyDfTOAQ6+zZY
-         THNouFJs/S8paJAEDU+yPgDfzg6cCBQPoNcKy7eNg3dCIvLke7N6C7QC3VomUhJhUYrx
-         y8gA==
-X-Forwarded-Encrypted: i=1; AJvYcCV4vPdeCHbKu5LdEiaUCKoOrQUz9swxHgvad3MsFhJ74wmO/f/066epQvVr4qwJy3/eIQFqWYR0Sv8f/g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxD9J1uGrHnSjbQdvVlXGI6zLqK9k9KmU4qct2RcE2myGPIHdTC
-	u+f+FKcX5SB0ZM9QCN/q5nK+tLYFkFPLcoZBCsXeiThxl6kzKyOzSt5N
-X-Gm-Gg: ATEYQzxwu9Px2waHR7s8jqVPjLuYEotWokhJs7OiBd0psNCdKMmS3rrkRkUbKkBX1yB
-	XZcZN9RyXmx8MDVCO/eR/4BUSetXE7K0cOj6wKJ1w+ioijOfc2nKzTvKUmUKTAO4ZLIos5IzIfW
-	VYP0Di2Wd1Si22QX8aFX4+J2MAcf0SfZIB+fQtnzjxGmZgrJzcTnIZR5xEcbtGKkaBHo8QgKh6B
-	P+pelmW/fF9WitjCzgB8iCuj+OcvGeVD6LFCzY7nharYTzEFIM8e1a9b+ovD1dyfUEGyLgng/oF
-	j70mMq6yoLhQnqfxMzySTBF0tJYPKecx/Ggsc0SDCr2F3jYK6/CPo92K5J882P25EfQoM1mNb8F
-	fIp/hHhJZbuGQ/UUFsKYPYSeMUeF2mRYD6YOABlEVHDwNSqxpSfUnSWgVefxtQDjlc5ZpbwGp7c
-	JctUsohmYMGMobM9j7bvC7P9buWrNL92942sk7L+LOqHwvAK8Ct3kzjExBqQdTVFUeeuUnsWYIN
-	vEIwcLjX6DlVMcFQ8yLmYX2c8IcFZAhPxjj9c8eZOXTB2Dyz75hkturGAfUW46xpkA=
-X-Received: by 2002:a05:690c:46ca:b0:794:c02e:f617 with SMTP id 00721157ae682-798d1ddc45bmr85688027b3.12.1772866515389;
-        Fri, 06 Mar 2026 22:55:15 -0800 (PST)
-Received: from localhost ([2601:7c0:c37c:4c00:151a:1f16:9af7:946c])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-798dee69ed6sm17497087b3.38.2026.03.06.22.55.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Mar 2026 22:55:15 -0800 (PST)
+	s=arc-20240116; t=1772889126; c=relaxed/simple;
+	bh=+9wJGWnO3qf8MzI6BlcZQNUv0vEbACN23iiyGPbhgYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O7lz5Yx6Npse60XwPQT8LLxrGMUXp0sl+qhzee8nHAGd+zBSoW2FhtoLNIUDFoniNmaB2qopNisxWAZMp/15QiTKHzVF5mkm19TrKV4RSXQd83LM6K33qmx4Df4rbwEPYrtndPUIkrnHzu8EWOlBl4kHVR/6SHw/C7P7SZ3i+/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Td38+9D4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA364C2BC86;
+	Sat,  7 Mar 2026 13:12:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772889126;
+	bh=+9wJGWnO3qf8MzI6BlcZQNUv0vEbACN23iiyGPbhgYo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Td38+9D4eey5uXsHEJnFdjliNlLYRs7RzTJ8kGosVwoJNPHNQLzBgBKjb8sp/Jefh
+	 JegYFLsAwag7EnhV9vokpANYYbyhhzNe7V1BZgq2wQbRITLdcCWdvjclh674aCZH2f
+	 tF813nhKzxc8/cFB0fCgFot1r3bqI368j+Tzbr1igMjP9gdsIxOP3IennfmmhX/dFk
+	 RQQD7Vs+nvlHxEYSevtkpeWwAUFUopTPo4HcDlrPMpTpjJiR/ZVrFBUHLYPi2rfclB
+	 kRIbbWpGXYY/9bwbdIWFw3F+NQlb5JSdJ0ognUZ0Q/bct5vL9utLwqEGKDMj5NItcA
+	 vBkxXnde1CmEg==
+Date: Sat, 7 Mar 2026 14:12:03 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Wangao Wang <wangao.wang@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>, 
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>, Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/5] media: iris: add support for purwa platform
+Message-ID: <20260307-talented-civet-of-strength-356cb5@quoll>
+References: <20260306-enable_iris_on_purwa-v2-0-75fa80a0a9e3@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 07 Mar 2026 00:55:14 -0600
-Message-Id: <DGWCQ95L9FW0.11AOY3NZF4U2B@gmail.com>
-Cc: "Tianshu Qiu" <tian.shu.qiu@intel.com>, "Hans Verkuil"
- <hverkuil@kernel.org>, <linux-kernel@vger.kernel.org>,
- <stable@vger.kernel.org>
-Subject: Re: [PATCH v2] media: intel/ipu6: fix error pointer dereference
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Ethan Tidmore" <ethantidmore06@gmail.com>, "Sakari Ailus"
- <sakari.ailus@linux.intel.com>, "Bingbu Cao" <bingbu.cao@intel.com>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, <linux-media@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260307030355.26840-1-ethantidmore06@gmail.com>
-In-Reply-To: <20260307030355.26840-1-ethantidmore06@gmail.com>
-X-Rspamd-Queue-Id: 71A4E22A876
+In-Reply-To: <20260306-enable_iris_on_purwa-v2-0-75fa80a0a9e3@oss.qualcomm.com>
+X-Rspamd-Queue-Id: 4FE5322BDBA
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54849-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,intel.com,kernel.org,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2600:3c0a:e001:db::12fc:5321:from];
+	TAGGED_FROM(0.00)[bounces-54850-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-0.974];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ethantidmore06@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-0.922];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[10.30.226.201:received,100.90.174.1:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Fri Mar 6, 2026 at 9:03 PM CST, Ethan Tidmore wrote:
-> In a error path isp->psys is confirmed to be an error pointer not NULL
-> so this condition is true and the error pointer is dereferenced. So
-> isp-psys should be set to NULL beforegoing to out_ipu6_bus_del_devices.
+On Fri, Mar 06, 2026 at 04:44:28PM +0800, Wangao Wang wrote:
+> This series enables the Iris video codec on purwa, allowing purwa to
+> use hardware=E2=80=91accelerated video encoding and decoding.
+>=20
+> The Iris codec on purwa is nearly identical to the one on hamoa(X1E),
+> except that it requires one additional clock and uses a different OPP
+> table.
+>=20
+> Therefore, purwa can reuse the Iris node from hamoa, but the clocks
+> and OPP table need to be redefined.
+>=20
+> Dependencies:
+> https://lore.kernel.org/all/20260202-purwa-v5-0-1f5a93578802@oss.qualcomm=
+=2Ecom/
+> https://lore.kernel.org/all/20260304-purwa-videocc-camcc-v2-0-dbbd2d258bd=
+6@oss.qualcomm.com/
 
-Just noticed typo "beforegoing", will send v3 correcting this.
+I don't understand why you coupled them and added these as dependencies.
+This only makes it difficult to test and technically your media patches
+cannot be applied.
 
-Thanks,
+And I don't even see what is needed from these patchsets for the media
+bits.
 
-ET
+Best regards,
+Krzysztof
+
 
