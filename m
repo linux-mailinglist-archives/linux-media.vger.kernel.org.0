@@ -1,161 +1,209 @@
-Return-Path: <linux-media+bounces-54858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54859-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AAFVGG1arGkwpAEAu9opvQ
-	(envelope-from <linux-media+bounces-54858-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 18:03:41 +0100
+	id ePuUBqWBrGnjqAEAu9opvQ
+	(envelope-from <linux-media+bounces-54859-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 20:51:01 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C0422CCF3
-	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 18:03:40 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC9C22D5EC
+	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 20:51:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9F9D53033506
-	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2026 17:03:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7A2AA3021E58
+	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2026 19:50:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6244633438F;
-	Sat,  7 Mar 2026 17:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00E6C33438F;
+	Sat,  7 Mar 2026 19:50:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="gjzd2HMN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VSg2+/3Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA8F33260F;
-	Sat,  7 Mar 2026 17:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.12.53.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095D22F8BD3
+	for <linux-media@vger.kernel.org>; Sat,  7 Mar 2026 19:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772902991; cv=none; b=da8QvpP3SyXffvXTFdLXQuJfmeC8DpmAX8TSSix/zWMfV19h58TI5nh5JA1quNIGkOnwsnd8Ja7xIlvQE/ivMi7k5fTN2/zQI8k1V2fvQGWCiRveu48EnZVdZcC7cPGQuB34YrO1rVDWc789oX2HtknIWMVmB/QilRB3vwiiXrg=
+	t=1772913013; cv=none; b=F0CRzCAC8QlkBOB8mdn3N3snY8Mfxs3f7zk0IIOxoQ3rtgFntTbLkrZhltFe4sNn8A2tXD9tEOUdgsd149Ur8SJWzNcc+0Qj2LHsCIRFQdU2OYZCO7/eCpHPk1t3fhfWJtqIu1o5G4a+3bqMiY+J6jcR32KEr17F8aitXC/2tEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772902991; c=relaxed/simple;
-	bh=wvkD7PmKVor5qWsXU1Wx/LvlXnzQBgwJVQXNn1GZpwQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sTTCtwnY+GxyWyFaxVKQa/F1oKt3s1eLG2TyasQWxq5sqF04LooMAVuF19X5LE3+TeI8XFC8lWoiO0c3bxooE46Vveijuh/HPOE8qByKL6V8XLzQ7pBQv/NS013qc11HpMRfouaAaRF/F7KaWFKnDhhzFhjTae9SqzfnsZtKdu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=gjzd2HMN; arc=none smtp.client-ip=52.12.53.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1772913013; c=relaxed/simple;
+	bh=iEXmZffYz3xtziMINJAnHlhToYWmJa97F9m3VgiKNn8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aKolosH4QOfH8ve5RrUTclV9UxX0zJ+ztXTnvrNIAB93bkSt5IiRkqQANBVtywtLeC1ezoDVWR5HpT289bfYpU+Y862XlxLoArJfdHV2zuoKTvfQbcHxNGYGr8bAeJio+yX4bLeBmR/qSbDt1sh+C7z2QjwTdZjRoBXlz0ZTQF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VSg2+/3Z; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-485345e1013so1129775e9.1
+        for <linux-media@vger.kernel.org>; Sat, 07 Mar 2026 11:50:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1772902990; x=1804438990;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1hUeG+gVwGZ+FlvP7RVlGS1em+6sgkvmyaJZpvZ0smU=;
-  b=gjzd2HMNAorf/Yi4LTf+UUTPkg352NLcapAx+XZHvyCB2qEfNjTt8n6m
-   9drHubLmDbrmGY7ke48iyke9w7rGjNTOjvI8uMoMHe0ichkCJVwYf+U9n
-   TmZNx/e5FftxoPvRiV+ZeEffisy+RiSX4hqWywSA5SiBGbd40M0XMuIWS
-   d0ZBKado3mB7IfpQQKza5hUrAyoS/P9U056TnJ0eL5UTpFJu1uHE9+VnA
-   +vPeZZenV/Ozwh8RQUxW1y/1FKFzvc00CChMgd61p4jxiqpUrn5+Js4cJ
-   E9i7xH8zHndxQ8XoIezTKD4JqU9Jh2klhLsKaH3HFRAFQ/IFlHGN8jCV9
-   Q==;
-X-CSE-ConnectionGUID: p/xIXsQST364+iGSnRxPdw==
-X-CSE-MsgGUID: 1NvykfWVQX+xs2B53pblRg==
-X-IronPort-AV: E=Sophos;i="6.23,107,1770595200"; 
-   d="scan'208";a="14412486"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 17:03:10 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:14680]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.3:2525] with esmtp (Farcaster)
- id 116db2dc-68d6-4730-9bfa-64f7924d15c4; Sat, 7 Mar 2026 17:03:10 +0000 (UTC)
-X-Farcaster-Flow-ID: 116db2dc-68d6-4730-9bfa-64f7924d15c4
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Sat, 7 Mar 2026 17:03:09 +0000
-Received: from localhost (10.119.200.184) by EX19D001UWA001.ant.amazon.com
- (10.13.138.214) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Sat, 7 Mar 2026
- 17:03:09 +0000
-Date: Sat, 7 Mar 2026 09:03:08 -0800
-From: Cory Keitz <ckeitz@amazon.com>
-To: <dumitru.ceclan@analog.com>
-CC: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, "Mauro Carvalho
- Chehab" <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Julien Massot
-	<julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, Niklas
- =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<mitrutzceclan@gmail.com>, Cosmin Tanislav <demonsingur@gmail.com>, Niklas
- =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH RESEND v8 16/21] media: i2c: maxim-serdes: add MAX96724
- driver
-Message-ID: <aaxWATynXaVFglvS@bcd074ae11bb>
-References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
- <20251208-gmsl2-3_serdes-v8-16-7b8d457e2e04@analog.com>
+        d=gmail.com; s=20230601; t=1772913010; x=1773517810; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VA2T4+E7Cz/MdnJxYGN4ddNdlwgpT5KVV4eEsJxg9e8=;
+        b=VSg2+/3ZfIy2S8d+LsxxhbXW8kT7wqnjtInoQEezQAG2YCQkGMP7AitDOiYcdHT0ff
+         cMjl5dR0I6+vYakYuRm/NS6XqSnaKQVRg1JwKTuGIDDGxMM3LLGsq6CzScGMd+gFPdoX
+         QG0L0pITqZykbIyEuD2N40VIARhIgnRvJIWwSsmEtU33vfiVpHC0LHVRKojfVJiTnKZF
+         YEkuCEsQ3i7bVOYVTjOFjawW9YBzm1GbWcCCMwdQgzdbH6FJ8tucwdikNWGGCMB7yj/K
+         sRaEd6BLgP9xgNK6xeeIAvBXkclvQdv2H3Sl7Nc09ZuoBi+zlMdjs4H/LoJC8CstPDsb
+         jH8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772913010; x=1773517810;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VA2T4+E7Cz/MdnJxYGN4ddNdlwgpT5KVV4eEsJxg9e8=;
+        b=dnad1nLy5lBoRd8bI4wA8jS5JRyPoeCtZJbOFbcAsE1gl8R8snbFTaAZhjQ8Hd3EKb
+         zEZa6E9OxLtrYjhHdb/Gd9qI5a/vYNLer3XNm2pgZITPOY056tcGl8JhhZ1sW8B71yZu
+         yPuIig4YrDEXxOMIV61eatjAi/kYxXb0tqr63hKUUykQv7szHHy4dKASjRe6UjkqqHGe
+         FQQK7FyPpdEnpzB8UhkEMwBnU1OgbUUSyLpwH1CRXyCV37Ig2FRPtom4NRf8LCo1t3xg
+         WgKqhKfSshxK8Hkc9o661Kpgeofg5fXRG3oHswfZNP0I6eLHbKnsSzwggqAILovEp3bz
+         y5LQ==
+X-Gm-Message-State: AOJu0YzbLML+jPyeJB5GCcjeL5gzS3ica6XFKoUNA9IAsyhH/16tyDMf
+	TL/TUL0d9upLH2i4NrpbZVg3I91RfrG/9JKBJPxVTo7gy5q0On8kkTU+LwBudQ==
+X-Gm-Gg: ATEYQzwGGQLKbe6hA47t/WNMfZ712YFcxaqfCCWdQ1tD22g5uu8jsMNgRiR3GPsSmwm
+	NZkgdMROTCKbiDGNl7vypyck2HpWOcZenNhCWZedML81Mja1tXqZMQ6aiMWtDKd3YugtuW0T+Gy
+	APci5szGkwlr+O7/XGFSb3SZUNQtJiQsvPCE7Kd+tx3wyruNeeF5Rf5yQK1T9t5ZYlw51sl3U6J
+	FklyfkOUm9jsVI5IqskxJLm9QA7Ef2SVy7yVA6sIiW28GRG9usfhWErAgxRt81PKmoRChSIBYtK
+	tCWHTc1BXyjpTqgoTyIJWeZaLCB7t07FqdOdQSqH3sxFzxwfQ6BVzK9BPkJdWG7aRNUqC9efe2N
+	E4lYLsRmluBohKBSsOU9Nsxjll6BL0hgbJMQzSyPYf6SC035oP7KhthV54Sbv75GhJ5Y+z0fRNZ
+	kVBoF9I/mXJraalftAR3QxBhFkkhnQSpHMvyBMgkES
+X-Received: by 2002:a05:600c:8b6f:b0:46e:59bd:f7e2 with SMTP id 5b1f17b1804b1-4852674e8f7mr109354075e9.11.1772913010175;
+        Sat, 07 Mar 2026 11:50:10 -0800 (PST)
+Received: from localhost.localdomain ([102.164.100.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527681a3esm288980035e9.4.2026.03.07.11.50.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Mar 2026 11:50:09 -0800 (PST)
+From: David Dull <monderasdor@gmail.com>
+To: jai.luthra@ideasonboard.com
+Cc: linux-media@vger.kernel.org,
+	David Dull <monderasdor@gmail.com>
+Subject: Re: [PATCH v2 06/10] media: Replace void * with video_device_state * in all driver ioctl implementations
+Date: Sat,  7 Mar 2026 21:49:52 +0200
+Message-ID: <20260307194952.1866-1-monderasdor@gmail.com>
+X-Mailer: git-send-email 2.49.0.windows.1
+In-Reply-To: <20250919-vdev-state-v2-6-b2c42426965c@ideasonboard.com>
+References: <20250919-vdev-state-v2-6-b2c42426965c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <20251208-gmsl2-3_serdes-v8-16-7b8d457e2e04@analog.com>
-X-ClientProxiedBy: EX19D041UWA003.ant.amazon.com (10.13.139.105) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
-X-Rspamd-Queue-Id: 01C0422CCF3
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 6DC9C22D5EC
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-7.16 / 15.00];
-	WHITELIST_DMARC(-7.00)[amazon.com:D:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[amazon.com,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[amazon.com:s=amazoncorp2];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54858-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,linux.intel.com,collabora.com,ragnatech.se,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54859-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_THREE(0.00)[3];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ckeitz@amazon.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[monderasdor@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amazon.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.990];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Mon, Dec 08, 2025 at 04:13:08PM +0200, Dumitru Ceclan via B4 Relay wrote:
-> +static int max96724_init_phy(struct max_des *des, struct max_des_phy *phy)
-> +{
-> +	struct max96724_priv *priv = des_to_priv(des);
-> +	bool is_cphy = phy->bus_type == V4L2_MBUS_CSI2_CPHY;
-> +	unsigned int num_data_lanes = phy->mipi.num_data_lanes;
-> +	unsigned int dpll_freq = phy->link_frequency * 2;
-
-This unconditionally doubles the link frequency for the DPLL, which is
-correct for D-PHY (DDR clocking) but incorrect for C-PHY. Per the
-MAX96724 User Guide:
-
-  D-PHY: "Clock freq is half; Data rate is equivalent bps/lane."
-         e.g. 00010 = 200MHz DPLL, 200Mbps/lane data rate.
-
-  C-PHY: "2.28bits/symbol."
-         e.g. 00010 = 200MHz DPLL, 456Mbps/lane data rate.
-
-For C-PHY the DPLL value equals the symbol rate, which is the link
-frequency directly. Should be:
-
-        unsigned int dpll_freq = is_cphy ? phy->link_frequency
-                                       : phy->link_frequency * 2;
-
-The same pattern exists in max9296a_init_phy() in patch 17.
-
-I've tested the full series (backported to 6.6) with the above fix on
-SA8775P + MAX96724 + MAX96717 with C-PHY 3-trio @ 700MHz.
-
-Tested-by: Cory Keitz <ckeitz@amazon.com>
+Hi Jai,=0D
+=0D
+This patch is too large to be reasonably reviewable in its current form.=0D
+=0D
+The stated change is conceptually simple: replace the opaque `void *priv`=0D
+argument with `struct video_device_state *state` in V4L2 ioctl=0D
+implementations. However, this single patch touches hundreds of files=0D
+across drivers, helpers, framework code, staging code, and public=0D
+headers. That makes it extremely difficult to validate correctness,=0D
+spot exceptions, and reason about regressions from mailing list review=0D
+alone.=0D
+=0D
+A few issues stand out:=0D
+=0D
+1. Patch granularity=0D
+=0D
+   This should not be one monolithic patch. At minimum it should be=0D
+   split into:=0D
+=0D
+   - core/framework changes=0D
+   - helper conversions=0D
+   - driver conversions by subsystem or directory class=0D
+   - staging/test-driver conversions separately=0D
+=0D
+   Right now the size alone makes meaningful review and bisection much=0D
+   worse than it needs to be.=0D
+=0D
+2. Mechanical conversion claim vs. manual exceptions=0D
+=0D
+   The changelog says most changes were automated with Coccinelle,=0D
+   while function signature updates in headers and edge cases were=0D
+   handled manually. That is exactly why this needs splitting.=0D
+   Mechanical treewide conversions are one thing; manual edge-case=0D
+   handling is where subtle semantic mistakes tend to hide.=0D
+=0D
+3. API conversion proof is missing=0D
+=0D
+   If this is primarily a scripted transformation, the review should=0D
+   center on the semantic patch and on proving there are no remaining=0D
+   mismatches.=0D
+=0D
+   Please include:=0D
+=0D
+   - the Coccinelle script as a separate patch or in the cover letter=0D
+   - a summary of what could not be converted automatically=0D
+   - a treewide grep result showing there are no remaining ioctl=0D
+     prototypes using `void *priv` where=0D
+     `struct video_device_state *state` is now required=0D
+=0D
+4. Conversion consistency=0D
+=0D
+   Several call sites now rename the parameter to `state` but continue=0D
+   to use it only as a positional placeholder, which is fine=0D
+   mechanically, but the patch should avoid mixing semantic conversion=0D
+   with opportunistic cleanup. Formatting-only churn and spacing=0D
+   adjustments should be kept to the minimum necessary for the=0D
+   signature change.=0D
+=0D
+5. Risk concentration=0D
+=0D
+   This patch touches both framework headers and many driver=0D
+   implementations in the same changeset. That amplifies the blast=0D
+   radius of any mistake and makes it harder to tell whether a=0D
+   reported regression belongs to the API change itself or to one of=0D
+   the driver-side edits.=0D
+=0D
+6. Reviewability for maintainers=0D
+=0D
+   The CC list spans a large number of maintainers and mailing lists.=0D
+   That is appropriate for notification, but not a substitute for=0D
+   reviewable patch structure. Individual maintainers should not have=0D
+   to sift through a large treewide refactor to find the parts that=0D
+   affect their drivers.=0D
+=0D
+Please respin this as a structured series with the mechanical=0D
+transformation isolated from the framework changes and with a clear=0D
+accounting of manual fixups and exceptions.=0D
+=0D
+As it stands, I do not think this patch is reviewable in one piece.=0D
+=0D
+Acked By : David Dull=
 
