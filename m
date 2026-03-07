@@ -1,208 +1,191 @@
-Return-Path: <linux-media+bounces-54860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54861-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GY7kCkeFrGmqqQEAu9opvQ
-	(envelope-from <linux-media+bounces-54860-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 21:06:31 +0100
+	id yB4BMd6SrGlsqwEAu9opvQ
+	(envelope-from <linux-media+bounces-54861-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 22:04:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDDB22D77E
-	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 21:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE2A22D9DE
+	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 22:04:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 464583017F9E
-	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2026 20:06:29 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 696A3301DD9E
+	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2026 21:04:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ACD2379998;
-	Sat,  7 Mar 2026 20:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 400F437B413;
+	Sat,  7 Mar 2026 21:04:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hgixRFml"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtsuS63a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F1533509E
-	for <linux-media@vger.kernel.org>; Sat,  7 Mar 2026 20:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6127579DA
+	for <linux-media@vger.kernel.org>; Sat,  7 Mar 2026 21:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772913984; cv=none; b=ao0S7eIPxFeT2jH3T/pBa+xyAYzlTR1DzoIX3yzNgzMTBDLQw0AU9aH8gNgtN/QSE51VDfvB/oTVbSdcVsj4coDJP2NBpQwWxtaUpNO8i+xh0SJ4ViiD1sh/uqYQfJati/XMxHgRiqV0J4VcgmMaWkMZxFouR2aH8Mz8zwzhlIc=
+	t=1772917454; cv=none; b=Z3cBbpTyrdZlVfFSwfGptbrjM4krDJHJaQJVcwVmf+PqywaBugmRhTu5uWMZBn3aK4D3VGSWwcMBlIzcv9OlqgBFbpUcYyhOpvqkQzRPGZz5xupsKvbESXZZnjlWrCL9p+GBQzshpN0gd9dyRxNUPL3b3N5813RXuMVlYw8p0H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772913984; c=relaxed/simple;
-	bh=8kUxHJ638hHSUL4aq3eDzh0I6G7F42gV+Hk2A5ulRas=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f5EM103nt8LIWkl/zmwTueQLI75C3hhU8Q8x1Uhc3trepSnL2alQe8f55NqInpsC49TG+FTqRJZqEbGdqQWvhG4PW2PU5IxavJmUXXFOkb/oN5V8GSHPJMpqMMh26zE5+0S+01bhvw0/Ulc7cnj3xXkemWVeUmU9yaOw3TCkt+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hgixRFml; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1772917454; c=relaxed/simple;
+	bh=9Exg2USVLa4xlv4w7Vw8HDXr3p6qjKZogGGviGgbgOI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jx4A8my0hJxvshoKEzufmMj6GINPHV9Fo2pzI+WFV7AgZCMxPtPjzIdr2c2HkvM++pV80ZxwnF3MQhf9JSyHi+gktnhiQjvxXXFik3km5EazUxRKk+PsNiyeXQrZvcdNqovfLt/k5shZtIhbq58kDQYj9F6zEoEEsZvrLaHIWOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AtsuS63a; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4852a8482fcso11758395e9.3
-        for <linux-media@vger.kernel.org>; Sat, 07 Mar 2026 12:06:23 -0800 (PST)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8299f1ca894so1072848b3a.2
+        for <linux-media@vger.kernel.org>; Sat, 07 Mar 2026 13:04:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772913982; x=1773518782; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NnrXVEvsPXnnoulSxseecutoQNFZ6jX6C+2OFAUA6YU=;
-        b=hgixRFmldsHcdMrBD1pI0c+jXOkCXE9akG5Lvo8qbX7HnLM23A4ky8DwWc7P0vEbMB
-         aJ36MTr/Ji054AaMPhmseSzaKOESSZ9GP2ucX6G1bqqWpOM4LZuGYA9SZMu8pZXozu26
-         X9z/5fPW5MW20vSyjn8mTWz0tXiqhnRe0+KOw1mRkNOr3gxXgyPAnuZFWmsUMG+pOYxY
-         3e9Px+8IVC/n9cGVeoYjj3CTQ9M1gKuIkD9pMw67C6N2LLBM3CVJJKQNvXS0NSN2mhHK
-         Mc4sgZMiA6ec4/QjKDw9xDJoiXbocNOsRimebUXuUgUbwJY53cquGgaLZro4RhmFFOmq
-         8z1g==
+        d=gmail.com; s=20230601; t=1772917452; x=1773522252; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SGXhq2UxUJDL3aAv90iI2xuTf9Opn9T2dvuqIOW5Q3g=;
+        b=AtsuS63aGNjiGEMVLx7voRmYFI/PLWixO+Fj0B4/BOXsbd0JA/yTWk40ER2fV5wxYd
+         O444hkjAycvJ4eZPjU9NpdB/q7cjohmmrZyEPro0D9jBGmjdF9kqaV/jhjRWh208V82J
+         VlpHZrjaqd/NwdDW8qBm25y8r1aioDvD9n8kTCSMCrgDabRyVgSaGtboHt/9Jq8QtFua
+         4X3gcRHvgwpXatZ6vUal50VOKJ68MiyxZOPpvrcC1ZVft2EWVed/byEgVHusBbGnVpxR
+         Mn0XQrUf/dVOINX3FFmux30kwWR2945lbjdJS1nFgzduh2MmOxT25hdRI29QOjEgQBu7
+         b53Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772913982; x=1773518782;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NnrXVEvsPXnnoulSxseecutoQNFZ6jX6C+2OFAUA6YU=;
-        b=SQzK6XAndctE9fNVrMKNTRIB5zBNpF6JOZ026nNAjhAyO3i6/dLFF30qmOOKG4HAXq
-         437KeixcN0wr/JrrqHmxo5L4aXX9DDD3U1icYdh26V7qFo/fuguG68C4Pd909V9nM5ts
-         3xz0AAplKHjIP6/sNFxsRllNEy/v+hOBRnHa9NsQorvXDEQAY4eUxmWBq8f7zzQ0/e0X
-         TLd9g8a2q+C+IAWM76UWt87n6erIcG3LG5b2HN17MkoxjVG25yDHTOk+9PaV1SibJBDd
-         HBl4v9sHVbxUsmw8yNvpmgr/r+RTAzS2VQGpWkXIMhFF9QeuxXMq7FrOHE5Jli8M1hJP
-         N68w==
-X-Gm-Message-State: AOJu0YzaJq/HwV+oximYrZE/lSmkPkE9uOf55sAeuNFmGJcJxDW7ep7H
-	rqaPc808PNxZOW0Sbq+1/rkZh//Q3m+pjz9Q9GArW5QhCc2i+DlMy86p
-X-Gm-Gg: ATEYQzw9uBlVPmSP9yxuf2WHP1gcwRoSEB33vMTM2MfVJ1nIbj1jbVTqCH/HiuK5Zfs
-	UVH8BzeCmxXdnnNKtrq6FIsKKjXPz2LCeQoVEa47DAeJTqWE3aBDReEbCWnebucHTSO3yNS9prx
-	3kdAkNHiKrCEMtZecRZZZaNwi7RonyzXcbKua1BLsXvi5+eE83Gie8yzCZtjSY4jl8cxjf58VnA
-	rsREAxmu0PNcVSS1ApDtexLjZrucT2U+Fdno7H/1Hr/KJZv1HVkIT+g59a1uU2a3Szy93FnpkI9
-	DMp1LRpnox/b3ZiK4gExpAlBZZJsgBQXmVGWful2GE0B1mDbsmdKylfUpy8Ptrsl/YZI9HEIN8S
-	jqllRXaKUQrP8x3j7c+lhbzOflmP8XByXnhK3VX3jDkFtYOr2s/zgWeL9u0s1B4FAWK5PPpwoAC
-	/NqaDUvFuo3Y2Amp4B/xIpSBflGnAIu870O3GKGJ6M
-X-Received: by 2002:a05:600c:8718:b0:483:96d8:9f75 with SMTP id 5b1f17b1804b1-48526967aacmr108364805e9.28.1772913981588;
-        Sat, 07 Mar 2026 12:06:21 -0800 (PST)
-Received: from localhost.localdomain ([102.164.100.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485246ed174sm70723845e9.5.2026.03.07.12.06.20
+        d=1e100.net; s=20230601; t=1772917452; x=1773522252;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SGXhq2UxUJDL3aAv90iI2xuTf9Opn9T2dvuqIOW5Q3g=;
+        b=FFvYnsiv6wZgNLJC4YZDAzV87qU9kX21630MNcVMXDtRazHrNOUd8bSGMVYWeavq7n
+         IdGdLVgXqDzuU7v60UJT1sEf7aTcac6LliLxe7PCdrPe3UJ7c3dmK049+HWbkspexSzd
+         lGN20sJZRsLOm2TWXPq6MMAhguNnqdXEZpPuUshFyZ3RN9yUcNgyhoNbHxr4QWMI3BFn
+         vrNVqfet8o3DJ2ay4V/jFwuxatChETeBk0q4ik5PLfJDd072n5YmqsYuNX72mNBOhscE
+         Qwwh53suid73azemSdNvYjDDvPtAMUFK/pu7fEleR/+DRQLWIUmDynuDcO2VcdhxfkgQ
+         zD0A==
+X-Forwarded-Encrypted: i=1; AJvYcCXv1P4BcVHVl+xSr4klh9hCqMthqaYO48Iz5tlW8W4EL+FcrJmiSvaIhxF2EWh9c4kuiIHUUWMwSe9yXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywc4tfwSExxpGdtUi3kY9IKvZ3xnYRJpAidWwv8Wr20++IrDrp7
+	BWc1xWhD8wHZHXQpBnmvr/I8TclYyno+3ZxsTK7foMqxI3gb8VIetRSq
+X-Gm-Gg: ATEYQzyILgt3bi2Z9/q975y+el5toyy8Gb3N9qlZZ3xrSh3Aj2svy7jcJ6NrNasnmKV
+	m4K+CK4LbBYEosflcoWrzY2vlT5YYd+vXgM99v6+dKKQAK80LG1gN0OkYl/Zimv3DaXgukcAXO2
+	3VbOheViCkmsHxLsq8xeSaYloge/eP+yUFkDIbYd47hSokzeUpiCTwKK88A3bgg7J33ZgOgQSuf
+	u4KnG/3Z55cE36O3CrYs+zC3H9boNXkU9MvAwGoTruibzMR+T248sQgMbhf4yRWkxTVy/LulDuo
+	M8yaG5MN/2kEwwLn6fGTuO2CZiIPQqeuO5x26VMUgC25JwtYdDPYjVV68/R+dexRc6KkFD8lO/R
+	U4Dr/EfdBPQrgYRRrFYQlE5mpa/uJ/zpWR89aHMW5Fp8nwvlocXRTcffpFcvUFzZEEEmwdaAP+s
+	r7MVMFoQ7qoJ0t9tBjtcQ5Hz7EsNrINsAk8Qh2tC2dGhARqY5HmN9R+r1g+Gg=
+X-Received: by 2002:a05:6a21:9cc9:b0:341:5935:e212 with SMTP id adf61e73a8af0-39858fd5915mr6251896637.18.1772917451630;
+        Sat, 07 Mar 2026 13:04:11 -0800 (PST)
+Received: from hu-ckantibh-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e182d72sm4840124a12.25.2026.03.07.13.04.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 12:06:21 -0800 (PST)
-From: David Dull <monderasdor@gmail.com>
-To: jai.luthra@ideasonboard.com
-Cc: linux-media@vger.kernel.org,
-	David Dull <monderasdor@gmail.com>
-Subject: Re: [PATCH v2 06/10] media: Replace void * with video_device_state * in all driver ioctl implementations
-Date: Sat,  7 Mar 2026 22:06:03 +0200
-Message-ID: <20260307200603.401-1-monderasdor@gmail.com>
-X-Mailer: git-send-email 2.49.0.windows.1
-In-Reply-To: <20250919-vdev-state-v2-6-b2c42426965c@ideasonboard.com>
-References: <20250919-vdev-state-v2-6-b2c42426965c@ideasonboard.com>
+        Sat, 07 Mar 2026 13:04:11 -0800 (PST)
+From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+X-Google-Original-From: Sanjay Chitroda <sanjayembedded@gmail.com>
+To: mirela.rabulea@nxp.com,
+	mchehab@kernel.org,
+	Frank.Li@nxp.com,
+	s.hauer@pengutronix.de
+Cc: kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: [PATCH] media: imx-jpeg: convert kzalloc() to devm_kzalloc()
+Date: Sun,  8 Mar 2026 02:34:04 +0530
+Message-Id: <20260307210404.1428894-1-sanjayembedded@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 8CDDB22D77E
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4EE2A22D9DE
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	FREEMAIL_CC(0.00)[pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org,linuxfoundation.org];
+	FROM_NEQ_ENVFROM(0.00)[sanjayembeddedse@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_NONE(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54861-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54860-lists,linux-media=lfdr.de];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCPT_COUNT_THREE(0.00)[3];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[monderasdor@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.981];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.990];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_RCPT(0.00)[linux-media];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Jai,=0D
-=0D
-This patch is too large to be reasonably reviewable in its current form.=0D
-=0D
-The stated change is conceptually simple: replace the opaque `void *priv`=0D
-argument with `struct video_device_state *state` in V4L2 ioctl=0D
-implementations. However, this single patch touches hundreds of files=0D
-across drivers, helpers, framework code, staging code, and public=0D
-headers. That makes it extremely difficult to validate correctness,=0D
-spot exceptions, and reason about regressions from mailing list review=0D
-alone.=0D
-=0D
-A few issues stand out:=0D
-=0D
-1. Patch granularity=0D
-=0D
-   This should not be one monolithic patch. At minimum it should be=0D
-   split into:=0D
-=0D
-   - core/framework changes=0D
-   - helper conversions=0D
-   - driver conversions by subsystem or directory class=0D
-   - staging/test-driver conversions separately=0D
-=0D
-   Right now the size alone makes meaningful review and bisection much=0D
-   worse than it needs to be.=0D
-=0D
-2. Mechanical conversion claim vs. manual exceptions=0D
-=0D
-   The changelog says most changes were automated with Coccinelle,=0D
-   while function signature updates in headers and edge cases were=0D
-   handled manually. That is exactly why this needs splitting.=0D
-   Mechanical treewide conversions are one thing; manual edge-case=0D
-   handling is where subtle semantic mistakes tend to hide.=0D
-=0D
-3. API conversion proof is missing=0D
-=0D
-   If this is primarily a scripted transformation, the review should=0D
-   center on the semantic patch and on proving there are no remaining=0D
-   mismatches.=0D
-=0D
-   Please include:=0D
-=0D
-   - the Coccinelle script as a separate patch or in the cover letter=0D
-   - a summary of what could not be converted automatically=0D
-   - a treewide grep result showing there are no remaining ioctl=0D
-     prototypes using `void *priv` where=0D
-     `struct video_device_state *state` is now required=0D
-=0D
-4. Conversion consistency=0D
-=0D
-   Several call sites now rename the parameter to `state` but continue=0D
-   to use it only as a positional placeholder, which is fine=0D
-   mechanically, but the patch should avoid mixing semantic conversion=0D
-   with opportunistic cleanup. Formatting-only churn and spacing=0D
-   adjustments should be kept to the minimum necessary for the=0D
-   signature change.=0D
-=0D
-5. Risk concentration=0D
-=0D
-   This patch touches both framework headers and many driver=0D
-   implementations in the same changeset. That amplifies the blast=0D
-   radius of any mistake and makes it harder to tell whether a=0D
-   reported regression belongs to the API change itself or to one of=0D
-   the driver-side edits.=0D
-=0D
-6. Reviewability for maintainers=0D
-=0D
-   The CC list spans a large number of maintainers and mailing lists.=0D
-   That is appropriate for notification, but not a substitute for=0D
-   reviewable patch structure. Individual maintainers should not have=0D
-   to sift through a large treewide refactor to find the parts that=0D
-   affect their drivers.=0D
-=0D
-Please respin this as a structured series with the mechanical=0D
-transformation isolated from the framework changes and with a clear=0D
-accounting of manual fixups and exceptions.=0D
-=0D
-As it stands, I do not think this patch is reviewable in one piece.=0D
-=0D
+From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+
+The driver allcoates memory using kzalloc() and frees it in the relase
+path. since the allocated memory is tied to the lifetime of the device,
+devm_kzalloc() can be used instead.
+
+Using device-managed allocation simplifies the error handling paths and
+remove the need for manual cleanup.
+
+No functional change intended.
+
+Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+---
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+index b558700d1d96..bd4b5f08a85c 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+@@ -2200,14 +2200,12 @@ static int mxc_jpeg_open(struct file *file)
+ 	struct mxc_jpeg_ctx *ctx;
+ 	int ret = 0;
+ 
+-	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
++	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+ 	if (!ctx)
+ 		return -ENOMEM;
+ 
+-	if (mutex_lock_interruptible(&mxc_jpeg->lock)) {
+-		ret = -ERESTARTSYS;
+-		goto free;
+-	}
++	if (mutex_lock_interruptible(&mxc_jpeg->lock))
++		return -ERESTARTSYS;
+ 
+ 	v4l2_fh_init(&ctx->fh, mxc_vfd);
+ 	v4l2_fh_add(&ctx->fh, file);
+@@ -2246,8 +2244,6 @@ static int mxc_jpeg_open(struct file *file)
+ 	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	mutex_unlock(&mxc_jpeg->lock);
+-free:
+-	kfree(ctx);
+ 	return ret;
+ }
+ 
+@@ -2754,7 +2750,6 @@ static int mxc_jpeg_release(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+-	kfree(ctx);
+ 	mutex_unlock(&mxc_jpeg->lock);
+ 
+ 	return 0;
+-- 
+2.34.1
+
 
