@@ -1,207 +1,256 @@
-Return-Path: <linux-media+bounces-54902-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54903-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UB3BHMLirWks8wEAu9opvQ
-	(envelope-from <linux-media+bounces-54902-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 21:57:38 +0100
+	id ABMJOdbsrWnG9gEAu9opvQ
+	(envelope-from <linux-media+bounces-54903-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 22:40:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB86D2323BD
-	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 21:57:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5643323256A
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 22:40:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 685693034B32
-	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 20:56:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2D211301F324
+	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 21:40:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B48B356A1C;
-	Sun,  8 Mar 2026 20:56:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8F4435A3B0;
+	Sun,  8 Mar 2026 21:40:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="dstguewP"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="xfzALRvQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013058.outbound.protection.outlook.com [40.107.159.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799C5328B58;
-	Sun,  8 Mar 2026 20:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773003393; cv=fail; b=T6toPlM+3Ky27v7yNFZpIlgOkYQavry/Lb1krjQJ+fnbRaKDk5JJl+CZrIcw3yZEWf5zyo2Hm6uwYGDl0WJPB9L4tS6/JLwxZBqJIwZFzKS1BuV/4FDGNOZFV6R+U4Sg6xwaAu8DSRG9W+1utpn6neaEiNb138tOPJzYzc1sncQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773003393; c=relaxed/simple;
-	bh=Lu5FL92CypXBlymOj3P+0NA1LHmcZGrX69EnS95Pw+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QmJ3FE6Rmpl3Daha6hnDxYXl8Efe6TcDviqhdBtIy4lstiweEIKOsM8KvKaIREAFoK0vSgV5JXIqFCqzLM1o9twvKIOqkin/IcIr29nmPtXfhZPvo7/LsdJNggBuBPYnTD+Z+btFEuBXsMM5eZcXr2wjiy6XiKkgWH0ymXNbr+g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=dstguewP; arc=fail smtp.client-ip=40.107.159.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Vo8X9iE0eELA/OhvLtUFhhssqBDZHZiJ5xChzaw393s8RmArAET3iLouBghW8ZeG0zW1N7UffrGClCKKBB1tHpEraea9Hhrrn+t9I5qbqCk29EGYla2aZ8O+rvUc/ggDJWOcgnRbxTHQvdBMybTCKJ8/smgqcExdNxvoJ9yPO1uCQ/FWis2lG8Yn7BdA/TS1oiQ8bjC0t6ObVN305jX6vPEAeglkRq6ENMhzoIiKNPZd1i1pDCi47quKNDDqs/C//q4fGwaf9cLktFJUo7k+OKWk6QVNnA64RIu/G3Z5ULpSYV5/QCY5ZCVAK4mp/kccAD1JeFmoeL9aWa9FSfYfcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HiKjX9b4qTdw3LK0Vrp5VK/gMgqjsTVPze0p47BFYNo=;
- b=uJ+Nwzj25OWA8HZ653TIwP1z+/j1ApzcMv2kcIFG9PT4+GfQjhAimZHsZVhhXbcC5dLjROdxsyB22SIgnKOwrDjyi3rBCkIVLk+BUSIb69wHWPgNaEJ/xjXEU0G+FJLujIbT9twgJ2MYX09CKbENxkzERO6vhadr801ak4PScn56vVaLDnrcvy/26DTTPDlpQU4GNUlC2QVC31vKFSP1MI9fTxzwqs42llrP1IjtGO/Na/zSe4AxLhbgMOecszKzGruZCKApztTx8bMOjHv+SioRSha23TT7krMwupgKw4fg+g6HqmEdD0UOX17ZuqfsjtTsNjI8AQ0DLKU8h8+V0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HiKjX9b4qTdw3LK0Vrp5VK/gMgqjsTVPze0p47BFYNo=;
- b=dstguewPE/Q7m1vwMS9UTIMlTHkH5N5MKq0Aa6xhPT+/aHpk1Q93ogGRoQg6W8W6wft2FTY4un3dgTkiBfvCxW50IPCMgirwmumBj9Tk9INnY1cryYQMLcU8eRqvVzzKCshf2BphbzEPBB4354reEW7rd5chVwQOBfA2Hligu+23QcnWFyLIwWdwwpJxeJVlBLvQBVWT0OD3RUkqwsL3h5RzHk3mkbms0lqTOFnoaiZnB/Yq8frcdl6NPI7ntHzF4cz1KeOc0fgSoQqudiXRY0SwqYsVnLlxFLMzJwZQ8/G1JwHdyjGnLW+fPAQJY+Pj5tS/grJAKskjmglLgNZDuQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
- by DU4PR04MB12129.eurprd04.prod.outlook.com (2603:10a6:10:643::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.24; Sun, 8 Mar
- 2026 20:56:28 +0000
-Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
- ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9678.023; Sun, 8 Mar 2026
- 20:56:27 +0000
-Date: Sun, 8 Mar 2026 22:56:23 +0200
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: Joe Perches <joe@perches.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com
-Subject: Re: [PATCH v2 phy-next 24/24] MAINTAINERS: add regexes for linux-phy
-Message-ID: <20260308205623.5trrqdmdrzj744hi@skbuf>
-References: <20260308114009.2546587-1-vladimir.oltean@nxp.com>
- <20260308114009.2546587-25-vladimir.oltean@nxp.com>
- <ca170cbaf2f8bcbc89bbda68914d8e0d7640f0e7.camel@perches.com>
- <20260308191017.kcyi7ka5pktq5jl4@skbuf>
- <8c4c5d0c5d014d5cc19eb10906ca1bd83ffb3ce5.camel@perches.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8c4c5d0c5d014d5cc19eb10906ca1bd83ffb3ce5.camel@perches.com>
-X-ClientProxiedBy: WA0P291CA0001.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1::27) To AM9PR04MB8585.eurprd04.prod.outlook.com
- (2603:10a6:20b:438::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B12A2475D0
+	for <linux-media@vger.kernel.org>; Sun,  8 Mar 2026 21:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773006018; cv=none; b=mJ0XeVM344MiQ1UTXXRqzGtWHqE1cmGRt0NwWP4svLcWbWsA3FoYVk+lI6H8eUt835aSIUTiGNMK8Gbj1Lji+osJQVG1ki4E3CkpZiU8jnjCqWCrOXQeUIwe34rhlnfsPFI3NK2NIQkrj7GotfKbVNPY71LC9ScIYS1wt4gJPM0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773006018; c=relaxed/simple;
+	bh=l/5v+Crp++VTBrLnHYqmqlg39N1g9UgV39jx8JRu1pY=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tcwoXOegi4QklN21ipsmrk2sP0mzT5wCKSuj2O0G5CeWEkixJoOFUDOFBQAZ9Dnjgfq5i+wZovvO2oceRD+1r2Yt2fObhNdiMF6lJNUkDzTd93JAnlqSF0FoAik/KeRZYrqDDkPuyGCv9nszpSfL5pEGAjSKkk9GCevsUK5UL8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=xfzALRvQ; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8cd73c4a827so211791285a.3
+        for <linux-media@vger.kernel.org>; Sun, 08 Mar 2026 14:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1773006015; x=1773610815; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=l/5v+Crp++VTBrLnHYqmqlg39N1g9UgV39jx8JRu1pY=;
+        b=xfzALRvQRN3r7qC16rE/zFYp2KdsotG8ArlayGolHOKcoLZ+Cph0Fr9QH8BQZM71mu
+         nDq1TRJfDnV0r7HHzboMYcieS4PTwpJ6fWIs5Hr3tITTgThzrbiVIu7pwPPS8gjfc0rB
+         5CJNQR9qRisqm01W+0/vNmEF3Ixmm1WS+xcxHyjXdomk0jXhKeMO4yIOEntepHIrfvba
+         54uL/y8A3ydVfWVp+X2dfKYTrq7gbgI+BBlZwvo4k7ItmtyEjmzFxt+rfzU0RNg29nlo
+         LKuJjDkkgdViHeH2rySQqwKwSRc3fCVRPpPd80tqkLxsuuaAI2vG1XGsorQDpFh+exs3
+         v3/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773006015; x=1773610815;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l/5v+Crp++VTBrLnHYqmqlg39N1g9UgV39jx8JRu1pY=;
+        b=YG8PlJLt2xMDrJDSVb4Ro3PQ1zzQNyKmx+MgJAOiOQm9INHKsGzpQp9sBvCFpkKHkL
+         w3klZKzfX1bKa+odKlTVP5WrIjW3YHAerNwbt03bkqYzt+U1pNLujRmQiXFjaM/D8DI0
+         8bf0f/e1x84I70NVJM0ImE/KDmKAFBQp7+9tSNtMi++Sk7E+sOeBenHVBbzd8AABzkPD
+         aUZQiIklBR6zjQfRdYzWJ/n5qjc3xsvFy2n9DObPGcjfhCbVLJGoovv9oywE9tjGc/TD
+         chDMjatl1Ybl3ZjU5IVCo9BGQbOJwymzLKW9RwSQUb/z5FhS49ERTdLYTTbQYo5fKhZk
+         prSA==
+X-Forwarded-Encrypted: i=1; AJvYcCXpsslmqWVcgV1nXUiOSpDqUWW9lo0lBtGreGQ7cN3APMuaTGuajmGYFLh8Me6IWDOKrkW7zMFYZgoYOg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwavQ+RvjSFymy/pT+nhRuwAtvuS5BAzdXAQccdtTU54AH/YLv/
+	o20Myyhf498Xb2/P/CrMbFc+QNWSU+j55xfkfDw5H3PlZfAPZsQuX9LapFu76hJAheg=
+X-Gm-Gg: ATEYQzwj0exP3bbfq7hUN+FCcDgBdWCe/EUSHtGi7XQXzamX7ECEPYlFQeJTKEjrdqS
+	BQGFOQeQO95nhtXX+pNDp20uO3WSnqBtSzez6yELyufmnuFstHGc5QunxlFyIuXLRX2pJuSG88K
+	43aCMX2yArScyTe+rJftd8FM/GEAZk0FRhF8zWquj8YbnMNDbVfqyaPG5NcU3RLEuyfceb1Egjh
+	jbRnTyXRkrCMkvL7k2Fu8V8KVqBmvhVio1IGqd5cy7zKI7jwcmNL420XJ2NBGinZOXZ6j3YavBw
+	3ul6H+7U+TWqXjSwmPJxevAwCkNMaLYswhyXFVWTIFznJrQBa6+olmf3xPvwpYQCz1gsvTjch4f
+	eTHQXheluuU4L+/kN83CUtnMmqGnUMuXNshuTVXmLtZe8mfkt1U0tHKXikQBsLITaCGhaFUIywJ
+	bWi/MtnHPzOe6Chu7WFmkBS+pqfLSD
+X-Received: by 2002:a05:620a:1a9a:b0:89e:99b3:2eaa with SMTP id af79cd13be357-8cd6d40d37fmr1134703485a.8.1773006014866;
+        Sun, 08 Mar 2026 14:40:14 -0700 (PDT)
+Received: from [10.120.58.110] ([192.252.136.7])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cd8cad692csm21257585a.19.2026.03.08.14.40.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Mar 2026 14:40:13 -0700 (PDT)
+Message-ID: <ee0fd1ecc6c940811cae743f087e96d348909c9a.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 0/3] media: rockchip: rkvdec: add support for the
+ VDPU346 variant
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Christian Hewitt <christianshewitt@gmail.com>, Detlev Casanova	
+ <detlev.casanova@collabora.com>, Olivier =?ISO-8859-1?Q?Cr=EAte?=	
+ <olivier.crete@collabora.com>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>,  Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner	
+ <heiko@sntech.de>, Diederik de Haas <diederik@cknow-tech.com>, Dmitry
+ Osipenko	 <dmitry.osipenko@collabora.com>, Thomas Gleixner
+ <tglx@linutronix.de>,  Dragan Simic <dsimic@manjaro.org>, Chukun Pan
+ <amadeus@jmu.edu.cn>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Sun, 08 Mar 2026 17:40:11 -0400
+In-Reply-To: <20251226113140.573759-1-christianshewitt@gmail.com>
+References: <20251226113140.573759-1-christianshewitt@gmail.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-8MH3FGNDEj7hU0SQaMwz"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|DU4PR04MB12129:EE_
-X-MS-Office365-Filtering-Correlation-Id: 317a3d24-7599-4695-9d39-08de7d552abd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|10070799003|366016|1800799024|19092799006;
-X-Microsoft-Antispam-Message-Info:
-	xrXObWncWD0pm8w97wNTtsEbOQoInE71snSZ5upiSu4AXezV0Wyes/620mdvd/owynHyLgob7KqFoIWP7gwuSiEQXw93uHTK+7nLOscE0MIbPHfSM4R37Cc4/fXOpmJvKxbcfRvDVEAKfOKK+PqfyIzc9ddphye22sbu4DrY0Ql1f9o3faEl3TAN28+WXsoqejjUHX6St5CavIayu56Ot3ImeFMvo9E1cHaSGHChOj3nTdt6mQVvJX6YdYQ8RjXVFwWr7D/zBTuTrF9vhEqK24Ts2mvHSipWEgMgD37k9LhRJlyTFBJ4fAEW9XAf79ZtXeVMVH9FZccKoq8xYqMb9T0dY1bIbxhg5PuYtqFCu8vxtq9cHk4j3TxjxLn/Ho5yVv9WAuxxGOYXxHDRu9t9QebCviMF6m4LauHBVfqnafdxU3inj6qK6eDbBww17q3IG8lk9hegESc7Fh7ZsR3kRgeOisbF5Z2aIwUpIXTvzJ9S9YzmFS5qm/nzHJgibONH50S8uzQ9tv8kMw8xpwk8N4Hx1j7oi9cTvMduKoLaTBaMqmW+rAM7UVoqHbsf+6QsvqH776XBTDKVaHoyRz02bxpLTPXHlbx42Mh3pU47EjL8f65Aclgx3knDB4qs1n0Bl/6jCYPlxbmGOJRLJOeSxgaXat3cReZKAf/3S1M4MZ/30yDa6TOJVnnlMvr+2/LzCagnhxRUkbbYDwVgzR9bYGYd6GU9kmLG0EuBwVwMmj0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(366016)(1800799024)(19092799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?/TZZFdSjQSRqrzN+PWIULUYPdD7LwNgG/xURVb9lxkVOaPEZI3CGMmPVWa6J?=
- =?us-ascii?Q?e3IBkUCANygTUHSUrysJ/241Fm1t14JwyRCg52VLUKOkFWqjOm/TCUX6cXrh?=
- =?us-ascii?Q?xG/65On7sxcIneZs/5JCC/syoWkpbGCfN70LUOJVHIVnGeFb+wttTkAfTJfX?=
- =?us-ascii?Q?iuAnm5jlUq8YNH1I5b/01Ar7UA33ewpHLiDsOo1fkUucR04belU35XfBILrB?=
- =?us-ascii?Q?ti7NLvniuN4hksKzCOR/2LGGtgoZY/m2T+fkjKsjycRUfzE+REDETHoYf3Xo?=
- =?us-ascii?Q?iXqWuknF+n+NA2GgKb+N5qlv1bZp9/TQRCx7ul9bwsICxqG2cnGuXEyVximo?=
- =?us-ascii?Q?CcIsRKeBPf8G4/XCxHZhLnlZJZfoY2tZet6CavznIDDU5Ylg/5HHmf9l0JBa?=
- =?us-ascii?Q?OAnRFNjVQZlpF2TfYM+rlk2nsh8N0oQX66CFFsM7U3VwiFw56EfkbcMbYqnO?=
- =?us-ascii?Q?C9p9Nua/rA9Mk2TaqsqsLD4ATJbKAUMamedJo4NRdC5BqiTje0YNIkTuNpyX?=
- =?us-ascii?Q?wPDLfcouyJsGJalReQnkukO1pYM7melPq+kifYF+r3SNU1a29ioIzidOAsTF?=
- =?us-ascii?Q?5FgJPpLH5QCPF+YVNJH7GjJ8ZnioY2OIUcGKWeJQkE9OZpcBnARCmXcVIjpv?=
- =?us-ascii?Q?HGtG4ZBoFzhnhg60y5dJ9Gxo+30RA25Y9d1WTiak2C2rUL8GL7KZLgdnr3uI?=
- =?us-ascii?Q?O2txQShF6j6B4kSSm1WixmF5lzTV1dC+Wg1DCAuevgd8rH4KRJuyg4WRS2Qr?=
- =?us-ascii?Q?aIGzqOrWk55bOGqJ5roBPV0cgWSL8Fw6YFu5DRMwmgXFv9rZtWNzrGewXhS2?=
- =?us-ascii?Q?1z7HEJrs/niWvt5k9dyjOoaQfc/L7AIBbkXkeEyXpGR41f8D+dVVBuMY16Ue?=
- =?us-ascii?Q?aSYRFx7HdZqfkX9R3WMk0L51qNf4CZVa9U3DtuljR5TEOZ92p/udPiJConUh?=
- =?us-ascii?Q?DFSTkQMJ8MI1/COs25Ey9uAzsIYO3QVM0/iXHcFHpI8L8RMfJQL03UTYdXFI?=
- =?us-ascii?Q?kimG4F4mqzgnnyKAmvgOEWDd7FbZJVP2EDgB1lstewjd0WkXmBIWUx5+fqA6?=
- =?us-ascii?Q?rNbhbwZUdHY3Quh0fKFPNKXR1asJQ+1f+ialo2BUBGtzTcn/whYjG3LiL+7S?=
- =?us-ascii?Q?zezTECVzZrK7Xxmte5JbiwgRdHYYkeAgqIbO2lmCu3oFpC6LqWXcT/rmuN5Z?=
- =?us-ascii?Q?isUWw9IfejnQxp/563n9Mtzfcd36eRsNZoW03KRwVpKq+VYCNUFkhvrTTVz4?=
- =?us-ascii?Q?b1b4eADkEDEP2z0Yuq8eaZ0T7b4qYV5OPJNs4XIOMLOGc2ZEzOyDuHEhPFM2?=
- =?us-ascii?Q?z+O6gkmSFR6KUW5QOcqqSWEPhDXXg5GnnprnH3d9T9k+NuZFXlAJNKL0ru13?=
- =?us-ascii?Q?9c1V9mqT5CCFjhTPJy+dx09BcJQBSYG+rDtBT9t23o52aOYZsA4G0NtDx4/+?=
- =?us-ascii?Q?N4RmGOBMIGwZzkyrrY3RN9z+nZdBFyR1Ag4ctJsXTSS2foctorpv1LCEq2EY?=
- =?us-ascii?Q?7ME11dUrXLjlTYIAlI/k04d06RgwY0PdEb+JKX9I7yVVKLl7yI38Xuxbrcpj?=
- =?us-ascii?Q?F9eZ8DMXWfCdosBLa03HmZ1HTwNRtFPVmompdYVbTCZ2S+C2iMfdPufVLGzL?=
- =?us-ascii?Q?hsisAJr04wrC1DExCnF+F2cVz0AjVUTHMx/HdCn+q1BrZtx5Kbdj2NtgnYwh?=
- =?us-ascii?Q?OceY5YnywSuXXDn8B9STHU4wtimjp8oi1AfAU3LivadaSQJw60VWDR/z/JEe?=
- =?us-ascii?Q?jJ+qsZ1a9TT7Zo4o4A9v6svqzAiW63e0sMVQru2ulaij2kpqj0Ai4ltismu1?=
-X-MS-Exchange-AntiSpam-MessageData-1: GwLrVc9O53HfrJRFbQ1wVrU3GFHBz8Tx1Fc=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 317a3d24-7599-4695-9d39-08de7d552abd
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2026 20:56:27.7775
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mkRNQKH24zPNX4TzSn8Cl86XbIIIqGg5fBVErL113YLX2Q9D/Y6IZq7Vyuq43RjMx9K12jtHOgmGocv3cfPiew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB12129
-X-Rspamd-Queue-Id: CB86D2323BD
+X-Rspamd-Queue-Id: 5643323256A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54902-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	TAGGED_FROM(0.00)[bounces-54903-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_TO(0.00)[gmail.com,collabora.com,vanguardiasur.com.ar,kernel.org,sntech.de,cknow-tech.com,linutronix.de,manjaro.org,jmu.edu.cn,vger.kernel.org,lists.infradead.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	DKIM_TRACE(0.00)[ndufresne-ca.20230601.gappssmtp.com:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	NEURAL_HAM(-0.00)[-0.949];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.976];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne.ca:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ffmpeg.org:url,ndufresne-ca.20230601.gappssmtp.com:dkim]
 X-Rspamd-Action: no action
 
-On Sun, Mar 08, 2026 at 12:25:32PM -0700, Joe Perches wrote:
-> On Sun, 2026-03-08 at 21:10 +0200, Vladimir Oltean wrote:
-> > On Sun, Mar 08, 2026 at 11:40:44AM -0700, Joe Perches wrote:
-> > > Perhaps if matching only the include uses:
-> > > (/ is escaped because get_maintainer is stupid)
-> > > something like:
-> > > 
-> > > K:	include\s*\<linux\/phy\/phy(?:-common-props|-provider)?\.h\>
-> 
-> > Why is get_maintainer stupid?
-> 
-> The get_maintainer code used to match keywords is
-> 
-> 	    foreach my $line (keys %keyword_hash) {
-> 		if ($text =~ m/$keyword_hash{$line}/x) {
-> 
-> so it seems the first / in the K: <foo> regex would terminate
-> the match.
-> 
-> It might have been better to use a different delimiter.
-> Maybe:
-> 
-> 		if ($text =~ m{$keyword_hash{$line}}/x
 
-So why does it match in my example?
+--=-8MH3FGNDEj7hU0SQaMwz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Christian,
+
+Le vendredi 26 d=C3=A9cembre 2025 =C3=A0 11:31 +0000, Christian Hewitt a =
+=C3=A9crit=C2=A0:
+> This series depends upon Detlev Casanova's current v7 series for VDPU381 =
+and
+> VDPU383 support [0]. It adds support for the VDPU346 IP block used for H2=
+64,
+> HEVC and (in active work) VP9 on the RK356X boards. VDPU346 appears to be=
+ a
+> close relation to VDPU381 used with RK3588, except with a single core, ou=
+tput
+> limited to 4K, and minor feature differences, e.g. HEVC level 5.1 on VDPU=
+346
+> vs 6.1 on VDPU381. To handle differences we declare a new compatible.
+>=20
+> The device-tree changes are derived from prior-art in Detlev's patches fo=
+r
+> RK3576 and RK3588, the vendor kernel [1], and some earlier patch attempts
+> from Piotr Oniszczuk and Diederik de Haas.
+>=20
+> The register differences between VDPU346 and VDPU381 appear to be minimal=
+ so
+> we currently and intentionally reuse the VDPU381 h264, hevc, and regs fil=
+es
+> to avoid duplicating code. There is some evidence of buffer size changes =
+in
+> testing which still need to be explored. If further register analysis nee=
+ds
+> separate files for VDPU346 the refactoring will be beyond my current n00b
+> coding skills and I will either need some coaching or would be happy to p=
+ass
+> the series over to a more experienced developer.
+>=20
+> NB: Testing with the v1 series showed lower mbps bitrate performance. Thi=
+s
+> appears to be resolved though it's unclear to me whether this results fro=
+m
+> kernel changes or the ongoing reworking of ffmpeg v4l2_request support [2=
+].
+> However with my current Linux 6.19-rc2 test branch [3] I'm now able to pl=
+ay
+> Jellyfish H264 and HEVC test media over 100mbps.
+
+A fluster score and explained error report is missing your this cover lette=
+r.=20
+This will probably highlight some of the instability issues reported in thi=
+s
+series. I'll mark the series are "Change Request", as you have few review
+comments and now this test.
+
+Overall, I'd like to see probably investigations of the problem before goin=
+g
+ahead.
+
+regards,
+Nicolas
+
+>=20
+> Changes since v1:
+> - Drop DO-NOT-MERGE patch as changes included in Detvlev v7 series
+> - Adapt to variant/capability changes in Detlev's v7 series
+> - Add bindings ack from Rob
+> - Add rkvdec ack from Nicolas
+> - Rebase against Linux 6.19-rc2
+>=20
+> [0] https://patchwork.kernel.org/project/linux-rockchip/list/?series=3D10=
+34794
+> [1]
+> https://github.com/rockchip-linux/kernel/blob/develop-6.6/arch/arm64/boot=
+/dts/rockchip/rk356x.dtsi#L1539
+> [2] https://code.ffmpeg.org/Kwiboo/FFmpeg/commits/branch/v4l2request-v3
+> [3] https://github.com/chewitt/linux/commits/rockchip-6.19.y
+>=20
+> Christian Hewitt (3):
+> =C2=A0 media: dt-bindings: rockchip: Add RK3568 Video Decoder bindings
+> =C2=A0 media: rkvdec: Add support for the VDPU346 variant
+> =C2=A0 arm64: dts: rockchip: Add the vdpu346 Video Decoders on RK356X
+>=20
+> =C2=A0.../bindings/media/rockchip,vdec.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A0arch/arm64/boot/dts/rockchip/rk356x-base.dtsi |=C2=A0 49 +++++++++
+> =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.c=C2=A0=C2=A0 | 103 +++++=
++++++++++++++
+> =C2=A03 files changed, 154 insertions(+)
+
+--=-8MH3FGNDEj7hU0SQaMwz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaa3suwAKCRDZQZRRKWBy
+9P8tAQD6X8K1OVv800JKuX4SsoOPaPlRfvbbnmOa6xHYfpuvYgEAuMC1QOrMqK1D
+hcJLVPMGRf61xg3w0Zlr9mqYZ8vjFAg=
+=8LZ4
+-----END PGP SIGNATURE-----
+
+--=-8MH3FGNDEj7hU0SQaMwz--
 
