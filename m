@@ -1,191 +1,114 @@
-Return-Path: <linux-media+bounces-54861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54862-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yB4BMd6SrGlsqwEAu9opvQ
-	(envelope-from <linux-media+bounces-54861-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 22:04:30 +0100
+	id IMdCA4MBrWlZxAEAu9opvQ
+	(envelope-from <linux-media+bounces-54862-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 05:56:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE2A22D9DE
-	for <lists+linux-media@lfdr.de>; Sat, 07 Mar 2026 22:04:29 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 709D522E864
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 05:56:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 696A3301DD9E
-	for <lists+linux-media@lfdr.de>; Sat,  7 Mar 2026 21:04:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6DDFF30379A7
+	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 04:56:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 400F437B413;
-	Sat,  7 Mar 2026 21:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53819314B63;
+	Sun,  8 Mar 2026 04:56:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtsuS63a"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="nDNz76tF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6127579DA
-	for <linux-media@vger.kernel.org>; Sat,  7 Mar 2026 21:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701CD2DECA0
+	for <linux-media@vger.kernel.org>; Sun,  8 Mar 2026 04:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772917454; cv=none; b=Z3cBbpTyrdZlVfFSwfGptbrjM4krDJHJaQJVcwVmf+PqywaBugmRhTu5uWMZBn3aK4D3VGSWwcMBlIzcv9OlqgBFbpUcYyhOpvqkQzRPGZz5xupsKvbESXZZnjlWrCL9p+GBQzshpN0gd9dyRxNUPL3b3N5813RXuMVlYw8p0H4=
+	t=1772945769; cv=none; b=amhL8b8h1y9inUPoRuYC5n+P6L7DisBwm0Y5Mz2VR1HxuIxuf7J4Nnf4Cez6/XSICVZWfeHqyRVA4FLh5+FftJOkOjR7/5UprkV9f/pK/1VDC4mnHLEEXlljHHQIzb5otudmQU1vHL72cOskBsyBqKTMAnHujPQlLWaKs0fxcIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772917454; c=relaxed/simple;
-	bh=9Exg2USVLa4xlv4w7Vw8HDXr3p6qjKZogGGviGgbgOI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jx4A8my0hJxvshoKEzufmMj6GINPHV9Fo2pzI+WFV7AgZCMxPtPjzIdr2c2HkvM++pV80ZxwnF3MQhf9JSyHi+gktnhiQjvxXXFik3km5EazUxRKk+PsNiyeXQrZvcdNqovfLt/k5shZtIhbq58kDQYj9F6zEoEEsZvrLaHIWOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AtsuS63a; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8299f1ca894so1072848b3a.2
-        for <linux-media@vger.kernel.org>; Sat, 07 Mar 2026 13:04:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772917452; x=1773522252; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SGXhq2UxUJDL3aAv90iI2xuTf9Opn9T2dvuqIOW5Q3g=;
-        b=AtsuS63aGNjiGEMVLx7voRmYFI/PLWixO+Fj0B4/BOXsbd0JA/yTWk40ER2fV5wxYd
-         O444hkjAycvJ4eZPjU9NpdB/q7cjohmmrZyEPro0D9jBGmjdF9kqaV/jhjRWh208V82J
-         VlpHZrjaqd/NwdDW8qBm25y8r1aioDvD9n8kTCSMCrgDabRyVgSaGtboHt/9Jq8QtFua
-         4X3gcRHvgwpXatZ6vUal50VOKJ68MiyxZOPpvrcC1ZVft2EWVed/byEgVHusBbGnVpxR
-         Mn0XQrUf/dVOINX3FFmux30kwWR2945lbjdJS1nFgzduh2MmOxT25hdRI29QOjEgQBu7
-         b53Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772917452; x=1773522252;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SGXhq2UxUJDL3aAv90iI2xuTf9Opn9T2dvuqIOW5Q3g=;
-        b=FFvYnsiv6wZgNLJC4YZDAzV87qU9kX21630MNcVMXDtRazHrNOUd8bSGMVYWeavq7n
-         IdGdLVgXqDzuU7v60UJT1sEf7aTcac6LliLxe7PCdrPe3UJ7c3dmK049+HWbkspexSzd
-         lGN20sJZRsLOm2TWXPq6MMAhguNnqdXEZpPuUshFyZ3RN9yUcNgyhoNbHxr4QWMI3BFn
-         vrNVqfet8o3DJ2ay4V/jFwuxatChETeBk0q4ik5PLfJDd072n5YmqsYuNX72mNBOhscE
-         Qwwh53suid73azemSdNvYjDDvPtAMUFK/pu7fEleR/+DRQLWIUmDynuDcO2VcdhxfkgQ
-         zD0A==
-X-Forwarded-Encrypted: i=1; AJvYcCXv1P4BcVHVl+xSr4klh9hCqMthqaYO48Iz5tlW8W4EL+FcrJmiSvaIhxF2EWh9c4kuiIHUUWMwSe9yXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywc4tfwSExxpGdtUi3kY9IKvZ3xnYRJpAidWwv8Wr20++IrDrp7
-	BWc1xWhD8wHZHXQpBnmvr/I8TclYyno+3ZxsTK7foMqxI3gb8VIetRSq
-X-Gm-Gg: ATEYQzyILgt3bi2Z9/q975y+el5toyy8Gb3N9qlZZ3xrSh3Aj2svy7jcJ6NrNasnmKV
-	m4K+CK4LbBYEosflcoWrzY2vlT5YYd+vXgM99v6+dKKQAK80LG1gN0OkYl/Zimv3DaXgukcAXO2
-	3VbOheViCkmsHxLsq8xeSaYloge/eP+yUFkDIbYd47hSokzeUpiCTwKK88A3bgg7J33ZgOgQSuf
-	u4KnG/3Z55cE36O3CrYs+zC3H9boNXkU9MvAwGoTruibzMR+T248sQgMbhf4yRWkxTVy/LulDuo
-	M8yaG5MN/2kEwwLn6fGTuO2CZiIPQqeuO5x26VMUgC25JwtYdDPYjVV68/R+dexRc6KkFD8lO/R
-	U4Dr/EfdBPQrgYRRrFYQlE5mpa/uJ/zpWR89aHMW5Fp8nwvlocXRTcffpFcvUFzZEEEmwdaAP+s
-	r7MVMFoQ7qoJ0t9tBjtcQ5Hz7EsNrINsAk8Qh2tC2dGhARqY5HmN9R+r1g+Gg=
-X-Received: by 2002:a05:6a21:9cc9:b0:341:5935:e212 with SMTP id adf61e73a8af0-39858fd5915mr6251896637.18.1772917451630;
-        Sat, 07 Mar 2026 13:04:11 -0800 (PST)
-Received: from hu-ckantibh-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e182d72sm4840124a12.25.2026.03.07.13.04.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 13:04:11 -0800 (PST)
-From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-X-Google-Original-From: Sanjay Chitroda <sanjayembedded@gmail.com>
-To: mirela.rabulea@nxp.com,
-	mchehab@kernel.org,
-	Frank.Li@nxp.com,
-	s.hauer@pengutronix.de
-Cc: kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: [PATCH] media: imx-jpeg: convert kzalloc() to devm_kzalloc()
-Date: Sun,  8 Mar 2026 02:34:04 +0530
-Message-Id: <20260307210404.1428894-1-sanjayembedded@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1772945769; c=relaxed/simple;
+	bh=NObbB3Y6tBf9KU6y9C3j6Huocw1YB2uVQ7daSqrG904=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Qf991aEvt85z68n01SdjBNuxr1WVXhcu2pmK0mrLd7senfnIgRw29006YePkMzmkrWi4gFJl1gy9D1kq5b6xtUR8yJ0d4Ie6NZqn3JcNvv80pLuj5G7MwZWqv4VSNAJ4zYXke1Whj86knCco0kDDz6npMxL1O599267MrIttqJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=nDNz76tF; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1772945765; x=1773204965;
+	bh=TqRnUldtrdT4+71j90HrC5V1jmxVeZaQ0UFljkkxru8=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=nDNz76tF3h7i0VA9LHtyUUfimOZh4G7GLrqVV+jFnq7qH7Eo5TVvTbvoP4G12wAve
+	 gs4EsJm0Qne3klATMTh4SGT1ss9V/fIdLnDWf9Qttv0+dLXb823dGD/O9/k1OufEuR
+	 3wl6lpsq5dVDhE45OSlWlAGGX009fiFC+8LSgGDqWfNUmUaUyEUjLIKtXtqLqvZHpc
+	 /QXmgryjfDqcZqwtnNWdiwlhpa3/n0StbxGW24M0Zx4BeZfpwXIYks18R4VL8Tje8E
+	 bWK5sD1fJFR40GwiJyf3YAtFUfLyUElDZFsx0Ue5fdEaxNsLbTZP0PFeZiPGpFeTq5
+	 nl0j183Y5YPAg==
+Date: Sun, 08 Mar 2026 04:55:58 +0000
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+From: Alexander Koskovich <AKoskovich@pm.me>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Alexander Koskovich <akoskovich@pm.me>
+Subject: [PATCH 0/2] ov8856: Add V4L2 device tree properties support
+Message-ID: <20260307-ov8856-v4l2-props-v1-0-7677b4c658e4@pm.me>
+Feedback-ID: 37836894:user:proton
+X-Pm-Message-ID: 6c0bedffffaee727e847def8804ed2b3e657ef79
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4EE2A22D9DE
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 709D522E864
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[pm.me,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[pm.me:s=protonmail3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[pengutronix.de,gmail.com,vger.kernel.org,lists.infradead.org,linuxfoundation.org];
-	FROM_NEQ_ENVFROM(0.00)[sanjayembeddedse@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_NONE(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54861-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54862-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[pm.me:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.971];
 	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[AKoskovich@pm.me,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.981];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pm.me:dkim,pm.me:email,pm.me:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-
-The driver allcoates memory using kzalloc() and frees it in the relase
-path. since the allocated memory is tied to the lifetime of the device,
-devm_kzalloc() can be used instead.
-
-Using device-managed allocation simplifies the error handling paths and
-remove the need for manual cleanup.
-
-No functional change intended.
-
-Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+Signed-off-by: Alexander Koskovich <akoskovich@pm.me>
 ---
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+Alexander Koskovich (2):
+      media: dt-bindings: ovti,ov8856: Allow props from video-interface-dev=
+ices
+      media: i2c: ov8856: parse and register V4L2 device tree properties
 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index b558700d1d96..bd4b5f08a85c 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -2200,14 +2200,12 @@ static int mxc_jpeg_open(struct file *file)
- 	struct mxc_jpeg_ctx *ctx;
- 	int ret = 0;
- 
--	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
- 	if (!ctx)
- 		return -ENOMEM;
- 
--	if (mutex_lock_interruptible(&mxc_jpeg->lock)) {
--		ret = -ERESTARTSYS;
--		goto free;
--	}
-+	if (mutex_lock_interruptible(&mxc_jpeg->lock))
-+		return -ERESTARTSYS;
- 
- 	v4l2_fh_init(&ctx->fh, mxc_vfd);
- 	v4l2_fh_add(&ctx->fh, file);
-@@ -2246,8 +2244,6 @@ static int mxc_jpeg_open(struct file *file)
- 	v4l2_fh_del(&ctx->fh, file);
- 	v4l2_fh_exit(&ctx->fh);
- 	mutex_unlock(&mxc_jpeg->lock);
--free:
--	kfree(ctx);
- 	return ret;
- }
- 
-@@ -2754,7 +2750,6 @@ static int mxc_jpeg_release(struct file *file)
- 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
- 	v4l2_fh_del(&ctx->fh, file);
- 	v4l2_fh_exit(&ctx->fh);
--	kfree(ctx);
- 	mutex_unlock(&mxc_jpeg->lock);
- 
- 	return 0;
--- 
-2.34.1
+ .../devicetree/bindings/media/i2c/ovti,ov8856.yaml     |  5 ++++-
+ drivers/media/i2c/ov8856.c                             | 18 ++++++++++++++=
++++-
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+---
+base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
+change-id: 20260307-ov8856-v4l2-props-def87d7854b1
+
+Best regards,
+--=20
+Alexander Koskovich <akoskovich@pm.me>
+
 
 
