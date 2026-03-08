@@ -1,152 +1,185 @@
-Return-Path: <linux-media+bounces-54867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54868-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eH9gIFNNrWn/1AEAu9opvQ
-	(envelope-from <linux-media+bounces-54867-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 11:20:03 +0100
+	id xh0+GW9RrWmX1QEAu9opvQ
+	(envelope-from <linux-media+bounces-54868-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 11:37:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7366222F4E5
-	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 11:20:02 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD97422F55C
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 11:37:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 556603009F29
-	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 10:19:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 62AD53010D81
+	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 10:37:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EB603644C3;
-	Sun,  8 Mar 2026 10:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54E2C35A39E;
+	Sun,  8 Mar 2026 10:37:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2DwgKES"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iy9hxe6B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F891D5147;
-	Sun,  8 Mar 2026 10:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DB036CE02
+	for <linux-media@vger.kernel.org>; Sun,  8 Mar 2026 10:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772965192; cv=none; b=Bb9PEFSNeWc4ozn/4fVSO1mp+Z+hQ7v+cZEq2anLXOlJU4vizq1AUfJmxuIRr3JTlQ6CTi9/R2URzyRthEAb08mhJRFIjv+DIFEXq0xsVsQFS5UFX9lN7t+kQVnd31DX+J1xKa0GV1QwFBshr+tossLIklagpsnd9FkTjcdHBKU=
+	t=1772966248; cv=none; b=K7fskRY8KcTvKG1HM9R1bu+V14WeeryoOJtELxdVrGJiKv3nVZoCTnpaQjRHw7Uaj75m6BWvFXd5LbWoeb23WpP9SjcWjYI0RiD8cCLjA+5b6rvZKuirocDN1H680A6JaMzqtA8XvCoVJuFB40pNF5Kotn7/1Dr1FX7o8uGQois=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772965192; c=relaxed/simple;
-	bh=2rFD7sDu1Wtasy0MSqFkcujG/V06Q4133pzep9gFi5Q=;
+	s=arc-20240116; t=1772966248; c=relaxed/simple;
+	bh=u6+x+f8fGwolCnOMxi6+xqCNa/Jf5dz8ORfipZW6m+A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F1TvCuuLmsfooaVwNqlwz+l+HOTQgSdKMQz538ctYdHJrTQ7uSe+6FnPpaHh3zkkwluKCzXF2sW6bU0rnSJjDVdW79bvBNgXIl7S/d2RxWwHp0xBjwXbql1xTFhwD1AuKNg8bfDvoN/BPBESw72I9sCXl9aWD+PnBv01/otlwYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F2DwgKES; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B329DC116C6;
-	Sun,  8 Mar 2026 10:19:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772965192;
-	bh=2rFD7sDu1Wtasy0MSqFkcujG/V06Q4133pzep9gFi5Q=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=hWfJN0yoErVIAkFvB6EBOcYBjOCLT/Esu3X6IUUtlo79F/v5vbU9G2caJltBslM2sJAICshaew5Ib+XDytd607XzYD9PMufOAefQnXSwrXRqEfd4tG8YyS1GpBflZICK+s3J9aHaHYf1PSrZTStzwq7GNMcNqohvJQRXtVrRabM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iy9hxe6B; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (ip-185-104-138-189.ptr.icomera.net [185.104.138.189])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B18E878C;
+	Sun,  8 Mar 2026 11:36:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1772966171;
+	bh=u6+x+f8fGwolCnOMxi6+xqCNa/Jf5dz8ORfipZW6m+A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F2DwgKESqYEHeq6xbQ9Y/4KnjfpT9egAUca/+6XgnSqcnIp+Laiy1Uwm+N8V9voBd
-	 fxcBXtB0ojzfBqRoHjyYn+btN53hl1eP2g+Jl3kEAF3iW/kTPJAKlqcJdjkY40fWj3
-	 BOVCrPGvleJYYxoXLHmOtzNbV7f0JY0Da4oaPUzLgTxfaDgwKlmmaF61Wrr9kkBIv/
-	 +9eat2/GKxxXdtyHMLFC0ycpvww03vxshsMyR+WyUIwUJgGYDRlp3Fc/rw0s5sAkSm
-	 +iRAx6RP4744nYEW727O46BGo4mqK33oWMhfaNBeKUFxhH4f8WJbCe/hP0cnU9rYOF
-	 QhjHbo17LHl1w==
-Date: Sun, 8 Mar 2026 12:19:48 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	iommu@lists.linux.dev, linux-media@vger.kernel.org,
-	sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
-	christian.koenig@amd.com, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, jgg@ziepe.ca, sean.anderson@linux.dev,
-	ptesarik@suse.com, catalin.marinas@arm.com, aneesh.kumar@kernel.org,
-	suzuki.poulose@arm.com, steven.price@arm.com,
-	thomas.lendacky@amd.com, john.allen@amd.com, ashish.kalra@amd.com,
-	suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
-Subject: Re: [PATCH net-next v3 1/2] dma-mapping: introduce
- DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
-Message-ID: <20260308101948.GO12611@unreal>
-References: <20260305123641.164164-1-jiri@resnulli.us>
- <20260305123641.164164-2-jiri@resnulli.us>
+	b=iy9hxe6BWYZgSUOQWF2po0sp0K2BnaIl0hN1moAUH360vR/RR2cdxknp0JlF7Phaa
+	 WQi/IdDs5UE81eDAZXt2FeH8H2XGTfuDPr7xqvfEDp2BgTTyx+WRa6o0O4+H07nnha
+	 rh9qL29BvpsSk9m5EBHCGbMGClC3+2ZdHRQmpSRs=
+Date: Sun, 8 Mar 2026 11:37:14 +0100
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: David Dull <monderasdor@gmail.com>
+Cc: jai.luthra@ideasonboard.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 06/10] media: Replace void * with video_device_state *
+ in all driver ioctl implementations
+Message-ID: <20260308103714.GA430878@killaraus.ideasonboard.com>
+References: <20250919-vdev-state-v2-6-b2c42426965c@ideasonboard.com>
+ <20260307194952.1866-1-monderasdor@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260305123641.164164-2-jiri@resnulli.us>
-X-Rspamd-Queue-Id: 7366222F4E5
+In-Reply-To: <20260307194952.1866-1-monderasdor@gmail.com>
+X-Rspamd-Queue-Id: AD97422F55C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54867-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_FROM(0.00)[bounces-54868-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_THREE(0.00)[3];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.918];
+	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.957];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email]
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On Thu, Mar 05, 2026 at 01:36:40PM +0100, Jiri Pirko wrote:
-> From: Jiri Pirko <jiri@nvidia.com>
+On Sat, Mar 07, 2026 at 09:49:52PM +0200, David Dull wrote:
+> Hi Jai,
 > 
-> Current CC designs don't place a vIOMMU in front of untrusted devices.
-> Instead, the DMA API forces all untrusted device DMA through swiotlb
-> bounce buffers (is_swiotlb_force_bounce()) which copies data into
-> decrypted memory on behalf of the device.
-> 
-> When a caller has already arranged for the memory to be decrypted
-> via set_memory_decrypted(), the DMA API needs to know so it can map
-> directly using the unencrypted physical address rather than bounce
-> buffering. Following the pattern of DMA_ATTR_MMIO, add
-> DMA_ATTR_CC_DECRYPTED for this purpose. Like the MMIO case, only the
-> caller knows what kind of memory it has and must inform the DMA API
-> for it to work correctly.
-> 
-> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
-> ---
-> v1->v2:
-> - rebased on top of recent dma-mapping-fixes
-> ---
->  include/linux/dma-mapping.h |  6 ++++++
->  include/trace/events/dma.h  |  3 ++-
->  kernel/dma/direct.h         | 14 +++++++++++---
->  3 files changed, 19 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index 29973baa0581..ae3d85e494ec 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -85,6 +85,12 @@
->   * a cacheline must have this attribute for this to be considered safe.
->   */
->  #define DMA_ATTR_CPU_CACHE_CLEAN	(1UL << 11)
-> +/*
-> + * DMA_ATTR_CC_DECRYPTED: Indicates memory that has been explicitly decrypted
-> + * (shared) for confidential computing guests. The caller must have
-> + * called set_memory_decrypted(). A struct page is required.
-> + */
-> +#define DMA_ATTR_CC_DECRYPTED	(1UL << 12)
+> This patch is too large to be reasonably reviewable in its current form.
 
-While adding the new attribute is fine, I would expect additional checks in
-dma_map_phys() to ensure the attribute cannot be misused. For example,
-WARN_ON(attrs & (DMA_ATTR_CC_DECRYPTED | DMA_ATTR_MMIO)), along with a check
-that we are taking the direct path only.
+This review is too generated by LLMs to be actionable in its current
+form.
 
-Thanks
+> The stated change is conceptually simple: replace the opaque `void *priv`
+> argument with `struct video_device_state *state` in V4L2 ioctl
+> implementations. However, this single patch touches hundreds of files
+> across drivers, helpers, framework code, staging code, and public
+> headers. That makes it extremely difficult to validate correctness,
+> spot exceptions, and reason about regressions from mailing list review
+> alone.
+> 
+> A few issues stand out:
+> 
+> 1. Patch granularity
+> 
+>    This should not be one monolithic patch. At minimum it should be
+>    split into:
+> 
+>    - core/framework changes
+>    - helper conversions
+>    - driver conversions by subsystem or directory class
+>    - staging/test-driver conversions separately
+> 
+>    Right now the size alone makes meaningful review and bisection much
+>    worse than it needs to be.
+> 
+> 2. Mechanical conversion claim vs. manual exceptions
+> 
+>    The changelog says most changes were automated with Coccinelle,
+>    while function signature updates in headers and edge cases were
+>    handled manually. That is exactly why this needs splitting.
+>    Mechanical treewide conversions are one thing; manual edge-case
+>    handling is where subtle semantic mistakes tend to hide.
+> 
+> 3. API conversion proof is missing
+> 
+>    If this is primarily a scripted transformation, the review should
+>    center on the semantic patch and on proving there are no remaining
+>    mismatches.
+> 
+>    Please include:
+> 
+>    - the Coccinelle script as a separate patch or in the cover letter
+>    - a summary of what could not be converted automatically
+>    - a treewide grep result showing there are no remaining ioctl
+>      prototypes using `void *priv` where
+>      `struct video_device_state *state` is now required
+> 
+> 4. Conversion consistency
+> 
+>    Several call sites now rename the parameter to `state` but continue
+>    to use it only as a positional placeholder, which is fine
+>    mechanically, but the patch should avoid mixing semantic conversion
+>    with opportunistic cleanup. Formatting-only churn and spacing
+>    adjustments should be kept to the minimum necessary for the
+>    signature change.
+> 
+> 5. Risk concentration
+> 
+>    This patch touches both framework headers and many driver
+>    implementations in the same changeset. That amplifies the blast
+>    radius of any mistake and makes it harder to tell whether a
+>    reported regression belongs to the API change itself or to one of
+>    the driver-side edits.
+> 
+> 6. Reviewability for maintainers
+> 
+>    The CC list spans a large number of maintainers and mailing lists.
+>    That is appropriate for notification, but not a substitute for
+>    reviewable patch structure. Individual maintainers should not have
+>    to sift through a large treewide refactor to find the parts that
+>    affect their drivers.
+> 
+> Please respin this as a structured series with the mechanical
+> transformation isolated from the framework changes and with a clear
+> accounting of manual fixups and exceptions.
+> 
+> As it stands, I do not think this patch is reviewable in one piece.
+> 
+> Acked By : David Dull
+
+-- 
+Regards,
+
+Laurent Pinchart
 
