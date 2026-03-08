@@ -1,83 +1,81 @@
-Return-Path: <linux-media+bounces-54894-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54895-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Pd+DmplrWlp2QEAu9opvQ
-	(envelope-from <linux-media+bounces-54894-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 13:02:50 +0100
+	id aAgfNHNtrWme2wEAu9opvQ
+	(envelope-from <linux-media+bounces-54895-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 13:37:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA13230187
-	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 13:02:49 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8B223034B
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 13:37:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D4587302BDE2
-	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 12:02:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C1F603011060
+	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 12:37:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D2B36E482;
-	Sun,  8 Mar 2026 12:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54D9836E470;
+	Sun,  8 Mar 2026 12:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="FFzDtZuY"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="c5mZYHvv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F45236C0C4;
-	Sun,  8 Mar 2026 12:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772971325; cv=none; b=dVpGj7ZKq3p/q3j8J1hKywYehkfVy7WuWEokYHNkBGeVuSfuhGEbTRLrgRZ7WvMCusJrf5ZjmrLt9tDX1Ls+ycLExN1v7TfdHTB+kW3QiI9p6ySbA/jBF5Dxx9IcOUVg52ytESkSqV9JcmHi1RockLh/ApA4A3C/ZF/djvGfjz4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772971325; c=relaxed/simple;
-	bh=Bq7Wkz/Cpwn1dgha1SO/prRohbZTrXxPYbLnSfgU+/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bD7dDMpVFszWvyrcajM6dQaSWRydPCJ6VlgIzppqiaWuHkfxgCLas9vmAQMdXiOYg0o2fiR6GNTX/Ydb+dQMBwi/p3Maq/2xO3BkBXDEzeqWSqQgx7lWV+jWwkP4233ntQrqHBov6HzVUgkwoF+02u4BsCY21Y9rcSDjOZe0Fkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=FFzDtZuY; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=g77KuUu7tZV2EWc/eRT4uXRlFQCkO7bU5cTH+0cVCG0=; b=FFzDtZuYkC0DnUyz163rl2C0J7
-	BlNREDfLbFSqsCDGG7wyqYQIkW9dVN3DggsHpt6BqHwHaaJCJYr5hlnQvXRkPPQ41ar85DzFhMEmB
-	gFC6oC5eK9H+7BsTfL2Qaie+4PSNMBteqELve/Q0cUSwwEHPGq6uEDlwML0R5lJ8E5ebW00T/Vzut
-	DuJXep+nuwECH8QlUkCKWVPiRO/PGZMUciO0bD5lSEzEqQr2CySIpJWpeB2FiLZRSgN1aKy5u1pjb
-	388/H2D8TPVbJxV+5QHfwZsd8BBR1NJAj5Afn5lTxCrADySNQUKbR+nvc2uheAu2RvUMjRHBcPj35
-	vAoAoQ0w==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:57616)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vzCpK-000000002nH-1IFO;
-	Sun, 08 Mar 2026 12:01:42 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vzCpF-000000003JS-0B1B;
-	Sun, 08 Mar 2026 12:01:37 +0000
-Date: Sun, 8 Mar 2026 12:01:36 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: vladimir.oltean@nxp.com
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: Re: [PATCH v2 phy-next 22/24] phy: include PHY provider header (2/2)
-Message-ID: <aa1lIBO3j_apIPjb@shell.armlinux.org.uk>
-References: <20260308114009.2546587-1-vladimir.oltean@nxp.com>
- <20260308114009.2546587-23-vladimir.oltean@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A852C15A9
+	for <linux-media@vger.kernel.org>; Sun,  8 Mar 2026 12:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772973421; cv=pass; b=BlFQhPvOUxRs/r9FO1se9K0YqNRoHfoQv/sUZ5gXZDSus9i8EXrkXMsZr9uTpQrafEWgOz+kALviT5GzlYGzm/SAJGo04PVdtdvqkch9cD6vW8P6QBNWvKTW9ewquAgOT8nXKoYoKeqrkLqfaNoauulxjyN8fp9FEWoI3uxQ1+4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772973421; c=relaxed/simple;
+	bh=Z+JAHk+cD+mNrivN1HRHip1qn/MXI1IoPxq/R4/5mIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ASBJ3Hf7SsY5rsuDwhiCOpjHkAxjRJ6CtQvvTXV0Q3ENVpjo1vFHOoEJuVnBE+CtUFDB+Q1IoogUvK3UjSDnjL64rXY3xV4a3b6UTje3iA9dZX1itsE2ZPGSBwt+7fWqyM49a+wHCrN+iQ6MU3LR/5ziFcay32mKP1prMF75wXE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=c5mZYHvv; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (n18ws8cotp5c1dsf-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:1157:8c0f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4fTKQX1JyHzyVM;
+	Sun, 08 Mar 2026 14:36:51 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1772973412;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=8WxwFpwM2UOaqlJItmWh9mviF4Mj7IIF/ABx3Y6qfTg=;
+	b=c5mZYHvvLDfqnqiZU18puZV+1FtmuTED2BL99KqaKwI7a6e91LGsgNYSqheoBxiGdJyG5i
+	YyrsB2ZvbNIbAXOqBTzO3NRCv6H3O9yIhSjOVWaZ6/AxV+6+R/MsfKZ4lDyhG7n6NXOjZV
+	hj/D6tkjyWuWSoFARqpxTxst0ingRh4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1772973412;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=8WxwFpwM2UOaqlJItmWh9mviF4Mj7IIF/ABx3Y6qfTg=;
+	b=X75ayT5+NS95FhI+Aec0jZxCn5nHiiRvnZxH8xyHipPPCi/OXYQ7T9Pzz/Y4i/L2uX7spR
+	d4a3Zlv88azYKYF0uTHmZfZSFGRfzBtLxK8UTNMG2ytoqHVTYaNm3cVm/0NoifTQDbW4oU
+	4uFM8sW2cg5bahJ3jUejlCC8qB3U2yo=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=meesny; cv=none; t=1772973412;
+	b=qlbwx2whpwWb1prTgI/dAsi7BaG4/st1L10L9KwUZRWFa9pc3unHMYXKskHGUsr1JbyIC6
+	3XwpLZ4RGSU9ma0AxJF+bmmvO5D4W9OXwxCyWEhhXg/uzR5tkEHHOFXAeP7Rze0Hm4585g
+	VuSRLkQmAPfAoMlp/MqrOjAdY5+D0hE=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9B211634C50;
+	Sun, 08 Mar 2026 14:36:51 +0200 (EET)
+Date: Sun, 8 Mar 2026 14:36:51 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: hans@jjverkuil.nl
+Subject: [GIT FIXES v2 FOR 7.0] V4L2 driver and MC fixes
+Message-ID: <aa1tY8-OHfw0qu9u@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,58 +84,77 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260308114009.2546587-23-vladimir.oltean@nxp.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Rspamd-Queue-Id: CCA13230187
+X-Rspamd-Queue-Id: 3E8B223034B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.36 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[armlinux.org.uk:s=pandora-2019];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_DKIM_ALLOW(-0.20)[iki.fi:s=meesny];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[armlinux.org.uk : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[armlinux.org.uk:-];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[iki.fi:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54894-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	NEURAL_SPAM(0.00)[0.598];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	FROM_NEQ_ENVFROM(0.00)[linux@armlinux.org.uk,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54895-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[iki.fi];
 	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.959];
+	TO_DN_NONE(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	MIME_TRACE(0.00)[0:+]
 X-Rspamd-Action: no action
 
-On Sun, Mar 08, 2026 at 01:40:07PM +0200, vladimir.oltean@nxp.com wrote:
-> diff --git a/drivers/phy/qualcomm/phy-qcom-sgmii-eth.c b/drivers/phy/qualcomm/phy-qcom-sgmii-eth.c
-> index 5b1c82459c12..4f8ffc6524ab 100644
-> --- a/drivers/phy/qualcomm/phy-qcom-sgmii-eth.c
-> +++ b/drivers/phy/qualcomm/phy-qcom-sgmii-eth.c
-> @@ -7,10 +7,11 @@
->  #include <linux/ethtool.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
-> -#include <linux/phy/phy.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
->  
-> +#include "../phy-provider.h"
-> +
+Hi Hans, Mauro,
 
-As we know, this will conflict with my patch in net-next. I guess Vinod
-hasn't (yet?) merged the commit that Jakub provided.
+Please pull.
+
+since v1:
+
+- Omit rkcif driver patches from this one.
+
+
+The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
+
+  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/fixes-7.0-1.3-signed
+
+for you to fetch changes up to cac4bba4b17e7142f40557034b546614ef064928:
+
+  media: mc, v4l2: serialize REINIT and REQBUFS with req_queue_mutex (2026-03-08 14:35:42 +0200)
+
+----------------------------------------------------------------
+V4L2 fixes for v7.0
+- Synopsys csi2rx driver fixes
+- MC request API fix
+
+----------------------------------------------------------------
+Michael Riesch (2):
+      media: synopsys: csi2rx: fix out-of-bounds check for formats array
+      media: synopsys: csi2rx: add missing kconfig dependency
+
+Yuchan Nam (1):
+      media: mc, v4l2: serialize REINIT and REQBUFS with req_queue_mutex
+
+ drivers/media/mc/mc-request.c                    | 5 +++++
+ drivers/media/platform/synopsys/Kconfig          | 1 +
+ drivers/media/platform/synopsys/dw-mipi-csi2rx.c | 2 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c             | 5 +++--
+ 4 files changed, 10 insertions(+), 3 deletions(-)
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Kind regards,
+
+Sakari Ailus
 
