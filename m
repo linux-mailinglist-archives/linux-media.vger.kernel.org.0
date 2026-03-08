@@ -1,367 +1,215 @@
-Return-Path: <linux-media+bounces-54899-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54900-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Js4OHvDrWmf7AEAu9opvQ
-	(envelope-from <linux-media+bounces-54899-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 19:44:11 +0100
+	id MKWqDL/JrWnQ7QEAu9opvQ
+	(envelope-from <linux-media+bounces-54900-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 20:10:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CF5231C26
-	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 19:44:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDEC231D84
+	for <lists+linux-media@lfdr.de>; Sun, 08 Mar 2026 20:10:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 790DF303C613
-	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 18:42:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BB5C7302EEB3
+	for <lists+linux-media@lfdr.de>; Sun,  8 Mar 2026 19:10:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C5F395262;
-	Sun,  8 Mar 2026 18:42:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0201396B71;
+	Sun,  8 Mar 2026 19:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OO5VH0YX"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="VbHdA377"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013056.outbound.protection.outlook.com [52.101.83.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8D6393DCA
-	for <linux-media@vger.kernel.org>; Sun,  8 Mar 2026 18:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26572DEA6E;
+	Sun,  8 Mar 2026 19:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.56
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772995321; cv=pass; b=ANoj80WPKZ7Tvhm46GE0wLKTuJImm+0vCl0sTmnCHUXI+20TiGe6X33tLDxanNpPFKHSCPIdFSUsh+Q3y6aYwFkBDBrjhkf1HMy1VQcLuVG8Ipuqwsz1dCIBTQO8SBkBXJjpn+WZVCYPtIZnMWXIMPSP5Fusam70xUzIxYVfDt4=
+	t=1772997027; cv=fail; b=dHACNK1QEM3xrbRPc49qY/GZUF/VqwbjXEH0yGmkAT0sFL9Ja85DyzBGsU+G38bUt0uunJlH8bxkBPh3blzIyJCzbw8lnR3CpIp54UTwVVKE0AmGE9Jvk/7sj48DWFdJBixEvQcqq6lkAVposh7alw1BCCfMfxk62WYmVruoiwA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772995321; c=relaxed/simple;
-	bh=dd/2spyM4ttJfOLcRoRr1Yscl0nbVv+FbKOYT2d/i7s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iD8o6I6XawPtWiDTavgzRk78jftaj9aKUuS9x5clpWWTP/FBc1U8ddc5FHad/puWg0y/SiGk58vD4MrQgPHf8OYIDtEerAEWgbyD34jZe0hxkcKlXoIYaxpGwNmjNUGF62JtqN1JFCVqa1aswdvtzg25B/LjjQ4BF5wF5UXe3XU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OO5VH0YX; arc=pass smtp.client-ip=74.125.224.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-64acd19e1dfso9129142d50.0
-        for <linux-media@vger.kernel.org>; Sun, 08 Mar 2026 11:41:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1772995319; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bGx1ohPCb5Q06Np0PHoY/qs3kIR1H+ec0jQWC/PNsH1a5U3i506dHbRbgm56U1WUsF
-         s1ruMHLD+00Fy28MVxWg4djQrQUD53K/w9yCXRb1Sl9Zg932FDR/51b7ogB3g42fng/F
-         2/825nAZEax/0pwpWEbeiY6p7ksz+rtW8uKprCEwcOKQ/XBifRDsYytoonhg0CPvrnnb
-         7r0MH6vxVbF181giHD9V71HYW1cniYH8TEYVJt5FyArXBg7KjqYgLu7e6HX33TCVQ6rA
-         0zL5ZaEZaV9D8iXtkdb69qmFwkq4dX6sJEZZRTwNmA6YIcgEmxqbDBy4vhisJU1CDu9R
-         FyaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZpzDnHDe78iWEUGuOKrGYfeMK0pcHHei4ODQ9kclWaI=;
-        fh=w69zA/GpLMq8H8zU8Nj8LX0dWiJ73/imboS/I6C+qvU=;
-        b=LqqWklEJU41rIYNK1lpGhaXI3R9YbOx/yHPVXD41pNkeYnIyDv5lwN8Q0mRcV429JK
-         aoymwpCEX7Cl3Kq8v49vfiwQUWjV+9rJ5RuPV7V8cvRJ/Ieca5bxiTUDdX606zCdKszj
-         Z4VGSsAquZEbaKA5aCHo5/ZWJ8hoijG3ou9Pbk4OUV17cJrWi/wFW/oLFYbMDE/eXV8o
-         5Tb0JZM7NzK6hKVE+9lQZC7nn+P5sr0s8EN2ki0GufL0VT716RFkrNgJlihCGlzDWMrq
-         8KzsQ/xdZCI5ssU9U5a6ZQt2RngmJ8fzNi5oMf9PevN4iNrTxOE0y1c09Nyr+BJiTTDf
-         te6w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772995319; x=1773600119; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZpzDnHDe78iWEUGuOKrGYfeMK0pcHHei4ODQ9kclWaI=;
-        b=OO5VH0YXamhcXhzPg5h4LjRyX4Adj4uFgCfQUaH5HQg4vph+5erEckpWHzMzTWIFJ2
-         LZmYF5azbkKKUJkn36qNYxIowsJ44YGw/Zxm3a7EreNm7AunkeRaWbMYI5giaw4m11/P
-         9/2Q+Tu74gZWEG4VF9C2dyifeeverdstC2DaZkz/qSRuvsf6fV5egI2MexMA5IOjCgRV
-         Gu5ZEtzqM5PwjczClVBOmNGUZdIQPMzBmPxMaYXvnQc9L8N3iu5HBEe6VJqO01Or+XrS
-         ECV1s5IK4xN4ZThTK7h88R5ypCKPkfzpWp6WGv260baedUIOWVEBjof0gU089B4fmX6b
-         3ftQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772995319; x=1773600119;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZpzDnHDe78iWEUGuOKrGYfeMK0pcHHei4ODQ9kclWaI=;
-        b=FwcH++fDB1mYK1n8GGmYkyjUUabFtIRoWbmcNHCxHMV1yiRbNzJfKj4/1Ky7XNnfnF
-         KHf2myYPqJrFVGZ58cWUzIIJqrX36bnZWy6Ll81GdAUK5Fj2facmyys6FzyZunDoSnKD
-         vPTVjg4AE8MMd711LkXAKSHMoEZhF/WLtWGmiXoUqc/YX93+peo6NNT2+ZhQ36P77Kum
-         gSwfd2VgpOiXQSm4OWcJEhtZiA/2A26fCJAc8oQ0X+qWrVsHJOaeeLe2kAOcaFVPIgTD
-         L5DoEKBQUCuMjxuYPJzEX37fh5KqGLGjkzrdehVUTYrK+WRkbA66aA/O3aZ4jK21U+Rv
-         HWhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXvLeNCil/9aCNcvAQRMqmiVA/jDNJcsmHvHiHd3loWtv/hrFoqoQKhpvtae4SrksdTV1WEOgZmGaVyBg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5ZtOBgcJB3SNR+XlIsgDLFuthUX/oiYsPuzBLN1YtTDuTZ9dg
-	5cBMV8u8vFBclRIaxsYBZdrHidwcHnf8UwZpyNUT21iDQzVHzPSEybsBSWxjQaxBPDOflSnLHQ+
-	j2JjfRbhOQeqr6H5rLujhzAQ6fsOCgJ8=
-X-Gm-Gg: ATEYQzz5gLZ+bX90GYcOBKe8ZjRG2d1hvY2PBS+/PqW5Rwq5J89CS2tZO7llpE53lfE
-	lTtyjlWdJ6DxshUeYLuMV99DtBEGiAjK5JeTB2w899iD6q2864dseMiWRArnlOsRsJwls2R1CDO
-	lA51C02KP+LtptiYaitXWOAXATieZ6clDxPpcPFT+P13DkBSDZU2eWKVLDSIyp82NV6UMOwnYv2
-	cql3whtijTsoWX+Kv9UjLk3zUlfMFlD7gdFoKnwzUyd4PvgVvkmVNi8v6SnUXCREtxTBj5B543x
-	qv++c8ucjAaA9zV/S711u4HAY5IrAeHaehnSUOab47iNzRdR
-X-Received: by 2002:a53:b442:0:b0:64c:ed24:13da with SMTP id
- 956f58d0204a3-64d142c7f83mr6741794d50.57.1772995318771; Sun, 08 Mar 2026
- 11:41:58 -0700 (PDT)
+	s=arc-20240116; t=1772997027; c=relaxed/simple;
+	bh=W+Fr+SVUJ0zEr/x79fwTzBMo4S91geOD+tMdExUIXR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=g4Vzar50Blc6M+w6XfenkqB72OQVHw+Xm19R7WsYckaZVkQoQPSCkNGSkXqGU/hPzkWidlB+PjLSqRkBygENUtImzn/6mgCS3avVKruPehOmLF1IJJR1gIfyHkNYv7NVDM3mjNM0y7y3bOhs8C6B/2BxT7zb9atvEnOHVBA2Jb4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=VbHdA377; arc=fail smtp.client-ip=52.101.83.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hesM6H1Yqj5g50bjfqn5OctSM3FAfA1S1+nTE50O5Eui4nfx4NcmJ03tlmiuW0y4iIc3ap0ejVvWcYhsnMSnGu+AkH21u93EihgwOTWohQpQqq9G6zPvz34RgNsmr/5u5jSPx2ND1pR/0EHyBv5D6yA/0yzjnDBAf/SIYef+J0Wc5POXp9Saml35pHg/mZcQ7xKHZeGts6zIGG8FcJXwDKKOeh6LFWu6vSpPuaM4KoMsjSTZ2lmtQj+II5kAI7nr0q0xaUd4G6N207yLeYEGZt4D7tNIn7ruqCqA2Kj21L0af/gYHvGTmPZsIG7JaEeINp/NmXq1oosdhu2RxLiMGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U8CnBHuXN9K1MAdGD8VgVACEMXJi4m1AvA9p3LHQYtM=;
+ b=CN10MeJppS/Vayq6e1i8YxzeLbVpyvkL1d8U4j1mRX30tV9j8eCKA4IHlTosUkCuOQTPcsWL0CFPs/DWjHdC1c5a4nAhKs+FOBi+Gs6tBKtjZ8yiWBG6yVvOSYjfyf733uOpAPGLOMEs5VRWNeZpUgVECgJU+s1eLEYtVAN/6/d/kM5s9cIRzfp8zVxP8yY6jS7zulX0wvpPH5NDegZJZfyjS3O36y1bxZ88pfrhmIwT8ww8gzm7xFfLWh2A0ql9AAJnR4z9AAlaQ1VbGmyfsUMYAkys6Fo4yx+EgdfVHBfibHRqfATGROWPM/M8OsdFb8R0jvJJZpEiPgbxhEcYWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U8CnBHuXN9K1MAdGD8VgVACEMXJi4m1AvA9p3LHQYtM=;
+ b=VbHdA377aFKWfwGIjeknpX716kXmbRzg2p9CfhSQjkD2HO54U9WsyJolYK59qP+yCpcbAxKzGQQKKx4ormDtoZ4xaSYw5rz30E6Q1DY18VbfOZPIAYqVgyRzuE1d/phXJ6SXSrPjWM8eqGP5WNZM5TOyfhqM37tQe7UWdIKGO4XIUcuupNFytFRqpbky/nCn6/n+nfIIJMxof/B2f0k1bWQlTs5Jm9J9G9Bsde4D44lkDycDAJx1vH0xQQFZctC31qu+jJlo8sJwN+UlWHE0PDIiRbpLeTvIiVlcT7twT/UgsVDOQSewovaTEIUSg3wpsg2KVyAdtteZgYN3dRH+fg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
+ by GV2PR04MB11881.eurprd04.prod.outlook.com (2603:10a6:150:2f6::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.22; Sun, 8 Mar
+ 2026 19:10:16 +0000
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9678.023; Sun, 8 Mar 2026
+ 19:10:21 +0000
+Date: Sun, 8 Mar 2026 21:10:17 +0200
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: Joe Perches <joe@perches.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, spacemit@lists.linux.dev,
+	UNGLinuxDriver@microchip.com
+Subject: Re: [PATCH v2 phy-next 24/24] MAINTAINERS: add regexes for linux-phy
+Message-ID: <20260308191017.kcyi7ka5pktq5jl4@skbuf>
+References: <20260308114009.2546587-1-vladimir.oltean@nxp.com>
+ <20260308114009.2546587-25-vladimir.oltean@nxp.com>
+ <ca170cbaf2f8bcbc89bbda68914d8e0d7640f0e7.camel@perches.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ca170cbaf2f8bcbc89bbda68914d8e0d7640f0e7.camel@perches.com>
+X-ClientProxiedBy: VI1PR0102CA0043.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803::20) To AM9PR04MB8585.eurprd04.prod.outlook.com
+ (2603:10a6:20b:438::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260308-scatterlist-v1-1-39c4566b0bba@gmail.com> <20260308180826.GG1687929@ziepe.ca>
-In-Reply-To: <20260308180826.GG1687929@ziepe.ca>
-From: Julian Orth <ju.orth@gmail.com>
-Date: Sun, 8 Mar 2026 19:41:48 +0100
-X-Gm-Features: AaiRm51KnGt1Ocvg1JS9VA3riuFsR3OYVC6SxA9saLbhpmRB0QADzrk-wJNj6tE
-Message-ID: <CAHijbEX=LN_ntp6zwsqy3sW7EB+E6cBCWnrKZb_RqdNG=Et_3g@mail.gmail.com>
-Subject: Re: [PATCH] lib/scatterlist: fix sg_page_count and sg_dma_page_count
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Imre Deak <imre.deak@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Thomas Hellstrom <thellstrom@vmware.com>, 
-	linux-kernel@vger.kernel.org, Gerd Hoffmann <kraxel@redhat.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 49CF5231C26
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|GV2PR04MB11881:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97e01e83-381d-4f45-12ef-08de7d465802
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|376014|7416014|1800799024|366016|10070799003;
+X-Microsoft-Antispam-Message-Info:
+	z25QfSPjIo+DyxJ6qdPBzAXKKRn/FoHI4rRieVWqLa4IfTGd4gYkU/eFW42FL0nAFYSQQ9hqWieWsu8pAhKp0SatAmgQqDHep1pXCs5+hyBQquqUWNm6mNlaz+w0oTYpAVrkMeUnljoJFntVDhRaTvEqv826+I91Wk6jCIyYE7GxVw9BY3gV59WrLilefdEwKtgUSIlPucSiYUr5+N2o0VsliAP0udZElplIDUTPqJwjk6zsgT9L9J3OJT/1OxPfMh5tGuSajKcGr4EHEVM+SS0y++rj7mp7ff7WBh4f/hn9ASSmH9WKuV/k5W84qORhu5TNO+7Ml0vvptxoXC/KSzwDjp9ge0l4hG5U3HKCPndP+LO7GdXOzhnBKCWEPfrzouiKLzNDaQiM9iBvhvWU7zcFQ0HkwR1DhJEzphNH5B6fhgm7Hitm5LOs7igm7ztGwoRJGUW7oJC99UctRcm7X76ruVylPderojgAcAMnQsfLeLyZUc6ULQk1VL2Kp1v7N9pWch1/8fhzJEufyRlvlgQ1UeL/JFYE7vJ4PqkgL/c8E0MuPEDkYaMWBkt8pRL4p1446cTUTAdDxoGlccK9ESFH8j2BCgrxcFDPFKoJ2a+DS4ugdgXhTVSuKteZHCDMDcSiJACyGClAuvnDBHMnfdSYIBcfLfPN8mg3hAKx6esBbPXDEsIpZINdVmEUauAW
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(7416014)(1800799024)(366016)(10070799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GqLwlwgrjARG12jeUMKmP752m62y/9hfmqWtULNkgTZHyfNybRLZE3auChCo?=
+ =?us-ascii?Q?VdhZ2TWywBDd57Y6f0XdPt6g1ZCq4CFoYI92mtyOaLgTCh27sucjB6YTVLT+?=
+ =?us-ascii?Q?0mbl1mWJKsQPtHjGSyYCMCW3rim9OBsOoN8GQFZDQXcmMseK/vS47lDS55EI?=
+ =?us-ascii?Q?C2c5Vz/xd9YRx4B93kJptYteE9NArMJBs/AdPJJQscE9uAGQwYI6DNcod5sb?=
+ =?us-ascii?Q?9I7qgiXgvnio9iK8VlzS6XI5oVFFG5F2I39SdFUSuvKHNy+UfLAyhn7D3MIf?=
+ =?us-ascii?Q?sxs+2FQo4lPVTKjlY9MdV26wak3yZqACGRahd3rj2koAGj+xiwDZHak1BFc2?=
+ =?us-ascii?Q?fkBQbf/cy6NjU+V0NzpqrsVKeXU9k41+rzHYUKnK57nMYiCD1TOL9T7LsP0R?=
+ =?us-ascii?Q?SgcBFzC37RlH/g377LtY5LeTZ99/h2HvIX3r0ed+n7VKgn3EKPl268ns1FKo?=
+ =?us-ascii?Q?4IF3iv+WGvd+hDz4sTcUs7G4MyRm5Q5V8PPEefdD3K3GAa/HfVwoUx5fEPgF?=
+ =?us-ascii?Q?zE7fRR5zFJU4qU+YEYhhltMuF9k5QNd2muEDi/n1ECh5MGLtR2ckYjPqj1ey?=
+ =?us-ascii?Q?rf03XnGKquB6xNF4mQiEa0VZp63Z8VNt/CyeT+5a4quAO3dr91ocJhxFAlIj?=
+ =?us-ascii?Q?Yqjq2MKvWFwMYX8TKcbjUCFdEyvY9ob86hukgyu156bfcS9xdyG2FRIN5L80?=
+ =?us-ascii?Q?R6bWjD80V5M7t48H6ofE+K8Dsm5Wc9XiJh0EmpECf5Vr9mu85DL3WCn7F4V6?=
+ =?us-ascii?Q?kD3aBXL2hQJo3P180hnGtl3oFc1UP1VVyhemlB2UX3iEOcFQW8Ws3q1YljtO?=
+ =?us-ascii?Q?TxaexKGqOX2fsTBLPZ92m9Ua3OMRthWyiLYXNwwt7XdjVm6vtePpa0Nh2nS4?=
+ =?us-ascii?Q?foJKFwTUFlFHBgWAgadWXxF4VuCz75oHvnFL/sH7bVxMt0eUZDgAtLIVXYDs?=
+ =?us-ascii?Q?t4fDOO44x2EKeFtrBDCH1ZDDjs/7uVFMQ//GmwXpQk8aTK8lb1j4kJtfvy0a?=
+ =?us-ascii?Q?zJ+375kfeyiH/dJXxUf7Q0jMSeKI2fDGalMy4o/+v05iP7YTZp4cnrO52bl5?=
+ =?us-ascii?Q?tgV3fMmP/RBOZN5iRuQWbNc0xQKB1LN1xiK6BhgkrRO5Gy31yCKvfl/VoXJd?=
+ =?us-ascii?Q?jWk86cZHShna25e80WtrhQx34StBGKd0iQURSfsJ+V3EiF3U5RxEjMaaHuLb?=
+ =?us-ascii?Q?dY0RqjkdB1R/sbwEnUyVWt4KKraSCGfns6wpmuSYG/ZBraRC1Xn064UPVn4A?=
+ =?us-ascii?Q?0IFxY2pBH0qQKQBF+xOlHnzwEilXkZ76lowoMSGQW4w3E8Cq/uG7djkjACBq?=
+ =?us-ascii?Q?1pV5hMG65jwXbR/aZED4Bz4sCQHRnlr1VemGpJp4AXiGrQMZd5XFo6Ae5kWu?=
+ =?us-ascii?Q?rEBrZI5G2H9gujgFAW24/fFBeKg8NfmBNBg/k6A09PIVtf9DvlVN6DDSPDeV?=
+ =?us-ascii?Q?qFALSN7Ia8vnARo8bnMTeI63Dh3i3xDsJJhHpt7LMzdO4TRoKs1czemJCYZA?=
+ =?us-ascii?Q?pRmLB7ViwZ0DmbLIKtKga64RYd9oQ7iT/sYHxTU7d0qgihFqrctiGOofaNkU?=
+ =?us-ascii?Q?aNrFAkgNEMeSE6GQ8u3N1L5YnPvI+cUyAotLRseXcw0DnNL68i+I53m/OCNE?=
+ =?us-ascii?Q?ue3d8wXIPt8AqZhF56ViDmXN39MqkkbH1PyJqbb52HJKbxdOlKCdFF8wrgFo?=
+ =?us-ascii?Q?Ydi2TvZKcue8vZJCpw8qADPSIEIOFh35fgwlvJt3wtcR6aQmNCzMpuEgutte?=
+ =?us-ascii?Q?DrVxCerV85xJfg31sbGkxGvN8+ZPh1EoCGMH/7fwk+Y6jdSzMmOuguzB5vG1?=
+X-MS-Exchange-AntiSpam-MessageData-1: ZLYOAakTcd+HomcZtq3ZWx1UYpnBr6PPyHM=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97e01e83-381d-4f45-12ef-08de7d465802
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2026 19:10:21.2616
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6yor39mQ281Q5+tsgNOnS9BZ9otpsrtq0EhtRuSLpR9HbftNP1vDGR4OVb0bFA5BT6uOyvqfcz6OsTqK0yLr9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11881
+X-Rspamd-Queue-Id: CBDEC231D84
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-54900-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-54899-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.894];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[juorth@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,ziepe.ca:email]
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
+	NEURAL_HAM(-0.00)[-0.942];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:email]
 X-Rspamd-Action: no action
 
-On Sun, Mar 8, 2026 at 7:08=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrote=
-:
->
-> On Sun, Mar 08, 2026 at 02:55:27PM +0100, Julian Orth wrote:
-> > A user reported memory corruption in the Jay wayland compositor [1]. Th=
-e
-> > corruption started when archlinux enabled
-> > CONFIG_TRANSPARENT_HUGEPAGE_SHMEM_HUGE_WITHIN_SIZE in kernel 6.19.5.
-> >
-> > The compositor uses udmabuf to upload memory from memfds to the GPU.
-> > When running an affected kernel, the following warnings are logged:
-> >
-> >     a - addrs >=3D max_entries
-> >     WARNING: drivers/gpu/drm/drm_prime.c:1089 at drm_prime_sg_to_dma_ad=
-dr_array+0x86/0xc0, CPU#31: jay/1864
-> >     [...]
-> >     Call Trace:
-> >      <TASK>
-> >      amdgpu_bo_move+0x188/0x800 [amdgpu 3b451640234948027c09e9b39e6520b=
-c7e5471cf]
-> >
-> > Disabling the use of huge pages at runtime via
-> > /sys/kernel/mm/transparent_hugepage/shmem_enabled fixes the issue.
-> >
-> > udmabuf allocates a scatterlist with buffer_size/PAGE_SIZE entries. Eac=
-h
-> > entry has a length of PAGE_SIZE. With huge pages disabled, it appears
-> > that sg->offset is always 0. With huge pages enabled, sg->offset is
-> > incremented by PAGE_SIZE until the end of the huge page.
->
-> This was broken by 0c8b91ef5100 ("udmabuf: add back support for
-> mapping hugetlb pages") which switched from a working
-> sg_alloc_table_from_pages() to a messed up sg_set_pages loop:
->
-> +       for_each_sg(sg->sgl, sgl, ubuf->pagecount, i)
-> +               sg_set_page(sgl, ubuf->pages[i], PAGE_SIZE, ubuf->offsets=
-[i]);
-> [..]
-> +               ubuf->offsets[*pgbuf] =3D subpgoff << PAGE_SHIFT;
->
-> Which is just the wrong way to use the scatterlist API.
->
-> This was later changed to sg_set_folio() which I'm also suspecting has
-> a bug, it should be setting page_link to the proper tail page because
-> as you observe page_offset must fall within 0 to PAGE_SIZE-1 to make
-> the iterator work.
->
-> I think the whole design here in udmabuf makes very little sense. It
-> starts out with an actual list of folios then expands them to a per-4K
-> double array of folio/offset. This is nonsensical, if it wants to
-> build a way to direct index the mapping for mmap it should just build
-> itself a page * array like the code used to do and continue to use
-> sg_alloc_table_from_pages() which builds properly formed scatterlists.
->
-> This would save memory, use the APIs properly and build a correct and
-> optimized scatterlist to boot. It uses vmf_insert_pfn() and
-> vm_map_ram() anyhow so it doesn't even use a folio :\
->
-> Here, a few mins of AI shows what I think udmabuf should look like. If
-> you wish to persue this please add my signed-off-by and handle testing
-> it and getting it merged. I reviewed it enough to see it was showing
-> what I wanted.
+On Sun, Mar 08, 2026 at 11:40:44AM -0700, Joe Perches wrote:
+> On Sun, 2026-03-08 at 13:40 +0200, vladimir.oltean@nxp.com wrote:
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> []
+> > @@ -10713,6 +10713,17 @@ F:	Documentation/devicetree/bindings/phy/
+> > +K:	(?:linux/phy/phy\.h|phy-props\.h|phy-provider\.h)
+> 
+> phy-props.h and phy-provider.h don't seem to exist.
+> Are these going to be added later?
 
-I don't know enough about folios or udmabuf to efficiently work on this.
+They're actually provided by patch 13/24:
+https://lore.kernel.org/linux-phy/20260308114009.2546587-13-vladimir.oltean@nxp.com/T/#u
+./include/linux/phy/phy-props.h
+./drivers/phy/phy-provider.h
 
-If offset is supposed to be in [0, PAGE_SIZE-1], then my patch is
-incorrect and it's probably better if some of the udmabuf maintainers
-take a look at this. I've added them to CC.
+> Maybe this should be phy-common-props.h ?
 
->
-> Jason
->
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index 94b8ecb892bb17..5d687860445137 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -26,10 +26,10 @@ MODULE_PARM_DESC(size_limit_mb, "Max size of a dmabuf=
-, in megabytes. Default is
->
->  struct udmabuf {
->         pgoff_t pagecount;
-> -       struct folio **folios;
-> +       struct page **pages;
->
->         /**
-> -        * Unlike folios, pinned_folios is only used for unpin.
-> +        * Unlike pages, pinned_folios is only used for unpin.
->          * So, nr_pinned is not the same to pagecount, the pinned_folios
->          * only set each folio which already pinned when udmabuf_create.
->          * Note that, since a folio may be pinned multiple times, each fo=
-lio
-> @@ -41,7 +41,6 @@ struct udmabuf {
->
->         struct sg_table *sg;
->         struct miscdevice *device;
-> -       pgoff_t *offsets;
->  };
->
->  static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf)
-> @@ -55,8 +54,7 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf=
-)
->         if (pgoff >=3D ubuf->pagecount)
->                 return VM_FAULT_SIGBUS;
->
-> -       pfn =3D folio_pfn(ubuf->folios[pgoff]);
-> -       pfn +=3D ubuf->offsets[pgoff] >> PAGE_SHIFT;
-> +       pfn =3D page_to_pfn(ubuf->pages[pgoff]);
->
->         ret =3D vmf_insert_pfn(vma, vmf->address, pfn);
->         if (ret & VM_FAULT_ERROR)
-> @@ -73,8 +71,7 @@ static vm_fault_t udmabuf_vm_fault(struct vm_fault *vmf=
-)
->                 if (WARN_ON(pgoff >=3D ubuf->pagecount))
->                         break;
->
-> -               pfn =3D folio_pfn(ubuf->folios[pgoff]);
-> -               pfn +=3D ubuf->offsets[pgoff] >> PAGE_SHIFT;
-> +               pfn =3D page_to_pfn(ubuf->pages[pgoff]);
->
->                 /**
->                  * If the below vmf_insert_pfn() fails, we do not return =
-an
-> @@ -109,22 +106,11 @@ static int mmap_udmabuf(struct dma_buf *buf, struct=
- vm_area_struct *vma)
->  static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
->  {
->         struct udmabuf *ubuf =3D buf->priv;
-> -       struct page **pages;
->         void *vaddr;
-> -       pgoff_t pg;
->
->         dma_resv_assert_held(buf->resv);
->
-> -       pages =3D kvmalloc_objs(*pages, ubuf->pagecount);
-> -       if (!pages)
-> -               return -ENOMEM;
-> -
-> -       for (pg =3D 0; pg < ubuf->pagecount; pg++)
-> -               pages[pg] =3D folio_page(ubuf->folios[pg],
-> -                                      ubuf->offsets[pg] >> PAGE_SHIFT);
-> -
-> -       vaddr =3D vm_map_ram(pages, ubuf->pagecount, -1);
-> -       kvfree(pages);
-> +       vaddr =3D vm_map_ram(ubuf->pages, ubuf->pagecount, -1);
->         if (!vaddr)
->                 return -EINVAL;
->
-> @@ -146,22 +132,18 @@ static struct sg_table *get_sg_table(struct device =
-*dev, struct dma_buf *buf,
->  {
->         struct udmabuf *ubuf =3D buf->priv;
->         struct sg_table *sg;
-> -       struct scatterlist *sgl;
-> -       unsigned int i =3D 0;
->         int ret;
->
->         sg =3D kzalloc_obj(*sg);
->         if (!sg)
->                 return ERR_PTR(-ENOMEM);
->
-> -       ret =3D sg_alloc_table(sg, ubuf->pagecount, GFP_KERNEL);
-> +       ret =3D sg_alloc_table_from_pages(sg, ubuf->pages, ubuf->pagecoun=
-t, 0,
-> +                                       ubuf->pagecount << PAGE_SHIFT,
-> +                                       GFP_KERNEL);
->         if (ret < 0)
->                 goto err_alloc;
->
-> -       for_each_sg(sg->sgl, sgl, ubuf->pagecount, i)
-> -               sg_set_folio(sgl, ubuf->folios[i], PAGE_SIZE,
-> -                            ubuf->offsets[i]);
-> -
->         ret =3D dma_map_sgtable(dev, sg, direction, 0);
->         if (ret < 0)
->                 goto err_map;
-> @@ -207,12 +189,8 @@ static void unpin_all_folios(struct udmabuf *ubuf)
->
->  static __always_inline int init_udmabuf(struct udmabuf *ubuf, pgoff_t pg=
-cnt)
->  {
-> -       ubuf->folios =3D kvmalloc_objs(*ubuf->folios, pgcnt);
-> -       if (!ubuf->folios)
-> -               return -ENOMEM;
-> -
-> -       ubuf->offsets =3D kvzalloc_objs(*ubuf->offsets, pgcnt);
-> -       if (!ubuf->offsets)
-> +       ubuf->pages =3D kvmalloc_objs(*ubuf->pages, pgcnt);
-> +       if (!ubuf->pages)
->                 return -ENOMEM;
->
->         ubuf->pinned_folios =3D kvmalloc_objs(*ubuf->pinned_folios, pgcnt=
-);
-> @@ -225,8 +203,7 @@ static __always_inline int init_udmabuf(struct udmabu=
-f *ubuf, pgoff_t pgcnt)
->  static __always_inline void deinit_udmabuf(struct udmabuf *ubuf)
->  {
->         unpin_all_folios(ubuf);
-> -       kvfree(ubuf->offsets);
-> -       kvfree(ubuf->folios);
-> +       kvfree(ubuf->pages);
->  }
->
->  static void release_udmabuf(struct dma_buf *buf)
-> @@ -344,8 +321,8 @@ static long udmabuf_pin_folios(struct udmabuf *ubuf, =
-struct file *memfd,
->                 ubuf->pinned_folios[nr_pinned++] =3D folios[cur_folio];
->
->                 for (; subpgoff < fsize; subpgoff +=3D PAGE_SIZE) {
-> -                       ubuf->folios[upgcnt] =3D folios[cur_folio];
-> -                       ubuf->offsets[upgcnt] =3D subpgoff;
-> +                       ubuf->pages[upgcnt] =3D folio_page(folios[cur_fol=
-io],
-> +                                               subpgoff >> PAGE_SHIFT);
->                         ++upgcnt;
->
->                         if (++cur_pgcnt >=3D pgcnt)
->
+No, that's unrelated.
+
+> Perhaps if matching only the include uses:
+> (/ is escaped because get_maintainer is stupid)
+> something like:
+> 
+> K:	include\s*\<linux\/phy\/phy(?:-common-props|-provider)?\.h\>
+
+Why is get_maintainer stupid? I ran git format-patch -1 0fc83bd79589b
+(random patch which includes <linux/phy/phy.h> and I got:
+
+GENERIC PHY FRAMEWORK status: Supported:Keyword:(?:linux/phy/phy\.h|phy-props\.h|phy-provider\.h)
+GENERIC PHY FRAMEWORK status: Supported:Keyword:\b(?:devm_)?(?:of_)?phy_(?:optional_)?(?:get|put)(?:_by_index)?\b
+GENERIC PHY FRAMEWORK status: Supported:Keyword:\bphy_(?:init|exit|power_(?:on|off))\b
+GENERIC PHY FRAMEWORK status: Supported:Keyword:\bphy_(?:get|set)_(?:mode(?:_ext)?|media|speed|bus_width|max_link_rate)\b
+GENERIC PHY FRAMEWORK status: Supported:Keyword:\bstruct\s+phy(?:_ops|_attrs|_lookup|_provider)?\b
+
+which seems to be OK, it matched the (?:linux/phy/phy\.h|phy-props\.h|phy-provider\.h) regex.
 
