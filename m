@@ -1,224 +1,176 @@
-Return-Path: <linux-media+bounces-55020-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55021-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iEoVNt9Br2mYSwIAu9opvQ
-	(envelope-from <linux-media+bounces-55020-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 22:55:43 +0100
+	id qC0ZIAdCr2mYSwIAu9opvQ
+	(envelope-from <linux-media+bounces-55021-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 22:56:23 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57600241F69
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 22:55:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CC3241F77
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 22:56:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4A3F83030740
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 21:55:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 40E90306222B
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 21:56:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10D8636DA02;
-	Mon,  9 Mar 2026 21:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49EE436D4E7;
+	Mon,  9 Mar 2026 21:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ml6aocSG"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XSdfnt8L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A5734B197
-	for <linux-media@vger.kernel.org>; Mon,  9 Mar 2026 21:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD7336B06D
+	for <linux-media@vger.kernel.org>; Mon,  9 Mar 2026 21:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773093335; cv=none; b=skf7JT6Msv6/5cB62K+qC8fQuJYER6eDokFdQ91I5iVG/zOilgyFUpoZ1Vq7R2GXcRuehKeqpmISBWIBA7y33vitJJa8XVb8Wk3GFk/nnl03mZ2ZyI5kuanyTr+3GJ3geb2e049JoEEHmf2vtZL4e/XwbxdkYh79nN7OTsHjqJw=
+	t=1773093376; cv=none; b=jQWMrUEF86T9lkBTc/ypCHJkEvURiSQjB8wRJuRDeXyW/y/QCYJZ5FbXL6+gCDSm9hPPZqAXQTuYMjSBGScW/nkorFBYjYIhcUt396i5tPjEhE7Ok3CtgeMD3DlMLXg0HSXzyjAXCBpGeOWNBWp8jTfeepBiO53bvLMe+HEORgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773093335; c=relaxed/simple;
-	bh=gRGiHh5DV1Y4zNvyBsX0nhOwV2mP2uCGq4Xk13dFc6E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PUkOIioHeQxmzj7WuW6j1pjDl2KK9bmzIiMLUDvTQUEQIQtjN8VrEPjLpPXNNoW2q0WyTKil9UCRkd5qWYRZMuo3+NjU9v8SCd3v5C5IszxrpjYu1Kj9AuLwIxJR6fc11k31ofAI7tV7KhS6rh9OXSLfUU8+y5gFlAJAG7544wQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ml6aocSG; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38a2e62b893so45941011fa.1
-        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 14:55:34 -0700 (PDT)
+	s=arc-20240116; t=1773093376; c=relaxed/simple;
+	bh=epzv3CtU0gmjj908Hm64tFwvLI0AWLlIUvZbQZQ8G3c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AEOhT5ryfmWChxM3R14g3S25HzokZWFrRhj3YsfgTgKess/JW69aeIyX1PuPsuR26EK3zfvBayLffzWPK/JvVi1m9PVXBcNk1mnNanRTkoArdJXO5cGaJtVTJv9kQvsuIMG9Bh+l//rSAaj6hGT+fal6DMy9dhzOqfAf+wXDoq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XSdfnt8L; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59e58404f28so12368e87.2
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 14:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773093332; x=1773698132; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/kta3o08Ez8GWQWGgrupQOAhVskQNRKkeibLAq2u1g=;
-        b=ml6aocSGfgAEEEubm5uM5rEEoKBcPe0st0q2Epx4PKLsxaIVgs0TrHIFdf17fudCXF
-         SISBOvE60haKd0w5CThuJsTmVHmExlqqtDXd/UuBo+zqn//8ueJI+XI83NdYgiOM5+tu
-         UIo64U0p94F6oKOynSWTW7RLEwBiuiG9YEo1WupPlJCIfwzEtA8GZHARcAV5TWwvr2s+
-         t0X9cJr4DIS6rgECspzeIIl/JWenJzl9KD2TNaUjtJjMkdyLqCsoxCk7p2duVbiJMy7E
-         vBaVSAvuATvcSqpzuez/FKI7o3zyb0KT+KxMdqAsGMgt5Uq2FljHZbqeeixXfOEvXCub
-         I/Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773093332; x=1773698132;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1773093374; x=1773698174; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l/kta3o08Ez8GWQWGgrupQOAhVskQNRKkeibLAq2u1g=;
-        b=s0QC2OnX+NcBPaEK7xNY6gak1eNv+uVtaMCF5gfZTaXlDlZbtHRjrzCPKsjIpDuGRT
-         u/c5KSBTRZOJcSgy8m4ULhmjMoW7cCLp+hG8m5A/TSkSuH2Z//fKibMQlAZKWI0oGgCd
-         uqzGS4+REnIcbB8ynYpld4y7zpBF6GTUqCJ4gUSLMCfcKWcOhL19r55y15I27R20mUeN
-         ejkoFx61qdMkxB5mVrqaojs42evxcT3WkOPA3k8BEzoDNoKj3mkwHiMdcY+gG+RbO5ea
-         ZVFw7C/3lleCr7xT17V2QP6TCfn0zy2P7LzSpNsFYfStDv/gtfo3D04KnvGAUiB68RiU
-         +2VA==
-X-Forwarded-Encrypted: i=1; AJvYcCVcitYnxxA40SQo+ApyW8/SJrW8GJH0i0TlkeBWbAPBqdUOPTpzgSAJ3rzvoFzqsuxeMmqYxfwLUu8XwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3JGOTrmF8rEFDcQtBPYb6ZdGGyOc/HUbrziH3LlKd6OceOn8k
-	k/0qiCx/NJRj8LERLN0ieQ33znth2+KcxjuTtVQ0fJEuaGChCFK6T7ehp7lw3Q==
-X-Gm-Gg: ATEYQzxa9PRl0neXWss6OzLxGabpu8PY+V5cnMEuRsuZ76Qa9gkAkXlZLHhveo/OpW8
-	QcaZmh34YQgGnnw/AxyIDoku9bQCb/3vCYm8ZUSpHytNcSdEG7LVRZa3CBrzzBEw42k5Ep2cbRd
-	YwC9y+OmU2hZsZWDZqdNi+sTIsSR+IByQyRrbTTpFhNwjMLR18r0U99p6b9TZDqnCkDxQROAf/y
-	UE/eQ8VtpNRn/xp0Pdh5Rol4tzpVH/jzucAKawtg3qWjbSprmj/ogkd4MJQ0oH79ULufrcuplqL
-	vmp5REJclotqsMubbTv17ZLbtDGebznpjW07ccSaWGC8ssoWrfC1VYlBrCaRZyc8LN1bf3hKMIO
-	WbZORAiHvqxNjkUEFRc+K5ckqoBdZ/GKYv/EtNv0Uzhtn5lIU2rtlfB8AOZ7Hay9Ywv16r8x90W
-	mIud40kI9km+1UBv51FzCteBkaa4El2wypYzIvoBwHcllhQWS1MaJWbz/vzmeFv83XmYuaQCbKf
-	0NbSbeqU1B/
-X-Received: by 2002:a2e:a5c3:0:b0:38a:292e:b3f4 with SMTP id 38308e7fff4ca-38a40d9e6bfmr38028031fa.27.1773093332312;
-        Mon, 09 Mar 2026 14:55:32 -0700 (PDT)
-Received: from T6NXCV08J99224A.lan (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38a5d072320sm1581821fa.39.2026.03.09.14.55.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 14:55:30 -0700 (PDT)
-From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-Subject: [PATCH] staging: atomisp: fix block comment style in refcount.c
-Date: Mon,  9 Mar 2026 22:55:16 +0100
-Message-ID: <20260309215516.6091-1-rayfraytech@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=C0Jmm2xN/V86qggSG1t1r8Ot8sfuJ5PP8pssEN7b8n4=;
+        b=XSdfnt8LORBgHGwJq/d0fj43j/AU5OrnAhGLVn0ghgDYT3jQTONA4/0vYvosmP8cUM
+         840sZhRQfoNd5oYzC14eKFEg4I0qgsbcVUF4Nlnh1xdaMunD6iuLn+LLVdWJXC6jrusS
+         I4rikCJVQClC1C0oOxjY1TAZ0SkYxddHUTWAW8FrRUPF8naRBgNRsvY2dUTaUx5t2bdf
+         c72AdfP4pjiwbp9PuRbdcxtFZ1DKknY9fmUg7zhtHvqtbYLlDbxZDvFvnql3rBq78nID
+         pxuPrWdFkN/yJ5sXebpc5SrntAC0LdCp4SHZ7VwGuthwpDfM4YxN3QLr9Th/6ji5dV9Y
+         brqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773093374; x=1773698174;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C0Jmm2xN/V86qggSG1t1r8Ot8sfuJ5PP8pssEN7b8n4=;
+        b=RZK+biR/srIK4xnn01IVVTH2OKh9lVFb/2IHQzQWb09NpR68ehMPCIXiTdvlVVXn8d
+         D/QP8sQUgbEcrLgnm6ujTnIzBe4WDeizUnFzeXQ0aQtLpduup/ucc6J7S/VZ/bEyHIFZ
+         3qdHUIeqkpNd6U6FnGcR+p3M40rBHFl2MvIL9QLoUNOkG5YqaneEY2i0U62ShjrD1IBo
+         Cu1bKqnAEsicC2jY5FXE7U7luMU95Cua8bNt9SBwILOmuGj0Q4MMZgxh1uGLqvVS8Ei+
+         3uHlvVdE5F9zm/xDxHKeLcS4cM/xTu1yPtcOAp4UnP7l6xaHzFz4VpNareXioXOQvDqL
+         pNTg==
+X-Forwarded-Encrypted: i=1; AJvYcCXnC/P/8i1YHoS1Ct+5CXewAAFBAila+J+rKvBpC+pw9iRLkSz0KgAogLUwVf3jPP/IM30F2E0C1jyvug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpQZoY637vKhjKWwXe533CSesBWIDEymFsPzoPJsvfHChyhP24
+	/stpYfIGkLqSYjqp+cTyo0qp/2fDqS23jVbbKaEBi+bkYxExYN/ltv1wJE22wViKY7Y=
+X-Gm-Gg: ATEYQzyAynCyahd88CjluRHL3e2eZBbgCXBaO9Hrya9dNAbAnQr16kO1dPNPxOf88ri
+	Vd7A6QHik5j60EhsSlNANKNuXFGxqlISvZ022iTjbE1yXnDu2sLv0JnGGW3ctF32TE3cV1vbQJn
+	A9xT58+dOMWUqst4EX6Q5v1F+4m32/yx4SrrR0himLDbLloD0u7NwDa0N8urx+FaNGjQ0GmQTj4
+	DO0RBZx+qTXN8v/AelIeP3S0ddGFIo4iAWFvZUh1/OkB3of3uIIZ2RinmZUGTuZBirUUWi0iGEj
+	QKTXxoX0/POhJlID1XdpeHl6HzKDpwFlBZTjl3JEaIimI4yeQ7ekNrqqiFMp3a0nbyyVP/Y1IOe
+	dw2gA70kFgW6RsNO3YS5rX5Y/+RVR1B/mz4dVLYV/MFO8F0D2IhsCZdgvqKtPJHW4gelVhLLXl3
+	Z2i+QivQtIXAJvw5CwIQkhN0/eAKcpz2x4foT0hNb4W8guaxEKLmnKi+47QKpJ9lM0VZAej79fp
+	XmUNtv9eDFoojqV
+X-Received: by 2002:a05:6512:3ba3:b0:5a1:1329:5ae5 with SMTP id 2adb3069b0e04-5a13cab34d5mr2539754e87.1.1773093373603;
+        Mon, 09 Mar 2026 14:56:13 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a13d02b184sm2397343e87.23.2026.03.09.14.56.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Mar 2026 14:56:12 -0700 (PDT)
+Message-ID: <aaea7acb-87d9-4cfc-8af2-fe630c3c0095@linaro.org>
+Date: Mon, 9 Mar 2026 23:56:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 57600241F69
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/6] media: i2c: og01a1b: Add support of 8-bit media bus
+ format
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>, Shawn Tu <shawnx.tu@intel.com>,
+ linux-media@vger.kernel.org
+References: <20260226133739.4050870-1-vladimir.zapolskiy@linaro.org>
+ <20260226133739.4050870-7-vladimir.zapolskiy@linaro.org>
+ <aa61R5mcCE1zu125@kekkonen.localdomain>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <aa61R5mcCE1zu125@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: D0CC3241F77
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	TAGGED_FROM(0.00)[bounces-55020-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rayfraytech@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-55021-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:dkim,linaro.org:mid]
 X-Rspamd-Action: no action
 
-Fix block comment formatting to comply with kernel coding style:
-- Add leading '*' on continuation lines
-- Move trailing '*/' to a separate line
-- Remove unnecessary braces around single statement block
+Hi Sakari,
 
-Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
----
- .../atomisp/pci/base/refcount/src/refcount.c  | 29 ++++++++++---------
- 1 file changed, 16 insertions(+), 13 deletions(-)
+thank you for your review.
 
-diff --git a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-index 58e4e3173b40..00e8a73f413e 100644
---- a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-+++ b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-@@ -16,7 +16,8 @@
- #include "ia_css_debug.h"
- 
- /* TODO: enable for other memory aswell
--	 now only for ia_css_ptr */
-+ * now only for ia_css_ptr
-+ */
- struct ia_css_refcount_entry {
- 	u32 count;
- 	ia_css_ptr data;
-@@ -93,14 +94,15 @@ void ia_css_refcount_uninit(void)
- 			    "%s() entry\n", __func__);
- 	for (i = 0; i < myrefcount.size; i++) {
- 		/* driver verifier tool has issues with &arr[i]
--		   and prefers arr + i; as these are actually equivalent
--		   the line below uses + i
--		*/
-+		 * and prefers arr + i; as these are actually equivalent
-+		 * the line below uses + i
-+		 */
- 		entry = myrefcount.items + i;
- 		if (entry->data != mmgr_NULL) {
- 			/*	ia_css_debug_dtrace(IA_CSS_DBG_TRACE,
--				"ia_css_refcount_uninit: freeing (%x)\n",
--				entry->data);*/
-+			 *	"ia_css_refcount_uninit: freeing (%x)\n",
-+			 *	entry->data);
-+			 */
- 			hmm_free(entry->data);
- 			entry->data = mmgr_NULL;
- 			entry->count = 0;
-@@ -173,7 +175,8 @@ bool ia_css_refcount_decrement(s32 id, ia_css_ptr ptr)
- 			entry->count -= 1;
- 			if (entry->count == 0) {
- 				/* ia_css_debug_dtrace(IA_CSS_DBEUG_TRACE,
--				   "ia_css_refcount_decrement: freeing\n");*/
-+				 * "ia_css_refcount_decrement: freeing\n");
-+				 */
- 				hmm_free(ptr);
- 				entry->data = mmgr_NULL;
- 				entry->id = 0;
-@@ -183,7 +186,8 @@ bool ia_css_refcount_decrement(s32 id, ia_css_ptr ptr)
- 	}
- 
- 	/* SHOULD NOT HAPPEN: ptr not managed by refcount, or not
--	   valid anymore */
-+	 * valid anymore
-+	 */
- 	if (entry)
- 		IA_CSS_ERROR("id %x, ptr 0x%x entry %p entry->id %x entry->count %d\n",
- 			     id, ptr, entry, entry->id, entry->count);
-@@ -221,9 +225,9 @@ void ia_css_refcount_clear(s32 id, clear_func clear_func_ptr)
- 
- 	for (i = 0; i < myrefcount.size; i++) {
- 		/* driver verifier tool has issues with &arr[i]
--		   and prefers arr + i; as these are actually equivalent
--		   the line below uses + i
--		*/
-+		 * and prefers arr + i; as these are actually equivalent
-+		 * the line below uses + i
-+		 */
- 		entry = myrefcount.items + i;
- 		if ((entry->data != mmgr_NULL) && (entry->id == id)) {
- 			ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
-@@ -238,9 +242,8 @@ void ia_css_refcount_clear(s32 id, clear_func clear_func_ptr)
- 				hmm_free(entry->data);
- 			}
- 
--			if (entry->count != 0) {
-+			if (entry->count != 0)
- 				IA_CSS_WARNING("Ref count for entry %x is not zero!", entry->id);
--			}
- 
- 			assert(entry->count == 0);
- 
+On 3/9/26 13:55, Sakari Ailus wrote:
+> Hi Vladimir,
+> 
+> Thanks for the set.
+> 
+> On Thu, Feb 26, 2026 at 03:37:39PM +0200, Vladimir Zapolskiy wrote:
+>> @@ -627,6 +632,14 @@ static int og01a1b_enable_streams(struct v4l2_subdev *sd,
+>>   		return ret;
+>>   	}
+>>   
+>> +	ret = cci_write(og01a1b->regmap, CCI_REG8(0x3662),
+>> +			(og01a1b->code == MEDIA_BUS_FMT_Y10_1X10 ? 0x4 : 0x6),
+> 
+> Does this configuration have a human-readable name? It'd be nice to use
+> that instead of a plain numerical value.
+> 
+
+If it has, it's not known to me, unfortunately, I cannot add a meaningful
+symbol name here...
+
+The 0x3662 register is one of many analog control registers, the upstream
+OmniVision OV9282 sensor driver shares a hint that BIT(1) of the register
+changes the media bus mode from Y10 to Y8, and due to my tests it's right
+the same for this one OmniVision OG01A1B sensor, thus it allows me to add
+Y8 support to the driver.
+
+>> +			NULL);
+>> +	if (ret) {
+>> +		dev_err(og01a1b->dev, "failed to set output format: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>>   	ret = __v4l2_ctrl_handler_setup(og01a1b->sd.ctrl_handler);
+>>   	if (ret)
+>>   		goto error;
+> 
+
 -- 
-2.43.0
-
+Best wishes,
+Vladimir
 
