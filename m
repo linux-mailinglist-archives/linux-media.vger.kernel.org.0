@@ -1,104 +1,51 @@
-Return-Path: <linux-media+bounces-54915-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54916-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CElKKHdwrmlPEQIAu9opvQ
-	(envelope-from <linux-media+bounces-54915-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 08:02:15 +0100
+	id 6PRWJmpyrmkCEgIAu9opvQ
+	(envelope-from <linux-media+bounces-54916-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 08:10:34 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3213E234A0B
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 08:02:14 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A9E234AA2
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 08:10:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 43F98304F32E
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 06:59:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 907A13031CEB
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 07:10:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68D15363C56;
-	Mon,  9 Mar 2026 06:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99FFB364949;
+	Mon,  9 Mar 2026 07:10:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="i5QfXdgA";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Jq9lh9yR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r76hKJ2I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752A02EA754
-	for <linux-media@vger.kernel.org>; Mon,  9 Mar 2026 06:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F8927B343;
+	Mon,  9 Mar 2026 07:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773039581; cv=none; b=ULk3kgsXirxu86nBP60BCZ3A1uc/MS8HhZIJEX97JCbpP3zOA3f1dGdLSe2nBhD6O+5RjgTZsJT0hZsj2bKa8hIYlxiCTC7742xpJ9n58GbO/UvDfGH5O91nHDxI1oWtWcsShtx7Me67swkGyp0M3BBI5nC6whSgbVnHzjzpHS8=
+	t=1773040214; cv=none; b=ML7gTGEi0pggAJ3ve0nR1NF/KHiBxeeqgwcv8M9IRT0OGJW7l3rcWpEBFxav8D9NkMV59VfMBlUhYv318wPo9XwcSc+55Slr8efQRFasfKwas5ZwaahYWE5m332bEog/9DxNBOWwdXevPlKdyZstrcH9a4rEolLAiSKt90jnXSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773039581; c=relaxed/simple;
-	bh=FvVlZ/Lcen9SEsi9VK8j2x4eoHrMDtIyP/b5GXbxpaU=;
+	s=arc-20240116; t=1773040214; c=relaxed/simple;
+	bh=anlN1bEDwp6gLpu0DonpgNFMrOv9gQCkQqPDDRuD4yI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QOl4DmdlHFOf3Z1f2CcgZGXhGeZ2P61/yUA7sxu7cTxHThg2o5p6DVl+SbFi1f+WyZ80Kdri/00DnpK1mfZx96nVO28aEPxNrTScXf4HIKbExzfpASbZ0D3W7XipfI6FuOOKuwwUXJMGxhHqPkHaDWkVeTQ0lo+gEcOJblUfr7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=i5QfXdgA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Jq9lh9yR; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62942o5s224227
-	for <linux-media@vger.kernel.org>; Mon, 9 Mar 2026 06:59:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	G+rVK2qEYMP73XgPEKoeHzVEXgyXmbiGfinl4OV1AfY=; b=i5QfXdgAcg/AgJni
-	irNAv/e8dbLAEbvQsR2oIvr8dzvfhC4LlOP5b0CUTzKKvbHMVURDzdsbElcrqk37
-	leb3d0XeO+wsZvb4WSyXwVHqYmgLUGuVSXsvUTqfbQsQxrYL5qOoI96G9Sd/6BFb
-	1d4IM7k4Cfc0ikPSe8fnxEOzpXFI03B8f3fSK43H3iiPAKvy4sACg/wvTt55A7pt
-	3u4Q3kGPEbgcz57stZVWCbucXmDT9odK4Bnl2AN2bzeNenaT0oCZyvSZ9ylxkB+z
-	FvwsrcIZS9B9tZgDXowO674ls3TgjKtQRQ7IwMCSo/bnwHIlVK8Ay+idNqfBPxnM
-	xRMw6g==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4crbbg49gh-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 06:59:39 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2ae405e95f5so89162685ad.2
-        for <linux-media@vger.kernel.org>; Sun, 08 Mar 2026 23:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773039578; x=1773644378; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G+rVK2qEYMP73XgPEKoeHzVEXgyXmbiGfinl4OV1AfY=;
-        b=Jq9lh9yRemESfvXKxWWFUEpDQSyTjzbvSe6DiCoT+37aI7+RW4RHgXJ12Yyf5czfPI
-         R16qDwGnD7Cfk+6FbNwLZQt6WwwrJqv6IBoXJwME5BKO3dCbx8dXCkas8Yr3qzPgUHZ+
-         Uqfc9FMHpIxEOZ4t/riHqHxuxLMakzIChi81da5+ZDHo5WQzH0Ge4QTxwmJtbckgJ2gI
-         rv4Al/4F1NvpUhkNDC90LRwtrnsA2LD96g+ky8nK/M0n4zCjnuTunc8NRga7JauAKyGr
-         zZ1QtEJ02o6f/Wugmg2B1OGSDGQ0atQ/r1jaSv5Mt0ZgluUK1grh8eSwrs+mBA4fOuuL
-         FttQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773039578; x=1773644378;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G+rVK2qEYMP73XgPEKoeHzVEXgyXmbiGfinl4OV1AfY=;
-        b=rqKIW8AqTCOhJ3KXzIVAKfFjCh1SwgJbi3jgw0l7cxDNl+YIO/cy44nFHgrB97xXdS
-         17La6utHMHrM7+hsozLmEb55NSkKjnOJUnDNtwOeMsAK0IJXufW858snCLYzSWr6wF4Y
-         nRNJZAKbM79mHPeZPxsy7EbSKw1rd9Pyr8uoJPfgutFJEnYXfyYMOun+Tr+BPOA2Jg8T
-         llDrJ5z0bxPtoKpExyaUEbNurFq1u475E26XqxbqzY/METUCQDps86wZZovn3ffcvTSj
-         dsYMtu0sM4o4r6PGtDYbGvvZIzWp5lw0uw/yfkgWDuvf1vLzUbnPecNfONBK9omiPjjO
-         j61g==
-X-Forwarded-Encrypted: i=1; AJvYcCX94b7SKSbg90uYMjPOSMkMTf8+y1xvHC8stOdN7w8JnrK8V14/DrQKzc80bawbk2+A+EejrKw/CujCIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCA9rZBm9kzoPG/hqBXAklRJRbVs3lB/yHlIvXbWTYy+K8n3+L
-	GAQqd73MC73s6xeytzG5wKsmp9ch3IkzCgAZl1PcOSEQ+zgSuB2TUDnkixzIa6p4BomZIIexjKi
-	IZ1Mrc1UxyQkGlwlW0tcyhKgG+2OYIAwyicmpbdEcVY/dEG9V+HMFXqZ/scx0Y9stIA==
-X-Gm-Gg: ATEYQzzmRZHH9KmNW/cjUIzdMO9Ee7euQcWqngvhyHVvASdlSjsdRJ7oQpg6UMr2yib
-	uifrMMWw4a3M0ANUtqp5gBIy6qzEMKqJMAxXCUanW/i9U2YSHABzHVEpmkpzFgNAI9q4R9CWm5r
-	hSPrLSP8O/WC6xTWsNZ6lJszVmMvsOv3viIFgUsulYxioJmX5fUGKtbx1vXPbyuElwmZ/a6GALp
-	k8nifKzrkEhDNfacUlTG1MXIm+cg5cLiUjnLNLQyIdeABcijPdYtAVf+nKF7RHrOGeTfC+ebJn6
-	PrwGRFSkCtiZ9OKKbSGxBAr+ja0zdsqgYESNChi+5Mjt2kI9KJF5MHly2zaJf0lZIyVdno63zbU
-	R8QXjTJ1dhBM4fM6E8lqdZPGImceX8FLL+FjAI5SoGVqmMrsogQ==
-X-Received: by 2002:a17:902:f651:b0:2ae:61bb:4255 with SMTP id d9443c01a7336-2ae82418927mr109317825ad.11.1773039578330;
-        Sun, 08 Mar 2026 23:59:38 -0700 (PDT)
-X-Received: by 2002:a17:902:f651:b0:2ae:61bb:4255 with SMTP id d9443c01a7336-2ae82418927mr109317495ad.11.1773039577848;
-        Sun, 08 Mar 2026 23:59:37 -0700 (PDT)
-Received: from [10.206.99.28] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e5c167sm99741945ad.1.2026.03.08.23.59.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Mar 2026 23:59:37 -0700 (PDT)
-Message-ID: <29f9bb45-5c3f-4847-a629-21cef540f38b@oss.qualcomm.com>
-Date: Mon, 9 Mar 2026 12:29:29 +0530
+	 In-Reply-To:Content-Type; b=CjvvIQE2Vka9tFLRJvRjH4YRlxU8gnnOTDkHJbulStdezeCGXOfl9AX0S2M9Ahl6NOpVa3YEnMf79PRMh33CZvOi/zbiuzpf6DyCA0FlOQrr2wcRIUZ6rmeGxikVD1ro+EDzXmMmJUxqlkVv1/hL6Rll5Zqy8zyDif0C8thdqzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r76hKJ2I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 385D9C4CEF7;
+	Mon,  9 Mar 2026 07:10:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773040213;
+	bh=anlN1bEDwp6gLpu0DonpgNFMrOv9gQCkQqPDDRuD4yI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=r76hKJ2I8YnvEycbUdZhv3g4ZucMWG3DrU/7k2lN54BJlvJ1k+RWM2uZ3aJSJ9Bvs
+	 xT1zlcdhrrmQV7f4CLWxjW03zc4ThseHDIAIiVkonas0A+h/Lyy7mMZ648MJQ+ys5X
+	 Ja+NdpjGJULQu2/t0UPF3ktQR7UfWEO73PisRIs11xG8jnLqb536sgyaa1ZIkoehhl
+	 KVeE4Efci2tVhO1rugF34+VUY8HL56nyceKWM2XFL9OSHxMfNKuChpv4OEbTA9WVXP
+	 7B/3EnhTlmPySluWf2X7hhhMMH7cy00+R1sZ0omJQDo/qmsY9KBTKlk/XnExxVhniT
+	 vRKhDcgeTwEDQ==
+Message-ID: <52cd78c2-95e2-4f56-9adc-242b6cf3baab@kernel.org>
+Date: Mon, 9 Mar 2026 08:10:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -106,188 +53,276 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 12/18] accel/qda: Add PRIME dma-buf import support
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        iommu@lists.linux.dev, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-12-fe46a9c1a046@oss.qualcomm.com>
- <e87c0c1d-82f1-4a03-9a56-9bf3e03273cf@amd.com>
+Subject: Re: [PATCH 02/14] firmware: qcom: Add a generic PAS service
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-media@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+ linux-remoteproc@vger.kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
+ akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ jesszhan0024@gmail.com, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+ dikshita.agarwal@oss.qualcomm.com, bod@kernel.org, mchehab@kernel.org,
+ elder@kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ jjohnson@kernel.org, mathieu.poirier@linaro.org,
+ trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
+ pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
+ tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
+ srinivas.kandagatla@oss.qualcomm.com, amirreza.zarrabi@oss.qualcomm.com,
+ jens.wiklander@linaro.org, op-tee@lists.trustedfirmware.org,
+ apurupa@qti.qualcomm.com, skare@qti.qualcomm.com,
+ Sumit Garg <sumit.garg@oss.qualcomm.com>
+References: <20260306105027.290375-1-sumit.garg@kernel.org>
+ <20260306105027.290375-3-sumit.garg@kernel.org>
+ <5dab61a6-d8cc-431d-b59e-744d98195d90@kernel.org>
+ <aa5Sw1qcCnD5clth@sumit-xelite>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <e87c0c1d-82f1-4a03-9a56-9bf3e03273cf@amd.com>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <aa5Sw1qcCnD5clth@sumit-xelite>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: VfwbEF_sbmwur_ifM2N40NHEiQhasw5a
-X-Proofpoint-ORIG-GUID: VfwbEF_sbmwur_ifM2N40NHEiQhasw5a
-X-Authority-Analysis: v=2.4 cv=SumdKfO0 c=1 sm=1 tr=0 ts=69ae6fdb cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=_EeEMxcBAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=YM0dgK5nqTTLF_VjvEgA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=czjwGCTIUPoA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDA2MyBTYWx0ZWRfX3eK0L1BWiXso
- P1/f0iPCHuJyQyRwoMACKSLUACRzJ8g0KDGmRVyyeXwMVEIX8q0EITEy1w9XdyvEGM1IRDoFioO
- AfxYTUChySGuTRGtzkf5DqrFLCbWnIbhp6Neo3ivcL5D7wUHZNIwWJ5A6+cjug3QDtAGRM8lLye
- syS39/VsNWtO5k3VoZS/155E+FiFqFAt8eI1QL8PqxPfN87iIPVY/dIrft79S22Zd1a6qMYUin6
- MQrMWKCV9CKveIUL0p+91/IEzDfQDhofU8pexrxd+mNMVFTRBmx7MUc5vTTs7tEu3/R3PiQWPUs
- yMtP/MUn67rl76SDjjco03MAN4Kx61OuclioNxAr9dwakOzFYxeDQq1xtd2VzpSPxlTt+Y/hwcD
- rqMItbQLjX9e8YoEcaX7Z6l0YTBW9NNrqeKl5fNxTsw2d722ACiELsqYq6ydvBKz7r6j72vYRuE
- ES5/roR7E6AXh3kfF2Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-09_02,2026-03-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 impostorscore=0 spamscore=0 adultscore=0
- phishscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603090063
-X-Rspamd-Queue-Id: 3213E234A0B
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 18A9E234AA2
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54915-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54916-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
+	RCPT_COUNT_TWELVE(0.00)[49];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[aka.ms:url,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-0.977];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.985];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	REDIRECTOR_URL(0.00)[aka.ms];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
+On 09/03/2026 05:55, Sumit Garg wrote:
+> On Fri, Mar 06, 2026 at 12:15:01PM +0100, Krzysztof Kozlowski wrote:
+>> On 06/03/2026 11:50, Sumit Garg wrote:
+>>> From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+>>>
+>>> Qcom platforms has the legacy of using non-standard SCM calls
+>>> splintered over the various kernel drivers. These SCM calls aren't
+>>> compliant with the standard SMC calling conventions which is a
+>>> prerequisite to enable migration to the FF-A specifications from
+>>> Arm.
+>>>
+>>> OP-TEE as an alternative trusted OS to QTEE can't support these non-
+>>> standard SCM calls. And even for newer architectures QTEE won't be able
+>>> to support SCM calls either with FF-A requirements coming in. And with
+>>> both OP-TEE and QTEE drivers well integrated in the TEE subsystem, it
+>>> makes further sense to reuse the TEE bus client drivers infrastructure.
+>>>
+>>> The added benefit of TEE bus infrastructure is that there is support
+>>> for discoverable/enumerable services. With that client drivers don't
+>>> have to manually invoke a special SCM call to know the service status.
+>>>
+>>> So enable the generic Peripheral Authentication Service (PAS) provided
+>>> by the firmware. It acts as the common layer with different TZ
+>>> backends plugged in whether it's an SCM implementation or a proper
+>>> TEE bus based PAS service implementation.
+>>>
+>>> Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+>>> ---
+>>>  drivers/firmware/qcom/Kconfig          |   8 +
+>>>  drivers/firmware/qcom/Makefile         |   1 +
+>>>  drivers/firmware/qcom/qcom_pas.c       | 295 +++++++++++++++++++++++++
+>>>  drivers/firmware/qcom/qcom_pas.h       |  53 +++++
+>>>  include/linux/firmware/qcom/qcom_pas.h |  41 ++++
+>>>  5 files changed, 398 insertions(+)
+>>>  create mode 100644 drivers/firmware/qcom/qcom_pas.c
+>>>  create mode 100644 drivers/firmware/qcom/qcom_pas.h
+>>>  create mode 100644 include/linux/firmware/qcom/qcom_pas.h
+>>>
+>>> diff --git a/drivers/firmware/qcom/Kconfig b/drivers/firmware/qcom/Kconfig
+>>> index b477d54b495a..8653639d06db 100644
+>>> --- a/drivers/firmware/qcom/Kconfig
+>>> +++ b/drivers/firmware/qcom/Kconfig
+>>> @@ -6,6 +6,14 @@
+>>>  
+>>>  menu "Qualcomm firmware drivers"
+>>>  
+>>> +config QCOM_PAS
+>>> +	tristate
+>>> +	help
+>>> +	  Enable the generic Peripheral Authentication Service (PAS) provided
+>>> +	  by the firmware. It acts as the common layer with different TZ
+>>> +	  backends plugged in whether it's an SCM implementation or a proper
+>>> +	  TEE bus based PAS service implementation.
+>>> +
+>>>  config QCOM_SCM
+>>>  	select QCOM_TZMEM
+>>>  	tristate
+>>> diff --git a/drivers/firmware/qcom/Makefile b/drivers/firmware/qcom/Makefile
+>>> index 0be40a1abc13..dc5ab45f906a 100644
+>>> --- a/drivers/firmware/qcom/Makefile
+>>> +++ b/drivers/firmware/qcom/Makefile
+>>> @@ -8,3 +8,4 @@ qcom-scm-objs += qcom_scm.o qcom_scm-smc.o qcom_scm-legacy.o
+>>>  obj-$(CONFIG_QCOM_TZMEM)	+= qcom_tzmem.o
+>>>  obj-$(CONFIG_QCOM_QSEECOM)	+= qcom_qseecom.o
+>>>  obj-$(CONFIG_QCOM_QSEECOM_UEFISECAPP) += qcom_qseecom_uefisecapp.o
+>>> +obj-$(CONFIG_QCOM_PAS)		+= qcom_pas.o
+>>> diff --git a/drivers/firmware/qcom/qcom_pas.c b/drivers/firmware/qcom/qcom_pas.c
+>>> new file mode 100644
+>>> index 000000000000..dc04ff1b6be0
+>>> --- /dev/null
+>>> +++ b/drivers/firmware/qcom/qcom_pas.c
+>>> @@ -0,0 +1,295 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>>> + */
+>>> +
+>>> +#include <linux/delay.h>
+>>> +#include <linux/device/devres.h>
+>>> +#include <linux/firmware/qcom/qcom_pas.h>
+>>> +#include <linux/of.h>
+>>> +#include <linux/kernel.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/slab.h>
+>>> +
+>>> +#include "qcom_pas.h"
+>>> +#include "qcom_scm.h"
+>>> +
+>>> +static struct qcom_pas_ops *ops_ptr;
+>>
+>> I really dislike this singleton design. And it is not even needed! If
+>> you were storing here some allocated instance of SCM/PAS I could
+>> understand, but singleton for only ops? Just implement one driver (so
+>> SCM + whatever you have here) which will decide which ops to use,
+>> through the probe. Really, this is neither needed nor beneficial.
+> 
+> The motivation here is rather quite opposite to the single monolithic
+> SCM driver design. The TZ services like PAS, ICE and so on are going to
+> be implemented as independent discoverable devices on TEE bus which
+> rather needs independent kernel client drivers.
 
+You still have singleton here. So if you think you do opposite to
+singleton, then drop this static.
 
-On 2/24/2026 2:42 PM, Christian König wrote:
-> On 2/23/26 20:09, Ekansh Gupta wrote:
->> [Sie erhalten nicht häufig E-Mails von ekansh.gupta@oss.qualcomm.com. Weitere Informationen, warum dies wichtig ist, finden Sie unter https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> Also, the single driver probe can't work here since the SCM driver is
+> bound to the platform bus whereas the TEE PAS driver is bound to the TEE
+> bus. So there is a reason for the current design.
+> 
 >>
->> Add PRIME dma-buf import support for QDA GEM buffer objects and integrate
->> it with the existing per-process memory manager and IOMMU device model.
+>> It actually leads to more problems with this barrier handling, see
+>> further comments.
+> 
+> The barrier handling is something that I carried over from existing
+> implmentation but I can't see a reason why it can't be replaced with a
+> simple mutex. See diff below for mutex.
+> 
+>> ...
 >>
->> The implementation extends qda_gem_obj to represent imported dma-bufs,
->> including dma_buf references, attachment state, scatter-gather tables
->> and an imported DMA address used for DSP-facing book-keeping. The
->> qda_gem_prime_import() path handles reimports of buffers originally
->> exported by QDA as well as imports of external dma-bufs, attaching them
->> to the assigned IOMMU device
-> That is usually an absolutely clear NO-GO for DMA-bufs. Where exactly in the code is that?
-dma_buf_attach* to comute-cb iommu devices are critical for DSPs to access the buffer.
-This is needed if the buffer is exported by anyone other than QDA(say system heap). If this is not
-the correct way, what should be the right way here? On the current fastrpc driver also,
-the DMABUF is getting attached with iommu device[1] due to the same requirement.
+>>> +
+>>> +/**
+>>> + * qcom_pas_shutdown() - Shut down the remote processor
+>>> + * @pas_id:	peripheral authentication service id
+>>> + *
+>>> + * Returns 0 on success.
+>>> + */
+>>> +int qcom_pas_shutdown(u32 pas_id)
+>>> +{
+>>> +	if (ops_ptr)
+>>> +		return ops_ptr->shutdown(ops_ptr->dev, pas_id);
+>>> +
+>>> +	return -ENODEV;
+>>> +}
+>>> +EXPORT_SYMBOL_GPL(qcom_pas_shutdown);
+>>> +
+>>> +/**
+>>> + * qcom_pas_supported() - Check if the peripheral authentication service is
+>>> + *			  available for the given peripheral
+>>> + * @pas_id:	peripheral authentication service id
+>>> + *
+>>> + * Returns true if PAS is supported for this peripheral, otherwise false.
+>>> + */
+>>> +bool qcom_pas_supported(u32 pas_id)
+>>> +{
+>>> +	if (ops_ptr)
+>>
+>> Lack of barriers here is not looking right. Existing/old code is not a
+>> good example, I fixed only the obvious issue, but new code should be
+>> correct from the beginning.
+>>
+>> Barriers should normally be always paired, unless you have some clear
+>> path no concurrent execution can happen here, but such explanation is
+>> missing, look:
+> 
+> Actually concurrent execution is rather required here since TZ can
+> support parallel bring-up of co-processors. The synchonization is only
+> needed when PAS client drivers are performing a deferred probe waiting
+> for the service to be available. However, you are right explanation is
+> missing here which I will add in the next version.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/misc/fastrpc.c#n779
->
->> and mapping them through the memory manager
->> for DSP access. The GEM free path is updated to unmap and detach
->> imported buffers while preserving the existing behaviour for locally
->> allocated memory.
->>
->> The PRIME fd-to-handle path is implemented in qda_prime_fd_to_handle(),
->> which records the calling drm_file in a driver-private import context
->> before invoking the core DRM helpers. The GEM import callback retrieves
->> this context to ensure that an IOMMU device is assigned to the process
->> and that imported buffers follow the same per-process IOMMU selection
->> rules as natively allocated GEM objects.
->>
->> This patch prepares the driver for interoperable buffer sharing between
->> QDA and other dma-buf capable subsystems while keeping IOMMU mapping and
->> lifetime handling consistent with the existing GEM allocation flow.
->>
->> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> ...
->
->> @@ -15,23 +16,29 @@ static int validate_gem_obj_for_mmap(struct qda_gem_obj *qda_gem_obj)
->>                 qda_err(NULL, "Invalid GEM object size\n");
->>                 return -EINVAL;
->>         }
->> -       if (!qda_gem_obj->iommu_dev || !qda_gem_obj->iommu_dev->dev) {
->> -               qda_err(NULL, "Allocated buffer missing IOMMU device\n");
->> -               return -EINVAL;
->> -       }
->> -       if (!qda_gem_obj->iommu_dev->dev) {
->> -               qda_err(NULL, "Allocated buffer missing IOMMU device\n");
->> -               return -EINVAL;
->> -       }
->> -       if (!qda_gem_obj->virt) {
->> -               qda_err(NULL, "Allocated buffer missing virtual address\n");
->> -               return -EINVAL;
->> -       }
->> -       if (qda_gem_obj->dma_addr == 0) {
->> -               qda_err(NULL, "Allocated buffer missing DMA address\n");
->> -               return -EINVAL;
->> +       if (qda_gem_obj->is_imported) {
-> Absolutely clear NAK to that. Imported buffers *can't* be mmaped through the importer!
->
-> Userspace needs to mmap() them through the exporter.
->
-> If you absolutely have to map them through the importer for uAPI backward compatibility then there is dma_buf_mmap() for that, but this is clearly not the case here.
->
-> ...
-Okay, the requirement is slightly different here. Any buffer which is not allocated using the
-QDA GEM interface needs to be attached to the iommu device for that particular process to
-enable DSP for the access. I should not call it `mmap` instead it should be called importing the
-buffer to a particular iommu context bank. With this definition, is it fine to keep it this way? Or
-should the dma_buf_attach* calls be moved to some other place?
->> +static int qda_memory_manager_map_imported(struct qda_memory_manager *mem_mgr,
->> +                                          struct qda_gem_obj *gem_obj,
->> +                                          struct qda_iommu_device *iommu_dev)
->> +{
->> +       struct scatterlist *sg;
->> +       dma_addr_t dma_addr;
->> +       int ret = 0;
->> +
->> +       if (!gem_obj->is_imported || !gem_obj->sgt || !iommu_dev) {
->> +               qda_err(NULL, "Invalid parameters for imported buffer mapping\n");
->> +               return -EINVAL;
->> +       }
->> +
->> +       gem_obj->iommu_dev = iommu_dev;
->> +
->> +       sg = gem_obj->sgt->sgl;
->> +       if (sg) {
->> +               dma_addr = sg_dma_address(sg);
->> +               dma_addr += ((u64)iommu_dev->sid << 32);
->> +
->> +               gem_obj->imported_dma_addr = dma_addr;
-> Well that looks like you are only using the first DMA address from the imported sgt. What about the others?
-I might have a proper appach for this now, will update in the next spin.
->
-> Regards,
-> Christian.
+Hm? Existing comments are completely useless. Your comment said just
+"barrier" basically... That's nothing useful.
 
+Best regards,
+Krzysztof
 
