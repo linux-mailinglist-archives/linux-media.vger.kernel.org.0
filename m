@@ -1,379 +1,355 @@
-Return-Path: <linux-media+bounces-54908-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54909-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WOJMFPwyrmlrAQIAu9opvQ
-	(envelope-from <linux-media+bounces-54908-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 03:39:56 +0100
+	id aE7HHfVSrmkMCQIAu9opvQ
+	(envelope-from <linux-media+bounces-54909-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 05:56:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4FA2233570
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 03:39:54 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1416233C75
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 05:56:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 329F1300823A
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 02:39:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7D52F303604D
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 04:55:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D32227467F;
-	Mon,  9 Mar 2026 02:39:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A0DF2D592D;
+	Mon,  9 Mar 2026 04:55:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hRRxab5f"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p92/T74w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB35023EAB3
-	for <linux-media@vger.kernel.org>; Mon,  9 Mar 2026 02:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032162010EE;
+	Mon,  9 Mar 2026 04:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773023988; cv=none; b=KSuiw2o+lNHisKPaBj6LWrrUJM/P/Iw5egT8Bmk/+XtTTJdXdKU3+zx03VK/W9YO3SUDZ4CaRV0g1DyhJHF/kD9HR6PTCkYWuep2Q0o8/l+XFKJTW1FVn0mdo+dMr8X9cJWil2kHA/85OeYZFnrJOr/LK2i2qt9Mta4FggSPTF4=
+	t=1773032151; cv=none; b=LPrOdJY+0HrsZfd02woCL6BWPrkKRrZoRbM0RoLeA2Z4g3qire5oV2rPbLyHSTnIJnvaLNx+3JWwVhf5tc9zz5hiPeyxcx3Qre7zZieMJQldAYlnw1QzTZUdZypdTMGmr5cUc1gnThpJD9lGXl6Hb6qVNnsigrYUaCjM/kgFfnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773023988; c=relaxed/simple;
-	bh=Qlq7klAEsQmCWwMNr2pAKIa4WnMaspGvu/AieuNs8rg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bGTawtyGVzJiiV+dim/Kxiyc8ttqmtsV8AUQEf9fPHP/aOAAgjQi3M8iyTqIFOJOQKGpaBLur5sqdb1rxap3DKVdJhdmdElVxERi6+vqheBBHg6ycdT+AnPkBK+ytknhEA8+6tbus+nN2lq3Jd1yJS3xW8Rd4Avs4FXc/T5sGjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hRRxab5f; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773023985; x=1804559985;
-  h=date:from:to:cc:subject:message-id;
-  bh=Qlq7klAEsQmCWwMNr2pAKIa4WnMaspGvu/AieuNs8rg=;
-  b=hRRxab5fibfgzrXK1WZzYX6NM8ZZsJJTp5KTgxVzFl1hMixRPHy7HrK0
-   wxDpqK/y4VIrcxlF1m3/j0JFoRFzjpN4Cb0JWbmmOuOVFoNz6YTgCW2UK
-   SYT9jtbnMvV3Ae7AomIUgO1c7oxPxHi3phb28GRxaS9JQdnNb1pRid1dp
-   mm5DjtwbmcnKXCUgbLv50qtAW7Bfv4OM5ExdQJeqPVx5E53+b8TonZSkn
-   R6eCK3B4Jq/p++UZG6gyVcmzcpCyZPopa64z0W5zj0vcdob7mcX4RGwMh
-   o3qBy+uHuwhB6I6UVrYghxnN2Pfm02yBfdk8BLLa0awpJlYsIx9RE2JqT
-   w==;
-X-CSE-ConnectionGUID: beqY8qJ1SpC6/QSgCMlwIA==
-X-CSE-MsgGUID: Qfl/piERTgyiGoMgWHaUhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="73915723"
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="73915723"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 19:39:45 -0700
-X-CSE-ConnectionGUID: 2QxEw/n6S82M/C+iXyoBZg==
-X-CSE-MsgGUID: sqi+M+DfSsOFnaZFMpSwrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="224309083"
-Received: from lkp-server01.sh.intel.com (HELO 17db2bb44c9a) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Mar 2026 19:39:43 -0700
-Received: from kbuild by 17db2bb44c9a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vzQWy-0000000004n-0JfS;
-	Mon, 09 Mar 2026 02:39:40 +0000
-Date: Mon, 09 Mar 2026 10:38:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:fixes] BUILD SUCCESS
- cac4bba4b17e7142f40557034b546614ef064928
-Message-ID: <202603091046.DCtDP9dk-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1773032151; c=relaxed/simple;
+	bh=NkbTndFHxMaI3aDcM2/8HZHlz7aV3tc1b23x0wCm92M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ggUiXUD5h8HJvVeX5MyePW9JcD8S9UGX8bQhiUx9WRsyhbYtixRruMqvsA1YUAnPH/REHIErEuFUwJVrLSqJkZOHyJ16pDz1xd+vpJz8jz47sstp+Emee719ISTP3zgQKEmHILJZYm4LS3XzJT3cPGYQEZkpkOc2vSxYt/F9Q9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p92/T74w; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74FE2C4CEF7;
+	Mon,  9 Mar 2026 04:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773032150;
+	bh=NkbTndFHxMaI3aDcM2/8HZHlz7aV3tc1b23x0wCm92M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p92/T74w+P9SQUfRQIyMDxe24WI07YnrDPgBGOaTAyatjkFRUgmgBphAZBCljN9ax
+	 JgkWYLKKytFEVTMuVCDXDTZP+1jKhihDmz8CStC5WFtuVt3gjsCXu7K8tSfFGdj5Gx
+	 KAaW+Ua2EW/Pbk1mu4Q9Bc5+lpLdIjCwKhTLpiIqPhSkSTpGEnD4oE8FKsSkyvOyXr
+	 P4GjMQzpqtrb2NHXkWTiKULMgrDtSUmSCwkmWbCkIalJ52h61F+G7FBC354ZNkhgY5
+	 FGGthaCLdEX0aIZS1SSDHbpkaWpNn3Y5IOTBuf/fCHXGxsO7m7/izjvoHP7/Ppin+4
+	 Tif1VRDdIeV4A==
+Date: Mon, 9 Mar 2026 10:25:31 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, andersson@kernel.org,
+	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
+	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
+	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
+	dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
+	mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
+	trilokkumar.soni@oss.qualcomm.com, mukesh.ojha@oss.qualcomm.com,
+	pavan.kondeti@oss.qualcomm.com, jorge.ramirez@oss.qualcomm.com,
+	tonyh@qti.qualcomm.com, vignesh.viswanathan@oss.qualcomm.com,
+	srinivas.kandagatla@oss.qualcomm.com,
+	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
+	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
+	skare@qti.qualcomm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
+Subject: Re: [PATCH 02/14] firmware: qcom: Add a generic PAS service
+Message-ID: <aa5Sw1qcCnD5clth@sumit-xelite>
+References: <20260306105027.290375-1-sumit.garg@kernel.org>
+ <20260306105027.290375-3-sumit.garg@kernel.org>
+ <5dab61a6-d8cc-431d-b59e-744d98195d90@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Rspamd-Queue-Id: A4FA2233570
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5dab61a6-d8cc-431d-b59e-744d98195d90@kernel.org>
+X-Rspamd-Queue-Id: C1416233C75
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	TAGGED_FROM(0.00)[bounces-54908-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-54909-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[49];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.998];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	NEURAL_HAM(-0.00)[-0.985];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git fixes
-branch HEAD: cac4bba4b17e7142f40557034b546614ef064928  media: mc, v4l2: serialize REINIT and REQBUFS with req_queue_mutex
+On Fri, Mar 06, 2026 at 12:15:01PM +0100, Krzysztof Kozlowski wrote:
+> On 06/03/2026 11:50, Sumit Garg wrote:
+> > From: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > 
+> > Qcom platforms has the legacy of using non-standard SCM calls
+> > splintered over the various kernel drivers. These SCM calls aren't
+> > compliant with the standard SMC calling conventions which is a
+> > prerequisite to enable migration to the FF-A specifications from
+> > Arm.
+> > 
+> > OP-TEE as an alternative trusted OS to QTEE can't support these non-
+> > standard SCM calls. And even for newer architectures QTEE won't be able
+> > to support SCM calls either with FF-A requirements coming in. And with
+> > both OP-TEE and QTEE drivers well integrated in the TEE subsystem, it
+> > makes further sense to reuse the TEE bus client drivers infrastructure.
+> > 
+> > The added benefit of TEE bus infrastructure is that there is support
+> > for discoverable/enumerable services. With that client drivers don't
+> > have to manually invoke a special SCM call to know the service status.
+> > 
+> > So enable the generic Peripheral Authentication Service (PAS) provided
+> > by the firmware. It acts as the common layer with different TZ
+> > backends plugged in whether it's an SCM implementation or a proper
+> > TEE bus based PAS service implementation.
+> > 
+> > Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+> > ---
+> >  drivers/firmware/qcom/Kconfig          |   8 +
+> >  drivers/firmware/qcom/Makefile         |   1 +
+> >  drivers/firmware/qcom/qcom_pas.c       | 295 +++++++++++++++++++++++++
+> >  drivers/firmware/qcom/qcom_pas.h       |  53 +++++
+> >  include/linux/firmware/qcom/qcom_pas.h |  41 ++++
+> >  5 files changed, 398 insertions(+)
+> >  create mode 100644 drivers/firmware/qcom/qcom_pas.c
+> >  create mode 100644 drivers/firmware/qcom/qcom_pas.h
+> >  create mode 100644 include/linux/firmware/qcom/qcom_pas.h
+> > 
+> > diff --git a/drivers/firmware/qcom/Kconfig b/drivers/firmware/qcom/Kconfig
+> > index b477d54b495a..8653639d06db 100644
+> > --- a/drivers/firmware/qcom/Kconfig
+> > +++ b/drivers/firmware/qcom/Kconfig
+> > @@ -6,6 +6,14 @@
+> >  
+> >  menu "Qualcomm firmware drivers"
+> >  
+> > +config QCOM_PAS
+> > +	tristate
+> > +	help
+> > +	  Enable the generic Peripheral Authentication Service (PAS) provided
+> > +	  by the firmware. It acts as the common layer with different TZ
+> > +	  backends plugged in whether it's an SCM implementation or a proper
+> > +	  TEE bus based PAS service implementation.
+> > +
+> >  config QCOM_SCM
+> >  	select QCOM_TZMEM
+> >  	tristate
+> > diff --git a/drivers/firmware/qcom/Makefile b/drivers/firmware/qcom/Makefile
+> > index 0be40a1abc13..dc5ab45f906a 100644
+> > --- a/drivers/firmware/qcom/Makefile
+> > +++ b/drivers/firmware/qcom/Makefile
+> > @@ -8,3 +8,4 @@ qcom-scm-objs += qcom_scm.o qcom_scm-smc.o qcom_scm-legacy.o
+> >  obj-$(CONFIG_QCOM_TZMEM)	+= qcom_tzmem.o
+> >  obj-$(CONFIG_QCOM_QSEECOM)	+= qcom_qseecom.o
+> >  obj-$(CONFIG_QCOM_QSEECOM_UEFISECAPP) += qcom_qseecom_uefisecapp.o
+> > +obj-$(CONFIG_QCOM_PAS)		+= qcom_pas.o
+> > diff --git a/drivers/firmware/qcom/qcom_pas.c b/drivers/firmware/qcom/qcom_pas.c
+> > new file mode 100644
+> > index 000000000000..dc04ff1b6be0
+> > --- /dev/null
+> > +++ b/drivers/firmware/qcom/qcom_pas.c
+> > @@ -0,0 +1,295 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> > + */
+> > +
+> > +#include <linux/delay.h>
+> > +#include <linux/device/devres.h>
+> > +#include <linux/firmware/qcom/qcom_pas.h>
+> > +#include <linux/of.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/slab.h>
+> > +
+> > +#include "qcom_pas.h"
+> > +#include "qcom_scm.h"
+> > +
+> > +static struct qcom_pas_ops *ops_ptr;
+> 
+> I really dislike this singleton design. And it is not even needed! If
+> you were storing here some allocated instance of SCM/PAS I could
+> understand, but singleton for only ops? Just implement one driver (so
+> SCM + whatever you have here) which will decide which ops to use,
+> through the probe. Really, this is neither needed nor beneficial.
 
-elapsed time: 811m
+The motivation here is rather quite opposite to the single monolithic
+SCM driver design. The TZ services like PAS, ICE and so on are going to
+be implemented as independent discoverable devices on TEE bus which
+rather needs independent kernel client drivers.
 
-configs tested: 255
-configs skipped: 5
+Also, the single driver probe can't work here since the SCM driver is
+bound to the platform bus whereas the TEE PAS driver is bound to the TEE
+bus. So there is a reason for the current design.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> 
+> It actually leads to more problems with this barrier handling, see
+> further comments.
 
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-alpha                               defconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                              allmodconfig    gcc-15.2.0
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-23
-arc                              allyesconfig    gcc-15.2.0
-arc                                 defconfig    gcc-15.2.0
-arc                   randconfig-001-20260308    gcc-8.5.0
-arc                   randconfig-001-20260309    clang-17
-arc                   randconfig-002-20260308    gcc-8.5.0
-arc                   randconfig-002-20260309    clang-17
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                              allyesconfig    gcc-15.2.0
-arm                                 defconfig    gcc-15.2.0
-arm                   randconfig-001-20260308    gcc-8.5.0
-arm                   randconfig-001-20260309    clang-17
-arm                   randconfig-002-20260308    gcc-8.5.0
-arm                   randconfig-002-20260309    clang-17
-arm                   randconfig-003-20260308    gcc-8.5.0
-arm                   randconfig-003-20260309    clang-17
-arm                   randconfig-004-20260308    gcc-8.5.0
-arm                   randconfig-004-20260309    clang-17
-arm64                            allmodconfig    clang-19
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-15.2.0
-arm64                               defconfig    gcc-15.2.0
-arm64                 randconfig-001-20260308    clang-23
-arm64                 randconfig-002-20260308    clang-23
-arm64                 randconfig-003-20260308    clang-23
-arm64                 randconfig-004-20260308    clang-23
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                                defconfig    gcc-15.2.0
-csky                  randconfig-001-20260308    clang-23
-csky                  randconfig-002-20260308    clang-23
-hexagon                          allmodconfig    clang-17
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon                             defconfig    gcc-15.2.0
-hexagon               randconfig-001-20260308    clang-23
-hexagon               randconfig-002-20260308    clang-16
-hexagon               randconfig-002-20260308    clang-23
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260308    clang-20
-i386        buildonly-randconfig-002-20260308    clang-20
-i386        buildonly-randconfig-003-20260308    clang-20
-i386        buildonly-randconfig-004-20260308    clang-20
-i386        buildonly-randconfig-005-20260308    clang-20
-i386        buildonly-randconfig-006-20260308    clang-20
-i386                                defconfig    gcc-15.2.0
-i386                  randconfig-001-20260308    gcc-13
-i386                  randconfig-001-20260308    gcc-14
-i386                  randconfig-001-20260309    gcc-14
-i386                  randconfig-002-20260308    gcc-14
-i386                  randconfig-002-20260309    gcc-14
-i386                  randconfig-003-20260308    gcc-14
-i386                  randconfig-003-20260309    gcc-14
-i386                  randconfig-004-20260308    clang-20
-i386                  randconfig-004-20260308    gcc-14
-i386                  randconfig-004-20260309    gcc-14
-i386                  randconfig-005-20260308    clang-20
-i386                  randconfig-005-20260308    gcc-14
-i386                  randconfig-005-20260309    gcc-14
-i386                  randconfig-006-20260308    gcc-14
-i386                  randconfig-006-20260309    gcc-14
-i386                  randconfig-007-20260308    clang-20
-i386                  randconfig-007-20260308    gcc-14
-i386                  randconfig-007-20260309    gcc-14
-i386                  randconfig-011-20260308    clang-20
-i386                  randconfig-012-20260308    clang-20
-i386                  randconfig-013-20260308    clang-20
-i386                  randconfig-014-20260308    clang-20
-i386                  randconfig-015-20260308    clang-20
-i386                  randconfig-016-20260308    clang-20
-i386                  randconfig-017-20260308    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260308    clang-19
-loongarch             randconfig-001-20260308    clang-23
-loongarch             randconfig-002-20260308    clang-23
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                             allyesconfig    gcc-15.2.0
-m68k                                defconfig    clang-19
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-nios2                            allmodconfig    clang-23
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    clang-23
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260308    clang-23
-nios2                 randconfig-001-20260308    gcc-11.5.0
-nios2                 randconfig-002-20260308    clang-23
-nios2                 randconfig-002-20260308    gcc-11.5.0
-openrisc                         allmodconfig    clang-23
-openrisc                         allmodconfig    gcc-15.2.0
-openrisc                          allnoconfig    clang-23
-openrisc                          allnoconfig    gcc-15.2.0
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-23
-parisc                            allnoconfig    gcc-15.2.0
-parisc                           allyesconfig    clang-19
-parisc                           allyesconfig    gcc-15.2.0
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260308    gcc-8.5.0
-parisc                randconfig-001-20260309    gcc-8.5.0
-parisc                randconfig-002-20260308    gcc-8.5.0
-parisc                randconfig-002-20260309    gcc-8.5.0
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-23
-powerpc                           allnoconfig    gcc-15.2.0
-powerpc                     powernv_defconfig    gcc-15.2.0
-powerpc               randconfig-001-20260308    gcc-8.5.0
-powerpc               randconfig-001-20260309    gcc-8.5.0
-powerpc               randconfig-002-20260308    gcc-8.5.0
-powerpc               randconfig-002-20260309    gcc-8.5.0
-powerpc64             randconfig-001-20260308    gcc-8.5.0
-powerpc64             randconfig-001-20260309    gcc-8.5.0
-powerpc64             randconfig-002-20260308    gcc-8.5.0
-powerpc64             randconfig-002-20260309    gcc-8.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                             allnoconfig    gcc-15.2.0
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260308    gcc-12.5.0
-riscv                 randconfig-002-20260308    gcc-12.5.0
-s390                             allmodconfig    clang-18
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260308    gcc-12.5.0
-s390                  randconfig-002-20260308    gcc-12.5.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-23
-sh                                allnoconfig    gcc-15.2.0
-sh                               allyesconfig    clang-19
-sh                               allyesconfig    gcc-15.2.0
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260308    gcc-12.5.0
-sh                    randconfig-002-20260308    gcc-12.5.0
-sh                            titan_defconfig    gcc-15.2.0
-sparc                             allnoconfig    clang-23
-sparc                             allnoconfig    gcc-15.2.0
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260308    gcc-15.2.0
-sparc                 randconfig-001-20260308    gcc-8.5.0
-sparc                 randconfig-001-20260309    gcc-13.4.0
-sparc                 randconfig-002-20260308    gcc-11.5.0
-sparc                 randconfig-002-20260308    gcc-15.2.0
-sparc                 randconfig-002-20260309    gcc-13.4.0
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260308    clang-20
-sparc64               randconfig-001-20260308    gcc-15.2.0
-sparc64               randconfig-001-20260309    gcc-13.4.0
-sparc64               randconfig-002-20260308    gcc-15.2.0
-sparc64               randconfig-002-20260308    gcc-8.5.0
-sparc64               randconfig-002-20260309    gcc-13.4.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260308    gcc-14
-um                    randconfig-001-20260308    gcc-15.2.0
-um                    randconfig-001-20260309    gcc-13.4.0
-um                    randconfig-002-20260308    gcc-14
-um                    randconfig-002-20260308    gcc-15.2.0
-um                    randconfig-002-20260309    gcc-13.4.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-20
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260308    clang-20
-x86_64      buildonly-randconfig-001-20260309    gcc-14
-x86_64      buildonly-randconfig-002-20260308    clang-20
-x86_64      buildonly-randconfig-002-20260309    gcc-14
-x86_64      buildonly-randconfig-003-20260308    clang-20
-x86_64      buildonly-randconfig-003-20260308    gcc-14
-x86_64      buildonly-randconfig-003-20260309    gcc-14
-x86_64      buildonly-randconfig-004-20260308    clang-20
-x86_64      buildonly-randconfig-004-20260309    gcc-14
-x86_64      buildonly-randconfig-005-20260308    clang-20
-x86_64      buildonly-randconfig-005-20260308    gcc-14
-x86_64      buildonly-randconfig-005-20260309    gcc-14
-x86_64      buildonly-randconfig-006-20260308    clang-20
-x86_64      buildonly-randconfig-006-20260308    gcc-14
-x86_64      buildonly-randconfig-006-20260309    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-001-20260308    gcc-14
-x86_64                randconfig-001-20260309    gcc-13
-x86_64                randconfig-002-20260308    gcc-14
-x86_64                randconfig-002-20260309    gcc-13
-x86_64                randconfig-003-20260308    gcc-14
-x86_64                randconfig-003-20260309    gcc-13
-x86_64                randconfig-004-20260308    gcc-14
-x86_64                randconfig-004-20260309    gcc-13
-x86_64                randconfig-005-20260308    gcc-14
-x86_64                randconfig-005-20260309    gcc-13
-x86_64                randconfig-006-20260308    gcc-14
-x86_64                randconfig-006-20260309    gcc-13
-x86_64                randconfig-011-20260308    clang-20
-x86_64                randconfig-012-20260308    clang-20
-x86_64                randconfig-013-20260308    clang-20
-x86_64                randconfig-014-20260308    clang-20
-x86_64                randconfig-015-20260308    clang-20
-x86_64                randconfig-016-20260308    clang-20
-x86_64                randconfig-071-20260308    clang-20
-x86_64                randconfig-071-20260309    gcc-14
-x86_64                randconfig-072-20260308    clang-20
-x86_64                randconfig-072-20260309    gcc-14
-x86_64                randconfig-073-20260308    clang-20
-x86_64                randconfig-073-20260309    gcc-14
-x86_64                randconfig-074-20260308    gcc-14
-x86_64                randconfig-074-20260309    gcc-14
-x86_64                randconfig-075-20260308    clang-20
-x86_64                randconfig-075-20260309    gcc-14
-x86_64                randconfig-076-20260308    gcc-14
-x86_64                randconfig-076-20260309    gcc-14
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-23
-xtensa                            allnoconfig    gcc-15.2.0
-xtensa                           allyesconfig    clang-23
-xtensa                randconfig-001-20260308    gcc-11.5.0
-xtensa                randconfig-001-20260308    gcc-15.2.0
-xtensa                randconfig-001-20260309    gcc-13.4.0
-xtensa                randconfig-002-20260308    gcc-15.2.0
-xtensa                randconfig-002-20260309    gcc-13.4.0
+The barrier handling is something that I carried over from existing
+implmentation but I can't see a reason why it can't be replaced with a
+simple mutex. See diff below for mutex.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ...
+> 
+> > +
+> > +/**
+> > + * qcom_pas_shutdown() - Shut down the remote processor
+> > + * @pas_id:	peripheral authentication service id
+> > + *
+> > + * Returns 0 on success.
+> > + */
+> > +int qcom_pas_shutdown(u32 pas_id)
+> > +{
+> > +	if (ops_ptr)
+> > +		return ops_ptr->shutdown(ops_ptr->dev, pas_id);
+> > +
+> > +	return -ENODEV;
+> > +}
+> > +EXPORT_SYMBOL_GPL(qcom_pas_shutdown);
+> > +
+> > +/**
+> > + * qcom_pas_supported() - Check if the peripheral authentication service is
+> > + *			  available for the given peripheral
+> > + * @pas_id:	peripheral authentication service id
+> > + *
+> > + * Returns true if PAS is supported for this peripheral, otherwise false.
+> > + */
+> > +bool qcom_pas_supported(u32 pas_id)
+> > +{
+> > +	if (ops_ptr)
+> 
+> Lack of barriers here is not looking right. Existing/old code is not a
+> good example, I fixed only the obvious issue, but new code should be
+> correct from the beginning.
+> 
+> Barriers should normally be always paired, unless you have some clear
+> path no concurrent execution can happen here, but such explanation is
+> missing, look:
+
+Actually concurrent execution is rather required here since TZ can
+support parallel bring-up of co-processors. The synchonization is only
+needed when PAS client drivers are performing a deferred probe waiting
+for the service to be available. However, you are right explanation is
+missing here which I will add in the next version.
+
+> 
+> > +		return ops_ptr->supported(ops_ptr->dev, pas_id);
+> > +
+> > +	return false;
+> > +}
+> > +EXPORT_SYMBOL_GPL(qcom_pas_supported);
+> > +
+> > +/**
+> > + * qcom_pas_is_available() - Check for PAS service
+> > + *
+> > + * Returns true on success.
+> > + */
+> > +bool qcom_pas_is_available(void)
+> > +{
+> > +	/* The barrier is needed to synchronize with client drivers. */
+> 
+> 
+> Here. This is pretty pointless/redundant comment. Obviously barriers are
+> to synchronize with whoever is calling this and only clients are calling.
+> 
+> You must say something useful, not just barrier is a barrier... It's
+> like documenting mutex "to synchronize".
+
+Sure, I can expand the comments.
+
+> 
+> > +	return !!smp_load_acquire(&ops_ptr);
+> 
+
+
+diff --git a/drivers/firmware/qcom/qcom_pas.c b/drivers/firmware/qcom/qcom_pas.c
+index dc04ff1b6be0..82312ff5a1d0 100644
+--- a/drivers/firmware/qcom/qcom_pas.c
++++ b/drivers/firmware/qcom/qcom_pas.c
+@@ -14,6 +14,7 @@
+ #include "qcom_pas.h"
+ #include "qcom_scm.h"
+
++static DEFINE_MUTEX(ops_mutex);
+ static struct qcom_pas_ops *ops_ptr;
+
+ /**
+@@ -261,8 +262,8 @@ EXPORT_SYMBOL_GPL(qcom_pas_supported);
+  */
+ bool qcom_pas_is_available(void)
+ {
+-       /* The barrier is needed to synchronize with client drivers. */
+-       return !!smp_load_acquire(&ops_ptr);
++       guard(mutex)(&ops_mutex);
++       return !!ops_ptr;
+ }
+ EXPORT_SYMBOL_GPL(qcom_pas_is_available);
+
+@@ -272,11 +273,12 @@ EXPORT_SYMBOL_GPL(qcom_pas_is_available);
+  */
+ void qcom_pas_ops_register(struct qcom_pas_ops *ops)
+ {
+-       if (!qcom_pas_is_available())
+-               /* The barrier is needed to synchronize with client drivers. */
+-               smp_store_release(&ops_ptr, ops);
+-       else
++       if (!qcom_pas_is_available()) {
++               guard(mutex)(&ops_mutex);
++               ops_ptr = ops;
++       } else {
+                pr_err("qcom_pas: ops already registered\n");
++       }
+ }
+ EXPORT_SYMBOL_GPL(qcom_pas_ops_register);
+
+@@ -285,8 +287,8 @@ EXPORT_SYMBOL_GPL(qcom_pas_ops_register);
+  */
+ void qcom_pas_ops_unregister(void)
+ {
+-       /* The barrier is needed to synchronize with client drivers. */
+-       smp_store_release(&ops_ptr, NULL);
++       guard(mutex)(&ops_mutex);
++       ops_ptr = NULL;
+ }
+ EXPORT_SYMBOL_GPL(qcom_pas_ops_unregister);
+
+-Sumit
 
