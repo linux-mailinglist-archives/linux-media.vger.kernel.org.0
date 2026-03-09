@@ -1,176 +1,157 @@
-Return-Path: <linux-media+bounces-55021-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55022-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qC0ZIAdCr2mYSwIAu9opvQ
-	(envelope-from <linux-media+bounces-55021-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 22:56:23 +0100
+	id KElkEcZUr2mYUQIAu9opvQ
+	(envelope-from <linux-media+bounces-55022-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 00:16:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CC3241F77
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 22:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9634B2429DD
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 00:16:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 40E90306222B
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 21:56:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6255930E5750
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 23:15:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49EE436D4E7;
-	Mon,  9 Mar 2026 21:56:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BA133939C4;
+	Mon,  9 Mar 2026 23:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XSdfnt8L"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V4ag5O/4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD7336B06D
-	for <linux-media@vger.kernel.org>; Mon,  9 Mar 2026 21:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9EC37A490
+	for <linux-media@vger.kernel.org>; Mon,  9 Mar 2026 23:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773093376; cv=none; b=jQWMrUEF86T9lkBTc/ypCHJkEvURiSQjB8wRJuRDeXyW/y/QCYJZ5FbXL6+gCDSm9hPPZqAXQTuYMjSBGScW/nkorFBYjYIhcUt396i5tPjEhE7Ok3CtgeMD3DlMLXg0HSXzyjAXCBpGeOWNBWp8jTfeepBiO53bvLMe+HEORgw=
+	t=1773098123; cv=none; b=LCZfGe21sTAwiQ3WYqm29h/Gauf4Xl08696vwN4B777FzbR9HD7g6768JH6p8BSpl2dQ1S8oQQGa6cNSAzyEGuJqjTLXAKXyJ7H+x3csj0HiQogwYDSmKAjCuHAy1VZHWhXeN4hzXyELxFEIpPYDC6bIk/eNScLnlizI/zoyDus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773093376; c=relaxed/simple;
-	bh=epzv3CtU0gmjj908Hm64tFwvLI0AWLlIUvZbQZQ8G3c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AEOhT5ryfmWChxM3R14g3S25HzokZWFrRhj3YsfgTgKess/JW69aeIyX1PuPsuR26EK3zfvBayLffzWPK/JvVi1m9PVXBcNk1mnNanRTkoArdJXO5cGaJtVTJv9kQvsuIMG9Bh+l//rSAaj6hGT+fal6DMy9dhzOqfAf+wXDoq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XSdfnt8L; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-59e58404f28so12368e87.2
-        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 14:56:15 -0700 (PDT)
+	s=arc-20240116; t=1773098123; c=relaxed/simple;
+	bh=WGnaZpd1lHZ0g1/hQlXt3QsP4TP5blxc+JSP/+XOwAI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wer2gqULNbh+TnaYZWsEx+XLSBd7qGyNt5wqvGDSDqgjoF8xpo1aoD6besElKLfqjCiSztOjEHwHtV1KqnF5p5cUCZO+zYNhKL9SeRFstIjaKls8Jz1Ri1dDRdkhVKrO5eCNV7raIHuFNyllXuSPVxRO1QriCjZFsyjITYx9GRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V4ag5O/4; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-59dea72099eso6875096e87.0
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 16:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773093374; x=1773698174; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C0Jmm2xN/V86qggSG1t1r8Ot8sfuJ5PP8pssEN7b8n4=;
-        b=XSdfnt8LORBgHGwJq/d0fj43j/AU5OrnAhGLVn0ghgDYT3jQTONA4/0vYvosmP8cUM
-         840sZhRQfoNd5oYzC14eKFEg4I0qgsbcVUF4Nlnh1xdaMunD6iuLn+LLVdWJXC6jrusS
-         I4rikCJVQClC1C0oOxjY1TAZ0SkYxddHUTWAW8FrRUPF8naRBgNRsvY2dUTaUx5t2bdf
-         c72AdfP4pjiwbp9PuRbdcxtFZ1DKknY9fmUg7zhtHvqtbYLlDbxZDvFvnql3rBq78nID
-         pxuPrWdFkN/yJ5sXebpc5SrntAC0LdCp4SHZ7VwGuthwpDfM4YxN3QLr9Th/6ji5dV9Y
-         brqg==
+        d=gmail.com; s=20230601; t=1773098121; x=1773702921; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fRNtITcVqp4VjMNgr6LnbUQMaO8JD5CEfsNUgSM2t3A=;
+        b=V4ag5O/4JR7wUQs+ZK4C/qvrFUhl0FKNU/L2z9E59qHGgy36Rwl8XR+I8HN182TgPX
+         ec3iZLhS5AjdmBlNd/D4tTSlN4YtHXlYlkpl37aBGq3LnopiQYSH54dCaug5PMjXSQaK
+         fWQMwh2nvCoIpLEkn0WF82XmiMcM6/qf9SE0Eqwto63joWAwyQqChUgNpm1IWK7keUnD
+         wCo6vIped8LpbFxdmUaUy3aIsdEjU0mNdQ/rJiW2sV/UerNzoUBuhfsbqWA2LZ3Ms3wJ
+         BW3Io48xTtiTkRA1PcAQC4t9vWgCX8vbFYSQ+pet4HchupyyrLZqHDV7LS3nAraD02De
+         g/CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773093374; x=1773698174;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C0Jmm2xN/V86qggSG1t1r8Ot8sfuJ5PP8pssEN7b8n4=;
-        b=RZK+biR/srIK4xnn01IVVTH2OKh9lVFb/2IHQzQWb09NpR68ehMPCIXiTdvlVVXn8d
-         D/QP8sQUgbEcrLgnm6ujTnIzBe4WDeizUnFzeXQ0aQtLpduup/ucc6J7S/VZ/bEyHIFZ
-         3qdHUIeqkpNd6U6FnGcR+p3M40rBHFl2MvIL9QLoUNOkG5YqaneEY2i0U62ShjrD1IBo
-         Cu1bKqnAEsicC2jY5FXE7U7luMU95Cua8bNt9SBwILOmuGj0Q4MMZgxh1uGLqvVS8Ei+
-         3uHlvVdE5F9zm/xDxHKeLcS4cM/xTu1yPtcOAp4UnP7l6xaHzFz4VpNareXioXOQvDqL
-         pNTg==
-X-Forwarded-Encrypted: i=1; AJvYcCXnC/P/8i1YHoS1Ct+5CXewAAFBAila+J+rKvBpC+pw9iRLkSz0KgAogLUwVf3jPP/IM30F2E0C1jyvug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpQZoY637vKhjKWwXe533CSesBWIDEymFsPzoPJsvfHChyhP24
-	/stpYfIGkLqSYjqp+cTyo0qp/2fDqS23jVbbKaEBi+bkYxExYN/ltv1wJE22wViKY7Y=
-X-Gm-Gg: ATEYQzyAynCyahd88CjluRHL3e2eZBbgCXBaO9Hrya9dNAbAnQr16kO1dPNPxOf88ri
-	Vd7A6QHik5j60EhsSlNANKNuXFGxqlISvZ022iTjbE1yXnDu2sLv0JnGGW3ctF32TE3cV1vbQJn
-	A9xT58+dOMWUqst4EX6Q5v1F+4m32/yx4SrrR0himLDbLloD0u7NwDa0N8urx+FaNGjQ0GmQTj4
-	DO0RBZx+qTXN8v/AelIeP3S0ddGFIo4iAWFvZUh1/OkB3of3uIIZ2RinmZUGTuZBirUUWi0iGEj
-	QKTXxoX0/POhJlID1XdpeHl6HzKDpwFlBZTjl3JEaIimI4yeQ7ekNrqqiFMp3a0nbyyVP/Y1IOe
-	dw2gA70kFgW6RsNO3YS5rX5Y/+RVR1B/mz4dVLYV/MFO8F0D2IhsCZdgvqKtPJHW4gelVhLLXl3
-	Z2i+QivQtIXAJvw5CwIQkhN0/eAKcpz2x4foT0hNb4W8guaxEKLmnKi+47QKpJ9lM0VZAej79fp
-	XmUNtv9eDFoojqV
-X-Received: by 2002:a05:6512:3ba3:b0:5a1:1329:5ae5 with SMTP id 2adb3069b0e04-5a13cab34d5mr2539754e87.1.1773093373603;
-        Mon, 09 Mar 2026 14:56:13 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a13d02b184sm2397343e87.23.2026.03.09.14.56.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Mar 2026 14:56:12 -0700 (PDT)
-Message-ID: <aaea7acb-87d9-4cfc-8af2-fe630c3c0095@linaro.org>
-Date: Mon, 9 Mar 2026 23:56:03 +0200
+        d=1e100.net; s=20230601; t=1773098121; x=1773702921;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fRNtITcVqp4VjMNgr6LnbUQMaO8JD5CEfsNUgSM2t3A=;
+        b=GsinNOG+NFNcTg1jfxWpa6rgr5NWmxFMKyzvyxKBIPD/VivPZUZH4NJ2lhUAk7fqlX
+         VBjf7kqi/A6e4rJXtYyzxyZ72MWJRHZdebA89nFMC/oB3TWf7AHz2/cX79iQXId0/nQN
+         MKDMFSsuJYdyB4vBsiJg38ki5YOy5anJuo0adPzkYeiuVIRbjw+STtuMr0UrZIDRxj78
+         hxlmtum3ah7p9Nl0lQYjqEv/ham5KzBEFdpl4I+fka1xlxLVFRaSmBIpcPptyYogtuGs
+         ESNK236DFheYSrg09BW6CTGdVaEuDcKP3NHPrzcd/VZMJFWjljdkrrtBDcihMRyvuhYh
+         xtHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVTP2cTBb6ZkKAIOseeNGnhFb4d4mRgaKs+MBRW7mGbgadLcEenD67+uNBya5egRQfNa9QAw/X+Puxa6Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzdvl5UXZUo/LiGn0u8vvgrPJR60DCd1oAEMBNT40QsXVOW413T
+	FnfXMBcrqMj4Ba2NCTnpeP1oe4tWb8nMYz0rpSlPawmGVm2Fmyt5UtFE
+X-Gm-Gg: ATEYQzwSELDoMJk+USRpj/K1nGTo0xxPJi9Ps+5qtKYIY7v1Jf831M+10ayXMaDYLmg
+	yyUNXaUBdS/gwSRA1tSS4d1q/cvgM7h+3Ab8Q3XwZ6W1HdDvOI1nbK2E4mPtJh9h8edNiwtXah5
+	2IhA6G0JfXwii3g8BtwgSdQ6bIrBT8c1JZ0ou1m3Hzdyn9oNhrZLxpQJgWYro4/O3EeBOJaBPg8
+	ooAkMtKMPU4ce3qsfAsbUZJ+Jg9owtwp6JOk8NIb/XOEWKwzOble+tI/4diqLMziwKKaU8Pekl3
+	Z3NillYYXIFbJd5fzJ1Ta5+KHmGe/szN1TBUENs8Nb97T4EmCGwuJm0Ir6MWq4A4WLkcF/olV/6
+	agwKQqzP3B2ey7r2vmjHuVCELgQq8rSsHBaTReFoUt3VWSSLkmpc+HQq8l6/f8TbCV0YuvvIz4B
+	lBe05xxfWnNr1KmMENPfKMbFBiSTqfi/KkeU8Wnuoa9WvniwMkGk+8sfNxjP9A0t/vvqZdeUjjV
+	w==
+X-Received: by 2002:ac2:5990:0:b0:5a1:3bd8:a068 with SMTP id 2adb3069b0e04-5a13cceecf1mr3252492e87.30.1773098120314;
+        Mon, 09 Mar 2026 16:15:20 -0700 (PDT)
+Received: from T6NXCV08J99224A.lan (81-237-238-191-no600.tbcn.telia.com. [81.237.238.191])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a13d01cbedsm2456415e87.12.2026.03.09.16.15.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 16:15:19 -0700 (PDT)
+From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Subject: [PATCH] staging: atomisp: replace msleep with usleep_range in atomisp-gc2235.c
+Date: Tue, 10 Mar 2026 00:14:45 +0100
+Message-ID: <20260309231445.7000-1-rayfraytech@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] media: i2c: og01a1b: Add support of 8-bit media bus
- format
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>, Shawn Tu <shawnx.tu@intel.com>,
- linux-media@vger.kernel.org
-References: <20260226133739.4050870-1-vladimir.zapolskiy@linaro.org>
- <20260226133739.4050870-7-vladimir.zapolskiy@linaro.org>
- <aa61R5mcCE1zu125@kekkonen.localdomain>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <aa61R5mcCE1zu125@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D0CC3241F77
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 9634B2429DD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55021-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
+	TAGGED_FROM(0.00)[bounces-55022-lists,linux-media=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rayfraytech@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:dkim,linaro.org:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Sakari,
+Replace msleep(5) with usleep_range(5000, 6000) to avoid sleeping
+longer than necessary. msleep() with values less than 20ms may sleep
+for up to 20ms due to timer granularity.
 
-thank you for your review.
+Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 3/9/26 13:55, Sakari Ailus wrote:
-> Hi Vladimir,
-> 
-> Thanks for the set.
-> 
-> On Thu, Feb 26, 2026 at 03:37:39PM +0200, Vladimir Zapolskiy wrote:
->> @@ -627,6 +632,14 @@ static int og01a1b_enable_streams(struct v4l2_subdev *sd,
->>   		return ret;
->>   	}
->>   
->> +	ret = cci_write(og01a1b->regmap, CCI_REG8(0x3662),
->> +			(og01a1b->code == MEDIA_BUS_FMT_Y10_1X10 ? 0x4 : 0x6),
-> 
-> Does this configuration have a human-readable name? It'd be nice to use
-> that instead of a plain numerical value.
-> 
-
-If it has, it's not known to me, unfortunately, I cannot add a meaningful
-symbol name here...
-
-The 0x3662 register is one of many analog control registers, the upstream
-OmniVision OV9282 sensor driver shares a hint that BIT(1) of the register
-changes the media bus mode from Y10 to Y8, and due to my tests it's right
-the same for this one OmniVision OG01A1B sensor, thus it allows me to add
-Y8 support to the driver.
-
->> +			NULL);
->> +	if (ret) {
->> +		dev_err(og01a1b->dev, "failed to set output format: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->>   	ret = __v4l2_ctrl_handler_setup(og01a1b->sd.ctrl_handler);
->>   	if (ret)
->>   		goto error;
-> 
-
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+index d3414312e1de..db5e007efc56 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+@@ -433,7 +433,7 @@ static int power_up(struct v4l2_subdev *sd)
+ 			goto fail_power;
+ 	}
+ 
+-	msleep(5);
++	usleep_range(5000, 6000);
+ 	return 0;
+ 
+ fail_clk:
 -- 
-Best wishes,
-Vladimir
+2.43.0
+
 
