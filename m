@@ -1,78 +1,80 @@
-Return-Path: <linux-media+bounces-54941-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54942-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kJ5jIpqtrmntHQIAu9opvQ
-	(envelope-from <linux-media+bounces-54941-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 12:23:06 +0100
+	id iGRxH4KwrmkSHwIAu9opvQ
+	(envelope-from <linux-media+bounces-54942-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 12:35:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2B0237DD1
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 12:23:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9560237FE6
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 12:35:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 649C6311DC97
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 11:18:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6F30D303F7DD
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 11:35:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08DFD3A4522;
-	Mon,  9 Mar 2026 11:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 794CC39E192;
+	Mon,  9 Mar 2026 11:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7Lo3XM5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JXy+Cj/e"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398103A2557;
-	Mon,  9 Mar 2026 11:17:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F2E21FF23;
+	Mon,  9 Mar 2026 11:35:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773055066; cv=none; b=b3CdI7mPMK4yh+57Z1NRds2+t8TtUAYugVIrPr0p+yTpM3v/8SVRul5KBzF+0cO4Qzf3C1dCitmBRvQASfCphU7+nBXvMTVVBNW+tHIUsqTqZE4nNv+uib26JvfwziM4zVcKbxKs3xQVWbWnGqsRIt7G5YSpbkJM+Yd0Sa2a0HA=
+	t=1773056113; cv=none; b=tYBG8TNW1wBH4z8vDOHscICm3Jl7XuYkFYDvO9sX34AP3Gz1CpHNVoj4Dhn8w7duXRjJwKmg2PbXRV6+JIr8Gc51LlSmenK6Z2cG8PTkMl7qAwu+c8Qk3TFMUrM/+g4/M8nfoHuwFeI3KaEZsJ/cHApUUTttsKO4XDHK5fhRUo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773055066; c=relaxed/simple;
-	bh=98j4f8amdP1EeRYHfpdpJ3f/3/VZ6Fpr8k7byvHGiOE=;
+	s=arc-20240116; t=1773056113; c=relaxed/simple;
+	bh=20BDI8MNZYGlUkJKadNeJI+OFMFKni2X0fAf1vQP6lw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CAGQSWvT4XPolhmnKEKiyNozeA1tAn/e1at+jtnDowkLU5Ujr7En5wjQIaeqdkGca3iuIDmlLStLQEEJ5LlkHtJq0go2cQXs6ASo/SZByWh9NHNGt4W8/IRxUWrWmtgOOcZdxejODPyA8shdgaxHPJB9OLehM2SOI8cWo8FDurw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7Lo3XM5; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=ub9Kv2F/8FNK07g2ad1uyJoUmSCR1QV91L6eC5G/LANtLAK+4IBoQFg8juOtDnaxhHJwhv1ebQzgkl1XRw47QBnDeSlqy/2R9eMoLLKDiDh9Vp9g7wgWPkKyNp2+b1PO2JARdPCRp0WpuAqSALfVbrhQgJvUyvGhXgXhFV+Fpo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JXy+Cj/e; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773055062; x=1804591062;
+  t=1773056112; x=1804592112;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=98j4f8amdP1EeRYHfpdpJ3f/3/VZ6Fpr8k7byvHGiOE=;
-  b=N7Lo3XM5mpz2uWwI5GanU5Hbhxc5dm9uM3CroPT0tu1TAwPwsJ2bRJ3L
-   E+LCX1ivHEJNS7Xqi7cJBPMvow7s1T+8e6nCj7mNRUT7DEpgnBlVWIQkl
-   4qPgLKAiWpY0Ffz4n+65bSmHALONgX0ABi4GIyMfln1XXlp13SzYid/Ih
-   zfm038y2GbO0WODkAuCmCPAJpn+txUw10TbzTO6vlMDfh2smS+Enec2o8
-   8MlCU5usnheBL0R4BWngmxOnXTwSe7yGuEu0dOrV/fsLLmUMtFJDnW2B1
-   tXktuDKjjE3MQFGqkh/Osq/Lzp7yZPkOYlfYKTA8mQbcyAheMyP4B4YpW
-   A==;
-X-CSE-ConnectionGUID: OAM29UHYTu2AO+wlVhfajQ==
-X-CSE-MsgGUID: 3J2iD9KQSCmBf1L3+Av4dA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="85425487"
+  bh=20BDI8MNZYGlUkJKadNeJI+OFMFKni2X0fAf1vQP6lw=;
+  b=JXy+Cj/eip/PIJ3I351jXh9S7T39Q9ubkjqBC3M54Z02N+QeIB9gRL0f
+   Jgq7pB+pzU+CRcWvWfzDcHMFwx1WFv8xVAjj5RhRik983tUFqyWZ+1Xv7
+   rpDXf4bDALZmzsGCL/7w1GORsjJdtfeYtbBt93j50/dM//61j4mCaqUxN
+   WzlTgXDx1DfT2S6F+1eMdHA/nzVZcWwH4a61Cq8B9Ku5IjiDRysOWUMlV
+   N0kpgEu7VMbcNCl7EaaMxXZy+zvHf0MD0ClGy9QmF/pEZtMbHsgM5KCi1
+   TzR38PMmCqU3hL/Y+oYYd7EE9LNYNtxHD3H8eNXwG4y77GiopV/zG9iTa
+   w==;
+X-CSE-ConnectionGUID: 1ZqNhk/HQ++5vaiolMxSbw==
+X-CSE-MsgGUID: qmt9ptrdSL6uQAXrNukeMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="85426527"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="85425487"
+   d="scan'208";a="85426527"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:17:41 -0700
-X-CSE-ConnectionGUID: yLu4Q5tlSnKDj985aNSL3w==
-X-CSE-MsgGUID: HvbOp46kRTCzgcgjyy8rPA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:35:12 -0700
+X-CSE-ConnectionGUID: f7z9x5jASde+Tcw/n5xEkg==
+X-CSE-MsgGUID: rDY0osKET5uTuidhJqtJTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="219666917"
+   d="scan'208";a="219671527"
 Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.181])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:17:39 -0700
-Date: Mon, 9 Mar 2026 13:17:35 +0200
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 04:35:08 -0700
+Date: Mon, 9 Mar 2026 13:35:06 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laur <laurentiutopai2004@gmail.com>, hansg@kernel.org,
-	mchehab@kernel.org, gregkh@linuxfoundation.org, andy@kernel.org,
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: comprehensive coding style
- cleanup
-Message-ID: <aa6sT1TwsPeNWRFQ@ashevche-desk.local>
-References: <20260308215840.31197-1-laurentiutopai2004@gmail.com>
- <aa6fMZaAvMK-CyzL@kekkonen.localdomain>
+Subject: Re: [PATCH] media: staging: atomisp: Remove unnecessary return
+ statement in void function
+Message-ID: <aa6wakTzH6ZjKrBA@ashevche-desk.local>
+References: <20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48.ref@yahoo.pl>
+ <20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,57 +83,53 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aa6fMZaAvMK-CyzL@kekkonen.localdomain>
+In-Reply-To: <20260305-atomisp-remove-void-return-v2b-v1-1-902e534ecb48@yahoo.pl>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: EF2B0237DD1
+X-Rspamd-Queue-Id: E9560237FE6
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev];
-	TAGGED_FROM(0.00)[bounces-54941-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54942-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[yahoo.pl];
 	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
+	NEURAL_HAM(-0.00)[-0.994];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,yahoo.pl:email,ashevche-desk.local:mid,checkpatch.pl:url]
 X-Rspamd-Action: no action
 
-On Mon, Mar 09, 2026 at 12:21:37PM +0200, Sakari Ailus wrote:
-> On Sun, Mar 08, 2026 at 11:58:40PM +0200, Laur wrote:
-> > @@ -2032,7 +2032,7 @@ static unsigned int long copy_from_compatible(void *to, const void *from,
-> >  {
-> >  	if (from_user)
-> >  		return copy_from_user(to, (void __user *)from, n);
-> > -	else
-> > +
-> >  		memcpy(to, from, n);
+On Thu, Mar 05, 2026 at 02:45:27PM +0100, Tomasz Unger wrote:
+> Remove redundant 'return;' at the end of void function
+> ia_css_dvs_statistics_get(). Void functions do not need an explicit
+> return statement at the end. No other occurrences in this file.
 > 
-> The indentation is wrong here after the change.
+> Found with checkpatch.pl --strict.
 > 
-> >  	return 0;
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
+> Changes since v1:
 
-This code probably should be changed to use iov_iter facilities.
-See the ALSA driver conversions for that, exempli gratia the commit
-49aa6ed94c5e ("ALSA: korg1212: Convert to generic PCM copy ops").
+You forgot to update the version. Use `git format-patch -v<N> ...` to get it
+automatically (where <N> is version number).
 
 -- 
 With Best Regards,
