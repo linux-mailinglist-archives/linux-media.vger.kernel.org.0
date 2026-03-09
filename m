@@ -1,110 +1,114 @@
-Return-Path: <linux-media+bounces-54972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54974-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ML+BIDzwrmmFKgIAu9opvQ
-	(envelope-from <linux-media+bounces-54972-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 17:07:24 +0100
+	id SCmfJiL6rmliLAIAu9opvQ
+	(envelope-from <linux-media+bounces-54974-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 17:49:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6F723C71D
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 17:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0016B23D0FE
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 17:49:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 90AD330ACB40
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 16:02:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B4CDC312E7F9
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 16:41:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF6273C199B;
-	Mon,  9 Mar 2026 16:01:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B44863B5842;
+	Mon,  9 Mar 2026 16:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DF921GFR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mi2LTGuB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F6F3BFE24
-	for <linux-media@vger.kernel.org>; Mon,  9 Mar 2026 16:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A18F3BD629
+	for <linux-media@vger.kernel.org>; Mon,  9 Mar 2026 16:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773072111; cv=pass; b=mHNd/zWcP9e6JpTOTzqhpAHe5RO8W82GzyuKh8vMWgksL6+NguTUq82bmilYqbpBC++cJgAj3pDAQDKWT5vq9y6wbH203rnxc1Gkekzv/rGNyudEKvwmE0EF+qdffT/+IbnuKU1TgM1b0wFWPgd9Fp1iWNtiuFApoA5ic58/4xA=
+	t=1773074490; cv=pass; b=hqLsSM+gasMKPep8/t7aRuqR2EK28LM2A26tVVeJmNgOHhsG/zLcQt1zLjx59sBPyt/CYz+9lWRL4AracxT1xtoBIxXPkz/RlOWqd3Hng5Pz7PAwPIXd/El91V9rWCFNd3S/9wtKfWWqCWVr2te0F8X0nKHFZ1e+pSWQRRmVvhI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773072111; c=relaxed/simple;
-	bh=yc4LV1eXH+Io0BAMwi9Gv0YWrAxfWPhlOmh7qYjOsMM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=lDpKa3qiS+gROVpzcCjzLeUa4NIvBevf+iUU7g1K2boVOn6+pf8U2sCfyMVL9Mn3gt9GZOr7UzigJKPrxsnJIfTyluIJIdSilfttjc6eNe3UiEPLcFNyvvQB1uKXhuc0l3HSm44R7SO+VfXG0Qy85e50/fQxZsNdIsPI76RdsG4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DF921GFR; arc=pass smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1773074490; c=relaxed/simple;
+	bh=f2WhDJoUGRMLY0UAQRhBbyNRzq6qIYSfu1tWmaWc858=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=m5aKF0Bc7OBbqO9uxahhvY/hD4Oi8aflayRSjyKVxlafgI85Zclk3sTPDJ9ekyEBe84KMhvEOHX78xjj5FJ1fBn77BxEqV46kLoCae/3wi8HBbK+U/KPCeSTVV3jhFII1FBXgmi7XNkWuOOFMw0UNV+s+PkWGbP8YmN9tCltelA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mi2LTGuB; arc=pass smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439cd6b0aedso3997630f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 09:01:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773072107; cv=none;
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3597b474cbdso5106768a91.1
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 09:41:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773074488; cv=none;
         d=google.com; s=arc-20240605;
-        b=LLVwmByiLEM5ZDwHVnUxBQzVodZFyWRUr9DzoLROiiCJmAwOP23i3vLr71/ggEeBPp
-         eVrGzPsGS9aZ8TP2EDp1YdhwW1uVahD4qNugvR81ChJjT336bqgSILtnxRj+Dp04AGTj
-         qxhfoRuLBDQbFv26NHZ5gjfmJIxafPVvP01lZuR0Gn2AXs75n/UYPO+dXY2CPQx9gI5K
-         mgH1wpcB9RNX0B+nPFdkjbTFrx4LanAmtf1wqcAEmkjJAw6d9UuzNpFsT029jE4fMF4c
-         ecIxjQxSZ4b9w7qLLkNiN+mjjslyD2iwT5g/0bv2bqMYb7zM7mRBQfsBIQalcLzF15Qj
-         +QBg==
+        b=DLh62bNy3i0SWYjs1zxS4uBZ+ej9V8yagdiD+ovCOrjbSW9B8+KgGLUBxaM/zYnC0u
+         43ccy7yeXwFux8+9ZvYud2k87e7BvNlDKDmkqdzlS5zLl70lek51I6z0mXnzN7kh8W/7
+         aD1cEvb5Bsa8agPLyCbqoc+Ozd/nNAkdh5gR/CAVYIK9Tuxw06uu/oV3gswGoMjkwTBa
+         aYEH+hd1b0c9dZ9bBQrZpKwdGhTxsM81+DHO5ZGnzjSq3cmHvHBLnO1WUoc9MhiuBIS6
+         PSSSg9/5DJUEK7EmmwPbuRpgstELGGSSq70VWXZykc9fEa0w03SNbtwCUC5Ay7A8+IeG
+         p+WQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=e92Hz0H7Skm5rAzZUdJaMO994bojgSJy04NoOntHTCY=;
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+q1JXLUy0Un6F2HdHE3FOsU3tROzzqf+uz6ZNF4NhoA=;
         fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
-        b=NpReyai7naoLAMIc7e9C11Vqd6M1su0QpuYbXWCR1MPuFgrOHYDdSd3qqMGMC4U1z2
-         cFpHRPixsrEtCuAH+mYsQCUU6UpySsi/NSNlrN6N7gAwdm2sGqZKzIe2iTl4Cll47HJH
-         cfXWssIuhX6CHZjVly/ovlG6YUTV6hK7BfNvmW8X2td0TwJbIw4qXdtdsCF/ILquRfan
-         ru5jnCX7XA3+jCVoFETQjuo+4JdPuZQo9R/ASqeLpnyfOPJQTCVl59nZeKDZx3PQEnO9
-         8rEq1weVz9BanjRUmtVlZ04ubG9Usk/bN0adtg060OLcbfywljj8hMDEcEb+lIzA2gH4
-         dQsw==;
+        b=eb8v/IR+n7WbX2vJpz3AGPrV1TbN+wRDsXmXGpfe1zHdHPihqUgN+W/2Tw7JONV7YO
+         tFt2Cu6g0klHOjyAlsRVSErFZToWjlqCrBwwZOjUXv1H1uuPBJcRV705YUHqW7LWdh7P
+         CWpwd8z1XgXpwyAR+NdUpWmq8Gjh0YZCByEHhNHBrytBDUajt9mAccHN0SXpwdMIrKB/
+         xKA7n8qwSohDRVvLTOgP338dxMPoKF7Af5q6XQdtrf6PEwCTM5wLIWHA9yTf9NAljCpQ
+         HTefpOciTm0VpaUPSU0CxFccq7CQ6RVzv1YqmmQisfwM4zBp57wbk72TAVDHF0fxiv19
+         88qQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773072107; x=1773676907; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773074488; x=1773679288; darn=vger.kernel.org;
         h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=e92Hz0H7Skm5rAzZUdJaMO994bojgSJy04NoOntHTCY=;
-        b=DF921GFRbZjts6PPfuGM5hC672t/tbgUb6WJ6HtLxA5SZTb7DB224bK3fpuGVJ85+9
-         YaMSgi8ChJ1R0qnI5ESfLCIEaJfkUSQB8Ox3J0oVTHeEo7v7IBEkWywQrkgbCHRe7XnL
-         ERLsCyohH+pcDmCJG88HcUybiE1ZgLPA0f5/Itq1JkDx40qRsLQOBqX7bZM8aYAleV/X
-         MZcfbjiHxxgw+bkb1dvEsGs4waqcv5C6sv6ksF6zxFv/OYEQZH/UmWmeZ5PVfpXgASUt
-         Dv/hfap1semGpQ+W2QkchwFnz3RAmdmD4XXEqKMWLVN1roNA+c100FJAdGENRcqcrkLw
-         mzIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773072107; x=1773676907;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e92Hz0H7Skm5rAzZUdJaMO994bojgSJy04NoOntHTCY=;
-        b=IhZrtWdStY6y139WMre3Zsu+2T601Tl6MpWRptZKK12SfJmaBKfw3eKnnHA6SVbrf/
-         GDbV6ogAHo/NUS3IS8CymsPedDK1WweeIrbBAvAlc4bI/0JMKNylCnsf3Orbxfpvc5aW
-         ETjaMpC5QVwwPEW5ZKNhyPbRTJg3S2qtjqtzGbuPaEihitau8QeYJgyfu6Wjp5vUdmro
-         qetk7eFbaQcacomKxeDFsMgGh+ikleeEMZ/NtW4RmFmsSyCH1MsCJ4o/6F3R80j5grMq
-         +8zzfAyTQ0Ry4zoIBPnwb1KTmNu2ST76K/b/fGMJ+FVLUG9Uijls9d22vn5f3fCaa2x0
-         9slg==
-X-Gm-Message-State: AOJu0YzEM1+53CM8V7GZON8geXtSrsJvZXQr9JUdwgjzKFGWgGkok33r
-	HBh4n0GrUQsHULPxV3J1GYtVxEyqDMMo5Wd73UXTq4Gvku6BGF7sjbFYI0lzZHyCju9VA2WmgZG
-	ItVi8rttuOHHXT+0sIHcgQZfH6sb/+wKVwpD5rxtvD7Uv
-X-Gm-Gg: ATEYQzx1PgWBiw3Djz8r8wX25WiRIJZHlsyikqdsENpp14bNDFW0p+jpYu4EwuM5YHM
-	77bRYI5/IZQ+btVNQaq5JUA91Y80iRQZ9eo0JRsXNtjOu/u5pWyqIrGCTqy6kJHhu/PNhmpBrNj
-	Z/PVDyE9e5uUig39gR9eUDna+SkvCX585+/UcTuswdllqS/QSnyZkWUyg8kv7jel5Jkh/KDX0uH
-	WrlYKCGHJBnE++ivxmNNL+vTiHpl3EGEvP6qLlwgUu2maQgNN1b4yhnTv+lR3Wm9dUJ5UBm1lie
-	FbAhPAQVBREi/jpqI+GgPwvKhwmj8DEIzn1JjlhJ
-X-Received: by 2002:a05:600c:3544:b0:47e:e2ec:9947 with SMTP id
- 5b1f17b1804b1-485269784e5mr202256105e9.33.1773072105701; Mon, 09 Mar 2026
- 09:01:45 -0700 (PDT)
+        bh=+q1JXLUy0Un6F2HdHE3FOsU3tROzzqf+uz6ZNF4NhoA=;
+        b=mi2LTGuBMzv1KDlpZvIvPNdyC4ODI6rTUTlkqAFM0ygnrX8FVGFwFqT6IbNI2qRCSo
+         Cqe74Kb0xFvQ47eEgZFLoZbWBE2AvpZ0NxumGq1Yk2h8CToCNKWBMPuGzB2gLzY0Ccb9
+         PjRlu3yGX5pOIeuoP8mCKsyGSqbJH/Vyv2IGlcZl8+hRaWZsIv+30or4T7bkp7ptgF3j
+         Qh6owblKFcIw0XHCarUYh+5qsjihgL3KxPfvmq5a6uLE1SOitHPb5ZBUhlqJWb6P28KA
+         Ain5lk9jGs5IKJDE8sphI9VFYZrK7qRGMJfNhhYADnQ61aTvIgK8z1I1qcH66dXcooyN
+         khSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773074488; x=1773679288;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+q1JXLUy0Un6F2HdHE3FOsU3tROzzqf+uz6ZNF4NhoA=;
+        b=HuyCTcMSdF1vCQvCVwltQas8bntbiiAKUt6MliuFHsz5pic6gHomvpVtE7qE+4zYSL
+         uuh5XMH/527W0UuhDKmTnoN1TY7dgiuCNSRN7Uf3oTd9gEcXT5SGx8he1NaCFfmveMgD
+         A94/F+7dMJnGza9ZW+h+rrgPAdH8XqHfkDKjMXi9luX0AQ/PN5L69pduvkGB3A+AC1NM
+         NedgG+5RJi5TZpZcdSTkbq7JyR9n9K2s3NbXXq6ceTEXon4pPq+3UgZBCGmLTPTkTP36
+         er5OSeX27/Bkrverd4SZncHA1qJv4n8agbK8t2l8gkbDqIh1igIeFpdj3M65BcWpJkZa
+         b1SA==
+X-Gm-Message-State: AOJu0YySE7sKmGucLanievBJrxSRES637iO9lqv1TM5X45jCUNIsg3XI
+	9iSmP1dGroOWTMOn750XarZvkdtBZknuQYBi7GAbqP+ClXMU40JExJj+eHZU/a3neOXbO2XbpHJ
+	WWME8Xe+GRzrZa3SA2r7GSYgYaX7t9ppYeYm7
+X-Gm-Gg: ATEYQzx5eAxCUm+eFttKG0L1g9f0ZTMu0wZtEdyAOJo0tv+4DPCkSmQ02XfDIvs0MuV
+	7LjcKf1LP1F2vzNYbRSesBy5GtiZ+ISitVPx+Qy1Wu+lPH7gpyUEgy3axzahIAN73eR9iYDdU8O
+	W3ZDvSn38itWpEmLY7S/h3kit+5L6+17ldHCv5DduPHUhyqMf4F6sc6vfQdbZqb3DiB0pyqha6e
+	uUGIT48oampsWb6LzZmMsOavxEJrofcLzAeTiGpxxEXSOv+oF3NrtJF/u3RvFc1o5HqvCNt0CW8
+	w9wPPfFy1alZ2eRYWLoVN7qdkJfd5GqfLmttlL9GJ1gL1gKdOPIPjWzvFYj1fBVCtco9R3LR
+X-Received: by 2002:a17:90b:180b:b0:353:49f2:1e7a with SMTP id
+ 98e67ed59e1d1-359be34982dmr11916088a91.17.1773074487996; Mon, 09 Mar 2026
+ 09:41:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
-Date: Mon, 9 Mar 2026 13:01:09 -0300
-X-Gm-Features: AaiRm52I3uDPfRUtplTUB5UsSyOJTd9Ybxj4Sod8DcdQts1ZZ9Qe-9fFgWHHqMQ
-Message-ID: <CAOKSTBu_aCODd_AxkBuA=sU=SJhCfVR7-FXo3tfOLS9Y=+1WHQ@mail.gmail.com>
-Subject: No HDMI audio with Linux Kernel 7 rc1, rc2 or rc3...
+References: <20260228174458.11614-1-esty5664@gmail.com>
+In-Reply-To: <20260228174458.11614-1-esty5664@gmail.com>
+From: Esther Zilberberg <esty5664@gmail.com>
+Date: Mon, 9 Mar 2026 18:41:16 +0200
+X-Gm-Features: AaiRm53zYhCnqYmjrBnC5o8L6hYPVh4FGSyR0q57tt6FD8XHAyqrZy22ZjZPkKI
+Message-ID: <CAPMPFbj=q+93yKr-1J=k+5Vxc8Ea_diNmCs80vo78d+1rcr1TA@mail.gmail.com>
+Subject: Re: [PATCH v4l-utils] v4l2-sysfs-path: add description
 To: linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: ED6F723C71D
+X-Rspamd-Queue-Id: 0016B23D0FE
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
@@ -115,7 +119,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54972-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54974-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
@@ -126,55 +130,48 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MISSING_XM_UA(0.00)[];
 	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gilbertonunes32@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[esty5664@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.970];
+	NEURAL_HAM(-0.00)[-0.968];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ubuntu.com:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,readme.md:url]
 X-Rspamd-Action: no action
 
-Hi there!
-I have compiled both RC1, RC2 and Rc3, for kernel 7 and after booting
-with it, no HDMI sound at all.
+On Sat, Feb 28, 2026 at 7:45=E2=80=AFPM Esther Zilberberg <esty5664@gmail.c=
+om> wrote:
+>
+> Add a missing description for the v4l2-sysfs-path utility in README.md.
+>
+> Signed-off-by: Esther Zilberberg <esty5664@gmail.com>
+> ---
+>  README.md | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/README.md b/README.md
+> index fe893b16..8420417c 100644
+> --- a/README.md
+> +++ b/README.md
+> @@ -272,7 +272,8 @@ Installed under `<prefix>/sbin`.
+>
+>  ### v4l2-sysfs-path
+>
+> -*FIXME* add description.
+> +Tool to show relationships between V4L2 video devices and other related =
+devices
+> +belonging to the same physical device by parsing the sysfs tree.
+>
+>  Installed under `<prefix>/bin`.
+>
+> --
+> 2.43.0
+>
 
-This my laptop:
+Hi,
 
-Operating System: Kubuntu 26.04
-KDE Plasma Version: 6.6.2
-KDE Frameworks Version: 6.23.0
-Qt Version: 6.10.2
-Kernel Version: 6.19.6-x64v3-xanmod1 (64-bit)
-Graphics Platform: X11
-Processors: 12 =C3=97 AMD Ryzen 5 5625U with Radeon Graphics
-Memory: 64 GiB of RAM (46.9 GiB usable)
-Graphics Processor: AMD Radeon Graphics
-Manufacturer: Positivo Bahia - VAIO
-Product Name: VJFE69F11X-B0411H
+Gentle reminder to review the patch below.
 
-With kernel 6.19, even the RC's works perfectly fine. This is how I
-compiled the kernel:
-
-git clone from Linus github cd linux make mrproper cp
-/boot/config-$(uname -r) .config fakeroot make -j$(nproc) deb-pkg
-
-I also downloaded the mainline kernel from here:
-https://kernel.ubuntu.com/mainline/v7.0-rc3/
-
-I already tried 3 different Linux distros:
-
-    Debian Forky
-    Kubuntu 26.04
-    ArchLinux
-
-Same result...
-
-So I wonder if anybody else has the same issue.
-
-Thanks
-
----
-
-Gilberto Nunes Ferreira
+Thanks,
+Esther
 
