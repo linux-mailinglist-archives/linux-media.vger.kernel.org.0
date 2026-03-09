@@ -1,194 +1,320 @@
-Return-Path: <linux-media+bounces-55016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55017-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CKnmNeAkr2mzOgIAu9opvQ
-	(envelope-from <linux-media+bounces-55016-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 20:52:00 +0100
+	id UDAyGxYqr2mzOgIAu9opvQ
+	(envelope-from <linux-media+bounces-55017-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 21:14:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA802405E3
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 20:52:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAEDB240BFE
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 21:14:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 133413029ABD
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 19:51:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 61A0930C78C4
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 20:12:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9904D410D32;
-	Mon,  9 Mar 2026 19:51:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21D2542188F;
+	Mon,  9 Mar 2026 20:11:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="m5dcykom"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="AMPyvjp0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011048.outbound.protection.outlook.com [40.107.130.48])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B821B410D08;
-	Mon,  9 Mar 2026 19:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773085898; cv=fail; b=IxDgfeDdJH7PF8GvZkP6KvPqQ3QS6yn+w15EjTdSiVwGYOIFi92oomQFShgPrNJ1cVRv1tNlmRgEw1+9p3BJFmQIl9i+ajNL5wuFlqKHF639JU6hI/fT6OwfZE8fcW6PUeGQPlqs9pIWceR96dFqKsSEDzeCYBEwmImPuOkBO4Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773085898; c=relaxed/simple;
-	bh=jQ80bomEG1wSnPDrSyDLENerNdyQB3HQCG6NvNzzTPk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GX6gPH77iRY6bGl0+hCS5H4RkMbZ42syoYWnAxeNspquMZ+OlZMxHWB0VXeGs4AH/hdLk1xF0PDWCvoC8GMD1Uhg0gBBHxD0mamGqQkEce/9hCGZaZfO3pdHRSfttVhsnzXaRDSJL0SsgncIQgO/Vhd2i7QtyZcrWiToNAeBl0s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=m5dcykom; arc=fail smtp.client-ip=40.107.130.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iXgZc9dWAC/P7ve5byzprglNvNX79ruhMv0piMCVIvMnVAi7tb8cKEQzlV/PtWfaNzap08WFO+OPaC+sgQHWHew+Yhj21e0EBE5NSR6iY0HEaaRZPz5rPSPJRM+bWu187ls6I8YnvVKltv67ibDqCAX4BPCALp8kCuSQPpd7p3FM7GwIp0kovPVtx6nCnZxGghT6o9+lZ24u1QoWFYQ9VHArborGHtHbb+iYG7baWo0PdEH4KAXCWhQyqD00PsEA1NhfDa2CYn4ZlKHixn1c0qgdWCTQjHYlNBptkIazjkw9X7MG2xXtmPUC6/9Cxi77imlwyfiyy+CP5URslzeoRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FBHaUOy7pzzInV6Z2HGjU0HppAKGLJLPiesmCO5+b9k=;
- b=HA2gKXnm+jMUl/OwdBUYNtBscke0AaWl9hlzSrtr9iqFQXfcn8qRURlsanr3kB6LYreqQQ2136Tu0JkCRsteokd7alxUfnx6hMIagQXK1rKFW8FBJf4kgcyYSgO3cY/2p33Jfg+drqFnaImdcywg0mcRzzeJqajZmuMIAti1YJC3/B+4KcDAnkkADu8ZkQZPKVV2RgrzPHOBAabXEyzVghW1fKfqX7k6iBy3UirIi9zCYFH0FxAw9b2btalWyIna9Uo8D5zQ9qf4ivKNYNyur/FEH8YPEhwtbJhYOqAMK9rvt5fg1Qgb7W2R+uWI+WKWfIEw9jvrW+fnjCMi/pyv3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FBHaUOy7pzzInV6Z2HGjU0HppAKGLJLPiesmCO5+b9k=;
- b=m5dcykomW24blga5CIAYnCefGToOIqiyHBwUyFQsRbQ0CykBNrwDdocMQ+E5JfdWm7rGHsKJVZJSlkmFF7Ytg0rh7pRXuiS7JIyPZUvbfG0JJWcAIDEY7FQPPa9K70HF7YUKevaznXwxVbzQp0g3K3SaK3kWLk5rPKZPw85SPAaudmw18NgnNxLUFGifXEtz9UBPiRMmBC01dLnMcBhcNiub+EZCVwQzGHXmlK16iF5CW0OfFDEftoCcBGySAZpDLWjtdpEm5fp0aYmGiqOozXQJr+vln8PKyd6KDnbHMLklJ79xKthn0750z3FxvMfDPpiTjFi/PLEp2EfqJl29eg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU0PR04MB9372.eurprd04.prod.outlook.com (2603:10a6:10:35b::7)
- by AS4PR04MB9289.eurprd04.prod.outlook.com (2603:10a6:20b:4e4::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Mon, 9 Mar
- 2026 19:51:34 +0000
-Received: from DU0PR04MB9372.eurprd04.prod.outlook.com
- ([fe80::4f6:1e57:c3b9:62b4]) by DU0PR04MB9372.eurprd04.prod.outlook.com
- ([fe80::4f6:1e57:c3b9:62b4%4]) with mapi id 15.20.9678.020; Mon, 9 Mar 2026
- 19:51:30 +0000
-From: Frank Li <Frank.Li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: Frank Li <frank.li@nxp.com>,
-	linux-media@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Guoniu Zhou <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH] media: nxp: imx8-isi: Add virtual channel support
-Date: Mon,  9 Mar 2026 15:51:19 -0400
-Message-ID: <20260309195121.1786325-1-Frank.Li@nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260309-isi_vc-v1-1-fd0b8035d1cd@nxp.com>
-References: <20260309-isi_vc-v1-1-fd0b8035d1cd@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SA9PR11CA0027.namprd11.prod.outlook.com
- (2603:10b6:806:6e::32) To DU0PR04MB9372.eurprd04.prod.outlook.com
- (2603:10a6:10:35b::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B483A3ED5BA;
+	Mon,  9 Mar 2026 20:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773087107; cv=none; b=ciYvgUuT78YlNbZfiANXnFAMqa2fMXWwXF/Nr3pNHCbdtYbtjS95Gcj6Y3CiFWeF1LJbgKt14eO6PWSzxWhbpHutrTYHWvvhGUHRVA9dGB/70tonlWYTkGKk3UqXnqyffvphwTNcnfJ1vROC+3wKdInVU9NMsQjIhHYJDO2NJPs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773087107; c=relaxed/simple;
+	bh=JlmKdH0Bbz2ZxP9WbCFMzyyjBIEgtG4cMl4nlq+6890=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=PwGdnvMf/WMsYG8REvOTydwDMIxVIS4UmGwAPOUgMkQB1CfFwP0t/ChoJLK45l3/MheqlFQmy16PXalc7laagIRgRsSZbcD0eoDbcWQ0m73xmFOo13TyDuE2PHKOQi93EzYQEltPLeWbtNL7a0Bc/hpp+kUq5HoJB9a58MDCV+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=AMPyvjp0; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 629FwFY71433673;
+	Mon, 9 Mar 2026 20:11:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=J+MReH
+	kdFCzDINevGmN7BYrD5h16dkVpWOVjmnX1Q/k=; b=AMPyvjp0jQUNgXn6Hk1tmf
+	EG4FCBlJk8vU0dzchEkhTCFJFLesmCchgPistcAgAs639vnP9pptng8kXMAbzOia
+	q5NshJyvTNfof8gdYp1GzwxZulybshI3PqRKjOb/SaI0UPEJrIt4jyexAIN48Wm0
+	w/Mw3wPT6W3BQmrKZWXHn6/DFARVTupqS/iLqqNyLrME9wToruViZdwdbBsu3Qtl
+	0zEFIHGN04u6+OjrW21Tgfm9LJbMSCz1cBRZneiIQ0NfJfCZ4Y4F3a9ghOwfDLyJ
+	r+N+wncn0OldU7zZnFVO0t6vNaRxLqtcCgLdbScpUcJtgriSZx0KQ9bsYjERgKcw
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4crcuy86s0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Mar 2026 20:11:07 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 629JvVsj024649;
+	Mon, 9 Mar 2026 20:11:06 GMT
+Received: from smtprelay02.dal12v.mail.ibm.com ([172.16.1.4])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cs0jjx73p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Mar 2026 20:11:06 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay02.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 629KB6ZU9699942
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 9 Mar 2026 20:11:06 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 276F258051;
+	Mon,  9 Mar 2026 20:11:06 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4A42F5805E;
+	Mon,  9 Mar 2026 20:11:03 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.72.80])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  9 Mar 2026 20:11:03 +0000 (GMT)
+Message-ID: <0bd92b4fce00a6111a0fc7764904f7e6ae0ece3a.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 00/12] vfs: change inode->i_ino from unsigned long
+ to u64
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+        fsverity@lists.linux.dev, linux-mm@kvack.org, netfs@lists.linux.dev,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+        samba-technical@lists.samba.org, linux-nilfs@vger.kernel.org,
+        v9fs@lists.linux.dev, linux-afs@lists.infradead.org,
+        autofs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
+        linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+        devel@lists.orangefs.org, linux-unionfs@vger.kernel.org,
+        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
+        linux-integrity@vger.kernel.org, selinux@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        netdev@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-xfs@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-x25@vger.kernel.org,
+        audit@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-can@vger.kernel.org, linux-sctp@vger.kernel.org,
+        bpf@vger.kernel.org
+In-Reply-To: <dd3f9873c7939fba0ca2366effd24e4b6326f17b.camel@kernel.org>
+References: <20260304-iino-u64-v3-0-2257ad83d372@kernel.org>
+				 <05b5d55c49b5a1bbc43a5315e3c84872e7e634b3.camel@linux.ibm.com>
+			 <f22758116dabd3c135a833bcb5cfcd2ea4f6ecf4.camel@kernel.org>
+		 <c9500adc562665d44feaca9206f23a5ba07432c1.camel@linux.ibm.com>
+	 <dd3f9873c7939fba0ca2366effd24e4b6326f17b.camel@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 09 Mar 2026 16:11:02 -0400
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR04MB9372:EE_|AS4PR04MB9289:EE_
-X-MS-Office365-Filtering-Correlation-Id: 50bc1ad9-e93c-4774-675c-08de7e1541df
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|52116014|376014|19092799006|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
- itDhB779FVFLwF0cgrSV0sQzmtB0l9ligWDqity+xw4klmU/9EyvRloQaWcwuOzi763Rl2ZP0GC3naEjIoqEBvC9R7u2uRvRBpVD9SIJIumppVYrYZrNEFi/vMBJJd+dWo/0O14HS4Sk8OQ7mnxnCeIU9IF67HhUvBtjoUMpvCFFZLIzYxXyrJ3doObetvQ17Hs9cVX4M1I0IQBwNiOrGdUeDwTrKVX8bh7sP2Wh9qar82ubgQ2LNt+1Ee1imTGIQvS8vsGdeM9ORuyYPyjH+4kCLjGXafDOFTlD/2UVxMEg2jlLWIVni/grxZHPeWQ9B7XDda8cQiSeM7NQxvobWYyVPjsnNz9QoMOz0vbwqXvPPkDMbqczSwUPyWbadNSJwZGethNcS8ckPd992FAoiKa5bFYwi13vI/KRAKHyHbTKzyu8gE2PBuTRgHsMR5QEJlmWg/f0EK3V15TyqtTrLHb3BnGfmInDGX2lHVHUwhjo1q7u3R3AHb7/MBUDaSLd0fyiuVo3DXifKJ4yxRplgeAyE98zwapOUluVSaUnZmkUO1YOqkiHKaBfMxGB5+7vBzzNi1obu9v00N7HZA4XhrTsC+hCmzii2qrH959HabINC3pnZS/CNsY/vWIDuGdW+Prz12hczHQYk16Pl8L+Niso0DpNKErwyNC7nVEnWTJT9D2/aUlbmfuhqlNsd8QVAfRYBtJExvFYmiJ2L5ksnusUUjiHn8O2/Xq7O05qudtykPcrC6fSuuqLKjHgOha8VvMS5c8ivyVoEccPdAnLAp9L+nglmV+NDQ6D4Ho2Rc8=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9372.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(19092799006)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?f4qG5iWucP+R9y/6zsobG2xnQXEFxsu2mLB7GzwxOWShGjzI1Q4XEWp/MwCz?=
- =?us-ascii?Q?GiYvdy97JAT2bF1n+gBWAljHF8GARvJJihWLW6V0YUHZvPfPbbL2Sfq58IkA?=
- =?us-ascii?Q?upft5qAr0gDLnNsIVeyMfM7/BUZQmKPEQQSDPhJMEBfSUGIMp8sBSXuqGBfA?=
- =?us-ascii?Q?y8CQtOWBhbLfmZIJisihEMac231oIgoYnNJWv9Vg8ZTNz5cHn0Kb3Yz/oxcI?=
- =?us-ascii?Q?KPY/fNlqMPybN5qNlWVzFrQ3afVxlG/84Zir7RUIVtVumWRdkxmvX2ZCFMLS?=
- =?us-ascii?Q?lCN3hKEEvH91SYxPsdq2N+rpcoUVzCvbVAaP++n9wkbIfvovndDRcl3YVuQU?=
- =?us-ascii?Q?P9EB7O2kmSTd/Qir7MSQHv8A6Iv2d/QN+0F9oafK7z7sNmz/VHI96mCrjUDW?=
- =?us-ascii?Q?MyJz68NwYijZhJR7wIJfHCAPiXUANOtCxUuc63weL69git263ajXakyWFyRc?=
- =?us-ascii?Q?ngJaj0gwJkMxx7kCbEiDZJeQCA9xy/m8nOzin24L7N72YG1g6U1NT58TavIe?=
- =?us-ascii?Q?Hu8xB8ZQm8O+KinCUc+dAnOYtQqAUzfB60rvtaP27JEunG4pVC0JAhYFLCWP?=
- =?us-ascii?Q?7gbUk1HgnygO25bzLPLsKvC1J8guhNZHWE+GZlggDf1p4HaMv9YoyvngFW88?=
- =?us-ascii?Q?gj0Ul4yXKt5H6dOH6yXUUp9o0NXSR+gIoxElIyv4UJBj1J3ZNz1MYfvLmL/j?=
- =?us-ascii?Q?SEYP5cG3TlK/+5ykro8UHJNZgun5km8CdhlkIDfF1Bb46hpUeSkonpz78tKn?=
- =?us-ascii?Q?4oS8n/RhA3Vdwvuw8vouueFgna8BTHI9fU/p/cTIcTOj++37PJS6rqedGeJC?=
- =?us-ascii?Q?G9hNVuLeMdwyuZKPp/GBjPab09anga669eYpQCeJDRWAE3DdRCUu+5XrcfGH?=
- =?us-ascii?Q?ndfCvaQTnwF2e2lV+BnlFhRABOIoLAi2qstodcrWokswpMkQbkOEWMWuxwXW?=
- =?us-ascii?Q?o1rbWpX/nxToFRacdbMthyr7YZB8FPjiYGZdfBuvQQFOq1m/lJ3AutoO6rsg?=
- =?us-ascii?Q?axr0KBWb44hLT+IXFIoQg3m4wUgmi0WobXAMT2NHOE+m6kz2fJCyPfFieNhG?=
- =?us-ascii?Q?y/hrWTiPq7EaTfiepREddfedEOIf+SW9bj5+WU04bqQpVpLkCbvxpKy0Mr2w?=
- =?us-ascii?Q?QgqXx8GxRRgULmS1vE30t31HD1DNwu59kEKXSQoibDkOOBAR1Wk9hkCu0K+J?=
- =?us-ascii?Q?TaGelnwLlghWIMXKg/mvEJAoW7lmJ6SvkyGlhzhY0obo3Ah5nMhD3ZwMKgbN?=
- =?us-ascii?Q?68iuH3axtZCb6otxVUr4Euj7YlJ0A6c+G0ka/e9tP7OXhTL8boZ76/G04U3+?=
- =?us-ascii?Q?9UFONiczbn26pRAU7x3KKyxVY9dkDPpy/MX/7Zhxis2OzaG7MPl/5df7UN6U?=
- =?us-ascii?Q?I3diezKVNZCHDpfO90KrAbe9Ar3IjCaxx6ywyHsHtABW9DBULohgS2oAUfMQ?=
- =?us-ascii?Q?GK2RZuHrtJDxOQIeMS2EjaX9f8sCLQFF6caTjmy7t5i0R7PzXFkrILYBdP3g?=
- =?us-ascii?Q?roi3NmffCVyvZLMVTmA2PtiBd2tnq22Uieuwqgf59/m1ITe2QaoRmo6xZ80L?=
- =?us-ascii?Q?ySCYi1dlWVFObwzlGwPtlLlM2853LNsg5d1ECHEtPc04TP6RpoT/NNmiAwmu?=
- =?us-ascii?Q?+zCDzXvV3/TVzIAyZ+jzLydXjZVnIYom/uzwzbOvxQz0700xLW4noRxv+f6/?=
- =?us-ascii?Q?G0uUAEKvUWl0iWbkC7ClEd05XPOSx17W0Bp2bqRqCURLdpctHcnK7oj08SQ9?=
- =?us-ascii?Q?mr/olN8/QQ=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50bc1ad9-e93c-4774-675c-08de7e1541df
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR04MB9372.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 19:51:30.0301
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u4yPtTYRF+qGbssaUg17krdZd+jj8U4apdjA/9nD3wVnaLFp1a28783346RYt+j/x5cP/HrbLU7FNwO+WTRBxw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR04MB9289
-X-Rspamd-Queue-Id: 7FA802405E3
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=EK4LElZC c=1 sm=1 tr=0 ts=69af295b cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
+ a=Ohuc5M0UGw20_VvRb6sA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDE3OCBTYWx0ZWRfX48NInAXNxJ9I
+ cqZ2w42oLBKp6f6ShdJYkvtWo35W1xBR9wJ3/AMrAgqtjjRmHF+LNmGqeG928jRHEGfhi5Dc3Ir
+ wmrxB6T58L1jgUeut/UN4ASDb+YKdYMu+ThxKOBJOKt26YDnsAlMtjSvmCcaxE+TT5Ibe0zYC0f
+ zBgbUGDl6m62+LPcwjv67C82HPGKVuU4mQ7dUKg2Sv0H9xprcqNV55N1hEVQyFV4pb7QXKtAhGE
+ YVUSx215hmiPcMqQdaRgfBi/PErZi+WGgzrtD+EeiIqh5iBJfaUE0yW08tvcIRwoQr42lAufyzB
+ vYZKyixwfkjfLVLXUjHMdBtRGJrXaAm82jJw9wIV+5PYqMOONm6AlqMVRpwFh8k3h3nwk8wQiR2
+ zhIg8VMnQ/RF3WK3QDU7+acPMfehsyHGr854HkqAG/4Nm9pp74q0YkbWa+CcmHp5NJJ/sMPIvY9
+ s27fVbRyzlJIijxgTKg==
+X-Proofpoint-GUID: xB1hrjZmRj2bIZxp5d4ApU8QU-_XE2VB
+X-Proofpoint-ORIG-GUID: xB1hrjZmRj2bIZxp5d4ApU8QU-_XE2VB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-09_05,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 clxscore=1015
+ bulkscore=0 impostorscore=0 priorityscore=1501 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603090178
+X-Rspamd-Queue-Id: CAEDB240BFE
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ibm.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ibm.com:s=pp1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55016-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[45];
+	TAGGED_FROM(0.00)[bounces-55017-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[ideasonboard.com,kernel.org,nxp.com,pengutronix.de,gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[ibm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.ibm.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.Li@nxp.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[zohar@linux.ibm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,nxp.com:dkim,nxp.com:email,nxp.com:mid]
+	RCVD_COUNT_SEVEN(0.00)[11]
 X-Rspamd-Action: no action
 
-From: Frank Li (AI-BOT) <frank.li@nxp.com>
+On Mon, 2026-03-09 at 15:33 -0400, Jeff Layton wrote:
+> On Mon, 2026-03-09 at 15:00 -0400, Mimi Zohar wrote:
+> > On Mon, 2026-03-09 at 13:59 -0400, Jeff Layton wrote:
+> > > On Mon, 2026-03-09 at 13:47 -0400, Mimi Zohar wrote:
+> > > > [ I/O socket time out.  Trimming the To list.]
+> > > >=20
+> > > > On Wed, 2026-03-04 at 10:32 -0500, Jeff Layton wrote:
+> > > > > This version squashes all of the format-string changes and the i_=
+ino
+> > > > > type change into the same patch. This results in a giant 600+ lin=
+e patch
+> > > > > at the end of the series, but it does remain bisectable.  Because=
+ the
+> > > > > patchset was reorganized (again) some of the R-b's and A-b's have=
+ been
+> > > > > dropped.
+> > > > >=20
+> > > > > The entire pile is in the "iino-u64" branch of my tree, if anyone=
+ is
+> > > > > interested in testing this.
+> > > > >=20
+> > > > >     https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux=
+.git/
+> > > > >=20
+> > > > > Original cover letter follows:
+> > > > >=20
+> > > > > ----------------------8<-----------------------
+> > > > >=20
+> > > > > Christian said [1] to "just do it" when I proposed this, so here =
+we are!
+> > > > >=20
+> > > > > For historical reasons, the inode->i_ino field is an unsigned lon=
+g,
+> > > > > which means that it's 32 bits on 32 bit architectures. This has c=
+aused a
+> > > > > number of filesystems to implement hacks to hash a 64-bit identif=
+ier
+> > > > > into a 32-bit field, and deprives us of a universal identifier fi=
+eld for
+> > > > > an inode.
+> > > > >=20
+> > > > > This patchset changes the inode->i_ino field from an unsigned lon=
+g to a
+> > > > > u64. This shouldn't make any material difference on 64-bit hosts,=
+ but
+> > > > > 32-bit hosts will see struct inode grow by at least 4 bytes. This=
+ could
+> > > > > have effects on slabcache sizes and field alignment.
+> > > > >=20
+> > > > > The bulk of the changes are to format strings and tracepoints, si=
+nce the
+> > > > > kernel itself doesn't care that much about the i_ino field. The f=
+irst
+> > > > > patch changes some vfs function arguments, so check that one out
+> > > > > carefully.
+> > > > >=20
+> > > > > With this change, we may be able to shrink some inode structures.=
+ For
+> > > > > instance, struct nfs_inode has a fileid field that holds the 64-b=
+it
+> > > > > inode number. With this set of changes, that field could be elimi=
+nated.
+> > > > > I'd rather leave that sort of cleanups for later just to keep thi=
+s
+> > > > > simple.
+> > > > >=20
+> > > > > Much of this set was generated by LLM, but I attributed it to mys=
+elf
+> > > > > since I consider this to be in the "menial tasks" category of LLM=
+ usage.
+> > > > >=20
+> > > > > [1]: https://lore.kernel.org/linux-fsdevel/20260219-portrait-wink=
+t-959070cee42f@brauner/
+> > > > >=20
+> > > > > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> > > >=20
+> > > > Jeff, missing from this patch set is EVM.  In hmac_add_misc() EVM c=
+opies the
+> > > > i_ino and calculates either an HMAC or file meta-data hash, which i=
+s then
+> > > > signed.=20
+> > > >=20
+> > > >=20
+> > >=20
+> > > Thanks Mimi, good catch.
+> > >=20
+> > > It looks like we should just be able to change the ino field to a u64
+> > > alongside everything else. Something like this:
+> > >=20
+> > > diff --git a/security/integrity/evm/evm_crypto.c b/security/integrity=
+/evm/evm_crypto.c
+> > > index c0ca4eedb0fe..77b6c2fa345e 100644
+> > > --- a/security/integrity/evm/evm_crypto.c
+> > > +++ b/security/integrity/evm/evm_crypto.c
+> > > @@ -144,7 +144,7 @@ static void hmac_add_misc(struct shash_desc *desc=
+, struct inode *inode,
+> > >                           char type, char *digest)
+> > >  {
+> > >         struct h_misc {
+> > > -               unsigned long ino;
+> > > +               u64 ino;
+> > >                 __u32 generation;
+> > >                 uid_t uid;
+> > >                 gid_t gid;
+> > >=20
+> >=20
+> > Agreed.
+> >=20
+> > >=20
+> > > That should make no material difference on 64-bit hosts. What's the
+> > > effect on 32-bit? Will they just need to remeasure everything or woul=
+d
+> > > the consequences be more dire? Do we have any clue whether anyone is
+> > > using EVM in 32-bit environments?
+> >=20
+> > All good questions. Unfortunately I don't know the answer to most of th=
+em. What
+> > we do know: changing the size of the i_ino field would affect EVM file =
+metadata
+> > verification and would require relabeling the filesystem.  Even package=
+s
+> > containing EVM portable signatures, which don't include or verify the i=
+_ino
+> > number, would be affected.
+> >=20
+>=20
+> Ouch. Technically, I guess this is ABI...
+>=20
+> While converting to u64 seems like the ideal thing to do, the other
+> option might be to just keep this as an unsigned long for now.
+>=20
+> No effect on 64-bit, but that could keep things working 32-bit when the
+> i_ino casts properly to a u32. ext4 would be fine since they don't
+> issue inode numbers larger than UINT_MAX. xfs and btrfs are a bit more
+> iffy, but worst case they'd just need to be relabeled (which is what
+> they'll need to do anyway).
+>=20
+> If we do that, then we should probably add a comment to this function
+> explaining why it's an unsigned long.
 
-> +	/* Platform like i.MX95, ISI support 8 virtual channels */
+Agreed.
 
-AI: Typo in commit message/comment: "ISI support" should be "ISI supports"
+>=20
+> Thoughts?
 
-> -#define CHNL_CTRL_BLANK_PXL(n)					((n) << 16)
-> -#define CHNL_CTRL_BLANK_PXL_MASK				GENMASK(23, 16)
-> -#define CHNL_CTRL_MIPI_VC_ID(n)					((n) << 6)
-> +#define CHNL_CTRL_VC_ID_1(n)					FIELD_PREP(BIT(16), (n))
-> +#define CHNL_CTRL_MIPI_VC_ID(n)					FIELD_PREP(GENMASK(7, 6), (n))
+My concern would be embedded/IoT devices, but I don't have any insight into=
+ who
+might be using it on 32 bit.
 
-AI: Removing CHNL_CTRL_BLANK_PXL and CHNL_CTRL_BLANK_PXL_MASK without explanation.
-If these are unused, mention in commit message or confirm they're dead code.
-
-Frank
+Mimi
 
