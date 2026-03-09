@@ -1,223 +1,258 @@
-Return-Path: <linux-media+bounces-54922-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54923-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OIZNMH+ArmlfFQIAu9opvQ
-	(envelope-from <linux-media+bounces-54922-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 09:10:39 +0100
+	id eM73Fq6CrmlfFQIAu9opvQ
+	(envelope-from <linux-media+bounces-54923-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 09:19:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B430235587
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 09:10:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A162356CF
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 09:19:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4558F303A6F9
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 08:10:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 445BE301CFB8
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 08:19:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EB7736BCDE;
-	Mon,  9 Mar 2026 08:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D765736CDFA;
+	Mon,  9 Mar 2026 08:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tyIOucgK"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="OkRE0Tb6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020119.outbound.protection.outlook.com [52.101.227.119])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9CA2EB0F;
-	Mon,  9 Mar 2026 08:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773043797; cv=none; b=XzsHEQfs5saiqcZeYhGD+Dqziu5Liyf8GnG4ubUFMiR56qnke1H83t67ZKhQ1Jab0zF8KJRQ/ec0JtYAJHcG+VYQyinWTyiXslGux8YHWd6eA/PieCsQXs6iYUFMZkUCulKWAiaPTTpUbTnWRAsEKdfPSQHsoV8/MzDLgnFhVAY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773043797; c=relaxed/simple;
-	bh=32FowEX4GYXUvlI6q5fHoPOHKDUD+8ybU58sR9odc3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D234cCKP4pCTzYsBNN6XAbGaiTrJ6EamYs8ZAdwmzXr0K98V1+FmtYjfbQ15KviqAdcp7vcKYuZcvjj4UTmb0iQ9Wymi65WrmD6RSmMCpb7sm59czn9dQOK6bp8tIm1rX0hFwkUq8B236YHLlcE2TBoxda2akD4DhUBD7+3VUqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tyIOucgK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C4ADC4CEF7;
-	Mon,  9 Mar 2026 08:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773043797;
-	bh=32FowEX4GYXUvlI6q5fHoPOHKDUD+8ybU58sR9odc3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tyIOucgKAfmefa18DFYskVEvdTUmMUUmT8HnBszC9g+/3mu1ac4DRo0flCYJxEj76
-	 p271mDlGTOPyxk4+0+GHdecUdSQAZOM+L8gTNBNBGZwQHPKV8vC1thWGJZPeZBX8pr
-	 3X16t3RsqMIU6jLyG1xNhwWvWI5MieFe0lPzQJVGZ4F14tpOazzwn0lmuYQV9/WBGI
-	 HbVW0WlB742mIaR5ZW5z1fUpVHoaFEKrkIJaxV8wBnVjVXySu/7AfHLJAFTi3Qe+Mc
-	 W8hZg9dDIi4OWOFOSpENXZiP4Xr06c8ndff9g0yDDNCYcEa/Ggxfoc0bZVbfvGxE79
-	 J4OdC2YwDMUEQ==
-Date: Mon, 9 Mar 2026 13:39:38 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath12k@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, andersson@kernel.org,
-	konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, robin.clark@oss.qualcomm.com, sean@poorly.run,
-	akhilpo@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
-	jesszhan0024@gmail.com, marijn.suijten@somainline.org,
-	airlied@gmail.com, simona@ffwll.ch, vikash.garodia@oss.qualcomm.com,
-	dikshita.agarwal@oss.qualcomm.com, bod@kernel.org,
-	mchehab@kernel.org, elder@kernel.org, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, jjohnson@kernel.org, mathieu.poirier@linaro.org,
-	trilokkumar.soni@oss.qualcomm.com, pavan.kondeti@oss.qualcomm.com,
-	jorge.ramirez@oss.qualcomm.com, tonyh@qti.qualcomm.com,
-	vignesh.viswanathan@oss.qualcomm.com,
-	srinivas.kandagatla@oss.qualcomm.com,
-	amirreza.zarrabi@oss.qualcomm.com, jens.wiklander@linaro.org,
-	op-tee@lists.trustedfirmware.org, apurupa@qti.qualcomm.com,
-	skare@qti.qualcomm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: Re: [PATCH 01/14] arm64: dts: qcom: kodiak: Add EL2 overlay
-Message-ID: <aa6AQtR4oEfomWPj@sumit-xelite>
-References: <20260306105027.290375-1-sumit.garg@kernel.org>
- <20260306105027.290375-2-sumit.garg@kernel.org>
- <20260309080049.si3vzro4z6qn7ewz@hu-mojha-hyd.qualcomm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61E1363C5C;
+	Mon,  9 Mar 2026 08:19:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.227.119
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773044356; cv=fail; b=lttxf1WvTr/CTmA164A/qI8qrBMYP9GndCrUiDlChS4oeAn6FHbGYgJqAMhJ1GcFTTEdUq111haPHanyY2cAouNX65ApNobreFmLq6kp0rNwF+9+DRO237QNghxTLDxtjYWiJfnlme1aktwJaubwlF/zYNxBDLQ7Z1aawM2ehzA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773044356; c=relaxed/simple;
+	bh=nlTumxxI0TCOJCE6cqbTqAJkmxLHVztto8TBThgHSag=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Kvo2jMqqHqcaA7m8NXSlBoNQfIuIMz6pCZe4yrUD+uRB3SYMpL6YE5kvdYXBAcyeQYNNyNfCWVFClbPhZH9Y7SE7X9fM5qhGTGRnzancl9cR7TmO8H9u8haVphtzyJF9bkYHwNUwBR8N1InFZNQIjxBupaHWYP6ZYyV0yZoAi/A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=OkRE0Tb6; arc=fail smtp.client-ip=52.101.227.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JRU/TBNfeKex3lWsr+94WcLrXUSdEkC7DbYHp3JS+4rMhoBDnHG4KGctJqzwUAuP6xYn8VxUQe/YuU3Ih7NtXxr13iWe+R1v6BhLZhpB8nMnpx3OVoP1Shy8nrr5rnBLUhFhy2AwroMwAcb+WJpjijMg6WHX9WircaPae8R9nRzLHELFEWCQGasLRn+i8izDcDpveUERyqlZ8rrxyR/A4jscrcXso0zOh9h4Bst2RsHxpQ2SBHoqZjv/sb1U3ZOCftw65mh51Ii9mYM6JbfVdNtP6eS73wyksS6uDWV+dJHOV3yfKJmk5hsPGIC7KRpKjjzb0SsgYNiPw2Ccpy6lNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nlTumxxI0TCOJCE6cqbTqAJkmxLHVztto8TBThgHSag=;
+ b=aCiNz8R0gUKJsxmZH/w2Aw+l2RGQZ+1Cve8ovTWzcpGhLnqztX0Sc1sswxWZVtjb6DgZhYovVNYw5Nib3rqkctoe1p9YSXF34mveYHId0mOi2bfUijug0VptJedIv5/7CEOZaTxUEu2iEDG+LMTQ7db6xY8fGniLqaaU6bZGbyH2C+/PCbu3UjazLYVas/Trz4lufO5ANYH0Nu7ll/CIU/fMsi+k3BvFGPPDOlodorj5PFy+w673v+I+rlDONTP2z9/aBdHqkqoEz9dHrv3i5B8tgPIWWiaWpW7XeuR6TphZlq1oU+aHv4KP0ZhRGq18c0WIStwdpcl8pp8BVmke2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nlTumxxI0TCOJCE6cqbTqAJkmxLHVztto8TBThgHSag=;
+ b=OkRE0Tb6fwURKW5FxJ6YDk+sp6e5opeH1wMLKM/1mN3hHEBSoe9/1qCarekpvYx/BAdDpNpEBC6NB5Y/3CDETyLSjXwMzVwzK1urRuHisRWT1x8whPLd2OulZCZArjCkPKk7VIwzHrPai80nT4ZHhVBQHuJ3VEVUyts3wdN/++MFj+Gi82nj2CCw1R7h42nLlP7JuThJjGc3NHoDQWVONBguABCjc5HNjjzwEocx/XO18uG3v58XHalmjJ9EN6sXGkOjRagcQfW4beAtYfQGHkyHbwkn5sld/t1WbsHN4XYhPeboxpQZQVh6mwIlJXjmpiiQKCDTsLw6laOGMN1p5A==
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by MA5P287MB5142.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1c7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Mon, 9 Mar
+ 2026 08:19:11 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.20.9678.024; Mon, 9 Mar 2026
+ 08:19:11 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: "mehdi.djait@linux.intel.com" <mehdi.djait@linux.intel.com>, Himanshu
+ Bhavani <himanshu.bhavani@siliconsignals.io>, Elgin Perumbilly
+	<elgin.perumbilly@siliconsignals.io>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 11/13] media: i2c: os05b10: Update active format before
+ adjusting framing controls
+Thread-Topic: [PATCH 11/13] media: i2c: os05b10: Update active format before
+ adjusting framing controls
+Thread-Index: AQHcrWWbBCA5F4vFtEy8NDemy3uU2rWhgb8AgAECI9mAA1WN9g==
+Date: Mon, 9 Mar 2026 08:19:11 +0000
+Message-ID:
+ <PN3P287MB18292213A1DE4E8BB57600F98B79A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20260306123304.76722-1-tarang.raval@siliconsignals.io>
+ <20260306123304.76722-12-tarang.raval@siliconsignals.io>
+ <aarYbAf8jnodZ4UV@kekkonen.localdomain>
+ <PN3P287MB1829F11B3BC3D07BE13C4C228B7BA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+In-Reply-To:
+ <PN3P287MB1829F11B3BC3D07BE13C4C228B7BA@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|MA5P287MB5142:EE_
+x-ms-office365-filtering-correlation-id: 2e9fddbf-888c-4211-7649-08de7db48ae6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700021;
+x-microsoft-antispam-message-info:
+ GjmO6qADMQKQpFBtiFjr5CeVayhE7Wxi9xgGtP84oSdi8nJ5uA3GDj7Hfl17CRxwHXvqeCqwexWzx2k6kRf/QPfSFDImfEcaqgkd340GDmTUhDdjFc7jmjqSgVOv8lxa/f5DFT9O0xqHSnFb8x65vfqQ2VLEX2IHcExEExGBLzEmPa35L5/dV3TXKBhBnwIZcskuoThY5r9ItUpNiuJjkfY88xTfist7TytjcMQITDQ2t464LiT9DbFZfiJozVJPare/zN6DOwlcyfHnFDMw8Uss3jw84yLJnrThRDkb2N0diAkm+54bSVzd5fbW7uH2rmT8TUY0lXBN39+Q342vR3c4vDm4yM/+fY6gXy4Rd0WMZk//7bkvfLrbHFItaOG5D19DXyQqoY7D7EzKF5P/QJyJv+8/wRTif1zDfzXOb6Dp/IUo2H2D9UGPpWFGzdLQQMNFccT9kFkh7JIEu7RstIYuwBHrYi6hlKM8lQPbHZlKrHryKZU39y/3CZTLJNXL29ZKbr0N6E47wOGOdyfqJpjjt4bQxSTdpuJk+0BB3gCSNn3mFFxtdWgFeteMhBHFdD7UwYKFwo4Sth/mc9QKNRDGErmqory3SWMOowCy4sWHs8uq3sI4Z5r5SvsIF84XiStm9fNcbEeL7Y+53sU17dsjeWhPBIgR2JIJ9VXvOnXONhpaZLcRwlPPUKHgJqeSnKvP+2xOPaNizIl7mHBT7mdLWaQpRiv+cyIv68PylcRKX+i8f8gUD8XP5c50LkSDYwnI9KePz0IGCbVR9PSNDLPT2nybJKKRDOx7Q4PcRuY=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?4xCliznULL8U4qYOJT5jEs32fiLpMHRtUPauva3eE3jut4rqhICyKT+sdY?=
+ =?iso-8859-1?Q?5TdkXi0GpbfSM9RRFHVb1CdpwOYISK2DiEXXqyEftSH7EtFn05RlVfoE/2?=
+ =?iso-8859-1?Q?ANAKRrzopxRRC1EBfmj7GWKEdM4ChOH6i9NmRfvMASRY+r3VtMo3btikzB?=
+ =?iso-8859-1?Q?qrpl1ns5wKCeBzbr7z7N2vFb/xbCFk/7fSM5a8fZoYXb1y7S1azbxz6Y5H?=
+ =?iso-8859-1?Q?c0Of5IwQ1DeVOxA/rp77r/vPCYQ10b6pjJ4vuaOQQQedk6QFPC4fHYDNDj?=
+ =?iso-8859-1?Q?Ci9aPEVLCXjALaScK1jRa4vwI1b4I1OP5tpw3lZOSvcShm9LTmIEoaZDmm?=
+ =?iso-8859-1?Q?c3ctBawLmSgkDdfrLoj64xJfMXWvTuCZ57c4HPZwleEhV7idRbJO7szCke?=
+ =?iso-8859-1?Q?1Cws3XAUBJgHYbIQNVPK3Dtv1Q0aZ0TEiECtyr32QwXL/Nj3ZS7ZEYb6A2?=
+ =?iso-8859-1?Q?MVmZ3bI98UteYCA5X7Zrq5qZ59sT0vy0x4iSD79Kg/E1f/TtqpKHEqhFID?=
+ =?iso-8859-1?Q?2p21DNPpvLXTofxWy6aOFqAHjAkS/KugX0NWPXcTgyOGTpCYMTpUFInAKL?=
+ =?iso-8859-1?Q?GWG2DtqG8UM8YZEPSyho0M4Syeuld8n/YOMFlN+gczXObuph5eGnSVI1OG?=
+ =?iso-8859-1?Q?NPx1n250XPmj7q6yFsfn1A3KnOJKgTwI1GGNBzcK7xTvJydF4vSV8GrIOU?=
+ =?iso-8859-1?Q?kKTN6ZcTMMVECfBqHLh4N9EZpxxjbH4ccnjEG41w6kA2ZHYPNZmvMjyIem?=
+ =?iso-8859-1?Q?qhqHlia/lp1JrN9ucZwOTuS1WAi90ixSs4HU+XFTugeLkteUI+TZ3Me+Z7?=
+ =?iso-8859-1?Q?i+izdt6SILbVrlUeTrzsj2dWkB/12qWl9xcuOmCGaBA2rasn0zUqy/CX7O?=
+ =?iso-8859-1?Q?xJO4Ls3ktU/wQLN91guSj/p8gt3ah4EIaO37z5/JacGeEuMYC3TT5w2VQs?=
+ =?iso-8859-1?Q?142TjKz9+H62oAP4kl62WYhSIRMqT/gPRTNPWG2n+wYyhHepFf8zflycO1?=
+ =?iso-8859-1?Q?nWI1zy2MyjogWo3ooxatkONkqCQz2Mc5MB89EXm+7J3VJ1UujAOPOJLnjd?=
+ =?iso-8859-1?Q?KY8mVAAIm1hMt0j3xtsrXc6L5zxC5/hd1At80ihOPS5j5DONRfl1PwMrW5?=
+ =?iso-8859-1?Q?Yglbp83YdLXrQD71TT1WX36XqHIS+hzUrkS5WJDWsfDsLB9CGHpstGQ+vg?=
+ =?iso-8859-1?Q?XKB0K6XLODXBR8Hzc3bR1LkriYKwi+hdxJzKxtOA953mHJOOwN8CMts5OC?=
+ =?iso-8859-1?Q?zHrT5wWqxOhumlCLjRkqj34unXqb9f0f006dZBD8LPQGgJkeF7/PwV35Cb?=
+ =?iso-8859-1?Q?tZAmqzNNClBBcWdAqJXXokBZryl0LQT+LlPzy+CKCdAMLQ6cspLo8XxPya?=
+ =?iso-8859-1?Q?CHh39Fpp0npY93NICnCavwHfKgSvUR92sBsgKLU+OU3dSsLaDVEUpeOPNZ?=
+ =?iso-8859-1?Q?p4qaRPliafFpUyEwMO+pnZz0De4c5KKAXrXOPp0zgczgVYCLGGa99fcgJc?=
+ =?iso-8859-1?Q?bENCqj4NZ0sxJfhxlbo4eNDf8Lx3nn7unj+Cu//DjegV+rC2rouGlZmtl6?=
+ =?iso-8859-1?Q?oBjy6tuIBdW/Jh/5mo/sx/d6rxflMYOE/X4KoHBST2G8Shskt/Ocm+nj8g?=
+ =?iso-8859-1?Q?RWUXEVFNzBcyjgqn2GYFhzlhhR5S12DIh+T+wt2lkDreSe3hk2jU1qXqAd?=
+ =?iso-8859-1?Q?Vab8KpVEzgpEymhA3rrfDt5sLCGf4jTvchJNmVyWpxuYm3tJ7nG4+QJM/K?=
+ =?iso-8859-1?Q?G347f9bcrhpTYZ0OQGhOdQBAxeu9Ht3yAMNd4nhBhmNQVXIcWO+bV+oRjv?=
+ =?iso-8859-1?Q?yZrW+ZVoNQ=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260309080049.si3vzro4z6qn7ewz@hu-mojha-hyd.qualcomm.com>
-X-Rspamd-Queue-Id: 2B430235587
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e9fddbf-888c-4211-7649-08de7db48ae6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Mar 2026 08:19:11.0889
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 98LoJgF1SMTjTpsbZgZZtpH84U5g/f+0ISkLW7yH0G8sXzDoLXOLRuFlxiCZFhgmhXGJNKDsMsGSd9cM4JSIlY/fpFp0eKNJrSa5u7AEPGU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB5142
+X-Rspamd-Queue-Id: B5A162356CF
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-54922-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-54923-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[siliconsignals.io:+];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[48];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,lists.infradead.org,kernel.org,oss.qualcomm.com,poorly.run,linux.dev,gmail.com,somainline.org,ffwll.ch,lunn.ch,davemloft.net,google.com,redhat.com,linaro.org,qti.qualcomm.com,lists.trustedfirmware.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.985];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sumit.garg@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt,netdev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:url,qualcomm.com:email]
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-0.953];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-On Mon, Mar 09, 2026 at 01:30:49PM +0530, Mukesh Ojha wrote:
-> On Fri, Mar 06, 2026 at 04:20:14PM +0530, Sumit Garg wrote:
-> > From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> > 
-> > All the existing variants Kodiak boards are using Gunyah hypervisor
-> > which means that, so far, Linux-based OS could only boot in EL1 on those
-> > devices.  However, it is possible for us to boot Linux at EL2 on these
-> > devices [1].
-> > 
-> > When running under Gunyah, the remote processor firmware IOMMU
-> > streams are controlled by Gunyah. However, without Gunyah, the IOMMU is
-> > managed by the consumer of this DeviceTree. Therefore, describe the
-> > firmware streams for each remote processor.
-> > 
-> > Add a EL2-specific DT overlay and apply it to Kodiak IOT variant
-> > devices to create -el2.dtb for each of them alongside "normal" dtb.
-> > 
-> > [1]
-> > https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-4/boot-developer-touchpoints.html#uefi
-> > 
-> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> > [SG: watchdog fixup]
-> > Signed-off-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> 
-> Thanks for posting, I was about to add kodiak to the already existing
-> list monaco, talos here
-> https://lore.kernel.org/lkml/20260127-talos-el2-overlay-v2-0-b6a2266532c4@oss.qualcomm.com/
-> 
-> but did you really miss linux-kernel@vger.kernel.org or is it
-> intentional ?
-
-Ah I see, I missed that list. Will add in v2. BTW, this patch in the
-series can be applied independently since it will work with existing
-SCM interfaces provided by QTEE.
-
--Sumit
-
-> 
-> > ---
-> >  arch/arm64/boot/dts/qcom/Makefile        |  2 ++
-> >  arch/arm64/boot/dts/qcom/kodiak-el2.dtso | 35 ++++++++++++++++++++++++
-> >  2 files changed, 37 insertions(+)
-> >  create mode 100644 arch/arm64/boot/dts/qcom/kodiak-el2.dtso
-> > 
-> > diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-> > index f80b5d9cf1e8..09a7f943190e 100644
-> > --- a/arch/arm64/boot/dts/qcom/Makefile
-> > +++ b/arch/arm64/boot/dts/qcom/Makefile
-> > @@ -139,6 +139,8 @@ dtb-$(CONFIG_ARCH_QCOM)	+= qcs404-evb-4000.dtb
-> >  dtb-$(CONFIG_ARCH_QCOM)	+= qcs615-ride.dtb
-> >  dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-radxa-dragon-q6a.dtb
-> >  dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2.dtb
-> > +qcs6490-rb3gen2-el2-dtbs := qcs6490-rb3gen2.dtb kodiak-el2.dtbo
-> > +dtb-$(CONFIG_ARCH_QCOM)	+= qcs6490-rb3gen2-el2.dtb
-> >  
-> >  qcs6490-rb3gen2-vision-mezzanine-dtbs := qcs6490-rb3gen2.dtb qcs6490-rb3gen2-vision-mezzanine.dtbo
-> >  qcs6490-rb3gen2-industrial-mezzanine-dtbs := qcs6490-rb3gen2.dtb qcs6490-rb3gen2-industrial-mezzanine.dtbo
-> > diff --git a/arch/arm64/boot/dts/qcom/kodiak-el2.dtso b/arch/arm64/boot/dts/qcom/kodiak-el2.dtso
-> > new file mode 100644
-> > index 000000000000..0b3a69a0d765
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/qcom/kodiak-el2.dtso
-> > @@ -0,0 +1,35 @@
-> > +// SPDX-License-Identifier: BSD-3-Clause
-> > +/*
-> > + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> > + *
-> > + * Kodiak specific modifications required to boot in EL2.
-> > + */
-> > +
-> > +
-> > +/dts-v1/;
-> > +/plugin/;
-> > +
-> > +&gpu_zap_shader {
-> > +	status = "disabled";
-> > +};
-> > +
-> > +&remoteproc_adsp {
-> > +	iommus = <&apps_smmu 0x1800 0x0>;
-> > +};
-> > +
-> > +&remoteproc_cdsp {
-> > +	iommus = <&apps_smmu 0x11a0 0x0400>;
-> > +};
-> > +
-> > +&remoteproc_wpss {
-> > +	iommus = <&apps_smmu 0x1c03 0x1>,
-> > +		 <&apps_smmu 0x1c83 0x1>;
-> > +};
-> > +
-> > +&venus {
-> > +	status = "disabled";
-> > +};
-> > +
-> > +&watchdog {
-> > +	status = "okay";
-> > +};
-> > -- 
-> > 2.51.0
-> > 
-> 
-> -- 
-> -Mukesh Ojha
-> 
+Hi Sakari,=0A=
+=0A=
+> > On Fri, Mar 06, 2026 at 06:03:01PM +0530, Tarang Raval wrote:=0A=
+> > > os05b10_set_pad_format() calls os05b10_set_framing_limits() before up=
+dating=0A=
+> > > the ACTIVE format. As a result, the VBLANK control handler uses the o=
+ld=0A=
+> > > height when recalculating exposure limits, causing -ERANGE when switc=
+hing=0A=
+> > > to a larger resolution.=0A=
+> > >=0A=
+> > > Update the ACTIVE format before adjusting framing controls so control=
+=0A=
+> > > callbacks use the correct dimensions.=0A=
+> > >=0A=
+> > > Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>=0A=
+> > > ---=0A=
+> > >=A0 drivers/media/i2c/os05b10.c | 4 ++--=0A=
+> > >=A0 1 file changed, 2 insertions(+), 2 deletions(-)=0A=
+> > >=0A=
+> > > diff --git a/drivers/media/i2c/os05b10.c b/drivers/media/i2c/os05b10.=
+c=0A=
+> > > index 4601e33b7e8f..476dbcb49351 100644=0A=
+> > > --- a/drivers/media/i2c/os05b10.c=0A=
+> > > +++ b/drivers/media/i2c/os05b10.c=0A=
+> > > @@ -902,14 +902,14 @@ static int os05b10_set_pad_format(struct v4l2_s=
+ubdev *sd,=0A=
+> > >=0A=
+> > >=A0=A0=A0=A0=A0=A0 format =3D v4l2_subdev_state_get_format(sd_state, 0=
+);=0A=
+> > >=0A=
+> > > +=A0=A0=A0=A0 *format =3D fmt->format;=0A=
+> > > +=0A=
+> > >=A0=A0=A0=A0=A0=A0 if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {=
+=0A=
+> > >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D os05b10_set_framing=
+_limits(os05b10, mode);=0A=
+> >=0A=
+> > Does it take a driver bug for this to happen? Presumably? I guess the=
+=0A=
+> > result would be somewhat inconsistent state in any case.=0A=
+>=0A=
+> In the current driver only a single mode is present, so the issue is not=
+=0A=
+> observed because no resolution change occurs.=0A=
+>=0A=
+> This issue became visible while adding a new mode. During a mode switch=
+=0A=
+> (from a smaller resolution to a larger one) the limits are calculated=0A=
+> using the previous format, which results in -ERANGE and the new mode is=
+=0A=
+> not applied.=0A=
+>=0A=
+> Updating *format =3D fmt->format before adjusting the framing controls=0A=
+> ensures the control handlers see the correct dimensions.=0A=
+=0A=
+During testing I messed up.=0A=
+=0A=
+Sorry for the confusion. With patch 10 the -ERANGE error is already resolve=
+d.=0A=
+=0A=
+During a mode change, os05b10_set_framing_limits() receives the selected=0A=
+mode as an argument, so it already uses the new resolution when calculating=
+=0A=
+the limits.=0A=
+=0A=
+Also, the control handlers are only triggered when streaming starts, so=0A=
+there is no practical difference whether *format =3D fmt->format is updated=
+=0A=
+before or after adjusting the framing controls.=0A=
+=0A=
+Given this, the change proposed in this patch is not necessary.=0A=
+=0A=
+I will drop this patch.=0A=
+=0A=
+Best Regards,=0A=
+Tarang=
 
