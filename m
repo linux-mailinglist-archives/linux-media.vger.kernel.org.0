@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-54980-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-54981-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eIg9MIsHr2knLwIAu9opvQ
-	(envelope-from <linux-media+bounces-54980-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 18:46:51 +0100
+	id QAdJMy8Ir2kUMAIAu9opvQ
+	(envelope-from <linux-media+bounces-54981-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 18:49:35 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F8F23DD53
-	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 18:46:50 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3577923DEC5
+	for <lists+linux-media@lfdr.de>; Mon, 09 Mar 2026 18:49:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 057393014895
-	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 17:46:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D796A30BF5D8
+	for <lists+linux-media@lfdr.de>; Mon,  9 Mar 2026 17:46:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49C9529898B;
-	Mon,  9 Mar 2026 17:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38F0F280CE5;
+	Mon,  9 Mar 2026 17:46:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="YW85HxKO"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="Aifj2zoe"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474E42D5C83;
-	Mon,  9 Mar 2026 17:46:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F55286D4D;
+	Mon,  9 Mar 2026 17:46:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773078381; cv=none; b=rOiwoDEBJX3CPbU2t5TlnNg8IMT6EnAbzhGpxpFfMUqh5ZFv9QdReCwiI/JXyl/D9pC5seuwb/Qf+aw5pRcT+bWyo3J0cDTIgwPwU21kh96UBBML2bhjzFJQsktOJbHpz5lccRNXzhip7iGJnGyDcjnvJf2xbU5fpS43WuvzBvc=
+	t=1773078384; cv=none; b=kVMHnFnRFIA1NggRUt18HhQlONd5QSHOumLGpEz09jKFB5w4FXYv4Voozf26WGWBhOItBckZ/OUmPJL4y82TeZTuvpdeyZLzCRp+aAK76Cn+yzPr6Wx3OS9dhgsQU69j8G9YqbfxtEaS1UP5Uohx2KojoYpW0rG0wxry76B7Hc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773078381; c=relaxed/simple;
-	bh=ju7xtfN9l5Pbn7N1x7rxBWWSAYKtME0kw18+9Vip2Fk=;
+	s=arc-20240116; t=1773078384; c=relaxed/simple;
+	bh=ohg4vOAqnmp6jKcSARC0EGRVirl7CfsZWO9r9TKQeGI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BJmx0CaAxU6hNstUc+uYS+YSvyMkzt4tlBQgOWwVpzxZ+e2P+ICVjvaSORFuIEXT7m+lzfTzuOW07e2Ba2smu7KtgHvBh4ObHPA0wHdrRDd1/bq0pLtZKlLQz3zoCzYUcH+i2APUAgPWcOaAZiww1+T0WDpBXxu1Pd6wG551UCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=YW85HxKO; arc=none smtp.client-ip=168.119.41.54
+	 In-Reply-To:To:Cc; b=Mb/J2qYjHy5/uhuLLX8XYRwy8s0j8DapaqDLRhSHfNw7fykd+gQbe9MGLneq+zeSUaugGB3IytfSFLZHiaHFYyK4xY272m1cTkcmJIOyq1PMEB5W+fUaYIU3SF67vxFtxCkct0AnRA3GCwo/3tZsin1iLeabE2OVphGKXjzcmhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=Aifj2zoe; arc=none smtp.client-ip=168.119.41.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
@@ -40,18 +40,18 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=hRESx7xuRJ/KQSMJSNKjdLfRjrGEx2DOxEodrO3UBK4=; b=YW85HxKOosF8TcoJICnr3igl0S
-	3744nasbC2vLn1h933g9A5pHO5sa+ImET2x38rURMjvMF5Q0b96LeWMi78mOagXY/rIDHfx2ZJoQx
-	+gHJZKzFvMZBZOnXh1oXpXqaRCT4Vynv7HVxZN/aJcBxe0OzKycqZkBund3WklVJc0qk=;
+	bh=uDqJ+5X22HEssjSzJwK+VACNwW1maLafgmcOYMRW++k=; b=Aifj2zoe7HtLzczTGsZ2vFcvXV
+	IsvBMbCEEY2kOiLRNJ0eEm0pMuUgiTnfeb8j+4zINWEo1o5X3+gHko9MRuCCS6/ftzgRUF7h7C1bH
+	tUdmyGCddOX/w8iLVurmXD8czOZNYujI15X3ss8RXaK4Xq7kEhktH8EQXn/kWKem/CeQ=;
 Received: from 194-208-208-245.tele.net ([194.208.208.245]:56968 helo=[127.0.1.1])
 	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <matthias.fend@emfend.at>)
-	id 1vze4S-00Dxnt-MT; Mon, 09 Mar 2026 18:07:09 +0100
+	id 1vze4T-00Dxnt-FB; Mon, 09 Mar 2026 18:07:09 +0100
 From: Matthias Fend <matthias.fend@emfend.at>
-Date: Mon, 09 Mar 2026 18:07:08 +0100
-Subject: [PATCH v2 6/9] dt-bindings: media: i2c: document Omnivision
- OV08D10 CMOS image sensor
+Date: Mon, 09 Mar 2026 18:07:09 +0100
+Subject: [PATCH v2 7/9] media: i2c: ov08d10: add support for binding via
+ device tree
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,7 +60,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260309-ov08d10-v2-6-81f8b5d99984@emfend.at>
+Message-Id: <20260309-ov08d10-v2-7-81f8b5d99984@emfend.at>
 References: <20260309-ov08d10-v2-0-81f8b5d99984@emfend.at>
 In-Reply-To: <20260309-ov08d10-v2-0-81f8b5d99984@emfend.at>
 To: Jimmy Su <jimmy.su@intel.com>, 
@@ -72,49 +72,68 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>, 
  bsp-development.geo@leica-geosystems.com
 X-Mailer: b4 0.14.2
-X-Spam-Score: -1.0
-X-Spam-Bar: -
+X-Spam-Score: -0.7
+X-Spam-Bar: /
 X-Spam-Report: Spam detection software, running on the system "lx20.hoststar.hosting",
  has NOT identified this incoming email as spam.  The original
  message has been attached to this so you can view it or label
  similar future email.  If you have any questions, see
  the administrator of that system for details.
  
- Content preview:  Add trailing \n to dev_* prints where missing. Signed-off-by:
-    Matthias Fend <matthias.fend@emfend.at> --- drivers/media/i2c/ov08d10.c |
-    34 +++++++++++++++++ 1 file changed, 17 insertions(+), 17 deletions(-) 
+ Content preview:  Add bindings for the Omnivision OV08D10 CMOS image sensor.
+    Signed-off-by: Matthias Fend <matthias.fend@emfend.at> --- .../bindings/media/i2c/ovti,ov08d10.yaml
+    | 101 +++++++++++++++++++++ MAINTAINERS | 1 + 2 files changed, 102 insertions(+)
+    
  
- Content analysis details:   (-1.0 points, 5.0 required)
+ Content analysis details:   (-0.7 points, 5.0 required)
  
   pts rule name              description
  ---- ---------------------- --------------------------------------------------
+  0.0 URIBL_BLOCKED          ADMINISTRATOR NOTICE: The query to URIBL was
+                             blocked.  See
+                             http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+                              for more information.
+                             [URIs: devicetree.org]
+  0.0 URIBL_DBL_BLOCKED_OPENDNS ADMINISTRATOR NOTICE: The query to
+                             dbl.spamhaus.org was blocked due to usage
+                             of an open resolver. See
+                             https://www.spamhaus.org/returnc/pub/
+                             [URIs: devicetree.org]
+  0.0 URIBL_ZEN_BLOCKED_OPENDNS ADMINISTRATOR NOTICE: The query to
+                             zen.spamhaus.org was blocked due to usage
+                             of an open resolver. See
+                             https://www.spamhaus.org/returnc/pub/
+                             [URIs: devicetree.org]
  -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
   0.0 TVD_RCVD_IP            Message was received from an IP address
+  0.1 POISEN_SPAM_PILL_3     BODY: random spam to be learned in bayes
+  0.1 POISEN_SPAM_PILL_1     RAW: random spam to be learned in bayes
   0.0 KAM_DMARC_STATUS       Test Rule for DKIM or SPF Failure with Strict
                              Alignment (older systems)
+  0.1 POISEN_SPAM_PILL       Meta: its spam
   0.0 Local_hs_NotFromHoststar Sender is NOT hoststar.(ch|at|com)
   0.0 Local_hs_NotToHoststar Recipient is NOT hoststar.(ch|at|com)
-X-Rspamd-Queue-Id: D8F8F23DD53
+X-Rspamd-Queue-Id: 3577923DEC5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [1.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	R_DKIM_REJECT(1.00)[emfend.at:s=mail];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-54980-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-54981-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DMARC_NA(0.00)[emfend.at];
 	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.943];
+	NEURAL_HAM(-0.00)[-0.944];
 	FROM_NEQ_ENVFROM(0.00)[matthias.fend@emfend.at,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
 	DKIM_TRACE(0.00)[emfend.at:-];
@@ -122,136 +141,39 @@ X-Spamd-Result: default: False [1.04 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[emfend.at:mid,emfend.at:email,intel.com:email,0.0.0.36:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,emfend.at:mid,emfend.at:email]
 X-Rspamd-Action: no action
 
-Add bindings for the Omnivision OV08D10 CMOS image sensor.
+The OV08D10 can be used also on embedded designs using device tree so allow
+the sensor to bind to a device tree node.
 
 Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 ---
- .../bindings/media/i2c/ovti,ov08d10.yaml           | 101 +++++++++++++++++++++
- MAINTAINERS                                        |   1 +
- 2 files changed, 102 insertions(+)
+ drivers/media/i2c/ov08d10.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..96dbf61cf7c188544f4120216ae2b8e0155128b7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
-@@ -0,0 +1,101 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/ovti,ov08d10.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Omnivision OV08D10 1/4-Inch 8MP CMOS color image sensor
-+
-+maintainers:
-+  - Jimmy Su <jimmy.su@intel.com>
-+
-+description:
-+  The Omnivision OV08D10 is a 1/4-Inch 8MP CMOS color image sensor with an
-+  active array size of 3280 x 2464. It is programmable through I2C
-+  interface. Image data is transmitted via MIPI CSI-2 using 2 lanes.
-+
-+allOf:
-+  - $ref: /schemas/media/video-interface-devices.yaml#
-+
-+properties:
-+  compatible:
-+    const: ovti,ov08d10
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    description: MCLK input clock (6 - 27 MHz)
-+    maxItems: 1
-+
-+  reset-gpios:
-+    description: Active low XSHUTDN pin
-+    maxItems: 1
-+
-+  dovdd-supply:
-+    description: IO power supply (1.8V)
-+
-+  avdd-supply:
-+    description: Analog power supply (2.8V)
-+
-+  dvdd-supply:
-+    description: Core power supply (1.2V)
-+
-+  port:
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        required:
-+          - data-lanes
-+          - link-frequencies
-+
-+    required:
-+      - endpoint
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - port
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interfaces.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        sensor@36 {
-+            compatible = "ovti,ov08d10";
-+            reg = <0x36>;
-+
-+            clocks = <&ov08d10_clk>;
-+
-+            dovdd-supply = <&ov08d10_vdddo_1v8>;
-+            avdd-supply = <&ov08d10_vdda_2v8>;
-+            dvdd-supply = <&ov08d10_vddd_1v2>;
-+
-+            orientation = <2>;
-+            rotation = <0>;
-+
-+            reset-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
-+
-+            port {
-+                ov08d10_output: endpoint {
-+                    data-lanes = <1 2>;
-+                    link-frequencies = /bits/ 64 <360000000 720000000>;
-+                    remote-endpoint = <&csi_input>;
-+                };
-+            };
-+        };
-+    };
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 55af015174a54e17cc7449e5a80b6cdc83aa6fde..2484d0bcc1f09582828cafbdb7d45dd12b55af60 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19505,6 +19505,7 @@ M:	Jimmy Su <jimmy.su@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
- F:	drivers/media/i2c/ov08d10.c
+diff --git a/drivers/media/i2c/ov08d10.c b/drivers/media/i2c/ov08d10.c
+index f2276f49506028c582e49a5b7cab3b07f6ca4e0d..ce0fa30a86129302b5dda0b8796e44054fd77c88 100644
+--- a/drivers/media/i2c/ov08d10.c
++++ b/drivers/media/i2c/ov08d10.c
+@@ -1464,10 +1464,17 @@ static const struct acpi_device_id ov08d10_acpi_ids[] = {
+ MODULE_DEVICE_TABLE(acpi, ov08d10_acpi_ids);
+ #endif
  
- OMNIVISION OV08X40 SENSOR DRIVER
++static const struct of_device_id ov08d10_of_match[] = {
++	{ .compatible = "ovti,ov08d10" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, ov08d10_of_match);
++
+ static struct i2c_driver ov08d10_i2c_driver = {
+ 	.driver = {
+ 		.name = "ov08d10",
+ 		.acpi_match_table = ACPI_PTR(ov08d10_acpi_ids),
++		.of_match_table = ov08d10_of_match,
+ 	},
+ 	.probe = ov08d10_probe,
+ 	.remove = ov08d10_remove,
 
 -- 
 2.34.1
