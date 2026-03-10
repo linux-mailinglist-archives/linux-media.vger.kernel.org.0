@@ -1,193 +1,245 @@
-Return-Path: <linux-media+bounces-55185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55187-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OGtEE5cusGlHgwIAu9opvQ
-	(envelope-from <linux-media+bounces-55185-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:45:43 +0100
+	id WA+EFJkusGlHgwIAu9opvQ
+	(envelope-from <linux-media+bounces-55187-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:45:45 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3168252591
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:45:42 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C864C252598
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:45:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1505F32CF921
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:11:36 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E1C8634CE631
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53619391E7F;
-	Tue, 10 Mar 2026 14:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cH9X82hN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC1142E091B;
+	Tue, 10 Mar 2026 14:16:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8B8397E61
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 14:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C86C026D4CD;
+	Tue, 10 Mar 2026 14:16:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773151890; cv=none; b=IZ7kZcuIF7KK1axTZjjgieViMb8Nm5e+IpeyjG2VffcpouNsoFNFrIeZLONwiQui7aLhaJd6Jav76KVRjAHH3oDk6VspPzJDK4SzjhQSg671Asm0D/88Wfk5+wVjk3DPNakWeZwJu6Ay9ipGzwp9fgQRDWpBvQ2iGVk2ZrVxU0o=
+	t=1773152210; cv=none; b=isIwE+UITTWcLFWrwifxzLqhs2h/SNo0Wrc594Kz+WkICKuc2xn07DA0nW/qXYcv9bmiGHXF1xWJwE3PQ6saGyaern3bzAyP/ZG4PeJOXmPWeaP2PN3BxYE5LJe6Hhl5JBxmV7sU+EvLjm6kqmOBYfZkLG2V/ju0t/11ovHE6kE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773151890; c=relaxed/simple;
-	bh=s9tZU3QFoxN79LoZUiz1h5G89iK4yzCcqgiGIE564Uc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nBFagvUPvODEz22xkvTGQ9V0jPZU47HCcRMH7/2iUvUfyiGOAgPq+fYEGlFek4Jp1WygSe2RgZYDPnh43UDJp5blKhQSP9sBq8Xz1vn5QDxVG4EJa9wZmM5MPOc7lOOuf9fp75VlD6prLRoqtB5o3/4zOqPaH8UxR0vjoA2CGQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cH9X82hN; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773151889; x=1804687889;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=s9tZU3QFoxN79LoZUiz1h5G89iK4yzCcqgiGIE564Uc=;
-  b=cH9X82hNYVBLRTzCJ0c/6m7ccXz7Ef2xUkn0djosHIo/ew0kDNrn0R91
-   sU2Vyx1IMCdkdnLbypA7kAx95apHwqm9FILN6uVIYUkWm7TBc8eDiFXgR
-   8DsJhOe90DsMrRFXYKA44RHwZ/DuDij+G0aOrQZvz6Fo/qv8DoD2Cm66k
-   GW85eLny8/hEmZxohMVm6PJBnzRNOADEKzdSmyNImIEgHctEOr4gmmhus
-   kwmTYQ3z/TwyorXq9+fkbr5g0LW/R4g0DTYfiae91gtYn2I+TzhYd30St
-   XOvFHRg1oiBpdcerykQDYQ8NzygtADC+viKkBtBtTt4CNAt0RUnXYn0SN
-   Q==;
-X-CSE-ConnectionGUID: XKU9RhfURWmGHtDxSH1NfQ==
-X-CSE-MsgGUID: OV2oO63RRkKfdF2C6eqdKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74277652"
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="74277652"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 07:11:28 -0700
-X-CSE-ConnectionGUID: Iy3496D9RVm2cTnE+f/QFw==
-X-CSE-MsgGUID: D9oZBLdyTWutQMwu3NAqkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="219255674"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.26])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 07:11:26 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 45D42120E18;
-	Tue, 10 Mar 2026 16:11:57 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1vzxoT-00000004ycT-0MKL;
-	Tue, 10 Mar 2026 16:11:57 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: jacopo.mondi@ideasonboard.com,
-	niklas.soderlund+renesas@ragnatech.se,
-	antti.laakso@linux.intel.com,
-	Frank Li <Frank.li@nxp.com>,
-	laurent.pinchart@ideasonboard.com
-Subject: [PATCH v5 1/1] media: v4l2-fwnode: Return -EPROBE_DEFER on parsing NULL endpoints
-Date: Tue, 10 Mar 2026 16:11:57 +0200
-Message-ID: <20260310141157.1186325-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1773152210; c=relaxed/simple;
+	bh=/HkFpdssLSI/m+lDEU52u06stRpnUvsrbh2QESzuMkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ta5qMH43j/Pv3HaviAOvCiqBT8QHCKVpxOGc10lBUlITFqXmJxQcL8wxJt+0uViMMYS4zEdO9wIsCDtK3QBqG4BtHizNhq5nPwu/T6tKUOYI7tI0fIuoSaFNy0ESy2U9uerQ/IFmB50nc5qetIBUbLDkXlkAFWarmbsLlNBfgIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf16.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id C2D83160199;
+	Tue, 10 Mar 2026 14:16:43 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id D3F9D2000E;
+	Tue, 10 Mar 2026 14:14:32 +0000 (UTC)
+Date: Tue, 10 Mar 2026 10:14:42 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Philipp Hahn <phahn-oss@avm.de>
+Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
+ bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
+ dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+ kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+ sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev, Julia Lawall
+ <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, Chris Mason
+ <clm@fb.com>, David Sterba <dsterba@suse.com>, Ilya Dryomov
+ <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, Viacheslav
+ Dubeyko <slava@dubeyko.com>, Theodore Ts'o <tytso@mit.edu>, Andreas Dilger
+ <adilger.kernel@dilger.ca>, Steve French <sfrench@samba.org>, Paulo
+ Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+ Bharath SM <bharathsm@microsoft.com>, Eric Van Hensbergen
+ <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, Dominique
+ Martinet <asmadeus@codewreck.org>, Christian Schoenebeck
+ <linux_oss@crudebyte.com>, Gao Xiang <xiang@kernel.org>, Chao Yu
+ <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, Jeffle Xu
+ <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, Hongbo
+ Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, Miklos
+ Szeredi <miklos@szeredi.hu>, Konstantin Komarov
+ <almaz.alexandrovich@paragon-software.com>, Andreas Gruenbacher
+ <agruenba@redhat.com>, Kees Cook <kees@kernel.org>, Tony Luck
+ <tony.luck@intel.com>, "Guilherme G. Piccoli" <gpiccoli@igalia.com>, Jan
+ Kara <jack@suse.com>, Phillip Lougher <phillip@squashfs.org.uk>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan
+ Kara <jack@suse.cz>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Tejun Heo <tj@kernel.org>,
+ David Vernet <void@manifault.com>, Andrea Righi <arighi@nvidia.com>,
+ Changwoo Min <changwoo@igalia.com>, Ingo Molnar <mingo@redhat.com>, Peter
+ Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
+ <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
+ <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Luis
+ Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Daniel
+ Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Aaron
+ Tomlin <atomlin@atomlin.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Max
+ Filippov <jcmvbkbc@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, John
+ Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Alasdair Kergon
+ <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+ <mpatocka@redhat.com>, Benjamin Marzinski <bmarzins@redhat.com>, "David S.
+ Miller" <davem@davemloft.net>, David Ahern <dsahern@kernel.org>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Marcel Holtmann
+ <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, Luiz
+ Augusto von Dentz <luiz.dentz@gmail.com>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Jiri Pirko <jiri@resnulli.us>, Marcelo Ricardo Leitner
+ <marcelo.leitner@gmail.com>, Xin Long <lucien.xin@gmail.com>, Trond
+ Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck
+ Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, NeilBrown
+ <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
+ <Dai.Ngo@oracle.com>, Jon Maloy <jmaloy@redhat.com>, Johannes Berg
+ <johannes@sipsolutions.net>, Catalin Marinas <catalin.marinas@arm.com>,
+ Russell King <linux@armlinux.org.uk>, John Crispin <john@phrozen.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Yoshinori Sato
+ <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, John Paul
+ Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Zhenyu Wang <zhenyuw.linux@gmail.com>, Zhi
+ Wang <zhi.wang.linux@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Alex
+ Deucher <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Sandy Huang <hjc@rock-chips.com>, Heiko
+ =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>, Andy Yan
+ <andy.yan@rock-chips.com>, Igor Russkikh <irusskikh@marvell.com>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ Michael Chan <mchan@broadcom.com>, Potnuri Bharat Teja
+ <bharat@chelsio.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek
+ Kitszel <przemyslaw.kitszel@intel.com>, Taras Chornyi
+ <taras.chornyi@plvision.eu>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Iyappan Subramanian
+ <iyappan@os.amperecomputing.com>, Keyur Chudgar
+ <keyur@os.amperecomputing.com>, Quan Nguyen <quan@os.amperecomputing.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Marc Zyngier <maz@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Gregory
+ Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth
+ <sebastian.hesselbarth@gmail.com>, Vinod Koul <vkoul@kernel.org>, Linus
+ Walleij <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Heiko
+ Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
+ Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, "Martin
+ K. Petersen" <martin.petersen@oracle.com>, Eduardo Valentin
+ <edubezval@gmail.com>, Keerthy <j-keerthy@ti.com>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui
+ <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Alex Williamson
+ <alex@shazbot.org>, Mark Greer <mgreer@animalcreek.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+ <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Lee Jones
+ <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, Dave Penkler
+ <dpenkler@gmail.com>, "K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang
+ <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
+ <decui@microsoft.com>, Long Li <longli@microsoft.com>, Justin Sanders
+ <justin@coraid.com>, Jens Axboe <axboe@kernel.dk>, Georgi Djakov
+ <djakov@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Stephen
+ Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Pali =?UTF-8?B?Um9ow6Fy?=
+ <pali@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH 00/61] treewide: Use IS_ERR_OR_NULL over manual NULL
+ check - refactor
+Message-ID: <20260310101220.24a5c5e9@gandalf.local.home>
+In-Reply-To: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A3168252591
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: t3hdewhrhasw7f3gorx5jroa8bfttu61
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/9Mzn/qfZFEp1e7RgFq11s4n8TXcGF42g=
+X-HE-Tag: 1773152072-399195
+X-HE-Meta: U2FsdGVkX1/sr455L+OeqDWIUsSflk6pOnirfnKU4P+1ptXPBptvvQtdgLpKUro5xpE5mwL9OSxc8De42fWUKW3UA0xDjLt8deOx7Rt+YD2zdLsgLNPt+GtW9t0OIk6HGza/DLYz3Vzwa6W2j9RFRkt0u8kU/4nSdzQFXg0XUCPq0O7Zih2HPR5kbJC2dqX8fgpgG6kXbyGWAJWC5H8NEAgNiaeFS1ibRza8HlDqKtmihYdG70k1ID4dNk90G/xB/tCbIhXs0SuHsvdkjj/J9rzzD7qFP/bRWTfcgm+WhH9Nv5Rz067I1rPqmO4dO7ez
+X-Rspamd-Queue-Id: C864C252598
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [0.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[goodmis.org : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55185-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.ubuntu.com,vger.kernel.org,inria.fr,lists.linux.dev,lists.osuosl.org,lists.infradead.org,lists.ozlabs.org,kvack.org,st-md-mailman.stormreply.com,lists.samba.org,lists.sourceforge.net,imag.fr,fb.com,suse.com,gmail.com,redhat.com,dubeyko.com,mit.edu,dilger.ca,samba.org,manguebit.org,microsoft.com,talpey.com,kernel.org,ionkov.net,codewreck.org,crudebyte.com,linux.alibaba.com,google.com,huawei.com,vivo.com,szeredi.hu,paragon-software.com,intel.com,igalia.com,squashfs.org.uk,zeniv.linux.org.uk,suse.cz,efficios.com,manifault.com,nvidia.com,infradead.org,linaro.org,arm.com,suse.de,atomlin.com,samsung.com,perex.cz,canonical.com,paul-moore.com,namei.org,hallyn.com,linux-foundation.org,davemloft.net,holtmann.org,iogearbox.net,fomichev.me,mojatatu.com,resnulli.us,oracle.com,brown.name,sipsolutions.net,armlinux.org.uk,phrozen.org,alpha.franken.de,users.sourceforge.jp,libc.org,physik.fu-berlin.de,ideasonboard.com,kwiboo.se,linux.intel.com,ffwll.ch,ur
+ sulin.net,amd.com,rock-chips.com,sntech.de,marvell.com,lunn.ch,broadcom.com,chelsio.com,plvision.eu,foss.st.com,os.amperecomputing.com,bootlin.com,linux.ibm.com,ti.com,shazbot.org,animalcreek.com,nod.at,linuxfoundation.org,8bytes.org,coraid.com,kernel.dk,baylibre.com,pengutronix.de,alien8.de,zytor.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,intel.com:dkim,intel.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,nxp.com:email];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55187-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,netdev];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rostedt@goodmis.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-0.250];
+	RCPT_COUNT_GT_50(0.00)[247];
+	R_DKIM_NA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gandalf.local.home:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,avm.de:email]
 X-Rspamd-Action: no action
 
-In general drivers get their firmware graph endpoints from system
-firmware, but on some systems this information is conveyed to drivers via
-software nodes. The software nodes may be instantiated only after the
-drivers are first probed, requiring drivers to explicitly issue
--EPROBE_DEFER when endpoints aren't found.
+On Tue, 10 Mar 2026 12:48:26 +0100
+Philipp Hahn <phahn-oss@avm.de> wrote:
 
-Instead of doing this in all (or at least most) drivers, make v4l2-fwnode
-endpoint parsing functions v4l2_fwnode_endpoint_parse() and
-v4l2_fwnode_endpoint_alloc_parse() return -EPROBE_DEFER when an endpoint
-is NULL.
+> While doing some static code analysis I stumbled over a common pattern,
+> where IS_ERR() is combined with a NULL check. For that there is
+> IS_ERR_OR_NULL().
+> 
+> I've written a Coccinelle patch to find and patch those instances.
+> The patches follow grouped by subsystem.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
----
-since v4:
 
-- Fix comment indentation.
+Honestly, the IS_ERR_OR_NULL() looks worse in a lot of the locations you
+updated. Just because we have IS_ERR_OR_NULL() doesn't mean we need to go
+and replace every location that can use it.
 
- drivers/media/v4l2-core/v4l2-fwnode.c | 9 ++++++++-
- include/media/v4l2-fwnode.h           | 6 ++++--
- 2 files changed, 12 insertions(+), 3 deletions(-)
+NAK for any code this touches that I'm responsible for.
 
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 03daa8c4ff7a..77f3298821b5 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -465,8 +465,15 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
- 	enum v4l2_mbus_type mbus_type;
- 	int rval;
- 
-+	/*
-+	 * Return -EPROBE_DEFER if there's no endpoint -- in case the endpoint's
-+	 * origin is a software node, it may be that the endpoint has not been
-+	 * instantiated yet, but will be with probing of another driver. This is
-+	 * the case with the IPU bridge; once we have no such cases left, return
-+	 * another error such as -EINVAL.
-+	 */
- 	if (!fwnode)
--		return -EINVAL;
-+		return -EPROBE_DEFER;
- 
- 	pr_debug("===== begin parsing endpoint %pfw\n", fwnode);
- 
-diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-index cd82e70ccbaa..d7abbd76a421 100644
---- a/include/media/v4l2-fwnode.h
-+++ b/include/media/v4l2-fwnode.h
-@@ -218,8 +218,9 @@ enum v4l2_fwnode_bus_type {
-  *
-  * Return: %0 on success or a negative error code on failure:
-  *	   %-ENOMEM on memory allocation failure
-- *	   %-EINVAL on parsing failure, including @fwnode == NULL
-+ *	   %-EINVAL on parsing failure
-  *	   %-ENXIO on mismatching bus types
-+ *	   %-EPROBE_DEFER on NULL @fwnode
-  */
- int v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
- 			       struct v4l2_fwnode_endpoint *vep);
-@@ -276,8 +277,9 @@ void v4l2_fwnode_endpoint_free(struct v4l2_fwnode_endpoint *vep);
-  *
-  * Return: %0 on success or a negative error code on failure:
-  *	   %-ENOMEM on memory allocation failure
-- *	   %-EINVAL on parsing failure, including @fwnode == NULL
-+ *	   %-EINVAL on parsing failure
-  *	   %-ENXIO on mismatching bus types
-+ *	   %-EPROBE_DEFER on NULL @fwnode
-  */
- int v4l2_fwnode_endpoint_alloc_parse(struct fwnode_handle *fwnode,
- 				     struct v4l2_fwnode_endpoint *vep);
--- 
-2.47.3
-
+-- Steve
 
