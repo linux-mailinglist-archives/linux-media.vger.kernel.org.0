@@ -1,176 +1,172 @@
-Return-Path: <linux-media+bounces-55028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55029-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8Fq4OO+Fr2lvaAIAu9opvQ
-	(envelope-from <linux-media+bounces-55028-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 03:46:07 +0100
+	id cPGOBe2Ir2lvaAIAu9opvQ
+	(envelope-from <linux-media+bounces-55029-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 03:58:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C55244565
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 03:46:07 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C838244861
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 03:58:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 921E130C8426
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 02:45:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9903C30B916A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 02:58:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A52983B5302;
-	Tue, 10 Mar 2026 02:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B33AB3B895F;
+	Tue, 10 Mar 2026 02:58:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYQ4GzGr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SjEoQqTu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE6F3ACEE8
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 02:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB1438F92B
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 02:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773110716; cv=none; b=EGjdVM36u5yvEjsgEqgV4OAgJxkKkzyp4HEMbyKW69RzVIFl3jJz74IdwtNgLhzGJc0GpcNo/0aL7i/9pvlHN/bZblAGI6cIZvzH1R8DvqrxNMYtAN/PqXs/snPICogS1v1xOVAR2FPEg3RR5xTmLcnwmjxnvngh+PYwnH4UkeE=
+	t=1773111504; cv=none; b=XBHP02zgybAvcADenPTf868UwcStdtxT/pGtUbQ4o0+R1bFfShCaxD8cUUK1lUyY2tGmQYQdCAyZxIe8B0fABTbkkNTrUIF6j5kcniYd2tDo2ynqit/cnf/ynQ9MKdCdsGuuvDWlu/GUAxIMDpHA2FDJRBl2EbK2jQb/YNWO8Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773110716; c=relaxed/simple;
-	bh=AiuSbGc4gyF+r0NsVvYBegnqTPdAIt4V0L/szs51RLs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A1yGtiQVYW2piZ0m4Bfqtv7i+3Sw/pCAuKW+9ec/73CPQ0tHInggCb0fjuGUkhdX2yIAZYdR2NqKc9HvlRvzH84Dl0lAxOQcupCg9PXRj/87N4u6QJEAYl6Z4vsBVpjSdxpfM9m7NiYSVuKxP3RobTu3D4G7NnhfTz/oRP5d6H0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYQ4GzGr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B3DC2BCB8
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 02:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773110715;
-	bh=AiuSbGc4gyF+r0NsVvYBegnqTPdAIt4V0L/szs51RLs=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=OYQ4GzGrjp8DJFWsl2mM6ocePlwxv12ixt2gG1IoJH8dIMcy2K9jYlYp0xrXUr1hj
-	 vdJ1Hmp0SjmxQ+VCPPiqJlGt8YHvrtJ6IjbgXtVQ4LMZbCg9LwXbL8lu4+PBO7sjsL
-	 4s38j0P9Pc/iUqjSuchyjIAcNbjA/RLX+hPcWwe8rEaxzhE3zj7CNgU19ws9MZxPyz
-	 jVvlhgVmpbBARm+YBqB5I7YjjmX/kwY2NwSC8hyTJgVaSFIJVMQTWw9r0B2mnIUaZ+
-	 dgdQe+dNt9cNuRA9+q+H8NVNiXnbOpLUOvVf27C6ZPPIJpRz4lQ5Rxab9sF8pu86xC
-	 ckfjVXnxFH4qg==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38a2544b52bso71084231fa.3
-        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 19:45:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW1dvkelwml5SDZ+MFnEk1NgJCMM84RW52AOcfzQAV4cJfk+LoAZHIAfFA/voSCgemihhyHt36HM6C04Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyShZm4+5YtC+H3jHzZ8V6Ls3CbQVQiuISz6lldQbC9PrkqYBZC
-	zN0b0Rle7H5VzH4vYzs41WI4mftBBRb7FkRAU9fP2ExCvloqt1YzibMCprCGo0IC/m138e4mzH/
-	D5mkhLQjtPVZf7iMBfN83v7iPA9YKRcw=
-X-Received: by 2002:a05:651c:1104:b0:385:c21f:37e1 with SMTP id
- 38308e7fff4ca-38a40b6a2d2mr40186201fa.15.1773110714064; Mon, 09 Mar 2026
- 19:45:14 -0700 (PDT)
+	s=arc-20240116; t=1773111504; c=relaxed/simple;
+	bh=QbTazj95ET0BF1bU1Ga6nRj7EK+gkbXo0adXS1pdkKo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=qKATZ8BVAKCSOOAsv+y92EB+7OQnSLA4X6wxG781HZQ/uN1OyVaJF9ZUKtYqePzVJrK0i4CjMmIv14nh9UTZHExfybnIkY8ceN1A0cgrOf49W1qcdN4Fm+gfYZ6JK/P2aISoet7ppwZeQ7o+sz1Pxs3cqUyEar2lMgXY4pMbxO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SjEoQqTu; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c70ea5e9e9dso4639674a12.1
+        for <linux-media@vger.kernel.org>; Mon, 09 Mar 2026 19:58:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773111502; x=1773716302; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QbTazj95ET0BF1bU1Ga6nRj7EK+gkbXo0adXS1pdkKo=;
+        b=SjEoQqTu+rYmi1ivXVn8YMKt2k8OSnrCDVSsSAmmt81jvfG0kzqfXURgQC1xlvTpk1
+         Ch2o8u+gCp/fNPMb+KM6iuFV+CNpXDx++q7mgY9Z+hg92kjLPWwkjkOfF7og3xUx1fqS
+         ew+gP7TCRiliDJgF2ebVY1S/svC0No5umpJLEKXHX1DVdpYs5Hxu5HU30Yq+NOTjv4+R
+         mw1h6N16K8pryHvWlQpoFSvDcwd/DBCTTZpJkBA1Z15pl1m4x0yrXxctG515d51xFRzG
+         ZODcnNTNqeOsHiF4XhjySntquD5WG/F6nurjtT6eUzcM9omJmWCMHai3ibmnE6AVV5Fl
+         ByEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773111502; x=1773716302;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QbTazj95ET0BF1bU1Ga6nRj7EK+gkbXo0adXS1pdkKo=;
+        b=M3RS3ODRj4fPI6oj0AY/BB2uGJMQMBprLjNNIFf/bCqzBnkQmcpNoTsSLvRfkgjGir
+         kWOR+CQOvpEuD7uqgOMH0V9P7d9Q4O2XEGZv3ewQnAta+rBhAnI4O1EfASP/ifjbua+B
+         tau101A2J7vvrOYy2+nnyTeDekEWSxIQ7y5Ltm/1OhDdJb3RLqazLTje/9pSQ6er2u/L
+         Xc6c9HV3NCXmstLh+GUGX11liUyer8McIYkKYUBk0fc04wfcNw0Xd57nd+YvhSedgcLS
+         ggmlAOnoM7nMNmsSOtTkoF8zWJampxRhLpgRVW0SSWkV+jbtNJRpZ+Mz87XpNw9+pZ+Q
+         L0Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCWoiIFm62EEKYvyFhCzSV/T3NxB9ChcuTqsop30+BSphbp2f7NleoUUQviUsKMQZiSNRGBGbSjzRiV/Xg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0l/zAkXSpNSi7nR4X/HaJHEKWBeLCI0f3NdMuBZKUTEt29QYB
+	ZkjIkhMOm9cy3SDgcdxXnvyR/cqIVtYPRUu8M6IRgI3K/9tcpnIb/K1f
+X-Gm-Gg: ATEYQzyzeP3awZ+vL9ZCDU0SUg9HsJ29x/9KSjI7yfzlowmpkx+KLTlnPERPvhjSzvn
+	j9WTVp5WELW86F04LNlxFtcnOYxbQ1XGrmfJd4AFntx/17IzPs5X0g0CesQd97YygJwWp0nWQ6E
+	AbbdsE0BggEMK+yoZ5mvKBMf3OCcRryTAR6Zb7W8L3Nr2CZi83yf4DfyfWIQgQIuez3YZnt8qR0
+	gV+La2lqdvG62qoji/8qfSYETk2dLN7EvlASd4VAtHRkKNOCcxoIJ/SUOqZQJWrsWgVlsMg5Xe5
+	Hgdv7F0Z6bzD/rouLWpuYBbheZIcCn9eyrgiY5pngo2juYgvUIe67tPBVM9r4x1cMKIrqYKevNk
+	HFUM7zB84pThxjqhgVKro7dyw/xtoY8xneh8H0lJCvu8wJDIp1hqHl94qClkXbKTqDFXwr20R5r
+	rd3l6qhElYidkDmPjulGtAtaiUJjTYDQaQGg==
+X-Received: by 2002:a17:903:1a24:b0:2ae:4ef4:1415 with SMTP id d9443c01a7336-2ae8238544emr125594555ad.13.1773111502419;
+        Mon, 09 Mar 2026 19:58:22 -0700 (PDT)
+Received: from ehlo.thunderbird.net ([2401:4900:53d0:5b96::e3a:5d35])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83f75b15sm178533205ad.52.2026.03.09.19.58.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Mar 2026 19:58:22 -0700 (PDT)
+Date: Tue, 10 Mar 2026 08:28:17 +0530
+From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
+To: Marc Kleine-Budde <mkl@blackshift.org>
+CC: mirela.rabulea@nxp.com, mchehab@kernel.org, Frank.Li@nxp.com,
+ s.hauer@pengutronix.de, linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+ skhan@linuxfoundation.org, festevam@gmail.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2=5D_media=3A_imx-jpeg=3A_con?=
+ =?US-ASCII?Q?vert_kzalloc=5Fobj=28=29_to_devm=5Fkzalloc=28=29?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <20260309-excellent-lionfish-of-symmetry-5c1a77-mkl@blackshift.org>
+References: <20260308060554.1764128-1-sanjayembedded@gmail.com> <20260309-excellent-lionfish-of-symmetry-5c1a77-mkl@blackshift.org>
+Message-ID: <6E937F17-2248-4E9C-B2C9-A28FED599703@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309190842.927634-1-vladimir.oltean@nxp.com> <20260309190842.927634-18-vladimir.oltean@nxp.com>
-In-Reply-To: <20260309190842.927634-18-vladimir.oltean@nxp.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 10 Mar 2026 10:45:01 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65surpnqrmv4tbH4TSrx6SaTpdbsQtCsNqwse5xwdb8fA@mail.gmail.com>
-X-Gm-Features: AaiRm535EaFxYtCAjq5FIkHiBmgOxc7_e434rO98DZfg5NrM7RTttw3IOCzqW1Y
-Message-ID: <CAGb2v65surpnqrmv4tbH4TSrx6SaTpdbsQtCsNqwse5xwdb8fA@mail.gmail.com>
-Subject: Re: [PATCH v3 phy-next 17/24] media: sunxi: a83-mips-csi2: include
- PHY provider header
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-can@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, spacemit@lists.linux.dev, 
-	UNGLinuxDriver@microchip.com, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 50C55244565
+X-Rspamd-Queue-Id: 6C838244861
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.95 / 15.00];
+	SUBJ_EXCESS_QP(1.20)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,microchip.com,gmail.com,sholland.org];
+	FREEMAIL_CC(0.00)[nxp.com,kernel.org,pengutronix.de,vger.kernel.org,linuxfoundation.org,gmail.com,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-55029-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	TAGGED_FROM(0.00)[bounces-55028-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_COUNT_FIVE(0.00)[5];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[sanjayembeddedse@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.718];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_REPLYTO(0.00)[wens@kernel.org]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 3:10=E2=80=AFAM Vladimir Oltean <vladimir.oltean@nx=
-p.com> wrote:
->
-> The introduction commit 576d196c522b ("media: sunxi: Add support for the
-> A83T MIPI CSI-2 controller") says:
->
->     This implementation splits the protocol and D-PHY registers and
->     uses the PHY framework internally. The D-PHY is not registered as a
->     standalone PHY driver since it cannot be used with any other
->     controller.
->
-> However, this does not matter, and is not the only instance of tight PHY
-> provider <-> consumer pairing. According to Vinod Koul, having PHY
-> provider drivers outside of drivers/phy/ is discouraged, although it
-> would be difficult for me to address a proper movement here.
->
-> So just include the private provider API header from drivers/phy/ and
-> leave a FIXME in place.
->
-> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-Acked-by: Chen-Yu Tsai <wens@kernel.org>
 
-> ---
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Chen-Yu Tsai <wens@kernel.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Samuel Holland <samuel@sholland.org>
+On 9 March 2026 9:23:57=E2=80=AFpm IST, Marc Kleine-Budde <mkl@blackshift=
+=2Eorg> wrote:
+>On 08=2E03=2E2026 11:35:54, Sanjay Chitroda wrote:
+>> From: Sanjay Chitroda <sanjayembeddedse@gmail=2Ecom>
+>>
+>> The driver allcoates memory using kzalloc_obj() and frees it in the rel=
+ase
+>> path=2E since the allocated memory is tied to the lifetime of the devic=
+e,
+>> devm_kzalloc() can be used instead=2E
 >
-> v1->v3: none
-> ---
->  .../media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>What happens if you issue multiple open()/close() cycles per device
+>lifetime? Will the memory pile up, until the mxc_jpeg_remove() function
+>is called?
+
+You are correct=2E
+
+Since the context structure is allocated in =2Eopen() and released in
+=2Erelease(), its lifetime is tied to the file handle rather than the
+device=2E
+
+Using devm_kzalloc() would defer freeing the memory until device
+removal, which could cause memory accumulation across multiple
+open()/close() cycles=2E
+
+I'll drop this change=2E
+
 >
-> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_dphy.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy=
-.c
-> index 24bbcc85013d..1143feeb4fcb 100644
-> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
-> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
-> @@ -4,9 +4,9 @@
->   * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->   */
+>> Using device-managed allocation simplifies the error handling paths and
+>> remove the need for manual cleanup=2E
+>>
+>> No functional change intended=2E
 >
-> -#include <linux/phy/phy.h>
->  #include <linux/regmap.h>
->
-> +#include "../../../../phy/phy-provider.h" /* FIXME */
->  #include "sun8i_a83t_dphy.h"
->  #include "sun8i_a83t_mipi_csi2.h"
->
-> --
-> 2.43.0
+>Marc
 >
 
