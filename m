@@ -1,148 +1,141 @@
-Return-Path: <linux-media+bounces-55033-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55034-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4GWCD5Scr2kTbAIAu9opvQ
-	(envelope-from <linux-media+bounces-55033-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 05:22:44 +0100
+	id uOnTKjajr2kSbQIAu9opvQ
+	(envelope-from <linux-media+bounces-55034-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 05:51:02 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE572453BF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 05:22:43 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F37245509
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 05:51:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3D8543056E43
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 04:21:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 815A3302AF06
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 04:51:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAE133CC9E1;
-	Tue, 10 Mar 2026 04:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D1B3822A3;
+	Tue, 10 Mar 2026 04:50:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="TxVFpHfQ"
+	dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b="W9YwL3W+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-106121.protonmail.ch (mail-106121.protonmail.ch [79.135.106.121])
+Received: from endrift.com (endrift.com [173.255.198.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0823C389455
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 04:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A69175A80
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 04:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.255.198.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773116504; cv=none; b=s0Ol7hWN2qvwfSJz4vspsI9CsRCMESqEqNvcvU96r4raNqyo4r/bOzK2Mh5jGaBbxSziAOz+JdQMODXxsnxtCzxQXTrURCjN8q/oxzmtmzPcR9i9nEnmj+PA3jqq3QfIX2EDcDSYx5IQ2U1zIQllAu+QqDUOY5wWo8KtWAYWAyI=
+	t=1773118256; cv=none; b=vF00r7vmQihjqVKEJ42ylC0B9U+G8WIuROA8VbFA46TzMguBadPPdZPMWqXAchFjocp6suXS42JZ4QkryA8nfv8av9UOJp4qPihVGIkdLm0q75Jm4jen3J1AbyYovLZ7/odSrTde/Awy7wAor13RawVaDBn3veRhe2V/0fhn9i4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773116504; c=relaxed/simple;
-	bh=bcCfDhJMuFO9LQmoPDmK4ZbWID8mungHniC/M/CthFI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t/vFG+w3VOUCTMlbO+etZhfygkDPG/42lrBCN6sefoVQT61hQ6dRQ3NF0HtvHihYoI2kdawo0kTOXdBDD0RE6Ij8JfXSFNoAbIks/om6X/NeklKLfbzefZpxGVQL9rdV7weNqlbShz/R2b8BId0jXl//ZPHM3BsI2GTdEnJlDYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=TxVFpHfQ; arc=none smtp.client-ip=79.135.106.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1773116500; x=1773375700;
-	bh=ebBnmgoocAzhOW+k1R3Jn9juCf240BgRJruqDT67ZYo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=TxVFpHfQKpSrr88BKEjqYAJg0pTaggUlCl8H54EC3GothjUmiRjyUp12EGrWg7nlQ
-	 6FEHfPiw1jkE9K6zzFsYjUw63835REjEYWRO6Z2xED14N5BzLaR77QmGWcfz53bPCM
-	 ClWHFwZL+nRSgChq5TH9xj7vE/rAXRz2kU5+eaQAAZexR80mYTGX4RQ8v18PToT8uf
-	 EiGO09yn+rnnZOd6DxI3Q2ZIgfiKa4q8ZxUaKMPn+mdO4yMAWh0RouGQUQA3FvJS6x
-	 rfVf2JipIefXTGa1hM21hl7Rgept3DSYYaAhRHSzLuTSoIWr36soEEXZHX6f4uCaZg
-	 LpfyghQswWdhg==
-Date: Tue, 10 Mar 2026 04:21:34 +0000
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-From: Alexander Koskovich <akoskovich@pm.me>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Alexander Koskovich <akoskovich@pm.me>
-Subject: [PATCH v2 2/2] media: i2c: ov8856: parse and register V4L2 device tree properties
-Message-ID: <20260310-ov8856-v4l2-props-v2-2-2717404ed045@pm.me>
-In-Reply-To: <20260310-ov8856-v4l2-props-v2-0-2717404ed045@pm.me>
-References: <20260310-ov8856-v4l2-props-v2-0-2717404ed045@pm.me>
-Feedback-ID: 37836894:user:proton
-X-Pm-Message-ID: 459aab906aa66932aa31ce1b64bcffae0f7f21cf
+	s=arc-20240116; t=1773118256; c=relaxed/simple;
+	bh=QmiFeMIwm6MIH/qQ2FxjOtiA9u5JvtUZbYFDszf6Jcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KRE0MaqNp9mLTYr4mYomXA0tQNQ68CsHWOPjQrpaTKNYUeORsvsDPo0dt22YF0H+xPNTbapUbMMhSFeKvAsaTDog5xtg6PIdAgIjLOOA+EOehLi/n+YMD9Yh01dHoyHPWj/Fe5WYybdAYrRQBxYFApbLuyZC77GCgrXJyVStMOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com; spf=pass smtp.mailfrom=endrift.com; dkim=pass (2048-bit key) header.d=endrift.com header.i=@endrift.com header.b=W9YwL3W+; arc=none smtp.client-ip=173.255.198.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=endrift.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=endrift.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=endrift.com; s=2020;
+	t=1773118254; bh=QmiFeMIwm6MIH/qQ2FxjOtiA9u5JvtUZbYFDszf6Jcw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=W9YwL3W+mglewCZnmWWHDdym1JtfmVadTAl5pz/nTf29PpeoEBQiQOsjYAnCD0dpM
+	 OHWVDUpo/rCJW07NkBA2Tac9oOGr91zpbUZb2ZeZaQWjk1de7piwElyFBFU9zcZgQm
+	 jtbz1dAz02VAMPwvW4t4gE3r5fNHZMsZaeqHfgAnTj15vDzTbVaZ53GrpVqoR5RDOM
+	 S0XSW/Yg9Ff8QPImkd5gdk2+y4EQ3I35YDsvdTlCefjj1IoD8g/2yO9P2rTA7JRu/R
+	 K9w1VVahyDkt0KLd8cXtEpdvR5yVQBPD48+5JxcA2+1swYloPHLSeqUDUixVkU0VnK
+	 13o5Q15ZDDhyQ==
+Received: from microtis.vulpes.eutheria.net (71-212-14-89.tukw.qwest.net [71.212.14.89])
+	by endrift.com (Postfix) with ESMTPSA id B11B5A0AA;
+	Mon, 09 Mar 2026 21:50:54 -0700 (PDT)
+From: Vicki Pfau <vi@endrift.com>
+To: Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Cc: Vicki Pfau <vi@endrift.com>
+Subject: [RESEND] media: pulse8-cec: Handle partial deinit
+Date: Mon,  9 Mar 2026 21:50:34 -0700
+Message-ID: <20260310045038.1288473-1-vi@endrift.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: ACE572453BF
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 40F37245509
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[pm.me,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[pm.me:s=protonmail3];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[endrift.com,none];
+	R_DKIM_ALLOW(-0.20)[endrift.com:s=2020];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55033-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[pm.me:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-55034-lists,linux-media=lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_THREE(0.00)[4];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[akoskovich@pm.me,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_NEQ_ENVFROM(0.00)[vi@endrift.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[endrift.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pm.me:dkim,pm.me:email,pm.me:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,endrift.com:dkim,endrift.com:email,endrift.com:mid]
 X-Rspamd-Action: no action
 
-Parse V4L2 device tree properties and register controls for them.
+In the event that the cec dev node is held open while the adapter is
+disconnected the serio device will be cleaned up but the cec device won't
+be. As the serio device is freed but the ping_eeprom_work is not canceled,
+the next ping will still attempt to send, leading to a kernel oops.
 
-Signed-off-by: Alexander Koskovich <akoskovich@pm.me>
+This patch both cancels the ping_eeprom_work in the serio cleanup as well
+as checking to make sure the serio is still present before attempting to
+write to it. Note that while the added serio = NULL line looks similar to
+one that was removed in commit 024e01dead12c ("media: pulse8-cec: fix
+duplicate free at disconnect or probe error"), it notably happens before
+calling cec_unregister_adapter, and as such shouldn't lead to the
+user-after-free that removing it fixed.
+
+Signed-off-by: Vicki Pfau <vi@endrift.com>
 ---
- drivers/media/i2c/ov8856.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/media/cec/usb/pulse8/pulse8-cec.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index e2998cfa0d18..9d7d16ba8911 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -1887,12 +1887,14 @@ static const struct v4l2_ctrl_ops ov8856_ctrl_ops =
-=3D {
-=20
- static int ov8856_init_controls(struct ov8856 *ov8856)
+diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
+index 60569f1670fe5..67834ed333d32 100644
+--- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
++++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
+@@ -235,6 +235,9 @@ static int pulse8_send_and_wait_once(struct pulse8 *pulse8,
  {
-+=09struct i2c_client *client =3D v4l2_get_subdevdata(&ov8856->sd);
-+=09struct v4l2_fwnode_device_properties props;
- =09struct v4l2_ctrl_handler *ctrl_hdlr;
- =09s64 exposure_max, h_blank;
- =09int ret;
-=20
- =09ctrl_hdlr =3D &ov8856->ctrl_handler;
--=09ret =3D v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-+=09ret =3D v4l2_ctrl_handler_init(ctrl_hdlr, 10);
- =09if (ret)
- =09=09return ret;
-=20
-@@ -1954,6 +1956,15 @@ static int ov8856_init_controls(struct ov8856 *ov885=
-6)
- =09if (ctrl_hdlr->error)
- =09=09return ctrl_hdlr->error;
-=20
-+=09ret =3D v4l2_fwnode_device_parse(&client->dev, &props);
-+=09if (ret)
-+=09=09return ret;
+ 	int err;
+ 
++	if (!pulse8->serio)
++		return -ENODEV;
 +
-+=09ret =3D v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov8856_ctrl_ops,
-+=09=09=09=09=09      &props);
-+=09if (ret)
-+=09=09return ret;
-+
- =09ov8856->sd.ctrl_handler =3D ctrl_hdlr;
-=20
- =09return 0;
-
---=20
+ 	if (debug > 1)
+ 		dev_info(pulse8->dev, "transmit %s: %*ph\n",
+ 			 pulse8_msgname(cmd[0]), cmd_len, cmd);
+@@ -655,6 +658,10 @@ static void pulse8_disconnect(struct serio *serio)
+ {
+ 	struct pulse8 *pulse8 = serio_get_drvdata(serio);
+ 
++	cancel_delayed_work_sync(&pulse8->ping_eeprom_work);
++	mutex_lock(&pulse8->lock);
++	pulse8->serio = NULL;
++	mutex_unlock(&pulse8->lock);
+ 	cec_unregister_adapter(pulse8->adap);
+ 	serio_set_drvdata(serio, NULL);
+ 	serio_close(serio);
+-- 
 2.53.0
-
 
 
