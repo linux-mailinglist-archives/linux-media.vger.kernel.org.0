@@ -1,131 +1,198 @@
-Return-Path: <linux-media+bounces-55180-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55177-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cHwhEEkosGn1ggIAu9opvQ
-	(envelope-from <linux-media+bounces-55180-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:18:49 +0100
+	id ALJkG70tsGlHgwIAu9opvQ
+	(envelope-from <linux-media+bounces-55177-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:42:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5181251B34
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:18:48 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B44252406
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:42:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D73CC34C5299
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 13:39:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AB807346F193
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 13:37:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29A9C3A169E;
-	Tue, 10 Mar 2026 13:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67DE538B7A2;
+	Tue, 10 Mar 2026 13:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FJOkBcAn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PhkXpVjj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E574F39DBE1;
-	Tue, 10 Mar 2026 13:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D118640DFA5
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 13:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773149704; cv=none; b=qabgjgD3oLsFqWkMJWb2R79l9VjiS/KB4X2psM1eEq4ELJyfGRA+rzlCZAlaz+Y+u4C8NHPq0Y6CCqOv6xyL+AJYn3H87y9MRXxdBRD/S0CP/Gxzu7anFsPkrM5kwNeOwgho2p086MtsP/laJSibTJs7Nd1LF8QKiCmzP0EaIfw=
+	t=1773149554; cv=none; b=Th7HJELB30V/NDArKbtDGsUh/NHWmgcHdeoXPXWyjXHZlQ+YWlFpl0jEca1Ybd9kYYUpsbGplGPEOwT47BJ16YxODPm8EmG8H74ni13z0+fIPXppsxhMk3oR48QQWqfeOZlZe4OCakvdjTeJ1rx/47U4Zp7t/hWF6Yd2a4d0Kt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773149704; c=relaxed/simple;
-	bh=pKqOkKX7CRXooHok80H4ZPwmfTHqEJgEysyE6k/X15M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hv2osxnS2cHKd+8/sFFA3/+tLFuhsrSgLsVHwzsT0lj2Y13x71LTsQEz9/RDIDSOkpb0JeclbOYB0yGUs94w/2N3KqcECnBA8NpL+Ha1OJCqXYpt0PtY4t/V77CTwCtuDpYF7TyrN5H2gAkSln2idJKVN0KmH5s7jGboJV/htEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FJOkBcAn; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31D30594;
-	Tue, 10 Mar 2026 14:24:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773149063;
-	bh=pKqOkKX7CRXooHok80H4ZPwmfTHqEJgEysyE6k/X15M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FJOkBcAnFkYe4vPe4YH9cnkLWKl6ov27QakdWzdeus+itKJqMNGhBMwF+PtqlDg1D
-	 RY5AlL0Oh/lV4Ifhn52mK/6NDuAsAhHs/DKPW2fRO+zOGpvovl3WStW4tk0lWfunNg
-	 eN2CFS8bgHJ2e3gkwBWoCH/Nhxs7deBB3uioHFXo=
-Message-ID: <e41212f3-5a55-4c14-85fb-91cdaa5e6786@ideasonboard.com>
-Date: Tue, 10 Mar 2026 13:25:26 +0000
+	s=arc-20240116; t=1773149554; c=relaxed/simple;
+	bh=cd1CqG8SphS5TtuoNj9lyLAQ6Zpjm3fsXjlr5r1vZqg=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H6+VyamlN7ahM//H9zyG5Nkgec0qQbx5vYqtyr44+N+ZKeE6vnxWaoJjd+2IUSFQ+sFNs4WtYMMATtcOOVCO4+5KEUQtfEdpHuMTnYiaT/YguxspMGfXo8iSLh8mQKBgOT2HVNup0nIOECAIopJgyP2rL78DoGpNCF9MZRl1+pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PhkXpVjj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 854E4C2BC9E
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 13:32:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773149554;
+	bh=cd1CqG8SphS5TtuoNj9lyLAQ6Zpjm3fsXjlr5r1vZqg=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=PhkXpVjjgKLIP0dGAzp90OdIiumLQJHVzNt418oNMapTR4LdNPHnhU09ECEwywbbn
+	 F1tXhnwwwmnXUNQ6bwKdd+gAE67BGXvtPWlvh6RlGdTWO6CB9okYSmgMw4Qg2lbJEB
+	 aispKYQLYpqCGUtpH+8CaVnQVM7zFFTFQ8v3KOaJLkIrwdee1pWyXZubLGUSMqNeQV
+	 WCc7uFq7mQp1LuDplUj2G4PPcI3DXoy8IjhGF7tT7CsSOcphtCZEVjHtaaoKyYgYNF
+	 yX6G+dMGvyIKyHwwwEPmrWNwVj1XjopPhC9DYP1tZh01ohVY7dDfRv4a6SEpO2ZWyT
+	 heNQQtUm3kybw==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a126c8aab9so7355680e87.0
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 06:32:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXCJQAEGyckwxB1zf69H6e2WhPvxpkJCHz15+Y5WDp3F+0rlvqHoHptnWEwDyllpg3bpBQJytoLpVuTrg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNVvT6vtyB3qkilLDnJ9gAhr1MdvEmXLvIuU+1IJYERAn+kjM8
+	qgTnVcDGV//LPg3wsynpBYQ0rkY/WPM+K7ZFX7abu0fxLSl33eoX/SsnAoHPdZzhykEHNGHrRLd
+	6nNprQjkQb2iotBdtoTNqkELALjKIxRVzMHTYBDPYPg==
+X-Received: by 2002:a05:6512:138e:b0:5a1:3d65:81b9 with SMTP id
+ 2adb3069b0e04-5a13d65824amr5823246e87.36.1773149553164; Tue, 10 Mar 2026
+ 06:32:33 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 10 Mar 2026 06:32:32 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 10 Mar 2026 06:32:31 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260310124427.693625-4-antti.laakso@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] media: ipu-bridge: Add ov5675 sensor
-To: Antti Laakso <antti.laakso@linux.intel.com>, linux-media@vger.kernel.org
-Cc: linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linusw@kernel.org, brgl@kernel.org, sakari.ailus@linux.intel.com,
- mchehab@kernel.org, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
- hverkuil+cisco@kernel.org, sre@kernel.org, hao.yao@intel.com,
- jason.z.chen@intel.com, jimmy.su@intel.com, miguel.vadillo@intel.com,
- kees@kernel.org, ribalda@chromium.org
-References: <20260310124427.693625-1-antti.laakso@linux.intel.com>
- <20260310124427.693625-3-antti.laakso@linux.intel.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20260310124427.693625-3-antti.laakso@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A5181251B34
+References: <20260310124427.693625-1-antti.laakso@linux.intel.com> <20260310124427.693625-4-antti.laakso@linux.intel.com>
+Date: Tue, 10 Mar 2026 06:32:31 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Me73BrokqUnPmWa59_rCnAM-cu+2Kpu8qxc7pbN6kN5+Q@mail.gmail.com>
+X-Gm-Features: AaiRm50J59ZskMyVrRnMKlbxEJEzpw1QrqP0hIZaEYmu23W1XYHuby3geXy15OQ
+Message-ID: <CAMRc=Me73BrokqUnPmWa59_rCnAM-cu+2Kpu8qxc7pbN6kN5+Q@mail.gmail.com>
+Subject: Re: [PATCH 3/5] platform: int3472: Add gpio platform data
+To: Antti Laakso <antti.laakso@linux.intel.com>
+Cc: linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	linusw@kernel.org, brgl@kernel.org, sakari.ailus@linux.intel.com, 
+	mchehab@kernel.org, dan.scally@ideasonboard.com, hansg@kernel.org, 
+	ilpo.jarvinen@linux.intel.com, hverkuil+cisco@kernel.org, sre@kernel.org, 
+	hao.yao@intel.com, jason.z.chen@intel.com, jimmy.su@intel.com, 
+	miguel.vadillo@intel.com, kees@kernel.org, ribalda@chromium.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 14B44252406
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55180-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-55177-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:email];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[brgl@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Hi Antti, thanks for the patches
-
-On 10/03/2026 12:44, Antti Laakso wrote:
-> The Omnivision ov5675 is found from MSI prestige
-> 14 AI EVO laptop, for example.
-> 
+On Tue, 10 Mar 2026 13:44:25 +0100, Antti Laakso
+<antti.laakso@linux.intel.com> said:
+> The tps68470 supports i2c daisy chain, which need to be configured by
+> gpio-tps68470 driver. Add daisy chain information to platform data.
+>
 > Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
 > ---
+>  drivers/platform/x86/intel/int3472/tps68470.c | 2 ++
+>  drivers/platform/x86/intel/int3472/tps68470.h | 1 +
+>  include/linux/platform_data/tps68470.h        | 4 ++++
+>  3 files changed, 7 insertions(+)
+>
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470.c b/drivers/platform/x86/intel/int3472/tps68470.c
+> index a496075c0d2a..b02bc675cabe 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470.c
+> +++ b/drivers/platform/x86/intel/int3472/tps68470.c
+> @@ -197,6 +197,8 @@ static int skl_int3472_tps68470_probe(struct i2c_client *client)
+>  		cells[1].platform_data = (void *)board_data->tps68470_regulator_pdata;
+>  		cells[1].pdata_size = sizeof(struct tps68470_regulator_platform_data);
+>  		cells[2].name = "tps68470-gpio";
+> +		cells[2].platform_data = (void *)board_data->tps68470_gpio_pdata;
+> +		cells[2].pdata_size = sizeof(*board_data->tps68470_gpio_pdata);
+>
+>  		for (i = 0; i < board_data->n_gpiod_lookups; i++)
+>  			gpiod_add_lookup_table(board_data->tps68470_gpio_lookup_tables[i]);
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470.h b/drivers/platform/x86/intel/int3472/tps68470.h
+> index 35915e701593..c1c4290eb6d5 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470.h
+> +++ b/drivers/platform/x86/intel/int3472/tps68470.h
+> @@ -17,6 +17,7 @@ struct tps68470_regulator_platform_data;
+>  struct int3472_tps68470_board_data {
+>  	const char *dev_name;
+>  	const struct tps68470_regulator_platform_data *tps68470_regulator_pdata;
+> +	const struct tps68470_gpio_platform_data *tps68470_gpio_pdata;
+>  	unsigned int n_gpiod_lookups;
+>  	struct gpiod_lookup_table *tps68470_gpio_lookup_tables[];
+>  };
+> diff --git a/include/linux/platform_data/tps68470.h b/include/linux/platform_data/tps68470.h
+> index e605a2cab07f..7330dab7a711 100644
+> --- a/include/linux/platform_data/tps68470.h
+> +++ b/include/linux/platform_data/tps68470.h
+> @@ -27,6 +27,10 @@ struct tps68470_regulator_platform_data {
+>  	const struct regulator_init_data *reg_init_data[TPS68470_NUM_REGULATORS];
+>  };
+>
+> +struct tps68470_gpio_platform_data {
+> +	const bool daisy_chain_enable;
+> +};
+> +
+>  struct tps68470_clk_consumer {
+>  	const char *consumer_dev_name;
+>  	const char *consumer_con_id;
+> --
+> 2.53.0
+>
+>
 
-Looks ok to me:
+I know this is the pattern used in this driver but why not start converting
+it gradually to more modern APIs?
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+You could do:
 
->   drivers/media/pci/intel/ipu-bridge.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-> index c895584e25a0..ee070d44d5f1 100644
-> --- a/drivers/media/pci/intel/ipu-bridge.c
-> +++ b/drivers/media/pci/intel/ipu-bridge.c
-> @@ -91,6 +91,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
->   	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
->   	/* Omnivision OV2680 */
->   	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
-> +	/* Omnivision OV5675 */
-> +	IPU_SENSOR_CONFIG("OVTI5675", 1, 450000000),
->   	/* Omnivision OV8856 */
->   	IPU_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
->   	/* Sony IMX471 */
+static const struct property_entry tps68470_gpio_props[] = {
+	PROPERTY_ENTRY_BOOL("daisy-chain-enable"),
+	{ }
+};
 
+static const struct software_node tps68470_gpio_swnode = {
+	.properties = tps68470_gpio_props,
+};
+
+static int skl_int3472_tps68470_probe(struct i2c_client *client)
+{
+	...
+	cells[2].swnode = &tps68470_gpio_swnode;
+	...
+}
+
+And avoid both modifying the public header as well as using ugly platform
+data. In the GPIO driver you'd just need:
+
+	if (device_property_present(&pdev->dev, "daisy-chain-enable"))
+
+Bartosz
 
