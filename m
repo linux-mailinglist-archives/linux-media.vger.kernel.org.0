@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-55254-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55262-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YAJCM/+RsGkukgIAu9opvQ
-	(envelope-from <linux-media+bounces-55254-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:49:51 +0100
+	id KGoCFmWUsGkukgIAu9opvQ
+	(envelope-from <linux-media+bounces-55262-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:00:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3152587BF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:49:51 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D84258959
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:00:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4A08830A41DD
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 21:49:34 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6CA553033029
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 21:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 811663F1677;
-	Tue, 10 Mar 2026 21:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47F523F20FC;
+	Tue, 10 Mar 2026 21:59:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="Z83Oa5zW"
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="ripWBur3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic313-21.consmr.mail.ir2.yahoo.com (sonic313-21.consmr.mail.ir2.yahoo.com [77.238.179.188])
+Received: from sonic303-21.consmr.mail.ir2.yahoo.com (sonic303-21.consmr.mail.ir2.yahoo.com [77.238.178.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930C13F166A
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 21:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.179.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694D83F2113
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 21:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773179373; cv=none; b=hhPLRQch7Qgo9m0YZT8m1Ds7xXuCGeID+GhRplj7c8xrMNSyJ1LwskNAIzqeMNuBs8gIDk+HnbDgsq8uBv6CepVI4ThkUOpPn6uTV15vlQZo9JY+7eW4E0rhqCB9JXr6c1U1S35HSfeqmk4IJmLq8+kU+hpxP5khEOzSRUFJMjI=
+	t=1773179982; cv=none; b=EmE8PQXyqEXbqNo+HpnLT2vZmYFRdF0cvKJl/3JvKj0mom8zqFbosiHxTERJWhc+izOZ8IVRye97qNHtvO6wndKdw08ZPY7FjAdwTq24SWDZ0iA7ck2UCWZj/7gC6eggjuxVgSG0gCtEeYZ7lyYt5Jl2yIXcQbKGJhYsiQfuvx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773179373; c=relaxed/simple;
-	bh=YYCRsaRwiL2K/Tso+CYX7zMuw3BozRy37V2Ng5nPtSw=;
+	s=arc-20240116; t=1773179982; c=relaxed/simple;
+	bh=ME/JxSJvfZy8VyZVzrTwc8gr4BRvjuq7Q0qnFq7wp3k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UpirfiB2cZRnQjCUauwInDVR3wWJ87QnmaSANQyEjRejTzy69oXAu3IkJdP/BOkqJUKRPuivKsPYLg+L4pYrON/yFtkzOiucAe4TmZqeelglaT+UWOgh14upvWz8juW1hEqx01Z2YkaiyEc7m8iTP8dK1UIrqabQqRqu01fIapE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=Z83Oa5zW; arc=none smtp.client-ip=77.238.179.188
+	 In-Reply-To:To:Cc; b=mczFCzsfZPB0PjoxYHjJp17cv5Z35f8Dhe84LBUCs3/U5S+r8VvwJNXOaTBsdt7PxKE4PL6a4XvvaQ6VTC9x1CaiIhqA4M35+l6SbHjtPyIr7BxXhFoDmmplEQzzdkIxu2AiORysBRzlIs/Xde4bsQrRq0/PsIySsGeT6Fsnwuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=ripWBur3; arc=none smtp.client-ip=77.238.178.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773179370; bh=WpXlPGXKWmqvtwttIuRoYAJYpn1ebnVCHTNkt5DD7RU=; h=From:Date:Subject:References:In-Reply-To:To:Cc:From:Subject:Reply-To; b=Z83Oa5zWv6TzO6dBDJmmfgatQegWJzgqbW4/CI1DE0U/gdAt2TD7StPkMtCihUZZL/rATsftpfEA2v6qX2kCq7l65e5jEngdIIZnHuapcaxhfazB9yCE6oEfK0M4BC9tcXEZtCZqcRVD/y1Wedj6N8rg3RuYmVoInS3agCrvPQ3zFPHpb66gCyA2tkoCiwH70cfJPoMaO+pm4kJ6kkbuU89GVAdXf47nI1CEEnJ1eDJVrHWXJdAtPD4jYoAW7d5C+ABW3mM6g2wJ5ZsOo053En/TwWd1iPdNHcF0R5f1yFCpuMKaECB18I8oUhEcNR7qzYuGgbDAnNhZ3WvtsocC+w==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773179370; bh=HrHSSQWYrbDg0iq1b0p+LeQvU9m6N8g4kHY17+1ANmr=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=l7RttLDRsdtjCRRRL+URdNmdt7yykKC3YDjXuuWK+qcCXgW9zqC0ihYP+grhASGRNa0uMth4/zgwreHHH3oAdHoufrG0j3lhi7567OxES3SxAAHUmEEVQQyGlAQvSL1uOKRlzlqx2ukHAmegtiXo7IQLQPvn1TIeajMJ1aRD4qsXwTRZUdKlQPE5w9NNylRQxVst37OgRMELqL++0o7KQmAbdHbO3g9KQANyRV92DG7MylhCyDDGLGN0FZtxGDIpkZFQkikK0GbAAi04mT3T02fLBQsdczPcEHFfV8TlEwhHOqIEoQGPsP8ViDrr92AqVQO1mXUckPhhUGhDddtK5g==
-X-YMail-OSG: NRJRhP0VM1mxQZe.asi3CrFpqbq.gyTdx8Wq05Wj..sH_ynL57iBxaaVkQP_qMs
- AFmMGXCKLs_Z5MHvwVnxrDF5y0oPKsoullB9FRNHO3RVjfp5w0.0M0bf8lMsEmXcAkMP.wZZzp9P
- DEjz7Ne15NCFFeWmZHV4hIaJBhtI.5Goj0LgoOh7t5_35Zhw1vLuOF7cLr3ZIYFtTCpxi6Xn7Q9H
- Cp0OSN1dQqwWjPZrimOqpfKxjS_BAREw3TkK7NmUNFoixzq4KJ5YWZ_QgN8wpfRI4CAKiFltVSZK
- lS4cogsE96vDYRUd4zdSiMtCjm2E0JA0xcCSpovk9DukGWNLiH89Xm8FPwQ6dca4vncVy_9oLQ.9
- ppqA3v43.TfWalqfYzS9uk_4_dxtKMwdZBDcdIQzj9YcW3Wa_Fq_BhdIaplZUz3PXAH0xkSvnEy7
- MUkq5A7Y5jDc3OttvCh6VtWx_qqZ5.PhotAVxj060ePaMlQW4IxtMO6hc9goo2wIs6mvDz.wNerS
- dA.oHUehfcHHjCK1J72WahMp9cNUxjKZcU_IHJ1Stjw_G7pTDkYZozchkepGYFeZKOVeU9OtZ8iI
- 5HfJ_a3sWv3ldmDfrxBNJEz0AmG6HnXN8DNSJT39XZTWlP0Y5TUoI62uNuCFkJEKtzTAsXv9hYf4
- YmdSPyzoqTYSfOf.No6MBdM19l7j3cczv.ZlSUFS2dX6f2GHNGQ31KP7GUzKBSbwAy5tBz.6JTOS
- eaM1MSfI.BIUcndEwyjTMhuUeVopQUdD8UkmOrmD7ma9P8GA4D0FNEKVriUu174sRIYKcUGrlnoe
- QoUCCbeGfOH7Z9xZowarigkYgLiHYWsvLTVfGFouYWC7k5a.3msHpekpKlC4V6ptSBL7sM0cSc3e
- HoWo6oY_eEy7z_RSGy9mR4pT.8sPVyU_b8KLrcbwbcdDk5mTdGKhhA1mAS3l8.K5LnJHHlQR1.86
- LfNGSjDrGNyYycJrqrcEKE94LaBdH5tvYduEN6Yz5O2LV20Cb0RVrgEfWHoJVCA.SMEwXhSfpm7h
- x1zu65R8MnnbjrggaCqmUWNTDpNNiLSJNC3oEvYjuD70DVi1yLeipIQFsbElyrH_2icVPt13r4Ig
- blBHnNYh5qWycnqV6G.VNuHlK_scTQI9s3lJP54W_4KrGuKTyy31kZs.khLyQd5Y4oY0szIaVKQQ
- y8xRQvkX6iZeP.gHG3hD4.HbN4A3IOVLreZ4WFyg_t.g7UOSAE9SZpz9r8XSWLTLfouu7iamOtVy
- Asx407qXlHNnoiGUucVoI.n3RFgmwTLg0BUihSrMsFQp3sqMn3xWIxxGoQ6QCr0ghuHZkfvrWqTc
- sUN387Pm9ZGrGPYxuhySeFHi6Mc1DhVUFgXqLxju1sUPzkeJYYtryscNTV0r7gvrZHeR5NjwNy.A
- Lo2fIq9Y9k6_BiJDwOQZhHn4x5XFV.lXMPFrqkxh_MQsBhTnWEHdtoWa.gj67m7wEFX2R6P0l8Fy
- UzwcmYqXfK1VCmnxQmDez8UV30xtbcXvWJvj8NglseqcmS9aUv9WQzYAXRcGzvJPy54CLG_TvNxo
- U.58xl6ComOkCWEcfggKNjAZoS23yNdewI9K3yNvywk.fFQm.bQr3pVQV9Ycbefw9DbbkZtR_wPw
- eeFDez3K1SRHDN_C.Hv8EnrpATIPsA8pBWaXX4.z4jQjulm_bz1DjODYkl5S1VQYFizKYqQ.4mPe
- r.jjP_XMCli7vLML2H0gjsu_g0W8HlAx3KaFlW7kJmFvmR9xnLlGJzpdlgpc36qjNAYzFp9P330k
- fwvJNIkvsl7r9wowrZPUHwx6kLjoOPFbCusBX5Fo9_sMKZ0EVHbn4UDs8n0cuQDa4AONpNTmxTba
- g1J0RQIg_n7pvSoe4yOii2xSpSujxkCJJqfhNknTYb26dxxm_p3x5GKhm78HmChXS0FtbmCQ7MTH
- RLrbBUzECmwSpcDUnMKyKh04XM30iVCD1tTXRHd6Rasq.XPZFkzVl5jIz5WAlciiu2ECSsFt0DOb
- w.DTys.4lwrLxs.EFZ35Vq_geh7gCArecoEdjOeD6EYLXlu2rzECuGuYhWInQqGOfc5Vi.kCW9Of
- XBxnICIaNGLO9YStl.MkNX1_t2mtZJ9l.qctz9nxTVT8woZ8h.BWyfo1NG.zOgFRI7oa_ZNwD094
- V5QZv06bCUeZxwRuBc554IXS_gptV91XeSFTb2HgNXh9Fm1FTS8UAQmJsTX8bGvaq9sSrQOfOysE
- CMrf.PXULjYfFWaHhSRy13WYGwIHbPuHGqUft0xb2a_WibY.0OY7CG8i.dyy6mxAZDjz9GQoYKSL
- DOEVpJyDdffTEMGLQrrnrnqY-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773179980; bh=+44tMtXJOODYGG11pS21QyoIgBmXYJcVjfCR3CHiglM=; h=From:Date:Subject:References:In-Reply-To:To:Cc:From:Subject:Reply-To; b=ripWBur35592qlZ17KGh7O9HRY82kfjEA1AASNlBPlJv1ST1gi3gD8c9W1PYf6u3fjkmOWkFtMI5xN4Td+wMw7XT05KG9SQ1XjJXpmJjYr2AebjSL72SGN23HsSX64AZv5sQoQHFybFVtFaGo5F1WMgHerDx0/7YxODdmlMEYbrpv5v7OUa8rnZewWPqSlo7R3t9ZsHjpRH123brzfjtxNCqE9zJ06OVP3FDnF7R6FKDjqiGC9OoHRW9FHC/cNsB4EkfkLBGp/i9Sy+tP8QoVTy7mCORvc8U3qskIST8OLsZMTzprvps4RLG/0si8LV98sJELaDyuK3Q7ouYNTZ1bA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773179980; bh=KI/2C1qWh0wU70YNkTGxkn26WB6sEdB0QJZ8iGOv3O3=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=aOhUiFWCCIMvO6Pqe9oBOjaZz6LY+2fWreJET29w7xLY+vYv+RniawyC0NrqRE4/YRVYxVSQUvJ7P50gI9YAFcWF7hJJYy0KK/L8TlpQ1pNnq+CrBDlUpP5z729IRvIyjrlvMjZrJ9d0NAjl+KJmKe3bezEt3DwogjCGOlnI+x+3fNmgTX0KID1S9Tvft4dHPkk0/rPwgJMGle6M8ANhTZviBXSSX+Tfu2aXtK4RonEm59yjsguQadlz3ouBm8OdgxGJ+vFBMjosf3MxXqrr8+6r9Ooq39j0GOktAz16ECPrFC2NO/J1OXvcMZBjirrjzpsx79/nZsOSHQNq100wJA==
+X-YMail-OSG: _i6q9.oVM1lcKuaQ1kGUxgMKwbLkiWimGfzP_7wobUc3YJMLvPhSMc0B1sRu_lE
+ CbPICSlpiH17.Sh_dqPXYbjBpgiqaTEPWxGt67xmskdWPJJCX_KqIg49W8cNqOpYBgHVo.VK8zf3
+ _mWc_hAtTQd3y.PUKvhc0_YRo8uoNaTx_Xn_ODPaW4W0H.WEwGjLkWYfH.vAaLEhnEVyGdv_.1Ca
+ _kmlel39mmJgMxl45ADWcjiAKbi_OrS9QveDYc7bhBKpz2z0jwxEWXHuaveYoLvzFZal1groctyt
+ s_KBk4hIoGQFZWW9Atck7uWBnfiAxaJuYZbjrsaayID7cG35iDlIFssnD4GyFPyGvKgPb9xCqmW3
+ MruGIkm0RKzNasVKyiCUvKSPjqUX9LWznojQbEVazangaJTkVR1CWDXMXEZ7kphVsTEHtE_dBq.8
+ pifTXpGZjWs_bqmC85fjBEbqI_jQj71NHsrsdz9dwqiFvX.OPwAVv8qbc2yBJY8OVJsHKaEDikIG
+ jC3UoX3261lKV7YQv5mMNRYDGst_1gXDvHHqV7n8lM5kHMj234f1O_kirfrofR_P0EdFDk4dqkcq
+ NTiNVrDsNpvZ0zzJMnBKaeJ8gJpGLjB.pQ2FkgYbbDPBPa06jWQaJLkzKTQj0P8YM9aarhGTa0AP
+ NslD8MLJQqkwSGSp470nXpR_zu5FzEAkcH2_IkBmuM5KZdx0h2nbUlx.RIJQVslNGYYbDq0F5Mxg
+ g8UK1RcFlu0YY38JmMMrwoAYdap4Ex2Syc1Bi7eziOWdnR1.rG2mwFmLLq5d90PGUt5o_QESY2KS
+ WZ2wkR3bepril2muiJ2uRyj1DYG7Vub.RKR.KlzojNRIlLxGGqZs5rheleLrWiWPmvEcnDn6aiOq
+ xl0efgRPX2B4IGjzA0DgvuR6rzylIA7sJeQ7jhXiBnNn.GQdn_vOjgoUWjezP2eIm.10_tS0kW8L
+ Roy7FuXxaLeGn.0j8c_a5d3eTLrZwmb0Qbl2aBBeZbcWOnNmpbrSmHaQV.l8HFuQD2TKphGqG9XD
+ sDjP2OgyY35M6y2q7avyzZ_aaxy4J3xHfaa0XUFX044Ex5gvnBmu.JT.1rB9evmZUNv2brS6zhke
+ _5xwYPTXCDGmHhiv4juN12VslnY1KBN_QDw7gAuEmTZkVLR9ouath8L8MAjJGjw_m5T09hjyOCIq
+ QYgfkmIXoH_pgnfhSV3YiznxoM4Jj5w0u5gcklfqs75vOTxiIpxMWi4R206MSQ0RwLt9nNGJL0vz
+ kFJSY9Ob2lm8zrVhz.NPMHJlDFaUzbJ5.SjWFaERuKIQkzMGOqJNdp0._ePuPf1XIj2Z5BNoqA2q
+ rhCJtV2iQaabwx.pKjERFuG9_paFjFSdgfkbswDFUL15BXbtRpsfIeULG0KfRw5LMFZvwrT5uMl3
+ EpWfbJW2HnxCqqqWLcmBH095PYHN2MKOn3XnuKG3hcXE_rlVQvaxytEHctxBkYuigBzFtLuVUbJO
+ Ve0bOAWPx_fyFL5tRYmCXkpfQlmxVTfdJPFy0dTz4sv.nzOJ059.idF7XhUKVpr00QVtX25KbWnT
+ T.BALuGduB_XjpUlvYiTeGQCFaN8G7ewV2ZYmsX_x8ziWKt0n2UEQMxmGx3JUMYcE4QsYO.l1QfE
+ jrSlKh6m.BruOOKJgaXfY3frPmTnBU7gIaPgL0dbGa4GQPP4s.yX4sXlNBW4mulu_gQiApV0A7WY
+ RCxajTexRhPCx9LEB2hOsB0VMeAUjVpIQM0Hn4mCp1C9Vt8iCVMOxMWtdUfli613CGSJVWa9Bft5
+ WgYJeIY42FEnxaevd2l..PxeZas58gx83f9iexzGHXWbZNTvJjFrE8PBxmkzpQvXlKkqRK4zScUL
+ sE3UKYTngrCKYVRXSJwG0zNTdHIwbiybVja6ap5fZUnSS2Pf.I0cKdFroaNmbTvEuh00wZOaemwX
+ C0bjJi9kJX.cD76w6luoTnbErpPqVkZ5BdNWJa3OgkoNV24FarwFI01T3FixC6AN1wbWfO0_rS5B
+ U9b7EZzcmuAmE3.A6FXP7bll_8iQrrO3SyWYM.UneRSMlBja.NXsz1DQic5NK1HVKouiyKBfP.Cv
+ ddrGCFZj6tGGegc5Z7psN6SQcCDK5tjSuVixaIejKQWfwGOv3CcLsgKiJEl8bKxOFcVveIkmYj58
+ PCG4BS.YA1BO2oX5JsWP4Em5N9NgTYG3QQ2ZaGyS9XpvjKah5v9Cc2MDPjNcEJnW_DKuZRO8vPCR
+ I8PwUldo5IpGTWGVAKbjNqORWzdCiBIS6e_dHRvtzhWfVmurBM0oc3drxB5wkf93wQfWYi.Ubnco
+ jdPuY6AtWhNEonKD1SRiirQ--
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 223fe060-bd87-4acf-9d09-07abe9575b5f
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ir2.yahoo.com with HTTP; Tue, 10 Mar 2026 21:49:30 +0000
+X-Sonic-ID: 542d3c3c-f2fa-4e0d-8f01-d0f33a18665b
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ir2.yahoo.com with HTTP; Tue, 10 Mar 2026 21:59:40 +0000
 Received: by hermes--production-ir2-bbcfb4457-5fg9x (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 95c3151d01371ab1269f6f8bbf003118;
           Tue, 10 Mar 2026 21:39:20 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Tue, 10 Mar 2026 22:39:15 +0100
-Subject: [PATCH v3 04/28] media: staging: atomisp: Remove unnecessary
- return statement in ifmtr.c
+Date: Tue, 10 Mar 2026 22:39:16 +0100
+Subject: [PATCH v3 05/28] media: staging: atomisp: Remove unnecessary
+ return statements in frame.c
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,7 +85,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-atomisp-remove-void-return-v2b-v3-4-3fdddab41271@yahoo.pl>
+Message-Id: <20260310-atomisp-remove-void-return-v2b-v3-5-3fdddab41271@yahoo.pl>
 References: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
 In-Reply-To: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
 To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
@@ -95,12 +95,12 @@ To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.14.3
-X-Rspamd-Queue-Id: 5F3152587BF
+X-Rspamd-Queue-Id: F1D84258959
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -108,7 +108,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,yahoo.pl];
-	TAGGED_FROM(0.00)[bounces-55254-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55262-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[yahoo.pl:+];
@@ -118,38 +118,62 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	NEURAL_HAM(-0.00)[-0.998];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,yahoo.pl:dkim,yahoo.pl:email,yahoo.pl:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[checkpatch.pl:url,yahoo.pl:dkim,yahoo.pl:email,yahoo.pl:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Remove redundant 'return;' statement at the end of void function
-ifmtr_set_if_blocking_mode(). Void functions do not need an explicit
-return statement at the end.
+Remove redundant 'return;' statements at the end of void functions
+in frame.c. Void functions do not need an explicit return
+statement at the end.
 
 Found with checkpatch.pl --strict.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-index 50b0b31d734a..31dd3f99e28e 100644
---- a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-@@ -472,7 +472,6 @@ static void ifmtr_set_if_blocking_mode(
- 		}
- 	}
- 
+diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+index 8614efc28b19..ae952df03cc6 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
++++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+@@ -525,7 +525,6 @@ static void frame_init_nv_planes(struct ia_css_frame *frame,
+ 	frame_init_plane(&frame->planes.nv.y, y_width, y_stride, y_height, 0);
+ 	frame_init_plane(&frame->planes.nv.uv, uv_width,
+ 			 uv_stride, uv_height, y_bytes);
 -	return;
  }
  
- static int ifmtr_start_column(
+ static void frame_init_yuv_planes(struct ia_css_frame *frame,
+@@ -558,7 +557,6 @@ static void frame_init_yuv_planes(struct ia_css_frame *frame,
+ 		frame_init_plane(&frame->planes.yuv.v, uv_width, uv_stride,
+ 				 uv_height, y_bytes + uv_bytes);
+ 	}
+-	return;
+ }
+ 
+ static void frame_init_rgb_planes(struct ia_css_frame *frame,
+@@ -575,7 +573,6 @@ static void frame_init_rgb_planes(struct ia_css_frame *frame,
+ 			 width, stride, height, 1 * bytes);
+ 	frame_init_plane(&frame->planes.planar_rgb.b,
+ 			 width, stride, height, 2 * bytes);
+-	return;
+ }
+ 
+ static void frame_init_qplane6_planes(struct ia_css_frame *frame)
+@@ -599,7 +596,6 @@ static void frame_init_qplane6_planes(struct ia_css_frame *frame)
+ 			 width, stride, height, 4 * bytes);
+ 	frame_init_plane(&frame->planes.plane6.b_at_r,
+ 			 width, stride, height, 5 * bytes);
+-	return;
+ }
+ 
+ static int frame_allocate_buffer_data(struct ia_css_frame *frame)
 
 -- 
 2.53.0
