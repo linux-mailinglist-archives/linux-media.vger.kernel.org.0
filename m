@@ -1,80 +1,78 @@
-Return-Path: <linux-media+bounces-55275-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55276-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iN+nHXefsGkwlQIAu9opvQ
-	(envelope-from <linux-media+bounces-55275-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:47:19 +0100
+	id ELtSCt+fsGkwlQIAu9opvQ
+	(envelope-from <linux-media+bounces-55276-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:49:03 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7E22590FD
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:47:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9ACD259124
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:49:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D141D30B85AA
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:46:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B1CF53188FD3
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:48:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 109482D8DC2;
-	Tue, 10 Mar 2026 22:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C42D3BED1D;
+	Tue, 10 Mar 2026 22:48:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5C/zuXF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TlPgEndH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E6B140E5F;
-	Tue, 10 Mar 2026 22:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A86F215F6B;
+	Tue, 10 Mar 2026 22:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773182780; cv=none; b=qbF9g8iwpi7dT2YRDlUpaOzfWqoFkzWqDBZw8AN0Gdo1GWPvdY7epYujuqjulrqcNeCwPZkF75bH/vD80pFLp9aDca/1KS3t0q3nGvGJ8pWrpe0GjNUE4PdL6TX81FW1zMB06ZQ1NJ5tZQiUnuST3Gz8P23TSCOwCKxdFJVJaGg=
+	t=1773182932; cv=none; b=XLF3iZyM2+SU190eLYp2GRuBhL26x+VwDGDAMq9O6ctrijulk+v1FnAjeNhri+OiS4XzgJd1PXyXR0FP1hUYUls+i35U9tpq7R4tgUPyyspSnYHEaB3OU0PsccYEKW9IjuwLBbFN/KHYJ3iK+Daa7E+RUJjfRaJv0kNtsFxx5r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773182780; c=relaxed/simple;
-	bh=wPIYw+bRB1LzsklOC9+3gspMXxwrNY3ONTv8VzwLXcA=;
+	s=arc-20240116; t=1773182932; c=relaxed/simple;
+	bh=ZuzveDGPZnQkr48Tk949S4ONvwNNBmG1BcdLoq8/Ng4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=taJ08HSf1eWewlF627LX1QUJJ+7ay3p3j8qVGTJa9gtj643rVeBgnSgool8Fwl26egETw8tqAhRORECPpFM2hHPupIMI/sLaji4CleCfYlqaH8IM7/rbRIYb1SS7YqlMebK0P9a7U4ctSW99pS/zxFSFbeuGS9c842C1f3xMb70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5C/zuXF; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=iDmmf0el9ezHy/CTTSUuHIVsfxm56zGyeDXSbs6V0X5qt1xCL3kxKHHpJiUJTnGncvnnRFRe+Lk8VpEr656cNfy2rnZEwYIIgWqlyptGf2NQFloZubKsOvH2c83Yz/GKlJLAhRWfQGI/EvoqPJAtkwGpeSIv6fPFyfXRxKJKP5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TlPgEndH; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773182779; x=1804718779;
+  t=1773182930; x=1804718930;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wPIYw+bRB1LzsklOC9+3gspMXxwrNY3ONTv8VzwLXcA=;
-  b=X5C/zuXF9loRM9vEjM/L59pczS2zieyxQVeKsHoYkkKNb+N+5dAtULy7
-   y0/KLSFGtSQRjoGuRV4541P9NLA3B3KnMnJ+15p1rZjEkfPsUoT/dyQ1F
-   1xPU/sFd1QsxvTv7lljjKmZO9aQfrJlGbbmIBkqXfEokbZg/bDur1eofh
-   RUazZ119qsexLGCZq2RKetiGuLpu1/GOU+797uu8EGXPLoqgK3zWmOgRw
-   iz9x8YmLQEufmJMHj/RJUeqk/HNrEfqmxn6iNXIGPrpafN6kB1aZ972xP
-   MhBhVr6GelyJuZMf9BltllKb7lIbs+6UF1FuHqqnYnp2zJCqY0eFa4OuN
-   A==;
-X-CSE-ConnectionGUID: cJSxyP0LRu25jHepNlYtkg==
-X-CSE-MsgGUID: X0BOhL/IQF2Pdz3vayNFIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="99709874"
+  bh=ZuzveDGPZnQkr48Tk949S4ONvwNNBmG1BcdLoq8/Ng4=;
+  b=TlPgEndHIo3Ngxd0Rw5RlFHywEHudeNv8426G06e5aH45Ew0A7lpZBtH
+   c1JvWYUjNrCpGsA9IpVjvrY2FoF3zLVakSfKFXTpDfzFAju2G5D10rABc
+   RednMeiZDQSH4x2tbQvwsOovOEVLP9yvEKeoyL3nJOAy2zrQHq64z0bUu
+   uDCp4jFTYzEi9lVixIaxmPfcWPw7t2cO3/xKXGsyWbb7x6nsA6Fd18hBN
+   yWpOzxj9Qqkij3H1P0fVhfQlBKs6714dCkTe0o/mLe6Ct4fWNFC00ydOg
+   4adx02F6vp3WImT7ghr3tGdPIw4Wv1eWpZ5OydzojpvzxwqQD77NGybQa
+   w==;
+X-CSE-ConnectionGUID: JPunHQQ5T9mau9V9sFBirA==
+X-CSE-MsgGUID: EY//ou53RWOGxb1OsaIScQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74120263"
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="99709874"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 15:46:18 -0700
-X-CSE-ConnectionGUID: a7pr8+qSS0mqcmwLv6rMdw==
-X-CSE-MsgGUID: Yts02qf8SxWmXU+7JQBdJg==
+   d="scan'208";a="74120263"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 15:48:50 -0700
+X-CSE-ConnectionGUID: Na6XIS1FQZSgRUieJlzFNw==
+X-CSE-MsgGUID: 1kA1q+GSSlq/JzCjVEN3lw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="224730903"
+   d="scan'208";a="243283007"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.54])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 15:46:16 -0700
-Date: Wed, 11 Mar 2026 00:46:13 +0200
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 15:48:47 -0700
+Date: Wed, 11 Mar 2026 00:48:45 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 00/28] media: staging: atomisp: Remove unnecessary
- return statements from void functions
-Message-ID: <abCfNWX2R7rkLJ9n@ashevche-desk.local>
-References: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271.ref@yahoo.pl>
- <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
+To: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: media: atomisp: fix block comment style in
+ refcount.c
+Message-ID: <abCfzdNBb-qYJpRK@ashevche-desk.local>
+References: <20260309215516.6091-1-rayfraytech@gmail.com>
+ <20260310203546.8849-1-rayfraytech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,28 +81,28 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
+In-Reply-To: <20260310203546.8849-1-rayfraytech@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: 1A7E22590FD
+X-Rspamd-Queue-Id: C9ACD259124
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55275-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55276-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[yahoo.pl];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
@@ -114,30 +112,23 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[yahoo.pl:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:dkim,ashevche-desk.local:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ashevche-desk.local:mid,intel.com:dkim]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 10:39:11PM +0100, Tomasz Unger wrote:
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
-> ---
-> Changes in v3:
-> - Extended cleanup to all 27 files in the driver containing redundant
->   'return;' statements at the end of void functions (as suggested by
->   Andy Shevchenko): inputfifo.c, bufq.c, ifmtr.c, frame.c, rx.c,
->   binary.c, ia_css_debug.c, mmu_public.h,
->   isp2400_input_system_private.h, hmm_bo.c, sh_css.c, sp_private.h,
->   fifo_monitor_private.h, isp.c, input_formatter_private.h, irq.c,
->   mmu.c, fifo_monitor.c, gp_device.c, gdc.c, event_fifo_private.h,
->   isp_private.h, input_formatter.c, irq_private.h, gpio_private.h,
->   gp_device_private.h, atomisp_cmd.c
-> - Each removed 'return;' was verified to be at the end of a void function
-> - Compiled successfully: make M=drivers/staging/media/atomisp/
-> - Module loaded successfully in QEMU with Linux 7.0-rc3
-> - Link to v2: https://lore.kernel.org/r/20260310-atomisp-remove-void-return-v2b-v2-1-b0e73f498e25@yahoo.pl
+On Tue, Mar 10, 2026 at 09:35:46PM +0100, Oskar Ray-Frayssinet wrote:
+> Fix block comment formatting to comply with kernel coding style:
+> - Move text from opening '/*' line to a separate continuation line
+> - Add leading '*' on continuation lines
+> - Move trailing '*/' to a separate line
 
-You sent the series 3 times and all of the times it's not sent in full.
-Besides that it must not be split by file! This kind of change is okay
-to have in one patch.
+> - Replace commented-out code with #if 0 ... #endif blocks
+
+This should be done in a separate patch as this is not about comments.
+
+> Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+> ---
+
+Where is the changelog?
 
 -- 
 With Best Regards,
