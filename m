@@ -1,211 +1,164 @@
-Return-Path: <linux-media+bounces-55155-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55154-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IOi7InEfsGmCgAIAu9opvQ
-	(envelope-from <linux-media+bounces-55155-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:41:05 +0100
+	id CNyOI2gfsGlygAIAu9opvQ
+	(envelope-from <linux-media+bounces-55154-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:40:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED85B2509C0
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2418B2509B8
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:40:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 074A233687AC
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 13:02:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4E6FF3368AD5
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 13:02:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E7993C5DDB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DFEC3C4560;
 	Tue, 10 Mar 2026 12:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hy/lnYq8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOutLnoL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3B63B47E2
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 12:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773145714; cv=pass; b=c7YgMEltPZcvLGS7IUrJ6fEbbVV/rMSUMLZoigoODBou3mw4AGtFmgXHL3A/IrLUR+cxXDs/3YHcwB8Mf/nxWwbhVv8XzfsIlSwL3D6lfK7/bsDAfSTrMybw8MCNNDWODU3M1aA/xYCdOVGQU7sO8OpFwDi5sl3mp71piTmad0U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F763B6378;
+	Tue, 10 Mar 2026 12:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773145714; cv=none; b=YYkKrWTpvV1BCdEut7Nd0y3OeNd7lSOp9yLpWsbYu6r0umZce68M0AXdf+dwRFIuWgpcJ7UJVy7578BFMevBflxExLa4A/BQpsXBmcqMChEz3XkAN5p5wnWSQ9F3X14KDqkBjhR5I76Na0qns2N+W7/z/cYqrBunb4ho+bNsLgs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773145714; c=relaxed/simple;
-	bh=Dh2txzJtipbH29/fAPCR6ZkGmUH4iYcJegcv0MEz4UE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=qMG1yaW7vIgx0L4GSwnJ0ECSMK2vja5iJsv4hWzKKSM+pGbzSa8v8X3WD5wLlSpE8PCj/d/ed7Gq7LhtI0BmilI4MH6TWTKvG7aO+wuNT8vk6sYO5WCLJe5VRr9HsGyF/UWFUCvMMymW8nWfgsBSf8lrX1PaFUacd0v4LNPkzZM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hy/lnYq8; arc=pass smtp.client-ip=74.125.82.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-128b9b7e3edso487127c88.0
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 05:28:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773145710; cv=none;
-        d=google.com; s=arc-20240605;
-        b=X7JEcnsa+dlBcBK4qRWMl4aJV0RTtyfxat13OwbRhfm4cpjpk1r3z+agRfQEjyfWuR
-         6/gKGhNUwj/I1ayM2SA4jzN0W7Wr7lqjj/jVFiG1A4BDLo3guQX+11ACY8ex3CbN2yJk
-         l94gMSxoPcxGIXTNA6dbF2ZfBAox1I9yay5GcJLL1G12Vj4vagYTzEwWdOpa+Bz5UzhQ
-         obrk+h9wApsaaTO0IM+OPt+JTeLeGbIwq0AeWF5QXVdAn//2JmWZXWd4mJ6Sasw36698
-         LiGZEK5DW/l71gVZJYBjxJkBkmZ/gxTaA61TE96aM5Xa+K/z4H3xu0OWc2Re63+pxedq
-         5SJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+Yzh77/j5ISEB79JePy6lmFNfdGStY3Ny9G1u510Smc=;
-        fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
-        b=S61Joe/daoQfePhsmEFFkfGWt8sr0oRriAJu60g0BQhV2hbxDA/i+oHLSFRM6L8+ho
-         YJoxRUPR48XK5DTHzUPzLX11YnKnKvg7W5bq4XtuZHZyNnAXcfd08tsyj9BXNxwN6Hbw
-         8qft+FlITDJehgVJx0xniFZsS3pjPwhjKAN3RtcCUhRDsJ4ls2WWijmG4X0gKz1QbP+C
-         AXNYS3g36umGJHWPX12jgjR35SXqukcpyIzlyd/oDojYJcWdMPo6JE/SBfECQiYpZ9KB
-         4XVx+Nxa85Xzt61cEuB63ef6rftVAaaEwRmWMkUUmJ6FkEKUWOcYWVVbRhyUD3yh+WVp
-         mpBQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773145710; x=1773750510; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Yzh77/j5ISEB79JePy6lmFNfdGStY3Ny9G1u510Smc=;
-        b=hy/lnYq8OKpGtS/uIQ6yZvW7rc6vXZYILsO9eM5XXGK4rvjx4mdz6u6A1oPKZC9xfP
-         f8jVMuJbiEwpKCPD+fTYbikwffkX3jGuhbX8F/m1wK7WuoOmVtKoIAz3KAGreNOaIA8l
-         n8+tqu+W/VurYFGoZdj4xFMrSaOQsAQ60S0SFG/mKM8VpF9VZ0xZRXvukUbC7rEYbFS2
-         3Pc6JoQPSfYWcupMbz+duHEBAjk6C3Cz5X2ZOYkViGnuWnA0GZXsZoB2HzA6xQzg6UY+
-         AK0dQDUiXZegaXiJ8Jz2LZLPo4HqSwzgCkZgSaQdF2anlrqiAmkiucp7kNDLxp8DAMB1
-         QgVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773145710; x=1773750510;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+Yzh77/j5ISEB79JePy6lmFNfdGStY3Ny9G1u510Smc=;
-        b=Y+iRmD21Lv1eoaTFlBowe9IrqjusYmTmleJBGY9tjJ8PBlwDXMs0/7kTeK3pCFt3fl
-         MDKL+bViy63TgOzT0byP9qm13buZZnoH3395n7LkhMkTrz8Agq2MQWm/l96h8NxpdAyo
-         7oeJKOXCSxeeNxSXK9zgY3EjfrTPZftWWs7n9HIAIYj+33+G4KJ7Lr1aFO5YMkXPYh7k
-         j6NjfRqZGvjK8U3LI4/3Qrn4qGMWMZ9x0wR+zkjeoKm1/yWPbsrWjGWLfiiBTNNVymZF
-         sRPd9yY32o13YnqRICS1eZVEEOCH7q6fXXix0MN80dUGKYzXutzGFe+DzaTUEyqX9HDZ
-         rL6g==
-X-Gm-Message-State: AOJu0Yzs6SUpJ/aicsGWI4iMEQkA45tK/XJYHNNnaGXjVS4b0/Kp3nYQ
-	ZK1f3zlht5f79Ugnl57XpTyEhKOvDJ3lUX/rYop+EAgiZiQ+eWNqQEysw6v0h/6Rd7VJI86ghle
-	cosST279mYgOmX9uGND1dQZGz/XyfhuqKg806JbFE4qlt
-X-Gm-Gg: ATEYQzypiwm15ZbErkMudOaCn/aLol7UR0vAQJHk/75LcUGamHaoabUwfJ8FxxBFUyH
-	cL29o0rYDo07IzPbVwa4wLzpFYLtOD1WXPmJmQqHxCHkNyZyAnwELpV85seMQ7JOuLZEr9P1wDO
-	7NFzV1aH2f/Yr6KZYR8G2VZGPAnY6U6qufy5hdlBzD4/ON+WrThgCCYnxNRJ7GrEdMkgUU+Kcaq
-	Ldbgmb3nirnTn/WfhdMToyYJEjxpz4ss2xs+VRAGE4llXZqdfU8G6wSvPL8GCcu4PFd494gCv1N
-	q8SBn4wVX2wojKZ/0CD5EXwFPI5OFMyNghGdqT7t
-X-Received: by 2002:a05:7022:313:b0:128:d24a:a5c1 with SMTP id
- a92af1059eb24-128d24aa95dmr4388310c88.28.1773145710407; Tue, 10 Mar 2026
- 05:28:30 -0700 (PDT)
+	bh=NZ5oTCN6VGzePwnu776uK+3unhTqb8pwokxv1IJtK7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=noHGQmxEL7IiXdiF1hNqEE9uS+fhYYF0hIJyU1chSxO/FtpJTW1bVVyqWOi1E4WPjAeBdzHrOL8ney+Biqjn3eN1PjYWD4Pfho2p9Fnl+y9Lm4V6kLLlMke34xalTNHMyPdq1PxQR9TH4x3t7rnw8iZk8l+7BH0gHYbtJACoJmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FOutLnoL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8179C19423;
+	Tue, 10 Mar 2026 12:28:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773145714;
+	bh=NZ5oTCN6VGzePwnu776uK+3unhTqb8pwokxv1IJtK7c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FOutLnoL/seeB/icY17T5kE23weT+c8OWPxsN1CuLtbqZf1qO8twCXpCHPEW4zEb5
+	 uM5pcZxBh8XK3wQOjz6gQLnb8DbNMsJ6SwgjqzPaDdyeQRMdzDiadj+7d8CVSVSbbp
+	 WbSnGZkMbwo0cpPlViR1A0oh5e53oFE0sYAJxulW9oCNKaXKAhhACMzXx6XsRo3Hlx
+	 /XgKdmLcz/EtWl6VZEOUGY5PBqGn3Xb4X+aqLL+l2HoSL3wZMd6NhcSGeVt+ZFpBkn
+	 8s7ZymgPrZjLjSz7/xRlCoCIsHrVCduE0eaA6Z9IamuK4ZW4bnyThB9ZhLWcSUucoJ
+	 BJsDSXl6ZXWkQ==
+Date: Tue, 10 Mar 2026 12:28:20 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Philipp Hahn <phahn-oss@avm.de>
+Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
+	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
+	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: Re: [PATCH 18/61] sound: Prefer IS_ERR_OR_NULL over manual NULL check
+Message-ID: <19aa26fc-8570-492e-8e17-23d6950676f0@sirena.org.uk>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+ <20260310-b4-is_err_or_null-v1-18-bd63b656022d@avm.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOKSTBu_aCODd_AxkBuA=sU=SJhCfVR7-FXo3tfOLS9Y=+1WHQ@mail.gmail.com>
-In-Reply-To: <CAOKSTBu_aCODd_AxkBuA=sU=SJhCfVR7-FXo3tfOLS9Y=+1WHQ@mail.gmail.com>
-From: Gilberto Ferreira <gilberto.nunes32@gmail.com>
-Date: Tue, 10 Mar 2026 09:27:51 -0300
-X-Gm-Features: AaiRm53hS5EqGCR2EYm-QkIioJnH4AFPyi-Hm3YGHefVGkTDc3GcpLjta_XO6Gk
-Message-ID: <CAOKSTBv0C7iWw4v849FBA5BONQqJzH-q2qj107HAEdnqKFtJfQ@mail.gmail.com>
-Subject: Re: No HDMI audio with Linux Kernel 7 rc1, rc2 or rc3...
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: ED85B2509C0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7JjDB+7CEHk89uTh"
+Content-Disposition: inline
+In-Reply-To: <20260310-b4-is_err_or_null-v1-18-bd63b656022d@avm.de>
+X-Cookie: A fool and his honey are soon parted.
+X-Rspamd-Queue-Id: 2418B2509B8
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-55154-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.ubuntu.com,vger.kernel.org,inria.fr,lists.linux.dev,lists.osuosl.org,lists.infradead.org,lists.ozlabs.org,kvack.org,st-md-mailman.stormreply.com,lists.samba.org,lists.sourceforge.net,samsung.com,gmail.com,perex.cz,suse.com];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55155-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_ONE(0.00)[1];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[59];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[gilbertonunes32@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ubuntu.com:url]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sirena.org.uk:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Is this something?
 
-amdgpu 0000:04:00.0: [drm] Failed to setup vendor infoframe on
-connector HDMI-A-1: -22
+--7JjDB+7CEHk89uTh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
----
+On Tue, Mar 10, 2026 at 12:48:44PM +0100, Philipp Hahn wrote:
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
 
+I can't tell what the dependency story is here, it looks like there's
+none?  If that's the case you shouldn't send things as a single series,
+send separate patches to the various subsystems.
 
-Gilberto Nunes Ferreira
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
+--7JjDB+7CEHk89uTh
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmwDmMACgkQJNaLcl1U
+h9D4VAf/VCpoXjivQsq8mL1i6sHdID6byBqwG7egrwiRCrsZav80JlvY/F+1fWQl
+Fe3Ct+yRv1pWeNy67wSCZD3mtHtNH0JpwRTNxS1XQrnXc7CLjzKunCldDfzTbfom
++QmXWHQB3Qo9ie1ugoAGet9gx/vkV0z+cv9sVHg1o1R7/AKqfgov7xnuP9Hlv9Uk
+p1pkMya/NhbXBsrh+BFbktLgp+7sAOMjWgtGZ3NfHzwju9n4Jdbl1JcPxgDl0SHp
+6z8kP2+oskOspesqLWw62mZF+bN32Ycjt1N7/EFjtPBdJKIcQJLICoACzxyQBZYg
++i50s/oSRL1HiP4US2lxoy8BqxaqrQ==
+=U6jW
+-----END PGP SIGNATURE-----
 
----
-
-
-Gilberto Nunes Ferreira
-+55 (47) 99676-7530 - Whatsapp / Telegram
-
-
-
-
-
-
-Em seg., 9 de mar. de 2026 =C3=A0s 13:01, Gilberto Ferreira
-<gilberto.nunes32@gmail.com> escreveu:
->
-> Hi there!
-> I have compiled both RC1, RC2 and Rc3, for kernel 7 and after booting
-> with it, no HDMI sound at all.
->
-> This my laptop:
->
-> Operating System: Kubuntu 26.04
-> KDE Plasma Version: 6.6.2
-> KDE Frameworks Version: 6.23.0
-> Qt Version: 6.10.2
-> Kernel Version: 6.19.6-x64v3-xanmod1 (64-bit)
-> Graphics Platform: X11
-> Processors: 12 =C3=97 AMD Ryzen 5 5625U with Radeon Graphics
-> Memory: 64 GiB of RAM (46.9 GiB usable)
-> Graphics Processor: AMD Radeon Graphics
-> Manufacturer: Positivo Bahia - VAIO
-> Product Name: VJFE69F11X-B0411H
->
-> With kernel 6.19, even the RC's works perfectly fine. This is how I
-> compiled the kernel:
->
-> git clone from Linus github cd linux make mrproper cp
-> /boot/config-$(uname -r) .config fakeroot make -j$(nproc) deb-pkg
->
-> I also downloaded the mainline kernel from here:
-> https://kernel.ubuntu.com/mainline/v7.0-rc3/
->
-> I already tried 3 different Linux distros:
->
->     Debian Forky
->     Kubuntu 26.04
->     ArchLinux
->
-> Same result...
->
-> So I wonder if anybody else has the same issue.
->
-> Thanks
->
-> ---
->
-> Gilberto Nunes Ferreira
+--7JjDB+7CEHk89uTh--
 
