@@ -1,238 +1,147 @@
-Return-Path: <linux-media+bounces-55274-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55275-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qBf5HvGbsGnwlAIAu9opvQ
-	(envelope-from <linux-media+bounces-55274-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:32:17 +0100
+	id iN+nHXefsGkwlQIAu9opvQ
+	(envelope-from <linux-media+bounces-55275-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:47:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA343258EFF
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:32:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7E22590FD
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:47:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2F74330AD9E9
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:32:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D141D30B85AA
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:46:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EE613A3E6A;
-	Tue, 10 Mar 2026 22:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 109482D8DC2;
+	Tue, 10 Mar 2026 22:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="W/u9QQWk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5C/zuXF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA1140DFAA
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 22:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E6B140E5F;
+	Tue, 10 Mar 2026 22:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773181927; cv=none; b=G47NUbXlcNum2qtvgLpiugPX3CaGNdYDu0riv5xkynJLEzQDm0+3YLPPsrQnrkzerdJqakqzB26ZZkD5s4S++y8yQwQuKVxV9KNMDtzkdgu3ddLZDqP3U9xCa2eWS+quQxBEeOBamUCJBzB0vDG5OAGQjKl6GF6TB0mi5CXx/18=
+	t=1773182780; cv=none; b=qbF9g8iwpi7dT2YRDlUpaOzfWqoFkzWqDBZw8AN0Gdo1GWPvdY7epYujuqjulrqcNeCwPZkF75bH/vD80pFLp9aDca/1KS3t0q3nGvGJ8pWrpe0GjNUE4PdL6TX81FW1zMB06ZQ1NJ5tZQiUnuST3Gz8P23TSCOwCKxdFJVJaGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773181927; c=relaxed/simple;
-	bh=nCg+f0Ir6nq1atsLP/nsyl/0EfHnr5HJe3XImmUMm80=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gE7Bo1JLoSK8hAqTypl8B1mHHmxq24gz5x8d2nsyINYtT9Oi3cxaUpqeQHXEBD/rfdFkP9qNngTiu10EuBoFWxduGD4jA971U77R/6yDnSByu5L+hQSstF89iCZfc7aqPzHqKlJ8tYk3RXdRKtnpA6WrUoo6UxC2J547zEyJrL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=W/u9QQWk; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <c370c0b0-5741-44b0-9f34-34f344504d51@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1773181914;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IyLfIQxPvnSedK9kxLfC8cNGtJC+e8gFg6CxxaAUpKs=;
-	b=W/u9QQWkiMKY212DJYhc4mNg95s2YFRJMWY248WGOxV5eT8hiydA67VOwtWWXS6SRd7ifA
-	Qb69xG+51/ypT/XwRZZ5DhNmRcmSJpxekklG4xL/Ox5BdSpM/7NJxQomilqBKYqApWBH6Q
-	0vGTnvi3pM9k//z79cRqH0v0oad9mJo=
-Date: Tue, 10 Mar 2026 18:31:46 -0400
+	s=arc-20240116; t=1773182780; c=relaxed/simple;
+	bh=wPIYw+bRB1LzsklOC9+3gspMXxwrNY3ONTv8VzwLXcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=taJ08HSf1eWewlF627LX1QUJJ+7ay3p3j8qVGTJa9gtj643rVeBgnSgool8Fwl26egETw8tqAhRORECPpFM2hHPupIMI/sLaji4CleCfYlqaH8IM7/rbRIYb1SS7YqlMebK0P9a7U4ctSW99pS/zxFSFbeuGS9c842C1f3xMb70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5C/zuXF; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773182779; x=1804718779;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wPIYw+bRB1LzsklOC9+3gspMXxwrNY3ONTv8VzwLXcA=;
+  b=X5C/zuXF9loRM9vEjM/L59pczS2zieyxQVeKsHoYkkKNb+N+5dAtULy7
+   y0/KLSFGtSQRjoGuRV4541P9NLA3B3KnMnJ+15p1rZjEkfPsUoT/dyQ1F
+   1xPU/sFd1QsxvTv7lljjKmZO9aQfrJlGbbmIBkqXfEokbZg/bDur1eofh
+   RUazZ119qsexLGCZq2RKetiGuLpu1/GOU+797uu8EGXPLoqgK3zWmOgRw
+   iz9x8YmLQEufmJMHj/RJUeqk/HNrEfqmxn6iNXIGPrpafN6kB1aZ972xP
+   MhBhVr6GelyJuZMf9BltllKb7lIbs+6UF1FuHqqnYnp2zJCqY0eFa4OuN
+   A==;
+X-CSE-ConnectionGUID: cJSxyP0LRu25jHepNlYtkg==
+X-CSE-MsgGUID: X0BOhL/IQF2Pdz3vayNFIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="99709874"
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="99709874"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 15:46:18 -0700
+X-CSE-ConnectionGUID: a7pr8+qSS0mqcmwLv6rMdw==
+X-CSE-MsgGUID: Yts02qf8SxWmXU+7JQBdJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="224730903"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.54])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 15:46:16 -0700
+Date: Wed, 11 Mar 2026 00:46:13 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 00/28] media: staging: atomisp: Remove unnecessary
+ return statements from void functions
+Message-ID: <abCfNWX2R7rkLJ9n@ashevche-desk.local>
+References: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271.ref@yahoo.pl>
+ <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [BUG] uvc_status_stop hangs if called from async_ctrl.work
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>, linux-media@vger.kernel.org,
- linux-usb@vger.kernel.org
-References: <6733bdfb-3e88-479f-8956-ab09c04c433e@linux.dev>
- <fba86ac0-e13e-4c54-9515-c091b24f9f80@linux.dev>
- <CANiDSCtLj-N+M+JmP3C_y=vNtSy-UN7XtkXaZ=dLN6f0kd7rYg@mail.gmail.com>
- <d5793f17-61cf-42be-b2fe-7d1549310989@linux.dev>
- <CANiDSCt4dkbXQ7TJpvL-1e5er571rRq0ofnO0SRU9SsEXUrhYA@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <CANiDSCt4dkbXQ7TJpvL-1e5er571rRq0ofnO0SRU9SsEXUrhYA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Rspamd-Queue-Id: CA343258EFF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310-atomisp-remove-void-return-v2b-v3-0-3fdddab41271@yahoo.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Rspamd-Queue-Id: 1A7E22590FD
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55274-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-55275-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[yahoo.pl];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sean.anderson@linux.dev,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux.dev:dkim,linux.dev:email,linux.dev:mid]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[yahoo.pl:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:dkim,ashevche-desk.local:mid]
 X-Rspamd-Action: no action
 
-On 3/10/26 18:08, Ricardo Ribalda wrote:
-> Hi Sean
-> 
-> On Tue, 10 Mar 2026 at 22:23, Sean Anderson <sean.anderson@linux.dev> wrote:
->>
->> On 3/10/26 16:56, Ricardo Ribalda wrote:
->> > Hi Sean
->> >
->> > Thanks for the report.
->> >
->> > I have not been able to repro with qv4l2 on my computer :(.
->> >
->> > Could you try if this patch works for you? Not saying that it is
->> > beautiful patch, or the way to do it.... but it will let me know if I
->> > am looking in the right place.
->> >
->> >
->> > diff --git a/drivers/media/usb/uvc/uvc_status.c
->> > b/drivers/media/usb/uvc/uvc_status.c
->> > index 231cfee8e7c2..cca2aed162c3 100644
->> > --- a/drivers/media/usb/uvc/uvc_status.c
->> > +++ b/drivers/media/usb/uvc/uvc_status.c
->> > @@ -340,7 +340,9 @@ static void uvc_status_stop(struct uvc_device *dev)
->> >          * Cancel any pending asynchronous work. If any status event was queued,
->> >          * process it synchronously.
->> >          */
->> > -       if (cancel_work_sync(&w->work))
->> > +       if (&w->work == current_work())
->> > +               cancel_work(&w->work);
->> > +       else if (cancel_work_sync(&w->work))
->> >                 uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
->> >
->> >         /* Kill the urb. */
->> > @@ -352,7 +354,7 @@ static void uvc_status_stop(struct uvc_device *dev)
->> >          * cancelled before returning or it could then race with a future
->> >          * uvc_status_start() call.
->> >          */
->> > -       if (cancel_work_sync(&w->work))
->> > +       if (&w->work != current_work() && cancel_work_sync(&w->work))
->> >                 uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
->> >
->> >         /*
->>
->> I don't think this works since the urb will be rescheduled as flush_status
->> is set to false again. However, the following patch works for me:
-> 
-> It does not work, in the sense that the urb is re submited... but if
-> would have confirmed the rootcause of the lockdep. But you have
-> already proven that with your patch, which I think is correct :).
-> Thanks for that
-> 
-> Can you resend it as a proper patch?
-> 
-> You probably want to add:
-> Fixes: a32d9c41bdb8 ("media: uvcvideo: Make power management granular")
+On Tue, Mar 10, 2026 at 10:39:11PM +0100, Tomasz Unger wrote:
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
+> Changes in v3:
+> - Extended cleanup to all 27 files in the driver containing redundant
+>   'return;' statements at the end of void functions (as suggested by
+>   Andy Shevchenko): inputfifo.c, bufq.c, ifmtr.c, frame.c, rx.c,
+>   binary.c, ia_css_debug.c, mmu_public.h,
+>   isp2400_input_system_private.h, hmm_bo.c, sh_css.c, sp_private.h,
+>   fifo_monitor_private.h, isp.c, input_formatter_private.h, irq.c,
+>   mmu.c, fifo_monitor.c, gp_device.c, gdc.c, event_fifo_private.h,
+>   isp_private.h, input_formatter.c, irq_private.h, gpio_private.h,
+>   gp_device_private.h, atomisp_cmd.c
+> - Each removed 'return;' was verified to be at the end of a void function
+> - Compiled successfully: make M=drivers/staging/media/atomisp/
+> - Module loaded successfully in QEMU with Linux 7.0-rc3
+> - Link to v2: https://lore.kernel.org/r/20260310-atomisp-remove-void-return-v2b-v2-1-b0e73f498e25@yahoo.pl
 
-Done.
+You sent the series 3 times and all of the times it's not sent in full.
+Besides that it must not be split by file! This kind of change is okay
+to have in one patch.
 
-> I will try to review with extra care and a big cup of tea tomorrow morning.
-> 
-> Thanks!
-> 
->>
->> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
->> index 231cfee8e7c2c..2a23606c7f4c6 100644
->> --- a/drivers/media/usb/uvc/uvc_status.c
->> +++ b/drivers/media/usb/uvc/uvc_status.c
->> @@ -316,6 +316,14 @@ static int uvc_status_start(struct uvc_device *dev, gfp_t flags)
->>         if (!dev->int_urb)
->>                 return 0;
->>
->> +       /*
->> +        * If the work called uvc_status_stop it may still be running. Wait for
->> +        * it to finish before we submit the urb.
->> +        */
->> +       cancel_work_sync(&dev->async_ctrl.work);
->> +
->> +       /* Clear the flush status if we were previously stopped */
->> +       smp_store_release(&dev->flush_status, false);
->>         return usb_submit_urb(dev->int_urb, flags);
->>  }
->>
->> @@ -336,6 +344,14 @@ static void uvc_status_stop(struct uvc_device *dev)
->>          */
->>         smp_store_release(&dev->flush_status, true);
->>
->> +       /*
->> +        * We will deadlock if we are currently in the work function.
->> +        * Fortunately, we know that the URB is already dead and that no
->> +        * further work can be queued, so there's nothing left for us to do.
->> +        */
->> +       if (current_work() == &w->work)
->> +               return;
->> +
->>         /*
->>          * Cancel any pending asynchronous work. If any status event was queued,
->>          * process it synchronously.
->> @@ -354,15 +370,6 @@ static void uvc_status_stop(struct uvc_device *dev)
->>          */
->>         if (cancel_work_sync(&w->work))
->>                 uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
->> -
->> -       /*
->> -        * From this point, there are no events on the queue and the status URB
->> -        * is dead. No events will be queued until uvc_status_start() is called.
->> -        * The barrier is needed to make sure that flush_status is visible to
->> -        * uvc_ctrl_status_event_work() when uvc_status_start() will be called
->> -        * again.
->> -        */
->> -       smp_store_release(&dev->flush_status, false);
->>  }
->>
->>  int uvc_status_resume(struct uvc_device *dev)
->> --
->>
->> The first cancel_work_sync also seems superfluous to me, since we have to cancel
->> again anyway.
-> 
-> It has been a while since we did this, but I believe that since we did
-> not use locks, the only way to guarantee the event queue was flushed
-> and the URB was killed was to have the double cancel_work() in that
-> order.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Oh, I see because we could have something like
 
-CPU A                             CPU B
-================================= =======================
-uvc_ctrl_status_event_work
-    smp_load_acqure(flush_status)
-                                  uvc_status_stop()
-                                      smp_store_release()
-                                      usb_kill_urb()
-                                      cancel_work_sync()
-    usb_submit_urb()
-
---Sean
 
