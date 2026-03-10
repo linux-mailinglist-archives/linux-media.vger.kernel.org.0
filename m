@@ -1,116 +1,247 @@
-Return-Path: <linux-media+bounces-55050-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55051-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8NcBGI3Wr2kfcgIAu9opvQ
-	(envelope-from <linux-media+bounces-55050-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 09:30:05 +0100
+	id 0EwlLJrYr2kLdAIAu9opvQ
+	(envelope-from <linux-media+bounces-55051-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 09:38:50 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF754247586
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 09:30:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5729B2476C1
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 09:38:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8EEC030774FE
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 08:27:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 54FF230E0DEA
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 08:38:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA6323F0774;
-	Tue, 10 Mar 2026 08:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95EB341B345;
+	Tue, 10 Mar 2026 08:38:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKcBRkUG"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="cI2HDijV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011032.outbound.protection.outlook.com [40.107.130.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C6D3644D3;
-	Tue, 10 Mar 2026 08:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773131236; cv=none; b=a/pfiV1SBp4bCPBAghMjjzUvUDPHxz4KJ2f9so1RmyEVq9ZIEp6hS9Rpf3FPHlYfKiKKvCo71y8X6TCVmhnllvZm+5G+p4cvX9Yib578VImWRKDRFErJUISJiRe/U4IOweQ6eL93tO91s3Aen/r0lqR35EpwRfasczBbL5FLnBo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773131236; c=relaxed/simple;
-	bh=qkJk0ZIrwJ7f/aH/4uJcDjSL/B/E0j/pABEF2EXhYmM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PeHYjQdsfTCBg/Panquqve3FPcnXsJiPZRVapd4kReJaa6Db0+AsYMqYERME4JkCHSirO3PMH+PM7TS7cENzWQQK0lWjURRMd0eVBdNgi0AyRZOVii6/NgQSkQ4pyXBgIdm7wHwNYRHYxeZbdM13o6zUE84VPxUeqXw2SSH+FP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NKcBRkUG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24F6AC19423;
-	Tue, 10 Mar 2026 08:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773131235;
-	bh=qkJk0ZIrwJ7f/aH/4uJcDjSL/B/E0j/pABEF2EXhYmM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NKcBRkUGwB7jgLYrS9rUgP7RtF3UdfFpiqcyR4JiKPIGgITMuy9/s8+hxglULhq0P
-	 RCwMfjH+J0wKHHoL6SUV5bJPmeudtlNJuwhCrveS/ZYTvNCGFQfVKce2KCXeM3D9w9
-	 ncQ3qYtONpBC63cf8qBd4tnebuWkvwqvSyVnyesJpXXF3SwCgq8L0HYeV3gQKiYufy
-	 87Tew/jF8H4uIcCq4qkKGuZfgOpO+brMsHprhNXYpDgjTYqWQDcskv0e146n6dEIxE
-	 wLx0MLWgi93V0fkhVwOMtcQ+FqrVX5qCatZJT/GWhk/8JmtNN924nw4l0c0X7BgsvK
-	 D6Ivu7XTFfnpg==
-Date: Tue, 10 Mar 2026 09:27:13 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Matthias Fend <matthias.fend@emfend.at>
-Cc: Jimmy Su <jimmy.su@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v2 6/9] dt-bindings: media: i2c: document Omnivision
- OV08D10 CMOS image sensor
-Message-ID: <20260310-fair-malachite-gaur-af3410@quoll>
-References: <20260309-ov08d10-v2-0-81f8b5d99984@emfend.at>
- <20260309-ov08d10-v2-6-81f8b5d99984@emfend.at>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DCF3EDAD9;
+	Tue, 10 Mar 2026 08:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773131893; cv=fail; b=unljW2e+9JjTACYHMlUI1EXrYpBLVD2t6R/8UC77Lzrxa+9ejbU/K8k7SnllrfKxPp9osbixS7CwF4cCHuAgAlKCS30w5zLK7HY4MIV9gyUN32BdGjPfixQ5qW5aOq2yAI9D7kti7goPor8q/m0QHZsgC1zuPAexp4aFPjXDQuE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773131893; c=relaxed/simple;
+	bh=cQqb0o+x09W/IvCyHAWg0sZFOHLK3BcUhP1r0oYOkIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=CgSwAYKpW1nOPxWkYqr/DSZtUXsp9SZRZtDhi6xwqrEKrn7lWpmbGnwYnmkky72ahjM5qmdJvos3TwKJiYbA+PCblHMwjezVKdKaWZPFzaweIVdDybQRALz3tgSIJCPo5VWZDnKnFA2mPAXcDGDtwTWuEK5FovmlPmrcOuxVWzI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=fail (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=cI2HDijV reason="signature verification failed"; arc=fail smtp.client-ip=40.107.130.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OR/11+mCfgNKg8r3o/8i0kaJ7O233jzaXp+pyjsDG1K79btBAyyyW/tP3z4RVVoqGmwzZ3xct6emxSiDFNmN6dUC4452oOMd6yJIvCW3eV2pmfi3C2teHibZqrtjHfd8h0LuPshIQW8fr4IBvexeNnedjycnBy63IuhSvogBFDgfdoZcgI988EYBXbdxPl1Zo5emkdns0uHMQyRL0QT0K4WDaMqW0ejdUnlKZrSmn2AL8xjm3jBtgbRc9DwxxqbO04DjMC+AbWHzb6sSdy3J663FWio9j8+95ItUJS+BuKIla8wAdJvoRwJN7BjqoPtLbuFZoROCZhxLNzijEVcdzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4DC/WAtPBttyO3YieGx/3i+uqZRqK9wrBUGkfPza3Tg=;
+ b=yVEAsFhF2xjP1PtHcShjo5vCoJ6YQDqj7VHEgY2pKjx7skLiBuKdLHqQ+a6RS9ZcFbt3f0LT/Hzd+m+IPfaqcYVeb54BvzvoyW7VKD5O4cKnM+2m0WQnaozt5iEgwTXSuTeb/CHoLnc0T/SFKMhEldPpyKMe1EoYGNlsaVMdHboi4NeEONv+nHjt+wEAtQlbse1TKZCPNA4VwdWm9rzOI54msFOa8hW2qr3FDgFttWNbjQrIzJKh5VUGo0CHxpXuBysaVUxyEaq8vYfWkMLXNjQwT2SnL7qRF6hUDeFTEFY3rcV/Er+8krq+7QmDCtjBgrSiycp31KUHGNUpTxVbAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4DC/WAtPBttyO3YieGx/3i+uqZRqK9wrBUGkfPza3Tg=;
+ b=cI2HDijV8u4poMLbMgSAKiqHQYao38kFB6rI6uWM4tWEOov4BdjYDHNY49qQumGNbOMDbUwQQ+LF+xEycN6t78Q3axGv7LH48QEAD9n/jY7FJSTN89awXWBXzhEQcrWEkMLe8TOGrEsLl1JnKM6lqaDrv5GSpSbNWKCz9oKH2Ze73oVH8DzcqGtggc64p4ZDhwqHSv5A5p5e5X8zk25HuUyhm8UYCBYk0NYWQbq9u5xTi7TcU4NN9DveHMoqghNdnamwm3jeySW0/edPjCgrkWUTdolrZx0uqXQnYPpjvDiY0n9zPeU/7M0KoqVgX0Vz5IKfQZLyhAP2O16eQaUtdg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com (2603:10a6:20b:438::13)
+ by VI0PR04MB11537.eurprd04.prod.outlook.com (2603:10a6:800:2cb::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Tue, 10 Mar
+ 2026 08:38:03 +0000
+Received: from AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4]) by AM9PR04MB8585.eurprd04.prod.outlook.com
+ ([fe80::f010:fca8:7ef:62f4%4]) with mapi id 15.20.9678.023; Tue, 10 Mar 2026
+ 08:38:03 +0000
+Date: Tue, 10 Mar 2026 10:37:52 +0200
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
+	Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v3 phy-next 10/24] drm/rockchip: dw_hdmi: avoid direct
+ dereference of phy->dev.of_node
+Message-ID: <20260310083752.ms6u4qpy3snl4h6w@skbuf>
+References: <20260309190842.927634-1-vladimir.oltean@nxp.com>
+ <20260309190842.927634-11-vladimir.oltean@nxp.com>
+ <2218670.OBFZWjSADL@phil>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2218670.OBFZWjSADL@phil>
+X-ClientProxiedBy: WA2P291CA0036.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1f::9) To AM9PR04MB8585.eurprd04.prod.outlook.com
+ (2603:10a6:20b:438::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260309-ov08d10-v2-6-81f8b5d99984@emfend.at>
-X-Rspamd-Queue-Id: AF754247586
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8585:EE_|VI0PR04MB11537:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9313eb4b-b391-4082-879f-08de7e8057f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|19092799006|7416014|1800799024|10070799003|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	7zpY0fGF0FZqFMnBqsVHmqIGFfq+MhYwIEKQtvt6B3eHRjhzALOhIpxh9EF6nGj1Iroa+q9xGMzJDP4On1vBSs+mlNE37hLxx202BmTFe4QS2ECrvsGE51Gcg92ciRi+hJ6GhkGUBTDQatmfMFGkCoQuQS5QehVBvh9B23EDX+QWPxS9xdH1y/9gvF/FBK/H8+zOXkgtYel3/47Lq26oKZAq5YMmqeIE9head2wiQtgL4fBQlGsR2uFxMwB89geDucdbLO20kM8rEcel84vcVNGErfur+eT3tyRaZEG8GOwBdQMulQEil+B/imwBpwbnAnFJAQY6rWT6qmgK1/v85+/MSnzsj0MxGYe9gozUmXO+EmKAwUmjc5x7A4Wr/94rtSM9o7z9InmSRfgzchtMmK01UR55Bn1NR55CBrzlGiMbA1hOdUbO/CTgqVoh6jOBxdgQyb7gW+KuwKr/EEaTz+Ba1naftgcIi1DaFqvljdKzsE1ZsdCv41VWF5tsRqjf3l4ySxGrEjrZXKjS7BIRXbr3J7cuNydsuUectf76+TmP1ajQitFbFdz6dhjiHq4J2pF3buSYgtirggdoBhBOw/JHN5Wnz0964H0ScPwdXaJ1UXaxS87oDaNfRo7EsYd7KABIobrT5H81mU6S76WUiXGkSAAj3MbUz2+rs+haJu0C6olfbO69PeJEJZOkuka4fxYrhwRUosPFeRCjbb3uzVEK5ZQ1Fw2XOipZ8UZ953I=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8585.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(7416014)(1800799024)(10070799003)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?/X9TwhBn8TlngGFdwqJeM7SRp3oOxjqQHJG3h93PXwdwM0PAsIrwLTb/Q+?=
+ =?iso-8859-1?Q?OTU/u5l1m8PcjtDtbXnSQ7OSTlR96gnL7ogDNAHpHuLNinnGuyaf29tg2y?=
+ =?iso-8859-1?Q?58/xA3TUnhxSgqHXTKm68uF8jiZUbWF3n7Y9cdmE4oKGrOoczYaQyKg9eB?=
+ =?iso-8859-1?Q?jvgtntx1JsG1x5lI6BL1Ljd+jIjIWU/tvUs0Bvm8/VNUfceMY1E/yBjRqH?=
+ =?iso-8859-1?Q?9/ku7pZtj2FFYkVYfZQovOuKNmIbRxEO07Skp9OOVyBbKfKMDf07yq8ldn?=
+ =?iso-8859-1?Q?+Wj44LU5q0AYdarTPlSaCfDhGzkEg+O94xZTgQxFvqNsPuQn1K3f9v3/lV?=
+ =?iso-8859-1?Q?sZq87629tddQm/h3xwSTBr1BEIwkDIRV1LGBJQeY8gvtLI82c8yjNCAd++?=
+ =?iso-8859-1?Q?0mB6+VXoqfnaDt/gahH2kONhmwap//YHpkbEl1QIpAVDwOJDtD/sV6CZBI?=
+ =?iso-8859-1?Q?VRltTEWOiqitXOgBtd9SYMvZZ8/tIS1h5eq4ZZo35ZSv1erJKdBv3vNVev?=
+ =?iso-8859-1?Q?rVugQfmPwZ33kv0pCsfOAIUURU5MIuysxq4umj1egNB0sJy3JbQ3gtH+l/?=
+ =?iso-8859-1?Q?Ae/RgkEkcGqEj5n3NTHuWdlG4b38B7rLTW9FOo/fm7ZNpE80iXGzLcny4R?=
+ =?iso-8859-1?Q?+mUEfpI3jLrEb01ggaQXkZ2ROraXHjsojXHx7PxYxnVCqfoKqAN+0jRKUc?=
+ =?iso-8859-1?Q?ll39zidn+kli2ld9xRSSA2MK08GPDxe3WHXr9xm9bqqyjrKqfHH6+31Cj5?=
+ =?iso-8859-1?Q?cMRGssaxqS2sxhZqd028kq5FP88tGee9yJuLByiaDh6rVY8pJmV5VHnaHm?=
+ =?iso-8859-1?Q?eSaJRFYDwAYr2ozn03EzXV8vqAMrer1dXTWxOT8Fo0mco5KVYgdgEyZrnn?=
+ =?iso-8859-1?Q?iWpnvjtbUSdV2k7E641NSIr3ysaMP+ognJivPUL8J5YBmQMegOFshhBApS?=
+ =?iso-8859-1?Q?ME67nM63aEK691+Ar/h78E0FSF0oYlSH/77kAsalpik/jydjENVrSMWnkv?=
+ =?iso-8859-1?Q?2h4klmgd3EdfsH8s+uQPuWXZGEM9jrP9QZ4Y/9P4TxQR9GgX+jTC+56ulA?=
+ =?iso-8859-1?Q?DBg+9vv+LNzU1kSsatdtGREczrbT2TUD0ONXQmwcV0wVmAfIsu4oyHaVA1?=
+ =?iso-8859-1?Q?eVl82pFfy1/MDdKEigU4OqrvLIB1KYSeCfrcPrdsQCMERCy6F1VoJWDn84?=
+ =?iso-8859-1?Q?n85F76hJ1WJ3lGmj8pvCFicS20DPeCDjYz9SN2rUEgfouT+m5qi4bccPlv?=
+ =?iso-8859-1?Q?1GfJscobDR5VEEz0yJekQreGfOaFt+7mIow64OL7MaXs5Z/oOFNmpPGa7P?=
+ =?iso-8859-1?Q?T4ECeL9sUCwq9RDmlt8g2sYvNd/5i9YPfUC8IlXca8GHsNJAuMy3mA6E/2?=
+ =?iso-8859-1?Q?iNt3x5GZLHcfqVDy/9PJWaFSox3ZiBbaDcUfwm9skOKcc4fyiXmYY2EHJ+?=
+ =?iso-8859-1?Q?Zx3QE7UC0/0NBPnjYug0wOnJ5gWXvh8Dqaj7nB7aYTRcu88q0U6XSt81yi?=
+ =?iso-8859-1?Q?JQs6IOgH1d7txktwluYzDhRNxwlrO2uXDIT6Rof+1E6CXL+O3nHJV+weNS?=
+ =?iso-8859-1?Q?V8CGER6uO5PIB9DKLCNCt8kT3pQTOnh/131tKCkJEb0v8C808G7gL8nuMQ?=
+ =?iso-8859-1?Q?PjYvkD+XSD/iYnvN/tgJsNyInPVL1KUc1Q9wc6h9VvL5/+pR0P9zTnNO9M?=
+ =?iso-8859-1?Q?/gjVf0pvAUPzn9kNEhUEsiz0vZ7nqAnkpX1AzxG6rYmE4egw98vjJ65ZxJ?=
+ =?iso-8859-1?Q?K3bSlNHEH6FRafc+17wIlBFhvEK5QYsfSH5cVV7gnxluV+ogMZWAUHiVqF?=
+ =?iso-8859-1?Q?XlQck/aLilftiqo7q0V6dXubxPq67zRJrCr+n+Aq/5FOnhoC+cg2TUFZDk?=
+ =?iso-8859-1?Q?Xm?=
+X-MS-Exchange-AntiSpam-MessageData-1: Ycz3yQtf/aP+NzPqFzdy0Ogc6SF+HawrRt4=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9313eb4b-b391-4082-879f-08de7e8057f9
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8585.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 08:38:03.1560
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EqVT2VgSBkKdIPyFRLndoMcUU0mT8iZiPoQKwY8Q6MPgw+kH+GA1YCWUTG7iTIjZ6W6EfGE76Ztq1MwGKx9K1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11537
+X-Rspamd-Queue-Id: 5729B2476C1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [2.14 / 15.00];
+	R_DKIM_REJECT(1.00)[nxp.com:s=selector1];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55050-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-55051-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,microchip.com,rock-chips.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[nxp.com:-];
+	NEURAL_HAM(-0.00)[-0.872];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,emfend.at:email,qualcomm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sntech.de:email,ffwll.ch:email,suse.de:email,intel.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,nxp.com:email,rock-chips.com:email]
 X-Rspamd-Action: no action
 
-On Mon, Mar 09, 2026 at 06:07:08PM +0100, Matthias Fend wrote:
-> Add bindings for the Omnivision OV08D10 CMOS image sensor.
+On Tue, Mar 10, 2026 at 09:24:43AM +0100, Heiko Stuebner wrote:
+> Am Montag, 9. März 2026, 20:08:28 Mitteleuropäische Normalzeit schrieb Vladimir Oltean:
+> > The dw_hdmi-rockchip driver validates pixel clock rates against the
+> > HDMI PHY's internal clock provider on certain SoCs like RK3328.
+> > This is currently achieved by dereferencing hdmi->phy->dev.of_node
+> > to obtain the provider node, which violates the Generic PHY API's
+> > encapsulation (the goal is for struct phy to be an opaque pointer).
+> > 
+> > Refactor dw_hdmi_rockchip_bind() to perform a manual phandle lookup
+> > on the "hdmi" PHY index within the controller's DT node. This provides
+> > a parallel path to the clock provider's OF node without relying on the
+> > internal structure of the struct phy handle.
+> > 
+> > Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> > ---
+> > Cc: Sandy Huang <hjc@rock-chips.com>
+> > Cc: "Heiko Stübner" <heiko@sntech.de>
+> > Cc: Andy Yan <andy.yan@rock-chips.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Simona Vetter <simona@ffwll.ch>
+> > 
+> > v1->v3: none
+> > ---
 > 
-> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
-> ---
->  .../bindings/media/i2c/ovti,ov08d10.yaml           | 101 +++++++++++++++++++++
->  MAINTAINERS                                        |   1 +
->  2 files changed, 102 insertions(+)
+> [...]
+> 
+> > @@ -588,13 +589,17 @@ static int dw_hdmi_rockchip_bind(struct device *dev, struct device *master,
+> >  		return dev_err_probe(hdmi->dev, ret, "failed to get phy\n");
+> >  	}
+> >  
+> > -	if (hdmi->phy) {
+> 
+> nit: a comment would be nice here. I.e. hdmi->phy being an opaque pointer
+> so checking hdmi->phy != NULL is not possible.
+> 
+> With that being a "goal", I assume that information is not widely spread
+> so this would prevent the next developer trying to change it back to
+> "if (hdmi->phy)" while that handling change trickles down.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Testing the NULL quality of "struct phy *phy" is still possible and legal.
+It means that you called an "optional" variant of phy_get(), and there
+was no PHY.
 
-Best regards,
-Krzysztof
+Just that here, the ultimate intention isn't that. It is to abuse the
+struct phy to get to something completely unrelated to the PHY API.
+I wouldn't have had any problem if there was "just" a hdmi->phy NULL
+pointer check.
 
+> apart from that:
+> 
+> Reviewed-by: Heiko Stueber <heiko@sntech.de>
+
+Thanks for the review.
 
