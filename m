@@ -1,143 +1,125 @@
-Return-Path: <linux-media+bounces-55065-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55066-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8EQcIkTbr2kzdAIAu9opvQ
-	(envelope-from <linux-media+bounces-55065-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 09:50:12 +0100
+	id GJqoLP/br2kzdAIAu9opvQ
+	(envelope-from <linux-media+bounces-55066-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 09:53:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EEE72479CC
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 09:50:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7C4247AC6
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 09:53:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9A3D2301CC61
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 08:49:40 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 24962303F567
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 08:53:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23DF8439019;
-	Tue, 10 Mar 2026 08:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0585143901B;
+	Tue, 10 Mar 2026 08:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bRg2bSGZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HsB3nyr9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748F431AAAA;
-	Tue, 10 Mar 2026 08:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAAC238C0A
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 08:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773132577; cv=none; b=In6G166l2s9wT5bjbq8w2gfU3NUwqPiezf0aTvdqdLPiZv0Lem9rwz1K6zVRJnUbVxWSuvqInsyLHKK5imK3csYfPlZ61viSHO7Df6gMt8OdDpFcmVrQWEeETaI17tcDU49Wo0iJ7DehA7COmufkNZpogI9NMVzTSOukAUFHuao=
+	t=1773132796; cv=none; b=Wg+qLaTeHnLSSSWzxj9Cw6LOSta4uzhZQS+/Wlmg0DCZwYgYYmtRhSpQCCuwJFxaMeEKWnzEU39a9tVbWTiQx9nVANwo5oPPP0MtlmyV5Nsqe6d/Fy6fTdo4h0XufEdA1DD3h0S4MhPDEes432QWokpIFy0/d3on6TgbTzLmtN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773132577; c=relaxed/simple;
-	bh=Sg2xCQlAj7sDu+HIy4ALfNtha+MEdbYMno1IuB4CCms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JnHMeuSJ5kERuh+P1Qepsy29jmvSfSxk74ialGDt/CubkNMRNDXMg8kzcIH1RHsKWs1vnJZ1ksWDy1JVCwmqRgem+0NUMIhN1bPGqgKkofWq+xqMy0Q4UOB66W7YR4/lnCofoxAJkpO7xsgXIGkybHnb909SgrVuelOuzypNNE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bRg2bSGZ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773132577; x=1804668577;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Sg2xCQlAj7sDu+HIy4ALfNtha+MEdbYMno1IuB4CCms=;
-  b=bRg2bSGZDVB5Io4RPN4T6H5M8nL+k+LvI4TA/qmrU3StvX7SfLvt4v0R
-   9172YNmZ1xIPAbIAaonaKyRn4vWNfLv1VnKb4vb1jZn2Ei+ROQeLjgFE1
-   /ajVm+qeogQxdqqXcmQtMSlSYtXJQtvF/VT4Hjcil0ZPM5gOpsHOzl0vv
-   mCFEhQO8VUJzNZF36TBbQLa+RGf5c+UZ5sIbKR6fNLO+2s3R4KGm8ujBZ
-   6dkXilHsn3vABjQepPbbkglBElDg32Cank4WSLbzHO/4OCqe1k7J35u+D
-   1NK61D/BGR+z3DfbP/Ujn/vk4SmN75BK1Ax9i8CVUIgQ4aQAqOZFuh6Sh
-   g==;
-X-CSE-ConnectionGUID: TNFWPVfmTuWj8L1/0Ez5SA==
-X-CSE-MsgGUID: 7I5xkJFESF+DZvpFX0CrCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="78049423"
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="78049423"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 01:49:36 -0700
-X-CSE-ConnectionGUID: vSDB7XjERSOEz3rY0t8pLw==
-X-CSE-MsgGUID: 07d8dJhASgK5cA7f6tIqCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="219999220"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.26])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 01:49:33 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 97DDA1206B6;
-	Tue, 10 Mar 2026 10:50:04 +0200 (EET)
-Date: Tue, 10 Mar 2026 10:50:04 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ziyi Guo <n7l8m4@u.northwestern.edu>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: add missing mutex in
- atomisp_vidioc_default()
-Message-ID: <aa_bPHaz2Bj3ifSj@kekkonen.localdomain>
-References: <20260205043730.3856488-1-n7l8m4@u.northwestern.edu>
+	s=arc-20240116; t=1773132796; c=relaxed/simple;
+	bh=pwuUPVWLWGHgGRSRKZmh3n+gi0RBXfZl2/eGNbUr12k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fcjhIrukahQgqyTD7TT6Vikerk2n/lGZxrIUs2eiv38L9gPBA6jiKChr3yqOvciVxLCf+fzJSUaoyMXnDlRERYsoNTTy5VMFfRmIHWOGvucqPwUQSGkMwrBOwF7dc+GEWhoyrNEE1YYxXALwgJM1KTM6Nn1lOFBg4YzNWWbdjOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HsB3nyr9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39112C19423;
+	Tue, 10 Mar 2026 08:53:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773132796;
+	bh=pwuUPVWLWGHgGRSRKZmh3n+gi0RBXfZl2/eGNbUr12k=;
+	h=From:Subject:Date:To:Cc:From;
+	b=HsB3nyr9Dh30UV9HshMqIwqkc2xVMC0pRI0LPWSc297yibRFLkjnHIZDGuR2u7nr1
+	 xgDXbY+fvarSZIKRVLDX2+aZ2+3KlmfjyPhGyYl1m0QnKnPerpht1+pMO260PzALDt
+	 6e3oaYU0Xb2YAHjSctUiM9R55EUWkvF2h00ftMQW1seEuBqe0y6WOTAmnXGoY+xsv4
+	 fslP79k5//sVWGM0iUmaTtEY7ZjWdEsuiK1garWsVfw74rucGjmicgRT2KBBSvbYDw
+	 pcKzU2++eqk0EaS7dTVnePteyo36lvbEOaCbIXe3c8+WSsfQmMK6HAybwjktF2q5Jx
+	 g7GnkPo9LTl7Q==
+From: Linus Walleij <linusw@kernel.org>
+Subject: [PATCH v2 0/2] dma-buf: heaps: Use page clearing helpers
+Date: Tue, 10 Mar 2026 09:53:10 +0100
+Message-Id: <20260310-cma-heap-clear-pages-v2-0-ecbbed3d7e6d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260205043730.3856488-1-n7l8m4@u.northwestern.edu>
-X-Rspamd-Queue-Id: 8EEE72479CC
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NQQqDMBBFryKz7pTERMWueo/iYkgmGmpVJkVax
+ Ls3Fbrr8j3472+QWCInuBQbCK8xxXnKUJ4KcANNPWP0maFUZa2MMugehAPTgm5kElyo54SVVcG
+ Qa0NjLOTpIhzi68jeusxDTM9Z3sfLqr/2F7T/g6tGjXUIVeup0bU31zvLxON5lh66fd8/3BOuU
+ LkAAAA=
+X-Change-ID: 20260303-cma-heap-clear-pages-540f3ac9f734
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, Linus Walleij <linusw@kernel.org>
+X-Mailer: b4 0.14.3
+X-Rspamd-Queue-Id: 2C7C4247AC6
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55065-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55066-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,intel.com:dkim,northwestern.edu:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Ziyi,
+Use clear_pages() and clear_highpage() properly in the
+DMA heap allocator.
 
-On Thu, Feb 05, 2026 at 04:37:30AM +0000, Ziyi Guo wrote:
-> atomisp_vidioc_default() calls atomisp_exp_id_unlock(),
-> atomisp_exp_id_capture(), and atomisp_inject_a_fake_event() without
-> holding isp->mutex. However, all three functions have
-> lockdep_assert_held(&isp->mutex) indicating callers must hold this lock.
-> 
-> Other ioctl handlers in the same driver (e.g., atomisp_start_streaming)
-> properly acquire the mutex before operating on ISP state.
-> 
-> Add mutex_lock()/mutex_unlock() around these three ioctl cases to fix the
-> missing lock protection.
-> 
-> Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
+Signed-off-by: Linus Walleij <linusw@kernel.org>
+---
+Changes in v2:
+- Added a second patch to use the clear_highpage() helper.
+- Link to v1: https://lore.kernel.org/r/20260304-cma-heap-clear-pages-v1-1-6ff59da716d3@kernel.org
 
-We're disabling these for now so the locking question is no longer
-relevant.
+---
+Linus Walleij (2):
+      dma-buf: heaps: Clear CMA pages with clear_pages()
+      dma-buf: heaps: Clear CMA highages using helper
 
+ drivers/dma-buf/heaps/cma_heap.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260303-cma-heap-clear-pages-540f3ac9f734
+
+Best regards,
 -- 
-Kind regards,
+Linus Walleij <linusw@kernel.org>
 
-Sakari Ailus
 
