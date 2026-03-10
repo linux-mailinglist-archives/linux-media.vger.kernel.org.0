@@ -1,341 +1,228 @@
-Return-Path: <linux-media+bounces-55149-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55150-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +MtqF9wdsGlBgAIAu9opvQ
-	(envelope-from <linux-media+bounces-55149-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:34:20 +0100
+	id aHyPLP4hsGkkgQIAu9opvQ
+	(envelope-from <linux-media+bounces-55150-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:51:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134DE2506DB
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:34:20 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA65A250E9E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:51:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 10A053181F93
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 12:52:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D6CA5310B1D1
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 12:57:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20BD039DBFE;
-	Tue, 10 Mar 2026 12:09:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C4D13BD23A;
+	Tue, 10 Mar 2026 12:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZXl7dHcJ"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nmYAtVsg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OCM+LpjU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010039.outbound.protection.outlook.com [52.101.85.39])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8029F397E9B;
-	Tue, 10 Mar 2026 12:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773144565; cv=fail; b=KQoVc7WtqH44hdMB/honjWXKX5O8aRc6r2h6E6jeRE2DR2/NLcVE0D/8wYSDUAsBS61iz5XJBHR0652rEXdyV1Eu8taDalYaJsc5XAMCVBiiAHX4vWu+STcyXqkOvAh989/RhnvypHn87scaUEuKICrzlanZN4iI7irV1uDfTbM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773144565; c=relaxed/simple;
-	bh=INd9zdl1RgNEKrkIRXpq8ONSw/cnn5sh9psxX8U3W7w=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=eyL4K04fRi3iE1NqRqC0jF+lDrQ1Lk5K3KSkz8LSTBDhSkpjkIFfmP50bXcS5HUZwGtFGCrXOJfnp9vnLd2mvQ7bRUjAkSvQcRJ1XdgruS7YGZL75fDo41+B3H2fhraGjVStf9lNaBIv1QDMvTodloXCZEUiESFASG3N1jPkWIA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZXl7dHcJ; arc=fail smtp.client-ip=52.101.85.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TJsVMBb/tfGS87N6mIm9gRpXLCG42LAurayKGilMpxH/PDAr6bPNORfmCWZdjFU5R7D5YcYVguQFtqfLsyUmX6kxPFEiSnzSsT0X3i0FZTMjFiZB5JSgx61rS8Jiq20+4FG0+Db95lS++3Ok568q+HrUTsjrgmzRIPtYvLHTFAfoIVjW6PkzcMkPY/QZEoyboF3mMAY3EBMYeDlzkyUfQNgv2is2HOBv6kxvpCtksmMrmf2C17YqcNm63uz9PJF3rzu/pXmn+Y/40v82v0CJVF0IRzwjgpXNkpPu70bEE9PhaBjBzo/VB/yBbp3ICmJYmfpH5tnLllbLzWc8qcbqCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gF867SZzGYLT8GRpHbaChcflB30COqiDq6XJ+UvHW18=;
- b=A2Ru6EbP1EMp/PDkCT0cnRgB1/f8s00+cW4TFkcG/EjOacy1+TJQGOWYk0aHUmOpC/iMXYysAj27QcdMd/BifeatINVRALr3MGmWitIvYGtDPpaaAFSeBoN5DEyM2/QJ8S+tpub4ZOorKtpKdyn7FcqVVhHnus1onV+uLNBWMVPmeU0wQqfsudk9uYlLGgmXCwK/gGPYwXxxZiOtCx+KpkS4vkdrkM7hoso3ret+vtforbnCV+dubm12lKmnClHIQ4COIEeapD+O3McKAo0po2MlRrlzp3AwgsZZHp7CBIZXA6ITZnNhl8vT1O4jjw2v7/ovSA3Eojwqo3dIub9S/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gF867SZzGYLT8GRpHbaChcflB30COqiDq6XJ+UvHW18=;
- b=ZXl7dHcJkP06v2ir7fTUMJWqlo7worOJJa3N+67vK7KARsFWhcBYNtHJTOaUCi6oZtkQm51cDcHyyhtpA/QL8Xy29+4WVECz45gMFpNlOj/wUMB1wZvJFPAfkPFOghKdC2iGF8zP3A/t1JfyK/gDFnhPQayRDQYXxDcsnL/Ngpc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB8926.namprd12.prod.outlook.com (2603:10b6:a03:53b::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Tue, 10 Mar
- 2026 12:09:15 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9700.010; Tue, 10 Mar 2026
- 12:09:15 +0000
-Message-ID: <e8a328f9-568c-428c-9111-8742e5dc9a4e@amd.com>
-Date: Tue, 10 Mar 2026 13:08:57 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 37/61] drm: Prefer IS_ERR_OR_NULL over manual NULL check
-To: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
- apparmor@lists.ubuntu.com, bpf@vger.kernel.org, ceph-devel@vger.kernel.org,
- cocci@inria.fr, dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
- gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
- kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
- sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Zhenyu Wang <zhenyuw.linux@gmail.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Alex Deucher <alexander.deucher@amd.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
- <20260310-b4-is_err_or_null-v1-37-bd63b656022d@avm.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-37-bd63b656022d@avm.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN0PR04CA0015.namprd04.prod.outlook.com
- (2603:10b6:408:ee::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB693BD239
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 12:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773145111; cv=none; b=QZJQ1y+h+wU40de8lRMN8yBKnM19iVVA7CGLAfLH8wdt1VDPCZo4PjvWxJ8hTbmmbmHBwiz8iAQbzcKhnh8EAdGXChduBd1KMv9CD2nadgzszV11M1sqKo3aSEImsbmxZQ0KXcCZ+sxmniL98AJxl8YvA4j/MQNKNBW2lNH/HW8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773145111; c=relaxed/simple;
+	bh=YvNdvszyE2lsrrAQ7e54czLWdZ1wg7UbWeDiOz13MRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qMngFfIYachlY9CCzUEk1Qz++n6JN9gPf79AhdAVQ34g7NrZgsGfrAQIRwviv0k39InOz3LF3BnGxb7zrg/pKOSHO7doDjBQEJ4lLArBtOQGMvzOZN+eJ8ctkOCm9t8ZRFZ6TDzGIDzxWRa1lTWcjxbRmredlNCWrJo5SEFNtI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nmYAtVsg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=OCM+LpjU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62A8h3KS2754017
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 12:18:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Kcx9FUMYu4D4XmZ2AQwHO7mfymNrhGMABVT
+	zrvRMnwQ=; b=nmYAtVsgvV1NEcCJAgWpoQeNeBIh7YikGyf6rSspJmzAjjFodhT
+	/5SR4nMREShn0UJJ+i7lxQBaZ2by8CBVOcag4T8IEkIU05GgvucfVBHWpIRnBbQl
+	LMRvW192QUF4eQ82FfNPq0d+jUMOvi2OHlc4L6/J7LyJHZvQ8t5fUZ/bSYF3GPi4
+	4O8AlIjoILHUFgmK2oO98Yout4G0ITFKVpJ4Dj7gswtTjf6HMoUiFsCE+woEDB2D
+	I0WSiUfieotdwvX2Tf+keqDIGRWNyGyW2bsjzqqNlxAibk/af79HvPr6LFI43Lid
+	6ahtCeL7ycD5JLBtoIYFg/hAGIFRzCohZ+w==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ctg1mrtcg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 12:18:29 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cd80bea54dso1368168385a.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 05:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773145109; x=1773749909; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kcx9FUMYu4D4XmZ2AQwHO7mfymNrhGMABVTzrvRMnwQ=;
+        b=OCM+LpjU81eB67z+21K37AurkNe2KAovqWVQ6Lj0G83VJscVLaLqGxJyNox6HWHi0Q
+         ZoRRjSVTzuMSO1M2En+HsfgqPrxS1oyIFDnsBvzLJ39hD7KdUe3H++v4krSt2zxBehN5
+         Joe/u1mnVpbLz9VYF6CAqRgwAlc2D25dXBLmq64rRJ1LTPCNNeUE4gYFuNq4hDRNoE/V
+         7GhUh6NtXB6cJgwuL/PYmacfsL1M+AILmGfMw13cf59fXyLPhIdQdU0qN5R6g6rmE/iq
+         8OCVZEJPwHVqx8lEoEMbdH+WyZzHpISD/Y4D7eRbJN/j3dMCV5L1nmde/MrJWD3tqryk
+         cHew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773145109; x=1773749909;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kcx9FUMYu4D4XmZ2AQwHO7mfymNrhGMABVTzrvRMnwQ=;
+        b=JvC8Ls+OgCmfjG1/kv1r/tFZdrQq5Lyyb9V5zTcLTaUjfJJSh08bPXeoyJZNSDMWqO
+         YjMvDsE597o4s+e3hPcykCvIw4YVd/2ceetTmeW9cHkge5/TnZgWNkuwxynlC7UQewjB
+         cYTjx3tYZLBNtB6WE9gnkceqp1+jvcUqI6Ztu4gv+NmwqpX4gAfIYfgXoP0cQxo7ZkhV
+         MFmSaq2qHDPFjJ4CMWcYAWCo/WzRUvt52nJLVsFk3tJWQd4IyZm3MKqgy/NUhQ+kgr28
+         pfjsvlV0uVGs5hPcp8Wks/xkE1Vpr71YtHAWwj0kpXCepeSrFaXebYnRoYkRzaZVR9/a
+         ydTw==
+X-Forwarded-Encrypted: i=1; AJvYcCWACNwSTpPw6fjq5r5Nq8OlRXiQxXbcjcRt43cDdZ08wFt7rldjGL9w9ip9IBqgqkfwNBwAloe+l7S5EQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXYG6YKuDxh2HTIbygiahivjgBDP4xprGj7QDZB7FaojAIL37A
+	wjeSSQC6XF9LS/txZPThaEOx74yjxTIlp/MGcUMPD8Si9ApytY7s4KzWnJ1OmMMaEgU8mDyx/Uv
+	jkY2I6JfcrajP1XJpqEpB6DY+jqcwMs4DaUL9iQ2r1dkcT2WeZ8NW+LMIP2XgbSuilygqoAuVGA
+	==
+X-Gm-Gg: ATEYQzzJguYYnGx076F0NT/JNtujzEOxAUSt00NU99Lpij0QaGL4M3iQ93RtlDzflWf
+	abf5muAw96r+bIXP9J5shgll55zAD4LOHhd7rJUE1Zi7jC8P3SfxCEmQX8WL9J9tQLnRobwKBxb
+	QsXlfqQ3LzduLtnEIXJ7xp2DeciDYQR7NHgQPfC0xHObrd/MVTU1WdVwokmHfryboqyJRaej6Y9
+	OD3BGrRQyTn0S8M4f5pXQFQ05jP8HTpdwyDt3sddCPQMEEQYW+rD4lVkNNGUiqcMP7c+4OBo+Dh
+	rPT8GJ8f3+TvRCGRTfINhlUR/BQq+dDri148u0xLDlEOtgrXkCgMTygwdklXxqjjxrFicNnSCWt
+	/M9rEAj5hqMfgJmSnxkxOrIpabVgG5aZy/WgkkrwU5eFmE0gT8WHHXT5G9k5MSNJOfJ9jrYigzJ
+	maTUZuet7uP71/AZG6bdecsioJfUfrtDPAd5C+
+X-Received: by 2002:a05:620a:5d99:b0:8cd:7811:941c with SMTP id af79cd13be357-8cd78119565mr1047202785a.54.1773145108665;
+        Tue, 10 Mar 2026 05:18:28 -0700 (PDT)
+X-Received: by 2002:a05:620a:5d99:b0:8cd:7811:941c with SMTP id af79cd13be357-8cd78119565mr1047200785a.54.1773145108210;
+        Tue, 10 Mar 2026 05:18:28 -0700 (PDT)
+Received: from shalem (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae2bdf8sm38006504f8f.25.2026.03.10.05.18.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 05:18:27 -0700 (PDT)
+From: Hans de Goede <johannes.goede@oss.qualcomm.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: atomisp: Fix alloc_pages_bulk() failed errors
+Date: Tue, 10 Mar 2026 13:18:26 +0100
+Message-ID: <20260310121826.35519-1-johannes.goede@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB8926:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47f3db0b-99c2-4a41-234d-08de7e9dd8e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020|22082099002|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	rOsxnTx2kr7OFzy5oepnHTPa0Bl5bJUKTo+63luhlotIfFC3KzHLS+E3VMqAH1iHBTKaMYJ2UmsdfGDNZaGu1pbEMDo//hCzcDM4M0QcZ45ZOizgGMHWaZ1ya6xgl3xwPkUvHxqqi0dZr9N6cRTFQsw2jWmjewkDeVuOnYane588HX2iWR3CYWIfa7Br5OJ8iwoNCOeglYq2hmCD+XVye2SYHUtE3Hy4SP9KBI+8BmSMAMQ/VOPLHLKz4RZ9XB2O5YjMjmZNxo77a9Wn4CGVWydbDau3GMYxKNosqPKCKb4Q1CUax6ft49mrg9SC//kqRW1zqMolNibmO7EJ8UrT+8LEQLFweVShgEKu5cPWaq3q4EG/+BJAf1IDt5+JDbViN17XVz70lGDOGZ4jwQRjV4vf9JdhxuB4SEEixCLVEvpCz1BN1wjaMZJjUQJ1rBtYeCl7QcnPw9U0IKylRYTF5xRaKrh7F+9YZM5fq1EYA8ZCM91wDsdBKj5lLGxj8vM0EN2SWbDWewgwDW8HgSigsEvdgly9gfuYdn31TzS0vOH/OX63TN1XP4v6vomPJEuUHP++WLg3pWBA3+DbKgempasoOCVE7DLrw/dyeIIxqkWziHoLnwrgnCzwadYNNG+thV2OSa9TYKcYx215HoD7gpmsNcq0zcO0TS0q9MaYHbyjHNj6G+3J45FlJseURnlO+nW1rf/TKjD52NDMyHLSNSRr9yuLpthUPmg9JNvsnPoFd1Ih5I4yneCQepirDpxfGM+ONzOAPJ8ruHE9n09qdA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020)(22082099002)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V1AwRVFocW41VXIyT21kL25qc09PRmMrUmFOdmVac0U0V1hTYjN6aUpIdDZ5?=
- =?utf-8?B?dkRQb21XQWNhaVdmelNIamQ4SXdCUDFSekF2NklUMC9ycDZyUWFFNXRGM1Q0?=
- =?utf-8?B?d1FUQ2d0b3Zpb3dqK2NNQ1lrUzJGeGlLRU9rekxOcFFhOTlqWWI3bit0TVJ5?=
- =?utf-8?B?V2liamcxbjM5SmRzcFJvTmNkYnpjWm1KSVI0SmZDNWIyV3hwQlNkT0phTUlJ?=
- =?utf-8?B?UUVSRDBpMVZvZ05xVGlNdWN5aC9lNGN4cXplUmVoREZUYzhEOWRUWjlOdlZ3?=
- =?utf-8?B?VlFvMEwzT1Z5TGwraTFMZmJRczdQV0R0emVocTlKUFpuOXA3TWJmRTJVVDJm?=
- =?utf-8?B?M0U2NnROelpvbEJKcWZLK3E3MzZaNXZFUzBxdzZ1NmJzSTZuZ1BrNXc3MitE?=
- =?utf-8?B?Q1FXUmRpR20rOStjVDRzeUxpTUp3VVRhbWVsSFdrV2lmZ0M0SFFDTjBQNERs?=
- =?utf-8?B?Q0dDcXdaVWoySXZNdWh4YVBGUkNPWWcrYTl5ZnRmamhKMks5NEQ4MUtoelBt?=
- =?utf-8?B?SmVITXBjVEwwTkgyTlhSUlVNVUZJOTlJM0ordkZBRUYyZmpNUjNQR0hCdTZ1?=
- =?utf-8?B?Sm9vNmZpMkg2VFc4OFh4VUVOZ1JJL2F0RGhxS3VWZitGVVRKWVQ3MktHOHVs?=
- =?utf-8?B?YnoyT1d2Q3Q0Z1o3MGRTcnpUVFZ3UVVYUTBFcjVSbE01azdaNytsUzQ2WFIr?=
- =?utf-8?B?WUZBZHB0bGIvOXFhV3VjK0xUZ3U4Yjc4OHdKSm5tOUxucFpOMkJjcXZXTVVC?=
- =?utf-8?B?RGJzOU1yU2N1c2tIR09qQW0zQ3AwaWc3OEdqUlQ0S3hubVVORXB4NmdndHFp?=
- =?utf-8?B?RXFwRjJ5cmUvMWRGZVduQk9IUFhXQVc0SjBKUEkzeXFQRU96dHc4VTJxdi92?=
- =?utf-8?B?c0VUNjJuZU85SUN6YXZ5M2cxeStJWkVNMXZrRnFpOGJoSW9XSER4aHkwZFVt?=
- =?utf-8?B?UGRnSkdSREJwNGJuNTh5bmtiS2VXMU1JUzc3OCtHY3VzcVZpUWl2MDByUEJL?=
- =?utf-8?B?TUN1M3pBVXZEcm5KaUdpNTVHZWZwNEZhZHlVbTRwQ1NjWThTa3ZHZ2pKdDF2?=
- =?utf-8?B?bkhmTjBPMEFONkFPeFhzZlVvZ1VRQm5KT1hLYWZEanVvaUlWWGtYUmJ0TCtx?=
- =?utf-8?B?MjRDei95ckRET05hVFFEdjVxcURHYlJleWhCV3Mwd2dZdE01K0t1V2lPeXlM?=
- =?utf-8?B?MXIwZHExd2hyZkNZUVZHYUNHbUxCU2wyVDh5WCtqWmNDRkF1RHJ5alQzVFha?=
- =?utf-8?B?cVpYbDZtMGxJQmpIZ1FkbW9UN2JFNDNCZEV6T09IaUoyUU5YOEN5WXlNN2V3?=
- =?utf-8?B?MkhUaVQ0ZnZFOHFTVFY1NHFJRFNZaStiUlVxamZtajJxTHFaczgzbXR6YmVC?=
- =?utf-8?B?bVNxdlZxUXhLVXBhM3AyRHVZczhxREJYdFdpOWRCajdRZUpDTzR0TTJoS0w2?=
- =?utf-8?B?VTczMUIwN1hnc1IrRldzY1dMdzZuU0NnTjc0cFljbDF2MzZtR1luWWltQmlD?=
- =?utf-8?B?cEw2Y1FEZXFwVjZKdG5xVDRUeGRTaEdpczgvUDEyWlU0b3h6cEFsa3d4bUdp?=
- =?utf-8?B?N2NiOStpMzY4cU1ZZStzWEJuOEplNnFHeFZCYlF5OGo1T0tvRVRKT0JiUERn?=
- =?utf-8?B?WG5PdHFvbWIwSUt2REFYMHh2MVNtUVZSMGJENjZNSXJoeGo4K1FpQVZMTkdw?=
- =?utf-8?B?Vm50bzFicFNuVVFvMUhMRS9tczM1Wk9rejRKanFkcC9SN000cUUxUlZSVzZt?=
- =?utf-8?B?SG01L1NJbWNnc09HSGk4YkNPeEdjaE1kN2FQQUY3VHFtMEpDdDFuclZnUDRR?=
- =?utf-8?B?dzVoWXZrS3hQcEdKMTlwTXQ1VlFjMlFuVnptNmVkRGFyQk9lL29jY0NwcStC?=
- =?utf-8?B?bS9BVGNQak1ka3Vsb0FON0pKbWltdVphN3ZtVm1WNUZ5UEVGM0pqQmRaT3dJ?=
- =?utf-8?B?TjBsaDVzSzhBekl0T3I1RXZGdVhIamNkSy8rdDQzSVFiV1J2U3NDQWx1OVBN?=
- =?utf-8?B?eXk4V3k5R3NpSlRNaktTWkJiNTZiVU1LeGdDZkw4NVBSWDZXRXhSMlErQ0NK?=
- =?utf-8?B?d24xSnZ2U2xOVm9JTjYzdW5qMGZEWWJEamZMMmkwQVhyeXdZUmV4Y0graDFN?=
- =?utf-8?B?V1VxRjBpVmxTaW0xZEswTG12a0pJTjRTU0hlUjZGZnc3SFZmNXZsR0t6QVpQ?=
- =?utf-8?B?TWF6eDBoWDFhcFJJaW9MYnRDUC9hZVRWTi9URVN2ckh1bVQvV0R6R3BXcVBC?=
- =?utf-8?B?QUtWME8vZzk5V3UxZDZUTnU5eHl6Y2ZoZ1hjdXI0MmwyODNZNU5vaEZnS3h2?=
- =?utf-8?Q?DfmazJR2VH3VghHRhw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47f3db0b-99c2-4a41-234d-08de7e9dd8e9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2026 12:09:15.0060
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HqRTO+mz3lE4w162bISlJt1G5cnWIiVsGPkfJ+DfwnudZuohoYCt/6AWclzBsAkl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8926
-X-Rspamd-Queue-Id: 134DE2506DB
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=YOeSCBGx c=1 sm=1 tr=0 ts=69b00c15 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=ZpdpYltYx_vBUK5n70dp:22 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8
+ a=rhtmGAynrO4bll50VeUA:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: zZi-wM4imKXP38wBrQoYD-VrHogfpEKE
+X-Proofpoint-GUID: zZi-wM4imKXP38wBrQoYD-VrHogfpEKE
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDEwNyBTYWx0ZWRfXyuC8wgIANlLg
+ /3zK3xD3pBSi5AKsx/JBrfGxCJO5OgNKnnWlfjBdW7RumTuEj/5XJ7fBnyi5NwOKc5TGI0cEXEr
+ 4vP7oocWPel9PMczzmTe9eAisiRkPRcOhH5yKtmoCPhn+h28XuI3PoKPgx4iiWNzaIebAmkMYEF
+ d1mZ8B+pIOjAmT4vo9LrusEuFIVFt/ZE7I6mVlfiLx+3dIJDQ2JjtnOgIgQIsn1Slj/pIqUW0dl
+ NYpUr5nWYp8md0sTBX1uOvA3n1g1n+XSvENsZ9kwTfIX/4zAv59SuYvKLDR4kUqo5wKZ6BjQ3Xk
+ ecATJnX2WjfhNcQG8lVCJApi+kpApugEiz5A54psLADkZAMPwkfMdaKA2XgiMuhb9GPBvu8AHWx
+ N+kkIZhPbfhm6sMGppgk857aDqg6x58mOJ0S9EE/PgQ7Z7OfvPlFdIpWu1Ogv0qZWffBGkUJ2ft
+ UYlCNOMjwgDq9jh0j9Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-10_02,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 spamscore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603100107
+X-Rspamd-Queue-Id: AA65A250E9E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[intel.com,linaro.org,kernel.org,ideasonboard.com,kwiboo.se,gmail.com,linux.intel.com,suse.de,ffwll.ch,ursulin.net,amd.com,rock-chips.com,sntech.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55149-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-55150-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[johannes.goede@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[75];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	PRECEDENCE_BULK(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On 3/10/26 12:49, Philipp Hahn wrote:
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
+Systems with the atomisp ISP do not have a lot of memory for modern
+standards, so these are often under memory pressure and alloc_pages_bulk()
+does not try very hard to free pages before returning an amount of pages
+which is less then requested. This leads to streaming from the camera
+often failing with a "alloc_pages_bulk() failed" error.
 
-Looks like a reasonable cleanup but could be that driver maintainers want to take that through their individual branches to avoid conflicts.
+vmalloc() also uses alloc_pages_bulk(), but falls back to allocating one
+page at a time when that fails.
 
-Alternatively when the i915 and rockship maintainers say that they are fine with the change I'm happy to push this to drm-misc-next.
+Do the same in alloc_private_pages() to avoid these errors.
 
-Regards,
-Christian.
+While at it also drop the weird custom GFP flags and just use GFP_KERNEL
+and drop the dev_err() as alloc_pages() already complaints loudly if
+it fails itself.
 
-> 
-> Change generated with coccinelle.
-> 
-> To: Andrzej Hajda <andrzej.hajda@intel.com>
-> To: Neil Armstrong <neil.armstrong@linaro.org>
-> To: Robert Foss <rfoss@kernel.org>
-> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> To: Jonas Karlman <jonas@kwiboo.se>
-> To: Jernej Skrabec <jernej.skrabec@gmail.com>
-> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> To: Maxime Ripard <mripard@kernel.org>
-> To: Thomas Zimmermann <tzimmermann@suse.de>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> To: Zhenyu Wang <zhenyuw.linux@gmail.com>
-> To: Zhi Wang <zhi.wang.linux@gmail.com>
-> To: Jani Nikula <jani.nikula@linux.intel.com>
-> To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> To: Tvrtko Ursulin <tursulin@ursulin.net>
-> To: Alex Deucher <alexander.deucher@amd.com>
-> To: "Christian König" <christian.koenig@amd.com>
-> To: Sandy Huang <hjc@rock-chips.com>
-> To: "Heiko Stübner" <heiko@sntech.de>
-> To: Andy Yan <andy.yan@rock-chips.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-rockchip@lists.infradead.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c       | 2 +-
->  drivers/gpu/drm/drm_sysfs.c                     | 2 +-
->  drivers/gpu/drm/i915/gvt/scheduler.c            | 4 ++--
->  drivers/gpu/drm/radeon/radeon_test.c            | 2 +-
->  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 2 +-
->  5 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index ee88c0e793b0416d20105a43448cb4037402e64b..64fa2bc8d28197147ee22b4f74134cc27dd9b32d 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -3608,7 +3608,7 @@ void dw_hdmi_remove(struct dw_hdmi *hdmi)
->  {
->         drm_bridge_remove(&hdmi->bridge);
-> 
-> -       if (hdmi->audio && !IS_ERR(hdmi->audio))
-> +       if (!IS_ERR_OR_NULL(hdmi->audio))
->                 platform_device_unregister(hdmi->audio);
->         if (!IS_ERR(hdmi->cec))
->                 platform_device_unregister(hdmi->cec);
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index ef4e923a872843339743d21e4877225855da921e..6748acb4163e8f5658c9201a0412b38862c7baab 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -600,7 +600,7 @@ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
->   */
->  int drm_class_device_register(struct device *dev)
->  {
-> -       if (!drm_class || IS_ERR(drm_class))
-> +       if (IS_ERR_OR_NULL(drm_class))
->                 return -ENOENT;
-> 
->         dev->class = drm_class;
-> diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/gvt/scheduler.c
-> index 15fdd514ca836e84f4de95e3207ab45bb9243426..933ec5ffa1f1ebafd687996f167b982490702211 100644
-> --- a/drivers/gpu/drm/i915/gvt/scheduler.c
-> +++ b/drivers/gpu/drm/i915/gvt/scheduler.c
-> @@ -675,10 +675,10 @@ static void release_shadow_batch_buffer(struct intel_vgpu_workload *workload)
->         list_for_each_entry_safe(bb, pos, &workload->shadow_bb, list) {
->                 if (bb->obj) {
->                         i915_gem_object_lock(bb->obj, NULL);
-> -                       if (bb->va && !IS_ERR(bb->va))
-> +                       if (!IS_ERR_OR_NULL(bb->va))
->                                 i915_gem_object_unpin_map(bb->obj);
-> 
-> -                       if (bb->vma && !IS_ERR(bb->vma))
-> +                       if (!IS_ERR_OR_NULL(bb->vma))
->                                 i915_vma_unpin(bb->vma);
-> 
->                         i915_gem_object_unlock(bb->obj);
-> diff --git a/drivers/gpu/drm/radeon/radeon_test.c b/drivers/gpu/drm/radeon/radeon_test.c
-> index 0b459f7df23bae3eef7e36f4b5f35638fb6f4985..573284c4af60f12d7edec889260fc8a2e2b70420 100644
-> --- a/drivers/gpu/drm/radeon/radeon_test.c
-> +++ b/drivers/gpu/drm/radeon/radeon_test.c
-> @@ -234,7 +234,7 @@ static void radeon_do_test_moves(struct radeon_device *rdev, int flag)
->                         radeon_bo_unreserve(gtt_obj[i]);
->                         radeon_bo_unref(&gtt_obj[i]);
->                 }
-> -               if (fence && !IS_ERR(fence))
-> +               if (!IS_ERR_OR_NULL(fence))
->                         radeon_fence_unref(&fence);
->                 break;
->         }
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index 3547d91b25d317c6cad690da7d97a7e5436c0236..8a267de85da9c76c2e29b2ababf1218e400282c2 100644
-> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> @@ -1095,7 +1095,7 @@ static int dw_mipi_dsi_rockchip_host_detach(void *priv_data,
->         struct device *second;
-> 
->         second = dw_mipi_dsi_rockchip_find_second(dsi);
-> -       if (second && !IS_ERR(second))
-> +       if (!IS_ERR_OR_NULL(second))
->                 component_del(second, &dw_mipi_dsi_rockchip_ops);
-> 
->         component_del(dsi->dev, &dw_mipi_dsi_rockchip_ops);
-> 
-> --
-> 2.43.0
-> 
+Closes: https://github.com/jfwells/linux-asus-t100ta/issues/4
+Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+---
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 21 +++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+index 5d0cd5260d3a..59ee5f488b2d 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
+@@ -620,14 +620,23 @@ static void free_private_bo_pages(struct hmm_buffer_object *bo)
+ /*Allocate pages which will be used only by ISP*/
+ static int alloc_private_pages(struct hmm_buffer_object *bo)
+ {
+-	const gfp_t gfp = __GFP_NOWARN | __GFP_RECLAIM | __GFP_FS;
++	unsigned int nr_allocated = 0;
++	struct page *page;
+ 	int ret;
+ 
+-	ret = alloc_pages_bulk(gfp, bo->pgnr, bo->pages);
+-	if (ret != bo->pgnr) {
+-		free_pages_bulk_array(ret, bo->pages);
+-		dev_err(atomisp_dev, "alloc_pages_bulk() failed\n");
+-		return -ENOMEM;
++	nr_allocated = alloc_pages_bulk(GFP_KERNEL, bo->pgnr, bo->pages);
++	/*
++	 * alloc_pages_bulk() does not try very hard to get pages under memory
++	 * pressure. If necessary fall back to alloc_page().
++	 */
++	while (nr_allocated < bo->pgnr) {
++		page = alloc_pages(GFP_KERNEL, 0);
++		if (!page) {
++			free_pages_bulk_array(nr_allocated, bo->pages);
++			return -ENOMEM;
++		}
++		bo->pages[nr_allocated] = page;
++		nr_allocated++;
+ 	}
+ 
+ 	ret = set_pages_array_uc(bo->pages, bo->pgnr);
+-- 
+2.53.0
 
 
