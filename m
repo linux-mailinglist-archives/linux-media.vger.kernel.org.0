@@ -1,189 +1,260 @@
-Return-Path: <linux-media+bounces-55258-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55263-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CDyWNKaSsGkukgIAu9opvQ
-	(envelope-from <linux-media+bounces-55258-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:52:38 +0100
+	id yIKZB6+WsGkukgIAu9opvQ
+	(envelope-from <linux-media+bounces-55263-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:09:51 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D45525886A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:52:38 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9490C258BB3
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 23:09:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5F36F30603FC
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 21:52:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8CE0331ADF65
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 22:08:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16FB83F1668;
-	Tue, 10 Mar 2026 21:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90F5C3DE43B;
+	Tue, 10 Mar 2026 22:08:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="VBgXmYF6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EtvotgDf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B943EDADF
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 21:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE36338D693
+	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 22:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773179554; cv=none; b=eBrPPobGIo8TuWiqj6mbpPeF9cCnuo4Zrkee0S3H8etRu9d9G69zjNWov+NyxczVWwu46BHfvr3q+iDm8WZUpbXfpTkDPEUiMTwlDZ54G2sA2bbrfQ7DVsilB33pLSsF36gnwWJ/PiVANwFjuzVDR5voZ9ObiGQMg1M4TA5ty1Q=
+	t=1773180511; cv=none; b=ZDlwgSlES6PA+unhptJuKBRDvfBm7y4jRWZ+hnMDyVlbT0MU8Ku63ra8W7qd/5q6mNRCwZNcY9U1fsW1CB2BMCGLQ+CJO++TN1lMnNdEc/Ln4sCsgN4z+8osdCvfR6WhoYLSuSdyje3g40aSf/MNqbrTTsVkCwVUluEWZY5NdNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773179554; c=relaxed/simple;
-	bh=y84qubhrfr3cMc6nAC3U/0mPJebsA1MPz29TDYveouw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ipk+AdC8rxx1EtRVTZ8uMQKS/hkYXiZdV5job+OD5i2mWszt+qTpM/7bRRjlVfqhmuZJ5P8FP4z5My1sn7V0JnCcInKJXzi/d6KuNGjnwOEhtrU92G+GLBgFDXi18lykjfTd4Lf4dF6t7EICQmLnLja/YHyeFVgSpwQTl0Xs1hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=VBgXmYF6; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-4670676ba03so1033713b6e.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 14:52:32 -0700 (PDT)
+	s=arc-20240116; t=1773180511; c=relaxed/simple;
+	bh=EkT3jVK1vb20RIv1qVCCL85jx8kkGbuMtERBRD038OA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EnETzuC/NP058AfpmP7epoaRIlqhOYRebhCY2PzTGEtVxwaaFNY6qecZN+0oFbrACstqiDaTuMtS2er/UwGVyZtCtiJ1Q0ob4PDfkn1FnS5FKos0Y1nIA69/R5Azsn6n3VQX6ZAKaB8WyzqdjvL/AloR+f00SpRbrECzXJ7V6xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EtvotgDf; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b941ec6a368so664739566b.0
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 15:08:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1773179551; x=1773784351; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KrG0m0+wGAmylYP6HW5DIMPVkIxjVDO5lBH833IMH8c=;
-        b=VBgXmYF66HCQW3EXVqSV8U+tAEba1ONLGiCRwPrRVN3xpnc2IdkJECTwYeFFSkzZM0
-         XnjK0Xt9b9K/59rLA1o1zNQ7u6wsYJH4mG0j37Vr5xesm4W3iEq091pkeYZg0a67qDD1
-         hocNFYmo3Smn3MLcsrotD984wrOcKCEx6Dhn3CIj92tLlAzn+FqfOuViMmy9OknvJvkz
-         yCGrPbYQxPN+4stePPOnP8LvZA9PGG0iNG9nbzGwgglag3qYh3T4sPUqjTgI7v5HqY+8
-         6GwjPYqdeW42br2RjquUUPCYvhCY6dYJ/A7NUoHgmQIImtaqqUfvOQGPCzXLg5+OPo16
-         ZtkQ==
+        d=chromium.org; s=google; t=1773180507; x=1773785307; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7T57TbUh1a9gPuEhl9gX+JZqR5FWHQ6K3iwhXdSBh1Y=;
+        b=EtvotgDfEkRNVUDvQFZ1KnBnuWl9bV9ApZ5oSgYJE6S1RoY9boauLx5vpKxlZwhwn+
+         0f6R1bkJGjimOwWOPlkzfUbHcNygR53g29nhAMmIH1uDYhTQxsmz+9Xee7nFC/voIlcC
+         JDJWrhLzIDkaOBc364z9UDgnB78Oolqk475UE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773179551; x=1773784351;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KrG0m0+wGAmylYP6HW5DIMPVkIxjVDO5lBH833IMH8c=;
-        b=wTxM0AjzStOxBdrKNwOIhS65Y7NNlOzbD8PLHmq5PO3Hgy3ZYaf0it+C+yiP2xqztT
-         H3bgrLskXIXneCKpm4w0NxMkny22T/NGIv4Ug2aUOBaXms9BlzKFU03nm/BBnLm59akm
-         gEu3awEq58+26rmFxymRisPC2qdMbI9CkrIWsGtqo8rBusyi3CU8uu59TaEB+g7Ibp5J
-         nFc7f2mMDQ2kxmSneV93J0Zms5llwqezudCsCFJfd4M35MEF7zW48xfFLIxu6CQyOJTd
-         Irh+arTUhnrqxZX8uTrZKmtWJWBQRVFNnGdaIgBKXvkI1yiVLk/c+hiJ2fjkNrcvenYi
-         c3Tg==
-X-Forwarded-Encrypted: i=1; AJvYcCVPj6dUkUgJcuAyM/tfrJa5MRkUQu+OjwyIFSag9Cph/ltTESXesEWOduSw4rfhZuokJm0Xk2AweVrQkQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQPWyfFkHXsn3NQP7HXpaz1mdSBlp8a9+RnOWEmksGmCgPQoFZ
-	OEaQ/BWcTKi8grUi61x3x96YKoRx97aU5Ko3VRFsPsweVfIUhVQX7b+d5VlbiTUPQTo=
-X-Gm-Gg: ATEYQzyO9F4bv4zcjy7au/6xL5mJaSpOzrkoAf2xg/L+wWrzQr9vnAJRQ+W0YJ5ir59
-	cTnjv5UmD10glfeyyTqsyKLzvojoQVK+CEc4GNnS6ysVc7OLdiRVn81sn0uQaEsHMM4yzXnZFvm
-	cBbEqv7IpP6rAMC8QKdiznkO0XOrNS3vUUTL63t52jV+j4ngPO4ELA+ipnhRCY00AlKo1T7t8YA
-	MqjDiFIP8mrx3PpHXl93CwZohSTF9nQIVLCWIbVoNwEnYl8GFFzbO+aoaez1hQOG5oFbfH+xGVp
-	C1Pg2oBFj7KiqMrNaaYWs3VIHvbsVd0p6sbMdNEx8yVQxXGmxszahcIjblak/E3AQoxsgxjIut/
-	ffVhphRyK2AYVzPqGijOt8nCYwNIfJGKoe7E54mODlwj4vMAi9lBh59KvcM0UaxPrxv/o3QN3fa
-	vNpffir1shI/drkK1SSzox9O9jDAWPtcyXWO2Ldcahf+i6ROSq/xGkU8rkVkkHxCypO//2Zec4N
-	w==
-X-Received: by 2002:a05:6808:1929:b0:466:ecc2:6f47 with SMTP id 5614622812f47-4673354b18amr144459b6e.31.1773179551449;
-        Tue, 10 Mar 2026 14:52:31 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:78e2:51e2:14b8:2e10? ([2600:8803:e7e4:500:78e2:51e2:14b8:2e10])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-46734160cebsm48179b6e.7.2026.03.10.14.52.29
+        d=1e100.net; s=20230601; t=1773180507; x=1773785307;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7T57TbUh1a9gPuEhl9gX+JZqR5FWHQ6K3iwhXdSBh1Y=;
+        b=F2p1E+qaRvbAgCNlwh/EQ0Lpk/o9c80p48cBsEiMF0kpBCRVCMsru1LKoW+440gXN0
+         uRnK+9/DlaITxgVpKfpfu+QNNNL1wjOaOAWBSGYWrCv0h1kTvvffL3VkgwjA075BkpiG
+         OsWIKV7aKgr8wtk3RjGJP4AFz6ZtjvAoCbC238Sqc0xKCSDlUkRCSoFX4RCFUtqR4+p4
+         s5gA77vsx4Q3pl4d3ZfkMVAHu8oqTagMmtcZZ+9JhajcQWOR16bWtafQzJJqa0zdjOXI
+         xYDfL193f7KB/yg1kJoml0hKC+VegF3YODJJLpYpAaYRsJ3Yz7k1PA0o7nIOnNvggtf0
+         L0Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmsukb/k1Fycv8ctZ5++rXWGh9hwGnXlbJvS9LfKJVuPwu4cKXr0u6Swi1qX7v+EAai/cPKfYY1P6IlQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhNKpjLJBljYYzcmyI89SQVS3I6GEuFdEYCM16KChvWoOzCTnz
+	C+PhZQvDchG6A+Marq/7OCOctrPx5UJWWKHBgX2n34klguxKFuQqqAB6qgDAKR2Ej1e+wkKpHxj
+	pfEw0tlPG
+X-Gm-Gg: ATEYQzySf7HVk/DgrLz1FvCVSXIZ5WCXGCGclZ2IUVFmlB3spE6Yu5ij8G3/sQA77tH
+	woNfTH03aaliCNPYPkIrbdmdPVCv81VJUe3wvn3pTttGtF09BbxreAWfKJ2F/PmB4Us9D9oDzDm
+	AXDKX6T373W1CT9pxstNFbDjg/9hvoW7XMVq9WqNTKfGHF3z23J7sZYAjdnEG19DFzqc/+Lywn5
+	CZKjxBTpEFV1HQCCP5OBLner560aNJ/0vt5h+ivzwcaJ6IJQI6lfWkWB7DfYcc2aQavp2TgaBmu
+	QJnv/5ngY3zhtqywV8p4/Z1zj/UYTJjLUpRYOAo/ikB9JRoeL2KzWUQt1bOohb5z1s3KZYyDAOR
+	dBmGzSYs+xQNfOkwhCXlYR/K2SBjAJtis5nZphe3ciBwJdgoZeeAckM183+D8KV6sLq2q0CQqrn
+	FMh6WIcBlT9hFK/3XGjw4a+RpqhHiTNN5EwsGowCI42tsRGC5ztlzJdmykIQmN
+X-Received: by 2002:a17:907:e98b:b0:b96:f657:45ca with SMTP id a640c23a62f3a-b972e1b74dbmr10063266b.17.1773180506855;
+        Tue, 10 Mar 2026 15:08:26 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b972de0bcc8sm6464466b.5.2026.03.10.15.08.25
+        for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 14:52:30 -0700 (PDT)
-Message-ID: <79bfac24-dcb4-4fb9-90d8-3ef2393f51e3@baylibre.com>
-Date: Tue, 10 Mar 2026 16:52:28 -0500
+        Tue, 10 Mar 2026 15:08:26 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b96da7b2e2eso510832666b.2
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 15:08:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVShVzggicKLUeNrAJeoeho0ATTT7itpBXd6hMt4AhgnKZY7lkEieijGD2KEeJevcuXAw2iAlyjdA5lHA==@vger.kernel.org
+X-Received: by 2002:a17:906:fe05:b0:b93:6bb6:cb3d with SMTP id
+ a640c23a62f3a-b972e5db7damr7346366b.58.1773180504840; Tue, 10 Mar 2026
+ 15:08:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] drivers: Simplify cleanup paths using __free
-To: Sanjay Chitroda <sanjayembeddedse@gmail.com>, jic23@kernel.org,
- m.tretter@pengutronix.de, mchehab@kernel.org, p.zabel@pengutronix.de,
- tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
- yunfei.dong@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org, pure.logic@nexus-software.ie
-Cc: nuno.sa@analog.com, andy@kernel.org, kernel@pengutronix.de,
- kees@kernel.org, nabijaczleweli@nabijaczleweli.xyz,
- marcelo.schmitt1@gmail.com, maudspierings@gocontroll.com,
- hverkuil+cisco@kernel.org, ribalda@chromium.org, straube.linux@gmail.com,
- dan.carpenter@linaro.org, lukagejak5@gmail.com, ethantidmore06@gmail.com,
- samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
- s9430939@naver.com, tglx@kernel.org, mingo@kernel.org,
- sun.jian.kdev@gmail.com, weibu@redadmin.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- skhan@linuxfoundation.org
-References: <20260310200513.2162018-1-sanjayembedded@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260310200513.2162018-1-sanjayembedded@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 7D45525886A
+References: <6733bdfb-3e88-479f-8956-ab09c04c433e@linux.dev>
+ <fba86ac0-e13e-4c54-9515-c091b24f9f80@linux.dev> <CANiDSCtLj-N+M+JmP3C_y=vNtSy-UN7XtkXaZ=dLN6f0kd7rYg@mail.gmail.com>
+ <d5793f17-61cf-42be-b2fe-7d1549310989@linux.dev>
+In-Reply-To: <d5793f17-61cf-42be-b2fe-7d1549310989@linux.dev>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 10 Mar 2026 23:08:12 +0100
+X-Gmail-Original-Message-ID: <CANiDSCt4dkbXQ7TJpvL-1e5er571rRq0ofnO0SRU9SsEXUrhYA@mail.gmail.com>
+X-Gm-Features: AaiRm50XOVm87K1Q-vDN0LsYBCOyd5MoJTfNKT6h6Cl9SSOIuVJLMmVYf5OnOJE
+Message-ID: <CANiDSCt4dkbXQ7TJpvL-1e5er571rRq0ofnO0SRU9SsEXUrhYA@mail.gmail.com>
+Subject: Re: [BUG] uvc_status_stop hangs if called from async_ctrl.work
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Rspamd-Queue-Id: 9490C258BB3
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20230601.gappssmtp.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55258-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55263-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,pengutronix.de,mediatek.com,collabora.com,linuxfoundation.org,nexus-software.ie];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
-	RCPT_COUNT_TWELVE(0.00)[42];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[analog.com,kernel.org,pengutronix.de,nabijaczleweli.xyz,gmail.com,gocontroll.com,chromium.org,linaro.org,oracle.com,naver.com,redadmin.org,vger.kernel.org,lists.infradead.org,lists.linaro.org,lists.linux.dev,linuxfoundation.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dlechner@baylibre.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[baylibre-com.20230601.gappssmtp.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[chromium.org:+];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linux.dev:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On 3/10/26 3:05 PM, Sanjay Chitroda wrote:
-> From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-> 
-> Hi all,
-> 
-> This patch series replaces manual cleanup and explicit kfree() calls with
-> the __free attribute from <linux/cleanup.h>. This modernizes the memory
-> management style and simplifies common error paths without altering any
-> functional behavior.
-> 
-> The __free attribute provides automatic scope-based cleanup, making
-> resource management clearer and reducing the chances of missing cleanup
-> on early returns.
-> 
-> No functional changes are intended in this series.
-> 
-> Testing:
->   - Compiled with W=1
->   - Build-tested on i86_64
-> 
-> Based on:
->   <linux-v7.0-rc2>
-> 
-> Feel free to share your valuable input in context of the cleanup API.
-> 
-> Thanks,
-> Sanjay Chitroda
-> 
-> Sanjay Chitroda (7):
->   staging: greybus: simplify cleanup using __free
->   iio: ssp_sensors: simplify cleanup using __free
->   iio: st_sensors: simplify cleanup using __free
->   media: mediatek: vcodec: simplify cleanup using __free
->   media: chips-media: coda: simplify cleanup using __free
->   media: allegro: simplify cleanup using __free
->   staging: rtl8723bs: simplify cleanup using __free
+Hi Sean
 
-There is no reason to put patches from different subsystems
-in the same series when there is no dependency between them.
-It just make for more noise for everyone.
+On Tue, 10 Mar 2026 at 22:23, Sean Anderson <sean.anderson@linux.dev> wrote:
+>
+> On 3/10/26 16:56, Ricardo Ribalda wrote:
+> > Hi Sean
+> >
+> > Thanks for the report.
+> >
+> > I have not been able to repro with qv4l2 on my computer :(.
+> >
+> > Could you try if this patch works for you? Not saying that it is
+> > beautiful patch, or the way to do it.... but it will let me know if I
+> > am looking in the right place.
+> >
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_status.c
+> > b/drivers/media/usb/uvc/uvc_status.c
+> > index 231cfee8e7c2..cca2aed162c3 100644
+> > --- a/drivers/media/usb/uvc/uvc_status.c
+> > +++ b/drivers/media/usb/uvc/uvc_status.c
+> > @@ -340,7 +340,9 @@ static void uvc_status_stop(struct uvc_device *dev)
+> >          * Cancel any pending asynchronous work. If any status event was queued,
+> >          * process it synchronously.
+> >          */
+> > -       if (cancel_work_sync(&w->work))
+> > +       if (&w->work == current_work())
+> > +               cancel_work(&w->work);
+> > +       else if (cancel_work_sync(&w->work))
+> >                 uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+> >
+> >         /* Kill the urb. */
+> > @@ -352,7 +354,7 @@ static void uvc_status_stop(struct uvc_device *dev)
+> >          * cancelled before returning or it could then race with a future
+> >          * uvc_status_start() call.
+> >          */
+> > -       if (cancel_work_sync(&w->work))
+> > +       if (&w->work != current_work() && cancel_work_sync(&w->work))
+> >                 uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+> >
+> >         /*
+>
+> I don't think this works since the urb will be rescheduled as flush_status
+> is set to false again. However, the following patch works for me:
 
+It does not work, in the sense that the urb is re submited... but if
+would have confirmed the rootcause of the lockdep. But you have
+already proven that with your patch, which I think is correct :).
+Thanks for that
+
+Can you resend it as a proper patch?
+
+You probably want to add:
+Fixes: a32d9c41bdb8 ("media: uvcvideo: Make power management granular")
+
+I will try to review with extra care and a big cup of tea tomorrow morning.
+
+Thanks!
+
+>
+> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+> index 231cfee8e7c2c..2a23606c7f4c6 100644
+> --- a/drivers/media/usb/uvc/uvc_status.c
+> +++ b/drivers/media/usb/uvc/uvc_status.c
+> @@ -316,6 +316,14 @@ static int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+>         if (!dev->int_urb)
+>                 return 0;
+>
+> +       /*
+> +        * If the work called uvc_status_stop it may still be running. Wait for
+> +        * it to finish before we submit the urb.
+> +        */
+> +       cancel_work_sync(&dev->async_ctrl.work);
+> +
+> +       /* Clear the flush status if we were previously stopped */
+> +       smp_store_release(&dev->flush_status, false);
+>         return usb_submit_urb(dev->int_urb, flags);
+>  }
+>
+> @@ -336,6 +344,14 @@ static void uvc_status_stop(struct uvc_device *dev)
+>          */
+>         smp_store_release(&dev->flush_status, true);
+>
+> +       /*
+> +        * We will deadlock if we are currently in the work function.
+> +        * Fortunately, we know that the URB is already dead and that no
+> +        * further work can be queued, so there's nothing left for us to do.
+> +        */
+> +       if (current_work() == &w->work)
+> +               return;
+> +
+>         /*
+>          * Cancel any pending asynchronous work. If any status event was queued,
+>          * process it synchronously.
+> @@ -354,15 +370,6 @@ static void uvc_status_stop(struct uvc_device *dev)
+>          */
+>         if (cancel_work_sync(&w->work))
+>                 uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+> -
+> -       /*
+> -        * From this point, there are no events on the queue and the status URB
+> -        * is dead. No events will be queued until uvc_status_start() is called.
+> -        * The barrier is needed to make sure that flush_status is visible to
+> -        * uvc_ctrl_status_event_work() when uvc_status_start() will be called
+> -        * again.
+> -        */
+> -       smp_store_release(&dev->flush_status, false);
+>  }
+>
+>  int uvc_status_resume(struct uvc_device *dev)
+> --
+>
+> The first cancel_work_sync also seems superfluous to me, since we have to cancel
+> again anyway.
+
+It has been a while since we did this, but I believe that since we did
+not use locks, the only way to guarantee the event queue was flushed
+and the URB was killed was to have the double cancel_work() in that
+order.
+
+>
+> --Sean
+
+
+
+-- 
+Ricardo Ribalda
 
