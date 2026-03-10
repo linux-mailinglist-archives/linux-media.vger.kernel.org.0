@@ -1,86 +1,79 @@
-Return-Path: <linux-media+bounces-55173-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55174-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4RQoEjIrsGl7gwIAu9opvQ
-	(envelope-from <linux-media+bounces-55173-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:31:14 +0100
+	id 6B8vKAgjsGlhgQIAu9opvQ
+	(envelope-from <linux-media+bounces-55174-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:56:24 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F35125201F
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:31:13 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4812325109B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:56:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4208035BBC7C
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 13:25:30 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 56F6531E0BE2
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 13:26:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D038A397E73;
-	Tue, 10 Mar 2026 13:16:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BB5A3A16BB;
+	Tue, 10 Mar 2026 13:21:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KRtzAfJ8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DDuP7G+m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C564523B632;
-	Tue, 10 Mar 2026 13:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018CE39DBEA;
+	Tue, 10 Mar 2026 13:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773148612; cv=none; b=T0troXpyOVQw98oS9PUgbhVVhgPBax21sneBvdKw/7lVzVW1q1bJR9Cu772qAvYoYfszjvPGMaYsOmGapPBnaN9t/8i49h8IkObLR7APU8fbren6XPJ/ldAQ9NGsF3/9PybIWlc9d6iV1DzP+9UmorRlYILawfeb+ExMkj0W9T0=
+	t=1773148866; cv=none; b=rJzn6lBknRpXWuOb2jKsjy/zqL3kWteWE6IZDqQUA3HDkvCB0QSWQzO1YMBLygY9FhGfI/fRqKF/KlnpcIjouPACEBh1SnqhpUjjHQpu4cK1UZXlNkC0/ol8wvHHJZxCcKv0Yu5jbfgl8Lf8gMoGCQVcBa9Esfa56bNLD5Mpqcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773148612; c=relaxed/simple;
-	bh=cCmQdY4UierAE+qEcpR1PCyef/t4/x4hQ6yLMcOL3o8=;
+	s=arc-20240116; t=1773148866; c=relaxed/simple;
+	bh=blLMxUGmwBDKoLMZORWslGZo9VUV9sNrER9y9Ccuckw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U2osd338tHjfehJkJIPu3bxhApVvrgIG1krGcfNosyxMu7ZGMCdEr0UkICfw51k4KFWpRm8rUmBx3LlJOsIr6fhY69w+2eS76g+EeCcd7/n5xlgyNz45ncxWqg92gxoChQBYXSd8oBtpVA06nmiFd6PhKJkL37OaLsNRdY0D6yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KRtzAfJ8; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=klnTHeFmadXlJNu8zaYI3LPv9FzYhzG6eV3JVtVSjSj3v4D0mLLV+fkacZZe37RmJ46+mZSgM7bDdsr5aw6sOTVYgZomLOvKe55qoytjqZXsvwZaTIMa+aH9JaynK/hp4/NINbEe2cRJ8jCzKKTq3nBGVvGSGMYYkogyXjn2IiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DDuP7G+m; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773148611; x=1804684611;
+  t=1773148866; x=1804684866;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cCmQdY4UierAE+qEcpR1PCyef/t4/x4hQ6yLMcOL3o8=;
-  b=KRtzAfJ8C6BBmQhidKcwZTMCy5UfN7YPNNPS901sR55JTGWJOrHFn2fN
-   UU9rvXtk9alvKjKPDaM9sRLKYlczIFOIaVUGnA1YcOTHQKNBOROL+SujE
-   ei+/bXtLvLqLxxsMY4HbDg5uByv+dKfrpdIS8s9MPiNZVnzDROoIoiSmm
-   /P0fH/NfXuUmo1iRDpBa5PldnIPAPzGGBOUagZqWB0z/ceao6wfMjKnP3
-   XSuK/Y8GkJkkdEMOiXa8JKEM3W+c8IJONpwrbnCRQU07P+6SsceArenuW
-   iGzcxUUDzl/W7bbvAorJymBGMRxEjnUufKYfE8LLFkG3ubJqRuAuHsi6h
-   g==;
-X-CSE-ConnectionGUID: A89oGl6ERB+3GoLkx8ScwA==
-X-CSE-MsgGUID: F1d8pObjTcWrdfGed4MMsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74112075"
+  bh=blLMxUGmwBDKoLMZORWslGZo9VUV9sNrER9y9Ccuckw=;
+  b=DDuP7G+moDeYN8dLqRknt9UrIXzE02mdg98Gw29/+nxvtBftlrC49v0C
+   I3PLdkCyV6zHVRMyG4lIv5vzST7EkterEuLpiZB9yvsrkIsqmaWyKFmA6
+   arNZQki0gwMOwBlRCLReX5ZVA/orRu2BQKO/odVlRfraiKpKF6WN+gA1o
+   3Z6hGOtMNE35182ymoJ+iAvW4xICc3yssxNp1yUgO5fAmcLGr5tUSuO5C
+   jhT7O5lsj5y8P5APRpoJfF3qHMBFCDQoGVTbh+2hujDeAI0+5jqztFZ9S
+   1Dv0mrYF6Ga7BjX2ZCSo5etZDd60QFCZteldKo8zX76yztjyp02PmvHXH
+   w==;
+X-CSE-ConnectionGUID: 2pAD4NrWRTy9bEn331wrvQ==
+X-CSE-MsgGUID: vph2TqVLQ5ChGpTXIavXAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74385139"
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="74112075"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 06:16:50 -0700
-X-CSE-ConnectionGUID: 9UtF/sf0RHC46DKpmgGKCw==
-X-CSE-MsgGUID: 802VRIaGTLqCOewS144ZiQ==
+   d="scan'208";a="74385139"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 06:21:05 -0700
+X-CSE-ConnectionGUID: iqF4VTJqQKCRJlzMxT5IWA==
+X-CSE-MsgGUID: 8jdBgldwRV65PGX3PlO8dw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="215488380"
+   d="scan'208";a="216484500"
 Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.26])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 06:16:46 -0700
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 06:21:02 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id AA131121D13;
-	Tue, 10 Mar 2026 15:17:17 +0200 (EET)
-Date: Tue, 10 Mar 2026 15:17:17 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 156D5121D13;
+	Tue, 10 Mar 2026 15:21:34 +0200 (EET)
+Date: Tue, 10 Mar 2026 15:21:34 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Antti Laakso <antti.laakso@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linusw@kernel.org,
-	brgl@kernel.org, mchehab@kernel.org, dan.scally@ideasonboard.com,
-	ilpo.jarvinen@linux.intel.com, hverkuil+cisco@kernel.org,
-	sre@kernel.org, hao.yao@intel.com, jason.z.chen@intel.com,
-	jimmy.su@intel.com, miguel.vadillo@intel.com, kees@kernel.org,
-	ribalda@chromium.org
-Subject: Re: [PATCH 5/5] platform: int3472: Add MSI prestige board data
-Message-ID: <abAZ3ZJk3jpoKG8m@kekkonen.localdomain>
-References: <20260310124427.693625-1-antti.laakso@linux.intel.com>
- <20260310124427.693625-6-antti.laakso@linux.intel.com>
- <8a197d9b-bec1-4c8f-be53-ee35c8bbb2dc@kernel.org>
+To: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Cc: hansg@kernel.org, gregkh@linuxfoundation.org, mchehab@kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: atomisp: fix block comment style in circbuf.c
+Message-ID: <abAa3mVvlmba16kd@kekkonen.localdomain>
+References: <20260309213024.5733-1-rayfraytech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,197 +82,102 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8a197d9b-bec1-4c8f-be53-ee35c8bbb2dc@kernel.org>
-X-Rspamd-Queue-Id: 4F35125201F
+In-Reply-To: <20260309213024.5733-1-rayfraytech@gmail.com>
+X-Rspamd-Queue-Id: 4812325109B
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55173-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55174-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,intel.com:dkim,intel.com:email,msi.com:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Hans,
+Hi Oskar,
 
-On Tue, Mar 10, 2026 at 02:09:54PM +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 10-Mar-26 13:44, Antti Laakso wrote:
-> > Define regulators and gpios for MSI Prestige 14 AI EVO+ laptop.
-> > 
-> > Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
-> > ---
-> >  .../x86/intel/int3472/tps68470_board_data.c   | 97 +++++++++++++++++++
-> >  1 file changed, 97 insertions(+)
-> > 
-> > diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> > index 71357a036292..fe7c23e72d66 100644
-> > --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> > +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> > @@ -232,6 +232,73 @@ static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata =
-> >  	},
-> >  };
-> >  
-> > +/* Settings for MSI Prestige 14 laptop. */
-> > +
-> > +static struct regulator_consumer_supply ovti5675_avdd_consumer_supplies[] = {
-> > +	REGULATOR_SUPPLY("avdd", "i2c-OVTI5675:00"),
-> > +};
-> > +
-> > +static struct regulator_consumer_supply ovti5675_dovdd_consumer_supplies[] = {
-> > +	REGULATOR_SUPPLY("dovdd", "i2c-OVTI5675:00"),
-> > +};
-> > +
-> > +static struct regulator_consumer_supply ovti5675_dvdd_consumer_supplies[] = {
-> > +	REGULATOR_SUPPLY("dvdd", "i2c-OVTI5675:00"),
-> > +};
-> > +
-> > +static const struct regulator_init_data msi_p14_ai_evo_tps68470_core_reg_init_data = {
-> > +	.constraints = {
-> > +		.min_uV = 1200000,
-> > +		.max_uV = 1200000,
-> > +		.apply_uV = 1,
-> > +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> > +	},
-> > +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_dvdd_consumer_supplies),
-> > +	.consumer_supplies = ovti5675_dvdd_consumer_supplies,
-> > +};
-> > +
-> > +static const struct regulator_init_data msi_p14_ai_evo_tps68470_ana_reg_init_data = {
-> > +	.constraints = {
-> > +		.min_uV = 2815200,
-> > +		.max_uV = 2815200,
-> > +		.apply_uV = 1,
-> > +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> > +	},
-> > +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_avdd_consumer_supplies),
-> > +	.consumer_supplies = ovti5675_avdd_consumer_supplies,
-> > +};
-> > +
-> > +static const struct regulator_init_data msi_p14_ai_evo_tps68470_vio_reg_init_data = {
-> > +	.constraints = {
-> > +		.min_uV = 1800600,
-> > +		.max_uV = 1800600,
-> > +		.apply_uV = 1,
-> > +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> > +	},
-> > +	.num_consumer_supplies = 0,
-> > +	.consumer_supplies = NULL,
-> > +};
-> > +
-> > +static const struct regulator_init_data msi_p14_ai_evo_tps68470_vsio_reg_init_data = {
-> > +	.constraints = {
-> > +		.min_uV = 1800600,
-> > +		.max_uV = 1800600,
-> > +		.apply_uV = 1,
-> > +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> > +	},
-> > +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_dovdd_consumer_supplies),
-> > +	.consumer_supplies = ovti5675_dovdd_consumer_supplies,
-> > +};
-> > +
-> > +static const struct tps68470_regulator_platform_data msi_p14_ai_evo_tps68470_pdata = {
-> > +	.reg_init_data = {
-> > +		[TPS68470_CORE] = &msi_p14_ai_evo_tps68470_core_reg_init_data,
-> > +		[TPS68470_ANA]  = &msi_p14_ai_evo_tps68470_ana_reg_init_data,
-> > +		[TPS68470_VIO]  = &msi_p14_ai_evo_tps68470_vio_reg_init_data,
-> > +		[TPS68470_VSIO] = &msi_p14_ai_evo_tps68470_vsio_reg_init_data,
-> > +	},
-> > +};
-> > +
-> >  static struct gpiod_lookup_table surface_go_int347a_gpios = {
-> >  	.dev_id = "i2c-INT347A:00",
-> >  	.table = {
-> > @@ -258,6 +325,19 @@ static struct gpiod_lookup_table dell_7212_int3479_gpios = {
-> >  	}
-> >  };
-> >  
-> > +static struct gpiod_lookup_table msi_p14_ai_evo_ovti5675_gpios = {
-> > +	.dev_id = "i2c-OVTI5675:00",
-> > +	.table = {
-> > +		GPIO_LOOKUP_IDX("tps68470-gpio", 9, "reset", 0, GPIO_ACTIVE_LOW),
-> > +		GPIO_LOOKUP_IDX("tps68470-gpio", 7, "reset", 1, GPIO_ACTIVE_LOW),
-> > +		{ }
-> > +	}
-> > +};
-> > +
-> > +static const struct tps68470_gpio_platform_data msi_p14_ai_evo_tps68470_gpio_pdata = {
-> > +	.daisy_chain_enable = true,
-> > +};
-> > +
-> >  static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
-> >  	.dev_name = "i2c-INT3472:05",
-> >  	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
-> > @@ -287,6 +367,16 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
-> >  	},
-> >  };
-> >  
-> > +static const struct int3472_tps68470_board_data msi_p14_ai_evo_tps68470_board_data = {
-> > +	.dev_name = "i2c-INT3472:06",
-> > +	.tps68470_regulator_pdata = &msi_p14_ai_evo_tps68470_pdata,
-> > +	.tps68470_gpio_pdata = &msi_p14_ai_evo_tps68470_gpio_pdata,
-> > +	.n_gpiod_lookups = 1,
-> > +	.tps68470_gpio_lookup_tables = {
-> > +		&msi_p14_ai_evo_ovti5675_gpios,
-> > +	},
-> > +};
-> > +
-> >  static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
-> >  	{
-> >  		.matches = {
-> > @@ -316,6 +406,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
-> >  		},
-> >  		.driver_data = (void *)&dell_7212_tps68470_board_data,
-> >  	},
-> > +	{
-> > +		.matches = {
-> > +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Micro-Star International Co., Ltd."),
-> > +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Prestige 14 AI+ Evo C2VMG"),
-> 
-> I think this match might be a bit to specific, e.g. there also is a C1M model where
-> this might also apply? See:
-> 
-> https://www.msi.com/Business-Productivity/Prestige-14-AI-Evo-C1MX
-> 
-> or maybe these are really different ?
-> 
-> If you can look into that somehow that would be great. If you cannot find
-> out if other models are compatible we should probably play it safe and
-> keep the specific match you've above for now.
+On Mon, Mar 09, 2026 at 10:30:24PM +0100, Oskar Ray-Frayssinet wrote:
 
-This one is MTL whereas Antti's patch adds support for an LNL laptop. It'd
-be great if we could get a confirmation from MSI the PMIC configuration in
-these models would match Presige 14 AI+ (or that it's different). There's
-also a very similar model with a 13" display... Without a confirmation I
-wouldn't relax the DMI check.
+A more elaborate description of the patch goes here.
 
-That being said, the risk of smoke being released might be small on a wrong
-regulator (or GPIO) configuration but it can't be ruled out.
-
+> Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+> ---
+>  .../media/atomisp/pci/base/circbuf/src/circbuf.c  | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
 > 
-> Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+> diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+> index cb34d0b5abb5..db0b76ea4a29 100644
+> --- a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+> +++ b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
+> @@ -192,9 +192,9 @@ uint32_t ia_css_circbuf_peek_from_start(ia_css_circbuf_t *cb, int offset)
+>   * Please refer to "ia_css_circbuf.h" for details.
+>   */
+>  bool ia_css_circbuf_increase_size(
+> -    ia_css_circbuf_t *cb,
+> -    unsigned int sz_delta,
+> -    ia_css_circbuf_elem_t *elems)
+> +	ia_css_circbuf_t *cb,
+> +	unsigned int sz_delta,
+> +	ia_css_circbuf_elem_t *elems)
+
+You could improve this more.
+
+>  {
+>  	u8 curr_size;
+>  	u8 curr_end;
+> @@ -206,7 +206,8 @@ bool ia_css_circbuf_increase_size(
+>  	curr_size = cb->desc->size;
+>  	curr_end = cb->desc->end;
+>  	/* We assume cb was pre defined as global to allow
+> -	 * increase in size */
+> +	 * increase in size
+> +	 */
+>  	/* FM: are we sure this cannot cause size to become too big? */
+>  	if (((uint8_t)(cb->desc->size + (uint8_t)sz_delta) > cb->desc->size) &&
+>  	    ((uint8_t)sz_delta == sz_delta))
+> @@ -215,12 +216,14 @@ bool ia_css_circbuf_increase_size(
+>  		return false; /* overflow in size */
+>  
+>  	/* If elems are passed update them else we assume its been taken
+
+/*
+ * Multi-line
+ * comment.
+ */
+
+> -	 * care before calling this function */
+> +	 * care before calling this function
+> +	 */
+>  	if (elems) {
+>  		/* cb element array size will not be increased dynamically,
+>  		 * but pointers to new elements can be added at the end
+>  		 * of existing pre defined cb element array of
+> -		 * size >= new size if not already added */
+> +		 * size >= new size if not already added
+> +		 */
+>  		for (i = curr_size; i <  cb->desc->size; i++)
+>  			cb->elems[i] = elems[i - curr_size];
+>  	}
 
 -- 
 Regards,
