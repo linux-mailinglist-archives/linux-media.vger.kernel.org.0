@@ -1,51 +1,58 @@
-Return-Path: <linux-media+bounces-55193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55194-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFa7FuArsGlHgwIAu9opvQ
-	(envelope-from <linux-media+bounces-55193-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:34:08 +0100
+	id wLNzIjossGlHgwIAu9opvQ
+	(envelope-from <linux-media+bounces-55194-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:35:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D97252129
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2412521CB
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:35:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 36415301DF52
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:34:07 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 724C9301D0FD
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:35:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90142E7F38;
-	Tue, 10 Mar 2026 14:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 575C72E9749;
+	Tue, 10 Mar 2026 14:35:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UN9V9OwM"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lT7yILei"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3044E2D0C63;
-	Tue, 10 Mar 2026 14:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950972D0C63;
+	Tue, 10 Mar 2026 14:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773153244; cv=none; b=PuX7yx2G9XRYsvI3t3sgBX8WSo3LgikSFVPTozUl2J4/gMbIpmxcm+jI3fkvIu7wRgfbWgjxfPnZhbYljlhs7UaWcynKONOi195veXaHgw+wrU/m76q6e5SyyE1prKcKoR34EhnqgwrshsfXCNQqpIsSbMIFiOOhV6ah3mOvMA8=
+	t=1773153330; cv=none; b=XjmK7m6misTDb58rbIcoC9OV3nXy248o0+YYb2G+BWzSp+eu5dvMgAfVn7PWxDLKKVE1iEwteslcQvWqul/y5E5stMspoFqAuRxuIdYk8nkCTL44U0HU7PQPePgAOCQfZQdzywKEYanyygPfNp8JU2ZXml7XaXg5p/P2qbLTwmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773153244; c=relaxed/simple;
-	bh=en8zy/sckVOY0F1xKRSThzPbRxMSB+5Nfupj5w0twTo=;
+	s=arc-20240116; t=1773153330; c=relaxed/simple;
+	bh=cOpg0jR/3Sx6V3D8w1vaeE/sBGmLWSEYpvcwAwAecio=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m6U0FZ0Ox+ixvRZYITUSEig1U5p54zul7PF0kgPd0mSwlLPZ1elk5E6ClJt1AHE6P1BMZJh2a13kcltnzo/A1R8PH17qjrZwVYppFApNdRgp02kMlCLzfMENQ1cQ4HIgFNH9KsNMFIAJcWitiiNPs0ig/6eVmc3pEn+e6OpFkwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UN9V9OwM; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6502D250;
-	Tue, 10 Mar 2026 15:32:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773153175;
-	bh=en8zy/sckVOY0F1xKRSThzPbRxMSB+5Nfupj5w0twTo=;
+	 In-Reply-To:Content-Type; b=Km5SDDEr5njeCGi/lm8RyqoIdI/R+WI4QZCjqQmktObkNbxmZOL6KPnhMDuQOWGz5qQqx3bjl+f0dpCUsCFhUWOFGjecQ3pKt+eHwEmAzt3Gfg5zwXkhaxYMR26QS6IHFjMDbb/Jd/YxmCImJvtsWkMP5h9Qf5pEEWSJjNfFMds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lT7yILei; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1773153321;
+	bh=cOpg0jR/3Sx6V3D8w1vaeE/sBGmLWSEYpvcwAwAecio=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UN9V9OwM5nHzxHfdkdjzjSf/8Yb1sKtLFNVM/q5Pl370Ij6BV2VWwrBkvWNH7MUc+
-	 GauE9o+N0bNVNTEY5stNoy3qAJL7y7ogFcpFGMSaMVvj8hBlBEkA0sqoXgGpZX1ECr
-	 i7HM2U/1b7PWVx4VYR4zqL1jah7jU4l1y0hlzy1s=
-Message-ID: <49b787d2-f5e6-47a7-863c-ac3ee24dca86@ideasonboard.com>
-Date: Tue, 10 Mar 2026 14:33:58 +0000
+	b=lT7yILeiGjYLq90Rwo8pzzbDpbWzVOqmh1x1xaE17LcbBh8LMa2CePqbgrntaRDjs
+	 4H2olctCqZaF2dR/MowyYv2D8lErmXh0Hw+uuoHnXnGwttetXcS4FVJIuOqUkvn8qG
+	 7aUB+ILold7Tdkso1leojqu0iGibzNntJ/hHY8MZfJGm+rmYlSdimZN+ayz7WwGnSR
+	 Xh6MEkG9Zt4T5kA8LRPDxujGv3LhLmtUM8LBpgsBKV6yJKDhPfbrM48CSH9Q3AjZQu
+	 ZC84p6FUxgR0AbClZU1/Aa923RrwV45a/PFfa0mVjJXP3rroIZmUWw+uZpWpfCVxXn
+	 cPm3GcLlCjU7A==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9AC6717E0D25;
+	Tue, 10 Mar 2026 15:35:20 +0100 (CET)
+Message-ID: <e4470843-3159-4751-ab69-df6b595d6c69@collabora.com>
+Date: Tue, 10 Mar 2026 15:35:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,119 +60,69 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] gpio: tps68470: Add i2c daisy chain support
-To: Antti Laakso <antti.laakso@linux.intel.com>, linux-media@vger.kernel.org
-Cc: linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linusw@kernel.org, brgl@kernel.org, sakari.ailus@linux.intel.com,
- mchehab@kernel.org, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
- hverkuil+cisco@kernel.org, sre@kernel.org, hao.yao@intel.com,
- jason.z.chen@intel.com, jimmy.su@intel.com, miguel.vadillo@intel.com,
- kees@kernel.org, ribalda@chromium.org
-References: <20260310124427.693625-1-antti.laakso@linux.intel.com>
- <20260310124427.693625-5-antti.laakso@linux.intel.com>
+Subject: Re: [PATCH v2 5/5] media: platform: mtk-mdp3: Constify buffer passed
+ to mdp_vpu_sendmsg()
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20260310-rpmsg-send-const-v2-0-0e94c5db9bf4@oss.qualcomm.com>
+ <20260310-rpmsg-send-const-v2-5-0e94c5db9bf4@oss.qualcomm.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20260310124427.693625-5-antti.laakso@linux.intel.com>
+In-Reply-To: <20260310-rpmsg-send-const-v2-5-0e94c5db9bf4@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D5D97252129
+X-Rspamd-Queue-Id: 2E2412521CB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55193-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-55194-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linaro.org,gmail.com,perex.cz,suse.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[18];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[angelogioacchino.delregno@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,collabora.com:dkim,collabora.com:email,collabora.com:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Hi Antti
-
-On 10/03/2026 12:44, Antti Laakso wrote:
-> The tps68470 daisy chain make use of gpio 1 and 2. When in use, these
-> gpios must be configured as inputs without pull-up.
+Il 10/03/26 12:22, Krzysztof Kozlowski ha scritto:
+> mdp_vpu_sendmsg() passes the buffer to scp_ipi_send(), which takes now
+> pointer to const, so adjust this interface as well for increased code
+> safety and code readability.
 > 
-> Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
-> ---
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
->   drivers/gpio/gpio-tps68470.c | 23 ++++++++++++++++++++++-
->   1 file changed, 22 insertions(+), 1 deletion(-)
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 > 
-> diff --git a/drivers/gpio/gpio-tps68470.c b/drivers/gpio/gpio-tps68470.c
-> index d4fbdf90e190..729ad8e397fc 100644
-> --- a/drivers/gpio/gpio-tps68470.c
-> +++ b/drivers/gpio/gpio-tps68470.c
-> @@ -14,6 +14,7 @@
->   #include <linux/gpio/driver.h>
->   #include <linux/mfd/tps68470.h>
->   #include <linux/module.h>
-> +#include <linux/platform_data/tps68470.h>
->   #include <linux/platform_device.h>
->   #include <linux/regmap.h>
->   
-> @@ -120,6 +121,17 @@ static int tps68470_gpio_input(struct gpio_chip *gc, unsigned int offset)
->   				   TPS68470_GPIO_MODE_MASK, 0x00);
->   }
->   
-> +static int tps68470_enable_i2c_daisy_chain(struct gpio_chip *gc)
-> +{
-> +	int ret;
-> +
-> +	ret = tps68470_gpio_input(gc, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return tps68470_gpio_input(gc, 2);
-> +}
-> +
->   static const char *tps68470_names[TPS68470_N_GPIO] = {
->   	"gpio.0", "gpio.1", "gpio.2", "gpio.3",
->   	"gpio.4", "gpio.5", "gpio.6",
-> @@ -129,6 +141,8 @@ static const char *tps68470_names[TPS68470_N_GPIO] = {
->   static int tps68470_gpio_probe(struct platform_device *pdev)
->   {
->   	struct tps68470_gpio_data *tps68470_gpio;
-> +	struct tps68470_gpio_platform_data *pdata = dev_get_platdata(&pdev->dev);
-> +	int ret = 0;
->   
->   	tps68470_gpio = devm_kzalloc(&pdev->dev, sizeof(*tps68470_gpio),
->   				     GFP_KERNEL);
-> @@ -149,7 +163,14 @@ static int tps68470_gpio_probe(struct platform_device *pdev)
->   	tps68470_gpio->gc.base = -1;
->   	tps68470_gpio->gc.parent = &pdev->dev;
->   
-> -	return devm_gpiochip_add_data(&pdev->dev, &tps68470_gpio->gc, tps68470_gpio);
-> +	ret = devm_gpiochip_add_data(&pdev->dev, &tps68470_gpio->gc, tps68470_gpio);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (pdata && pdata->daisy_chain_enable)
-> +		ret = tps68470_enable_i2c_daisy_chain(&tps68470_gpio->gc);
-> +
-> +	return ret;
->   }
->   
->   static struct platform_driver tps68470_gpio_driver = {
+
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 
 
