@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-55195-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55196-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gLWyIVs0sGnRhAIAu9opvQ
-	(envelope-from <linux-media+bounces-55195-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 16:10:19 +0100
+	id qM+3Fps7sGmohQIAu9opvQ
+	(envelope-from <linux-media+bounces-55196-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 16:41:15 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2062252F6D
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 16:10:18 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C61253C7E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 16:41:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B650D34180C6
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:35:47 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0EE9D3216388
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 14:35:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 067D62F2607;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FB982F4A18;
 	Tue, 10 Mar 2026 14:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kioFQrk9"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FNfhRcLn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9510C2E36F8;
-	Tue, 10 Mar 2026 14:35:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974632E5B09;
+	Tue, 10 Mar 2026 14:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773153331; cv=none; b=qVFcZZzBn2i9OPEssVIeDcQXe32UZx1hfYLj9kA7cKSkkNOxCZR8VMYhQjMM3vvks0NrtGWT+6c0PxnQQsKqZkA48dljygaBBEqe8d4uJstmAXa4IoqCgsqTbZ5Pe/zyw/tgrWFw1t+UnfZS0zH6VbHs7kxj13FUSAXtdt8PRSQ=
+	t=1773153331; cv=none; b=CBx4UoehnGfTWZJqdEA3a1mfhivjl3QeX08Gh+EpBBwoGk7xg8DJNzwin31GiIxioGGw1GlYrHpPAdIa8cdS7xaATbsV+ObyvivVZXydC37kJr/KoXToM546WsHiUuTdB6gB5bm1IsB9RDK8r7vBSG06hGfKpd2hQfqYZbetCjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773153331; c=relaxed/simple;
-	bh=MCaUrPZ7HH0j4tc8Pv0peQvEHxCMTJOGP8a7fiNrsJw=;
+	bh=i9yJ9pRi2fspdy5B+ragvbbhvuj4nCBlo3PLYcUWQkA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ybxdf6vxwHPZ/KYJlqVTkbnEBWwB9Ov+gA6dgEzsuJVHqw9hri7yBkQvJTmZ2r9HP0KI+3a5hao5b15x8yMtlV4sC8mTXO20ixYD0wmEEYkly+++RYt8JLdWNs8T1N8R31bWbB3of3/hadxh5U/fLPwoxmEI/XyGW223S6jW7wE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kioFQrk9; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=sscSMWTXGAHEMR5Yp7dx1UlprSvvGHLmeB3BYyc+vozxumF77blpa5l1aRI3/EI07lMLg76hvtaaAOOw7n5a7xu7T2sWLUVY6GWaCwkwE7aYQLhoF4caSHwU8m9fXLCor4KCgj6hxLlIQFXbos1QNMHNlXx0d31lVi2tFCbk6pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FNfhRcLn; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1773153322;
-	bh=MCaUrPZ7HH0j4tc8Pv0peQvEHxCMTJOGP8a7fiNrsJw=;
+	s=mail; t=1773153323;
+	bh=i9yJ9pRi2fspdy5B+ragvbbhvuj4nCBlo3PLYcUWQkA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kioFQrk9hpQNl8vRItusxFTj3b+x03BuCXswwwB5fvv0EzbKu/tP2WQQFk2KFJQk9
-	 J80TXeL8AHbz/7AUrSTZZPNAu4l+wO24Hey93re8DnweOihwLCQOPvEUlgifoFd9qd
-	 Ae1bBGbOqfe+ghl8AZ3CpNpp5IhnJw0tCp72sXAurqtk6JJmbSYIoiDxE7sSJm9Qhe
-	 1E2DB4mP5D4GAVKT0q/iDq6MdjUfn1tFI0o0BKUb9RQ656xSrDtHl2dQvBxBZ+7l2v
-	 VFw3PepGSWsScTOha8D68l6Sivf4l61O9U+uAZ3Kw9pVNKaLXguZH9oEAHbN6W7lg+
-	 LK74gVBrPhbBw==
+	b=FNfhRcLn65GaYJlZv0bP0T8USQp50RpWKPufbPN6GWQ7+TYwx4CC69TkLlJwJ+mcZ
+	 if0WY/RdseFKXn11K/XhqkskOIqygKdSPbFb9H2UUug590Leo4sUMsSdYR1cGZEINS
+	 X0QX6L6GqyJIkQ+YL63HuILaEUnUxrPtAWPUMh2Hq1zV6QhcGcLsSqcc/l6PKBC4Uh
+	 TOptS2UM1LREFSGTnlz0jUyeaSyAfc7fvFOvVgHvlH5JeBvtbLwkR9XRpRz+0CkslQ
+	 VWx/1H5eisK/YjffDnc3eLFfUTkFwROAtymsz/aAs0gQgUsrYQF14VcZmBO8rEzAQ9
+	 R3o+fWwozmoTQ==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B509217E0EB0;
-	Tue, 10 Mar 2026 15:35:21 +0100 (CET)
-Message-ID: <8d965895-c77b-4d67-8365-3ea6a8ef5fca@collabora.com>
-Date: Tue, 10 Mar 2026 15:35:20 +0100
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C860217E13A8;
+	Tue, 10 Mar 2026 15:35:22 +0100 (CET)
+Message-ID: <213cdf5b-eb48-4fac-8023-5d1d80d6f1ae@collabora.com>
+Date: Tue, 10 Mar 2026 15:35:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,8 +60,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] remoteproc: mtp_scp: Constify buffer passed to
- scp_send_ipi()
+Subject: Re: [PATCH v2 3/5] rpmsg: Constify buffer passed to send API
 To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Mathieu Poirier <mathieu.poirier@linaro.org>,
@@ -75,25 +74,25 @@ Cc: linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
  linux-media@vger.kernel.org, Mathieu Poirier <mathieuu.poirier@linaro.org>
 References: <20260310-rpmsg-send-const-v2-0-0e94c5db9bf4@oss.qualcomm.com>
- <20260310-rpmsg-send-const-v2-2-0e94c5db9bf4@oss.qualcomm.com>
+ <20260310-rpmsg-send-const-v2-3-0e94c5db9bf4@oss.qualcomm.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20260310-rpmsg-send-const-v2-2-0e94c5db9bf4@oss.qualcomm.com>
+In-Reply-To: <20260310-rpmsg-send-const-v2-3-0e94c5db9bf4@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D2062252F6D
+X-Rspamd-Queue-Id: 22C61253C7E
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55195-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55196-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[oss.qualcomm.com,kernel.org,linaro.org,gmail.com,perex.cz,suse.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -109,23 +108,21 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid,linaro.org:email]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:mid,linaro.org:email]
 X-Rspamd-Action: no action
 
 Il 10/03/26 12:22, Krzysztof Kozlowski ha scritto:
-> scp_send_ipi() should only send the passed buffer, without modifying its
-> contents, so mark pointer 'buf' as pointer to const.
+> The rpmsg_send(), rpmsg_sendto() and other variants of sending
+> interfaces should only send the passed data, without modifying its
+> contents, so mark pointer 'data' as pointer to const.  All users of this
+> interface already follow this approach, so only the function
+> declarations have to be updated.
 > 
 > Acked-by: Mathieu Poirier <mathieuu.poirier@linaro.org>
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-
-
-Please fix the commit title - that should be `remoteproc: mtk_scp: .....`
-
-After which:
-
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 
 
