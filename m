@@ -1,347 +1,201 @@
-Return-Path: <linux-media+bounces-55181-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55183-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qLCtHKcvsGlHgwIAu9opvQ
-	(envelope-from <linux-media+bounces-55181-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:50:15 +0100
+	id oP3wAlwnsGnYgQIAu9opvQ
+	(envelope-from <linux-media+bounces-55183-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:14:52 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2DC7252783
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:50:14 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 952BB251957
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 15:14:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CF8473260DA6
-	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 13:45:14 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 790CB3100EBF
+	for <lists+linux-media@lfdr.de>; Tue, 10 Mar 2026 13:47:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0BA6313E32;
-	Tue, 10 Mar 2026 13:45:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DF3D391E46;
+	Tue, 10 Mar 2026 13:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="BJEhBGu7"
+	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="dTpIUmFy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C88E31A046
-	for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 13:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773150313; cv=pass; b=lZEApII/NHxXXkCfV/zTCPQ96jmnebyQgEV6gV8CAkljFF51OSClP/zXTxlGcb2F99AEFL1DT2zm8CymjaNkJTPm92/W5AwBMvqwKNR3ri1zEq1yLvgW6kkdU6V5ftXiSzduvbhtAQ7BBYEVyJ1a+2zHrkRwE2V4/NOq95yH0n4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773150313; c=relaxed/simple;
-	bh=H14oqF9ff7quUNusx5wNd0HNwPh5rtVfLBSzWw6e+dU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TCR+KN+KGopdpX7OboAEv2kl8kqg0xKb1dUOGpcZa54Ys2pFjKjMY+EnxmTRWhwF1dunZAOS4HZ2XSP8Ve+4if1TdbtnDISw721C/H52EeB7CE+jr1fDvqZTZI9Dt3iOvB6mszHQqE6x09Q6IhrFJYIlTu54yS4sgUZDWve5FWA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=BJEhBGu7; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (n18ws8cotp5c1dsf-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:1157:8c0f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4fVZrP4vjmzyTs;
-	Tue, 10 Mar 2026 15:45:09 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1773150309;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=j48G2OLfGK/dke/2mjRmBC0o58JD+XrPbCBqxvD+n48=;
-	b=BJEhBGu7VEfifBier8i9YUvCQFen0Ik0XMguhkoJNxKDC1l3jHGp4D1tUwWeNrxCpiNays
-	xDzs/CHnLS0RZ+B4l9QbMOTRqYlvuDnGSqNfiZEypE1HTasr1s0MBMn4J32apPofOqpTxH
-	qPGVJ8I8WLagRKP4Wv+wEdre4Lo+DwM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1773150309;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=j48G2OLfGK/dke/2mjRmBC0o58JD+XrPbCBqxvD+n48=;
-	b=NAzai34JBExOBD7v1s9G1MXmun/ud4e+EwLEtS2LWoYR/8Revg8cOCd40d/rT3gHogTprJ
-	oDXrzYNF0bKYWMk71aXbXufho6wFrOb9Ta+UMS5ncvWW/PPbn416pBlIVMdiV/KvSNXhCu
-	iG5nIZYKuOMs3dT5wjsfZMIhP/qeNVA=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=meesny; cv=none; t=1773150309;
-	b=CNCmGN9/2eoPTQmBnTTdUohKXJyoI6ntQTOqm5f1ukUDSGL46fiuaF9iFYd+DgeVIwalcX
-	N5IjuZuXTVUCTtyj8oLpxaB/xW8vwCnF8LL5y7kXSZkMYOUoDGtG5tfSxy89NMlweBZ9h3
-	g5Tq419M6J4Eoos0M1Nd+PL2IUJsZrQ=
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 37F71634C50;
-	Tue, 10 Mar 2026 15:45:09 +0200 (EET)
-Date: Tue, 10 Mar 2026 15:45:09 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl
-Subject: [GIT PULL FOR 7.1] V4L2 cleanup, fixes, improvements
-Message-ID: <abAgZWlNRTIDMFda@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B203376BE1;
+	Tue, 10 Mar 2026 13:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773150444; cv=none; b=mH+S2OnBWMGU4+RNslP9Jh64Zqnfn6MxtT1JvICMT7YRXVp3mfjcyqu8CV01nJcJsSXO0by0wvvUY/1OTjPf8kgTPB+PabA1UW230JoPi3NoC3rbbgWllrGp0Jtu9yFJJ5yGJ6cp8RKVGg1rLGRwr8LM5hIpqlhG9c6sQ0F4TJk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773150444; c=relaxed/simple;
+	bh=JkhE8XRZB+0Xn8XaQBSlw7psFcPor8BTZgZawoRBPkU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pJ+XTcpvWOAdf3ER7KROpAAvO8ZD64v8jLBM2zAmi+71S4z7XaG8mrensYMR9GzDDpH5Ga9N5RRMGfU8nu5s43noOlxxQZK0AGn7piXf1IIL/+irGvI2UYi+0kGb+M5uwzXu8qkiVP6hNV4RBDHvdLAZoLTSBX3qyBE1BWPQ+t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=dTpIUmFy; arc=none smtp.client-ip=5.189.157.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Content-ID:Content-Description;
+	bh=aVv/PSZT5NGeZjfHxwg8OpWgNHlsgZDJ/5CMzeiUbdo=; b=dTpIUmFyfV+bP6Hy0ueZpN32tu
+	piiOrm2xYxIB724JO1nPYEvLrwNppM7ldi2VsLNiB9a22ZPzaNJQ0YaGHJwVuraOF2yk5SpAHZold
+	s8t7GSMCpZMXoj2MN+HCYF9oJcPgVF+TLl3oulmGF4t7YrhkwJ3IfsTmzXldUh96w/myd3pDSVX1g
+	/e8bzPXWMBYBNoEloTPI5IYSewDyrYj60Js0etFfclp4hEgkn7HaHPBIdN5mmqp8OC3Z4JyMZY1In
+	us3k02cy2EDC8Yr2DD9TZj2Bfv2JCzi8o1CBU/q/X+4deOd5/tymAnt0Bem3HGOfb0TZNQXc+sRV/
+	1upKIM10UX7QbQ98BeJxn1cHAUt80a13aLlrns2kgX3r4ZD43IvQ3qOgYizweNeHFZvB+bpwBSNFD
+	hlDW1qIdKmIN+wC7qSL6cU7m+YgH+eIF1AeR8pLLvTFBNqmI6qti9D+O96RBcbYAwE/olpfjlTGn5
+	mdLSL9FFfI7mx4Sepl5WAdeD1XVerb2KTcAMA8AXYimzng7DssEnPDbX6u+t3yAcQjc1BrWIujZyx
+	Gao2D20IgKGUx784nxNUpYJ2ZiCkXzoDKyugnEIdTC+VrOwC2OEJanP1Uq3/BrGj0qOrmxYFeI51c
+	48zjYWWU3v40e6itkF189TkI8Acs6/RLaheNlL7MM=;
+From: Christian Schoenebeck <linux_oss@crudebyte.com>
+To: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
+ bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
+ dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+ intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, kvm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+ sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
+ Philipp Hahn <phahn-oss@avm.de>, Philipp Hahn <phahn-oss@avm.de>
+Cc: Eric Van Hensbergen <ericvh@kernel.org>,
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Subject:
+ Re: [PATCH 24/61] net/9p: Prefer IS_ERR_OR_NULL over manual NULL check
+Date: Tue, 10 Mar 2026 14:47:03 +0100
+Message-ID: <1948861.tdWV9SEqCh@weasel>
+In-Reply-To: <20260310-b4-is_err_or_null-v1-24-bd63b656022d@avm.de>
+References:
+ <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+ <20260310-b4-is_err_or_null-v1-24-bd63b656022d@avm.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Rspamd-Queue-Id: E2DC7252783
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-Rspamd-Queue-Id: 952BB251957
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[iki.fi:s=meesny];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	CTE_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[crudebyte.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[crudebyte.com:s=kylie];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[iki.fi:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	TAGGED_FROM(0.00)[bounces-55181-lists,linux-media=lfdr.de];
-	DMARC_NA(0.00)[iki.fi];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55183-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[63];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[linux_oss@crudebyte.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[crudebyte.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,iki.fi:dkim,valkosipuli.retiisi.eu:mid]
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ionkov.net:email,avm.de:email,davemloft.net:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,codewreck.org:email,linux.dev:email,crudebyte.com:dkim,crudebyte.com:email]
 X-Rspamd-Action: no action
 
-Hi Hans, Mauro,
+On Tuesday, 10 March 2026 12:48:50 CET Philipp Hahn wrote:
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
+> 
+> Change generated with coccinelle.
+> 
+> To: Eric Van Hensbergen <ericvh@kernel.org>
+> To: Latchesar Ionkov <lucho@ionkov.net>
+> To: Dominique Martinet <asmadeus@codewreck.org>
+> To: Christian Schoenebeck <linux_oss@crudebyte.com>
+> To: "David S. Miller" <davem@davemloft.net>
+> To: Eric Dumazet <edumazet@google.com>
+> To: Jakub Kicinski <kuba@kernel.org>
+> To: Paolo Abeni <pabeni@redhat.com>
+> To: Simon Horman <horms@kernel.org>
+> Cc: v9fs@lists.linux.dev
+> Cc: netdev@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+> ---
+>  include/net/9p/client.h | 2 +-
+>  net/9p/trans_rdma.c     | 8 ++++----
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 
-Please pull.
+Reviewed-by: Christian Schoenebeck <linux_oss@crudebyte.com>
+ 
+> diff --git a/include/net/9p/client.h b/include/net/9p/client.h
+> index
+> 838a94218b593f3fb19e6827c472753380193461..4bde6bd716f323c819745e64c7aac0dea
+> 7beb72f 100644 --- a/include/net/9p/client.h
+> +++ b/include/net/9p/client.h
+> @@ -364,7 +364,7 @@ static inline struct p9_fid *p9_fid_get(struct p9_fid
+> *fid)
+> 
+>  static inline int p9_fid_put(struct p9_fid *fid)
+>  {
+> -	if (!fid || IS_ERR(fid))
+> +	if (IS_ERR_OR_NULL(fid))
+>  		return 0;
+> 
+>  	if (tracepoint_enabled(9p_fid_ref))
+> diff --git a/net/9p/trans_rdma.c b/net/9p/trans_rdma.c
+> index
+> aa5bd74d333f3b5e6fd1e4344d26bc0201ff7f7f..60461344b536bcb6e94112aace75a88b6
+> a99ad86 100644 --- a/net/9p/trans_rdma.c
+> +++ b/net/9p/trans_rdma.c
+> @@ -252,16 +252,16 @@ static void rdma_destroy_trans(struct p9_trans_rdma
+> *rdma) if (!rdma)
+>  		return;
+> 
+> -	if (rdma->qp && !IS_ERR(rdma->qp))
+> +	if (!IS_ERR_OR_NULL(rdma->qp))
+>  		ib_destroy_qp(rdma->qp);
+> 
+> -	if (rdma->pd && !IS_ERR(rdma->pd))
+> +	if (!IS_ERR_OR_NULL(rdma->pd))
+>  		ib_dealloc_pd(rdma->pd);
+> 
+> -	if (rdma->cq && !IS_ERR(rdma->cq))
+> +	if (!IS_ERR_OR_NULL(rdma->cq))
+>  		ib_free_cq(rdma->cq);
+> 
+> -	if (rdma->cm_id && !IS_ERR(rdma->cm_id))
+> +	if (!IS_ERR_OR_NULL(rdma->cm_id))
+>  		rdma_destroy_id(rdma->cm_id);
+> 
+>  	kfree(rdma);
 
 
-The following changes since commit a7da7fb57f2a787412da1a62292a17fa00fbfbdf:
-
-  Merge tag 'v7.0-rc2' into __tmp-hverkuil-media-tags_br_v7_1a (2026-03-05 10:55:47 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-7.1-1.1-signed
-
-for you to fetch changes up to 621887bc7b9a6c37a5ed3b1f24dd446e3034253e:
-
-  staging: media: ipu3: fix function argument alignment (2026-03-10 13:07:48 +0200)
-
-----------------------------------------------------------------
-V4L2 patches for v7.1:
-- Fixes and improvements to imx412, ds90ub960, rcar, exynos4-is, dcmi,
-  ov9282, rkcif, synopsys hdmirx, synopsys csi2rx, omap3isp, ipu3-imgu,
-  ipu6 and ov5647, max9286, imx283, og01a1b, imx355, atomisp, mt9p031,
-  vgxy61 and ar0521 drivers and CCS PLL
-- Add more systems to IPU bridge quirk list for upside-down sensors
-- Add support for ov5675 in IPU bridge
-- Add support for DS90UB954-Q1 serdes device and mi1040 camera sensor
-- Add v4l2_subdev_get_frame_desc_passthrough() helper
-- Drop starfive-camss staging drive
-
-----------------------------------------------------------------
-Alain Volmat (10):
-      media: stm32: dcmi: Switch from __maybe_unused to pm_ptr()
-      media: stm32: dcmi: perform dmaengine_slave_config at probe
-      media: stm32: dcmi: only create dma descriptor once at buf_prepare
-      media: stm32: dcmi: stop the dma transfer on overrun
-      media: stm32: dcmi: rework spin_lock calls
-      media: stm32: dcmi: perform all dma handling within irq_thread
-      media: stm32: dcmi: use dmaengine_terminate_async in irq context
-      media: stm32: dcmi: continuous mode capture in JPEG
-      dt-bindings: media: st: dcmi: add DMA-MDMA chaining properties
-      media: stm32: dcmi: addition of DMA-MDMA chaining support
-
-Alexander Shiyan (1):
-      media: ccs-pll: Fix pre-PLL divider calculation for EXT_IP_PLL_DIVIDER flag
-
-Chen Ni (4):
-      media: i2c: imx219: Check return value of devm_gpiod_get_optional() in imx219_probe()
-      media: i2c: mt9p031: Check return value of devm_gpiod_get_optional() in mt9p031_probe()
-      media: i2c: vgxy61: Check return value of devm_gpiod_get_optional() in vgxy61_probe()
-      media: i2c: ar0521: Check return value of devm_gpiod_get_optional() in ar0521_probe()
-
-Dan Carpenter (1):
-      media: rockchip: rkcif: fix off by one bugs
-
-Dang Huynh (1):
-      media: rockchip: rkcif: Add missing MUST_CONNECT flag to pads
-
-Dmitry Torokhov (1):
-      media: i2c: max9286: normalize return value of gpio_get
-
-Ethan Nelson-Moore (1):
-      media: remove unnecessary module_init/exit functions
-
-Ethan Tidmore (1):
-      media: intel/ipu6: fix error pointer dereference
-
-Geert Uytterhoeven (1):
-      media: synopsys: VIDEO_DW_MIPI_CSI2RX should depend on ARCH_ROCKCHIP
-
-Hans de Goede (1):
-      media: ipu-bridge: Add upside-down sensor DMI quirk for Dell XPS 13 9340 and XPS 14 9440
-
-Haoxiang Li (1):
-      media: omap3isp: drop the use count of v4l2 pipeline
-
-Jai Luthra (4):
-      media: staging: Drop starfive-camss from staging
-      media: dt-bindings: Drop starfive,jh7110-camss from staging
-      media: i2c: imx283: Enter full standby when stopping streaming
-      media: i2c: imx283: Fix hang when going from large to small resolution
-
-Krzysztof Kozlowski (1):
-      media: samsung: exynos4-is: Simplify with scoped for each OF child loop
-
-Leif Skunberg (1):
-      media: ipu-bridge: Add OV5675 sensor config
-
-Mark Brown (1):
-      media: synopsys: hdmirx: support use with sleeping GPIOs
-
-Michael Riesch (1):
-      media: rockchip: rkcif: comply with minimum number of buffers requirement
-
-Omer El Idrissi (1):
-      staging: media: ipu3: fix function argument alignment
-
-Richard Acayan (3):
-      dt-bindings: media: qcom,sdm670-camss: Remove clock-lanes requirement
-      dt-bindings: media: i2c: Add Sony IMX355
-      media: i2c: imx355: Support devicetree and power management
-
-Sakari Ailus (1):
-      staging: media: atomisp: Disallow all private IOCTLs
-
-Svyatoslav Ryhel (2):
-      dt-bindings: media: mt9m114: document MI1040 sensor
-      media: i2c: mt9m114: add support for Aptina MI1040
-
-Tomi Valkeinen (8):
-      media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
-      media: rcar-csi2: Improve FLD_FLD_EN macros
-      media: rcar-csi2: Move rcsi2_calc_mbps()
-      media: rcar-csi2: Simplify rcsi2_calc_mbps()
-      media: rcar-csi2: Optimize rcsi2_calc_mbps()
-      media: subdev: Add v4l2_subdev_get_frame_desc_passthrough helper
-      media: i2c: ds90ub953: Use v4l2_subdev_get_frame_desc_passthrough
-      media: i2c: ds90ub913: Use v4l2_subdev_get_frame_desc_passthrough
-
-Vladimir Zapolskiy (6):
-      media: i2c: og01a1b: Fix V4L2 subdevice data initialization on probe
-      media: i2c: og01a1b: Switch from .s_stream to .enable_streams/.disable_streams
-      media: i2c: og01a1b: Change I2C interface controls to V4L2 CCI
-      media: i2c: og01a1b: Replace .open with .init_state internal ops
-      media: i2c: og01a1b: Use generic v4l2_subdev_get_fmt() to get format
-      media: i2c: og01a1b: Add support of 8-bit media bus format
-
-Wenmeng Liu (2):
-      media: i2c: imx412: Assert reset GPIO during probe
-      media: i2c: imx412: Extend the power-on waiting time
-
-Xiaolei Wang (4):
-      media: i2c: ov9282: Convert to CCI register access helpers
-      media: i2c: ov9282: Switch to using the sub-device state lock
-      media: i2c: ov9282: switch to {enable,disable}_streams
-      media: i2c: ov5647: Fix runtime PM refcount leak in s_ctrl
-
-Yemike Abhilash Chandra (4):
-      media: dt-bindings: ti,ds90ub960: Refactor port definitions
-      media: i2c: ds90ub960: Use enums for chip type and chip family
-      media: dt-bindings: ti,ds90ub960: Add support for DS90UB954-Q1
-      media: i2c: ds90ub960: Add support for DS90UB954-Q1
-
-Ziyi Guo (1):
-      media: i2c: imx258: add missing mutex protection for format code access
-
- Documentation/admin-guide/media/starfive_camss.rst |  72 --
- .../admin-guide/media/starfive_camss_graph.dot     |  12 -
- Documentation/admin-guide/media/v4l-drivers.rst    |   1 -
- .../bindings/media/i2c/onnn,mt9m114.yaml           |   4 +-
- .../devicetree/bindings/media/i2c/sony,imx355.yaml | 111 +++
- .../bindings/media/i2c/ti,ds90ub960.yaml           | 213 ++---
- .../bindings/media/qcom,sdm670-camss.yaml          |   3 -
- .../devicetree/bindings/media/st,stm32-dcmi.yaml   |  11 +-
- .../bindings/media/starfive,jh7110-camss.yaml      | 180 -----
- MAINTAINERS                                        |   9 -
- drivers/media/common/b2c2/flexcop.c                |  14 -
- drivers/media/common/saa7146/saa7146_fops.c        |  13 -
- drivers/media/i2c/Kconfig                          |   6 +-
- drivers/media/i2c/ar0521.c                         |   3 +
- drivers/media/i2c/ccs-pll.c                        |   5 +-
- drivers/media/i2c/ds90ub913.c                      |  59 +-
- drivers/media/i2c/ds90ub953.c                      |  61 +-
- drivers/media/i2c/ds90ub960.c                      | 216 +++--
- drivers/media/i2c/imx219.c                         |   3 +
- drivers/media/i2c/imx258.c                         |  14 +-
- drivers/media/i2c/imx283.c                         |  15 +-
- drivers/media/i2c/imx355.c                         | 111 ++-
- drivers/media/i2c/imx412.c                         |   8 +-
- drivers/media/i2c/max9286.c                        |   2 +-
- drivers/media/i2c/mt9m114.c                        |  35 +-
- drivers/media/i2c/mt9p031.c                        |   4 +
- drivers/media/i2c/og01a1b.c                        | 899 ++++++++++-----------
- drivers/media/i2c/ov5647.c                         |  12 +-
- drivers/media/i2c/ov9282.c                         | 679 ++++++----------
- drivers/media/i2c/vgxy61.c                         |   3 +
- drivers/media/pci/intel/ipu-bridge.c               |  16 +
- drivers/media/pci/intel/ipu6/ipu6.c                |   2 +-
- drivers/media/platform/renesas/rcar-csi2.c         | 116 +--
- drivers/media/platform/renesas/rcar-isp/csisp.c    |  13 +-
- .../platform/rockchip/rkcif/rkcif-capture-mipi.c   |  10 +-
- .../platform/rockchip/rkcif/rkcif-interface.c      |   3 +-
- .../media/platform/rockchip/rkcif/rkcif-stream.c   |  46 +-
- .../media/platform/samsung/exynos4-is/fimc-is.c    |   5 +-
- drivers/media/platform/st/stm32/stm32-dcmi.c       | 475 +++++++----
- drivers/media/platform/synopsys/Kconfig            |   1 +
- .../media/platform/synopsys/hdmirx/snps_hdmirx.c   |   6 +-
- drivers/media/platform/ti/omap3isp/ispvideo.c      |   1 +
- drivers/media/usb/gspca/gspca.c                    |  13 -
- drivers/media/v4l2-core/v4l2-subdev.c              | 113 +++
- drivers/staging/media/Kconfig                      |   2 -
- drivers/staging/media/Makefile                     |   1 -
- drivers/staging/media/atomisp/pci/atomisp_ioctl.c  |   4 +
- drivers/staging/media/ipu3/ipu3.c                  |   2 +-
- drivers/staging/media/starfive/Kconfig             |   5 -
- drivers/staging/media/starfive/Makefile            |   2 -
- drivers/staging/media/starfive/camss/Kconfig       |  18 -
- drivers/staging/media/starfive/camss/Makefile      |  13 -
- drivers/staging/media/starfive/camss/TODO.txt      |   4 -
- drivers/staging/media/starfive/camss/stf-camss.c   | 438 ----------
- drivers/staging/media/starfive/camss/stf-camss.h   | 134 ---
- drivers/staging/media/starfive/camss/stf-capture.c | 605 --------------
- drivers/staging/media/starfive/camss/stf-capture.h |  86 --
- .../staging/media/starfive/camss/stf-isp-hw-ops.c  | 445 ----------
- drivers/staging/media/starfive/camss/stf-isp.c     | 379 ---------
- drivers/staging/media/starfive/camss/stf-isp.h     | 428 ----------
- drivers/staging/media/starfive/camss/stf-video.c   | 570 -------------
- drivers/staging/media/starfive/camss/stf-video.h   | 100 ---
- include/media/v4l2-subdev.h                        |  22 +
- 63 files changed, 1788 insertions(+), 5068 deletions(-)
- delete mode 100644 Documentation/admin-guide/media/starfive_camss.rst
- delete mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
- create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
- delete mode 100644 drivers/staging/media/starfive/Kconfig
- delete mode 100644 drivers/staging/media/starfive/Makefile
- delete mode 100644 drivers/staging/media/starfive/camss/Kconfig
- delete mode 100644 drivers/staging/media/starfive/camss/Makefile
- delete mode 100644 drivers/staging/media/starfive/camss/TODO.txt
- delete mode 100644 drivers/staging/media/starfive/camss/stf-camss.c
- delete mode 100644 drivers/staging/media/starfive/camss/stf-camss.h
- delete mode 100644 drivers/staging/media/starfive/camss/stf-capture.c
- delete mode 100644 drivers/staging/media/starfive/camss/stf-capture.h
- delete mode 100644 drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
- delete mode 100644 drivers/staging/media/starfive/camss/stf-isp.c
- delete mode 100644 drivers/staging/media/starfive/camss/stf-isp.h
- delete mode 100644 drivers/staging/media/starfive/camss/stf-video.c
- delete mode 100644 drivers/staging/media/starfive/camss/stf-video.h
-
--- 
-Sakari Ailus
 
