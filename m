@@ -1,658 +1,226 @@
-Return-Path: <linux-media+bounces-55430-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55431-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qHRBBgShsWn4EAAAu9opvQ
-	(envelope-from <linux-media+bounces-55430-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 18:06:12 +0100
+	id WFAMAPulsWn4EAAAu9opvQ
+	(envelope-from <linux-media+bounces-55431-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 18:27:23 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CE4267BB0
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 18:06:11 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C423268039
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 18:27:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 112B63018E2B
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 17:05:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B643830576DD
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 17:26:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 112723E277D;
-	Wed, 11 Mar 2026 17:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF04B3E3C4F;
+	Wed, 11 Mar 2026 17:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YXpJhlWC"
+	dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b="GZUObFxH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mjAnFcnh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F89F3E1CF7
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 17:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EFF31960A;
+	Wed, 11 Mar 2026 17:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773248704; cv=none; b=n0EoepzNd/AIFC1aYalpXzGGxcsg825Zz89TlP8app8xAhHeWdJNzg5iZeGWJqV38qNjgY1rOje3x6r7jRIaJePcnmSbkkTrXMlc6uja+RuHGw9412kA4Xe36yIkZUueowPgHr2peSFL9DCDEAeAf+rV3ajLdz2Nm+QhMNxGi+E=
+	t=1773249988; cv=none; b=gkkIAZ2IfJvmKMeh2sfYFX8aKS6Zf98ySTDql5evCHEELYGspgVVn1dbUV+5DCgpO2wIeaMem29JkN7//+NhXQ2GRzdsHrl5PmA5KOCW7LFhNHNeGnIfH8sJihyx09U8RPqIQEdl6+PFB2XD7BhMnT5Vxj+SkaiQXyT53XkHrhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773248704; c=relaxed/simple;
-	bh=mKdclNSqfpyyBppiuRH0W7pVt7wN6f0BdQO7hbXugNM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Yq+2IK7NYPQG1HbzlzwDpHsphKw+4gcwuVoLJmBEZvG2LlGi/bByMQ71DfLPf31Aid4Z+u6sQXPMY5CXXK2bOq5QAUjoNgvaSmk19Hk6nryGs2fDg+/LYcbQa6O0KJ7akbC0395OwldSO9zFHa9dhN0+ZMqHPZOgygnal+PAej8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YXpJhlWC; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-38a4234f91dso1371811fa.2
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 10:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773248701; x=1773853501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=48irTatYQ10b6f13inkfgG0WrAMLX0Ii8XLPZu27c7A=;
-        b=YXpJhlWC0D74T0wstKY/6DMQLJ37UwM2bN7l+Z4m4eCAXKTX6IKJoyHp4dg95QJ4W0
-         6xB5vjNDKFz7cOlRZPcjTRNlKiRZ2QkoPu2YfglN1vDoY2z91QBSOHbwgoF2VR5BJBVI
-         e5yBiq4At+fPH5Z3hYcYepWoRGjIs7gf5aMnsmXDYKlGWwRi5AzTHnbhqND7CVg3Hxi5
-         gNP2JfdptNGpyFqFr5zBa9YO2YmRDqnEj1+hm0KLMNTGHGoEFxCBT5kn3iNxaDBaM1VH
-         U/CMmEabAT8DMKSRobhoPsHnYxMhIWK6gFyeGzvUUAc7QMp3vo17gmXRz5szNadNLrWI
-         4zqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773248701; x=1773853501;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=48irTatYQ10b6f13inkfgG0WrAMLX0Ii8XLPZu27c7A=;
-        b=jvEoVjjpgIjDCpRzNK12yGl1KakM4oKwstUzMry92owRSObNecI40js98V48NCu97v
-         U5AGcku+0zgL6MC0t8YPG77hm1k6niJY8/B4qbHPVQW30rKwnoLzq1OcRatz+KRG7MEL
-         oTxOuhiOIoS5KwIUELWZCxCDZUilZF43upXvlu0WYONKOxBJHHuNpVokYCXjRBhMMVpE
-         WWsuTPfORTu/chrAZIFyjN1MyA+rNt6pc40+TxlMd5LgQiHCxqxNQwMnrN0YlifP+JTM
-         dqjTpSTg5gfUPyrexrIIXYnHRF50EwtWcHIh38uYHSFp6i2DNAa9Q2yo0ZD0q6VPgytW
-         Vhbw==
-X-Forwarded-Encrypted: i=1; AJvYcCXEE9ClODz5a8DrwE4a9ohJW9WLMlQeYDRyI6giMiRuZtdc4gOWFo6pRzhn6LhwAr3ZplIIa8+nznn3yg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUdQBJBXPOMxjcAORd2QRDenybvcaN4d9V10CPPIROu1BEaRV1
-	K0D2gXc9lZCrnajOSfb1i3wLvvoDbIwS6Rob2JaAcpYzYD2wiiMu9XmW
-X-Gm-Gg: ATEYQzxHEmNGoGUxxKltZ2fAo5ckmMvNt//KW68OC+MY+CBDJzuI7kLfxjki0XS+pLf
-	XDh6SwMnvWhCghkjPtVj6sFgllXZFEVhC4we8e7c6NuZlwRIj7uRjBMp0qd5qfpFrSQoQHGQ9Mm
-	32pdOEt1IpBUWatCXdySOZosCs6nHrswHFBOofJUnd9Nz5GO7EAO9VKnEtWcfgupTlAE3HNvBOj
-	7eiVrdXRH1mcL6MzJoiYVF+8xlUC+fdpHK6Z6uvTh2K3Rtp9Sdb1TTivIe5R7SDo9fj7FJfWcew
-	UgEPzi7wnly5Lsx7M+NatsHSzv01OXU5gIXv86EQgRZrx3vXNCxkyYcVdVpkh3Xi7d7xqjNjrDe
-	YGuHxGIbGsauMPQpJWyBISj3/c60OXECSmc2tr3KKCnJwUdFbzI0qNwa47dwFVPTdGCV5WGc9ar
-	aW1s4pxzabOjFxC2HCj4YWVF/4vgrHj3I4+01vrbqDv6djjjApnGmazvvs48APbwMy3nIDapS+E
-	8k=
-X-Received: by 2002:a05:651c:2128:b0:38a:5fb:46ab with SMTP id 38308e7fff4ca-38a67d794d7mr12442511fa.3.1773248700098;
-        Wed, 11 Mar 2026 10:05:00 -0700 (PDT)
-Received: from T6NXCV08J99224A.admin.jenseneducation.se ([185.154.228.175])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38a67e5ebc5sm4666461fa.26.2026.03.11.10.04.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 10:04:59 -0700 (PDT)
-From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-Subject: [PATCH v2] staging: media: atomisp: remove unnecessary braces in single statement blocks
-Date: Wed, 11 Mar 2026 18:04:23 +0100
-Message-ID: <20260311170423.13157-1-rayfraytech@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260310203646.8869-1-rayfraytech@gmail.com>
-References: <20260310203646.8869-1-rayfraytech@gmail.com>
+	s=arc-20240116; t=1773249988; c=relaxed/simple;
+	bh=y+KKZaoBKzrNz1o+jJF6trYgtzm7fNHFfD7SXXDA9UY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AWWtAXWm+e3OAXEw0H+grasXeHUL8Up23UeDoUFF1MWroUhf8qe9u9WMegtzFrd8AaRd0UGfKoqRk6Kj9WPC+N+lv7gcjwmkUzGvQAm/enMU33rtYk+NE7qNOmgo8oXIjpuN8mhoepuBK7tPbQReLBP/D4aeQ71CeNR7cNx0Xco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu; spf=pass smtp.mailfrom=schnwalter.eu; dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b=GZUObFxH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mjAnFcnh; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schnwalter.eu
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id BFDC4EC0642;
+	Wed, 11 Mar 2026 13:26:25 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 11 Mar 2026 13:26:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=schnwalter.eu;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:message-id:mime-version
+	:reply-to:subject:subject:to:to; s=fm2; t=1773249985; x=
+	1773336385; bh=YkPQERX+T6reisC78/iLKEw2FXnOBZz8ocwVFwvGVXU=; b=G
+	ZUObFxHpg/SMW9vOWdRjeIfo8t0glT5t47vvtNLUT+4kW0cBdt4/VHpphTVxFTc2
+	cgzsHR+mrQmjqmGnVtsCfqA7o7YhSvA0M8rky1CrNexxzMO6oItme/oGV367P0QI
+	ZrEBxrgUKTfA952kd3QiJ2h314FC74CZTyOCp9nbx/rxBrlqOM/9yx4ShvCGdjh5
+	IaSn2dKCk4orsfHaaPZTATSjBtVM5fkni9yNmLdqHLj4c+z8pwNkjYrWQEa/Vioy
+	T0iSkQyasYAr7sksVwqrUGhqtKIgyaXis507RCQIyA6guiHnaZvpj6OHE3felqQQ
+	MbPxClXIxvQ79vwSMEYJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1773249985; x=1773336385; bh=YkPQERX+T6reisC78/iLKEw2FXnO
+	BZz8ocwVFwvGVXU=; b=mjAnFcnhU4vaEtTOp9avek22E91rC4+9XAbG8vj/W3nw
+	EPTZOwRY05FpifPvibTj429cLMo6+WBLxk9j1IrAUo/JZ2fgPL+tDgeHl6SZYOIC
+	OWcVqS30EDN4H7JqNGxwravxl/EPzHvNAV7zF4l2zvi3KqzkjmlbCZut5ioWbXr8
+	fBGa48mR+EIKnPkTMBlusNzNPOmDrewVJijGet9o71BnuRO0cJ4VbFC7ROZsUUdV
+	W3fJrtFCzZwOE7D39WRO52JuIZr/+gy0c3WHUCe0muP5W1hcRgMZiG5AifNs2yvM
+	ajo30Dj71bfYPe6lF6L9L2cPo7/NW0/6cVgPpf24gg==
+X-ME-Sender: <xms:waWxaQVWA00PA3cfilTkqfmpEIwtFMn7Id1ExzlVU44Q0TDv6Xufew>
+    <xme:waWxacwuwi5dq5xIBPFZIXCeiqkp0xNH8VPcLpTyAjvKKtlorTh4CE5Olmue_1xud
+    kGtnTkiHigioHrvafOgPBYLr90BqYlxIAJnWvc2mK6L9PZNnedaww>
+X-ME-Received: <xmr:waWxaf_2Q_R0Rib72tHW9wjKFXnaa_bQ1WaH826RfGQfw2muvxbSI2glotlz7w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeeggeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeghrghlthgvrhcu
+    hggvrhhnvghrucfutghhnhgvihguvghruceotghonhhtrggtthesshgthhhnfigrlhhtvg
+    hrrdgvuheqnecuggftrfgrthhtvghrnhepvefhheduuefggffhgfeuudefvdelieffiedu
+    uddvleeludevgfetfeegiefgfefhnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegtohhnthgr
+    tghtsehstghhnhifrghlthgvrhdrvghupdhnsggprhgtphhtthhopedutddpmhhouggvpe
+    hsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepuggvvhhitggvthhrvggvsehvghgvrhdrkhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopegtohhnthgrtghtsehstghhnhifrghlthgvrhdrvghupdhrtghpthhtohepkhhrii
+    hkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhs
+    sehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhn
+    sghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkh
+    gvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:waWxaZ_KZUiiG6ePfzflo2qEKXm0Y8z5AT4-dwzy0jgPLRIL1iRnXA>
+    <xmx:waWxaWVjROsHmeX2lcn71SoMYqkd6bVQUXr80R0ZHTahb7KZNdr3aA>
+    <xmx:waWxaefia8uNBPqHU3o8GIaI8ExbDoMoK6ckAJLjPzi5aJjfzypRgg>
+    <xmx:waWxaXZBitn-7L-86WC6KS4LYLM0NsD1gKvSQAoLGlxWRT-kAHbu-g>
+    <xmx:waWxacDFfx8t-csDch28JVCYeh0Uds3LdLeQATUi1F25r1EgIRsZP0tK>
+Feedback-ID: i455149b6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 11 Mar 2026 13:26:23 -0400 (EDT)
+From: Walter Werner Schneider <contact@schnwalter.eu>
+Date: Wed, 11 Mar 2026 19:26:20 +0200
+Subject: [PATCH] media: i2c: Add ov2732 image sensor driver cleanup
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260311-ov2732-driver-cleanup-v1-1-234f334c1e4b@schnwalter.eu>
+X-B4-Tracking: v=1; b=H4sIALylsWkC/x3MMQqAMAxA0atIZgM2gqJXEYfaRg1IlRSLIL27x
+ fEN/78QWYUjjNULykminKHA1BW43YaNUXwxUENd0xqDZ6K+JfQqiRXdwTbcF9rOLesyDGR7D6W
+ 9lFd5/u805/wBHip/U2cAAAA=
+X-Change-ID: 20260311-ov2732-driver-cleanup-a6cbfb992a7d
+To: linux-media@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Walter Werner Schneider <contact@schnwalter.eu>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773249983; l=2436;
+ i=contact@schnwalter.eu; s=20251106; h=from:subject:message-id;
+ bh=y+KKZaoBKzrNz1o+jJF6trYgtzm7fNHFfD7SXXDA9UY=;
+ b=/In7nVa0lrn41L9LsRhcs3MEv/mgFtLhvODpQeMu1fZmGm4cQqGzMBI/thtQiH3lzkHzccpN8
+ u4ufb2ifG21A9H2yY0IybxXNYvXGDX486VqWRmz74TjH11QyCXZQAme
+X-Developer-Key: i=contact@schnwalter.eu; a=ed25519;
+ pk=OoafUGtB7zQJLYhKA7ALCjqddXAaem/uP/eb3GGNkTI=
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[schnwalter.eu,quarantine];
+	R_DKIM_ALLOW(-0.20)[schnwalter.eu:s=fm2,messagingengine.com:s=fm1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,linuxfoundation.org,vger.kernel.org,lists.linux.dev,gmail.com];
-	TAGGED_FROM(0.00)[bounces-55430-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[schnwalter.eu:+,messagingengine.com:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rayfraytech@gmail.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55431-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 17CE4267BB0
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[contact@schnwalter.eu,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[schnwalter.eu:dkim,schnwalter.eu:email,schnwalter.eu:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,messagingengine.com:dkim]
+X-Rspamd-Queue-Id: 6C423268039
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Remove unnecessary braces around single statement blocks throughout
-the atomisp driver to comply with kernel coding style.
+A small set of changes:
+- Updated copyright year.
+- Removed redundant parentheses.
+- Removed endpoint check, see Dependencies for required patch set.
 
-Signed-off-by: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
+Dependencies:
+- media: i2c: Add ov2732 image sensor driver
+  https://lore.kernel.org/r/20260105-ov2732-driver-v6-0-95c1b0b0ba7b@schnwalter.eu
+- media: v4l2-fwnode: Return -EPROBE_DEFER on parsing NULL endpoints
+  https://lore.kernel.org/linux-media/20260310141157.1186325-1-sakari.ailus@linux.intel.com/
+
+Signed-off-by: Walter Werner Schneider <contact@schnwalter.eu>
 ---
-v2: Fix trailing whitespace on irq.c:326
+A patch to be applied on the v6 version of the ov2732 driver.
 
- .../pci/camera/pipe/src/pipe_stagedesc.c      |  9 ++----
- .../atomisp/pci/camera/pipe/src/pipe_util.c   |  3 +-
- .../host/input_formatter.c                    |  3 +-
- .../hive_isp_css_common/host/input_system.c   | 14 ++++-----
- .../pci/hive_isp_css_common/host/irq.c        | 30 ++++++++-----------
- .../pci/hive_isp_css_common/host/mmu.c        |  3 +-
- .../pci/hive_isp_css_common/host/vmem.c       |  3 +-
- .../isp/kernels/anr/anr_2/ia_css_anr2.host.c  |  3 +-
- .../pci/isp/kernels/bnlm/ia_css_bnlm.host.c   |  6 ++--
- .../isp/kernels/ctc/ctc2/ia_css_ctc2.host.c   |  7 ++---
- .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 13 ++++----
- .../isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c |  3 +-
- .../kernels/sdis/sdis_1.0/ia_css_sdis.host.c  |  6 ++--
- .../atomisp/pci/runtime/binary/src/binary.c   |  3 +-
- .../pci/runtime/debug/src/ia_css_debug.c      |  6 ++--
- .../pci/runtime/isys/src/virtual_isys.c       |  3 +-
- .../pci/runtime/pipeline/src/pipeline.c       |  3 +-
- .../staging/media/atomisp/pci/sh_css_params.c | 12 +++-----
- 18 files changed, 47 insertions(+), 83 deletions(-)
+P.S. Sorry for the misunderstanding, it wasn't clear to me that I should
+just send a diff on top of v6 instead of sending a v7.
+---
+ drivers/media/i2c/ov2732.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_stagedesc.c b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_stagedesc.c
-index a9f736398f50..fa2f8ed5b053 100644
---- a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_stagedesc.c
-+++ b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_stagedesc.c
-@@ -32,9 +32,8 @@ void ia_css_pipe_get_generic_stage_desc(
- 	stage_desc->max_input_width = 0;
- 	stage_desc->mode = binary->info->sp.pipeline.mode;
- 	stage_desc->in_frame = in_frame;
--	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
-+	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
- 		stage_desc->out_frame[i] = out_frame[i];
--	}
- 	stage_desc->vf_frame = vf_frame;
- ERR:
- 	IA_CSS_LEAVE_PRIVATE("");
-@@ -59,9 +58,8 @@ void ia_css_pipe_get_firmwares_stage_desc(
- 	stage_desc->max_input_width = 0;
- 	stage_desc->mode = mode;
- 	stage_desc->in_frame = in_frame;
--	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
-+	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
- 		stage_desc->out_frame[i] = out_frame[i];
--	}
- 	stage_desc->vf_frame = vf_frame;
- }
+diff --git a/drivers/media/i2c/ov2732.c b/drivers/media/i2c/ov2732.c
+index d33e7b6e3762f0e93e199f36dc2d77f95ec5b414..40035320fec631c098f77c433360599905805d2d 100644
+--- a/drivers/media/i2c/ov2732.c
++++ b/drivers/media/i2c/ov2732.c
+@@ -3,7 +3,7 @@
+  * ov2732 driver
+  *
+  * Copyright (C) 2017 Fuzhou Rockchip Electronics Co., Ltd.
+- * Copyright (C) 2025 Walter Werner Schneider <contact@schnwalter.eu>
++ * Copyright (C) 2025-2026 Walter Werner Schneider <contact@schnwalter.eu>
+  */
  
-@@ -82,8 +80,7 @@ void ia_css_pipe_get_sp_func_stage_desc(
- 	stage_desc->mode = (unsigned int)-1;
- 	stage_desc->in_frame = NULL;
- 	stage_desc->out_frame[0] = out_frame;
--	for (i = 1; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
-+	for (i = 1; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
- 		stage_desc->out_frame[i] = NULL;
--	}
- 	stage_desc->vf_frame = NULL;
- }
-diff --git a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_util.c b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_util.c
-index c7c42b472cc7..6cb3ecbd7297 100644
---- a/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_util.c
-+++ b/drivers/staging/media/atomisp/pci/camera/pipe/src/pipe_util.c
-@@ -26,9 +26,8 @@ void ia_css_pipe_util_create_output_frames(
- 	unsigned int i;
+ #include <linux/clk.h>
+@@ -491,11 +491,11 @@ static int ov2732_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_EXPOSURE:
+ 		/* Lowest 4 bits are fraction bits. */
+ 		cci_write(ov2732->regmap, OV2732_REG_EXPOSURE,
+-			  ((u32)ctrl->val) << 4, &ret);
++			  (u32)ctrl->val << 4, &ret);
+ 		break;
+ 	case V4L2_CID_VBLANK:
+ 		cci_write(ov2732->regmap, OV2732_REG_VTS,
+-			  (format->height + ctrl->val), &ret);
++			  format->height + ctrl->val, &ret);
+ 		break;
+ 	case V4L2_CID_TEST_PATTERN:
+ 		cci_write(ov2732->regmap, OV2732_REG_TEST_PATTERN,
+@@ -608,10 +608,6 @@ static int ov2632_probe_dt(struct ov2732 *ov2732)
+ 	int ret;
  
- 	assert(frames);
--	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
-+	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
- 		frames[i] = NULL;
--	}
- }
- 
- void ia_css_pipe_util_set_output_frames(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-index 40b3f1e48c56..c353461dcdf2 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-@@ -62,9 +62,8 @@ void input_formatter_rst(
- 	 * WICH USES THE STREAM2MEMRY BLOCK.
- 	 * MUST BE FIXED PROPERLY
- 	 */
--	if (!HIVE_IF_BIN_COPY[ID]) {
-+	if (!HIVE_IF_BIN_COPY[ID])
- 		input_formatter_reg_store(ID, addr, rst);
--	}
- 
- 	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-index 9f1199c4761c..68b0ad27615d 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_system.c
-@@ -138,11 +138,10 @@ void receiver_port_enable(
- 	hrt_data	reg = receiver_port_reg_load(ID, port_ID,
- 			  _HRT_CSS_RECEIVER_DEVICE_READY_REG_IDX);
- 
--	if (cnd) {
-+	if (cnd)
- 		reg |= 0x01;
--	} else {
-+	else
- 		reg &= ~0x01;
--	}
- 
- 	receiver_port_reg_store(ID, port_ID,
- 				_HRT_CSS_RECEIVER_DEVICE_READY_REG_IDX, reg);
-@@ -194,9 +193,8 @@ static void receiver_rst(
- 	assert(ID < N_RX_ID);
- 
- // Disable all ports.
--	for (port_id = MIPI_PORT0_ID; port_id < N_MIPI_PORT_ID; port_id++) {
-+	for (port_id = MIPI_PORT0_ID; port_id < N_MIPI_PORT_ID; port_id++)
- 		receiver_port_enable(ID, port_id, false);
--	}
- 
- 	// AM: Additional actions for stopping receiver?
- }
-@@ -830,15 +828,13 @@ input_system_err_t input_system_configuration_commit(void)
- 	// The last configuration step is to configure the input buffer.
- 	input_system_err_t error = input_buffer_configuration();
- 
--	if (error != INPUT_SYSTEM_ERR_NO_ERROR) {
-+	if (error != INPUT_SYSTEM_ERR_NO_ERROR)
- 		return error;
--	}
- 
- 	// Translate the whole configuration into registers.
- 	error = configuration_to_registers();
--	if (error != INPUT_SYSTEM_ERR_NO_ERROR) {
-+	if (error != INPUT_SYSTEM_ERR_NO_ERROR)
- 		return error;
--	}
- 
- 	// Translate the whole configuration into ctrl commands etc.
- 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-index b66560bca625..61dea386361a 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-@@ -55,9 +55,8 @@ void irq_clear_all(
- 	assert(ID < N_IRQ_ID);
- 	assert(IRQ_N_CHANNEL[ID] <= HRT_DATA_WIDTH);
- 
--	if (IRQ_N_CHANNEL[ID] < HRT_DATA_WIDTH) {
-+	if (IRQ_N_CHANNEL[ID] < HRT_DATA_WIDTH)
- 		mask = ~((~(hrt_data)0) >> IRQ_N_CHANNEL[ID]);
--	}
- 
- 	irq_reg_store(ID,
- 		      _HRT_IRQ_CONTROLLER_CLEAR_REG_IDX, mask);
-@@ -115,9 +114,9 @@ void irq_enable_pulse(
- {
- 	unsigned int edge_out = 0x0;
- 
--	if (pulse) {
-+	if (pulse)
- 		edge_out = 0xffffffff;
--	}
-+
- 	/* output is given as edge, not pulse */
- 	irq_reg_store(ID,
- 		      _HRT_IRQ_CONTROLLER_EDGE_NOT_PULSE_REG_IDX, edge_out);
-@@ -259,9 +258,9 @@ void virq_clear_all(void)
- {
- 	irq_ID_t	irq_id;
- 
--	for (irq_id = (irq_ID_t)0; irq_id < N_IRQ_ID; irq_id++) {
-+	for (irq_id = (irq_ID_t)0; irq_id < N_IRQ_ID; irq_id++)
- 		irq_clear_all(irq_id);
--	}
-+
- 	return;
- }
- 
-@@ -301,9 +300,9 @@ void virq_clear_info(struct virq_info *irq_info)
- 
- 	assert(irq_info);
- 
--	for (ID = (irq_ID_t)0 ; ID < N_IRQ_ID; ID++) {
-+	for (ID = (irq_ID_t)0 ; ID < N_IRQ_ID; ID++)
- 		irq_info->irq_status_reg[ID] = 0;
--	}
-+
- 	return;
- }
- 
-@@ -324,20 +323,17 @@ enum hrt_isp_css_irq_status virq_get_channel_id(
- 			break;
- 	}
- 
--	if (idx == IRQ_N_CHANNEL[IRQ0_ID]) {
-+	if (idx == IRQ_N_CHANNEL[IRQ0_ID])
- 		return hrt_isp_css_irq_status_error;
--	}
- 
- 	/* Check whether there are more bits set on device 0 */
--	if (irq_status != (1U << idx)) {
-+	if (irq_status != (1U << idx))
- 		status = hrt_isp_css_irq_status_more_irqs;
--	}
- 
- 	/* Check whether we have an IRQ on one of the nested devices */
- 	for (ID = N_IRQ_ID - 1 ; ID > (irq_ID_t)0; ID--) {
--		if (IRQ_NESTING_ID[ID] == (enum virq_id)idx) {
-+		if (IRQ_NESTING_ID[ID] == (enum virq_id)idx)
- 			break;
--		}
- 	}
- 
- 	/* If we have a nested IRQ, load that state, discard the device 0 state */
-@@ -350,9 +346,8 @@ enum hrt_isp_css_irq_status virq_get_channel_id(
- 				break;
- 		}
- 
--		if (idx == IRQ_N_CHANNEL[ID]) {
-+		if (idx == IRQ_N_CHANNEL[ID])
- 			return hrt_isp_css_irq_status_error;
--		}
- 
- 		/* Alternatively check whether there are more bits set on this device */
- 		if (irq_status != (1U << idx)) {
-@@ -408,9 +403,8 @@ static inline irq_ID_t virq_get_irq_id(
- 	assert(channel_ID);
- 
- 	for (ID = (irq_ID_t)0 ; ID < N_IRQ_ID; ID++) {
--		if (irq_ID < IRQ_N_ID_OFFSET[ID + 1]) {
-+		if (irq_ID < IRQ_N_ID_OFFSET[ID + 1])
- 			break;
--		}
- 	}
- 
- 	*channel_ID = (unsigned int)irq_ID - IRQ_N_ID_OFFSET[ID];
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-index 064e88a5e064..70d118fe1e70 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-@@ -32,7 +32,6 @@ void mmu_invalidate_cache_all(void)
- {
- 	mmu_ID_t	mmu_id;
- 
--	for (mmu_id = (mmu_ID_t)0; mmu_id < N_MMU_ID; mmu_id++) {
-+	for (mmu_id = (mmu_ID_t)0; mmu_id < N_MMU_ID; mmu_id++)
- 		mmu_invalidate_cache(mmu_id);
--	}
- }
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-index 722b684fbc37..6b5cb9db759b 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-@@ -168,9 +168,8 @@ static void store_vector(
- 	//load_vector (&v[1][0], &to[ISP_NWAY]); /* Fetch the next vector, since it will be overwritten. */
- 	hive_uedge *data = (hive_uedge *)v;
- 
--	for (i = 0; i < ISP_NWAY; i++) {
-+	for (i = 0; i < ISP_NWAY; i++)
- 		hive_sim_wide_pack(data, (hive_wide)&from[i], ISP_VEC_ELEMBITS, i);
--	}
- 	assert(ISP_BAMEM_BASE[ID] != (hrt_address) - 1);
- #if !defined(HRT_MEMORY_ACCESS)
- 	ia_css_device_store(ISP_BAMEM_BASE[ID] + (unsigned long)to, &v, size);
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-index 09599884bdae..08af8a848fbf 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_2/ia_css_anr2.host.c
-@@ -22,9 +22,8 @@ ia_css_anr2_vmem_encode(
- 	for (i = 0; i < ANR_PARAM_SIZE; i++) {
- 		unsigned int j;
- 
--		for (j = 0; j < ISP_VEC_NELEMS; j++) {
-+		for (j = 0; j < ISP_VEC_NELEMS; j++)
- 			to->data[i][j] = from->data[i * ISP_VEC_NELEMS + j];
--		}
- 	}
- }
- 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/bnlm/ia_css_bnlm.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/bnlm/ia_css_bnlm.host.c
-index cd867937ee13..fcd7d7e2afe8 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/bnlm/ia_css_bnlm.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/bnlm/ia_css_bnlm.host.c
-@@ -125,14 +125,12 @@ ia_css_bnlm_vmem_encode(
- 	bnlm_lut_encode(&to->div_lut, div_lut_nearests, div_lut_slopes,
- 			BNLM_DIV_LUT_SIZE);
- 	memset(to->div_lut_intercepts, 0, sizeof(to->div_lut_intercepts));
--	for (i = 0; i < BNLM_DIV_LUT_SIZE; i++) {
-+	for (i = 0; i < BNLM_DIV_LUT_SIZE; i++)
- 		to->div_lut_intercepts[0][i] = div_lut_intercepts[i];
--	}
- 
- 	memset(to->power_of_2, 0, sizeof(to->power_of_2));
--	for (i = 0; i < (ISP_VEC_ELEMBITS - 1); i++) {
-+	for (i = 0; i < (ISP_VEC_ELEMBITS - 1); i++)
- 		to->power_of_2[0][i] = 1 << i;
--	}
- }
- 
- /* - Encodes BNLM public parameters into DMEM parameters */
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c
-index 38751b8e9e6a..177487b6b237 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c
-@@ -52,13 +52,12 @@ static int ctc2_slope(int y1, int y0, int x1, int x0)
- 	/*the slope must lie within the range
- 	  (-max_slope-1) >= (dydx) >= (max_slope)
- 	*/
--	if (slope <= -max_slope - 1) {
-+	if (slope <= -max_slope - 1)
- 		dydx = -max_slope - 1;
--	} else if (slope >= max_slope) {
-+	else if (slope >= max_slope)
- 		dydx = max_slope;
--	} else {
-+	else
- 		dydx = slope;
--	}
- 
- 	return dydx;
- }
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-index 8e4451fcc8e3..76d76ca4401a 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
-@@ -140,17 +140,14 @@ ia_css_eed1_8_vmem_encode(
- 	assert(tcinv_x[0] == 0);
- 	assert(fcinv_x[0] == 0);
- 
--	for (j = 1; j < NUMBER_OF_CHGRINV_POINTS; j++) {
-+	for (j = 1; j < NUMBER_OF_CHGRINV_POINTS; j++)
- 		assert(chgrinv_x[j] > chgrinv_x[j - 1]);
--	}
- 
--	for (j = 1; j < NUMBER_OF_TCINV_POINTS; j++) {
-+	for (j = 1; j < NUMBER_OF_TCINV_POINTS; j++)
- 		assert(tcinv_x[j] > tcinv_x[j - 1]);
--	}
- 
--	for (j = 1; j < NUMBER_OF_FCINV_POINTS; j++) {
-+	for (j = 1; j < NUMBER_OF_FCINV_POINTS; j++)
- 		assert(fcinv_x[j] > fcinv_x[j - 1]);
--	}
- 
- 	/* The implementation of the calculating 1/x is based on the availability
- 	 * of the OP_vec_shuffle16 operation.
-@@ -260,9 +257,9 @@ ia_css_eed1_8_encode(
- 	to->margin_neg_diff = (from->neg_margin1 - from->neg_margin0);
- 
- 	/* Encode DEWEnhance exp (e_dew_enh_asr) */
--	for (i = 0; i < (IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS - 1); i++) {
-+	for (i = 0; i < (IA_CSS_NUMBER_OF_DEW_ENHANCE_SEGMENTS - 1); i++)
- 		min_exp = max(min_exp, from->dew_enhance_seg_exp[i]);
--	}
-+
- 	to->e_dew_enh_asr = 13 - clamp(min_exp, 0, 13);
- 
- 	to->dedgew_max = from->dedgew_max;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c
-index 13678138c48c..823a1b0c0991 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/s3a/s3a_1.0/ia_css_s3a.host.c
-@@ -240,9 +240,8 @@ ia_css_s3a_hmem_decode(
- 	/* Calculate sum of histogram of R,
- 	   which should not be less than count_for_3a */
- 	sum_r = 0;
--	for (i = 0; i < HMEM_UNIT_SIZE; i++) {
-+	for (i = 0; i < HMEM_UNIT_SIZE; i++)
- 		sum_r += out_ptr[i].r;
--	}
- 	if (sum_r < count_for_3a) {
- 		/* histogram is invalid */
- 		return;
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
-index bd2def6c341a..0ca7ef5bb064 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_1.0/ia_css_sdis.host.c
-@@ -50,9 +50,8 @@ void ia_css_sdis_horicoef_vmem_encode(
- 	assert(size % (IA_CSS_DVS_NUM_COEF_TYPES * ISP_VEC_NELEMS * sizeof(
- 			   short)) == 0);
- 
--	for (type = 0; type < IA_CSS_DVS_NUM_COEF_TYPES; type++) {
-+	for (type = 0; type < IA_CSS_DVS_NUM_COEF_TYPES; type++)
- 		fill_row(&private[type * stride], &public[type * width], width, padding);
--	}
- }
- 
- void ia_css_sdis_vertcoef_vmem_encode(
-@@ -77,9 +76,8 @@ void ia_css_sdis_vertcoef_vmem_encode(
- 	assert(size % (IA_CSS_DVS_NUM_COEF_TYPES * ISP_VEC_NELEMS * sizeof(
- 			   short)) == 0);
- 
--	for (type = 0; type < IA_CSS_DVS_NUM_COEF_TYPES; type++) {
-+	for (type = 0; type < IA_CSS_DVS_NUM_COEF_TYPES; type++)
- 		fill_row(&private[type * stride], &public[type * height], height, padding);
--	}
- }
- 
- void ia_css_sdis_horiproj_encode(
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index af93ca96747c..60ae7bf5512b 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -670,9 +670,8 @@ ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
- 		err = ia_css_isp_param_allocate_isp_parameters(
- 		    &binary->mem_params, &binary->css_params,
- 		    &info->mem_initializers);
--		if (err) {
-+		if (err)
- 			return err;
--		}
- 	}
- 	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
- 	{
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index b411ca2f415e..58d99abe70aa 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -1123,9 +1123,8 @@ ia_css_debug_pipe_graph_dump_prologue(void)
- 
- void ia_css_debug_pipe_graph_dump_epilogue(void)
- {
--	if (strlen(ring_buffer) > 0) {
-+	if (strlen(ring_buffer) > 0)
- 		dtrace_dot(ring_buffer);
--	}
- 
- 	if (pg_inst.stream_format != N_ATOMISP_INPUT_FORMAT) {
- 		/* An input stream format has been set so assume we have
-@@ -1778,9 +1777,8 @@ static void debug_dump_one_trace(enum TRACE_CORE_ID proc_id)
- 				* When tid value is 111b, the data will be interpreted differently:
- 				* tid val is ignored, major field contains 2 bits (msb) for format type
- 				*/
--				if (tid_val == FIELD_TID_SEL_FORMAT_PAT) {
-+				if (tid_val == FIELD_TID_SEL_FORMAT_PAT)
- 					dump_format = FIELD_FORMAT_UNPACK(trace_read_buf[j]);
--				}
- 			}
- 			switch (dump_format) {
- 			case TRACE_DUMP_FORMAT_POINT:
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-index e6c11d5f77b4..8e8433f5b07a 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-@@ -295,9 +295,8 @@ static bool create_input_system_channel(
- 	if (!rc)
- 		return false;
- 
--	if (!acquire_sid(me->stream2mmio_id, &me->stream2mmio_sid_id)) {
-+	if (!acquire_sid(me->stream2mmio_id, &me->stream2mmio_sid_id))
- 		return false;
--	}
- 
- 	if (!acquire_ib_buffer(
- 		metadata ? cfg->metadata.bits_per_pixel :
-diff --git a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-index 0470871f8fff..8d11466fda1b 100644
---- a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-@@ -575,9 +575,8 @@ static int pipeline_stage_create(
- 	binary = stage_desc->binary;
- 	firmware = stage_desc->firmware;
- 	vf_frame = stage_desc->vf_frame;
--	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
-+	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++)
- 		out_frame[i] = stage_desc->out_frame[i];
--	}
- 
- 	stage = kvzalloc_obj(*stage);
- 	if (!stage) {
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index fcebace11daf..8cbb5d598005 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -1928,9 +1928,8 @@ sh_css_set_per_frame_isp_config_on_pipe(
- 	params = stream->per_frame_isp_params_configs;
- 
- 	/* update new ISP params object with the new config */
--	if (!sh_css_init_isp_params_from_global(stream, params, false, pipe)) {
-+	if (!sh_css_init_isp_params_from_global(stream, params, false, pipe))
- 		err1 = -EINVAL;
--	}
- 
- 	err2 = sh_css_init_isp_params_from_config(stream->pipes[0], params, config, pipe);
- 
-@@ -2004,9 +2003,8 @@ sh_css_init_isp_params_from_config(struct ia_css_pipe *pipe,
- 		 * user. */
- 		/* we do not exit from this point immediately to allow internal
- 		 * firmware feature testing. */
--		if (is_dp_10bpp) {
-+		if (is_dp_10bpp)
- 			err = -EINVAL;
--		}
- 	} else {
- 		err = -EINVAL;
- 		goto exit;
-@@ -3034,9 +3032,8 @@ process_kernel_parameters(unsigned int pipe_id,
- 		ia_css_ob_configure(&params->stream_configs.ob,
- 				    isp_pipe_version, raw_bit_depth);
- 	}
--	if (params->config_changed[IA_CSS_S3A_ID]) {
-+	if (params->config_changed[IA_CSS_S3A_ID])
- 		ia_css_s3a_configure(raw_bit_depth);
--	}
- 	/* Copy stage uds parameters to config, since they can differ per stage.
- 	 */
- 	params->crop_config.crop_pos = params->uds[stage->stage_num].crop_pos;
-@@ -3899,9 +3896,8 @@ sh_css_invalidate_params(struct ia_css_stream *stream)
- 	params->isp_params_changed = true;
- 	for (i = 0; i < IA_CSS_PIPE_ID_NUM; i++) {
- 		for (j = 0; j < SH_CSS_MAX_STAGES; j++) {
--			for (mem = 0; mem < N_IA_CSS_MEMORIES; mem++) {
-+			for (mem = 0; mem < N_IA_CSS_MEMORIES; mem++)
- 				params->isp_mem_params_changed[i][j][mem] = true;
--			}
- 		}
- 	}
- 
+ 	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
+-	if (!ep)
+-		return dev_err_probe(ov2732->dev, -EPROBE_DEFER,
+-				     "waiting for fwnode graph endpoint\n");
+-
+ 	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+ 	fwnode_handle_put(ep);
+ 	if (ret) {
+
+---
+base-commit: bb1048a0531ffda0c6e871c341d388735cfcc807
+change-id: 20260311-ov2732-driver-cleanup-a6cbfb992a7d
+
+Best regards,
 -- 
-2.43.0
+Walter Werner Schneider <contact@schnwalter.eu>
 
 
