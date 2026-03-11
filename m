@@ -1,145 +1,179 @@
-Return-Path: <linux-media+bounces-55435-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55436-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Jw9ClK3sWl0EwAAu9opvQ
-	(envelope-from <linux-media+bounces-55435-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 19:41:22 +0100
+	id 2N8BClG+sWkwFAAAu9opvQ
+	(envelope-from <linux-media+bounces-55436-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:11:13 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF5B268BE0
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 19:41:21 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE49269196
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:11:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 31A47301511A
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 18:41:21 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 32D74301489A
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 19:11:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C893EAC7D;
-	Wed, 11 Mar 2026 18:40:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C468634EEED;
+	Wed, 11 Mar 2026 19:11:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0s93ub2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s9aLLEWW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442963EAC74
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 18:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188D8336EC5;
+	Wed, 11 Mar 2026 19:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773254429; cv=none; b=ZfeHtKjti/79Kc+UwKEYy4WIyCY3DSUyZxOtFiXV++H9UavcIsBVeZ3dNmsP6NaSYCbuhiiOn7MlvhFNEWMLUtRiM5+IIj0/f5mKqGENpLuIDECjlHl/5tRmvNPz1TbUTr7bwwlbrc5OQwqZ+NP99YkDon3rXxdGQzcW7mfAxuY=
+	t=1773256265; cv=none; b=c5Ju4HdjwjxC+qS3aPkAdq+1NJ7ERSTdylus7DfhePYb3EI7jill7jef9k4VQPJDALsOLkheCR+ETg8g1rr6/aTRdDfqSZD1NtZc1yq0AZd8/NDbL2R1hsL11WkecmrxuHjnB5bf3QMb79JUYbAXtIVbbLh1sUO76HmZN10JhkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773254429; c=relaxed/simple;
-	bh=is5nN+TX0unizFQTKEQ7DdrzwQGC5E3Me2H9mDq6+tc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MEGOcO/U1Ly9XT4JIorcAENdfRXWkGvVLN2H82DfD4Ht0FTHbi0iDNk2GdfMqcWtAmRo945gw6uuhDuLl13w43Nk0PYJCYNjZ1cxjsBi+XY7ikx5/K2OTiDF8xchU6R+UsXQn5xkQ2na9DuKjolD8oudVNkQLsY3kl9D3jXcUrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0s93ub2; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48529c325f0so1300195e9.0
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 11:40:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773254425; x=1773859225; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=is5nN+TX0unizFQTKEQ7DdrzwQGC5E3Me2H9mDq6+tc=;
-        b=M0s93ub2jNTHVigekti/TJrktq58s3ZDZYN9mgikeS/2swyg/Cvwme89ditfbdF5W+
-         k0UZIMxn+UJuknzd+xGwu9lMbyq7sDgaTUJi4kkemUCinxcBF9LQx7HlmE78H+wRhxq2
-         CRjqfJZfVUkl1381XHXip3BnMehRlgMyIAdFwWHTdInVhcxoO9YHpRwxzGxPqCxb68JX
-         kiow8Z92K1AW5ZfcWiBgGBD/jus54J/J9zsFXudlSOzslrr3LmINu9hG7zfSBF/+KYX3
-         MYLZewfK+9qzoxB3pvJodoen8z1hiPQ+pgX65+vxiGxw33mQGzB2W7sRQjRGJu38WY3q
-         e4+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773254425; x=1773859225;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=is5nN+TX0unizFQTKEQ7DdrzwQGC5E3Me2H9mDq6+tc=;
-        b=dE6Yo6Y6kuwmg4YW+Q+g3hg4pxJWbmGp5qIvt4FcJF3akCb1bBB8t9DcTb8ntNR7sl
-         oItW56alnYIn5+EIyLtHFb9gmNx07j1GfzUkc+SwVR718ydgGGnqwRLTbtwSjoDZH3jC
-         R5TZB3SYl5YNWa2ohTEUZ57oidul0V7icX3gUU6GsvQ1vYBwFEqmitV5SjjEE8x4frDw
-         TAOw/SqGt3p0leIZfiN11O+lA34Ov6vZ00olw/PqxgBMKi9pp+hkRPG68uwsXQzJrZ85
-         SydrcprNm7hjgvpvV39/vqmtezUdcxusS2bje78Go0qChR0w7cDgvUwaxsk2qnnDSpgr
-         T6Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCVxYqfAU6YJ9pizRUJZPGfGCKtGeXipfyus372eo1UYVra+mWZRpXl6XTo4GI+zoRkG+N0XujimsWxj3Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeNZMcnORRTc8cb08kWNwiTSOnRwBiKAVrfvTahXsPOACGmQC0
-	56yksPOlYHzafuOrWSpvuV5iEgyBECd3rJlv6rWaDcTrH48QLSkXXyTr
-X-Gm-Gg: ATEYQzzPXtXBKNAuKjIrq49hZYq1R9M9o6gXfaJr4Lta7sMWbTzpLeNIugJqnn2M5nF
-	0NM1WrsBYJPyIdu5o7mIpAMih8zuZ4tHdZ4N2FGroru590QcCTkvBkOsdMamb7f9uY/UL99Qosy
-	Pstrbh4yEtUq9gBaFyKACHqwPquF7sVjtYknbSibLC3sjkEPmhReFpDsGc++DCc/oRpLoatU3Oa
-	nP9uM8VkexQNUx9TEHiS4aTCIFnEMDoTbbEUZh3SrLojR83R7wXpT/Znu1P0g2dQuN24IRHU3vO
-	7D7f4euj5rlYGN3GTt2NaJexZmmGBRVW0BLzyvgnGvpjcXtaCQuAXY2Rv3qjOl+8Okokc1k52SL
-	eFohB24vry51Yti4+9F3xQu7EMk1a0ABLf9tUd6U6hqiT25ItaUa5Jswt3DSYCMTmX0NIZOhqD4
-	HIcFRI5f9gBQABtqZw+Tl3E13h7Ss5ZbMVMFw2m4W0G9iFMM771A==
-X-Received: by 2002:a05:600c:a08:b0:485:2c61:9459 with SMTP id 5b1f17b1804b1-4854b0afb48mr64033025e9.8.1773254424412;
-        Wed, 11 Mar 2026 11:40:24 -0700 (PDT)
-Received: from DESKTOP-VOVUFNJ.localdomain ([5.14.84.168])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b0dc8d7sm22165535e9.25.2026.03.11.11.40.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 11:40:23 -0700 (PDT)
-From: Bogdan Sandu <bogdanelsandu2011@gmail.com>
-To: sakari.ailus@linux.intel.com
-Cc: bingbu.cao@intel.com,
-	bogdanelsandu2011@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	tian.shu.qiu@intel.com
-Subject: Re: [PATCH v2 1/4] media: ipu3: fix alignment
-Date: Wed, 11 Mar 2026 20:39:39 +0200
-Message-ID: <20260311183938.6289-2-bogdanelsandu2011@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <aak7s0qFNf4xgNhZ@kekkonen.localdomain>
-References: <aak7s0qFNf4xgNhZ@kekkonen.localdomain>
+	s=arc-20240116; t=1773256265; c=relaxed/simple;
+	bh=TQwOXVY3okpMDz/qRr33ckVvqzM5sFn3aQxkMqIQM9U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hAsQlMT3XjQZHX9jUtHWvxB8Jp8RsZF/8Cs9SLBsVt6Mbt6mxdp2aFpWuKsACs+AXfP2fqjmckgG5qdHhsY2Mks8ox35199JMNs4EK+RYhzhZ/+veLt+svM6qfxTu7otKlKlWNjI+65MtHY2cis1OIT4etLNhEP0qbLEA1+yngg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=s9aLLEWW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 871FF379;
+	Wed, 11 Mar 2026 20:09:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773256194;
+	bh=TQwOXVY3okpMDz/qRr33ckVvqzM5sFn3aQxkMqIQM9U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=s9aLLEWWxLLoSEQdPI0QgiFvZ3fUsyBEoL77StGbkHgAnZHsYBh/KdU/A6fxlECdX
+	 /l1kg5RShuci77ga7z3/M/g+yqddf8OrRn1z95H8MLu67In45cocz63av9/a8Ki/4x
+	 UreIzFHXiJ6lrPrAb/b7vG9Z6JmZd32nJ92AuLnA=
+Message-ID: <a2a3a79c-c3f8-441c-b3fe-ea86ca4de410@ideasonboard.com>
+Date: Wed, 11 Mar 2026 19:10:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] media: i2c: ov5675: Wait for endpoint
+To: Antti Laakso <antti.laakso@linux.intel.com>, linux-media@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linusw@kernel.org, brgl@kernel.org, sakari.ailus@linux.intel.com,
+ mchehab@kernel.org, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
+ hverkuil+cisco@kernel.org, sre@kernel.org, hao.yao@intel.com,
+ jimmy.su@intel.com, miguel.vadillo@intel.com, kees@kernel.org,
+ ribalda@chromium.org
+References: <20260311131910.835513-1-antti.laakso@linux.intel.com>
+ <20260311131910.835513-2-antti.laakso@linux.intel.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <20260311131910.835513-2-antti.laakso@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-55435-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[intel.com,gmail.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bogdanelsandu2011@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-55436-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BDF5B268BE0
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 2CE49269196
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello Sakari,
+Hi Antti, thanks for the v2
 
-The quoted change was made in error.
+On 11/03/2026 13:19, Antti Laakso wrote:
+> Defer probe if endpoint is not yet available. And do it before acquiring
+> clock, gpio and regulators.
+> 
+> Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
+> ---
 
-If you'd like me to resend the patch, please let me know. Otherwise I will refrain from resending it to avoid creating noise.
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
 
---
-Regards,
+>   drivers/media/i2c/ov5675.c | 32 ++++++++++++++++----------------
+>   1 file changed, 16 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5675.c b/drivers/media/i2c/ov5675.c
+> index ea26df328189..508149485248 100644
+> --- a/drivers/media/i2c/ov5675.c
+> +++ b/drivers/media/i2c/ov5675.c
+> @@ -1181,17 +1181,26 @@ static int ov5675_get_hwcfg(struct ov5675 *ov5675)
+>   	if (!fwnode)
+>   		return -ENXIO;
+>   
+> +	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0,
+> +					     FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		return ret;
+> +
+>   	ov5675->xvclk = devm_v4l2_sensor_clk_get(dev, NULL);
+> -	if (IS_ERR(ov5675->xvclk))
+> -		return dev_err_probe(dev, PTR_ERR(ov5675->xvclk),
+> -				     "failed to get xvclk: %pe\n",
+> -				     ov5675->xvclk);
+> +	if (IS_ERR(ov5675->xvclk)) {
+> +		ret = dev_err_probe(dev, PTR_ERR(ov5675->xvclk),
+> +				    "failed to get xvclk\n");
+> +		goto check_hwcfg_error;
+> +	}
+>   
+>   	xvclk_rate = clk_get_rate(ov5675->xvclk);
+>   	if (xvclk_rate != OV5675_XVCLK_19_2) {
+>   		dev_err(dev, "external clock rate %u is unsupported",
+>   			xvclk_rate);
+> -		return -EINVAL;
+> +		ret = -EINVAL;
+> +		goto check_hwcfg_error;
+>   	}
+>   
+>   	ov5675->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> @@ -1199,7 +1208,7 @@ static int ov5675_get_hwcfg(struct ov5675 *ov5675)
+>   	if (IS_ERR(ov5675->reset_gpio)) {
+>   		ret = PTR_ERR(ov5675->reset_gpio);
+>   		dev_err(dev, "failed to get reset-gpios: %d\n", ret);
+> -		return ret;
+> +		goto check_hwcfg_error;
+>   	}
+>   
+>   	for (i = 0; i < OV5675_NUM_SUPPLIES; i++)
+> @@ -1208,16 +1217,7 @@ static int ov5675_get_hwcfg(struct ov5675 *ov5675)
+>   	ret = devm_regulator_bulk_get(dev, OV5675_NUM_SUPPLIES,
+>   				      ov5675->supplies);
+>   	if (ret)
+> -		return ret;
+> -
+> -	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> -	if (!ep)
+> -		return -ENXIO;
+> -
+> -	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> -	fwnode_handle_put(ep);
+> -	if (ret)
+> -		return ret;
+> +		goto check_hwcfg_error;
+>   
+>   	if (bus_cfg.bus.mipi_csi2.num_data_lanes != OV5675_DATA_LANES) {
+>   		dev_err(dev, "number of CSI2 data lanes %d is not supported",
 
-Bogdan Sandu
 
