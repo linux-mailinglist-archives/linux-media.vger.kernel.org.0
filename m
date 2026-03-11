@@ -1,427 +1,272 @@
-Return-Path: <linux-media+bounces-55445-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55446-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6Oh8IC/JsWnvFAAAu9opvQ
-	(envelope-from <linux-media+bounces-55445-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:57:35 +0100
+	id WCVFEJrJsWnvFAAAu9opvQ
+	(envelope-from <linux-media+bounces-55446-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:59:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC50D269B73
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:57:34 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A861269BC3
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:59:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 210B83069064
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 19:54:31 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4F5A430193A6
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 19:59:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAB4E314D18;
-	Wed, 11 Mar 2026 19:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CC5A37BE61;
+	Wed, 11 Mar 2026 19:59:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Am1CWdQq"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="XlTlwCDB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B44337DEB4
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 19:53:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF242F3C19;
+	Wed, 11 Mar 2026 19:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773258827; cv=none; b=UcoxPRYVrO/wL11Ni4me5c8K4UDbvRFAmF4JF4mL1XGM7k/34juevjlaruni3KMeSrEHfCqbV3hAmsAYoZVrqlArb82HwaPoIdl8NRm0pVW7C91NEpQ3EFVA+dHPnfb2+2IsvYl41o6CmHlbY07kAkWUrEQx/ZTkZhVjwoA1ozs=
+	t=1773259154; cv=none; b=eLWgCaWU9l6/uxltuI0Z3mjwjieyJw0kIYtzMGI4BKoqYslMMW/XpOcq/sImnuIayooXJmDUrT/aTBIzwNPNJilFJ6+C3BQQAhQl7JdhW8ZqouMcVJ3UwZFYNo4EPKvz6vfU14dnO8ZKYRXtz39FsrGPZr+fUH79d7wzyYrEwm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773258827; c=relaxed/simple;
-	bh=Lr684luf6NmtbrXtt3EszjWm5IVnQP/L71Cvq6VgtFI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fAJazei5i+9rg9Q9OxWk2VGX41YCl7SzTYc+91rLjIEgYKH6Iwhq+syquZ/UVJipcNwvkbn/He3CA9TQQg5/S5Ydy2qBUxl16mM7i+2/hChVo7Zr+L2YQhaILoMO3BqLxVtd7w7f8ih484gl13G1ZqwFx3mjYwBKsDjGywfujfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Am1CWdQq; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773258823;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iZcfx1FVb+KAsQQ+WSEa4fJpAcClcy+BQx0fgVFmOUE=;
-	b=Am1CWdQqM9VA0FZl/4Ww2QdV6UtaNsj6rYrWVgz7CbqXLZYEkWelCqen5RlsuvYPQlePd/
-	RNRvnJQpBx8DneCyOrIoicX6Xii2hTclW/a10WhSFXzTVR9oVGGZHFmsVt4Xios3lG6ji3
-	Uqvi91KyRHhJttVTzouE7N09LxM9IZA=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-81-YaVsQSCgNGijPX6lV4VZyA-1; Wed,
- 11 Mar 2026 15:53:40 -0400
-X-MC-Unique: YaVsQSCgNGijPX6lV4VZyA-1
-X-Mimecast-MFC-AGG-ID: YaVsQSCgNGijPX6lV4VZyA_1773258817
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	s=arc-20240116; t=1773259154; c=relaxed/simple;
+	bh=8p4+LstFYZTdtEwWu8/zX3vtiS13K3rgUJAcloezkBQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RjpOxBy0ENPp9f8x90/wZuQSt1o2yizFnf3PIW4vVh3FOQR2x7dUg61XSk7WY4D5ww3MXMFVw5GS5dZRECfcwqQ46EFBtT8UQaZti1N3aGo+YJYeFp5o67vDuJxWbA/L1hn/mJSEqyN3CvezJLv9qi4aLmlsqwOKKiBL2nztIaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=XlTlwCDB; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [IPV6:2a02:f000:10bd:e301::1d7] (unknown [IPv6:2a02:f000:10bd:e301::1d7])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CA5A519560B3;
-	Wed, 11 Mar 2026 19:53:36 +0000 (UTC)
-Received: from GoldenWind.redhat.com (unknown [10.22.81.64])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 49EEE30002D2;
-	Wed, 11 Mar 2026 19:53:32 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org,
-	Gary Guo <gary@garyguo.net>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	rust-for-linux@vger.kernel.org
-Cc: Matthew Maurer <mmaurer@google.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	christian.koenig@amd.com,
-	Asahi Lina <lina@asahilina.net>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Boqun Feng <boqun@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Krishna Ketan Rai <prafulrai522@gmail.com>,
-	linux-media@vger.kernel.org,
-	Shankari Anand <shankari.ak0208@gmail.com>,
-	David Airlie <airlied@gmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	linaro-mm-sig@lists.linaro.org,
-	Asahi Lina <lina+kernel@asahilina.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@vger.kernel.org
-Subject: [PATCH v8 7/7] rust: drm/gem: Add vmap functions to shmem bindings
-Date: Wed, 11 Mar 2026 15:52:46 -0400
-Message-ID: <20260311195246.2439593-8-lyude@redhat.com>
-In-Reply-To: <20260311195246.2439593-1-lyude@redhat.com>
-References: <20260311195246.2439593-1-lyude@redhat.com>
+	by ixit.cz (Postfix) with ESMTPSA id EB1C75341BB9;
+	Wed, 11 Mar 2026 20:59:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1773259146;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=QX5Jt6Z3lZJRoQ9C0CpYxGi1veLiB/YS80S7aSHNgRc=;
+	b=XlTlwCDBGIzl4Kf/jOISfEjeRdJSFfZYK1rV1x/bn0mztyhisQE6V10yA2ItdsHcEgfShx
+	UfcOVTaZqCuLW3jQq3diWy6vqhayecpEwterpG8Rcid4O9nb2dAgLtcBkmKk3IYzvaQJTb
+	RJ2UiEOVtMdF6In2oEEBoA4rOnhC5No=
+Message-ID: <4b44378b-171c-45b6-8000-b72d78166afe@ixit.cz>
+Date: Wed, 11 Mar 2026 20:59:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Spamd-Result: default: False [0.84 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 7/7] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+To: Richard Acayan <mailingradian@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Tianshu Qiu
+ <tian.shu.qiu@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+Cc: Robert Mader <robert.mader@collabora.com>, phone-devel@vger.kernel.org
+References: <20260217002738.133534-1-mailingradian@gmail.com>
+ <20260217002738.133534-8-mailingradian@gmail.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20260217002738.133534-8-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
+	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[google.com,gmail.com,oracle.com,amd.com,asahilina.net,kernel.org,ffwll.ch,linaro.org,vger.kernel.org,lists.linaro.org,linuxfoundation.org];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-55445-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-55446-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linaro.org,intel.com,linux.intel.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: EC50D269B73
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ixit.cz:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,collabora.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,ixit.cz:dkim,ixit.cz:mid,1a:email]
+X-Rspamd-Queue-Id: 1A861269BC3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-One of the more obvious use cases for gem shmem objects is the ability to
-create mappings into their contents. So, let's hook this up in our rust
-bindings.
+On 17/02/2026 01:27, Richard Acayan wrote:
+> The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
+> mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
+> support for it.
+> 
+> Co-developed-by: Robert Mader <robert.mader@collabora.com>
+> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+>   .../boot/dts/qcom/sdm670-google-sargo.dts     | 95 +++++++++++++++++++
+>   1 file changed, 95 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> index ed55646ca419..e925cba0381f 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> +++ b/arch/arm64/boot/dts/qcom/sdm670-google-sargo.dts
+> @@ -172,6 +172,34 @@ vreg_s2b_1p05: vreg-s2b-regulator {
+>   		regulator-min-microvolt = <1050000>;
+>   		regulator-max-microvolt = <1050000>;
+>   	};
+> +
+> +	cam_front_ldo: cam-front-ldo-regulator {
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "cam_front_ldo";
+> +		regulator-min-microvolt = <1352000>;
+> +		regulator-max-microvolt = <1352000>;
+> +		regulator-enable-ramp-delay = <135>;
+> +
+> +		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
+> +		enable-active-high;
+> +
+> +		pinctrl-0 = <&cam_front_ldo_pin>;
+> +		pinctrl-names = "default";
+> +	};
+> +
 
-Similar to how we handle SGTables, we make sure there's two different types
-of mappings: owned mappings (kernel::drm::gem::shmem::VMap) and borrowed
-mappings (kernel::drm::gem::shmem::VMapRef).
+[...]
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
+> +
+> +&cci_i2c1 {
+> +	camera@1a {
+> +		compatible = "sony,imx355";
+> +		reg = <0x1a>;
+> +
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +
+> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clock-rates = <19200000>;
+> +
+> +		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
+> +
+> +		avdd-supply = <&cam_front_ldo>;
+> +		dvdd-supply = <&cam_front_ldo>;
 
----
-V7:
-* Switch over to the new iosys map bindings that use the Io trait
-V8:
-* Get rid of iosys_map bindings for now, only support non-iomem types
-* s/as_shmem()/as_raw_shmem()
+It's unlikely that one supply is used both for digital and analog supply?
 
- rust/kernel/drm/gem/shmem.rs | 231 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 230 insertions(+), 1 deletion(-)
+I see downstream does it, but I don't think it's correct.
 
-diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-index 3fab5d76c197b..33f46fee87332 100644
---- a/rust/kernel/drm/gem/shmem.rs
-+++ b/rust/kernel/drm/gem/shmem.rs
-@@ -21,6 +21,11 @@
-         from_err_ptr,
-         to_result, //
-     },
-+    io::{
-+        Io,
-+        IoCapable,
-+        IoKnownSize, //
-+    },
-     prelude::*,
-     scatterlist,
-     types::{
-@@ -29,13 +34,22 @@
-     }, //
- };
- use core::{
-+    ffi::c_void,
-+    mem::{
-+        self,
-+        MaybeUninit, //
-+    },
-     ops::{
-         Deref,
-         DerefMut, //
-     },
--    ptr::NonNull,
-+    ptr::{
-+        self,
-+        NonNull, //
-+    },
- };
- use gem::{
-+    BaseObject,
-     BaseObjectPrivate,
-     DriverObject,
-     IntoGEMObject, //
-@@ -217,6 +231,82 @@ pub fn owned_sg_table(&self) -> Result<SGTable<T>> {
-             _owner: self.into(),
-         })
-     }
-+
-+    /// Attempt to create a [`RawIoSysMap`] from the gem object.
-+    fn raw_vmap(&self) -> Result<*mut c_void> {
-+        let mut map: MaybeUninit<bindings::iosys_map> = MaybeUninit::uninit();
-+
-+        // SAFETY: drm_gem_shmem_vmap can be called with the DMA reservation lock held
-+        to_result(unsafe {
-+            // TODO: see top of file
-+            bindings::dma_resv_lock(self.raw_dma_resv(), ptr::null_mut());
-+            let ret = bindings::drm_gem_shmem_vmap_locked(self.as_raw_shmem(), map.as_mut_ptr());
-+            bindings::dma_resv_unlock(self.raw_dma_resv());
-+            ret
-+        })?;
-+
-+        // SAFETY: The call to drm_gem_shmem_vunmap_locked succeeded above, so we are guaranteed
-+        // that map is properly initialized.
-+        let map = unsafe { map.assume_init() };
-+
-+        // XXX: We don't currently support iomem allocations
-+        if map.is_iomem {
-+            // SAFETY:
-+            // - The vmap operation above succeeded, making it safe to call vunmap
-+            // - We checked that this is an iomem allocation, making it safe to read vaddr_iomem
-+            unsafe { self.raw_vunmap(map.__bindgen_anon_1.vaddr_iomem) };
-+
-+            Err(ENOTSUPP)
-+        } else {
-+            // SAFETY: We checked that this is not an iomem allocation, making it safe to read vaddr
-+            Ok(unsafe { map.__bindgen_anon_1.vaddr })
-+        }
-+    }
-+
-+    /// Unmap a [`RawIoSysMap`] from the gem object.
-+    ///
-+    /// # Safety
-+    ///
-+    /// - The caller promises that addr came from a prior call to [`Self::raw_vmap`] on this gem
-+    ///   object.
-+    /// - The caller promises that the memory pointed to by addr will no longer be accesed through
-+    ///   this instance.
-+    unsafe fn raw_vunmap(&self, vaddr: *mut c_void) {
-+        let resv = self.raw_dma_resv();
-+        let mut map = bindings::iosys_map {
-+            is_iomem: false,
-+            __bindgen_anon_1: bindings::iosys_map__bindgen_ty_1 { vaddr },
-+        };
-+
-+        // SAFETY:
-+        // - This function is safe to call with the DMA reservation lock held
-+        // - Our `ARef` is proof that the underlying gem object here is initialized and thus safe to
-+        //   dereference.
-+        unsafe {
-+            // TODO: see top of file
-+            bindings::dma_resv_lock(resv, ptr::null_mut());
-+            bindings::drm_gem_shmem_vunmap_locked(self.as_raw_shmem(), &mut map);
-+            bindings::dma_resv_unlock(resv);
-+        }
-+    }
-+
-+    /// Creates and returns a virtual kernel memory mapping for this object.
-+    #[inline]
-+    pub fn vmap<const SIZE: usize>(&self) -> Result<VMapRef<'_, T, SIZE>> {
-+        Ok(VMapRef {
-+            addr: self.raw_vmap()?,
-+            owner: self,
-+        })
-+    }
-+
-+    /// Creates and returns an owned reference to a virtual kernel memory mapping for this object.
-+    #[inline]
-+    pub fn owned_vmap<const SIZE: usize>(&self) -> Result<VMap<T, SIZE>> {
-+        Ok(VMap {
-+            addr: self.raw_vmap()?,
-+            owner: self.into(),
-+        })
-+    }
- }
- 
- impl<T: DriverObject> Deref for Object<T> {
-@@ -268,6 +358,145 @@ impl<T: DriverObject> driver::AllocImpl for Object<T> {
-     };
- }
- 
-+macro_rules! impl_vmap_io_capable {
-+    ($impl:ident, $ty:ty $(, $lifetime:lifetime )?) => {
-+        impl<$( $lifetime ,)? D: DriverObject, const SIZE: usize> IoCapable<$ty>
-+            for $impl<$( $lifetime ,)? D, SIZE>
-+        {
-+            #[inline(always)]
-+            unsafe fn io_read(&self, address: usize) -> $ty {
-+                let ptr = address as *mut $ty;
-+
-+                // SAFETY: The safety contract of `io_read` guarantees that address is a valid
-+                // address within the bounds of `Self` of at least the size of $ty, and is properly
-+                // aligned.
-+                unsafe { ptr::read(ptr) }
-+            }
-+
-+            #[inline(always)]
-+            unsafe fn io_write(&self, value: $ty, address: usize) {
-+                let ptr = address as *mut $ty;
-+
-+                // SAFETY: The safety contract of `io_write` guarantees that address is a valid
-+                // address within the bounds of `Self` of at least the size of $ty, and is properly
-+                // aligned.
-+                unsafe { ptr::write(ptr, value) }
-+            }
-+        }
-+    };
-+}
-+
-+// Implement various traits common to both VMap types
-+macro_rules! impl_vmap_common {
-+    ($impl:ident $(, $lifetime:lifetime )?) => {
-+        impl<$( $lifetime ,)? D, const SIZE: usize> $impl<$( $lifetime ,)? D, SIZE>
-+        where
-+            D: DriverObject,
-+        {
-+            /// Borrows a reference to the object that owns this virtual mapping.
-+            #[inline(always)]
-+            pub fn owner(&self) -> &Object<D> {
-+                &self.owner
-+            }
-+        }
-+
-+        impl<$( $lifetime ,)? D, const SIZE: usize> Drop for $impl<$( $lifetime ,)? D, SIZE>
-+        where
-+            D: DriverObject,
-+        {
-+            #[inline(always)]
-+            fn drop(&mut self) {
-+                // SAFETY: Our existence is proof that this map was previously created using
-+                // self.owner
-+                unsafe { self.owner.raw_vunmap(self.addr) };
-+            }
-+        }
-+
-+        impl<$( $lifetime ,)? D, const SIZE: usize> Io for $impl<$( $lifetime ,)? D, SIZE>
-+        where
-+            D: DriverObject,
-+        {
-+            #[inline(always)]
-+            fn addr(&self) -> usize {
-+                self.addr as usize
-+            }
-+
-+            #[inline(always)]
-+            fn maxsize(&self) -> usize {
-+                self.owner.size()
-+            }
-+        }
-+
-+        impl<$( $lifetime ,)? D, const SIZE: usize> IoKnownSize for $impl<$( $lifetime ,)? D, SIZE>
-+        where
-+            D: DriverObject,
-+        {
-+            const MIN_SIZE: usize = SIZE;
-+        }
-+
-+        impl_vmap_io_capable!($impl, u8 $( , $lifetime )?);
-+        impl_vmap_io_capable!($impl, u16 $( , $lifetime )?);
-+        impl_vmap_io_capable!($impl, u32 $( , $lifetime )?);
-+        #[cfg(CONFIG_64BIT)]
-+        impl_vmap_io_capable!($impl, u64 $( , $lifetime )?);
-+    };
-+}
-+
-+/// An owned reference to a virtual mapping for a shmem-based GEM object in kernel address space.
-+///
-+/// # Invariants
-+///
-+/// - The size of `owner` is >= SIZE.
-+/// - The memory pointed to by addr is at least as large as `T`.
-+/// - The memory pointed to by addr remains valid at least until this object is dropped.
-+pub struct VMap<D: DriverObject, const SIZE: usize = 0> {
-+    addr: *mut c_void,
-+    owner: ARef<Object<D>>,
-+}
-+
-+impl_vmap_common!(VMap);
-+
-+impl<D: DriverObject, const SIZE: usize> Clone for VMap<D, SIZE> {
-+    fn clone(&self) -> Self {
-+        // SAFETY: We have a successful vmap already, so this can't fail
-+        unsafe { self.owner.owned_vmap().unwrap_unchecked() }
-+    }
-+}
-+
-+impl<'a, D: DriverObject, const SIZE: usize> From<VMapRef<'a, D, SIZE>> for VMap<D, SIZE> {
-+    fn from(value: VMapRef<'a, D, SIZE>) -> Self {
-+        let this = Self {
-+            addr: value.addr,
-+            owner: value.owner.into(),
-+        };
-+
-+        mem::forget(value);
-+        this
-+    }
-+}
-+
-+// SAFETY: addr is guaranteed to be valid and accessible for the lifetime of VMap, ensuring its
-+// safe to send across threads.
-+unsafe impl<D: DriverObject, const SIZE: usize> Send for VMap<D, SIZE> {}
-+// SAFETY: addr is guaranteed to be valid and accessible for the lifetime of VMap, ensuring its
-+// safe to send across threads.
-+unsafe impl<D: DriverObject, const SIZE: usize> Sync for VMap<D, SIZE> {}
-+
-+/// A borrowed reference to a virtual mapping for a shmem-based GEM object in kernel address space.
-+pub struct VMapRef<'a, D: DriverObject, const SIZE: usize = 0> {
-+    addr: *mut c_void,
-+    owner: &'a Object<D>,
-+}
-+
-+impl_vmap_common!(VMapRef, 'a);
-+
-+impl<'a, D: DriverObject, const SIZE: usize> Clone for VMapRef<'a, D, SIZE> {
-+    fn clone(&self) -> Self {
-+        // SAFETY: We have a successful vmap already, so this can't fail
-+        unsafe { self.owner.vmap().unwrap_unchecked() }
-+    }
-+}
-+
- /// An owned reference to a scatter-gather table of DMA address spans for a GEM shmem object.
- ///
- /// This object holds an owned reference to the underlying GEM shmem object, ensuring that the
+> +		dovdd-supply = <&cam_vio_ldo>;
+> +
+> +		pinctrl-0 = <&cam_mclk2_default>;
+> +		pinctrl-names = "default";
+> +
+> +		rotation = <270>;
+> +		orientation = <0>;
+> +
+> +		port {
+> +			cam_front_endpoint: endpoint {
+> +				link-frequencies = /bits/ 64 <360000000>;
+> +				remote-endpoint = <&camss_endpoint1>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>   &gcc {
+>   	protected-clocks = <GCC_QSPI_CORE_CLK>,
+>   			   <GCC_QSPI_CORE_CLK_SRC>,
+> @@ -490,6 +571,14 @@ &pm660_charger {
+>   	status = "okay";
+>   };
+>   
+> +&pm660_gpios {
+> +	cam_vio_pin: cam-vio-state {
+> +		pins = "gpio13";
+> +		function = "normal";
+> +		power-source = <0>;
+> +	};
+> +};
+> +
+>   &pm660_rradc {
+>   	status = "okay";
+>   };
+> @@ -508,6 +597,12 @@ led-0 {
+>   };
+>   
+>   &pm660l_gpios {
+> +	cam_front_ldo_pin: cam-front-state {
+> +		pins = "gpio4";
+> +		function = "normal";
+> +		power-source = <0>;
+> +	};
+> +
+>   	vol_up_pin: vol-up-state {
+>   		pins = "gpio7";
+>   		function = "normal";
+
 -- 
-2.53.0
+David Heidelberg
 
 
