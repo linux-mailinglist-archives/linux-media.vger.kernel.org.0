@@ -1,198 +1,261 @@
-Return-Path: <linux-media+bounces-55286-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55284-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Ml/HfbQsGmLnQIAu9opvQ
-	(envelope-from <linux-media+bounces-55286-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 03:18:30 +0100
+	id CHY5NFjNsGkKnQIAu9opvQ
+	(envelope-from <linux-media+bounces-55284-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 03:03:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1D7725ADBA
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 03:18:29 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73AB225A93D
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 03:03:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 240073023DB9
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 02:18:24 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 79D89302E751
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 02:03:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E55542D73B9;
-	Wed, 11 Mar 2026 02:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E1C9313E31;
+	Wed, 11 Mar 2026 02:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fvSKyg0D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIQz+pqT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62781275B18
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 02:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBA328725A
+	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 02:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773195498; cv=none; b=By1YwG9UJeALkrXO/EhFyR7ZNh8DMfVdA0fkSuL9uCqIa1vygWiGxflFvfsXOqleKIHdAEhpKxTTS5KDyj+Ql/jYIbDE1GRBQf3MgQvPl2fmjBgG8LzJYUZHppcwSLI94nr3BeqNqyDs3ndHNt0crEV4X0CSAE6RAiCeHYKDPKM=
+	t=1773194579; cv=none; b=Vf5tOI2KQige5w7SWJdgsZOJYffZJ+p104wYqfppWX7TSfkzEzozWFG0W89l083kRBvhyQkeACLpV++DtjXD+Mmx40YIqN3TnJJ+qaGFt9V1vwPhlcyipF127Y7qXm7XA5aiUaDax9BomYYBplqk9S4Rs1JezMVp4wh6GLEdG88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773195498; c=relaxed/simple;
-	bh=+/dHpzDdvnXv9XvCFyqZfCQUq6sgyPwg/78YsLVfcJ8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ZwZO2d8HNvqidcQ7y/JC6aI28/kUwMy0kdksi7Kto4Bt09afgm9yaZllRxo50yK3IphrmIkUhBwEgIXSZoKDy1Lv+a39dMn+R361Y6zXELei22Nnlo7q/bePtSUgdu+aCruHw6z9GG6YDwLRUQsPayScawFB8M6dpjR96KoYNH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fvSKyg0D; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1773194579; c=relaxed/simple;
+	bh=7vedanxwL+aX1eYgJ6Asqi7juZBXZ7ygsplulsp3Lys=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PuYkOrtYDC2qSS7Ph3oN79qdqOJhNA6XScc1fkNVgb94ZoXVDihJuzhgTjky/LbdMm/OyJnDb71m5Z9xQ4lvkTpjD9nnMek+rOrG9ZxboVOlFhwXl3+896xp0an5bmKspmIvb9YLPrxlCy/jAXX4jPfZ9hoE7yu7xOSqiv8jDyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIQz+pqT; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2aaf59c4f7cso59392465ad.1
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 19:18:17 -0700 (PDT)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8cd8dbf4f2eso269716685a.2
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 19:02:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773195497; x=1773800297; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1ZAqF770CjctREhKahUCDqzMAEkw+GXfuiDNjYlwSLk=;
-        b=fvSKyg0D0WfL/vzr9Cx5vJtutHyS2zyBDrgY+VRcTqz1DcJwn3lM2Y8uF8N8UAqBK2
-         bdETDCx+d2sNjHBfAebcNpBL6hJJn8e60zBt8yIUzmQ+26hJT7kQ8hlERQDXCsi1hH9/
-         kzzikvy3SQ+VayGNhQqv5kCVuwATD6j3rBkca+qYvqazKuYg6466as/ASq2rfdi04rmo
-         kQ6AChj+ypwTBF3lpFirsL2emJtQF9olWt9gLcHB9bqFfkF/Nbua5FQ9vsA6Hfo0vh8t
-         PnsuNnFBT0OYeAU47bdPH7dWapocF/3WdLPxpl7rHMOHJMpexIzRW+OQnKOe7EktAZqu
-         t9Ug==
+        d=gmail.com; s=20230601; t=1773194577; x=1773799377; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b7qBBzlJqLxEpsxZsxYErjEj0j0dE/eer6vWOZDdoAc=;
+        b=jIQz+pqTEQS1qaYxZ7LQ1DoPrNvMG/GS++cX/UFlgY1FXjztn2CfgX2IB9wlZlGpII
+         yIPn2eXOkgcGW0MBo14Y6kvU++M7SaKm6/44jfO6ezLSfDEM706OJe4+QXayEAZ8YhQ4
+         CkwrmzUEKj1ss8RQtS0ui34MLZp+qzTOlUN5KHBTuekEyMkn350vEvSYBsCgXrxS4VD0
+         Bhdv41fcA+2sbmqYTsDM78aluGrIZ2icQK10gF3vjP6CJ4BtsIQiKI7s40n69TTkSL1B
+         O8CjnsWmnOyjIry7fMWFqnxlikyI60+HNphmfbE+BG32smWpCWuitzntH/dns1abzG6H
+         Lxqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773195497; x=1773800297;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ZAqF770CjctREhKahUCDqzMAEkw+GXfuiDNjYlwSLk=;
-        b=ejLsv/TMFXZqiZjChhR7piaR6jiX44j5K+tleJBDj0Adao94IX22euvO+HSX2SoOtI
-         q5tKfd5bTecKAOsAWBbAhYiqP5j+U/ArZfllobokNqBZIPLYDiYvkXjJZ0F8rB7S4Lvz
-         gdnQQyuRFfPCAlJY9xAUj9fvSKVAkPZxhGABXSma1vBf7MQwqtbpoTAZlv94ENEKReYl
-         Q3lYjFOinpv6JPdd51uT/WZjAtXZKyfyPzvvhvCe3d2+BlaCoZmxkJnxVCUGkRNe5vL/
-         CGgi697mZml2RX8CZd3Ltc5gYZ6CauXbYEhAwcZs8PwNwUKUN8KTVI4fMNoSiLmLHxx0
-         6sjA==
-X-Forwarded-Encrypted: i=1; AJvYcCWwT1zP5dx1g4GGRxNcjCzS/uisNBRVr1WvIDqjHHffuKSiRZ55O2BuBJZVfnVwFW04Ef6nYSTp0TYXpQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8u/ictgSMQXYQrxaUose6fxeDJAF3mcJhZEiGmgk//CeW1qOx
-	fOAjQjt1InPtF8nludPBJmQvOKzb7kpZ1RTVpcmScOF864+PtWT/jlRX
-X-Gm-Gg: ATEYQzwtFJtR/QbiGAV0z5Ba2Ne4yi96Js5nVeHhDD6le8joartaS/RKJgOraR4cPm2
-	ySjdao0yHuOX0lpoh/G7agh9A6jsqJK9G1gAUcCVolCb0ZN2H94nPa41V69qcVYAYAl0+Cu3xhd
-	UCvx1Zjl7pj3CSlyGFpGQCDuzQ5DRZaBI9GlZ+R99Or/J2htj/FSwm/QaHlA3f22uKHPeT3krBK
-	kThOKs9Wc/OgeT0r8PriaXmQ9d+EmBi5qt01OfLSJp+gFOyFWuzeu2XyW7k/q7S3qU8TnPA7rDF
-	Pya4exKon0d/EBA5FMXKPMvI7rtuuZGRf3WO/cosUOeed0Uze8Iyp9Cflsf6D2ZahK8T7wqKO0j
-	gBT6nRk4xqglLCH/6ibdxqAT44xHQcDcg1Pq2AplxriXDae9rvZ4edGwtc1690kSne1It4ACDPF
-	qtfqoql3GJjBr3cZ05nNKxJGyPIufXhT9v/Fc=
-X-Received: by 2002:a17:903:1666:b0:2a9:47ff:101c with SMTP id d9443c01a7336-2aeae8eb7dcmr9366255ad.46.1773195496591;
-        Tue, 10 Mar 2026 19:18:16 -0700 (PDT)
-Received: from ehlo.thunderbird.net ([2401:4900:aab1:729a::4bc6:faff])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae34e009sm5679355ad.46.2026.03.10.19.18.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 19:18:16 -0700 (PDT)
-Date: Wed, 11 Mar 2026 07:27:18 +0530
-From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-To: David Lechner <dlechner@baylibre.com>, jic23@kernel.org,
- m.tretter@pengutronix.de, mchehab@kernel.org, p.zabel@pengutronix.de,
- tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
- yunfei.dong@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org, pure.logic@nexus-software.ie
-CC: nuno.sa@analog.com, andy@kernel.org, kernel@pengutronix.de, kees@kernel.org,
- nabijaczleweli@nabijaczleweli.xyz, marcelo.schmitt1@gmail.com,
- maudspierings@gocontroll.com, hverkuil+cisco@kernel.org,
- ribalda@chromium.org, straube.linux@gmail.com, dan.carpenter@linaro.org,
- lukagejak5@gmail.com, ethantidmore06@gmail.com,
- samasth.norway.ananda@oracle.com, karanja99erick@gmail.com,
- s9430939@naver.com, tglx@kernel.org, mingo@kernel.org,
- sun.jian.kdev@gmail.com, weibu@redadmin.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- skhan@linuxfoundation.org
-Subject: Re: [PATCH 0/7] drivers: Simplify cleanup paths using __free
-User-Agent: Thunderbird for Android
-In-Reply-To: <79bfac24-dcb4-4fb9-90d8-3ef2393f51e3@baylibre.com>
-References: <20260310200513.2162018-1-sanjayembedded@gmail.com> <79bfac24-dcb4-4fb9-90d8-3ef2393f51e3@baylibre.com>
-Message-ID: <7F16ED38-6BC1-4D31-B5B6-6C1E45D24C25@gmail.com>
+        d=1e100.net; s=20230601; t=1773194577; x=1773799377;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b7qBBzlJqLxEpsxZsxYErjEj0j0dE/eer6vWOZDdoAc=;
+        b=WgSeKqor6V7aJ5s5JrOu4BGv+WvzrozyK8PoFBgA1rMCz3BBw9cn0pVyiQyoZfO6+9
+         UZEB4nnyx5w2gtsvUr391wmv0ChUwnlwWw8uYgtzbU/OoZwGI0fEtGZb/ETUOZADeaVw
+         DBwGCh9qP6h9Or5/zNweMBirdqukMDTLWUjbYnEW9Nyb1DZmGPo8U6UY/aoy6Xs0rM+z
+         LFdNqT+c4XndexoHIp0mGL50SAv8ZqUYASzvWCKjIOVMYIfwo4azTfAD/pNBPfc+8LQK
+         UXfomv6kiVgcU2quCoYdsfZQJi+KnsbjbwUCUDEtwVcdr0NrF4QvKgSb/u/QvCScsYVV
+         r8xg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkz5gbiCuo7rDPwQntjXFSc+aO27ofcQ1oNcpF81a4HGSSyjX4xc0gJn1vjqnOg8E8nX4+HQTWt/hdwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYqErcjJ+xVw4wRDcz0w+DvC5+tOAXhb4LuW1mh42Lg78ujOYX
+	qV/MYWcTjaFzqvCwtrL96HxgVyLGtzN6G8+yQyy/GoSs4ULXBx0jblcM
+X-Gm-Gg: ATEYQzwGGwIIKCmaI6/dkffEbPcKWZSTnZ37zNbDjUofZxBKNTkrVCjm7F5z8mBe54w
+	/lxattL7enftv9EDwGSP960dmehKk/SKXpTR005KfafM41XzJx08b2DnuGOG6DK6IrxJdOzksUG
+	WPiuC5Tvnm96dgauV9mDJYALKs0KJHn1cpMaibwAD/tGQ5S3lewm3HOfEoa6cW9EXhjGxLWD2lp
+	ZqKKX1RBd5/Xhxbw4uyoHtn5uJcPYC4+hTNqUj4U2nMhhWpsE9XdF3notfNuB1gjgAe6ZVw+TmV
+	A9GbzoV88PAgk6L3DS4cQR6wcM3509i9FdP2DOBIE2iD6Z5ARCdX7jMeqTfQUWhFtqUjkCrBX9x
+	j8QvFcA1hTfth/3nx+ruHxktu48hnzOC5MGOsjp3ATXttuRwOh9foRFRYi8TqSFgecxU+syrcjH
+	J2ECKKAnupYCPUiNow8zZ2zRmfxwtDdYQ1MPnQ
+X-Received: by 2002:a05:620a:2688:b0:8cd:8d79:6c63 with SMTP id af79cd13be357-8cda1ad7ad7mr130659485a.68.1773194577196;
+        Tue, 10 Mar 2026 19:02:57 -0700 (PDT)
+Received: from localhost ([184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda2135cccsm42854785a.36.2026.03.10.19.02.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 19:02:56 -0700 (PDT)
+From: Richard Acayan <mailingradian@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Cc: Robert Mader <robert.mader@collabora.com>,
+	David Heidelberg <david@ixit.cz>,
+	phone-devel@vger.kernel.org,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH v10] media: i2c: imx355: Restrict data lanes to 4
+Date: Tue, 10 Mar 2026 22:03:28 -0400
+Message-ID: <20260311020328.57976-1-mailingradian@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: C1D7725ADBA
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 73AB225A93D
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.65 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55286-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[baylibre.com,kernel.org,pengutronix.de,mediatek.com,gmail.com,collabora.com,linuxfoundation.org,nexus-software.ie];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-55284-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[42];
-	FREEMAIL_CC(0.00)[analog.com,kernel.org,pengutronix.de,nabijaczleweli.xyz,gmail.com,gocontroll.com,chromium.org,linaro.org,oracle.com,naver.com,redadmin.org,vger.kernel.org,lists.infradead.org,lists.linaro.org,lists.linux.dev,linuxfoundation.org];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,intel.com,linux.intel.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[collabora.com,ixit.cz,vger.kernel.org,gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sanjayembeddedse@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.841];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[baylibre.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,intel.com:email]
 X-Rspamd-Action: no action
 
+The IMX355 sensor driver currently supports having 4 data lanes. There
+can't be more or less, so check if the firmware specifies 4 lanes.
 
+Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Link: https://lore.kernel.org/r/aW3uFcT1zmiF4GUP@kekkonen.localdomain
+Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+---
+Changes since v9 (https://lore.kernel.org/r/20260217002738.133534-1-mailingradian@gmail.com):
+- reject zero data-lanes
+- split patch 4/7 from main series
 
-On 11 March 2026 3:22:28=E2=80=AFam IST, David Lechner <dlechner@baylibre=
-=2Ecom> wrote:
->On 3/10/26 3:05 PM, Sanjay Chitroda wrote:
->> From: Sanjay Chitroda <sanjayembeddedse@gmail=2Ecom>
->>=20
->> Hi all,
->>=20
->> This patch series replaces manual cleanup and explicit kfree() calls wi=
-th
->> the __free attribute from <linux/cleanup=2Eh>=2E This modernizes the me=
-mory
->> management style and simplifies common error paths without altering any
->> functional behavior=2E
->>=20
->> The __free attribute provides automatic scope-based cleanup, making
->> resource management clearer and reducing the chances of missing cleanup
->> on early returns=2E
->>=20
->> No functional changes are intended in this series=2E
->>=20
->> Testing:
->>   - Compiled with W=3D1
->>   - Build-tested on i86_64
->>=20
->> Based on:
->>   <linux-v7=2E0-rc2>
->>=20
->> Feel free to share your valuable input in context of the cleanup API=2E
->>=20
->> Thanks,
->> Sanjay Chitroda
->>=20
->> Sanjay Chitroda (7):
->>   staging: greybus: simplify cleanup using __free
->>   iio: ssp_sensors: simplify cleanup using __free
->>   iio: st_sensors: simplify cleanup using __free
->>   media: mediatek: vcodec: simplify cleanup using __free
->>   media: chips-media: coda: simplify cleanup using __free
->>   media: allegro: simplify cleanup using __free
->>   staging: rtl8723bs: simplify cleanup using __free
->
->There is no reason to put patches from different subsystems
->in the same series when there is no dependency between them=2E
->It just make for more noise for everyone=2E
->
+Changes since v8 (https://lore.kernel.org/r/20260210020207.10246-1-mailingradian@gmail.com):
+- allow clock-lanes, but make it optional (1/7)
 
-Thanks for the feedback=2E I will split unrelated patches into
-separate series per subsystem or individual in future submissions=2E
+Changes since v7 (https://lore.kernel.org/r/20260117040657.27043-1-mailingradian@gmail.com):
+- restrict data-lanes to 4 (4/7)
+- include first patch (1/7)
+- add back optional data-lanes in bindings (2/7)
+- remove assert low on power on again (Bryan's review retained) (3/7)
+- use dev_err_probe in power on (3/7)
+- remove second error on probe power on (3/7)
+- add review tags (2/7, 3/7, 7/7)
+
+Changes since v6 (https://lore.kernel.org/r/20260107043044.92485-1-mailingradian@gmail.com):
+- remove NAK from Krzysztof (3/6)
+- assert reset GPIO on probe (3/6)
+- change delays in reset sequence (3/6)
+- remove __maybe_unused from OF match table (3/6)
+- fix alignment for arguments to devm_regulator_bulk_get_const (3/6)
+- remove front camera pin configuration (6/6)
+- remove clock-lanes from camss endpoint (1/6, 6/6)
+- remove data-lanes from camera sensor endpoint (2/6, 6/6)
+- remove blank line at top of binding (2/6)
+- add review tags (2/6, 3/6, 5/6, 6/6)
+
+Changes since v5 (https://lore.kernel.org/r/20260107042451.92048-1-mailingradian@gmail.com):
+- add Bryan to CC who added a Reviewed-by
+
+Changes since v4 (https://lore.kernel.org/r/20251211014846.16602-1-mailingradian@gmail.com):
+- add NAK from Krzysztof (2/5)
+- label the camss ports (3/5, 5/5)
+- define endpoint properties correctly (1/5)
+- use devm_regulator_bulk_get_const (2/5)
+- remove clock-names (1/5, 5/5)
+- set reset GPIO as active low (1/5, 2/5, 5/5)
+- explicitly drive reset low at start of sequence (2/5)
+- make data-lanes in endpoint optional and start at 1 (1/5, 5/5)
+- add mclk3 pin (4/5)
+- add Reviewed-by's (4/5)
+
+Changes since v3 (https://lore.kernel.org/r/20250905215516.289998-6-mailingradian@gmail.com):
+- separate camera mclk pins and move to different patch (4/5, 5/5)
+- remove polarity from rear camera pin (5/5)
+- remove output-low from front camera pins (5/5)
+- mention effects of dcf6fb89e6f7 ("media: qcom: camss: remove a check for unavailable CAMSS endpoint") (3/5)
+- specify single clock-name without items nesting (1/5)
+- rebase on 49c6ac166cf7 ("media: i2c: imx355: Replace client->dev
+  usage") and eaa7d46d9654 ("media: i2c: imx335: Use V4L2 sensor clock
+  helper") (2/5)
+- do not use of_match_ptr for OF match table (2/5)
+- remove redundant GPIO validity checks (2/5)
+- describe endpoint data-lanes (1/5)
+
+Changes since v2 (https://lore.kernel.org/r/20250714210227.714841-6-mailingradian@gmail.com):
+- use devm_v4l2_sensor_clk_get (2/4)
+- require supplies and clock-names (1/4)
+- move unevaluatedProperties down (1/4)
+- disable clocks as last power-off action (2/4)
+- use 0 in gpio pin power-supply (4/4)
+
+Changes since v1 (https://lore.kernel.org/r/20250630225944.320755-7-mailingradian@gmail.com):
+- too much to have a complete list (1-4/4)
+- squash camera orientation patch (4/4, previously 5/5)
+- squash driver changes (2/4, previously 3/5)
+- remove labelled endpoint node in sdm670.dtsi (3/4, 4/4)
+- change init sequence to match other similar drivers (2/4)
+- retrieve clock frequency from devicetree-defined clock (4/4)
+- remove clock-frequency from dt-bindings (1/4)
+- remove redundant descriptions of child nodes (1/4)
+- switch initial drive of the reset GPIO to low (2/4)
+- set mclk frequency to 19.2 MHz (4/4)
+- add vdda-pll supply for camss (4/4)
+- use common power on and off functions (2/4)
+- use devm_clk_get_optional (2/4)
+- remove extra layer when describing mclk pin (4/4)
+- rename regulators (1/4, 2/4, 4/4)
+
+ drivers/media/i2c/imx355.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
+index 9ca87488c933..27a5c212a527 100644
+--- a/drivers/media/i2c/imx355.c
++++ b/drivers/media/i2c/imx355.c
+@@ -66,6 +66,9 @@
+ #define IMX355_EXT_CLK			19200000
+ #define IMX355_LINK_FREQ_INDEX		0
+ 
++/* number of data lanes */
++#define IMX355_DATA_LANES		4
++
+ struct imx355_reg {
+ 	u16 address;
+ 	u8 val;
+@@ -1705,6 +1708,9 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct device *dev)
+ 	if (!cfg)
+ 		goto out_err;
+ 
++	if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX355_DATA_LANES)
++		goto out_err;
++
+ 	ret = v4l2_link_freq_to_bitmap(dev, bus_cfg.link_frequencies,
+ 				       bus_cfg.nr_of_link_frequencies,
+ 				       link_freq_menu_items,
+-- 
+2.53.0
+
 
