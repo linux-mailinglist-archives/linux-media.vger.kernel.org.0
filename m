@@ -1,146 +1,153 @@
-Return-Path: <linux-media+bounces-55370-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55371-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aFUuHkQ8sWmAswIAu9opvQ
-	(envelope-from <linux-media+bounces-55370-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 10:56:20 +0100
+	id yO57CTxCsWlCtAIAu9opvQ
+	(envelope-from <linux-media+bounces-55371-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 11:21:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5522616DB
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 10:56:19 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 376CA262048
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 11:21:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id D0C3C3077908
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 09:44:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C330F35E4EC4
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 09:47:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98B513F54DF;
-	Wed, 11 Mar 2026 09:32:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 530703CBE7A;
+	Wed, 11 Mar 2026 09:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JfVWEI4z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W8+FM7vS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B4D3C3423
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 09:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6493CAE82;
+	Wed, 11 Mar 2026 09:39:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773221545; cv=none; b=RNLYw3ode7O3V4KsdF0podDzRTE/U1+1OqijMaynRqkZ4dSViXQJTuCWdntqawRMq3X5OUmNXW/HLhZm5sSnymGbO3bw7XGqKvxL8b4sMqefqPMp8PTovE8bdDL0L/2HB5NbjGvrM2Pj17GDkzL6cAfz1bbEYRkdKIEMGZGLzZg=
+	t=1773221986; cv=none; b=q0qCx2beCMbVTNfkwkTJeI43cIuazaZP6JSU27fpTXADJCriS/qNS6CahLhlDyUCqzVjnuS5p03ofP5IM3lK3jK6wA6GEK9pD+1ge7DXW5vluhIvdQd08OJrTBCT22Yu9p98b+a2v+aIjDjFNrM8ZIRkIT31B31MI2+DDSk8ZxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773221545; c=relaxed/simple;
-	bh=JGYhPK256pxU9EiY8jbQSSjgozqR8V5kd9EUseD+GRo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P2znmueVohF/BVI0EaIlwwmCtTfjQQguW5VPnf1F0yJKKnmh368+ljPql4NpV7iuBmmuKUb81x8Q6pClvGAG4CU/xsr7ukRAIuwgtC0iZW6delk5+vO6lYjpVI6JkExpbvekQToWq4kP4EnpQzS+NFqx1vyycNngD+H5RvZotGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JfVWEI4z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8312BC2BCB3
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 09:32:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773221545;
-	bh=JGYhPK256pxU9EiY8jbQSSjgozqR8V5kd9EUseD+GRo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JfVWEI4zDrh3iHX+1r4cle8Phcf0RBN0zERjJ8PQNA3EYWSATJ9h5lha/xBvVFGnI
-	 lElqdFOyu5rUcg336ldY8JBHZo/CNZ6A5HFkXurPLCqwCA7763w9Gzh1MrCiovz1O6
-	 4/dhditNlUPPz/o6nb1awN/pC+8W+SveVLbbW1M3XSJ0LknHbar0z1P9mnX5NF58yX
-	 1Uj5dsDyxTrkO1DJZv/qpV8j6iPNzVVJVRqNM1MXMlgjgqpNnn65QlcqD5KydSFEzI
-	 yLns3+tdmVfBsvgohk6ekX61JLdkJkatIbZorvb97Pbamw8/hcF79oQl43JkoSoDtA
-	 x5H4ornHcPhQg==
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64ae2ce2fe1so13016794d50.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 02:32:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUc58fIfASEVagqoKBMSpEHRyMeqAGcS5ynzF7kEs8q7x4bRsvlU1msi+C2d36Bp7cFq1E+119AgZg3Dg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvPGq9b5CYqT7xCMob4jOaDy4qPOGtV/pdfhiRQM5/NjTKhuDP
-	mYYRzBqnjeoVnask2KIzZ1BO1Y4c/qrtJAro+Kvola9PO4tPAwXKgTJmvxoW8xe2iyNmY051YmH
-	170dkw9RyrZ6ySPhidesJgvtWQyv5PKE=
-X-Received: by 2002:a05:690e:144d:b0:64c:e890:fbb9 with SMTP id
- 956f58d0204a3-64d656f696dmr1649157d50.20.1773221544775; Wed, 11 Mar 2026
- 02:32:24 -0700 (PDT)
+	s=arc-20240116; t=1773221986; c=relaxed/simple;
+	bh=mqNqA37kQU0ooq46p/8nWAFZ995IR8bflbKFVTCwNDU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qdyjglah3i63umeZqjbGHHfONHOMzx25rWy+tC9oy7ijXaGfz6kTNt8ny4Y4CSZD4uqAP16nPqnh4IE/Kxoj8x6P/7QN0I56Iy2fT+rNu0EGgl4tm4YXNwMcRTePKhyAy/5G42uUeIKqV9xMehCFGiyK7U4QMLWpv0Bd9WrmmOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W8+FM7vS; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773221986; x=1804757986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mqNqA37kQU0ooq46p/8nWAFZ995IR8bflbKFVTCwNDU=;
+  b=W8+FM7vSCBNFgyQZ1cgV9COBOlsf7TE7NlU+rvoY3T+oYJMFzmmHBH47
+   p/i/Fo39d0T6qWiofYcqCuUb6pH1NG3o+aNIfCkrDInK+sMfmHPRMYO+8
+   zNAAg5h5z0izOPTQrGe71Fsh2N68fKcJwf+Ki5UDUZdKlbsMH9ywPl/5q
+   DsaF/GlodOO3XEetYXSwzS3IJczBsUveaZqOVHGLBl6Wo9PCR/RBTdOMs
+   lav7i6/iBGA+WYGrCsMxalAW7UnIG7wqmm9VCDtPtNr/6cCA91jiys/Us
+   dNfpiBOmwnGaNowX5P5DRpyIsmsDascKoVFB09R7DSmV2D4dnJaIsaQsi
+   g==;
+X-CSE-ConnectionGUID: NDf8wB80SS2y8ODxGgDHBw==
+X-CSE-MsgGUID: PIRjj/meS9metvBzFQRY0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="84608654"
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="84608654"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 02:39:45 -0700
+X-CSE-ConnectionGUID: DPhREV/DQjGnuXI+O5WWPA==
+X-CSE-MsgGUID: yESb4eJVTu2RP3nrTsLL5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="219655012"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.171])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 02:39:43 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4E140121D1E;
+	Wed, 11 Mar 2026 11:41:37 +0200 (EET)
+Date: Wed, 11 Mar 2026 11:41:37 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Muhammad Shadab Khan <shadabtg4@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: split long line in sh_css_sp.c
+Message-ID: <abE40Qr5-S6E5c-0@kekkonen.localdomain>
+References: <20260311084602.6088-1-shadabtg4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-41-bd63b656022d@avm.de>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-41-bd63b656022d@avm.de>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 11 Mar 2026 10:32:12 +0100
-X-Gmail-Original-Message-ID: <CAD++jLnDv00ErgVdQ4EBpKH9KMWrPD8ODrQ6m846zyQ=wNzCzQ@mail.gmail.com>
-X-Gm-Features: AaiRm52aI8z_G2E4qYaKWPEA43RhLektjwMDQXSLwHd-Xy_BYcin-6heFFY4jM4
-Message-ID: <CAD++jLnDv00ErgVdQ4EBpKH9KMWrPD8ODrQ6m846zyQ=wNzCzQ@mail.gmail.com>
-Subject: Re: [PATCH 41/61] pinctrl: Prefer IS_ERR_OR_NULL over manual NULL check
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr, 
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	samba-technical@lists.samba.org, sched-ext@lists.linux.dev, 
-	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
-	v9fs@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: BD5522616DB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260311084602.6088-1-shadabtg4@gmail.com>
+X-Rspamd-Queue-Id: 376CA262048
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55370-lists,linux-media=lfdr.de];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55371-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCPT_COUNT_GT_50(0.00)[54];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,mail.gmail.com:mid,avm.de:email]
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 12:55=E2=80=AFPM Philipp Hahn <phahn-oss@avm.de> wr=
-ote:
+Hi Huhammad,
 
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
->
-> Change generated with coccinelle.
->
-> To: Linus Walleij <linusw@kernel.org>
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+On Wed, Mar 11, 2026 at 02:13:18PM +0530, Muhammad Shadab Khan wrote:
+> Split a long line exceeding 100 characters to comply with
+> Linux kernel coding style guidelines.
+> 
+> Signed-off-by: Muhammad Shadab Khan <shadabtg4@gmail.com>
+> ---
+>  drivers/staging/media/atomisp/pci/sh_css_sp.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_sp.c b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> index 6da151e7a873..c38a7c69728b 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_sp.c
+> @@ -983,7 +983,9 @@ sh_css_sp_init_stage(struct ia_css_binary *binary,
+>  						    IA_CSS_BUFFER_TYPE_DIS_STATISTICS);
+>  	}
+>  	ia_css_query_internal_queue_id(IA_CSS_BUFFER_TYPE_METADATA, thread_id, &queue_id);
+> -	sh_css_copy_buffer_attr_to_spbuffer(&sh_css_sp_stage.frames.metadata_buf, queue_id, mmgr_EXCEPTION, IA_CSS_BUFFER_TYPE_METADATA);
+> +	sh_css_copy_buffer_attr_to_spbuffer(&sh_css_sp_stage.frames.metadata_buf, queue_id,
 
-Patch applied to the pinctrl tree as obviously correct.
+That limit is actually 80... so you could wrap at a different location.
 
-Yours,
-Linus Walleij
+Are there no other such cases in the driver?
+
+> +					    mmgr_EXCEPTION,
+> +					    IA_CSS_BUFFER_TYPE_METADATA);
+>  	if (err)
+>  		return err;
+>  
+
+-- 
+Regards,
+
+Sakari Ailus
 
