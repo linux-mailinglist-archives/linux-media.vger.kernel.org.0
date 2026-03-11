@@ -1,216 +1,236 @@
-Return-Path: <linux-media+bounces-55301-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55302-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mM5dHZr6sGkRpQIAu9opvQ
-	(envelope-from <linux-media+bounces-55301-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 06:16:10 +0100
+	id CI49Ccb+sGljpgIAu9opvQ
+	(envelope-from <linux-media+bounces-55302-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 06:33:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 161CE25C595
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 06:16:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8180E25C769
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 06:33:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 60FBA31FD62E
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 05:13:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 00D89311BBC7
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 05:32:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADD03355F53;
-	Wed, 11 Mar 2026 05:13:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7560E1C3BFC;
+	Wed, 11 Mar 2026 05:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBD8jk+A"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MigaVoRh";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BEp4DBRQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8F63009D4;
-	Wed, 11 Mar 2026 05:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20C71D5ADE
+	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 05:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773206020; cv=none; b=Cc7hQV9GgodxTlVcTtxHKIymC1Xg4S0sMHu/0bcoaO7Gq27+PQp0tT1IwvetCitf5qCuu9qpBN0dKefptjwkA/5DWg59iRKEdggDTw4Lv2QAqPrnjj4R2yP2TCu8J12b1em5zrfekZXLbZMFLLQqd8QLr5zreiqjWd6sPmjjd9c=
+	t=1773207140; cv=none; b=mzszqd87zTzxi+81KK/iD9C6VEv548TZLEVbgdT6qqP2gaIo0FYDlFRjIpw2cQhcz0lrLkztrtvhYMJHobCHaRfIzBtSmznYSC0/tIxYrv7r7MTr3vMgErqDfWOueLUJM2Egrh1KkzthlVv9RVgE/EvEfTTAjAvwgXooB+roUpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773206020; c=relaxed/simple;
-	bh=28by/08L5sQfVInnpnws13wBN8rSRzXkYuFZbXIDejE=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=HwyY7YfRAzZm5jwvgo6Fo7N57zCkXx+eASOsgnSNAfyEpcRa/Zi77VD7VkcFsy7idT0U2jjdLC1UDxvKJONFTEB5zDzVxAZXKHq3TvPq0HeGTwIq4E4CIbMxJ1eJxMogQGbEpJsXyqSURpVwuGgH4vFyNA37VgX9rlYgK49cw9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBD8jk+A; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B290C4CEF7;
-	Wed, 11 Mar 2026 05:13:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773206020;
-	bh=28by/08L5sQfVInnpnws13wBN8rSRzXkYuFZbXIDejE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fBD8jk+Az9XLzjQybetTno+W1ryvU+pJL+N7BKChPP4rEV9IYqgPEFF2K1MPy7V+I
-	 icuIUfL/Dg5/kgC+Hmy6YXnokVmu1zBps2v+geMH037tafu9KbfbPBt55PGuheVQJI
-	 z4qBbYgbztbgPszs8uOt3DWOo4BLsomiZb502AAVr8RGodlkXenJkrZoPQ7T4PM4Oz
-	 vrK0XegnvMjvVzXWSmVe1LK/JeGbm1OZeYQWd07yKlzuY4gn+/WuMImks+j3fST4ms
-	 212iplG27c78T1c+7zhxUp3BWeQ6jYmUF3g5aNFDkxAetR3pCSSickOn/0/x8U56nb
-	 McVwjAbkgnZAA==
-Date: Wed, 11 Mar 2026 14:13:32 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
- apparmor@lists.ubuntu.com, bpf@vger.kernel.org, ceph-devel@vger.kernel.org,
- cocci@inria.fr, dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
- gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
- kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
- sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH 15/61] trace: Prefer IS_ERR_OR_NULL over manual NULL
- check
-Message-Id: <20260311141332.b611237d36b61b2409e66cb3@kernel.org>
-In-Reply-To: <20260310100750.303af303@gandalf.local.home>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
-	<20260310-b4-is_err_or_null-v1-15-bd63b656022d@avm.de>
-	<20260310100750.303af303@gandalf.local.home>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1773207140; c=relaxed/simple;
+	bh=RXGhIeORuiCyM0y6t78CX51kPoEPHIR+ounDkOA59X8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I9euar7YoLoZ55+BFqEOlVtBo6EpRrFQUQOHd2tIyB88V0raVhqZqxFzwIeFmjLDf/vZlwv1NwI3G0TWD62xOz0sZu0VHM6WS2ENp97sr+gmlwJlyDPSwuU3jzM+sxc6KjPZTnJUS+JbynYMS41BBNJvVTRmS3Go4vxHqG5auiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MigaVoRh; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BEp4DBRQ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62B4Xw653417921
+	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 05:32:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	olTyyzBo2D5n62FYYMqMF+UNjzmxcvx7lFogltM3uOU=; b=MigaVoRhKZbG/a/B
+	PT+USEn2YeGe63cooXTjK9/Cb/n6OQj/BYVLjN5KE9G08W3zX3IQxQkecuNMAXG9
+	ug5sPD61R0GuvXwrYsBSD1ApqXDth8sLwDbgw8dznzmx7yVEyloCt6aac69v2XZf
+	c+qjW7cXJk0OA57sPOBYIDDWaUvBhmvDkOR0AZt5TmcqeAIviHbW63wKqA7v55X9
+	GhXtkD0vh9tyg0Xwu9VdetAOv1wnOQnt8jUq/NeNGHlY0Xd7nu2yIJs60WfxQY4g
+	4Wg4zwJc5la35BPiRlt0WvI9JQoUMC/pwtw3Y8oePlzurjonDWW7U+0EzaEY4Bme
+	rj5vpw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ctja2bgxw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 05:32:17 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cd83cfb36cso2193941585a.3
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 22:32:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773207137; x=1773811937; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=olTyyzBo2D5n62FYYMqMF+UNjzmxcvx7lFogltM3uOU=;
+        b=BEp4DBRQYFt5uI1pOmxpBNSIcDJ9uFr77DDYadCRwQXelHS0idZovPnk2IFRp6Py70
+         TVxnGcWK0mDgM/J/iGJZv+hBxux84W2iN3Tb9TuGegczJIRFuCqh40qIjp+8d56p0ak+
+         2YCRgsPaINmFss7gGnTlMiRUNgN6su13uL7pZN3/g26lNK383i5UTxBiZkF/iySdAs1h
+         CBTuKv2jocq7hPI8tovHypVg6OeprMt6SZFkw18IjJmU+yTkZfo8osoEZXs0ORg1tkiT
+         NECik21HHFUg3lLkdKSMRTSd0vKa6IO1abY/9xL5htQScOOmb7FXmJ9y2H/4bG2Fl6+W
+         8LVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773207137; x=1773811937;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=olTyyzBo2D5n62FYYMqMF+UNjzmxcvx7lFogltM3uOU=;
+        b=BA2hmmA5yb5qGGPp+ck648yTDCsDb5Z337IAkO2Bh4kwabLiBsbPz1LT3A1wUFf5qK
+         f6KwaZvBBFVonw/BE3Vp93FdAnFTbiMSd6uWdsPe0LH893+/LmzVtuTkefJHbdLuXntd
+         pUdNjWO93BoNTphXa5b7MG41W6pduPhioaLxRBj/FZvRIz2AMZrKSyaEuAoJHyHEkMxY
+         2m4BT8tnSjOxwGTaBOlI9dCiPp5HhTX75Cge3XS/9K9MGQ+rIjL/2eY1N59r+S7C2kkq
+         RPjr32DzEdySv4ZN1q9FHyQoJOPY9dTH9PEx4JpIJOGA70r0fzwF7obBV0DdLPgWmyZ7
+         Vs3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWnSia0y1b5pYUPRQu/fpIcR5/m8MfbJyhsnKZY7i+svG0Cw7edQVqyAWr9qPkZ1y3h7pP6uaQDyqjw3A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT+vypf6LCW1UQ1iDOi1ixvL2ZKpXnsS1D9TZZFyPYVMgHK21x
+	v758nQxjLBBkcKw8P0NegFpRLxkxBg2exllnNkPWysNBm/cVMNgnhSpSmGjxSICIzab3pgXw+uo
+	Q/FbufcBRNEFiX4mpHZN1YTmJ5CuwibCmBRgGZq0pw0vkwm0lwXNZqoQ9aQ9LNbw9Kw==
+X-Gm-Gg: ATEYQzym+DaBCbZZJ5vCp/jD1qNUXCsrI1ccS2twFwDalxf5hIcoEu6bdWpChCioiKb
+	VD5Ef6hgIRo9Vt2BTyQyYza624wWJwrD/n4vh2a+/2LJEThdtB2Us3lkES6iJOoWL+S4K8b+GEd
+	KPpCPg1Ho/D6dNlHFN6GIhmcDslZWFF5JoEF/8bd2mlhEa/GHxSSAektia+rfraZ9ayhYfB3x0s
+	Hmd4sJU8GUOkYVztDULPjUPElUjrrVfNuWK697ncwzkLsFdcORQ+k/e+T6Z+RZUUfnBBySP9857
+	GaRqILmK2iLSowGp9IWzD3VobvCSfouX8r7Vo3uJ2oKSztKv24sbYeG726MjcHITbVehiJC7Wnu
+	D88orpI2lVlb7zcv8YCoYgjSUwnqLMc9DxpmsgX/nkfwiRACRKURXLC2LiXxu19WIFnrgTJXYoo
+	D/LZKpKCM9gj5rGcIYk6ZvjBF909nhKWvsNwI=
+X-Received: by 2002:a05:620a:6cc5:b0:8cd:93b7:ebc7 with SMTP id af79cd13be357-8cda1a7cf07mr167060385a.74.1773207136753;
+        Tue, 10 Mar 2026 22:32:16 -0700 (PDT)
+X-Received: by 2002:a05:620a:6cc5:b0:8cd:93b7:ebc7 with SMTP id af79cd13be357-8cda1a7cf07mr167057685a.74.1773207136134;
+        Tue, 10 Mar 2026 22:32:16 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a15602e2ecsm213902e87.25.2026.03.10.22.32.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 22:32:14 -0700 (PDT)
+Date: Wed, 11 Mar 2026 07:32:13 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 10/11] media: qcom: iris: split firmware_data from raw
+ platform data
+Message-ID: <a5hlaakujhy2ternljhbgydtj74aendziboqmcty3ksj4c5skj@p6bmw7graltz>
+References: <20260228-iris-platform-data-v2-0-acf036a3c84c@oss.qualcomm.com>
+ <20260228-iris-platform-data-v2-10-acf036a3c84c@oss.qualcomm.com>
+ <c9ab511b-c773-fd99-45e2-54fe619d3576@oss.qualcomm.com>
+ <2w4urjzvo3ccmwoggjzzxxjhfgmplfgd7ojj765yulnlkesoit@nfancaoqqvzf>
+ <23d6a9d2-7102-78d2-053d-037227edcd69@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 161CE25C595
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <23d6a9d2-7102-78d2-053d-037227edcd69@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=c9WmgB9l c=1 sm=1 tr=0 ts=69b0fe61 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=NO05UAudYb0SBG__3SQA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: -611z_DPYM36paG8iq7fWefcRBjufG0V
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzExMDA0NCBTYWx0ZWRfXzA4mZsvQYDBW
+ tgbOT3+0teIEBF3eN6fEJ7Iz3w21qAOash3Pnu5aXTRQ5vVK3NVUSec5UvkPZiIz9/rr0VScDAK
+ CeAZfcDReYJT/pCaM+sgp9K6p3wnicnv93C9pe8dUkUj0KJD6di3t5WlSiSkipKUr5faK3LCMNG
+ F/NvoX+b1z2ihqAgiaVcWgY9pMC3RJDUyHvWxhNVQcdWqfffAuH9p5TlhSlfqrDZyYzZWiSV2Jv
+ UXw/NCblF7LLpVjY+bwge44Rvl5nCAfsdj8jNMIr4s39DRQrRp/cSDSEEgewpWLPHH01ySD1uGr
+ tQO+PGKLPj9sah4f8Tf0MQDl3NmYn0F4nBwz5nP08GW138Rw6Stb0v8xJnVGKO3zy6dSPgW7cUi
+ wOSsDK0W8aAz1YYt6F6AER/G82Pnt4RacOaocT9bcZHgSjGlve4eXEu9ToPC+U+6TVm/kBcSay0
+ cbqnOGRDvNd1I/bTnJw==
+X-Proofpoint-GUID: -611z_DPYM36paG8iq7fWefcRBjufG0V
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-10_05,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
+ clxscore=1015 impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603110044
+X-Rspamd-Queue-Id: 8180E25C769
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MV_CASE(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_FROM(0.00)[bounces-55301-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55302-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,qualcomm.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[57];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mhiramat@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[avm.de:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,efficios.com:email,goodmis.org:email]
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On Tue, 10 Mar 2026 10:07:50 -0400
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On Wed, Mar 11, 2026 at 10:39:54AM +0530, Dikshita Agarwal wrote:
+> 
+> 
+> On 3/11/2026 5:53 AM, Dmitry Baryshkov wrote:
+> > On Fri, Mar 06, 2026 at 04:28:48PM +0530, Dikshita Agarwal wrote:
+> >>
+> >>
+> >> On 2/28/2026 8:56 PM, Dmitry Baryshkov wrote:
+> >>
+> >>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> >>> index a936ab2aedaf..be3449861993 100644
+> >>> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> >>> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> >>> @@ -201,9 +201,32 @@ enum platform_pm_domain_type {
+> >>>  	IRIS_APV_HW_POWER_DOMAIN,
+> >>>  };
+> >>>  
+> >>> -struct iris_platform_data {
+> >>> +struct iris_firmware_data {
+> >>>  	void (*init_hfi_ops)(struct iris_core *core);
+> >>> +
+> >>>  	u32 (*get_vpu_buffer_size)(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+> >>
+> >> Makes sense to split firmware-related data out of iris_platform_data into a
+> >> dedicated iris_firmware_data, one comment though, get_vpu_buffer_size
+> >> should be in iris_platform_data since it describes the VPU’s buffer
+> >> requirements independent of whether the SoC runs gen1/gen2 HFI firmware.
+> > 
+> > Not really... Your patchset to bringup Gen2 on Kodiak points out that
+> > this callback depends on the firmware: we currently use
+> > iris_vpu_buf_size() for Gen1, your patch have used iris_vpu33_buf_size()
+> > with an explicit comment that it requires a bigger buffer.
+> 
+> Agreed. However, that case is somewhat unique because the firmware code
+> changed significantly between the Gen1 and Gen2 releases. In general, the
+> buffer size is determined primarily by the VPU architecture, as well as by
+> the features being supported—especially when specific features require
+> updated buffer allocations.
 
-> On Tue, 10 Mar 2026 12:48:41 +0100
-> Philipp Hahn <phahn-oss@avm.de> wrote:
+I'd still disagree. In my opinion in your patchset we should have a
+single sc7280 platform data (because in the end it's a single platform)
+and two firmware interfaces associated with it (one for Gen1, one for
+Gen2). So, get_vpu_buffer_size() callback will have to go to the
+firmware interface.
+
 > 
-> > Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> > check.
-> 
-> Why?
+> Thanks,
+> Dikshita
 > 
 > > 
-> > Change generated with coccinelle.
 > > 
-> > To: Steven Rostedt <rostedt@goodmis.org>
-> > To: Masami Hiramatsu <mhiramat@kernel.org>
-> > To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-trace-kernel@vger.kernel.org
-> > Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-> > ---
-> >  kernel/trace/fprobe.c                | 2 +-
-> >  kernel/trace/kprobe_event_gen_test.c | 2 +-
-> >  kernel/trace/trace_events_hist.c     | 2 +-
-> >  3 files changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/kernel/trace/fprobe.c b/kernel/trace/fprobe.c
-> > index dcadf1d23b8a31f571392d0c49cbd22df1716b4f..a94ce810d83b90f55d1178a9bd29c78fd068df4c 100644
-> > --- a/kernel/trace/fprobe.c
-> > +++ b/kernel/trace/fprobe.c
-> > @@ -607,7 +607,7 @@ static int fprobe_module_callback(struct notifier_block *nb,
-> >  	do {
-> >  		rhashtable_walk_start(&iter);
-> >  
-> > -		while ((node = rhashtable_walk_next(&iter)) && !IS_ERR(node))
-> > +		while (!IS_ERR_OR_NULL((node = rhashtable_walk_next(&iter))))
-> 
-> Ug, No!
-> 
-> That looks so much worse than the original.
-
-Hmm, now IS_ERR_OR_NULL() is an inline function, so it is safe.
-But if you want to use IS_ERR_OR_NULL() here, it will be better something like
-
-node = rhashtable_walk_next(&iter);
-while (!IS_ERR_OR_NULL(node)) {
-	fprobe_remove_node_in_module(mod, node, &alist);
-	node = rhashtable_walk_next(&iter);
-}
-
-Thanks,
-
-> 
-> -- Steve
-> 
-> >  			fprobe_remove_node_in_module(mod, node, &alist);
-> >  
-> >  		rhashtable_walk_stop(&iter);
-> > diff --git a/kernel/trace/kprobe_event_gen_test.c b/kernel/trace/kprobe_event_gen_test.c
-> > index 5a4b722b50451bfdee42769a6d3be39c055690d1..a1735ca273f0b756aa1fcfcdab30ddad9bc51c5f 100644
-> > --- a/kernel/trace/kprobe_event_gen_test.c
-> > +++ b/kernel/trace/kprobe_event_gen_test.c
-> > @@ -75,7 +75,7 @@ static struct trace_event_file *gen_kretprobe_test;
-> >  
-> >  static bool trace_event_file_is_valid(struct trace_event_file *input)
-> >  {
-> > -	return input && !IS_ERR(input);
-> > +	return !IS_ERR_OR_NULL(input);
-> >  }
-> >  
-> >  /*
-> > diff --git a/kernel/trace/trace_events_hist.c b/kernel/trace/trace_events_hist.c
-> > index 73ea180cad555898693e92ee397a1c9493c7c167..59df215e1dfd9349eca1c0823ed709ec7285f766 100644
-> > --- a/kernel/trace/trace_events_hist.c
-> > +++ b/kernel/trace/trace_events_hist.c
-> > @@ -3973,7 +3973,7 @@ trace_action_create_field_var(struct hist_trigger_data *hist_data,
-> >  	 */
-> >  	field_var = create_target_field_var(hist_data, system, event, var);
-> >  
-> > -	if (field_var && !IS_ERR(field_var)) {
-> > +	if (!IS_ERR_OR_NULL(field_var)) {
-> >  		save_field_var(hist_data, field_var);
-> >  		hist_field = field_var->var;
-> >  	} else {
-> > 
-> 
-
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+With best wishes
+Dmitry
 
