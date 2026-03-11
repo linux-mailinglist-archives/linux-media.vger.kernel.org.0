@@ -1,257 +1,175 @@
-Return-Path: <linux-media+bounces-55437-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55438-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8PZHCGzCsWmdFAAAu9opvQ
-	(envelope-from <linux-media+bounces-55437-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:28:44 +0100
+	id 8NbbDMvIsWnvFAAAu9opvQ
+	(envelope-from <linux-media+bounces-55438-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:55:55 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D349E269528
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:28:43 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D819269B4B
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 20:55:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8A7EB3069069
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 19:27:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CE0B53091CA9
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 19:54:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 244AD37417C;
-	Wed, 11 Mar 2026 19:27:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 337D43806BB;
+	Wed, 11 Mar 2026 19:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IsqUInMh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="grtfgG4P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA28345CAF;
-	Wed, 11 Mar 2026 19:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331DE33F5A2
+	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 19:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773257261; cv=none; b=VnY0OAGGfxYQKoO30FvaEX6/N4YaNcCozZMhx3jtbHw/bxT5Wk39JdjOJPcdvYyFV3k1jI6cDZccWtATQUXFVra1cS8aZdd//M3kCsb/kya6Vaa+JDdtKZGMwjQ0p0xvlvUy2RmTDvLzkNjVwiCspNsXlPhqLqprWG1MilHYi3E=
+	t=1773258795; cv=none; b=Ep9LiHLCIZUWckmx1EbHXzkPZ5WT1ULQUXlrna5yxF/y1SNEF5b+WJm6GCpZt8I1ktypiGdt/RnoRcz48dzIo1ViyRlzXmMNg9TeWuozfS+3rWKl8rGpPaxIye79D8YgHSgtpErAkGXN8Xyu74zoWM4oKypBIYCzur79u9eGH5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773257261; c=relaxed/simple;
-	bh=Gwaqyz2ZSEtNcqHgakltVwmbWiRAxzDt2UVSabEo+JI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AlhXQXeotNbwK1IXfQyxD4tCeZyUMpcP9Php+9XvEFCOesSsg8CDmJTnDbrWEes7u7bcXhzRU5xzwMxO+DXW2rGb6owyVU6yaa2YsYm7uF/SS9+HY5tzQjfKNRLu1hX5SYrvfc9chkzfG/huoLbITrFLX6nOJXj55BTSghcmu5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IsqUInMh; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3FC282A;
-	Wed, 11 Mar 2026 20:26:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773257190;
-	bh=Gwaqyz2ZSEtNcqHgakltVwmbWiRAxzDt2UVSabEo+JI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IsqUInMh1kgMEnu7Uel/jvDoRRxYFpIv3+L2Hswvyc+DTPR4LkRw86D8UMdKY/KYQ
-	 c3Ip7qOovi04dCrv/JOaQRpwiIqpoYDxy6+1FE0uSthhkIxxqT6LEAqURwa1tzBl4B
-	 hbxcL14JKQb0gUTMgXN1sz50c+N1nZm4zs359blA=
-Message-ID: <81c7c94f-8d97-4311-b879-d46ffd972f52@ideasonboard.com>
-Date: Wed, 11 Mar 2026 19:27:34 +0000
+	s=arc-20240116; t=1773258795; c=relaxed/simple;
+	bh=T+zlK84yelQFztPwwT4F2Z6NRCKEKEEcXyEa2DLFMjE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hc/Ptu4gRZAVWLB10R37aIWxKZh4D4YghU33ggZo1RsCpP6JkFaYLTuvZ3PYwVeQuWd2U8umzopgGtcFp8+1Jdk6vqmWvhViLdi+fssDbuvx9ylY86xovDqCpOEaMWvYbCBitoSNLRvAD2g6ESAjKXygeHONRbKz2fz55YmosX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=grtfgG4P; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773258789;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Cs7bLtTBbYmL95yXvFnRiSueazNnWtAyWdEJ3cgm1SY=;
+	b=grtfgG4P7kTFbA1BygEs7uEDt54BpGGO/Ylh1cY1Z5zyGhvzaV+6DkfBnUc6wd8Vvmp8MM
+	o7z5xvixaXnXzNbu7NYkwlbHlOXdCCGyN+c6qd6Y7tFztwm2s2UXcq52SY+XDhzjZLmlsk
+	rU1rwfSbihaIwRBh4WOXB0IasJrJp1k=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-128-CnHhYyvtMMqBe7-M2RCZhw-1; Wed,
+ 11 Mar 2026 15:53:06 -0400
+X-MC-Unique: CnHhYyvtMMqBe7-M2RCZhw-1
+X-Mimecast-MFC-AGG-ID: CnHhYyvtMMqBe7-M2RCZhw_1773258783
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BF55D19560A7;
+	Wed, 11 Mar 2026 19:53:02 +0000 (UTC)
+Received: from GoldenWind.redhat.com (unknown [10.22.81.64])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2769A30030E9;
+	Wed, 11 Mar 2026 19:52:57 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: nouveau@lists.freedesktop.org,
+	Gary Guo <gary@garyguo.net>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	rust-for-linux@vger.kernel.org
+Cc: Matthew Maurer <mmaurer@google.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	christian.koenig@amd.com,
+	Asahi Lina <lina@asahilina.net>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Simona Vetter <simona@ffwll.ch>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Boqun Feng <boqun@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Krishna Ketan Rai <prafulrai522@gmail.com>,
+	linux-media@vger.kernel.org,
+	Shankari Anand <shankari.ak0208@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel@vger.kernel.org
+Subject: [PATCH v8 0/7] Rust bindings for gem shmem + iosys_map
+Date: Wed, 11 Mar 2026 15:52:39 -0400
+Message-ID: <20260311195246.2439593-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] platform: int3472: Add MSI prestige board data
-To: Antti Laakso <antti.laakso@linux.intel.com>, linux-media@vger.kernel.org
-Cc: linux-gpio@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linusw@kernel.org, brgl@kernel.org, sakari.ailus@linux.intel.com,
- mchehab@kernel.org, hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
- hverkuil+cisco@kernel.org, sre@kernel.org, hao.yao@intel.com,
- jimmy.su@intel.com, miguel.vadillo@intel.com, kees@kernel.org,
- ribalda@chromium.org
-References: <20260311131910.835513-1-antti.laakso@linux.intel.com>
- <20260311131910.835513-6-antti.laakso@linux.intel.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20260311131910.835513-6-antti.laakso@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55437-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FREEMAIL_CC(0.00)[google.com,gmail.com,oracle.com,amd.com,asahilina.net,kernel.org,ffwll.ch,linaro.org,vger.kernel.org,lists.linaro.org,linuxfoundation.org];
+	TAGGED_FROM(0.00)[bounces-55438-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D349E269528
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,kernel];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,patchwork.freedesktop.org:url]
+X-Rspamd-Queue-Id: 9D819269B4B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+This is the next version of the shmem backed GEM objects series
+originally from Asahi, previously posted by Daniel Almeida.
 
+One of the major changes in this patch series is a much better interface
+around vmaps, which we achieve by introducing a new set of rust bindings
+for iosys_map.
 
-On 11/03/2026 13:19, Antti Laakso wrote:
-> Define regulators and gpio for ov5675 in MSI Prestige 14 AI EVO+ laptop.
-> 
-> Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
-> ---
+The previous version of the patch series can be found here:
 
-Looks good to me:
+https://patchwork.freedesktop.org/series/156093/
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+This patch series may be applied on top of the
+driver-core/driver-core-testing branch:
 
->   .../x86/intel/int3472/tps68470_board_data.c   | 101 ++++++++++++++++++
->   1 file changed, 101 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> index 71357a036292..6892d6e98072 100644
-> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> @@ -12,6 +12,7 @@
->   #include <linux/dmi.h>
->   #include <linux/gpio/machine.h>
->   #include <linux/platform_data/tps68470.h>
-> +#include <linux/property.h>
->   #include <linux/regulator/machine.h>
->   #include "tps68470.h"
->   
-> @@ -232,6 +233,72 @@ static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata =
->   	},
->   };
->   
-> +/* Settings for MSI Prestige 14 AI+ Evo C2VMG laptop. */
-> +static struct regulator_consumer_supply ovti5675_avdd_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("avdd", "i2c-OVTI5675:00"),
-> +};
-> +
-> +static struct regulator_consumer_supply ovti5675_dovdd_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("dovdd", "i2c-OVTI5675:00"),
-> +};
-> +
-> +static struct regulator_consumer_supply ovti5675_dvdd_consumer_supplies[] = {
-> +	REGULATOR_SUPPLY("dvdd", "i2c-OVTI5675:00"),
-> +};
-> +
-> +static const struct regulator_init_data msi_p14_ai_evo_tps68470_core_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1200000,
-> +		.max_uV = 1200000,
-> +		.apply_uV = 1,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_dvdd_consumer_supplies),
-> +	.consumer_supplies = ovti5675_dvdd_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data msi_p14_ai_evo_tps68470_ana_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 2815200,
-> +		.max_uV = 2815200,
-> +		.apply_uV = 1,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_avdd_consumer_supplies),
-> +	.consumer_supplies = ovti5675_avdd_consumer_supplies,
-> +};
-> +
-> +static const struct regulator_init_data msi_p14_ai_evo_tps68470_vio_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1800600,
-> +		.max_uV = 1800600,
-> +		.apply_uV = 1,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = 0,
-> +	.consumer_supplies = NULL,
-> +};
-> +
-> +static const struct regulator_init_data msi_p14_ai_evo_tps68470_vsio_reg_init_data = {
-> +	.constraints = {
-> +		.min_uV = 1800600,
-> +		.max_uV = 1800600,
-> +		.apply_uV = 1,
-> +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> +	},
-> +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_dovdd_consumer_supplies),
-> +	.consumer_supplies = ovti5675_dovdd_consumer_supplies,
-> +};
-> +
-> +static const struct tps68470_regulator_platform_data msi_p14_ai_evo_tps68470_pdata = {
-> +	.reg_init_data = {
-> +		[TPS68470_CORE] = &msi_p14_ai_evo_tps68470_core_reg_init_data,
-> +		[TPS68470_ANA]  = &msi_p14_ai_evo_tps68470_ana_reg_init_data,
-> +		[TPS68470_VIO]  = &msi_p14_ai_evo_tps68470_vio_reg_init_data,
-> +		[TPS68470_VSIO] = &msi_p14_ai_evo_tps68470_vsio_reg_init_data,
-> +	},
-> +};
-> +
->   static struct gpiod_lookup_table surface_go_int347a_gpios = {
->   	.dev_id = "i2c-INT347A:00",
->   	.table = {
-> @@ -258,6 +325,23 @@ static struct gpiod_lookup_table dell_7212_int3479_gpios = {
->   	}
->   };
->   
-> +static struct gpiod_lookup_table msi_p14_ai_evo_ovti5675_gpios = {
-> +	.dev_id = "i2c-OVTI5675:00",
-> +	.table = {
-> +		GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
-> +		{ }
-> +	}
-> +};
-> +
-> +static const struct property_entry msi_p14_ai_evo_gpio_props[] = {
-> +	PROPERTY_ENTRY_BOOL("daisy-chain-enable"),
-> +	{ }
-> +};
-> +
-> +static const struct software_node msi_p14_ai_evo_tps68470_gpio_swnode = {
-> +	.properties = msi_p14_ai_evo_gpio_props,
-> +};
-> +
->   static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
->   	.dev_name = "i2c-INT3472:05",
->   	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
-> @@ -287,6 +371,16 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
->   	},
->   };
->   
-> +static const struct int3472_tps68470_board_data msi_p14_ai_evo_tps68470_board_data = {
-> +	.dev_name = "i2c-INT3472:06",
-> +	.tps68470_regulator_pdata = &msi_p14_ai_evo_tps68470_pdata,
-> +	.tps68470_gpio_swnode = &msi_p14_ai_evo_tps68470_gpio_swnode,
-> +	.n_gpiod_lookups = 1,
-> +	.tps68470_gpio_lookup_tables = {
-> +		&msi_p14_ai_evo_ovti5675_gpios,
-> +	},
-> +};
-> +
->   static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
->   	{
->   		.matches = {
-> @@ -316,6 +410,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
->   		},
->   		.driver_data = (void *)&dell_7212_tps68470_board_data,
->   	},
-> +	{
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Micro-Star International Co., Ltd."),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Prestige 14 AI+ Evo C2VMG"),
-> +		},
-> +		.driver_data = (void *)&msi_p14_ai_evo_tps68470_board_data,
-> +	},
->   	{ }
->   };
->   
+https://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git/log/?h=driver-core-testing
+
+Changelogs are per-patch
+
+Asahi Lina (2):
+  rust: helpers: Add bindings/wrappers for dma_resv_lock
+  rust: drm: gem: shmem: Add DRM shmem helper abstraction
+
+Lyude Paul (5):
+  rust: drm: Add gem::impl_aref_for_gem_obj!
+  rust: drm: gem: Add raw_dma_resv() function
+  rust: gem: Introduce DriverObject::Args
+  rust: drm: gem: Introduce shmem::SGTable
+  rust: drm/gem: Add vmap functions to shmem bindings
+
+ drivers/gpu/drm/nova/gem.rs     |   5 +-
+ drivers/gpu/drm/tyr/gem.rs      |   3 +-
+ rust/bindings/bindings_helper.h |   3 +
+ rust/helpers/dma-resv.c         |  13 +
+ rust/helpers/drm.c              |  56 +++-
+ rust/helpers/helpers.c          |   1 +
+ rust/kernel/drm/gem/mod.rs      |  79 +++--
+ rust/kernel/drm/gem/shmem.rs    | 529 ++++++++++++++++++++++++++++++++
+ 8 files changed, 667 insertions(+), 22 deletions(-)
+ create mode 100644 rust/helpers/dma-resv.c
+ create mode 100644 rust/kernel/drm/gem/shmem.rs
+
+-- 
+2.53.0
 
 
