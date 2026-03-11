@@ -1,119 +1,176 @@
-Return-Path: <linux-media+bounces-55360-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55357-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cCoQI2A1sWm0rwIAu9opvQ
-	(envelope-from <linux-media+bounces-55360-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 10:26:56 +0100
+	id 0OsrMcI0sWm0rwIAu9opvQ
+	(envelope-from <linux-media+bounces-55357-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 10:24:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087E12606F0
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 10:26:55 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CDDD2604B7
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 10:24:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id ED5E9302A56C
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 09:26:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6D08B30574B7
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 09:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FF063D16FE;
-	Wed, 11 Mar 2026 09:20:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15BB73CAE67;
+	Wed, 11 Mar 2026 09:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MjuLlPxi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g0xQ952Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA743D093E
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 09:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6EB3C457D;
+	Wed, 11 Mar 2026 09:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773220810; cv=none; b=CTokss56JD4+z0Ho8naG48zg30CfYwZeZ5dIMqqml/YgvIhF2zWz/M24m4ye0N5y0PycpZ5j17hDk1fQozsUeQec7LyAET3AHivjOnW6fzrf2aoTpqp+Af+2aHh72yM+6lqnskr+WJKXFLz2ZiQ/cUPYUosZZpz86u163fi+vNo=
+	t=1773220730; cv=none; b=IHeWnkXML6VoVEmDABTgquGyasI2QCw4wsXLUf5mKYwyRe3cgI8JV9/L2pgYeZg3n3rR9e4WHBNTGAtAEd+8bp+saT7+nA10EG6lD5ePSwrMSh5gAoSumf5rZQ7WuOH1m93lOSUxfDU9M7QmHND26mRRAbHTAnaqsP380GzSMAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773220810; c=relaxed/simple;
-	bh=kQUpjUR1n67t+7g7ZLfLOltzpZ8QpKa8rbwtn9vpasU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HwFDUjZpQ5gUhHQXIoc1P6PiPLAXMbb6PQnZWTrdWwHk2LOB9Se3WFr3O1BKGWcm7Gtxw6WskB0LsN2CyWe9ZA/OD3N1xKkxmXpUgkg7SRdUxtxoVEKOEyeJrC54fvN3Wqh1U5QH5Fa1vi3mGXIij9CuakeAOInpK5BJYo3Uy9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MjuLlPxi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CFC1C2BCB2
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 09:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773220810;
-	bh=kQUpjUR1n67t+7g7ZLfLOltzpZ8QpKa8rbwtn9vpasU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=MjuLlPxijresEdKnh6HEHH/prabl5PVYiqiuSkHo2NWMX+VgVq4YyLierFWtoveew
-	 OzqcCJSl3GydvphlLqwBF8ekRS9hP8Mc8hB6u13fr/tyUK+IGioT39WObKe6KsBWdT
-	 VqSE1GfyINqhluShWOQnO6nqzswAke79rnLUKegRfg5uPQO78WNLOY3CfnGmfmdm5V
-	 belts+PSMz0Mjt31nfrHf1CQWMNXJ/CN9h0HGpEqiNfSXwOpySSpSU+unGfF7OzdCA
-	 6QAYYn3C8vGFK2j8Bh2xZ2pi3ffYzQvpdBb83zzp3nt4jy/hsrAVqbuVVh0Yyw8Gg2
-	 KCe32fZg0DkSw==
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64c9ebd1369so12914054d50.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 02:20:10 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzHnPAXPFHUzcbnq2ySI1B2DlPLZl5Bocg1nIv4ljKGErJZXErV
-	unRUV66FUWCZJ9N5vnEJgMsTXhAi/PA/kboE4iMp4hTaHiEXUOkJF+6s2lNtB1Le/f3j0Wwystv
-	Zb9/GzjCIVJfgyyhlNXUX9lSW+wEJpl8=
-X-Received: by 2002:a05:690c:81:b0:798:7861:5069 with SMTP id
- 00721157ae682-79917e8035fmr16236127b3.9.1773220809439; Wed, 11 Mar 2026
- 02:20:09 -0700 (PDT)
+	s=arc-20240116; t=1773220730; c=relaxed/simple;
+	bh=Rqzwz+cwt5kmThwxqLMAGRvCs4mGbmH7xx3ELJIsTQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X8sNnct9Hi75zJJ+jH6hLU+1nKR/GN/zMrOXswUdjZoZJdUUc8rwK4cO9o2Q8CsGeYK+3WV2oF6iKpMk8ihz2MiPhDUy5pwtj3UCg9JW0NgH+Ucvzresft1gw2ZZD4Njjq3Jz+cTeINK/ZGxnJzHBrPADEnJ/QCQht5H7HRBjHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g0xQ952Z; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773220728; x=1804756728;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Rqzwz+cwt5kmThwxqLMAGRvCs4mGbmH7xx3ELJIsTQ8=;
+  b=g0xQ952ZzOkAsfGIcV1+g7wRsa6WuHsyz3FhIJR9KtAntnZ65EZKAEur
+   m472E+Ri/2CGeJ2O5y2JxPpkOOC7ekKHv2ePDbSU3vEUSIyyS6Iqu1LwA
+   oa8pyUKO+CGVlZTzc1DeSO/ZOH8r6mXEGzw3mhX6iYlV4dfp3wOO5zZ7A
+   tTgpTiNVD6h4kM5VYeqsKa/OLDBZDdy4qjKRxTkH+x76ohlzy5r8qqHhg
+   nteZcg224tDVMKvYv6jQYbVVd6nv9PSp/oX1LmRb72/zqXCKyR3ONL4Sq
+   hFM2ahSQh8N9SOefVTUQbDDDnFqzFIjLBFlbTQM9West1LabaiYjW1W7N
+   w==;
+X-CSE-ConnectionGUID: xJ6d2WLWS9yUfe82MIKqAQ==
+X-CSE-MsgGUID: MUgJFXmkSxODM/kUrsAMWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="74254679"
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="74254679"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 02:18:48 -0700
+X-CSE-ConnectionGUID: YI1j3GJfRziu3AeTyBmJvQ==
+X-CSE-MsgGUID: AUC3eNRvRJq2sssYYwBJ+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
+   d="scan'208";a="225358778"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.171])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 02:18:45 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 194C2121D1C;
+	Wed, 11 Mar 2026 11:20:41 +0200 (EET)
+Date: Wed, 11 Mar 2026 11:20:41 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "luo.liu.linux" <luo.liu.linux@163.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media:v4l2-async:add debugfs under CONFIG_DEBUG_FS
+Message-ID: <abEz6U82C994zgw7@kekkonen.localdomain>
+References: <20260121031456.1125096-1-luo.liu.linux@163.com>
+ <500865d6.8b0f.19cc285d65e.Coremail.luo.liu.linux@163.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310-cma-heap-clear-pages-v2-0-ecbbed3d7e6d@kernel.org>
-In-Reply-To: <20260310-cma-heap-clear-pages-v2-0-ecbbed3d7e6d@kernel.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 11 Mar 2026 10:19:57 +0100
-X-Gmail-Original-Message-ID: <CAD++jLmNfWMHEcyxEzfcE6WnE1ajSLCWRDzYZa-Ws_6p6QPD2w@mail.gmail.com>
-X-Gm-Features: AaiRm53rJjiRo-FnJSdIEmr-EESY7pcgybbaQZQRXtctwVYmjvpDAq6jHJc9c80
-Message-ID: <CAD++jLmNfWMHEcyxEzfcE6WnE1ajSLCWRDzYZa-Ws_6p6QPD2w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] dma-buf: heaps: Use page clearing helpers
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 087E12606F0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <500865d6.8b0f.19cc285d65e.Coremail.luo.liu.linux@163.com>
+X-Rspamd-Queue-Id: 6CDDD2604B7
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55360-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55357-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[163.com];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,kekkonen.localdomain:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 9:53=E2=80=AFAM Linus Walleij <linusw@kernel.org> w=
-rote:
+On Fri, Mar 06, 2026 at 05:41:17PM +0800, luo.liu.linux wrote:
+>  
+>  Hello Sakari and Mauro，
+>   
+>      Gentle ping ....
+> 
+> 
+> At 2026-01-21 11:14:56, "luo.liu" <luo.liu.linux@163.com> wrote:
+> >All debugfs-related code is guarded by CONFIG_DEBUG_FS to avoid
+> >bloating the kernel when debugfs is disabled.
+> >
+> >Signed-off-by: luo.liu <luo.liu.linux@163.com>
+> >---
+> > drivers/media/v4l2-core/v4l2-async.c | 6 ++++++
+> > 1 file changed, 6 insertions(+)
+> >
+> >diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> >index 1c08bba9ecb9..f6a1a57149ba 100644
+> >--- a/drivers/media/v4l2-core/v4l2-async.c
+> >+++ b/drivers/media/v4l2-core/v4l2-async.c
+> >@@ -947,6 +947,7 @@ v4l2_async_nf_name(struct v4l2_async_notifier *notifier)
+> > 		return "nil";
+> > }
+> > 
+> >+#ifdef CONFIG_DEBUG_FS
+> > static int pending_subdevs_show(struct seq_file *s, void *data)
+> > {
+> > 	struct v4l2_async_notifier *notif;
+> >@@ -967,20 +968,25 @@ static int pending_subdevs_show(struct seq_file *s, void *data)
+> > DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+> > 
+> > static struct dentry *v4l2_async_debugfs_dir;
+> >+#endif
+> > 
+> > static int __init v4l2_async_init(void)
+> > {
+> >+#ifdef CONFIG_DEBUG_FS
+> > 	v4l2_async_debugfs_dir = debugfs_create_dir("v4l2-async", NULL);
+> > 	debugfs_create_file("pending_async_subdevices", 0444,
+> > 			    v4l2_async_debugfs_dir, NULL,
+> > 			    &pending_subdevs_fops);
+> > 
+> >+#endif
+> > 	return 0;
+> > }
+> > 
+> > static void __exit v4l2_async_exit(void)
+> > {
+> >+#ifdef CONFIG_DEBUG_FS
+> > 	debugfs_remove_recursive(v4l2_async_debugfs_dir);
+> >+#endif
+> > }
 
-> Use clear_pages() and clear_highpage() properly in the
-> DMA heap allocator.
->
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
+If debugfs is disabled, the init functions won't do anything. You can put
+these behind a single #ifdef .. #endif.
 
-Patches pushed to drm-misc-next!
-
-Yours,
-Linus Walleij
+-- 
+Sakari Ailus
 
