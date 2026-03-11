@@ -1,245 +1,190 @@
-Return-Path: <linux-media+bounces-55285-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55287-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WPG4DJ7PsGmLnQIAu9opvQ
-	(envelope-from <linux-media+bounces-55285-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 03:12:46 +0100
+	id iJjfJ5TSsGmLnQIAu9opvQ
+	(envelope-from <linux-media+bounces-55287-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 03:25:24 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44EA25AC23
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 03:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E3625AED0
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 03:25:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C2B7E325A3BA
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 02:07:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3B02D305A429
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 02:25:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1952F370D64;
-	Wed, 11 Mar 2026 02:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3698B1D5ADE;
+	Wed, 11 Mar 2026 02:25:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SqpOgAb4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FY2bT0go"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46304330D36
-	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 02:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773194859; cv=pass; b=YF6Ic333R3WxNSzSLJoXqHZezexfrVR0wYGaq7tCDfl+DB4D3HWGl1ht7EpeHsaSn9w0zU35xdSV0DdAuvAYMcg+faYoponaSgR7jRnyibAzdCeZTAgn+F0Dzj9FnKWpUmyp2Bw43NxGcj/1iHZL/jhMDrRMJ6LqfHoBvZQ9Mbo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773194859; c=relaxed/simple;
-	bh=8UJnLa/DDQ+b65RDSHa97nR/Rm6zetnRjswOkVb13wc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l2g2yzZ4Dybh6kuhvcBULVguDYhdrEOCm8tFVHG5HxZiMK4r1ieV3XC7DvFbBP/+LmMwsbfu65u9ArSpCtaVdbPZteok84/rVMReHCYXmpmbYEy9zrdrliUY8eD89Ecnaq3KiIRSp5NcaBqhT+HUD7Ww+h1VR8ou9i4C8J9QSO4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SqpOgAb4; arc=pass smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a0ff30b240so8038079e87.0
-        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 19:07:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773194852; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dFh78nrrC788tFbonwPf63JawM1WeTEHdt7eWmhNSCMuBkVqgHR7SDibXtGPwY/iy2
-         B8cwhlXcUqcsb+HiMxBjsHUwtmwQzmK31FqAT8vA+rLmo1BUnSJSkoLfJ2BXeNxm8LTn
-         97Dax97pTjma2+dk5D9/aSO7DdNLhkx5QbtQ8EMwXvNXko9bjLozGaeErpcIezQ8SV85
-         zv1zLI412Kay27aIXMvfR7VlqXQ6ZffZH+n9sxc4heThCQ228YmAecS/AtPpCRa2vrG3
-         72l8T2GFYKzHfUM7eQ+1043JSTsw/mMuuKFdDtkmjMntBg8IDPS1II78UCE/YltLuDsc
-         pNLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
-        fh=OnaJwNkQXzrx+frA5Ul0CSJoEJwhXoa5NIrOCJY3aYw=;
-        b=RBkP0ZgfLH1IPS9oit4Iy9I9LB/HaddMmWR4o58F2frl+eo/LCElZ/ZRxjleU4td7Z
-         KaXahp0mrC/qlGt9EL891FO/Gb6YfEcRpgxNNU+BiJyXLWXHOKr0KeCqQxNh5im9rmuv
-         w0WtyZMMDTrIobDHELQ7IgRIxdvB/1TnUuHwhzlrNNw+VYVGTFNChYtO2tuLNiUTO4Xr
-         jRJUdRumuv4CDR59efPUU18hmPfpkKxkRaoAesFzNa+w52tZSrVjXg9kmEAbsR2t6Arl
-         CaFp2wRgVKnCFvpi/TWgSeOLSFviYGufYl3qMOfl2rcjmKIB4edGwIwREoo6VT0qaBQk
-         hi4Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D932BDC29
+	for <linux-media@vger.kernel.org>; Wed, 11 Mar 2026 02:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773195911; cv=none; b=g5UDIo/TSBUDPaYHK6tJJFbAlMw3BxTKaEtNg89xftM2bmiN8wSJBHLsvZ7CTerfPfZ9PLKwJk8T/vEI4ydzNJPtOczo8Ur2BQWbFAgel6kzSMC9TctczkoYiVFTeinKFCyVWqFTfHQe+5xI6Iny/4+KX7DUPtN95WbyThrhWK0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773195911; c=relaxed/simple;
+	bh=x3oA4b9XXpfnN8kUiNhtlS/tc1BuEX7AW97CTEgFyIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HBUH8lZTUR7eFzJmqeWi7XP/PtYiHUXpKBVr3qIApOhYHTreodXVP7v2axmEOiicL83Sknhx+o8BYebmP2pzfDke7CPXilsZIGpJFeuKe7EiBOC6WnPzin5gCrBI1DcKQ7JR0cmvY8x+HI1KCOh7gMwpY8E0Qricq2IP//kk+RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FY2bT0go; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5091d71aa11so5803441cf.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Mar 2026 19:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773194852; x=1773799652; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
-        b=SqpOgAb4CQOCp6QT1IhDiJXNOENCCAthmmQiQ2Xm1LqdH6AuNnr9pWEOxoaM6J2EHp
-         TaZvrNsWvEAAdeAh3rGZCGLrxzU767HUy57VJt43+079ae3+2kuAr2+JBVbU8T9+l/BT
-         vjjO+GANIyds0bGFgUhdgNG0FnF3NJi/nWQH4=
+        d=gmail.com; s=20230601; t=1773195909; x=1773800709; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pdOODwOyqf2HXTJor8x6+j1U0inwH0LLdlGvfoS1Vfo=;
+        b=FY2bT0goJi+eGxVKUdDcVzRwoQgrQnVLnDcA7loJJil0P4Ni8pMG46aYtZLbnzYCmL
+         ttG0XvTy8yd/gnIaI7o5qrih4Kn+rgjI47B8IO3PTeKTbFI+kHx1XjLEs5+eaM4nB2e1
+         +DYVbLzQRgvKCQr8i0dsxeA03Z3dbFuQyDMtV8NIGYZCX5VpgkgYDtaWauNrOv9jXteO
+         dCe3Eob7ZRKNsS2XQ4HujfFkZZBi7CuGsR+y9/w6OLKI3CM8ihaDROZVBmSR5h8CTnLN
+         rWHfL7sy3cHpmKkxD7DcXmXWeaY/5qn2IElaygmHlm3aEjYk5glgV5tSpCh9/lLyx5P6
+         It4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773194852; x=1773799652;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+zLBLQzKjcztDlxJqoLP6w+B6xnZmfHibV4jlBQCebA=;
-        b=QROEoLgGarfJE26MTHD+WpEv8uCpZFONRWAu4bqAQ20s31QVEwx9322FUFgEGpBDhh
-         M+Ck7/VORU35PvFswEyolJzrleKd31P3XANU6HM12rui/e4ITAS4HtFTdLHMiyvh/p5d
-         4oSnjFk1eD4h9xh9rq8sGH6P6F6LY7ndKGCcytZKyqWypJ5ApJZJpE1e9lp6w0Z8Wnct
-         0koohQb7TScxVl+4Z0u2T4Cdx6+VVPuj24r3OqLvbbpo8mzljErHtNFjAq7fPPvJbrNY
-         IZN0khEa80ioHgPpfeafftie6OquHKPkZHjD3e0aZW6O23CLPLB9afnyDfr6vMixB5/m
-         yp8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUsV2aungIey9lhl39BT32wSROvR6ik2azuGdIw+6/Mk8GFKrWBe9K3JR7wV6XMG2n35wWuQSmfj4bSVA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTkZggmIxNe2t/dgqA3/kum9Gg4sZn5oPJiu8rWnlbQlIyVpSh
-	FiRBLXRXW9M75ZzzaA2Yf091oTueSr+Qt7jcCK7U19mFG8iWcPyFX2kmRjfxj0tOU/llF1BhVwA
-	7I2DAEKcg7t4ghwkcNTwF1mVlGH7r01EgPmBwPtQT
-X-Gm-Gg: ATEYQzzAJiDqiDwo31ozdshBIg0W89qsHw/B4aL/NsSMVSavodQeMbx+p/UZYrYJs2F
-	LHmSWOqcpbyiLpSAuFrQJXzc9CgzA4/6FPdngT1SSRXfeqeSkzfIn/q0/lZyvXJBenD476Q3DVR
-	i2ivmr+SPJIK88TENcOGSGYtlvexpX5OaQfc7KLyGQoYLHE0txXJD5XYEVDhGY81acjS2zt+XT6
-	UWrf/iOaXHuG8Cq1ZR8ho9cF0u5RCTqZfhQb6inQKQZMhX/k6lbeNkfBLb62Ik+Xf/Bz8Ybqe0z
-	MfvDuzsbHg==
-X-Received: by 2002:ac2:4427:0:b0:5a1:3134:9bac with SMTP id
- 2adb3069b0e04-5a156cbd1bbmr169453e87.28.1773194852284; Tue, 10 Mar 2026
- 19:07:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773195909; x=1773800709;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pdOODwOyqf2HXTJor8x6+j1U0inwH0LLdlGvfoS1Vfo=;
+        b=hVyC2AAB5cS5t/r4Spqr4jQ9i6r+vs3IKGN5ptDhhWiSVI4s3qiUcFZivcZzng29PC
+         cl+hROfZojH/iqcQC0O60nAhEpGfhRShZgiB0YQO/loBRd3GIhtVGuonkIDasUOnS9Kr
+         ITvtrvTKV+R+UjLXPePFrXjiTamzsARxSLUQDg19EI/jdKujY3PJnA/fhBxsTOF5UvgO
+         q2ifO6qFgh60otHc+oLf3706WC/HjJgP7PxgEX85xHzG59+5gxUJHj8Q5UFD0CuXQlvf
+         jP1AVBv7+UqmdmylhFlEFYhLnvbv5jVM3GgCNxDnEZF+9x5KSe3kpJZQh4qr9XEADGFf
+         +h/A==
+X-Forwarded-Encrypted: i=1; AJvYcCW6gyr4PX9flLM54luLDSlAhrEwkjpeymjygy8UQPWeITP/HLdTqnVi453zIA+ZW94zOH3DmlQ/AJ2lWA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFmkiztmNHUa1/jwG8HVNpA0BjRKBwv1zPgvjzNgIfA82FL/wA
+	M2je4QprOT1Ttc0jEIb/y1jCDF8neb9hinp3gUq+NHtiqU6Klu983lPe
+X-Gm-Gg: ATEYQzyPL+nXIWkv3caLtSJPv5DusxZ7LOuJh1ZiKrCkDmbhRfMoqcG2eDhU2fW1v07
+	EVHHzTVRpN/+mBnEPZI1JAq4Dbu2CuuxEssavjWl/OyIlxZjsbfcWJOdEqH4Qn6N9Cvi49UVD5d
+	2fXuHvAIhGvWxn5fGOo1pJvtdmAg6UfRGEvMW+xY8E4cpiy4oHIq5A3OpM79ymdQ8qkeB+WIMJT
+	/P5bnnkL+GWruMUcIb0Z0EeJU7jt+qiTseq/bcM0nuTElhvGrvxX1BRguBY6rlSxEglTgQ8HO2W
+	0/4b8SraksJQgS2JRh6Vl8+/xSTcFsnWVpj//FrRlGTpmV//J4WcLQq2KRF5mXAv1R72flx7Qlq
+	gz17gWAcf2xisigNavjrG77+O9aU9l8J+mjnH8qOBffHERjd2bmOBZ/DT1BcJwYZBeqQkzpvFyX
+	J6PzC4Llr9cZzNQAlM5HKReqMeqQ==
+X-Received: by 2002:a05:622a:1111:b0:509:1be4:97d1 with SMTP id d75a77b69052e-5093a19d134mr10124061cf.34.1773195909341;
+        Tue, 10 Mar 2026 19:25:09 -0700 (PDT)
+Received: from localhost ([184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50939ec63d6sm5194251cf.12.2026.03.10.19.25.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 19:25:08 -0700 (PDT)
+Date: Tue, 10 Mar 2026 22:25:40 -0400
+From: Richard Acayan <mailingradian@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Cc: Robert Mader <robert.mader@collabora.com>,
+	David Heidelberg <david@ixit.cz>, phone-devel@vger.kernel.org
+Subject: Re: [PATCH v9 7/7] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+Message-ID: <abDSpE3BNb0jFrqx@rdacayan>
+References: <20260217002738.133534-1-mailingradian@gmail.com>
+ <20260217002738.133534-8-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-56-bd63b656022d@avm.de>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-56-bd63b656022d@avm.de>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 11 Mar 2026 11:07:21 +0900
-X-Gm-Features: AaiRm5028PWt8n-JnveiRgn8oYMksdR_-_nk4JOkvxMfplWs-GDr7RRk-OxICyw
-Message-ID: <CAGXv+5FQAVaJjqhv+Xq-ysOc4SHQn2mCNTgCAp8XocmWBWGGoA@mail.gmail.com>
-Subject: Re: [PATCH 56/61] clk: Prefer IS_ERR_OR_NULL over manual NULL check
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com, 
-	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr, 
-	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org, 
-	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org, 
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
-	samba-technical@lists.samba.org, sched-ext@lists.linux.dev, 
-	target-devel@vger.kernel.org, tipc-discussion@lists.sourceforge.net, 
-	v9fs@lists.linux.dev, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Thomas Gleixner <tglx@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: A44EA25AC23
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260217002738.133534-8-mailingradian@gmail.com>
+X-Rspamd-Queue-Id: 03E3625AED0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55285-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-55287-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,intel.com,linux.intel.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wenst@chromium.org,linux-media@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[58];
-	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mailingradian@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,chromium.org:dkim,baylibre.com:email,avm.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:email,qualcomm.com:email,1a:email,collabora.com:email]
 X-Rspamd-Action: no action
 
-On Tue, Mar 10, 2026 at 9:57=E2=80=AFPM Philipp Hahn <phahn-oss@avm.de> wro=
-te:
->
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
->
-> Semantich change: Previously the code only printed the warning on error,
-> but not when the pointer was NULL. Now the warning is printed in both
-> cases!
->
-> Change found with coccinelle.
->
-> To: Michael Turquette <mturquette@baylibre.com>
-> To: Stephen Boyd <sboyd@kernel.org>
-> To: Daniel Lezcano <daniel.lezcano@kernel.org>
-> To: Thomas Gleixner <tglx@kernel.org>
-> Cc: linux-clk@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+On Mon, Feb 16, 2026 at 07:27:38PM -0500, Richard Acayan wrote:
+> The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
+> mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
+> support for it.
+> 
+> Co-developed-by: Robert Mader <robert.mader@collabora.com>
+> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 > ---
->  drivers/clk/clk.c               | 4 ++--
->  drivers/clocksource/timer-pxa.c | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index 47093cda9df32223c1120c3710261296027c4cd3..35146e3869a7dd93741d10b72=
-23d4488a9216ed1 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -4558,7 +4558,7 @@ void clk_unregister(struct clk *clk)
->         unsigned long flags;
->         const struct clk_ops *ops;
->
-> -       if (!clk || WARN_ON_ONCE(IS_ERR(clk)))
-> +       if (WARN_ON_ONCE(IS_ERR_OR_NULL(clk)))
->                 return;
->
->         clk_debug_unregister(clk->core);
-> @@ -4744,7 +4744,7 @@ void __clk_put(struct clk *clk)
->  {
->         struct module *owner;
->
-> -       if (!clk || WARN_ON_ONCE(IS_ERR(clk)))
-> +       if (WARN_ON_ONCE(IS_ERR_OR_NULL(clk)))
+>  .../boot/dts/qcom/sdm670-google-sargo.dts     | 95 +++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+> 
+(snip)
+> +
+> +&cci_i2c1 {
+> +	camera@1a {
+> +		compatible = "sony,imx355";
+> +		reg = <0x1a>;
+> +
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +
+> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clock-rates = <19200000>;
+> +
+> +		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
+> +
+> +		avdd-supply = <&cam_front_ldo>;
+> +		dvdd-supply = <&cam_front_ldo>;
+> +		dovdd-supply = <&cam_vio_ldo>;
+> +
+> +		pinctrl-0 = <&cam_mclk2_default>;
+> +		pinctrl-names = "default";
+> +
+> +		rotation = <270>;
+> +		orientation = <0>;
+> +
+> +		port {
+> +			cam_front_endpoint: endpoint {
+> +				link-frequencies = /bits/ 64 <360000000>;
+> +				remote-endpoint = <&camss_endpoint1>;
+> +			};
 
-clk_get_optional() returns NULL if the clk isn't present.
-
-Drivers would just pass this to clk_put(). Your change here would cause
-this pattern to emit a very big warning.
-
-I don't think this change should be landed.
-
-
-ChenYu
-
->                 return;
->
->         clk_prepare_lock();
-> diff --git a/drivers/clocksource/timer-pxa.c b/drivers/clocksource/timer-=
-pxa.c
-> index 7ad0e5adb2ffac4125c34710fc67f4b45f30331d..f65fb0b7fc318b766227e5e7a=
-4c0fb08ba11c8f9 100644
-> --- a/drivers/clocksource/timer-pxa.c
-> +++ b/drivers/clocksource/timer-pxa.c
-> @@ -218,7 +218,7 @@ void __init pxa_timer_nodt_init(int irq, void __iomem=
- *base)
->
->         timer_base =3D base;
->         clk =3D clk_get(NULL, "OSTIMER0");
-> -       if (clk && !IS_ERR(clk)) {
-> +       if (!IS_ERR_OR_NULL(clk)) {
->                 clk_prepare_enable(clk);
->                 pxa_timer_common_init(irq, clk_get_rate(clk));
->         } else {
->
-> --
-> 2.43.0
->
->
+This also needs data-lanes.
 
