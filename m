@@ -1,267 +1,181 @@
-Return-Path: <linux-media+bounces-55377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55378-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wKZILSpQsWlCtAIAu9opvQ
-	(envelope-from <linux-media+bounces-55377-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 12:21:14 +0100
+	id SAfQAwFWsWmGtwIAu9opvQ
+	(envelope-from <linux-media+bounces-55378-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 12:46:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C46262D9D
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 12:21:14 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03669263108
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 12:46:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5F0713012E6C
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 11:21:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4FAD7300B51A
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 11:46:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C10583D668F;
-	Wed, 11 Mar 2026 11:21:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274003DDDC2;
+	Wed, 11 Mar 2026 11:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qv5OWEjP"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="WgRhneq3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9608D3D88F9;
-	Wed, 11 Mar 2026 11:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D068218AB9;
+	Wed, 11 Mar 2026 11:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773228068; cv=none; b=CUGQsXTzD7UDIxYgvc/ECN4qR+kIdrBp6Y+sP5yexgnDL6lfZO4U4LEKyF81uqkwkO8tVsc7tcStCQCgU/ZbRfwAiZg4TYdh0J9KcbO5ixzxi6Z2ligcr62lTRjg2la37FQ3UOwqyveOoId52iTEehLsmJnR2cOcwPkeqOUjUnY=
+	t=1773229560; cv=none; b=cTWaClsVg6UuLwcyiZgsJXd1UZNpMju0wW9wsBeCBNPM+KWysKpHLD0K7dUo3s3FMOHCTbeVk5rD0De81GmTsjvITBv0CK30EAHfTF0o9LNJZjxeOZ8RExEsYKdriVvDzV8m7QmXO9giyvZvnDvG7h4vcU/Oprv+IKY4pq6VH/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773228068; c=relaxed/simple;
-	bh=G8zRjBWbNVr1Sm3VXmHyMLo9tRzQK8H7TzgK2IGArw0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jz/53Wuqb7Kz5iw+srUgJWrgE9zmDu1RUPYF2j7CouDCar/yjmwL/dyPXuqa4vLSWzFfOfgbKpVx4VMKsQwRMNw3Fo9xb9RY95SnVFawPnbiH42m6hy4t7E1GQFg3v1SovSIINuQTFzFU/zxeGjisj+lfkUMjeyFt8E519W/2Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qv5OWEjP; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773228066; x=1804764066;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G8zRjBWbNVr1Sm3VXmHyMLo9tRzQK8H7TzgK2IGArw0=;
-  b=Qv5OWEjPc9QpBvHkwAbQMqSyO7LBG0gumxaa+16WCgUz26l+pwhVFQF+
-   68x6cNLP3m/3e/Q1q5kCgdoNXsm15fD+YfInyIYLNYkCupGZW6sc/cykw
-   Ue8eeleKx9eWvgu64TA/hRff7ggP6E6ho+TzAEmRyJD6x7otrgmIw1ybc
-   RLoY1h1DoiGTwcsyrRElUIqOf/pNPuq/cme8LwVWUrea6KN2BeE6JWFpe
-   cqLTZWQPUzAx7Cjee+ZuxepOundcYdTqHPFWM0yGZshVVtg9tgw8PUdRv
-   ETmYxCGtWTIjgTdfaLNMm20Sqa6ac5Bmf+csyNNWlskE1iSvh4CCwxL/B
-   g==;
-X-CSE-ConnectionGUID: A/T3nB6URaOewFDNPOIDyg==
-X-CSE-MsgGUID: gmeq6KQmRqeLYoBfRDkCcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="85646369"
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="85646369"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 04:21:05 -0700
-X-CSE-ConnectionGUID: 5naTzg3WTgaFUHtfxzPYOA==
-X-CSE-MsgGUID: 1trlYXxBSxamGbxjdVQQiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="217110086"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO alaakso-DESK) ([10.245.246.81])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 04:21:00 -0700
-Date: Wed, 11 Mar 2026 13:20:56 +0200
-From: Antti Laakso <antti.laakso@linux.intel.com>
-To: Dan Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linusw@kernel.org,
-	brgl@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org,
-	hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
-	hverkuil+cisco@kernel.org, sre@kernel.org, hao.yao@intel.com,
-	jimmy.su@intel.com, miguel.vadillo@intel.com, kees@kernel.org,
-	ribalda@chromium.org
-Subject: Re: [PATCH 5/5] platform: int3472: Add MSI prestige board data
-Message-ID: <abFQGE0N3Ulgcn1I@alaakso-DESK>
-References: <20260310124427.693625-1-antti.laakso@linux.intel.com>
- <20260310124427.693625-6-antti.laakso@linux.intel.com>
- <db7b4eeb-1054-4b7c-9f91-810be504124d@ideasonboard.com>
+	s=arc-20240116; t=1773229560; c=relaxed/simple;
+	bh=0iGaghC/NbiVSh6jkUjyWeHTbQd6+D7a9IXIk2s8cUw=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=KbKKJ/L0OyH36QBS+sCwXss80QKcOqmxo3Sc07+00APg+1A48hgZAyP2CK/SAuplKzcjYLwegDGTig4bl3mf9Lg1E8LBB8/BeI2jJ4R9NEMlJrbuQ6A7iHrLdF2Oyv+3YM+vn5cxYvd/+Pw+RMDE8Dalft2wT4hftOgn57s5eJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=WgRhneq3; arc=none smtp.client-ip=162.62.57.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1773229545; bh=wVzmIUwtrK+LR0xt0vPw3jRguiI7cqjlKH5iTXQ8a5Q=;
+	h=From:To:Cc:Subject:Date;
+	b=WgRhneq3RLUyFnsl3XfCt7+indnpHLsgeXBzyUAxsDMuN3+nSAnzr1oGlP2Rhp0UI
+	 za+BcJx/y/4KrD9J4kIa3gQ3yyxO7guWvQXIQKLOoHSQM1lZr54SXYTKDRWlWt0Vvc
+	 ifr5Kqyj4253YkzghZOzMI4rY4o/RskeOb8SLlFA=
+Received: from June.localdomain ([123.121.145.35])
+	by newxmesmtplogicsvrsza56-0.qq.com (NewEsmtp) with SMTP
+	id B209E03D; Wed, 11 Mar 2026 19:44:32 +0800
+X-QQ-mid: xmsmtpt1773229472tjv9i10fi
+Message-ID: <tencent_789013E4271D3D28096B0C38C30F0A0D2C07@qq.com>
+X-QQ-XMAILINFO: Ns+25EuXnYmwOuTtc6s0UbQYkGXs6viqNAueu3vP5GAOUsCecUY9AzHPVn8axz
+	 QPW2SOUxYXzL7FUoB4YT0c+Ifzo7HnigT5yc3NpVv78cedtCYFyOYX2YzLPipuBuPRoAL9K0EQgv
+	 wdP/u7Bgpj7K2hi1QEQYDERXEy9xZSmYQ9zKrNDlToi50NQJL5C5GTOJgQbPNg3s5978iHyBzxyV
+	 AzrdLYyM3nX6SjKVWGuFp6xTgzfViXwqAJ0ntd1O4XsZ2G/Nnkc9M0zmPpX8x3y0ZjRh8PxYBJ4L
+	 RpbncAm8ytC7BqUfjyCRqO+Vccr7h21yQ4K6VhcyAyVGiZaeCFeACFTbf2Ur/NU1Mp7dpQRPk7XC
+	 gKuQZrEeNJpPv92chZn2GlEziMIqcyvYYwxg91ASugixaPX7SZQm9GVAZZP0PAKLcqUFAszu9W3Q
+	 axZc27LrSbJiPhmW+3iDx0UQlkECo3vu5z+glOA1nv+t7xdFEHymufEQokTxRTOH/8Cnt9ZW2yv9
+	 etGSbvNPG8T4KPMbpiLi4OoSXdY6xyHHEddYfWMCHzZl3ojiSwn0w6vh9gW81E2rTjoWy+ZF51Jx
+	 eQp3GPTe/1sDGp3F5lOE72ShIuLdjkdA+7UsbDE1cfD5avO07cPrF2TZaJObB00+fiwvlx8yHy+H
+	 FPEL1XOkKOXMGqh6Bfqz5/2UK/JLFIebYNeyD3Py9ifGgwKxuh3nciV7LUQ0Cq0jbAYL3I+QdgUg
+	 osj9JhVFAiZFlitqDHDzZ77tnMRY9FFKwt3mopiFj/OC2lMCpvvfKTZZuTSGvijY3HhnGuuZet/d
+	 xfnrXPCFXWWoJ0LCQPJ0SA4zXfAFd6LZcyGpxrd4fkPmyFkKP9NnXrgUH7b1EJV27quWablS1Nwf
+	 73NQ1BrX3deKSqcz35IRHKU1lXrfKHqGEwL1z1PbsrUCzlgPd5PjE503ZaAfwPwEedWsLoAAGqc/
+	 QJk8JLSU9KrCg6yQIgUPF/NKq+LntQHqaQuBov4fIz3WsEWrkvB/zP6nKUMXM3xJt1XDV49NsN/q
+	 PBG6qSsMdCREVd5li7LwhMvjI7d0RoPkvmbzH/V5ASRbH+3ex7S1Bonxyhe9s=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+From: Wang Jun <1742789905@qq.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Wang Jun <1742789905@qq.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: gszhai@bjtu.edu.cn,
+	25125332@bjtu.edu.cn,
+	25125283@bjtu.edu.cn,
+	23120469@bjtu.edu.cn
+Subject: [PATCH v2] media: saa7164: add missing ioremap error handling
+Date: Wed, 11 Mar 2026 19:44:30 +0800
+X-OQ-MSGID: <20260311114430.85732-1-1742789905@qq.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db7b4eeb-1054-4b7c-9f91-810be504124d@ideasonboard.com>
-X-Rspamd-Queue-Id: 58C46262D9D
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 03669263108
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55377-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_FROM(0.00)[bounces-55378-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,qq.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[antti.laakso@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qq.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FREEMAIL_FROM(0.00)[qq.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[1742789905@qq.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,qq.com:dkim,qq.com:email,qq.com:mid]
 X-Rspamd-Action: no action
 
-Thanks for review Dan,
-On Tue, Mar 10, 2026 at 02:32:56PM +0000, Dan Scally wrote:
-> Hi Antti
-> 
-> On 10/03/2026 12:44, Antti Laakso wrote:
-> > Define regulators and gpios for MSI Prestige 14 AI EVO+ laptop.
-> > 
-> > Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
-> > ---
-> >   .../x86/intel/int3472/tps68470_board_data.c   | 97 +++++++++++++++++++
-> >   1 file changed, 97 insertions(+)
-> > 
-> > diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> > index 71357a036292..fe7c23e72d66 100644
-> > --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> > +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> > @@ -232,6 +232,73 @@ static const struct tps68470_regulator_platform_data dell_7212_tps68470_pdata =
-> >   	},
-> >   };
-> > +/* Settings for MSI Prestige 14 laptop. */
-> > +
-> > +static struct regulator_consumer_supply ovti5675_avdd_consumer_supplies[] = {
-> > +	REGULATOR_SUPPLY("avdd", "i2c-OVTI5675:00"),
-> > +};
-> > +
-> > +static struct regulator_consumer_supply ovti5675_dovdd_consumer_supplies[] = {
-> > +	REGULATOR_SUPPLY("dovdd", "i2c-OVTI5675:00"),
-> > +};
-> > +
-> > +static struct regulator_consumer_supply ovti5675_dvdd_consumer_supplies[] = {
-> > +	REGULATOR_SUPPLY("dvdd", "i2c-OVTI5675:00"),
-> > +};
-> > +
-> > +static const struct regulator_init_data msi_p14_ai_evo_tps68470_core_reg_init_data = {
-> > +	.constraints = {
-> > +		.min_uV = 1200000,
-> > +		.max_uV = 1200000,
-> > +		.apply_uV = 1,
-> > +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> > +	},
-> > +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_dvdd_consumer_supplies),
-> > +	.consumer_supplies = ovti5675_dvdd_consumer_supplies,
-> > +};
-> > +
-> > +static const struct regulator_init_data msi_p14_ai_evo_tps68470_ana_reg_init_data = {
-> > +	.constraints = {
-> > +		.min_uV = 2815200,
-> > +		.max_uV = 2815200,
-> > +		.apply_uV = 1,
-> > +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> > +	},
-> > +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_avdd_consumer_supplies),
-> > +	.consumer_supplies = ovti5675_avdd_consumer_supplies,
-> > +};
-> > +
-> > +static const struct regulator_init_data msi_p14_ai_evo_tps68470_vio_reg_init_data = {
-> > +	.constraints = {
-> > +		.min_uV = 1800600,
-> > +		.max_uV = 1800600,
-> > +		.apply_uV = 1,
-> > +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> > +	},
-> > +	.num_consumer_supplies = 0,
-> > +	.consumer_supplies = NULL,
-> > +};
-> > +
-> > +static const struct regulator_init_data msi_p14_ai_evo_tps68470_vsio_reg_init_data = {
-> > +	.constraints = {
-> > +		.min_uV = 1800600,
-> > +		.max_uV = 1800600,
-> > +		.apply_uV = 1,
-> > +		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
-> > +	},
-> > +	.num_consumer_supplies = ARRAY_SIZE(ovti5675_dovdd_consumer_supplies),
-> > +	.consumer_supplies = ovti5675_dovdd_consumer_supplies,
-> > +};
-> > +
-> > +static const struct tps68470_regulator_platform_data msi_p14_ai_evo_tps68470_pdata = {
-> > +	.reg_init_data = {
-> > +		[TPS68470_CORE] = &msi_p14_ai_evo_tps68470_core_reg_init_data,
-> > +		[TPS68470_ANA]  = &msi_p14_ai_evo_tps68470_ana_reg_init_data,
-> > +		[TPS68470_VIO]  = &msi_p14_ai_evo_tps68470_vio_reg_init_data,
-> > +		[TPS68470_VSIO] = &msi_p14_ai_evo_tps68470_vsio_reg_init_data,
-> > +	},
-> > +};
-> > +
-> >   static struct gpiod_lookup_table surface_go_int347a_gpios = {
-> >   	.dev_id = "i2c-INT347A:00",
-> >   	.table = {
-> > @@ -258,6 +325,19 @@ static struct gpiod_lookup_table dell_7212_int3479_gpios = {
-> >   	}
-> >   };
-> > +static struct gpiod_lookup_table msi_p14_ai_evo_ovti5675_gpios = {
-> > +	.dev_id = "i2c-OVTI5675:00",
-> > +	.table = {
-> > +		GPIO_LOOKUP_IDX("tps68470-gpio", 9, "reset", 0, GPIO_ACTIVE_LOW),
-> > +		GPIO_LOOKUP_IDX("tps68470-gpio", 7, "reset", 1, GPIO_ACTIVE_LOW),
-> 
-> The ov5675 driver seems only to look for a single gpio, so I think the
-> second entry would never be accessed here...should there be an accompanying
-> driver change?
-> 
-> Thanks
-> Dan
+Add checks for ioremap return values in saa7164_dev_setup(). If
+ioremap for BAR0 or BAR2 fails, release the already allocated PCI
+memory regions, remove the device from the global list, decrement
+the device count, and return -ENODEV.
 
-Yes, the gpio 7 is not needed. I'll fix it for v2.
+This prevents potential null pointer dereferences and ensures proper
+cleanup on memory mapping failures.
+
+Signed-off-by: Wang Jun <1742789905@qq.com>
+---
+ drivers/media/pci/saa7164/saa7164-core.c | 29 ++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
+index a8a004f28ca0..bd4179d568cb 100644
+--- a/drivers/media/pci/saa7164/saa7164-core.c
++++ b/drivers/media/pci/saa7164/saa7164-core.c
+@@ -998,9 +998,21 @@ static int saa7164_dev_setup(struct saa7164_dev *dev)
+ 	/* PCI/e allocations */
+ 	dev->lmmio = ioremap(pci_resource_start(dev->pci, 0),
+ 			     pci_resource_len(dev->pci, 0));
++	if (!dev->lmmio) {
++		dev_err(&dev->pci->dev,
++				"failed to remap MMIO memory @ 0x%llx\n",
++				(u64)pci_resource_start(dev->pci, 0));
++		goto err_ioremap;
++	}
  
-> > +		{ }
-> > +	}
-> > +};
-> > +
-> > +static const struct tps68470_gpio_platform_data msi_p14_ai_evo_tps68470_gpio_pdata = {
-> > +	.daisy_chain_enable = true,
-> > +};
-> > +
-> >   static const struct int3472_tps68470_board_data surface_go_tps68470_board_data = {
-> >   	.dev_name = "i2c-INT3472:05",
-> >   	.tps68470_regulator_pdata = &surface_go_tps68470_pdata,
-> > @@ -287,6 +367,16 @@ static const struct int3472_tps68470_board_data dell_7212_tps68470_board_data =
-> >   	},
-> >   };
-> > +static const struct int3472_tps68470_board_data msi_p14_ai_evo_tps68470_board_data = {
-> > +	.dev_name = "i2c-INT3472:06",
-> > +	.tps68470_regulator_pdata = &msi_p14_ai_evo_tps68470_pdata,
-> > +	.tps68470_gpio_pdata = &msi_p14_ai_evo_tps68470_gpio_pdata,
-> > +	.n_gpiod_lookups = 1,
-> > +	.tps68470_gpio_lookup_tables = {
-> > +		&msi_p14_ai_evo_ovti5675_gpios,
-> > +	},
-> > +};
-> > +
-> >   static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
-> >   	{
-> >   		.matches = {
-> > @@ -316,6 +406,13 @@ static const struct dmi_system_id int3472_tps68470_board_data_table[] = {
-> >   		},
-> >   		.driver_data = (void *)&dell_7212_tps68470_board_data,
-> >   	},
-> > +	{
-> > +		.matches = {
-> > +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Micro-Star International Co., Ltd."),
-> > +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Prestige 14 AI+ Evo C2VMG"),
-> > +		},
-> > +		.driver_data = (void *)&msi_p14_ai_evo_tps68470_board_data,
-> > +	},
-> >   	{ }
-> >   };
-> 
+ 	dev->lmmio2 = ioremap(pci_resource_start(dev->pci, 2),
+ 			     pci_resource_len(dev->pci, 2));
++	if (!dev->lmmio2) {
++		dev_err(&dev->pci->dev,
++				"failed to remap MMIO memory @ 0x%llx\n",
++				(u64)pci_resource_start(dev->pci, 2));
++		goto err_ioremap2;
++	}
+ 
+ 	dev->bmmio = (u8 __iomem *)dev->lmmio;
+ 	dev->bmmio2 = (u8 __iomem *)dev->lmmio2;
+@@ -1019,6 +1031,23 @@ static int saa7164_dev_setup(struct saa7164_dev *dev)
+ 	saa7164_pci_quirks(dev);
+ 
+ 	return 0;
++err_ioremap2:
++	iounmap(dev->lmmio);
++err_ioremap:
++	/* Release the PCI memory regions allocated in get_resources() */
++	release_mem_region(pci_resource_start(dev->pci, 0),
++					   pci_resource_len(dev->pci, 0));
++
++	release_mem_region(pci_resource_start(dev->pci, 2),
++					   pci_resource_len(dev->pci, 2));
++
++	/* Remove from device list and decrement count */
++	mutex_lock(&devlist);
++	list_del(&dev->devlist);
++	mutex_unlock(&devlist);
++	saa7164_devcount--;
++
++	return -ENODEV;
+ }
+ 
+ static void saa7164_dev_unregister(struct saa7164_dev *dev)
+-- 
+2.43.0
+
 
