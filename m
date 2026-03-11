@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-55398-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55401-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GFjuNwV0sWlVvAIAu9opvQ
-	(envelope-from <linux-media+bounces-55398-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 14:54:13 +0100
+	id OCVbHyF0sWlVvAIAu9opvQ
+	(envelope-from <linux-media+bounces-55401-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 14:54:41 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860BB264DFF
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 14:54:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E662264E1D
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 14:54:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A5D42301E9A4
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 13:54:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 21231301EF0F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 13:54:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698BA35F614;
-	Wed, 11 Mar 2026 13:54:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B749336308E;
+	Wed, 11 Mar 2026 13:54:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WNQaMzsB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IHIkBe0z"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6847F2D3EC1;
-	Wed, 11 Mar 2026 13:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CCD30AD10;
+	Wed, 11 Mar 2026 13:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773237241; cv=none; b=rUNk0OOWL7ITLlwL08U42wD4Lqli5NTmo6OclA+2jGFjxK2wcrr4ov+429Pxew8+Tp4SClxXfX2u/p4qbZsZ/dYldD94HUzLOz00PHyE50oETTUT4qksVGL7rq0jmunp98jYkImG/125p3e5fZTBwTMvtDhFh+UU9G/xUTVJPiY=
+	t=1773237248; cv=none; b=EV6l6DN+fKgH2u9YCanqwbhTVMkIbREn4XUVy4Jj4+kkzHydBVJXKxPqHewT4VH4Ox3yTpQZxFmIuxFg8ofqf6CZ+if/ZpyvNUvAa3Vy+Q6skcDDrh5bRN2OEUfLoWNUdUrIQECfTI+XnYwsYC5fzeskKP/JkXTM4+F4uhfvMKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773237241; c=relaxed/simple;
-	bh=pdZyak81e8CG8vI3htglWPevuPv2rJAraMngVPQe9+o=;
+	s=arc-20240116; t=1773237248; c=relaxed/simple;
+	bh=E1CJ0rQnAi0EUDChncm+qXC9IRTJno6m1t3x5jgRLOo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RwsHs8UteEojojSNrfeSO+UT8m1KfEQM6aNcmmwtph1uqTL6RwIuMDOOxAL2AopyYUG645u+rNh3UNunxzBcUN4qWNbhO1aNvHfYYXl7REnAudoKCZ0yucBnE4bvYsCfgDMbLAxrTABlcXqxDkBMkotS5L7Kud7IQQV9ua8dDgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WNQaMzsB; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=YvjNcknjw1CxDiJ+ZXvk2IYqjACHFl/5CnVOcS/hqNjWt2VdyKzN5TSjdtItfYGNVwJjxN3cvprBlSarJJHryHEGD6CSo63a2MHhE7bW4kPgSShYYTDRJ6PNiev0o38hZiDdXnRyEL7/KtKJAwzjrSrZCpT1jtkDP/bnzth8dqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IHIkBe0z; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6DF5F5A5;
-	Wed, 11 Mar 2026 14:52:42 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3155482A;
+	Wed, 11 Mar 2026 14:52:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1773237163;
-	bh=pdZyak81e8CG8vI3htglWPevuPv2rJAraMngVPQe9+o=;
+	bh=E1CJ0rQnAi0EUDChncm+qXC9IRTJno6m1t3x5jgRLOo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=WNQaMzsBRe3ziVVHxOSjzaEy6xqfuug9C+Y18T5I3yu0LXQVT/9He93EUMlTh6lDY
-	 LK2JppEB45fkzxvNMbpb7Aj+i12RbuFmJ/HMvN6btJKP4HdtMq+I6RuNRaYv2Zh1Lc
-	 bWl7hrSHmq0+/3mAEXgRbQEMsd9qmT799rSm6c9w=
+	b=IHIkBe0zt89usnMQEKPG0LEMgqLvMRxlry8QJaY6rP0G+S7aTitEYWtdgApopFk8c
+	 cZWFknIM9rWIgy/C7W2Swmf47kU4L8EgIS1aui5g80k1th+5LS863v0qpJSA2x5ibx
+	 XmtbYs/XPvNpiIqfFCc1lalZG09EelbzFzVzIo/0=
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Date: Wed, 11 Mar 2026 15:53:14 +0200
-Subject: [PATCH v5 01/10] media: rcar-vin: Link VINs on Gen3 to a single
- channel on each CSI-2
+Date: Wed, 11 Mar 2026 15:53:15 +0200
+Subject: [PATCH v5 02/10] media: rcar-isp: Move {enable|disable}_streams()
+ calls
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260311-rcar-streams-v5-1-3e6c957d7567@ideasonboard.com>
+Message-Id: <20260311-rcar-streams-v5-2-3e6c957d7567@ideasonboard.com>
 References: <20260311-rcar-streams-v5-0-3e6c957d7567@ideasonboard.com>
 In-Reply-To: <20260311-rcar-streams-v5-0-3e6c957d7567@ideasonboard.com>
 To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
@@ -70,24 +70,24 @@ Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.15-dev-c25d1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2436;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2882;
  i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=pdZyak81e8CG8vI3htglWPevuPv2rJAraMngVPQe9+o=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpsXPpr68/L8Pm5FCMdmSav/Ta7zCoBpb+GNmNd
- DLF23yR8NaJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCabFz6QAKCRD6PaqMvJYe
- 9UjtD/96nP3CDORCHG/zsL1B1M2h/x1s0EZARDA1JUe16r9BWwNogd0nx4Boi8OofqTGd9vPlUi
- jZt3f7IPg70R8O+8QqZxijNC7BX7Eyf9WdPTs1KPvJKd3TMOBZcIj3X59lOQxstI+7UbD2N/ynu
- HibU+qHR/cEaL6Seq4HqHQonu3uacIZhWvHYKdp2WgIKzEAgbhMnvA8iOPtb9QF7mGL1KKR1Wmm
- Tb37lAnCWc3J8O/PeRMDjiLu0YhaxAz1QcDhyh62T69j/2LNi0+bUtrtllQBphDiRBI/2cOXoQu
- VHSQdfu4LTyPz2bXj/P97iafwfm/G7fEnXcN4LIVHBcW4kUcdBS+nCppEDX0OBkdoBe8IVa2LkN
- r8otridGWDl3Z7ApgzJt+fUDDO63YhpFBANDwwLxDqxp0XdSyH1T6UaHPMwA+tPA2/Ng7UwZXj/
- ja3aRV0P1MQsfooqgxUV3kBmWz+SJQyPN1+hKNKeOyyNStX6nzN2OzhvUG/6qhtHCBOUySfrWJY
- qlUFhKPktUewgK0byyE581z84XplWOpKw6eNHNEWu8XZnCSQ7upskpuuNV/SedAWDRwlu6Wbl8r
- 1quAazcZ7Rw+AKOmKYgH68BJnwKAHus0yP2T4rQrnSH1X0Uyjd7GS5m15/t18vuFDZc9tqOCM7R
- r0pKkSkUu+Rl7fg==
+ bh=E1CJ0rQnAi0EUDChncm+qXC9IRTJno6m1t3x5jgRLOo=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBpsXPpSql/XKpW0MiS6ZQgzQwm2PZvKRm7eIx7X
+ FjLNiRM5X6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCabFz6QAKCRD6PaqMvJYe
+ 9eDtD/4vPH9Ir0oSN/kUgoHrxPl//tf154k1DQVf61j8SI49eqbLgG8j8MXfo7ihEem/65owoZa
+ AndGUJdAoVpm+zr84DXznV+bWzXrJXfQsrvYhyixyvuSz9YUtJDGaVw7ItmfgpyTtA4wyeKBNsJ
+ SWh6P5Adtd+hibMMtchM+AwPfRkWoTnxFxJd6mao1XneMNbMbGYb/TjgOezSjIRNnsyBS8HKOlQ
+ M9OTkuNjYsj0CnVzoN4CkHqHcdxxdKhZZHYwa/vAF2COXlYwAShjGYRLRRtpOtJhIrgw9ndfWtS
+ 9oejXrzKfEKYOrDIsoB7eh+Jgm0yHIufq7BKO/bC58eCTaSm0U9N4HL0DUb21U90ZQoGNpeUF0T
+ WG7+f2a82SimB2YuZU8NnfnP6MYPLBc5Nx5bIkOX8mXifzdA2zGwrVLvH5G8JxguNRhHpmXduWH
+ DFa2uF1IEMOzhkX5UUJ9yhE0/rpNMtLg8pnsis1ZCYllMxrSnyL9FqYiPSz+PY4hu1hhRV3JTa8
+ 3LxB0x8BKpVJLFBzEHXZVELGHKZCgdVmLaGD4cuHFZBoHo59SWOPAuub9x86tcxTDY03vmRljHY
+ lh6A1adM92dr6oVLWDgdQVyALl+gC7wf0NlY9pXVDkghFPqVD2VMXvZswuDktCrkHhGmTy9act3
+ OHScUODrXjRKvUg==
 X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
-X-Rspamd-Queue-Id: 860BB264DFF
+X-Rspamd-Queue-Id: 3E662264E1D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
@@ -100,7 +100,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55398-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-55401-lists,linux-media=lfdr.de,renesas];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -118,64 +118,97 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
 X-Rspamd-Action: no action
 
-The stream routing will be fully configurable when we add full streams
-support to the rcar pipeline. Thus there is no need for the user to be
-able to link VINs to different CSI-2 channels. In fact, allowing e.g.
-VIN0 to be connected to CSI-2 channel 3 would be wrong, as the hardware
-doesn't allow that.
+With multiple streams the operation to enable the ISP hardware and to
+call {enable|disable}_streams() on upstream subdev will need to be
+handled separately.
 
-Change rvin_csi2_create_link() so that it creates media links only
-between matching VINs and CSI-2 channels (VIN0 - channel 0, VIN1 -
-channel 1, etc.).
+Prepare for that by moving {enable|disable}_streams() calls out from
+risp_start() and risp_stop().
+
+On Gen4, a side effect of this change is that if the sink side devices
+call .enable_streams() on rcar-isp multiple times, the second call will
+fail. This is because we always use stream ID 0, so the second call
+would attempt to enable the same stream again, leading to an error. In
+other words, a normal single-stream setup continues to work, but trying
+to use the current driver's custom VC based routing will fail.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- .../media/platform/renesas/rcar-vin/rcar-core.c    | 27 ++++++++++++----------
- 1 file changed, 15 insertions(+), 12 deletions(-)
+ drivers/media/platform/renesas/rcar-isp/csisp.c | 27 ++++++++++++++++---------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index c8d564aa1eba..2fcea715101c 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -673,23 +673,26 @@ static int rvin_csi2_create_link(struct rvin_group *group, unsigned int id,
- 	struct media_entity *source = &group->remotes[route->csi].subdev->entity;
- 	struct media_entity *sink = &group->vin[id]->vdev.entity;
- 	struct media_pad *sink_pad = &sink->pads[0];
-+	struct media_pad *source_pad;
-+	unsigned int source_idx;
- 	unsigned int channel;
--	int ret;
+diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+index 8fb2cc3b5650..58a9a3bd9f75 100644
+--- a/drivers/media/platform/renesas/rcar-isp/csisp.c
++++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+@@ -268,18 +268,11 @@ static int risp_start(struct rcar_isp *isp, struct v4l2_subdev_state *state)
+ 	/* Start ISP. */
+ 	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
  
--	for (channel = 0; channel < 4; channel++) {
--		unsigned int source_idx = rvin_group_csi_channel_to_pad(channel);
--		struct media_pad *source_pad = &source->pads[source_idx];
-+	/*
-+	 * The channels from CSI-2 blocks and the VIN groups have a set of
-+	 * hardcoded routing options to choose from. We only support the routing
-+	 * where all VINs in a group are connected to the same CSI-2 block,
-+	 * and the Nth VIN in the group is connected to the Nth CSI-2 channel.
-+	 */
- 
--		/* Skip if link already exists. */
--		if (media_entity_find_link(source_pad, sink_pad))
--			continue;
-+	channel = id % 4;
-+	source_idx = rvin_group_csi_channel_to_pad(channel);
-+	source_pad = &source->pads[source_idx];
- 
--		ret = media_create_pad_link(source, source_idx, sink, 0, 0);
--		if (ret)
--			return ret;
--	}
-+	/* Skip if link already exists. */
-+	if (media_entity_find_link(source_pad, sink_pad))
-+		return 0;
- 
--	return 0;
-+	return media_create_pad_link(source, source_idx, sink, 0, 0);
+-	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
+-					 BIT_ULL(0));
+-	if (ret)
+-		risp_power_off(isp);
+-
+-	return ret;
++	return 0;
  }
  
- static int rvin_parallel_setup_links(struct rvin_group *group)
+ static void risp_stop(struct rcar_isp *isp)
+ {
+-	v4l2_subdev_disable_streams(isp->remote, isp->remote_pad, BIT_ULL(0));
+-
+ 	/* Stop ISP. */
+ 	risp_write_cs(isp, ISPSTART_REG, ISPSTART_STOP);
+ 
+@@ -291,7 +284,7 @@ static int risp_enable_streams(struct v4l2_subdev *sd,
+ 			       u64 source_streams_mask)
+ {
+ 	struct rcar_isp *isp = sd_to_isp(sd);
+-	int ret = 0;
++	int ret;
+ 
+ 	if (source_streams_mask != 1)
+ 		return -EINVAL;
+@@ -305,9 +298,17 @@ static int risp_enable_streams(struct v4l2_subdev *sd,
+ 			return ret;
+ 	}
+ 
++	ret = v4l2_subdev_enable_streams(isp->remote, isp->remote_pad,
++					 BIT_ULL(0));
++	if (ret) {
++		if (isp->stream_count == 0)
++			risp_stop(isp);
++		return ret;
++	}
++
+ 	isp->stream_count += 1;
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int risp_disable_streams(struct v4l2_subdev *sd,
+@@ -315,6 +316,7 @@ static int risp_disable_streams(struct v4l2_subdev *sd,
+ 				u64 source_streams_mask)
+ {
+ 	struct rcar_isp *isp = sd_to_isp(sd);
++	int ret;
+ 
+ 	if (source_streams_mask != 1)
+ 		return -EINVAL;
+@@ -322,6 +324,11 @@ static int risp_disable_streams(struct v4l2_subdev *sd,
+ 	if (!isp->remote)
+ 		return -ENODEV;
+ 
++	ret = v4l2_subdev_disable_streams(isp->remote, isp->remote_pad,
++					  BIT_ULL(0));
++	if (ret)
++		return ret;
++
+ 	if (isp->stream_count == 1)
+ 		risp_stop(isp);
+ 
 
 -- 
 2.43.0
