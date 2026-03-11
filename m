@@ -1,288 +1,181 @@
-Return-Path: <linux-media+bounces-55347-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55348-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oG0lE4QrsWkBrgIAu9opvQ
-	(envelope-from <linux-media+bounces-55347-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 09:44:52 +0100
+	id UCGSAQ4xsWm0rwIAu9opvQ
+	(envelope-from <linux-media+bounces-55348-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 10:08:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0361825F970
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 09:44:51 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59296260019
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 10:08:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 216E4304813C
-	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 08:44:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 188F531A2EFA
+	for <lists+linux-media@lfdr.de>; Wed, 11 Mar 2026 08:51:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13B5C3BAD91;
-	Wed, 11 Mar 2026 08:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 796DF2FB99D;
+	Wed, 11 Mar 2026 08:50:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DVMohaJf"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="zL7IaI3P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1AD3B95EB;
-	Wed, 11 Mar 2026 08:44:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C924B3C1401;
+	Wed, 11 Mar 2026 08:50:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773218679; cv=none; b=n+MUdeEiEyGXwREyQNZ92RhHif/W6vKf8TK2YP6iwWg4vLTbwdfrk5Y5BdBjkxFAKmDiLdVVp2sodGNYPyN7JizUY/sFXbWWGQN0tvoVWyIFA6HuJfcjPaDC48iAgz76EwB4iA5JnQ9WYHbqHX2Sjw579l94Pqz8fREcD0iSHn8=
+	t=1773219045; cv=none; b=mi8SKsVlkebFwIy39RazcqTqsmPbSCdLuPAxg4U32OkaK+uQ1Dwta2GHOvzBHlAd32dylUA6A8i/NiloxYu7cLg9d2YP1U7ZZp63tpnSTI1aT7M+F0wq74c0g+y5vrHG+4MfRlgB68uZM0fDo0PTlibRXKq6Yh62R3oLtyFvIbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773218679; c=relaxed/simple;
-	bh=TP2d5VmbgQKHMNAN1qBxmyAqIrxEMKtwQxW3ILNZVCc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VzDhWoONRhHd5zYzyKjk+XAHWh0S5o/do2nweM+s3uMPR/ynCdgQzk2t5PYNXPuYKBBHe1xn9QH8YqCJl+F4QGGBjTpm1blLwO7hEQh3M6jocXcYiav+paLnl5hTkM7jl3qj37bBn0B3AmcpVuVhx2ll/IqMxCEzW6yMve4lTxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DVMohaJf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5252A5A5;
-	Wed, 11 Mar 2026 09:43:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773218609;
-	bh=TP2d5VmbgQKHMNAN1qBxmyAqIrxEMKtwQxW3ILNZVCc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DVMohaJf1cXHCfKpQAPLZqMgqGLEjUtzlrvFBwR2WUvhwsaitJ/7E2ZQ72vfW3zrs
-	 6u5CDh7U9hiUMzZAgqHknpHqnoQc9YmmWgIEdDpxql9OZJL+o9ojn9jIWgol3+lD82
-	 C0ou9dhM7ben8qAotGk5i8rycahrh0f15ttWzK2I=
-Message-ID: <c28d81c5-ba11-4a88-a57c-9d4da74c4006@ideasonboard.com>
-Date: Wed, 11 Mar 2026 10:44:32 +0200
+	s=arc-20240116; t=1773219045; c=relaxed/simple;
+	bh=fH3mtajKUm/pU4bouNPlhJI8zCa7s7zFXLZf0aiMR3A=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=H9/e9DKyrLCzpHiqZgdx74sIPSS5mnBfxDNq39ZYQeI4OYAWxsxDWUkLybJDwq4TkNq4XvkEw+AGdXzodThHCpF6Izz2xeZxxZQP7ofYnQKhPnIoVb/vQH8UboI9ZyeA6PkMl5FURs+92BoTq/jsYNbKy0rdn2JUkAuw07xg1/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=zL7IaI3P; arc=none smtp.client-ip=162.62.57.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1773219024; bh=m4AYJvonpuTEFUAb32I5fp8ckUa9C5ZFi2THJVsWCIQ=;
+	h=From:To:Cc:Subject:Date;
+	b=zL7IaI3P3CCKFtIScfyv2NvaM4cFa6hyMr4svXCnZeZadJeeKlBJ3xJe8JmQtbGWw
+	 IpfgWrh0HSxp/URN7x1G9Jdd763bf41nyEOrM1vvlmNb6BuJQYNQLiONc2K9/EIhs/
+	 rKjJQJDnVF9A7v3RhCD42Vmw7eA1dSPTRnWdiU8Y=
+Received: from June.localdomain ([123.121.145.35])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id C94AE8E7; Wed, 11 Mar 2026 16:50:20 +0800
+X-QQ-mid: xmsmtpt1773219020tl2s1qrrq
+Message-ID: <tencent_A4D58795C63C081EB29A4E3D54B5B5041C06@qq.com>
+X-QQ-XMAILINFO: N/WmRbclY25GevpqaKte0ffoU68tJ2ugIpQhpahcNcUO3hB30kxmD3RTkADWHK
+	 MtZKdY9VAN1wYlEJ3wtkDgqK4ZKKn5pClidZJu+PcLe74IUVR2jsrp0wgRYUyHw3+DaoEKHravGW
+	 RTraRFllgPe5XI4ZP2nlU3xbAyvvbhGra2+1Mx+iGekjqwrBzewHtjujMt/DXpsDAOtDvaRRZNTQ
+	 Hr8eZF9BBVcA/bdRxbzlB2yh7KCsgR1g/pYoPBzouL/AAcEb0WPxrijMl96p+aNAuXhkQxfuk0Hs
+	 EvmrYzTmEFbAXPg+SG1z/p2fr11oZH8xw5/e+mcwaQ9O5XN/c0GWS0zXGlTsUnlWFby4ksdphuna
+	 as25Ei4ENP2NFIXYlF92zX3pV03oumcXSGPQqhBmc1hbIziSFVSXTIr502zFkH6T6+OG6EcxW+gZ
+	 GGXMKWsi8AErfJbfIBtpM7sr1KyVr4WtXAy3CdYpyXMF7E3oaZJaSCT+A+cp0JmPgoyaBSTfF23B
+	 cwbJ3FZOj5eIMWwVkbEVWKCmW2MqpyBop6eKBw4JlqjGuv/U3dSx2IrT+0OxHNj19xy/UUnz1l0L
+	 k4RsOoRbuXRvthurQoalgr9U8HzmkyMLwRsWXMOlht5u31/l6BL5brZVAsZM81ymGyFCD2dkUNca
+	 8uBT0viDEsoFw3O4ymsphNO6OYE3AejnUEzUlzprzEDMEPN3FyPul/mA8MydQUu9Eag4bY+f3dxT
+	 3K8uVofpXF/DXQEbq7/rxZqv4x9pwc7j2iJ0OqOR2PggLyYblkvnGlk3tAnDMyzgZqONiR4QX9pr
+	 Wijmbr0z+hIEzaI3gnuoA+lhdNCaYwQjLoxgubUMZHcT9iouHN/uZt6CSqejB1n5uJyqPhnqqOgr
+	 Fu8+uHh3JlEToKIvAePtJ5Kp9hGwjx3GhY6qYcGKwoapj4gcWbZmbv9ehWktxPR2q2n8gzyaW/x/
+	 /83YgY1VDRzQ/uzI1UKDE5WyYhfsTy6CGO+gBNutuMW46gN7BrimoYaK9zBACgN39pGaNFUyx07k
+	 RfRRHk6lQ/ePWZ5jGvCNw17QUkqHU=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Wang Jun <1742789905@qq.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Wang Jun <1742789905@qq.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: gszhai@bjtu.edu.cn,
+	25125332@bjtu.edu.cn,
+	25125283@bjtu.edu.cn,
+	23120469@bjtu.edu.cn
+Subject: [PATCH] media: saa7164: add missing ioremap error handling
+Date: Wed, 11 Mar 2026 16:50:18 +0800
+X-OQ-MSGID: <20260311085018.29506-1-1742789905@qq.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] media: i2c: ds90ub953: use guard() to simplify
- code
-To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Vladimir Zapolskiy <vz@mleia.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- Guoniu Zhou <guoniu.zhou@nxp.com>
-References: <20260228-ds90ub953-v5-0-056cf07cc8f1@nxp.com>
- <20260228-ds90ub953-v5-4-056cf07cc8f1@nxp.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20260228-ds90ub953-v5-4-056cf07cc8f1@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 0361825F970
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 59296260019
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55347-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-55348-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,qq.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qq.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[qq.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[1742789905@qq.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,nxp.com:email]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qq.com:dkim,qq.com:email,qq.com:mid]
 X-Rspamd-Action: no action
 
-Hi,
+Add checks for ioremap return values in saa7164_dev_setup(). If
+ioremap for BAR0 or BAR2 fails, release the already allocated PCI
+memory regions, remove the device from the global list, decrement
+the device count, and return -ENODEV.
 
-On 28/02/2026 08:18, Guoniu Zhou wrote:
-> From: Guoniu Zhou <guoniu.zhou@nxp.com>
-> 
-> Use guard() to simplify mutex locking. No functional change.
+This prevents potential null pointer dereferences and ensures proper
+cleanup on memory mapping failures.
 
-That's not strictly true, as the unlock will happen later with this
-patch. Still, this cleanup makes sense.
+Signed-off-by: Wang Jun <1742789905@qq.com>
+---
+ drivers/media/pci/saa7164/saa7164-core.c | 29 ++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
-> ---
->  drivers/media/i2c/ds90ub953.c | 34 +++++++++++++---------------------
->  1 file changed, 13 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-> index a85c6a9b64070491db161ca1586179dba9c69cb0..3a459687aefce05ac025a517c8d4cc6d76cd7293 100644
-> --- a/drivers/media/i2c/ds90ub953.c
-> +++ b/drivers/media/i2c/ds90ub953.c
-> @@ -113,20 +113,18 @@ static int ub953_read(struct ub953_data *priv, u8 reg, u8 *val, int *err)
->  	if (err && *err)
->  		return *err;
->  
-> -	mutex_lock(&priv->reg_lock);
-> +	guard(mutex)(&priv->reg_lock);
->  
->  	ret = regmap_read(priv->regmap, reg, &v);
->  	if (ret) {
->  		dev_err(&priv->client->dev, "Cannot read register 0x%02x: %d\n",
->  			reg, ret);
-> -		goto out_unlock;
-> +		goto err;
->  	}
->  
->  	*val = v;
->  
-> -out_unlock:
-> -	mutex_unlock(&priv->reg_lock);
-> -
-> +err:
-
-I think the label should be just "out", as this is not an error path
-(even if we jump to the label when handling an error). Similar comment
-to the below cases.
-
->  	if (ret && err)
->  		*err = ret;
->  
-> @@ -140,15 +138,13 @@ static int ub953_write(struct ub953_data *priv, u8 reg, u8 val, int *err)
->  	if (err && *err)
->  		return *err;
->  
-> -	mutex_lock(&priv->reg_lock);
-> +	guard(mutex)(&priv->reg_lock);
->  
->  	ret = regmap_write(priv->regmap, reg, val);
->  	if (ret)
->  		dev_err(&priv->client->dev,
->  			"Cannot write register 0x%02x: %d\n", reg, ret);
->  
-> -	mutex_unlock(&priv->reg_lock);
-> -
->  	if (ret && err)
->  		*err = ret;
->  
-> @@ -185,18 +181,18 @@ static int ub953_read_ind(struct ub953_data *priv, u8 block, u8 reg, u8 *val,
->  	if (err && *err)
->  		return *err;
->  
-> -	mutex_lock(&priv->reg_lock);
-> +	guard(mutex)(&priv->reg_lock);
->  
->  	ret = ub953_select_ind_reg_block(priv, block);
->  	if (ret)
-> -		goto out_unlock;
-> +		goto err;
->  
->  	ret = regmap_write(priv->regmap, UB953_REG_IND_ACC_ADDR, reg);
->  	if (ret) {
->  		dev_err(&priv->client->dev,
->  			"Write to IND_ACC_ADDR failed when reading %u:0x%02x: %d\n",
->  			block, reg, ret);
-> -		goto out_unlock;
-> +		goto err;
->  	}
->  
->  	ret = regmap_read(priv->regmap, UB953_REG_IND_ACC_DATA, &v);
-> @@ -204,14 +200,12 @@ static int ub953_read_ind(struct ub953_data *priv, u8 block, u8 reg, u8 *val,
->  		dev_err(&priv->client->dev,
->  			"Write to IND_ACC_DATA failed when reading %u:0x%02x: %d\n",
->  			block, reg, ret);
-> -		goto out_unlock;
-> +		goto err;
->  	}
->  
->  	*val = v;
->  
-> -out_unlock:
-> -	mutex_unlock(&priv->reg_lock);
-> -
-> +err:
->  	if (ret && err)
->  		*err = ret;
->  
-> @@ -227,18 +221,18 @@ static int ub953_write_ind(struct ub953_data *priv, u8 block, u8 reg, u8 val,
->  	if (err && *err)
->  		return *err;
->  
-> -	mutex_lock(&priv->reg_lock);
-> +	guard(mutex)(&priv->reg_lock);
->  
->  	ret = ub953_select_ind_reg_block(priv, block);
->  	if (ret)
-> -		goto out_unlock;
-> +		goto err;
->  
->  	ret = regmap_write(priv->regmap, UB953_REG_IND_ACC_ADDR, reg);
->  	if (ret) {
->  		dev_err(&priv->client->dev,
->  			"Write to IND_ACC_ADDR failed when writing %u:0x%02x: %d\n",
->  			block, reg, ret);
-> -		goto out_unlock;
-> +		goto err;
->  	}
->  
->  	ret = regmap_write(priv->regmap, UB953_REG_IND_ACC_DATA, val);
-> @@ -248,9 +242,7 @@ static int ub953_write_ind(struct ub953_data *priv, u8 block, u8 reg, u8 val,
->  			block, reg, ret);
->  	}
->  
-> -out_unlock:
-> -	mutex_unlock(&priv->reg_lock);
-> -
-> +err:
->  	if (ret && err)
->  		*err = ret;
->  
-> 
+diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
+index a8a004f28ca0..dc68d7cac7cf 100644
+--- a/drivers/media/pci/saa7164/saa7164-core.c
++++ b/drivers/media/pci/saa7164/saa7164-core.c
+@@ -998,9 +998,21 @@ static int saa7164_dev_setup(struct saa7164_dev *dev)
+ 	/* PCI/e allocations */
+ 	dev->lmmio = ioremap(pci_resource_start(dev->pci, 0),
+ 			     pci_resource_len(dev->pci, 0));
++	if (!dev->lmmio) {
++		dev_err(&dev->pci->dev,
++			"failed to remap MMIO memory @ 0x%llx\n",
++			(u64)pci_resource_start(dev->pci, 0));
++		goto err_ioremap;
++	}
+ 
+ 	dev->lmmio2 = ioremap(pci_resource_start(dev->pci, 2),
+ 			     pci_resource_len(dev->pci, 2));
++	if (!dev->lmmio2) {
++		dev_err(&dev->pci->dev,
++			"failed to remap MMIO memory @ 0x%llx\n",
++			(u64)pci_resource_start(dev->pci, 2));
++		goto err_ioremap2;
++	}
+ 
+ 	dev->bmmio = (u8 __iomem *)dev->lmmio;
+ 	dev->bmmio2 = (u8 __iomem *)dev->lmmio2;
+@@ -1019,6 +1031,23 @@ static int saa7164_dev_setup(struct saa7164_dev *dev)
+ 	saa7164_pci_quirks(dev);
+ 
+ 	return 0;
++
++err_ioremap2:
++	iounmap(dev->lmmio);
++err_ioremap:
++	/* Release the PCI memory regions allocated in get_resources() */
++	release_mem_region(pci_resource_start(dev->pci, 0),
++		pci_resource_len(dev->pci, 0));
++	release_mem_region(pci_resource_start(dev->pci, 2),
++		pci_resource_len(dev->pci, 2));
++
++	/* Remove from device list and decrement count */
++	mutex_lock(&devlist);
++	list_del(&dev->devlist);
++	mutex_unlock(&devlist);
++	saa7164_devcount--;
++
++	return -ENODEV;
+ }
+ 
+ static void saa7164_dev_unregister(struct saa7164_dev *dev)
+-- 
+2.43.0
 
 
