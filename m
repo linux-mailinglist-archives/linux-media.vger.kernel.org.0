@@ -1,88 +1,88 @@
-Return-Path: <linux-media+bounces-55543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55544-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yDjOHOMxs2ntSwAAu9opvQ
-	(envelope-from <linux-media+bounces-55543-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 22:36:35 +0100
+	id YHYfBekxs2ntSwAAu9opvQ
+	(envelope-from <linux-media+bounces-55544-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 22:36:41 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE22F27A15D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 22:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B1E27A164
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 22:36:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B6E4731A529F
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 21:35:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3A58531AF3EB
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 21:35:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E4773E4C82;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4A943EF65E;
 	Thu, 12 Mar 2026 21:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="GPWohJuG"
+	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="L05b1Twh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB30B3EF65E
-	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 21:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DEED1B4F0A
+	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 21:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773351341; cv=none; b=eWCrvosBSo/96udQQDlJwUALoZo2YhrplabZt6oSLh7b5uFELhmVJgXQ/G9iGjGyncWCOtda6qMzWMWRs/08D2vU9rKO9SZFFHrh3V/79kcHbgGUGc56I8eeMBR4n5t0y/j5VtzirCBuFJAzKHIhI7RHDH+Y4RY7uVwsTOtWYvc=
+	t=1773351341; cv=none; b=iEIGZbx3EyWKpCSGsvxaNq70qtUESWlFUD0ecxxgUh93nUhO0J2jpWFP3cZxPx0s+90Y4K1VtBKrtJvs9OqttyKDMxIXIkRhI2FwkkevfFKzPxJho1MnlhCUcSrPIZkTr7Y5O05wyljenGTT65ynkXy4slsWVFKNcpuWaErQckw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773351341; c=relaxed/simple;
-	bh=U1UApUd8m9jNNBBaVptBVMlnsSInF7PkNvQcpWumDmQ=;
+	bh=6YEPeTQ5YLoEPxjdpZLvbyfp6mxBKSsVvk9snlLKTsw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m6KV5p2APY8gCKC7U11aTWCPxodgl+J/nC7eh7SINdbM+yra/to3mRlSRtAflOGZdiF9KXOFKEY24cpugzlF5B0o+xKRTUq9s6Iq/4im8eQulgAYyDzwxiBQtIVgpVyrWX9xMt4rovp1/5o4S0qjadmR2z87m6fRBUBU/3lpNrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=GPWohJuG; arc=none smtp.client-ip=209.85.167.180
+	 MIME-Version; b=XThZMl8eitJWXh4IQil4ODkkZcGUQuIvAHFiyn4Q2YG2DI7oJbq/k67sDCiez2ULomnMU54j/fEUJoyP9oUR5slI2Tr1S1n5LStnabLj+DAPgRRHgxyBEbQW9VjplpSdfLpiOUJQdlgXB1VebeBk14r5AjFT+2FF0vEcb2r+cFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=L05b1Twh; arc=none smtp.client-ip=209.85.167.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-4673790ab85so1036002b6e.3
-        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 14:35:39 -0700 (PDT)
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-46726528f1cso1113604b6e.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 14:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nextdimension.cc; s=google; t=1773351338; x=1773956138; darn=vger.kernel.org;
+        d=nextdimension.cc; s=google; t=1773351339; x=1773956139; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UrXmVswXiTuB4xM/wws7SxlQnhfknGHd8WNGOyXcGFk=;
-        b=GPWohJuGogrQFIEp1b71jY8FkQ94bEwyB0mWHpO3K1TqEbgUZZVv5kTRNz6wkTzbi+
-         ULugAuIAAH25ip+gbQIkQZMORBQziQHuXlcs6kApjdUiTmTD6Tvewvlx7/qBlj8hOE8f
-         5z1q1b/7rHdv2k3tS6B/53ArBWkdzH/cvIgKYocWRdfPNsjJ5ifPa0Xk87AsOIn2zSSe
-         tBuydP3FQ360J//Tu2TIKRCu5wLPQtxcybyd5HOx312dJ1gVlu7cdlsVtDgJRGD9uDXT
-         DM+i3uZNDVsWKZTf8NAZA1uw3Ob4jHvZOlxF24hzowpr56TUX7I6/2imJ7yT8yyREZ4S
-         jkkg==
+        bh=9BWGhzEaVrxGO9CCsrFLL11Axc840r7xaXVpyyaTxbs=;
+        b=L05b1TwhJOrGnPXOnsOiaaApFCHOxX5OtuWOA+1Wf9inlUKurCZcL+naGa5pBihErb
+         4VLjIjsJ7YBscN/dPqmnQNC6FMsif9oSMoTGZQfrK2BEBZSoCwuFmJf+Gw97o9gr98bN
+         X2wl+5j/wQBe4ABOHtNOns/twLcsenQKNIEl9Ez7D9VNNe5rc4z8ZTMLLbywUNLwhx24
+         5/AvJu8uz5oVqnzkgkVQrQpqFnLSnloU+3565+viOpUi8VIyUgDNwN/B/bltYx3p+y3D
+         UIIdPrXOQ5ODyyIwjjgPDTR5GvEp2yf9Udr/QW7NzKm9npB/Hx+nrPPoNTkeJ9wdM+mN
+         4yxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773351338; x=1773956138;
+        d=1e100.net; s=20230601; t=1773351339; x=1773956139;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UrXmVswXiTuB4xM/wws7SxlQnhfknGHd8WNGOyXcGFk=;
-        b=oVnVP8d9a+R3NRAc1C0ZBqQNAUoowH1iwu6HseoJVsxGchyzeASfsUzkChcQpRYuAx
-         CKYFiWoYZgpTmHeypzD0OS0CRKqxM235DgcLKDsgapcoeCY/Y3XLm/87PIioV+TA73Iz
-         viTxakJtnmThAEXVp6vmDJ8Q4PqsAbB0XVfl1kYz18XQER0K61oyEGC7MpzVj9nfxCJD
-         MqbHDSNKgPfwFVBoP8knwkzvsSnBAMyQjYz2warzO6jsUwN7awYfrMxcrOJdUr8BCKhR
-         YLyYreI3WSRi2U5ckvnki4uLLFLTIw84KG7U0K0lqOUscOcSNVzXYX/nDTQLtucQJ2o1
-         0EkQ==
-X-Gm-Message-State: AOJu0YybYO8QiK1jf9MegW4r/DRosDK3q5UATLu8P85KGu0jDer8wEPf
-	jYaHvvWazjoVPISzzHAO0WUwH+8wiSfXeTym1pw9wD0J53JxZoiv15VadFW6ct9gCG8iRdVic98
-	XRo82yGA=
-X-Gm-Gg: ATEYQzyfBQ39080xc6lkZotqbzgewhuBYv5zNeMfHJGhg/FWrJ6xvlBcNz0s90FJ8xx
-	aAqijSksU47oHvuqE5bDdgTyiRM6dUdBGSOB7dN+JV81xqCPiOTHsunc+coZSHAdWu5BhysFH1M
-	eu7nY1XWouaC1rOtawuhjghTiBMqYDo4Lp36Mn+OJ1+DrIzcmU2W2ZWnAq2fHjZ9HHriyHa36Q7
-	Me5QSPxdqBqL8AS+wbElv8nGJCg4u093PEVjQms1MwHNaony1tBHDD72p2Exso81PyeLCb4dUJF
-	Gi4ZUTWr9fW/7s4OljaSI6WTCOUAtL8aEPEWbuYU+9eClHbgW81XTX91yg/Hx+M32KkzYC3rvt7
-	jCfXmkVLNrTMJu/FI8pkChRSYVIL53Ihr2vPu0NNrL0ap4Pl1BDaao8D2OK2cJhN/RRTRrNym/3
-	A2XV71R/7s7B1CXd/a6Lzlbv0vmACAOx7UWmXgtmpG40r/dysrbeia9wdJB6vHe8Yt0MYI1C/YC
-	tIdCSgjLZtcxN3iWAQ=
-X-Received: by 2002:a05:6808:302c:b0:467:4a7:e3f6 with SMTP id 5614622812f47-467570efaf8mr432973b6e.2.1773351338416;
+        bh=9BWGhzEaVrxGO9CCsrFLL11Axc840r7xaXVpyyaTxbs=;
+        b=iupMGduEY3fONsb3XjOZ7VDRT6SG5Sjpkav5B3MGSy9qDc5WoshfK4OUIAOyGJJd0n
+         fJFOXY/Nbs8UvNyjR8f1ObGLe0kONe1wOhzbHIRj2i3dNMbPXbqjyEMQX2xlRtG3qSUn
+         OCEI+YFnouZk+thoBZOJ+49nGCEcWep479MG0hU0zAIWfzq2TZInPP9pWjui2tLt+S+j
+         Bt7CVE+wLduepW9PtxXY1uHEX2HYmXAiHHaY40ntPyGoVuXBGuv7waEWTIiaRzswFpNf
+         0Gr2r+bXQCbS23qDi9WIRnzbM5JpEW2yFsvhRWRmH+cVJgZg0PG9u5mdM27QjvSSIuWH
+         9V2A==
+X-Gm-Message-State: AOJu0Yy/CBk4EgNg/dPBIMFTAar7Fu8aygaeyp3cwjwn9V6xTblxxGCP
+	meO5xyKEU0uc0fTuZPfdN3xOfhv9k5JkhWOo2jZrs+b31giG27k4mJWlVPnZAoHMwJuV1EJlArI
+	fZ2A4yNU=
+X-Gm-Gg: ATEYQzxnYhnbNQryxnr5PF7ZFu1u3iDR/TzCuTEgVdrcpjHVzKj2B8jVmfL2dpM/JW3
+	E8U/ckE2Wk7Nmsu+EZRgEZuFHJa5oJcOvglxeKbBQozPKDLC6lieaQgd44M38RltphLdhoJt5st
+	jnBSPn9WIrN3ZD3AxvoGPNG2tKH+nLxc0FlcCvhWxtZF7UaWHHRR1OBwp0cWEdJGVZzbv5xpa6I
+	d0cU3DaJLpOtZfrgdvNHkuQhEV9H40ja3PWVtBO6VCbX9pzqDX4wng2ykGVGJFxlDmUmja59klo
+	ZZwKujSruxb1zQeJ5JFPTMuzqPk5CRNIAG0Kj0Ym1v1j3mId+Z9RTPRb+mw5g3UflqgglcxDTIY
+	hdpQUSCNieBj8Io08V1RwFlI4yhSJBMWBIW+tz9CCZxS4+4gR6tobt3C08OwrtiB5muqsaYMdRj
+	7kmJ7tK5QnSj3rpYOCq5365UGWlDSZK2RLwMaAfioafO6YCMyNqexfVqrE9Jjfvl7PoM5OH//aU
+	pgjB1sztwGm/bU2wZs=
+X-Received: by 2002:a05:6808:6d8b:b0:467:11ab:cd86 with SMTP id 5614622812f47-46757420e66mr452700b6e.43.1773351338984;
         Thu, 12 Mar 2026 14:35:38 -0700 (PDT)
 Received: from localhost.localdomain (108-207-243-35.lightspeed.austtx.sbcglobal.net. [108.207.243.35])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4673415c264sm3657572b6e.5.2026.03.12.14.35.37
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4673415c264sm3657572b6e.5.2026.03.12.14.35.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 14:35:37 -0700 (PDT)
+        Thu, 12 Mar 2026 14:35:38 -0700 (PDT)
 From: Bradford Love <brad@nextdimension.cc>
 To: linux-media@vger.kernel.org
 Cc: Bradford Love <brad@nextdimension.cc>
-Subject: [PATCH 03/11] xc5000: Add rf strength function
-Date: Thu, 12 Mar 2026 16:35:24 -0500
-Message-Id: <20260312213532.2907276-4-brad@nextdimension.cc>
+Subject: [PATCH 04/11] cx231xx: Fix AGC levels for NTSC-M
+Date: Thu, 12 Mar 2026 16:35:25 -0500
+Message-Id: <20260312213532.2907276-5-brad@nextdimension.cc>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20260312213532.2907276-1-brad@nextdimension.cc>
 References: <20260312213532.2907276-1-brad@nextdimension.cc>
@@ -103,7 +103,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55543-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55544-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWO(0.00)[2];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DMARC_NA(0.00)[nextdimension.cc];
@@ -119,49 +119,38 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: CE22F27A15D
+X-Rspamd-Queue-Id: A6B1E27A164
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Without a rf strength function implemented, analog lock
-cannot be detected by standardized command line tools.
+Windows uses the implemented command sequence to set AGC for NTSC-M.
+The previous Linux values work, mostly, but on some embedded
+platforms NTSC-M is very unstable. The Windows default values
+completely fix any signal stability issues and produce clear iamge.
 
 Signed-off-by: Bradford Love <brad@nextdimension.cc>
 ---
- drivers/media/tuners/xc5000.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/media/usb/cx231xx/cx231xx-avcore.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/tuners/xc5000.c b/drivers/media/tuners/xc5000.c
-index a28481edd22e..d3eb7e19bf2c 100644
---- a/drivers/media/tuners/xc5000.c
-+++ b/drivers/media/tuners/xc5000.c
-@@ -1333,6 +1333,16 @@ static int xc5000_set_config(struct dvb_frontend *fe, void *priv_cfg)
- }
+diff --git a/drivers/media/usb/cx231xx/cx231xx-avcore.c b/drivers/media/usb/cx231xx/cx231xx-avcore.c
+index 1cfec76b72f3..0a5c635da040 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-avcore.c
++++ b/drivers/media/usb/cx231xx/cx231xx-avcore.c
+@@ -2027,10 +2027,9 @@ int cx231xx_dif_set_standard(struct cx231xx *dev, u32 standard)
+ 		status = vid_blk_write_word(dev, DIF_SRC_GAIN_CONTROL,
+ 						0x000035e8);
  
+-		status = vid_blk_write_word(dev, DIF_AGC_CTRL_IF, 0xC2262600);
+-		status = vid_blk_write_word(dev, DIF_AGC_CTRL_INT,
+-						0xC2262600);
+-		status = vid_blk_write_word(dev, DIF_AGC_CTRL_RF, 0xC2262600);
++		status = vid_blk_write_word(dev, DIF_AGC_CTRL_IF,  0xC2262600);
++		status = vid_blk_write_word(dev, DIF_AGC_CTRL_INT, 0xC2260000);
++		status = vid_blk_write_word(dev, DIF_AGC_CTRL_RF,  0xC2260000);
  
-+static int xc5000_get_rf_strength(struct dvb_frontend *fe, u16 *rssi)
-+{
-+	struct xc5000_priv *priv = fe->tuner_priv;
-+
-+	dprintk(1, "%s()\n", __func__);
-+
-+	return xc_get_lock_status(priv, rssi);
-+}
-+
-+
- static const struct dvb_tuner_ops xc5000_tuner_ops = {
- 	.info = {
- 		.name              = "Xceive XC5000",
-@@ -1353,7 +1363,8 @@ static const struct dvb_tuner_ops xc5000_tuner_ops = {
- 	.get_frequency	   = xc5000_get_frequency,
- 	.get_if_frequency  = xc5000_get_if_frequency,
- 	.get_bandwidth	   = xc5000_get_bandwidth,
--	.get_status	   = xc5000_get_status
-+	.get_status	   = xc5000_get_status,
-+	.get_rf_strength   = xc5000_get_rf_strength,
- };
- 
- struct dvb_frontend *xc5000_attach(struct dvb_frontend *fe,
+ 		/* Save the Spec Inversion value */
+ 		dif_misc_ctrl_value &= FLD_DIF_SPEC_INV;
 -- 
 2.35.1
 
