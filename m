@@ -1,157 +1,180 @@
-Return-Path: <linux-media+bounces-55496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55497-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cOSvLaWysmmYOwAAu9opvQ
-	(envelope-from <linux-media+bounces-55496-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 13:33:41 +0100
+	id aJA5Htq4smmYOwAAu9opvQ
+	(envelope-from <linux-media+bounces-55497-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 14:00:10 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB80271D3B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 13:33:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE34272236
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 14:00:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E0C60304226D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 12:33:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3FBE831909BB
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 12:57:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67AD30C618;
-	Thu, 12 Mar 2026 12:33:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97B713C345B;
+	Thu, 12 Mar 2026 12:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b="1ECajMXD"
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="fHqxjqGD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2657E2D1F40
-	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 12:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D253C3C1F
+	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 12:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773318806; cv=none; b=JjEz6U4CH+wjXhPmvOHtOyuyrgbMEFz/1SrXwYgVlVlcUN0hd7Yb0DNw/6M89v4C/YlScKVLzm8Qx7Ph7B41yKRLkKoVpiLbC/Ej/MXwtj5jxiCz/qY2fVBFEKqJ4/YC9cmUuF/tp/WWN2qkVroMijcVL3fc+PBosdLN1iJunZ0=
+	t=1773320257; cv=none; b=tmIGWDAvo/zZtGrQWeShddN62c7dAU7ODCOFFIwsT6i1AflphKCrUZkgDFergGPYJs4zrO4gMUN45Roy1WbFThXp58/YvyYo16qK7VvtpZd5d/qhZJc5XbFo0dhDzNPpJwdETqiBFhWMnQcSlP+KMvlxG/3d1XGL8cwYUayeTxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773318806; c=relaxed/simple;
-	bh=MqTuZ66JzGO8ml01Fq53svdMcGAX8nJcWPrEiuKJVW8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eKt+jI4vYmCEhmL3Lz216DNd88HYQ43sradtrNUAHrcP8HDUTlUf8rKk7/gqlr+14TdzCToJRv0bKxtAEMISsuyyYHpaKfqLM8NS/MYqRNGgfc8N+3pg5jR8wXmvd2PpnjFifw71mO4CuXQiLXUfNwslME1W3WJfR3r5PsO1l64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in; spf=pass smtp.mailfrom=cse.iitm.ac.in; dkim=pass (2048-bit key) header.d=cse-iitm-ac-in.20230601.gappssmtp.com header.i=@cse-iitm-ac-in.20230601.gappssmtp.com header.b=1ECajMXD; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.iitm.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.iitm.ac.in
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2adff872068so4883295ad.1
-        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 05:33:21 -0700 (PDT)
+	s=arc-20240116; t=1773320257; c=relaxed/simple;
+	bh=Rr1jkAP22lZkLvo3o90a9fRSWh9+kilNKtAarSScWFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oJI5n+aVpjQyl0zTECMn/uIU6ubbfYsRMb82XyHZsooEhpwafpnPgxIkxdDVA5Y8wssuQTaS9lpwWvtgNNREuhlLr2mTtySVQdr6OHf4VFR5yeCIb683M56l7DxJ4QyFKaJ4cKA1Oa3gMX1QB9uHkZEp6YHulz7rUS+0ja6lkTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=fHqxjqGD; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5094b54a250so5475791cf.2
+        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 05:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cse-iitm-ac-in.20230601.gappssmtp.com; s=20230601; t=1773318801; x=1773923601; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oxbk04fd4kGg1i1zk9iwOBpm9KQOAzOfMWKxGAIYdo0=;
-        b=1ECajMXDBM0f1Jzhvo1yhoIbzb2VLEu31mgr1m2w1ueVuYG6v9gAqy1B8kReg258F+
-         +csLK6VeKehqZTa7oQJ2rYak2yp3EJI/E5kLZAbTVFaPzuaRjKzCwdozOkdaNpesi0CQ
-         yw3YWqSkb4ekgqM8Em8Hye0DjWdwOsjV2SjQw+VNZtLgMftl1410nFGk51tV/NbwfQel
-         XW3qw7hPZxGPsJPMg33PvklSqoOFtsj8DxYUdyYl6XGFL1v9kjv3wMoanPnu2EXr5sid
-         ogthGrhRuRQASRItScZhFWxt96mDYv4qHiQROJfyWCLo9FD6QHFpGFbqYiUlW5DA01J0
-         EsJw==
+        d=ziepe.ca; s=google; t=1773320252; x=1773925052; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J1SF1XBHkHR0j7NZVucv0LxpGoGXl67PUefLsfwpAbo=;
+        b=fHqxjqGD7mReR8MT2yBowt9MuNKPAKQc++mWcb4ZOttX6YldICO+OnnxWIQjO0C8L5
+         wjOw0Gg7MqV4U+G9pES+s6h1NtZIjaKrBXMW81hrLyc8SxWYHtvQK3FlTjqiyroZskXE
+         jYj0kUENL7Yhu5zg+0UQ91XYlYYlozX9U8uAqBEFaih0fSnDo8kprjTDRYJ58gzKRExo
+         MSUW+Q+e0P2WpZGotx0DuVRaUqq4vGsUUSX1YbPnOxmRUKlXFY/aNRmXMXDbAEfx0Lnn
+         e41FpuPSZjTSuTkWfTMW8e1MvewVXC2p6zLd4GrSZjvSKS4Q06nDQYaSimUW3qR5RhoY
+         JV6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773318801; x=1773923601;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oxbk04fd4kGg1i1zk9iwOBpm9KQOAzOfMWKxGAIYdo0=;
-        b=qPkDlVPzfEFFwfesK0geHjOBNsXtHRA+4/LqyyKZ4KT4QDZXxtsVHxAENQDH2+0Mbd
-         nV0R6kdH6o2auUSb88CPu791Q+9vbZTY6uhyQRfSomw3lWY3+/b+sXJiUcLnU1nR6AAw
-         XO08gijqcUkhSL9cjAkmuKyA2R/UnLVuiRxc1dKQU1Gj+5kNxoRF8uwZjVx6nund9bJ1
-         THrg8WSMA1gdxRpeJxhcaQ7LnHrLMFlkQDYzPV7q8OyySN6dgOoXghCuaJWd6IsiWlmq
-         5X7d9ZLZQOjMtWoS8upiay9x3lh5b4M9BKUx6Wntk3fTmw2xHZICB5riDp/wIprpi9ni
-         ROhg==
-X-Forwarded-Encrypted: i=1; AJvYcCUNret4pTGYo4qt06w+LckhxAmW1N2T1PyESKX6Hnpkgp9yEPQXs8qvJLZuOI1GxEE7gL8kf6efO6lIJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWtB2eRqgAXXWhmAFb7O/Ss5lleNINuw8AflJsrllOtWPywXfR
-	eW/zSMqc8JkJxYX1vDmcQlBZGXOAllAP6Yil7tJcpGRsSTS/6AXxFKAx8KOoIC7pejE=
-X-Gm-Gg: ATEYQzxaBBnjZIJJU72bngoOR1PBiaI5RlMsQNV87hxNeNnE6XGjtaNuJynXr5WJkrz
-	Qz+5PxaQYIXwtBip1nLawBb4EL01nyfFJhUXIOQvtwm8CI31inf6sZeqpxNyekwwK/cncW8Tur2
-	15ocUAX9h46q3y73sQauLm0o1pIsOEqOYp7k+D9isRR0MzTufagMf2kn9wpWKc1M1sdyST4+3C/
-	Brnv40F1p3J8kZ/J8bZSIk8I9pJtDuqGcwvfFYYwU3/dVen/XAyEpPmq/+iDpDtClnIZ+XaEKsD
-	KQgDrMLaBKksa+DZ8C1/Y+T5llHrb6sIpodJpAAiBybNvOZGJhFI2sENglX61vSFktysWKU4EVB
-	t0ttFcDBwcD018ATbfVSrMdmL5tHsI1RsGefBOhMRZ1eTs6J7xrSwUQUiKDIxUf7DV0FcnsFzAW
-	jS5sYqQjkSLHxy1W8TYeneRis+ZjORJkBcozSuu7nGIop9mXDTUhdAEkmbOCqCq80SkLYDD35Vg
-	QjwmmS2U1nnolCeh+9LRI6b+rVe/Vdi03oo11ih+S6uDJSQboi3JkBrIA==
-X-Received: by 2002:a17:902:d2c7:b0:2ae:803e:6c12 with SMTP id d9443c01a7336-2aeae78c614mr59713375ad.6.1773318801385;
-        Thu, 12 Mar 2026 05:33:21 -0700 (PDT)
-Received: from localhost.localdomain ([103.158.43.36])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2aeae22217dsm55220555ad.4.2026.03.12.05.33.17
+        d=1e100.net; s=20230601; t=1773320252; x=1773925052;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J1SF1XBHkHR0j7NZVucv0LxpGoGXl67PUefLsfwpAbo=;
+        b=F6PLy6WSPn59cCN/kM0AFqYnbw52E3qjmKIrUryrE/XE8d6NxbcX/WY7s5YfH7IAB8
+         6bNM5IYQk5OGtHzPIxnJUoCcXUKfZpEOM3cBFQocKfQPAGdH5p2bYpzP4FtQc4ZhBL7f
+         uJvj7wqBwsUC/6I89hf7Nr3AdzA+ykzfHO4VHaOtr/AVRv8E+TeWYw+OabgTQI9KeAmt
+         HlulrpKOga/7yh+erbW/y8QebZZc9F4pQDRcI67Gbqq9P4nKhAyYE8uNrg/sJpehi5IQ
+         HyHfiGFLBuskqbx6hsYLx5whE6U5pbihi/3MSLxq0KHF/8ltSAECQ9i+oMEf7PyHHc5c
+         jMFA==
+X-Forwarded-Encrypted: i=1; AJvYcCX0Zetb5q6K+E2rUChNkzo3Ie5GGuG86TanBeTwDROFyrN58NUZzx8q1bX0p3x9/FWKDON95v3h86RB8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9ap2EiWzA2mfBUQvp4Qi6e7KEiOUJKAzy1Zo0eYjHqA0NGLYN
+	UXLmj+YwtXg6LxKODCIEV00jtn5RBvShYj6yMk9cUE93Bu4jTYuoHo39xnwFrq8jMyI=
+X-Gm-Gg: ATEYQzw7pK+iAGp3/MBXfIp9IbeQCiEZZ3wdAShUBxnTVkuoTZ1QBVOUgRcNYPYbLzt
+	NMk8nUFGEBtq5kL464hkHZATdp8F/sig06M1+87zLK1ZpueVQkEu36Sv1oO4FWLdl4NKh/Q+yNb
+	GDczAv+1MCJz27VYCakFZw+f5XtCZvQMj0unYwmf1guz8L9j757MdFQqYrBmosTXclNuFAfTay0
+	zEqzwH3ttzMzAYDm/l/E4gOBmgqlbb0bQzUdnObwShL6y7gO/rZUvJUKeQvIvWaGcg+52cuNA+q
+	JU2CO2MLtpuLb4Tgg5HZ47v1arvBWvxY9NJYUiWaJm3/dxSoVwH0F21w8L9ZqIODeqpIlc4rKNc
+	BZ91qLwgc5c5QT3KxOb9eB+8U3t+cJMwc0d9UiZobd5P7gdzXSNwcgLC6UKrZWEsmA9bdUwZXmK
+	IKncJPWHm5KaG90ds+wAHhCb9vjC53EJjtYRgC3kPgPs5nyyEHirOT3HevYwZMXwXkBfZOy0rsi
+	5CsLNP5
+X-Received: by 2002:ac8:5d4d:0:b0:509:cbc:127b with SMTP id d75a77b69052e-5093a1bd58fmr77950521cf.60.1773320251710;
+        Thu, 12 Mar 2026 05:57:31 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a65bd318fsm33341196d6.8.2026.03.12.05.57.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 05:33:20 -0700 (PDT)
-From: Abdun Nihaal <nihaal@cse.iitm.ac.in>
-To: clabbe@baylibre.com
-Cc: Abdun Nihaal <nihaal@cse.iitm.ac.in>,
-	mchehab@kernel.org,
-	mjpeg-users@lists.sourceforge.net,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] media: pci: zoran: fix potential memory leak in zoran_probe()
-Date: Thu, 12 Mar 2026 18:02:56 +0530
-Message-ID: <20260312123303.73358-1-nihaal@cse.iitm.ac.in>
-X-Mailer: git-send-email 2.43.0
+        Thu, 12 Mar 2026 05:57:31 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1w0fbW-00000006fKD-1POa;
+	Thu, 12 Mar 2026 09:57:30 -0300
+Date: Thu, 12 Mar 2026 09:57:30 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
+	apparmor@lists.ubuntu.com, bpf@vger.kernel.org,
+	ceph-devel@vger.kernel.org, cocci@inria.fr,
+	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
+Subject: Re: [PATCH 00/61] treewide: Use IS_ERR_OR_NULL over manual NULL
+ check - refactor
+Message-ID: <20260312125730.GI1469476@ziepe.ca>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+ <abBlpGKO842B3yl9@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.06 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abBlpGKO842B3yl9@google.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[cse-iitm-ac-in.20230601.gappssmtp.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[iitm.ac.in : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[cse-iitm-ac-in.20230601.gappssmtp.com:+];
+	DKIM_TRACE(0.00)[ziepe.ca:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DMARC_NA(0.00)[ziepe.ca];
+	TAGGED_FROM(0.00)[bounces-55497-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55496-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nihaal@cse.iitm.ac.in,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCPT_COUNT_GT_50(0.00)[55];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,cse-iitm-ac-in.20230601.gappssmtp.com:dkim,iitm.ac.in:email]
-X-Rspamd-Queue-Id: 1AB80271D3B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ziepe.ca:dkim,ziepe.ca:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: DCE34272236
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The memory allocated for codec in videocodec_attach() is not freed in
-one of the error paths, due to an incorrect goto label. Fix the label
-to free it on error.
+On Wed, Mar 11, 2026 at 02:40:36AM +0800, Kuan-Wei Chiu wrote:
 
-Fixes: 8f7cc5c0b0eb ("media: staging: media: zoran: introduce zoran_i2c_init")
-Cc: stable@vger.kernel.org
-Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
----
-Compile tested only. Issue found using static analysis.
+> IMHO, the necessity of IS_ERR_OR_NULL() often highlights a confusing or
+> flawed API design. It usually implies that the caller is unsure whether
+> a failure results in an error pointer or a NULL pointer. 
 
- drivers/media/pci/zoran/zoran_card.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
++1
 
-diff --git a/drivers/media/pci/zoran/zoran_card.c b/drivers/media/pci/zoran/zoran_card.c
-index d81facf735d9..f707bdc1fb0f 100644
---- a/drivers/media/pci/zoran/zoran_card.c
-+++ b/drivers/media/pci/zoran/zoran_card.c
-@@ -1373,7 +1373,7 @@ static int zoran_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		}
- 		if (zr->codec->type != zr->card.video_codec) {
- 			pci_err(pdev, "%s - wrong codec\n", __func__);
--			goto zr_unreg_videocodec;
-+			goto zr_detach_codec;
- 		}
- 	}
- 	if (zr->card.video_vfe != 0) {
--- 
-2.43.0
+IS_ERR_OR_NULL() should always be looked on with suspicion. Very
+little should be returning some tri-state 'ERR' 'NULL' 'SUCCESS'
+pointer. What does the middle condition even mean? IS_ERR_OR_NULL()
+implies ERR and NULL are semanticly the same, so fix the things to
+always use ERR.
 
+If you want to improve things work to get rid of the NULL checks this
+script identifies. Remove ERR or NULL because only one can ever
+happen, or fix the source to consistently return ERR.
+
+Jason
 
