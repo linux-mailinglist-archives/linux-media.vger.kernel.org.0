@@ -1,88 +1,88 @@
-Return-Path: <linux-media+bounces-55544-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55545-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YHYfBekxs2ntSwAAu9opvQ
-	(envelope-from <linux-media+bounces-55544-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 22:36:41 +0100
+	id MNxzJe4xs2ntSwAAu9opvQ
+	(envelope-from <linux-media+bounces-55545-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 22:36:46 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B1E27A164
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 22:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE3C27A16B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 22:36:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3A58531AF3EB
+	by sea.lore.kernel.org (Postfix) with ESMTP id EE97F31B6648
 	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 21:35:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4A943EF65E;
-	Thu, 12 Mar 2026 21:35:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9D8D31A805;
+	Thu, 12 Mar 2026 21:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="L05b1Twh"
+	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="JpHEGUMJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DEED1B4F0A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E9A389DED
 	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 21:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773351341; cv=none; b=iEIGZbx3EyWKpCSGsvxaNq70qtUESWlFUD0ecxxgUh93nUhO0J2jpWFP3cZxPx0s+90Y4K1VtBKrtJvs9OqttyKDMxIXIkRhI2FwkkevfFKzPxJho1MnlhCUcSrPIZkTr7Y5O05wyljenGTT65ynkXy4slsWVFKNcpuWaErQckw=
+	t=1773351342; cv=none; b=X94BAjxWgfebO6rPfKANNsHn5wXKdVwe/s4hxxwL9fleaca7rpSv9e4MmnGGNku0zquLvvxauIJzb3VDKuJx/XDc+uPydJDTeGKE0kZ4zZ3H2wxOYQzKFpA9kqxnpIV3et4C+4fdzEhRna0IRK6EAvl346ut2S5OPKw5GWs1iHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773351341; c=relaxed/simple;
-	bh=6YEPeTQ5YLoEPxjdpZLvbyfp6mxBKSsVvk9snlLKTsw=;
+	s=arc-20240116; t=1773351342; c=relaxed/simple;
+	bh=4ap7LhGNmeE0hX3BfKcW7SdQXrCQ6J6xcGtZZnMnqNg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XThZMl8eitJWXh4IQil4ODkkZcGUQuIvAHFiyn4Q2YG2DI7oJbq/k67sDCiez2ULomnMU54j/fEUJoyP9oUR5slI2Tr1S1n5LStnabLj+DAPgRRHgxyBEbQW9VjplpSdfLpiOUJQdlgXB1VebeBk14r5AjFT+2FF0vEcb2r+cFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=L05b1Twh; arc=none smtp.client-ip=209.85.167.174
+	 MIME-Version; b=EQEnt4UIg+Ns6UUFVumAWiid0j/paI1d/89OsVcCWMTexIibu8ukQ/J6LwMRGSPReQL9aIui8dA7S0VllPSkq5kibT8MLAEgW/v3zcEXXXNXnv1Dlah/kOizD9MALu/9n12t6uB2ROLQtgzHAo1oFxkuMjG2OAv1IFHv6jO49RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=JpHEGUMJ; arc=none smtp.client-ip=209.85.167.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-46726528f1cso1113604b6e.0
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4648447e29bso621428b6e.0
         for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 14:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nextdimension.cc; s=google; t=1773351339; x=1773956139; darn=vger.kernel.org;
+        d=nextdimension.cc; s=google; t=1773351340; x=1773956140; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9BWGhzEaVrxGO9CCsrFLL11Axc840r7xaXVpyyaTxbs=;
-        b=L05b1TwhJOrGnPXOnsOiaaApFCHOxX5OtuWOA+1Wf9inlUKurCZcL+naGa5pBihErb
-         4VLjIjsJ7YBscN/dPqmnQNC6FMsif9oSMoTGZQfrK2BEBZSoCwuFmJf+Gw97o9gr98bN
-         X2wl+5j/wQBe4ABOHtNOns/twLcsenQKNIEl9Ez7D9VNNe5rc4z8ZTMLLbywUNLwhx24
-         5/AvJu8uz5oVqnzkgkVQrQpqFnLSnloU+3565+viOpUi8VIyUgDNwN/B/bltYx3p+y3D
-         UIIdPrXOQ5ODyyIwjjgPDTR5GvEp2yf9Udr/QW7NzKm9npB/Hx+nrPPoNTkeJ9wdM+mN
-         4yxQ==
+        bh=ietOeNlIW/UTPT+vA5+6vMrrFqOo1yiREz185o7P/2U=;
+        b=JpHEGUMJooheMj3YX3ejSVgfFpM+prS/RHWB+y87Pirm+TR8Mwiv+cf+ybDe+dr8/l
+         6goJrrdcG9M98pu1zQiMG2+zXGWzRaNMGK5RSxjaHSPPT7LeQmh4s1zRuVlP61ZCn0Nc
+         sQzifbUHPMf/BSLW3TvDCLyHP3X5XOsFJAcvdrHgLobohzvRY1yDk0s4NFDJbPWFg+1d
+         RqWDPeE/0I5Un36U62kGnqMFXEpCfvGWrvJ3Ej7p3vzLW0VgRhipzFMBr4odKnDGQNGA
+         raTMGv5e1cFk3kXqEdPaVYL0JLKNoMUxJT/Xwvwt0k7yZXh8jysAOjpFHqrULvk9fo7x
+         BtBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773351339; x=1773956139;
+        d=1e100.net; s=20251104; t=1773351340; x=1773956140;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9BWGhzEaVrxGO9CCsrFLL11Axc840r7xaXVpyyaTxbs=;
-        b=iupMGduEY3fONsb3XjOZ7VDRT6SG5Sjpkav5B3MGSy9qDc5WoshfK4OUIAOyGJJd0n
-         fJFOXY/Nbs8UvNyjR8f1ObGLe0kONe1wOhzbHIRj2i3dNMbPXbqjyEMQX2xlRtG3qSUn
-         OCEI+YFnouZk+thoBZOJ+49nGCEcWep479MG0hU0zAIWfzq2TZInPP9pWjui2tLt+S+j
-         Bt7CVE+wLduepW9PtxXY1uHEX2HYmXAiHHaY40ntPyGoVuXBGuv7waEWTIiaRzswFpNf
-         0Gr2r+bXQCbS23qDi9WIRnzbM5JpEW2yFsvhRWRmH+cVJgZg0PG9u5mdM27QjvSSIuWH
-         9V2A==
-X-Gm-Message-State: AOJu0Yy/CBk4EgNg/dPBIMFTAar7Fu8aygaeyp3cwjwn9V6xTblxxGCP
-	meO5xyKEU0uc0fTuZPfdN3xOfhv9k5JkhWOo2jZrs+b31giG27k4mJWlVPnZAoHMwJuV1EJlArI
-	fZ2A4yNU=
-X-Gm-Gg: ATEYQzxnYhnbNQryxnr5PF7ZFu1u3iDR/TzCuTEgVdrcpjHVzKj2B8jVmfL2dpM/JW3
-	E8U/ckE2Wk7Nmsu+EZRgEZuFHJa5oJcOvglxeKbBQozPKDLC6lieaQgd44M38RltphLdhoJt5st
-	jnBSPn9WIrN3ZD3AxvoGPNG2tKH+nLxc0FlcCvhWxtZF7UaWHHRR1OBwp0cWEdJGVZzbv5xpa6I
-	d0cU3DaJLpOtZfrgdvNHkuQhEV9H40ja3PWVtBO6VCbX9pzqDX4wng2ykGVGJFxlDmUmja59klo
-	ZZwKujSruxb1zQeJ5JFPTMuzqPk5CRNIAG0Kj0Ym1v1j3mId+Z9RTPRb+mw5g3UflqgglcxDTIY
-	hdpQUSCNieBj8Io08V1RwFlI4yhSJBMWBIW+tz9CCZxS4+4gR6tobt3C08OwrtiB5muqsaYMdRj
-	7kmJ7tK5QnSj3rpYOCq5365UGWlDSZK2RLwMaAfioafO6YCMyNqexfVqrE9Jjfvl7PoM5OH//aU
-	pgjB1sztwGm/bU2wZs=
-X-Received: by 2002:a05:6808:6d8b:b0:467:11ab:cd86 with SMTP id 5614622812f47-46757420e66mr452700b6e.43.1773351338984;
-        Thu, 12 Mar 2026 14:35:38 -0700 (PDT)
+        bh=ietOeNlIW/UTPT+vA5+6vMrrFqOo1yiREz185o7P/2U=;
+        b=KlET/IY56/liAwMiv9NTXNaXBLup39D1UDAZGuvO3hQ8Z1+6LywTt4wADSVhEgs33n
+         2ifOfrmKPuGHuG2iWxAa1X19PTuKgN/mB5eib8h7zPQbA9BUjlbBKkxy3NF0zUbgM6iu
+         K8vm6UZD5etYOkyQUsmS8pZoA5bhxTeMkvL32gflO5+9BIOgYqNZlxId3jOug30mtkoq
+         oBJNBQlDiZgMJ4BxKUBVbm8G0Zj8ohEFpFxYo91418PKrED4LcvSfVn16cMa1Gpc7Akr
+         /O49L8RuRaxKpJwUapuKvQgc/93EBUeY9+G+AqigRwvVHGGL/V11DHkpL5Y0tK2vx9Nr
+         aotg==
+X-Gm-Message-State: AOJu0YwKwEAGk32g82L0w3Mm1zPkGe8Uq0+GaoK0sZQVgBjlWlCSIWol
+	R1uDlF9iqCPV+SQlctABehvhTO+YyhptNPi6bxqoEfMSIAexvbDVpOJaDZSv+iaM/Da4Np1HeHx
+	eXwih8lg=
+X-Gm-Gg: ATEYQzyor+nhLyoAcUEFacF3RsoXhYVroi0Sa3CkFizpUibQi9zrEZ+eflfZrcZGkvZ
+	QQVVSLI1Fnrj5kJkX0cNKzy/GQjsLKyJeXhluvb1vRYq2tzNmnHeB4+7Pun56rQymDKQKjhCaiH
+	vWFCq8B8GAs6W2RHZ5BucT0joKFGS/zo2Gq3DEk8Lp7JqaPskjqv3UlkPSBmLIg0LUIiliF0ook
+	HT8hAdRZzzbhnW6Ft7k9C8k94yE5BbrSjaJxS6/fh8FvKS9+UD7n/GJ8U0jABet+bLQIoud8ZUK
+	xo3trPBSZ/XCZ1A0l5OGOJqkeJJJPKai/GjAFsXnTYSUPZGz8WYIMwj1WUKj/OPBtbjmGddk/kX
+	hHOhrEtACkZhoAeXQMY/09lk5S4lqeW/Ysgey1uQg11yVMYmOGhHqQaj3JCCbiCY2R653HlXEZ6
+	hSInEdfrX4RXfge6xe56/HfKlihkjP+wW8vVay36uzjP3xzAk1Jndyo+QfQ2YYH1K1TrBqfdv3R
+	aF0p34USBg1tQ3oQZo=
+X-Received: by 2002:a05:6808:10d5:b0:467:2a6e:adb6 with SMTP id 5614622812f47-467570373aamr483774b6e.8.1773351339690;
+        Thu, 12 Mar 2026 14:35:39 -0700 (PDT)
 Received: from localhost.localdomain (108-207-243-35.lightspeed.austtx.sbcglobal.net. [108.207.243.35])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4673415c264sm3657572b6e.5.2026.03.12.14.35.38
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4673415c264sm3657572b6e.5.2026.03.12.14.35.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 14:35:38 -0700 (PDT)
+        Thu, 12 Mar 2026 14:35:39 -0700 (PDT)
 From: Bradford Love <brad@nextdimension.cc>
 To: linux-media@vger.kernel.org
 Cc: Bradford Love <brad@nextdimension.cc>
-Subject: [PATCH 04/11] cx231xx: Fix AGC levels for NTSC-M
-Date: Thu, 12 Mar 2026 16:35:25 -0500
-Message-Id: <20260312213532.2907276-5-brad@nextdimension.cc>
+Subject: [PATCH 05/11] au0828: Fix green screen in analog
+Date: Thu, 12 Mar 2026 16:35:26 -0500
+Message-Id: <20260312213532.2907276-6-brad@nextdimension.cc>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20260312213532.2907276-1-brad@nextdimension.cc>
 References: <20260312213532.2907276-1-brad@nextdimension.cc>
@@ -103,7 +103,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55544-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55545-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWO(0.00)[2];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DMARC_NA(0.00)[nextdimension.cc];
@@ -119,38 +119,71 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: A6B1E27A164
+X-Rspamd-Queue-Id: 0FE3C27A16B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Windows uses the implemented command sequence to set AGC for NTSC-M.
-The previous Linux values work, mostly, but on some embedded
-platforms NTSC-M is very unstable. The Windows default values
-completely fix any signal stability issues and produce clear iamge.
+When the driver was converted to VB2 the original function to fix
+green frame detection was removed and a default vb2 dqbuf function
+was used instead. This vb2 dqbuf function leads to green frames not
+being detected and correupting stream captures.
+
+The vidioc_dqbuf function checks the greenscreen flag, and, if set
+resets the stream to discard the green frame and decode a real frame.
 
 Signed-off-by: Bradford Love <brad@nextdimension.cc>
 ---
- drivers/media/usb/cx231xx/cx231xx-avcore.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/media/usb/au0828/au0828-video.c | 30 +++++++++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-avcore.c b/drivers/media/usb/cx231xx/cx231xx-avcore.c
-index 1cfec76b72f3..0a5c635da040 100644
---- a/drivers/media/usb/cx231xx/cx231xx-avcore.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-avcore.c
-@@ -2027,10 +2027,9 @@ int cx231xx_dif_set_standard(struct cx231xx *dev, u32 standard)
- 		status = vid_blk_write_word(dev, DIF_SRC_GAIN_CONTROL,
- 						0x000035e8);
+diff --git a/drivers/media/usb/au0828/au0828-video.c b/drivers/media/usb/au0828/au0828-video.c
+index fbaa542c8259..f65f15b1d92a 100644
+--- a/drivers/media/usb/au0828/au0828-video.c
++++ b/drivers/media/usb/au0828/au0828-video.c
+@@ -1671,6 +1671,32 @@ static int vidioc_log_status(struct file *file, void *fh)
+ 	return 0;
+ }
  
--		status = vid_blk_write_word(dev, DIF_AGC_CTRL_IF, 0xC2262600);
--		status = vid_blk_write_word(dev, DIF_AGC_CTRL_INT,
--						0xC2262600);
--		status = vid_blk_write_word(dev, DIF_AGC_CTRL_RF, 0xC2262600);
-+		status = vid_blk_write_word(dev, DIF_AGC_CTRL_IF,  0xC2262600);
-+		status = vid_blk_write_word(dev, DIF_AGC_CTRL_INT, 0xC2260000);
-+		status = vid_blk_write_word(dev, DIF_AGC_CTRL_RF,  0xC2260000);
++static int vidioc_dqbuf(struct file *file, void *priv, struct v4l2_buffer *b)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct au0828_dev *dev = video_drvdata(file);
++	int rc;
++
++	rc = check_dev(dev);
++	if (rc < 0)
++		return rc;
++
++	/* Workaround for a bug in the au0828 hardware design that
++	 * sometimes results in the colorspace being inverted
++	 */
++	if (dev->greenscreen_detected == 1) {
++		dprintk(1, "Detected green frame.  Resetting stream...\n");
++		au0828_analog_stream_reset(dev);
++		dev->greenscreen_detected = 0;
++	}
++
++	if (vdev->queue->owner && vdev->queue->owner != file->private_data)
++		return -EBUSY;
++
++	return vb2_dqbuf(vdev->queue, b, file->f_flags & O_NONBLOCK);
++}
++
++
+ void au0828_v4l2_suspend(struct au0828_dev *dev)
+ {
+ 	struct urb *urb;
+@@ -1764,8 +1790,8 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
+ 	.vidioc_prepare_buf         = vb2_ioctl_prepare_buf,
+ 	.vidioc_querybuf            = vb2_ioctl_querybuf,
+ 	.vidioc_qbuf                = vb2_ioctl_qbuf,
+-	.vidioc_dqbuf               = vb2_ioctl_dqbuf,
+-	.vidioc_expbuf               = vb2_ioctl_expbuf,
++	.vidioc_dqbuf               = vidioc_dqbuf,
++	.vidioc_expbuf              = vb2_ioctl_expbuf,
  
- 		/* Save the Spec Inversion value */
- 		dif_misc_ctrl_value &= FLD_DIF_SPEC_INV;
+ 	.vidioc_s_std               = vidioc_s_std,
+ 	.vidioc_g_std               = vidioc_g_std,
 -- 
 2.35.1
 
