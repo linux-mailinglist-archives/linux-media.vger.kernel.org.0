@@ -1,154 +1,1487 @@
-Return-Path: <linux-media+bounces-55536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55537-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0FyZNNQVs2mDSAAAu9opvQ
-	(envelope-from <linux-media+bounces-55536-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 20:36:52 +0100
+	id ENp+KCQZs2mDSAAAu9opvQ
+	(envelope-from <linux-media+bounces-55537-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 20:51:00 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA3E27820E
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 20:36:52 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3027A27854A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 20:50:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4B765309B522
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:34:24 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 295943014932
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:50:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAC8D40244C;
-	Thu, 12 Mar 2026 19:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FF353630AB;
+	Thu, 12 Mar 2026 19:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="FAhExzB9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EED3AC0E2;
-	Thu, 12 Mar 2026 19:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773344034; cv=none; b=j33607n42e689OLFpqcE53xFh+mXzT0DHyFuURweRJDCnHcwW3FtYJuTwAwE7ZtTqn92an8BownNrtmHLhnnlR6hLvKAuI+SoVXShgoz/FNRyMB49rWOhUxMnrt0E5LHZZe0uYfRusDdVxUM+4AJvAJQujoLYUQ8fY7Cwp76ZKA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773344034; c=relaxed/simple;
-	bh=VQ4I1//oujMg/wMbvtHZ1fNg62i5rEhIWcPKRohhj4U=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=ddy2a7nze40y2XOq6AzX5P+yK/YAMZEsZCu4is1ZBhMnJKS9vFgMZWqpirXNxVgz6pZsokw/214XhfsoPaQlvyfIqpgQ2GBgjj20XFkl4eJeH0Ugf3RmPz5wDBJf3rAKd+aMd7liJ/M4aSZTOFN9EXdHYYjti5z0jySqd1deAiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 4DE582C14A8;
-	Thu, 12 Mar 2026 20:33:44 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id yCwNT8mwVvHB; Thu, 12 Mar 2026 20:33:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 8A34D2C14AA;
-	Thu, 12 Mar 2026 20:33:43 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 3HN7guaAFMsE; Thu, 12 Mar 2026 20:33:43 +0100 (CET)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id ABF4A2C14A6;
-	Thu, 12 Mar 2026 20:33:42 +0100 (CET)
-Date: Thu, 12 Mar 2026 20:33:42 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: Philipp Hahn <phahn-oss@avm.de>
-Cc: amd-gfx <amd-gfx@lists.freedesktop.org>, 
-	apparmor <apparmor@lists.ubuntu.com>, bpf <bpf@vger.kernel.org>, 
-	ceph-devel <ceph-devel@vger.kernel.org>, cocci <cocci@inria.fr>, 
-	dm-devel@lists.linux.dev, 
-	DRI mailing list <dri-devel@lists.freedesktop.org>, 
-	gfs2 <gfs2@lists.linux.dev>, 
-	intel-gfx <intel-gfx@lists.freedesktop.org>, 
-	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, 
-	kvm@vger.kernel.org, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-block <linux-block@vger.kernel.org>, 
-	linux-bluetooth@vger.kernel.org, 
-	linux-btrfs <linux-btrfs@vger.kernel.org>, 
-	linux-cifs <linux-cifs@vger.kernel.org>, linux-clk@vger.kernel.org, 
-	linux-erofs <linux-erofs@lists.ozlabs.org>, 
-	linux-ext4 <linux-ext4@vger.kernel.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-gpio@vger.kernel.org, 
-	linux-hyperv <linux-hyperv@vger.kernel.org>, 
-	linux-input@vger.kernel.org, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-leds@vger.kernel.org, 
-	linux-media <linux-media@vger.kernel.org>, 
-	linux-mips <linux-mips@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, linux-modules@vger.kernel.org, 
-	linux-mtd <linux-mtd@lists.infradead.org>, 
-	linux-nfs <linux-nfs@vger.kernel.org>, 
-	linux-omap <linux-omap@vger.kernel.org>, 
-	linux-phy@lists.infradead.org, linux-pm <linux-pm@vger.kernel.org>, 
-	linux-rockchip <linux-rockchip@lists.infradead.org>, 
-	linux-s390 <linux-s390@vger.kernel.org>, 
-	linux-scsi <linux-scsi@vger.kernel.org>, linux-sctp@vger.kernel.org, 
-	LSM <linux-security-module@vger.kernel.org>, 
-	linux-sh <linux-sh@vger.kernel.org>, 
-	linux-sound <linux-sound@vger.kernel.org>, 
-	linux-stm32 <linux-stm32@st-md-mailman.stormreply.com>, 
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
-	linux-usb@vger.kernel.org, 
-	linux-wireless <linux-wireless@vger.kernel.org>, 
-	netdev <netdev@vger.kernel.org>, ntfs3 <ntfs3@lists.linux.dev>, 
-	samba-technical <samba-technical@lists.samba.org>, 
-	sched-ext@lists.linux.dev, target-devel@vger.kernel.org, 
-	tipc-discussion@lists.sourceforge.net, v9fs <v9fs@lists.linux.dev>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Vignesh Raghavendra <vigneshr@ti.com>
-Message-ID: <1584421372.26258.1773344022512.JavaMail.zimbra@nod.at>
-In-Reply-To: <20260310-b4-is_err_or_null-v1-48-bd63b656022d@avm.de>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-48-bd63b656022d@avm.de>
-Subject: Re: [PATCH 48/61] mtd: Prefer IS_ERR_OR_NULL over manual NULL check
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DF43254A0
+	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 19:50:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773345038; cv=pass; b=RM2LzhL/fTwHcXNVMBIw0RPGiVv//pS+Jjx3OWWaiZyUwRJnsgYE7Synhz3tQzbcjC91OfHfQ2WRB9HH0fhSbK0B5wWCWIjajN9ckmLjlFF9lBusDjcPppTGzhAlkDv8ZZHHUDcI+bQjSekDD0kz98xPAhkVsAIX1iIlGZh9PHs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773345038; c=relaxed/simple;
+	bh=z2HoKBEyt3VH/k5LZUZ+5wRj2qgFoKFWsU/FbH4fr1M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=atUfm1soYM0YYjsQIPys41HwFkyAoYNxDUNHKqv77ttUj9C9KsC0LXl0Z71Se6OU0MVYy4XUXbryHjijJRRzgHmgwEdLHotAYuVLXM5DilI65sUOLu425CYNBcMeCd8ALyzQMiPVfRpNktSF9sKwQp5VePxamNSOy5k5lwWQ8Vk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=FAhExzB9; arc=pass smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-79628fb5c05so12329817b3.2
+        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 12:50:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773345034; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T0NIdNvoLNWHuBumqB6bxDn7aZeDgx3gJl07GE+xULaUqbexsc/gyEXTI23s+wlcrq
+         ky7Vrmknl+lPUk+3wjkZgPYhwyLNpq3cOh20CY3i133jw0XAhsmr28Yhyv3qu2DXWjbz
+         6x0talcUE2KNBLivSMc4EGPm8pvzJuM9vPdLCHn3gP2Zt5viQZJeeoBb6zXAh/mSrgiU
+         sI0gabBa54F0CxvF974Qpu9pUrV66/SJXGZJS55Ite/nTVR9S0VuuP7KO/UH+MRyQCg4
+         oxzX3m6thUA6ATmw+nYcxf3i7flwrntEnhHPTgnfue8uucqDH8GyT3uGXuh4wp1cSmKH
+         QrAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=OL2NaAJnvIHrpSAA0IxBzOieMqOWLUMSnlc0WETUWRk=;
+        fh=K2lq50AO7T2eCKwteKU41qTo3+z/9mxzcWJx+yOqnHc=;
+        b=cFeBrKpVTbS0DGcaCFB2Nvo4c8AA5S0Tjgu894tJSfqzqZuB2RFW5RqWOjfCSz1oqC
+         UfoNR7yEbU70h/FF78a/ZswfHgSS0UIpBGCUKENw5NRz4h0fWAk+yebGZJiaw3Ykply6
+         OxxBXcVbWXDyxZVYyor4VSnvIfEWT3AqBycRQK4ZS06TCcvIG24IWRP+zZIUVi7MTuiq
+         TBnaB7XbOID7ly99qMFISOOtwx4AvtQTaLSTfnkk4p+ktZV79RY95O52YcMJCqFzuY54
+         3CNcGZlnPWO7jHTWdbIalm3yTbJQ0I99LbsDZJz6dTAJ1fydwvNlNXcxMpNkYRrIEaSF
+         YWcQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1773345034; x=1773949834; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OL2NaAJnvIHrpSAA0IxBzOieMqOWLUMSnlc0WETUWRk=;
+        b=FAhExzB95D6qkJOMimk/ggUaeR9t+ZwdXyTxr0ar1ov476qacttox1iicd5FAUAuve
+         rte4M8zazUBFdoXxIBhYXDQVcLH8U7qZwWC7IJu3W+Jz7sFk1+x+eVJnN3dawcMtp630
+         rxaA+V/PtVYXXZgdCMU8jvSI9fJn06b2PUruCqC5urxCdxCLkkTdeQllFPZDAkiA5c1q
+         HiYGXZliMaT5azsO/6FNmYn0/IpejmON4uCglY4/0eGl5mKpzFoegdhLw2AFcb70ugvF
+         SYLUioggdpeH9VCrSe1EvCS0E6sOhLiw3QvL3rz8fl9wzKYHJnJ/k2lb+Pv3NyX16hQd
+         XNYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773345034; x=1773949834;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OL2NaAJnvIHrpSAA0IxBzOieMqOWLUMSnlc0WETUWRk=;
+        b=V/hj245SPOyAYB1w64e4mZ6uRi2Kyif7RkzCxsCQt31X97VW2zMePU2fAFllD2gq4H
+         pXeuzg8ZHs3DNPhPWIA8hGLqrMVpK3U2SmnqcehtRgDgmGoVUQhIgO5+bkC+ahgly+x8
+         LIeg1v23V2EvtMXneLQ0Ioa0H+9dYWDKpMa0I1rA/9ntNYcuIQkLBmvfe37W2V/MVOSd
+         iyplMOQSsCH6TEgeGJq+nRzwm3alXR/hOnbd0t9TdNNgQiveFqk9ukfvltYDy5qS1nrg
+         0oUdxCE/jrKNjOIrdV4kqGHxmX3kxMSwolM9bYm2Y7K5IWiEvd+LSsy9+MmFhsWePYjn
+         ZpAQ==
+X-Gm-Message-State: AOJu0Yz6vmPSHJFw131NnkTmkvtTCRnQsvIzvmCR/es4rvD9GRUmqMva
+	r5Y+qZuHfwRmh86e4AXH8llQvTpn+8tdDvrZlZRjvGybEEfqYsggKY3E+r6vHAS8sXfwLUYJk9V
+	yomfuwwv1Fj2W6pHFGHaulKYvk8F4NFtwTkC3XlLbVw==
+X-Gm-Gg: ATEYQzztqiOoHlVjwS7Gof7kAcN27Pna8lFzOnyc7jjFgM0bddiABmMcyQX51z2NyXI
+	mLfu101gS2aK8oiqsq6g9CCf9ooCtjGYTEezv/ebA0RnG6Ht+x6L/GK6yWxjp1OlEcVTIXHSLgx
+	6XekeGyZFI/AaNOHWrOE6m+wVNp66hdmIzR75gzxmsvltZzCtplPf7iMMBuU572VVM4iw4jQkcU
+	c+Mx0Qv5LvVn9NdQoyW6Gscb/qJMvOMijSbkDTI7VpVPxRaZqNtkvzvAi7d5eOcKQT5QHxPJnmI
+	h3YWMNi7G0fx5bSrpUTPrZxt6adZoMjUZT3fRA==
+X-Received: by 2002:a05:690c:7344:b0:798:4f55:2c59 with SMTP id
+ 00721157ae682-79a1c188c09mr7935557b3.39.1773345034045; Thu, 12 Mar 2026
+ 12:50:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF148 (Linux)/8.8.12_GA_3809)
-Thread-Topic: Prefer IS_ERR_OR_NULL over manual NULL check
-Thread-Index: 0l8CyewQmrWlgaG6N3QgQFfukutRbA==
-X-Spamd-Result: default: False [0.04 / 15.00];
+References: <20260312150437.1091195-1-eagle.alexander923@gmail.com> <20260312150437.1091195-3-eagle.alexander923@gmail.com>
+In-Reply-To: <20260312150437.1091195-3-eagle.alexander923@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 12 Mar 2026 19:50:15 +0000
+X-Gm-Features: AaiRm50mf8LJZ5Zvlp1VaMAtOhdAMJ0PLBJe0WLoATzkeAbZPqWGQQmZtq1bIXs
+Message-ID: <CAPY8ntAf9TjgW-E6WeJuMdsHy8pV8-CvqQJriWEFpgLB-brD5A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: i2c: Add driver for Sony IMX662 sensor
+To: Alexander Shiyan <eagle.alexander923@gmail.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Hans de Goede <hansg@kernel.org>, Tetsuya Nomura <tetsuya.nomura@soho-enterprise.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55536-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55537-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	DMARC_NA(0.00)[nod.at];
-	RCVD_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[linux-media];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[richard@nod.at,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[56];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.953];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,avm.de:email,nod.at:mid]
-X-Rspamd-Queue-Id: 5DA3E27820E
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,raspberrypi.com:dkim,linaro.org:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3027A27854A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "Philipp Hahn" <phahn-oss@avm.de>
-> -=09if (gpiomtd->nwp && !IS_ERR(gpiomtd->nwp))
-> +=09if (!IS_ERR_OR_NULL(gpiomtd->nwp))
+Hi Alexander
 
-No, please don't.
+On Thu, 12 Mar 2026 at 15:11, Alexander Shiyan
+<eagle.alexander923@gmail.com> wrote:
+>
+> This patch adds a V4L2 subdevice driver for the Sony IMX662 CMOS image
+> sensor. The sensor has a native resolution of 1936x1100 (effective
+> 1920x1080) and can achieve up to 90 frames per second depending on
+> the configuration. The driver supports:
+> - MIPI CSI-2 with 2 or 4 data lanes.
+> - RAW10 and RAW12 formats (both colour and monochrome).
+> - Controls: exposure, analogue gain, horizontal/vertical blanking,
+>   horizontal/vertical flip, brightness.
+> - A placeholder V4L2_CID_HDR_SENSOR_MODE control for future Clear HDR
+>   support (the actual HDR modes are not yet implemented).
+> - Runtime PM.
+> - Cropping via the selection API.
+> - Multiple link frequencies selectable via device tree.
+>
+> Tested on ARM64 Rockchip RK3568 platform with a 24 MHz external clock
+> and various link frequencies.
 
-This makes reading the code not easier.
+Interesting timing as I've been looking at IMX662 too, but on a Raspberry Pi.
+FWIW my driver is at
+https://github.com/6by9/linux/blob/rpi-6.12.y-imx662/drivers/media/i2c/imx662.c
 
-Thanks,
-//richard
+Comments are based on brief testing and reading of the code. This is
+not a full review.
+
+> Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
+> ---
+>  drivers/media/i2c/Kconfig  |   11 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/imx662.c | 1176 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1188 insertions(+)
+>  create mode 100644 drivers/media/i2c/imx662.c
+>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 609b6a8fc6db..936461b685fe 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -310,6 +310,17 @@ config VIDEO_IMX415
+>           To compile this driver as a module, choose M here: the
+>           module will be called imx415.
+>
+> +config VIDEO_IMX662
+> +       tristate "Sony IMX662 sensor support"
+> +       depends on OF || COMPILE_TEST
+> +       select V4L2_CCI_I2C
+> +       help
+> +         This is a Video4Linux2 sensor driver for the Sony
+> +         IMX662 camera.
+> +
+> +         To compile this driver as a module, choose M here: the
+> +         module will be called imx662.
+> +
+>  config VIDEO_IMX678
+>         tristate "Sony IMX678 sensor support"
+>         depends on OF_GPIO
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index 35e6ccbe16d9..e18cb8a68360 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -63,6 +63,7 @@ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
+>  obj-$(CONFIG_VIDEO_IMX355) += imx355.o
+>  obj-$(CONFIG_VIDEO_IMX412) += imx412.o
+>  obj-$(CONFIG_VIDEO_IMX415) += imx415.o
+> +obj-$(CONFIG_VIDEO_IMX662) += imx662.o
+>  obj-$(CONFIG_VIDEO_IMX678) += imx678.o
+>  obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
+>  obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
+> diff --git a/drivers/media/i2c/imx662.c b/drivers/media/i2c/imx662.c
+> new file mode 100644
+> index 000000000000..d7be17b5a47d
+> --- /dev/null
+> +++ b/drivers/media/i2c/imx662.c
+> @@ -0,0 +1,1176 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Driver for the Sony IMX662 CMOS Image Sensor
+> + *
+> + * Copyright (C) 2026 Alexander Shiyan <eagle.alexander923@gmail.com>
+> + *
+> + * Some parts of code taken from imx662.c by:
+> + * Copyright (C) 2022 Soho Enterprise Ltd.
+> + * Author: Tetsuya Nomura <tetsuya.nomura@soho-enterprise.com>
+> + *
+> + * Some parts of code taken from imx290.c by:
+> + * Copyright (C) 2019 FRAMOS GmbH.
+> + * Copyright (C) 2019 Linaro Ltd.
+> + * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <media/v4l2-cci.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#define IMX662_STANDBY                         CCI_REG8(0x3000)
+> +#define IMX662_REGHOLD                         CCI_REG8(0x3001)
+> +#define IMX662_XMSTA                           CCI_REG8(0x3002)
+> +#define IMX662_INCK_SEL                                CCI_REG8(0x3014)
+> +#      define IMX662_INCK_SEL_74_25            (0x00)
+> +#      define IMX662_INCK_SEL_37_125           (0x01)
+> +#      define IMX662_INCK_SEL_72               (0x02)
+> +#      define IMX662_INCK_SEL_27               (0x03)
+> +#      define IMX662_INCK_SEL_24               (0x04)
+> +#define IMX662_DATARATE_SEL                    CCI_REG8(0x3015)
+> +
+> +enum {
+> +       IMX662_DATARATE_2376    = 0,
+> +       IMX662_DATARATE_2079    = 1,
+> +       IMX662_DATARATE_1782    = 2,
+> +       IMX662_DATARATE_1440    = 3,
+> +       IMX662_DATARATE_1188    = 4,
+> +       IMX662_DATARATE_891     = 5,
+> +       IMX662_DATARATE_720     = 6,
+> +       IMX662_DATARATE_594     = 7,
+> +       IMX662_DATARATE_MAX
+> +};
+> +
+> +#define IMX662_WINMODE                         CCI_REG8(0x3018)
+> +#define IMX662_WDMODE                          CCI_REG8(0x301a)
+> +#define IMX662_VCMODE                          CCI_REG8(0x301e)
+> +#define IMX662_HREVERSE                                CCI_REG8(0x3020)
+> +#define IMX662_VREVERSE                                CCI_REG8(0x3021)
+> +#define IMX662_ADBIT                           CCI_REG8(0x3022)
+> +#define IMX662_MDBIT                           CCI_REG8(0x3023)
+> +#define IMX662_VMAX                            CCI_REG24_LE(0x3028)
+> +#      define IMX662_VMAX_MAX                  (0x0ffffe)
+> +#define IMX662_HMAX                            CCI_REG16_LE(0x302c)
+> +#      define IMX662_HMAX_MAX                  (0xffff)
+> +#define IMX662_FDG_SEL0                                CCI_REG8(0x3030)
+> +#      define IMX662_FDG_SEL0_LCG              (0x00)
+> +#      define IMX662_FDG_SEL0_HCG              (0x01)
+> +#define IMX662_FDG_SEL1                                CCI_REG8(0x3031)
+> +#define IMX662_PIX_HST                         CCI_REG16_LE(0x303c)
+> +#define IMX662_LANEMODE                                CCI_REG8(0x3040)
+> +#define IMX662_PIX_HWIDTH                      CCI_REG16_LE(0x303e)
+> +#define IMX662_PIX_VST                         CCI_REG16_LE(0x3044)
+> +#define IMX662_PIX_VWIDTH                      CCI_REG16_LE(0x3046)
+> +#define IMX662_SHR0                            CCI_REG24_LE(0x3050)
+> +#      define IMX662_SHR0_MIN                  (4)
+> +#define IMX662_SHR1                            CCI_REG24_LE(0x3054)
+> +#define IMX662_RHS1                            CCI_REG24_LE(0x3060)
+> +#define IMX662_CHDR_GAIN_EN                    CCI_REG8(0x3069)
+> +#define IMX662_GAIN                            CCI_REG16_LE(0x3070)
+> +#      define IMX662_ANA_GAIN_HCG_MIN          (0x22)
+> +#define IMX662_GAIN1                           CCI_REG16_LE(0x3072)
+> +#define IMX662_EXP_GAIN                                CCI_REG8(0x3081)
+> +#define IMX662_CHDR_DGAIN0_HG                  CCI_REG16_LE(0x308c)
+> +#define IMX662_CHDR_AGAIN0_LG                  CCI_REG16_LE(0x3094)
+> +#define IMX662_CHDR_AGAIN1                     CCI_REG16_LE(0x3096)
+> +#define IMX662_CHDR_AGAIN0_HG                  CCI_REG16_LE(0x309c)
+> +#define IMX662_BLKLEVEL                                CCI_REG16_LE(0x30dc)
+> +#define IMX662_GAIN_PGC_FIDMD                  CCI_REG8(0x3400)
+> +
+> +#define IMX662_NATIVE_WIDTH                    (1936U)
+> +#define IMX662_NATIVE_HEIGHT                   (1100U)
+> +#define IMX662_PIXEL_ARRAY_LEFT                        (8U)
+> +#define IMX662_PIXEL_ARRAY_TOP                 (8U)
+> +#define IMX662_PIXEL_ARRAY_WIDTH               (1920U)
+> +#define IMX662_PIXEL_ARRAY_HEIGHT              (1080U)
+> +#define IMX662_MIN_CROP_WIDTH                  (80U)
+> +#define IMX662_MIN_CROP_HEIGHT                 (180U)
+> +#define IMX662_CROP_WIDTH_STEP                 (16U)
+> +#define IMX662_CROP_HEIGHT_STEP                        (4U)
+> +
+> +enum imx662_colour_variant {
+> +       IMX662_VARIANT_COLOUR,
+> +       IMX662_VARIANT_MONO,
+> +       IMX662_VARIANT_MAX
+> +};
+> +
+> +enum imx662_hdr_mode {
+> +       IMX662_HDR_OFF,
+> +       IMX662_HDR_CLRHDR,
+> +       IMX662_HDR_CLRHDR_DOL2,
+> +       IMX662_HDR_MAX
+> +};
+> +
+> +static const char * const imx662_supply_names[] = {
+> +       "avdd",
+> +       "dvdd",
+> +       "ovdd",
+> +};
+> +
+> +struct imx662_format {
+> +       u8 bpp;
+> +       u8 ad_md_bit;
+> +       u16 hmax_lane2[IMX662_DATARATE_MAX];
+> +       u16 hmax_lane4[IMX662_DATARATE_MAX];
+> +       u32 code[IMX662_VARIANT_MAX];
+> +};
+> +
+> +struct imx662 {
+> +       struct device *dev;
+> +       struct clk *clk;
+> +       struct regmap *regmap;
+> +
+> +       struct v4l2_subdev sd;
+> +       struct media_pad pad;
+> +
+> +       struct regulator_bulk_data supplies[ARRAY_SIZE(imx662_supply_names)];
+> +       struct gpio_desc *reset;
+> +
+> +       unsigned int num_data_lanes;
+> +
+> +       u8 link_freq_index;
+> +       u8 inck;
+> +
+> +       enum imx662_colour_variant variant;
+> +
+> +       enum imx662_hdr_mode hdr;
+> +
+> +       const struct imx662_format *format;
+> +
+> +       struct v4l2_rect crop;
+> +
+> +       bool streaming;
+> +
+> +       struct v4l2_ctrl_handler ctrls;
+> +
+> +       struct v4l2_ctrl *pixel_rate;
+> +       struct v4l2_ctrl *link_freq;
+> +       struct v4l2_ctrl *hblank;
+> +       struct v4l2_ctrl *vblank;
+> +       struct v4l2_ctrl *exposure;
+> +       struct v4l2_ctrl *gain;
+> +       struct v4l2_ctrl *hflip;
+> +       struct v4l2_ctrl *vflip;
+> +};
+> +
+> +static inline struct imx662 *to_imx662(struct v4l2_subdev *_sd)
+> +{
+> +       return container_of(_sd, struct imx662, sd);
+> +}
+> +
+> +static const struct cci_reg_sequence imx662_regs_common[] = {
+> +       { IMX662_WINMODE, 0x04 },
+> +       { IMX662_CHDR_GAIN_EN, 0x00 },
+> +       { IMX662_CHDR_DGAIN0_HG, 0x0100 },
+> +       { IMX662_CHDR_AGAIN0_LG, 0x0000 },
+> +       { IMX662_CHDR_AGAIN1, 0x0000 },
+> +       { IMX662_CHDR_AGAIN0_HG, 0x0000 },
+> +};
+> +
+> +static const struct cci_reg_sequence imx662_regs_hdr_off[] = {
+> +       { IMX662_WDMODE, 0x00 },
+> +       { IMX662_VCMODE, 0x01 },
+> +       { IMX662_FDG_SEL1, 0x00 },
+> +       { IMX662_SHR1, 0x000093 },
+> +       { IMX662_RHS1, 0x000095 },
+> +       { IMX662_GAIN1, 0x0000 },
+> +       { IMX662_EXP_GAIN, 0x00 },
+> +       { IMX662_GAIN_PGC_FIDMD, 0x01 },
+> +};
+> +
+> +static const s64 imx662_link_freqs[] = {
+> +       [IMX662_DATARATE_2376]  = 2376000000LL / 2,
+> +       [IMX662_DATARATE_2079]  = 2079000000LL / 2,
+> +       [IMX662_DATARATE_1782]  = 1782000000LL / 2,
+> +       [IMX662_DATARATE_1440]  = 1440000000LL / 2,
+> +       [IMX662_DATARATE_1188]  = 1188000000LL / 2,
+> +       [IMX662_DATARATE_891]   = 891000000LL / 2,
+> +       [IMX662_DATARATE_720]   = 720000000LL / 2,
+> +       [IMX662_DATARATE_594]   = 594000000LL / 2,
+> +};
+> +
+> +static const char * const imx662_hdr_menu[] = {
+> +       [IMX662_HDR_OFF] = "No HDR",
+> +       /* Not implemented modes: */
+> +       /* [IMX662_HDR_CLRHDR] = "Clear HDR" */
+> +       /* [IMX662_HDR_CLRHDR_DOL2] = "Clear HDR + DOL 2 Frame" */
+> +};
+> +
+> +static const struct imx662_format imx662_formats[] = {
+> +       {
+> +               .bpp = 10,
+> +               .ad_md_bit = 0,
+> +               .hmax_lane2 = {
+> +                       [IMX662_DATARATE_594] = 2376,
+> +                       [IMX662_DATARATE_720] = 1980,
+> +                       [IMX662_DATARATE_891] = 990,
+> +                       [IMX662_DATARATE_1440] = 660,
+> +               },
+> +               .hmax_lane4 = {
+> +                       [IMX662_DATARATE_594] = 990,
+> +                       [IMX662_DATARATE_720] = 660,
+> +               },
+> +               .code = {
+> +                       [IMX662_VARIANT_COLOUR] = MEDIA_BUS_FMT_SRGGB10_1X10,
+> +                       [IMX662_VARIANT_MONO] = MEDIA_BUS_FMT_Y10_1X10,
+> +               },
+> +       }, {
+> +               .bpp = 12,
+> +               .ad_md_bit = BIT(0),
+> +               .hmax_lane2 = {
+> +                       [IMX662_DATARATE_720] = 1980,
+> +                       [IMX662_DATARATE_891] = 1188,
+> +                       [IMX662_DATARATE_1188] = 990,
+> +               },
+> +               .hmax_lane4 = {
+> +                       [IMX662_DATARATE_594] = 990,
+> +               },
+> +               .code = {
+> +                       [IMX662_VARIANT_COLOUR] = MEDIA_BUS_FMT_SRGGB12_1X12,
+> +                       [IMX662_VARIANT_MONO] = MEDIA_BUS_FMT_Y12_1X12,
+> +               },
+> +       },
+> +};
+> +
+> +static int imx662_set_gain(struct imx662 *imx662, u32 value)
+> +{
+> +       int ret = 0;
+> +
+> +       if (imx662->hdr == IMX662_HDR_OFF) {
+> +               bool useHGC = value >= IMX662_ANA_GAIN_HCG_MIN;
+> +
+> +               cci_write(imx662->regmap, IMX662_REGHOLD, 1, &ret);
+> +               cci_write(imx662->regmap, IMX662_GAIN, value, &ret);
+> +               cci_write(imx662->regmap, IMX662_FDG_SEL0,
+> +                         useHGC ? IMX662_FDG_SEL0_HCG : IMX662_FDG_SEL0_LCG,
+> +                         &ret);
+
+IIRC HCG adds in another 12dB or something of gain. Automatically
+enabling it above a value of 0x22 means that the gain response isn't
+consistent with a band of gains that can't be achieved.
+Running libcamera with this driver I get significant oscillation as
+HCG gets turned on and off. Fix useHGC = 0 and the exposure and gain
+control is stable.
+
+AIUI Use of HCG should be a separate control if it is to be used.
+
+> +               cci_write(imx662->regmap, IMX662_REGHOLD, 0, NULL);
+> +       } else
+> +               ret = -EINVAL;
+> +
+> +       return ret;
+> +}
+> +
+> +static int imx662_set_hblank(struct imx662 *imx662, u32 value)
+> +{
+> +       unsigned int hmax_min;
+> +
+> +       if (imx662->num_data_lanes == 2)
+> +               hmax_min =
+> +                       imx662->format->hmax_lane2[imx662->link_freq_index];
+> +       else
+> +               hmax_min =
+> +                       imx662->format->hmax_lane4[imx662->link_freq_index];
+> +
+> +       if (!hmax_min)
+> +               return -EINVAL;
+> +
+> +       return cci_write(imx662->regmap, IMX662_HMAX, hmax_min + value, NULL);
+> +}
+> +
+> +static void imx662_exposure_update(struct imx662 *imx662)
+> +{
+> +       int exposure_max, exposure_val;
+> +
+> +       exposure_max =
+> +               imx662->vblank->val + imx662->crop.height - IMX662_SHR0_MIN - 1;
+> +       exposure_val =
+> +               clamp(imx662->exposure->val, IMX662_SHR0_MIN, exposure_max);
+> +
+> +       __v4l2_ctrl_modify_range(imx662->exposure, IMX662_SHR0_MIN,
+> +                                exposure_max, 1, exposure_val);
+> +       __v4l2_ctrl_s_ctrl(imx662->exposure, exposure_val);
+> +}
+> +
+> +static void imx662_gain_update(struct imx662 *imx662)
+> +{
+> +       /* Should be differ (max 80 + EXP_GAIN?) in HDR modes */
+> +       __v4l2_ctrl_modify_range(imx662->gain, 0, 240, 1, 0);
+> +}
+> +
+> +static void imx662_set_link_limits(struct imx662 *imx662)
+> +{
+> +       u64 pixel_rate;
+> +
+> +       pixel_rate = imx662_link_freqs[imx662->link_freq_index] * 2;
+> +       pixel_rate *= imx662->num_data_lanes;
+> +       do_div(pixel_rate, imx662->format->bpp);
+> +
+> +       __v4l2_ctrl_s_ctrl_int64(imx662->pixel_rate, pixel_rate);
+
+Are you sure on this? All my testing had pixel rate being independent
+of bit depth and number of lanes.
+Trying your driver with 360Hz link freq / 720Mbit/s data rate on 2
+lanes. All the computations end up with a max frame rate of 60fps in
+10bit mode and 50fps in 12bit, when I'm expecting a max of 30fps from
+the datasheet.
+Asking for 1920x1080 12bit @ 30fps via libcamera results in hblank of
+0 and vblank of 1003 with a pixel rate of 120000000. The actual
+framerate achieved is 27.85fps.
+
+I'd found working from a pixel rate of 222750000 (INCK of 74.250*3),
+and writing HMAX with the "normal" line length value of width+hblank
+but divided by 3, all the numbers for line time and frame rate control
+fall out.
+IMX415 was similar, but some input clocks multiplied up to 72MHz
+instead of 74.25MHz and produced a set of different link frequencies,
+so complicated matters.
+
+> +}
+> +
+> +static int imx662_set_framing_limits(struct imx662 *imx662)
+> +{
+> +       unsigned int vmax_min, hblank_max, vblank_min, vblank_max;
+> +
+> +       if (imx662->hdr == IMX662_HDR_OFF)
+> +               vmax_min = 1250;
+> +       else
+> +               vmax_min = 2500;
+> +
+> +       hblank_max = IMX662_HMAX_MAX - imx662->crop.width;
+> +       vblank_min = vmax_min - imx662->crop.height;
+> +       vblank_max = IMX662_VMAX_MAX - imx662->crop.height;
+> +
+> +       __v4l2_ctrl_modify_range(imx662->hblank, 0, hblank_max, 1, 0);
+> +
+> +       __v4l2_ctrl_modify_range(imx662->vblank, vblank_min, vblank_max,
+> +                                1, vblank_min);
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +       struct imx662 *imx662 = container_of(ctrl->handler,
+> +                                            struct imx662, ctrls);
+> +       int ret = 0;
+> +
+> +       if (ctrl->flags & V4L2_CTRL_FLAG_READ_ONLY)
+> +               return 0;
+> +
+> +       if (!pm_runtime_get_if_in_use(imx662->dev))
+> +               return 0;
+> +
+> +       switch (ctrl->id) {
+> +       case V4L2_CID_HBLANK:
+> +               ret = imx662_set_hblank(imx662, ctrl->val);
+> +               break;
+> +       case V4L2_CID_VBLANK:
+> +               cci_write(imx662->regmap, IMX662_VMAX,
+> +                         ctrl->val + imx662->crop.height, &ret);
+> +               if (ret)
+> +                       break;
+> +               imx662_exposure_update(imx662);
+> +               break;
+> +       case V4L2_CID_EXPOSURE:
+> +               cci_write(imx662->regmap, IMX662_SHR0,
+> +                         imx662->vblank->val + imx662->crop.height -
+> +                         ctrl->val - 1, &ret);
+> +               break;
+> +       case V4L2_CID_ANALOGUE_GAIN:
+> +               ret = imx662_set_gain(imx662, ctrl->val);
+> +               break;
+> +       case V4L2_CID_HFLIP:
+> +               cci_write(imx662->regmap, IMX662_HREVERSE,
+> +                         ctrl->val ? BIT(0) : 0x00, &ret);
+> +               break;
+> +       case V4L2_CID_VFLIP:
+> +               cci_write(imx662->regmap, IMX662_VREVERSE,
+> +                         ctrl->val ? BIT(0) : 0x00, &ret);
+> +               break;
+> +       case V4L2_CID_BRIGHTNESS:
+> +               cci_write(imx662->regmap, IMX662_BLKLEVEL, ctrl->val, &ret);
+
+Setting the black level based on the brightness control isn't one I've
+seen done on any other image sensor. It has similarities, but feels
+very wrong.
+
+> +               break;
+> +       case V4L2_CID_HDR_SENSOR_MODE:
+> +               if (!imx662->streaming) {
+> +                       imx662->hdr = ctrl->val;
+> +                       imx662_gain_update(imx662);
+> +                       ret = imx662_set_framing_limits(imx662);
+> +               } else
+> +                       ret = -EBUSY;
+> +               break;
+> +       default:
+> +               dev_err(imx662->dev, "Invalid control %d\n", ctrl->id);
+> +               ret = -EINVAL;
+> +               break;
+> +       }
+> +
+> +       pm_runtime_put_autosuspend(imx662->dev);
+> +
+> +       return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops imx662_ctrl_ops = {
+> +       .s_ctrl = imx662_set_ctrl,
+> +};
+> +
+> +static int imx662_enum_mbus_code(struct v4l2_subdev *sd,
+> +                                struct v4l2_subdev_state *sd_state,
+> +                                struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +       const struct imx662_format *fmt;
+> +       u16 hmax_min;
+> +
+> +       if (code->index >= ARRAY_SIZE(imx662_formats))
+> +               return -EINVAL;
+> +
+> +       fmt = &imx662_formats[code->index];
+> +       if (imx662->num_data_lanes == 2)
+> +               hmax_min = fmt->hmax_lane2[imx662->link_freq_index];
+> +       else
+> +               hmax_min = fmt->hmax_lane4[imx662->link_freq_index];
+> +       if (!hmax_min)
+> +               return -EINVAL;
+
+This doesn't work.
+I happened to test with a link frequency of 1188 first on 2 lanes.
+That is valid for 12bit but not 10bit.
+v4l2-ctl --list-subdev-mbus-codes will start at index 0 which fails,
+and therefore it never tries index 1 which would work.
+The supported formats need to be contiguous starting at index 0.
+
+> +
+> +       code->code = imx662_formats[code->index].code[imx662->variant];
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_enum_frame_size(struct v4l2_subdev *sd,
+> +                                 struct v4l2_subdev_state *sd_state,
+> +                                 struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +       if (fse->index)
+> +               return -EINVAL;
+> +
+> +       fse->min_width = IMX662_MIN_CROP_WIDTH;
+> +       fse->max_width = IMX662_PIXEL_ARRAY_WIDTH;
+> +       fse->min_height = IMX662_MIN_CROP_HEIGHT;
+> +       fse->max_height = IMX662_PIXEL_ARRAY_HEIGHT;
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_set_pad_format(struct v4l2_subdev *sd,
+> +                                struct v4l2_subdev_state *sd_state,
+> +                                struct v4l2_subdev_format *fmt)
+> +{
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +       const struct imx662_format *format;
+> +       u32 width, height;
+> +       int i, ret;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(imx662_formats); i++) {
+> +               if (imx662_formats[i].code[imx662->variant] ==
+> +                   fmt->format.code) {
+> +                       format = &imx662_formats[i];
+> +                       break;
+> +               }
+> +       }
+> +       if (!format)
+> +               return -EINVAL;
+> +
+> +       width = round_down(fmt->format.width, IMX662_CROP_WIDTH_STEP);
+> +       width = clamp(width, IMX662_MIN_CROP_WIDTH, IMX662_PIXEL_ARRAY_WIDTH);
+> +       height = round_down(fmt->format.height, IMX662_CROP_HEIGHT_STEP);
+> +       height = clamp(height,
+> +                      IMX662_MIN_CROP_HEIGHT, IMX662_PIXEL_ARRAY_HEIGHT);
+> +
+> +       fmt->format.width = width;
+> +       fmt->format.height = height;
+> +       fmt->format.field = V4L2_FIELD_NONE;
+> +       fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+> +       fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+> +       fmt->format.quantization = V4L2_QUANTIZATION_DEFAULT;
+> +       fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
+> +
+> +       if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> +               *v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
+> +               return 0;
+> +       }
+> +
+> +       if (imx662->format != format) {
+> +               imx662->format = format;
+> +               imx662_set_link_limits(imx662);
+> +               ret = imx662_set_framing_limits(imx662);
+> +               if (ret)
+> +                       return ret;
+> +               imx662_exposure_update(imx662);
+> +       }
+> +
+> +       if (imx662->crop.width != width || imx662->crop.height != height) {
+> +               imx662->crop.width = width;
+> +               imx662->crop.height = height;
+> +               imx662->crop.left =
+> +                       min_t(u32, imx662->crop.left, IMX662_PIXEL_ARRAY_LEFT +
+> +                             IMX662_PIXEL_ARRAY_WIDTH - width);
+> +               imx662->crop.top =
+> +                       min_t(u32, imx662->crop.top, IMX662_PIXEL_ARRAY_TOP +
+> +                             IMX662_PIXEL_ARRAY_HEIGHT - height);
+> +               imx662->crop.left =
+> +                       max(imx662->crop.left, IMX662_PIXEL_ARRAY_LEFT);
+> +               imx662->crop.top =
+> +                       max(imx662->crop.top, IMX662_PIXEL_ARRAY_TOP);
+> +
+> +               ret = imx662_set_framing_limits(imx662);
+> +               if (ret)
+> +                       return ret;
+> +
+> +               imx662_exposure_update(imx662);
+> +       }
+> +
+> +       *v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_get_selection(struct v4l2_subdev *sd,
+> +                               struct v4l2_subdev_state *sd_state,
+> +                               struct v4l2_subdev_selection *sel)
+> +{
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +
+> +       switch (sel->target) {
+> +       case V4L2_SEL_TGT_CROP:
+> +               if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
+> +                       sel->r =
+> +                               *v4l2_subdev_state_get_crop(sd_state, sel->pad);
+> +               else
+> +                       sel->r = imx662->crop;
+> +
+> +               return 0;
+> +       case V4L2_SEL_TGT_CROP_DEFAULT:
+> +       case V4L2_SEL_TGT_CROP_BOUNDS:
+> +               sel->r.top = IMX662_PIXEL_ARRAY_TOP;
+> +               sel->r.left = IMX662_PIXEL_ARRAY_LEFT;
+> +               sel->r.width = IMX662_PIXEL_ARRAY_WIDTH;
+> +               sel->r.height = IMX662_PIXEL_ARRAY_HEIGHT;
+> +
+> +               return 0;
+> +       case V4L2_SEL_TGT_NATIVE_SIZE:
+> +               sel->r.top = 0;
+> +               sel->r.left = 0;
+> +               sel->r.width = IMX662_NATIVE_WIDTH;
+> +               sel->r.height = IMX662_NATIVE_HEIGHT;
+> +
+> +               return 0;
+> +       }
+> +
+> +       return -EINVAL;
+> +}
+> +
+> +static int imx662_set_selection(struct v4l2_subdev *sd,
+> +                               struct v4l2_subdev_state *sd_state,
+> +                               struct v4l2_subdev_selection *sel)
+> +{
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +       struct v4l2_rect rect = sel->r;
+> +       struct v4l2_rect *try_crop;
+> +       struct v4l2_mbus_framefmt *try_fmt;
+> +       u32 max_left, max_top;
+> +
+> +       if (sel->target != V4L2_SEL_TGT_CROP)
+> +               return -EINVAL;
+> +
+> +       max_left = IMX662_PIXEL_ARRAY_LEFT + IMX662_PIXEL_ARRAY_WIDTH -
+> +                  IMX662_MIN_CROP_WIDTH;
+> +       max_top = IMX662_PIXEL_ARRAY_TOP + IMX662_PIXEL_ARRAY_HEIGHT -
+> +                 IMX662_MIN_CROP_HEIGHT;
+> +
+> +       rect.left = clamp_t(u32, rect.left, IMX662_PIXEL_ARRAY_LEFT, max_left);
+> +       rect.top = clamp_t(u32, rect.top, IMX662_PIXEL_ARRAY_TOP, max_top);
+> +
+> +       rect.width =
+> +               clamp_t(u32,
+> +                       round_down(rect.width, IMX662_CROP_WIDTH_STEP),
+> +                       IMX662_MIN_CROP_WIDTH, IMX662_PIXEL_ARRAY_WIDTH);
+> +       rect.height =
+> +               clamp_t(u32,
+> +                       round_down(rect.height, IMX662_CROP_HEIGHT_STEP),
+> +                       IMX662_MIN_CROP_HEIGHT, IMX662_PIXEL_ARRAY_HEIGHT);
+> +
+> +       if (rect.left + rect.width - 1 >
+> +           IMX662_PIXEL_ARRAY_LEFT + IMX662_PIXEL_ARRAY_WIDTH - 1)
+> +               rect.left =
+> +                       IMX662_PIXEL_ARRAY_LEFT + IMX662_PIXEL_ARRAY_WIDTH -
+> +                       rect.width;
+> +       if (rect.top + rect.height - 1 >
+> +           IMX662_PIXEL_ARRAY_TOP + IMX662_PIXEL_ARRAY_HEIGHT - 1)
+> +               rect.top =
+> +                       IMX662_PIXEL_ARRAY_TOP + IMX662_PIXEL_ARRAY_HEIGHT -
+> +                       rect.height;
+> +
+> +       if (sel->flags & V4L2_SEL_FLAG_GE) {
+> +               if (rect.width < sel->r.width) {
+> +                       u32 new_width = rect.width + IMX662_CROP_WIDTH_STEP;
+> +
+> +                       if (new_width <= IMX662_PIXEL_ARRAY_WIDTH)
+> +                               rect.width = new_width;
+> +               }
+> +               if (rect.height < sel->r.height) {
+> +                       u32 new_height = rect.height + IMX662_CROP_HEIGHT_STEP;
+> +
+> +                       if (new_height <= IMX662_PIXEL_ARRAY_HEIGHT)
+> +                               rect.height = new_height;
+> +               }
+> +       }
+> +
+> +       if (sel->flags & V4L2_SEL_FLAG_LE) {
+> +               if (rect.width > sel->r.width &&
+> +                   rect.width >= IMX662_MIN_CROP_WIDTH +
+> +                                 IMX662_CROP_WIDTH_STEP)
+> +                       rect.width -= IMX662_CROP_WIDTH_STEP;
+> +               if (rect.height > sel->r.height &&
+> +                   rect.height >= IMX662_MIN_CROP_HEIGHT +
+> +                                  IMX662_CROP_HEIGHT_STEP)
+> +                       rect.height -= IMX662_CROP_HEIGHT_STEP;
+> +       }
+> +
+> +       if (rect.width < IMX662_MIN_CROP_WIDTH ||
+> +           rect.height < IMX662_MIN_CROP_HEIGHT)
+> +               return -EINVAL;
+> +
+> +       if (sel->which == V4L2_SUBDEV_FORMAT_TRY) {
+> +               try_crop = v4l2_subdev_state_get_crop(sd_state, sel->pad);
+> +               *try_crop = rect;
+> +
+> +               try_fmt = v4l2_subdev_state_get_format(sd_state, sel->pad);
+> +               if (try_fmt) {
+> +                       try_fmt->width = rect.width;
+> +                       try_fmt->height = rect.height;
+> +               }
+> +       } else {
+> +               if (imx662->streaming)
+> +                       return -EBUSY;
+> +
+> +               if (imx662->crop.left == rect.left &&
+> +                   imx662->crop.top == rect.top &&
+> +                   imx662->crop.width == rect.width &&
+> +                   imx662->crop.height == rect.height) {
+> +                       sel->r = rect;
+> +                       return 0;
+> +               }
+> +
+> +               imx662->crop = rect;
+> +
+> +               try_fmt = v4l2_subdev_state_get_format(sd_state, sel->pad);
+> +               if (try_fmt) {
+> +                       try_fmt->width = rect.width;
+> +                       try_fmt->height = rect.height;
+> +               }
+> +
+> +               imx662_set_framing_limits(imx662);
+> +       }
+> +
+> +       sel->r = rect;
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_init_state(struct v4l2_subdev *sd,
+> +                            struct v4l2_subdev_state *state)
+> +{
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +       struct v4l2_subdev_format fmt = {
+> +               .which = V4L2_SUBDEV_FORMAT_TRY,
+> +               .format = {
+> +                       .width = imx662->crop.width,
+> +                       .height = imx662->crop.height,
+> +                       .code = imx662->format->code[imx662->variant],
+> +               },
+> +       };
+> +       int ret;
+> +
+> +       ret = imx662_set_pad_format(sd, state, &fmt);
+> +       if (ret)
+> +               return ret;
+> +
+> +       *v4l2_subdev_state_get_crop(state, 0) = imx662->crop;
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_enable_streams(struct v4l2_subdev *sd,
+> +                                struct v4l2_subdev_state *state, u32 pad,
+> +                                u64 streams_mask)
+> +{
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +       int ret;
+> +
+> +       ret = pm_runtime_resume_and_get(imx662->dev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       cci_multi_reg_write(imx662->regmap, imx662_regs_common,
+> +                           ARRAY_SIZE(imx662_regs_common), &ret);
+> +
+> +       cci_write(imx662->regmap, IMX662_INCK_SEL, imx662->inck, &ret);
+> +
+> +       cci_write(imx662->regmap, IMX662_PIX_HST, imx662->crop.left, &ret);
+> +       cci_write(imx662->regmap, IMX662_PIX_VST, imx662->crop.top, &ret);
+> +       cci_write(imx662->regmap, IMX662_PIX_HWIDTH, imx662->crop.width, &ret);
+> +       cci_write(imx662->regmap, IMX662_PIX_VWIDTH, imx662->crop.height, &ret);
+> +
+> +       cci_write(imx662->regmap, IMX662_LANEMODE, imx662->num_data_lanes - 1,
+> +                 &ret);
+> +
+> +       cci_write(imx662->regmap, IMX662_DATARATE_SEL,
+> +                 imx662->link_freq_index, &ret);
+> +
+> +       cci_write(imx662->regmap, IMX662_ADBIT, imx662->format->ad_md_bit,
+> +                 &ret);
+> +       cci_write(imx662->regmap, IMX662_MDBIT, imx662->format->ad_md_bit,
+> +                 &ret);
+> +
+> +       switch (imx662->hdr) {
+> +       case IMX662_HDR_OFF:
+> +               cci_multi_reg_write(imx662->regmap, imx662_regs_hdr_off,
+> +                                   ARRAY_SIZE(imx662_regs_hdr_off), &ret);
+> +               break;
+> +       default:
+> +               break;
+> +       }
+> +
+> +       if (ret)
+> +               goto start_err;
+> +
+> +       ret = __v4l2_ctrl_handler_setup(imx662->sd.ctrl_handler);
+> +       if (ret) {
+> +               dev_err(imx662->dev, "Could not sync v4l2 controls\n");
+> +               return ret;
+> +       }
+> +
+> +       cci_write(imx662->regmap, IMX662_STANDBY, 0x00, &ret);
+> +
+> +       usleep_range(24000, 25000);
+> +
+> +       cci_write(imx662->regmap, IMX662_XMSTA, 0x00, &ret);
+> +       if (!ret) {
+> +               imx662->streaming = true;
+> +               return 0;
+> +       }
+> +
+> +start_err:
+> +       pm_runtime_put_autosuspend(imx662->dev);
+> +
+> +       return dev_err_probe(imx662->dev, ret, "Failed to setup sensor\n");
+> +}
+> +
+> +static int imx662_disable_streams(struct v4l2_subdev *sd,
+> +                                 struct v4l2_subdev_state *state, u32 pad,
+> +                                 u64 streams_mask)
+> +{
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +       int ret;
+> +
+> +       ret = cci_write(imx662->regmap, IMX662_STANDBY, 0x01, NULL);
+> +
+> +       cci_write(imx662->regmap, IMX662_XMSTA, 0x01, &ret);
+> +
+> +       imx662->streaming = false;
+> +
+> +       pm_runtime_put_autosuspend(imx662->dev);
+> +
+> +       return ret;
+> +}
+> +
+> +static int imx662_g_mbus_config(struct v4l2_subdev *sd, unsigned int pad_id,
+> +                               struct v4l2_mbus_config *config)
+
+g_mbus_config shouldn't be needed unless some properties can change
+dynamically. All these should come from device tree.
+
+> +{
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +
+> +       config->type = V4L2_MBUS_CSI2_DPHY;
+> +       config->bus.mipi_csi2.flags = V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
+
+Is it dropping to LP whilst streaming? I can't find any reference to
+the clock lane behaviour in the datasheet, but I also haven't found an
+oscilloscope to check for myself.
+
+> +       config->bus.mipi_csi2.num_data_lanes = imx662->num_data_lanes;
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops imx662_video_ops = {
+> +       .s_stream = v4l2_subdev_s_stream_helper,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops imx662_pad_ops = {
+> +       .enum_mbus_code = imx662_enum_mbus_code,
+> +       .enum_frame_size = imx662_enum_frame_size,
+> +       .get_fmt = v4l2_subdev_get_fmt,
+> +       .set_fmt = imx662_set_pad_format,
+> +       .get_selection = imx662_get_selection,
+> +       .set_selection = imx662_set_selection,
+> +       .enable_streams = imx662_enable_streams,
+> +       .disable_streams = imx662_disable_streams,
+> +       .get_mbus_config = imx662_g_mbus_config,
+> +};
+> +
+> +static const struct v4l2_subdev_core_ops imx662_core_ops = {
+> +       .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +       .unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_subdev_ops imx662_subdev_ops = {
+> +       .core = &imx662_core_ops,
+> +       .video = &imx662_video_ops,
+> +       .pad = &imx662_pad_ops,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops imx662_internal_ops = {
+> +       .init_state = imx662_init_state,
+> +};
+> +
+> +static const struct media_entity_operations imx662_subdev_entity_ops = {
+> +       .link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+> +static int imx662_ctrls_init(struct imx662 *imx662)
+> +{
+> +       struct v4l2_fwnode_device_properties props;
+> +       int ret;
+> +
+> +       ret = v4l2_fwnode_device_parse(imx662->dev, &props);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ret = v4l2_ctrl_handler_init(&imx662->ctrls, 10);
+> +       if (ret)
+> +               return ret;
+> +
+> +       imx662->pixel_rate = v4l2_ctrl_new_std(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                              V4L2_CID_PIXEL_RATE, 1,
+> +                                              INT_MAX, 1, 1);
+> +
+> +       imx662->link_freq =
+> +               v4l2_ctrl_new_int_menu(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                      V4L2_CID_LINK_FREQ,
+> +                                      ARRAY_SIZE(imx662_link_freqs) - 1,
+> +                                      imx662->link_freq_index,
+> +                                      imx662_link_freqs);
+> +       if (imx662->link_freq)
+> +               imx662->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +       imx662->hblank = v4l2_ctrl_new_std(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                          V4L2_CID_HBLANK, 0, 1, 1, 0);
+> +
+> +       imx662->vblank = v4l2_ctrl_new_std(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                          V4L2_CID_VBLANK, 0, 1, 1, 0);
+> +
+> +       imx662->exposure = v4l2_ctrl_new_std(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                            V4L2_CID_EXPOSURE, IMX662_SHR0_MIN,
+> +                                            0xffff, 1, 0xffff);
+> +
+> +       imx662->gain = v4l2_ctrl_new_std(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                        V4L2_CID_ANALOGUE_GAIN, 0, 1, 1, 0);
+> +
+> +       imx662->hflip = v4l2_ctrl_new_std(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                         V4L2_CID_HFLIP, 0, 1, 1, 0);
+> +
+> +       imx662->vflip = v4l2_ctrl_new_std(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                         V4L2_CID_VFLIP, 0, 1, 1, 0);
+> +
+> +       v4l2_ctrl_new_std(&imx662->ctrls, &imx662_ctrl_ops,
+> +                         V4L2_CID_BRIGHTNESS, 0, 0x3ff, 1, 50);
+> +
+> +       v4l2_ctrl_new_std_menu_items(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                    V4L2_CID_HDR_SENSOR_MODE,
+> +                                    ARRAY_SIZE(imx662_hdr_menu) - 1, 0,
+> +                                    IMX662_HDR_OFF, imx662_hdr_menu);
+> +
+> +       ret = v4l2_ctrl_new_fwnode_properties(&imx662->ctrls, &imx662_ctrl_ops,
+> +                                             &props);
+> +       if (ret)
+> +               return dev_err_probe(imx662->dev, ret,
+> +                                    "Failed to add controls\n");
+> +
+> +       imx662->sd.ctrl_handler = &imx662->ctrls;
+> +
+> +       imx662_set_link_limits(imx662);
+> +       imx662_gain_update(imx662);
+> +       imx662_set_framing_limits(imx662);
+> +       imx662_exposure_update(imx662);
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_init_clk(struct imx662 *imx662)
+> +{
+> +       u32 xclk_freq;
+> +
+> +       imx662->clk = devm_v4l2_sensor_clk_get(imx662->dev, NULL);
+> +       if (IS_ERR(imx662->clk))
+> +               return dev_err_probe(imx662->dev, PTR_ERR(imx662->clk),
+> +                                    "Failed to get clock\n");
+> +
+> +       xclk_freq = clk_get_rate(imx662->clk);
+> +
+> +       switch (xclk_freq) {
+> +       case 24000000:
+> +               imx662->inck = IMX662_INCK_SEL_24;
+> +               break;
+> +       case 27000000:
+> +               imx662->inck = IMX662_INCK_SEL_27;
+> +               break;
+> +       case 37125000:
+> +               imx662->inck = IMX662_INCK_SEL_37_125;
+> +               break;
+> +       case 72000000:
+> +               imx662->inck = IMX662_INCK_SEL_72;
+> +               break;
+> +       case 74250000:
+> +               imx662->inck = IMX662_INCK_SEL_74_25;
+> +               break;
+> +       default:
+> +               dev_err(imx662->dev,
+> +                       "External clock frequency %u is not supported\n",
+> +                       xclk_freq);
+> +               return -EINVAL;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_parse_hw_config(struct imx662 *imx662)
+> +{
+> +       static const unsigned long supported_2lane =
+> +               BIT(IMX662_DATARATE_594) | BIT(IMX662_DATARATE_720) |
+> +               BIT(IMX662_DATARATE_891) | BIT(IMX662_DATARATE_1188) |
+> +               BIT(IMX662_DATARATE_1440);
+> +       static const unsigned long supported_4lane =
+> +               BIT(IMX662_DATARATE_594) | BIT(IMX662_DATARATE_720);
+> +       struct v4l2_fwnode_endpoint bus_cfg = {
+> +               .bus_type = V4L2_MBUS_CSI2_DPHY
+> +       };
+> +       struct fwnode_handle *ep;
+> +       unsigned long link_freq;
+> +       unsigned int i;
+> +       int ret;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(imx662->supplies); i++)
+> +               imx662->supplies[i].supply = imx662_supply_names[i];
+> +
+> +       ret = devm_regulator_bulk_get(imx662->dev,
+> +                                     ARRAY_SIZE(imx662->supplies),
+> +                                     imx662->supplies);
+> +       if (ret)
+> +               return dev_err_probe(imx662->dev, ret,
+> +                                    "Failed to get supplies\n");
+> +
+> +       imx662->reset = devm_gpiod_get_optional(imx662->dev, "reset",
+> +                                               GPIOD_OUT_LOW);
+
+This is inverted. If the line is reset, then you would set it with
+GPIOD_OUT_HIGH to keep the sensor in reset initially.
+https://github.com/torvalds/linux/commit/9d108d226224b91ad11e7cfcf846c2a1721b466d
+
+> +       if (IS_ERR(imx662->reset))
+> +               return dev_err_probe(imx662->dev, PTR_ERR(imx662->reset),
+> +                                    "Failed to get reset GPIO\n");
+> +
+> +       ret = imx662_init_clk(imx662);
+> +       if (ret)
+> +               return ret;
+> +
+> +       imx662->variant = (uintptr_t)of_device_get_match_data(imx662->dev);
+> +
+> +       ep = fwnode_graph_get_next_endpoint(dev_fwnode(imx662->dev), NULL);
+> +       if (!ep)
+> +               return -ENXIO;
+> +
+> +       ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +       fwnode_handle_put(ep);
+> +       if (ret)
+> +               return ret;
+> +
+> +       switch (bus_cfg.bus.mipi_csi2.num_data_lanes) {
+> +       case 2:
+> +       case 4:
+> +               imx662->num_data_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
+> +               break;
+> +       default:
+> +               ret = dev_err_probe(imx662->dev, -EINVAL,
+> +                                   "Invalid number of CSI2 data lanes %d\n",
+> +                                   bus_cfg.bus.mipi_csi2.num_data_lanes);
+> +               goto done_endpoint_free;
+> +       }
+> +
+> +       ret = v4l2_link_freq_to_bitmap(imx662->dev, bus_cfg.link_frequencies,
+> +                                      bus_cfg.nr_of_link_frequencies,
+> +                                      imx662_link_freqs,
+> +                                      ARRAY_SIZE(imx662_link_freqs),
+> +                                      &link_freq);
+> +
+> +       if (imx662->num_data_lanes == 2)
+> +               link_freq &= supported_2lane;
+> +       else
+> +               link_freq &= supported_4lane;
+> +
+> +       if (ret || !link_freq) {
+> +               dev_err(imx662->dev,
+> +                       "No valid link-frequency property found\n");
+> +               ret = ret ? : -EINVAL;
+> +               goto done_endpoint_free;
+> +       }
+> +
+> +       imx662->link_freq_index = __fls(link_freq);
+> +
+> +done_endpoint_free:
+> +       v4l2_fwnode_endpoint_free(&bus_cfg);
+> +
+> +       return ret;
+> +}
+> +
+> +static int imx662_power_on(struct device *dev)
+> +{
+> +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +       int ret;
+> +
+> +       ret = regulator_bulk_enable(ARRAY_SIZE(imx662->supplies),
+> +                                   imx662->supplies);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "Failed to enable regulators\n");
+> +
+> +       ret = clk_prepare_enable(imx662->clk);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to enable clock\n");
+> +               regulator_bulk_disable(ARRAY_SIZE(imx662->supplies),
+> +                                      imx662->supplies);
+> +               return ret;
+> +       }
+> +
+> +       usleep_range(1, 2);
+> +       gpiod_set_value_cansleep(imx662->reset, 1);
+> +       usleep_range(30000, 31000);
+
+Timings and delays here don't appear to follow the datasheet power on sequence.
+- Power rails on
+- Tlow of 500ns
+- XCLR high
+- T3 of 1us
+- Enable INCK
+- T4 of 20us before I2C comms starts.
+
+You've enabled the clock before asserting reset.
+
+> +
+> +       return 0;
+> +}
+> +
+> +static int imx662_power_off(struct device *dev)
+> +{
+> +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +
+> +       gpiod_set_value_cansleep(imx662->reset, 0);
+> +       regulator_bulk_disable(ARRAY_SIZE(imx662->supplies), imx662->supplies);
+> +       clk_disable_unprepare(imx662->clk);
+
+Whilst the datasheet doesn't set any timing or ordering for power off,
+it's normal to reverse the power on sequence.
+
+> +
+> +       return 0;
+> +}
+> +
+> +static void imx662_subdev_cleanup(struct imx662 *imx662)
+> +{
+> +       media_entity_cleanup(&imx662->sd.entity);
+> +       v4l2_ctrl_handler_free(&imx662->ctrls);
+> +}
+> +
+> +static int imx662_probe(struct i2c_client *client)
+> +{
+> +       struct device *dev = &client->dev;
+> +       struct imx662 *imx662;
+> +       int ret;
+> +
+> +       imx662 = devm_kzalloc(dev, sizeof(*imx662), GFP_KERNEL);
+> +       if (!imx662)
+> +               return -ENOMEM;
+> +
+> +       imx662->dev = dev;
+> +
+> +       imx662->regmap = devm_cci_regmap_init_i2c(client, 16);
+> +       if (IS_ERR(imx662->regmap))
+> +               return PTR_ERR(imx662->regmap);
+> +
+> +       ret = imx662_parse_hw_config(imx662);
+> +       if (ret)
+> +               return ret;
+> +
+> +       v4l2_i2c_subdev_init(&imx662->sd, client, &imx662_subdev_ops);
+> +
+> +       ret = imx662_power_on(dev);
+> +       if (ret)
+> +               goto error_subdev;
+> +
+> +       pm_runtime_set_active(dev);
+> +       pm_runtime_get_noresume(dev);
+> +       pm_runtime_enable(dev);
+> +       pm_runtime_set_autosuspend_delay(dev, 1000);
+> +       pm_runtime_use_autosuspend(dev);
+> +
+> +       imx662->crop.left = IMX662_PIXEL_ARRAY_LEFT;
+> +       imx662->crop.top = IMX662_PIXEL_ARRAY_TOP;
+> +       imx662->crop.width = IMX662_PIXEL_ARRAY_WIDTH;
+> +       imx662->crop.height = IMX662_PIXEL_ARRAY_HEIGHT;
+> +
+> +       imx662->format = &imx662_formats[0];
+> +
+> +       cci_write(imx662->regmap, IMX662_STANDBY, 0x01, &ret);
+> +       cci_write(imx662->regmap, IMX662_XMSTA, 0x01, &ret);
+> +       if (ret)
+> +               goto error_pm;
+> +
+> +       ret = imx662_ctrls_init(imx662);
+> +       if (ret)
+> +               goto error_pm;
+> +
+> +       imx662->sd.internal_ops = &imx662_internal_ops;
+> +       imx662->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
+> +                           V4L2_SUBDEV_FL_HAS_EVENTS;
+
+If you've only added this for reporting control changes, then the
+framework does that automatically these days.
+Likewise the subscribe_event and unsubscribe_event hooks can go.
+
+> +       imx662->sd.entity.ops = &imx662_subdev_entity_ops;
+> +       imx662->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +
+> +       imx662->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +       ret = media_entity_pads_init(&imx662->sd.entity, 1, &imx662->pad);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to init entity pads: %d\n", ret);
+> +               goto error_pm;
+> +       }
+> +
+> +       imx662->sd.state_lock = imx662->ctrls.lock;
+> +
+> +       ret = v4l2_subdev_init_finalize(&imx662->sd);
+> +       if (ret) {
+> +               dev_err(dev, "Subdev init error\n");
+> +               goto error_media;
+> +       }
+> +
+> +       ret = v4l2_async_register_subdev_sensor(&imx662->sd);
+> +       if (ret) {
+> +               dev_err(dev, "Failed to register sensor sub-device: %d\n", ret);
+> +               goto error_media;
+> +       }
+> +
+> +       pm_runtime_put_autosuspend(dev);
+> +
+> +       return 0;
+> +
+> +error_media:
+> +       media_entity_cleanup(&imx662->sd.entity);
+> +
+> +error_pm:
+> +       pm_runtime_disable(dev);
+> +       pm_runtime_put_noidle(dev);
+> +       imx662_power_off(dev);
+> +
+> +error_subdev:
+> +       imx662_subdev_cleanup(imx662);
+> +
+> +       return ret;
+> +}
+> +
+> +static void imx662_remove(struct i2c_client *client)
+> +{
+> +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +       struct imx662 *imx662 = to_imx662(sd);
+> +
+> +       v4l2_async_unregister_subdev(sd);
+> +       imx662_subdev_cleanup(imx662);
+> +
+> +       pm_runtime_disable(&client->dev);
+> +       if (!pm_runtime_status_suspended(&client->dev))
+> +               imx662_power_off(&client->dev);
+> +       pm_runtime_set_suspended(&client->dev);
+> +}
+> +
+> +static const struct of_device_id imx662_of_match[] __maybe_unused = {
+> +       {
+> +               .compatible = "sony,imx662",
+
+If you follow the pattern from imx296 where there are mono and colour
+variants, it takes the full sensor part number.
+The colour sensor is imx662aaqr.
+The mono sensor is imx662aamr.
+
+  Dave
+
+> +               .data = (void *)IMX662_VARIANT_COLOUR
+> +       },
+> +       {
+> +               .compatible = "sony,imx662-mono",
+> +               .data = (void *)IMX662_VARIANT_MONO
+> +       },
+> +       { }
+> +};
+> +MODULE_DEVICE_TABLE(of, imx662_of_match);
+> +
+> +static DEFINE_RUNTIME_DEV_PM_OPS(imx662_pm_ops, imx662_power_off,
+> +                                imx662_power_on, NULL);
+> +
+> +static struct i2c_driver imx662_i2c_driver = {
+> +       .probe = imx662_probe,
+> +       .remove = imx662_remove,
+> +       .driver = {
+> +               .name = "imx662",
+> +               .pm = pm_ptr(&imx662_pm_ops),
+> +               .of_match_table = imx662_of_match,
+> +       },
+> +};
+> +module_i2c_driver(imx662_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("Sony IMX662 CMOS Image Sensor Driver");
+> +MODULE_AUTHOR("Alexander Shiyan <eagle.alexander923@gmail.com>");
+> +MODULE_LICENSE("GPL");
+> --
+> 2.52.0
+>
+>
 
