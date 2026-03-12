@@ -1,167 +1,347 @@
-Return-Path: <linux-media+bounces-55524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55526-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CCV6IUUEs2l8RgAAu9opvQ
-	(envelope-from <linux-media+bounces-55524-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:21:57 +0100
+	id CLQLMxwKs2kMRwAAu9opvQ
+	(envelope-from <linux-media+bounces-55526-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:46:52 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E5F2771E7
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:21:56 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73721277471
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:46:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6372830200F9
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 18:21:53 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5330B30379E5
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 18:46:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0010539659C;
-	Thu, 12 Mar 2026 18:21:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A43CE3FFAD9;
+	Thu, 12 Mar 2026 18:46:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="TpmwmhDp"
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="lgc9YAVH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic312-26.consmr.mail.ir2.yahoo.com (sonic312-26.consmr.mail.ir2.yahoo.com [77.238.178.97])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF2D2FD1B3
-	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 18:21:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9201A2D2481;
+	Thu, 12 Mar 2026 18:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773339709; cv=none; b=DLWdwU63vpPteBn4LJ+4Exbvm/nMUtrHRsF+cd4tkwdrSuq5RdOOVSXu4/D2P0LyC0b87JvSxO9BHoPWyx1KerRXZX9aEcyCtxOCW5zCQak2jzcalWX0xQ0qwdd35099EYNYs3/UVyqelBnmzlo+WNR9UjDvLLG53zX+2y6DLeo=
+	t=1773341206; cv=none; b=hljFnJcRZTMiiMB/5VhSJUIvwOwXsZc1GGylkGOW5CdEvx8IfqDXpY4KgtQIC2wgJF3lC6Fh4m6bkp7hJ6VVJObk5hW9xfsYxuOFVQ8Gb5hLU+ctU4huw/y3eiJUL+pA26XF4XJR2Fk83y8GnQzpqY/npoEzR6/w0O9m5UF4emk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773339709; c=relaxed/simple;
-	bh=uiZNkQrfrAcTwFtj18/WFY2hV7Bn8kQ9HLtmikAh3qM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=HS8D8jFOfAJF4CTBxt3oHPvqRRiKF+z97RBcCB6fO8FNi/UaVnBjl/65sysMPXLAKz5hSzbYD40KVu+BXMPvcL1JBp30j/CHckhhh/0xIA3KVBthggc09iBLdo/P8dl//DoelEAz8FN+oDXTQzzR3Eu9FPwJeSr/ft9FsY8bQVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=TpmwmhDp; arc=none smtp.client-ip=77.238.178.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773339699; bh=BTGnmmG37P1hyCZJBm5E0qDJC9JZJfDZCCf/9iKB1qo=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=TpmwmhDpUq37wY2FV683i4kHuUgPbcBsiwh/QQMK9RNAOSQ/sMD6sP/3aBqlLUGEpaB5g2tAHoxVkQujwhy4C8ERjL4jAoyPfllg7N16dnnf262A2+eOrV6RQi/QsJCpkc557omloOAjiHOsUe5scacb2oJFnclkIYo6BwWtrSYIiiba+76DDBfJbTvCfAwEwyfoG7slb+2n3OxDEQNWlSE2MXrP3XqcO8vCgWbpWAX5kzpwEw2zHOkLtM7JBCHKUECIOxxA57E4DBcDWscLiIOAXfjIEbtvbZAzybuXFEKrCiR3XUXGi5QhYlcIYx79x9NnsNDmzAfrHqOPAndtEA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773339699; bh=B7AzpEBZzJlchfoFp+u5jlptcYens6qSZn5td1Hjjtq=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=HMPrExYUXv4UQOXmM7rkwely9vo7mhz+Qh8baUFeFN0xBWo2EmarKbjlqwHifwkTdg05er73w9dVqDgREfB63wBwHr/T2K/M3uylXz1xG5ernOICu5EubS66fmrElmiPyCyUdUaICPCRG1St3rO83ooPVUE4S0X3YYO1ybNZQ0a5N4ayFQLKbgOJr7+WZbx16Yj2Nt8oTg1w4KZjrxkzH87SD0sUAraM+KC8ykbGSrke7cMYQfbNz5p0fcEn4TCRzNMOZ+DIVJJcIq/uunXKqYM1oO/SCvb4riNAQbp/UTNZfvxwihC/QCJzcwZ2VZNzMjL3NGOXTOyzEm5HYq1d3A==
-X-YMail-OSG: IBgJZpQVM1npjcVldqFAP1Cw4Y7LDHRcn3l._W4ewq6wpXMrP.xLYSEzO17XtS3
- kSp6JyWr9r2yl8BaHjaabRp3ZNPnZJsHccYBltdeA7NbAPdsErqEZJicWWao_wcE.EgT4Ww3.WcA
- u7R8nnCQf1.7zKCWv_uoPgxSYMG__02fL2HtgAZt1OYYT_2w_l4t_Q4czcvloMNcW3zD2TiJEqlT
- ckeFfVXoOLaxOVSQEBwCRIQ3ZiWcvEMew2XUyb9XWKbOL4gki4N6DCGJJ1ZnwSM0Ln_p0pG5PVXN
- gGXIlZKZao1xgajqbBte_yix10dxL_oT1E2Sa5cAdXw_dG0uGLYP3YYyAWN31_QUZ4hbHBW51NcZ
- uUOGd4TW.Yzkv4OHiRVnG75Ns_4fzdnVNueRf81MGz8kdQeg5DL2v.Zob2Jh.CkWfs2vT7Lq0s2v
- jYkroEbQwmEMRNYxN8_JjbAlyrsy3Dq.MbduyXa8A1qwiVk1sUUlKwhI7.kEyQo7Qo7kp3e8N6QK
- X_klQ7d.otiJ_viSA5w03uauHNdDYqxSo1y1AknHyE7wxTztDrmc7_IekI3FZJxmvI5n9tyY84d2
- BKf_69BdkuxyK5ijBbeC670GjPLoBmO5WQmiBAd5EqIh49uzRET8Csow4RC2oC6RbAtr3OJc8FPM
- CXhqtybShmkx2Y7aRvxb4fdYgsk2shY.BI2BIVZyFIcA7kAWo2l8ikkN8ohjiAe0BnFjmv.VANnx
- kr_mJi4nJHVPZboHI1b82dgKmV88laxj26Sh9KFKtXZ44PO7rUmAT5bFbG5ETq859QC15tofe_I4
- WSODFxHKnBy7ZA8rIoAspknxS27rlqql0tyvNy8ZFmA0.jxya9xx60S8CxE9l0yDfJhye0ym3TR.
- Ia1uKLJLrfjqYHKmgJ1hOv97bMcrnkZfJYK1tW_ncZ0o6GXP6TQfaqRSJ.35VKJUiHbMXdCaJGxP
- 1YVhnHzShgMUA7yxY6nideBUFBcJHGaU6IO52x_ktJ7MjBQ12rSbsP3qpQu0RojuFOQXpudd6MYG
- _rOJSqbMx660YW3qQ43L729jfzkRJ.Y4ug.C2mSBW_m8HAxq4keoDddkBGV..q4eYGb2cgsxy3px
- eKA9TZjcSEiBKxvwHUwqCBOZ0V9Y8EboddMZJkCBRIzniK6JW9rtmTN1hv1OSodk_K.8lDcnOn.Z
- YVrZ5dQPNTSRU7atcRF6X2MIVkNgrZ_qwRKT7zJw.dJJzOdKvQin8XVVyiRZmOSs7sJWTMIHlnkL
- cb6ANfghAOCxaVBuXi0zOwqj85GXq99BofaimTgOKyzNhI1IXZh6fmMlL.r1bfjC9pURPgBIuIqM
- J5S4TfMMieKsL3Gf0seV1Od1g2hc6.tgGmXEozkWBbHFF2.RbtX.t9.T8IE8bS40p0.snaRcwzcI
- nFVi0vATBc85bN4tczinxd8o8cIcdmrAoBSoOjVBr9YSzODjGe8__8vge7p7FQguYVjWx001siIn
- PmCevrsBv_Y20sr7jQNsrFb.5xzsguOQah.9nM3YGCCafxShfXMZADYi.4I3abojmJhhjOCm5LiM
- aMbcB0g4QUjaAJGWkTJUEQ.Wx7jxYyRsQDXm5LoTO9ktF2Kc7uj07gZ_HAxTxXuNM1UZWcwJFLHC
- 6Ysb2tTZXpZOkCiPTeNY0IBRlpuP9Bl1xXtLazOOWITKAztywA98zaEg4ipWO7CJ3hqihwejiw26
- vfXNXYuK.52kt8KpCPqzMYi9TXHzRw3qSmLfUf9njuHoaAdLO02enixlQ1YXLL.RvXou5UZV9QVJ
- a27WEdd0hMSVFOW.gCASGgEia3iUM5qL4a2Ozg9h5Ih26f55hIFb3b2vqgjP.l27MLVkFYC1N5.j
- Ga32rfSDy6USpgCpqQRZ4v0JeQ5trjeyJGWvuzrx5X478Tm3dyV9zqQME.GysrKLqBE36RWgrQvW
- eq9zmWFp6bieze74tymwVrteRtirxO6z1bzKK9i9aTkcP0JW6I0.zxfReM0gZWjVgiT.hixpNix0
- phbBBR0Ra0m_rHliiOuB4W3pSEOhw0rJm7rP2L_OE9Kbc4U3cICSIsILzkf5.nvKBxEdiI7HFi5w
- 6y4LOe8_J_7v5ZjnJ8gOOifF3WfyG0qPcD8VP3MvD7Jbw2qF_tI4RCy91kE8_Gyn5b0z.g5tCHLN
- v8TUL84nSb6p8s3K0153xB9r2GRW5uPfU0r7H1ajr5rjkZPko_zJymPV0UN2GlzLtH36ava720VF
- bkFqqpw28XKZdqiZUp5ItTcW3WgE1.YoqH8YYkzW1GofKl_UCjx3WwT3wEypevzCj8bMp3lyVU.p
- oe.mXHd5LOs3o7TwUllspi55nRjt_eoFdCQ--
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 32e708ed-acbb-47ac-ae1a-2f0c7d0e6d8b
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Thu, 12 Mar 2026 18:21:39 +0000
-Received: by hermes--production-ir2-bbcfb4457-f49j6 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 3ccf00084b4d5413ffcb9d01e92182b0;
-          Thu, 12 Mar 2026 18:21:38 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Thu, 12 Mar 2026 19:21:17 +0100
-Subject: [PATCH] staging/media/av7110: update FIXME comment for signal
- strength
+	s=arc-20240116; t=1773341206; c=relaxed/simple;
+	bh=/3/UCkDFwZRfnmjXob7cEPMdL5ys71tYNMr8/BLJtvk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jfdrTSEKk8SXghVFOuuZQnNxKK4rwbz3gXRrbtOY4G7N5/mcGWCvFyM6GYcg4sjZLwnkNdyjsi0ryqnD5EfG3X8A5TL0/04S7uWy/PsCq8JUoUCXNVKo3pIIkQM7jwjCF/EQWxjCeOZ4rKyUbc7cCstcC9LUYbVgarMZS586sCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=lgc9YAVH; arc=none smtp.client-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 62CHs62U736980;
+	Thu, 12 Mar 2026 11:46:28 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=s2048-2025-q2; bh=SebPAxzAbwZ4sR8TrB
+	gXGqjGB5kjL87tfUXzYAaiqr4=; b=lgc9YAVHFDkka23/1IXetZqaAHnr+ZYc0N
+	bDpm6eNxmg35Lbu4RVfg/OnR2i3efqG4aUPHmhVNBgnNFy79/qdrMZFQDqt5UxDS
+	Y0W/eIVUQfNJvm0kByv77RzjhdsDsHYdPdVPMUUmCaMLjJaQuy8oBeqDQeg2BncR
+	wtngDadxw9o+aPJInBaCW5q+uGBXIstPosgOYfP9a+SoYvHjN7VwxIKlRmPC2mqF
+	H7HTO3SpJQbm2pMg5AIVZNW8Ms8MgpB1618QSGPBr/PomBda/LGnhSP2du7Twp0c
+	eFInGnN8yFo3pZLSBLVBzd/nxSAlUwOcoodmIVj8Cgkr6T0HdyVg==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by m0001303.ppops.net (PPS) with ESMTPS id 4cv29xs1mr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 12 Mar 2026 11:46:27 -0700 (PDT)
+Received: from localhost (2620:10d:c085:208::f) by mail.thefacebook.com
+ (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.35; Thu, 12 Mar
+ 2026 18:46:26 +0000
+From: Matt Evans <mattev@meta.com>
+To: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+        Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
+        Mahmoud Adam
+	<mngyadam@amazon.de>,
+        David Matlack <dmatlack@google.com>
+CC: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
+        Sumit Semwal
+	<sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>,
+        Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal
+	<ankita@nvidia.com>,
+        Pranjal Shrivastava <praan@google.com>,
+        Alistair Popple
+	<apopple@nvidia.com>,
+        Vivek Kasireddy <vivek.kasireddy@intel.com>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+        <kvm@vger.kernel.org>
+Subject: [RFC v2 PATCH 00/10] vfio/pci: Add mmap() for DMABUFs
+Date: Thu, 12 Mar 2026 11:45:58 -0700
+Message-ID: <20260312184613.3710705-1-mattev@meta.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260312-staging-cleanup-v1-1-fdb9f8367e3f@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MTQqAIBBA4avErBvwh4K6SrSwHG0gTLQikO6et
- PwW7xXIlJgyjE2BRDdnPkKFbBtYNxM8IdtqUEL1QkuF+TSeg8d1JxOuiJYGLZZucWQs1Comcvz
- 8x2l+3w/uz6F7YQAAAA==
-X-Change-ID: 20260312-staging-cleanup-de930b5bfead
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773339697; l=1160;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=uiZNkQrfrAcTwFtj18/WFY2hV7Bn8kQ9HLtmikAh3qM=;
- b=ENxRsWP1QcjOBnY/QyJw7KDIGRGzvdsG5VkXpSVb5ry1G+rErn6jzN6G57zURtqiw5bCWd+JH
- xFKzvJlyweUCKsMcPnPNfWSxMQJw3JcfGVH69isMqbUVMYR2apkBoZD
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260312-staging-cleanup-v1-1-fdb9f8367e3f.ref@yahoo.pl>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: jXI8TQKq_Doe6vXOdWcCSqqgnYUYBjaV
+X-Proofpoint-GUID: jXI8TQKq_Doe6vXOdWcCSqqgnYUYBjaV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDE1MSBTYWx0ZWRfX9GAz447p88t4
+ DxYilgJjn4/e/YE1QpygQ/d24uKsttN1tIwLrQ7VfMWaSvoUpryxXhFtGhNtaB8O4tEiwAr7UBe
+ j004boiTD+LUadeYsCpyixfHC342rVM1HkJZCtHajuq8BMTD/uKwZFnXhidFg68pzAtJJ+SQzi7
+ /JccWczKg6MeYpuNcjIm7H6lROOjTYRuO2+qyfbsmQGNzet8qaujzT4rbOUzzRMcc83Er0LPJwt
+ LQrCvHelJuxy90z3BhLrIJvXm5FKrVNn0DD5lS0slRHGSWtolevGJ8XV69pLS2bq1wuLnVPA+yi
+ /4xLsvU/UCuW/14NJri/IZp/jGF3Pb9E9pFtrJaV+Ivt3c+lkTPVawRMEgDfcOYuSN+AFQBVI0Z
+ Shbo34owsiND/UiliNYlXug6V5B+rbQUHyyT4zx3vEZct92Q4K2ITdQ4jGV2OFGsQGtXA9ifBbZ
+ oI04QLHhnE33hxWrARw==
+X-Authority-Analysis: v=2.4 cv=G4YR0tk5 c=1 sm=1 tr=0 ts=69b30a03 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
+ a=_78whYxrdx1mplLwxq1U:22 a=VwQbUJbxAAAA:8 a=FOH2dFAWAAAA:8 a=VabnemYjAAAA:8
+ a=G31UBovebDcdE0zSMSQA:9 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-12_02,2026-03-12_01,2025-10-01_01
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
+	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,yahoo.pl];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-55524-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[yahoo.pl:+];
+	TAGGED_FROM(0.00)[bounces-55526-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[yahoo.pl];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[meta.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6]
-X-Rspamd-Queue-Id: 59E5F2771E7
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 73721277471
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Update the FIXME comment to provide more detail about the future
-implementation for computing the signal strength based on the tuner RSSI.
+Hi all,
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/media/av7110/av7110_v4l.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/av7110/av7110_v4l.c b/drivers/staging/media/av7110/av7110_v4l.c
-index 200a7a29ea31..a64761979609 100644
---- a/drivers/staging/media/av7110/av7110_v4l.c
-+++ b/drivers/staging/media/av7110/av7110_v4l.c
-@@ -310,7 +310,7 @@ static int vidioc_g_tuner(struct file *file, void *fh, struct v4l2_tuner *t)
- 		V4L2_TUNER_CAP_LANG1 | V4L2_TUNER_CAP_LANG2 | V4L2_TUNER_CAP_SAP;
- 	t->rangelow = 772;	/* 48.25 MHZ / 62.5 kHz = 772, see fi1216mk2-specs, page 2 */
- 	t->rangehigh = 13684;	/* 855.25 MHz / 62.5 kHz = 13684 */
--	/* FIXME: add the real signal strength here */
-+	/* TODO: compute based on tuner RSSI */
- 	t->signal = 0xffff;
- 	t->afc = 0;
- 
+There were various suggestions in the September 2025 thread "[TECH
+TOPIC] vfio, iommufd: Enabling user space drivers to vend more
+granular access to client processes" [0], and LPC discussions, around
+improving the situation for multi-process userspace driver designs.
+This RFC series implements some of these ideas.
 
----
-base-commit: 80234b5ab240f52fa45d201e899e207b9265ef91
-change-id: 20260312-staging-cleanup-de930b5bfead
+(Thanks for feedback on v1!  Revised series, with changes noted
+inline.)
 
-Best regards,
+Background: Multi-process USDs
+==============================
+
+The userspace driver scenario discussed in that thread involves a
+primary process driving a PCIe function through VFIO/iommufd, which
+manages the function-wide ownership/lifecycle.  The function is
+designed to provide multiple distinct programming interfaces (for
+example, several independent MMIO register frames in one function),
+and the primary process delegates control of these interfaces to
+multiple independent client processes (which do the actual work).
+This scenario clearly relies on a HW design that provides appropriate
+isolation between the programming interfaces.
+
+The two key needs are:
+
+ 1.  Mechanisms to safely delegate a subset of the device MMIO
+     resources to a client process without over-sharing wider access
+     (or influence over whole-device activities, such as reset).
+
+ 2.  Mechanisms to allow a client process to do its own iommufd
+     management w.r.t. its address space, in a way that's isolated
+     from DMA relating to other clients.
+
+
+mmap() of VFIO DMABUFs
+======================
+
+This RFC addresses #1 in "vfio/pci: Support mmap() of a VFIO DMABUF",
+implementing the proposals in [0] to add mmap() support to the
+existing VFIO DMABUF exporter.
+
+This enables a userspace driver to define DMABUF ranges corresponding
+to sub-ranges of a BAR, and grant a given client (via a shared fd)
+the capability to access (only) those sub-ranges.  The VFIO device fds
+would be kept private to the primary process.  All the client can do
+with that fd is map (or iomap via iommufd) that specific subset of
+resources, and the impact of bugs/malice is contained.
+
+ (We'll follow up on #2 separately, as a related-but-distinct problem.
+  PASIDs are one way to achieve per-client isolation of DMA; another
+  could be sharing of a single IOVA space via 'constrained' iommufds.)
+
+
+New in v2: To achieve this, the existing VFIO BAR mmap() path is
+converted to use DMABUFs behind the scenes, in "vfio/pci: Convert BAR
+mmap() to use a DMABUF" plus new helper functions, as Jason/Christian
+suggested in the v1 discussion [3].
+
+This means:
+
+ - Both regular and new DMABUF BAR mappings share the same vm_ops,
+   i.e.  mmap()ing DMABUFs is a smaller change on top of the existing
+   mmap().
+
+ - The zapping of mappings occurs via vfio_pci_dma_buf_move(), and the
+   vfio_pci_zap_bars() originally paired with the _move()s can go
+   away.  Each DMABUF has a unique address_space.
+
+ - It's a step towards future iommufd VFIO Type1 emulation
+   implementing P2P, since iommufd can now get a DMABUF from a VA that
+   it's mapping for IO; the VMAs' vm_file is that of the backing
+   DMABUF.
+
+
+Revocation/reclaim
+==================
+
+Mapping a BAR subset is useful, but the lifetime of access granted to
+a client needs to be managed well.  For example, a protocol between
+the primary process and the client can indicate when the client is
+done, and when it's safe to reuse the resources elsewhere, but cleanup
+can't practically be cooperative.
+
+For robustness, we enable the driver to make the resources
+guaranteed-inaccessible when it chooses, so that it can re-assign them
+to other uses in future.
+
+"vfio/pci: Permanently revoke a DMABUF on request" adds a new VFIO
+device fd ioctl, VFIO_DEVICE_PCI_DMABUF_REVOKE.  This takes a DMABUF
+fd parameter previously exported (from that device!) and permanently
+revokes the DMABUF.  This notifies/detaches importers, zaps PTEs for
+any mappings, and guarantees no future attachment/import/map/access is
+possible by any means.
+
+A primary driver process would use this operation when the client's
+tenure ends to reclaim "loaned-out" MMIO interfaces, at which point
+the interfaces could be safely re-used.
+
+New in v2: ioctl() on VFIO driver fd, rather than DMABUF fd.  A DMABUF
+is revoked using code common to vfio_pci_dma_buf_move(), selectively
+zapping mappings (after waiting for completion on the
+dma_buf_invalidate_mappings() request).
+
+
+BAR mapping access attributes
+=============================
+
+Inspired by Alex [Mastro] and Jason's comments in [0] and Mahmoud's
+work in [1] with the goal of controlling CPU access attributes for
+VFIO BAR mappings (e.g. WC), we can decorate DMABUFs with access
+attributes that are then used by a mapping's PTEs.
+
+I've proposed reserving a field in struct
+vfio_device_feature_dma_buf's flags to specify an attribute for its
+ranges.  Although that keeps the (UAPI) struct unchanged, it means all
+ranges in a DMABUF share the same attribute.  I feel a single
+attribute-to-mmap() relation is logical/reasonable.  An application
+can also create multiple DMABUFs to describe any BAR layout and mix of
+attributes.
+
+
+Tests
+=====
+
+(Still sharing the [RFC ONLY] userspace test/demo program for context,
+not for merge.)
+
+It illustrates & tests various map/revoke cases, but doesn't use the
+existing VFIO selftests and relies on a (tweaked) QEMU EDU function.
+I'm (still) working on integrating the scenarios into the existing
+VFIO selftests.
+
+This code has been tested in mapping DMABUFs of single/multiple
+ranges, aliasing mmap()s, aliasing ranges across DMABUFs, vm_pgoff >
+0, revocation, shutdown/cleanup scenarios, and hugepage mappings seem
+to work correctly.  I've lightly tested WC mappings also (by observing
+resulting PTEs as having the correct attributes...).
+
+
+Fin
+===
+
+v2 is based on next-20260310 (to build on Leon's recent series
+"vfio: Wait for dma-buf invalidation to complete" [2]).
+
+
+Please share your thoughts!  I'd like to de-RFC if we feel this
+approach is now fair.
+
+
+Many thanks,
+
+
+Matt
+
+
+
+References:
+
+[0]: https://lore.kernel.org/linux-iommu/20250918214425.2677057-1-amastro@fb.com/
+[1]: https://lore.kernel.org/all/20250804104012.87915-1-mngyadam@amazon.de/
+[2]: https://lore.kernel.org/linux-iommu/20260205-nocturnal-poetic-chamois-f566ad@houat/T/#m310cd07011e3a1461b6fda45e3f9b886ba76571a
+[3]: https://lore.kernel.org/all/20260226202211.929005-1-mattev@meta.com/
+
+--------------------------------------------------------------------------------
+Changelog:
+
+v2:  Respin based on the feedback/suggestions:
+
+- Transform the existing VFIO BAR mmap path to also use DMABUFs behind
+  the scenes, and then simply share that code for explicitly-mapped
+  DMABUFs.
+
+- Refactors the export itself out of vfio_pci_core_feature_dma_buf,
+  and shared by a new vfio_pci_core_mmap_prep_dmabuf helper used by
+  the regular VFIO mmap to create a DMABUF.
+
+- Revoke buffers using a VFIO device fd ioctl
+
+v1: https://lore.kernel.org/all/20260226202211.929005-1-mattev@meta.com/
+
+
+Matt Evans (10):
+  vfio/pci: Set up VFIO barmap before creating a DMABUF
+  vfio/pci: Clean up DMABUFs before disabling function
+  vfio/pci: Add helper to look up PFNs for DMABUFs
+  vfio/pci: Add a helper to create a DMABUF for a BAR-map VMA
+  vfio/pci: Convert BAR mmap() to use a DMABUF
+  vfio/pci: Remove vfio_pci_zap_bars()
+  vfio/pci: Support mmap() of a VFIO DMABUF
+  vfio/pci: Permanently revoke a DMABUF on request
+  vfio/pci: Add mmap() attributes to DMABUF feature
+  [RFC ONLY] selftests: vfio: Add standalone vfio_dmabuf_mmap_test
+
+ drivers/vfio/pci/Kconfig                      |   3 +-
+ drivers/vfio/pci/Makefile                     |   3 +-
+ drivers/vfio/pci/vfio_pci_config.c            |  18 +-
+ drivers/vfio/pci/vfio_pci_core.c              | 123 +--
+ drivers/vfio/pci/vfio_pci_dmabuf.c            | 425 +++++++--
+ drivers/vfio/pci/vfio_pci_priv.h              |  46 +-
+ include/uapi/linux/vfio.h                     |  42 +-
+ tools/testing/selftests/vfio/Makefile         |   1 +
+ .../vfio/standalone/vfio_dmabuf_mmap_test.c   | 837 ++++++++++++++++++
+ 9 files changed, 1339 insertions(+), 159 deletions(-)
+ create mode 100644 tools/testing/selftests/vfio/standalone/vfio_dmabuf_mmap_test.c
+
 -- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
+2.47.3
 
 
