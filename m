@@ -1,185 +1,152 @@
-Return-Path: <linux-media+bounces-55486-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55487-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wL5cKWCCsmm6NAAAu9opvQ
-	(envelope-from <linux-media+bounces-55486-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 10:07:44 +0100
+	id EFUzEqCCsmm6NAAAu9opvQ
+	(envelope-from <linux-media+bounces-55487-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 10:08:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC6326F5D9
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 10:07:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3633426F60F
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 10:08:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6BA01305510F
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 09:03:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 542FD30F8404
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 09:05:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8259F38C401;
-	Thu, 12 Mar 2026 09:03:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B51F338836A;
+	Thu, 12 Mar 2026 09:05:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="1n60bEQo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XI0OWURs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD6638CFE5
-	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 09:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC10B3A7F7E
+	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 09:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773306225; cv=none; b=ICZwNM1ryy5ZhRrAzMa+ARVLi8qaIA46xgQphLyL9pTma1D2uFa8S0ZpoXMv0iib1DQxoXtfx48qwv5iZBjhbPLRhVORMBaRrJQauIduWnXILm/mJj8i7A2O/6tLiB/XkiN6U+9T+poozPgSeC8U7sXdMwG2UyH86t+JE0+SDAE=
+	t=1773306301; cv=none; b=e3P2bpq9+5z2G3uFLheFQWsvIFUoHZUcRUwqkhwIrD4j4dsMLNd2OHykFOuCE6bG7fluRQCxLI/jy6fk2fe30GQYpOABvL/t/JAPGKZT4XUCsQ6dyY9v7YwsGvQ7B5dQU7eHqmTnOuRoxrjZMTYgFnfep7xNV7ZNYzR4B5dsgEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773306225; c=relaxed/simple;
-	bh=LdyzC1pgxXTGxkwgodIu0tKumfCfu9AUZ2hCUMAE1os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YTqsfJP/hv3K1zM3LkXEFPXMnM7dRMGtcx7UX/fEWpfG2VQXaNrwnPDep4NFAw1Uy6xLEwO0QFov+5SD0E2VvpVAaooigyiMpQOq7QlWGWpQawyCPgRFW2eDyyGz7E6dkBuQcv27dEDVg+Iw1m3ammdQ5xJvVWGU8D4oisCR/a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=1n60bEQo; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439c56e822eso806272f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 02:03:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1773306220; x=1773911020; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FFPtayDDhz8Xf/M05gyckNDjnYEg9BLk1Cs40ltYFF0=;
-        b=1n60bEQoQRSr/7GkhSXU8Y60cSGteccZedGTMlCsKtFn0kLKhvic1SK73IZ6o8Ax3N
-         9Zz3bdDsHlEJH2JuIx5f6YtNJWuZSwRcPZucddaQjENHAWQCXyX2yENPyqB3EBTuV9Gf
-         C3UvnqzuU+w3IqrScPDoaQJ/JXO7yWdociA3i79xruVtdz2uJYfkyrtpSHddHXhH7qBb
-         fGg+QWkDXR9BUw1mrCg5XOsjDs8AiULYNC8oV7lu4d8qudvxm+TVWpsWres6aLPa9BFa
-         sNClxwSHUk5vYAWsBek+7ybrhSfS5yQgQYP90Y9fbp9V6J+NImy6Np/Cuf8Hxi2qF8qU
-         tlxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773306220; x=1773911020;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FFPtayDDhz8Xf/M05gyckNDjnYEg9BLk1Cs40ltYFF0=;
-        b=LVFjoWwfMhBFRVUuNmLhXHz7vNNGiOqiFtdf6x4fFnU1HnimLJRrtRiUpOQdDJK4xe
-         taoNjCGiaxbi/i06yqzRjGdmfCsoXJBr+lIdOXyZfhyvW/DAImQViIO+T28jrciUpen+
-         RrZRYUmVI4+694Odu4I+8CTrC4MBbBUXMf/APPdhbaXv2CYNAfQ3RUyYaVJdJc0yyrJt
-         P2I9gnukdJsuLQvM5rf6l9Fru4DENZKHP0pg73uNeF7FeCZRMkWWzNveZwhB77luaUdV
-         /02uKXr88y6youkK5CaZPtVBHvTxnUAiAjDDNQzd2CUSD65xB44VCCC3AeOeZvcMSKQQ
-         V44w==
-X-Forwarded-Encrypted: i=1; AJvYcCWzoVWTGjjOWFFHEBm+N1o6+XwH+Vnqdg13vhhqy4VlljUwbHJtYf49jJrXN7/wtRrl4mtv8dQ7XhPIWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEYtlskW8flOOpP2zC/c0lpvwuDgqLwZ3DiGumMl4RJUpDWw9T
-	EZ0Ur+xhAGlAl8E9TwDFKUbFG9jhPZ/JHBAJ404F4EUhppY2vp9iMCbXllYgCFdjZ04=
-X-Gm-Gg: ATEYQzwV8r6Z+QjxAp2DMqhH0JOnNJSuherVZQUJBtii1wpwvOy0g5Mol6pXAm+BMnh
-	J1gDDSnq4lnqRurNjBC9RkJ5UKhgwEnS8yGEJ/esI9lqno2TsknWkDSp/53g8AFSWjSVYh7MCjZ
-	TXHrfUV+zbqSJ6ffJtgVdca8Vx2sPyuPSDZFQWgRBE1mASdygPJL321j6EtfYYK+6DzY9qwx5FB
-	VUBwHtbi8Tr5LY+HnhFa85pOkRqyTpbgnWRAAfAz2n9vTMjvor8e2hTx9ZD6DLkKNnHaVorQOi8
-	o5kELSQ/+wIc3CPmCVGfL+5cV3jG4COnTqjmCcS+aaL7U2Td2Ks94EWM9IkxUaJXSHPNvXTVR+N
-	Vn1uwwzXJ70V7jrmxWVrVlWthq1U3c355fzhEUtI0LhDXK4jjFc2Pw+5tFO+YGmTjwXoEmBzUsI
-	Pzj7bFWoTrmxSZfZr/slsL3rAwkE6hPxY=
-X-Received: by 2002:a05:6000:24c4:b0:439:b3ff:9abb with SMTP id ffacd0b85a97d-439f8224fc0mr10284840f8f.57.1773306220321;
-        Thu, 12 Mar 2026 02:03:40 -0700 (PDT)
-Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe19aec5sm6366764f8f.4.2026.03.12.02.03.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 02:03:39 -0700 (PDT)
-Date: Thu, 12 Mar 2026 10:03:37 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leon@kernel.org>, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
-	sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, 
-	jstultz@google.com, tjmercier@google.com, christian.koenig@amd.com, 
-	m.szyprowski@samsung.com, robin.murphy@arm.com, sean.anderson@linux.dev, ptesarik@suse.com, 
-	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
-Subject: Re: [PATCH net-next v3 1/2] dma-mapping: introduce
- DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
-Message-ID: <pmfxzgtazwa7fwz4mx53htdg4jjifwyq3gyzwklc45affy3xrp@57hxan4pqnkx>
-References: <20260305123641.164164-1-jiri@resnulli.us>
- <20260305123641.164164-2-jiri@resnulli.us>
- <20260308101948.GO12611@unreal>
- <20260309131530.GJ1687929@ziepe.ca>
- <20260309140233.GW12611@unreal>
- <20260309151857.GO1687929@ziepe.ca>
- <phry3e2dtgxzxdqvrnqfuskangp4al64f2auithwme5kwkgepe@7qtftrhgv4l7>
- <20260312003408.GA1469476@ziepe.ca>
+	s=arc-20240116; t=1773306301; c=relaxed/simple;
+	bh=ZaCuba5p70ATfTzwJmC3Kue0QPNh2OMgFSEpqVAc7wo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YGH8Ds1uekpC5xfIZYGNEMo/X8+9HFCZiGgpvzcrWhkW8XD7JUgP3p4jz59I0YB1+1QJuv4Z5cLGZRlNIuHQOmf6Y2N0K4MzgVLnqx+cvD73CiogGiAWICWv9yh5vxg8AiVHM3oHFCoxEgModEw36vbLNsvz8iB9ZbUPBSM6y0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XI0OWURs; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773306299; x=1804842299;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZaCuba5p70ATfTzwJmC3Kue0QPNh2OMgFSEpqVAc7wo=;
+  b=XI0OWURs/OGqY7lm98fxOApyMkPhiEB3eQASfssepnX020cqtl0ECyfw
+   AfDlExaNgf16HzEs2BAVUU/k5U+lXYSAwWDGZfZRjZgcfMgXdRDCxUcm9
+   h+1zQWK8rw4879R8j/5TOabsAr0lYO7Q3+Vh/74ebKAG+YYsGRTtn9fPV
+   9yi7DJlUVQ1Q/+yaxjYW6VLZgr4uOkLhuVneTh1gBzxb+zwYGshxqlQSJ
+   vwZP4H9zspezZOLEe0Oh8v6ZjXXnDkHrCnsUlmDHVqbtUcHISSiADvjfm
+   9eOL5Rb8gUMkIqrg8Zvv+tTehfiBrVchNrcI0CIUYaVndpThu/i4D+HnL
+   A==;
+X-CSE-ConnectionGUID: rcCpeQhZR1aWrKLZv2Btbw==
+X-CSE-MsgGUID: dHd7GWgXT5GTvMJ6KlVCwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="84709252"
+X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
+   d="scan'208";a="84709252"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 02:04:59 -0700
+X-CSE-ConnectionGUID: YWR9pBotSb6ZYLS/Ua2wCg==
+X-CSE-MsgGUID: sR/K61+bR1+U1eo2QNVjrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
+   d="scan'208";a="223225157"
+Received: from lkp-server01.sh.intel.com (HELO 418530b1a366) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Mar 2026 02:04:57 -0700
+Received: from kbuild by 418530b1a366 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w0byQ-000000002I7-28sx;
+	Thu, 12 Mar 2026 09:04:54 +0000
+Date: Thu, 12 Mar 2026 17:04:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bin Du <Bin.Du@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sultan Alsawaf <sultan@kerneltoast.com>,
+ Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
+Subject: [sailus-media-tree:amdisp4 5/7]
+ drivers/media/platform/amd/isp4/isp4_video.c:89:17: error: initializer
+ element is not a compile-time constant
+Message-ID: <202603121658.qKXy376k-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312003408.GA1469476@ziepe.ca>
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[resnulli.us];
+	TAGGED_FROM(0.00)[bounces-55487-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55486-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ziepe.ca:email]
-X-Rspamd-Queue-Id: EBC6326F5D9
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,intel.com:email,intel.com:mid]
+X-Rspamd-Queue-Id: 3633426F60F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thu, Mar 12, 2026 at 01:34:08AM +0100, jgg@ziepe.ca wrote:
->On Mon, Mar 09, 2026 at 06:51:21PM +0100, Jiri Pirko wrote:
->> Mon, Mar 09, 2026 at 04:18:57PM +0100, jgg@ziepe.ca wrote:
->> >On Mon, Mar 09, 2026 at 04:02:33PM +0200, Leon Romanovsky wrote:
->> >> On Mon, Mar 09, 2026 at 10:15:30AM -0300, Jason Gunthorpe wrote:
->> >> > On Sun, Mar 08, 2026 at 12:19:48PM +0200, Leon Romanovsky wrote:
->> >> > 
->> >> > > > +/*
->> >> > > > + * DMA_ATTR_CC_DECRYPTED: Indicates memory that has been explicitly decrypted
->> >> > > > + * (shared) for confidential computing guests. The caller must have
->> >> > > > + * called set_memory_decrypted(). A struct page is required.
->> >> > > > + */
->> >> > > > +#define DMA_ATTR_CC_DECRYPTED	(1UL << 12)
->> >> > > 
->> >> > > While adding the new attribute is fine, I would expect additional checks in
->> >> > > dma_map_phys() to ensure the attribute cannot be misused. For example,
->> >> > > WARN_ON(attrs & (DMA_ATTR_CC_DECRYPTED | DMA_ATTR_MMIO)), along with a check
->> >> > > that we are taking the direct path only.
->> >> > 
->> >> > DECRYPYED and MMIO is something that needs to work, VFIO (inside a
->> >> > TVM) should be using that combination.
->> >> 
->> >> So this sentence "A struct page is required" from the comment above is
->> >> not accurate.
->> >
->> >It would be clearer to say "Unless DMA_ATTR_MMIO is provided a struct
->> >page is required"
->> >
->> >We need to audit if that works properly, IIRC it does, but I don't
->> >remember.. Jiri?
->> 
->> How can you do set_memory_decrypted if you don't have page/folio ?
->
->Alot of device MMIO is decrypted by nature and can't be encrypted, so
->you'd have to use both flags. eg in VFIO we'd want to do this.
+tree:   git://linuxtv.org/sailus/media_tree.git amdisp4
+head:   352eeeb312305e93b09f387f0c3acbf64f255a2f
+commit: 939f5d5b232e3e749dd54bbdb4d019254d216d03 [5/7] media: platform: amd: isp4 video node and buffers handling added
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260312/202603121658.qKXy376k-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260312/202603121658.qKXy376k-lkp@intel.com/reproduce)
 
-Why both flags? Why MMIO flag is not enough? You still want to hit
-"if (attrs & DMA_ATTR_MMIO) {" path, don't you?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121658.qKXy376k-lkp@intel.com/
 
-I mean, CC_DECRYPTED says the memory to be mapped was explicitly
-decrypted before the call. MMIO was not explicitly decrypted, it is
-decrypted by definition. For me that does not fit the CC_DECRYPTED
-semantics.
+All errors (new ones prefixed by >>):
 
-What am I missing?
+>> drivers/media/platform/amd/isp4/isp4_video.c:89:17: error: initializer element is not a compile-time constant
+           .pixelformat = ISP4VID_DEFAULT_FMT,
+                          ^~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/amd/isp4/isp4_video.c:16:29: note: expanded from macro 'ISP4VID_DEFAULT_FMT'
+   #define ISP4VID_DEFAULT_FMT isp4vid_formats[0]
+                               ^~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +89 drivers/media/platform/amd/isp4/isp4_video.c
+
+    85	
+    86	static const struct v4l2_pix_format isp4vid_fmt_default = {
+    87		.width = 1920,
+    88		.height = 1080,
+  > 89		.pixelformat = ISP4VID_DEFAULT_FMT,
+    90		.field = V4L2_FIELD_NONE,
+    91		.colorspace = V4L2_COLORSPACE_SRGB,
+    92	};
+    93	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
