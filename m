@@ -1,1014 +1,154 @@
-Return-Path: <linux-media+bounces-55535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55536-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yO/5L38Ks2kMRwAAu9opvQ
-	(envelope-from <linux-media+bounces-55535-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:48:31 +0100
+	id 0FyZNNQVs2mDSAAAu9opvQ
+	(envelope-from <linux-media+bounces-55536-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 20:36:52 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5DD2774CD
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:48:31 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA3E27820E
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 20:36:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8F15E304B33A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 18:47:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4B765309B522
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:34:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 344204014B1;
-	Thu, 12 Mar 2026 18:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="YCAsrIgw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAC8D40244C;
+	Thu, 12 Mar 2026 19:33:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F274E3FF89B;
-	Thu, 12 Mar 2026 18:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EED3AC0E2;
+	Thu, 12 Mar 2026 19:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773341237; cv=none; b=J9mzepPe4NlzroHZyDP6s7s/9or0PdJZWIV4TokK9AcfOTWkcXAJvAb3WBw99V9k2a7l7cTQll1cQYur9p6lnc6NyADxC/qM+F0IdcF1c2TCYmEqRGroreAc+rAHICxIJMj3GmIkGAnRpsGJwXOU83MHiZxGjafLWL92KhHSYrE=
+	t=1773344034; cv=none; b=j33607n42e689OLFpqcE53xFh+mXzT0DHyFuURweRJDCnHcwW3FtYJuTwAwE7ZtTqn92an8BownNrtmHLhnnlR6hLvKAuI+SoVXShgoz/FNRyMB49rWOhUxMnrt0E5LHZZe0uYfRusDdVxUM+4AJvAJQujoLYUQ8fY7Cwp76ZKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773341237; c=relaxed/simple;
-	bh=HNh11XFi84yYZNFFhW//pDxYt6uXPJLkOgPsLAjj9NE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FjAB0Gv1eiOncKeFQcmqP3zulrz0C69DnR1qSkpJ55AgaIUJTbQcMNgCdmP8Tzz/ZYUaNKr21Hqsr1Mc6J/taoGLR/N1Ll+sKConjHXFYQhO2TksmBo7jHmsXg56LrDNUWRpCqB2rBowfvQpaDjWY6MxrS9+QBjhvQOw+VSSzwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=YCAsrIgw; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62CHck2Y2644514;
-	Thu, 12 Mar 2026 11:46:55 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=6we7Ybl6OTY7SbN6Oz+gCPMPWdmByM0I9ZAh7c0Hvnc=; b=YCAsrIgwNor4
-	4Cfi8WfJWu1WU74BpsSel18NV9KZenk2DQyMrhYWKuz1v0EoWLtX1hXM9uAa9gXA
-	l249IKtIp8HwumV23kIdJiDcOAtxYjdM6BGhjmEwnNAt8/KTdxDq6rFN62uR5eBP
-	N/zcd6JBXg0O/KeKcRd/7YcTCGu6QlAX943SHTNcOGzSpCeysZMnicIWW4B1ydms
-	qwc2r/E6ZjfuIPRgM6ud9BDpWXuakZJDLrvfg0T947Im+osmOL62Q2czbl3Va+Sc
-	u+j0oJkVIGWt67uH3SJx/4XNSZQV+Ru+o5IaM/584i/zjKWnZKmyHf84ia5+laHp
-	zdZJ14vS7g==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4cv22s1e65-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 12 Mar 2026 11:46:54 -0700 (PDT)
-Received: from localhost (2620:10d:c085:108::4) by mail.thefacebook.com
- (2620:10d:c08b:78::c78f) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.35; Thu, 12 Mar
- 2026 18:46:53 +0000
-From: Matt Evans <mattev@meta.com>
-To: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
-        Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
-        Mahmoud Adam
-	<mngyadam@amazon.de>,
-        David Matlack <dmatlack@google.com>
-CC: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>,
-        Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal
-	<ankita@nvidia.com>,
-        Pranjal Shrivastava <praan@google.com>,
-        Alistair Popple
-	<apopple@nvidia.com>,
-        Vivek Kasireddy <vivek.kasireddy@intel.com>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        <kvm@vger.kernel.org>
-Subject: [RFC v2 PATCH 10/10] [RFC ONLY] selftests: vfio: Add standalone vfio_dmabuf_mmap_test
-Date: Thu, 12 Mar 2026 11:46:08 -0700
-Message-ID: <20260312184613.3710705-11-mattev@meta.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260312184613.3710705-1-mattev@meta.com>
-References: <20260312184613.3710705-1-mattev@meta.com>
+	s=arc-20240116; t=1773344034; c=relaxed/simple;
+	bh=VQ4I1//oujMg/wMbvtHZ1fNg62i5rEhIWcPKRohhj4U=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=ddy2a7nze40y2XOq6AzX5P+yK/YAMZEsZCu4is1ZBhMnJKS9vFgMZWqpirXNxVgz6pZsokw/214XhfsoPaQlvyfIqpgQ2GBgjj20XFkl4eJeH0Ugf3RmPz5wDBJf3rAKd+aMd7liJ/M4aSZTOFN9EXdHYYjti5z0jySqd1deAiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 4DE582C14A8;
+	Thu, 12 Mar 2026 20:33:44 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id yCwNT8mwVvHB; Thu, 12 Mar 2026 20:33:43 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 8A34D2C14AA;
+	Thu, 12 Mar 2026 20:33:43 +0100 (CET)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 3HN7guaAFMsE; Thu, 12 Mar 2026 20:33:43 +0100 (CET)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id ABF4A2C14A6;
+	Thu, 12 Mar 2026 20:33:42 +0100 (CET)
+Date: Thu, 12 Mar 2026 20:33:42 +0100 (CET)
+From: Richard Weinberger <richard@nod.at>
+To: Philipp Hahn <phahn-oss@avm.de>
+Cc: amd-gfx <amd-gfx@lists.freedesktop.org>, 
+	apparmor <apparmor@lists.ubuntu.com>, bpf <bpf@vger.kernel.org>, 
+	ceph-devel <ceph-devel@vger.kernel.org>, cocci <cocci@inria.fr>, 
+	dm-devel@lists.linux.dev, 
+	DRI mailing list <dri-devel@lists.freedesktop.org>, 
+	gfs2 <gfs2@lists.linux.dev>, 
+	intel-gfx <intel-gfx@lists.freedesktop.org>, 
+	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, 
+	kvm@vger.kernel.org, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	linux-block <linux-block@vger.kernel.org>, 
+	linux-bluetooth@vger.kernel.org, 
+	linux-btrfs <linux-btrfs@vger.kernel.org>, 
+	linux-cifs <linux-cifs@vger.kernel.org>, linux-clk@vger.kernel.org, 
+	linux-erofs <linux-erofs@lists.ozlabs.org>, 
+	linux-ext4 <linux-ext4@vger.kernel.org>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
+	linux-gpio@vger.kernel.org, 
+	linux-hyperv <linux-hyperv@vger.kernel.org>, 
+	linux-input@vger.kernel.org, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	linux-leds@vger.kernel.org, 
+	linux-media <linux-media@vger.kernel.org>, 
+	linux-mips <linux-mips@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, linux-modules@vger.kernel.org, 
+	linux-mtd <linux-mtd@lists.infradead.org>, 
+	linux-nfs <linux-nfs@vger.kernel.org>, 
+	linux-omap <linux-omap@vger.kernel.org>, 
+	linux-phy@lists.infradead.org, linux-pm <linux-pm@vger.kernel.org>, 
+	linux-rockchip <linux-rockchip@lists.infradead.org>, 
+	linux-s390 <linux-s390@vger.kernel.org>, 
+	linux-scsi <linux-scsi@vger.kernel.org>, linux-sctp@vger.kernel.org, 
+	LSM <linux-security-module@vger.kernel.org>, 
+	linux-sh <linux-sh@vger.kernel.org>, 
+	linux-sound <linux-sound@vger.kernel.org>, 
+	linux-stm32 <linux-stm32@st-md-mailman.stormreply.com>, 
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
+	linux-usb@vger.kernel.org, 
+	linux-wireless <linux-wireless@vger.kernel.org>, 
+	netdev <netdev@vger.kernel.org>, ntfs3 <ntfs3@lists.linux.dev>, 
+	samba-technical <samba-technical@lists.samba.org>, 
+	sched-ext@lists.linux.dev, target-devel@vger.kernel.org, 
+	tipc-discussion@lists.sourceforge.net, v9fs <v9fs@lists.linux.dev>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Vignesh Raghavendra <vigneshr@ti.com>
+Message-ID: <1584421372.26258.1773344022512.JavaMail.zimbra@nod.at>
+In-Reply-To: <20260310-b4-is_err_or_null-v1-48-bd63b656022d@avm.de>
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de> <20260310-b4-is_err_or_null-v1-48-bd63b656022d@avm.de>
+Subject: Re: [PATCH 48/61] mtd: Prefer IS_ERR_OR_NULL over manual NULL check
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: toqB-O_fvTEf_-E36ZywKgKMKovF47Zk
-X-Authority-Analysis: v=2.4 cv=batmkePB c=1 sm=1 tr=0 ts=69b30a1e cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=tpM8CJlwf7uhpglF1g9U:22 a=VabnemYjAAAA:8 a=jgVWRkJC2vtQ8RevbvwA:9
- a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDE1MSBTYWx0ZWRfX3ISlXPXNqRFL
- UoEFS6OozC9hlu5A8wBM2OQ+KWGfC2ojExBjNCzUN+smGJK7kPQgFxMI/7wpWgikeIwpYBwYH3W
- 9iv3eVN1Gqt67OPaoMSNSmdU8WsQUxJvc9qDSRR6mvdYoTvl6AtYkNeFRCvKasdPdEV/s3b0hXP
- ZKIVsFbritC+KiZ7onWMUk7j7a+y55R2COWkHWFoUvT9t+6edLJqbGxp2JhNzXHLoGg379+cj1c
- D9HH2tj3b5tag5guXvXe5NE0v1Z6RZR6LDyvqz4/sDElSqZV6JA1KUBlY/uP/VUu2ts7HAXYvBu
- OwSty4+gf2r2tdAiRKBvRcdDIi/ZYl6/CsXOcE1I36fQAgZY+8kV7B6wKzeo62wG5Sqx9r0gXad
- VNldG2GBdmV0VRAQwa5oJCiR1L17myl6idcRTOAPCJOAMayitruBkWCk0iUE6CzN1w+VvopuW2E
- YshLEVADDYAySWTZjzg==
-X-Proofpoint-ORIG-GUID: toqB-O_fvTEf_-E36ZywKgKMKovF47Zk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-12_02,2026-03-12_01,2025-10-01_01
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF148 (Linux)/8.8.12_GA_3809)
+Thread-Topic: Prefer IS_ERR_OR_NULL over manual NULL check
+Thread-Index: 0l8CyewQmrWlgaG6N3QgQFfukutRbA==
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55535-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[meta.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_FROM(0.00)[bounces-55536-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DMARC_NA(0.00)[nod.at];
+	RCVD_COUNT_SEVEN(0.00)[8];
 	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 5F5DD2774CD
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[richard@nod.at,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[56];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.953];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,avm.de:email,nod.at:mid]
+X-Rspamd-Queue-Id: 5DA3E27820E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This test exercises VFIO DMABUF mmap() to userspace, including various
-revocation/shutdown cases (which make the VMA inacessible).
+----- Urspr=C3=BCngliche Mail -----
+> Von: "Philipp Hahn" <phahn-oss@avm.de>
+> -=09if (gpiomtd->nwp && !IS_ERR(gpiomtd->nwp))
+> +=09if (!IS_ERR_OR_NULL(gpiomtd->nwp))
 
-This is a TEMPORARY test, just to illustrate a new UAPI and
-DMABUF/mmap() usage.  Since it originates from out-of-tree code, it
-duplicates some of the VFIO device setup code in
-.../selftests/vfio/lib.  Instead, the tests should be folded into the
-existing VFIO tests.
+No, please don't.
 
-Signed-off-by: Matt Evans <mattev@meta.com>
----
- tools/testing/selftests/vfio/Makefile         |   1 +
- .../vfio/standalone/vfio_dmabuf_mmap_test.c   | 837 ++++++++++++++++++
- 2 files changed, 838 insertions(+)
- create mode 100644 tools/testing/selftests/vfio/standalone/vfio_dmabuf_mmap_test.c
+This makes reading the code not easier.
 
-diff --git a/tools/testing/selftests/vfio/Makefile b/tools/testing/selftests/vfio/Makefile
-index 8e90e409e91d..8679d96e5b92 100644
---- a/tools/testing/selftests/vfio/Makefile
-+++ b/tools/testing/selftests/vfio/Makefile
-@@ -12,6 +12,7 @@ TEST_GEN_PROGS += vfio_iommufd_setup_test
- TEST_GEN_PROGS += vfio_pci_device_test
- TEST_GEN_PROGS += vfio_pci_device_init_perf_test
- TEST_GEN_PROGS += vfio_pci_driver_test
-+TEST_GEN_PROGS += standalone/vfio_dmabuf_mmap_test
- 
- TEST_FILES += scripts/cleanup.sh
- TEST_FILES += scripts/lib.sh
-diff --git a/tools/testing/selftests/vfio/standalone/vfio_dmabuf_mmap_test.c b/tools/testing/selftests/vfio/standalone/vfio_dmabuf_mmap_test.c
-new file mode 100644
-index 000000000000..0c087497b777
---- /dev/null
-+++ b/tools/testing/selftests/vfio/standalone/vfio_dmabuf_mmap_test.c
-@@ -0,0 +1,837 @@
-+/*
-+ * Tests for VFIO DMABUF userspace mmap()
-+ *
-+ * As well as the basics (mmap() a BAR resource to userspace), test
-+ * shutdown/unmapping, aliasing, and DMABUF revocation scenarios.
-+ *
-+ * This test relies on being attached to a QEMU EDU device (for a
-+ * simple known MMIO layout).  Example invocation, assuming function
-+ * 0000:00:03.0 is the target:
-+ *
-+ *  # lspci -n -s 00:03.0
-+ *  00:03.0 00ff: 1234:11e8 (rev 10)
-+ *
-+ *  # readlink /sys/bus/pci/devices/0000\:00\:03.0/iommu_group
-+ *  ../../../../../kernel/iommu_groups/3
-+ *
-+ *  (if there's a driver already attached)
-+ *  # echo 0000:00:03.0 > /sys/bus/pci/devices/0000:00:03.0/driver/unbind
-+ *
-+ *  (and, might need)
-+ *  # echo 1 > /sys/module/vfio_iommu_type1/parameters/allow_unsafe_interrupts
-+ *
-+ *  Attach to VFIO:
-+ *  # echo 1234 11e8 > /sys/bus/pci/drivers/vfio-pci/new_id
-+ *
-+ *  There should be only one thing in the group:
-+ *  # ls /sys/bus/pci/devices/0000:00:03.0/iommu_group/devices
-+ *
-+ *  Then given above an invocation would be:
-+ *  # this_test -r 0000:00:03.0 -g 3
-+ *
-+ * However, note the QEMU EDU device has a very small address span of
-+ * useful things in BAR0, which makes testing a non-zero BAR offset
-+ * impossible.  An "extended EDU" device is supported, which just
-+ * presents a large chunk of memory as a second BAR resource: this
-+ * allows non-zero BAR offsets to be tested.  See below for a QEMU
-+ * diff...
-+ *
-+ * Copyright (c) Meta Platforms, Inc. and affiliates.
-+ *
-+ * This software may be used and distributed according to the terms of the
-+ * GNU General Public License version 2.
-+ */
-+
-+/*
-+diff --git a/hw/misc/edu.c b/hw/misc/edu.c
-+index cece633e11..5f119e0642 100644
-+--- a/hw/misc/edu.c
-++++ b/hw/misc/edu.c
-+@@ -47,6 +47,7 @@ DECLARE_INSTANCE_CHECKER(EduState, EDU,
-+ struct EduState {
-+     PCIDevice pdev;
-+     MemoryRegion mmio;
-++    MemoryRegion ram;
-+ 
-+     QemuThread thread;
-+     QemuMutex thr_mutex;
-+@@ -386,7 +387,12 @@ static void pci_edu_realize(PCIDevice *pdev, Error **errp)
-+ 
-+     memory_region_init_io(&edu->mmio, OBJECT(edu), &edu_mmio_ops, edu,
-+                     "edu-mmio", 1 * MiB);
-++    memory_region_init_ram(&edu->ram, OBJECT(edu), "edu-ram", 64 * MiB, &error_fatal);
-+     pci_register_bar(pdev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &edu->mmio);
-++    pci_register_bar(pdev, 1,
-++                     PCI_BASE_ADDRESS_SPACE_MEMORY |
-++                    PCI_BASE_ADDRESS_MEM_PREFETCH |
-++                    PCI_BASE_ADDRESS_MEM_TYPE_64, &edu->ram);
-+ }
-+ 
-+ static void pci_edu_uninit(PCIDevice *pdev)
-+*/
-+
-+#include <errno.h>
-+#include <inttypes.h>
-+#include <fcntl.h>
-+#include <limits.h>
-+#include <linux/dma-buf.h>
-+#include <linux/vfio.h>
-+#include <setjmp.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <sys/types.h>
-+#include <sys/stat.h>
-+#include <unistd.h>
-+
-+#define ROUND_UP(x, to) (((x) + (to) - 1) & ~((to) - 1))
-+#define MiB(x)		((x) * 1024ULL * 1024)
-+
-+#define EDU_REG_MAGIC	0x00
-+#define EDU_MAGIC_VAL	0x010000edu
-+#define EDU_REG_INVERT	0x04
-+
-+#define FAIL_IF(cond, msg...)                  \
-+	do {                                   \
-+		if (cond) {                    \
-+			printf("\n\nFAIL:\t"); \
-+			printf(msg);           \
-+			exit(1);               \
-+		}                              \
-+	} while (0)
-+
-+static int vfio_setup(int groupnr, char *rid_str,
-+		      struct vfio_region_info *out_mappable_regions,
-+		      int nr_regions, int *out_nr_regions, int *out_vfio_cfd,
-+		      int *out_vfio_devfd)
-+{
-+	/* Create a new container, add group to it, open device, read
-+	 * resource, reset, etc.  Based on the example code in
-+	 * Documentation/driver-api/vfio.rst
-+	 */
-+
-+	int container = open("/dev/vfio/vfio", O_RDWR);
-+
-+	int r = ioctl(container, VFIO_GET_API_VERSION);
-+
-+	if (r != VFIO_API_VERSION) {
-+		/* Unknown API version */
-+		printf("-E- Unknown API ver %d\n", r);
-+		return 1;
-+	}
-+
-+	if (ioctl(container, VFIO_CHECK_EXTENSION, VFIO_TYPE1_IOMMU) != 1) {
-+		printf("-E- Doesn't support type 1\n");
-+		return 1;
-+	}
-+
-+	char devpath[PATH_MAX];
-+
-+	snprintf(devpath, PATH_MAX - 1, "/dev/vfio/%d", groupnr);
-+	/* Open the group */
-+	int group = open(devpath, O_RDWR);
-+
-+	if (group < 0) {
-+		printf("-E- Can't open VFIO device (group %d)\n", groupnr);
-+		return 1;
-+	}
-+
-+	/* Test the group is viable and available */
-+	struct vfio_group_status group_status = { .argsz = sizeof(
-+							  group_status) };
-+
-+	if (ioctl(group, VFIO_GROUP_GET_STATUS, &group_status)) {
-+		perror("-E- Can't get group status");
-+		return 1;
-+	}
-+
-+	if (!(group_status.flags & VFIO_GROUP_FLAGS_VIABLE)) {
-+		/* Group is not viable (ie, not all devices bound for vfio) */
-+		printf("-E- Group %d is not viable!\n", groupnr);
-+		return 1;
-+	}
-+
-+	/* Add the group to the container */
-+	if (ioctl(group, VFIO_GROUP_SET_CONTAINER, &container)) {
-+		perror("-E- Can't add group to container");
-+		return 1;
-+	}
-+
-+	/* Enable the IOMMU model we want */
-+	if (ioctl(container, VFIO_SET_IOMMU, VFIO_TYPE1_IOMMU)) {
-+		perror("-E- Can't select T1");
-+		return 1;
-+	}
-+
-+	/* Get addition IOMMU info */
-+	struct vfio_iommu_type1_info iommu_info = { .argsz = sizeof(
-+							    iommu_info) };
-+
-+	if (ioctl(container, VFIO_IOMMU_GET_INFO, &iommu_info)) {
-+		perror("-E- Can't get VFIO info");
-+		return 1;
-+	}
-+
-+	/* Get a file descriptor for the device */
-+	int device = ioctl(group, VFIO_GROUP_GET_DEVICE_FD, rid_str);
-+
-+	if (device < 0) {
-+		perror("-E- Can't get device fd");
-+		return 1;
-+	}
-+	close(group);
-+
-+	/* Test and setup the device */
-+	struct vfio_device_info device_info = { .argsz = sizeof(device_info) };
-+
-+	if (ioctl(device, VFIO_DEVICE_GET_INFO, &device_info)) {
-+		perror("-E- Can't get device info");
-+		return 1;
-+	}
-+	printf("-i- %d device regions, flags 0x%x\n", device_info.num_regions,
-+	       device_info.flags);
-+
-+	/* Regions are BAR0-5 then ROM, config, VGA */
-+	int out_region = 0;
-+
-+	for (int i = 0; i < device_info.num_regions; i++) {
-+		struct vfio_region_info reg = { .argsz = sizeof(reg) };
-+
-+		reg.index = i;
-+
-+		if (ioctl(device, VFIO_DEVICE_GET_REGION_INFO, &reg)) {
-+			/* We expect EINVAL if there's no VGA region */
-+			printf("-W- Region %d: ERROR %d\n", i, errno);
-+		} else {
-+			printf("-i- Region %d: flags 0x%08x (%c%c%c), cap_offs %d, size 0x%llx, offs 0x%llx\n",
-+			       i, reg.flags,
-+			       (reg.flags & VFIO_REGION_INFO_FLAG_READ) ? 'R' :
-+									  '-',
-+			       (reg.flags & VFIO_REGION_INFO_FLAG_WRITE) ? 'W' :
-+									   '-',
-+			       (reg.flags & VFIO_REGION_INFO_FLAG_MMAP) ? 'M' :
-+									  '-',
-+			       reg.cap_offset, reg.size, reg.offset);
-+
-+			if ((reg.flags & VFIO_REGION_INFO_FLAG_MMAP) &&
-+			    (out_region < nr_regions))
-+				out_mappable_regions[out_region++] = reg;
-+		}
-+	}
-+	*out_nr_regions = out_region;
-+
-+#ifdef THERE_ARE_NO_IRQS_YET
-+	for (i = 0; i < device_info.num_irqs; i++) {
-+		struct vfio_irq_info irq = { .argsz = sizeof(irq) };
-+
-+		irq.index = i;
-+
-+		ioctl(device, VFIO_DEVICE_GET_IRQ_INFO, &irq);
-+
-+		/* Setup IRQs... eventfds, VFIO_DEVICE_SET_IRQS */
-+	}
-+#endif
-+	/* Gratuitous device reset and go... */
-+	if (ioctl(device, VFIO_DEVICE_RESET))
-+		perror("-W- Can't reset device (continuing)");
-+
-+	*out_vfio_cfd = container;
-+	*out_vfio_devfd = device;
-+
-+	return 0;
-+}
-+
-+static int vfio_feature_present(int dev_fd, uint32_t feature)
-+{
-+	struct vfio_device_feature probeftr = {
-+		.argsz = sizeof(probeftr),
-+		.flags = VFIO_DEVICE_FEATURE_PROBE | VFIO_DEVICE_FEATURE_GET |
-+			 feature,
-+	};
-+	return ioctl(dev_fd, VFIO_DEVICE_FEATURE, &probeftr) == 0;
-+}
-+
-+static int vfio_create_dmabuf(int dev_fd, uint32_t region, uint64_t offset,
-+			      uint64_t length)
-+{
-+	uint64_t ftrbuf
-+		[ROUND_UP(sizeof(struct vfio_device_feature) +
-+				  sizeof(struct vfio_device_feature_dma_buf) +
-+				  sizeof(struct vfio_region_dma_range),
-+			  8) /
-+		 8];
-+
-+	struct vfio_device_feature *f = (struct vfio_device_feature *)ftrbuf;
-+	struct vfio_device_feature_dma_buf *db =
-+		(struct vfio_device_feature_dma_buf *)f->data;
-+	struct vfio_region_dma_range *range =
-+		(struct vfio_region_dma_range *)db->dma_ranges;
-+
-+	f->argsz = sizeof(ftrbuf);
-+	f->flags = VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_DMA_BUF;
-+	db->region_index = region;
-+	db->open_flags = O_RDWR | O_CLOEXEC;
-+	db->flags = 0;
-+	db->nr_ranges = 1;
-+	range->offset = offset;
-+	range->length = length;
-+
-+	return ioctl(dev_fd, VFIO_DEVICE_FEATURE, &ftrbuf);
-+}
-+
-+/* As above, but try multiple ranges in one dmabuf */
-+static int vfio_create_dmabuf_dual(int dev_fd, uint32_t region,
-+				   uint64_t offset0, uint64_t length0,
-+				   uint64_t offset1, uint64_t length1)
-+{
-+	uint64_t ftrbuf
-+		[ROUND_UP(sizeof(struct vfio_device_feature) +
-+				  sizeof(struct vfio_device_feature_dma_buf) +
-+				  (sizeof(struct vfio_region_dma_range) * 2),
-+			  8) /
-+		 8];
-+
-+	struct vfio_device_feature *f = (struct vfio_device_feature *)ftrbuf;
-+	struct vfio_device_feature_dma_buf *db =
-+		(struct vfio_device_feature_dma_buf *)f->data;
-+	struct vfio_region_dma_range *range =
-+		(struct vfio_region_dma_range *)db->dma_ranges;
-+
-+	f->argsz = sizeof(ftrbuf);
-+	f->flags = VFIO_DEVICE_FEATURE_GET | VFIO_DEVICE_FEATURE_DMA_BUF;
-+	db->region_index = region;
-+	db->open_flags = O_RDWR | O_CLOEXEC;
-+	db->flags = 0;
-+	db->nr_ranges = 2;
-+	range[0].offset = offset0;
-+	range[0].length = length0;
-+	range[1].offset = offset1;
-+	range[1].length = length1;
-+
-+	return ioctl(dev_fd, VFIO_DEVICE_FEATURE, &ftrbuf);
-+}
-+
-+static volatile uint32_t *mmap_resource_aligned(size_t size,
-+						unsigned long align, int fd,
-+						unsigned long offset)
-+{
-+	void *v;
-+
-+	if (align <= getpagesize()) {
-+		v = mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
-+			 offset);
-+		FAIL_IF(v == MAP_FAILED,
-+			"Can't mmap fd %d (size 0x%lx, offset 0x%lx), %d\n", fd,
-+			size, offset, errno);
-+	} else {
-+		size_t resv_size = size + align;
-+		void *resv =
-+			mmap(0, resv_size, 0, MAP_PRIVATE | MAP_ANON, -1, 0);
-+		FAIL_IF(resv == MAP_FAILED,
-+			"Can't mmap reservation, size 0x%lx, %d\n", resv_size,
-+			errno);
-+
-+		uintptr_t pos = ((uintptr_t)resv + (align - 1)) & ~(align - 1);
-+
-+		v = mmap((void *)pos, size, PROT_READ | PROT_WRITE,
-+			 MAP_SHARED | MAP_FIXED, fd, offset);
-+		FAIL_IF(v == MAP_FAILED,
-+			"Can't mmap-fixed fd %d (size 0x%lx, offset 0x%lx), %d\n",
-+			fd, size, offset, errno);
-+		madvise((void *)v, size, MADV_HUGEPAGE);
-+
-+		/* Tidy */
-+		if (pos > (uintptr_t)resv)
-+			munmap(resv, pos - (uintptr_t)resv);
-+		if (pos + size < (uintptr_t)resv + resv_size)
-+			munmap((void *)pos + size,
-+			       (uintptr_t)resv + resv_size - (pos + size));
-+	}
-+
-+	return (volatile uint32_t *)v;
-+}
-+
-+static volatile uint32_t *mmap_resource(size_t size, int fd,
-+					unsigned long offset)
-+{
-+	return mmap_resource_aligned(size, getpagesize(), fd, offset);
-+}
-+
-+static void check_mmio(volatile uint32_t *base)
-+{
-+	static uint32_t magic = 0xdeadbeef;
-+	uint32_t v;
-+
-+	printf("-i- MMIO check: ");
-+
-+	/* Trivial MMIO */
-+	v = base[EDU_REG_MAGIC / 4];
-+	FAIL_IF(v != EDU_MAGIC_VAL,
-+		"Magic value %08x incorrect, BAR map bad?\n", v);
-+
-+	base[EDU_REG_INVERT / 4] = magic;
-+	v = base[EDU_REG_INVERT / 4];
-+	FAIL_IF(v != ~magic, "Inverterizer value %08x bad (should be %08x)\n",
-+		v, ~magic);
-+	printf("OK\n");
-+
-+	magic = (magic << 1) ^ (magic >> 1) ^ (magic << 7);
-+}
-+
-+static int revoke_dmabuf(int dev_fd, int dmabuf_fd)
-+{
-+	struct vfio_pci_dmabuf_revoke dmabuf_rev = {
-+		.argsz = sizeof(dmabuf_rev),
-+		.dmabuf_fd = dmabuf_fd,
-+	};
-+	return ioctl(dev_fd, VFIO_DEVICE_PCI_DMABUF_REVOKE, &dmabuf_rev);
-+}
-+
-+static jmp_buf jmpbuf;
-+
-+static void sighandler(int sig)
-+{
-+	printf("*** Signal %d ***\n", sig);
-+	siglongjmp(jmpbuf, sig);
-+}
-+
-+static void setup_signals(void)
-+{
-+	struct sigaction sa = {
-+		.sa_handler = sighandler,
-+		.sa_flags = 0,
-+	};
-+
-+	sigaction(SIGBUS, &sa, NULL);
-+}
-+
-+static int vfio_dmabuf_test(int groupnr, char *rid_str)
-+{
-+	/* Only expecting one or two regions */
-+	struct vfio_region_info bar_region[2];
-+	int num_regions = 0;
-+	int container_fd, dev_fd;
-+	int r = vfio_setup(groupnr, rid_str, &bar_region[0], 2, &num_regions,
-+			   &container_fd, &dev_fd);
-+
-+	FAIL_IF(r, "VFIO setup failed\n");
-+	FAIL_IF(!vfio_feature_present(dev_fd, VFIO_DEVICE_FEATURE_DMA_BUF),
-+		"VFIO DMABUF support not available\n");
-+
-+	printf("-i- Container fd %d, device fd %d, and got DMA_BUF\n",
-+	       container_fd, dev_fd);
-+
-+	setup_signals();
-+
-+	////////////////////////////////////////////////////////////////////////////////
-+
-+	/* Real basics:	 create DMABUF, and mmap it, and access MMIO through it.
-+	 * Do this for 2nd BAR if present, too (just plain memory).
-+	 */
-+	printf("\nTEST: Create DMABUF, map it\n");
-+	int bar_db_fd = vfio_create_dmabuf(dev_fd, /* region */ 0,
-+					   /* offset */ 0, bar_region[0].size);
-+	FAIL_IF(bar_db_fd < 0, "Can't create DMABUF, %d\n", errno);
-+
-+	volatile uint32_t *dbbar0 =
-+		mmap_resource(bar_region[0].size, bar_db_fd, 0);
-+
-+	printf("-i- Mapped DMABUF BAR0 at %p+0x%llx\n", dbbar0,
-+	       bar_region[0].size);
-+	check_mmio(dbbar0);
-+
-+	/* TEST: Map the traditional VFIO one _second_; it should still work. */
-+	printf("\nTEST: Map the regular VFIO BAR\n");
-+	volatile uint32_t *vfiobar =
-+		mmap_resource(bar_region[0].size, dev_fd, bar_region[0].offset);
-+
-+	printf("-i- Mapped VIRTIO BAR0 at %p+0x%llx\n", vfiobar,
-+	       bar_region[0].size);
-+	check_mmio(vfiobar);
-+
-+	/* Test plan:
-+	 *
-+	 * - Revoke the first DMABUF, check for fault
-+	 * - Check VFIO BAR access still works
-+	 * - Revoke first DMABUF fd again: -EBADFD
-+	 * - create new DMABUF for same (previously-revoked) region: accessible
-+	 *
-+	 * - Create overlapping DMABUFs: map success, maps alias OK
-+	 * - Create a second mapping of the second DMABUF, maps alias OK
-+	 * - Destroy one by revoking through a dup()ed fd: check mapping revoked
-+	 * - Check original is still accessible
-+	 *
-+	 * If we have a larger (>4K of accessible stuff!) second BAR resource:
-+	 * - Map it, create an overlapping alias with offset != 0
-+	 * - Check alias/offset is sane
-+	 *
-+	 * Last:
-+	 * - close container_fd and dev_fd: check DMABUF mapping revoked
-+	 * - try revoking a non-DMABUF fd: -EINVAL
-+	 */
-+
-+	printf("\nTEST: Revocation of first DMABUF\n");
-+	r = revoke_dmabuf(dev_fd, bar_db_fd);
-+	FAIL_IF(r != 0, "Can't revoke: %d\n", errno);
-+
-+	if (sigsetjmp(jmpbuf, 1) == 0) {
-+		// Try an access: expect BOOM
-+		check_mmio(dbbar0);
-+		FAIL_IF(true, "Expecting fault after revoke!\n");
-+	}
-+	printf("-i- Revoked OK\n");
-+
-+	printf("\nTEST: Access through VFIO-mapped region still works\n");
-+	if (sigsetjmp(jmpbuf, 1) == 0)
-+		check_mmio(vfiobar);
-+	else
-+		FAIL_IF(true, "Expecting VFIO-mapped BAR to still work!\n");
-+
-+	printf("\nTEST: Double-revoke\n");
-+	r = revoke_dmabuf(dev_fd, bar_db_fd);
-+	FAIL_IF(r != -1 || errno != EBADFD,
-+		"Expecting 2nd revoke to give EBADFD, got %d errno %d\n", r,
-+		errno);
-+	printf("-i- Correctly failed second revoke\n");
-+
-+	printf("\nTEST: Can't mmap() revoked DMABUF\n");
-+	void *dbfail = mmap(0, bar_region[1].size, PROT_READ | PROT_WRITE,
-+			    MAP_SHARED, bar_db_fd, 0);
-+	FAIL_IF(dbfail != MAP_FAILED, "mmap() should fail\n");
-+	printf("-i- OK\n");
-+
-+	printf("\nTEST: Recreate new DMABUF for previously-revoked region\n");
-+	int bar_db_fd_2 = vfio_create_dmabuf(
-+		dev_fd, /* region */ 0, /* offset */ 0, bar_region[0].size);
-+	FAIL_IF(bar_db_fd_2 < 0, "Can't create DMABUF, %d\n", errno);
-+
-+	volatile uint32_t *dbbar0_2 =
-+		mmap_resource(bar_region[0].size, bar_db_fd_2, 0);
-+
-+	printf("-i- Mapped 2nd DMABUF BAR0 at %p+0x%llx\n", dbbar0_2,
-+	       bar_region[0].size);
-+	check_mmio(dbbar0_2);
-+
-+	munmap((void *)dbbar0, bar_region[0].size);
-+	close(bar_db_fd);
-+
-+	printf("\nTEST: Create aliasing/overlapping DMABUF\n");
-+	int bar_db_fd_3 = vfio_create_dmabuf(
-+		dev_fd, /* region */ 0, /* offset */ 0, bar_region[0].size);
-+	FAIL_IF(bar_db_fd_3 < 0, "Can't create DMABUF, %d\n", errno);
-+
-+	volatile uint32_t *dbbar0_3 =
-+		mmap_resource(bar_region[0].size, bar_db_fd_3, 0);
-+
-+	printf("-i- Mapped 3rd DMABUF BAR0 at %p+0x%llx\n", dbbar0_3,
-+	       bar_region[0].size);
-+	check_mmio(dbbar0_3);
-+
-+	/* Basic aliasing check: Write value through 2nd, read back through 3rd */
-+	uint32_t v;
-+
-+	dbbar0_2[EDU_REG_INVERT / 4] = 0xfacecace;
-+	v = dbbar0_3[EDU_REG_INVERT / 4];
-+	FAIL_IF(v != ~0xfacecace,
-+		"Alias inverted MMIO value %08x bad (should be %08x)\n", v,
-+		~0xfacecace);
-+	printf("-i- Aliasing DMABUF OK\n");
-+
-+	printf("\nTEST: Create a double-mapping of DMABUF\n");
-+	/* Create another mmap of the existing aliasing DMABUF fd */
-+	volatile uint32_t *dbbar0_3_2 =
-+		mmap_resource(bar_region[0].size, bar_db_fd_3, 0);
-+
-+	printf("-i- Mapped 3rd DMABUF BAR0 _again_ at %p+0x%llx\n", dbbar0_3_2,
-+	       bar_region[0].size);
-+	/* Can we see the value we wrote before? */
-+	v = dbbar0_3_2[EDU_REG_INVERT / 4];
-+	FAIL_IF(v != ~0xfacecace,
-+		"Alias alias inverted MMIO value %08x bad (should be %08x)\n",
-+		v, ~0xfacecace);
-+	check_mmio(dbbar0_3_2);
-+
-+	printf("\nTEST: revoke aliasing DMABUF through dup()ed fd\n");
-+	int dup_dbfd3 = dup(bar_db_fd_3);
-+
-+	r = revoke_dmabuf(dev_fd, dup_dbfd3);
-+	FAIL_IF(r != 0, "Can't revoke: %d\n", errno);
-+
-+	/* Both of the mmap()s made should now be gone */
-+	if (sigsetjmp(jmpbuf, 1) == 0) {
-+		check_mmio(dbbar0_3);
-+		FAIL_IF(true, "Expecting fault on 1st mmap after revoke!\n");
-+	}
-+
-+	if (sigsetjmp(jmpbuf, 1) == 0) {
-+		check_mmio(dbbar0_3_2);
-+		FAIL_IF(true, "Expecting fault on 2nd mmap after revoke!\n");
-+	}
-+	printf("-i- Both aliasing DMABUF mappings revoked OK\n");
-+
-+	close(dup_dbfd3);
-+	close(bar_db_fd_3);
-+	munmap((void *)dbbar0_3, bar_region[0].size);
-+	munmap((void *)dbbar0_3_2, bar_region[0].size);
-+
-+	/* And finally, although the aliasing DMABUF is gone, access
-+	 * through the original one should still work:
-+	 */
-+	if (sigsetjmp(jmpbuf, 1) == 0)
-+		check_mmio(dbbar0_2);
-+	else
-+		FAIL_IF(true,
-+			"Expecting original DMABUF mapping to still work!\n");
-+	printf("-i- Aliasing DMABUF removal OK, original still accessible\n");
-+
-+	/* If we're attached to a hacked/extended QEMU EDU device with
-+	 * a large memory region 1 then we can test things like
-+	 * offsets/aliasing.
-+	 */
-+	if (num_regions >= 2) {
-+		printf("\nTEST: Second BAR: test overlapping+offset DMABUF\n");
-+
-+		printf("-i- Region 1 DMABUF: offset %llx, size %llx\n",
-+		       bar_region[1].offset, bar_region[1].size);
-+		int bar1_db_fd =
-+			vfio_create_dmabuf(dev_fd, 1, 0, bar_region[1].size);
-+
-+		FAIL_IF(bar1_db_fd < 0, "Can't create DMABUF, %d\n", errno);
-+
-+		volatile uint32_t *dbbar1 = mmap_resource_aligned(
-+			bar_region[1].size, MiB(32), bar1_db_fd, 0);
-+		printf("-i- Mapped DMABUF Region 1 at %p+0x%llx\n", dbbar1,
-+		       bar_region[1].size);
-+
-+		/* Init with known values */
-+		for (unsigned long i = 0; i < (bar_region[1].size);
-+		     i += getpagesize())
-+			dbbar1[i / 4] = 0xca77face ^ i;
-+
-+		v = dbbar1[0];
-+		FAIL_IF(v != 0xca77face,
-+			"DB Region 1 read: Magic value %08x incorrect\n", v);
-+		printf("-i- DB Region 1 read: Magic: 0x%08x\n", v);
-+
-+		/* TEST: Overlap/aliasing; map same BAR with a range
-+		 * offset > 0.  Also test disjoint/multi-range DMABUFs
-+		 * by creating a second range.  This appears as one
-+		 * contiguous VA range mapped to a first BAR range
-+		 * (starting from range0_offset), then skipping a few
-+		 * physical pages, then a second range (starting at
-+		 * range1_offset).
-+		 */
-+		unsigned long range0_offset = getpagesize() * 3;
-+		unsigned long range1_skip_pages = 5;
-+		unsigned long range1_skip = getpagesize() * range1_skip_pages;
-+		unsigned long range_size =
-+			(bar_region[1].size - range0_offset - range1_skip) / 2;
-+		unsigned long range1_offset =
-+			range0_offset + range_size + range1_skip;
-+		unsigned long map_size = range_size * 2;
-+
-+		printf("\nTEST: Second BAR aliasing mapping, two ranges size 0x%lx:\n\t\t0x%lx-0x%lx, 0x%lx-0x%lx\n",
-+		       range_size, range0_offset, range0_offset + range_size,
-+		       range1_offset, range1_offset + range_size);
-+
-+		int bar1_2_db_fd = vfio_create_dmabuf_dual(
-+			dev_fd, 1, range0_offset, range_size, range1_offset,
-+			range_size);
-+		FAIL_IF(bar1_2_db_fd < 0, "Can't create DMABUF, %d\n", errno);
-+
-+		volatile uint32_t *dbbar1_2 =
-+			mmap_resource(map_size, bar1_2_db_fd, 0);
-+
-+		printf("-i- Mapped DMABUF Region 1 alias at %p+0x%lx\n",
-+		       dbbar1_2, map_size);
-+		FAIL_IF(dbbar1_2[0] != dbbar1[range0_offset / 4],
-+			"slice2 value mismatch\n");
-+
-+		dbbar1[(range0_offset + 4) / 4] = 0xfacef00d;
-+		/* Check we can see the value written above at +offset
-+		 * from offset 0 of this mapping (since the DMABUF
-+		 * itself is offsetted):
-+		 */
-+		v = dbbar1_2[4 / 4];
-+		FAIL_IF(v != 0xfacef00d,
-+			"DB Region 1 alias read: Magic value %08x incorrect\n",
-+			v);
-+		printf("-i- DB Region 1 alias read: Magic 0x%08x, OK\n", v);
-+
-+		/* Read back the known values across the two
-+		 * sub-ranges of the dbbar1_2 mapping, accounting for
-+		 * the physical pages skipped between them
-+		 */
-+		for (unsigned long i = 0; i < range_size; i += getpagesize()) {
-+			unsigned long t = i + range0_offset;
-+			uint32_t want = (0xca77face ^ t);
-+
-+			v = dbbar1_2[i / 4];
-+			FAIL_IF(v != want,
-+				"Expected %08x (got %08x) from range0 +%08lx (real %08lx)\n",
-+				want, v, i, t);
-+		}
-+		for (unsigned long i = range_size; i < (range_size * 2);
-+		     i += getpagesize()) {
-+			unsigned long t = i + range1_offset - range_size;
-+			uint32_t want = (0xca77face ^ t);
-+
-+			v = dbbar1_2[i / 4];
-+			FAIL_IF(v != want,
-+				"Expected %08x (got %08x) from range1 +%08lx (real %08lx)\n",
-+				want, v, i, t);
-+		}
-+
-+		printf("\nTEST: Third BAR aliasing mapping, testing mmap() non-zero offset:\n");
-+
-+		unsigned long smaller = range_size - 0x1000;
-+		volatile uint32_t *dbbar1_3 = mmap_resource_aligned(
-+			smaller, MiB(32), bar1_2_db_fd, range_size);
-+		printf("-i- Mapped DMABUF Region 1 range 1 alias at %p+0x%lx\n",
-+		       dbbar1_3, smaller);
-+
-+		for (unsigned long i = 0; i < smaller; i += getpagesize()) {
-+			unsigned long t = i + range1_offset;
-+			uint32_t want = (0xca77face ^ t);
-+
-+			v = dbbar1_3[i / 4];
-+			FAIL_IF(v != want,
-+				"Expected %08x (got %08x) from 3rd range1 +%08lx (real %08lx)\n",
-+				want, v, i, t);
-+		}
-+		printf("-i- mmap offset OK\n");
-+
-+		/* TODO: If we can observe hugepages (mechanically,
-+		 * rather than human reading debug), we can test
-+		 * interesting alignment cases for the PFN search:
-+		 *
-+		 * - Deny hugepages at start/end of an mmap() that
-+		 *   starts/ends at non-HP-aligned addresses
-+		 *   (e.g. first pages are small, middle is fully
-+		 *   aligned in VA and PFN so 2M, and buffer finishes
-+		 *   before 2M boundary, so last pages are small).
-+		 *
-+		 * - Everything aligned nicely except the mmap() size
-+		 *   is <2MB, so hugepage denied due to straddling
-+		 *   end.
-+		 *
-+		 * - Buffer offsets into BAR not aligned, so no huge
-+		 *   mappings even if mmap() is perfectly aligned.
-+		 */
-+
-+		/* Check that access after DMABUF fd close still works
-+		 * (VMA still holds refcount, obvs!)
-+		 */
-+		close(bar1_2_db_fd);
-+		if (sigsetjmp(jmpbuf, 1) == 0)
-+			v = dbbar1_2[0x4 / 4];
-+		else
-+			FAIL_IF(true,
-+				"Expecting original DMABUF mapping to still work!\n");
-+		printf("-i- DB Region 1 alias read 2: Magic 0x%08x, OK\n", v);
-+		printf("-i- Offset check OK\n");
-+	}
-+
-+	printf("\nTEST: Shutdown: close VFIO container/device fds, check DMABUF gone\n");
-+
-+	/* Final use of dev_fd: use it to try to revoke a non-DMABUF fd: */
-+	r = revoke_dmabuf(dev_fd, 1);
-+	FAIL_IF(r != -1 || errno != EINVAL,
-+		"Expecting revoke of stdout to give EINVAL, got %d errno %d\n",
-+		r, errno);
-+	printf("-i- Correctly failed final revoke\n");
-+
-+	/* Closing all uses of dev_fd (including the VFIO BAR mmap()!)
-+	 * will revoke the DMABUF; even though the DMABUF fd might
-+	 * remain open, the mapping itself is zapped. Start with a
-+	 * plain close (before unmapping the VFIO BAR mapping):
-+	 */
-+	close(dev_fd);
-+	close(container_fd);
-+	printf("-i- VFIO fds closed\n");
-+
-+	if (sigsetjmp(jmpbuf, 1) == 0)
-+		check_mmio(dbbar0_2);
-+	else
-+		FAIL_IF(true,
-+			"Expecting DMABUF mapping to still work if VFIO mapping still live!\n");
-+
-+	if (sigsetjmp(jmpbuf, 1) == 0)
-+		check_mmio(vfiobar);
-+	else
-+		FAIL_IF(true,
-+			"Expecting VFIO BAR mapping to still work after fd close!\n");
-+
-+	munmap((void *)vfiobar, bar_region[0].size);
-+	printf("-i- VFIO BAR unmapped\n");
-+
-+	/* The final reference via VFIO should now be gone, and the
-+	 * DMABUF should now be destroyed.  The mapping of it should
-+	 * be inaccessible:
-+	 */
-+	if (sigsetjmp(jmpbuf, 1) == 0) {
-+		check_mmio(dbbar0_2);
-+		FAIL_IF(true,
-+			"Expecting DMABUF mapping to fault after VFIO fd shutdown!\n");
-+	}
-+	printf("-i- DMABUF mappings inaccessible\n");
-+
-+	/* Ensure we can't mmap() DMABUF for closed device */
-+	void *dbfail2 = mmap(0, bar_region[1].size, PROT_READ | PROT_WRITE,
-+			     MAP_SHARED, bar_db_fd_2, 0);
-+	FAIL_IF(dbfail2 != MAP_FAILED, "mmap() should fail\n");
-+	printf("-i- Can't mmap DMABUF for closed device, OK\n");
-+
-+	munmap((void *)dbbar0_2, bar_region[0].size);
-+	close(bar_db_fd_2);
-+
-+	printf("\nPASS\n");
-+
-+	return 0;
-+}
-+
-+static void usage(char *me)
-+{
-+	printf("Usage:\t%s -g <group_number> -r <RID/BDF>\n"
-+	       "\n"
-+	       "\t\tGroup is found via device path, e.g. cat /sys/bus/pci/devices/0000:03:1d.0/iommu_group\n"
-+	       "\t\tRID is of the form 0000:03:1d.0\n"
-+	       "\n",
-+	       me);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	/* Get args: IOMMU group and BDF/path */
-+	int groupnr = -1;
-+	char *rid_str = NULL;
-+	int arg;
-+
-+	while ((arg = getopt(argc, argv, "g:r:h")) != -1) {
-+		switch (arg) {
-+		case 'g':
-+			groupnr = atoi(optarg);
-+			break;
-+
-+		case 'r':
-+			rid_str = strdup(optarg);
-+			break;
-+		case 'h':
-+		default:
-+			usage(argv[0]);
-+			return 1;
-+		}
-+	}
-+
-+	if (rid_str == NULL || groupnr == -1) {
-+		usage(argv[0]);
-+		return 1;
-+	}
-+
-+	printf("-i- Using group number %d, RID '%s'\n", groupnr, rid_str);
-+
-+	return vfio_dmabuf_test(groupnr, rid_str);
-+}
--- 
-2.47.3
-
+Thanks,
+//richard
 
