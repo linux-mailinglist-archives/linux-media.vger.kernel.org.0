@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-55529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55532-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QKGLARoLs2nURwAAu9opvQ
-	(envelope-from <linux-media+bounces-55529-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:51:06 +0100
+	id UL+IIUEKs2kMRwAAu9opvQ
+	(envelope-from <linux-media+bounces-55532-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:47:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7437027758C
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:51:05 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BD0277497
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 19:47:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B83103230972
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 18:47:03 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id F2C89304026B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 18:47:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40DEE3FFACE;
-	Thu, 12 Mar 2026 18:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D78C4014A9;
+	Thu, 12 Mar 2026 18:47:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="tGmcNPiF"
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="sQe13Fme"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA163B38B6;
-	Thu, 12 Mar 2026 18:46:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01CE3FFAB6;
+	Thu, 12 Mar 2026 18:47:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773341221; cv=none; b=GEnlg1Buny9kEr49HqJDUV15X9VmEY2bFuLArGXhZh+UAngCvlgK8vTabTBWMALQdJZAjrYVCjjZu4T6G/jkS6iflwP3qtkrHf2VEOFII7+GJ9dWMKX5D3MRvhp9FTlULKmYpU9oFDze2oSfFlUgZ3sjWn9683ds1vduhSajGCM=
+	t=1773341223; cv=none; b=GQJlZZ1+8q6nyAJbWJVmgBQIegTLn4Itw1o69tjNQMG9hE6hSxhOy+6fAu5MoIpYhgEUd37GM5Av5ZJFIqDRnU5v1v7cPz+cTfRFb6dl7jQt9RL278IiGeYz7JZuNg+UV0XvOF7zN82Ws1ePWqZ9R1i1D0a5MHChvawBDP/CNMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773341221; c=relaxed/simple;
-	bh=t6bDpi4rb/pOu7H+QT7goQOzdqvFfPwsK5zs2XcTZNU=;
+	s=arc-20240116; t=1773341223; c=relaxed/simple;
+	bh=rPZHviA827I0RrNblyUlBtmzE+gRDe3I7XUG7V09gK8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FpdRcE1IbKlPSCijsUlo0jbyj1y/kqA1VkQo1ahRL0wP1QhQqf5nvJSVEHGcUN00BNHg0W4wIKf97ErPPcorzV7zz3QMyGRVC6YnXYb170YwV/NC9SADhexcn7K3w6MiBlrUI87ivjYg6/kGsEbAUxhk27JQvfuQtWlqeU88Izo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=tGmcNPiF; arc=none smtp.client-ip=67.231.153.30
+	 MIME-Version:Content-Type; b=hyIArvQZ2/Id7hleTY9Cmf1V9tHxO68uFEQfAt2bWjnh4Bzh3qDM14zxEY43ddFcF7y5PK810GHnZ+tB0qTCqPzkLfWS31C+sOKSIXjZ6rD/swZ0LFM8gouZwcKa6COuUpwUGIztREKJMEViWJJo/0YV6FuRgjoDfI8vG3Qntws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=sQe13Fme; arc=none smtp.client-ip=67.231.153.30
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 62CHs6hE736960;
+	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 62CHs6hG736960;
 	Thu, 12 Mar 2026 11:46:40 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=F5iP07MryKL+RBsKPNOrGIpOE0QiFHOMNY2skfwri+I=; b=tGmcNPiFi4vV
-	t6FnUDDv+vLa3kMO3p0i07iWoKFn9rsEAf42YjvI6n69DHDOWEVuEXJq4B+WdLqo
-	1910n5MQVkqLlCQiMg2nayCgF2jcKPfAd1Znem1lwvKniN7RwYAgBnHVfzuffMKw
-	yKpC5QR7r0TKXqzkUHHIv819vX9zASDRjcJG7iXBK1Y4jFpjs+EXWpP58i+9597P
-	SrOYwvNldvEMQ1xeozyCpy0dcXLyq9O4qWipxsAAFaPZ7Tk2S5vTZywzjKtBTgqK
-	elnQ1PeVbZ1z5IclB3ZtOchhfcQ/jAr96ohdb2/YEny4nj6CeVVQov6mU4uXCp12
-	zIxRAqY0nQ==
+	 bh=ZrlwwZVUdcMNUJAX32tIRUCuImsZe5FshFy6zCbtrbE=; b=sQe13FmeJUaM
+	Wt7xRE0a3ver+QCEpyBcUDV2Xsw3KljnCngbtDXhbLKBDmt1tZAHdRf+ae65fSGO
+	EngT5lcQF1HVd5y11X4moY4ftfrdtPn8Et0ngQwNiZPVUJnaotF646yfYW3iYcly
+	gkY0TmYia8qH8Cc43dmFWn2Sc01EF1IKbf6wotXlMbJXLnq6CJIbir/KJU6g/adI
+	yWPJreIK/FML5rXRXTD1ej8Gv4Sc06XByslUjsTRMj9+MfYQ9rp4wTA+PrErZwIt
+	H7uwzx1JPZj1oou2HG7Jjrrsx7w5ZxwmoaGzf7lF2YROFlpUvpzlwv7T3mKhGPLs
+	hEUamEY+fg==
 Received: from maileast.thefacebook.com ([163.114.135.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 4cv29xs1t8-3
+	by m0001303.ppops.net (PPS) with ESMTPS id 4cv29xs1t8-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 12 Mar 2026 11:46:40 -0700 (PDT)
-Received: from localhost (2620:10d:c0a8:1b::30) by mail.thefacebook.com
+Received: from localhost (2620:10d:c0a8:1c::1b) by mail.thefacebook.com
  (2620:10d:c0a9:6f::237c) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.35; Thu, 12 Mar
- 2026 18:46:35 +0000
+ 2026 18:46:37 +0000
 From: Matt Evans <mattev@meta.com>
 To: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
         Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
@@ -75,9 +75,9 @@ CC: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
         <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
         <kvm@vger.kernel.org>
-Subject: [RFC v2 PATCH 03/10] vfio/pci: Add helper to look up PFNs for DMABUFs
-Date: Thu, 12 Mar 2026 11:46:01 -0700
-Message-ID: <20260312184613.3710705-4-mattev@meta.com>
+Subject: [RFC v2 PATCH 04/10] vfio/pci: Add a helper to create a DMABUF for a BAR-map VMA
+Date: Thu, 12 Mar 2026 11:46:02 -0700
+Message-ID: <20260312184613.3710705-5-mattev@meta.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260312184613.3710705-1-mattev@meta.com>
 References: <20260312184613.3710705-1-mattev@meta.com>
@@ -89,21 +89,21 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 9y-dGupEJZ0nM22C7yEmPbFzaVwEVxI5
-X-Proofpoint-GUID: 9y-dGupEJZ0nM22C7yEmPbFzaVwEVxI5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDE1MSBTYWx0ZWRfX7og+xCebr1Z8
- 9wGO5s5UEdE2Yeslw0vblbNfCiRwbJoSvgo9nlWQT8cVXzF5sfLQZqTfIzPzNQ6p/UQMP5Iv1nh
- WluUZEZs+iSxIJgAWsDtwjaEa2jHNi3ULa0b/Kt24ZApxDXGi2h3EmLrb/R14FPgHtbtkbecHE/
- w3hY/3gQb7N/8ylpDY7eoxpXUaJfVtPYmdadjVtqE1WzzVbXVhTrrJDNpc0+xiv4uwX0AVP3sdY
- /tVZ72jJjyRxDNKRILGF123tgkRQgyzovZ7KkOwnzSO62y6/5jiAUTXsZ9ZNQel4PluK714LwT8
- QrB0gjPihfTYndRSJKNNZw9naQDsm37u8kj2g2iGR5tfVI9H7BCcFxzLWFxrL2w6nVKbekF1NQF
- HFRyr2izqkyY0xYmrjY3+s3q7warmVesoHMcYw2lR4IMMurs7dEd6ShEEskYQchI8gZDLdd591W
- 8a842RHSrLPEoAGZ4VQ==
+X-Proofpoint-ORIG-GUID: yWV221Ynv3RiRAhf8YGWx40uCR8JGEaY
+X-Proofpoint-GUID: yWV221Ynv3RiRAhf8YGWx40uCR8JGEaY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEyMDE1MSBTYWx0ZWRfX/K+cZwc/d5h4
+ V6UbyYW1PpDsWHpDykBPG55BoC9bmrkIgEjod/kyYfCZwsghhpb7cNg2vHWh/ZDoykXawDCY3gg
+ WNFQ8IabTZPwZMLaygob6CVGYjkVCBr0934NDsM4Vi9gT9Ue/210UIXPAUsOqCrJ3g1GHe9924S
+ IYkrfslpsKmUb/X6On+VEYfGr8oM5p66v2bRmxtpxSEWtdAipF+2wjJHs+AyTRzKSF7/zt4nFCs
+ XXqy4txRhV5cjLIARoSin8zcXja3aIPJtCxf0HecQy4b8yxTn4fV/ylb19KDsawTfSEpHdRaLr0
+ ebSliXkTZozR1TSrESNexyVL0pfMF1q0H8fBa9AgyHq5bJ9SiG1S9KKQT2rg2Zjb6LtFktYguTm
+ TFDK5eYH4/H5G2d6iXfBouFh7Ly75KmiUI6A+v5o1I3Wk2MPwfFRIhX+sG5W1Qu7HqZ7o60ae14
+ PkOKk+c2+mLA1IpwvZg==
 X-Authority-Analysis: v=2.4 cv=G4YR0tk5 c=1 sm=1 tr=0 ts=69b30a10 cx=c_pps
  a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=_78whYxrdx1mplLwxq1U:22 a=VabnemYjAAAA:8 a=FgeSMtyZeV4UKi14g-cA:9
- a=gKebqoRLp9LExxC7YDUY:22
+ a=Dv35txUGz5gI0hTa:21 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=_78whYxrdx1mplLwxq1U:22 a=VabnemYjAAAA:8
+ a=tb9bu44HMbSD3pB8wWYA:9 a=gKebqoRLp9LExxC7YDUY:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-12_02,2026-03-12_01,2025-10-01_01
@@ -112,13 +112,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55529-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55532-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[19];
@@ -131,185 +131,229 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 7437027758C
+X-Rspamd-Queue-Id: 27BD0277497
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add a helper, vfio_pci_dma_buf_find_pfn(), which a VMA fault handler
-can use to find a PFN.
+This helper, vfio_pci_core_mmap_prep_dmabuf(), creates a single-range
+DMABUF for the purpose of mapping a PCI BAR.  This is used in a future
+commit by VFIO's ordinary mmap() path.
 
-This supports multi-range DMABUFs, which typically would be used to
-represent scattered spans but might even represent overlapping or
-aliasing spans of PFNs.
+This function transfers ownership of the VFIO device fd to the
+DMABUF, which fput()s when it's released.
 
-Because this is intended to be used in vfio_pci_core.c, we also need
-to expose the struct vfio_pci_dma_buf in the vfio_pci_priv.h header.
+Refactor the existing vfio_pci_core_feature_dma_buf() to split out
+export code common to the two paths, VFIO_DEVICE_FEATURE_DMA_BUF and
+this new VFIO_BAR mmap().
 
 Signed-off-by: Matt Evans <mattev@meta.com>
 ---
- drivers/vfio/pci/vfio_pci_dmabuf.c | 102 +++++++++++++++++++++++++----
- drivers/vfio/pci/vfio_pci_priv.h   |  19 ++++++
- 2 files changed, 108 insertions(+), 13 deletions(-)
+ drivers/vfio/pci/vfio_pci_dmabuf.c | 131 +++++++++++++++++++++--------
+ drivers/vfio/pci/vfio_pci_priv.h   |   4 +
+ 2 files changed, 102 insertions(+), 33 deletions(-)
 
 diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-index 44558cc2948e..63140528dbea 100644
+index 63140528dbea..76db340ba592 100644
 --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
 +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-@@ -9,19 +9,6 @@
+@@ -82,6 +82,8 @@ static void vfio_pci_dma_buf_release(struct dma_buf *dmabuf)
+ 		up_write(&priv->vdev->memory_lock);
+ 		vfio_device_put_registration(&priv->vdev->vdev);
+ 	}
++	if (priv->vfile)
++		fput(priv->vfile);
+ 	kfree(priv->phys_vec);
+ 	kfree(priv);
+ }
+@@ -182,6 +184,41 @@ int vfio_pci_dma_buf_find_pfn(struct vfio_pci_dma_buf *vpdmabuf,
+ 	return -EFAULT;
+ }
  
- MODULE_IMPORT_NS("DMA_BUF");
- 
--struct vfio_pci_dma_buf {
--	struct dma_buf *dmabuf;
--	struct vfio_pci_core_device *vdev;
--	struct list_head dmabufs_elm;
--	size_t size;
--	struct phys_vec *phys_vec;
--	struct p2pdma_provider *provider;
--	u32 nr_ranges;
--	struct kref kref;
--	struct completion comp;
--	u8 revoked : 1;
--};
--
- static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
- 				   struct dma_buf_attachment *attachment)
- {
-@@ -106,6 +93,95 @@ static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
- 	.release = vfio_pci_dma_buf_release,
- };
- 
-+int vfio_pci_dma_buf_find_pfn(struct vfio_pci_dma_buf *vpdmabuf,
-+			      struct vm_area_struct *vma,
-+			      unsigned long address,
-+			      unsigned int order,
-+			      unsigned long *out_pfn)
++static int vfio_pci_dmabuf_export(struct vfio_pci_core_device *vdev,
++				  struct vfio_pci_dma_buf *priv, uint32_t flags,
++				  size_t size, bool status_ok)
 +{
-+	/*
-+	 * Given a VMA (start, end, pgoffs) and a fault address,
-+	 * search the corresponding DMABUF's phys_vec[] to find the
-+	 * range representing the address's offset into the VMA, and
-+	 * its PFN.
-+	 *
-+	 * The phys_vec[] ranges represent contiguous spans of VAs
-+	 * upwards from the buffer offset 0; the actual PFNs might be
-+	 * in any order, overlap/alias, etc.  Calculate an offset of
-+	 * the desired page given VMA start/pgoff and address, then
-+	 * search upwards from 0 to find which span contains it.
-+	 *
-+	 * On success, a valid PFN for a page sized by 'order' is
-+	 * returned into out_pfn.
-+	 *
-+	 * Failure occurs if:
-+	 * - The page would cross the edge of the VMA
-+	 * - The page isn't entirely contained within a range
-+	 * - We find a range, but the final PFN isn't aligned to the
-+	 *   requested order.
-+	 *
-+	 * (Upon failure, the caller is expected to try again with a
-+	 * smaller order; the tests above will always succeed for
-+	 * order=0 as the limit case.)
-+	 *
-+	 * It's suboptimal if DMABUFs are created with neigbouring
-+	 * ranges that are physically contiguous, since hugepages
-+	 * can't straddle range boundaries.  (The construction of the
-+	 * ranges vector should merge such ranges.)
-+	 */
++	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
 +
-+	const unsigned long pagesize = PAGE_SIZE << order;
-+	unsigned long rounded_page_addr = address & ~(pagesize - 1);
-+	unsigned long rounded_page_end = rounded_page_addr + pagesize;
-+	unsigned long buf_page_offset;
-+	unsigned long buf_offset = 0;
-+	unsigned int i;
++	if (!vfio_device_try_get_registration(&vdev->vdev))
++		return -ENODEV;
 +
-+	if (rounded_page_addr < vma->vm_start || rounded_page_end > vma->vm_end)
-+		return -EAGAIN;
++	exp_info.ops = &vfio_pci_dmabuf_ops;
++	exp_info.size = size;
++	exp_info.flags = flags;
++	exp_info.priv = priv;
 +
-+	if (unlikely(check_add_overflow(rounded_page_addr - vma->vm_start,
-+					vma->vm_pgoff << PAGE_SHIFT, &buf_page_offset)))
-+		return -EFAULT;
-+
-+	for (i = 0; i < vpdmabuf->nr_ranges; i++) {
-+		unsigned long range_len = vpdmabuf->phys_vec[i].len;
-+		unsigned long range_start = vpdmabuf->phys_vec[i].paddr;
-+
-+		if (buf_page_offset >= buf_offset &&
-+		    buf_page_offset + pagesize <= buf_offset + range_len) {
-+			/*
-+			 * The faulting page is wholly contained
-+			 * within the span represented by the range.
-+			 * Validate PFN alignment for the order:
-+			 */
-+			unsigned long pfn = (range_start >> PAGE_SHIFT) +
-+				((buf_page_offset - buf_offset) >> PAGE_SHIFT);
-+
-+			if (IS_ALIGNED(pfn, 1 << order)) {
-+				*out_pfn = pfn;
-+				return 0;
-+			}
-+			/* Retry with smaller order */
-+			return -EAGAIN;
-+		}
-+		buf_offset += range_len;
++	priv->dmabuf = dma_buf_export(&exp_info);
++	if (IS_ERR(priv->dmabuf)) {
++		vfio_device_put_registration(&vdev->vdev);
++		return PTR_ERR(priv->dmabuf);
 +	}
 +
-+	/*
-+	 * If we get here, the address fell outside of the span
-+	 * represented by the (concatenated) ranges.  Setup of a
-+	 * mapping must ensure that the VMA is <= the total size of
-+	 * the ranges, so this should never happen.  But, if it does,
-+	 * force SIGBUS for the access and warn.
-+	 */
-+	WARN_ONCE(1, "No range for addr 0x%lx, order %d: VMA 0x%lx-0x%lx pgoff 0x%lx, %d ranges, size 0x%lx\n",
-+		  address, order, vma->vm_start, vma->vm_end, vma->vm_pgoff,
-+		  vpdmabuf->nr_ranges, vpdmabuf->size);
++	kref_init(&priv->kref);
++	init_completion(&priv->comp);
 +
-+	return -EFAULT;
++	/* dma_buf_put() now frees priv */
++	INIT_LIST_HEAD(&priv->dmabufs_elm);
++	down_write(&vdev->memory_lock);
++	dma_resv_lock(priv->dmabuf->resv, NULL);
++	priv->revoked = !status_ok;
++	list_add_tail(&priv->dmabufs_elm, &vdev->dmabufs);
++	dma_resv_unlock(priv->dmabuf->resv);
++	up_write(&vdev->memory_lock);
++
++	return 0;
 +}
 +
  /*
   * This is a temporary "private interconnect" between VFIO DMABUF and iommufd.
   * It allows the two co-operating drivers to exchange the physical address of
-diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-index 27ac280f00b9..5cc8c85a2153 100644
---- a/drivers/vfio/pci/vfio_pci_priv.h
-+++ b/drivers/vfio/pci/vfio_pci_priv.h
-@@ -23,6 +23,19 @@ struct vfio_pci_ioeventfd {
- 	bool			test_mem;
- };
+@@ -300,7 +337,6 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+ {
+ 	struct vfio_device_feature_dma_buf get_dma_buf = {};
+ 	struct vfio_region_dma_range *dma_ranges;
+-	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+ 	struct vfio_pci_dma_buf *priv;
+ 	size_t length;
+ 	int ret;
+@@ -369,46 +405,20 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+ 	kfree(dma_ranges);
+ 	dma_ranges = NULL;
  
-+struct vfio_pci_dma_buf {
-+	struct dma_buf *dmabuf;
-+	struct vfio_pci_core_device *vdev;
-+	struct list_head dmabufs_elm;
-+	size_t size;
-+	struct phys_vec *phys_vec;
-+	struct p2pdma_provider *provider;
-+	u32 nr_ranges;
-+	struct kref kref;
-+	struct completion comp;
-+	u8 revoked : 1;
-+};
-+
- bool vfio_pci_intx_mask(struct vfio_pci_core_device *vdev);
- void vfio_pci_intx_unmask(struct vfio_pci_core_device *vdev);
+-	if (!vfio_device_try_get_registration(&vdev->vdev)) {
+-		ret = -ENODEV;
++	ret = vfio_pci_dmabuf_export(vdev, priv, get_dma_buf.open_flags,
++				     priv->size,
++				     __vfio_pci_memory_enabled(vdev));
++	if (ret)
+ 		goto err_free_phys;
+-	}
+-
+-	exp_info.ops = &vfio_pci_dmabuf_ops;
+-	exp_info.size = priv->size;
+-	exp_info.flags = get_dma_buf.open_flags;
+-	exp_info.priv = priv;
+-
+-	priv->dmabuf = dma_buf_export(&exp_info);
+-	if (IS_ERR(priv->dmabuf)) {
+-		ret = PTR_ERR(priv->dmabuf);
+-		goto err_dev_put;
+-	}
+-
+-	kref_init(&priv->kref);
+-	init_completion(&priv->comp);
+-
+-	/* dma_buf_put() now frees priv */
+-	INIT_LIST_HEAD(&priv->dmabufs_elm);
+-	down_write(&vdev->memory_lock);
+-	dma_resv_lock(priv->dmabuf->resv, NULL);
+-	priv->revoked = !__vfio_pci_memory_enabled(vdev);
+-	list_add_tail(&priv->dmabufs_elm, &vdev->dmabufs);
+-	dma_resv_unlock(priv->dmabuf->resv);
+-	up_write(&vdev->memory_lock);
+-
+ 	/*
+ 	 * dma_buf_fd() consumes the reference, when the file closes the dmabuf
+ 	 * will be released.
+ 	 */
+ 	ret = dma_buf_fd(priv->dmabuf, get_dma_buf.open_flags);
+-	if (ret < 0)
+-		goto err_dma_buf;
+-	return ret;
++	if (ret >= 0)
++		return ret;
  
-@@ -110,6 +123,12 @@ static inline bool vfio_pci_is_vga(struct pci_dev *pdev)
- 	return (pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA;
+-err_dma_buf:
+ 	dma_buf_put(priv->dmabuf);
+-err_dev_put:
+ 	vfio_device_put_registration(&vdev->vdev);
+ err_free_phys:
+ 	kfree(priv->phys_vec);
+@@ -419,6 +429,61 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+ 	return ret;
  }
  
-+int vfio_pci_dma_buf_find_pfn(struct vfio_pci_dma_buf *vpdmabuf,
-+			      struct vm_area_struct *vma,
-+			      unsigned long address,
-+			      unsigned int order,
-+			      unsigned long *out_pfn);
++int vfio_pci_core_mmap_prep_dmabuf(struct vfio_pci_core_device *vdev,
++				   struct vm_area_struct *vma,
++				   u64 phys_start,
++				   u64 pgoff,
++				   u64 req_len)
++{
++	struct vfio_pci_dma_buf *priv;
++	const unsigned int nr_ranges = 1;
++	int ret;
 +
++	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->phys_vec = kcalloc(nr_ranges, sizeof(*priv->phys_vec),
++				 GFP_KERNEL);
++	if (!priv->phys_vec) {
++		ret = -ENOMEM;
++		goto err_free_priv;
++	}
++
++	priv->vdev = vdev;
++	priv->nr_ranges = nr_ranges;
++	priv->size = req_len;
++	priv->phys_vec[0].paddr = phys_start + (pgoff << PAGE_SHIFT);
++	priv->phys_vec[0].len = req_len;
++
++	/*
++	 * Creates a DMABUF, adds it to vdev->dmabufs list for
++	 * tracking (meaning cleanup or revocation will zap them), and
++	 * registers with vfio_device:
++	 */
++	ret = vfio_pci_dmabuf_export(vdev, priv, O_CLOEXEC, priv->size, true);
++	if (ret)
++		goto err_free_phys;
++
++	/*
++	 * The VMA gets the DMABUF file so that other users can locate
++	 * the DMABUF via a VA.  Ownership of the original VFIO device
++	 * file being mmap()ed transfers to priv, and is put when the
++	 * DMABUF is released.
++	 */
++	priv->vfile = vma->vm_file;
++	vma->vm_file = priv->dmabuf->file;
++	vma->vm_private_data = priv;
++
++	return 0;
++
++err_free_phys:
++	kfree(priv->phys_vec);
++err_free_priv:
++	kfree(priv);
++	return ret;
++}
++
+ void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+ {
+ 	struct vfio_pci_dma_buf *priv;
+diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
+index 5cc8c85a2153..5fd3a6e00a0e 100644
+--- a/drivers/vfio/pci/vfio_pci_priv.h
++++ b/drivers/vfio/pci/vfio_pci_priv.h
+@@ -30,6 +30,7 @@ struct vfio_pci_dma_buf {
+ 	size_t size;
+ 	struct phys_vec *phys_vec;
+ 	struct p2pdma_provider *provider;
++	struct file *vfile;
+ 	u32 nr_ranges;
+ 	struct kref kref;
+ 	struct completion comp;
+@@ -128,6 +129,9 @@ int vfio_pci_dma_buf_find_pfn(struct vfio_pci_dma_buf *vpdmabuf,
+ 			      unsigned long address,
+ 			      unsigned int order,
+ 			      unsigned long *out_pfn);
++int vfio_pci_core_mmap_prep_dmabuf(struct vfio_pci_core_device *vdev,
++				   struct vm_area_struct *vma,
++				   u64 phys_start, u64 pgoff, u64 req_len);
+ 
  #ifdef CONFIG_VFIO_PCI_DMABUF
  int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
- 				  struct vfio_device_feature_dma_buf __user *arg,
 -- 
 2.47.3
 
