@@ -1,78 +1,80 @@
-Return-Path: <linux-media+bounces-55500-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55501-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0LdpNp7WsmlDQAAAu9opvQ
-	(envelope-from <linux-media+bounces-55500-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 16:07:10 +0100
+	id 6PKrCm7WsmlDQAAAu9opvQ
+	(envelope-from <linux-media+bounces-55501-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 16:06:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5C3273EB5
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 16:07:09 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4CC273E89
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 16:06:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 1F2D3301281D
-	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 15:05:10 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DF01330391D4
+	for <lists+linux-media@lfdr.de>; Thu, 12 Mar 2026 15:05:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9F43B6BFC;
-	Thu, 12 Mar 2026 15:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53A263B95EB;
+	Thu, 12 Mar 2026 15:05:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j6lqU7Ri"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7rPprZF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9C9386423
-	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 15:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4531400C
+	for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 15:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773327907; cv=none; b=TPFb676MHBzRuq6S3hCOLwh4oKHqEerx0u8QStZQPbfn2oaKhXJisBS2eiF6LJavVpEhJPqfaV4ID2gYlIil3lzLzwY0GjlsX/AjitIfTp7jmakMPH68PkQBAALavSGQ9OhR7rulLCnSMJVSGd/tSJfL9oKIiaGoNoxhxP3dexw=
+	t=1773327918; cv=none; b=UL3lH9ZPDsOJ6tKZrHdkeJYzdd99WcGUWBdq6IBB1jbmGfrutR/lMCbWUxQk0OOGQ8V6fwPCI2cQozq/N3JMIrjJnTs65HJ+iZWASBaxmMF8hQ4F+HXoir/GmcFDxyYNvcUuAGfmTGuyRRiAmUAOeCswep9mc6o61lZUt6Um0Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773327907; c=relaxed/simple;
-	bh=Ou176iaKRapsXxPlFxmCOXeZg+hgHxa5jRA/hTxjWH0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fSOFxyEMNjDHv76OS07mRS/x2QbwTjW/+w34yT7RrgHSNI5I/rRanBMcnlYDcGuu/Xb2P40paXcSo4xMbGUceaT2ogxrEvX21fhbOsr8HSzDuSW+8q4bfWEfv8jIpYeMDiso7h0VjpPjjtQgEmFE0BX09F9rNCipsjBUJptjcrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j6lqU7Ri; arc=none smtp.client-ip=209.85.167.43
+	s=arc-20240116; t=1773327918; c=relaxed/simple;
+	bh=RNegquDP9ZAvanXafZvoUaSklOxtzsNxpKAL4uAng6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N7UhfxS8MvcEzCc6+56qKTsVD6VhipO4XkvmB0RLeqsrg9CQiXcRTncKoso2WuQhupvMI6pGIAyQ18PPQuDi37PrtfDkK+8IkGmuCev5c4Q0NsYeavPW3dABcPRA9YBj44MxK/cM0PB0K0G11Ua18ksXtGVezwKGP8Ancd45H1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7rPprZF; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a12f88d839so1426088e87.0
-        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 08:05:05 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a0fc5e2c59so1468273e87.1
+        for <linux-media@vger.kernel.org>; Thu, 12 Mar 2026 08:05:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773327903; x=1773932703; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sFoMkityIlWAkBj/ankUjCHQN4IX1we00551tFsNNnM=;
-        b=j6lqU7RiNL1mvT/y+NVmJEaa9Si1jTdzA+1JQpwAQfraL/AeQmcEXO7zobo2V6G7bx
-         Dh6KHzmBXZdwAWu/3J4TBh4m7pN3NvYrFk0VTgaCWy2XqTc7SsK5mf4jLbtUpCX9o7tt
-         4cRKeiJc9RtcUJgKgY8FHiMePS7Ybjqes63lBo2cuQPQBXOAm3BX5D+oLqhK+ckA3HmC
-         4UYZCdFik6Fe30ytjxwsiWuHhPrL0gE2KXLMuU9Hmz06ssfTVmWcazKQAV5KNeUucEfq
-         iJFeVBShs7/0caXzqiMh8p+9S53CCeqoCuNOhtRJJMIKDipmi8kUV1QjlcdkElXI2Zq5
-         ocdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773327903; x=1773932703;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773327915; x=1773932715; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sFoMkityIlWAkBj/ankUjCHQN4IX1we00551tFsNNnM=;
-        b=Dv4vz14L7V0+am/kReSh7rIOizZoEoHDoX897wgLmFJHK75Sg6LIupWqxjRJOyg8dA
-         npYwVzA+WIJLxQJ13aWyIQFhSUKjnNwdHXDsyGG86gkjwsNCaaKnab0iG/4qhnuK53kG
-         wnnFYhgXw5kXEzzdN7PauwEBskBTOOwdU5v3j2WG2U9bUEoPERrX7XJCiBy54msEqBp6
-         uvUjjWPLU0XPqXNX0+M4yfgnOQbLD8ddPQkXitKRf7+4/KHW8wJbzGWRQUVlaTgdXugI
-         XLMWoscBozz8rsEyRpFr6u7+BiuWZ/LBO2LR55yeu5u1SaZyC97g/H9FHoFQyABycA/d
-         VifQ==
-X-Gm-Message-State: AOJu0YwA9DsJPuacYHsCxvEv3ZER20hxdZiSlCRicNFOEunZ2y0orWvw
-	M4KzC0sikoSL/7BtsRHMfyipE6ssXqx1bsR8qOi3qcvmjl6EWjw6dN4UiBwKzlOBVTM=
-X-Gm-Gg: ATEYQzzl4M2Q9F77buDaPeJc9Wg9DBZQ5GDL7loUH4+rnA0DazvnEmvA1m39JKcHzHK
-	ML0HNNkhEg3VhcxOjwlmlUFkdOvVqxAiW4xQep1Wjip2Sh99c34MqHY0OmfdQVssOg6BqzDO4I9
-	zQnUVeFYDLHije9jaLa2hrngi4QkHVv5kFwu8Dgmf5dYwEy0vFc83QE/R3s3bc7rbCIFS3lJ7ai
-	sRpx4Ph1l3/3rEeeT+xtsu8zS2n7CnUEFau6kW0Dm2yaMHQR6Atuu0y7NwmnU+XV2FDDHiv4PCv
-	as4X8+mqLJIMh6VBz5GgeoWbsXDwHjDbRgKIyLS7x5FlfHECWC6gxdjgpaFMkPaQbxE4rlWvBzU
-	q+wJIpgM6ipkTPbg5Pnk7YKMj7QQrZggTGBvbZUl/l+8G2Z79MdCI4Fmja6KAOOYeWTL5CArCrA
-	4Pu/rPuB0efEEqLxE+D/x7aDmAICFd3Q/FRi3TjQI=
-X-Received: by 2002:a05:6512:2c0d:b0:5a1:37ab:312b with SMTP id 2adb3069b0e04-5a156bc2156mr2304776e87.15.1773327902998;
-        Thu, 12 Mar 2026 08:05:02 -0700 (PDT)
+        bh=+Mn2HYD2huymUotK4Suh+ped+Jj4U2qnf8+TCMKloyQ=;
+        b=D7rPprZFW3Zv3XJKKAZazQGno6+Lm+U7uEkTXavAQICEBYJ6XAplbcNYGLxKG0Xvj6
+         WLkqql4L3s/JM8skvT/HJBClb6Ix8t43MWxDeGaMyz1LuT0FM7obdBaHsqV4jH2CluLS
+         fsEQZj/WpLHJgVNtj0EJDwYWbrmyM3W0ah1qqjuTpN1CFIjH1MhPp/be9STqOWHYlbtF
+         ZgEAcSAPQKOO3RhZTYdDatDSx9iZpeQ3UJiPIdcpjuOYSzdYRNCGl5FXBwBo4DI8chjG
+         88Bu795yx91TxHdAkyvu6oRzFvXvqd8JBdfUs7unYHHEqsQsDFctwW/cFOA/WVlcGUmT
+         nPEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773327915; x=1773932715;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+Mn2HYD2huymUotK4Suh+ped+Jj4U2qnf8+TCMKloyQ=;
+        b=U66LF7HBXWvFNbNW5aNuugX3Pp3XR2pZ/ORPk9bWrjFdYjsmOZ3zL+OzaGdcPlbG2O
+         oH1eSft8F1PGp/imx4rNhUaZjbzZapFwWSBeGO1p+Zhk3Mocm8ZLvsvLmNXDIwM+T1FW
+         k3kjgI2WuxqyEzEFeP2/1BjwHmDsyBkq62xiiG9Ub46mD0vepLVMTDqwOHehz4S8o/vV
+         ghVVh3puOHWD5nDuot0et2GqJizXu2ZdnOnTo/MZSuSBh9l6Wuc5yZtedE0e20kKjrmv
+         XbOwgwQ3TBHcu9ggQRaeRyWS/dTNO1hXI8DJUE+3IriH6YLF2ogmjWPT0MCgyPE4071E
+         aK1A==
+X-Gm-Message-State: AOJu0YzweDZccyXkxMDieJ5Inc7/tVm6n5izh2Ixw5GqfO7mBPPTvm/m
+	6nJPQvzNt48kgMxqDGLikaXINHGWkc70MjlkKZXKumuL1klZNvmuDAuUj4cMU4aOzYM=
+X-Gm-Gg: ATEYQzwGqVFEknb1+AT5CrtGFa2cdo/kVNKOSQViD8BIGP7lKWz9bvMcBjm317Lbg0z
+	CV/h0+yANq17fVF1ex4kE9hB2dp6dWFr6z4jZV039sG3oO1BLVuqTqNr/948ccx7tj0AoGFC+83
+	LBANrlNaIOJSxHMHv/cepX+FmDh3PGim1esricGWxTUIux7bZvsTESkQR5zcf5gK5hqdu7+EUTD
+	oJ0zwxtdUT28ZuHzDy8Tg4yHJ9n89qkjkwEoRovanuKHPC/6Y1t/aGLe7h9pV5V2LPbPnRjJDO6
+	o85qqdwoKuhtaiPO0LYl4hGqP3gmLL8NQSJINkufUD/PRBaAixH/oxIL2fUYteUu3WTEnWFdjaz
+	k5Qvz4Xzmz3u9x9eWxr0I5eDGUe79xh7DrANZxXdvOY8KIaoUDXXF85y2t1ZFaANEXRz1JVDfB1
+	xCH6GYkRNPhfUolAEEoIonsixaFLQx22S6iqkbmfg=
+X-Received: by 2002:ac2:4846:0:b0:5a1:253a:9cdb with SMTP id 2adb3069b0e04-5a156dccbdamr1614494e87.48.1773327914790;
+        Thu, 12 Mar 2026 08:05:14 -0700 (PDT)
 Received: from gentoo.sknt.ru ([95.161.221.172])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a156034364sm1000197e87.40.2026.03.12.08.05.01
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a156034364sm1000197e87.40.2026.03.12.08.05.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 08:05:02 -0700 (PDT)
+        Thu, 12 Mar 2026 08:05:14 -0700 (PDT)
 From: Alexander Shiyan <eagle.alexander923@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: devicetree@vger.kernel.org,
@@ -86,10 +88,12 @@ Cc: devicetree@vger.kernel.org,
 	Tetsuya Nomura <tetsuya.nomura@soho-enterprise.com>,
 	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
 	Alexander Shiyan <eagle.alexander923@gmail.com>
-Subject: [PATCH 0/2] media: i2c: Add support for Sony IMX662 sensor
-Date: Thu, 12 Mar 2026 18:04:35 +0300
-Message-ID: <20260312150437.1091195-1-eagle.alexander923@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: media: i2c: Add Sony IMX662 sensor
+Date: Thu, 12 Mar 2026 18:04:36 +0300
+Message-ID: <20260312150437.1091195-2-eagle.alexander923@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260312150437.1091195-1-eagle.alexander923@gmail.com>
+References: <20260312150437.1091195-1-eagle.alexander923@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,7 +106,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -112,10 +116,10 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linux.intel.com,soho-enterprise.com,linaro.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55500-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55501-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[eaglealexander923@gmail.com,linux-media@vger.kernel.org];
@@ -126,44 +130,142 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DC5C3273EB5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,1a:email]
+X-Rspamd-Queue-Id: 0A4CC273E89
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This series introduces a V4L2 subdevice driver for the Sony IMX662 CMOS
-image sensor. The IMX662 is a 1/2.8-inch sensor with a native pixel array
-of 1936x1100 (effective 1920x1080) and up to 90 frames per second
-(depending on the operating mode). It supports MIPI CSI-2 output with
-2 or 4 data lanes, RAW10/RAW12 formats, and both colour and monochrome
-variants.
+Add device tree binding documentation for the Sony IMX662 CMOS image
+sensor. The sensor features a native pixel array of 1936x1100
+(effective 1920x1080) and supports MIPI CSI-2 output with 2 or 4 data
+lanes, RAW10/RAW12 formats, and both colour and monochrome variants.
+The link-frequencies property accepts up to eight values corresponding
+to the allowed MIPI data rates.
 
-The driver implements all standard controls (exposure, analogue gain,
-horizontal/vertical blanking, flip, brightness) and runtime PM. It also
-provides a selection API for cropping and supports multiple link
-frequencies via device tree.
-
-The driver is designed to be extensible: a V4L2_CID_HDR_SENSOR_MODE
-control for Clear HDR modes is included, but these modes are not yet
-operational. Future patches will complete the HDR support
-(Clear HDR and Clear HDR + DOL2).
-
-The driver has been tested on a ARM64 Rockchip RK3568 platform with a
-24 MHz external clock and various link frequencies; image capture works
-correctly and all controls behave as expected.
-
-Alexander Shiyan (2):
-  dt-bindings: media: i2c: Add Sony IMX662 sensor
-  media: i2c: Add driver for Sony IMX662 sensor
-
- .../bindings/media/i2c/sony,imx662.yaml       |  112 ++
- drivers/media/i2c/Kconfig                     |   11 +
- drivers/media/i2c/Makefile                    |    1 +
- drivers/media/i2c/imx662.c                    | 1176 +++++++++++++++++
- 4 files changed, 1300 insertions(+)
+Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
+---
+ .../bindings/media/i2c/sony,imx662.yaml       | 112 ++++++++++++++++++
+ 1 file changed, 112 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx662.yaml
- create mode 100644 drivers/media/i2c/imx662.c
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx662.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx662.yaml
+new file mode 100644
+index 000000000000..9a4c5333828e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx662.yaml
+@@ -0,0 +1,112 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/sony,imx662.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony IMX662 CMOS Image Sensor
++
++description:
++  The Sony IMX662 is a 1/2.8-inch CMOS image sensor with a pixel
++  array of 1936x1100 pixels, capable of 1920x1080 resolution at up
++  to 90 fps. It supports MIPI CSI-2 output with 2 or 4 data lanes,
++  RAW10/RAW12 output, and both colour and monochrome variants.
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    enum:
++      - sony,imx662       # Colour variant
++      - sony,imx662-mono  # Monochrome variant
++
++  reg:
++    maxItems: 1
++    description: I2C device address
++
++  clocks:
++    maxItems: 1
++    description: Master clock input (xclk).
++
++  reset-gpios:
++    maxItems: 1
++    description: Sensor reset (XCLR) pin, active low (optional).
++
++  avdd-supply:
++    description: Analog 3.3V power supply (optional).
++
++  dvdd-supply:
++    description: Digital core 1.1V power supply (optional).
++
++  ovdd-supply:
++    description: Digital I/O 1.8V power supply (optional).
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    description: CSI-2 transmitter port
++    additionalProperties: false
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++        properties:
++          data-lanes:
++            description:
++              Number of MIPI CSI-2 data lanes. Supported values: 2, 4.
++            minItems: 2
++            maxItems: 4
++            items:
++              enum: [1, 2, 3, 4]
++
++          link-frequencies:
++            description:
++              Allowed MIPI link frequencies in Hz. The list may contain
++              one or more values; the driver selects the highest supported
++              frequency compatible with the number of data lanes.
++            minItems: 1
++            maxItems: 8
++            items:
++              enum: [297000000, 360000000, 445500000, 594000000,
++                     720000000, 891000000, 1039500000, 1188000000]
++        required:
++          - data-lanes
++          - link-frequencies
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera@1a {
++            compatible = "sony,imx662";
++            reg = <0x1a>;
++            clocks = <&clk24m>;
++            avdd-supply = <&reg_cam_avdd>;
++            dvdd-supply = <&reg_cam_dvdd>;
++            ovdd-supply = <&reg_cam_ovdd>;
++            reset-gpios = <&gpio3 4 GPIO_ACTIVE_LOW>;
++
++            port {
++                imx662_out: endpoint {
++                    data-lanes = <1 2 3 4>;
++                    link-frequencies = /bits/ 64 <360000000>;
++                    remote-endpoint = <&imx662_in>;
++                };
++            };
++        };
++    };
++...
 -- 
 2.52.0
 
