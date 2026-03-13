@@ -1,207 +1,198 @@
-Return-Path: <linux-media+bounces-55763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55764-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id INXmCsJUtGk4kAAAu9opvQ
-	(envelope-from <linux-media+bounces-55763-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:17:38 +0100
+	id qFSlEuhVtGk4kAAAu9opvQ
+	(envelope-from <linux-media+bounces-55764-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:22:32 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D156288A0B
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:17:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2764288B24
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:22:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 306DE304AD22
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 18:17:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 829243185AE4
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 18:21:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0AA8346E60;
-	Fri, 13 Mar 2026 18:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63E143CCFD1;
+	Fri, 13 Mar 2026 18:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SVE1atvQ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eaGCClTr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CF734FF6C
-	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 18:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761013947A6
+	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 18:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773425826; cv=none; b=ovVwvD9M6TQdEsmElJG+CbG1NbE3CqojEJlgYlimqRrV/+h7DrTpT/PhAjSUmOUZLsVfG/DAahivvUG1yCMCicPMITBX++OCp0AA4wVC0bResJw6pc5y+RgICX0zLBUcmqLZH4F+ZXBJ7JHXpNGyZt3S1JDghPD9AJKXkh9Qnmk=
+	t=1773426079; cv=none; b=mPbXRfsaUyXChVVk4/EQdmYZkCO0lBX5iWTyM2sByW/TubOVKRnNW6ieRNWOjUOq8xYXmmlu7/3EL4C1VHN3hDtT5Oi1iJdEEka17FiuaoQY3XvAg+Xbo/XAuVXm5sW1HHjLwj1nmQkEYV252DFwm3ozLe0lhPo+3+8CfhkNhyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773425826; c=relaxed/simple;
-	bh=1I4OeSvYuWVPMCc2ZgoVl4drcdQOvpIvmjAIjANT1II=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z/PxsZwkwMe4H11o3UZBulvEGj1gWlJOOvOzlrMH6Imp5+7vy3xvkRzor59vtKEqu6UCsihF7zBfYqkyQXvyEeL5Y2ibE2IQLUiwW1e+Ju4UJLeKyzlHe8Vu9rfqtpwpXlBFe6CM4CWImjJqNQCv6smrv2jDUordXIXHXL8csFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SVE1atvQ; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1773426079; c=relaxed/simple;
+	bh=FPiOdnFRxwwj4yBBQS7IlAO9n0Q31tHDbSTTMEbWTz4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TrZay8KOqFz366qD5u6PD97/gdZDGONmu1zFasNOTHsjXs53JbRI2f7NqCLOMd/hqqAd2Zx9wdMExBsTm8PLn3HxqszqWjuQM3KBioevQmcLwy4kPGmXG1OZDcM7ZlzKiyz/nHMdf5ZwF2i0Fr/e9Wafn4wPNi9aBhb1BeAhZ1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eaGCClTr; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-661568ce781so3691999a12.0
-        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 11:17:04 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a10d130b37so2177986e87.0
+        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 11:21:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773425823; x=1774030623; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wl990qar/hDIv8CWxr9LHLIPZcrBtVlSFmkmWMSWE/Y=;
-        b=SVE1atvQy3bycJdeUTjDP5JXa5x81432F7twIxrRTB5mpPX+Cq6h75YOnKJwO6fVMD
-         HRgRrQzIUffFv1pZWJ+AUxOK5Vr/UNoYnXVbpMZfInDXHg9aU8jS3/KLHUBdk/PFopBn
-         u03J5v5v1cZiRyvRsDsHhcks1RhsxvgIjyRPI=
+        d=chromium.org; s=google; t=1773426076; x=1774030876; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l/GRqsBWigY/fgWSjpHBrgBJmMne+sWw+2+mDk8tZ2o=;
+        b=eaGCClTr/7yjDpwwrwPkTFT4zYsXtMiyBXPI/Bfsdv0fXf6XlXtXHUBaxE1FuI/Xu8
+         X1Ub5Hh4OzBRoWEHiCOnxIFMYFJ98H5uXSPqCecKFu7xP0JGDIiU0JHFGUlTQ5ML4lzi
+         auGX8DaxxqWJsUUn8HkjRCf7KiScChdH7VgjA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773425823; x=1774030623;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1773426076; x=1774030876;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wl990qar/hDIv8CWxr9LHLIPZcrBtVlSFmkmWMSWE/Y=;
-        b=rdJG/zDI3nMN6dDu6opvZAFaGI1W3leRPwEK9FAYRVk2KXYCJeSnFNO40/5Y7zQ+LD
-         5893Jl2cC3I6meCU5miIegfMlaAEDVu71/C4AOPBFHtYg/5dPn3SDV28JaO7jMfD8fXV
-         w0CLaJ7BfoJuISmTBGK4fPDx+EDdoAHhL3CUzBVP6i/n7xlJBYFBWD/Pck6wu6qtodAS
-         XNViWu2VleNkrL3rU5s21qcaFKMhjpFHfmx8+iWNWfniiG7QSLlmrxH54Gp5DyUPTg0x
-         hD0Xvb67aLtXbhgx9nmFX3gbLBDPD8bsbFcIZD5/s8kLdspGoGcWaRlKvSHydEHOQVif
-         WU0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVMy6TPm6AZqeNwkzhbo1nD2klGp6MdTEhrYEfQ2u6EvAVFC2oWlyfkfd7aO2gtipPizkt/S4MIugo94g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCX2g7E7cuAkTntBaXNGZrSfPdtj/yzrsTKPkBMOOagv1mXJlv
-	oz+K5G0DuRwsieDr4TNSYD4fM9nQ1U18GViFsX43XoupAJoYvE6sd90uSUu2NT/U/67yUH8bCbx
-	/FlZdNg==
-X-Gm-Gg: ATEYQzytHWQYQDV/n0/Nv3jS1JpM3F8gvVf9jvYU3cNRN7dT1gFHCeNiMAWY/3tdKRz
-	qA4fPSD5HoLXcX6nWs91wRUklIKcgo7w9fr7dM1G1Lym1avd9+Jzlb+aeAjcWbcYogzTz1w/tmn
-	7wF3tn0IT9NF1YQUNhXBQfBGcK7ZgtpuQfbLfyhXPUjX+VSx5J8dVfqNivL749ApLAFZb9BZR3p
-	HmvjFzDyEToERdiO1Z/qRYgmNBV/3cdnwcZtIUISEoWK1dU1HKRhLm5AyQYh2EhsclvXt2lKqtM
-	uUE2TUpamriZiQyi0UKVyMV0nw1zZrW4yGXndCDYwXhhSF1KRp9+I5j9giTrL7x0Z7jIobWeHiH
-	+8Xu/GtpsnHjMPV0rOpAU8sqkzrquBque1F4H1CdLoqnfiF4xaaGUQEKIVN+mF2kpk2KwtmTo/6
-	DCS8N605VlfTq7uVdQOVZoUNIcKnDZ2P6xgJTn7pHVUpVq9dTemaXEvPyVqvcg
-X-Received: by 2002:a05:6402:1d4b:b0:660:f609:2eca with SMTP id 4fb4d7f45d1cf-663babff58dmr2579187a12.18.1773425822573;
-        Fri, 13 Mar 2026 11:17:02 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-66350992e88sm1567091a12.24.2026.03.13.11.17.00
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Mar 2026 11:17:01 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-661568ce781so3691913a12.0
-        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 11:17:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVnexBdPC6Wr9cGpCI142HxQnUfMuNhqABBwt2pxmaWFyZ8xhWDK/Fqu6WLevsu5wCzYG+6WeOIKYw24Q==@vger.kernel.org
-X-Received: by 2002:a17:906:ca17:b0:b8e:7dcb:7f1b with SMTP id
- a640c23a62f3a-b9765063e85mr217646466b.21.1773425819780; Fri, 13 Mar 2026
- 11:16:59 -0700 (PDT)
+        bh=l/GRqsBWigY/fgWSjpHBrgBJmMne+sWw+2+mDk8tZ2o=;
+        b=tHaX5KniGgG0a02DWs6XfDRrOMfAH8M1/pVNZDdl2gdXhYUCYpLVX9xhtqIGxF8l6i
+         ZKWTZddDG4mhl44pUQPej+wYpuHSHKRHSmR6OfZ58JkAKHI0nf7yrzUuuNq9FR95LKLu
+         DSIl2yIhNlCiSUFA9fK8Rmd+Bq4TwDrCL3XzBvVQkuvx5iYlmHcIt03GY6mTGP0UpFnG
+         kPofrZ1P6fpwwpq3wWJhNnEIhbNtPkbxiHl/aGrpQgAjCLzetSoZSWl6TsPnGGHpeBhP
+         KixvbpGLKtqo7nHFjnC6Isy5yF+ZceBnSboduRfIa/Hks8ib5H88KJQByv4rTdWC+51o
+         UQpw==
+X-Gm-Message-State: AOJu0YymE88uONNJ/kko/mAtx5udeIZB9I6tDUYJdubhErrDgQ5pd9Zk
+	FqITjSzvi9G+fGIIX46d8epqq20uIpSpd77Uj2ja1+JTx8OZgynr5ZxMyLHdS8XgsA==
+X-Gm-Gg: ATEYQzyiFlv5+8ux16rAaaaqczih1L10aCBFq6974jezCzxvLcPZ6VTk4KEMqh/pK6o
+	Nk2s25mV4ZVwd1QgLTDVuQQtmTvZag6qyzXgw6Zj9MQ+6GvCKY3Hp5ptxktusmbD21Tq6RTizVl
+	4pDznH93nPTR6J1iEvgj0iDzt/Rb652BhP2yzIEydYFMb/zqKbxyhOMwtv5BJUR4QtXX0AViFH2
+	MyvKY3FE5Hx7CY76o/2jmr2SjLnsYjeX3KoL9Y/jkfRwrlt72uVSmwUXJfYt6/9dv2itudnF4kf
+	pddfxphrTqNFw2Fk+zbOzVXnUxQvJf4XIvxHy4Q3dYRLlPA1GyjCs3fZK2eLHlcrYKJRt/xmQZa
+	pE254WAi/YdDYCm1yZWP+DC0jb35kkspL6YTgBfCChQebxwKppPeGmd/P3+FAbCjx6kU212+5sv
+	1huILJjYFAmeI3f6K1OSJUI0gRFK1F1txxn2ma+4V1gkgKlV8BBEDNPCckPyesmPu2j9MgAlh3Z
+	g==
+X-Received: by 2002:a05:6512:1310:b0:5a1:4246:4167 with SMTP id 2adb3069b0e04-5a15a4c78admr2865479e87.19.1773426076428;
+        Fri, 13 Mar 2026 11:21:16 -0700 (PDT)
+Received: from ribalda.c.googlers.com (27.69.88.34.bc.googleusercontent.com. [34.88.69.27])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a15636a96bsm1709243e87.79.2026.03.13.11.21.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2026 11:21:14 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 13 Mar 2026 18:21:13 +0000
+Subject: [PATCH v2] media: uvcvideo: Fix buffer sequence in frame gaps
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310-uvc-fid-v1-1-5e37dc3c7024@chromium.org> <20260313165105.GE275549@killaraus.ideasonboard.com>
-In-Reply-To: <20260313165105.GE275549@killaraus.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 13 Mar 2026 19:16:47 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuLvB3DHdUhVW-yEEcHnAmLTykSqHywccqe0Os3h7V-dg@mail.gmail.com>
-X-Gm-Features: AaiRm50JozNIHy8Tb7uVQAce09HaSzO4NmCJR4zcbLL8j0E7Fu2GMdmmfLdXyck
-Message-ID: <CANiDSCuLvB3DHdUhVW-yEEcHnAmLTykSqHywccqe0Os3h7V-dg@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Fix buffer sequence in frame gaps
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Yunke Cao <yunkec@google.com>, stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260313-uvc-fid-v2-1-3f7a996d9047@chromium.org>
+X-B4-Tracking: v=1; b=H4sIAJhVtGkC/2XMSw7CIBSF4a00dyyGZ0kcuQ/TgcKl3EGLAUs0D
+ XsXO3X4n5x8OxTMhAUuww4ZKxVKaw95GsDF+zojI98bJJcjV4KzrToWyDMUaIzW9jEGAf39zBj
+ ofUi3qXek8kr5c8BV/NZ/owommEFlvVPOcqmvLua00LacU55haq19AX88+62hAAAA
+X-Change-ID: 20260310-uvc-fid-e1e55447b6f1
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Yunke Cao <yunkec@google.com>, stable@kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.3
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55763-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[chromium.org:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55764-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 9D156288A0B
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:dkim,chromium.org:email,chromium.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A2764288B24
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Laurent
+In UVC, the FID flips with every frame. For every FID flip, we increase
+the stream sequence number.
 
-On Fri, 13 Mar 2026 at 17:51, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Tue, Mar 10, 2026 at 11:54:24AM +0000, Ricardo Ribalda wrote:
-> > In UVC, the FID flips with every frame. For every FID flip, we increase
-> > the sequence number. Userpace use that information to figure out if
-> > there has been a gap between frames.
-> >
-> > Now, we only update the sequence number on the first FID flip, which
-> > results in frames being incorrectly numbered just after a frame gap.
->
-> The sequence number is increased on every FID flip. I assume you mean
-> that we don't set the buffer sequence number in some cases. "on the
-> first FID flip" doesn't seem right. Could you please improve the commit
-> message to describe more clearly what the problem is ?
+Now, If a FID flips multiple times and there is no data transferred between
+the flips, the buffer sequence number will be set to the value of the
+stream sequence number after the first flip.
 
-Will do my best in v2 :)
+Userspace uses the buffer sequence number to determine if there has been
+missing frames. With the current behaviour, userspace will think that the
+gap is in the wrong location.
 
->
-> > This patch rewrites the sequence number of the buffer in those
-> > situations.
-> >
-> > Cc: stable@kernel.org
-> > Fixes: 650b95feee35 ("[media] uvcvideo: Generate discontinuous sequence numbers when frames are lost")
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_video.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index 40c76c051da2..ec769a504569 100644
-> > --- a/drivers/media/usb/uvc/uvc_video.c
-> > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -1176,6 +1176,14 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
-> >               stream->sequence++;
-> >               if (stream->sequence)
-> >                       uvc_video_stats_update(stream);
-> > +
-> > +             /*
-> > +              * If we have not received any data and FID flips, update the
-> > +              * sequence number of the buffer to tell userspace exactly
-> > +              * where the frame gap is.
-> > +              */
-> > +             if (buf && !buf->bytesused)
-> > +                     buf->buf.sequence = stream->sequence;
->
-> Do we still need to set buf->buf.sequence below ? And how about the
-> buffer timestamp, isn't it also not set in the case that this patch
-> addresses ?
+This patch modifies uvc_video_decode_start() to provide the correct
+correct buffer sequence number and timestamp.
 
-Yep, it makes more sense to move the whole buffer init here. Let me do
-that and add a comment explaining why it also works if the hardware
-does not set the FID properly.
+Cc: stable@kernel.org
+Fixes: 650b95feee35 ("[media] uvcvideo: Generate discontinuous sequence numbers when frames are lost")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2 (Thanks Laurent):
+- Improve commit message.
+- Remove original timestamp and sequence assignment. It is not neeed
+- Link to v1: https://lore.kernel.org/r/20260310-uvc-fid-v1-1-5e37dc3c7024@chromium.org
+---
+ drivers/media/usb/uvc/uvc_video.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-Thanks!
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index 40c76c051da2..9e06b1d0f0f9 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -1176,6 +1176,20 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 		stream->sequence++;
+ 		if (stream->sequence)
+ 			uvc_video_stats_update(stream);
++
++		/*
++		 * If there is a FID flip and the buffer has no data,
++		 * initialize its sequence number and timestamp.
++		 *
++		 * The driver already takes care of injecting FID flips for
++		 * UVC_QUIRK_STREAM_NO_FID and UVC_QUIRK_MJPEG_NO_EOF.
++		 */
++		if (buf && !buf->bytesused) {
++			buf->buf.field = V4L2_FIELD_NONE;
++			buf->buf.sequence = stream->sequence;
++			buf->buf.vb2_buf.timestamp =
++					ktime_to_ns(uvc_video_get_time());
++		}
+ 	}
+ 
+ 	uvc_video_clock_decode(stream, buf, data, len);
+@@ -1216,10 +1230,6 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 			return -ENODATA;
+ 		}
+ 
+-		buf->buf.field = V4L2_FIELD_NONE;
+-		buf->buf.sequence = stream->sequence;
+-		buf->buf.vb2_buf.timestamp = ktime_to_ns(uvc_video_get_time());
+-
+ 		/* TODO: Handle PTS and SCR. */
+ 		buf->state = UVC_BUF_STATE_ACTIVE;
+ 	}
 
->
-> >       }
-> >
-> >       uvc_video_clock_decode(stream, buf, data, len);
-> >
-> > ---
-> > base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
-> > change-id: 20260310-uvc-fid-e1e55447b6f1
->
-> --
-> Regards,
->
-> Laurent Pinchart
+---
+base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
+change-id: 20260310-uvc-fid-e1e55447b6f1
 
-
-
+Best regards,
 -- 
-Ricardo Ribalda
+Ricardo Ribalda <ribalda@chromium.org>
+
 
