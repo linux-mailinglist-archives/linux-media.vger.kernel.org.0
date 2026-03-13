@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-55644-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55645-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QCwQOGjss2mDdQAAu9opvQ
-	(envelope-from <linux-media+bounces-55644-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 11:52:24 +0100
+	id wGgHAorss2mDdQAAu9opvQ
+	(envelope-from <linux-media+bounces-55645-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 11:52:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865CD281C3B
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 11:52:24 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8A8281C51
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 11:52:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 04CAC3177394
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 10:50:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EB53A3204599
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 10:50:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9220C38B14E;
-	Fri, 13 Mar 2026 10:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 050C039022F;
+	Fri, 13 Mar 2026 10:50:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JjWamFaQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GuLRxbYk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1C936AB5E;
-	Fri, 13 Mar 2026 10:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5E41F131A;
+	Fri, 13 Mar 2026 10:50:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773399032; cv=none; b=p5A3zBlpcX6HoqC/HYdNDY17I3Bdx+gks2MIoFimSFdbeAlfCl6A/eCKZiAhMl+CEsu3unrlMPGoZYhT5v4oo972NBcMvotbKz85SJW7K66QCdZoTe+Slc/xHh88auSOag0mX5Z2N6ejSk938w6dr3GIdvYcKxdvRI/ytuUJHB8=
+	t=1773399033; cv=none; b=RyKpzhw5VtBHQdZOFtW88qlBpJ3W8+36GXfxl6nL/jzle7XXthB2b3621EequfIwRZpqs/gyTQ1F5eTZ0a/LEpyHdL2eYpeFYnknbJSKsYF+8fx4PRVDXdbOS26MTPBJAUhq/SmxqQzgaZp4ZIlVe74831PC4HM7+N46VjXTp2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773399032; c=relaxed/simple;
-	bh=wLGeUrCpQG3n2XgY0G5Irm3G56frjeImXwO7hwahduY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gWKXaDU+JtnxbX8RC4UBwDteIRCqmjFwyipFcFOzR6SKtmgZHYB7Jmer10juBkS2fPgiEQ7IoZVgnVcxzdhV8rKWWhOJoc7K4cLc7Yw1LUmRksM5IncA+AcekL9KQjmFjlQ/ouUzwNiN1RkyYnTEvWZtRCLl6iFiP38TbqWT8Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JjWamFaQ; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1773399033; c=relaxed/simple;
+	bh=A27gmqqqTjMmGh17VIJ1fTSY2+1aF1uz7uwgexKRpUI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=QJyY8UcTDjZFRl2wMUwr4XmPm/1x5rGalH38pWf03jNDIqV7sUrqsakyOPSw6xRSulnD7VTeT+FO4zL9SX3pT6kZXq2+YYsP/h/pkNnvx/Lf7HItY0KJ0xaimKXGqe4mrQgRmU1hhzcU8GgIvFnWHKyVzZKup7CDx4NQvl5QTy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GuLRxbYk; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.224.131] (unknown [91.80.67.247])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47BDCE70;
-	Fri, 13 Mar 2026 11:49:18 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0B88C103D;
+	Fri, 13 Mar 2026 11:49:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773398959;
-	bh=wLGeUrCpQG3n2XgY0G5Irm3G56frjeImXwO7hwahduY=;
-	h=From:Subject:Date:To:Cc:From;
-	b=JjWamFaQX4NT8ceeUSKaG0alD+RYVArG0RvHkGosMzi02sH37t/IFyE3UY3lZMa2a
-	 3Zl+9CefeMDz05LXGZAG6kmz6Vqn/5pJVQiTnzqLNur0U81xf2rPcEgRMWI+n1NexJ
-	 sLl/PNXBE8HwObTpUIsUDiS/lFBsIuRZv+edb0mQ=
+	s=mail; t=1773398961;
+	bh=A27gmqqqTjMmGh17VIJ1fTSY2+1aF1uz7uwgexKRpUI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=GuLRxbYksfjnPclzoc98k4KClfUXPyFUXBU639a0bD3kdP3R+APxpXyiLQ8dL1KfV
+	 WWb5Q9a9VP9sdyqpy+kHU6P4LCHzYJ/ikuFiVDiV0PeVeoSRN2RDYrDbNF3mydwjr0
+	 XCdqP4Obpky8To2B2fwpL++d5bbsSVkcjagtIV6E=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: [PATCH 0/6] media: mali-c55: Fix ISP reset and blocks bypass
-Date: Fri, 13 Mar 2026 11:49:37 +0100
-Message-Id: <20260313-mali-c55-fixes-v7-0-v1-0-21805b2b516b@ideasonboard.com>
+Date: Fri, 13 Mar 2026 11:49:38 +0100
+Subject: [PATCH 1/6] media: mali-c55: Fix wrong comment of ISP block types
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,10 +55,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMHrs2kC/x3LQQqAIBBA0avIrBtQy4quEi1MpxooCwUJorsnL
- R+f/0CiyJRgEA9Eypz4DAWqEuA2G1ZC9sWgpW5lrRQedmd0xuDCNyXMHUo0ftZWNmR71UM5r0h
- /LeM4ve8H9u7t92UAAAA=
-X-Change-ID: 20260311-mali-c55-fixes-v7-0-5db2a04ea818
+Message-Id: <20260313-mali-c55-fixes-v7-0-v1-1-21805b2b516b@ideasonboard.com>
+References: <20260313-mali-c55-fixes-v7-0-v1-0-21805b2b516b@ideasonboard.com>
+In-Reply-To: <20260313-mali-c55-fixes-v7-0-v1-0-21805b2b516b@ideasonboard.com>
 To: Anthony McGivern <anthony.mcgivern@arm.com>, 
  Vincenzo Frascino <vincenzo.frascino@arm.com>, 
  Nayden Kanchev <Nayden.Kanchev@arm.com>, 
@@ -69,32 +68,32 @@ To: Anthony McGivern <anthony.mcgivern@arm.com>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>, stable@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1372;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1630;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=wLGeUrCpQG3n2XgY0G5Irm3G56frjeImXwO7hwahduY=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBps+vxIJ9RPRu8ENsbDsdDgwKkHTCtykKfBA/n0
- O2IOqQpj+SJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCabPr8QAKCRByNAaPFqFW
- PE0dD/0QM1t3UNF9DZQ/HhSi9jfn78aL/0cJcCPy5yctAoSlkXAwRz1ziJoKeYtWELVXFb6jll6
- S2nolIYOAc69uh9RIswxc3M9Kq1sbhjt+N7FFi9joZA1G7sDe+db9tRpmWDSxv3bPRWnLXMd3L/
- cnJ/sGDStSTzkimrOjHq5U7+CdEBfL4a0jWibmcJaVDGEEWjRbfo++na78oEoz/s3tOIJnheZ7p
- zaMStKd1Sfq96LqWi8gTYA/nMT9f99nd4z2FwXMpfTo+ta7I/a/7RexXmggP09j9JVCViwF7MSC
- K36lk6bZ27iX2ogtsou8h1asN+9bHFEHszw16azrzEwNKsbkS0l8XU1vmCCYeFxMjXAGfAGuQCj
- BTPwGbK/mulN8jvXWVLIDngFXUprdrAE0qhep+3tUg4FHSj4PcaDD+LI0ZJJeSAFtRV6q/HqOeM
- 5tcHwc5hJUTmCWmTu8muDuQUp9MsDdwZAK9eoizYkJnsjHTgzHrTdrmagpVdY1337AcEHHkmUR5
- zscn7HHxWkF6pVl9NAa1OuvBYeZonuXb1CeFKmELhFFmjEEgRzpJ6ydM/cvKLB7cFZaaybpIKAn
- qi4fuCvxnEkEh+gv2qpIlzwFehWXWhwsvRVbUMt1EWBvdkP0PTAqANDz2rwAbeZijkeySLgZ9G/
- xsM5avMeq9dZ/rw==
+ bh=A27gmqqqTjMmGh17VIJ1fTSY2+1aF1uz7uwgexKRpUI=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBps+vxa/5g/kI1qaylZmci1Z8vVgAUEhzzn7nVs
+ u0J5KfPRd6JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCabPr8QAKCRByNAaPFqFW
+ PO2WD/9DGsq5i7IX6IvkzIWXc60whY4zkws45xH9OTejFc9pPp4FfCFt96csvfxdeZUXDNFrQjP
+ BZaHhYD23YoZU+ZWbvWtb8dp4pangho9ggV7sQyi0kfQO9QWsFBZyI26v09M253Mze3qmg0koq3
+ dZD2N/IOlJ0vOPQrQ2ptCqlXdj6+NoKPqdb3pSNETcE0jNMtXOKYYqeO1ZZPHP5WCmQwyjrM8R4
+ 0TWhKm+U9W3s89Cl9s86jJFS5pNoE986ScSWvQH3QF+Laz2NUT5HTo46fgGdphd5r+xm1CJQidi
+ R30v5GP/ZAItJk44RrLHU7LPuHMbXrrKu/DCgWXlJbwpADD+qoTFggaALkosIKcA3OEFB+lj9F3
+ aunNy1/gAp8496MPQWOf+BD711GfN9JjLA3/30cS/HFQcAIqpe6kknNej0CtjpoetZ14m9uSLyt
+ 5qyahyfagKghD1HM2ajtVv5N9JbbUFYu2jGMqErEM3OHFcllP5XumfpueRJkhbK3rH53bl7qQLV
+ DjVIQrAFFSjuEdjrQbsW0QRlD3wEMDvRJnen8/jPtw0Wo94fxFmmpARIB2Mz8jA94YNVp7CihoU
+ B0jw+jhtBNMIlcvY5Up0kC/jmRx0KdIsGZ//CU+D38I1Z0gyX1/DSOx98Z1gv/wg3MjWH/X3ep6
+ uJacSYKh/8PgWDQ==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55644-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55645-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -106,51 +105,49 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 865CD281C3B
+X-Rspamd-Queue-Id: 5C8A8281C51
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The ISP is initialized in two different points (s_stream and probe).
-This cause two consecutive start streaming to use settings from the
-previous one.
+Some bad copy&paste happened in the description of the ISP block types
+and AWB_CONFIG got mixed up with SHADING_CONFIG.
 
-Also, not all the blocks that userspace can configure are properly
-reset.
+Fix it by assigning to each block the correct type.
 
-Fix that and also bypass a few ISP blocks which if not bypassed might
-interfere with the image processing.
+As only the comment is changed, there is no uABI breakage or regression.
 
+Cc: stable@vger.kernel.org
+Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
 ---
-Daniel Scally (1):
-      media: mali-c55: Fix Iridix bypass macros
+ drivers/media/platform/arm/mali-c55/mali-c55-params.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Jacopo Mondi (5):
-      media: mali-c55: Fix wrong comment of ISP block types
-      media: mali-c55: Initialize the ISP in enable_streams()
-      media: mali-c55: Fully reset the ISP configuration
-      media: mali-c55: Bypass the Iridix Tonemap engine
-      media: mali-c55: Bypass Purple Fringe Correction
+diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+index be0e909bcf29..c03a6120ddbf 100644
+--- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
++++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+@@ -43,9 +43,9 @@
+  * @digital_gain:	For header->type == MALI_C55_PARAM_BLOCK_DIGITAL_GAIN
+  * @awb_gains:		For header->type == MALI_C55_PARAM_BLOCK_AWB_GAINS and
+  *			header->type = MALI_C55_PARAM_BLOCK_AWB_GAINS_AEXP
+- * @awb_config:		For header->type == MALI_C55_PARAM_MESH_SHADING_CONFIG
+- * @shading_config:	For header->type == MALI_C55_PARAM_MESH_SHADING_SELECTION
+- * @shading_selection:	For header->type == MALI_C55_PARAM_BLOCK_SENSOR_OFFS
++ * @awb_config:		For header->type == MALI_C55_PARAM_BLOCK_AWB_CONFIG
++ * @shading_config:	For header->type == MALI_C55_PARAM_MESH_SHADING_CONFIG
++ * @shading_selection:	For header->type == MALI_C55_PARAM_MESH_SHADING_SELECTION
+  * @data:		Allows easy initialisation of a union variable with a
+  *			pointer into a __u8 array.
+  */
 
- .../media/platform/arm/mali-c55/mali-c55-common.h  |   2 +
- .../media/platform/arm/mali-c55/mali-c55-core.c    |  35 ------
- drivers/media/platform/arm/mali-c55/mali-c55-isp.c |  37 +-----
- .../media/platform/arm/mali-c55/mali-c55-params.c  | 134 ++++++++++++++++++++-
- .../platform/arm/mali-c55/mali-c55-registers.h     |   4 +-
- 5 files changed, 140 insertions(+), 72 deletions(-)
----
-base-commit: f6390408a846aacc2171c17d88b062e202d84e86
-change-id: 20260311-mali-c55-fixes-v7-0-5db2a04ea818
-
-Best regards,
 -- 
-Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+2.53.0
 
 
