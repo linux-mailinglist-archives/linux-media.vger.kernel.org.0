@@ -1,172 +1,356 @@
-Return-Path: <linux-media+bounces-55584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55585-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SLt7IZnBs2mEagAAu9opvQ
-	(envelope-from <linux-media+bounces-55584-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 08:49:45 +0100
+	id eEyDJsjBs2mEagAAu9opvQ
+	(envelope-from <linux-media+bounces-55585-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 08:50:32 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098BE27EFAD
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 08:49:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0B127EFBC
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 08:50:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B76F9304DEAA
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 07:49:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B03493076B53
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 07:49:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8980366836;
-	Fri, 13 Mar 2026 07:49:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3CA636AB44;
+	Fri, 13 Mar 2026 07:49:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="pJQB/yUI"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UNe+NcVj";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EqLvDkwU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic302-19.consmr.mail.ir2.yahoo.com (sonic302-19.consmr.mail.ir2.yahoo.com [87.248.110.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FBC32ED32
-	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 07:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.248.110.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A31330D22
+	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 07:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773388165; cv=none; b=hXPm/F9nqn0PEpei1VKRu6VUUSf5fi9pll7ltfGU8Qy9rQfGDvxQPuGjSygVBHcYRgbdUIXp1ADbXNHaAldWzNnRWIRer4yhXJAxM3nz4Q86UsNUsuyJjLUbjFnQ49X1azhIGuxhmvEzmI8IzpLWNr2pJBQ0rUZmQem9hci0WGI=
+	t=1773388170; cv=none; b=CQMqs5IrKpnlnD/0iUvGqzqOVLHBIypkO7lJaoDsb+AZJruxTTQ8lz2aYVJ8JnZjK5Vecsb55f19pse2apK5CweNbJ11Csj0+DxuBzVNcwbAetg26IhtrILBu+u7BudDh6D6sw5ezaktJsHvMdO9SdilzIp+qeNsjxLxBeF6Xp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773388165; c=relaxed/simple;
-	bh=rnGCQPWQA4n/Bjvv6keJvlbHiIUTQW87yQ3f7/wVmsg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=BH2A9TZiXKoMiEoexiPf7Pk0TGK/nN7ZkaKRCGMGVHNjja/5jNmUu0B4W6DmFDZ1LAlk0FTzG2rLBR+Sta/oG0MAidMXwITd9oH5+u3V0jomSh0jqG/bWQP2kikwVLZGQaq/vNCmUAFvacxJnSjY1+yrlc3jccUYy9eS93y69hQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=pJQB/yUI; arc=none smtp.client-ip=87.248.110.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773388162; bh=SQnN+C/BrXIYCmReKNHrdNkFUsdSw/jVAftWsFeFmHo=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=pJQB/yUIBZsuAeA/LKuKSpzYaTByBflmyriT6u5clbBjDvOAmccdO2JJdAxvcfFmU1aDovrb4sFfJHonSq40gPF5gyiYIuiggTVlXChDDLK3l5nrl0ETcRIK7BogsLquZ8UXmWSbCWkU2futkWw3kPbKy9Hys7YCjODUkDm09XYuCclUn7zJ3st846XjeIlHz8fcc5wMDpjAYItUNZ4ttOumBzfVHTDSeBAwh8PIQicsWx/C7j6PPk+MeSzVAqqWZx03McNQypmX9GgOT4PyJk0RNrHYNXvPYcTmw6GwNO9A2+A025UbcvuaBw2ZBssM9uRH0ZSzORoQzHCG8ynKOw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773388162; bh=JK40MhQnlV9v8DuNzYbbVdtv/4OY6owtyBJh/1YJOGj=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=nzYknHMPFbuyg+ju6Mh4tkSzgRJMjNjvaEexBJyNHUMHusjXLlr+kwewMwSJwrRoFHzok1tQ2lGtGK3dkNeMpzeBiYCSqEH0fbspHTMfpx7RwxV82Zj5UDt0bhRnzef/ZZprNW3OlQj/juLAmX+SCW48lWaELP++PBt1jEjg84NKeRzy+S5Fqa1uSCcWM+FONt38sbkoTjq2T9LsK0O1doIsOyaGLfm+Vp1wfTtPTvvuS2CvFbN55u8/pLzqc9WSerY6ZL39KIB0dZuxFUm3vVpk9KEN5PJO26UPQBp2yXY+EfVaertpajw1dDJcZq7gc1rFykDlIUITZbtbRaA/kg==
-X-YMail-OSG: rwQRke0VM1kFfVKWopHHjvGDglWTs8ztlOOZxJKEsyI2ehHI5dlZlD.sn09vnvF
- tPj4Vafks08hHS2NvFq2v395orC9tBcDs9AdJ7ODmSOuea.HkcI3tFSExLiks6bK7phPjOb.3UWE
- nBHnPpzGmMTvPa93Rp8ejshe6MXLW7q4N26OMarFBSxt5WwqG4f05p3GgWpEWvC9aImIqxIyJdI.
- vros9hI38dmH_Ko2Og3AAOfoGe1ZtJ0p_WkBLHhl..G2XxVSXWGeX5V_MV_NU2C1hMilv1blwj.T
- jZidAGSIn5M2j7xJNylvScHaLkt25bzSRgegk2z.paMd5MuPd_.B2NG6.nAUALod2w3POh7hO1H0
- 5Qw9iM72D0NPPzSvzC_G.qYY2zLotY.2HNYj7PcPDIl.wn3Fr0ZGEGqdf88swDbxg3N.WcgdLii3
- jZOjLsvUvx5JrAIXb.y3BuML5yHZUF1h_DR08GVd_RiOemZSgcQPKKjx8yxOkueKNvTxAQGPp6B0
- skK1W5IeUw3t4PsDqtV3k2W0CC2QPkWL7E2Jc.v2NnL3c5gsVN.hf26PSYgh9.c23UU2BiV5M7B0
- vevF.3IwJhKAFr9apqys3miA5Mwvd1pw0sqooum_qi3b8xzP6ZZBEnKX.rXRt4.hcQTKeIedA85S
- I9k1yNbHPoWj_bnmhkTIiXKwAZi9BoweMOfJTSmk4aMeS4o9HTcXNYvJjWByJXIpBe2dR44DmeVC
- Mn2VpB7_ceJGevWxH8M74GtxJG.xkQe07AlqJiWwFNEaE2i39g.a78avymDZJt1EQGlUGvnmKVUp
- 3nk52DCGnv6SJ8mw7l68W8qZXVJhdE_1iuU1mfCFjYB6nADGRxIJ9MTsBTavrkfz0yKRmJflDg2a
- 5WT9RBECyIKRYK9dDE.62xfFPq00ZWiskpc0mouHAnbTMIMrYSFPzVlhIHw27d13NBnWKSmJaai3
- NwXpGSV640gtPVL2g49YVHVmL7rrtH0v9SZN42nW205EETBcqgBXSzFjPVAN8O08limmkWwWK6Y4
- N0pME3SZFfA7pmyBs2HIin7bHGB_q11VYx3lrbsEM4_g3y69Oqp8O6lOCBP2P7qUPjO_4W_0ptVZ
- BAD0x7I_AFPW1jz_EsZp8Hk8Y5IGCjkT_uH7cA2QPanMuSpL_YQebZ0ClIbvKAmSGwh0YG.fzaDN
- wZz4QwW0P1wZH9T9nW2VXppDHt7N_PEQkZ075pdw0MGmbkaEmkhXvaK9YuNl138vgKtIrha8CDr0
- mtOtNThQ55Vd7LrCCf2MzrtVjbjuJ2WB_nhWswvDJIv.rba55tPvlb3cqf_7JjTrYXepwhfZE2lz
- RPbKZlQVF9YZ3tQreSepw8UCPUSJzEv9t2XeUTjjiEKbDjkE.hFNC_mo8evIF0v8zUse9bC36oU1
- 1E_HiqJF9TbSyMgnykUvML6aWZR0dBRjVzefb25GIXB4bFkuz05zl6UVn_Sr9sjbT_8zAivM6k9J
- zCTZWI_CLliZcJXxoeKliD0v6L9pN1nHnSUOqYS6wQxfAXdjXC_6Y.TzNAYDZ_HeuN9pgk8E5cXa
- Y1QRh7L8B0VQYU80vzCiY8K6jmbxjDtA2JtUZr2aoaQ26ME37UDbd753LVR1ml7YVFL9.S.F4Cxa
- sS3hKZhJnJa.zoIXgrBCBknbnW6F3ZghR2E8J.kieU8hHETUyOwYKH3y3uekvGUgF_Vip3UlP45t
- WwWOo8OUmYaFOKIAuU5zaBw8YawNUKzB.nLZEAFk7VmsQEDLRFM0yLT4BkROlfJcnLo4mUqdK0EG
- Rmvn3ZZjIpamly4ZKIW1mEmatTk9fXFoxSlL5bCuBEB5Y3B2WYACLb3YKrKwckAlZU5nh_Dp8WMg
- Xym0QciT9lqMrZlRSySi8it7zk7SL9zextP5tFWQ66iiXaT7kSm21WMqqHN.lra8q355XcRiPfa3
- UvWJw0xlMqdhjWirFaxSU29LM6QC4Y47ieinTmPGwpfeeQ4hQiFjD1RX7_YuoGG0lJGruTNzCmiK
- CixLsROX7feNbCloRuY8OLFTScB.fC90g1flQOuGVSX9LX__okzB.c_65iMk5uVqayPk7Q9b05mW
- oZVsgz80pZgsVJXrwIrR6u26ZEi38vMTo5q1nhSYt1C2emHGRhbDK_fMtjIW6n7xhdu7FL8yPv8V
- XhBNOlbNTz6brYGEl131eYSAWESf910MlBcEOIU534IGILI4RwL3crFhi5ZascuUcso_wl8kH0IX
- uuSzBr829K67yihkHsF0mAWfh2zRM4PYiwOAMsLSWf3jTiFsljOIuMOPiriEcYH9woTMGBpnxRGy
- r155LjqRGunCv18s_B_THJW0Fng7laB6pVQ--
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 2ca73ae8-24a6-4a47-8a0f-79f59662be0c
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ir2.yahoo.com with HTTP; Fri, 13 Mar 2026 07:49:22 +0000
-Received: by hermes--production-ir2-bbcfb4457-c8c4b (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID db11ebeee954aaba4505377b1fc08410;
-          Fri, 13 Mar 2026 07:39:11 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Fri, 13 Mar 2026 08:39:07 +0100
-Subject: [PATCH v2] media: staging: av7110: update FIXME comment for signal
- strength
+	s=arc-20240116; t=1773388170; c=relaxed/simple;
+	bh=8f+tPI9jZgMtDebyi0ClkpmjIfKv3vSXtrYWz/gOJFU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pYVK6i4P6aiRXeiFQHiZvYAb2qmYeCELEB+DzcVaooKE6vzdKfgtJPe6Vj1U3xxWI5HJ96PJyo1XTpvH7ASt/7oRRWjnat58Jg2qvqKGjAxbBrxQ1fgHPxOILTUF7DRTFm2HJ1uyuKvzwToi+O05L8nzMMy5TV8+EuyOFIuJBOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UNe+NcVj; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EqLvDkwU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62D5tePC3844102
+	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 07:49:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	0j8tN+Fi3qZTgh6e6SGgA2NkckaLxNXLtTk/aRCtdRY=; b=UNe+NcVjz8/d0+es
+	PZ8zR6BaHBmJ2oaVDSUPQQv7G20frSh6VTdGhl/h++aRZMpUReZ/F43g6O58wMsk
+	Y6orTDhnuyb7ImS9M3TVyEEbyV2eYLCcZX5cVk1cV/RIi4vq+6W0Ua9K4c2lv9gL
+	Cm1oci15cDA4U5kxzqmuB/zxLcWccTdIMMZ9naGog9CY2+YQwB33/PYqFH64xMX4
+	vyR237byscKHdPyK5j8gdFBtB/Mn04Tw5J/50aqlXCwYRWeUJdFJvQd2m2IF/jKC
+	KoEkfddNMN6tGb2TrA6HbWF1lonrpPKClYStc1u+P79aTgnC6zNkrObRwvmPsoSo
+	CSYpVw==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cuh54w0wj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 07:49:27 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c738662b963so1182411a12.0
+        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 00:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773388166; x=1773992966; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0j8tN+Fi3qZTgh6e6SGgA2NkckaLxNXLtTk/aRCtdRY=;
+        b=EqLvDkwUcEGk5xRiqTVt9sUBzHXEAPD9ug4qSX6cVqz3/KsK9PISrEhkiNReQi+eJ5
+         QrjLC6JWdNR9SSkH2c0bCQ+BAhoJm9xqbfxsowKjKKNQS8YXl0tNIf7kCgA/ePAk4j79
+         6eTQ9sP5zok3EeiQBPdCiKdPKpYY6H2KBGN2DhLEk3SM14YChvnv2B5BJA5I2qcCFvUw
+         Gbspxt3yPbEa3rNH3TthpkRz3R727rnVOH72j0xDs2rzSVMGsqVrTzLeWTFRhz1BtgDv
+         SPbkl+6sPpXXjz8uabRnc3cRjdIfLwmZE2bxCCxofzVGwHDDC3Bvye3piSBW66XXFDx0
+         8fuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773388166; x=1773992966;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0j8tN+Fi3qZTgh6e6SGgA2NkckaLxNXLtTk/aRCtdRY=;
+        b=Ja3rIv8pJzA5CaDBQMpO/jotD1s0oHabkExFXQlcVJzExYqS/KgOfZ1d+WvSa/drI3
+         XjRAk7PthWkHHYX7uxsf0Ku+bW1Cmj2exfywywC80X2cEW21IKVu/Mw6B0vlRpzh4pwv
+         al6j1ZEN5EiyOfNFwL8HrNT9/b17FEA6s+NWF/A3sumOZ62h4yUb7WaQyPPmjQnVXPg+
+         daOYihTJLVOe6TF6s7QhtEu9RLSwRcfEUkaLg99i1Ecvs3UOiixqpVhf/a0syjMgOOqp
+         oFjW7QzYx4NscRNhzQJnizaPGXM/YyZn8eqPBqfmMF1pf457YZqNpAfdFoBJmHn5WhaT
+         oQbw==
+X-Gm-Message-State: AOJu0YzL4OguSi3VMwFjy3MvUpAlXpwMpyPQgnVuK7pZrId9x4tOOm8T
+	19sppjBJDMDUalp0fGNvw1PUkl1cQubyoaA/3D2FfeEVBHW14vwSHKuhWLNVhNtBvpo9K0QxBnn
+	lxkkYJl80XhI0CjT8nMKfrCvfSzMCIypWCkH2pyqxBv8OIEPBZmKTWolDgwG74oRKjA==
+X-Gm-Gg: ATEYQzywjLSvOXxiaYdO+TqDdR0Eo4cZrvzqFRwiz/B/s86TCeMvBHSqLqo0l3nKrJt
+	hRKSZKB4v/E9BFwMVXIsEtcUd2+IcBtiU3LrN/1K3etWpYZyIBx5TAOLgpKulE+e0fgDB8m3zx7
+	800kK6PwIRgsCllmrl9nxcxEW/PCVDWopy2ac9xc1+cVwb9eHDuAOBkhZQVvCDkMr3abCI9YdD0
+	lZbnnUL60LHcNch1sw+FElbme9ntP9It/3yHqAnzFth4ZwnqEHb6n+jqRBuSSfH1sch8E7HyL4D
+	IWsnjwsn9ix6wyP0p5itvbvSKgdhYZ3sbzP27x/lQYEg8OfLfeYrkVYdAJhSS8QVsrVMBgbm+7K
+	l3PNia/96G8Pp8EqpcuWLQS6sY6L3gJMJZcvQSRvqclLzpvjC+Rs5
+X-Received: by 2002:a05:6a00:2e2a:b0:829:7e6d:cf1f with SMTP id d2e1a72fcca58-82a1991fa9emr2047402b3a.51.1773388166221;
+        Fri, 13 Mar 2026 00:49:26 -0700 (PDT)
+X-Received: by 2002:a05:6a00:2e2a:b0:829:7e6d:cf1f with SMTP id d2e1a72fcca58-82a1991fa9emr2047383b3a.51.1773388165755;
+        Fri, 13 Mar 2026 00:49:25 -0700 (PDT)
+Received: from [10.0.0.3] ([106.222.229.52])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0725e05esm6274985b3a.18.2026.03.13.00.49.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Mar 2026 00:49:25 -0700 (PDT)
+Message-ID: <726439a7-cf5a-74e6-1768-1bc6fb907ffc@oss.qualcomm.com>
+Date: Fri, 13 Mar 2026 13:19:21 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260313-staging-cleanup-v2-1-31074aba2688@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNywqDMBBFf0Vm3Sl5UFu78j+Ki2gmZkASSaxUx
- H9v6r7Lc+Ceu0OmxJThWe2QaOXMMRRQlwoGb8JIyLYwKKFqoaXCvJiRw4jDRCa8Z7TUaNHfekf
- GQlnNiRx/zuKrK+w5LzFt58Eqf/Z/a5Uo0dm+cQ9d30m7djM+xus8QXccxxeAAR2UrQAAAA==
-X-Change-ID: 20260312-staging-cleanup-de930b5bfead
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773387550; l=1336;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=rnGCQPWQA4n/Bjvv6keJvlbHiIUTQW87yQ3f7/wVmsg=;
- b=FUWuLRctJDw0GDiyGO8xb/BDOyHE0Q5z22szi5bJz9eoYBMqlwdcP8ZnrqL2Zh36DO5ZlSbMV
- +usoGr7qqIUBIgeV6jB2jxjkPmJzXwpoBzK3386NtUSmgAoDplD3M15
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260313-staging-cleanup-v2-1-31074aba2688.ref@yahoo.pl>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v4 7/8] media: qcom: iris: split firmware_data from raw
+ platform data
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260313-iris-platform-data-v4-0-14927df4906d@oss.qualcomm.com>
+ <20260313-iris-platform-data-v4-7-14927df4906d@oss.qualcomm.com>
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+In-Reply-To: <20260313-iris-platform-data-v4-7-14927df4906d@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: dDy2Izq0mNOYIx55x5_tm9WVDFZL_dC9
+X-Authority-Analysis: v=2.4 cv=BNG+bVQG c=1 sm=1 tr=0 ts=69b3c187 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ndT/fs+coltRyMHftQWjTw==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=_OmBk-8nbaCSedoOfP0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-ORIG-GUID: dDy2Izq0mNOYIx55x5_tm9WVDFZL_dC9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEzMDA2MSBTYWx0ZWRfX59bJ+An8JRvp
+ BVlMEZQcXbjQVSaLezn/A2HRX9ZRf0jxZIIsce3kgMCsPl1ByHB3GS6j4bX4OJdDPUjFKIVLzEY
+ Dbd+t/capCHoXFhr6z4t0pJ7JyIr2qcHtCzUDvJ64bLRS8zwvk2QZWVaykdfuXITl/WWBEqpHFE
+ SqwKzoHzHwV1/97ighqTkSHxnJ4WwdGHgFkAtnwWL0xVKuo8KFKV9hP9n6e6/s1QVdAu3f3chTj
+ aL1fOrDErU9rSPjYsEnthtk9rFEWKWj2dyQ3YrmuEC6CITlSqtOZqpjw4yXtOqbHJN1zy6GZuDv
+ axcYJC5f94noG49l9LatrQ8dfoJRd+DQZFB7j5awBwBJkziCWNN2Bcp4e13mTuV/PUy4mxJStJ+
+ 0TX8o/+3d3e9LT95ZA90z8BGk0u7eAL7eMdjWiMm4njP7MgZSdzIwi9HKpQKeQfT/FzfsX32PY0
+ wU+4xWwZ0yIKINa6GAQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-13_01,2026-03-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603130061
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
-	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,yahoo.pl];
-	TAGGED_FROM(0.00)[bounces-55584-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[yahoo.pl];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[yahoo.pl:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,qualcomm.com:dkim,qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55585-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,yahoo.pl:dkim,yahoo.pl:email,yahoo.pl:mid]
-X-Rspamd-Queue-Id: 098BE27EFAD
+	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[dikshita.agarwal@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: EF0B127EFBC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Update the FIXME comment to provide more detail about the future
-implementation for computing the signal strength based on the tuner RSSI.
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
-Changes in v2:
-- Fix subject prefix to use 'media: staging: av7110:' format
-- Link to v1: https://lore.kernel.org/r/20260312-staging-cleanup-v1-1-fdb9f8367e3f@yahoo.pl
----
- drivers/staging/media/av7110/av7110_v4l.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/av7110/av7110_v4l.c b/drivers/staging/media/av7110/av7110_v4l.c
-index 200a7a29ea31..a64761979609 100644
---- a/drivers/staging/media/av7110/av7110_v4l.c
-+++ b/drivers/staging/media/av7110/av7110_v4l.c
-@@ -310,7 +310,7 @@ static int vidioc_g_tuner(struct file *file, void *fh, struct v4l2_tuner *t)
- 		V4L2_TUNER_CAP_LANG1 | V4L2_TUNER_CAP_LANG2 | V4L2_TUNER_CAP_SAP;
- 	t->rangelow = 772;	/* 48.25 MHZ / 62.5 kHz = 772, see fi1216mk2-specs, page 2 */
- 	t->rangehigh = 13684;	/* 855.25 MHz / 62.5 kHz = 13684 */
--	/* FIXME: add the real signal strength here */
-+	/* TODO: compute based on tuner RSSI */
- 	t->signal = 0xffff;
- 	t->afc = 0;
- 
+On 3/13/2026 9:00 AM, Dmitry Baryshkov wrote:
+> Having firmware-related fields in platform data results in the tying
+> platform data to the HFI firmware data rather than the actual hardware.
+> For example, SM8450 uses Gen2 firmware, so currently its platform data
+> should be placed next to the other gen2 platforms, although it has the
+> VPU2.0 core, similar to the one found on SM8250 and SC7280 and so the
+> hardware-specific platform data is also close to those devices.
+> 
+> Split firmware data to a separate struct, separating hardware-related
+> data from the firmware interfaces.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  drivers/media/platform/qcom/iris/iris_buffer.c     |  84 +++----
+>  drivers/media/platform/qcom/iris/iris_core.h       |   1 +
+>  drivers/media/platform/qcom/iris/iris_ctrls.c      |   8 +-
+>  .../platform/qcom/iris/iris_hfi_gen1_command.c     |  10 +-
+>  .../platform/qcom/iris/iris_hfi_gen2_command.c     |  66 ++---
+>  .../platform/qcom/iris/iris_platform_common.h      |  79 +++---
+>  .../media/platform/qcom/iris/iris_platform_gen1.c  |  68 +++---
+>  .../media/platform/qcom/iris/iris_platform_gen2.c  | 268 +++++++--------------
+>  drivers/media/platform/qcom/iris/iris_probe.c      |   3 +-
+>  drivers/media/platform/qcom/iris/iris_vidc.c       |  10 +-
+>  10 files changed, 246 insertions(+), 351 deletions(-)
+> 
 
----
-base-commit: 80234b5ab240f52fa45d201e899e207b9265ef91
-change-id: 20260312-staging-cleanup-de930b5bfead
+<snip>
 
-Best regards,
--- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> index d1daef2d874b..1a870fec4f31 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+> @@ -201,45 +201,16 @@ enum platform_pm_domain_type {
+>  	IRIS_APV_HW_POWER_DOMAIN,
+>  };
+>  
+> -struct iris_platform_data {
+> +struct iris_firmware_data {
+>  	void (*init_hfi_ops)(struct iris_core *core);
+> +
+>  	u32 (*get_vpu_buffer_size)(struct iris_inst *inst, enum iris_buffer_type buffer_type);
 
+I still don't think it's right to keep vpu_buffer_size in firmware data as
+this would change mostly for every new VPU variant.
+
+The buffer sizing logic depends on VPU generation (vpu2, vpu3, vpu33,
+vpu35) / SoC constraints, not on whether the HFI is Gen1 vs Gen2.
+
+<snip>
+
+> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+> index 10a972f96cbe..a83f6910f8b7 100644
+> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+> @@ -906,41 +906,15 @@ static const u32 sm8550_enc_op_int_buf_tbl[] = {
+>  	BUF_SCRATCH_2,
+>  };
+>  
+> -const struct iris_platform_data sm8550_data = {
+> +const struct iris_firmware_data iris_hfi_gen2_data = {
+>  	.init_hfi_ops = iris_hfi_gen2_sys_ops_init,
+>  	.get_vpu_buffer_size = iris_vpu_buf_size,
+> -	.vpu_ops = &iris_vpu3_ops,
+> -	.icc_tbl = sm8550_icc_table,
+> -	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+> -	.clk_rst_tbl = sm8550_clk_reset_table,
+> -	.clk_rst_tbl_size = ARRAY_SIZE(sm8550_clk_reset_table),
+> -	.bw_tbl_dec = sm8550_bw_table_dec,
+> -	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
+> -	.pmdomain_tbl = sm8550_pmdomain_table,
+> -	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
+> -	.opp_pd_tbl = sm8550_opp_pd_table,
+> -	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+> -	.clk_tbl = sm8550_clk_table,
+> -	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
+> -	.opp_clk_tbl = sm8550_opp_clk_table,
+> -	/* Upper bound of DMA address range */
+> -	.dma_mask = 0xe0000000 - 1,
+> -	.fwname = "qcom/vpu/vpu30_p4.mbn",
+
+Should fw_name be in firmware_data? as this can be change based on HFI
+versions?
+
+> -	.inst_iris_fmts = platform_fmts_sm8550_dec,
+> -	.inst_iris_fmts_size = ARRAY_SIZE(platform_fmts_sm8550_dec),
+> -	.inst_caps = &platform_inst_cap_sm8550,
+> +
+>  	.inst_fw_caps_dec = inst_fw_cap_sm8550_dec,
+>  	.inst_fw_caps_dec_size = ARRAY_SIZE(inst_fw_cap_sm8550_dec),
+>  	.inst_fw_caps_enc = inst_fw_cap_sm8550_enc,
+>  	.inst_fw_caps_enc_size = ARRAY_SIZE(inst_fw_cap_sm8550_enc),
+> -	.tz_cp_config_data = tz_cp_config_sm8550,
+> -	.tz_cp_config_data_size = ARRAY_SIZE(tz_cp_config_sm8550),
+> -	.core_arch = VIDEO_ARCH_LX,
+> -	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+> -	.num_vpp_pipe = 4,
+> -	.max_session_count = 16,
+> -	.max_core_mbpf = NUM_MBS_8K * 2,
+> -	.max_core_mbps = ((7680 * 4320) / 256) * 60,
+> +
+>  	.dec_input_config_params_default =
+>  		sm8550_vdec_input_config_params_default,
+>  	.dec_input_config_params_default_size =
+> @@ -997,50 +971,15 @@ const struct iris_platform_data sm8550_data = {
+>  	.enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
+>  };
+>  
+> -/*
+> - * Shares most of SM8550 data except:
+> - * - vpu_ops to iris_vpu33_ops
+> - * - clk_rst_tbl to sm8650_clk_reset_table
+> - * - controller_rst_tbl to sm8650_controller_reset_table
+> - * - fwname to "qcom/vpu/vpu33_p4.mbn"
+> - */
+> -const struct iris_platform_data sm8650_data = {
+> +const struct iris_firmware_data iris_hfi_gen2_vpu33_data = {
+
+This proves my above point.
+
+iris_hfi_gen2_data and iris_hfi_gen2_vpu33_data become identical except for
+get_vpu_buffer_size, which forces us to create multiple “firmware_data”
+variants just to carry a hardware-specific difference.
+
+Also, it will scale poorly going forward. When we introduce vpu4 /
+vpu5–based platforms, we would need to add more copies of essentially the
+same HFI Gen2 firmware_data, differing only in the buffer sizing callback.
+
+Thanks,
+Dikshita
+
+>  	.init_hfi_ops = iris_hfi_gen2_sys_ops_init,
+>  	.get_vpu_buffer_size = iris_vpu33_buf_size,
+> -	.vpu_ops = &iris_vpu33_ops,
+> -	.icc_tbl = sm8550_icc_table,
+> -	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+> -	.clk_rst_tbl = sm8650_clk_reset_table,
+> -	.clk_rst_tbl_size = ARRAY_SIZE(sm8650_clk_reset_table),
+> -	.controller_rst_tbl = sm8650_controller_reset_table,
+> -	.controller_rst_tbl_size = ARRAY_SIZE(sm8650_controller_reset_table),
+> -	.bw_tbl_dec = sm8550_bw_table_dec,
+> -	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
+> -	.pmdomain_tbl = sm8550_pmdomain_table,
+> -	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
+> -	.opp_pd_tbl = sm8550_opp_pd_table,
+> -	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+> -	.clk_tbl = sm8550_clk_table,
+> -	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
+> -	.opp_clk_tbl = sm8550_opp_clk_table,
+> -	/* Upper bound of DMA address range */
+> -	.dma_mask = 0xe0000000 - 1,
+> -	.fwname = "qcom/vpu/vpu33_p4.mbn",
+> -	.inst_iris_fmts = platform_fmts_sm8550_dec,
+> -	.inst_iris_fmts_size = ARRAY_SIZE(platform_fmts_sm8550_dec),
+> -	.inst_caps = &platform_inst_cap_sm8550,
+> +
+>  	.inst_fw_caps_dec = inst_fw_cap_sm8550_dec,
+>  	.inst_fw_caps_dec_size = ARRAY_SIZE(inst_fw_cap_sm8550_dec),
+>  	.inst_fw_caps_enc = inst_fw_cap_sm8550_enc,
+>  	.inst_fw_caps_enc_size = ARRAY_SIZE(inst_fw_cap_sm8550_enc),
+> -	.tz_cp_config_data = tz_cp_config_sm8550,
+> -	.tz_cp_config_data_size = ARRAY_SIZE(tz_cp_config_sm8550),
+> -	.core_arch = VIDEO_ARCH_LX,
+> -	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+> -	.num_vpp_pipe = 4,
+> -	.max_session_count = 16,
+> -	.max_core_mbpf = NUM_MBS_8K * 2,
+> -	.max_core_mbps = ((7680 * 4320) / 256) * 60,
+> +
+>  	.dec_input_config_params_default =
+>  		sm8550_vdec_input_config_params_default,
+>  	.dec_input_config_params_default_size =
+> @@ -1097,9 +1036,81 @@ const struct iris_platform_data sm8650_data = {
+>  	.enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
+>  };
+>  
 
