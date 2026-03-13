@@ -1,198 +1,237 @@
-Return-Path: <linux-media+bounces-55764-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55765-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qFSlEuhVtGk4kAAAu9opvQ
-	(envelope-from <linux-media+bounces-55764-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:22:32 +0100
+	id YMn0NvhWtGlbmAAAu9opvQ
+	(envelope-from <linux-media+bounces-55765-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:27:04 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2764288B24
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:22:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED27288B92
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:27:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 829243185AE4
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 18:21:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7DDE23227DBF
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 18:26:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63E143CCFD1;
-	Fri, 13 Mar 2026 18:21:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A9DE3DD53F;
+	Fri, 13 Mar 2026 18:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eaGCClTr"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="aaHMayK+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761013947A6
-	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 18:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8273DA7E1;
+	Fri, 13 Mar 2026 18:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773426079; cv=none; b=mPbXRfsaUyXChVVk4/EQdmYZkCO0lBX5iWTyM2sByW/TubOVKRnNW6ieRNWOjUOq8xYXmmlu7/3EL4C1VHN3hDtT5Oi1iJdEEka17FiuaoQY3XvAg+Xbo/XAuVXm5sW1HHjLwj1nmQkEYV252DFwm3ozLe0lhPo+3+8CfhkNhyY=
+	t=1773426413; cv=none; b=fqXHUCUP+IMFGMcvnRehMtJf+PejkjewZeooEiKYqGjU8zvgLg46Ue0Shu7zYURpJIedGHdszL+S6HeuH0njgdu9D3JFRl+/TcJKqNkwYnA5lzDI+p2VgyOZPvs62i1LzrvTfH5Poy4LTkIsxMUCRwZEGPps9MzOlxwrliK7DMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773426079; c=relaxed/simple;
-	bh=FPiOdnFRxwwj4yBBQS7IlAO9n0Q31tHDbSTTMEbWTz4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TrZay8KOqFz366qD5u6PD97/gdZDGONmu1zFasNOTHsjXs53JbRI2f7NqCLOMd/hqqAd2Zx9wdMExBsTm8PLn3HxqszqWjuQM3KBioevQmcLwy4kPGmXG1OZDcM7ZlzKiyz/nHMdf5ZwF2i0Fr/e9Wafn4wPNi9aBhb1BeAhZ1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=eaGCClTr; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a10d130b37so2177986e87.0
-        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 11:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1773426076; x=1774030876; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l/GRqsBWigY/fgWSjpHBrgBJmMne+sWw+2+mDk8tZ2o=;
-        b=eaGCClTr/7yjDpwwrwPkTFT4zYsXtMiyBXPI/Bfsdv0fXf6XlXtXHUBaxE1FuI/Xu8
-         X1Ub5Hh4OzBRoWEHiCOnxIFMYFJ98H5uXSPqCecKFu7xP0JGDIiU0JHFGUlTQ5ML4lzi
-         auGX8DaxxqWJsUUn8HkjRCf7KiScChdH7VgjA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773426076; x=1774030876;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l/GRqsBWigY/fgWSjpHBrgBJmMne+sWw+2+mDk8tZ2o=;
-        b=tHaX5KniGgG0a02DWs6XfDRrOMfAH8M1/pVNZDdl2gdXhYUCYpLVX9xhtqIGxF8l6i
-         ZKWTZddDG4mhl44pUQPej+wYpuHSHKRHSmR6OfZ58JkAKHI0nf7yrzUuuNq9FR95LKLu
-         DSIl2yIhNlCiSUFA9fK8Rmd+Bq4TwDrCL3XzBvVQkuvx5iYlmHcIt03GY6mTGP0UpFnG
-         kPofrZ1P6fpwwpq3wWJhNnEIhbNtPkbxiHl/aGrpQgAjCLzetSoZSWl6TsPnGGHpeBhP
-         KixvbpGLKtqo7nHFjnC6Isy5yF+ZceBnSboduRfIa/Hks8ib5H88KJQByv4rTdWC+51o
-         UQpw==
-X-Gm-Message-State: AOJu0YymE88uONNJ/kko/mAtx5udeIZB9I6tDUYJdubhErrDgQ5pd9Zk
-	FqITjSzvi9G+fGIIX46d8epqq20uIpSpd77Uj2ja1+JTx8OZgynr5ZxMyLHdS8XgsA==
-X-Gm-Gg: ATEYQzyiFlv5+8ux16rAaaaqczih1L10aCBFq6974jezCzxvLcPZ6VTk4KEMqh/pK6o
-	Nk2s25mV4ZVwd1QgLTDVuQQtmTvZag6qyzXgw6Zj9MQ+6GvCKY3Hp5ptxktusmbD21Tq6RTizVl
-	4pDznH93nPTR6J1iEvgj0iDzt/Rb652BhP2yzIEydYFMb/zqKbxyhOMwtv5BJUR4QtXX0AViFH2
-	MyvKY3FE5Hx7CY76o/2jmr2SjLnsYjeX3KoL9Y/jkfRwrlt72uVSmwUXJfYt6/9dv2itudnF4kf
-	pddfxphrTqNFw2Fk+zbOzVXnUxQvJf4XIvxHy4Q3dYRLlPA1GyjCs3fZK2eLHlcrYKJRt/xmQZa
-	pE254WAi/YdDYCm1yZWP+DC0jb35kkspL6YTgBfCChQebxwKppPeGmd/P3+FAbCjx6kU212+5sv
-	1huILJjYFAmeI3f6K1OSJUI0gRFK1F1txxn2ma+4V1gkgKlV8BBEDNPCckPyesmPu2j9MgAlh3Z
-	g==
-X-Received: by 2002:a05:6512:1310:b0:5a1:4246:4167 with SMTP id 2adb3069b0e04-5a15a4c78admr2865479e87.19.1773426076428;
-        Fri, 13 Mar 2026 11:21:16 -0700 (PDT)
-Received: from ribalda.c.googlers.com (27.69.88.34.bc.googleusercontent.com. [34.88.69.27])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a15636a96bsm1709243e87.79.2026.03.13.11.21.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Mar 2026 11:21:14 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 13 Mar 2026 18:21:13 +0000
-Subject: [PATCH v2] media: uvcvideo: Fix buffer sequence in frame gaps
+	s=arc-20240116; t=1773426413; c=relaxed/simple;
+	bh=zVAZ8kPXdPxobM3WP0KMWbuhFPV5OOyg7nv5dNwhaKo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YJY9noBzOXPvB7s7z1etvkPgJiifzNsjdVgMSIivrDf4m+3+Z491tuT68bXYFeO1L4RN9sV0B/bq2Vkb9PRgtOOXU+41Hrw/EUFNuiX8vmWwusscQwy7/Sf1py14Bjo65ICww05M1DxsuWiHqTjF3NwXiTyO3SF/GHIxFfaGz8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=aaHMayK+; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [IPV6:2a02:f000:10bd:e301::471] (unknown [IPv6:2a02:f000:10bd:e301::471])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 552BD5341208;
+	Fri, 13 Mar 2026 19:26:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1773426407;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=W38Na8cWHqwvq5ZQDv7J8A47FeHpFLJrgEIEKymB3Yw=;
+	b=aaHMayK+CP+nnzzuJXetzhfRLIkajznH7s3BN1bGq7BSqKaktasWM/w7DuM2VnkCce9OGy
+	OCGraGkZn0dBwqM3UfAiBELGqfTSrz/nfLlAvmvUPAzboLT/shHoAx2gXFJfSAsjEFGrY9
+	tvGl5basX6+NK9uuZ76jw0pciCJiSOY=
+Message-ID: <1349f725-a20f-4935-a829-208c8e583ad9@ixit.cz>
+Date: Fri, 13 Mar 2026 19:26:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 7/7] arm64: dts: qcom: sdm670-google-sargo: add imx355
+ front camera
+To: Richard Acayan <mailingradian@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Tianshu Qiu
+ <tian.shu.qiu@intel.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Robert Mader <robert.mader@collabora.com>
+Cc: phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-media@vger.kernel.org
+References: <20260217002738.133534-1-mailingradian@gmail.com>
+ <20260217002738.133534-8-mailingradian@gmail.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20260217002738.133534-8-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260313-uvc-fid-v2-1-3f7a996d9047@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAJhVtGkC/2XMSw7CIBSF4a00dyyGZ0kcuQ/TgcKl3EGLAUs0D
- XsXO3X4n5x8OxTMhAUuww4ZKxVKaw95GsDF+zojI98bJJcjV4KzrToWyDMUaIzW9jEGAf39zBj
- ofUi3qXek8kr5c8BV/NZ/owommEFlvVPOcqmvLua00LacU55haq19AX88+62hAAAA
-X-Change-ID: 20260310-uvc-fid-e1e55447b6f1
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Yunke Cao <yunkec@google.com>, stable@kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.3
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
+	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55765-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linaro.org,intel.com,linux.intel.com,collabora.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55764-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ixit.cz:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:dkim,chromium.org:email,chromium.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: A2764288B24
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ixit.cz:dkim,ixit.cz:mid]
+X-Rspamd-Queue-Id: 7ED27288B92
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In UVC, the FID flips with every frame. For every FID flip, we increase
-the stream sequence number.
+On 17/02/2026 01:27, Richard Acayan wrote:
+[...]
 
-Now, If a FID flips multiple times and there is no data transferred between
-the flips, the buffer sequence number will be set to the value of the
-stream sequence number after the first flip.
+> +&cci_i2c1 {
+> +	camera@1a {
+> +		compatible = "sony,imx355";
+> +		reg = <0x1a>;
+> +
+> +		clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +
+> +		assigned-clocks = <&camcc CAM_CC_MCLK2_CLK>;
+> +		assigned-clock-rates = <19200000>;
 
-Userspace uses the buffer sequence number to determine if there has been
-missing frames. With the current behaviour, userspace will think that the
-gap is in the wrong location.
+Extract from #sdm670-mainline:erebion.eu discussion:
+The imx355 can operate on 24 MHz (on both Pixel 3 and 3a), but Linux kernel 
+driver can operate only with 19.2 MHz.
 
-This patch modifies uvc_video_decode_start() to provide the correct
-correct buffer sequence number and timestamp.
+I assume it would be worth it mention at least by comment here.
 
-Cc: stable@kernel.org
-Fixes: 650b95feee35 ("[media] uvcvideo: Generate discontinuous sequence numbers when frames are lost")
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-Changes in v2 (Thanks Laurent):
-- Improve commit message.
-- Remove original timestamp and sequence assignment. It is not neeed
-- Link to v1: https://lore.kernel.org/r/20260310-uvc-fid-v1-1-5e37dc3c7024@chromium.org
----
- drivers/media/usb/uvc/uvc_video.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+David
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 40c76c051da2..9e06b1d0f0f9 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -1176,6 +1176,20 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 		stream->sequence++;
- 		if (stream->sequence)
- 			uvc_video_stats_update(stream);
-+
-+		/*
-+		 * If there is a FID flip and the buffer has no data,
-+		 * initialize its sequence number and timestamp.
-+		 *
-+		 * The driver already takes care of injecting FID flips for
-+		 * UVC_QUIRK_STREAM_NO_FID and UVC_QUIRK_MJPEG_NO_EOF.
-+		 */
-+		if (buf && !buf->bytesused) {
-+			buf->buf.field = V4L2_FIELD_NONE;
-+			buf->buf.sequence = stream->sequence;
-+			buf->buf.vb2_buf.timestamp =
-+					ktime_to_ns(uvc_video_get_time());
-+		}
- 	}
- 
- 	uvc_video_clock_decode(stream, buf, data, len);
-@@ -1216,10 +1230,6 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
- 			return -ENODATA;
- 		}
- 
--		buf->buf.field = V4L2_FIELD_NONE;
--		buf->buf.sequence = stream->sequence;
--		buf->buf.vb2_buf.timestamp = ktime_to_ns(uvc_video_get_time());
--
- 		/* TODO: Handle PTS and SCR. */
- 		buf->state = UVC_BUF_STATE_ACTIVE;
- 	}
+> +
+> +		reset-gpios = <&tlmm 9 GPIO_ACTIVE_LOW>;
+> +
+> +		avdd-supply = <&cam_front_ldo>;
+> +		dvdd-supply = <&cam_front_ldo>;
+> +		dovdd-supply = <&cam_vio_ldo>;
+> +
+> +		pinctrl-0 = <&cam_mclk2_default>;
+> +		pinctrl-names = "default";
+> +
+> +		rotation = <270>;
+> +		orientation = <0>;
+> +
+> +		port {
+> +			cam_front_endpoint: endpoint {
+> +				link-frequencies = /bits/ 64 <360000000>;
+> +				remote-endpoint = <&camss_endpoint1>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>   &gcc {
+>   	protected-clocks = <GCC_QSPI_CORE_CLK>,
+>   			   <GCC_QSPI_CORE_CLK_SRC>,
+> @@ -490,6 +571,14 @@ &pm660_charger {
+>   	status = "okay";
+>   };
+>   
+> +&pm660_gpios {
+> +	cam_vio_pin: cam-vio-state {
+> +		pins = "gpio13";
+> +		function = "normal";
+> +		power-source = <0>;
+> +	};
+> +};
+> +
+>   &pm660_rradc {
+>   	status = "okay";
+>   };
+> @@ -508,6 +597,12 @@ led-0 {
+>   };
+>   
+>   &pm660l_gpios {
+> +	cam_front_ldo_pin: cam-front-state {
+> +		pins = "gpio4";
+> +		function = "normal";
+> +		power-source = <0>;
+> +	};
+> +
+>   	vol_up_pin: vol-up-state {
+>   		pins = "gpio7";
+>   		function = "normal";
 
----
-base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
-change-id: 20260310-uvc-fid-e1e55447b6f1
-
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+David Heidelberg
 
 
