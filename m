@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-55658-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55659-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OKdKOjzys2nYdgAAu9opvQ
-	(envelope-from <linux-media+bounces-55658-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 12:17:16 +0100
+	id gLLqN1fys2nYdgAAu9opvQ
+	(envelope-from <linux-media+bounces-55659-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 12:17:43 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B4528216C
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 12:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477F9282182
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 12:17:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 88AB431B16AD
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 11:14:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8AEC53226FAB
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 11:14:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A52273890FC;
-	Fri, 13 Mar 2026 11:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 939D138F63B;
+	Fri, 13 Mar 2026 11:14:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HRDm9dhy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="k1BWPd/H"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582FC38A716;
-	Fri, 13 Mar 2026 11:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BED386C08;
+	Fri, 13 Mar 2026 11:14:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773400457; cv=none; b=tlS55bj9Bqk1TsdXuKd3+HLEMwMO+dYRG+9BhGc+tsZdLI2Axng3I0slQTKp5sVr+ZKDIArA96nyp21bWKNuSN8NXTt+r+NjMLszkWrVy251cNhNaPdQ1Pm/vvlHk8da2NZq8HQqzZAF/frTCeDz4lUuG+kN4lqWva+q7DqsA8c=
+	t=1773400457; cv=none; b=bq70yzbFE36Rabn0mdXg9BXRkWRxft14WSlEZZXn43m0LQyOiA54vlJy4ajvLgp02oI8L93OEz39ylRFhh55jWJBAE8yT9yv1OrKTEDW0gM4wIzrakUODfTetjpAzEzP1F3XzoyWv/wbcGG3+IdAfg2lgfDUfrlERALcAgku1hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773400457; c=relaxed/simple;
-	bh=yYQ4TjMGLnAAv3Zoy+v/DOI3B0qDLLqf+szWP7wTvHQ=;
+	bh=4ptyeyi5GxSJDM048EQyK7eLv/PzQVuFr5JDpZmhkU8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=V95HhnuqmR8Kmg7sSpv4K8YnAxoJuxsAm1jcwTUlhmjrjnayE8VaGU8A94Vn3BZSC6omN20yPnQoiuEkI0ly2nDpVoIdZlXzZxlgvwZECoDEKGUMf8xZZpibIDf9Q7u3qIhBvQmXWG4UikqpBSTxVTwhggfX0dud+FH+GZm1lvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HRDm9dhy; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=o9x+BodnkHztwgnbDy0X/hBPH+7roowf3KutFDh1e1QVKSUfsHzvAM4ALud0mSbSr1glrNZqw4LwK3FEKCdVbKnjdY5HCQxerAkz/uOZGnELelP0iI0PBCkwiUVX15Mji4nFy1J/O0zdZ/SewI21pDpSY23KDbjFNxw1vv/U6yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=k1BWPd/H; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.224.131] (unknown [37.159.92.229])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 400BE1783;
-	Fri, 13 Mar 2026 12:13:03 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97E401934;
+	Fri, 13 Mar 2026 12:13:04 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773400384;
-	bh=yYQ4TjMGLnAAv3Zoy+v/DOI3B0qDLLqf+szWP7wTvHQ=;
+	s=mail; t=1773400385;
+	bh=4ptyeyi5GxSJDM048EQyK7eLv/PzQVuFr5JDpZmhkU8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=HRDm9dhyoCrI6ZKUBW5TS2tovnSZjTWTuusNfWo5gi/HfarejJubqoyI0iJDLB+L7
-	 DNL8gXi64pYOLo+6+6RAIrqNOc4HnKRcaYrElpy7LLRDRODiUoDL/AyvEOx6tt3tC8
-	 fFDjSH3FatZ/TyEqceAE4ZmG7s1Y8aTDRicYhw/g=
+	b=k1BWPd/H6J/m/sOA0e1EHG+NtvnLu8bnsVZJiubFViTKtAgJU7uNN4u8BYESNxpU2
+	 iPWZcMjaPPokhGiVu6+7baBwQ1k0KNWvnUhhcIXhXV04n/qG7Z18apanMH2jHo9Csd
+	 mvlMPAo8j6T2CLEv3b9nXv71K5EM1bftsYjRkzJk=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Fri, 13 Mar 2026 12:13:58 +0100
-Subject: [PATCH 2/7] media: rzv2h-ivc: Fix AXIRX_VBLANK register write
+Date: Fri, 13 Mar 2026 12:13:59 +0100
+Subject: [PATCH 3/7] media: rzv2h-ivc: Write AXIRX_PIXFMT once
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260313-mali-ivc-fixes-v7-0-v1-2-cb0714cd1279@ideasonboard.com>
+Message-Id: <20260313-mali-ivc-fixes-v7-0-v1-3-cb0714cd1279@ideasonboard.com>
 References: <20260313-mali-ivc-fixes-v7-0-v1-0-cb0714cd1279@ideasonboard.com>
 In-Reply-To: <20260313-mali-ivc-fixes-v7-0-v1-0-cb0714cd1279@ideasonboard.com>
 To: Daniel Scally <dan.scally@ideasonboard.com>, 
@@ -68,21 +68,21 @@ Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  =?utf-8?q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze+renesas@ideasonboard.com>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2300;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2514;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=u/qHvnWmPYnguu6xG+vN9zcv3t7ZQuZRHBXM6KPkyH4=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBps/GAxw45H+LXGdp6lWpJy0RJpevraTtpyjLEA
- 9IDyL+7LYyJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCabPxgAAKCRByNAaPFqFW
- PHOmD/sFxMXB1JrSctFTWnajjuIERwjowyJBmxQ7ccruT/qrzwZ6D6eWaQo4doMEfQNJOsJf8zB
- cXL4s0g6/ZY2K3nOIj3zNQAJ5dJgy/3rU7D0owSX1JSS21KUsuQQl8nTMnChW4B9J+34AU6JkpP
- UxqUfn7vPHfqx6ulIGI/xw9bhham/+WfFzvIk/rQdXVkJLe6xy/XdTCs55ztqx0u7oQwwrDeuMr
- dGcoLS/C97B/fq+mC6fIWysHGhJCzg9hxUqIrvKiZIE1sAGlscN9pG99k3/b6et5/AxaVAknJ9e
- J+7trI2kTabl338GtoYnRyf6csIZdSAUt0POJGv/6fV3GQrWPlc5avRMhT6EFzldh8HlT1VLwBm
- nvB+F0Z2AXPHeGBV6m/Bj08kEL9CUAxUB3BeKUr+QtCbKIwXit5WPJ5jMs2QYjl9QvePZFrlOVL
- 12kiKaxs/PXfVa+rUuM0d3BrC73dMUj43FpNDuAQpzWE6Ya/ILV7Nt6Q1SF+OurLyCzBIui3ArI
- 2NdPyHbOKnS+AU2KlFloP/NmdtB7ePOiKiwsoRqOq7741ZPOCVT3Cm8P6J+OfEqlD+YYQGhCd0y
- 9iYfhkobtheg7j4Gn78uyPp5duhP6kS+9qzz4E+F1TuozbLVNLTA2iu8C4AgyOcbTyFYgFztcWM
- GCz+lDZev6ucVsQ==
+ bh=In3K0Hh5a5VAES6eja5NKesKgsMmiywmEDbrhEQG/vw=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBps/GAQiXNHQ6D+CGvDeuJ0ni1i2P7tUTFnipur
+ Ez/wMWOZZ+JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCabPxgAAKCRByNAaPFqFW
+ PCqvEACOM5DLzL/NyB23VkIlPz+lpNzBmBoMaPFZQjkC/JiHYsAGPI79KmYhNTw3T9lsklo3O/C
+ bvk5BAOB6KPFEywhc9+6hynVvA2cSngVPFYhjl75+XcFyRAm9zKZTE3jnAvXGM+N/ipx5SDQJKB
+ rmbmGOYQyPdrPkbrF3tG4cZpxKmWWc7IKwM/jG62BLkQeKKaGJPnT5H+kl7gHW3BHftaFK/DVVJ
+ ziB1bkeHoe38U+Jca2Ug7U1C6tDeVP63jnOcmEFus0+u8ZZO4ppGy/EAKeS9u+T3t8FZnisGlj7
+ LSD9Yn8LvzIlNhZTjzfpUxtLLoWCkUqsY99mQreac7GvZEvbwigBEv9Y1mRLakml+w7vdn7VArM
+ P2sX0QCIZd65Ai6UxPH0O89e/YC+Hx+49dNHaUuTLW85BrpO6eRK9ZunDExTicyE96jLZ6Jwklg
+ I89Zr6B9KHKGu0uOXaTIYJY1JKaAh+5Vh98bj6f26l44jx/z5Zu71EAqHIcCAB7BTyOKU6xiGkC
+ 8wXZeMlK4dnfQ6ua4hoxsFYyte7YC9vtKDTPbKbGr6CMslhl1QKbMSZqWQtSJ1JVwLW9/DWJ20U
+ Vp+Np4Xl82KGSEGq6DV8uuNf6Qj1ExzaW7zmtt1+frLKeOdoDejQwOZnu5iZqVbUbPpFycZXR2b
+ ZHTSe+NBlYN7lbA==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 X-Spamd-Result: default: False [-2.16 / 15.00];
@@ -93,7 +93,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55658-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55659-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -111,63 +111,62 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 70B4528216C
+X-Rspamd-Queue-Id: 477F9282182
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Barnabás Pőcze <barnabas.pocze+renesas@ideasonboard.com>
 
-According to the documentation there are writable reserved bits in the
-register and those should not be set to 0. So use `rzv2h_ivc_update_bits()`
-with a proper bitmask.
+The documentation prescribes that invalid formats should not be set,
+so do a single write to ensure that both the CLFMT and DTYPE fields
+are set to valid values.
 
 Cc: stable@vger.kernel.org
 Fixes: f0b3984d821b ("media: platform: Add Renesas Input Video Control block driver")
 Signed-off-by: Barnabás Pőcze <barnabas.pocze+renesas@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c | 7 +++++--
- drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h       | 2 +-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c | 8 ++++----
+ drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h       | 7 ++++---
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-index 1e016b17dcee..bfe5b0c7045e 100644
+index bfe5b0c7045e..d894a880c33f 100644
 --- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
 +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
-@@ -7,6 +7,7 @@
+@@ -215,10 +215,10 @@ static void rzv2h_ivc_format_configure(struct rzv2h_ivc *ivc)
  
- #include "rzv2h-ivc.h"
+ 	/* Currently only CRU packed pixel formats are supported */
+ 	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_PXFMT,
+-			RZV2H_IVC_INPUT_FMT_CRU_PACKED);
+-
+-	rzv2h_ivc_update_bits(ivc, RZV2H_IVC_REG_AXIRX_PXFMT,
+-			      RZV2H_IVC_PXFMT_DTYPE, fmt->dtype);
++			FIELD_PREP(RZV2H_IVC_AXIRX_PXFMT_FIELD_DTYPE,
++				   fmt->dtype) |
++			FIELD_PREP(RZV2H_IVC_AXIRX_PXFMT_FIELD_CLFMT,
++				   RZV2H_IVC_CLFMT_CRU_PACKED));
  
-+#include <linux/bitfield.h>
- #include <linux/cleanup.h>
- #include <linux/iopoll.h>
- #include <linux/lockdep.h>
-@@ -235,8 +236,10 @@ static void rzv2h_ivc_format_configure(struct rzv2h_ivc *ivc)
- 	hts = pix->width + RZV2H_IVC_FIXED_HBLANK;
- 	vblank = RZV2H_IVC_MIN_VBLANK(hts);
- 
--	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_BLANK,
--			RZV2H_IVC_VBLANK(vblank));
-+	rzv2h_ivc_update_bits(ivc, RZV2H_IVC_REG_AXIRX_BLANK,
-+			      RZV2H_IVC_AXIRX_BLANK_FIELD_VBLANK,
-+			      FIELD_PREP(RZV2H_IVC_AXIRX_BLANK_FIELD_VBLANK,
-+					 vblank));
- }
- 
- static void rzv2h_ivc_return_buffers(struct rzv2h_ivc *ivc,
+ 	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_HSIZE, pix->width);
+ 	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_VSIZE, pix->height);
 diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
-index 3bcaab990b0f..4ef44c8b4656 100644
+index 4ef44c8b4656..54c70de31c1e 100644
 --- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
 +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc.h
-@@ -34,7 +34,7 @@
- #define RZV2H_IVC_REG_AXIRX_HSIZE			0x0020
- #define RZV2H_IVC_REG_AXIRX_VSIZE			0x0024
- #define RZV2H_IVC_REG_AXIRX_BLANK			0x0028
--#define RZV2H_IVC_VBLANK(x)				((x) << 16)
-+#define RZV2H_IVC_AXIRX_BLANK_FIELD_VBLANK		GENMASK(25, 16)
- #define RZV2H_IVC_REG_AXIRX_STRD			0x0030
- #define RZV2H_IVC_REG_AXIRX_ISSU			0x0040
- #define RZV2H_IVC_REG_AXIRX_ERACT			0x0048
+@@ -24,9 +24,10 @@
+ #define RZV2H_IVC_ONE_EXPOSURE				0x00
+ #define RZV2H_IVC_TWO_EXPOSURE				0x01
+ #define RZV2H_IVC_REG_AXIRX_PXFMT			0x0004
+-#define RZV2H_IVC_INPUT_FMT_MIPI			(0 << 16)
+-#define RZV2H_IVC_INPUT_FMT_CRU_PACKED			BIT(16)
+-#define RZV2H_IVC_PXFMT_DTYPE				GENMASK(7, 0)
++#define RZV2H_IVC_AXIRX_PXFMT_FIELD_CLFMT		GENMASK(17, 16)
++#define RZV2H_IVC_CLFMT_MIPI				0
++#define RZV2H_IVC_CLFMT_CRU_PACKED			1
++#define RZV2H_IVC_AXIRX_PXFMT_FIELD_DTYPE		GENMASK(7, 0)
+ #define RZV2H_IVC_REG_AXIRX_SADDL_P0			0x0010
+ #define RZV2H_IVC_REG_AXIRX_SADDH_P0			0x0014
+ #define RZV2H_IVC_REG_AXIRX_SADDL_P1			0x0018
 
 -- 
 2.53.0
