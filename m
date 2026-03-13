@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-55709-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55717-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WNitEvYstGkEigAAu9opvQ
-	(envelope-from <linux-media+bounces-55709-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 16:27:50 +0100
+	id qJN4NyEttGlYigAAu9opvQ
+	(envelope-from <linux-media+bounces-55717-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 16:28:33 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9A7285F3A
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 16:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889C0285FD3
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 16:28:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 42FB1307A1E3
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 15:21:04 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2CA1330B2FE6
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 15:21:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E6133B19BD;
-	Fri, 13 Mar 2026 15:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A66B3B3C1E;
+	Fri, 13 Mar 2026 15:20:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uf+N5EOJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Usqoq4eu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C31739FCCD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7933AD503;
 	Fri, 13 Mar 2026 15:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773415246; cv=none; b=dYhRQH4xqouo9ttnIrF/OHx2b3Abwz+C7ncmtQgGNw0k5upDW3YYiCN0vodAwkZVkTPnR6reOTgtFg5xv4Pr8RsJwNH3Dvov1amdEG6uMVA7YJUfyp0U9Qm35ZDsu24BBBYba6KZ0k2nt/zDKcjIZaQAdYyRMLbvxto7moq8KKw=
+	t=1773415246; cv=none; b=O+iNq6MMcVcA6mVpbgu1q+yLXPlx/fa+W+wv4lW5yiJO7Led1iw/OLjpwNsoradyUOFl88MFK0J/R7gt5JPKs8nqrkJMgFqQkZ3SXb3qfzjt6Hie/PnQu4TUxpEQAofZwlRtF7lTSPatiKPZs4twQgGOSBsWr4nLTzfiFeMgYZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773415246; c=relaxed/simple;
-	bh=160P6WISh+Fsx9Mux8forF424XDx9Hb/XbWBrIa5OIs=;
+	bh=FhTQ5SVdxITPm8tDe0bW/0ZG36G8hCk0e58aJbKwRGQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EluhJ5v+L8ntgNkZthNODUTXRASBH+/q4aH7aBUwMW3PazmFZI6CTvoDmhsZiLQ7OQIXAeOaWphKORVFiOYc4GLruM12mGlAAgprrpADjMJ58lzmvgNyClpsOo9nPydLd+SLTbvi9F/6pmAKvX+pkN5ZrN3nf0oohSJl1YunlA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uf+N5EOJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5FEE8C2BCB3;
+	 In-Reply-To:To:Cc; b=Pm/8TKKKKW86SjIo7ZryJSyAu6Nr9BJW3jJtFrrwQThMtNNnCM+JyxsFyPtPuBMRKBrKp8hhWmN004SxgEOkmV9ngmJ+95F9HdMFlw0KN9CbTxPYp4u6RqPRoQsd3fNFE1dkRrjvusSOct17CoP7a2If5iaKQvT1/CSDOr6MxJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Usqoq4eu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6F570C2BC87;
 	Fri, 13 Mar 2026 15:20:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773415246;
-	bh=160P6WISh+Fsx9Mux8forF424XDx9Hb/XbWBrIa5OIs=;
+	bh=FhTQ5SVdxITPm8tDe0bW/0ZG36G8hCk0e58aJbKwRGQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Uf+N5EOJGPvbdBeojJq11B0LG6+BKqmmApSATXFPLfZi/dS3hexgtgE6/3xedTuh8
-	 M25xX2Eu3d8wNdPzEY5DfJJ38cK0pG4IX2VaUSMr6ofEyIBsNSfZGkcEgnyk87VbOC
-	 0k60OBP856DHWZY7tM0rLK9nsKauKtBrsyQH0S6bnpWNw7aQKTfV7uj0NWR2vjB0pp
-	 /HoAyLKrVcCKGNDaHh6F90z7lGB52qrxI2FwFJ8zcZGYZo3lBbWDTz1LVR65aovSDK
-	 R6RiwfC33oHgXao1Ti0k3wjNz4o0nFwZunfmEtx6tBvB2wUz+4SiSNO8Wx9tqER0QD
-	 nk+CCW7IQJBdg==
+	b=Usqoq4eujdp/ykdqtdOMtfmZZCceIAhKYKuh7KzHk5jzBRbVLuQiF0uGRszoT1z7/
+	 VMipIWN3SPKq/rcXOTBcVzRDa1l5ULLW/HHjS0x/j7H5l6UFYJZfyZKsjHuPNfb66i
+	 VV8SXyZ/L0Qfs+KZCVovydewPhYnA1R6RCBcqgLILMOLa2/Hj21oaPXRSkvwE0nKNE
+	 1hbt41eGXS4vPpCn2CPm+nxzRodSg4ou5VzT7t+2M7/8PVLP+jZU/8FMHbB1T7o0sb
+	 wYKNE6gjTAQktjc5rJDBBuooKjipTBFTwEuBITzNe9CsnoJYYY9Z8XizFnfoFV2XwX
+	 633Eg1KIKZ7yQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57967105F7B9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65ADE105F7BC;
 	Fri, 13 Mar 2026 15:20:46 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Fri, 13 Mar 2026 16:20:46 +0100
-Subject: [PATCH DONOTMERGE 4/9] media: dt-bindings:
- rockchip,rk3568-mipi-csi2: add rk3588 compatible
+Date: Fri, 13 Mar 2026 16:20:47 +0100
+Subject: [PATCH DONOTMERGE 5/9] arm64: dts: rockchip: add mipi csi-2
+ receiver nodes to rk3588
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250430-rk3588-vicap-v1-4-b3bddf749914@collabora.com>
+Message-Id: <20250430-rk3588-vicap-v1-5-b3bddf749914@collabora.com>
 References: <20250430-rk3588-vicap-v1-0-b3bddf749914@collabora.com>
 In-Reply-To: <20250430-rk3588-vicap-v1-0-b3bddf749914@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -78,11 +78,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Michael Riesch <michael.riesch@collabora.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773415244; l=1219;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773415244; l=2664;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=/GzYE6Y65z4sqAFCGq0r5VgZhg70cR93RCV+j70gjCI=;
- b=9WcrQ1wEojPsvPbtv4dE9TIS+9CX/XGYXX4ZBjZ/jW2cBguysrnhpb6cYIVbg8XvxsAjjWgF+
- 4KuodK+vH73AoWHDqPS+Tur1kVsxAmgsDtI0mCANxOmCnZsxF0qFFzw
+ bh=5oU0klzEB2FubzgZ+1XdUaBRRnzqz5jTIQAtdWBAHeM=;
+ b=9XFhFOGOTKJeatU9czWomdBIwqBazjGoUPrY+Ii0pHpmta8bfcJzBj1veZEg0TtAR6BAet7Jz
+ J5dzoQVl+6TAGzP/TYqPNvw1PWuktisY7B8caLtSFBLTUez+q0Q4les
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -99,7 +99,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55709-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
+	TAGGED_FROM(0.00)[bounces-55717-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com];
@@ -112,13 +112,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	NEURAL_HAM(-0.00)[-0.999];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:email,collabora.com:replyto,collabora.com:mid]
-X-Rspamd-Queue-Id: 0A9A7285F3A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[fdd90000:email,0.0.0.0:email,fdd50000:email,fdd30000:email,0.0.0.1:email,collabora.com:email,collabora.com:replyto,collabora.com:mid,fdc70000:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 889C0285FD3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -128,35 +128,85 @@ This patch is discussed over at
 https://lore.kernel.org/all/20260305-rk3588-csi2rx-v2-0-79d01b615486@collabora.com
 included here for testing purposes only.
 
-The RK3588 MIPI CSI-2 receivers are compatible to the ones found in
-the RK3568.
-Introduce a list of compatible variants and add the RK3588 variant to
-it.
+The Rockchip RK3588 features six MIPI CSI-2 receiver units:
+ - MIPI0: connected to MIPI DCPHY0 (not supported)
+ - MIPI1: connected to MIPI DCPHY1 (not supported)
+ - MIPI2: connected to MIPI DPHY0
+ - MIPI3: connected to MIPI DPHY0-1 (not supported)
+ - MIPI4: connected to MIPI DPHY1
+ - MIPI5: connected to MIPI DPHY1-1 (not supported)
+As the MIPI DCPHYs as well as the split DPHY mode of the DPHYs
+are not yet supported, add only the device tree nodes for the
+MIPI2 and MIPI4 units.
 
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- .../devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml      | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 52 +++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
-index 2c2bd87582eb..5e864e92f8a8 100644
---- a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
-+++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi2.yaml
-@@ -16,8 +16,12 @@ description:
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+index 7fe9593d8c19..6c593b0255c3 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+@@ -1430,6 +1430,58 @@ av1d: video-codec@fdc70000 {
+ 		resets = <&cru SRST_A_AV1>, <&cru SRST_P_AV1>, <&cru SRST_A_AV1_BIU>, <&cru SRST_P_AV1_BIU>;
+ 	};
  
- properties:
-   compatible:
--    enum:
--      - rockchip,rk3568-mipi-csi2
-+    oneOf:
-+      - const: rockchip,rk3568-mipi-csi2
-+      - items:
-+          - enum:
-+              - rockchip,rk3588-mipi-csi2
-+          - const: rockchip,rk3568-mipi-csi2
- 
-   reg:
-     maxItems: 1
++	csi2: csi@fdd30000 {
++		compatible = "rockchip,rk3588-mipi-csi2", "rockchip,rk3568-mipi-csi2";
++		reg = <0x0 0xfdd30000 0x0 0x10000>;
++		interrupts = <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH 0>,
++			     <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH 0>;
++		interrupt-names = "err1", "err2";
++		clocks = <&cru PCLK_CSI_HOST_2>;
++		phys = <&csi_dphy0>;
++		power-domains = <&power RK3588_PD_VI>;
++		resets = <&cru SRST_P_CSI_HOST_2>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			csi2_in: port@0 {
++				reg = <0>;
++			};
++
++			csi2_out: port@1 {
++				reg = <1>;
++			};
++		};
++	};
++
++	csi4: csi@fdd50000 {
++		compatible = "rockchip,rk3588-mipi-csi2", "rockchip,rk3568-mipi-csi2";
++		reg = <0x0 0xfdd50000 0x0 0x10000>;
++		interrupts = <GIC_SPI 151 IRQ_TYPE_LEVEL_HIGH 0>,
++			     <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH 0>;
++		interrupt-names = "err1", "err2";
++		clocks = <&cru PCLK_CSI_HOST_4>;
++		phys = <&csi_dphy1>;
++		power-domains = <&power RK3588_PD_VI>;
++		resets = <&cru SRST_P_CSI_HOST_4>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			csi4_in: port@0 {
++				reg = <0>;
++			};
++
++			csi4_out: port@1 {
++				reg = <1>;
++			};
++		};
++	};
++
+ 	vop: vop@fdd90000 {
+ 		compatible = "rockchip,rk3588-vop";
+ 		reg = <0x0 0xfdd90000 0x0 0x4200>, <0x0 0xfdd95000 0x0 0x1000>;
 
 -- 
 2.39.5
