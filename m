@@ -1,215 +1,194 @@
-Return-Path: <linux-media+bounces-55767-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55768-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YI6WLzhctGklmQAAu9opvQ
-	(envelope-from <linux-media+bounces-55767-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:49:28 +0100
+	id UJYuBIhktGngnAAAu9opvQ
+	(envelope-from <linux-media+bounces-55768-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 20:24:56 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6093C288F2F
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:49:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B0128943D
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 20:24:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 763C23033D4D
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 18:49:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 52FFE3295BED
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 19:22:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28BDB367F5B;
-	Fri, 13 Mar 2026 18:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E15FA3E1D02;
+	Fri, 13 Mar 2026 19:22:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HZDex5k+"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cwr9QvSb";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="K+U59XI2";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cwr9QvSb";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="K+U59XI2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FFE305962
-	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 18:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7780B3DA7F8
+	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 19:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773427744; cv=none; b=GK5GJa7CdsRZL5F8mY4D7KFXSdDtnpOXVDCYULX5kz3IWPjsapcofjSM+E5wPHHhkuIP+7zdQdLsSN96mr2i9tLcJXNWfZRuWRvW9gKB/S0AtKLec31rjwK6LjBItxyqaQusQA3TcDDGtzYDD0ehTrgXuvUIzrMt78k+/D/gmy0=
+	t=1773429751; cv=none; b=P/u5XyisUrEIZoJPSlP/MaSyuTyCJ6wnosdTZniea5w2FURYltswM/1CMvX39SjPWg9k1xNQ+1sDo9viEFckq/20fJ8fBvKFgIZNOx92hhZKv9sWBU9uUanilVi3KvfkISQgNrwyB/GdNJd1oNayL1HHs3wXlyEPdkrEQ3oqKk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773427744; c=relaxed/simple;
-	bh=v2X+nxy4xm/MsnpqQQZF2fQ2w5SX/j7/HVR41g3RF74=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DoeRo9YmWX2vfnkDdYH+1WQjJTiAP5Bh63dQ867WcrQlztySdETZT5a+MbC7A5T2otCm0CvNhHWWeMPN+gV8VY9876/B3s85PQzrTrWtxrfny1SEN25IYs6VSAdQGUJBmRqGuNaEppl/jN3f++ytlooDu0WlTMgC7xTyPlhzFrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HZDex5k+; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Message-ID: <04c8029a-8636-4757-b997-e115f466b42f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1773427740;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	s=arc-20240116; t=1773429751; c=relaxed/simple;
+	bh=pL/j9b13bFh0cZAZJhcCPZn1CaRo1RWOXdOwqzbKEsA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LEcdkSiohnlpbgvZ655gn3E+YaZyfDLMDFvM+XM66K6DqnOvhJOR2l+Dg1i9cn7MINvNbU+BDykxjJDgBufmPdfvJszf5/w1zTDKHFCj1hRvNnaAQk8hvRyZITwprseDc1z2RTyeZPN9yEZZJMai2/7QgdtH0bmDcJcMBvV5TBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cwr9QvSb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=K+U59XI2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cwr9QvSb; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=K+U59XI2; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B208C4D943;
+	Fri, 13 Mar 2026 19:22:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773429744;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gPNBm3NzEpEpK8jen0jXpttSvDTYMj8/pyUDJOc2iSw=;
-	b=HZDex5k+ixmjDlHibuZXDO6NLTj2Cnd56WwRcshoq4UqPb1ixulVpsQ+GNeLW0jomknX+r
-	6Z8iB0BvxXR6z3A/EVsf/3bAaeS6/CiCqHsRv3/hy1KSi2odu2SX/zN/m1XSzOmNIMpo2Q
-	F7tDmWq2Uj2+iwZDIqzxLVWB1ECGZS0=
-Date: Fri, 13 Mar 2026 14:48:50 -0400
+	bh=lEZDbFbdaiqtR0DORmYiMySif6us6CTI89GNtF8koIU=;
+	b=cwr9QvSbf3addifFtJFaEE3S5jwqDpZlb749Rs1kTiqHHQe0wIw+TMnTma/8mfA3QiWv+t
+	IZuKpLsIb+k3xwyZAXuL8F5GTiyGUJh1olDjZfpDExV1+UvdVwgZIIojOm6APRysjO8/lt
+	9WDXlxlJVmMpUXoO3id4LXjiv7t5UI0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773429744;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lEZDbFbdaiqtR0DORmYiMySif6us6CTI89GNtF8koIU=;
+	b=K+U59XI2u6gqS+yANGWtG/Pii/V0SpIQQ7wMg6BtOp5KKFcWyvgFtoDkwX90d0NOWdybeR
+	Ua+tdtixGZm/opAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1773429744;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lEZDbFbdaiqtR0DORmYiMySif6us6CTI89GNtF8koIU=;
+	b=cwr9QvSbf3addifFtJFaEE3S5jwqDpZlb749Rs1kTiqHHQe0wIw+TMnTma/8mfA3QiWv+t
+	IZuKpLsIb+k3xwyZAXuL8F5GTiyGUJh1olDjZfpDExV1+UvdVwgZIIojOm6APRysjO8/lt
+	9WDXlxlJVmMpUXoO3id4LXjiv7t5UI0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1773429744;
+	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+	 cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lEZDbFbdaiqtR0DORmYiMySif6us6CTI89GNtF8koIU=;
+	b=K+U59XI2u6gqS+yANGWtG/Pii/V0SpIQQ7wMg6BtOp5KKFcWyvgFtoDkwX90d0NOWdybeR
+	Ua+tdtixGZm/opAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F14A406AC;
+	Fri, 13 Mar 2026 19:22:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6cTyGvBjtGnfZAAAD6G6ig
+	(envelope-from <dsterba@suse.cz>); Fri, 13 Mar 2026 19:22:24 +0000
+Date: Fri, 13 Mar 2026 20:22:15 +0100
+From: David Sterba <dsterba@suse.cz>
+To: Philipp Hahn <phahn-oss@avm.de>
+Cc: amd-gfx@lists.freedesktop.org, apparmor@lists.ubuntu.com,
+	bpf@vger.kernel.org, ceph-devel@vger.kernel.org, cocci@inria.fr,
+	dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+	linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
+	sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
+	tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>
+Subject: Re: [PATCH 02/61] btrfs: Prefer IS_ERR_OR_NULL over manual NULL check
+Message-ID: <20260313192215.GH5735@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
+ <20260310-b4-is_err_or_null-v1-2-bd63b656022d@avm.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] media: uvcvideo: Fix deadlock if uvc_status_stop is
- called from async_ctrl.work
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hansg@kernel.org>, Ricardo Ribalda <ribalda@chromium.org>,
- linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-References: <20260310222259.1202061-1-sean.anderson@linux.dev>
- <20260313174514.GC672609@killaraus.ideasonboard.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <20260313174514.GC672609@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310-b4-is_err_or_null-v1-2-bd63b656022d@avm.de>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+X-Spam-Score: -2.50
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55767-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sean.anderson@linux.dev,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[suse.cz];
+	TAGGED_FROM(0.00)[bounces-55768-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	HAS_REPLYTO(0.00)[dsterba@suse.cz];
+	RCVD_COUNT_FIVE(0.00)[6];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dsterba@suse.cz,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[56];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:email,linux.dev:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 6093C288F2F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,fb.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,suse.cz:dkim,suse.cz:replyto,twin.jikos.cz:mid,avm.de:email]
+X-Rspamd-Queue-Id: 65B0128943D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/13/26 13:45, Laurent Pinchart wrote:
-> On Tue, Mar 10, 2026 at 06:22:59PM -0400, Sean Anderson wrote:
->> If a UVC camera has an asynchronous control, uvc_status_stop may be
->> called from async_ctrl.work:
->> 
->> uvc_ctrl_status_event_work()
->>     uvc_ctrl_status_event()
->>         uvc_ctrl_clear_handle()
->> 	    uvc_pm_put()
->> 	        uvc_status_put()
->> 		    uvc_status_stop()
->> 		        cancel_work_sync()
->> 
->> This will cause a deadlock, since cancel_work_sync will wait for
->> uvc_ctrl_status_event_work to complete before returning.
->> 
->> Fix this by returning early from uvc_status_stop if we are currently in
->> the work function. flush_status now remains false until uvc_status_start
->> is called again, ensuring that uvc_ctrl_status_event_work won't resubmit
->> the URB.
->> 
->> Fixes: a32d9c41bdb8 ("media: uvcvideo: Make power management granular")
->> Closes: https://lore.kernel.org/all/6733bdfb-3e88-479f-8956-ab09c04c433e@linux.dev/
->> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
->> ---
->> 
->>  drivers/media/usb/uvc/uvc_status.c | 25 ++++++++++++++++---------
->>  1 file changed, 16 insertions(+), 9 deletions(-)
->> 
->> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
->> index 231cfee8e7c2c..2a23606c7f4c6 100644
->> --- a/drivers/media/usb/uvc/uvc_status.c
->> +++ b/drivers/media/usb/uvc/uvc_status.c
->> @@ -316,6 +316,14 @@ static int uvc_status_start(struct uvc_device *dev, gfp_t flags)
->>  	if (!dev->int_urb)
->>  		return 0;
->>  
->> +	/*
->> +	 * If the work called uvc_status_stop it may still be running. Wait for
->> +	 * it to finish before we submit the urb.
+On Tue, Mar 10, 2026 at 12:48:28PM +0100, Philipp Hahn wrote:
+> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
+> check.
 > 
-> I don't like this much. The code is becoming really convoluted and hard
-> to follow. Would there be a way to solve the issue with a broader
-> refactoring that would simplify the implementation ?
+> IS_ERR_OR_NULL() already uses likely(!ptr) internally. checkpatch does
+> not like nesting it:
+> > WARNING: nested (un)?likely() calls, IS_ERR_OR_NULL already uses
+> > unlikely() internally
+> Remove the explicit use of likely().
+> 
+> Change generated with coccinelle.
+> 
+> To: Chris Mason <clm@fb.com>
+> To: David Sterba <dsterba@suse.com>
+> Cc: linux-btrfs@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
 
-I don't think so. The complexity is fundamental to how the URB and work
-schedule each other and that there are multiple opportunities for one to
-"resurrect" the other.
-
-As noted on the other reply, I think this call can be loosened to a
-flush_work.
-
->> +	 */
->> +	cancel_work_sync(&dev->async_ctrl.work);
->> +
->> +	/* Clear the flush status if we were previously stopped */
-> 
-> s/stopped/stopped./
-> 
->> +	smp_store_release(&dev->flush_status, false);
-> 
-> Add a blank line here.
-> 
->>  	return usb_submit_urb(dev->int_urb, flags);
->>  }
->>  
->> @@ -336,6 +344,14 @@ static void uvc_status_stop(struct uvc_device *dev)
->>  	 */
->>  	smp_store_release(&dev->flush_status, true);
->>  
->> +	/*
->> +	 * We will deadlock if we are currently in the work function.
->> +	 * Fortunately, we know that the URB is already dead and that no
-> 
-> The URB hasn't been killed, at has just completed and not been
-> resubmitted.
-
-That's why I said "dead" and not "killed" :)
-
-> I'd write
-> 
-> 	/*
-> 	 * If we are called from the event work function, the URB is guaranteed
-> 	 * to not be in flight as it has completed and has not been resubmitted.
-> 	 * There's no need to cancel the work (which would deadlock), or to kill
-> 	 * the URB.
-> 	 */
-
-Fine by me
-
->> +	 * further work can be queued, so there's nothing left for us to do.
->> +	 */
->> +	if (current_work() == &w->work)
->> +		return;
->> +
->>  	/*
->>  	 * Cancel any pending asynchronous work. If any status event was queued,
->>  	 * process it synchronously.
->> @@ -354,15 +370,6 @@ static void uvc_status_stop(struct uvc_device *dev)
->>  	 */
->>  	if (cancel_work_sync(&w->work))
->>  		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
->> -
->> -	/*
->> -	 * From this point, there are no events on the queue and the status URB
->> -	 * is dead. No events will be queued until uvc_status_start() is called.
->> -	 * The barrier is needed to make sure that flush_status is visible to
->> -	 * uvc_ctrl_status_event_work() when uvc_status_start() will be called
->> -	 * again.
->> -	 */
->> -	smp_store_release(&dev->flush_status, false);
->>  }
->>  
->>  int uvc_status_resume(struct uvc_device *dev)
-> 
+Added to for-next, we seem to be using IS_ERR_OR_NULL() already in a
+few other places so this is makes sense for consistency. Thanks.
 
