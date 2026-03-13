@@ -1,126 +1,139 @@
-Return-Path: <linux-media+bounces-55694-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55695-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eFfkGbYdtGlLhQAAu9opvQ
-	(envelope-from <linux-media+bounces-55694-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 15:22:46 +0100
+	id +G2FI8YbtGlLhQAAu9opvQ
+	(envelope-from <linux-media+bounces-55695-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 15:14:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659E8284DA6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 15:22:45 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 483B4284B3E
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 15:14:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2613B305819E
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 13:52:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3604F3007896
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 13:58:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9411E3976BC;
-	Fri, 13 Mar 2026 13:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F96B39F175;
+	Fri, 13 Mar 2026 13:56:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtOylFFX"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=julien.massot@collabora.com header.b="LVqOhlRG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9AC4264614;
-	Fri, 13 Mar 2026 13:52:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773409923; cv=none; b=QGL2ooU6KxyDsnxKDexK33CC36naYQZs6G2OKDHMOS7haoUAL88G4V50Bpm7X0mrtj2sRlm/fMfCJijXKhkbfAuuzWjeiGHq+ItcHIugDXlmqzNb1lTde/Aq6Q1LWPhGGsuU7VIkaf5pX2eG4IayCSC79HpH6poCnoodyNJhXAQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773409923; c=relaxed/simple;
-	bh=S/GrkGfYnRsEw/IEuOuLal7o/HDD6ZJeF+I31DKmFvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dbtlqz5beMfN2xNTzx88WDwWSgndNuNFOx6xicfrlz/UWftIWi8T460qGsSXl+mIzGaM7DR5p5/+yFs0DYPa8fc+caThOY/iza4Xk29ER5pfax4GpbR0FN3B1M8jH2YOmFdzobxa354G/UBvQfM3fBwxmhaXEW0kAnzzFhgVrcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GtOylFFX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA3BC19421;
-	Fri, 13 Mar 2026 13:52:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773409923;
-	bh=S/GrkGfYnRsEw/IEuOuLal7o/HDD6ZJeF+I31DKmFvg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GtOylFFXtxRnuJl2SqQZOZfUQVtcTmTtaW2gCpv6QD3JNS7yLQdmPyVId0C+gIAPq
-	 BJ/HNQM/XdiamwcS9T2igLuvaqTTBB8Q405JGPst4xUiehgKt4CA+BQqFoKtbnD4sH
-	 2jr80ySLK/6+vKgys/AiRvbVFV6/qgih0Ngzq69aKJk0238vZ3O5A6VESEfw+Zcyzy
-	 vIIrwa7MZBTgb652AIjYqnH0HVqYUd2/WaV+bVrqgn5YcFG8MmUUlKMWr9LKkmFzk8
-	 JwRKy1WD76JVwU3xI0XW5bkwh4Hb+kskY9ysUNC6fIIXFopMNKJcESgkNurM8H9Txp
-	 gMTt3umgadN9w==
-Date: Fri, 13 Mar 2026 14:52:00 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Alexander Shiyan <eagle.alexander923@gmail.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
-	Hans de Goede <hansg@kernel.org>, Tetsuya Nomura <tetsuya.nomura@soho-enterprise.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add Sony IMX662 sensor
-Message-ID: <20260313-curvy-esoteric-stoat-b2a490@quoll>
-References: <20260312150437.1091195-1-eagle.alexander923@gmail.com>
- <20260312150437.1091195-2-eagle.alexander923@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5210E39B942;
+	Fri, 13 Mar 2026 13:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773410207; cv=pass; b=LhkDm5FDRbEA+mTt1NSZx78bV0j6NqZqcVZWtbY/iFmrcJLiPp8I47Wue3BVB+honM4oRF0vSAddevQolRNWilhkVPyNUt2VnAVQC4vaIN2aZQ6I+scmK/K0E11EhY3KqbKFtRbYzsD2AjcczcH7WNK1MLieSXITdKbSHPae+DQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773410207; c=relaxed/simple;
+	bh=HjsmSlTudjkbLuVwL87aH81Z8ZZ18KDDRKgScGcmHI8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sPNcNtFnzNQWpmAXeJW2EtbtWpLjm5xYhmpPfK2iyBijP5ykoGtVIaYqC7ZR64MJ0okfFLS0dw/8QjuBJn1lSG12XV+LZTEP6O7Ap5p77dDMtabpzoEcnqE7Kc7SlZlaefWt7u3U/1ej2+Pb+ACVzzhEjYlygAqQcf5A8ypBHyI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=julien.massot@collabora.com header.b=LVqOhlRG; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1773410182; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=PGSQtL0S1p1J7QUbYQ/bGRPcmuepasrPGMm8oLv1z3FcAilWgnFj7cDC5oCb7KLs4V60FLkg2BADdRFvf79ViUeDucEgKxJy4izo5Uu3PPZaAy/PHB1u5HPHebuSyjguYaTrugvw7ImVTaihi+vCwclTznLXA5YLLi+By3NsOhk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1773410182; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=j9KwhhH9tgnuzrYFy4kXvSl267IKvRdP8eTatOFy1b0=; 
+	b=gxY8FwgRPPFW5DlFxEQT+BScg/sxndreZhlDcyXV7oBh59dYgKNGYPJG7BpxfU+g32j9jwnp3BQ604YdgQoEah+tYifu+nWgQ3dHuqMjR+kimtaTMaBsOxSpuRyP9iWkNs3h5Vg7NYjIP9mfSMNy5JnzRfSnKFwE0+MM/fCg0kc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=julien.massot@collabora.com;
+	dmarc=pass header.from=<julien.massot@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773410182;
+	s=zohomail; d=collabora.com; i=julien.massot@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=j9KwhhH9tgnuzrYFy4kXvSl267IKvRdP8eTatOFy1b0=;
+	b=LVqOhlRGNk3OBOq1QY8w3diEmins97/kIf78dZTFlI8SUOXmeYUf89/1qlqDDSAP
+	8YUbPhQw1Tm+iqCFGrcR9HYVG2Vkj0v+lv+7KRLeE5m4U0cpvRONrcq3eZAsdqgAw2d
+	ODFTdyKfSJCtuFHlPVS8xIPAi6If3P4+D/D7MjXE=
+Received: by mx.zohomail.com with SMTPS id 1773410179396257.8190378456592;
+	Fri, 13 Mar 2026 06:56:19 -0700 (PDT)
+Message-ID: <c5a4c8e4-dfc9-4fad-9c3a-a767a75850c5@collabora.com>
+Date: Fri, 13 Mar 2026 14:56:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260312150437.1091195-2-eagle.alexander923@gmail.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 20/21] media: i2c: remove MAX96717 driver
+To: dumitru.ceclan@analog.com,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>
+Cc: mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Martin Hecht <Martin.Hecht@avnet.eu>, Cosmin Tanislav <demonsingur@gmail.com>
+References: <20260311-gmsl2-3_serdes-v9-0-41499f09004f@analog.com>
+ <20260311-gmsl2-3_serdes-v9-20-41499f09004f@analog.com>
+Content-Language: en-US
+From: Julien Massot <julien.massot@collabora.com>
+In-Reply-To: <20260311-gmsl2-3_serdes-v9-20-41499f09004f@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55694-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-55695-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.linux.dev,ragnatech.se,avnet.eu];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,1a:email]
-X-Rspamd-Queue-Id: 659E8284DA6
+	FROM_NEQ_ENVFROM(0.00)[julien.massot@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,collabora.com:mid]
+X-Rspamd-Queue-Id: 483B4284B3E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, Mar 12, 2026 at 06:04:36PM +0300, Alexander Shiyan wrote:
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera@1a {
-> +            compatible = "sony,imx662";
-> +            reg = <0x1a>;
-> +            clocks = <&clk24m>;
-> +            avdd-supply = <&reg_cam_avdd>;
-> +            dvdd-supply = <&reg_cam_dvdd>;
-> +            ovdd-supply = <&reg_cam_ovdd>;
-> +            reset-gpios = <&gpio3 4 GPIO_ACTIVE_LOW>;
+Hi,
 
-I bet you never tested your DTS with your driver. There is no way this
-works...
+On 3/11/26 8:17 AM, Dumitru Ceclan via B4 Relay wrote:
+> From: Cosmin Tanislav <demonsingur@gmail.com>
+> 
+> Remove the MAX96717 driver. Its functionality has been moved to a new
+> MAX96717 driver which makes use of the Maxim GMSL2/3 serializer
+> framework.
+> 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 
-Best regards,
-Krzysztof
+The new GMSL2/3 framework is much more complete than the initial 
+implementation.
+Thanks for your work.
 
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
+
+Regards,
+Julien
 
