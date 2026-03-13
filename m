@@ -1,51 +1,84 @@
-Return-Path: <linux-media+bounces-55605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55606-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2MrACrDKs2kqawAAu9opvQ
-	(envelope-from <linux-media+bounces-55605-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 09:28:32 +0100
+	id 8K/RLlPMs2n2awAAu9opvQ
+	(envelope-from <linux-media+bounces-55606-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 09:35:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5B927FA6D
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 09:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9DF27FC52
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 09:35:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C09573185AF5
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 08:25:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2789831A264E
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 08:32:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9172236C9EE;
-	Fri, 13 Mar 2026 08:25:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26750383C78;
+	Fri, 13 Mar 2026 08:32:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gGc9xT4P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ve4+KjZM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2A737FF40;
-	Fri, 13 Mar 2026 08:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7B736C0DC
+	for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 08:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773390319; cv=none; b=Ypa/qDTaBRMj902+2VBPWT1MOnoVxnlGf1e8T6b+oq5Rwo6jAUj9FifoR/TsitcgR91KE5QMOSp6pffLLZy+mEfOWsbejUneFb8f0F1tB1TZ2qmm/EJ9Z9tuFPbOlPjTVXfMCtgHY54uif10dlyF7qZIaCWG2q47I8+qLNc9N0A=
+	t=1773390742; cv=none; b=O7ABa1XSxwteUmUsW9/i39H174va8qakDmpBO9wyaXCfdgHMZ1vY1xd7RpfV62QA6BQ71Rf8G+EcECnA1O9bHVTIkoTCoEb8/Z3pOpUewuTPyymqy9lbJ6bJGbFjJ5RgxIuwRS9LnoJX/565VdzW2m7ru9FJSUe1Kn7fBUy81Rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773390319; c=relaxed/simple;
-	bh=DuLitpuybVxUQnulRmNUsGWTqFTdphbtKq8xNVvHdNM=;
+	s=arc-20240116; t=1773390742; c=relaxed/simple;
+	bh=gF7U4AhLl2B54UlbLoigUUUH6Jsm/F5mlTaV5RfBX1c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IuxpMphc8pMRpdi7JJmmyYu7jiCdpiphcojwBRcok3e3/qlNmsxU+y/Mhf1dMolUzFaY+t5jYjgXKqK5+0FDVbY7iGNPEC1hfpJsJw5g2/RV30Ux7K+rfC4jmsMCZ5yASmgEXA1im/9DwsXZyX0Q0tjw3fHJcnZlGSrZfQ//mIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gGc9xT4P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9810AC2BC87;
-	Fri, 13 Mar 2026 08:25:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773390319;
-	bh=DuLitpuybVxUQnulRmNUsGWTqFTdphbtKq8xNVvHdNM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gGc9xT4Pyi/BTauyuzBfsSeM1+tvxPG9id25um2k5qX2Ci52WhQWp0KdFNFaGk1Ye
-	 evfC8DMet+TYWkDHqMjGzjBRnCJo0DaR9F2M7gAFlhNl+sBNvDQomxO5FAlduVIYGc
-	 CkwzfZVEuPKrTiYtcCVCmyhOqfcSllyeG7TatcuiXFlYetZkBK2rJCxwTm2J4OpQFK
-	 xIVMv7oODgvua4juGro75OCJFxvUc3bfb6Tc5y6M33mc2Gb7l8uaYERrBJGXxIXMWQ
-	 1m65AvRkMr+s0gJr28ycAeKzzdaF/tEaf2veFSiwYgdeGV/bWUsSWyctL6GQNHBc2U
-	 TvK/U2tCySOxw==
-Message-ID: <341cc7b5-0566-4fa1-b710-c486f318a7e8@kernel.org>
-Date: Fri, 13 Mar 2026 09:25:14 +0100
+	 In-Reply-To:Content-Type; b=J+e89y19Yx4dlpl5mLNgij6QV0L5mLB8ngfciR7cbxKj+WPD7Lm0/C7HM+fVL6v1dQSaGjSp+rAttfDEV5/+LFp9OBwGjjZR4qJAesg6L/iiHEyHOGuyrO3Aj8SdGbGK9On0uixwasnpb0LJw+dG+2FSG3v7t8WvP5v9qNs6ncA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ve4+KjZM; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b9423d62cbbso452188366b.1
+        for <linux-media@vger.kernel.org>; Fri, 13 Mar 2026 01:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773390739; x=1773995539; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zbcDxBVVYzOw7c6OTfNiMQmEPeMGSouBlRwpnguHKAQ=;
+        b=Ve4+KjZMZXY4pNNaIPy6oKForvFFVjldMaURWwmxmzsmi+eV3MBTRRAd1SMZIX345h
+         CuM9UPCoPnm84rEkVOfCzztFXPmTAlGoJBaGYyyhDd+hIbw2oLs+ZICv/LMKPCSCoPau
+         HvE2s0thCUwFl1Lp4ruYJ7XJgjfwEHOYBowlXC5BHuqsyW5NJv2OWwL5ShpyhPmnxoyI
+         IaTH1CNYSzxrimyyURz3spByUlwxn+KkTXJBZTy4lWDfNEIzHdB7/laV0bVJSJPK2lrJ
+         2ERci+y02pPLrqM5DXhh8IXd4bDpOuswI7THsBPfv/Ywl+B54JNSA58bAKWTK286/sJQ
+         Jvqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773390739; x=1773995539;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zbcDxBVVYzOw7c6OTfNiMQmEPeMGSouBlRwpnguHKAQ=;
+        b=JhNtETa5ariqeEHjINch6KgGaKWon2P0bjOp01YYm6Y96+EEebMjwnKnZ1CAYQp0nb
+         x4cmwfySDAbtD7Gmu30Bo1EIC14aFOolJ9DvhNxJXIcK48CFAN0Wptdhjwobxd2gVNd6
+         olHyyzlo3kulpWrO6LkIyi+GDtHG9F56s1SNOQ4vSD44aP4Daal434wek1HKKe/ZVCtT
+         4T39V/zON10Os8SFYn1FxH3A7h6hqXQLg2LEJ5TYVoGrUY/yQ5cHq+cduZ6lF4TUCQRJ
+         1D2EEvutwaBecs+f5z96JS5HuIXPoW5VqYIU0L0erIsf0CWGdkTg8/TZHDeud4o2UXKu
+         xtyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWxkSdloEXbg11jyYr1dJeGl7BYhYyP9IBxrMq9+F03EIUlhSPxHh6ARwNlsDkbgscO1ikCiy4bMYcA6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz22O+uJljmwJN5VMx5pJacnhh1GOWjgVrCUGOrE8KdM0kyGuWE
+	78yfwMM4W+bTa3yS8wXCaGs2QMSOKMg9dp68K1P3+ruZ2902uPtjmgiV
+X-Gm-Gg: ATEYQzyLbN6oRezIBhCbrR0TNFsxfu2ugsSqsRD/pU/OOJLtDVsh1lDSe5jMUQ1UuCw
+	vIH6AkuZWm/VMu4nRnyuwEFRRZBhAgIFhaL4xuCQrnTVNRwvqy+cUBVzjR/6RQtifP5CGLz2DeH
+	1DNPbbf1IZcYNND+zEM4cvC2Eu2AByPs/a3ParSt6hR9hZX2tHcob/hqKybFg4RWAQucc6aRiZL
+	OeIh5yR2ZrDNv7BkgAaiz5DdKnWMfGKlLEfa2E6K1utSjrrw9F1l2y2lcYaGJ53vIpc+T22ITHt
+	HOJ0Q0fhb/Mn3D2joQZ1ydQCUB+l/lA74A5f1nP4JJrtJyEjUAK6wrKmFShMugkuKxn4eZ1XACw
+	CXff2sEib5Id5PYVlOPwKOkZIcBJlIpGiKr9jsG4eTKgKlQMvLngcWd0G8oz7lToqXPdf/AcnC3
+	aNSZdsfN+mIXoI7qbg/2KrKFsnra1l7kPTNhFUqySEVxd8rNOGzPPEXPo7208Yfdf5vg==
+X-Received: by 2002:a17:907:9285:b0:b97:73ae:e2e with SMTP id a640c23a62f3a-b9773ae119bmr31732166b.18.1773390738986;
+        Fri, 13 Mar 2026 01:32:18 -0700 (PDT)
+Received: from ?IPV6:2a02:8109:8617:d700:5998:31f2:ed8:c4f? ([2a02:8109:8617:d700:5998:31f2:ed8:c4f])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b976cba6ec4sm29152166b.5.2026.03.13.01.32.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Mar 2026 01:32:18 -0700 (PDT)
+Message-ID: <2bcc0442-cdd7-4093-831c-0bd4652edf56@gmail.com>
+Date: Fri, 13 Mar 2026 09:32:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,139 +86,123 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/6] media: dt-bindings: Document SC8280XP/SM8350 Iris
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bjorn Andersson <andersson@kernel.org>, David Heidelberg <david@ixit.cz>,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Johan Hovold <johan+linaro@kernel.org>
-References: <20260312-iris-sc8280xp-v4-0-a047ef1e3c7d@oss.qualcomm.com>
- <20260312-iris-sc8280xp-v4-1-a047ef1e3c7d@oss.qualcomm.com>
- <20260313-resourceful-saluki-from-sirius-f4e1be@quoll>
- <ksk3hjyauhbzvytvch2xip7kusuicnatbw4xlmg7wtfiyatzpv@y5q7xjvl7esf>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v9 00/21] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, dumitru.ceclan@analog.com
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, mitrutzceclan@gmail.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-gpio@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Martin Hecht <Martin.Hecht@avnet.eu>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Cosmin Tanislav <demonsingur@gmail.com>, Cory Keitz <ckeitz@amazon.com>
+References: <20260311-gmsl2-3_serdes-v9-0-41499f09004f@analog.com>
+ <abEgijQAqW27i5fU@kekkonen.localdomain>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <ksk3hjyauhbzvytvch2xip7kusuicnatbw4xlmg7wtfiyatzpv@y5q7xjvl7esf>
-Content-Type: text/plain; charset=UTF-8
+From: Martin Hecht <mhecht73@gmail.com>
+In-Reply-To: <abEgijQAqW27i5fU@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-55606-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55605-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,collabora.com,ragnatech.se,linuxfoundation.org,analog.com,gmail.com,vger.kernel.org,lists.linux.dev,avnet.eu,amazon.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[mhecht73@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,linaro];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 7F5B927FA6D
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2A9DF27FC52
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 13/03/2026 09:14, Dmitry Baryshkov wrote:
-> On Fri, Mar 13, 2026 at 08:55:00AM +0100, Krzysztof Kozlowski wrote:
->> On Thu, Mar 12, 2026 at 05:14:22PM +0200, Dmitry Baryshkov wrote:
->>> The Iris block on SM8350 and SC8280XP is compatible with the Iris
->>> (Venus) on SM8250. Document those two IP cores, using qcom,sm8250-venus
->>> as a fallback compatible.
->>>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>> ---
->>>  Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml | 10 ++++++++--
->>>  1 file changed, 8 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
->>> index 43a10d9f664e..3700f8fe91cc 100644
->>> --- a/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
->>> +++ b/Documentation/devicetree/bindings/media/qcom,sm8250-venus.yaml
->>> @@ -10,7 +10,7 @@ maintainers:
->>>    - Stanimir Varbanov <stanimir.varbanov@linaro.org>
->>>  
->>>  description: |
->>> -  The Venus IP is a video encode and decode accelerator present
->>> +  The Iris2 IP is a video encode and decode accelerator present
->>
->> Why Venus name disappears? And why now this is Iris2, not Iris? It's the
->> first time such name is used. Just call it Venus/Iris if the new devices
->> renamed the block.
+Hi Sakari, hi Dumitru,
+
+I'm testing v8 already and will migrate next week to that version. Below 
+some further comments.
+
+On 3/11/26 08:58, Sakari Ailus wrote:
+> Hi Dumitru,
 > 
-> SM8150, SC8180X had Iris 1.xx. SM8250 and SC7280 have Iris 2.xx. But
-> when the bindings were written, it seems, it wasn't obvious (or
-> important enough). I will change this to Venus / Iris 2.xx
+> On Wed, Mar 11, 2026 at 09:17:12AM +0200, Dumitru Ceclan via B4 Relay wrote:
+>> The following deserializers are supported:
+>> * MAX96712 (already exists in staging)
+>> * MAX96714 (already exists)
+>> * MAX96714F (already exists)
+>> * MAX96714R (GMSL2)
+>> * MAX96716 (GMSL2)
+>> * MAX96724 (already exists as part of existing MAX96712 driver)
+>> * MAX96724F (GMSL2)
+>> * MAX96724R (GMSL2)
+>> * MAX9296A (GMSL2)
+>> * MAX96792A (GMSL3)
+>>
+>> The following serializers are supported:
+>> * MAX96717 (already exists)
+>> * MAX9295A (GMSL2)
+>> * MAX96793 (GMSL3)
+> 
+> It'd be nice to have more reviews as well as comments from the users of the
+> existing drivers especially on how this works for them.
+> 
+> Are there differences in functionality or UAPI compared to the drivers
+> already in upstream?
 
-Then "Iris v2.xx", how we call versions of blocks in all other cases.
-The block is simply Iris, not Iris2, right?
+Compared with the current mainline drivers from Julian (what offere a 
+good basic functionality) there are a lot or more features enabled. One 
+ov them is support for routing the channels as well as i2c-atr instead 
+of i2c-gate only. Both helps to setup up more complex and reconfigurable 
+routing of the video channels in complex systems with many 
+sensors/cameras/streams.
 
+Additionally a lot more and never devices are supported by that patchset 
+including the new GMSL3 devices what are also backward compatible to GMSL2.
 
-Best regards,
-Krzysztof
+Both link types are supported now. Generation of test patterns in pixel 
+mode has been added.
+
+Also log-status returns a lot of very useful information about the link 
+mode (tunnel mode versus pixel mode) and potential errors / packet 
+losses over cable by presenting the counter registers. That helps to 
+monitor the quality and reliability of the GMSL links as well as CSI links.
+
+> 
+> ...
+> 
+>> The following v4l2-compliance test still fails:
+>>                  fail: v4l2-test-subdevs.cpp(371): fmt.code == 0 || fmt.code == ~0U
+>>                  fail: v4l2-test-subdevs.cpp(418): checkMBusFrameFmt(node, fmt.format)
+>>          test Active VIDIOC_SUBDEV_G/S_FMT: FAIL
+> 
+> Could you post the full report here, please?
+> 
+
+BR Martin
 
