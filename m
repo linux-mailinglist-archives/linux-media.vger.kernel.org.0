@@ -1,142 +1,134 @@
-Return-Path: <linux-media+bounces-55734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55736-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KAXfL7A1tGn4igAAu9opvQ
-	(envelope-from <linux-media+bounces-55734-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 17:05:04 +0100
+	id KP1FJt81tGn4igAAu9opvQ
+	(envelope-from <linux-media+bounces-55736-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 17:05:51 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678AA286A17
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 17:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3739B286A3D
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 17:05:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D14673013254
-	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 16:04:50 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 74A17303BF78
+	for <lists+linux-media@lfdr.de>; Fri, 13 Mar 2026 16:05:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A489F3BD65F;
-	Fri, 13 Mar 2026 16:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 819843BED7F;
+	Fri, 13 Mar 2026 16:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZnV2uCmt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZxJ+xJkR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C538627EFF7;
-	Fri, 13 Mar 2026 16:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23FE3BD237;
+	Fri, 13 Mar 2026 16:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773417885; cv=none; b=pm4NIpjwpvyNyPMhXrExAE50aw67WqOBH4KplZHcc8YGkoYrmqNqLihkuN9t47lgdIN7KLR3QJOZg4nl1M0AhiNfWA0YnIu3gKduGFZXl6w6TfAE/U0gww5y+xwF1oJUCrnRS3OP1/auJgBTlBGToh8+aubGNp5zOiwRQfTnzA0=
+	t=1773417892; cv=none; b=RLpQ6YvouA3Epu5/7diU9PVtGxPyqSlnvfHN90mMs7Bjm9uHEp+O8LAPKX/Y0jmLAyKsj1yUKsMJUn8em1lGF1gvwNzNIdYNQNwNlXDV0y88mbXGdwx8eJVHYZ8Ml20q+Ls3o/vXWzpMNOqRc0KtVUeOVEuvAu59xCMBMiveJP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773417885; c=relaxed/simple;
-	bh=jYeg5qbLi0FFttCEkiPww5nskQYsa0sggqvW+/9q3WM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=agm8RqdMtk/kLjL66RsiIejEDw8E++zz/kI+jayIdZ3dbomE8zOsOdlb5lIJ/CNZG+h129xAXHlWuIcEuBkcnnPxFSnelUe2hCmD2aEejyiJ8oW/wDRtQ6swyEOXPiAmz2huatbSbtMGe7EOVdehkQXB+GUvNiJivkGkmM6K+DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZnV2uCmt; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A867FD0;
-	Fri, 13 Mar 2026 17:03:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773417813;
-	bh=jYeg5qbLi0FFttCEkiPww5nskQYsa0sggqvW+/9q3WM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZnV2uCmtio2nUBtgi5Ia1sEMk9mTRWinTgKhkSt3vzyp5CKVoH1yS4T+XACCgU8V+
-	 kxtyu3ozS14KWYM8eM/7fmFezj6YgkusEfqZcXpg7mnZ1n8V7uAa4B5S0JGO4Gu5Ug
-	 2kUAZ8qjNYBeNQ2B46zHKL4ASuHp0QqC+CgmFAXA=
-Message-ID: <abe739d4-f72e-44ce-a43e-102bdf744957@ideasonboard.com>
-Date: Fri, 13 Mar 2026 16:04:39 +0000
+	s=arc-20240116; t=1773417892; c=relaxed/simple;
+	bh=TkNilpnVN+nNdhU6DZX2qB70pfEN2ZaJLtBY/tZgWwM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=acD/4AJTmizWCd3IOHQuST5sfiCKcZ5U1Vw+c++KY7XwhF8dfyd3DR1mghdIwaqS3DuwyKqYkj5tBeTubj3lGzivy4/yd3MqzE+ExaQKT6BTwbfoXI/ufO9eIdz8dj+MG+sVHJD84svQvFUx7Dp9e2BfVzNAeveeo7wcOzYf2Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZxJ+xJkR; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773417891; x=1804953891;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TkNilpnVN+nNdhU6DZX2qB70pfEN2ZaJLtBY/tZgWwM=;
+  b=ZxJ+xJkRYbpR9YxbzYEuR98qBLGnwYlvzNVvF1XIA7kK3fALnaui9upf
+   6GcOFU5CjB8091VEG73m4ezq3td5EZBt1BhydK8rL02aP2/JjQbDeGHGw
+   P1wQre8VtFsTjDAfP4bzmkNEq0GvZLnpUCagq3JmE2Wfb6ATZMmWQkLzL
+   mfYa/5fQWyCTjdLSBvuz7D9J6yOxCfW64NmZ1g0ZrvFDCJtBDPsdx7B4+
+   4skNJLMXeU6g9xZj9sFB5qovgBJBmz/4hQlMLC1wC/0+hJ0MuOjEXjGn8
+   dl08nCk862KcMoQiDhEVgRgXzj+Fz+ZagVWa/rkAMGF+O2SoMXkT840QS
+   A==;
+X-CSE-ConnectionGUID: s7A+uh/zRsiCRyCx3x7JFA==
+X-CSE-MsgGUID: RHqo5DFDRTGA3n1Rrj0ySA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11728"; a="74421868"
+X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
+   d="scan'208";a="74421868"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 09:04:50 -0700
+X-CSE-ConnectionGUID: rAMRlgNaQMOxf0VlgOIFqA==
+X-CSE-MsgGUID: k+YO9BR2SwOtymTi8j+6DA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,118,1770624000"; 
+   d="scan'208";a="225662203"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.246])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2026 09:04:48 -0700
+Date: Fri, 13 Mar 2026 18:04:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Lin YuChen <starpt.official@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] staging: media: atomisp: use kmalloc_array() for
+ sh_css_blob_info
+Message-ID: <abQ1nYvEpKV-rkL8@ashevche-desk.local>
+References: <20260313152936.14560-1-starpt.official@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] media: mali-c55: Bypass the Iridix Tonemap engine
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Anthony McGivern <anthony.mcgivern@arm.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Nayden Kanchev <Nayden.Kanchev@arm.com>,
- Konstantin Babin <Konstantin.Babin@arm.com>,
- =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260313-mali-c55-fixes-v7-0-v2-0-885c07961f30@ideasonboard.com>
- <20260313-mali-c55-fixes-v7-0-v2-5-885c07961f30@ideasonboard.com>
-Content-Language: en-US
-From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <20260313-mali-c55-fixes-v7-0-v2-5-885c07961f30@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260313152936.14560-1-starpt.official@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55734-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55736-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 678AA286A17
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:dkim,ashevche-desk.local:mid]
+X-Rspamd-Queue-Id: 3739B286A3D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi
-
-On 13/03/2026 14:54, Jacopo Mondi wrote:
-> The Iridix Tonemap engine, if not bypassed, applies a digital gain
-> in order to compensate under-exposed images.
-> 
-> This however breaks the exposure and gain regulation performed on the
-> sensor.
-> 
-> If the Iridix Tonemap has to be used, it need to be supported in the
-> ISP uAPI and properly configured by userspace.
-> 
-> As the driver doesn't support it at the moment, bypass it by default.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+On Fri, Mar 13, 2026 at 11:29:36PM +0800, Lin YuChen wrote:
+> Replace the open-coded multiplication in kmalloc() with kmalloc_array()
+> to provide overflow protection and improve code readability.
 
 > ---
->   drivers/media/platform/arm/mali-c55/mali-c55-params.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> index 773e5b6a2b7e..b9fc904a3844 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-> @@ -825,6 +825,11 @@ void mali_c55_params_init_isp_config(struct mali_c55 *mali_c55,
->   	/* Disable the temper module's DMA read/write */
->   	mali_c55_ctx_write(mali_c55, MALI_C55_REG_TEMPER_DMA_IO, 0x0);
->   
-> +	/* Disable IRIDIX module. */
-> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_BYPASS_3,
-> +				 MALI_C55_REG_BYPASS_3_IRIDIX,
-> +				 MALI_C55_REG_BYPASS_3_IRIDIX);
-> +
->   	/* Bypass the colour noise reduction  */
->   	mali_c55_ctx_write(mali_c55, MALI_C55_REG_BYPASS_4,
->   			   MALI_C55_REG_BYPASS_4_CNR);
-> 
+> v2:
+>  - Remove unnecessary parentheses in kmalloc_array() call as suggested
+>    by Andy Shevchenko.
+
+This marked as v1 and 2/2, where is the patch 1, and what is v2 here?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
