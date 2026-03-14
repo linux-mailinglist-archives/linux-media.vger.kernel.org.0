@@ -1,101 +1,100 @@
-Return-Path: <linux-media+bounces-55810-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55814-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gI3KLPDdtWlT6AAAu9opvQ
-	(envelope-from <linux-media+bounces-55810-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 23:15:12 +0100
+	id 6HAHIlnetWlT6AAAu9opvQ
+	(envelope-from <linux-media+bounces-55814-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 23:16:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F41F28F408
-	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 23:15:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2659D28F462
+	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 23:16:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A1321308ED50
-	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 22:11:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 467D530488EE
+	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 22:11:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 273D0388E6F;
-	Sat, 14 Mar 2026 22:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B51BF34EF11;
+	Sat, 14 Mar 2026 22:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Rf+N2n8o";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="YpiDih24"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="zEc3f6Il";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qqXX4/U8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0433D388E66;
-	Sat, 14 Mar 2026 22:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85EC3375D5;
+	Sat, 14 Mar 2026 22:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773526268; cv=none; b=Ok1LYzt7FnplLrox182OVANCx0wrhSgvy/ajRUvp0+jsWvz4ZBsBtFW2ZbmTf0rP7hK3AJT++GCLq7lyRb+c7YE+hxLXIIDTwj3YreKFwDDw+ybz+Wu3bbHXpLjP7HHnD8iTV0g8Fr6lZg3z0WCiCbXajJp21HsWmqeK81DYS7k=
+	t=1773526276; cv=none; b=Cs8xgzPjURmJAXCensuswlxT3/BaVpMti2vIcTlD39PZ/ZbHKq9YJ1SwoJfcl+6rrVLZTOB0+8wholJsjvrZ1/PFiAnPWDsHLDz8gCnmwJKmeyQKTnvnFtRr/IZpDAXAviNinWwvOPoyvIQoLTasnw0DO0QbqDQaGv5IvSot9Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773526268; c=relaxed/simple;
-	bh=bXaomthrrsc6/xK1mFb7y8IgrWLSDgKi9DVIcE3yizc=;
+	s=arc-20240116; t=1773526276; c=relaxed/simple;
+	bh=XkJG7jWQ7DcJZYGY/0L9O5vzQNezsYVYjwE7o3MovaY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MF4w7/H3KvCCyt2S7szEMXaEeT16TGRuApJxSRZpQ/ZHkmGyiACaSBC9F3zlYGGFgvFK44C3onPoZbVWOsHI6vcHpwS2onNL4kvOGndscT2O/jDj515xgrA1HUkXzlbCBUwzQVtyU9MoSnnUec8gFuiIvGOU0HYlTGGMNcgSjhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Rf+N2n8o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=YpiDih24; arc=none smtp.client-ip=103.168.172.151
+	 MIME-Version:Content-Type; b=h5/HtxMozow55zeoAvgJrlUafbGfnDO9rnFeanY1ImCECUy2Ff2apbg8mbX6zYvoHEpEMId+JAWdPQjNoVUFKHAwAcuLpWIB1/l/X+V2XZdDKnDZu2iBr22TCZqzUSxJV8DI6U0npDW/lBB9PVUX3d4I2vT7dBtLupXFyqQ79jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=zEc3f6Il; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qqXX4/U8; arc=none smtp.client-ip=103.168.172.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 40A2DEC0B7A;
-	Sat, 14 Mar 2026 18:11:04 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Sat, 14 Mar 2026 18:11:04 -0400
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 1995014001B3;
+	Sat, 14 Mar 2026 18:11:06 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Sat, 14 Mar 2026 18:11:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1773526264;
-	 x=1773612664; bh=F7JSW+j/LkWt4whOeEkJ/DH35z9TIw1fR68SJHykOys=; b=
-	Rf+N2n8ocy/ghAeAyhc4uDaolVZCzOQ6zY7dXsy6exwfKEE42orqa3i6kNmDZ+b1
-	ql49jzq5wCewGK3MGt4r35D//qEQY/hjWvfIln2OnLoO3CGKVGWTwJgmmqNxaa39
-	H/otU21vUKRuzip7kKtnQ/VJJukyqI7fItuY0T75EKVpiBeMGOgd/4bNE9fS3XhN
-	9+fBT+2+IKL326ovM7AkgXp+wfda4WFIHfJlcDwtjOLmfOP8OnbrqPJeKRi/oXWa
-	YRdnU1gr9E+E8XZZP2+lLxP24lvQkQCnQYG/H1ciZAeA2StmZrjQDozsxJuvIBoY
-	NnKM94oasKaIIFmqpUpxRg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1773526266;
+	 x=1773612666; bh=iwnc4Sa9AN5zgfnbopLMibZVmnZb3rbPAjuiWKstNto=; b=
+	zEc3f6IlNMwcb6XfF36pjqs+ZTPBwEUjDkvpNKyV/JuXz6+bVrYWRmy4u47hxvG1
+	KJgtzz6aXDTxrLxuQZaGK+2/1xMYYsmK3RkYMN8ZSi0yRdIsK+cyQUST7Yc9N2eo
+	B2CpC/BdXZkxVgdIQRUtp1eQZSOE3lMxwkYXwjTsFxOTrVCnvX+x58wQP6vvy8ny
+	EbFiOEPOa85rn51rwRAbxQ55GKw49StGCgBCcavZuesbh+eAtcdbIV5eyHp4qI6r
+	Lcnp5uEIgalHwdEwSE8gYeSsxvicQP6kdnrl0ZgDI/tlCIFsyr/ZFVgrzr5aJT+z
+	yAQJBeLDtl85eQALwGa/+Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773526264; x=
-	1773612664; bh=F7JSW+j/LkWt4whOeEkJ/DH35z9TIw1fR68SJHykOys=; b=Y
-	piDih24baujmqKP4zMs8k8PG/8jogF3UYxml7Ls1FTNRBan9SrLvCmPyyaRxIyhz
-	/A8QA1S15DWp/rrD27gwamJxem6m1YDIlVKBbDd7Hrttoaw4ZkMXFADNaRC2lBFQ
-	Vt/zrA8v+SRwnukoMmT89aqUqJsKq/mmEOUk2EbQ8A0+MYVhpb4HLMf10K22nxHR
-	iDGCvnShIkda7r9xQxVhjnWGC4u8PeUSCqnBwX7dGf7ztJQz1lbsS6cgjUxp3ZH5
-	kuYgaiEfr2tta6jkvnrnCI4qSh2gC3KhKSW7h3P4yDb4FxrT5n1iXULpjqyw3xhT
-	b6u3FfqAt2+oY+jSynzbQ==
-X-ME-Sender: <xms:-Ny1aT4SweXrjVEyM8LQlPYIeiCTHuCMu0Euzhm9Xf9EVswNMh4gqg>
-    <xme:-Ny1aZUuYvD6kThONA5K53yqQMSJxqj5evGeFLl661zpF3IgGhFLyl2uLNsxtOlS1
-    H6k_2747aKoKRcueKMelr76_YAHZq9o6FBzgVgOGBrhXU6GiN8azlo>
-X-ME-Received: <xmr:-Ny1abKvCoDf5Pxkl-i9DnhBiky0FJ8vUmIRYVoRk-kdnDC5BZx0e3J-qCB3FuvoGajP6Y5qdfwIiD0FtkeMWR1zuzKLM-9ttR1p>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleefjeegucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1773526266; x=
+	1773612666; bh=iwnc4Sa9AN5zgfnbopLMibZVmnZb3rbPAjuiWKstNto=; b=q
+	qXX4/U8cdo3IDUmMCr0f7CfWE3LjCjzeewo7c8q9UxJpkhdCGUiInwjCY6sDF+eA
+	Eb0YIdVRIOMRKbgRZ/46tLfiJIznFojD4kScQMPpvo0s+3L1NtFleietTS2QaV+L
+	6AifPHJ7prH8ltbmqDzzRbBT0bEPyoDRVAmZ76FGBT7NlGKJYr5YDIfpIAr3cQVE
+	yQmREy9c7FiqY+bH4Pq9vMRGvGbQ5eu86wCCwXsLBxItfVFsue2oIMWrWXSno2FA
+	RHekQUdLhdIuKRIBHvlI9CFYgA1RbXZ0Ou/ypQGktvGRCxguHhvkKcYrYo/kPAoF
+	PZFgLcU5S/nuDnp7xhmyw==
+X-ME-Sender: <xms:-ty1aVP27qr1qYpWbFPRlU2rFcEWKWGIYY14di-7WEVOfMuW0kPhGg>
+    <xme:-ty1aYYpM5kiFK0uFmxhvpy9WPJqZv-P_gXvEMGgO_ugQcZXdAz4AD5hotBOTEuNc
+    5dHG2tjTgFm8fh0ATI3nZsPlDOKExm26n9qBY-D2hYMATJfZxX8WxY>
+X-ME-Received: <xmr:-ty1aU8OpnYtAP3C7dGT6Dvlj8NUrr7sz4upqbN2ITuDPBM_VtOgKwuEAZ9SNTxRq07-Pi69WkDN_jFIt1d50ANtvCGWzk4pYoDv>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvleefjeefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
     shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeekheetffdukedt
-    keeijeevieehlefgfeekvdejueelheekfedutedvudetfeefieenucffohhmrghinhepfh
-    higigvuggpvhgrlhdrghhrpdhfihigvggupghvrghlrdhgsgenucevlhhushhtvghrufhi
-    iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluh
-    hnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepshhm
-    thhpohhuthdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtph
-    htthhopehkuhhnihhnohhrihdrmhhorhhimhhothhordhggiesrhgvnhgvshgrshdrtgho
-    mhdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgurd
-    gtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhn
-    sghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotges
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlh
-    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhouggv
-    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhrtghpthhtohepmh
-    grrhgvkhdrvhgrshhuthdorhgvnhgvshgrshesmhgrihhlsghogidrohhrgh
-X-ME-Proxy: <xmx:-Ny1abuhSurMqkUILZohjgS-XIIWLEe86GvfNz1N-tpT2lLabH4y8Q>
-    <xmx:-Ny1aYIXH4X2KxozEdqgq2eiC4CUDG_UKo2i7YLUZs1IPkxY33WFsw>
-    <xmx:-Ny1abPPqDURLu7d6rIRKlMsD7La3qLRZccxPlu5djymIM2LFzMovA>
-    <xmx:-Ny1aTUZnZIpN_WyJpTxeiGQswxLqRLbc4_wPgLSLCI2UVS-fXTPOw>
-    <xmx:-Ny1aaukaX7ngD5ayF36foHEsLU5b1nvIh1yhmUpAE4hV5EmIuT_qgO_>
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
+    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
+    hiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeelpdhmohguvgepsh
+    hmthhpohhuthdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehkuhhnihhnohhrihdrmhhorhhimhhothhordhggiesrhgvnhgvshgrshdrtg
+    homhdprhgtphhtthhopehjrggtohhpohdrmhhonhguihesihguvggrshhonhgsohgrrhgu
+    rdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsoh
+    hnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdr
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotg
+    esvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgv
+    lhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklhgrshdrshhoug
+    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhrtghpthhtohep
+    mhgrrhgvkhdrvhgrshhuthdorhgvnhgvshgrshesmhgrihhlsghogidrohhrgh
+X-ME-Proxy: <xmx:-ty1aZT4LuAzQFlXL2-WO42b5920f1otdtTlfsiRh1AsM8eqEP_Y-Q>
+    <xmx:-ty1aecHa5v7e3qgqT5nHmSU6yZhZ33UBcXE_LVmCEzZwbspiSca6g>
+    <xmx:-ty1abToFCGk7Kt3Odib35gEl8UhjD1MnRblVBDWeDiFnByQYYx2Yg>
+    <xmx:-ty1aaKkBtmGm8MwoezIGflStTeovO9tf8rzKmIk1xQPN05Wpin1Zg>
+    <xmx:-ty1aRxFW-fjPl8NNksia7DRiTgyB3tXWc5oj-Pi8ABwCKh2bpu09Ekd>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 14 Mar 2026 18:11:03 -0400 (EDT)
+ 14 Mar 2026 18:11:05 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
@@ -106,9 +105,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Marek Vasut <marek.vasut+renesas@mailbox.org>
-Subject: [PATCH v6 07/12] media: rppx1: Add support for Black Level Subtraction
-Date: Sat, 14 Mar 2026 22:59:39 +0100
-Message-ID: <20260314215944.3674865-8-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v6 08/12] media: rppx1: Add support for Color Correction Matrix
+Date: Sat, 14 Mar 2026 22:59:40 +0100
+Message-ID: <20260314215944.3674865-9-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260314215944.3674865-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20260314215944.3674865-1-niklas.soderlund+renesas@ragnatech.se>
@@ -133,7 +132,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55810-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-55814-lists,linux-media=lfdr.de,renesas];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
@@ -146,13 +145,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,messagingengine.com:dkim,mailbox.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1F41F28F408
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,mailbox.org:email,messagingengine.com:dkim]
+X-Rspamd-Queue-Id: 2659D28F462
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Extend the RPPX1 driver to allow setting the Black Level Subtraction
-(BLS) configuration using the RkISP1 parameter buffer format. It uses
+Extend the RPPX1 driver to allow setting the Color Correction Matrix
+(CTK) configuration using the RkISP1 parameter buffer format. It uses
 the RPPX1 framework for parameters and  its writer abstraction to allow
 the user to control how (and when) configuration is applied to the
 RPPX1.
@@ -164,184 +163,123 @@ hardware.
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Tested-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
- .../platform/dreamchip/rppx1/rpp_params.c     |   4 +
- .../platform/dreamchip/rppx1/rpp_stats.c      |   5 +-
- .../platform/dreamchip/rppx1/rppx1_bls.c      | 116 ++++++++++++++++++
- 3 files changed, 124 insertions(+), 1 deletion(-)
+* Changes since v5
+- Fix commit message.
+---
+ .../platform/dreamchip/rppx1/rpp_params.c     |  4 +
+ .../platform/dreamchip/rppx1/rppx1_ccor.c     | 74 +++++++++++++++++++
+ 2 files changed, 78 insertions(+)
 
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index d8dd783110c6..c1917585e19b 100644
+index c1917585e19b..c807ccfef628 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -16,6 +16,7 @@
- 
- static const struct v4l2_isp_params_block_type_info
+@@ -18,6 +18,7 @@ static const struct v4l2_isp_params_block_type_info
  rkisp1_ext_params_blocks_info[] = {
-+	RKISP1_PARAMS_BLOCK_INFO(BLS, bls),
+ 	RKISP1_PARAMS_BLOCK_INFO(BLS, bls),
  	RKISP1_PARAMS_BLOCK_INFO(AWB_GAIN, awb_gain),
++	RKISP1_PARAMS_BLOCK_INFO(CTK, ctk),
  	RKISP1_PARAMS_BLOCK_INFO(AWB_MEAS, awb_meas),
  	RKISP1_PARAMS_BLOCK_INFO(HST_MEAS, hst),
-@@ -54,6 +55,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
- 		block_offset += block->header.size;
- 
- 		switch (block->header.type) {
-+		case RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS:
-+			module = &rpp->pre1.bls;
-+			break;
+ 	RKISP1_PARAMS_BLOCK_INFO(AEC_MEAS, aec),
+@@ -61,6 +62,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
  		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN:
  			module = &rpp->pre1.awbg;
  			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-index 059bd76ecf64..1bffa6dd35f8 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-@@ -20,8 +20,11 @@ void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
- 		if (!rpp_module_call(&rpp->post.hist, stats_rkisp1, &stats->params))
- 			stats->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
- 
--	if (isc & RPPX1_IRQ_ID_PRE1_EXM)
-+	if (isc & RPPX1_IRQ_ID_PRE1_EXM) {
- 		if (!rpp_module_call(&rpp->pre1.exm, stats_rkisp1, &stats->params))
- 			stats->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
-+
-+		rpp_module_call(&rpp->pre1.bls, stats_rkisp1, &stats->params);
-+	}
- }
- EXPORT_SYMBOL_GPL(rppx1_stats_fill_isr);
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
-index de7008befd8e..164bc4a63c23 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
-@@ -5,6 +5,7 @@
-  */
- 
- #include "rpp_module.h"
-+#include "rppx1.h"
- 
- #define BLS_VERSION_REG				0x0000
- 
-@@ -54,6 +55,121 @@ static int rppx1_bls_probe(struct rpp_module *mod)
++		case RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK:
++			module = &rpp->post.ccor;
++			break;
+ 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS:
+ 			module = &rpp->post.wbmeas;
+ 			break;
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+index 4754b0bbce0a..0ccaed8ce55d 100644
+--- a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+@@ -68,9 +68,83 @@ static int rppx1_ccor_start(struct rpp_module *mod,
  	return 0;
  }
  
-+static void
-+rppx1_bls_swap_regs(struct rpp_module *mod, const u32 input[4], u32 output[4])
-+{
-+	static const unsigned int swap[4][4] = {
-+		[RPP_RGGB] = { 0, 1, 2, 3 },
-+		[RPP_GRBG] = { 1, 0, 3, 2 },
-+		[RPP_GBRG] = { 2, 3, 0, 1 },
-+		[RPP_BGGR] = { 3, 2, 1, 0 },
-+	};
-+
-+	/* Swap to pattern used in our path, PRE1 or PRE2. */
-+	struct rpp_module *acq = mod == &mod->rpp->pre1.bls ?
-+		&mod->rpp->pre1.acq : &mod->rpp->pre2.bls;
-+	enum rpp_raw_pattern pattern = acq->info.acq.raw_pattern;
-+
-+	for (unsigned int i = 0; i < 4; ++i)
-+		output[i] = input[swap[pattern][i]];
-+}
-+
 +static int
-+rppx1_bls_param_rkisp1(struct rpp_module *mod,
-+		       const union rppx1_params_rkisp1_config *block,
-+		       rppx1_reg_write write, void *priv)
++rppx1_ccor_param_rkisp1(struct rpp_module *mod,
++			const union rppx1_params_rkisp1_config *block,
++			rppx1_reg_write write, void *priv)
 +{
-+	const struct rkisp1_ext_params_bls_config *cfg = &block->bls;
++	const struct rkisp1_ext_params_ctk_config *cfg = &block->ctk;
 +
-+	/* If the modules is disabled, simply bypass it. */
++	/* If the modules is disabled, configure in bypass mode. */
 +	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + BLS_CTRL_REG, 0);
++		write(priv, mod->base + CCOR_COEFF_REG(0), 0x1000);
++		write(priv, mod->base + CCOR_COEFF_REG(1), 0x0000);
++		write(priv, mod->base + CCOR_COEFF_REG(2), 0x0000);
++
++		write(priv, mod->base + CCOR_COEFF_REG(3), 0x0000);
++		write(priv, mod->base + CCOR_COEFF_REG(4), 0x1000);
++		write(priv, mod->base + CCOR_COEFF_REG(5), 0x0000);
++
++		write(priv, mod->base + CCOR_COEFF_REG(6), 0x0000);
++		write(priv, mod->base + CCOR_COEFF_REG(7), 0x0000);
++		write(priv, mod->base + CCOR_COEFF_REG(8), 0x1000);
++
++		write(priv, mod->base + CCOR_OFFSET_R_REG, 0x00000000);
++		write(priv, mod->base + CCOR_OFFSET_G_REG, 0x00000000);
++		write(priv, mod->base + CCOR_OFFSET_B_REG, 0x00000000);
++
 +		return 0;
 +	}
 +
-+	u32 ctrl = BLS_CTRL_BLS_EN;
++	/*
++	 * Coefficient n for color correction matrix.
++	 *
++	 * RkISP1 coefficients are 11-bit signed fixed-point numbers with 4 bit
++	 * integer and 7 bit fractional part, ranging from -8 (0x400) to +7.992
++	 * (0x3FF). 0 is represented by 0x000 and a coefficient value of 1 as
++	 * 0x080.
++	 *
++	 * RPP gains are 16-bit signed fixed-point numbers with 4 bit integer
++	 * and 12 bit fractional part ranging from -8 (0x8000) to +7.9996
++	 * (0x7FFF). 0 is represented by 0x0000 and a coefficient value of 1 as
++	 * 0x1000.
++	 *
++	 * Map the RkISP1 value range by left shifting by 5.
++	 */
++	write(priv, mod->base + CCOR_COEFF_REG(0), cfg->config.coeff[0][0] << 5);
++	write(priv, mod->base + CCOR_COEFF_REG(1), cfg->config.coeff[0][1] << 5);
++	write(priv, mod->base + CCOR_COEFF_REG(2), cfg->config.coeff[0][2] << 5);
 +
-+	if (!cfg->config.enable_auto) {
-+		static const u32 regs[] = {
-+			BLS_A_FIXED_REG,
-+			BLS_B_FIXED_REG,
-+			BLS_C_FIXED_REG,
-+			BLS_D_FIXED_REG,
-+		};
-+		u32 swapped[4];
++	write(priv, mod->base + CCOR_COEFF_REG(3), cfg->config.coeff[1][0] << 5);
++	write(priv, mod->base + CCOR_COEFF_REG(4), cfg->config.coeff[1][1] << 5);
++	write(priv, mod->base + CCOR_COEFF_REG(5), cfg->config.coeff[1][2] << 5);
 +
-+		rppx1_bls_swap_regs(mod, regs, swapped);
-+
-+		/*
-+		 * The RkISP params are 12-bit + 1 signed bit, while the RPP can
-+		 * be 12, 20 or 24 bit + 1 signed bit. Figure out how much we
-+		 * need to adjust the input parameters.
-+		 */
-+		const unsigned int shift = mod->info.bls.colorbits - 12;
-+
-+		write(priv, mod->base + swapped[0], cfg->config.fixed_val.r << shift);
-+		write(priv, mod->base + swapped[1], cfg->config.fixed_val.gr << shift);
-+		write(priv, mod->base + swapped[2], cfg->config.fixed_val.gb << shift);
-+		write(priv, mod->base + swapped[3], cfg->config.fixed_val.b << shift);
-+	} else {
-+		write(priv, mod->base + BLS_SAMPLES_REG, cfg->config.bls_samples);
-+
-+		if (cfg->config.en_windows & BIT(0)) {
-+			write(priv, mod->base + BLS_H1_START_REG, cfg->config.bls_window1.h_offs);
-+			write(priv, mod->base + BLS_H1_STOP_REG, cfg->config.bls_window1.h_size);
-+			write(priv, mod->base + BLS_V1_START_REG, cfg->config.bls_window1.v_offs);
-+			write(priv, mod->base + BLS_V1_STOP_REG, cfg->config.bls_window1.v_size);
-+			ctrl |= BLS_CTRL_BLS_WIN1;
-+		}
-+
-+		if (cfg->config.en_windows & BIT(1)) {
-+			write(priv, mod->base + BLS_H2_START_REG, cfg->config.bls_window2.h_offs);
-+			write(priv, mod->base + BLS_H2_STOP_REG, cfg->config.bls_window2.h_size);
-+			write(priv, mod->base + BLS_V2_START_REG, cfg->config.bls_window2.v_offs);
-+			write(priv, mod->base + BLS_V2_STOP_REG, cfg->config.bls_window2.v_size);
-+			ctrl |= BLS_CTRL_BLS_WIN2;
-+		}
-+
-+		ctrl |= BLS_CTRL_BLS_MODE_MEASURED;
-+	}
-+
-+	write(priv, mod->base + BLS_CTRL_REG, ctrl);
-+
-+	return 0;
-+}
-+
-+static int rppx1_bls_stats_rkisp1(struct rpp_module *mod,
-+				  struct rkisp1_cif_isp_stat *stats)
-+{
-+	struct rkisp1_cif_isp_bls_meas_val *bls = &stats->ae.bls_val;
-+
-+	static const u32 regs[] = {
-+		BLS_A_MEASURED_REG,
-+		BLS_B_MEASURED_REG,
-+		BLS_C_MEASURED_REG,
-+		BLS_D_MEASURED_REG,
-+	};
-+	u32 swapped[4];
-+
-+	rppx1_bls_swap_regs(mod, regs, swapped);
++	write(priv, mod->base + CCOR_COEFF_REG(6), cfg->config.coeff[2][0] << 5);
++	write(priv, mod->base + CCOR_COEFF_REG(7), cfg->config.coeff[2][1] << 5);
++	write(priv, mod->base + CCOR_COEFF_REG(8), cfg->config.coeff[2][2] << 5);
 +
 +	/*
-+	 * The RkISP BLS stats are 12-bit while the RPP can be 8, 20
-+	 * or 24 bit. Figure out how much we need to adjust the output
-+	 * statistics.
++	 * Offset for color components correction matrix.
++	 *
++	 * Values are a two's complement integer with one sign bit.
++	 *
++	 * The RkISP params are 11-bit while the RPP can be 12, 20 or 24 bit,
++	 * all values are excluding the sign bit. Figure out how much we need
++	 * to adjust the input parameters.
 +	 */
-+	const unsigned int shift = mod->info.bls.colorbits - 12;
++	const unsigned int shift = mod->info.wbmeas.colorbits - 12 + 1;
 +
-+	bls->meas_r = rpp_module_read(mod, swapped[0]) >> shift;
-+	bls->meas_gr = rpp_module_read(mod, swapped[1]) >> shift;
-+	bls->meas_gb = rpp_module_read(mod, swapped[2]) >> shift;
-+	bls->meas_b = rpp_module_read(mod, swapped[3]) >> shift;
++	write(priv, mod->base + CCOR_OFFSET_R_REG, cfg->config.ct_offset[0] << shift);
++	write(priv, mod->base + CCOR_OFFSET_G_REG, cfg->config.ct_offset[1] << shift);
++	write(priv, mod->base + CCOR_OFFSET_B_REG, cfg->config.ct_offset[2] << shift);
 +
 +	return 0;
 +}
 +
- const struct rpp_module_ops rppx1_bls_ops = {
- 	.probe = rppx1_bls_probe,
-+	.param_rkisp1 = rppx1_bls_param_rkisp1,
-+	.stats_rkisp1 = rppx1_bls_stats_rkisp1
+ const struct rpp_module_ops rppx1_ccor_ops = {
+ 	.probe = rppx1_ccor_probe,
+ 	.start = rppx1_ccor_start,
++	.param_rkisp1 = rppx1_ccor_param_rkisp1,
  };
+ 
+ static int rppx1_ccor_csm_start(struct rpp_module *mod,
 -- 
 2.53.0
 
