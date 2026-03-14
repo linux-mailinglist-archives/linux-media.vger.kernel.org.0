@@ -1,329 +1,205 @@
-Return-Path: <linux-media+bounces-55797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55798-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aB1ONsAStWmywAAAu9opvQ
-	(envelope-from <linux-media+bounces-55797-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 08:48:16 +0100
+	id 6A+7H65TtWlGzQAAu9opvQ
+	(envelope-from <linux-media+bounces-55798-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 13:25:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166CF28BF7B
-	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 08:48:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8D528D1DB
+	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 13:25:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D77E03055C9D
-	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 07:47:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DB2333028358
+	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 12:25:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94C6431355D;
-	Sat, 14 Mar 2026 07:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17A21248F47;
+	Sat, 14 Mar 2026 12:25:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="pE4mLwjc"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="Qutm62rx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sonic307-53.consmr.mail.ir2.yahoo.com (sonic307-53.consmr.mail.ir2.yahoo.com [87.248.110.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020114.outbound.protection.outlook.com [52.101.227.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CED194AD7
-	for <linux-media@vger.kernel.org>; Sat, 14 Mar 2026 07:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.248.110.30
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773474472; cv=none; b=D5lnL69aSr61gN1QpK7vdm2VedWYq+2IXF0Qxl3I/PrS8R1dWky/POAhfqStSxqj/PzXZDNX0Bc3q9QoOoSB7MwNLZ0QFeIpB9shKSiodSWg5tKxY4dOdHpB/BKoghmUJJZmkWtbO/4FnuWauKEzIhwn+Ce/o7hrYnAeXiurWBc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773474472; c=relaxed/simple;
-	bh=92AZcvInMLnvhxsVWSgtP2F6g+p6IVnUmpsG1yF299Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=F5s1ljMSl608DdaAg9hIZUloqXOYekWJxKY012jXBpa4I1ZDlZg9Q7e7bL6wK6Sf3Oung/CurUqpQgHTPqSONOMI5ywIvgKSjWA3oXBWz7SsLv6KVKpwK570rxhbiFvNmytSjOFiEIx+BdCyJdQmc7jIGLknEQsgxgVLaO1jw1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=pE4mLwjc; arc=none smtp.client-ip=87.248.110.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1773474462; bh=aE0jv2DpQjsZ10UhKl4jN3owfYgD6xrpIsxm3YBClMM=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=pE4mLwjc/ZeG5FWS0Q3myPi7xZP8DdyThBIya1BqXKGZETzFjX9hzaXsSblndRobZrQF8RcLIXgWkucRB5wEYBP9qONpLf7wJ5R9faAiTibUUCk/7YvX/aW//fJDXuG/RO1f5Kk71tjBCt/GeWdVAZUnLS1rLV0TOWl8bOGKnNyMUgL/r1N5s3bqu6nXfDHMRA41FC4NTW3pXdIcShfrOSDEJc0x7++vlgK6SL7zeWVENhcT5VlC6hdpHAVTMIq3pwo5vIpNZS1YCQWOIreN/2DJodKgSueraU7whPsDbhjXiPREYyCkuOL8bymCN001eWQYdqssyMxutZXCh4MqEQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1773474462; bh=63+vH/39wX6+iIsxvehkry/oipX58GuvfNL4gdzqa+H=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=gZFUXIJ9gBbTmGrQH6QocJ3J4gK715RLPTiALROcFcvJP8M1NjMYYnobKAEuOoBwEcHEI70zRSYJw+1TGPoiL+lVxvzjiPvMRueBoB8lEI22neHS72aDIRSel9HxAjd75ojKLiGUM0MC1Ihd5P0nqC/11W1WgdleDjb+tzFJEfSrppb2VF0kB1HEYLFHyAoeeTHg1dEbQ1hfpsFKtlJNNMZnBMwQe4EfJTUd9RRlhinkqh1nKIsoXTMm+rf08k36GBiMPJU+GGNQBcqSmqCjSN83sLTGKnN3N+i2IVsCetaH2LRo+66kOhFkcMDWY83FT/aYqf0EPqjt0VUoQhsPKA==
-X-YMail-OSG: VHtRQzAVM1kxa5idj79PS0Xzc9PfFgoyYqIXGZJWRqs8D778pSGcyUkLqjoEmY3
- n1dckYUppT11zDKheHbv4JOBg2XWmt2q3iPxlyaqu.ktBFQ2PRPYEAurVq.5ORQrO9GgAgysS1Sw
- 3X8CiUbLnV0JnES9eHTthHvDf8Aspp46snTykwJMGMorF7RfGb924l6hF_NqAKKjJ26dDyzWffci
- 3J5QUr2ZbIHR2vUHaMMM_IrUUOJxs.uJDEO1w1UFO1rkBs9q2SU4aFYLWdmgDTd1LlZwI5cSG5st
- z3XjU8DUkGYM78RTsTH_D.YeVhfVbX.FjBoZEQkA.1UAhSQzqzklBU56q5cS8NupcXRv4sJ9e2Vs
- XCzsDUQw2LZFe1BOwrPIbJdJkAYX3ZYyvmfmTLFmWT_FSfLRIJpfBPqaeAS0X2HWFvGOI57GdyGB
- qL2WCK5UbyWSv79n9mjoQobivow0Cj2esOKnrSpr5Qok2ZTE74mL1svBLh.WR.DtmX2DO13zMtvm
- 849x8VRgVlrx3EM0ItKyz.KyDVPu96mOSQHP2cbx7B.se0n2OKXFwUmwN7a7H3pjfOgg5yGV_Jp9
- OHr9asMjj9Nl79Lcey2IwWIKTHld.mrrITbPyHe9xxDaBAVo7oe6lC9iBXPGuwehsVflRqYnAOoJ
- pnttCaFVZi0rcTQXkKfnNnTc1ypjuFBWZs3XNZaeB2obVsCKP.tVsPl_kvHbNoQ_YFf3JSjjdGKc
- xO8vHfTEsDnN.5n5R.mg41S6HCDoRbZWg3YMr8aT2F_eSup1tE1i0kkGxsbIQEogZpMJO1Gk.ZCx
- dvmgLnXVDle._QpZtD4c2UYmjxdLBkwcfcFropva9JtoLNkL.CT8ly3syOqChSGaycsiAXLsP0N7
- J6IImuusMUgXpJssOP.sSIXg0pOM6eq6rsnPKW.zzzu_yFGbu13EJxguA6Nqw.THbwEFBDHxY9ms
- yGqV.5fA52TCNtnO.Lf7qcZ4yfDz_VkPi_lNEmQravBZXJBRaQedMR3JC5erMx6tLsz0cfCUwnIg
- 7hdjfv4nCAMxP3Ok9QwOTktiVyuQSWGjQKYYJ_kQaAtOaohGvkvIQSXFmlDh8gUR0HelhTi9O17p
- UMnpXpnZ4JgeGQw2E1stLvjo9VrkrNQtXhusdnAf8dwwPcFYmt6jnNbDgUfJVxcpwT5SBGkq.dtM
- Fn_1F8UKfYe7_fGCaLaU2cZsgcWQA7J9kLXfZHvSaOKWs3mOK3ie4H9nkDDwoVbq15534omhkfhX
- S8b7Q1umPBF1eveDN68PBZuK.mpxhyPuXEq8JA0I4_X34U673Pgr4bGYDiRAMR7VQvmB3YnT0fsB
- 4iHGiY9p2uh6PGCiI5m3vevTLV59wnvxEt0pXC5J4BMa.iQGTAI1LLYAO1TvJtL25opjISfvWPTs
- DDv0ukvF6jSHrRG9BPMFV0vP3xC.EU2lPvS91Mi4p07eguUIR7CZiErFP1MYU0M03DzXAysISIpk
- IiTyXJBDQFC.uwIVVkLM3zrs6lD8VKKiODWPGHlxq1Kzo44SW98T70rNxrzmJafeZdED8i.0HDzi
- nYCWeMSGW2zOkc8xcpUuBVZfLlgsgzoQ10xXT53_k5GIDuXpOae2xIH7ZUnRQdVY5VJ8zxyVaw_b
- Q7Q34qJV5CVA7e5S.xpa39LqQzy7OWs6KFyjTt6zngSKZSnVlUQEVuqlQa3rqHA1BgmxZ0q5TvhV
- ql2r01v8MNxETBlSMeHHye.D_.IiDzSsHujNqqlhJgxL8r_oEt3rTqDCsE_rST8C_vYzswoS5y4Z
- WuDDr_7DH9SiDnpSTdzdHblyAmAgRKNI6WWBDT.O_TBGkHoPGEJypV603N6DpbXMQpNGLz_mBTza
- reX88LBvjNPxuRdQ8kzSSpwH9Js5hfeyovG5QJb_hn.vlCH5ifRaPwWAjQ6JLlyR79WIAMBRZzlQ
- rMwiF6uvRmDc6Vu3gfzUYfWI74sx_4QN4EYWO1Um3uc4Zt08wpd.QTBLIFIb1869kqYrTyJhTKGR
- qDHrH92CkWet_HbYhbz2ayfiflfA.qDybeiULDZsVGrafE0RwwBjE2PZCT9wFiWa8foRDCB9gVbl
- TuwGuJ3IHUhgaMwKIFx4CkHJKsKWlhRBGNp9WPSn2Z859P_wbJ8Q9qd0JDHONTVdqmjVmUsxjARw
- 52yfbunnnkOujA8.BaEKGwOqIom_y6RrCy0CRoVuwY0bst55tOz9jCmM67dleNkFiqYf.C8C55wr
- R1JGwUhPZ2IgVOPRQI336mnh92Hg6K2A4z1CPs2jNv4EA3gwChS7S9iu84Mr9e7AzBKtzY_BRFK4
- 6KpPOhilHERTK_ygOjjU-
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 3fd50398-37f3-4ba0-bd21-bb0294b0c6d0
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ir2.yahoo.com with HTTP; Sat, 14 Mar 2026 07:47:42 +0000
-Received: by hermes--production-ir2-bbcfb4457-29p8w (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 2cd5b95d816148b0a24191e98e72160f;
-          Sat, 14 Mar 2026 07:47:37 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Sat, 14 Mar 2026 08:47:35 +0100
-Subject: [PATCH v3] staging: media: av7110: replace C++ comments with C
- style comments in sp8870.c
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DA34F881;
+	Sat, 14 Mar 2026 12:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.227.114
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773491115; cv=fail; b=q5a6IvXSek+4FbZjipsquo72Qxs8HsTg9hE2lgIR0j/c2sNzUcOLA3tpwLSMICyXavEfo8DB5p3Fsg0r8cSpRCUfl0GeYlL8mmPqXTj5DcrQeFrzrA0BDBKHf5NzNQhc5k6vLW54dkO9ee2WOZUgMuy4ngFOM3IMbhffLbXTMHs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773491115; c=relaxed/simple;
+	bh=MDHHmnwm3LOWrI56lK/jYlEvvDxH4Da1m8DnD8Gpgn0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Eltt9F+fTC7nkeZfg4tmqtBp6ZJifvnWKE1VOqTcqhfU4m4LC01HytlyAIvzOtEuX6WCW6SABLA+XUB+1fMCbT0yb5jQqTzKMkmw8Ht02J1Q5vMub/DnstTRs5Ixfw03qpHDAmQnxKoxe1JMLFjTsRlt0d8DNMyrEDe8RtvRd1o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=Qutm62rx; arc=fail smtp.client-ip=52.101.227.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qcm5BhoAUGP/bft0QbecGsxZGyPFmdU/n2vz2+J9mESNjvDpR05VT6lJ64hNmrT8AhdEpF333ldIYEpJjWxoSw7B/v9x7jBhTw8TD5NZnPVgsSAjil6rXhCIYTJ/OmZI1xh52071fuwjgZMGEvqOsGlBRtzsEuwxApGLT/Sn5H8r9xD66qANJYZPTHxqR3gN5UIvBghSiU5R1W3s8hq9q+4dxebYQ8ARwQahPTTM64ADt85KSRO2H1EY3sNED1J7gojUfNjtCArIfwNmxX53VB5ai1Z3iEVdum+AXDmvr5pDRFZpHQZT7ELpdv4OWJA+HMFUHBRGIN5wm3/wJgitsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DvU+v7r6bpFhesdf1osIbe1qiIWMcDfNDvwwDCFw85k=;
+ b=QZuJ8j6gWRqHeponjs8UFZYar+nwdTObLNs+UApTDT5nuIXUQPO8UAFjVX3cqntl1G+u5FKXA9jy0zvfHIi2Qc8s9JSnnhb59PvFisJQb9Y4hWsuYWGpwpZO4J/p1CTWvFGc6x9ptOdVm9cwiapnYN50jyjdRPm6J3+u2CD3hH14zOTEQ5jYlYaU31TCnFdzRmnj1Z+Pe0W1wy3Nw/WIS3dMRxySsfTebfcXp7ou1vbo0Omw8aQbB4d9e1ISkVaulIS9J6dBnrINoIkUPWcgMxfT19cfRq4H2D4p8jTf1kOeZh5TSx0Emmtz1cI7tYvd9m+H001VleVwqmi6fdcIWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DvU+v7r6bpFhesdf1osIbe1qiIWMcDfNDvwwDCFw85k=;
+ b=Qutm62rx8N6R1tg7381DqgyrqFrdQsKJyW0tivJzPhsl4l6+q3pg/t9IVEUGtQ6diAzyemexshU27qrnQCEwW0hTfGdyUYlIt/7APHm0jCwA9/nnhsX24SXoM7DhzASy8N4QIZgjVzt7slP+Tzy2e3IPMQVwFxhEbZnFo6WKwJAuMr55LpnkFfSiU9JaM84ovb0W6u2T11mPivUntbpTzIxQwtc6xIThF58rykB7vLSCVoM+T4IsRMi40KlqGN58y8MHfzMG2ttDW9rHgomW6Lu/16wfpGysJKDVX6y9kN3QL9Hthg/+MPbHGGma/0t7CdkWWWNOQxPM+RkwGrfo+w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from PN3P287MB2188.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1d3::11)
+ by MA0P287MB0466.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:bf::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.19; Sat, 14 Mar
+ 2026 12:25:10 +0000
+Received: from PN3P287MB2188.INDP287.PROD.OUTLOOK.COM
+ ([fe80::82b3:36a9:de62:6aa7]) by PN3P287MB2188.INDP287.PROD.OUTLOOK.COM
+ ([fe80::82b3:36a9:de62:6aa7%5]) with mapi id 15.20.9700.018; Sat, 14 Mar 2026
+ 12:25:09 +0000
+From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+To: sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org
+Cc: tarang.raval@siliconsignals.io,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Xiaolei Wang <xiaolei.wang@windriver.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] media: i2c: imx412: Modernize driver with CCI and streams API
+Date: Sat, 14 Mar 2026 17:54:36 +0530
+Message-Id: <20260314122442.109356-1-elgin.perumbilly@siliconsignals.io>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BM1P287CA0013.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:40::32) To PN3P287MB2188.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:1d3::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260314-sp8870-cleanup-v3-1-3ec367f13aa9@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32MQQ7CIBAAv9LsWQzQQsWT/zAecLu1JE0hoMSm6
- d+lPXnR40wys0Ci6CjBuVogUnbJ+alAfagABzs9iLmuMEguNa9FzVI4nVrOcCQ7vQJDrZTkpqE
- GDZQoROrdex9eb4UHl54+zvs/i83+XGXBBJOd4tpgQ4TqMtvB+2MYYTtl+b+WpUarW0Na9ubef
- tXrun4A6J/P8ekAAAA=
-X-Change-ID: 20260313-sp8870-cleanup-c6552094e4c9
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773474456; l=6567;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=92AZcvInMLnvhxsVWSgtP2F6g+p6IVnUmpsG1yF299Y=;
- b=/W55jvuL5q1QzN/C3auirCJxkWRLwfTrpyhjp4U8Ilv1H3YlSSuuCPiRGXPbL3bOFYtDWpW9+
- sslVK1Wxu2/DjOu0vpSSMy7P0N4ipSwspGF+RX2z1yUHQwPsp+JwrqF
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260314-sp8870-cleanup-v3-1-3ec367f13aa9.ref@yahoo.pl>
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[yahoo.pl,reject];
-	R_DKIM_ALLOW(-0.20)[yahoo.pl:s=s2048];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3P287MB2188:EE_|MA0P287MB0466:EE_
+X-MS-Office365-Filtering-Correlation-Id: 901b4a18-b544-423e-8193-08de81c4bbd3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|52116014|376014|38350700014|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	j9ghTg1lZrQJx/P576PUNcMGQ7QUJ3TjHlN/kEYmhzOdpz9WTErkyI4sJ6VYNmn578HdLOj9RjxQxGPNRtxmeg8ReBvMXouftAC5+K3JcOzQhUrTa5V8kiivKrMv0ZTik8q+IOIoqQWuAzkdGxTvFPpD0lLqV6c5mfsCo+sbAOROodEjIRhvtTy3+kb75vQDrg0mLy6iy4lWro3ud+sLkEv5YHo3fVuRHSs/qLeh4u7Z7/E9pNiCLW0mevM8nJjCTaHx/g7Lt8Pkzi3iKhg91tdmMMAusR+lwYZrt/xfZwxYdIMuB9DF0KQbbOlNFrpXbRVnWjDenVL5xqH2oc0zyqkhaLVJm0dbnZHc96qlQcoRf4OUgxwERB37T+onh/KvuRqOqc3KVi/RHx5PSQchUPzVjiwhMqh0A/bNhHEJwU6QmyKdr5efzXcuf3DZzQu6FeA/XSoSQfnm6KHNojzLrqn8fvbdN+v7S5ox4CmNmP/d1KSsEWfouzvKelOh55lUdTnI8qFjbuZqJJcnE02XIsjOcdDR8tF6ABtelXD8VhgqrWznKh7qNtSB6N/7NFCOhXHpgI46wiBtkcEFKUbuMMzhyzVyVEcDM0noNAcCdLkRis8WxamT070gr5TxgBNHe1+LlEEZOpzVTuO6HLLEto0UskRHwibDPbxZcjX/2IqeC+zIMYXbCUf1SEhAyK3CrlUjUVLj5x3oKyHKRtAWNp4GSb0P7w84QmMYPqkf2GVi9AxLJK2YNTojXQqa5bPHn+hRfMFEeQS2QkkyaiIAeZ5QeVK8xkM6Tn1BXmtN9zs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB2188.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(52116014)(376014)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?8vYN0AC9FoI1YYPIcypKTIrYBXI0ZpqQZFzwiSwlUa4STP3bxJ8Khe7lSCNV?=
+ =?us-ascii?Q?gvn1RRr7NumsIWnSWZgRcofJO5ev8o886SJ2fYIQX2lSDT6opligP9jbSykb?=
+ =?us-ascii?Q?u8MhT3/KJgbOV8aPi5LpttE1aOenuMI9++1r3bRhYt8is5ZgMroDySPH04/c?=
+ =?us-ascii?Q?c4ELj26UgYOkeTRQcbxCTOyZqT9cX8hxG12ENWDm77zZikNAP12nB0jjVz93?=
+ =?us-ascii?Q?olHBEI1SeW9eQ2WHJBA0612tH8yQFIngVGf85+aBoUBB50A3irfeDDb2rQWd?=
+ =?us-ascii?Q?Pv0RABx1YO/TxZVbW1bwhOCg2ePpqa4tG2HhdZAQl8CzsOOVzCsc9f27ynVr?=
+ =?us-ascii?Q?9H8yljB8nPnCkc+iTte4oKjNfvSjkYWlEdHaSMmgGc1b11nwyVTqDGHz6xZG?=
+ =?us-ascii?Q?bbMMD1vxrJ3qCsIJCI4m6eAnDF5jms+PtZgN7Apejhv+ayulB8ucD7MxO9IO?=
+ =?us-ascii?Q?KPs40Ns7Adj6Pup6QJuhBOCs4yNOCGUV8ICIkC+I5ZZ9VhZJvoeGdTOvh+65?=
+ =?us-ascii?Q?YIzHee1jte0QizLaqYOLSm69ed5dPkTrENTNfLo8f/l0zYbyskifteqZpGvM?=
+ =?us-ascii?Q?5/z2JncTzquo2RiYGL7Jo00dfgRSTVXq9rdt1idTbNUCKNJnT+B9/CElNmj1?=
+ =?us-ascii?Q?tgqXo+zTClRrH+MofD76sFa8lr8FWTdABS6QaOlUugN5HPNV4lLV6EZpBWYK?=
+ =?us-ascii?Q?71b74202Up3hmC4jWGXacgBQXfcN04Zqb5BIrYXFp2VCfehStCt5EU+Te3cD?=
+ =?us-ascii?Q?NBJOifiV4LAeGdK5MITE7gCZOQL2Z4zlwdcOw3N2fpCSNLAgA0ehoY2HKCDD?=
+ =?us-ascii?Q?pdJ+ggvI65m35wWgCqGpic4jFGzAk+SB0HSzWvG3/UvLL26wOd39qUZC0nmY?=
+ =?us-ascii?Q?OBbJOBagqEVSZlIuEjM3aVZNSQkqC91lmp6e0rOydxLrdnyh8hYoKjXSPu9D?=
+ =?us-ascii?Q?cVd9aQ15attNxhH1Z3rRcd4pCUnhxUgyW06NMbMr03k26IWWNJuLTTfiJfLO?=
+ =?us-ascii?Q?JwS68YCKyc8M2F3fAohJzQqN6+6LYC12nzen6lFSXPbaai654/h6LQX++qsC?=
+ =?us-ascii?Q?sMa8hfO7UE+Fr+i8+C/bYXHiofIIkVWkaVppeyUeE004uaHT+RXLoZkVNNng?=
+ =?us-ascii?Q?CHqhbY6QW7ASiJptgVjCWgGeWtcGLD+E93NEKzFI8/OkzQTyvHAp27fKqaqC?=
+ =?us-ascii?Q?mIjJ2eg2Y2cgiO9RaM5+PQ8DI3YVAf60ovWlY/IisCNE06g/Rnfw3DS9hptQ?=
+ =?us-ascii?Q?Tsqsj5Ve+7fHZOY4+SV63NYTp3O8RQeYMIuVrDbhWRdeMef1qboGteck9FI/?=
+ =?us-ascii?Q?etd3ElBcqxwogBGLoQHiW6s/nZ6RDLeMm/n9yAIcpyTa/0Qmd7eMdcgOdguh?=
+ =?us-ascii?Q?5qEZ4JTr4a+vHu8ZICAazajDtyF+4CjjdSqXujz5mrgpnH9RUIFXaGV3Xs6y?=
+ =?us-ascii?Q?iwY8M5bgE/5rI9WJuCCvXITI5GFwHXT955NPV5I/vyX9xfsSyODQcpQW4y6x?=
+ =?us-ascii?Q?K7wjSEZoyNqMISxL19oiZu2uKfs4mHaQQqJf1RuYQndbssvnvTnZnW0LRXYc?=
+ =?us-ascii?Q?l3d1uosX7WAzUQH2ZV/ZkvSC1XRXak+by/+/1RfMXDVUeXI+vTL56msU1aXQ?=
+ =?us-ascii?Q?fSmRJCbzEzBry/b2PdBhMEKwz40K8wLtAS6GCPK+bN8YzAYhwd6Zfv4Fb7uA?=
+ =?us-ascii?Q?DGz15SKQRpE/PyH/rxoq7ac8m+Du8DeHO5cCu5LIxiripbbz34HXGqksEESE?=
+ =?us-ascii?Q?okLmV82ZZYw9Hfe64Mm9cr8oQaDNfY4=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: 901b4a18-b544-423e-8193-08de81c4bbd3
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB2188.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2026 12:25:09.9116
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Uz4BhJDeKd/aZTb98JhTKUrRhUFE/8vM91Y+bNvKPBdHumQ3VZNYitEd9iYeFXp6tSASP3KPzfggv39rzeCJw2An4W3C3AKZer+woavSbjoeTbC606O4dE+fl/RXpNp9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB0466
+X-Spamd-Result: default: False [1.34 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
+	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,yahoo.pl];
-	TAGGED_FROM(0.00)[bounces-55797-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55798-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_FROM(0.00)[yahoo.pl];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[yahoo.pl:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomasz.unger@yahoo.pl,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[elgin.perumbilly@siliconsignals.io,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[siliconsignals.io:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,yahoo.pl:dkim,yahoo.pl:email,yahoo.pl:mid]
-X-Rspamd-Queue-Id: 166CF28BF7B
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,siliconsignals.io:dkim,siliconsignals.io:mid]
+X-Rspamd-Queue-Id: EF8D528D1DB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace C++ style comments (//) with C style comments (/* */) in
-sp8870.c to conform to the kernel coding style.
+This series modernizes the imx412 driver by:
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
-Changes in v3:
-- Convert two consecutive single-line comments to a multi-line comment as suggested by Ethan Tidmore
-- Link to v2: https://lore.kernel.org/r/20260313-sp8870-cleanup-v2-1-ca679e62f9b7@yahoo.pl
+1. Converting to the common CCI (Camera Control Interface) register
+   access helpers, which simplifies the code by removing custom I2C
+   register access functions.
 
-Changes in v2:
-- Add changelog text to commit message as requested by Greg Kroah-Hartman
-- Link to v1: https://lore.kernel.org/r/20260313-sp8870-cleanup-v1-1-2d5069c4eec5@yahoo.pl
----
- drivers/staging/media/av7110/sp8870.c | 54 ++++++++++++++++++-----------------
- 1 file changed, 28 insertions(+), 26 deletions(-)
+2. Switching to use the V4L2 sub-device state lock instead of a
+   private mutex, improving integration with the V4L2 framework.
 
-diff --git a/drivers/staging/media/av7110/sp8870.c b/drivers/staging/media/av7110/sp8870.c
-index 29fb4934c039..73500f8702d3 100644
---- a/drivers/staging/media/av7110/sp8870.c
-+++ b/drivers/staging/media/av7110/sp8870.c
-@@ -109,21 +109,21 @@ static int sp8870_firmware_upload(struct sp8870_state *state, const struct firmw
- 	if (fw->size < SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET)
- 		return -EINVAL;
- 
--	// system controller stop
-+	/* system controller stop */
- 	sp8870_writereg(state, 0x0F00, 0x0000);
- 
--	// instruction RAM register hiword
-+	/* instruction RAM register hiword */
- 	sp8870_writereg(state, 0x8F08, ((SP8870_FIRMWARE_SIZE / 2) & 0xFFFF));
- 
--	// instruction RAM MWR
-+	/* instruction RAM MWR */
- 	sp8870_writereg(state, 0x8F0A, ((SP8870_FIRMWARE_SIZE / 2) >> 16));
- 
--	// do firmware upload
-+	/* do firmware upload */
- 	fw_pos = SP8870_FIRMWARE_OFFSET;
- 	while (fw_pos < SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET) {
- 		tx_len = (fw_pos <= SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET - 252) ? 252 :
- 			 SP8870_FIRMWARE_SIZE + SP8870_FIRMWARE_OFFSET - fw_pos;
--		// write register 0xCF0A
-+		/* write register 0xCF0A */
- 		tx_buf[0] = 0xCF;
- 		tx_buf[1] = 0x0A;
- 		memcpy(&tx_buf[2], fw_buf + fw_pos, tx_len);
-@@ -149,7 +149,7 @@ static void sp8870_microcontroller_stop(struct sp8870_state *state)
- 	sp8870_writereg(state, 0x0F08, 0x000);
- 	sp8870_writereg(state, 0x0F09, 0x000);
- 
--	// microcontroller STOP
-+	/* microcontroller STOP */
- 	sp8870_writereg(state, 0x0F00, 0x000);
- }
- 
-@@ -158,10 +158,12 @@ static void sp8870_microcontroller_start(struct sp8870_state *state)
- 	sp8870_writereg(state, 0x0F08, 0x000);
- 	sp8870_writereg(state, 0x0F09, 0x000);
- 
--	// microcontroller START
-+	/* microcontroller START */
- 	sp8870_writereg(state, 0x0F00, 0x001);
--	// not documented but if we don't read 0x0D01 out here
--	// we don't get a correct data valid signal
-+	/*
-+	 * not documented but if we don't read 0x0D01 out here
-+	 * we don't get a correct data valid signal
-+	 */
- 	sp8870_readreg(state, 0x0D01);
- }
- 
-@@ -243,7 +245,7 @@ static int configure_reg0xc05(struct dtv_frontend_properties *p, u16 *reg0xc05)
- 
- static int sp8870_wake_up(struct sp8870_state *state)
- {
--	// enable TS output and interface pins
-+	/* enable TS output and interface pins */
- 	return sp8870_writereg(state, 0xC18, 0x00D);
- }
- 
-@@ -258,29 +260,29 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
- 	if (err)
- 		return err;
- 
--	// system controller stop
-+	/* system controller stop */
- 	sp8870_microcontroller_stop(state);
- 
--	// set tuner parameters
-+	/* set tuner parameters */
- 	if (fe->ops.tuner_ops.set_params) {
- 		fe->ops.tuner_ops.set_params(fe);
- 		if (fe->ops.i2c_gate_ctrl)
- 			fe->ops.i2c_gate_ctrl(fe, 0);
- 	}
- 
--	// sample rate correction bit [23..17]
-+	/* sample rate correction bit [23..17] */
- 	sp8870_writereg(state, 0x0319, 0x000A);
- 
--	// sample rate correction bit [16..0]
-+	/* sample rate correction bit [16..0] */
- 	sp8870_writereg(state, 0x031A, 0x0AAB);
- 
--	// integer carrier offset
-+	/* integer carrier offset */
- 	sp8870_writereg(state, 0x0309, 0x0400);
- 
--	// fractional carrier offset
-+	/* fractional carrier offset */
- 	sp8870_writereg(state, 0x030A, 0x0000);
- 
--	// filter for 6/7/8 Mhz channel
-+	/* filter for 6/7/8 Mhz channel */
- 	if (p->bandwidth_hz == 6000000)
- 		sp8870_writereg(state, 0x0311, 0x0002);
- 	else if (p->bandwidth_hz == 7000000)
-@@ -288,7 +290,7 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
- 	else
- 		sp8870_writereg(state, 0x0311, 0x0000);
- 
--	// scan order: 2k first = 0x0000, 8k first = 0x0001
-+	/* scan order: 2k first = 0x0000, 8k first = 0x0001 */
- 	if (p->transmission_mode == TRANSMISSION_MODE_2K)
- 		sp8870_writereg(state, 0x0338, 0x0000);
- 	else
-@@ -296,12 +298,12 @@ static int sp8870_set_frontend_parameters(struct dvb_frontend *fe)
- 
- 	sp8870_writereg(state, 0xc05, reg0xc05);
- 
--	// read status reg in order to clear pending irqs
-+	/* read status reg in order to clear pending irqs */
- 	err = sp8870_readreg(state, 0x200);
- 	if (err < 0)
- 		return err;
- 
--	// system controller start
-+	/* system controller start */
- 	sp8870_microcontroller_start(state);
- 
- 	return 0;
-@@ -337,16 +339,16 @@ static int sp8870_init(struct dvb_frontend *fe)
- 	/* enable TS output and interface pins */
- 	sp8870_writereg(state, 0xc18, 0x00d);
- 
--	// system controller stop
-+	/* system controller stop */
- 	sp8870_microcontroller_stop(state);
- 
--	// ADC mode
-+	/* ADC mode */
- 	sp8870_writereg(state, 0x0301, 0x0003);
- 
--	// Reed Solomon parity bytes passed to output
-+	/* Reed Solomon parity bytes passed to output */
- 	sp8870_writereg(state, 0x0C13, 0x0001);
- 
--	// MPEG clock is suppressed if no valid data
-+	/* MPEG clock is suppressed if no valid data */
- 	sp8870_writereg(state, 0x0C14, 0x0001);
- 
- 	/* bit 0x010: enable data valid signal */
-@@ -490,7 +492,7 @@ static int sp8870_set_frontend(struct dvb_frontend *fe)
- 			return err;
- 
- 		for (check_count = 0; check_count < MAXCHECKS; check_count++) {
--//			valid = ((sp8870_readreg(i2c, 0x0200) & 4) == 0);
-+			/* valid = ((sp8870_readreg(i2c, 0x0200) & 4) == 0); */
- 			valid = sp8870_read_data_valid_signal(state);
- 			if (valid) {
- 				dprintk("delay = %i usec\n", check_count * 10);
-@@ -526,7 +528,7 @@ static int sp8870_sleep(struct dvb_frontend *fe)
- {
- 	struct sp8870_state *state = fe->demodulator_priv;
- 
--	// tristate TS output and disable interface pins
-+	/* tristate TS output and disable interface pins */
- 	return sp8870_writereg(state, 0xC18, 0x000);
- }
- 
+3. Migrating from the legacy s_stream callback to the modern
+   enable_streams/disable_streams callbacks, providing better support
+   for multiplexed streams.
 
----
-base-commit: 0257f64bdac7fdca30fa3cae0df8b9ecbec7733a
-change-id: 20260313-sp8870-cleanup-c6552094e4c9
+These changes reduce code complexity, improve maintainability, and
+align the driver with current V4L2 best practices.
 
-Best regards,
--- 
-Tomasz Unger <tomasz.unger@yahoo.pl>
+Elgin Perumbilly (3):
+  media: i2c: imx412: Convert to CCI register access helpers
+  media: i2c: imx412: Switch to using the sub-device state lock
+  media: i2c: imx412: switch to {enable,disable}_streams
+
+ drivers/media/i2c/Kconfig  |   1 +
+ drivers/media/i2c/imx412.c | 756 ++++++++++++++++---------------------
+ 2 files changed, 324 insertions(+), 433 deletions(-)
+
+--
+2.34.1
 
 
