@@ -1,195 +1,148 @@
-Return-Path: <linux-media+bounces-55816-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55817-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CLO8GQ3vtWnZ7AAAu9opvQ
-	(envelope-from <linux-media+bounces-55816-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2026 00:28:13 +0100
+	id SlhVK8sOtmmS8wAAu9opvQ
+	(envelope-from <linux-media+bounces-55817-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2026 02:43:39 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F7F28F7C2
-	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2026 00:28:13 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3310528FC5B
+	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2026 02:43:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C51063035D54
-	for <lists+linux-media@lfdr.de>; Sat, 14 Mar 2026 23:28:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 75EE630856E6
+	for <lists+linux-media@lfdr.de>; Sun, 15 Mar 2026 01:43:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A29B378800;
-	Sat, 14 Mar 2026 23:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1A09218EB1;
+	Sun, 15 Mar 2026 01:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8jx6vqT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YV5L3weC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E5629BDB1
-	for <linux-media@vger.kernel.org>; Sat, 14 Mar 2026 23:28:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0101015E5BB
+	for <linux-media@vger.kernel.org>; Sun, 15 Mar 2026 01:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773530883; cv=none; b=a74pg7yM83dE0h97Eop0xJ/YHEHP/T3TJHI+ydqM8V8LUi9piLVPudIByvh2Tk3RZG5gTF5AsEXzg/ZvIAJuP/scA5SrGzMWhtROqbtJV8fTnMq31BbxeVkkW0dQJerIkf/QOdtcdS1vrfw4HlpJz336zfvs4uhWtcBr81pbxo0=
+	t=1773539010; cv=none; b=j655Rkl3HClRMDfHg+ACK/p6tvOvEolMsUWdn1spSV3pQxV4pUMPQhhXa5yFsY2WdIHcWGSBWTdzhlotlMrC5q5lFscIWKWMwenJXD3MpBgds+nJRTLmE/uxvChEOIUXByZdsoj11PzrZ4fScnYkPnOMHJk42RsfgfGN296KTDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773530883; c=relaxed/simple;
-	bh=dTlprqjYOEXcKo+WIv/Qa6MqjDoxcbi0QD2m8z25QTQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LHWycywg6uLkNJoEC+oSqxe/JbwTUfv3F1E28C6crY+OWc7TCEcCurT66eYIHOOXFiHEo7wSEHN3PCrEYpU9TCP4xIMqi7X7YVyzPNE4Fn98qygnpIKYyymtk0isGGLxUi437B3nC4KEZj0pTItuK8c9v8qkp+Z1kcWmXRcZ9o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i8jx6vqT; arc=none smtp.client-ip=209.85.208.175
+	s=arc-20240116; t=1773539010; c=relaxed/simple;
+	bh=qJcMV82BZwS7YiR8z9LJsdW00c/RT78rvI7sTJW6f+8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=QjPfvlMaBncdrnWiEcpAKP/eTMigUWX3a4fHqRvvMucz/+lxNgL79FvZx5zxO/AIyH5pko4ZZPY57Tms29RHewQ5W6NytbkNb/6Ru92rU+e+P7MjXW+Nts6R+PRxKslWXT4608zq++PoI1/n7VgvGe0WdE5M7ylXU/ukHHH31bM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YV5L3weC; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38a2544b52bso29518171fa.3
-        for <linux-media@vger.kernel.org>; Sat, 14 Mar 2026 16:28:01 -0700 (PDT)
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64c9cabfe5dso4202646d50.0
+        for <linux-media@vger.kernel.org>; Sat, 14 Mar 2026 18:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773530880; x=1774135680; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jCtEmGh8LeY5ZVx8BhZuufdcg167qUrzjvmKMxMMtZ8=;
-        b=i8jx6vqTz/VUOAA2wgqRLcQQ8Pk3bLdJf0hCYaj8+GNXTbX66apRsWUY1CmwnA2U0J
-         ZvwmqZJhbYCLnBx6uc1bY53+hEyLYZTEuXde+eC9kNaif/50Gjyn1ZnHlY1AyliTencj
-         ks31kTGiZtMdhSKUkeGIddqdTjyZ3b4sKGofkWVHg653XibgCYTWtLEiHybnKn/HcP77
-         WtWE0INOSGVQ67TMP7V/jyHDcNEJdAbGRALClNlFVDFgcF5zACC6DIEkXXeUaO+4fjdO
-         UOlVgKp+PUGOjKy7btyzWe6isdEMjkb1wgK28br1D8ZETiLZOlf6apT2ZvB7HEwd5R4F
-         u5rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773530880; x=1774135680;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773539008; x=1774143808; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jCtEmGh8LeY5ZVx8BhZuufdcg167qUrzjvmKMxMMtZ8=;
-        b=gxRY0Y0sHYnbeQ7YN5rxvdemzuJabDvtDbiAjCrI/dA4BXTrBA7h9sqMLKOtzN0nXz
-         7lexgZySw8Nm8usQdby4iUgJX2xTzhQViJjm00kFGe0J1sGKIF5/6P2z5lA9nMy1FdDp
-         Yty9FzfWYRwxwzXF8UTsVw8390ir/fwsQb2F39i9e5VdjjNZalwN64p18eAX5k5Zn1de
-         W3k2E3qz+JmPhISndTljKTckgcFKZcp3wMGMK76RLnEMV3icwIRKoEmpP2HN5H1FSVEb
-         8+DIqrNFSh8SBs2KTBtHeBCoBeg5/ievEfyTIYm9pyEyTC3lc3VLjxgIoBh8MwZMgM5q
-         dyyg==
-X-Forwarded-Encrypted: i=1; AJvYcCWbDNVaoIyiKnRa+IaqojfCtRWh68ykKCt060X6jjEZk+9aTMOTdnABNcCmnJcyn6Cc1yjG6mVwmSGmJA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGnfr8zclwT4ngA3cAYOTf42x9+8lSFkCE/oTXjHZ7/axZnlRH
-	sau62wfxVXJGuGM6bzew4iPamVkyeNT8ilj9MPO7qXc2HJm2aMvxHyrxcy95krHWOpSrM//O
-X-Gm-Gg: ATEYQzxKxm+Xi70lE55iciJhRE9ZwVqQvVCPAYTpeDR5VSmFW6HfnlJ8xZOT2IKsIWl
-	6aBRO2yMYPKPmLa3RNi8RFrzOYPMQ73TzQ8269o+HAgaIhNXqsXoKoI8FfirGJucsQTuxauu/UQ
-	y21hVK402qmOrc8hBqwHjpiveT2tcceeASup2IzD13F9sWvvCAAuDBBMHDf8SYDl2K+C/eDhYLs
-	rhhS/NNcaiao6iHYuNdSiz4xTE+EYO/47RdofyPk+DAvZFrM7Lzkwq0JjqnjS2YtezrBsjFo4/g
-	d241cSqvYYlNJtevit2AWG4EHz1RvKmIaH9pDkavlrnd2o54L/V0FV8ujOl5KCnEZuFC6n/+aY4
-	07Yr5tDfSqGTaJxMkOVSi4ZbMvgOaoJQy/EV68OkxgJg2Am41TRw1l6oykmvOLKfO1JPE42tROu
-	efYXk29fersYnLNR9rW8JU2omUvsR/PKghBg==
-X-Received: by 2002:a05:651c:4083:b0:385:bb24:d0eb with SMTP id 38308e7fff4ca-38a897b7410mr17019691fa.34.1773530879579;
-        Sat, 14 Mar 2026 16:27:59 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38a67d9a4b6sm24308881fa.12.2026.03.14.16.27.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 16:27:58 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: kraxel@redhat.com,
-	vivek.kasireddy@intel.com
-Cc: sumit.semwal@linaro.org,
-	christian.koenig@amd.com,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	stable@vger.kernel.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH] udmabuf: fix DMA direction mismatch in release_udmabuf()
-Date: Sun, 15 Mar 2026 04:27:22 +0500
-Message-ID: <20260314232722.15555-1-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=qJcMV82BZwS7YiR8z9LJsdW00c/RT78rvI7sTJW6f+8=;
+        b=YV5L3weC8bI8c+setyknEnsaltyNfY61jnB5gQqYlj7o/GNv7L/eZzDCRqnCsLNj45
+         1uIS7rIfwDAc0HebBnFD/nsUf+nS1SvTDj7UNr0EetddJgkpVH08nzF7zD/JkyneKpG6
+         huTaF+0iEd1LLGpOOks9V25K5V8XJuPvgWXQfZtWsr2b1l1e5dILqNushHy/pOKS/vYX
+         qJtHPPBVdTMJ+fC+eCkH4sPuM+YP4HvjyO7YmASEmGZJfR2yU073vy18EQNhn5F6Bcd6
+         ih5qfadz7OzreIwOaxxfHcHMB6mgDi8ltnolt61EZImMEnAkjksIKtRKojnkpzmMmv6b
+         Yu2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773539008; x=1774143808;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qJcMV82BZwS7YiR8z9LJsdW00c/RT78rvI7sTJW6f+8=;
+        b=FiliiuI1xfpDCO0NtTUES2H/lFJ4uqxFVzn+m6Rs8UQa7kMEUqIMuqMXqKPTyigUZR
+         Kuof5/rwZmBhYbLFQJlpS6KbVFmZt4ppEOLaHl0nUGZ9zwTs3bZYCrKfxWdENIKCS82C
+         AzPul3hvHDUle8QmT5i0TTGY+4tu8EHHLA985ippCwSKL+FZhqkP7/v8KYxAMsiV4jBn
+         TF8pPYEjv5Hyqp9PgQArKf9w7vbW8nhcBk82a7P322S16t75dZy4xaZsDR+8dMvOJ4U7
+         p8CVX01Penr6+a+6/GTar1ICy1+lpJP1Pcj0JUyMKSzxv8DxoDbiROPbdviuAkZ7WFw0
+         RrHQ==
+X-Gm-Message-State: AOJu0Yx4j/xgeeAb+FflmTGtzuNTEB/I06fmQLhnW6G1xiZjIhogq6Ga
+	GkmZzQDf3yrVpuGdY9ec7NU96yG5kJxaMTMqzTQ6pt3hRzV4M4lZJ1Kj
+X-Gm-Gg: ATEYQzwfFrODrIM2mkjMU8QHiLgJKa8YCmm9XkCh58/faWHStZx9hnkez4F83QDQsXg
+	Hlnfa8A71tXEKmLarAR4AUTeuakh5tjHFhr3cIKxk991iiGtXKxKHB+f4sbu3kr3yNzfsbBF/1c
+	b8hILr9tEWcjuMrdltiQoqCpfTzCRN8uiMPkKIBq46aI6erBlod4cQW5fh5k+7s93N8zF+3zUmj
+	0tCh/2YaDt3F5BGBW4G6A3qPqrdC29aB/3QusTSq+/uSv2lEPIC8aq5rivAWpg70hie4UP4fUX1
+	Hkr0AZ72CjaOUCK0IHX3xoK+fybVp24aEXcn2V28QQJy/AZ1gzFICIMgtf6BjD1WFSlKfrqMSVf
+	DYi8qAgWxL1Yp5vTyzJZHiBv6RvkRQq24nyArL4IPT24Vluh6A+B+aam2QWPYLCJA+Be2u/ns+3
+	oPAl+/4F2jEEA7XIvlshJZmutBG3KNRfHHom1plgp4/6i9HGp3JF+JxnvayjlZRcZM1hMDw1dXo
+	PIkpUmp+UyOCEGno/A+EuVHdUtWL6IWp8IqGBNSOHw=
+X-Received: by 2002:a05:690e:2390:b0:64c:9ac2:2cde with SMTP id 956f58d0204a3-64dc70c7270mr8125647d50.17.1773539008053;
+        Sat, 14 Mar 2026 18:43:28 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37c:4c00::5585])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e65b63601sm3487340d50.18.2026.03.14.18.43.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Mar 2026 18:43:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 14 Mar 2026 20:43:07 -0500
+Message-Id: <DH2Z3MYXYLOJ.MEO58GH077PO@gmail.com>
+Cc: <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] staging: media: av7110: replace C++ comments with C
+ style comments in sp8870.c
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Tomasz Unger" <tomasz.unger@yahoo.pl>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260314-sp8870-cleanup-v3-1-3ec367f13aa9.ref@yahoo.pl>
+ <20260314-sp8870-cleanup-v3-1-3ec367f13aa9@yahoo.pl>
+In-Reply-To: <20260314-sp8870-cleanup-v3-1-3ec367f13aa9@yahoo.pl>
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55816-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-55817-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[yahoo.pl,kernel.org,linuxfoundation.org];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[mikhailvgavrilov@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[ethantidmore06@gmail.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 10F7F28F7C2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,yahoo.pl:email]
+X-Rspamd-Queue-Id: 3310528FC5B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-begin_cpu_udmabuf() maps the sg_table with the caller-provided direction
-(e.g., DMA_TO_DEVICE for a write-only sync), and caches it in ubuf->sg
-for reuse.  However, release_udmabuf() always unmaps this sg_table with
-a hardcoded DMA_BIDIRECTIONAL, regardless of the direction that was
-originally used for the mapping.
+On Sat Mar 14, 2026 at 2:47 AM CDT, Tomasz Unger wrote:
+> Replace C++ style comments (//) with C style comments (/* */) in
+> sp8870.c to conform to the kernel coding style.
+>
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
 
-With CONFIG_DMA_API_DEBUG=y this produces:
+LGTM.
 
-  DMA-API: misc udmabuf: device driver frees DMA memory with different
-  direction [device address=0x000000044a123000] [size=4096 bytes]
-  [mapped with DMA_TO_DEVICE] [unmapped with DMA_BIDIRECTIONAL]
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-The issue was found during video playback when GStreamer performed a
-write-only DMA_BUF_IOCTL_SYNC on a udmabuf.  It can be reproduced
-with CONFIG_DMA_API_DEBUG=y by creating a udmabuf from a memfd,
-performing a write-only sync (DMA_BUF_SYNC_WRITE without
-DMA_BUF_SYNC_READ), and closing the file descriptor.
+Thanks,
 
-Fix this by storing the DMA direction used when the sg_table is first
-created in begin_cpu_udmabuf(), and passing that same direction to
-put_sg_table() in release_udmabuf().
-
-Fixes: 284562e1f348 ("udmabuf: implement begin_cpu_access/end_cpu_access hooks")
-Cc: stable@vger.kernel.org
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
----
- drivers/dma-buf/udmabuf.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 94b8ecb892bb..d0836febefdd 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -40,6 +40,7 @@ struct udmabuf {
- 	struct folio **pinned_folios;
- 
- 	struct sg_table *sg;
-+	enum dma_data_direction sg_dir;
- 	struct miscdevice *device;
- 	pgoff_t *offsets;
- };
-@@ -235,7 +236,7 @@ static void release_udmabuf(struct dma_buf *buf)
- 	struct device *dev = ubuf->device->this_device;
- 
- 	if (ubuf->sg)
--		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
-+		put_sg_table(dev, ubuf->sg, ubuf->sg_dir);
- 
- 	deinit_udmabuf(ubuf);
- 	kfree(ubuf);
-@@ -253,6 +254,8 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
- 		if (IS_ERR(ubuf->sg)) {
- 			ret = PTR_ERR(ubuf->sg);
- 			ubuf->sg = NULL;
-+		} else {
-+			ubuf->sg_dir = direction;
- 		}
- 	} else {
- 		dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
--- 
-2.53.0
-
+ET
 
