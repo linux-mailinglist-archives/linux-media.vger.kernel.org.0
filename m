@@ -1,576 +1,363 @@
-Return-Path: <linux-media+bounces-55981-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55982-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oPD7BHh2uGn5dgEAu9opvQ
-	(envelope-from <linux-media+bounces-55981-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 22:30:32 +0100
+	id YLybH6p3uGn5dgEAu9opvQ
+	(envelope-from <linux-media+bounces-55982-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 22:35:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CB72A0FB3
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 22:30:31 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F902A1045
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 22:35:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B3F96319CD08
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 21:19:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E724D302FABF
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 21:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5452B372B3C;
-	Mon, 16 Mar 2026 21:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D69E365A1E;
+	Mon, 16 Mar 2026 21:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J60dBTLI"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Lj6Vi201";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dUsZ5/nh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84923372B3D
-	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 21:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AABB34B434
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 21:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773695850; cv=none; b=e7kr3Il9pTpMoXoEy2oiuYul8X3OdLeupTi1ah+ECnzp6JtPO2V4SvBU3AN9gejWSA/M6b9PNK3+CB6nxIa7zcKyJi5iyGncQZn1C+tQ2dNMgJwQlhMD9T4kQDMnnjKDlY0pYvJa8Vj9Hwhp+5AhOCWJKii3vZ9AlI5VmAa/LSM=
+	t=1773696704; cv=none; b=OLpcM8FKnbF6I4IJ/i5WxuAE7mAe8/4QRcGXomviosboipNX9eja9MZRpf6rjwvRqT70zi69E86sLky1d1mmvYxVRU9KxxdpfQFctteI5UyGUpFEGMBnzX+DO7Hs1P5oCI02CJyrYDQ5dpmZlKJ0+t7D8Y32LHSnnjv4pHlBrQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773695850; c=relaxed/simple;
-	bh=jxQ8AAnvp0KwSnWmvOl6qDutQ53GjukO0L7o4J/c7w8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Rg2+s0a1O2FtQ1v7/touvMjPbVis8DegOQLuon1Hrk1rUCvuQEBQUTYgdX7zsT2DFEn2gejUUUVrwRTD5w4jIaiMebj1LtchuZio6GHjexqiOOGLrLRnJe2ZemRctMzKQql8vyNOqbk9W/gtqvqNTD9DcOVQtTnC+jyXiOQAaFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=J60dBTLI; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773695846;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qIGmariek+LVEQYfWF8x9ShbnIt42zrV5g1MuKxSPMs=;
-	b=J60dBTLISLXyAsgPoxQA4AoXHcfVwFqu8YqavxFxqV+ZYf9wL1zNd+emO7vNt6PPSisUFY
-	0NdU7QJHx5Z+mMDcyt17/NMk54ah0czilCxVq1Uo3UrHxGjPszLbg7YUK7r9aMUOw4jGy1
-	rZrgbKNWdWoDNgBKqK+yyROZa7MNlTc=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-662-sOOwAooxNHuAMX4qlQmCPQ-1; Mon,
- 16 Mar 2026 17:17:22 -0400
-X-MC-Unique: sOOwAooxNHuAMX4qlQmCPQ-1
-X-Mimecast-MFC-AGG-ID: sOOwAooxNHuAMX4qlQmCPQ_1773695839
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8D190193533D;
-	Mon, 16 Mar 2026 21:17:19 +0000 (UTC)
-Received: from GoldenWind.redhat.com (unknown [10.22.88.101])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8D457180035F;
-	Mon, 16 Mar 2026 21:17:15 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: nouveau@lists.freedesktop.org,
-	Gary Guo <gary@garyguo.net>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	rust-for-linux@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Maurer <mmaurer@google.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	christian.koenig@amd.com,
-	Asahi Lina <lina@asahilina.net>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Simona Vetter <simona@ffwll.ch>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Boqun Feng <boqun@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Krishna Ketan Rai <prafulrai522@gmail.com>,
-	linux-media@vger.kernel.org,
-	Shankari Anand <shankari.ak0208@gmail.com>,
-	David Airlie <airlied@gmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	linaro-mm-sig@lists.linaro.org,
-	Asahi Lina <lina+kernel@asahilina.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@vger.kernel.org
-Subject: [PATCH v9 7/7] rust: drm/gem: Add vmap functions to shmem bindings
-Date: Mon, 16 Mar 2026 17:16:15 -0400
-Message-ID: <20260316211646.650074-8-lyude@redhat.com>
-In-Reply-To: <20260316211646.650074-1-lyude@redhat.com>
-References: <20260316211646.650074-1-lyude@redhat.com>
+	s=arc-20240116; t=1773696704; c=relaxed/simple;
+	bh=IjdfbpR/GItXgOAV5vD1YoDI1bdHdY8JCyUTHWozK0A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dP3iKvIH27QQsDH0ggeiAxDNBD+Pv1xLjmxyi8h/bywC+MyrVF0+JnhNuOnsOvSf7QTKKmJf0gLMehXvEf9w21Iip+DnPAI7DSZoNw2rU8l03UjIXHjMApve5PSuRj3W/3Cv7JGkwCDlCOkTORMNZpSnKk4NbqwDxkBPZablNHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Lj6Vi201; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dUsZ5/nh; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62GIKamN1428760
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 21:31:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	84M66G2PwCIzVdx//9IgiXr4vtMOe8kaOEGL8EAmpMs=; b=Lj6Vi201pnCKOst3
+	zmxGLVXvQypnr/F0TuAuo2fO/PHOzPv94HYyUBgFkbAoyvG9mObHExmVpD0TgMkT
+	t2Yi7yasZLj3x5as70v3MYRWX5QqyCN8FrcSK3h6BEzpLiac4VDTWSivAwOiVFWV
+	FlukTOkhJqFNpwsvNzBUDV0IPshHY6RjFrMkz0iEFN5bUic6kxU7Vc5K5gXEm6dW
+	sQ7X7cMshIZBGwSr13eTBTdc/ibV6y0CeYrvWDkNwR28ot4HWsX0UN5Vfi+JvVvh
+	3MmJfOshQl9tvb+muQ3R1Gal9dQN7f7fm/1TYlzS9X7o+EtDJ3tY4WIhLs3GgTf5
+	tAXJPw==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxh99a1vy-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 21:31:41 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-2bea1ffd05bso4790241eec.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 14:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773696701; x=1774301501; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=84M66G2PwCIzVdx//9IgiXr4vtMOe8kaOEGL8EAmpMs=;
+        b=dUsZ5/nhllC4ZKVYqqheWSMJQ6xO5jx2vsaj7CNelaUU5lJvrwuk2dUBEiRHPu2rtP
+         +QrnkmZNkV11Gaj1F02XX9qyTpcLk12AatDwL8dIuXRWLtD+1a19Jo8Ft2YclzpLDmZA
+         +qFWf4sLyVcIDrwT4DR40z7hVo16u9vw/V6inQaHF2x5OJbFXnjAZsoDO/EIIiLgsPdf
+         aUJXX/+XzBcaJP7b63vB6B2quQh/Nb7pVlH0yI0eljPWpn8txF3/X9w+594hpQRoGkMz
+         EV5BRGlLEXbwrVmy0DijmS5XpM0/a1UOWIz9Td5SxQtujVRzsRsAXyL70ERpte2JFPDZ
+         wddA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773696701; x=1774301501;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=84M66G2PwCIzVdx//9IgiXr4vtMOe8kaOEGL8EAmpMs=;
+        b=ZHt2dUUQpBGzy4vHiy5zxptug/7Tth1FJviNHkpBx/XH0YEGisBHrw/wGCJNwtzQro
+         qatdb0a08qMGoEknBCvlCWYUinUc7by9RrN0DUTztug3E30jncrVe0+HFSlrZXxYzjJE
+         0mjP6TuYWFXSiAdo62KZiSYz3V4fxTU9FtneicffTzB0oXx8QsqpFTLZtNgf24VW1Oty
+         YRow40iIvN2O/DJQ3j+9Z+jrAdSJLwWIjs5b9k+p7/EGB5jjJVXLlVZThHL9jas82gf4
+         qfs9F8lZ70Pz0zlDkm03JNoV73y34p3cKTLx+xODqX3uBnoan3tk/hTWDM23etoOyZ77
+         z8dw==
+X-Forwarded-Encrypted: i=1; AJvYcCXuzrRsqMj6vI/bbTeG4s7ooptEBBWxZD3APOUHPwXYFPdr2GAnDv7wAnAmPACGWTtuNgif5mMQ/7V8Ug==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFSOv88EQuVZZ+eySf0sIjWR+MQTUlxlmJJ98Ix1Qm9OoXqNtl
+	r6G6agQsv/OFWDKdtfUy/H4NQZ07gSWXt6IvoduiMwjuiEljHX2OoQcTCeX/tsM7CTHrEI8YrGK
+	VAH77qj5fr8ALHMqsnt2vVlGGBkJGLpK9aJXqVW1lFFzFjm1euyq2YiHCdg8Zk/+08w==
+X-Gm-Gg: ATEYQzwvcllhQ+xMnydsK+6mp+abPN55Z1Yu6FEmlbA7Ezg4y647Wl8TY65KK/eSOs6
+	SuaQ2NTYQcg398q3sGVFtBnAOiDNEvHPwzaNIFx+6o6JrEQm3xY13a8+KRerhnPc64xPSO9eLJ/
+	immqSO490kqC0ZwKYbNhRU9B2blniuxmVAy7c5p5Z8o0BVcQpIvkfDjnouzhhsPRe5OMbhcbA/P
+	+n7z0S5Gii5c9QazEGQJe+7FBYRvbUeutbjbBjP9l0uGlCSPrJOmtOA/YlWfgdFScVwscvcopO0
+	K2ZbonIxKKki6na+REGE1gVPFZl+nfEYQKTe1PQGthKTNoqeRuV5elZMmuDMLuF7/+8qH5C5YxH
+	CNepcX1M+2WvKYo2T6mndoZcwUdPDBkH+l4Cq/7HMQ7Sc2aIIlxdY4yAHi8otwi8xYfo8jXg9yf
+	OYLg==
+X-Received: by 2002:a05:7022:6299:b0:119:e569:f615 with SMTP id a92af1059eb24-128f3d35f47mr7010884c88.14.1773696700804;
+        Mon, 16 Mar 2026 14:31:40 -0700 (PDT)
+X-Received: by 2002:a05:7022:6299:b0:119:e569:f615 with SMTP id a92af1059eb24-128f3d35f47mr7010861c88.14.1773696699781;
+        Mon, 16 Mar 2026 14:31:39 -0700 (PDT)
+Received: from [10.62.37.228] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128f62991c7sm13756734c88.5.2026.03.16.14.31.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 14:31:39 -0700 (PDT)
+Message-ID: <5705b48a-fc24-4c5f-aa6d-40952f0070d9@oss.qualcomm.com>
+Date: Mon, 16 Mar 2026 14:31:38 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
+ <20260315-x1e-csi2-phy-v4-1-90c09203888d@linaro.org>
+Content-Language: en-US
+From: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
+In-Reply-To: <20260315-x1e-csi2-phy-v4-1-90c09203888d@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=RJ++3oi+ c=1 sm=1 tr=0 ts=69b876bd cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=gEfo2CItAAAA:8 a=KKAkSRfTAAAA:8 a=VwQbUJbxAAAA:8 a=FiKLMzvizoLJB3YtxsEA:9
+ a=QEXdDO2ut3YA:10 a=PxkB5W3o20Ba91AHUih5:22 a=sptkURWiP4Gy88Gu7hUp:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDE3MyBTYWx0ZWRfX9+rv+HcaM6rH
+ 6YdCnN5g4yUleco2d8VP4xdCgkk7cFfT0V/0ox0ItJMvQRd4DxWEuU1hYJZkfcg6qagw41Pz99b
+ XdkLaEfV6r1R59Yi0mGQJuw44+lsKVb+X/TVDpI9HILi8o/GKRxATW1v0W0hbD+vWSGw3hV3ThV
+ SpgvUyFjNN0WtAFoUu9o2AHhfXBJwes9IaZ75ESjcIZa+K5rKsHhCP+VPlvPqtlCwWCAu4HunLn
+ XTBDj5dcKFJmlsynYTxvWMarrCC+FVla14l4DBwMgGXOa41G8lZ+V5BgcALZp3l8xI+0jvXWKjR
+ hoykT8bPWEc9JdlJRckegbMgmhb2MHbuBnlruCSRsi/GDmE/f2Z6Obki1n8A2ZGrmdvgc9zbRfx
+ HzXINK+S9eRz/ytB+iyaxfnjzDTnOHO1MnqZ/rPB2ak+540mMY2D8qGmu2VBCxcoCnEBO3iLCdn
+ taZkxJZ4EV/e4BjbZPg==
+X-Proofpoint-ORIG-GUID: 8qlue9HCQ-ZGMgRrXMFV2SoSIV89p6HS
+X-Proofpoint-GUID: 8qlue9HCQ-ZGMgRrXMFV2SoSIV89p6HS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-16_05,2026-03-16_06,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 spamscore=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 bulkscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603160173
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[google.com,gmail.com,oracle.com,amd.com,asahilina.net,kernel.org,ffwll.ch,linaro.org,vger.kernel.org,lists.linaro.org,linuxfoundation.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55982-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	TAGGED_FROM(0.00)[bounces-55981-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[redhat.com:+];
+	FROM_NEQ_ENVFROM(0.00)[vijay.tumati@oss.qualcomm.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 96CB72A0FB3
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: D0F902A1045
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-One of the more obvious use cases for gem shmem objects is the ability to
-create mappings into their contents. So, let's hook this up in our rust
-bindings.
+Hi Bryan,
 
-Similar to how we handle SGTables, we make sure there's two different types
-of mappings: owned mappings (kernel::drm::gem::shmem::VMap) and borrowed
-mappings (kernel::drm::gem::shmem::VMapRef).
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-
----
-V7:
-* Switch over to the new iosys map bindings that use the Io trait
-V8:
-* Get rid of iosys_map bindings for now, only support non-iomem types
-* s/as_shmem()/as_raw_shmem()
-V9:
-* Get rid of some outdated comments I missed
-* Add missing SIZE check to raw_vmap()
-* Add a proper unit test that ensures that we actually validate SIZE at
-  compile-time.
-  Turns out it takes only 34 lines to make a boilerplate DRM driver for a
-  kunit test :)
-* Add unit tests
-* Add some missing #[inline]s
-
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- rust/kernel/drm/gem/shmem.rs | 358 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 356 insertions(+), 2 deletions(-)
-
-diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-index 3fab5d76c197b..5254338bad394 100644
---- a/rust/kernel/drm/gem/shmem.rs
-+++ b/rust/kernel/drm/gem/shmem.rs
-@@ -2,7 +2,7 @@
- 
- //! DRM GEM shmem helper objects
- //!
--//! C header: [`include/linux/drm/drm_gem_shmem_helper.h`](srctree/include/linux/drm/drm_gem_shmem_helper.h)
-+//! C header: [`include/linux/drm/drm_gem_shmem_helper.h`](srctree/include/drm/drm_gem_shmem_helper.h)
- 
- // TODO:
- // - There are a number of spots here that manually acquire/release the DMA reservation lock using
-@@ -21,6 +21,11 @@
-         from_err_ptr,
-         to_result, //
-     },
-+    io::{
-+        Io,
-+        IoCapable,
-+        IoKnownSize, //
-+    },
-     prelude::*,
-     scatterlist,
-     types::{
-@@ -29,13 +34,22 @@
-     }, //
- };
- use core::{
-+    ffi::c_void,
-+    mem::{
-+        self,
-+        MaybeUninit, //
-+    },
-     ops::{
-         Deref,
-         DerefMut, //
-     },
--    ptr::NonNull,
-+    ptr::{
-+        self,
-+        NonNull, //
-+    },
- };
- use gem::{
-+    BaseObject,
-     BaseObjectPrivate,
-     DriverObject,
-     IntoGEMObject, //
-@@ -217,6 +231,88 @@ pub fn owned_sg_table(&self) -> Result<SGTable<T>> {
-             _owner: self.into(),
-         })
-     }
-+
-+    /// Attempt to create a vmap from the gem object, and confirm the size of said vmap.
-+    fn raw_vmap(&self, min_size: usize) -> Result<*mut c_void> {
-+        if self.size() < min_size {
-+            return Err(ENOSPC);
-+        }
-+
-+        let mut map: MaybeUninit<bindings::iosys_map> = MaybeUninit::uninit();
-+
-+        // SAFETY: drm_gem_shmem_vmap can be called with the DMA reservation lock held
-+        to_result(unsafe {
-+            // TODO: see top of file
-+            bindings::dma_resv_lock(self.raw_dma_resv(), ptr::null_mut());
-+            let ret = bindings::drm_gem_shmem_vmap_locked(self.as_raw_shmem(), map.as_mut_ptr());
-+            bindings::dma_resv_unlock(self.raw_dma_resv());
-+            ret
-+        })?;
-+
-+        // SAFETY: The call to drm_gem_shmem_vunmap_locked succeeded above, so we are guaranteed
-+        // that map is properly initialized.
-+        let map = unsafe { map.assume_init() };
-+
-+        // XXX: We don't currently support iomem allocations
-+        if map.is_iomem {
-+            // SAFETY:
-+            // - The vmap operation above succeeded, making it safe to call vunmap
-+            // - We checked that this is an iomem allocation, making it safe to read vaddr_iomem
-+            unsafe { self.raw_vunmap(map.__bindgen_anon_1.vaddr_iomem) };
-+
-+            Err(ENOTSUPP)
-+        } else {
-+            // SAFETY: We checked that this is not an iomem allocation, making it safe to read vaddr
-+            Ok(unsafe { map.__bindgen_anon_1.vaddr })
-+        }
-+    }
-+
-+    /// Unmap a vmap from the gem object.
-+    ///
-+    /// # Safety
-+    ///
-+    /// - The caller promises that addr came from a prior call to [`Self::raw_vmap`] on this gem
-+    ///   object.
-+    /// - The caller promises that the memory pointed to by addr will no longer be accesed through
-+    ///   this instance.
-+    unsafe fn raw_vunmap(&self, vaddr: *mut c_void) {
-+        let resv = self.raw_dma_resv();
-+        let mut map = bindings::iosys_map {
-+            is_iomem: false,
-+            __bindgen_anon_1: bindings::iosys_map__bindgen_ty_1 { vaddr },
-+        };
-+
-+        // SAFETY:
-+        // - This function is safe to call with the DMA reservation lock held
-+        // - Our `ARef` is proof that the underlying gem object here is initialized and thus safe to
-+        //   dereference.
-+        unsafe {
-+            // TODO: see top of file
-+            bindings::dma_resv_lock(resv, ptr::null_mut());
-+            bindings::drm_gem_shmem_vunmap_locked(self.as_raw_shmem(), &mut map);
-+            bindings::dma_resv_unlock(resv);
-+        }
-+    }
-+
-+    /// Creates and returns a virtual kernel memory mapping for this object.
-+    #[inline]
-+    pub fn vmap<const SIZE: usize>(&self) -> Result<VMapRef<'_, T, SIZE>> {
-+        Ok(VMapRef {
-+            // INVARIANT: `raw_vmap()` checks that the gem object is at least as large as `SIZE`.
-+            addr: self.raw_vmap(SIZE)?,
-+            owner: self,
-+        })
-+    }
-+
-+    /// Creates and returns an owned reference to a virtual kernel memory mapping for this object.
-+    #[inline]
-+    pub fn owned_vmap<const SIZE: usize>(&self) -> Result<VMap<T, SIZE>> {
-+        Ok(VMap {
-+            // INVARIANT: `raw_vmap()` checks that the gem object is at least as large as `SIZE`.
-+            addr: self.raw_vmap(SIZE)?,
-+            owner: self.into(),
-+        })
-+    }
- }
- 
- impl<T: DriverObject> Deref for Object<T> {
-@@ -268,6 +364,147 @@ impl<T: DriverObject> driver::AllocImpl for Object<T> {
-     };
- }
- 
-+macro_rules! impl_vmap_io_capable {
-+    ($impl:ident, $ty:ty $(, $lifetime:lifetime )?) => {
-+        impl<$( $lifetime ,)? D: DriverObject, const SIZE: usize> IoCapable<$ty>
-+            for $impl<$( $lifetime ,)? D, SIZE>
-+        {
-+            #[inline(always)]
-+            unsafe fn io_read(&self, address: usize) -> $ty {
-+                let ptr = address as *mut $ty;
-+
-+                // SAFETY: The safety contract of `io_read` guarantees that address is a valid
-+                // address within the bounds of `Self` of at least the size of $ty, and is properly
-+                // aligned.
-+                unsafe { ptr::read(ptr) }
-+            }
-+
-+            #[inline(always)]
-+            unsafe fn io_write(&self, value: $ty, address: usize) {
-+                let ptr = address as *mut $ty;
-+
-+                // SAFETY: The safety contract of `io_write` guarantees that address is a valid
-+                // address within the bounds of `Self` of at least the size of $ty, and is properly
-+                // aligned.
-+                unsafe { ptr::write(ptr, value) }
-+            }
-+        }
-+    };
-+}
-+
-+// Implement various traits common to both VMap types
-+macro_rules! impl_vmap_common {
-+    ($impl:ident $(, $lifetime:lifetime )?) => {
-+        impl<$( $lifetime ,)? D, const SIZE: usize> $impl<$( $lifetime ,)? D, SIZE>
-+        where
-+            D: DriverObject,
-+        {
-+            /// Borrows a reference to the object that owns this virtual mapping.
-+            #[inline(always)]
-+            pub fn owner(&self) -> &Object<D> {
-+                &self.owner
-+            }
-+        }
-+
-+        impl<$( $lifetime ,)? D, const SIZE: usize> Drop for $impl<$( $lifetime ,)? D, SIZE>
-+        where
-+            D: DriverObject,
-+        {
-+            #[inline(always)]
-+            fn drop(&mut self) {
-+                // SAFETY: Our existence is proof that this map was previously created using
-+                // self.owner
-+                unsafe { self.owner.raw_vunmap(self.addr) };
-+            }
-+        }
-+
-+        impl<$( $lifetime ,)? D, const SIZE: usize> Io for $impl<$( $lifetime ,)? D, SIZE>
-+        where
-+            D: DriverObject,
-+        {
-+            #[inline(always)]
-+            fn addr(&self) -> usize {
-+                self.addr as usize
-+            }
-+
-+            #[inline(always)]
-+            fn maxsize(&self) -> usize {
-+                self.owner.size()
-+            }
-+        }
-+
-+        impl<$( $lifetime ,)? D, const SIZE: usize> IoKnownSize for $impl<$( $lifetime ,)? D, SIZE>
-+        where
-+            D: DriverObject,
-+        {
-+            const MIN_SIZE: usize = SIZE;
-+        }
-+
-+        impl_vmap_io_capable!($impl, u8 $( , $lifetime )?);
-+        impl_vmap_io_capable!($impl, u16 $( , $lifetime )?);
-+        impl_vmap_io_capable!($impl, u32 $( , $lifetime )?);
-+        #[cfg(CONFIG_64BIT)]
-+        impl_vmap_io_capable!($impl, u64 $( , $lifetime )?);
-+    };
-+}
-+
-+/// An owned reference to a virtual mapping for a shmem-based GEM object in kernel address space.
-+///
-+/// # Invariants
-+///
-+/// - The size of `owner` is >= SIZE.
-+/// - The memory pointed to by addr remains valid at least until this object is dropped.
-+pub struct VMap<D: DriverObject, const SIZE: usize = 0> {
-+    addr: *mut c_void,
-+    owner: ARef<Object<D>>,
-+}
-+
-+impl_vmap_common!(VMap);
-+
-+impl<D: DriverObject, const SIZE: usize> Clone for VMap<D, SIZE> {
-+    #[inline]
-+    fn clone(&self) -> Self {
-+        // SAFETY: We have a successful vmap already, so this can't fail
-+        unsafe { self.owner.owned_vmap().unwrap_unchecked() }
-+    }
-+}
-+
-+impl<'a, D: DriverObject, const SIZE: usize> From<VMapRef<'a, D, SIZE>> for VMap<D, SIZE> {
-+    #[inline]
-+    fn from(value: VMapRef<'a, D, SIZE>) -> Self {
-+        let this = Self {
-+            addr: value.addr,
-+            owner: value.owner.into(),
-+        };
-+
-+        mem::forget(value);
-+        this
-+    }
-+}
-+
-+// SAFETY: addr is guaranteed to be valid and accessible for the lifetime of VMap, ensuring its
-+// safe to send across threads.
-+unsafe impl<D: DriverObject, const SIZE: usize> Send for VMap<D, SIZE> {}
-+// SAFETY: addr is guaranteed to be valid and accessible for the lifetime of VMap, ensuring its
-+// safe to send across threads.
-+unsafe impl<D: DriverObject, const SIZE: usize> Sync for VMap<D, SIZE> {}
-+
-+/// A borrowed reference to a virtual mapping for a shmem-based GEM object in kernel address space.
-+pub struct VMapRef<'a, D: DriverObject, const SIZE: usize = 0> {
-+    addr: *mut c_void,
-+    owner: &'a Object<D>,
-+}
-+
-+impl_vmap_common!(VMapRef, 'a);
-+
-+impl<'a, D: DriverObject, const SIZE: usize> Clone for VMapRef<'a, D, SIZE> {
-+    #[inline]
-+    fn clone(&self) -> Self {
-+        // SAFETY: We have a successful vmap already, so this can't fail
-+        unsafe { self.owner.vmap().unwrap_unchecked() }
-+    }
-+}
-+
- /// An owned reference to a scatter-gather table of DMA address spans for a GEM shmem object.
- ///
- /// This object holds an owned reference to the underlying GEM shmem object, ensuring that the
-@@ -298,3 +535,120 @@ fn deref(&self) -> &Self::Target {
-         unsafe { self.sgt.as_ref() }
-     }
- }
-+
-+#[kunit_tests(rust_drm_gem_shmem)]
-+mod tests {
-+    use super::*;
-+    use crate::{
-+        drm,
-+        faux,
-+        page::PAGE_SIZE, //
-+    };
-+
-+    // The bare minimum needed to create a fake drm driver for kunit
-+
-+    #[pin_data]
-+    struct KunitData {}
-+    struct KunitDriver;
-+    struct KunitFile;
-+    #[pin_data]
-+    struct KunitObject {}
-+
-+    const INFO: drm::DriverInfo = drm::DriverInfo {
-+        major: 0,
-+        minor: 0,
-+        patchlevel: 0,
-+        name: c"kunit",
-+        desc: c"Kunit",
-+    };
-+
-+    impl drm::file::DriverFile for KunitFile {
-+        type Driver = KunitDriver;
-+
-+        fn open(_dev: &drm::Device<KunitDriver>) -> Result<Pin<KBox<Self>>> {
-+            Ok(KBox::new(Self, GFP_KERNEL)?.into())
-+        }
-+    }
-+
-+    impl gem::DriverObject for KunitObject {
-+        type Driver = KunitDriver;
-+        type Args = ();
-+
-+        fn new(
-+            _dev: &drm::Device<KunitDriver>,
-+            _size: usize,
-+            _args: Self::Args,
-+        ) -> impl PinInit<Self, Error> {
-+            try_pin_init!(KunitObject {})
-+        }
-+    }
-+
-+    #[vtable]
-+    impl drm::Driver for KunitDriver {
-+        type Data = KunitData;
-+        type File = KunitFile;
-+        type Object = Object<KunitObject>;
-+
-+        const INFO: drm::DriverInfo = INFO;
-+        const IOCTLS: &'static [drm::ioctl::DrmIoctlDescriptor] = &[];
-+    }
-+
-+    fn create_drm_dev() -> Result<(faux::Registration, ARef<drm::Device<KunitDriver>>)> {
-+        // Create a faux DRM device so we can test gem object creation.
-+        let data = try_pin_init!(KunitData {});
-+        let dev = faux::Registration::new(c"Kunit", None)?;
-+        let drm = drm::Device::<KunitDriver>::new(dev.as_ref(), data)?;
-+
-+        Ok((dev, drm))
-+    }
-+
-+    #[test]
-+    fn compile_time_vmap_sizes() -> Result {
-+        let (_dev, drm) = create_drm_dev()?;
-+
-+        // Create a gem object to test with
-+        let cfg_ = ObjectConfig::<KunitObject> {
-+            map_wc: false,
-+            parent_resv_obj: None,
-+        };
-+        let obj = Object::<KunitObject>::new(&drm, PAGE_SIZE, cfg_, ())?;
-+
-+        // Try creating a normal vmap
-+        obj.vmap::<PAGE_SIZE>()?;
-+
-+        // Try creating a vmap that's smaller then the size we specified
-+        obj.vmap::<{ PAGE_SIZE - 100 }>()?;
-+
-+        // Make sure creating a vmap that's too large fails
-+        assert!(obj.vmap::<{ PAGE_SIZE + 200 }>().is_err());
-+
-+        Ok(())
-+    }
-+
-+    #[test]
-+    fn vmap_io() -> Result {
-+        let (_dev, drm) = create_drm_dev()?;
-+
-+        // Create a gem object to test with
-+        let cfg_ = ObjectConfig::<KunitObject> {
-+            map_wc: false,
-+            parent_resv_obj: None,
-+        };
-+        let obj = Object::<KunitObject>::new(&drm, PAGE_SIZE, cfg_, ())?;
-+
-+        let vmap = obj.vmap::<PAGE_SIZE>()?;
-+
-+        vmap.write8(0xDE, 0x0);
-+        assert_eq!(vmap.read8(0x0), 0xDE);
-+        vmap.write32(0xFFFFFFFF, 0x20);
-+
-+        assert_eq!(vmap.read32(0x20), 0xFFFFFFFF);
-+
-+        assert_eq!(vmap.read8(0x20), 0xFF);
-+        assert_eq!(vmap.read8(0x21), 0xFF);
-+        assert_eq!(vmap.read8(0x22), 0xFF);
-+        assert_eq!(vmap.read8(0x23), 0xFF);
-+
-+        Ok(())
-+    }
-+}
--- 
-2.53.0
-
+On 3/15/2026 4:52 PM, Bryan O'Donoghue wrote:
+> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+> PHY devices.
+> 
+> The hardware can support both C-PHY and D-PHY modes. The CSIPHY devices
+> have their own pinouts on the SoC as well as their own individual voltage
+> rails.
+> 
+> The need to model voltage rails on a per-PHY basis leads us to define
+> CSIPHY devices as individual nodes.
+> 
+> Two nice outcomes in terms of schema and DT arise from this change.
+> 
+> 1. The ability to define on a per-PHY basis voltage rails.
+> 2. The ability to require those voltage.
+> 
+> We have had a complete bodge upstream for this where a single set of
+> voltage rail for all CSIPHYs has been buried inside of CAMSS.
+> 
+> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
+> CAMSS parlance, the CSIPHY devices should be individually modelled.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   .../bindings/phy/qcom,x1e80100-csi2-phy.yaml       | 133 +++++++++++++++++++++
+>   1 file changed, 133 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
+> new file mode 100644
+> index 0000000000000..b83c2d65ebc6e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
+> @@ -0,0 +1,133 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm CSI2 PHY
+> +
+> +maintainers:
+> +  - Bryan O'Donoghue <bod@kernel.org>
+> +
+> +description:
+> +  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2 sensors
+> +  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and D-PHY
+> +  modes.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,x1e80100-csi2-phy
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#phy-cells":
+> +    const: 1
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: csiphy
+> +      - const: csiphy_timer
+> +      - const: camnoc_axi
+> +      - const: cpas_ahb
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  operating-points-v2:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    items:
+> +      - description: TITAN TOP GDSC
+> +      - description: MXC or MXA voltage rail
+Would it be better to provision MXA or MXC as an additional optional 
+power domain? I see 'cam_cc_cphy_rx_clk_src', the parent of all CSIPHYx 
+clocks, need all three power domains on this chipset.
+> +      - description: MMCX voltage rail
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: top
+> +      - const: mx
+> +      - const: mmcx
+> +
+> +  vdda-0p8-supply:
+> +    description: Phandle to a 0.8V regulator supply to a PHY.
+> +
+> +  vdda-1p2-supply:
+> +    description: Phandle to 1.2V regulator supply to a PHY.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#phy-cells"
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - operating-points-v2
+> +  - power-domains
+> +  - power-domain-names
+> +  - vdda-0p8-supply
+> +  - vdda-1p2-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+> +    #include <dt-bindings/phy/phy.h>
+> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+> +
+> +    csiphy@ace4000 {
+> +        compatible = "qcom,x1e80100-csi2-phy";
+> +        reg = <0x0ace4000 0x2000>;
+> +        #phy-cells = <1>;
+> +
+> +        clocks = <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> +                 <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+> +                 <&camcc CAM_CC_CPAS_AHB_CLK>;
+> +        clock-names = "csiphy",
+> +                      "csiphy_timer",
+> +                      "camnoc_axi",
+> +                      "cpas_ahb";
+Although it's not a concern from my side, just want to be explicitly 
+sure that everyone is happy with the clock names, just to avoid any 
+changes later on when other modules are separated out.
+> +
+> +        operating-points-v2 = <&csiphy_opp_table>;
+> +
+> +        interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>;
+> +
+> +        power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>,
+> +                        <&rpmhpd RPMHPD_MX>,
+> +                        <&rpmhpd RPMHPD_MMCX>;
+> +        power-domain-names = "top",
+> +                             "mx",
+> +                             "mmcx";
+> +
+> +        vdda-0p8-supply = <&vreg_l2c_0p8>;
+> +        vdda-1p2-supply = <&vreg_l1c_1p2>;
+> +    };
+> +
+> +    csiphy_opp_table: opp-table {
+> +        compatible = "operating-points-v2";
+> +
+> +        opp-300000000 {
+> +            opp-hz = /bits/ 64 <300000000>;
+> +            required-opps = <&rpmhpd_opp_low_svs_d1>,
+> +                            <&rpmhpd_opp_low_svs_d1>;
+> +        };
+> +
+> +        opp-400000000 {
+> +            opp-hz = /bits/ 64 <400000000>;
+> +            required-opps = <&rpmhpd_opp_low_svs>,
+> +                            <&rpmhpd_opp_low_svs>;
+> +        };
+> +
+> +        opp-480000000 {
+> +            opp-hz = /bits/ 64 <480000000>;
+> +            required-opps = <&rpmhpd_opp_low_svs>,
+> +                            <&rpmhpd_opp_low_svs>;
+480mhz should be svs?
+> +        };
+> +    };
+> 
+Thanks,
+Vijay.
 
