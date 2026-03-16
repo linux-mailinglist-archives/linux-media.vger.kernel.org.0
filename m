@@ -1,91 +1,78 @@
-Return-Path: <linux-media+bounces-55862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55863-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iIJPDzrBt2n5UwEAu9opvQ
-	(envelope-from <linux-media+bounces-55862-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 09:37:14 +0100
+	id +IsmMq/Bt2n5UwEAu9opvQ
+	(envelope-from <linux-media+bounces-55863-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 09:39:11 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC41C2964A9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 09:37:13 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1442964ED
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 09:39:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C87C0303AB6D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 08:33:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 75D21300BCAE
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 08:38:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AAE63815EE;
-	Mon, 16 Mar 2026 08:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40111381B18;
+	Mon, 16 Mar 2026 08:38:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ddvn6B5A"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hjpgeXH2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC84378D9B
-	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 08:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB271382287
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 08:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773649993; cv=none; b=ZHZM2t37oIzZxsAMB565hoJ9MzLGNwt48UljYYEjoG2NRls++GW5AzfAmJRJVE4RujUmZg4KXadXqCZCn+/vRH3QEmLW6s5W3BISsRB6kQ/JHrDn64GsiAhXuDofhHRCpp7AQHnvHIPnDTUx4K2QXIAERsDSbxZE4mWzFEshP6o=
+	t=1773650334; cv=none; b=hZ7yJJ1GK03lFhFUbFPnMMJYpPSj9/RZj5giP1jJBXqrIoE1yjYXFSkIUI52qbEHVI6GGOfVIwzSEwfLDj6A1hMidqPglZeoYxJ6a96n7u8iV+JJVJfj66R2/fcShY06GkWKlbxrkykv1AGc8m304xQHnez/R3j7S2Zpkwwhn3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773649993; c=relaxed/simple;
-	bh=ZVQQwcjim/5RyqsBqMX5qZb6ORpdMy1y4jO6E1KFIoU=;
+	s=arc-20240116; t=1773650334; c=relaxed/simple;
+	bh=q+vFSXKoktXCzoie09hlukWzsSVNCur23A3jXnht1uU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=grzDFaeWXgOoQDOCwexo4Fyj0G0wGbWxxFFiGhuFdJLOz5qWXOVBPoWKKXJcIziIFi5fb8Me+v+90xwR9j+d9TTc6CXR8RDLXlB3hhiMdq747aOpUWzhNjB/d7McieRldWe8d7qmgMzs+3Zpr2sTkypd1+3OeI3HOH2u8hJ3Tus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ddvn6B5A; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso37696495e9.3
-        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 01:33:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773649990; x=1774254790; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MF8f4OpVOReg0WLpPAXIIDwAgflpzunWoXZkRVOIycA=;
-        b=Ddvn6B5AlmHKwGK3DPgZkl4rMI0v4O+pZ26GtZAOB4Ifi5atJP3ceQ3yj34+dgOx8U
-         aaf4kCo3etxHDAZSjDiRmbMUTbOAj9x4HLThBfImNtTU2ixBxcKShg+gHN2l/jJT5V95
-         f4ErlVCaHwWum7/5aaaPfrbYIwINoFxCpHWX0cWGRzQyiFoRru4/UL3KQq6pUKpQxUMa
-         0Q06PpQGcby/LtRR4/OUsJxde1SUTBufruXq+Afd3mVcy+l2Y7e02XkxNtwzqdFrthaN
-         CcEpQdBF7lVNcLffo3eKDazHQvdVqW+LAK58ZB97gLH6qsYGAHTVx9cubm4NUQ0VyWdx
-         bblw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773649990; x=1774254790;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MF8f4OpVOReg0WLpPAXIIDwAgflpzunWoXZkRVOIycA=;
-        b=YW3SmMu2YvLq2ttBRzXJmhbcKf7ldLQx/3yD4HvhsnUbX7ZnceCTUChParehVIa09Z
-         mW2qFoNtsUmNIBW4BSChu0II5uGRx78HxgYtHUOqN3RqJR/g59IM5fySebBJIp3GjuB4
-         uN9UrBbK/+YEEwqtLrurlRdxhjRVxFvCMwpxJ+5zJbiapbnsrgYQV0b2AIqs4/EEesxF
-         3Lq2fEdll4lRk6hLw6e7Td+mYkOB67jnewhLAmkzrxRz2IJuY2pmEESzS2GpjUi3TJxb
-         OgRh0X77mZWj6rlrnmxrErPXnQ4KczYqpj8V/rDHIea7x1WLMTI6LksW+GskC3d5V9CH
-         MD7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXaB9LnO5MpnWHC8o78bHYahxz8tVoZ89Lcy3HzPDZ6fRIiXSeFipcAB+IBE2P2AmPKl/hO0BN2EBt8Vw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnGM6s8IxADV9aIfB7aQqMEcieNEyBs8lDAANdnz7WjBhMX/R0
-	DBmb4TCFvCcVDRdYsZQojnK7LAdlzO8THSEVvq9o4Mj+uOk5DcLzfxI5C7kXoeEuIZY=
-X-Gm-Gg: ATEYQzx7lPa4sPP9sZWojQaie/VIus4QxMyY7ovOZeo8HckcPvV3NA5Rhg5sYYuCcmn
-	VwMBVoYy6K/fe8/w44oXESmPHairn0b0MzmWS4KwErzeT0/hbj9HWAkUsq3CgvjnRAnqSkDVLKo
-	4Cz3NE64zPDg/DOV3WX9OMIYu5iND7dASO+QJO/+zG9f7ebCT1HtLjOfy1bZOENA+Moa7tWPi+B
-	BPMTWtXc+dZkwZaTfqpvadv3UogrC/lj7ALUKnJr7QCZeUhbOMpFp3g/c2jA8B3jRQOoIn1eGOf
-	K+had30I2bvgzKOEUVwpRu/d38l2FV8OQEVNye/eu1SSmbb6bua1kAUvkacwMoMGR/1ymlmk1aG
-	guFUS9Snj00Cs9QgVwI27ZDoTVmWYRGvCbLea6Qit/HFFnsK/KTPU+lQONBK072aQTPhMQXUXW3
-	J1pz3656coj7KWg/EFSkB3rC+3pUga
-X-Received: by 2002:a05:600c:1e8c:b0:485:41c4:e2e5 with SMTP id 5b1f17b1804b1-485567090cdmr186773105e9.27.1773649990047;
-        Mon, 16 Mar 2026 01:33:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b5e92d5sm403411795e9.1.2026.03.16.01.33.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 01:33:09 -0700 (PDT)
-Date: Mon, 16 Mar 2026 11:33:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: av7110: fix error code in frontend_init()
-Message-ID: <abfAQrNdn58M8Dzq@stanley.mountain>
-References: <20260313-av7110-fix-enodev-v1-1-1788db19a58a.ref@yahoo.pl>
- <20260313-av7110-fix-enodev-v1-1-1788db19a58a@yahoo.pl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=tlkEoMhvMDt/qgkWShClp0wuxLL1rN0VXM11hEoSOae9ZwgKSxltziYhbtVsSYFaetx4sSiHPUIlCrMh5UiVT4lyn0dj+AoZDr5pg/zE0XYHr6Rz7GRV95i7Z7Up2c0+0+lCZmOhZfvqDY9uD+vyjlEqgpjTEcAR1zYWpDwi51A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hjpgeXH2; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=V96C
+	IUlR+qKpqcsbJ7QQgPxxBdQqkfPBggaGNnMwS4w=; b=hjpgeXH2qeJdxe0TDWI9
+	5itL1/4hc9D2a+V4RZhgtiB9CWGMEHN9LA7J+EoA5+baPk8u931NSMNhU3DZPRRC
+	rg8V5cjBbEgBgcQOcA3YNSZNVKzGPZo6C0ytU1lBlga9C8r6ycobgEnybDjcv8iO
+	Xtf7m2JOUC+hCz4oY/iSrfpDW9ZNvwSYJkuYIAMpHSA+XVdAGOPpaOI6acGak1m7
+	n63NcrXCvaq/G6tI70iIXARunUvgyhZDU68XVEoZnxCwcOrK3ebrjkSYHylQmRla
+	g2f5ZxyWE3AcVqSgCZlMP4v75LsEkLRwnStHk4T0oN8cDzzPYkhkeMgGudo3Aj3C
+	Hw==
+Received: (qmail 1334043 invoked from network); 16 Mar 2026 09:38:48 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Mar 2026 09:38:48 +0100
+X-UD-Smtp-Session: l3s3148p1@+MK+JSBNsKQ+XdJ7
+Date: Mon, 16 Mar 2026 09:38:42 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Khalil Blaiech <kblaiech@nvidia.com>,
+	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 01/13] media: saa7134: rename i2c_dbg() to
+ saa7134_i2c_dbg()
+Message-ID: <abfBkg8YpDKIlOVu@shikoro>
+References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
+ <20260223-i2c-printk-helpers-v2-1-13b2a97762af@oss.qualcomm.com>
+ <76fd11b2-7789-47c1-a832-12907155ead1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,55 +81,51 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260313-av7110-fix-enodev-v1-1-1788db19a58a@yahoo.pl>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+In-Reply-To: <76fd11b2-7789-47c1-a832-12907155ead1@kernel.org>
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55862-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_TO(0.00)[yahoo.pl];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[sang-engineering.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-55863-lists,linux-media=lfdr.de,renesas];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[sang-engineering.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,gmail.com,sholland.org,nvidia.com,suse.com,linux.ibm.com,ellerman.id.au,suse.de,vger.kernel.org,lists.infradead.org,lists.linux.dev,lists.ozlabs.org];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,stanley.mountain:mid,yahoo.pl:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: BC41C2964A9
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: CD1442964ED
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 13, 2026 at 06:36:52PM +0100, Tomasz Unger wrote:
-> Return -ENODEV instead of -ENOMEM when no frontend driver is found
-> for the device. -ENODEV is semantically correct here as the failure
-> is due to no matching frontend driver being found, not a memory
-> allocation failure.
-> 
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
-> ---
+Hi Hans,
 
-Returning -ENOMEM is just as reasonable as -ENODEV.  We're looking at
-if ves1820_attach(), ves1x93_attach() or stv0299_attach() etc fail.
-Memory allocation failures seem like the most common cause to me.
+> Do you want to merge this through the i2c subsystem? Or do you want me to
+> merge this patch through the media subsystem?
 
-The FIXME also seems reasonable...  Just leave it as-is until someone
-can address it properly.
+The rest of this series has been dropped in favor of a different
+approach. I still think this single patch here is useful, so if you
+could pick it up, that would make a potential future change easier.
 
-regards,
-dan carpenter
+Thanks and happy hacking,
+
+   Wolfram
+
 
