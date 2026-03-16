@@ -1,248 +1,318 @@
-Return-Path: <linux-media+bounces-55832-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55834-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GKmiNyxXt2lsQAEAu9opvQ
-	(envelope-from <linux-media+bounces-55832-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 02:04:44 +0100
+	id ELcWItZjt2kMQwEAu9opvQ
+	(envelope-from <linux-media+bounces-55834-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 02:58:46 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id E675D293468
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 02:04:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3F9293B47
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 02:58:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6C33C3006815
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 01:03:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 330E4300F5E3
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 01:58:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C52BF27FD4B;
-	Mon, 16 Mar 2026 01:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3552D2DEA9B;
+	Mon, 16 Mar 2026 01:58:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mu6eNfD0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GZX53rIG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3C1280018
-	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 01:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BFD15CD74
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 01:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773622937; cv=none; b=jpuWsOjyUdI/Xhlagr6PT6VInRzAQWqkfvbpC8JaEUWLkH4nE7ip0PpBvY8+sJunj/ymcfJ3MGwkX8E89x2+nC77/B4O20XnwyxFLtbIC9A7jU8gWVLhfJb9dqwLWQ9ln5Wz665wDge7kIrkGjAWwwqlale7Ok6vdV7fvzPSW2U=
+	t=1773626306; cv=none; b=shVPItZ4nJpAPe9FQmJyHvDXMW0ZuI1nBzMqn3NeuetDnFuo0cXIiMw/Lxm26mwuzd2JDNdNpTkyUMgwYxW99vgKaGMFU8kqaffOywCGWRFgLEP6+JpFO2GoCUQhKMw/JErQL5Tj/P78bmEdAL/c4CcQzFuOHsiL3YRDwR+tKR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773622937; c=relaxed/simple;
-	bh=aVDiNWO67RvcaLKortzpEYBNU1wRvtLFUoiyUFNRkzQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rp3Wg/aSGaQ/9laqtIriox1VBRq8NKbEe0HFZRCDzasGrbO1t3UQoZPoZsX46/EzdgLET1ABISLR8eCxz6XyIottNJZUjeSSYuEvqJFNjJuvWa4P1ljxoPpPo3V99BIYm77PYI2GPPlh/XeZGAwm5ZnyoDlAtgCYiSYOXTf5LnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mu6eNfD0; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1773626306; c=relaxed/simple;
+	bh=Ty2dBj+8Bw2CujJp8+SVaVCWYcyRifchJHq8g0U4lnw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qCAXFQSF/aKyLn45Zu7UhCTwo5vJBOLMy8+AJlbawlHNjo6YYTYK2LORICfc3+ypYHxVij3RwMD8gL7arQ3JaYQF4YN+8L7azLqJ1+ki/lNsj/+vLumRXHsMVX/U8dc3VhVGtnaUkUA2QM0N4mb84o1ZgV2HMSTcswsHBoRkvLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GZX53rIG; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48535a0ef86so33507815e9.1
-        for <linux-media@vger.kernel.org>; Sun, 15 Mar 2026 18:02:14 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a1253d63a8so580539e87.0
+        for <linux-media@vger.kernel.org>; Sun, 15 Mar 2026 18:58:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773622933; x=1774227733; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aSn7hQ5i66Q0S46ZKJZuvK8H5ifNzHdzpxgp/ADQRCI=;
-        b=mu6eNfD0XUeJO5TDPO5Q5DsaOO0noMtnEpdE5n0ICroYzdN8kb9rGmOWBNRG55jJBd
-         w0EdmNY/coSq/11OX/pkGYxiq0Hmif9d8nvSulucMGsqiHfoiWIShSUywZ6YeB43HSyp
-         ljfZwEpS39TePW0VdVBTXNSYsJd8T4w8zm0j5gmYftJmMpIDoiyD6egoyb+Mift1H8mf
-         vCUYXCzSWXtgv5CUqfsR/WxGHhA8xMuenLZZAy6leGHmDyqxB6SXtrnkB2TYzp8WgVLd
-         OW+jVSWU3KofLJ+WxeYwxCanHkGNBZX9gRUsS929K22H+XMUH8OZ7JB7a2/h9JaKcZl3
-         hfFg==
+        d=linaro.org; s=google; t=1773626303; x=1774231103; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gWl/vihcNT+qze+DwQkZ3TOdVObh3Uxnygms3P6Epps=;
+        b=GZX53rIGxoH08N64zSTdao4SP9GzAM/pDx4LEK7kOSmkEfjzr0rm/uPV7d5zzdWcFl
+         0ZPZslWlv/wxACe3aQ4RVOEIYXAJKc2EO8VBzPRVczPumdCIoCCl0lOjs9QY+VptSAxL
+         o8zcLC3Hzo8lsbBFeKqrocT/kqRz/IdhlTOocqjX7lH+2R8CnFFu9gELyGlQYhmKG55C
+         ZjVoSSsXZ1jGborIHkHK5UKx70XVPkrFx6YliqU3rOrfxckkUUUID36J8Y+1EHuOCbMY
+         Fxy0P5oftGv9FmLsKLpjpT6wG5sa4rNSL5tNNWEU2UUaUbV1KVxnSy3+nXLx1tD5twE1
+         0fkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773622933; x=1774227733;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aSn7hQ5i66Q0S46ZKJZuvK8H5ifNzHdzpxgp/ADQRCI=;
-        b=KLYIoNwCCEvv+d0lRAFTc85h2ueQTiEwePyObCmBO0Gfaxe5fvxXrOBbhrlg6uNhbl
-         FKBiXGH5pwKQHh2qWTSUgP4HPiiDEYW+TW3abOWUGIJ2O9MMmBiu/Bo3FQGaSpI8FPzu
-         zdp1wG/0cbCAmwx4PwG0G35xWNSjHhAXeD5RCyGfRrMrLgqP3J9YYAx9zJ2Y0/Ynf+ga
-         bf+93fCN8xJGmrjBXEXPQ76B+qkMT7SVvRXcaBtuicHlN15tTGtnxplrIC2DsKugaQ0J
-         cSjIwxtEdZ5LFL71ZiE+XKsMSoZQNUB/l6dsSMfdBIVXotSF33ukV60TLQLPg/eHjj5N
-         inPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQwyTfI7aRAxNaahGdOJ/cC6ZcdIG7rOAj4j4HOnybflFnpRPbx8G2Mzaxy7WR+bGXmiqRtbCCkXSqEw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNAfJvFJfhky091EJUmBZevkpHT6sD98mu6aIi/Zxrmhot2Mol
-	GirUkLpawk9rBCqHHBGeILMeqgXfBNUWoAo4sxXDNPm2HpSdS+FlWPin5TZ6V7p1Me4=
-X-Gm-Gg: ATEYQzweNfr2MovIoZMcl/4KTGVuGqjt8NrnApcnbigERQhuubN6HiFjqUSaH+YJ4VI
-	rxS5HmntX00RQcgfYstAkke6BNw14sRAboIybSphOXphFg7cgy7ZYU+q7Lz5gOAtjo9J/Il4LPF
-	gdGmAyHa3TGIFo1vwVEVT97wHlYPGPPen1cu72p3bG2/bBxptE2L1WfdV+a28UrZdAo5xQLqpMj
-	Zg4y7XTg37noxGy9SUWjZHC22gdwAcyEb05BWXCtoPQ4KReEctF+YMbeHBi5LTliVr3AwpBrGH/
-	oCl7RUusHXgTRx9rAE3KnpdimuJK//pkfLhyldtdSnly0EYsq2JIND6VOO3gEFGDYeBteZG3Zs8
-	nYK60Wy5JeP2eaFXAQ0dUTPVyrYz+KQLOMRKRMEVxaP8XjkVdXQZ4VwxFsg0fU99H2iuO9+UdFL
-	C8anZFwQTdQMYIFMFBfCgahrkObXp8l3faJ0c=
-X-Received: by 2002:a05:600c:548a:b0:485:4100:1eee with SMTP id 5b1f17b1804b1-4855670e7f9mr200978105e9.24.1773622933127;
-        Sun, 15 Mar 2026 18:02:13 -0700 (PDT)
-Received: from [192.168.0.35] ([109.76.190.215])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe228986sm34729700f8f.35.2026.03.15.18.02.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 18:02:11 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Mon, 16 Mar 2026 01:02:07 +0000
-Subject: [PATCH v10 7/7] media: qcom: camss: Drop legacy PHY descriptions
- from x1e
+        d=1e100.net; s=20251104; t=1773626303; x=1774231103;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gWl/vihcNT+qze+DwQkZ3TOdVObh3Uxnygms3P6Epps=;
+        b=J24FjjzKzw9bdcEQ5SU7jqGjyQTFZCE3p2iYbwtt6eL1qpg4dkstc5gbVyEJ8Q7P6X
+         AQffJt5zWWBGpBROYIPdU6Bcx8zPcxbaPL1QJsqTXbl1iMVsrT6pm/UN2/jt+K6dyNX1
+         aIVlFa56B5hvVaz+5ubncojrIi+ifJUMmNwhqGux0hZzcRlKFrLKUqhLvvj5OkaBENfL
+         jy5WMtBsiuFgT09QH4jBslTl0lhTzblFTAyCHA8xCLmG1naYN5XXtXTgJaKue+8fM4SM
+         m5iKlf9KUy3EElbUFULhNnbIqKuDH2+4JjaecMPdAL/8wNNtV0xNIsmupAwICSaDsKsV
+         QuGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU51gKoRAxYCJUVLE5gFnCQrmyNNJWUFzjpOIzAgLBj0EGXVUU8MLyPNSWggedUCVCJR5muH8AnJsaA/A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/mYfeyk/XYd2TL2TvECaeslFchstd7KM/uVexkCP7huTfCrAS
+	q1opugnvoBljdjUg3t5Z0ENFy23X/Ff+E5/kxSSwsRfjSBt/ShMGA38X4rVYYHLOZXQ=
+X-Gm-Gg: ATEYQzznFnabz002RmWEam+GV+4SCuzS3wjumdgMC68ZdFv2YgJaQV/LLejVoVDe8hD
+	eZTTF68cRax5bmNT5AYWh05k/sO2wEyX/Z9MjPshA5LYLARuJVU270iw6Q8a/SJ9kCfwuWtoNi5
+	geMwH+0Ik/F41vh3P/9ei/9FnKMJFPNL6gN75HOCwa9B8igwESPn9Gku84IgdPPm6OghxuHm9Xs
+	KEhcpv6EPf1Z/P1mipsBsGrBIp1xJLpkWp4NfxL6cR0nHE2NgviEjZJ1viO4OY1dC84CG3ViXx1
+	f1NUjrpYyDOlCDFW5X8uwZiDXTsioZx6oSZim7eqERIQMYsifrVKjuog2nj/xSrcElF6YzSQd5U
+	rsVC5nM+dcBZbKjaqD0LuSFRqGwj4AiTnDm22GjepPkCv/HlIOaNXXkBrNLZ7Z55q/3U2GXc7gT
+	TTjoxW+xC7bRfZE/dJGKRbeD3tRKbBKE30YvXA/npd0m9evw7zUDtJg8WfsySE78xggq85eN8/R
+	MhzIQ==
+X-Received: by 2002:a05:651c:f13:b0:38a:2e66:c9f6 with SMTP id 38308e7fff4ca-38a8976d463mr16594801fa.4.1773626303262;
+        Sun, 15 Mar 2026 18:58:23 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38a67e5f0ecsm29971971fa.29.2026.03.15.18.58.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Mar 2026 18:58:21 -0700 (PDT)
+Message-ID: <c59f621f-23a0-4c60-b8e3-5a9082c816e2@linaro.org>
+Date: Mon, 16 Mar 2026 03:58:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
+ <20260315-x1e-csi2-phy-v4-1-90c09203888d@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20260315-x1e-csi2-phy-v4-1-90c09203888d@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-7-fdfe984fe941@linaro.org>
-References: <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-0-fdfe984fe941@linaro.org>
-In-Reply-To: <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-0-fdfe984fe941@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Todor Tomov <todor.too@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
- Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Christopher Obbard <christopher.obbard@linaro.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3159;
- i=bryan.odonoghue@linaro.org; h=from:subject:message-id;
- bh=aVDiNWO67RvcaLKortzpEYBNU1wRvtLFUoiyUFNRkzQ=;
- b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBpt1aNiTUxan9LQk2eGkEMbeN+4hDN1CC/SHfks
- MpN3KerCBeJAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCabdWjQAKCRAicTuzoY3I
- OkcJD/9ncxjPqP8d7ijCG/48u6PPqFiDjus2c3VUQBQA3QGuObdumglfCpbzKeoO7ljmLEzR2j2
- EhU2jJqfGNWXS2BrCrfxXGvH6Caa7Z5o9dCDYN1MYAKcIhkXRgyGdEQ6vn1uDVYYC4lUY0MPkbz
- 3caYMr5AZiAZBkxvM6Nnb9dpoWYpIvZnhU1aPwew0W0HQAkx3iuiXBzcptCR125hl3SHww6MG+H
- DxpGB76xwB0dvzlUwLb5YNJx7QcqWxHmnPrk4xTH76QVg9BC4HzzYip3BZlFgAt/nayE28rl+Vd
- /OfRZS2ITOnkF+LlY2OLebOXqWKG+b2mbetwXKdmqv7woE8d82XoajqZ4ATFC7bWVEZC5oB4sAK
- k9mzHSUMvfvWQcWRvZTb51H4sNx21meG72knIIm7593amZGSmoyVmm39OtDgmVOsPbF0u1DsUKm
- ct50qOTT1uxUJonNfyNuxeJP3E2DcYiM6eoM+6TzeCXVnQCJtDQ7V6ghIuPuHQfWfQz43N833oz
- 5+RGqI4uNrRIQeSx+HdrKm/BTs0g2cfmAAG0AEWxWv4uEg4PJ05Om4sj8q2ceR8jVsRY1b71KkR
- Zpg3TR00LdxM3Plq6yjbfWiUm3X9HbWpUd+Gg2wFQH+qgGWaLDsRTPHjuWiv8F79LapMANNM68F
- UUsZHZtpFD2eCTA==
-X-Developer-Key: i=bryan.odonoghue@linaro.org; a=openpgp;
- fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55832-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-55834-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:email,linaro.org:mid]
-X-Rspamd-Queue-Id: E675D293468
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:email,linaro.org:mid,ace4000:email,devicetree.org:url]
+X-Rspamd-Queue-Id: DE3F9293B47
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-x1e is the first CAMSS SoC to use the new PHY interface. Drop the redundant
-legacy CSIPHY descriptions.
+On 3/16/26 01:52, Bryan O'Donoghue wrote:
+> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+> PHY devices.
+> 
+> The hardware can support both C-PHY and D-PHY modes. The CSIPHY devices
+> have their own pinouts on the SoC as well as their own individual voltage
+> rails.
+> 
+> The need to model voltage rails on a per-PHY basis leads us to define
+> CSIPHY devices as individual nodes.
+> 
+> Two nice outcomes in terms of schema and DT arise from this change.
+> 
+> 1. The ability to define on a per-PHY basis voltage rails.
+> 2. The ability to require those voltage.
+> 
+> We have had a complete bodge upstream for this where a single set of
+> voltage rail for all CSIPHYs has been buried inside of CAMSS.
+> 
+> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
+> CAMSS parlance, the CSIPHY devices should be individually modelled.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   .../bindings/phy/qcom,x1e80100-csi2-phy.yaml       | 133 +++++++++++++++++++++
+>   1 file changed, 133 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
+> new file mode 100644
+> index 0000000000000..b83c2d65ebc6e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml
+> @@ -0,0 +1,133 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm CSI2 PHY
+> +
+> +maintainers:
+> +  - Bryan O'Donoghue <bod@kernel.org>
+> +
+> +description:
+> +  Qualcomm MIPI CSI2 C-PHY/D-PHY combination PHY. Connects MIPI CSI2 sensors
+> +  to Qualcomm's Camera CSI Decoder. The PHY supports both C-PHY and D-PHY
 
-Reviewed-by: Christopher Obbard <christopher.obbard@linaro.org>
-Tested-by: Christopher Obbard <christopher.obbard@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/camss.c | 37 -------------------------------
- 1 file changed, 37 deletions(-)
+Hence there should be a description of phy-type property, or it could be
+specified in a cell on the client's side.
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index b1737b5d52160..0ebe634f5d96b 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -3895,15 +3895,6 @@ static const struct resources_icc icc_res_sa8775p[] = {
- static const struct camss_subdev_resources csiphy_res_x1e80100[] = {
- 	/* CSIPHY0 */
- 	{
--		.regulators = {
--			{ .supply = "vdd-csiphy-0p8", .init_load_uA = 105000 },
--			{ .supply = "vdd-csiphy-1p2", .init_load_uA = 58900 }
--		},
--		.clock = { "csiphy0", "csiphy0_timer" },
--		.clock_rate = { { 300000000, 400000000, 480000000 },
--				{ 266666667, 400000000 } },
--		.reg = { "csiphy0" },
--		.interrupt = { "csiphy0" },
- 		.csiphy = {
- 			.id = 0,
- 			.hw_ops = &csiphy_ops_3ph_1_0,
-@@ -3912,15 +3903,6 @@ static const struct camss_subdev_resources csiphy_res_x1e80100[] = {
- 	},
- 	/* CSIPHY1 */
- 	{
--		.regulators = {
--			{ .supply = "vdd-csiphy-0p8", .init_load_uA = 105000 },
--			{ .supply = "vdd-csiphy-1p2", .init_load_uA = 58900 }
--		},
--		.clock = { "csiphy1", "csiphy1_timer" },
--		.clock_rate = { { 300000000, 400000000, 480000000 },
--				{ 266666667, 400000000 } },
--		.reg = { "csiphy1" },
--		.interrupt = { "csiphy1" },
- 		.csiphy = {
- 			.id = 1,
- 			.hw_ops = &csiphy_ops_3ph_1_0,
-@@ -3929,15 +3911,6 @@ static const struct camss_subdev_resources csiphy_res_x1e80100[] = {
- 	},
- 	/* CSIPHY2 */
- 	{
--		.regulators = {
--			{ .supply = "vdd-csiphy-0p8", .init_load_uA = 105000 },
--			{ .supply = "vdd-csiphy-1p2", .init_load_uA = 58900 }
--		},
--		.clock = { "csiphy2", "csiphy2_timer" },
--		.clock_rate = { { 300000000, 400000000, 480000000 },
--				{ 266666667, 400000000 } },
--		.reg = { "csiphy2" },
--		.interrupt = { "csiphy2" },
- 		.csiphy = {
- 			.id = 2,
- 			.hw_ops = &csiphy_ops_3ph_1_0,
-@@ -3946,15 +3919,6 @@ static const struct camss_subdev_resources csiphy_res_x1e80100[] = {
- 	},
- 	/* CSIPHY4 */
- 	{
--		.regulators = {
--			{ .supply = "vdd-csiphy-0p8", .init_load_uA = 105000 },
--			{ .supply = "vdd-csiphy-1p2", .init_load_uA = 58900 }
--		},
--		.clock = { "csiphy4", "csiphy4_timer" },
--		.clock_rate = { { 300000000, 400000000, 480000000 },
--				{ 266666667, 400000000 } },
--		.reg = { "csiphy4" },
--		.interrupt = { "csiphy4" },
- 		.csiphy = {
- 			.id = 4,
- 			.hw_ops = &csiphy_ops_3ph_1_0,
-@@ -5362,7 +5326,6 @@ static const struct camss_resources sm8650_resources = {
- static const struct camss_resources x1e80100_resources = {
- 	.version = CAMSS_X1E80100,
- 	.pd_name = "top",
--	.legacy_phy = true,
- 	.csiphy_res = csiphy_res_x1e80100,
- 	.csid_res = csid_res_x1e80100,
- 	.vfe_res = vfe_res_x1e80100,
+> +  modes.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,x1e80100-csi2-phy
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#phy-cells":
+> +    const: 1
+
+The description is missing.
+
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: csiphy
+> +      - const: csiphy_timer
+> +      - const: camnoc_axi
+> +      - const: cpas_ahb
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  operating-points-v2:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    items:
+> +      - description: TITAN TOP GDSC
+> +      - description: MXC or MXA voltage rail
+> +      - description: MMCX voltage rail
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: top
+> +      - const: mx
+> +      - const: mmcx
+> +
+> +  vdda-0p8-supply:
+> +    description: Phandle to a 0.8V regulator supply to a PHY.
+
+On Hamoa the CSIPHY supply voltage is 0.88-0.92, so it is 0p9 rather than 0p8.
+
+> +
+> +  vdda-1p2-supply:
+> +    description: Phandle to 1.2V regulator supply to a PHY.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#phy-cells"
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - operating-points-v2
+> +  - power-domains
+> +  - power-domain-names
+> +  - vdda-0p8-supply
+> +  - vdda-1p2-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
+> +    #include <dt-bindings/clock/qcom,x1e80100-gcc.h>
+> +    #include <dt-bindings/phy/phy.h>
+> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+
+Please sort the list of headers alphanumerically.
+
+> +
+> +    csiphy@ace4000 {
+> +        compatible = "qcom,x1e80100-csi2-phy";
+> +        reg = <0x0ace4000 0x2000>;
+> +        #phy-cells = <1>;
+> +
+> +        clocks = <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> +                 <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+> +                 <&camcc CAM_CC_CPAS_AHB_CLK>;
+> +        clock-names = "csiphy",
+> +                      "csiphy_timer",
+> +                      "camnoc_axi",
+> +                      "cpas_ahb";
+> +
+> +        operating-points-v2 = <&csiphy_opp_table>;
+> +
+> +        interrupts = <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>;
+> +
+> +        power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>,
+> +                        <&rpmhpd RPMHPD_MX>,
+> +                        <&rpmhpd RPMHPD_MMCX>;
+> +        power-domain-names = "top",
+> +                             "mx",
+> +                             "mmcx";
+> +
+> +        vdda-0p8-supply = <&vreg_l2c_0p8>;
+> +        vdda-1p2-supply = <&vreg_l1c_1p2>;
+> +    };
+> +
+> +    csiphy_opp_table: opp-table {
+> +        compatible = "operating-points-v2";
+> +
+> +        opp-300000000 {
+> +            opp-hz = /bits/ 64 <300000000>;
+> +            required-opps = <&rpmhpd_opp_low_svs_d1>,
+> +                            <&rpmhpd_opp_low_svs_d1>;
+> +        };
+> +
+> +        opp-400000000 {
+> +            opp-hz = /bits/ 64 <400000000>;
+> +            required-opps = <&rpmhpd_opp_low_svs>,
+> +                            <&rpmhpd_opp_low_svs>;
+> +        };
+> +
+> +        opp-480000000 {
+> +            opp-hz = /bits/ 64 <480000000>;
+> +            required-opps = <&rpmhpd_opp_low_svs>,
+> +                            <&rpmhpd_opp_low_svs>;
+> +        };
+> +    };
+> 
 
 -- 
-2.52.0
-
+Best wishes,
+Vladimir
 
