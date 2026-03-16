@@ -1,166 +1,160 @@
-Return-Path: <linux-media+bounces-55912-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55910-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KIo/BDIHuGkWYQEAu9opvQ
-	(envelope-from <linux-media+bounces-55912-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 14:35:46 +0100
+	id iEr9OZMGuGkWYQEAu9opvQ
+	(envelope-from <linux-media+bounces-55910-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 14:33:07 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F11029A86F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 14:35:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FF929A751
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 14:33:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BE01D308F636
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:30:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6ADC730602F9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:30:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5564239B974;
-	Mon, 16 Mar 2026 13:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47652399357;
+	Mon, 16 Mar 2026 13:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R+upUlIU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B44B3988EE;
-	Mon, 16 Mar 2026 13:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF95398900
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 13:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773667835; cv=none; b=dMmWbQcH9JXXE3dVUgMNW4DFLAhgCEZhhlhpCenx9HwWxkTmE1uTzwVMrvrtGunNs1VrPWP5rZM4lkGQSP7FsIOJODAJxpbrEmTA5eCCzSOxYC5y/ou/ovFowog2PpdEUnuaZZ3pNPDtvj+wqVD6PA4W2aQFgtQyVmbqVOi490o=
+	t=1773667834; cv=none; b=iinbd0172bxxNbGz46kzO352pzX8n+sfPplMchaVafiWSFa8k7SYirI4zJ38iZg4MtHtimOGMwXhp7gTXHzizU2vjk88vz4VdAFwYv4vx2t7z7CP9MmjZ8axn5emlMa4af1EZDdxzr3F+CSacn4itL1yMmjyjEZrrH0L6rSB+ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773667835; c=relaxed/simple;
-	bh=12QmHVFW6kvGAsAEHlRgc6k9FaOX+eCOvB+1XSjB85g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bbj9i3OmX6tLHsLG9LsVUer8BMIseUV+cewr4p5b4W0GLlnwPuU7seL8aE/at0nXm72aSd8dJNxLetLzuHHuYyH1LmmKQGBoR67oCN6y9fm4gvzOaf7ZCgi6tFdE7Nt15YoWXaTLjQ3vkM5D8UeKzGqO7h9DPbsmd2QLdRgsNKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 357291477;
-	Mon, 16 Mar 2026 06:30:25 -0700 (PDT)
-Received: from [10.57.61.116] (unknown [10.57.61.116])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9D4953F778;
-	Mon, 16 Mar 2026 06:30:22 -0700 (PDT)
-Message-ID: <2c7466f5-d952-4356-9b55-9d2ebb3471f2@arm.com>
-Date: Mon, 16 Mar 2026 13:30:19 +0000
+	s=arc-20240116; t=1773667834; c=relaxed/simple;
+	bh=8axnWdWKdYn5Kl6u06D/mWzG9d0fvx1AzG9O88LlXyE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=i61VHPsthU6wuTkyBSkmZXxusj42zhRJDYT+uV7wgTzWRJefFnrXmxLiHDNh4MaAVpfcD2nqymkWP1U9R9YVMmP8kErTkW+qH7tPzkE+SB0AWJSu5IVijfbDJg2Pu9f8dFIsraI4qeu4ePJvf9gPh2jGZkYGG/J4iJwHENlgRu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=R+upUlIU; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a13d1c6f25so4763409e87.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 06:30:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1773667831; x=1774272631; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cC73jGyhZq61g5sKds/SJ/dQra55zzMykZbYPaPMQ2Q=;
+        b=R+upUlIU1qkBsffgGG59KBvAX0+zxhH+ePpKSQc2ItkRUz8vL5+wafveNQhFOJjrdI
+         v78HFd/0PAFeBQ78yYU/4QLKOfmilLYLLi4gom+e88AuLnB8arwDGRLfGX/z37eRg4a0
+         XBcOXT8RVEJo24elMA44t5BEjwQewI/U7f3L4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773667831; x=1774272631;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cC73jGyhZq61g5sKds/SJ/dQra55zzMykZbYPaPMQ2Q=;
+        b=CUjhOgI82x/qZph1sO5E5/kSr1jKGz6+QCkr4KSf5gEv5M3TsuamYAPJJV4I5ngXgZ
+         BA9cjWyad5YfYY0XthKua6B969DGpeufy2Il17Y7cMuf9YVTbkG56vOQ9F8MwYIqvUki
+         /uFWy25EDzLGCpi1f6spjm68G9//xs8UCMQM+xVRXy9F8p9qNGail9Gqkh14Ftue3tm6
+         eXMo6OHbQDZ2/NIJHBJRK6fYxK9ex/meg3vZsmuYZ49bf3/k1zCGEtF7zuCjfalPloIO
+         5ZnZqXrfX4YeG968v97VF3vJ+KqSaAwRaEOgIjn+nTtAzWMSyI/Y5pK//OdQ+jUTLG8N
+         IcpA==
+X-Gm-Message-State: AOJu0YweihBVRm9XyAW9uLHh8iOQk3SXU3Ial1/sFvrvTOa//xgVWyXc
+	wjtzXsLYIh+oYteeb/SSFNZeIyhfuASWi6ekAj48U3w+fJNuqfSGAsrLO/b2v/G2lw==
+X-Gm-Gg: ATEYQzxZZOaKW05NzTGy6tHmf3ZEtX3MVXk+GTjwM93sE7D58+LadnrMK/9RterCqQM
+	arjzuGYxzYq07auuPjOVLPltoygzoIusKeRvsZ9YYtm7drvA+wEiRiv8UF8rihfWAKaTccYleRw
+	K8n529PfJQP6pctNmQQHbu1QlOSWScREXmhQSYqsqNU3DqFnwjqgpMKm+qDp2XvvfQVloLGia+d
+	wfVoBUYZ/lxaUQK6PlkjpIxfbfKMgBpEBHsTTMgPEyCRumoN1bMy1/rHJly0OZtMQ8DMbwQ392Y
+	PrfT/aMRurzHWoOoG7PB9KtvmuLZiMIZxDfYXlqBrRWoO8fFWBhIsdXU+cxGjDBH5kP2cFPLev8
+	DPZMAsJg72F9A4GYqzBgQjrf6p6Hms9mkv/YYO2HdZKLqG0UrAzobyRJb7Sxihp77ndWch0ysw3
+	sZjN2h5PfMWq9bN4zlO/qdmjmzRhDxfKXCsZRGk+mGE+rk5htYz/na5boBZaVpzPK/dTs5leL13
+	Q==
+X-Received: by 2002:ac2:4891:0:b0:5a1:268d:289a with SMTP id 2adb3069b0e04-5a162706b41mr3038624e87.18.1773667830821;
+        Mon, 16 Mar 2026 06:30:30 -0700 (PDT)
+Received: from ribalda.c.googlers.com (27.69.88.34.bc.googleusercontent.com. [34.88.69.27])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a15636b69dsm3469985e87.82.2026.03.16.06.30.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 06:30:30 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 0/2] media: uvcvideo: Fixes for frame sequence number
+Date: Mon, 16 Mar 2026 13:30:28 +0000
+Message-Id: <20260316-uvc-fid-v3-0-c793354469b5@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 50/61] iommu: Prefer IS_ERR_OR_NULL over manual NULL check
-To: Philipp Hahn <phahn-oss@avm.de>, amd-gfx@lists.freedesktop.org,
- apparmor@lists.ubuntu.com, bpf@vger.kernel.org, ceph-devel@vger.kernel.org,
- cocci@inria.fr, dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
- gfs2@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev,
- kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-nfs@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-pm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-trace-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- ntfs3@lists.linux.dev, samba-technical@lists.samba.org,
- sched-ext@lists.linux.dev, target-devel@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net, v9fs@lists.linux.dev
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
-References: <20260310-b4-is_err_or_null-v1-0-bd63b656022d@avm.de>
- <20260310-b4-is_err_or_null-v1-50-bd63b656022d@avm.de>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20260310-b4-is_err_or_null-v1-50-bd63b656022d@avm.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [0.14 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-B4-Tracking: v=1; b=H4sIAPQFuGkC/2WMyw6CMBBFf4XM2pq+oMGV/2FcYDuFWUBNK42G8
+ O8WNhpdnpt7zgIJI2GCU7VAxEyJwlRAHSqwQzf1yMgVBsllw5XgbM6WeXIMBda11ubWeAHlfY/
+ o6bmXLtfCA6VHiK89nMW2/jeyYILVqIyzyhou9dkOMYw0j8cQe9gyWX6r6qPKoipvurZtXMu1+
+ VHXdX0DpahbDdwAAAA=
+X-Change-ID: 20260310-uvc-fid-e1e55447b6f1
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Yunke Cao <yunkec@google.com>, Ricardo Ribalda <ribalda@chromium.org>, 
+ stable@kernel.org
+X-Mailer: b4 0.14.3
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-55910-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DKIM_TRACE(0.00)[chromium.org:+];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55912-lists,linux-media=lfdr.de];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robin.murphy@arm.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[56];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.807];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[avm.de:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email,8bytes.org:email,arm.com:email,arm.com:mid]
-X-Rspamd-Queue-Id: 9F11029A86F
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 96FF929A751
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 2026-03-10 11:49 am, Philipp Hahn wrote:
-> Prefer using IS_ERR_OR_NULL() over using IS_ERR() and a manual NULL
-> check.
+This series fixes a couple of corner cases where the frame sequence
+number is not properly handled.
 
-AFAICS it doesn't look possible for the argument to be anything other 
-than valid at both callsites, so *both* conditions here seem in fact to 
-be entirely redundant.
+Please note that the second patch has not been tested in a camera
+without EOF.
 
-> Change generated with coccinelle.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v3:
+- Fix typo in commit message.
+- Add new patch
+- Link to v2: https://lore.kernel.org/r/20260313-uvc-fid-v2-1-3f7a996d9047@chromium.org
 
-Please use coccinelle responsibly. Mechanical changes are great for 
-scripted API updates, but for cleanup, whilst it's ideal for *finding* 
-areas of code that are worth looking at, the code then wants actually 
-looking at, in its whole context, because meaningful cleanup often goes 
-deeper than trivial replacement.
+Changes in v2 (Thanks Laurent):
+- Improve commit message.
+- Remove original timestamp and sequence assignment. It is not neeed
+- Link to v1: https://lore.kernel.org/r/20260310-uvc-fid-v1-1-5e37dc3c7024@chromium.org
 
-In particular, anywhere IS_ERR_OR_NULL() is genuinely relevant is 
-usually a sign of bad interface design, so if you're looking at this 
-then you really should be looking first and foremost to remove any 
-checks that are already unnecessary, and for the remainder, to see if 
-the thing being checked can be improved to not mix the two different 
-styles. That would be constructive and (usually) welcome cleanup. Simply 
-churning a bunch of code with this ugly macro that's arguably less 
-readable than what it replaces, not so much.
+---
+Ricardo Ribalda (2):
+      media: uvcvideo: Fix buffer sequence in frame gaps
+      media: uvcvideo: Fix sequence number when no EOF
 
-Thanks,
-Robin.
+ drivers/media/usb/uvc/uvc_video.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
+---
+base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
+change-id: 20260310-uvc-fid-e1e55447b6f1
 
-> To: Joerg Roedel <joro@8bytes.org>
-> To: Will Deacon <will@kernel.org>
-> To: Robin Murphy <robin.murphy@arm.com>
-> Cc: iommu@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
-> ---
->   drivers/iommu/omap-iommu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
-> index 8231d7d6bb6a9202025643639a6b28e6faa84659..500a42b57a997696ff37c76f028a717ab71d01f9 100644
-> --- a/drivers/iommu/omap-iommu.c
-> +++ b/drivers/iommu/omap-iommu.c
-> @@ -881,7 +881,7 @@ static int omap_iommu_attach(struct omap_iommu *obj, u32 *iopgd)
->    **/
->   static void omap_iommu_detach(struct omap_iommu *obj)
->   {
-> -	if (!obj || IS_ERR(obj))
-> +	if (IS_ERR_OR_NULL(obj))
->   		return;
->   
->   	spin_lock(&obj->iommu_lock);
-> 
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
 
