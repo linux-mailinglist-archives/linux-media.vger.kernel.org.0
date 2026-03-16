@@ -1,155 +1,170 @@
-Return-Path: <linux-media+bounces-55900-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55901-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YJXBOTT0t2mLXgEAu9opvQ
-	(envelope-from <linux-media+bounces-55900-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:14:44 +0100
+	id EGLrLvf2t2nSXgEAu9opvQ
+	(envelope-from <linux-media+bounces-55901-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:26:31 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B36C29948A
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:14:44 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D8A299787
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:26:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A80913043D67
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 12:10:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5C699304B8DA
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 12:24:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA38395260;
-	Mon, 16 Mar 2026 12:09:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 866F13947BC;
+	Mon, 16 Mar 2026 12:24:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vTkvCI0G"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="vyaMykrn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66643299AB1
-	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 12:09:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44633A1DB;
+	Mon, 16 Mar 2026 12:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773662995; cv=none; b=dbjGYdRZxHC+PR1QHPFFKbjMJ6V4JBJS02EWBURxMYDLA9dZi36KdnO4OANiBhyEDKnb0tEQm3FIQxy26EWor0TMy/1e1KdcCtcQMmn46uwEWpOqh3by+zeEzZpRyKtLU9ifnWcrGAZ/g9rtv1H1pBCdd939CY47fYkA1lK5axc=
+	t=1773663854; cv=none; b=mk4kFiGJedRgqov86CxCk+GbWIUy7a5g0FM46MFIvszpvj8EdEA/RZyJRdYK7MB4+tzn9aKz8q0BOhlG4uqcy5PEC8vs7LlBeZ0gIyZ2eG8nH9W/b0P249xuoVrtLS2Xc2XAg2tYt9kLmXDvNQjR63CEIEmUVQa5we/vjLH1Jgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773662995; c=relaxed/simple;
-	bh=Z1kSTj5dx/DqtFtksQ0PnVCA5c+aBQ+uynxwanfdfrs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jCIjixwNJJKcrO/vQRyqydeC391KnqnADOwNn4ELsSY9uxgdPmJIKZIKOMFdQpA4ObtffK1PNxHObBHi+927fgDbb0wXusKv33ZXbO3P312mS4IPSBK+ODUqGUCTezA8t6N/cUo5t6foNkBR59k01p9j7H21p2zwoiUpAYggjx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vTkvCI0G; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-661b16ac011so7521200a12.2
-        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 05:09:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773662993; x=1774267793; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+aOA6KmbmXewMZ7P8FODs/N6f8zkWWVqFAVl7awbb6I=;
-        b=vTkvCI0GM7wvFxNJxbQn+h3l4KunQAvfbadC0Mq6VPFOQorXXgKh6vTsSeXAU1QmAd
-         WA5QPJjJdQyz6RUHByQe+Xc5UOVkmef4HvzzLic2RlwqyD9h3axVfrjSr9O5MQLCf67q
-         Mns5kkURxY60Jp36EddwOKqAlUQyt4NbRFhoZ5FqKgGWtMwi8sp4x29sDucOkrhW3BGp
-         AuB+CfI/qcX/AWYEDwbZUfs27kqmpRj7oy8jG4NWYtvAn2+Gr0/37yT/D6kPI3V5MlOS
-         ZlnJ6wSogN/tJXE9Rh/4OJdYs7KWnI+B/qMLGf4aszRPLmE1Vq67KB1qroNDxBOD/5kk
-         1jfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773662993; x=1774267793;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+aOA6KmbmXewMZ7P8FODs/N6f8zkWWVqFAVl7awbb6I=;
-        b=aXFphFjj+JhSGHvV54oHgeie0HQT/Ka+8RQeRxWSL0pk4IQ/s1d6EdAe2ghGCbK1rO
-         ChGqO1INbaFRA0EoCWOZ8I3C7T2wzuNQt9+RamcL//MCFUiGlsrneTuzurz+dhmTHTm+
-         ntKA0FP5uHrijM10UQnRpu8PCqbw9ORxJxHy4Xxhrqgi29gVsN+L8wJ2PCmkFKm3EL4u
-         ezBFqCvqYungIb9/rJtJ2cEYOguv78RfJC1hO3+JHXydCX2x+14on7tDx7oKsUDLLClG
-         Hk3F3aVPI8ZeBFTwZwtd0j0TTIOa39leKCk0NQBf8XT0vn5zE48CAbCmZOT/YASo2g55
-         /P/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUarN1OetcuP9tq+7AbD8WzQxrM/InSFJCMN1mzPVWyskdNHUqx7Flu1i5zhGFBQ597saWtfwM6EmhAVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YziCIpBb72j6RzUTYgoQPbIOuzCqKYYZGI2EvUonG2NTkxAWAwT
-	FD1OMzer9kCmTw45kqZPocnfAZ5MsLzPFRUGovy+Ma2Oalue0dr8t8JE0u8mFUi5w/8=
-X-Gm-Gg: ATEYQzxlnJB1R2foo6WucjuDfnD/gRfaL0qblZfaFFW4grA2pbuoy9M5dshBT+1Caol
-	hzSVKGlX7fvgY4vDH9TmZ1nnvoV4ODHGQYPk1ALMnj99FNirO09M8EG2fwI78zNnpYQUVUJAW7v
-	sKQ6tBwtufay0oPRCpjlses0xSwdQKyaV+2jVc0Ps2wjjrJh5JCaSvr4Lg6HfqUsFGR1qVQdhLB
-	Rs45L6MSGpIGWn5V90jhRdZVOr6TJuDsBKzCHkOZJMt/qOLLBxRRw8FpIK/zn0oCwVMENJBeX+x
-	KqS96qHeuOe3HQ8wHo08HC6GD5SHFDDbBjipMlIhbXI/RcfwjqwRlmDdW1mSKcL3dLU+50EyV7U
-	WpTa84PmcjoCnB0dIteww/lzGedRUqmOQvG+K/VZO7XBJ3hK1NTzIsgFJfYtzypOdxSKRyX7uW8
-	/revNaO4ZIhO3O9ZorfgPc20YLEkyRhAHBafGf
-X-Received: by 2002:a05:6402:510b:b0:663:b689:ca74 with SMTP id 4fb4d7f45d1cf-663babf098bmr6870723a12.19.1773662992752;
-        Mon, 16 Mar 2026 05:09:52 -0700 (PDT)
-Received: from [192.168.0.101] ([109.76.226.115])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-66350d84130sm4654241a12.33.2026.03.16.05.09.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 05:09:52 -0700 (PDT)
-Message-ID: <e4f0810a-903c-45af-8d6b-80bab53b26a6@linaro.org>
-Date: Mon, 16 Mar 2026 12:09:50 +0000
+	s=arc-20240116; t=1773663854; c=relaxed/simple;
+	bh=XhaJGw+Lyj4h5vWrO6UDgVdRXPZsDpXdvuzAigUvfIs=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ADtqzf/UR4JHNjc+glATy7e1Wbo2Ejf44Wr/4fCXlv7ku1qVVRwipHjS2uxh4MciH6S2QsPPF2XIEGqoeBmVUE7s0CZplHI/6Chbap7eb00x8p/qot9g2R33gI0W/o5IznyUFQg9SjPTBSmRTHOpX7GuYLmU5odp3WoCxGRMY14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=vyaMykrn; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1773663847; bh=MH6rMAvfdrXPigCvT9mZ2WV9DLeFXxCHj77jaVNN9WY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=vyaMykrn6uJSukU0nRgQ1mMcp++sSJxl3LM9X2lZ9WWELa4i7c20Wby9+0lT2k9Pa
+	 LtgcTbjDJ2gbMIyOZEIy++22b9LsLGcRvnECH3ih1hR6PkzB5GkqvOeezaWbzs7n1k
+	 pliDq/ILAC2JSMxsAg/pQvaBZqWW0fxFQ8cMusQU=
+Received: from June.localdomain ([123.121.145.35])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id 6040EEFF; Mon, 16 Mar 2026 20:24:04 +0800
+X-QQ-mid: xmsmtpt1773663844t022sqy5b
+Message-ID: <tencent_8C4BA706AAC29A1F8EEE434963090403B905@qq.com>
+X-QQ-XMAILINFO: OATpkVjS499uj1/CIw6g/zbggfNCj/BVrfCy/1C+Yb1nhOl6bMrl5UvKSdTwnP
+	 09YWLD42mDAZvPL/ljZqFznwioQ0lpurFniOn/Gb8WEmRxt7XNwhS/a7wg02kaWiRISQDS2uzpL4
+	 5He17yfjC/6dlfuahVBTmtoaEE4cRK9iM6MJjtPhfyCYPKQEANd0Ko2oj4HTfwz6/f4IbkHQdtUd
+	 7WR5wt/UfWx7mtNSyoYoEygaYGYmDAm9zc9y6mQG82KWtbrnzd++5PEBxi4dIGfR1VM1g6OtD/72
+	 NG6fXH9wFwjp/8K+N/GTNhrHQw/WhpWaMLs7U+dc8hMDwXWlbC+xkiVaqI4DfhCKXofVdOB9fsj5
+	 jIRqwsbQD8xD5mG+9EV6t/XhOutFdksDAdWn5lFcwFHRqlRx7iWi4fpYS/zaleV3eiovqS6bm+PQ
+	 vfWoO2WAJZkC52sO4n61IUHScpSlOYowEeSi4XA51EI7RuRLK88+4Nu4+Ht3zIFsDBHBnv8ETv0A
+	 vIKBifp+Yfp2RPP5IXsJPVQ8+1taM6e67XV63LiiwX084zS+afE2cvGl8WV0yLwymPDtqhUebiyC
+	 suqeUQGMUC9VL3NuUIZ4bAf33+A4ivhUt0qnfvw99y53xleaKmwKcqGP/+VtiwQEJp2i9fRYC6K5
+	 niC2TJ9vcyyRYpE78BWdO5sVASQms7kz57CK7dBdUMIGclw6m+5mY5hRuvJnR1U7x3MsS8nf9+SJ
+	 jX1M9/85dztth+PXtYIiQJ5xwqqdwzV2flUuHDOwqzpufN+fmVEc9i5+H30UH61Q4/yJhzZlxx14
+	 uKyzXsrOUeszbDc7P032m2S2abHo5Lqzjfn5980JmApvE/J1+Hd6yzq43FEpfDE2ZshuWztCTIf0
+	 IZV7y9ooeMi6PgrEQOkss6s19bt1iCBu31/u/2AUp5xOW1bCmF4+IHiO2cUf1Uof9WTGVudshBMT
+	 VeGEzHSme/mjGtxskZG3VdiFjH4rIF8zjM4QnuglP8VHPfVkJWYzkXxu6lWlddAIeay1hZHijHfX
+	 QPoWFotxkRRxndab5EydN6JGCnWlUz+wL8RRkafLNrz03sVOk/aAfhNR8cI0H/YedneMqcF/i0cY
+	 0qyWwqceH4ZjFD8d6MWy7iuTORWyBCuh09vczo
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+From: Wang Jun <1742789905@qq.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Wang Jun <1742789905@qq.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: gszhai@bjtu.edu.cn,
+	25125332@bjtu.edu.cn,
+	25125283@bjtu.edu.cn,
+	23120469@bjtu.edu.cn
+Subject: [PATCH v7 0/1] media: saa7164: add ioremap return checks and cleanups
+Date: Mon, 16 Mar 2026 20:24:00 +0800
+X-OQ-MSGID: <20260316122403.23337-1-1742789905@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <a44adff7-60fd-4fca-85f4-0c69a035ec69@web.de>
+References: <a44adff7-60fd-4fca-85f4-0c69a035ec69@web.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
- <20260315-x1e-csi2-phy-v4-1-90c09203888d@linaro.org>
- <c59f621f-23a0-4c60-b8e3-5a9082c816e2@linaro.org>
- <wjsnwdyoptrfbmdkqlcepzekfbccv6vsfop5wm37m56rtlevfk@jkbievryoo2j>
- <a685b880-0239-4804-adeb-c63204a91142@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <a685b880-0239-4804-adeb-c63204a91142@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TAGGED_FROM(0.00)[bounces-55900-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[kernel.org,qq.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55901-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[1742789905@qq.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[qq.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:dkim,linaro.org:mid]
-X-Rspamd-Queue-Id: 6B36C29948A
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_FROM(0.00)[qq.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qq.com:dkim,qq.com:mid]
+X-Rspamd-Queue-Id: 39D8A299787
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 16/03/2026 10:49, Konrad Dybcio wrote:
->>> On Hamoa the CSIPHY supply voltage is 0.88-0.92, so it is 0p9 rather than 0p8.
->> What is its name in the schematics or in the datasheet?
-> VDD_A_CSI_n_0P9
-> 
-> so vdda-0p9 seems fitting
-> 
-> Konrad
+Hi Markus,
 
-(0.88+0.92) / 2 == 0.9
+This v4 addressed all your comments:
+- Added `Cc: stable@vger.kernel.org` to 
+ensure the fix reaches stable kernels.
+- Refactored the duplicate ioremap error handling into a helper function 
+to improve code clarity and reduce duplication.
+- Replaced manual mutex lock/unlock with `scoped_guard()` for better 
+safety and readability.
 
-I'm happy with the average.
+After submitting v4 (which became v5 in the patchwork series due to 
+a version bump), the Media CI robot detected two issues:
+- Build errors caused by incorrect struct member names 
+(`immio` → `lmmio`, `pci_dev` → `pci`).
+- Two checkpatch `CHECK` warnings about alignment of function call
+ arguments (open parenthesis alignment).
 
----
-bod
+This v6 fixes those issues:
+- Corrected the member names to match the actual struct definitions.
+- Adjusted the code alignment in the `release_resources()` helper to
+ satisfy `checkpatch.pl --strict`.
+
+This v7 addresses two additional issues that were identified 
+in the v6 submission:
+Corrected a remaining instance where dev->lmmio was used 
+instead of the correct dev->lmmio2 in the foo_bar() function.
+
+Regarding the `Fixes` tag: I've added a tag pointing to the 
+commit that originally introduced the driver. 
+At that time, the file
+was located at drivers/media/video/saa7164/saa7164-core.c; the `Fixes` tag
+correctly identifies the commit where the issue first appeared, regardless
+of the later file move.
+
+The patch adds missing error checks for two ioremap calls in
+saa7164_dev_setup(). If either mapping fails, the function now properly
+releases previously allocated PCI resources, removes the device from the
+global list, and returns -ENODEV. This prevents potential null pointer
+dereferences and ensures proper cleanup on failure.
+
+Please review the updated patch. Thanks!
+
+Wang Jun (1):
+  media: saa7164: add ioremap return checks and cleanups
+
+ drivers/media/pci/saa7164/saa7164-core.c | 47 ++++++++++++++++++------
+ 1 file changed, 35 insertions(+), 12 deletions(-)
+
+-- 
+2.43.0
+
 
