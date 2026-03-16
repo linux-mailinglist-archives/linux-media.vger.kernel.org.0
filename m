@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-55850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55851-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2LKCFSqyt2m9UQEAu9opvQ
-	(envelope-from <linux-media+bounces-55850-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 08:32:58 +0100
+	id KDAeDEyyt2nUUQEAu9opvQ
+	(envelope-from <linux-media+bounces-55851-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 08:33:32 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2F1295A84
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 08:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9389B295AA2
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 08:33:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2F7EE304500D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 07:31:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A5BCE3025D2D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 07:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C203D3502AC;
-	Mon, 16 Mar 2026 07:31:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5205F34B1BE;
+	Mon, 16 Mar 2026 07:32:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lZpsaSSL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHCL+7Kr"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D15617B50F;
-	Mon, 16 Mar 2026 07:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06E130FC27;
+	Mon, 16 Mar 2026 07:32:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773646268; cv=none; b=g9NOjQWBVDITwcgITgfgnDV1DDcLAH/EkMUrSGIfTWnvW9pZfARNAG/CHT4vF7zWeS4vl4rcmUnuJ7NwmI/1cpRtcg/TBSmUFH9MkkUU60l6afwpmPh6+Y5fL7IbIxTg4yWyynlbsX+SibMaFSMsPFK+fV6HNQAvzt+FT+vO1dQ=
+	t=1773646331; cv=none; b=OOGO9TG5bVxDCsbOHFHMXBxLSLp3sKfug2QQVZZlH6na+At1rei9CfBMi0wUUT6bgCYkjqR7QDuyirM8o5YiZbRrsU0TlC4WrQ13sTk/ujkBIqEDxrScns5kJK9MxICdv10r9FFu9Ff/lFgb1RmasRu9Zy7vlXc5IXoUSPeE/fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773646268; c=relaxed/simple;
-	bh=+9GGc+7ev5420IQR36OWwvORqpVrbPUVHbp+ilv50is=;
+	s=arc-20240116; t=1773646331; c=relaxed/simple;
+	bh=oIkTaYXHqCj22ogYooJwwawFVxUSLbE9vWfxlfpMzcA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rO0F6XJyCDj0pe8+6lorxKjmHYYHWKxveK+MZLHuVagPQS1KVn1xkD8bWUkFmHTH6p0kPusWK9MtSIm6BntFBTyBKuLT4cILH0wMbROoajGtA2+fOjXnmG+wfwEgwSVoYpglpsNOtG6fm1mlayf9PLhiUzOlFZLYsAB2x78wXOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lZpsaSSL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 276C8C19421;
-	Mon, 16 Mar 2026 07:31:06 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=VtVsOeNh8Zw6/RxOtkCwxpCrK9XFqpgn3hjRDqJ7hMfCAod1JoDjCW9RyZf8t/iao3MtpYD3rDJdog85IJ7h3PTIyOxo5D42JKPX1bsq4zBFPtFzD1s0xPMA5FvWUPIzkZ/fWAyyqTqpkCyAX3aemKdLxBVGgYqAoXZa2W/3rfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHCL+7Kr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0FD5C19421;
+	Mon, 16 Mar 2026 07:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773646267;
-	bh=+9GGc+7ev5420IQR36OWwvORqpVrbPUVHbp+ilv50is=;
+	s=k20201202; t=1773646331;
+	bh=oIkTaYXHqCj22ogYooJwwawFVxUSLbE9vWfxlfpMzcA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lZpsaSSLMLJvOkfj8wlDEO9WFmWVTysEqX1s5IrrxWFecQ+KD+r2MqGYUauqY+I3D
-	 CeSuNfuhmd8oh8uhiGGqUJhg0DYHOCnPd0LvZ9Ql71DAFqKElOyCSvoHEfk2ftrsct
-	 ZIrpxGLzYrx65gZDc8vKSwg9/ELfWCfjxkf6FJV5DvVtw2bu4g8bjHbGR/BNRjVLi8
-	 xUQUex9d7tBk2/BGM6fMWFsWEiVaur0avybPlyQl61q4xXQ39tn41f+OvIG+ehWnG0
-	 rx2jHqNQJ0Ck2Kpayg7A8Owt1zb04WJCw5NvYYPsNHO2C2dKXHoGpcmDxgOki8wv51
-	 0KvqNOm4kuquw==
-Date: Mon, 16 Mar 2026 08:31:05 +0100
+	b=jHCL+7KrlT2hhPcc7+rFyr2tBH6SkmpEc5xOJq8SHq0BQvrra+27DGypKWYG9yzRW
+	 N+TAg3m5KU6aJlreyjsNJ0gn7yOE+o/Ew534oGoovbW1yly3cnPfIrhEZDBLANCLvY
+	 zeA/MdBt6TnkAFER8LROTzCJasy23y47Q3qd80jfvx8agH4nOERJmMfJjU2TEj+JI7
+	 3Yk3aL0Vn8Qh4kzWN2u9+IXqoDaW2GFIKMlwsjftwjGIhDHh4chw8KtdrIWs2jhn6u
+	 nAoB2O5E7BL9hDjVa8fsYxKnzOL7ntwZKcIIckczkPvQdWIxOpu2QaXDLuTHV4TwUQ
+	 LXMbqYAiJCn+A==
+Date: Mon, 16 Mar 2026 08:32:08 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: Bjorn Andersson <andersson@kernel.org>, 
@@ -55,11 +55,11 @@ Cc: Bjorn Andersson <andersson@kernel.org>,
 	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org, 
 	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 2/7] dt-bindings: media: qcom,x1e80100-camss: Add
- optional PHY handle definitions
-Message-ID: <20260316-papaya-mink-of-examination-6db401@quoll>
+Subject: Re: [PATCH v10 4/7] dt-bindings: media: qcom,x1e80100-camss:
+ Describe iommu entries
+Message-ID: <20260316-therapeutic-organic-shrew-febd0d@quoll>
 References: <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-0-fdfe984fe941@linaro.org>
- <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-2-fdfe984fe941@linaro.org>
+ <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-4-fdfe984fe941@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-2-fdfe984fe941@linaro.org>
+In-Reply-To: <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-4-fdfe984fe941@linaro.org>
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
@@ -79,7 +79,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55850-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-55851-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,vger.kernel.org];
@@ -96,115 +96,26 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email]
-X-Rspamd-Queue-Id: EC2F1295A84
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:email]
+X-Rspamd-Queue-Id: 9389B295AA2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 16, 2026 at 01:02:02AM +0000, Bryan O'Donoghue wrote:
-> Add optional PHY handle definitions. This will allow for supporting both
-> legacy PHY definitions as well as supporting the optional new handle based
-> approach.
-> 
-> Drop the legacy high-level 0p8 and 1p2 supplies as required, each PHY has
-> its own individual rails. The old binding is still valid but with
-> individual nodes we define the rails in the CSIPHY sub-nodes.
+On Mon, Mar 16, 2026 at 01:02:04AM +0000, Bryan O'Donoghue wrote:
+> The original iommus list included entries for ICP and BPS/IPE S1
+> contexts. Only the five S1 HLOS stream IDs are required by the CAMSS
+> ISP hardware: IFE/IFE_LITE read and write, SFE read and write, and
+> CDM IFE. The remaining entries serve other hardware blocks which will
+> be described in their own nodes as support is added.
 > 
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  .../bindings/media/qcom,x1e80100-camss.yaml        | 33 ++++++++++++++++++++--
->  1 file changed, 31 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-> index b5654ef71bd89..5442f981baebc 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
-> @@ -43,6 +43,14 @@ properties:
->        - const: vfe_lite0
->        - const: vfe_lite1
->  
-> +  '#address-cells':
-> +    const: 2
-> +
-> +  '#size-cells':
-> +    const: 2
-> +
-> +  ranges: true
-> +
->    clocks:
->      maxItems: 29
->  
-> @@ -130,6 +138,16 @@ properties:
->      description:
->        1.2V supply to a PHY.
->  
-> +  phys:
-> +    maxItems: 4
-> +
-> +  phy-names:
-> +    items:
-> +      - const: csiphy0
-> +      - const: csiphy1
-> +      - const: csiphy2
-> +      - const: csiphy4
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->  
-> @@ -162,6 +180,14 @@ properties:
->              required:
->                - data-lanes
->  
-> +patternProperties:
-> +  "^phy@[0-9a-f]+$":
-> +    $ref: /schemas/phy/qcom,x1e80100-csi2-phy.yaml
-> +    unevaluatedProperties: false
-> +
-> +  "^opp-table(-.*)?$":
+>  .../bindings/media/qcom,x1e80100-camss.yaml        | 26 ++++++++++++++++------
+>  1 file changed, 19 insertions(+), 7 deletions(-)
 
-Why do you expect multiple opp-tables?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-And where are operating-points phandle? Please look how other bindings
-do it.
+Best regards,
+Krzysztof
 
-> +    type: object
-> +
->  required:
->    - compatible
->    - reg
-> @@ -175,8 +201,6 @@ required:
->    - iommus
->    - power-domains
->    - power-domain-names
-> -  - vdd-csiphy-0p8-supply
-> -  - vdd-csiphy-1p2-supply
->    - ports
->  
->  additionalProperties: false
-> @@ -188,6 +212,7 @@ examples:
->      #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
->      #include <dt-bindings/interconnect/qcom,icc.h>
->      #include <dt-bindings/interconnect/qcom,x1e80100-rpmh.h>
-> +    #include <dt-bindings/phy/phy.h>
->      #include <dt-bindings/power/qcom-rpmpd.h>
->  
->      soc {
-> @@ -233,6 +258,10 @@ examples:
->                          "vfe_lite0",
->                          "vfe_lite1";
->  
-> +            #address-cells = <2>;
-> +            #size-cells = <2>;
-> +            ranges;
-
-Again, incomplete example. Where the the phy?
-
-> +
->              clocks = <&camcc CAM_CC_CAMNOC_AXI_NRT_CLK>,
->                       <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
->                       <&camcc CAM_CC_CORE_AHB_CLK>,
-> 
-> -- 
-> 2.52.0
-> 
 
