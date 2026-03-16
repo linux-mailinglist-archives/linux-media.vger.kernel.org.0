@@ -1,83 +1,106 @@
-Return-Path: <linux-media+bounces-55950-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55951-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SB36LEI1uGnXaQEAu9opvQ
-	(envelope-from <linux-media+bounces-55950-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 17:52:18 +0100
+	id wA88DUI9uGmpagEAu9opvQ
+	(envelope-from <linux-media+bounces-55951-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 18:26:26 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8C529DAA2
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 17:52:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91B2F29E27D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 18:26:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 198D830659DC
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 16:48:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1F52530B0107
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 17:20:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E0A43CEB9B;
-	Mon, 16 Mar 2026 16:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 614763D3301;
+	Mon, 16 Mar 2026 17:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5Qt8kMu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rbw219SB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A185B3ACEF8;
-	Mon, 16 Mar 2026 16:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBCC3D091A;
+	Mon, 16 Mar 2026 17:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773679691; cv=none; b=DOer6sS75WXkHliC1BRdnC9jmbTt7HlBlI46KJ9Qj+vVaC2kyG2VW6FgJsUU/1T0tq4vbOEsRPE9J8NJ5DkbAPaa5rLc0vZSYuNivU/5x1BaoKum4PC2rgxcIi/JT/C4QSvrxZAdtEUpnqHFHLHFrzPaQzb6MQFcFyIMXsHc6kM=
+	t=1773681595; cv=none; b=sTgTA7ou3G5mWAIU6W46T2ifKwPl4TNZm8JyQvtMNjulRtdjTUskYF1ggQXxTD9cCOSvXmZqLnBJBee9S7qbx6sDavpmMOdTqFSmyPwpNnV9KLx5KVtZrjx9VW/dgWm1ZKGNiceTIrggHKjGchPIKEp8MxERllF3vY5IQF+cp4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773679691; c=relaxed/simple;
-	bh=/rqfx04MebP1xiG4Dc3Vwrh0asx9rLsOe4AaLBqGw8Y=;
+	s=arc-20240116; t=1773681595; c=relaxed/simple;
+	bh=Zz/hRJjLBoN755q223kYJIQDnkqItfPZ1yDBYTf+0y4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ETvDRdSKVzyZzbN5SUACD2gP3egQZ5nf+2yl5YLu/baM+iysX4uolaQFrBzSHDrAJYDWCJCjXMmJg563E81Wz6hwGmM5FaFmN5v3DcsVrZxPHE4jRBy1ia2BPw3zT0sjkl4T88RepGnq0yvtmwaCuIb0ZAgw90i8PRomY5HXJW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5Qt8kMu; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=WRW9YWa4x/TsBYmcDCeahqMKH0I1ApfDeVpJyddTy3TA+bo40VuMtB0XTvNzxsj9Vi4wOJpWaRvGHIf1obzdFmPM0C0yyEiW0+umBlSG5/J7avoRQIjy9ZxEfjZ3BPa5ts9BDfyyvgNTJHalSwDQeEPvV+gGLrqnHqqIaUZ+Q1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rbw219SB; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773679690; x=1805215690;
+  t=1773681594; x=1805217594;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/rqfx04MebP1xiG4Dc3Vwrh0asx9rLsOe4AaLBqGw8Y=;
-  b=M5Qt8kMuQQ8TOt1o79z0aAY3+PXoKXVVgNwYXLML/wZuuCRLDsY4khuC
-   M89jNhtqE9bFJWx002yntUPQ0VeiPU3mUm35nDiBrq7AtSJB8viwr44b1
-   BjyQsRkxfgmvqjlVenR0A5K47ORvH7ZTQ5eur+YIir0+q+/9WOeWMCj+T
-   wOCChj0nPGGdWrXn3FN/xRCWWwD7POA6/QwGXuBrV4rSRqV+PrjaYJZiw
-   01bGauFGMl7vTzqJNnV/xfqHXkxFZ76vnm7Jv7w0F6r4OBWw+81mSPATn
-   fYvKYfsj+TXvC6f6fbdDYktC+zFozncIVVXfUy4UjqybOtEW4a3UPT0QM
-   Q==;
-X-CSE-ConnectionGUID: /DlHPyixT4aIS7Jxv+w0RQ==
-X-CSE-MsgGUID: khs9FKExQ+GdQ4uKUDI6eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74592138"
+  bh=Zz/hRJjLBoN755q223kYJIQDnkqItfPZ1yDBYTf+0y4=;
+  b=Rbw219SBcbDLkzDXtV+dczYtJ0CO9rscPc4kX9alOWOVnPrREgf3Q8Ww
+   B82It8zuJYvcFgljwQeio7VppCCHtkn1l7IafMgZBpGo5t7eQuSv19ien
+   unEpptBYfkTIwIQZeCDNmLqY+NdPkyRLSats8xOUkGLuEgQ6N0xVoaZw7
+   w63wIXcqILfyXI6Ou9znRLy/mJAt6R51HMIhxgKQbDD11nADNagi7/vLY
+   lNKfKkXTGU/Q+iio+wWZ/M39IAI+RBSsgPdOg+vWJJuH8yfbHY6ZAUHE7
+   /B7R07qB2R7KfE+l6XVra2oV07gg0Ab1C4xrChJjspGj6XvL1BEQWUclc
+   w==;
+X-CSE-ConnectionGUID: Uhu2Y3itRHyktD6X2sGeDw==
+X-CSE-MsgGUID: nnvA7GgQRxC9/TfON190aA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74677490"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74592138"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 09:48:10 -0700
-X-CSE-ConnectionGUID: NHxPFYVZRz6lSKq7knY4nA==
-X-CSE-MsgGUID: jG3IhSsEQFyfhwz2pMu7hA==
+   d="scan'208";a="74677490"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 10:19:53 -0700
+X-CSE-ConnectionGUID: RJTg4zFsRNKBYc912rzrog==
+X-CSE-MsgGUID: nQe6ouNASVu/x13EIFCQQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="226653006"
+   d="scan'208";a="226118290"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.29])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 09:48:09 -0700
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 10:19:46 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 29CC9121D04;
-	Mon, 16 Mar 2026 18:48:07 +0200 (EET)
-Date: Mon, 16 Mar 2026 18:48:07 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 89A8C121D04;
+	Mon, 16 Mar 2026 19:19:42 +0200 (EET)
+Date: Mon, 16 Mar 2026 19:19:42 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "luo.liu.linux" <luo.liu.linux@163.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Martin Hecht <mhecht73@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Dongchun Zhu <dongchun.zhu@mediatek.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+	Todor Tomov <todor.too@gmail.com>,
+	"Paul J. Murphy" <paul.j.murphy@intel.com>,
+	Daniele Alessandrelli <daniele.alessandrelli@gmail.com>,
+	Marco Felsch <kernel@pengutronix.de>,
+	Lubomir Rintel <lkundrak@v3.sk>, linux-renesas-soc@vger.kernel.org,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: Re: Re: [PATCH] media:v4l2-async:debugfs for registered
- subdevices
-Message-ID: <abg0R5zerwCM_1mK@kekkonen.localdomain>
-References: <20260313075824.2818713-1-luo.liu.linux@163.com>
- <abPm3VGGRAIsY1eQ@kekkonen.localdomain>
- <5e63e8aa.943f.19ce6ee4ad5.Coremail.luo.liu.linux@163.com>
- <abP4Mr_s8JRpQH0B@kekkonen.localdomain>
- <384d2274.9b3e.19ce776ec2c.Coremail.luo.liu.linux@163.com>
+Subject: Re: [PATCH 1/2] media: dt-bindings: i2c: Drop redundant endpoint
+ properties
+Message-ID: <abg7rvczKjyIA5jN@kekkonen.localdomain>
+References: <20260316134533.56941-3-krzysztof.kozlowski@oss.qualcomm.com>
+ <20260316135352.GA31616@killaraus.ideasonboard.com>
+ <a429887b-13f7-4ba3-9260-ddae92adfe51@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,88 +109,117 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <384d2274.9b3e.19ce776ec2c.Coremail.luo.liu.linux@163.com>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+In-Reply-To: <a429887b-13f7-4ba3-9260-ddae92adfe51@oss.qualcomm.com>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55950-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	URIBL_MULTI_FAIL(0.00)[kekkonen.localdomain:query timed out,intel.com:query timed out];
+	FREEMAIL_CC(0.00)[ideasonboard.com,gmail.com,kernel.org,foss.st.com,jmondi.org,ragnatech.se,raspberrypi.com,glider.be,linaro.org,mediatek.com,bootlin.com,theobroma-systems.com,intel.com,pengutronix.de,v3.sk,vger.kernel.org,bp.renesas.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	SURBL_MULTI_FAIL(0.00)[kekkonen.localdomain:query timed out];
-	RSPAMD_URIBL_FAIL(0.00)[intel.com:query timed out];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[163.com];
+	TAGGED_FROM(0.00)[bounces-55951-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RBL_VIRUSFREE_UNKNOWN_FAIL(0.00)[172.234.253.10:query timed out];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
-	BLOCKLISTDE_FAIL(0.00)[100.90.174.1:query timed out,10.60.135.145:query timed out];
+	TAGGED_RCPT(0.00)[linux-media,renesas,dt];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: ED8C529DAA2
+	RCPT_COUNT_TWELVE(0.00)[30];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 91B2F29E27D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Luo,
+Hi Krzysztof, Laurent,
 
-On Fri, Mar 13, 2026 at 09:50:56PM +0800, luo.liu.linux wrote:
+On Mon, Mar 16, 2026 at 03:42:09PM +0100, Krzysztof Kozlowski wrote:
+> On 16/03/2026 14:53, Laurent Pinchart wrote:
+> > Hello Krzysztof,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Mon, Mar 16, 2026 at 02:45:34PM +0100, Krzysztof Kozlowski wrote:
+> >> The "endpoint" node references video-interfaces.yaml schema with
+> >> "unevaluatedProperties: false" which means that all properties from
+> >> referenced schema apply.  Listing some of them with ": true" is simply
+> >> redundant and does not make this code easier to read.
+> > 
+> > I think you know my opinion on this topic. I believe we would be better
+> > off by turning "unevaluatedProperties: false" into
+> > "additionalProperties: false" here, and keeping the list of applicable
+> > properties. It brings value to device tree authors by telling which
+> > properties are applicable to the device at hand. For instance ... (see
+> > below)
 > 
-> Hi Sakari,
+> (let me trim)
 > 
->     Apologies if my previous explanation wasn't clear enough. 
+> >> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+> >> index 2d7937a372a2..7a05a1eda58d 100644
+> >> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+> >> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5647.yaml
+> >> @@ -51,9 +51,6 @@ properties:
+> >>          $ref: /schemas/media/video-interfaces.yaml#
+> >>          unevaluatedProperties: false
+> >>  
+> >> -        properties:
+> >> -          clock-noncontinuous: true
+> >> -
+> > 
+> > ... Without this, an integrator will need to dive into driver code to
+> > know if non-continuous clock is usable for the device.
 > 
->     To clarify, the primary goal of this interface is not merely to verify if insmod/rmmod succeeds, 
-> but to validate the correctness of the asynchronous subdevice registration and unregistration paths,
-> specifically ensuring that resource allocation and reclamation are handled properly.
+> I see. Our usual interpretation of common schema, expressed by @Rob in
+> few places, that eventually all properties might be applicable. This
+> applies especially for ABI tied to the core Linux specifics, e.g.
+> rotation and orientation from video-interface-devices.yaml.
 > 
->    I would like to share a real-world scenario that motivated this patch:
+> Absolutely every sensor can be mounted rotated, therefore every binding
+> referencing video-interface-devices should allow it, even if driver is
+> not using it. Because basically that's the ABI we want to define for
+> each sensor, thus each binding referencing common schema should have
+> "unevaluatedProps: true" without listing them.
 > 
->    We had a camera subsystem pipeline like sensor -> dphy -> mipi-csi2 -> isp
-> subdevice driver that appeared to function perfectly for six months. insmod and rmmod completed without any errors,
-> and the system seemed stable during normal operation. However, just before a major release, a QA engineer performed 
-> stress testing involving rapid, repeated cycles of insmod and rmmod, which eventually triggered a kernel crash.
+> Similarly touchscreen.yaml.
 > 
-> During the debugging process, I inspected the internal global lists:
-> 
-> static LIST_HEAD(subdev_list);
-> static LIST_HEAD(notifier_list);
-> 
-> By dumping the subdev_list via this debugfs interface, I discovered that a D-PHY subdevice entry remained in the list even 
-> after its driver was unloaded. Crucially, the output explicitly showed the device name, allowing me to immediately pinpoint
-> the D-PHY driver as the culprit, rather than blindly troubleshooting other components in the pipeline (such as the sensor or ISP).
-> 
-> This was the critical clue that led me to the root cause: 
-> 
-> The D-PHY subdriver's remove function was missing a call to v4l2_async_cleanup(sd). Consequently, the subdevice was never properly 
-> unregistered from the async framework, leading to a use-after-free or stale pointer issue during the stress test.
-> 
-> Without this debugfs interface, detecting such "silent" registration leaks is extremely difficult. 
-> The driver loads and unloads without reporting errors, and standard logs (dmesg) often provide
-> no indication that an entry was left behind in the core framework's list until a crash occurs under specific timing conditions.
-> 
-> 
-> Given this experience, I believe this interface provides a vital visibility point for engineers to:
-> 
-> 1,Verify that subdevices are correctly removed from the global list upon driver unload.
-> 2,Catch missing cleanup calls (like v4l2_async_cleanup) early in the development cycle, rather than discovering them through random crashes in stress testing.
+> OTOH, second option, properties which are strictly hardware, e.g. name
+> of power supply or whether clock has or has not non-continuous mode,
+> should be allowed only when they match the hardware. Such bindings
+> should use "additionalProperties: false" so the hardware description is
+> constrained/fixed/specific.
 
-I guess you'd have found this with either KASAN or linked list debugging?
+The patch may be technically correct but I'm afraid it won't improve the
+bindings but rather the opposite: it removes information telling whether a
+property is relevant for a given device.
+
+I bet there are a lot of possibilities to write invalid DTS while the
+checker says it's fine (missing data-lanes or link-frequencies, for
+instance). That may have been the case before the patch but I'd make
+properties a driver needs to function mandatory rather than removing them
+from bindings altogether.
+
+It'd been on my to-do list to split the current video-interfaces.yaml into
+several files: generic camera sensor properties, CSI-2 interface
+properties, DVP/Bt.656 interface properties and the rest (full list
+probably requires more thought). That way we could only include properties
+that are relevant for the device without necessarily listing each one for
+all bindings.
+
+I'd also continue to list boolean properties relevant for devices as well
+as other properties that are relevant for a device but not mandatory.
 
 -- 
+Regards,
+
 Sakari Ailus
 
