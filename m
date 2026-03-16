@@ -1,48 +1,58 @@
-Return-Path: <linux-media+bounces-55972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55978-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CDGoGUlsuGn5dgEAu9opvQ
-	(envelope-from <linux-media+bounces-55972-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 21:47:05 +0100
+	id 2FTlFWR2uGn5dgEAu9opvQ
+	(envelope-from <linux-media+bounces-55978-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 22:30:12 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3D42A05A3
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 21:47:04 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC532A0F9C
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 22:30:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 56B663086A7E
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 20:46:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5302732A484D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 21:18:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82132355F42;
-	Mon, 16 Mar 2026 20:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8009373C1F;
+	Mon, 16 Mar 2026 21:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cnnjw4fg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.auroraos.dev (unknown [95.181.193.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA66356A23
-	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 20:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.181.193.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623DB372ED8;
+	Mon, 16 Mar 2026 21:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773693973; cv=none; b=s3oD45skM77DW79zNsWyNZHJ65Qyy2fYCyjjk+0n+3+jSVTO5BXLEcZIKzY2fr+L18fxaFx5NsXcKpPUQIWUOr3QDO1L94zIoOjIXeYKLfaMo58FoGLX+v3W0NPNJeTViX1hh2dhepAsrwdXKUfTmlVUVB/CCjBEHAqxOnWZHo8=
+	t=1773695843; cv=none; b=I5o10eHRbng/E8x0KEHSRVY0RFaFVr8TiHKq7xJk/hETUeOxoREXIAvWuHCDVZiA7+Fa3/rbOmhJ8GAS0rHrwBiFCk9dt16szOncDwLT0INSV1r6MtW2QphsufsNvw9xn7gx4pjwZkC0oVPMTWbYF9cISq+7Qu69qefXLxTJ0qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773693973; c=relaxed/simple;
-	bh=cJKwILeW1mILQEcDMzwxFJSEYFjLcN0iZhpUJ7bTfBY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VHiQ90g6S73T6vj298M37v1B7J+ArlgQsIklUJd3WnZ04dQ/tuWmSVN+AMmviIRsR3UmIdSUBBpY+JbknzEFsrsCddKQrq3FJw97EuscxsduMaR298uDiSKwuE6/nO4olvIGkRUMu/BFJje9u2fuw+n6J0OXdjwTeW8Z7Vde/D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev; spf=pass smtp.mailfrom=auroraos.dev; arc=none smtp.client-ip=95.181.193.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=auroraos.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=auroraos.dev
-Received: from wasted (213.87.160.51) by exch16.corp.auroraos.dev
- (10.189.209.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1847.3; Mon, 16 Mar
- 2026 23:45:56 +0300
-From: Sergey Shtylyov <s.shtylyov@auroraos.dev>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, <linux-media@vger.kernel.org>
-CC: Sergey Shtylyov <s.shtylyov@auroraos.dev>, Michael Ira Krufky
-	<mkrufky@linuxtv.org>, Fred Richter <frichter@hauppauge.com>, Brad Love
-	<brad@nextdimension.cc>
-Subject: [PATCH] media: lgdt3306a: check the register reads for errors
-Date: Mon, 16 Mar 2026 23:44:54 +0300
-Message-ID: <20260316204455.63426-1-s.shtylyov@auroraos.dev>
+	s=arc-20240116; t=1773695843; c=relaxed/simple;
+	bh=stK4sYe/AduQ6uXwjj3mRomo/JyzTjLstba5Bk6cJA8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bb44b4dxa9qSivdJQFjF7qJ0KOt0dwuD7GSDRAgao0dGw7sk6upW6i6zHdkoxkJZCldiILAZ3juMCsSnTgxjSv3lrQu+pxT4QaL1vAQffHGvqkOasTIhsBQ29e9X700xOtC1j0UIGTWuT7wSeLO9/iLbZtjEpQZgBChIx/5gy/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cnnjw4fg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC15C19421;
+	Mon, 16 Mar 2026 21:17:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773695842;
+	bh=stK4sYe/AduQ6uXwjj3mRomo/JyzTjLstba5Bk6cJA8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cnnjw4fgqa6bIzxFQQ2o2aj4iFeLLt9w6G0Rpar99nsO4AtzYik+Mk8/fasPMMGOA
+	 C14ypWbjzNkkFx8vNKxfRCTA5p9qlr4as+jcC7dD+erNleVN6wYVZhO9CfgkHF/bmC
+	 yND+TTNyhhMeX5bzTv7JLrToq6O6DpdM95vv33l39sJu8DP3SynGNm+dF26Z2kHBDL
+	 BZetGocGrvaT0EamXyLqtrCV8TzFnl962yhM5sRckZ+3stTGBgiRkDqmIlhpBeRsmy
+	 5V59Bnt4/h4+6Iojsu/u4NjOrSyC12EiNTPQ4jxGKLjVIRn1gIn+67EjnYhUzVePVJ
+	 V0k93mhwMNdEg==
+From: Eric Biggers <ebiggers@kernel.org>
+To: "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH] media: vidtv: Use crc32_be() instead of open coding
+Date: Mon, 16 Mar 2026 14:15:42 -0700
+Message-ID: <20260316211542.50912-1-ebiggers@kernel.org>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -51,290 +61,146 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: exch16.corp.auroraos.dev (10.189.209.38) To
- exch16.corp.auroraos.dev (10.189.209.38)
-X-Spamd-Result: default: False [0.14 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[auroraos.dev : SPF not aligned (relaxed), No valid DKIM,quarantine,sampled_out];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	PRECEDENCE_BULK(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-55978-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55972-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[s.shtylyov@auroraos.dev,linux-media@vger.kernel.org];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.961];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linuxtv.org:url,linuxtesting.org:url]
-X-Rspamd-Queue-Id: BA3D42A05A3
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ebiggers@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: EEC532A0F9C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-When lgdt3306a_read_reg() fails its parameter val will probably point to
-a garbage value which we don't really want to write back (modified) with
-lgdt3306a_write_reg(). Add lgdt3306a_read_reg() result checks where they
-were missing.
+dvb_crc32() does exactly the same computation as the crc32_be() library
+function.  Just call crc32_be() instead.
 
-Found by Linux Verification Center (linuxtesting.org) with the Svace static
-analysis tool.
-
-Fixes: b63b36fa44d0 ("[media] DVB: add support for LG Electronics LGDT3306A ATSC/QAM-B Demodulator")
-Fixes: 4c7c3f9b1a85 ("media: lgdt3306a: QAM streaming improvement")
-Signed-off-by: Sergey Shtylyov <s.shtylyov@auroraos.dev>
-
+Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 ---
-The patch is against the fixes branch of the linuxtv.org/media.git repo...
+ drivers/media/test-drivers/vidtv/Kconfig     |  1 +
+ drivers/media/test-drivers/vidtv/vidtv_psi.c | 57 +-------------------
+ 2 files changed, 2 insertions(+), 56 deletions(-)
 
- drivers/media/dvb-frontends/lgdt3306a.c | 56 +++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+diff --git a/drivers/media/test-drivers/vidtv/Kconfig b/drivers/media/test-drivers/vidtv/Kconfig
+index e511e51c0b5b..8cb10b75603b 100644
+--- a/drivers/media/test-drivers/vidtv/Kconfig
++++ b/drivers/media/test-drivers/vidtv/Kconfig
+@@ -1,9 +1,10 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DVB_VIDTV
+ 	tristate "Virtual DVB Driver (vidtv)"
+ 	depends on DVB_CORE && MEDIA_SUPPORT && I2C
++	select CRC32
+ 	help
+ 	  The virtual DVB test driver serves as a reference DVB driver and helps
+ 	  validate the existing APIs in the media subsystem. It can also aid developers
+ 	  working on userspace applications.
+ 
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+index 685a1f7b2fb1..1b6225d65ef3 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+@@ -29,65 +29,10 @@
+ #define CRC_SIZE_IN_BYTES 4
+ #define MAX_VERSION_NUM 32
+ #define INITIAL_CRC 0xffffffff
+ #define ISO_LANGUAGE_CODE_LEN 3
+ 
+-static const u32 CRC_LUT[256] = {
+-	/* from libdvbv5 */
+-	0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9, 0x130476dc, 0x17c56b6b,
+-	0x1a864db2, 0x1e475005, 0x2608edb8, 0x22c9f00f, 0x2f8ad6d6, 0x2b4bcb61,
+-	0x350c9b64, 0x31cd86d3, 0x3c8ea00a, 0x384fbdbd, 0x4c11db70, 0x48d0c6c7,
+-	0x4593e01e, 0x4152fda9, 0x5f15adac, 0x5bd4b01b, 0x569796c2, 0x52568b75,
+-	0x6a1936c8, 0x6ed82b7f, 0x639b0da6, 0x675a1011, 0x791d4014, 0x7ddc5da3,
+-	0x709f7b7a, 0x745e66cd, 0x9823b6e0, 0x9ce2ab57, 0x91a18d8e, 0x95609039,
+-	0x8b27c03c, 0x8fe6dd8b, 0x82a5fb52, 0x8664e6e5, 0xbe2b5b58, 0xbaea46ef,
+-	0xb7a96036, 0xb3687d81, 0xad2f2d84, 0xa9ee3033, 0xa4ad16ea, 0xa06c0b5d,
+-	0xd4326d90, 0xd0f37027, 0xddb056fe, 0xd9714b49, 0xc7361b4c, 0xc3f706fb,
+-	0xceb42022, 0xca753d95, 0xf23a8028, 0xf6fb9d9f, 0xfbb8bb46, 0xff79a6f1,
+-	0xe13ef6f4, 0xe5ffeb43, 0xe8bccd9a, 0xec7dd02d, 0x34867077, 0x30476dc0,
+-	0x3d044b19, 0x39c556ae, 0x278206ab, 0x23431b1c, 0x2e003dc5, 0x2ac12072,
+-	0x128e9dcf, 0x164f8078, 0x1b0ca6a1, 0x1fcdbb16, 0x018aeb13, 0x054bf6a4,
+-	0x0808d07d, 0x0cc9cdca, 0x7897ab07, 0x7c56b6b0, 0x71159069, 0x75d48dde,
+-	0x6b93dddb, 0x6f52c06c, 0x6211e6b5, 0x66d0fb02, 0x5e9f46bf, 0x5a5e5b08,
+-	0x571d7dd1, 0x53dc6066, 0x4d9b3063, 0x495a2dd4, 0x44190b0d, 0x40d816ba,
+-	0xaca5c697, 0xa864db20, 0xa527fdf9, 0xa1e6e04e, 0xbfa1b04b, 0xbb60adfc,
+-	0xb6238b25, 0xb2e29692, 0x8aad2b2f, 0x8e6c3698, 0x832f1041, 0x87ee0df6,
+-	0x99a95df3, 0x9d684044, 0x902b669d, 0x94ea7b2a, 0xe0b41de7, 0xe4750050,
+-	0xe9362689, 0xedf73b3e, 0xf3b06b3b, 0xf771768c, 0xfa325055, 0xfef34de2,
+-	0xc6bcf05f, 0xc27dede8, 0xcf3ecb31, 0xcbffd686, 0xd5b88683, 0xd1799b34,
+-	0xdc3abded, 0xd8fba05a, 0x690ce0ee, 0x6dcdfd59, 0x608edb80, 0x644fc637,
+-	0x7a089632, 0x7ec98b85, 0x738aad5c, 0x774bb0eb, 0x4f040d56, 0x4bc510e1,
+-	0x46863638, 0x42472b8f, 0x5c007b8a, 0x58c1663d, 0x558240e4, 0x51435d53,
+-	0x251d3b9e, 0x21dc2629, 0x2c9f00f0, 0x285e1d47, 0x36194d42, 0x32d850f5,
+-	0x3f9b762c, 0x3b5a6b9b, 0x0315d626, 0x07d4cb91, 0x0a97ed48, 0x0e56f0ff,
+-	0x1011a0fa, 0x14d0bd4d, 0x19939b94, 0x1d528623, 0xf12f560e, 0xf5ee4bb9,
+-	0xf8ad6d60, 0xfc6c70d7, 0xe22b20d2, 0xe6ea3d65, 0xeba91bbc, 0xef68060b,
+-	0xd727bbb6, 0xd3e6a601, 0xdea580d8, 0xda649d6f, 0xc423cd6a, 0xc0e2d0dd,
+-	0xcda1f604, 0xc960ebb3, 0xbd3e8d7e, 0xb9ff90c9, 0xb4bcb610, 0xb07daba7,
+-	0xae3afba2, 0xaafbe615, 0xa7b8c0cc, 0xa379dd7b, 0x9b3660c6, 0x9ff77d71,
+-	0x92b45ba8, 0x9675461f, 0x8832161a, 0x8cf30bad, 0x81b02d74, 0x857130c3,
+-	0x5d8a9099, 0x594b8d2e, 0x5408abf7, 0x50c9b640, 0x4e8ee645, 0x4a4ffbf2,
+-	0x470cdd2b, 0x43cdc09c, 0x7b827d21, 0x7f436096, 0x7200464f, 0x76c15bf8,
+-	0x68860bfd, 0x6c47164a, 0x61043093, 0x65c52d24, 0x119b4be9, 0x155a565e,
+-	0x18197087, 0x1cd86d30, 0x029f3d35, 0x065e2082, 0x0b1d065b, 0x0fdc1bec,
+-	0x3793a651, 0x3352bbe6, 0x3e119d3f, 0x3ad08088, 0x2497d08d, 0x2056cd3a,
+-	0x2d15ebe3, 0x29d4f654, 0xc5a92679, 0xc1683bce, 0xcc2b1d17, 0xc8ea00a0,
+-	0xd6ad50a5, 0xd26c4d12, 0xdf2f6bcb, 0xdbee767c, 0xe3a1cbc1, 0xe760d676,
+-	0xea23f0af, 0xeee2ed18, 0xf0a5bd1d, 0xf464a0aa, 0xf9278673, 0xfde69bc4,
+-	0x89b8fd09, 0x8d79e0be, 0x803ac667, 0x84fbdbd0, 0x9abc8bd5, 0x9e7d9662,
+-	0x933eb0bb, 0x97ffad0c, 0xafb010b1, 0xab710d06, 0xa6322bdf, 0xa2f33668,
+-	0xbcb4666d, 0xb8757bda, 0xb5365d03, 0xb1f740b4
+-};
+-
+-static u32 dvb_crc32(u32 crc, u8 *data, u32 len)
+-{
+-	/* from libdvbv5 */
+-	while (len--)
+-		crc = (crc << 8) ^ CRC_LUT[((crc >> 24) ^ *data++) & 0xff];
+-	return crc;
+-}
+-
+ static void vidtv_psi_update_version_num(struct vidtv_psi_table_header *h)
+ {
+ 	h->version++;
+ }
+ 
+@@ -173,11 +118,11 @@ static u32 vidtv_psi_ts_psi_write_into(struct psi_write_args *args)
+ 
+ 	if (!args->crc && !args->is_crc)
+ 		pr_warn_ratelimited("Missing CRC for chunk\n");
+ 
+ 	if (args->crc)
+-		*args->crc = dvb_crc32(*args->crc, args->from, args->len);
++		*args->crc = crc32_be(*args->crc, args->from, args->len);
+ 
+ 	if (args->new_psi_section && !aligned) {
+ 		pr_warn_ratelimited("Cannot write a new PSI section in a misaligned buffer\n");
+ 
+ 		/* forcibly align and hope for the best */
 
-diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
-index b6a66e122ed5..03e598d73d9f 100644
---- a/drivers/media/dvb-frontends/lgdt3306a.c
-+++ b/drivers/media/dvb-frontends/lgdt3306a.c
-@@ -387,6 +387,8 @@ static int lgdt3306a_set_vsb(struct lgdt3306a_state *state)
- 
- 	/* 0. Spectrum inversion detection manual; spectrum inverted */
- 	ret = lgdt3306a_read_reg(state, 0x0002, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xf7; /* SPECINVAUTO Off */
- 	val |= 0x04; /* SPECINV On */
- 	ret = lgdt3306a_write_reg(state, 0x0002, val);
-@@ -400,6 +402,8 @@ static int lgdt3306a_set_vsb(struct lgdt3306a_state *state)
- 
- 	/* 2. Bandwidth mode for VSB(6MHz) */
- 	ret = lgdt3306a_read_reg(state, 0x0009, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xe3;
- 	val |= 0x0c; /* STDOPDETTMODE[2:0]=3 */
- 	ret = lgdt3306a_write_reg(state, 0x0009, val);
-@@ -408,6 +412,8 @@ static int lgdt3306a_set_vsb(struct lgdt3306a_state *state)
- 
- 	/* 3. QAM mode detection mode(None) */
- 	ret = lgdt3306a_read_reg(state, 0x0009, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xfc; /* STDOPDETCMODE[1:0]=0 */
- 	ret = lgdt3306a_write_reg(state, 0x0009, val);
- 	if (lg_chkerr(ret))
-@@ -415,6 +421,8 @@ static int lgdt3306a_set_vsb(struct lgdt3306a_state *state)
- 
- 	/* 4. ADC sampling frequency rate(2x sampling) */
- 	ret = lgdt3306a_read_reg(state, 0x000d, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xbf; /* SAMPLING4XFEN=0 */
- 	ret = lgdt3306a_write_reg(state, 0x000d, val);
- 	if (lg_chkerr(ret))
-@@ -477,6 +485,8 @@ static int lgdt3306a_set_vsb(struct lgdt3306a_state *state)
- #endif
- 
- 	ret = lgdt3306a_read_reg(state, 0x001e, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0x0f;
- 	val |= 0xa0;
- 	ret = lgdt3306a_write_reg(state, 0x001e, val);
-@@ -486,45 +496,63 @@ static int lgdt3306a_set_vsb(struct lgdt3306a_state *state)
- 	ret = lgdt3306a_write_reg(state, 0x0023, 0xFF);
- 
- 	ret = lgdt3306a_read_reg(state, 0x211f, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xef;
- 	ret = lgdt3306a_write_reg(state, 0x211f, val);
- 
- 	ret = lgdt3306a_write_reg(state, 0x2173, 0x01);
- 
- 	ret = lgdt3306a_read_reg(state, 0x1061, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xf8;
- 	val |= 0x04;
- 	ret = lgdt3306a_write_reg(state, 0x1061, val);
- 
- 	ret = lgdt3306a_read_reg(state, 0x103d, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xcf;
- 	ret = lgdt3306a_write_reg(state, 0x103d, val);
- 
- 	ret = lgdt3306a_write_reg(state, 0x2122, 0x40);
- 
- 	ret = lgdt3306a_read_reg(state, 0x2141, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0x3f;
- 	ret = lgdt3306a_write_reg(state, 0x2141, val);
- 
- 	ret = lgdt3306a_read_reg(state, 0x2135, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0x0f;
- 	val |= 0x70;
- 	ret = lgdt3306a_write_reg(state, 0x2135, val);
- 
- 	ret = lgdt3306a_read_reg(state, 0x0003, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xf7;
- 	ret = lgdt3306a_write_reg(state, 0x0003, val);
- 
- 	ret = lgdt3306a_read_reg(state, 0x001c, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0x7f;
- 	ret = lgdt3306a_write_reg(state, 0x001c, val);
- 
- 	/* 6. EQ step size */
- 	ret = lgdt3306a_read_reg(state, 0x2179, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xf8;
- 	ret = lgdt3306a_write_reg(state, 0x2179, val);
- 
- 	ret = lgdt3306a_read_reg(state, 0x217a, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xf8;
- 	ret = lgdt3306a_write_reg(state, 0x217a, val);
- 
-@@ -552,6 +580,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 1a. Spectrum inversion detection to Auto */
- 	ret = lgdt3306a_read_reg(state, 0x0002, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xfb; /* SPECINV Off */
- 	val |= 0x08; /* SPECINVAUTO On */
- 	ret = lgdt3306a_write_reg(state, 0x0002, val);
-@@ -560,6 +590,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 2. Bandwidth mode for QAM */
- 	ret = lgdt3306a_read_reg(state, 0x0009, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xe3; /* STDOPDETTMODE[2:0]=0 VSB Off */
- 	ret = lgdt3306a_write_reg(state, 0x0009, val);
- 	if (lg_chkerr(ret))
-@@ -567,6 +599,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 3. : 64QAM/256QAM detection(manual, auto) */
- 	ret = lgdt3306a_read_reg(state, 0x0009, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xfc;
- 	/* Check for forced Manual modulation modes; otherwise always "auto" */
- 	if(forced_manual && (modulation != QAM_AUTO)){
-@@ -580,6 +614,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 3a. : 64QAM/256QAM selection for manual */
- 	ret = lgdt3306a_read_reg(state, 0x101a, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xf8;
- 	if (modulation == QAM_64)
- 		val |= 0x02; /* QMDQMODE[2:0]=2=QAM64 */
-@@ -592,6 +628,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 4. ADC sampling frequency rate(4x sampling) */
- 	ret = lgdt3306a_read_reg(state, 0x000d, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xbf;
- 	val |= 0x40; /* SAMPLING4XFEN=1 */
- 	ret = lgdt3306a_write_reg(state, 0x000d, val);
-@@ -600,6 +638,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 5. No AICC operation in QAM mode */
- 	ret = lgdt3306a_read_reg(state, 0x0024, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0x00;
- 	ret = lgdt3306a_write_reg(state, 0x0024, val);
- 	if (lg_chkerr(ret))
-@@ -607,6 +647,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 5.1 V0.36 SRDCHKALWAYS : For better QAM detection */
- 	ret = lgdt3306a_read_reg(state, 0x000a, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xfd;
- 	val |= 0x02;
- 	ret = lgdt3306a_write_reg(state, 0x000a, val);
-@@ -615,6 +657,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 5.2 V0.36 Control of "no signal" detector function */
- 	ret = lgdt3306a_read_reg(state, 0x2849, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xdf;
- 	ret = lgdt3306a_write_reg(state, 0x2849, val);
- 	if (lg_chkerr(ret))
-@@ -622,6 +666,8 @@ static int lgdt3306a_set_qam(struct lgdt3306a_state *state, int modulation)
- 
- 	/* 5.3 Fix for Blonder Tongue HDE-2H-QAM and AQM modulators */
- 	ret = lgdt3306a_read_reg(state, 0x302b, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0x7f;  /* SELFSYNCFINDEN_CQS=0; disable auto reset */
- 	ret = lgdt3306a_write_reg(state, 0x302b, val);
- 	if (lg_chkerr(ret))
-@@ -926,29 +972,39 @@ static int lgdt3306a_init(struct dvb_frontend *fe)
- 
- 	/* 10a. VSB TR BW gear shift initial step */
- 	ret = lgdt3306a_read_reg(state, 0x103c, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0x0f;
- 	val |= 0x20; /* SAMGSAUTOSTL_V[3:0] = 2 */
- 	ret = lgdt3306a_write_reg(state, 0x103c, val);
- 
- 	/* 10b. Timing offset calibration in low temperature for VSB */
- 	ret = lgdt3306a_read_reg(state, 0x103d, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xfc;
- 	val |= 0x03;
- 	ret = lgdt3306a_write_reg(state, 0x103d, val);
- 
- 	/* 10c. Timing offset calibration in low temperature for QAM */
- 	ret = lgdt3306a_read_reg(state, 0x1036, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xf0;
- 	val |= 0x0c;
- 	ret = lgdt3306a_write_reg(state, 0x1036, val);
- 
- 	/* 11. Using the imaginary part of CIR in CIR loading */
- 	ret = lgdt3306a_read_reg(state, 0x211f, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xef; /* do not use imaginary of CIR */
- 	ret = lgdt3306a_write_reg(state, 0x211f, val);
- 
- 	/* 12. Control of no signal detector function */
- 	ret = lgdt3306a_read_reg(state, 0x2849, &val);
-+	if (lg_chkerr(ret))
-+		goto fail;
- 	val &= 0xef; /* NOUSENOSIGDET=0, enable no signal detector */
- 	ret = lgdt3306a_write_reg(state, 0x2849, val);
- 
+base-commit: 2d1373e4246da3b58e1df058374ed6b101804e07
 -- 
 2.53.0
 
