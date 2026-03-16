@@ -1,250 +1,148 @@
-Return-Path: <linux-media+bounces-55861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55862-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0NoCIMa/t2n5UwEAu9opvQ
-	(envelope-from <linux-media+bounces-55861-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 09:31:02 +0100
+	id iIJPDzrBt2n5UwEAu9opvQ
+	(envelope-from <linux-media+bounces-55862-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 09:37:14 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2110D296318
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 09:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC41C2964A9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 09:37:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6030930293F8
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 08:30:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C87C0303AB6D
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 08:33:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33E45374739;
-	Mon, 16 Mar 2026 08:30:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AAE63815EE;
+	Mon, 16 Mar 2026 08:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kdnn4047"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ddvn6B5A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B64354AFC;
-	Mon, 16 Mar 2026 08:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC84378D9B
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 08:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773649799; cv=none; b=fM4hqylJok+rpxz2Dq9L+NxChf2QyJ9S+KiWwizigv0f7hoWtgqK4dLCs1QZn6LLwUmJfjRWT7BbgY2SiOVoXxx4O+lbWIBudp9GQ6P6zTv8Jeczr0OGelIwabPBUITdY0DP9nhhdGrz9UMUS3tahftvTaCtPJujy8BmmhEKR6E=
+	t=1773649993; cv=none; b=ZHZM2t37oIzZxsAMB565hoJ9MzLGNwt48UljYYEjoG2NRls++GW5AzfAmJRJVE4RujUmZg4KXadXqCZCn+/vRH3QEmLW6s5W3BISsRB6kQ/JHrDn64GsiAhXuDofhHRCpp7AQHnvHIPnDTUx4K2QXIAERsDSbxZE4mWzFEshP6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773649799; c=relaxed/simple;
-	bh=ZleLRHDOHBip+HjzKZfgbCdexqRYELee4obevGjagA4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hg/HU7fT88c/aRIOQ5Rbji+HOPBXeJxotjFyFmHzGbfUdJcCJQRoM7owpTsYT0CpEq+bYnsVyueH+09nKFd62FdrGGgVE2F1pl+mDEZ4wYwH42A6PoffAUT8nDU5EkswVhvncVTLfvg80iq724qMnAoytSRvpHZtccp0os5edj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kdnn4047; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 870B9C19421;
-	Mon, 16 Mar 2026 08:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773649799;
-	bh=ZleLRHDOHBip+HjzKZfgbCdexqRYELee4obevGjagA4=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=kdnn4047r/PTpjAKHd4omIMsOpl4ztjzFI5kQfAUHqX34ZPsmSn81reSSVgRSu89L
-	 23+I9JxdTSXW1Dtu8OD62Jknq6sVuNAgNgFFG5QTKl3P9oWtSnR5TnzkAib8OoB80m
-	 IzP0p4pdzZwAEvZFrBftxiPl0XRkbYaXutmNVoJUxk14TYt9HSiD/Ud4M8rgJcJiWt
-	 Jjrsf0NhBzFKRsgH1b9oxEFZjq0Jv4BOfLXqL4n6qn8PVHGsXaQwxoXgwDZYY2uT7Z
-	 eOGFtrH4AuPzlfaTtRpXuNRMih137kjkvsYvuaEcu1V5czsaiYolnUDslf/GhryY+g
-	 z99YJ8m1u/W0Q==
-Message-ID: <76fd11b2-7789-47c1-a832-12907155ead1@kernel.org>
-Date: Mon, 16 Mar 2026 09:29:52 +0100
+	s=arc-20240116; t=1773649993; c=relaxed/simple;
+	bh=ZVQQwcjim/5RyqsBqMX5qZb6ORpdMy1y4jO6E1KFIoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=grzDFaeWXgOoQDOCwexo4Fyj0G0wGbWxxFFiGhuFdJLOz5qWXOVBPoWKKXJcIziIFi5fb8Me+v+90xwR9j+d9TTc6CXR8RDLXlB3hhiMdq747aOpUWzhNjB/d7McieRldWe8d7qmgMzs+3Zpr2sTkypd1+3OeI3HOH2u8hJ3Tus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ddvn6B5A; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso37696495e9.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 01:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773649990; x=1774254790; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MF8f4OpVOReg0WLpPAXIIDwAgflpzunWoXZkRVOIycA=;
+        b=Ddvn6B5AlmHKwGK3DPgZkl4rMI0v4O+pZ26GtZAOB4Ifi5atJP3ceQ3yj34+dgOx8U
+         aaf4kCo3etxHDAZSjDiRmbMUTbOAj9x4HLThBfImNtTU2ixBxcKShg+gHN2l/jJT5V95
+         f4ErlVCaHwWum7/5aaaPfrbYIwINoFxCpHWX0cWGRzQyiFoRru4/UL3KQq6pUKpQxUMa
+         0Q06PpQGcby/LtRR4/OUsJxde1SUTBufruXq+Afd3mVcy+l2Y7e02XkxNtwzqdFrthaN
+         CcEpQdBF7lVNcLffo3eKDazHQvdVqW+LAK58ZB97gLH6qsYGAHTVx9cubm4NUQ0VyWdx
+         bblw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773649990; x=1774254790;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MF8f4OpVOReg0WLpPAXIIDwAgflpzunWoXZkRVOIycA=;
+        b=YW3SmMu2YvLq2ttBRzXJmhbcKf7ldLQx/3yD4HvhsnUbX7ZnceCTUChParehVIa09Z
+         mW2qFoNtsUmNIBW4BSChu0II5uGRx78HxgYtHUOqN3RqJR/g59IM5fySebBJIp3GjuB4
+         uN9UrBbK/+YEEwqtLrurlRdxhjRVxFvCMwpxJ+5zJbiapbnsrgYQV0b2AIqs4/EEesxF
+         3Lq2fEdll4lRk6hLw6e7Td+mYkOB67jnewhLAmkzrxRz2IJuY2pmEESzS2GpjUi3TJxb
+         OgRh0X77mZWj6rlrnmxrErPXnQ4KczYqpj8V/rDHIea7x1WLMTI6LksW+GskC3d5V9CH
+         MD7A==
+X-Forwarded-Encrypted: i=1; AJvYcCXaB9LnO5MpnWHC8o78bHYahxz8tVoZ89Lcy3HzPDZ6fRIiXSeFipcAB+IBE2P2AmPKl/hO0BN2EBt8Vw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnGM6s8IxADV9aIfB7aQqMEcieNEyBs8lDAANdnz7WjBhMX/R0
+	DBmb4TCFvCcVDRdYsZQojnK7LAdlzO8THSEVvq9o4Mj+uOk5DcLzfxI5C7kXoeEuIZY=
+X-Gm-Gg: ATEYQzx7lPa4sPP9sZWojQaie/VIus4QxMyY7ovOZeo8HckcPvV3NA5Rhg5sYYuCcmn
+	VwMBVoYy6K/fe8/w44oXESmPHairn0b0MzmWS4KwErzeT0/hbj9HWAkUsq3CgvjnRAnqSkDVLKo
+	4Cz3NE64zPDg/DOV3WX9OMIYu5iND7dASO+QJO/+zG9f7ebCT1HtLjOfy1bZOENA+Moa7tWPi+B
+	BPMTWtXc+dZkwZaTfqpvadv3UogrC/lj7ALUKnJr7QCZeUhbOMpFp3g/c2jA8B3jRQOoIn1eGOf
+	K+had30I2bvgzKOEUVwpRu/d38l2FV8OQEVNye/eu1SSmbb6bua1kAUvkacwMoMGR/1ymlmk1aG
+	guFUS9Snj00Cs9QgVwI27ZDoTVmWYRGvCbLea6Qit/HFFnsK/KTPU+lQONBK072aQTPhMQXUXW3
+	J1pz3656coj7KWg/EFSkB3rC+3pUga
+X-Received: by 2002:a05:600c:1e8c:b0:485:41c4:e2e5 with SMTP id 5b1f17b1804b1-485567090cdmr186773105e9.27.1773649990047;
+        Mon, 16 Mar 2026 01:33:10 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b5e92d5sm403411795e9.1.2026.03.16.01.33.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 01:33:09 -0700 (PDT)
+Date: Mon, 16 Mar 2026 11:33:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: av7110: fix error code in frontend_init()
+Message-ID: <abfAQrNdn58M8Dzq@stanley.mountain>
+References: <20260313-av7110-fix-enodev-v1-1-1788db19a58a.ref@yahoo.pl>
+ <20260313-av7110-fix-enodev-v1-1-1788db19a58a@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 01/13] media: saa7134: rename i2c_dbg() to
- saa7134_i2c_dbg()
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Khalil Blaiech <kblaiech@nvidia.com>,
- Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
- Bartosz Golaszewski <brgl@kernel.org>, linux-media@vger.kernel.org
-References: <20260223-i2c-printk-helpers-v2-0-13b2a97762af@oss.qualcomm.com>
- <20260223-i2c-printk-helpers-v2-1-13b2a97762af@oss.qualcomm.com>
-Content-Language: en-US, nl
-In-Reply-To: <20260223-i2c-printk-helpers-v2-1-13b2a97762af@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260313-av7110-fix-enodev-v1-1-1788db19a58a@yahoo.pl>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55861-lists,linux-media=lfdr.de,cisco];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,sang-engineering.com,kernel.org,gmail.com,sholland.org,nvidia.com,suse.com,linux.ibm.com,ellerman.id.au,suse.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55862-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FREEMAIL_TO(0.00)[yahoo.pl];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.carpenter@linaro.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
+	TAGGED_RCPT(0.00)[linux-media];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email]
-X-Rspamd-Queue-Id: 2110D296318
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,stanley.mountain:mid,yahoo.pl:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BC41C2964A9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Bartosz,
-
-Apologize, the earlier patches for this fell through the cracks so never
-made it to v7.0.
-
-For this v2:
-
-Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-
-Do you want to merge this through the i2c subsystem? Or do you want me to
-merge this patch through the media subsystem?
-
-Regards,
-
-	Hans
-
-On 23/02/2026 09:59, Bartosz Golaszewski wrote:
-> Ahead of introducing I2C-adapter-specific printk() helpers, preemptively
-> avoid a conflict with the upcoming i2c_dbg() and rename the local macro
-> in the saa7134 driver to saa7134_i2c_dbg().
+On Fri, Mar 13, 2026 at 06:36:52PM +0100, Tomasz Unger wrote:
+> Return -ENODEV instead of -ENOMEM when no frontend driver is found
+> for the device. -ENODEV is semantically correct here as the failure
+> is due to no matching frontend driver being found, not a memory
+> allocation failure.
 > 
-> Suggested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 > ---
->  drivers/media/pci/saa7134/saa7134-i2c.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/pci/saa7134/saa7134-i2c.c b/drivers/media/pci/saa7134/saa7134-i2c.c
-> index 04e85765373ecc0f0759eba539c20bcdc9716ca8..1164e91cbb7b7f5250dc02bc086f5cc06ea8f5a5 100644
-> --- a/drivers/media/pci/saa7134/saa7134-i2c.c
-> +++ b/drivers/media/pci/saa7134/saa7134-i2c.c
-> @@ -28,7 +28,7 @@ static unsigned int i2c_scan;
->  module_param(i2c_scan, int, 0444);
->  MODULE_PARM_DESC(i2c_scan,"scan i2c bus at insmod time");
->  
-> -#define i2c_dbg(level, fmt, arg...) do { \
-> +#define saa7134_i2c_dbg(level, fmt, arg...) do { \
->  	if (i2c_debug == level) \
->  		printk(KERN_DEBUG pr_fmt("i2c: " fmt), ## arg); \
->  	} while (0)
-> @@ -84,20 +84,20 @@ static inline enum i2c_status i2c_get_status(struct saa7134_dev *dev)
->  	enum i2c_status status;
->  
->  	status = saa_readb(SAA7134_I2C_ATTR_STATUS) & 0x0f;
-> -	i2c_dbg(2, "i2c stat <= %s\n", str_i2c_status[status]);
-> +	saa7134_i2c_dbg(2, "i2c stat <= %s\n", str_i2c_status[status]);
->  	return status;
->  }
->  
->  static inline void i2c_set_status(struct saa7134_dev *dev,
->  				  enum i2c_status status)
->  {
-> -	i2c_dbg(2, "i2c stat => %s\n", str_i2c_status[status]);
-> +	saa7134_i2c_dbg(2, "i2c stat => %s\n", str_i2c_status[status]);
->  	saa_andorb(SAA7134_I2C_ATTR_STATUS,0x0f,status);
->  }
->  
->  static inline void i2c_set_attr(struct saa7134_dev *dev, enum i2c_attr attr)
->  {
-> -	i2c_dbg(2, "i2c attr => %s\n", str_i2c_attr[attr]);
-> +	saa7134_i2c_dbg(2, "i2c attr => %s\n", str_i2c_attr[attr]);
->  	saa_andorb(SAA7134_I2C_ATTR_STATUS,0xc0,attr << 6);
->  }
->  
-> @@ -160,7 +160,7 @@ static int i2c_reset(struct saa7134_dev *dev)
->  	enum i2c_status status;
->  	int count;
->  
-> -	i2c_dbg(2, "i2c reset\n");
-> +	saa7134_i2c_dbg(2, "i2c reset\n");
->  	status = i2c_get_status(dev);
->  	if (!i2c_is_error(status))
->  		return true;
-> @@ -198,7 +198,7 @@ static inline int i2c_send_byte(struct saa7134_dev *dev,
->  //	dword |= 0x40 << 16;  /* 400 kHz */
->  	dword |= 0xf0 << 24;
->  	saa_writel(SAA7134_I2C_ATTR_STATUS >> 2, dword);
-> -	i2c_dbg(2, "i2c data => 0x%x\n", data);
-> +	saa7134_i2c_dbg(2, "i2c data => 0x%x\n", data);
->  
->  	if (!i2c_is_busy_wait(dev))
->  		return -EIO;
-> @@ -220,7 +220,7 @@ static inline int i2c_recv_byte(struct saa7134_dev *dev)
->  	if (i2c_is_error(status))
->  		return -EIO;
->  	data = saa_readb(SAA7134_I2C_DATA);
-> -	i2c_dbg(2, "i2c data <= 0x%x\n", data);
-> +	saa7134_i2c_dbg(2, "i2c data <= 0x%x\n", data);
->  	return data;
->  }
->  
-> @@ -237,12 +237,12 @@ static int saa7134_i2c_xfer(struct i2c_adapter *i2c_adap,
->  		if (!i2c_reset(dev))
->  			return -EIO;
->  
-> -	i2c_dbg(2, "start xfer\n");
-> -	i2c_dbg(1, "i2c xfer:");
-> +	saa7134_i2c_dbg(2, "start xfer\n");
-> +	saa7134_i2c_dbg(1, "i2c xfer:");
->  	for (i = 0; i < num; i++) {
->  		if (!(msgs[i].flags & I2C_M_NOSTART) || 0 == i) {
->  			/* send address */
-> -			i2c_dbg(2, "send address\n");
-> +			saa7134_i2c_dbg(2, "send address\n");
->  			addr  = msgs[i].addr << 1;
->  			if (msgs[i].flags & I2C_M_RD)
->  				addr |= 1;
-> @@ -265,7 +265,7 @@ static int saa7134_i2c_xfer(struct i2c_adapter *i2c_adap,
->  		}
->  		if (msgs[i].flags & I2C_M_RD) {
->  			/* read bytes */
-> -			i2c_dbg(2, "read bytes\n");
-> +			saa7134_i2c_dbg(2, "read bytes\n");
->  			for (byte = 0; byte < msgs[i].len; byte++) {
->  				i2c_cont(1, " =");
->  				rc = i2c_recv_byte(dev);
-> @@ -286,7 +286,7 @@ static int saa7134_i2c_xfer(struct i2c_adapter *i2c_adap,
->  			}
->  		} else {
->  			/* write bytes */
-> -			i2c_dbg(2, "write bytes\n");
-> +			saa7134_i2c_dbg(2, "write bytes\n");
->  			for (byte = 0; byte < msgs[i].len; byte++) {
->  				data = msgs[i].buf[byte];
->  				i2c_cont(1, " %02x", data);
-> @@ -296,7 +296,7 @@ static int saa7134_i2c_xfer(struct i2c_adapter *i2c_adap,
->  			}
->  		}
->  	}
-> -	i2c_dbg(2, "xfer done\n");
-> +	saa7134_i2c_dbg(2, "xfer done\n");
->  	i2c_cont(1, " >");
->  	i2c_set_attr(dev,STOP);
->  	rc = -EIO;
-> 
 
+Returning -ENOMEM is just as reasonable as -ENODEV.  We're looking at
+if ves1820_attach(), ves1x93_attach() or stv0299_attach() etc fail.
+Memory allocation failures seem like the most common cause to me.
+
+The FIXME also seems reasonable...  Just leave it as-is until someone
+can address it properly.
+
+regards,
+dan carpenter
 
