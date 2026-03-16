@@ -1,225 +1,288 @@
-Return-Path: <linux-media+bounces-55902-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55903-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mK5cJcH2t2mfXQEAu9opvQ
-	(envelope-from <linux-media+bounces-55902-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:25:37 +0100
+	id QPoHGJ76t2n1XgEAu9opvQ
+	(envelope-from <linux-media+bounces-55903-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:42:06 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3916629974F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:25:37 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D322999F3
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 13:42:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 460573011141
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 12:25:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CC82A30276AF
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 12:40:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F32D395D98;
-	Mon, 16 Mar 2026 12:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84687396595;
+	Mon, 16 Mar 2026 12:40:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="MMXrGwYv"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RII1pUx0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2317220F3E;
-	Mon, 16 Mar 2026 12:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE93396596
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 12:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773663929; cv=none; b=snOCEcAcJKVrjWZPUtEBrVrej0U9x3zmFI+JE68oqXLMLtroHRnfiDxPvkQskGDOl75lKrNwKHu26QQ260t87eEcGlDVP9Kr8UBp1P1uiU6AFiWfg4vtrzJ90Da1DBPioWXHc+1r9FWKsXJsdNRATQW0Gi3azBzM/mrt3F6ouF0=
+	t=1773664849; cv=none; b=UzmuvqFIqQcUBGDpaqRRS/McFeKpIUambUaNKMWLnQiBRhNMLHWsnf42QN0zcJSgEBHGZvXjFbYjlFUc+Vy8buhPXimDEmwPqFCYhUPT8DTiNrbjFemyaysYpJQ/GTs38cKbJrF92pnEZRofUl0DRcSJksKeMCmgCJWzAYfQwBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773663929; c=relaxed/simple;
-	bh=kPJYIEAJR54rRZMU4vjSNZyuTkSLhKkgEbKyOFFoJkc=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=ih3QRhsJp5smtf6jODhXa8z32Y9anOP+eMsX3KP36/1UR32Dm2pJh+kehUYBuq599cy7A2zAKBAISEYeghghdpWNkXRopgmm6teXAP5fL3a3uUbUCJ7e4px+z1h9gaGQaotlezEtxRc8XmT1jCNANIeTyjLY2bn69WCk038knZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=MMXrGwYv; arc=none smtp.client-ip=43.163.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1773663919; bh=8IlexxpMmwKQzRij5fT70kj2wanqMWnzZ9aWuQZ0bFY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=MMXrGwYvMxa7UkPPOwwjkHPJJZaAh9t+UEZxsosofHd9RM/7STYZG2uKwzbcsYg12
-	 iFpW2sh96OKJaFNY1zOiPWmCPE9oTx6G+euKV4VfWTAC/Jk0oMHugreiK3Q0lTeI89
-	 Z7VK5O6ME2kS+smVThl9F/GRASwEzEia3OXLpvQM=
-Received: from June.localdomain ([123.121.145.35])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id 6040EEFF; Mon, 16 Mar 2026 20:24:04 +0800
-X-QQ-mid: xmsmtpt1773663846tp2qb4xg8
-Message-ID: <tencent_58827022DBE97040A15A03C0657EC869140A@qq.com>
-X-QQ-XMAILINFO: MRMtjO3A6C9Xixzd0RHdhCMLvrK3ihLIBz5bhDAPSwLnSLRRGDvVDPmxKOESBI
-	 mMQkN4Z65t9+iSvQRhSaC6rQhFcsdzQPJDkqWwJr1s6crwt+ubEiYpC6vwm25Zyv4kN4IaQWvny1
-	 CiPXGyS86SmmMsICcWH+N4D5ADgChRQ9fxSJkdIra//40cstQ4fgHRKZ8sXjFx8u010mRke0EPht
-	 9FSkPoJJr9eZehdUvSibFS4QUwwbPfnu0SBCMTE7xA6OYPPpN/qzhdbFKy/0DTBnX6Fg+LFBXUWJ
-	 Z44sidX0ApdJPnYnkBt7JjwV9VmjZjsTprDmmX75Xy1wuC1PwTDWXMsx9STHDtpB5eoVs1dqqyQW
-	 H+O2D2DTDnsq+CHRE3LD8XL0hEp2+sO+Pw5X4xCmVxWsXOWpvPExJFcyh+9Tr+dLkgdvhvwus1t8
-	 u75QobVUKhzcRpLZKgdyVpUbWFnIlEaWEdfk/aYG4/3Wwo7UwXpsyEa3TIUTTXIws8k3zU4qnLmX
-	 54TzEm2YN0yYT1+tN6QKZUcqGccRxxBPWWXX0UhM9mipvlTklbP0ny6i1Sthkhn6yBWG0yMrb6i/
-	 HQjMbDGni+H8l5jpdQINFDwjO8BWByd2YE88cY2kCOjadU7B2Cl2QZ4quxuaeILPJdcTyzYJZroF
-	 2GNt4GijYT22dw67h78qYj6cb8Lthoyju1oX49WOWpcvrQeaYEFjN1j7EGqbVCRsVVTdBr0Tp7WM
-	 HD6vuCgLXtNteCVO0WKAhmc3IujpznE2A7x6Dsb2p/hAVXf0/9T2isNJw58gouZobY+t0TygIsOo
-	 Uj8kIxdgW4LGJ5CEBH1tBGjHg1/Qbgm/Y0AEtxEbMf+CViZ9/yXC/N2hr9L4oDzQ0Nxi2oTN97kJ
-	 HgVqihBqSDFIJ+icp5fI33S8whTCt8NGdPtVXETcfsS4fUEBqfMfJi2iGGuf5p28r26M//iRQH43
-	 K7ub7+c1k8ytm0BrP6Zs/vne1JwyNVd78UOXjU1qeO1OHPrMYlRUrn1wbRZEmO2KStsWVRL+suYK
-	 wnMd90rq6z5+mqA6sS/MWsU+eSC6k6HaE+2jyWisuRUTaQ8YJSMAiznvEKAznADTtxXf7yFcz0tn
-	 bqUAnhNeQgovB+13w=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-From: Wang Jun <1742789905@qq.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Wang Jun <1742789905@qq.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: gszhai@bjtu.edu.cn,
-	25125332@bjtu.edu.cn,
-	25125283@bjtu.edu.cn,
-	23120469@bjtu.edu.cn,
-	stable@vger.kernel.org
-Subject: [PATCH v7 1/1] media: saa7164: add ioremap return checks and cleanups
-Date: Mon, 16 Mar 2026 20:24:01 +0800
-X-OQ-MSGID: <20260316122403.23337-2-1742789905@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260316122403.23337-1-1742789905@qq.com>
-References: <a44adff7-60fd-4fca-85f4-0c69a035ec69@web.de>
- <20260316122403.23337-1-1742789905@qq.com>
+	s=arc-20240116; t=1773664849; c=relaxed/simple;
+	bh=+t6f6710ZJub2vjiBPzipx/xwQjwtlrqmFpgwHKn03I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=isXPMF7B0Oo2GZ7vchTZfvnKmQGbYLbE4s6VesncJGcjx6rUGDnFm+rC9qkq7bLkagNR8jcPbcW16uBj72qO/KahILImEvD0vSkm+W1uUlC5MWgIj+4NthsWmqCh+Vlbxbz1hzAwo13eT4blDjY4oBKG4kIJWf0b8PsuBQgQ8Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RII1pUx0; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-664f8bef4e7so1883903a12.3
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 05:40:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1773664845; x=1774269645; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gi4RHI+Y81wQCZttp37YwDWMGbQzC+jOC5s3RXzty/8=;
+        b=RII1pUx0eKCZvNCf5X2tqlDZhl0ENbgXHlmH5bOD8dDCNo3OEVgfqyBt1o04CJ+Iwe
+         G5/PciZX+85B46KocjLhQHqGRAF8I2XrfPbik/DhiFbePgmkWharkxXfAz31c8Zcdn1p
+         rKI+WHmHghFLCfnlC84C6+wF1WlqImvaVFP18=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773664845; x=1774269645;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gi4RHI+Y81wQCZttp37YwDWMGbQzC+jOC5s3RXzty/8=;
+        b=qAsQ3vuYv7DtU4zcf3h92/HtkOVE5ZCiPVek42gwyDELnM7cNWZEz8ZaFbmrbcxam2
+         slTl3Sret2ZisGrBxijvt+5k1FYewqKxSVED348dnupjAxC/3w8Yvms/0ftby5hjaXs+
+         fA4jZ0mLl9RFMLThOeCRU61ESGxiTKXJgYjJ/x4NnN3q8oxlQd1hisj+qJwVy2iGcHWR
+         mVjInjbIAhl8rbBkpJ+f/dhRpvrrglngoQN16KbsWlNPNoHdVnIv93EFINKZ4mG3LHgV
+         gpPyQ760HKWzN2qbg1ONYGh1ETrqTNUTfuLz1VNG2RPIDym80gC7Z0lNWmaZ15XF9uTl
+         mnbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmrSVfWykAdteEKessWJgFxjMwuJNIgaO3ZNHRwMOTdvB0pq8Zbznk6WqsuGOYAFFTBiTmRy9HThLGIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpnPSIxlHGji1qPBxTkSeJ7jVcmUAWf1+F+7F0bI3/IXDwVgVI
+	ABU3VdFTI6ykeR0ugHPCkXsD7m6aHBdAXxMT6QWqVpspi/G/POXJPbx9DrMNXQ6ZLZmEdL7GNc9
+	QEic=
+X-Gm-Gg: ATEYQzxer4wM5wCY6II+ijP9V1rTPJqQ8oI7+tFLfVb5y5q2oJPL/yqpcH1XzwO+6rD
+	6L4Hqaet0gNcEvFLYPxAfVfa3tu67eyKL05f/phqbaR1E9S1FdLIoCZE09/E6vZGFQGbIjFjlmd
+	zGkg+7e98UUz5oil1wyzyAgS4U9uhQNUKOYqOepNK7Z0a1kH4sZ35/XXqFv97H34syxQeyVRCME
+	n40/BKoknNKTNwNhEblGYczvkglTCvapUyYy+qqbp8uMQflkpeHLguRu4z/CAFueCwp8KUGE/1Z
+	FlwODTR/daUhwy6vJ96HgZcCbE8tNF9SAHRFkUVIBKoOJLZw51GtcW8mXauGbChaJ/TQ6gfRxYA
+	BcEcl7JFIPRVo+nRPietgrYprShSH/B3sIrCXbgB+hWRiRT0qW/q+PmLMHMzGdBdIAVfnyPli5a
+	S3Mam9Otm9Tb19gdq+dG/Jzs+5TURHwrKRAwfIAUmGZOG4D8gNTSRl4Kti1nI3
+X-Received: by 2002:a17:907:98e:b0:b97:554:f12e with SMTP id a640c23a62f3a-b97650c2f9bmr685174766b.14.1773664844664;
+        Mon, 16 Mar 2026 05:40:44 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b97cb0d2df2sm68130766b.54.2026.03.16.05.40.44
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 05:40:44 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b97bca3797dso129045666b.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 05:40:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX990pL6CC2DAF9KqaB8J/Yac+jagvPpIzGgU8YbgX3R5PzfwkU7SFzaYR35t384+tu2d1pbzVe2GHpSw==@vger.kernel.org
+X-Received: by 2002:a17:907:60cc:b0:b97:b2db:6365 with SMTP id
+ a640c23a62f3a-b97b2db67b9mr270829066b.1.1773664843044; Mon, 16 Mar 2026
+ 05:40:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.66 / 15.00];
+References: <20260313-uvc-fid-v2-1-3f7a996d9047@chromium.org> <41ecee5e-adcf-493b-839d-2390163700f5@kernel.org>
+In-Reply-To: <41ecee5e-adcf-493b-839d-2390163700f5@kernel.org>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 16 Mar 2026 13:40:30 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuj4cPuB5_v2xyvAagA5FjoN8V5scXiFFOeD3aKDMqkCg@mail.gmail.com>
+X-Gm-Features: AaiRm523jMNHwsQRnDZGdty1VmPo00lSF5NTcl3lFCBGVEJK7tQZ3Ua-hwsc4Kg
+Message-ID: <CANiDSCuj4cPuB5_v2xyvAagA5FjoN8V5scXiFFOeD3aKDMqkCg@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Fix buffer sequence in frame gaps
+To: Hans de Goede <hansg@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Yunke Cao <yunkec@google.com>, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55902-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,qq.com,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qq.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[qq.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[1742789905@qq.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[chromium.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55903-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qq.com:dkim,qq.com:email,qq.com:mid]
-X-Rspamd-Queue-Id: 3916629974F
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,chromium.org:dkim,chromium.org:email]
+X-Rspamd-Queue-Id: C1D322999F3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add checks for ioremap return values in saa7164_dev_setup(). If
-ioremap for BAR0 or BAR2 fails, release the already allocated PCI
-memory regions, remove the device from the global list, decrement
-the device count, and return -ENODEV.
+Hi Hans
 
-This prevents potential null pointer dereferences and ensures proper
-cleanup on memory mapping failures.
+Thanks for looking into this. uvc_video_decode_start() is not a
+beautiful function (not saying that I could have made it better).
 
-Fixes: 443c1228d505 ("V4L/DVB (12923): SAA7164: Add support for the NXP SAA7164 silicon")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wang Jun <1742789905@qq.com>
----
- drivers/media/pci/saa7164/saa7164-core.c | 47 ++++++++++++++++++------
- 1 file changed, 35 insertions(+), 12 deletions(-)
+On Mon, 16 Mar 2026 at 12:45, Hans de Goede <hansg@kernel.org> wrote:
+>
+> Hi,
+>
+> On 13-Mar-26 7:21 PM, Ricardo Ribalda wrote:
+> > In UVC, the FID flips with every frame. For every FID flip, we increase
+> > the stream sequence number.
+> >
+> > Now, If a FID flips multiple times and there is no data transferred between
+> > the flips, the buffer sequence number will be set to the value of the
+> > stream sequence number after the first flip.
+> >
+> > Userspace uses the buffer sequence number to determine if there has been
+> > missing frames. With the current behaviour, userspace will think that the
+> > gap is in the wrong location.
+> >
+> > This patch modifies uvc_video_decode_start() to provide the correct
+> > correct buffer sequence number and timestamp.
+> >
+> > Cc: stable@kernel.org
+> > Fixes: 650b95feee35 ("[media] uvcvideo: Generate discontinuous sequence numbers when frames are lost")
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>
+> So I'm trying to understand this patch, but while looking at this I'm having
+> a hard time to figure out the current code.
+>
+> Lets take the following scenario. We have an active current buffer with some
+> bytesused and uvc_video_decode_start() sees a fid flip.
+>
+> Now the following happens:
+>
+> First uvc_video_decode_start() run:
+>
+> 1. if (stream->last_fid != fid) check at line 1175 sees the flip does stream->sequence++;
+> 2. if (fid != stream->last_fid && buf->bytesused != 0) check at line 1243 succeeds, marks
+>    buffer as ready and returns -EAGAIN.
+> 3. Note stream->last_fid is not updated in this case.
+>
+> Second uvc_video_decode_start() run because of -EGAIN with new fresh buffer
+>
+> 1. if (stream->last_fid != fid) check at line 1175 sees the flip does stream->sequence++;
+> 2. if (buf->state != UVC_BUF_STATE_ACTIVE) check at line 1209 succeeds, updates
+>    buf->buf.sequence , timestamp
+> 3. if (fid != stream->last_fid && buf->bytesused != 0) check at line 1243 fails because
+>    bytesused == 0
+> 4. function exits normally doing:
+>
+>         stream->last_fid = fid;
+>
+>         return header_len;
+>
+> Notice that step 1. happens in both uvc_video_decode_start() runs so we are doing
+> stream->sequence++ *twice* for a single fid flip. Am I missing something here or
+> are we indeed increasing sequence twice. And if we are indeed increasing sequence
+> twice, is that intentional and/or expected by userspace ?
 
-diff --git a/drivers/media/pci/saa7164/saa7164-core.c b/drivers/media/pci/saa7164/saa7164-core.c
-index 74406d5ea0a5..e8037ac1db73 100644
---- a/drivers/media/pci/saa7164/saa7164-core.c
-+++ b/drivers/media/pci/saa7164/saa7164-core.c
-@@ -888,6 +888,15 @@ static int get_resources(struct saa7164_dev *dev)
- 	return -EBUSY;
- }
- 
-+static void release_resources(struct saa7164_dev *dev)
-+{
-+	release_mem_region(pci_resource_start(dev->pci, 0),
-+			   pci_resource_len(dev->pci, 0));
-+
-+	release_mem_region(pci_resource_start(dev->pci, 2),
-+			   pci_resource_len(dev->pci, 2));
-+}
-+
- static int saa7164_port_init(struct saa7164_dev *dev, int portnr)
- {
- 	struct saa7164_port *port = NULL;
-@@ -947,9 +956,9 @@ static int saa7164_dev_setup(struct saa7164_dev *dev)
- 
- 	snprintf(dev->name, sizeof(dev->name), "saa7164[%d]", dev->nr);
- 
--	mutex_lock(&devlist);
--	list_add_tail(&dev->devlist, &saa7164_devlist);
--	mutex_unlock(&devlist);
-+	scoped_guard(mutex, &devlist) {
-+		list_add_tail(&dev->devlist, &saa7164_devlist);
-+	}
- 
- 	/* board config */
- 	dev->board = UNSET;
-@@ -996,11 +1005,17 @@ static int saa7164_dev_setup(struct saa7164_dev *dev)
- 	}
- 
- 	/* PCI/e allocations */
--	dev->lmmio = ioremap(pci_resource_start(dev->pci, 0),
--			     pci_resource_len(dev->pci, 0));
-+	dev->lmmio = pci_ioremap_bar(dev->pci, 0);
-+	if (!dev->lmmio) {
-+		dev_err(&dev->pci->dev, "Failed to remap MMIO BAR 0\n");
-+		goto err_ioremap_bar0;
-+	}
- 
--	dev->lmmio2 = ioremap(pci_resource_start(dev->pci, 2),
--			     pci_resource_len(dev->pci, 2));
-+	dev->lmmio2 = pci_ioremap_bar(dev->pci, 2);
-+	if (!dev->lmmio2) {
-+		dev_err(&dev->pci->dev, "Failed to remap MMIO BAR 2\n");
-+		goto err_ioremap_bar2;
-+	}
- 
- 	dev->bmmio = (u8 __iomem *)dev->lmmio;
- 	dev->bmmio2 = (u8 __iomem *)dev->lmmio2;
-@@ -1019,17 +1034,25 @@ static int saa7164_dev_setup(struct saa7164_dev *dev)
- 	saa7164_pci_quirks(dev);
- 
- 	return 0;
-+
-+err_ioremap_bar2:
-+	iounmap(dev->lmmio);
-+err_ioremap_bar0:
-+	release_resources(dev);
-+
-+	scoped_guard(mutex, &devlist) {
-+		list_del(&dev->devlist);
-+	}
-+	saa7164_devcount--;
-+
-+	return	-ENODEV;
- }
- 
- static void saa7164_dev_unregister(struct saa7164_dev *dev)
- {
- 	dprintk(1, "%s()\n", __func__);
- 
--	release_mem_region(pci_resource_start(dev->pci, 0),
--		pci_resource_len(dev->pci, 0));
--
--	release_mem_region(pci_resource_start(dev->pci, 2),
--		pci_resource_len(dev->pci, 2));
-+	release_resources(dev);
- 
- 	if (!atomic_dec_and_test(&dev->refcount))
- 		return;
+During normal operation the driver will not reach line 1243, instead
+it will detect the new frame using the EOF in the function
+uvc_video_decode_end().
+
+Something like this:
+
+****EOF_CHANGE
+uvc_video_decode_end()
+  - set buf->state to READY
+uvc_video_decode_isoc()
+  - calls uvc_video_next_buffers(), which provides buffes with bytesused=0
+uvc_vieo_decode_start()
+  - Loops in "Dropping payload (out of sync)"
+
+**** FID FLIP
+- uvc_video_decode_start()
+  - sequence++
+  - set buf->state to ACTIVE
+  - last_fid = fid
+
+
+If I understood the code correctly, line 1243 was introduced for
+cameras that do not implement EOF properly. For those cameras I agree
+that it looks like the code will increment the sequence twice per
+frame... which is wrong. I can send a patch if you want but I have no
+camera to test it. Basically I would set stream->last_fid = fid before
+return -EAGAIN
+
+
+Regards!!!
+
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+>
+> > ---
+> > Changes in v2 (Thanks Laurent):
+> > - Improve commit message.
+> > - Remove original timestamp and sequence assignment. It is not neeed
+> > - Link to v1: https://lore.kernel.org/r/20260310-uvc-fid-v1-1-5e37dc3c7024@chromium.org
+> > ---
+> >  drivers/media/usb/uvc/uvc_video.c | 18 ++++++++++++++----
+> >  1 file changed, 14 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > index 40c76c051da2..9e06b1d0f0f9 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -1176,6 +1176,20 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+> >               stream->sequence++;
+> >               if (stream->sequence)
+> >                       uvc_video_stats_update(stream);
+> > +
+> > +             /*
+> > +              * If there is a FID flip and the buffer has no data,
+> > +              * initialize its sequence number and timestamp.
+> > +              *
+> > +              * The driver already takes care of injecting FID flips for
+> > +              * UVC_QUIRK_STREAM_NO_FID and UVC_QUIRK_MJPEG_NO_EOF.
+> > +              */
+> > +             if (buf && !buf->bytesused) {
+> > +                     buf->buf.field = V4L2_FIELD_NONE;
+> > +                     buf->buf.sequence = stream->sequence;
+> > +                     buf->buf.vb2_buf.timestamp =
+> > +                                     ktime_to_ns(uvc_video_get_time());
+> > +             }
+> >       }
+> >
+> >       uvc_video_clock_decode(stream, buf, data, len);
+> > @@ -1216,10 +1230,6 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+> >                       return -ENODATA;
+> >               }
+> >
+> > -             buf->buf.field = V4L2_FIELD_NONE;
+> > -             buf->buf.sequence = stream->sequence;
+> > -             buf->buf.vb2_buf.timestamp = ktime_to_ns(uvc_video_get_time());
+> > -
+> >               /* TODO: Handle PTS and SCR. */
+> >               buf->state = UVC_BUF_STATE_ACTIVE;
+> >       }
+> >
+> > ---
+> > base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
+> > change-id: 20260310-uvc-fid-e1e55447b6f1
+> >
+> > Best regards,
+>
+
+
 -- 
-2.43.0
-
+Ricardo Ribalda
 
