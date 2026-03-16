@@ -1,51 +1,43 @@
-Return-Path: <linux-media+bounces-55957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55958-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YGrBFF5HuGmLbAEAu9opvQ
-	(envelope-from <linux-media+bounces-55957-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 19:09:34 +0100
+	id INQ7KmpLuGlTbgEAu9opvQ
+	(envelope-from <linux-media+bounces-55958-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 19:26:50 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B5329ED89
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 19:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4D829F028
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 19:26:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3AAE1304D277
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 18:08:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9CE183034664
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 18:26:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEDE9395256;
-	Mon, 16 Mar 2026 18:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ut/a5a2c"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C89D9343D75;
+	Mon, 16 Mar 2026 18:26:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9FF344D91;
-	Mon, 16 Mar 2026 18:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60CC83DBD7F
+	for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 18:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773684490; cv=none; b=JzYaq4wAFZ8QRe+CSr8NITa1f085o/LhN61NKMvwke1tpos6zOtqIkAMthIOCVsG7ocB2GZhyrbIrfsDLQBlMWixYns49J/H7MXDV8oGufT3HJPi4PlCrkuPW0sDrQfb4kzeV5+WJAE4WVY2GPTVO7euDwh7v3ljrVV2OR/et3k=
+	t=1773685571; cv=none; b=havyV8dFhy/iTl7aj/EZ7sCM7v6pL2wkY/ZTp0bLuqNgDdqH91eJX9j8sXOIjjj57qDCuQIEvU0XZrNkcUzPLVqm/Zd89AsI3itfhuJ9XoC60vTDzHgTUjESgoDQyOm/xa7Q35ZTQzBORkGsPYIzDn4sx4Ga7BRwocOeK1ZyFmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773684490; c=relaxed/simple;
-	bh=NiJ3WnEDehNy0iNr06KR8Y+hKvreVkcs1fNU5PCTFyU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=S6zR3F05GprrfNKbJ3pbQz07ztkqmWsTHziP2X7n+ImnAEn2yPuSnfP/zzOXG9w7iNbaF5FS51JU0qRKRB7dSQvOoPLIzBEjogXC2vC4EtFWRlKNvhQxywcha4EyeoPys0KqFVrrpYS5AipQ3/fe4LFuJWkMuVjFUQLTYw6oBaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ut/a5a2c; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A8FC19421;
-	Mon, 16 Mar 2026 18:08:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773684489;
-	bh=NiJ3WnEDehNy0iNr06KR8Y+hKvreVkcs1fNU5PCTFyU=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=ut/a5a2cjDJ5uIZjcCBCpU3vJU6M2pSSJVQWQ6uu33mGdke1oJAr5meeWWs66fQlw
-	 f9tUMJigPl0Gd0+77+apuVjR4Le3cIYqCq8eslZo9fdx9iN6R+nfkUGWFXHEaQxVmd
-	 zaZa3uw3bxGaci9yQUlm98BdGrjxUYGBfFjuK0/I+4IOXbByDDjGzlqGL+//tmwc4G
-	 ZICKJcQZxDynfyIRCJyG/fv9faCuHI22v4ZtWawOSxoM2GsXCOZVtmtBF/2RNwrASm
-	 lx462+r8hjvRQ51au80CBA0847qDeev92EHLkjo+atGTq9M0jjoau2IKZiOl5WuOZC
-	 bftXlHygdvKLA==
-Message-ID: <9ea2c5d6-8d75-43cd-9e1f-f39bf714d2e5@kernel.org>
-Date: Mon, 16 Mar 2026 19:08:01 +0100
+	s=arc-20240116; t=1773685571; c=relaxed/simple;
+	bh=uqqMtICpS22hRUXwn3PV4nB5kWkXjSCzWk4BJpKIbA0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cWXcJcsbR0kwq/LsuThXEhbgJfNw68+1+FKdCSjdFPZ0yy+LirAzU1GPUn42iFPMSsKOlrBKF0hS+unITzu1NeJAhu87OR/XxZcIucou4VQlJRDDvrdbHIbF7s4vyNaFe2BMsYAXKt9EiIXWjLlRO6i0AHPqrBWwAHMUhxUBdhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E67C339;
+	Mon, 16 Mar 2026 11:25:56 -0700 (PDT)
+Received: from [10.57.61.116] (unknown [10.57.61.116])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 262AB3F778;
+	Mon, 16 Mar 2026 11:25:58 -0700 (PDT)
+Message-ID: <15fcfa5e-c4b9-4b56-8f84-20dd5f66d643@arm.com>
+Date: Mon, 16 Mar 2026 18:25:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,163 +45,234 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: dt-bindings: Drop redundant endpoint
- properties
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>, Martin Hecht <mhecht73@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Dongchun Zhu <dongchun.zhu@mediatek.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Quentin Schulz <quentin.schulz@theobroma-systems.com>,
- Todor Tomov <todor.too@gmail.com>, "Paul J. Murphy"
- <paul.j.murphy@intel.com>,
- Daniele Alessandrelli <daniele.alessandrelli@gmail.com>,
- Marco Felsch <kernel@pengutronix.de>, Lubomir Rintel <lkundrak@v3.sk>,
- linux-renesas-soc@vger.kernel.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260316134533.56941-3-krzysztof.kozlowski@oss.qualcomm.com>
- <20260316134533.56941-4-krzysztof.kozlowski@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260316134533.56941-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v4 1/2] dma-mapping: introduce DMA_ATTR_CC_DECRYPTED for
+ pre-decrypted memory
+To: Jiri Pirko <jiri@resnulli.us>, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org
+Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
+ Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
+ christian.koenig@amd.com, m.szyprowski@samsung.com, jgg@ziepe.ca,
+ leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com,
+ catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
+ steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
+ ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
+ linux-coco@lists.linux.dev
+References: <20260316125857.617836-1-jiri@resnulli.us>
+ <20260316125857.617836-2-jiri@resnulli.us>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260316125857.617836-2-jiri@resnulli.us>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[arm.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-55957-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[oss.qualcomm.com,gmail.com,kernel.org,foss.st.com,jmondi.org,ideasonboard.com,ragnatech.se,linux.intel.com,raspberrypi.com,glider.be,linaro.org,mediatek.com,bootlin.com,theobroma-systems.com,intel.com,pengutronix.de,v3.sk,vger.kernel.org,bp.renesas.com];
+	TAGGED_FROM(0.00)[bounces-55958-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[31];
+	RCVD_TLS_LAST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robin.murphy@arm.com,linux-media@vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,renesas];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: E5B5329ED89
+	NEURAL_HAM(-0.00)[-0.951];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,arm.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0E4D829F028
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 16/03/2026 14:45, Krzysztof Kozlowski wrote:
-> The "endpoint" node references video-interfaces.yaml schema with
-> "unevaluatedProperties: false" which means that all properties from
-> referenced schema apply.  Listing some of them with ": true" is simply
-> redundant and does not make this code easier to read.
+On 2026-03-16 12:58 pm, Jiri Pirko wrote:
+> From: Jiri Pirko <jiri@nvidia.com>
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Current CC designs don't place a vIOMMU in front of untrusted devices.
+> Instead, the DMA API forces all untrusted device DMA through swiotlb
+> bounce buffers (is_swiotlb_force_bounce()) which copies data into
+> decrypted memory on behalf of the device.
+> 
+> When a caller has already arranged for the memory to be decrypted
+> via set_memory_decrypted(), the DMA API needs to know so it can map
+> directly using the unencrypted physical address rather than bounce
+> buffering. Following the pattern of DMA_ATTR_MMIO, add
+> DMA_ATTR_CC_DECRYPTED for this purpose. Like the MMIO case, only the
+> caller knows what kind of memory it has and must inform the DMA API
+> for it to work correctly.
+
+Echoing Jason's point, if the intent of this is to indicate shared 
+memory, please call it DMA_ATTR_CC_SHARED. Yes, some of the existing 
+APIs are badly named because they conflated intent with implementation 
+details; that is no reason to keep wilfully making the same mistake.
+
+At least with Arm CCA, the architecture enforces *confidentiality* 
+pretty much orthogonally to encryption - if your threat model excludes 
+physical attacks against DRAM, you can still have Realms isolated from 
+each other (and of course other execution states) without even 
+implementing the memory encryption feature; conversely if you do have 
+it, then even all the shared/host memory may still be physically 
+encrypted, it just has its own context (key) distinct from the Realm 
+ones. Similarly, while it's not a "true" CoCo environment, pKVM has a 
+similar notion of shared vs. private which can benefit from 
+piggy-backing off much of the CoCo infrastructure in places like the DMA 
+layer, but has nothing whatsoever to do with actual encryption.
+
+Furthermore, "shared" is just shorter and more readable, even before I 
+invoke the previous discussion of why it should be "unencrypted" rather 
+than "decrypted" anyway ;)
+
+> Signed-off-by: Jiri Pirko <jiri@nvidia.com>
 > ---
->  .../devicetree/bindings/media/marvell,mmp2-ccic.yaml        | 6 ------
->  Documentation/devicetree/bindings/media/renesas,ceu.yaml    | 3 ---
->  .../devicetree/bindings/media/renesas,rzg2l-cru.yaml        | 6 ------
->  3 files changed, 15 deletions(-)
+> v3->v4:
+> - added some sanity checks to dma_map_phys and dma_unmap_phys
+> - enhanced documentation of DMA_ATTR_CC_DECRYPTED attr
+> v1->v2:
+> - rebased on top of recent dma-mapping-fixes
+> ---
+>   include/linux/dma-mapping.h | 10 ++++++++++
+>   include/trace/events/dma.h  |  3 ++-
+>   kernel/dma/direct.h         | 14 +++++++++++---
+>   kernel/dma/mapping.c        | 13 +++++++++++--
+>   4 files changed, 34 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-> index de3e483f146a..a8bf06108158 100644
-> --- a/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-> +++ b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-> @@ -35,12 +35,6 @@ properties:
->          $ref: video-interfaces.yaml#
->          unevaluatedProperties: false
->  
-> -        properties:
-> -          hsync-active: true
-> -          vsync-active: true
-> -          pclk-sample: true
-> -          bus-type: true
-> -
->    clocks:
->      minItems: 1
->      items:
-> diff --git a/Documentation/devicetree/bindings/media/renesas,ceu.yaml b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> index d527fc42c3fd..5f78c77b10a3 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> @@ -43,9 +43,6 @@ properties:
->          unevaluatedProperties: false
->  
->          properties:
-> -          hsync-active: true
-> -          vsync-active: true
-> -          field-even-active: false
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index 29973baa0581..476964d2b22f 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -85,6 +85,16 @@
+>    * a cacheline must have this attribute for this to be considered safe.
+>    */
+>   #define DMA_ATTR_CPU_CACHE_CLEAN	(1UL << 11)
+> +/*
+> + * DMA_ATTR_CC_DECRYPTED: Indicates the DMA mapping is decrypted (shared) for
+> + * confidential computing guests. For normal system memory the caller must have
+> + * called set_memory_decrypted(), and pgprot_decrypted must be used when
+> + * creating CPU PTEs for the mapping. The same decrypted semantic may be passed
+> + * to the vIOMMU when it sets up the IOPTE. For MMIO use together with
 
-Removed too much, this must stay.
+That being "the vIOMMU" that you said doesn't exist, and which is 
+explicitly not supported?...
 
->            bus-width:
->              enum: [8, 16]
+> + * DMA_ATTR_MMIO to indicate decrypted MMIO. Unless DMA_ATTR_MMIO is provided
+> + * a struct page is required.
+> + */
+> +#define DMA_ATTR_CC_DECRYPTED	(1UL << 12)
+>   
+>   /*
+>    * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+> diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
+> index 33e99e792f1a..b8082d5177c4 100644
+> --- a/include/trace/events/dma.h
+> +++ b/include/trace/events/dma.h
+> @@ -32,7 +32,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
+>   		{ DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
+>   		{ DMA_ATTR_NO_WARN, "NO_WARN" }, \
+>   		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
+> -		{ DMA_ATTR_MMIO, "MMIO" })
+> +		{ DMA_ATTR_MMIO, "MMIO" }, \
+> +		{ DMA_ATTR_CC_DECRYPTED, "CC_DECRYPTED" })
+>   
+>   DECLARE_EVENT_CLASS(dma_map,
+>   	TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t dma_addr,
+> diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
+> index e89f175e9c2d..c047a9d0fda3 100644
+> --- a/kernel/dma/direct.h
+> +++ b/kernel/dma/direct.h
+> @@ -84,16 +84,24 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
+>   	dma_addr_t dma_addr;
+>   
+>   	if (is_swiotlb_force_bounce(dev)) {
+> -		if (attrs & DMA_ATTR_MMIO)
+> -			return DMA_MAPPING_ERROR;
+> +		if (!(attrs & DMA_ATTR_CC_DECRYPTED)) {
+> +			if (attrs & DMA_ATTR_MMIO)
+> +				return DMA_MAPPING_ERROR;
+>   
+> -		return swiotlb_map(dev, phys, size, dir, attrs);
+> +			return swiotlb_map(dev, phys, size, dir, attrs);
+> +		}
+> +	} else if (attrs & DMA_ATTR_CC_DECRYPTED) {
+> +		return DMA_MAPPING_ERROR;
+>   	}
+>   
+>   	if (attrs & DMA_ATTR_MMIO) {
+>   		dma_addr = phys;
+>   		if (unlikely(!dma_capable(dev, dma_addr, size, false)))
+>   			goto err_overflow;
+> +	} else if (attrs & DMA_ATTR_CC_DECRYPTED) {
+> +		dma_addr = phys_to_dma_unencrypted(dev, phys);
+> +		if (unlikely(!dma_capable(dev, dma_addr, size, false)))
+> +			goto err_overflow;
+>   	} else {
+>   		dma_addr = phys_to_dma(dev, phys);
+>   		if (unlikely(!dma_capable(dev, dma_addr, size, true)) ||
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index 3928a509c44c..abb0c88b188b 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -157,6 +157,7 @@ dma_addr_t dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
+>   {
+>   	const struct dma_map_ops *ops = get_dma_ops(dev);
+>   	bool is_mmio = attrs & DMA_ATTR_MMIO;
+> +	bool is_cc_decrypted = attrs & DMA_ATTR_CC_DECRYPTED;
+>   	dma_addr_t addr = DMA_MAPPING_ERROR;
+>   
+>   	BUG_ON(!valid_dma_direction(dir));
+> @@ -165,8 +166,11 @@ dma_addr_t dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
+>   		return DMA_MAPPING_ERROR;
+>   
+>   	if (dma_map_direct(dev, ops) ||
+> -	    (!is_mmio && arch_dma_map_phys_direct(dev, phys + size)))
+> +	    (!is_mmio && !is_cc_decrypted &&
+> +	     arch_dma_map_phys_direct(dev, phys + size)))
+>   		addr = dma_direct_map_phys(dev, phys, size, dir, attrs);
+> +	else if (is_cc_decrypted)
+> +		return DMA_MAPPING_ERROR;
+>   	else if (use_dma_iommu(dev))
 
-Best regards,
-Krzysztof
+...although, why *shouldn't* this be allowed with a vIOMMU? (Especially 
+given that a vIOMMU for untrusted devices can be emulated by the host 
+VMM without the CoCo hypervisor having to care at all - again, at least 
+on Arm and other architectures where IOMMUs are regular driver model 
+devices)
+
+>   		addr = iommu_dma_map_phys(dev, phys, size, dir, attrs);
+>   	else if (ops->map_phys)
+
+Or indeed any other non-direct ops? Obviously all the legacy 
+architectures like Alpha are never going to see this or care, but I 
+could imagine Xen and possibly PowerPC might.
+
+Thanks,
+Robin.
+
+> @@ -203,11 +207,16 @@ void dma_unmap_phys(struct device *dev, dma_addr_t addr, size_t size,
+>   {
+>   	const struct dma_map_ops *ops = get_dma_ops(dev);
+>   	bool is_mmio = attrs & DMA_ATTR_MMIO;
+> +	bool is_cc_decrypted = attrs & DMA_ATTR_CC_DECRYPTED;
+>   
+>   	BUG_ON(!valid_dma_direction(dir));
+> +
+>   	if (dma_map_direct(dev, ops) ||
+> -	    (!is_mmio && arch_dma_unmap_phys_direct(dev, addr + size)))
+> +	    (!is_mmio && !is_cc_decrypted &&
+> +	     arch_dma_unmap_phys_direct(dev, addr + size)))
+>   		dma_direct_unmap_phys(dev, addr, size, dir, attrs);
+> +	else if (is_cc_decrypted)
+> +		return;
+>   	else if (use_dma_iommu(dev))
+>   		iommu_dma_unmap_phys(dev, addr, size, dir, attrs);
+>   	else if (ops->unmap_phys)
+
 
