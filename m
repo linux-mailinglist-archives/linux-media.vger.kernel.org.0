@@ -1,152 +1,211 @@
-Return-Path: <linux-media+bounces-55891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55892-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oE1gEfPnt2mzWwEAu9opvQ
-	(envelope-from <linux-media+bounces-55891-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 12:22:27 +0100
+	id CC7DH0Ttt2mzWwEAu9opvQ
+	(envelope-from <linux-media+bounces-55892-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 12:45:08 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E06D2989A3
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 12:22:26 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A96298DB7
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 12:45:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A2C10300F9D2
-	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 11:19:03 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 984E030090B9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Mar 2026 11:45:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE9D128B7DB;
-	Mon, 16 Mar 2026 11:19:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D587392806;
+	Mon, 16 Mar 2026 11:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDhDZWpe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a20GsTX8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E0A28D8DF;
-	Mon, 16 Mar 2026 11:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DFA38F659;
+	Mon, 16 Mar 2026 11:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773659942; cv=none; b=GaveVvarCCDPM5bOOpbq8bJU36IYmec5UjTHWl8qpoY/W1rsU0IBBuX2TWEd45/9OeiyTXyw2AnRCWNMVCn9sY7G/+GO7HlZgBmamNqn8CAsNy6SOntHmlPMkl16lUOHMqBgYeKiMA1XEZauEn7NiFkuTnuokrbnLSl/z7fJR5c=
+	t=1773661501; cv=none; b=isIVSXs0l5bQrYQkTPLibDhDleIjlGeHDwHXq4Vc1m08jeeHRuahdHurn90gTI+k7flzs27TZ9RJWV/SIrOwgspxleVUprWYlElewf3eYJbhkJXMrp2T/cJ24QaAbFAwRKij1Y1fkDCi5rQE5oVgGWXhUmJDbbpoFZpr9JLeabc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773659942; c=relaxed/simple;
-	bh=pE6aBW5PWZbbitw0U2AKJCHXuOjvSiDQXNqow5+gO8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nRfgNi/3rr1PkbixYwQ0PLFer/W9ZqoPl1HuMKgQLlkyRqAjT1I0L1cHXdnxGc4sscCNZG+6XXLi6/NrbhvTSHKWg0iwO+tBe9C/aFNRJtATit9nYYHsQhR3oEmAUIGyaSgVjOzqfagNxoXj44M8ZbZhcyWHo4LIUmuvTdjK8s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jDhDZWpe; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773659940; x=1805195940;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pE6aBW5PWZbbitw0U2AKJCHXuOjvSiDQXNqow5+gO8M=;
-  b=jDhDZWpehz1EPWyJQuRs43VyaB59Shp4QeJkqBm9nLY4R6blKTPDVBBE
-   juHH072iGksaJ43FK0rQyN0lYtOeO2JIhbgcOROdt2n+TKw0e0ot3PoAB
-   8jrIHye09rnK892M9VJL/hwSrrM3yoSqm7WKPuZMALxnRtHTUiCNhL3Xh
-   aWdj+eGhhNMNOO21iaa20hV6oUMambFow7L6KB1lG6VUXUQKlkm9FA4bT
-   /ypZW6KjbHNkvfLytbfkwk+DNPobPh8UECo6rZH7HjhKhoDPfz0NNeEmf
-   j2nEl91iT7Q55zfqpQRaItMCIXPUE4/t2Rq5Dlf0SM3h8PEQUrTYXi1Ku
-   w==;
-X-CSE-ConnectionGUID: QJV+0qGTTO20Pn9qmyJimA==
-X-CSE-MsgGUID: kF8e0KEGSA+aLLKbDrV+fA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11730"; a="74859255"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74859255"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 04:18:59 -0700
-X-CSE-ConnectionGUID: E2MwWpkJQNOfO5ddsF+RhA==
-X-CSE-MsgGUID: UgCg/HY5TB6FwcRY/0Q7Vw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="226559096"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.237])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 04:18:55 -0700
-Date: Mon, 16 Mar 2026 13:18:53 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: Re: [PATCH v2 1/6] media: vidtv: Rename PI definition to PI_SAMPLES
-Message-ID: <abfnHSoZcKJUPAzd@ashevche-desk.local>
-References: <20251107201005.3156118-1-andriy.shevchenko@linux.intel.com>
- <20251107201005.3156118-2-andriy.shevchenko@linux.intel.com>
- <8fcc1419-266c-429e-b1bf-1799322eb69e@kernel.org>
+	s=arc-20240116; t=1773661501; c=relaxed/simple;
+	bh=d8+V6Eb2dVrDZq4al4XWQChQGVx+OMoGk+VgWLLhzyY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qO6hkmpUXIIBFI9xlKw/jLDkA0NwmipX8xhsa306WRKCusGLkIfF3Gutgcv74hQFdgA/X4Ygn3IGeyd/XRzazderIQAHwE7FQ7UpaF8OMQobn5zLyHYVbWdfOU8DQzOWb0OzxSMx3nwsjfG6UBgQMuePHaSxbfMaqmmkDYzjd0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a20GsTX8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EEAEC19421;
+	Mon, 16 Mar 2026 11:44:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773661500;
+	bh=d8+V6Eb2dVrDZq4al4XWQChQGVx+OMoGk+VgWLLhzyY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=a20GsTX8d5PFBwh9NEpnouvxiOFCYRzvByle/+/xAsw0Eo4H7ow1hL+eb94v5YswG
+	 0RKGIR7/OGDPkr6QsAQ79SexVXoQ5s6NDj58ivVn96Hu5qyMcFG+ddNNWHx+iZ7YBF
+	 HJ2MIBdS1VRWivHunRDN2+oDJXOTkPqkacOr/SYEPg1GIQCt716EWFJm9+0XmvW5DN
+	 FOG2XTYsxbByCBCirbu7tmSOX9LyDydTv47fbew8qGpYaaDxDN85ZL/9H5KPa0vUSO
+	 rUzj01n9sS6pQRgmccgKHfzO1mI13vmwVHVy2RqJwQuW3v5ZHGbAgle+my+ykXu3Og
+	 gp2wH8UCwNS/A==
+Message-ID: <41ecee5e-adcf-493b-839d-2390163700f5@kernel.org>
+Date: Mon, 16 Mar 2026 12:44:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8fcc1419-266c-429e-b1bf-1799322eb69e@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: uvcvideo: Fix buffer sequence in frame gaps
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Yunke Cao <yunkec@google.com>, stable@kernel.org
+References: <20260313-uvc-fid-v2-1-3f7a996d9047@chromium.org>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260313-uvc-fid-v2-1-3f7a996d9047@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,kernel.org,baylibre.com,analog.com,chromium.org,metafoo.de,gmail.com];
-	TAGGED_FROM(0.00)[bounces-55891-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-55892-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,ashevche-desk.local:mid]
-X-Rspamd-Queue-Id: 9E06D2989A3
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 35A96298DB7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 16, 2026 at 11:13:24AM +0100, Hans Verkuil wrote:
+Hi,
+
+On 13-Mar-26 7:21 PM, Ricardo Ribalda wrote:
+> In UVC, the FID flips with every frame. For every FID flip, we increase
+> the stream sequence number.
 > 
-> Just FYI: I'll take this patch. Regardless of the other patches in this series it does
-> make sense.
+> Now, If a FID flips multiple times and there is no data transferred between
+> the flips, the buffer sequence number will be set to the value of the
+> stream sequence number after the first flip.
+> 
+> Userspace uses the buffer sequence number to determine if there has been
+> missing frames. With the current behaviour, userspace will think that the
+> gap is in the wrong location.
+> 
+> This patch modifies uvc_video_decode_start() to provide the correct
+> correct buffer sequence number and timestamp.
+> 
+> Cc: stable@kernel.org
+> Fixes: 650b95feee35 ("[media] uvcvideo: Generate discontinuous sequence numbers when frames are lost")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Thank you!
+So I'm trying to understand this patch, but while looking at this I'm having
+a hard time to figure out the current code.
 
-> I haven't seen any updates to this series, is it abandoned?
+Lets take the following scenario. We have an active current buffer with some
+bytesused and uvc_video_decode_start() sees a fid flip.
 
-There is no consensus which names should be chosen. I have strong opinion about
-my choice, some do not agree with. Id est I like the idea to have PI as PI and
-not something longer and confusing. Same for 64-bit, just some short.
+Now the following happens:
 
-My rationale is that, in most of the cases the 32-bit value will be used and
-having it as is would be nice.
+First uvc_video_decode_start() run:
 
-Another point is to have a macro that gives PI rounded to the chosen amount of
-digits (to avoid / 10 / 100 / et cetera in the users). I don't know how to
-implement that nicely, there is no loops or alike in C preprocessor.
+1. if (stream->last_fid != fid) check at line 1175 sees the flip does stream->sequence++;
+2. if (fid != stream->last_fid && buf->bytesused != 0) check at line 1243 succeeds, marks
+   buffer as ready and returns -EAGAIN.
+3. Note stream->last_fid is not updated in this case.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Second uvc_video_decode_start() run because of -EGAIN with new fresh buffer
 
+1. if (stream->last_fid != fid) check at line 1175 sees the flip does stream->sequence++;
+2. if (buf->state != UVC_BUF_STATE_ACTIVE) check at line 1209 succeeds, updates
+   buf->buf.sequence , timestamp
+3. if (fid != stream->last_fid && buf->bytesused != 0) check at line 1243 fails because
+   bytesused == 0
+4. function exits normally doing:
+
+        stream->last_fid = fid;
+
+        return header_len;
+
+Notice that step 1. happens in both uvc_video_decode_start() runs so we are doing
+stream->sequence++ *twice* for a single fid flip. Am I missing something here or
+are we indeed increasing sequence twice. And if we are indeed increasing sequence
+twice, is that intentional and/or expected by userspace ?
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+> Changes in v2 (Thanks Laurent):
+> - Improve commit message.
+> - Remove original timestamp and sequence assignment. It is not neeed
+> - Link to v1: https://lore.kernel.org/r/20260310-uvc-fid-v1-1-5e37dc3c7024@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index 40c76c051da2..9e06b1d0f0f9 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -1176,6 +1176,20 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>  		stream->sequence++;
+>  		if (stream->sequence)
+>  			uvc_video_stats_update(stream);
+> +
+> +		/*
+> +		 * If there is a FID flip and the buffer has no data,
+> +		 * initialize its sequence number and timestamp.
+> +		 *
+> +		 * The driver already takes care of injecting FID flips for
+> +		 * UVC_QUIRK_STREAM_NO_FID and UVC_QUIRK_MJPEG_NO_EOF.
+> +		 */
+> +		if (buf && !buf->bytesused) {
+> +			buf->buf.field = V4L2_FIELD_NONE;
+> +			buf->buf.sequence = stream->sequence;
+> +			buf->buf.vb2_buf.timestamp =
+> +					ktime_to_ns(uvc_video_get_time());
+> +		}
+>  	}
+>  
+>  	uvc_video_clock_decode(stream, buf, data, len);
+> @@ -1216,10 +1230,6 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+>  			return -ENODATA;
+>  		}
+>  
+> -		buf->buf.field = V4L2_FIELD_NONE;
+> -		buf->buf.sequence = stream->sequence;
+> -		buf->buf.vb2_buf.timestamp = ktime_to_ns(uvc_video_get_time());
+> -
+>  		/* TODO: Handle PTS and SCR. */
+>  		buf->state = UVC_BUF_STATE_ACTIVE;
+>  	}
+> 
+> ---
+> base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
+> change-id: 20260310-uvc-fid-e1e55447b6f1
+> 
+> Best regards,
 
 
