@@ -1,184 +1,185 @@
-Return-Path: <linux-media+bounces-56072-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56073-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UAKNGypVuWnYAgIAu9opvQ
-	(envelope-from <linux-media+bounces-56072-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:20:42 +0100
+	id AKJDGoVUuWnYAgIAu9opvQ
+	(envelope-from <linux-media+bounces-56073-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:17:57 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC5A2AABC3
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:20:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D68462AAB3B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:17:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id F112B3033BE9
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:09:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5991A30A187C
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274123C8708;
-	Tue, 17 Mar 2026 13:08:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ED553C9421;
+	Tue, 17 Mar 2026 13:11:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MmGwOgJs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyvaNeOh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85101377EDA;
-	Tue, 17 Mar 2026 13:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63673A5E71
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773752934; cv=none; b=ZSIYACGXkY9b8XsovUwTM/GQLcuzucoxFSvQvPIT8bc7Po9cZ1fjIiI48UyP/ElcBqtMpcas60Qt5nOYygyeWC4OQLpuUv4IY+s3eSDNwErQGJp4OwlDeuUgQ3tLA5iwkWS5KOgFrEJrrxYVUz3PYSYrEE29qBZG/cq97YwKuCc=
+	t=1773753109; cv=none; b=acbRHHNHsGnzZUkoZCjlXADy0bXrrfqE3KnceXrlhlsrB6HAGqo9R2DoLgx7gKy5+4LF12bOnaZkYHqegJ2HZohcH+IOG9TqD1Rt7y6tDMJLB3wrqTG2P5d2je0o9zBzBP/lw3FFpOCdLunsbUMk85VbObX2latovOxsUCncmpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773752934; c=relaxed/simple;
-	bh=pxUtop0sNbqmle8A1Fupmv6YrUhPCZz+UtlRMeDYdSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EGdHiWEpGyX56apnS00QTwPxSSqVXWhgoYoaElVpo6L3+U/1rYgkMB4LRLqdcvRr3+1uEnQYNbQ2XPDvQ+mxA8jZGRePNS2eLR+eib2jAoq0CgUleJjNAlepIQo4CPJNBTaSKtTCiLj3uVu+4e+7MlLb8AAAvbA5A+OYdCcJGQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MmGwOgJs; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1773753109; c=relaxed/simple;
+	bh=HMLEkcbZRa5/MpqWAQTVqAmI/OC33jbQdqUlDKn52K0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JinWr1ICdILg7wdXNTzO+aKAXUJDNHfNalk1KSFLyHXztbXTNQM8MGRvHygw+7PoXJYScf3rGtO7hRSGRKEdxxzH8t8PrMrOlTk7Om4F8adrP7yvfMVUtglfEu7s1pkIY3+eI8ionmHvlHdFuTrHbfAHZm42MJ39UYUZd749jg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyvaNeOh; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773752934; x=1805288934;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pxUtop0sNbqmle8A1Fupmv6YrUhPCZz+UtlRMeDYdSY=;
-  b=MmGwOgJsSYR1EIw9gmog+2ZzZTcg5D8rCZ9c7bAurQEebeZ8XSYfW+rs
-   TJGYFtyUuH/EFK5242Z/8a+Z3v8ncm/lIaFNICch3jsxyXZ2BcdVAWDxx
-   I37gtzH1JK1IyNTLkoWHi4HTZtc38u9K9BdO6qmaB4yls28VGwKNPFgeF
-   NW582owCMeIN1mlKRzOn8Q2esGjQQ/0Ap31NMs1nn4EmNtThoPOFJhHI+
-   CmM3a+L8MMeG1YPO9syueAIow8YcofOib6Iimn66laYXDiU3ALcm/GZ+P
-   Cs19+4MEx+H4ZGQirfcYNCGQeTC/yXcA1L4edXmSPRqFuPkmRT8hWHSH5
-   g==;
-X-CSE-ConnectionGUID: 7uMtXckZQpeyDxQ+xNIv9w==
-X-CSE-MsgGUID: OyBpRgk2Qj2BF8kchaeKXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74669417"
+  t=1773753109; x=1805289109;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HMLEkcbZRa5/MpqWAQTVqAmI/OC33jbQdqUlDKn52K0=;
+  b=kyvaNeOh8+TySQ3L0QUQLmWdZShQsfZ8SX7ECL2hHem8Pl3Lq4uk+eBE
+   M2Zq+uu43zUEcVYZe2az2rA5TP9FJeqifJfkVJLuk9tlLdYdlIWW/f6yq
+   nuHKe9GS9tFr0eeLSe3dDwtAy/8JRiWHDFp0bOLKDDgbkFIp3OJXVCXOT
+   BpTIXxwiRM+tE83NG68xHBdTqGm2IzzdMFhPgBziYeQZfzoK1fOnTJwLd
+   mEXWB+HcK9koNO8HptOuA2ySZ3LfAsDe5bkZrQ3YRyl6bZg1jKwH+J9RX
+   wDhO7n+drCG9oZikCcfdTIA5FpnFpPsSJZbwRl6+LsLKHOX1O+5mPaQYs
+   w==;
+X-CSE-ConnectionGUID: qsC3S7UzSqeeiA7QfPVoMA==
+X-CSE-MsgGUID: u4O4rIeeSJOuGNIp5XKQfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74697703"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74669417"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:08:53 -0700
-X-CSE-ConnectionGUID: S9HUejb5RYiSypeG9mDPwg==
-X-CSE-MsgGUID: M4t5Ldg1SkG9Y5PFryH5iA==
+   d="scan'208";a="74697703"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:11:48 -0700
+X-CSE-ConnectionGUID: wXW49sFBSm+SoHCKuAPaog==
+X-CSE-MsgGUID: VfbFazvxSfeji4WqNKqiJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="218407880"
+   d="scan'208";a="245279770"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.106])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:08:50 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0B47D121D4E;
-	Tue, 17 Mar 2026 15:08:48 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1w2UC0-00000000txr-3S0Z;
-	Tue, 17 Mar 2026 15:10:40 +0200
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:11:47 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 19B8B11F870;
+	Tue, 17 Mar 2026 15:11:46 +0200 (EET)
+Date: Tue, 17 Mar 2026 15:11:46 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Antti Laakso <antti.laakso@linux.intel.com>,
-	linux-gpio@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linusw@kernel.org,
-	brgl@kernel.org,
-	sakari.ailus@linux.intel.com,
-	mchehab@kernel.org,
-	dan.scally@ideasonboard.com,
-	ilpo.jarvinen@linux.intel.com,
-	hverkuil+cisco@kernel.org,
-	sre@kernel.org,
-	hao.yao@intel.com,
-	jimmy.su@intel.com,
-	miguel.vadillo@intel.com,
-	kees@kernel.org,
-	ribalda@chromium.org
-Subject: [PATCH 1/1] platform: int3472: Drop redundant initialisation to 0 and NULL
-Date: Tue, 17 Mar 2026 15:10:40 +0200
-Message-ID: <20260317131040.215119-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.47.3
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/7] Check we have a supported format first before
+ allocating memory
+Message-ID: <ablTEn2GTCkeZwfN@kekkonen.localdomain>
+References: <20260317095802.214532-1-sakari.ailus@linux.intel.com>
+ <20260317095802.214532-3-sakari.ailus@linux.intel.com>
+ <20260317105400.GC302774@killaraus.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260317105400.GC302774@killaraus.ideasonboard.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-56073-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
 	MIME_TRACE(0.00)[0:+];
 	HAS_ORG_HEADER(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56072-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linux.intel.com:mid];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 6EC5A2AABC3
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: D68462AAB3B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-A few fields in structs containing regulator initialisation data for Dell
-laptops are initialised to 0 and NULL. Drop the explicit initialisation as
-redundant.
+On Tue, Mar 17, 2026 at 12:54:00PM +0200, Laurent Pinchart wrote:
+> On Tue, Mar 17, 2026 at 11:57:57AM +0200, Sakari Ailus wrote:
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  raw2rgbpnm.c | 28 ++++++++++++++--------------
+> >  1 file changed, 14 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/raw2rgbpnm.c b/raw2rgbpnm.c
+> > index 121f0e0272e4..8aa7258218ad 100644
+> > --- a/raw2rgbpnm.c
+> > +++ b/raw2rgbpnm.c
+> > @@ -370,20 +370,7 @@ static void raw_to_rgb(const struct format_info *info,
+> >  		src_width &= ~3;
+> >  
+> >  		const struct format_info *old_info = info;
+> > -		unsigned int new_stride = src_width * 2;
+> > -
+> > -		tmp_src = malloc(new_stride * src_height);
+> > -		if (!tmp_src)
+> > -			error("can't allocate memory for the temporary buffer");
+> > -
+> > -		for (src_y = 0; src_y < src_height; src_y++)
+> > -			for (src_x = 0; src_x < src_width; src_x++)
+> > -				raw_put(16, tmp_src, new_stride, src_x, src_y,
+> > -					raw_get(info->bpp, src, src_stride,
+> > -						src_x, src_y));
+> > -
+> > -		src_stride = new_stride;
+> > -		src = tmp_src;
+> > +		unsigned int unpacked_stride = src_width * 2;
+> >  
+> >  		for (unsigned int i = 0; i < SIZE(v4l2_pix_fmt_str); i++) {
+> >  			if (v4l2_pix_fmt_str[i].fmt == info->compat_fmt) {
+> > @@ -395,6 +382,19 @@ static void raw_to_rgb(const struct format_info *info,
+> >  		if (info == old_info)
+> >  			error("no supported format found for %s",
+> >  			      old_info->name);
+> > +
+> > +		tmp_src = malloc(unpacked_stride * src_height);
+> > +		if (!tmp_src)
+> > +			error("can't allocate memory for the temporary buffer");
+> > +
+> > +		for (src_y = 0; src_y < src_height; src_y++)
+> > +			for (src_x = 0; src_x < src_width; src_x++)
+> > +				raw_put(16, tmp_src, unpacked_stride, src_x, src_y,
+> > +					raw_get(info->bpp, src, src_stride,
+> 
+> info now points to the format_info for the compat format. I think you
+> should now use old_info->bpp here.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/platform/x86/intel/int3472/tps68470_board_data.c | 8 --------
- 1 file changed, 8 deletions(-)
+Yes, makes sense.
 
-diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-index 6bec5a910396..c1ddbf9a82c0 100644
---- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-+++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-@@ -151,8 +151,6 @@ static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data =
- 		.apply_uV = 1,
- 		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
- 	},
--	.num_consumer_supplies = 0,
--	.consumer_supplies = NULL,
- };
- 
- static const struct regulator_init_data dell_7212_tps68470_ana_reg_init_data = {
-@@ -162,8 +160,6 @@ static const struct regulator_init_data dell_7212_tps68470_ana_reg_init_data = {
- 		.apply_uV = 1,
- 		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
- 	},
--	.num_consumer_supplies = 0,
--	.consumer_supplies = NULL,
- };
- 
- static const struct regulator_init_data dell_7212_tps68470_vcm_reg_init_data = {
-@@ -173,8 +169,6 @@ static const struct regulator_init_data dell_7212_tps68470_vcm_reg_init_data = {
- 		.apply_uV = 1,
- 		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
- 	},
--	.num_consumer_supplies = 0,
--	.consumer_supplies = NULL,
- };
- 
- static const struct regulator_init_data dell_7212_tps68470_vio_reg_init_data = {
-@@ -184,8 +178,6 @@ static const struct regulator_init_data dell_7212_tps68470_vio_reg_init_data = {
- 		.apply_uV = 1,
- 		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
- 	},
--	.num_consumer_supplies = 0,
--	.consumer_supplies = NULL,
- };
- 
- static const struct regulator_init_data dell_7212_tps68470_vsio_reg_init_data = {
+> 
+> > +						src_x, src_y));
+> > +
+> > +		src_stride = unpacked_stride;
+> > +		src = tmp_src;
+> >  	}
+> >  	}
+> >  
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
 -- 
-2.47.3
-
+Sakari Ailus
 
