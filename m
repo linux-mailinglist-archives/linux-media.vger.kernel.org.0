@@ -1,311 +1,160 @@
-Return-Path: <linux-media+bounces-56099-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56100-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aLNVB+x4uWnQGQIAu9opvQ
-	(envelope-from <linux-media+bounces-56099-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 16:53:16 +0100
+	id CPgrEMZ5uWmyGwIAu9opvQ
+	(envelope-from <linux-media+bounces-56100-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 16:56:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B890E2AD56D
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 16:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9750A2AD640
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 16:56:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4F1B130CA947
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 15:52:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0D5FB3091C99
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 15:56:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7EDE2D46A1;
-	Tue, 17 Mar 2026 15:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A6D12DC772;
+	Tue, 17 Mar 2026 15:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ccvSKwg4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L8HEtXWy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300842D593E
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 15:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773762749; cv=pass; b=BBHe5v4z/0Ddi6fn18YmlmLpyFXZCwjENx/GTnY9JRQfH/81jDL44flLSzskMG2q/BzpHr/3ifIgriRO7yRaFzfan0fivAwSWrEjrlk7H46A3vcUodNm4OLDrE2RIK1GCOyvXrF9W+nU93SUr1F4gZtC/St6vJAhcOhgYTZouX8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773762749; c=relaxed/simple;
-	bh=6OxqeyKBaIICqgKj1cmgQHPL50VHasHMsjVgG+cyUoA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IqHJLwHKS1XI5R4zq7pKRiMkSL13eKAMOumTRRc1YPHFZGFbSfeQddfM7518pGK77SjgE4n7UZHoNVMlrCKJVwglQLr9cYcPgoMi5PtOSicgI3KMr85kcYMbXscf5tsjdfsflZXTc4HNR63trSV30khOA12llVjey0qMsMUCP/U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ccvSKwg4; arc=pass smtp.client-ip=74.125.224.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64ae222d87dso5469467d50.2
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 08:52:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773762746; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GnQofq+kAQSZPN89ySFDKtArsqoBtFg/Fi2wLEbZJCaPTkyDd/NzsgzSXr3/KFBB6X
-         NdmODxa6sc7wjtbKOSubOIDS8q5OxzKAk+MHgUIK8sVyV2YLhaTkcU08BFE2etyiFBnj
-         92ONh0fjAaLD1Qy6Cveb+eeVd0cGC8hbYYm4F14dTCgGAybAkJebqvOM2uZ4tSJ2FdxS
-         H8WUrdi+iKm+yB968lRULZ18cYL90wfGILWUN0SEHceWGLmSm7O9Wc5ZupvAMWRAvxDY
-         0xw+P++GqtaoXWjWgK1L4T/inOo6suk+hthPQAEdqzZ2UWvJx7xqcnI0t9aPL29ik+SC
-         Q6lQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=xWOba+wwzwLOr6/8lB5VON9f6bR8lPOgvlBWpxZ52Z0=;
-        fh=K2lq50AO7T2eCKwteKU41qTo3+z/9mxzcWJx+yOqnHc=;
-        b=RkKQNN9EADV5JvHm4VoVODWRmiw/2gg+lQH76trHtNPHNvyFly0zYrTiLhQf0qtZVu
-         u/UhEhH740zAsImUXliakdWmPCFCXgTEWUqGMv8mbDRpCfmR3SnP+rIbDfEHwRDBVvh/
-         35f2Uj9G5xKOMvwUKF28spzQSM14cYuizctjdaJFMXZHsaqfM1+nIl9FDxR1nORbK3TW
-         nG0dPYUm2RM5QZ4KTWZ6BhxQsWfHQLqECFg/r0YVfTdRjKp/FNqlp50ekVeIKW5VHV+X
-         Ich4MneJmxDK8ttzRzzKT/6SFm3duj9tMlVrrKvF3xFy96B8IE+lVPAqQa3o4rFmAx/M
-         sWmQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6414E2D9EFB
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 15:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773763001; cv=none; b=reF1szDN7+vonohGYOS2eqg4y2XnVj+B2c2ASnyfCl5KKBkZofgtmKs+eBi30BGtHpnkLQRzilo8C3lZQIUyfzvWTs8J8MMyiCmPeshym4Db/kvIAdDJ5qt/2rDzF3otv8Cn5aBUxTk2YHFRjxy+TSaAP205JW/dqsf9BcRTT7A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773763001; c=relaxed/simple;
+	bh=FqwVY+k3SGk8TAJDKHhTXtNvhQHrDRduwzSUo5VOmwU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g1Jg3DU7Jxl+P2hLRXtux4ir0wIk5FOKgLAk/280PRBka8f357a2lda7hxbG8CuEJ13YG2nsnTr4X9Pqj7nNBVR0wbv2cZbl3yt1JYzo6oxBfXy0U4f+f100wLsUxGuFEmdc8LubhuUIFU7ixuZQ63BDunL/gDORBEJCPT8ekSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L8HEtXWy; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso67890545e9.0
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 08:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1773762746; x=1774367546; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xWOba+wwzwLOr6/8lB5VON9f6bR8lPOgvlBWpxZ52Z0=;
-        b=ccvSKwg4HzVlit44/twQQ80HlWw87czok3ovPF1ndW+0iitJMmF3gAZwawcbgimT/o
-         n4VEpY6ChoJbixdaNTemgOp2bA1292RBSyTFMDoYfU2LrdaiBJgQTx5xMwGbYWqK6OnY
-         72Iz2t8G1jpS+OiF9H71LPg19ihF2aZclChOKm7gDyZG+KkwvxMGIlybfcqlf+nH9CwK
-         u92pUl248oF5WnJAZLvnwIL+J7UVWTYPe0Swnp1ZQRAPY7JQdFriNuBV6Evbaym6mBgC
-         9c0P2mtJLIXWEmY9ytYZODThLZwYXbpHp5p8wJJewvsy+XP1Ckd7Fl0bieYL1n67ZqKW
-         jBHA==
+        d=gmail.com; s=20230601; t=1773762999; x=1774367799; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=focQCcFKweFm9YkNGVKAAlAzSn33WaBiPYVWwXWj8lw=;
+        b=L8HEtXWyETC6Km1vhAocwyuEPOazxCvVdX1cEun6YnDRkHrYSsOn0xj3ILOQfBX+rX
+         Av8JfE4Zy+dxTsDQoVBXMAdVFJk/ehab6PeppytdV+6FZcHlfiTnoI42DH/7h3pblbsP
+         dzVfDEB0Q9ktcvQn5LyTJN3c8/N84CXdhTVO39cYXuJ91QTF7cCHj7y6OKPjucDnJO8r
+         bpyIC2YHQnrEUcTUTKyBFcMwl/sI66ZTtQOivrXIJbKuGDTtOfq/zfJWC9j6n7YpqzSc
+         HX0xjKP5HhA9dgELe7tyVnkFMk+NdRc0JeUYRFw2sl+V4VXcMy7WIosuhwiX7yPC6h29
+         MoeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773762746; x=1774367546;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1773762999; x=1774367799;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xWOba+wwzwLOr6/8lB5VON9f6bR8lPOgvlBWpxZ52Z0=;
-        b=ATQ3tUYWUuA3lMdg+kq5dkwaxr0ZqC6rSUmO71hC6Nj26kVwJWqX1YhusJllsSntyS
-         Y5PTS0oQ1rHzPFV5Igf/7F9ItZqNgY+YX7Y3EKfge9O8QR9Ghjfc42ecWjBvNBfcTbYm
-         R8LR9ZGcAilrAQVDHJsRfzbYSD33GVnDZn0v49LVaHhHwXbNt+x6MO7gLM9cXLfKoKlR
-         7ro5vWHRLg+RS55r2/QYLODL9KUzfypT8Zjzj8fXR9rYahjqFGaPGSRmBYkzLdRR58LB
-         /vkJdMHIXs+70G2xDAKmEo+FwqcOh+Tqo5XrqL7jgcCPHgjC6ub7CZlQUzeo7X9ZNUFt
-         1M6A==
-X-Gm-Message-State: AOJu0Yw5z5G6MZRkQf5bEwC60SZV+bf1+zs91sYcMFsDNA0OLr6YoWLb
-	jJWaZqanNoLMm/g8zW83KhsvF0SzTTqYY61Y+ZUaQQRo4Ehtt2hISP+GlCGkgkt2imZwDl3BC/H
-	iCrSH7l0Gf9k+y9c9JTxr4Lpe+uKnH2MghuvkOy5D0w==
-X-Gm-Gg: ATEYQzxksz+Asre52SGiZgpYQzr9j0gADlJWcW1Whv/EZHST9OYVlnMRwUfQ5AbBA1F
-	p4QcLu/HcCbiHKfzCXqxXCoHFou/0p+gNVGa9RX2hvPgehhWkIjONdRZ9e/9+t0SbXsbxbELhsj
-	u3wsI+NrehPrCofYJ7VE/31ThCyNSPc+0QU3EmmGVquW2Zo5sgDLYodAtx2bLq9VK/V4kpjAap6
-	Ty1SGEkgD3FOaOlgCPGZzp0WJOqQUpp6+oqEf8MSLBQE9usdw76qzUf22iesqWWqXPQiNFbXeb9
-	04pCZB34UTlX75368eRFdF22KwLlWllcqpN9xsc=
-X-Received: by 2002:a05:690e:144c:b0:64c:4f97:e8b0 with SMTP id
- 956f58d0204a3-64e915dc474mr145258d50.61.1773762745884; Tue, 17 Mar 2026
- 08:52:25 -0700 (PDT)
+        bh=focQCcFKweFm9YkNGVKAAlAzSn33WaBiPYVWwXWj8lw=;
+        b=ZpkGs3lNpfPwxEYqH1UIW8o+1ATGYnEb1bLoz8CkxhAyVj4StuKaw7myX193Ab1QB3
+         frFcz/WZDWuYCfIgrpNYwZ2tsRl63D3dxbfAQ5RYNFQIPxCoBm2605K0vPzTfl4RDsyk
+         Q7+ColY86+t2TdLfpCPQMNSkMyGGopfLu39AVPOvB9MPvHC/VIt/ygaDhJYSrmdET+hE
+         uf26221aw4Kw4V5Zb44znhKlBLlI+NNjvRQSJrq7TWmt7WrrHkULctdIBK1BRvYC+k5F
+         ZZIP8gBbb4mUApPkLJusEHqRnW+8iH/vM0SUaxOVJ6vmsmOfVSiVih2ycplzUc6fERjX
+         71sA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfJAMvDsXYRN4TgN71a+ItyKR9TWEEiEzu/qNLmETuLS6tDITmdM1BJiLOH/zLt30HjoOCOZhHbh1Xog==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNpWBeCDPGIQyrYuMT/+23H2qk1gm/eoMEQ4Yb0hUsDJp1UB3F
+	IoFsKddDzQuUYC4YgZ1r/qpgkGQijzQEBgIze7tBF52iuNgGMSBYuTzN
+X-Gm-Gg: ATEYQzylrf6OkLkKkbyLCNsrefejIG9Ohy5dzyMwJTyQVJFZ3eNM/zbuWKU3OWoEcmW
+	Q3lf7LnI0g0vMyvm5eT2MJf1FZVyXOZZ/MmslHAtr0ibu0SsoEo9GenCelGtM84Pdv0c32XayBD
+	z0AhRem9dCEoH0lD12vJTLkC8WVsg3RdW81P1WWwMcj5Akk5opKJG96Z2qUmZVFRbGS1EaYNNFt
+	cyXiNQreriWk4ot13fcJtgX188zvsVJWlkeOoIFRj4e91vB1HAyC6LA3RHcshxKTeG9e5QYlfBd
+	6rwuxPa4ebV0n/8FVP5yFIXqrn3PBizUvPs9VNsPc9YZDuvH3/1rjf0kFGhpu58klPOv72+rBKq
+	MQNn5Jmn7lJ9comcsSugYjQ46gRRvyPVQ2SBEYgXUY9ZvM78m81SQ3PkB3igh7HPqiPy4citfcS
+	Ea88hEnf82iWp2ryZlZ6e1IGWcOcfuXLZbETqToG6C6u0Ru22IYOljLi/EGoht6w==
+X-Received: by 2002:a05:600c:c055:b0:483:6d42:25c6 with SMTP id 5b1f17b1804b1-486f4476ad8mr179025e9.23.1773762998448;
+        Tue, 17 Mar 2026 08:56:38 -0700 (PDT)
+Received: from localhost (mob-194-230-148-148.cgn.sunrise.net. [194.230.148.148])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f420d7b5sm2797485e9.2.2026.03.17.08.56.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 08:56:37 -0700 (PDT)
+From: Teng Liu <27rabbitlt@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Teng Liu <27rabbitlt@gmail.com>
+Subject: [PATCH] staging: media: atomisp: remove unnecessary parentheses in return statement
+Date: Tue, 17 Mar 2026 16:56:36 +0100
+Message-ID: <20260317155636.99844-1-27rabbitlt@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260312150437.1091195-1-eagle.alexander923@gmail.com>
- <20260312150437.1091195-3-eagle.alexander923@gmail.com> <CAPY8ntAf9TjgW-E6WeJuMdsHy8pV8-CvqQJriWEFpgLB-brD5A@mail.gmail.com>
- <CAP1tNvRMoHteLcjjGbEFcp_8JRALC7mQM6efHyTrgvrZFfiByA@mail.gmail.com>
-In-Reply-To: <CAP1tNvRMoHteLcjjGbEFcp_8JRALC7mQM6efHyTrgvrZFfiByA@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 17 Mar 2026 15:52:09 +0000
-X-Gm-Features: AaiRm50L_KLDOLoSffajcnLGX2yYxGpeTEO1YhHeOHbjBcaYCHEyII6i_Ilt_rM
-Message-ID: <CAPY8ntAcKW70adZuGK5LdWn3pmzM0TXRyMvuCzioYUe9usG8iQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for Sony IMX662 sensor
-To: Alexander Shiyan <eagle.alexander923@gmail.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
-	Hans de Goede <hansg@kernel.org>, Tetsuya Nomura <tetsuya.nomura@soho-enterprise.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56099-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56100-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[27rabbitlt@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,raspberrypi.com:dkim,raspberrypi.com:url]
-X-Rspamd-Queue-Id: B890E2AD56D
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 9750A2AD640
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Alexander
+Remove unnecessary parentheses around the return value in
+ia_css_pipeline_get_pipe_io_status(). return is not a function,
+so parentheses are not required.
 
-On Fri, 13 Mar 2026 at 07:55, Alexander Shiyan
-<eagle.alexander923@gmail.com> wrote:
->
-> Hello, Dave.
->
-> > > This patch adds a V4L2 subdevice driver for the Sony IMX662 CMOS image
-> > > sensor. The sensor has a native resolution of 1936x1100 (effective
-> > > 1920x1080) and can achieve up to 90 frames per second depending on
-> > > the configuration. The driver supports:
-> > > - MIPI CSI-2 with 2 or 4 data lanes.
-> > > - RAW10 and RAW12 formats (both colour and monochrome).
-> > > - Controls: exposure, analogue gain, horizontal/vertical blanking,
-> > >   horizontal/vertical flip, brightness.
-> > > - A placeholder V4L2_CID_HDR_SENSOR_MODE control for future Clear HDR
-> > >   support (the actual HDR modes are not yet implemented).
-> > > - Runtime PM.
-> > > - Cropping via the selection API.
-> > > - Multiple link frequencies selectable via device tree.
-> > >
-> > > Tested on ARM64 Rockchip RK3568 platform with a 24 MHz external clock
-> > > and various link frequencies.
-> >
-> > Interesting timing as I've been looking at IMX662 too, but on a Raspberry Pi.
-> > FWIW my driver is at
-> > https://github.com/6by9/linux/blob/rpi-6.12.y-imx662/drivers/media/i2c/imx662.c
-> >
-> > Comments are based on brief testing and reading of the code. This is
-> > not a full review.
-> >
-> > > Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
-> ...
-> > > diff --git a/drivers/media/i2c/imx662.c b/drivers/media/i2c/imx662.c
-> > > new file mode 100644
-> > > index 000000000000..d7be17b5a47d
-> > > --- /dev/null
-> > > +++ b/drivers/media/i2c/imx662.c
-> ...
-> > > +static int imx662_set_gain(struct imx662 *imx662, u32 value)
-> > > +{
-> > > +       int ret = 0;
-> > > +
-> > > +       if (imx662->hdr == IMX662_HDR_OFF) {
-> > > +               bool useHGC = value >= IMX662_ANA_GAIN_HCG_MIN;
-> > > +
-> > > +               cci_write(imx662->regmap, IMX662_REGHOLD, 1, &ret);
-> > > +               cci_write(imx662->regmap, IMX662_GAIN, value, &ret);
-> > > +               cci_write(imx662->regmap, IMX662_FDG_SEL0,
-> > > +                         useHGC ? IMX662_FDG_SEL0_HCG : IMX662_FDG_SEL0_LCG,
-> > > +                         &ret);
-> >
-> > IIRC HCG adds in another 12dB or something of gain. Automatically
-> > enabling it above a value of 0x22 means that the gain response isn't
-> > consistent with a band of gains that can't be achieved.
-> > Running libcamera with this driver I get significant oscillation as
-> > HCG gets turned on and off. Fix useHGC = 0 and the exposure and gain
-> > control is stable.
-> > AIUI Use of HCG should be a separate control if it is to be used.
->
-> Thanks for the feedback.
->
-> I haven't found any mention of a 12 dB value or any other specific gain value
-> when enabling LCG/HCG in the datasheet or application notes.
+This addresses the following checkpatch error:
+  ERROR: return is not a function, parentheses are not required
 
-I've had previous conversations regarding HCG on imx290/imx462. Whilst
-I've never found exact details in the datasheet or associated docs,
-Nomura-san has commented on our forums[1] that on those sensors it
-adds x5.8 of gain. I'd expect it to be in a similar ballpark for this
-sensor. Enabling it automatically certainly makes a step change in the
-gain response though.
+Signed-off-by: Teng Liu <27rabbitlt@gmail.com>
+---
+ .../staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1] https://forums.raspberrypi.com/viewtopic.php?p=2186273#p2186273
+diff --git a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
+index 0470871f8..fba567de4 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
++++ b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
+@@ -446,7 +446,7 @@ bool ia_css_pipeline_has_stopped(struct ia_css_pipeline *pipeline)
+ 
+ struct sh_css_sp_pipeline_io_status *ia_css_pipeline_get_pipe_io_status(void)
+ {
+-	return(&sh_css_sp_group.pipe_io_status);
++	return &sh_css_sp_group.pipe_io_status;
+ }
+ 
+ bool ia_css_pipeline_is_mapped(unsigned int key)
+-- 
+2.53.0
 
-> I agree it would
-> be more correct to use a separate user control here, as is done in the
-> driver that
-> Tetsuya Nomura referred to in his email. (It's strange that his email
-> didn't make it
-> to the mailing list.)
-
-It did - https://lore.kernel.org/linux-media/00ea01dcb286$d14e6590$73eb30b0$@soho-enterprise.com/
-
-Will's IMX585 driver which adds the V4L2_CID_IMX585_HCG_GAIN control
-isn't merged, but the principle of a V4L2 control for HCG would be
-nice. I resorted to a module parameter to enable it.
-
-> ...
-> > > +static void imx662_set_link_limits(struct imx662 *imx662)
-> > > +{
-> > > +       u64 pixel_rate;
-> > > +
-> > > +       pixel_rate = imx662_link_freqs[imx662->link_freq_index] * 2;
-> > > +       pixel_rate *= imx662->num_data_lanes;
-> > > +       do_div(pixel_rate, imx662->format->bpp);
-> > > +
-> > > +       __v4l2_ctrl_s_ctrl_int64(imx662->pixel_rate, pixel_rate);
-> >
-> > Are you sure on this? All my testing had pixel rate being independent
-> > of bit depth and number of lanes.
-> > Trying your driver with 360Hz link freq / 720Mbit/s data rate on 2
-> > lanes. All the computations end up with a max frame rate of 60fps in
-> > 10bit mode and 50fps in 12bit, when I'm expecting a max of 30fps from
-> > the datasheet.
-> > Asking for 1920x1080 12bit @ 30fps via libcamera results in hblank of
-> > 0 and vblank of 1003 with a pixel rate of 120000000. The actual
-> > framerate achieved is 27.85fps.
-> >
-> > I'd found working from a pixel rate of 222750000 (INCK of 74.250*3),
-> > and writing HMAX with the "normal" line length value of width+hblank
-> > but divided by 3, all the numbers for line time and frame rate control
-> > fall out.
-> > IMX415 was similar, but some input clocks multiplied up to 72MHz
-> > instead of 74.25MHz and produced a set of different link frequencies,
-> > so complicated matters.
->
-> I'm not entirely sure I understand the suggestion.
-> Of course, having some fixed value would greatly simplify the driver,
-> but it's still unclear to me where these calculations come from, and where
-> does the divisor of 3 come from?
-> Nevertheless, looking at the mode table, it becomes clear that the resulting
-> frame rate does not depend on the CSI-2 format (10 or 12 bits),
-> so apparently something needs to be changed...
-
-I'd worked from the HMAX register value of 660 with VMAX of 1250
-giving 90fps, whilst altering HMAX to 990 gives 60fps. That implies it
-is a linear relationship.
-
-V4L2 equates HMAX to (width + hblank). Whilst hblank can be negative,
-trying to use 660 in computing the pixel rate would confuse matters as
-there are more pixels generated than the pixel rate implies.
-Multiplying 660 by 3 gives 1980 pixels per line (width=1920 and
-hblank=60), which is greater than the number of active pixels and
-therefore makes logical sense. All the other numbers fall out
-correctly from there.
-
-> > > +       case V4L2_CID_BRIGHTNESS:
-> > > +               cci_write(imx662->regmap, IMX662_BLKLEVEL, ctrl->val, &ret);
-> >
-> > Setting the black level based on the brightness control isn't one I've
-> > seen done on any other image sensor. It has similarities, but feels
-> > very wrong.
->
-> As far as I understand, V4L2_CID_BRIGHTNESS is exactly the control
-> that sets an offset added to the signal. This matches the intended use for
-> black level adjustment. According to the V4L2 specification,
-> V4L2_CID_BLACK_LEVEL is deprecated because its functionality is covered
-> by V4L2_CID_BRIGHTNESS (offset) and gain controls.
-> So I believe this is the correct mapping. Am I wrong?
-
-AFAIK No other sensor has exposed black level via V4L2_CID_BRIGHTNESS.
-It's more usually used for changing the luma component on TV tuners or
-other YUV video capture devices.
-
-Very few sensors benefit from having manual control of the black
-level. Seeing as there isn't a standardised mechanism for reporting
-the black level, any image tuning will have been done with a reference
-black level. If something (eg this control) changes that level then a
-large proportion of the image tuning becomes invalid.
-If V4L2_CID_BRIGHTNESS is to be used to set black level then that's a
-V4L2 policy decision and so falls to Sakari or Laurent.
-
-  Dave
 
