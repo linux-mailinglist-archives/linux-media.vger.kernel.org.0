@@ -1,58 +1,57 @@
-Return-Path: <linux-media+bounces-56040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56041-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sL3MOBQzuWnsuQEAu9opvQ
-	(envelope-from <linux-media+bounces-56040-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 11:55:16 +0100
+	id oKXDBSszuWnsuQEAu9opvQ
+	(envelope-from <linux-media+bounces-56041-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 11:55:39 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543A92A8577
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 11:55:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D3E2A858D
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 11:55:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E3FBB3054208
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:54:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 59E12302003E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:54:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7595136F409;
-	Tue, 17 Mar 2026 10:54:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4CE5373BF5;
+	Tue, 17 Mar 2026 10:54:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="puMU2Jha"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="B72BDVEb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEAD368941
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 10:54:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7CC368941
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 10:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773744869; cv=none; b=ZSAgykgt+2kJSkTJ9Pk9+6TrDrOnUEWzLs5a1LQEav8XurSyaqNaHC/Am1DYin6G1bul/lp7lnyrQk3heb6WQGkZS32q2UdNPU9/X866wbUTsVlzdsJNsJlHbihNH1Pk6t4tw07vmTxdt/hMhx9C/YuguNLVrjvPyteZ7lUS19A=
+	t=1773744883; cv=none; b=ad0A8QrImMIFO+vBTCBvNY6vLtO52xljB4mjPEoQDMNi9eL9TZK2FAeMA/TMCDIWeimTAbgRdGhAEnKdmURk9AIr1rVAj3X9bxmXVEl/hHrUaVzmy+POe8DqJuEiUDUXkDvo6FfrFQcjo5tfT4TnBsG3XaMofI3FgbEsUIe0KWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773744869; c=relaxed/simple;
-	bh=RvCRMzL7YioZtNWnrEDH0f4sq0d5F7Tanj/YO/JO7Qw=;
+	s=arc-20240116; t=1773744883; c=relaxed/simple;
+	bh=aEpoCfUjrbrEugOPIGAQFWoiilKU+BVxbBMW2ykw6kA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MB2n2n8ZmaTB6iSIw48ySrR8OnfRgF7WUpnPEPVpyr79MV62UamJc3NmtxLslf0DRysIi62gejGSYwWa4BRxPyzdxwmtc6mBVmEf49qW/d18kFF1wXN5iHY0A0LAzt6pIigs12ByjKPcMKRatdblkmO9JN9ITlPWAqmx3jy2SrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=puMU2Jha; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=CjmgctUbzqkkYzOCSNoH/pZXp79cuY11Wzm4Yjw8fWsW43GUpbLh94au0s8+6Y3QqEbYsJb3tbP91oEMKlaXxLLge7ee3+Ok4ci3ie68Sr0fkMy+Mrb8XiS1rmYxOKuK5bOAhIn24EqCLF1YWMjjnuj2FuhezvrPUhkgVjdcin8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=B72BDVEb; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 672D7593;
-	Tue, 17 Mar 2026 11:53:15 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 17F79593;
+	Tue, 17 Mar 2026 11:53:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773744795;
-	bh=RvCRMzL7YioZtNWnrEDH0f4sq0d5F7Tanj/YO/JO7Qw=;
+	s=mail; t=1773744809;
+	bh=aEpoCfUjrbrEugOPIGAQFWoiilKU+BVxbBMW2ykw6kA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=puMU2JhapvOOzennDNpfID43hBzZbkDF7YbNr5fYIXsy7d5+8JqMGc6Z+HkbU3LsL
-	 bcPlOcaRgXxwG6SxGLWS/xI//E3Lo5FfC8aOGQubfVTCsuwna3RV0sZk8/0bSAWj1i
-	 WJWlZ7rsnrYmNt4/gH/5arxVPhk1w6XCiTZNCOyk=
-Date: Tue, 17 Mar 2026 12:54:26 +0200
+	b=B72BDVEb3cO6w2H/O0nPVHpQENHOvSU163g0E9QM7UdQl5AVbl5EBIi3AygXEmcz6
+	 tfGCW/63aoc8QQIPdvO3Mel7lOwsv8SuIBDfTptYGwKyMQq42c8LPUESixEWVXN0v4
+	 FRc1nxc75hfdvA/g13lT93Y3Gr3IWzxnoJlSRoMs=
+Date: Tue, 17 Mar 2026 12:54:39 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH 3/7] Add quotes for "-f help" in help text and do a line
- wrap
-Message-ID: <20260317105426.GD302774@killaraus.ideasonboard.com>
+Subject: Re: [PATCH 4/7] Constify progname
+Message-ID: <20260317105439.GE302774@killaraus.ideasonboard.com>
 References: <20260317095802.214532-1-sakari.ailus@linux.intel.com>
- <20260317095802.214532-4-sakari.ailus@linux.intel.com>
+ <20260317095802.214532-5-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,17 +60,17 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260317095802.214532-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260317095802.214532-5-sakari.ailus@linux.intel.com>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56040-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56041-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -86,40 +85,34 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,killaraus.ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 543A92A8577
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 61D3E2A858D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 17, 2026 at 11:57:58AM +0200, Sakari Ailus wrote:
+On Tue, Mar 17, 2026 at 11:57:59AM +0200, Sakari Ailus wrote:
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  raw2rgbpnm.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  raw2rgbpnm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/raw2rgbpnm.c b/raw2rgbpnm.c
-> index 8aa7258218ad..e8d72a68be30 100644
+> index e8d72a68be30..215decd65d93 100644
 > --- a/raw2rgbpnm.c
 > +++ b/raw2rgbpnm.c
-> @@ -929,11 +929,12 @@ int main(int argc, char *argv[])
->  			       "--brightness, -b <bright> Set brightness (multiplier) to output image\n"
->  			       "                          (float, default 1.0)\n"
->  			       "--format, -f <format>     Specify input file format format\n"
-> -			       "                          (-f help for list, default UYVY)\n"
-> +			       "                          (\"-f help\" for list, default UYVY)\n"
->  			       "--help, -h                Show this help\n"
->  			       "--high-bits, -g           Use high bits for Bayer RAW 10 data\n"
->  			       "--size, -s <XxY>          Specify image size\n"
-> -			       "--swap-rb, -w             Swap R and B channels\n", progname, argv[0]);
-> +			       "--swap-rb, -w             Swap R and B channels\n",
-> +			       progname, argv[0]);
->  			exit(0);
->  		case 's':
->  			if (parse_format(optarg, &width, &height) < 0) {
+> @@ -43,7 +43,7 @@
+>  #define MAX(a,b)	((a)>(b)?(a):(b))
+>  #define MIN(a,b)	((a)<(b)?(a):(b))
+>  
+> -char *progname = "raw2rgbpnm";
+> +const char *progname = "raw2rgbpnm";
+>  
+>  static int swaprb = 0;
+>  static int highbits = 0;			/* Bayer RAW10 formats use high bits for data */
 
 -- 
 Regards,
