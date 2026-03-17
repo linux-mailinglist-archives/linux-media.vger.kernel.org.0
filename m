@@ -1,155 +1,302 @@
-Return-Path: <linux-media+bounces-56049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56050-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kC9QCXRBuWnp9wEAu9opvQ
-	(envelope-from <linux-media+bounces-56049-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:56:36 +0100
+	id EF3jLKFBuWnp9wEAu9opvQ
+	(envelope-from <linux-media+bounces-56050-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:57:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51922A952D
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:56:35 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 552FC2A959F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:57:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8CEAF30D1E65
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 11:51:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CA6643056673
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 11:52:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D463A3B3BF0;
-	Tue, 17 Mar 2026 11:51:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19F603B3C16;
+	Tue, 17 Mar 2026 11:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RqtZeSER"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8DcSW2L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FEC3B19C7
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 11:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773748272; cv=pass; b=ejatO0Y3nHMFXYxtA5GtBVE6EQmNrvo6fr37gkikl2cyjY9ypQmuCi8tgwClDW9Zygk/O+7oTZIMkScHxPjhHUmgpRFNZP7lJjkSvEnPDnNfhzBvFOvu1Y40Uv9XY+UrUxLu/U7rphBIA/rsU8Oq40l/upXrMxu2ELJND5IN1z0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773748272; c=relaxed/simple;
-	bh=8eDL+Y3X+8pX5273rhUkUH7wXXTl5oL/fIUGWdNBy68=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Bk5ZfCGS3R5AX4P86QTael1SbT6ql9lSBQ+2qJeK/coh9GHJNxgqktzv2R0/8udAAE1zpgBoHIC54Fo7BCfv3NoT0eCvUg6xBAcjAyNn1wF46TgDldMEOo7MpdnPcakNY3nIcXgskfA6kggRs6Z+P3WpPxEIMWtv6wDjBs8zWS8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RqtZeSER; arc=pass smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-79a2ee65171so29649797b3.2
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 04:51:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773748270; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fPwKLv9fzXaCWfY82DQDy0Q0pi6QY9VCTR3i7k6GcfYuues5mDBDYBXUgVzH4kyDqt
-         PQ0PnBqunb61ch+AmHDumze9SDwZsSQ/AezhvioqLnTUq5tSBihcnOBonTQfpvV+xnIN
-         ZndmNE27joH7lHoGP4Y1s9wWTfTuL/Lv4otqFuN3rKSyFp3azGjSrof/wK5IxK4wLHh4
-         jmMf/QF6RLa7RbL7TLbGKEYCe3whC2+bAzikutMN6gdLWszNps/FOHNfWcGWWoq9bu9m
-         +hpZxVy8deax1BvzmiopzUegxnJnOpNGwOBVUL9tZcE8NKvrCe/ULj4ULxjHUCRjhr/q
-         1cjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=8eDL+Y3X+8pX5273rhUkUH7wXXTl5oL/fIUGWdNBy68=;
-        fh=jr3BGX5L0+OltfguqfpSBmkWAIeG23PKpM3mC3I92Xc=;
-        b=BfaBMvcNHUyanExtoI2B11Oym9SOk8PhzongrnfDRFglER6R793RYKrqJfr/88Q18p
-         UhQgMLgp0OhKWZyAFaHJV+PlgZF/ebxlZRNDvuq0xZAJYB4X0EJrWG4BtLCUxuEA4mA9
-         HhaaCzPJ6wU76ukhquQX7V5ARA5RYRirrxzEJiG6Y7Zkf88cMNH0cgBDw685wUksBgzc
-         L85U4jwMxqOsijNVgyvcnc4DNxt9jizV8wMWAqBRTArN1LliY21b3W2+eKxDgAMMKieI
-         QpWjerDv5lHMg5rOW3Hn5+p0HcT7b5YquGWFwIavSxyPgPIaTssUXic2w5kPNQsIDeeo
-         kUew==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773748270; x=1774353070; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=8eDL+Y3X+8pX5273rhUkUH7wXXTl5oL/fIUGWdNBy68=;
-        b=RqtZeSER+ucRq8kOKCF3oo6GP6IPdnxJdj3b+ciU1pzTcfZABBICM37VGv7OFNoIJY
-         GBWidtE/VOQoESqa0elwOiwRiEll9kJgSaRBiQw0Rxa4XHMmQFH+WF60oDEr2GhPhtu4
-         PgiqDgiEfg80eSk53BzEqtUaaM26Ryi5krSGUe0AWGXn0mWDnmzL3W3GGPcGimQOrI8B
-         Jm+eOE00a/DhZIDX+VSsV2YUGk25LswIbqtvhmM4KWT0dbfKLihOOaQ85lPNIfWZQC0Y
-         XTIFey9QnKk1ijUowmv6X1eoE0qYXR30CQZGKFo7/YsrJ8ufHFcMuaqXS59J7YxeMQHT
-         yPqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773748270; x=1774353070;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8eDL+Y3X+8pX5273rhUkUH7wXXTl5oL/fIUGWdNBy68=;
-        b=GeQf9W8js/x6uUapjT2fKWCajv+PomgWM0GFt4RR0t7GbfeseeToXgJPZCoIw0p0TI
-         v/ANZ5DciVCRq28IjNmrQ7Pt0PGbwBQ9PP1j3H6hS1UTiWz5ykVKYz60J/wRtIHSJ5B3
-         RaXWuBrwuPz8//LnW5Ev9tmxF3WzjtbciNInHj2q6Kmz2jRmDlETt79ySuq6+bEQy1fl
-         vklQkSaJEyqTG0Fmjcbi9QJOFAsmQSXUkqXBrx+xtRI4TolQCdUQvgmfw5Jqh3PAgbnP
-         C/KOxNV54UuaOeusNn5Rbya0KU/BQybHFnUChAonFOz2NQPuhtKwAukG5pnw7l7MRA9S
-         heWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXT7v4BN5YwC57cjXS0SbUYYIFZM+koCpkP4Ezx1KFtOnZO/KFzHRppfZINZYWK8RVFPCCTTvlKOz9InA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLidhK9tLQEsNPIgul8zmDBQDI0HEkJpldd5AYuxVRHf+KpfqM
-	yj8/20n5AAJxBO+qmMpmfssK1FRODenCAPDwan8Rfm6/bPNshjgYDOe0cxeRo/O/q+CrCdETMhG
-	jn/KYOlG9/C9tBzzn+avluHxMAc8hj90=
-X-Gm-Gg: ATEYQzzu89O6qc2qKKGGy3mLCeWmcESdVVo62E//agiu3GIr7TwJTGC+3qTjNEkWvJv
-	N/FuJi5dyq/SoDZwbsxykwmEdT9F2xu9io7p3w/eY6jKZg1yHTYj8YoDj79bAwatJsVQ707C4hw
-	dwnORcfFba/mI8/rO8MiZk7jwSIihXLAGGEDNHu7Hq+tAohoa2ohgdPaTkQa21+0ZkAiwVt6Yoj
-	0ktjQK+UDP6ALG+rqW4zeg2O8BEuWplcgoCtj7ZTEIIlTjD19CPRGT//CHrmRn35jKwMRRBPeyv
-	XyW0y7i4Kw==
-X-Received: by 2002:a05:690c:389:b0:799:23b7:5680 with SMTP id
- 00721157ae682-79a1c129452mr172898477b3.27.1773748270287; Tue, 17 Mar 2026
- 04:51:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5D33B0AE0;
+	Tue, 17 Mar 2026 11:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773748370; cv=none; b=e6cye4yRcI8AllD1M3Y4RtqLAnTUKznvGwbwTCvPCf/0VrzRj1LyLgKLB5ghNa+qYbBzw7Ky64s466wjVN1sBiVVvHwW61ogjXuRpZ3deYoPsH6pHZRRPgTq96beWKOIXJIqzH22dCkvEwWKuixxernvRA5lfx74g+wwuLDvty4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773748370; c=relaxed/simple;
+	bh=bAcLqt5AOOlimNdDcnW9re6/aAcNUgnFMoUDknv+gPY=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Lh2e6BaxPiMW4oAoyGtT6f5KlXIl4ZELJmZemFRKKwiu/2uajUqlB4y8ky2tsISkwxUfU4YBFMnmhL/sg1fRh0SRCBzluhQBlXynX1q52EbPoQ0CNDVLSCLuttTw5H2rtLtf4Tv56CIiPdEK6hG0mU/QPMAbBTH7sc5VnPvKx6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8DcSW2L; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773748370; x=1805284370;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=bAcLqt5AOOlimNdDcnW9re6/aAcNUgnFMoUDknv+gPY=;
+  b=T8DcSW2LZ8+4OKYRXKyfOIbCH9xerOFt8bzckOOijJxxU6dy5WmzuFg/
+   7HBcnSDZPg5FxRhN8R5Uz6CfqBmbfGQmX8x2RDmGqxdQAaqECmmCL/LdP
+   3mlfa6qAg6Km10zDWREIBA81K+zqQpnG74XAZJjSSwWYGdF4+tPiO2MWi
+   pV876WB8InvOrKNrgKH/mZogMlUvCdJBAmORcAYf35s12/+6txKgn098g
+   bZUV6SjsfTdNRQCDyjdsSqRf3pdH6vJ5N78cA/qBphNMnt70B6jzgn9BY
+   dYIanR1ckMGQYFn+Bpcb5trPyuJzLIHx/aNAl+Og5LzYPdqLuk/Mmibrc
+   g==;
+X-CSE-ConnectionGUID: C+N+nDH9RqyLHM2hWg5r8w==
+X-CSE-MsgGUID: y/A+HXBiSDarhRhI+VMNMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="77386993"
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="77386993"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 04:52:44 -0700
+X-CSE-ConnectionGUID: aZjilz0bQ324rLoXclnpLg==
+X-CSE-MsgGUID: d8qIAcOFTa6Vn+dpHGQtXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="226369881"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.161])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 04:52:38 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 17 Mar 2026 13:52:34 +0200 (EET)
+To: Antti Laakso <antti.laakso@linux.intel.com>
+cc: linux-media@vger.kernel.org, linux-gpio@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, linusw@kernel.org, brgl@kernel.org, 
+    sakari.ailus@linux.intel.com, mchehab@kernel.org, 
+    dan.scally@ideasonboard.com, Hans de Goede <hansg@kernel.org>, 
+    hverkuil+cisco@kernel.org, sre@kernel.org, hao.yao@intel.com, 
+    jimmy.su@intel.com, miguel.vadillo@intel.com, kees@kernel.org, 
+    ribalda@chromium.org
+Subject: Re: [PATCH v2 5/5] platform: int3472: Add MSI prestige board data
+In-Reply-To: <20260311131910.835513-6-antti.laakso@linux.intel.com>
+Message-ID: <c6625073-7af9-a0c8-2755-8a47d2abe638@linux.intel.com>
+References: <20260311131910.835513-1-antti.laakso@linux.intel.com> <20260311131910.835513-6-antti.laakso@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310203646.8869-1-rayfraytech@gmail.com> <20260311170423.13157-1-rayfraytech@gmail.com>
- <abkJ0TOrtMR4sTjd@kekkonen.localdomain>
-In-Reply-To: <abkJ0TOrtMR4sTjd@kekkonen.localdomain>
-From: Oskar Ray-Frayssinet <rayfraytech@gmail.com>
-Date: Tue, 17 Mar 2026 12:50:58 +0100
-X-Gm-Features: AaiRm51nstSTvZRHkOW1q7xv4ApowkamlBVcycD_uIs-L5kwFIS43Rz_nVyUzjY
-Message-ID: <CAJioSGd=7LoMA2gTNK_6vejtjfFJFwHvnh76Z7EYowq8MVQqQw@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: media: atomisp: remove unnecessary braces in
- single statement blocks
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org, 
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+Content-Type: multipart/mixed; boundary="8323328-952343647-1773748354=:968"
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	CTYPE_MIXED_BOGUS(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-56050-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56049-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+,1:+];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rayfraytech@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[ilpo.jarvinen@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: B51922A952D
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,linux.intel.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 552FC2A959F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Sakari,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Tue, Mar 17, 2026 at 8:59 AM Sakari Ailus wrote:
-> Did you write this manually or generate it with e.g. Coccinelle?
+--8323328-952343647-1773748354=:968
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-I made the changes manually, file by file, using Vim.
+On Wed, 11 Mar 2026, Antti Laakso wrote:
 
-Best regards,
-Oskar Ray-Frayssinet
+> Define regulators and gpio for ov5675 in MSI Prestige 14 AI EVO+ laptop.
+>=20
+> Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
+> ---
+>  .../x86/intel/int3472/tps68470_board_data.c   | 101 ++++++++++++++++++
+>  1 file changed, 101 insertions(+)
+>=20
+> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/d=
+rivers/platform/x86/intel/int3472/tps68470_board_data.c
+> index 71357a036292..6892d6e98072 100644
+> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/dmi.h>
+>  #include <linux/gpio/machine.h>
+>  #include <linux/platform_data/tps68470.h>
+> +#include <linux/property.h>
+>  #include <linux/regulator/machine.h>
+>  #include "tps68470.h"
+> =20
+> @@ -232,6 +233,72 @@ static const struct tps68470_regulator_platform_data=
+ dell_7212_tps68470_pdata =3D
+>  =09},
+>  };
+> =20
+> +/* Settings for MSI Prestige 14 AI+ Evo C2VMG laptop. */
+> +static struct regulator_consumer_supply ovti5675_avdd_consumer_supplies[=
+] =3D {
+> +=09REGULATOR_SUPPLY("avdd", "i2c-OVTI5675:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply ovti5675_dovdd_consumer_supplies=
+[] =3D {
+> +=09REGULATOR_SUPPLY("dovdd", "i2c-OVTI5675:00"),
+> +};
+> +
+> +static struct regulator_consumer_supply ovti5675_dvdd_consumer_supplies[=
+] =3D {
+> +=09REGULATOR_SUPPLY("dvdd", "i2c-OVTI5675:00"),
+> +};
+> +
+> +static const struct regulator_init_data msi_p14_ai_evo_tps68470_core_reg=
+_init_data =3D {
+> +=09.constraints =3D {
+> +=09=09.min_uV =3D 1200000,
+> +=09=09.max_uV =3D 1200000,
+> +=09=09.apply_uV =3D 1,
+> +=09=09.valid_ops_mask =3D REGULATOR_CHANGE_STATUS,
+> +=09},
+> +=09.num_consumer_supplies =3D ARRAY_SIZE(ovti5675_dvdd_consumer_supplies=
+),
+> +=09.consumer_supplies =3D ovti5675_dvdd_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data msi_p14_ai_evo_tps68470_ana_reg_=
+init_data =3D {
+> +=09.constraints =3D {
+> +=09=09.min_uV =3D 2815200,
+> +=09=09.max_uV =3D 2815200,
+> +=09=09.apply_uV =3D 1,
+> +=09=09.valid_ops_mask =3D REGULATOR_CHANGE_STATUS,
+> +=09},
+> +=09.num_consumer_supplies =3D ARRAY_SIZE(ovti5675_avdd_consumer_supplies=
+),
+> +=09.consumer_supplies =3D ovti5675_avdd_consumer_supplies,
+> +};
+> +
+> +static const struct regulator_init_data msi_p14_ai_evo_tps68470_vio_reg_=
+init_data =3D {
+> +=09.constraints =3D {
+> +=09=09.min_uV =3D 1800600,
+> +=09=09.max_uV =3D 1800600,
+> +=09=09.apply_uV =3D 1,
+> +=09=09.valid_ops_mask =3D REGULATOR_CHANGE_STATUS,
+> +=09},
+> +=09.num_consumer_supplies =3D 0,
+> +=09.consumer_supplies =3D NULL,
+> +};
+> +
+> +static const struct regulator_init_data msi_p14_ai_evo_tps68470_vsio_reg=
+_init_data =3D {
+> +=09.constraints =3D {
+> +=09=09.min_uV =3D 1800600,
+> +=09=09.max_uV =3D 1800600,
+> +=09=09.apply_uV =3D 1,
+> +=09=09.valid_ops_mask =3D REGULATOR_CHANGE_STATUS,
+> +=09},
+> +=09.num_consumer_supplies =3D ARRAY_SIZE(ovti5675_dovdd_consumer_supplie=
+s),
+> +=09.consumer_supplies =3D ovti5675_dovdd_consumer_supplies,
+> +};
+> +
+> +static const struct tps68470_regulator_platform_data msi_p14_ai_evo_tps6=
+8470_pdata =3D {
+> +=09.reg_init_data =3D {
+> +=09=09[TPS68470_CORE] =3D &msi_p14_ai_evo_tps68470_core_reg_init_data,
+> +=09=09[TPS68470_ANA]  =3D &msi_p14_ai_evo_tps68470_ana_reg_init_data,
+> +=09=09[TPS68470_VIO]  =3D &msi_p14_ai_evo_tps68470_vio_reg_init_data,
+> +=09=09[TPS68470_VSIO] =3D &msi_p14_ai_evo_tps68470_vsio_reg_init_data,
+> +=09},
+> +};
+> +
+>  static struct gpiod_lookup_table surface_go_int347a_gpios =3D {
+>  =09.dev_id =3D "i2c-INT347A:00",
+>  =09.table =3D {
+> @@ -258,6 +325,23 @@ static struct gpiod_lookup_table dell_7212_int3479_g=
+pios =3D {
+>  =09}
+>  };
+> =20
+> +static struct gpiod_lookup_table msi_p14_ai_evo_ovti5675_gpios =3D {
+> +=09.dev_id =3D "i2c-OVTI5675:00",
+> +=09.table =3D {
+> +=09=09GPIO_LOOKUP("tps68470-gpio", 9, "reset", GPIO_ACTIVE_LOW),
+> +=09=09{ }
+> +=09}
+> +};
+> +
+> +static const struct property_entry msi_p14_ai_evo_gpio_props[] =3D {
+> +=09PROPERTY_ENTRY_BOOL("daisy-chain-enable"),
+> +=09{ }
+> +};
+> +
+> +static const struct software_node msi_p14_ai_evo_tps68470_gpio_swnode =
+=3D {
+> +=09.properties =3D msi_p14_ai_evo_gpio_props,
+> +};
+> +
+>  static const struct int3472_tps68470_board_data surface_go_tps68470_boar=
+d_data =3D {
+>  =09.dev_name =3D "i2c-INT3472:05",
+>  =09.tps68470_regulator_pdata =3D &surface_go_tps68470_pdata,
+> @@ -287,6 +371,16 @@ static const struct int3472_tps68470_board_data dell=
+_7212_tps68470_board_data =3D
+>  =09},
+>  };
+> =20
+> +static const struct int3472_tps68470_board_data msi_p14_ai_evo_tps68470_=
+board_data =3D {
+> +=09.dev_name =3D "i2c-INT3472:06",
+> +=09.tps68470_regulator_pdata =3D &msi_p14_ai_evo_tps68470_pdata,
+> +=09.tps68470_gpio_swnode =3D &msi_p14_ai_evo_tps68470_gpio_swnode,
+> +=09.n_gpiod_lookups =3D 1,
+> +=09.tps68470_gpio_lookup_tables =3D {
+> +=09=09&msi_p14_ai_evo_ovti5675_gpios,
+> +=09},
+> +};
+> +
+>  static const struct dmi_system_id int3472_tps68470_board_data_table[] =
+=3D {
+>  =09{
+>  =09=09.matches =3D {
+> @@ -316,6 +410,13 @@ static const struct dmi_system_id int3472_tps68470_b=
+oard_data_table[] =3D {
+>  =09=09},
+>  =09=09.driver_data =3D (void *)&dell_7212_tps68470_board_data,
+>  =09},
+> +=09{
+> +=09=09.matches =3D {
+> +=09=09=09DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Micro-Star International Co., =
+Ltd."),
+> +=09=09=09DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Prestige 14 AI+ Evo C2VMG"),
+> +=09=09},
+> +=09=09.driver_data =3D (void *)&msi_p14_ai_evo_tps68470_board_data,
+> +=09},
+>  =09{ }
+>  };
+> =20
+>=20
+
+Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+
+--=20
+ i.
+
+--8323328-952343647-1773748354=:968--
 
