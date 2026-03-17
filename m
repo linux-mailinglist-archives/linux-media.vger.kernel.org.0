@@ -1,182 +1,247 @@
-Return-Path: <linux-media+bounces-56108-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56109-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0EGRArqLuWmTJAIAu9opvQ
-	(envelope-from <linux-media+bounces-56108-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:13:30 +0100
+	id sExZNgqOuWnkJwIAu9opvQ
+	(envelope-from <linux-media+bounces-56109-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:23:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD57D2AF237
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:13:29 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E7052AF771
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:23:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8C10830530D4
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 17:10:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B5562301F3B3
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 17:21:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C82463F7E86;
-	Tue, 17 Mar 2026 17:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E3E332AAC5;
+	Tue, 17 Mar 2026 17:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzQ8Zyt8"
+	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="YYC6IIy/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB003F54DE
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 17:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228C62459DC
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 17:21:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767363; cv=pass; b=OwSWuye/8GOM2kR/1Sv6BJ4pQ7aD7lwrOYmgnHBvhr9DqkxvSfIhLNFIB2HX25rLwHUb4IdNaHso6XES2b6PEi6h/PC0DfB0c3qsZkFxSSUT1pRXPjIIx08UEb20x4vAZNRHm8bXc78lO+Yt+XuqWDmgEMdWfOiChkywXNxHIdA=
+	t=1773768072; cv=pass; b=Lzw304IMJuRceCyBqvoCDXhr2FhNxswOG50LF15w2U/Kgykkab3al6B5PJCL0QRgcDeKjhedJ+6NWfYSBuyp6HrbrDon8k+30UO+Ej9pqXcM+sQf1423+JODQ/Qn6zf1VnvoGXVSfbvqyygEadDvc/2K2Hdv6+1fDr76ZISo0GE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767363; c=relaxed/simple;
-	bh=LWX8lvkUV9PBNvGCPfQH+mGtLQKsR1aBA/U9I+b0PXg=;
+	s=arc-20240116; t=1773768072; c=relaxed/simple;
+	bh=RzxxQNK+7XeZZ1zzpRgBfb1zqJHEyjfghb6u/A7OCa8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fuq1PmGjOyThNKkM/pU4WRDfbfKhzhF/UTOHLm6BgYjOz0NkUhCmolhiaFZL7seZ+Mx+IVmrX8T3iQryjRJ+cFr3ZxbUpYBcf6PXJk5BnACaMoBRXyXzpDbcvpBV0L+9vfUSjmzPy6ZkMWFCH+s53USq8VZT20HjJoBWyVcMzA0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzQ8Zyt8; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43b40fb7f95so2471836f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 10:09:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773767360; cv=none;
+	 To:Cc:Content-Type; b=Ou5dE/xkK8wnMl5qmkXzojuGNHrGYH1XhudR9ZS6btGzZOut1/W7JOafCivh5WB6IVUIGznkH89RjYvpxu8kXfU+4tgHtKs1qiDLt5xzEllv7H0p30HWKlQUJwzxdbI0/ZMipdmdRpSyS1HU4Ea0QogiZVGE1DBf57rQugaPA9A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=YYC6IIy/; arc=pass smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-466f935a82fso3853224b6e.0
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 10:21:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773768070; cv=none;
         d=google.com; s=arc-20240605;
-        b=O/zyYr8P/3oQFxz685FSTJHFYYSwm6lTHzL46oFNP2KjBfb7xo2uoq1MJk9xVsLY86
-         KUyC/QZShcbZWKw4p1Cw1gi/df+hxjqms6I/9g7E3iu7Tepg5DzkA4ZOMwu0+mbQ64/y
-         yrsv2Sfo3Vn1L1bemqaYSRPjaLomcsVzwWeXUOWCs9MHwQ37cWVX3/6EE5LnMmmDxD2/
-         ELRdS/FQSEKO+YfKNdwm+F9UbEcgKILH/CmboWae9kjP3ErCspnFd6haiKfEH3ILo2+M
-         5JXT8E0+W6jIzMsPf99iAi5yNAatJ1vhlhBE3UyXyapBva++ySnnmpqZpQRKpQLxe53U
-         XpdA==
+        b=Dih+y841YLvdWbFtKisnSWpOFtkTWVq+2MzASP/ntl47CAZb+NbKQtO6iygCuOvGnA
+         3cE8gkRMgRNbwVxpx0hbapsWzGXxp+2uAkYhuwBV+1kuA98xx7I2IaSeETk/SPqdIeTd
+         ETvRghwHUssZ2dJkw8iP4sl0eXmMNo16Sac950awthC/CpNvbtJzxpxye8e4WzcnLs+N
+         wPSNf2woLLJV+XflHnkVlCBhXKx3FSNN+O93g178CaT1/moVpwqPQpsV/74qXmbvBjGI
+         fHHd+0XqT7HchvCBNOvxOiMeB5kYHlOnuVCHeAwFgTm0k19sQv7x3/Hl9ksSbLpsSgtJ
+         3V+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=LWX8lvkUV9PBNvGCPfQH+mGtLQKsR1aBA/U9I+b0PXg=;
-        fh=CGWfw1JtF2b2qb5hhdYBgPRmYoe3OTPJoiq35rTkw4Q=;
-        b=at9aAGJtMeXvsMjv735BUlHymklkuYOqdGDHMwAlXOJmLl1Fdm9lXC/sVLPsch2YWC
-         srIzFoRKoGOvSPx/tDG7VHtSuQEP+JJ66aY+P7FkqE1REteF1T1woGH7LMCSRFZwnDAz
-         eOCLlfT29noRNOeUiDoMdRzQltovuaV8Gqx2+RvxhpXhEjPtXCZlhnslQ2YR3hQLZtSQ
-         H2Kzu9sFfAX4EcqWNtsp2DLNNidf5OWvNd8X0nP450iVd+QKG3ancTbT8Dfs0xzHu7Yv
-         1LPXr7UROysiRmw9nvjA+WURIoyzr7KHKxnrlxurXKuDyWoe9BoTOXrXTVkum200HUao
-         d2Dg==;
+        bh=fgHqS6jMn0lq6YpOjwkuggYs/F1Fi4n4BxEBIots+EQ=;
+        fh=SUHx3lxdVvcKTVR88pDt0PHq6iishJqJW0D71/wP8Fc=;
+        b=I0KeIbMr/Pb2JEat1De3qm+iVwiTzxWnXC0X9KfNHHMK25M7muxFUT6GDFF/bVjxzu
+         2DNr7mdKEEZlHxpwfhUdDLohV5+hh8PUASdzNsESVCroA9I+oHsA7vApQSlTdMsNOWY+
+         50cRbuq1q7jOjVFHbdNZcggwMM907m+/1WIvC9GYDhH9xRPXqADugcOEbN/cCnv7AYE2
+         oJs4cNs0oaDKV22/pIwEZe+MGtw5x4xSrr0fJ+xRbLaR0DnFSlEl6v3m2qHhlar5ZAxM
+         1MZWVyR0K1j4zS0vNeRqsK5a+lMkSiAqgBSgaN9UiMwQq8XLxqizVlEJAyunkMjkSwtK
+         Ckbg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773767360; x=1774372160; darn=vger.kernel.org;
+        d=nextdimension.cc; s=google; t=1773768070; x=1774372870; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LWX8lvkUV9PBNvGCPfQH+mGtLQKsR1aBA/U9I+b0PXg=;
-        b=LzQ8Zyt8h0ZCsRerInSA7lOS/fxSt5cMG1/0idqzDnyCWJNqPJ81ugFAl/qQIhKaaV
-         /bhKUJs+6UObEwuH82mci/AWipf0hPvZgOw4kqgSuwWb+YCXcIYgtB6Fq3D+DCfqja9g
-         lXQfMwGVY03M5Jji8VLUVurZxAkk2rBBMZK7NLeLLxGOxvni+CbbMZwRMFS1iRaj6HG1
-         NoXbe757ZcI9BZCAiTyfTU72e3vp7CVdvfEIym7y+xJnSFVYUQjlpqproZWMqErdMMNj
-         9bwMIjVYOklw+LRqn9FO+W+GGpsc0/muJBNjXNhP9bwb1hcvdubd4CBu1q7MptP9IAaQ
-         7sZg==
+        bh=fgHqS6jMn0lq6YpOjwkuggYs/F1Fi4n4BxEBIots+EQ=;
+        b=YYC6IIy/5RdGiKN5pO4qSEi5y9Qo+jVJu9W2CELhcmDgZfghi81Myv6+G7zipZwRzn
+         WfB+1/sNIuC5MwblAiNyQrvB0Ue0ynB99EqEFwTyLWS3jKEZzwukOAd27p48BXK0p5wJ
+         dkyqktIxL0g4+pWmjs/TbK2oDH6ZTTTr0R7uhFjx+iB43NbTL7sG2a7hpbWGo4etXhA1
+         Of4wzIDuxfv6Z67+olI/+pi9LtLAq3koIxiBbCplc0c3YbNrzbCDGRRuhBY2SwfRipIe
+         qqTXV+VbWQ27nBSYkX4oPEdUmAXhhzgV2NRssydKmPYd8K/XgnudSmZeuqqNxVG/Ajo7
+         zrtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773767360; x=1774372160;
+        d=1e100.net; s=20251104; t=1773768070; x=1774372870;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LWX8lvkUV9PBNvGCPfQH+mGtLQKsR1aBA/U9I+b0PXg=;
-        b=Ds5V6wmWLxxuiLIgC1YvMfV354mbtJI0KS+1myTjCpH55lKVns7dGtzMrxoQraFdGJ
-         6WZ1tiiJAR+4+OwDYFKXBVI8CzO36gYvp7tMui0hjMQiVLLkpjXmvK0lQCuLQ4yKbjkD
-         wpVTA5iZatc6akBdgUk8Xy7mkG54RD7qQWlqkGiB5YrTlZFMr7PC+rRSk+eiHTA81xon
-         nK7MHqrWPZ8HWzPdROruxHByDoNU9FMKfw+ohlUn5Vw7AvZQeCgZSS8QQqVi9jqW5uCQ
-         V6r7c9IS5IACIDcWp1tO4BNhGvRwGk7OjhBIhUC/UUo8qWzH05UvQmmDPbUcjjrRchtM
-         wtdw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8m5utYrSzZp8TeB/nK8wAf+ayHOGCvYVkPOZbT+WA7Y4KLWxsBPC/8pphUOFJ5OSapIz/dwKhUcik4A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1FnckR5QyuMujnNivRDj+rj2yfP+uMWCQF6djlFsr/nfYTbIq
-	rGRiCI9UGmZb+htLpnJBwK4Prp61+F/FBgZeXSgI95PaXO8iLvumn30bm3iv5Y/hSjKMihplKtx
-	YOTXQzfWH8b8+XHB9tCaz5aVvCEQ9pbs=
-X-Gm-Gg: ATEYQzyneU9AsXU/wS/tTtWJFOAdHrrv3EPfPuXs5G7WJj2NvAVZqJAEuGHaQe9a/fo
-	phsYAzquydxs2BMGdWv2gu/nm+8R+PjTGo4GwGeRE7Yhf03mDLgYvy28bWLJKeJI9+nowMQwi3H
-	pO16mXXrn2mw3UkiP+dn256K3FlLoj12so6+Ddv5s6V7JFL4+WIQWC71qwrFR7PvbmwPy6Zyjip
-	dYgsnN729/aPMVrzmV/GdVxmAIGEGFsOm2wVd8Wrzb0sZk1GFob5+nYJZVTCGCLNA/7pKQ78mB8
-	wlp8v6eBFqq+MeXx11lck1eTUKC2b29xiHChD9tWmw==
-X-Received: by 2002:a05:6000:24c1:b0:439:b1c3:84c8 with SMTP id
- ffacd0b85a97d-43a04d8c957mr36170888f8f.21.1773767359996; Tue, 17 Mar 2026
- 10:09:19 -0700 (PDT)
+        bh=fgHqS6jMn0lq6YpOjwkuggYs/F1Fi4n4BxEBIots+EQ=;
+        b=hpK8lxW1P7WDieqh6mBezu91SkQlyh/9N3nYbhlvwQ7/+TmnFrXUYjkJCLxv/dDge1
+         MrXdejXHTHmWb9aLe2e3IyqmCMduawwzIb+arhUkPi4/zQJ8IPm3XmYvgpwxG3aU/Bwz
+         JwtH5mRbzDbCu/j2RRQuzcY84ttG2L7f4TsVUZFSxdZW+AR4Ac5oxiuUAL2Mkts1FVNw
+         jFPXr1/NLH7DtEvw/Sril9WUjA9EXvYZXp/KwIYdFSMejqjFCEjqx+jTT2mjbXqMPcJZ
+         sLRTfYcS8fPILM/EdqDRzFN+kW2Qvk3+sFgrd9EP0sNZXwGBk6IYSVVUPj8y7wPg645E
+         zL+A==
+X-Gm-Message-State: AOJu0Yy2tASOP3p8BIIpz9NXv7augzSJEsJJIkQm0USTl+ZfOx4+0k6S
+	vfvTZOHBfrcXNs7qhwJTBi2QL1o0JbNKy6yZM3tXhDP6ixmp1PvOSmkF6JWxfjLmqE6Z0lhX992
+	UN4WZUyp8NFNlGqpah2BmWZ/Jd22MUNJzUmRzConfLQ==
+X-Gm-Gg: ATEYQzzQMjlZHQWGE88+yoDB7/0ss8GqOZqvb3GaaXxGpjsk9Hv42n/J2TgZ/KZ0hkS
+	PSIn5a+t2z+O0eslZSLaUCd2Ns9yvPRlE4kj/KV6fxUi4uiYkp2EIKao5hSY729XRGX12jkNeNd
+	9kbYVj6wogAIZIw4eGADlszooeA4ZkKR+aW+N0IWDTKqJD8dX0fNHQqLka4IGVWZsa98cHkRCrm
+	GrxwhwoFkEulzFdPc373XVcgEJQRca2bNEAs9XvjiYJSvP5iWgzGHPbgVmqcFBK20qJ4n6PPqAD
+	rLYOEDMP
+X-Received: by 2002:a05:6808:158f:b0:45c:8fa8:7497 with SMTP id
+ 5614622812f47-467ba2cb667mr110428b6e.34.1773768069992; Tue, 17 Mar 2026
+ 10:21:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260311151302.105992-1-kalyanipatra2003@gmail.com>
- <a26ba4c7-05d9-4df0-b4ec-1a82d2df075e@nxp.com> <CACjYBviU6v_QbpPy0zhfpaBYMoQrO-pBNywzXZb9cHgerCCGBw@mail.gmail.com>
- <abkRdID5NGk2mkOF@kekkonen.localdomain> <CACjYBvir9vnXqH4HVXKqMs-pmqTWjs3wA92WH9_KUpwSr3KD8Q@mail.gmail.com>
- <abkf0KPSKnKZep5V@kekkonen.localdomain>
-In-Reply-To: <abkf0KPSKnKZep5V@kekkonen.localdomain>
-From: Kalyani patra <kalyanipatra2003@gmail.com>
-Date: Tue, 17 Mar 2026 22:39:08 +0530
-X-Gm-Features: AaiRm5338gRG7C14c73NXuA1yBJ1OtcVqLnDaipkFF0EhNbiUlUmgmJ-wtvEcfw
-Message-ID: <CACjYBvjb05JsrV6g9CaJozApxA9FWcQ1UUZqzzTrsztS=+RBRw@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: atomisp: fix brace style and trailing
- whitespace in isp_param.c
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Simona Toaca <simona.toaca@nxp.com>, d-gole@ti.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
+References: <20260312213532.2907276-1-brad@nextdimension.cc>
+ <7c653b8b-5d31-4667-9d86-cbaed7ee97f9@kernel.org> <08b7b5d6-4068-4349-924e-e551bbf6e672@kernel.org>
+In-Reply-To: <08b7b5d6-4068-4349-924e-e551bbf6e672@kernel.org>
+From: Bradford Love <brad@nextdimension.cc>
+Date: Tue, 17 Mar 2026 12:20:59 -0500
+X-Gm-Features: AaiRm53HEbadNhe6lr1f31K0CH66zgaJgdGX4JKsaiE4IVpeV2B5W0JMAUbQe1U
+Message-ID: <CAA0YaJQUQGFz65xXRNwbt9EFZRLnuOBDafTF9GsyxLhe4=UJZg@mail.gmail.com>
+Subject: Re: [PATCH 00/11] Assorted DVB and TV patches
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_DKIM_ALLOW(-0.20)[nextdimension.cc:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56108-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[nextdimension.cc];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-56109-lists,linux-media=lfdr.de];
 	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kalyanipatra2003@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email]
-X-Rspamd-Queue-Id: DD57D2AF237
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[brad@nextdimension.cc,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nextdimension.cc:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid,nextdimension.cc:dkim]
+X-Rspamd-Queue-Id: 3E7052AF771
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 17, 2026 at 03:03:00PM +0530, Sakari Ailus wrote:
-> I first applied the patch to a different branch and it seems the
-> issue the patch addressed was already fixed by another patch in
-> the atomisp branch.
+Hi Hans,
 
-Understood, thank you for checking.
+Thank you for grabbing these patches. I will generate a new au0828
+patch and get that v2 sent out. I noticed the media: subject issue too
+late for the first couple series I mailed in, but will add from now
+on.
 
---=20
-Kalyani Patra
+Regards,
 
-On Tue, Mar 17, 2026 at 3:03=E2=80=AFPM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+Bradford
+
+
+On Tue, Mar 17, 2026 at 8:14=E2=80=AFAM Hans Verkuil <hverkuil+cisco@kernel=
+.org> wrote:
 >
-> Hi Kalyani,
+> On 17/03/2026 10:52, Hans Verkuil wrote:
+> > Hi Brad,
+> >
+> > Thank you for this cleanup series!
+> >
+> > I'll take them all, except for the "au0828: Fix green screen in analog"=
+ patch,
+> > which needs a v2. So no need to post a v2 of the whole series, just pos=
+t a v2
+> > of that au0828 patch.
 >
-> On Tue, Mar 17, 2026 at 02:12:20PM +0530, Kalyani patra wrote:
-> > Hi Sakari,
-> > Noted. I=E2=80=99ll keep both of that in kind going forward.
-> > Thanks!
+> BTW, for future reference, please prefix media patches with "media: " in =
+the Subject
+> line. I added it manually for these patches.
 >
-> I first applied the patch to a different branch and it seems the issue th=
-e
-> patch addressed was already fixed by another patch in the atomisp branch.
+> Regards,
 >
-> Thanks.
+>         Hans
 >
-> --
-> Kind regards,
+> >
+> > Regards,
+> >
+> >       Hans
+> >
+> > On 12/03/2026 22:35, Bradford Love wrote:
+> >> Hello,
+> >>
+> >> Attached here is a series of accumlated fixes from integrations
+> >> and deployments.
+> >>
+> >> The first five patches are related to fixing issues with a
+> >> variety of analog video formats.
+> >>
+> >> The si2168 i2c timeout patch is something that has been found
+> >> to be critical on a variety of ARM platforms and Nvidia SOC.
+> >> Something in these platforms has USB i2c not consistently responding
+> >> within the embedded deadline in the driver.
+> >>
+> >> There are two firmware fixes. With Hauppauge hardware fw 4.0-11 si2168
+> >> devices definitely lose warm state and cannot function after sleep.
+> >> The saa7164 REV2 firmware had an incorrect filename and has been fixed=
+.
+> >>
+> >> Last up is adding some new Hauppauge USB id's and removing an invalid
+> >> analog input from the Hauppauge DVB DualHD.
+> >>
+> >> Addressing checkpatch warnings:
+> >> - 0001 palN is not misspelled
+> >> - 0003 adding dprintk like driver already does
+> >>
+> >>
+> >>
+> >> Regards,
+> >>
+> >> Bradford
+> >>
+> >>
+> >>
+> >> Bradford Love (11):
+> >>   si2157: Analog format fixes
+> >>   cx25840: Fix NTSC-J, PAL-N, and SECAM standards
+> >>   xc5000: Add rf strength function
+> >>   cx231xx: Fix AGC levels for NTSC-M
+> >>   au0828: Fix green screen in analog
+> >>   si2168: Fix i2c command timeout on embedded platforms
+> >>   si2168: fw 4.0-11 loses warm state during sleep
+> >>   saa7164: Fix REV2 firmware filename
+> >>   au0828: Add new Hauppauge HVR1265 and ImpactVCB-e
+> >>   em28xx: Add a variety of DualHD usb id
+> >>   em28xx: remove tuner type from Hauppauge DVB DualHD
+> >>
+> >>  drivers/media/dvb-frontends/au8522_decoder.c |  1 +
+> >>  drivers/media/dvb-frontends/si2168.c         |  8 ++--
+> >>  drivers/media/i2c/cx25840/cx25840-core.c     | 29 +++++++++++-
+> >>  drivers/media/pci/saa7164/saa7164-fw.c       |  4 +-
+> >>  drivers/media/tuners/si2157.c                | 15 ++++--
+> >>  drivers/media/tuners/xc5000.c                | 13 ++++-
+> >>  drivers/media/usb/au0828/au0828-cards.c      | 50 +++++++++++++++++++=
++
+> >>  drivers/media/usb/au0828/au0828-cards.h      |  2 +
+> >>  drivers/media/usb/au0828/au0828-dvb.c        |  1 +
+> >>  drivers/media/usb/au0828/au0828-input.c      |  1 +
+> >>  drivers/media/usb/au0828/au0828-video.c      | 30 +++++++++++-
+> >>  drivers/media/usb/cx231xx/cx231xx-avcore.c   |  7 ++-
+> >>  drivers/media/usb/em28xx/em28xx-cards.c      | 19 +++++---
+> >>  13 files changed, 156 insertions(+), 24 deletions(-)
+> >>
+> >
+> >
 >
-> Sakari Ailus
 
