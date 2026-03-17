@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-56016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56015-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yJq/ACEguWmergEAu9opvQ
-	(envelope-from <linux-media+bounces-56016-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:34:25 +0100
+	id sO6AK44huWkrrwEAu9opvQ
+	(envelope-from <linux-media+bounces-56015-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:40:30 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A7E2A6DEB
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:34:24 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2871D2A6FEA
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:40:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 34C25302F162
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:33:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B57B83110343
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:33:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6CA3379EF6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B065E3793D5;
 	Tue, 17 Mar 2026 09:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HwbF9lkQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMaLkznE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D460371879;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2B737189E;
 	Tue, 17 Mar 2026 09:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773739944; cv=none; b=QE9JNdHAGF6sPl2fUnt//YshXiIshAja8UfGn32LGcpptk2vZJQkizKUEGhuuLI8PYjT7+NJKJwHv2Kh5sZI0LBO6e2At6Od8hE1SuBS0kYae+ngDQL/NCbE7tCwET3VY+JQb3L0BA0VvQyLCRC9veqF2GCj7uHINsg31RqL2QY=
+	t=1773739944; cv=none; b=hqgsLeP7WORDqxyyZRqqzEDi8iDxoMh5KK1Mxtmgct0nWurvDwpiQgxw3ZFNFHyOFgGIu0X+h0gy7+FUr6HVLkmzPvKlAeq5Q7JtJKhclFaUbvd7LPfYkJaikFldonxtazyd0E1qUUvO/XNBbQnpZF3+ohouFQHjToRTtmYX/PU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773739944; c=relaxed/simple;
-	bh=CZsXkEHFXnoM92VhYBC6VubXyqiIeX3jIhqQt92988s=;
+	bh=E+FPszRdejhinX/+jcYrzyDGa/sSKmQREurkfVw07l0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Zq++Wv22sGc/Y0DzNnUPotD1582b02RDt3ofsgV8O1iyqO5zB4ost3X12gC8HEVN3GLO8UwdU9HjUrNTzpas3lmrqZISNPQLIv3OGvzvQYM2TuorcKasV4aiqN3V/Rk4htYY25r1nEVxs+ZiSBYm0+i/HaXXdMoZmQaIW4xet6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HwbF9lkQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 55AA6C2BCF6;
+	 In-Reply-To:To:Cc; b=nqaQB5s085mDjioEHXyV2xK/zPaIt7K2zioHwCiSEgQG/z+eqN8LV+ZfNREAT6knHOO2qVMV0jylPHpPJjpyb7KCMvMyWYBwNFKrjNgVxabDs6WFC/ZbI/LBp+MzDIcnhPEpTDrgytFHFAS+0bgSbjf2Id7kSAL4gH/YlicB6m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BMaLkznE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6419FC2BCB1;
 	Tue, 17 Mar 2026 09:32:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773739944;
-	bh=CZsXkEHFXnoM92VhYBC6VubXyqiIeX3jIhqQt92988s=;
+	bh=E+FPszRdejhinX/+jcYrzyDGa/sSKmQREurkfVw07l0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=HwbF9lkQNTrD/N/Kd1qh7DRndhGfGT+RZLzOpFo0MqfJDWReHFcB615qi+7+RxQRv
-	 1NQaqlr6+JCsFFVRygpK6a5EVxrAsQdw0abHvW92bORb+9K93WCw4dW2FLLk9PrJfV
-	 grYwryqzXgoVGT4Qsp38UIX+pUgN7JmE4oYU/bWO9LLJ/vtv0fLFBGobJhuTXf9d2L
-	 97P5L0XQ+LEL7bsrK4TS6Bu2epz8E14f3L+w0dsjq1ZZP4zineZmU3DK1HSJPUOYsi
-	 60bd50I6l4pmNfEScb18ZX5VyNXCumdun3IcbXCborEZKSuw8T6WZ8oSXsRGO6E9nn
-	 AyGG06moVRfnA==
+	b=BMaLkznEgdJAHgH6vdLDg85V8SPx1JqSYJFfVeoZzR4Dwl0NIbXCl4LGxQP3nbPbk
+	 aHcRD/IsmLiJx84LGfW3N2/KyhGOWYsL2ZQBxEN8cOBR7CRRemCNGKYQeYqSuVrLd3
+	 ngdHfTvXjAc61w6soaTzuTC5eMV5dUsZR/9pEfmqr833w//G9drA8tcX7zT0MpJjK5
+	 7XYtGKbWPcWI0kDjeeAB5U/dUZYyd144teL4/VTiykRI6hp+E+bI6AvbVW5PqPHQ2C
+	 Bf6zkTY+mme3sXbz5GxpZ7gYVHSS74az9OonccLTizh4rdDZ58Zdv7BCcG6SUoAeG2
+	 SdTpS/RpkLMEg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49737F33825;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 575DBF3382A;
 	Tue, 17 Mar 2026 09:32:24 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Tue, 17 Mar 2026 10:32:25 +0100
-Subject: [PATCH v2 7/9] arm64: dts: rockchip: add radxa camera 4k on rock
- 5b+ cam0
+Date: Tue, 17 Mar 2026 10:32:26 +0100
+Subject: [PATCH v2 8/9] arm64: dts: rockchip: add radxa camera 4k on rock
+ 5b+ cam1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250430-rk3588-vicap-v2-7-77de5ee9048e@collabora.com>
+Message-Id: <20250430-rk3588-vicap-v2-8-77de5ee9048e@collabora.com>
 References: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
 In-Reply-To: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -78,11 +78,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Michael Riesch <michael.riesch@collabora.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773739942; l=3957;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773739942; l=3967;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=0IGxS8JbtLH7trkBy9V2Ur/nAvpqj7WKMLLd/LMBhQs=;
- b=bjZl9IwqOmybyyMWJZUOQLn6j/43QSGHZEYxDQkRk2vqof/aQ498l5lF1T9jzTcxJH+/d4Nyt
- UGZv3PZw0vbDOPVfoRLY7uuaE72p0/kd3/hrrF3lOfaed2vOSeUsVbj
+ bh=/xz9Ovdx8s36O++AwAB8xnz6JsWAcvoIzDlRdwqiUzw=;
+ b=k70GfUEwfQXAxmBZBbhrYlw6Q2J4Gj6ZtvJ5mdxNWq6jLN+ynr+onqXffiwsu20Im2vdI02ZY
+ EMzIgP/gFONDXGHFrlGU2R4vzB1xdIKsgFlanm5/1BBhawxpuSGcF6H
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -94,12 +94,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56016-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
+	TAGGED_FROM(0.00)[bounces-56015-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com];
@@ -113,12 +113,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:email,collabora.com:replyto,collabora.com:mid,1a:email]
-X-Rspamd-Queue-Id: B2A7E2A6DEB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[1a:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:email,collabora.com:replyto,collabora.com:mid]
+X-Rspamd-Queue-Id: 2871D2A6FEA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -126,46 +126,45 @@ From: Michael Riesch <michael.riesch@collabora.com>
 
 Add device tree overlay for the Radxa Camera 4K (featuring the
 Sony IMX415 image sensor) to applied on the Radxa ROCK 5B+
-CAM0 port.
+CAM1 port.
 
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- arch/arm64/boot/dts/rockchip/Makefile              |  5 ++
- .../rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso      | 89 ++++++++++++++++++++++
- 2 files changed, 94 insertions(+)
+ arch/arm64/boot/dts/rockchip/Makefile              |  4 +-
+ .../rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso      | 89 ++++++++++++++++++++++
+ 2 files changed, 92 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
-index 4d384f153c13..77c587f43dda 100644
+index 77c587f43dda..191666821a80 100644
 --- a/arch/arm64/boot/dts/rockchip/Makefile
 +++ b/arch/arm64/boot/dts/rockchip/Makefile
-@@ -199,6 +199,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-pcie-ep.dtbo
+@@ -200,6 +200,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-pcie-ep.dtbo
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-pcie-srns.dtbo
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-plus.dtb
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-plus-radxa-cam4k-cam0.dtbo
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-plus-radxa-cam4k-cam0.dtbo
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-plus-radxa-cam4k-cam1.dtbo
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5t.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-tiger-haikou.dtb
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-tiger-haikou-video-demo.dtbo
-@@ -298,6 +299,10 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-pcie-srns.dtb
- rk3588-rock-5b-pcie-srns-dtbs := rk3588-rock-5b.dtb \
- 	rk3588-rock-5b-pcie-srns.dtbo
+@@ -301,7 +302,8 @@ rk3588-rock-5b-pcie-srns-dtbs := rk3588-rock-5b.dtb \
  
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-plus-radxa-4k-cam.dtb
-+rk3588-rock-5b-plus-radxa-4k-cam-dtbs := rk3588-rock-5b-plus.dtb \
-+	rk3588-rock-5b-plus-radxa-cam4k-cam0.dtbo
-+
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-rock-5b-plus-radxa-4k-cam.dtb
+ rk3588-rock-5b-plus-radxa-4k-cam-dtbs := rk3588-rock-5b-plus.dtb \
+-	rk3588-rock-5b-plus-radxa-cam4k-cam0.dtbo
++	rk3588-rock-5b-plus-radxa-cam4k-cam0.dtbo \
++	rk3588-rock-5b-plus-radxa-cam4k-cam1.dtbo
+ 
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3588-tiger-haikou-haikou-video-demo.dtb
  rk3588-tiger-haikou-haikou-video-demo-dtbs := rk3588-tiger-haikou.dtb \
- 	rk3588-tiger-haikou-video-demo.dtbo
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso
 new file mode 100644
-index 000000000000..c107c74c2188
+index 000000000000..8e586950d0c0
 --- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso
++++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso
 @@ -0,0 +1,89 @@
 +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 +/*
-+ * Device tree overlay for the Radxa Camera 4K attached to the CAM0 port of
++ * Device tree overlay for the Radxa Camera 4K attached to the CAM1 port of
 + * the Radxa ROCK 5B+.
 + */
 +
@@ -177,71 +176,71 @@ index 000000000000..c107c74c2188
 +#include <dt-bindings/pinctrl/rockchip.h>
 +
 +&{/} {
-+	vcc_cam0: regulator-vcc-cam0 {
++	vcc_cam1: regulator-vcc-cam1 {
 +		compatible = "regulator-fixed";
 +		enable-active-high;
-+		gpio = <&gpio1 RK_PB0 GPIO_ACTIVE_HIGH>;
++		gpio = <&gpio2 RK_PA6 GPIO_ACTIVE_HIGH>;
 +		pinctrl-names = "default";
-+		pinctrl-0 = <&cam0_power0_en>;
-+		regulator-name = "vcc_cam0";
++		pinctrl-0 = <&cam1_power0_en>;
++		regulator-name = "vcc_cam1";
 +		vin-supply = <&vcc_3v3_s3>;
 +	};
 +};
 +
-+&i2c3 {
++&i2c4 {
 +	#address-cells = <1>;
 +	#size-cells = <0>;
 +	status = "okay";
 +
-+	imx415: camera-sensor@1a {
++	cam1_imx415: camera-sensor@1a {
 +		compatible = "sony,imx415";
 +		reg = <0x1a>;
-+		assigned-clocks = <&cru CLK_MIPI_CAMARAOUT_M3>;
++		assigned-clocks = <&cru CLK_MIPI_CAMARAOUT_M4>;
 +		assigned-clock-rates = <37125000>;
-+		avdd-supply = <&vcc_cam0>;
-+		clocks = <&cru CLK_MIPI_CAMARAOUT_M3>;
-+		dvdd-supply = <&vcc_cam0>;
++		avdd-supply = <&vcc_cam1>;
++		clocks = <&cru CLK_MIPI_CAMARAOUT_M4>;
++		dvdd-supply = <&vcc_cam1>;
 +		orientation = <2>; /* External */
-+		ovdd-supply = <&vcc_cam0>;
++		ovdd-supply = <&vcc_cam1>;
 +		pinctrl-names = "default";
-+		pinctrl-0 = <&cam0_rstn &mipim0_camera3_clk>;
-+		reset-gpios = <&gpio4 RK_PA0 GPIO_ACTIVE_LOW>;
++		pinctrl-0 = <&cam1_rstn &mipim0_camera4_clk>;
++		reset-gpios = <&gpio2 RK_PB0 GPIO_ACTIVE_LOW>;
 +
 +		port {
-+			imx415_output: endpoint {
++			cam1_imx415_output: endpoint {
 +				data-lanes = <1 2 3 4>;
 +				link-frequencies = /bits/ 64 <445500000>;
-+				remote-endpoint = <&csi2_input>;
++				remote-endpoint = <&csi4_input>;
 +			};
 +		};
 +	};
 +};
 +
 +&pinctrl {
-+	cam0 {
-+		cam0_power0_en: cam0-power0-en-pinctrl {
-+			rockchip,pins = <1 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>;
++	cam1 {
++		cam1_power0_en: cam1-power0-en-pinctrl {
++			rockchip,pins = <2 RK_PA6 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
 +
-+		cam0_rstn: cam0-rstn-pinctrl {
-+			rockchip,pins = <4 RK_PA0 RK_FUNC_GPIO &pcfg_pull_none>;
++		cam1_rstn: cam1-rstn-pinctrl {
++			rockchip,pins = <2 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>;
 +		};
 +	};
 +};
 +
-+&csi2 {
++&csi4 {
 +	status = "okay";
 +};
 +
-+&csi2_in {
-+	csi2_input: endpoint {
++&csi4_in {
++	csi4_input: endpoint {
 +		data-lanes = <1 2 3 4>;
 +		link-frequencies = /bits/ 64 <445500000>;
-+		remote-endpoint = <&imx415_output>;
++		remote-endpoint = <&cam1_imx415_output>;
 +	};
 +};
 +
-+&csi_dphy0 {
++&csi_dphy1 {
 +	status = "okay";
 +};
 +
