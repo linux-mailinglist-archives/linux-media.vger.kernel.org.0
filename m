@@ -1,156 +1,143 @@
-Return-Path: <linux-media+bounces-56017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56018-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QDVDECsguWkrrwEAu9opvQ
-	(envelope-from <linux-media+bounces-56017-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:34:35 +0100
+	id CBTqNa0guWkrrwEAu9opvQ
+	(envelope-from <linux-media+bounces-56018-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:36:45 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C732A6E11
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:34:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59E12A6EB6
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:36:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4D97A3034997
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:33:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C293E3043623
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:34:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCB9E390C82;
-	Tue, 17 Mar 2026 09:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 698AF371CFE;
+	Tue, 17 Mar 2026 09:33:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kldvb0p5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fO3DLMDX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DAF3750B2;
-	Tue, 17 Mar 2026 09:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102E8371CE9;
+	Tue, 17 Mar 2026 09:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773739944; cv=none; b=J/559Xo6/xP1juTrsGqby6Ld+xjUPU9812pTOY81GszdDMhHlioSfayTAiaxjGpC0Oc6DNhzWy4O8rCB0L3BnESoCk23VBW6ZRDFViUQChpnyqX+kxE30uhXVWpfhC8l1j/FSACTwU90rShWoyVsT1rO18tHBd13KFAnV7n7Tbw=
+	t=1773740007; cv=none; b=maxJQhQS8N8IDMc7LWlXebzuHf5knXxO/tLbMoWpiP+3lA7AHT5jS8IRxck4skn63Uf4BHuScjQrQeaKO2EmpmUgTnSCDo6DK7t3eFJO48kZM+IUp0Q5i2F28TJ4UJacaNMh+6zmY41nC87MDrjbKQEXNLsEJQP87FNKjs4ch9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773739944; c=relaxed/simple;
-	bh=GWeDLU9AFjoINA+09rq3vjmK00lublXB7/CSAH8fXo4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Cknv1lIxP+rgfNsCvJBrE67v7BX/zascKqUKKiZYi8ejzADmqvRF1J762i4ys0Ad9IHwUYN3swxHfFkPKexDHTbgU4vN6LZ0Bdj0i8W7eHVxFlLFYcNd/TZ4KZ4+NkZDKsslvxzPDLarNLq1gNlIE9d+ZBXQ7fsV0bPcJy3oqxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kldvb0p5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7848AC2BCFD;
-	Tue, 17 Mar 2026 09:32:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773739944;
-	bh=GWeDLU9AFjoINA+09rq3vjmK00lublXB7/CSAH8fXo4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=kldvb0p5Ug7IYE4F6osJWcisQzrFuoau7Y61w4Nfhuy3Yerfl+dL6a3gPzEs27fwe
-	 5Bf/TjfLvKeE3abL8AW+cO1nzW89lLos9IBkB+g9HD1DOwXqa3gPdLaA9DVPf0dMQw
-	 DN1Q7+TCgVddyA15S4FLns5dD5SdOb0cezUnqvNTVZF194Wcq1fQhxuX9Y3ESan8jR
-	 5tSPKIUPOVTGppdxo50q7cNjXgqgy5XqB1pxVZGb9z4lUuX++/vNgIsgi51aYqYI3I
-	 JyniaqtHfmRy538LnPMC3ThNjbk7C1iQrGpkmkg2LZVO9g4TVfPRpCVH3G98UZUFrp
-	 msuDmjH04qdxQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65205F3382B;
-	Tue, 17 Mar 2026 09:32:24 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Tue, 17 Mar 2026 10:32:27 +0100
-Subject: [PATCH v2 9/9] arm64: defconfig: enable designware mipi csi-2
- receiver
+	s=arc-20240116; t=1773740007; c=relaxed/simple;
+	bh=o7cd+HVeX1tC031s7B2HYg/pTMstxYJyYrz/evoPXBw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=envYjA6gS78YAUz+xqcA12tnxZT0haW+5Y1rfZA5uyEracSPYLsCpbridtxfFSEFGNXOrQMKLPRcKB83i6RE5gl1IXkdYa5k2DTlO27CDG/DqJMiOjBXIIzrAffe3QAwB9XRMeD8z4Vi7I639kuQ4ETyKUHc7v0ZLwpenOe1Qms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fO3DLMDX; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773740007; x=1805276007;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=o7cd+HVeX1tC031s7B2HYg/pTMstxYJyYrz/evoPXBw=;
+  b=fO3DLMDXLjHoOxzoRPl6b4jVDkQA5g8ZeAX7o6UYOlVG5PzvmjYuIiQQ
+   FWS1aoHdpuvhG6eUfddrCDE62QRMzxm4Zb3MHm9L3ha2EA6qYjHajdGxj
+   6Iwp5ki2ylhYxoZQ+xDsFySrqh3PZpgz7uhYxrnSv/9+QGtyYwIhHpUz/
+   ymd7O8i0xOrnbup0//iJOwHz1cSfGPxX657jSNMN40GCEnyjRk5A7vE5X
+   QiZ84/qPuVem/wHNPyzGGuN5JBQ6RJNjE4JJTcfPbzoXjja/EOlPIL1D2
+   IJV5v8COcxNoKhCyyS5b2Zqf2lyuW04NuYy1Zy1Fql45K/s+g26oExFh6
+   Q==;
+X-CSE-ConnectionGUID: vhRPY0kLTEOsH6hj2ed3WA==
+X-CSE-MsgGUID: iA8F9e6PTdibwT5fG25LsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="92151109"
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="92151109"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:33:26 -0700
+X-CSE-ConnectionGUID: bj4DElf/T/ij6gtnlgq7Tg==
+X-CSE-MsgGUID: PmosvjiVRVuW/J83Vecj7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="222267358"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.106])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 02:33:07 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E2C3411F870;
+	Tue, 17 Mar 2026 11:33:04 +0200 (EET)
+Date: Tue, 17 Mar 2026 11:33:04 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Kalyani patra <kalyanipatra2003@gmail.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Simona Toaca <simona.toaca@nxp.com>, d-gole@ti.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: atomisp: fix brace style and trailing
+ whitespace in isp_param.c
+Message-ID: <abkf0KPSKnKZep5V@kekkonen.localdomain>
+References: <20260311151302.105992-1-kalyanipatra2003@gmail.com>
+ <a26ba4c7-05d9-4df0-b4ec-1a82d2df075e@nxp.com>
+ <CACjYBviU6v_QbpPy0zhfpaBYMoQrO-pBNywzXZb9cHgerCCGBw@mail.gmail.com>
+ <abkRdID5NGk2mkOF@kekkonen.localdomain>
+ <CACjYBvir9vnXqH4HVXKqMs-pmqTWjs3wA92WH9_KUpwSr3KD8Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250430-rk3588-vicap-v2-9-77de5ee9048e@collabora.com>
-References: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
-In-Reply-To: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- =?utf-8?q?=D0=9A=D1=83=D0=B7=D0=BD=D0=B5=D1=86=D0=BE=D0=B2_=D0=9C=D0=B8=D1=85=D0=B0=D0=B8=D0=BB?= <mai.kuznetsov.misha@gmail.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773739942; l=937;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=mcrIEvEtgTS/gcjDOYC5aehK60tx7gRZsU5sHfBlIbc=;
- b=A+dG1JrGPklOpVqi49SnGtHySOkEJ6dXRyta+U/NOVzew5dJYC9Ye71CQKLmcW9UbEbrUNtZC
- O/GQT0mD4xxDscHEKg2arA9q0U63v5adbUw2PDPtd/UDe11Ek3S3woD
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACjYBvir9vnXqH4HVXKqMs-pmqTWjs3wA92WH9_KUpwSr3KD8Q@mail.gmail.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56017-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-56018-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:email,collabora.com:replyto,collabora.com:mid]
-X-Rspamd-Queue-Id: D8C732A6E11
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:dkim]
+X-Rspamd-Queue-Id: D59E12A6EB6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Michael Riesch <michael.riesch@collabora.com>
+Hi Kalyani,
 
-The Synopsys DesignWare MIPI CSI-2 Receiver is integrated into
-recent Rockchip SoCs, such as the RK3568 and the RK3588.
-As a consequence, they are used on a lot of Rockchip-based
-single board computers and/or corresponding camera modules, such
-as the Radxa Camera 4K.
-Enable the driver for it in the default configuration.
+On Tue, Mar 17, 2026 at 02:12:20PM +0530, Kalyani patra wrote:
+> Hi Sakari,
+> Noted. I’ll keep both of that in kind going forward.
+> Thanks!
 
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+I first applied the patch to a different branch and it seems the issue the
+patch addressed was already fixed by another patch in the atomisp branch.
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index b67d5b1fc45b..a93ff73ae52c 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -907,6 +907,7 @@ CONFIG_SDR_PLATFORM_DRIVERS=y
- CONFIG_V4L_MEM2MEM_DRIVERS=y
- CONFIG_VIDEO_AMPHION_VPU=m
- CONFIG_VIDEO_CADENCE_CSI2RX=m
-+CONFIG_VIDEO_DW_MIPI_CSI2RX=m
- CONFIG_VIDEO_MEDIATEK_JPEG=m
- CONFIG_VIDEO_MEDIATEK_VCODEC=m
- CONFIG_VIDEO_WAVE_VPU=m
+Thanks.
 
 -- 
-2.39.5
+Kind regards,
 
-
+Sakari Ailus
 
