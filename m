@@ -1,160 +1,161 @@
-Return-Path: <linux-media+bounces-56068-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56069-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YDgjDUpPuWnj/wEAu9opvQ
-	(envelope-from <linux-media+bounces-56068-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:55:38 +0100
+	id EI+VB7JPuWnj/wEAu9opvQ
+	(envelope-from <linux-media+bounces-56069-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:57:22 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5A42AA388
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:55:37 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3B682AA42E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:57:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F398C30E3C7E
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:52:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CEA163061232
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:57:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660043C6617;
-	Tue, 17 Mar 2026 12:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C2363C660D;
+	Tue, 17 Mar 2026 12:57:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5uvSCLr"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6uvGTja"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077613AE19B;
-	Tue, 17 Mar 2026 12:52:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773751964; cv=none; b=h1BbL2PWDygSaNUyApejJp4saxmHS5LgtiFxcGW2K6U8XMZvrLHdPG/odOEM4Q2i9bCBZjp1D/OIQKvr+xr0LKdYErysF05Ae5G0e07G4kf/B6WsOQ79vmGN+/DdT7oB3OUR47HYQl1lNMOotQNZRVHizp4MjSZbIgpkxOGTBBk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773751964; c=relaxed/simple;
-	bh=ifGlbOWEiHVVWqSZK9fbyIZmBv3Ldj/nY4Z62g+0Pyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DkVT1bSLehTsXX5V3WHDg82O3O2D7V93CmCwt9lCbgtDcYk8eGgFfzDHtea5lFoJFWR16x3ixLfi28d4fyjhlJ1df3Zz+g1qvLy0frTeo8jBlJLrOjBbyvHD0cMVkzUVw2L4nPmI95G/rztnCQLpdsvbqO8GGb8VaX+p7jQH430=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5uvSCLr; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773751962; x=1805287962;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ifGlbOWEiHVVWqSZK9fbyIZmBv3Ldj/nY4Z62g+0Pyw=;
-  b=b5uvSCLruBCLYVH07LbdZiXF0dglm8nvcgFsfi0FnYh48GpTSqZGH4z2
-   6yOxQ28pAZfAsVviAjEGnlwsvdgzHhbkoBW/8YsMuiMgv4D/pYE4IMx1Z
-   /d8AsNuzo0163SFD9GHPfvZPy6TXWmnqmy3g2lPQNEBH/DE8i6NWbr+EH
-   /jdAjNhdpPCAsct30nZr1Ti6ZJrhP/wbqfpV03I4FXBg+kIaiM066eEfz
-   jOfxqJ3r2whgrhVYOoq8fbAY/WXf+UeRtnSvxBGxRPDWmzr34k+TKvRY0
-   n0152s1RMtevanZ8nkt2at8F6NMKxfRym8+UGsQOKWnN9+vyD1OiInZRW
-   Q==;
-X-CSE-ConnectionGUID: lqRx/DfxTl6n4Nf7/jE20g==
-X-CSE-MsgGUID: //Kpas/FQ2uDL0WMjUVD2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="100238707"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="100238707"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 05:52:41 -0700
-X-CSE-ConnectionGUID: RP07OwlsQGORO2vQsgC7OA==
-X-CSE-MsgGUID: qLW88q5iQM6PJX/w0k3QHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="217961247"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.106])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 05:52:38 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0C79111F870;
-	Tue, 17 Mar 2026 14:52:36 +0200 (EET)
-Date: Tue, 17 Mar 2026 14:52:35 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Antti Laakso <antti.laakso@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linusw@kernel.org,
-	brgl@kernel.org, mchehab@kernel.org, dan.scally@ideasonboard.com,
-	hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
-	hverkuil+cisco@kernel.org, sre@kernel.org, hao.yao@intel.com,
-	jimmy.su@intel.com, miguel.vadillo@intel.com, kees@kernel.org,
-	ribalda@chromium.org
-Subject: Re: [PATCH v2 2/5] media: ipu-bridge: Add ov5675 sensor
-Message-ID: <ablOk92UVRibBgSF@kekkonen.localdomain>
-References: <20260311131910.835513-1-antti.laakso@linux.intel.com>
- <20260311131910.835513-3-antti.laakso@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73E43C6615
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 12:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773752220; cv=pass; b=IvbghUYPqbXOURbhTd4smsp0REIZQrrKcBg5FoyC7gTna5DxEnj+vDauaqUc2TOoOuIvDEjnkUmOlR4Hxinx1xr6tZMNJicrm9HH4YkgiZnY/2jDa/21YIPPHIGH3HkLd5lf94Ibgukx+MbNLscXstCw1F/UCFYn1S9usUYlNSs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773752220; c=relaxed/simple;
+	bh=awlhrkp0SrVgMf1XqyA9CPvamNvNZyPEA1cR8FVn32Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FGaujT/+VR9kxJK4icj/HDdrkdIy1509thQFfJegDYwCf8c/8Ghh7fBTzqkhrssf+Naq1V6SFObWh1iuYDUmQPW0WJSNbuOjhXDgscbf8+Yw6KIcH2NuYP6Zoh3i17RqQbanKoyOoc4OPm0J+6lAL3oHQ8AoAogLfPyWmVDYWx4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d6uvGTja; arc=pass smtp.client-ip=74.125.224.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-64ad9238d8fso6548581d50.3
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 05:56:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773752218; cv=none;
+        d=google.com; s=arc-20240605;
+        b=R/Amv0O3Mb/hjzpyUmVgR0rS0VkKDzo0uM9MSyQ5DGvF/caRIGLNuQ5ucFvv3CiVWe
+         x30+RHqxsk3KTyFqF8vFflwiGHJyigLPm87aizkJ5qIs59HF/8tIjgHIjloltAW/dUmC
+         5TMCGg9gUiKl57Isbmk+DLFdpVFdImo6rpzthhyGfvVODuOeTuDh9Mq0zgKwAPU1hS2b
+         GWYLzLk0Ir5al/78/Jz/2qIHBkcM2G0XWKmT0Djx9qcomTmGZdEM+tHypo5ZKYNi1Kbm
+         LoYIb6PV9vjUiln/X1zFHd6IZISum+aWQfVijQ1sqaM0QSXtcH4Ki/uOjot9zH4BGUuy
+         4OQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zE3uvIiNKbN804XtO1rL96lSWC7TkZL3xb249NzIe0w=;
+        fh=vmCUwfFRu3cV87BxVt7W2jQEvouv6vH3zvICZkDccs8=;
+        b=aRxPiMEXSA28ocG5RI/x0zkLhSyU2oJvz6UN6jSj6IeDyaJHwmKt5p04evqGZ9a4cs
+         oRQR6OZn8kJJrPS1qCtlhZ1qPUswKSQZhDIjar2wGtd7iubMbQcOeeLqRL6HUJqjFIMg
+         K++Dp/LzaGSze2+aChQaQLMIPPt2IP9ZUTocG5wOcTDImnNOIfP92KbohG/C05ap63U6
+         CBYzh+NK99/HdaKXggxKoQ4Qw4vhsntolkWIkCQ4F2dB2ohPkSW+yRc9GlXrcOuUN795
+         CK2aOF/LJjDJ8ZUDxYDvawU21cALOCZ4+xbEB/2D7L8/6eBtd9gUALNtiKbRWVvtOoLE
+         60+w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773752218; x=1774357018; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zE3uvIiNKbN804XtO1rL96lSWC7TkZL3xb249NzIe0w=;
+        b=d6uvGTjaYiXwagjBXvRkkfHJtwu+PNss8toXpUiX47ZzPpB1r+3RTsVThUDfIV/NEs
+         /x/OX5R2TVvwHIAuHYzbNdp9RXGEitw061pMJhxUJr4CFOREcQ8C/oSZwmWBrpsy7pKY
+         I7VQiv31H6x4Kdy8gdoUpQHIvaqU3gukeyKBS0TWJ0mhac8tikqO4B3MbnDMGrgwg25+
+         vnwb38Rfu2hKx2Ea37JM6/L/MShY/Ojq3kGdYVlOFnxRK+I4bCjo0LNTzn1zQPoOZ6Oc
+         WPS4Y6QL4nmDUsJ4hvbQ+k1s9iAlsjIVHCjSesxu7BhMO1h4IbUd5x+7IJBJMhXBwiQ1
+         mOtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773752218; x=1774357018;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zE3uvIiNKbN804XtO1rL96lSWC7TkZL3xb249NzIe0w=;
+        b=Om56ESd8wYk3X7pWOEHYUcIkQt64gtSOXEYf7xnUol/vhE1XdTaFklNuf5gHgCUQfC
+         Gfym/8OB6OW89xnugOuNPK0MfrJIsEl1Di/fWlhvIn8bnWsyefNttAAcFBMhNgqdyF7s
+         82WiKLXU6c6AQaL2unhtZspJAcI6Txy9qmYT8WdVgSgWzJcu1Q7SkC8Lrcn8ryKYfP3W
+         YW3G0IEmDOUYi+TL4N5dEd1NfK9y9dsGkRfRUTZ9JTfy3sayBTjoMbwADthtYQS+oZUE
+         wZ3AmM2E3eT6mn83HDvZG7f6j3DwwGmSEJ3n/OTD5qKg/liCYWniRoiSvtkADFnEBGz6
+         sYwg==
+X-Forwarded-Encrypted: i=1; AJvYcCXBKwSsd6O0/69Tav9r1pw3xw49WUcqu5CddxYV5GUpVJr10qR/avwfZ+eYsIw8SjUJZKC7fDZ0+x4t0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEYh8Js9FarCk0tZPawRvC4dwSL4PbWGgfqUUOD8S57iHltTdK
+	iH7fvEdn1kdobEG/WNNxi+Q9Su3qHnrepif4C1q12EiXFhnp1H6mlFRIHrxXJ2Dh6kHkc/o5Yal
+	HdXSQPU3EgIlOf3i9yBiR4l7u6mAYWhWZ0w==
+X-Gm-Gg: ATEYQzxbqInq8r0Wc7rvEvReC2cDocSPOiQ3qjfGzS/1jxCg5x+qVZdUtnCWVmu9m7u
+	awn4Cz311dG5OCvQI2Cjs047eLRTbQw3r1ES6RUGNpIBvbmxbPAcfn38/VWMP40jaDi0DEsTdRp
+	l1sStHu1DRtwxRsaCgjEWHI3hrL/3e6h7RyWNtcdSmKoeHDnncWgWyBw70LIbAR7Ic12TFxncN9
+	u4WS2lu2jkevDXwUhRvCaeDJ/nmB98wF8mROWzsIn01nGqibBMzQPfeMO3G3CXnVm1ZSdokm1Gj
+	7VLk
+X-Received: by 2002:a53:accd:0:20b0:64c:aa3d:f3c3 with SMTP id
+ 956f58d0204a3-64e62f689d0mr13398185d50.33.1773752217812; Tue, 17 Mar 2026
+ 05:56:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260311131910.835513-3-antti.laakso@linux.intel.com>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+References: <tencent_7DEC784AAFE550A8BA532E65E60491E1D705@qq.com>
+In-Reply-To: <tencent_7DEC784AAFE550A8BA532E65E60491E1D705@qq.com>
+From: Alexey Klimov <klimov.linux@gmail.com>
+Date: Tue, 17 Mar 2026 12:56:46 +0000
+X-Gm-Features: AaiRm53fyL8u_nCEp2hUzxK7r_j0DS55p87g354Lbt5IuYmbZGCyhzIvmL6LzDA
+Message-ID: <CALW4P+L80+xSnr0QHEihiH784PQ8VycHpBRjC=MVtd4T07vX6w@mail.gmail.com>
+Subject: Re: [PATCH] media: radio-mr800: fix memory leak on error path
+To: q1ming <1643771613@qq.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56068-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56069-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[qq.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email]
-X-Rspamd-Queue-Id: 8F5A42AA388
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[klimovlinux@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email,qq.com:email]
+X-Rspamd-Queue-Id: B3B682AA42E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
-
-On Wed, Mar 11, 2026 at 03:19:07PM +0200, Antti Laakso wrote:
-> The Omnivision ov5675 is found from MSI prestige
-> 14 AI EVO laptop, for example.
-> 
-> Signed-off-by: Antti Laakso <antti.laakso@linux.intel.com>
-> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+On Tue, Jan 13, 2026 at 9:30=E2=80=AFAM q1ming <1643771613@qq.com> wrote:
+>
+> Fix a memory leak in usb_amradio_probe() where the v4l2 control
+> handler is not properly cleaned up if control registration fails.
+>
+> The error handling jumps to err_ctrl instead of err_vdev, skipping
+> the cleanup of the v4l2 control handler and leaking memory.
+>
+> Signed-off-by: qym <1643771613@qq.com>
 > ---
->  drivers/media/pci/intel/ipu-bridge.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-> index c895584e25a0..ee070d44d5f1 100644
-> --- a/drivers/media/pci/intel/ipu-bridge.c
-> +++ b/drivers/media/pci/intel/ipu-bridge.c
-> @@ -91,6 +91,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
->  	IPU_SENSOR_CONFIG("OVTIDB10", 1, 560000000),
->  	/* Omnivision OV2680 */
->  	IPU_SENSOR_CONFIG("OVTI2680", 1, 331200000),
-> +	/* Omnivision OV5675 */
-> +	IPU_SENSOR_CONFIG("OVTI5675", 1, 450000000),
+>  drivers/media/radio/radio-mr800.c | 2 +-
 
-These exact lines have been already added by commit
-d6576b85d3fe75238e67d3e311222e7f69730b09 as Thinkpad X1 Fold 16 has the
-same sensor. I've taken the rest to my tree (int3472 branch).
+Please use my email alexey.klimov@linaro.org for this next time.
 
-Thanks!
-
->  	/* Omnivision OV8856 */
->  	IPU_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
->  	/* Sony IMX471 */
-
--- 
-Kind regards,
-
-Sakari Ailus
+Best regards,
+Alexey
 
