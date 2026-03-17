@@ -1,156 +1,180 @@
-Return-Path: <linux-media+bounces-55987-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55988-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id xVmeBAnEuGm1jAEAu9opvQ
-	(envelope-from <linux-media+bounces-55987-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 04:01:29 +0100
+	id +K85GRXNuGkrjgEAu9opvQ
+	(envelope-from <linux-media+bounces-55988-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 04:40:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A312A2FC6
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 04:01:28 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBD62A3454
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 04:40:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B68BB302A18D
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 03:01:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 92DA73018BDE
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 03:38:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9875D29D287;
-	Tue, 17 Mar 2026 03:01:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A0FC3090C1;
+	Tue, 17 Mar 2026 03:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="KJpxOLKu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA1BEEB3;
-	Tue, 17 Mar 2026 03:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BEF528314E;
+	Tue, 17 Mar 2026 03:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773716484; cv=none; b=HTijH4D+IWXLO7LHaQ6kyoK4jVDThvMdEDmKVSEBYHea1HCQ4qd8hNUaabPhlX1kpBwhBFhBH/03bNieeE92kGEJ2nI4ChczuDJOKC4orc26qGjmkDA97uha0DVcwqi2S0ggu2V2lKcnvNCZ532vFujqeTZUhjHM1HzdVTspo68=
+	t=1773718704; cv=none; b=BnIA+bj72/1V4hXQT37gtpwfrAmRMGAKnOxiB99K+ZmZ8VxWh+N6J/bK6r21JR7h/kOskFbal1nh8D2SRSVBm3tG5odTX725asclldcnZRv1qnZ8m8jUXBGTMzk/Hhssi16wDPg1Z8E08GrPu9FH4gsSCQ02ILXx+bhTobyqzas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773716484; c=relaxed/simple;
-	bh=11xnGSmN7IJU/J0o0MDxkik7RRacvzp80P9GMfwY2xo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CWCGhLBaYOmXbNpizRzQXII4qgAd4Jvrpx/nvSa7wXMyhKGdOdDZYN4UxECm00JHjj4Trm+g6J7vano9FyuuN7sF5rULXlo7ZgrWlGL/CXLnJcN2j8MQTFIGqfn1aqnagcvnys5HQXdeW3WvwT02A6QFaLKktFnn5q5DcsIwaQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowACXKQ34w7hpGjmoCg--.33749S2;
-	Tue, 17 Mar 2026 11:01:12 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: linux-media@vger.kernel.org
-Cc: mchehab@kernel.org,
-	hverkuil+cisco@kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	sakari.ailus@linux.intel.com,
-	jacopo.mondi@ideasonboard.com,
-	tomi.valkeinen+renesas@ideasonboard.com,
-	kees@kernel.org,
-	ethantidmore06@gmail.com,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH v2] media: v4l2-subdev: Fix error check in v4l2_subdev_get_frame_desc_passthrough()
-Date: Tue, 17 Mar 2026 10:58:08 +0800
-Message-Id: <20260317025808.3602589-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1773718704; c=relaxed/simple;
+	bh=kZfKuyKXp0p5m2QPrVWZz5FSRY+Oh7DNj/GHeO5p9Js=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=CwkEXXwV27vTOGNKpqFgnT6mLhet1GafsDV/i8Gzw+RkJVuRibZKKbMvYTIpS0buXGFn7oyNMa5sPCj+wX5cUwxStiV+7w3ZEuBD0NLEFW3JRL05bGn0FhIY7eQ/vHi/7YVegnPF33CilBvCkJV3bREtGIprE2ty/LMSAsRXaYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=KJpxOLKu; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=kZfKuyKXp0p5m2QPrVWZz5FSRY+Oh7DNj/GHeO5p9Js=; b=K
+	JpxOLKuAxC+g8HDDBOhkecIjiSGQkOVNZWo6YxI0ErZL7tdmUZmMEAPwiv3EVCr1
+	JkPyn5bCMfz+yj69E1Nd486YQa+uKdAhjDN/f9iHvZZl29CJs/FXlE89eyMSUvec
+	f8V4OyWHB6qR6awI1USY+aHgstUgY0OOi0cFrdT/no=
+Received: from luo.liu.linux$163.com ( [112.64.125.122] ) by
+ ajax-webmail-wmsvr-40-146 (Coremail) ; Tue, 17 Mar 2026 11:37:52 +0800
+ (CST)
+Date: Tue, 17 Mar 2026 11:37:52 +0800 (CST)
+From: "luo.liu.linux" <luo.liu.linux@163.com>
+To: "Sakari Ailus" <sakari.ailus@linux.intel.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re:Re: Re: Re: [PATCH] media:v4l2-async:debugfs for registered
+ subdevices
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <abg0R5zerwCM_1mK@kekkonen.localdomain>
+References: <20260313075824.2818713-1-luo.liu.linux@163.com>
+ <abPm3VGGRAIsY1eQ@kekkonen.localdomain>
+ <5e63e8aa.943f.19ce6ee4ad5.Coremail.luo.liu.linux@163.com>
+ <abP4Mr_s8JRpQH0B@kekkonen.localdomain>
+ <384d2274.9b3e.19ce776ec2c.Coremail.luo.liu.linux@163.com>
+ <abg0R5zerwCM_1mK@kekkonen.localdomain>
+X-NTES-SC: AL_Qu2cAfuat04s5CKfZ+kWn0sSh+Y3WcC2uP0u2IYbS+cvlyzW/yUhQFRTJXzQ/OKgDh+TizO2UxVDyfh9QKS8ZklhWQzzfbUSReVNEWn7
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACXKQ34w7hpGjmoCg--.33749S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw4fury8tFy7JF4xXw4DCFg_yoW8CF1fpr
-	W7KF4IkrWjqFyrJan8J3WfJas5Ja40yFW2krWfXwn7ZwnrtF9rtryxt345ZFyvk392qaya
-	vFn8urWxAFyYkrJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9K14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_Gr4l42xK82IYc2Ij64vIr4
-	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
-	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
-	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
-	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
-	v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYb10UUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
-X-Spamd-Result: default: False [1.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+Message-ID: <186862ed.3836.19cf9df139c.Coremail.luo.liu.linux@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:kigvCgD39z2QzLhp0PZ5AA--.52896W
+X-CM-SenderInfo: hoxrhztlxozxxqx0qiywtou0bp/xtbC7BDfUWm4zJAcYAAA3D
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-Spamd-Result: default: False [-0.06 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_CONTAINS_FROM(1.00)[];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-55987-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,linux.intel.com,gmail.com,vger.kernel.org,iscas.ac.cn];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nichen@iscas.ac.cn,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-55988-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.869];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email]
-X-Rspamd-Queue-Id: 64A312A2FC6
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[163.com];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luo.liu.linux@163.com,linux-media@vger.kernel.org];
+	HAS_X_PRIO_THREE(0.00)[3];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DKIM_TRACE(0.00)[163.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: BDBD62A3454
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Use IS_ERR() and PTR_ERR() to properly handle the error return from
-media_pad_remote_pad_unique(), which returns ERR_PTR() on failure but
-never NULL. The previous code only checked for NULL, leading to invalid
-pointer dereference.
-
-Detected by Smatch:
-drivers/media/v4l2-core/v4l2-subdev.c:2588 v4l2_subdev_get_frame_desc_passthrough() warn:
-'remote_source_pad' is an error pointer or valid
-
-drivers/media/v4l2-core/v4l2-subdev.c:2595 v4l2_subdev_get_frame_desc_passthrough() error:
-'remote_source_pad' dereferencing possible ERR_PTR()
-
-Fixes: a564839e630c ("media: subdev: Add v4l2_subdev_get_frame_desc_passthrough helper")
-Reported-by: Ethan Tidmore <ethantidmore06@gmail.com>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
-Changes in v2:
-- Added Smatch warning messages to commit message
-- Added Reported-by tag for Ethan Tidmore
-- Kept both Reviewed-by tags
----
- drivers/media/v4l2-core/v4l2-subdev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 9efd14d4026f..7cb17e0a5617 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -2585,10 +2585,10 @@ int v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
- 
- 			if (!have_source_fd) {
- 				remote_source_pad = media_pad_remote_pad_unique(local_sink_pad);
--				if (!remote_source_pad) {
-+				if (IS_ERR(remote_source_pad)) {
- 					dev_dbg(dev, "Failed to find remote pad for sink pad %u\n",
- 						local_sink_pad->index);
--					ret = -EINVAL;
-+					ret = PTR_ERR(remote_source_pad);
- 					goto out_unlock;
- 				}
- 
--- 
-2.25.1
-
+CgpIaSBTYWthcmksCgoJWW91IGFyZSBhYnNvbHV0ZWx5IHJpZ2h0LiBGb3IgYW4gZXhwZXJpZW5j
+ZWQga2VybmVsIGRldmVsb3BlciBsaWtlIHlvdXJzZWxmLCB0b29scyBsaWtlIEtBU0FOIGFuZCBD
+T05GSUdfREVCVUdfTElTVCBhcmUgc2Vjb25kIG5hdHVyZSBhbmQgaW5jcmVkaWJseSBlZmZlY3Rp
+dmUgZm9yIHBpbnBvaW50aW5nIHN1Y2ggaXNzdWVzLgogSSB0cnVseSBhZG1pcmUgeW91ciBleHBl
+cnRpc2UgaW4gbGV2ZXJhZ2luZyB0aGVzZSBhZHZhbmNlZCBkZWJ1Z2dpbmcgbWVjaGFuaXNtcy4K
+CglIb3dldmVyLCBJIHRoaW5rIGl0IGlzIGltcG9ydGFudCB0byBjb25zaWRlciB0aGUgcmVhbGl0
+eSBmb3IgbWFueSBqdW5pb3IgZHJpdmVyIGRldmVsb3BlcnMgKG15c2VsZiBpbmNsdWRlZCkuIFdl
+IG9mdGVuIGxhY2sgdGhlIGRlZXAgaW50dWl0aW9uIGFuZCBleHRlbnNpdmUgZXhwZXJpZW5jZSBy
+ZXF1aXJlZCB0byB3aWVsZCB0aGVzZQpwb3dlcmZ1bCB0b29scyBlZmZlY3RpdmVseSBpbiBldmVy
+eSBzY2VuYXJpby4gTW9yZSBvZnRlbiB0aGFuIG5vdCwgd2Ugc3RpbGwgcmVseSBvbiBwcmltaXRp
+dmUgbWV0aG9kczogc3RydWdnbGluZyB0byByZXByb2R1Y2UgaW50ZXJtaXR0ZW50IGNyYXNoZXMs
+IHNjYXR0ZXJpbmcgcHJpbnRrIGxvZ3MgZXZlcnl3aGVyZSwgYW5kIG1hbnVhbGx5CnRyYWNpbmcg
+ZXhlY3V0aW9uIHBhdGhzLiBUaGlzIHByb2Nlc3MgaXMgZXh0cmVtZWx5IHRpbWUtY29uc3VtaW5n
+IGFuZCBvZnRlbiB5aWVsZHMgbm8gY2xlYXIgY29uY2x1c2lvbnMgZm9yICJzaWxlbnQiIHJlc291
+cmNlIGxlYWtzLgoKCVdoaWxlIEkgYW0gYWN0aXZlbHkgd29ya2luZyB0byBpbXByb3ZlIG15IHNr
+aWxscyBhbmQgbGVhcm4gdG8gdXNlIHRoZXNlIGFkdmFuY2VkIHRvb2xzIG1vcmUgcHJvZmljaWVu
+dGx5LiBJIHJlbWFpbiBjb252aW5jZWQgdGhhdCBwcm92aWRpbmcgc3VjaCBhIHNpbXBsZSwgaW50
+dWl0aXZlIGludGVyZmFjZSBvZmZlcnMgYSBuZWNlc3NhcnkgCnN1cHBsZW1lbnQgYnkgc2Vydmlu
+ZyBhcyBhIGxvdy1iYXJyaWVyIGVudHJ5IHBvaW50IGZvciBkZXZlbG9wZXJzLgoKCUkgaG9wZSB0
+aGlzIHBlcnNwZWN0aXZlIGNsYXJpZmllcyB3aHkgSSBiZWxpZXZlIHRoaXMgc21hbGwgY2hhbmdl
+IGNhbiBicmluZyBhIGJpdCBvZiBjb252ZW5pZW5jZSB0byBhIGJyb2FkZXIgcmFuZ2Ugb2YgZHJp
+dmVyIGRldmVsb3BlcnMuCgpCZXN0IHJlZ2FyZHMsCkx1bwoKCgpBdCAyMDI2LTAzLTE3IDAwOjQ4
+OjA3LCAiU2FrYXJpIEFpbHVzIiA8c2FrYXJpLmFpbHVzQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6
+Cj5IaSBMdW8sCj4KPk9uIEZyaSwgTWFyIDEzLCAyMDI2IGF0IDA5OjUwOjU2UE0gKzA4MDAsIGx1
+by5saXUubGludXggd3JvdGU6Cj4+IAo+PiBIaSBTYWthcmksCj4+IAo+PiAgICAgQXBvbG9naWVz
+IGlmIG15IHByZXZpb3VzIGV4cGxhbmF0aW9uIHdhc24ndCBjbGVhciBlbm91Z2guIAo+PiAKPj4g
+ICAgIFRvIGNsYXJpZnksIHRoZSBwcmltYXJ5IGdvYWwgb2YgdGhpcyBpbnRlcmZhY2UgaXMgbm90
+IG1lcmVseSB0byB2ZXJpZnkgaWYgaW5zbW9kL3JtbW9kIHN1Y2NlZWRzLCAKPj4gYnV0IHRvIHZh
+bGlkYXRlIHRoZSBjb3JyZWN0bmVzcyBvZiB0aGUgYXN5bmNocm9ub3VzIHN1YmRldmljZSByZWdp
+c3RyYXRpb24gYW5kIHVucmVnaXN0cmF0aW9uIHBhdGhzLAo+PiBzcGVjaWZpY2FsbHkgZW5zdXJp
+bmcgdGhhdCByZXNvdXJjZSBhbGxvY2F0aW9uIGFuZCByZWNsYW1hdGlvbiBhcmUgaGFuZGxlZCBw
+cm9wZXJseS4KPj4gCj4+ICAgIEkgd291bGQgbGlrZSB0byBzaGFyZSBhIHJlYWwtd29ybGQgc2Nl
+bmFyaW8gdGhhdCBtb3RpdmF0ZWQgdGhpcyBwYXRjaDoKPj4gCj4+ICAgIFdlIGhhZCBhIGNhbWVy
+YSBzdWJzeXN0ZW0gcGlwZWxpbmUgbGlrZSBzZW5zb3IgLT4gZHBoeSAtPiBtaXBpLWNzaTIgLT4g
+aXNwCj4+IHN1YmRldmljZSBkcml2ZXIgdGhhdCBhcHBlYXJlZCB0byBmdW5jdGlvbiBwZXJmZWN0
+bHkgZm9yIHNpeCBtb250aHMuIGluc21vZCBhbmQgcm1tb2QgY29tcGxldGVkIHdpdGhvdXQgYW55
+IGVycm9ycywKPj4gYW5kIHRoZSBzeXN0ZW0gc2VlbWVkIHN0YWJsZSBkdXJpbmcgbm9ybWFsIG9w
+ZXJhdGlvbi4gSG93ZXZlciwganVzdCBiZWZvcmUgYSBtYWpvciByZWxlYXNlLCBhIFFBIGVuZ2lu
+ZWVyIHBlcmZvcm1lZCAKPj4gc3RyZXNzIHRlc3RpbmcgaW52b2x2aW5nIHJhcGlkLCByZXBlYXRl
+ZCBjeWNsZXMgb2YgaW5zbW9kIGFuZCBybW1vZCwgd2hpY2ggZXZlbnR1YWxseSB0cmlnZ2VyZWQg
+YSBrZXJuZWwgY3Jhc2guCj4+IAo+PiBEdXJpbmcgdGhlIGRlYnVnZ2luZyBwcm9jZXNzLCBJIGlu
+c3BlY3RlZCB0aGUgaW50ZXJuYWwgZ2xvYmFsIGxpc3RzOgo+PiAKPj4gc3RhdGljIExJU1RfSEVB
+RChzdWJkZXZfbGlzdCk7Cj4+IHN0YXRpYyBMSVNUX0hFQUQobm90aWZpZXJfbGlzdCk7Cj4+IAo+
+PiBCeSBkdW1waW5nIHRoZSBzdWJkZXZfbGlzdCB2aWEgdGhpcyBkZWJ1Z2ZzIGludGVyZmFjZSwg
+SSBkaXNjb3ZlcmVkIHRoYXQgYSBELVBIWSBzdWJkZXZpY2UgZW50cnkgcmVtYWluZWQgaW4gdGhl
+IGxpc3QgZXZlbiAKPj4gYWZ0ZXIgaXRzIGRyaXZlciB3YXMgdW5sb2FkZWQuIENydWNpYWxseSwg
+dGhlIG91dHB1dCBleHBsaWNpdGx5IHNob3dlZCB0aGUgZGV2aWNlIG5hbWUsIGFsbG93aW5nIG1l
+IHRvIGltbWVkaWF0ZWx5IHBpbnBvaW50Cj4+IHRoZSBELVBIWSBkcml2ZXIgYXMgdGhlIGN1bHBy
+aXQsIHJhdGhlciB0aGFuIGJsaW5kbHkgdHJvdWJsZXNob290aW5nIG90aGVyIGNvbXBvbmVudHMg
+aW4gdGhlIHBpcGVsaW5lIChzdWNoIGFzIHRoZSBzZW5zb3Igb3IgSVNQKS4KPj4gCj4+IFRoaXMg
+d2FzIHRoZSBjcml0aWNhbCBjbHVlIHRoYXQgbGVkIG1lIHRvIHRoZSByb290IGNhdXNlOiAKPj4g
+Cj4+IFRoZSBELVBIWSBzdWJkcml2ZXIncyByZW1vdmUgZnVuY3Rpb24gd2FzIG1pc3NpbmcgYSBj
+YWxsIHRvIHY0bDJfYXN5bmNfY2xlYW51cChzZCkuIENvbnNlcXVlbnRseSwgdGhlIHN1YmRldmlj
+ZSB3YXMgbmV2ZXIgcHJvcGVybHkgCj4+IHVucmVnaXN0ZXJlZCBmcm9tIHRoZSBhc3luYyBmcmFt
+ZXdvcmssIGxlYWRpbmcgdG8gYSB1c2UtYWZ0ZXItZnJlZSBvciBzdGFsZSBwb2ludGVyIGlzc3Vl
+IGR1cmluZyB0aGUgc3RyZXNzIHRlc3QuCj4+IAo+PiBXaXRob3V0IHRoaXMgZGVidWdmcyBpbnRl
+cmZhY2UsIGRldGVjdGluZyBzdWNoICJzaWxlbnQiIHJlZ2lzdHJhdGlvbiBsZWFrcyBpcyBleHRy
+ZW1lbHkgZGlmZmljdWx0LiAKPj4gVGhlIGRyaXZlciBsb2FkcyBhbmQgdW5sb2FkcyB3aXRob3V0
+IHJlcG9ydGluZyBlcnJvcnMsIGFuZCBzdGFuZGFyZCBsb2dzIChkbWVzZykgb2Z0ZW4gcHJvdmlk
+ZQo+PiBubyBpbmRpY2F0aW9uIHRoYXQgYW4gZW50cnkgd2FzIGxlZnQgYmVoaW5kIGluIHRoZSBj
+b3JlIGZyYW1ld29yaydzIGxpc3QgdW50aWwgYSBjcmFzaCBvY2N1cnMgdW5kZXIgc3BlY2lmaWMg
+dGltaW5nIGNvbmRpdGlvbnMuCj4+IAo+PiAKPj4gR2l2ZW4gdGhpcyBleHBlcmllbmNlLCBJIGJl
+bGlldmUgdGhpcyBpbnRlcmZhY2UgcHJvdmlkZXMgYSB2aXRhbCB2aXNpYmlsaXR5IHBvaW50IGZv
+ciBlbmdpbmVlcnMgdG86Cj4+IAo+PiAxLFZlcmlmeSB0aGF0IHN1YmRldmljZXMgYXJlIGNvcnJl
+Y3RseSByZW1vdmVkIGZyb20gdGhlIGdsb2JhbCBsaXN0IHVwb24gZHJpdmVyIHVubG9hZC4KPj4g
+MixDYXRjaCBtaXNzaW5nIGNsZWFudXAgY2FsbHMgKGxpa2UgdjRsMl9hc3luY19jbGVhbnVwKSBl
+YXJseSBpbiB0aGUgZGV2ZWxvcG1lbnQgY3ljbGUsIHJhdGhlciB0aGFuIGRpc2NvdmVyaW5nIHRo
+ZW0gdGhyb3VnaCByYW5kb20gY3Jhc2hlcyBpbiBzdHJlc3MgdGVzdGluZy4KPgo+SSBndWVzcyB5
+b3UnZCBoYXZlIGZvdW5kIHRoaXMgd2l0aCBlaXRoZXIgS0FTQU4gb3IgbGlua2VkIGxpc3QgZGVi
+dWdnaW5nPwo+Cj4tLSAKPlNha2FyaSBBaWx1cwo=
 
