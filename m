@@ -1,242 +1,231 @@
-Return-Path: <linux-media+bounces-56097-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56098-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mJAOHgV2uWm8EgIAu9opvQ
-	(envelope-from <linux-media+bounces-56097-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 16:40:53 +0100
+	id cNyrIIF4uWnQGQIAu9opvQ
+	(envelope-from <linux-media+bounces-56098-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 16:51:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F472AD305
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 16:40:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095F02AD520
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 16:51:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 48D8130A87A0
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 15:40:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5D2DA30A4AEC
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 15:51:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EBE03EC2FA;
-	Tue, 17 Mar 2026 15:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2E632D2397;
+	Tue, 17 Mar 2026 15:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="beCIfskp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j0G41MDs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0693EC2C2
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 15:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CC72222CC;
+	Tue, 17 Mar 2026 15:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773762012; cv=none; b=MV//nOOOeVkjj1e0UkP+KLA2vw//MxPS4kJawqsLfdgMuHENStcrRENrvoF7RCjcUgU5KLSd2ZRnLMNtrMBRI+ft04C75BvYKcTAUITYbEHjk8HnvBU7O+UFX6wCEpmRELiFnR+EbnhVysH+59KvjrgQBknVm7Oc7ZjiS7uhJYQ=
+	t=1773762669; cv=none; b=DxWkD53FfxHFY6kf9mEtLkB+UjiK0v4RiPUcFgoXfnnhF4JI3YWNuySIs/riaHOrJHfTUDDw3eXgTktFZa3rV5pENXYe6LqeXpaXp8wf55kokshwne+hDqHUWSJ+cPwG/8g9OnxH4azDYzkPDsDfnWBj2zwn9+94TC7NIV8f0aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773762012; c=relaxed/simple;
-	bh=sBrzgYqy4YhXBaHZkGEzLEeQP1vB36ZIIqh/wd2RhOI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ma1YDhk+3nQceMSh8VKnK3gDNSrMEFay/tzGKJle/d/vWNArHS2fdFKMpVxlh4tGtzjvRW8K1v5WZpwSs6bb9aex0FaVyM/LN41nSPkxjj53QRlVjHa+cTJiKC7OsUGWFzuhaSO/nUDfDmQYe+Tk8aG2B+fmK/ma2Q2uBZmox9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=beCIfskp; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-485317b6bd0so69675e9.1
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 08:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773762006; x=1774366806; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CDw4r5ujTl31OHrtYbqvixsT9t+9enT6zG9dzarVNeI=;
-        b=beCIfskp2GdEeSuQ/Cdp+rUVEX+giZT4MESjyR9/Td2daMknkKWd8ELphzv4bg7Eal
-         SzPZOapod79mggfQx8CKgJjLfdSHTVs6LzIa3Y+zytQsHf84EgPrVTW8SeRrpbyTEDIx
-         VzRA0Ez6zrAMn9Rz5HISwbrlyHI195wqiY976M5LfzpFjc+KLyXiqPJDhcTLlTUsP7Z0
-         q0ID9jrOZZ8eEw84PJFDJnWrNbgEJNLOOXum5kNF1TGAarCKxvgkAGJ8ynOGP2cgfgO/
-         TcTAe2RyNvPGGxoVcBoqUidIo6pb5n0WZxSjw2Z5IOQYm09gmNA1bpBAstcOl3TpZMRD
-         8KGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773762006; x=1774366806;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CDw4r5ujTl31OHrtYbqvixsT9t+9enT6zG9dzarVNeI=;
-        b=NB4oeb+86YFZPXvUPjmHVHOaFYjZYXytgU5u0iKI23xW/rPcNdK8FdB2crNvR45fcq
-         47eATOTTbpceqBfvRpoXeSAHBLiIq5SK+KgYQG1XvzFYMUi3hCNPjBJWvcNLV/X2+r32
-         hYuuGrnnNaQnQi7TQk4JHGMSG8muNUAXu9xa4lfayhc5eBUK9WUF7D32Og5os/ZF1mUk
-         0/0Yfh3cje57Uzn3OqMaeIkU8Bfrb1OKFtqI9kiCjD1Fm032cfwSZHkfniyrm2ASMlpI
-         AZnGWarqwh+6rvlv8NEF4VpbGHn+hhtLghNZX0S4KgJ7PVKBbOAt9E4qPWvnSV1HyPQs
-         JnqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXP+earXgoOMf6du6IdaxxMOjPEqNcU1doY2sKceOrzQX1tUR1OrbPgUkg4q8jrbAbvRrnkYEerRokBWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrCEvDrVJG1UTGwOm7pMAkbsL9IKgI22TJJjuK6ro6PCh/G9uj
-	MKQfMFOnLZ+3GoHSx3hNbpmHi9qSU44CLb7eOZg4S56jlQT1XxCrf6FCZhvBZDyCnw==
-X-Gm-Gg: ATEYQzzMGjdOi7TpjWUbngq9YH+GCpFZ64gFo5IFBSee4heRRmYYX9hkuPyTUYXvUix
-	B5y+7+RuVydKTUgk7GMjVF3ptMgS7x/T3LjrP1J5EM2pMacIT/adArxh13sTBuBc3wVIzr6AstH
-	VAoM8fWfNWXrz0Uh8c1cnmExvZIqqBE04sElDsoWQTUanwORHQGjgXNP4044jUn3PPNKI9xek9H
-	QO8SZzbtvYTEJMMd2/om50j8hc37A0qrHrf3WT/FyDGMRz110GT/zc1sguD/gEOji7z7njDzSiQ
-	kQrZFr+JdrLd1rYs8uy2eDBuJ7u3uOl5Jt/E5CM31m6F6vJuo0isG+vlQRM5Nz3r/TSnoAEar3S
-	v6l6iOmHRZB+VQ3AfPy/wOpC2CDVad6cnWnaTGqfg14yT4LJy7TLKHeA1Y6CQUZMXOFaNzttSeQ
-	G6rOMQCu0k1W+sObrzY4I5lL6rMAsDTsm8Sjl2gilU0rZpfxGuuQSeJzgY
-X-Received: by 2002:a7b:cb8b:0:b0:483:6f85:b16e with SMTP id 5b1f17b1804b1-485709958a2mr850705e9.3.1773762005359;
-        Tue, 17 Mar 2026 08:40:05 -0700 (PDT)
-Received: from google.com (54.95.38.34.bc.googleusercontent.com. [34.38.95.54])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856eae3396sm72909465e9.9.2026.03.17.08.40.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 08:40:04 -0700 (PDT)
-Date: Tue, 17 Mar 2026 15:40:01 +0000
-From: Mostafa Saleh <smostafa@google.com>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	iommu@lists.linux.dev, linux-media@vger.kernel.org,
-	sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
-	christian.koenig@amd.com, m.szyprowski@samsung.com,
-	robin.murphy@arm.com, jgg@ziepe.ca, leon@kernel.org,
-	sean.anderson@linux.dev, ptesarik@suse.com, catalin.marinas@arm.com,
-	aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
-	linux-coco@lists.linux.dev
-Subject: Re: [PATCH net-next v3 0/2] dma-buf: heaps: system: add an option to
- allocate explicitly decrypted memory
-Message-ID: <abl10SQ4tdasfErt@google.com>
-References: <20260305123641.164164-1-jiri@resnulli.us>
- <ablV_f_l7wD2m63E@google.com>
- <xdy5anped2koy47cuxbbqocyypisl7lagwvpuokpzpggohk2dp@yilc5ihictph>
+	s=arc-20240116; t=1773762669; c=relaxed/simple;
+	bh=AkJEuI5liNnf15IbF4J03GN5K1Co8BejXS4SjS2ETlY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bh/wg8sWwDTmACDwlpFQmpJZMPYWnCfuK7nbFZkklifVgc4giV9lc4jAQhxH+BX3QPciOC5qWJ2piBunChLF5PV+yvpqa8cMVh7J6Wb0n7j5/q8K3+2ttTuHyoYOsQKMrBjbBIzdnT+7nuwDOYz2xlewYxVXsm45DgetppnMkw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j0G41MDs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FC51C4CEF7;
+	Tue, 17 Mar 2026 15:51:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773762668;
+	bh=AkJEuI5liNnf15IbF4J03GN5K1Co8BejXS4SjS2ETlY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=j0G41MDsRqZtOEvZrFBfu8IWZHJDGsoIkXABrAudFy11bqpO8rUDe1UYtpB5j2uBg
+	 ZUenn1xAb59IWnT98Hx2pEuNAEVJpzdPVUTgFE0nAFuJ8ZQ0tLleHJO4tJJIzwwVcV
+	 eW7goIzrKnRiEaVUTfqvDiZQ4NBLNOdPmZdvfvUimANjN8154emfMxr87mkJ/5syBJ
+	 uNWrukCm5T3NV6E1o8FN0vPa1C78wnNI5Fkq/93ViJqqRo/dyX6bbI1s46w0ka3Fbb
+	 lUQ/m+XCCrEXi7ObKeuTzk+oSqkOP5rz6tQ9BPhc65CzJX0Bq1bRVxz5qduta5r1gO
+	 llbfe9fJhBnTw==
+Message-ID: <471895f6-dc60-44d8-84ce-8ba0069110e4@kernel.org>
+Date: Tue, 17 Mar 2026 16:51:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <xdy5anped2koy47cuxbbqocyypisl7lagwvpuokpzpggohk2dp@yilc5ihictph>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 1/7] dt-bindings: media: qcom,x1e80100-camss: Add
+ simple-mfd compatible
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-0-fdfe984fe941@linaro.org>
+ <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-1-fdfe984fe941@linaro.org>
+ <20260316-glaring-jaybird-from-wonderland-4f8fd6@quoll>
+ <94f4fda4-504e-44eb-87f0-e34e557402f8@linaro.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <94f4fda4-504e-44eb-87f0-e34e557402f8@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[google.com:+];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-56097-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56098-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[smostafa@google.com,linux-media@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nvidia.com:email]
-X-Rspamd-Queue-Id: E5F472AD305
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[acb7000:email,linaro.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 095F02AD520
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 17, 2026 at 02:37:02PM +0100, Jiri Pirko wrote:
-> Tue, Mar 17, 2026 at 02:24:13PM +0100, smostafa@google.com wrote:
-> >Hi Jiri,
-> >
-> >On Thu, Mar 05, 2026 at 01:36:39PM +0100, Jiri Pirko wrote:
-> >> From: Jiri Pirko <jiri@nvidia.com>
-> >> 
-> >> Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
-> >> run with encrypted/protected memory which creates a challenge
-> >> for devices that do not support DMA to it (no TDISP support).
-> >> 
-> >> For kernel-only DMA operations, swiotlb bounce buffering provides a
-> >> transparent solution by copying data through decrypted memory.
-> >> However, the only way to get this memory into userspace is via the DMA
-> >> API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
-> >> the use of the memory to a single DMA device, and is incompatible with
-> >> pin_user_pages().
-> >> 
-> >> These limitations are particularly problematic for the RDMA subsystem
-> >> which makes heavy use of pin_user_pages() and expects flexible memory
-> >> usage between many different DMA devices.
-> >> 
-> >> This patch series enables userspace to explicitly request decrypted
-> >> (shared) memory allocations from the dma-buf system heap.
-> >> Userspace can mmap this memory and pass the dma-buf fd to other
-> >> existing importers such as RDMA or DRM devices to access the
-> >> memory. The DMA API is improved to allow the dma heap exporter to DMA
-> >> map the shared memory to each importing device.
-> >
-> >I have been looking into a similar problem with restricted-dma[1] and
-> >the inability of the DMA API to recognize that a block of memory is
-> >already decrypted.
-> >
-> >However, in your case, adding a new attr “DMA_ATTR_CC_DECRYPTED” works
-> >well as dma-buf owns the memory, and is both responsible for the
-> >set_memory_decrypted() and passing the DMA attrs.
-> >
-> >On the other hand, for restricted-dma, the memory decryption is deep
-> >in the DMA direct memory allocation and the DMA API callers (for ex
-> >virtio drivers) are clueless about it and can’t pass any attrs.
-> >My proposal was specific to restricted-dma and won’t work for your case.
-> >
-> >I am wondering if the kernel should have a more solid, unified method
-> >for identifying already-decrypted memory instead. Perhaps we need a
-> >way for the DMA API to natively recognize the encryption state of a
-> >physical page (working alongside force_dma_unencrypted(dev)), rather
-> >than relying on caller-provided attributes?
+On 16/03/2026 13:01, Bryan O'Donoghue wrote:
+> On 16/03/2026 07:29, Krzysztof Kozlowski wrote:
+>> On Mon, Mar 16, 2026 at 01:02:01AM +0000, Bryan O'Donoghue wrote:
+>>> Add "simple-mfd" as a second compatible string to allow child nodes
+>>> within the CAMSS block to probe as individual platform devices.
+>>>
+>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>> ---
+>>>   Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml | 8 ++++++--
+>>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+>>> index 2d1662ef522b7..b5654ef71bd89 100644
+>>> --- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+>>> @@ -14,7 +14,11 @@ description:
+>>>   
+>>>   properties:
+>>>     compatible:
+>>> -    const: qcom,x1e80100-camss
+>>> +    oneOf:
+>>> +      - const: qcom,x1e80100-camss
+>>> +      - items:
+>>> +          - const: qcom,x1e80100-camss
+>>> +          - const: simple-mfd
+>>>   
+>>>     reg:
+>>>       maxItems: 17
+>>> @@ -191,7 +195,7 @@ examples:
+>>>           #size-cells = <2>;
+>>>   
+>>>           camss: isp@acb7000 {
+>>> -            compatible = "qcom,x1e80100-camss";
+>>> +            compatible = "qcom,x1e80100-camss", "simple-mfd";
+>>
+>> You do not have any children here. And if you checked the DTS, you
+>> would see this does not work.
+>>
+>> Please post complete example and bindings.
+>>
+>> I suspect that after posting complete picture we will see this is not a
+>> simple-mfd device (child depends on parent).
+>>
+>> Best regards,
+>> Krzysztof
+>>
 > 
-> I actually had it originally implemented probably in the similar way you
-> suggest. I had a bit in page/folio struct to indicate the
-> "shared/decrypted" state. However I was told that adding such bit is
-> basically a no-go. Isn't that right?
+> This is it:
 > 
+> https://lore.kernel.org/r/20260316-x1e-camss-csi2-phy-dtsi-v2-3-859f3fa55790@linaro.org
 
-Yes, I believe it’s discouraged to add new fields to the struct page.
-But I see the memory encryption API is spilling in different places
-and I am not sure if that’s a good enough justification for that or
-maybe we just need to re-architect it.
-For the restricted-dma stuff, we don’t actually care about the
-address, a device can either handle encryption or not, so relying on
-force_dma_unencrypted(struct device *) which is implemented by the
-architecture is enough, and we just need to integrate that so it
-can be used from SWIOTLB and DMA-direct (and other places)
-consistently. (although that might not be a simple as it sounds)
+That's a DTS branch.
 
-I am not sure in the dma-buf case if that would be enough, but
-another way to have this per page and to avoid encoding this in
-struct page, is to push this problem to the arch code and it can
-rely on things as the page table (I believe ARM CCA have a bit
-for that)
+This commit is simply incomplete and noop. Adding simple-mfd without
+child makes no sense and no benefits.
 
-Anyway, I think there should be some boundaries in the kernel that
-defines that instead of each subsystem having its assumptions,
-especially memory encryption/decryption problems that can easily
-cause security issues.
-
-Thanks,
-Mostafa
+It's like adding a local variable in C code without any read/assignment.
 
 > 
-> >
-> >[1] https://lore.kernel.org/all/20260305170335.963568-1-smostafa@google.com/
-> >
-> >Thanks,
-> >Mostafa
-> >
-> >
-> >> 
-> >> Jiri Pirko (2):
-> >>   dma-mapping: introduce DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
-> >>   dma-buf: heaps: system: add system_cc_decrypted heap for explicitly
-> >>     decrypted memory
-> >> 
-> >>  drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
-> >>  include/linux/dma-mapping.h         |   6 ++
-> >>  include/trace/events/dma.h          |   3 +-
-> >>  kernel/dma/direct.h                 |  14 +++-
-> >>  4 files changed, 117 insertions(+), 9 deletions(-)
-> >> 
-> >> -- 
-> >> 2.51.1
-> >> 
+> Just broke up the series so that drivers/bindings could go through 
+> linux-media and the dtsi stuff through Bjorn.
+> 
+> I actually got the idea from:
+> 
+> commit fe6a952b567f6a771d087d2e969914f31574d6ab
+> Author: Krzysztof Kozlowski <krzk@kernel.org>
+> Date:   Fri Jan 27 20:40:50 2023 +0100
+
+If you refer to my commits, at least read them. Do you see children
+there? Yes. You have none.
+
+Plus trying to get 13 year old legacy device without dtbs_check warnings
+is different thing than correcting a recently introduced bindings.
+Terrible example to take... And if you find example from 20 years ago,
+it will be even worse.
+
+Best regards,
+Krzysztof
 
