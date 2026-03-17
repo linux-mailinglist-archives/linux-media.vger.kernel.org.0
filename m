@@ -1,191 +1,158 @@
-Return-Path: <linux-media+bounces-55996-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55997-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ALipOeDsuGknlwEAu9opvQ
-	(envelope-from <linux-media+bounces-55996-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 06:55:44 +0100
+	id gDSsMBwFuWmEnAEAu9opvQ
+	(envelope-from <linux-media+bounces-55997-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 08:39:08 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F000C2A4243
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 06:55:43 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0051C2A4F17
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 08:39:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EF978301C59D
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 05:55:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 501263048763
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 07:38:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E080B37FF78;
-	Tue, 17 Mar 2026 05:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gWwbLYod"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A44A4391839;
+	Tue, 17 Mar 2026 07:38:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074E737F8D4
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 05:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE93E3909B3;
+	Tue, 17 Mar 2026 07:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773726913; cv=none; b=uCzLjV5pPqn59wfctNMV9uGYjsshL0rf61OCdB69bdKkHQpG8AmFU/eoUm3pppQDaxpJe2FGY3EMgsLYKD4xdPlpw8l3LkSXjO5n+IaZP4w9uMefzPSmLrMXR1g4YjeUJGGzY80touJjohT2YptYbQMrqRkTA4dYkwzvAc+LXyM=
+	t=1773733110; cv=none; b=rN/7xDe/p8WtSk2THWlAR0Ne8Q9tWdtoq4NMrIkPL8TUoZdYjDQ/UwDZfPC7ezqOmCuOwYMAtTsMWzV2SFZcFWWguLXMPF8Pa1daq4bbjr7fxp+IGU7xFhzPxdUx6Vh7tNRPsXXJuDuv2ZNa1UHSFcVyhpJJlpDK1pIM/hHuTrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773726913; c=relaxed/simple;
-	bh=GMP79ITCgxv/qqTOcIGDhMjkPwlpAtEKWoKxT1QzKrM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U7SXAT2+wsWNTZI2ji0xOzAI6DF2yejYAmXhzuNlrPoD2RY85arXDfcla/0Cb+wbEnc5Kn+bMS/Yl+IpKjULFyLD2RvVHAP7AGMd/sMv2DSSVSeK/+uaPPPWkI4VprEHzVXFw0i1mhU7Y17wwPF0gsMpnVQuqqQIbI+p2e2nBFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gWwbLYod; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4853fd7b59aso32567255e9.2
-        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 22:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773726910; x=1774331710; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kcOeBnO85QXQKxiCKrlrGwovlX4gkf5w7/X9rdV9RuA=;
-        b=gWwbLYod2MJtEqf29QupScfb9gpItkNGwvBMBG1+UiQNzmrCwp3qD4mNusAWvRpXTV
-         vYjNt1lXqeIpRZXFQKWyz3VmpDNYTq2QheBIE3V19iFt9PCSFdlz74ABhoESa+WrIGiR
-         1rCWK5f952IJ5CcX/Wn0U8u8eApmFLBDRXvkbJFv9QvShtcVx40Id67a1w2blQcn1IfH
-         ez/7RduyRZEzIAuS3BS5u71L2+j96GJ8WoN/+OzkdHHyJ9ZTDNipE0g9rPHUBvAOR4v9
-         9Sr9OG+Bz/fnJgcTfzG8zRtUsq6becPQzDM3zQKmx+YfdQOw12WHgLM3unIzhsC99AnC
-         cM2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773726910; x=1774331710;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kcOeBnO85QXQKxiCKrlrGwovlX4gkf5w7/X9rdV9RuA=;
-        b=qJ+u0TJY8K7+kfTUneTMz+Qm+DNWxGWOA0LDLWTqlmKeQhDOi8e6BL0nllv8wRJe+9
-         RMtMEersBO2o6sydgE5A71eohGYZeu1h3IdcjfOjv1dyLENSZk2hQkfatEQq1SWkiGS6
-         cgs3DwzKCD21grXqiooUKbUOvbLlh1XVfLN6ztYJLOeHBE2K+5FXDDeCPlzXRwDqMjX7
-         A1nU/N4PoWaht6wRSEnKkWdLtYvxVCebd+Of1XP2gGRXBU4rGq6TJd7wrgHVcGemIGR1
-         J5Xg6UpvFFEeqToVSqv8xwlDX1qIbhFUjTaDU1+/M1S2E22vpeVdiZivw7bda5J6vavH
-         zSoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW2pesO/qcQxNxLJGkksrHqHGoExFlsSd+P4XXnXqCKGjwu2rF+jaeEvcL3WziTeMcNh8njLrvBHRjN+A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiArSFj87D0PV7X0XzXDvwo+CVTOj9yGSQliTdL5LjXA47EGsT
-	CZRFK1W3K4Zc/4RUuWswLJLHfQHthjx9FCCK3hut8Jyp6bGi4MsC0Y4x1ep2PD6c+vA=
-X-Gm-Gg: ATEYQzy98DOhg6ibeVvA4VgV6Pp3KS1+lLRNqhQ9XHNYep3gZ5RRhIjRY/C4Q7HPnyT
-	jgu5GWrAvBoUKB8eY/3kpH2MGx6Mnb44X3N2gzY7tbiAg0fTM0eRhseuz7ElpHO12KT2inhsRdO
-	hh7pcmsDO3HpUveBGGEu8rntS3iOfBIYEkrwVx5VVQEM+tzptuG9K7dfGDvXRKl24Yh5WVXSGez
-	S9FH0ABhR6jmXW/U/vY+uEtY8kBuUQRAdEBKBbp/zrnig0V6IC0VALHHk3mXK8mN8N82wBq3kPd
-	Cq7uVstgwWp67Bp6eIFi0QZptZb/H67weRh6pzUIj0fs9oF93v3pH1lIsyDDInZjnDI+AOIpnuR
-	sKNWo2nEb40ol1gIMzJuJi/r//qkEJSicjkCL1m8xmFH9hI8uGsdiyoTZCpcAqrfhzFugwR+RGW
-	SSTFEKLndDysXEPKQfoz8XXOWDi56e7h7HxIY=
-X-Received: by 2002:a05:600c:c8d:b0:47e:e2ec:9947 with SMTP id 5b1f17b1804b1-4855671052dmr255918505e9.33.1773726910252;
-        Mon, 16 Mar 2026 22:55:10 -0700 (PDT)
-Received: from [192.168.0.101] ([51.37.189.166])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856ea98070sm42508625e9.6.2026.03.16.22.55.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 22:55:09 -0700 (PDT)
-Message-ID: <d104e54d-8276-4d1e-bb7d-9c01c45a7184@linaro.org>
-Date: Tue, 17 Mar 2026 05:55:07 +0000
+	s=arc-20240116; t=1773733110; c=relaxed/simple;
+	bh=132Vm35CBwtshbKyUUhSa7BWgnii/+ruE2wjkAm9B3E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ljlWlz2WUwBoirKhMQomvcUkXdVYY3tqlt+RtT4unxo+PNGz596+GR2AXdfukq+5mA72YsVmr+Rq3E/ljqDTZOtn1YHkxYkrfcBnD7f4PRL8NqhxwpY+V13F12TZq3h2jtdNdlxgih9OsISeJ/SEyqSNbiOUOs5Yyn8eWgKIEt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-03 (Coremail) with SMTP id rQCowAB3ktnjBLlpZ0_rCg--.6820S2;
+	Tue, 17 Mar 2026 15:38:11 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: linux-media@vger.kernel.org
+Cc: mchehab@kernel.org,
+	hverkuil+cisco@kernel.org,
+	laurent.pinchart@ideasonboard.com,
+	sakari.ailus@linux.intel.com,
+	jacopo.mondi@ideasonboard.com,
+	tomi.valkeinen+renesas@ideasonboard.com,
+	kees@kernel.org,
+	ethantidmore06@gmail.com,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH v3] media: v4l2-subdev: Fix error check in v4l2_subdev_get_frame_desc_passthrough()
+Date: Tue, 17 Mar 2026 15:20:20 +0800
+Message-Id: <20260317072020.3876151-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/7] dt-bindings: media: qcom,x1e80100-camss: Add
- optional PHY handle definitions
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-References: <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-0-fdfe984fe941@linaro.org>
- <20260316-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v10-2-fdfe984fe941@linaro.org>
- <20260316-papaya-mink-of-examination-6db401@quoll>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20260316-papaya-mink-of-examination-6db401@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowAB3ktnjBLlpZ0_rCg--.6820S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tw4fury8tFy7ArykWr45Jrb_yoW8CF4xpr
+	W7KF4IkrWjqFy8Jan8X3W3Jas5Ja4FyFW7KrWfZwn7ZwnrtFWDtryIy345ZFyvk392qaya
+	vFn8GrWxAFyFk3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9K14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14v_GF4l42xK82IYc2Ij64vIr4
+	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
+	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
+	v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYuWlDUUUU
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-Spamd-Result: default: False [1.54 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,baylibre.com,gmail.com,linaro.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-55996-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-55997-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DMARC_NA(0.00)[iscas.ac.cn];
+	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,linux.intel.com,gmail.com,vger.kernel.org,iscas.ac.cn];
+	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[nichen@iscas.ac.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: F000C2A4243
+	NEURAL_HAM(-0.00)[-0.882];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:email]
+X-Rspamd-Queue-Id: 0051C2A4F17
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 16/03/2026 07:31, Krzysztof Kozlowski wrote:
->> +patternProperties:
->> +  "^phy@[0-9a-f]+$":
->> +    $ref: /schemas/phy/qcom,x1e80100-csi2-phy.yaml
->> +    unevaluatedProperties: false
->> +
->> +  "^opp-table(-.*)?$":
-> Why do you expect multiple opp-tables?
-> 
-> And where are operating-points phandle? Please look how other bindings
-> do it.
-> 
->> +    type: object
->> +
->>   required:
->>     - compatible
->>     - reg
->> @@ -175,8 +201,6 @@ required:
->>     - iommus
->>     - power-domains
->>     - power-domain-names
->> -  - vdd-csiphy-0p8-supply
->> -  - vdd-csiphy-1p2-supply
->>     - ports
->>   
->>   additionalProperties: false
->> @@ -188,6 +212,7 @@ examples:
->>       #include <dt-bindings/clock/qcom,x1e80100-camcc.h>
->>       #include <dt-bindings/interconnect/qcom,icc.h>
->>       #include <dt-bindings/interconnect/qcom,x1e80100-rpmh.h>
->> +    #include <dt-bindings/phy/phy.h>
->>       #include <dt-bindings/power/qcom-rpmpd.h>
->>   
->>       soc {
->> @@ -233,6 +258,10 @@ examples:
->>                           "vfe_lite0",
->>                           "vfe_lite1";
->>   
->> +            #address-cells = <2>;
->> +            #size-cells = <2>;
->> +            ranges;
-> Again, incomplete example. Where the the phy?
+Use IS_ERR() and PTR_ERR() to properly handle the error return from
+media_pad_remote_pad_unique(), which returns ERR_PTR() on failure but
+never NULL. The previous code only checked for NULL, leading to invalid
+pointer dereference.
 
-Both of these q's can be answered by adding a phys to the example, which 
-I will do.
+Detected by Smatch:
+drivers/media/v4l2-core/v4l2-subdev.c:2588 v4l2_subdev_get_frame_desc_passthrough() warn:
+'remote_source_pad' is an error pointer or valid
 
+drivers/media/v4l2-core/v4l2-subdev.c:2595 v4l2_subdev_get_frame_desc_passthrough() error:
+'remote_source_pad' dereferencing possible ERR_PTR()
+
+Fixes: a564839e630c ("media: subdev: Add v4l2_subdev_get_frame_desc_passthrough helper")
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
-bod
+Changes in v3:
+- Remove the Reported-by tag due to missing Closes: URL
+
+Changes in v2:
+- Added Smatch warning messages to commit message
+- Added Reported-by tag for Ethan Tidmore
+- Kept both Reviewed-by tags
+---
+ drivers/media/v4l2-core/v4l2-subdev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 9efd14d4026f..7cb17e0a5617 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -2585,10 +2585,10 @@ int v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
+ 
+ 			if (!have_source_fd) {
+ 				remote_source_pad = media_pad_remote_pad_unique(local_sink_pad);
+-				if (!remote_source_pad) {
++				if (IS_ERR(remote_source_pad)) {
+ 					dev_dbg(dev, "Failed to find remote pad for sink pad %u\n",
+ 						local_sink_pad->index);
+-					ret = -EINVAL;
++					ret = PTR_ERR(remote_source_pad);
+ 					goto out_unlock;
+ 				}
+ 
+-- 
+2.25.1
+
 
