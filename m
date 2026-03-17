@@ -1,246 +1,188 @@
-Return-Path: <linux-media+bounces-56093-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56094-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mPlyAE1juWlsCwIAu9opvQ
-	(envelope-from <linux-media+bounces-56093-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 15:21:01 +0100
+	id uJwyBc5ruWmvEQIAu9opvQ
+	(envelope-from <linux-media+bounces-56094-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 15:57:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8431E2ABB62
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 15:21:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 656EF2AC7F3
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 15:57:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8230930B21AE
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:08:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A695831A6772
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:48:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBAF63E317D;
-	Tue, 17 Mar 2026 14:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 128643E867C;
+	Tue, 17 Mar 2026 14:48:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FSXpdnY+";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ajzn2JvM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cqIJIr5j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE133E316B
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 14:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3AF3E866E
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 14:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773756470; cv=none; b=kuy+4hBjoP+kO89UFklgujzcSuNR4Sr/zoKR4xoncOujPEh4Mq3wKASSmHOGUbPcnwMDbnCUcC3Iw6A45BtGw2s5rIdE0YCkB7REgxQyGZit0jrb5VkOudztx6zdt9FyHrHcM4WZ7+jdR+Mk/dkIbueJd1Wxy87TS5XlJWWHygI=
+	t=1773758910; cv=none; b=ONtuy7J/qXdpIu+LlByxliYMtEeprVJ/JacOs2FlRBxS8S4XmrgnwUvDtcs7S1IgOIo59xN3LCTmjQU/n61BS8v7aNkEOA840uRnLvtrs1GNWyWIOhUuCAsaP35LcNngna55JiGes9ts5nrq3aRjxztyxuwET+n2ycexHh9P2bQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773756470; c=relaxed/simple;
-	bh=SjKY5rL+nXL4pYVVde5HOkkJzq5ZHB/znoBTF2Z5A3w=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=jABZ1hpXkTFSn8qbjsNrzTYHXZR9f0u3adEFX6h+hBbGWNDYQAcAksXEGpVIUv21wYMQvLR7JOKl65RPEFy5b7QytIUYPXTkky3wvd8fiB7VwWQFdqcDK1rEsxXz6Tzx0MbVhjNiBFa86jIiObGsrah+5fPEC8Ky5XNolPWxaMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FSXpdnY+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ajzn2JvM; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62H93n6h2315159
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 14:07:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	LgfIYBWPJOjzoQOWNAMuyA9WL02GR4rPUnpaw9+fGZI=; b=FSXpdnY+eL/9xWle
-	/gm4urTVBVWJJKN1sPPPv3+VCdEoEVd3sQBUn2O7wjzrnTAPnsH2qLWmRqqXJ24M
-	rFTgN1z9CrtlW1sjL2gGaYEB/kF+6vJ6WqLtKk68PqrWiGcfKjRQ2dt8BZ3xQ6ir
-	mQ6xRzKduYlsOB8ScKYO1u/5NhgfCifIYQNG2Dkq2g/QZZ03g74OUVjeHxIpbk+Y
-	NZKp40XcYpzXOWdUjRZTd9W+NEUv2o5IMPpmSo4JPe+1ch8V/cgJ3TmmqYdXXYGt
-	/jIpo9vF7hjHGO3p5EKZWii/9mpJDI9IoAfVmDuqA79QZm+hHq/hX4Rl0lxb2w5h
-	L9R3Eg==
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxmf2c600-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 14:07:47 +0000 (GMT)
-Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-5fb6622ca5dso7455411137.0
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 07:07:47 -0700 (PDT)
+	s=arc-20240116; t=1773758910; c=relaxed/simple;
+	bh=MRhEDQicPgZPuglhA5HDwObVU5ZCl1vpXpTFM1yKskU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ijvgYa1nuieysCJo8l98CubPVKCR+P+lKw/TkKOBOjfi5pPKzhPWnsaYHEeCvL7cgm47y9MK6ZTXrJiKeXyQbc+VpFLwI4lnjuzvyL7suwHYKudcVkWP4f9xXOgT+aVm+pgRNZOXFNDVfssx9r1T5wejNvE3Av5aVWJoYaNEBmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cqIJIr5j; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439c6fc2910so4429875f8f.0
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 07:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773756466; x=1774361266; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LgfIYBWPJOjzoQOWNAMuyA9WL02GR4rPUnpaw9+fGZI=;
-        b=Ajzn2JvMmyEg6wRSFr0+xagejCFMvgX/QPgjlcRwE+GTMggsIMB23BwMGk95OroUwi
-         g5yFCs1p6VnReXGsfWzWFP0Jo+E/xH4IpK/o0t9T6g+5s6OpZ3Nio0ivWojMkbR8R7Rq
-         tj8XVGfSPff6YsfcIc36e0uiXIcihcCbFztvQbmzCHvwyerhZ4Uea+TPhQUpNYop1zcz
-         +ubnXmtAyKcasqvBlKryMmqsyZpOf6DFVmao94rCQGPI7u8V2R7g8NRhQjETqyRGYFte
-         91FXMGf/blp/aHHUyC169R76WH7gJeDjDypVHUGgqb7tcYeR6BtDtbT8FEILzcMfH9Bo
-         wC8w==
+        d=gmail.com; s=20230601; t=1773758907; x=1774363707; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M8gYAozgCWDOAMG74D+3BY6ig21lwzb2NHNogEZp2oE=;
+        b=cqIJIr5jYIdsrVbglXDXTSao9GGnnG5UpdybkyAR1E6LU19OqxPSl6rFBRmGV7P9mt
+         U+Z9jA93gPybXj5qts5Kbw79IQnLX+C/acY0GusyfkChThI3Ph2k8gWCy00ch5KgmG17
+         i5FWiuukZtb7kASzMBGLhDfU2JT5Jodq9cht11qBxhNwOw063BSXN4sfLELReGnI7eOS
+         2eC5WUx4UBGTOFiWVLXReOm/2a3rbvl+rz2w7l+oibKF5XH9R/4Q+jfd/2txhD7j+18E
+         SeO6a0t8yq8Ah/d1y+Ngr9XXgDRTuQUer7N6Edt6ENBY0FYW1w1Kiub27cXaeeBOvays
+         gf9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773756466; x=1774361266;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LgfIYBWPJOjzoQOWNAMuyA9WL02GR4rPUnpaw9+fGZI=;
-        b=dfUgMuaEzEi78ALqmCKget4pooQv3bXmh1cqoHGPxyEDUVMOKWjO5gc1fc4qGzMVLu
-         03qliV4u2mUZJJ1FZ2NaRzcHfOwa8Ec89dOJf1BzXJNjt6JVg+QJRD0D1gWOZ8tcP2NR
-         uwrAPfdmImSnQC13xo0vVimJuqcZJ+fU336W+FhALxz2UbdPvA7rG5jYfd+ar2NT12UY
-         NbvjYHAPtA+9QbWL/ZJaW8ZIEBGJNuvTAuTycVkwLBHPm1ibubH59RGX4FPwC5DClS68
-         qTpcjkGWJzG+px2Ha0k9CqteDlAV6Ii6AyAZVvrwnNBzJVtKHTNEutOl5yPDpHbNRSHH
-         GMkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVvD66fpgQsTT/NrTpELNX8+GZj9/eoGzu6hvjTkiwgea45om6S1upEZq9rZ65f6aUtGg/byRKyMx+EcQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTENyWgqrIg20U2LNVzj0Uwu+mViOa0LfNRA1O26NT2opEQv33
-	GwaEFUyb5EErBGMy0RiJkUTB1nMbRqUEYMdcCQosKddN5ctkw917DZ/K2COp0KFJY0W6vUpYzb0
-	KPkNwejT8IBpp1AFPYEbPfb9SfsvU1PnJAeh7ERV9m+vS5Mc+wyhb7M9l2exLnrqbxGwOasduKg
-	==
-X-Gm-Gg: ATEYQzxg22loMDeTFWrJGBH0c9bapWIL/xWPGhKfYQB+JLtKgOIvTLRUdkACKFOwKty
-	/1MI8l7/e7S2y3NVB6bS0OUbWvZlnumM3DN7OGUNrFuZedFIyJggNV/PU71lfVn4sA9H51SNzbH
-	VOsXNmfmYFPZLn9SfsjCuOtY4y1DjZLT1J5F4qFV4zxsKkaYj2DMPlmHhor0gImsKu3etV4P27b
-	LiqlIm7V0HKV+fudJj5M1C4Zej1TqfVcI5WpMeAcVeScdC5k/gdTdgLkCp3W189siE1Lk6/MSy2
-	Cw6/XmYDEuX45XYG1rJhOtFsnSFtk1fLSwYa5oUlQTyNV6h9rvJBTyXdfRO/0BYUxfVVTFPztUl
-	3Bx8K7UVnh/Bnrk+HbNX/jNczyAgcxoTE8sr+KCojZkJJm7rWU778TSN9zc4kUQcU3D+myVpq/y
-	L5VTvIr5Lj2eftZJWsW+eRNX0NpctdE7U5V89JFr7MoeAwlt13lts+oT2eIm48Fr33aawzHiN/D
-	hAdhsQAyZx3QT+B
-X-Received: by 2002:a05:6102:442b:b0:5ff:a16b:93f0 with SMTP id ada2fe7eead31-6020e585dbdmr5264142137.22.1773756466188;
-        Tue, 17 Mar 2026 07:07:46 -0700 (PDT)
-X-Received: by 2002:a05:6102:442b:b0:5ff:a16b:93f0 with SMTP id ada2fe7eead31-6020e585dbdmr5264100137.22.1773756465573;
-        Tue, 17 Mar 2026 07:07:45 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-66350b85f3bsm6577959a12.25.2026.03.17.07.07.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Mar 2026 07:07:44 -0700 (PDT)
-Message-ID: <459993ae-c94a-4092-b81e-dc07c7011397@oss.qualcomm.com>
-Date: Tue, 17 Mar 2026 15:07:43 +0100
+        d=1e100.net; s=20251104; t=1773758907; x=1774363707;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M8gYAozgCWDOAMG74D+3BY6ig21lwzb2NHNogEZp2oE=;
+        b=X0mVQEDX48MZRgUfsi3zpuFV4YYe4LUWWUewK58LsofHR5YaF5lSD6oiya1BIee8bJ
+         2/ix3RycOw8nmTTk4ptU5zKqcXEyQuLxjArl/DzTYjniAUWh9EqPlgc8a3gmv96TjCGr
+         0/Q00LhFHPoZhxwUC3rOTKCCeopxVC+PHzBhXDoNlgxetXPWLdhAmFVzRAShgGRqQav7
+         yVqRaR1ptddZaSgHRYSpXmhrGr59sOXx7sk+kPifKEgGcNRdID7lUE7CYAHrGwGRORbF
+         v5Lfr7Ijx/AL70wHStZdn132kskudGRPUON/gUo1R9/TIDvY+JUlrfTGdHtlWU1wIzzN
+         6wFw==
+X-Forwarded-Encrypted: i=1; AJvYcCV0NOqVgZMK/d7vLQn9Om8rol0WbaQcOKfxTiiboeMmNedCD3fSIlx87AQwpEDqXPxDj44n0BrXZEIPig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVwer58n2ie2LbMn124rJIR0UwWI/kkyExFyjDvIQfLvGK9Rfj
+	6s7FFCLVA+fspcz5Vtdz1/mhuqga6ULnT2IqYiWwUJ2GfO7PzYHRUkoK
+X-Gm-Gg: ATEYQzx8jClYXC82bykPp7tngAgQ+SGWnNLLg5vQM3m5+vj1hq7KLkGc9FjwkK7vL49
+	AT0aWDktXx/i217EpT8+QKOVZcGnS1uCBLZuu/F8XgRCgfRoCgw7TULoVVP8ifssoYni/aVTuIM
+	qt9lyyZppb7EFzYImNphosWXJAuYoRmWXArffUXQhTDQk/lCm6DD60xFmfPxMX5jT03RAEBemvZ
+	yNDFu1ZBzSUONPGOaevvOaj5qaQvoGyzzL4Exy4pS3ykT3YRxXb0YOS0YOPNcrcmT0mzpOulRxg
+	acmouUDnJ3rjhduM04lwFJae9ydkQ9kSDc2hZsSL89psGL2fqOk7f6zAuVLFUYL0SiQbkLJnHBK
+	bMQjmp40lbKEG1BDQsBBO3/nLJbPPkVFDTlvwP8hXhWF3r/o3vYNhjx4Oygpq+rHhsrn60p2i5k
+	2oAh+WdyQv0EHWkE7z7utb+aMY3obI51RQYH/i9vOzWHgPXQ==
+X-Received: by 2002:a05:6000:2601:b0:43b:48e3:fbee with SMTP id ffacd0b85a97d-43b48e3fc39mr8977145f8f.37.1773758907211;
+        Tue, 17 Mar 2026 07:48:27 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:1570:2300:d8a4:3e2d:eba7:95e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2186e3sm57302132f8f.26.2026.03.17.07.48.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 07:48:26 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+To: phasta@mailbox.org,
+	aliceryhl@google.com,
+	boris.brezillon@collabora.com,
+	gary@garyguo.net,
+	lossin@kernel.org,
+	daniel.almeida@collabora.com,
+	joelagnelf@nvidia.com,
+	sumit.semwal@linaro.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] dma-buf/dma_fence: be more defensive in dma_fence_release
+Date: Tue, 17 Mar 2026 15:48:25 +0100
+Message-ID: <20260317144825.2318-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: johannes.goede@oss.qualcomm.com
-Subject: Re: [PATCH 1/1] platform: int3472: Drop redundant initialisation to 0
- and NULL
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Antti Laakso <antti.laakso@linux.intel.com>, linux-gpio@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linusw@kernel.org,
-        brgl@kernel.org, mchehab@kernel.org, dan.scally@ideasonboard.com,
-        ilpo.jarvinen@linux.intel.com, hverkuil+cisco@kernel.org,
-        sre@kernel.org, hao.yao@intel.com, jimmy.su@intel.com,
-        miguel.vadillo@intel.com, kees@kernel.org, ribalda@chromium.org
-References: <20260317131040.215119-1-sakari.ailus@linux.intel.com>
-Content-Language: en-US, nl
-In-Reply-To: <20260317131040.215119-1-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: j5pE3sZblcpiDK_Vw6HewlQKY-AEyERw
-X-Proofpoint-GUID: j5pE3sZblcpiDK_Vw6HewlQKY-AEyERw
-X-Authority-Analysis: v=2.4 cv=FvcIPmrq c=1 sm=1 tr=0 ts=69b96033 cx=c_pps
- a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=QyXUC8HyAAAA:8
- a=EUspDBNiAAAA:8 a=z3Uast6Rtm7B2PKYKTAA:9 a=QEXdDO2ut3YA:10
- a=ODZdjJIeia2B_SHc_B0f:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDEyNSBTYWx0ZWRfX2ftlQ039rV2I
- 1p4vWOSR4ET29xIFyf+Pjx0DomismyW/QHfGSpo8tyi48fYNZk1oAj8Y0axiqQOtq/0poHcynMw
- caJpcQ2WvJYZViIF9ylQY+DsPmZ8HeYrEcH5jT8a00aEioiuaT8H8NFiwqF85PKGX3VQF/oERGO
- cpeRDLwGFoEo8VuCU05cfALgFKWv82MG2aOdLxiH64w7dMh/7I3jt0d2374qTzF5wAgBzzRGyIg
- 9f9u1G8Z5u8+3JE/TONcrsxFhD2MhMITJgJXmF9y0q7IhfGINAyapKFynpPNkcICceeqWMpy2yh
- GFE4PlN5llBXo7lknNXkuWZIHnx+dJ1fnWQifGcduCOvahYy07Llmr6nEXf4cuUnedEg6gXxqhA
- HBz4D29iNtda9thXY/68mT81DKA9WzCs2BqR/5cg5cSsAn/VXcci3Q4/arMyiMpIpd0XVEYRejf
- jRVCs9v7OGZ/OpV2RnA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-17_01,2026-03-17_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 suspectscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 clxscore=1015 malwarescore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603170125
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56093-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:email,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FROM_NO_DN(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[johannes.goede@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56094-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 8431E2ABB62
+	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ckoenigleichtzumerken@gmail.com,linux-media@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:email,amd.com:mid]
+X-Rspamd-Queue-Id: 656EF2AC7F3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+In case of a refcounting bug dma_fence_release() can be called before the
+fence was even signaled.
 
-On 17-Mar-26 14:10, Sakari Ailus wrote:
-> A few fields in structs containing regulator initialisation data for Dell
-> laptops are initialised to 0 and NULL. Drop the explicit initialisation as
-> redundant.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Previously the dma_fence framework then force signaled the fence to make
+sure to unblock waiters, but that can potentially lead to random memory
+corruption when the DMA operation continues. So be more defensive here and
+pick the lesser evil.
 
-Thanks, patch looks good to me:
+Instead of force signaling the fence set an error code on the fence,
+re-initialize the refcount to something large and taint the kernel.
 
-Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+This will leak memory and eventually can cause a deadlock when the fence
+is never signaled, but at least we won't run into an use after free or
+random memory corruption.
 
-Regards,
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/dma-buf/dma-fence.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-Hans
-
-
-
-> ---
->  drivers/platform/x86/intel/int3472/tps68470_board_data.c | 8 --------
->  1 file changed, 8 deletions(-)
-> 
-> diff --git a/drivers/platform/x86/intel/int3472/tps68470_board_data.c b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> index 6bec5a910396..c1ddbf9a82c0 100644
-> --- a/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> +++ b/drivers/platform/x86/intel/int3472/tps68470_board_data.c
-> @@ -151,8 +151,6 @@ static const struct regulator_init_data dell_7212_tps68470_core_reg_init_data =
->  		.apply_uV = 1,
->  		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
->  	},
-> -	.num_consumer_supplies = 0,
-> -	.consumer_supplies = NULL,
->  };
->  
->  static const struct regulator_init_data dell_7212_tps68470_ana_reg_init_data = {
-> @@ -162,8 +160,6 @@ static const struct regulator_init_data dell_7212_tps68470_ana_reg_init_data = {
->  		.apply_uV = 1,
->  		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
->  	},
-> -	.num_consumer_supplies = 0,
-> -	.consumer_supplies = NULL,
->  };
->  
->  static const struct regulator_init_data dell_7212_tps68470_vcm_reg_init_data = {
-> @@ -173,8 +169,6 @@ static const struct regulator_init_data dell_7212_tps68470_vcm_reg_init_data = {
->  		.apply_uV = 1,
->  		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
->  	},
-> -	.num_consumer_supplies = 0,
-> -	.consumer_supplies = NULL,
->  };
->  
->  static const struct regulator_init_data dell_7212_tps68470_vio_reg_init_data = {
-> @@ -184,8 +178,6 @@ static const struct regulator_init_data dell_7212_tps68470_vio_reg_init_data = {
->  		.apply_uV = 1,
->  		.valid_ops_mask = REGULATOR_CHANGE_STATUS,
->  	},
-> -	.num_consumer_supplies = 0,
-> -	.consumer_supplies = NULL,
->  };
->  
->  static const struct regulator_init_data dell_7212_tps68470_vsio_reg_init_data = {
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 1826ba73094c..8bf07685a053 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -593,14 +593,24 @@ void dma_fence_release(struct kref *kref)
+ 		/*
+ 		 * Failed to signal before release, likely a refcounting issue.
+ 		 *
+-		 * This should never happen, but if it does make sure that we
+-		 * don't leave chains dangling. We set the error flag first
+-		 * so that the callbacks know this signal is due to an error.
++		 * This should never happen, but if try to be defensive and take
++		 * the lesser evil. Initialize the refcount to something large,
++		 * but not so large that it can overflow.
++		 *
++		 * That will leak memory and could deadlock if the fence never
++		 * signals, but at least it doesn't cause an use after free or
++		 * random memory corruption.
++		 *
++		 * Also taint the kernel to note that it is rather unreliable to
++		 * continue.
+ 		 */
+ 		dma_fence_lock_irqsave(fence, flags);
+ 		fence->error = -EDEADLK;
+-		dma_fence_signal_locked(fence);
++		refcount_set(&fence->refcount.refcount, INT_MAX);
+ 		dma_fence_unlock_irqrestore(fence, flags);
++		rcu_read_unlock();
++		add_taint(TAINT_SOFTLOCKUP, LOCKDEP_STILL_OK);
++		return;
+ 	}
+ 
+ 	ops = rcu_dereference(fence->ops);
+-- 
+2.43.0
 
 
