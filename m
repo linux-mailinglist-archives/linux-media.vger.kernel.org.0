@@ -1,56 +1,55 @@
-Return-Path: <linux-media+bounces-56012-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56008-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yE+6N0oiuWkrrwEAu9opvQ
-	(envelope-from <linux-media+bounces-56012-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:43:38 +0100
+	id 6P5zEzkiuWnQsAEAu9opvQ
+	(envelope-from <linux-media+bounces-56008-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:43:21 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3722A7143
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:43:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F502A711F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 10:43:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C352D30437C1
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:32:52 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 765983030B98
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:32:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5DB37757C;
-	Tue, 17 Mar 2026 09:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7F61372EDA;
+	Tue, 17 Mar 2026 09:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kJjgu9C/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UxT1sfvb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B2636EA8B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAEB36403A;
 	Tue, 17 Mar 2026 09:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773739944; cv=none; b=FCcT4jgk5G7lJ36OSqDZo6gsuapONRJMTp+iA0C/ydP9EPF8BKvlDmXhaJ72NcmCiC8xRb6PhRLoYEhD7680njI9rtHaH64a9z/6hGkHtPobs4/Xe2N+Kpkd9xxmSyuJXdRGI2VVlOGJ+ojNxbz5K6xm/3/HOEjadbVb4q7+EVo=
+	t=1773739944; cv=none; b=dputFqWMR2+2ep5I8KYsE3iZQsM0OGLHCBq0NSrlxY5Fev+ZdiekbPJ80vjBVsnEvJwYTRwZGiwso2JpDtdfkEaa5I8BkXENOvilAbyC31MxCEuKEEDoGLXnE1EvbJSwbYaiG0dFGwKxAvywrMgd9rBOS1O/+Vv1we8VaKdrpEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773739944; c=relaxed/simple;
-	bh=OScWDJNVIXSkH9JdH7eb/Xp1LXka3za6IEC5iCx5Yj8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=G0X5C72SK68UkQ1iCMdJ2EO6AEUCUqs+/CuDgc9UtNDF/bK3u2t2RVAwU913CbVv2EkvsRRb6pL1vJcKvcprmj/9twQqhUA9LoKIRZNqBde2D4mUyaHqIhi1h1jBFuTdvDo4nn8aQXwCPm5tVIDGSLYZ9vqcGtFNKwVMBgrMSoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kJjgu9C/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DE66DC4CEF7;
+	bh=p8cijtpU/HSsGMiP46YwtSX4nNkA+3J4pw4gPojkcGs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GgG/TgZbi+MvazJr4B8+hjY86sOVro7IYeeTD7rNj//nx3NC03VCExN+NIAMyg7no0gbrKVFc0+TXQWaYcrKKWrLunZ/Xkf9etQJN1kptWVVLltuf6aRgIaoCuPsC4ruumsjZ3pFVvCY1vifP3Nd5oI363m1wguBphXFzTdBxOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UxT1sfvb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EEFA3C19425;
 	Tue, 17 Mar 2026 09:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773739943;
-	bh=OScWDJNVIXSkH9JdH7eb/Xp1LXka3za6IEC5iCx5Yj8=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=kJjgu9C/3XQjSgBKhqcn5HczX0zhTm17yn5XD78OkbJJ8svjOds9OIt4MsbCkCn0n
-	 7i1/aBggUjlOddzTmk0jb4bFyLWiQQNba+sLWoOuWJAeDbOb7SutPr2YUFC5liiiMf
-	 kk41B4T84ofC3tvHm6oXhWKEbMsESq2o2V9DRwQiSiGqhek9B0T406jpjdtLf8E8L4
-	 nWejI5Z/OjBeHKG68vefR4AhvEom9jJ8yD77zPpJi9A9qQicwweE4ikuCdGQDAOFy4
-	 iZMmodQn4AVVFkOIls5gcBKakrdG9wWBcKhO4S0lW8FkNlnh2rSVp5JibpB+dMGIp3
-	 gjBb2lmv00gfA==
+	s=k20201202; t=1773739944;
+	bh=p8cijtpU/HSsGMiP46YwtSX4nNkA+3J4pw4gPojkcGs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=UxT1sfvbxgTb3B9ITJ/TbmS4lHIDkn/zydRUjoKNKIrt86o+P6srfZAE6loUauh1+
+	 BEDPiUtzt4pqLtW5kj/3n+6xTJJ5eSSQGaxZuwz/uwHHbmNtGzI8RMbrfTkhz68074
+	 XhSR9XIpKhKT9UFVl/yxv/khTsTKWvzCh6xDdt2S7kTLVn0xo6szzHWitvdvRrwIyC
+	 3+aW9n7AW4p4j4ZEPGYRia7joJW27YZYx4hlGGVZbdkaoMJ6gw7RGRkwhYMO6bRLbh
+	 bfYlNwsjni81riLPTQ6niTYnTgSY4NwIF+Kz4v7V875O/tXcANr1Fxtd7GOi49u+mh
+	 5YEuPx9EUbkrg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF397F33825;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1441F33820;
 	Tue, 17 Mar 2026 09:32:23 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Subject: [PATCH v2 0/9] media: rockchip: rkcif: add support for rk3588
- vicap
-Date: Tue, 17 Mar 2026 10:32:18 +0100
-Message-Id: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
+Date: Tue, 17 Mar 2026 10:32:19 +0100
+Subject: [PATCH v2 1/9] Documentation: admin-guide: media: add rk3588 vicap
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,11 +58,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKIfuWkC/22Py27DIBREfyW661DBNTjgVf+jyoJnjPLAhRQli
- vzvIbaidtHljDRnZh5QfI6+wLB5QPY1lpguTeB2A3bUl4Mn0TUNSFFQ3lGSj52QktRo9USUYz2
- 3UqDUO2iRKfsQbwvua7/q7L9/GvW6mr/Q1kGRU8QV2b+RRpkuKIUicD5UCX+HLBlBe9a/Z9gSi
- ZvGO7HKO9SOW6fCUBm82sdYrinfl2/NetX/f6MyQonpjHNhx5Vi/NOm00mblPWHTWfYz/P8BA0
- k94QqAQAA
+Message-Id: <20250430-rk3588-vicap-v2-1-77de5ee9048e@collabora.com>
+References: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
+In-Reply-To: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -80,11 +77,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Michael Riesch <michael.riesch@collabora.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773739942; l=3744;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773739942; l=4703;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=OScWDJNVIXSkH9JdH7eb/Xp1LXka3za6IEC5iCx5Yj8=;
- b=6PadDWPx3oeafAOPBjI+855zmsp4/DBpg0970EhEGcI3wlC9fw5+HzDA3AnGkhnt4ql5h4cfj
- SdE9UDjYeWLCnksoiXzSUbGSndDfQDbNMeo/k4kinKfvi6+jc20ffeY
+ bh=+eC6O18wtYpvs9VlVLfglS6X0TZCIanqcH/7iXnFd4I=;
+ b=q11rIe2Goh3Zc4dkARzS0JFn3gmHBBTXW8XXeo89TPokkuSqBK7B646840c+h/eljYONw2tnm
+ 32ZB5g+PzNrCcXukt6/yl4xHYd4FITsE3izMv3aQjEZ2vrqhX1Bxuex
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -101,7 +98,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56012-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
+	TAGGED_FROM(0.00)[bounces-56008-lists,linux-media=lfdr.de,michael.riesch.collabora.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com];
@@ -119,90 +116,99 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	HAS_REPLYTO(0.00)[michael.riesch@collabora.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:replyto,collabora.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: ED3722A7143
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:replyto,collabora.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,rkcif-rk3588-vicap.dot:url,rkcif-rk3568-vicap.dot:url]
+X-Rspamd-Queue-Id: 58F502A711F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Habidere,
+From: Michael Riesch <michael.riesch@collabora.com>
 
-The RK3588 Video Capture (VICAP) constitutes an essential piece of the
-RK3588 camera interface with one DVP, six MIPI CSI-2 receivers,
-scale/crop units, and a data path multiplexer (to scaler units, to ISP,
-...). This series introduces basic support for the RK3588 VICAP unit
-to the rkcif driver, thus paving the way for video capture in general
-and for camera sensor image processing in particular.
-
-The changes have been tested successfully on a Radxa ROCK 5B+ with two
-Radxa 4K cameras attached to it. The raw images from the sensors can
-be streamed after configuring the hardware pipeline with
-
-media-ctl -d 0 --set-v4l2 '"dw-mipi-csi2rx fdd30000.csi":0 \
-  [fmt:SGBRG10_1X10/3864x2192 field:none colorspace:raw xfer:none]'
-media-ctl -d 0 --set-v4l2 '"rkcif-mipi2":0 \
-  [fmt:SGBRG10_1X10/3864x2192 field:none colorspace:raw xfer:none]'
-media-ctl -d 0 --set-v4l2 '"dw-mipi-csi2rx fdd50000.csi":0 \
-  [fmt:SGBRG10_1X10/3864x2192 field:none colorspace:raw xfer:none]'
-media-ctl -d 0 --set-v4l2 '"rkcif-mipi4":0 \ 
-  [fmt:SGBRG10_1X10/3864x2192 field:none colorspace:raw xfer:none]'
-
-and using e.g., GStreamer
-
-gst-launch-1.0 v4l2src \
-  device=/dev/v4l/by-path/platform-fdce0000.video-capture-video-index0 \
-  ! video/x-bayer,format=gbrg10le,width=3864,height=2192 ! bayer2rgb \
-  ! ...
-(or -index4 for the other camera sensor).
-
-Note that this series requires the RK3588 MIPI CSI-2 receiver patches
-[0]. I included them here to provide the possibility to test the changes
-without any nasty merge conflicts.
-
-Looking forward to your comments!
-
-[0] https://lore.kernel.org/all/20260305-rk3588-csi2rx-v2-0-79d01b615486@collabora.com
+Add a section that describes the Rockchip RK3588 VICAP.
 
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
-Changes in v2:
-- modified rockchip,rk3568-vicap binding instead of creating a new one
-  (Conor)
-- aligned clock names and reset names with rockchip,rk3568-vicap
-- Link to v1: https://lore.kernel.org/r/20250430-rk3588-vicap-v1-0-b3bddf749914@collabora.com
+ .../admin-guide/media/rkcif-rk3588-vicap.dot       | 29 ++++++++++++++++++++
+ Documentation/admin-guide/media/rkcif.rst          | 32 ++++++++++++++++++++++
+ 2 files changed, 61 insertions(+)
 
----
-Michael Riesch (9):
-      Documentation: admin-guide: media: add rk3588 vicap
-      media: dt-bindings: add rockchip rk3588 vicap
-      media: rockchip: rkcif: add support for rk3588 vicap mipi capture
-      [DONOTMERGE] media: dt-bindings: rockchip,rk3568-mipi-csi2: add rk3588 compatible
-      [DONOTMERGE] arm64: dts: rockchip: add mipi csi-2 receiver nodes to rk3588
-      arm64: dts: rockchip: add vicap node to rk3588
-      arm64: dts: rockchip: add radxa camera 4k on rock 5b+ cam0
-      arm64: dts: rockchip: add radxa camera 4k on rock 5b+ cam1
-      arm64: defconfig: enable designware mipi csi-2 receiver
+diff --git a/Documentation/admin-guide/media/rkcif-rk3588-vicap.dot b/Documentation/admin-guide/media/rkcif-rk3588-vicap.dot
+new file mode 100644
+index 000000000000..f6d3404920b5
+--- /dev/null
++++ b/Documentation/admin-guide/media/rkcif-rk3588-vicap.dot
+@@ -0,0 +1,29 @@
++digraph board {
++        rankdir=TB
++        n00000007 [label="{{<port0> 0} | rkcif-mipi2\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++        n00000007:port1 -> n0000000a
++        n00000007:port1 -> n00000010 [style=dashed]
++        n00000007:port1 -> n00000016 [style=dashed]
++        n00000007:port1 -> n0000001c [style=dashed]
++        n0000000a [label="rkcif-mipi2-id0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
++        n00000010 [label="rkcif-mipi2-id1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
++        n00000016 [label="rkcif-mipi2-id2\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
++        n0000001c [label="rkcif-mipi2-id3\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
++        n00000025 [label="{{<port0> 0} | rkcif-mipi4\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++        n00000025:port1 -> n00000028
++        n00000025:port1 -> n0000002e [style=dashed]
++        n00000025:port1 -> n00000034 [style=dashed]
++        n00000025:port1 -> n0000003a [style=dashed]
++        n00000028 [label="rkcif-mipi4-id0\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
++        n0000002e [label="rkcif-mipi4-id1\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
++        n00000034 [label="rkcif-mipi4-id2\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
++        n0000003a [label="rkcif-mipi4-id3\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
++        n00000043 [label="{{<port0> 0} | dw-mipi-csi2rx fdd30000.csi\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++        n00000043:port1 -> n00000007:port0
++        n00000048 [label="{{<port0> 0} | dw-mipi-csi2rx fdd50000.csi\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++        n00000048:port1 -> n00000025:port0
++        n0000004d [label="{{} | imx415 3-001a\n/dev/v4l-subdev4 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
++        n0000004d:port0 -> n00000043:port0
++        n00000051 [label="{{} | imx415 4-001a\n/dev/v4l-subdev5 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
++        n00000051:port0 -> n00000048:port0
++}
+diff --git a/Documentation/admin-guide/media/rkcif.rst b/Documentation/admin-guide/media/rkcif.rst
+index 2558c121abc4..fcd7f8cfc5d3 100644
+--- a/Documentation/admin-guide/media/rkcif.rst
++++ b/Documentation/admin-guide/media/rkcif.rst
+@@ -77,3 +77,35 @@ and the following video devices:
+ .. kernel-figure:: rkcif-rk3568-vicap.dot
+     :alt:   Topology of the RK3568 Video Capture (VICAP) unit
+     :align: center
++
++Rockchip RK3588 Video Capture (VICAP)
++-------------------------------------
++
++The RK3588 Video Capture (VICAP) unit features a digital video port and six
++MIPI CSI-2 capture interfaces that can receive video data independently.
++The DVP accepts parallel video data, BT.656 and BT.1120.
++Since the BT.1120 protocol may feature more than one stream, the RK3568 VICAP
++DVP features four DMA engines that can capture different streams.
++Similarly, the RK3588 VICAP MIPI CSI-2 receivers feature four DMA engines each
++to handle different Virtual Channels (VCs).
++
++The rkcif driver represents this hardware variant by exposing the following
++V4L2 subdevices:
++
++* dw-mipi-csi2rx fdd30000.csi: MIPI CSI-2 receiver connected to MIPI DPHY0
++* dw-mipi-csi2rx fdd50000.csi: MIPI CSI-2 receiver connected to MIPI DPHY1
++* rkcif-mipi2: INTERFACE/CROP block for the MIPI CSI-2 receiver connected to
++  MIPI DPHY0
++* rkcif-mipi4: INTERFACE/CROP block for the MIPI CSI-2 receiver connected to
++  MIPI DPHY1
++
++and the following video devices:
++
++* rkcif-mipi2-id{0,1,2,3}: The DMA engines connected to the rkcif-mipi2
++  INTERFACE/CROP block.
++* rkcif-mipi4-id{0,1,2,3}: The DMA engines connected to the rkcif-mipi4
++  INTERFACE/CROP block.
++
++.. kernel-figure:: rkcif-rk3588-vicap.dot
++    :alt:   Topology of the RK3588 Video Capture (VICAP) unit
++    :align: center
 
- .../admin-guide/media/rkcif-rk3588-vicap.dot       |  29 ++++
- Documentation/admin-guide/media/rkcif.rst          |  32 ++++
- .../bindings/media/rockchip,rk3568-mipi-csi2.yaml  |   8 +-
- .../bindings/media/rockchip,rk3568-vicap.yaml      | 191 ++++++++++++++++++---
- arch/arm64/boot/dts/rockchip/Makefile              |   7 +
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      | 143 +++++++++++++++
- .../rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso      |  89 ++++++++++
- .../rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso      |  89 ++++++++++
- arch/arm64/configs/defconfig                       |   1 +
- .../platform/rockchip/rkcif/rkcif-capture-mipi.c   | 136 +++++++++++++++
- .../platform/rockchip/rkcif/rkcif-capture-mipi.h   |   1 +
- .../media/platform/rockchip/rkcif/rkcif-common.h   |   2 +-
- drivers/media/platform/rockchip/rkcif/rkcif-dev.c  |  18 ++
- 13 files changed, 719 insertions(+), 27 deletions(-)
----
-base-commit: bb2a3912549d3b5cef5ed27200402fe8f6fb0694
-change-id: 20250430-rk3588-vicap-9d164c8528a7
-
-Best regards,
 -- 
-Michael Riesch <michael.riesch@collabora.com>
+2.39.5
 
 
 
