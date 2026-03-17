@@ -1,247 +1,157 @@
-Return-Path: <linux-media+bounces-56109-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56110-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sExZNgqOuWnkJwIAu9opvQ
-	(envelope-from <linux-media+bounces-56109-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:23:22 +0100
+	id MGw4K3GTuWk5KQIAu9opvQ
+	(envelope-from <linux-media+bounces-56110-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:46:25 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7052AF771
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:23:22 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B592B01C4
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:46:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B5562301F3B3
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 17:21:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7111330B82A7
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 17:22:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E3E332AAC5;
-	Tue, 17 Mar 2026 17:21:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B49702D73B8;
+	Tue, 17 Mar 2026 17:21:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="YYC6IIy/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hWjakLsx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228C62459DC
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 17:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773768072; cv=pass; b=Lzw304IMJuRceCyBqvoCDXhr2FhNxswOG50LF15w2U/Kgykkab3al6B5PJCL0QRgcDeKjhedJ+6NWfYSBuyp6HrbrDon8k+30UO+Ej9pqXcM+sQf1423+JODQ/Qn6zf1VnvoGXVSfbvqyygEadDvc/2K2Hdv6+1fDr76ZISo0GE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773768072; c=relaxed/simple;
-	bh=RzxxQNK+7XeZZ1zzpRgBfb1zqJHEyjfghb6u/A7OCa8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ou5dE/xkK8wnMl5qmkXzojuGNHrGYH1XhudR9ZS6btGzZOut1/W7JOafCivh5WB6IVUIGznkH89RjYvpxu8kXfU+4tgHtKs1qiDLt5xzEllv7H0p30HWKlQUJwzxdbI0/ZMipdmdRpSyS1HU4Ea0QogiZVGE1DBf57rQugaPA9A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=YYC6IIy/; arc=pass smtp.client-ip=209.85.167.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-466f935a82fso3853224b6e.0
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 10:21:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773768070; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Dih+y841YLvdWbFtKisnSWpOFtkTWVq+2MzASP/ntl47CAZb+NbKQtO6iygCuOvGnA
-         3cE8gkRMgRNbwVxpx0hbapsWzGXxp+2uAkYhuwBV+1kuA98xx7I2IaSeETk/SPqdIeTd
-         ETvRghwHUssZ2dJkw8iP4sl0eXmMNo16Sac950awthC/CpNvbtJzxpxye8e4WzcnLs+N
-         wPSNf2woLLJV+XflHnkVlCBhXKx3FSNN+O93g178CaT1/moVpwqPQpsV/74qXmbvBjGI
-         fHHd+0XqT7HchvCBNOvxOiMeB5kYHlOnuVCHeAwFgTm0k19sQv7x3/Hl9ksSbLpsSgtJ
-         3V+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fgHqS6jMn0lq6YpOjwkuggYs/F1Fi4n4BxEBIots+EQ=;
-        fh=SUHx3lxdVvcKTVR88pDt0PHq6iishJqJW0D71/wP8Fc=;
-        b=I0KeIbMr/Pb2JEat1De3qm+iVwiTzxWnXC0X9KfNHHMK25M7muxFUT6GDFF/bVjxzu
-         2DNr7mdKEEZlHxpwfhUdDLohV5+hh8PUASdzNsESVCroA9I+oHsA7vApQSlTdMsNOWY+
-         50cRbuq1q7jOjVFHbdNZcggwMM907m+/1WIvC9GYDhH9xRPXqADugcOEbN/cCnv7AYE2
-         oJs4cNs0oaDKV22/pIwEZe+MGtw5x4xSrr0fJ+xRbLaR0DnFSlEl6v3m2qHhlar5ZAxM
-         1MZWVyR0K1j4zS0vNeRqsK5a+lMkSiAqgBSgaN9UiMwQq8XLxqizVlEJAyunkMjkSwtK
-         Ckbg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D0921D5B0
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 17:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773768119; cv=none; b=s9EPCG2zIlP+QP9RW26nzjSlfb00pHQyaoJd4N0u8AS3+em+lAYyk6L73DuwBOxFsq9WQ20bBcAPzRl3dGFC3UoRGrNYMa0xBVT+zlZoUG3SN37lgOhH8m9EFqqJWY3W6KTHB2u6pHKWXLRwz6XpMFbiZ0YpLUEbupBMxDDIjE8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773768119; c=relaxed/simple;
+	bh=RIrcjBVTWFWdS8g12TomIKFnoLbjWzlU+4/7ub9UfAI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=E79nTD6tdxn2ksgveosum6mYjg9UNY+L+oNKf3sHtXvCcyWBLciiuKfGTKkfaUAHMuzpbOTUK8jCcQQouGO+xtKQeOcHlzMmeaKtrp/+GJcKQ0DgpchkzJ3q2zH2R6VayWo/MgR6Etgh+hCX+hAseH5VENSYKuFDGhkooaQYFJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hWjakLsx; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2b04fc8851cso29537515ad.0
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 10:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nextdimension.cc; s=google; t=1773768070; x=1774372870; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fgHqS6jMn0lq6YpOjwkuggYs/F1Fi4n4BxEBIots+EQ=;
-        b=YYC6IIy/5RdGiKN5pO4qSEi5y9Qo+jVJu9W2CELhcmDgZfghi81Myv6+G7zipZwRzn
-         WfB+1/sNIuC5MwblAiNyQrvB0Ue0ynB99EqEFwTyLWS3jKEZzwukOAd27p48BXK0p5wJ
-         dkyqktIxL0g4+pWmjs/TbK2oDH6ZTTTr0R7uhFjx+iB43NbTL7sG2a7hpbWGo4etXhA1
-         Of4wzIDuxfv6Z67+olI/+pi9LtLAq3koIxiBbCplc0c3YbNrzbCDGRRuhBY2SwfRipIe
-         qqTXV+VbWQ27nBSYkX4oPEdUmAXhhzgV2NRssydKmPYd8K/XgnudSmZeuqqNxVG/Ajo7
-         zrtw==
+        d=gmail.com; s=20230601; t=1773768117; x=1774372917; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=utaSnyq3myPjK3fsmlWbqjzof7555I/m+N4R25ZlcDw=;
+        b=hWjakLsxKL05ZZJ8o/g/GC5wcteoAjgind35ry4ujMD5IekqTz3FfhrVNbz3oI/A1O
+         Ns9Wk/4G0dHplkGooNVYLftTkwut04TKrSzrSwli1Cjcy8aDjs2K3P5+jIFzfdMFQn3/
+         uElBMFdjrcE2gT+2VPyqM8+OS9Ul8x2r1mF7FitPKbLJ2JywZoCWauSvpDdbXTSR7/BI
+         yRQx3OWczq7PJeQ1gYMJp9JEyI4B1ebqzg7pG50AlqW3+64D71PexWM0RDyOI0JuT51X
+         VRRkS9tWn9Y5C+uih6IeT20r5dGjrXMCcU9a+Ur97yIXnWq9tWvmoVQ7PuIEzRfIPaTZ
+         uczQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773768070; x=1774372870;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fgHqS6jMn0lq6YpOjwkuggYs/F1Fi4n4BxEBIots+EQ=;
-        b=hpK8lxW1P7WDieqh6mBezu91SkQlyh/9N3nYbhlvwQ7/+TmnFrXUYjkJCLxv/dDge1
-         MrXdejXHTHmWb9aLe2e3IyqmCMduawwzIb+arhUkPi4/zQJ8IPm3XmYvgpwxG3aU/Bwz
-         JwtH5mRbzDbCu/j2RRQuzcY84ttG2L7f4TsVUZFSxdZW+AR4Ac5oxiuUAL2Mkts1FVNw
-         jFPXr1/NLH7DtEvw/Sril9WUjA9EXvYZXp/KwIYdFSMejqjFCEjqx+jTT2mjbXqMPcJZ
-         sLRTfYcS8fPILM/EdqDRzFN+kW2Qvk3+sFgrd9EP0sNZXwGBk6IYSVVUPj8y7wPg645E
-         zL+A==
-X-Gm-Message-State: AOJu0Yy2tASOP3p8BIIpz9NXv7augzSJEsJJIkQm0USTl+ZfOx4+0k6S
-	vfvTZOHBfrcXNs7qhwJTBi2QL1o0JbNKy6yZM3tXhDP6ixmp1PvOSmkF6JWxfjLmqE6Z0lhX992
-	UN4WZUyp8NFNlGqpah2BmWZ/Jd22MUNJzUmRzConfLQ==
-X-Gm-Gg: ATEYQzzQMjlZHQWGE88+yoDB7/0ss8GqOZqvb3GaaXxGpjsk9Hv42n/J2TgZ/KZ0hkS
-	PSIn5a+t2z+O0eslZSLaUCd2Ns9yvPRlE4kj/KV6fxUi4uiYkp2EIKao5hSY729XRGX12jkNeNd
-	9kbYVj6wogAIZIw4eGADlszooeA4ZkKR+aW+N0IWDTKqJD8dX0fNHQqLka4IGVWZsa98cHkRCrm
-	GrxwhwoFkEulzFdPc373XVcgEJQRca2bNEAs9XvjiYJSvP5iWgzGHPbgVmqcFBK20qJ4n6PPqAD
-	rLYOEDMP
-X-Received: by 2002:a05:6808:158f:b0:45c:8fa8:7497 with SMTP id
- 5614622812f47-467ba2cb667mr110428b6e.34.1773768069992; Tue, 17 Mar 2026
- 10:21:09 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773768117; x=1774372917;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=utaSnyq3myPjK3fsmlWbqjzof7555I/m+N4R25ZlcDw=;
+        b=HGFbw/7+ft7bazWX+4oduHUsethxkgclSNK4ebbCxFSB/lbrJScIlmHSSnHmR4Bb5K
+         nxV0VYt9KpIlBPRlM/P0encICm5cg+EecBT73w92ce4EPoF2/N0kLXvNLM/iKYzqDNNf
+         GrA9LTnKGFoYF2s9tAS1Ymu37du5P+pJ5zc6oAzNkL4Gsl0fvlj1CIqXrpSXEzPk49iy
+         TGqZgBMBICyoMaTEFEbFcM2Qsr3cWGD5CF96GdeRIimnPMKaRvxkNtgWHYLPI4dwP7Fz
+         Bfiih6j5yjsQk2GdvA61X6Zj4YutwGaOUrOQl5wuU+h7736WCNn46aaKpjdF9OYPABMX
+         OhZw==
+X-Gm-Message-State: AOJu0YyNL2aNTD/W/MCEJLjjr6/V77f6VSBmfm0Cratxp8HDLbl9ZO2D
+	GVrTXBiz/GehUBp8vmS5jwrDNUPJg+mcSk/9EhxeRQ2+bKJMwRV1+4x+
+X-Gm-Gg: ATEYQzzcussNmZGVwg8IdpcF4Ns12TsekxsHwbVMhprd2qq6WNdKu9jyeruxIul2KQ5
+	TMqQBLfMWuTFdnWPQpALFgNQeLPVExbL2r+9NvCUQW7GGO3X5igfgfxO4tpigu8zv7DDa/GnnZL
+	VZJ+SNRt70JcJfKWL0mOu34W/Up8kvwVfUxRAVaAqslTbwf1Vsp5nGSSia9b09gP73o46UV7lwa
+	X4EJIWj/WQvaUpW3I52fS0iX6lpR5C12ab/1vLz47DjVke++/pHrJg00+ZIXlWXx9X+AJemmky9
+	DS2psfj89Q49nCkSF9gqbzFapOANVpcYIVXrkdIp+aZIQQilFdtKKJPysPgSfR4dXKBpl1clW1E
+	1cL532m/oGrIlv0hRFlN9IPqRaRpl+qEj8CXzXQp0CXbLHQCvyjUEuaVekn0NTLTBUBRQfMQVYE
+	OCpy2zuf7EtXI/jjf7GLyDte971sYrbBTENJkzr3FyVFR48H0=
+X-Received: by 2002:a17:902:cf11:b0:2ae:4948:f866 with SMTP id d9443c01a7336-2b06e3779dcmr2718255ad.22.1773768117565;
+        Tue, 17 Mar 2026 10:21:57 -0700 (PDT)
+Received: from junjungu-PC.localdomain ([223.167.147.240])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e608a66sm934825ad.61.2026.03.17.10.21.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 10:21:57 -0700 (PDT)
+From: Felix Gu <ustc.gu@gmail.com>
+Subject: [PATCH 0/3] media: ti: vpe: three small fixes
+Date: Wed, 18 Mar 2026 01:21:52 +0800
+Message-Id: <20260318-vip-v1-0-5fdcdbd01829@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260312213532.2907276-1-brad@nextdimension.cc>
- <7c653b8b-5d31-4667-9d86-cbaed7ee97f9@kernel.org> <08b7b5d6-4068-4349-924e-e551bbf6e672@kernel.org>
-In-Reply-To: <08b7b5d6-4068-4349-924e-e551bbf6e672@kernel.org>
-From: Bradford Love <brad@nextdimension.cc>
-Date: Tue, 17 Mar 2026 12:20:59 -0500
-X-Gm-Features: AaiRm53HEbadNhe6lr1f31K0CH66zgaJgdGX4JKsaiE4IVpeV2B5W0JMAUbQe1U
-Message-ID: <CAA0YaJQUQGFz65xXRNwbt9EFZRLnuOBDafTF9GsyxLhe4=UJZg@mail.gmail.com>
-Subject: Re: [PATCH 00/11] Assorted DVB and TV patches
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_DKIM_ALLOW(-0.20)[nextdimension.cc:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALCNuWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDY0Nz3bLMAt1EozQzA0NLYwMDM1MloMqCotS0zAqwKdGxtbUAxvOoA1U
+ AAAA=
+X-Change-ID: 20260317-vip-a2f601930065
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Dale Farnsworth <dale@farnsworth.org>, Benoit Parrot <bparrot@ti.com>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>, 
+ Sukrut Bellary <sbellary@baylibre.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Felix Gu <ustc.gu@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773768115; l=542;
+ i=ustc.gu@gmail.com; h=from:subject:message-id;
+ bh=RIrcjBVTWFWdS8g12TomIKFnoLbjWzlU+4/7ub9UfAI=;
+ b=P0nQO/b4JhbgjLcLyEqMlgFRof6okgN0vhNIMwDNGaBrE3VFj0ErYstN9mC4zfU88mBb/p1OY
+ aGK/omeP3anBsjxYesbl3iGRefIGmTQn5reNgQkCb14m89dQirA1fLo
+X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
+ pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[nextdimension.cc];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56109-lists,linux-media=lfdr.de];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[brad@nextdimension.cc,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[nextdimension.cc:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mail.gmail.com:mid,nextdimension.cc:dkim]
-X-Rspamd-Queue-Id: 3E7052AF771
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56110-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ustcgu@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: E9B592B01C4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans,
+Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+---
+Felix Gu (3):
+      media: ti: vpe: Fix fwnode_handle leak in vip_probe_complete()
+      media: ti: vpe: Fix the error code of devm_request_irq()
+      media: ti: vpe: Fix the error code of devm_kzalloc() in vip_probe_slice()
 
-Thank you for grabbing these patches. I will generate a new au0828
-patch and get that v2 sent out. I noticed the media: subject issue too
-late for the first couple series I mailed in, but will add from now
-on.
+ drivers/media/platform/ti/vpe/vip.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+---
+base-commit: 95c541ddfb0815a0ea8477af778bb13bb075079a
+change-id: 20260317-vip-a2f601930065
 
-Regards,
+Best regards,
+-- 
+Felix Gu <ustc.gu@gmail.com>
 
-Bradford
-
-
-On Tue, Mar 17, 2026 at 8:14=E2=80=AFAM Hans Verkuil <hverkuil+cisco@kernel=
-.org> wrote:
->
-> On 17/03/2026 10:52, Hans Verkuil wrote:
-> > Hi Brad,
-> >
-> > Thank you for this cleanup series!
-> >
-> > I'll take them all, except for the "au0828: Fix green screen in analog"=
- patch,
-> > which needs a v2. So no need to post a v2 of the whole series, just pos=
-t a v2
-> > of that au0828 patch.
->
-> BTW, for future reference, please prefix media patches with "media: " in =
-the Subject
-> line. I added it manually for these patches.
->
-> Regards,
->
->         Hans
->
-> >
-> > Regards,
-> >
-> >       Hans
-> >
-> > On 12/03/2026 22:35, Bradford Love wrote:
-> >> Hello,
-> >>
-> >> Attached here is a series of accumlated fixes from integrations
-> >> and deployments.
-> >>
-> >> The first five patches are related to fixing issues with a
-> >> variety of analog video formats.
-> >>
-> >> The si2168 i2c timeout patch is something that has been found
-> >> to be critical on a variety of ARM platforms and Nvidia SOC.
-> >> Something in these platforms has USB i2c not consistently responding
-> >> within the embedded deadline in the driver.
-> >>
-> >> There are two firmware fixes. With Hauppauge hardware fw 4.0-11 si2168
-> >> devices definitely lose warm state and cannot function after sleep.
-> >> The saa7164 REV2 firmware had an incorrect filename and has been fixed=
-.
-> >>
-> >> Last up is adding some new Hauppauge USB id's and removing an invalid
-> >> analog input from the Hauppauge DVB DualHD.
-> >>
-> >> Addressing checkpatch warnings:
-> >> - 0001 palN is not misspelled
-> >> - 0003 adding dprintk like driver already does
-> >>
-> >>
-> >>
-> >> Regards,
-> >>
-> >> Bradford
-> >>
-> >>
-> >>
-> >> Bradford Love (11):
-> >>   si2157: Analog format fixes
-> >>   cx25840: Fix NTSC-J, PAL-N, and SECAM standards
-> >>   xc5000: Add rf strength function
-> >>   cx231xx: Fix AGC levels for NTSC-M
-> >>   au0828: Fix green screen in analog
-> >>   si2168: Fix i2c command timeout on embedded platforms
-> >>   si2168: fw 4.0-11 loses warm state during sleep
-> >>   saa7164: Fix REV2 firmware filename
-> >>   au0828: Add new Hauppauge HVR1265 and ImpactVCB-e
-> >>   em28xx: Add a variety of DualHD usb id
-> >>   em28xx: remove tuner type from Hauppauge DVB DualHD
-> >>
-> >>  drivers/media/dvb-frontends/au8522_decoder.c |  1 +
-> >>  drivers/media/dvb-frontends/si2168.c         |  8 ++--
-> >>  drivers/media/i2c/cx25840/cx25840-core.c     | 29 +++++++++++-
-> >>  drivers/media/pci/saa7164/saa7164-fw.c       |  4 +-
-> >>  drivers/media/tuners/si2157.c                | 15 ++++--
-> >>  drivers/media/tuners/xc5000.c                | 13 ++++-
-> >>  drivers/media/usb/au0828/au0828-cards.c      | 50 +++++++++++++++++++=
-+
-> >>  drivers/media/usb/au0828/au0828-cards.h      |  2 +
-> >>  drivers/media/usb/au0828/au0828-dvb.c        |  1 +
-> >>  drivers/media/usb/au0828/au0828-input.c      |  1 +
-> >>  drivers/media/usb/au0828/au0828-video.c      | 30 +++++++++++-
-> >>  drivers/media/usb/cx231xx/cx231xx-avcore.c   |  7 ++-
-> >>  drivers/media/usb/em28xx/em28xx-cards.c      | 19 +++++---
-> >>  13 files changed, 156 insertions(+), 24 deletions(-)
-> >>
-> >
-> >
->
 
