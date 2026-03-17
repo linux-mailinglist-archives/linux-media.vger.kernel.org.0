@@ -1,144 +1,155 @@
-Return-Path: <linux-media+bounces-56046-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56047-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YFzQBE02uWmcvAEAu9opvQ
-	(envelope-from <linux-media+bounces-56046-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:09:01 +0100
+	id KBtSOMY3uWk8vgEAu9opvQ
+	(envelope-from <linux-media+bounces-56047-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:15:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781F82A87C5
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:09:00 +0100 (CET)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395312A892E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 12:15:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 73C07305EE84
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 11:08:54 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 9D7113015EC6
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 11:15:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 488323A7F5C;
-	Tue, 17 Mar 2026 11:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66EA83AA1A3;
+	Tue, 17 Mar 2026 11:15:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dUy0lpUF"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="hx+D43U9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1663145355
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 11:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A49373BF5;
+	Tue, 17 Mar 2026 11:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773745730; cv=none; b=GRbCqkbkUNH9HDwXbiYR3mnbNV4UpkJhDTvsKfABOQ0z6SD93dOA/Sn7tGLC/6Ua3zuib2Sr+IvAxtF9Fu5lyc5J2xW2FnftAjuAsJnzcEjaZDW6RwZJdbI5x+ToQ3HTZxoVl8CMyHTd7S5RgMZWEoeUWGNk2Hrh4dXjM08wgMg=
+	t=1773746104; cv=none; b=B4FXIBOdOLJcaIEyKHfYPncd5R099/Z7adDA89sf9onuyIZWDo9EjOKTdOmYWo90h8oCqLcGFatb2VX9BuFD143L/4pEZcNpnXDAu0SIxb7kWpnmG/vB8lhy/XSfeaxxqDWOffHyiXTkwTatuOUZ571ZmOSDdhlsmBGh3f4uU1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773745730; c=relaxed/simple;
-	bh=a/z+ir4CCAdzW6n0Dh6ju0edd4abjM0jYTqUb6wgxuA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=dXMP/L9XffgC9Pz8y1XSv7HBrUwF0l/2KUHDgKAIQY3D08p5IxtUq0Xzo5oNWhn9DZs/02zLdct+gcUxRLUyGmdugJbEQeXNtu6h8vUIz/u/kqoohFkQadpQmqC605XuRzuo/titd9nM6z4mdLVXfgJV1QpYdzEfDwXJG/Idf6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dUy0lpUF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8283FC4CEF7;
-	Tue, 17 Mar 2026 11:08:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773745730;
-	bh=a/z+ir4CCAdzW6n0Dh6ju0edd4abjM0jYTqUb6wgxuA=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=dUy0lpUFPkhiO4j3A08x2nUrYbT/vGAfYRKAla5HBDNX7hds/A4VChIpz5wO3l98h
-	 Hovp4oPspAHv4DSfoXl87OD7peYlNTHjER06lA8Zfha5V+UqY+04JUR1Rw/gcKdIr7
-	 98iy3IPS+XNMkkarlXgnqQz9W1K8QQ6s9zZOHFDIKKxyH5Kgc7V0tB9x/ZdgtW9WWm
-	 fsAItthbZBwRWOBOqLc2GqtoR3JuciYDCXKeb5gMnJLhosgQ1ePRlAiyzDu7zAc+/W
-	 MFwOUlp0/gOCgEf1FvNaAVus2mtUGkcoYqsbwEnf8EKBIb/1HeaAY6P+7nVldYEToQ
-	 f3Oclnskzw52A==
-Message-ID: <f55fdcbf-797e-47fe-865e-27dad0c3545c@kernel.org>
-Date: Tue, 17 Mar 2026 12:08:47 +0100
+	s=arc-20240116; t=1773746104; c=relaxed/simple;
+	bh=d1ToI1/zGmEICvkOkFwrBLLB8YZ8pv8zBi3wu9DA1g4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=je2TaMrTLC8wMaHFszVwcvHzK2CG2OZ6lRa1YlsAJrnFSpcNaSIiV2RqzyfvBz0DApgoN9lP5JfFpLmjwXdq+mY11UOCA0OnCuOYb2RWsHknW3bP2gDyjht4lyDVevs6cGCBH1ACuM7x47VZB29dtwVEPHgsQK8rI01xFW0+Q1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=hx+D43U9; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=d1ToI1/zGmEICvkOkFwrBLLB8YZ8pv8zBi3wu9DA1g4=; b=h
+	x+D43U9l56mj3HRPRQpSuyPAtGc0inCDE6gBX6KcaMRwV1HdkqL8D4FzY7VIl0uk
+	6bjGNCVoEisa66jBOlqou6kZlgM9Kpjofjlqqn3szNOLADL+Erymj57QiywLHG+b
+	/8AkmsCJDIDobb0J384JSu9BDH6h3PkgjoTJe/GQ4Q=
+Received: from luo.liu.linux$163.com ( [112.64.125.122] ) by
+ ajax-webmail-wmsvr-40-130 (Coremail) ; Tue, 17 Mar 2026 19:14:43 +0800
+ (CST)
+Date: Tue, 17 Mar 2026 19:14:43 +0800 (CST)
+From: "luo.liu.linux" <luo.liu.linux@163.com>
+To: "Sakari Ailus" <sakari.ailus@linux.intel.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re:Re: Re: Re: Re: [PATCH] media:v4l2-async:debugfs for registered
+ subdevices
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
+ 20251222(83accb85) Copyright (c) 2002-2026 www.mailtech.cn 163com
+In-Reply-To: <abkPC3sHVUdGuww1@kekkonen.localdomain>
+References: <20260313075824.2818713-1-luo.liu.linux@163.com>
+ <abPm3VGGRAIsY1eQ@kekkonen.localdomain>
+ <5e63e8aa.943f.19ce6ee4ad5.Coremail.luo.liu.linux@163.com>
+ <abP4Mr_s8JRpQH0B@kekkonen.localdomain>
+ <384d2274.9b3e.19ce776ec2c.Coremail.luo.liu.linux@163.com>
+ <abg0R5zerwCM_1mK@kekkonen.localdomain>
+ <186862ed.3836.19cf9df139c.Coremail.luo.liu.linux@163.com>
+ <abkPC3sHVUdGuww1@kekkonen.localdomain>
+X-NTES-SC: AL_Qu2cAfufuUgj5SObYukWn0sSh+Y3WcC2uP0u2IYbZ+Q8vBrI0QssRnFYLXzo0eu/LzKJixqlezdL9PpxZJEu9UIjBFdpBIqn7m5W7ULj
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2] [v4l-utils, v2] libdvbv5: modify T2 delivery system
- descriptor
-To: Martin Vallevand <mvallevand@gmail.com>, linux-media@vger.kernel.org
-Cc: Martin Vallevand <r3o2c7fi@duck.com>
-References: <20260102235048.1596-1-r3o2c7fi@duck.com>
-Content-Language: en-US, nl
-In-Reply-To: <20260102235048.1596-1-r3o2c7fi@duck.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Message-ID: <4155da3e.9361.19cfb815615.Coremail.luo.liu.linux@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:gigvCgDnr2+jN7lpsWZ6AA--.28323W
+X-CM-SenderInfo: hoxrhztlxozxxqx0qiywtou0bp/xtbC6wO+MGm5N6OBjAAA3v
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-Spamd-Result: default: False [-1.06 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
 	MAILLIST(-0.15)[generic];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56046-lists,linux-media=lfdr.de,cisco];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56047-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_FROM(0.00)[163.com];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[luo.liu.linux@163.com,linux-media@vger.kernel.org];
+	HAS_X_PRIO_THREE(0.00)[3];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 781F82A87C5
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DKIM_TRACE(0.00)[163.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,intel.com:email]
+X-Rspamd-Queue-Id: 395312A892E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Martin,
-
-Apologies for the delay. It's been busy and I haven't had the time to go
-through all pending v4l-utils patches until today...
-
-On 03/01/2026 00:50, Martin Vallevand wrote:
-> ETSI EN 300 468 6.4.4.3 specifies the frequency loop length in the T2
-> delivery system descriptor in bytes but libdvbv5 populates  it as the
-> number of frequencies in the descriptor.
-> 
-> This change ensures that the byte length is correctly converted
-> to the frequency count, preventing potential memory corruption
-> and buffer overflows.
-
-I need a Signed-off-by line from you before I can merge this.
-
-Just reply with your Sob and I'll merge the patch, since it looks good
-otherwise.
-
-Make sure you use the same email address in your Sob as your 'From' email,
-they should match.
-
-Thank you!
-
-	Hans
-
-> ---
->  lib/libdvbv5/descriptors/desc_t2_delivery.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/lib/libdvbv5/descriptors/desc_t2_delivery.c b/lib/libdvbv5/descriptors/desc_t2_delivery.c
-> index f88718d350db..5d245cc973c5 100644
-> --- a/lib/libdvbv5/descriptors/desc_t2_delivery.c
-> +++ b/lib/libdvbv5/descriptors/desc_t2_delivery.c
-> @@ -76,7 +76,7 @@ int dvb_desc_t2_delivery_init(struct dvb_v5_fe_parms *parms,
->  		p += sizeof(uint16_t);
-> 
->  		if (d->tfs_flag) {
-> -			d->cell[d->num_cell].num_freqs = *p;
-> +			d->cell[d->num_cell].num_freqs = *p / sizeof(*d->centre_frequency);
->  			p++;
->  		}
->  		else
-> --
-> 2.50.1.windows.1
-> 
-
+CgpIaSBTYWthcmksCgogICAgICAgVGhlIGV4aXN0aW5nwqBwZW5kaW5nX2FzeW5jX3N1YmRldmlj
+ZXPCoGludGVyZmFjZSBwcm92aWRlcyBleGNlbGxlbnQgdmlzaWJpbGl0eSBpbnRvIHRoZcKgbm90
+aWZpZXJfbGlzdMKgKHRoZSAnd2FpdGVyJyBzaWRlKS4gClRvIGFjaGlldmUgZnVsbCBzeW1tZXRy
+eSBhbmQgY29tcGxldGUgZGVidWdnYWJpbGl0eSwgd2Ugc2hvdWxkIGFsc28gZXhwb3NlIHRoZcKg
+c3ViZGV2X2xpc3TCoCh0aGUgJ3Byb3ZpZGVyJyBzaWRlKS5UaGVzZSB0d28gdmlld3Mgc29sdmUg
+ZGlmZmVyZW50IHByb2JsZW1zOgoKMSBOb3RpZmllciBMaXN0OiBEaWFnbm9zZXMgd2h5IGJpbmRp
+bmcgaXPCoHN0YWxsZWTCoChtaXNzaW5nIHN1Yi1kZXZpY2VzKS4KCjIgU3ViZGV2IExpc3Q6IERp
+YWdub3Nlc8Kgc3RhdGUgaW5jb25zaXN0ZW5jaWVzwqAoZS5nLiwgc3ViLWRldmljZXMgcHJlc2Vu
+dCBidXQgdW5tYXRjaGVkKSBhbmQgdmVyaWZpZXPCoHJlc291cmNlIGNsZWFudXDCoHVwb24gdW5i
+aW5kLgoKRnJvbSBwcmFjdGljYWwgZXhwZXJpZW5jZSwgbGFja2luZyB2aXNpYmlsaXR5IGludG/C
+oHN1YmRldl9saXN0wqBtYWtlcyBpdCBkaWZmaWN1bHQgdG8gZGlzdGluZ3Vpc2ggYmV0d2VlbiBh
+IHN1Yi1kZXZpY2UgcHJvYmUgZmFpbHVyZSBhbmQgYW4gYXN5bmMgbWF0Y2hpbmcgZmFpbHVyZS4g
+CkFkZGluZyB0aGlzIGludGVyZmFjZSB3b3VsZCBwcm92aWRlIGEgaG9saXN0aWMgdmlldyBvZiB0
+aGUgYXN5bmMgZW5naW5lJ3Mgc3RhdGUsIHdoaWNoIGhhcyBwcm92ZW4gZXNzZW50aWFsIGZvciBy
+YXBpZCBpc3N1ZSBsb2NhbGl6YXRpb24gaW4gY29tcGxleCBkcml2ZXIgc3RhY2tzLgoKS2luZCBy
+ZWdhcmRzLAoKTHVvCgoKCkF0IDIwMjYtMDMtMTcgMTY6MjE6MzEsICJTYWthcmkgQWlsdXMiIDxz
+YWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tPiB3cm90ZToKPkhpIEx1bywKPgo+T24gVHVlLCBN
+YXIgMTcsIDIwMjYgYXQgMTE6Mzc6NTJBTSArMDgwMCwgbHVvLmxpdS5saW51eCB3cm90ZToKPj4g
+Cj4+IAo+PiBIaSBTYWthcmksCj4+IAo+PiAJWW91IGFyZSBhYnNvbHV0ZWx5IHJpZ2h0LiBGb3Ig
+YW4gZXhwZXJpZW5jZWQga2VybmVsIGRldmVsb3BlciBsaWtlCj4+ICB5b3Vyc2VsZiwgdG9vbHMg
+bGlrZSBLQVNBTiBhbmQgQ09ORklHX0RFQlVHX0xJU1QgYXJlIHNlY29uZCBuYXR1cmUgYW5kCj4+
+ICBpbmNyZWRpYmx5IGVmZmVjdGl2ZSBmb3IgcGlucG9pbnRpbmcgc3VjaCBpc3N1ZXMuIEkgdHJ1
+bHkgYWRtaXJlIHlvdXIKPj4gIGV4cGVydGlzZSBpbiBsZXZlcmFnaW5nIHRoZXNlIGFkdmFuY2Vk
+IGRlYnVnZ2luZyBtZWNoYW5pc21zLgo+PiAKPj4gCUhvd2V2ZXIsIEkgdGhpbmsgaXQgaXMgaW1w
+b3J0YW50IHRvIGNvbnNpZGVyIHRoZSByZWFsaXR5IGZvciBtYW55Cj4+IGp1bmlvciBkcml2ZXIg
+ZGV2ZWxvcGVycyAobXlzZWxmIGluY2x1ZGVkKS4gV2Ugb2Z0ZW4gbGFjayB0aGUgZGVlcAo+PiBp
+bnR1aXRpb24gYW5kIGV4dGVuc2l2ZSBleHBlcmllbmNlIHJlcXVpcmVkIHRvIHdpZWxkIHRoZXNl
+IHBvd2VyZnVsIHRvb2xzCj4+IGVmZmVjdGl2ZWx5IGluIGV2ZXJ5IHNjZW5hcmlvLiBNb3JlIG9m
+dGVuIHRoYW4gbm90LCB3ZSBzdGlsbCByZWx5IG9uCj4+IHByaW1pdGl2ZSBtZXRob2RzOiBzdHJ1
+Z2dsaW5nIHRvIHJlcHJvZHVjZSBpbnRlcm1pdHRlbnQgY3Jhc2hlcywKPj4gc2NhdHRlcmluZyBw
+cmludGsgbG9ncyBldmVyeXdoZXJlLCBhbmQgbWFudWFsbHkgdHJhY2luZyBleGVjdXRpb24gcGF0
+aHMuCj4+IFRoaXMgcHJvY2VzcyBpcyBleHRyZW1lbHkgdGltZS1jb25zdW1pbmcgYW5kIG9mdGVu
+IHlpZWxkcyBubyBjbGVhcgo+PiBjb25jbHVzaW9ucyBmb3IgInNpbGVudCIgcmVzb3VyY2UgbGVh
+a3MuCj4+IAo+PiAJV2hpbGUgSSBhbSBhY3RpdmVseSB3b3JraW5nIHRvIGltcHJvdmUgbXkgc2tp
+bGxzIGFuZCBsZWFybiB0byB1c2UKPj4gdGhlc2UgYWR2YW5jZWQgdG9vbHMgbW9yZSBwcm9maWNp
+ZW50bHkuIEkgcmVtYWluIGNvbnZpbmNlZCB0aGF0IHByb3ZpZGluZwo+PiBzdWNoIGEgc2ltcGxl
+LCBpbnR1aXRpdmUgaW50ZXJmYWNlIG9mZmVycyBhIG5lY2Vzc2FyeSBzdXBwbGVtZW50IGJ5Cj4+
+IHNlcnZpbmcgYXMgYSBsb3ctYmFycmllciBlbnRyeSBwb2ludCBmb3IgZGV2ZWxvcGVycy4KPj4g
+Cj4+IAlJIGhvcGUgdGhpcyBwZXJzcGVjdGl2ZSBjbGFyaWZpZXMgd2h5IEkgYmVsaWV2ZSB0aGlz
+IHNtYWxsIGNoYW5nZQo+PiBjYW4gYnJpbmcgYSBiaXQgb2YgY29udmVuaWVuY2UgdG8gYSBicm9h
+ZGVyIHJhbmdlIG9mIGRyaXZlciBkZXZlbG9wZXJzLgo+Cj5KdXN0IGVuYWJsZSBLQVNBTiBhbmQg
+bGlzdCBkZWJ1Z2dpbmcgaW4gdGhlIGZ1dHVyZS4gTmV3IGludGVyZmFjZXMgbGlrZQo+dGhpcyB3
+b24ndCBpbXByb3ZlIHRoaW5ncyBhdCBsYXJnZS4KPgo+LS0gCj5LaW5kIHJlZ2FyZHMsCj4KPlNh
+a2FyaSBBaWx1cwo=
 
