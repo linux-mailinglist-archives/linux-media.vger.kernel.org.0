@@ -1,187 +1,192 @@
-Return-Path: <linux-media+bounces-56113-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56114-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KP6LAj+TuWk5KQIAu9opvQ
-	(envelope-from <linux-media+bounces-56113-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:45:35 +0100
+	id IHQnMHiPuWk5KQIAu9opvQ
+	(envelope-from <linux-media+bounces-56114-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:29:28 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4CC2B0179
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:45:34 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id F30E62AFAE1
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:29:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9D1EE322188A
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 17:22:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D6D3E3019476
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 17:28:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E78037A4B8;
-	Tue, 17 Mar 2026 17:22:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0FCB346797;
+	Tue, 17 Mar 2026 17:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZnmpP+lW"
+	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="Jr1idyMu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E81374E73
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 17:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D03D3368AE
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 17:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773768127; cv=none; b=RZS2OLXIovlYvWvzXDVWjqWZtwY1sdNbmDBh2c+XEvt9jerbil86N8U4gLjv6xrsU+LRe1UDZOXgzjVGC4i0ywS+QF+j8hdOUOn5H0HusCyYkdBT/zZDEw77OIAaEmxoU7W1L/m/46TakFWgr32fKf0xCVdAw8+Oh1Kma68jV0Y=
+	t=1773768514; cv=none; b=PgbbbsDhZOcsqlx1XwNCj0R6COnCu/6WcJsAHN6qk0vUhVHVMYN7Hj9f73FsmS7FeFK6a2w3EXBD7WRDTrkKg6AjWQBuLsB50vE/7NT/lzGXa+QdQPG2+wEvRaaKO3jlrHOUi+YdRTvbqATp8b9I3PmgtriwF8U4dvXxwT1N2g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773768127; c=relaxed/simple;
-	bh=5fbdFUXVV+cKT7Grp0jiBr2mRY8i+YGcR4bReK6++V4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pwVJQATGNCFDuVK3vHJNIAeKXp/bdxd6fgtd0wbjKP5FDojvwcjsEw3JbPU7WtH+uI60QXYCUzxa282gqzPVDKetYesdeTNDtNcyPA2dQTOmy/HeQW9+1zyCaRfvRJq/hZvToWHL++Yl4JTFCYeU/XYqMnos8XnYvEv0e0jS92c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZnmpP+lW; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2b04e6a989eso22727085ad.3
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 10:22:06 -0700 (PDT)
+	s=arc-20240116; t=1773768514; c=relaxed/simple;
+	bh=vOuhGR/VLryHa2rNT4yrTVvUbb+sNe6sSfz4kJaCYUc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=IwsqASW3v496rH12iOoh+arV1TtsFhW9mQqZ08oSFMds5I8w24wyELuy54WaTs4noyq4f+zhUIbOqVbgIBi/q2YQbJZj2JCe1WFhPfdmfdjJ+AGA5RqaECExWrxA7lJMS8PqLmznujAr1uixVBTf+Y3V4a/hCZeoLekHcySTTfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=Jr1idyMu; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7d7c76e1951so371042a34.1
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 10:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773768126; x=1774372926; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wYn015pT4R/PGnVg6K8bkUFTi/0ATFS6CFR2gbnSwSM=;
-        b=ZnmpP+lWjHtbOknrinXpU9y0pQOYP/zSNOA/Hs37TQOvj4wxSaLKkAc6Um/OsoIrib
-         WvaHJyRp4Wk2TReaC76sx6TBHzzheJIQBBBPvtwo2cowIWVov3IfRwM82LoS5OuOyWK/
-         OdZitT/c4X/c2dJtAyCJhnPOK77wZJBA+sYW8pAltHKG9D2WN9tWClElXl+9B9JWqwLH
-         uDtO+5/KyJLN6kzB7WupB0Qhzo9LxI5hQPVU7AL6gysUkMzpiVE8R9rjcd0msIKzAAPP
-         TaBuzCj7KlvFj20vY37ktyiT4tXT0nM0YpRRdm/AhIfBHMRrp66p06cfCEGHTd12mLph
-         emiA==
+        d=nextdimension.cc; s=google; t=1773768511; x=1774373311; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J/2S75QRGiMWiLhhYC+l4kAJCKuYEmYsqC95Qjj9R7Y=;
+        b=Jr1idyMusL4UshKehFLFbxIrcXWkWhuvS1n6e4UJUtRAYVOHVwu3BRo+tC3VxvQEId
+         gOvjGlelfzg3QtC8bU7HaB/e7ua6K+D+d1DQZu7ELCQN/cDVacvLLpAdSSoWpN9GDJX/
+         +1EYSsJww62zDg2lA0WLXjtGapaa8TgmXQqQZBQX6Jv7r6DgJNO/zV0p+eVobK9Ulf5p
+         PlafS3u28VrjAvX5JXibywDZov3wNQ1uEDiBbeH0r4g6Bsr/pXbXsUfMbYXR7feR9GOF
+         6YvG/PZab2bMGUQ7V7ERDYQlgM6SqbNW6hB8i3IPH1YzD3JF/6RVUVcqiIo/gDqb7R3w
+         B10g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773768126; x=1774372926;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=wYn015pT4R/PGnVg6K8bkUFTi/0ATFS6CFR2gbnSwSM=;
-        b=C611N7VNHFR2bZD2c46YQAxlWHHETL5dzlRtKsXO8EIkFTtvm6904SFvOu4efnk0I9
-         sQYTCUQpwsfW/DPAJG8obCW3o2bIoQg6XCiuWLNqLlLNyr9wFht8a2Nr8Qpjk3vJTiX1
-         S+0NFWRMvs336XS4Vr5ED0dDO4N77MgKsOIuN7r5SlabcnlZGeRYxNVCV10i2TTQduxI
-         kzxrGDJD+TglWjqeNdCWw+aXKfP9ZrwMLLudSEbm59WyNAUTIhe4gT1Aqv5ub0ZNnVC0
-         GIlvbAdROX9fMzr/9+Vf1JBK4jmh8pBj6qRyCxU0pT6z06mlaf6OBoJPk+A+0+tvPkuj
-         hmEQ==
-X-Gm-Message-State: AOJu0YzRx1+dES+xlihigZV96r8MTEmp3A1FnMcVB+rWH9Q+t3njfnsl
-	591WS/7lbp359mm0RFCf7LNaqiiUvjyJx2LDLQjNzpQBpth8xb8JUpxO
-X-Gm-Gg: ATEYQzwQOsiZFE0EjbTNr3H7lFw4YgnsCV7sCq6XvVcoaLfqFGblVk5Wjrln7yWpgep
-	+qe9cGN0qOQlwiQd6W1RtOlDMYd0ipaC1QlgniYD63nzxMOQqDBLeyMEq1c0/lWnj8ntyb86PCO
-	KbzvkYnalhnJymujpDTNgge1T184zMavFN8Sxzb2cBQmqymj9XflNgW/PzTURUcJ780QXP++u4Q
-	RsZkfjsOfJ32IaNteuyehRyYGoK4Ma4vcd2O3zD+sxhpPWeaiKa4OKtDS6w9WXZUj0x1PafnkpN
-	tyhnzd5XzPfdS40d5kPpTX4i2uDn3HDbfBB89j7ea38dOPIguWEmvkjQEmmYLbGgN+/xA0BEjqx
-	PkRghutkg3+rCrfc9w24xdzR7OXQq9zuCaAUBizrYgJN/+Qc4c58IXasn+XxMy4g4VhNQ+UMqlh
-	1yfhu55VrAbi1w6IA1D6JPIDpEZcOarG0yOQs7
-X-Received: by 2002:a17:903:8d0:b0:2b0:6cb5:c6c5 with SMTP id d9443c01a7336-2b06e40be78mr2851655ad.49.1773768125745;
-        Tue, 17 Mar 2026 10:22:05 -0700 (PDT)
-Received: from junjungu-PC.localdomain ([223.167.147.240])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e608a66sm934825ad.61.2026.03.17.10.22.03
+        d=1e100.net; s=20251104; t=1773768511; x=1774373311;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=J/2S75QRGiMWiLhhYC+l4kAJCKuYEmYsqC95Qjj9R7Y=;
+        b=LjGWPLFsax6EmRa+jPg7hcu8RiiSvStVsMphImu/xLfO3Q7rW23gfqKdnxMRbB4nI3
+         t6jcn6zigZx8LlLxArNsXeZA8YRW/KAsYjl3TMOw0r1J9EQ1fc6FYqVbjd6D+8uLLlTE
+         x1vFS4tLFd6hoCvTEFTnxPn9oZS7qJIoW2HPmZTLyqu3ehT59VMp/NADguqHNGgp3MWb
+         nt+QjILhMWkFZBansIYGBGLrB+4oYWmWx4hgK5wlNJlcAb25U99bPNwC/gdMUx6vIpuB
+         2/nPAfyiXeDtnRhY7g28nm0yHqt0NJrrZDYK+BNn93bnd6BcSsDSzu0hpr3jCIHowDr2
+         wRwg==
+X-Gm-Message-State: AOJu0YzZMSBLqi9cU4sIWckxek2MaJlReM0TdHH3o5Qj0eaJVYkWq9by
+	EPsbQ2eYumAEjm+PBB53s2k1rChboUwqARE/uVandhcaokH5fT5lQLiL1j9Kt8rbRGrb3nkj/x0
+	Dwk1Ke4U=
+X-Gm-Gg: ATEYQzwFLkP/FKxH8H7rJQNjMs3rT/aV606zUID+lukNg0PpbSh7VvWEzyGXI9RGDER
+	CRC+nRCqIqhJlGOa+FbHMQFEvEkpAeZA79zRxnfm3oHQBv9yQVezYZ5P4YTBdivo20tgFfQR0Js
+	RudDnuu2YF9X38ncYuJ2lJ6OfXohqdunOJA1H+SewxiReMyuzv2+5eU/poUdcXi0ig+h8qGt8pk
+	c6gVv29l5ZowPkVpNHbId35ybeMURcjaMuGDSL7wFeilWI1JYWykDo6A9CIcJzWXwcq1G0eRjZh
+	CEb36d2bitpfFE3fgUqy66TUn8rdHT3iM4lwxR5XxFGEU5jtM4uWLVB2fPbgCSeUIGKIaqYH1lq
+	0UBpRRQWFEa+ijZG92V2/Q1O3FYxNvnGCGy26ejdxubBPuy93RTosgUZynms72O9LnNDGgZeDDK
+	HSlFGQfHvHqFqUtUaYAGEx5VA16D676uNSH8U6q3OU0fHt5lDT7f1oy0/96iyDbNJPbSjy2WZen
+	W6cChxImo40vj+Ii+c=
+X-Received: by 2002:a05:6830:2109:b0:7d7:5559:3d1c with SMTP id 46e09a7af769-7d7ca573e31mr132447a34.1.1773768511235;
+        Tue, 17 Mar 2026 10:28:31 -0700 (PDT)
+Received: from localhost.localdomain (108-207-243-35.lightspeed.austtx.sbcglobal.net. [108.207.243.35])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d7c9be847fsm188115a34.27.2026.03.17.10.28.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 10:22:05 -0700 (PDT)
-From: Felix Gu <ustc.gu@gmail.com>
-Date: Wed, 18 Mar 2026 01:21:55 +0800
-Subject: [PATCH 3/3] media: ti: vpe: Fix the error code of devm_kzalloc()
- in vip_probe_slice()
+        Tue, 17 Mar 2026 10:28:30 -0700 (PDT)
+From: Bradford Love <brad@nextdimension.cc>
+To: linux-media@vger.kernel.org,
+	hverkuil+cisco@kernel.org
+Cc: Bradford Love <brad@nextdimension.cc>
+Subject: [PATCH v2] media: au0828: Fix green screen in analog
+Date: Tue, 17 Mar 2026 12:28:20 -0500
+Message-Id: <20260317172820.2959499-1-brad@nextdimension.cc>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20260312213532.2907276-6-brad@nextdimension.cc>
+References: <20260312213532.2907276-6-brad@nextdimension.cc>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260318-vip-v1-3-5fdcdbd01829@gmail.com>
-References: <20260318-vip-v1-0-5fdcdbd01829@gmail.com>
-In-Reply-To: <20260318-vip-v1-0-5fdcdbd01829@gmail.com>
-To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Dale Farnsworth <dale@farnsworth.org>, Benoit Parrot <bparrot@ti.com>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, 
- Sukrut Bellary <sbellary@baylibre.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Felix Gu <ustc.gu@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773768115; l=1683;
- i=ustc.gu@gmail.com; h=from:subject:message-id;
- bh=5fbdFUXVV+cKT7Grp0jiBr2mRY8i+YGcR4bReK6++V4=;
- b=DmY0TFp4htY9o1eDrRrpaEV6cj59v6ve1wRvqGCt+xM81s9P11k/VrAG4dp9rvjTRcSbaRzU0
- VDUQkFQZNcwDzaehshoTbZLxaZ5hSrraYu3/gkYNutExL9V8xyILXSD
-X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
- pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[nextdimension.cc:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56114-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56113-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ustcgu@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DMARC_NA(0.00)[nextdimension.cc];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_NEQ_ENVFROM(0.00)[brad@nextdimension.cc,linux-media@vger.kernel.org];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[nextdimension.cc:+];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 5A4CC2B0179
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nextdimension.cc:dkim,nextdimension.cc:email,nextdimension.cc:mid]
+X-Rspamd-Queue-Id: F30E62AFAE1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In vip_probe_slice(), the error check for devm_kzalloc() incorrectly
-uses PTR_ERR_OR_ZERO() which returns 0 for NULL pointer.
+When the driver was converted to VB2 the original function to fix
+green frame detection was removed and a default vb2 dqbuf function
+was used instead. This vb2 dqbuf function leads to green frames not
+being detected and correupting stream captures.
 
-Return -ENOMEM for devm_kzalloc() failure.
+The vidioc_dqbuf function checks the greenscreen flag, and, if set
+resets the stream to discard the green frame and decode a real frame.
 
-Fixes: fc2873aa4a21 ("media: ti: vpe: Add the VIP driver")
-Signed-off-by: Felix Gu <ustc.gu@gmail.com>
+Signed-off-by: Bradford Love <brad@nextdimension.cc>
 ---
- drivers/media/platform/ti/vpe/vip.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes since v1:
+- swtiched to called vb2_ioctl_dqbuf directly after checking green screen
 
-diff --git a/drivers/media/platform/ti/vpe/vip.c b/drivers/media/platform/ti/vpe/vip.c
-index f0354b52048e..aec9dbd1320a 100644
---- a/drivers/media/platform/ti/vpe/vip.c
-+++ b/drivers/media/platform/ti/vpe/vip.c
-@@ -3490,7 +3490,7 @@ static int vip_probe_slice(struct platform_device *pdev, int slice)
- 
- 	parser = devm_kzalloc(&pdev->dev, sizeof(*dev->parser), GFP_KERNEL);
- 	if (!parser)
--		return PTR_ERR_OR_ZERO(parser);
-+		return -ENOMEM;
- 
- 	parser->base = dev->base + (slice ? VIP_SLICE1_PARSER : VIP_SLICE0_PARSER);
- 	if (IS_ERR(parser->base))
-@@ -3502,7 +3502,7 @@ static int vip_probe_slice(struct platform_device *pdev, int slice)
- 	dev->sc_assigned = VIP_NOT_ASSIGNED;
- 	sc = devm_kzalloc(&pdev->dev, sizeof(*dev->sc), GFP_KERNEL);
- 	if (!sc)
--		return PTR_ERR_OR_ZERO(sc);
-+		return -ENOMEM;
- 
- 	sc->base = dev->base + (slice ? VIP_SLICE1_SC : VIP_SLICE0_SC);
- 	if (IS_ERR(sc->base))
-@@ -3514,7 +3514,7 @@ static int vip_probe_slice(struct platform_device *pdev, int slice)
- 	dev->csc_assigned = VIP_NOT_ASSIGNED;
- 	csc = devm_kzalloc(&pdev->dev, sizeof(*dev->csc), GFP_KERNEL);
- 	if (!csc)
--		return PTR_ERR_OR_ZERO(csc);
-+		return -ENOMEM;
- 
- 	csc->base = dev->base + (slice ? VIP_SLICE1_CSC : VIP_SLICE0_CSC);
- 	if (IS_ERR(csc->base))
+ drivers/media/usb/au0828/au0828-video.c | 27 +++++++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/media/usb/au0828/au0828-video.c b/drivers/media/usb/au0828/au0828-video.c
+index fbaa542c8259..35cb97cac91f 100644
+--- a/drivers/media/usb/au0828/au0828-video.c
++++ b/drivers/media/usb/au0828/au0828-video.c
+@@ -1671,6 +1671,29 @@ static int vidioc_log_status(struct file *file, void *fh)
+ 	return 0;
+ }
+ 
++static int vidioc_dqbuf(struct file *file, void *priv, struct v4l2_buffer *b)
++{
++	struct video_device *vdev = video_devdata(file);
++	struct au0828_dev *dev = video_drvdata(file);
++	int rc;
++
++	rc = check_dev(dev);
++	if (rc < 0)
++		return rc;
++
++	/* Workaround for a bug in the au0828 hardware design that
++	 * sometimes results in the colorspace being inverted
++	 */
++	if (dev->greenscreen_detected == 1) {
++		dprintk(1, "Detected green frame.  Resetting stream...\n");
++		au0828_analog_stream_reset(dev);
++		dev->greenscreen_detected = 0;
++	}
++
++	return vb2_ioctl_dqbuf(file, priv, b);
++}
++
++
+ void au0828_v4l2_suspend(struct au0828_dev *dev)
+ {
+ 	struct urb *urb;
+@@ -1764,8 +1787,8 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
+ 	.vidioc_prepare_buf         = vb2_ioctl_prepare_buf,
+ 	.vidioc_querybuf            = vb2_ioctl_querybuf,
+ 	.vidioc_qbuf                = vb2_ioctl_qbuf,
+-	.vidioc_dqbuf               = vb2_ioctl_dqbuf,
+-	.vidioc_expbuf               = vb2_ioctl_expbuf,
++	.vidioc_dqbuf               = vidioc_dqbuf,
++	.vidioc_expbuf              = vb2_ioctl_expbuf,
+ 
+ 	.vidioc_s_std               = vidioc_s_std,
+ 	.vidioc_g_std               = vidioc_g_std,
 -- 
-2.43.0
+2.35.1
 
 
