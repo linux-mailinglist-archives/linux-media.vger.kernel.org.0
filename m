@@ -1,211 +1,218 @@
-Return-Path: <linux-media+bounces-56090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56091-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QBdCEaJZuWnYAgIAu9opvQ
-	(envelope-from <linux-media+bounces-56090-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:39:46 +0100
+	id CGiVLGxauWnYAgIAu9opvQ
+	(envelope-from <linux-media+bounces-56091-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:43:08 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E508E2AB0AB
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:39:45 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1827F2AB201
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:43:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6E2FC30351FC
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:37:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B880431015E7
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:40:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAFEA286410;
-	Tue, 17 Mar 2026 13:37:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEEAE2D592E;
+	Tue, 17 Mar 2026 13:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="OuESGAJ+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KxX9tq30"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30692874E0
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255842C0F6F
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773754628; cv=none; b=V9Q0/2j25Oh3vMTuqmvf5qM1v17YWJiZHZdAiO1eOMNMMjpZNqsTP9h7xAwSXYkJBqJOrOu2KSkDF25iqyUP6nMbBEsaQCVT44w6DtpG0ZpMK/LvOyVTh/nBlpfIA5ZUVzFn85OrQVcWYpHXrRNWxAcYYvabijcXsWTOd7XUFCM=
+	t=1773754833; cv=none; b=Xwkur0U9NQbKUW1R6tP9PbTtg7A4oiIpAZwduVMAGAp3xR4wR7ddxEjGNRNFwSQeQSvHdJwAQEv9dXf5oOedC5ab6EtYW7cY4MUul5E2jY00GRLhKi8raC5Z/PafXnzh1lCVxRsZuphyTnoWeqx1JTlIkXaL14ejN25D41dz5Yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773754628; c=relaxed/simple;
-	bh=iibvvbujQ5RRNUoZhe+z5X7/JBkY5cB6lsi4Yp5e/zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XI5GvJmytzHLQfVHA3uizySkIvp/JMYt9uOMmI9zMS4QWmEDkDmCAPLqYIOKS5AX6WRNlW5/tDG4rDSqyjpnjOdJwESoqLjAQvo9L8F1msv3NaiOiQdPWMDTHnrBe+iMIFhuMd5G+QHlOV/U6kUi5r+ilIo2BBr6ewc+W60THV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=OuESGAJ+; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4852fdb36a8so67324715e9.2
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 06:37:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1773754625; x=1774359425; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=bvyHox0ngaRcTYY5mmOslDzHoAOd+VMSoOGA/5ZJGB4=;
-        b=OuESGAJ+eGX3PIWoMvI/AEPenqli+ZRO+HujrE1MjldymthA3sbMx/gxajCrFCm/i/
-         OnmizuIrkhTyrzqQFjZWoqc+NRWikVtxb1R4NMi5c5BTyKUgqQXEI2f7FCTa42KPASzW
-         zfUDEM2AZNRK014/ytSO0s3qwrvNs2GBXD1uaiwtx1fiw6ISSbjohdOclvJmB8FwHB5P
-         EICHNT9eEpAroCqpmfm0ySwjTnUCvxELkXTxKU/QQLFN+riPgZz+cQSD3ozleaCA4V9F
-         DrPzkt7B/w/hIrkYLAiFypBHA5tmRyp7CA44IuXQmvDUObzuRxeAuxXSpxMddDZEPGHD
-         dcig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773754625; x=1774359425;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bvyHox0ngaRcTYY5mmOslDzHoAOd+VMSoOGA/5ZJGB4=;
-        b=jFt92m5dAGc8WYjO2SH4Vd6p9hJ8P+Jhhf4TKOZPuJcsQJRc02AjMYH6lJI/kLafrY
-         A78ifC43P/jLOZTmsscqr27hkO0tHfU14NLHtbxn7EItvJDM9DDGqKjmu7pgR1KV3v+M
-         RqmyMiN3z1+Qa5PX2osJyQx19CroFJ/7BsN3ZixosCTRh3xj1Jz2TaOF4diPJ3/bGMhM
-         sOIgZLBGBa6AHsm81Y68k6B/+hJwCRQ1fXMq22ts7vxtlV8U0S50Ayz1z6E+q28WKgl+
-         ZavJuT/lBBtfIZJKtpL+fR2fAUmz6mn/Qgi9ZzxxJNxBObivSJMeLh4qj0x6bDF85wgk
-         kHJg==
-X-Forwarded-Encrypted: i=1; AJvYcCX6CafhUr36OvrA1vLN50Dr+zqXd8YDuiRuDlCtM2Th869GRF9pgWSlBX0zZfqo79TDZuzIbEyY9lZ9zg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPqYgjBSp5E0G4MNRB/VduLUcafrFxJV88ixKHN+3eN21Ks9x9
-	4TGKFiG36bMm7P3dRflyVLBtMhxMnaopKIcU7vNxPxwf0qRbofLhHhtAH2oene1Cs8Q=
-X-Gm-Gg: ATEYQzwZ7Xup6K/MPWohaGyDfeT8hmfsoP28komftkf2xdXXsstgvZ45ObL/wHGg1yX
-	fQwmN3ixEUbNGzwKACAxxyLtyw7f4Ee/aGtPDk+6T6saPR7Cs/rIvMS19wHLoLOadetU9d8wLBd
-	YfOyydwAFdgmREaUeKql84ZyqLoMtFzP3m3s+8Fv9nKoJr4oN0E2l1RHuO5cSS1PHdKvhwctVCZ
-	dGeb1y2larJuRMGg+wYOHwev1YjHA5+0BkjEwGez+6w9UfQgjIMOlRRO5TBf9+QZBzvPUsf8pFU
-	J9aPmF/2a/0Qiq0I59eGds/HmdHI1iTpfgEi54+Nkg+vCdBCxLmXH4patfDntRCYHj9ciG9zzql
-	uZkDW1BKzkMNtcQA9iz6TkGVIfjbdTDQeZnp+nME7cedtYD9YUpWzkYzkn7QOiaABPiikBfWBus
-	EfsRKdhvCXR7eZ7/l/WsKnhmDBs6jgOLg=
-X-Received: by 2002:a05:600c:a011:b0:485:6cd3:f7ac with SMTP id 5b1f17b1804b1-4856ce33d33mr90044845e9.20.1773754625122;
-        Tue, 17 Mar 2026 06:37:05 -0700 (PDT)
-Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856eaa3b66sm76702495e9.11.2026.03.17.06.37.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 06:37:04 -0700 (PDT)
-Date: Tue, 17 Mar 2026 14:37:02 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mostafa Saleh <smostafa@google.com>
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	iommu@lists.linux.dev, linux-media@vger.kernel.org, sumit.semwal@linaro.org, 
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
-	christian.koenig@amd.com, m.szyprowski@samsung.com, robin.murphy@arm.com, jgg@ziepe.ca, 
-	leon@kernel.org, sean.anderson@linux.dev, ptesarik@suse.com, 
-	catalin.marinas@arm.com, aneesh.kumar@kernel.org, suzuki.poulose@arm.com, 
-	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com, 
-	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com, linux-coco@lists.linux.dev
-Subject: Re: [PATCH net-next v3 0/2] dma-buf: heaps: system: add an option to
- allocate explicitly decrypted memory
-Message-ID: <xdy5anped2koy47cuxbbqocyypisl7lagwvpuokpzpggohk2dp@yilc5ihictph>
-References: <20260305123641.164164-1-jiri@resnulli.us>
- <ablV_f_l7wD2m63E@google.com>
+	s=arc-20240116; t=1773754833; c=relaxed/simple;
+	bh=ukEdBRqORvau80MIfMeCKHot6URwAG/oM70kKwMQig4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=vD9aAhf9igj0svacH4BS53XzEmTz7FP7HfjnOZrgekbevZ2tU2VhVzbgW2trWrZ0kS0cphK0JTwWp+Ue9WBrfc6aBBCeJ9L3026dIfYS8VHE52EVd+qdGb1ThNrd/sZCZKuXXxI/J2UWtYeaPyVA+B5OWZM7/r+b8rFateN8V3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KxX9tq30; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A26BC19425;
+	Tue, 17 Mar 2026 13:40:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773754833;
+	bh=ukEdBRqORvau80MIfMeCKHot6URwAG/oM70kKwMQig4=;
+	h=Date:From:Subject:To:Cc:From;
+	b=KxX9tq30yUVeFsXlvuGCtZotXvLNwATn/E53xfBY9zybdBDG5agjtSCRWFXS+KFzo
+	 rrFCnZ6R6P6NUXmCQYRuDiV17Mbt/eLYIbmyzY9f3f+cHo+dArlF1JmiI0fKs/eXGq
+	 lsEtFIq+T4o9llElPK/nub7UXPPsVNVlMEw9HGqYiEnuc+4e3LSWvN7J+iBJh6CxeD
+	 VfjdQt7EjAuXHXBB4HYsZiKsRhSaFTSkh1+BDvOf6dGqw9sYTcsIX+pZD7vil4wL00
+	 8gu71DT24VZ1B1K/sgF858gfRHlczl9kLXy3d6hhuSSNK6wSIEAyhzJetfG/MljAJg
+	 RyEkGTEgFpCEg==
+Message-ID: <b20e0a50-9b0b-4fec-94a5-60bda74ddc9f@kernel.org>
+Date: Tue, 17 Mar 2026 14:40:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: [ANNv2] Media Summit on May 26th in Nice, France
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
+ <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Steve Cho <stevecho@chromium.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Hans de Goede <hansg@kernel.org>, Maxime Ripard <mripard@kernel.org>
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ablV_f_l7wD2m63E@google.com>
-X-Spamd-Result: default: False [-1.16 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[resnulli-us.20230601.gappssmtp.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	TO_DN_ALL(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56091-lists,linux-media=lfdr.de,cisco];
 	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[resnulli.us];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56090-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[26];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[resnulli-us.20230601.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,nvidia.com:email,resnulli-us.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: E508E2AB0AB
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1827F2AB201
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Tue, Mar 17, 2026 at 02:24:13PM +0100, smostafa@google.com wrote:
->Hi Jiri,
->
->On Thu, Mar 05, 2026 at 01:36:39PM +0100, Jiri Pirko wrote:
->> From: Jiri Pirko <jiri@nvidia.com>
->> 
->> Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
->> run with encrypted/protected memory which creates a challenge
->> for devices that do not support DMA to it (no TDISP support).
->> 
->> For kernel-only DMA operations, swiotlb bounce buffering provides a
->> transparent solution by copying data through decrypted memory.
->> However, the only way to get this memory into userspace is via the DMA
->> API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
->> the use of the memory to a single DMA device, and is incompatible with
->> pin_user_pages().
->> 
->> These limitations are particularly problematic for the RDMA subsystem
->> which makes heavy use of pin_user_pages() and expects flexible memory
->> usage between many different DMA devices.
->> 
->> This patch series enables userspace to explicitly request decrypted
->> (shared) memory allocations from the dma-buf system heap.
->> Userspace can mmap this memory and pass the dma-buf fd to other
->> existing importers such as RDMA or DRM devices to access the
->> memory. The DMA API is improved to allow the dma heap exporter to DMA
->> map the shared memory to each importing device.
->
->I have been looking into a similar problem with restricted-dma[1] and
->the inability of the DMA API to recognize that a block of memory is
->already decrypted.
->
->However, in your case, adding a new attr “DMA_ATTR_CC_DECRYPTED” works
->well as dma-buf owns the memory, and is both responsible for the
->set_memory_decrypted() and passing the DMA attrs.
->
->On the other hand, for restricted-dma, the memory decryption is deep
->in the DMA direct memory allocation and the DMA API callers (for ex
->virtio drivers) are clueless about it and can’t pass any attrs.
->My proposal was specific to restricted-dma and won’t work for your case.
->
->I am wondering if the kernel should have a more solid, unified method
->for identifying already-decrypted memory instead. Perhaps we need a
->way for the DMA API to natively recognize the encryption state of a
->physical page (working alongside force_dma_unencrypted(dev)), rather
->than relying on caller-provided attributes?
+(Please pass this on to anyone you think might be interested in this!)
 
-I actually had it originally implemented probably in the similar way you
-suggest. I had a bit in page/folio struct to indicate the
-"shared/decrypted" state. However I was told that adding such bit is
-basically a no-go. Isn't that right?
+Hi all,
+
+This is the second version of this announcement, adding a list of attendees
+and a tentative agenda at the end: please let me know if you see mistakes.
+
+This year's Media Summit will be held on Tuesday May 26th the day before the
+Embedded Recipes Conference in Nice, France:
+
+https://embedded-recipes.org/2026/
+
+The Media Summit will be held at Hotel Campanile and in the same meeting room
+as last year (Nikaia):
+
+https://nice-aeroport.campanile.com/en-us/
+
+It is close to the Airport and to the Embedded Recipes venue.
+
+The meeting room can hold up to 30 people and I will provide video conferencing support,
+just like last year. The location and the meeting room was quite nice last year, so
+I saw no need to change it.
+
+That said, in-person participation is very much preferred. This yearly summit is meant
+for active media developers to meet face-to-face and to discuss media subsystem issues.
+
+And it is also a good opportunity to talk to each other during the Embedded Recipes
+conference to discuss topics in a smaller group. But if you are an active media developer
+and are really not able to attend in person, then remote participation is an option.
+
+If you want to attend the meeting (either in person or remote), then send an email to me
+directly. The deadline for in-person attendance is May 14 as the hotel needs to know the
+final number of attendees by then.
+
+There is no registration fee, the meeting room is sponsored by Cisco and Collabora, and
+the lunch is sponsored by Ideas on Board! Many thanks to our sponsors, it's very much
+appreciated.
+
+If you have a topic that you want to discuss, just 'Reply All' to this announcement
+and give the topic title, a short description and a guesstimate of the time you need
+for your topic.
+
+See last year's Media Summit Report as an example of what to expect:
+
+https://lore.kernel.org/linux-media/21769183-ca57-4f8f-818a-6a1ad089298d@jjverkuil.nl/
+
+This announcement goes out quite early for once, usually it takes a lot longer
+to organize, but having it in the same place as before made life so much easier.
+
+Regards,
+
+	Hans
+
+PS: Be aware that May 24 and 25 are public holidays in France. So many shops may be
+closed those days.
+
+In-person attendees:
+Michael Riesch <michael.riesch@collabora.com>
+Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Loic Poulain <loic.poulain@oss.qualcomm.com>
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Michael Tretter <m.tretter@pengutronix.de>
+Sven Püschel <s.pueschel@pengutronix.de>
+Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Devarsh Thakkar <devarsht@ti.com>
+Marco Felsch <m.felsch@pengutronix.de>
+Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Paul Kocialkowski <paulk@sys-base.io>
+Brandon Brnich <b-brnich@ti.com>
+Ricardo Ribalda <ribalda@chromium.org>
+Kieran Bingham <kieran.bingham@ideasonboard.com>
+Hans Verkuil <hverkuil@kernel.org>
+
+Remote attendees:
+Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+Dave Stevenson <dave.stevenson@raspberrypi.com> (tentative)
 
 
->
->[1] https://lore.kernel.org/all/20260305170335.963568-1-smostafa@google.com/
->
->Thanks,
->Mostafa
->
->
->> 
->> Jiri Pirko (2):
->>   dma-mapping: introduce DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
->>   dma-buf: heaps: system: add system_cc_decrypted heap for explicitly
->>     decrypted memory
->> 
->>  drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
->>  include/linux/dma-mapping.h         |   6 ++
->>  include/trace/events/dma.h          |   3 +-
->>  kernel/dma/direct.h                 |  14 +++-
->>  4 files changed, 117 insertions(+), 9 deletions(-)
->> 
->> -- 
->> 2.51.1
->> 
+Agenda (unordered, *very* tentative):
+
+Title: Discussion of the media subsystem development process
+Presenter: Hans Verkuil
+Time estimate: 1 hour
+Description: Review of the multi-committer model: current status and next steps.
+Are there any bottlenecks, any ideas for improvements, w.r.t. the development process?
+
+Title: Status of ISP support in V4L2
+Presenter: Laurent Pinchart
+Time estimate: 15 minutes
+Description: Summary of ISP-related development in V4L2 since the last
+Linux Media Summit. This includes a brief overview of technical
+developments, and a summary of the efforts to engage with vendors.
+
+Title: Vulkan Video Codecs
+Presenter: Nicolas Dufresne
+Time estimate: ???
+Description: Vulkan video codecs: what are the viable options for Linux Media
+and what is in preparation outside of our subsystem. The second aspect is
+informative as these discussions don't seem to lean toward our subsystem as the
+foundation. But I think it's rather useful for everyone to understand why and
+what is included.
+
+Title: V4L2 Stateless Video Encoding uAPI Progress Update
+Presenter: Paul Kocialkowski
+Time estimate: 1 hour
+Description: An update on the ongonig work to support stateless codecs in V4L2.
+Some of the remaining open topics will be presented and discussed.
 
