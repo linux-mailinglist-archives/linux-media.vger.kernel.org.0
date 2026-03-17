@@ -1,91 +1,87 @@
-Return-Path: <linux-media+bounces-56129-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56130-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oOHuEbq+uWnJMQIAu9opvQ
-	(envelope-from <linux-media+bounces-56129-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 21:51:06 +0100
+	id yPQyFYzAuWnJMQIAu9opvQ
+	(envelope-from <linux-media+bounces-56130-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 21:58:52 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6B62B26A9
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 21:51:05 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC86C2B278D
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 21:58:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C074A3074BF0
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 20:50:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 05CE730D4512
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 20:57:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89B973803E9;
-	Tue, 17 Mar 2026 20:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66C0838CFE9;
+	Tue, 17 Mar 2026 20:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="Ix3y+2v3"
+	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="q9Pu66Gm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE1CEAC7
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 20:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64311E2834
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 20:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773780659; cv=none; b=fm0+9TPwqjAB6IM8vblrXQLydwDt0Z76w9v9Nf9uZbKMNk+F+o0u523EQvyE5lzvJlpW2KDNWoEOgW13vp+hoCXxnAUy7x+uK7lwPFpLJqaCaRemAxm6MAbbtaqITgFi3ddvNj+8/82u/OafgtefOwpfwvcDtp9uuOrmTAuX+q8=
+	t=1773781074; cv=none; b=nXzWczftZ+PumqQ/92IAXDyvRvt49vUBflbltIxLzycS/V8whVkHEHFIOrKNgDfBcRfnfKUDNpIG3opqQdpsBgWJzcxH6CDENVZ07QkyGPOr6gUBYzf/SCagZlokwd+5g0wZH/anYQneMP1DTEWPRgDP8gXfJFclmT9KK6vNfzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773780659; c=relaxed/simple;
-	bh=QN41F6t9EXiUne+14qj/ZcLHjFkOTjOQMQePrQtQixg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JQSnkPVZ25bUeMjOH0GMzCWqa7GtwMzs0dzR5pGQoMBFAqfPnxy5tNhCE0JIsyDI4Cwkgg7csdFv/9ANlxao4QJxNvvz6B4URWN+0tmeKWDuQxp/JspAFQWzHPmRz5WIqwhF1YccIYjKFrKEHRwcOPLHjMajlVApYH7JSFhQx5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=Ix3y+2v3; arc=none smtp.client-ip=209.85.128.180
+	s=arc-20240116; t=1773781074; c=relaxed/simple;
+	bh=KBXGcrYoOLPymfDZ/oqMz1swOTpgT5qAmz55HgttOTo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tr4GfzugWsgw8PsoTTvMmlpKijsh6IFfv9XODaWiKnaK98xeKIIoi8HXtCXLCq/A5QA7d1kSqId17BoRXnvmq5CH2VRGUW5+kBckLPaXqx272Vk1PppLa6gSfW7KYgWBXVCT+5cV5odZs9MStwBLzPYW39xumezf+BGVSrP1od4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=q9Pu66Gm; arc=none smtp.client-ip=74.125.224.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79a5ad7cc52so23316907b3.2
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:50:57 -0700 (PDT)
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64ca09f2056so96624d50.2
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:57:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nextdimension.cc; s=google; t=1773780656; x=1774385456; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wz4Zws5WpbQ5FX5L7kDtg0i5cAsc+3bDlnyJVBCTATE=;
-        b=Ix3y+2v3lED/AdD2uthY1oDVVh+ejUkIEExGXyWxako9rZo3lLDTEH1Fe++nDKnoAR
-         ULKcvg3GnnbHv+ABhxUJ9FiTCRTBYh9GUvSNt1uTER9wrnBYGb6nhxCzEpERFwH31bxn
-         Fc1UJXK7Rf0EhB6e9T7G1BlCWUBkD/E3KEuqPsm692VeJD4r36PUc+BMwEouXzM1ndPr
-         PxKeYIssLyKRwqNwr+s/vO8CVwMMWHNStNo3Nef8elv7Td7+mvPE/Go+W/vGW66TYHbK
-         ejjBpdUczeT7qV4HdaJIs9ne3D3HdE/HHs+iNBVJKUeqfpfZDiDjAgsuhCcGmDPBsdyB
-         G5Hg==
+        d=nextdimension.cc; s=google; t=1773781072; x=1774385872; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vUikfvhRAs/fvQcmGfcJR3gaiQI51EqYzE0HTND4fdE=;
+        b=q9Pu66Gm+BEwdNPIXNcttFvjXvCTjJ2Dp5nIsEaNpF84mfXfGtDrb08TgUFa+kKe+e
+         7/37JiGpukMxxjRILAGYzwojio742tE38swdNIzxoc5/AK0IvQTQzwenkAKyaQNc3M2v
+         6eolUki/MNyqhe0LyC2wTju5bMEwc4AbtqCrynuGvGM4G+VttbykEknzcTfGM5tf5Q96
+         RWlGPsth5eI7V4KQoDPT0PYNCa/qIDOUntf9A1i1bJdaJtXusiM4CM3W7ZAnwAVD1cn+
+         +VzZlxhKmKZ8ol4nTCsoKVc8BG/ZNozq5H4yNKUSds0Dh4YgIcukYCI1SrPcpMPFgWmx
+         s7jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773780656; x=1774385456;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Wz4Zws5WpbQ5FX5L7kDtg0i5cAsc+3bDlnyJVBCTATE=;
-        b=WYoGyfoRL4Y//jD9CH0ypDPTkiUb1jldS9sm3QG43YjOauD4KXZAZycsvoaEso6KWM
-         0g4QbQ/bgnR4D9BTbEbok61rNgKyLY6RP7xyPn8mCqRksXv2IhoaAquCVQmTprCzKHIy
-         GH4eE9gl7EQxQZziLONcBB+UAuYBYrev7h/iPjH77eoLp8adrd/sZmJhEVuXXct7EiJw
-         AiizlP6PxMSmnsxDRUozKBIrzxe6Zp1MelxSfksVKe3dYKxZWKXRsRzc4izLUatusj2T
-         0DFEmggJRbEkCUE9POj8OAq02Mi3caJ0ltEICy5mO37Rf1P4aPJr12VYHry+fMRMJOrI
-         igUw==
-X-Gm-Message-State: AOJu0YxOlqXtw6YCv6vBD4L2TEuRIW04Ml9lY8Z+TDBXAiYPW0MQzEPj
-	VcIoNKF9WTJ46tHBgnW0enpaFtsGMmJyXs2o1jd/x95rJDy441vVEmlNGiWfAUbg0an1NEPMKqw
-	Vupk/ZQA=
-X-Gm-Gg: ATEYQzx+0YUEKR98D9LxaHaB8kHx6ucH2cFCajrPJRpfygOVnroNSS4VFmPFrw3E8h+
-	aUKHgePR3EML/3qamtItgYnaxuG4e8a1+Jh+AJaPNcj0jiZ7v2Vgzhqoyd7Hnl7ptEzy+BBG5qa
-	tZKBirb+Frr5z57pM5PDv5pCHDiVFmSXkGKCZlrqjUVXP1/Suo1iywRPO7n4Cr/lzoA+Twldul0
-	2Wm1+/feOCQ7Vlk8BSlV/bY8D+l/i8XBp+khUkIlli9NusBOPODpgr6usH0dTKY7tyU5+U6x5Yc
-	4zry2IbS8fttmd8fzzSjeapy2JEmsiZaKRUBln2IKw8cgul6FejbYDyPsMfPT+9CXI5GVYQXXfl
-	VCPQZ3g6sTG9D/fpQfelyUMLxFrHngrwQNWxWzyFLvg/FVOFymNZ7+hpUaTdgVXEcs/YXM14roO
-	ck/WoK7hTeduI9dXxGNRSEo5HmUpvj0HlIcEXQ7CScjhTgOY4KFFnldKapt3ZAVb4ijMP6q30Qm
-	NmG56KOJs2b836XuSo=
-X-Received: by 2002:a05:690c:b06:b0:798:715a:c9c1 with SMTP id 00721157ae682-79a7183094fmr9957907b3.10.1773780656096;
-        Tue, 17 Mar 2026 13:50:56 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773781072; x=1774385872;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vUikfvhRAs/fvQcmGfcJR3gaiQI51EqYzE0HTND4fdE=;
+        b=q3ebdlC5JsU88XKaPHbX3BTaig+A2pLCch2Dciq/CMJ7RaBXDPHQS0v4+twpyekBdq
+         nTxwVLOLDVMZXHgdtgshrAfFghOAXcSgBo6p3YJzlrJ2qmdESmoAVHqq6o2pup2BPE27
+         zE8+mF+/K1hUtPRwi1CH5mdvLtRwL+5qMvEtn2iNo8hxKxBuy6HrbtZOtqnX8BXzMOTD
+         Ubyn4pYn8xGK+AJVm9eRpKdUVAgU7TG9e2Q6gMfKu2bSI21pt35GG6ho8IUsK9jda97D
+         P/ydgCFsE/SqIsaL8CttnInlZPNAfqd98eYV/GjcIuEixvSR/OapJwlLhtfzPp7Qpdac
+         twhQ==
+X-Gm-Message-State: AOJu0YzAhp8wZCnqpAj7csw1w5hcg1dg7piQbnTg331tSvj0mk5y4lV0
+	A3LEV/aJOXS3OczC1ArxxqtGg9kWzpL7UyI2XskDszNkJO/RKRuxvvBy9Edl1rtTit6Uxl+qbxJ
+	KbiHPXyo=
+X-Gm-Gg: ATEYQzyvuvIUlHpGEyxbmGhgufC8qcKT5aCJ5FDtXD4DbrvHBzPYgR1HaXkwZ5K/WFK
+	pNwe71RPs334a2YfR1HyNqzmjfi9Lnxv0uIpDzUtjDjRtuUg5aDnMVQHF/hnojw15FEXJrofDpV
+	V4xdDstROjCYt08R73C68blnUFO1eOex85dWrkW3eBYj4vdj8S4H3kRUn1Zqh85jnaM6jRLWNX7
+	y1tzmUmKvVNZm65q8PIy0fMBT0+JadNad0dzmiEgs017IBIwRn5KJtT5c/D7DMEWndOK7RR61kP
+	Dh2kKrfVJdVSwYNRRFxPC/QvWGWxwgD2t+00kwF9j5W6pk4YKhE0NdQu7CFjGaglw25Bxbr83N4
+	ISLXKB/qZvXT8FXDiQtb8WhEhDRA4ZRobZIPFTBvx9PL7Yn50GxqNEvTiZbe4ms48ty0NHtVR92
+	cbWlQKmzoxVrdG6M0EyuoLN31hzEw3CX4YERvyNMYJ1QpwgreNFMSwlln3TuBgGlMI+Oj5MMF4K
+	t7il31GLjAMsk7bg80=
+X-Received: by 2002:a05:690c:e3e8:b0:79a:40fb:9360 with SMTP id 00721157ae682-79a718c84dbmr9530577b3.22.1773781072383;
+        Tue, 17 Mar 2026 13:57:52 -0700 (PDT)
 Received: from localhost.localdomain (108-207-243-35.lightspeed.austtx.sbcglobal.net. [108.207.243.35])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a713df100sm5031267b3.11.2026.03.17.13.50.55
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79a713df100sm5141577b3.11.2026.03.17.13.57.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 13:50:55 -0700 (PDT)
+        Tue, 17 Mar 2026 13:57:52 -0700 (PDT)
 From: Bradford Love <brad@nextdimension.cc>
 To: linux-media@vger.kernel.org
 Cc: Bradford Love <brad@nextdimension.cc>
-Subject: [PATCH 3/3] media: em28xx: Add Hauppauge em2828X based 9x5 revisions
-Date: Tue, 17 Mar 2026 15:50:42 -0500
-Message-Id: <20260317205042.3365469-4-brad@nextdimension.cc>
+Subject: [PATCH 0/2] Hauppauge 461e with m88ds3103c demod
+Date: Tue, 17 Mar 2026 15:57:46 -0500
+Message-Id: <20260317205748.3365679-1-brad@nextdimension.cc>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20260317205042.3365469-1-brad@nextdimension.cc>
-References: <20260317205042.3365469-1-brad@nextdimension.cc>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -97,7 +93,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[nextdimension.cc:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -107,7 +103,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	DMARC_NA(0.00)[nextdimension.cc];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56129-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56130-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -118,504 +114,31 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nextdimension.cc:dkim,nextdimension.cc:email,nextdimension.cc:mid]
-X-Rspamd-Queue-Id: EE6B62B26A9
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,nextdimension.cc:dkim,nextdimension.cc:mid]
+X-Rspamd-Queue-Id: AC86C2B278D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The HVR-935, HVR-955, and HVR-975 have moved
-from cx231xx bridge to em2828x bridge
+The following two patches add support for the latest
+revision of Hauppauge 461e that has moved from m88ds3103b
+demod to m88ds3103c demod. The demod driver was reverse
+egineered from a windows driver.
 
-The devices all now utilize si2177 tuner. Capabilities are:
-- Digital TV
-- Composite video input
-- S-Video input
-- Analog stereo input
+The m88ds3013c demod has some clocking changes and simplified
+configuration.
 
-HVR-955 has ATSC/QAM demod (si2168).
-HVR-935 has DVB-C/T/T2 demod (lgdt3306a).
-HVR-975 has both ATSC/QAM and DVB-C/T/T2 demods.
+Bradford Love (2):
+  m88ds3103: Implement 3103c chip support
+  em28xx: Add Hauppauge 461e v3
 
-Signed-off-by: Bradford Love <brad@nextdimension.cc>
----
- drivers/media/usb/em28xx/em28xx-cards.c | 157 ++++++++++++++++++
- drivers/media/usb/em28xx/em28xx-dvb.c   | 203 ++++++++++++++++++++++++
- drivers/media/usb/em28xx/em28xx-video.c |  22 ++-
- drivers/media/usb/em28xx/em28xx.h       |   3 +
- 4 files changed, 383 insertions(+), 2 deletions(-)
+ drivers/media/dvb-frontends/m88ds3103.c      | 427 ++++++++++++++++---
+ drivers/media/dvb-frontends/m88ds3103_priv.h |  46 +-
+ drivers/media/usb/em28xx/em28xx-cards.c      |  34 +-
+ drivers/media/usb/em28xx/em28xx-dvb.c        |  25 +-
+ drivers/media/usb/em28xx/em28xx.h            |   1 +
+ 5 files changed, 447 insertions(+), 86 deletions(-)
 
-diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-index 0c5851bf4ef0..b4bafd2fa482 100644
---- a/drivers/media/usb/em28xx/em28xx-cards.c
-+++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -553,6 +553,36 @@ static struct em28xx_reg_seq hauppauge_usb_quadhd_atsc_reg_seq[] = {
- 	{EM2874_R5E_TS2_PKT_SIZE,      0x05, 0xff,     50},
- 	{-1,                           -1,   -1,       -1},
- };
-+/* Hauppauge HVR-935 \ HVR-955 / HVR-975 V2 */
-+static const struct em28xx_reg_seq hauppauge_hvr_9x5_v2[] = {
-+	{EM2874_R80_GPIO_P0_CTRL,	0xdc,	0xff,	50},
-+	{EM2874_R5F_TS_ENABLE,		0x00,	0xff,	50}, /* disable TS filters */
-+	{EM2874_R5D_TS1_PKT_SIZE,	0x05,	0xff,	50},
-+	{-1,				-1,	-1,	-1},
-+};
-+
-+static const struct em28xx_reg_seq hauppauge_hvr_9x5_v2_comp[] = {
-+	{0x0b,				0x00,	0xff,		100},
-+	{0x0b,				0x96,	0xff,		100},
-+	{0x0b,				0x00,	0xff,		100},
-+	{EM2874_R80_GPIO_P0_CTRL,	0,	EM_GPIO_5,	10},
-+	{-1,				-1,	-1,		-1},
-+};
-+
-+static const struct em28xx_reg_seq hauppauge_hvr_9x5_v2_television[] = {
-+	{0x0b,				0x00,		0xff,		100},
-+	{0x0b,				0x96,		0xff,		100},
-+	{0x0b,				0x00,		0xff,		100},
-+	{EM2874_R80_GPIO_P0_CTRL,	EM_GPIO_5,	EM_GPIO_5,	10},
-+	{-1,				-1,		-1,		-1},
-+};
-+
-+static const struct em28xx_reg_seq hauppauge_hvr_9x5_v2_dvb[] = {
-+	{0x0b,		0x80,	0xff,	100},
-+	{0x0b,		0x96,	0xff,	100},
-+	{0x0b,		0x80,	0xff,	100},
-+	{-1,		-1,	-1,	-1},
-+};
- 
- /*
-  * MyGica USB TV Box
-@@ -689,6 +719,16 @@ static struct em28xx_led hauppauge_usb_quadhd_leds[] = {
- 	{-1, 0, 0, 0},
- };
- 
-+static struct em28xx_led hauppauge_9x5_v2_leds[] = {
-+	{
-+		.role      = EM28XX_LED_DIGITAL_CAPTURING,
-+		.gpio_reg  = EM2874_R80_GPIO_P0_CTRL,
-+		.gpio_mask = EM_GPIO_0,
-+		.inverted  = 0,
-+	},
-+	{-1, 0, 0, 0},
-+};
-+
- /*
-  *  Board definitions
-  */
-@@ -2640,6 +2680,108 @@ const struct em28xx_board em28xx_boards[] = {
- 			.amux     = EM28XX_AMUX_LINE_IN,
- 		} },
- 	},
-+	/* 2040:8360 Hauppauge HVR-935
-+	 * Empia EM2828X, si2168 demod, si2177 tuner
-+	 * Composite input, s-video input, analog TV, stereo audio input
-+	 */
-+	[EM2828X_BOARD_HAUPPAUGE_935_V2] = {
-+		.name         = "Hauppauge WinTV-HVR-935",
-+		.def_i2c_bus  = 1,
-+		.has_dvb      = 1,
-+		.vchannels    = 3,
-+		.tuner_type   = TUNER_ABSENT,
-+		.decoder      = EM28XX_BUILTIN,
-+		.i2c_speed    = EM28XX_I2C_CLK_WAIT_ENABLE | EM28XX_I2C_FREQ_400_KHZ,
-+		.tuner_gpio   = hauppauge_hvr_9x5_v2,
-+		.dvb_gpio     = hauppauge_hvr_9x5_v2_dvb,
-+		.leds         = hauppauge_9x5_v2_leds,
-+		.xclk         = 0x8f,
-+		.input           = { {
-+			.type     = EM28XX_VMUX_COMPOSITE,
-+			.vmux     = 0,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_comp,
-+		}, {
-+			.type     = EM28XX_VMUX_SVIDEO,
-+			.vmux     = 1,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_comp,
-+		}, {
-+			.type     = EM28XX_VMUX_TELEVISION,
-+			.vmux     = 2,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_television,
-+
-+		} },
-+	},
-+	/* 2040:8360 Hauppauge HVR-955
-+	 * Empia EM2828X, lgdt3306a demod, si2177 tuner
-+	 * Composite input, s-video input, analog TV, stereo audio input
-+	 */
-+	[EM2828X_BOARD_HAUPPAUGE_955_V2] = {
-+		.name         = "Hauppauge WinTV-HVR-955",
-+		.def_i2c_bus  = 1,
-+		.has_dvb      = 1,
-+		.vchannels    = 3,
-+		.tuner_type   = TUNER_ABSENT,
-+		.decoder      = EM28XX_BUILTIN,
-+		.i2c_speed    = EM28XX_I2C_CLK_WAIT_ENABLE | EM28XX_I2C_FREQ_400_KHZ,
-+		.tuner_gpio   = hauppauge_hvr_9x5_v2,
-+		.dvb_gpio     = hauppauge_hvr_9x5_v2_dvb,
-+		.leds         = hauppauge_9x5_v2_leds,
-+		.xclk         = 0x8f,
-+		.input           = { {
-+			.type     = EM28XX_VMUX_COMPOSITE,
-+			.vmux     = 0,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_comp,
-+		}, {
-+			.type     = EM28XX_VMUX_SVIDEO,
-+			.vmux     = 1,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_comp,
-+		}, {
-+			.type     = EM28XX_VMUX_TELEVISION,
-+			.vmux     = 2,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_television,
-+
-+		} },
-+	},
-+	/* 2040:8360 Hauppauge HVR-975
-+	 * Empia EM2828X, si2168 demod, lgdt3306a demod, si2177 tuner
-+	 * Composite input, s-video input, analog TV, stereo audio input
-+	 */
-+	[EM2828X_BOARD_HAUPPAUGE_975_V2] = {
-+		.name         = "Hauppauge WinTV-HVR-975",
-+		.def_i2c_bus  = 1,
-+		.has_dvb      = 1,
-+		.vchannels    = 3,
-+		.tuner_type   = TUNER_ABSENT,
-+		.decoder      = EM28XX_BUILTIN,
-+		.i2c_speed    = EM28XX_I2C_CLK_WAIT_ENABLE | EM28XX_I2C_FREQ_400_KHZ,
-+		.tuner_gpio   = hauppauge_hvr_9x5_v2,
-+		.dvb_gpio     = hauppauge_hvr_9x5_v2_dvb,
-+		.leds         = hauppauge_9x5_v2_leds,
-+		.xclk         = 0x8f,
-+		.input           = { {
-+			.type     = EM28XX_VMUX_COMPOSITE,
-+			.vmux     = 0,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_comp,
-+		}, {
-+			.type     = EM28XX_VMUX_SVIDEO,
-+			.vmux     = 1,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_comp,
-+		}, {
-+			.type     = EM28XX_VMUX_TELEVISION,
-+			.vmux     = 2,
-+			.amux     = EM28XX_AMUX_LINE_IN,
-+			.gpio     = hauppauge_hvr_9x5_v2_television,
-+
-+		} },
-+	},
- };
- EXPORT_SYMBOL_GPL(em28xx_boards);
- 
-@@ -2789,6 +2931,18 @@ struct usb_device_id em28xx_id_table[] = {
- 			.driver_info = EM2874_BOARD_HAUPPAUGE_USB_QUADHD },
- 	{ USB_DEVICE(0x2040, 0xc220),
- 			.driver_info = EM2828X_BOARD_HAUPPAUGE_USB_LIVE2 },
-+	{ USB_DEVICE(0x2040, 0x0360),
-+			.driver_info = EM2828X_BOARD_HAUPPAUGE_935_V2 },
-+	{ USB_DEVICE(0x2040, 0x8360),
-+			.driver_info = EM2828X_BOARD_HAUPPAUGE_935_V2 },
-+	{ USB_DEVICE(0x2040, 0x0366),
-+			.driver_info = EM2828X_BOARD_HAUPPAUGE_955_V2 },
-+	{ USB_DEVICE(0x2040, 0x8366),
-+			.driver_info = EM2828X_BOARD_HAUPPAUGE_955_V2 },
-+	{ USB_DEVICE(0x2040, 0x036a),
-+			.driver_info = EM2828X_BOARD_HAUPPAUGE_975_V2 },
-+	{ USB_DEVICE(0x2040, 0x836a),
-+			.driver_info = EM2828X_BOARD_HAUPPAUGE_975_V2 },
- 	{ USB_DEVICE(0x0438, 0xb002),
- 			.driver_info = EM2880_BOARD_AMD_ATI_TV_WONDER_HD_600 },
- 	{ USB_DEVICE(0x2001, 0xf112),
-@@ -3280,6 +3434,9 @@ static void em28xx_card_setup(struct em28xx *dev)
- 	case EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB:
- 	case EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595:
- 	case EM2828X_BOARD_HAUPPAUGE_USB_LIVE2:
-+	case EM2828X_BOARD_HAUPPAUGE_935_V2:
-+	case EM2828X_BOARD_HAUPPAUGE_955_V2:
-+	case EM2828X_BOARD_HAUPPAUGE_975_V2:
- 	{
- 		struct tveeprom tv;
- 
-diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-index 389c40a1ecdb..2f0972072a00 100644
---- a/drivers/media/usb/em28xx/em28xx-dvb.c
-+++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-@@ -1497,6 +1497,194 @@ static int em2874_dvb_init_hauppauge_usb_quadhd(struct em28xx *dev)
- 	return 0;
- }
- 
-+static int em2828X_dvb_init_hauppauge_wintv_935_v2(struct em28xx *dev)
-+{
-+	struct em28xx_dvb *dvb = dev->dvb;
-+	struct i2c_adapter *adapter;
-+	struct si2168_config si2168_config = {};
-+	struct si2157_config si2157_config = {};
-+
-+	/* Hauppauge HVR-975 V2 */
-+	static const struct em28xx_reg_seq hauppauge_hvr_975_v2_init[] = {
-+		{EM2874_R80_GPIO_P0_CTRL,	EM_GPIO_6,	EM_GPIO_6,	50},
-+		{EM2874_R80_GPIO_P0_CTRL,	0,		EM_GPIO_6,	50},
-+		{EM2874_R80_GPIO_P0_CTRL,	EM_GPIO_6,	EM_GPIO_6,	50},
-+		{0x90,				EM_GPIO_5,	EM_GPIO_5,	50},
-+		{	-1,			-1,		-1,	-1},
-+	};
-+
-+	em28xx_gpio_set(dev, hauppauge_hvr_975_v2_init);
-+
-+	/* attach demod */
-+	si2168_config.i2c_adapter = &adapter;
-+	si2168_config.fe = &dvb->fe[0];
-+	si2168_config.ts_mode = SI2168_TS_SERIAL;
-+	si2168_config.ts_clock_inv = true;
-+
-+	dvb->i2c_client_demod[0] = dvb_module_probe("si2168", NULL,
-+						 &dev->i2c_adap[dev->def_i2c_bus],
-+						 0x64, &si2168_config);
-+	if (!dvb->i2c_client_demod[0]) {
-+		dev_err(&dev->intf->dev, "si2168 demod initialization failure\n");
-+		return -ENODEV;
-+	}
-+
-+	/* attach tuner */
-+	si2157_config.fe = dvb->fe[0];
-+#ifdef CONFIG_MEDIA_CONTROLLER_DVB
-+	si2157_config.mdev = dev->media_dev;
-+#endif
-+	si2157_config.if_port = 0;
-+	si2157_config.inversion = true;
-+	si2157_config.dont_load_firmware = 1;
-+
-+	dvb->i2c_client_tuner = dvb_module_probe("si2157", "si2177",
-+						 &dev->i2c_adap[dev->def_i2c_bus],
-+						 0x60, &si2157_config);
-+	if (!dvb->i2c_client_tuner) {
-+		dev_err(&dev->intf->dev, "si2157 tuner initialization failure\n");
-+		dvb_module_release(dvb->i2c_client_demod[0]);
-+		return -ENODEV;
-+	}
-+
-+	dev->em28xx_set_analog_freq = em28xx_set_analog_freq;
-+
-+	return 0;
-+}
-+
-+static int em2828X_dvb_init_hauppauge_wintv_955_v2(struct em28xx *dev)
-+{
-+	struct em28xx_dvb *dvb = dev->dvb;
-+	struct i2c_adapter *adapter;
-+	struct lgdt3306a_config lgdt3306a_config = {};
-+	struct si2157_config si2157_config = {};
-+
-+	/* Hauppauge HVR-955 V2 */
-+	static const struct em28xx_reg_seq hauppauge_hvr_975_v2_init[] = {
-+		{EM2874_R80_GPIO_P0_CTRL,	EM_GPIO_6,	EM_GPIO_6,	50},
-+		{EM2874_R80_GPIO_P0_CTRL,	0,		EM_GPIO_6,	50},
-+		{EM2874_R80_GPIO_P0_CTRL,	EM_GPIO_6,	EM_GPIO_6,	50},
-+		{0x90,				EM_GPIO_5,	EM_GPIO_5,	50},
-+		{	-1,			-1,		-1,	-1},
-+	};
-+
-+	em28xx_gpio_set(dev, hauppauge_hvr_975_v2_init);
-+
-+	/* attach demod */
-+	lgdt3306a_config = hauppauge_01595_lgdt3306a_config;
-+	lgdt3306a_config.fe = &dvb->fe[0];
-+	lgdt3306a_config.i2c_adapter = &adapter;
-+
-+	dvb->i2c_client_demod[0] = dvb_module_probe("lgdt3306a", NULL,
-+						 &dev->i2c_adap[dev->def_i2c_bus],
-+						 0x59, &lgdt3306a_config);
-+	if (!dvb->i2c_client_demod[0]) {
-+		dev_err(&dev->intf->dev, "lgdt3306a demod initialization failure\n");
-+		return -ENODEV;
-+	}
-+
-+	/* attach tuner */
-+	si2157_config.fe = dvb->fe[0];
-+#ifdef CONFIG_MEDIA_CONTROLLER_DVB
-+	si2157_config.mdev = dev->media_dev;
-+#endif
-+	si2157_config.if_port = 0;
-+	si2157_config.inversion = true;
-+	si2157_config.dont_load_firmware = 1;
-+
-+	dvb->i2c_client_tuner = dvb_module_probe("si2157", "si2177",
-+						 &dev->i2c_adap[dev->def_i2c_bus],
-+						 0x60, &si2157_config);
-+	if (!dvb->i2c_client_tuner) {
-+		dev_err(&dev->intf->dev, "si2157 tuner initialization failure\n");
-+		dvb_module_release(dvb->i2c_client_demod[0]);
-+		return -ENODEV;
-+	}
-+
-+	dev->em28xx_set_analog_freq = em28xx_set_analog_freq;
-+
-+	return 0;
-+}
-+
-+static int em2828X_dvb_init_hauppauge_wintv_975_v2(struct em28xx *dev)
-+{
-+	struct em28xx_dvb *dvb = dev->dvb;
-+	struct i2c_adapter *adapter;
-+	struct i2c_adapter *adapter2;
-+	struct lgdt3306a_config lgdt3306a_config = {};
-+	struct si2168_config si2168_config = {};
-+	struct si2157_config si2157_config = {};
-+
-+	/* Hauppauge HVR-975 V2 */
-+	static const struct em28xx_reg_seq hauppauge_hvr_975_v2_init[] = {
-+		{EM2874_R80_GPIO_P0_CTRL,	EM_GPIO_6,	EM_GPIO_6,	50},
-+		{EM2874_R80_GPIO_P0_CTRL,	0,		EM_GPIO_6,	50},
-+		{EM2874_R80_GPIO_P0_CTRL,	EM_GPIO_6,	EM_GPIO_6,	50},
-+		{0x90,				EM_GPIO_5,	EM_GPIO_5,	50},
-+		{-1,				-1,		-1,		-1},
-+	};
-+
-+	em28xx_gpio_set(dev, hauppauge_hvr_975_v2_init);
-+
-+	/* attach demod */
-+	lgdt3306a_config = hauppauge_01595_lgdt3306a_config;
-+	lgdt3306a_config.fe = &dvb->fe[0];
-+	lgdt3306a_config.i2c_adapter = &adapter;
-+
-+	dvb->i2c_client_demod[0] = dvb_module_probe("lgdt3306a", NULL,
-+						 &dev->i2c_adap[dev->def_i2c_bus],
-+						 0x59, &lgdt3306a_config);
-+	if (!dvb->i2c_client_demod[0]) {
-+		dev_err(&dev->intf->dev, "lgdt3306a demod initialization failure\n");
-+		return -ENODEV;
-+	}
-+
-+	/* attach demod */
-+	si2168_config.i2c_adapter = &adapter2;
-+	si2168_config.fe = &dvb->fe[1];
-+	si2168_config.ts_mode = SI2168_TS_SERIAL;
-+	si2168_config.ts_clock_inv = true;
-+
-+	dvb->i2c_client_demod[1] = dvb_module_probe("si2168", NULL,
-+						 &dev->i2c_adap[dev->def_i2c_bus],
-+						 0x64, &si2168_config);
-+	if (!dvb->i2c_client_demod[1]) {
-+		dev_err(&dev->intf->dev, "si2168 demod initialization failure\n");
-+		dvb_module_release(dvb->i2c_client_demod[0]);
-+		return -ENODEV;
-+	}
-+
-+	dvb->fe[1]->id = 1;
-+
-+	/* attach tuner */
-+	si2157_config.fe = dvb->fe[0];
-+#ifdef CONFIG_MEDIA_CONTROLLER_DVB
-+	si2157_config.mdev = dev->media_dev;
-+#endif
-+	si2157_config.if_port = 0;
-+	si2157_config.inversion = true;
-+	si2157_config.dont_load_firmware = 1;
-+
-+	dvb->i2c_client_tuner = dvb_module_probe("si2157", "si2177",
-+						 &dev->i2c_adap[dev->def_i2c_bus],
-+						 0x60, &si2157_config);
-+	if (!dvb->i2c_client_tuner) {
-+		dev_err(&dev->intf->dev, "si2157 tuner initialization failure\n");
-+		dvb_module_release(dvb->i2c_client_demod[1]);
-+		dvb_module_release(dvb->i2c_client_demod[0]);
-+		return -ENODEV;
-+	}
-+
-+	dvb->fe[1]->tuner_priv = dvb->fe[0]->tuner_priv;
-+
-+	memcpy(&dvb->fe[1]->ops.tuner_ops,
-+		&dvb->fe[0]->ops.tuner_ops, sizeof(struct dvb_tuner_ops));
-+
-+	dev->em28xx_set_analog_freq = em28xx_set_analog_freq;
-+
-+	return 0;
-+}
-+
- static int em28xx_dvb_init(struct em28xx *dev)
- {
- 	int result = 0, dvb_alt = 0;
-@@ -1990,6 +2178,21 @@ static int em28xx_dvb_init(struct em28xx *dev)
- 		if (result)
- 			goto out_free;
- 		break;
-+	case EM2828X_BOARD_HAUPPAUGE_935_V2:
-+		result = em2828X_dvb_init_hauppauge_wintv_935_v2(dev);
-+		if (result)
-+			goto out_free;
-+		break;
-+	case EM2828X_BOARD_HAUPPAUGE_955_V2:
-+		result = em2828X_dvb_init_hauppauge_wintv_955_v2(dev);
-+		if (result)
-+			goto out_free;
-+		break;
-+	case EM2828X_BOARD_HAUPPAUGE_975_V2:
-+		result = em2828X_dvb_init_hauppauge_wintv_975_v2(dev);
-+		if (result)
-+			goto out_free;
-+		break;
- 	default:
- 		dev_err(&dev->intf->dev,
- 			"The frontend of your DVB/ATSC card isn't supported yet\n");
-diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-index 578ba3d88d01..a172cc1e2604 100644
---- a/drivers/media/usb/em28xx/em28xx-video.c
-+++ b/drivers/media/usb/em28xx/em28xx-video.c
-@@ -171,7 +171,14 @@ static int em28xx_vbi_supported(struct em28xx *dev)
- 
- static int em28xx_analogtv_supported(struct em28xx *dev)
- {
--	return 0;
-+	switch (dev->model) {
-+	case EM2828X_BOARD_HAUPPAUGE_935_V2:
-+	case EM2828X_BOARD_HAUPPAUGE_955_V2:
-+	case EM2828X_BOARD_HAUPPAUGE_975_V2:
-+		return 1;
-+	default:
-+		return 0;
-+	};
- }
- 
- /*
-@@ -2061,7 +2068,18 @@ static int vidioc_s_frequency(struct file *file, void *priv,
- 	if (f->tuner != 0)
- 		return -EINVAL;
- 
--	v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, s_frequency, f);
-+	switch (dev->model) {
-+	case EM2828X_BOARD_HAUPPAUGE_935_V2:
-+	case EM2828X_BOARD_HAUPPAUGE_955_V2:
-+	case EM2828X_BOARD_HAUPPAUGE_975_V2:
-+		if (dev->em28xx_set_analog_freq)
-+			dev->em28xx_set_analog_freq(dev, f->frequency);
-+		break;
-+	default:
-+		v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, s_frequency, f);
-+		break;
-+	}
-+
- 	v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, g_frequency, &new_freq);
- 	v4l2->frequency = new_freq.frequency;
- 
-diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
-index 9fcaebd78bae..ae4010c55623 100644
---- a/drivers/media/usb/em28xx/em28xx.h
-+++ b/drivers/media/usb/em28xx/em28xx.h
-@@ -145,6 +145,9 @@
- #define EM2874_BOARD_HAUPPAUGE_USB_QUADHD         106
- #define EM2860_BOARD_MYGICA_UTV3                  107
- #define EM2828X_BOARD_HAUPPAUGE_USB_LIVE2         108
-+#define EM2828X_BOARD_HAUPPAUGE_935_V2            109
-+#define EM2828X_BOARD_HAUPPAUGE_955_V2            110
-+#define EM2828X_BOARD_HAUPPAUGE_975_V2            111
- 
- /* Limits minimum and default number of buffers */
- #define EM28XX_MIN_BUF 4
 -- 
 2.35.1
 
