@@ -1,144 +1,205 @@
-Return-Path: <linux-media+bounces-56084-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56085-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UIOeH3JWuWnYAgIAu9opvQ
-	(envelope-from <linux-media+bounces-56084-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:26:10 +0100
+	id sNvVDC5XuWnYAgIAu9opvQ
+	(envelope-from <linux-media+bounces-56085-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:29:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181222AAD35
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:26:10 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A51172AAE00
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:29:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1D38530B5033
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:24:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 051A130862EC
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4758B3CBE87;
-	Tue, 17 Mar 2026 13:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA94B3CA49E;
+	Tue, 17 Mar 2026 13:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ca4EK0Zp"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VGdGn48/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3453CB2E4;
-	Tue, 17 Mar 2026 13:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EE83CB2C1
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773753847; cv=none; b=TudyClpiBemdZlZIilK5QK1t5jTO5W44dJn0vYYjTlDBk0kVkhtLqDg5+Ul3jPbwUAUVeJN3NBnt523YmAdkXWxCCZ2/i3K4H8p0IZXkacFHjWEcTzbnM+HFrxpKmOagqxTFTaFkEhVciv4pPfik7A5RXMugfk/oD5e/hDwRYd4=
+	t=1773753861; cv=none; b=ahWKf6rPOCCAodqKsg1nvV3mG9guuQUC0YzdnR8DcVNgF1ZNin+I0snysd6CUDkJo7UQmE/6HB2hiRPT2McUgaYbcZCuchXdj7rCLZFLdOgH2PVy609k2uag4W/btRwzCj5N6YasFvUSDZyfQXeC1DKoREnAc4n8iZSu95r5gHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773753847; c=relaxed/simple;
-	bh=tEAUK+pa+VR09YaPr4Y45r4hPgbJ47nS8N90OSVRsNA=;
+	s=arc-20240116; t=1773753861; c=relaxed/simple;
+	bh=7Qt6Q9z2m0IUW39FJ0I96ZaoPjhs3eTkYaQNqdf8tjY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ip50h993cwyoVQqeYbNYkEI8Q8GCzDUQl0jtT/cD2sgwaavlVIORODmLnB5dMXngafFFbJFgE1k/fM20e10bw51BiqubeirJwEyrLVW9NgHXlhsg2m0TnDz/7dTRCELohUYPxGD8WMw295lfwQ5nDeNP9KvBZqFwAXRIYi+i/Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ca4EK0Zp; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773753846; x=1805289846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tEAUK+pa+VR09YaPr4Y45r4hPgbJ47nS8N90OSVRsNA=;
-  b=Ca4EK0Zphi3BPeMntGQgATdg/B67rp0v3ciRl7vvheUSN8tdUWzushsm
-   xuzjmvyQh8sHWVQYOSOKzFK+hTP77R8yOzjyne2YuRuJ65vewAWgY/0qj
-   NoCqzN3x8ZzoHdJHfUN8TnL9K6v8hETrouj29+Vmey2paeeSmQMOL0E7D
-   Vl2RHy3dxL/nKW3/fWsXg9fMZNgm2bvfnPWx6luxrueMciRBI1dm1/GRm
-   CuKiJddIkxCLYiI3AoHpiJFzQw3Zx6Kh+4DlEOIKh1WDo/05lOODziD15
-   Elict4VZld06Wau5nOwD0PdI9U1gr9/bROtnmk/XykWjkTkS+0xEOzTNc
-   A==;
-X-CSE-ConnectionGUID: XYBcsjXITYy5ublSuvnRHQ==
-X-CSE-MsgGUID: l58JXQFGTxqPs7Zm+6L/jQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="77395733"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="77395733"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:24:05 -0700
-X-CSE-ConnectionGUID: t1KaPoM3RfWc9xe3EIi62Q==
-X-CSE-MsgGUID: 8oAUK+V8QrazFR3d+q8ogw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="226958468"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.171])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:24:01 -0700
-Date: Tue, 17 Mar 2026 14:23:54 +0100
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: michael.riesch@collabora.com
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Kever Yang <kever.yang@rock-chips.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, 
-	=?utf-8?B?0JrRg9C30L3QtdGG0L7QsiDQnNC40YXQsNC40Ls=?= <mai.kuznetsov.misha@gmail.com>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Collabora Kernel Team <kernel@collabora.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 9/9] arm64: defconfig: enable designware mipi csi-2
- receiver
-Message-ID: <ablVqNnYYFoy76NJ@mdjait-mobl>
-References: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
- <20250430-rk3588-vicap-v2-9-77de5ee9048e@collabora.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uZ508sgGdhyZG6r7ktDXU3L+jiJ/K07WLHHn9Y327voecGEGwVX6TbKPJzR0ihoduw2JHDGvx6C1xD0mYamkoHLyghAYZm0ZgCTp10Ws2EVQWotWMcz9CAcA/Xozm5pS2tCsTcX2YIAxXC0CNuUWUxlWv/xVeNFYvQUAMCG65uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VGdGn48/; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48569636800so74395e9.0
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 06:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773753858; x=1774358658; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zWZeNHlOMbvwVmHsivYMTEHjYjPNUndT05044cKL2Xs=;
+        b=VGdGn48/LRM5/JRQhzdjI3EY2gac8bv8hlMLoLZpS13QROBC+G1fYZ4y+nAv69NyW/
+         WufN0/7Ob7VsUSm+BqeiDiE7EZRgxoxfeTkCGSRjTdO5+WolscTS/f9ZQnxwJxBdyPea
+         esGwYXbSf/CWtwDm1SqS+xRYm7FV88ZOBTVjD+ntjkHx7wPEyDTi+ty7PYWgYhIPxU+i
+         7O/1yRjObE7Gya98nBp8z3aWKcGRz6/BivYnNK4RmDbakSgUi+CwpQMRzMi4yP4DOqTX
+         t6U1X+I/k+QQRqkNr/X8eGFYJMZsz/qMUbzKH89GofdUFUjumnybLLIr1DbKZSSyqftA
+         W6WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773753858; x=1774358658;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zWZeNHlOMbvwVmHsivYMTEHjYjPNUndT05044cKL2Xs=;
+        b=khJL6o2TcHTZ8AXfYWrxPcFCcZAHZCnRDNssalG76AeTk+ccyhzxX55TxjtdByxpxz
+         4+epzNbUcePk2LDrEDbBwWtzWWmRqY/HDmG7Q4E+LaeD4p+66tuY9XvnbhkQMhlcVChM
+         yIapfkcpyi29gmq5dD3/Z2U1VK4Lo5R+yo6Hjp4i7iAUsknbTOxHqD85XrzO226cQZ7u
+         adPsNkrITtO6QCis76flKCysLXRG1y8l/xXljfYhPHdVugzYt8mLCpbDHxoWUCdhjnsW
+         d7/fr/kLuVO8z+Xe4np4cIs0ZSX9D3U3MpKv1I7HuptQY91vLcXcrev38/Cp0VioLtWe
+         cYag==
+X-Forwarded-Encrypted: i=1; AJvYcCU0BylZ/n4pFrT8QwCb/tCP9JdUBFviCGQC5Xy+4uBL+NZpv/yHSYNFSz0uWArMfONJCUkn84zvmo20Pw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPaZn8SlziCOO1+a0U0MDUIuRUs2t+a/PRyllN9B9Ne+9wmbMx
+	XHpew/9P/N6l26L0OMAt8DRklhjMbBL4u31PT9kSCJAPLzXqCQlEYaNL+Pf8Nay9dw==
+X-Gm-Gg: ATEYQzzElStJxmJeywwSnULbHa7oxLHcrABqwivTuVuce37N4Mndef1efBxdX74LLwD
+	e0bf8Rk0DD01jfzNr2ZgaUgOG+1n5ZChvMo6DsG1QCn6eOJuIxOa9au6XLkdIbjfH3Z+yarCEgu
+	DJVu4Hf0jvkDrkLj82GHbugsZQ5DyaHzfCKu4oQD/ip4td3nXS0A5GKVsjuQmKc5nMTclU0ahek
+	dhB0EhiXPK/a64AhMqCTXJpYxe9NeAmHteEl913TBMiasw18NRVAql6DzhJZ98WrFN7oXPbfaaJ
+	C+n/MEBKjIpez3lGY62mHeRPAg0zhG1DPlUbXBjjqg/Vcw3wAbfsRz5Ps6/lNl10Qb9/oHR9jGe
+	Tp34JGuzbflnerfXfYH7RLA8pkofKg2fA6mWhOUmptyNqAKe1VroNWqcfO3FH9fZdHI6DzAyLzN
+	747P1dqdT+Jer1/YYn0/Eq8NHHXa3frEJWCMzGpPA2RX3RadENsglEacjU
+X-Received: by 2002:a05:600c:4e45:b0:485:b6e4:9808 with SMTP id 5b1f17b1804b1-485b6e49f7bmr773775e9.1.1773753857226;
+        Tue, 17 Mar 2026 06:24:17 -0700 (PDT)
+Received: from google.com (54.95.38.34.bc.googleusercontent.com. [34.38.95.54])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856eae3322sm58975315e9.10.2026.03.17.06.24.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 06:24:16 -0700 (PDT)
+Date: Tue, 17 Mar 2026 13:24:13 +0000
+From: Mostafa Saleh <smostafa@google.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	iommu@lists.linux.dev, linux-media@vger.kernel.org,
+	sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
+	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
+	christian.koenig@amd.com, m.szyprowski@samsung.com,
+	robin.murphy@arm.com, jgg@ziepe.ca, leon@kernel.org,
+	sean.anderson@linux.dev, ptesarik@suse.com, catalin.marinas@arm.com,
+	aneesh.kumar@kernel.org, suzuki.poulose@arm.com,
+	steven.price@arm.com, thomas.lendacky@amd.com, john.allen@amd.com,
+	ashish.kalra@amd.com, suravee.suthikulpanit@amd.com,
+	linux-coco@lists.linux.dev
+Subject: Re: [PATCH net-next v3 0/2] dma-buf: heaps: system: add an option to
+ allocate explicitly decrypted memory
+Message-ID: <ablV_f_l7wD2m63E@google.com>
+References: <20260305123641.164164-1-jiri@resnulli.us>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250430-rk3588-vicap-v2-9-77de5ee9048e@collabora.com>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260305123641.164164-1-jiri@resnulli.us>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56084-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com,linux.intel.com,vger.kernel.org,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-56085-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mehdi.djait@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FROM_NEQ_ENVFROM(0.00)[smostafa@google.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email,intel.com:dkim,intel.com:email]
-X-Rspamd-Queue-Id: 181222AAD35
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,nvidia.com:email]
+X-Rspamd-Queue-Id: A51172AAE00
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Michael,
+Hi Jiri,
 
-Thank you for the patch!
-
-On Tue, Mar 17, 2026 at 10:32:27AM +0100, Michael Riesch via B4 Relay wrote:
-> From: Michael Riesch <michael.riesch@collabora.com>
+On Thu, Mar 05, 2026 at 01:36:39PM +0100, Jiri Pirko wrote:
+> From: Jiri Pirko <jiri@nvidia.com>
 > 
-> The Synopsys DesignWare MIPI CSI-2 Receiver is integrated into
-> recent Rockchip SoCs, such as the RK3568 and the RK3588.
-> As a consequence, they are used on a lot of Rockchip-based
-> single board computers and/or corresponding camera modules, such
-> as the Radxa Camera 4K.
-> Enable the driver for it in the default configuration.
+> Confidential computing (CoCo) VMs/guests, such as AMD SEV and Intel TDX,
+> run with encrypted/protected memory which creates a challenge
+> for devices that do not support DMA to it (no TDISP support).
 > 
+> For kernel-only DMA operations, swiotlb bounce buffering provides a
+> transparent solution by copying data through decrypted memory.
+> However, the only way to get this memory into userspace is via the DMA
+> API's dma_alloc_pages()/dma_mmap_pages() type interfaces which limits
+> the use of the memory to a single DMA device, and is incompatible with
+> pin_user_pages().
+> 
+> These limitations are particularly problematic for the RDMA subsystem
+> which makes heavy use of pin_user_pages() and expects flexible memory
+> usage between many different DMA devices.
+> 
+> This patch series enables userspace to explicitly request decrypted
+> (shared) memory allocations from the dma-buf system heap.
+> Userspace can mmap this memory and pass the dma-buf fd to other
+> existing importers such as RDMA or DRM devices to access the
+> memory. The DMA API is improved to allow the dma heap exporter to DMA
+> map the shared memory to each importing device.
 
-Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+I have been looking into a similar problem with restricted-dma[1] and
+the inability of the DMA API to recognize that a block of memory is
+already decrypted.
 
-> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+However, in your case, adding a new attr “DMA_ATTR_CC_DECRYPTED” works
+well as dma-buf owns the memory, and is both responsible for the
+set_memory_decrypted() and passing the DMA attrs.
 
---
-Kind Regards
-Mehdi Djait
+On the other hand, for restricted-dma, the memory decryption is deep
+in the DMA direct memory allocation and the DMA API callers (for ex
+virtio drivers) are clueless about it and can’t pass any attrs.
+My proposal was specific to restricted-dma and won’t work for your case.
+
+I am wondering if the kernel should have a more solid, unified method
+for identifying already-decrypted memory instead. Perhaps we need a
+way for the DMA API to natively recognize the encryption state of a
+physical page (working alongside force_dma_unencrypted(dev)), rather
+than relying on caller-provided attributes?
+
+[1] https://lore.kernel.org/all/20260305170335.963568-1-smostafa@google.com/
+
+Thanks,
+Mostafa
+
+
+> 
+> Jiri Pirko (2):
+>   dma-mapping: introduce DMA_ATTR_CC_DECRYPTED for pre-decrypted memory
+>   dma-buf: heaps: system: add system_cc_decrypted heap for explicitly
+>     decrypted memory
+> 
+>  drivers/dma-buf/heaps/system_heap.c | 103 ++++++++++++++++++++++++++--
+>  include/linux/dma-mapping.h         |   6 ++
+>  include/trace/events/dma.h          |   3 +-
+>  kernel/dma/direct.h                 |  14 +++-
+>  4 files changed, 117 insertions(+), 9 deletions(-)
+> 
+> -- 
+> 2.51.1
+> 
 
