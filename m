@@ -1,218 +1,160 @@
-Return-Path: <linux-media+bounces-56091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56092-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CGiVLGxauWnYAgIAu9opvQ
-	(envelope-from <linux-media+bounces-56091-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:43:08 +0100
+	id eACvBdVbuWnYAgIAu9opvQ
+	(envelope-from <linux-media+bounces-56092-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:49:09 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1827F2AB201
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:43:08 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7532AB38F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:49:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B880431015E7
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:40:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9709B30B2DE5
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:47:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEEAE2D592E;
-	Tue, 17 Mar 2026 13:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCC030CD80;
+	Tue, 17 Mar 2026 13:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KxX9tq30"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e1IsiyXX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255842C0F6F
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5FE30DEA0
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773754833; cv=none; b=Xwkur0U9NQbKUW1R6tP9PbTtg7A4oiIpAZwduVMAGAp3xR4wR7ddxEjGNRNFwSQeQSvHdJwAQEv9dXf5oOedC5ab6EtYW7cY4MUul5E2jY00GRLhKi8raC5Z/PafXnzh1lCVxRsZuphyTnoWeqx1JTlIkXaL14ejN25D41dz5Yw=
+	t=1773755231; cv=none; b=J7WvLHgz20zUTV/F9BfAnF6jqaYI6omgZpjM9TnYNm6sQX/EJIzerXCBXIgTtA1fo/1U/zKwai1kGu/zbsWCMe3TNzkbHYpYGhtwXR6ysejZmclOGgwoltkXkLjJlDj1reKtfwdYlTQoJHAmSZ8I4A8LKDr2ZTQ0RW6gpYA6Qwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773754833; c=relaxed/simple;
-	bh=ukEdBRqORvau80MIfMeCKHot6URwAG/oM70kKwMQig4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=vD9aAhf9igj0svacH4BS53XzEmTz7FP7HfjnOZrgekbevZ2tU2VhVzbgW2trWrZ0kS0cphK0JTwWp+Ue9WBrfc6aBBCeJ9L3026dIfYS8VHE52EVd+qdGb1ThNrd/sZCZKuXXxI/J2UWtYeaPyVA+B5OWZM7/r+b8rFateN8V3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KxX9tq30; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A26BC19425;
-	Tue, 17 Mar 2026 13:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773754833;
-	bh=ukEdBRqORvau80MIfMeCKHot6URwAG/oM70kKwMQig4=;
-	h=Date:From:Subject:To:Cc:From;
-	b=KxX9tq30yUVeFsXlvuGCtZotXvLNwATn/E53xfBY9zybdBDG5agjtSCRWFXS+KFzo
-	 rrFCnZ6R6P6NUXmCQYRuDiV17Mbt/eLYIbmyzY9f3f+cHo+dArlF1JmiI0fKs/eXGq
-	 lsEtFIq+T4o9llElPK/nub7UXPPsVNVlMEw9HGqYiEnuc+4e3LSWvN7J+iBJh6CxeD
-	 VfjdQt7EjAuXHXBB4HYsZiKsRhSaFTSkh1+BDvOf6dGqw9sYTcsIX+pZD7vil4wL00
-	 8gu71DT24VZ1B1K/sgF858gfRHlczl9kLXy3d6hhuSSNK6wSIEAyhzJetfG/MljAJg
-	 RyEkGTEgFpCEg==
-Message-ID: <b20e0a50-9b0b-4fec-94a5-60bda74ddc9f@kernel.org>
-Date: Tue, 17 Mar 2026 14:40:25 +0100
+	s=arc-20240116; t=1773755231; c=relaxed/simple;
+	bh=/x9bu8KevwXQZUlu2VPi3Pigx2Icge0JmO4mg9haX+o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sO/w5JrfH2lIvVFhx9W5L90E6h8ZsyqJH2+cg0VCdh3fz5NMfx3u5xi2ry/M18BSS5KpdPIsFW4XENVpg1Fyu+Z+3/VrhxJFSwEJDKrRu0oFknlNahFU5+kRLZPsIaNYSd9/eJCA4Kt7OjD/1u7ptarUyHQENtaD9M444Ze2i2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e1IsiyXX; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c73fbdd9b53so919644a12.3
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 06:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773755229; x=1774360029; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MK795KpPXyjO/YxzSnwJyz0MTRv/X9Db9MYpfOCj3BE=;
+        b=e1IsiyXX2Gb2kpeZIswcndeoSUGjV7M25p9NOQCbYSgNbvFKBhrCswsLPMjELVgNi8
+         +7Q0nAE1XBwMV/9A4vXwq/rLyZ03dn+9gLlfYIwje3lIxR6NZenQp/lxXmfLyD+vj0MB
+         5CjPXgKZKbXJXXroIWKtN2YgVyp0OscchBfed9jZiAHTSwcOtH7+wSAefOI1S1GnfWlf
+         8yMra79x5zfwR8SiSn737X6xTB9uyuStTmmj+x2Mwy8DslkM33zjuLpHiDu4EU7XVKae
+         jX0C2t2JjbmzC+cYHcRALm4otbO0kWygcbw1parDSCblQBiShJBNUwLXZuMFTvihwGPv
+         1yLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773755229; x=1774360029;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MK795KpPXyjO/YxzSnwJyz0MTRv/X9Db9MYpfOCj3BE=;
+        b=oabcxt5Bxuz3u8xCkGW/OhAbHoP/KsssXnYSHUHXZByIsjHXSv1D+EGMbtA863exO3
+         aBtmjYR6ZPzc4vjmQFGwZz8WmNIFSUAgmFx00kyQ9KerLmp2PDc/ntdWbl1qDg/oLS2b
+         9MkZ2NFG8KOSjobcHl6jzZ1DXSWFpqJ67pgTiC5VkpSE+wDXOCZJ43adZGKjxIdPlJlh
+         2jjyWk0cvUTjDkl/PXw6N1IS4Jv6lsJUEgYR4dqx0Wenh5HUB3Yzfsa9BpL4hA9nDJ+p
+         +sUkeQ7Eq7TDtG5B+tscS2Ql+ct4rjaka0XPMPWRWMSCbUiyn//MQbNn3ZcrxGj0W1A5
+         KiJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmwrMx+yyZyqS7mWmbjkayYRhsjun7kNcuqjcpXnYfCAZMTa87Y4RHR6BTlatMlsLAXT5Z2i5IQ6DP0A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbvwuXUCmyqGrVmwqUiOcy98jva93DwOvI1BDCTpgopmcviZPQ
+	VipB2H/SAtxeJxUQNa9CtCFmKqgxN1NygcfxyXi1tVi3tYGHkkcY3loo
+X-Gm-Gg: ATEYQzxrWvn1iPh7wXfFlMMPSbdjTDdIBkv4FIFsgh7L7m43x1OYcdCLrUcPMIX+seU
+	adsRyAXNRUPUwBV8JHkd07toO3mTdqzFC6ruIMaUvBi6UwSiS6r4zC/z5xU9ZaKzELQ8C7YuMkA
+	7IsRxApQwiEBGS1Pzp4hu/NKgtcslc2anEabet+IuCsbq31tOFIHX1Ojhdw7rZWwqUtXB0JY0T2
+	qg9XIh4/lIUNtDuR0zIa5x4fcSMLxIenLzdQRNqig3rc8i6+9YORQwrqsImoJV4e0nsBzi60uGT
+	N0W2fOoIQZiJJ4O0pxJdhuYuiCLvhI+JlvLs09+pwymqunS9UAh4NaY1vL2VunWooIeczCsQo0k
+	vIAGkO9fYdVYddtYZ1WXiwG8xcplyKWfjJMamGZH9O6G6StQAX2f2+Jbkt99SZZEkiSindyhppa
+	ZduxJW53VgW8G25rHEWq0B/qW6GOqNVvvbyNbICw==
+X-Received: by 2002:a05:6a21:50a:b0:398:9f1d:8a03 with SMTP id adf61e73a8af0-398ecd9d561mr16769427637.61.1773755229144;
+        Tue, 17 Mar 2026 06:47:09 -0700 (PDT)
+Received: from padmashree.. ([2401:4900:91ee:4baa:27e8:65bd:dbc5:b65f])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c73eba9e183sm11898643a12.14.2026.03.17.06.47.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 06:47:08 -0700 (PDT)
+From: Padmashree S S <padmashreess2006@gmail.com>
+To: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	Frank.Li@nxp.com,
+	mchehab@kernel.org,
+	s.hauer@pengutronix.de
+Cc: padmashreess2006@gmail.com,
+	festevam@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] staging: media: imx: fixed a brace coding style issue
+Date: Tue, 17 Mar 2026 19:14:47 +0530
+Message-ID: <20260317134448.389123-1-padmashreess2006@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [ANNv2] Media Summit on May 26th in Nice, France
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
- <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Steve Cho <stevecho@chromium.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Hans de Goede <hansg@kernel.org>, Maxime Ripard <mripard@kernel.org>
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56091-lists,linux-media=lfdr.de,cisco];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56092-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,pengutronix.de,nxp.com,kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[padmashreess2006@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_NONE(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 1827F2AB201
+X-Rspamd-Queue-Id: AE7532AB38F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-(Please pass this on to anyone you think might be interested in this!)
+Fixed a coding style issue.
 
-Hi all,
+Signed-off-by: Padmashree S S <padmashreess2006@gmail.com>
+---
+ drivers/staging/media/imx/imx-media-of.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-This is the second version of this announcement, adding a list of attendees
-and a tentative agenda at the end: please let me know if you see mistakes.
+diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
+index bb28daa4d713..7413551052ae 100644
+--- a/drivers/staging/media/imx/imx-media-of.c
++++ b/drivers/staging/media/imx/imx-media-of.c
+@@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
+ 		of_node_put(csi_np);
+ 		if (ret) {
+ 			/* unavailable or already added is not an error */
+-			if (ret == -ENODEV || ret == -EEXIST) {
++			if (ret == -ENODEV || ret == -EEXIST)
+ 				continue;
+-			}
+ 
+ 			/* other error, can't continue */
+ 			return ret;
+-- 
+2.43.0
 
-This year's Media Summit will be held on Tuesday May 26th the day before the
-Embedded Recipes Conference in Nice, France:
-
-https://embedded-recipes.org/2026/
-
-The Media Summit will be held at Hotel Campanile and in the same meeting room
-as last year (Nikaia):
-
-https://nice-aeroport.campanile.com/en-us/
-
-It is close to the Airport and to the Embedded Recipes venue.
-
-The meeting room can hold up to 30 people and I will provide video conferencing support,
-just like last year. The location and the meeting room was quite nice last year, so
-I saw no need to change it.
-
-That said, in-person participation is very much preferred. This yearly summit is meant
-for active media developers to meet face-to-face and to discuss media subsystem issues.
-
-And it is also a good opportunity to talk to each other during the Embedded Recipes
-conference to discuss topics in a smaller group. But if you are an active media developer
-and are really not able to attend in person, then remote participation is an option.
-
-If you want to attend the meeting (either in person or remote), then send an email to me
-directly. The deadline for in-person attendance is May 14 as the hotel needs to know the
-final number of attendees by then.
-
-There is no registration fee, the meeting room is sponsored by Cisco and Collabora, and
-the lunch is sponsored by Ideas on Board! Many thanks to our sponsors, it's very much
-appreciated.
-
-If you have a topic that you want to discuss, just 'Reply All' to this announcement
-and give the topic title, a short description and a guesstimate of the time you need
-for your topic.
-
-See last year's Media Summit Report as an example of what to expect:
-
-https://lore.kernel.org/linux-media/21769183-ca57-4f8f-818a-6a1ad089298d@jjverkuil.nl/
-
-This announcement goes out quite early for once, usually it takes a lot longer
-to organize, but having it in the same place as before made life so much easier.
-
-Regards,
-
-	Hans
-
-PS: Be aware that May 24 and 25 are public holidays in France. So many shops may be
-closed those days.
-
-In-person attendees:
-Michael Riesch <michael.riesch@collabora.com>
-Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Loic Poulain <loic.poulain@oss.qualcomm.com>
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Michael Tretter <m.tretter@pengutronix.de>
-Sven Püschel <s.pueschel@pengutronix.de>
-Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Devarsh Thakkar <devarsht@ti.com>
-Marco Felsch <m.felsch@pengutronix.de>
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Paul Kocialkowski <paulk@sys-base.io>
-Brandon Brnich <b-brnich@ti.com>
-Ricardo Ribalda <ribalda@chromium.org>
-Kieran Bingham <kieran.bingham@ideasonboard.com>
-Hans Verkuil <hverkuil@kernel.org>
-
-Remote attendees:
-Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Dave Stevenson <dave.stevenson@raspberrypi.com> (tentative)
-
-
-Agenda (unordered, *very* tentative):
-
-Title: Discussion of the media subsystem development process
-Presenter: Hans Verkuil
-Time estimate: 1 hour
-Description: Review of the multi-committer model: current status and next steps.
-Are there any bottlenecks, any ideas for improvements, w.r.t. the development process?
-
-Title: Status of ISP support in V4L2
-Presenter: Laurent Pinchart
-Time estimate: 15 minutes
-Description: Summary of ISP-related development in V4L2 since the last
-Linux Media Summit. This includes a brief overview of technical
-developments, and a summary of the efforts to engage with vendors.
-
-Title: Vulkan Video Codecs
-Presenter: Nicolas Dufresne
-Time estimate: ???
-Description: Vulkan video codecs: what are the viable options for Linux Media
-and what is in preparation outside of our subsystem. The second aspect is
-informative as these discussions don't seem to lean toward our subsystem as the
-foundation. But I think it's rather useful for everyone to understand why and
-what is included.
-
-Title: V4L2 Stateless Video Encoding uAPI Progress Update
-Presenter: Paul Kocialkowski
-Time estimate: 1 hour
-Description: An update on the ongonig work to support stateless codecs in V4L2.
-Some of the remaining open topics will be presented and discussed.
 
