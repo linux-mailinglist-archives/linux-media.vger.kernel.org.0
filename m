@@ -1,92 +1,92 @@
-Return-Path: <linux-media+bounces-56124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56125-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sKpEKZO9uWnJMQIAu9opvQ
-	(envelope-from <linux-media+bounces-56124-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 21:46:11 +0100
+	id +OClF/+9uWnJMQIAu9opvQ
+	(envelope-from <linux-media+bounces-56125-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 21:47:59 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F55F2B25EE
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 21:46:10 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7252B2648
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 21:47:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 316F4302758C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 20:46:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DAFAB3100C4A
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 20:46:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B689F349B06;
-	Tue, 17 Mar 2026 20:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A854D389E18;
+	Tue, 17 Mar 2026 20:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="e+8hHO0A"
+	dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b="qr5izMuY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367BD38A289
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 20:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9743254A9
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 20:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773780365; cv=none; b=u03wSjC+94GtCxTwcQcb0twf9MNAYnatX+zWpvpbfUfoR0xkSLx7S3PRnNRcb//7nDMpn2BdVVR7jj2AG+L4d+x9NgNkCnrIBaO/vAyeWk2rQQ8R1Kcuqv0cyzalYy0H8gxOQjOyX62/uw8g/ORGizbKKB7rhcrQqRZm7RXjPRQ=
+	t=1773780415; cv=none; b=KDJj0pbDW1+43HxP112VB3ySnssQ53Ed/JF0YBLg0bizROXC2HaN3DMeJYPfO1od8jMSn5+i+bQNq58dZfk4hTn2s0r+iKz34uogPv6Wx4kXfSWk7iPrHOWwIBUrcDU8pakont3tr3o635q67rmjwtGzkMee43cSnSGYvt0ar3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773780365; c=relaxed/simple;
-	bh=wLbK5lxO1SE25yDzTjep8/5hcQazld47RSrZnqMfaRo=;
+	s=arc-20240116; t=1773780415; c=relaxed/simple;
+	bh=+Rky+iEk6nXiagg9G/NoNhEtXz7TUJ1UjsEcqDwF1o0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mOBt1TaTy/Ei/xGloIYgPUZ/Dj+RSmNEXgxWdZn7leD5IA/4ZYBidZXMlk5tzUl98rNuEVEbqClmxePjXOO4pXJB+AuHGOpVHUNcHGaJ0XdvFDdVX5eBQB64IhRB9R7YRjqny5av8QM0jttwxtUN6Enu7Jw+ocimu3hbaCBcA8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=e+8hHO0A; arc=none smtp.client-ip=74.125.224.44
+	 MIME-Version; b=UD5wQP0Wm+wztxnMiwo/c7IWjhlc6i4SsVDGKAAV2b88RpoleXxm9yS9kNZAoMpjFq0pV6R5ucdVBDoKLD9ovVCS+2e9GfwMsVu4s1rif2ecvs4myMe8okRRcIKBH4EMIebMDpG235c55odh/ig7R2U3Ws7Q+4OeK/s0i0HusRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc; spf=pass smtp.mailfrom=nextdimension.cc; dkim=pass (2048-bit key) header.d=nextdimension.cc header.i=@nextdimension.cc header.b=qr5izMuY; arc=none smtp.client-ip=74.125.224.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nextdimension.cc
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nextdimension.cc
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64ad79dfb6eso7159213d50.0
-        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:46:02 -0700 (PDT)
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-64ca6595c8aso5947445d50.0
+        for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nextdimension.cc; s=google; t=1773780362; x=1774385162; darn=vger.kernel.org;
+        d=nextdimension.cc; s=google; t=1773780413; x=1774385213; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BwkzRKLmlFf5Z7yCFukicYKH+Z+jrIxKvXB1rh0eGmE=;
-        b=e+8hHO0AlrtLcsYqSGG0gk6vUHxBddpdrE6W2nI6rhhTmtvuDdEiX49j1kMPw8vFjg
-         qIcoS+fo9UyyKVoM8uS+brkY3+JtCtbSrkSQ6O/kY8RXD8yrUy3iKTKDHecbM2fY5AsQ
-         JUyNfc+IjHLAnigZHp4hERtNB5eNjwYUU1qlNA/PoeCfCQIkxDlzq2OmYZxRYHCQJG+c
-         NPQh7pOtvIeh3HnDoHMo8np/1B1w+tRxDA5bn7cRfoin9Sjn7VDjGRzQWqP4rgEe3pg+
-         +ZshBOJpe2vRcNnXPJjm7Sheec55Fhz/RJj3BmL7U/NTRtvQhB1ltn+Fo+SZyg7EOyPu
-         owYg==
+        bh=w4wTfr3Y6zTqjkFGZEWUznJIC7OP9liwhy3bKxKhAQM=;
+        b=qr5izMuYLStNdWeHLvskmAET6wfiTukcnu7vbUXj7bvE6caaPf0GEn6y5vy0lGG+h1
+         zQeH6v04hUx9lyduXn9VUNib8GPBR80N3zlRuZKC7DntddeqbL6uGz3BhLmqi+wLtK5P
+         4I/UUCi9/NOigmq+IKj1r4kjRVG2EBddqhCP/BDp2i19GT4DaAsuYs9DlK05/SdPV8XP
+         YEKywiCZSTBTyJnWISZQ6giHfVWFSOI8Zw7pwjxewgMWjf8A0fqsvdi4XsbCkTdNmyWv
+         NRzZEI34EnCuwTpG1NVDZ2rzFGnlRPOPrmiNUC90Wqq0sPfdQWEBZEBSzgmofHPUqlGI
+         BwwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773780362; x=1774385162;
+        d=1e100.net; s=20251104; t=1773780413; x=1774385213;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BwkzRKLmlFf5Z7yCFukicYKH+Z+jrIxKvXB1rh0eGmE=;
-        b=hocEjqHu7QpV9yIVImeBFJz4ZwyvCXmTEUHBTJ4R6UrE+B2RhynzPtMiyap0pEOv8A
-         CrDSiFKpWbLnwBUiyeSVWzE2p+FatxphLt2slKfiuvAxOr+ze5FClLHCW8yQYNQoIUNH
-         NbpWNq/Y9PFgX0LJOtdNq4jZ8DfPdjvdX58ulEpCrNkwu884ihP9ZyT0n6TeTcgC4X4m
-         iRdAsbHnN8z7rkhKbTVsHTnmvll3TtJKOr+jjFAF2I5YsiroLLOLtOQdsPpHpL6xQxH8
-         qYKxcws7ykw98w8WN2i7TmDmDfO0NzRXSH7hRWQ9Rx3/6LzV20JKZoaCXdIheglEzXrZ
-         Q5Dw==
-X-Gm-Message-State: AOJu0Yyn9BE5i/UmUV0HbW2/ZQfQV1ZpA50j0F9bezPAS+ziSfwG2AjR
-	1WuGN8yv6DNj3vV2AKaWdGTWbWrjbWBi+blDTksKgsMByhLyiT4L98FNQ99hWXjRbppPrRgzHoS
-	iGPoWbDs=
-X-Gm-Gg: ATEYQzzD9tytHMyJMSRzLNXkwaBJu4TT+N3jApK8rb65VnMR+3OT46gDJwcbA2jgxu3
-	FsJal9FettVtvUfa60qf8qzZ5cf7ud28w1o6aXORYxPXV7cHCvjuJcONHook3Ro8qgYXlQjJUrl
-	/zVEnaP2GSvQhF5rSv0l+/pq2adxnzM1KuiQRdwkLSYfEAzVELejyj/GCXbhdgjfmi10tL3rvsi
-	qvSRd3JzBYxKzvCCQFB5Er/5LfVy2AC2lwouX+5P64PSfOVMX6zUnc9wi7LDF+iPkE4s10huhfi
-	+woZyND/Vu3ZEPl/9fnUyCliZejerVw9XTE4PSHXrziobST/00bPV6RUOucdLgzpiECipPylkiD
-	tGPeAZ+Pz+BbDgRJC02ewWaH5xBK/tsdNQ4CB3L3+OybDQh+FKOabxt9OcbbOqN2WMxS7Q9uGvz
-	wY1EH+YDZrvir74zSBnEpt+lVi56sa+KfcZqalNEm+GZP3k0pHP/6pnNbcp6j2tF197SNsDW+Wx
-	4u7HM8dAqxdL+/33f7FyCidn8ivxw==
-X-Received: by 2002:a05:690c:c14a:b0:799:1fa3:c915 with SMTP id 00721157ae682-79a71cbe82cmr8324087b3.56.1773780361669;
-        Tue, 17 Mar 2026 13:46:01 -0700 (PDT)
+        bh=w4wTfr3Y6zTqjkFGZEWUznJIC7OP9liwhy3bKxKhAQM=;
+        b=lXbrL9RVLSeG57Q7eHkQxjDkdyQ/hPdGot/9EWOwCB7PneMFe1omJCrpEZyLWpdGkM
+         9x8vUQ/T06aHA0S77BMWB/ABIgkpKAazniUf0VF11YjVnb+CyXFMMOsnxdz9TY9tlxxG
+         IxSGnaVgvSH+GZ9cTsBAhIVgZXrd9o1lbm4Xr6Mi9+Uo9byuy8l7XaG61qxwAbCiRHOK
+         05kSNCKBSWKbSzK0aTbTZ0rMclm4c+DS3Ho3gO7CE729/LHW4uz2xKad75gDaqQr26Ue
+         Mwmxk6F/k6KQLEjfEU4n5yGQU+lbxw6b/a+o81H0Wc1SWMMs+O0sRnJQQ6MaBoA4MSlI
+         GbyA==
+X-Gm-Message-State: AOJu0YxvcaSYk25VaPPOzmYgwmoO77+ry3EmBTXv9PLXx7tGb0gXREIB
+	0fRwF3OkYNSKPXcB+asUx9IX9D53n5uIXh3SfJnabCO9vrEeKUc3dJzC6KyeTHI0hs9v6vwTY6q
+	M1cF4NeY=
+X-Gm-Gg: ATEYQzxl37wum1DNvLt4ck12/wihx0XJ8uTnx/9Ss+WA8wQhEcSKUuXCS3cVer2o0/T
+	C4IFT72xOVbQ952Z1M2h2OA2+xILzQhbNcfd0MohJ/gy/4kA4UiuoQjjCFZdPkXleT2XLNIqmmm
+	sEuuT/KKj4JLsxN1BE1beFb11xdGHRa8aVZkUzKfk6BhrbDuKYAry0W4dZaiC10J3U3cy2gLfCK
+	1XB4WpIlF1tSRPGtdPuPq6KvAP8bSnjinNpPGNrax+iJ7CV3Itp37sEf6Rc2gO+qS1NHkvsAMht
+	8YefOKFy4Yfocqxrt+UXRCVEkBOAkrsOVS3Xn3A0WYq2i1FZpPx0TvP4HCEGduTbJZHn/6+aRPA
+	YLoYxOtqeSSwKbSnAXi9rGSt9jRsEUImZO37aXbx3lBGcu2FLi6pRFQyhzBAMEk+rXdh+wkiuHp
+	WPhjUeKvpxlAMv6+rcMhnv4zjdf2/V0Y0t/o+moqoYKuwmOZTad9HQGCS4mRcVgmPSlEzTHseDk
+	AtrVyG4om2sGcOubgDcldlfkFCo5Q==
+X-Received: by 2002:a05:690e:2cb:b0:64d:6cf8:f8c with SMTP id 956f58d0204a3-64e9159f310mr1029645d50.40.1773780412673;
+        Tue, 17 Mar 2026 13:46:52 -0700 (PDT)
 Received: from localhost.localdomain (108-207-243-35.lightspeed.austtx.sbcglobal.net. [108.207.243.35])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e91be032asm442367d50.14.2026.03.17.13.46.00
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64e91a47690sm476773d50.5.2026.03.17.13.46.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 13:46:01 -0700 (PDT)
+        Tue, 17 Mar 2026 13:46:52 -0700 (PDT)
 From: Bradford Love <brad@nextdimension.cc>
 To: linux-media@vger.kernel.org,
 	hverkuil+cisco@kernel.org
 Cc: Bradford Love <brad@nextdimension.cc>
-Subject: [PATCH v2 1/2] media: em28xx: Add support for Empia em2828X bridge
-Date: Tue, 17 Mar 2026 15:45:54 -0500
-Message-Id: <20260317204554.3365221-1-brad@nextdimension.cc>
+Subject: [PATCH v2 2/2] media: em28xx: Add Hauppauge USB Live2
+Date: Tue, 17 Mar 2026 15:46:45 -0500
+Message-Id: <20260317204645.3365244-1-brad@nextdimension.cc>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20260312224915.2907539-2-brad@nextdimension.cc>
-References: <20260312224915.2907539-2-brad@nextdimension.cc>
+In-Reply-To: <20260312224915.2907539-3-brad@nextdimension.cc>
+References: <20260312224915.2907539-3-brad@nextdimension.cc>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -98,12 +98,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[nextdimension.cc:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56124-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56125-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	DMARC_NA(0.00)[nextdimension.cc];
@@ -119,738 +119,85 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,nextdimension.cc:dkim,nextdimension.cc:email,nextdimension.cc:mid]
-X-Rspamd-Queue-Id: 5F55F2B25EE
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nextdimension.cc:dkim,nextdimension.cc:email,nextdimension.cc:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7B7252B2648
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The empia em2828X usb bridge contains previous functionality,
-but also contains an embedded video decoder. The implemented
-capabilities include composite and s-video inputs, as well as
-analog TV. Analog TV is expected in CVBS format, it must be
-demodulated already.
-
-Media controller decoder entity is included so pipeline
-verification passes and graph is properly constructed.
-
-Analog TV bits based off cx231xx driver.
+New revision of Hauppauge USB Live2 switches from cx231xx usb bridge
+to Empia em2828X bridge. Inputs for the USB Live2 remain the same:
+- Composite video
+- S-Video
+- Analog stereo audio
 
 Signed-off-by: Bradford Love <brad@nextdimension.cc>
 ---
-Changes in v3:
- - Fixed line length issues
- - Removed remnant custom control
- - Prune debug statements
- - Add media: tag to subject 
-Changes in v2:
- - fixed kzalloc_obj compilation issue
+Changes since v1:
+- Added media: to subject line
 
 
- drivers/media/usb/em28xx/em28xx-cards.c |  27 +++-
- drivers/media/usb/em28xx/em28xx-core.c  | 160 ++++++++++++++++++++--
- drivers/media/usb/em28xx/em28xx-dvb.c   |  15 +++
- drivers/media/usb/em28xx/em28xx-i2c.c   |   2 +
- drivers/media/usb/em28xx/em28xx-reg.h   |   1 +
- drivers/media/usb/em28xx/em28xx-video.c | 172 ++++++++++++++++++++++--
- drivers/media/usb/em28xx/em28xx.h       |  18 +++
- 7 files changed, 369 insertions(+), 26 deletions(-)
+ drivers/media/usb/em28xx/em28xx-cards.c | 20 ++++++++++++++++++++
+ drivers/media/usb/em28xx/em28xx.h       |  1 +
+ 2 files changed, 21 insertions(+)
 
 diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-index d7075ebabceb..67266bddb713 100644
+index 67266bddb713..0c5851bf4ef0 100644
 --- a/drivers/media/usb/em28xx/em28xx-cards.c
 +++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -3633,6 +3633,11 @@ static int em28xx_init_dev(struct em28xx *dev, struct usb_device *udev,
- 			}
- 			/* NOTE: the em2820 is used in webcams, too ! */
- 			break;
-+		case CHIP_ID_EM2828X:
-+			chip_name = "em2828X";
-+			dev->wait_after_write = 0;
-+			dev->eeprom_addrwidth_16bit = 1;
-+			break;
- 		case CHIP_ID_EM2840:
- 			chip_name = "em2840";
- 			break;
-@@ -3791,6 +3796,7 @@ static void em28xx_check_usb_descriptor(struct em28xx *dev,
- 	 *  0x84	bulk		=> analog or digital**
- 	 *  0x85	isoc		=> digital TS2
- 	 *  0x85	bulk		=> digital TS2
-+	 *  0x8a	isoc		=> digital video
- 	 * (*: audio should always be isoc)
- 	 * (**: analog, if ep 0x82 is isoc, otherwise digital)
- 	 *
-@@ -3814,6 +3820,8 @@ static void em28xx_check_usb_descriptor(struct em28xx *dev,
- 	/* Only inspect input endpoints */
- 
- 	switch (e->bEndpointAddress) {
-+	case 0x81:	/* unknown function */
-+		return;
- 	case 0x82:
- 		*has_video = true;
- 		if (usb_endpoint_xfer_isoc(e)) {
-@@ -3831,7 +3839,10 @@ static void em28xx_check_usb_descriptor(struct em28xx *dev,
- 				"error: skipping audio endpoint 0x83, because it uses bulk transfers !\n");
- 		return;
- 	case 0x84:
--		if (*has_video && (usb_endpoint_xfer_bulk(e))) {
-+		if (*has_dvb && (usb_endpoint_xfer_bulk(e))) {
-+			*has_dvb = true;
-+			dev->dvb_ep_bulk = e->bEndpointAddress;
-+		} else if (*has_video && (usb_endpoint_xfer_bulk(e))) {
- 			dev->analog_ep_bulk = e->bEndpointAddress;
- 		} else {
- 			if (usb_endpoint_xfer_isoc(e)) {
-@@ -3865,7 +3876,17 @@ static void em28xx_check_usb_descriptor(struct em28xx *dev,
- 			dev->dvb_ep_bulk_ts2 = e->bEndpointAddress;
- 		}
- 		return;
--	}
-+	case 0x8a:
-+		*has_video = true;
-+		*has_dvb = true;
-+		if (usb_endpoint_xfer_isoc(e)) {
-+			dev->analog_ep_isoc = e->bEndpointAddress;
-+			dev->alt_max_pkt_size_isoc[alt] = size;
-+		} else if (usb_endpoint_xfer_bulk(e)) {
-+			dev->analog_ep_bulk = e->bEndpointAddress;
-+		}
-+		return;
-+	};
- }
- 
- /*
-@@ -4047,6 +4068,8 @@ static int em28xx_usb_probe(struct usb_interface *intf,
- 			try_bulk = 1;
- 		else
- 			try_bulk = 0;
-+	} else if (dev->board.decoder == EM28XX_BUILTIN && dev->analog_xfer_mode) {
-+		try_bulk = 1;
- 	} else {
- 		try_bulk = usb_xfer_mode > 0;
- 	}
-diff --git a/drivers/media/usb/em28xx/em28xx-core.c b/drivers/media/usb/em28xx/em28xx-core.c
-index 29a7f3f19b56..ea433bad4410 100644
---- a/drivers/media/usb/em28xx/em28xx-core.c
-+++ b/drivers/media/usb/em28xx/em28xx-core.c
-@@ -499,7 +499,8 @@ int em28xx_audio_setup(struct em28xx *dev)
- 	if (dev->chip_id == CHIP_ID_EM2870 ||
- 	    dev->chip_id == CHIP_ID_EM2874 ||
- 	    dev->chip_id == CHIP_ID_EM28174 ||
--	    dev->chip_id == CHIP_ID_EM28178) {
-+	    dev->chip_id == CHIP_ID_EM28178 ||
-+	    dev->chip_id == CHIP_ID_EM2828X) {
- 		/* Digital only device - don't load any alsa module */
- 		dev->int_audio_type = EM28XX_INT_AUDIO_NONE;
- 		dev->usb_audio_type = EM28XX_USB_AUDIO_NONE;
-@@ -619,6 +620,65 @@ const struct em28xx_led *em28xx_find_led(struct em28xx *dev,
- }
- EXPORT_SYMBOL_GPL(em28xx_find_led);
- 
-+void em2828X_decoder_vmux(struct em28xx *dev, unsigned int vin)
-+{
-+	switch (vin) {
-+	case EM2828X_TELEVISION:
-+		dev_dbg(&dev->intf->dev, "EM2828X_TELEVISION\n");
-+		break;
-+	case EM2828X_COMPOSITE:
-+		dev_dbg(&dev->intf->dev, "EM2828X_COMPOSITE\n");
-+		break;
-+	default:
-+		dev_dbg(&dev->intf->dev, "EM2828X_SVIDEO\n");
-+		break;
-+	};
-+
-+	em28xx_write_reg(dev, 0x24, 0x00);
-+	em28xx_write_reg(dev, 0x25, 0x02);
-+	em28xx_write_reg(dev, 0x2E, 0x00);
-+
-+	if (vin == EM2828X_TELEVISION) {
-+		em28xx_write_reg(dev, 0x7A0B, 0xfc);
-+		em28xx_write_reg(dev, 0xB6, 0x8F);
-+		em28xx_write_reg(dev, 0xB8, 0x01);
-+	} else {
-+		em28xx_write_reg(dev, 0x7A0B, 0x00);
-+		em28xx_write_reg(dev, 0xB6, 0x8F);
-+		em28xx_write_reg(dev, 0xB8, 0x00);
-+	}
-+
-+	em28xx_write_reg(dev, 0x7A1C, 0x1E);
-+	em28xx_write_reg(dev, 0x7A1D, 0x99);
-+	em28xx_write_reg(dev, 0x7A1E, 0x99);
-+	em28xx_write_reg(dev, 0x7A1F, 0x9A);
-+	em28xx_write_reg(dev, 0x7A20, 0x3d);
-+	em28xx_write_reg(dev, 0x7A21, 0x3e);
-+	em28xx_write_reg(dev, 0x7A29, 0x00);
-+	em28xx_write_reg(dev, 0x7A2F, 0x52);
-+	em28xx_write_reg(dev, 0x7A40, 0x05);
-+	em28xx_write_reg(dev, 0x7A51, 0x00);
-+	em28xx_write_reg(dev, 0x7AC1, 0x1B);
-+
-+	if (vin == EM2828X_COMPOSITE || vin == EM2828X_TELEVISION) {
-+		em28xx_write_reg(dev, 0x38, 0x01);
-+		em28xx_write_reg(dev, 0xB1, 0x70);
-+		em28xx_write_reg(dev, 0xB3, 0x00);
-+		em28xx_write_reg(dev, 0xB5, 0x00);
-+		em28xx_write_reg(dev, 0x7A02, 0x4f);
-+	} else {	/* EM2828X_SVIDEO */
-+		em28xx_write_reg(dev, 0x38, 0x00);
-+		em28xx_write_reg(dev, 0xB1, 0x60);
-+		em28xx_write_reg(dev, 0xB3, 0x10);
-+		em28xx_write_reg(dev, 0xB5, 0x10);
-+		em28xx_write_reg(dev, 0x7A02, 0x4e);
-+	}
-+
-+	em28xx_write_reg(dev, 0x7A3F, 0x01);
-+	em28xx_write_reg(dev, 0x7A3F, 0x00);
-+}
-+EXPORT_SYMBOL_GPL(em2828X_decoder_vmux);
-+
- int em28xx_capture_start(struct em28xx *dev, int start)
- {
- 	int rc;
-@@ -628,6 +688,7 @@ int em28xx_capture_start(struct em28xx *dev, int start)
- 	    dev->chip_id == CHIP_ID_EM2884 ||
- 	    dev->chip_id == CHIP_ID_EM28174 ||
- 	    dev->chip_id == CHIP_ID_EM28178) {
-+
- 		/* The Transport Stream Enable Register moved in em2874 */
- 		if (dev->dvb_xfer_bulk) {
- 			/* Max Tx Size = 188 * 256 = 48128 - LCM(188,512) * 2 */
-@@ -646,12 +707,16 @@ int em28xx_capture_start(struct em28xx *dev, int start)
- 			rc = em28xx_write_reg_bits(dev,
- 						   EM2874_R5F_TS_ENABLE,
- 						   start ? EM2874_TS1_CAPTURE_ENABLE : 0x00,
--						   EM2874_TS1_CAPTURE_ENABLE | EM2874_TS1_FILTER_ENABLE | EM2874_TS1_NULL_DISCARD);
-+						   EM2874_TS1_CAPTURE_ENABLE |
-+						   EM2874_TS1_FILTER_ENABLE |
-+						   EM2874_TS1_NULL_DISCARD);
- 		else
- 			rc = em28xx_write_reg_bits(dev,
- 						   EM2874_R5F_TS_ENABLE,
- 						   start ? EM2874_TS2_CAPTURE_ENABLE : 0x00,
--						   EM2874_TS2_CAPTURE_ENABLE | EM2874_TS2_FILTER_ENABLE | EM2874_TS2_NULL_DISCARD);
-+						   EM2874_TS2_CAPTURE_ENABLE |
-+						   EM2874_TS2_FILTER_ENABLE |
-+						   EM2874_TS2_NULL_DISCARD);
- 	} else {
- 		/* FIXME: which is the best order? */
- 		/* video registers are sampled by VREF */
-@@ -664,26 +729,93 @@ int em28xx_capture_start(struct em28xx *dev, int start)
- 			if (dev->is_webcam)
- 				rc = em28xx_write_reg(dev, 0x13, 0x0c);
- 
--			/* Enable video capture */
--			rc = em28xx_write_reg(dev, 0x48, 0x00);
--			if (rc < 0)
--				return rc;
-+			if (dev->mode == EM28XX_ANALOG_MODE) {
-+				/* Enable video capture */
-+				rc = em28xx_write_reg(dev, 0x48, 0x00);
-+				if (rc < 0)
-+					return rc;
- 
--			if (dev->mode == EM28XX_ANALOG_MODE)
- 				rc = em28xx_write_reg(dev,
- 						      EM28XX_R12_VINENABLE,
- 						      0x67);
--			else
--				rc = em28xx_write_reg(dev,
--						      EM28XX_R12_VINENABLE,
--						      0x37);
-+
-+			} else if (dev->chip_id == CHIP_ID_EM2828X) {
-+				/* The Transport Stream Enable Register moved in em2874 */
-+				if (dev->dvb_xfer_bulk) {
-+					/* Max Tx Size = 188 * 256 = 48128 - LCM(188,512) * 2 */
-+					em28xx_write_reg(dev, (dev->ts == PRIMARY_TS) ?
-+							 EM2874_R5D_TS1_PKT_SIZE :
-+							 EM2874_R5E_TS2_PKT_SIZE,
-+							 0xff);
-+				} else {
-+					/* ISOC Maximum Transfer Size = 188 * 5 */
-+					em28xx_write_reg(dev, (dev->ts == PRIMARY_TS) ?
-+							 EM2874_R5D_TS1_PKT_SIZE :
-+							 EM2874_R5E_TS2_PKT_SIZE,
-+							 dev->dvb_max_pkt_size_isoc / 188);
-+				}
-+
-+				if (dev->ts == PRIMARY_TS)
-+					rc = em28xx_write_reg_bits(dev,
-+							EM2874_R5F_TS_ENABLE,
-+							start ? EM2874_TS1_CAPTURE_ENABLE : 0x00,
-+							EM2874_TS1_CAPTURE_ENABLE |
-+							EM2874_TS1_FILTER_ENABLE |
-+							EM2874_TS1_NULL_DISCARD);
-+				else
-+					rc = em28xx_write_reg_bits(dev,
-+							EM2874_R5F_TS_ENABLE,
-+							start ? EM2874_TS2_CAPTURE_ENABLE : 0x00,
-+							EM2874_TS2_CAPTURE_ENABLE |
-+							EM2874_TS2_FILTER_ENABLE |
-+							EM2874_TS2_NULL_DISCARD);
-+			} else {
-+				/* Enable video capture */
-+				rc = em28xx_write_reg(dev, 0x48, 0x00);
-+				if (rc < 0)
-+					return rc;
-+				rc = em28xx_write_reg(dev, EM28XX_R12_VINENABLE, 0x37);
-+			}
-+
- 			if (rc < 0)
- 				return rc;
- 
- 			usleep_range(10000, 11000);
- 		} else {
--			/* disable video capture */
--			rc = em28xx_write_reg(dev, EM28XX_R12_VINENABLE, 0x27);
-+			if (dev->mode == EM28XX_DIGITAL_MODE && dev->chip_id == CHIP_ID_EM2828X) {
-+				/* The Transport Stream Enable Register moved in em2874 */
-+				if (dev->dvb_xfer_bulk) {
-+					/* Max Tx Size = 188 * 256 = 48128 - LCM(188,512) * 2 */
-+					em28xx_write_reg(dev, (dev->ts == PRIMARY_TS) ?
-+							 EM2874_R5D_TS1_PKT_SIZE :
-+							 EM2874_R5E_TS2_PKT_SIZE,
-+							 0xff);
-+				} else {
-+					/* ISOC Maximum Transfer Size = 188 * 5 */
-+					em28xx_write_reg(dev, (dev->ts == PRIMARY_TS) ?
-+							 EM2874_R5D_TS1_PKT_SIZE :
-+							 EM2874_R5E_TS2_PKT_SIZE,
-+							 dev->dvb_max_pkt_size_isoc / 188);
-+				}
-+
-+				if (dev->ts == PRIMARY_TS)
-+					rc = em28xx_write_reg_bits(dev,
-+							EM2874_R5F_TS_ENABLE,
-+							start ? EM2874_TS1_CAPTURE_ENABLE : 0x00,
-+							EM2874_TS1_CAPTURE_ENABLE |
-+							EM2874_TS1_FILTER_ENABLE |
-+							EM2874_TS1_NULL_DISCARD);
-+				else
-+					rc = em28xx_write_reg_bits(dev,
-+							EM2874_R5F_TS_ENABLE,
-+							start ? EM2874_TS2_CAPTURE_ENABLE : 0x00,
-+							EM2874_TS2_CAPTURE_ENABLE |
-+							EM2874_TS2_FILTER_ENABLE |
-+							EM2874_TS2_NULL_DISCARD);
-+			}  else {
-+				/* disable video capture */
-+				rc = em28xx_write_reg(dev, EM28XX_R12_VINENABLE, 0x27);
-+			}
- 		}
- 	}
- 
-diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-index 2eb9a88e595e..395d7a2c4354 100644
---- a/drivers/media/usb/em28xx/em28xx-dvb.c
-+++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-@@ -296,6 +296,21 @@ static int em28xx_dvb_bus_ctrl(struct dvb_frontend *fe, int acquire)
- 		return em28xx_set_mode(dev, EM28XX_SUSPEND);
- }
- 
-+static int em28xx_set_analog_freq(struct em28xx *dev, u32 freq)
-+{
-+	const struct dvb_tuner_ops *dops = &dev->dvb->fe[0]->ops.tuner_ops;
-+
-+	if (dops->set_analog_params != NULL) {
-+		struct analog_parameters params;
-+
-+		params.frequency = freq;
-+		params.std = dev->v4l2->norm;
-+		params.mode = 0;
-+
-+		dops->set_analog_params(dev->dvb->fe[0], &params);
-+	}
-+	return 0;
-+}
- /* ------------------------------------------------------------------ */
- 
- static struct lgdt330x_config em2880_lgdt3303_dev = {
-diff --git a/drivers/media/usb/em28xx/em28xx-i2c.c b/drivers/media/usb/em28xx/em28xx-i2c.c
-index a7eb11f7fb34..f0a901c3b49a 100644
---- a/drivers/media/usb/em28xx/em28xx-i2c.c
-+++ b/drivers/media/usb/em28xx/em28xx-i2c.c
-@@ -864,6 +864,8 @@ static int em28xx_i2c_eeprom(struct em28xx *dev, unsigned int bus,
- 		 le16_to_cpu(dev_config->string2),
- 		 le16_to_cpu(dev_config->string3));
- 
-+	dev->analog_xfer_mode = data[67] & 0x01;
-+
- 	return 0;
- 
- error:
-diff --git a/drivers/media/usb/em28xx/em28xx-reg.h b/drivers/media/usb/em28xx/em28xx-reg.h
-index d7c60862874a..68a0fcc2fa72 100644
---- a/drivers/media/usb/em28xx/em28xx-reg.h
-+++ b/drivers/media/usb/em28xx/em28xx-reg.h
-@@ -283,6 +283,7 @@ enum em28xx_chip_id {
- 	CHIP_ID_EM2884 = 68,
- 	CHIP_ID_EM28174 = 113,
- 	CHIP_ID_EM28178 = 114,
-+	CHIP_ID_EM2828X = 148,
+@@ -2623,6 +2623,23 @@ const struct em28xx_board em28xx_boards[] = {
+ 			.gpio     = mygica_utv3_tuner_audio_gpio,
+ 		} },
+ 	},
++	[EM2828X_BOARD_HAUPPAUGE_USB_LIVE2] = {
++		.name         = "Hauppauge USB Live2",
++		.vchannels    = 2,
++		.tuner_type   = TUNER_ABSENT,
++		.has_dvb      = 0,
++		.decoder      = EM28XX_BUILTIN,
++		.i2c_speed    = EM28XX_I2C_CLK_WAIT_ENABLE | EM28XX_I2C_FREQ_400_KHZ,
++		.input           = { {
++			.type     = EM28XX_VMUX_COMPOSITE,
++			.vmux     = 0,
++			.amux     = EM28XX_AMUX_LINE_IN,
++		}, {
++			.type     = EM28XX_VMUX_SVIDEO,
++			.vmux     = 1,
++			.amux     = EM28XX_AMUX_LINE_IN,
++		} },
++	},
  };
+ EXPORT_SYMBOL_GPL(em28xx_boards);
  
- /*
-diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-index b0c184f237a7..b8d3c39ee4b2 100644
---- a/drivers/media/usb/em28xx/em28xx-video.c
-+++ b/drivers/media/usb/em28xx/em28xx-video.c
-@@ -161,13 +161,19 @@ static int em28xx_vbi_supported(struct em28xx *dev)
- 	/* FIXME: check subdevices for VBI support */
+@@ -2770,6 +2787,8 @@ struct usb_device_id em28xx_id_table[] = {
+ 			.driver_info = EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 },
+ 	{ USB_DEVICE(0x2040, 0x846d),
+ 			.driver_info = EM2874_BOARD_HAUPPAUGE_USB_QUADHD },
++	{ USB_DEVICE(0x2040, 0xc220),
++			.driver_info = EM2828X_BOARD_HAUPPAUGE_USB_LIVE2 },
+ 	{ USB_DEVICE(0x0438, 0xb002),
+ 			.driver_info = EM2880_BOARD_AMD_ATI_TV_WONDER_HD_600 },
+ 	{ USB_DEVICE(0x2001, 0xf112),
+@@ -3260,6 +3279,7 @@ static void em28xx_card_setup(struct em28xx *dev)
+ 	case EM2884_BOARD_HAUPPAUGE_WINTV_HVR_930C:
+ 	case EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_DVB:
+ 	case EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595:
++	case EM2828X_BOARD_HAUPPAUGE_USB_LIVE2:
+ 	{
+ 		struct tveeprom tv;
  
- 	if (dev->chip_id == CHIP_ID_EM2860 ||
--	    dev->chip_id == CHIP_ID_EM2883)
-+	    dev->chip_id == CHIP_ID_EM2883 ||
-+	    dev->board.decoder == EM28XX_BUILTIN)
- 		return 1;
- 
- 	/* Version of em28xx that does not support VBI */
- 	return 0;
- }
- 
-+static int em28xx_analogtv_supported(struct em28xx *dev)
-+{
-+	return 0;
-+}
-+
- /*
-  * em28xx_wake_i2c()
-  * configure i2c attached devices
-@@ -344,6 +350,109 @@ static int em28xx_resolution_set(struct em28xx *dev)
- 	return em28xx_scaler_set(dev, v4l2->hscale, v4l2->vscale);
- }
- 
-+static void em2828X_decoder_set_std(struct em28xx *dev, v4l2_std_id norm)
-+{
-+	if (norm & V4L2_STD_525_60) {
-+		dev_dbg(&dev->intf->dev, "V4L2_STD_525_60");
-+		em28xx_write_reg(dev, 0x7A01, 0x0d);	// 0x05
-+		em28xx_write_reg(dev, 0x7A04, 0xDD);
-+		em28xx_write_reg(dev, 0x7A07, 0x60);
-+		em28xx_write_reg(dev, 0x7A08, 0x7A);
-+		em28xx_write_reg(dev, 0x7A09, 0x02);
-+		em28xx_write_reg(dev, 0x7A0A, 0x7C);
-+		em28xx_write_reg(dev, 0x7A0C, 0x8A);
-+		em28xx_write_reg(dev, 0x7A0F, 0x1C);
-+		em28xx_write_reg(dev, 0x7A18, 0x20);
-+		em28xx_write_reg(dev, 0x7A19, 0x74);
-+		em28xx_write_reg(dev, 0x7A1A, 0x5D);
-+		em28xx_write_reg(dev, 0x7A1B, 0x17);
-+		em28xx_write_reg(dev, 0x7A2E, 0x85);
-+		em28xx_write_reg(dev, 0x7A31, 0x63);
-+		em28xx_write_reg(dev, 0x7A82, 0x42);
-+		em28xx_write_reg(dev, 0x7AC0, 0xD4);
-+
-+		if (INPUT(dev->ctl_input)->vmux == EM2828X_COMPOSITE) {
-+			em28xx_write_reg(dev, 0x7A00, 0x00);
-+			em28xx_write_reg(dev, 0x7A03, 0x00);
-+			em28xx_write_reg(dev, 0x7A30, 0x22);
-+			em28xx_write_reg(dev, 0x7A80, 0x03);
-+		} else if (INPUT(dev->ctl_input)->vmux == EM2828X_TELEVISION) {
-+			em28xx_write_reg(dev, 0x7A17, 0xc3);
-+			em28xx_write_reg(dev, 0x7A31, 0x62);	// BRL 0x63
-+			em28xx_write_reg(dev, 0x7A82, 0x42);
-+			em28xx_write_reg(dev, 0x7AC0, 0xD4);
-+			em28xx_write_reg(dev, 0x7A00, 0x00);
-+			em28xx_write_reg(dev, 0x7A03, 0x00);
-+			em28xx_write_reg(dev, 0x7A30, 0x20);
-+			em28xx_write_reg(dev, 0x7A80, 0x00);
-+
-+			em28xx_write_reg(dev, 0x7A50, 0xdd);
-+			em28xx_write_reg(dev, 0x7A5d, 0x0e);
-+			em28xx_write_reg(dev, 0x7A5e, 0xea);
-+			em28xx_write_reg(dev, 0x7A60, 0x64);
-+			em28xx_write_reg(dev, 0x7A67, 0x5a);
-+		} else {
-+			em28xx_write_reg(dev, 0x7A00, 0x01);
-+			em28xx_write_reg(dev, 0x7A03, 0x03);
-+			em28xx_write_reg(dev, 0x7A30, 0x20);
-+			em28xx_write_reg(dev, 0x7A80, 0x04);
-+		}
-+	} else if (norm & V4L2_STD_625_50) {
-+		dev_dbg(&dev->intf->dev, "V4L2_STD_625_50");
-+		em28xx_write_reg(dev, 0x7A04, 0xDC);
-+		em28xx_write_reg(dev, 0x7A0C, 0x67);
-+		em28xx_write_reg(dev, 0x7A0F, 0x1C);
-+		em28xx_write_reg(dev, 0x7A18, 0x28);
-+		em28xx_write_reg(dev, 0x7A19, 0x32);
-+		em28xx_write_reg(dev, 0x7A1A, 0xB9);
-+		em28xx_write_reg(dev, 0x7A1B, 0x86);
-+		em28xx_write_reg(dev, 0x7A31, 0xC3);
-+		em28xx_write_reg(dev, 0x7A82, 0x52);
-+
-+		if (INPUT(dev->ctl_input)->vmux == EM2828X_COMPOSITE) {
-+			em28xx_write_reg(dev, 0x7A00, 0x32);
-+			em28xx_write_reg(dev, 0x7A01, 0x10);
-+			em28xx_write_reg(dev, 0x7A03, 0x06);
-+			em28xx_write_reg(dev, 0x7A07, 0x2f);
-+			em28xx_write_reg(dev, 0x7A08, 0x77);
-+			em28xx_write_reg(dev, 0x7A09, 0x0f);
-+			em28xx_write_reg(dev, 0x7A0A, 0x8c);
-+			em28xx_write_reg(dev, 0x7A20, 0x3d);
-+			em28xx_write_reg(dev, 0x7A2E, 0x88);
-+			em28xx_write_reg(dev, 0x7A30, 0x2c);
-+			em28xx_write_reg(dev, 0x7A80, 0x07);
-+		} else if (INPUT(dev->ctl_input)->vmux == EM2828X_TELEVISION) {
-+			em28xx_write_reg(dev, 0x7A00, 0x32);
-+			em28xx_write_reg(dev, 0x7A03, 0x09);
-+			em28xx_write_reg(dev, 0x7A30, 0x2a);
-+			em28xx_write_reg(dev, 0x7A80, 0x03);
-+			em28xx_write_reg(dev, 0x7A20, 0x35);
-+			em28xx_write_reg(dev, 0x7A2e, 0x88);
-+			em28xx_write_reg(dev, 0x7A53, 0xcc);
-+			em28xx_write_reg(dev, 0x7A5d, 0x16);
-+			em28xx_write_reg(dev, 0x7A5e, 0x50);
-+			em28xx_write_reg(dev, 0x7A60, 0xb4);
-+			em28xx_write_reg(dev, 0x7A67, 0x64);
-+		} else {
-+			em28xx_write_reg(dev, 0x7A00, 0x33);
-+			em28xx_write_reg(dev, 0x7A01, 0x04);
-+			em28xx_write_reg(dev, 0x7A03, 0x04);
-+			em28xx_write_reg(dev, 0x7A07, 0x20);
-+			em28xx_write_reg(dev, 0x7A08, 0x6a);
-+			em28xx_write_reg(dev, 0x7A09, 0x16);
-+			em28xx_write_reg(dev, 0x7A0A, 0x80);
-+			em28xx_write_reg(dev, 0x7A2E, 0x8a);
-+			em28xx_write_reg(dev, 0x7A30, 0x26);
-+			em28xx_write_reg(dev, 0x7A80, 0x08);
-+		}
-+	} else {
-+		dev_err(&dev->intf->dev, "%s() Unsupported STD: %X", __func__, (unsigned int)norm);
-+	}
-+
-+	em28xx_write_reg(dev, 0x7A3F, 0x01);
-+	em28xx_write_reg(dev, 0x7A3F, 0x00);
-+}
-+
- /* Set USB alternate setting for analog video */
- static int em28xx_set_alternate(struct em28xx *dev)
- {
-@@ -880,6 +989,12 @@ static void em28xx_v4l2_media_release(struct em28xx *dev)
- #ifdef CONFIG_MEDIA_CONTROLLER
- 	int i;
- 
-+	if (dev->board.decoder == EM28XX_BUILTIN) {
-+		media_device_unregister_entity(dev->v4l2->decoder);
-+		kfree(dev->v4l2->decoder);
-+		dev->v4l2->decoder = NULL;
-+	}
-+
- 	for (i = 0; i < MAX_EM28XX_INPUT; i++) {
- 		if (!INPUT(i)->type)
- 			return;
-@@ -1003,7 +1118,7 @@ static void em28xx_v4l2_create_entities(struct em28xx *dev)
- 			ent->function = MEDIA_ENT_F_CONN_SVIDEO;
- 			break;
- 		default: /* EM28XX_VMUX_TELEVISION or EM28XX_RADIO */
--			if (dev->tuner_type != TUNER_ABSENT)
-+			if (dev->tuner_type != TUNER_ABSENT || em28xx_analogtv_supported(dev))
- 				ent->function = MEDIA_ENT_F_CONN_RF;
- 			break;
- 		}
-@@ -1018,6 +1133,26 @@ static void em28xx_v4l2_create_entities(struct em28xx *dev)
- 			dev_err(&dev->intf->dev,
- 				"failed to register input entity %d!\n", i);
- 	}
-+
-+	if (dev->board.decoder == EM28XX_BUILTIN) {
-+		v4l2->decoder_pads[EM2828X_PAD_INPUT].flags = MEDIA_PAD_FL_SINK;
-+		v4l2->decoder_pads[EM2828X_PAD_INPUT].sig_type = PAD_SIGNAL_ANALOG;
-+		v4l2->decoder_pads[EM2828X_PAD_VID_OUT].flags = MEDIA_PAD_FL_SOURCE;
-+		v4l2->decoder_pads[EM2828X_PAD_VID_OUT].sig_type = PAD_SIGNAL_DV;
-+
-+		v4l2->decoder = kzalloc_obj(*v4l2->decoder);
-+		v4l2->decoder->name = "em2828x_builtin";
-+		v4l2->decoder->function = MEDIA_ENT_F_ATV_DECODER;
-+
-+		ret = media_entity_pads_init(v4l2->decoder, EM2828X_NUM_PADS, &v4l2->decoder_pads[0]);
-+		if (ret < 0)
-+			dev_err(&dev->intf->dev, "failed to initialize decoder pads %d!\n", ret);
-+
-+		ret = media_device_register_entity(dev->media_dev, v4l2->decoder);
-+		if (ret < 0)
-+			dev_err(&dev->intf->dev, "failed to register decoder entity %d!\n", ret);
-+	}
-+
- #endif
- }
- 
-@@ -1297,6 +1432,13 @@ static void video_mux(struct em28xx *dev, int index)
- 				     MSP_OUTPUT(MSP_SC_IN_DSP_SCART1), 0);
- 	}
- 
-+	if (dev->board.decoder == EM28XX_BUILTIN) {
-+		em2828X_decoder_vmux(dev, INPUT(index)->vmux);
-+		em2828X_decoder_set_std(dev, dev->v4l2->norm);
-+
-+		em28xx_gpio_set(dev, INPUT(dev->ctl_input)->gpio);
-+	}
-+
- 	if (dev->board.adecoder != EM28XX_NOADECODER) {
- 		v4l2_device_call_all(v4l2_dev, 0, audio, s_routing,
- 				     dev->ctl_ainput, dev->ctl_aoutput, 0);
-@@ -1586,6 +1728,9 @@ static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id norm)
- 	em28xx_resolution_set(dev);
- 	v4l2_device_call_all(&v4l2->v4l2_dev, 0, video, s_std, v4l2->norm);
- 
-+	if (dev->board.decoder == EM28XX_BUILTIN)
-+		em2828X_decoder_set_std(dev, v4l2->norm);
-+
- 	return 0;
- }
- 
-@@ -1829,6 +1974,11 @@ static int vidioc_g_tuner(struct file *file, void *priv,
- 
- 	strscpy(t->name, "Tuner", sizeof(t->name));
- 
-+	t->type = V4L2_TUNER_ANALOG_TV;
-+	t->capability = V4L2_TUNER_CAP_NORM;
-+	t->rangehigh = 0xffffffffUL;
-+	t->signal = 0xffff;     /* LOCKED */
-+
- 	v4l2_device_call_all(&dev->v4l2->v4l2_dev, 0, tuner, g_tuner, t);
- 	return 0;
- }
-@@ -1978,7 +2128,7 @@ static int vidioc_querycap(struct file *file, void  *priv,
- 			    V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
- 	if (dev->int_audio_type != EM28XX_INT_AUDIO_NONE)
- 		cap->capabilities |= V4L2_CAP_AUDIO;
--	if (dev->tuner_type != TUNER_ABSENT)
-+	if (dev->tuner_type != TUNER_ABSENT || em28xx_analogtv_supported(dev))
- 		cap->capabilities |= V4L2_CAP_TUNER;
- 	if (video_is_registered(&v4l2->vbi_dev))
- 		cap->capabilities |= V4L2_CAP_VBI_CAPTURE;
-@@ -2549,7 +2699,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 	}
- 
- 	hdl = &v4l2->ctrl_handler;
--	v4l2_ctrl_handler_init(hdl, 8);
-+	v4l2_ctrl_handler_init(hdl, 9);
- 	v4l2->v4l2_dev.ctrl_handler = hdl;
- 
- 	if (dev->is_webcam)
-@@ -2675,7 +2825,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 	}
- 
- 	/* set default norm */
--	v4l2->norm = V4L2_STD_PAL;
-+	v4l2->norm = -1;
- 	v4l2_device_call_all(&v4l2->v4l2_dev, 0, video, s_std, v4l2->norm);
- 	v4l2->interlaced_fieldmode = EM28XX_INTERLACED_DEFAULT;
- 
-@@ -2755,10 +2905,9 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 				 V4L2_CAP_STREAMING;
- 	if (dev->int_audio_type != EM28XX_INT_AUDIO_NONE)
- 		v4l2->vdev.device_caps |= V4L2_CAP_AUDIO;
--	if (dev->tuner_type != TUNER_ABSENT)
-+	if (dev->tuner_type != TUNER_ABSENT || em28xx_analogtv_supported(dev))
- 		v4l2->vdev.device_caps |= V4L2_CAP_TUNER;
- 
--
- 	/* disable inapplicable ioctls */
- 	if (dev->is_webcam) {
- 		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_QUERYSTD);
-@@ -2767,7 +2916,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 	} else {
- 		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_S_PARM);
- 	}
--	if (dev->tuner_type == TUNER_ABSENT) {
-+	if ((v4l2->vdev.device_caps & V4L2_CAP_TUNER) == 0) {
- 		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_G_TUNER);
- 		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_S_TUNER);
- 		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_G_FREQUENCY);
-@@ -2778,6 +2927,9 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_S_AUDIO);
- 	}
- 
-+	if (dev->chip_id == CHIP_ID_EM2828X || dev->board.decoder == EM28XX_BUILTIN)
-+		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_ENUM_FRAMESIZES);
-+
- 	/* register v4l2 video video_device */
- 	ret = video_register_device(&v4l2->vdev, VFL_TYPE_VIDEO,
- 				    video_nr[dev->devno]);
-@@ -2796,12 +2948,12 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 		v4l2->vbi_dev.queue->lock = &v4l2->vb_vbi_queue_lock;
- 		v4l2->vbi_dev.device_caps = V4L2_CAP_STREAMING |
- 			V4L2_CAP_READWRITE | V4L2_CAP_VBI_CAPTURE;
--		if (dev->tuner_type != TUNER_ABSENT)
-+		if ((v4l2->vdev.device_caps & V4L2_CAP_TUNER) == 0)
- 			v4l2->vbi_dev.device_caps |= V4L2_CAP_TUNER;
- 
- 		/* disable inapplicable ioctls */
- 		v4l2_disable_ioctl(&v4l2->vbi_dev, VIDIOC_S_PARM);
--		if (dev->tuner_type == TUNER_ABSENT) {
-+		if ((v4l2->vbi_dev.device_caps & V4L2_CAP_TUNER) == 0) {
- 			v4l2_disable_ioctl(&v4l2->vbi_dev, VIDIOC_G_TUNER);
- 			v4l2_disable_ioctl(&v4l2->vbi_dev, VIDIOC_S_TUNER);
- 			v4l2_disable_ioctl(&v4l2->vbi_dev, VIDIOC_G_FREQUENCY);
 diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
-index f3449c240d21..b77357f71cf3 100644
+index b77357f71cf3..a4a91c0eb2fc 100644
 --- a/drivers/media/usb/em28xx/em28xx.h
 +++ b/drivers/media/usb/em28xx/em28xx.h
-@@ -425,8 +425,14 @@ enum em28xx_decoder {
- 	EM28XX_NODECODER = 0,
- 	EM28XX_TVP5150,
- 	EM28XX_SAA711X,
-+	EM28XX_BUILTIN,
- };
+@@ -144,6 +144,7 @@
+ #define EM2860_BOARD_MYGICA_IGRABBER              105
+ #define EM2874_BOARD_HAUPPAUGE_USB_QUADHD         106
+ #define EM2860_BOARD_MYGICA_UTV3                  107
++#define EM2828X_BOARD_HAUPPAUGE_USB_LIVE2         108
  
-+/* Built in decoder capture options */
-+#define EM2828X_COMPOSITE	0
-+#define EM2828X_SVIDEO		1
-+#define EM2828X_TELEVISION	2
-+
- enum em28xx_sensor {
- 	EM28XX_NOSENSOR = 0,
- 	EM28XX_MT9V011,
-@@ -469,6 +475,12 @@ struct em28xx_button {
- 	bool inverted;
- };
- 
-+enum em2828x_media_pads {
-+	EM2828X_PAD_INPUT,
-+	EM2828X_PAD_VID_OUT,
-+	EM2828X_NUM_PADS
-+};
-+
- struct em28xx_board {
- 	char *name;
- 	int vchannels;
-@@ -593,6 +605,7 @@ struct em28xx_v4l2 {
- 
- #ifdef CONFIG_MEDIA_CONTROLLER
- 	struct media_pad video_pad, vbi_pad;
-+	struct media_pad decoder_pads[EM2828X_NUM_PADS];
- 	struct media_entity *decoder;
- #endif
- };
-@@ -752,6 +765,8 @@ struct em28xx {
- 				     char *buf, int len);
- 	int (*em28xx_read_reg_req)(struct em28xx *dev, u8 req, u16 reg);
- 
-+	int (*em28xx_set_analog_freq)(struct em28xx *dev, u32 freq);
-+
- 	enum em28xx_mode mode;
- 
- 	// Button state polling
-@@ -763,6 +778,7 @@ struct em28xx {
- 	// Snapshot button input device
- 	char snapshot_button_path[30];	// path of the input dev
- 	struct input_dev *sbutton_input_dev;
-+	int analog_xfer_mode;
- 
- #ifdef CONFIG_MEDIA_CONTROLLER
- 	struct media_device *media_dev;
-@@ -811,6 +827,8 @@ int em28xx_write_ac97(struct em28xx *dev, u8 reg, u16 val);
- int em28xx_audio_analog_set(struct em28xx *dev);
- int em28xx_audio_setup(struct em28xx *dev);
- 
-+void em2828X_decoder_vmux(struct em28xx *dev, unsigned int vin);
-+
- const struct em28xx_led *em28xx_find_led(struct em28xx *dev,
- 					 enum em28xx_led_role role);
- int em28xx_capture_start(struct em28xx *dev, int start);
+ /* Limits minimum and default number of buffers */
+ #define EM28XX_MIN_BUF 4
 -- 
 2.35.1
 
