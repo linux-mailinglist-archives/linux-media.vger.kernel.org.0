@@ -1,215 +1,343 @@
-Return-Path: <linux-media+bounces-56117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56118-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yKSMJHiSuWl3KgIAu9opvQ
-	(envelope-from <linux-media+bounces-56117-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:42:16 +0100
+	id MNBeFEuVuWkJKwIAu9opvQ
+	(envelope-from <linux-media+bounces-56118-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:54:19 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB8F2B003C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:42:16 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFCA42B0518
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 18:54:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 51F37303549B
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 17:42:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CA0B5301CD88
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 17:54:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3994337998B;
-	Tue, 17 Mar 2026 17:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA3BE332628;
+	Tue, 17 Mar 2026 17:54:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="HrmcxqiQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NF3m8e2O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010005.outbound.protection.outlook.com [52.101.228.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A919F37B005;
-	Tue, 17 Mar 2026 17:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773769330; cv=fail; b=aNt0MwQub7Kb3TSTlp4ldYGYzvjT7ook1QW+CJNA3nWWBIGI/UiYyOBTUYYmpX3NnCqkdgv1fVosJFHvkRNpa8a6MdHKCfbD0sS71rPFiVMyi9Mgli6m3An+1R1a5Uu0x+oXxcVLtxcI9DQHKBbugPPplIob8Z781ho5sVRChGE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773769330; c=relaxed/simple;
-	bh=+a2r35F591TC3h5ji+48incLRjm9nLMpmN9uimY2CSc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rbaZKhUq0A7Ko5n+YSW5sJryocvNJ/UhzSfi5n27lYwZ6JcLlgTwLV/yyq8pv3kuUfFj0yJzO5sB6DQOMsvLmR7yNa5a7S6DDMwLQ1CSVCrhKIqSsO9uBsdj452cssv+Vy6DFwAxDSDnKZye1vKqz5K+3gcDEzTN4KJzoHyUT5E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=HrmcxqiQ; arc=fail smtp.client-ip=52.101.228.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iGeSUwyJbhLIcdW0xhzwcEPb2NAerQjfyZ+6o/R3oqKvHC+yitg1byG3g1DMmImuDDFishk9i4ixemGv7oWdh/Lnvqcm2CQmPV6USGbcy02GwFs4i7B2x9pTJpFPxSCU7Vbi4wv8tTByoIXy2uOHNJDnuoj5Yuf93Y8DbtDvEyLrKK6Xb2On9lN0RGxxMBmhGJSY4Diok/7WFHrvbfrW3R1e6G8CLESGvz/BI4/vP1aUc//PO94Fn5c3L1f7OHnRfaGmDmabw4f0ABEfQMrziTYFvyii0w9ocYs8mrOAUC8S5mmwfrci8+9w0h/TIKJhxUwpB8tLGWZEtLes9J5bRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3K6HNnsZEK/qVV9/oT3AVZqOTDwleeSnBhGCek5bZ0o=;
- b=kKBzq+tE/mEz0HrMWdOlUD9fDeFD36Zp+8mDxjk6yRaGEXBBR9npfmZ7+jwApOl+vcjk2zSj4v4VXdRxiTqemVh4lxIXbOZ9SgCQNFsdHWOc7bKPysV9EfgEYzwK4jKbVOIjDLIuOBopYDhlySL4ewM0ORn9bSURiTqljp+bFDB9xOWDM8VDEZlxE6kfwcvGovbCX+pkR1QZckG8hbYlnI1VVfm6io1Gdld3ByKQaDXyqqn1GLDjYGlHRIWTvA84I0wmaijkbQcP/s8Dcr4Jwnp0D3Cll8gjqCHQW9UYrooSqmTkSMcczD63KWYQdvT4tyPfvX12eBEmDtuHXfiqFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3K6HNnsZEK/qVV9/oT3AVZqOTDwleeSnBhGCek5bZ0o=;
- b=HrmcxqiQU3GpwIxsk2RKWKPzWwrZNo7oPBS+Ug0mdxHV1upfY0Ze/gUF9Hfn8jPjrP2p/RM3VYsyKiEBU+lOHz2dWB5wM60tMPWQYxPYe+XK96UV1jT/PXWkVFEgLuGAvsM/UFqB8xvSZUUzsjJh6EripNq1G2vKyNVvVmp4wqI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TY3PR01MB11948.jpnprd01.prod.outlook.com (2603:1096:400:409::5)
- by OS7PR01MB17833.jpnprd01.prod.outlook.com (2603:1096:604:445::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Tue, 17 Mar
- 2026 17:42:06 +0000
-Received: from TY3PR01MB11948.jpnprd01.prod.outlook.com
- ([fe80::b718:17d0:6c0f:1495]) by TY3PR01MB11948.jpnprd01.prod.outlook.com
- ([fe80::b718:17d0:6c0f:1495%6]) with mapi id 15.20.9700.025; Tue, 17 Mar 2026
- 17:42:06 +0000
-Date: Tue, 17 Mar 2026 18:41:52 +0100
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: tomm.merciai@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: renesas: vsp1: Move suspend/resume handling to
- LATE phase
-Message-ID: <abmSYLmElEqzom1Z@tom-desktop>
-References: <02669d4630e04fe24c17dd2576ec8b27ded458f0.1765541401.git.tommaso.merciai.xr@bp.renesas.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <02669d4630e04fe24c17dd2576ec8b27ded458f0.1765541401.git.tommaso.merciai.xr@bp.renesas.com>
-X-ClientProxiedBy: FR2P281CA0011.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::21) To TYCPR01MB11947.jpnprd01.prod.outlook.com
- (2603:1096:400:3e1::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8C837BE96;
+	Tue, 17 Mar 2026 17:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773770042; cv=none; b=OLc65J3SzOr/ik5ic7KOOuXI3NFuD+/rGOYLj83zTN4tg11DeNpqZlsY3S9eyXW+KN5ingaZTxc9px3OI03I76RLdbacPHBYGmdh8hV327CyhbgFlcxQAL9xUCv9KRIiYfdc7n6PDxwEW6zYZY97Z2qaDtD3HVRV+6d8kbx0Ji8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773770042; c=relaxed/simple;
+	bh=1AcqHamz6LWrdQ8YfjZrM5I+jqHRWQZtOZszs+Mv5nE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R98iVrCPpIkgh4JbIF8Cj6BlN5bFHKn9b45bqiHbZs/vEO0c/4sak/Ay0YVF2pzDv+eRTnzOpJi5UOznnLXCDAO7IHvUUntxjWqMdiGljshB0rpSJ0DqhllWfd+cfn8/l4vn1UpzTM3tFF+cQR8M5gObU3VPI9A/734cCYFGUJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NF3m8e2O; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773770041; x=1805306041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=1AcqHamz6LWrdQ8YfjZrM5I+jqHRWQZtOZszs+Mv5nE=;
+  b=NF3m8e2OWnSwlwNiFg6bs/aC/paNNqjqNO+2EWUBFLB5LhjKzf15/zYG
+   lxHUjdv2AhB1+pDmL50Dyt4cPRZU/u4I75ynpjbIBnHluGo3lb1oT0lhf
+   p0XWKPwsqE7L5YM2wKZ57O5zhCHVoZeRvQ6FPaSMHgljoyOQRdZy2NSGe
+   M2rSdEyhRznfZaABMDwdXx/+UCyiFz+s938HMzXeyJQ4A9dE4TPuOFTET
+   YFAU7zBuhZNOpyaFcFsB3UBVihSqiT4aiaRKSNIqQ8H7Bi6LOQV7alW2H
+   hXWYAAdsodz+/8DtxRbUFqiePnlToRS0vpyyV2SYr1bFBjaNZjBeQF6mx
+   w==;
+X-CSE-ConnectionGUID: 2hKnZCxWSEa8sEgx+Xaimw==
+X-CSE-MsgGUID: dm22fJFcSymDuXy0BW2Bww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="78708118"
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="78708118"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 10:54:00 -0700
+X-CSE-ConnectionGUID: 9V79YYK9SZiVeNnZUQaEJA==
+X-CSE-MsgGUID: CfsG6PP3Tue5FVvqaXPjDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="222400745"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.193])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 10:53:55 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 8664F120233;
+	Tue, 17 Mar 2026 19:53:52 +0200 (EET)
+Date: Tue, 17 Mar 2026 19:53:52 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hans de Goede <hansg@kernel.org>
+Subject: Re: [PATCH v11] media: Add t4ka3 camera sensor driver
+Message-ID: <abmVMOR9MMpTtj98@kekkonen.localdomain>
+References: <20260316085704.352669-1-hpa@redhat.com>
+ <abh9evUPzozh40k-@kekkonen.localdomain>
+ <CAEth8oHPaWg9U5GWSeF4R5FmKfgxdxE3jfPut8egP=8c5oxHJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11948:EE_|OS7PR01MB17833:EE_
-X-MS-Office365-Filtering-Correlation-Id: d2070a96-cb89-4f15-3e24-08de844c8165
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
- A0In+Ta77u6g0pKN0m7V2BqYYfR71pc1nsnNqG/7uMc83rg+MiPu1Z/YKNmOy0etus+74M5metSDzoVHk/K5HQqtdqmuPsWVRxbxBb9rj6/tkIqoanFGK961EKVnrHpUBnZgYOyFCdvqppWsszPzUqMOY7Lq5nTC89+SZL1HKyl/hqzzUaBJ1t7DP51H4ChjNe4UEZHsubV7X77vqjc5MqJjzEJaY4CCchy1ha2LuPq//6fQ+z0EO7qE4sKAkSOsFW7xWHGb9ERFySZPUWxDOLKY0cyxH4M/pDab/TkoHy6W/zCFEkaMpJsbmwH8/cwD6LtSwjapi7AI+PFI8O9VQWBfnXod6ECYII7FfXXH39MtFFatA7o4mBVFpTb9lYEUpZv30l5Cx2BJ3Wwv0O+Q5MD63mj+7X+gJf7oMCJmR75UMgXtzczP+mwQcANm8RDxwXpVwtyOZnNZXcALX1lRteya1DStqrTqcey4PQGiYWRgaVwCEa8uHWRa+E7BKCHoVxCOOruqxx74tbaQejH985PPTsoXT8oILiXPigsoIqa9R6tV7GXIwLqP+crkEe07lB6csXMyZ5KSRqnUrNjCevojSLDcLLzXiXfiizmy7ymT0YiZAwyhqvS6M3FDNZDBNMy/dFBKWHTWQ+k2CgLETo6U/TcyvzvjruZsdZcRNY2YcKL7EljJjozUngZesMR/Zom7wkFIfMLO0Zu7q2keRPU7s2ZZbXDrrdu23FmY2VQ0djx66vkfyo4nLgJekI0w/L8vi0U3KvXUrhNyiwuKJ2gNpNhEf0IBP+Gdc7HN9aA=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11948.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?kIkP3lYFWm/68xmj7kSK1JELyuS9EY+ukvzGSlcEjeLy1jN82RGOGBvxXJ+c?=
- =?us-ascii?Q?VfaIO+HC4DvpoK/PlHyhT9DXIZGpyyOzHN1VXmSxgPnBEB+Xtiab8SNRg8BW?=
- =?us-ascii?Q?tWdNw1yNUmbdZfXU6YMD3/qZUnIK2NQ8xDar2NXYk6ioYWcvi4/rrR2LSiTI?=
- =?us-ascii?Q?yIsraMydrUPkwPCY4bOSovor8VRbb53tMTntRUJquJvaWHaIDYthJrSewhUb?=
- =?us-ascii?Q?/iOs+DgZz1iVhUZuwHQGxOuKS6kgAkBqNjGEcvAwVSQeie+HnAetwAcBdkUT?=
- =?us-ascii?Q?AQ88vVc61c4XOkgUp/9iZvNSPU9qXEx4dq2eYneInOxFGrpddnDTMLxMyPf9?=
- =?us-ascii?Q?amhpeI4l/29Dp04bxVwMu78mXJdin9ZC5cOmQOoCX5bgqhtyJ7qOCg/2MpFV?=
- =?us-ascii?Q?w69zj/FlNGh0Qk8cVJQ9cUVJx5aAOQiR48ySYP9cMxqWjHZ1OXazpcS0Gq13?=
- =?us-ascii?Q?6d44o+pan0kXJ0f48CGy4mYCYZYYKEfLiA/MPn2Th53Uuldt8JQ8El2Nf5fz?=
- =?us-ascii?Q?9ixZdpSAH/psp4NchwfYO8aiO4z8xkVi/oVWgVgbIb8oWnVXGWKFSmAj/wR5?=
- =?us-ascii?Q?HDp/aZPqxc+NjZ2uKYl0c1U28bfHQqwq9K+VkKJv6oLVlnXPjNsXaVRzHDs7?=
- =?us-ascii?Q?leS66SohP/kHqe4bCOi7+EhwLooO+lb89lJn5ah1A2LwDp+5AH3Ol3jV763/?=
- =?us-ascii?Q?JMQ7DyK2UKgqT4zoxmSBhOinAZSxZkZog1GByoeyuNb9e8/VBHSZToiye860?=
- =?us-ascii?Q?J8PsSlkdVB7VSMrJY8h+DPE5QgP9xeKLquM2Y+5pW139yb4Lxg+OzMjM+nYW?=
- =?us-ascii?Q?jzElyCKR0BoOS7nyet6FywZVurRfAfsvztxNuSqXEopKTrvebMI7Yrm5O81z?=
- =?us-ascii?Q?4+QQqWXKGn1TikgBEKUR8r7J2d196kSKxKRUl4WT9g0YDskoq9HV5bb29GOT?=
- =?us-ascii?Q?msdcBXKdoExxkEWxMQAgxHI0OBAA44iWtlr+nnE8UzizQbYBlOUIi2ah4jmZ?=
- =?us-ascii?Q?LYlf3YHg1JDXlZsYmshtPEBZR70ln3CIS5mczh3o+SaDBgQ6KhxkDsOU6C1O?=
- =?us-ascii?Q?UFD9H9qCIKZmtvAO3fqxhopxj8bXX/mMOHhloeEinDL/Qlhj1x+GBzBmLdv7?=
- =?us-ascii?Q?kR2LHp8li8ZeIpUf7A69bdRtjBiF8+VNg8ldl/v98Wdf4wVemHsYnyyOH6oP?=
- =?us-ascii?Q?13+Te9olymjMrZElDhpx+BUvLVD3WbyMEWbB65802lYGYQvH5NjbthAStO+6?=
- =?us-ascii?Q?cr7wwI+YzoZnOkiLpBOcI5SEjl+s3qEgOOLQ2zXgBLl3TKPP1tld9cZzwqbB?=
- =?us-ascii?Q?pIsPt1okcvh/GFWRx6h/ffje+HTOOJiaAFtX/R7XOZ4xwVOEvEBHOx8prBzr?=
- =?us-ascii?Q?myXgx0s+7xIAEv5WuEq2ZB0PXAsgr7V2TEUgLYx6/LXgfzHQhIcbPg3DRaDP?=
- =?us-ascii?Q?4GYxsZZ8ctpcwVHuQi9C7tKmO0WU8hVwRfYYqdzb9/u1zGilmZ7Q498tNMsU?=
- =?us-ascii?Q?LzIuL+fvWkcsoERMl2tNzC+McPmcBf4EmpPcO1Ha0sW47ncm/V4Lr3phC5Ae?=
- =?us-ascii?Q?4dzTS4Ecw8k/YF/mMsukoQZbQJFIzrflDMPykyhlnFXX9jG/jG8Vyur4a3EQ?=
- =?us-ascii?Q?MSmJqyVY0KAF72nSIxzND9RJvQ1C9a6LMbaCickuXJnpZGrPcmYlNnit+OeV?=
- =?us-ascii?Q?bmR6x4HNx82hIjFTU4oC7quvGFneWd8UErVxewJ8qSHdLa6F0BhK7ihEPuP+?=
- =?us-ascii?Q?ieaTlF8B8PR94ziCOruslqjm1ZMWXKdn7dlmrWcFIUOTV1z7bAim?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2070a96-cb89-4f15-3e24-08de844c8165
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 17:42:06.2624
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jJ1tsqiE0W/OUP45C9P0xGXJ770/+nVAW2mhoM1ptD0RGlz5aePcqI0EQU2y7YzBQYitjFsn38Fr5U3LdwPH4FEu453cMV2k6/dww3hpOF9BBSJr9IUnxn7rgqhZnN38
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB17833
-X-Spamd-Result: default: False [1.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEth8oHPaWg9U5GWSeF4R5FmKfgxdxE3jfPut8egP=8c5oxHJw@mail.gmail.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56117-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-56118-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tommaso.merciai.xr@bp.renesas.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,renesas.com:email,bp.renesas.com:dkim]
-X-Rspamd-Queue-Id: 3CB8F2B003C
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,intel.com:dkim,intel.com:email]
+X-Rspamd-Queue-Id: BFCA42B0518
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi All,
+Hi Kate,
 
-Gentle ping on this patch.
+On Tue, Mar 17, 2026 at 09:24:20PM +0800, Kate Hsuan wrote:
+> Hi Sakari,
+> 
+> Thank you for reviewing it.
+> 
+> And thank you, Hans
+> 
+> On Tue, Mar 17, 2026 at 6:00 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Kate,
+> >
+> > Thanks for the patch.
+> >
+> > Where have you seen this sensor being used, if I may ask?
+> 
+> It can be found on the Xiaomi Pad2 that is based on an Intel Cherry
+> Trail platform.
 
-Kind Regards,
-Tommaso
+Ack, thanks for the info!
 
-On Fri, Dec 12, 2025 at 01:11:50PM +0100, Tommaso Merciai wrote:
-> Switch the VSP1 driver's dev_pm_ops to LATE_SYSTEM_SLEEP_PM_OPS to ensure
-> that suspend and resume callbacks are executed after DSI/DU suspend and
-> before DSI/DU resume. This prevents timeouts and vblank wait errors during
-> system resume, such as:
+> > > +static struct v4l2_mbus_framefmt *t4ka3_get_active_format(struct t4ka3_data *sensor)
+> > > +{
+> > > +     struct v4l2_subdev_state *active_state =
+> > > +             v4l2_subdev_get_locked_active_state(&sensor->sd);
+> > > +
+> > > +     return v4l2_subdev_state_get_format(active_state, 0);
+> > > +}
+> > > +
+> > > +static struct v4l2_rect *t4ka3_get_active_crop(struct t4ka3_data *sensor)
+> > > +{
+> > > +     struct v4l2_subdev_state *active_state =
+> > > +             v4l2_subdev_get_locked_active_state(&sensor->sd);
+> > > +
+> > > +     return v4l2_subdev_state_get_crop(active_state, 0);
+> >
+> > Please avoid adding such helpers.
+> As Hans mentioned, we can put active format and crop in the t4ka3_data
+> or keep the helpers.
+
+What prevents you doing:
+
+	struct v4l2_subdev_state *active_state =
+		v4l2_subdev_get_locked_active_state(&sensor->sd);
+	struct v4l2_rect *r = v4l2_subdev_state_get_crop(active_state, 0);
+
+in the code? In a lot of the cases you could simply pass the state to the
+function using it as the caller already has it.
+
+It also seems the driver operates in active state whereas any state should
+be valid. In general, file handle specific try state should resemble the
+active state as much as possible with the exception that it won't be
+applied to hardware.
+
+In the long run I'd also expect the control values to move to state.
+
+...
+
+> > > +static int t4ka3_s_ctrl(struct v4l2_ctrl *ctrl)
+> > > +{
+> > > +     struct t4ka3_data *sensor = ctrl_to_t4ka3(ctrl);
+> > > +     struct v4l2_mbus_framefmt *fmt;
+> > > +     int ret;
+> > > +
+> > > +     /* Update exposure range on vblank changes */
+> > > +     if (ctrl->id == V4L2_CID_VBLANK) {
+> > > +             ret = t4ka3_update_exposure_range(sensor);
+> > > +             if (ret)
+> > > +                     return ret;
+> > > +     }
+> > > +
+> > > +     fmt = t4ka3_get_active_format(sensor);
+> >
+> > You could assign this in declaration.
+> Okay
+> >
+> > > +
+> > > +     /* Only apply changes to the controls if the device is powered up */
+> > > +     if (!pm_runtime_get_if_in_use(sensor->sd.dev)) {
+> > > +             t4ka3_set_bayer_order(sensor, fmt);
+> >
+> > Does this call belong here?
+> I think it can be. It is a simple update of t4ka3_hv_flip_bayer_order.
+
+Why are you doing it here? It basically assigns the Bayer order to the
+active format based on the flipping controls. Why not to do that when
+changing the flipping controls?
+
+> >
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     switch (ctrl->id) {
+> > > +     case V4L2_CID_TEST_PATTERN:
+> > > +             ret = t4ka3_test_pattern(sensor, ctrl->val);
+> > > +             break;
+> > > +     case V4L2_CID_VFLIP:
+> > > +             ret = t4ka3_t_vflip(&sensor->sd, ctrl->val, T4KA3_VFLIP_BIT);
+> > > +             break;
+> > > +     case V4L2_CID_HFLIP:
+> > > +             ret = t4ka3_t_vflip(&sensor->sd, ctrl->val, T4KA3_HFLIP_BIT);
+> > > +             break;
+> > > +     case V4L2_CID_VBLANK:
+> > > +             ret = cci_write(sensor->regmap, T4KA3_REG_FRAME_LENGTH_LINES,
+> > > +                             fmt->height + ctrl->val, NULL);
+> > > +             break;
+> > > +     case V4L2_CID_EXPOSURE:
+> > > +             ret = cci_write(sensor->regmap, T4KA3_REG_COARSE_INTEGRATION_TIME,
+> > > +                             ctrl->val, NULL);
+> > > +             break;
+> > > +     case V4L2_CID_ANALOGUE_GAIN:
+> > > +             ret = cci_write(sensor->regmap, T4KA3_REG_GLOBAL_GAIN,
+> > > +                             ctrl->val, NULL);
+> > > +             break;
+> > > +     default:
+> > > +             ret = -EINVAL;
+> > > +             break;
+> > > +     }
+> > > +
+> > > +     pm_runtime_put(sensor->sd.dev);
+> >
+> > Newline here?
+> Okay
+> >
+> > > +     return ret;
+> > > +}
+
+...
+
+> > > +static int t4ka3_disable_stream(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> > > +                             u32 pad, u64 streams_mask)
+> > > +{
+> > > +     struct t4ka3_data *sensor = to_t4ka3_sensor(sd);
+> > > +     int ret;
+> > > +
+> > > +     ret = cci_write(sensor->regmap, T4KA3_REG_STREAM, 0, NULL);
+> > > +     pm_runtime_put(sensor->sd.dev);
+> > > +     sensor->streaming = 0;
+> > > +     return ret;
+> >
+> > Return 0 here but complain about it.
+> Do you mean return 0 here and print a message when ret != 0?
+
+Yes, please.
+
+...
+
+> > > +static int t4ka3_check_hwcfg(struct t4ka3_data *sensor)
+> > > +{
+> > > +     struct fwnode_handle *fwnode = dev_fwnode(sensor->dev);
+> > > +     struct v4l2_fwnode_endpoint bus_cfg = {
+> > > +             .bus_type = V4L2_MBUS_CSI2_DPHY,
+> > > +     };
+> > > +     struct fwnode_handle *endpoint;
+> > > +     unsigned long link_freq_bitmap;
+> > > +     int ret;
+> > > +
+> > > +     /*
+> > > +      * Sometimes the fwnode graph is initialized by the bridge driver.
+> > > +      * Bridge drivers doing this may also add GPIO mappings, wait for this.
+> > > +      */
+> >
+> > No need for such a comment.
+> I'll drop it.
 > 
-> [drm] *ERROR* flip_done timed out [CRTC:43:crtc-0] vblank wait timed out
-> 
-> This addresses display commit and vblank timeouts seen with DRM atomic
-> helpers during s2ram.
-> 
-> Co-developed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> index 2de515c497eb..0fbd27df1f46 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> @@ -693,7 +693,7 @@ static int vsp1_pm_runtime_resume(struct device *dev)
->  }
->  
->  static const struct dev_pm_ops vsp1_pm_ops = {
-> -	SYSTEM_SLEEP_PM_OPS(vsp1_pm_suspend, vsp1_pm_resume)
-> +	LATE_SYSTEM_SLEEP_PM_OPS(vsp1_pm_suspend, vsp1_pm_resume)
->  	RUNTIME_PM_OPS(vsp1_pm_runtime_suspend, vsp1_pm_runtime_resume, NULL)
->  };
->  
-> -- 
-> 2.43.0
-> 
+> >
+> > > +     endpoint = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> > > +     if (!endpoint)
+> > > +             return dev_err_probe(sensor->dev, -EPROBE_DEFER,
+> > > +                                  "waiting for fwnode graph endpoint\n");
+> >
+> > This
+> > <URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?h=cleanup&id=8181d18d45d593d8499cbf0e83de08c6d913516c>
+> > will be merged soon.
+> Does it mean "return  -EPROBE_DEFER;" is enough?
+
+You can omit checking for errors here.
+
+> >
+> > > +
+> > > +     ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
+> > > +     fwnode_handle_put(endpoint);
+> > > +     if (ret)
+> > > +             return ret;
+
+...
+
+> > > +static int t4ka3_pm_resume(struct device *dev)
+> > > +{
+> > > +     struct t4ka3_data *sensor = dev_get_drvdata(dev);
+> > > +     u16 sensor_id;
+> > > +     int ret;
+> > > +
+> > > +     usleep_range(5000, 6000);
+> > > +
+> > > +     gpiod_set_value_cansleep(sensor->powerdown_gpio, 0);
+> > > +     gpiod_set_value_cansleep(sensor->reset_gpio, 0);
+> > > +
+> > > +     /* waiting for the sensor after powering up */
+> > > +     msleep(20);
+> >
+> > fsleep() maybe?
+> I can change it.
+> >
+> > > +
+> > > +     ret = t4ka3_detect(sensor, &sensor_id);
+> > > +     if (ret) {
+> > > +             dev_err(sensor->dev, "sensor detect failed\n");
+> > > +             return ret;
+> >
+> > What about gpio values in this case?
+> both powerdown_gpio and reset_gpio are 0 when resuming and 1 when suspended.
+> t4ka3_detect() reads the sensor name through i2c. If it finds the
+> product ID then return 0;
+
+What if t4ka3_detect() returns an error? What happens then?
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
