@@ -1,185 +1,180 @@
-Return-Path: <linux-media+bounces-56073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56074-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AKJDGoVUuWnYAgIAu9opvQ
-	(envelope-from <linux-media+bounces-56073-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:17:57 +0100
+	id aJ3sJs1TuWnYAgIAu9opvQ
+	(envelope-from <linux-media+bounces-56074-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:14:53 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68462AAB3B
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:17:56 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id F32632AAA50
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 14:14:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5991A30A187C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:12:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 56FBD305DA32
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 13:14:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ED553C9421;
-	Tue, 17 Mar 2026 13:11:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 716343A4F3C;
+	Tue, 17 Mar 2026 13:14:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyvaNeOh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HD+GJXaH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63673A5E71
-	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD78C35FF61
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 13:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773753109; cv=none; b=acbRHHNHsGnzZUkoZCjlXADy0bXrrfqE3KnceXrlhlsrB6HAGqo9R2DoLgx7gKy5+4LF12bOnaZkYHqegJ2HZohcH+IOG9TqD1Rt7y6tDMJLB3wrqTG2P5d2je0o9zBzBP/lw3FFpOCdLunsbUMk85VbObX2latovOxsUCncmpc=
+	t=1773753240; cv=none; b=VtqQ3boPxzpn519sy+Ni+sxaMnYjpEVijxXTCmj0HMeKlNR1JH92jCCwyv1Ctcexur/P2OrelNqv/L+7rcNyks7YHkHKPK9CD7wjt5iuPQk7zczxi9Sa1+vGC6hv7at1um62fQ4kWVIWMVm3vIPkyPNTxVIb3kTepIBfOKOa/q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773753109; c=relaxed/simple;
-	bh=HMLEkcbZRa5/MpqWAQTVqAmI/OC33jbQdqUlDKn52K0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JinWr1ICdILg7wdXNTzO+aKAXUJDNHfNalk1KSFLyHXztbXTNQM8MGRvHygw+7PoXJYScf3rGtO7hRSGRKEdxxzH8t8PrMrOlTk7Om4F8adrP7yvfMVUtglfEu7s1pkIY3+eI8ionmHvlHdFuTrHbfAHZm42MJ39UYUZd749jg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyvaNeOh; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773753109; x=1805289109;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HMLEkcbZRa5/MpqWAQTVqAmI/OC33jbQdqUlDKn52K0=;
-  b=kyvaNeOh8+TySQ3L0QUQLmWdZShQsfZ8SX7ECL2hHem8Pl3Lq4uk+eBE
-   M2Zq+uu43zUEcVYZe2az2rA5TP9FJeqifJfkVJLuk9tlLdYdlIWW/f6yq
-   nuHKe9GS9tFr0eeLSe3dDwtAy/8JRiWHDFp0bOLKDDgbkFIp3OJXVCXOT
-   BpTIXxwiRM+tE83NG68xHBdTqGm2IzzdMFhPgBziYeQZfzoK1fOnTJwLd
-   mEXWB+HcK9koNO8HptOuA2ySZ3LfAsDe5bkZrQ3YRyl6bZg1jKwH+J9RX
-   wDhO7n+drCG9oZikCcfdTIA5FpnFpPsSJZbwRl6+LsLKHOX1O+5mPaQYs
-   w==;
-X-CSE-ConnectionGUID: qsC3S7UzSqeeiA7QfPVoMA==
-X-CSE-MsgGUID: u4O4rIeeSJOuGNIp5XKQfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74697703"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74697703"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:11:48 -0700
-X-CSE-ConnectionGUID: wXW49sFBSm+SoHCKuAPaog==
-X-CSE-MsgGUID: VfbFazvxSfeji4WqNKqiJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="245279770"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.106])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 06:11:47 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 19B8B11F870;
-	Tue, 17 Mar 2026 15:11:46 +0200 (EET)
-Date: Tue, 17 Mar 2026 15:11:46 +0200
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/7] Check we have a supported format first before
- allocating memory
-Message-ID: <ablTEn2GTCkeZwfN@kekkonen.localdomain>
-References: <20260317095802.214532-1-sakari.ailus@linux.intel.com>
- <20260317095802.214532-3-sakari.ailus@linux.intel.com>
- <20260317105400.GC302774@killaraus.ideasonboard.com>
+	s=arc-20240116; t=1773753240; c=relaxed/simple;
+	bh=WCtst9ulDHjzLlvz4CtRqw11ZPDtoxMQU8hBqVyfBoY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
+	 In-Reply-To:Content-Type; b=fFjANTVIpaL4Q1GZNbjQw6DL6Cb/cRCR/b3t47knEMejtOdXLPq6CcG6G0tXyreLKqFy+Lvoj630ccgi4BDU09hAchg9jkEh7eYOHo210SsR/BaZsMoxEQ1wTJhTuP6t2Ij9JbHKvxyMlnumG4rH0brpmusmXFOZjTunyNGWkCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HD+GJXaH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFF47C4CEF7;
+	Tue, 17 Mar 2026 13:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773753240;
+	bh=WCtst9ulDHjzLlvz4CtRqw11ZPDtoxMQU8hBqVyfBoY=;
+	h=Date:From:Subject:To:References:In-Reply-To:From;
+	b=HD+GJXaH55TrJfV4Te+3Jujb0r9hFOXrbc66V6t1wnv0tLwFg2s7cKIoaVFlHV1ve
+	 9MfHsPcIHZkqTcHh+z/faDI6tf3ASw5lTiPXw/U454PPupvv/Q9VxKmtuS7cYV7Tn/
+	 EDYVa9BQmKEe/N7YIzua8joSpO3Q+DrIkWt7TWaUn/VrDf36Xrq1GZ5CSu3SCzHeED
+	 NmyUsOjS/5s7dxNxDATkHADW0QBM4fdCS5xLGCZ7lzjfS/NdW51/7Rfd3pL2XRnHIr
+	 PHip5W8fPs5OHElZfKaK8oGaq+ThfxpbZYxh1varTdBjY1m+co0ACssR7OLw6EqNoP
+	 kG0IG1ZvuIGqg==
+Message-ID: <08b7b5d6-4068-4349-924e-e551bbf6e672@kernel.org>
+Date: Tue, 17 Mar 2026 14:13:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317105400.GC302774@killaraus.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH 00/11] Assorted DVB and TV patches
+To: Bradford Love <brad@nextdimension.cc>, linux-media@vger.kernel.org
+References: <20260312213532.2907276-1-brad@nextdimension.cc>
+ <7c653b8b-5d31-4667-9d86-cbaed7ee97f9@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <7c653b8b-5d31-4667-9d86-cbaed7ee97f9@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56073-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56074-lists,linux-media=lfdr.de,cisco];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWO(0.00)[2];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: D68462AAB3B
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: F32632AAA50
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, Mar 17, 2026 at 12:54:00PM +0200, Laurent Pinchart wrote:
-> On Tue, Mar 17, 2026 at 11:57:57AM +0200, Sakari Ailus wrote:
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  raw2rgbpnm.c | 28 ++++++++++++++--------------
-> >  1 file changed, 14 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/raw2rgbpnm.c b/raw2rgbpnm.c
-> > index 121f0e0272e4..8aa7258218ad 100644
-> > --- a/raw2rgbpnm.c
-> > +++ b/raw2rgbpnm.c
-> > @@ -370,20 +370,7 @@ static void raw_to_rgb(const struct format_info *info,
-> >  		src_width &= ~3;
-> >  
-> >  		const struct format_info *old_info = info;
-> > -		unsigned int new_stride = src_width * 2;
-> > -
-> > -		tmp_src = malloc(new_stride * src_height);
-> > -		if (!tmp_src)
-> > -			error("can't allocate memory for the temporary buffer");
-> > -
-> > -		for (src_y = 0; src_y < src_height; src_y++)
-> > -			for (src_x = 0; src_x < src_width; src_x++)
-> > -				raw_put(16, tmp_src, new_stride, src_x, src_y,
-> > -					raw_get(info->bpp, src, src_stride,
-> > -						src_x, src_y));
-> > -
-> > -		src_stride = new_stride;
-> > -		src = tmp_src;
-> > +		unsigned int unpacked_stride = src_width * 2;
-> >  
-> >  		for (unsigned int i = 0; i < SIZE(v4l2_pix_fmt_str); i++) {
-> >  			if (v4l2_pix_fmt_str[i].fmt == info->compat_fmt) {
-> > @@ -395,6 +382,19 @@ static void raw_to_rgb(const struct format_info *info,
-> >  		if (info == old_info)
-> >  			error("no supported format found for %s",
-> >  			      old_info->name);
-> > +
-> > +		tmp_src = malloc(unpacked_stride * src_height);
-> > +		if (!tmp_src)
-> > +			error("can't allocate memory for the temporary buffer");
-> > +
-> > +		for (src_y = 0; src_y < src_height; src_y++)
-> > +			for (src_x = 0; src_x < src_width; src_x++)
-> > +				raw_put(16, tmp_src, unpacked_stride, src_x, src_y,
-> > +					raw_get(info->bpp, src, src_stride,
+On 17/03/2026 10:52, Hans Verkuil wrote:
+> Hi Brad,
 > 
-> info now points to the format_info for the compat format. I think you
-> should now use old_info->bpp here.
+> Thank you for this cleanup series!
+> 
+> I'll take them all, except for the "au0828: Fix green screen in analog" patch,
+> which needs a v2. So no need to post a v2 of the whole series, just post a v2
+> of that au0828 patch.
 
-Yes, makes sense.
+BTW, for future reference, please prefix media patches with "media: " in the Subject
+line. I added it manually for these patches.
+
+Regards,
+
+	Hans
 
 > 
-> > +						src_x, src_y));
-> > +
-> > +		src_stride = unpacked_stride;
-> > +		src = tmp_src;
-> >  	}
-> >  	}
-> >  
-> 
-> -- 
 > Regards,
 > 
-> Laurent Pinchart
+> 	Hans
+> 
+> On 12/03/2026 22:35, Bradford Love wrote:
+>> Hello,
+>>
+>> Attached here is a series of accumlated fixes from integrations
+>> and deployments.
+>>
+>> The first five patches are related to fixing issues with a
+>> variety of analog video formats.
+>>
+>> The si2168 i2c timeout patch is something that has been found
+>> to be critical on a variety of ARM platforms and Nvidia SOC.
+>> Something in these platforms has USB i2c not consistently responding
+>> within the embedded deadline in the driver.
+>>
+>> There are two firmware fixes. With Hauppauge hardware fw 4.0-11 si2168
+>> devices definitely lose warm state and cannot function after sleep.
+>> The saa7164 REV2 firmware had an incorrect filename and has been fixed.
+>>
+>> Last up is adding some new Hauppauge USB id's and removing an invalid
+>> analog input from the Hauppauge DVB DualHD.
+>>
+>> Addressing checkpatch warnings:
+>> - 0001 palN is not misspelled
+>> - 0003 adding dprintk like driver already does
+>>
+>>
+>>
+>> Regards,
+>>
+>> Bradford
+>>
+>>
+>>
+>> Bradford Love (11):
+>>   si2157: Analog format fixes
+>>   cx25840: Fix NTSC-J, PAL-N, and SECAM standards
+>>   xc5000: Add rf strength function
+>>   cx231xx: Fix AGC levels for NTSC-M
+>>   au0828: Fix green screen in analog
+>>   si2168: Fix i2c command timeout on embedded platforms
+>>   si2168: fw 4.0-11 loses warm state during sleep
+>>   saa7164: Fix REV2 firmware filename
+>>   au0828: Add new Hauppauge HVR1265 and ImpactVCB-e
+>>   em28xx: Add a variety of DualHD usb id
+>>   em28xx: remove tuner type from Hauppauge DVB DualHD
+>>
+>>  drivers/media/dvb-frontends/au8522_decoder.c |  1 +
+>>  drivers/media/dvb-frontends/si2168.c         |  8 ++--
+>>  drivers/media/i2c/cx25840/cx25840-core.c     | 29 +++++++++++-
+>>  drivers/media/pci/saa7164/saa7164-fw.c       |  4 +-
+>>  drivers/media/tuners/si2157.c                | 15 ++++--
+>>  drivers/media/tuners/xc5000.c                | 13 ++++-
+>>  drivers/media/usb/au0828/au0828-cards.c      | 50 ++++++++++++++++++++
+>>  drivers/media/usb/au0828/au0828-cards.h      |  2 +
+>>  drivers/media/usb/au0828/au0828-dvb.c        |  1 +
+>>  drivers/media/usb/au0828/au0828-input.c      |  1 +
+>>  drivers/media/usb/au0828/au0828-video.c      | 30 +++++++++++-
+>>  drivers/media/usb/cx231xx/cx231xx-avcore.c   |  7 ++-
+>>  drivers/media/usb/em28xx/em28xx-cards.c      | 19 +++++---
+>>  13 files changed, 156 insertions(+), 24 deletions(-)
+>>
+> 
+> 
 
--- 
-Sakari Ailus
 
