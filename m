@@ -1,84 +1,86 @@
-Return-Path: <linux-media+bounces-56004-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56005-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uC0WLP0TuWkmpQEAu9opvQ
-	(envelope-from <linux-media+bounces-56004-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:42:37 +0100
+	id AFLSNS0VuWmOpgEAu9opvQ
+	(envelope-from <linux-media+bounces-56005-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:47:41 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2595B2A5D06
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:42:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D5E22A5E67
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:47:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D6B513038A40
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 08:41:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A0916303F7FD
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 08:44:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B23939890F;
-	Tue, 17 Mar 2026 08:41:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9416639BFFE;
+	Tue, 17 Mar 2026 08:44:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fy8OLmka"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJgCjWlc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CC139023D;
-	Tue, 17 Mar 2026 08:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B704D19D081;
+	Tue, 17 Mar 2026 08:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773736897; cv=none; b=ZsxmCSjUnJ+bcOUMRdlWEqkM/1IMaVOdeMUAfgs/Vw+W7kz1lhEA1k2q+xrByfhnj6oaUWfKLZT6kismNE2cPUCKeBj92hqCqZhblXeAkTrPy8c2hwRuEjlNlM/4xlrj491aEvJmenBHFHoiyr5SbtH32XxHjBOtENL5JELdPOQ=
+	t=1773737090; cv=none; b=fpDHY47flqDGrV8GNdF1qk0d5fgovlTidVCTX1xLdf0R0RrEc6iYZdNW9QnTBERFtz9Oey6L9FWtUY2WOpJQ2GLl9h5Ql6vJ3KDmVDifzxSYpVBfpCRAGSoXYW76bAxFQaMKrl8/2rYT41UhRdLzKNNS2EgDbqx7nJNJcCku0tM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773736897; c=relaxed/simple;
-	bh=PTJu7iPOEn7SeWEIfKSmDqJyWOq/q4peMR2VEhR3SMU=;
+	s=arc-20240116; t=1773737090; c=relaxed/simple;
+	bh=C0Pswvu3fjRMjD3j/kjNnnpBIbx7nPgIna/0wI7OubA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VasMtClrvh7AFp60dtKv8wVI7WiYGIB8Bn/Px6zLluLQL6LFMOhCugbw9yN6khySssPuX4LhEJMvOBY4ne/zUAAqOhOqUgMdrBBJ1u5+JJszsTV+Aq5T5SWWVbaYn2a4NmeIB9nD0XpiZRf14y1dGLAGYLwh5sA//av571vXQv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fy8OLmka; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=uiH/EV/2sesVnNKKkGdDJ0bXTmAPCYf8Bb6OvSMyE7fPaJ0pFq7vF/mOzmg+gJd4hrkb4eJ0o883Yp13aQbmTKVarSdQZxJTaydnj+MdsPeVg55a0+fHAcJoSycXc1hf7WMDwSzB4XSCJ1JoXYNIM1TrdxNZeykWzz1MbYiaR1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJgCjWlc; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773736896; x=1805272896;
+  t=1773737089; x=1805273089;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PTJu7iPOEn7SeWEIfKSmDqJyWOq/q4peMR2VEhR3SMU=;
-  b=fy8OLmka7IZpcIMvASsEQqHKkdGX9q4bFXk0odR680+/utS97i16Gdfe
-   8V99UVEap8rIZ/NUC7/FSz/4f8piyojGEYPLbAuhu+JwOE9hEcZsV3PqJ
-   vmE9FV7dnh9BC9pJGGb90urpQUygizlPniVl897rkMXozCghhLnapRs6c
-   2M18JoZdH900KNmqk/6Aa3hhGC5pE52cuqrif23kdMPbC/LTCrKHoIyIx
-   QweNQEHANPBmQNgxnHBFQPSilc0926hKRfOCpeMGD0p/bSSomeFl+NmBn
-   bmHaV13ilJL35uSEVgFMhw6hCo6Ik4c0MiyHVUte+2i0eYwjnR2I7GYjx
+  bh=C0Pswvu3fjRMjD3j/kjNnnpBIbx7nPgIna/0wI7OubA=;
+  b=CJgCjWlcnkZ26tZVPvIR/X7UXoXJdGpYxECcxy59jmlTyJGXhdBj/YI+
+   cctmSJNRs8rNVrkwnf11dDqVHne7VwOwqTMm0zELJe4n/3DTmyhljZ7r6
+   pQRfQHUVhh4aaHEjJrQqSWXGF555cqL25Ywf3XmbpDRFAxTmCZLwnuPyR
+   98hwjvzUE7GCuNuCgWWgfv8/VRkzlpZytmIzGWpcihHY0cDLFqxQ20klS
+   XgG6jQDZLxp/q9tFtovjyvwBiheADGuNAlSACppHqfgYQDeksjbFuLOc9
+   8itjeaWOmcZLO+z7B4C5YSm2c/426LRTsk2xI7Aj0mlavwPxHWCNrpmUG
    w==;
-X-CSE-ConnectionGUID: kTtwnZ/ORFCAA9OU9+Cz3w==
-X-CSE-MsgGUID: YQXY5PHpS8GrWEAgqns53Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74796288"
+X-CSE-ConnectionGUID: rTrRsISWTby2tV5+q8rx8w==
+X-CSE-MsgGUID: mGqEmIodS+m4CwQ37P7Ilw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74946590"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74796288"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:41:35 -0700
-X-CSE-ConnectionGUID: 3GhYgA/TS8mU8GS/Gl033Q==
-X-CSE-MsgGUID: +gei1HHLQiGaAR2GKDriMA==
+   d="scan'208";a="74946590"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:44:48 -0700
+X-CSE-ConnectionGUID: lReVL7sOR0WiQbiCp2o3vw==
+X-CSE-MsgGUID: Ss6gS+4MQsadj9fke/z+IQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="252691923"
+   d="scan'208";a="221432514"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.106])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:41:33 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:44:44 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 5D450121D04;
-	Tue, 17 Mar 2026 10:41:32 +0200 (EET)
-Date: Tue, 17 Mar 2026 10:41:32 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 79572121D04;
+	Tue, 17 Mar 2026 10:44:42 +0200 (EET)
+Date: Tue, 17 Mar 2026 10:44:42 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [PATCH 3/3] media: subdev: Split
- v4l2_subdev_get_frame_desc_passthrough() into locked and unlocked
-Message-ID: <abkTvGa5EQU4Zo8t@kekkonen.localdomain>
-References: <20260312-frame-desc-passthrough-impro-v1-0-30f64d637a3a@ideasonboard.com>
- <20260312-frame-desc-passthrough-impro-v1-3-30f64d637a3a@ideasonboard.com>
- <abkKnm10SapsRPhe@kekkonen.localdomain>
- <78e4add8-c156-44d9-aa86-49bf87ce2398@ideasonboard.com>
+To: Matthias Fend <matthias.fend@emfend.at>
+Cc: Jimmy Su <jimmy.su@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	bsp-development.geo@leica-geosystems.com
+Subject: Re: [PATCH v2 6/9] dt-bindings: media: i2c: document Omnivision
+ OV08D10 CMOS image sensor
+Message-ID: <abkUeiIjKjuG7vrD@kekkonen.localdomain>
+References: <20260309-ov08d10-v2-0-81f8b5d99984@emfend.at>
+ <20260309-ov08d10-v2-6-81f8b5d99984@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,8 +89,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <78e4add8-c156-44d9-aa86-49bf87ce2398@ideasonboard.com>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+In-Reply-To: <20260309-ov08d10-v2-6-81f8b5d99984@emfend.at>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
@@ -96,117 +99,169 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56004-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56005-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
 	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6]
-X-Rspamd-Queue-Id: 2595B2A5D06
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,0.0.0.36:email,intel.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 3D5E22A5E67
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Moi,
+Hi Matthias,
 
-On Tue, Mar 17, 2026 at 10:37:12AM +0200, Tomi Valkeinen wrote:
-> Hi,
+On Mon, Mar 09, 2026 at 06:07:08PM +0100, Matthias Fend wrote:
+> Add bindings for the Omnivision OV08D10 CMOS image sensor.
 > 
-> On 17/03/2026 10:02, Sakari Ailus wrote:
-> > Moi,
-> > 
-> > On Thu, Mar 12, 2026 at 02:15:30PM +0200, Tomi Valkeinen wrote:
-> >> The recently added v4l2_subdev_get_frame_desc_passthrough() can be used
-> >> directly as an implementation for .get_frame_desc subdev op. However, in
-> >> some cases the drivers may want to add some customizations, while the
-> >> bulk of the work is still identical to what
-> >> v4l2_subdev_get_frame_desc_passthrough() does. Current locking scheme
-> >> makes this impossible to do properly.
-> >>
-> >> Split v4l2_subdev_get_frame_desc_passthrough() into two functions:
-> >>
-> >> v4l2_subdev_get_frame_desc_passthrough_locked(), which takes a locked
-> >> subdev state as a parameter, instead of locking and getting the active
-> >> state internally. Other than that, it does the same as
-> >> v4l2_subdev_get_frame_desc_passthrough() used to do.
-> >>
-> >> v4l2_subdev_get_frame_desc_passthrough(), which locks the active state
-> >> and calls v4l2_subdev_get_frame_desc_passthrough_locked().
-> >>
-> >> In other words, v4l2_subdev_get_frame_desc_passthrough() works as
-> >> before, but drivers can now alternatively add custom .get_frame_desc
-> >> code and call v4l2_subdev_get_frame_desc_passthrough().
-> >>
-> >> An example use case is with DS90UB953 serializer: in normal use the
-> >> serializer passes through everything, but when test-pattern-generator
-> >> (TPG) is used, an internal TPG source is used. After this commit, the
-> >> UB953 get_frame_desc() can lock the state, look at the routing table to
-> >> see if we're in normal or TPG mode, then either call
-> >> v4l2_subdev_get_frame_desc_passthrough_locked() if in normal mode, or
-> >> construct a TPG frame desc if in TPG mode.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>  drivers/media/v4l2-core/v4l2-subdev.c | 46 ++++++++++++++++++++---------------
-> >>  include/media/v4l2-subdev.h           | 38 +++++++++++++++++++++++++----
-> >>  2 files changed, 59 insertions(+), 25 deletions(-)
-> >>
-> >> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> >> index 2757378c628a..8b1a7f00c86b 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> >> @@ -2545,21 +2545,19 @@ int v4l2_subdev_s_stream_helper(struct v4l2_subdev *sd, int enable)
-> >>  }
-> >>  EXPORT_SYMBOL_GPL(v4l2_subdev_s_stream_helper);
-> >>  
-> >> -int v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
-> >> -					   unsigned int pad,
-> >> -					   struct v4l2_mbus_frame_desc *fd)
-> >> +int v4l2_subdev_get_frame_desc_passthrough_locked(struct v4l2_subdev *sd,
-> >> +						  struct v4l2_subdev_state *state,
-> >> +						  unsigned int pad,
-> >> +						  struct v4l2_mbus_frame_desc *fd)
-> >>  {
-> >>  	struct media_pad *local_sink_pad;
-> >>  	struct v4l2_subdev_route *route;
-> >> -	struct v4l2_subdev_state *state;
-> >>  	struct device *dev = sd->dev;
-> >>  	int ret = 0;
-> >>  
-> >>  	if (WARN_ON(!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE)))
-> >>  		return -EINVAL;
-> >>  
-> >> -	state = v4l2_subdev_lock_and_get_active_state(sd);
-> > 
-> > This variant appears to be unlocked rather than locked.
+> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+> ---
+>  .../bindings/media/i2c/ovti,ov08d10.yaml           | 101 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 102 insertions(+)
 > 
-> The variant expects locked parameters, thus "locked". This is widely
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..96dbf61cf7c188544f4120216ae2b8e0155128b7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
+> @@ -0,0 +1,101 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov08d10.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV08D10 1/4-Inch 8MP CMOS color image sensor
+> +
+> +maintainers:
+> +  - Jimmy Su <jimmy.su@intel.com>
 
-From the name I'd expect otherwise. But...
+I think you should put yourself here unless you have agreed this with
+Jimmy.
 
-> used at least on DRM drivers.
+> +
+> +description:
+> +  The Omnivision OV08D10 is a 1/4-Inch 8MP CMOS color image sensor with an
+> +  active array size of 3280 x 2464. It is programmable through I2C
+> +  interface. Image data is transmitted via MIPI CSI-2 using 2 lanes.
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov08d10
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: MCLK input clock (6 - 27 MHz)
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: Active low XSHUTDN pin
+> +    maxItems: 1
+> +
+> +  dovdd-supply:
+> +    description: IO power supply (1.8V)
+> +
+> +  avdd-supply:
+> +    description: Analog power supply (2.8V)
+> +
+> +  dvdd-supply:
+> +    description: Core power supply (1.2V)
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/media/video-interfaces.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        sensor@36 {
+> +            compatible = "ovti,ov08d10";
+> +            reg = <0x36>;
+> +
+> +            clocks = <&ov08d10_clk>;
+> +
+> +            dovdd-supply = <&ov08d10_vdddo_1v8>;
+> +            avdd-supply = <&ov08d10_vdda_2v8>;
+> +            dvdd-supply = <&ov08d10_vddd_1v2>;
+> +
+> +            orientation = <2>;
+> +            rotation = <0>;
+> +
+> +            reset-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
+> +
+> +            port {
+> +                ov08d10_output: endpoint {
+> +                    data-lanes = <1 2>;
+> +                    link-frequencies = /bits/ 64 <360000000 720000000>;
+> +                    remote-endpoint = <&csi_input>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 55af015174a54e17cc7449e5a80b6cdc83aa6fde..2484d0bcc1f09582828cafbdb7d45dd12b55af60 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19505,6 +19505,7 @@ M:	Jimmy Su <jimmy.su@intel.com>
+>  L:	linux-media@vger.kernel.org
 
-it maybe used in DRM for that but this isn't DRM. :-)
+I suppose you might want to be listed as a reviewer for instance?
 
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media.git
+> +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
+>  F:	drivers/media/i2c/ov08d10.c
+>  
+>  OMNIVISION OV08X40 SENSOR DRIVER
 > 
-> > Could you instead use two underscores as a prefix to the same name? That's
-> > an established practice.
-> I can do that, although I don't personally like it. Double underscore
-> hints at an internal function, something that shouldn't be called
-> normally, whereas this is not internal or anything to avoid.
-
-Or know what you're doing. You could add a lockdep annotation while at it.
 
 -- 
+Kind regards,
+
 Sakari Ailus
 
