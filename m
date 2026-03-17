@@ -1,282 +1,374 @@
-Return-Path: <linux-media+bounces-55994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-55995-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UBfIG5jpuGlplgEAu9opvQ
-	(envelope-from <linux-media+bounces-55994-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 06:41:44 +0100
+	id iPx7J4PquGmMlgEAu9opvQ
+	(envelope-from <linux-media+bounces-55995-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 06:45:39 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F502A40AA
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 06:41:43 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 047B32A4131
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 06:45:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 145AF303F472
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 05:41:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DA868302D96F
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 05:45:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47EF637F74C;
-	Tue, 17 Mar 2026 05:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1855537FF7D;
+	Tue, 17 Mar 2026 05:45:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NgnrMfL7"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HfKgb32b";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="J1koVKV9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920AB37EFFC;
-	Tue, 17 Mar 2026 05:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773726083; cv=fail; b=dI1xMDoz63yGs4ih7RC9qmMlTiBxdABMpsbDcovFzHcWsFJ8HvMBCsvp+CpvZ5nfYdLrY4bD1+qikRMmWczHx/mBoPk41xMwzGIP31iFvVJlUzU7xne+9sBNYzW1VTrh22zb+gG5GFqhu4BlDq+XNu+kBlj5eR4zEBBUpaSDnKo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773726083; c=relaxed/simple;
-	bh=fGO/XY7OOmk6eLUAV8n1mTEYDdnfhOeDf4EpGRPhKe8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XsFt3LopyFp6LcsMTDM8lnYN1+OrzK2nqJD8y72gsRQQja3KkExwyN5O+6cUXVd5Ij8cXjTcBG1lllDME7rAotTyKkJpVxbeYfCaS+OfkAoxKJiacgRVl0ckHCbbnHYmc8R6dHjUhDubLSKckToDfYT0RE0AW435Bj5l8MuVu24=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NgnrMfL7; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773726082; x=1805262082;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=fGO/XY7OOmk6eLUAV8n1mTEYDdnfhOeDf4EpGRPhKe8=;
-  b=NgnrMfL7KC+SlBFk7MqUZQDvZ0OJnDAhLmMcpzhL+HmU7tWRK/cOolRD
-   6+6iApKzNiwKK/6jV6dU18cVGvzTqwQF4aZF0oYyy93dF+GW7pX72/r9g
-   EiOEQYQPvbgBwe9Qg/lQNwP4ZIlAfizVjFctfKYpI3gzxE7U+Kbq/AyIp
-   SXFtkCYBNvKQA6U3Z332gQ3+pS6COUR0JPd1RRUTkFlLPhz1ib2zXiK4o
-   8KGO1H59aXGSmkLS3OMPJ563RNNYbqeabz+nCxiBjw3R2k6XStC0e7ALv
-   T6Z4DN4O5DOrb+2VsCLpUf7oTf3tXyP6aDbWKfakJeash7vVxVhdYJHgv
-   Q==;
-X-CSE-ConnectionGUID: Fh94HSI+TguFNVxuGTM9vQ==
-X-CSE-MsgGUID: bDdEs5iFRyiIwSd6ZlsMAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="85831091"
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="85831091"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 22:40:48 -0700
-X-CSE-ConnectionGUID: fYyrnuLPQa6wEgNrhOAmfA==
-X-CSE-MsgGUID: c/u+DyRSR4+8bdldNhLmUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="227123893"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 22:40:48 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 16 Mar 2026 22:40:47 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 16 Mar 2026 22:40:47 -0700
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.6) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 16 Mar 2026 22:40:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RxKYMoglDlt0ZoLXQ511/5aYg0/s1Nh0lU/aWnplcsH3nG3MAtMarlxt1L3v8vRQl+rlmX9UqRRK2Pr2BL8HvhEgnOhQqAy/0t0q02ytI19AHZhRPy2EqGfARaZGXRPpuxJKYaI1KVpVWLKs/5BGCT8BFEJ35Ke3prcB0t/X67SWaHj1awaFblpNjAw61hT1/fzRuXc0wGeavSVzCIx1QNVzkeVfdLKXLlMeqC2Xgj6TF9tNE37FljPYAJz+XAv9vbmJv+0xHiQlvCK4eqLbckhkQc8vYfnq+y5AT5MCo5zcP9PbGSH6OK8ZmMNKHJaz7F8WHT/1dqPvs2kWhVZxHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g/xXg5kerkdqMCnKDjEvMoEaabcAwXfgjbYTzT55qLo=;
- b=XBRm3vRWTzk/6JRY9kC36/YtciYdsZjsjnoqqwQxqh0s+55s4/MJV1WhhnGrDMxk8m0nJHuV/qaOBVnI2/q0zWwvkkDqktwKn4O5KTMJKnVzICCaGMunK5hxe2YW+25cvPqDkLUd2Mqj3de9b4k2yNwIfdu29tvXONx8+Cbaaxsm+bMEnRumWqO5s7F7WgCT19gnogKMTZSZfRzIh9rp2T7gqhm1bfXJG+HcJPqi9OWdL9NnmcGY+dOKxwtq8UPephHk8it2Re3C9Jkcywkf0rYDS9D/MN0l2jYDVtcw2gyN6V/Dee1xgY5Ipw1g2uVOA3iRIqBj0WxEYoCtMdWDLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH3PR11MB7177.namprd11.prod.outlook.com (2603:10b6:610:153::8)
- by LV1PR11MB8842.namprd11.prod.outlook.com (2603:10b6:408:2b3::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.16; Tue, 17 Mar
- 2026 05:40:42 +0000
-Received: from CH3PR11MB7177.namprd11.prod.outlook.com
- ([fe80::b997:e226:4979:c035]) by CH3PR11MB7177.namprd11.prod.outlook.com
- ([fe80::b997:e226:4979:c035%5]) with mapi id 15.20.9723.016; Tue, 17 Mar 2026
- 05:40:42 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>, "kraxel@redhat.com"
-	<kraxel@redhat.com>
-CC: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH] udmabuf: fix DMA direction mismatch in release_udmabuf()
-Thread-Topic: [PATCH] udmabuf: fix DMA direction mismatch in release_udmabuf()
-Thread-Index: AQHctAo67aqV68mpy0SJuNvlJ8/kZLWyNgwg
-Date: Tue, 17 Mar 2026 05:40:42 +0000
-Message-ID: <CH3PR11MB7177D5538C726029D80BA6CEF841A@CH3PR11MB7177.namprd11.prod.outlook.com>
-References: <20260314232722.15555-1-mikhail.v.gavrilov@gmail.com>
-In-Reply-To: <20260314232722.15555-1-mikhail.v.gavrilov@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB7177:EE_|LV1PR11MB8842:EE_
-x-ms-office365-filtering-correlation-id: ad2f13e6-930e-4fb1-60ae-08de83e7ba96
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|18002099003|56012099003|22082099003|38070700021;
-x-microsoft-antispam-message-info: Mxg4+5Smd21FJM9jxqGUk59+jplAR6qRohIrlBbrP3BtH6JHjPFUJTM7bVh0Oxwmbdij/kXLuI1PfTWVlmt/21N/jYBpUpAputxcVRapHKA/xoJy0TFd/NBG/In15VwW6Z5YPgq7yn2sdILafdYQ73WG5LV0zfv+JUnHpCRNN6TRoVW1oiOkmYgsCjlBowmFeGkgIARnmeIer3FOcoEHQa10iBhTWBa5sQodwNMqrHRFEA4N2yV5DcgzhGqaks4AlsxWxxWsNYOoAsFXrFpQR8dS/TPj29HpjWekT8uCUbWbxheF1eFPTjbarlpElWluMhLFiKom6p1ITgWHm6K55ckHHW+ctyICTQvMbXXrAfOy+2XMLrh4TFYVsb0hyK2oi/ltGLazbmapdwDtT3M3roFOKdkVf53RJRu7Y4VgAHDj1GNHGVMNrjLi+GC3bn1qbceGZMPd9UOmtiRwTAN/I/NTYbnMq+XKKJ4iynY3iyZePHRO0JRiamgwNyvafoGekGlO6wpLfqycV36hTowknvujvCvm2KVkRxeXNm/S3+c75ynZB0Qlz548MfIqO2C1vTxUahAu25tIjAjnGqvnUE6RGALbEYAA+hl5mVrd0/XCFHFi3de6sKxzHwYKZqq6BeVri3eKnxabO5Y1wZRNA0JRsGeMZg3uEyQjLy0P8oUhbfyONE3amFMXjwEjUhJNdsnBkrcNp4fJKbEY4+7TqoNNpZ92BDJjQe6QFnyEBxnfVXHntAeQaD9S5cEndmuOKf6rftklLB2YlQhRLSzkCeEq9eHFsGF0biqcPrKoJoQ=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB7177.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(18002099003)(56012099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?w9vds569tcKfJ+1ea3Oun3Z6I7CXqLQSjvWnrBIIjVoL/7n6+1CrKKyGIX/U?=
- =?us-ascii?Q?zYpltAp4qBO7yUOiCvYnXx279k5McVscSYhubW20P7VllrTOisX9S93JWb4i?=
- =?us-ascii?Q?23xNZ2/BmABfXKtOOevZkuSYcO2oCfkTm9zfnVSD6JbTFO4XqHq+172j3uRI?=
- =?us-ascii?Q?qm2cTiu6MQBkJOmPwzva7X0LEwaptzqADDCcbbp88e6KaYKN6jykbgUfFkpx?=
- =?us-ascii?Q?/mUjLeFAeNrSYfYeGVd+VzkuKEhnzQl7rGDWajhohccs3uddXtBMvul7dk2q?=
- =?us-ascii?Q?O6CJ+7TgZaIAkjQaTcA87v5eRvf+PyesYNdJCarvGpSs044I8hy0jZzhlyNm?=
- =?us-ascii?Q?AyOaFYBTHrFRtSFOa5YrhPvAIHxpSJ/RwK72KMLFtTLLvkUltWjg/iU/Vnjd?=
- =?us-ascii?Q?xuBE2mOdRckXckPjbSDXxFQ1Vgf1bsSDIdO62K6PLyIbYHoxohk0RO+SF1M6?=
- =?us-ascii?Q?RE/1zi3qMGR2FV9G74JZ/h8zmySeZBpAxHhkKmCvNBlKVhR5cQqUPllX+3DL?=
- =?us-ascii?Q?9OvKoQL9nEsohJb5MqOh3v8WQinMbLVDI3VrT6uZIZv8wADlsrSDqqYquJ4Z?=
- =?us-ascii?Q?62lHlj8r8m/pUiJAP6NILl7Rbj0e9e1uRJQkjKrrX9bIrjhBBc3gXcvycazU?=
- =?us-ascii?Q?y8Nue3CIdWHGZTdxZCS5J5wEIRuWDUxKT3ClC0v738S6hfqjXvz/tWx8rBVV?=
- =?us-ascii?Q?ArCKuVg+PLlp9vLoMZApvAwPgiwfXiuqfZzWF2ovPg3ud0Y2AAA0Fodgipv/?=
- =?us-ascii?Q?hXlOrZE9HVkkrIArXbAbf0DqBlZ+kkkFiwgvwquvm5gDLGNwdB2EdkJhG7cc?=
- =?us-ascii?Q?3GeKJaK88K5K3gQyr/7KCe7+1hu4yJt1+nw2xWjEKMXiybaVoRvOu8gsLWwN?=
- =?us-ascii?Q?BEvhIAsDlgsEAdSTzwycgQZ9QPGHD9bYA+mVf8fdoW23J2p9G7hjacrXW4GI?=
- =?us-ascii?Q?UrBtSv1Md9erdvYri3oX6o/ZsE75djKAO5f8K7b8t6yA1k6idnaXgKi47CgR?=
- =?us-ascii?Q?dtWhlyR4Q7MwP83oIf2syyCmLl/qHjz+M4jRghLj6HHc2KXTeHo+BY8vQy9W?=
- =?us-ascii?Q?JhrF+MphWHQ9DTcZjSxtPt95Hd6j7G1W5XCUAzDIgD6jzizqg2S5Okz5iX6R?=
- =?us-ascii?Q?BC74J6F8ZDlXaBBN/jB32c8fg9qo9oXHzTWqlV0Xka+jHXqNTNA9YppRNkSc?=
- =?us-ascii?Q?KqWRPuP5FVpYk8Zf2AVIkp4g5sf3EWyLUEkjmTRfUShLFJIAS1a6i5kEvZ0d?=
- =?us-ascii?Q?LbeePNjLq5zLnQev7+8n11U5U6J1R0/CUwdSR5jdHLzJVDQXVOP3PsVDTBjP?=
- =?us-ascii?Q?4kyPEgZ7DvMdsjtrr+E6bmftoKqoez3yyDW8951X46mb8b5AEModm3ou4V1C?=
- =?us-ascii?Q?SppoZ3Qq9dao5x/03BQPSrCdEcz7drvEQnEGhbRvxUA2V++nvJFYtkSsLNDw?=
- =?us-ascii?Q?hR3MoLSr0ZCf47oa2OcEqtmdQAcLrIcWhLYiiCBgx2Pr5oWeebZWCAqHirkN?=
- =?us-ascii?Q?Zqr9TDbYpJ4R798wkolJCbVCz9/t55h/i8GzTnNtj/eSogqoVxd1hbgkMTrr?=
- =?us-ascii?Q?3ItiX1Kdjex8EnBW2+OG2Ogz3m2g3UYfjlJRnDEtlIZwryKC8aLecRRClDGS?=
- =?us-ascii?Q?2YfX3lKHBDqlQ6G0CQc7Ni3MIJhAiWXiyjoPVg3mBn/IxCs5RghNXw4y1w/P?=
- =?us-ascii?Q?2l+S7OopqLJPDNfo6mdNYcGRLRm7g3gEZaRFVLS2htnNr2ePWKixbhoriG2f?=
- =?us-ascii?Q?vEzpAnXPZQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C1A26E6F2
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 05:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773726324; cv=none; b=m5bpCeMZM7us47ekQzvwNVtmo66OtkU00gKpgQtS0N99na+ExyYH8JWdAEsPZRy2goPVEHuAm9fAP/wCET5zO1c/mL/ECv7VuYmvHCsPQa+neeEkUtKYeusRc3jm5gjONsUMfWhU1yhWkZdt6aLXwEl1T8VcccB94XXEeFWpGLM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773726324; c=relaxed/simple;
+	bh=3UjjlLmOrws+BMC+cEQS5YEnshE6vCCr3aHVk1eJ650=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pQpcwluH88aJ4a0fuAp3EZ28Peua58N8pVqLyYgVjByJoioKGqV6SHUyNKULwkFjEWC0DeyCIGE6g27HpDCMtZ06CCpv5s4Aez2VDaHGJDehWfD7pusQaOq1Xit4h3ykbTUslUThQJtdoeSs90DdPqNlhOmG57tNrA54cajmHUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HfKgb32b; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=J1koVKV9; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62H5dT851621856
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 05:45:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	nuFJ6Fd38HaZU/r7AF8ceGLoWuSwKfogJdR5jcKs3MI=; b=HfKgb32bq/keMRil
+	NZzKenK5Rd2DeeUpwwzPycGFfjb4ykkFskBzErg8czzZ8QBa41FkdvzrLnMVq0C5
+	A3FOWFP61Lr+OLoSZf4Krb5nfZ9gtOcYzthTCheKfvafjJccWkhv3CPJPh/XL8tX
+	In9GArt3P4sRUFNNTytmJXRbY21ghCawm+TOwQozQPBlpGd/3azoUp7SkL9c1dYp
+	1rDsmyO+WfpDuWckC7jHtTbvlS5Y8oBQ5vRLLMorcVhAE1kdkeFsgUduitKS3A/E
+	yK7Hi4WEoL/5daVsGLZSRGgYMg2xvyyokDuhH+fJBYsju6qPck4VoFdUthx7zwNg
+	Z96Hdg==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cxhyek4eu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 17 Mar 2026 05:45:20 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-35a0998a441so34124586a91.2
+        for <linux-media@vger.kernel.org>; Mon, 16 Mar 2026 22:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773726320; x=1774331120; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nuFJ6Fd38HaZU/r7AF8ceGLoWuSwKfogJdR5jcKs3MI=;
+        b=J1koVKV9hl5s0Mt/exfPIrobPa3hYLrBrZqeSMYUBAK1LDlyJvBq4ELSFRtqnUh8Yg
+         i107vQG3X035oZ5mTM63MAM8BRnzNAUEd94uQpd1jB5U4vGxvo0VA3fgTHesbzw/D3UW
+         jpgRhu8ZKypZwp+ePEwhlS0kaI0lU+5/Ipg0Bw2I8DNyrkhiXfDzUUAC6TiFmTiob1d1
+         yW9miu/zqL3ylFiAURCDNM4nXRuVEUvHGxPMhYFPXKUfbmR5pqeR6YPAa2fTVfGyVt1h
+         iKxEO8agCxNqyltf9rEOejUjfYSSKrjTO8j+BTwzI36Wg7DbWQTV8b+jHlD7xAyJNrLq
+         X68g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773726320; x=1774331120;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nuFJ6Fd38HaZU/r7AF8ceGLoWuSwKfogJdR5jcKs3MI=;
+        b=Q9VEFX+FBzU58fQxMJcDhAlbHXnq6meRVqB7Bzvh94JkS1oBNrOH5z/P6HLbeR8+4o
+         e4u4WM5xtOf8vZFgOJF63rI2lpVvZ9w2jm+gxgTZ3hO+8iM1jmO/DRx3TiAecjcuGtEQ
+         CHIXz29u/iqGzZ+4T+YJllHhTJchFh0wyp7JAOGmlBk0FPa9igUY9wtSgFGTGplWGFEX
+         hQxzQIdSmuucqORU9ulrYumUFyrCvjcvapTLQRUq2bTQNpFwTvFKbaACksWQBTUl1r8F
+         zfZjWCFvUDiKwiGXkGDk9VrqcQZGhabQjP9+02V8FmLlN+UNoaGgTZwYp+3hAmlly8+J
+         tizQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWehlwm0XpxtvKMmclTfkpEd6dvKJr6wtRykowfem/8oP5hQ2ydgH2zblMplzthkGJcgXVRsfN6BZkfXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpKo99Y35p7ksUuHUbC7Vd482TjLAODOAtw4k+sMrz0bS0Jaf6
+	HXR+a/kj8W//0LJU/SeEi0fLUa3neuUk287isShAADf7DtJq9WVMTWNURWtPQH5cSJRUaLgUBmd
+	4AJGi8G8FTZ8n2ZCXcdE9YQxSWGguc/PGIat7sgw4oSydLWFduCcUUFB/6ZkaCzBoNA==
+X-Gm-Gg: ATEYQzwVrTz8wJ8+Qpk/EcePMXMgZRaT4CZVA/wNRBiCdCwHKhQJ8+qVZGhsXdstPKC
+	2hghyGk06cDJKl8l70j66joc38UYbdgW4KrCegrZMYgBkLmtsWRaRvH6jXL45bSAzT3yFuqnmsb
+	Sqp1hurG0zDAkXVo/tXEvm4p8Dq/YIjbfL/ReCwlBeN+/D3iEYAuAKrGfdTtB7MXAv/gNrwwB87
+	kxY+CmJF9zqQxBjpYMml41vZaQGkCj4MW8f78t9C0SIytKP09//eg779kH4ko/9tbgtacDP4NeA
+	4V0z8IwG4dnDJpZ1T47sTNwuYw/2chjS1FQFhdpNXaaU1luVjGF1WH7EO6qVdLRloCEfgtzSPVa
+	DPB23UFwV+hvCo7mJ8z3VJdREUqInYkSRq673HiC3+EdWy22RHkfmLQ==
+X-Received: by 2002:a17:90b:1d49:b0:356:24f0:af0c with SMTP id 98e67ed59e1d1-35a22003a84mr13566417a91.17.1773726319556;
+        Mon, 16 Mar 2026 22:45:19 -0700 (PDT)
+X-Received: by 2002:a17:90b:1d49:b0:356:24f0:af0c with SMTP id 98e67ed59e1d1-35a22003a84mr13566386a91.17.1773726318917;
+        Mon, 16 Mar 2026 22:45:18 -0700 (PDT)
+Received: from [10.0.0.3] ([106.222.229.118])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35bada2bfdbsm1559715a91.3.2026.03.16.22.45.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 22:45:18 -0700 (PDT)
+Message-ID: <43894ecb-711a-588d-0a5e-b4097092e162@oss.qualcomm.com>
+Date: Tue, 17 Mar 2026 11:15:14 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: t1cae1yk/BXjrGB8nwEwjtNwEYgM1d6VM/0Xv+8BuF52M9v17WJAk3ZI1T0bWJk1DcwhpBqerFaPZnnazhEUTuSHjcnyqnirSDtycxS43u63pOBurNGGeIcHeSZddtU1g/lGoFCCPK+/f7k9RUNeh1B59wgdqLN1Zn4LO/BJO+uvX2SddNlgMkk4SDmBMqCoZhWExgfNNMM9buxJk5UFsOUGfrZWtwFRuuYo0tAm2y2cmQ3XDQI1OPeEB/zW1uhon2SBz2WiCRiInKg5Yv6GkWhQdq5D9z7/6IQzV10tn2JgsR1T27whA6JfAH1aWmoLyIqTIiPAdSCGdAfn0+X1Ww==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7177.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad2f13e6-930e-4fb1-60ae-08de83e7ba96
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2026 05:40:42.4013
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2f6W9Fdz2LTlX/iiJrdIQ9B0e9X33VGBr5squW1Jhr2TNvgDEHoqg9SnIQhjUsplCrKwH+UrhIVu2eOGhoYOEWMCL5fs5VF/fXc7SgfYGuw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR11MB8842
-X-OriginatorOrg: intel.com
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v4 7/8] media: qcom: iris: split firmware_data from raw
+ platform data
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260313-iris-platform-data-v4-0-14927df4906d@oss.qualcomm.com>
+ <20260313-iris-platform-data-v4-7-14927df4906d@oss.qualcomm.com>
+ <726439a7-cf5a-74e6-1768-1bc6fb907ffc@oss.qualcomm.com>
+ <24oq4plyvburuufxs6vt2kt7e3mlwlis7dekszjnxson245amy@muyu5fpohhfu>
+ <5a6a6979-ff3e-0885-ce88-5c9316b9bcad@oss.qualcomm.com>
+ <54bfdee8-771f-8b0e-b5d1-d9eaa934b48b@oss.qualcomm.com>
+ <t5mdnrtxpeylnohpb7twl2kc2ewb5hxyscemz6iuxemkvye3h6@26t56xm5ca2j>
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+In-Reply-To: <t5mdnrtxpeylnohpb7twl2kc2ewb5hxyscemz6iuxemkvye3h6@26t56xm5ca2j>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: neXFNsMxVsgpzYPizEqTxRTnD7X0kmuC
+X-Proofpoint-ORIG-GUID: neXFNsMxVsgpzYPizEqTxRTnD7X0kmuC
+X-Authority-Analysis: v=2.4 cv=KLxXzVFo c=1 sm=1 tr=0 ts=69b8ea70 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=RgczR8+8wRjDfzPIf2UjDw==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=2riDMrXVtvz-PWqHk6IA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDA0NyBTYWx0ZWRfX/WnEi4fs57Ov
+ OFP2s6v70wQR3XISwTs3Dqe6q14qmcyJHuCu1JNT7v4gkqgq+rPdQ2HH1/BnPpXfuFMcRJ2X7ts
+ XW8PjCP6bfCbIZmBJlx+3h9XfIzpnXmDgGvZ21rBqSWTX1jAvNIsgkd5F7aMjL6hK5TPxCcRTBq
+ MUcRGz4VnxMqhIXu6uI0pY0pdZCSQPYQIlWxyo47F1BWpA74Sg/2RpCiILF5qzb+um+B32qVFt1
+ WRDaO2UFAxRRjxhKeC28l7Z6As7OhWwhO/+U7/cxOf1pVVRRW7SmOh9cFi5Vjm7Ph9HHQYLwGgf
+ wLMP9WboGL1szUtiUgqxIL2Vo/6PljiOfifFs/RetjJi2cfVCquj9C9TQI3N3pAESMPhXJInVJR
+ dgXUbKmHq1+Fm+rbavB4G1cKtRJi+2j6BTZZK/oiy5uxfARRS+kqcOeAEg/sLAQtBR/KtsYQfIm
+ FU5mKlleGoWsNEuHD2A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-17_01,2026-03-16_06,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 priorityscore=1501 lowpriorityscore=0
+ suspectscore=0 spamscore=0 clxscore=1015 bulkscore=0 impostorscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603170047
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-55994-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,redhat.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,CH3PR11MB7177.namprd11.prod.outlook.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vivek.kasireddy@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-55995-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[dikshita.agarwal@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[10]
-X-Rspamd-Queue-Id: E3F502A40AA
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 047B32A4131
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-> Subject: [PATCH] udmabuf: fix DMA direction mismatch in
-> release_udmabuf()
->=20
-> begin_cpu_udmabuf() maps the sg_table with the caller-provided
-> direction
-> (e.g., DMA_TO_DEVICE for a write-only sync), and caches it in ubuf->sg
-> for reuse.  However, release_udmabuf() always unmaps this sg_table with
-> a hardcoded DMA_BIDIRECTIONAL, regardless of the direction that was
-> originally used for the mapping.
->=20
-> With CONFIG_DMA_API_DEBUG=3Dy this produces:
->=20
->   DMA-API: misc udmabuf: device driver frees DMA memory with different
->   direction [device address=3D0x000000044a123000] [size=3D4096 bytes]
->   [mapped with DMA_TO_DEVICE] [unmapped with
-> DMA_BIDIRECTIONAL]
->=20
-> The issue was found during video playback when GStreamer performed a
-> write-only DMA_BUF_IOCTL_SYNC on a udmabuf.  It can be reproduced
-> with CONFIG_DMA_API_DEBUG=3Dy by creating a udmabuf from a memfd,
-> performing a write-only sync (DMA_BUF_SYNC_WRITE without
-> DMA_BUF_SYNC_READ), and closing the file descriptor.
->=20
-> Fix this by storing the DMA direction used when the sg_table is first
-> created in begin_cpu_udmabuf(), and passing that same direction to
-> put_sg_table() in release_udmabuf().
->=20
-> Fixes: 284562e1f348 ("udmabuf: implement
-> begin_cpu_access/end_cpu_access hooks")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-> ---
->  drivers/dma-buf/udmabuf.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index 94b8ecb892bb..d0836febefdd 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
-> @@ -40,6 +40,7 @@ struct udmabuf {
->  	struct folio **pinned_folios;
->=20
->  	struct sg_table *sg;
-> +	enum dma_data_direction sg_dir;
->  	struct miscdevice *device;
->  	pgoff_t *offsets;
->  };
-> @@ -235,7 +236,7 @@ static void release_udmabuf(struct dma_buf *buf)
->  	struct device *dev =3D ubuf->device->this_device;
->=20
->  	if (ubuf->sg)
-> -		put_sg_table(dev, ubuf->sg, DMA_BIDIRECTIONAL);
-> +		put_sg_table(dev, ubuf->sg, ubuf->sg_dir);
->=20
->  	deinit_udmabuf(ubuf);
->  	kfree(ubuf);
-> @@ -253,6 +254,8 @@ static int begin_cpu_udmabuf(struct dma_buf
-> *buf,
->  		if (IS_ERR(ubuf->sg)) {
->  			ret =3D PTR_ERR(ubuf->sg);
->  			ubuf->sg =3D NULL;
-> +		} else {
-> +			ubuf->sg_dir =3D direction;
-Reviewed-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+
+
+On 3/17/2026 1:29 AM, Dmitry Baryshkov wrote:
+> On Mon, Mar 16, 2026 at 12:01:48PM +0530, Dikshita Agarwal wrote:
+>>
+>>
+>> On 3/13/2026 2:55 PM, Dikshita Agarwal wrote:
+>>>
+>>>
+>>> On 3/13/2026 1:37 PM, Dmitry Baryshkov wrote:
+>>>> On Fri, Mar 13, 2026 at 01:19:21PM +0530, Dikshita Agarwal wrote:
+>>>>
+>>>> I'm sorry, I've refreshed the series before receiving this email. I will
+>>>> send new iteration after settling the discussion here.
+>>>>
+>>>>> On 3/13/2026 9:00 AM, Dmitry Baryshkov wrote:
+>>>>>> Having firmware-related fields in platform data results in the tying
+>>>>>> platform data to the HFI firmware data rather than the actual hardware.
+>>>>>> For example, SM8450 uses Gen2 firmware, so currently its platform data
+>>>>>> should be placed next to the other gen2 platforms, although it has the
+>>>>>> VPU2.0 core, similar to the one found on SM8250 and SC7280 and so the
+>>>>>> hardware-specific platform data is also close to those devices.
+>>>>>>
+>>>>>> Split firmware data to a separate struct, separating hardware-related
+>>>>>> data from the firmware interfaces.
+>>>>>>
+>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>>>>>> ---
+>>>>>>  drivers/media/platform/qcom/iris/iris_buffer.c     |  84 +++----
+>>>>>>  drivers/media/platform/qcom/iris/iris_core.h       |   1 +
+>>>>>>  drivers/media/platform/qcom/iris/iris_ctrls.c      |   8 +-
+>>>>>>  .../platform/qcom/iris/iris_hfi_gen1_command.c     |  10 +-
+>>>>>>  .../platform/qcom/iris/iris_hfi_gen2_command.c     |  66 ++---
+>>>>>>  .../platform/qcom/iris/iris_platform_common.h      |  79 +++---
+>>>>>>  .../media/platform/qcom/iris/iris_platform_gen1.c  |  68 +++---
+>>>>>>  .../media/platform/qcom/iris/iris_platform_gen2.c  | 268 +++++++--------------
+>>>>>>  drivers/media/platform/qcom/iris/iris_probe.c      |   3 +-
+>>>>>>  drivers/media/platform/qcom/iris/iris_vidc.c       |  10 +-
+>>>>>>  10 files changed, 246 insertions(+), 351 deletions(-)
+>>>>>>
+>>>>>
+>>>>> <snip>
+>>>>>
+>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>>>>>> index d1daef2d874b..1a870fec4f31 100644
+>>>>>> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>>>>>> @@ -201,45 +201,16 @@ enum platform_pm_domain_type {
+>>>>>>  	IRIS_APV_HW_POWER_DOMAIN,
+>>>>>>  };
+>>>>>>  
+>>>>>> -struct iris_platform_data {
+>>>>>> +struct iris_firmware_data {
+>>>>>>  	void (*init_hfi_ops)(struct iris_core *core);
+>>>>>> +
+>>>>>>  	u32 (*get_vpu_buffer_size)(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+>>>>>
+>>>>> I still don't think it's right to keep vpu_buffer_size in firmware data as
+>>>>> this would change mostly for every new VPU variant.
+>>>>>
+>>>>> The buffer sizing logic depends on VPU generation (vpu2, vpu3, vpu33,
+>>>>> vpu35) / SoC constraints, not on whether the HFI is Gen1 vs Gen2.
+>>>>
+>>>> Okay, so how do we solve the SC7280 Gen1 vs Gen2 situation? I can keep
+>>>> the function pointer in struct iris_platform_data for now, letting you
+>>>> sort it out in your series.
+>>>
+>>> Thanks! that is SC7280 problem, since code evolved due to additional
+>>> features and other things, we might need to increase the vpu2 buffer size
+>>> to accommodate both Ge1 and Gen2 requirement, I will check that and address
+>>> in my series.
+>>>
+>>>>
+>>>>>
+>>>>> <snip>
+>>>>>
+>>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>>>>> index 10a972f96cbe..a83f6910f8b7 100644
+>>>>>> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>>>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>>>>> @@ -906,41 +906,15 @@ static const u32 sm8550_enc_op_int_buf_tbl[] = {
+>>>>>>  	BUF_SCRATCH_2,
+>>>>>>  };
+>>>>>>  
+>>>>>> -const struct iris_platform_data sm8550_data = {
+>>>>>> +const struct iris_firmware_data iris_hfi_gen2_data = {
+>>>>>>  	.init_hfi_ops = iris_hfi_gen2_sys_ops_init,
+>>>>>>  	.get_vpu_buffer_size = iris_vpu_buf_size,
+>>>>>> -	.vpu_ops = &iris_vpu3_ops,
+>>>>>> -	.icc_tbl = sm8550_icc_table,
+>>>>>> -	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+>>>>>> -	.clk_rst_tbl = sm8550_clk_reset_table,
+>>>>>> -	.clk_rst_tbl_size = ARRAY_SIZE(sm8550_clk_reset_table),
+>>>>>> -	.bw_tbl_dec = sm8550_bw_table_dec,
+>>>>>> -	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
+>>>>>> -	.pmdomain_tbl = sm8550_pmdomain_table,
+>>>>>> -	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
+>>>>>> -	.opp_pd_tbl = sm8550_opp_pd_table,
+>>>>>> -	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+>>>>>> -	.clk_tbl = sm8550_clk_table,
+>>>>>> -	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
+>>>>>> -	.opp_clk_tbl = sm8550_opp_clk_table,
+>>>>>> -	/* Upper bound of DMA address range */
+>>>>>> -	.dma_mask = 0xe0000000 - 1,
+>>>>>> -	.fwname = "qcom/vpu/vpu30_p4.mbn",
+>>>>>
+>>>>> Should fw_name be in firmware_data? as this can be change based on HFI
+>>>>> versions?
+>>>>
+>>>> That would fail because then each device will have to gain its own
+>>>> struct iris_firmware_data.
+>>>>
+>>>> But... Maybe we can do something as simple as:
+>>>>
+>>>> struct iris_firmware_desc {
+>>>> 	const char *fwname;
+>>>> 	u32 (*get_vpu_buffer_size)(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+>>>> 	bool (*checK_fw_match)(u8 *buf, size_t size);
+>>>> 	const struct iris_firmware_data *data;
+>>>> };
+>>>>
+>>>> and then
+>>>>
+>>>> struct iris_platform_data {
+>>>> 	struct iris_firmware_desc *gen1, *gen2;
+>>>> 	// .. the rest as usual;
+>>>> };
+>>>>
+>>>>
+>>>> struct iris_core {
+>>>> 	u32 (*get_vpu_buffer_size)(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+>>>> 	const struct iris_firmware_data *data;
+>>>> 	// ... the rest as expected
+>>>> };
+>>>>
+>>>> During first open the driver will try loading firmware from DT and
+>>>> identifying it using the check_fw_match() callback. If DT doesn't have
+>>>> firmware-name the driver will try loading gen2 and, if not found, gen1.
+>>>> When firmware loading succeeds, it will set the pointer and the callback
+>>>> in iris_core, settling the interface between the driver and the
+>>>> firmware.
+>>>>
+>>>> WDYT?
+>>>
+>>> This looks good to me. It handles the SC7280 Gen1 vs Gen2 buffer size
+>>> differences as well.
+>>
+>> Do you plan to implement above design in the next version of your series?
+> 
+> I've sent the platform_data patchset keeping the get_vpu_buffer_size in
+> place (as you suggested) because that is fine for the current supported
+> usecases. I would prefer if iris_firmware_desc comes as a part of your
+> Kodiak Gen1-vs-Gen2 patchset. I can send you a corresponding patch, if
+> you wan, or you can implement that on your own. What would be your
+> preference?
+> 
+
+If you already have something in progress, it would be helpful if you could
+share it. I can base my kodiak gen2 series on top of it.
 
 Thanks,
-Vivek
+Dikshita
 
->  		}
->  	} else {
->  		dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
-> --
-> 2.53.0
-
+>>
+>> Thanks,
+>> Dikshita
+>>>
+>>> Thanks,
+>>> Dikshita
+>>>
+>>>>
+>>>>>> -const struct iris_platform_data sm8650_data = {
+>>>>>> +const struct iris_firmware_data iris_hfi_gen2_vpu33_data = {
+>>>>>
+>>>>> This proves my above point.
+>>>>>
+>>>>> iris_hfi_gen2_data and iris_hfi_gen2_vpu33_data become identical except for
+>>>>> get_vpu_buffer_size, which forces us to create multiple “firmware_data”
+>>>>> variants just to carry a hardware-specific difference.
+>>>>>
+>>>>> Also, it will scale poorly going forward. When we introduce vpu4 /
+>>>>> vpu5–based platforms, we would need to add more copies of essentially the
+>>>>> same HFI Gen2 firmware_data, differing only in the buffer sizing callback.
+>>>>
+>>>> Yes. I'm not sure, if there is any difference between params / caps as
+>>>> implremented by the firmware for those generations.
+>>>>
+> 
 
