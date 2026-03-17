@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-56005-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56006-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AFLSNS0VuWmOpgEAu9opvQ
-	(envelope-from <linux-media+bounces-56005-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:47:41 +0100
+	id iBaJMowVuWmOpgEAu9opvQ
+	(envelope-from <linux-media+bounces-56006-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:49:16 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5E22A5E67
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:47:41 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFEF2A5ED1
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 09:49:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A0916303F7FD
-	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 08:44:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2905F308C2CF
+	for <lists+linux-media@lfdr.de>; Tue, 17 Mar 2026 08:46:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9416639BFFE;
-	Tue, 17 Mar 2026 08:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92B9925A2C6;
+	Tue, 17 Mar 2026 08:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJgCjWlc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z78Rw7+w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B704D19D081;
-	Tue, 17 Mar 2026 08:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AB139B483;
+	Tue, 17 Mar 2026 08:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773737090; cv=none; b=fpDHY47flqDGrV8GNdF1qk0d5fgovlTidVCTX1xLdf0R0RrEc6iYZdNW9QnTBERFtz9Oey6L9FWtUY2WOpJQ2GLl9h5Ql6vJ3KDmVDifzxSYpVBfpCRAGSoXYW76bAxFQaMKrl8/2rYT41UhRdLzKNNS2EgDbqx7nJNJcCku0tM=
+	t=1773737171; cv=none; b=PnN4lDUukwDjwrt85O37wynDIt2STh9EIvEtIWeLKRauqLraAJNuHj3LCLkHfyCg6PKeAkrwvtYcLy9vMjff8N7wS9lYwPkIyf+9nUkEoNfHqcB6TeknrbWdUhRBNshP3CppyFzV9AMcZ4MInAbv9TZO3Mo6iZXPSzuMPVaTmB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773737090; c=relaxed/simple;
-	bh=C0Pswvu3fjRMjD3j/kjNnnpBIbx7nPgIna/0wI7OubA=;
+	s=arc-20240116; t=1773737171; c=relaxed/simple;
+	bh=lYYB2M4rOhfpUsT2sxICQbxaMvChimycMPJ5ubsc194=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uiH/EV/2sesVnNKKkGdDJ0bXTmAPCYf8Bb6OvSMyE7fPaJ0pFq7vF/mOzmg+gJd4hrkb4eJ0o883Yp13aQbmTKVarSdQZxJTaydnj+MdsPeVg55a0+fHAcJoSycXc1hf7WMDwSzB4XSCJ1JoXYNIM1TrdxNZeykWzz1MbYiaR1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJgCjWlc; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=JtGiGSnBGaciUTdDpAcMIKRYoIpwEddvgel/nA+Y6G+BISwwvfoQegcqe91bMYxqVcGFZ4Dv+S8SiFXQDEal109QS/p0rr9CP0TN6dAej2yuLSXxeKxm4tSFW7yx/9E0sCGzND8Jo/stDn1ag7yozpjpsYA9Tkgt7NgODLKxY8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z78Rw7+w; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773737089; x=1805273089;
+  t=1773737169; x=1805273169;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=C0Pswvu3fjRMjD3j/kjNnnpBIbx7nPgIna/0wI7OubA=;
-  b=CJgCjWlcnkZ26tZVPvIR/X7UXoXJdGpYxECcxy59jmlTyJGXhdBj/YI+
-   cctmSJNRs8rNVrkwnf11dDqVHne7VwOwqTMm0zELJe4n/3DTmyhljZ7r6
-   pQRfQHUVhh4aaHEjJrQqSWXGF555cqL25Ywf3XmbpDRFAxTmCZLwnuPyR
-   98hwjvzUE7GCuNuCgWWgfv8/VRkzlpZytmIzGWpcihHY0cDLFqxQ20klS
-   XgG6jQDZLxp/q9tFtovjyvwBiheADGuNAlSACppHqfgYQDeksjbFuLOc9
-   8itjeaWOmcZLO+z7B4C5YSm2c/426LRTsk2xI7Aj0mlavwPxHWCNrpmUG
-   w==;
-X-CSE-ConnectionGUID: rTrRsISWTby2tV5+q8rx8w==
-X-CSE-MsgGUID: mGqEmIodS+m4CwQ37P7Ilw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="74946590"
+  bh=lYYB2M4rOhfpUsT2sxICQbxaMvChimycMPJ5ubsc194=;
+  b=Z78Rw7+wxgHoTFokUB6wgSNoVzurr8gPGJedSePFMJOqE9VcEXTYEjTr
+   8ju4dGu6RpL+fftaY3F9p5fvGzFX6rgF3YSTpvO7sR2iLE3eSqKDmH2ar
+   uc6Scm3I8THuYw2Y1eJvFInjTH6Gj1+g+T4QYQlkNTTvTckShleRFQpkd
+   g4fPOsD7lwUOEg8pIkp9w6ZoXNYfAaDggEJw8RUH7r53vqbzu3h9eUcZZ
+   cG5ShDTGE0Wqe2FQwfoS43Pke1cywne+T+ehA75RSld66HBstCnNhg5D7
+   24C4V5HzVKJ177vK9uL2SvCqokc0sOdcmEYbwivCW8gkWDQt07fl9x3r2
+   A==;
+X-CSE-ConnectionGUID: IgAJN1uITQGrsGibyanrJg==
+X-CSE-MsgGUID: 19Pxq8qNQkKbdwPwKw0oeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="100218948"
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="74946590"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:44:48 -0700
-X-CSE-ConnectionGUID: lReVL7sOR0WiQbiCp2o3vw==
-X-CSE-MsgGUID: Ss6gS+4MQsadj9fke/z+IQ==
+   d="scan'208";a="100218948"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:46:08 -0700
+X-CSE-ConnectionGUID: +cBoXIEDSCWAr7IKOMp3Jw==
+X-CSE-MsgGUID: +XWBVvGfRH6RYxXEjBcSBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
-   d="scan'208";a="221432514"
+   d="scan'208";a="222254270"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.106])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:44:44 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 01:46:05 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 79572121D04;
-	Tue, 17 Mar 2026 10:44:42 +0200 (EET)
-Date: Tue, 17 Mar 2026 10:44:42 +0200
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C586C121D04;
+	Tue, 17 Mar 2026 10:46:03 +0200 (EET)
+Date: Tue, 17 Mar 2026 10:46:03 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Matthias Fend <matthias.fend@emfend.at>
@@ -76,11 +76,11 @@ Cc: Jimmy Su <jimmy.su@intel.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
 	bsp-development.geo@leica-geosystems.com
-Subject: Re: [PATCH v2 6/9] dt-bindings: media: i2c: document Omnivision
- OV08D10 CMOS image sensor
-Message-ID: <abkUeiIjKjuG7vrD@kekkonen.localdomain>
+Subject: Re: [PATCH v2 8/9] media: i2c: ov08d10: add support for reset and
+ power management
+Message-ID: <abkUy5U-cwK-6_kz@kekkonen.localdomain>
 References: <20260309-ov08d10-v2-0-81f8b5d99984@emfend.at>
- <20260309-ov08d10-v2-6-81f8b5d99984@emfend.at>
+ <20260309-ov08d10-v2-8-81f8b5d99984@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,24 +89,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260309-ov08d10-v2-6-81f8b5d99984@emfend.at>
+In-Reply-To: <20260309-ov08d10-v2-8-81f8b5d99984@emfend.at>
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56005-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56006-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
@@ -116,152 +116,191 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,0.0.0.36:email,intel.com:dkim,intel.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 3D5E22A5E67
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kekkonen.localdomain:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,emfend.at:email]
+X-Rspamd-Queue-Id: 2EFEF2A5ED1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Matthias,
-
-On Mon, Mar 09, 2026 at 06:07:08PM +0100, Matthias Fend wrote:
-> Add bindings for the Omnivision OV08D10 CMOS image sensor.
+On Mon, Mar 09, 2026 at 06:07:10PM +0100, Matthias Fend wrote:
+> Add support for the required power supplies as well as the control of an
+> optional sensor reset.
 > 
 > Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
 > ---
->  .../bindings/media/i2c/ovti,ov08d10.yaml           | 101 +++++++++++++++++++++
->  MAINTAINERS                                        |   1 +
->  2 files changed, 102 insertions(+)
+>  drivers/media/i2c/ov08d10.c | 93 ++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 92 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..96dbf61cf7c188544f4120216ae2b8e0155128b7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
-> @@ -0,0 +1,101 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov08d10.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV08D10 1/4-Inch 8MP CMOS color image sensor
-> +
-> +maintainers:
-> +  - Jimmy Su <jimmy.su@intel.com>
-
-I think you should put yourself here unless you have agreed this with
-Jimmy.
-
-> +
-> +description:
-> +  The Omnivision OV08D10 is a 1/4-Inch 8MP CMOS color image sensor with an
-> +  active array size of 3280 x 2464. It is programmable through I2C
-> +  interface. Image data is transmitted via MIPI CSI-2 using 2 lanes.
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov08d10
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: MCLK input clock (6 - 27 MHz)
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: Active low XSHUTDN pin
-> +    maxItems: 1
-> +
-> +  dovdd-supply:
-> +    description: IO power supply (1.8V)
-> +
-> +  avdd-supply:
-> +    description: Analog power supply (2.8V)
-> +
-> +  dvdd-supply:
-> +    description: Core power supply (1.2V)
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - port
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        sensor@36 {
-> +            compatible = "ovti,ov08d10";
-> +            reg = <0x36>;
-> +
-> +            clocks = <&ov08d10_clk>;
-> +
-> +            dovdd-supply = <&ov08d10_vdddo_1v8>;
-> +            avdd-supply = <&ov08d10_vdda_2v8>;
-> +            dvdd-supply = <&ov08d10_vddd_1v2>;
-> +
-> +            orientation = <2>;
-> +            rotation = <0>;
-> +
-> +            reset-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
-> +
-> +            port {
-> +                ov08d10_output: endpoint {
-> +                    data-lanes = <1 2>;
-> +                    link-frequencies = /bits/ 64 <360000000 720000000>;
-> +                    remote-endpoint = <&csi_input>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 55af015174a54e17cc7449e5a80b6cdc83aa6fde..2484d0bcc1f09582828cafbdb7d45dd12b55af60 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19505,6 +19505,7 @@ M:	Jimmy Su <jimmy.su@intel.com>
->  L:	linux-media@vger.kernel.org
-
-I suppose you might want to be listed as a reviewer for instance?
-
->  S:	Maintained
->  T:	git git://linuxtv.org/media.git
-> +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
->  F:	drivers/media/i2c/ov08d10.c
+> diff --git a/drivers/media/i2c/ov08d10.c b/drivers/media/i2c/ov08d10.c
+> index ce0fa30a86129302b5dda0b8796e44054fd77c88..19035991e8bb164d4fca5d87ee4551191974e8bb 100644
+> --- a/drivers/media/i2c/ov08d10.c
+> +++ b/drivers/media/i2c/ov08d10.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/module.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regulator/consumer.h>
+> +#include <linux/reset.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-fwnode.h>
+> @@ -513,9 +514,17 @@ static const char * const ov08d10_test_pattern_menu[] = {
+>  	"Standard Color Bar",
+>  };
 >  
->  OMNIVISION OV08X40 SENSOR DRIVER
+> +static const char *const ov08d10_supply_names[] = {
+> +	"dovdd",	/* Digital I/O power */
+> +	"avdd",		/* Analog power */
+> +	"dvdd",		/* Digital core power */
+> +};
+> +
+>  struct ov08d10 {
+>  	struct device *dev;
+>  	struct clk *clk;
+> +	struct reset_control *reset;
+> +	struct regulator_bulk_data supplies[ARRAY_SIZE(ov08d10_supply_names)];
+>  
+>  	struct v4l2_subdev sd;
+>  	struct media_pad pad;
+> @@ -1265,6 +1274,56 @@ static const struct v4l2_subdev_internal_ops ov08d10_internal_ops = {
+>  	.open = ov08d10_open,
+>  };
+>  
+> +static int ov08d10_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov08d10 *ov08d10 = to_ov08d10(sd);
+> +
+> +	reset_control_assert(ov08d10->reset);
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(ov08d10->supplies),
+> +			       ov08d10->supplies);
+> +
+> +	clk_disable_unprepare(ov08d10->clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov08d10_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov08d10 *ov08d10 = to_ov08d10(sd);
+> +	int ret;
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ov08d10->supplies),
+> +				    ov08d10->supplies);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable regulators: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(ov08d10->clk);
+> +	if (ret < 0) {
+> +		regulator_bulk_disable(ARRAY_SIZE(ov08d10->supplies),
+> +				       ov08d10->supplies);
+> +
+> +		dev_err(dev, "failed to enable imaging clock: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	if (ov08d10->reset) {
+> +		/* Delay from DVDD stable to sensor XSHUTDN pull up: 5ms */
+> +		fsleep(5 * USEC_PER_MSEC);
+> +
+> +		reset_control_deassert(ov08d10->reset);
+> +
+> +		/* Delay from XSHUTDN pull up to SCCB start: 8ms */
+> +		fsleep(8 * USEC_PER_MSEC);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int ov08d10_identify_module(struct ov08d10 *ov08d10)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&ov08d10->sd);
+> @@ -1371,6 +1430,10 @@ static void ov08d10_remove(struct i2c_client *client)
+>  	media_entity_cleanup(&sd->entity);
+>  	v4l2_ctrl_handler_free(sd->ctrl_handler);
+>  	pm_runtime_disable(ov08d10->dev);
+> +	if (!pm_runtime_status_suspended(ov08d10->dev)) {
+> +		ov08d10_power_off(ov08d10->dev);
+> +		pm_runtime_set_suspended(ov08d10->dev);
+> +	}
+>  	mutex_destroy(&ov08d10->mutex);
+>  }
+>  
+> @@ -1378,6 +1441,7 @@ static int ov08d10_probe(struct i2c_client *client)
+>  {
+>  	struct ov08d10 *ov08d10;
+>  	unsigned long freq;
+> +	unsigned int i;
+>  	int ret;
+>  
+>  	ov08d10 = devm_kzalloc(&client->dev, sizeof(*ov08d10), GFP_KERNEL);
+> @@ -1403,12 +1467,32 @@ static int ov08d10_probe(struct i2c_client *client)
+>  		return ret;
+>  	}
+>  
+> +	ov08d10->reset = devm_reset_control_get_optional_exclusive(ov08d10->dev, NULL);
+> +	if (IS_ERR(ov08d10->reset))
+> +		return dev_err_probe(ov08d10->dev, PTR_ERR(ov08d10->reset),
+> +				     "failed to get reset\n");
+> +	reset_control_assert(ov08d10->reset);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ov08d10_supply_names); i++)
+
+You can declare i here.
+
+> +		ov08d10->supplies[i].supply = ov08d10_supply_names[i];
+> +
+> +	ret = devm_regulator_bulk_get(ov08d10->dev,
+> +				      ARRAY_SIZE(ov08d10->supplies),
+> +				      ov08d10->supplies);
+> +	if (ret)
+> +		return dev_err_probe(ov08d10->dev, ret,
+> +				     "failed to get regulators\n");
+> +
+>  	v4l2_i2c_subdev_init(&ov08d10->sd, client, &ov08d10_subdev_ops);
+>  
+> +	ret = ov08d10_power_on(ov08d10->dev);
+> +	if (ret)
+> +		return dev_err_probe(ov08d10->dev, ret, "failed to power on\n");
+> +
+>  	ret = ov08d10_identify_module(ov08d10);
+>  	if (ret) {
+>  		dev_err(ov08d10->dev, "failed to find sensor: %d\n", ret);
+> -		return ret;
+> +		goto probe_error_power_off;
+>  	}
+>  
+>  	mutex_init(&ov08d10->mutex);
+> @@ -1452,9 +1536,15 @@ static int ov08d10_probe(struct i2c_client *client)
+>  	v4l2_ctrl_handler_free(ov08d10->sd.ctrl_handler);
+>  	mutex_destroy(&ov08d10->mutex);
+>  
+> +probe_error_power_off:
+> +	ov08d10_power_off(ov08d10->dev);
+> +
+>  	return ret;
+>  }
+>  
+> +static DEFINE_RUNTIME_DEV_PM_OPS(ov08d10_pm_ops,
+> +				 ov08d10_power_off, ov08d10_power_on, NULL);
+> +
+>  #ifdef CONFIG_ACPI
+>  static const struct acpi_device_id ov08d10_acpi_ids[] = {
+>  	{ "OVTI08D1" },
+> @@ -1473,6 +1563,7 @@ MODULE_DEVICE_TABLE(of, ov08d10_of_match);
+>  static struct i2c_driver ov08d10_i2c_driver = {
+>  	.driver = {
+>  		.name = "ov08d10",
+> +		.pm = pm_ptr(&ov08d10_pm_ops),
+>  		.acpi_match_table = ACPI_PTR(ov08d10_acpi_ids),
+>  		.of_match_table = ov08d10_of_match,
+>  	},
 > 
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
 
