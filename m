@@ -1,140 +1,137 @@
-Return-Path: <linux-media+bounces-56233-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56234-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PaPIQD8umlHeAIAu9opvQ
-	(envelope-from <linux-media+bounces-56233-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:24:48 +0100
+	id 0L7YCwH9umlHeAIAu9opvQ
+	(envelope-from <linux-media+bounces-56234-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:29:05 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A462C1FB1
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:24:47 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6642C204C
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:29:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CAAE33056174
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 19:24:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C6CE63141BCE
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 19:28:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FDB63EFD18;
-	Wed, 18 Mar 2026 19:24:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6243D3F0AB8;
+	Wed, 18 Mar 2026 19:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CREnysAR"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="kvs9wvrW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73AFC329E40;
-	Wed, 18 Mar 2026 19:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773861842; cv=none; b=FUNASz7r2qwuBTQlQm72LwdnnAPfly5IFU+fRXjy7CfsGLf39hkkEA7zc59/j6X05d3xe8EGKW6iBR33WG++ocQ6HtmZsdkjaOe5hJY4UTDygyMWOou8gcj+rlzVH+zaQGzTqpG1iXnO/qb3fMK5VoHLD1zg4lqF4aRYJJtOhNY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773861842; c=relaxed/simple;
-	bh=CD4l85WL9Qs8RtP6xsptN46JAxorn/BgrNYRCiS5yQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hgamTreHlhJMRGkLWVD0RyNv37ZQC47R/lIo7k/3tuJ/1g4RQ4ehyYiOTpxQAMBjuu+mY2rBDvsVFoxstt3ovLqfQuJbpLi5Etlx0UJRnT+wJKS03idNgPmIf6snRmhqlGBU5YcdKK2gE4dAoOriHg9BtdpqwANmHPSv9FSUf44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CREnysAR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DE764308;
-	Wed, 18 Mar 2026 20:22:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773861766;
-	bh=CD4l85WL9Qs8RtP6xsptN46JAxorn/BgrNYRCiS5yQ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CREnysARaMaDEZk2HqOYo0SBGytcDyMjNHdxoUianJWfHw/26ipkoeJPUoyvvxJWG
-	 8alcf1dshhxiGTZuc3TiCzEXCMjkAcMIIxhXxj1T14Xk0338FqzNwVi7mD7zJLaGs3
-	 eJ2yfmcqSqWoO0bP67q/MnanXD+0os0WtUlTPU6k=
-Date: Wed, 18 Mar 2026 21:23:57 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Yunke Cao <yunkec@google.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 0/3] media: uvcvideo: Improvements for UVC metadata
-Message-ID: <20260318192357.GD718539@killaraus.ideasonboard.com>
-References: <20260309-uvc-metadata-dmabuf-v1-0-fc8b87bd29c5@chromium.org>
- <6783b48c-9e4c-45ad-a691-9f172c978428@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923C83F075A;
+	Wed, 18 Mar 2026 19:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773862081; cv=pass; b=Ijl/4FUvr+own4kyH0YkYluO0GPWBJCEztq8CV96whE4S8zYU7aC2qbWwy+UR2DnWEr3Q9ISU2zEaGgzRmHclDPCQ5eUpJ+JbJRJ66r3CULWZ26VM8hGwbXYHFEFvoZrgCiWaIbLVR9ctfTn1ldmNIyF1xBaeJQd1Ei8PdD2aUg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773862081; c=relaxed/simple;
+	bh=STUvD6DjsCOPnQxbElaSrn9NpjCWuKGcVpKLKOQK/Ao=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I+91B/SevWTRAgPwVxoxoEe8y8+ZG+mMeOuvBf9Ti18/IQYZCFQU22gbZqgTIt657h2+jVurD04oqlcv7pVZT+HcbCr1J+Ix4jgWPJ/bUn+NC283lTJW5oFi50nC9SWFLzFncSzvLl1D1anDyntrRt6C+oxzA8aeB4iP8Ub65vw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=kvs9wvrW; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1773862053; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=iWK+i0c17wLCOKhHxbI2RyYm/jaxXIP40XRUvxVREGb2MIpYbzUeX3si69kTlyqdmkWuc6/5IyTHe4fhGAGpavtxVaaIdpuEpLce2D/x1SniFki3SHMbqpLLozbNQDyZxCWb8qFRD5oSrhWlGGvKKSMPnzSOgGGIDKf1HS8hOhA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1773862053; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4kzMTYxGhMKT838ZBrXjecyIPcUoh9EELyeEubeom1A=; 
+	b=J7lJcO2NJEGWaQO+HxpgcGkNrCt6paSmqb7OcL2CoxszKs1bg+LYr3Ksp2X0Fql45tbiSCk6wDAszKXQ0/6VOjzxgGtDhL+OlMc+H4kpV9gcgOim1mNVUuAV6LjcXx0Graso0nacIJYE/knbrThpUDTSpb7x2B7FiTeWo37g1b8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773862053;
+	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=4kzMTYxGhMKT838ZBrXjecyIPcUoh9EELyeEubeom1A=;
+	b=kvs9wvrWtwMePB5FLrs7sDGk2mJh72KBRJoUAEcRgP8hMlhMx6eQjkWUoKE3Fivr
+	1OP7gTtTptfMqEYzaPsD9t12AF6zLmMLDNd9vItvG9r840yu0eeaY9dlonxnOrrUm27
+	RRFgUpbZ6/KaRcQ+JQXRCDoihmjRICRUDs3ZitxE=
+Received: by mx.zohomail.com with SMTPS id 1773862051538654.731684847297;
+	Wed, 18 Mar 2026 12:27:31 -0700 (PDT)
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Ross Cawston <ross@r-sc.ca>
+Cc: kernel@collabora.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH v1] media: hdmirx: snps, rk: Fix HPD hold time
+Date: Wed, 18 Mar 2026 22:26:19 +0300
+Message-ID: <20260318192619.3910060-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6783b48c-9e4c-45ad-a691-9f172c978428@kernel.org>
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56233-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56234-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,r-sc.ca];
+	RCVD_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.995];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.osipenko@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	NEURAL_HAM(-0.00)[-0.991];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim]
-X-Rspamd-Queue-Id: E9A462C1FB1
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,r-sc.ca:email]
+X-Rspamd-Queue-Id: 8C6642C204C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 16, 2026 at 01:05:30PM +0100, Hans de Goede wrote:
-> On 9-Mar-26 4:01 PM, Ricardo Ribalda wrote:
-> > This series introduces some improvements for UVC metadata:
-> > 
-> > - Allow bigger sizes of metadata.
-> > - Refactor the code to avoid invalid pointer arithmetic.
-> > - Add support for DMABUF
-> > 
-> > Cheers!
-> > 
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> 
-> Thank you.
-> 
-> This entire series seems simple/safe enough and looks good to me
-> from a review pov, so I've pushed this to uvc/for-next now.
+Increase time of holding HPD pin low by 50ms. This fixes EDID change not
+detected by sink/display side.
 
-I'd like a small change in 2/3. Ricardo, if you submit a new version of
-2/3, I can merge it and handle the rebase.
+Fixes: 7b59b132ad43 ("media: platform: synopsys: Add support for HDMI input driver")
+Reported-by: Ross Cawston <ross@r-sc.ca>
+Closes: https://lore.kernel.org/linux-rockchip/20260209061654.54757-1-ross@r-sc.ca/
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
+ drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> While it also rebasing uvc/for-next on top of the latest
-> media-committers/next .
-> 
-> > ---
-> > Ricardo Ribalda (3):
-> >       media: uvcvideo: Enable VB2_DMABUF for metadata stream
-> >       media: uvcvideo: uvc_queue_to_stream(): Support meta queues
-> >       media: uvcvideo: Allow userspace to increase the meta buffersize
-> > 
-> >  drivers/media/usb/uvc/uvc_isight.c   |  3 ++-
-> >  drivers/media/usb/uvc/uvc_metadata.c |  9 +++++++--
-> >  drivers/media/usb/uvc/uvc_queue.c    | 18 ++++++++----------
-> >  drivers/media/usb/uvc/uvcvideo.h     |  7 +++++--
-> >  4 files changed, 22 insertions(+), 15 deletions(-)
-> > ---
-> > base-commit: a7da7fb57f2a787412da1a62292a17fa00fbfbdf
-> > change-id: 20260309-uvc-metadata-dmabuf-b98359eec8dd
-
+diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+index 61ad20b18b8d..4c8957505a50 100644
+--- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
++++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+@@ -506,9 +506,9 @@ static void hdmirx_hpd_ctrl(struct snps_hdmirx_dev *hdmirx_dev, bool en)
+ 	hdmirx_writel(hdmirx_dev, CORE_CONFIG,
+ 		      hdmirx_dev->hpd_trigger_level_high ? en : !en);
+ 
+-	/* 100ms delay as per HDMI spec */
++	/* 100ms delay as per HDMI spec + extra 50ms to cover internal delay */
+ 	if (!en)
+-		msleep(100);
++		msleep(100 + 50);
+ }
+ 
+ static void hdmirx_write_edid_data(struct snps_hdmirx_dev *hdmirx_dev,
 -- 
-Regards,
+2.52.0
 
-Laurent Pinchart
 
