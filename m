@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-56231-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56232-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MMxwH6L6umlwdwIAu9opvQ
-	(envelope-from <linux-media+bounces-56231-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:18:58 +0100
+	id yDDiC5L7umlwdwIAu9opvQ
+	(envelope-from <linux-media+bounces-56232-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:22:58 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9F12C1EDB
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:18:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C38652C1F81
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:22:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 64829301DB97
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 19:18:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 242B4301EF04
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 19:22:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB9F337B01C;
-	Wed, 18 Mar 2026 19:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A7583F0750;
+	Wed, 18 Mar 2026 19:22:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="asw99RKV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rECeKDh8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A4223D2A3;
-	Wed, 18 Mar 2026 19:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DACB3D3332;
+	Wed, 18 Mar 2026 19:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773861530; cv=none; b=i+W5kxPNkl8uOs2jwudy/vqF/VB0sStKA50QvnlRWI8AlAhwQiW9G49j5q1D/v8CDtydZgrPppE8+jl7Vo9s0AucabFXXKYh0FbmiJACTJZsKHCprVhFmI6GDFjoo+HV0V721g9KSlMDjGJFKAClF/18tT/JQjDmhLtKKH4o/EA=
+	t=1773861770; cv=none; b=MYCGAUY+E6OoR+NEe1tYy/9Ng9mWfo+z4nwqESwW3SRph+5LcvX59otBUpg0iu1w+ycyI3VibtUWZN7BnzDRd9bGfFEh1fp6bhsqhOdnweBRA6GTDfD5hG8PJHbBdXAKhsHF+rwK7e+jF8MqEFsusprMybzIdt7ltTWmsj2xTFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773861530; c=relaxed/simple;
-	bh=SOOFrjD3xoUYnSVH6qUa1yX32O7vt34If8k14rrOEEM=;
+	s=arc-20240116; t=1773861770; c=relaxed/simple;
+	bh=Ll45WhgwMYa6zBIyUrJW5YnmEgb6jJL3rc7OwY763ug=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ftvudMHO0KzfXG2b5i4m07JKr/d36/pUZHv0B8Ey0+LXvKxrhT5mG5snC6VEOOnFYrV5EVRH528mglJUU28XVDD8xEib5CNJpNHSZHIrbgFFhOwfzFrZTN1Z4YZNY/Md/ZqXgBLjWu6QsDrWhGubdkirvZ8iBGjr07ZnKXNBfOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=asw99RKV; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=bCn/9CdyiZNpp8j9DtgEWr0AOHaiRpjLHMUV54nuTW5DiKRJQexmG6FgP3PK/kBBNDjGHFUsYkP/vhRYiJGyCLPNY62NToBW1C/F4nTgcx9YlhBwS6FEqutzkXNKXOWW+T3FXhVq/qcSxOX2+hpuNqBW0z+HoyV8ccp7KdTtfow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rECeKDh8; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9D602308;
-	Wed, 18 Mar 2026 20:17:33 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8EF38308;
+	Wed, 18 Mar 2026 20:21:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773861453;
-	bh=SOOFrjD3xoUYnSVH6qUa1yX32O7vt34If8k14rrOEEM=;
+	s=mail; t=1773861694;
+	bh=Ll45WhgwMYa6zBIyUrJW5YnmEgb6jJL3rc7OwY763ug=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=asw99RKVgEy95IOzJZUNklkrVNbdKnSHUaexBwjAiS11OHTBYbDhxBarLBHQyaTbJ
-	 67jffoZtrlw7MdWFl/5oADaDaBoRtpO1owFf1A9/aVSgZHGLrgl9lfpbhHdXQdqTIL
-	 8jqIFXfZSNzUJmJy331/uCypAe1mMjkT7NCRK7wQ=
-Date: Wed, 18 Mar 2026 21:18:45 +0200
+	b=rECeKDh8pBqWIBLttPOutyaChTiYtzEuTk6Vk3cP0O93mw2h3sl8igc4UKDWSVJhb
+	 zZ4ejgIx4CylQoUKC0cqgNd09u5fY/2GGPCk33lIZJ5Ep+ExOymHSbQ3kYl4J7Chpo
+	 TAirh1tla1PfF6vQg6ejewGvDeaZp0q6N2KjHnFQ=
+Date: Wed, 18 Mar 2026 21:22:46 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Ricardo Ribalda <ribalda@chromium.org>
 Cc: Hans de Goede <hansg@kernel.org>,
@@ -52,11 +52,11 @@ Cc: Hans de Goede <hansg@kernel.org>,
 	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Yunke Cao <yunkec@google.com>
-Subject: Re: [PATCH 2/3] media: uvcvideo: uvc_queue_to_stream(): Support meta
- queues
-Message-ID: <20260318191845.GB718539@killaraus.ideasonboard.com>
+Subject: Re: [PATCH 3/3] media: uvcvideo: Allow userspace to increase the
+ meta buffersize
+Message-ID: <20260318192246.GC718539@killaraus.ideasonboard.com>
 References: <20260309-uvc-metadata-dmabuf-v1-0-fc8b87bd29c5@chromium.org>
- <20260309-uvc-metadata-dmabuf-v1-2-fc8b87bd29c5@chromium.org>
+ <20260309-uvc-metadata-dmabuf-v1-3-fc8b87bd29c5@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260309-uvc-metadata-dmabuf-v1-2-fc8b87bd29c5@chromium.org>
+In-Reply-To: <20260309-uvc-metadata-dmabuf-v1-3-fc8b87bd29c5@chromium.org>
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
@@ -74,145 +74,153 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-56231-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-56232-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-0.995];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 1F9F12C1EDB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,ideasonboard.com:dkim,ideasonboard.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: C38652C1F81
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Ricardo,
-
-Thank you for the patch.
-
-On Mon, Mar 09, 2026 at 03:01:55PM +0000, Ricardo Ribalda wrote:
-> The stream data structure has two queues: the metadata and the data
-> queues, but uvc_queue_to_stream() only supports the data queue. If we
-> pass the metadata queue the function will return an invalid pointer.
+On Mon, Mar 09, 2026 at 03:01:56PM +0000, Ricardo Ribalda wrote:
+> Now we have the metadata size hardcoded to 10 KiB, this is a value that
+> works fine for bulk cameras or frames with no extra metadata. But not
+> for all usecases.
 > 
-> This patch add a parameter to the function to explicitly tell the
-> function which queue are we using.
+> We have seen some cameras that produce more metadata per frame. Eg:
+
+Can you tell what camera that is ?
+
+> Frame 1 captured (Bytes: 11154)
+> Frame 2 captured (Bytes: 11616)
+> Frame 3 captured (Bytes: 11374)
+> Frame 4 captured (Bytes: 11132)
+> Frame 5 captured (Bytes: 11594)
+> Frame 6 captured (Bytes: 11352)
+> Frame 7 captured (Bytes: 11110)
+> Frame 8 captured (Bytes: 11572)
+> Frame 9 captured (Bytes: 11308)
+> 
+> When this happens, the driver (correctly) marks the metadata as ERROR.
+
+Is the maximum metadata size queryable through an XU on your devices ?
+
+> This patch let userspace set bigger buffersize via S_FMT.
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/usb/uvc/uvc_isight.c |  3 ++-
->  drivers/media/usb/uvc/uvc_queue.c  | 13 ++++++-------
->  drivers/media/usb/uvc/uvcvideo.h   |  4 +++-
->  3 files changed, 11 insertions(+), 9 deletions(-)
+>  drivers/media/usb/uvc/uvc_metadata.c | 9 +++++++--
+>  drivers/media/usb/uvc/uvc_queue.c    | 2 +-
+>  drivers/media/usb/uvc/uvcvideo.h     | 3 ++-
+>  3 files changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_isight.c b/drivers/media/usb/uvc/uvc_isight.c
-> index 43cda5e760a3..ea9dc31dfbad 100644
-> --- a/drivers/media/usb/uvc/uvc_isight.c
-> +++ b/drivers/media/usb/uvc/uvc_isight.c
-> @@ -41,7 +41,8 @@ static int isight_decode(struct uvc_video_queue *queue, struct uvc_buffer *buf,
->  		0xde, 0xad, 0xfa, 0xce
->  	};
+> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+> index 0a906ae3f971..9de8aba1229e 100644
+> --- a/drivers/media/usb/uvc/uvc_metadata.c
+> +++ b/drivers/media/usb/uvc/uvc_metadata.c
+> @@ -50,7 +50,7 @@ static int uvc_meta_v4l2_get_format(struct file *file, void *priv,
+>  		return -EINVAL;
 >  
-> -	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> +	struct uvc_streaming *stream = uvc_queue_to_stream(queue,
-> +						V4L2_BUF_TYPE_VIDEO_CAPTURE);
->  	unsigned int maxlen, nbytes;
->  	u8 *mem;
->  	int is_header = 0;
+>  	fmt->dataformat = stream->meta.format;
+> -	fmt->buffersize = UVC_METADATA_BUF_SIZE;
+> +	fmt->buffersize = stream->meta.buffersize;
+>  
+>  	return 0;
+>  }
+> @@ -63,6 +63,7 @@ static int uvc_meta_v4l2_try_format(struct file *file, void *priv,
+>  	struct uvc_device *dev = stream->dev;
+>  	struct v4l2_meta_format *fmt = &format->fmt.meta;
+>  	u32 fmeta = V4L2_META_FMT_UVC;
+> +	u32 buffersize;
+>  
+>  	if (format->type != vfh->vdev->queue->type)
+>  		return -EINVAL;
+> @@ -74,10 +75,12 @@ static int uvc_meta_v4l2_try_format(struct file *file, void *priv,
+>  		}
+>  	}
+>  
+> +	buffersize = max(UVC_METADATA_BUF_MIN_SIZE, fmt->buffersize);
+> +
+>  	memset(fmt, 0, sizeof(*fmt));
+>  
+>  	fmt->dataformat = fmeta;
+> -	fmt->buffersize = UVC_METADATA_BUF_SIZE;
+> +	fmt->buffersize = buffersize;
+>  
+>  	return 0;
+>  }
+> @@ -103,6 +106,7 @@ static int uvc_meta_v4l2_set_format(struct file *file, void *priv,
+>  		return -EBUSY;
+>  
+>  	stream->meta.format = fmt->dataformat;
+> +	stream->meta.buffersize = fmt->buffersize;
+>  
+>  	return 0;
+>  }
+> @@ -229,6 +233,7 @@ int uvc_meta_register(struct uvc_streaming *stream)
+>  	struct uvc_video_queue *queue = &stream->meta.queue;
+>  
+>  	stream->meta.format = V4L2_META_FMT_UVC;
+> +	stream->meta.buffersize = UVC_METADATA_BUF_MIN_SIZE;
+>  
+>  	return uvc_register_video_device(dev, stream, queue,
+>  					 V4L2_BUF_TYPE_META_CAPTURE,
 > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index 0eddd4f872ca..68ed2883edb2 100644
+> index 68ed2883edb2..89206f761006 100644
 > --- a/drivers/media/usb/uvc/uvc_queue.c
 > +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -78,7 +78,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
->  			   unsigned int sizes[], struct device *alloc_devs[])
->  {
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> -	struct uvc_streaming *stream;
-> +	struct uvc_streaming *stream = uvc_queue_to_stream(queue, vq->type);
->  	unsigned int size;
+> @@ -83,7 +83,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
 >  
 >  	switch (vq->type) {
-> @@ -87,7 +87,6 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+>  	case V4L2_BUF_TYPE_META_CAPTURE:
+> -		size = UVC_METADATA_BUF_SIZE;
+> +		size = stream->meta.buffersize;
 >  		break;
 >  
 >  	default:
-> -		stream = uvc_queue_to_stream(queue);
->  		size = stream->ctrl.dwMaxVideoFrameSize;
->  		break;
->  	}
-> @@ -113,7 +112,7 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
->  
->  	if (vb->type == V4L2_BUF_TYPE_VIDEO_OUTPUT &&
->  	    vb2_get_plane_payload(vb, 0) > vb2_plane_size(vb, 0)) {
-> -		uvc_dbg(uvc_queue_to_stream(queue)->dev, CAPTURE,
-> +		uvc_dbg(uvc_queue_to_stream(queue, vb->type)->dev, CAPTURE,
->  			"[E] Bytes used out of bounds\n");
->  		return -EINVAL;
->  	}
-> @@ -160,7 +159,7 @@ static void uvc_buffer_finish(struct vb2_buffer *vb)
->  {
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
-> -	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> +	struct uvc_streaming *stream = uvc_queue_to_stream(queue, vb->type);
->  	struct uvc_buffer *buf = uvc_vbuf_to_buffer(vbuf);
->  
->  	if (vb->state == VB2_BUF_STATE_DONE)
-> @@ -170,7 +169,7 @@ static void uvc_buffer_finish(struct vb2_buffer *vb)
->  static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
->  {
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> -	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> +	struct uvc_streaming *stream = uvc_queue_to_stream(queue, vq->type);
->  	int ret;
->  
->  	lockdep_assert_irqs_enabled();
-> @@ -197,11 +196,11 @@ static int uvc_start_streaming_video(struct vb2_queue *vq, unsigned int count)
->  static void uvc_stop_streaming_video(struct vb2_queue *vq)
->  {
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
-> -	struct uvc_streaming *stream = uvc_queue_to_stream(queue);
-> +	struct uvc_streaming *stream = uvc_queue_to_stream(queue, vq->type);
->  
->  	lockdep_assert_irqs_enabled();
->  
-> -	uvc_video_stop_streaming(uvc_queue_to_stream(queue));
-> +	uvc_video_stop_streaming(stream);
->  
->  	uvc_pm_put(stream->dev);
->  
 > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 8480d65ecb85..9b4849fda12f 100644
+> index 9b4849fda12f..5ba698d2a23d 100644
 > --- a/drivers/media/usb/uvc/uvcvideo.h
 > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -703,8 +703,10 @@ static inline int uvc_queue_streaming(struct uvc_video_queue *queue)
->  }
+> @@ -409,7 +409,7 @@ struct uvc_stats_stream {
+>  	unsigned int max_sof;		/* Maximum STC.SOF value */
+>  };
 >  
->  static inline struct uvc_streaming *
-> -uvc_queue_to_stream(struct uvc_video_queue *queue)
-> +uvc_queue_to_stream(struct uvc_video_queue *queue, unsigned int type)
->  {
-> +	if (type == V4L2_BUF_TYPE_META_CAPTURE)
-> +		return container_of(queue, struct uvc_streaming, meta.queue);
->  	return container_of(queue, struct uvc_streaming, queue);
+> -#define UVC_METADATA_BUF_SIZE 10240
+> +#define UVC_METADATA_BUF_MIN_SIZE 10240
 
-This was implemented with container_of() as there has never been a need
-to get the uvc_streaming for the metadata queue. As that's changing in
-patch 3/3, I'd rather use a backpointer from uvc_video_queue to
-uvc_streaming. That will be simpler for the callers, and less
-error-prone.
+I wondered if we should have a max limit to avoid letting userspace
+starve system memory, but that can already be done through allocation of
+arbitrarily large image buffers anyway. We need proper memory accounting
+in V4L2.
 
->  }
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 >  
+>  /**
+>   * struct uvc_copy_op: Context structure to schedule asynchronous memcpy
+> @@ -482,6 +482,7 @@ struct uvc_streaming {
+>  	struct {
+>  		struct uvc_video_queue queue;
+>  		u32 format;
+> +		u32 buffersize;
+>  	} meta;
+>  
+>  	/* Context data used by the bulk completion handler. */
 > 
 
 -- 
