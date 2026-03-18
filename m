@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-56259-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56260-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aEhwAqM8u2lmhQIAu9opvQ
-	(envelope-from <linux-media+bounces-56259-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:00:35 +0100
+	id YMvGDaw8u2lmhQIAu9opvQ
+	(envelope-from <linux-media+bounces-56260-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:00:44 +0100
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED4A2C3FD4
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BE82C3FE3
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:00:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D860F3028831
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 23:59:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 94242313F41E
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 23:59:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC170393DCD;
-	Wed, 18 Mar 2026 23:59:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 709B33939CE;
+	Wed, 18 Mar 2026 23:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XiHXkWq1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OMHtb+yQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EFC3939A9;
-	Wed, 18 Mar 2026 23:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06B93939BC;
+	Wed, 18 Mar 2026 23:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773878366; cv=none; b=qh+BRJc/KfeEbF1CEwP6vD+4BKJtD/cWqGnIgaxo9wYGvi6vVvGMavdEIYmgCGVVEa4Z3BOzJ1f/Cdq6zc6xNcY87BzQq2ROxxBeBn+0zSVWchUvYnakipv0SmeYuztljACBiX0uZTAIxpmcbRYl8cU9Oxzo2jKfVhgctxhvxXM=
+	t=1773878366; cv=none; b=ZNjNOrG2oeOK96hhBPGXa7oCg0uQOYk5VdhzFoEb4dD6vGloJ9gYcyy9+U07ooFv/Kw3bWIc+YjpKni94JMgND8gUMpj0Djvh/AbWyJLujMv81/r1TbCG6lnAxtnqlD5fu8MFbCLxao1+wADP7ulNmehFc2jATl74ACj24r0OBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773878366; c=relaxed/simple;
-	bh=Szk70GkMcaOflbL9LxMVc5cbPaxff2f/t4LnMznh6gc=;
+	bh=XEOlXbZm4sVMR/hQWHXSdc1OSjlyxGgGH6dNpjX4iFU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N2yEfKHktKtnfLQAWoyOIlhaWJ9yAP/6QKUuDKv6h6WyqjIFT87cSYuGBbps9s4MV5lDCzjk7K30Ltx5BdEpxYoN7Tu9x7Emw6bwmQLofyElpEu+5SlT4sO8bP6j5BZrolIvyHXJjdM+whl5KB1PJj/R37oQ1GGsryeeACso9Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XiHXkWq1; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=jhMkTdcih+h8uOzLE49wOnTHY1w9Yt8HqtMuJuMLGwkjY1RlePG2tMqE9PkUCQjUgOTEKipwp2h2HguOc0OR4fHLGzi65EoFgkQ7uX//8fywr2hOTqiUNSqYrTMfeJRmlNK/PVjfo8/9bxXm6OS1jL6o9ria4gf3BDpEQGJMGBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OMHtb+yQ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9D7B8379;
-	Thu, 19 Mar 2026 00:58:06 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ECEFC9A6;
+	Thu, 19 Mar 2026 00:58:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773878286;
-	bh=Szk70GkMcaOflbL9LxMVc5cbPaxff2f/t4LnMznh6gc=;
+	s=mail; t=1773878288;
+	bh=XEOlXbZm4sVMR/hQWHXSdc1OSjlyxGgGH6dNpjX4iFU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XiHXkWq1IpRhCf7r/VMH25gXooJae0y+iQkoVIdo3MLVSAHL1cVEoonziXaBiDcYO
-	 TejNIaHW+J+e9xWKirfOzioQDxOLA22Chto0KnsbWI6B+xegt3RG2xDCaUyhMRSTrd
-	 5BPRaxlQj/gtBi0/iWq8oWcumxI48X+/PBfHxKps=
+	b=OMHtb+yQw7fQrZ5ZgmhfWj4uFJyKti3JJ5MRlNGz5KS/fdjtttMkp7cavRyCXPS42
+	 owzmpMnQ2jEMJTIcVkNJGtZDYlWNLCnRGobmmWtuX6svMaxWiVROTcig9aSxwCWA/i
+	 hh7/9QYmSZYy4ak3wq9l6RYKSjGHjGqQdu29vnGk=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: [PATCH v4 08/13] media: renesas: vsp1: hsit: Fix size enumeration
-Date: Thu, 19 Mar 2026 01:59:02 +0200
-Message-ID: <20260318235907.831556-9-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v4 09/13] media: renesas: vsp1: histo: Fix code enumeration
+Date: Thu, 19 Mar 2026 01:59:03 +0200
+Message-ID: <20260318235907.831556-10-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260318235907.831556-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20260318235907.831556-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -73,7 +73,7 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-56259-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-56260-lists,linux-media=lfdr.de,renesas];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
@@ -87,98 +87,36 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	NEURAL_HAM(-0.00)[-0.995];
 	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 5ED4A2C3FD4
+X-Rspamd-Queue-Id: C0BE82C3FE3
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The HSIT entity performs format conversion, which leads to incorrect
-results with the vsp1_subdev_enum_frame_size() helper. Implement a
-custom .enum_frame_size() handler that correctly validates the media bus
-code. Size validation is identical to the helper.
+The histogram media bus code enumeration does not check the index when
+operating on the source pad, resulting in an infinite loop if userspace
+keeps enumerating code without any loop boundary. Fix it by returning an
+error for indices larger than 0 as the pad supports a single format.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- .../media/platform/renesas/vsp1/vsp1_hsit.c   | 53 ++++++++++++++++++-
- 1 file changed, 52 insertions(+), 1 deletion(-)
+ drivers/media/platform/renesas/vsp1/vsp1_histo.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-index 8260934db789..830e124beb7b 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/device.h>
- #include <linux/gfp.h>
-+#include <linux/mutex.h>
- 
- #include <media/v4l2-subdev.h>
- 
-@@ -57,6 +58,56 @@ static int hsit_enum_mbus_code(struct v4l2_subdev *subdev,
- 	return 0;
- }
- 
-+static int hsit_enum_frame_size(struct v4l2_subdev *subdev,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	struct vsp1_entity *entity = to_vsp1_entity(subdev);
-+	struct vsp1_hsit *hsit = to_hsit(subdev);
-+	u32 code;
-+
-+	if (fse->index)
-+		return -EINVAL;
-+
-+	if ((fse->pad == HSIT_PAD_SINK && !hsit->inverse) |
-+	    (fse->pad == HSIT_PAD_SOURCE && hsit->inverse))
-+		code = MEDIA_BUS_FMT_ARGB8888_1X32;
-+	else
-+		code = MEDIA_BUS_FMT_AHSV8888_1X32;
-+
-+	if (fse->code != code)
-+		return -EINVAL;
-+
-+	if (fse->pad == 0) {
-+		fse->min_width = entity->min_width;
-+		fse->max_width = entity->max_width;
-+		fse->min_height = entity->min_height;
-+		fse->max_height = entity->max_height;
-+	} else {
-+		struct v4l2_subdev_state *state;
-+		struct v4l2_mbus_framefmt *format;
-+
-+		state = vsp1_entity_get_state(entity, sd_state, fse->which);
-+		if (!state)
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+index d7843c170f94..f97aecb22058 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+@@ -168,7 +168,10 @@ static int histo_enum_mbus_code(struct v4l2_subdev *subdev,
+ 				struct v4l2_subdev_mbus_code_enum *code)
+ {
+ 	if (code->pad == HISTO_PAD_SOURCE) {
+-		code->code = MEDIA_BUS_FMT_FIXED;
++		if (code->index > 0)
 +			return -EINVAL;
 +
-+		/*
-+		 * The size on the source pad is fixed and always identical to
-+		 * the sink pad.
-+		 */
-+		format = v4l2_subdev_state_get_format(state, HSIT_PAD_SINK);
-+
-+		guard(mutex)(&entity->lock);
-+
-+		fse->min_width = format->width;
-+		fse->max_width = format->width;
-+		fse->min_height = format->height;
-+		fse->max_height = format->height;
-+	}
-+
-+	return 0;
-+}
-+
- static int hsit_set_format(struct v4l2_subdev *subdev,
- 			   struct v4l2_subdev_state *sd_state,
- 			   struct v4l2_subdev_format *fmt)
-@@ -117,7 +168,7 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
++		code->code = MEDIA_BUS_FMT_METADATA_FIXED;
+ 		return 0;
+ 	}
  
- static const struct v4l2_subdev_pad_ops hsit_pad_ops = {
- 	.enum_mbus_code = hsit_enum_mbus_code,
--	.enum_frame_size = vsp1_subdev_enum_frame_size,
-+	.enum_frame_size = hsit_enum_frame_size,
- 	.get_fmt = vsp1_subdev_get_pad_format,
- 	.set_fmt = hsit_set_format,
- };
 -- 
 Regards,
 
