@@ -1,290 +1,181 @@
-Return-Path: <linux-media+bounces-56179-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56180-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WAtVFQFbumnFUgIAu9opvQ
-	(envelope-from <linux-media+bounces-56179-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 08:57:53 +0100
+	id iNNnKA9cumnFUgIAu9opvQ
+	(envelope-from <linux-media+bounces-56180-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 09:02:23 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA5A2B7590
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 08:57:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFD32B7693
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 09:02:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3223B3096EE1
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 07:53:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CF13C302EE8C
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 08:00:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E2AB36CDEF;
-	Wed, 18 Mar 2026 07:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC413375F99;
+	Wed, 18 Mar 2026 08:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="K0DXOYPP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oaErmpVT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012021.outbound.protection.outlook.com [40.107.209.21])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6449C33A704;
-	Wed, 18 Mar 2026 07:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773820396; cv=fail; b=sb+8zw/6w5jrexNwC8D/RYj9tbWL6rIjOeRQogSuwE3z8Xqzod+3dD0JxvMhziaho/iMf5D5O0yqUqDzjFmy6hTe9bA+7Cp/671fL8p9uauQw0qqrgply9zlE0ESHtGYyAjZ/tI/syTLVmGas4p7slEtBke4uA1/E8QDJ/wYwi8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773820396; c=relaxed/simple;
-	bh=3juMvzSfzwOQFlzWP4MKSFfYHtDLEWEKKjiupy5Ar5o=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dpVMQDA4IY+nxN848dFHyJICdahNBVrZOUslJyli2Q6x583v7EZ9LkhC6f7qXHnRyJlN7fFYMX4/yzwRGjfyI8VudUCnJXBO7dR3ap72Q2/dtIt3cgEN2iBr9ahx8oTOxROtf58S2OA4cya54U7/OYcHsWqlxZUuWeTQe8ZqIyc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=K0DXOYPP; arc=fail smtp.client-ip=40.107.209.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mralD4Vly6NqR5CCrPFdcVkEBee1xoXMAgyS4qFlLjH4xLBl3O6SgBbPkWGRcLi72meERWRFlO85qg4onza8zGwLbua96IQM4Ezsm7YmzhE0B9UBBcZswFOi3GeLw0qD1wSUkPO0ZpgyKfEYuFoA1x6PXqmKL1HdC1xpIiump5EZrr0QT3jpOYiIZ0kRw/5EdNYBAhYbl5pqX646pHyfBytBX8HDBqLcwNh8QozVPDlK4bR0mCa4VTD0JOTm2zyNxxZJ9O1fwl4hl7tarOpSs8SCvghV8vvjgsRC4XU+U004jijPj4SaZ03eTdqrFNmPD3C8a8B/kYpCPJNvr1wlTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D+whHc6i7J6dBaAzBUpCy6w6tTSb8DqE08BckLaVpII=;
- b=JmWNUhcLZwXlX7EoKcIbEaRndRjy7st9dlavxilurJbuhZawNKm52o078CEQwChEIU4KMalt2mPiGixqi5LU8kVaBecSbWBTK15l4hQ6W1WsKEnxL4/wlUnYkApWxM+kUatGSt124+Gq3f/yOjv3NDuLYZsjoLXfCBFmIYWKystXYj7VI7aAktHp0/kMseFInA300EYH0A7soHxdNpn0yHmAetnzCiA3FWTa2yt99EQXJB0mevS2O593H4WcoSerCnu15HLb3qtEGzXkCvPl0nuzBuVZC5npeVAbT5zA6XE/CaYX4YR5NcoZG7n+o/x5fY+IYlKbuPS2pyd5AuQ8jQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D+whHc6i7J6dBaAzBUpCy6w6tTSb8DqE08BckLaVpII=;
- b=K0DXOYPPsPwtc7VMVMeON9Yow6P+c+x6d4MYzgg3o7WG2BXBtHMVZASHHLF/hoXbV4ZZVZ067R1BHcDUbMDAluicPB1uLtpqD1tkvKP8PRXAtx8uTYzhy/UXb5tqYlRYXDDUEN0fou1ITdBXSlgBBgF3JWTY1lW3uDvPMguWKJI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CH3PR12MB9169.namprd12.prod.outlook.com (2603:10b6:610:1a0::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.17; Wed, 18 Mar
- 2026 07:53:10 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9723.016; Wed, 18 Mar 2026
- 07:53:10 +0000
-Message-ID: <b046cba4-665a-40bb-9932-fdf6684c4501@amd.com>
-Date: Wed, 18 Mar 2026 08:53:06 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf/udmabuf: skip redundant cpu sync to fix cacheline
- EEXIST warning
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>
-Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <20260317053653.28888-1-mikhail.v.gavrilov@gmail.com>
- <CH3PR11MB7177B163E8FBD9B6D812DE86F84EA@CH3PR11MB7177.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CH3PR11MB7177B163E8FBD9B6D812DE86F84EA@CH3PR11MB7177.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9PR03CA0480.namprd03.prod.outlook.com
- (2603:10b6:408:139::35) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E824375AAC;
+	Wed, 18 Mar 2026 08:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773820824; cv=none; b=b7h3Z1TYaVluh3tDvEqOs7Pgq+XPaVJvWGo5xWmS1hLO/JaK7t9KCyx6d+eqrUHkXJWxvuihxwdoUgL/LCBDigAU+p3jyV9UGungW9MtbZEoiwjTdSveGvjcOCS1DlUtbxY3jcLHaTtC/KWJtNBtfnB6bKIirWLC8Yv/k2ZDrzk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773820824; c=relaxed/simple;
+	bh=rhJIn2CfmoVkVopQx25IsHo+WFP3+RpUfnX43grrawA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gP9Rib4A8gamV6kevXfVTZF92xyFmubjp4KLbbSB8J7X4CpM4oS3FUcJMMp3C51JPHObLRQGqK8FTxUdpjvJGjl28ha78MDrxcxSvxvEG8cNkD6ABLnzrTT/B+DNzjjdV/yqYWSGs93sqoG3SSTn686Au3v7SfU3jo8y7UukrBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oaErmpVT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44E12379;
+	Wed, 18 Mar 2026 08:59:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773820745;
+	bh=rhJIn2CfmoVkVopQx25IsHo+WFP3+RpUfnX43grrawA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oaErmpVTVFXafzlyoifayrFfMl1Nu/jELg/gTovk3h4vlva/VTND0lGyLl+aU0zTE
+	 9DOaqYB1lR0GXB2PhsdG1Q870qcccbdoIMPaaY4lxXh5MUolQWyTGpvIy3sy0JDjDL
+	 lpI479EmVNRpOI/0aBOpbLYrrhbxhZgG2F4JpqMY=
+Message-ID: <92121eaf-f8bf-46d1-bde9-94a6f9846989@ideasonboard.com>
+Date: Wed, 18 Mar 2026 08:00:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9169:EE_
-X-MS-Office365-Filtering-Correlation-Id: 40657b99-0453-4fa0-dfb6-08de84c36616
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	BMVBD3D37taK8acBYmUx+bF8A3usARtBTKNASZPn4u/8yaFChfaTZSkSnmvVtU62ZpGmBBIuN/+ijje/UNOUhgE0CwcEbJi2w24clBPAHcojuEVbORJlHySEqKfNIRvxYxHhSB4sW9bDxOeeqK8ELdYyNBZUNnzbHCH1lcvnOlIdyleFHzVbWEjhZHlEmIDIUVkdoKXgVbBiVKznY3hd7NRFhqZC9Y8rJ5mS8rREe+5JZ76uOnQa4zfIk8z3Y6Kb8ND40qxjivYCohWGoyNQ9rPpbnx3wHyiojCI4iyPin/YfgfGjF6/2gwW93V7R7d9yZR9L4jt7iec2hWANwaePSoGIcxiSqJPuDgjUO5YHaeQ092kALxcmsHMMrcX+vSeUCwhllcpnO77ZVyonBmpMBBs4OfiV/WaS1FOHfIqkj0s/GkRkm1N1Vf1DV3pNakFULBY/KM2ILmP48PIDxlYYl3RQqrW8qqAuFttG3uuCobIoeCzBJK6fC93iAKM0y90SJNiXjmEC9Deze9GhQfjqPstTSRkNRqPxjlppvMNFQHgtX0I6gAzxGkIP524YME5G/JbpYDtkst33bUpOLvADMSwnTZxORBTdHZVdSm5P8KtxLGqIzCet91HoCyil02zsWT5UrVwQ05kHxrt6KzuTN8lhMozvHfJz5l2s6+HfKWnn+Vh4+XsAe2JslMYIKbGtMoLpySxmi0/F0UaZgIvHkXcdWQ8trQ/E6BZdrvrlzY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WDJVVE9nVjN5cllnS3JlamU5Y1JqbVp1VGxLQzZ1amtFS09oc1VnbVJ1Zzdp?=
- =?utf-8?B?ckFGQkVrTDF1VElOWkllQksxT08rajJqRWY2ajRlczRPSTBWSFkvdStVUXZq?=
- =?utf-8?B?YTVhSkdmY2hsaHNZZHZNMFBMQjQzVzl1ZElpbmZwaW1VT2NWMVR2UERGMlVz?=
- =?utf-8?B?ZFRaV1oyUVQrdEVWTTVNZ3ZMTytGNlNpTG5DYzUrUllQN25FS0VTOUt4b0Zt?=
- =?utf-8?B?Q1JZalVFd3c1ZGc2azM2NE9rcGhoY3VvUVdkSlVORXlZc2VISXdsYitaK1hL?=
- =?utf-8?B?alR4azNPS2R5ZzJZM2dadGpVSFYzeElxMWppMEdVdTdTVC9oWlhsOVp5V0Fn?=
- =?utf-8?B?Vll5UnlqZzhvck5td1FuYVVTaXlzdFFTTmEveDNHNHNYSmlSSGU4Nms2cUh1?=
- =?utf-8?B?OUJpNk1TL01FOGxHTHBtdE9hS1ZMSHg1Z2NSMmdWc29oTS93QUJPNnlSWHND?=
- =?utf-8?B?MFV6eTdlTHlDVHllMDBZUm16UkdLaXdUczh0SEtmMk1QUWJ2VDFlQ1J4K0t5?=
- =?utf-8?B?S3R6MFV0eTluTkdMMmhqSGw3ZG4rWU50UTFMY3MvaWtkVjVRYkJDN2RIZE90?=
- =?utf-8?B?SGJLN0RBK1BNU3RhTnFQOTFrYjZsM1l2NjZJWTBjZjV5UzZkeUduUW5SM1Jj?=
- =?utf-8?B?SEJKRVBvTjdvZzlJZmV0WmZXWTVlTUdQOXNyNStDSW9NZ0YwK1JKV1dRL3ZK?=
- =?utf-8?B?T3JjdTMxVG9BTHJZZDZDTlZjMG8xK1YySi9ZWW9UT1lyRkJCNEtUa3g1dml1?=
- =?utf-8?B?eGk3RXRRMnpMbWNoYW1oQXo0MHdjSEg5dkpoK0tnOStXTWhhMUZqcTNhN05x?=
- =?utf-8?B?T0xOaEloTW9RRnJQL0xTbEFRZzBMZEt5UTl2WjBiVGxGRnhqS1I2MmpiOERV?=
- =?utf-8?B?T1h2Yk1rQzB5b1ZWZTJRYXZ0UWxPUjdROEVSMXpqSDBmVkJkM01jYng2OVV1?=
- =?utf-8?B?QlBvaFpCdHYvUFNmSXJUZ0poTElaUXZ6ZUt4RXltdVkweTlCRERmSTNtYU9N?=
- =?utf-8?B?TERvNzBjVXM5YTNwNnFIUnMxdkNpaHBFRXFmdm9BVDQyRVcySEhBeXdyUFNW?=
- =?utf-8?B?RWxoYjhjTnFGS1psbjFwUno5MTQ0Sy9KZDl2SitIcWY5aEpXOHVlSm5DeWV1?=
- =?utf-8?B?MUdCOHpxbUpsWnFFWTFsNFI0aTJmN1hQWFZOTEllQ2M2cUFjSDRRcFMrbDJT?=
- =?utf-8?B?bUpqd0hnRElMRlZQRGtHNEkwUm5IemJQU2E0OEsxR3g3Ykl6Yk9rU01QK0xK?=
- =?utf-8?B?UysydDdCZFVqQ0EzOWNsZFdFOFpvZ3d4RWh1TS9lSnBTcVBMNWNCTUNRdXFE?=
- =?utf-8?B?KytpQmtMb0NLN2VTSHlEWC9qRGRiOXdTNU1yYyttNW9PT3NRdmtLT2NZUTJI?=
- =?utf-8?B?ZmNrNmVCcVdyYVJDSlh2UWtaUUtRYXZBTytxWTdKQ1JrK09RQXhRSmM3UXdI?=
- =?utf-8?B?Q3o5Wk5kWlZUbUNsZkM2QWlxTUFKcWNtMXBGa2w5UzJxcURpSXh4eGZsT1Jy?=
- =?utf-8?B?blM1czBlcTljV0tXSlpZQUcxZzVqdHI0ZmU3eE9wcWp5dEdEYmZqNndhTXhF?=
- =?utf-8?B?MmRiVjRQYWQvWUx1RG91bFZjUDdFU1VkbVY2ZHE3VkFKVXUvTG5xczFDajZX?=
- =?utf-8?B?WXpTWW43cG1nZzBSeDkvaThFb0Q5S0Jpa1dsQmFpb3NQL3lwVklTMWN1THFz?=
- =?utf-8?B?M3ZkblZCV3NlbGZoMkhFQmtNUmxSQTAvKytZZkswaFY3cEpYc2NKN3p2OXEx?=
- =?utf-8?B?OE1TYndkWndjUGJNKzBtNVVCTmtIK1A3aCtQbGRuUGg4NC9KZ2tsNVV5djBO?=
- =?utf-8?B?QjZHUnYxU0EvSTNtNXZiOVhXQTVzK3NJYy9RY3RLU1BTTHEzVDJuMlFRN1g3?=
- =?utf-8?B?U2NuN1Mvblg2dUJ5bmxzbi8wejdLWGtIL0pIVGZ0ZDU3eEhVU0s2VXdCYngv?=
- =?utf-8?B?QlV6T2RBRFVtUllYdkdubEU4NkVWM1NEL1VRazM1OGdEMUlRbEk3T3FKd0l0?=
- =?utf-8?B?R1NmaFNBMzBCVFdoUk1HZEFNd0NydUlTUVpEUVgzUzFVa2xDUm9LRFZZMGNC?=
- =?utf-8?B?LzVFcmpIRjZDNkRaNjUxOStjdWZkOFZnTHB6RllXWm5wTHA0YlBwNUtjNERS?=
- =?utf-8?B?NFBobENmTUtaMUtJWVVTeTlOM2gybTBrOHJYQXdRRzl5NkQrdU9PY2xtL1ow?=
- =?utf-8?B?ODF6NE45NVRuWkZlMDJaTS8xS01lSE5nUFBYYVgxQlFOeUZhVXczcDRHMmZB?=
- =?utf-8?B?RE95Ly8vWWdOejBGR2VkZGh5dmlZMXpyc2tsS2VTMzErNFlqaGdQekdmVTlX?=
- =?utf-8?Q?PdOwWzfLXJ1vx9iLD0?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40657b99-0453-4fa0-dfb6-08de84c36616
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 07:53:10.1261
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +iV5JdZBX8N0h7JJxoNKE59OYnnAdi9hT9XiVx683kRSE7w/CyzCTmBEJThnc1Xk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9169
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] media: rzv2h-ivc: Avoid double job scheduling
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ =?UTF-8?Q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, stable@vger.kernel.org
+References: <20260313-mali-ivc-fixes-v7-0-v1-0-cb0714cd1279@ideasonboard.com>
+ <20260313-mali-ivc-fixes-v7-0-v1-6-cb0714cd1279@ideasonboard.com>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <20260313-mali-ivc-fixes-v7-0-v1-6-cb0714cd1279@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56179-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56180-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[intel.com,gmail.com,redhat.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[amd.com:+];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,amd.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: AEA5A2B7590
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 0BFD32B7693
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/18/26 06:40, Kasireddy, Vivek wrote:
-> Hi Mikhail,
+Morning Jacopo - sorry for missing this one
+
+On 13/03/2026 11:14, Jacopo Mondi wrote:
+> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 > 
->> Subject: [PATCH] dma-buf/udmabuf: skip redundant cpu sync to fix
->> cacheline EEXIST warning
->>
->> When CONFIG_DMA_API_DEBUG_SG is enabled, importing a udmabuf
->> into a DRM
->> driver (e.g. amdgpu for video playback in GNOME Videos / Showtime)
->> triggers a spurious warning:
->>
->>   DMA-API: amdgpu 0000:03:00.0: cacheline tracking EEXIST, \
->>       overlapping mappings aren't supported
->>   WARNING: kernel/dma/debug.c:619 at add_dma_entry+0x473/0x5f0
->>
->> The call chain is:
->>
->>   amdgpu_cs_ioctl
->>    -> amdgpu_ttm_backend_bind
->>     -> dma_buf_map_attachment
->>      -> [udmabuf] map_udmabuf -> get_sg_table
->>       -> dma_map_sgtable(dev, sg, direction, 0)  // attrs=0
->>        -> debug_dma_map_sg -> add_dma_entry -> EEXIST
->>
->> This happens because udmabuf builds a per-page scatter-gather list via
->> sg_set_folio().  When begin_cpu_udmabuf() has already created an sg
->> table mapped for the misc device, and an importer such as amdgpu
->> maps
->> the same pages for its own device via map_udmabuf(), the DMA debug
->> infrastructure sees two active mappings whose physical addresses share
->> cacheline boundaries and warns about the overlap.
->>
->> The DMA_ATTR_SKIP_CPU_SYNC flag suppresses this check in
->> add_dma_entry() because it signals that no CPU cache maintenance is
->> performed at map/unmap time, making the cacheline overlap harmless.
->>
->> All other major dma-buf exporters already pass this flag:
->>   - drm_gem_map_dma_buf() passes DMA_ATTR_SKIP_CPU_SYNC
->>   - amdgpu_dma_buf_map() passes DMA_ATTR_SKIP_CPU_SYNC
->>
->> The CPU sync at map/unmap time is also redundant for udmabuf:
->> begin_cpu_udmabuf() and end_cpu_udmabuf() already perform explicit
->> cache synchronization via dma_sync_sgtable_for_cpu/device() when
->> CPU
->> access is requested through the dma-buf interface.
->>
->> Pass DMA_ATTR_SKIP_CPU_SYNC to dma_map_sgtable() and
->> dma_unmap_sgtable() in udmabuf to suppress the spurious warning
->> and
->> skip the redundant sync.
->>
->> Fixes: 284562e1f348 ("udmabuf: implement
->> begin_cpu_access/end_cpu_access hooks")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
->> ---
->>  drivers/dma-buf/udmabuf.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->> index 94b8ecb892bb..9c6f8785a28a 100644
->> --- a/drivers/dma-buf/udmabuf.c
->> +++ b/drivers/dma-buf/udmabuf.c
->> @@ -162,7 +162,7 @@ static struct sg_table *get_sg_table(struct device
->> *dev, struct dma_buf *buf,
->>  		sg_set_folio(sgl, ubuf->folios[i], PAGE_SIZE,
->>  			     ubuf->offsets[i]);
->>
->> -	ret = dma_map_sgtable(dev, sg, direction, 0);
->> +	ret = dma_map_sgtable(dev, sg, direction,
->> DMA_ATTR_SKIP_CPU_SYNC);
->>  	if (ret < 0)
->>  		goto err_map;
->>  	return sg;
->> @@ -177,7 +177,7 @@ static struct sg_table *get_sg_table(struct device
->> *dev, struct dma_buf *buf,
->>  static void put_sg_table(struct device *dev, struct sg_table *sg,
->>  			 enum dma_data_direction direction)
->>  {
->> -	dma_unmap_sgtable(dev, sg, direction, 0);
->> +	dma_unmap_sgtable(dev, sg, direction,
->> DMA_ATTR_SKIP_CPU_SYNC);
-> Looks OK to me but it would be nice if Christian or someone else can
-> provide an Ack for this patch.
-
-The details of the udmabuf handling is absolutely not my field of expertise.
-
-Feel free to add my Acked-by since it obviously seems to fix a bug, but it would be nice if somebody could do an in deep review as well.
-
-Regards,
-Christian.
-
+> The scheduling of a new buffer transfer in the IVC driver is triggered
+> by two occurrences of the "frame completed" interrupt.
 > 
-> Thanks,
-> Vivek
+> The first interrupt occurrence identifies when all image data have been
+> transferred to the ISP, the second occurrence identifies when the
+> post-transfer VBLANK has completed and a new buffer can be transferred.
 > 
->>  	sg_free_table(sg);
->>  	kfree(sg);
->>  }
->> --
->> 2.53.0
+> Under heavy system load conditions the actual execution of the workqueue
+> item might be delayed and two items might happen to run concurrently,
+> leading to a new frame transfer being triggered while the previous one
+> has not yet finished.
+> 
+> This error condition is only visible because the driver maintains a
+> status variable that counts the number of interrupts since the last
+> transfer, and warns in case an IRQ happens before the counter has been
+> reset.
+> 
+> To ensure sequential execution of the worqueue items and avoid a double
+> buffer transfer to run concurrently, protect the whole function body
+> with the spinlock that so far was solely used to reset the counter and
+> inspect the interrupt counter variable at the beginning of the buffer
+> transfer function.
+> and return
+> 
+> As soon as the ongoing transfer completes, the workqueue item will be
+> re-scheduled and will consume the pending buffer.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: f0b3984d821b ("media: platform: Add Renesas Input Video Control block driver")
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> ---
+
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+
+>   drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c | 11 +++++++----
+>   1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> index a22aee0fe1cf..3580a57738a6 100644
+> --- a/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> +++ b/drivers/media/platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c
+> @@ -149,6 +149,11 @@ static void rzv2h_ivc_transfer_buffer(struct work_struct *work)
+>   					     buffers.work);
+>   	struct rzv2h_ivc_buf *buf;
+>   
+> +	guard(spinlock_irqsave)(&ivc->spinlock);
+> +
+> +	if (ivc->vvalid_ifp)
+> +		return;
+> +
+>   	/* Setup buffers */
+>   	scoped_guard(spinlock_irqsave, &ivc->buffers.lock) {
+>   		buf = list_first_entry_or_null(&ivc->buffers.queue,
+> @@ -163,9 +168,7 @@ static void rzv2h_ivc_transfer_buffer(struct work_struct *work)
+>   	buf->addr = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
+>   	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_AXIRX_SADDL_P0, buf->addr);
+>   
+> -	scoped_guard(spinlock_irqsave, &ivc->spinlock) {
+> -		ivc->vvalid_ifp = 2;
+> -	}
+> +	ivc->vvalid_ifp = 2;
+>   	rzv2h_ivc_write(ivc, RZV2H_IVC_REG_FM_FRCON, 0x1);
+>   }
+>   
+> @@ -200,7 +203,7 @@ static void rzv2h_ivc_buf_queue(struct vb2_buffer *vb)
+>   	}
+>   
+>   	scoped_guard(spinlock_irq, &ivc->spinlock) {
+> -		if (vb2_is_streaming(vb->vb2_queue) && !ivc->vvalid_ifp)
+> +		if (vb2_is_streaming(vb->vb2_queue))
+>   			queue_work(ivc->buffers.async_wq, &ivc->buffers.work);
+>   	}
+>   }
 > 
 
 
