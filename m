@@ -1,179 +1,160 @@
-Return-Path: <linux-media+bounces-56218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56219-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aOIBLN7MummfcAIAu9opvQ
-	(envelope-from <linux-media+bounces-56218-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 17:03:42 +0100
+	id iB8lOCHWummfcAIAu9opvQ
+	(envelope-from <linux-media+bounces-56219-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 17:43:13 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C2A2BEE9A
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 17:03:42 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEAB2BF7DF
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 17:43:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A993B31C38F5
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 15:50:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3FA2830C4577
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 16:38:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4C2031F9B8;
-	Wed, 18 Mar 2026 15:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C60FC1DD889;
+	Wed, 18 Mar 2026 16:21:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A9llyZlQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ey9Ehkpp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BB63321DE;
-	Wed, 18 Mar 2026 15:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34AD221FCF;
+	Wed, 18 Mar 2026 16:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773848878; cv=none; b=fgMn4et62GQvNh/esLX/EQnKHMrem6BrXWsRNZNkFaJiD5bybS/1I8AxyRT4kz1GGr02zqIo2PHUunDNuTelEHVNVOaEOBwuQmWeH1UzIk4snw2KRwoADWTC5naNbQIjOwwFC6blb3FjpLKfli5FVNFOvaw+gMFcSDEavd4qFoQ=
+	t=1773850884; cv=none; b=s7+XXb0RzunXhYZm9HZPBxBLSDiwzh9xHNORfehkKMEA+R/tm/myTHKg1SWIPcWO/hYnJdsja3Bgw6r8Rl4p8gCHz6cw18bHFB87VNnHq83ZgehznaQkqGpftCMeV3wwG+E/xTgJALtR8nZ+uU+g0BFOEeXVZn6OVe0c5KmhyNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773848878; c=relaxed/simple;
-	bh=RTyfBxkZwbvXmv5eVw/ACzMIZeFuso5CWjPNp8sZMvI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SzWZbTSxA9t/OcO8PH/2oA07avIobq6Nzp7+7HcQ5J1zGtzjKmW8nMas/4aGvI7R5/YUwwzAa1PLPSasZ66Y3/CyQ1wdk6I7pTUJ+1ocDUcA9BKQ9Ip20GrBLL4N623goB6TjN0MrUMyLOnLvgN8CQvPwZacienIY+cu8U/Ril8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A9llyZlQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB980C19421;
-	Wed, 18 Mar 2026 15:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773848877;
-	bh=RTyfBxkZwbvXmv5eVw/ACzMIZeFuso5CWjPNp8sZMvI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A9llyZlQ7EpMKH9s6UnF4vpcRhZ0687nFqv66OO3c/3VvMtOLYwZdH8rPIaU65kZ8
-	 v3q1RQIwZITvdCLUKcGfw/FbvqwW4QNRU/JAiQnA9NuTkAHVp0GxxgaDQtOJLKLA8+
-	 6t/rBs1AiXHBcL0vZdRkHZrIu5Jh6JxeGuW66ATE2ZhWJFCmCq7/cc7PFQ6oWcNjSv
-	 rUTJGjCPg0477zsXKVlUIh4L2tndc1NkhG10oeBg0pEvb71CWvkM/ODj1v+OY6z6Ia
-	 6elH/eNJ8Ds1WF5KI7DcGKDemTHUNFmji/0ToymhDicguLHNLFh392bmYa9PmG3vP7
-	 UaOF229wyiraQ==
-Message-ID: <baa40d8c-cd0e-4661-b951-fe992c8e96bd@kernel.org>
-Date: Wed, 18 Mar 2026 15:47:53 +0000
+	s=arc-20240116; t=1773850884; c=relaxed/simple;
+	bh=+/7HmAbTLEWQxzT1iYXgHC3WU6ZJuAnO7eqciwHqya4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nRaPoNBajav+7Tf95H7YnpiD1YQuaukIIouCblleMA5d6eG4EZABKueQZwwg0dz6qd4l9Tfs3QcYs2GiYRefx6x8WskHC16PFWcfOxOeqr+/wyEkG0+/6+rKbKivVbJcjFm1b6tkKua6SALJc1k6gHby01IPXJ+g9ZS7ZrjP68Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ey9Ehkpp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DAAF4379;
+	Wed, 18 Mar 2026 17:20:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773850807;
+	bh=+/7HmAbTLEWQxzT1iYXgHC3WU6ZJuAnO7eqciwHqya4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ey9EhkppzTRSHZ9THfXCN+47D7vyAqXM02vpI6+9PUHz70rK6TlN/au0qSJtS7qNW
+	 /XmylHELAwlASUq9iWauEfq+etOGWtSf2T0GvtURsoLpOWDdIhgvzPa3aEYEU+ENDx
+	 SZDDTjsG2ROItSSFEVtsCxR7whsT6U8z17Pm3fis=
+Date: Wed, 18 Mar 2026 18:21:18 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org,
+	hverkuil+cisco@kernel.org, sakari.ailus@linux.intel.com,
+	jacopo.mondi@ideasonboard.com,
+	tomi.valkeinen+renesas@ideasonboard.com, kees@kernel.org,
+	ethantidmore06@gmail.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] media: v4l2-subdev: Fix error check in
+ v4l2_subdev_get_frame_desc_passthrough()
+Message-ID: <20260318162118.GC633439@killaraus.ideasonboard.com>
+References: <20260317072020.3876151-1-nichen@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vinod Koul
- <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
- <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
- <3f11de22-b729-4d06-b6c8-18e649e1979c@linaro.org>
- <80ddc2b4-d6f8-4e8d-a45e-69c05d100aa2@linaro.org>
- <LVgLN97iqkeyLxlaeg0ynzL1KDsmCLzzvTmrRhlZ3BP3AWB1hVEjhG4fu2CdoVrCVOpAlemwqN7mC_0P-fCVdg==@protonmail.internalid>
- <16b10f17-ecd3-4cdd-ac3f-f64127d60ace@linaro.org>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <16b10f17-ecd3-4cdd-ac3f-f64127d60ace@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260317072020.3876151-1-nichen@iscas.ac.cn>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56218-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,linux.intel.com,ideasonboard.com,gmail.com];
+	TAGGED_FROM(0.00)[bounces-56219-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-0.963];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 13C2A2BEE9A
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:email,killaraus.ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 5FEAB2BF7DF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 18/03/2026 15:07, Neil Armstrong wrote:
-> On 3/18/26 14:17, Bryan O'Donoghue wrote:
->> On 18/03/2026 10:15, Neil Armstrong wrote:
->>>> +    /*
->>>> +     * phy_configure_opts_mipi_dphy.lanes starts from zero to
->>>> +     * the maximum number of enabled lanes.
->>>> +     *
->>>> +     * TODO: add support for bitmask of enabled lanes and polarities
->>>> +     * of those lanes to the phy_configure_opts_mipi_dphy struct.
->>>> +     * For now take the polarities as zero and the position as fixed
->>>> +     * this is fine as no current upstream implementation maps otherwise.
->>>> +     */
->>>
->>> This is wrong since you loose the lanes mapping defined in DT, which is still in CAMSS
->>> but is a PHY property. The lanes layout is not a property of the CSI controller,
->>> CSI controller only need to know the lanes count, and not the layout.
->>
->> Lane layout is a PHY concern but, the PHY API gives us phy_configure_opts_mipi_dphy which should be extended to provide layout and polarity. This would then be of benefit to more than just qcom/camss.
+Hi Chen,
+
+Thank you for the patch.
+
+On Tue, Mar 17, 2026 at 03:20:20PM +0800, Chen Ni wrote:
+> Use IS_ERR() and PTR_ERR() to properly handle the error return from
+> media_pad_remote_pad_unique(), which returns ERR_PTR() on failure but
+> never NULL. The previous code only checked for NULL, leading to invalid
+> pointer dereference.
 > 
-> Why ? the only concern between a controller and a PHY is the lane count to calculate the bandwidth, the actual pin layout is certainly not a controller concern.
-
-Controllers already get the lane count by way of data-lanes = <x y z q> 
-or <x y> or <x> if we didn't do that we would need to specify the 
-data-lanes in the controller and again in the PHY.
-
->>
->> Right now none of the CAMSS users for this driver depend on any other mapping and I propose a separate series to fix phy_configure_opts_mipi_dphy rather than introduce data-lanes to DPHY.
+> Detected by Smatch:
+> drivers/media/v4l2-core/v4l2-subdev.c:2588 v4l2_subdev_get_frame_desc_passthrough() warn:
+> 'remote_source_pad' is an error pointer or valid
 > 
-> None of the upstream users of camss.
-
-No, we are establishing from x1 use of standard drivers/phy. New users 
-will do it this way. The posted dtsi for the laptops can use the linear 
-lane layout and default polarities.
-
-In a follow on series we can extend phy_configure_opts_mipi_dphy to 
-parse data-lanes = <> into count and mask, to the benefit of any user of 
-phy_configure_opts_mipi_dphy.
-
-Since that will touch more then qcom specific stuff and will touch at 
-least two subsystems, that should be its own separate series.
-
-> The problem is even larger, as you replied in [1], the csiphy is still exposed as a media element from the CAMSS driver, this means this driver is not complete,
-> it should be a media driver entirely with eventually an internal PHY aux driver, but this would be entirely implementation specific.
+> drivers/media/v4l2-core/v4l2-subdev.c:2595 v4l2_subdev_get_frame_desc_passthrough() error:
+> 'remote_source_pad' dereferencing possible ERR_PTR()
 > 
-> Either the PHY is standalone and the PHY consumer only calls phy_open/init/configure/power_on/power_off/exit, otherwise it's not a fully standaline PHY but a composite device like here.
+> Fixes: a564839e630c ("media: subdev: Add v4l2_subdev_get_frame_desc_passthrough helper")
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 
-This is not a composite device any more than the existing upstream
-implementations which follow the same model:
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-- Cadence CSI2RX + Cadence DPHY (TI J721E/AM62A)
-- Rockchip rkisp1 + phy-rockchip-inno-csidphy
+Sakari, Hans, will you pick this patch up for v7.1 ?
 
-Both use phys = <&phandle>, the media driver manages V4L2 endpoints
-and lane counts, the PHY driver handles the electrical layer via
-phy_configure().
+> ---
+> Changes in v3:
+> - Remove the Reported-by tag due to missing Closes: URL
+> 
+> Changes in v2:
+> - Added Smatch warning messages to commit message
+> - Added Reported-by tag for Ethan Tidmore
+> - Kept both Reviewed-by tags
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 9efd14d4026f..7cb17e0a5617 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -2585,10 +2585,10 @@ int v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
+>  
+>  			if (!have_source_fd) {
+>  				remote_source_pad = media_pad_remote_pad_unique(local_sink_pad);
+> -				if (!remote_source_pad) {
+> +				if (IS_ERR(remote_source_pad)) {
+>  					dev_dbg(dev, "Failed to find remote pad for sink pad %u\n",
+>  						local_sink_pad->index);
+> -					ret = -EINVAL;
+> +					ret = PTR_ERR(remote_source_pad);
+>  					goto out_unlock;
+>  				}
+>  
 
-To this list we will add qcom camss, there's nothing exotic being proposed.
+-- 
+Regards,
 
-> I propose that you write a proper media driver for the qcom csiphy, which eventually spins a PHY driver as an aux device.
-
-None of these SoC D-PHYs are written as V4L2 media drivers that spawn 
-auxiliary devices. They all use the phys = <&phandle> model. The media 
-driver manages the V4L2 endpoints and lane counts, passing the 
-configuration down via phy_configure_opts_mipi_dphy.
-
-I just don't see what is so special about CAMSS that it needs to have 
-its own special PHY implementation. drivers/phy the standard API and 
-specification of data-lanes etc in the controller seems pretty "bog 
-standard".
-
----
-bod
+Laurent Pinchart
 
