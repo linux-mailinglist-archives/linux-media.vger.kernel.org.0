@@ -1,182 +1,308 @@
-Return-Path: <linux-media+bounces-56226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56227-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2MFMKJTeumk3cwIAu9opvQ
-	(envelope-from <linux-media+bounces-56226-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 18:19:16 +0100
+	id oDZVECjtuml0dAIAu9opvQ
+	(envelope-from <linux-media+bounces-56227-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 19:21:28 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D582C01CA
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 18:19:16 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A779F2C1263
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 19:21:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4AC34303099E
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 17:14:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3985F32D6BCA
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 17:53:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF713343D63;
-	Wed, 18 Mar 2026 17:14:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BCBB35A392;
+	Wed, 18 Mar 2026 17:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QnJqHirE"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FlkHo54T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3703E2BCF5D;
-	Wed, 18 Mar 2026 17:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF67435839D;
+	Wed, 18 Mar 2026 17:52:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773854069; cv=none; b=nEvNDUC/lB2jrLC6RfUxUaGluYk1BFannFdLojJbXBw7EVe6aUTF8+ow5Yr6LO9CP1SiFE1FYld0MtUj7DYxItv27L6irZmqJxCMQRuaaVu1dlip8DTv62x9k9ZF0TQHdQ/K3pNtUQvScKBjHyyTHR1JrSOYk76cV6jyOY1SJKg=
+	t=1773856377; cv=none; b=QIk3GMg8O9F/GwivrJ1Pf9ow2W2DDwLrCp4jHD7fCD9ncgGglAS8G4ctk8PSVUCD2lNmNCoE2OXSW3DG+shXzXBnl4LvJuPjE5T7gJmlOqBFuZXe5l1YgXX29iwqrhb1dFNOztSfJny98O9Jl4ll8BKwJrD307lniXE1by1UarM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773854069; c=relaxed/simple;
-	bh=2f6SY21HIHKTWALsoKhdsKNISHYJnM7rcNMIAWcMzSg=;
+	s=arc-20240116; t=1773856377; c=relaxed/simple;
+	bh=7RhELfoamd+1f1X8vuupz5lvW6wqDowxnnhYEeX4noA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OjWJooI3z2CMvVgWVkpY0KplM83gkf5H/LP0lkOS11rncUnhnFxaZ/LGyvttpmOyoHiBBdayzMyUOWd8QwLeW0DAXs1yG0dDQimIwsgGGpx563/hBO8uQuyfxWd9kz5vWcLbCMV2sMjhQJiphkdDyk9e/QCQiDybfF98HUVA7nQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QnJqHirE; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 30F35460;
-	Wed, 18 Mar 2026 18:13:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773853993;
-	bh=2f6SY21HIHKTWALsoKhdsKNISHYJnM7rcNMIAWcMzSg=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=SmJ5pLyNiWgAXPkxX6NIhYLjTMHFyZlsxe0prv5NwdPuBPGTBu3WtMiQECnOhs9UqjnTFtDGIo+8U2jnQCohlxBiQzVJV1c4LTMhnxuOizAVOQ1kYbJgXnxNsoz+5FnsV6RmHW2hSiFMNrUYnpANmYk4uP497CrVKEhVrx20WrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FlkHo54T; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E97A2C19421;
+	Wed, 18 Mar 2026 17:52:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773856376;
+	bh=7RhELfoamd+1f1X8vuupz5lvW6wqDowxnnhYEeX4noA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QnJqHirEZCbXmp7zBAabFz6fF9t4t2L5g5Ib474/Ctt94BC/xW5reLD/b1ExW+ZGB
-	 7NlaIwhhqeS0H567AqsXz9u29l19lw+fhMLbfeDOpCLE41xt9B3xwjOnEDE8sBsOY/
-	 c0PoZlXmY5Ilcs2u7uYs9xeoOnhMb7k0s+W/2d/U=
-Date: Wed, 18 Mar 2026 19:14:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Martin Hecht <mhecht73@gmail.com>,
+	b=FlkHo54TQPrdvX0KKoD5mQgS7R2ornPusMzZgXsAAjpK1wR14Q25dhL3FoO+NFRne
+	 Tge8FZzhYFWJqLKEYm7pBjmeYQpMCnPNJcu702ZsOxL166yonfYSPEBekK5NZ53Zwa
+	 KduLdF/9llG0ap1QNfaP//L1vXJ6QSbXyJAoZOW/5rpuqFVT/XB85bAKP202tlYa/H
+	 cHsVssPe7EKhKlVl7iJB7wZaGMII93Ft8lagmNbsYIExi7BWTFxsGVQ1YfIohNt9uo
+	 3/9pR8anHFvNTSpZupNKdtM4QCh5zOEQa43YtZBe0/vH4JfJQkmhyby5QLIrwyj+Z/
+	 DdKRUi27K2cVw==
+Date: Wed, 18 Mar 2026 17:52:50 +0000
+From: Conor Dooley <conor@kernel.org>
+To: michael.riesch@collabora.com
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Kever Yang <kever.yang@rock-chips.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	=?utf-8?B?0JrRg9C30L3QtdGG0L7QsiDQnNC40YXQsNC40Ls=?= <mai.kuznetsov.misha@gmail.com>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Collabora Kernel Team <kernel@collabora.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Dongchun Zhu <dongchun.zhu@mediatek.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Quentin Schulz <quentin.schulz@theobroma-systems.com>,
-	Todor Tomov <todor.too@gmail.com>,
-	"Paul J. Murphy" <paul.j.murphy@intel.com>,
-	Daniele Alessandrelli <daniele.alessandrelli@gmail.com>,
-	Marco Felsch <kernel@pengutronix.de>,
-	Lubomir Rintel <lkundrak@v3.sk>, linux-renesas-soc@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: dt-bindings: Drop redundant endpoint
- properties
-Message-ID: <20260318171424.GI633439@killaraus.ideasonboard.com>
-References: <20260316134533.56941-3-krzysztof.kozlowski@oss.qualcomm.com>
- <20260316134533.56941-4-krzysztof.kozlowski@oss.qualcomm.com>
- <9ea2c5d6-8d75-43cd-9e1f-f39bf714d2e5@kernel.org>
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/9] media: dt-bindings: add rockchip rk3588 vicap
+Message-ID: <20260318-mumbo-lumber-b550932a5423@spud>
+References: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
+ <20250430-rk3588-vicap-v2-2-77de5ee9048e@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jVdB2zejn0FZqmel"
 Content-Disposition: inline
-In-Reply-To: <9ea2c5d6-8d75-43cd-9e1f-f39bf714d2e5@kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+In-Reply-To: <20250430-rk3588-vicap-v2-2-77de5ee9048e@collabora.com>
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56226-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,gmail.com,kernel.org,foss.st.com,jmondi.org,ideasonboard.com,ragnatech.se,linux.intel.com,raspberrypi.com,glider.be,linaro.org,mediatek.com,bootlin.com,theobroma-systems.com,intel.com,pengutronix.de,v3.sk,vger.kernel.org,bp.renesas.com];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56227-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_CC(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.958];
+	NEURAL_HAM(-0.00)[-0.945];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt,renesas];
+	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,ideasonboard.com:dkim,killaraus.ideasonboard.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 27D582C01CA
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A779F2C1263
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Mar 16, 2026 at 07:08:01PM +0100, Krzysztof Kozlowski wrote:
-> On 16/03/2026 14:45, Krzysztof Kozlowski wrote:
-> > The "endpoint" node references video-interfaces.yaml schema with
-> > "unevaluatedProperties: false" which means that all properties from
-> > referenced schema apply.  Listing some of them with ": true" is simply
-> > redundant and does not make this code easier to read.
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> > ---
-> >  .../devicetree/bindings/media/marvell,mmp2-ccic.yaml        | 6 ------
-> >  Documentation/devicetree/bindings/media/renesas,ceu.yaml    | 3 ---
-> >  .../devicetree/bindings/media/renesas,rzg2l-cru.yaml        | 6 ------
-> >  3 files changed, 15 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-> > index de3e483f146a..a8bf06108158 100644
-> > --- a/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-> > +++ b/Documentation/devicetree/bindings/media/marvell,mmp2-ccic.yaml
-> > @@ -35,12 +35,6 @@ properties:
-> >          $ref: video-interfaces.yaml#
-> >          unevaluatedProperties: false
-> >  
-> > -        properties:
-> > -          hsync-active: true
-> > -          vsync-active: true
-> > -          pclk-sample: true
-> > -          bus-type: true
-> > -
-> >    clocks:
-> >      minItems: 1
-> >      items:
-> > diff --git a/Documentation/devicetree/bindings/media/renesas,ceu.yaml b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> > index d527fc42c3fd..5f78c77b10a3 100644
-> > --- a/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> > +++ b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> > @@ -43,9 +43,6 @@ properties:
-> >          unevaluatedProperties: false
-> >  
-> >          properties:
-> > -          hsync-active: true
-> > -          vsync-active: true
-> > -          field-even-active: false
-> 
-> Removed too much, this must stay.
 
-Disabling properties not relevant for a device doesn't scale. You would
-need to disable way more than that one here. The better option is to use
-"additionalProperties: false" and list the allowed properties.
+--jVdB2zejn0FZqmel
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> >            bus-width:
-> >              enum: [8, 16]
+On Tue, Mar 17, 2026 at 10:32:20AM +0100, Michael Riesch via B4 Relay wrote:
+> From: Michael Riesch <michael.riesch@collabora.com>
+>=20
+> Add documentation for the Rockchip RK3588 Video Capture (VICAP) unit.
+> To that end, make the existing rockchip,rk3568-vicap documentation
+> more general and introduce variant specific constraints.
+>=20
+> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+> ---
+>  .../bindings/media/rockchip,rk3568-vicap.yaml      | 191 +++++++++++++++=
++++---
+>  1 file changed, 167 insertions(+), 24 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-vica=
+p.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vicap.yaml
+> index 18cd0a5a5318..15a889ff8e52 100644
+> --- a/Documentation/devicetree/bindings/media/rockchip,rk3568-vicap.yaml
+> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vicap.yaml
+> @@ -15,9 +15,15 @@ description:
+>    the data from camera sensors, video decoders, or other companion ICs a=
+nd
+>    transfers it into system main memory by AXI bus.
+> =20
+> +  The Rockchip RK3588 Video Capture (VICAP) is similar to its RK3568
+> +  counterpart, but features six MIPI CSI-2 ports and additional connecti=
+ons
+> +  to the image signal processor (ISP) blocks.
+> +
+>  properties:
+>    compatible:
+> -    const: rockchip,rk3568-vicap
+> +    enum:
+> +      - rockchip,rk3568-vicap
+> +      - rockchip,rk3588-vicap
+> =20
+>    reg:
+>      maxItems: 1
+> @@ -26,37 +32,23 @@ properties:
+>      maxItems: 1
+> =20
+>    clocks:
+> -    items:
+> -      - description: ACLK
+> -      - description: HCLK
+> -      - description: DCLK
+> -      - description: ICLK
+> +    minItems: 4
+> +    maxItems: 5
+> =20
+>    clock-names:
+> -    items:
+> -      - const: aclk
+> -      - const: hclk
+> -      - const: dclk
+> -      - const: iclk
+> +    minItems: 4
+> +    maxItems: 5
+> =20
+>    iommus:
+>      maxItems: 1
+> =20
+>    resets:
+> -    items:
+> -      - description: ARST
+> -      - description: HRST
+> -      - description: DRST
+> -      - description: PRST
+> -      - description: IRST
+> +    minItems: 5
+> +    maxItems: 9
+> =20
+>    reset-names:
+> -    items:
+> -      - const: arst
+> -      - const: hrst
+> -      - const: drst
+> -      - const: prst
+> -      - const: irst
+> +    minItems: 5
+> +    maxItems: 9
 
--- 
-Regards,
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: rockchip,rk3568-vicap
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 4
+> +          maxItems: 4
 
-Laurent Pinchart
+Anything here that repeats the outermost constraint should be dropped,
+so no minItems here..
+
+> +
+> +        clock-names:
+> +          items:
+> +            - const: aclk
+> +            - const: hclk
+> +            - const: dclk
+> +            - const: iclk
+> +
+> +        resets:
+> +          minItems: 5
+> +          maxItems: 5
+
+=2E..or here...
+
+> +
+> +        reset-names:
+> +          items:
+> +            - const: arst
+> +            - const: hrst
+> +            - const: drst
+> +            - const: prst
+> +            - const: irst
+
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: rockchip,rk3588-vicap
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 5
+> +          maxItems: 5
+
+=2E..or maxItems here...
+
+> +
+> +        clock-names:
+> +          items:
+> +            - const: aclk
+> +            - const: hclk
+> +            - const: dclk
+> +            - const: iclk0
+
+> +            - const: iclk1
+> +
+> +        resets:
+> +          minItems: 9
+> +          maxItems: 9
+
+=2E..or here.
+
+> +
+> +        reset-names:
+> +          items:
+> +            - const: arst
+> +            - const: hrst
+> +            - const: drst
+> +            - const: irst0
+
+Were you willing to reuse "irst" for the 0th irst, all the repetition
+wouldn't be needed. I assume it represents the reset for the port at
+address 0, so it wouldn't even be a different meaning on each device.
+
+> +            - const: irst1
+> +            - const: irst2
+> +            - const: irst3
+> +            - const: irst4
+> +            - const: irst5
+> +
+>  additionalProperties: false
+> =20
+>  examples:
+>=20
+> --=20
+> 2.39.5
+>=20
+>=20
+
+--jVdB2zejn0FZqmel
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCabrmcgAKCRB4tDGHoIJi
+0kE+AQCiO8R6sREJ16rGB4nk0o2txYYzKiWx5flN3eu4tYAL+gD/RBcvFZzkcWgN
+cce8jKdYN4Rihg2tKuLCrikL1c2BDAw=
+=sCrK
+-----END PGP SIGNATURE-----
+
+--jVdB2zejn0FZqmel--
 
