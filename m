@@ -1,189 +1,168 @@
-Return-Path: <linux-media+bounces-56228-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56229-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aO8yIB75umlwdwIAu9opvQ
-	(envelope-from <linux-media+bounces-56228-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:12:30 +0100
+	id 4A+cFGz5umlwdwIAu9opvQ
+	(envelope-from <linux-media+bounces-56229-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:13:48 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F249F2C1DB5
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:12:29 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0852C1DD4
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 20:13:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A51023014555
-	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 19:12:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 92F18300D69F
+	for <lists+linux-media@lfdr.de>; Wed, 18 Mar 2026 19:13:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6F273F0757;
-	Wed, 18 Mar 2026 19:12:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A823F076E;
+	Wed, 18 Mar 2026 19:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vxx/d1+t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+qriCKr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05FC314D1D
-	for <linux-media@vger.kernel.org>; Wed, 18 Mar 2026 19:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CC6311946
+	for <linux-media@vger.kernel.org>; Wed, 18 Mar 2026 19:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773861140; cv=none; b=GKRF6jUsn6f6trnM6lOovbvdEYMzJUPiYoLM5qtP03qGotuyI2pXXVY10skGPGYVRGhw/bi1YdqF4OjHJnXWoVAbsWhGCFtfRFiJuMSE3LXfIOqjxHRX+G5gYkD5CEYQL1A9wbA+RTF3OZmjph9OuMy4Y4qJg3hSh52JQ12Olac=
+	t=1773861218; cv=none; b=mNvWlG88H9mgwaHOLc3jYW7GE2BYHaQx6WWOgw4/ZilOtOOgK46sJRul1GOajJg3IfsGr5ue1AkC+jnsx7/pm0mEBRIGdX74+36wm/lcbGohccDa2uhCo2+hMApXNrFMa74Fdp2kRSIYVmbP2+JQK9I8VFYh/ZD5j9PW0DN4QJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773861140; c=relaxed/simple;
-	bh=Ke2jPk32BmZfMKuOc2wbyhXwQbB58vorjkeaSPb14s0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UcN2kjHY6KoP75Qb72MX0COIrUS0oZnuuEGaPiWskBU5gNKU4OEbX0LXeOmdO6sk3HKTU1/2w+hAw+/cBwephHNJi6Sm9Lm1jKxahuZ+aKE+ygcFhvCRvaDieJbMlPz3QMzeVhyozAMMomnaQvUzYAv5p+d5tYrwN96ln+9xo9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vxx/d1+t; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2b0603ee486so1270275ad.0
-        for <linux-media@vger.kernel.org>; Wed, 18 Mar 2026 12:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773861137; x=1774465937; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rtyvqAyOmQpfFoytdsaHk5qiw++19zV7NVycqJvGPgo=;
-        b=Vxx/d1+to/CVAdr1Kq2QzqNnSa/zPbi+11O+e7yOojQ+KFyQc9DgCh1sAzt0lOq/HP
-         eJgW1r0HbZtd7M/fHqJu6t9bZJumbYe6naYqzHGUku3YmrJFXFV2fdw9XfspKwTEkWUX
-         bFdJNSHReiGZfuH8eJsQNbOI0uFVgGXEbosveFKVnkDAFULrhdhKh5GnuatUhWcWicv8
-         MnQrdlkc81DtniG3E237dBPOb5268tYlVAGa9zjAlBAvHPEieU6FGgLxVBN9e8qfV6A2
-         k0YT2D3VxZnGrowF92iZmLdcZ6meCCYASO6pnmP/6qGzWXM+f89mfy8oUOc7z8U0As4P
-         tZpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773861137; x=1774465937;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rtyvqAyOmQpfFoytdsaHk5qiw++19zV7NVycqJvGPgo=;
-        b=IdihoeRl4pTeZ2uW8NSYLQDksRByBLwbKuOS5aq40Q9rjOcqwoY5qL9N9ttHlbbuc9
-         EIeWnmbmRncsHH4hgLbGxayeE/vM+vMjziZiEViG+8RROH0g7b40GuYwcNKAJnqxVE++
-         0UqPQqRnmhvEGbhiO81/5AB1sRximq4ywEGfOTXelvISRpw3+GjPfXNu2Mxbzr9qFrbJ
-         qsUi8sBJ6PdvEc6uzJ2yZ5mvMX42NHoWmxl2aollnBwmCDfDwK3WJJxh4ShOyfgdwm1D
-         6ZflGaqOyqnB1O0V0ie90iW9FX8N4J9gK1JT4OvmdyGuAHVNt/Lcbko6jxXxjXpsXOQb
-         xfKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUcDQPOkhtBvpGZvOni5Oj1qW08O6CtfHluo6EIhQE9dOjoHYAG+tvgjTuDrptlh6CEwGvcc2TCTaDH3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyiv0K0QrXvNsLWAHCiMNLIJBh9Oxn/bnUNFjF3G/Ld3cbY86XB
-	0CVByGj4KW4sOZdUrCp5ODDXyXQPWLFFa/cTBg905J1SE/cm9yHk6TC6
-X-Gm-Gg: ATEYQzxy8nYpMBakdTPbgyum5ChHpev7GrQ5H+FIb6iB2TITvAMasCXBL2Vq5hKgmGB
-	7ZDNs+vXorIzmCMJlVvojH8i1crH9WF8/J045T4Cl03XBWubC9+5h1lKx7Gf4Nro4WSpvRMqsYN
-	MPo6/MMING2Ipcd6w366JegTWVbSTp4bXg1yIIa48vnpKiho2N51NiWHR1zccB1TzTwWqwpLJSI
-	/kyzpmNTwXuBXuE8ErRT+4L+vWnDUE5WDnYdWvWGOBDaxerT1Ey9InRF9uZJy4xsGOOMwztOEw6
-	POm3csRx/clM7rlyotnnebDdLd50+k+Bn48wNCPf027M2PmWrmdkucdHZXFr7/Ahc6VihR45WYF
-	9a5khuVYQxgXojDBmm0/+jrbqo4v0zeGQx5IgImEYvh+V71V15Z/xGDSV83C2VJ4ryxhv8E57so
-	dKx+s91+KKvqZ2TXPOG9JsiqDL
-X-Received: by 2002:a17:903:b85:b0:2b0:5661:e10f with SMTP id d9443c01a7336-2b06e43f61dmr39596955ad.53.1773861136974;
-        Wed, 18 Mar 2026 12:12:16 -0700 (PDT)
-Received: from ganesha.. ([106.51.225.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e615f88sm35495855ad.65.2026.03.18.12.12.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 12:12:16 -0700 (PDT)
-From: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
-To: mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: av7110: coding style fixes: too many tabs
-Date: Thu, 19 Mar 2026 00:41:47 +0530
-Message-ID: <20260318191149.109616-1-ss22.kern.dev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1773861218; c=relaxed/simple;
+	bh=WKDkbC0+f3R9FhNQFNwMYqoMt5xssX52wPAudStcLVs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AbufCjdO5siD6aitw/ygaKU3t5igpvT1JH7OreZ1WNRTCZKhT3ePonao5jDyTKotWPkSq9F1H0iyjyxSA7aVGbaXBo9v91DE4PnVQVcdZsaCJBkKjT1MpB5BfQj3sElRrSWtRT6SzHr/GH3zmjnZvwcqCHSj2MMs7d9NGmxvOCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+qriCKr; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773861215; x=1805397215;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WKDkbC0+f3R9FhNQFNwMYqoMt5xssX52wPAudStcLVs=;
+  b=a+qriCKrXCN0H0v2ep87FfOFwehi5yqcDq9N4KvS6l4jiS5F3ZcP00EV
+   CjuYNIs3ez5T0o0rtqAXDjgGjGa3hKfq8hVZbLqwmhO+WAH2puSShUddD
+   RhH2bIsWnT6TfHTQJYZN2xMteDiN9dSS6eZp45pM8cTkLuoqVRBnmb1BK
+   Kxfd38jC4jM51EoQsZT+sdAnAjA1ypG4bZW+NYeapKLAXvaN03Xp6TIeh
+   ZFwd+DhsGrDqhYqABvJQWY0Q/Q8GS1+xOoL+5hicp0QhI9zMArd4RIn8O
+   ChQ/PLsZznsi4Hd23hTDWkwLyHP7DtomU4whoQ9PbBn0BjhBwMWo6AJwZ
+   A==;
+X-CSE-ConnectionGUID: aASKyGRKQk2kUuFzOYOIYQ==
+X-CSE-MsgGUID: L952O4efTs2I48/9gQsWpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="92500651"
+X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
+   d="scan'208";a="92500651"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 12:13:35 -0700
+X-CSE-ConnectionGUID: 4k3z3NjyQeavgegFjaeetg==
+X-CSE-MsgGUID: qvkrXy26QtuUJu+ny41LSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
+   d="scan'208";a="227209944"
+Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 18 Mar 2026 12:13:34 -0700
+Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w2wKh-000000003ID-004f;
+	Wed, 18 Mar 2026 19:13:31 +0000
+Date: Thu, 19 Mar 2026 03:12:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bradford Love <brad@nextdimension.cc>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Bradford Love <brad@nextdimension.cc>
+Subject: Re: [PATCH 1/2] em28xx: Add support for Empia em2828X bridge
+Message-ID: <202603190334.ERNDESst-lkp@intel.com>
+References: <20260312224915.2907539-2-brad@nextdimension.cc>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260312224915.2907539-2-brad@nextdimension.cc>
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-56228-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56229-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ss22kerndev@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.652];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: F249F2C1DB5
+	NEURAL_HAM(-0.00)[-0.994];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: BD0852C1DD4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This patch fixes below warning reported by checkpatch.pl
-WARNING: Too many leading tabs - consider code refactoring
+Hi Bradford,
 
-Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
----
- drivers/staging/media/av7110/av7110.c | 32 ++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index 607992100baf..970343c4ec51 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -932,6 +932,27 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
- 	return ret;
- }
- 
-+static int handle_ts_memory_fe(struct dvb_demux_feed *feed,
-+			       struct dvb_demux *demux,
-+			       struct av7110 *av7110)
-+{
-+		int ret = 0;
-+
-+		if (feed->pes_type >= 2)
-+			return 0;
-+
-+		if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
-+			return 0;
-+
-+		dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-+		dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-+
-+		ret = av7110_av_start_play(av7110, RP_AV);
-+		demux->playing = (ret) ? true : false;
-+
-+		return ret;
-+}
-+
- static int av7110_start_feed(struct dvb_demux_feed *feed)
- {
- 	struct dvb_demux *demux = feed->demux;
-@@ -951,16 +972,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
- 		    (feed->pes_type <= DMX_PES_PCR)) {
- 			switch (demux->dmx.frontend->source) {
- 			case DMX_MEMORY_FE:
--				if (feed->ts_type & TS_DECODER)
--					if (feed->pes_type < 2 &&
--					    !(demux->pids[0] & 0x8000) &&
--					    !(demux->pids[1] & 0x8000)) {
--						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
--						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
--						ret = av7110_av_start_play(av7110, RP_AV);
--						if (!ret)
--							demux->playing = 1;
--					}
-+				ret = handle_ts_memory_fe(feed, demux, av7110);
- 				break;
- 			default:
- 				ret = dvb_feed_start_pid(feed);
+[auto build test WARNING on linuxtv-media-pending/master]
+[also build test WARNING on media-tree/master sailus-media-tree/master linus/master sailus-media-tree/streams v7.0-rc4 next-20260318]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bradford-Love/em28xx-Add-support-for-Empia-em2828X-bridge/20260318-090020
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20260312224915.2907539-2-brad%40nextdimension.cc
+patch subject: [PATCH 1/2] em28xx: Add support for Empia em2828X bridge
+config: xtensa-randconfig-r073-20260319 (https://download.01.org/0day-ci/archive/20260319/202603190334.ERNDESst-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+smatch: v0.5.0-9004-gb810ac53
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260319/202603190334.ERNDESst-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603190334.ERNDESst-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/usb/em28xx/em28xx-dvb.c:299:5: warning: no previous prototype for 'em28xx_set_analog_freq' [-Wmissing-prototypes]
+    int em28xx_set_analog_freq(struct em28xx *dev, u32 freq)
+        ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/em28xx_set_analog_freq +299 drivers/media/usb/em28xx/em28xx-dvb.c
+
+   298	
+ > 299	int em28xx_set_analog_freq(struct em28xx *dev, u32 freq)
+   300	{
+   301		const struct dvb_tuner_ops *dops = &dev->dvb->fe[0]->ops.tuner_ops;
+   302	
+   303		if (dops->set_analog_params != NULL) {
+   304			struct analog_parameters params;
+   305	
+   306			params.frequency = freq;
+   307			params.std = dev->v4l2->norm;
+   308			params.mode = 0;
+   309	
+   310			dops->set_analog_params(dev->dvb->fe[0], &params);
+   311		}
+   312		return 0;
+   313	}
+   314	/* ------------------------------------------------------------------ */
+   315	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
