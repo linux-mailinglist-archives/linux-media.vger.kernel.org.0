@@ -1,204 +1,174 @@
-Return-Path: <linux-media+bounces-56340-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56341-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2J1CAYkLvGkArgIAu9opvQ
-	(envelope-from <linux-media+bounces-56340-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 15:43:21 +0100
+	id YCreCoYLvGkArgIAu9opvQ
+	(envelope-from <linux-media+bounces-56341-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 15:43:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711D12CD133
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 15:43:20 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4A62CD12C
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 15:43:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0304D3046D97
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 14:38:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 605AD30EBD72
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 14:41:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62A372C11E8;
-	Thu, 19 Mar 2026 14:38:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFEB3D6683;
+	Thu, 19 Mar 2026 14:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r2kuo2AK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aQX9q88N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A46F3D47A9;
-	Thu, 19 Mar 2026 14:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F25C35DA67
+	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 14:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773931112; cv=none; b=pO1m6xS+kv3EC/T7fr6QPyxfXTkwYKO8Xixdghgcaimtp4FIZcYw5TqnNthDvYmtpe/g+mnY0p4B+Vw93pzi24syOskg3WhHQAd0kHY+P4GLfJ8l59KCUxi2MDU4qU/y1IkyXBCdIn66I3T743M9LFFPlJ4dkeiCT6OiS69m/RQ=
+	t=1773931311; cv=none; b=KNsolWbYk17m+ZFi+x7CDxZwiXETk3vYNcf4c3pjUjHWdtjyI11e4xWHREJNVSsRn5Gqx8fWxJIed9+H/kbi6jt/b7O0/mxGasjOXSd4SCbpffi9eiVpCA/vMfgRthGGyS33HFOgo5a8lqJgiw9FIhshgiylAb8RKfDd3qSx7J8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773931112; c=relaxed/simple;
-	bh=xVDCvmHcqvISvprP7lO7W6ddF7WUVJ7W2Df/HLSX/ok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HjsBq5fsyZUGyQo5gE22UtJUU0tLWzd4Y8ZiytwHeNXAt9GEHcpk/G0vorJC3qcFrpIzTbl7z6Q16JYvMqGCBQEOR8w3aFESvZlysCW2M742bdOfWkh8XfiPwIxLnyIiF7kwLjV6S3t4X06wlB3aFKLxVePBp1s7ajD5Su0LrCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r2kuo2AK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF48C19424;
-	Thu, 19 Mar 2026 14:38:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773931112;
-	bh=xVDCvmHcqvISvprP7lO7W6ddF7WUVJ7W2Df/HLSX/ok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r2kuo2AK5XKO3e1cpuhsJqbCb932nj+lOW/XRoTa5IcwOsYufpH27/bdev1IWsa1u
-	 06RQxeQl/XeWFQgYAWyGwcW5uMHorjRHwCOYXGGMdK/H0mukpftjtUsvYkwmn3yiAc
-	 WYOMz4kGTBIc2VNAKd/AEq7K/U7FFGzBaAY3bVzq/lvRzUn9/3mNktUBWDHKNyClte
-	 e/ZljoGXAcB0WQ/oNTRV2y2l47eqZ+AS7p4psAhMwF017vRcEWhUqAk79CkKh1WPMf
-	 4aBY8Jhk7/iXZhtfBoeGcrpQQfT8t5vpZ5igasBjHvm57milfLFqCtehtwcTcSAJ4m
-	 CuiVgcEZPVTYQ==
-Date: Thu, 19 Mar 2026 14:38:25 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Michael Riesch <michael.riesch@collabora.com>
-Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	=?utf-8?B?0JrRg9C30L3QtdGG0L7QsiDQnNC40YXQsNC40Ls=?= <mai.kuznetsov.misha@gmail.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Collabora Kernel Team <kernel@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/9] media: dt-bindings: add rockchip rk3588 vicap
-Message-ID: <20260319-unrobed-simile-1c1393962ff9@spud>
-References: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
- <20250430-rk3588-vicap-v2-2-77de5ee9048e@collabora.com>
- <20260318-mumbo-lumber-b550932a5423@spud>
- <d9a9be92-7439-4899-8be2-adf7f0490790@collabora.com>
+	s=arc-20240116; t=1773931311; c=relaxed/simple;
+	bh=7JJItK1EbpqtAuuT5E/BuYdP/SbDJl/r9WsVMqXZYOM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VVvJZaw1HjNZ1isVCY5YrNXkZWwOdiDS8QSvm7B2hfe+HifPyfY72FH8WnJs+ceLZlo5hmI6E91zJ0kWbvRaA8zXdxPxWSIFDJki132OT1oZerUZ4TDsgEqMByOFwNqR1oQcQVT8+ZMm/JxBBgS/4IGNcunVFS9KaHYVUGWjtfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aQX9q88N; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2b0586d5bb8so5691985ad.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 07:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773931309; x=1774536109; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=szX8KuRPyf5Ig4UEEtTihMfJ0qSCJ5cmhiHMpFHTxGo=;
+        b=aQX9q88NPUl4ouivM/INg9iCESFJy7VKp+Uyg2skc8pPSixJAr1QFfhmpIJ2iiKWJQ
+         RBd62tOxqscDtQIvwpoCoKjeX/tV87/fi++nu0j5FtRj/e8ee9BIjCypCLmCdEVsWlMy
+         Yu1rKpWMA4BGhpJpID5A6eFIxeOnPV82tPj4ZJncQ9i0NvOcTRCbac8K9EKwypTJupra
+         s0OdGId4qy9cYV4S2OS9iN/ukDNXy7YzUa9OvlJidOE5ibGs/odtD9YnwF0PlMrD8cEL
+         kJ75l1xs4Z2YFfenSf7oreIe875Bt2gZM5gZgJn3kAT+h7/ICNcDGW9kBn+AMtHffnw7
+         egfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773931309; x=1774536109;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=szX8KuRPyf5Ig4UEEtTihMfJ0qSCJ5cmhiHMpFHTxGo=;
+        b=njkiaNsqwC5banG3U5/a+ki1rJutjruZOcbk079K0Cr+eo3i7Z+fxmeOI/C2yyn3TZ
+         AEOtGEqBCjjFjTVriJRRDhDYHRSmkc8yDBaQxLWhxOH6mNPT0UDMH5mzAUwVnyiraEKS
+         k5NuV3JWmx6iBWSq8M/wlGoHHoJEY0+sx08e+CipLtHjGVqDg/TTAIqqcV6JpEo5qnUm
+         TrpZqiVM+pBA+EH8t+0F5Ydnu3KvEyGBSkSCSvIiGu026ooMgVBIJAfAgzeIDuPV2bWQ
+         VZTHpwLYsk9Y2H3S6XLDC+Qkzqi4fkOk8cy5VvF04CgGsDWY32e3qdKN3vSZvm5Zv1qU
+         +ykA==
+X-Gm-Message-State: AOJu0YzBoTGklQn2RAjlCNsQ6W3IWWCQdrUDo3WrAJc0MCpjiYCDD9Ef
+	yR/l+zPQNL8TuaadALSe0Wrigq/kPv02reu7W1igJ6aZOtG/QOH5XIJ6
+X-Gm-Gg: ATEYQzw6CInvz/i23nNaBnJ/4jtosTcSovDKcIeWeJCzUHA0W0v+xaaqejSBspIGZ/s
+	pzcuVbnI3oVECmOAylR97WNStR094kPJ88pG++xh/xLGb2oSZT/VmC5HjUo0ThWyf2+mDrGCf4p
+	fLkzISjPF4MI+bh22tBiZXdeIPXWwPUjyQxw/H+GyhI27ygucIazmCd6sbsUpDy32+et4UoJddz
+	iUxSKoPB1a1bSI64k5/RzibO5eHUuarQWphirvHxVilgMlEAFbDL/9wo0/W80rt9t2GBGe408xB
+	kVOorkxvneo08dS/VdlhVU4/30fUMf58CaeYXi+WuZ/zCgxOCl33fHWxmAXnAkw6brYTG5HPRNC
+	iHJOjfkLkDiIW5OaVx+W3qhmlWwnM2syPJP3wmAVFHfx9Xiq5hQ9FQcpV9nAHoMF7nc9Y5fh9gA
+	yiYFVR6RmSjptshw80Gr780j85q9/CiyY=
+X-Received: by 2002:a17:903:230c:b0:2b0:4d7d:fbc8 with SMTP id d9443c01a7336-2b06e21bceamr77097275ad.0.1773931309274;
+        Thu, 19 Mar 2026 07:41:49 -0700 (PDT)
+Received: from [192.168.0.106] ([103.216.213.160])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e605108sm79415155ad.60.2026.03.19.07.41.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2026 07:41:48 -0700 (PDT)
+Message-ID: <a5887e4c-6333-4a3f-9ad4-5ba106c0ef30@gmail.com>
+Date: Thu, 19 Mar 2026 20:11:44 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gs5QsPffFgv1KN45"
-Content-Disposition: inline
-In-Reply-To: <d9a9be92-7439-4899-8be2-adf7f0490790@collabora.com>
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: cx25821-alsa: replace BUG_ON() with WARN_ON()
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260314-media-v1-1-fc6235c57d04@gmail.com>
+Content-Language: en-US
+From: Atharv Dubey <atharvd440@gmail.com>
+In-Reply-To: <20260314-media-v1-1-fc6235c57d04@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-56340-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.955];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-56341-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[atharvd440@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.995];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: 711D12CD133
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7C4A62CD12C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+A Gentle Reminder for reviewing the patch.
 
---gs5QsPffFgv1KN45
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks,
+Atharv
 
-On Thu, Mar 19, 2026 at 09:04:06AM +0100, Michael Riesch wrote:
-> Hi Conor,
->=20
-> On 3/18/26 18:52, Conor Dooley wrote:
-> > [...]
-> >> =20
-> >>    resets:
-> >> -    items:
-> >> -      - description: ARST
-> >> -      - description: HRST
-> >> -      - description: DRST
-> >> -      - description: PRST
-> >> -      - description: IRST
-> >> +    minItems: 5
-> >> +    maxItems: 9
-> >> =20
-> >>    reset-names:
-> >> -    items:
-> >> -      - const: arst
-> >> -      - const: hrst
-> >> -      - const: drst
-> >> -      - const: prst
-> >> -      - const: irst
-> >> +    minItems: 5
-> >> +    maxItems: 9
-> >=20
-> >> +allOf:
-> >> +  - if:
-> >> +      properties:
-> >> +        compatible:
-> >> +          contains:
-> >> +            const: rockchip,rk3568-vicap
-> >> +    then:
-> >> +      properties:
-> >> +        clocks:
-> >> +          minItems: 4
-> >> +          maxItems: 4
-> >=20
-> > Anything here that repeats the outermost constraint should be dropped,
-> > so no minItems here..
->=20
-> I already took a look at similar VICAPs (e.g., R3576) that will have
-> more clocks. This is way I left this one in here.
->=20
-> But I guess I will remove it and add it again when e.g. RK3576 VICAP
-> support is added.
->=20
-> >> [...]
-> >=20
-> >> +
-> >> +        reset-names:
-> >> +          items:
-> >> +            - const: arst
-> >> +            - const: hrst
-> >> +            - const: drst
-> >> +            - const: irst0
-> >=20
-> > Were you willing to reuse "irst" for the 0th irst, all the repetition
-> > wouldn't be needed. I assume it represents the reset for the port at
-> > address 0, so it wouldn't even be a different meaning on each device.
->=20
-> Not quite I think. "{a,h,d}rst" are the same on all variants, then there
-> is "prst" and "irst" on RK3568 and "irst{0-5}" on RK3588. So I thought
-> that writing it out explicitly for each variant is more readable (even
-> though it may need a few characters more).
-
-
-Ah right, I didn't see the prst one somehow. Ignore me so.
-
---gs5QsPffFgv1KN45
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCabwKYQAKCRB4tDGHoIJi
-0vI1AP9iqd2CvDCVFRnFVh5XA4+IKjf2bhkzQrjtjDQ4SFrupAEA+VRt+iWztoun
-oOwvNknPS9jj2rDN9dV2GlO7x5HP/wU=
-=of5J
------END PGP SIGNATURE-----
-
---gs5QsPffFgv1KN45--
+On 3/14/26 02:02, Atharv Dubey wrote:
+> media: cx25821-alsa: replace BUG_ON() with WARN_ON()
+>
+> Avoid crashing the kernel for a recoverable condition
+> by replacing BUG_ON() with WARN_ON().
+>
+> Signed-off-by: Atharv Dubey <atharvd440@gmail.com>
+> ---
+>   drivers/media/pci/cx25821/cx25821-alsa.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/pci/cx25821/cx25821-alsa.c b/drivers/media/pci/cx25821/cx25821-alsa.c
+> index 3f73391f9098..4fdc59aaed8e 100644
+> --- a/drivers/media/pci/cx25821/cx25821-alsa.c
+> +++ b/drivers/media/pci/cx25821/cx25821-alsa.c
+> @@ -397,7 +397,7 @@ static int dsp_buffer_free(struct cx25821_audio_dev *chip)
+>   {
+>   	struct cx25821_riscmem *risc = &chip->buf->risc;
+>   
+> -	BUG_ON(!chip->dma_size);
+> +	WARN_ON(!chip->dma_size);
+>   
+>   	dprintk(2, "Freeing buffer\n");
+>   	cx25821_alsa_dma_unmap(chip);
+> @@ -509,8 +509,8 @@ static int snd_cx25821_hw_params(struct snd_pcm_substream *substream,
+>   	chip->num_periods = params_periods(hw_params);
+>   	chip->dma_size = chip->period_size * params_periods(hw_params);
+>   
+> -	BUG_ON(!chip->dma_size);
+> -	BUG_ON(chip->num_periods & (chip->num_periods - 1));
+> +	WARN_ON(!chip->dma_size);
+> +	WARN_ON(chip->num_periods & (chip->num_periods - 1));
+>   
+>   	buf = kzalloc_obj(*buf);
+>   	if (NULL == buf)
+>
+> ---
+> base-commit: 0257f64bdac7fdca30fa3cae0df8b9ecbec7733a
+> change-id: 20260314-media-52caee1b1f7f
+>
+> Best regards,
 
