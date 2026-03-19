@@ -1,207 +1,232 @@
-Return-Path: <linux-media+bounces-56369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56370-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +ORvEvVOvGkXwwIAu9opvQ
-	(envelope-from <linux-media+bounces-56369-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 20:31:01 +0100
+	id qKYnAoRQvGkXwwIAu9opvQ
+	(envelope-from <linux-media+bounces-56370-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 20:37:40 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E3E2D1ACC
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 20:31:00 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 632A72D1B92
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 20:37:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2232430F2A62
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 19:30:27 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B8CE8317B025
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 19:36:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E980F3C9428;
-	Thu, 19 Mar 2026 19:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1D743E0C66;
+	Thu, 19 Mar 2026 19:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="jYnor4XH"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="b8cRrGJz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D47B39C011
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 19:30:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A797630EF82
+	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 19:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773948626; cv=none; b=H5+fnYNZp0A0ACm5Wr0mIb1jsLjVF9IwpemuUQnCwD8mryxsBXjmHHj87GMm4bFHYOkoTdIXN27UERlVknA0MBzxM8rRkFoDglHklPAkTVNuUsvVddYKJgbO+vO3bonEAUFBeiwLTQEGC4iYh41oMjqnPXqdz/HX99j1tvoL/ro=
+	t=1773948960; cv=none; b=OwdcF6v06YsAHQsyyim5skidbkSZN8SKqkfdfGCvH3pl5ohS4TBjiG7gdHCXXfxK0Qee1Y2Tqcfug4+bF4SShP50FlJcd/qoU75WHm1F79ufwOTEruqwSJgwK3ZQDVcfPxgxck1xw5PqC21koOmxE2cpHlCSBi8C2PISsoyPB+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773948626; c=relaxed/simple;
-	bh=hEL0PHTo7AQhG/8GAXvMixzRPJPl6koSwFDjLudJkZ8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JCRNI8wnMMEU7R7LbqEgXCH8DWvoUfv2hlM1hcY7g0AwwDS9F+LNxWkMpd2w58ccExS3jdjqUPFpNkAyEzfMnmazfEpKF82v1+Jc5FiS2rA4JzYdcFh7NQxLAcXOOzVrdzwaDEe5CRexvOieHbc47jrFH87YQ5BrPNiuJq7v2so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=jYnor4XH; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 1AA95240104
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 20:30:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net; s=2017;
-	t=1773948616; bh=q3Ty2rMUXWrI+Dw+O8BMuW+g1hkiDWZuTXFRx7/LGyc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 From;
-	b=jYnor4XHuX4y0Ei3ESr2vYmExzddT/I8MWa6hYnwSaMnVs3+xuIXPqOyFFM8XAz3I
-	 VtfnmKTxKJbKawbVeyreA+ivMjw+mqAZI+i8YxQohGf4d3HW6zYMZ2RSOqm7oI0FS1
-	 Eb8pwgM85IaC+QzlX6KnWzBIZWjVBBMhiwjAX36KGxmM2gzb20JL4SVuyryNTHxU/R
-	 GBirJz+So6m5hwVHn1QWiZ7ypub5+dYT7SyBKZ/3y4QoqfqFE2payE4cvMUT5YU+FA
-	 bStJ00oijwlRF2sZJsVNYWLRsIzE2AEkFNFmqsGySvZbEo1owegGqLhX1AlXuxVqgJ
-	 6EshfQUkWkDoA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4fcG4K6pw3z6twZ;
-	Thu, 19 Mar 2026 20:30:09 +0100 (CET)
-From: Charalampos Mitrodimas <charmitro@posteo.net>
-To: Michael Riesch via B4 Relay
- <devnull+michael.riesch.collabora.com@kernel.org>
-Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,  Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Heiko Stuebner
- <heiko@sntech.de>,  Kever Yang <kever.yang@rock-chips.com>,  Jagan Teki
- <jagan@amarulasolutions.com>,  =?utf-8?B?0JrRg9C30L3QtdGG0L7QsiDQnNC40YU=?=
- =?utf-8?B?0LDQuNC7?=
- <mai.kuznetsov.misha@gmail.com>,  Sebastian Reichel
- <sebastian.reichel@collabora.com>,  Nicolas Dufresne
- <nicolas.dufresne@collabora.com>,  Collabora Kernel Team
- <kernel@collabora.com>,  Sakari Ailus <sakari.ailus@linux.intel.com>,
-  michael.riesch@collabora.com,  linux-media@vger.kernel.org,
-  devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-rockchip@lists.infradead.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/9] Documentation: admin-guide: media: add rk3588 vicap
-In-Reply-To: <20250430-rk3588-vicap-v2-1-77de5ee9048e@collabora.com>
-References: <20250430-rk3588-vicap-v2-0-77de5ee9048e@collabora.com>
-	<20250430-rk3588-vicap-v2-1-77de5ee9048e@collabora.com>
-Date: Thu, 19 Mar 2026 19:30:14 +0000
-Message-ID: <m2h5qbd3cv.fsf@posteo.net>
+	s=arc-20240116; t=1773948960; c=relaxed/simple;
+	bh=BZeeMyg3MgQFLp/o47Mn+Ncd1/GIBnX4UFlw4hnpPtI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=PN4VYt0UriikaLYxBZNev6UfpaZv4Wh93r+jay0SLLn554n4o4zyUdAyvrtaRsDCbwYI7f6wRLbeUMlAM3YbQcVB14U7ft/txpVo9PLhHAT/m4QmOOoyLkpkDjt/OcQTX2eD9iXBraHITkpCnxKFpWZ7WW88CQvNxdFXPKK7+YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=b8cRrGJz; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-509217e84a3so11328911cf.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 12:35:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1773948957; x=1774553757; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=wGpQ4Ug6IKmeHAE5nzee2RgistUShNOIrRfVj3D0dS0=;
+        b=b8cRrGJzD96FaMmlWD0FfheDpf+lHVAU32+/7OGq9HALVUJdpueeuGI7DHxTvwq5Qt
+         Z2R852L0bbWPQy6G1tgnoGnBOi86o2RzgVee8MQ1xUmbJHlcMB3iszY1gTvOb+XwyrMi
+         PHkLYCMMeMwR75pRRoi22barrtDhN88BTJZgyXgipIPL6kxSEs3Klsf6cx8FCqgmLcWN
+         /mXtvyucsPEIRY1Nk3106cp/aKEAGmVaIBQZotoDNm5gfR3/5pWfKpaPq4aXes0QEEkz
+         u/azfQLwvTZ/+Qp1lzeRXsW7fh41XXR1iae0+CUn1wp5o8FkM52WkY5AUsFII3S9rAna
+         8+Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773948957; x=1774553757;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wGpQ4Ug6IKmeHAE5nzee2RgistUShNOIrRfVj3D0dS0=;
+        b=nnCQJqqdkMumMqY1+sdKgsx3158jdLhNRF7UWeuFGgKL8nIiaGtLNVUtT/fZ7zZbpS
+         7rbU1xjfs/2ptPBHJ3jyDQH77zC6GSUrvZlQUuxlsW6OgDG3vNxCHf505zzMGQf4gMMJ
+         d++qR4UCvKk9v6MeXgFJQUU3Aegq4flNAo7majVCXOVHnF0L2Wtj5pCSWYqRhcYmLVC9
+         V4uYFcO0NzYwp/7edaGkPa7Goi9Cuh92Juv844ZwKaGj0JSft5gSfx962XLFnawpCBK1
+         JWvkLkmZt6nM3YB+lPfQ0mCi2GQrq954HudK8aNjNYQbXrxHao7wCLN+Kzv3MF7TV+Sq
+         f7Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5vmO66WKtBp24bGYb3hC+UrQ07RxuvCPLMrxAkR9pw+BIkgQ21SVcfPIyLBDWWF8jsE1C8mYfRqzdNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQ/hqX25fwePgx8+ZJc/0LjgySVVOVl+SwoFqPQbZxBJgt4W51
+	k6wB+3uDBiUDJ0Vuo655Yj40C+aZZCpzBdlgx96d7uAflzaNJQNyw8gg1Ju1k5rnEgM=
+X-Gm-Gg: ATEYQzxUohzfR2Xi6mlzwNHwLo/NWxLgDACixLpm0/Jqhe03aJ4WtyQT/1WaXqNjEpM
+	ycHiTn54HkTyt8d9iPRBzKbY/RV/G8J1r6k9LD9/sO7TYjrWv6PmDDfR0yneRJj/ylXJ8+qUArp
+	8gpW+djgbXWw+qoN1rGyfrlz0dUJHLfGLeRsblWYNhO3ksoq0K7k5qaHvX8M0AWWrWr3PQnSirA
+	XU+T0ZnpKTk4cquOBs1cJE7s2OYkMUHM8ShEvNPgjcN5i+AP5Fj36yO9FlpSpGYAw+97L6CVI5i
+	i1TrbZhVis67KjGw1GMLKkfQcxki82I4HdyzrLNBQAqS+l8Tt8sVYpwsUdakgbkuaMLg0uKCUt5
+	i3ghhuM+xPHsojgliQtt2ejSPuMhXlTARxzXwrdX/UtFK3MGDlwYzdxMe3rZmLCYcpCECCSvDXb
+	HdCnnREo6/dfUA9kTegn9GBkddxVOX
+X-Received: by 2002:ac8:5ad4:0:b0:509:4294:d18b with SMTP id d75a77b69052e-50b3750273dmr6257911cf.54.1773948957540;
+        Thu, 19 Mar 2026 12:35:57 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:b76d::5ac? ([2606:6d00:11:b76d::5ac])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b36b50fa8sm5980621cf.0.2026.03.19.12.35.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 12:35:56 -0700 (PDT)
+Message-ID: <f982e176820a443edc63cd5d5c2d4dff409557df.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: chips-media: wave5: add missing spinlock
+ protection for send_eos_event()
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Ziyi Guo <n7l8m4@u.northwestern.edu>, Nas Chung
+ <nas.chung@chipsnmedia.com>,  Jackson Lee <jackson.lee@chipsnmedia.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ 	linux-kernel@vger.kernel.org
+Date: Thu, 19 Mar 2026 15:35:55 -0400
+In-Reply-To: <20260131220323.3296745-1-n7l8m4@u.northwestern.edu>
+References: <20260131220323.3296745-1-n7l8m4@u.northwestern.edu>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-xrhDoUDFFqVTsQknfNLA"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[posteo.net,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[posteo.net:s=2017];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[posteo.net:+];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	TAGGED_FROM(0.00)[bounces-56369-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[charmitro@posteo.net,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-56370-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ndufresne-ca.20230601.gappssmtp.com:+];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.849];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,michael.riesch.collabora.com,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,rkcif-rk3588-vicap.dot:url,collabora.com:email]
-X-Rspamd-Queue-Id: D9E3E2D1ACC
+	NEURAL_HAM(-0.00)[-0.998];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne.ca:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email,ndufresne-ca.20230601.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: 632A72D1B92
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org> writes:
 
-> From: Michael Riesch <michael.riesch@collabora.com>
->
-> Add a section that describes the Rockchip RK3588 VICAP.
->
-> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+--=-xrhDoUDFFqVTsQknfNLA
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le samedi 31 janvier 2026 =C3=A0 22:03 +0000, Ziyi Guo a =C3=A9crit=C2=A0:
+> wave5_vpu_dec_buf_queue_dst() and streamoff_output() call send_eos_event(=
+)
+> without holding inst->state_spinlock. However, send_eos_event() has
+> lockdep_assert_held(&inst->state_spinlock) indicating that callers must
+> hold this lock.
+>=20
+> Other callers of send_eos_event() properly acquire the spinlock:
+> - wave5_vpu_dec_finish_decode() acquires lock at line 431
+> - wave5_vpu_dec_encoder_cmd() acquires lock at line 821
+> - wave5_vpu_dec_device_run() acquires lock at line 1592
+>=20
+> Add spin_lock_irqsave()/spin_unlock_irqrestore() around send_eos_event()
+> calls in the VB2 buffer queue and streamoff callbacks to fix the missing
+> lock protection.
+
+I'll simply move this paragraph first to follow the imperative mood rules. =
+It
+effectively endup being, tell us what the patch do first, and explain after=
+.
+
+>=20
+> Signed-off-by: Ziyi Guo <n7l8m4@u.northwestern.edu>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
->  .../admin-guide/media/rkcif-rk3588-vicap.dot       | 29 ++++++++++++++++++++
->  Documentation/admin-guide/media/rkcif.rst          | 32 ++++++++++++++++++++++
->  2 files changed, 61 insertions(+)
->
-> diff --git a/Documentation/admin-guide/media/rkcif-rk3588-vicap.dot b/Documentation/admin-guide/media/rkcif-rk3588-vicap.dot
-> new file mode 100644
-> index 000000000000..f6d3404920b5
-> --- /dev/null
-> +++ b/Documentation/admin-guide/media/rkcif-rk3588-vicap.dot
-> @@ -0,0 +1,29 @@
-> +digraph board {
-> +        rankdir=TB
-> +        n00000007 [label="{{<port0> 0} | rkcif-mipi2\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> +        n00000007:port1 -> n0000000a
-> +        n00000007:port1 -> n00000010 [style=dashed]
-> +        n00000007:port1 -> n00000016 [style=dashed]
-> +        n00000007:port1 -> n0000001c [style=dashed]
-> +        n0000000a [label="rkcif-mipi2-id0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-> +        n00000010 [label="rkcif-mipi2-id1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-> +        n00000016 [label="rkcif-mipi2-id2\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-> +        n0000001c [label="rkcif-mipi2-id3\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-> +        n00000025 [label="{{<port0> 0} | rkcif-mipi4\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> +        n00000025:port1 -> n00000028
-> +        n00000025:port1 -> n0000002e [style=dashed]
-> +        n00000025:port1 -> n00000034 [style=dashed]
-> +        n00000025:port1 -> n0000003a [style=dashed]
-> +        n00000028 [label="rkcif-mipi4-id0\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
-> +        n0000002e [label="rkcif-mipi4-id1\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
-> +        n00000034 [label="rkcif-mipi4-id2\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
-> +        n0000003a [label="rkcif-mipi4-id3\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
-> +        n00000043 [label="{{<port0> 0} | dw-mipi-csi2rx fdd30000.csi\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> +        n00000043:port1 -> n00000007:port0
-> +        n00000048 [label="{{<port0> 0} | dw-mipi-csi2rx fdd50000.csi\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-> +        n00000048:port1 -> n00000025:port0
-> +        n0000004d [label="{{} | imx415 3-001a\n/dev/v4l-subdev4 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-> +        n0000004d:port0 -> n00000043:port0
-> +        n00000051 [label="{{} | imx415 4-001a\n/dev/v4l-subdev5 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-> +        n00000051:port0 -> n00000048:port0
-> +}
-> diff --git a/Documentation/admin-guide/media/rkcif.rst b/Documentation/admin-guide/media/rkcif.rst
-> index 2558c121abc4..fcd7f8cfc5d3 100644
-> --- a/Documentation/admin-guide/media/rkcif.rst
-> +++ b/Documentation/admin-guide/media/rkcif.rst
-> @@ -77,3 +77,35 @@ and the following video devices:
->  .. kernel-figure:: rkcif-rk3568-vicap.dot
->      :alt:   Topology of the RK3568 Video Capture (VICAP) unit
->      :align: center
+> =C2=A0.../media/platform/chips-media/wave5/wave5-vpu-dec.c=C2=A0 | 11 +++=
++++++++-
+> =C2=A01 file changed, 10 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> index e3038c18ca36..986feff34f22 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> @@ -1264,13 +1264,17 @@ static void wave5_vpu_dec_buf_queue_dst(struct
+> vb2_buffer *vb)
+> =C2=A0
+> =C2=A0	if (vb2_is_streaming(vb->vb2_queue) &&
+> v4l2_m2m_dst_buf_is_last(m2m_ctx)) {
+> =C2=A0		unsigned int i;
+> +		unsigned long flags;
+> =C2=A0
+> =C2=A0		for (i =3D 0; i < vb->num_planes; i++)
+> =C2=A0			vb2_set_plane_payload(vb, i, 0);
+> =C2=A0
+> =C2=A0		vbuf->field =3D V4L2_FIELD_NONE;
+> =C2=A0
+> +		spin_lock_irqsave(&inst->state_spinlock, flags);
+> =C2=A0		send_eos_event(inst);
+> +		spin_unlock_irqrestore(&inst->state_spinlock, flags);
 > +
-> +Rockchip RK3588 Video Capture (VICAP)
-> +-------------------------------------
+> =C2=A0		v4l2_m2m_last_buffer_done(m2m_ctx, vbuf);
+> =C2=A0	} else {
+> =C2=A0		v4l2_m2m_buf_queue(m2m_ctx, vbuf);
+> @@ -1413,8 +1417,13 @@ static int streamoff_output(struct vb2_queue *q)
+> =C2=A0	inst->codec_info->dec_info.stream_rd_ptr =3D new_rd_ptr;
+> =C2=A0	inst->codec_info->dec_info.stream_wr_ptr =3D new_rd_ptr;
+> =C2=A0
+> -	if (v4l2_m2m_has_stopped(m2m_ctx))
+> +	if (v4l2_m2m_has_stopped(m2m_ctx)) {
+> +		unsigned long flags;
 > +
-> +The RK3588 Video Capture (VICAP) unit features a digital video port and six
-> +MIPI CSI-2 capture interfaces that can receive video data independently.
-> +The DVP accepts parallel video data, BT.656 and BT.1120.
-> +Since the BT.1120 protocol may feature more than one stream, the RK3568 VICAP
+> +		spin_lock_irqsave(&inst->state_spinlock, flags);
+> =C2=A0		send_eos_event(inst);
+> +		spin_unlock_irqrestore(&inst->state_spinlock, flags);
+> +	}
+> =C2=A0
+> =C2=A0	/* streamoff on output cancels any draining operation */
+> =C2=A0	inst->eos =3D false;
 
-Nit, should this be RK3588 instead of RK3568?
+--=-xrhDoUDFFqVTsQknfNLA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-> +DVP features four DMA engines that can capture different streams.
-> +Similarly, the RK3588 VICAP MIPI CSI-2 receivers feature four DMA engines each
-> +to handle different Virtual Channels (VCs).
-> +
-> +The rkcif driver represents this hardware variant by exposing the following
-> +V4L2 subdevices:
-> +
-> +* dw-mipi-csi2rx fdd30000.csi: MIPI CSI-2 receiver connected to MIPI DPHY0
-> +* dw-mipi-csi2rx fdd50000.csi: MIPI CSI-2 receiver connected to MIPI DPHY1
-> +* rkcif-mipi2: INTERFACE/CROP block for the MIPI CSI-2 receiver connected to
-> +  MIPI DPHY0
-> +* rkcif-mipi4: INTERFACE/CROP block for the MIPI CSI-2 receiver connected to
-> +  MIPI DPHY1
-> +
-> +and the following video devices:
-> +
-> +* rkcif-mipi2-id{0,1,2,3}: The DMA engines connected to the rkcif-mipi2
-> +  INTERFACE/CROP block.
-> +* rkcif-mipi4-id{0,1,2,3}: The DMA engines connected to the rkcif-mipi4
-> +  INTERFACE/CROP block.
-> +
-> +.. kernel-figure:: rkcif-rk3588-vicap.dot
-> +    :alt:   Topology of the RK3588 Video Capture (VICAP) unit
-> +    :align: center
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabxQGwAKCRDZQZRRKWBy
+9MieAP0b39H2D97BT6R29VGtH6C/3jxCxoscJ27AhKQSk4LAegEA/owkfT9t6DE7
+9iCgiSzOvIIRCL16jhctmD97gAHtngM=
+=6trs
+-----END PGP SIGNATURE-----
+
+--=-xrhDoUDFFqVTsQknfNLA--
 
