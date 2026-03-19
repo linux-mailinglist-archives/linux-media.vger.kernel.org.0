@@ -1,82 +1,83 @@
-Return-Path: <linux-media+bounces-56364-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56365-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yN5rGgZEvGm4wAIAu9opvQ
-	(envelope-from <linux-media+bounces-56364-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 19:44:22 +0100
+	id eCZmHmJEvGmAwAIAu9opvQ
+	(envelope-from <linux-media+bounces-56365-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 19:45:54 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644502D134E
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 19:44:21 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 084E62D13D6
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 19:45:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B4B133009E3B
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 18:44:15 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8C1983016880
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 18:45:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 424F339A064;
-	Thu, 19 Mar 2026 18:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FF702EC561;
+	Thu, 19 Mar 2026 18:45:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Y66ctBLv"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="FSar6Lf3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEAE36F40E
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 18:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D6B3009DA
+	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 18:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773945851; cv=none; b=tnYeCHgz1wG8hwElM2ip+6zaqiX41eEJDkUdMU7Pi8VmxoFa/SVU1nvDj8mbGCs05lUBnVfi+NrbTcs8GCowq78zZp6oYGNtob94Wi6FBf7BennmgmMmrfuymi872bIW8OPjRuTUcTxTUKgVFcdwggqeId3cwM+HMr4sJTe1DrE=
+	t=1773945948; cv=none; b=fpXBELh+QFIR23f5iI+12LEMY2MfMnfrpVPigm2r7Onpt231N4lh6UgoUtL/L7ALeuISy6fhVKfgD9opG+Gzk/nvwmqHcshG5MMOTNeTjQfkH+s/lbCy8KQffaKXr4peN7g9WnUEr9ygm5MYpp1BuKKfeGygaiGoxHS8gqr4dGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773945851; c=relaxed/simple;
-	bh=TTdIhzTfVOU4J4zn+pv0u4noPX6wbBChtTHWotcoChQ=;
+	s=arc-20240116; t=1773945948; c=relaxed/simple;
+	bh=c0qju6YXjNSnr1OosaMmqlXt4tuyPMGMBLmGUYCbjuk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OtpURfkzpTSi18kUVY62DPzWFjIx7JwcxkE4QKmjx8U8LpzQoQGnF12T1esXpCXlJY8z/X1wlttd3YR5eQB2vWRXMb4lDgy4WkGJRG0eQk2hh8HdVuf+W61FPoMnXNi7c+GnUkgw8ujzrVfzLRlEg4rb+gxFFItN1PEzOw9kces=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Y66ctBLv; arc=none smtp.client-ip=209.85.222.194
+	 Content-Type:MIME-Version; b=XrFVKFoMhSmHqpgzN9AnBuVc0jrQOltaF1ecVQRSM9zy5uXGVypcChVAQBWO2e5MaUdvMtOWakMIX35gVKACTHo45xrCSJ1kddr3mBlC6LHqmQVM/HNYmK7xTyNCRf2QBHJMVhsCM3rfed3yfW92+RAPP4kWE4sc6pjthuM9/kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=FSar6Lf3; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-8cd785a8783so108686085a.0
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 11:44:10 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8cbb6d5f780so145704685a.1
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 11:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1773945849; x=1774550649; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1773945945; x=1774550745; darn=vger.kernel.org;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=TTdIhzTfVOU4J4zn+pv0u4noPX6wbBChtTHWotcoChQ=;
-        b=Y66ctBLvg0J5Q8lynTIm57ugS7uF8DfmTrdzDU5IRZ78uo7SSOQMcCWdLmm/h2cJon
-         CyrMkEjyezhuVoLarwKMHvIzac7gsMBxfWQkZ3FAyEwO9gris6Wf159izmiEopGYMS6t
-         UoloXAi+YZR3I/EWMx7QGnAyhFu4Zi9dymvRCpZArFNZ0ZCNlCRGTxiiXI4T2RMU6IM+
-         ym8sXbJA0cpuKkybnigjGjLDz14PlEpB/9PcrWdIn539fSeJFM+Q2nvhfYGSa3QEUaF+
-         o4ZLYMkKfZ3ShhzlDKRGyi2HIwa1ZRKTKyqM103Zw4zr9eJrGSaXXS0WDEdG90FmjcYG
-         P2vQ==
+        bh=fyxr2cT76xTmVXlGS1w9Azu54H6E559HX/Y7oAdioW8=;
+        b=FSar6Lf33nLF04w6PqCjsboOwfCYnB/BubhosOgA8anmAG6KVGgKI6j7XLgjXm+82P
+         OGyiin2pISjHdz0AhuRGCBUgpETmnKU6szfMT8RVVwcqshNzd5VhPKn/fc2tW+op9aBP
+         8EPNg9udUk7jzVyHC9M2dwVBe02jqAp2XXNgXcpVhk8x9gywZ92Vi3TESugs6MbiNUDW
+         dtjo8QkkmOjGggedcKl/QlYKki3tl6BeTES6e3HrlwfpQ7RLtZ9WC6dK7+VRUOEMA4yy
+         RrIIqzPjNoD+AdR9pn5/QVBXwuw4neGeloVGdkGuMNioiUmnmJgxPQ27ZuX9LokFo+IP
+         wryQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773945849; x=1774550649;
+        d=1e100.net; s=20251104; t=1773945945; x=1774550745;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TTdIhzTfVOU4J4zn+pv0u4noPX6wbBChtTHWotcoChQ=;
-        b=E1Tkq04LjOLuGkZMdKiZagVmIrhW02fRD23HISIUsIsLvgToy1hSHBgbTIHMtY9Jhz
-         yL/qAnziA2CHLslBbv25grtB9B+b0ynLsDDIrptAUJrOxWbHgYTeLn38zBr/KgWMJ9GC
-         hgLCr3t1+m1vVqOsEgJwX96VUIi1vgJV7kD7+hZEBk02fJQy8PtnfsuMbM632nia28C0
-         M8PRywTxQuoIgRm+U+vLhVXhARS9J2UP+LUl8ba6zIIDaFmPjh/aU3w3K23Z4oI4B02P
-         QfU3y1ypmOt0lbCR7uZ90uEggi++QEqN4rIWoKU1LuUQ61qZ2Gns88r9TtfrtWIUTImg
-         6IWQ==
-X-Gm-Message-State: AOJu0YyLmf2y8dkLGp6Slz8aJhAC20rPH5Tq8Vx+mRR2kkn1+JWcDO4H
-	xqQKuU3Aj3oY+kVqG4hmSSGfKV0TugH0+wGae2ak43DL/jVC9QLCqYNKikphn1ctUgk=
-X-Gm-Gg: ATEYQzwHqZGan+tfwoSsYOUEl+hoF2ey93WW8JcPtnPOy8Qxm7ooD672cxJtcN0k5p0
-	SUwFzLq4jMDPSUqdGTu/njkecP0sPdy5iMX7VYN+QbAOgpYpzr1jKW8CYrG60JOJ1XCCIP4L1jZ
-	cVfYSogRqXXgowKz7upsH7+sJrteCIDF5n3bRS4Tzl1j37xBh/FbuztZjqQ7rATzPgVsu1t5tE7
-	Sm0fSFi9TjPT9hQouJfjUObeY8SdyxFIIENDCKjQjx/66VP5d7NnN/UIRcgygOr8Vjun7Uc0buZ
-	gcl8h3Xo5sKEq6HREvU6tmSzP3VnblEHtKgFKI0QR4JH2kXk/vrdrhgZfJDft/TR0WCSmscG1q2
-	Hi3yjaUdhiV0IeuQJntdFL6fD+l3jTeCzuCrI6UoYTWGrU/pbVqylS14OESS+9J/ZiIaAFm6dfs
-	NRbCegl2yKO8kkrNdllFLw55XjfUe/
-X-Received: by 2002:a05:620a:458d:b0:8b2:1ee9:dcfb with SMTP id af79cd13be357-8cfc7b65a1cmr52317385a.8.1773945849126;
-        Thu, 19 Mar 2026 11:44:09 -0700 (PDT)
+        bh=fyxr2cT76xTmVXlGS1w9Azu54H6E559HX/Y7oAdioW8=;
+        b=N0VNYVwoSbRgDbPA2F9tI/yAYYaPp+OiOla7i1qgDPA3+L0nms/X6X5Kb1rhNDcv/r
+         bLCJZ2HMDFDAD9S8ngaNJPCB3HtwtYa/9Wn/0q6glqeyoDoywgGRZzQ/m5ngQpIx4CaQ
+         ywBCMEbPqPTAfKlIk+d0ANAZ3rlLdh2lfG6osh/kW7H4+BMg6KLD1lzpUuZvV5J33W7y
+         mmxTzKBXtzFehR59dPQcx9X06pUtuZokE2aPWRWrP637n+RhPB4U78KYOsg/CQJBlWL/
+         qEVamf1wgmzLNOuhCdzriypW2ssXauM5Eg9++o0BMP4tE/16SXx7jElo8gpOfYDVeXqn
+         Uj5A==
+X-Gm-Message-State: AOJu0Ywk5JS9UTxVMdBqYHU4wm0tIyzFukEqe1aUNIEh73gZZ2XwA/1P
+	uMvRlXBl30zmep8ac0I0TtYxt8XHoGpFmRoYzG1LJZvNR9Zlx1C9/gXaHjzWfhhQZyuH51Jzt/m
+	rCLjRaGk=
+X-Gm-Gg: ATEYQzxe8zvbG2h33RkKIQQSoJ/inKC1y4wlTSaB6M5huINGAgpq/cXw5vNaRG/O1fJ
+	/EGlHWG0kqUw42e6GYsxeRTryb9fR7txEbbPLvlGF4bb6J1cP2Uiy3MmMNcqzLKW/UiodL4+KvR
+	QwfTy/gChjTCeevHayqiCNiCSUNjeYNfi//IfmCnB1rmFlLgpYDVZbRNC3qdjcXIf6dI3gQrSwl
+	1IWhiahErlQ3iCYzO9S2DqAurU8zyZfhMZDQaGWOsO7ufoP2WdLVDx7LfiLEVD2JlbAHZWVH1pd
+	0WhnRPHfsD/uTOGDiakwu9kbyi/LhgJqxc3+0zyGSQBq6Wk8S67owYrgdlCn1maieo+slUEBLlG
+	5MQNoXgZy2B0uTzqxSyyJ5Smnm036vrVG+tCcg0FgkwY5/yx2gwOFCGFEqSsLRf4LwgDtRd3I4v
+	Uy465nbuTWWdy0lHuHt/96qNwUHQs8
+X-Received: by 2002:a05:620a:4050:b0:8cf:c08e:5f43 with SMTP id af79cd13be357-8cfc8097225mr45589685a.63.1773945944917;
+        Thu, 19 Mar 2026 11:45:44 -0700 (PDT)
 Received: from ?IPv6:2606:6d00:11:b76d::5ac? ([2606:6d00:11:b76d::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfacdaeb88sm611790085a.5.2026.03.19.11.44.07
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cfad16691asm485652985a.23.2026.03.19.11.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 11:44:08 -0700 (PDT)
-Message-ID: <fc7b74095548d9c13a92d2944c1f5ca9f5c7dba5.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 01/27] media: dt-bindings: media: rockchip-rga: add
- rockchip,rk3588-rga3
+        Thu, 19 Mar 2026 11:45:44 -0700 (PDT)
+Message-ID: <82eaf7e33273ab2f68ff6720244be2f268e52cb2.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 02/27] media: v4l2-common: sort RGB formats in
+ v4l2_format_info
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
 	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
@@ -87,10 +88,10 @@ To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
 Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	devicetree@vger.kernel.org, kernel@pengutronix.de
-Date: Thu, 19 Mar 2026 14:44:06 -0400
-In-Reply-To: <20260127-spu-rga3-v3-1-77b273067beb@pengutronix.de>
+Date: Thu, 19 Mar 2026 14:45:42 -0400
+In-Reply-To: <20260127-spu-rga3-v3-2-77b273067beb@pengutronix.de>
 References: <20260127-spu-rga3-v3-0-77b273067beb@pengutronix.de>
-	 <20260127-spu-rga3-v3-1-77b273067beb@pengutronix.de>
+	 <20260127-spu-rga3-v3-2-77b273067beb@pengutronix.de>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -105,7 +106,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-cKylSNn6LcAUhVrxOu1V"
+	protocol="application/pgp-signature"; boundary="=-Wsz88yXF6Ple/ZN0Bspp"
 User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -119,11 +120,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-56364-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-56365-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[14];
 	DKIM_TRACE(0.00)[ndufresne-ca.20230601.gappssmtp.com:+];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
@@ -135,146 +136,234 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.989];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.992];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,pengutronix.de:email,ndufresne.ca:mid,ndufresne-ca.20230601.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: 644502D134E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne-ca.20230601.gappssmtp.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ndufresne.ca:mid,pengutronix.de:email]
+X-Rspamd-Queue-Id: 084E62D13D6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---=-cKylSNn6LcAUhVrxOu1V
+--=-Wsz88yXF6Ple/ZN0Bspp
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le mardi 27 janvier 2026 =C3=A0 15:39 +0100, Sven P=C3=BCschel a =C3=A9crit=
 =C2=A0:
-> Add a new compatible for the RGA3 (Raster Graphic Acceleration 3)
-> peripheral found on the RK3588 SoC. Also specify an iommu property,
-> as the RGA3 contains the generic rockchip iommu. The RGA2 also has
-> an iommu, but it's specific to the RGA2.
+> Sort the RGB formats in v4l2_format_info to match the format definitions
+> in include/uapi/linux/videodev2.h . Also introduce the same sections to
+> partition the list of formats and align the format info in each section.
 >=20
-> The existing binding refers to the RGA2 peripheral. The RK3588
-> contains one RGA2 core and two RGA3 cores. Both feature a similar
-> functionality of scaling, cropping and rotating of up to two input
-> images into one output image. Key differences of the RGA3 are:
->=20
-> - supports 10bit YUV output formats
-> - supports 8x8 tiles and FBCD as inputs and outputs
-> - supports BT2020 color space conversion
-> - max output resolution of (8192-64)x(8192-64)
-> - MMU can map up to 32G DDR RAM
-> - fully planar formats (3 planes) are not supported
-> - max scale up/down factor of 8 (RGA2 allows up to 16)
-
-Nothing import, but some more details on the differences can be found here.
-
-https://github.com/sravansenthiln1/rga-demos/tree/main
-
-They also removed from RGA3 the neural network quantization support
-(CLIP((source + offset) * scale). I suppose that integer tensors are fading
-away, and the accelerator does not do floats.
-
-One things that isn't clear, even in the upstream RGA2 implementation is if=
- the
-accelerator is cache coherent. When I study the BSP usage of RGA2, they
-integrate the RGA2 directly into GStreamer software video converter. They d=
-on't
-do anything to flush the cache, indicating that RGA2 is most probably cache
-coherent.
-
-Do you know if RGA3 has the same feature or if this is one of the differenc=
-e ?
-Typically, RKIOMMU users are not, in RGA2, a completely custom mmu was used=
- (and
-implemented inside the driver, as standalone).
-
+> The alignment of the 1 or 2 bytes RGB formats contains an additional
+> space in preparation of adding the missing formats to the list, as for
+> V4L2_PIX_FMT_ARGB555X an additional space is necessary.
 >=20
 > Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
-> =C2=A0.../devicetree/bindings/media/rockchip-rga.yaml=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 19 ++++++++++++++++++-
-> =C2=A01 file changed, 18 insertions(+), 1 deletion(-)
+> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 54 +++++++++++++++++++-----=
+-----------
+> =C2=A01 file changed, 30 insertions(+), 24 deletions(-)
 >=20
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-rga.yaml b/=
-Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> index ac17cda65191b..7735d8794c719 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> @@ -9,7 +9,9 @@ title: Rockchip 2D raster graphic acceleration controller=
- (RGA)
-> =C2=A0description:
-> =C2=A0=C2=A0 RGA is a standalone 2D raster graphic acceleration unit. It =
-accelerates 2D
-> =C2=A0=C2=A0 graphics operations, such as point/line drawing, image scali=
-ng, rotation,
-> -=C2=A0 BitBLT, alpha blending and image blur/sharpness.
-> +=C2=A0 BitBLT, alpha blending and image blur/sharpness. There exist two =
-variants
-> +=C2=A0 named RGA2 and RGA3 that differ in the supported inputs/output fo=
-rmats,
-> +=C2=A0 the attached IOMMU and the supported operations on the input.
-> =C2=A0
-> =C2=A0maintainers:
-> =C2=A0=C2=A0 - Jacob Chen <jacob-chen@iotwrt.com>
-> @@ -20,6 +22,7 @@ properties:
-> =C2=A0=C2=A0=C2=A0=C2=A0 oneOf:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: rockchip,rk3288-rga
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: rockchip,rk3399-rga
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: rockchip,rk3588-rga3
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 - rockchip,rk3228-rga
-> @@ -45,6 +48,9 @@ properties:
-> =C2=A0=C2=A0 power-domains:
-> =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 1
-> =C2=A0
-> +=C2=A0 iommus:
-> +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 554c591e11133..49c1ec08e2eb3 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -245,33 +245,39 @@ EXPORT_SYMBOL_GPL(v4l2_s_parm_cap);
+> =C2=A0const struct v4l2_format_info *v4l2_format_info(u32 format)
+> =C2=A0{
+> =C2=A0	static const struct v4l2_format_info formats[] =3D {
+> -		/* RGB formats */
+> -		{ .format =3D V4L2_PIX_FMT_BGR24,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 3, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGB24,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 3, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_HSV24,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 3, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_BGR32,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_XBGR32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_BGRX32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGB32,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_XRGB32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGBX32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_HSV32,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIXE=
+L_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, =
+.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_ARGB32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGBA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_ABGR32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_BGRA32,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGB565,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGB565X, .pixel_enc =3D V4L2_PIXEL_ENC_RGB,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGB555,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_BGR666,=C2=A0 .pixel_enc =3D V4L2_PIXEL_ENC=
+_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_=
+div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_BGR48_12, .pixel_enc =3D V4L2_PIXEL_ENC_RGB=
+, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_BGR48, .pixel_enc =3D V4L2_PIXEL_ENC_RGB, .=
+mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_div =3D=
+ { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGB48, .pixel_enc =3D V4L2_PIXEL_ENC_RGB, .=
+mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_div =3D=
+ { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2_PIXEL_ENC_RG=
+B, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, 0 }, .bpp_div=
+ =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> -		{ .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		/* RGB formats (1 or 2 bytes per pixel) */
+> +		{ .format =3D V4L2_PIX_FMT_RGB555,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIX=
+EL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 },=
+ .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_RGB565,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIX=
+EL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 },=
+ .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_RGB565X,=C2=A0 .pixel_enc =3D V4L2_PIXEL_EN=
+C_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
 > +
-> =C2=A0=C2=A0 resets:
-> =C2=A0=C2=A0=C2=A0=C2=A0 maxItems: 3
+> +		/* RGB formats (3 or 4 bytes per pixel) */
+> +		{ .format =3D V4L2_PIX_FMT_BGR666,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> +		{ .format =3D V4L2_PIX_FMT_BGR24,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+.pixel_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .=
+bpp =3D { 3, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D=
+ 1 },
+> +		{ .format =3D V4L2_PIX_FMT_RGB24,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+.pixel_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .=
+bpp =3D { 3, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D=
+ 1 },
+> +		{ .format =3D V4L2_PIX_FMT_BGR32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+.pixel_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .=
+bpp =3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D=
+ 1 },
+> +		{ .format =3D V4L2_PIX_FMT_ABGR32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> +		{ .format =3D V4L2_PIX_FMT_XBGR32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> +		{ .format =3D V4L2_PIX_FMT_BGRA32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> +		{ .format =3D V4L2_PIX_FMT_BGRX32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> +		{ .format =3D V4L2_PIX_FMT_RGB32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+.pixel_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .=
+bpp =3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D=
+ 1 },
+> +		{ .format =3D V4L2_PIX_FMT_RGBA32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> +		{ .format =3D V4L2_PIX_FMT_RGBX32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> +		{ .format =3D V4L2_PIX_FMT_ARGB32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> +		{ .format =3D V4L2_PIX_FMT_XRGB32,=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pixe=
+l_enc =3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =
+=3D { 4, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 }=
+,
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_RGBX1010102, .pixel_enc =3D V4L2_PIXEL=
+_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .=
+bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_ARGB2101010, .pixel_enc =3D V4L2_PIXEL=
+_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .=
+bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
 > =C2=A0
-> @@ -54,6 +60,17 @@ properties:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: axi
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: ahb
-> =C2=A0
-> +allOf:
-> +- if:
-> +=C2=A0=C2=A0=C2=A0 properties:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 contains:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - roc=
-kchip,rk3588-rga3
-> +=C2=A0 then:
-> +=C2=A0=C2=A0=C2=A0 required:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - iommus
+> +		/* RGB formats (6 or 8 bytes per pixel) */
+> +		{ .format =3D V4L2_PIX_FMT_BGR48_12,=C2=A0 .pixel_enc =3D V4L2_PIXEL_E=
+NC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bp=
+p_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_BGR48,=C2=A0=C2=A0=C2=A0=C2=A0 .pixel_enc =
+=3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6=
+, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_RGB48,=C2=A0=C2=A0=C2=A0=C2=A0 .pixel_enc =
+=3D V4L2_PIXEL_ENC_RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6=
+, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2_PIXEL_ENC_RG=
+B, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, 0 }, .bpp_div=
+ =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
 > +
+> +		/* HSV formats */
+> +		{ .format =3D V4L2_PIX_FMT_HSV24, .pixel_enc =3D V4L2_PIXEL_ENC_RGB, .=
+mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 3, 0, 0, 0 }, .bpp_div =3D=
+ { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_HSV32, .pixel_enc =3D V4L2_PIXEL_ENC_RGB, .=
+mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_div =3D=
+ { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +
+> =C2=A0		/* YUV packed formats */
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_YUYV,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
+ V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0=
+, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_YVYU,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
+ V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0=
+, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
 
-You really can't use this chip with CMA ?
-
-Nicolas
-
-> =C2=A0required:
-> =C2=A0=C2=A0 - compatible
-> =C2=A0=C2=A0 - reg
-
---=-cKylSNn6LcAUhVrxOu1V
+--=-Wsz88yXF6Ple/ZN0Bspp
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabxD9gAKCRDZQZRRKWBy
-9MTmAP9/UjJig3fQpTvjDlz3tiARS93/hVZoNEUjD3yE0V+9qAEAti3yCIjKjcaI
-z1e1wbvEi3mfHC8yVbOrjPYReUxynQQ=
-=46hR
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabxEVgAKCRDZQZRRKWBy
+9No4AQD3/aAkAEwNjIOWQvIu1NDXoIuPzyXnLJ2iMFNMGp1u5wD/UwF3ZnJ1cn7m
+BQCobwSyzvDMGTI14zeSx+a+Yoz9rwE=
+=RVgQ
 -----END PGP SIGNATURE-----
 
---=-cKylSNn6LcAUhVrxOu1V--
+--=-Wsz88yXF6Ple/ZN0Bspp--
 
