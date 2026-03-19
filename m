@@ -1,228 +1,177 @@
-Return-Path: <linux-media+bounces-56355-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56356-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IP6lLEc4vGl3uwIAu9opvQ
-	(envelope-from <linux-media+bounces-56355-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 18:54:15 +0100
+	id kBdBIWo2vGl3uwIAu9opvQ
+	(envelope-from <linux-media+bounces-56356-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 18:46:18 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B43B2D0592
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 18:54:15 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E46AE2D03AB
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 18:46:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3774A3007CAC
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 17:42:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8735C3041145
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 17:44:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F07DA3F1652;
-	Thu, 19 Mar 2026 17:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A39390C99;
+	Thu, 19 Mar 2026 17:44:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VZ1ErVZo"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="heflX5Ez"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65E23F164A
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 17:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C7733D4FD;
+	Thu, 19 Mar 2026 17:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773942006; cv=none; b=F1N+Bt8BO4Tu+M0adlD0Mk20uXKDZpqyIz+h3T9R4beWwP5ok9NflCNAA4LfoxO4Io7/WUj5P3OKLAaSgnCdnnuhGAEvuLcZp3SqO7JCquYKPXnf6IPTXWNABx75j8pOqv+HkLxfeMSm5f7T6nY1hXOjwPoyyUiHxXu42K5nMrs=
+	t=1773942252; cv=none; b=QjcgMLoQCWoEBmu7AQurnrp1PnibXCCL6Zr7/5rhTj5A0vvZ5txFp6t0oHc95tk9C2TZ2PlTTQ7wWnmgHV+sgSV6i1KGAw3LUSFfZ4osx+0eq7N+yjT98rNw8CkyYlEFPaDAxlJwyPiz2hDyxuDGiMA92YDgX5KCiK/pEKPC9+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773942006; c=relaxed/simple;
-	bh=K8lUyo5z6V19brJx0RL+7buzN6w590v5sjtJQ6fEL78=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=JHQz5YYgTfZ4ZSk4QxQN2DxK31fNTozleIm4rXGKySglD2UUSd1or604U/Rkf7pyKiXzUlCEftSWpWJ+T12dk4egpbwbIPRKqBX8vOojiMEQH05rCvjlTa5zUZftXUwpB3Y356Pa5SHwrhDlp7X5S61Y0cnSXK7SvR4Pfj7xjxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VZ1ErVZo; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4853e1ce427so12858205e9.3
-        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 10:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773941998; x=1774546798; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4DcGpNehVMlOMwMq5jxWCnF0zEBU9hVO79S4un3Z6Go=;
-        b=VZ1ErVZo9C2Nph80eujHIrMc6+MeGojb9RHnGuCbQy0Cv7U45JVutMbIqAIGn65eyo
-         jx96wkinj0HeP2BcO6UTqmD4Mcu6NmFyGZPutV/qtnVhaCSV3gGMTRksmzDHmlb3QkAy
-         IOLgftmvF0MH8U0lhjwEsVYvfMQnn9kbvrxxWXDGrGwwUD5TwGNQGSSlXagu0iy7zkD7
-         C+shDIL0mCa1pnVlSFokTH++I3T+Wh63g54moNQ+s9y9f6EpwAGTmqw5ONyqe2icnAwg
-         dNTAuVIJPoUDtZAWxxdBqsvFJ2k0UMIsVle2fJLGRcRlNkV0gsp5CPI7Azmz9vq9nNRb
-         MIJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773941998; x=1774546798;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4DcGpNehVMlOMwMq5jxWCnF0zEBU9hVO79S4un3Z6Go=;
-        b=m7sKDMkitAVMEHUjFUP8CNdT3m0wcYxW/Z8lgaB+ryICkGQFbXPKe6fRSld/0hvwJm
-         fQ6UILnmY3s5NuhjBTEj0Z/56gjR14a4a6RPcPR7AZjfRMpXeHOnuevE89DW9KqKIzjq
-         vI9hNii/RpZjUw/OrZZYZwOHIaThqTjjPoRXZ4Jr7yiTrD2K9Da8+KNrIVRihqXJFupR
-         yY5cgA/IkbPxZevS/cRHJpcIhNEyghshLHT8NMDx7sSBGxTrn6R/801q9D99YIMBTzRA
-         5J+IsxE39df94sMw+OI+VZpIEUXUb5kas4SD986tX0o9287YsSBoFhzMIHAq4UDx8hJN
-         ZE6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVXkLrLDXDXsZ7UTTcBDAbE4x+ESuhZdYVUBHuiTy5hC2bu8+aZMz5WMuu5MrPsZKSr7LWCcpdbz7KzpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBudMQjdsLqjdpOsOSGJktK89RieEDpcVBvj9Q/PWyhTgaEp+s
-	dsLVkdtne3MKUsOvf4y6c8buC3kxQ2kCV7rdMhjyCmRZ74h9czAZSOSvZIEwqHq8lzg=
-X-Gm-Gg: ATEYQzxCwy36bl7ZH8Btguh+COjklz5F62v/rlKWX4Jf4ltkqhE3gAlLnqQdtQcA3a5
-	fFYIQnW+hJs8VWAqPf7udyCP7sDMh9cCRYfxn821Q47U7elh/BO8tCw5IEzMgerYol7uAMLnYRB
-	NLOYPZmvu/yOiUDVKWovrRrwjNkM+gKpXs4ge33ivHpASlOxcaom9PH2YxmUvhVxsHMYj179Uxk
-	t3/TiFpsep/uBinwuB3EEApNRuyGLgTUpcKpWOaQoBmrzqM90AScP04WQzVX3Ej1Ei8AZ4YJhrA
-	qTUubZuGKSyLqPTdslR5Yhux6HCLwlswL2jpC14Ct96MRmEpLANwwNRH2/klJsaXBVSf8Zkmlig
-	EO6HXg0ySUrnkCF8G+z5/prPlVJ3oY2InKe0bB3w3EjJJ2s/SF2O52DRIR3tPZ8oCBEee/B776K
-	HqQY7sF9Tm/89OcT4yZ7PqndpsJEziCkM2YSGDTg1DSRgPH3OCrsRPOKv31Tqkk87PENdAjWEq6
-	VD6
-X-Received: by 2002:a05:600c:3d90:b0:485:4535:73d with SMTP id 5b1f17b1804b1-486f442e607mr132291005e9.2.1773941997619;
-        Thu, 19 Mar 2026 10:39:57 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:106d:1080:55fd:bfb9:c88:691c? ([2a01:e0a:106d:1080:55fd:bfb9:c88:691c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fc4d90f4sm49410245e9.1.2026.03.19.10.39.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2026 10:39:57 -0700 (PDT)
-Message-ID: <117d9294-87ce-4060-9c8b-71190b649e64@linaro.org>
-Date: Thu, 19 Mar 2026 18:39:56 +0100
+	s=arc-20240116; t=1773942252; c=relaxed/simple;
+	bh=FkqtlqpSBsb7Jecesoe+31n0p+bGU/I2tfLI4fkFkqE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pl2og4uFsy/KAJ8B/5yhZd8HzVZRrhrMO6FHG2yo7680td71xwQPqLklNABVnMG8OYH7+Z1qaBAcKxMSwOCnAgXchxsb+PM8jXTY/vBuPmda74kFnL1qm/BiQYS9O3jOQJ9Xb5sMD9B57folhzQza08G/Xyz+c2OAnugLll9ATk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=heflX5Ez; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1773942241;
+	bh=FkqtlqpSBsb7Jecesoe+31n0p+bGU/I2tfLI4fkFkqE=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=heflX5Ez99yGWxeqWqrLZMem7oUc1F6UpGronFGni+DvKLgY7LY90DZWLxWNUo7D8
+	 5SbMctifDPAEMTPStBY+cWZ9B5gJVj6vV3CnuPWMg8xf2E7/TJer2JDgeJOsZAuIJL
+	 EIESoM9JV30BZmCD4k9IxXWZmTW8p+zRzpPvh/+KxlHHvNVEYfvEIfLXk7lAXjsxml
+	 V4odOtEFUGZuHZao1R3bwNcvtJtkAZeEamMOUzUqGMn1M0DJkpMmV/iQwDqRAlKGk8
+	 fBEdsQyddgr2qrqELMgDG1ywsg0tD160+0M3Zh2SQPiBVelxYP/52dA0fa0olO1NtR
+	 hhq4uaHjY2w9w==
+Received: from [IPv6:2606:6d00:11:b76d::5ac] (unknown [IPv6:2606:6d00:11:b76d::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 514E317E127A;
+	Thu, 19 Mar 2026 18:44:00 +0100 (CET)
+Message-ID: <604f619585e0c99e0d73a978260e053f3cd68b44.camel@collabora.com>
+Subject: Re: [PATCH] media: chips-media: wave5: fix a potential memory leak
+ in wave5_vdi_init()
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, jackson.lee@chipsnmedia.com, 
+	mchehab@kernel.org, bob.beckett@collabora.com,
+ sebastian.fricke@collabora.com, 	dafna.hirschfeld@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Thu, 19 Mar 2026 13:43:58 -0400
+In-Reply-To: <20260125141915.2088123-1-lihaoxiang@isrc.iscas.ac.cn>
+References: <20260125141915.2088123-1-lihaoxiang@isrc.iscas.ac.cn>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-A0olpGo3fNrEJ1Hb0gjg"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
-To: Bryan O'Donoghue <bod@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I
- <kishon@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260315-x1e-csi2-phy-v4-0-90c09203888d@linaro.org>
- <20260315-x1e-csi2-phy-v4-2-90c09203888d@linaro.org>
- <3f11de22-b729-4d06-b6c8-18e649e1979c@linaro.org>
- <80ddc2b4-d6f8-4e8d-a45e-69c05d100aa2@linaro.org>
- <16b10f17-ecd3-4cdd-ac3f-f64127d60ace@linaro.org>
- <ulenfus552ggobis4gmi7eh27tikdaxbgm2oj63b5l2vemlfxc@ib5f2xaqurj6>
- <26XTdUyQTB41Oc4D5HnMtSm_QpZRjlkljQRJVw-u1Zp3Ltn9s4LVU-LQkP6drdl3Z3GGssLCCbsVYPFEqssHcQ==@protonmail.internalid>
- <65e06b2e-eeb9-45af-97ac-4ae60f652361@linaro.org>
- <9578400d-30ac-4d8c-9295-ee4ec8af3b2c@kernel.org>
- <d6616fc0-75fb-47e2-96cd-ae81fa1a8e82@linaro.org>
- <f3c62284-ac78-42c6-a4f0-cd984b7124cd@linaro.org>
- <7eda931a-f30e-4e01-a130-996ec7f450d1@linaro.org>
- <a42f837c-4b90-4e0f-a98f-793fbd20a140@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <a42f837c-4b90-4e0f-a98f-793fbd20a140@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-4.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-56355-lists,linux-media=lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	TAGGED_FROM(0.00)[bounces-56356-lists,linux-media=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:replyto,linaro.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: 5B43B2D0592
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,collabora.com:dkim,collabora.com:email,collabora.com:mid]
+X-Rspamd-Queue-Id: E46AE2D03AB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 3/19/26 17:56, Bryan O'Donoghue wrote:
-> On 19/03/2026 16:08, Neil Armstrong wrote:
->> On 3/19/26 16:18, Bryan O'Donoghue wrote:
->>> On 19/03/2026 14:56, Vladimir Zapolskiy wrote:
->>>>> There's no reason to remove that from CAMSS - it would be an ABI break
->>>>> in user-space anyway.
->>>>
->>>> If technically CAMSS CSIPHY could be excluded from the list of CAMSS media
->>>> subdevices, then for the sake of simplification it should be done for all
->>>> supported platforms in advance, such a change will be independent from this
->>>> particular phy series, and vice versa, this CAMSS only driver change will
->>>> prepare a ground for media-less CAMSS CSIPHY device drivers, hence it shall
->>>> precede this particular CAMSS CSIPHY series.
->>>>
->>>> For backward compatibility with userspace a noop stub will be good enough,
->>>> it's not an issue at all.
->>>
->>> The standalone PHY driver doesn't require removing the CSIPHY media
->>> entity from CAMSS. They serve different purposes and coexist - its important to have a NOP from user-space perspective for legacy and indeed for new implementations.
->>>
->>> How the PHY gets represented in the kernel is of zero interest to user-sapce.
->>>
->>> That said, stubbing out the media entity is independent work that can happen in any order and IMO is a separate debate. Whether or not CSIPHY init sequences live inside of a monolithic CAMSS driver or live inside off a discrete csiphy driver is not related to the media graph.
->>>
->>> Happy to have that debate - and if indicated, carefully apply patches separately.
->>
->> So what does this actually solves ?
->>
->> Neil
-> Per-PHY voltage rails, per-PHY power domains and per-PHY OPP scaling.
-> 
-> Using the PHY API instead of rolling our own, as well as separate nodes in the DT.
-> 
-> We've been getting away with power-domains, opp scaling etc by sheer luck. The feedback from the list alone now addressed in this driver makes the conversion worthwhile.
 
-The PHY API doesn't solve that, having proper nodes solves that, you could add a separate csiphy node, add a port/endpoint between camss and the csiphy and attach a camss aux driver to the node, and it would have the same effect with little code change.
-And this could be done for all the CAMSS hardware elements incrementally, and if you wish the move the electrical phy part under the phy API then you just spin a PHY aux driver controlled by the csiphy media element.
+--=-A0olpGo3fNrEJ1Hb0gjg
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I understand you find it simpler to use the phys property in camss, but it has plenty of drawbacks like not be able to describe data link properties specific to the CSIPHY properties or easily describe new hardware layouts without having a fixed association table between phy-names and whatever CAMSS media elements interconnections.
+Hi,
 
-My question would be that if we were to completely split out the CAMSS into several separate nodes linked with port/endpoint graph, to which hardware element the phys would be associated to ? is there a fixed connection between a CSID and a CSIPHY ? is seems the CSID gen2 & gen3 can actually connect to different CSIPHY meaning a CSIPHY is a not simple electrical PHY but can be dynamically connected to different consumers.
-There's no way we can handle that with the PHY API.
+Le dimanche 25 janvier 2026 =C3=A0 22:19 +0800, Haoxiang Li a =C3=A9crit=C2=
+=A0:
+> Add wave5_vdi_free_dma_memory() in the error path of
+> wave5_vdi_init() to prevent a potential memory leak.
+>=20
+> Fixes: 45d1a2b93277 ("media: chips-media: wave5: Add vpuapi layer")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
 
-Neil
+It would have been nice to reply to Greg, that being said, I carefully revi=
+ewed
+and this effectively fix a leak in an error path. Description is brief but
+sufficient in my opinion.
 
-> 
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
-> bod
+> =C2=A0drivers/media/platform/chips-media/wave5/wave5-vdi.c | 1 +
+> =C2=A01 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vdi.c b/drive=
+rs/media/platform/chips-media/wave5/wave5-vdi.c
+> index bb13267ced38..8f71920a8a35 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vdi.c
+> @@ -49,6 +49,7 @@ int wave5_vdi_init(struct device *dev)
+> =C2=A0
+> =C2=A0	if (!PRODUCT_CODE_W_SERIES(vpu_dev->product_code)) {
+> =C2=A0		WARN_ONCE(1, "unsupported product code: 0x%x\n", vpu_dev->product=
+_code);
+> +		wave5_vdi_free_dma_memory(vpu_dev, &vpu_dev->common_mem);
+> =C2=A0		return -EOPNOTSUPP;
+> =C2=A0	}
+> =C2=A0
 
+--=-A0olpGo3fNrEJ1Hb0gjg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabw13gAKCRDZQZRRKWBy
+9JoZAQDPY69GNyGynTtKcnKcpHRR/29nmIqdd1/f+CKSzuggGwEA23ZG1oFru/g6
++MAkiTdMKzAMvdEvmxmjSdkG3ggbVgc=
+=cmQz
+-----END PGP SIGNATURE-----
+
+--=-A0olpGo3fNrEJ1Hb0gjg--
 
