@@ -1,188 +1,250 @@
-Return-Path: <linux-media+bounces-56384-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56385-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0KbPIo9gvGlxxQIAu9opvQ
-	(envelope-from <linux-media+bounces-56384-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:46:07 +0100
+	id mOW6OlJivGmLxwIAu9opvQ
+	(envelope-from <linux-media+bounces-56385-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:53:38 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B752D258A
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:46:06 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505CE2D2667
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 21:53:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7A2C13010698
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 20:46:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 276C2317898F
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 20:50:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAB2F3ACA4C;
-	Thu, 19 Mar 2026 20:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE7CE3FBEC0;
+	Thu, 19 Mar 2026 20:50:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="Q3TuNzV3"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="EBHGMJQK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3A83A63EF;
-	Thu, 19 Mar 2026 20:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773953159; cv=pass; b=T2DQb6B0D0EwsYI0LqIZwNnzpV/tCnAS/sXCmEAkRtKwJsfvyR4GYhil4EvzPBQ8c54502+jyA8s3faHqhy1WZv1Vn7uHoppcaG0oXy5hPuLEgsZFLRjEkHUq8nKVmiuARqyG2RrjTdSeMSLvihZKt8AnwbAhdPkqtfuh2pLC74=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773953159; c=relaxed/simple;
-	bh=yP5T2EZL/QEjR3ppoC68ntYbaRRIQptAhC0TP+AObCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j3KgmcKiII271pizOGd6fjhOT4X36pzUDT05+L1jKXoDoJRJx+hHxa5W7ixXksVgoqQB9/B8rGP2dtV2aURhNT6tYfXKX2J9YYwUJcTjZTHl6/iFDG3h7uijlVOnFbqpQxTi6yde/CBNVyqM3J9Al9UrkSA/r3J89T4rVCZA69I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=Q3TuNzV3; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1773953128; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=FBLt8bbVBQoMUpQgSDuBNHSYtcR5nXxVFzmyXVhekRpKMbaCHY3CEvUJKgpLiJ42ciCQoTmiEOKumIWsDnJ+gQQeyGsGbdq4b6zNYmWePSxk6C4Xp1s00rUaSpG9drx161AItkpYrM43HfCgAJE4bGxo/TMW8Z7/FAmRHHxwhC0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1773953128; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=oJjF13cLrY2C8Lwe6vZDt+5t2BT+dVTzc9vqZjS5Y0Q=; 
-	b=dQjB+4PvAADgdrLjYC0RefV1dwVrJFh/LKfnME5fhUrWM5mYnAZjHCEonCN3eDZ2VwqvvzmwYfEO+mcFkwazk25/lV23lqnfGtPAJAmTDlozpSrkYT53Un94uErGuIYW5yGF76cabaDbjyhLE6VrBr48isHqgpkrqvlUkRCfNwI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773953128;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=oJjF13cLrY2C8Lwe6vZDt+5t2BT+dVTzc9vqZjS5Y0Q=;
-	b=Q3TuNzV3TqXL5ZAyR/K/r+sAZ8vdraZR4vLho+X5peTuTCL57wbBYAtnFTRV/Xfp
-	IgCuKzog/zWImXtB3f+SPZdOxVEk+zVHU5Dhcu3RQqpaZ8ziMyV7+nKXvWVGsWo1RMj
-	WcyLCMOB5vr6ykODvHjclLxEhpqY6Fli4JF6vTGs=
-Received: by mx.zohomail.com with SMTPS id 1773953126223827.4198037672601;
-	Thu, 19 Mar 2026 13:45:26 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 9592A1808AC; Thu, 19 Mar 2026 21:45:22 +0100 (CET)
-Date: Thu, 19 Mar 2026 21:45:22 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Ross Cawston <ross@r-sc.ca>, kernel@collabora.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v1] media: hdmirx: snps, rk: Fix HPD hold time
-Message-ID: <abxfd7SdlaMWag_-@venus>
-References: <20260318192619.3910060-1-dmitry.osipenko@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56043FBEBD
+	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 20:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773953402; cv=none; b=OhvmRmXHcvP6Lmp0eVAHcumDZIVgjyfHE5ViazgVA1y6plNVQ0hUf5YcAFMz9ImLq9qjEZX5UcGxBnTQt8gHzMAfgQ2UPpzXWCDYHIurSD+zAzpt4r/fHfA5ylyKHar9FrhMOwJ5LJyTatc0OvVoMYOU9lejL251ulYpXWpeLXA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773953402; c=relaxed/simple;
+	bh=l305ltgLMdtMBCZvuBvAjIK8atGZ3/0+tZ1sV2Pj/ek=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jMKI3lxzas+gY9b6+LW8EW7qWBaZK6Q6/IuSvDj3vPbio4K0DQ+ua26iSfBGr3G+t7hLNSl40TmtyP6UeuybQ3uKtPFhzZa0Ekh5Smeoj4ToqGwXcCbj9/Dn6zwivZdwHCKHnFKUozvOmF9Crs43XvUQwET/kBZIrOb0FHLPfoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=EBHGMJQK; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50905b779dfso14919261cf.3
+        for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 13:49:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1773953397; x=1774558197; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=P0AE6ezNpya7RR7FjT2PYnGrtSfyWo+dZi1jY1xEvZs=;
+        b=EBHGMJQKs8iBsbhiIYaRgnG98gYO9DT/cWz/Umi9SbvzWfaSAinsJFGCCY5Of/kOD/
+         ZaD+p+Lj+j9hVi9BDyzjeK1a8BtNqvFKJbQv92fbiU9I7/36o4NPfJhi9DQoiYPxuxXh
+         Fe9YKDB6V4X9uXgFQQMn0B9oz9ArK/bZdD1hqHUWMRvFSI7JqI0qj+I91VEEqJ3yVLzA
+         nvDrjNBGzk4b0lVYy7FqczTvZY1Jutl62ooqwEK3z4rzbL5hebRrYn4QylhCTbVoWmCK
+         GcwC7eWOHrIJQa+FwH7895mHBzvwBbjtj1PnncGtWCfRPkaGC2pRxbovD2td1WBdzBd9
+         1Dmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773953397; x=1774558197;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P0AE6ezNpya7RR7FjT2PYnGrtSfyWo+dZi1jY1xEvZs=;
+        b=SL5/dxtrewA5fDFTlW/e7xjsgepHOBE/FLhfx8PHJ5WoH06vH/ggjXtPNo5LuCBOg5
+         +cV3MF/stHbCNHaWNxIHQGbjBySjCyDmC8gKKp2/HNJvucQTU8OFWfNCmfe6Z3NtFMgy
+         VyoVnjHm1rGIbZRltwQUn8oqqKck5spf6OLVs5i1YTYctBek5ODZeaetH/ZHnU38yFHj
+         KS19J4bmC2t/G4Y6585yxxtTf8rNYg1IphzmQAHMRaY0t1zUh0YEa8N7nLPTowvs4xqH
+         ohllrW1j9+fZhrn4Xjua/EbJI6w+YzKRzFJt/OE7AU6/UnYEa87dtR4o/LOGvaGU4oiC
+         0bhg==
+X-Forwarded-Encrypted: i=1; AJvYcCXZ6uOvSNuF21pokPQuD3NV6n+fMiF8PHSRxbEXn1N0LmkHWLlfx0L/NDelld3gk5uMeyFNMHUXyd34jQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF8+j67Ya3Zt9JQug9BCKn2WyW3+WZ51PDNpC242BFxAXD9SSk
+	9VAPJ27+APjAOtgAdaELZe2o12LvOzBnVf6X1JENhei+h6It/tH8rdQWHpxuJTwjK7A=
+X-Gm-Gg: ATEYQzyukLIlSK/2C4dxBDLBNgCd/8F+us6Ce8W07tiwn+LLaUOGuNWzlqhtPtUn49+
+	RQ0lHnblJw8yZxU032JYZtIcoYFTVquZyqRumc4JIcCwy7x4Zjz5/qzJHO1xM3G+dZzso4Z1z9I
+	hb3yN5sJ0fxoGKpExDgaLjpkdI7PVORLldJNVeX19sRPbXbexWExp3+zm0Rj5tpq3Bl0r4MufHU
+	31l5Qhf5ReBHB+dDZpYawHhJ5Xr0gE0FPQ97y0k0pZqbiLGMGef3kyc33zvhiNhbUJ1osAEGZsh
+	hi/wVlNjfOUbLgsJmhNloCNXY0TrZCYzF68XWKp64WF4TbwI8dhjXNIRMAFoCGAXBJl/kQCfKUb
+	NzAXy4XLL6Ngn8zOFEwbQfvVtxKOYJxvLqLflM5FZHymrxBSoxmdjAKKFXjJY0rWwcDi7B6iWFL
+	HOSVrPzC8eyN5PbcX6NHbfZmKgT38R
+X-Received: by 2002:ac8:7f43:0:b0:509:481:536d with SMTP id d75a77b69052e-50b3753b698mr10051231cf.59.1773953397275;
+        Thu, 19 Mar 2026 13:49:57 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:b76d::5ac? ([2606:6d00:11:b76d::5ac])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50b36d0671csm5413341cf.10.2026.03.19.13.49.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 13:49:56 -0700 (PDT)
+Message-ID: <ffe1c9db59092ac196e9ad1fdbebe73b75d3fcb4.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: amphion: Fix race between m2m job_abort and
+ device_run
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: ming.qian@oss.nxp.com, linux-media@vger.kernel.org
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
+	sebastian.fricke@collabora.com, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, 	kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, Frank.li@nxp.com, 	xiahong.bao@nxp.com,
+ eagle.zhou@nxp.com, imx@lists.linux.dev, 	linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Date: Thu, 19 Mar 2026 16:49:55 -0400
+In-Reply-To: <20260306065951.837-1-ming.qian@oss.nxp.com>
+References: <20260306065951.837-1-ming.qian@oss.nxp.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-NtmVNV443a/7/iP6AJJn"
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q35k3qr4wpgazbla"
-Content-Disposition: inline
-In-Reply-To: <20260318192619.3910060-1-dmitry.osipenko@collabora.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.2.1.5.2/273.911.55
-X-ZohoMailClient: External
-X-Spamd-Result: default: False [-3.76 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
 	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20230601.gappssmtp.com:s=20230601];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,xs4all.nl,r-sc.ca,collabora.com,vger.kernel.org,lists.infradead.org];
-	TAGGED_FROM(0.00)[bounces-56384-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[ndufresne-ca.20230601.gappssmtp.com:+];
+	FREEMAIL_CC(0.00)[kernel.org,xs4all.nl,collabora.com,pengutronix.de,gmail.com,nxp.com,lists.linux.dev,vger.kernel.org,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-56385-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sebastian.reichel@collabora.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.974];
+	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_NONE(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,r-sc.ca:email]
-X-Rspamd-Queue-Id: 89B752D258A
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ndufresne.ca:mid,nxp.com:email,ndufresne-ca.20230601.gappssmtp.com:dkim,collabora.com:email]
+X-Rspamd-Queue-Id: 505CE2D2667
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---q35k3qr4wpgazbla
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+--=-NtmVNV443a/7/iP6AJJn
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1] media: hdmirx: snps, rk: Fix HPD hold time
-MIME-Version: 1.0
 
-Hi,
-
-On Wed, Mar 18, 2026 at 10:26:19PM +0300, Dmitry Osipenko wrote:
-> Increase time of holding HPD pin low by 50ms. This fixes EDID change not
-> detected by sink/display side.
+Le vendredi 06 mars 2026 =C3=A0 14:59 +0800, ming.qian@oss.nxp.com a =C3=A9=
+crit=C2=A0:
+> From: Ming Qian <ming.qian@oss.nxp.com>
 >=20
-> Fixes: 7b59b132ad43 ("media: platform: synopsys: Add support for HDMI inp=
-ut driver")
-> Reported-by: Ross Cawston <ross@r-sc.ca>
-> Closes: https://lore.kernel.org/linux-rockchip/20260209061654.54757-1-ros=
-s@r-sc.ca/
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Fix kernel panic caused by race condition where v4l2_m2m_ctx_release()
+> frees m2m_ctx while v4l2_m2m_try_run() is about to call device_run
+> with the same context.
+>=20
+> Race sequence:
+> =C2=A0 v4l2_m2m_try_run():=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 v4l2_m2m_ctx_release():
+> =C2=A0=C2=A0=C2=A0 lock/unlock=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m=
+_cancel_job()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 job_abort()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ v4l2_m2m_job_finish()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(m2m_ctx)=C2=A0 <-=
+ frees ctx
+> =C2=A0=C2=A0=C2=A0 device_run()=C2=A0 <- use-after-free crash at 0x538
+>=20
+> Crash trace:
+> =C2=A0 Unable to handle kernel read from unreadable memory at virtual add=
+ress
+> =C2=A0 0000000000000538
+> =C2=A0 v4l2_m2m_try_run+0x78/0x138
+> =C2=A0 v4l2_m2m_device_run_work+0x14/0x20
+>=20
+> The amphion vpu driver does not rely on the m2m framework's device_run
+> callback to perform encode/decode operations.
+>=20
+> Fix the race by preventing m2m framework job scheduling entirely:
+> - Add job_ready callback returning 0 (no jobs ready for m2m framework)
+> - Remove job_abort callback to avoid the race condition
+>=20
+> Fixes: 3cd084519c6f ("media: amphion: add vpu v4l2 m2m support")
+> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+
+Ok, I guess that also reduce the overhead of scheduling jobs too.
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 > ---
-
-The prefix in the patch subject should probably be
-'media: platform: synopsys: hdmirx:' or 'media: synopsys: hdmirx:'.
-
-Greetings,
-
--- Sebastian
-
->  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> =C2=A0drivers/media/platform/amphion/vpu_v4l2.c | 9 +++------
+> =C2=A01 file changed, 3 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drive=
-rs/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> index 61ad20b18b8d..4c8957505a50 100644
-> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> @@ -506,9 +506,9 @@ static void hdmirx_hpd_ctrl(struct snps_hdmirx_dev *h=
-dmirx_dev, bool en)
->  	hdmirx_writel(hdmirx_dev, CORE_CONFIG,
->  		      hdmirx_dev->hpd_trigger_level_high ? en : !en);
-> =20
-> -	/* 100ms delay as per HDMI spec */
-> +	/* 100ms delay as per HDMI spec + extra 50ms to cover internal delay */
->  	if (!en)
-> -		msleep(100);
-> +		msleep(100 + 50);
->  }
-> =20
->  static void hdmirx_write_edid_data(struct snps_hdmirx_dev *hdmirx_dev,
-> --=20
-> 2.52.0
+> diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/pl=
+atform/amphion/vpu_v4l2.c
+> index 64fc88d89ccc..7cccc994fc50 100644
+> --- a/drivers/media/platform/amphion/vpu_v4l2.c
+> +++ b/drivers/media/platform/amphion/vpu_v4l2.c
+> @@ -447,17 +447,14 @@ static void vpu_m2m_device_run(void *priv)
+> =C2=A0{
+> =C2=A0}
+> =C2=A0
+> -static void vpu_m2m_job_abort(void *priv)
+> +static int vpu_m2m_job_ready(void *priv)
+> =C2=A0{
+> -	struct vpu_inst *inst =3D priv;
+> -	struct v4l2_m2m_ctx *m2m_ctx =3D inst->fh.m2m_ctx;
+> -
+> -	v4l2_m2m_job_finish(m2m_ctx->m2m_dev, m2m_ctx);
+> +	return 0;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static const struct v4l2_m2m_ops vpu_m2m_ops =3D {
+> =C2=A0	.device_run =3D vpu_m2m_device_run,
+> -	.job_abort =3D vpu_m2m_job_abort
+> +	.job_ready =3D vpu_m2m_job_ready,
+> =C2=A0};
+> =C2=A0
+> =C2=A0static int vpu_vb2_queue_setup(struct vb2_queue *vq,
 >=20
+> base-commit: f505e978d1a0442adbbde48aed38c084ddea6d6e
+> prerequisite-patch-id: 0000000000000000000000000000000000000000
 
---q35k3qr4wpgazbla
+Not sure why this line ...
+
+Nicolas
+
+--=-NtmVNV443a/7/iP6AJJn
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmm8YFsACgkQ2O7X88g7
-+ppEIw/7B3PY5NAEJtHyK6Xomwg3aEXDq5+Se2cbgSJW2+JV7XSDtI7ZJw4kFo9C
-/DclnUficoRHgTpGbsksaBpyRhk8iAS05rB67TGKE51O/VyYx5fAeJvzUbFA8gTD
-iIpPwtsURF3INbTZbsIWpjrIV0M8ZRW8D1FhErsmRZLOJZuCEp/7WzgILftGqzy/
-eMPfbr67f0b93QxoEJ0NeR2R0mV0LsGIgDkO0vF0bWogbno+mJL7PHz99nA2RTtv
-CHl2CflyPml9gAc9DE3rrI2uWoBr68ewofSmtuQ18DeeeGFIErXoiCEpT10ON3J4
-tG3muy7HJ32iaCjOzUm/tUw+3bOW7u5lRMWkNP6kkSoKTYsFGhX5wlMOOPkSXGwn
-0M3+qQX+eY84sFYp6V/7Akwm2xg5wctS8GWKbBMJhYaH6GqHgxsZRviNhavFSNnL
-GCYGisv/RAeQGBljfsm9v+xcsBWuwGiuQjcsm+FtQinmtyZ0pLbNQ02YNsco2NAk
-8cN8340Bq/eOfI+efRH8JFac9F7aXisamqgJhcIBOWNQNlMvPTUQaEQ6Cr0y+dhs
-LpY3X157MGhU49OHocNtwdpO5hOTk7bd+I5v+4dtUivjlo5pIHABf1HLwWw2t9vS
-am5UpklWhK3RkBPROGXmxxsDEgV9aZkUKrNekWfIAyB3fxKcA78=
-=orzv
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCabxhcwAKCRDZQZRRKWBy
+9HjYAP0S0YE21EwzVQU1/zKYJbvHM7WGRp6aud37nxGkL7LXVAD/QVLAcoFXLtH9
+khW4FVX+kR4xvQStun2japJcuFbnQg0=
+=Af7N
 -----END PGP SIGNATURE-----
 
---q35k3qr4wpgazbla--
+--=-NtmVNV443a/7/iP6AJJn--
 
