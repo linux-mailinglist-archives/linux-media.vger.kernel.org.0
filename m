@@ -1,326 +1,340 @@
-Return-Path: <linux-media+bounces-56266-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56267-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GF1YAD9Fu2miiAIAu9opvQ
-	(envelope-from <linux-media+bounces-56266-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:37:19 +0100
+	id 4Cx1MtFTu2lMigIAu9opvQ
+	(envelope-from <linux-media+bounces-56267-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 02:39:29 +0100
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9432C4221
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:37:18 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA862C4930
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 02:39:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B6699301F380
-	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 00:37:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 79E7930333A4
+	for <lists+linux-media@lfdr.de>; Thu, 19 Mar 2026 01:39:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D122323B62C;
-	Thu, 19 Mar 2026 00:37:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0941317153;
+	Thu, 19 Mar 2026 01:39:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ObEqNqPB"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="Rks5kqJ8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11021101.outbound.protection.outlook.com [40.107.42.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8526A40DFA9
-	for <linux-media@vger.kernel.org>; Thu, 19 Mar 2026 00:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773880629; cv=none; b=WgUCnVsjlyzoOeGQe+rIvaNHThDzBhQ0a/2Rvg1M8DfU3ZR+9xjZVFbsSV+HquvwGvywk/Xy1P1i5nuNDCqfZAH8vuNMVF2mRws3jCBVx0ZxL7n60eZ73FcnxEuLvxHXvvgX6m+etsJGdJLmeVaraTe6tor+nE2ppCNsNmgvciY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773880629; c=relaxed/simple;
-	bh=uJNAyle4zAzMsIs0lVM+zK/JQ69dXo4Co0vASBFr0wo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kCG/TMVbj8hw0zixaTag2PHdcjUdsiCvh8v+zL7eFjvn9k3d5Vi9cDD9UbtsLjKIaMkN277PPDxvMLhedZWq+LSMmkS8yM8N7bT9LVvdpqemwsp7OoHxscTeAU7vQUAX8lbslHmyGe/VBUhln7mcbVXTyQSdKuMcCaxDPqHkcoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ObEqNqPB; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38bd3c6c502so2911331fa.1
-        for <linux-media@vger.kernel.org>; Wed, 18 Mar 2026 17:37:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773880625; x=1774485425; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SP0hOZ1M81RHmvuBjKc1wEu3kqZ8izLnurhKEm9dt2s=;
-        b=ObEqNqPBztXFbpqKYXDtTPZXckMz3ly2pi0ChAdHCgZXqCbmSXBL9yC34GFLfrbxPD
-         PAmGbBctP7wUu57r+pylJBKiqwhzWxZW74Usk/QUWkJ5JNhivnCfCDGtvZ+T38myS8FP
-         oMDzU/GVdkC1vFqHLByXwausLb+oEfvHS23qT6yD6YUsOyx9T1F7mEhVvWcVkIG9krGf
-         C0Su3SmYMDxQaaokETPLWzaXBVh7T1dJkII3iuiJxckbY3tuK6orAy/0cIsp8boNcNyk
-         Vcl25qtz9fzpSfaMKDcclU7f6gb9lQ8fU55uuz1v4NZAiXFv7GYDv3XjMpv3j7qjIcH/
-         G7YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773880625; x=1774485425;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SP0hOZ1M81RHmvuBjKc1wEu3kqZ8izLnurhKEm9dt2s=;
-        b=L3OuGiJHvNXcm4Or6r1vkgxiDy/d/Yk2UzpOmTP8+kBVQ8YS2tXh9dceinV8gvElKa
-         Uii/zwhkffdEJfRFoGCa6/rlkDUoYIV9ONiV9br1EeKrrTElqa/wE9fYlquh9OKuu8Le
-         wHinPgKNlcnHZRbmuV5hPoX0pmFo7OPxz2pXtIA8t9CQ7WfNNxtT5JebI7WEL2rHstCs
-         2BXCirHFlq/PCcNMS5jhfCKVXxmX7pYKQPPMBX8jkDEc9sIKDGe1G36IdCTUEcAkPybN
-         ulYdrtWakzfSfa1UpaZTQlb3lQoalBCl8WTkYP9sS2gWV3GpsOE6uMmzzOrzZRRxa4Wl
-         fnPA==
-X-Forwarded-Encrypted: i=1; AJvYcCWyifsdsCvBcMmxVcxc2+kQIwcu/gQKW7I+K++lu6g8xJKQJ1Yh16Z4PYRSTIG4/nYc+GyS4HUCdOGosQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YziI91AotjMJNU4Mipp5obEZVLJFApSD1rGdIOYW0JFcvzjVi9j
-	8GZWERVycbB3NspQ6lYdfOk8orh/XXNH8ku3aDO7oMkrZRkXMSln+UslScm+0Q==
-X-Gm-Gg: ATEYQzy3SUt6NoGJ6ZDlNhaYJ4qKF+zC8XBPHA3T7XSDWFCzO7Qao/OEYAWD805fiWL
-	DENq2c23k7bomtj4krZ+IyB/3Y2FWjIGINgs4OVV4dPfmOIcnu9AqstPN8R3y2zXZv4WQubIm1S
-	Axpd0DZeSHaplTAR8O5pK2G+mvesK5I6xiF7I4SvDLgb+GpVVFU8mB6DMNuy5ErMRLEr2xPEduQ
-	H56H1fBmeLA0Up96SCNdppx1aqY2YX4HiEo/4dNY5ZC6ocaN60cOWZGOE6Tb2UBhklAIMnAEJJl
-	ArQWv/2egzi1IMEcO/SpbaW4bthOkO9x1fW6osfr9J4VvN4azXCvyDVicE5zxZ1IB8vkxnVXINN
-	5EsybdVdOMa1HrOxs/23WDgJi76txK0be0F+K/KE+5HkePlnyRZZucvGS8Bv7KEg1isjwMHcMUM
-	IHFve7axRfj8S9O4rL9RpinylfD+AxOlvQ70YTEE0psxlUhg==
-X-Received: by 2002:a05:651c:106b:b0:38a:2eb6:cd26 with SMTP id 38308e7fff4ca-38bd578b7a4mr15901651fa.6.1773880624425;
-        Wed, 18 Mar 2026 17:37:04 -0700 (PDT)
-Received: from foxbook (bfk214.neoplus.adsl.tpnet.pl. [83.28.48.214])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38bd517c609sm9001871fa.13.2026.03.18.17.37.01
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 18 Mar 2026 17:37:03 -0700 (PDT)
-Date: Thu, 19 Mar 2026 01:36:57 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
- <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] media: uvcvideo: Introduce
- allow_privacy_override module parameter
-Message-ID: <20260319013657.155efeb0.michal.pecio@gmail.com>
-In-Reply-To: <20260316-uvcdynctrl-v3-3-19cd4657e1f3@chromium.org>
-References: <20260316-uvcdynctrl-v3-0-19cd4657e1f3@chromium.org>
-	<20260316-uvcdynctrl-v3-3-19cd4657e1f3@chromium.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFF3329E46;
+	Thu, 19 Mar 2026 01:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.101
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773884352; cv=fail; b=PqQFCB6Wahvs88yH9+PdKfekSgVu+MKqKFCKpLA0/8Www6PO2CcNG0x1rFsSb2KW8iYR6t+KVBLlH9TYie3aK8y9g7pCDGc3tCR4q5h602q6u7GG49VREYp1SnTekEv/3IIhEJt+8owHawOZLzKotbeUKw+jGWaPtuFcrg9aCTE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773884352; c=relaxed/simple;
+	bh=nT988mQRJc7aVodT8SvfsjpfekUJYnrOV30eNQ55KWA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=KevnxI7tg14UC3sArhMDZ26UIoA8P9eCyYovgKVGLDaVH2YKri+fF4oUakqoquSiS+/LXyrHmanql6RRnh73ebdMF0UM5a9jrrluG15dOdf8RPf9rkApibvR3cRxFqHPRZhNABJANY1caSRA0hhj8HttOYvg6XTMQCtc/WwPOkc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=Rks5kqJ8; arc=fail smtp.client-ip=40.107.42.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HAKTGv0VWPg1yacxkFnqD94WvPnhTtSgpA6Jnx56gCFwlc+OMN0zPPney1hTdqMFUj/deNkcr89aQRS9HY517F+q5UGShyxk65jCNohbGF+QpBxSkFDik9bEHvatX95dNfa/3d69GNrIeARXMUs6samqQlHC2u7ySNagdJEJtNpTRldZcKJfO3a6iAuIaqaLk3Yl+Qh+PR6fIoUXZrYqHGiUMt6W/hm4HrD0cx+igi/HTL9N5VLbfi9wMxXfK0Cks0d8GPz13DYkV4q12syIBLe9EEGm7bdtpXJz4M8/uQrfPsx/Gq0qFL1XeQMWM2gye5SjXmExsMKr9CjIJ2ufrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fUnX6SpfFjLqKcp2hdIaKotU3oafPYqcFxDi3OpMTLU=;
+ b=jBKjAX62IpUTVrEmLY2gihIbtoPrBBedRrFcjemmzwbhykUj7YfW8jVKFSRvAT1/HwelW6TVEX53TIwPCOpyNSNl8vBDdH5/MXgDzfrChCUWxJ7uuzGnWRrwbr4FrBbxYC64J7G7ptQQcgti1mlC/sgmmnxiVNvNffOaYEJByqZdn5krx5WOXGLnkzILXfFielIdHj7A26ZjaHMZEusQ1nDgvNLegvMnoSfXUP4ORkXTm0i7mbGooeAfsCbCPhfi5x+qDwLFRsHb+C7jbVyjRCNpMdcdk6ZAALtCw85FDHAZ+GCCax1IJin96FQ+68/sZ0R8Ip4fooB7bn5DEEGNbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fUnX6SpfFjLqKcp2hdIaKotU3oafPYqcFxDi3OpMTLU=;
+ b=Rks5kqJ8DqaG4K9Qc5GIedSVte98Dui3efdXKMLuZpxZfxuiirehpTwPpnSJz2BR310Na2TLd3DJGQgr0bBox2vVyxbM2qgto2frQoV8s+iddRIs/z2XIVQWkQIEpoDr6Wa4HbhusC0kEELmOxPEUYAw/+gWRBoYrs4cOWTkhaw=
+Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
+ PUYP216MB2919.KORP216.PROD.OUTLOOK.COM (2603:1096:301:150::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9723.19; Thu, 19 Mar 2026 01:38:56 +0000
+Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ ([fe80::8f6c:834c:6cef:7be]) by SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ ([fe80::8f6c:834c:6cef:7be%3]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
+ 01:38:56 +0000
+From: jackson.lee <jackson.lee@chipsnmedia.com>
+To: Brandon Brnich <b-brnich@ti.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: "detheridge@ti.com" <detheridge@ti.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>,
+	"nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>
+Subject: RE: [PATCH] media: chips-media: wave5: Move src_buf Removal to
+ finish_encode
+Thread-Topic: [PATCH] media: chips-media: wave5: Move src_buf Removal to
+ finish_encode
+Thread-Index: AQHcswonZRLsbUSBmEOzFHrYtALDM7W1G7Ng
+Date: Thu, 19 Mar 2026 01:38:56 +0000
+Message-ID:
+ <SLXP216MB11480A02F769C94303AEB256ED4FA@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
+References: <20260313165446.4139543-1-b-brnich@ti.com>
+In-Reply-To: <20260313165446.4139543-1-b-brnich@ti.com>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SLXP216MB1148:EE_|PUYP216MB2919:EE_
+x-ms-office365-filtering-correlation-id: b3188416-fb80-4cfb-6ba7-08de85584928
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|56012099003|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ I7lFuYYYP3A9Xo+OdIa/n+QJjbj5pq3Rva36z1TP/gTIhzAFaCngQfjdayuYeuzCoHcie9cYyA12O5Bq1UdiyyioLzY9+ylESMOTncHJ7uGt4iPke5f99m4eZ31F2VBp/qQD+KaBFXFWOfoTcA3EMgaw2m1Yc47jEnLEVQa/f8Z4L/GyMMq/3l8ol446o9B8DDrtQt8r5Ie4nZhxx2n35TKGaHzCqA06UXKjN0kWnVCiK9Zx8WU7NUBNZuNG3EJisi7Z6qlDQ7rEXRCx9C/hMH5W0T9QWkIT6Fow1Bs+IScHz0ooHGJ/GUVXzMSIc1rKj+7utcT18oPSV7LFMDCHIlErcsYQkr/PuefHANltDXjoZClWBbTjF0JVCdXD5oGaARPN5d3/uwfrHHq9jhHvzZ3EttB73FJuZAGNoIt5jq/CTawaHv8Ci0wt8hDLYFemWMDCllGcP0/dv9mm61iJ8/v8eO/mbDDUcDNeGtlMzMrPeVXdUiHxdkjSrTSvwGfiyKmDKdaRxcdisXFIhOjnQocP2Pea29pM1Dr3uAXhiDv9sE3Fib3wis+tagjKCTzWizcIN3VXol5HmiACGN7ZoXX3uqN9yzla48Yzz2cQKYlm5l0b3lmpYIY5lfkaQH1WHCfTuncaZq4UmSutvtUQ/B+zJo5d9jrKBFZhL80AscJkJtaM7vNZO0htRCpGR2sTZwiNBgz4PrbiCtw5Doa+bEbsJvy/mxkx96+edGShohUuuJeYAvsqnvmxEmVnNqCCbDJY1HOslZWUcrV2ob4PJqXV5nRPZkciOPOevqSqUFQ=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?flF3TGXfqbEsEoLGjTRxSdhufH560+bdGtCOjKWNacY7/hRtEfXkqFr32hDW?=
+ =?us-ascii?Q?OStmxbKs3wlzHspb3ibP9yEijd3VPVBq7bgOaiF+tQT9Jp1Ra3xZpnz4J98r?=
+ =?us-ascii?Q?1FQIz6FFKRGtmFhdbq+bjP8FtIPbrjGNUxRUJxT8OuzlCRqfr9ZLG0fKn1rS?=
+ =?us-ascii?Q?2CJgEYSAaYebZJX0vsgET8+2QZN487O4RMzrvaIso+EAt5px57Z7h50t3BIa?=
+ =?us-ascii?Q?8HQz/C5zmKbwTbdPgqEqFPGSeKazfB8mn8qU/1jOCWPV9l8vHLdFvClg7NAq?=
+ =?us-ascii?Q?KjYecO/jTRQzwkk9w2rmP6k1XaulI5zJARWHIL1QIfxNOgboMw9uEcZZ6w/J?=
+ =?us-ascii?Q?8bgQsaIkjtqiBcqTPFu2SyfIxBfOpC3+7qD2ed17epaAzja8YeozqLd1oEQP?=
+ =?us-ascii?Q?syqoe8u2oQLWHAN4H4a5a5cosI4PiJPoOl/IAahdb2KxZuhA2LvC3o3O5gxO?=
+ =?us-ascii?Q?Ayxlt1pMMZ4LXat2jmq/PYB7dVUK/DPpddMiIAQCc0M6TDumJlOaHLK7cHA2?=
+ =?us-ascii?Q?vY43nKEk9fatu9ZAhKy7n02WFV8mZIN6dnwWcHmM0XcEnZ7oJ512StKe1unH?=
+ =?us-ascii?Q?R9R1xVySWqBf8ObSEgaR8Ei0773PWyJSekARKlDKXa5p3+Kore5JDKm9zzUu?=
+ =?us-ascii?Q?TYLLW3j+DPztyyCZ+eNkXNw7SpyD+lIjBhcPjOrLKTrln/9mDn1tVUFoerVF?=
+ =?us-ascii?Q?F7wts/Ksl/yqoqIE67OcLQ2NKa1HxEcP3xQhqbLYscg7K+5MgRhUBb1/OLqL?=
+ =?us-ascii?Q?yQ3NDEe6H0q2ZAiPPc9wpNwrCWr7pAiSpw0E7AvPwBTgxPEc14HgbSy+0tQj?=
+ =?us-ascii?Q?xbzR3PsJbMcfUa0ZP197mg1dUkSVODDTz0xW2gzdqpvLlP58r4awKEI+inuN?=
+ =?us-ascii?Q?77ZdTQN+bJsht0gfucSDUEHp9R8Hi85GW4K20LpKZ363ckE8u7O4sHhrPoxt?=
+ =?us-ascii?Q?f0JhRrnQCcnjrbsf5G0Ph3FE+K3KmKXHlHtZf4Ttg/tTC2gWPQmZzocUsl0g?=
+ =?us-ascii?Q?qWCTsnZ8p2h3wp2IVWnM0VDFcPePSUFH4jGNl1T2rHB59nv7Dk6UPXaedqCk?=
+ =?us-ascii?Q?E9R/7yP0uBCICS+9+4ytKA1NXVIK10EjgP2NidE6E9pvOcP6cJzUqMDzGqFl?=
+ =?us-ascii?Q?jaZ/HItOJWZp4V49pHbGWIpIQY2RyUlzzuO/Da3bn3i4xbOUwxgeiEGxf9sy?=
+ =?us-ascii?Q?l2lkGKx82HUwfdZfjOs6IxHIYzPe1vXasArm2XBGgvEGMod6Y6FeeTAVWFIm?=
+ =?us-ascii?Q?buIErTJ2fvzL8tRfvybKtT/i/Ks1arDf8871Dbb1vv+I9m5zlCKAMyyX3IgT?=
+ =?us-ascii?Q?puMtVxbr12AxjDkPYVQJuB0fwqNN+xxkGZIZzLmA9CBVpzW7Uy1U1YR5/hvS?=
+ =?us-ascii?Q?TveQ5Vz5Vwqi7wbSoAqaMIPvD/8CGMxUNkS+9AbV2cjwDVi0F4iv4GrEPKBN?=
+ =?us-ascii?Q?jh9tMPwjWPxuBO3Uo4vnzdNWu3hHi4/NVww16krFBb/jfUdJHA2j0VKu0s8u?=
+ =?us-ascii?Q?Oj/g7JGPC7CFzBynb1ftfTy0XrAschX+h0nonfMDECv5P7iMZ/pXDceO/40x?=
+ =?us-ascii?Q?sPRGO9eR0dVmGehaGuH69JDxc3n7fjjg9mC/qy4DzHq0svIAFAe4hOsRGnBi?=
+ =?us-ascii?Q?MiyNRywxe8qRLIbvoWIvN4nI9+9WM06WsQU+uVosfYWhKvQeFimcYc5qPqne?=
+ =?us-ascii?Q?1k71BIKNYJ2/pFpEGL5lKwD1oeRrELJ59YP1dFXjBwndhmN0ay41zQCx0Us0?=
+ =?us-ascii?Q?/hSEGERymw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3188416-fb80-4cfb-6ba7-08de85584928
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2026 01:38:56.3529
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0LIC2LQRoFW5qtxNsC0xSDPBGmn/uSthYdPT6AjiCaWf4GZ4IxvNess9lWLcMDG6xYrYHc5SAgCc5ugWBDqJ+lKHles3OhqHtiX+hDxlz3Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUYP216MB2919
+X-Spamd-Result: default: False [0.34 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_FROM(0.00)[bounces-56267-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DMARC_NA(0.00)[chipsnmedia.com];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-56266-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[chipsnmedia.com:+];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michalpecio@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.966];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jackson.lee@chipsnmedia.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.994];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DC9432C4221
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 4DA862C4930
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, 16 Mar 2026 13:34:46 +0000, Ricardo Ribalda wrote:
-> Some camera modules have XU controls that can configure the behaviour of
-> the privacy LED.
-> 
-> Block mapping of those controls, unless the module is configured with
-> a new parameter: allow_privacy_override.
-> 
-> This is just an interim solution. Based on the users feedback, we will
-> either put the privacy controls behind a CONFIG option, or completely
-> block them.
+Hi Brandon
 
-What feedback do you expect to get?
 
-Users will one day see their setup broken.
-They will curse you and jump through the hoops you set up.
-Next year they will see their setup broken completely.
-They will curse again and wish you all pain, but *after* the fact.
-
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> -----Original Message-----
+> From: Brandon Brnich <b-brnich@ti.com>
+> Sent: Saturday, March 14, 2026 1:55 AM
+> To: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org
+> Cc: detheridge@ti.com; mchehab@kernel.org; Nas Chung
+> <nas.chung@chipsnmedia.com>; jackson.lee <jackson.lee@chipsnmedia.com>;
+> nicolas.dufresne@collabora.com; Brandon Brnich <b-brnich@ti.com>
+> Subject: [PATCH] media: chips-media: wave5: Move src_buf Removal to
+> finish_encode
+>=20
+> During encoder processing, there is a case where the IRQ response could
+> return the buffer back to userspace via v4l2_m2m_buf_done call. In this
+> time, userspace could queue up this same buffer before start_encode
+> removes the index from the ready queue. This would then lead to a case
+> where the buffer in the ready queue could be a self loop due to the
+> WRITE_ONCE(prev->next, new) call in __list_add.
+>=20
+> When __list_del is finally called, the loop is already made so nothing
+> points back to ready queue list head and pointers are poisoned.
+>=20
+> A buffer should not be marked as DONE before the buffer is removed from
+> m2m ready queue. Move removal entirely to finish_encode.
+>=20
+> Signed-off-by: Brandon Brnich <b-brnich@ti.com>
 > ---
->  drivers/media/usb/uvc/uvc_ctrl.c   | 38 ++++++++++++++++++++++++++++++++++++++
->  drivers/media/usb/uvc/uvc_driver.c | 20 ++++++++++++++++++++
->  drivers/media/usb/uvc/uvc_v4l2.c   |  7 +++++++
->  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
->  include/linux/usb/uvc.h            |  4 ++++
->  5 files changed, 71 insertions(+)
+>=20
+> This bug is very hard to reproduce in simple encode environments. It
+> primarily occurs during long run cases where CPU is strained doing other
+> forms of computation. Crash log shared below.
+>=20
+> I see other drivers removing buffer in their device_run process, but they
+> do it before any chance of DONE state transition. I can move this removal
+> to there as well if that is the correct location, but I can't find
+> anywhere saying this is required.
+>=20
+> Kernel tested on: 7.0.0-rc3-00167-g66dbdc5b5d2d Gstreamer version: 1.26.9
+>=20
+> [ 609.879961] pc : v4l2_m2m_buf_remove_by_idx+0x84/0xe8 [v4l2_mem2mem]
+> [ 609.886313] lr : v4l2_m2m_buf_remove_by_idx+0x28/0xe8 [v4l2_mem2mem]
+> [ 609.892663] sp : ffff800081a4bbd0 [ 609.895968] x29: ffff800081a4bbd0
+> x28: 0000000000000000 x27: 000000000007f800 [ 609.903096] x26:
+> 00000000aefd2800 x25: 0000000000000780 x24: ffff0000014efdc8 [ 609.910224=
+]
+> x23: ffff0000014efc28 x22: ffff0000014efc00 x21: ffff0000014eff60
+> [ 609.917351] x20: ffff0000014efdc8 x19: ffff000001daf800 x18:
+> 0000000000000000 [ 609.924478] x17: 0000000000000000 x16: 000000000000000=
+0
+> x15: 0000000000000002 [ 609.931605] x14: 0000000000000800 x13:
+> 00000000000001e6 x12: 0000000000000000 [ 609.938732] x11: 000000000000000=
+0
+> x10: 00000000000009d0 x9 : ffff800081a4bcc0 [ 609.945859] x8 :
+> ffff800081a4bc88 x7 : 0000000000000000 x6 : ffff0000014eff50 [ 609.952986=
+]
+> x5 : dead000000000100 x4 : dead000000000100 x3 : dead000000000122
+> [ 609.960113] x2 : 0000000000000100 x1 : 0000000000000000 x0 :
+> ffff000001dafc00 [ 609.967242] Call trace:
+> [ 609.969678] v4l2_m2m_buf_remove_by_idx+0x84/0xe8 [v4l2_mem2mem]
+> [ 609.975685] start_encode+0x28c/0x554 [wave5] [ 609.980063]
+> wave5_vpu_enc_device_run+0x10c/0x230 [wave5] [ 609.985466]
+> v4l2_m2m_try_run+0x84/0x140 [v4l2_mem2mem] [ 609.990692]
+> v4l2_m2m_device_run_work+0x14/0x20 [v4l2_mem2mem] [ 609.996522]
+> process_one_work+0x148/0x28c [ 610.000532] worker_thread+0x2d0/0x3d8
+> [ 610.004277] kthread+0x110/0x114 [ 610.007500] ret_from_fork+0x10/0x20
+>=20
+>  .../chips-media/wave5/wave5-vpu-enc.c         | 32 +++----------------
+>  1 file changed, 5 insertions(+), 27 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index 7613fcdbafed..3e198a7cefb1 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> @@ -223,17 +223,9 @@ static int start_encode(struct vpu_instance *inst,
+> u32 *fail_res)
+>  		dst_buf->vb2_buf.timestamp =3D src_buf->vb2_buf.timestamp;
+>  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+>  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
+> -	} else {
+> +	} else
 
-This doesn't seem to cover libusb, VM guests and such.
+The else without braces violates kernel coding style when the if branch use=
+s braces:
 
-What's even the attack vector? It has to be full remote code execution.
-And it's just an LED, when you see it turn on somebody already has your
-mugshot, if you notice at all. And the mugshot isn't your worst worry.
-
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index b6e020b41671..3ca108b83f1d 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -3001,6 +3001,35 @@ static int uvc_ctrl_init_xu_ctrl(struct uvc_device *dev,
->  	return ret;
+>  		dev_dbg(inst->dev->dev, "%s: wave5_vpu_enc_start_one_frame
+> success\n",
+>  			__func__);
+> -		/*
+> -		 * Remove the source buffer from the ready-queue now and
+> finish
+> -		 * it in the videobuf2 framework once the index is returned
+> by the
+> -		 * firmware in finish_encode
+> -		 */
+> -		if (src_buf)
+> -			v4l2_m2m_src_buf_remove_by_idx(m2m_ctx, src_buf-
+> >vb2_buf.index);
+> -	}
+>=20
+>  	return 0;
 >  }
->  
-> +bool uvc_ctrl_is_privacy_control(u8 entity[16], u8 selector)
-> +{
-> +	/*
-> +	 * This list is not exhaustive, it is a best effort to block access to
-> +	 * non documented controls that can affect user's privacy.
-> +	 */
+> @@ -259,27 +251,13 @@ static void wave5_vpu_enc_finish_encode(struct
+> vpu_instance *inst)
+>  		__func__,  enc_output_info.pic_type,
+> enc_output_info.recon_frame_index,
+>  		enc_output_info.enc_src_idx, enc_output_info.enc_pic_byte,
+> enc_output_info.pts);
+>=20
+> -	/*
+> -	 * The source buffer will not be found in the ready-queue as it has
+> been
+> -	 * dropped after sending of the encode firmware command, locate it
+> in
+> -	 * the videobuf2 queue directly
+> -	 */
+>  	if (enc_output_info.enc_src_idx >=3D 0) {
+> -		struct vb2_buffer *vb =3D
+> vb2_get_buffer(v4l2_m2m_get_src_vq(m2m_ctx),
+> -						       enc_output_info.enc_src_idx);
+> -		if (vb->state !=3D VB2_BUF_STATE_ACTIVE)
+> -			dev_warn(inst->dev->dev,
+> -				 "%s: encoded buffer (%d) was not in ready
+> queue %i.",
+> -				 __func__, enc_output_info.enc_src_idx, vb-
+> >state);
+> -		else
+> -			src_buf =3D to_vb2_v4l2_buffer(vb);
+> -
+> -		if (src_buf) {
+> +		src_buf =3D v4l2_m2m_src_buf_remove(m2m_ctx);
 
-So it's not removal of some controversial feature, but 3KB of extra
-code in everybody's kernel (I just applied this patch) and a forever
-game of whack-a-mole with HW vendors? They will win...
 
-You will blacklist features found by legitimate users and shared on
-public forums, while hackers will keep their findings to themselves.
-Assuming that there are any who even care.
+v4l2_m2m_src_buf_remove() is too weak
 
-> +	struct privacy_control {
-> +		u8 entity[16];
-> +		u8 selector;
-> +	} privacy_control[] = {
-> +		{
-> +			.entity = UVC_GUID_LOGITECH_USER_HW_CONTROL_V1,
-> +			.selector = 1,
-> +		},
-> +		{
-> +			.entity = UVC_GUID_LOGITECH_PERIPHERAL,
-> +			.selector = 9,
-> +		},
-> +	};
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(privacy_control); i++)
-> +		if (!memcmp(entity, privacy_control[i].entity, 16) &&
-> +		    selector == privacy_control[i].selector)
-> +			return true;
-> +
-> +	return false;
-> +}
-> +
->  int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
->  	struct uvc_xu_control_query *xqry)
->  {
-> @@ -3045,6 +3074,15 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
->  		return -ENOENT;
+The new finish_encode uses v4l2_m2m_src_buf_remove() which blindly removes =
+the head of the ready queue.
+It ignores enc_output_info.enc_src_idx entirely.
+This works under the assumption that the m2m framework is strictly FIFO (wh=
+ich it is for single-job-at-a-time), but a safer approach would be:
+
+src_buf =3D v4l2_m2m_src_buf_remove_by_idx(m2m_ctx, enc_output_info.enc_src=
+_idx);
+
+
+thanks
+Jackson
+
+> +		if (!src_buf)
+> +			dev_warn(inst->dev->dev, "%s: no source buffer
+> found\n", __func__);
+> +		else {
+>  			inst->timestamp =3D src_buf->vb2_buf.timestamp;
+>  			v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+> -		} else {
+> -			dev_warn(inst->dev->dev, "%s: no source buffer with
+> index: %d found\n",
+> -				 __func__, enc_output_info.enc_src_idx);
+>  		}
 >  	}
->  
-> +	if (uvc_ctrl_is_privacy_control(entity->guid, xqry->selector) &&
-> +	    !uvc_allow_privacy_override_param) {
-> +		dev_warn_once(&chain->dev->intf->dev,
-> +			      "Privacy related controls can only be accessed if module parameter allow_privacy_override is true\n");
-> +		uvc_dbg(chain->dev, CONTROL, "Blocking access to privacy related Control %pUl/%u\n",
-> +			entity->guid, xqry->selector);
-> +		return -EACCES;
-> +	}
-> +
->  	if (mutex_lock_interruptible(&chain->ctrl_mutex))
->  		return -ERESTARTSYS;
->  
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index b0ca81d924b6..74c9dea29d36 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -36,6 +36,7 @@ unsigned int uvc_no_drop_param = 1;
->  static unsigned int uvc_quirks_param = -1;
->  unsigned int uvc_dbg_param;
->  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
-> +bool uvc_allow_privacy_override_param;
->  
->  static struct usb_driver uvc_driver;
->  
-> @@ -2505,6 +2506,25 @@ MODULE_PARM_DESC(trace, "Trace level bitmask");
->  module_param_named(timeout, uvc_timeout_param, uint, 0644);
->  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
->  
-> +static int param_set_privacy(const char *val, const struct kernel_param *kp)
-> +{
-> +	pr_warn_once("uvcvideo: " DEPRECATED
-> +		     "allow_privacy_override parameter will be eventually removed.\n");
-> +	return param_set_bool(val, kp);
-> +}
-> +
-> +static const struct kernel_param_ops param_ops_privacy = {
-> +	.set = param_set_privacy,
-> +	.get = param_get_bool,
-> +};
-> +
-> +param_check_bool(allow_privacy_override, &uvc_allow_privacy_override_param);
-> +module_param_cb(allow_privacy_override, &param_ops_privacy,
-> +		&uvc_allow_privacy_override_param, 0644);
-> +__MODULE_PARM_TYPE(allow_privacy_override, "bool");
-> +MODULE_PARM_DESC(allow_privacy_override,
-> +		 "Allow access to privacy related controls");
-> +
->  /* ------------------------------------------------------------------------
->   * Driver initialization and cleanup
->   */
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index f9049e9c0d3a..6d4f027c8402 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -133,6 +133,13 @@ static int uvc_ioctl_xu_ctrl_map(struct uvc_video_chain *chain,
->  		return -EINVAL;
->  	}
->  
-> +	if (uvc_ctrl_is_privacy_control(xmap->entity, xmap->selector) &&
-> +	    !uvc_allow_privacy_override_param) {
-> +		dev_warn_once(&chain->dev->intf->dev,
-> +			      "Privacy related controls can only be mapped if module parameter allow_privacy_override is true\n");
-> +		return -EACCES;
-> +	}
-> +
->  	map = kzalloc_obj(*map);
->  	if (map == NULL)
->  		return -ENOMEM;
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 8480d65ecb85..362110d58ca3 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -664,6 +664,7 @@ extern unsigned int uvc_no_drop_param;
->  extern unsigned int uvc_dbg_param;
->  extern unsigned int uvc_timeout_param;
->  extern unsigned int uvc_hw_timestamps_param;
-> +extern bool uvc_allow_privacy_override_param;
->  
->  #define uvc_dbg(_dev, flag, fmt, ...)					\
->  do {									\
-> @@ -794,6 +795,7 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
->  		      struct uvc_xu_control_query *xqry);
->  
->  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle);
-> +bool uvc_ctrl_is_privacy_control(u8 entity[16], u8 selector);
->  
->  /* Utility functions */
->  struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
-> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-> index dea23aabbad4..70c2a7d25236 100644
-> --- a/include/linux/usb/uvc.h
-> +++ b/include/linux/usb/uvc.h
-> @@ -49,6 +49,10 @@
->  #define UVC_GUID_LOGITECH_PERIPHERAL \
->  	{0x21, 0x2d, 0xe5, 0xff, 0x30, 0x80, 0x2c, 0x4e, \
->  	 0x82, 0xd9, 0xf5, 0x87, 0xd0, 0x05, 0x40, 0xbd }
-> +#define UVC_GUID_LOGITECH_USER_HW_CONTROL_V1 \
-> +	{0x82, 0x06, 0x61, 0x63, 0x70, 0x50, 0xab, 0x49, \
-> +	 0xb8, 0xcc, 0xb3, 0x85, 0x5e, 0x8d, 0x22, 0x1f }
-> +
->  
->  /* https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5#222-extension-unit-controls */
->  #define UVC_MSXU_CONTROL_FOCUS			0x01
-> 
-> -- 
-> 2.53.0.851.ga537e3e6e9-goog
-> 
+>=20
+> --
+> 2.43.0
+
 
